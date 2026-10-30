@@ -259,7 +259,9 @@ LOCAL_ABSENT = dict.fromkeys(
     (
         "github.actor",
         "github.event.before",
+        "github.event.pull_request.base.ref",
         "github.event.pull_request.base.sha",
+        "github.event.pull_request.head.repo.full_name",
         "github.event.pull_request.head.sha",
         "github.event.pull_request.title",
         "github.event.pull_request.number",

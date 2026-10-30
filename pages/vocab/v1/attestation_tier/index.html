@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>attestation_tier: Agent Evidence vocabulary</title>
+<meta name="description" content="The attestation_tier term of the Agent Evidence vocabulary.">
+<link rel="canonical" href="https://w3id.org/agent-evidence/vocab/v1/attestation_tier">
+<script type="application/ld+json">
+{
+ "@context": {
+  "owl": "http://www.w3.org/2002/07/owl#",
+  "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+  "skos": "http://www.w3.org/2004/02/skos/core#"
+ },
+ "@graph": [
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/attestation_tier",
+   "@type": "skos:Concept",
+   "skos:definition": "Whether the subject a platform signed was RE-DERIVED by that platform from evidence the caller does not control (authoritative), or was accepted from the caller and signed as supplied (voluntary). A voluntary record is non-repudiable for exactly what was signed: this platform signed these bytes, at this time, under this key. It is not a capture and it is not unbypassable. A verifier MUST NOT read a voluntary attestation as evidence that the attested content corresponds to any independently observed fact. The tier is set by the PLATFORM and read by a verifier from the record. A caller MUST NOT select it. A caller-selected tier is the whole attack: the one party with an interest in the answer would be choosing how much weight the answer carries. Closed and fail-closed, on the same rule as containment_posture: an absent, non-string, or unregistered value makes the enclosing statement malformed, and a missing tier is never read as the stronger of the two. The bounds of what was re-derived are part of the claim. Where a caller supplied any bound of the re-derivation input, the record MUST declare that, and a verifier MUST NOT read an authoritative tier as coverage of everything the subject did. SELECTION is part of the same question. A caller that chooses which subject to request an attestation over, and when, has bounded the claim without supplying any bound, so the rule above is not satisfied by a record that merely had no bound to declare. coverage_denominator is the field that closes that gap, and an authoritative record making any claim about a population needs it. An authoritative tier is a claim about a re-derivation, which is a claim about bytes a platform fetched. It composes with observation_vantage and never substitutes for it: whether anyone observed the execution is a separate question this field does not answer. So a record declaring authoritative MUST also declare observation_vantage, and a verifier MUST reject an authoritative record that does not. Without that pairing the composition rule has nothing to compose with, and a platform the observed party operates can set the stronger tier on its own records forever.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "attestation_tier",
+   "skos:prefLabel": "attestation_tier",
+   "skos:topConceptOf": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   }
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/attestation_tier#voluntary",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/attestation_tier"
+   },
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "voluntary"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/attestation_tier#authoritative",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/attestation_tier"
+   },
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "authoritative"
+  }
+ ]
+}
+</script>
+<style>
+:root{color-scheme:light dark;--page:#f6f8fb;--surface:#fff;--ink:#14202e;--body:#33404f;--link:#1f4fd1;--rule:#cfd8e3;font-family:system-ui,sans-serif;color:var(--ink);background:var(--page)}
+@media (prefers-color-scheme:dark){:root{--page:#10151b;--surface:#18202a;--ink:#e8edf3;--body:#c3ccd6;--link:#8fb0ff;--rule:#2c3846}}
+*{box-sizing:border-box}body{margin:0;font:400 1rem/1.6 system-ui,sans-serif;background:var(--page)}
+.shell{max-width:52rem;margin-inline:auto;padding-inline:16px}
+header,footer{padding-block:1.25rem}header a{font-weight:700;color:var(--ink);text-decoration:none}
+footer{border-top:1px solid var(--rule);color:var(--body);font-size:.9375rem;margin-top:3rem}
+a{color:var(--link)}p,li,td{color:var(--body)}h1{line-height:1.2}
+code,pre{font-family:ui-monospace,Consolas,monospace;font-size:.875em}code{overflow-wrap:anywhere}
+pre{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:1rem;overflow-x:auto}
+blockquote{margin:1rem 0;padding:.25rem 1rem;border-left:4px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;display:block;overflow-x:auto}
+th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-align:top}
+</style>
+</head>
+<body>
+<header class="shell"><a href="https://github.com/probityai/agent-evidence">Agent Evidence</a></header>
+<main class="shell">
+<h1><code>attestation_tier</code></h1>
+<p>Term URI: <a href="https://w3id.org/agent-evidence/vocab/v1/attestation_tier">https://w3id.org/agent-evidence/vocab/v1/attestation_tier</a></p>
+<p>Section: <code>evidence_dimensions</code>. Criticality: <code>critical</code>.</p>
+<p>Whether the subject a platform signed was RE-DERIVED by that platform from evidence the caller does not control (authoritative), or was accepted from the caller and signed as supplied (voluntary). A voluntary record is non-repudiable for exactly what was signed: this platform signed these bytes, at this time, under this key. It is not a capture and it is not unbypassable. A verifier MUST NOT read a voluntary attestation as evidence that the attested content corresponds to any independently observed fact. The tier is set by the PLATFORM and read by a verifier from the record. A caller MUST NOT select it. A caller-selected tier is the whole attack: the one party with an interest in the answer would be choosing how much weight the answer carries. Closed and fail-closed, on the same rule as containment_posture: an absent, non-string, or unregistered value makes the enclosing statement malformed, and a missing tier is never read as the stronger of the two. The bounds of what was re-derived are part of the claim. Where a caller supplied any bound of the re-derivation input, the record MUST declare that, and a verifier MUST NOT read an authoritative tier as coverage of everything the subject did. SELECTION is part of the same question. A caller that chooses which subject to request an attestation over, and when, has bounded the claim without supplying any bound, so the rule above is not satisfied by a record that merely had no bound to declare. coverage_denominator is the field that closes that gap, and an authoritative record making any claim about a population needs it. An authoritative tier is a claim about a re-derivation, which is a claim about bytes a platform fetched. It composes with observation_vantage and never substitutes for it: whether anyone observed the execution is a separate question this field does not answer. So a record declaring authoritative MUST also declare observation_vantage, and a verifier MUST reject an authoritative record that does not. Without that pairing the composition rule has nothing to compose with, and a platform the observed party operates can set the stronger tier on its own records forever.</p>
+<h2>Registered values</h2>
+<ul>
+<li id="voluntary"><code>https://w3id.org/agent-evidence/vocab/v1/attestation_tier#voluntary</code></li>
+<li id="authoritative"><code>https://w3id.org/agent-evidence/vocab/v1/attestation_tier#authoritative</code></li>
+</ul>
+</main>
+<footer><div class="shell">Generated from <a href="https://github.com/probityai/agent-evidence/blob/main/packages/vocabulary/vocabulary.yaml">vocabulary.yaml</a>. This page describes the current registry. A record is read against the registry its registryDigest names, named on <a href="https://probityai.github.io/agent-evidence/vocab/v1/">the term listing</a>. The term URI does not change once a signed record carries it.</div></footer>
+</body>
+</html>

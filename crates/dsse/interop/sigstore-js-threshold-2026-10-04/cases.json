@@ -1,0 +1,607 @@
+{
+  "schema": "probity.sigstore-js-dsse-controls.v1",
+  "generated_by": "node generate-cases.mjs; deterministic published test seeds 1, 2 and 9",
+  "role": "Authored finite consumer controls, not publisher fixtures or a research population.",
+  "native_revision": "769a53d8713248a8bf49edfc2a5d1955b0dcc24d",
+  "payload_sha256": "015abd7f5cc57a2dd94b7590f04ad8084273905ee33ec5cebeae62276a97f862",
+  "cases": [
+    {
+      "id": "two-distinct-keys",
+      "envelope": {
+        "payloadType": "application/vnd.example+json",
+        "payload": "eyJhIjoxfQ==",
+        "signatures": [
+          {
+            "keyid": "key-a",
+            "sig": "/dt3EubNik6RhW9AlFJh6huclGr2ZUv82ljYJJwJxDpDhFKsbIgal6BDnujMfHQG4RJk1efwORoBJTfQ3x6yAQ=="
+          },
+          {
+            "keyid": "key-b",
+            "sig": "unXTqosK5BD/I3f3qIkq+uAPww77dmJ1oaS7Cddu+LC4vN+FNJ7gxtPg8TNjIug8OUQ2a69yxrgRe13r7HFvAw=="
+          }
+        ]
+      },
+      "trusted_keys": [
+        {
+          "id": "key-a",
+          "public_hex": "8a88e3dd7409f195fd52db2d3cba5d72ca6709bf1d94121bf3748801b40f6f5c"
+        },
+        {
+          "id": "key-b",
+          "public_hex": "8139770ea87d175f56a35466c34c7ecccb8d8a91b4ee37a25df60f5b8fc9b394"
+        }
+      ],
+      "threshold": 2,
+      "expected": {
+        "decision": "verified",
+        "js_code": null,
+        "js_message": null,
+        "rust_message": null,
+        "accepted_keys": [
+          "key-a",
+          "key-b"
+        ]
+      }
+    },
+    {
+      "id": "untrusted-hint-wrong",
+      "envelope": {
+        "payloadType": "application/vnd.example+json",
+        "payload": "eyJhIjoxfQ==",
+        "signatures": [
+          {
+            "keyid": "wrong",
+            "sig": "/dt3EubNik6RhW9AlFJh6huclGr2ZUv82ljYJJwJxDpDhFKsbIgal6BDnujMfHQG4RJk1efwORoBJTfQ3x6yAQ=="
+          },
+          {
+            "keyid": "wrong",
+            "sig": "unXTqosK5BD/I3f3qIkq+uAPww77dmJ1oaS7Cddu+LC4vN+FNJ7gxtPg8TNjIug8OUQ2a69yxrgRe13r7HFvAw=="
+          }
+        ]
+      },
+      "trusted_keys": [
+        {
+          "id": "key-a",
+          "public_hex": "8a88e3dd7409f195fd52db2d3cba5d72ca6709bf1d94121bf3748801b40f6f5c"
+        },
+        {
+          "id": "key-b",
+          "public_hex": "8139770ea87d175f56a35466c34c7ecccb8d8a91b4ee37a25df60f5b8fc9b394"
+        }
+      ],
+      "threshold": 2,
+      "expected": {
+        "decision": "verified",
+        "js_code": null,
+        "js_message": null,
+        "rust_message": null,
+        "accepted_keys": [
+          "key-a",
+          "key-b"
+        ]
+      }
+    },
+    {
+      "id": "untrusted-hint-empty",
+      "envelope": {
+        "payloadType": "application/vnd.example+json",
+        "payload": "eyJhIjoxfQ==",
+        "signatures": [
+          {
+            "keyid": "",
+            "sig": "/dt3EubNik6RhW9AlFJh6huclGr2ZUv82ljYJJwJxDpDhFKsbIgal6BDnujMfHQG4RJk1efwORoBJTfQ3x6yAQ=="
+          },
+          {
+            "keyid": "",
+            "sig": "unXTqosK5BD/I3f3qIkq+uAPww77dmJ1oaS7Cddu+LC4vN+FNJ7gxtPg8TNjIug8OUQ2a69yxrgRe13r7HFvAw=="
+          }
+        ]
+      },
+      "trusted_keys": [
+        {
+          "id": "key-a",
+          "public_hex": "8a88e3dd7409f195fd52db2d3cba5d72ca6709bf1d94121bf3748801b40f6f5c"
+        },
+        {
+          "id": "key-b",
+          "public_hex": "8139770ea87d175f56a35466c34c7ecccb8d8a91b4ee37a25df60f5b8fc9b394"
+        }
+      ],
+      "threshold": 2,
+      "expected": {
+        "decision": "verified",
+        "js_code": null,
+        "js_message": null,
+        "rust_message": null,
+        "accepted_keys": [
+          "key-a",
+          "key-b"
+        ]
+      }
+    },
+    {
+      "id": "duplicate-signature-entry",
+      "envelope": {
+        "payloadType": "application/vnd.example+json",
+        "payload": "eyJhIjoxfQ==",
+        "signatures": [
+          {
+            "keyid": "key-a",
+            "sig": "/dt3EubNik6RhW9AlFJh6huclGr2ZUv82ljYJJwJxDpDhFKsbIgal6BDnujMfHQG4RJk1efwORoBJTfQ3x6yAQ=="
+          },
+          {
+            "keyid": "key-a",
+            "sig": "/dt3EubNik6RhW9AlFJh6huclGr2ZUv82ljYJJwJxDpDhFKsbIgal6BDnujMfHQG4RJk1efwORoBJTfQ3x6yAQ=="
+          }
+        ]
+      },
+      "trusted_keys": [
+        {
+          "id": "key-a",
+          "public_hex": "8a88e3dd7409f195fd52db2d3cba5d72ca6709bf1d94121bf3748801b40f6f5c"
+        },
+        {
+          "id": "key-b",
+          "public_hex": "8139770ea87d175f56a35466c34c7ecccb8d8a91b4ee37a25df60f5b8fc9b394"
+        }
+      ],
+      "threshold": 2,
+      "expected": {
+        "decision": "refused",
+        "js_code": "threshold-not-met",
+        "js_message": "threshold not met: 1 accepted, 2 required",
+        "rust_message": "signature threshold not met: 1 distinct trusted key(s) accepted, 2 required",
+        "accepted_keys": []
+      }
+    },
+    {
+      "id": "same-key-two-labels",
+      "envelope": {
+        "payloadType": "application/vnd.example+json",
+        "payload": "eyJhIjoxfQ==",
+        "signatures": [
+          {
+            "keyid": "key-a",
+            "sig": "/dt3EubNik6RhW9AlFJh6huclGr2ZUv82ljYJJwJxDpDhFKsbIgal6BDnujMfHQG4RJk1efwORoBJTfQ3x6yAQ=="
+          },
+          {
+            "keyid": "key-b",
+            "sig": "unXTqosK5BD/I3f3qIkq+uAPww77dmJ1oaS7Cddu+LC4vN+FNJ7gxtPg8TNjIug8OUQ2a69yxrgRe13r7HFvAw=="
+          }
+        ]
+      },
+      "trusted_keys": [
+        {
+          "id": "key-a",
+          "public_hex": "8a88e3dd7409f195fd52db2d3cba5d72ca6709bf1d94121bf3748801b40f6f5c"
+        },
+        {
+          "id": "alias",
+          "public_hex": "8a88e3dd7409f195fd52db2d3cba5d72ca6709bf1d94121bf3748801b40f6f5c"
+        }
+      ],
+      "threshold": 2,
+      "expected": {
+        "decision": "refused",
+        "js_code": "duplicate-key-identity",
+        "js_message": "duplicate trusted key identity: 1",
+        "rust_message": "keys #0 and #1 have the same key identity",
+        "accepted_keys": []
+      }
+    },
+    {
+      "id": "same-label-two-keys",
+      "envelope": {
+        "payloadType": "application/vnd.example+json",
+        "payload": "eyJhIjoxfQ==",
+        "signatures": [
+          {
+            "keyid": "key-a",
+            "sig": "/dt3EubNik6RhW9AlFJh6huclGr2ZUv82ljYJJwJxDpDhFKsbIgal6BDnujMfHQG4RJk1efwORoBJTfQ3x6yAQ=="
+          },
+          {
+            "keyid": "key-b",
+            "sig": "unXTqosK5BD/I3f3qIkq+uAPww77dmJ1oaS7Cddu+LC4vN+FNJ7gxtPg8TNjIug8OUQ2a69yxrgRe13r7HFvAw=="
+          }
+        ]
+      },
+      "trusted_keys": [
+        {
+          "id": "key-a",
+          "public_hex": "8a88e3dd7409f195fd52db2d3cba5d72ca6709bf1d94121bf3748801b40f6f5c"
+        },
+        {
+          "id": "key-a",
+          "public_hex": "8139770ea87d175f56a35466c34c7ecccb8d8a91b4ee37a25df60f5b8fc9b394"
+        }
+      ],
+      "threshold": 2,
+      "expected": {
+        "decision": "refused",
+        "js_code": "duplicate-key-id",
+        "js_message": "duplicate trusted key id: key-a",
+        "rust_message": "two supplied keys report key_id \"key-a\"; a threshold cannot count them as distinct",
+        "accepted_keys": []
+      }
+    },
+    {
+      "id": "skip-extra-invalid-entries",
+      "envelope": {
+        "payloadType": "application/vnd.example+json",
+        "payload": "eyJhIjoxfQ==",
+        "signatures": [
+          {
+            "sig": "!!!"
+          },
+          {
+            "sig": "AAAA"
+          },
+          {
+            "keyid": "stranger",
+            "sig": "HLfixNyqZClrt6Zi+RP6eW0C9gS2Wo4fZ0kb5+zy/1wUlsVc0uXcSF+IFNDw2kucA9Qb/1VzGqwO385iMn9SCw=="
+          },
+          {
+            "keyid": "key-a",
+            "sig": "/dt3EubNik6RhW9AlFJh6huclGr2ZUv82ljYJJwJxDpDhFKsbIgal6BDnujMfHQG4RJk1efwORoBJTfQ3x6yAQ=="
+          },
+          {
+            "keyid": "key-b",
+            "sig": "unXTqosK5BD/I3f3qIkq+uAPww77dmJ1oaS7Cddu+LC4vN+FNJ7gxtPg8TNjIug8OUQ2a69yxrgRe13r7HFvAw=="
+          }
+        ]
+      },
+      "trusted_keys": [
+        {
+          "id": "key-a",
+          "public_hex": "8a88e3dd7409f195fd52db2d3cba5d72ca6709bf1d94121bf3748801b40f6f5c"
+        },
+        {
+          "id": "key-b",
+          "public_hex": "8139770ea87d175f56a35466c34c7ecccb8d8a91b4ee37a25df60f5b8fc9b394"
+        }
+      ],
+      "threshold": 2,
+      "expected": {
+        "decision": "verified",
+        "js_code": null,
+        "js_message": null,
+        "rust_message": null,
+        "accepted_keys": [
+          "key-a",
+          "key-b"
+        ]
+      }
+    },
+    {
+      "id": "changed-payload",
+      "envelope": {
+        "payloadType": "application/vnd.example+json",
+        "payload": "Y2hhbmdlZA==",
+        "signatures": [
+          {
+            "keyid": "key-a",
+            "sig": "/dt3EubNik6RhW9AlFJh6huclGr2ZUv82ljYJJwJxDpDhFKsbIgal6BDnujMfHQG4RJk1efwORoBJTfQ3x6yAQ=="
+          },
+          {
+            "keyid": "key-b",
+            "sig": "unXTqosK5BD/I3f3qIkq+uAPww77dmJ1oaS7Cddu+LC4vN+FNJ7gxtPg8TNjIug8OUQ2a69yxrgRe13r7HFvAw=="
+          }
+        ]
+      },
+      "trusted_keys": [
+        {
+          "id": "key-a",
+          "public_hex": "8a88e3dd7409f195fd52db2d3cba5d72ca6709bf1d94121bf3748801b40f6f5c"
+        },
+        {
+          "id": "key-b",
+          "public_hex": "8139770ea87d175f56a35466c34c7ecccb8d8a91b4ee37a25df60f5b8fc9b394"
+        }
+      ],
+      "threshold": 2,
+      "expected": {
+        "decision": "refused",
+        "js_code": "threshold-not-met",
+        "js_message": "threshold not met: 0 accepted, 2 required",
+        "rust_message": "signature threshold not met: 0 distinct trusted key(s) accepted, 2 required",
+        "accepted_keys": []
+      }
+    },
+    {
+      "id": "changed-type",
+      "envelope": {
+        "payloadType": "changed",
+        "payload": "eyJhIjoxfQ==",
+        "signatures": [
+          {
+            "keyid": "key-a",
+            "sig": "/dt3EubNik6RhW9AlFJh6huclGr2ZUv82ljYJJwJxDpDhFKsbIgal6BDnujMfHQG4RJk1efwORoBJTfQ3x6yAQ=="
+          },
+          {
+            "keyid": "key-b",
+            "sig": "unXTqosK5BD/I3f3qIkq+uAPww77dmJ1oaS7Cddu+LC4vN+FNJ7gxtPg8TNjIug8OUQ2a69yxrgRe13r7HFvAw=="
+          }
+        ]
+      },
+      "trusted_keys": [
+        {
+          "id": "key-a",
+          "public_hex": "8a88e3dd7409f195fd52db2d3cba5d72ca6709bf1d94121bf3748801b40f6f5c"
+        },
+        {
+          "id": "key-b",
+          "public_hex": "8139770ea87d175f56a35466c34c7ecccb8d8a91b4ee37a25df60f5b8fc9b394"
+        }
+      ],
+      "threshold": 2,
+      "expected": {
+        "decision": "refused",
+        "js_code": "threshold-not-met",
+        "js_message": "threshold not met: 0 accepted, 2 required",
+        "rust_message": "signature threshold not met: 0 distinct trusted key(s) accepted, 2 required",
+        "accepted_keys": []
+      }
+    },
+    {
+      "id": "signature-over-base64-text",
+      "envelope": {
+        "payloadType": "application/vnd.example+json",
+        "payload": "eyJhIjoxfQ==",
+        "signatures": [
+          {
+            "keyid": "key-a",
+            "sig": "axub4SPUkjc8JkJKYLWyyI3D5fEK3K66lFG9yvEKV1Eh9x3p2UYhyte4gJCVOjjFuD02+ZiPZPEuTB/UqC9zAQ=="
+          },
+          {
+            "keyid": "key-b",
+            "sig": "y8gjleBqVNYaTPVRynWZFbaszOZkGgW5ZNsapiRaLqxnopVb1CpyjH2UXg4jTsEsFz1PxW08qcc8ecCUiGN9AA=="
+          }
+        ]
+      },
+      "trusted_keys": [
+        {
+          "id": "key-a",
+          "public_hex": "8a88e3dd7409f195fd52db2d3cba5d72ca6709bf1d94121bf3748801b40f6f5c"
+        },
+        {
+          "id": "key-b",
+          "public_hex": "8139770ea87d175f56a35466c34c7ecccb8d8a91b4ee37a25df60f5b8fc9b394"
+        }
+      ],
+      "threshold": 2,
+      "expected": {
+        "decision": "refused",
+        "js_code": "threshold-not-met",
+        "js_message": "threshold not met: 0 accepted, 2 required",
+        "rust_message": "signature threshold not met: 0 distinct trusted key(s) accepted, 2 required",
+        "accepted_keys": []
+      }
+    },
+    {
+      "id": "wrong-length-signatures",
+      "envelope": {
+        "payloadType": "application/vnd.example+json",
+        "payload": "eyJhIjoxfQ==",
+        "signatures": [
+          {
+            "sig": "AAAA"
+          }
+        ]
+      },
+      "trusted_keys": [
+        {
+          "id": "key-a",
+          "public_hex": "8a88e3dd7409f195fd52db2d3cba5d72ca6709bf1d94121bf3748801b40f6f5c"
+        },
+        {
+          "id": "key-b",
+          "public_hex": "8139770ea87d175f56a35466c34c7ecccb8d8a91b4ee37a25df60f5b8fc9b394"
+        }
+      ],
+      "threshold": 2,
+      "expected": {
+        "decision": "refused",
+        "js_code": "threshold-not-met",
+        "js_message": "threshold not met: 0 accepted, 2 required",
+        "rust_message": "signature threshold not met: 0 distinct trusted key(s) accepted, 2 required",
+        "accepted_keys": []
+      }
+    },
+    {
+      "id": "only-malformed-signatures",
+      "envelope": {
+        "payloadType": "application/vnd.example+json",
+        "payload": "eyJhIjoxfQ==",
+        "signatures": [
+          {
+            "sig": "!!!"
+          }
+        ]
+      },
+      "trusted_keys": [
+        {
+          "id": "key-a",
+          "public_hex": "8a88e3dd7409f195fd52db2d3cba5d72ca6709bf1d94121bf3748801b40f6f5c"
+        },
+        {
+          "id": "key-b",
+          "public_hex": "8139770ea87d175f56a35466c34c7ecccb8d8a91b4ee37a25df60f5b8fc9b394"
+        }
+      ],
+      "threshold": 2,
+      "expected": {
+        "decision": "refused",
+        "js_code": "noncanonical-base64",
+        "js_message": "noncanonical base64: signatures[].sig",
+        "rust_message": "signatures[].sig is not canonical base64 in either the standard or URL-safe alphabet",
+        "accepted_keys": []
+      }
+    },
+    {
+      "id": "noncanonical-payload",
+      "envelope": {
+        "payloadType": "application/vnd.example+json",
+        "payload": "eB==",
+        "signatures": [
+          {
+            "keyid": "key-a",
+            "sig": "/dt3EubNik6RhW9AlFJh6huclGr2ZUv82ljYJJwJxDpDhFKsbIgal6BDnujMfHQG4RJk1efwORoBJTfQ3x6yAQ=="
+          },
+          {
+            "keyid": "key-b",
+            "sig": "unXTqosK5BD/I3f3qIkq+uAPww77dmJ1oaS7Cddu+LC4vN+FNJ7gxtPg8TNjIug8OUQ2a69yxrgRe13r7HFvAw=="
+          }
+        ]
+      },
+      "trusted_keys": [
+        {
+          "id": "key-a",
+          "public_hex": "8a88e3dd7409f195fd52db2d3cba5d72ca6709bf1d94121bf3748801b40f6f5c"
+        },
+        {
+          "id": "key-b",
+          "public_hex": "8139770ea87d175f56a35466c34c7ecccb8d8a91b4ee37a25df60f5b8fc9b394"
+        }
+      ],
+      "threshold": 2,
+      "expected": {
+        "decision": "refused",
+        "js_code": "noncanonical-base64",
+        "js_message": "noncanonical base64: payload",
+        "rust_message": "payload is not canonical base64 in either the standard or URL-safe alphabet",
+        "accepted_keys": []
+      }
+    },
+    {
+      "id": "empty-payload-type",
+      "envelope": {
+        "payloadType": "",
+        "payload": "eyJhIjoxfQ==",
+        "signatures": [
+          {
+            "keyid": "key-a",
+            "sig": "/dt3EubNik6RhW9AlFJh6huclGr2ZUv82ljYJJwJxDpDhFKsbIgal6BDnujMfHQG4RJk1efwORoBJTfQ3x6yAQ=="
+          },
+          {
+            "keyid": "key-b",
+            "sig": "unXTqosK5BD/I3f3qIkq+uAPww77dmJ1oaS7Cddu+LC4vN+FNJ7gxtPg8TNjIug8OUQ2a69yxrgRe13r7HFvAw=="
+          }
+        ]
+      },
+      "trusted_keys": [
+        {
+          "id": "key-a",
+          "public_hex": "8a88e3dd7409f195fd52db2d3cba5d72ca6709bf1d94121bf3748801b40f6f5c"
+        },
+        {
+          "id": "key-b",
+          "public_hex": "8139770ea87d175f56a35466c34c7ecccb8d8a91b4ee37a25df60f5b8fc9b394"
+        }
+      ],
+      "threshold": 2,
+      "expected": {
+        "decision": "refused",
+        "js_code": "empty-payload-type",
+        "js_message": "payloadType must be a nonempty string",
+        "rust_message": "payloadType is empty; a DSSE envelope must name the type its payload is",
+        "accepted_keys": []
+      }
+    },
+    {
+      "id": "no-signatures",
+      "envelope": {
+        "payloadType": "application/vnd.example+json",
+        "payload": "eyJhIjoxfQ==",
+        "signatures": []
+      },
+      "trusted_keys": [
+        {
+          "id": "key-a",
+          "public_hex": "8a88e3dd7409f195fd52db2d3cba5d72ca6709bf1d94121bf3748801b40f6f5c"
+        },
+        {
+          "id": "key-b",
+          "public_hex": "8139770ea87d175f56a35466c34c7ecccb8d8a91b4ee37a25df60f5b8fc9b394"
+        }
+      ],
+      "threshold": 2,
+      "expected": {
+        "decision": "refused",
+        "js_code": "no-signatures",
+        "js_message": "envelope must contain signatures",
+        "rust_message": "envelope carries no signatures; the schema requires at least one",
+        "accepted_keys": []
+      }
+    },
+    {
+      "id": "zero-threshold",
+      "envelope": {
+        "payloadType": "application/vnd.example+json",
+        "payload": "eyJhIjoxfQ==",
+        "signatures": [
+          {
+            "keyid": "key-a",
+            "sig": "/dt3EubNik6RhW9AlFJh6huclGr2ZUv82ljYJJwJxDpDhFKsbIgal6BDnujMfHQG4RJk1efwORoBJTfQ3x6yAQ=="
+          },
+          {
+            "keyid": "key-b",
+            "sig": "unXTqosK5BD/I3f3qIkq+uAPww77dmJ1oaS7Cddu+LC4vN+FNJ7gxtPg8TNjIug8OUQ2a69yxrgRe13r7HFvAw=="
+          }
+        ]
+      },
+      "trusted_keys": [
+        {
+          "id": "key-a",
+          "public_hex": "8a88e3dd7409f195fd52db2d3cba5d72ca6709bf1d94121bf3748801b40f6f5c"
+        },
+        {
+          "id": "key-b",
+          "public_hex": "8139770ea87d175f56a35466c34c7ecccb8d8a91b4ee37a25df60f5b8fc9b394"
+        }
+      ],
+      "threshold": 0,
+      "expected": {
+        "decision": "refused",
+        "js_code": "invalid-threshold",
+        "js_message": "threshold must be a positive safe integer",
+        "rust_message": "a threshold of zero accepts an unsigned envelope",
+        "accepted_keys": []
+      }
+    },
+    {
+      "id": "threshold-above-key-count",
+      "envelope": {
+        "payloadType": "application/vnd.example+json",
+        "payload": "eyJhIjoxfQ==",
+        "signatures": [
+          {
+            "keyid": "key-a",
+            "sig": "/dt3EubNik6RhW9AlFJh6huclGr2ZUv82ljYJJwJxDpDhFKsbIgal6BDnujMfHQG4RJk1efwORoBJTfQ3x6yAQ=="
+          },
+          {
+            "keyid": "key-b",
+            "sig": "unXTqosK5BD/I3f3qIkq+uAPww77dmJ1oaS7Cddu+LC4vN+FNJ7gxtPg8TNjIug8OUQ2a69yxrgRe13r7HFvAw=="
+          }
+        ]
+      },
+      "trusted_keys": [
+        {
+          "id": "key-a",
+          "public_hex": "8a88e3dd7409f195fd52db2d3cba5d72ca6709bf1d94121bf3748801b40f6f5c"
+        },
+        {
+          "id": "key-b",
+          "public_hex": "8139770ea87d175f56a35466c34c7ecccb8d8a91b4ee37a25df60f5b8fc9b394"
+        }
+      ],
+      "threshold": 3,
+      "expected": {
+        "decision": "refused",
+        "js_code": "threshold-not-met",
+        "js_message": "threshold not met: 2 accepted, 3 required",
+        "rust_message": "signature threshold not met: 2 distinct trusted key(s) accepted, 3 required",
+        "accepted_keys": []
+      }
+    }
+  ]
+}

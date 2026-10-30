@@ -1,0 +1,653 @@
+{
+  "cross_rail": {
+    "admitted": 3,
+    "agree": {
+      "cue": 56,
+      "cue-policy-controller": 46,
+      "kyverno-cel": 56
+    },
+    "policy_controller_gap": [
+      "report-missing",
+      "vi1-trusted-tree-undeclared",
+      "vi2-groups-undeclared",
+      "vi2-replay-parent-env-undeclared",
+      "vi2-replay-parent-unrecorded",
+      "vi3-result-dir-undeclared",
+      "vi4-skipped-undeclared",
+      "vi7-worker-evidence-undeclared",
+      "vi8-reference-undeclared",
+      "vi9-loader-safe-undeclared"
+    ],
+    "reference": "rego under the pins an engine gives it: the signature checked, and the contract pin the vector carries",
+    "refused": 53,
+    "vectors": 56
+  },
+  "family": "verifier-isolation",
+  "rails": {
+    "cue": {
+      "artifact": "policy-controller/clusterimagepolicy-verifier-isolation-cue.yaml",
+      "obligations": {
+        "vi-1": {
+          "disposition": "unreachable",
+          "obstruction": "absent-member-not-denied",
+          "refused_as_policy_controller_reads_it": 2,
+          "refused_by_cue_vet": 4,
+          "rules": [
+            "vi-1:excluded_names_not_reset",
+            "vi-1:trusted_tree_not_reset_to_contract"
+          ],
+          "rules_deleted": 2,
+          "rules_surviving": 0,
+          "vectors_opening": 4
+        },
+        "vi-2": {
+          "disposition": "unreachable",
+          "obstruction": "absent-member-not-denied",
+          "refused_as_policy_controller_reads_it": 12,
+          "refused_by_cue_vet": 16,
+          "rules": [
+            "vi-2:assertions_not_in_parent",
+            "vi-2:replay_parent_environment_not_scrubbed",
+            "vi-2:replay_parent_not_contained",
+            "vi-2:replay_parent_shares_verifier_uid",
+            "vi-2:trusted_python_not_isolated",
+            "vi-2:worker_not_unprivileged",
+            "vi-2:worker_supplementary_groups_kept"
+          ],
+          "rules_deleted": 7,
+          "rules_surviving": 0,
+          "vectors_opening": 16
+        },
+        "vi-3": {
+          "disposition": "unreachable",
+          "obstruction": "absent-member-not-denied",
+          "refused_as_policy_controller_reads_it": 6,
+          "refused_by_cue_vet": 8,
+          "rules": [
+            "vi-3:result_dir_open_to_worker",
+            "vi-3:result_not_precleared",
+            "vi-3:result_not_written_by_verifier",
+            "vi-3:result_source_ambiguous"
+          ],
+          "rules_deleted": 4,
+          "rules_surviving": 0,
+          "vectors_opening": 8
+        },
+        "vi-4": {
+          "disposition": "unreachable",
+          "obstruction": "absent-member-not-denied",
+          "refused_as_policy_controller_reads_it": 4,
+          "refused_by_cue_vet": 6,
+          "rules": [
+            "vi-4:no_tests_expected",
+            "vi-4:test_count_mismatch",
+            "vi-4:tests_skipped",
+            "vi-4:verdict_from_exit_status_alone"
+          ],
+          "rules_deleted": 4,
+          "rules_surviving": 0,
+          "vectors_opening": 6
+        },
+        "vi-5": {
+          "disposition": "unreachable",
+          "obstruction": "absent-member-not-denied",
+          "refused_as_policy_controller_reads_it": 4,
+          "refused_by_cue_vet": 5,
+          "rules": [
+            "vi-5:result_read_before_kill",
+            "vi-5:worker_processes_not_killed",
+            "vi-5:worker_processes_remain"
+          ],
+          "rules_deleted": 3,
+          "rules_surviving": 0,
+          "vectors_opening": 5
+        },
+        "vi-6": {
+          "disposition": "unreachable",
+          "obstruction": "absent-member-not-denied",
+          "refused_as_policy_controller_reads_it": 3,
+          "refused_by_cue_vet": 4,
+          "rules": [
+            "vi-6:destination_not_removed_first",
+            "vi-6:links_followed",
+            "vi-6:special_files_admitted"
+          ],
+          "rules_deleted": 3,
+          "rules_surviving": 0,
+          "vectors_opening": 4
+        },
+        "vi-7": {
+          "disposition": "unreachable",
+          "obstruction": "absent-member-not-denied",
+          "refused_as_policy_controller_reads_it": 3,
+          "refused_by_cue_vet": 5,
+          "rules": [
+            "vi-7:environment_not_scrubbed",
+            "vi-7:evidence_taken_from_worker",
+            "vi-7:no_scratch_copy"
+          ],
+          "rules_deleted": 3,
+          "rules_surviving": 0,
+          "vectors_opening": 5
+        },
+        "vi-8": {
+          "disposition": "unreachable",
+          "obstruction": "absent-member-not-denied",
+          "refused_as_policy_controller_reads_it": 2,
+          "refused_by_cue_vet": 4,
+          "rules": [
+            "vi-8:reference_inside_artifact",
+            "vi-8:reference_readable_by_worker"
+          ],
+          "rules_deleted": 2,
+          "rules_surviving": 0,
+          "vectors_opening": 4
+        },
+        "vi-9": {
+          "disposition": "unreachable",
+          "obstruction": "absent-member-not-denied",
+          "refused_as_policy_controller_reads_it": 3,
+          "refused_by_cue_vet": 5,
+          "rules": [
+            "vi-9:loaders_undeclared",
+            "vi-9:unsafe_loader"
+          ],
+          "rules_deleted": 2,
+          "rules_surviving": 0,
+          "vectors_opening": 5
+        }
+      }
+    },
+    "kyverno-cel": {
+      "artifact": "kyverno/imagevalidatingpolicy-verifier-isolation.yaml",
+      "obligations": {
+        "vi-1": {
+          "disposition": "enforced",
+          "rules": [
+            "vi-1:excluded_names_not_reset",
+            "vi-1:trusted_tree_not_reset_to_contract"
+          ],
+          "rules_deleted": 2,
+          "rules_surviving": 0,
+          "vectors_opening": 4
+        },
+        "vi-2": {
+          "disposition": "enforced",
+          "rules": [
+            "vi-2:assertions_not_in_parent",
+            "vi-2:replay_parent_environment_not_scrubbed",
+            "vi-2:replay_parent_not_contained",
+            "vi-2:replay_parent_shares_verifier_uid",
+            "vi-2:trusted_python_not_isolated",
+            "vi-2:worker_not_unprivileged",
+            "vi-2:worker_supplementary_groups_kept"
+          ],
+          "rules_deleted": 7,
+          "rules_surviving": 0,
+          "vectors_opening": 16
+        },
+        "vi-3": {
+          "disposition": "enforced",
+          "rules": [
+            "vi-3:result_dir_open_to_worker",
+            "vi-3:result_not_precleared",
+            "vi-3:result_not_written_by_verifier",
+            "vi-3:result_source_ambiguous"
+          ],
+          "rules_deleted": 4,
+          "rules_surviving": 0,
+          "vectors_opening": 8
+        },
+        "vi-4": {
+          "disposition": "enforced",
+          "rules": [
+            "vi-4:no_tests_expected",
+            "vi-4:test_count_mismatch",
+            "vi-4:tests_skipped",
+            "vi-4:verdict_from_exit_status_alone"
+          ],
+          "rules_deleted": 4,
+          "rules_surviving": 0,
+          "vectors_opening": 6
+        },
+        "vi-5": {
+          "disposition": "enforced",
+          "rules": [
+            "vi-5:result_read_before_kill",
+            "vi-5:worker_processes_not_killed",
+            "vi-5:worker_processes_remain"
+          ],
+          "rules_deleted": 3,
+          "rules_surviving": 0,
+          "vectors_opening": 5
+        },
+        "vi-6": {
+          "disposition": "enforced",
+          "rules": [
+            "vi-6:destination_not_removed_first",
+            "vi-6:links_followed",
+            "vi-6:special_files_admitted"
+          ],
+          "rules_deleted": 3,
+          "rules_surviving": 0,
+          "vectors_opening": 4
+        },
+        "vi-7": {
+          "disposition": "enforced",
+          "rules": [
+            "vi-7:environment_not_scrubbed",
+            "vi-7:evidence_taken_from_worker",
+            "vi-7:no_scratch_copy"
+          ],
+          "rules_deleted": 3,
+          "rules_surviving": 0,
+          "vectors_opening": 5
+        },
+        "vi-8": {
+          "disposition": "enforced",
+          "rules": [
+            "vi-8:reference_inside_artifact",
+            "vi-8:reference_readable_by_worker"
+          ],
+          "rules_deleted": 2,
+          "rules_surviving": 0,
+          "vectors_opening": 4
+        },
+        "vi-9": {
+          "disposition": "enforced",
+          "rules": [
+            "vi-9:loaders_undeclared",
+            "vi-9:unsafe_loader"
+          ],
+          "rules_deleted": 2,
+          "rules_surviving": 0,
+          "vectors_opening": 5
+        }
+      }
+    },
+    "rego": {
+      "artifact": "rego/verifier_isolation.rego",
+      "obligations": {
+        "vi-1": {
+          "disposition": "enforced",
+          "hardening": [],
+          "name": "Overwrite",
+          "rules": [
+            "vi-1:excluded_names_not_reset",
+            "vi-1:trusted_tree_not_reset_to_contract"
+          ],
+          "rules_deleted": 2,
+          "rules_surviving": 0,
+          "vector": "V1",
+          "vectors_opening": 4
+        },
+        "vi-2": {
+          "disposition": "enforced",
+          "hardening": [
+            "H2",
+            "H4"
+          ],
+          "name": "Patch",
+          "rules": [
+            "vi-2:assertions_not_in_parent",
+            "vi-2:replay_parent_environment_not_scrubbed",
+            "vi-2:replay_parent_not_contained",
+            "vi-2:replay_parent_shares_verifier_uid",
+            "vi-2:trusted_python_not_isolated",
+            "vi-2:worker_not_unprivileged",
+            "vi-2:worker_supplementary_groups_kept"
+          ],
+          "rules_deleted": 7,
+          "rules_surviving": 0,
+          "vector": "V2",
+          "vectors_opening": 16
+        },
+        "vi-3": {
+          "disposition": "enforced",
+          "hardening": [
+            "H1"
+          ],
+          "name": "Reward",
+          "rules": [
+            "vi-3:result_dir_open_to_worker",
+            "vi-3:result_not_precleared",
+            "vi-3:result_not_written_by_verifier",
+            "vi-3:result_source_ambiguous"
+          ],
+          "rules_deleted": 4,
+          "rules_surviving": 0,
+          "vector": "V3",
+          "vectors_opening": 8
+        },
+        "vi-4": {
+          "disposition": "enforced",
+          "hardening": [
+            "H7"
+          ],
+          "name": "Fail-open",
+          "rules": [
+            "vi-4:no_tests_expected",
+            "vi-4:test_count_mismatch",
+            "vi-4:tests_skipped",
+            "vi-4:verdict_from_exit_status_alone"
+          ],
+          "rules_deleted": 4,
+          "rules_surviving": 0,
+          "vector": "V4",
+          "vectors_opening": 6
+        },
+        "vi-5": {
+          "disposition": "enforced",
+          "hardening": [
+            "H5"
+          ],
+          "name": "Sleeper",
+          "rules": [
+            "vi-5:result_read_before_kill",
+            "vi-5:worker_processes_not_killed",
+            "vi-5:worker_processes_remain"
+          ],
+          "rules_deleted": 3,
+          "rules_surviving": 0,
+          "vector": "V5",
+          "vectors_opening": 5
+        },
+        "vi-6": {
+          "disposition": "enforced",
+          "hardening": [
+            "H6"
+          ],
+          "name": "Staging",
+          "rules": [
+            "vi-6:destination_not_removed_first",
+            "vi-6:links_followed",
+            "vi-6:special_files_admitted"
+          ],
+          "rules_deleted": 3,
+          "rules_surviving": 0,
+          "vector": "V6",
+          "vectors_opening": 4
+        },
+        "vi-7": {
+          "disposition": "enforced",
+          "hardening": [
+            "H2"
+          ],
+          "name": "Forgery",
+          "rules": [
+            "vi-7:environment_not_scrubbed",
+            "vi-7:evidence_taken_from_worker",
+            "vi-7:no_scratch_copy"
+          ],
+          "rules_deleted": 3,
+          "rules_surviving": 0,
+          "vector": "V7",
+          "vectors_opening": 5
+        },
+        "vi-8": {
+          "disposition": "enforced",
+          "hardening": [
+            "H3"
+          ],
+          "name": "Disclosure",
+          "rules": [
+            "vi-8:reference_inside_artifact",
+            "vi-8:reference_readable_by_worker"
+          ],
+          "rules_deleted": 2,
+          "rules_surviving": 0,
+          "vector": "V8",
+          "vectors_opening": 4
+        },
+        "vi-9": {
+          "disposition": "enforced",
+          "hardening": [],
+          "name": "Exploit",
+          "rules": [
+            "vi-9:loaders_undeclared",
+            "vi-9:unsafe_loader:%s"
+          ],
+          "rules_deleted": 2,
+          "rules_surviving": 0,
+          "vector": "V9",
+          "vectors_opening": 5
+        }
+      }
+    }
+  },
+  "vectors": 56,
+  "verdicts": {
+    "cue": {
+      "baseline-admitted": "admit",
+      "contract-digest-invalid": "refuse",
+      "contract-pin-matches": "admit",
+      "contract-pin-mismatch": "refuse",
+      "predicate-type-wrong": "refuse",
+      "report-missing": "refuse",
+      "signature-undeclared": "admit",
+      "statement-type-wrong": "refuse",
+      "vi1-excluded-names-kept": "refuse",
+      "vi1-trusted-tree-differs": "refuse",
+      "vi1-trusted-tree-undeclared": "refuse",
+      "vi2-assertions-with-submission": "refuse",
+      "vi2-flag-is-string": "refuse",
+      "vi2-groups-kept": "refuse",
+      "vi2-groups-undeclared": "refuse",
+      "vi2-python-not-isolated": "refuse",
+      "vi2-replay-parent-claims-container-as-verifier": "refuse",
+      "vi2-replay-parent-env-undeclared": "refuse",
+      "vi2-replay-parent-on-host": "refuse",
+      "vi2-replay-parent-root": "refuse",
+      "vi2-replay-parent-runtime-socket": "refuse",
+      "vi2-replay-parent-unrecorded": "refuse",
+      "vi2-replay-parent-unverified": "refuse",
+      "vi2-worker-is-root": "refuse",
+      "vi2-worker-is-verifier": "refuse",
+      "vi2-worker-uid-string": "refuse",
+      "vi3-no-source": "refuse",
+      "vi3-not-precleared": "refuse",
+      "vi3-result-dir-777": "refuse",
+      "vi3-result-dir-group": "refuse",
+      "vi3-result-dir-undeclared": "refuse",
+      "vi3-two-sources": "refuse",
+      "vi3-written-by-worker": "refuse",
+      "vi4-exit-status-alone": "refuse",
+      "vi4-fewer-collected": "refuse",
+      "vi4-no-tests": "refuse",
+      "vi4-skipped": "refuse",
+      "vi4-skipped-undeclared": "refuse",
+      "vi5-not-killed": "refuse",
+      "vi5-read-before-kill": "refuse",
+      "vi5-remaining": "refuse",
+      "vi5-steps-equal": "refuse",
+      "vi6-destination-kept": "refuse",
+      "vi6-links-followed": "refuse",
+      "vi6-special-files": "refuse",
+      "vi7-env-not-scrubbed": "refuse",
+      "vi7-no-scratch-copy": "refuse",
+      "vi7-worker-evidence": "refuse",
+      "vi7-worker-evidence-undeclared": "refuse",
+      "vi8-reference-in-artifact": "refuse",
+      "vi8-reference-readable": "refuse",
+      "vi8-reference-undeclared": "refuse",
+      "vi9-loader-safe-undeclared": "refuse",
+      "vi9-no-loaders": "refuse",
+      "vi9-unnamed-unsafe-loader": "refuse",
+      "vi9-unsafe-loader": "refuse"
+    },
+    "cue-policy-controller": {
+      "baseline-admitted": "admit",
+      "contract-digest-invalid": "refuse",
+      "contract-pin-matches": "admit",
+      "contract-pin-mismatch": "refuse",
+      "predicate-type-wrong": "refuse",
+      "report-missing": "admit",
+      "signature-undeclared": "admit",
+      "statement-type-wrong": "refuse",
+      "vi1-excluded-names-kept": "refuse",
+      "vi1-trusted-tree-differs": "refuse",
+      "vi1-trusted-tree-undeclared": "admit",
+      "vi2-assertions-with-submission": "refuse",
+      "vi2-flag-is-string": "refuse",
+      "vi2-groups-kept": "refuse",
+      "vi2-groups-undeclared": "admit",
+      "vi2-python-not-isolated": "refuse",
+      "vi2-replay-parent-claims-container-as-verifier": "refuse",
+      "vi2-replay-parent-env-undeclared": "admit",
+      "vi2-replay-parent-on-host": "refuse",
+      "vi2-replay-parent-root": "refuse",
+      "vi2-replay-parent-runtime-socket": "refuse",
+      "vi2-replay-parent-unrecorded": "admit",
+      "vi2-replay-parent-unverified": "refuse",
+      "vi2-worker-is-root": "refuse",
+      "vi2-worker-is-verifier": "refuse",
+      "vi2-worker-uid-string": "refuse",
+      "vi3-no-source": "refuse",
+      "vi3-not-precleared": "refuse",
+      "vi3-result-dir-777": "refuse",
+      "vi3-result-dir-group": "refuse",
+      "vi3-result-dir-undeclared": "admit",
+      "vi3-two-sources": "refuse",
+      "vi3-written-by-worker": "refuse",
+      "vi4-exit-status-alone": "refuse",
+      "vi4-fewer-collected": "refuse",
+      "vi4-no-tests": "refuse",
+      "vi4-skipped": "refuse",
+      "vi4-skipped-undeclared": "admit",
+      "vi5-not-killed": "refuse",
+      "vi5-read-before-kill": "refuse",
+      "vi5-remaining": "refuse",
+      "vi5-steps-equal": "refuse",
+      "vi6-destination-kept": "refuse",
+      "vi6-links-followed": "refuse",
+      "vi6-special-files": "refuse",
+      "vi7-env-not-scrubbed": "refuse",
+      "vi7-no-scratch-copy": "refuse",
+      "vi7-worker-evidence": "refuse",
+      "vi7-worker-evidence-undeclared": "admit",
+      "vi8-reference-in-artifact": "refuse",
+      "vi8-reference-readable": "refuse",
+      "vi8-reference-undeclared": "admit",
+      "vi9-loader-safe-undeclared": "admit",
+      "vi9-no-loaders": "refuse",
+      "vi9-unnamed-unsafe-loader": "refuse",
+      "vi9-unsafe-loader": "refuse"
+    },
+    "kyverno-cel": {
+      "baseline-admitted": "admit",
+      "contract-digest-invalid": "refuse",
+      "contract-pin-matches": "admit",
+      "contract-pin-mismatch": "refuse",
+      "predicate-type-wrong": "refuse",
+      "report-missing": "refuse",
+      "signature-undeclared": "admit",
+      "statement-type-wrong": "refuse",
+      "vi1-excluded-names-kept": "refuse",
+      "vi1-trusted-tree-differs": "refuse",
+      "vi1-trusted-tree-undeclared": "refuse",
+      "vi2-assertions-with-submission": "refuse",
+      "vi2-flag-is-string": "refuse",
+      "vi2-groups-kept": "refuse",
+      "vi2-groups-undeclared": "refuse",
+      "vi2-python-not-isolated": "refuse",
+      "vi2-replay-parent-claims-container-as-verifier": "refuse",
+      "vi2-replay-parent-env-undeclared": "refuse",
+      "vi2-replay-parent-on-host": "refuse",
+      "vi2-replay-parent-root": "refuse",
+      "vi2-replay-parent-runtime-socket": "refuse",
+      "vi2-replay-parent-unrecorded": "refuse",
+      "vi2-replay-parent-unverified": "refuse",
+      "vi2-worker-is-root": "refuse",
+      "vi2-worker-is-verifier": "refuse",
+      "vi2-worker-uid-string": "refuse",
+      "vi3-no-source": "refuse",
+      "vi3-not-precleared": "refuse",
+      "vi3-result-dir-777": "refuse",
+      "vi3-result-dir-group": "refuse",
+      "vi3-result-dir-undeclared": "refuse",
+      "vi3-two-sources": "refuse",
+      "vi3-written-by-worker": "refuse",
+      "vi4-exit-status-alone": "refuse",
+      "vi4-fewer-collected": "refuse",
+      "vi4-no-tests": "refuse",
+      "vi4-skipped": "refuse",
+      "vi4-skipped-undeclared": "refuse",
+      "vi5-not-killed": "refuse",
+      "vi5-read-before-kill": "refuse",
+      "vi5-remaining": "refuse",
+      "vi5-steps-equal": "refuse",
+      "vi6-destination-kept": "refuse",
+      "vi6-links-followed": "refuse",
+      "vi6-special-files": "refuse",
+      "vi7-env-not-scrubbed": "refuse",
+      "vi7-no-scratch-copy": "refuse",
+      "vi7-worker-evidence": "refuse",
+      "vi7-worker-evidence-undeclared": "refuse",
+      "vi8-reference-in-artifact": "refuse",
+      "vi8-reference-readable": "refuse",
+      "vi8-reference-undeclared": "refuse",
+      "vi9-loader-safe-undeclared": "refuse",
+      "vi9-no-loaders": "refuse",
+      "vi9-unnamed-unsafe-loader": "refuse",
+      "vi9-unsafe-loader": "refuse"
+    },
+    "rego": {
+      "baseline-admitted": "admit",
+      "contract-digest-invalid": "refuse",
+      "contract-pin-matches": "admit",
+      "contract-pin-mismatch": "refuse",
+      "predicate-type-wrong": "refuse",
+      "report-missing": "refuse",
+      "signature-undeclared": "admit",
+      "statement-type-wrong": "refuse",
+      "vi1-excluded-names-kept": "refuse",
+      "vi1-trusted-tree-differs": "refuse",
+      "vi1-trusted-tree-undeclared": "refuse",
+      "vi2-assertions-with-submission": "refuse",
+      "vi2-flag-is-string": "refuse",
+      "vi2-groups-kept": "refuse",
+      "vi2-groups-undeclared": "refuse",
+      "vi2-python-not-isolated": "refuse",
+      "vi2-replay-parent-claims-container-as-verifier": "refuse",
+      "vi2-replay-parent-env-undeclared": "refuse",
+      "vi2-replay-parent-on-host": "refuse",
+      "vi2-replay-parent-root": "refuse",
+      "vi2-replay-parent-runtime-socket": "refuse",
+      "vi2-replay-parent-unrecorded": "refuse",
+      "vi2-replay-parent-unverified": "refuse",
+      "vi2-worker-is-root": "refuse",
+      "vi2-worker-is-verifier": "refuse",
+      "vi2-worker-uid-string": "refuse",
+      "vi3-no-source": "refuse",
+      "vi3-not-precleared": "refuse",
+      "vi3-result-dir-777": "refuse",
+      "vi3-result-dir-group": "refuse",
+      "vi3-result-dir-undeclared": "refuse",
+      "vi3-two-sources": "refuse",
+      "vi3-written-by-worker": "refuse",
+      "vi4-exit-status-alone": "refuse",
+      "vi4-fewer-collected": "refuse",
+      "vi4-no-tests": "refuse",
+      "vi4-skipped": "refuse",
+      "vi4-skipped-undeclared": "refuse",
+      "vi5-not-killed": "refuse",
+      "vi5-read-before-kill": "refuse",
+      "vi5-remaining": "refuse",
+      "vi5-steps-equal": "refuse",
+      "vi6-destination-kept": "refuse",
+      "vi6-links-followed": "refuse",
+      "vi6-special-files": "refuse",
+      "vi7-env-not-scrubbed": "refuse",
+      "vi7-no-scratch-copy": "refuse",
+      "vi7-worker-evidence": "refuse",
+      "vi7-worker-evidence-undeclared": "refuse",
+      "vi8-reference-in-artifact": "refuse",
+      "vi8-reference-readable": "refuse",
+      "vi8-reference-undeclared": "refuse",
+      "vi9-loader-safe-undeclared": "refuse",
+      "vi9-no-loaders": "refuse",
+      "vi9-unnamed-unsafe-loader": "refuse",
+      "vi9-unsafe-loader": "refuse"
+    }
+  }
+}

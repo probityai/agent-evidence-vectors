@@ -1,0 +1,47 @@
+# agent-evidence-vocabulary
+
+> A closed, versioned vocabulary for the terms that describe an
+> adversarial-execution evidence claim: what an executed artifact attempted,
+> what a substrate beneath it observed or refused, from what vantage and how
+> directly a claim was obtained, and how much of a declared population it
+> covers. Independent systems crosswalk their own claim fields onto these
+> terms so that a term means one thing across vendors.
+
+The registry is a single YAML file, and every term in it is meant to land as a
+field inside a signed statement. Four terms carry the axis the rest depend on:
+`observation_vantage` and `observation_directness` say where a claim was
+obtained and how directly; `coverage_denominator` and `does_not_assert` say what
+it leaves out, inside the signed bytes. The `spec_anchor` field points at the
+adversarial-execution-evidence predicate specification, which is vendored and
+versioned in the companion conformance suite.
+
+## Entry points
+
+- [README](https://github.com/probityai/agent-evidence/blob/main/packages/vocabulary/README.md): Scope, why the registry exists, and the file map.
+- [vocabulary.yaml](https://github.com/probityai/agent-evidence/blob/main/packages/vocabulary/vocabulary.yaml): The registry itself, CC0-1.0. Each term carries its definition, its grounding mechanism, and where it applies a `why_this_registry` note.
+- [OpenCRE links](https://github.com/probityai/agent-evidence/blob/main/packages/vocabulary/docs/OPENCRE.md): The terms that carry a link to an OpenCRE Common Requirement in their `opencre` field, the fit each declares, and why the other terms carry none.
+- [Agent change admission predicate](https://github.com/probityai/agent-evidence-vocabulary/blob/main/docs/predicates/agent-change-admission-v1.md): The predicate a signed decision carries when it admits or rejects a change to an agent's harness, its fields, gates and verification steps.
+- [Done verification terms](https://github.com/probityai/agent-evidence/blob/main/packages/vocabulary/docs/done-verification.md): The `done_verification` section: eight terms for deciding that an agent's work is done from outside the agent, each carrying the check a verifier applies, with crosswalks to Claude Code goals, Codex goals and in-toto 604.
+- [Governance](https://github.com/probityai/agent-evidence/blob/main/packages/vocabulary/GOVERNANCE.md): Promotion and demotion rules, merge discipline, and the no-self-grounding-exemption rule that binds the founding maintainer's own systems identically to anyone else's.
+- [Contributing](https://github.com/probityai/agent-evidence/blob/main/packages/vocabulary/CONTRIBUTING.md): How to file a crosswalk, with a worked example that CI runs through the validator.
+- [Maintainers](https://github.com/probityai/agent-evidence/blob/main/packages/vocabulary/MAINTAINERS.md): Who maintains the registry and the recusal bar.
+
+## Crosswalks
+
+- [crosswalk/](https://github.com/probityai/agent-evidence/tree/main/packages/vocabulary/crosswalk): Filed crosswalks, one file per system, starting from `TEMPLATE.yaml` there.
+- [Validator](https://github.com/probityai/agent-evidence/blob/main/packages/vocabulary/scripts/validate_crosswalks.py): Runs on every change. A file whose shape it does not recognize fails loudly and names the file; nothing is skipped.
+
+## Companion corpus
+
+- [probityai/agent-evidence-vectors](https://github.com/probityai/agent-evidence-vectors): The reference verifier and conformance vector suite for the predicate this vocabulary describes, which is where the terms defined here are actually spoken.
+
+## Identifiers
+
+- Release tag: `v0.8.0`, the version `CITATION.cff` carries.
+- Archival DOI: not yet minted. This line is replaced with the DOI when one exists.
+- [Citation](https://github.com/probityai/agent-evidence/blob/main/packages/vocabulary/CITATION.cff): The machine-readable citation GitHub renders.
+
+## Optional
+
+- [License](https://github.com/probityai/agent-evidence/blob/main/packages/vocabulary/LICENSE): The repository license; the registry file itself is under [LICENSE-CC0](https://github.com/probityai/agent-evidence/blob/main/packages/vocabulary/LICENSE-CC0).
+- [Code of conduct](https://github.com/probityai/agent-evidence/blob/main/packages/vocabulary/CODE_OF_CONDUCT.md)

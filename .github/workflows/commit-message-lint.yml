@@ -109,8 +109,8 @@ jobs:
           # or a Dependabot push to its own branch, the commits Dependabot
           # authored are therefore left out, and every other commit in the
           # range is still linted one by one against the same baseline.
-          bot=dependabot[bot]
-          bot_email=49699333+dependabot[bot]@users.noreply.github.com
+          bot='dependabot[bot]'
+          bot_email='49699333+dependabot[bot]@users.noreply.github.com'
           if [ "${PR_AUTHOR:-}" = "$bot" ] \
              || { [ -z "${PR_BASE:-}" ] && [ "${PUSH_ACTOR:-}" = "$bot" ] \
                   && [[ "${PUSH_REF:-}" == refs/heads/dependabot/* ]]; }; then

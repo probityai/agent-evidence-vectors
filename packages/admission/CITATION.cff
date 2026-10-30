@@ -1,0 +1,46 @@
+cff-version: 1.2.0
+title: >-
+  agent-evidence-admission: reference admission rails for agent execution
+  evidence
+message: >-
+  This is software. It implements admission policies over the
+  adversarial-execution-evidence predicate; the normative artifact is that
+  predicate's own text, settled upstream in the in-toto attestation project.
+  This repository carries no standing as a standard or a specification of its
+  own. Cite the specification for what the predicate requires, the conformance
+  vectors for what a corpus forces, and this repository only for what a
+  particular policy engine was measured to enforce. Every disposition here is
+  pinned to a corpus digest, so a claim taken from a branch rather than from a
+  released version is a claim against a moving target.
+type: software
+authors:
+  - family-names: Gilda
+    given-names: Sankalp
+    email: sankalp.gilda@gmail.com
+    orcid: 'https://orcid.org/0000-0002-3645-4501'
+repository-code: https://github.com/probityai/agent-evidence
+abstract: >-
+  Four policy engines that admit or refuse a Kubernetes workload on the in-toto
+  adversarial-execution-evidence predicate, each one declaring per obligation
+  whether it enforces the obligation, only approximates it, or cannot reach it
+  at all. The dispositions are measured rather than asserted: every rail is run
+  over every vector of the published conformance corpus, and a rail that
+  declares an obligation enforced while answering differently from the oracle on
+  a vector citing that obligation is a hard error. The rails are the incumbent
+  admission controllers, Open Policy Agent, Kyverno on both its JMESPath and its
+  CEL surface, and sigstore policy-controller with CUE, so a deployment adds a
+  policy rather than a component.
+keywords:
+  - admission control
+  - policy as code
+  - attestation
+  - conformance testing
+  - in-toto
+  - kubernetes
+  - open policy agent
+  - kyverno
+  - sigstore
+  - agentic systems
+license: Apache-2.0
+version: 0.2.0
+date-released: "2026-10-26"

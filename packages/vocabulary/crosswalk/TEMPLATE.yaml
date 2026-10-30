@@ -1,0 +1,55 @@
+# crosswalk/<your-system-name>.yaml
+# Copy this file, rename it, delete every line you don't need, and delete this
+# header comment block before filing. See CONTRIBUTING.md for the full process.
+
+system: "<your system's name>"
+system_url: "<link to your system's real, public repo or docs>"
+crosswalk_version: "0.1.0"
+vocabulary_version_targeted: "0.8.0"   # the vocabulary.yaml meta.version this was written against
+
+maintainer:
+  github: "<your github handle>"
+  third_party_authored: false   # true if you are mapping a system you do not maintain
+
+summary_of_system: >
+  One or two sentences: what does your system claim, and about what subject?
+
+# ---------------------------------------------------------------------------
+# One block per registry section you have anything to say about. Omit a
+# whole section if you have no mappable terms in it -- do not pad with
+# no_mapping rows you don't need to state.
+# ---------------------------------------------------------------------------
+
+evidence_dimensions:
+  observation_vantage:
+    match: no_mapping   # exact | structural | partial | non_equivalent_similar_label | no_mapping
+    notes: "One line."
+    # For exact/structural/partial, add:
+    # evidence: emitted   # emitted | inferred | asserted | recomputed
+    # corpus_digest: "<64 lowercase hex>"   # recomputed only, with the two counts below
+    # accepted_agreed: 61                  # recomputed only; must equal accepted_total
+    # accepted_total: 61
+    # source_path: "where this actually lives in a real running artifact"
+    # divergences:        # partial only
+    #   - "The specific, material way this differs from the registered definition."
+
+posture_and_coverage:
+  containment_posture:
+    match: no_mapping
+    notes: "One line."
+
+outcome_lattice:
+  result:
+    match: no_mapping
+    notes: "One line."
+
+system_attributes:
+  signature_capability: "<classical | post_quantum_hybrid | other>"
+  canonicalization_profile: "<jcs_rfc_8785 | other>"
+  hash_family: "<sha_256 | other>"
+  domain_separation_profile: "<declared | undeclared>"
+  notes: >
+    If canonicalization_profile is jcs_rfc_8785, name the interoperable input
+    set your byte-identity claim actually covers -- declaring the profile
+    alone does not guarantee byte-equal signatures against another
+    implementation of the same profile.

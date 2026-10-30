@@ -720,6 +720,77 @@ def _encoding_cases() -> tuple[int, list[str]]:
     return ran, bad
 
 
+def _import_exemption_cases() -> tuple[int, list[str]]:
+    """The import exemption covers only commits reachable from the pinned tip.
+
+    A throwaway history holds an "imported" commit and a "new" commit, both
+    carrying an absolute home path. With the pin set to the imported commit the
+    scan must exempt it and still refuse the new one; with the pin unreachable
+    from the range it must refuse both. The pin is a module constant, so the
+    cases load the scanner and set it per run.
+    """
+    env = {**os.environ, "GIT_CONFIG_GLOBAL": os.devnull, "GIT_CONFIG_SYSTEM": os.devnull}
+    driver = (
+        "import importlib.util, sys\n"
+        "spec = importlib.util.spec_from_file_location('scan', sys.argv[1])\n"
+        "mod = importlib.util.module_from_spec(spec)\n"
+        "spec.loader.exec_module(mod)\n"
+        "mod.IMPORT_TIP = sys.argv[2]\n"
+        "import io, subprocess\n"
+        "head = subprocess.run(['git', 'rev-parse', 'HEAD'],\n"
+        "                      capture_output=True, text=True).stdout.strip()\n"
+        "sys.stdin = io.StringIO(f'refs/heads/x {head} refs/heads/x {\"0\" * 40}\\n')\n"
+        "raise SystemExit(mod.main(['scan']))\n"
+    )
+
+    def git(repo: Path, *args: str) -> str:
+        done = subprocess.run(["git", *args], cwd=repo, env=env, check=True,
+                              capture_output=True, text=True)
+        return done.stdout.strip()
+
+    def scan(repo: Path, tip: str, rev: str = "HEAD") -> subprocess.CompletedProcess[str]:
+        return subprocess.run([sys.executable, "-c", driver, str(SCANNER), tip],
+                              cwd=repo, env=env, capture_output=True, text=True,
+                              timeout=600, check=False)
+
+    bad: list[str] = []
+    with tempfile.TemporaryDirectory() as raw:
+        repo = Path(raw) / "repo"
+        repo.mkdir()
+        git(repo, "init", "-q")
+        git(repo, "config", "user.email", "import-test@invalid")
+        git(repo, "config", "user.name", "Import Test")
+        git(repo, "config", "commit.gpgsign", "false")
+        (repo / "imported.txt").write_text(f"{HOME_PATH}\n", encoding="utf-8")
+        git(repo, "add", "-A")
+        git(repo, "commit", "-q", "-m", "add an imported file")
+        imported = git(repo, "rev-parse", "HEAD")
+        only = scan(repo, imported, "HEAD")
+        (repo / "new.txt").write_text(f"{HOME_PATH}\n", encoding="utf-8")
+        git(repo, "add", "-A")
+        git(repo, "commit", "-q", "-m", "add a new file")
+        mixed = scan(repo, imported, "HEAD")
+        stranger = git(repo, "commit-tree", "-m", "an unrelated commit",
+                       git(repo, "hash-object", "-t", "tree", "-w", "--stdin"
+                           ) if False else "4b825dc642cb6eb9a060e54bf8d69288fbee4904")
+        unpinned = scan(repo, stranger, "HEAD")
+    checks = (
+        ("an exempt commit alone is clean", only.returncode == 0
+         and "1 imported commit" in only.stdout),
+        ("a new commit with a home path is still refused", mixed.returncode == 1
+         and "new.txt" in mixed.stdout and "imported.txt" not in mixed.stdout),
+        ("the exempt count is printed", "1 imported commit" in mixed.stdout),
+        ("a pin that does not cover the range exempts nothing", unpinned.returncode == 1
+         and "imported.txt" in unpinned.stdout),
+    )
+    for what, held in checks:
+        if held:
+            print(f"ok   import     {what}")
+        else:
+            bad.append(f"{what} (exit {mixed.returncode}/{only.returncode}/{unpinned.returncode})")
+    return len(checks), bad
+
+
 def main() -> int:
     total, failures = _run_cases(refused, PERMITTED, REFUSED + HISTORY_REFUSED, "")
     more, bad = _pattern_cases()
@@ -731,7 +802,8 @@ def main() -> int:
         failures += bad
     else:
         print("skip content scanner: this repository does not carry one")
-    for cases in (_material_cases, _nested_document_cases, _cycle_guard_cases, _encoding_cases):
+    for cases in (_material_cases, _nested_document_cases, _cycle_guard_cases, _encoding_cases,
+                  _import_exemption_cases):
         more, bad = cases()
         total += more
         failures += bad

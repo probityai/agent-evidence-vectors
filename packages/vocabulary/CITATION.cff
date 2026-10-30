@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+title: >-
+  agent-evidence-vocabulary: a closed term registry for adversarial-execution
+  evidence claims
+message: >-
+  If a term or crosswalk-match verdict from this registry is cited, cite a
+  released version. A registry is a moving target until it is tagged, so a
+  citation of the branch names whatever it happens to hold when someone follows it.
+type: software
+authors:
+  - family-names: Gilda
+    given-names: Sankalp
+    email: sankalp.gilda@gmail.com
+    orcid: 'https://orcid.org/0000-0002-3645-4501'
+repository-code: https://github.com/probityai/agent-evidence
+abstract: >-
+  A closed, versioned vocabulary for terms that describe adversarial-execution
+  evidence claims: observation vantage, observation directness, containment
+  posture, coverage denominators, and related evidence-quality dimensions.
+  Independent implementations file crosswalks declaring how their own emitted
+  claims map onto these terms. Companion project to agent-evidence-vectors
+  (https://github.com/probityai/agent-evidence-vectors), which hosts the predicate
+  spec this vocabulary describes and its conformance vector suite.
+# Two licenses, deliberately. vocabulary.yaml (the registry data itself) is
+# CC0-1.0, so a term can be reused, forked, or quoted with no attribution owed
+# to anyone. The surrounding repository (documents, validator, CI) is
+# Apache-2.0. See LICENSE and vocabulary.yaml's header.
+license: [Apache-2.0, CC0-1.0]
+version: 0.8.0
+date-released: "2026-10-26"

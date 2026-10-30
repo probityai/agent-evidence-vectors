@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>admission_gate: Agent Evidence vocabulary</title>
+<meta name="description" content="The admission_gate term of the Agent Evidence vocabulary.">
+<link rel="canonical" href="https://w3id.org/agent-evidence/vocab/v1/admission_gate">
+<script type="application/ld+json">
+{
+ "@context": {
+  "owl": "http://www.w3.org/2002/07/owl#",
+  "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+  "skos": "http://www.w3.org/2004/02/skos/core#"
+ },
+ "@graph": [
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/admission_gate",
+   "@type": "skos:Concept",
+   "skos:definition": "The closed names of the checks an admission rests on, carried as checks[].name with a boolean checks[].passed. The consumer pins which gates it requires. A required gate absent from the record leaves the decision not established. A check whose name the consumer does not require, such as a cost report, is informational and never a gate. Closed and fail-closed: a consumer requiring a name outside this set has no definition to check it against.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "admission_gate",
+   "skos:prefLabel": "admission_gate",
+   "skos:topConceptOf": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   }
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/admission_gate#replay",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/admission_gate"
+   },
+   "skos:definition": "Every new guard, run over a declared, digest-frozen snapshot of recorded traces with each call's recorded pre-call state, fires on every target failure at or before the causing step and on no passing trace and no benign twin. Clearance needs every trace checked.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "replay"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/admission_gate#heldout",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/admission_gate"
+   },
+   "skos:definition": "On fresh held-out runs the candidate beats the better of two fresh parent runs by at least the larger of 2 and one more than the number of cases whose outcome differed between those parent runs, and a second fresh candidate run confirms it.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "heldout"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/admission_gate#no_regression",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/admission_gate"
+   },
+   "skos:definition": "No must-succeed case that passed in either parent run fails in a candidate run.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "no_regression"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/admission_gate#benign_twins",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/admission_gate"
+   },
+   "skos:definition": "The candidate intervenes on no benign twin, a case built to resemble a failure that needs no intervention.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "benign_twins"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/admission_gate#overfit_lint",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/admission_gate"
+   },
+   "skos:definition": "The candidate's new text carries no identifier, amount or name copied from the training traces.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "overfit_lint"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/admission_gate#authority",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/admission_gate"
+   },
+   "skos:definition": "The candidate grants no authority the parent lacked: its tool allowlist is a subset of the parent's, every parent guard and procedure is kept, and the parent's system prompt is a prefix of the candidate's, unless a human-signed approval names the exact candidate digest.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "authority"
+  }
+ ]
+}
+</script>
+<style>
+:root{color-scheme:light dark;--page:#f6f8fb;--surface:#fff;--ink:#14202e;--body:#33404f;--link:#1f4fd1;--rule:#cfd8e3;font-family:system-ui,sans-serif;color:var(--ink);background:var(--page)}
+@media (prefers-color-scheme:dark){:root{--page:#10151b;--surface:#18202a;--ink:#e8edf3;--body:#c3ccd6;--link:#8fb0ff;--rule:#2c3846}}
+*{box-sizing:border-box}body{margin:0;font:400 1rem/1.6 system-ui,sans-serif;background:var(--page)}
+.shell{max-width:52rem;margin-inline:auto;padding-inline:16px}
+header,footer{padding-block:1.25rem}header a{font-weight:700;color:var(--ink);text-decoration:none}
+footer{border-top:1px solid var(--rule);color:var(--body);font-size:.9375rem;margin-top:3rem}
+a{color:var(--link)}p,li,td{color:var(--body)}h1{line-height:1.2}
+code,pre{font-family:ui-monospace,Consolas,monospace;font-size:.875em}code{overflow-wrap:anywhere}
+pre{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:1rem;overflow-x:auto}
+blockquote{margin:1rem 0;padding:.25rem 1rem;border-left:4px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;display:block;overflow-x:auto}
+th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-align:top}
+</style>
+</head>
+<body>
+<header class="shell"><a href="https://github.com/probityai/agent-evidence">Agent Evidence</a></header>
+<main class="shell">
+<h1><code>admission_gate</code></h1>
+<p>Term URI: <a href="https://w3id.org/agent-evidence/vocab/v1/admission_gate">https://w3id.org/agent-evidence/vocab/v1/admission_gate</a></p>
+<p>Section: <code>change_admission</code>. Criticality: <code>critical</code>.</p>
+<p>The closed names of the checks an admission rests on, carried as checks[].name with a boolean checks[].passed. The consumer pins which gates it requires. A required gate absent from the record leaves the decision not established. A check whose name the consumer does not require, such as a cost report, is informational and never a gate. Closed and fail-closed: a consumer requiring a name outside this set has no definition to check it against.</p>
+<h2>Registered values</h2>
+<ul>
+<li id="replay"><code>https://w3id.org/agent-evidence/vocab/v1/admission_gate#replay</code>: Every new guard, run over a declared, digest-frozen snapshot of recorded traces with each call&#x27;s recorded pre-call state, fires on every target failure at or before the causing step and on no passing trace and no benign twin. Clearance needs every trace checked.</li>
+<li id="heldout"><code>https://w3id.org/agent-evidence/vocab/v1/admission_gate#heldout</code>: On fresh held-out runs the candidate beats the better of two fresh parent runs by at least the larger of 2 and one more than the number of cases whose outcome differed between those parent runs, and a second fresh candidate run confirms it.</li>
+<li id="no_regression"><code>https://w3id.org/agent-evidence/vocab/v1/admission_gate#no_regression</code>: No must-succeed case that passed in either parent run fails in a candidate run.</li>
+<li id="benign_twins"><code>https://w3id.org/agent-evidence/vocab/v1/admission_gate#benign_twins</code>: The candidate intervenes on no benign twin, a case built to resemble a failure that needs no intervention.</li>
+<li id="overfit_lint"><code>https://w3id.org/agent-evidence/vocab/v1/admission_gate#overfit_lint</code>: The candidate&#x27;s new text carries no identifier, amount or name copied from the training traces.</li>
+<li id="authority"><code>https://w3id.org/agent-evidence/vocab/v1/admission_gate#authority</code>: The candidate grants no authority the parent lacked: its tool allowlist is a subset of the parent&#x27;s, every parent guard and procedure is kept, and the parent&#x27;s system prompt is a prefix of the candidate&#x27;s, unless a human-signed approval names the exact candidate digest.</li>
+</ul>
+</main>
+<footer><div class="shell">Generated from <a href="https://github.com/probityai/agent-evidence/blob/main/packages/vocabulary/vocabulary.yaml">vocabulary.yaml</a>. This page describes the current registry. A record is read against the registry its registryDigest names, named on <a href="https://probityai.github.io/agent-evidence/vocab/v1/">the term listing</a>. The term URI does not change once a signed record carries it.</div></footer>
+</body>
+</html>

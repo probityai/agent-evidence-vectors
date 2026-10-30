@@ -10,7 +10,60 @@
 # registry "github-actions" reads it from <directory>/VERSION.
 
 [[unit]]
+prefix = "dsse"
+name = "dsse"
+registry = "crates.io"
+directory = "crates/dsse"
+
+[[unit]]
+prefix = "dsse-npm"
+name = "dsse"
+registry = "npm"
+directory = "crates/dsse/npm"
+
+[[unit]]
+prefix = "jcs-admit"
+name = "jcs-admit"
+registry = "crates.io"
+directory = "crates/jcs-admit"
+
+[[unit]]
+prefix = "jcs-admit-py"
+name = "jcs-admit"
+registry = "pypi"
+directory = "crates/jcs-admit/python"
+
+[[unit]]
 prefix = "jcs-admit-npm"
 name = "jcs-admit"
 registry = "npm"
 directory = "crates/jcs-admit/npm"
+
+[[unit]]
+prefix = "agent-evidence-admission"
+name = "agent-evidence-admission"
+registry = "pypi"
+directory = "packages/admission/python"
+
+[[unit]]
+prefix = "agent-evidence-vocabulary"
+name = "agent-evidence-vocabulary"
+registry = "pypi"
+directory = "packages/vocabulary"
+
+# The same distribution under a separate tag, for publishing the Python package
+# of a data release whose own tag already exists and must not move (the
+# agent-evidence-vocabulary-python-v0.5.0 tag is the earlier case).
+[[unit]]
+prefix = "agent-evidence-vocabulary-python"
+name = "agent-evidence-vocabulary"
+registry = "pypi"
+directory = "packages/vocabulary"
+
+# The root action.yml, whose code is under actions/. Its release is the GitHub
+# release itself (and its Marketplace listing); nothing goes to a registry.
+[[unit]]
+prefix = "action"
+name = "agent-evidence"
+registry = "github-actions"
+directory = "actions"

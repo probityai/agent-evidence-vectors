@@ -1,0 +1,64 @@
+name: identifier-hosts
+
+# Two hosts that signed records depend on, and that nothing else here watches.
+#
+# 31 statements in the corpus carry the predicate type
+# https://github.com/probityai/agent-evidence-vocabulary/blob/main/docs/predicates/agent-change-admission-v1.md
+# inside their signed payloads. That repository moved to probityai-archive, so the
+# URI resolves only through GitHub's 301. Creating any repository at
+# probityai/agent-evidence-vocabulary would end the redirect, and the URI would
+# then name whatever that new repository holds. The same holds for
+# probityai/agent-evidence, which stays at its own name, archived, so its links
+# keep resolving. This job fails when either is no longer true.
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+  pull_request:
+    paths: [".github/workflows/identifier-hosts.yml"]
+
+permissions:
+  contents: read
+
+jobs:
+  hosts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: the vocabulary repository is still the archived one behind the redirect
+        run: |
+          set -euo pipefail
+          name="$(gh api repos/probityai/agent-evidence-vocabulary --jq .full_name)"
+          if [ "$name" != "probityai-archive/agent-evidence-vocabulary" ]; then
+            echo "::error::probityai/agent-evidence-vocabulary resolves to '$name'; a repository at that path breaks the predicate URI in 31 signed statements"
+            exit 1
+          fi
+          echo "probityai/agent-evidence-vocabulary redirects to $name"
+      - name: the predicate URI answers with the redirect and the page behind it
+        run: |
+          set -euo pipefail
+          uri="https://github.com/probityai/agent-evidence-vocabulary/blob/main/docs/predicates/agent-change-admission-v1.md"
+          code="$(curl -sS -o /dev/null -w '%{http_code}' "$uri")"
+          location="$(curl -sS -o /dev/null -w '%{redirect_url}' "$uri")"
+          case "$location" in
+            https://github.com/probityai-archive/agent-evidence-vocabulary/*) ;;
+            *) echo "::error::$uri answered $code with location '$location'"; exit 1 ;;
+          esac
+          final="$(curl -sSL -o /dev/null -w '%{http_code}' "$uri")"
+          if [ "$final" != "200" ]; then
+            echo "::error::$uri ends in HTTP $final"
+            exit 1
+          fi
+          echo "$uri answers $code to $location, then 200"
+      - name: agent-evidence stays at its own name
+        run: |
+          set -euo pipefail
+          name="$(gh api repos/probityai/agent-evidence --jq .full_name)"
+          if [ "$name" != "probityai/agent-evidence" ]; then
+            echo "::error::probityai/agent-evidence resolves to '$name'; it must stay at its own name"
+            exit 1
+          fi
+          echo "probityai/agent-evidence is at its own name"

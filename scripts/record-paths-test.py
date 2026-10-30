@@ -129,7 +129,8 @@ def _tracked_records() -> list[Path]:
     return [
         ROOT / name
         for name in out.split("\0")
-        if name.endswith(RECORD_SUFFIXES) and "/cases/" not in name
+        if name.endswith(RECORD_SUFFIXES)
+        and "/cases/" not in name
     ]
 
 

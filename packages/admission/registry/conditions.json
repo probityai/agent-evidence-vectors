@@ -1,0 +1,1021 @@
+{
+  "conditions": [
+    {
+      "anchor": "L435",
+      "id": "aee-c-1",
+      "text": "closed lowercase result vocabulary",
+      "vectors": [
+        "v18bdbadef67b38f4",
+        "v393e5fb361cedaae",
+        "v87a339f53f689d9f",
+        "vcf20eae7df4f1f1b",
+        "vd601fae914a58643",
+        "vf35474dd75d6b14a"
+      ]
+    },
+    {
+      "anchor": "L390-393",
+      "id": "aee-c-2",
+      "text": "result must equal the recompute",
+      "vectors": [
+        "v14d9059f14696fe6",
+        "v15e3a93a59a65391",
+        "v27930cf8d66b2b90",
+        "v4dfeab58a9cbdf24",
+        "v621854cac9e3b77b",
+        "v87a339f53f689d9f",
+        "v9cc570167acf4ae8",
+        "va1d44b528c20101b",
+        "vaec3b6d70dfbbc47",
+        "vc2782e6c3cbdb9b7",
+        "vc8db427883cd80ea",
+        "vcb23d2c4509c9daf",
+        "ve7d572bb5e39fe9e",
+        "ve7fa00ccb08c9987",
+        "vf1fcbad160189ca5",
+        "vf35474dd75d6b14a"
+      ]
+    },
+    {
+      "anchor": "L440-442",
+      "id": "aee-c-3",
+      "text": "a row carrying a label from the carried caught set contributes fail",
+      "vectors": [
+        "v085acd94abf21364",
+        "vcf20eae7df4f1f1b"
+      ]
+    },
+    {
+      "anchor": "L443-444",
+      "id": "aee-c-4",
+      "text": "fail-closed on out-of-vocabulary label",
+      "vectors": [
+        "v27930cf8d66b2b90",
+        "v539055896bf3a954",
+        "v87d0a19d4b41aafc",
+        "va54b6faefcfb1f9e"
+      ]
+    },
+    {
+      "anchor": "L443-444",
+      "id": "aee-c-5",
+      "text": "fail-closed on missing/out-of-vocab basis or method",
+      "vectors": [
+        "v48542b44ffd26237",
+        "v51e9223d08fcc4e1",
+        "v621854cac9e3b77b",
+        "v84f40e16772e5f91",
+        "v948fbb64b96197e6",
+        "vcac966c6b2ba6295"
+      ]
+    },
+    {
+      "anchor": "L444-446",
+      "id": "aee-c-6",
+      "text": "degraded iff disclosed coverage gap",
+      "vectors": [
+        "v393e5fb361cedaae",
+        "va1d44b528c20101b",
+        "vc7a74e2cef5586ed",
+        "vcebc3fca7e54f763"
+      ]
+    },
+    {
+      "anchor": "L447-450",
+      "id": "aee-c-7",
+      "text": "UNRESOLVED -- ok-002 is the sole carrier and the corpus does not separate this id from aee-c-2. Candidate reading, recorded rather than asserted: the third recompute condition, which contributes pass_indirect when some clean row is not (substrate, intercepted) and pass when none is",
+      "vectors": [
+        "vcc938c6038536dcb"
+      ]
+    },
+    {
+      "anchor": "L552",
+      "id": "aee-c-10",
+      "text": "observationRefs non-empty on substrate rows",
+      "vectors": [
+        "v131478f1be775746"
+      ]
+    },
+    {
+      "anchor": "L552-553; L946-951",
+      "id": "aee-c-11",
+      "text": "every ref index in range (integer), on every row that carries the member and not only on the rows a gate resolves",
+      "vectors": [
+        "v02fe83a8a13cd303",
+        "v1a3d0ce04c3f7524",
+        "v3300d78454ab852f",
+        "va06ffeb35650b992",
+        "va507b8f9a9cc675c",
+        "vbe54956653060e0c",
+        "vc19ea5aaacc5b72a"
+      ]
+    },
+    {
+      "anchor": "L554-556",
+      "id": "aee-c-12",
+      "text": "caught intercepted row refs an interception record",
+      "vectors": [
+        "v131478f1be775746",
+        "v59e16f48a28bec9d",
+        "vcf20eae7df4f1f1b"
+      ]
+    },
+    {
+      "anchor": "L556-557",
+      "id": "aee-c-13",
+      "text": "reconstructed row refs an examination record",
+      "vectors": [
+        "v3fbc377adbe6dcf1",
+        "vc8db427883cd80ea",
+        "vf362be6b8302b409"
+      ]
+    },
+    {
+      "anchor": "L557-560",
+      "id": "aee-c-14",
+      "text": "clean intercepted row refs arming AND covering sealed",
+      "vectors": [
+        "v132435a4d6d10043",
+        "v73244f2068e58c68",
+        "vcc938c6038536dcb",
+        "ve025b4bed04cfb68",
+        "vf1fcbad160189ca5"
+      ]
+    },
+    {
+      "anchor": "L958-960",
+      "id": "aee-c-15",
+      "text": "one run-level arming/sealed/examination record covers every row earned under it",
+      "vectors": [
+        "v097ad0cc5b7c0490"
+      ]
+    },
+    {
+      "anchor": "L953-958",
+      "id": "aee-c-16",
+      "text": "observationSelectors is producer vocabulary positionally parallel to observationRefs; no gate reads it",
+      "vectors": [
+        "v12389306fa02ce0c"
+      ]
+    },
+    {
+      "anchor": "L561-562",
+      "id": "aee-c-17",
+      "text": "covering payload is canonical RFC 8785",
+      "vectors": [
+        "v85caf3c6f7516ba2"
+      ]
+    },
+    {
+      "anchor": "L1312-1316",
+      "id": "aee-c-18",
+      "text": "covering payload is valid I-JSON (RFC 7493)",
+      "vectors": [
+        "v08251931ec038e91",
+        "v0e731123ead5b96e",
+        "v198c19b52cf8890e",
+        "v5155dde01a4538fd",
+        "v5717f72827e39413",
+        "v5e14357c80f6239b",
+        "v61efcc48543d8cea",
+        "v83f4b7fe6068ef86",
+        "v86f3484735f41acb",
+        "v94d877ffcc3a30fe",
+        "va501d76c995de6d3",
+        "vb2af33bb3cc0da77",
+        "vb705b260669aedc7",
+        "vbc7012fb2fcbf1f8",
+        "vdef377fb4f572b4d",
+        "vf5599bb2dbe66e12"
+      ]
+    },
+    {
+      "anchor": "L1317-1318",
+      "id": "aee-c-19",
+      "text": "covering media type ends in +json",
+      "vectors": [
+        "v4ff6cb70764bf703",
+        "vbea799eb2cd2852c"
+      ]
+    },
+    {
+      "anchor": "L562-563",
+      "id": "aee-c-20",
+      "text": "covering payload carries the reserved aee members",
+      "vectors": [
+        "v08584c6c7d501f77",
+        "v2c7c29f498719ddf",
+        "v6c900389fd3f9a1b"
+      ]
+    },
+    {
+      "anchor": "L563-564",
+      "id": "aee-c-22",
+      "text": "aeeRunBinding equals the derived run binding",
+      "vectors": [
+        "v0cf043f1bc09bccb",
+        "v51dd58a56a16716d",
+        "v77fb0077815e78cc",
+        "v89cc66f8a44a1977",
+        "va4d6b048f2e9cc5f",
+        "vb79f5508ae0c97d4",
+        "vb835ee95031d6e97",
+        "vc8e3b44ea967460b",
+        "vf6d46cca59bd2748"
+      ]
+    },
+    {
+      "anchor": "L565-566",
+      "id": "aee-c-23",
+      "text": "row method capped by weakest signed aeeMethod",
+      "vectors": [
+        "v0099f25838779fcc",
+        "v093aa7f10f378951",
+        "v164cf7f3f529eaff",
+        "v194265397248929b",
+        "v5a93b650d229c1bf",
+        "v7400cd757fd046e9",
+        "v7d2a79cb1ddc59a5"
+      ]
+    },
+    {
+      "anchor": "L1742",
+      "id": "aee-c-24",
+      "text": "batchRoot required when records exist",
+      "vectors": [
+        "v090ca9dadcff9e20",
+        "v9cc570167acf4ae8",
+        "vdad33f132b5b08ef"
+      ]
+    },
+    {
+      "anchor": "L1744-1747",
+      "id": "aee-c-25",
+      "text": "RFC 6962 domain-separated hashing",
+      "vectors": [
+        "v28b0cf874ea02de1"
+      ]
+    },
+    {
+      "anchor": "L1747-1749",
+      "id": "aee-c-26",
+      "text": "RFC 6962 recursive split, never duplicate-pad",
+      "vectors": [
+        "v3bf3c0fa0e6a52b3",
+        "v4130b125a1c2d5b1",
+        "v4a2da6bda218a1fb",
+        "va1881488724114fd",
+        "vcc938c6038536dcb"
+      ]
+    },
+    {
+      "anchor": "L1749",
+      "id": "aee-c-27",
+      "text": "leaves in array order",
+      "vectors": [
+        "v0ec069decbfbc59f"
+      ]
+    },
+    {
+      "anchor": "L1749",
+      "id": "aee-c-28",
+      "text": "a single-record tree's root is its leaf hash",
+      "vectors": [
+        "vcf20eae7df4f1f1b"
+      ]
+    },
+    {
+      "anchor": "L1751-1752",
+      "id": "aee-c-29",
+      "text": "duplicate byte-identical records invalid",
+      "vectors": [
+        "v7622b2c58c2e272d",
+        "v9cc570167acf4ae8",
+        "vd70d546cef512eff"
+      ]
+    },
+    {
+      "anchor": "L1754-1756",
+      "id": "aee-c-30",
+      "text": "batchRoot must recompute",
+      "vectors": [
+        "v090ca9dadcff9e20",
+        "v44881386e8e5c467",
+        "v9cc570167acf4ae8"
+      ]
+    },
+    {
+      "anchor": "L1758-1770",
+      "id": "aee-c-31",
+      "text": "batchRoot omitted exactly when records absent",
+      "vectors": [
+        "v02fe83a8a13cd303",
+        "v15e3a93a59a65391",
+        "v577011f7dd9a08fe",
+        "vc2782e6c3cbdb9b7"
+      ]
+    },
+    {
+      "anchor": "L1744-1748",
+      "id": "aee-c-32",
+      "text": "batchRoot is over every carried record in array order, referenced by a row or not",
+      "vectors": [
+        "v26db60a5d09ec82c",
+        "v9cc570167acf4ae8"
+      ]
+    },
+    {
+      "anchor": "L766-775",
+      "id": "aee-c-33",
+      "text": "the evidence tier is derived per row and never carried: artifact is declared, substrate is attested when every covering signature verifies under consumer policy and unattested otherwise, and the tier never alters result",
+      "vectors": [
+        "vcf5a4601dee5c2ee"
+      ]
+    },
+    {
+      "anchor": "L772-774",
+      "id": "aee-c-34",
+      "text": "no TOFU: a consumer with no policy-pinned substrate root treats every substrate row as unattested and MUST NOT infer the root from the predicate",
+      "vectors": [
+        "v05e2e6ba0093d37a"
+      ]
+    },
+    {
+      "anchor": "L1901-1903",
+      "id": "aee-c-35",
+      "text": "keyid is an unauthenticated lookup hint, never the check",
+      "vectors": [
+        "vfcb846afff2d6979"
+      ]
+    },
+    {
+      "anchor": "L1302-1304; L545-546",
+      "id": "aee-c-36",
+      "text": "a record signature is DSSE PAE over (payloadType, payload); the byte-pure validity gate never reads a signature, so a signature that does not verify is a tier fact and not a validity fault",
+      "vectors": [
+        "v550c91df0d36a218"
+      ]
+    },
+    {
+      "anchor": "L779-781",
+      "id": "aee-c-38",
+      "text": "a carried predicate-level evidenceTier member MUST be ignored",
+      "vectors": [
+        "v79735e29bd3c1c55"
+      ]
+    },
+    {
+      "anchor": "L992-993",
+      "id": "aee-c-41",
+      "text": "basis required, closed {substrate, artifact}",
+      "vectors": [
+        "vcf5a4601dee5c2ee"
+      ]
+    },
+    {
+      "anchor": "L1035-1036",
+      "id": "aee-c-42",
+      "text": "method required, closed {intercepted, reconstructed}",
+      "vectors": [
+        "v48542b44ffd26237",
+        "v84f40e16772e5f91",
+        "vcac966c6b2ba6295"
+      ]
+    },
+    {
+      "anchor": "L1097-1101",
+      "id": "aee-c-43",
+      "text": "the retired 0.4 basis and method values are out-of-vocabulary, with no alias",
+      "vectors": [
+        "v948fbb64b96197e6",
+        "vea21d85d4e531e66"
+      ]
+    },
+    {
+      "anchor": "L760-764",
+      "id": "aee-c-44",
+      "text": "fail-closed substrate row invalidates; artifact row stays a valid fail",
+      "vectors": [
+        "v48542b44ffd26237",
+        "v51e9223d08fcc4e1",
+        "v539055896bf3a954",
+        "v84f40e16772e5f91",
+        "va54b6faefcfb1f9e",
+        "vcac966c6b2ba6295"
+      ]
+    },
+    {
+      "anchor": "L1046-1052",
+      "id": "aee-c-45",
+      "text": "weakest-input method composition",
+      "vectors": [
+        "v0099f25838779fcc",
+        "v093aa7f10f378951",
+        "v164cf7f3f529eaff",
+        "v7400cd757fd046e9",
+        "v7d2a79cb1ddc59a5"
+      ]
+    },
+    {
+      "anchor": "L1269-1277",
+      "id": "aee-c-47",
+      "text": "missing actualLayer = malformed statement, not fail",
+      "vectors": [
+        "v9df7fc4321c024c5"
+      ]
+    },
+    {
+      "anchor": "L1278-1283",
+      "id": "aee-c-48",
+      "text": "clean row actualLayer is the literal none",
+      "vectors": [
+        "v692f9605520a617d",
+        "v8b78d15e86851925",
+        "vcc938c6038536dcb",
+        "vf44cfce2b3744894"
+      ]
+    },
+    {
+      "anchor": "L1283-1286",
+      "id": "aee-c-49",
+      "text": "the literal none is valid on a caught row too, and states that the event was observed and no enforcement layer acted",
+      "vectors": [
+        "vba7081ad0eae11bf"
+      ]
+    },
+    {
+      "anchor": "L1269-1270",
+      "id": "aee-c-50",
+      "text": "actualLayer names the enforcement layer that acted on the row's containment event",
+      "vectors": [
+        "vcf20eae7df4f1f1b"
+      ]
+    },
+    {
+      "anchor": "L796-804",
+      "id": "aee-c-51",
+      "text": "observationVocabulary required",
+      "vectors": [
+        "v089e746847cd0af2",
+        "v300ab22f5f2fe523"
+      ]
+    },
+    {
+      "anchor": "L800-802",
+      "id": "aee-c-52",
+      "text": "caught is a subset of labels",
+      "vectors": [
+        "v085acd94abf21364",
+        "v109b606952f6ee6c"
+      ]
+    },
+    {
+      "anchor": "L802",
+      "id": "aee-c-53",
+      "text": "vocabulary arrays sorted ascending, no duplicates",
+      "vectors": [
+        "v62e5552063975fc9",
+        "va54b6faefcfb1f9e",
+        "vded1d495746a647a"
+      ]
+    },
+    {
+      "anchor": "L802-804",
+      "id": "aee-c-54",
+      "text": "vocabulary digest is JCS of {caught, labels}",
+      "vectors": [
+        "v7ecdfe261d1dcd84"
+      ]
+    },
+    {
+      "anchor": "L808-810",
+      "id": "aee-c-57",
+      "text": "runEntropy required with any substrate row",
+      "vectors": [
+        "v3d70f1cdb9050246",
+        "vc2782e6c3cbdb9b7"
+      ]
+    },
+    {
+      "anchor": "L210-213",
+      "id": "aee-c-58",
+      "text": "exactly one subject on a statement of any basis",
+      "vectors": [
+        "v399c693cbf60143b",
+        "v423dab49f4ed4d29",
+        "v6f6941efba2cbe28"
+      ]
+    },
+    {
+      "anchor": "L210-224",
+      "id": "aee-c-59",
+      "text": "binding digest inputs lowercase 64-hex sha256",
+      "vectors": [
+        "v495bb03f306ef6aa",
+        "v886b2a92cf14bd54",
+        "vbd93d974436e11eb"
+      ]
+    },
+    {
+      "anchor": "L174-182",
+      "id": "aee-c-60",
+      "text": "binding pre-image construction",
+      "vectors": [
+        "v44c5b469882b4a0e",
+        "v51dd58a56a16716d",
+        "v77fb0077815e78cc",
+        "v886b2a92cf14bd54",
+        "va4d6b048f2e9cc5f",
+        "vb79f5508ae0c97d4",
+        "vb835ee95031d6e97",
+        "vc8e3b44ea967460b",
+        "vf6d46cca59bd2748"
+      ]
+    },
+    {
+      "anchor": "L779-781",
+      "id": "aee-c-61",
+      "text": "a predicate-level member beginning with the reserved aee prefix MUST be ignored",
+      "vectors": [
+        "v79735e29bd3c1c55"
+      ]
+    },
+    {
+      "anchor": "L229-237",
+      "id": "aee-c-62",
+      "text": "binding is anti-splice",
+      "vectors": [
+        "v0cf043f1bc09bccb"
+      ]
+    },
+    {
+      "anchor": "L1323-1327",
+      "id": "aee-c-63",
+      "text": "arming record kind constraints",
+      "vectors": [
+        "v05f8f5c8bb0b1d43",
+        "v1b0b0cafb5ee8d08",
+        "v3c527c28aa2da8db",
+        "v65fa8117aa487fbe",
+        "v6b15bd108cb9c27a",
+        "v9a886701250e5a06",
+        "vb704d6c2420a1c43",
+        "vb730e62ac8f072b0",
+        "vc79ff8c5db77cc00",
+        "vcc938c6038536dcb"
+      ]
+    },
+    {
+      "anchor": "L1330-1335",
+      "id": "aee-c-64",
+      "text": "sealed record required members",
+      "vectors": [
+        "v1471516f09370430",
+        "v6a727606acc4b146",
+        "v73659435d1998490",
+        "vc994d0402bf6b129",
+        "vcc938c6038536dcb"
+      ]
+    },
+    {
+      "anchor": "L1361-1366",
+      "id": "aee-c-65",
+      "text": "sealed covering conditions",
+      "vectors": [
+        "v02f2be8cd63828f4",
+        "v1ec06de44fe4000d",
+        "v73659435d1998490",
+        "v7f35f318b31ca92a",
+        "v7f62f32c0ccda2fb",
+        "v9982646034457eb6",
+        "v9d0f50db6d287d35",
+        "vab69ab3304958ebd",
+        "vb704d6c2420a1c43",
+        "vcc938c6038536dcb",
+        "vea5ff2dabe340db7"
+      ]
+    },
+    {
+      "anchor": "L1336-1338",
+      "id": "aee-c-66",
+      "text": "examination signed aeeMethod reconstructed",
+      "vectors": [
+        "v205d5ea1079eb8e5",
+        "vc8db427883cd80ea"
+      ]
+    },
+    {
+      "anchor": "L1187-1188",
+      "id": "aee-c-68",
+      "text": "each referenced record independently satisfies its class constraints",
+      "vectors": [
+        "vc05cf94374f0d0d6",
+        "vdf9d432c5a63e441"
+      ]
+    },
+    {
+      "anchor": "L1687-1691",
+      "id": "aee-c-71",
+      "text": "unknown aeeKind covers nothing",
+      "vectors": [
+        "v164cf7f3f529eaff",
+        "v26db60a5d09ec82c",
+        "v5dcc150714259e09"
+      ]
+    },
+    {
+      "anchor": "L1693-1695",
+      "id": "aee-c-73",
+      "text": "the aee payload member prefix is reserved; every other payload member is producer territory and does not stop a record covering",
+      "vectors": [
+        "v4f78835e75e8a400",
+        "v7400cd757fd046e9",
+        "v9aa8ed2b3bfb4042",
+        "vd024efc41945fe54",
+        "vfa152052ea49dfdb"
+      ]
+    },
+    {
+      "anchor": "L237-241",
+      "id": "aee-c-75",
+      "text": "fail-closed on unimplemented binding version",
+      "vectors": [
+        "v081d9eeddbd5634f",
+        "v89cc66f8a44a1977"
+      ]
+    },
+    {
+      "anchor": "L3; L313",
+      "id": "aee-c-77",
+      "text": "statement _type and predicateType URIs",
+      "vectors": [
+        "v2be8b19383a5c613",
+        "v8a866332628b4b6f"
+      ]
+    },
+    {
+      "anchor": "L783-810",
+      "id": "aee-c-78",
+      "text": "observationEnvironment required members",
+      "vectors": [
+        "v03547f8918e0d7dc",
+        "v2adb319fc7515885",
+        "v6275ec117f5e7e99",
+        "v8966a040c3decefc",
+        "vb2f1fb954c994515"
+      ]
+    },
+    {
+      "anchor": "L787-791",
+      "id": "aee-c-79",
+      "text": "corpus digest re-derives from embedded manifest",
+      "vectors": [
+        "v02fd1bc1d7916002"
+      ]
+    },
+    {
+      "anchor": "L789-791",
+      "id": "aee-c-80",
+      "text": "attackId under at most one manifest class",
+      "vectors": [
+        "v3b58f7a2e30d8cad"
+      ]
+    },
+    {
+      "anchor": "L920",
+      "id": "aee-c-81",
+      "text": "row attackId appears in the manifest",
+      "vectors": [
+        "v210a8e2d17bfcc47"
+      ]
+    },
+    {
+      "anchor": "L963-966",
+      "id": "aee-c-82",
+      "text": "coverage exactly equals the manifest at attack granularity",
+      "vectors": [
+        "v210a8e2d17bfcc47",
+        "v212f439c82b123ed",
+        "v5a842871df5bfe33",
+        "v70e970d18ae52833",
+        "vaf114f3145d4a55a",
+        "vb3c92d4ecb62bbfb",
+        "vbbbcb6a491ac43c0",
+        "ved230b46692c0ada"
+      ]
+    },
+    {
+      "anchor": "L905-909",
+      "id": "aee-c-83",
+      "text": "coverage member required",
+      "vectors": [
+        "v7236a3440b6a398a"
+      ]
+    },
+    {
+      "anchor": "L1772-1782",
+      "id": "aee-c-84",
+      "text": "doesNotAssert single canonical spelling",
+      "vectors": [
+        "v3c3a76f63bf8dda8",
+        "v774eb1ad06e94311"
+      ]
+    },
+    {
+      "anchor": "L1784; L1792-1795",
+      "id": "aee-c-85",
+      "text": "issuedAt required, under the Timestamp profile: uppercase separator and zone designator, and a zero offset spelled Z, +00:00 or -00:00",
+      "vectors": [
+        "v2729ba35eb041b05",
+        "v28d48cc69a324b81",
+        "v4dfeab58a9cbdf24",
+        "v7d4d7d92a346c7a5",
+        "v9a886701250e5a06",
+        "vc9f401685f448104",
+        "vd873c2f37814b8f8"
+      ]
+    },
+    {
+      "anchor": "L150-163",
+      "id": "aee-c-86",
+      "text": "vocabulary labels/caught entries BMP-only; a supplementary-plane entry is malformed",
+      "vectors": [
+        "v4fb9c4caa3a2cd8d"
+      ]
+    },
+    {
+      "anchor": "L150-163",
+      "id": "aee-c-87",
+      "text": "covering payload member names BMP-only; a supplementary-plane name covers nothing",
+      "vectors": [
+        "v9d1f7c44f94cb929"
+      ]
+    },
+    {
+      "anchor": "L920-928",
+      "id": "aee-c-88",
+      "text": "row members are strictly typed; a wrong-JSON-type member is a malformed statement",
+      "vectors": [
+        "v3eb268f467674845"
+      ]
+    },
+    {
+      "anchor": "L1611-1642",
+      "id": "aee-c-89",
+      "text": "arming chain-member syntax: positive aeeRunSeq; aeeChainScope required with it; aeePrevRunBinding lowercase 64-hex, absent exactly when aeeRunSeq is 1",
+      "vectors": [
+        "v04993666ec44cda9",
+        "v2bac3fa36d7a5947",
+        "v3cf298b019a0405f",
+        "v4360d4e15f84145f",
+        "v8a7008d1673711a9",
+        "v8a7532ae4cffa163",
+        "vef2571e9001d7bd1",
+        "vf720662dff34b8f5"
+      ]
+    },
+    {
+      "anchor": "L941-943",
+      "id": "aee-c-90",
+      "text": "no two attackResults rows share an attackId",
+      "vectors": [
+        "vf14f5310b2f02875"
+      ]
+    },
+    {
+      "anchor": "L1300-1302",
+      "id": "aee-c-91",
+      "text": "each observation record's signatures member carries at least one entry",
+      "vectors": [
+        "v78efec12284a51d6",
+        "v7cd4ebe08eb1605a",
+        "vca61adf35d265632",
+        "ve0e5dddf8f3b812a"
+      ]
+    },
+    {
+      "anchor": "L968-990",
+      "id": "aee-c-92",
+      "text": "the corpus manifest declares at least one attack identifier across all of its classes",
+      "vectors": [
+        "v22f545b6ff400646",
+        "v3418101227718535"
+      ]
+    },
+    {
+      "anchor": "L847-855",
+      "id": "aee-c-93",
+      "text": "networkPosture.posture is a registered value",
+      "vectors": [
+        "v0a8a7826e4499ff6",
+        "v1d1ba5041819e108",
+        "v5ec463cdbbe6dab5",
+        "va729442fd496e59a",
+        "vc0340fb3e51cb2b3",
+        "vdb34a3c9aca2ad5c"
+      ]
+    },
+    {
+      "anchor": "L574-579",
+      "id": "aee-c-94",
+      "text": "a clean row resolves no observationRefs index to an interception record",
+      "vectors": [
+        "v26f7c477598f8207"
+      ]
+    },
+    {
+      "anchor": "L580-585",
+      "id": "aee-c-95",
+      "text": "every carried interception record is resolved by at least one observationRefs index on a caught row",
+      "vectors": [
+        "v2d1f9da3e912c63a",
+        "v37b29638601ce5ba",
+        "vbc974f64e9105f97"
+      ]
+    },
+    {
+      "anchor": "L586-594",
+      "id": "aee-c-96",
+      "text": "a statement carrying a basis: substrate row carries a sealed record satisfying every constraint of its kind, whether or not a row resolves an index to it",
+      "vectors": [
+        "vd538496f284b4761",
+        "vdec5ea66f3ff63d5"
+      ]
+    },
+    {
+      "anchor": "L609-613",
+      "id": "aee-c-97",
+      "text": "aeeObservedSet on every carried sealed record equals the value recomputed over the carried interception and examination records",
+      "vectors": [
+        "v42c1c063e3ecf305",
+        "vc2432d962eedc6a8",
+        "vc66a19c407888f78",
+        "vea599b89dfdc6a0a"
+      ]
+    },
+    {
+      "anchor": "L1535-1542",
+      "id": "aee-c-98",
+      "text": "every attack the seal names in aeeObservedAttacks has a row whose containmentObserved is in the carried caught set; the rule reads in one direction only",
+      "vectors": [
+        "v1b77d64eede0add3",
+        "v320cc6344593c639",
+        "v41de149d50373e9e",
+        "v73244f2068e58c68",
+        "v81c4d6a0592c51d9",
+        "v98eef7d31c9870b6",
+        "vb9ffa071ee33678b",
+        "vda285efc96ac6e75",
+        "vde0891384c1018ae",
+        "vf88590533f7b3599"
+      ]
+    },
+    {
+      "anchor": "L1467-1473",
+      "id": "aee-c-99",
+      "text": "the union of the manifest identifiers for the carried assessedClasses is a SUBSET of the arming record's aeeAssessedAttacks",
+      "vectors": [
+        "v559ea641021fea75",
+        "v84c52616decf0653",
+        "va763626ffc99b681",
+        "vea9deaa7d7ef8934",
+        "vfae885f5e5f78197"
+      ]
+    },
+    {
+      "anchor": "L614-623",
+      "id": "aee-c-100",
+      "text": "a row declaring attribution: pinned resolves at least one interception record",
+      "vectors": [
+        "v21e964dddeba0d08",
+        "v36fe88ae1da31194",
+        "v73244f2068e58c68",
+        "v9383066da404cbda",
+        "v99fb4ac5cb385049",
+        "vacd28b5127a54254",
+        "vd1aa74416099f3f0",
+        "vda285efc96ac6e75"
+      ]
+    },
+    {
+      "anchor": "L614-623",
+      "id": "aee-c-101",
+      "text": "a row declaring attribution: pinned names an attack the manifest carries an expectedPayloads entry for",
+      "vectors": [
+        "v0e22ac9c30338ad5",
+        "v36fe88ae1da31194",
+        "v9383066da404cbda",
+        "va246c9dbdf73e8cf",
+        "vd1aa74416099f3f0",
+        "vda285efc96ac6e75"
+      ]
+    },
+    {
+      "anchor": "L614-623",
+      "id": "aee-c-102",
+      "text": "every interception a pinned row resolves carries in aeePayloadCommitment at least one value from that attack's expectedPayloads entry",
+      "vectors": [
+        "v1043dbabae5f8ace",
+        "v1e9751e918994a98",
+        "v36fe88ae1da31194",
+        "v4730792ca7a8691e",
+        "v6ed1e2626b2af5ad",
+        "v73244f2068e58c68",
+        "v9383066da404cbda",
+        "vd1aa74416099f3f0",
+        "vda285efc96ac6e75"
+      ]
+    },
+    {
+      "anchor": "L815-821",
+      "id": "aee-c-103",
+      "text": "corpus.manifest.expectedPayloads is well formed: every key a declared attack, every array non-empty, sorted by UTF-16 code unit, duplicate-free and lowercase 64-hex",
+      "vectors": [
+        "v113349f8afb946bf",
+        "v1a8005dac6c3e806",
+        "v2dd443f340e8a1c7",
+        "v36fe88ae1da31194",
+        "v3772d801e5cae557",
+        "v6662e73ba03dfd36",
+        "v73244f2068e58c68",
+        "v9383066da404cbda",
+        "vd1aa74416099f3f0",
+        "vda285efc96ac6e75",
+        "vf8029fa61d5f1b13"
+      ]
+    },
+    {
+      "anchor": "L1454-1465",
+      "id": "aee-c-104",
+      "text": "an interception record carries aeePayloadCommitment, non-empty, sorted by UTF-16 code unit, duplicate-free and lowercase 64-hex",
+      "vectors": [
+        "v0ac6d948f2af5b6f",
+        "v244bd03c59cd03cc",
+        "vc7111b58eecb4d0c",
+        "vda285efc96ac6e75",
+        "vf6717a2ded406b68"
+      ]
+    },
+    {
+      "anchor": "L1093-1097",
+      "id": "aee-c-105",
+      "text": "attribution is required on every row and its vocabulary is closed; a missing or out-of-vocabulary value is fail-closed exactly as basis and method are",
+      "vectors": [
+        "v1b2d2d26efeb7835",
+        "v38dc376c7746314b",
+        "v590d80afd6a67f0f",
+        "v9d92e2e234987c76",
+        "vb370622a59690b75"
+      ]
+    },
+    {
+      "anchor": "L1394-1408",
+      "id": "aee-c-106",
+      "text": "a moat-drop record covers nothing in every state and carries no constraint that could change that; it still contributes its leaf to batchRoot, never enters aeeObservedSet or the method cap, and the refusal a row earns by resolving one names the kind rather than reporting an unrecognized kind",
+      "vectors": [
+        "v0639562eb10e87fb",
+        "v7d2a79cb1ddc59a5"
+      ]
+    },
+    {
+      "anchor": "L1394-1408",
+      "id": "aee-c-107",
+      "text": "an uncommitted-observation record covers nothing in every state on the same terms, and in particular cannot stand in for an interception: not for a caught row's coverage, not for the existence requirement a pinned row must satisfy, and not for the expectedPayloads comparison",
+      "vectors": [
+        "v7d2a79cb1ddc59a5",
+        "vece82b6a9a07327a"
+      ]
+    },
+    {
+      "anchor": "L586-594; L1322-1366",
+      "id": "aee-c-108",
+      "text": "every carried record that binds to this run and whose aeeKind names a covering kind satisfies every constraint of that kind, whether or not any row resolves an observationRefs index to it. The universal partner of aee-c-96, over the same records on the same terms: that one asks whether a valid sealed record is present, this asks whether an invalid one is carried beside it",
+      "vectors": [
+        "v0d364d8f9d815092",
+        "v47fc43d883b16a9b",
+        "v4da2f99ac2897154",
+        "v59b24935f1fa8a4b",
+        "v7258b9f4ed52a08d",
+        "v755ceccd7c4da990",
+        "v7fefd467a21566ca",
+        "v80e2a3fba582ed4d",
+        "va62d3b1847c9e0bd",
+        "vb1337e5ecad985c2",
+        "vb877a9c1703557b2",
+        "vc325d584b58dcc99",
+        "vd7be865fc69eacc2",
+        "vd9041fbad8a6b721",
+        "veb0e5002608390cc",
+        "vfb979cb9ce40f1be"
+      ]
+    }
+  ],
+  "source": {
+    "corpusDigest": "8b035678def9e5ac00ba761b8c640e4412c57163134afb9d2c1a90f49d573a52",
+    "derived_by": "scripts/gen_condition_registry.py --corpus <vectors checkout>",
+    "predicateType": "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7",
+    "specDigest": "759d2383e5da36fa509dc335e6159a20b87641b25ebbadcf1676c55d75ffd8b0",
+    "suite": "adversarial-execution-evidence-conformance",
+    "tracksUpstream": "in-toto/attestation#570"
+  }
+}

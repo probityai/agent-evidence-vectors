@@ -1,0 +1,2571 @@
+# The admission rego — the offline verifier's binding chokepoint, as policy.
+#
+# This module encodes the structural checks the offline verifier performs
+# (website/app/components/lib/verifier/bindings.ts :: verifyStatementBindings and
+# the Python verdict_bundle._verify it mirrors), PLUS the subset of the v0.6
+# two-gate coverage-validity an admission controller can re-derive from the
+# predicate body alone (spec/v1/adversarial-execution-evidence.md), PLUS the
+# consumer admission threshold (result == "pass"):
+#
+#   1. predicateType MUST be the adversarial-execution-evidence type, else REJECT
+#      (fail closed). That type lives in the in-toto attestation namespace and is
+#      a full fixed URI. It is the only type this bundle knows.
+#   2. adversarial-execution-evidence MUST bind observationEnvironment:
+#      catchPolicy.digest.sha256 (64-hex) and a known networkPosture.posture with
+#      a 64-hex digest.
+#   3. v0.6 coverage validity + recompute, re-derived IN-POLICY for evidence
+#      statements (the part rego CAN evaluate from the parsed body):
+#        coverage integrity: sha256(JCS(corpus.manifest)) == corpus.digest.sha256
+#          (OPA's json.marshal is byte-identical to RFC 8785 for the manifest's
+#          ASCII class/attackId profile); the manifest declares at least one attack
+#          identifier, without which every rule below it is vacuous; the coverage
+#          parts partition the manifest classes; AND the attackResults attackId set
+#          equals the union of manifest.classes[c] over the assessedClasses
+#          (attack-level exhaustion).
+#        result recompute (delta B, ON-WIRE vocabulary): any row whose
+#          containmentObserved is in the carried observationVocabulary.caught, or
+#          NOT in the carried labels (fail-closed), or whose basis|method is
+#          missing/out-of-vocabulary (fail-closed), forces "fail"; else non-empty
+#          outOfScope/routedElsewhere forces "degraded"; else "pass". The recorded
+#          result MUST equal the recompute.
+#        basis/method 2x2 (delta): every row carries basis in {substrate,artifact}
+#          and method in {intercepted,reconstructed}.
+#        actualLayer (delta, REQUIRED): every row carries actualLayer, and a
+#          clean-label row's actualLayer MUST be the literal "none".
+#        instant profile (delta): issuedAt and every arming record's armedAt are RFC
+#          3339 with an uppercase T and designator and a ZERO UTC offset, where Z,
+#          +00:00 and -00:00 all name the same instant and all pass, and a non-zero
+#          offset does not. ONE rule governs both fields; the case half and the zone
+#          half are written separately so neither stands in for the other.
+#        run-binding: run identity ==
+#          sha256(JCS({aeeBindingVersion:"2", catchPolicy, corpus, networkPosture,
+#          observationVocabulary, runEntropy, subject, substrate})), where the
+#          networkPosture input is the digest of the WHOLE carried networkPosture
+#          OBJECT rather than of the digest member inside it; every decoded
+#          observationRecords[] payload's aeeRunBinding MUST equal it (vacuous on a
+#          recordless run).
+#        run-binding input canonicality: on a statement carrying a basis:substrate
+#          row, every digest member this construction reads verbatim out of the
+#          statement MUST be lowercase 64-hex, and the carried
+#          networkPosture.digest.sha256 with them, because that member is still
+#          compared byte for byte against each record's aeePostureDigest. The
+#          recompute above takes each value verbatim and therefore cannot see a
+#          non-canonical one; the two are separate rules for that reason.
+#        coverage validity (class match), for EVERY basis:substrate row: the row
+#          MUST reference (observationRefs, non-empty, indices in range) records
+#          matching the class its shape requires — a method:reconstructed row an
+#          `examination` record; a CAUGHT method:intercepted row an `interception`
+#          record; a CLEAN method:intercepted row a valid `arming` record AND a
+#          COVERING `sealed` record (still-armed, drop count zero or within a bound
+#          declared in the same payload, posture digest equal to the pinned one AND
+#          to every posture digest the row's other referenced arming records name).
+#          Every REFERENCED payload must additionally be +json and carry the three
+#          reserved members, and the row's method may be no stronger than the
+#          weakest aeeMethod across its COVERING records (`reconstructed` is weaker
+#          than `intercepted`). Byte-pure: the record kind and those members live in
+#          the base64 payload this module already decodes. See the two rules' own
+#          comments for exactly what is and is not reachable.
+#        batchRoot presence: whenever observationRecords is non-empty the
+#          predicate-level batchRoot MUST be present + 64-hex (its RFC-6962 fold is
+#          recomputed offline, not in rego).
+#      What remains OUT of rego's reach is the crypto and the byte form: the RFC-6962
+#      Merkle fold, Ed25519 proof-of-observation, and the strict JCS / I-JSON profile
+#      of the record payload BYTES (rego evaluates the lenient parse) need raw-byte
+#      hashing + curve math rego does not provide — those stay with the offline
+#      TS/Python verifiers; the admission-time envelope signature is verified by the
+#      incumbent (Kyverno / policy-controller) key authority.
+#   4. Admission is EVIDENCE-ONLY: this policy admits ONLY a result-bearing
+#      adversarial-execution-evidence statement. Any other type is NEVER admitted
+#      here, even carrying a stray result == "pass".
+#   5. Admission threshold (consumer policy): the result tokens THIS consumer admits,
+#      data.consumer.accepted_results, whose absent value is the spec's own default
+#      ["pass"] and whose only other admissible value is ["pass", "pass_indirect"]
+#      Relaxing the ordinal
+#      is a SEPARATE declaration from declining the clean-row obligation in rule 7, and
+#      a pairing that states only one of the two is DENIED. Read "THE THRESHOLD IS A
+#      CONSUMER PIN" at the rule before changing either.
+#   6. Structural signature PRESENCE on every observation record (BAND-AID, NOT
+#      verification — see "What this policy cannot know" below): every
+#      observationRecords[] entry MUST carry a non-empty signatures[] array.
+#   7. Clean-row provenance (consumer policy, default-safe): a CLEAN row must be
+#      basis:substrate + method:intercepted, unless the consumer DECLINES that
+#      obligation via data.consumer.admit_unintercepted_clean_rows. This knob governs
+#      the ROW CHECK and nothing else: it does not move the rule-5 threshold, and
+#      relaxing that threshold does not drop this gate.
+#   8. Clean-row consistency (consumer policy): a row carrying a clean label may not
+#      reference an interception record. The substrate signed that it intercepted
+#      traffic; the row says nothing was caught. This narrows the row-rewrite attack
+#      described at the rule, and its own comment is explicit about the much larger
+#      part of that attack no policy can reach.
+#   9. Consumer anchors (spec MUST, REQUIRED by default): the corpus and the substrate
+#      THIS consumer expects, pinned OUT OF BAND and compared against
+#      observationEnvironment.corpus.digest.sha256 and
+#      observationEnvironment.substrate.digest.sha256. Read "THE ABSENT-ANCHOR
+#      DECISION" below before deploying — an unpinned consumer is DENIED unless it
+#      says data.consumer.allow_unpinned_anchors explicitly.
+#  10. Demanded scope (consumer pin, REQUIRED by default): the corpus classes THIS
+#      deployment requires a run to have assessed, pinned OUT OF BAND as
+#      data.consumer.demanded_classes and compared against coverage.assessedClasses.
+#      A producer that withdraws a class emits a statement byte-identical to one an
+#      honest producer with no coverage emits, so this is the only place the deciding
+#      fact exists. Unpinned is DENIED unless the consumer says
+#      data.consumer.allow_unpinned_scope. The full argument is at the rule.
+#  11. Freshness (consumer pin, OPTIONAL, evaluated against a substrate-signed
+#      instant): two separable bounds on how far a statement may sit from the run it
+#      describes, both measured from an arming record's armedAt and NEITHER measured
+#      from issuedAt, which the envelope key rewrites for free.
+#      data.consumer.max_issuance_lag_hours bounds issuedAt minus armedAt and needs no
+#      clock; data.consumer.max_evidence_age_hours bounds now minus armedAt and does.
+#      Unpinned, each is vacuous, because the spec obliges no consumer to bound age.
+#      Pinned, a statement carrying NO arming record is DENIED rather than measured
+#      against issuedAt. The full argument is at the rules.
+#
+# ── WHAT THIS POLICY CANNOT KNOW (read this before relying on it) ──────────────
+#
+# A verifier that evaluates coverage validity WITHOUT verifying the observation
+# records' signatures CANNOT DISTINGUISH A SUBSTRATE OBSERVATION FROM AN
+# ASSEMBLY-PLANE FORGERY. Every record field this module reads — aeeRunBinding,
+# aeeKind, aeeMethod — is read out of a base64 payload whose signature it never
+# checks. Anything a real substrate can write into a record, the party that
+# assembles the statement can write too, and this module cannot tell the two
+# apart.
+#
+# The evidence TIER (the spec's per-record ed25519 + batch-root derivation) is not
+# computed anywhere in the sigstore policy-controller path. policy-controller
+# verifies the DSSE ENVELOPE against the pinned key and hands the decoded payload
+# to rego as `input`; per-record Ed25519 verification and the RFC 6962 batch-root
+# fold live only in the offline TS/Python verifiers, which are NOT in the admission
+# path. So this module deliberately does not reference a tier field: in rego a rule
+# that reads a field nobody populates is undefined, and under
+# `default isCompliant := false` an undefined rule denies every Pod — an outage,
+# not a gate.
+#
+# Consequence, stated plainly: a consumer relying on this byte-pure admission
+# controller is extending FULL TRUST TO THE ENVELOPE SIGNER. The envelope key is
+# the entirety of the trust decision. The record-level cryptography is evidence for
+# an offline auditor; it is not evidence this gate can weigh. Rules 6 and 7 narrow
+# the gap without closing it — see their comments for exactly what each does and
+# does not buy.
+#
+# ── THE ABSENT-ANCHOR DECISION (read this before deploying) ───────────────────
+#
+# adversarial-execution-evidence.md, "Consumer policy obligations", is unambiguous:
+# "A consumer MUST pin, out of band, the corpus digest and the substrate digest it
+# expects for the deployment it is admitting into, and at consumption MUST compare
+# them against observationEnvironment.corpus.digest and
+# observationEnvironment.substrate.digest; on mismatch the attestation is not
+# admitted, exactly as an attestation whose covering signatures do not verify is not
+# admitted."
+#
+# WHY AN ANCHOR IS NOT OPTIONAL HERE. Everything else this module checks about the
+# corpus is SELF-CONSISTENCY — the digest commits the manifest, the coverage parts
+# partition it, the attackIds exhaust it — and self-consistency is FREE to a party
+# holding the envelope key. Substituting a WEAKER corpus for the real one, one that
+# declares a single trivial attack the run duly passes, and re-hashing the substitute
+# needs no key at all, and the substituted statement then satisfies every recompute in
+# this module. Only a value pinned OUT OF BAND can see it, because the difference
+# between the real corpus and the substitute is not carried anywhere in the bytes.
+# The degenerate end of that family, a manifest emptied to {"classes":{}}, was
+# reproduced against this policy and returned isCompliant: true with an empty errors
+# set; corpus_declares_attacks_ok now rejects that shape outright as malformed, which
+# closes the vacuous end of the family and leaves the rest of it exactly where it was.
+# A party substituting a corpus has no need of the vacuous end, which is why closing
+# it changes nothing about this decision. Stated generally: without an anchor this
+# policy is
+# answering "is this evidence internally coherent?" when the question that decides
+# admission is "is this evidence about the corpus and the substrate I meant to admit
+# against?".
+#
+# DECISION: THE ANCHORS ARE REQUIRED BY DEFAULT. An evidence statement is admitted
+# only when BOTH data.consumer.expected_corpus_digest and
+# data.consumer.expected_substrate_digest are supplied and BOTH match, OR the consumer
+# has explicitly declared data.consumer.allow_unpinned_anchors == true.
+#
+# Why not the permissive default the two older anchors take (policy_anchor_ok,
+# posture_anchor_ok): those two are the producer's own optional replay conveniences and
+# nothing in the spec obliges a consumer to set either. This pair is a spec MUST, and
+# a policy that treats an absent MUST as vacuously satisfied has implemented a SHOULD.
+# The two failure modes are also not symmetric. Defaulting permissive fails SILENTLY
+# and indefinitely: an operator who believes they pinned, or who never read this far,
+# admits evidence about ANY corpus and nothing in the verdict ever says so — which is
+# precisely how the erasure above stayed admissible. Defaulting strict fails LOUDLY and
+# ONCE, at rollout, with an error naming the exact knob that is missing. That is the
+# direction `default isCompliant := false` already takes everywhere else here.
+#
+# THE COST IS REAL AND IS NOT HIDDEN: a consumer who applies the shipped manifest
+# unedited admits NOTHING until it pins. Rails with a consumer data document (OPA,
+# conftest, a rego bundle) mount data.consumer. Rails that embed this module as a single
+# string — sigstore policy-controller, via gen_soundness_cip.py — have nowhere to mount
+# a data document, so THERE the pin is supplied by replacing the right-hand side of the
+# two `expected_*` rules below with the digest literals and regenerating the CIP.
+# Kyverno and CUE carry the same pin as an in-file literal for the same reason.
+#
+# PLACEMENT: these anchors sit in isCompliant, NOT in soundness_ok. The spec is
+# explicit that "the comparison is deliberately not a validity gate: validity is a
+# function of carried bytes alone and holds identically for every consumer, while the
+# expected corpus and substrate differ per consumer. An anchor-mismatched attestation
+# is valid evidence about the wrong context." The operational half of the same point:
+# soundness_ok is the oracle the whole v0.6 conformance corpus is driven through, and a
+# per-consumer anchor inside it would make every vector unsound at once — hollowing the
+# reject oracle instead of strengthening it.
+#
+# NAMING: `soundness_ok` below is a MISNOMER, retained only because it is a
+# deployment surface (the generated ClusterImagePolicy, gen_soundness_cip.py, and
+# the corpus tests all key off the name). It is not soundness in any cryptographic
+# sense. It is a STRUCTURAL RE-DERIVATION over an already-decoded predicate body:
+# JCS/SHA-256 recomputes, set algebra over the coverage partition, the result
+# recompute, and presence/shape checks. Read every occurrence of "soundness" in
+# this module, in the generated CIP, and in ../README.md as
+# "structural re-derivation".
+#
+# `input` is a verified in-toto Statement: {predicateType, predicate, subject, ...}.
+# This is the SHARED module for the OPA / conftest path; the sigstore
+# policy-controller ClusterImagePolicy embeds it verbatim (gen_soundness_cip.py).
+#
+# Written in Rego v1 (OPA >= 1.0). Run: opa test ../rego/
+package sigstore
+
+import rego.v1
+
+# --- the one predicate type this bundle knows ---------------------------------
+
+# The in-toto-namespace evidence type: a full fixed URI.
+adversarial_execution_evidence := "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7"
+
+# ONE member, and the set is still written as a set rather than collapsed into an
+# equality. A consumer that adds a second evidence type edits one line here, and
+# every rule below already reads the set.
+#
+# This bundle carries the adversarial-execution-evidence rails and no others.
+# Nine branches for predicate types published under a separate namespace were
+# removed when this copy was derived, and each one is named in README.md under
+# "What was removed". A statement carrying one of those types is UNKNOWN here and
+# is refused fail-closed by `type_known`, which is the same answer this policy
+# gives any type it does not recognize.
+known_predicate_types := {adversarial_execution_evidence}
+
+# Nothing here binds catch_policy_digest at the top level. That shape belonged to
+# a removed type; on an evidence statement the digest is bound inside
+# observationEnvironment, which is what `catch_policy_ok` reads below.
+verdict_types_requiring_catch_policy := set()
+
+# The result-bearing types this policy may admit (see EVIDENCE-ONLY above).
+admissible_types := known_predicate_types & (verdict_types_requiring_catch_policy | {adversarial_execution_evidence})
+
+# The substrate-authoritative egress posture (mirror of the producer's
+# network-posture enum). REQUIRED on
+# adversarial-execution-evidence; an unknown value is REJECTED (fail closed).
+egress_postures := {"no_network", "allowlist", "sinkhole", "unsafe_bypass_egress"}
+
+# The closed basis + method vocabularies (delta): every attackResults row carries
+# one of each; a missing/out-of-vocabulary value fail-closes the recompute.
+basis_tokens := {"substrate", "artifact"}
+
+method_tokens := {"intercepted", "reconstructed"}
+
+# The attribution axis, required on every row from 0.7 and closed at two values.
+# `pinned` says the row rests on an interception whose committed value the corpus
+# declared in advance; `paired` says the correspondence was established some other
+# way and is a producer assertion. It joins basis and method here rather than in a
+# rule of its own, because the specification states the three closed row
+# vocabularies as one rule with one consequence.
+attribution_tokens := {"pinned", "paired"}
+
+sha256_hex := `^[0-9a-f]{64}$`
+
+is_evidence if input.predicateType == adversarial_execution_evidence
+
+# --- structural bindings (the offline chokepoint, fail-closed) -----------------
+
+type_known if known_predicate_types[input.predicateType]
+
+catch_policy_ok if {
+	not verdict_types_requiring_catch_policy[input.predicateType]
+	not is_evidence
+}
+
+catch_policy_ok if {
+	verdict_types_requiring_catch_policy[input.predicateType]
+	regex.match(sha256_hex, input.predicate.catch_policy_digest)
+}
+
+catch_policy_ok if {
+	is_evidence
+	regex.match(sha256_hex, input.predicate.observationEnvironment.catchPolicy.digest.sha256)
+}
+
+posture_ok if {
+	not is_evidence
+	not _has_egress_posture
+}
+
+posture_ok if {
+	not is_evidence
+	egress_postures[input.predicate.egress_posture]
+}
+
+posture_ok if {
+	is_evidence
+	egress_postures[input.predicate.observationEnvironment.networkPosture.posture]
+	regex.match(sha256_hex, input.predicate.observationEnvironment.networkPosture.digest.sha256)
+}
+
+_has_egress_posture if input.predicate.egress_posture
+
+bindings_ok if {
+	type_known
+	catch_policy_ok
+	posture_ok
+}
+
+# --- v0.6 coverage validity + recompute, re-derived in-policy (evidence only) ----
+
+observation_records := object.get(input, ["predicate", "observationRecords"], [])
+
+# On-wire vocabulary (delta B): the caught + labels sets are carried in the
+# observationVocabulary, NOT a hardcoded table.
+vocab_caught := {c | some c in object.get(input, ["predicate", "observationEnvironment", "observationVocabulary", "caught"], [])}
+
+vocab_labels := {c | some c in object.get(input, ["predicate", "observationEnvironment", "observationVocabulary", "labels"], [])}
+
+_is_clean_label(co) if {
+	vocab_labels[co]
+	not vocab_caught[co]
+}
+
+# ── THE VOCABULARY MUST BE THERE, WHICH IS A DIFFERENT QUESTION FROM WHAT IS IN IT ──
+#
+# The two comprehensions above default an ABSENT member to the empty set, which is the
+# right reading for a rule that consumes them (an empty carried set contains nothing,
+# and every row against it is fail-closed) and no reading at all of whether the
+# producer carried a vocabulary. `observationVocabulary` is a required member of
+# `observationEnvironment`, and so are its `labels` and `caught`; the reference
+# verifiers code the absences separately from anything about their contents
+# (`vocabulary-missing` when the object is absent, `vocabulary-not-canonical` when
+# either array member is), both at Gate 0, before a single row is read.
+#
+# THIS IS THE RULE `containment_vocab_ok` WAS STANDING IN FOR. That rule demanded every
+# row's label be a carried one, so a statement carrying no vocabulary failed it —
+# incidentally, through the rows, on a rule about something else. Deleting it for being
+# wrongly scoped (see the vocabulary block below) exposed the substitution:
+# `bad-601-vocabulary-absent` carries one artifact row, is fail-closed to `result:
+# "fail"`, honestly says `fail`, and would have been ADMITTED. That is the failure
+# `bad-608-digest-uppercase` is the standing example of, and the README states the rule
+# for it: a check that CONSUMES a value can never stand in for a check on the value's
+# FORM. `bad-905-vocabulary-labels-absent` denies here too, and denied before only
+# because the recompute happened to disagree with its carried token.
+#
+# WHAT IS DELIBERATELY NOT HERE. Emptiness is not a fault: `bad-610-empty-labels-
+# substrate` carries `labels: []` and is a reject for its SUBSTRATE ROW being
+# fail-closed, not for the empty array, so this rule requires the members to be arrays
+# and says nothing about their length. Sortedness, duplicate entries, the caught-subset
+# invariant, the BMP profile and the vocabulary digest recompute are the contents
+# questions and stay off this rule; four of them remain on the generator's denylist as
+# genuine canonical-form boundaries.
+observation_vocabulary_ok if {
+	is_evidence
+	voc := input.predicate.observationEnvironment.observationVocabulary
+	is_array(voc.labels)
+	is_array(voc.caught)
+}
+
+# Rule 1a: the corpus digest commits the embedded manifest (JCS + SHA-256).
+coverage_digest_ok if {
+	is_evidence
+	manifest := input.predicate.observationEnvironment.corpus.manifest
+	crypto.sha256(json.marshal(manifest)) == input.predicate.observationEnvironment.corpus.digest.sha256
+}
+
+# The declaration floor, sitting under rules 1a and 1b alike: the manifest MUST
+# declare at least one attack identifier across all of its classes.
+#
+# WHY THIS IS WELL-FORMEDNESS AND NOT A LOW SCORE. A corpus with no adversarial
+# inputs is not an adversarial corpus, so there is no run to score. Admitting it as
+# a badly-scoring run would concede that a zero-attack statement is a legitimate
+# thing to say.
+#
+# WHAT IT CLOSES HERE. Every other coverage rule in this module is SELF-CONSISTENCY
+# over the carried bytes, and self-consistency collapses to nothing at all when the
+# carried bytes are empty: an empty class map is trivially partitioned by an empty
+# coverage, an empty attackId union is trivially exhausted by an empty
+# attackResults, and the result recompute over zero rows yields "pass". With no
+# rows there is no basis:substrate row, so records, run entropy and batch root may
+# all be absent, and every rule that would have demanded a substrate signature
+# drops out with them. A party holding only the envelope key can therefore empty
+# the manifest, re-hash it (hashing needs no key), and mint a passing statement
+# about any subject with no substrate, no substrate key and no run behind it. That
+# erasure was measured against this policy and returned isCompliant: true with an
+# empty errors set.
+#
+# WHY IT IS PHRASED OVER ATTACK IDENTIFIERS AND NOT OVER CLASSES. A rule reading
+# "an empty classes object is malformed" closes {"classes": {}} and leaves
+# {"classes": {"XA": []}}, which carries a real class name and reads far more
+# plausibly. Both declare zero attack identifiers, so counting identifiers closes
+# both.
+#
+# WHAT IT MUST NOT TOUCH: the honest fully-skipped run, a manifest that DOES
+# declare an attack whose class is disclosed under coverage.outOfScope. That
+# manifest declares an identifier, so this rule never fires on it; such a run
+# recomputes to "degraded" and is kept out of an ADMITTED statement by the result
+# threshold rather than by a validity claim.
+#
+# WHAT REMAINS AFTER IT, measured rather than assumed. With at least one attack
+# identifier declared, a zero-row statement has nowhere left to go under the
+# result == "pass" threshold: attack-level exhaustion forces attackResults to carry
+# exactly the identifiers of the assessed classes, and the only way to assess no
+# class at all is to disclose every class under outOfScope or routedElsewhere, which
+# recomputes to "degraded". Each zero-row shape reachable from here was driven
+# through this policy and denied on the rule that owns it. The Kyverno sibling states
+# the same invariant directly, as a non-empty attackResults condition; on the
+# pass-only surface this rail admits, the two phrasings now coincide. The derivation
+# is written out here because it spans four rules, so a later edit to any one of them
+# cannot quietly re-open the hole without contradicting this paragraph.
+#
+# This is a VALIDITY rule and lives in soundness_ok, because it is where the
+# reference verifiers put it: a zero-attack manifest is rejected there as malformed
+# with primary code corpus-manifest-no-attacks, for every consumer alike.
+corpus_declares_attacks_ok if {
+	is_evidence
+	some ids in input.predicate.observationEnvironment.corpus.manifest.classes
+	is_array(ids)
+	count(ids) > 0
+}
+
+# Rule 1b: keys(manifest.classes) == assessedClasses U keys(outOfScope) U
+# keys(routedElsewhere), pairwise disjoint.
+coverage_classes_ok if {
+	is_evidence
+	expected := {c | some c, _ in input.predicate.observationEnvironment.corpus.manifest.classes}
+	assessed := {c | some c in input.predicate.coverage.assessedClasses}
+	oos := {c | some c, _ in input.predicate.coverage.outOfScope}
+	routed := {c | some c, _ in input.predicate.coverage.routedElsewhere}
+	(assessed | oos) | routed == expected
+	count(assessed & oos) == 0
+	count(assessed & routed) == 0
+	count(oos & routed) == 0
+}
+
+# Rule 1 (attack-level exhaustion): the attackId SET of attackResults MUST equal the
+# UNION of manifest.classes[c] over every assessed class — not merely class-key
+# equality — with no duplicated attackId row.
+coverage_attacks_ok if {
+	is_evidence
+	assessed_attacks := {a |
+		some c in input.predicate.coverage.assessedClasses
+		some a in input.predicate.observationEnvironment.corpus.manifest.classes[c]
+	}
+	result_attacks := {r.attackId | some r in input.predicate.attackResults}
+	result_attacks == assessed_attacks
+	count(input.predicate.attackResults) == count(result_attacks)
+}
+
+# MISSING AND UNKNOWN ARE ONE CONDITION IN THE SPEC AND TWO IN REGO, AND THE INLINE
+# SPELLING ONLY EXPRESSES ONE OF THEM. The spec joins them: "a missing value, or any
+# value outside them, is fail-closed". The obvious rego for that is
+# `not basis_tokens[r.basis]`, and it is WRONG for the missing half. When `basis` is
+# absent, `r.basis` is undefined, the ref inside the negation cannot be resolved, and
+# the whole expression goes undefined instead of the negation going true — so the arm
+# never fires and the row that carries NOTHING is treated as the row that carries a
+# known value. Measured on a two-row set (one member absent, one member present and
+# unknown), the inline form yields only the unknown one; a helper call yields both,
+# because a function that is undefined for its argument makes `not` true, which is the
+# behavior the sentence above needs.
+#
+# It is the more dangerous half that silently drops. An unknown token is a producer
+# typo; an ABSENT member is what a producer emits when it has nothing to say, and it is
+# the shape `ok-901-row-missing-basis` and `ok-027-artifact-missing-method` carry. With
+# the inline spelling those two recomputed to "pass" while carrying "fail", so the
+# recompute called a valid statement's honest bottom token a mismatch — and, until the
+# vocabulary block below was corrected, the deleted `basis_method_ok` masked it by
+# calling the whole statement invalid first. Two defects pointing the same way is why
+# the first one hid the second.
+#
+# The same three helpers are used by every rule that asks the question, so there is one
+# spelling of "this row carries a known X" in the module rather than one per site.
+_carries_label(r) if vocab_labels[r.containmentObserved]
+
+_carries_basis(r) if basis_tokens[r.basis]
+
+_carries_method(r) if method_tokens[r.method]
+
+_carries_attribution(r) if attribution_tokens[r.attribution]
+
+# Recompute (delta B): a caught label, an out-of-vocabulary label (fail-closed),
+# or a missing/out-of-vocabulary basis or method (fail-closed) forces "fail".
+_forces_fail if {
+	some r in input.predicate.attackResults
+	vocab_caught[r.containmentObserved]
+}
+
+_forces_fail if {
+	some r in input.predicate.attackResults
+	not _carries_label(r)
+}
+
+_forces_fail if {
+	some r in input.predicate.attackResults
+	not _carries_basis(r)
+}
+
+_forces_fail if {
+	some r in input.predicate.attackResults
+	not _carries_method(r)
+}
+
+_forces_fail if {
+	some r in input.predicate.attackResults
+	not _carries_attribution(r)
+}
+
+_coverage_incomplete if count(object.keys(object.get(input, ["predicate", "coverage", "outOfScope"], {}))) > 0
+
+_coverage_incomplete if count(object.keys(object.get(input, ["predicate", "coverage", "routedElsewhere"], {}))) > 0
+
+# Recompute (delta B, third condition): a CLEAN row -- in the carried labels,
+# outside the carried caught set, and fail-closed on neither member -- that
+# declares a basis other than substrate or a method other than intercepted
+# contributes "pass_indirect".
+#
+# WHAT THIS IS FOR. The top result was otherwise reachable by a statement
+# carrying no substrate evidence at all: a party holding the enclosing envelope
+# key and not the substrate's observation key relabels every row clean, moves
+# every row to basis:artifact, and drops observationRecords, batchRoot and
+# runEntropy, none of which a non-substrate row requires. Measured over every
+# finding-bearing conformance vector, that statement is BYTE-IDENTICAL to what
+# an honest producer with no substrate vantage emits, so the condition does not
+# detect the attack and is not written as though it does -- it prices both below
+# a live interception.
+#
+# WHY IT IS NOT THE ROW GATE BELOW. _clean_row_provenance_ok reads the same
+# partition and is an ADMISSION rule a consumer can opt out of. This is the
+# normative RECOMPUTE, which is byte-pure and which every rail must reproduce
+# exactly or the statement is invalid. They agree on the partition by
+# construction and answer different questions.
+_indirect_clean_row if {
+	some r in input.predicate.attackResults
+	_is_clean_label(r.containmentObserved)
+	_carries_basis(r)
+	_carries_method(r)
+	not _direct_clean_row(r)
+}
+
+_direct_clean_row(r) if {
+	r.basis == "substrate"
+	r.method == "intercepted"
+}
+
+# The MINIMUM under fail < degraded < pass_indirect < pass. Written as an
+# ordered else-chain because rego has no min over a token order, and the two
+# agree: each arm below is the lowest value whose condition holds.
+recomputed_result := "fail" if {
+	_forces_fail
+} else := "degraded" if {
+	_coverage_incomplete
+} else := "pass_indirect" if {
+	_indirect_clean_row
+} else := "pass"
+
+result_recompute_ok if {
+	is_evidence
+	input.predicate.result == recomputed_result
+}
+
+# ── THE ROW VOCABULARIES ARE FAIL-CLOSED AT THE ROW, NEVER AT THE STATEMENT ──────
+#
+# THE SPEC, IN ITS OWN WORDS. On `basis` and `method`: "Both fields are REQUIRED on
+# every row and both vocabularies are closed: a missing value, or any value outside
+# them, is fail-closed exactly as an out-of-vocabulary `containmentObserved` label is:
+# the row forces `result` to `fail` and can support nothing stronger." The `result`
+# field states the same rule for all three members in one sentence — a row carrying "a
+# label outside the carried `observationVocabulary.labels` (fail-closed), or a missing
+# or out-of-vocabulary `basis` or `method` (fail-closed, same rule)" contributes
+# `fail`. A statement carrying such a row is VALID and scores `fail`.
+#
+# THE ALTITUDE IS THE SPEC'S OWN, AND IT DRAWS THE LINE ONE FIELD OVER. Of a missing
+# `actualLayer`: "a row missing the member is malformed under the framework's standard
+# parsing rules and the attestation is invalid, rather than the row forcing `fail`.
+# That altitude is deliberate and follows from the design invariant under Parsing
+# Rules: fail-closed-row semantics are reserved for members the recompute or the
+# documented consumer gating reads (`containmentObserved`, `basis`, `method`);
+# `actualLayer` is read by neither, so its absence is a malformed statement, not weak
+# evidence." So the three members read by the recompute are exactly the three that are
+# NOT validity gates, and `actual_layer_ok` below is exactly the one that is.
+#
+# THE DEFECT THIS REPLACES. Two rules stood here, `containment_vocab_ok` and
+# `basis_method_ok`, and both were conjuncts of `soundness_ok`. Each demanded
+# membership on EVERY row, so a row whose member was absent or out of vocabulary made
+# the `every` body fail and `soundness_ok` go undefined: this rail called INVALID what
+# the spec calls valid-and-failing. That is a false reject rather than a false accept,
+# which is the safer direction and still a conformance divergence — it refuses an
+# independent implementer's valid statement. Measured: `ok-901-row-missing-basis`
+# satisfied `bindings_ok` and returned EMPTY for `soundness_ok`.
+#
+# AND IT HAD ALREADY BEEN WRITTEN DOWN AS A SCOPE BOUNDARY, WHICH IT NEVER WAS. Five
+# corpus accepts sat in the generator's `_NOT_REGO_SOUND_ACCEPT` for this one cause —
+# `ok-008` (fail-closed method), `ok-009` (out-of-vocabulary label), `ok-010` (retired
+# basis), `ok-027` (absent method), `ok-032` (retired method) — each annotated as
+# exceeding rego's vocabulary scope. All three members are plain members of the parsed
+# statement: not bytes behind a base64 decode, not a signature, not a canonical form
+# rego never sees. Rego could always evaluate them. The list was recording a missing
+# rule as a layer rego cannot reach, which is the mistake `bad-608-digest-uppercase`
+# made on the denylist and which the README states the rule for under "The blindness
+# the recompute inherits": a check that consumes a value can never stand in for a check
+# on the value's form, and a denylist entry is a claim about a layer rather than a
+# place to record a rule nobody wrote. `ok-029` stays on that list and is the shape a
+# real boundary has: its `runEntropy` is absent, so the run-identity recompute cannot
+# reproduce the producer's `aeeRunBinding` at all.
+#
+# WHERE THE ENFORCEMENT WENT, WHICH IS NOWHERE NEW. `_forces_fail` above fires on
+# exactly these three conditions already, so the recompute floors such a statement at
+# `fail`, and `result_recompute_ok` — still a conjunct of `soundness_ok` — then
+# requires the carried `result` to BE `fail`. A producer who drops `basis` and claims
+# `pass` is refused on the recompute, with the token it should have carried named in
+# the error; the admission threshold refuses an honest `fail` one gate later for being
+# a `fail`. Nothing is admitted that was not admitted before.
+#
+# WHAT THE DELETION WOULD HAVE TAKEN WITH IT, AND WHAT REPLACES IT AT THE RIGHT
+# SCOPE. The class match below partitions `basis: substrate` rows by (label, method),
+# and that partition was total only because these two rules forced every member into
+# vocabulary; drop them outright and a substrate row carrying an unknown `method`
+# matches no arm and quietly owes nothing. The spec does not leave that to inference —
+# it says a `basis: substrate` row fail-closed on `containmentObserved`, `basis` or
+# `method` "cannot satisfy the class-match requirement and is therefore invalid", while
+# "a `basis: artifact` fail-closed row sits at the bottom of both orderings as before".
+# `substrate_fail_closed_ok` below is that sentence, scoped by `basis`, and it restores
+# the partition's premise. So the correction here is not "the vocabulary is never a
+# validity gate"; it is that the gate is scoped to the rows that owe a class match, and
+# these two rules applied it to every row.
+
+# actualLayer REQUIRED: present on every row; a clean-label row's actualLayer is
+# the literal "none".
+_actual_layer_row_ok(r) if {
+	r.actualLayer
+	_is_clean_label(r.containmentObserved)
+	r.actualLayer == "none"
+}
+
+_actual_layer_row_ok(r) if {
+	r.actualLayer
+	not _is_clean_label(r.containmentObserved)
+}
+
+actual_layer_ok if {
+	is_evidence
+	every r in input.predicate.attackResults {
+		_actual_layer_row_ok(r)
+	}
+}
+
+# Run-binding (delta): the non-circular run-identity content-address is
+# SHA-256(JCS({aeeBindingVersion:"2", catchPolicy, corpus, networkPosture,
+# observationVocabulary, runEntropy, subject, substrate})). OPA's json.marshal is
+# byte-identical to RFC 8785 for these values, so this reproduces DeriveRunBinding
+# exactly. Every decoded observationRecords[] payload's aeeRunBinding MUST equal it.
+#
+# The carried digest members are read ONCE, here, and consumed twice: the pre-image
+# below is derived from this map, and the canonicality rule that follows iterates the
+# same map. Sharing the read is deliberate rather than tidy. An earlier revision derived
+# the identity from an inline object and stated no shape rule anywhere near it, so a
+# value the recompute consumed had nothing checking its form; two separate lists would
+# let an input be added to one and not the other and reproduce that gap exactly.
+#
+# WHY THE MAP BELOW IS NOT ITSELF THE PRE-IMAGE, which is the tempting shape and the
+# one that quietly loses a rule. The posture input is no longer a member read out of the
+# statement; it is a digest computed OVER the carried networkPosture object. Writing
+# that computed value into this map would leave the canonicality rule comparing a
+# crypto.sha256 output against a lowercase-64-hex pattern, which it satisfies by
+# construction, so the rule would stop being able to fail on that member and the carried
+# networkPosture.digest.sha256 would go unconstrained. That member has not stopped
+# mattering: _pinned_posture_digest compares it byte for byte against every covering
+# record's aeePostureDigest. So the verbatim members stay in one map the shape rule
+# iterates, and the pre-image is DERIVED from it.
+_run_binding_inputs := {
+	"catchPolicy": object.get(input, ["predicate", "observationEnvironment", "catchPolicy", "digest", "sha256"], ""),
+	"corpus": object.get(input, ["predicate", "observationEnvironment", "corpus", "digest", "sha256"], ""),
+	"networkPosture": object.get(input, ["predicate", "observationEnvironment", "networkPosture", "digest", "sha256"], ""),
+	"runEntropy": object.get(input, ["predicate", "observationEnvironment", "runEntropy", "digest", "sha256"], ""),
+	"subject": object.get(input, ["subject", 0, "digest", "sha256"], ""),
+	"substrate": object.get(input, ["predicate", "observationEnvironment", "substrate", "digest", "sha256"], ""),
+}
+
+# The posture input: the canonical digest of the CARRIED networkPosture object, never
+# of its own digest member. Binding the member's digest left the posture string beside
+# it unsigned, and the posture configuration that digest is taken over travels nowhere
+# in the statement, so nothing could ever have compared the string against it. Hashing
+# the object puts the string, its pinned digest and every further member a producer
+# carries there inside the comparison every record already runs.
+#
+# An absent member, or one that is not a JSON object, contributes the EMPTY STRING and
+# not the digest of an empty object, which is the same handling an absent digest member
+# gets through the object.get defaults above. A statement in that shape is already
+# malformed on its own code, because posture_ok reads the same member and denies, and
+# inventing a second failure here would only mask the first.
+_carried_posture := object.get(input, ["predicate", "observationEnvironment", "networkPosture"], null)
+
+_posture_preimage_digest := crypto.sha256(json.marshal(_carried_posture)) if {
+	is_object(_carried_posture)
+} else := ""
+
+# The pre-image inputs: the verbatim map above, with the posture input replaced by the
+# digest over the carried object and the observationVocabulary digest added beside it.
+#
+# The vocabulary digest is deliberately NOT in the canonicality map, and the reason is
+# the one both reference verifiers give: the vocabulary digest-integrity check recomputes
+# that digest from the carried label arrays, so a value that is not lowercase 64-hex
+# cannot equal the recompute. A shape condition on it would be a condition nothing could
+# reach past the check that already owns the value, which is also why the published
+# corpus carries a vector for a MISMATCHED vocabulary digest and none for a
+# non-canonical one.
+_run_binding_preimage_inputs := object.union(_run_binding_inputs, {
+	"networkPosture": _posture_preimage_digest,
+	"observationVocabulary": object.get(input, ["predicate", "observationEnvironment", "observationVocabulary", "digest", "sha256"], ""),
+})
+
+run_identity := crypto.sha256(json.marshal(object.union({"aeeBindingVersion": "2"}, _run_binding_preimage_inputs)))
+
+run_binding_ok if {
+	is_evidence
+	count(observation_records) == 0
+}
+
+run_binding_ok if {
+	is_evidence
+	count(observation_records) > 0
+	every env in observation_records {
+		rec := json.unmarshal(base64.decode(env.payload))
+		rec.aeeRunBinding == run_identity
+	}
+}
+
+# A substrate row REQUIRES observation records; a recordless substrate statement is
+# rejected here (its deep coverage validity is offline).
+_has_substrate_row if {
+	some r in input.predicate.attackResults
+	r.basis == "substrate"
+}
+
+substrate_records_ok if {
+	is_evidence
+	not _has_substrate_row
+}
+
+substrate_records_ok if {
+	is_evidence
+	_has_substrate_row
+	count(observation_records) > 0
+}
+
+# Run-binding input canonicality (spec GATE 0: "each carried run-binding digest input
+# is lowercase 64-hex; values are taken verbatim (no case-folding, no null fill)"), and
+# the same requirement on subject[0] at "Subject".
+#
+# WHY THE RECOMPUTE CANNOT SEE THIS, AND WHY IT IS A SEPARATE RULE. run_binding_ok
+# takes each input VERBATIM into json.marshal, which is exactly what the spec asks of
+# it, and verbatim is precisely why it is blind here: a producer that emits an
+# uppercase runEntropy digest and derives every record's aeeRunBinding over that same
+# uppercase value satisfies the equality completely. A rule that compares derived
+# values never reads the form of the value it derived from. Both published vectors of
+# this shape, an uppercase runEntropy digest and a 63-character substrate digest, were
+# admitted here on that reading and sat on the reject denylist as though the defect
+# lived in a layer rego cannot reach. It does not: these are plain members of the
+# parsed statement, and the denylist entry was recording a missing rule as a scope
+# boundary.
+#
+# WHY EVERY CARRIED MEMBER AND NOT THE ONE THAT WAS NOTICED. Three of them were already
+# constrained, and each only as a side effect of a rule that exists for another
+# purpose: catchPolicy and networkPosture by the binding chokepoint's 64-hex patterns,
+# corpus by the manifest recompute, whose right-hand side is a crypto.sha256 output and
+# so is lowercase by construction. runEntropy, subject and substrate had no shape rule
+# anywhere in the module. Reading the three that happened to be covered as evidence
+# that the class was handled is how the gap survived a rail that checks digests in five
+# other places, so the rule below states the requirement over the whole map and leans
+# on none of the three side effects. Each was measured independently; the measurement
+# is in the tests beside this rule, one per input.
+#
+# WHY THE POSTURE DIGEST STAYS IN THE MAP THOUGH THE IDENTITY NO LONGER READS IT. The
+# pre-image now takes its posture input from the whole carried networkPosture object,
+# so networkPosture.digest.sha256 is hashed rather than read, and the shape of a value
+# that goes into a hash is invisible on the far side of it. The member is still the
+# value every covering arming and sealed record's aeePostureDigest is compared against
+# byte for byte, so a non-canonical spelling there is a real fault with a real
+# consequence, and the rule that reads shapes is the only place able to say so. Deriving
+# the pre-image from this map rather than substituting into it is what keeps that
+# possible; the argument is written out at _run_binding_inputs.
+#
+# SCOPE. Substrate-scoped, as it is in the reference verifiers: a statement whose rows
+# are all basis:artifact derives no run binding and need not carry runEntropy at all,
+# which is the shape of eight shipped accept vectors. An absent input reads as the
+# empty string through the object.get defaults above, and the empty string is not
+# lowercase 64-hex, so absence denies on a substrate statement and is vacuous
+# elsewhere. This is a VALIDITY rule and lives in soundness_ok, because that is where
+# the reference verifiers put it: the corpus expects code digest-not-canonical for
+# every consumer alike.
+_lower_hex64(v) if {
+	is_string(v)
+	regex.match(sha256_hex, v)
+}
+
+run_binding_inputs_ok if {
+	is_evidence
+	not _has_substrate_row
+}
+
+run_binding_inputs_ok if {
+	is_evidence
+	_has_substrate_row
+	every k in object.keys(_run_binding_inputs) {
+		_lower_hex64(_run_binding_inputs[k])
+	}
+}
+
+# --- clean-row coverage validity (spec: "Coverage validity") -------------------
+#
+# WHAT THIS CLOSES. The spec requires, for every basis:substrate row, that the
+# records the row REFERENCES match the class the row needs: "a clean row with
+# method: intercepted references at least one arming record and at least one
+# covering sealed record". Until this rule existed the policy admitted a "nothing
+# happened" claim backed by no evidence the vantage was ever armed — exactly what
+# the run-level absence records exist to carry — while the reference verifiers
+# rejected the same statement as invalid (primary code clean-row-uncovered).
+#
+# WHAT IS BYTE-PURE HERE. The record kind and every member the covering conditions
+# read live inside the base64 payload, and this module already does base64.decode +
+# json.unmarshal for the run-binding rule, so rego reads them directly. Enforced
+# below for a covering `sealed` record, all four byte-pure:
+#   * aeeStillArmed is the JSON literal true (the string "true" is not);
+#   * aeeDropCount is a non-negative integer that is either zero or does not exceed
+#     an aeeDropBound declared in the SAME payload (a non-zero drop count with no
+#     bound beside it covers nothing — the bound may not be supplied from outside);
+#   * aeePostureDigest equals the pinned networkPosture.digest.sha256;
+#   * aeeMethod is "intercepted" and the media type ends in "+json".
+# The spec states the posture equality against BOTH the pinned digest and the
+# arming record's, and both halves are enforced. The second half is NOT implied by
+# the first, which is the tempting shortcut: a COVERING arming record must itself
+# carry the pinned digest, so any two records that both cover necessarily agree,
+# and comparing each to the pinned value reads like the order-independent form of
+# the same constraint. It is not, because the reference verifiers quantify over the
+# arming records the ROW REFERENCES rather than over the ones that end up covering
+# it. A row citing one good arming record beside a second arming record that names
+# a different posture is rejected there with primary code sealed-covers-nothing,
+# while the shortcut sees nothing at all: the second record covers nothing, so it
+# never enters the comparison. The disagreement is the point rather than an edge
+# case. Two referenced arming records naming different vantages is what a statement
+# looks like when the records of two runs are spliced into one, and a sealed record
+# cannot honestly seal a vantage its own row disagrees about. `_sealed_covers`
+# therefore takes the ROW as well as the record and reads the row's whole reference
+# list. The cost is that sealing is no longer a property of a record alone: the
+# same record can seal one row and fail to seal another in the same statement.
+# The `arming` class constraints are byte-pure on the same terms and are enforced
+# too (aeeMethod intercepted; armedAt present, carrying a ZERO UTC offset, and no
+# later than issuedAt via time.parse_rfc3339_ns; aeePostureDigest equal to the
+# pinned digest; a read-first aeeBindingVersion this module does not implement
+# covers nothing; and the optional aeeRunSeq / aeePrevRunBinding / aeeChainScope
+# chain members are syntax-checked as a set). Each record's aeeRunBinding is NOT
+# re-checked here — run_binding_ok already requires it of EVERY record, which is
+# strictly stronger than requiring it of the referenced ones.
+#
+# WHAT REGO GENUINELY CANNOT DO is the part that decides whether any of the above
+# means anything: verify the per-record Ed25519 signature over the DSSE PAE. Every
+# member read here comes out of a payload whose signature nothing in this path
+# checks, so a party assembling the statement can write a perfectly-covering
+# arming + sealed pair describing a vantage that never existed (see "What this
+# policy cannot know"). Also out of reach and deliberately not attempted: the RFC
+# 8785 canonicality and I-JSON profile of the payload BYTES (rego evaluates the
+# lenient parse, never the bytes) and the RFC-6962 batch-root fold. This rule
+# closes a structural hole; it does not make a record trustworthy.
+_pinned_posture_digest := object.get(input, ["predicate", "observationEnvironment", "networkPosture", "digest", "sha256"], "")
+
+_chain_scope_tokens := {"subject", "corpus", "networkPosture"}
+
+_member_present(obj, k) if object.keys(obj)[k]
+
+_payload(env) := json.unmarshal(base64.decode(env.payload))
+
+# A record whose media type is not +json covers nothing (spec: observationRecords).
+_record_json_media_type(env) if endswith(env.payloadType, "+json")
+
+# A whole-number JSON value. Rego has no integer type; booleans are not numbers, so
+# is_number already excludes `true`/`false`.
+_is_integer(v) if {
+	is_number(v)
+	v == floor(v)
+}
+
+# Read-first binding-version declaration: absent defaults to the implemented
+# version; a carried version this module does not implement covers nothing.
+_binding_version_ok(p) if not _member_present(p, "aeeBindingVersion")
+
+_binding_version_ok(p) if p.aeeBindingVersion == "2"
+
+# --- the instant profile, cited by every temporal field this module reads --------
+#
+# ONE PLACE, BECAUSE TWO PLACES IS THE DEFECT. The zone rule used to be written on
+# armedAt alone, at the one call site that read it, so issuedAt admitted a +05:00
+# offset while the identical spelling was refused on a field a few members away. Both
+# fields cite the profile below now, and there is one pattern rather than a pattern per
+# field, because two patterns for one profile drift.
+#
+# THE PROFILE HAS TWO INDEPENDENT HALVES, and they are written independently on
+# purpose.
+#
+#   The CASE half is the pattern: an uppercase T separator and an uppercase Z
+#   designator, never the lowercase t and z that RFC 3339 also admits.
+#
+#   The ZONE half is the offset test below, and it reads the PARSED offset rather than
+#   the literal suffix. That distinction is load-bearing. Writing the zone rule as a
+#   suffix match over the zero-offset spellings admits exactly the same strings, and it
+#   also refuses a lowercase designator on the way past, so it would quietly stand in
+#   for the case rule and leave that rule with no input able to falsify it. Rendering
+#   the same local time with a Z and comparing the two instants asks the parser what
+#   the offset was actually worth, which keeps the halves separable.
+#
+# A NEGATIVE ZERO OFFSET IS CONFORMANT, and this is a correction rather than a
+# loosening. The old pattern matched `Z` or `+00:00` and so denied `-00:00`, which
+# every reference rail accepts: in RFC 3339 that spelling means the instant is known
+# while the offset to local time is not, which describes where a producer stood rather
+# than when it signed, and the instant is the only thing this module reads from the
+# field. The offset test admits all three zero spellings together, because it compares
+# instants and all three name the same one.
+#
+# MEASURED, NOT ASSUMED, and stated because it bears on what the pattern is worth here:
+# OPA's own time.parse_rfc3339_ns already refuses a lowercase designator, a lowercase
+# separator and a leap second, so on this rail the case half is enforced twice and no
+# input distinguishes a module carrying the pattern from one relying on the parser.
+# The pattern is kept anyway for two reasons that are not about redundancy. It states
+# the profile where a reader of the embedded ClusterImagePolicy can see it, and it does
+# not rest the case rule on a strictness the OPA build documents nowhere, which would
+# widen silently the day that changed. The reference rails need the pattern for real,
+# because their parsers are more permissive than this one.
+_instant_pattern := `^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?)(Z|[+-]\d{2}:\d{2})$`
+
+_instant_parts(v) := m[0] if {
+	is_string(v)
+	m := regex.find_all_string_submatch_n(_instant_pattern, v, 1)
+	count(m) == 1
+}
+
+_instant_ok(v) if {
+	parts := _instant_parts(v)
+	time.parse_rfc3339_ns(v) == time.parse_rfc3339_ns(concat("", [parts[1], "Z"]))
+}
+
+_instant_ns(v) := time.parse_rfc3339_ns(v) if _instant_ok(v)
+
+# The issue timestamp carries the profile in its own right, so a statement whose
+# issuedAt is absent or misspelled is invalid whether or not it carries a record that
+# would have compared against it. This is a VALIDITY rule and lives in soundness_ok
+# because that is where the reference rails put it, and because a freshness bound is
+# only ever as good as the parse underneath it.
+issued_at_ok if {
+	is_evidence
+	_instant_ok(input.predicate.issuedAt)
+}
+
+# armedAt carries the same profile, and is additionally no later than issuedAt.
+_armed_at_ok(p) if {
+	_instant_ok(p.armedAt)
+	_instant_ns(p.armedAt) <= _instant_ns(input.predicate.issuedAt)
+}
+
+# The OPTIONAL arming chain members are defined only as a set anchored on
+# aeeRunSeq: present alone, any of them covers nothing. aeeChainScope is a
+# duplicate-free, canonically-sorted array of closed-vocabulary tokens (for this
+# ASCII token set OPA's sort() is the UTF-16 code-unit order the spec names), and
+# aeePrevRunBinding is present exactly when aeeRunSeq exceeds 1.
+_chain_members_ok(p) if {
+	not _member_present(p, "aeeRunSeq")
+	not _member_present(p, "aeePrevRunBinding")
+	not _member_present(p, "aeeChainScope")
+}
+
+_chain_members_ok(p) if {
+	_is_integer(p.aeeRunSeq)
+	p.aeeRunSeq >= 1
+	is_array(p.aeeChainScope)
+	every t in p.aeeChainScope {
+		_chain_scope_tokens[t]
+	}
+	sort(p.aeeChainScope) == p.aeeChainScope
+	count({t | some t in p.aeeChainScope}) == count(p.aeeChainScope)
+	_prev_run_binding_ok(p)
+}
+
+_prev_run_binding_ok(p) if {
+	p.aeeRunSeq == 1
+	not _member_present(p, "aeePrevRunBinding")
+}
+
+_prev_run_binding_ok(p) if {
+	p.aeeRunSeq > 1
+	regex.match(sha256_hex, p.aeePrevRunBinding)
+}
+
+_arming_covers(env) if {
+	_record_json_media_type(env)
+	p := _payload(env)
+	p.aeeKind == "arming"
+	p.aeeMethod == "intercepted"
+	_binding_version_ok(p)
+	_armed_at_ok(p)
+	p.aeePostureDigest == _pinned_posture_digest
+	_chain_members_ok(p)
+}
+
+# aeeDropCount is zero, or does not exceed an aeeDropBound declared in the same
+# signed payload. A negative count satisfies neither branch.
+_drop_count_ok(p) if {
+	_is_integer(p.aeeDropCount)
+	p.aeeDropCount == 0
+}
+
+_drop_count_ok(p) if {
+	_is_integer(p.aeeDropCount)
+	p.aeeDropCount > 0
+	_is_integer(p.aeeDropBound)
+	p.aeeDropCount <= p.aeeDropBound
+}
+
+# A referenced arming record that names a different vantage than the sealed record
+# does. Read over the row's whole reference list rather than over its covering
+# records, and only over records that carry a posture digest STRING: an arming
+# record missing that member, or carrying a non-string in it, covers nothing on its
+# own account and contributes no disagreement here, which is exactly how the
+# reference verifiers build the set they compare against.
+_referenced_arming_disagrees(r, sealed_posture) if {
+	some i in r.observationRefs
+	q := _payload(observation_records[i])
+	q.aeeKind == "arming"
+	is_string(q.aeePostureDigest)
+	q.aeePostureDigest != sealed_posture
+}
+
+_sealed_covers(r, env) if {
+	_record_json_media_type(env)
+	p := _payload(env)
+	p.aeeKind == "sealed"
+	p.aeeMethod == "intercepted"
+	p.aeeStillArmed == true
+	_drop_count_ok(p)
+	p.aeePostureDigest == _pinned_posture_digest
+	not _referenced_arming_disagrees(r, p.aeePostureDigest)
+}
+
+# ── THE RUN-LEVEL SEAL (aee-c-96) ───────────────────────────────────────────────
+#
+# A run MUST carry a sealed record that still says armed. Until this rule existed
+# the requirement was reachable only THROUGH A ROW: `_sealed_covers` is called from
+# the clean-row and caught-row coverage arms, so a statement with no clean row
+# demanded no seal from anybody. That leaves a shape with no seal at all and a
+# shape whose only seal has already dropped its vantage, and both were admitted.
+#
+# `bad-1017-sole-seal-moat-down-all-caught` is the second shape and it is built
+# precisely for this hole: every row is caught, so no clean row is uncovered and
+# nothing fires ahead of the run-level checks, while the statement's one sealed
+# record carries `aeeStillArmed: false`. A seal that says the vantage came down is
+# not a seal over the run; it is a record of when the run stopped being observed.
+# Reading it as coverage inverts its meaning.
+#
+# WHY THIS IS SOUNDNESS AND NOT ADMISSION. The header's rule is that a check making
+# this rail disagree with the oracle the corpus is driven through belongs in
+# admission instead. This one AGREES with that oracle: the reference verifiers
+# reject both shapes, and the corpus carries them as reject vectors under
+# `sealed-record-absent`. A rail that admitted them would be the one diverging.
+#
+# WHAT IT DOES NOT ESTABLISH. Presence, not authenticity. This module never
+# verifies a record signature, so a forged sealed payload satisfies it. The rule
+# refuses a statement that does not even CLAIM a live vantage; proving the claim
+# is the signing rail's job and is out of reach here by construction.
+# The precondition is the reference rail's, quoted rather than invented: a
+# statement carrying a `basis: substrate` row carries at least one sealed record
+# satisfying every constraint of its kind, whether or not any row resolves an
+# index to it (packages/verify/src/evidence.ts, above the `sealed-record-absent`
+# append). An artifact-only statement makes no substrate claim and is exempt --
+# `ok-007-artifact-only-recordless` is an accept vector with no records at all,
+# and an unconditional rule denies it.
+#
+# The seal is judged on its OWN terms, with no row in the picture, so the posture
+# comparison runs against every arming record the statement carries rather than
+# against one row's references. That mirrors the reference and the Python rail,
+# where a malformed arming record still makes a posture claim and a seal that
+# contradicts it is contradicting something the producer asserted.
+_arming_posture_conflict(posture) if {
+	some env in observation_records
+	_record_json_media_type(env)
+	q := _payload(env)
+	q.aeeKind == "arming"
+	is_string(q.aeePostureDigest)
+	q.aeePostureDigest != posture
+}
+
+_valid_run_seal(env) if {
+	_record_json_media_type(env)
+	p := _payload(env)
+	p.aeeKind == "sealed"
+	p.aeeMethod == "intercepted"
+	p.aeeStillArmed == true
+	_drop_count_ok(p)
+	p.aeePostureDigest == _pinned_posture_digest
+	not _arming_posture_conflict(p.aeePostureDigest)
+}
+
+run_seal_present_ok if {
+	is_evidence
+	not _any_substrate_row
+}
+
+run_seal_present_ok if {
+	is_evidence
+	some env in observation_records
+	_valid_run_seal(env)
+}
+
+_any_substrate_row if {
+	some r in input.predicate.attackResults
+	_substrate_row(r)
+}
+
+# The rows this gate governs: a CLEAN (uncaught-label) row observed live at the
+# substrate. A caught row and a reconstructed row take the interception and
+# examination arms of the same class match, in the section below; an artifact row
+# carries no substrate claim and is governed by none of them.
+_substrate_row(r) if r.basis == "substrate"
+
+_clean_intercepted_substrate_row(r) if {
+	_substrate_row(r)
+	r.method == "intercepted"
+	_is_clean_label(r.containmentObserved)
+}
+
+# observationRefs MUST be present, non-empty, and every index a whole number in
+# range for observationRecords (spec: Coverage validity, first bullet).
+_refs_resolvable(r) if {
+	is_array(r.observationRefs)
+	count(r.observationRefs) > 0
+	every i in r.observationRefs {
+		_is_integer(i)
+		i >= 0
+		i < count(observation_records)
+	}
+}
+
+# ── THE ONE PLACE A FAIL-CLOSED MEMBER IS A VALIDITY FAULT, IN THE SPEC'S WORDS ──
+#
+# "A `basis: substrate` row whose `containmentObserved`, `basis`, or `method` is
+# fail-closed (outside the carried vocabulary) cannot satisfy the class-match
+# requirement and is therefore invalid; a `basis: artifact` fail-closed row sits at the
+# bottom of both orderings as before."
+#
+# That sentence is the whole rule, and it is scoped by `basis`. The vocabulary block
+# above states why a fail-closed row is ordinarily VALID and merely floors the result
+# at `fail`; this is the exception, and the reason it is an exception is structural
+# rather than a second opinion about severity. A substrate row owes the class match
+# below, the class match dispatches on (label, method), and a row whose label or method
+# is outside the carried vocabulary dispatches nowhere — so the requirement is not
+# failed, it is unevaluable, and a row that cannot be checked cannot be carried. An
+# artifact row owes no class match, so nothing about it becomes unevaluable and it
+# takes the ordinary fail-closed treatment.
+#
+# `basis` APPEARS IN THAT LIST AND CANNOT FIRE FROM IT, which is worth stating because
+# the vacuity is the whole reason `ok-901-row-missing-basis` is an ACCEPT. A row whose
+# `basis` is absent or out of vocabulary is not a `basis: substrate` row, so it never
+# reaches this rule; it is fail-closed, valid, and floors the result at `fail`. The
+# reference verifiers are built the same way — `checkSubstrateRow` is entered on
+# `basis == "substrate"` and emits `fail-closed-substrate-row` from its first guard —
+# and the corpus names the split in its own vector ids: `bad-501-substrate-unknown-
+# method`, `bad-504-substrate-oov-label`, `bad-505-substrate-missing-method` and
+# `bad-610-empty-labels-substrate` are REJECTS, while `ok-008-artifact-fail-closed-
+# method`, `ok-009-artifact-oov-label-fail`, `ok-010-artifact-retired-basis-fail`,
+# `ok-027-artifact-missing-method` and `ok-032-method-inferred-retired` are ACCEPTS.
+_substrate_fail_closed_row_ok(r) if not _substrate_row(r)
+
+_substrate_fail_closed_row_ok(r) if {
+	_substrate_row(r)
+	_carries_label(r)
+	_carries_method(r)
+	_carries_attribution(r)
+}
+
+substrate_fail_closed_ok if {
+	is_evidence
+	every r in input.predicate.attackResults {
+		_substrate_fail_closed_row_ok(r)
+	}
+}
+
+_clean_row_covered(r) if not _clean_intercepted_substrate_row(r)
+
+_clean_row_covered(r) if {
+	_clean_intercepted_substrate_row(r)
+	_refs_resolvable(r)
+	some ia in r.observationRefs
+	_arming_covers(observation_records[ia])
+	some isx in r.observationRefs
+	_sealed_covers(r, observation_records[isx])
+}
+
+clean_row_coverage_ok if {
+	is_evidence
+	every r in input.predicate.attackResults {
+		_clean_row_covered(r)
+	}
+}
+
+# --- the rest of the class match: caught, reconstructed, refs, method cap --------
+#
+# WHAT THIS CLOSES. The rule above implements ONE of the spec's three class-match
+# arms. The spec scopes EVERY Coverage validity requirement to EVERY basis:substrate
+# row, so the other two arms and the requirements around them were unenforced here:
+# a caught row could cite an arming record and nothing else, a reconstructed row
+# could cite an interception, either could cite an empty or out-of-range
+# observationRefs, and a row claiming `intercepted` could rest on a record whose
+# signed aeeMethod says `reconstructed`. Each of those makes the attestation invalid
+# under the reference verifiers (primary codes caught-row-uncovered,
+# reconstructed-row-uncovered, refs-empty, ref-out-of-range, method-cap-exceeded)
+# while this rail admitted it.
+#
+# WHAT IS BYTE-PURE HERE, requirement by requirement:
+#   * observationRefs present, non-empty, every index a whole number in range — on
+#     each governed row, exactly as the clean-row rule already required of its own.
+#     The three arms partition the substrate rows of any statement that satisfies
+#     substrate_fail_closed_ok (on a substrate row the method is in the closed
+#     vocabulary and the label is a carried one), so on such a statement every
+#     substrate row is governed by exactly one of them and none escapes the refs
+#     requirement. That premise is stated as its own rule above rather than assumed:
+#     it used to rest on basis_method_ok and containment_vocab_ok, which applied the
+#     vocabulary gate to artifact rows too and made the rail reject statements the
+#     spec calls valid.
+#   * every REFERENCED payload is +json and carries the three reserved members
+#     (aeeRunBinding, aeeKind, aeeMethod). That is a constraint on every payload the
+#     row references, NOT only on the ones that end up covering it, so a row citing
+#     one good record beside one unreadable one is invalid — which is why it is its
+#     own rule rather than a clause of the class match.
+#   * the class match, dispatched in the spec's own order: a method:reconstructed
+#     row needs a valid `examination` record (whether its label is caught or clean);
+#     otherwise a CAUGHT row needs a valid `interception` record; otherwise a CLEAN
+#     row needs `arming` + covering `sealed` (the rule above).
+#   * the method cap: a row claiming `intercepted` may not rest on a COVERING record
+#     whose signed aeeMethod is `reconstructed`. The cap reads the covering records
+#     only — a referenced record that covers nothing caps nothing — which is why it
+#     is written over the same `_covers` relation the class match uses. Only the
+#     caught/interception arm can actually trip it: an `arming` or `sealed` record
+#     must itself be `intercepted` to cover at all, and a reconstructed row is
+#     already at the bottom of the ordering the cap enforces.
+#
+# WHAT REGO STILL CANNOT DO is exactly the list the clean-row rule states, and none
+# of it moves: the per-record Ed25519 signature over the DSSE PAE, the RFC 8785
+# canonicality and I-JSON profile of the payload BYTES (rego evaluates the lenient
+# parse, so "parses as a canonical +json object" is enforced only as far as the
+# media type and the decoded members — an unsorted, duplicate-membered, or
+# non-canonically-base64'd payload reads the same here as a canonical one), and the
+# RFC-6962 batchRoot fold. Every member read below comes out of a payload whose
+# signature nothing in this path checks, so a party assembling the statement can
+# write a perfectly class-matching record set describing observations that never
+# happened. This closes a structural hole; it does not make a record trustworthy.
+_caught_intercepted_substrate_row(r) if {
+	_substrate_row(r)
+	r.method == "intercepted"
+	vocab_caught[r.containmentObserved]
+}
+
+_reconstructed_substrate_row(r) if {
+	_substrate_row(r)
+	r.method == "reconstructed"
+}
+
+# A referenced record is READABLE when its media type ends in +json and its decoded
+# payload carries the three reserved members as strings. `_arming_covers` and
+# `_sealed_covers` do not call this: their own member comparisons already imply
+# aeeKind and aeeMethod, and run_binding_ok owns aeeRunBinding for every record.
+_record_readable(env) if {
+	_record_json_media_type(env)
+	p := _payload(env)
+	is_string(p.aeeRunBinding)
+	is_string(p.aeeKind)
+	is_string(p.aeeMethod)
+}
+
+# The interception class carries no constraint beyond the reserved members, so an
+# interception record signed `reconstructed` covers — and caps the row's method.
+_interception_covers(env) if {
+	_record_readable(env)
+	p := _payload(env)
+	p.aeeKind == "interception"
+	method_tokens[p.aeeMethod]
+}
+
+# An examination record signed `intercepted` violates its class and covers nothing.
+_examination_covers(env) if {
+	_record_readable(env)
+	p := _payload(env)
+	p.aeeKind == "examination"
+	p.aeeMethod == "reconstructed"
+}
+
+_caught_row_covered(r) if not _caught_intercepted_substrate_row(r)
+
+_caught_row_covered(r) if {
+	_caught_intercepted_substrate_row(r)
+	_refs_resolvable(r)
+	some i in r.observationRefs
+	_interception_covers(observation_records[i])
+}
+
+caught_row_coverage_ok if {
+	is_evidence
+	every r in input.predicate.attackResults {
+		_caught_row_covered(r)
+	}
+}
+
+_reconstructed_row_covered(r) if not _reconstructed_substrate_row(r)
+
+_reconstructed_row_covered(r) if {
+	_reconstructed_substrate_row(r)
+	_refs_resolvable(r)
+	some i in r.observationRefs
+	_examination_covers(observation_records[i])
+}
+
+reconstructed_row_coverage_ok if {
+	is_evidence
+	every r in input.predicate.attackResults {
+		_reconstructed_row_covered(r)
+	}
+}
+
+_row_referenced_records_ok(r) if not _substrate_row(r)
+
+_row_referenced_records_ok(r) if {
+	_substrate_row(r)
+	every i in r.observationRefs {
+		_record_readable(observation_records[i])
+	}
+}
+
+referenced_records_ok if {
+	is_evidence
+	every r in input.predicate.attackResults {
+		_row_referenced_records_ok(r)
+	}
+}
+
+# ── A COVERAGE-VALIDITY REQUIREMENT HOLDS ON THE STATEMENT, NOT ON A SUBSTRATE ROW ─
+#
+# `_refs_resolvable` carries the in-range half of this requirement and is reached
+# from four places, every one of them behind `_substrate_row`. So an `artifact` row's
+# observationRefs were never range-checked at all, and `_row_referenced_records_ok`
+# returned true for such a row by its first clause without reading them. A statement
+# whose first row is a clean substrate row and whose second is an artifact row citing
+# index 99 of a two-record list was admitted here while the reference verifier denies
+# it with `ref-out-of-range`. That is `bad-993-second-row-refs-out-of-range`, and it
+# is the shape the whole class shares: the fault sits on a LATER entry, and every
+# rule that could have caught it had been scoped to somewhere the producer chooses.
+#
+# The reference states the scope rule in the sentence introducing this class: these
+# requirements hold on the statement, or on every row rather than only on a
+# `basis: substrate` row, and "the per-row gate skips any row that is not substrate,
+# so a rule written there would silently acquire that scope."
+#
+# Scoped to match the reference exactly rather than to be stricter, because a rail
+# that denies what the reference admits is as wrong as one that admits what it
+# denies, and the accept side of the corpus would catch it in the other direction:
+#   * only when the statement carries records at all, mirroring its
+#     `p.records.length > 0` guard;
+#   * only over indices that are present and whole, since a missing refs member or a
+#     non-integer index is a different fault carrying its own code;
+#   * only above the top of the range. A negative index is left to the row-level
+#     rule that already owns it, so this rule adds range scope and no new severity.
+_ref_out_of_range if {
+	count(observation_records) > 0
+	some r in input.predicate.attackResults
+	some i in r.observationRefs
+	_is_integer(i)
+	i >= count(observation_records)
+}
+
+refs_in_range_ok if {
+	is_evidence
+	not _ref_out_of_range
+}
+
+# ── TWO RUN-LEVEL SET REQUIREMENTS THIS RAIL HAD NEVER IMPLEMENTED ───────────────
+#
+# `aeeObservedAttacks` and `aeeAssessedAttacks` appeared ZERO times in this file
+# against fourteen for `aeePostureDigest`, so these are not rules that were scoped
+# wrongly; they were absent, and the rail admitted every statement that violated
+# them. Four corpus vectors turn on it, each putting the fault on a SECOND record of
+# a kind whose first record is clean, which is exactly the shape a rule reachable
+# only through row coverage cannot see: the row resolves to the good record and the
+# bad one is never read.
+#
+# The reference states the principle in its own words, and it is the whole reason
+# these are written at run level rather than inside a coverage arm: "A constraint
+# evaluated only where a row points is a constraint whose subject the producer
+# chooses."
+#
+# Both read every carried record of their kind, and both SKIP a record whose array
+# is absent or malformed rather than reporting it here — that is a different fault
+# with its own code, and reporting it twice would make this rail deny statements the
+# reference denies for another reason, which the accept side would catch.
+#
+# Neither reads a signature. A producer who can write the records can satisfy both.
+_attack_id_array_ok(vals) if {
+	is_array(vals)
+	every v in vals {
+		is_string(v)
+		_declared_attacks[v]
+	}
+	vals == sort(vals)
+	count(vals) == count({v | some v in vals})
+}
+
+_caught_row_attack_ids contains id if {
+	some r in input.predicate.attackResults
+	vocab_caught[r.containmentObserved]
+	id := r.attackId
+}
+
+# For every identifier a seal names, the statement carries a row with that attackId
+# whose containmentObserved is in the CARRIED caught set. One direction only: a seal
+# that omits an attack licenses nothing and obliges no clean row.
+_observed_attack_uncaught if {
+	some env in observation_records
+	p := _payload(env)
+	p.aeeKind == "sealed"
+	p.aeeRunBinding == run_identity
+	_attack_id_array_ok(p.aeeObservedAttacks)
+	some a in p.aeeObservedAttacks
+	not _caught_row_attack_ids[a]
+}
+
+observed_attacks_caught_ok if {
+	is_evidence
+	not _observed_attack_uncaught
+}
+
+_manifest_classes := object.get(
+	input,
+	["predicate", "observationEnvironment", "corpus", "manifest", "classes"],
+	{},
+)
+
+_assessed_attack_ids contains a if {
+	some cls in object.get(input, ["predicate", "coverage", "assessedClasses"], [])
+	some a in object.get(_manifest_classes, [cls], [])
+}
+
+# The union of the manifest identifiers for the carried assessedClasses is a SUBSET
+# of the arming record's declaration. A subset and not an equality, so a run that
+# lost coverage part-way can still disclose the loss rather than being pushed to
+# overstate what it declared.
+_assessed_exceeds_declaration if {
+	some env in observation_records
+	p := _payload(env)
+	p.aeeKind == "arming"
+	p.aeeRunBinding == run_identity
+	_attack_id_array_ok(p.aeeAssessedAttacks)
+	declared_here := {d | some d in p.aeeAssessedAttacks}
+	some a in _assessed_attack_ids
+	not declared_here[a]
+}
+
+assessed_within_declaration_ok if {
+	is_evidence
+	not _assessed_exceeds_declaration
+}
+
+# ── THE MEMBER SHAPES 0.7 REQUIRES ON A KIND, READ ON EVERY CARRIED RECORD ───────
+#
+# The reference draws the line these two rules sit on: for `aeeAssessedAttacks` on an
+# arming record and `aeePayloadCommitment` on an interception record, "what the kind
+# requires is that the array is there and well formed". The comparisons those arrays
+# feed are statement rules and live above; this is only the shape.
+#
+# Read on every carried record of the kind rather than through a row, for the same
+# reason as the two rules above: `bad-987-arming-assessedattacks-later-undeclared`
+# and `bad-989-commitment-later-entry-not-hex` each put a malformed SECOND record
+# beside a clean first one, and a rule reachable only where a row points never reads
+# the second.
+#
+# Deliberately narrower than the reference's full carried-record evaluation, which
+# also asks whether such a record satisfies every OTHER condition of its kind. That
+# wider rule is correct and is NOT implemented here: two existing tests assert a
+# statement is sound while carrying an arming record the reference would call
+# invalid for a different reason (a non-string posture, an unparseable armedAt), the
+# corpus carries no vector for either, and widening the rule on my own reading would
+# change what this rail denies on a question nothing here can settle. The gap is
+# real and is recorded rather than closed quietly.
+_commitment_array_ok(vals) if {
+	is_array(vals)
+	count(vals) > 0
+	every v in vals {
+		is_string(v)
+		regex.match(sha256_hex, v)
+	}
+	vals == sort(vals)
+	count(vals) == count({v | some v in vals})
+}
+
+_record_kind_array_malformed if {
+	some env in observation_records
+	p := _payload(env)
+	p.aeeRunBinding == run_identity
+	p.aeeKind == "arming"
+	not _attack_id_array_ok(p.aeeAssessedAttacks)
+}
+
+_record_kind_array_malformed if {
+	some env in observation_records
+	p := _payload(env)
+	p.aeeRunBinding == run_identity
+	p.aeeKind == "interception"
+	not _commitment_array_ok(p.aeePayloadCommitment)
+}
+
+record_kind_arrays_ok if {
+	is_evidence
+	not _record_kind_array_malformed
+}
+
+# The records that COVER a row: the class-matching, class-valid ones among those it
+# references. The method cap reads this relation and nothing wider.
+_covers(r, env) if {
+	_reconstructed_substrate_row(r)
+	_examination_covers(env)
+}
+
+_covers(r, env) if {
+	_caught_intercepted_substrate_row(r)
+	_interception_covers(env)
+}
+
+_covers(r, env) if {
+	_clean_intercepted_substrate_row(r)
+	_arming_covers(env)
+}
+
+_covers(r, env) if {
+	_clean_intercepted_substrate_row(r)
+	_sealed_covers(r, env)
+}
+
+_method_cap_exceeded if {
+	some r in input.predicate.attackResults
+	r.method == "intercepted"
+	some i in r.observationRefs
+	env := observation_records[i]
+	_covers(r, env)
+	p := _payload(env)
+	p.aeeMethod == "reconstructed"
+}
+
+method_cap_ok if {
+	is_evidence
+	not _method_cap_exceeded
+}
+
+# batchRoot presence/shape: a records-present statement MUST carry the 64-hex
+# predicate-level batchRoot (its RFC-6962 fold is recomputed offline). A recordless
+# statement omits it and is vacuously ok.
+batch_root_ok if {
+	is_evidence
+	count(observation_records) == 0
+}
+
+batch_root_ok if {
+	is_evidence
+	count(observation_records) > 0
+	regex.match(sha256_hex, input.predicate.batchRoot)
+}
+
+# Structural signature PRESENCE — a BAND-AID, not verification.
+#
+# Every observationRecords[] entry must carry a non-empty signatures[] array.
+# This is byte-pure: it needs no key, so it holds in EVERY deployment, including
+# the policy-controller path where no component verifies a record signature.
+#
+# What it does NOT do: it never touches the signature bytes. Rego has no ed25519.
+# An attacker who writes 64 bytes of garbage into signatures[0].sig passes this
+# gate exactly as a real substrate does.
+#
+# What it DOES do: it closes the literal strip. The batchRoot leaves are
+# H(0x00 || PAE) and PAE spans only (payloadType, payload), so deleting every
+# signatures[] entry leaves the batch root unchanged and the statement otherwise
+# intact — a zero-signature statement was previously admitted with no gate at all.
+# After this rule, "admits a statement with zero signatures" becomes "admits one
+# whose signatures are structurally present but unchecked". Materially different
+# failure, and the only part of it rego can close without a key.
+_record_signatures_present(env) if {
+	sigs := object.get(env, "signatures", [])
+	is_array(sigs)
+	count(sigs) > 0
+}
+
+record_signatures_ok if {
+	is_evidence
+	every env in observation_records {
+		_record_signatures_present(env)
+	}
+}
+
+# Optional policy-replay anchors (consumer-supplied via data.consumer), evidence-only.
+policy_anchor_ok if not data.consumer.expected_catch_policy_digest
+
+policy_anchor_ok if {
+	input.predicate.observationEnvironment.catchPolicy.digest.sha256 == data.consumer.expected_catch_policy_digest
+}
+
+posture_anchor_ok if not data.consumer.allowed_network_postures
+
+posture_anchor_ok if {
+	data.consumer.allowed_network_postures[input.predicate.observationEnvironment.networkPosture.posture]
+}
+
+soundness_ok if {
+	coverage_digest_ok
+	corpus_declares_attacks_ok
+	coverage_classes_ok
+	coverage_attacks_ok
+	observation_vocabulary_ok
+	issued_at_ok
+	result_recompute_ok
+	actual_layer_ok
+	substrate_records_ok
+	run_binding_ok
+	run_binding_inputs_ok
+	substrate_fail_closed_ok
+	run_seal_present_ok
+	clean_row_coverage_ok
+	caught_row_coverage_ok
+	reconstructed_row_coverage_ok
+	referenced_records_ok
+	refs_in_range_ok
+	observed_attacks_caught_ok
+	assessed_within_declaration_ok
+	record_kind_arrays_ok
+	method_cap_ok
+	batch_root_ok
+	record_signatures_ok
+	expected_payloads_ok
+	attribution_expectation_ok
+	attribution_pin_ok
+	policy_anchor_ok
+	posture_anchor_ok
+}
+
+# ── THE TWO HALVES OF THE 0.7 ATTRIBUTION RULES THIS MODULE CAN REACH ────────────
+#
+# The predicate makes the row-to-record assignment checkable through three members:
+# `corpus.manifest.expectedPayloads` names, per attack, the commitment its
+# interception is expected to carry; `aeePayloadCommitment` carries what the record
+# committed to; and the required row member `attribution` says whether the row
+# claims that binding. Two of the three live in the parsed statement and one lives
+# inside a base64 record payload this module deliberately never decodes, so exactly
+# two of the rules are evaluable here and the third is not. Saying which is which is
+# the point: an admission gate that quietly checked two of three parts would report a
+# soundness it does not have.
+#
+# All three parts are evaluable here, and the claim that one was not is corrected
+# rather than carried. The sentence above used to end "one lives inside a base64
+# record payload this module deliberately never decodes", which was already false
+# when it was written: `_payload` five hundred lines up is `json.unmarshal(
+# base64.decode(env.payload))`, and the clean-row and caught-row coverage rules read
+# record members through it. A comment asserting that a rule is out of reach is read
+# instead of the code, which is the failure mode this module names elsewhere in its
+# own voice; the corpus is what settled it, because `bad-982` exchanges the
+# assignment between two pinned rows and the policy admitted it.
+#
+# So: the manifest's map is well formed (`expected_payloads_ok`); a row claiming the
+# stronger binding names an attack the manifest carries an expectation for
+# (`attribution_expectation_ok`); and that row resolves at least one interception,
+# every one of which carries a value the manifest declared for that row's attack
+# (`attribution_pin_ok`). What stays out of reach is what is out of reach for every
+# record member this module reads: the Ed25519 signature over the DSSE PAE. A party
+# assembling the statement can write any commitment it likes into an unverified
+# payload, so this rule closes an assignment hole and does not make a record
+# trustworthy.
+
+_expected_payloads := object.get(
+	input,
+	["predicate", "observationEnvironment", "corpus", "manifest", "expectedPayloads"],
+	{},
+)
+
+_declared_attacks contains a if {
+	some _, ids in input.predicate.observationEnvironment.corpus.manifest.classes
+	some a in ids
+}
+
+# Every key an attack the same manifest's classes declares, every array non-empty,
+# sorted ascending, duplicate-free, and every entry lowercase 64-hex. A manifest
+# violating any of these is malformed, and this is a manifest question rather than a
+# row one: nothing on a row can repair a manifest whose pre-image is already inside
+# the run binding.
+expected_payloads_ok if {
+	is_evidence
+	every attack, values in _expected_payloads {
+		_expected_entry_ok(attack, values)
+	}
+}
+
+_expected_entry_ok(attack, values) if {
+	_declared_attacks[attack]
+	count(values) > 0
+	values == sort(values)
+	count(values) == count({v | some v in values})
+	every v in values {
+		regex.match(`^[0-9a-f]{64}$`, v)
+	}
+}
+
+# A row declaring the stronger binding names an attack the pinned corpus carries an
+# expectation for. A row whose attackId carries no such entry MUST declare the weaker
+# value: where the corpus declares nothing there is nothing to compare, and the
+# stronger value would be a claim about a check that cannot run.
+attribution_expectation_ok if {
+	is_evidence
+	every r in input.predicate.attackResults {
+		_attribution_expectation_row_ok(r)
+	}
+}
+
+_attribution_expectation_row_ok(r) if r.attribution != "pinned"
+
+_attribution_expectation_row_ok(r) if {
+	r.attribution == "pinned"
+	count(object.get(_expected_payloads, [r.attackId], [])) > 0
+}
+
+# The third part. A row declaring the stronger binding resolves at least one
+# interception record, and every interception it resolves carries in its
+# aeePayloadCommitment at least one value from the manifest's entry for the row's
+# attack. The existence half is not redundant beside the quantified half: a
+# requirement universally quantified over an empty set is vacuously true, so without
+# it a producer deletes the interception records, resolves only run-level ones, and
+# keeps the stronger label with nothing checking it.
+#
+# Stated over every row rather than only over a `basis: substrate` row, because the
+# declaration is a row member with a closed vocabulary and the rule that reads it
+# does not ask what vantage the row claims.
+attribution_pin_ok if {
+	is_evidence
+	every r in input.predicate.attackResults {
+		_attribution_pin_row_ok(r)
+	}
+}
+
+_attribution_pin_row_ok(r) if r.attribution != "pinned"
+
+_attribution_pin_row_ok(r) if {
+	r.attribution == "pinned"
+	_refs_resolvable(r)
+	some i in r.observationRefs
+	_interception_covers(observation_records[i])
+	every j in r.observationRefs {
+		_pinned_interception_ok(r, j)
+	}
+}
+
+# A resolved record that is not an interception is not this rule's business: the
+# class-match rules decide what it covers, and a run-level record beside the
+# interception is an ordinary shape.
+_pinned_interception_ok(_, j) if not _interception_covers(observation_records[j])
+
+_pinned_interception_ok(r, j) if {
+	_interception_covers(observation_records[j])
+	p := _payload(observation_records[j])
+	some v in p.aeePayloadCommitment
+	v in object.get(_expected_payloads, [r.attackId], [])
+}
+
+# --- admission threshold (consumer policy) -------------------------------------
+
+result_bearing if admissible_types[input.predicateType]
+
+# ── THE THRESHOLD IS A CONSUMER PIN, AND IT IS NOT THE ROW GATE ──────────────────
+#
+# THE SPEC, IN ITS OWN WORDS. "The default admission threshold is `result == "pass"`.
+# A consumer MAY accept `pass_indirect`, and a consumer relaxing its threshold below
+# `pass` MUST additionally key on each clean row's `basis` and `method` and on that
+# row's derived evidence tier, because below `pass` the ordinal stops distinguishing
+# them"; and, at the consumer-policy example, "a policy relaxed to admit
+# `pass_indirect` MUST keep the rule, because the token states that some clean row is
+# indirect and never which one."
+#
+# THE DEFECT THIS REPLACES. One flag did both jobs. `result_pass` took its
+# `pass_indirect` arm from `_admit_unintercepted_clean_rows`, and the RULE
+# `clean_row_provenance_ok` was satisfied OUTRIGHT by that same flag, so the single act
+# of relaxing the ordinal also dropped the row-level obligation the sentence above
+# requires a relaxed consumer to keep. The conformant posture was not merely easy to
+# miss, it was INEXPRESSIBLE: no configuration of this module admitted `pass_indirect`
+# with the row rule still running. The comment that stood here asserted the opposite —
+# that relaxing the ordinal "can never drop the row check, because
+# `_clean_row_provenance_ok` reads the same flag and stays the row-level obligation" —
+# and it named the pure helper `_clean_row_provenance_ok(r)`, which does not read the
+# flag, while the rule beside it short-circuits on it. A comment stating that a defect
+# is impossible is worse than no comment, because it is read instead of the code.
+#
+# THE SHAPE. `data.consumer.accepted_results` is the token list this consumer admits,
+# spelled and comprehended exactly as `demanded_classes` is, so a rail mounting a
+# consumer data document writes `["pass"]` or `["pass", "pass_indirect"]` and a rail
+# with nowhere to mount one (policy-controller) edits the right-hand side of
+# `accepted_results` below. It is a THRESHOLD over `fail < degraded < pass_indirect <
+# pass` and not a free set of tokens, so the only two admissible values are the top
+# token alone and the top two together. `["pass_indirect"]` names no threshold, `[]`
+# names none, and `["pass", "degraded"]` names a token that would admit a disclosed
+# coverage gap; each is a typo rather than a policy and each DENIES loudly, naming the
+# value it was handed, in the same direction `_positive_number` takes for a freshness
+# pin of the wrong shape.
+#
+# THE ABSENT-PIN DECISION: TAKE THE SPEC'S OWN DEFAULT, `{"pass"}`. This is neither of
+# the two categories the older knobs argue between, and the difference is worth stating
+# rather than assuming. The corpus, substrate and scope pins DENY when absent because
+# the obligation exists whether or not the consumer states it and only the consumer
+# holds the value, so an absent pin is a consumer failing to do something required of
+# it. The replay anchors and the freshness bounds are VACUOUS when absent because
+# nothing obliges a consumer to set them at all. Here the spec itself supplies the value
+# an absent pin would otherwise have to demand, and that value is the STRICT end of this
+# knob's range: absence cannot admit anything a pin would have refused. That is the
+# whole of the asymmetric-failure argument the absent-anchor decision rests on, and it
+# is satisfied without denying, because the silent-and-indefinite failure mode has no
+# instance here — widening this threshold is reachable only by writing the wider value
+# down.
+_default_threshold := {"pass"}
+
+# THE EDIT POINT for a rail with no consumer data document: replace the right-hand side
+# with the token array this deployment admits, then regenerate the CIP.
+accepted_results := data.consumer.accepted_results
+
+# Declared-ness is read off the RAW value and not off the comprehension. A comprehension
+# over an absent key and a comprehension over a bare string `"pass"` both yield the empty
+# set, so reading the empty set as "unpinned" would let a typo take the default in
+# silence. An absent key takes the spec's default; a declared value that comprehends to
+# anything other than an admissible threshold falls through to `_threshold_well_formed`
+# below and denies.
+#
+# The lookup is rooted at `data.consumer` and NOT at `data`. Reading the whole document
+# to walk down to the same value makes every rule that touches it depend on
+# `data.sigstore`, which is this package, and OPA refuses the module as recursive. The
+# narrower root says the same thing and compiles.
+_threshold_declared if object.get(data.consumer, "accepted_results", null) != null
+
+_threshold := {t | some t in accepted_results} if {
+	_threshold_declared
+} else := _default_threshold
+
+_threshold_well_formed if _threshold == {"pass"}
+
+_threshold_well_formed if _threshold == {"pass", "pass_indirect"}
+
+_threshold_relaxed if _threshold.pass_indirect
+
+# ── the two knobs are declared TOGETHER, or the module denies ────────────────────
+#
+# Neither guard below forbids a posture the spec allows. Both refuse a PAIRING that
+# leaves the row question unsaid, which is the state the single flag made unavoidable.
+#
+# A RELAXED THRESHOLD MUST SAY WHAT IT REQUIRES OF A ROW. `pass_indirect` states that
+# SOME clean row is indirect and never which one, so a consumer admitting the token has
+# to decide the row-level question rather than inherit an answer from the ordinal. Both
+# answers are conformant and they are different deployments. `false` KEEPS the row rule,
+# which is literally the posture the spec's MUST names; on this rail that combination
+# admits no indirect statement, because the recompute floors a statement at
+# `pass_indirect` on exactly the rows the gate refuses, and the spec says as much when
+# it observes that a `pass`-only policy "already excludes every statement that rule would
+# deny". `true` DECLINES the row obligation, which is the spec's own `admit_only_live`
+# switch set to false in the consumer-policy example, and admits them. What is refused is
+# the third state, in which the knob is absent and the operator never met the choice.
+# That denies loudly and once, at rollout, naming the knob — the direction the
+# absent-anchor decision takes everywhere else here.
+#
+# DECLINING THE ROW OBLIGATION UNDER A PASS-ONLY THRESHOLD IS A NO-OP, AND SAYS SO. A
+# statement carrying an indirect clean row recomputes to `pass_indirect` and is refused
+# by the pass-only threshold before the row gate is reached, so that pairing changes
+# nothing and an operator who wrote it wanted something it does not do. It is also
+# EXACTLY the shape a consumer document has the day this split lands, when it carried the
+# old single flag and nothing else: reading it as "admits nothing extra" would narrow a
+# running deployment in silence, which is the failure mode this whole section exists to
+# correct. It denies instead, naming the token to add.
+#
+# `_admit_unintercepted_clean_rows` is defined with the row gate it governs, below.
+_row_gate_declared if is_boolean(object.get(data.consumer, "admit_unintercepted_clean_rows", null))
+
+_relaxed_threshold_decides_the_row_gate if not _threshold_relaxed
+
+_relaxed_threshold_decides_the_row_gate if {
+	_threshold_relaxed
+	_row_gate_declared
+}
+
+_row_gate_decline_is_reachable if not _admit_unintercepted_clean_rows
+
+_row_gate_decline_is_reachable if {
+	_admit_unintercepted_clean_rows
+	_threshold_relaxed
+}
+
+consumer_threshold_ok if {
+	_threshold_well_formed
+	_relaxed_threshold_decides_the_row_gate
+	_row_gate_decline_is_reachable
+}
+
+result_pass if {
+	is_evidence
+	_threshold_well_formed
+	_threshold[input.predicate.result]
+}
+
+result_pass if {
+	not is_evidence
+	input.predicate.verdict == "pass"
+}
+
+# Clean-row provenance — the gate the spec's own consumer-policy example describes.
+#
+# adversarial-execution-evidence.md, "Consumer policy example (non-normative)":
+# the policy is "keyed on both the derived tier and the row's `method` so a
+# reconstructed clean row is not admitted as a live one", and "an admission rule
+# that needs a live observation keys on `method: intercepted` as well as the tier".
+# The tier half is not computable here (see "What this policy cannot know" in the
+# header); the method/basis half is byte-pure and is enforced.
+#
+# A CLEAN row — containmentObserved IS in observationVocabulary.labels and is NOT
+# in .caught — must be basis:substrate + method:intercepted. A clean row that is
+# artifact-basis or reconstructed is a "nothing bad happened" claim assembled from
+# state diffing rather than from a live interception at the substrate; admitting it
+# by default is what let the recordless self-reported statement through.
+#
+# CONSUMER DECLARATION, default OFF: a consumer that genuinely wants state-diffing
+# evidence sets data.consumer.admit_unintercepted_clean_rows := true. Unset (the
+# default, and the shipped posture) is the safe direction: the consumer who wants
+# the weaker evidence has to say so.
+#
+# THIS KNOB GOVERNS THE ROW CHECK AND NOTHING ELSE. It used to carry the admission
+# THRESHOLD with it, which is the defect argued out at "THE THRESHOLD IS A CONSUMER
+# PIN" above: declining the row obligation moved the ordinal, and relaxing the ordinal
+# dropped the row obligation, so the spec's "a policy relaxed to admit `pass_indirect`
+# MUST keep the rule" had no expressible implementation. The two are separate
+# declarations now, and `consumer_threshold_ok` refuses a pairing that states only one
+# of them, so declining this obligation is an act an operator performs rather than one
+# a threshold performs for it.
+#
+# A LITERAL `true` DECLINES; a literal `false` KEEPS the obligation; any other value,
+# including the string "true", is not a declaration at all — `_row_gate_declared` reads
+# the JSON type, so a typo cannot pass for either answer, and under a relaxed threshold
+# it denies on the guard that requires the answer.
+#
+# This is an ADMISSION-threshold rule, not a validity rule: an artifact-basis clean
+# statement is perfectly VALID evidence per the spec (soundness_ok stays true) — it
+# is not admissible under the default consumer policy. Keeping it out of
+# soundness_ok is what stops it from corrupting the conformance-corpus oracle.
+_admit_unintercepted_clean_rows if data.consumer.admit_unintercepted_clean_rows == true
+
+_clean_row_provenance_ok(r) if not _is_clean_label(r.containmentObserved)
+
+_clean_row_provenance_ok(r) if {
+	_is_clean_label(r.containmentObserved)
+	r.basis == "substrate"
+	r.method == "intercepted"
+}
+
+clean_row_provenance_ok if {
+	is_evidence
+	_admit_unintercepted_clean_rows
+}
+
+clean_row_provenance_ok if {
+	is_evidence
+	every r in input.predicate.attackResults {
+		_clean_row_provenance_ok(r)
+	}
+}
+
+# Clean-row self-contradiction: a row that claims nothing was caught while citing a
+# record in which the substrate says it caught something.
+#
+# THE ATTACK THIS NARROWS. A party holding the outer envelope key but NOT the
+# substrate's observation key cannot forge a record, but it does not need to. It can
+# rewrite the ROWS: take a run whose statement recomputes to "fail", relabel each
+# caught row with a clean label, set actualLayer to "none", point the rewritten rows
+# at the run-level arming and sealed records, and declare result "pass". The
+# observationRecords array and the batchRoot come through BYTE-IDENTICAL, so every
+# record signature still verifies and the Merkle fold still folds. Nothing in the
+# class match objects, because the class match constrains the SHAPE of the reference
+# graph and this attack does not change the shape. Driving that rewrite over the
+# multi-record accept vectors produced isCompliant: true with an empty errors set,
+# and the reference verifiers call the rewritten statement VALID too. The hole is
+# in the evidence model, not in one rail's implementation of it.
+#
+# WHAT THIS RULE CLOSES. Exactly the residue the rewrite leaves in the bytes. The
+# rewritten row keeps citing the interception record the original caught row cited,
+# and an interception record is the substrate saying, under its own signature, that
+# it intercepted traffic during this run. A row asserting a clean label while
+# pointing at that record is asserting both halves of a contradiction, and the
+# consumer is entitled to refuse the pair rather than pick a half. This is cheap,
+# byte-pure, and costs nothing observable: no vector in the published conformance
+# corpus pairs a clean label with an interception reference, in either direction.
+#
+# WHAT IT DOES NOT CLOSE, stated plainly so nobody reads more into it. Deleting the
+# interception record instead of citing it defeats this rule completely: the
+# attacker drops the record, recomputes the batch root over the payloads it still
+# holds, remaps the surviving references, and the rewritten clean row then cites
+# only arming and sealed records, which say a vantage was armed and stayed armed
+# and say nothing whatever about what that vantage saw. That statement carries no
+# contradiction anywhere in its bytes and no policy can find one. The reason is
+# structural: an interception record names no attack identifier and no outcome, so
+# NOTHING the substrate signs is bound to the per-row verdict the consumer reads.
+# Closing that requires the substrate to sign the binding, through an interception
+# payload carrying the attackId it belongs to, or a sealed payload committing to the
+# set of attack identifiers observed in the run. That is a change to the evidence
+# format and to what the substrate emits, not a change a consumer policy can make.
+#
+# WHY THIS IS AN ADMISSION RULE AND NOT A VALIDITY RULE. The spec does not make the
+# pairing invalid, and the reference verifiers accept it, so putting it in
+# soundness_ok would make this rail disagree with the oracle the whole conformance
+# corpus is driven through, which hollows the corpus rather than strengthening the
+# gate. It sits beside clean-row provenance for the same reason that one does: a
+# consumer may decline evidence the spec is willing to call well formed.
+_clean_row_contradicted(r) if {
+	_is_clean_label(r.containmentObserved)
+	some i in r.observationRefs
+	p := _payload(observation_records[i])
+	p.aeeKind == "interception"
+}
+
+clean_row_uncontradicted_ok if {
+	is_evidence
+	every r in input.predicate.attackResults {
+		not _clean_row_contradicted(r)
+	}
+}
+
+# --- consumer anchors: the pinned corpus + substrate (spec MUST) ----------------
+#
+# The spec obligation, why absence denies rather than admits, and why these live in
+# isCompliant rather than in soundness_ok are all argued in "THE ABSENT-ANCHOR
+# DECISION" in the header. Read it before changing anything below.
+#
+# THE EDIT POINT for a rail with no consumer data document (policy-controller embeds
+# this module as one string): replace the right-hand side of either rule below with the
+# 64-hex digest literal that deployment expects, then regenerate the CIP with
+# gen_soundness_cip.py. Setting allow_unpinned_anchors instead re-opens exactly the
+# hole these rules close — the policy then admits evidence about ANY corpus and ANY
+# substrate, which is why it has to be said out loud rather than fallen into.
+expected_corpus_digest := data.consumer.expected_corpus_digest
+
+expected_substrate_digest := data.consumer.expected_substrate_digest
+
+_allow_unpinned_anchors if data.consumer.allow_unpinned_anchors == true
+
+# Undefined on either side — an absent pin, or a statement carrying no corpus /
+# substrate digest to compare — makes the equality undefined, so every arm below
+# fail-closes rather than defaulting to a match.
+_corpus_anchor_matches if input.predicate.observationEnvironment.corpus.digest.sha256 == expected_corpus_digest
+
+_substrate_anchor_matches if input.predicate.observationEnvironment.substrate.digest.sha256 == expected_substrate_digest
+
+corpus_anchor_ok if _corpus_anchor_matches
+
+corpus_anchor_ok if {
+	not expected_corpus_digest
+	_allow_unpinned_anchors
+}
+
+substrate_anchor_ok if _substrate_anchor_matches
+
+substrate_anchor_ok if {
+	not expected_substrate_digest
+	_allow_unpinned_anchors
+}
+
+# The opt-out excuses an ABSENT pin only. A pin that is supplied and does NOT match is
+# a denial under every consumer posture: the consumer named a context, and this is
+# evidence about a different one.
+consumer_anchors_ok if {
+	corpus_anchor_ok
+	substrate_anchor_ok
+}
+
+# --- consumer anchor: the SCOPE this deployment demanded -----------------------
+#
+# THE ATTACK, AND WHY IT IS NOT A VERIFIER RULE. A producer holding the envelope key
+# can withdraw a class rather than fail it: empty the rows it does not want reported,
+# move the class into coverage.routedElsewhere with a reason string, and publish
+# "degraded" instead of "fail". Run that mutation to completion and the statement it
+# produces is byte-identical to the one an honest producer emits when it genuinely had
+# no coverage of that class, measured over 27 of 27 finding-bearing baselines, on
+# canonical bytes, agreeing across three independent verifier rails
+# (a private design note on scope and basis withdrawal). A
+# verifier is a function of the statement, so no rule over the carried bytes refuses
+# the withdrawal without refusing the honest producer in the same breath. This is not
+# an argument that the checks above are incomplete. It is an argument that the target
+# is not a property of the statement.
+#
+# WHAT THE CONSUMER HOLDS THAT THE STATEMENT CANNOT. The deciding fact is which
+# classes the deployment REQUIRED to be assessed, and that fact lives with the party
+# doing the admitting, before any run happens. Pinning it turns an undetectable attack
+# into an ordinary comparison: the consumer does not have to tell the withdrawal from
+# the honest gap, because it refuses both. It asked for the class and did not get it.
+# That is the same argument the spec already makes for the corpus and substrate
+# anchors, and this pin belongs beside them for the same reason.
+#
+# WHY CLASSES AND NOT ATTACK IDENTIFIERS. Both are available; the class is the one a
+# deployment can state in advance and keep stating. Attack identifiers are
+# corpus-version-scoped, so a consumer pinning them re-pins on every corpus revision,
+# and the list it would re-pin to is one it read out of the producer's own manifest
+# rather than one it chose. A pin whose value comes from the party being checked is
+# not a demand. The predicate's coverage members are class-keyed too
+# (assessedClasses, outOfScope, routedElsewhere), so the comparison is against a
+# member that exists rather than against a set the rule would have to reconstruct.
+#
+# WHY THIS IS NOT THE CORPUS ANCHOR AGAIN. The corpus anchor pins BYTES and says
+# nothing about what those bytes must contain; a consumer that pinned a digest it
+# copied out of a producer's bundle has pinned whatever the producer chose to ship.
+# This pin is the only one in the module whose value a consumer must derive from what
+# it wants. The two also fail differently: a substituted corpus declaring a smaller
+# class set is invisible to a consumer that declined the digest pin and visible to
+# this one.
+#
+# WHAT IT REACHES ON THE SHIPPED PASS-ONLY THRESHOLD, stated plainly rather than
+# claimed. A statement disclosing a gap recomputes to "degraded" and is already denied
+# by result_pass, so on THIS rail the withdrawal-by-disclosure form never reaches the
+# rule. What the rule reaches, and the threshold cannot, is the form that passes: a
+# clean run over a corpus whose manifest never declared the demanded class at all.
+# Requiring every demanded class to appear in coverage.assessedClasses covers both
+# forms in one comparison, and it keeps the rule correct for the consumer this attack
+# is actually aimed at, the one that pages on "fail" and files "degraded" for the
+# next review, whose threshold admits exactly the statements this rail refuses for
+# another reason.
+#
+# THE ABSENT-PIN DECISION: DENY, and the argument is NOT identical to the one above
+# for the corpus and substrate anchors. Of the two legs that decision rests on, only
+# one carries over unchanged. The asymmetric-failure leg does: defaulting permissive
+# fails silently and indefinitely, defaulting strict fails loudly and once, at rollout,
+# naming the knob. The spec-MUST leg does not, or not yet, because the demanded-scope
+# obligation is a design recommendation for the next predicate revision, not a
+# published MUST, so a policy that admitted an unpinned consumer here would not be
+# implementing a SHOULD in place of a MUST. A third leg, which the older pair does not
+# have, replaces it and is stronger: an unpinned corpus anchor still leaves the
+# consumer every self-consistency rule in this module, a weakened control; an unpinned
+# scope demand leaves it NOTHING, because the attack is provably invisible in the
+# bytes. Absence here is not a degraded control, it is the absence of one, and that is
+# the case for making the operator say so.
+#
+# THE OPT-OUT IS ITS OWN KNOB, not allow_unpinned_anchors. The two decline different
+# things: allow_unpinned_anchors concedes "evidence about any corpus and any
+# substrate", allow_unpinned_scope concedes "a producer may withdraw any class it
+# likes". Folding them together would mean an operator who declined the digest pin
+# also declined the scope demand without ever saying so, which is exactly the silent
+# failure the absent-anchor decision refuses.
+#
+# THE EDIT POINT for a rail with no consumer data document is the right-hand side of
+# demanded_classes below, replaced with the class-name array that deployment requires.
+demanded_classes := data.consumer.demanded_classes
+
+_allow_unpinned_scope if data.consumer.allow_unpinned_scope == true
+
+_demanded_class_set := {c | some c in demanded_classes}
+
+_assessed_class_set := {c | some c in object.get(input, ["predicate", "coverage", "assessedClasses"], [])}
+
+# An EMPTY pin is not a pin. A consumer writing [] has demanded nothing, which admits
+# every withdrawal exactly as the opt-out does but without saying what it costs, and a
+# non-array value (a bare string, a typo) comprehends to the empty set here and lands
+# in the same place. Both fail closed onto the not-pinned arm, whose error names the
+# knob.
+_demanded_scope_pinned if count(_demanded_class_set) > 0
+
+_demanded_scope_covered if {
+	_demanded_scope_pinned
+	count(_demanded_class_set - _assessed_class_set) == 0
+}
+
+demanded_scope_ok if _demanded_scope_covered
+
+demanded_scope_ok if {
+	not _demanded_scope_pinned
+	_allow_unpinned_scope
+}
+
+# --- consumer policy: how old the evidence may be ------------------------------
+#
+# THE DEFECT THIS EXISTS FOR. The one temporal comparison the spec mandates is that
+# a record's armedAt is no later than issuedAt, enforced above in `_armed_at_ok`.
+# `issuedAt` sits in the predicate body, outside every substrate signature, and it is
+# not one of the seven run-binding inputs, so a party holding the outer envelope key
+# rewrites it freely: no digest changes, no record signature is touched, and the one
+# rule that reads the field stays satisfied because moving the value FORWARD can only
+# make the ordering more true. A freshness window evaluated against `issuedAt` is
+# therefore a window whose only input is written by the party it exists to constrain,
+# and it bounds the honest producer and no one else. The Kyverno sibling shipped
+# exactly that window, and this module shipped no bound at all, so the two rails
+# disagreed about whether freshness was a thing this bundle checks while neither of
+# them actually bounded anything.
+#
+# THE OPERAND. `armedAt` lives inside an arming record's payload, which the substrate
+# signs. An assembly plane holding only the envelope key can drop such a record or
+# decline to carry one, but it cannot move the instant inside it and keep the
+# signature, which is the whole reason the key separation exists. So every bound below
+# is evaluated against `armedAt` and none of them reads `issuedAt` for recency.
+#
+# TWO CONTROLS, AND THEY ARE NOT THE SAME CONTROL. They are separated because they
+# answer different questions and because only one of them needs a clock.
+#
+#   issuance lag, `issuance_lag_ok`. The distance between the run and its issuance,
+#   `issuedAt` minus `armedAt`, bounded by a constant. Both operands are carried
+#   bytes, so this is a function of the statement alone: it needs no clock, it holds
+#   identically at two readings of the same bytes, and a rail with no clock can
+#   enforce it. It is precisely the mutation above turned into a rule, because the
+#   attacker can move the numerator and not the denominator, and can move it only
+#   upward. What it does NOT do is bound age: a statement issued honestly five years
+#   ago with a sixty-second lag satisfies it forever.
+#
+#   evidence age, `evidence_age_ok`. The distance between `armedAt` and now, bounded
+#   by a constant. This is the bound a reader looking for freshness actually wants,
+#   and it is the one that needs a clock. A clock is why it cannot be a validity rule
+#   and why it is not in soundness_ok: validity is a function of the carried bytes,
+#   holds identically for every consumer, and must hold identically at two moments for
+#   one consumer, and a comparison against a clock has none of those three properties.
+#
+# Neither replaces the other. The age bound alone leaves every clock-free rail with no
+# defense against the restatement; the lag bound alone never expires.
+#
+# WHY BOTH ARE CONSUMER POLICY AND NEITHER IS VALIDITY. The age bound is excluded from
+# validity by the clock, as above. The lag bound is byte-pure and is still not a
+# validity rule, because no single constant is right for every producer: a bundle
+# signed minutes after a run and an archived compliance re-issue signed years after
+# one are both legitimate, and only the consumer knows which it is willing to admit.
+# That is the same reason the corpus and substrate anchors sit in isCompliant rather
+# than in soundness_ok, and it carries the same operational consequence: a per-consumer
+# rule inside soundness_ok would be applied to the whole conformance corpus and would
+# hollow the oracle instead of strengthening the gate.
+#
+# THE ABSENT-PIN DECISION: VACUOUS, and deliberately NOT the deny default the corpus,
+# substrate and scope pins take. Those three implement obligations that exist whether
+# or not a consumer states them, so an unpinned consumer there is failing to do
+# something it was required to do. There is no such obligation here: the spec does not
+# require a consumer to bound the age of its evidence at all, and the obligation it
+# does state is conditional, that a consumer WHICH bounds age evaluates the bound
+# against a substrate-signed instant. Denying an unpinned consumer would be inventing a
+# requirement rather than enforcing one, and it would deny every deployment now running
+# for a bound nothing asked them to set.
+#
+# WHAT IS NOT VACUOUS IS APPLICABILITY, and this is where the honesty of the pair
+# lives. A consumer that HAS pinned a bound and is handed a statement carrying no
+# arming record gets a denial, never a pass and never a fall back to `issuedAt`. Such a
+# statement carries no substrate-signed instant, so it supports no claim about its own
+# age, and the shape is real rather than hypothetical: a statement whose rows are all
+# basis:artifact carries no arming record by construction. Reading absence as
+# satisfaction is the failure mode this whole section exists to correct, one level
+# further in.
+#
+# EVERY ARMING RECORD, NOT THE FIRST OR THE NEWEST. The bounds quantify over all of
+# them. Selecting one would need an order, and picking the latest instant is the
+# attacker-favourable choice in both comparisons, since it minimises both distances.
+# Quantifying is also order-independent, which matters because a statement may carry
+# several arming records for several vantages of one run, and those should agree to
+# within minutes. A record whose armedAt is absent or does not parse makes the
+# quantified body undefined and denies, which is the direction this module takes
+# everywhere else.
+#
+# WHAT THIS IS NOT. Like every other rule here it reads a payload whose signature
+# nothing in this path verifies (see "What this policy cannot know"). It constrains
+# what a party holding ONLY the envelope key can do, which is the party the mutation
+# above models. It says nothing to a party that holds the substrate key.
+_arming_records contains env if {
+	some env in observation_records
+	_record_json_media_type(env)
+	_payload(env).aeeKind == "arming"
+}
+
+_hours_ns(hours) := hours * 3600000000000
+
+# Undefined when armedAt is absent, or carries a spelling outside the instant profile,
+# which is what makes the quantified bounds below deny rather than skip such a record.
+# The profile is cited rather than re-parsed: a bound measured against an instant the
+# rest of the module would refuse is a bound resting on a parse nothing agreed to.
+_armed_at_ns(env) := _instant_ns(_payload(env).armedAt)
+
+_every_arming_within(hours, reference_ns) if {
+	count(_arming_records) > 0
+	every env in _arming_records {
+		reference_ns - _armed_at_ns(env) <= _hours_ns(hours)
+	}
+}
+
+# A pin that is present but is not a positive number is a typo, not a bound. It takes
+# the pinned arm and fails it, so it denies loudly rather than reading as absent.
+_positive_number(v) if {
+	is_number(v)
+	v > 0
+}
+
+max_issuance_lag_hours := data.consumer.max_issuance_lag_hours
+
+_issuance_lag_pinned if data.consumer.max_issuance_lag_hours
+
+issuance_lag_ok if not _issuance_lag_pinned
+
+issuance_lag_ok if {
+	_issuance_lag_pinned
+	_positive_number(max_issuance_lag_hours)
+	_every_arming_within(max_issuance_lag_hours, _instant_ns(input.predicate.issuedAt))
+}
+
+max_evidence_age_hours := data.consumer.max_evidence_age_hours
+
+_evidence_age_pinned if data.consumer.max_evidence_age_hours
+
+evidence_age_ok if not _evidence_age_pinned
+
+evidence_age_ok if {
+	_evidence_age_pinned
+	_positive_number(max_evidence_age_hours)
+	_every_arming_within(max_evidence_age_hours, time.now_ns())
+}
+
+# --- diagnostics + the policy-controller `isCompliant` contract ----------------
+
+errors contains "unknown or unregistered predicateType (fail closed)" if not type_known
+
+errors contains "predicateType is not result-bearing (admission requires adversarial-execution-evidence)" if not result_bearing
+
+errors contains "missing or malformed catch-policy digest (must be 64-hex)" if {
+	result_bearing
+	not catch_policy_ok
+}
+
+errors contains "missing or unknown network posture (fail closed)" if {
+	result_bearing
+	not posture_ok
+}
+
+errors contains "coverage integrity: corpus.digest.sha256 does not commit the embedded manifest" if {
+	is_evidence
+	not coverage_digest_ok
+}
+
+errors contains "coverage integrity: the corpus manifest declares no attack identifier in any class. A corpus with no adversarial inputs is not an adversarial corpus, and every coverage recompute over it is vacuous" if {
+	is_evidence
+	not corpus_declares_attacks_ok
+}
+
+errors contains "coverage integrity: expectedClasses != assessedClasses U outOfScope U routedElsewhere (disjoint)" if {
+	is_evidence
+	not coverage_classes_ok
+}
+
+errors contains "coverage integrity: attack-level exhaustion — attackResults attackIds != union of assessed-class attackIds (a dropped or duplicated attack)" if {
+	is_evidence
+	coverage_digest_ok
+	not coverage_attacks_ok
+}
+
+errors contains "observation vocabulary: observationEnvironment.observationVocabulary is absent, or its required labels/caught members are absent or are not arrays. An absent vocabulary reads as an empty carried set everywhere it is consumed, which fail-closes every row rather than reporting the absence, so the presence is stated here instead of being inferred from a row" if {
+	is_evidence
+	not observation_vocabulary_ok
+}
+
+errors contains sprintf("result %q does not equal the offline recompute %q", [object.get(input.predicate, "result", "<absent>"), recomputed_result]) if {
+	is_evidence
+	not result_recompute_ok
+}
+
+errors contains "actualLayer: a row is missing the required actualLayer, or a clean-label row's actualLayer is not the literal \"none\"" if {
+	is_evidence
+	not actual_layer_ok
+}
+
+errors contains "instant profile: issuedAt is absent, or is not RFC 3339 with an uppercase T separator, an uppercase Z or numeric designator and a ZERO UTC offset (Z, +00:00 and -00:00 all name the same instant and are all accepted; a non-zero offset such as +05:00 is not). The same profile governs an arming record's armedAt, and both fields cite one rule so the two cannot drift" if {
+	is_evidence
+	not issued_at_ok
+}
+
+errors contains "run-binding: an observationRecords[].aeeRunBinding does not equal this run's derived identity (cross-run transplant or spliced binding)" if {
+	is_evidence
+	not run_binding_ok
+}
+
+errors contains "coverage validity: a basis:substrate row is present but observationRecords is empty (records-absent)" if {
+	is_evidence
+	not substrate_records_ok
+}
+
+errors contains "run-binding inputs: a substrate statement carries a digest member that is not lowercase 64-hex (catchPolicy, corpus, networkPosture.digest.sha256, runEntropy, subject[0] or substrate). The recompute takes each value verbatim, so a producer that binds every record to the non-canonical value satisfies it and the fault is visible only as a shape" if {
+	is_evidence
+	not run_binding_inputs_ok
+}
+
+errors contains "coverage validity: a basis:substrate row is fail-closed on containmentObserved or method (outside the carried vocabulary), so it dispatches to no record class and its class-match requirement is unevaluable rather than merely failed. A substrate row that cannot be checked is invalid; the same fault on a basis:artifact row is valid and floors result at \"fail\" instead" if {
+	is_evidence
+	not substrate_fail_closed_ok
+}
+
+errors contains "coverage validity: a clean substrate/intercepted row is uncovered — it must reference at least one valid arming record AND at least one covering sealed record (still-armed, drops within a declared bound, posture digest equal to the pinned one and to every posture digest the row's other referenced arming records name)" if {
+	is_evidence
+	not clean_row_coverage_ok
+}
+
+errors contains "coverage validity: a caught substrate/intercepted row is uncovered — it must reference at least one valid interception record (media type +json, aeeKind \"interception\", aeeMethod in the closed vocabulary)" if {
+	is_evidence
+	not caught_row_coverage_ok
+}
+
+errors contains "coverage validity: a substrate row with method:reconstructed is uncovered — it must reference at least one valid examination record (aeeKind \"examination\" signed aeeMethod \"reconstructed\")" if {
+	is_evidence
+	not reconstructed_row_coverage_ok
+}
+
+errors contains "coverage validity: a substrate row references a record this policy cannot read — every referenced payload must carry a +json media type and the reserved members aeeRunBinding, aeeKind and aeeMethod" if {
+	is_evidence
+	not referenced_records_ok
+}
+
+errors contains "method cap: a row claiming method:intercepted rests on a covering record whose signed aeeMethod is \"reconstructed\" (a row's method may be no stronger than the weakest aeeMethod across its covering records)" if {
+	is_evidence
+	not method_cap_ok
+}
+
+errors contains "batch-root: observationRecords present but the predicate-level batchRoot is missing or malformed (must be 64-hex)" if {
+	is_evidence
+	not batch_root_ok
+}
+
+errors contains "observation record: signatures[] is absent or empty — structural presence only, the signature BYTES are never verified in the admission path" if {
+	is_evidence
+	not record_signatures_ok
+}
+
+errors contains "clean-row provenance: a clean (uncaught-label) row is not basis:substrate + method:intercepted — a reconstructed or artifact-basis clean row is admitted only under data.consumer.admit_unintercepted_clean_rows, which governs this row check alone and never the admission threshold" if {
+	is_evidence
+	not clean_row_provenance_ok
+}
+
+errors contains "clean-row consistency: a row carrying a clean (uncaught) label references an interception record. The substrate signed that it intercepted traffic in this run and the row claims nothing was caught, and a consumer is not obliged to pick a half" if {
+	is_evidence
+	not clean_row_uncontradicted_ok
+}
+
+errors contains "policy-replay: catchPolicy digest does not equal the pinned expected_catch_policy_digest" if {
+	is_evidence
+	not policy_anchor_ok
+}
+
+errors contains "policy-replay: networkPosture.posture is not in the allowed_network_postures set" if {
+	is_evidence
+	not posture_anchor_ok
+}
+
+errors contains "consumer anchor: no expected corpus digest is pinned — the spec requires the consumer to pin it out of band (data.consumer.expected_corpus_digest); an unpinned policy admits evidence about ANY corpus. To run without anchors, declare data.consumer.allow_unpinned_anchors" if {
+	is_evidence
+	not expected_corpus_digest
+	not _allow_unpinned_anchors
+}
+
+errors contains "consumer anchor: observationEnvironment.corpus.digest.sha256 does not equal the pinned expected_corpus_digest — valid evidence about the WRONG corpus" if {
+	is_evidence
+	expected_corpus_digest
+	not _corpus_anchor_matches
+}
+
+errors contains "consumer anchor: no expected substrate digest is pinned — the spec requires the consumer to pin it out of band (data.consumer.expected_substrate_digest); an unpinned policy admits evidence about ANY substrate. To run without anchors, declare data.consumer.allow_unpinned_anchors" if {
+	is_evidence
+	not expected_substrate_digest
+	not _allow_unpinned_anchors
+}
+
+errors contains "consumer anchor: observationEnvironment.substrate.digest.sha256 does not equal the pinned expected_substrate_digest — valid evidence about the WRONG substrate" if {
+	is_evidence
+	expected_substrate_digest
+	not _substrate_anchor_matches
+}
+
+errors contains "consumer anchor: no demanded scope is pinned. This deployment has not said which corpus classes it requires a run to have assessed (data.consumer.demanded_classes), and a producer withdrawing a class is byte-identical to one that never covered it, so nothing in the statement can stand in for the demand. To run without a scope demand, declare data.consumer.allow_unpinned_scope" if {
+	is_evidence
+	not _demanded_scope_pinned
+	not _allow_unpinned_scope
+}
+
+errors contains sprintf("consumer anchor: this deployment demanded that %s be assessed, and the statement does not carry %s in coverage.assessedClasses. A class disclosed elsewhere, or absent from the corpus entirely, is a class this deployment asked for and did not get", [concat(", ", sort([c | some c in _demanded_class_set])), concat(", ", sort([c | some c in (_demanded_class_set - _assessed_class_set)]))]) if {
+	is_evidence
+	_demanded_scope_pinned
+	not _demanded_scope_covered
+}
+
+errors contains "freshness: this deployment pinned data.consumer.max_issuance_lag_hours and the statement does not satisfy it. Either an arming record's armedAt sits further before issuedAt than the pin allows, or the statement carries no arming record at all and so carries no substrate-signed instant to measure against. issuedAt is producer-asserted and a party holding the envelope key moves it freely, so it is never the fallback" if {
+	is_evidence
+	not issuance_lag_ok
+}
+
+errors contains "freshness: this deployment pinned data.consumer.max_evidence_age_hours and the evidence is older than that bound, measured from an arming record's substrate-signed armedAt. A statement carrying no arming record is denied here rather than measured against issuedAt, because it carries no instant the producer could not have written" if {
+	is_evidence
+	not evidence_age_ok
+}
+
+errors contains sprintf("consumer threshold: data.consumer.accepted_results is %s, which is not an admission threshold over fail < degraded < pass_indirect < pass. The only two admissible values are [\"pass\"] and [\"pass\", \"pass_indirect\"]; an absent pin takes the spec's own default, [\"pass\"]", [json.marshal(object.get(data.consumer, "accepted_results", null))]) if {
+	result_bearing
+	not _threshold_well_formed
+}
+
+errors contains "consumer threshold: this deployment relaxed data.consumer.accepted_results to admit pass_indirect and has not said what it requires of a clean row. The token states that SOME clean row is indirect and never which one, so a consumer relaxing below pass must key on each clean row's basis and method as well. Declare data.consumer.admit_unintercepted_clean_rows explicitly: false keeps the row rule, true declines the row obligation" if {
+	result_bearing
+	_threshold_well_formed
+	_threshold_relaxed
+	not _row_gate_declared
+}
+
+errors contains "consumer threshold: this deployment declined the clean-row provenance obligation (data.consumer.admit_unintercepted_clean_rows) while data.consumer.accepted_results still admits \"pass\" alone. A statement carrying an indirect clean row recomputes to pass_indirect and is refused by the threshold before the row gate is reached, so the decline admits nothing. Add pass_indirect to the threshold if that is what was meant" if {
+	result_bearing
+	_threshold_well_formed
+	_admit_unintercepted_clean_rows
+	not _threshold_relaxed
+}
+
+errors contains sprintf("result %q is not one of the result tokens this consumer accepts (%s)", [object.get(input.predicate, "result", "<absent>"), concat(", ", sort([t | some t in _threshold]))]) if {
+	is_evidence
+	_threshold_well_formed
+	not result_pass
+}
+
+errors contains sprintf("verdict is %q, not \"pass\"", [object.get(input.predicate, "verdict", "<absent>")]) if {
+	result_bearing
+	not is_evidence
+	not result_pass
+}
+
+# The single boolean policy-controller reads. True iff the statement is a
+# result-bearing type, satisfies the binding contract, re-derives
+# structurally (for evidence statements), carries a result token this consumer's
+# threshold admits (a threshold whose declaration is itself coherent with the
+# clean-row knob), satisfies the default-safe clean-row provenance and consistency
+# gates, matches the corpus + substrate this consumer pinned out of band, AND covers
+# the scope this consumer demanded. It is NOT a statement that the observations are
+# genuine. See "What this policy cannot know".
+#
+# This is the spec's "one consumer-facing admission result that conjoins validity,
+# tier-policy satisfaction, and the anchor comparison, so a result-only consumer
+# cannot read a valid-but-wrong-context attestation as admissible".
+default isCompliant := false
+
+isCompliant if {
+	is_evidence
+	bindings_ok
+	soundness_ok
+	consumer_threshold_ok
+	result_pass
+	clean_row_provenance_ok
+	clean_row_uncontradicted_ok
+	consumer_anchors_ok
+	demanded_scope_ok
+	issuance_lag_ok
+	evidence_age_ok
+}
+
+isCompliant if {
+	not is_evidence
+	result_bearing
+	bindings_ok
+	consumer_threshold_ok
+	result_pass
+}

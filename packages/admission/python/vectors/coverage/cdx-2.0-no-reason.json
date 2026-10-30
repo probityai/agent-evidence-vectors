@@ -1,0 +1,103 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "2.0-proposed",
+  "version": 1,
+  "metadata": {
+    "component": {
+      "type": "application",
+      "bom-ref": "acme-portal",
+      "name": "acme-portal",
+      "version": "4.2.0"
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "lib-http",
+      "name": "http-client",
+      "version": "2.1.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "lib-json",
+      "name": "json-codec",
+      "version": "1.9.3"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "acme-portal",
+      "dependsOn": [
+        "lib-http",
+        "lib-json",
+        "svc-assist"
+      ]
+    }
+  ],
+  "compositions": [
+    {
+      "kind": "components",
+      "filter": {
+        "componentTypes": [
+          "application",
+          "framework",
+          "library"
+        ]
+      },
+      "aggregate": "complete",
+      "targets": [
+        "acme-portal"
+      ]
+    },
+    {
+      "kind": "components",
+      "filter": {
+        "componentTypes": [
+          "machine-learning-model"
+        ]
+      },
+      "aggregate": "not-assessed",
+      "targets": [
+        "acme-portal"
+      ]
+    },
+    {
+      "kind": "components",
+      "filter": {
+        "componentTypes": [
+          "cryptographic-asset"
+        ]
+      },
+      "aggregate": "not-assessed",
+      "notAssessedReason": "withheld",
+      "targets": [
+        "acme-portal"
+      ]
+    },
+    {
+      "kind": "components",
+      "filter": {
+        "componentTypes": [
+          "service"
+        ]
+      },
+      "aggregate": "not-assessed",
+      "assemblies": [
+        "urn:cdx:3e671687-395b-41f5-a30f-a58921a69b79/1#assist-service"
+      ],
+      "targets": [
+        "acme-portal"
+      ]
+    }
+  ],
+  "services": [
+    {
+      "bom-ref": "svc-assist",
+      "name": "assist-endpoint",
+      "version": "1",
+      "endpoints": [
+        "https://api.example.com/assist"
+      ]
+    }
+  ]
+}

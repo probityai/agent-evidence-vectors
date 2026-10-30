@@ -268,6 +268,32 @@ PERMITTED_PATHS_FILENAME = "commit-msg.permitted-paths"
 #: that vanishes is how a check stops being a check.
 BASELINE_FILENAME = "commit-msg.baseline"
 
+#: Optional list of commits whose whole ancestry is exempt from `--check-range`:
+#: history imported from another repository with its commit ids kept, already
+#: public there, so its messages were written under that repository's rules.
+#: One full 40-hex SHA per line, `#` comments ignored; never a ref name, so the
+#: exemption cannot move. A commit that is not reachable from a listed tip is
+#: linted in full, and the exempt count is printed.
+IMPORTED_TIPS_FILENAME = "commit-msg.imported-tips"
+
+
+def load_imported_tips() -> list[str]:
+    """Full SHAs listed in the imported-tips sidecar; absent file means none."""
+    path = Path(__file__).resolve().parent / IMPORTED_TIPS_FILENAME
+    if not path.is_file():
+        return []
+    tips = [
+        line.strip()
+        for line in path.read_text(encoding="utf-8").splitlines()
+        if line.strip() and not line.lstrip().startswith("#")
+    ]
+    for tip in tips:
+        if len(tip) != 40 or any(c not in "0123456789abcdef" for c in tip):
+            print(f"commit-msg: {path} must list full lowercase 40-hex SHAs, found {tip!r}",
+                  file=sys.stderr)
+            raise SystemExit(2)
+    return tips
+
 
 def load_baseline() -> str | None:
     """The commit from which `--check-range` takes effect, or None if unset.
@@ -1020,6 +1046,25 @@ def check_range(rev_range: str) -> int:
         )
         return 2
     revisions = listed.stdout.split()
+    tips = load_imported_tips()
+    if tips:
+        # The tips go BEFORE the range: a caret after a `--not` in the range
+        # would flip back to positive.
+        kept = subprocess.run(
+            ["git", "rev-list", *[f"^{t}" for t in tips], *argv[2:], rev_range],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        if kept.returncode != 0:
+            print(f"commit-msg: cannot apply the imported tips to {rev_range!r}: "
+                  f"{kept.stderr.strip()}", file=sys.stderr)
+            return 2
+        exempt = len(revisions) - len(kept.stdout.split())
+        revisions = kept.stdout.split()
+        if exempt:
+            print(f"commit-msg: {exempt} imported commit(s) reachable from a tip in "
+                  f"{IMPORTED_TIPS_FILENAME} exempt (already public)")
     bad = 0
     for revision in revisions:
         shown = subprocess.run(

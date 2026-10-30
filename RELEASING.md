@@ -261,6 +261,36 @@ This paragraph said, until 0.12.1, that the replay "asserts `suiteRefusals ==
 release". The step replayed `vectors` only, and the harness ran its AEE rail
 over the eight other suites and printed that rail's failures as a verdict.
 
+## The Hugging Face dataset follows the tag
+
+`.github/workflows/publish-hf-dataset.yml` mirrors each corpus release to the
+dataset `probityai/agent-evidence-vectors` on Hugging Face. When a GitHub release
+for a `vMAJOR.MINOR.PATCH` tag is published, the workflow builds the dataset tree
+from that tag with `scripts/publish-hf-dataset.py`, runs the release digest check
+and the cosign signature check in a checkout of the tag, replaces the dataset in
+one commit and gives it a tag with the tag's name. Nothing is done by hand, and
+package releases such as `jcs-admit-npm-v0.1.0` do not start it.
+
+The upload needs the repository secret `HF_TOKEN`, a Hugging Face token with
+write access to the dataset. Without it the publish job fails before it builds
+anything and says so. A release event runs the workflow file as it stands at the
+tag, so a release cut before this workflow landed, or a publish that failed, is
+redone from the default branch: Actions, `publish-hf-dataset`, Run workflow, with
+the tag as input. Tick `dry_run` first to build and check the tree without
+uploading. A rerun for the same tag repeats the same bytes; a dataset tag that
+already points at a different commit is never moved, and the job fails instead.
+
+To build and check the tree locally:
+
+```sh
+python3 scripts/publish-hf-dataset.py build --tag vX.Y.Z --out /tmp/aev-dataset
+python3 scripts/publish-hf-dataset.py check /tmp/aev-dataset
+```
+
+`scripts/publish-hf-dataset-test.py` rebuilds v0.25.0, the first copy, and
+requires the bytes the Hub served for it, so a change to the build that would
+alter an earlier revision fails before it can publish a later one.
+
 ## Before you start
 
 - The local gate is the leak tier only: runner labels, the push-range identity

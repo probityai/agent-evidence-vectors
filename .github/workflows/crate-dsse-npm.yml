@@ -1,0 +1,82 @@
+name: crate-dsse-npm
+
+# Builds the dsse npm package from crates/dsse/npm, installs the packed tarball
+# into Node and browser consumers, and checks the tarball against the exact
+# source identity (crates/dsse/npm/check_release.py). crate-dsse.yml calls it
+# for every change to the crate; release.yml calls it for a dsse-npm-v<version>
+# release and publishes the artifact it uploads, never a rebuild.
+#
+# crates/dsse/npm/artifact.py hashes this file and release.yml into the
+# package's source identity, and check_release.py reads the two Node pins below
+# (the package minimum and the current runtime) from this file.
+
+on:
+  workflow_call:
+    secrets:
+      DSSE_FORBIDDEN_SHA256:
+        description: Digests of names that must not enter shipped files
+        required: false
+    outputs:
+      artifact-name:
+        description: Immutable artifact from this qualification attempt
+        value: ${{ jobs.package.outputs.artifact-name }}
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: crates/dsse
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      artifact-name: dsse-npm-${{ github.run_id }}-${{ github.run_attempt }}
+    env:
+      CARGO_BUILD_JOBS: 2
+      DSSE_FORBIDDEN_SHA256: ${{ secrets.DSSE_FORBIDDEN_SHA256 }}
+      DSSE_REQUIRE_FORBIDDEN_LIST: ${{ (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) && '1' || '0' }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22.14.0
+          package-manager-cache: false
+      - name: retain the minimum supported Node executable
+        run: echo "DSSE_NODE_MIN=$(command -v node)" >> "$GITHUB_ENV"
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24.19.0
+          package-manager-cache: false
+      - name: install the optional WASM toolchain
+        run: |
+          rustup toolchain install 1.99.0 --profile minimal -c clippy --target wasm32-unknown-unknown
+          rustup default 1.99.0
+          cargo install wasm-bindgen-cli --version 0.2.129 --locked
+      - run: cargo clippy --manifest-path npm/wasm/Cargo.toml --locked --target wasm32-unknown-unknown --lib -- -D warnings
+      - run: cargo test --locked --test error_serialization
+      - run: cargo build --locked --example wasm_oracle
+      - run: npm ci --prefix npm --ignore-scripts --no-audit --no-fund
+      - run: python3 npm/build.py --require-clean
+      - name: scan the exact npm artifact with the existing native boundary check
+        run: cargo test --locked --test no_private_names
+        env:
+          DSSE_SCAN_ROOT: ${{ github.workspace }}/crates/dsse/npm/dist
+      - run: npx --no-install playwright install --with-deps chromium --only-shell
+        working-directory: crates/dsse/npm
+      - run: npm test --prefix npm
+      - run: python3 npm/test/release-guard.py
+      - name: verify the tested tarball and exact source identity
+        run: python3 npm/check_release.py npm/test-results --commit "$GITHUB_SHA"
+      - name: retain the actual tarball and native consumer records
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: dsse-npm-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: warn
+          retention-days: 90
+          path: crates/dsse/npm/test-results/

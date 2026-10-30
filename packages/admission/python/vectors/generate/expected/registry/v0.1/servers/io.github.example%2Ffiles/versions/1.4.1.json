@@ -1,0 +1,23 @@
+{
+  "server": {
+    "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
+    "name": "io.github.example/files",
+    "description": "Read and write files under one directory.",
+    "version": "1.4.1",
+    "packages": [
+      {
+        "registryType": "npm",
+        "identifier": "@example/files",
+        "version": "1.4.1",
+        "transport": {
+          "type": "stdio"
+        }
+      }
+    ]
+  },
+  "_meta": {
+    "io.github.probityai/agent-evidence-admission": {
+      "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+    }
+  }
+}

@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>base_state_resolution: Agent Evidence vocabulary</title>
+<meta name="description" content="The base_state_resolution term of the Agent Evidence vocabulary.">
+<link rel="canonical" href="https://w3id.org/agent-evidence/vocab/v1/base_state_resolution">
+<script type="application/ld+json">
+{
+ "@context": {
+  "owl": "http://www.w3.org/2002/07/owl#",
+  "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+  "skos": "http://www.w3.org/2004/02/skos/core#"
+ },
+ "@graph": [
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/base_state_resolution",
+   "@type": "skos:Concept",
+   "skos:definition": "How the before-state root of an observed interval was obtained, declared per record as one of three: supplied, the base was named in the request and is a full-length lowercase hexadecimal object name; authority_recorded, the base is the one the state authority itself records for the change, which for a version-control authority is the merge-base anchor and is stable across merge and squash rewrites; empty_tree, the interval began from no prior state at all and the base is the empty-tree constant of the declared object format. Resolution is ORDERED. A producer MUST try supplied, then authority_recorded, then empty_tree, and MUST refuse to emit the record where none of the three yields a base. A producer MUST NOT infer a base from the parents of the named state, which are ambiguous for merge and squash rewrites. A guessed base produces a record that verifies cleanly over an interval nobody chose. A before-state root is therefore unconditionally REQUIRED. The empty_tree case is what makes one always available, so a missing before-state root is a refusal and never a permitted omission. The empty-tree constant is a property of the object format and MUST be read from the format the record declares. For git's SHA-1 object format it is 4b825dc642cb6eb9a060e54bf8d69288fbee4904. For git's SHA-256 object format it is 6ef19b41225c5369f1c104d45d8d85efa9b057b53b14b4b9b939dd74decc5321. A record carrying the SHA-1 constant under a SHA-256 object format names an object that does not exist, and a verifier MUST reject it. empty_tree is permitted only where the authority shows the prior state was empty, which for a version-control authority means a parentless commit. It MUST NOT be used to mean that the observer did not enumerate the prior state. A record using it that way satisfies every other rule above and misstates the interval, which is why the permitted condition is normative. The state authority MUST be named in the record, for all three values. And empty_tree MUST NOT be resolved from the observer's own first sight of the state: a first observation establishes that the observer saw nothing earlier, never that nothing was there. A volume pre-populated by an image and mounted fresh is the case this closes, because it presents to a first observation exactly as an empty one does. Where no authority independent of the observed party can show the prior state was empty, the producer MUST refuse the record under the ordered rule above.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "base_state_resolution",
+   "skos:prefLabel": "base_state_resolution",
+   "skos:topConceptOf": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   }
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/base_state_resolution#supplied",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/base_state_resolution"
+   },
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "supplied"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/base_state_resolution#authority_recorded",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/base_state_resolution"
+   },
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "authority_recorded"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/base_state_resolution#empty_tree",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/base_state_resolution"
+   },
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "empty_tree"
+  }
+ ]
+}
+</script>
+<style>
+:root{color-scheme:light dark;--page:#f6f8fb;--surface:#fff;--ink:#14202e;--body:#33404f;--link:#1f4fd1;--rule:#cfd8e3;font-family:system-ui,sans-serif;color:var(--ink);background:var(--page)}
+@media (prefers-color-scheme:dark){:root{--page:#10151b;--surface:#18202a;--ink:#e8edf3;--body:#c3ccd6;--link:#8fb0ff;--rule:#2c3846}}
+*{box-sizing:border-box}body{margin:0;font:400 1rem/1.6 system-ui,sans-serif;background:var(--page)}
+.shell{max-width:52rem;margin-inline:auto;padding-inline:16px}
+header,footer{padding-block:1.25rem}header a{font-weight:700;color:var(--ink);text-decoration:none}
+footer{border-top:1px solid var(--rule);color:var(--body);font-size:.9375rem;margin-top:3rem}
+a{color:var(--link)}p,li,td{color:var(--body)}h1{line-height:1.2}
+code,pre{font-family:ui-monospace,Consolas,monospace;font-size:.875em}code{overflow-wrap:anywhere}
+pre{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:1rem;overflow-x:auto}
+blockquote{margin:1rem 0;padding:.25rem 1rem;border-left:4px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;display:block;overflow-x:auto}
+th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-align:top}
+</style>
+</head>
+<body>
+<header class="shell"><a href="https://github.com/probityai/agent-evidence">Agent Evidence</a></header>
+<main class="shell">
+<h1><code>base_state_resolution</code></h1>
+<p>Term URI: <a href="https://w3id.org/agent-evidence/vocab/v1/base_state_resolution">https://w3id.org/agent-evidence/vocab/v1/base_state_resolution</a></p>
+<p>Section: <code>posture_and_coverage</code>. Criticality: <code>critical</code>.</p>
+<p>How the before-state root of an observed interval was obtained, declared per record as one of three: supplied, the base was named in the request and is a full-length lowercase hexadecimal object name; authority_recorded, the base is the one the state authority itself records for the change, which for a version-control authority is the merge-base anchor and is stable across merge and squash rewrites; empty_tree, the interval began from no prior state at all and the base is the empty-tree constant of the declared object format. Resolution is ORDERED. A producer MUST try supplied, then authority_recorded, then empty_tree, and MUST refuse to emit the record where none of the three yields a base. A producer MUST NOT infer a base from the parents of the named state, which are ambiguous for merge and squash rewrites. A guessed base produces a record that verifies cleanly over an interval nobody chose. A before-state root is therefore unconditionally REQUIRED. The empty_tree case is what makes one always available, so a missing before-state root is a refusal and never a permitted omission. The empty-tree constant is a property of the object format and MUST be read from the format the record declares. For git&#x27;s SHA-1 object format it is 4b825dc642cb6eb9a060e54bf8d69288fbee4904. For git&#x27;s SHA-256 object format it is 6ef19b41225c5369f1c104d45d8d85efa9b057b53b14b4b9b939dd74decc5321. A record carrying the SHA-1 constant under a SHA-256 object format names an object that does not exist, and a verifier MUST reject it. empty_tree is permitted only where the authority shows the prior state was empty, which for a version-control authority means a parentless commit. It MUST NOT be used to mean that the observer did not enumerate the prior state. A record using it that way satisfies every other rule above and misstates the interval, which is why the permitted condition is normative. The state authority MUST be named in the record, for all three values. And empty_tree MUST NOT be resolved from the observer&#x27;s own first sight of the state: a first observation establishes that the observer saw nothing earlier, never that nothing was there. A volume pre-populated by an image and mounted fresh is the case this closes, because it presents to a first observation exactly as an empty one does. Where no authority independent of the observed party can show the prior state was empty, the producer MUST refuse the record under the ordered rule above.</p>
+<h2>Registered values</h2>
+<ul>
+<li id="supplied"><code>https://w3id.org/agent-evidence/vocab/v1/base_state_resolution#supplied</code></li>
+<li id="authority_recorded"><code>https://w3id.org/agent-evidence/vocab/v1/base_state_resolution#authority_recorded</code></li>
+<li id="empty_tree"><code>https://w3id.org/agent-evidence/vocab/v1/base_state_resolution#empty_tree</code></li>
+</ul>
+</main>
+<footer><div class="shell">Generated from <a href="https://github.com/probityai/agent-evidence/blob/main/packages/vocabulary/vocabulary.yaml">vocabulary.yaml</a>. This page describes the current registry. A record is read against the registry its registryDigest names, named on <a href="https://probityai.github.io/agent-evidence/vocab/v1/">the term listing</a>. The term URI does not change once a signed record carries it.</div></footer>
+</body>
+</html>

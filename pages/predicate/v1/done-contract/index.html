@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Predicate type: Done Contract</title>
+<meta name="description" content="Type URI, schema and rules of the Done Contract in-toto predicate.">
+<link rel="canonical" href="https://w3id.org/agent-evidence/predicate/v1/done-contract">
+<style>
+:root{color-scheme:light dark;--page:#f6f8fb;--surface:#fff;--ink:#14202e;--body:#33404f;--link:#1f4fd1;--rule:#cfd8e3;font-family:system-ui,sans-serif;color:var(--ink);background:var(--page)}
+@media (prefers-color-scheme:dark){:root{--page:#10151b;--surface:#18202a;--ink:#e8edf3;--body:#c3ccd6;--link:#8fb0ff;--rule:#2c3846}}
+*{box-sizing:border-box}body{margin:0;font:400 1rem/1.6 system-ui,sans-serif;background:var(--page)}
+.shell{max-width:52rem;margin-inline:auto;padding-inline:16px}
+header,footer{padding-block:1.25rem}header a{font-weight:700;color:var(--ink);text-decoration:none}
+footer{border-top:1px solid var(--rule);color:var(--body);font-size:.9375rem;margin-top:3rem}
+a{color:var(--link)}p,li,td{color:var(--body)}h1{line-height:1.2}
+code,pre{font-family:ui-monospace,Consolas,monospace;font-size:.875em}code{overflow-wrap:anywhere}
+pre{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:1rem;overflow-x:auto}
+blockquote{margin:1rem 0;padding:.25rem 1rem;border-left:4px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;display:block;overflow-x:auto}
+th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-align:top}
+</style>
+</head>
+<body>
+<header class="shell"><a href="https://github.com/probityai/agent-evidence">Agent Evidence</a></header>
+<main class="shell">
+<h1 id="predicate-type-done-contract">Predicate type: Done Contract</h1>
+<p>Type URI: <a href="https://w3id.org/agent-evidence/predicate/v1/done-contract">https://w3id.org/agent-evidence/predicate/v1/done-contract</a></p>
+<p>Version: 0.1.0</p>
+<p>Predicate Name: Done Contract</p>
+<blockquote>
+<p>Status: DRAFT, issued under a self-hosted <code>predicateType</code> URI. The in-toto new-predicate guidelines leave the URI namespace to the predicate designer. The URI redirects to a page built from this file and served by the Pages site of <code>probityai/agent-evidence</code>, at <code>https://probityai.github.io/agent-evidence/predicate/v1/done-contract/</code>. The URI will not move once a signed statement carries it, and no signed statement carries it before that page is live. The conformance corpus in this repository, <code>vectors-done-contract/</code>, carries it in unsigned statements.</p>
+</blockquote>
+<h2 id="purpose">Purpose</h2>
+<p>States, before an agent's first turn, what "done" means for one task: which paths the agent may not change, which commands a separate verifier will run, and how well those commands tell a fix from a no-op. The contract is sealed by whoever starts the agent. An outside verifier later checks the agent's claim of completion against this statement, so the agent's own transcript is never the standard it is held to.</p>
+<p>The contract carries no verdict. Verdicts belong to <a href="https://github.com/probityai/agent-evidence-vectors/blob/d61fe3e1c2cb5b945b95aa588c7f3aa0cbe2ce8b/spec/predicates/done-receipt.md">done-receipt</a>, computed over this statement and the records of the run.</p>
+<h2 id="use-cases">Use cases</h2>
+<ul>
+<li>A harness seals a contract for a repository task and signs it. A verifier that sees the agent's final tree can tell whether the protected tests were left alone and whether the acceptance commands pass when it runs them, without asking the agent.</li>
+<li>A reviewer reading a receipt can see what the acceptance commands were able to detect. A contract whose <code>adequacy.killed</code> is zero cannot distinguish a fix from a no-op, and the receipt says so instead of claiming success.</li>
+<li>A benchmark publishes contracts beside its tasks, so two harnesses that grade the same agent hold it to the same paths and commands.</li>
+</ul>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>The in-toto Attestation Framework and the record rules in <a href="https://github.com/probityai/agent-evidence-vectors/blob/d61fe3e1c2cb5b945b95aa588c7f3aa0cbe2ce8b/spec/predicates/done-records.md">done-records</a>, including strict JSON: a duplicate member at any depth makes the statement malformed.</p>
+<h2 id="model">Model</h2>
+<p>The producer is whoever seals the contract: a harness or a task author. The contract is sealed before the agent runs, so nothing the agent does can enter it.</p>
+<p>The <strong>subject</strong> is the contract record, by digest. <code>subject</code> MUST carry exactly one member, whose <code>digest</code> MUST carry exactly one entry, <code>sha256</code>, equal to the SHA-256 of the bytes of the <code>probity-done-contract/v1</code> record the statement accompanies. The <strong>predicate</strong> is that record as a JSON value. A verifier MUST parse the record bytes and refuse the statement if the predicate is not equal to the parsed record. The statement and the record say one thing, and a statement that says another is a statement about a different contract.</p>
+<p><code>predicateType</code> MUST equal the Type URI above.</p>
+<h2 id="schema">Schema</h2>
+<pre class="jsonc"><code>{
+  &quot;_type&quot;: &quot;https://in-toto.io/Statement/v1&quot;,
+  &quot;subject&quot;: [
+    { &quot;name&quot;: &quot;contract.json&quot;, &quot;digest&quot;: { &quot;sha256&quot;: &quot;&lt;64-hex of the record bytes&gt;&quot; } }
+  ],
+  &quot;predicateType&quot;: &quot;https://w3id.org/agent-evidence/predicate/v1/done-contract&quot;,
+  &quot;predicate&quot;: {
+    &quot;schema_version&quot;: &quot;probity-done-contract/v1&quot;,
+    &quot;contract_id&quot;: &quot;contract-app-1&quot;,
+    &quot;task&quot;: &quot;make test_app pass&quot;,
+    &quot;protected_paths&quot;: [
+      { &quot;path&quot;: &quot;tests&quot;, &quot;kind&quot;: &quot;directory&quot;, &quot;exclude&quot;: [&quot;__pycache__&quot;],
+        &quot;sha256&quot;: &quot;&lt;tree digest of the files under tests&gt;&quot; }
+    ],
+    &quot;acceptance&quot;: [ { &quot;id&quot;: &quot;unit&quot;, &quot;argv&quot;: [&quot;python&quot;, &quot;-m&quot;, &quot;pytest&quot;, &quot;-q&quot;, &quot;tests&quot;] } ],
+    &quot;adequacy&quot;: { &quot;mutants&quot;: 4, &quot;killed&quot;: 3 }
+  }
+}</code></pre>
+<p>The members of the predicate, their types and their rules are those of the done contract in <a href="https://github.com/probityai/agent-evidence-vectors/blob/d61fe3e1c2cb5b945b95aa588c7f3aa0cbe2ce8b/spec/predicates/done-records.md">done-records</a>.</p>
+<h2 id="rules">Rules</h2>
+<p>A verifier applies these in order and reports the first that fails.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Rule</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>The statement is strict JSON with exactly <code>_type</code>, <code>subject</code>, <code>predicateType</code> and <code>predicate</code></td>
+<td><code>statement_json_invalid</code>, <code>statement_json_duplicate_key</code>, <code>statement_json_number</code>, <code>statement_fields</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>_type</code> is <code>https://in-toto.io/Statement/v1</code></td>
+<td><code>statement_type_wrong</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>predicateType</code> is this document's Type URI</td>
+<td><code>statement_predicate_type_wrong</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>subject</code> has one member with <code>name</code> and a <code>digest</code> holding only <code>sha256</code></td>
+<td><code>statement_subject_malformed</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>The contract record parses under the rules in done-records</td>
+<td>the code of the first rule the record breaks</td>
+</tr>
+<tr>
+<td>6</td>
+<td>The subject digest equals the SHA-256 of the record bytes</td>
+<td><code>statement_subject_unbound</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td>The predicate equals the parsed record</td>
+<td><code>statement_predicate_differs</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-a-contract-does-not-establish">What a contract does not establish</h2>
+<p>A contract is a promise about how the run will be judged. It does not show that the acceptance commands test the task: <code>adequacy</code> reports how many generated mutants they killed, and a contract with no kill cannot support a verdict of done. It does not show that the agent obeyed it. Neither does it show who sealed it: the producer is a consumer pin, and a statement that is not signed proves nothing about its origin.</p>
+<h2 id="conformance">Conformance</h2>
+<p><code>vectors-done-contract/</code> holds the members, a valid case for every optional member and one invalid case for every rule above, with the code each is refused under. A reader conforms when it reaches the declared verdict and code for every member. <code>aee-verify</code> and the packaged Python reader both replay it.</p>
+
+</main>
+<footer><div class="shell">Built from <a href="https://github.com/probityai/agent-evidence-vectors/blob/d61fe3e1c2cb5b945b95aa588c7f3aa0cbe2ce8b/spec/predicates/done-contract.md">spec/predicates/done-contract.md</a> (SHA-256 <code>619ede165d366487c0cb67e209c00ef9a4ff6e1316000fca42142cdc6560fe9b</code>). The type URI is <code>https://w3id.org/agent-evidence/predicate/v1/done-contract</code>; it does not change once a signed statement carries it.</div></footer>
+</body>
+</html>

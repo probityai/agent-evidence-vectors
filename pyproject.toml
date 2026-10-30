@@ -110,6 +110,11 @@ probity-verify = { git = "https://github.com/probityai/probity", rev = "932c1e3e
 
 [dependency-groups]
 crosscheck = ["probity-verify"]
+# The repository tools of the imported parts (scripts/workspace.py and the other
+# tests under tests/). The packages under packages/ are standalone projects built
+# by directory (`uv build packages/<name>`); none of them has a runtime dependency. Their ruff run
+# reads ruff-parts.toml, not the rules below, which the corpora and the rail keep.
+dev = ["packaging==26.3", "pytest==9.1.1", "ruff==0.17.1"]
 
 # What the wheel carries, and where. The rail is a single stdlib-only module
 # kept at packaging/run_vectors.py, where every gate in scripts/ imports it by
@@ -405,6 +410,13 @@ show_error_codes = true
 python_version = "3.13"
 files = ["packaging", "vectors", "tools"]
 
+[tool.typecheck-gate]
+# Imported from the sibling specification repository with their own jobs:
+# parts.yml lints and tests actions/, packages/ and tests/, the crate workflows
+# own crates/. scripts/typecheck-gate.py
+# does not read these directories and does not count them.
+held-elsewhere = ["actions", "crates", "packages", "tests"]
+
 [tool.pyright]
 # Named by DIRECTORY, deliberately, and this is the whole point of the section.
 #
@@ -530,6 +542,20 @@ extraPaths = ["packaging", "interop/agentavow-live-mcp", "interop/agentavow-sign
 [tool.ruff]
 line-length = 100
 target-version = "py313"
+# The repository tools of the imported parts are linted by ruff-parts.toml in
+# parts.yml; both configs on one file would give it two contradictory verdicts.
+extend-exclude = [
+  "scripts/workspace.py",
+  "scripts/build_predicate_pages.py",
+  "scripts/build_vocabulary_pages.py",
+  "scripts/check-jcs-admit-python-release.py",
+  "scripts/check-jcs-admit-python-release-test.py",
+  "scripts/check_predicate_pages.py",
+  "scripts/check_uris_resolve.py",
+  "scripts/family_pin_guard.py",
+  "scripts/record_paths.py",
+  "scripts/go-module-size-gate.py",
+]
 
 [tool.ruff.lint]
 # E/W pycodestyle, F pyflakes, I isort, UP pyupgrade, B bugbear, C901 mccabe
@@ -539,3 +565,7 @@ select = ["E", "F", "W", "I", "UP", "B", "C901"]
 
 [tool.ruff.lint.mccabe]
 max-complexity = 10
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["--strict-markers", "-ra"]
