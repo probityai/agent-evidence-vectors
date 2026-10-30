@@ -59,7 +59,7 @@ A reader applies these in order and reports the first that fails.
 | 5 | At least one party holds `accountable` | `no-accountable-party` |
 | 6 | Every party holding `authorised` carries `authorityBasis` | `authority-basis-missing` |
 | 7 | `authorizedAt` is not after `notAfter` | `authorization-window-inverted` |
-| 8 | When `executedAt` is present, it is not before `authorizedAt` and `intentBinding` is `committed_before_execution` | `intent-not-committed-before` |
+| 8 | When `intentBinding` is `committed_before_execution` and `executedAt` is present, `executedAt` is not before `authorizedAt` | `intent-not-committed-before` |
 | 9 | When `executedAt` is present, it is not after `notAfter` | `authorization-expired` |
 | 10 | `inducedEffects` declared `none_observed` carries `observation` | `induced-effects-unobserved` |
 

@@ -71,7 +71,8 @@ SLOTS = (
     "ownerConfirmation", "persistence", "postRestartMonitoring", "residualRisk",
     "restoreOrder", "restoredAssetsClean", "rootCause", "seniorApproval",
 )
-SLOT = {"oneOf": [obj({"digest": SHA}), obj({"notAddressed": TEXT})]}
+DESCRIPTOR = obj({"digest": SHA}, {"uri": TEXT, "mediaType": TEXT})
+SLOT = {"oneOf": [DESCRIPTOR, obj({"notAddressed": TEXT})]}
 
 
 def predicates() -> dict[str, dict]:
@@ -107,7 +108,7 @@ def predicates() -> dict[str, dict]:
         "partition": {"type": "array", "minItems": 1, "items": obj(
             {"state": enum("retained", "revoked", "unassessed"), "credentials": ids(1)})},
         "revocations": {"type": "array", "items": obj({
-            "credential": TEXT, "revokedAt": TIME, "evidence": SHA,
+            "credential": TEXT, "revokedAt": TIME, "evidence": DESCRIPTOR,
             "relyingParties": {"type": "array", "items": obj({
                 "id": TEXT,
                 "state": enum("enforced_observed", "issued", "not_established",
@@ -146,7 +147,7 @@ def predicates() -> dict[str, dict]:
         "observer": obj({"id": TEXT, "vantage": enum("agent_side", "sink_side")}),
         "revocation": obj({"credential": TEXT, "effectiveAt": TIME, "timeSource": TEXT}),
         "window": obj({"start": TIME, "end": TIME}),
-        "timingGrid": ids(1),
+        
         "counts": obj({k: COUNT for k in ("attempts", "inFlightAtRevocation",
                                            "postRevocationCommits", "replaysAttempted",
                                            "replaysCommitted")}),

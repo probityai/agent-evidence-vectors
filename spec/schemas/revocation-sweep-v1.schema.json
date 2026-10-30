@@ -199,13 +199,30 @@
               "evidence": {
                 "additionalProperties": false,
                 "properties": {
-                  "sha256": {
-                    "pattern": "^[0-9a-f]{64}$",
+                  "digest": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "sha256": {
+                        "pattern": "^[0-9a-f]{64}$",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "sha256"
+                    ],
+                    "type": "object"
+                  },
+                  "mediaType": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "uri": {
+                    "minLength": 1,
                     "type": "string"
                   }
                 },
                 "required": [
-                  "sha256"
+                  "digest"
                 ],
                 "type": "object"
               },

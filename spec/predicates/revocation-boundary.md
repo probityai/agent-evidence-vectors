@@ -20,13 +20,13 @@ for one declared sink and one test window, whether any effect from an in-flight 
 committed at that sink's declared commit boundary after the revocation took effect, with the
 counts a reader needs to judge it.
 
-The record states an outcome. It names no mechanism and requires none: a commit-time
-re-check, a fence, a proxy or anything else is graded on the same counts.
+The record states an outcome. It names no mechanism and requires none; whatever produced
+the outcome is graded on the same counts.
 
 ## Model
 
 The **subject** is the test plan, by digest: one member whose `digest` holds only `sha256`
-of the declared sink, window and timing grid.
+of the declared sink and window.
 
 The **predicate** carries the common members, optional `predecessors`, and:
 
@@ -40,8 +40,6 @@ The **predicate** carries the common members, optional `predecessors`, and:
 - `revocation`: `credential` (an opaque identifier), `effectiveAt` (when the revocation took
   effect at the authority), and `timeSource` (a non-empty text naming the clock).
 - `window`: `{start, end}`, containing `effectiveAt`.
-- `timingGrid`: a non-empty list of named points at which the revocation was placed relative
-  to task progress.
 - `counts`: non-negative integers `attempts`, `inFlightAtRevocation`,
   `postRevocationCommits`, `replaysAttempted`, `replaysCommitted`.
 - `exclusions`: a list of `{count, reason}`, each reason non-empty, for attempts left out of

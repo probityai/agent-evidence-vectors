@@ -5,7 +5,9 @@ Profile identifier: `restoration-evidence/v1`. Version: 0.1.0, DRAFT.
 When an agent system is stopped, restricted or has its credentials revoked during an
 incident, someone later decides whether it may run again. Incident guidance asks for that
 decision to be documented with the residual risk it accepts (NIST SP 800-61 Rev. 3, RC.RP-05
-and RC.RP-06; NIST SP 800-184, Sec. 6.2.3), and it asks for the containment layers to be
+and RC.RP-06; NIST SP 800-184, Sec. 6.2.3). The NIST Key Practices for SI training and
+evaluation (2026-10-16, cited in these documents as Key Practices, sections 7.3 and 7.4) ask
+for the containment layers to be
 shown working again and the incident to be replayed against the new controls before an agent
 resumes. None of those texts says what the record of that decision must contain for a party
 outside the organisation to check it. This profile fixes that record.
@@ -53,6 +55,11 @@ Every predicate in the profile carries these members with these meanings.
 - `predecessors`, where a type uses it: a list of `{predicateType, digest}` naming earlier
   records of this profile. `digest` holds `sha256` of the predecessor statement's bytes
   exactly as carried in its DSSE payload.
+
+Rule 3 of each document covers the values the vocabulary registry defines
+(`response_function`, `pause_hold`, `restoration_decision`, `revocation_state`,
+`intent_binding`, `independence_basis`, `set_sufficiency`). Values a predicate document lists
+itself are closed by that document and checked by its schema.
 
 Every record is an in-toto Statement v1 carried in a DSSE envelope. Statements are strict
 JSON: a duplicate member at any depth makes the statement malformed. Times are compared as

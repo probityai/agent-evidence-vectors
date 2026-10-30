@@ -33,17 +33,20 @@ profile), and:
   when `decision` is `resume_staged`: `{agents, tools, routes, credentials}`, each a sorted
   list of identifiers, at least one non-empty.
 - `approvers`: a list of `{id, roles, independenceBasis}`, `roles` as in R1 and
-  `independenceBasis` an `independence_basis` value.
+  `independenceBasis` an `independence_basis` value. Where it is `independent_sources`, the
+  approver's own `id` names the independent party.
 - `setSufficiency`: the signer's own `set_sufficiency` judgment of the evidence below.
-- `evidence`: an object with exactly the slots below. Each slot is `{"digest": {"sha256":
-  ...}}` or `{"notAddressed": "<reason>"}`, with a non-empty reason.
+- `evidence`: an object with exactly the slots below. Each slot is a resource descriptor, `{"digest": {"sha256": ...}}` with optional `uri`
+  and `mediaType` as in the in-toto ResourceDescriptor, or `{"notAddressed": "<reason>"}` with
+  a non-empty reason. A slot can therefore point at an attestation the producer already emits,
+  such as a provenance or an audit record.
 
 | Slot | What it holds | Source of the ask |
 | --- | --- | --- |
 | `actorObjective` | the adversary's objective, or confirmation it is not apparent | NIST SP 800-184 Sec. 2.3.4 |
 | `persistence` | persistence mechanisms understood, or non-persistence confirmed | SP 800-184 Sec. 2.3.4 |
 | `rootCause` | root cause remediated before production use | SP 800-61r3 RC.RP-05 |
-| `affectedScope` | affected hosts, services and similar agents identified | SP 800-61r3 RS.MI-02; NIST Key Practices 6.3 |
+| `affectedScope` | affected hosts, services and similar agents identified | SP 800-61r3 RS.MI-02; Key Practices 6.3 |
 | `assetIntegrity` | restoration assets checked before use | SP 800-61r3 RC.RP-03; SP 800-53 CP-10(4) |
 | `restoredAssetsClean` | restored assets free of indicators and the original weakness | SP 800-61r3 RC.RP-05; SP 800-184 Sec. 6.2.2 |
 | `containmentReproof` | monitors, logging, egress, shutdown and permissions shown working | Key Practices 7.3 |

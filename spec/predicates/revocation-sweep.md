@@ -32,7 +32,7 @@ authorisation of the sweep), and:
 - `partition`: a list of `{state, credentials}` parts, `state` one of `revoked`, `retained`,
   `unassessed`. The vocabulary term `coverage_denominator` names this shape.
 - `revocations`: one entry per revoked credential: `credential`, `revokedAt`, `evidence`
-  (`{sha256}` of the deny record or policy change), and `relyingParties`, a list of
+  (a resource descriptor, `{digest, uri?, mediaType?}`, of the deny record or policy change), and `relyingParties`, a list of
   `{id, state}` with `state` a `revocation_state` value.
 - `coverage`: `claim`, one of `complete_verified`, `issued_after_only`, `partial`,
   `unknown`; and `issuedAfter`, a time, required when `claim` is `issued_after_only`.

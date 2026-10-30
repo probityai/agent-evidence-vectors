@@ -253,15 +253,6 @@
           ],
           "type": "object"
         },
-        "timingGrid": {
-          "items": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "minItems": 1,
-          "type": "array",
-          "uniqueItems": true
-        },
         "window": {
           "additionalProperties": false,
           "properties": {
@@ -293,7 +284,6 @@
         "result",
         "revocation",
         "sink",
-        "timingGrid",
         "window"
       ],
       "type": "object"
