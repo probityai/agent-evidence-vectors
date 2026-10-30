@@ -2955,6 +2955,9 @@ MASKS = tuple(
         # Masked here and read from the unmasked text by ATTRIBUTION below, which
         # is the one place a revision number is allowed to settle a value.
         r"(?:suite)?[Rr]evisions?[-\s]+(?:[#>*]+\s*)?\d+(?:\s+through\s+\d+)?",
+        # A NIST Special Publication number names a document; it counts nothing.
+        # SP 800-184 collided with a corpus total of 184.
+        r"\bSP\s+\d{3}-\d+[A-Za-z]?\b",
         r"\bL\d+(?:-\d+)?\b",  # spec anchors in the vector tables
         r"spec:\d+(?:-\d+)?",  # spec line citations in the sources
         r"\b\d{4}-\d{2}-\d{2}\b",  # dates
