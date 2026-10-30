@@ -164,6 +164,7 @@ GENERATORS = (
     "vectors-agent-change-admission/gen_vectors.py",
     "vectors-agentic-process-evidence/gen_vectors.py",
     "vectors-delegation-lifecycle/gen_vectors.py",
+    "vectors-restart-records/gen_vectors.py",
     # The recorded-set corpus. Its recorded members are a publisher's bytes and
     # are never generated, so only its synthetic cases, manifest and index are
     # owned below; the generator refuses to run when a recorded member no
@@ -290,6 +291,9 @@ OWNED = (
     ("vectors-delegation-lifecycle", "MANIFEST.json"),
     ("vectors-delegation-lifecycle", "INDEX.md"),
     ("vectors-delegation-lifecycle/cases", "**/*.json"),
+    ("vectors-restart-records", "MANIFEST.json"),
+    ("vectors-restart-records", "INDEX.md"),
+    ("vectors-restart-records/cases", "**/*.json"),
     ("vectors-recorded", "MANIFEST.json"),
     ("vectors-recorded", "INDEX.md"),
     ("vectors-recorded/cases", "**/*.*"),

@@ -71,6 +71,7 @@ RUNS_A_VERIFIER = (
 #: Corpora judged only by a reader of their own (``aee-verify <dir>`` or this
 #: package's), whose expectations the external contract cannot carry.
 REFUSES_A_VERIFIER = (
+    "vectors-restart-records",
     "vectors-aci",
     "vectors-acs-core",
     "vectors-agent-audit-record",
