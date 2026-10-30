@@ -1,7 +1,7 @@
 # Open-weight release vectors (AI Act Article 53(2))
 
 Cases for `open-weight-art53/v1`: a model release record and the decision a checker must reach on
-whether the record evidences the conditions of Article 53(2) of Regulation (EU) 2024/1689. The
+whether the record evidences the conditions of Article 53(2) of the EU AI Act. The
 article lifts the obligations of Article 53(1), points (a) and (b), from providers of models "released
 under a free and open-source licence that allows for the access, usage, modification, and
 distribution of the model, and whose parameters, including the weights, the information on the model

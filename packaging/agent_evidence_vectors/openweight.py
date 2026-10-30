@@ -1,6 +1,6 @@
 """Check what a model release must carry to claim the Article 53(2) exemption.
 
-Regulation (EU) 2024/1689 Article 53(2) lifts the obligations of Article 53(1),
+The EU AI Act, Article 53(2), lifts the obligations of Article 53(1),
 points (a) and (b), from "providers of AI models that are released under a free
 and open-source licence that allows for the access, usage, modification, and
 distribution of the model, and whose parameters, including the weights, the

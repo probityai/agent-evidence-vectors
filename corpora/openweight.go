@@ -11,7 +11,7 @@ func init() { register(openWeight{}) }
 
 // openWeight judges vectors-open-weight-art53/. Each member is a model release
 // record and the decision a checker must reach on whether the record evidences
-// the conditions of Article 53(2) of Regulation (EU) 2024/1689. The reader
+// the conditions of Article 53(2) of the EU AI Act. The reader
 // applies the six checks the Python reader applies, in the same order: licence,
 // weights, architecture, usage, monetisation and systemic risk. A condition
 // that fails outranks one the record is silent on, and the first finding of the

@@ -6,7 +6,7 @@ This corpus gives that row a checker that runs today: [`vectors-open-weight-art5
 
 ## What the Article says
 
-Regulation (EU) 2024/1689, Article 53(2): "The obligations set out in paragraph 1, points (a) and (b), shall not apply to providers of AI models that are released under a free and open-source licence that allows for the access, usage, modification, and distribution of the model, and whose parameters, including the weights, the information on the model architecture, and the information on model usage, are made publicly available. This exception shall not apply to general-purpose AI models with systemic risks."
+EU AI Act, Article 53(2): "The obligations set out in paragraph 1, points (a) and (b), shall not apply to providers of AI models that are released under a free and open-source licence that allows for the access, usage, modification, and distribution of the model, and whose parameters, including the weights, the information on the model architecture, and the information on model usage, are made publicly available. This exception shall not apply to general-purpose AI models with systemic risks."
 
 Points (a) and (b) are the technical documentation for the AI Office and the information for downstream providers. Points (c) and (d), the copyright policy and the public training-content summary, are not exempted. Two other texts bound the exemption: Article 51(2) presumes high impact capabilities above 10^25 floating point operations of training compute, and Recital 103 withholds the exceptions from a release monetised through conditions such as personal data collected for reasons other than security, compatibility or interoperability.
 
