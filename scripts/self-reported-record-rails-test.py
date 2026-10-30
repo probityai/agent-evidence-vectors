@@ -54,11 +54,15 @@ def key_seed(role: str) -> bytes:
 
 
 def load_manifest() -> dict[str, Any]:
-    return json.loads((CORPUS / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest: dict[str, Any] = json.loads((CORPUS / "MANIFEST.json").read_text(encoding="utf-8"))
+    return manifest
 
 
 def load_statement(member: str) -> Statement:
-    return json.loads((CORPUS / "statements" / f"{member}.json").read_text(encoding="utf-8"))
+    statement: Statement = json.loads(
+        (CORPUS / "statements" / f"{member}.json").read_text(encoding="utf-8")
+    )
+    return statement
 
 
 def sign(role: str, preimage: dict[str, Any]) -> str:
@@ -285,7 +289,7 @@ def flip_field_sig(stmt: Statement) -> None:
 
 
 def vocabulary_mutations() -> list[tuple[str, Mutator]]:
-    bad = {
+    bad: dict[str, list[Any]] = {
         "originKind": ["Self", "", "bogus", None, 3, ["self"]],
         "attestationTier": ["bogus", None],
         "observationVantage": ["bogus", ""],
@@ -304,7 +308,13 @@ def vocabulary_mutations() -> list[tuple[str, Mutator]]:
         "turns": [None, "x", {}, [3], [None], [{}], 3],
         "memoryReads": [None, "x", [3], [{}], [{"path": 1}]],
         "ledgers": [None, [], [{"name": "a", "members": []}], "ab", {}, [3, 4]],
-        "fields": [None, "x", [3], [{}], [{"name": "a", "value": 3, "evidence": "producer_asserted"}]],
+        "fields": [
+            None,
+            "x",
+            [3],
+            [{}],
+            [{"name": "a", "value": 3, "evidence": "producer_asserted"}],
+        ],
         "attestingKey": [None, "x", {}, {"keyid": "a" * 64}, {"publicKey": "a" * 64}],
         "doesNotAssert": [None, "x", 3],
         "recordId": [None, 3, {"a": 1}, ["x"], True],
@@ -350,7 +360,10 @@ def row_mutations() -> list[tuple[str, Mutator]]:
 
         return apply
 
-    cover = lambda s: field(0)(s)["coveredBy"]  # noqa: E731
+    def cover(s: Statement) -> dict[str, Any]:
+        covered: dict[str, Any] = field(0)(s)["coveredBy"]
+        return covered
+
     pairs: list[tuple[str, Mutator]] = [
         ("flip turn signature", flip_turn_sig),
         ("flip field signature", flip_field_sig),
@@ -358,18 +371,45 @@ def row_mutations() -> list[tuple[str, Mutator]]:
         ("turn attestedBy null", on(turn(), "attestedBy", None)),
         ("turn sig number", lambda s: turn()(s)["attestedBy"].__setitem__("sig", 5)),
         ("turn sig not base64", lambda s: turn()(s)["attestedBy"].__setitem__("sig", "!!")),
-        ("turn sig with newline", lambda s: turn()(s)["attestedBy"].__setitem__(
-            "sig", turn()(s)["attestedBy"]["sig"][:20] + "\n" + turn()(s)["attestedBy"]["sig"][20:])),
-        ("turn sig with carriage return", lambda s: turn()(s)["attestedBy"].__setitem__(
-            "sig", turn()(s)["attestedBy"]["sig"][:20] + "\r\n" + turn()(s)["attestedBy"]["sig"][20:])),
-        ("turn sig unpadded", lambda s: turn()(s)["attestedBy"].__setitem__(
-            "sig", turn()(s)["attestedBy"]["sig"].rstrip("="))),
-        ("turn sig extra padding", lambda s: turn()(s)["attestedBy"].__setitem__(
-            "sig", turn()(s)["attestedBy"]["sig"] + "=")),
-        ("turn sig urlsafe alphabet", lambda s: turn()(s)["attestedBy"].__setitem__(
-            "sig", turn()(s)["attestedBy"]["sig"].replace("+", "-").replace("/", "_"))),
-        ("turn sig truncated", lambda s: turn()(s)["attestedBy"].__setitem__(
-            "sig", base64.b64encode(base64.b64decode(turn()(s)["attestedBy"]["sig"])[:63]).decode())),
+        (
+            "turn sig with newline",
+            lambda s: turn()(s)["attestedBy"].__setitem__(
+                "sig",
+                turn()(s)["attestedBy"]["sig"][:20] + "\n" + turn()(s)["attestedBy"]["sig"][20:],
+            ),
+        ),
+        (
+            "turn sig with carriage return",
+            lambda s: turn()(s)["attestedBy"].__setitem__(
+                "sig",
+                turn()(s)["attestedBy"]["sig"][:20] + "\r\n" + turn()(s)["attestedBy"]["sig"][20:],
+            ),
+        ),
+        (
+            "turn sig unpadded",
+            lambda s: turn()(s)["attestedBy"].__setitem__(
+                "sig", turn()(s)["attestedBy"]["sig"].rstrip("=")
+            ),
+        ),
+        (
+            "turn sig extra padding",
+            lambda s: turn()(s)["attestedBy"].__setitem__(
+                "sig", turn()(s)["attestedBy"]["sig"] + "="
+            ),
+        ),
+        (
+            "turn sig urlsafe alphabet",
+            lambda s: turn()(s)["attestedBy"].__setitem__(
+                "sig", turn()(s)["attestedBy"]["sig"].replace("+", "-").replace("/", "_")
+            ),
+        ),
+        (
+            "turn sig truncated",
+            lambda s: turn()(s)["attestedBy"].__setitem__(
+                "sig",
+                base64.b64encode(base64.b64decode(turn()(s)["attestedBy"]["sig"])[:63]).decode(),
+            ),
+        ),
         ("turn keyid short", lambda s: turn()(s)["attestedBy"].__setitem__("keyid", "ab")),
         ("turn changeIds changed", on(turn(), "changeIds", ["other"])),
         ("turn changeIds not a list", on(turn(), "changeIds", "x")),
@@ -386,21 +426,44 @@ def row_mutations() -> list[tuple[str, Mutator]]:
         ("field coveredBy removed", removing(field(), "coveredBy")),
         ("field value number", on(field(), "value", 12)),
         ("field producer asserted with coveredBy", on(field(), "evidence", "producer_asserted")),
-        ("field cover keyid in selfSigners", lambda s: (
-            predicate_of(s)["selfSigners"].append(cover(s)["keyid"]))),
-        ("field cover publicKey upper", lambda s: cover(s).__setitem__("publicKey", cover(s)["publicKey"].upper())),
-        ("field cover publicKey spaced", lambda s: cover(s).__setitem__(
-            "publicKey", " " + cover(s)["publicKey"][1:])),
-        ("field cover publicKey odd", lambda s: cover(s).__setitem__("publicKey", cover(s)["publicKey"][:-1])),
-        ("field cover publicKey short", lambda s: cover(s).__setitem__("publicKey", cover(s)["publicKey"][:60])),
+        (
+            "field cover keyid in selfSigners",
+            lambda s: predicate_of(s)["selfSigners"].append(cover(s)["keyid"]),
+        ),
+        (
+            "field cover publicKey upper",
+            lambda s: cover(s).__setitem__("publicKey", cover(s)["publicKey"].upper()),
+        ),
+        (
+            "field cover publicKey spaced",
+            lambda s: cover(s).__setitem__("publicKey", " " + cover(s)["publicKey"][1:]),
+        ),
+        (
+            "field cover publicKey odd",
+            lambda s: cover(s).__setitem__("publicKey", cover(s)["publicKey"][:-1]),
+        ),
+        (
+            "field cover publicKey short",
+            lambda s: cover(s).__setitem__("publicKey", cover(s)["publicKey"][:60]),
+        ),
         ("field cover sig missing", lambda s: cover(s).pop("sig")),
         ("field cover publicKey missing", lambda s: cover(s).pop("publicKey")),
-        ("attesting key in selfSigners", lambda s: predicate_of(s)["selfSigners"].append(
-            predicate_of(s)["attestingKey"]["keyid"])),
-        ("attesting publicKey other", lambda s: predicate_of(s)["attestingKey"].__setitem__(
-            "publicKey", "0" * 64)),
-        ("attesting publicKey upper", lambda s: predicate_of(s)["attestingKey"].__setitem__(
-            "publicKey", predicate_of(s)["attestingKey"]["publicKey"].upper())),
+        (
+            "attesting key in selfSigners",
+            lambda s: predicate_of(s)["selfSigners"].append(
+                predicate_of(s)["attestingKey"]["keyid"]
+            ),
+        ),
+        (
+            "attesting publicKey other",
+            lambda s: predicate_of(s)["attestingKey"].__setitem__("publicKey", "0" * 64),
+        ),
+        (
+            "attesting publicKey upper",
+            lambda s: predicate_of(s)["attestingKey"].__setitem__(
+                "publicKey", predicate_of(s)["attestingKey"]["publicKey"].upper()
+            ),
+        ),
     ]
     return pairs
 
@@ -444,7 +507,7 @@ def resigned_mutations() -> list[tuple[str, Mutator]]:
     astral = {"\U00010000": 1, "￿": 2, "b": 3, "a": {"é": 1, "z": [True, None]}}
     cases: list[tuple[str, Mutator]] = [
         ("sign: astral and high-BMP member names", on(turn(), "changeIds", [astral])),
-        ("sign: control characters", on(turn(), "goalMarker", "a\x00b\x1f\x7f\"\\/\n\t")),
+        ("sign: control characters", on(turn(), "goalMarker", 'a\x00b\x1f\x7f"\\/\n\t')),
         ("sign: non-ASCII text", on(turn(), "goalMarker", "café \U0001f600  ")),
         ("sign: goalMarker null", on(turn(), "goalMarker", None)),
         ("sign: goalMarker absent", removing(turn(), "goalMarker")),
@@ -498,8 +561,12 @@ def text_mutants(stmt: Statement) -> list[tuple[str, bytes]]:
     replaced_text = json.dumps(resign(replaced), sort_keys=True)
     replaced_raw = json.dumps(resign(copy.deepcopy(replaced)), sort_keys=True, ensure_ascii=False)
     cases: dict[str, bytes] = {
-        "lone surrogate escape signed as U+FFFD": replaced_text.replace("\\ufffd", "\\ud800").encode(),
-        "invalid utf8 byte signed as U+FFFD": replaced_raw.encode().replace(b"\xef\xbf\xbd", b"\xff"),
+        "lone surrogate escape signed as U+FFFD": replaced_text.replace(
+            "\\ufffd", "\\ud800"
+        ).encode(),
+        "invalid utf8 byte signed as U+FFFD": replaced_raw.encode().replace(
+            b"\xef\xbf\xbd", b"\xff"
+        ),
         "empty": b"",
         "whitespace only": b" \n",
         "leading whitespace": b"  \n" + text.encode(),
@@ -522,7 +589,9 @@ def text_mutants(stmt: Statement) -> list[tuple[str, bytes]]:
         "lone surrogate escape": text.replace("record-", "record-\\ud800", 1).encode(),
         "paired surrogate escape": text.replace("record-", "record-\\ud83d\\ude00", 1).encode(),
         "duplicate member": text.replace('"turns":', '"turns": [], "turns":', 1).encode(),
-        "duplicate member last empty": text.replace('"fields":', '"fields": [1], "fields":', 1).encode(),
+        "duplicate member last empty": text.replace(
+            '"fields":', '"fields": [1], "fields":', 1
+        ).encode(),
         "pretty printed": pretty.encode(),
         "unicode escaped names": text.replace('"turns"', '"tur\\u006es"', 1).encode(),
         "big exponent": text.replace('"doesNotAssert"', '"x": 1e400, "doesNotAssert"', 1).encode(),
@@ -584,27 +653,78 @@ def negative_controls() -> list[tuple[str, Statement, str, list[str]]]:
     """A member changed in one place, and the verdict and codes that change must reach."""
     rich, flat = load_statement(RICH), load_statement(FLAT)
     cases: list[tuple[str, Statement, Mutator, str, list[str]]] = [
-        ("flip a byte of a turn signature", rich, flip_turn_sig, "invalid",
-         ["turn-unsigned-by-attesting-key"]),
-        ("change a signed turn field", rich, on(turn(), "changeIds", ["other"]), "invalid",
-         ["turn-unsigned-by-attesting-key"]),
-        ("flip a byte of a field signature", rich, flip_field_sig, "invalid",
-         ["field-claims-coverage-uncovered"]),
-        ("change a covered field value", rich, on(field(), "value", "other"), "invalid",
-         ["field-claims-coverage-uncovered"]),
-        ("covered field without its cover", flat, on(field(), "evidence", "substrate_covered"),
-         "invalid", ["field-claims-coverage-uncovered"]),
-        ("memory digests differ", rich, lambda s: predicate_of(s)["memoryReads"][0].__setitem__(
-            "pathDigest", "0" * 64), "invalid", ["memory-digest-not-over-named-path"]),
-        ("attesting key declared inside the runtime", rich, lambda s: predicate_of(s)[
-            "selfSigners"].append(predicate_of(s)["attestingKey"]["keyid"]), "invalid",
-         ["attesting-key-in-self-signers"]),
-        ("a ledger names another change", rich, lambda s: predicate_of(s)["ledgers"][1][
-            "members"].append("other"), "invalid", ["ledger-members-disagree"]),
-        ("unregistered origin kind", rich, set_member("originKind", "bogus"), "malformed",
-         ["record-malformed"]),
-        ("one ledger only", rich, lambda s: predicate_of(s)["ledgers"].pop(), "malformed",
-         ["record-malformed"]),
+        (
+            "flip a byte of a turn signature",
+            rich,
+            flip_turn_sig,
+            "invalid",
+            ["turn-unsigned-by-attesting-key"],
+        ),
+        (
+            "change a signed turn field",
+            rich,
+            on(turn(), "changeIds", ["other"]),
+            "invalid",
+            ["turn-unsigned-by-attesting-key"],
+        ),
+        (
+            "flip a byte of a field signature",
+            rich,
+            flip_field_sig,
+            "invalid",
+            ["field-claims-coverage-uncovered"],
+        ),
+        (
+            "change a covered field value",
+            rich,
+            on(field(), "value", "other"),
+            "invalid",
+            ["field-claims-coverage-uncovered"],
+        ),
+        (
+            "covered field without its cover",
+            flat,
+            on(field(), "evidence", "substrate_covered"),
+            "invalid",
+            ["field-claims-coverage-uncovered"],
+        ),
+        (
+            "memory digests differ",
+            rich,
+            lambda s: predicate_of(s)["memoryReads"][0].__setitem__("pathDigest", "0" * 64),
+            "invalid",
+            ["memory-digest-not-over-named-path"],
+        ),
+        (
+            "attesting key declared inside the runtime",
+            rich,
+            lambda s: predicate_of(s)["selfSigners"].append(
+                predicate_of(s)["attestingKey"]["keyid"]
+            ),
+            "invalid",
+            ["attesting-key-in-self-signers"],
+        ),
+        (
+            "a ledger names another change",
+            rich,
+            lambda s: predicate_of(s)["ledgers"][1]["members"].append("other"),
+            "invalid",
+            ["ledger-members-disagree"],
+        ),
+        (
+            "unregistered origin kind",
+            rich,
+            set_member("originKind", "bogus"),
+            "malformed",
+            ["record-malformed"],
+        ),
+        (
+            "one ledger only",
+            rich,
+            lambda s: predicate_of(s)["ledgers"].pop(),
+            "malformed",
+            ["record-malformed"],
+        ),
     ]
     out = []
     for label, base, mutate, verdict, codes in cases:
@@ -654,16 +774,16 @@ def stub_failures(work: Path) -> list[str]:
 
     original = (srr.firing_rules, srr.rule_wellformed, dict(srr._CHECKS))
     try:
-        srr.firing_rules = lambda _stmt: []
+        srr.firing_rules = lambda statement: []
         must_fail("a reader that accepts everything")
-        srr.firing_rules = lambda _stmt: ["rule_wellformed"]
+        srr.firing_rules = lambda statement: ["rule_wellformed"]
         must_fail("a reader that refuses everything")
         srr.firing_rules = original[0]
-        srr.rule_wellformed = lambda _stmt: True
+        srr.rule_wellformed = lambda statement: True
         must_fail("a reader that skips rule_wellformed")
         srr.rule_wellformed = original[1]
         for name in srr.RULES[1:]:
-            srr._CHECKS[name] = lambda _predicate: True
+            srr._CHECKS[name] = lambda predicate: True
             must_fail(f"a reader that skips {name}")
             srr._CHECKS[name] = original[2][name]
     finally:
@@ -742,8 +862,10 @@ def main() -> int:
 
         problems = stub_failures(work / "stubs") + differential_stub_failures(binary, work / "off")
         failures += problems
-        print(f"mutation check of this test: {len(srr.RULES) + 4} stub readers, "
-              f"{len(problems)} unnoticed")
+        print(
+            f"mutation check of this test: {len(srr.RULES) + 4} stub readers, "
+            f"{len(problems)} unnoticed"
+        )
     for failure in failures:
         print(f"FAIL {failure}")
     if not failures:

@@ -244,10 +244,14 @@ def _canonical(value: Any) -> str:
         return "[" + ",".join(_canonical(item) for item in value) + "]"
     if isinstance(value, dict):
         names = sorted(value, key=_utf16_key)
-        return "{" + ",".join(
-            json.dumps(name, ensure_ascii=False) + ":" + _canonical(value[name])
-            for name in names
-        ) + "}"
+        return (
+            "{"
+            + ",".join(
+                json.dumps(name, ensure_ascii=False) + ":" + _canonical(value[name])
+                for name in names
+            )
+            + "}"
+        )
     raise _Refused(f"unsupported type {type(value).__name__}")
 
 
@@ -528,8 +532,17 @@ class Judged:
 
 def _go_quote(text: str) -> str:
     """Go's ``%q`` for a string."""
-    escapes = {"\\": "\\\\", '"': '\\"', "\a": "\\a", "\b": "\\b", "\f": "\\f",
-               "\n": "\\n", "\r": "\\r", "\t": "\\t", "\v": "\\v"}
+    escapes = {
+        "\\": "\\\\",
+        '"': '\\"',
+        "\a": "\\a",
+        "\b": "\\b",
+        "\f": "\\f",
+        "\n": "\\n",
+        "\r": "\\r",
+        "\t": "\\t",
+        "\v": "\\v",
+    }
     out = []
     for char in text:
         if char in escapes:
@@ -599,7 +612,9 @@ def _manifest(directory: str) -> dict[str, Any]:
             "conditions": _string_map(top.get("conditions"), "conditions"),
             "counts": {name: int(number or 0) for name, number in counts.items()},
             "corpusDigest": _typed(top.get("corpusDigest"), str, "", "corpusDigest"),
-            "vectors": [_vector(entry) for entry in _typed(top.get("vectors"), list, [], "vectors")],
+            "vectors": [
+                _vector(entry) for entry in _typed(top.get("vectors"), list, [], "vectors")
+            ],
         }
     except CorpusUnreadable as exc:
         raise CorpusUnreadable(f"{path} does not parse: {exc}") from exc
@@ -652,9 +667,7 @@ def _contract_findings(statement: dict[str, Any], v: dict[str, Any]) -> list[str
             f"with codes {_go_list(codes)}"
         )
     if codes != v["codes"]:
-        found.append(
-            f"declares codes {_go_list(v['codes'])} and this rail names {_go_list(codes)}"
-        )
+        found.append(f"declares codes {_go_list(v['codes'])} and this rail names {_go_list(codes)}")
     if v["kind"] == "accept" and firing:
         found.append(f"is an accept member refused by {_go_list(firing)}")
     elif v["kind"] == "reject" and len(firing) != 1:
