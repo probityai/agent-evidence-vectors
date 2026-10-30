@@ -86,3 +86,19 @@ incident_response:
     match: no_mapping
     notes: The specification defines a ticket_id on the credential event and no identifier shared between
       organisations.
+  decision_role:
+    match: partial
+    evidence: asserted
+    source_path: https://aiir.jacobideji.com/schemas/kill-switch-api.html
+    divergences:
+    - Step-down from M3 or higher to M0 requires an approver attribution at least as senior as the Incident
+      Commander, which is one authorised role; the specification records no advised, executed or accountable
+      party for the decision.
+    notes: Step-down, section on approvals.
+  authority_basis:
+    match: no_mapping
+    notes: The credential event records actor, justification and ticket_id; none names the kind of grant
+      the actor acted under.
+  revocation_coverage:
+    match: no_mapping
+    notes: The credential event records one revocation with empty new_scopes and no population or coverage.

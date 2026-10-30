@@ -68,3 +68,27 @@ incident_response:
   incident_identifier:
     match: no_mapping
     notes: The source describes nothing that maps onto this term.
+  decision_role:
+    match: partial
+    evidence: asserted
+    source_path: https://csrc.nist.gov/pubs/sp/800/61/r3/final
+    divergences:
+    - GV.RR-02 R2 asks that appropriate individuals or parties be designated the authority necessary to
+      fulfill their responsibilities, and section 2.2 separates asset owners who may advise on priorities
+      from leadership who may hold decision-making authority on high-impact actions; neither asks for
+      a record of the role one party held in one decision.
+    notes: GV.RR-02 R2, Table 2, pdf p21-22; section 2.2, pdf p15.
+  authority_basis:
+    match: partial
+    evidence: asserted
+    source_path: https://csrc.nist.gov/pubs/sp/800/61/r3/final
+    divergences:
+    - RS.MI-01 C1 and C2 suggest configuring technologies to perform some containment actions automatically
+      and authorizing third parties to act to contain certain incidents on behalf of the organization,
+      and section 2.2 asks contracts to define the authority to act; the publication defines no closed
+      set of kinds of grant for a record to carry.
+    notes: RS.MI-01 C1 and C2, Table 3, pdf p40-41; section 2.2, pdf p16.
+  revocation_coverage:
+    match: no_mapping
+    notes: RS.MI-02 R1 asks to identify all affected hosts and services and N1 lists disabling breached
+      user accounts; neither asks what share of a credential population a revocation reached.
