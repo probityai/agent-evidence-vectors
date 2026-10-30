@@ -94,4 +94,4 @@ def test_a_real_signature_does_not_verify_under_another_payload_type():
     env = dict(record["envelope"], payloadType=other["payload_type"])
     with pytest.raises(dsse.DsseError) as info:
         dsse.verify(json.dumps(env).encode(), KEY)
-    assert info.value.variant == "ThresholdNotMet"
+    assert info.value.variant == "NoValidSignature"

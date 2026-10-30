@@ -29,6 +29,11 @@ pub struct VerifiedPayload {
 
 /// Verifies an envelope against `keys`, requiring `threshold` distinct keys.
 ///
+/// When no trusted key verifies any entry the refusal is
+/// [`Error::NoValidSignature`], which names the trusted keys whose entries
+/// were present but did not verify. [`Error::ThresholdNotMet`] is reserved for
+/// the case where at least one, but fewer than `threshold`, keys verified.
+///
 /// A `(t, n)` envelope is valid when signatures in it verify under at least `t`
 /// of the `n` supplied keys. The count is over **distinct keys**, never over
 /// signature entries: an envelope carrying one valid signature copied five times
@@ -90,13 +95,25 @@ pub fn verify(
     }
 
     let mut accepted = Vec::new();
+    let mut mismatched_keys = Vec::new();
     for (idx, key) in keys.iter().enumerate() {
         let key_id = key.key_id();
-        if key_accepts(*key, &pre_image, &entries, key_id.as_deref()) {
-            accepted.push(key_id.unwrap_or_else(|| format!("#{idx}")));
+        match key_outcome(*key, &pre_image, &entries, key_id.as_deref()) {
+            KeyOutcome::Accepted => accepted.push(key_id.unwrap_or_else(|| format!("#{idx}"))),
+            KeyOutcome::NamedButUnverified => {
+                mismatched_keys.push(key_id.unwrap_or_else(|| format!("#{idx}")));
+            }
+            KeyOutcome::NotNamed => {}
         }
     }
 
+    if accepted.is_empty() {
+        return Err(Error::NoValidSignature {
+            entries: entries.len(),
+            keys: keys.len(),
+            mismatched_keys,
+        });
+    }
     if accepted.len() < threshold {
         return Err(Error::ThresholdNotMet {
             accepted: accepted.len(),
@@ -153,28 +170,47 @@ fn check_countable(keys: &[&dyn Verifier], threshold: usize) -> Result<()> {
     Ok(())
 }
 
-/// Reports whether `key` verifies any of the envelope's signatures.
+/// What one trusted key did with the envelope's signature entries.
+enum KeyOutcome {
+    /// An entry verified under the key.
+    Accepted,
+    /// No entry verified, and at least one entry named this key by `keyid`.
+    NamedButUnverified,
+    /// No entry verified, and no entry named this key.
+    NotNamed,
+}
+
+/// Reports what `key` did with the envelope's signature entries.
 ///
 /// `keyid` is outside the pre-authentication encoding and so is attacker
 /// controlled on any envelope an attacker can touch. The protocol allows it to
 /// narrow the selection of keys to try and forbids using it for security
-/// decisions, so it is used here only to try the matching entry first. Every
-/// entry is still tried afterwards: a wrong or absent hint costs a few
-/// signature checks and never withholds a verification that would otherwise
-/// succeed.
-fn key_accepts(
+/// decisions, so it is used here only to try the matching entry first, and to
+/// word the refusal. Every entry is still tried afterwards: a wrong or absent
+/// hint costs a few signature checks and never withholds a verification that
+/// would otherwise succeed.
+fn key_outcome(
     key: &dyn Verifier,
     pre_image: &[u8],
     entries: &[(&str, Vec<u8>)],
     key_id: Option<&str>,
-) -> bool {
+) -> KeyOutcome {
+    let named = key_id
+        .filter(|id| !id.is_empty())
+        .is_some_and(|id| entries.iter().any(|(hint, _)| *hint == id));
     if let Some(id) = key_id.filter(|id| !id.is_empty()) {
         if entries
             .iter()
             .any(|(hint, sig)| *hint == id && key.verify(pre_image, sig))
         {
-            return true;
+            return KeyOutcome::Accepted;
         }
     }
-    entries.iter().any(|(_, sig)| key.verify(pre_image, sig))
+    if entries.iter().any(|(_, sig)| key.verify(pre_image, sig)) {
+        KeyOutcome::Accepted
+    } else if named {
+        KeyOutcome::NamedButUnverified
+    } else {
+        KeyOutcome::NotNamed
+    }
 }

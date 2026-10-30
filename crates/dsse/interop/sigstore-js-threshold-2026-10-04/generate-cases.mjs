@@ -24,6 +24,14 @@ function thresholdFailure(id, envelope, count, required = 2) {
     `signature threshold not met: ${count} distinct trusted key(s) accepted, ${required} required`);
 }
 
+function noSignatureFailure(id, envelope, entries, named) {
+  const note = named.length === 0
+    ? 'no entry named a trusted key, so the signer is untrusted or the signature is malformed'
+    : `entries naming ${named.join(', ')} did not verify, so the payload, the payload type or the signature differs from what was signed`;
+  record(id, envelope, [a, b], 2, 'threshold-not-met', 'threshold not met: 0 accepted, 2 required',
+    `no signature verified (signature entries tried: ${entries}, trusted keys: 2); ${note}`);
+}
+
 record('two-distinct-keys', baseline, [a, b], 2, null, null, null, accepted);
 for (const hint of ['wrong', '']) {
   const value = clone(baseline);
@@ -40,12 +48,12 @@ record('same-label-two-keys', baseline, [a, { ...b, id: 'key-a' }], 2,
 const extra = signedEnvelope(native, [stranger, a, b]);
 extra.signatures.unshift({ sig: '!!!' }, { sig: 'AAAA' });
 record('skip-extra-invalid-entries', extra, [a, b], 2, null, null, null, accepted);
-thresholdFailure('changed-payload', { ...clone(baseline), payload: Buffer.from('changed').toString('base64') }, 0);
-thresholdFailure('changed-type', { ...clone(baseline), payloadType: 'changed' }, 0);
-thresholdFailure('signature-over-base64-text', signedEnvelope(native, [a, b], baseline.payloadType, Buffer.from(baseline.payload)), 0);
+noSignatureFailure('changed-payload', { ...clone(baseline), payload: Buffer.from('changed').toString('base64') }, 2, ['key-a', 'key-b']);
+noSignatureFailure('changed-type', { ...clone(baseline), payloadType: 'changed' }, 2, ['key-a', 'key-b']);
+noSignatureFailure('signature-over-base64-text', signedEnvelope(native, [a, b], baseline.payloadType, Buffer.from(baseline.payload)), 2, ['key-a', 'key-b']);
 // Keep the original encoded payload while using signatures over its base64 text.
 rows.at(-1).envelope.payload = baseline.payload;
-thresholdFailure('wrong-length-signatures', { ...clone(baseline), signatures: [{ sig: 'AAAA' }] }, 0);
+noSignatureFailure('wrong-length-signatures', { ...clone(baseline), signatures: [{ sig: 'AAAA' }] }, 1, []);
 record('only-malformed-signatures', { ...clone(baseline), signatures: [{ sig: '!!!' }] }, [a, b], 2,
   'noncanonical-base64', 'noncanonical base64: signatures[].sig', 'signatures[].sig is not canonical base64 in either the standard or URL-safe alphabet');
 record('noncanonical-payload', { ...clone(baseline), payload: 'eB==' }, [a, b], 2,

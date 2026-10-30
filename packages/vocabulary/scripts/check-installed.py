@@ -18,8 +18,9 @@ version = metadata.version("agent-evidence-vocabulary")
 if vocabulary["meta"]["version"] != version:
     raise ValueError("installed distribution and registry versions differ")
 digest = hashlib.sha256(raw).hexdigest()
-if digest != "76233ba8924cebdf053f0449ce023186805156aedca4121b9b156bd747a411b4":
-    raise ValueError("installed registry differs from the pinned registry")
+index = json.loads(resources.files("agent_evidence_vocabulary").joinpath("registry.json").read_bytes())
+if digest != index["source_sha256"]:
+    raise ValueError("installed registry differs from the registry index it shipped with")
 values = vocabulary["evidence_dimensions"]["observation_vantage"]["values"]
 if values != ["substrate", "artifact"]:
     raise ValueError("released observation_vantage values changed")

@@ -28,8 +28,10 @@
         "va1d44b528c20101b",
         "vaec3b6d70dfbbc47",
         "vc2782e6c3cbdb9b7",
+        "vc6934681b519c0ce",
         "vc8db427883cd80ea",
         "vcb23d2c4509c9daf",
+        "ve3c7f7a8d918c70c",
         "ve7d572bb5e39fe9e",
         "ve7fa00ccb08c9987",
         "vf1fcbad160189ca5",
@@ -53,7 +55,9 @@
         "v27930cf8d66b2b90",
         "v539055896bf3a954",
         "v87d0a19d4b41aafc",
-        "va54b6faefcfb1f9e"
+        "va54b6faefcfb1f9e",
+        "va8ff24a38152fc31",
+        "vc6934681b519c0ce"
       ]
     },
     {
@@ -77,7 +81,8 @@
         "v393e5fb361cedaae",
         "va1d44b528c20101b",
         "vc7a74e2cef5586ed",
-        "vcebc3fca7e54f763"
+        "vcebc3fca7e54f763",
+        "ve3c7f7a8d918c70c"
       ]
     },
     {
@@ -163,7 +168,10 @@
       "id": "aee-c-17",
       "text": "covering payload is canonical RFC 8785",
       "vectors": [
-        "v85caf3c6f7516ba2"
+        "v13ede3e42645eb1a",
+        "v85caf3c6f7516ba2",
+        "v97c6888cf7e88f42",
+        "vd5e0b3f3d1fabb05"
       ]
     },
     {
@@ -180,11 +188,13 @@
         "v61efcc48543d8cea",
         "v83f4b7fe6068ef86",
         "v86f3484735f41acb",
+        "v8a1b8a3333981552",
         "v94d877ffcc3a30fe",
         "va501d76c995de6d3",
         "vb2af33bb3cc0da77",
         "vb705b260669aedc7",
         "vbc7012fb2fcbf1f8",
+        "vd3ead02f7ed16d0a",
         "vdef377fb4f572b4d",
         "vf5599bb2dbe66e12"
       ]
@@ -194,7 +204,6 @@
       "id": "aee-c-19",
       "text": "covering media type ends in +json",
       "vectors": [
-        "v4ff6cb70764bf703",
         "vbea799eb2cd2852c"
       ]
     },
@@ -353,7 +362,8 @@
       "id": "aee-c-36",
       "text": "a record signature is DSSE PAE over (payloadType, payload); the byte-pure validity gate never reads a signature, so a signature that does not verify is a tier fact and not a validity fault",
       "vectors": [
-        "v550c91df0d36a218"
+        "v550c91df0d36a218",
+        "vf56664ac324b6613"
       ]
     },
     {
@@ -457,7 +467,8 @@
       "text": "observationVocabulary required",
       "vectors": [
         "v089e746847cd0af2",
-        "v300ab22f5f2fe523"
+        "v300ab22f5f2fe523",
+        "v6945133925a03e15"
       ]
     },
     {
@@ -1008,10 +1019,32 @@
         "veb0e5002608390cc",
         "vfb979cb9ce40f1be"
       ]
+    },
+    {
+      "anchor": "L388",
+      "id": "aee-c-109",
+      "text": "an absent `predicate` member, `\"predicate\": null` and `\"predicate\": {}` are ONE input: all three decode to the empty predicate object and a verifier emits the identical verdict and the identical reason codes for all three. The anchor is the predicate's own opt-in to the framework parsing rules, which is what makes the framework's sentence binding here; the rule is stated in full, with the in-toto and SLSA text it lifts, at spec/v1/statement.md",
+      "vectors": [
+        "v2fdd6bb8fd622fea",
+        "v3759daaee191d532",
+        "vf69a30acc0a70642"
+      ]
+    },
+    {
+      "anchor": "L1300-1302",
+      "id": "aee-c-110",
+      "text": "a record's payload is the base64 of the exact bytes the substrate signed, spelled the one canonical RFC 4648 way: standard alphabet, minimal padding, zero trailing bits, no line break and no other non-alphabet byte. A payload spelled any other way carries no bytes and the record is undecodable. The vendored revision states the base64 member; the registry entry on the pull request branch states the canonical clause",
+      "vectors": [
+        "v44d1a62bf45413ea",
+        "v4ff6cb70764bf703",
+        "v7622b2c58c2e272d",
+        "v93573824d5835bd4",
+        "va39a20d87c5e9fcf"
+      ]
     }
   ],
   "source": {
-    "corpusDigest": "8b035678def9e5ac00ba761b8c640e4412c57163134afb9d2c1a90f49d573a52",
+    "corpusDigest": "bf3e5befd71640757ff1b3f0af63507364b823b5e3f9059678f72f64a46e11c1",
     "derived_by": "scripts/gen_condition_registry.py --corpus <vectors checkout>",
     "predicateType": "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7",
     "specDigest": "759d2383e5da36fa509dc335e6159a20b87641b25ebbadcf1676c55d75ffd8b0",

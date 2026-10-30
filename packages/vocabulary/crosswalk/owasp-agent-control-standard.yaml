@@ -1,0 +1,61 @@
+# Filed from outside, from the OWASP Agent Control Standard (ACS) specification at commit d1ad2943107601e3c09f8e0c8eaf57b78b38a01b of its integration branch: docs/spec/instrument/specification.md sections 4.1 and 6.4, and docs/spec/trace/events.md. Read on 2026-10-30 from a local clone.
+#
+# This filing maps the ACS decision-failure and enforcement text onto the incident_response section. It cannot promote a term and is not offered as promoting one: a specification emits no signed records. Every claim below is asserted from prose.
+
+system: OWASP Agent Control Standard (ACS)
+system_url: https://github.com/GenAI-Security-Project/agent-control-standard/blob/d1ad2943107601e3c09f8e0c8eaf57b78b38a01b/docs/spec/trace/events.md
+crosswalk_version: 0.1.0
+vocabulary_version_targeted: 0.8.0
+maintainer:
+  github: astrogilda
+  third_party_authored: true
+summary_of_system: A control standard in which a Guardian returns a decision on each agent step and the
+  observed agent applies it. Section 6.4 sets the posture when no usable decision arrives (on_decision_failure,
+  default proceed), section 4.1 the startup posture when the handshake fails, and the trace events say
+  only the observed agent knows the applied outcome.
+incident_response:
+  response_decision:
+    match: no_mapping
+    notes: ACS decisions are made per step by a Guardian; no decision not to act at an incident is recorded.
+  response_function:
+    match: no_mapping
+    notes: ACS verdicts allow, deny, modify, ask or defer one step and name no incident function.
+  enforcement_vantage:
+    match: partial
+    evidence: asserted
+    source_path: https://github.com/GenAI-Security-Project/agent-control-standard/blob/d1ad2943107601e3c09f8e0c8eaf57b78b38a01b/docs/spec/trace/events.md
+    divergences:
+    - ACS says a decision event records the Guardian's verdict, only the observed agent knows the applied
+      outcome, and no decision event proves enforcement on its own; it records no vantage per action.
+    notes: trace/events.md, the paragraph on acs.decision events.
+  control_failure_posture:
+    match: structural
+    evidence: asserted
+    source_path: https://github.com/GenAI-Security-Project/agent-control-standard/blob/d1ad2943107601e3c09f8e0c8eaf57b78b38a01b/docs/spec/trace/events.md
+    divergences:
+    - ACS holds the posture in two settings (on_decision_failure with proceed or deny, and a startup posture
+      with proceed or refuse) and records a late decision as the finding types late_decision_fail_open
+      and late_decision_fail_closed; the term names the four cases as one value set.
+    - ACS defaults to proceed, the fail-open posture.
+    notes: Specification 4.1 and 6.4; trace/events.md on late decisions.
+  revocation_state:
+    match: no_mapping
+    notes: ACS describes no credential revocation outcome.
+  containment_scope:
+    match: no_mapping
+    notes: ACS describes no partition of a subject's channels.
+  pause_hold:
+    match: no_mapping
+    notes: DEFER suspends one step pending resolution; no outcome of a pause of an agent is defined.
+  escalation_outcome:
+    match: no_mapping
+    notes: ACS describes no alert-to-action times.
+  restoration_decision:
+    match: no_mapping
+    notes: ACS describes no decision that ends a containment.
+  restoration_gate:
+    match: no_mapping
+    notes: ACS describes no gate on resuming a contained agent.
+  incident_identifier:
+    match: no_mapping
+    notes: The source describes nothing that maps onto this term.

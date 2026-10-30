@@ -38,6 +38,7 @@ TERM_SECTIONS = (
     "record_lifecycle",
     "change_admission",
     "done_verification",
+    "incident_response",
 )
 REQUIRED_TOP_LEVEL = ("system", "system_url", "crosswalk_version", "vocabulary_version_targeted")
 

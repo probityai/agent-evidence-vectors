@@ -107,7 +107,12 @@ _OUT = Path(__file__).resolve().parent / "corpus_vectors.json"
 # re-proves that equality inside `opa test`, so the boundary cannot silently rot.
 #
 # Whole families that USED to sit here and no longer do are worth stating, because the
-# reason is a capability gain rather than a corpus move. The 1xx observationRefs class
+# reason is a capability gain rather than a corpus move. The latest two: a record payload
+# spelled in non-canonical base64 (nonzero trailing bits, an embedded line break), and
+# the duplicate-record vector whose undecodable record is spelled that way, sat here as
+# "out of rego scope". They never were. The module already decoded every record and
+# already refused the spellings Go's decoder refuses; it now refuses the ones that
+# decoder accepts as well, through `_payload_text`. The 1xx observationRefs class
 # match, the 3xx aeeMethod-cap lattice, the 7xx record-class deep validation and the
 # 0.7 attribution rules are all evaluated now; several entries that once claimed to
 # need a SIGNED payload were reading a member this module already decodes, and were
@@ -155,18 +160,25 @@ _OUTSIDE_REGO_REACH: tuple[ScopeFamily, ...] = (
         count=14,
     ),
     ScopeFamily(
-        what="record-internal JCS canonicality -- out of rego scope",
+        what=(
+            "record-internal RFC 8785 canonicality -- unsorted members, and a number "
+            "spelled other than its canonical form (a negative zero, a trailing "
+            "fraction zero, an uppercase exponent). Each lives in the decoded payload "
+            "bytes; rego reads the lenient parse, in which every one of those spellings "
+            "is the same value as its canonical form"
+        ),
         conditions=frozenset(["aee-c-17"]),
         expected={
             "alsoEmits": ["caught-row-uncovered", "observed-set-mismatch"],
             "codes": ["payload-not-canonical"],
             "verdict": "invalid",
         },
-        count=1,
+        count=4,
     ),
     ScopeFamily(
         what=(
-            "record-payload i-JSON and string-scalar faults -- a bignum, a duplicate "
+            "record-payload i-JSON and string-scalar faults -- a bignum, a number "
+            "whose exponent puts it past the exact-integer range, a duplicate "
             "member, a lone surrogate escape, CESU-8, a noncharacter, and nesting at "
             "or past the depth bound. All sit inside the base64 catch-record "
             "pre-image or in raw string bytes; rego reads the lenient parse of an "
@@ -179,29 +191,19 @@ _OUTSIDE_REGO_REACH: tuple[ScopeFamily, ...] = (
             "codes": ["payload-not-ijson"],
             "verdict": "invalid",
         },
-        count=7,
+        count=8,
     ),
     ScopeFamily(
         what=(
             "statement-wide raw-byte faults -- a duplicate member rego parses "
             "last-wins, a lone high or low surrogate escape, a reversed surrogate "
-            "pair, and a noncharacter in a vocabulary label. Each lives in the bytes "
-            "rather than in the parse rego is handed"
+            "pair, a noncharacter in a vocabulary label, and a supplementary-plane "
+            "noncharacter written as an escaped surrogate pair. Each lives in the "
+            "bytes rather than in the parse rego is handed"
         ),
         conditions=frozenset(["aee-c-18"]),
         expected={"codes": ["statement-malformed"], "verdict": "invalid"},
-        count=5,
-    ),
-    ScopeFamily(
-        what="record base64 canonicality -- out of rego scope",
-        conditions=frozenset(["aee-c-19"]),
-        expected={
-            "alsoCarries": ["observed-set-mismatch"],
-            "alsoEmits": ["payload-not-canonical", "reconstructed-row-uncovered"],
-            "codes": ["record-undecodable"],
-            "verdict": "invalid",
-        },
-        count=1,
+        count=6,
     ),
     ScopeFamily(
         what="RFC-6962 fold (domain separation) -- out of rego scope",
@@ -219,18 +221,6 @@ _OUTSIDE_REGO_REACH: tuple[ScopeFamily, ...] = (
         what="RFC-6962 fold (leaf order) -- out of rego scope",
         conditions=frozenset(["aee-c-27"]),
         expected={"codes": ["batch-root-mismatch"], "verdict": "invalid"},
-        count=1,
-    ),
-    ScopeFamily(
-        what=(
-            "record-hash dedup plus an undecodable record body -- both at the base64 "
-            "record pre-image layer, the same boundary as the dedup family below"
-        ),
-        conditions=frozenset(["aee-c-29"]),
-        expected={
-            "codes": ["duplicate-record", "record-undecodable"],
-            "verdict": "invalid",
-        },
         count=1,
     ),
     ScopeFamily(

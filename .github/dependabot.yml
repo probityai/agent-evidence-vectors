@@ -52,6 +52,16 @@ updates:
       jcs:
         patterns: ["*"]
   - package-ecosystem: pip
+    directory: /packages/admission
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: deps
+      include: none
+    groups:
+      adm:
+        patterns: ["*"]
+  - package-ecosystem: pip
     directory: /packages/vocabulary
     schedule:
       interval: weekly

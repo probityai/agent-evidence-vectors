@@ -1,0 +1,88 @@
+# Filed from outside, from the Kill-Switch API specification of AIIR (Agentic Incident Response) and its credential-event schema, read on 2026-10-30 in the copies kept in the research capture.
+#
+# This filing maps containment modes M0 to M5, the Probe call and the credential event onto the incident_response section. It cannot promote a term and is not offered as promoting one: a specification emits no signed records. Every claim below is asserted from prose.
+
+system: AIIR Kill-Switch API and credential-event schema
+system_url: https://aiir.jacobideji.com/schemas/kill-switch-api.html
+crosswalk_version: 0.1.0
+vocabulary_version_targeted: 0.8.0
+maintainer:
+  github: astrogilda
+  third_party_authored: true
+summary_of_system: A runtime contract for activating containment modes M1 Read-Only, M2 Approvals Required,
+  M3 Tool Tiering, M4 Full Disable and M5 Controlled Re-Enable, a Probe call that answers whether a mode
+  is in effect, and a credential-event schema with event_type, actor, justification and ticket_id.
+incident_response:
+  response_decision:
+    match: no_mapping
+    notes: The specification asks for no record of a decision not to act.
+  response_function:
+    match: partial
+    evidence: asserted
+    source_path: https://aiir.jacobideji.com/schemas/kill-switch-api.html
+    divergences:
+    - The modes name restriction (M1 to M3), full disable (M4) and staged re-enable (M5) as one ladder;
+      they do not separate isolation, pause and remediation, and a mode is one value where an action may
+      carry several.
+    notes: Modes M1 to M5 of the specification.
+  enforcement_vantage:
+    match: partial
+    evidence: asserted
+    source_path: https://aiir.jacobideji.com/schemas/kill-switch-api.html
+    divergences:
+    - The Probe call answers whether a mode is in effect with evidence rather than configuration state,
+      but the runtime that is contained probes itself, so the evidence is at the subject; no vantage is
+      recorded.
+    notes: Section 4, Probe.
+  control_failure_posture:
+    match: no_mapping
+    notes: The specification describes no posture when a decision service fails.
+  revocation_state:
+    match: partial
+    evidence: asserted
+    source_path: https://aiir.jacobideji.com/schemas/credential-event.schema.json
+    divergences:
+    - The schema records a revocation event (event_type revocation, empty new_scopes) with actor, justification
+      and ticket_id; it records no observation by a relying party that the revoked credential was refused.
+    notes: The M4 probe checks that tokens are scoped for revocation and not yet rotated.
+  containment_scope:
+    match: partial
+    evidence: asserted
+    source_path: https://aiir.jacobideji.com/schemas/kill-switch-api.html
+    divergences:
+    - Variants of M3 carry a scope object naming tools, corpora, agents or users affected; there is no
+      manifest of channels, no unassessed set and no interval over which each was observed closed.
+    notes: Mode variants of M3.
+  pause_hold:
+    match: partial
+    evidence: asserted
+    source_path: https://aiir.jacobideji.com/schemas/kill-switch-api.html
+    divergences:
+    - The M4 probe requires zero in-flight sessions and denied tool calls, reported by the runtime; it
+      does not separate an effect after the pause from state left behind.
+    notes: M4 Probe evidence.
+  escalation_outcome:
+    match: no_mapping
+    notes: The specification sets a ten-minute time-to-activate target and defines no alert, page and
+      action times in a record.
+  restoration_decision:
+    match: partial
+    evidence: asserted
+    source_path: https://aiir.jacobideji.com/schemas/kill-switch-api.html
+    divergences:
+    - Step-down from M3 or higher to M0 requires an approver attribution at least as senior as the Incident
+      Commander and M5 logs validation at each stage; the approver is not required to differ from the
+      activator, and the decision is not bound to the containment by digest.
+    notes: Step-down and M5 Controlled Re-Enable.
+  restoration_gate:
+    match: partial
+    evidence: asserted
+    source_path: https://aiir.jacobideji.com/schemas/kill-switch-api.html
+    divergences:
+    - M5 requires a separate Activate call per stage and prior stages validated; this gates the runtime's
+      own activation and records no substrate observation of the restart.
+    notes: M5 pass criteria.
+  incident_identifier:
+    match: no_mapping
+    notes: The specification defines a ticket_id on the credential event and no identifier shared between
+      organisations.

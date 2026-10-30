@@ -196,9 +196,10 @@ fn a_tampered_payload_meets_no_threshold() {
     let err = dsse::verify(&env, &[&va], 1).unwrap_err();
     assert_eq!(
         err,
-        Error::ThresholdNotMet {
-            accepted: 0,
-            threshold: 1
+        Error::NoValidSignature {
+            entries: 1,
+            keys: 1,
+            mismatched_keys: vec!["key-a".to_string()]
         }
     );
 }
@@ -216,9 +217,10 @@ fn a_swapped_payload_type_meets_no_threshold() {
     let err = dsse::verify(&env, &[&va], 1).unwrap_err();
     assert_eq!(
         err,
-        Error::ThresholdNotMet {
-            accepted: 0,
-            threshold: 1
+        Error::NoValidSignature {
+            entries: 1,
+            keys: 1,
+            mismatched_keys: vec!["key-a".to_string()]
         }
     );
 }
@@ -251,9 +253,79 @@ fn a_wrong_length_signature_is_a_threshold_failure() {
     let err = dsse::verify(&short, &[&va], 1).unwrap_err();
     assert_eq!(
         err,
-        Error::ThresholdNotMet {
-            accepted: 0,
-            threshold: 1
+        Error::NoValidSignature {
+            entries: 1,
+            keys: 1,
+            mismatched_keys: vec!["key-a".to_string()]
         }
     );
+}
+
+/// A refusal for a changed payload names the trusted key whose entry was present
+/// but did not verify, and its message says what differs. A key no entry named
+/// is not accused.
+#[test]
+fn a_changed_payload_names_the_key_whose_entry_failed() {
+    let a = signer(1, "key-a");
+    let b = signer(2, "key-b");
+    let mut env = sign_with("t", b"payload", &[&a]).unwrap();
+    env.payload = {
+        use base64::Engine as _;
+        base64::engine::general_purpose::STANDARD.encode(b"tampered")
+    };
+    let (va, vb) = (a.verifier(), b.verifier());
+    let err = dsse::verify(&env, &[&va, &vb], 2).unwrap_err();
+    assert_eq!(
+        err,
+        Error::NoValidSignature {
+            entries: 1,
+            keys: 2,
+            mismatched_keys: vec!["key-a".to_string()]
+        }
+    );
+    let text = err.to_string();
+    assert!(
+        text.contains("entries naming key-a did not verify"),
+        "{text}"
+    );
+    assert!(!text.contains("key-b"), "{text}");
+}
+
+/// The control: when one trusted key does verify, the shortfall is a threshold
+/// shortfall and not a signature failure, so the two refusals are not one
+/// refusal under two names.
+#[test]
+fn a_partial_shortfall_stays_a_threshold_refusal() {
+    let a = signer(1, "key-a");
+    let b = signer(2, "key-b");
+    let env = sign_with("t", b"payload", &[&a]).unwrap();
+    let (va, vb) = (a.verifier(), b.verifier());
+    let err = dsse::verify(&env, &[&va, &vb], 2).unwrap_err();
+    assert_eq!(
+        err,
+        Error::ThresholdNotMet {
+            accepted: 1,
+            threshold: 2
+        }
+    );
+}
+
+/// An entry that names no trusted key is reported as such: the signer is
+/// untrusted or the signature is malformed, and no trusted key is accused.
+#[test]
+fn an_untrusted_signer_accuses_no_trusted_key() {
+    let a = signer(1, "key-a");
+    let stranger = signer(9, "stranger");
+    let env = sign_with("t", b"payload", &[&stranger]).unwrap();
+    let va = a.verifier();
+    let err = dsse::verify(&env, &[&va], 1).unwrap_err();
+    assert_eq!(
+        err,
+        Error::NoValidSignature {
+            entries: 1,
+            keys: 1,
+            mismatched_keys: vec![]
+        }
+    );
+    assert!(err.to_string().contains("no entry named a trusted key"));
 }

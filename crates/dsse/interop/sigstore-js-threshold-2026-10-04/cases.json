@@ -303,7 +303,7 @@
         "decision": "refused",
         "js_code": "threshold-not-met",
         "js_message": "threshold not met: 0 accepted, 2 required",
-        "rust_message": "signature threshold not met: 0 distinct trusted key(s) accepted, 2 required",
+        "rust_message": "no signature verified (signature entries tried: 2, trusted keys: 2); entries naming key-a, key-b did not verify, so the payload, the payload type or the signature differs from what was signed",
         "accepted_keys": []
       }
     },
@@ -338,7 +338,7 @@
         "decision": "refused",
         "js_code": "threshold-not-met",
         "js_message": "threshold not met: 0 accepted, 2 required",
-        "rust_message": "signature threshold not met: 0 distinct trusted key(s) accepted, 2 required",
+        "rust_message": "no signature verified (signature entries tried: 2, trusted keys: 2); entries naming key-a, key-b did not verify, so the payload, the payload type or the signature differs from what was signed",
         "accepted_keys": []
       }
     },
@@ -373,7 +373,7 @@
         "decision": "refused",
         "js_code": "threshold-not-met",
         "js_message": "threshold not met: 0 accepted, 2 required",
-        "rust_message": "signature threshold not met: 0 distinct trusted key(s) accepted, 2 required",
+        "rust_message": "no signature verified (signature entries tried: 2, trusted keys: 2); entries naming key-a, key-b did not verify, so the payload, the payload type or the signature differs from what was signed",
         "accepted_keys": []
       }
     },
@@ -403,7 +403,7 @@
         "decision": "refused",
         "js_code": "threshold-not-met",
         "js_message": "threshold not met: 0 accepted, 2 required",
-        "rust_message": "signature threshold not met: 0 distinct trusted key(s) accepted, 2 required",
+        "rust_message": "no signature verified (signature entries tried: 1, trusted keys: 2); no entry named a trusted key, so the signer is untrusted or the signature is malformed",
         "accepted_keys": []
       }
     },

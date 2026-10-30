@@ -73,7 +73,7 @@ The Python digest checker is version 0.2.0.
 The policies follow the in-toto Adversarial Execution Evidence predicate v0.7, proposed in
 [in-toto/attestation#570](https://github.com/in-toto/attestation/pull/570). The profile registry
 measures them against the [agent-evidence-vectors](https://github.com/probityai/agent-evidence-vectors) corpus
-at tag v0.10.1. The rails evaluate a statement whose envelope signature your engine's key
+at tag v0.30.0, installed as `agent-evidence-vectors==0.30.0`. The rails evaluate a statement whose envelope signature your engine's key
 authority has already verified; they don't verify signatures themselves. Until you pin them, or
 declare that you run unpinned, the policies refuse every statement that depends on a consumer
 setting with no safe default.

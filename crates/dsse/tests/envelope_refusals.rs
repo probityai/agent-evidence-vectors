@@ -92,11 +92,12 @@ fn both_alphabets_are_accepted_when_canonical() {
         let err = dsse::verify(&env, &[], 1).unwrap_err();
         assert_eq!(
             err,
-            Error::ThresholdNotMet {
-                accepted: 0,
-                threshold: 1
+            Error::NoValidSignature {
+                entries: 1,
+                keys: 0,
+                mismatched_keys: vec![]
             },
-            "{label} alphabet must decode, then fail only on the threshold; got {err:?}"
+            "{label} alphabet must decode, then fail only because no key is trusted; got {err:?}"
         );
     }
 }
@@ -136,9 +137,10 @@ fn empty_payload_is_legal() {
     let err = dsse::verify(&env, &[], 1).unwrap_err();
     assert_eq!(
         err,
-        Error::ThresholdNotMet {
-            accepted: 0,
-            threshold: 1
+        Error::NoValidSignature {
+            entries: 1,
+            keys: 0,
+            mismatched_keys: vec![]
         },
         "an empty payload must decode cleanly; got {err:?}"
     );

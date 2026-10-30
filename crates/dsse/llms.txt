@@ -2,14 +2,14 @@
 
 > Rust tools for DSSE envelopes: pre-authentication encoding, signing and threshold verification.
 
-Start with crate version 0.1.5 and Rust 1.88 or newer. `cargo add dsse@=0.1.5` selects that release. The default feature supplies Ed25519 signing and verification.
+Start with crate version 0.1.6 and Rust 1.88 or newer. `cargo add dsse@=0.1.6` selects that release. The default feature supplies Ed25519 signing and verification.
 
 Use `sign` to bind the payload type and bytes. Give `verify` the consumer's trusted verifiers and a distinct-key threshold, then use the returned `VerifiedPayload` bytes and payload type. A key ID helps order verification attempts. Implement the `Signer` and `Verifier` traits for another signature provider.
 
 ## Start here
 
 - [Quick start](https://github.com/probityai/agent-evidence/blob/main/crates/dsse/README.md): Sign an envelope, verify it and read the checked payload.
-- [Version 0.1.5 API](https://docs.rs/dsse/0.1.5/dsse/): Functions, traits, envelope types and errors.
+- [Version 0.1.6 API](https://docs.rs/dsse/0.1.6/dsse/): Functions, traits, envelope types and errors.
 - [Design and evidence](https://github.com/probityai/agent-evidence/blob/main/crates/dsse/docs/DESIGN.md): Encoding, key selection, thresholds and refusal cases.
 
 ## Run a comparison

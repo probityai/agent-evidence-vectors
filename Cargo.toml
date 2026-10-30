@@ -1,5 +1,7 @@
 # Cargo workspace root for the crates under crates/.
 #
+# The interop and readers crates are standalone probes and keep their own roots.
+#
 # Each crate arrives with its own Cargo.lock, cargo-vet store and nested
 # packages (a wasm crate, a Python binding), and keeps them: it is excluded
 # here, so `cargo` run inside crates/<name> sees that crate as its own root and
@@ -15,4 +17,4 @@
 [workspace]
 resolver = "2"
 members = []
-exclude = ["crates"]
+exclude = ["crates", "interop", "readers"]

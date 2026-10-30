@@ -1,7 +1,7 @@
 # Python distribution
 
 `python/` builds the `jcs-admit` wheel: one abi3 extension that links the published
-`jcs-admit` 0.1.2 and `dsse` 0.1.3 crates from crates.io, unchanged, and exposes them as
+`jcs-admit` 0.1.2 and `dsse` 0.1.6 crates from crates.io, unchanged, and exposes them as
 the `jcs_admit` package and its `jcs_admit.dsse` module. [Releasing](#releasing) puts it
 on PyPI.
 
