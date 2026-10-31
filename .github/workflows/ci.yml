@@ -864,6 +864,12 @@ jobs:
         run: .venv/bin/python -B scripts/workflow-steps-gate-test.py
       - name: an unreadable account is inconclusive, not a refused runner label
         run: .venv/bin/python -B scripts/runner-labels-gate-test.py
+      # A push must supersede its older runs, and a required check must report on
+      # every pull request. The table of required checks lives in the gate.
+      - name: every workflow cancels superseded runs and every required check can report
+        run: |
+          .venv/bin/python -B scripts/workflow-concurrency-gate.py
+          .venv/bin/python -B scripts/workflow-concurrency-gate-test.py
       # The release procedure runs the leak tier locally and leaves the proof to
       # this workflow. A procedure that asks for the full local mirror of these
       # jobs ran about 15 hours on one box and held v0.30.0 back.
