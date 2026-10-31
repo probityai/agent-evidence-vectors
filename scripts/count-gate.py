@@ -2955,9 +2955,6 @@ MASKS = tuple(
         # Masked here and read from the unmasked text by ATTRIBUTION below, which
         # is the one place a revision number is allowed to settle a value.
         r"(?:suite)?[Rr]evisions?[-\s]+(?:[#>*]+\s*)?\d+(?:\s+through\s+\d+)?",
-        # A NIST Special Publication number names a document; it counts nothing.
-        # SP 800-184 collided with a corpus total of 184.
-        r"\bSP\s+\d{3}-\d+[A-Za-z]?\b",
         r"\bL\d+(?:-\d+)?\b",  # spec anchors in the vector tables
         r"spec:\d+(?:-\d+)?",  # spec line citations in the sources
         r"\b\d{4}-\d{2}-\d{2}\b",  # dates
@@ -3000,7 +2997,20 @@ MASKS = tuple(
         # otherwise arrive as a fresh false refusal against text claiming
         # nothing. The canonicalization argument this corpus publishes cites
         # floating-point and checksum standards by name throughout.
-        r"\b(?:IEEE|ISO|IEC|ANSI|ECMA|FIPS|NIST\s+SP)[\s-]*\d+",
+        #
+        # The designator is the WHOLE identifier, not its first number: `NIST SP
+        # 800-184` is one document, and masking only `NIST SP 800` left `-184`
+        # to be read as a count the day the audit-record corpus reached 184. So
+        # the number may continue through `-`, `/`, `:` or `.` segments
+        # (`800-184`, `27001:2022`, `8601-1`) and a revision suffix (`63r3`).
+        # The same applies to the other publication identifiers the prose cites:
+        # a CVE or CWE id, an IETF BCP or STD number, and a draft name with its
+        # two-digit version (`draft-ietf-foo-bar-04`).
+        r"\b(?:IEEE|ISO|IEC|ANSI|ECMA|FIPS|(?:NIST\s+)?(?:SP|IR)|BCP|STD)[\s-]*\d+"
+        r"(?:[-/:.]\d+)*(?:r\d+)?",
+        r"\bCVE-\d{4}-\d{4,}\b",
+        r"\bCWE-\d+\b",
+        r"\bdraft-[a-z0-9]+(?:-[a-z0-9]+)*-\d{2}\b",
         # Encoding names. The digit in UTF-16 is part of the name of a character
         # encoding and never a quantity of anything, and this corpus argues about
         # UTF-16 code-unit ordering in a dozen places. It went unmasked only

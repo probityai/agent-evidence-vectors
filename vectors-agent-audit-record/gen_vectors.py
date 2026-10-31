@@ -3570,11 +3570,11 @@ def _set_all_malformed() -> Built:
     return {"set": payloads}
 
 
-# The section of draft-gilda-audit-agent-audit-record-03 whose text makes each
-# member malformed. X1, X17 and X18 carry none: the draft states no rule for a
-# fractional number, and does not define the bundle a set member is.
+# The section of draft-gilda-audit-agent-audit-record-04 whose text makes each
+# member malformed.
 REJECT_SECTIONS: dict[str, str] = {
-    "X2": "4.6", "X3": "4.3", "X4": "4", "X5": "4", "X6": "5.9", "X7": "5.9",
+    "X1": "4.1.1", "X17": "4.9", "X18": "4.9",
+    "X2": "4.6", "X3": "4.3", "X4": "4.8", "X5": "4.8", "X6": "5.9", "X7": "5.9",
     "X8": "4.2", "X9": "4.4", "X10": "4.6", "X11": "4.7", "X12": "4.7",
     "X13": "4.7", "X14": "4.7", "X15": "4.6", "X16": "4.7",
 }
@@ -3698,12 +3698,14 @@ def define_reject_paths() -> None:
         "a set member whose records member is named otherwise",
         _set_wrong_key, "malformed", [],
         joint={"verdict": "malformed", "codes": ["set-unreadable"]},
+        section=REJECT_SECTIONS.get("X17"),
     )
     member(
         "X18", "x18-set-of-malformed-records", "A1",
         "a set whose two records are each malformed under IS1 and IS2",
         _set_all_malformed, "malformed", ["issued-before-sealed"],
         joint={"verdict": "malformed", "codes": ["set-record-malformed"]},
+        section=REJECT_SECTIONS.get("X18"),
     )
 
 
