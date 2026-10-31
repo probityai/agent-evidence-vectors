@@ -31,4 +31,4 @@ independent reader agrees.
 | [Cases](fixtures/cases.json) | The ten records, with every ref derived from its preimage |
 | [Expected results](expected.json) | One classification and finding set per case, plus the equivalence mapping |
 | [Case table](CASE-TABLE.md) | The experiment these cases belong to, and the producer runs beside it |
-| [Join the case](https://github.com/probityai/agent-evidence/issues/24) | Bring a reader, a run, or a case that splits these seams differently |
+| [Join the case](https://github.com/probityai/agent-evidence-vectors/issues/352) | Bring a reader, a run, or a case that splits these seams differently |
