@@ -2044,6 +2044,28 @@ FROZEN: tuple[Frozen, ...] = (
     ),
     Frozen(
         "RUNS.md",
+        "the agent audit record outside run score at release 0.28.0",
+        "141 of 141 agree with `MANIFEST.json`",
+        (
+            "The score Laurent-Lemonnier posted on agent-evidence-vectors#335 for "
+            "vectors-agent-audit-record at release 0.28.0, from his own verifier at "
+            "dps-scitt-decision-layer@f72f092 on 2026-10-29. It records one past run of "
+            "one release and does not track the corpus as it grows."
+        ),
+    ),
+    Frozen(
+        "RUNS.md",
+        "the agent audit record outside run reject-member score at release 0.28.0",
+        "agrees on 81 of 81 reject members",
+        (
+            "The score Laurent-Lemonnier posted on agent-evidence-vectors#335 for "
+            "vectors-agent-audit-record at release 0.28.0, from his own verifier at "
+            "dps-scitt-decision-layer@f72f092 on 2026-10-29. It records one past run of "
+            "one release and does not track the corpus as it grows."
+        ),
+    ),
+    Frozen(
+        "RUNS.md",
         "the agent audit record corpus size an outside reader ran",
         "at release 0.16.0, 47 members, corpus digest",
         (
