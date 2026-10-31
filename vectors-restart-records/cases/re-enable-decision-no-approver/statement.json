@@ -1,0 +1,138 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "approvers": [
+      {
+        "id": "https://people.example.com/approver-x",
+        "independenceBasis": "independent_sources",
+        "roles": [
+          "accountable"
+        ]
+      }
+    ],
+    "doesNotAssert": [
+      "that any cited evidence shows what its slot names",
+      "that resuming was safe"
+    ],
+    "evidence": {
+      "actorObjective": {
+        "digest": {
+          "sha256": "f30297e27449e9ef0a7eaed08e3c914d8255fe582405e5b1bc27f807dc0de5b6"
+        }
+      },
+      "affectedScope": {
+        "digest": {
+          "sha256": "7a8e8693b92a11ad3352774dacbdc905dc6cefd696c42c817cf1797bcb1d327e"
+        }
+      },
+      "assetIntegrity": {
+        "digest": {
+          "sha256": "dca1f5a758545d10cf76432469894bd771688c6984c7c39ae55c9e8e68edb746"
+        }
+      },
+      "containmentReproof": {
+        "notAddressed": "not addressed in this synthetic decision"
+      },
+      "controlsNotDegraded": {
+        "notAddressed": "not addressed in this synthetic decision"
+      },
+      "exclusiveControl": {
+        "notAddressed": "not addressed in this synthetic decision"
+      },
+      "incidentReplay": {
+        "digest": {
+          "sha256": "1957898a0d709191dfe6bc5bb5bba83f4b7b5360492e39a848b742aef9729648"
+        }
+      },
+      "multiPartyAuthorization": {
+        "notAddressed": "not addressed in this synthetic decision"
+      },
+      "ownerConfirmation": {
+        "digest": {
+          "sha256": "208b63478ad58159f74139b18f0e8a6f6ca78cbe99725bc78718503e376ff428"
+        }
+      },
+      "persistence": {
+        "digest": {
+          "sha256": "1eaba31dcaee03219c153d1af8a8386dad4baae15ebb69e24cf74d48a344bd26"
+        }
+      },
+      "postRestartMonitoring": {
+        "notAddressed": "not addressed in this synthetic decision"
+      },
+      "residualRisk": {
+        "digest": {
+          "sha256": "9a9b5c035b702fa3df91b2bc42db44e144b7d9b42e1a463e9873706ab8854f64"
+        }
+      },
+      "restoreOrder": {
+        "digest": {
+          "sha256": "1fdd43c79ca06564f76150d2484cef67c2e0072f751e1cef471da31197a27664"
+        }
+      },
+      "restoredAssetsClean": {
+        "digest": {
+          "sha256": "87394859516522df709329b46247ab17b129f018c0e992e91cd39fb6b62f2179"
+        }
+      },
+      "rootCause": {
+        "digest": {
+          "sha256": "bf29de289e1ad8d5765cf266598994a19e2162fccdd57f3bd837a53111a778a0"
+        }
+      },
+      "seniorApproval": {
+        "digest": {
+          "sha256": "d2b86ac7e9f4191615b8cd56b4b924ca9213c1a9f47f9b88bacc2f9ca3059c80"
+        }
+      }
+    },
+    "incident": {
+      "id": "synthetic-incident-0001",
+      "issuer": "https://ops.example.com/incidents"
+    },
+    "issuedAt": "2026-01-12T09:00:00Z",
+    "predecessors": [
+      {
+        "digest": {
+          "sha256": "9319b6c60acc1e282f81d6824fb5bdb1d43c6d21a2105c6258459257ea312636"
+        },
+        "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/incident-action-authorization"
+      },
+      {
+        "digest": {
+          "sha256": "c864e1b41caf7a10e19cbfc08940e164c117fef8833660c76e7b864a80e4b834"
+        },
+        "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-sweep"
+      }
+    ],
+    "producer": {
+      "id": "https://records.example.com/producer"
+    },
+    "registryDigest": {
+      "sha256": "1c5ff80bd97237a603afc402db692ffe5abe15e4a7f9eca13f20068ada347fdc"
+    },
+    "restoration": {
+      "decision": "resume_staged",
+      "restoredScope": {
+        "agents": [
+          "https://agents.example.com/agent-a"
+        ],
+        "credentials": [
+          "https://idp.example.org/credentials/c-03"
+        ],
+        "routes": [],
+        "tools": []
+      }
+    },
+    "setSufficiency": "not_assessed"
+  },
+  "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/re-enable-decision",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "a1e92ae52f60f04930efbdeee18151547003e2717e123394da963e32f84ff1a3"
+      },
+      "name": "restored configuration baseline"
+    }
+  ]
+}
