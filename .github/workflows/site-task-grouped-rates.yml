@@ -1,0 +1,44 @@
+# Moved from site/.github/workflows/task-grouped-rates.yml when the package was imported;
+# its steps run from site.
+name: task-grouped-rates
+
+on:
+  push:
+    paths: ['site/**', '.github/workflows/site-task-grouped-rates.yml']
+    branches: [main]
+  pull_request:
+    paths: ['site/**', '.github/workflows/site-task-grouped-rates.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: site
+
+jobs:
+  paired-reader:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12.14"
+      - name: Install the pinned test runtime
+        run: python -m pip install pytest==9.1.1 hypothesis==6.168.3
+      - name: Test paired controls, task weighting, missing labels and repeat cloning
+        run: python -m pytest -q tests/test_grouped_rates.py
+      - name: Reconstruct the complete source-bound illustration
+        run: |
+          python tools/check_grouped_rates.py \
+            --input examples/task-grouped-rates/input.json \
+            --expect examples/task-grouped-rates/report.json \
+            --output grouped-rate-report.json
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: task-grouped-rate-reader
+          path: site/grouped-rate-report.json

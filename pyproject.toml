@@ -440,9 +440,11 @@ files = ["packaging", "vectors", "tools"]
 # parts.yml lints and tests actions/, packages/ and tests/, the crate workflows
 # own crates/. scripts/typecheck-gate.py
 # does not read these directories and does not count them.
-# site/ is the Atlas source moved in from the archived specification repository; its own
-# check jobs have not moved with it yet (row ATLAS-SOURCE-IN-ARCHIVED-REPO), so it is held
-# here until they do.
+# site/ is the Atlas source moved in from the archived specification repository, and its
+# check jobs moved with it: site.yml and the site-*.yml workflows test and replay it from
+# site/. pyright over site/ on 2026-10-31 reported 264 errors in 253 files (64 unresolved
+# imports, the rest type findings), so it joins [tool.pyright].include only after those are
+# fixed.
 held-elsewhere = ["actions", "crates", "packages", "site", "tests"]
 
 [tool.pyright]

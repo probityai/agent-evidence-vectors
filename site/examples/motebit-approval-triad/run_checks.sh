@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
-root="$(git rev-parse --show-toplevel)"
+# The Atlas tree root, two levels above this script; it is no longer the repository root.
+root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$root"
 work="$(mktemp -d)"
 output="${1:-.build/motebit-approval-triad}"

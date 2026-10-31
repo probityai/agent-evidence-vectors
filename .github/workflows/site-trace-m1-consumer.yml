@@ -1,0 +1,38 @@
+# Moved from site/.github/workflows/trace-m1-consumer.yml when the package was imported;
+# its steps run from site.
+name: trace-m1-consumer
+
+on:
+  push:
+    paths: ['site/**', '.github/workflows/site-trace-m1-consumer.yml']
+    branches: [main]
+  pull_request:
+    paths: ['site/**', '.github/workflows/site-trace-m1-consumer.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: site
+
+jobs:
+  pinned-inputs-and-consumer-controls:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa # v10.3.1
+        with:
+          version: "0.12.24"
+      - name: Fetch immutable inputs and run the original consumer
+        run: bash interop/trace-m1/scripts/qualify.sh
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: trace-m1-native-results
+          path: |
+            site/interop/trace-m1/results/qualification/
+            site/interop/trace-m1/results/replay-r1/public-report.json

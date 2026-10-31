@@ -62,6 +62,6 @@ pip install agent-evidence-vectors==0.29.3
 
 ## Add an implementation
 
-Add one entry to [`data/board.toml`](https://github.com/probityai/agent-evidence-vectors/blob/main/site/data/board.toml): the repository, a pinned commit, the file and function that take the corpus, and its declared scope. The [workflow](https://github.com/probityai/agent-evidence/blob/main/.github/workflows/site-board.yml) scores it on the next run. To run one row by hand, see [`tools/run_board.py`](https://github.com/probityai/agent-evidence-vectors/blob/main/site/tools/run_board.py). The packaged corpus runs in your own CI with the [agent-evidence-vectors Action](https://github.com/probityai/agent-evidence-vectors).
+Add one entry to [`data/board.toml`](https://github.com/probityai/agent-evidence-vectors/blob/main/site/data/board.toml): the repository, a pinned commit, the file and function that take the corpus, and its declared scope. The [workflow](https://github.com/probityai/agent-evidence-vectors/blob/main/.github/workflows/site-board.yml) scores it on the next run. To run one row by hand, see [`tools/run_board.py`](https://github.com/probityai/agent-evidence-vectors/blob/main/site/tools/run_board.py). The packaged corpus runs in your own CI with the [agent-evidence-vectors Action](https://github.com/probityai/agent-evidence-vectors).
 
 Each verdict has a row in the [claim ledger](claims.html).

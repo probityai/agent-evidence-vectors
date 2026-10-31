@@ -37,9 +37,7 @@ UNTRANSFERRED_ISSUES = (30, 31, 32, 35)
 _ISSUES = "|".join(str(n) for n in UNTRANSFERRED_ISSUES)
 ARCHIVED_ONLY = re.compile(
     r"github\.com/probityai/agent-evidence/(?:actions/runs/[0-9]+|pull/[0-9]+|commit/[0-9a-f]{7,40}"
-    rf"|issues/(?:{_ISSUES})(?![0-9])"
-    # Two workflows that scored the board and the Provael companion there and were not imported.
-    r"|blob/[^/]+/\.github/workflows/(?:site-board|site-provael-task-controls)\.yml)"
+    rf"|issues/(?:{_ISSUES})(?![0-9]))"
     rf"|probityai/agent-evidence#(?:{_ISSUES})(?![0-9])"
 )
 
