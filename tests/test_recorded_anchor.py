@@ -14,7 +14,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "packaging"))
-from agent_evidence_vectors import recorded  # noqa: E402
+from agent_evidence_vectors import recorded
 
 ROOT = Path(__file__).resolve().parents[1] / "vectors-recorded"
 
