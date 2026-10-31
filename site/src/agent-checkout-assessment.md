@@ -66,6 +66,6 @@ paper. Cases added to the public set after such work are written from scratch
 and synthetic.
 
 Bring a reader or a retained synthetic run to the
-[Lab thread](https://github.com/probityai/agent-evidence/issues/24).
+[Lab thread](https://github.com/probityai/agent-evidence-vectors/issues/352).
 An operator that wants its own flow checked can ask there; the conversation
 about its records continues privately.

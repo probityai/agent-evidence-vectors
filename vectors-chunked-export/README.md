@@ -31,7 +31,7 @@ decides them.
 | contract-id-unknown | count, k=3 | 0, 1 | reversible | reversible | deny, `contract_id_unknown` |
 
 The Variant A decisions (boundary B2) are the ones Mayur Agnihotri posted on
-[agent-evidence#24](https://github.com/probityai/agent-evidence/issues/24#issuecomment-6247271570):
+[agent-evidence#24](https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529872181):
 a gate reading the maximum of the per-step labels permits at every chunk, and a
 composition-aware gate permits below the threshold and denies at the crossing
 chunk and at every chunk after it. The denial is not one-shot. The set cases

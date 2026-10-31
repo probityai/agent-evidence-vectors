@@ -1,6 +1,6 @@
 # Sources and custody
 
-Horizon Shield supplied the pair in [Atlas #49](https://github.com/probityai/agent-evidence/issues/24#issuecomment-6247270215).
+Horizon Shield supplied the pair in [Atlas #49](https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529867989).
 That comment documents sorted-key JSON without spaces, `jidec-path-v1`, exact purpose
 URLs and signatures over the record bytes. This implementation was written from
 those fields and the supplied records, without reading or copying the producer reader.

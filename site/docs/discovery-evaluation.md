@@ -9,7 +9,7 @@ Use this workflow to evaluate how a person or agent finds a component and a usab
 From a new checkout, with Python 3.11 or later:
 
 ``` sh
-git clone https://github.com/probityai/agent-evidence/tree/main/site
+git clone https://github.com/probityai/agent-evidence-vectors/tree/main/site
 cd agent-evidence-atlas
 git checkout 753a60ccd3ec84a80fd8ca84da283d8ec09a60fa
 python3 -m venv .venv
@@ -110,6 +110,6 @@ The checker refuses changed prompts, a different suite digest, duplicate task/mo
 
 `author_check` packets remain separate from reported human or agent attempts. They cannot meet either navigation target. The checker never executes a recorded command or authenticates an operator, clock, accessed URL or reviewer decision. Actual first-run success, outside operation, host dependencies and independent custody need their own evidence.
 
-Use a failed task to improve its public title, missing term, link or recipe. Retain the first result, change the surface, then record the next attempt without overwriting the original. Submit a source-linked [correction](https://github.com/probityai/agent-evidence/issues/new?template=evidence-correction.yml) when the documentation itself is wrong.
+Use a failed task to improve its public title, missing term, link or recipe. Retain the first result, change the surface, then record the next attempt without overwriting the original. Submit a source-linked [correction](https://github.com/probityai/agent-evidence-vectors/issues/new?template=evidence-correction.yml) when the documentation itself is wrong.
 
 [HTML view](discovery-evaluation.html) | [Agent guide](llms.txt)

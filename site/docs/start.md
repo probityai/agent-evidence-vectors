@@ -35,7 +35,7 @@ Component ID: `admission`.
 
 Provides a Python artifact-digest checker, admission policies for OPA, Kyverno and policy-controller, and a pre-call budget reservation API.
 
-Draft. [Reviewed guide and source](https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/packages/admission/README.md)
+Draft. [Reviewed guide and source](https://github.com/probityai/agent-evidence-vectors/blob/c25bf904877985625655595a905542282e069868/packages/admission/README.md)
 
 Python digest checker: published release [py-v0.1.0](https://github.com/probityai/agent-evidence-admission/releases/tag/py-v0.1.0), source [`0004d2333a84`](https://github.com/probityai/agent-evidence-admission/tree/0004d2333a841c95658d4a9c75232f0913ca7141), read 2026-10-15. This release is the digest-check package. Admission policy and budget tasks retain their own source pins.
 
@@ -57,7 +57,7 @@ Profile ID: `artifact-digest-check`. Component ID: `admission`.
 
 Checks an artifact against digests named by a TEA document, CycloneDX SBOM or VEX, or in-toto statement.
 
-Released. [Reviewed guide and source](https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/packages/admission/python/README.md)
+Released. [Reviewed guide and source](https://github.com/probityai/agent-evidence-vectors/blob/c25bf904877985625655595a905542282e069868/packages/admission/python/README.md)
 
 <div>
 
@@ -68,7 +68,7 @@ agent-evidence-admission / recorded package release 0.1.0
 
 <p class="distribution-actions">
 
-<a href="https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/packages/admission/python/README.md#install">Install</a> <a href="https://pypi.org/project/agent-evidence-admission/0.1.0/#files">Download release files</a> <a href="https://pypi.org/project/agent-evidence-admission/0.1.0/">Registry release</a> <a href="https://pepy.tech/projects/agent-evidence-admission">Download statistics</a>
+<a href="https://github.com/probityai/agent-evidence-vectors/blob/c25bf904877985625655595a905542282e069868/packages/admission/python/README.md#install">Install</a> <a href="https://pypi.org/project/agent-evidence-admission/0.1.0/#files">Download release files</a> <a href="https://pypi.org/project/agent-evidence-admission/0.1.0/">Registry release</a> <a href="https://pepy.tech/projects/agent-evidence-admission">Download statistics</a>
 </p>
 
 <p class="distribution-badges">
@@ -86,7 +86,7 @@ Component ID: `atlas`.
 
 Provides task-based project navigation, agent assurance documentation and an Open Evidence Lab run register.
 
-Draft. [Reviewed guide and source](https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/site/README.md)
+Draft. [Reviewed guide and source](https://github.com/probityai/agent-evidence-vectors/blob/c25bf904877985625655595a905542282e069868/site/README.md)
 
 <a id="checkout-runner"></a>
 
@@ -127,7 +127,7 @@ Component ID: `dsse`.
 
 Signs and verifies DSSE envelopes with explicit threshold and key handling.
 
-Released. [Reviewed guide and source](https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/crates/dsse/README.md)
+Released. [Reviewed guide and source](https://github.com/probityai/agent-evidence-vectors/blob/c25bf904877985625655595a905542282e069868/crates/dsse/README.md)
 
 Rust crate: registry release [0.1.3](https://crates.io/crates/dsse/0.1.3), source [`5f1e4b5ffd61`](https://github.com/probityai/dsse/tree/5f1e4b5ffd61b6bae0f69b43766c493370004d29), read 2026-10-15. Signature verification checks bytes under caller-selected keys, not the truth of the payload.
 
@@ -140,7 +140,7 @@ dsse / recorded package release 0.1.3
 
 <p class="distribution-actions">
 
-<a href="https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/crates/dsse/README.md#quick-start">Install</a> <a href="https://crates.io/api/v1/crates/dsse/0.1.3/download">Download release files</a> <a href="https://crates.io/crates/dsse/0.1.3">Registry release</a> <a href="https://crates.io/crates/dsse">Download statistics</a>
+<a href="https://github.com/probityai/agent-evidence-vectors/blob/c25bf904877985625655595a905542282e069868/crates/dsse/README.md#quick-start">Install</a> <a href="https://crates.io/api/v1/crates/dsse/0.1.3/download">Download release files</a> <a href="https://crates.io/crates/dsse/0.1.3">Registry release</a> <a href="https://crates.io/crates/dsse">Download statistics</a>
 </p>
 
 <p class="distribution-badges">
@@ -168,7 +168,7 @@ Component ID: `jcs-admit`.
 
 Checks raw JSON input before producing its RFC 8785 canonical form.
 
-Released. [Reviewed guide and source](https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/crates/jcs-admit/README.md)
+Released. [Reviewed guide and source](https://github.com/probityai/agent-evidence-vectors/blob/c25bf904877985625655595a905542282e069868/crates/jcs-admit/README.md)
 
 Rust crate: registry release [0.1.2](https://crates.io/crates/jcs-admit/0.1.2), source [`d7e65f04bf13`](https://github.com/probityai/jcs-admit/tree/d7e65f04bf13873e6579a91aa111234866020389), read 2026-10-15. Canonicalization and raw-input admission are separate from envelope verification.
 
@@ -181,7 +181,7 @@ jcs-admit / recorded package release 0.1.2
 
 <p class="distribution-actions">
 
-<a href="https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/crates/jcs-admit/README.md#quick-start">Install</a> <a href="https://crates.io/api/v1/crates/jcs-admit/0.1.2/download">Download release files</a> <a href="https://crates.io/crates/jcs-admit/0.1.2">Registry release</a> <a href="https://crates.io/crates/jcs-admit">Download statistics</a>
+<a href="https://github.com/probityai/agent-evidence-vectors/blob/c25bf904877985625655595a905542282e069868/crates/jcs-admit/README.md#quick-start">Install</a> <a href="https://crates.io/api/v1/crates/jcs-admit/0.1.2/download">Download release files</a> <a href="https://crates.io/crates/jcs-admit/0.1.2">Registry release</a> <a href="https://crates.io/crates/jcs-admit">Download statistics</a>
 </p>
 
 <p class="distribution-badges">
@@ -199,7 +199,7 @@ Profile ID: `mintid-trace-records-v2`. Component ID: `jcs-admit`.
 
 Reads published MintID trace records after raw JSON admission and checks source-bound evidence and actor attribution.
 
-Prototype. [Reviewed guide and source](https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/crates/jcs-admit/interop/mintid-trace-records-v2/README.md)
+Prototype. [Reviewed guide and source](https://github.com/probityai/agent-evidence-vectors/blob/c25bf904877985625655595a905542282e069868/crates/jcs-admit/interop/mintid-trace-records-v2/README.md)
 
 <a id="observer"></a>
 
@@ -359,7 +359,7 @@ Component ID: `vocabulary`.
 
 Defines versioned terms and crosswalks for claims about agent execution.
 
-Released. [Reviewed guide and source](https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/packages/vocabulary/README.md)
+Released. [Reviewed guide and source](https://github.com/probityai/agent-evidence-vectors/blob/c25bf904877985625655595a905542282e069868/packages/vocabulary/README.md)
 
 Python package: registry release [0.4.0](https://pypi.org/project/agent-evidence-vocabulary/0.4.0/), source [`59c93ac4529c`](https://github.com/probityai/agent-evidence-vocabulary/tree/59c93ac4529c1e8fdf6e7cdfff7a950740c873f3), read 2026-10-15. Python package carries the released registry and crosswalk data. The reviewed quick start still reads the independently tagged v0.4.0 raw registry.
 
@@ -372,7 +372,7 @@ agent-evidence-vocabulary / recorded package release 0.4.0
 
 <p class="distribution-actions">
 
-<a href="https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/packages/vocabulary/README.md#quick-start">Install</a> <a href="https://pypi.org/project/agent-evidence-vocabulary/0.4.0/#files">Download release files</a> <a href="https://pypi.org/project/agent-evidence-vocabulary/0.4.0/">Registry release</a> <a href="https://pepy.tech/projects/agent-evidence-vocabulary">Download statistics</a>
+<a href="https://github.com/probityai/agent-evidence-vectors/blob/c25bf904877985625655595a905542282e069868/packages/vocabulary/README.md#quick-start">Install</a> <a href="https://pypi.org/project/agent-evidence-vocabulary/0.4.0/#files">Download release files</a> <a href="https://pypi.org/project/agent-evidence-vocabulary/0.4.0/">Registry release</a> <a href="https://pepy.tech/projects/agent-evidence-vocabulary">Download statistics</a>
 </p>
 
 <p class="distribution-badges">

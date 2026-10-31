@@ -45,7 +45,7 @@ The command selects the exact runtime and source for the historical experiment. 
 does not advertise that older source as the current Observer install.
 
 ```sh
-git clone https://github.com/probityai/agent-evidence/tree/main/site atlas-replay
+git clone https://github.com/probityai/agent-evidence-vectors/tree/main/site atlas-replay
 cd atlas-replay
 git checkout --detach 57d0085723c9eee1400797acf6729c4204325451
 git clone https://github.com/probityai/probity/tree/main/packages/observer observer-source

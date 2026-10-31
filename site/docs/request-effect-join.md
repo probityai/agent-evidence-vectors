@@ -8,7 +8,7 @@ Now take a different case: the approved write completes, and someone changes the
 
 [Read the shared case table](examples/request-effect-join/CASE-TABLE.md). It follows `giskard09`'s [selected execution-join contract](https://github.com/giskard09/argentum-core/blob/f4d989052bb3a61691b1b156cd6dd655793fea4f/docs/spec/execution-join-ref-v1.md) and keeps the proposed later-state outcome separate from its existing digest checks.
 
-Bring a reader, the producer's vectors, or a retained file-effect run to the [Lab thread](https://github.com/probityai/agent-evidence/issues/24). Another project can run the same cases and compare outcomes directly with you. We maintain the case table and credit the case, code and runs separately.
+Bring a reader, the producer's vectors, or a retained file-effect run to the [Lab thread](https://github.com/probityai/agent-evidence-vectors/issues/352). Another project can run the same cases and compare outcomes directly with you. We maintain the case table and credit the case, code and runs separately.
 
 The [SQL example](approved-sql.md) gives you a runnable comparison of a matching recorded commit and a later state difference. The execution-join table is a proposed experiment; its native verifier run is a separate contribution.
 

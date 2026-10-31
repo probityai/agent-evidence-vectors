@@ -38,7 +38,7 @@ cd agent-evidence-vectors && git checkout v0.31.0
 python3 packaging/run_vectors.py --verifier "aee-verify -validity-only -json"
 ```
 
-The [runner guide](docs/guides/runner.md) covers the GitHub Action, its inputs and report fields. [Probity Admission](https://github.com/probityai/agent-evidence/tree/main/packages/admission) uses pinned corpora to check policy-engine enforcement.
+The [runner guide](docs/guides/runner.md) covers the GitHub Action, its inputs and report fields. [Probity Admission](https://github.com/probityai/agent-evidence-vectors/tree/main/packages/admission) uses pinned corpora to check policy-engine enforcement.
 
 If your verifier disagrees with a vector, [report the run](docs/guides/report-run.md) with its source revision and report. We can then check the verifier and the fixture against the same specification.
 

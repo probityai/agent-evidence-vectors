@@ -23,7 +23,7 @@ npm install ./dsse-0.1.0.tgz
 
 This command selects the local file. A registry install instead needs the exact
 published version and its checked artifact identity. The
-[package entry](https://github.com/probityai/agent-evidence/blob/main/crates/dsse/npm/README.md) is the short install guide.
+[package entry](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/dsse/npm/README.md) is the short install guide.
 
 ## Verify, then use the returned bytes
 
@@ -151,4 +151,4 @@ Offline DSSE verification establishes signatures under selected keys. It does
 not establish authorization, an event's occurrence or completeness, an effect,
 Sigstore bundle validity, a Fulcio chain, a Rekor inclusion or a timestamp.
 
-[Package entry](https://github.com/probityai/agent-evidence/blob/main/crates/dsse/npm/README.md) · [Rust documentation](../README.md#documentation) · [Changelog](../CHANGELOG.md)
+[Package entry](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/dsse/npm/README.md) · [Rust documentation](../README.md#documentation) · [Changelog](../CHANGELOG.md)

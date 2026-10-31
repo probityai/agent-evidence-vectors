@@ -3,8 +3,8 @@
 [![crates.io](https://img.shields.io/crates/v/dsse.svg)](https://crates.io/crates/dsse)
 [![Downloads](https://img.shields.io/crates/d/dsse.svg)](https://crates.io/crates/dsse)
 [![docs.rs](https://img.shields.io/docsrs/dsse)](https://docs.rs/dsse)
-[![license](https://img.shields.io/crates/l/dsse.svg)](https://github.com/probityai/agent-evidence/tree/main/crates/dsse#license)
-[![CI](https://github.com/probityai/agent-evidence/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/probityai/agent-evidence/actions/workflows/ci.yml)
+[![license](https://img.shields.io/crates/l/dsse.svg)](https://github.com/probityai/agent-evidence-vectors/tree/main/crates/dsse#license)
+[![CI](https://github.com/probityai/agent-evidence-vectors/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/probityai/agent-evidence-vectors/actions/workflows/ci.yml)
 
 DSSE, the Dead Simple Signing Envelope that in-toto and Sigstore sign inside, as a Rust crate on
 its own: no in-toto dependency and no Sigstore dependency.
@@ -51,7 +51,7 @@ Six things a permissive implementation accepts: a length prefix that counts char
 counts bytes, non-canonical base64, an envelope with no signatures, a threshold of zero, a threshold met
 by one key's signature copied several times, and a key hint used to exclude a key rather than to
 order the attempts. DSSE's own reference implementation allows four of the six;
-[PROVENANCE.md](https://github.com/probityai/agent-evidence/blob/main/crates/dsse/PROVENANCE.md) names the four.
+[PROVENANCE.md](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/dsse/PROVENANCE.md) names the four.
 
 To use a key other than ed25519, such as ECDSA, a KMS or a Sigstore signer, turn off the default
 ed25519 feature and implement the `Signer` and `Verifier` traits.
@@ -63,19 +63,19 @@ specification text at version 1.0.2, and the tests load cross-language fixtures 
 DSSE reference Go implementation, recorded in PROVENANCE.md.
 
 Version 0.1.3 adds optional error serialization. The npm package described in
-[the JavaScript guide](https://github.com/probityai/agent-evidence/blob/main/crates/dsse/docs/NPM.md) has its own version, 0.1.0, and is not yet on the npm registry.
+[the JavaScript guide](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/dsse/docs/NPM.md) has its own version, 0.1.0, and is not yet on the npm registry.
 
 ## Documentation
 
 | page | read it for |
 | --- | --- |
-| <a name="what-a-signature-covers"></a><a name="verify-then-read"></a><a name="bring-your-own-signatures"></a><a name="tests"></a><a name="provenance"></a>[Design and evidence](https://github.com/probityai/agent-evidence/blob/main/crates/dsse/docs/DESIGN.md) | the pre-authentication encoding, why verification returns the payload, each refusal and its reason, and the tests |
+| <a name="what-a-signature-covers"></a><a name="verify-then-read"></a><a name="bring-your-own-signatures"></a><a name="tests"></a><a name="provenance"></a>[Design and evidence](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/dsse/docs/DESIGN.md) | the pre-authentication encoding, why verification returns the payload, each refusal and its reason, and the tests |
 | [Version 0.1.6 API reference](https://docs.rs/dsse/0.1.6/dsse/) | every type, trait and error in the installed release |
 | [Agent guide](llms.txt) | installation, API entry points and runnable comparisons |
-| [Sigstore JS consumer](https://github.com/probityai/agent-evidence/blob/main/crates/dsse/docs/SIGSTORE-JS-THRESHOLD.md) | runnable offline threshold checks under consumer-selected keys |
-| [JavaScript and browser verification](https://github.com/probityai/agent-evidence/blob/main/crates/dsse/docs/NPM.md) | raw-byte Ed25519 verification, checked payloads and package identity |
-| [Provenance](https://github.com/probityai/agent-evidence/blob/main/crates/dsse/PROVENANCE.md) | the specification text and commit each rule was read from |
-| [Contributing](https://github.com/probityai/agent-evidence/blob/main/crates/dsse/CONTRIBUTING.md) and [changelog](https://github.com/probityai/agent-evidence/blob/main/crates/dsse/CHANGELOG.md) | how to propose a change, and what each release changed |
+| [Sigstore JS consumer](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/dsse/docs/SIGSTORE-JS-THRESHOLD.md) | runnable offline threshold checks under consumer-selected keys |
+| [JavaScript and browser verification](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/dsse/docs/NPM.md) | raw-byte Ed25519 verification, checked payloads and package identity |
+| [Provenance](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/dsse/PROVENANCE.md) | the specification text and commit each rule was read from |
+| [Contributing](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/dsse/CONTRIBUTING.md) and [changelog](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/dsse/CHANGELOG.md) | how to propose a change, and what each release changed |
 
 ## License
 
