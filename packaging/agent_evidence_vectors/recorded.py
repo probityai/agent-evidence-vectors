@@ -16,11 +16,21 @@ check is narrow on purpose:
 * no file sits in the set that the list does not name (``file-unlisted``);
 * the digest list itself is the one the manifest pins (``sums-unpinned``), so a
   file and its list edited together are still caught;
-* each binding the manifest declares holds. The one binding type is
-  ``opentimestamps-file-digest``: the OpenTimestamps proof file's own header
-  commits to the SHA-256 of the named subject file (``binding-mismatch``), read
-  from a header this reader can parse (``binding-malformed``). It does NOT
-  verify the Bitcoin attestation or any timestamp operation after the header.
+* each binding the manifest declares holds. ``opentimestamps-file-digest``
+  says the OpenTimestamps proof file's own header commits to the SHA-256 of the
+  named subject file (``binding-mismatch``), read from a header this reader can
+  parse (``binding-malformed``); it reads nothing after the header.
+  ``opentimestamps-bitcoin-header`` says the same and then runs every operation
+  of the proof: one Bitcoin attestation at the held block's height must commit
+  to the Merkle root of the 80-byte header the binding holds for that block,
+  and the header must hash to the block id it is held under
+  (``anchor-mismatch``). It may also name a JSON pointer into the subject for a
+  block height the subject says it saw, which must be below the anchor
+  (``anchor-not-after-seen``), and one for a Unix time the subject states,
+  which must be no later than the header time plus 7200 seconds, the allowance
+  draft-gilda-audit-agent-audit-record gives an OpenTimestamps time
+  (``stated-after-anchor``). The header is a trust input: this reader does not
+  check proof of work or that the block is on the chain with the most work.
 
 A set that passes says the retained bytes match the digests that were published.
 It says nothing about whether what those bytes record (a payment, a budget, a
@@ -47,6 +57,8 @@ import shlex
 from pathlib import Path
 from typing import Any
 
+from .auditrecord import OTS_BITCOIN, _Reader, ots_attestations
+
 SUITE = "recorded-set-conformance/v1"
 SUMS = "SHA256SUMS"
 VERIFIED, FAILED = "verified", "failed"
@@ -60,8 +72,15 @@ CODES = (
     "sums-unpinned",
     "binding-malformed",
     "binding-mismatch",
+    "anchor-mismatch",
+    "anchor-not-after-seen",
+    "stated-after-anchor",
 )
 BINDING_OTS = "opentimestamps-file-digest"
+BINDING_BTC = "opentimestamps-bitcoin-header"
+#: The seconds a time stated beside an OpenTimestamps anchor may follow the
+#: header time, the allowance the audit-record draft gives (its R10 and R11).
+OTS_TOLERANCE_SECONDS = 7200
 # The fixed header every OpenTimestamps proof file opens with, then a one-byte
 # major version (1), then the file-hash operation tag (0x08 is SHA-256) and the
 # digest of the stamped file. Nothing after that digest is read.
@@ -133,18 +152,106 @@ def _ots_digest(proof: bytes) -> str | None:
     return proof[head + 2:head + 34].hex()
 
 
+def header_time(header: bytes) -> int:
+    """The nTime field of an 80-byte Bitcoin block header."""
+    return int.from_bytes(header[68:72], "little")
+
+
+def block_id(header: bytes) -> str:
+    """A block header's id as block explorers print it: SHA-256d, byte-reversed."""
+    return hashlib.sha256(hashlib.sha256(header).digest()).digest()[::-1].hex()
+
+
+def _pointer(document: Any, pointer: str) -> Any:
+    """The value at an RFC 6901 JSON pointer; KeyError when there is none."""
+    if not pointer.startswith("/"):
+        raise KeyError(pointer)
+    for token in pointer[1:].split("/"):
+        token = token.replace("~1", "/").replace("~0", "~")
+        if isinstance(document, dict) and token in document:
+            document = document[token]
+        elif isinstance(document, list) and token.isdigit() and int(token) < len(document):
+            document = document[int(token)]
+        else:
+            raise KeyError(pointer)
+    return document
+
+
+def _held_header(binding: dict[str, Any]) -> tuple[int, bytes] | None:
+    block = binding.get("block")
+    if not isinstance(block, dict) or type(block.get("height")) is not int:
+        return None
+    try:
+        header = bytes.fromhex(str(block.get("header")))
+    except ValueError:
+        return None
+    if len(header) != 80 or block_id(header) != block.get("id"):
+        return None
+    return block["height"], header
+
+
+def _subject_integer(subject: bytes, pointer: str) -> int | None:
+    try:
+        value = _pointer(json.loads(subject), pointer)
+    except (ValueError, KeyError):
+        return None
+    return value if type(value) is int else None
+
+
+def _bitcoin_attestations(proof: bytes, subject: bytes) -> list[tuple[int, bytes]] | None:
+    """Every (height, committed message) Bitcoin attestation; None when unreadable."""
+    try:
+        found = []
+        for message, kind, payload in ots_attestations(proof, hashlib.sha256(subject).digest()):
+            if kind == OTS_BITCOIN:
+                reader = _Reader(payload)
+                found.append((reader.varuint(), message))
+                if reader.at != len(payload):
+                    return None
+    except ValueError:
+        return None
+    return found
+
+
+def _anchor_codes(binding: dict[str, Any], proof: bytes, subject: bytes) -> set[str]:
+    """What an opentimestamps-bitcoin-header binding adds to the header check."""
+    held = _held_header(binding)
+    heights = _bitcoin_attestations(proof, subject)
+    if held is None or heights is None:
+        return {"binding-malformed"}
+    height, header = held
+    codes: set[str] = set()
+    if (height, header[36:68]) not in heights:
+        codes.add("anchor-mismatch")
+    for key, code in (("after", "anchor-not-after-seen"), ("statedTime", "stated-after-anchor")):
+        if key not in binding:
+            continue
+        value = _subject_integer(subject, str(binding[key]))
+        if value is None:
+            return {"binding-malformed"}
+        if key == "after" and value >= height:
+            codes.add(code)
+        if key == "statedTime" and value > header_time(header) + OTS_TOLERANCE_SECONDS:
+            codes.add(code)
+    return codes
+
+
 def check_binding(directory: Path, binding: dict[str, Any], listed: dict[str, str]) -> set[str]:
     """The codes one declared binding draws; an empty set when it holds."""
     proof, subject = binding.get("proof"), binding.get("subject")
-    if (binding.get("type") != BINDING_OTS or proof not in listed or subject not in listed
-            or not (directory / str(proof)).is_file()
+    if (binding.get("type") not in (BINDING_OTS, BINDING_BTC) or proof not in listed
+            or subject not in listed or not (directory / str(proof)).is_file()
             or not (directory / str(subject)).is_file()):
         return {"binding-malformed"}
-    committed = _ots_digest((directory / str(proof)).read_bytes())
+    proof_bytes = (directory / str(proof)).read_bytes()
+    subject_bytes = (directory / str(subject)).read_bytes()
+    committed = _ots_digest(proof_bytes)
     if committed is None:
         return {"binding-malformed"}
-    if committed != sha256((directory / str(subject)).read_bytes()):
+    if committed != sha256(subject_bytes):
         return {"binding-mismatch"}
+    if binding["type"] == BINDING_BTC:
+        return _anchor_codes(binding, proof_bytes, subject_bytes)
     return set()
 
 
