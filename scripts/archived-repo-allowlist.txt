@@ -12,8 +12,6 @@ crates/jcs-admit/CHANGELOG.md  # history: a released entry that recorded the rep
 vectors-anchor-stream/baseline/external-unterminated-final-line/PROVENANCE.md  # corpus member pinned by sha256 in its intake record
 vectors-chunked-export/MANIFEST.json  # corpus manifest bound by the release corpus digests
 vectors-chunked-export/gen_vectors.py  # writes the manifest above; changing it changes the corpus
-pages/predicate/v1/done-contract/index.html  # body rendered from the specification pinned at d61fe3e; the page is pinned in PAGES.sha256
-pages/predicate/v1/done-receipt/index.html  # body rendered from the specification pinned at d61fe3e; the page is pinned in PAGES.sha256
 w3id/agent-evidence.htaccess  # must equal the live w3id.org rules byte for byte
 scripts/archived-repo-gate.py  # the gate itself
 scripts/archived-repo-gate-test.py  # the gate's tests
