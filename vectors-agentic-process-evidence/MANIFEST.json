@@ -1,5 +1,11 @@
 {
   "corpusDigest": "17bb6d15a07170b85caf4d06e70f4b3571590c4c1083e5834b9158a5cd621ff9",
+  "counts": {
+    "contradicted": 4,
+    "no_verdict": 2,
+    "not_established": 38,
+    "supported": 8
+  },
   "issuerKeyid": "339074aca25b900e72f93b829dd4fc402a8202d44a940ed3730c710ff2679b0e",
   "predicateType": "https://in-toto.io/attestation/agentic-process/v0.1",
   "suite": "agentic-process-evidence/v0.1",

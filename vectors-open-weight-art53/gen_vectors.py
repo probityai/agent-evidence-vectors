@@ -135,6 +135,8 @@ def generate(root: Path = ROOT) -> dict:
     manifest = {"suite": SUITE, "vectors": entries,
                 "verifierContract": "verifier case.json --json"}
     manifest["corpusDigest"] = _digest(_json(entries))
+    verdict_words = [entry["expected"]["decision"] for entry in entries]
+    manifest["counts"] = {word: verdict_words.count(word) for word in sorted(set(verdict_words))}
     (root / "MANIFEST.json").write_bytes(_json(manifest))
     return manifest
 

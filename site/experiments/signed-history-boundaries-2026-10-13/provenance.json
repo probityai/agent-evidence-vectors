@@ -1,0 +1,55 @@
+{
+  "sourceType": "retained-public-source-and-original-host-output",
+  "repository": "probityai/agent-evidence-vectors",
+  "sourceCommit": "33d545104ff2f8c124cff465c96c013eeb809156",
+  "runID": 38353256915,
+  "jobID": 115150232069,
+  "retainedPacketAt": "2026-10-16T00:47:36.224877+00:00",
+  "sources": [
+    {
+      "path": "jobs.json",
+      "url": "https://api.github.com/repos/probityai/agent-evidence-vectors/actions/runs/38353256915/jobs?per_page=100",
+      "bytes": 39203,
+      "sha256": "b482c084b03786b2a4c591e9a7daa3d3d3cdea832e794104409d22d3159258be"
+    },
+    {
+      "path": "job-log.zip",
+      "url": "https://api.github.com/repos/probityai/agent-evidence-vectors/actions/jobs/115150232069/logs",
+      "bytes": 57609,
+      "sha256": "c7f56f08fbcdebad0d478c89e1ef912b02bc7a3139ffe95763006f9a436a4a4d",
+      "members": [
+        {
+          "path": "job-log.txt",
+          "bytes": 315701,
+          "sha256": "56a0d47454ed6f34f05736c8bf10ba09bedcbbff5e00b951a0a928477ea6914a"
+        }
+      ],
+      "packaging": "Lossless deterministic ZIP of original public body; 1980 container timestamp is not execution time"
+    },
+    {
+      "path": "source/workflows/ci.yml",
+      "url": "https://raw.githubusercontent.com/probityai/agent-evidence-vectors/33d545104ff2f8c124cff465c96c013eeb809156/.github/workflows/ci.yml",
+      "bytes": 83481,
+      "sha256": "a6fe1c331ebcdaab779df225d45b0b837f3c8b545f5bb086f4551eb3bc33dcd9"
+    },
+    {
+      "path": "source/vectors-anchored-chain/README.md",
+      "url": "https://raw.githubusercontent.com/probityai/agent-evidence-vectors/33d545104ff2f8c124cff465c96c013eeb809156/vectors-anchored-chain/README.md",
+      "bytes": 4332,
+      "sha256": "728b909487a522c489526c997d3d68978deca9101af19540265e1b3ff46aeda1"
+    },
+    {
+      "path": "source/vectors-anchored-chain/check_vectors.py",
+      "url": "https://raw.githubusercontent.com/probityai/agent-evidence-vectors/33d545104ff2f8c124cff465c96c013eeb809156/vectors-anchored-chain/check_vectors.py",
+      "bytes": 466,
+      "sha256": "7df26677c48b6bef477f346ac52dec2c79862fdc3ccf08d4e26eecf620ab76d1"
+    },
+    {
+      "path": "source/vectors-anchored-chain/tests/test_corpus.py",
+      "url": "https://raw.githubusercontent.com/probityai/agent-evidence-vectors/33d545104ff2f8c124cff465c96c013eeb809156/vectors-anchored-chain/tests/test_corpus.py",
+      "bytes": 5449,
+      "sha256": "c0916455353a98b5b73bb4c2477d6fc449029c66fdf085e4ed48be544caa5350"
+    }
+  ],
+  "limit": "Historical source and original output only. This packet does not execute the original workload, authenticate a copied operator string or independently repeat a private aggregate."
+}

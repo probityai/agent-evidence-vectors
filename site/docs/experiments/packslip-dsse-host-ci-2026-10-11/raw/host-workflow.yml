@@ -1,0 +1,575 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+  RUSTFLAGS: -D warnings
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: jdx/mise-action@9149ea85001c7435d5a66bb127d6a1b6227cb0a5 # v5.0.0
+        with:
+          cache: false
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+      - run: cargo fmt --all -- --check
+      - run: python3 -B -m unittest discover -s tests -p 'release_candidate_test.py'
+      - run: cargo clippy --all-features --all-targets -- -D warnings
+      - run: cargo build --all-features
+      - run: cargo test --all-features
+      # Debian and Ubuntu give login users a user-private-group umask of 002.
+      # The installer must still create directories it will accept.
+      - run: umask 002 && cargo test --all-features --lib -- install discovery
+      # A consumer that only verifies takes the crate with no default
+      # features; keep that build compiling and its tests passing.
+      - run: cargo clippy --no-default-features --all-targets -- -D warnings
+      - run: cargo test --no-default-features
+      - run: cargo clippy --no-default-features --features trust-root --all-targets -- -D warnings
+      - run: cargo test --no-default-features --features trust-root
+      - run: cargo clippy --no-default-features --features verify-cli --all-targets -- -D warnings
+      - run: cargo test --no-default-features --features verify-cli
+      - run: cargo clippy --no-default-features --features install-cli --all-targets -- -D warnings
+      - run: cargo test --no-default-features --features install-cli
+      - run: cargo clippy --no-default-features --features verify-cli,sign --all-targets -- -D warnings
+      - run: cargo test --no-default-features --features verify-cli,sign --test verifier_cli
+      - run: mise run lint
+      - run: hk check --all
+        env:
+          # online checks (vulnerable, impostor and stale action refs) run in CI only
+          JACTIONLINT_ONLINE: 1
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Test the packslip.sh Worker
+        run: node --test cloudflare/installer/worker.test.mjs
+      - run: mise run render
+      - run: usage lint packslip.usage.kdl
+      - run: mise run docs:check
+      - name: Verify generated CLI documentation
+        run: |
+          set -euo pipefail
+          test -f public/cli/index.html
+          for page in completion create install keygen pin releases schema show verify version; do
+            test -f "public/cli/${page}/index.html"
+          done
+          if grep -R -E 'href="[^"]+\.md([#?][^"]*)?"' public/cli; then
+            echo "generated CLI documentation contains a .md link" >&2
+            exit 1
+          fi
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "::error::'mise run render' produced changes. Run it locally and commit."
+            git status --short
+            git diff HEAD
+            exit 1
+          fi
+
+  extraction:
+    name: extraction (${{ matrix.runner }})
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-latest, ubuntu-24.04-arm, macos-26, windows-latest, windows-11-arm]
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+        with:
+          shared-key: extraction-${{ matrix.runner }}
+      - run: cargo clippy --no-default-features --features install-extract --lib -- -D warnings
+      - run: cargo test --no-default-features --features install-extract --lib install_extract
+      # Cache snapshots must survive replacement on native Windows as well.
+      - run: cargo test --no-default-features --features discovery --lib discovery
+      - run: cargo clippy --no-default-features --features install-fs --lib -- -D warnings
+      - run: cargo test --no-default-features --features install-fs --lib install_fs
+      - run: cargo clippy --no-default-features --features install-launcher --lib -- -D warnings
+      - run: cargo test --no-default-features --features install-launcher --lib install_launcher
+      - run: cargo test --no-default-features --features install-launcher --lib launcher_payload
+      - run: cargo clippy --no-default-features --features install-host --lib -- -D warnings
+      - run: cargo test --no-default-features --features install-host --lib install_host
+      - run: cargo clippy --no-default-features --features install-cli --all-targets -- -D warnings
+      - run: cargo test --no-default-features --features install-cli --lib install::tests
+
+  compatibility:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          repository: jdx/packslip
+          # Published v1.4.0. Keep this baseline as newer releases are added.
+          ref: 87479dfc6443253dff69601cace5fc6ea07e6df5
+          path: .compatibility/baseline
+          persist-credentials: false
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+        with:
+          workspaces: |
+            . -> target
+            .compatibility/baseline -> target
+      - run: cargo build --locked --manifest-path .compatibility/baseline/Cargo.toml
+      - name: Cross-version verification and installer fixtures
+        env:
+          PACKSLIP_BASELINE_BIN: ${{ github.workspace }}/.compatibility/baseline/target/debug/packslip
+        run: |
+          cargo test --locked --no-default-features --features install-cli --test compatibility
+          cargo test --locked --no-default-features --features trust-root --lib trust_root::tests
+          cargo test --locked --no-default-features --features install-cli --lib install::tests
+
+  msrv:
+    name: msrv (${{ matrix.runner }})
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-latest, ubuntu-24.04-arm, macos-26, windows-latest, windows-11-arm]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - run: rustup toolchain install 1.93.0 --profile minimal --component clippy
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+        with:
+          shared-key: msrv-${{ matrix.runner }}
+      - run: cargo +1.93.0 clippy --locked --all-features --all-targets -- -D warnings
+      - run: cargo +1.93.0 test --locked --all-features
+      - run: cargo +1.93.0 test --locked --no-default-features
+      - run: cargo +1.93.0 test --locked --no-default-features --features install-cli
+
+  distro-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - run: |
+          sudo apt-get update
+          sudo apt-get install -y devscripts debhelper rpm
+          scripts/package-source.sh source
+          scripts/package-debian-source.sh source
+          scripts/package-rpm-source.sh source
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ci-distro-source
+          path: source/*
+          if-no-files-found: error
+
+  distro-build:
+    needs: distro-source
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        kind: [deb, rpm]
+        runner: [ubuntu-latest, ubuntu-24.04-arm]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: ci-distro-source
+          path: source
+      - run: scripts/check-distro-packages.sh "${{ matrix.kind }}" source packages
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ci-distro-${{ matrix.kind }}-${{ matrix.runner }}
+          path: packages/*
+          if-no-files-found: error
+
+  repository-installer:
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: ubuntu-latest
+            target: x86_64-unknown-linux-musl
+            arch: x64
+          - runner: ubuntu-24.04-arm
+            target: aarch64-unknown-linux-musl
+            arch: arm64
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+        with:
+          shared-key: repository-installer-${{ matrix.target }}
+      - run: sudo apt-get update && sudo apt-get install -y musl-tools
+      - run: scripts/build-repository-installer.sh "${{ matrix.target }}" repository-installer
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ci-repository-installer-${{ matrix.arch }}
+          path: repository-installer/*
+          if-no-files-found: error
+
+  repository-packages:
+    needs: repository-installer
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: ci-repository-installer-*
+          path: installers
+      - run: sudo apt-get update && sudo apt-get install -y rpm
+      - run: |
+          for arch in x64 arm64; do
+            scripts/package-binary.sh "installers/ci-repository-installer-$arch" "$arch" packages
+          done
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ci-repository-packages
+          path: packages/*
+          if-no-files-found: error
+
+  repository-install:
+    needs: repository-packages
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-latest, ubuntu-24.04-arm]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: ci-repository-packages
+          path: packages
+      - run: scripts/check-package-repositories.sh packages repository
+
+  repository-worker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '24'
+      - run: node --test cloudflare/worker.test.mjs
+
+  # Both schemes end to end against the public log. Only on main, where the
+  # id-token permission is available.
+  signing:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+      - run: cargo build --release
+      - name: Keyless, with this job's identity
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          printf 'linux\n' > dist/tool-v0.0.0-linux-x64.tar.xz
+          printf 'darwin\n' > dist/tool-v0.0.0-darwin-arm64.tar.xz
+          ./target/release/packslip create \
+            --project "github.com/${GITHUB_REPOSITORY}" \
+            --version 0.0.0 \
+            --out dist \
+            --url-base "https://example.invalid/${GITHUB_REPOSITORY}/0.0.0" \
+            --bin tool \
+            --resource completion/zsh=archive:share/zsh/site-functions/_tool \
+            --resource 'completion/bash,zsh,fish=exec:tool completion {shell}' \
+            --resource 'cli-spec/usage=exec:tool usage' \
+            dist/tool-v0.0.0-linux-x64.tar.xz dist/tool-v0.0.0-darwin-arm64.tar.xz
+          ./target/release/packslip show dist/packslip.sigstore.json
+          ./target/release/packslip verify dist/packslip.sigstore.json \
+            --artifact dist/tool-v0.0.0-linux-x64.tar.xz --json
+          # A tool in a monorepo: subpath name, its own file, same pin.
+          printf 'fips\n' > dist/tool-fips-v0.0.0-linux-x64.tar.xz
+          ./target/release/packslip create \
+            --project "github.com/${GITHUB_REPOSITORY}/tool" \
+            --version 0.0.0 \
+            --out dist \
+            --bin tool=bin/tool-x86_64 \
+            dist/tool-v0.0.0-linux-x64.tar.xz "dist/tool-fips-v0.0.0-linux-x64.tar.xz@fips"
+          test -f dist/packslip.tool.sigstore.json
+          ./target/release/packslip verify dist/packslip.tool.sigstore.json
+          # A wrong repository must be refused.
+          if ./target/release/packslip verify dist/packslip.sigstore.json \
+               --identity-prefix "https://github.com/someone-else/repo/" \
+               --issuer https://token.actions.githubusercontent.com; then
+            echo "verification accepted the wrong identity" >&2
+            exit 1
+          fi
+      - name: With a key, logged to Rekor, plus a release list
+        run: |
+          set -euo pipefail
+          mkdir -p keyed
+          ./target/release/packslip keygen -o keyed/release.key
+          ./target/release/packslip create \
+            --project tool.example.com \
+            --version 0.0.0 \
+            --key keyed/release.key \
+            --out keyed \
+            dist/tool-v0.0.0-linux-x64.tar.xz
+          ./target/release/packslip verify keyed/packslip.sigstore.json \
+            --pubkey keyed/release.pub --artifact dist/tool-v0.0.0-linux-x64.tar.xz
+          ./target/release/packslip releases \
+            --project tool.example.com --sequence 1 --valid-for 1d \
+            --release "https://tool.example.com/0.0.0/packslip.sigstore.json=keyed/packslip.sigstore.json" \
+            --key keyed/release.key --out keyed/releases.sigstore.json
+          ./target/release/packslip verify keyed/releases.sigstore.json --pubkey keyed/release.pub
+          # The wrong key must be refused.
+          ./target/release/packslip keygen -o keyed/other.key
+          if ./target/release/packslip verify keyed/packslip.sigstore.json --pubkey keyed/other.pub; then
+            echo "verification accepted the wrong key" >&2
+            exit 1
+          fi
+      # The releases action, over a directory laid out the way a download
+      # host is: <tag>/packslip.sigstore.json, signed by this job.
+      - name: A bundle for the releases action
+        run: |
+          set -euo pipefail
+          mkdir -p lists/v0.0.0
+          ./target/release/packslip create \
+            --project ci.packslip.invalid \
+            --version 0.0.0 \
+            --out lists/v0.0.0 \
+            --url-base https://ci.packslip.invalid/v0.0.0 \
+            --source-repo "https://github.com/${GITHUB_REPOSITORY}" \
+            --tag v0.0.0 \
+            --commit "$GITHUB_SHA" \
+            dist/tool-v0.0.0-linux-x64.tar.xz
+      - uses: $/releases
+        id: list
+        with:
+          project: ci.packslip.invalid
+          dir: lists
+          url-base: https://ci.packslip.invalid
+          valid-for: 1d
+          packslip-path: target/release/packslip
+      - name: The list names that release
+        env:
+          COUNT: ${{ steps.list.outputs.count }}
+          LIST: ${{ steps.list.outputs.list }}
+        run: |
+          set -euo pipefail
+          test "$COUNT" = 1
+          ./target/release/packslip show "$LIST" \
+            | jq -e '.predicate.project == "ci.packslip.invalid" and (.predicate.releases | length == 1)' >/dev/null
+
+  # install.sh on each host it supports, with the shells, download tools,
+  # and hash tools each one has: dash and GNU coreutils on Ubuntu, bash 3.2,
+  # shasum, and LibreSSL on macOS, and busybox inside the containers.
+  installer:
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-latest, ubuntu-24.04-arm, macos-latest]
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Test install.sh
+        env:
+          INSTALLER_TEST_IMAGES: ${{ runner.os == 'Linux' && 'alpine:3 busybox:latest' || '' }}
+        run: installer/test.sh
+
+  # install.ps1 under Windows PowerShell 5.1 and PowerShell 7, on both
+  # Windows architectures, the way `irm ... | iex` runs it.
+  installer-windows:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: windows-latest
+            asset: windows-x64
+          - runner: windows-11-arm
+            asset: windows-arm64
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      # Stand-ins for each Windows build that say which build they are,
+      # compiled here so the test downloads nothing.
+      - name: Build stand-in executables
+        shell: powershell
+        run: |
+          $null = New-Item -ItemType Directory -Force -Path work\release, work\tampered
+          foreach ($asset in 'windows-x64', 'windows-arm64') {
+            $class = 'StandIn' + ($asset -replace '\W', '')
+            Add-Type -OutputType ConsoleApplication -OutputAssembly "work\release\packslip-v0.0.0-$asset.exe" -TypeDefinition @"
+          public static class $class {
+            public static int Main(string[] args) {
+              System.Console.WriteLine("packslip 0.0.0 ($asset)");
+              return 0;
+            }
+          }
+          "@
+          }
+      - name: Stage a release to install from
+        shell: bash
+        run: |
+          set -euo pipefail
+          for asset in linux-x64 linux-arm64 darwin-arm64; do
+            echo "stand-in for $asset" >"work/release/packslip-v0.0.0-$asset"
+          done
+          echo "not packslip" >work/tampered/packslip-v0.0.0-windows-x64.exe
+          echo "not packslip" >work/tampered/packslip-v0.0.0-windows-arm64.exe
+          bash installer/render.sh 0.0.0 work/release
+      - name: Test install.ps1 under Windows PowerShell
+        shell: powershell
+        env:
+          ASSET: ${{ matrix.asset }}
+        run: installer/test.ps1 -Dir work -Template installer/install.ps1 -Asset $env:ASSET
+      - name: Test install.ps1 under PowerShell 7
+        shell: pwsh
+        env:
+          ASSET: ${{ matrix.asset }}
+        run: installer/test.ps1 -Dir work -Template installer/install.ps1 -Asset $env:ASSET
+      # The 32-bit Windows PowerShell runs emulated on ARM64, where .NET and
+      # the process environment name x86 or x64; it must still get the
+      # machine's build.
+      - name: Test install.ps1 under 32-bit Windows PowerShell
+        shell: pwsh
+        env:
+          ASSET: ${{ matrix.asset }}
+        run: |
+          & "$env:SystemRoot\SysWOW64\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -ExecutionPolicy Bypass -File installer/test.ps1 -Dir work -Template installer/install.ps1 -Asset $env:ASSET
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+  # The container image, built as release.yml builds it but from the latest
+  # release's archives: both platforms to an archive, then the amd64 image
+  # loaded, run, and copied into an image that has nothing else.
+  image:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Build and test the image
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          tag=$(gh release view -R "$GITHUB_REPOSITORY" --json tagName -q .tagName)
+          version=${tag#v}
+          mkdir -p dist bin/amd64 bin/arm64
+          gh release download "$tag" -R "$GITHUB_REPOSITORY" -p "packslip-${tag}-linux-*.tar.xz" -D dist
+          for arch in x64 arm64; do
+            gh attestation verify "dist/packslip-${tag}-linux-${arch}.tar.xz" -R "$GITHUB_REPOSITORY"
+          done
+          tar -xJf "dist/packslip-${tag}-linux-x64.tar.xz" --strip-components=1 -C bin/amd64
+          tar -xJf "dist/packslip-${tag}-linux-arm64.tar.xz" --strip-components=1 -C bin/arm64
+          docker buildx create --use --driver docker-container >/dev/null
+          container/build.sh "$version" bin/amd64/packslip bin/arm64/packslip --output type=oci,dest=image.tar
+          PLATFORMS=linux/amd64 container/build.sh "$version" bin/amd64/packslip bin/arm64/packslip \
+            --load --tag packslip:test
+          test "$(docker run --rm packslip:test version)" = "packslip $version"
+          printf 'FROM debian:stable-slim\nCOPY --from=packslip:test /packslip /usr/local/bin/packslip\nRUN packslip version\n' |
+            docker buildx build --builder default -
+
+  staged-release:
+    if: github.event_name == 'pull_request' && github.head_ref == 'release-plz' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      # Check the merge tree, so a main change cannot slip past the source proof.
+      # Remote attestation and draft checks happen again before publication.
+      - run: python3 scripts/release-candidate.py check
+
+  # Aggregator that required-status-checks can target. If any upstream job
+  # failed, was cancelled, or was unexpectedly skipped, this step exits non-zero
+  # so the PR is blocked. Lets the branch-protection rule depend on one name
+  # instead of N.
+  final:
+    needs:
+      - image
+      - installer
+      - installer-windows
+      - signing
+      - test
+      - extraction
+      - compatibility
+      - distro-source
+      - distro-build
+      - msrv
+      - repository-installer
+      - repository-packages
+      - repository-install
+      - repository-worker
+      - staged-release
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    permissions: {}
+    # Run on success or upstream failure but skip when the workflow is cancelled
+    # — `always()` would override `cancel-in-progress` and waste a runner.
+    if: ${{ !cancelled() }}
+    steps:
+      - name: Gate on upstream job results
+        env:
+          NEEDS_JSON: ${{ toJSON(needs) }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import sys
+
+          # `signing` only runs on a push, where id-token is available; being
+          # skipped on a pull request is expected, not a failure.
+          ALLOW_SKIPPED = {"signing", "staged-release"}
+
+          needs = json.loads(os.environ["NEEDS_JSON"])
+          failed = False
+          for name, data in sorted(needs.items()):
+              result = data.get("result", "unknown")
+              if result == "success" or (result == "skipped" and name in ALLOW_SKIPPED):
+                  print(f"::notice::{name}: {result}")
+              else:
+                  print(f"::error::{name}: {result}")
+                  failed = True
+
+          if failed:
+              print("One or more upstream jobs did not complete successfully.")
+              sys.exit(1)
+
+          print("All CI jobs completed successfully.")
+          PY

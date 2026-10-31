@@ -1,0 +1,752 @@
+{
+  "schema": "probity-atlas-retained-native-run-v1",
+  "sourceRepository": "probityai/agent-evidence-observer",
+  "sourceCommit": "90cd62c0ee926b456aa9aada3537f36ee5f17cd3",
+  "run": 37045346741,
+  "runUrl": "https://github.com/probityai/agent-evidence-observer/actions/runs/37045346741",
+  "originalArtifactSha256": "53226e9a77526c67c759e582b9f40b4512fff78ca64fad99bc99d2e5a4d97ed8",
+  "originalArtifactBytes": 615318,
+  "retention": "byte-exact-original-ci-archive",
+  "retainedArchiveSha256": "53226e9a77526c67c759e582b9f40b4512fff78ca64fad99bc99d2e5a4d97ed8",
+  "retainedArchiveBytes": 615318,
+  "reportMember": "durable-reader.json",
+  "reportSha256": "4fe8ff3fbffe96508553433862120c2184752e85cbff22f64b4e23753b50f8c6",
+  "roles": {
+    "producer": "Probity-owned workflow",
+    "readerAuthor": "Probity",
+    "atlasOperator": "Probity",
+    "retentionHolder": "Probity",
+    "independentOperation": "not-established",
+    "independentEffectCustody": "not-established",
+    "outsideRecurringUse": "not-established"
+  },
+  "answerExposure": "Author-written tasks/controls and expected outcomes exposed; not blind.",
+  "comparisonOrder": "Native output and comparison published together; not separate raw-result-first revisions.",
+  "members": [
+    {
+      "member": "fresh-run/artifact-manifest.json",
+      "bytes": 526,
+      "sha256": "548eb3e9f8855bb7a0608b48ac0784eeb163835a5cbeabb91738efdcdd2f20a0",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/attempts/altered-argument.json",
+      "bytes": 13757,
+      "sha256": "6d04a0ff3bd9f5304ef5db234d5e31999428549f74c5e89ae374da3a8b66a943",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/attempts/deny.json",
+      "bytes": 13109,
+      "sha256": "8b1e0adce977d251f78f0de0ab1fccd6e58d28c59b0e2f35e27f7d8cc0367935",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/attempts/interrupt-before.json",
+      "bytes": 20579,
+      "sha256": "ca6a93cdd2beca91602e2e70ba8c75728cd26aa0dc0fbb38edc3ac7dced9997e",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/attempts/pending-intent.json",
+      "bytes": 14846,
+      "sha256": "1870ed26ddba5ee53721aad959b7371b7879ed94a7fc8451e408e20a744ce740",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/attempts/permit.json",
+      "bytes": 18589,
+      "sha256": "ce2523cb853624523e0cc98b5f629426e064679f71d1bd2f9584c7b73e45c7fe",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/attempts/resume-after-effect.json",
+      "bytes": 32797,
+      "sha256": "9b43497d4e3a9b557742e0f15cbc90f38dbbfe4b88ac6f3a6ddf0e6719333336",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/consumer-pins.json",
+      "bytes": 225,
+      "sha256": "0276435950c739776a373bd29557efc22db09e18ab59272bed9da5245186441b",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/environment-before-run.json",
+      "bytes": 287079,
+      "sha256": "be2428f055f03c7fd9acc98a3a34c2e30a4eb982a8302a40314608addd649c08",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/plan-before-run.json",
+      "bytes": 46891,
+      "sha256": "7f8f870084b2df9f68f9bf46d8c35b90adc91bd1cf71a30c4cb93584ab402b47",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/report.json",
+      "bytes": 1827,
+      "sha256": "1aff9da6b66873bd126e34b71ca93a4624e1236656ac097c37e80db8b9e8e62e",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/sources/adapter/lg_common.py",
+      "bytes": 3311,
+      "sha256": "68e5f0ca53fc39043829e1feeaa9ccc09ae5adbb305153797a7ba530d775a83d",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/sources/adapter/lg_reader.py",
+      "bytes": 20083,
+      "sha256": "f029eb67f4f970ff7a1f1a59b700a2252e98f2c23ee6e92e2e1cc4e738a965c6",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/sources/adapter/lg_run.py",
+      "bytes": 10617,
+      "sha256": "8f2dec692d630b3731c76b92c043f91adf32602889ae024c60d20596790b7551",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/sources/observer/aae_enforce.py",
+      "bytes": 21776,
+      "sha256": "5b79dacd2fbd873ae073af5186e606b5baa1c6c9d8e627a0387ae9fc7bb96a94",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/sources/observer/aae_ticket.py",
+      "bytes": 6287,
+      "sha256": "ac12299c5d3bd5de030937d55358031a6ba72f152571ef20c521437fabe54743",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/sources/observer/authorization.py",
+      "bytes": 28758,
+      "sha256": "35e28320cc6aa344938d9e678efa6de9b803b7b22e2431e8e918a8b57c08e4a9",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/sources/observer/crypto.py",
+      "bytes": 5729,
+      "sha256": "a334d7d2776d362788ce5e8687a916a62ba1614e97c0ccb8994d2acb22bc315f",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/sources/observer/ticket_service.py",
+      "bytes": 29826,
+      "sha256": "c6df218d6a81c21ab99ff2549b07f0691ff00e4e44b3f7520562d5c90fcdbda7",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/sources-before-run.json",
+      "bytes": 732,
+      "sha256": "a4543f042a77bc422c5112df48fae85be81c09bf83198a1466f95d0b62eed7d6",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/stores/altered-argument.sqlite",
+      "bytes": 20480,
+      "sha256": "071cd22ab655532809ae81f1a316bac805d1ad7d711187186db268e409d88be2",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/stores/deny.sqlite",
+      "bytes": 20480,
+      "sha256": "94f065068d9d2f59385ed27bc2631aad56e260ceb8d312407bbf85b3b2878cdb",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/stores/interrupt-before.sqlite",
+      "bytes": 20480,
+      "sha256": "bdefa7dc44698494018d6e982ec14b37496a05db3299db0d0e7989f8271a427f",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/stores/pending-intent.sqlite",
+      "bytes": 20480,
+      "sha256": "ba2e5edb6b351beaf0a6e66abed4174307b130d98683d6b7153c38600378bebd",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/stores/permit.sqlite",
+      "bytes": 20480,
+      "sha256": "bd5b4e3485f2588a8850758e2be91dd2dc6d491132ad75fee52b10cd0f1ee9c0",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/stores/resume-after-effect.sqlite",
+      "bytes": 20480,
+      "sha256": "a5a3359f76175f20ccbbb6f22c75dec8ff514c91e91d952d9a1d6f2b707992bc",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-report.json",
+      "bytes": 2336,
+      "sha256": "0959483709b6a6a3ad16df0608c37e0ad09540b01d08a55c065a7701568b82f9",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-reader.json",
+      "bytes": 2336,
+      "sha256": "0959483709b6a6a3ad16df0608c37e0ad09540b01d08a55c065a7701568b82f9",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/artifact-manifest.json",
+      "bytes": 541,
+      "sha256": "cb2ca1a1068f3c8a25bd3df93653a4c174b7fc2e6e68e6e6cfd938c410a616f8",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/attempts/crash-after-effect.json",
+      "bytes": 36299,
+      "sha256": "736a0bad4592982f2cfaa668ad996169d006a8b1268508eff48c1332216d7ecb",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/attempts/missing-checkpoint.json",
+      "bytes": 10729,
+      "sha256": "e82fd469b8da7d61c05715a336532ccf953f4ab423c9d2afd5e59227e7ee9afd",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/attempts/restart-after.json",
+      "bytes": 51135,
+      "sha256": "4e7b7ca99539907fd5e2e24605a2763c4cd006ee2171910d2904532c7e1f37a5",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/attempts/restart-before.json",
+      "bytes": 26818,
+      "sha256": "000a2df5f18f0791b67b261516133b425382ad05c059c9a5d6e9c650aacefb89",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/attempts/restart-pending.json",
+      "bytes": 39155,
+      "sha256": "8e5e94a63d94cd37d3009d8085d47b4908f5fae8ef749d52f62e865ba67a0984",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/attempts/wrong-thread.json",
+      "bytes": 10513,
+      "sha256": "a52fb5b5c090fd4b949c899c96d813a6445003914dfcc68c12a2aeb49517db9c",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/cases/crash-after-effect.json",
+      "bytes": 8205,
+      "sha256": "7cfd65c3c1dc53ea322a4134fb9cf96ce639501400fd23d7e865fc6eaefdfc44",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/cases/missing-checkpoint.json",
+      "bytes": 8205,
+      "sha256": "c8a94126168cc86673d6d90a9abfdfd769fbe60e8826b7088b354af8d9842816",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/cases/restart-after.json",
+      "bytes": 8045,
+      "sha256": "451db9d39f4f5998e5d0fabb7197ec55dd341ef0a8a75e0956a7fc4f2e99248b",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/cases/restart-before.json",
+      "bytes": 8077,
+      "sha256": "93bdd8bed72e2e91e8cfd72bacc9ac9e1c17a8b4420a334f74ffa43b59066e12",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/cases/restart-pending.json",
+      "bytes": 8109,
+      "sha256": "515acd6ba7789dcafa1c0325e58237817c18ae6c65e082863e673a855a5f9743",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/cases/wrong-thread.json",
+      "bytes": 8013,
+      "sha256": "a7ee6f2b076d4c8829d3d365794f2b81fd18d73c7f1e3231bdde6996ba75df28",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/consumer-pins.json",
+      "bytes": 225,
+      "sha256": "aba0f000ba0e5345c2e34de31f6e44ae41fe91e2bd9d2ed4500d65bc2606afc9",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/environment-before-run.json",
+      "bytes": 287079,
+      "sha256": "be2428f055f03c7fd9acc98a3a34c2e30a4eb982a8302a40314608addd649c08",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/plan-before-run.json",
+      "bytes": 49246,
+      "sha256": "c84b167f7fba1b994d90d7d80ac6bba0de4f2a2e8c021ec7580c5a10dee25ee2",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/report.json",
+      "bytes": 1630,
+      "sha256": "9f077c034a05d3f133349c2152b71ab8e5c0c8cff0d6136530c438c1d39e9063",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/sources/adapter/durable_reader.py",
+      "bytes": 15292,
+      "sha256": "881e66e51c621bee36044df051a6c0e71c56d146d161a68e161efc36b6fad58b",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/sources/adapter/durable_run.py",
+      "bytes": 5890,
+      "sha256": "f055e20203bab26d590bb28f88858bf6b1caa02aed5657373e8aaa19dec2d5be",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/sources/adapter/durable_worker.py",
+      "bytes": 4502,
+      "sha256": "9258052fb66c4e2be37f77329da0094fbc8c3bdc5915a34db6966639ab784a4a",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/sources/adapter/lg_common.py",
+      "bytes": 3311,
+      "sha256": "68e5f0ca53fc39043829e1feeaa9ccc09ae5adbb305153797a7ba530d775a83d",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/sources/adapter/lg_reader.py",
+      "bytes": 20083,
+      "sha256": "f029eb67f4f970ff7a1f1a59b700a2252e98f2c23ee6e92e2e1cc4e738a965c6",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/sources/adapter/lg_run.py",
+      "bytes": 10617,
+      "sha256": "8f2dec692d630b3731c76b92c043f91adf32602889ae024c60d20596790b7551",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/sources/observer/aae_enforce.py",
+      "bytes": 21776,
+      "sha256": "5b79dacd2fbd873ae073af5186e606b5baa1c6c9d8e627a0387ae9fc7bb96a94",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/sources/observer/aae_ticket.py",
+      "bytes": 6287,
+      "sha256": "ac12299c5d3bd5de030937d55358031a6ba72f152571ef20c521437fabe54743",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/sources/observer/authorization.py",
+      "bytes": 28758,
+      "sha256": "35e28320cc6aa344938d9e678efa6de9b803b7b22e2431e8e918a8b57c08e4a9",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/sources/observer/crypto.py",
+      "bytes": 5729,
+      "sha256": "a334d7d2776d362788ce5e8687a916a62ba1614e97c0ccb8994d2acb22bc315f",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/sources/observer/ticket_service.py",
+      "bytes": 29826,
+      "sha256": "c6df218d6a81c21ab99ff2549b07f0691ff00e4e44b3f7520562d5c90fcdbda7",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/sources-before-run.json",
+      "bytes": 1014,
+      "sha256": "59199214589cebc4c74fc505f006738d8b676e606011286d0f04dab1758ce54b",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/stores/crash-after-effect.sqlite",
+      "bytes": 20480,
+      "sha256": "d59b28bc2160ea52b2201ec648598f908097dfcda651ac92a9b9347208605fd4",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/stores/missing-checkpoint.sqlite",
+      "bytes": 20480,
+      "sha256": "db34941567ed45aa79e014f0c498d7b0ff7cc41d118603f43f3990d6e17d4da1",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/stores/restart-after.sqlite",
+      "bytes": 20480,
+      "sha256": "a30447725473f118aeb77f7bd0b6574adb87c85f17af219236e7a86a455bc332",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/stores/restart-before.sqlite",
+      "bytes": 20480,
+      "sha256": "96683c0a226c9ba13f2285fad672c17b0bebf67ea094708b744116ac90f7cfb3",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/stores/restart-pending.sqlite",
+      "bytes": 20480,
+      "sha256": "ed3d18eb2eb9a4e0a87b00de002d6fefbf2ea01e8f0d71f10eb73dd137d18d2f",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/stores/wrong-thread.sqlite",
+      "bytes": 20480,
+      "sha256": "6f055409701535d9e0594a8b4c62465ed47a71d39fe1dc569bf207faa8e2b9bf",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/crash-after-effect/before-restart.sqlite",
+      "bytes": 20480,
+      "sha256": "c56906efd6d10ef10c18c9effe9291b8c3cf6d4b671d9ebe0dfe2c1f548fc365",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/crash-after-effect/checkpoints.sqlite",
+      "bytes": 20480,
+      "sha256": "8a070c00056cc04e4c144a3a136756db8dab91aab22231f075facf00ebad07dd",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/crash-after-effect/first-http.json",
+      "bytes": 11573,
+      "sha256": "b19388c89da5f87bc5b5d09d3e5aba7ac01c1fb06fd9010de9596259ed21078a",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/crash-after-effect/first-loaded.json",
+      "bytes": 251,
+      "sha256": "1269c01ada5fbbabef8d45a87cd1cfded002278a4fe04873a10e9fdfa8372fac",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/crash-after-effect/second-http.json",
+      "bytes": 11573,
+      "sha256": "b19388c89da5f87bc5b5d09d3e5aba7ac01c1fb06fd9010de9596259ed21078a",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/crash-after-effect/second.json",
+      "bytes": 15350,
+      "sha256": "238741b306912cb468ab48e9343eba95eae8c8987542f27e537f9dcf73c0a07e",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/missing-checkpoint/before-restart.sqlite",
+      "bytes": 20480,
+      "sha256": "36b3705a511e9a8c9bd73a47eb68646dd9a4d8f821b7dfc35ce5aebc0624963c",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/missing-checkpoint/checkpoints.sqlite",
+      "bytes": 20480,
+      "sha256": "e0a65b0d92fcf8e4f92b2d0456d958f129ab00e8f4cbadba467e053641e8bd77",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/missing-checkpoint/first-loaded.json",
+      "bytes": 251,
+      "sha256": "f5c4dd192aa5aed975679755764b6a59ca0a782b2a94e0d5975d612e8cd3da5f",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/missing-checkpoint/second.json",
+      "bytes": 297,
+      "sha256": "b076d2d00ce1302ef3418926547d7675575b7f09063bd65157ac9ca8b610241a",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/missing-checkpoint/first.json",
+      "bytes": 2978,
+      "sha256": "cfc14c3b8dec11c2da34c1cc45c51042d2ab4838cbcd768f427179bdb8d487fa",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/restart-after/before-restart.sqlite",
+      "bytes": 20480,
+      "sha256": "81c7fa2ab11bdd0418e1404f547e81c1deb2d78ccdd30ad6ad46645203fb214f",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/restart-after/checkpoints.sqlite",
+      "bytes": 20480,
+      "sha256": "2ef0cafdfa48d90a0357aff1a3d53fee494e786ce89e2292bbd87ef040dfddcb",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/restart-after/first-http.json",
+      "bytes": 11378,
+      "sha256": "3420db3f5ecdcdd11422079da111578b766817bd0c30b7a597ce2b0f676b1b0e",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/restart-after/first-loaded.json",
+      "bytes": 246,
+      "sha256": "2d8e565e66ce49ecb7da36c714ce9923e81872972867b4ab8ba1b6b740e32124",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/restart-after/first.json",
+      "bytes": 14684,
+      "sha256": "ed94fc0b239aefe80dfd4fc54f053a2b56695a24c0306456968c9548cb25c093",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/restart-after/second-http.json",
+      "bytes": 11378,
+      "sha256": "3420db3f5ecdcdd11422079da111578b766817bd0c30b7a597ce2b0f676b1b0e",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/restart-after/second.json",
+      "bytes": 15826,
+      "sha256": "98af6e613da866c8089a399450f3a2c21910d0d945cba17b85c107c3c149ebc0",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/restart-before/before-restart.sqlite",
+      "bytes": 20480,
+      "sha256": "014e997894f4573cadae588cd189bd756ae102d9e6f8aecc61ccaa40963346fc",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/restart-before/checkpoints.sqlite",
+      "bytes": 20480,
+      "sha256": "2f10e173b59203611e1f2ab47f9a6183dbde95173fe93f8d4cff4e587e78e61d",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/restart-before/first-loaded.json",
+      "bytes": 247,
+      "sha256": "626489b9c73703e0fad0b788581e4b2c9caccc495dacb1f744fbb81b2879f230",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/restart-before/first.json",
+      "bytes": 2934,
+      "sha256": "978482dc51a21e9bc85587351b08a6c8f6596bb5aab021bf64735d2eae856e39",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/restart-before/second-http.json",
+      "bytes": 11417,
+      "sha256": "44b540c9481dea5d8a6167631078c5485c022ab958cff519b851cd0bb165a3c2",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/restart-before/second.json",
+      "bytes": 15570,
+      "sha256": "5d0b0cf917b5613f26e0525f2056271229ad5b320227d72e41ebb48018c9f503",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/restart-pending/before-restart.sqlite",
+      "bytes": 20480,
+      "sha256": "ae833e43ebaa0863d0ea000ee245b0940fa178228216cc4a3bb97d63376f3102",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/restart-pending/checkpoints.sqlite",
+      "bytes": 20480,
+      "sha256": "7280347ac01d8b243f283faeec618403954413c760741459fbaed39370773d75",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/restart-pending/first-http.json",
+      "bytes": 7580,
+      "sha256": "d8bb1172a29d4cbacd4a896d5447d3fc453d6a1abe637ce4e24e4cd08329bfcc",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/restart-pending/first-loaded.json",
+      "bytes": 248,
+      "sha256": "cf6c1e0bda4c57c1d33a10bee5c037025f145dff3700d6d9de0f1f9e3cb508c2",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/restart-pending/first.json",
+      "bytes": 10908,
+      "sha256": "da9b77e660f1d8fdaa5c09af52874309e7e80bb4e2d9947b6e5a2062caf866a2",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/restart-pending/second-http.json",
+      "bytes": 7580,
+      "sha256": "d8bb1172a29d4cbacd4a896d5447d3fc453d6a1abe637ce4e24e4cd08329bfcc",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/restart-pending/second.json",
+      "bytes": 12054,
+      "sha256": "96a7d6afbaac358adffd11918a8ed0837408388899efffede7c60ec47a730c72",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/wrong-thread/before-restart.sqlite",
+      "bytes": 20480,
+      "sha256": "125b702add0685524f931858bb7c6a9b0de7e43e02f2dc3ade97b9f70fb196fe",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/wrong-thread/checkpoints.sqlite",
+      "bytes": 20480,
+      "sha256": "81986b774177984022983ae3a1fdde53f53b68a36e339fb8a1dfcbc8096faae2",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/wrong-thread/first-loaded.json",
+      "bytes": 245,
+      "sha256": "10515515d1f27ad0ef6da0f96e4830a62b42397c5b418053d8eef2120a3b2175",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/wrong-thread/first.json",
+      "bytes": 2912,
+      "sha256": "b6bb6ab30458e4faccc60146eb152167f0727105d3585a41953846e039a1bc51",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-run/workers/wrong-thread/second.json",
+      "bytes": 297,
+      "sha256": "dd61378925eec0dcd30208c843e5a722666d11ef2cdcfa50e14e731bedaac760",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-report.json",
+      "bytes": 2193,
+      "sha256": "4fe8ff3fbffe96508553433862120c2184752e85cbff22f64b4e23753b50f8c6",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "durable-reader.json",
+      "bytes": 2193,
+      "sha256": "4fe8ff3fbffe96508553433862120c2184752e85cbff22f64b4e23753b50f8c6",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "install-report.json",
+      "bytes": 604177,
+      "sha256": "8075b000c414ac25f43c263e780114cbbf14cff1103a5d601091f52500e3b83d",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "test-results.xml",
+      "bytes": 18989,
+      "sha256": "fa968bc97b1177aa0241d0fcae87ed9a1f81608c25177b8a9b52c5ec223902df",
+      "selected": true,
+      "reason": "retained original member"
+    }
+  ],
+  "limits": [
+    "Graph-worker hard exits/reopened SQLite checkpoints only; target process remains alive.",
+    "No target-process restart, host power loss, issuer authentication, general exactly-once guarantee or independent custody."
+  ]
+}

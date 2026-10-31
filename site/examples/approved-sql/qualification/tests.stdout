@@ -1,0 +1,12 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.7, pytest-9.0.2, pluggy-1.6.0
+rootdir: /home/gate/work/oel-sql-native-case-r1-sql-illustration-r3-20261009
+configfile: pyproject.toml
+testpaths: tests
+collected 56 items
+
+tests/test_check.py .................................................... [ 92%]
+....                                                                     [100%]
+
+- generated xml file: /home/gate/work/oel-sql-native-case-r1-sql-illustration-r3-20261009/gate-results/tests.xml -
+============================== 56 passed in 0.14s ==============================

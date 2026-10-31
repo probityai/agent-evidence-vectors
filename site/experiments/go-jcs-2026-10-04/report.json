@@ -1,0 +1,3282 @@
+{
+  "schema": "probity-atlas-go-jcs-comparison-v1",
+  "source": {
+    "goRepository": "cyberphone/json-canonicalization",
+    "goRevision": "19d51d7fe467d4706a3ff08adf8a748f29fc21e0",
+    "readerRepository": "probityai/jcs-admit",
+    "readerRevision": "7573937b882de4f32cbc4cd69dfaab8098729412",
+    "corpusRevision": "ecc8b5ef4b380a2fe38e5079d128307a1c702717",
+    "manifestSha256": "ed4fbcfea9808c6b4d8b29b3ed57e9ebda228268e7c0a9a3059ab21d2b325f52"
+  },
+  "corpus": {
+    "rfcDocuments": 6,
+    "crossRailInputs": 39,
+    "attackInputs": 317,
+    "numberTies": 850,
+    "finiteAppendixBRows": 24,
+    "newFiniteControls": 27,
+    "caseIdentities": 1263,
+    "originalCorpusFiles": 86
+  },
+  "adaptations": {
+    "appendixB": "Finite IEEE754 rows become one-element arrays; expected number text stays the original RFC column. NaN and Infinity are outside JSON and are retained as unselected rows.",
+    "numberTies": "One-element arrays preserve each committed raw input token and Node v24.19.0 expected token.",
+    "attackCorpus": "Exact input bytes and independent Go-rail expectations under I-JSON/integer policy; bare Go observations are distinct. Original admitted scalars remain unchanged; the adapter records its object/array-domain refusal separately from the original native expectation."
+  },
+  "runs": [
+    {
+      "event": "pull_request",
+      "runId": 37203613163,
+      "artifactId": 11304091138,
+      "goVersion": "1.27.1",
+      "qualifiedCheckout": "0335c50dfcebef06f7b7f902956b2e948cf26621",
+      "runtime": {
+        "go": "go version go1.27.1 linux/amd64",
+        "rust": "rustc 1.99.0 (b940084d7 2026-09-28)",
+        "python": "3.12.3"
+      },
+      "summary": {
+        "cases": 1263,
+        "consumer_exact_byte_matches": 1077,
+        "raw_admission_refusals": 181,
+        "scalar_domain_refusals": 5,
+        "bare_go_observations": 1263
+      },
+      "bareGoAccepted": 1129,
+      "worktreeStatus": [],
+      "nativeReportSha256": "23ceec37d3d440b43d755b33de60e28d67a6f0f09297cc3f2f82eca90ecac7ee",
+      "nativeReport": "pull-request-go1.27.1-report.json",
+      "originalArchive": "pull-request-go1.27.1.zip",
+      "controls": [
+        {
+          "name": "controls/duplicate",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "1c53ee0df7b12fd4d65b976120c7fa6b847dc41dffd7f0331c3237a1ceab1756",
+          "input_bytes": 13,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "DuplicateMember"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/escaped-duplicate",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "c95ba945b310a34906bbfc28ce1346b87741d5a2b3066d1d3ecfa0acbd86392c",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "DuplicateMember"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/lone-surrogate",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "69119aac5ce42bc93c1667db0454297ffaa342c431efa2dfdf48af101c035106",
+          "input_bytes": 10,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/mispaired-surrogates",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "ba3792b66eee8fa45585e2fb4a76808973027b2965e9c6d9c0da4a688f9f1be7",
+          "input_bytes": 16,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22efbfbd225d"
+          }
+        },
+        {
+          "name": "controls/utf8-surrogate",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "335ffac769e5b3cec6047f6f464a0d24267493f49d3bc75f0a6411ad9448f003",
+          "input_bytes": 7,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22eda080225d"
+          }
+        },
+        {
+          "name": "controls/overlong-utf8",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "e17aa42df055ec15b4c3118c8e739fe18a52a047c5a2dc36b5ad1df9bb51aeaf",
+          "input_bytes": 6,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22c0af225d"
+          }
+        },
+        {
+          "name": "controls/nonfinite",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "f8438fff8680415208a346a12baae5edffedff2df93d083ee385a3c412546c0a",
+          "input_bytes": 7,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "NonFiniteNumber"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/unsafe-integer-rfc",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "ee825a6b803b8c559f4ee311b23736dbc4b315351ce4b34ff75df0228b589b44",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b393030373139393235343734303939325d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b393030373139393235343734303939325d"
+          }
+        },
+        {
+          "name": "controls/unsafe-integer-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "ee825a6b803b8c559f4ee311b23736dbc4b315351ce4b34ff75df0228b589b44",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "UnsafeInteger"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b393030373139393235343734303939325d"
+          }
+        },
+        {
+          "name": "controls/rounded-decimal-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "d92ddf8e2d4381fc69b77ba55ca59d4e80d462146a6ce46c54984d2d0f540fe0",
+          "input_bytes": 20,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "UnsafeInteger"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b393030373139393235343734303939325d"
+          }
+        },
+        {
+          "name": "controls/safe-integer-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "cf0c058a3667326abbfce35f93db15ddea1ac816f12c19a6546f7c3880cecc1c",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b393030373139393235343734303939315d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b393030373139393235343734303939315d"
+          }
+        },
+        {
+          "name": "controls/fraction-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "f631f85ac97c9aa04448a5cfcd95e45ffb1fff174d43200d70bad6ca6e9178e0",
+          "input_bytes": 5,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b312e355d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b312e355d"
+          }
+        },
+        {
+          "name": "controls/fraction-integers",
+          "profile": "ijson-integers",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "f631f85ac97c9aa04448a5cfcd95e45ffb1fff174d43200d70bad6ca6e9178e0",
+          "input_bytes": 5,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "NonIntegerNumber"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b312e355d"
+          }
+        },
+        {
+          "name": "controls/noncharacter-rfc",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "460a7f71040b1f95e0fe194b8c9af400fb9b3930e5b360121c59dcbadf1bf571",
+          "input_bytes": 10,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b22efbfbf225d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22efbfbf225d"
+          }
+        },
+        {
+          "name": "controls/noncharacter-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "460a7f71040b1f95e0fe194b8c9af400fb9b3930e5b360121c59dcbadf1bf571",
+          "input_bytes": 10,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22efbfbf225d"
+          }
+        },
+        {
+          "name": "controls/depth-at-cap",
+          "profile": "rfc8785",
+          "max_depth": 2,
+          "max_bytes": 20971520,
+          "input_sha256": "db407f11d7ede59abaab0e98e097ff2dae10a048207b801745d7199ef19c2387",
+          "input_bytes": 5,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b5b305d5d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b5b305d5d"
+          }
+        },
+        {
+          "name": "controls/depth-past-cap",
+          "profile": "rfc8785",
+          "max_depth": 2,
+          "max_bytes": 20971520,
+          "input_sha256": "7ae717c9aac47e3aed392515ac52ae17e50da8555c618e0ace9ee7b86985afea",
+          "input_bytes": 7,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "TooDeep"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b5b5b305d5d5d"
+          }
+        },
+        {
+          "name": "controls/size-at-cap",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 64,
+          "input_sha256": "863880806fcd1b0ef742c01d64c2753227245a815dc96402402429f8398baac6",
+          "input_bytes": 64,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b305d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b305d"
+          }
+        },
+        {
+          "name": "controls/size-past-cap",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 64,
+          "input_sha256": "b47b1e70a4c618dcbf2e1235f5ce82ddd75dd8d728d17fbfee7c32d0f12e1d0c",
+          "input_bytes": 65,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "TooLarge"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b305d"
+          }
+        },
+        {
+          "name": "controls/scalar-number",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+          "input_bytes": 1,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "go-root-domain",
+            "error_class": "ObjectOrArrayRequired"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/scalar-string",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "c48b5b1a9776c84602de2306d7903a7241158a5077e7a8519af75c33441b8334",
+          "input_bytes": 4,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "go-root-domain",
+            "error_class": "ObjectOrArrayRequired"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/scalar-boolean",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+          "input_bytes": 4,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "go-root-domain",
+            "error_class": "ObjectOrArrayRequired"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/scalar-null",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "input_bytes": 4,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "go-root-domain",
+            "error_class": "ObjectOrArrayRequired"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/invalid-scalar-refuses-first",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "8c0c59dd0d275aadcd462a5fe12eb352cbdfeaf961eae4f85a4660521df7d2f5",
+          "input_bytes": 8,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/trailing-content",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "b51f08b698d88d8027a935d9db649774949f5fb41a0c559bfee6a9a13225c72d",
+          "input_bytes": 4,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "TrailingContent"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/utf16-order",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "871954531859c7572c6279f90eb83a594ddc3a289e8bdc28d2a84ffb8c1a1703",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "7b22f09f9880223a322c22ee8080223a317d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "7b22f09f9880223a322c22ee8080223a317d"
+          }
+        },
+        {
+          "name": "controls/normalization-preserved",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "c2635d7e15e25b90abc8b3543d92f0ffcee0644372d8b662a0775f88d43278e5",
+          "input_bytes": 16,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "7b2265cc81223a312c22c3a9223a327d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "7b2265cc81223a312c22c3a9223a327d"
+          }
+        }
+      ]
+    },
+    {
+      "event": "pull_request",
+      "runId": 37203613163,
+      "artifactId": 11303976362,
+      "goVersion": "1.25.5",
+      "qualifiedCheckout": "0335c50dfcebef06f7b7f902956b2e948cf26621",
+      "runtime": {
+        "go": "go version go1.25.5 linux/amd64",
+        "rust": "rustc 1.99.0 (b940084d7 2026-09-28)",
+        "python": "3.12.3"
+      },
+      "summary": {
+        "cases": 1263,
+        "consumer_exact_byte_matches": 1077,
+        "raw_admission_refusals": 181,
+        "scalar_domain_refusals": 5,
+        "bare_go_observations": 1263
+      },
+      "bareGoAccepted": 1129,
+      "worktreeStatus": [],
+      "nativeReportSha256": "9ef8fd237ba820ee6f0b987a2e7815290a258a3a6c45592d87122f68b9526818",
+      "nativeReport": "pull-request-go1.25.5-report.json",
+      "originalArchive": "pull-request-go1.25.5.zip",
+      "controls": [
+        {
+          "name": "controls/duplicate",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "1c53ee0df7b12fd4d65b976120c7fa6b847dc41dffd7f0331c3237a1ceab1756",
+          "input_bytes": 13,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "DuplicateMember"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/escaped-duplicate",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "c95ba945b310a34906bbfc28ce1346b87741d5a2b3066d1d3ecfa0acbd86392c",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "DuplicateMember"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/lone-surrogate",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "69119aac5ce42bc93c1667db0454297ffaa342c431efa2dfdf48af101c035106",
+          "input_bytes": 10,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/mispaired-surrogates",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "ba3792b66eee8fa45585e2fb4a76808973027b2965e9c6d9c0da4a688f9f1be7",
+          "input_bytes": 16,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22efbfbd225d"
+          }
+        },
+        {
+          "name": "controls/utf8-surrogate",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "335ffac769e5b3cec6047f6f464a0d24267493f49d3bc75f0a6411ad9448f003",
+          "input_bytes": 7,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22eda080225d"
+          }
+        },
+        {
+          "name": "controls/overlong-utf8",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "e17aa42df055ec15b4c3118c8e739fe18a52a047c5a2dc36b5ad1df9bb51aeaf",
+          "input_bytes": 6,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22c0af225d"
+          }
+        },
+        {
+          "name": "controls/nonfinite",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "f8438fff8680415208a346a12baae5edffedff2df93d083ee385a3c412546c0a",
+          "input_bytes": 7,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "NonFiniteNumber"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/unsafe-integer-rfc",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "ee825a6b803b8c559f4ee311b23736dbc4b315351ce4b34ff75df0228b589b44",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b393030373139393235343734303939325d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b393030373139393235343734303939325d"
+          }
+        },
+        {
+          "name": "controls/unsafe-integer-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "ee825a6b803b8c559f4ee311b23736dbc4b315351ce4b34ff75df0228b589b44",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "UnsafeInteger"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b393030373139393235343734303939325d"
+          }
+        },
+        {
+          "name": "controls/rounded-decimal-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "d92ddf8e2d4381fc69b77ba55ca59d4e80d462146a6ce46c54984d2d0f540fe0",
+          "input_bytes": 20,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "UnsafeInteger"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b393030373139393235343734303939325d"
+          }
+        },
+        {
+          "name": "controls/safe-integer-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "cf0c058a3667326abbfce35f93db15ddea1ac816f12c19a6546f7c3880cecc1c",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b393030373139393235343734303939315d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b393030373139393235343734303939315d"
+          }
+        },
+        {
+          "name": "controls/fraction-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "f631f85ac97c9aa04448a5cfcd95e45ffb1fff174d43200d70bad6ca6e9178e0",
+          "input_bytes": 5,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b312e355d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b312e355d"
+          }
+        },
+        {
+          "name": "controls/fraction-integers",
+          "profile": "ijson-integers",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "f631f85ac97c9aa04448a5cfcd95e45ffb1fff174d43200d70bad6ca6e9178e0",
+          "input_bytes": 5,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "NonIntegerNumber"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b312e355d"
+          }
+        },
+        {
+          "name": "controls/noncharacter-rfc",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "460a7f71040b1f95e0fe194b8c9af400fb9b3930e5b360121c59dcbadf1bf571",
+          "input_bytes": 10,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b22efbfbf225d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22efbfbf225d"
+          }
+        },
+        {
+          "name": "controls/noncharacter-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "460a7f71040b1f95e0fe194b8c9af400fb9b3930e5b360121c59dcbadf1bf571",
+          "input_bytes": 10,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22efbfbf225d"
+          }
+        },
+        {
+          "name": "controls/depth-at-cap",
+          "profile": "rfc8785",
+          "max_depth": 2,
+          "max_bytes": 20971520,
+          "input_sha256": "db407f11d7ede59abaab0e98e097ff2dae10a048207b801745d7199ef19c2387",
+          "input_bytes": 5,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b5b305d5d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b5b305d5d"
+          }
+        },
+        {
+          "name": "controls/depth-past-cap",
+          "profile": "rfc8785",
+          "max_depth": 2,
+          "max_bytes": 20971520,
+          "input_sha256": "7ae717c9aac47e3aed392515ac52ae17e50da8555c618e0ace9ee7b86985afea",
+          "input_bytes": 7,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "TooDeep"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b5b5b305d5d5d"
+          }
+        },
+        {
+          "name": "controls/size-at-cap",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 64,
+          "input_sha256": "863880806fcd1b0ef742c01d64c2753227245a815dc96402402429f8398baac6",
+          "input_bytes": 64,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b305d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b305d"
+          }
+        },
+        {
+          "name": "controls/size-past-cap",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 64,
+          "input_sha256": "b47b1e70a4c618dcbf2e1235f5ce82ddd75dd8d728d17fbfee7c32d0f12e1d0c",
+          "input_bytes": 65,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "TooLarge"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b305d"
+          }
+        },
+        {
+          "name": "controls/scalar-number",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+          "input_bytes": 1,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "go-root-domain",
+            "error_class": "ObjectOrArrayRequired"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/scalar-string",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "c48b5b1a9776c84602de2306d7903a7241158a5077e7a8519af75c33441b8334",
+          "input_bytes": 4,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "go-root-domain",
+            "error_class": "ObjectOrArrayRequired"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/scalar-boolean",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+          "input_bytes": 4,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "go-root-domain",
+            "error_class": "ObjectOrArrayRequired"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/scalar-null",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "input_bytes": 4,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "go-root-domain",
+            "error_class": "ObjectOrArrayRequired"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/invalid-scalar-refuses-first",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "8c0c59dd0d275aadcd462a5fe12eb352cbdfeaf961eae4f85a4660521df7d2f5",
+          "input_bytes": 8,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/trailing-content",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "b51f08b698d88d8027a935d9db649774949f5fb41a0c559bfee6a9a13225c72d",
+          "input_bytes": 4,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "TrailingContent"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/utf16-order",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "871954531859c7572c6279f90eb83a594ddc3a289e8bdc28d2a84ffb8c1a1703",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "7b22f09f9880223a322c22ee8080223a317d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "7b22f09f9880223a322c22ee8080223a317d"
+          }
+        },
+        {
+          "name": "controls/normalization-preserved",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "c2635d7e15e25b90abc8b3543d92f0ffcee0644372d8b662a0775f88d43278e5",
+          "input_bytes": 16,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "7b2265cc81223a312c22c3a9223a327d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "7b2265cc81223a312c22c3a9223a327d"
+          }
+        }
+      ]
+    },
+    {
+      "event": "push",
+      "runId": 37203609598,
+      "artifactId": 11304370134,
+      "goVersion": "1.25.5",
+      "qualifiedCheckout": "7573937b882de4f32cbc4cd69dfaab8098729412",
+      "runtime": {
+        "go": "go version go1.25.5 linux/amd64",
+        "rust": "rustc 1.99.0 (b940084d7 2026-09-28)",
+        "python": "3.12.3"
+      },
+      "summary": {
+        "cases": 1263,
+        "consumer_exact_byte_matches": 1077,
+        "raw_admission_refusals": 181,
+        "scalar_domain_refusals": 5,
+        "bare_go_observations": 1263
+      },
+      "bareGoAccepted": 1129,
+      "worktreeStatus": [],
+      "nativeReportSha256": "04b51d60f42fa286f5e3eb92633e9432c44f7a2541497b5225742601d40bc5cd",
+      "nativeReport": "push-go1.25.5-report.json",
+      "originalArchive": "push-go1.25.5.zip",
+      "controls": [
+        {
+          "name": "controls/duplicate",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "1c53ee0df7b12fd4d65b976120c7fa6b847dc41dffd7f0331c3237a1ceab1756",
+          "input_bytes": 13,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "DuplicateMember"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/escaped-duplicate",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "c95ba945b310a34906bbfc28ce1346b87741d5a2b3066d1d3ecfa0acbd86392c",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "DuplicateMember"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/lone-surrogate",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "69119aac5ce42bc93c1667db0454297ffaa342c431efa2dfdf48af101c035106",
+          "input_bytes": 10,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/mispaired-surrogates",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "ba3792b66eee8fa45585e2fb4a76808973027b2965e9c6d9c0da4a688f9f1be7",
+          "input_bytes": 16,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22efbfbd225d"
+          }
+        },
+        {
+          "name": "controls/utf8-surrogate",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "335ffac769e5b3cec6047f6f464a0d24267493f49d3bc75f0a6411ad9448f003",
+          "input_bytes": 7,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22eda080225d"
+          }
+        },
+        {
+          "name": "controls/overlong-utf8",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "e17aa42df055ec15b4c3118c8e739fe18a52a047c5a2dc36b5ad1df9bb51aeaf",
+          "input_bytes": 6,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22c0af225d"
+          }
+        },
+        {
+          "name": "controls/nonfinite",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "f8438fff8680415208a346a12baae5edffedff2df93d083ee385a3c412546c0a",
+          "input_bytes": 7,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "NonFiniteNumber"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/unsafe-integer-rfc",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "ee825a6b803b8c559f4ee311b23736dbc4b315351ce4b34ff75df0228b589b44",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b393030373139393235343734303939325d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b393030373139393235343734303939325d"
+          }
+        },
+        {
+          "name": "controls/unsafe-integer-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "ee825a6b803b8c559f4ee311b23736dbc4b315351ce4b34ff75df0228b589b44",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "UnsafeInteger"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b393030373139393235343734303939325d"
+          }
+        },
+        {
+          "name": "controls/rounded-decimal-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "d92ddf8e2d4381fc69b77ba55ca59d4e80d462146a6ce46c54984d2d0f540fe0",
+          "input_bytes": 20,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "UnsafeInteger"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b393030373139393235343734303939325d"
+          }
+        },
+        {
+          "name": "controls/safe-integer-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "cf0c058a3667326abbfce35f93db15ddea1ac816f12c19a6546f7c3880cecc1c",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b393030373139393235343734303939315d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b393030373139393235343734303939315d"
+          }
+        },
+        {
+          "name": "controls/fraction-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "f631f85ac97c9aa04448a5cfcd95e45ffb1fff174d43200d70bad6ca6e9178e0",
+          "input_bytes": 5,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b312e355d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b312e355d"
+          }
+        },
+        {
+          "name": "controls/fraction-integers",
+          "profile": "ijson-integers",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "f631f85ac97c9aa04448a5cfcd95e45ffb1fff174d43200d70bad6ca6e9178e0",
+          "input_bytes": 5,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "NonIntegerNumber"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b312e355d"
+          }
+        },
+        {
+          "name": "controls/noncharacter-rfc",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "460a7f71040b1f95e0fe194b8c9af400fb9b3930e5b360121c59dcbadf1bf571",
+          "input_bytes": 10,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b22efbfbf225d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22efbfbf225d"
+          }
+        },
+        {
+          "name": "controls/noncharacter-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "460a7f71040b1f95e0fe194b8c9af400fb9b3930e5b360121c59dcbadf1bf571",
+          "input_bytes": 10,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22efbfbf225d"
+          }
+        },
+        {
+          "name": "controls/depth-at-cap",
+          "profile": "rfc8785",
+          "max_depth": 2,
+          "max_bytes": 20971520,
+          "input_sha256": "db407f11d7ede59abaab0e98e097ff2dae10a048207b801745d7199ef19c2387",
+          "input_bytes": 5,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b5b305d5d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b5b305d5d"
+          }
+        },
+        {
+          "name": "controls/depth-past-cap",
+          "profile": "rfc8785",
+          "max_depth": 2,
+          "max_bytes": 20971520,
+          "input_sha256": "7ae717c9aac47e3aed392515ac52ae17e50da8555c618e0ace9ee7b86985afea",
+          "input_bytes": 7,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "TooDeep"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b5b5b305d5d5d"
+          }
+        },
+        {
+          "name": "controls/size-at-cap",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 64,
+          "input_sha256": "863880806fcd1b0ef742c01d64c2753227245a815dc96402402429f8398baac6",
+          "input_bytes": 64,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b305d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b305d"
+          }
+        },
+        {
+          "name": "controls/size-past-cap",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 64,
+          "input_sha256": "b47b1e70a4c618dcbf2e1235f5ce82ddd75dd8d728d17fbfee7c32d0f12e1d0c",
+          "input_bytes": 65,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "TooLarge"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b305d"
+          }
+        },
+        {
+          "name": "controls/scalar-number",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+          "input_bytes": 1,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "go-root-domain",
+            "error_class": "ObjectOrArrayRequired"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/scalar-string",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "c48b5b1a9776c84602de2306d7903a7241158a5077e7a8519af75c33441b8334",
+          "input_bytes": 4,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "go-root-domain",
+            "error_class": "ObjectOrArrayRequired"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/scalar-boolean",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+          "input_bytes": 4,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "go-root-domain",
+            "error_class": "ObjectOrArrayRequired"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/scalar-null",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "input_bytes": 4,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "go-root-domain",
+            "error_class": "ObjectOrArrayRequired"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/invalid-scalar-refuses-first",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "8c0c59dd0d275aadcd462a5fe12eb352cbdfeaf961eae4f85a4660521df7d2f5",
+          "input_bytes": 8,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/trailing-content",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "b51f08b698d88d8027a935d9db649774949f5fb41a0c559bfee6a9a13225c72d",
+          "input_bytes": 4,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "TrailingContent"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/utf16-order",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "871954531859c7572c6279f90eb83a594ddc3a289e8bdc28d2a84ffb8c1a1703",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "7b22f09f9880223a322c22ee8080223a317d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "7b22f09f9880223a322c22ee8080223a317d"
+          }
+        },
+        {
+          "name": "controls/normalization-preserved",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "c2635d7e15e25b90abc8b3543d92f0ffcee0644372d8b662a0775f88d43278e5",
+          "input_bytes": 16,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "7b2265cc81223a312c22c3a9223a327d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "7b2265cc81223a312c22c3a9223a327d"
+          }
+        }
+      ]
+    },
+    {
+      "event": "push",
+      "runId": 37203609598,
+      "artifactId": 11303524162,
+      "goVersion": "1.27.1",
+      "qualifiedCheckout": "7573937b882de4f32cbc4cd69dfaab8098729412",
+      "runtime": {
+        "go": "go version go1.27.1 linux/amd64",
+        "rust": "rustc 1.99.0 (b940084d7 2026-09-28)",
+        "python": "3.12.3"
+      },
+      "summary": {
+        "cases": 1263,
+        "consumer_exact_byte_matches": 1077,
+        "raw_admission_refusals": 181,
+        "scalar_domain_refusals": 5,
+        "bare_go_observations": 1263
+      },
+      "bareGoAccepted": 1129,
+      "worktreeStatus": [],
+      "nativeReportSha256": "4f9bd064c46aae47f104e8b0eff0629460b10703d89bb2c4de96a70c254a153d",
+      "nativeReport": "push-go1.27.1-report.json",
+      "originalArchive": "push-go1.27.1.zip",
+      "controls": [
+        {
+          "name": "controls/duplicate",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "1c53ee0df7b12fd4d65b976120c7fa6b847dc41dffd7f0331c3237a1ceab1756",
+          "input_bytes": 13,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "DuplicateMember"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/escaped-duplicate",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "c95ba945b310a34906bbfc28ce1346b87741d5a2b3066d1d3ecfa0acbd86392c",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "DuplicateMember"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/lone-surrogate",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "69119aac5ce42bc93c1667db0454297ffaa342c431efa2dfdf48af101c035106",
+          "input_bytes": 10,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/mispaired-surrogates",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "ba3792b66eee8fa45585e2fb4a76808973027b2965e9c6d9c0da4a688f9f1be7",
+          "input_bytes": 16,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22efbfbd225d"
+          }
+        },
+        {
+          "name": "controls/utf8-surrogate",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "335ffac769e5b3cec6047f6f464a0d24267493f49d3bc75f0a6411ad9448f003",
+          "input_bytes": 7,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22eda080225d"
+          }
+        },
+        {
+          "name": "controls/overlong-utf8",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "e17aa42df055ec15b4c3118c8e739fe18a52a047c5a2dc36b5ad1df9bb51aeaf",
+          "input_bytes": 6,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22c0af225d"
+          }
+        },
+        {
+          "name": "controls/nonfinite",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "f8438fff8680415208a346a12baae5edffedff2df93d083ee385a3c412546c0a",
+          "input_bytes": 7,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "NonFiniteNumber"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/unsafe-integer-rfc",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "ee825a6b803b8c559f4ee311b23736dbc4b315351ce4b34ff75df0228b589b44",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b393030373139393235343734303939325d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b393030373139393235343734303939325d"
+          }
+        },
+        {
+          "name": "controls/unsafe-integer-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "ee825a6b803b8c559f4ee311b23736dbc4b315351ce4b34ff75df0228b589b44",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "UnsafeInteger"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b393030373139393235343734303939325d"
+          }
+        },
+        {
+          "name": "controls/rounded-decimal-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "d92ddf8e2d4381fc69b77ba55ca59d4e80d462146a6ce46c54984d2d0f540fe0",
+          "input_bytes": 20,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "UnsafeInteger"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b393030373139393235343734303939325d"
+          }
+        },
+        {
+          "name": "controls/safe-integer-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "cf0c058a3667326abbfce35f93db15ddea1ac816f12c19a6546f7c3880cecc1c",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b393030373139393235343734303939315d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b393030373139393235343734303939315d"
+          }
+        },
+        {
+          "name": "controls/fraction-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "f631f85ac97c9aa04448a5cfcd95e45ffb1fff174d43200d70bad6ca6e9178e0",
+          "input_bytes": 5,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b312e355d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b312e355d"
+          }
+        },
+        {
+          "name": "controls/fraction-integers",
+          "profile": "ijson-integers",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "f631f85ac97c9aa04448a5cfcd95e45ffb1fff174d43200d70bad6ca6e9178e0",
+          "input_bytes": 5,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "NonIntegerNumber"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b312e355d"
+          }
+        },
+        {
+          "name": "controls/noncharacter-rfc",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "460a7f71040b1f95e0fe194b8c9af400fb9b3930e5b360121c59dcbadf1bf571",
+          "input_bytes": 10,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b22efbfbf225d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22efbfbf225d"
+          }
+        },
+        {
+          "name": "controls/noncharacter-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "460a7f71040b1f95e0fe194b8c9af400fb9b3930e5b360121c59dcbadf1bf571",
+          "input_bytes": 10,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22efbfbf225d"
+          }
+        },
+        {
+          "name": "controls/depth-at-cap",
+          "profile": "rfc8785",
+          "max_depth": 2,
+          "max_bytes": 20971520,
+          "input_sha256": "db407f11d7ede59abaab0e98e097ff2dae10a048207b801745d7199ef19c2387",
+          "input_bytes": 5,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b5b305d5d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b5b305d5d"
+          }
+        },
+        {
+          "name": "controls/depth-past-cap",
+          "profile": "rfc8785",
+          "max_depth": 2,
+          "max_bytes": 20971520,
+          "input_sha256": "7ae717c9aac47e3aed392515ac52ae17e50da8555c618e0ace9ee7b86985afea",
+          "input_bytes": 7,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "TooDeep"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b5b5b305d5d5d"
+          }
+        },
+        {
+          "name": "controls/size-at-cap",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 64,
+          "input_sha256": "863880806fcd1b0ef742c01d64c2753227245a815dc96402402429f8398baac6",
+          "input_bytes": 64,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b305d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b305d"
+          }
+        },
+        {
+          "name": "controls/size-past-cap",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 64,
+          "input_sha256": "b47b1e70a4c618dcbf2e1235f5ce82ddd75dd8d728d17fbfee7c32d0f12e1d0c",
+          "input_bytes": 65,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "TooLarge"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b305d"
+          }
+        },
+        {
+          "name": "controls/scalar-number",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+          "input_bytes": 1,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "go-root-domain",
+            "error_class": "ObjectOrArrayRequired"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/scalar-string",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "c48b5b1a9776c84602de2306d7903a7241158a5077e7a8519af75c33441b8334",
+          "input_bytes": 4,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "go-root-domain",
+            "error_class": "ObjectOrArrayRequired"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/scalar-boolean",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+          "input_bytes": 4,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "go-root-domain",
+            "error_class": "ObjectOrArrayRequired"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/scalar-null",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "input_bytes": 4,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "go-root-domain",
+            "error_class": "ObjectOrArrayRequired"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/invalid-scalar-refuses-first",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "8c0c59dd0d275aadcd462a5fe12eb352cbdfeaf961eae4f85a4660521df7d2f5",
+          "input_bytes": 8,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/trailing-content",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "b51f08b698d88d8027a935d9db649774949f5fb41a0c559bfee6a9a13225c72d",
+          "input_bytes": 4,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "TrailingContent"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/utf16-order",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "871954531859c7572c6279f90eb83a594ddc3a289e8bdc28d2a84ffb8c1a1703",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "7b22f09f9880223a322c22ee8080223a317d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "7b22f09f9880223a322c22ee8080223a317d"
+          }
+        },
+        {
+          "name": "controls/normalization-preserved",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "c2635d7e15e25b90abc8b3543d92f0ffcee0644372d8b662a0775f88d43278e5",
+          "input_bytes": 16,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "7b2265cc81223a312c22c3a9223a327d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "7b2265cc81223a312c22c3a9223a327d"
+          }
+        }
+      ]
+    },
+    {
+      "event": "push",
+      "branch": "main",
+      "runId": 37204497915,
+      "artifactId": 11304720358,
+      "goVersion": "1.25.5",
+      "qualifiedCheckout": "edbd3afe9bc1a3658c575c7ce236ddd4f4781177",
+      "runtime": {
+        "go": "go version go1.25.5 linux/amd64",
+        "rust": "rustc 1.99.0 (b940084d7 2026-09-28)",
+        "python": "3.12.3"
+      },
+      "summary": {
+        "cases": 1263,
+        "consumer_exact_byte_matches": 1077,
+        "raw_admission_refusals": 181,
+        "scalar_domain_refusals": 5,
+        "bare_go_observations": 1263
+      },
+      "bareGoAccepted": 1129,
+      "worktreeStatus": [],
+      "nativeReportSha256": "36a06e6d0f67890100a47d8c4f3b8c2b6ca4d088552f0f3bda487518d734d449",
+      "nativeReport": "main-go1.25.5-report.json",
+      "originalArchive": "main-go1.25.5.zip",
+      "controls": [
+        {
+          "name": "controls/duplicate",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "1c53ee0df7b12fd4d65b976120c7fa6b847dc41dffd7f0331c3237a1ceab1756",
+          "input_bytes": 13,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "DuplicateMember"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/escaped-duplicate",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "c95ba945b310a34906bbfc28ce1346b87741d5a2b3066d1d3ecfa0acbd86392c",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "DuplicateMember"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/lone-surrogate",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "69119aac5ce42bc93c1667db0454297ffaa342c431efa2dfdf48af101c035106",
+          "input_bytes": 10,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/mispaired-surrogates",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "ba3792b66eee8fa45585e2fb4a76808973027b2965e9c6d9c0da4a688f9f1be7",
+          "input_bytes": 16,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22efbfbd225d"
+          }
+        },
+        {
+          "name": "controls/utf8-surrogate",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "335ffac769e5b3cec6047f6f464a0d24267493f49d3bc75f0a6411ad9448f003",
+          "input_bytes": 7,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22eda080225d"
+          }
+        },
+        {
+          "name": "controls/overlong-utf8",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "e17aa42df055ec15b4c3118c8e739fe18a52a047c5a2dc36b5ad1df9bb51aeaf",
+          "input_bytes": 6,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22c0af225d"
+          }
+        },
+        {
+          "name": "controls/nonfinite",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "f8438fff8680415208a346a12baae5edffedff2df93d083ee385a3c412546c0a",
+          "input_bytes": 7,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "NonFiniteNumber"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/unsafe-integer-rfc",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "ee825a6b803b8c559f4ee311b23736dbc4b315351ce4b34ff75df0228b589b44",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b393030373139393235343734303939325d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b393030373139393235343734303939325d"
+          }
+        },
+        {
+          "name": "controls/unsafe-integer-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "ee825a6b803b8c559f4ee311b23736dbc4b315351ce4b34ff75df0228b589b44",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "UnsafeInteger"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b393030373139393235343734303939325d"
+          }
+        },
+        {
+          "name": "controls/rounded-decimal-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "d92ddf8e2d4381fc69b77ba55ca59d4e80d462146a6ce46c54984d2d0f540fe0",
+          "input_bytes": 20,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "UnsafeInteger"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b393030373139393235343734303939325d"
+          }
+        },
+        {
+          "name": "controls/safe-integer-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "cf0c058a3667326abbfce35f93db15ddea1ac816f12c19a6546f7c3880cecc1c",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b393030373139393235343734303939315d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b393030373139393235343734303939315d"
+          }
+        },
+        {
+          "name": "controls/fraction-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "f631f85ac97c9aa04448a5cfcd95e45ffb1fff174d43200d70bad6ca6e9178e0",
+          "input_bytes": 5,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b312e355d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b312e355d"
+          }
+        },
+        {
+          "name": "controls/fraction-integers",
+          "profile": "ijson-integers",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "f631f85ac97c9aa04448a5cfcd95e45ffb1fff174d43200d70bad6ca6e9178e0",
+          "input_bytes": 5,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "NonIntegerNumber"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b312e355d"
+          }
+        },
+        {
+          "name": "controls/noncharacter-rfc",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "460a7f71040b1f95e0fe194b8c9af400fb9b3930e5b360121c59dcbadf1bf571",
+          "input_bytes": 10,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b22efbfbf225d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22efbfbf225d"
+          }
+        },
+        {
+          "name": "controls/noncharacter-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "460a7f71040b1f95e0fe194b8c9af400fb9b3930e5b360121c59dcbadf1bf571",
+          "input_bytes": 10,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22efbfbf225d"
+          }
+        },
+        {
+          "name": "controls/depth-at-cap",
+          "profile": "rfc8785",
+          "max_depth": 2,
+          "max_bytes": 20971520,
+          "input_sha256": "db407f11d7ede59abaab0e98e097ff2dae10a048207b801745d7199ef19c2387",
+          "input_bytes": 5,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b5b305d5d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b5b305d5d"
+          }
+        },
+        {
+          "name": "controls/depth-past-cap",
+          "profile": "rfc8785",
+          "max_depth": 2,
+          "max_bytes": 20971520,
+          "input_sha256": "7ae717c9aac47e3aed392515ac52ae17e50da8555c618e0ace9ee7b86985afea",
+          "input_bytes": 7,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "TooDeep"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b5b5b305d5d5d"
+          }
+        },
+        {
+          "name": "controls/size-at-cap",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 64,
+          "input_sha256": "863880806fcd1b0ef742c01d64c2753227245a815dc96402402429f8398baac6",
+          "input_bytes": 64,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b305d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b305d"
+          }
+        },
+        {
+          "name": "controls/size-past-cap",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 64,
+          "input_sha256": "b47b1e70a4c618dcbf2e1235f5ce82ddd75dd8d728d17fbfee7c32d0f12e1d0c",
+          "input_bytes": 65,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "TooLarge"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b305d"
+          }
+        },
+        {
+          "name": "controls/scalar-number",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+          "input_bytes": 1,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "go-root-domain",
+            "error_class": "ObjectOrArrayRequired"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/scalar-string",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "c48b5b1a9776c84602de2306d7903a7241158a5077e7a8519af75c33441b8334",
+          "input_bytes": 4,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "go-root-domain",
+            "error_class": "ObjectOrArrayRequired"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/scalar-boolean",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+          "input_bytes": 4,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "go-root-domain",
+            "error_class": "ObjectOrArrayRequired"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/scalar-null",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "input_bytes": 4,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "go-root-domain",
+            "error_class": "ObjectOrArrayRequired"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/invalid-scalar-refuses-first",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "8c0c59dd0d275aadcd462a5fe12eb352cbdfeaf961eae4f85a4660521df7d2f5",
+          "input_bytes": 8,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/trailing-content",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "b51f08b698d88d8027a935d9db649774949f5fb41a0c559bfee6a9a13225c72d",
+          "input_bytes": 4,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "TrailingContent"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/utf16-order",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "871954531859c7572c6279f90eb83a594ddc3a289e8bdc28d2a84ffb8c1a1703",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "7b22f09f9880223a322c22ee8080223a317d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "7b22f09f9880223a322c22ee8080223a317d"
+          }
+        },
+        {
+          "name": "controls/normalization-preserved",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "c2635d7e15e25b90abc8b3543d92f0ffcee0644372d8b662a0775f88d43278e5",
+          "input_bytes": 16,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "7b2265cc81223a312c22c3a9223a327d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "7b2265cc81223a312c22c3a9223a327d"
+          }
+        }
+      ]
+    },
+    {
+      "event": "push",
+      "branch": "main",
+      "runId": 37204497915,
+      "artifactId": 11304356572,
+      "goVersion": "1.27.1",
+      "qualifiedCheckout": "edbd3afe9bc1a3658c575c7ce236ddd4f4781177",
+      "runtime": {
+        "go": "go version go1.27.1 linux/amd64",
+        "rust": "rustc 1.99.0 (b940084d7 2026-09-28)",
+        "python": "3.12.3"
+      },
+      "summary": {
+        "cases": 1263,
+        "consumer_exact_byte_matches": 1077,
+        "raw_admission_refusals": 181,
+        "scalar_domain_refusals": 5,
+        "bare_go_observations": 1263
+      },
+      "bareGoAccepted": 1129,
+      "worktreeStatus": [],
+      "nativeReportSha256": "153858305f7328866be7d2a00072df22200b5274e5d969ae76a8cacc755166c0",
+      "nativeReport": "main-go1.27.1-report.json",
+      "originalArchive": "main-go1.27.1.zip",
+      "controls": [
+        {
+          "name": "controls/duplicate",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "1c53ee0df7b12fd4d65b976120c7fa6b847dc41dffd7f0331c3237a1ceab1756",
+          "input_bytes": 13,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "DuplicateMember"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/escaped-duplicate",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "c95ba945b310a34906bbfc28ce1346b87741d5a2b3066d1d3ecfa0acbd86392c",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "DuplicateMember"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/lone-surrogate",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "69119aac5ce42bc93c1667db0454297ffaa342c431efa2dfdf48af101c035106",
+          "input_bytes": 10,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/mispaired-surrogates",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "ba3792b66eee8fa45585e2fb4a76808973027b2965e9c6d9c0da4a688f9f1be7",
+          "input_bytes": 16,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22efbfbd225d"
+          }
+        },
+        {
+          "name": "controls/utf8-surrogate",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "335ffac769e5b3cec6047f6f464a0d24267493f49d3bc75f0a6411ad9448f003",
+          "input_bytes": 7,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22eda080225d"
+          }
+        },
+        {
+          "name": "controls/overlong-utf8",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "e17aa42df055ec15b4c3118c8e739fe18a52a047c5a2dc36b5ad1df9bb51aeaf",
+          "input_bytes": 6,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22c0af225d"
+          }
+        },
+        {
+          "name": "controls/nonfinite",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "f8438fff8680415208a346a12baae5edffedff2df93d083ee385a3c412546c0a",
+          "input_bytes": 7,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "NonFiniteNumber"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/unsafe-integer-rfc",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "ee825a6b803b8c559f4ee311b23736dbc4b315351ce4b34ff75df0228b589b44",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b393030373139393235343734303939325d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b393030373139393235343734303939325d"
+          }
+        },
+        {
+          "name": "controls/unsafe-integer-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "ee825a6b803b8c559f4ee311b23736dbc4b315351ce4b34ff75df0228b589b44",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "UnsafeInteger"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b393030373139393235343734303939325d"
+          }
+        },
+        {
+          "name": "controls/rounded-decimal-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "d92ddf8e2d4381fc69b77ba55ca59d4e80d462146a6ce46c54984d2d0f540fe0",
+          "input_bytes": 20,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "UnsafeInteger"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b393030373139393235343734303939325d"
+          }
+        },
+        {
+          "name": "controls/safe-integer-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "cf0c058a3667326abbfce35f93db15ddea1ac816f12c19a6546f7c3880cecc1c",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b393030373139393235343734303939315d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b393030373139393235343734303939315d"
+          }
+        },
+        {
+          "name": "controls/fraction-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "f631f85ac97c9aa04448a5cfcd95e45ffb1fff174d43200d70bad6ca6e9178e0",
+          "input_bytes": 5,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b312e355d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b312e355d"
+          }
+        },
+        {
+          "name": "controls/fraction-integers",
+          "profile": "ijson-integers",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "f631f85ac97c9aa04448a5cfcd95e45ffb1fff174d43200d70bad6ca6e9178e0",
+          "input_bytes": 5,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "NonIntegerNumber"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b312e355d"
+          }
+        },
+        {
+          "name": "controls/noncharacter-rfc",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "460a7f71040b1f95e0fe194b8c9af400fb9b3930e5b360121c59dcbadf1bf571",
+          "input_bytes": 10,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b22efbfbf225d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22efbfbf225d"
+          }
+        },
+        {
+          "name": "controls/noncharacter-ijson",
+          "profile": "ijson",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "460a7f71040b1f95e0fe194b8c9af400fb9b3930e5b360121c59dcbadf1bf571",
+          "input_bytes": 10,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b22efbfbf225d"
+          }
+        },
+        {
+          "name": "controls/depth-at-cap",
+          "profile": "rfc8785",
+          "max_depth": 2,
+          "max_bytes": 20971520,
+          "input_sha256": "db407f11d7ede59abaab0e98e097ff2dae10a048207b801745d7199ef19c2387",
+          "input_bytes": 5,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b5b305d5d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b5b305d5d"
+          }
+        },
+        {
+          "name": "controls/depth-past-cap",
+          "profile": "rfc8785",
+          "max_depth": 2,
+          "max_bytes": 20971520,
+          "input_sha256": "7ae717c9aac47e3aed392515ac52ae17e50da8555c618e0ace9ee7b86985afea",
+          "input_bytes": 7,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "TooDeep"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b5b5b305d5d5d"
+          }
+        },
+        {
+          "name": "controls/size-at-cap",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 64,
+          "input_sha256": "863880806fcd1b0ef742c01d64c2753227245a815dc96402402429f8398baac6",
+          "input_bytes": 64,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "5b305d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b305d"
+          }
+        },
+        {
+          "name": "controls/size-past-cap",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 64,
+          "input_sha256": "b47b1e70a4c618dcbf2e1235f5ce82ddd75dd8d728d17fbfee7c32d0f12e1d0c",
+          "input_bytes": 65,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "TooLarge"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "5b305d"
+          }
+        },
+        {
+          "name": "controls/scalar-number",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+          "input_bytes": 1,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "go-root-domain",
+            "error_class": "ObjectOrArrayRequired"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/scalar-string",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "c48b5b1a9776c84602de2306d7903a7241158a5077e7a8519af75c33441b8334",
+          "input_bytes": 4,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "go-root-domain",
+            "error_class": "ObjectOrArrayRequired"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/scalar-boolean",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+          "input_bytes": 4,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "go-root-domain",
+            "error_class": "ObjectOrArrayRequired"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/scalar-null",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "input_bytes": 4,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "go-root-domain",
+            "error_class": "ObjectOrArrayRequired"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/invalid-scalar-refuses-first",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "8c0c59dd0d275aadcd462a5fe12eb352cbdfeaf961eae4f85a4660521df7d2f5",
+          "input_bytes": 8,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "StringNotScalar"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/trailing-content",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "b51f08b698d88d8027a935d9db649774949f5fb41a0c559bfee6a9a13225c72d",
+          "input_bytes": 4,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "refused",
+            "stage": "raw-admission",
+            "error_class": "TrailingContent"
+          },
+          "bare_go": {
+            "status": "refused",
+            "stage": "go-transform",
+            "error_class": "GoTransform"
+          }
+        },
+        {
+          "name": "controls/utf16-order",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "871954531859c7572c6279f90eb83a594ddc3a289e8bdc28d2a84ffb8c1a1703",
+          "input_bytes": 18,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "7b22f09f9880223a322c22ee8080223a317d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "7b22f09f9880223a322c22ee8080223a317d"
+          }
+        },
+        {
+          "name": "controls/normalization-preserved",
+          "profile": "rfc8785",
+          "max_depth": 128,
+          "max_bytes": 20971520,
+          "input_sha256": "c2635d7e15e25b90abc8b3543d92f0ffcee0644372d8b662a0775f88d43278e5",
+          "input_bytes": 16,
+          "declared_native_expectation": null,
+          "consumer": {
+            "status": "accepted",
+            "stage": "byte-agreement",
+            "canonical_hex": "7b2265cc81223a312c22c3a9223a327d"
+          },
+          "bare_go": {
+            "status": "accepted",
+            "stage": "go-transform",
+            "canonical_hex": "7b2265cc81223a312c22c3a9223a327d"
+          }
+        }
+      ]
+    }
+  ],
+  "roles": {
+    "producer": "Public RFC, Go-rail, attack and Node number fixtures; Probity-authored finite controls",
+    "readerAuthor": "Probity",
+    "runner": "Probity-owned GitHub Actions",
+    "atlasOperator": "Probity",
+    "retentionHolder": "Probity",
+    "independentOperation": "not-established",
+    "independentEffectCustody": "not-exercised",
+    "outsideRecurringUse": "not-established"
+  },
+  "limits": [
+    "Finite conformance inputs and exposed expected answers; no task or workload experiment.",
+    "Six executions on two Go runtimes repeat the same 1,263 case identities: two final-PR, two branch-push and two merged-main runs; each stays separate.",
+    "Go accepts objects or arrays; number samples use declared array wrappers, admitted scalar roots refuse separately.",
+    "RFC 8785 and I-JSON policies differ; bare Go outcomes remain separate from admission policy.",
+    "The original native archives retain source and reports. Installed executable hashes are recorded, but executables and the full installed runtime are outside those provider archives.",
+    "The upstream multi-gigabyte number benchmark was not selected."
+  ]
+}

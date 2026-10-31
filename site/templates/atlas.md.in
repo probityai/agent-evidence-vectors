@@ -1,0 +1,61 @@
+---
+title: "An atlas of agent assurance"
+subtitle: "Seven families of mechanisms that make claims about AI agents, the mechanisms inside each, what each establishes, what none of them establishes alone, and where the public evidence artifacts sit"
+status: "Version {{version}}. GitHub star counts were read at {{stars_read}}; project sizes, statuses and releases at {{read_window}}, except where a row gives its own read time; corpus members at {{corpus_read}}. Dated experiments carry separate source pins and claim-ledger rows."
+description: "A map of the AI-agent assurance ecosystem in seven families: identity, policy, containment, observation, records, evaluation and governance."
+toc: true
+---
+
+When an AI agent does something that matters, several different systems will later make a statement about it. An identity system says who the agent was. A policy engine says the action was allowed. A sandbox says what the agent could reach. A trace says what the agent reported doing. A signed receipt says which bytes were issued. An evaluation says how the agent's model behaved on tests. A regulation says what should have been true.
+
+Each of those statements is useful, and each answers a different question for a different party. This atlas lays them side by side. Its data file counts {{n_layers}} families, {{n_entries}} named projects and standards, and {{n_mechanisms}} mechanisms, with the public artifacts that address the one cell no family fills.
+
+Every project or standard named in the family sections below is a standard, law or program of a recognized public, standards or industry body; an independent evaluation organization; or an organization-owned project measured at 5,000 GitHub stars or more. Every figure carries its read date. Each list is a representative sample of its family. Smaller projects that do the same work are counted by the mechanisms they implement rather than named.
+
+## The map in one table
+
+{{layer_table}}
+
+The families map onto the three jobs that [*Three Jobs, Not One*](https://doi.org/10.5281/zenodo.21935891) separates. Families 1 and 2 carry the policy job: the decision on what may be attempted. Family 3 does the containment job: enforcing a boundary the agent's code does not control. Families 4 and 5 are where systems usually attempt the evidence job. The table shows why neither finishes it: the party a trace describes writes the trace, and a signature fixes bytes without saying what they describe happened. Evaluation and governance are complementary roles. The evaluators and regulators who work in them scrutinize the other families. Neither role can stand in for any of them.
+
+## Who writes the record
+
+One question separates these mechanisms: who writes the record each one produces. The table uses the witness-scope terms of the [agent evidence vocabulary](https://github.com/probityai/agent-evidence/tree/main/packages/vocabulary): `self` is the observed party, or the system that runs it; `peer` is a party alongside it with its own stake, such as a gateway operator or an evaluator paid by the developer it evaluates; `external` is a party outside the observed system's control. The writer given for each mechanism is this atlas's reading of a typical deployment, not a property of the software.
+
+{{mechanism_table}}
+
+The "writer" column shows one pattern. Every mechanism that records the agent's actions in deployment comes from the agent's own side or from a peer with a stake in the outcome. Every mechanism written from the outside records something other than those actions: an identity, a launch state, a log inclusion, a timestamp, a test result, or an assessment of what the developer let the evaluator see.
+
+{{layer_sections}}
+
+## The open cell
+
+Across the "cannot establish" column, one question is never answered: did this action happen as recorded, seen from a vantage the agent could not reach, and is anything missing? Each family supplies part of an answer: identity names who acted, policy records the decision, containment bounds the reach, tracing carries the actor's own account, receipts fix the bytes, and evaluation measures a tested version, while governance requires that an answer exist. No family includes a record of the action made from beyond the agent's reach.
+
+Signing more records does not close that cell; the seam between tracing and receipts shows why, since a signature fixes a self-report's bytes without changing who wrote it. Where the cell can be closed at all, closing it takes records made from a vantage the observed party does not control, bound to what they observed, with an explicit statement of what they do not cover and a rule for what a missing record means. The rest of this site works in that cell. The [version ledger](versions.html) lists each piece with its status.
+
+## Where the public evidence artifacts sit
+
+My vocabulary, conformance corpus and admission rules address that cell. Two Rust crates supply the byte handling of family 5 that they rest on. The last column follows each README's statement of what the repository does not do.
+
+{{artifact_table}}
+
+### The conformance corpora
+
+Release {{corpus_release}} of agent-evidence-vectors (commit `{{corpus_commit}}`) carries {{n_vectors}} members in {{n_corpora}} corpora. The table also lists {{n_other_corpora}} test sets pinned at their own commits outside that release. Each corpus tests one specification or one contract; several test specifications written by others, so that anyone can check independent implementations of those specifications against the same cases. Each name links to the corpus directory at the commit counted, and members and splits are counted from each corpus's own manifest fields by `tools/corpus_census.py`.
+
+{{corpus_table}}
+
+## Standards work in review, and public listings
+
+These are my contributions to other bodies' work, listed where the repository meets the naming rule above: a pull request and an Internet-Draft. Neither had been merged or adopted when I read its state. Each carries the state I read.
+
+{{contribution_table}}
+
+{{listing_table}}
+
+## Checking this page
+
+- A "cannot establish" line is the limit of its family. The projects listed under a family are measured against that line alone.
+- Star counts measure attention, and they drift. I read each status from the body's own page or repository. The re-derive tool in the [site's repository](https://github.com/probityai/agent-evidence/tree/main/site) re-reads each count, and the [claim ledger](claims.html) gives the time of each read.
+- The atlas data is published as `data/atlas.toml` in the same repository, one node per project, mechanism and artifact with its link and measurement, so any source that emits the same shape can regenerate the page.

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Sankalp Gilda" />
+  <meta name="description" content="Reconstruct paired task failure rates, two weighting targets, unresolved labels and the complete task-bootstrap distribution." />
+  <title>Task-grouped rates - Agent Evidence Conformance Board</title>
+  <link rel="canonical" href="https://probityai.github.io/agent-evidence-atlas/task-grouped-rates.html" />
+  <link rel="alternate" type="text/markdown" href="https://probityai.github.io/agent-evidence-atlas/task-grouped-rates.md" />
+  <link rel="describedby" href="https://probityai.github.io/agent-evidence-atlas/llms.txt" />
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <nav aria-label="Site">
+    <a class="home" href="index.html">Agent Evidence Conformance Board</a>
+    <span class="links">
+      <a href="start.html">Choose a component</a>
+      <a href="lab.html">Open Evidence Lab</a>
+      <a href="status.html">Claim status</a>
+      <a href="runs.html">Find a run</a>
+      <a href="board.html">Conformance board</a>
+      <a href="pilot.html">Pilot status</a>
+      <a href="atlas.html">Atlas</a>
+      <a href="experiments.html">Experiments</a>
+      <a href="claims.html">Claims</a>
+      <a href="versions.html">Versions</a>
+    </span>
+  </nav>
+</header>
+<main id="main" tabindex="-1">
+<header class="page">
+<h1>Task-grouped rates</h1>
+<p class="subtitle">A runnable matched-control example that keeps repeated episodes together</p>
+<p class="status">Synthetic worked example. The measured Lab register is unchanged.</p>
+</header>
+<nav class="toc" aria-label="Contents">
+<p class="toc-title">Contents</p>
+<ul>
+<li><a href="#task-grouped-rates-with-a-matched-benign-control" id="toc-task-grouped-rates-with-a-matched-benign-control">Task-grouped rates with a matched benign control</a>
+<ul>
+<li><a href="#counts-and-two-different-questions" id="toc-counts-and-two-different-questions">Counts and two different questions</a></li>
+<li><a href="#resample-tasks-retaining-repeats-and-controls" id="toc-resample-tasks-retaining-repeats-and-controls">Resample tasks, retaining repeats and controls</a></li>
+<li><a href="#sources-and-a-producer-owned-next-run" id="toc-sources-and-a-producer-owned-next-run">Sources and a producer-owned next run</a></li>
+</ul></li>
+</ul>
+</nav>
+<p><a href="examples/task-grouped-rates/input.json">Input episodes</a>, <a href="examples/task-grouped-rates/contract.json">calculation contract</a>, <a href="examples/task-grouped-rates/report.json">complete report</a>, <a href="examples/task-grouped-rates/check_grouped_rates.py">reader source</a> and <a href="examples/task-grouped-rates/source-record.json">checked statistical sources</a> are retained with this example. <a href="claims.html">Claims P-57 and P-58</a> record its counts, interval convention and scope.</p>
+<h1 id="task-grouped-rates-with-a-matched-benign-control">Task-grouped rates with a matched benign control</h1>
+<p>A small worked example for reporting a failure rate when each task has repeated episodes. Both arms of a task travel together through the calculation. The episode labels are invented; a robot run can supply the same fields with its own retained inputs and provenance.</p>
+<p>Run from the repository root with Python 3.11 or later. The reader has no extra dependencies:</p>
+<div class="code-scroll" tabindex="0" role="region" aria-label="Code example">
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> tools/check_grouped_rates.py <span class="dt">\</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--input</span> examples/task-grouped-rates/input.json <span class="dt">\</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--expect</span> examples/task-grouped-rates/report.json <span class="dt">\</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--output</span> grouped-rate-report.json</span></code></pre></div>
+</div>
+<p><code>input.json</code> retains every episode ID, label and task assignment, plus the declared matching conditions, rubric and population. <code>contract.json</code> states the calculation and its limits. <code>report.json</code> binds the exact input and reader SHA-256 values and keeps every resampling draw.</p>
+<h2 id="counts-and-two-different-questions">Counts and two different questions</h2>
+<p>Both arms use the same declared agent, environment, budget and outcome rubric; the declared attack intervention differs. Matching these declarations does not verify the actual conditions of a producer run.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Task / Attack failures / resolved episodes / Benign failures / resolved episodes / Unresolved in each arm">
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Task</th>
+<th>Attack failures / resolved episodes</th>
+<th>Benign failures / resolved episodes</th>
+<th>Unresolved in each arm</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T01</td>
+<td>8/10</td>
+<td>2/10</td>
+<td>0</td>
+</tr>
+<tr>
+<td>T02</td>
+<td>3/4</td>
+<td>1/4</td>
+<td>0</td>
+</tr>
+<tr>
+<td>T03</td>
+<td>0/2</td>
+<td>1/2</td>
+<td>0</td>
+</tr>
+<tr>
+<td>T04</td>
+<td>1/2</td>
+<td>0/2</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>There are 19 attempts and 18 resolved episodes in each arm. Pooling resolved episodes gives attack 12/18 and benign 4/18, a difference of 4/9. Giving each task equal weight gives attack 41/80 and benign 19/80, a difference of 11/40. The first answers a question about the retained episode mix; the second answers a question about an equally weighted task mix. Declare the target before choosing an aggregation rule.</p>
+<p>Unresolved labels stay visible. They are excluded only from those named resolved-rate denominators. Over all attempted episodes, the attack failure rate lies between 12/19 and 13/19, and benign between 4/19 and 5/19, depending on how the unresolved labels turn out. These are worst-case missing-label bounds, not sampling intervals. An empty or unresolved-only task arm has a null rate. It stays in the population and blocks the equal-task estimand; the reader never silently removes it.</p>
+<h2 id="resample-tasks-retaining-repeats-and-controls">Resample tasks, retaining repeats and controls</h2>
+<p>The sampling unit is a paired task cluster. Each draw selects four tasks with replacement, keeping both arms and every episode of each selected task. It recomputes both estimands and their contrasts jointly.</p>
+<p>The toy enumerates all 4^4 = 256 ordered draws. For nominal level 0.95 it uses the left inverse empirical CDF: rank <code>max(1, ceil(p * B))</code>, without interpolation. The endpoint ranks are 7 and 250. The episode-weighted contrast interval is [-1/10, 10/17]; the equal-task contrast interval is [-1/4, 23/40]. Every exact rational value and a convenience decimal appear in the report.</p>
+<p>Those are exact summaries of this empirical resampling distribution. Four invented tasks do not establish 95% population coverage. Generalization would require independent exchangeable task clusters and an appropriate sampling design. Shared scenes, sessions, agents or robots can leave dependence across tasks; the input must state it. A degenerate distribution is labelled <code>degenerate</code>. A missing draw statistic blocks its interval, with all missing draws retained.</p>
+<p>Repeating each episode within its original task preserves these estimands and the entire task-bootstrap distribution. It adds no independent tasks. The tests also show how an episode-iid variance calculation would incorrectly shrink after that cloning. Selectively adding repeats can change the pooled episode target, while equal-task weighting keeps each task’s weight fixed.</p>
+<p>For larger inputs, an explicit <code>monte-carlo</code> configuration requires a seed and replicate count. <code>sha256-counter-rejection-v1</code> generates paired task indices reproducibly; all draws are retained. It approximates the empirical bootstrap distribution and adds Monte Carlo error. The byte, population and draw caps are in the contract.</p>
+<h2 id="sources-and-a-producer-owned-next-run">Sources and a producer-owned next run</h2>
+<p><a href="https://doi.org/10.3368/jhr.50.2.317">Cameron and Miller’s published article</a> describes whole-cluster resampling and warns about few clusters and missing bootstrap values. <a href="https://docs.scipy.org/doc/scipy-1.16.2/reference/generated/scipy.stats.bootstrap.html">SciPy 1.16.2’s bootstrap documentation</a> describes paired index resampling and percentile intervals. This reader uses its own explicit nearest-rank convention; neither source establishes coverage for this example. The source record, <code>source-record.json</code>, keeps the originally checked July 2014 author manuscript, its version and hashes. The current citation uses the publisher’s DOI; this route update does not replace that checked manuscript or change the reader’s methods and results.</p>
+<p>A producer can replace the labels with a task-grouped attack/benign run, pin its source, retain raw episodes and disclose missing labels, sampling design and residual dependence. A Lab submission still needs its own evidence and review. This example does not change the measured register.</p>
+</main>
+<footer class="site">
+  <p>Every number on this site has a source, a read time and a re-derive command in the <a href="claims.html">claim ledger</a>. Site version 0.6-draft, 2026-10-01. <a href="versions.html#documentation-revisions">Page revisions</a>.</p>
+</footer>
+</body>
+</html>

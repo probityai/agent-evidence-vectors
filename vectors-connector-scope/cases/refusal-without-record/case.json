@@ -1,0 +1,32 @@
+{
+  "action": {
+    "kind": "change",
+    "resource": "Observation",
+    "subject": "patient-synthetic-0001"
+  },
+  "case_id": "vectors-connector-scope-refusal-without-record",
+  "connector": {
+    "declared_scope": {
+      "change": [
+        "Appointment"
+      ],
+      "read": [
+        "Observation",
+        "Condition",
+        "Appointment"
+      ]
+    },
+    "grant_digest": "4d71862e7cdf8baccaf29e5694f6ad3a005467a0f724ab65761bc96c39bd13c6",
+    "id": "ehr-sandbox-connector-1"
+  },
+  "fixture": {
+    "phi_free": true
+  },
+  "outcome": {
+    "result": "refused"
+  },
+  "record": {
+    "action_digest": "e28bb5d3a9f029e294e6836648bd7e4aad20e572b4e43fa0fdecb92f026ca4e4"
+  },
+  "schema": "connector-scope-record/v1"
+}

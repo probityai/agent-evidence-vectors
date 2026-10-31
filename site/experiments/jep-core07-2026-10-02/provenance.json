@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "probity.lab-run-provenance.v1",
+  "readerRepository": "probityai/agent-evidence-vectors",
+  "readerRevision": "dd76a53fd553b33a16811fae80b4a99317b3b085",
+  "workflowRun": "https://github.com/probityai/agent-evidence-vectors/actions/runs/37031450266",
+  "artifactId": 11238045582,
+  "archiveSha256": "2d6271bf522c2975fc5efc6af59c739df5ae777a39f4893025de756d6137346c",
+  "archiveBytes": 13630,
+  "reviewState": "submitted-awaiting-producer-response",
+  "producerReviewStartedAt": null,
+  "producerReviewEndsAt": null,
+  "hostCiAdoption": "not-established",
+  "roles": {
+    "readerAuthor": "Probity",
+    "runner": "Probity-owned GitHub Actions",
+    "producer": "JEP",
+    "independentEffectCustody": "not-established"
+  },
+  "answerExposure": "Published expected outcomes were available before implementation; not answer-blind.",
+  "comparisonOrder": "Actual per-case outputs retained before comparison in memory; raw output and comparison published together, not separate revisions.",
+  "protocolDeviations": [
+    "Atlas protocol asks for separate raw-result publication before comparison; this run retains both in one record."
+  ],
+  "files": {
+    "original-artifact.zip": {
+      "sha256": "2d6271bf522c2975fc5efc6af59c739df5ae777a39f4893025de756d6137346c",
+      "bytes": 13630
+    },
+    "report.json": {
+      "sha256": "4f92e1bc30c8ff6c8f89819d9fbcbd7ef42dce0d46f40712c095f10b7d9ca574",
+      "bytes": 204927
+    }
+  },
+  "retrievedDate": "2026-10-02",
+  "producerSubmission": "https://github.com/hjs-spec/jep-core/issues/47"
+}

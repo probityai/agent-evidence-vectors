@@ -43,6 +43,19 @@ regexTarget = "secret"
 regexes = ['''^EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v$''']
 
 [[allowlists]]
+description = "Truncated did:key identifier in a description string of the agent-passport vectors"
+# The descriptions in agent-passport-vectors-v2*.json write a did:key identifier
+# cut short with "...", so the did:key entry above, which needs the whole 44
+# characters, does not match. AND: only these two vectors files and only a line
+# holding a did:key identifier that ends in "...". Any other line in them is
+# still scanned.
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''(^|/)experiments/aps-corrected20(-r2)?-[0-9-]+/producer/agent-passport-vectors-v2(-r2)?\.json$''']
+regexTarget = "line"
+regexes = ['''did:key:z[1-9A-HJ-NP-Za-km-z]{8,}\.\.\.''']
+
+[[allowlists]]
 description = "Type annotation, not a value"
 targetRules = ["generic-api-key"]
 regexTarget = "line"

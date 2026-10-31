@@ -1,0 +1,55 @@
+{
+  "authorization": {
+    "commitment": "b01c846a13a8c2b112e1da686294b905e93ffb283ebdc5518b794974ccf5fa5c",
+    "intent": {
+      "calldataHash": "5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a",
+      "chainId": 8453,
+      "effectSha256": "ee848d1b38b21d262d5c08ba6711ac3511da5e13827cf656d5aefa609e863731",
+      "operation": "operation-1",
+      "target": "https://fixture.example/a",
+      "validFrom": 1101,
+      "validUntil": 2000,
+      "value": "1000"
+    },
+    "signature": "272b0522211ff51f1d31b7849b3b16c93e6422310715fe22c49b7ff37a8e7b9f77aa532795db28cc774e43b7d779ae162ca0c09fe6db21bccb67b22ad36b560d"
+  },
+  "caseId": "authorization-not-yet-valid",
+  "observation": {
+    "calldataHash": "5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a",
+    "chainId": 8453,
+    "effectSha256": "ee848d1b38b21d262d5c08ba6711ac3511da5e13827cf656d5aefa609e863731",
+    "observedAt": 1110,
+    "operation": "operation-1",
+    "operator": "synthetic-observer-label",
+    "target": "https://fixture.example/a",
+    "value": "1000"
+  },
+  "profile": "probity.authority-effect-case/v1",
+  "report": {
+    "calldataHash": "5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a",
+    "chainId": 8453,
+    "completed": true,
+    "operation": "operation-1",
+    "target": "https://fixture.example/a",
+    "value": "1000"
+  },
+  "runtime": {
+    "calldataHash": "5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a",
+    "chainId": 8453,
+    "operation": "operation-1",
+    "submittedAt": 1100,
+    "target": "https://fixture.example/a",
+    "value": "1000"
+  },
+  "scan": {
+    "exitCode": 0,
+    "findings": [],
+    "scanned": [
+      "unit-a",
+      "unit-b",
+      "unit-c"
+    ],
+    "skipped": [],
+    "stdout": "unit-a\nunit-b\nunit-c\nno credential-shaped values found\n"
+  }
+}

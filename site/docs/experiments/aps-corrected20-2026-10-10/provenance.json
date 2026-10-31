@@ -1,0 +1,448 @@
+{
+  "schema": "probity.atlas.aps-corrected20-provenance/v1",
+  "retainedAt": "2026-10-11T00:09:39.194616+00:00",
+  "atlasBaseRevision": "3cb950429c35a66ea57e4ea04360d11ca39fbb4f",
+  "runAt": "2026-10-10T23:46:37.900318+00:00",
+  "originalRunStartedAt": "2026-10-10T23:45:09.913395+00:00",
+  "originalRunFinishedAt": "2026-10-10T23:47:25.620707+00:00",
+  "producer": {
+    "project": "APS/AEOESS",
+    "repository": "agent-passport-system/agent-passport-system",
+    "repositoryID": 1161268529,
+    "correctedCorpusRevision": "407ca2d5ad10c846860ad1b6faafc971ae9690e5",
+    "correctedCorpusSHA256": "9fce76dbf13de9749a2ef52c8dedecce08e4874da0203b39a7d941eb479b5ac5",
+    "license": "Apache-2.0",
+    "selectedSDKRevision": "c31d94aad86713ae9b2e4cbc811deeab4b5d91ed",
+    "separateAmbiguousHistoricalKeyRepair": "348c238b634b1d2d392c5e4c818398285bf8634d"
+  },
+  "reader": {
+    "author": "Probity",
+    "operator": "Probity",
+    "source": {
+      "bytes": 16612,
+      "sha256": "1d9b8fc840a974796b2098d367e37599cbce4d7455186bbeeeb7f3879c873bda"
+    },
+    "importsAPSSDK": false,
+    "canonicalization": "Finite printable-ASCII JSON subset; not general RFC8785 conformance",
+    "cryptographyVersion": "50.0.2",
+    "cryptoBackend": "OpenSSL 4.0.3 29 Sep 2026",
+    "independentCryptographicBackend": false
+  },
+  "run": {
+    "step": {
+      "name": "aps-independent-corrected20",
+      "command": [
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/aps-runtime/python-reader/bin/python",
+        "-I",
+        "-B",
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/lab-native-results/aps-source/read_corpus.py",
+        "--fixture",
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/lab-native-results/aps-source/inputs/corrected20/agent-passport-vectors-v2.json",
+        "--output",
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/lab-native-results/aps-independent-reader.json"
+      ],
+      "cwd": "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1",
+      "startedAt": "2026-10-10T23:46:37.609363+00:00",
+      "completedAt": "2026-10-10T23:46:37.916397+00:00",
+      "exit": 0
+    },
+    "runtime": {
+      "schema": "probity.lab.aps-python-runtime/v1",
+      "python": "3.14.7 (main, Sep 29 2026, 15:01:40) [Clang 22.1.3 ]",
+      "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.39",
+      "affinity": [
+        0
+      ],
+      "installedDistributions": [
+        {
+          "name": "cffi",
+          "version": "2.1.1"
+        },
+        {
+          "name": "cryptography",
+          "version": "50.0.2"
+        },
+        {
+          "name": "pycparser",
+          "version": "3.11"
+        }
+      ],
+      "sourceWheelHashEnforcement": true,
+      "scope": "Exact three-distribution finite independent-reader runtime"
+    },
+    "CPUCount": 1,
+    "normalCanonicalSelection": true,
+    "jobPrefix": "atlas-lab-owned-atlas-aps20-oct10-normal-r1",
+    "snapshot": "573de21fd59da48519628a482c1791a21064a3f9",
+    "providerID": "169659529",
+    "providerName": "box-burst-1791666108-8342",
+    "wallClockAuthentication": "not-established"
+  },
+  "sourceSelection": {
+    "files": 40,
+    "bytes": 663780,
+    "capsule": "selected-source.zip",
+    "manifest": "source-manifest.json",
+    "allOriginalContentsRetained": true,
+    "allSelectedContentsUnchangedAfterRun": true,
+    "upstreamSourceBindings": {
+      "inputs/corrected20/agent-passport-vectors-v2.json": {
+        "bytes": 52912,
+        "sha256": "9fce76dbf13de9749a2ef52c8dedecce08e4874da0203b39a7d941eb479b5ac5",
+        "sourceReceipt": "resume-primary-aps-corrected20-fixture-r1.json",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/407ca2d5ad10c846860ad1b6faafc971ae9690e5/fixtures/agent-passport-v2/agent-passport-vectors-v2.json"
+      },
+      "inputs/corrected20/README.md": {
+        "bytes": 10793,
+        "sha256": "e9fda90aebaade446408f8f287f2d2d8f8b188753b5346e67db8e9b834adab09",
+        "sourceReceipt": "resume-primary-aps-corrected20-readme-r1.json",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/407ca2d5ad10c846860ad1b6faafc971ae9690e5/fixtures/agent-passport-v2/README.md"
+      },
+      "inputs/corrected20/LICENSE": {
+        "bytes": 10768,
+        "sha256": "c6276a9c8c67588338d8439b0c7d27b3451335fc652e02a2be990e81c51ef40a",
+        "sourceReceipt": "resume-primary-aps-corrected20-license-r1.json",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/407ca2d5ad10c846860ad1b6faafc971ae9690e5/LICENSE"
+      },
+      "inputs/ambiguous348/passport-v2-historical-ambiguity.test.ts": {
+        "bytes": 2531,
+        "sha256": "3ea96d16f8f5ccfa4aca0abb1ed97592b5188e7d576e29c5cb07a67249db43ff",
+        "sourceReceipt": "resume-primary-aps-219-test-r1.json",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/348c238b634b1d2d392c5e4c818398285bf8634d/tests/v2/passport-v2-historical-ambiguity.test.ts"
+      },
+      "inputs/ambiguous348/passport.ts": {
+        "bytes": 7201,
+        "sha256": "e319e1246b6a59db65afee30fb4e80d80a23d8a43f21d09f7df2e263f4c4e1e9",
+        "sourceReceipt": "resume-primary-aps-219-verifier-r1.json",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/348c238b634b1d2d392c5e4c818398285bf8634d/src/v2/identity-binding/passport.ts"
+      },
+      "inputs/sdkc31/src/v2/identity-binding/passport.ts": {
+        "path": "src/v2/identity-binding/passport.ts",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/c31d94aad86713ae9b2e4cbc811deeab4b5d91ed/src/v2/identity-binding/passport.ts",
+        "bytes": 6790,
+        "sha256": "8c2d6900bc41180c08c1956f56efae48970b6bb814b3c1c0ecb5a0bdd05b7b55",
+        "gitBlobSHA1": "3e0c704efa696a4b50711251b03136b6f701b624",
+        "capture": "resume-primary-apsc31-source-0-r1.json"
+      },
+      "inputs/sdkc31/src/core/canonical-jcs.ts": {
+        "path": "src/core/canonical-jcs.ts",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/c31d94aad86713ae9b2e4cbc811deeab4b5d91ed/src/core/canonical-jcs.ts",
+        "bytes": 15004,
+        "sha256": "a37e5d49dc181344fceaeac2c17db32b0547ae4a4e3e26b3d717fa8266da9d27",
+        "gitBlobSHA1": "e466d7a6a04a9814a5a7b134a5f7846841be41fd",
+        "capture": "resume-primary-apsc31-source-1-r1.json"
+      },
+      "inputs/sdkc31/src/core/did.ts": {
+        "path": "src/core/did.ts",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/c31d94aad86713ae9b2e4cbc811deeab4b5d91ed/src/core/did.ts",
+        "bytes": 8161,
+        "sha256": "7d3cab6eeb908ab91e1050e18a4fe0d837a4945ca165e98d83201a93552856ab",
+        "gitBlobSHA1": "81504d32a98835e4ad9cd95b0028b3e4250be8b0",
+        "capture": "resume-primary-apsc31-source-2-r1.json"
+      },
+      "inputs/sdkc31/src/crypto/keys.ts": {
+        "path": "src/crypto/keys.ts",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/c31d94aad86713ae9b2e4cbc811deeab4b5d91ed/src/crypto/keys.ts",
+        "bytes": 4986,
+        "sha256": "05311ee084a6a95f367cbe2aadbb609a0ec5063ea3ce68148c12cd559641e28f",
+        "gitBlobSHA1": "569d4660d5a447c0e5f395b233e071ec1063c15f",
+        "capture": "resume-primary-apsc31-source-3-r1.json"
+      },
+      "inputs/sdkc31/src/v2/identity-binding/did-aps.ts": {
+        "path": "src/v2/identity-binding/did-aps.ts",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/c31d94aad86713ae9b2e4cbc811deeab4b5d91ed/src/v2/identity-binding/did-aps.ts",
+        "bytes": 2070,
+        "sha256": "5e577c5c8d4ec6ea180965cc3804f69b4d9180101443eac46208063a7186507a",
+        "gitBlobSHA1": "826ae8bf06ce2337c83db8d8a012899a5dd44e4a",
+        "capture": "resume-primary-apsc31-source-4-r1.json"
+      },
+      "inputs/sdkc31/src/v2/identity-binding/types.ts": {
+        "path": "src/v2/identity-binding/types.ts",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/c31d94aad86713ae9b2e4cbc811deeab4b5d91ed/src/v2/identity-binding/types.ts",
+        "bytes": 2282,
+        "sha256": "bf862df450d45e756b23c93ddd33011fe72840cc1cd75a6aadb3f5b04e4c7523",
+        "gitBlobSHA1": "3d6f466cd4e0e4b6b04b3888efb3836f55328571",
+        "capture": "resume-primary-apsc31-source-5-r1.json"
+      },
+      "inputs/sdkc31/src/v2/identity-binding/validation.ts": {
+        "path": "src/v2/identity-binding/validation.ts",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/c31d94aad86713ae9b2e4cbc811deeab4b5d91ed/src/v2/identity-binding/validation.ts",
+        "bytes": 4092,
+        "sha256": "d229245f63fa796b3cdc55481c660e47dbe2c0a0d304466b71023a6cb244ea1e",
+        "gitBlobSHA1": "8abbe320cd6df7d4035e9041450683d167bbb39f",
+        "capture": "resume-primary-apsc31-source-6-r1.json"
+      },
+      "inputs/sdkc31/src/core/canonical.ts": {
+        "path": "src/core/canonical.ts",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/c31d94aad86713ae9b2e4cbc811deeab4b5d91ed/src/core/canonical.ts",
+        "bytes": 8119,
+        "sha256": "02864090741132406af69806f32a55278a2f813bae9c99a851ef0b9dfdab8fb9",
+        "gitBlobSHA1": "62648a428dbea7e4f8bf77cf501133026b3532bf",
+        "capture": "resume-primary-apsc31-source-7-r1.json"
+      },
+      "inputs/sdkc31/src/core/write-policy.ts": {
+        "path": "src/core/write-policy.ts",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/c31d94aad86713ae9b2e4cbc811deeab4b5d91ed/src/core/write-policy.ts",
+        "bytes": 5062,
+        "sha256": "2f3e4974d68455938a46ce4711823255c9ee849f576f3bc45091d1c13d630e23",
+        "gitBlobSHA1": "33c1dfe324249c051fcecfebf652f5640e90e9bf",
+        "capture": "resume-primary-apsc31-source-8-r1.json"
+      },
+      "inputs/sdkc31/src/crypto/ed25519-admissibility.ts": {
+        "path": "src/crypto/ed25519-admissibility.ts",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/c31d94aad86713ae9b2e4cbc811deeab4b5d91ed/src/crypto/ed25519-admissibility.ts",
+        "bytes": 7859,
+        "sha256": "b0f97c1d7b3df36df883e97df32a32c75b54a40721f34a9269b8db7a847c8049",
+        "gitBlobSHA1": "ce804f212cd0d1d247384cd73e42975d35ec1987",
+        "capture": "resume-primary-apsc31-source-9-r1.json"
+      },
+      "inputs/sdkc31/src/core/rfc3339.ts": {
+        "path": "src/core/rfc3339.ts",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/c31d94aad86713ae9b2e4cbc811deeab4b5d91ed/src/core/rfc3339.ts",
+        "bytes": 11632,
+        "sha256": "da5c28072c563398d28393faa2a41642fbfcc0537c2b365b0750c59412c79597",
+        "gitBlobSHA1": "93f350f2ff8b96d3683f4e543f93aefccf9ad914",
+        "capture": "resume-primary-apsc31-source-10-r1.json"
+      },
+      "inputs/sdkc31/src/types/passport.ts": {
+        "path": "src/types/passport.ts",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/c31d94aad86713ae9b2e4cbc811deeab4b5d91ed/src/types/passport.ts",
+        "bytes": 18860,
+        "sha256": "62e0d53ec947bb90a0f5d7e1ee156969fe9219d39e9ba9cbbfcd5c859500a297",
+        "gitBlobSHA1": "898b69bc112af789dd65d399f8ab5f35e679cb3f",
+        "capture": "resume-primary-apsc31-source-11-r1.json"
+      },
+      "inputs/sdkc31/src/types/did.ts": {
+        "path": "src/types/did.ts",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/c31d94aad86713ae9b2e4cbc811deeab4b5d91ed/src/types/did.ts",
+        "bytes": 6284,
+        "sha256": "56791131d3340d18f22d9f7171dc4527e22d1f153cb9dc86bbfd61feb9d0eaee",
+        "gitBlobSHA1": "45e516f1fed07304d0a4f0b57e6eb2b9ea31d789",
+        "capture": "resume-primary-apsc31-source-12-r1.json"
+      },
+      "inputs/sdkc31/package.json": {
+        "path": "package.json",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/c31d94aad86713ae9b2e4cbc811deeab4b5d91ed/package.json",
+        "bytes": 24130,
+        "sha256": "ca0dbf0b2808866aca6f03440b1f7b26872f433de275ee44cc6d4aeb270e56dc",
+        "gitBlobSHA1": "888923abac55b46b7d42a119cf07586da5332dec",
+        "capture": "resume-primary-apsc31-source-13-r1.json"
+      },
+      "inputs/sdkc31/package-lock.json": {
+        "path": "package-lock.json",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/c31d94aad86713ae9b2e4cbc811deeab4b5d91ed/package-lock.json",
+        "bytes": 141695,
+        "sha256": "487873a4e3ddb9015bf0bf8cb13283c40b08a351de30186727e2852bcdba3dfc",
+        "gitBlobSHA1": "3abed649b5212cf581e883d7c142f7fd68ca08e8",
+        "capture": "resume-primary-apsc31-source-14-r1.json"
+      },
+      "inputs/sdkc31/LICENSE": {
+        "path": "LICENSE",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/c31d94aad86713ae9b2e4cbc811deeab4b5d91ed/LICENSE",
+        "bytes": 10768,
+        "sha256": "c6276a9c8c67588338d8439b0c7d27b3451335fc652e02a2be990e81c51ef40a",
+        "gitBlobSHA1": "63dd8db1652108be44e32740caedb45b57839249",
+        "capture": "resume-primary-apsc31-source-15-r1.json"
+      },
+      "inputs/sdk348/src/core/canonical-jcs.ts": {
+        "bytes": 15004,
+        "sha256": "a37e5d49dc181344fceaeac2c17db32b0547ae4a4e3e26b3d717fa8266da9d27",
+        "blobSHA1": "e466d7a6a04a9814a5a7b134a5f7846841be41fd",
+        "sourceReceipt": "resume-primary-aps348-dependency-0-r1.json",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/348c238b634b1d2d392c5e4c818398285bf8634d/src/core/canonical-jcs.ts"
+      },
+      "inputs/sdk348/src/core/did.ts": {
+        "bytes": 8161,
+        "sha256": "7d3cab6eeb908ab91e1050e18a4fe0d837a4945ca165e98d83201a93552856ab",
+        "blobSHA1": "81504d32a98835e4ad9cd95b0028b3e4250be8b0",
+        "sourceReceipt": "resume-primary-aps348-dependency-1-r1.json",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/348c238b634b1d2d392c5e4c818398285bf8634d/src/core/did.ts"
+      },
+      "inputs/sdk348/src/crypto/keys.ts": {
+        "bytes": 4986,
+        "sha256": "05311ee084a6a95f367cbe2aadbb609a0ec5063ea3ce68148c12cd559641e28f",
+        "blobSHA1": "569d4660d5a447c0e5f395b233e071ec1063c15f",
+        "sourceReceipt": "resume-primary-aps348-dependency-2-r1.json",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/348c238b634b1d2d392c5e4c818398285bf8634d/src/crypto/keys.ts"
+      },
+      "inputs/sdk348/src/v2/identity-binding/did-aps.ts": {
+        "bytes": 2070,
+        "sha256": "5e577c5c8d4ec6ea180965cc3804f69b4d9180101443eac46208063a7186507a",
+        "blobSHA1": "826ae8bf06ce2337c83db8d8a012899a5dd44e4a",
+        "sourceReceipt": "resume-primary-aps348-dependency-3-r1.json",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/348c238b634b1d2d392c5e4c818398285bf8634d/src/v2/identity-binding/did-aps.ts"
+      },
+      "inputs/sdk348/src/v2/identity-binding/types.ts": {
+        "bytes": 2282,
+        "sha256": "bf862df450d45e756b23c93ddd33011fe72840cc1cd75a6aadb3f5b04e4c7523",
+        "blobSHA1": "3d6f466cd4e0e4b6b04b3888efb3836f55328571",
+        "sourceReceipt": "resume-primary-aps348-dependency-4-r1.json",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/348c238b634b1d2d392c5e4c818398285bf8634d/src/v2/identity-binding/types.ts"
+      },
+      "inputs/sdk348/src/v2/identity-binding/validation.ts": {
+        "bytes": 4092,
+        "sha256": "d229245f63fa796b3cdc55481c660e47dbe2c0a0d304466b71023a6cb244ea1e",
+        "blobSHA1": "8abbe320cd6df7d4035e9041450683d167bbb39f",
+        "sourceReceipt": "resume-primary-aps348-dependency-5-r1.json",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/348c238b634b1d2d392c5e4c818398285bf8634d/src/v2/identity-binding/validation.ts"
+      },
+      "inputs/sdk348/package.json": {
+        "bytes": 24652,
+        "sha256": "a78e0694a2670d024fe604ec080366bf88e889b90cb608eee4fa86b52f8e6851",
+        "blobSHA1": "a2c4ad00934fe62f4cdd144d1d09b45d3cdf3186",
+        "sourceReceipt": "resume-primary-aps348-dependency-6-r1.json",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/348c238b634b1d2d392c5e4c818398285bf8634d/package.json"
+      },
+      "inputs/sdk348/package-lock.json": {
+        "bytes": 141695,
+        "sha256": "487873a4e3ddb9015bf0bf8cb13283c40b08a351de30186727e2852bcdba3dfc",
+        "blobSHA1": "3abed649b5212cf581e883d7c142f7fd68ca08e8",
+        "sourceReceipt": "resume-primary-aps348-dependency-7-r1.json",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/348c238b634b1d2d392c5e4c818398285bf8634d/package-lock.json"
+      },
+      "inputs/sdk348/src/v2/identity-binding/passport.ts": {
+        "bytes": 7201,
+        "sha256": "e319e1246b6a59db65afee30fb4e80d80a23d8a43f21d09f7df2e263f4c4e1e9",
+        "blobSHA1": "0fc4d5348141c19b996cbe4a39cfdb2c00db0648",
+        "sourceReceipt": "resume-primary-aps-219-verifier-r1.json"
+      },
+      "inputs/sdk348/src/core/canonical.ts": {
+        "path": "src/core/canonical.ts",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/348c238b634b1d2d392c5e4c818398285bf8634d/src/core/canonical.ts",
+        "bytes": 8119,
+        "sha256": "02864090741132406af69806f32a55278a2f813bae9c99a851ef0b9dfdab8fb9",
+        "gitBlobSHA1": "62648a428dbea7e4f8bf77cf501133026b3532bf",
+        "capture": "resume-primary-aps348-transitive-0-r1.json"
+      },
+      "inputs/sdk348/src/core/write-policy.ts": {
+        "path": "src/core/write-policy.ts",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/348c238b634b1d2d392c5e4c818398285bf8634d/src/core/write-policy.ts",
+        "bytes": 5062,
+        "sha256": "2f3e4974d68455938a46ce4711823255c9ee849f576f3bc45091d1c13d630e23",
+        "gitBlobSHA1": "33c1dfe324249c051fcecfebf652f5640e90e9bf",
+        "capture": "resume-primary-aps348-transitive-1-r1.json"
+      },
+      "inputs/sdk348/src/crypto/ed25519-admissibility.ts": {
+        "path": "src/crypto/ed25519-admissibility.ts",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/348c238b634b1d2d392c5e4c818398285bf8634d/src/crypto/ed25519-admissibility.ts",
+        "bytes": 7859,
+        "sha256": "b0f97c1d7b3df36df883e97df32a32c75b54a40721f34a9269b8db7a847c8049",
+        "gitBlobSHA1": "ce804f212cd0d1d247384cd73e42975d35ec1987",
+        "capture": "resume-primary-aps348-transitive-2-r1.json"
+      },
+      "inputs/sdk348/src/types/passport.ts": {
+        "path": "src/types/passport.ts",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/348c238b634b1d2d392c5e4c818398285bf8634d/src/types/passport.ts",
+        "bytes": 18860,
+        "sha256": "62e0d53ec947bb90a0f5d7e1ee156969fe9219d39e9ba9cbbfcd5c859500a297",
+        "gitBlobSHA1": "898b69bc112af789dd65d399f8ab5f35e679cb3f",
+        "capture": "resume-primary-aps348-transitive-3-r1.json"
+      },
+      "inputs/sdk348/src/types/did.ts": {
+        "path": "src/types/did.ts",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/348c238b634b1d2d392c5e4c818398285bf8634d/src/types/did.ts",
+        "bytes": 6284,
+        "sha256": "56791131d3340d18f22d9f7171dc4527e22d1f153cb9dc86bbfd61feb9d0eaee",
+        "gitBlobSHA1": "45e516f1fed07304d0a4f0b57e6eb2b9ea31d789",
+        "capture": "resume-primary-aps348-transitive-4-r1.json"
+      },
+      "inputs/sdk348/src/core/rfc3339.ts": {
+        "path": "src/core/rfc3339.ts",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/348c238b634b1d2d392c5e4c818398285bf8634d/src/core/rfc3339.ts",
+        "bytes": 11632,
+        "sha256": "da5c28072c563398d28393faa2a41642fbfcc0537c2b365b0750c59412c79597",
+        "gitBlobSHA1": "93f350f2ff8b96d3683f4e543f93aefccf9ad914",
+        "capture": "resume-primary-aps348-extra-0-r1.json"
+      },
+      "inputs/sdk348/LICENSE": {
+        "path": "LICENSE",
+        "url": "https://raw.githubusercontent.com/agent-passport-system/agent-passport-system/348c238b634b1d2d392c5e4c818398285bf8634d/LICENSE",
+        "bytes": 10768,
+        "sha256": "c6276a9c8c67588338d8439b0c7d27b3451335fc652e02a2be990e81c51ef40a",
+        "gitBlobSHA1": "63dd8db1652108be44e32740caedb45b57839249",
+        "capture": "resume-primary-aps348-extra-1-r1.json"
+      }
+    },
+    "capsuleMetadata": "Atlas-derived packaging; member bytes are original. ZIP metadata is not an original execution observation."
+  },
+  "verdicts": {
+    "sourceSDKObservations": {
+      "valid": 4,
+      "invalid": 14,
+      "indeterminate": 2
+    },
+    "independentReaderOutcomes": {
+      "valid": 4,
+      "invalid": 11,
+      "indeterminate": 3,
+      "unsupported": 2
+    },
+    "finiteDiagnosticResult": "PASS",
+    "unexpectedDiagnosticMismatches": [],
+    "threeDeclaredOutcomeDivergences": [
+      "did-web-resolver-not-found",
+      "version-changed",
+      "record-type-changed"
+    ],
+    "fiveSeparateDraftUndeterminedAnnotations": [
+      "did-web-resolver-not-found",
+      "expired",
+      "not-yet-valid",
+      "record-type-changed",
+      "version-changed"
+    ]
+  },
+  "originalOverallNativeStatus": "ADVERSE",
+  "separateSDKAndAuditResults": {
+    "selectedSDKCorpusEvaluation": "not-exercised; both tsx IPC paths fail before the corpus",
+    "historicalAmbiguousKeyEvaluation": "not-exercised; absent from frozen20 and selected SDKs fail before the seven derived controls",
+    "originalLockedNPMAudit": "ADVERSE: three high package entries, two advisories",
+    "auditIDs": [
+      "GHSA-6qxp-vccf-f47h",
+      "GHSA-68fv-2mgg-jv7q"
+    ],
+    "wholeAPSPackageQualification": "not-established"
+  },
+  "retention": {
+    "holder": "Probity",
+    "originalArchiveSHA256": "ba0877612f17572de443dc74674ddcbf7ffade39cc01717004fc941c877ecdb2",
+    "memberFilesChecked": 212,
+    "owningSourceFilesChecked": 124,
+    "originalProcessReceipt": {
+      "bytes": 39530,
+      "sha256": "3b1430b799cdc0db22fa0202147df39d52751364ca4398ae331e5865e7957f4f"
+    },
+    "completeArchivePublishedHere": false,
+    "localAndRemoteProcessesAbsent": true,
+    "exactOwnedCheckoutAndArchiveCleanup": true,
+    "ownedLocalResidualSIGTERM": [
+      {
+        "signal": 15,
+        "process": {
+          "pid": 417797,
+          "ppid": 398304,
+          "pgid": 398382,
+          "session": 398382,
+          "start_ticks": "2151715",
+          "state": "S"
+        },
+        "sent": true
+      }
+    ],
+    "remoteSignals": [],
+    "claim": "Probity-retained run custody; not independently authenticated outside custody"
+  },
+  "answerExposure": "The corrected public fixture, all upstream expected outcomes and README annotations were available before the reader and run.",
+  "comparisonOrder": "The independently written reader emitted raw checks, its outcomes and comparisons in one report; not answer-blind or separately graded.",
+  "limits": [
+    "Finite printable-ASCII corpus reader; not general JCS conformance.",
+    "Signature verification uses cryptography/OpenSSL; no independent cryptographic-backend claim.",
+    "Diagnostic agreement does not force the five normatively undetermined SDK outcomes.",
+    "Resolver answers are supplied synthetic data, without historical validity windows or authenticated lookup.",
+    "No APS package qualification, principal binding, live DID lookup, host adoption, federation enrollment or commercial agreement.",
+    "Twenty public synthetic cases, not a representative deployment population.",
+    "Three declared full-outcome differences remain visible; PASS means the bounded diagnostic comparison, not uniform verdict agreement.",
+    "The five upstream draft annotations are separate from the two indeterminate source outcomes.",
+    "No new package release, maintainer acceptance of this reader, host adoption, federation enrollment or commercial agreement."
+  ]
+}

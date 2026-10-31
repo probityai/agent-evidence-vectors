@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Sankalp Gilda" />
+  <meta name="description" content="Run a second reader for two signed witness records, compare exact endpoints and retain every assertion value." />
+  <title>Same card, different endpoint - Agent Evidence Conformance Board</title>
+  <link rel="canonical" href="https://probityai.github.io/agent-evidence-atlas/nenrin-witness-pair.html" />
+  <link rel="alternate" type="text/markdown" href="https://probityai.github.io/agent-evidence-atlas/nenrin-witness-pair.md" />
+  <link rel="describedby" href="https://probityai.github.io/agent-evidence-atlas/llms.txt" />
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <nav aria-label="Site">
+    <a class="home" href="index.html">Agent Evidence Conformance Board</a>
+    <span class="links">
+      <a href="start.html">Choose a component</a>
+      <a href="lab.html">Open Evidence Lab</a>
+      <a href="status.html">Claim status</a>
+      <a href="runs.html">Find a run</a>
+      <a href="board.html">Conformance board</a>
+      <a href="pilot.html">Pilot status</a>
+      <a href="atlas.html">Atlas</a>
+      <a href="experiments.html">Experiments</a>
+      <a href="claims.html">Claims</a>
+      <a href="versions.html">Versions</a>
+    </span>
+  </nav>
+</header>
+<main id="main" tabindex="-1">
+<header class="page">
+<h1>Same card, different endpoint</h1>
+<p class="subtitle">Check the signed record, the key and the exact target</p>
+</header>
+<p>Horizon Shield brought us two signed witness records: one for <code>/a2a</code>, one for <code>/mcp</code>, both carrying the same agent-card hash. We wrote a second reader so you can check the record bytes, keys and endpoint yourself.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Check / A: /a2a / B: /mcp">
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>A: <code>/a2a</code></th>
+<th>B: <code>/mcp</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Requested <code>/a2a</code></td>
+<td>matches</td>
+<td>target mismatch</td>
+</tr>
+<tr>
+<td>Requested <code>/a2a/</code></td>
+<td>target mismatch</td>
+<td>target mismatch</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Both signatures verify under the separately pinned keys. A reports seven true assertions and one null; B reports four true and four nulls. The reader keeps all eight entries visible. You can reproduce the four reads and 62 tests with the <a href="examples/nenrin-witness-pair/README.md">source and run instructions</a>.</p>
+<p>Thanks to Pavlo (<code>pipavlo82</code>) and <code>kuangmi-bit</code> for the records, and Horizon Shield for the pair. Probity maintains this reader. The <a href="examples/nenrin-witness-pair/docs/INPUT-CONTRACT.md">input contract</a> explains the key, card and time boundaries; the <a href="examples/nenrin-witness-pair/qualification/RESULT.json">retained check</a> has the actual results.</p>
+<p>Want to try it? Run the reader and share your output, or bring another pair that should match in one context and refuse in another. We can keep the case together, with credit for the records and the run.</p>
+<details>
+<summary>
+Source, trust choices and retained checks
+</summary>
+<p>The <a href="examples/nenrin-witness-pair/docs/SOURCE-MAP.md">source map</a> pins each supplied API record and current key. The reader checks the signed target as an exact URL. It keeps a mismatch separate from a signature refusal.</p>
+<p>The keys were fetched and pinned for this reader. The signed records report their assertion results and observation vantages. Card-signature verification is null in both records. This check does not rewalk the endpoints, validate their card or response claims, prove historical key control, or validate the retained timestamp proof.</p>
+<p>The <a href="examples/nenrin-witness-pair/docs/QUALIFICATION.md">preparation check</a> and <a href="examples/nenrin-witness-pair/INTEGRATION.json">integration record</a> retain the source and roles. The <a href="examples/nenrin-witness-pair/qualification/original-r1/diagnosis.json">original failed check</a> and <a href="examples/nenrin-witness-pair/qualification/original-r1/tests.xml">test output</a> stay alongside the corrected result. The new reader’s retained run is author-operated.</p>
+</details>
+</main>
+<footer class="site">
+  <p>Every number on this site has a source, a read time and a re-derive command in the <a href="claims.html">claim ledger</a>. Site version 0.6-draft, 2026-10-01. <a href="versions.html#documentation-revisions">Page revisions</a>.</p>
+</footer>
+</body>
+</html>

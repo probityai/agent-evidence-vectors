@@ -1,0 +1,361 @@
+{
+  "schema": "probity.lab.aps-jcs.v1",
+  "apsRevision": "646490a834e1eca4aad230033502b73f3b5cd9d1",
+  "admissionRevision": "ecc8b5ef4b380a2fe38e5079d128307a1c702717",
+  "adapterRevision": "fa3e6705746e0131a7884591a86e5c05b6c050ab",
+  "operator": "author-operated",
+  "runs": [
+    {
+      "node": "v20.20.2",
+      "workflowRun": "37202741175",
+      "executedHead": "fa3e6705746e0131a7884591a86e5c05b6c050ab",
+      "summary": {
+        "corpus_cases": 1223,
+        "expected_accepted": 1048,
+        "aps_raw_accepted": 1069,
+        "parsed_refusal_bypasses": 42,
+        "raw_policy_differences": 23,
+        "signed_receipt_controls": 5
+      },
+      "rawRefusals": 175,
+      "receipts": [
+        {
+          "name": "clean",
+          "input_sha256": "8cfcb557f79d51926b4d99dd0b265e02a7e810de73be381147a6897ef426f895",
+          "input_bytes": 726,
+          "serialized_verifier": {
+            "valid": true,
+            "status": "valid",
+            "receipt_id_valid": true,
+            "stage": {
+              "status": "valid",
+              "receipt_type": "aps:action-intent:v1",
+              "stage": "action-intent",
+              "boundary_identity": "not_applicable",
+              "failures": []
+            },
+            "signer_authority": "verified",
+            "signature_results": [
+              {
+                "signer": "did:example:agent",
+                "key_id": "k1",
+                "required": true,
+                "valid": true
+              }
+            ],
+            "other_signatures": "none",
+            "errors": []
+          }
+        },
+        {
+          "name": "duplicate-issuer",
+          "input_sha256": "7584f31304a7348b9e715a2a452b07fd4d3450abd3e6cbefb4a2ac4e1de0c0c8",
+          "input_bytes": 755,
+          "serialized_verifier": {
+            "valid": false,
+            "status": "invalid",
+            "receipt_id_valid": "not_checked",
+            "stage": "not_checked",
+            "signer_authority": "not_checked",
+            "signature_results": [],
+            "other_signatures": "none",
+            "errors": [
+              "parse_error",
+              "$: duplicate object member"
+            ]
+          },
+          "parse_first_verifier": {
+            "valid": true,
+            "status": "valid",
+            "receipt_id_valid": true,
+            "stage": {
+              "status": "valid",
+              "receipt_type": "aps:action-intent:v1",
+              "stage": "action-intent",
+              "boundary_identity": "not_applicable",
+              "failures": []
+            },
+            "signer_authority": "verified",
+            "signature_results": [
+              {
+                "signer": "did:example:agent",
+                "key_id": "k1",
+                "required": true,
+                "valid": true
+              }
+            ],
+            "other_signatures": "none",
+            "errors": []
+          }
+        },
+        {
+          "name": "escaped-duplicate-issuer",
+          "input_sha256": "260749c25e98f7d5bbbcc6e46db91755caa3cda0e362627f1ac959aaa8ee9c30",
+          "input_bytes": 760,
+          "serialized_verifier": {
+            "valid": false,
+            "status": "invalid",
+            "receipt_id_valid": "not_checked",
+            "stage": "not_checked",
+            "signer_authority": "not_checked",
+            "signature_results": [],
+            "other_signatures": "none",
+            "errors": [
+              "parse_error",
+              "$: duplicate object member"
+            ]
+          },
+          "parse_first_verifier": {
+            "valid": true,
+            "status": "valid",
+            "receipt_id_valid": true,
+            "stage": {
+              "status": "valid",
+              "receipt_type": "aps:action-intent:v1",
+              "stage": "action-intent",
+              "boundary_identity": "not_applicable",
+              "failures": []
+            },
+            "signer_authority": "verified",
+            "signature_results": [
+              {
+                "signer": "did:example:agent",
+                "key_id": "k1",
+                "required": true,
+                "valid": true
+              }
+            ],
+            "other_signatures": "none",
+            "errors": []
+          }
+        },
+        {
+          "name": "wrong-key",
+          "input_sha256": "8cfcb557f79d51926b4d99dd0b265e02a7e810de73be381147a6897ef426f895",
+          "input_bytes": 726,
+          "serialized_verifier": {
+            "valid": false,
+            "status": "invalid",
+            "receipt_id_valid": true,
+            "stage": {
+              "status": "valid",
+              "receipt_type": "aps:action-intent:v1",
+              "stage": "action-intent",
+              "boundary_identity": "not_applicable",
+              "failures": []
+            },
+            "signer_authority": "invalid",
+            "signature_results": [
+              {
+                "signer": "did:example:agent",
+                "key_id": "k1",
+                "required": true,
+                "valid": false
+              }
+            ],
+            "other_signatures": "none",
+            "errors": [
+              "signature_invalid"
+            ]
+          }
+        },
+        {
+          "name": "resource-depth",
+          "input_sha256": "91dad941059a748a11a48ad7fc3ce8b56c274ac5dc83893a530f35e62c32b886",
+          "input_bytes": 1201,
+          "serialized_verifier": {
+            "valid": false,
+            "status": "indeterminate",
+            "receipt_id_valid": "not_checked",
+            "stage": "not_checked",
+            "signer_authority": "not_checked",
+            "signature_results": [],
+            "other_signatures": "none",
+            "errors": [
+              "RESOURCE_LIMIT",
+              "$: JSON nesting limit exceeded"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "node": "v22.23.3",
+      "workflowRun": "37202741175",
+      "executedHead": "fa3e6705746e0131a7884591a86e5c05b6c050ab",
+      "summary": {
+        "corpus_cases": 1223,
+        "expected_accepted": 1048,
+        "aps_raw_accepted": 1069,
+        "parsed_refusal_bypasses": 42,
+        "raw_policy_differences": 23,
+        "signed_receipt_controls": 5
+      },
+      "rawRefusals": 175,
+      "receipts": [
+        {
+          "name": "clean",
+          "input_sha256": "8cfcb557f79d51926b4d99dd0b265e02a7e810de73be381147a6897ef426f895",
+          "input_bytes": 726,
+          "serialized_verifier": {
+            "valid": true,
+            "status": "valid",
+            "receipt_id_valid": true,
+            "stage": {
+              "status": "valid",
+              "receipt_type": "aps:action-intent:v1",
+              "stage": "action-intent",
+              "boundary_identity": "not_applicable",
+              "failures": []
+            },
+            "signer_authority": "verified",
+            "signature_results": [
+              {
+                "signer": "did:example:agent",
+                "key_id": "k1",
+                "required": true,
+                "valid": true
+              }
+            ],
+            "other_signatures": "none",
+            "errors": []
+          }
+        },
+        {
+          "name": "duplicate-issuer",
+          "input_sha256": "7584f31304a7348b9e715a2a452b07fd4d3450abd3e6cbefb4a2ac4e1de0c0c8",
+          "input_bytes": 755,
+          "serialized_verifier": {
+            "valid": false,
+            "status": "invalid",
+            "receipt_id_valid": "not_checked",
+            "stage": "not_checked",
+            "signer_authority": "not_checked",
+            "signature_results": [],
+            "other_signatures": "none",
+            "errors": [
+              "parse_error",
+              "$: duplicate object member"
+            ]
+          },
+          "parse_first_verifier": {
+            "valid": true,
+            "status": "valid",
+            "receipt_id_valid": true,
+            "stage": {
+              "status": "valid",
+              "receipt_type": "aps:action-intent:v1",
+              "stage": "action-intent",
+              "boundary_identity": "not_applicable",
+              "failures": []
+            },
+            "signer_authority": "verified",
+            "signature_results": [
+              {
+                "signer": "did:example:agent",
+                "key_id": "k1",
+                "required": true,
+                "valid": true
+              }
+            ],
+            "other_signatures": "none",
+            "errors": []
+          }
+        },
+        {
+          "name": "escaped-duplicate-issuer",
+          "input_sha256": "260749c25e98f7d5bbbcc6e46db91755caa3cda0e362627f1ac959aaa8ee9c30",
+          "input_bytes": 760,
+          "serialized_verifier": {
+            "valid": false,
+            "status": "invalid",
+            "receipt_id_valid": "not_checked",
+            "stage": "not_checked",
+            "signer_authority": "not_checked",
+            "signature_results": [],
+            "other_signatures": "none",
+            "errors": [
+              "parse_error",
+              "$: duplicate object member"
+            ]
+          },
+          "parse_first_verifier": {
+            "valid": true,
+            "status": "valid",
+            "receipt_id_valid": true,
+            "stage": {
+              "status": "valid",
+              "receipt_type": "aps:action-intent:v1",
+              "stage": "action-intent",
+              "boundary_identity": "not_applicable",
+              "failures": []
+            },
+            "signer_authority": "verified",
+            "signature_results": [
+              {
+                "signer": "did:example:agent",
+                "key_id": "k1",
+                "required": true,
+                "valid": true
+              }
+            ],
+            "other_signatures": "none",
+            "errors": []
+          }
+        },
+        {
+          "name": "wrong-key",
+          "input_sha256": "8cfcb557f79d51926b4d99dd0b265e02a7e810de73be381147a6897ef426f895",
+          "input_bytes": 726,
+          "serialized_verifier": {
+            "valid": false,
+            "status": "invalid",
+            "receipt_id_valid": true,
+            "stage": {
+              "status": "valid",
+              "receipt_type": "aps:action-intent:v1",
+              "stage": "action-intent",
+              "boundary_identity": "not_applicable",
+              "failures": []
+            },
+            "signer_authority": "invalid",
+            "signature_results": [
+              {
+                "signer": "did:example:agent",
+                "key_id": "k1",
+                "required": true,
+                "valid": false
+              }
+            ],
+            "other_signatures": "none",
+            "errors": [
+              "signature_invalid"
+            ]
+          }
+        },
+        {
+          "name": "resource-depth",
+          "input_sha256": "91dad941059a748a11a48ad7fc3ce8b56c274ac5dc83893a530f35e62c32b886",
+          "input_bytes": 1201,
+          "serialized_verifier": {
+            "valid": false,
+            "status": "indeterminate",
+            "receipt_id_valid": "not_checked",
+            "stage": "not_checked",
+            "signer_authority": "not_checked",
+            "signature_results": [],
+            "other_signatures": "none",
+            "errors": [
+              "RESOURCE_LIMIT",
+              "$: JSON nesting limit exceeded"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "machineOutcomesAgree": true,
+  "receiptOutcomesAgree": true,
+  "diagnosticProseDifferences": 88,
+  "firstPartySourceMembers": 721
+}

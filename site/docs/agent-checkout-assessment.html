@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Sankalp Gilda" />
+  <meta name="description" content="What an authority-to-effect assessment of an agent checkout records per case, which parts are public and which stay with the operator." />
+  <title>Did the agent’s approved purchase become the charged, ordered and delivered one? - Agent Evidence Conformance Board</title>
+  <link rel="canonical" href="https://probityai.github.io/agent-evidence-atlas/agent-checkout-assessment.html" />
+  <link rel="alternate" type="text/markdown" href="https://probityai.github.io/agent-evidence-atlas/agent-checkout-assessment.md" />
+  <link rel="describedby" href="https://probityai.github.io/agent-evidence-atlas/llms.txt" />
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <nav aria-label="Site">
+    <a class="home" href="index.html">Agent Evidence Conformance Board</a>
+    <span class="links">
+      <a href="start.html">Choose a component</a>
+      <a href="lab.html">Open Evidence Lab</a>
+      <a href="status.html">Claim status</a>
+      <a href="runs.html">Find a run</a>
+      <a href="board.html">Conformance board</a>
+      <a href="pilot.html">Pilot status</a>
+      <a href="atlas.html">Atlas</a>
+      <a href="experiments.html">Experiments</a>
+      <a href="claims.html">Claims</a>
+      <a href="versions.html">Versions</a>
+    </span>
+  </nav>
+</header>
+<main id="main" tabindex="-1">
+<header class="page">
+<h1>Did the agent’s approved purchase become the charged, ordered and delivered one?</h1>
+<p class="subtitle">An operator-side check from shopper approval to payment, order and effect</p>
+</header>
+<p>A shopper approves a basket in an AI assistant. The merchant’s checkout takes the order, a payment provider authorizes and captures an amount, and a warehouse ships it, or the order is cancelled and refunded. Each system keeps its own record. Which of them shows that the effect matched the approval?</p>
+<p>No single record does. An approval signature says what was approved. A payment webhook says what was charged. An order record says what the merchant accepted, and a fulfillment or refund record says what happened next. When an assistant, a merchant checkout and a payment provider each own one of these, a disputed order needs all four joined, case by case.</p>
+<p><a id="what-is-checked"></a></p>
+<h2 id="what-an-assessment-checks">What an assessment checks</h2>
+<p>An authority-to-effect assessment runs one operator’s real flow and asks, for every case, whether each step carried the approved state unchanged:</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Assertion / Compared records">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Assertion</th>
+<th>Compared records</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The approval is authentic</td>
+<td>approval or mandate bytes against the key the operator selected beforehand</td>
+</tr>
+<tr>
+<td>The charged state is the approved state</td>
+<td>items, quantities, prices, promotions, currency and merchant at approval against the authorized and captured amount</td>
+</tr>
+<tr>
+<td>The order is the charged state</td>
+<td>the provider’s signed charge record against the merchant’s order record</td>
+</tr>
+<tr>
+<td>The effect is the order</td>
+<td>fulfillment, cancellation or refund observation against the order and its cutoff</td>
+</tr>
+<tr>
+<td>There is one effect</td>
+<td>no second charge, order or refund for one approval</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Each assertion ends <strong>established</strong>, <strong>contradicted</strong> or <strong>not established</strong>, with a pointer to the bytes behind it. A missing webhook or an unobserved shipment is not established, never a pass. The assessment also records whether the operator’s existing control, chosen before the run, caught each break.</p>
+<p><a id="what-each-case-records"></a></p>
+<h2 id="what-each-case-records">What each case records</h2>
+<p>The operator, the surface and the rail; the approval bytes; the exact checkout state at approval; the payer as an identity class and a tokenized instrument class; the price the provider actually captured; the provider’s signed record; the order record; and the later effect with its time. Cases include a basket or price changed after approval, a substituted merchant or amount, a duplicate completion, a response lost after the merchant committed, a missing or reordered webhook, a payment that disagrees with the order, a settlement with no delivery, a refund against a state the shopper never approved, and two purchases that each pass a shared budget together.</p>
+<p><a id="public-and-private"></a></p>
+<h2 id="what-is-public-and-what-stays-with-the-operator">What is public and what stays with the operator</h2>
+<p>The method is public and runnable today: the <a href="https://github.com/probityai/agent-evidence-observer/blob/38e75b16a967fb01048ef93ed4e12290c8f3a540/docs/reference/REFUND-HANDOFF-CONFORMANCE.md">refund-handoff conformance profile</a> in Observer, the <a href="authority-effect-cases.html">authority and effect controls</a> and the <a href="request-effect-join.html">request and effect join cases</a>. Any project can run them in its own CI.</p>
+<p>An operator’s credentials, records, connectors, control comparison and findings stay with that operator. None of them enters this repository, a Lab result or a paper. Cases added to the public set after such work are written from scratch and synthetic.</p>
+<p>Bring a reader or a retained synthetic run to the <a href="https://github.com/probityai/agent-evidence/issues/24">Lab thread</a>. An operator that wants its own flow checked can ask there; the conversation about its records continues privately.</p>
+</main>
+<footer class="site">
+  <p>Every number on this site has a source, a read time and a re-derive command in the <a href="claims.html">claim ledger</a>. Site version 0.6-draft, 2026-10-01. <a href="versions.html#documentation-revisions">Page revisions</a>.</p>
+</footer>
+</body>
+</html>

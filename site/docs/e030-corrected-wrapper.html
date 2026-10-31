@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Sankalp Gilda" />
+  <meta name="description" content="Run corrected-wrapper cases or keep the report reader in your CI." />
+  <title>Check the report behind PASS - Agent Evidence Conformance Board</title>
+  <link rel="canonical" href="https://probityai.github.io/agent-evidence-atlas/e030-corrected-wrapper.html" />
+  <link rel="alternate" type="text/markdown" href="https://probityai.github.io/agent-evidence-atlas/e030-corrected-wrapper.md" />
+  <link rel="describedby" href="https://probityai.github.io/agent-evidence-atlas/llms.txt" />
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <nav aria-label="Site">
+    <a class="home" href="index.html">Agent Evidence Conformance Board</a>
+    <span class="links">
+      <a href="start.html">Choose a component</a>
+      <a href="lab.html">Open Evidence Lab</a>
+      <a href="status.html">Claim status</a>
+      <a href="runs.html">Find a run</a>
+      <a href="board.html">Conformance board</a>
+      <a href="pilot.html">Pilot status</a>
+      <a href="atlas.html">Atlas</a>
+      <a href="experiments.html">Experiments</a>
+      <a href="claims.html">Claims</a>
+      <a href="versions.html">Versions</a>
+    </span>
+  </nav>
+</header>
+<main id="main" tabindex="-1">
+<header class="page">
+<h1>Check the report behind PASS</h1>
+<p class="subtitle">Compare the command result with the actual report</p>
+</header>
+<p>A wrapper can finish successfully and still leave you without a usable report. This check compares the actual command result, the recorded status and the report’s fields.</p>
+<p>The corrected Frequency wrapper now returns failed command exits. It still prints <code>PASS</code> when an exit-zero verifier produces no report or a bad one. The reader catches those cases and keeps each raw result.</p>
+<p><a href="examples/e030-corrected-wrapper/README.md">Run the example</a>, compare another wrapper, or keep the check in your CI. Bring your output to the <a href="https://github.com/probityai/agent-evidence/issues/31">shared case thread</a>.</p>
+<p>The retained run covers 14 cases and 63 tests. Failed commands, absent and malformed reports, wrong inputs, stale times and a linked report stay separate. These are injected commands and example reports; they do not run the producer’s verifier.</p>
+<p>Credit stays with imokokok for the original finding, Pico/Håkon Åmdal for the outside E030 run and kept check, and the native producers for their contracts. The original vector and outside result remain unchanged.</p>
+<details>
+<summary>
+Source, run contract and retained results
+</summary>
+<p>The wrapper is pinned at <code>cf7389097fe3a404b3557da2e72fdd8cbe962b81</code>. <a href="examples/e030-corrected-wrapper/docs/SOURCE-MAP.md">The source map</a> names every input and owner. <a href="examples/e030-corrected-wrapper/docs/CONTRACT.md">The contract</a> separates an observed command result from a producer-declared report time.</p>
+<p><a href="examples/e030-corrected-wrapper/QUALIFICATION.json">Qualification</a>, <a href="examples/e030-corrected-wrapper/qualification/tests.xml">test results</a>, <a href="examples/e030-corrected-wrapper/qualification/demonstration.json">case results</a> and <a href="examples/e030-corrected-wrapper/INTEGRATION.json">integration</a> retain the exact preparation source and checks.</p>
+<p>Operator identity is caller-declared. The native report has no invocation token. A copied report with a forged current time cannot establish fresh execution.</p>
+</details>
+</main>
+<footer class="site">
+  <p>Every number on this site has a source, a read time and a re-derive command in the <a href="claims.html">claim ledger</a>. Site version 0.6-draft, 2026-10-01. <a href="versions.html#documentation-revisions">Page revisions</a>.</p>
+</footer>
+</body>
+</html>

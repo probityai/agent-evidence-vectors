@@ -4,7 +4,7 @@ Use this page to choose an installation route or identify the corpus you ran. Fo
 
 ## The tag to cite
 
-`v0.30.0`, the published version named by the preferred citation in [CITATION.cff](CITATION.cff). Cite its signed tag or full source commit and corpus digest when reporting a result.
+`v0.31.0`, the published version named by the preferred citation in [CITATION.cff](CITATION.cff). Cite its signed tag or full source commit and corpus digest when reporting a result.
 
 The installation examples are pinned to the version above. The corpus table
 describes this checkout; a release tag or installed wheel identifies its own
@@ -12,8 +12,8 @@ population.
 
 This checkout prepares an unreleased source version with package metadata and
 criterion-document repairs. Those changes are not part of the published release.
-For a release run, select the matching [GitHub release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.30.0) and
-[PyPI wheel and source archive](https://pypi.org/project/agent-evidence-vectors/0.30.0/).
+For a release run, select the matching [GitHub release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.31.0) and
+[PyPI wheel and source archive](https://pypi.org/project/agent-evidence-vectors/0.31.0/).
 Use the installation route below or build from a reviewed source checkout.
 The [source-wheel recipe](README.md#try-it) builds the verifier and harness
 from a reviewed checkout, then runs the installed harness outside it. Record
@@ -26,15 +26,15 @@ unchanged as historical evidence.
 Install matching published versions:
 
 ```bash
-go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.30.0
-uvx agent-evidence-vectors==0.30.0 --verifier "aee-verify -validity-only -json"
+go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.31.0
+uvx agent-evidence-vectors==0.31.0 --verifier "aee-verify -validity-only -json"
 ```
 
 Run the same harness from the published release checkout:
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors
-cd agent-evidence-vectors && git checkout v0.30.0
+cd agent-evidence-vectors && git checkout v0.31.0
 python3 packaging/run_vectors.py --verifier "aee-verify -validity-only -json"
 ```
 
@@ -48,7 +48,7 @@ Recompute the corpus digests, then check the signature and timestamp proofs:
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors && cd agent-evidence-vectors
-git checkout v0.30.0
+git checkout v0.31.0
 
 # 1. the digest list is what the vector files on disk hash to, recomputed
 python3 scripts/release-digests.py --check
@@ -101,6 +101,7 @@ Choose a corpus for the format your verifier supports. Each has its own manifest
 | `vectors-receipt-chain-end/` | `receipt-chain-end/v1` | signed agent action receipt chains in the ActionReceipt v1 wire format, judged on whether the chain held is the whole chain: tail cuts, forks, re-rooted rotations and stale heads that keep every signature and link valid, and the close or retained head that proves the end |
 | `vectors-trace-anchor/` | `trace-registry-anchor/v1` | the TRACE Level 2 anchor check, Registry Anchor Format v1 with trace-spec#533: a missing or malformed registry entry, a receipt that anchors itself, and receipt fields that lie about the entry, graded against TRACE's own TR-ANC-002 at pinned commits |
 | `vectors-grade-floor/` | `evidence-grade-floor/v1` | the E0-E4 evidence ladder of AAIF Observability WG issue #37, with the grade derived by the consumer: a producer-declared grade or integrity boolean never raises it, and an operationally-conformant claim needs E3 and no contradiction |
+| `vectors-connector-scope/` | `connector-scope-record/v1` | A health-system connector's scope record: what it can read, what it can change and what it refused, with synthetic PHI-free fixtures, refusing a change under a read grant, an unlisted action that ran, a permitted action refused as out of scope and a refusal with no recorded reason |
 | `vectors-agent-payment-mandate/` | `agent-payment-mandate/v1` | An agent-initiated payment judged from its own dispute evidence pack: the mandate the user signed, the credential presented, the charge that ran and the receipt that binds them, refused when the charge leaves the mandate in amount, currency, merchant, time or token or a single-use token is replayed or the post-checkout actions are not all recorded |
 | `vectors-agent-change-admission/` | `agent-change-admission/v1` | signed decisions that admit or reject a change to an AI agent's harness, in a bare DSSE carriage and an in-toto Statement carriage: pinned keys, the predicate's required fields, the gate record against the admitted flag, and stored reports against the digests the decision names |
 | `vectors-agentic-process-evidence/` | `agentic-process-evidence/v0.1` | signed in-toto Statements carrying the Agentic Process Evidence predicate proposed in in-toto/attestation#609: provider stacks, result, accountable owner, timestamps, session logs, tools and context artifacts, each field rule taken from the predicate's own specification |

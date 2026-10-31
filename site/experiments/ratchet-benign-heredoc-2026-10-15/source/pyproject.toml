@@ -1,0 +1,129 @@
+[project]
+name = "probity-ratchet"
+version = "0.1.2"
+description = "An agent harness that turns each failure into a proven guard or procedure, with every version and proof kept in MongoDB Atlas."
+readme = "README.md"
+requires-python = ">=3.12"
+license = "Apache-2.0"
+dependencies = [
+    "pymongo>=4.10",
+    "httpx>=0.27",
+    "cryptography>=44",
+    "rich>=15.0.0",
+    "raindrop-ai==0.0.75",
+    "probity-verify==0.1.0",
+    "agent-evidence-vectors==0.17.9",
+    "probity-ratchet-cases==0.2.0",
+]
+
+[project.scripts]
+ratchet = "ratchet.cli:main"
+
+[project.optional-dependencies]
+bench = [
+    "agentdojo==0.1.35",
+    "litellm==1.102.1",
+    "terminal-bench==0.2.18",
+    "tau-bench",
+    "tool-sandbox",
+    "tau2",
+    "audioop-lts==0.2.2 ; python_full_version >= '3.13'",
+]
+gepa = [
+    "gepa==0.1.4",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "pytest-cov>=5",
+    "mypy>=1.11",
+    "ruff>=0.6",
+    "securesystemslib[crypto]>=1.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ratchet"]
+
+[tool.hatch.build.targets.sdist]
+# Ship what the repository tracks; never local demo output or tool state.
+exclude = ["docs/demo/ids.env", "docs/demo/out", ".humanizer", "private", "captures", "research", "dist"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF"]
+
+[tool.mypy]
+strict = true
+python_version = "3.12"
+
+[[tool.mypy.overrides]]
+# AgentDojo ships typed source without a py.typed marker; analyse it rather than treat it as Any.
+module = ["agentdojo", "agentdojo.*"]
+follow_untyped_imports = true
+
+[[tool.mypy.overrides]]
+# tool_sandbox ships typed source without a py.typed marker; analyse it rather than treat it as Any.
+module = ["tool_sandbox", "tool_sandbox.*"]
+follow_untyped_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-W error"
+
+[tool.uv.workspace]
+members = ["probity-ratchet-cases"]
+
+[tool.uv.sources]
+probity-ratchet-cases = { workspace = true }
+tau-bench = { git = "https://github.com/sierra-research/tau-bench", rev = "59a200c6d575d595120f1cb70fea53cef0632f6b" }
+tau2 = { git = "https://github.com/sierra-research/tau2-bench", rev = "4ce7c0397c1eb65c9bbe59aeacfe1ca44a1cd699" }
+tool-sandbox = { git = "https://github.com/apple/ToolSandbox", rev = "c8571d7854316d2e1c5f288e59fe1e34e53f6dd1" }
+
+[tool.uv]
+# tau2-bench caps litellm below 1.82.7 only to keep out the two compromised PyPI releases (1.82.7, 1.82.8;
+# tau2-bench commit e40aba6). The bench extra already pins litellm 1.102.1, a later clean release.
+override-dependencies = ["litellm==1.102.1"]
+
+[[tool.uv.dependency-metadata]]
+# The tool-sandbox package pins every dependency exactly (pydantic 2.7.4 conflicts with raindrop-ai, which needs
+# pydantic>=2.9; numpy 1.26.4 and openai 1.17.0 conflict with the versions already locked) and declares
+# clients for model providers the adapter never imports. This is the metadata for the modules that
+# `ratchet.bench.toolsandbox` loads: the conflicting pins are relaxed, and polars stays at 0.20.31 because
+# tool-sandbox imports `polars.type_aliases`, which later polars releases removed. pint is unpinned because
+# 0.23 calls `numpy.cumproduct`, which numpy 2 removed.
+name = "tool-sandbox"
+version = "0.0.1"
+requires-dist = [
+    "attrs",
+    "ccy==1.3.1",
+    "decorator==5.1.1",
+    "dill==0.3.8",
+    "geopy==2.4.1",
+    "holidays==0.51",
+    "jsonschema",
+    "langchain-core",
+    "networkx==3.2.1",
+    "numpy",
+    "openai",
+    "phonenumbers==8.13.39",
+    "pint",
+    "polars==0.20.31",
+    "pydantic",
+    "pyyaml",
+    "rapidfuzz",
+    "requests",
+    "rouge-score==0.1.2",
+    "scipy",
+    "strenum==0.4.15",
+    "tenacity",
+    "tqdm",
+    "typing-extensions",
+]

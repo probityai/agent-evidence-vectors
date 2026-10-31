@@ -1,0 +1,150 @@
+# The conformance board: which outside implementations are scored against which pinned corpus.
+#
+# tools/run_board.py reads this file, runs one implementation, and writes a result;
+# tools/gen_board.py renders src/board.md from this file and data/board-results.json.
+# Edit this file and the results, never the page.
+#
+# A row has one of three statuses:
+#   scored        a command in this file runs the pinned corpus against the implementation's own code
+#   not-runnable  no entry point of the implementation can take this corpus; `url_checked` is the
+#                 tree that was read to establish that, at the pin
+#   held          not scored on this board by the board's publication rules; no reason is printed
+#
+# `pin` is a full commit of `repo`. The scheduled workflow scores the pin and the repository's
+# current default-branch head, so a verdict at a new upstream commit appears without an edit here.
+
+[meta]
+vectors_package = "agent-evidence-vectors"
+vectors_version = "0.29.3"
+vectors_tag = "v0.29.3"
+vectors_tag_commit = "a78eb265ece4163e5d4e08eb5865fac05d12cab0"
+
+# Families the board scores. A family is a corpus plus the target of that corpus.
+[family.jcs-rfc8785]
+title = "RFC 8785 canonical bytes"
+corpus = "vectors-a2a-jcs-v01"
+target = "rfc8785"
+vectors = 53
+what = "One JSON value to its RFC 8785 canonical UTF-8 bytes: key order, string escapes, number spelling, literals. A function that raises on a value is a refusal."
+
+[family.anchor-stream]
+title = "ANCHORS stream verification"
+corpus = "vectors-anchor-stream"
+target = "anchors-verify"
+vectors = 34
+what = "An append-only anchor stream and its digest sidecar, with every platform byte pinned. Scores the verdict and the stop reason."
+
+[[implementation]]
+id = "moltrust-aae"
+name = "MolTrust AAE"
+repo = "MoltyCel/moltrust-api"
+pin = "1cd28477ebdfa7af52efbd1538472df0b77d4d04"
+status = "scored"
+url_checked = "https://github.com/MoltyCel/moltrust-api/blob/1cd28477ebdfa7af52efbd1538472df0b77d4d04/app/signature.py"
+declared_scope = "app/signature.py canonicalize: RFC 8785; integers beyond 2^53-1 are refused by design"
+  [[implementation.run]]
+  family = "jcs-rfc8785"
+  adapter = "py"
+  args = ["--repo", "{src}", "--module", "app.signature", "--func", "canonicalize"]
+  deps = "{src}/tests/conformance/requirements.txt"
+
+[[implementation]]
+id = "aps"
+name = "Agent Passport System (APS)"
+repo = "aeoess/agent-passport-system"
+pin = "f95c9168187cbac0493099fe4a7cddaff653bf39"
+status = "scored"
+url_checked = "https://github.com/aeoess/agent-passport-system/blob/f95c9168187cbac0493099fe4a7cddaff653bf39/src/core/canonical-jcs.ts"
+declared_scope = "src/core/canonical-jcs.ts canonicalizeJCS: strict RFC 8785; undefined and lone surrogates are refused"
+  [[implementation.run]]
+  family = "jcs-rfc8785"
+  adapter = "node"
+  args = ["--file", "{src}/src/core/canonical-jcs.ts", "--func", "canonicalizeJCS"]
+
+[[implementation]]
+id = "horizon"
+name = "Horizon (conduct walk)"
+repo = "ogasurfproject-jpg/horizon-shield"
+pin = "175066c171504ebfe76ea5e34230bec8a8ece167"
+status = "scored"
+url_checked = "https://github.com/ogasurfproject-jpg/horizon-shield/blob/175066c171504ebfe76ea5e34230bec8a8ece167/workers/hs-ledger/nenrin/a2a-conduct-walk/a2a_conduct_walk.py"
+declared_scope = "rfc8785() in a2a_conduct_walk.py: RFC 8785 for the values an agent card holds; it raises NotReproducible for anything it would have to guess at"
+  [[implementation.run]]
+  family = "jcs-rfc8785"
+  adapter = "py"
+  args = ["--file", "{src}/workers/hs-ledger/nenrin/a2a-conduct-walk/a2a_conduct_walk.py", "--func", "rfc8785"]
+
+[[implementation]]
+id = "pic"
+name = "PIC (pic-standard)"
+repo = "pic-standard/pic-standard"
+pin = "6856f36267a9feb56e8c3deb334e9293fc4258dd"
+status = "scored"
+url_checked = "https://github.com/pic-standard/pic-standard/blob/6856f36267a9feb56e8c3deb334e9293fc4258dd/sdk-python/pic_standard/canonical.py"
+declared_scope = "pic_standard.canonical.canonicalize: PIC-CJSON/1.0, RFC 8785 as the baseline plus PIC-specific rules; the profile is frozen, so a vector where the profile differs from plain RFC 8785 is a profile difference the project declares"
+  [[implementation.run]]
+  family = "jcs-rfc8785"
+  adapter = "py"
+  args = ["--repo", "{src}/sdk-python", "--module", "pic_standard.canonical", "--func", "canonicalize"]
+  deps = "board/deps/pic.txt"
+
+[[implementation]]
+id = "remora"
+name = "REMORA"
+repo = "darklordVirtual/REMORA-research"
+pin = "76bebaafc0eabeef6efa49a35531a0f190b770e9"
+status = "scored"
+url_checked = "https://github.com/darklordVirtual/REMORA-research/blob/76bebaafc0eabeef6efa49a35531a0f190b770e9/integrations/horizon55/canon.py"
+declared_scope = "integrations/horizon55/canon.py jcs: RFC 8785 for objects, arrays, strings, integers within 2^53-1, true, false and null; floats are refused at parse time by its own profile"
+  [[implementation.run]]
+  family = "jcs-rfc8785"
+  adapter = "py"
+  args = ["--file", "{src}/integrations/horizon55/canon.py", "--func", "jcs"]
+  subset = "float-free"
+
+[[implementation]]
+id = "aos-catalog"
+name = "AOS catalog"
+repo = "aos-standard/catalog"
+pin = "9980aab3db85db18cb82d6168f9f3de7c9cd7886"
+status = "scored"
+url_checked = "https://github.com/aos-standard/catalog/blob/9980aab3db85db18cb82d6168f9f3de7c9cd7886/anchors_verify.py"
+declared_scope = "anchors_verify.py: the ANCHORS stream and sidecar verifier; the corpus was cut at the anchors-verify-v0.4 tag and the verifier has moved since"
+  [[implementation.run]]
+  family = "anchor-stream"
+  adapter = "anchor-stream"
+  args = ["--verifier", "{src}/anchors_verify.py"]
+
+[[implementation]]
+id = "frequency"
+name = "Frequency"
+repo = "altrudev/Frequency-Federation-Review"
+pin = "dabb76d5a66cbfcc4c1dd5b194bf86e26f32815f"
+status = "not-runnable"
+url_checked = "https://github.com/altrudev/Frequency-Federation-Review/tree/dabb76d5a66cbfcc4c1dd5b194bf86e26f32815f"
+reason = "The public repository is a review capsule whose only entry point replays the APS and PriorSeal fixtures; its canonical-value function is private to that adapter, and its capsule records the formal run as not run pending scope confirmation."
+
+[[implementation]]
+id = "agent-framework"
+name = "Microsoft Agent Framework"
+repo = "microsoft/agent-framework"
+pin = "fc3c3c0789378d6902293ec9a5fac8911dce566a"
+status = "not-runnable"
+url_checked = "https://github.com/microsoft/agent-framework/tree/fc3c3c0789378d6902293ec9a5fac8911dce566a"
+reason = "The tree has no canonicalizer, record verifier or conformance entry point that takes a vector file; its verify-samples tool checks sample programs, not evidence records."
+
+[[implementation]]
+id = "agt"
+name = "Microsoft agent-governance-toolkit (AGT)"
+repo = "microsoft/agent-governance-toolkit"
+pin = "1b6805366554cc0ed8d8b8453ed745fff98fd755"
+status = "held"
+url_checked = "https://github.com/microsoft/agent-governance-toolkit/tree/1b6805366554cc0ed8d8b8453ed745fff98fd755"
+
+[[implementation]]
+id = "trace-jans"
+name = "Jans TRACE producer"
+repo = "JanssenProject/jans"
+pin = "c1609a1fb65161f7bf08b3a1b33fa6368759145a"
+status = "held"
+url_checked = "https://github.com/JanssenProject/jans/tree/c1609a1fb65161f7bf08b3a1b33fa6368759145a"

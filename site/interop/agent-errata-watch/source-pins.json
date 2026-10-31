@@ -1,0 +1,382 @@
+{
+  "schema": "probity.watch-sources/v1",
+  "sourceRevision": "e9a247004c84aa505e8df0dbfc5fbbdae5924298",
+  "baselineRevision": "437fef3c3d9f5b047cdf7f908316c345a0920e68",
+  "repository": "piiiico/agent-errata",
+  "population": [
+    "claude",
+    "codex",
+    "gemini",
+    "qwen",
+    "opencode",
+    "kilo",
+    "crush",
+    "goose",
+    "aider",
+    "pi"
+  ],
+  "files": [
+    {
+      "repository": "piiiico/agent-errata",
+      "revision": "e9a247004c84aa505e8df0dbfc5fbbdae5924298",
+      "path": "studies/S003/watch/runs/2026-10-04-aider-0.86.2.json",
+      "bytes": 798,
+      "sha256": "674ccc23dc1ccc3a1759b0236187900a5989b90e6e972d47c1cfea5a3d5f5fc9",
+      "gitBlob": "553a8f303fbc78063bd77ff78d4e880d3efd3eec",
+      "url": "https://github.com/piiiico/agent-errata/blob/e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S003/watch/runs/2026-10-04-aider-0.86.2.json",
+      "role": "run/aider",
+      "retainedPath": "e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S003/watch/runs/2026-10-04-aider-0.86.2.json",
+      "dataOnly": true
+    },
+    {
+      "repository": "piiiico/agent-errata",
+      "revision": "e9a247004c84aa505e8df0dbfc5fbbdae5924298",
+      "path": "studies/S003/watch/runs/2026-10-04-claude-2.1.289.json",
+      "bytes": 1064,
+      "sha256": "91479145ba3e1bfde0eab92836bd75e4fc83891190ee989b424466956863783b",
+      "gitBlob": "edf64a67f3b54fc69fd61b772dc658b942f5587f",
+      "url": "https://github.com/piiiico/agent-errata/blob/e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S003/watch/runs/2026-10-04-claude-2.1.289.json",
+      "role": "run/claude",
+      "retainedPath": "e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S003/watch/runs/2026-10-04-claude-2.1.289.json",
+      "dataOnly": true
+    },
+    {
+      "repository": "piiiico/agent-errata",
+      "revision": "e9a247004c84aa505e8df0dbfc5fbbdae5924298",
+      "path": "studies/S003/watch/runs/2026-10-04-codex-0.160.0.json",
+      "bytes": 1025,
+      "sha256": "5b997c58511ad6a66f236c1d516d04d6dac0d18411f04beb904340a25a6c3d62",
+      "gitBlob": "0a01acd3d8db46bef1fc2e0949c53d138ff7edf0",
+      "url": "https://github.com/piiiico/agent-errata/blob/e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S003/watch/runs/2026-10-04-codex-0.160.0.json",
+      "role": "run/codex",
+      "retainedPath": "e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S003/watch/runs/2026-10-04-codex-0.160.0.json",
+      "dataOnly": true
+    },
+    {
+      "repository": "piiiico/agent-errata",
+      "revision": "e9a247004c84aa505e8df0dbfc5fbbdae5924298",
+      "path": "studies/S003/watch/runs/2026-10-04-crush-0.97.1.json",
+      "bytes": 1198,
+      "sha256": "37fdee4e44c6e2aa7236f1b64a44d0587bf45596524ab0ff447689ffc5e485b8",
+      "gitBlob": "5e76afff86984ff2376fce6b021cf4ce20a5c792",
+      "url": "https://github.com/piiiico/agent-errata/blob/e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S003/watch/runs/2026-10-04-crush-0.97.1.json",
+      "role": "run/crush",
+      "retainedPath": "e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S003/watch/runs/2026-10-04-crush-0.97.1.json",
+      "dataOnly": true
+    },
+    {
+      "repository": "piiiico/agent-errata",
+      "revision": "e9a247004c84aa505e8df0dbfc5fbbdae5924298",
+      "path": "studies/S003/watch/runs/2026-10-04-gemini-0.62.0.json",
+      "bytes": 841,
+      "sha256": "86acdb02e66adab9a11fa8f4b783125b79ec1d59605cb0cf6a55ada9eeb08bdf",
+      "gitBlob": "4fb04f56b7177363b29adc9e6852c62f3ea1a09a",
+      "url": "https://github.com/piiiico/agent-errata/blob/e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S003/watch/runs/2026-10-04-gemini-0.62.0.json",
+      "role": "run/gemini",
+      "retainedPath": "e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S003/watch/runs/2026-10-04-gemini-0.62.0.json",
+      "dataOnly": true
+    },
+    {
+      "repository": "piiiico/agent-errata",
+      "revision": "e9a247004c84aa505e8df0dbfc5fbbdae5924298",
+      "path": "studies/S003/watch/runs/2026-10-04-goose-1.53.0.json",
+      "bytes": 1039,
+      "sha256": "186223f480e83df410b82092ac25e6beb5bbe751e06f721e2998b0510242acdd",
+      "gitBlob": "fec1209edd9dece95c527cd79bee93e7dc9f2a8c",
+      "url": "https://github.com/piiiico/agent-errata/blob/e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S003/watch/runs/2026-10-04-goose-1.53.0.json",
+      "role": "run/goose",
+      "retainedPath": "e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S003/watch/runs/2026-10-04-goose-1.53.0.json",
+      "dataOnly": true
+    },
+    {
+      "repository": "piiiico/agent-errata",
+      "revision": "e9a247004c84aa505e8df0dbfc5fbbdae5924298",
+      "path": "studies/S003/watch/runs/2026-10-04-kilo-7.8.3.json",
+      "bytes": 1046,
+      "sha256": "c999b6ec3e080a33adbb02da9e9e1bca316d7174c727e1ad016f17b0d09c8796",
+      "gitBlob": "ec2b0714557d96a8e18b61c44a930d8afae82e45",
+      "url": "https://github.com/piiiico/agent-errata/blob/e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S003/watch/runs/2026-10-04-kilo-7.8.3.json",
+      "role": "run/kilo",
+      "retainedPath": "e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S003/watch/runs/2026-10-04-kilo-7.8.3.json",
+      "dataOnly": true
+    },
+    {
+      "repository": "piiiico/agent-errata",
+      "revision": "e9a247004c84aa505e8df0dbfc5fbbdae5924298",
+      "path": "studies/S003/watch/runs/2026-10-04-opencode-1.18.34.json",
+      "bytes": 1020,
+      "sha256": "6b198aa9116593ddb1353d2930c1092d428354e708da70a3498e86b99d65519c",
+      "gitBlob": "07331ede9b02742ea76cc2387c0d4bb4f9296dd9",
+      "url": "https://github.com/piiiico/agent-errata/blob/e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S003/watch/runs/2026-10-04-opencode-1.18.34.json",
+      "role": "run/opencode",
+      "retainedPath": "e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S003/watch/runs/2026-10-04-opencode-1.18.34.json",
+      "dataOnly": true
+    },
+    {
+      "repository": "piiiico/agent-errata",
+      "revision": "e9a247004c84aa505e8df0dbfc5fbbdae5924298",
+      "path": "studies/S003/watch/runs/2026-10-04-pi-1.0.2.json",
+      "bytes": 1073,
+      "sha256": "6145a344c3bb54b3073a4991628d5d75017f93a8e8da129413ea423a41dc7fc4",
+      "gitBlob": "072ba59aa0a8f03711b9bc448567d4ae334cda0b",
+      "url": "https://github.com/piiiico/agent-errata/blob/e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S003/watch/runs/2026-10-04-pi-1.0.2.json",
+      "role": "run/pi",
+      "retainedPath": "e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S003/watch/runs/2026-10-04-pi-1.0.2.json",
+      "dataOnly": true
+    },
+    {
+      "repository": "piiiico/agent-errata",
+      "revision": "e9a247004c84aa505e8df0dbfc5fbbdae5924298",
+      "path": "studies/S003/watch/runs/2026-10-04-qwen-0.24.7.json",
+      "bytes": 1071,
+      "sha256": "daea116f32b07b3f7adb7cef1660cd41e2d7bbb29e8fecb525429ab21eca59eb",
+      "gitBlob": "ce83fb3104649452d68f49fd3fd02d257690b74a",
+      "url": "https://github.com/piiiico/agent-errata/blob/e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S003/watch/runs/2026-10-04-qwen-0.24.7.json",
+      "role": "run/qwen",
+      "retainedPath": "e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S003/watch/runs/2026-10-04-qwen-0.24.7.json",
+      "dataOnly": true
+    },
+    {
+      "repository": "piiiico/agent-errata",
+      "revision": "437fef3c3d9f5b047cdf7f908316c345a0920e68",
+      "path": "studies/S003/watch/state.json",
+      "bytes": 5970,
+      "sha256": "af16a238166d30f25959f3fcc7d22feb3e0faad33b4b9c5eba73088faf551bbe",
+      "gitBlob": "835d5e6f9479e53356e9f6277c3e9e3bf9acaf0b",
+      "url": "https://github.com/piiiico/agent-errata/blob/437fef3c3d9f5b047cdf7f908316c345a0920e68/studies/S003/watch/state.json",
+      "role": "baseline_state",
+      "retainedPath": "437fef3c3d9f5b047cdf7f908316c345a0920e68/studies/S003/watch/state.json",
+      "dataOnly": true
+    },
+    {
+      "repository": "piiiico/agent-errata",
+      "revision": "e9a247004c84aa505e8df0dbfc5fbbdae5924298",
+      "path": "studies/S003/watch/README.md",
+      "bytes": 1610,
+      "sha256": "9e0eaefe455621c7f18b320e99fb90cd3af1917a5c08971f8261f741dcc6b316",
+      "gitBlob": "b06c80458afd909757af2f2f901f345a2b9a8d11",
+      "url": "https://github.com/piiiico/agent-errata/blob/e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S003/watch/README.md",
+      "role": "watch_readme",
+      "retainedPath": "e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S003/watch/README.md",
+      "dataOnly": false
+    },
+    {
+      "repository": "piiiico/agent-errata",
+      "revision": "e9a247004c84aa505e8df0dbfc5fbbdae5924298",
+      "path": ".github/workflows/harness-watch.yml",
+      "bytes": 3164,
+      "sha256": "f31bd2eda0174eb8992edaae59979c4c81cd4ccabb70cabbd8f088afcd18cb6e",
+      "gitBlob": "586901ea01acdc0a860fe9a76559049859314185",
+      "url": "https://github.com/piiiico/agent-errata/blob/e9a247004c84aa505e8df0dbfc5fbbdae5924298/.github/workflows/harness-watch.yml",
+      "role": "upstream_workflow",
+      "retainedPath": "e9a247004c84aa505e8df0dbfc5fbbdae5924298/.github/workflows/harness-watch.yml",
+      "dataOnly": false
+    },
+    {
+      "repository": "piiiico/agent-errata",
+      "revision": "e9a247004c84aa505e8df0dbfc5fbbdae5924298",
+      "path": "studies/S003/watch/harnesses.ts",
+      "bytes": 4607,
+      "sha256": "8b6647a33ac0ae718d6513296fe4d8510fdaeb57ca9a78f221ec3ba5ab70fffe",
+      "gitBlob": "3f96a13ffea02de6c0cceb7c3d871dab327b0be8",
+      "url": "https://github.com/piiiico/agent-errata/blob/e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S003/watch/harnesses.ts",
+      "role": "registry",
+      "retainedPath": "e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S003/watch/harnesses.ts",
+      "dataOnly": false
+    },
+    {
+      "repository": "piiiico/agent-errata",
+      "revision": "e9a247004c84aa505e8df0dbfc5fbbdae5924298",
+      "path": "studies/S003/watch/state.json",
+      "bytes": 6360,
+      "sha256": "ebfe1e96d609d939d13380a27574b1fe59d410536464eb031b0f4f8bb4e5faf3",
+      "gitBlob": "92d8fbc6d60d65689c7820acce2f717656180658",
+      "url": "https://github.com/piiiico/agent-errata/blob/e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S003/watch/state.json",
+      "role": "current_state",
+      "retainedPath": "e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S003/watch/state.json",
+      "dataOnly": true
+    },
+    {
+      "repository": "piiiico/agent-errata",
+      "revision": "e9a247004c84aa505e8df0dbfc5fbbdae5924298",
+      "path": "studies/S003/watch/watch.ts",
+      "bytes": 11627,
+      "sha256": "79481ab6fd116eea7f74540e74eed948e671b26d6919509236b252c2499cc568",
+      "gitBlob": "541c24abf71d92cef6c89115e5082721417b676b",
+      "url": "https://github.com/piiiico/agent-errata/blob/e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S003/watch/watch.ts",
+      "role": "comparison_source",
+      "retainedPath": "e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S003/watch/watch.ts",
+      "dataOnly": false
+    },
+    {
+      "repository": "piiiico/agent-errata",
+      "revision": "e9a247004c84aa505e8df0dbfc5fbbdae5924298",
+      "path": "studies/S004/tokens.py",
+      "bytes": 1173,
+      "sha256": "1424c9724f863ea208692d5fc8f0bb9fb3f401e4a0976f37b6b2581ef68c8a03",
+      "gitBlob": "a4008c5244cd733f25d17e493c06a303936e0ae9",
+      "url": "https://github.com/piiiico/agent-errata/blob/e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S004/tokens.py",
+      "role": "tokenizer",
+      "retainedPath": "e9a247004c84aa505e8df0dbfc5fbbdae5924298/studies/S004/tokens.py",
+      "dataOnly": false
+    }
+  ],
+  "comparison": {
+    "version": "watch-set-and-counts/v1",
+    "tokenShiftPercent": 10,
+    "tokenShiftOperator": "strictly-greater",
+    "upstreamVersion": "pinned-watch.ts-json-stringify/v1",
+    "missingSymlinkBaseline": "not_established; pinned publisher source skips absent baseline arms"
+  },
+  "runtimeEvidence": {
+    "tokenizer": "o200k_base, publisher-defined yardstick",
+    "upstreamDependencyPins": {
+      "tiktoken": "not pinned in the selected workflow",
+      "Bun": "setup-bun version latest",
+      "Node": "22 major only",
+      "Python": "3.12 minor only"
+    },
+    "rawRequestCaptures": "not retained in selected publisher run files",
+    "beforePlatform": "publisher-declared container linux-aarch64",
+    "afterPlatform": "publisher-declared GitHub Actions linux-x64"
+  },
+  "verify": {
+    "repository": "probityai/probity-verify",
+    "revision": "e835ce2bd6a960e7a1cc2fa6522f16d55dce728a",
+    "files": [
+      {
+        "repository": "probityai/probity-verify",
+        "revision": "e835ce2bd6a960e7a1cc2fa6522f16d55dce728a",
+        "path": "LICENSE",
+        "bytes": 11343,
+        "sha256": "8b506a9d145be0a6fbef3f0519996faf84c770f8ab8d32d120c8682f2ad6181f",
+        "gitBlob": "9ab74de02c30f8c28d3890849711b4d556dc439c",
+        "url": "https://github.com/probityai/probity-verify/blob/e835ce2bd6a960e7a1cc2fa6522f16d55dce728a/LICENSE"
+      },
+      {
+        "repository": "probityai/probity-verify",
+        "revision": "e835ce2bd6a960e7a1cc2fa6522f16d55dce728a",
+        "path": "README.md",
+        "bytes": 2887,
+        "sha256": "9b70444aeddf42c9dd73af6d785a97caf19b6ca47ec433b697efe730bf181777",
+        "gitBlob": "d781f22aefca753c65bb32a3385762d248c57ac6",
+        "url": "https://github.com/probityai/probity-verify/blob/e835ce2bd6a960e7a1cc2fa6522f16d55dce728a/README.md"
+      },
+      {
+        "repository": "probityai/probity-verify",
+        "revision": "e835ce2bd6a960e7a1cc2fa6522f16d55dce728a",
+        "path": "src/probity_verify/cli.py",
+        "bytes": 2033,
+        "sha256": "fce9fc2eeb6029da94037822b0400966a19f20e61f80868ac1ac56150ff7ccc7",
+        "gitBlob": "d13cc3c7049d91d60d6835259139c747348cc066",
+        "url": "https://github.com/probityai/probity-verify/blob/e835ce2bd6a960e7a1cc2fa6522f16d55dce728a/src/probity_verify/cli.py"
+      },
+      {
+        "repository": "probityai/probity-verify",
+        "revision": "e835ce2bd6a960e7a1cc2fa6522f16d55dce728a",
+        "path": "src/probity_verify/common.py",
+        "bytes": 3340,
+        "sha256": "913676457669030c6bac883a1edec36850d5ac3aa8c7d510d3e8e751fabe92cb",
+        "gitBlob": "37d2403533bc41c26b333edf9fae507e678fa5cb",
+        "url": "https://github.com/probityai/probity-verify/blob/e835ce2bd6a960e7a1cc2fa6522f16d55dce728a/src/probity_verify/common.py"
+      },
+      {
+        "repository": "probityai/probity-verify",
+        "revision": "e835ce2bd6a960e7a1cc2fa6522f16d55dce728a",
+        "path": "src/probity_verify/core.py",
+        "bytes": 2961,
+        "sha256": "991af55bd65c50500d915832a64c02e9b3bdfb40d51ddf59e8b9b5b628388f29",
+        "gitBlob": "ef1cd275217d773d703df3c9073587a7a084e930",
+        "url": "https://github.com/probityai/probity-verify/blob/e835ce2bd6a960e7a1cc2fa6522f16d55dce728a/src/probity_verify/core.py"
+      },
+      {
+        "repository": "probityai/probity-verify",
+        "revision": "e835ce2bd6a960e7a1cc2fa6522f16d55dce728a",
+        "path": "src/probity_verify/index.py",
+        "bytes": 12438,
+        "sha256": "cbb4c7a1d8be1b580ab84919d778763dc76657a01ca46aced4d750148c905ece",
+        "gitBlob": "8d15b0ddde4e6f68ddf5f542eda18cf0e2827a0d",
+        "url": "https://github.com/probityai/probity-verify/blob/e835ce2bd6a960e7a1cc2fa6522f16d55dce728a/src/probity_verify/index.py"
+      },
+      {
+        "repository": "probityai/probity-verify",
+        "revision": "e835ce2bd6a960e7a1cc2fa6522f16d55dce728a",
+        "path": "pyproject.toml",
+        "bytes": 698,
+        "sha256": "3859b36362b02e882113f8b2ab899fd806f82adb4e1c491b98edfbfbeadbaedc",
+        "gitBlob": "40269982d59bebea82d686f1dad68eeaf860713e",
+        "url": "https://github.com/probityai/probity-verify/blob/e835ce2bd6a960e7a1cc2fa6522f16d55dce728a/pyproject.toml"
+      },
+      {
+        "repository": "probityai/probity-verify",
+        "revision": "e835ce2bd6a960e7a1cc2fa6522f16d55dce728a",
+        "path": "src/probity_verify/__init__.py",
+        "bytes": 163,
+        "sha256": "1894f94526dfd5a6701945c5deadcc68af6146cdcffdd59487fc21e602ac91b4",
+        "gitBlob": "f84d0e0a85a2ae2a7089cbb5b702e7236780b764",
+        "url": "https://github.com/probityai/probity-verify/blob/e835ce2bd6a960e7a1cc2fa6522f16d55dce728a/src/probity_verify/__init__.py"
+      },
+      {
+        "repository": "probityai/probity-verify",
+        "revision": "e835ce2bd6a960e7a1cc2fa6522f16d55dce728a",
+        "path": "src/probity_verify/adapters/__init__.py",
+        "bytes": 75,
+        "sha256": "45cab0c7b01954d230539f2dbefdb15e571f542ea8b56ed7d25386beb964a20b",
+        "gitBlob": "1816102dd8158de12c55e66938e3bd74887d8248",
+        "url": "https://github.com/probityai/probity-verify/blob/e835ce2bd6a960e7a1cc2fa6522f16d55dce728a/src/probity_verify/adapters/__init__.py"
+      },
+      {
+        "repository": "probityai/probity-verify",
+        "revision": "e835ce2bd6a960e7a1cc2fa6522f16d55dce728a",
+        "path": "src/probity_verify/adapters/authority_anchor.py",
+        "bytes": 7520,
+        "sha256": "bb5b7b34cba370a5255be4dcc9f4d6decde98ebe35d2711d432efd2824db445e",
+        "gitBlob": "864e608fc2eedcdd9d77faee0d5dfab2ba932a3e",
+        "url": "https://github.com/probityai/probity-verify/blob/e835ce2bd6a960e7a1cc2fa6522f16d55dce728a/src/probity_verify/adapters/authority_anchor.py"
+      },
+      {
+        "repository": "probityai/probity-verify",
+        "revision": "e835ce2bd6a960e7a1cc2fa6522f16d55dce728a",
+        "path": "src/probity_verify/adapters/event_absence.py",
+        "bytes": 9748,
+        "sha256": "a6722ffe0e0996f3407c37d93e873a0a25f47c3fd08626b827c5e0752e89cb09",
+        "gitBlob": "897ed52e5cf0161623ad92115713b527938a3fe4",
+        "url": "https://github.com/probityai/probity-verify/blob/e835ce2bd6a960e7a1cc2fa6522f16d55dce728a/src/probity_verify/adapters/event_absence.py"
+      },
+      {
+        "repository": "probityai/probity-verify",
+        "revision": "e835ce2bd6a960e7a1cc2fa6522f16d55dce728a",
+        "path": "src/probity_verify/adapters/operand_lineage.py",
+        "bytes": 12072,
+        "sha256": "a24ae4f5e3b0517a1a9030c8a698128061be65bd0aa8d0880d9b4c99a74fa83b",
+        "gitBlob": "d13f6d3e82d9a1d09c047a477cb31806879d3b88",
+        "url": "https://github.com/probityai/probity-verify/blob/e835ce2bd6a960e7a1cc2fa6522f16d55dce728a/src/probity_verify/adapters/operand_lineage.py"
+      },
+      {
+        "repository": "probityai/probity-verify",
+        "revision": "e835ce2bd6a960e7a1cc2fa6522f16d55dce728a",
+        "path": "src/probity_verify/adapters/source_coverage.py",
+        "bytes": 9068,
+        "sha256": "81d0fd601c71333284fc24295ce34f46f3b39fbb5fffdd25a8ca8031dc1fba5f",
+        "gitBlob": "96c4a0f1fec728a6deca0db57c01086621951151",
+        "url": "https://github.com/probityai/probity-verify/blob/e835ce2bd6a960e7a1cc2fa6522f16d55dce728a/src/probity_verify/adapters/source_coverage.py"
+      },
+      {
+        "repository": "probityai/probity-verify",
+        "revision": "e835ce2bd6a960e7a1cc2fa6522f16d55dce728a",
+        "path": "src/probity_verify/bundle.py",
+        "bytes": 10022,
+        "sha256": "652a3add60b44a7f3e7d5dd09d60391adcc301de99eff342ef6c59d8842f8960",
+        "gitBlob": "030e534f75165e9803a9675d231acb8e9b2aa17a",
+        "url": "https://github.com/probityai/probity-verify/blob/e835ce2bd6a960e7a1cc2fa6522f16d55dce728a/src/probity_verify/bundle.py"
+      }
+    ]
+  },
+  "selftest": {
+    "issue": "https://github.com/piiiico/agent-errata/issues/7",
+    "classification": "Publisher-planted baseline mutation, not an observed release change",
+    "run": "https://github.com/piiiico/agent-errata/actions/runs/37188769632",
+    "sourceHead": "33d63e66643d82751c49c1b160e895ca6284425c",
+    "selectedRuntimeArtifacts": "none supplied by that provider run"
+  }
+}

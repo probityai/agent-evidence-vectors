@@ -1,0 +1,22 @@
+{
+  "question": "Did the pinned signed-history tests expose genuine signed histories that a signature-only or unanchored reader would accept incorrectly?",
+  "evidenceClass": "author-hosted-signed-history-controls",
+  "source": "33d545104ff2f8c124cff465c96c013eeb809156",
+  "nativeLog": {
+    "command": "uv run --extra dev pytest vectors-anchored-chain/tests -q",
+    "testsPassed": 15,
+    "elapsedSeconds": 8.29,
+    "numericNativeExit": null
+  },
+  "sourceAssertions": {
+    "genuineSignedRejectedStores": 8,
+    "signatureOnlyMissedRejects": 7,
+    "withoutAnchorMissedRejects": 3,
+    "allSixChecksForced": true,
+    "rejectAllFailsPositiveControls": true,
+    "missingVerifierUnanswered": true,
+    "changedFixtureRefused": true
+  },
+  "fixturePopulationDeclared": 14,
+  "unrelatedDefaultArtifactExcluded": true
+}

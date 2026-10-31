@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Sankalp Gilda" />
+  <meta name="description" content="Compare a rewritten agent request with a later changed file, then contribute a reader or retained run." />
+  <title>When the call changes, check its approval again - Agent Evidence Conformance Board</title>
+  <link rel="canonical" href="https://probityai.github.io/agent-evidence-atlas/request-effect-join.html" />
+  <link rel="alternate" type="text/markdown" href="https://probityai.github.io/agent-evidence-atlas/request-effect-join.md" />
+  <link rel="describedby" href="https://probityai.github.io/agent-evidence-atlas/llms.txt" />
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <nav aria-label="Site">
+    <a class="home" href="index.html">Agent Evidence Conformance Board</a>
+    <span class="links">
+      <a href="start.html">Choose a component</a>
+      <a href="lab.html">Open Evidence Lab</a>
+      <a href="status.html">Claim status</a>
+      <a href="runs.html">Find a run</a>
+      <a href="board.html">Conformance board</a>
+      <a href="pilot.html">Pilot status</a>
+      <a href="atlas.html">Atlas</a>
+      <a href="experiments.html">Experiments</a>
+      <a href="claims.html">Claims</a>
+      <a href="versions.html">Versions</a>
+    </span>
+  </nav>
+</header>
+<main id="main" tabindex="-1">
+<header class="page">
+<h1>When the call changes, check its approval again</h1>
+<p class="subtitle">Keep a later state change separate from the original action</p>
+</header>
+<p>An agent gets permission to write a file, then changes the path before sending the call. It needs approval for the call it actually sends.</p>
+<p>Now take a different case: the approved write completes, and someone changes the file later. That later change needs its own observation. It should not erase the earlier matching result.</p>
+<p><a href="examples/request-effect-join/CASE-TABLE.md">Read the shared case table</a>. It follows <code>giskard09</code>’s <a href="https://github.com/giskard09/argentum-core/blob/f4d989052bb3a61691b1b156cd6dd655793fea4f/docs/spec/execution-join-ref-v1.md">selected execution-join contract</a> and keeps the proposed later-state outcome separate from its existing digest checks.</p>
+<p>Bring a reader, the producer’s vectors, or a retained file-effect run to the <a href="https://github.com/probityai/agent-evidence/issues/24">Lab thread</a>. Another project can run the same cases and compare outcomes directly with you. We maintain the case table and credit the case, code and runs separately.</p>
+<p>The <a href="approved-sql.html">SQL example</a> gives you a runnable comparison of a matching recorded commit and a later state difference. The execution-join table is a proposed experiment; its native verifier run is a separate contribution.</p>
+<details>
+<summary>
+Inspect the exact contract and target-coverage boundaries
+</summary>
+<p>The case table pins the producer contract and distinguishes <code>EFFECTIVE_CALL_REBINDING_FAILED</code>, <code>DIGEST_MISMATCH</code>, and the proposed <code>POST_COMMIT_DIVERGENCE</code> observation. It also keeps declared, hashed-action and executor-configured targets separate. Configuration and a matching declared/action relationship do not establish where a request actually went.</p>
+<p><a href="claims.html">Claim P-85</a> records this proposed source comparison and its limits.</p>
+</details>
+</main>
+<footer class="site">
+  <p>Every number on this site has a source, a read time and a re-derive command in the <a href="claims.html">claim ledger</a>. Site version 0.6-draft, 2026-10-01. <a href="versions.html#documentation-revisions">Page revisions</a>.</p>
+</footer>
+</body>
+</html>

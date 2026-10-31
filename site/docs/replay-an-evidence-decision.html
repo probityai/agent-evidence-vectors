@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Sankalp Gilda" />
+  <meta name="description" content="Inspect retained file-write evidence, reproduce its admission decision and see why replay, altered authority and altered signed bytes refuse." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Agent Evidence Conformance Board" />
+  <meta property="og:url" content="https://probityai.github.io/agent-evidence-atlas/replay-an-evidence-decision.html" />
+  <meta property="og:title" content="Replay an agent evidence decision without replaying the action" />
+  <meta property="og:image" content="https://probityai.github.io/agent-evidence-atlas/assets/admission-social.png" />
+  <meta property="og:image:alt" content="Replay a retained evidence decision: inspect inputs, check and persist once, then require replay, authority and signature refusals. This is a same-operator PEER fixture." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Replay an agent evidence decision without replaying the action" />
+  <meta name="twitter:image" content="https://probityai.github.io/agent-evidence-atlas/assets/admission-social.png" />
+  <meta name="twitter:image:alt" content="Replay a retained evidence decision: inspect inputs, check and persist once, then require replay, authority and signature refusals. This is a same-operator PEER fixture." />
+  <meta property="og:description" content="Inspect retained file-write evidence, reproduce its admission decision and see why replay, altered authority and altered signed bytes refuse." />
+  <meta name="twitter:description" content="Inspect retained file-write evidence, reproduce its admission decision and see why replay, altered authority and altered signed bytes refuse." />
+  <title>Replay an agent evidence decision without replaying the action - Agent Evidence Conformance Board</title>
+  <link rel="canonical" href="https://probityai.github.io/agent-evidence-atlas/replay-an-evidence-decision.html" />
+  <link rel="alternate" type="text/markdown" href="https://probityai.github.io/agent-evidence-atlas/replay-an-evidence-decision.md" />
+  <link rel="describedby" href="https://probityai.github.io/agent-evidence-atlas/llms.txt" />
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <nav aria-label="Site">
+    <a class="home" href="index.html">Agent Evidence Conformance Board</a>
+    <span class="links">
+      <a href="start.html">Choose a component</a>
+      <a href="lab.html">Open Evidence Lab</a>
+      <a href="status.html">Claim status</a>
+      <a href="runs.html">Find a run</a>
+      <a href="board.html">Conformance board</a>
+      <a href="pilot.html">Pilot status</a>
+      <a href="atlas.html">Atlas</a>
+      <a href="experiments.html">Experiments</a>
+      <a href="claims.html">Claims</a>
+      <a href="versions.html">Versions</a>
+    </span>
+  </nav>
+</header>
+<main id="main" tabindex="-1">
+<header class="page">
+<h1>Replay an agent evidence decision without replaying the action</h1>
+</header>
+<p>A file changed. A consumer accepted its evidence. What happens when someone submits that same evidence again, changes the expected authority, or alters the signed claim? Replay this retained example to inspect each decision.</p>
+<p>The <a href="assets/admission-social.png">preview image</a> has an <a href="assets/admission-social.svg">editable SVG</a> and <a href="assets/README.md">source and export instructions</a>.</p>
+<p>The <a href="experiments/observer-admission/README.md">presentation packet</a> joins this article, the images, exact retained inputs and recorded result.</p>
+<p>The example uses <a href="start.html#observer">Observer</a> and an original public CI bundle. Its checker reads the policy, signed packet, broker history, witness receipts and durable file. It recreates the consumer decision in a scratch store. It does not repeat the file action in the retained workspace.</p>
+<figure>
+<img src="assets/admission-replay.svg" alt="The consumer checks the retained policy, signed packet, broker history, witness receipts and durable file. It stores the first admission. Replay, changed authority and changed signed bytes refuse without changing consumer state." />
+<figcaption aria-hidden="true">The consumer checks the retained policy, signed packet, broker history, witness receipts and durable file. It stores the first admission. Replay, changed authority and changed signed bytes refuse without changing consumer state.</figcaption>
+</figure>
+<h2 id="read-the-evidence-before-the-verdict">Read the evidence before the verdict</h2>
+<p>Start with these files. Each link opens the actual retained bytes.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Question / Evidence">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Question</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What did the consumer expect?</td>
+<td><a href="experiments/observer-admission/retained/consumer/policy.json">Policy</a></td>
+</tr>
+<tr>
+<td>What claim was signed?</td>
+<td><a href="experiments/observer-admission/retained/producer/packet.json">Packet</a></td>
+</tr>
+<tr>
+<td>What did the broker record?</td>
+<td><a href="experiments/observer-admission/retained/producer/history.jsonl">History</a></td>
+</tr>
+<tr>
+<td>Which checkpoint receipts survived?</td>
+<td><a href="experiments/observer-admission/retained/producer/ledger.jsonl">Witness log</a></td>
+</tr>
+<tr>
+<td>Which file bytes survived?</td>
+<td><a href="experiments/observer-admission/retained/producer/workspace/result.txt">Durable file</a></td>
+</tr>
+<tr>
+<td>What did the consumer persist?</td>
+<td><a href="experiments/observer-admission/retained/consumer/decision.json">Decision</a> and <a href="experiments/observer-admission/retained/consumer/state.json">state</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The <a href="experiments/observer-admission/provenance.json">provenance manifest</a> binds these files to their retained hashes. The <a href="experiments/observer-admission/source-pins.json">source pins</a> bind every imported Observer source to its Git blob. The runner checks both before it evaluates the evidence.</p>
+<h2 id="run-the-retained-example">Run the retained example</h2>
+<p>Use Linux with Git and <a href="https://docs.astral.sh/uv/getting-started/installation/">uv</a>. The command selects the exact runtime and source for the historical experiment. It does not advertise that older source as the current Observer install.</p>
+<div class="code-scroll" tabindex="0" role="region" aria-label="Code example">
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/probityai/agent-evidence/tree/main/site atlas-replay</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> atlas-replay</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout <span class="at">--detach</span> 57d0085723c9eee1400797acf6729c4204325451</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/probityai/probity/tree/main/packages/observer observer-source</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> observer-source checkout <span class="at">--detach</span> 8562c25fb7ec97596ea9d0297c495340298914b6</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run <span class="at">--no-project</span> <span class="at">--python</span> 3.12.14 <span class="at">--with</span> cryptography==46.0.7 <span class="dt">\</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  python experiments/observer-admission/run.py <span class="dt">\</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">--observer-root</span> observer-source <span class="dt">\</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">--bundle</span> experiments/observer-admission/retained <span class="dt">\</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">--manifest</span> experiments/observer-admission/provenance.json <span class="dt">\</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">--expect</span> experiments/observer-admission/recorded.json <span class="op">&gt;</span> replay.json</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-</span> <span class="op">&lt;&lt;&#39;PY&#39;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="st">import json</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="st">with open(&quot;replay.json&quot;, encoding=&quot;utf-8&quot;) as stream:</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="st">    outcomes = json.load(stream)[&quot;outcomes&quot;]</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="st">for name in (&quot;admissionStatus&quot;, &quot;replayRefusal&quot;, &quot;authorityRefusal&quot;,</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="st">             &quot;tamperRefusal&quot;, &quot;refusalsPreserveState&quot;):</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="st">    print(f&quot;{name}: {outcomes[name]}&quot;)</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="op">PY</span></span></code></pre></div>
+</div>
+<p>The successful replay exits with code zero. The selected output is:</p>
+<div class="code-scroll" tabindex="0" role="region" aria-label="Code example">
+<pre class="text"><code>admissionStatus: admitted
+replayRefusal: interval was already admitted by this consumer
+authorityRefusal: packet authority differs from consumer policy
+tamperRefusal: signature does not verify under the pinned key
+refusalsPreserveState: True</code></pre>
+</div>
+<p>The full <code>replay.json</code> also includes the checked source hashes, effect hash, coverage declaration and witness scope. <code>--expect</code> compares the complete report with the <a href="experiments/observer-admission/recorded.json">recorded result</a>. A wrong source, changed retained file, unexpected decision or different refusal fails the command. Inspect stderr and its exit code before reading any output as a pass. Keep the retained bundle unchanged.</p>
+<h2 id="why-each-refusal-matters">Why each refusal matters</h2>
+<p><strong>Replay.</strong> The consumer stores its first admission before returning success. Submitting the same interval again refuses. Replay protection depends on that consumer state. Deleting or rolling it back can erase the protection.</p>
+<p><strong>Authority.</strong> The checker changes the expected scope from <code>/work</code> to <code>/other</code>. It uses a fresh store so replay protection cannot hide a missing authority check. The unchanged packet refuses against the changed policy.</p>
+<p><strong>Signed bytes.</strong> The checker changes <code>afterRoot</code> in the claim without signing it again. Another fresh store checks the altered packet against the pinned key. The signature check refuses it. A carried key does not become trusted because it appears beside a packet.</p>
+<p>Every control compares consumer state before and after the refusal. A refusal that changes the store would fail this example too.</p>
+<h2 id="keep-the-result-within-its-scope">Keep the result within its scope</h2>
+<p>This is an author-produced same-operator fixture. Its witness scope is <code>PEER</code>. The public keys and witness head are fixture pins. The example checks retained bytes, local admission and the declared broker-write population. It does not establish independent custody, complete effect capture or exactly-once downstream effects. The current workspace bytes cannot reveal every transient action that happened earlier.</p>
+<p>Read the <a href="experiments.html#observer-consumer-admission">original experiment</a> for the complete method, original CI provenance and limits. Its existing <a href="claims.html#experiments">claim-ledger rows</a> remain the evidence for those results.</p>
+<p>The essay <a href="https://thepragmaticquant.com/independent-evaluators-need-something-to-verify/"><em>Independent AI evaluators need evidence they can verify</em></a> (October 14, 2026) uses this replay as its last example. It argues that a buyer should name in advance the records an agent action will be judged by, and that a missing record should never read as success.</p>
+<h2 id="use-the-next-tool-for-your-task">Use the next tool for your task</h2>
+<p>Use <a href="start.html#verify">Verify</a> to check a supplied claim against supported retained artifacts. Use <a href="start.html#vectors">Vectors</a> to test a verifier against known accepted and rejected inputs. Use <a href="start.html#admission">Admission</a> to apply evidence requirements to a workload policy.</p>
+<p>To publish an actual operated run, follow the <a href="lab.html">Open Evidence Lab</a> submission route. Preserve who built the checker, who ran it, who reviewed it and which host actually depends on it. A replay of this fixture does not fill those separate roles.</p>
+</main>
+<footer class="site">
+  <p>Every number on this site has a source, a read time and a re-derive command in the <a href="claims.html">claim ledger</a>. Site version 0.6-draft, 2026-10-01. <a href="versions.html#documentation-revisions">Page revisions</a>.</p>
+</footer>
+</body>
+</html>

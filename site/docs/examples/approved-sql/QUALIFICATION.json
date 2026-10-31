@@ -1,0 +1,169 @@
+{
+  "checked_at_utc": "2026-10-09T04:35:25.877719+00:00",
+  "classification": "author-operated illustration on ordinary shared BoxPool; not native producer qualification or independent operation",
+  "actual_gate_exit": 0,
+  "snapshot_commit": "3c1306d3d279847d131a5bdb91d3211c96eefd42",
+  "snapshot_tree": "f817c707bb969db926194714a3b8690245c1e057",
+  "python": "3.14.7",
+  "pytest": "9.0.2",
+  "tests": 56,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "fixtures": 16,
+  "fixture_cli_exit_counts": {
+    "0": 2,
+    "1": 14
+  },
+  "coverage": {
+    "covered_lines": 178,
+    "num_statements": 179,
+    "percent_covered": 99.14893617021276,
+    "percent_covered_display": "99",
+    "missing_lines": 1,
+    "excluded_lines": 0,
+    "percent_statements_covered": 99.44134078212291,
+    "percent_statements_covered_display": "99",
+    "num_branches": 56,
+    "num_partial_branches": 1,
+    "covered_branches": 55,
+    "missing_branches": 1,
+    "percent_branches_covered": 98.21428571428571,
+    "percent_branches_covered_display": "98"
+  },
+  "source_coverage_threshold_per_file": 80,
+  "known_gate_tool_limit": "The original R3 checker did not propagate pytest exit; the original qualify.py independently required full pytest exit 0. Atlas repairs the copied checker and adds real-process failing-test, collection-error, empty-test and unrelated-test controls.",
+  "source_selection": [
+    {
+      "path": "README.md",
+      "original_sha256": "f2b17671da1fa40cfa23b8c761036a261e769dd3b3bcb957f6644063eec14473"
+    },
+    {
+      "path": "SOURCE-MAP.md",
+      "original_sha256": "9c39d582fbe1e40f072f46445e926f73708408a7159c2727a6f0182594a4a1c8"
+    },
+    {
+      "path": "pyproject.toml",
+      "original_sha256": "2f1f0c82e28df4c785c2c2378ef6f79066ed31f945aff26b50fd698c3de88c3f"
+    },
+    {
+      "path": "uv.lock",
+      "original_sha256": "617613d1fc04d82719dd017db9546ba39908fbc0386b11e06288dce984aa68d8"
+    },
+    {
+      "path": ".gitignore",
+      "original_sha256": "c244de0ac27e68cd3e9ad1d8412727306f8be22d660870e28438d43c0886699d"
+    },
+    {
+      "path": "sql_illustration/__init__.py",
+      "original_sha256": "a810ceba286b47481e285a97bb9a7afc1f59dfd3a515e058c253610822553dc9"
+    },
+    {
+      "path": "sql_illustration/check.py",
+      "original_sha256": "f12d4aebaf61525a1fd74330e234843864a62b63e73dc890bd98ff1c14880441"
+    },
+    {
+      "path": "fixtures/ambiguous-execution.json",
+      "original_sha256": "6c92b6f7d151889f84a823993af596f5076d9e5f44c13e26a4827d1a541cee37"
+    },
+    {
+      "path": "fixtures/application-record-missing.json",
+      "original_sha256": "da3260fa876a5ef88dbef58126641020de2e11827030b34ad076f5076ccbaab1"
+    },
+    {
+      "path": "fixtures/approval-not-granted.json",
+      "original_sha256": "a995bcd7ca6e956a51419986e301f9cd4013e3527bf1e526beb5725a9892606b"
+    },
+    {
+      "path": "fixtures/approved-audit-incomplete.json",
+      "original_sha256": "79a1c3eb9002f9899851961fd13deda8090da8d18365d3819b59040d2d9ed506"
+    },
+    {
+      "path": "fixtures/approved-no-match-declared-scope.json",
+      "original_sha256": "5cd9b94f7a72339d12bef109607434b13b2edc845786e6b4522040dc29e49888"
+    },
+    {
+      "path": "fixtures/commit-unknown.json",
+      "original_sha256": "527368d951fdc5d9c6bc42c526da7d204d92dea63a06d049a453121cdc4cd26a"
+    },
+    {
+      "path": "fixtures/different-database.json",
+      "original_sha256": "5134ebfbe5581c0c4deadaddde17577da9c28f0feea1d55c6ad14efc0cd7ce89"
+    },
+    {
+      "path": "fixtures/different-parameters.json",
+      "original_sha256": "e1d96d3f07742de5f8923307bbf517b1e9b731a7d65ccca846c7860306d1d2ff"
+    },
+    {
+      "path": "fixtures/different-principal.json",
+      "original_sha256": "74c87a05241d9abe99210223a05cbe492edcc68a8331ef8ed10a17afab2eb357"
+    },
+    {
+      "path": "fixtures/different-schema.json",
+      "original_sha256": "6fdf3a69ba1b78a0556ee3ac642dc9ed6373b917e0bfecfe89d12bf555c4afd9"
+    },
+    {
+      "path": "fixtures/different-sql.json",
+      "original_sha256": "6422a2144b77ae841a962dfb2ee3921db140f05a4bc5c474168a08349740223f"
+    },
+    {
+      "path": "fixtures/manifest.json",
+      "original_sha256": "c21dd96f2d3b96ca339455b9c90468364b52229fe34ea8b07a47e834129198ac"
+    },
+    {
+      "path": "fixtures/matching-commit-later-change.json",
+      "original_sha256": "9fe21153ec212f1825452ecc931d51d9700f8bf55d777f85c7b8c026cee78d68"
+    },
+    {
+      "path": "fixtures/matching-commit.json",
+      "original_sha256": "6894fd1212b9e3bdf7af47213768edbaa21ddf60952ea0493059adf85ce999bd"
+    },
+    {
+      "path": "fixtures/outcome-disagreement.json",
+      "original_sha256": "9897ff0c4976afccb6fb50aa7d7bdab03af03ae2e58355a73d59c703ab4ec556"
+    },
+    {
+      "path": "fixtures/rolled-back.json",
+      "original_sha256": "0dfba3c606df2d85bbc55d19ce181be2563ae693e470ccb04c13cd7ad596aded"
+    },
+    {
+      "path": "fixtures/statement-failed.json",
+      "original_sha256": "8736af34200fab34a098df933a77755872862196e7f57f2455015c0f6d8b9dd8"
+    },
+    {
+      "path": "tests/test_check.py",
+      "original_sha256": "14a4efd399f582d55d67df1102cb7c476917fb2f2a027eac61664d59201d8382"
+    },
+    {
+      "path": "docs/INPUT-CONTRACT.md",
+      "original_sha256": "292ee4d68d470514d287cd0c3909c410c221277147a29a1e796ae9e5528ed3f5"
+    },
+    {
+      "path": "docs/architecture/DESIGN_DECISIONS.md",
+      "original_sha256": "d5f92191984b4a770514e74433c24023824c533bb6431334f922bb3c70c920d4"
+    },
+    {
+      "path": "scripts/check_coverage.py",
+      "original_sha256": "8d8619caf49b9509a090077f01f4981832e6cc4038b3d1e32c395513327c21eb"
+    },
+    {
+      "path": "scripts/qualify.py",
+      "original_sha256": "c16a2290b7fa708ed642de94f41b414f4e48c3f4a4f236a554864404f0079dd3"
+    },
+    {
+      "path": "scripts/readme-lint.py",
+      "original_sha256": "ce6f7082503ea7b948d0306e125ad3d9c5e9e3ee5d1d7b47c8a054a266b169a8"
+    }
+  ],
+  "integration": "The reader, fixtures, semantic tests, input contract and lock are byte-identical to the measured preparation. Atlas repairs the copied coverage helper, preserves the qualification receipt in Git, and adapts public documentation. Original R3 receipts remain unchanged; the Atlas integration has its own gate.",
+  "native_status": "Native Tadpole pair, installed native package qualification, independent run and kept producer CI check remain open.",
+  "prior_runs": "The original preparation retains the failed R1 test-assumption result and the separate R2/R3 runs. This record is the final R3 run, not a replacement for those earlier outputs.",
+  "atlas_gate_tool_repair": {
+    "path": "scripts/check_coverage.py",
+    "sha256": "0d1d575245b51762de8fb1cc23251816a1d2808c0b44846334981fcfceebaae9",
+    "controls": "../../tests/test_coverage_gate.py",
+    "controls_status": "prepared; separate Atlas integration gate required",
+    "original_receipts": "qualification/",
+    "source_semantics_changed": false
+  }
+}

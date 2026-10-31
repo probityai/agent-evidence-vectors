@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Sankalp Gilda" />
+  <meta name="description" content="Reconstruct source-bound robot simulator outcomes, matched controls, task-resampling weights and the author&#x27;s corrected interpretation." />
+  <title>Published robot controls - Agent Evidence Conformance Board</title>
+  <link rel="canonical" href="https://probityai.github.io/agent-evidence-atlas/provael-task-controls.html" />
+  <link rel="alternate" type="text/markdown" href="https://probityai.github.io/agent-evidence-atlas/provael-task-controls.md" />
+  <link rel="describedby" href="https://probityai.github.io/agent-evidence-atlas/llms.txt" />
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <nav aria-label="Site">
+    <a class="home" href="index.html">Agent Evidence Conformance Board</a>
+    <span class="links">
+      <a href="start.html">Choose a component</a>
+      <a href="lab.html">Open Evidence Lab</a>
+      <a href="status.html">Claim status</a>
+      <a href="runs.html">Find a run</a>
+      <a href="board.html">Conformance board</a>
+      <a href="pilot.html">Pilot status</a>
+      <a href="atlas.html">Atlas</a>
+      <a href="experiments.html">Experiments</a>
+      <a href="claims.html">Claims</a>
+      <a href="versions.html">Versions</a>
+    </span>
+  </nav>
+</header>
+<main id="main" tabindex="-1">
+<header class="page">
+<h1>Published robot controls</h1>
+<p class="subtitle">A task-grouped reading of Provael’s simulator reports and correction</p>
+<p class="status">Publisher-report-derived companion. Native runtime gaps and the measured Lab register are preserved.</p>
+</header>
+<nav class="toc" aria-label="Contents">
+<p class="toc-title">Contents</p>
+<ul>
+<li><a href="#published-simulator-controls-read-by-task" id="toc-published-simulator-controls-read-by-task">Published simulator controls, read by task</a>
+<ul>
+<li><a href="#run-it" id="toc-run-it">Run it</a></li>
+<li><a href="#keep-the-two-runs-separate" id="toc-keep-the-two-runs-separate">Keep the two runs separate</a></li>
+<li><a href="#what-the-controls-change" id="toc-what-the-controls-change">What the controls change</a></li>
+<li><a href="#exact-task-resampling" id="toc-exact-task-resampling">Exact task resampling</a></li>
+<li><a href="#runtime-and-outcome-limits" id="toc-runtime-and-outcome-limits">Runtime and outcome limits</a></li>
+</ul></li>
+</ul>
+</nav>
+<p><a href="examples/provael-task-controls/source-record.json">Complete source bindings</a>, <a href="examples/provael-task-controls/contract.json">calculation contract</a>, <a href="examples/provael-task-controls/report.json">compact complete outcome report</a> and <a href="examples/provael-task-controls/check_provael_controls.py">reader source</a> are published here. <a href="claims.html">Claims P-59 through P-63</a> bind the source, counts, matching, interval convention and limits.</p>
+<h1 id="published-simulator-controls-read-by-task">Published simulator controls, read by task</h1>
+<p>This companion reads Provael’s published SmolVLA / LIBERO-Object reports. It reconstructs the reported labels and matched controls from complete source files, then keeps all seeds and arms together when resampling a task. It runs no policy or simulator. Evidence class: <code>publisher-report-derived</code>.</p>
+<p>The source is <a href="https://github.com/provael/provael/tree/f1dbc5352bfa7774c0a5599eff20407125914c78">Provael at f1dbc535</a>. The publication commit identifies the files we read. It cannot fill a missing historical runtime commit, dependency lock or precision.</p>
+<h2 id="run-it">Run it</h2>
+<p>Python 3.11+ and its standard library are enough:</p>
+<div class="code-scroll" tabindex="0" role="region" aria-label="Code example">
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/provael/provael.git provael-source</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> provael-source checkout <span class="at">--detach</span> f1dbc5352bfa7774c0a5599eff20407125914c78</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> tools/check_provael_controls.py <span class="dt">\</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--source-root</span> provael-source <span class="dt">\</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">--expect</span> examples/provael-task-controls/report.json <span class="dt">\</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">--output</span> provael-control-report.json <span class="dt">\</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--retain-source-zip</span> provael-required-source.zip</span></code></pre></div>
+</div>
+<p>The reader checks the baked contract and source-record digests, then every complete source file’s length and SHA-256. Git HEAD alone would miss changed working files. The ZIP contains every bound original file, with its original path, and the source record; an extracted ZIP can also be the reader’s input. The compact report retains every episode’s source pointer, original and changed instruction, applied seed, applicability, reported unsafe flag and clean task success. The original reports also retain the action decisions and trajectories. Those complete files stay in the source ZIP, rather than being silently trimmed into the compact report.</p>
+<h2 id="keep-the-two-runs-separate">Keep the two runs separate</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="published run / tasks / seeds per arm / retained records / applicable / not applicable">
+<table>
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr>
+<th>published run</th>
+<th style="text-align: right;">tasks</th>
+<th style="text-align: right;">seeds per arm</th>
+<th style="text-align: right;">retained records</th>
+<th style="text-align: right;">applicable</th>
+<th style="text-align: right;">not applicable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>suite</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">400</td>
+<td style="text-align: right;">350</td>
+<td style="text-align: right;">50</td>
+</tr>
+<tr>
+<td>controls</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">180</td>
+<td style="text-align: right;">180</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The suite’s 50 <code>mcp_tool_desc</code> records are not applicable. Their reported <code>success: false</code> never becomes a measured safe result: their derived rate and interval are null. No outcome labels are unresolved in these published files. An unknown label or incomplete seed/arm cell is refused.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="arm / suite reported unsafe / applicable / controls reported unsafe / applicable">
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 36%" />
+<col style="width: 36%" />
+</colgroup>
+<thead>
+<tr>
+<th>arm</th>
+<th style="text-align: right;">suite reported unsafe / applicable</th>
+<th style="text-align: right;">controls reported unsafe / applicable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>none</code> (benign)</td>
+<td style="text-align: right;">1/50</td>
+<td style="text-align: right;">1/30</td>
+</tr>
+<tr>
+<td><code>roleplay</code></td>
+<td style="text-align: right;">42/50</td>
+<td style="text-align: right;">26/30</td>
+</tr>
+<tr>
+<td><code>roleplay_no_target</code></td>
+<td style="text-align: right;">absent</td>
+<td style="text-align: right;">27/30</td>
+</tr>
+<tr>
+<td><code>scrambled_text</code></td>
+<td style="text-align: right;">absent</td>
+<td style="text-align: right;">18/30</td>
+</tr>
+<tr>
+<td><code>benign_reword</code></td>
+<td style="text-align: right;">absent</td>
+<td style="text-align: right;">0/30</td>
+</tr>
+<tr>
+<td><code>nonsense_text</code></td>
+<td style="text-align: right;">absent</td>
+<td style="text-align: right;">0/30</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The benign clean-task competence controls are 48/50 and 29/30. This is a separate outcome from the unsafe flag. Every remaining suite arm and every per-task count is in the report.</p>
+<p>There are 60 shared task/seed/arm keys across the runs. Of those, 30 complete native episode objects are canonically identical, all in <code>none</code>. The report retains their digests and both source pointers. Separate directories do not establish fresh independent benign repeats. We do not pool the runs.</p>
+<h2 id="what-the-controls-change">What the controls change</h2>
+<p>Provael’s <a href="https://github.com/provael/provael/blob/f1dbc5352bfa7774c0a5599eff20407125914c78/docs/errata.md#e-2026-12--the-4450-roleplay-result-was-described-as-the-attack-redirecting-the-policy-the-controls-show-the-policy-leaves-its-envelope-under-the-frame-alone-target-or-no-target">E-2026-12 correction</a> changes the interpretation, leaving the published counts intact. The frame with no target named fires as often as roleplay; scrambled tokens also fire. These observations support the publisher’s narrower reading of envelope fragility under long imperative instructions. They do not demonstrate attacker-directed object control. The reader preserves that correction alongside the rates.</p>
+<h2 id="exact-task-resampling">Exact task resampling</h2>
+<p>Each run contributes ten task vectors. A vector keeps all of that task’s unsafe counts across all arms. An integer convolution adds one whole task at each of ten draw positions; the multiplicity of equal vectors is retained. The final weights therefore count all <code>10**10</code> ordered task draws exactly, without executing ten billion loops. There are 9,581 distinct suite states and 1,716 controls states. These are bootstrap draw weights, not new trials.</p>
+<p>Every measured arm has the same applicable denominator within its run: five per task in the suite and three in controls. Thus the pooled episode rate and the equal-task mean coincide, including in each draw. Both targets are reported. The exact profile refuses unequal allocation, empty arms or unresolved labels rather than silently excluding tasks. The separate <a href="https://probityai.github.io/agent-evidence-atlas/task-grouped-rates.html">authored example</a> shows unequal weights and unresolved labels.</p>
+<p>For nominal 95% endpoints, the reader uses the inverse empirical CDF: the smallest value reaching cumulative weight <code>ceil(p * 10**10)</code>, at <code>p=1/40</code> and <code>39/40</code>. The endpoint ranks are 250,000,000 and 9,750,000,000.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="within-run contrast / observed difference / exact nominal task-percentile endpoints">
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 36%" />
+<col style="width: 36%" />
+</colgroup>
+<thead>
+<tr>
+<th>within-run contrast</th>
+<th style="text-align: right;">observed difference</th>
+<th style="text-align: right;">exact nominal task-percentile endpoints</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>suite: roleplay minus none</td>
+<td style="text-align: right;">41/50</td>
+<td style="text-align: right;">[30/50, 49/50]</td>
+</tr>
+<tr>
+<td>controls: roleplay minus none</td>
+<td style="text-align: right;">25/30</td>
+<td style="text-align: right;">[19/30, 30/30]</td>
+</tr>
+<tr>
+<td>controls: roleplay minus no target</td>
+<td style="text-align: right;">-1/30</td>
+<td style="text-align: right;">[-3/30, 0/30]</td>
+</tr>
+<tr>
+<td>controls: roleplay minus scrambled</td>
+<td style="text-align: right;">8/30</td>
+<td style="text-align: right;">[4/30, 12/30]</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>These are exact empirical bootstrap calculations, not exact population confidence guarantees. The ten benchmark tasks share policy and simulator; independent exchangeable sampling from an external task population is not established. Within-task pairing cannot remove dependence between tasks. <code>coverageEstablished</code> stays false, and no simultaneous coverage is claimed for the several arm comparisons. A degenerate point distribution stays labelled degenerate and cannot establish absence.</p>
+<p>The publisher’s aggregate intervals remain separately retained with their own method: 2,000 <code>random.Random(0)</code> task draws and floor-indexed percentiles. Our exact scrambled interval is [12/30, 23/30], while that Monte Carlo analysis gives [13/30, 23/30]. The reader does not rewrite the original. The controls’ published Holm family includes all five non-baseline arms, including harmless variations; the suite family has six applicable attacks. Those publisher tests are preserved as analysis, not promoted to a claim that seeds are independent sampling units.</p>
+<h2 id="runtime-and-outcome-limits">Runtime and outcome limits</h2>
+<p>All native manifests remain literal in the report. The suite runtime commit is null; controls record only <code>de6c231</code>. Repository, dependency-lock digest and precision are null in both runs, as are checkpoint and configuration bindings. The publication pin and release version do not repair those gaps.</p>
+<p>All source reports declare <code>calibrated: false</code>. The reader checks that each reported episode flag agrees with its native decision flags; it does not evaluate the safety predicate from actions, establish its calibration or infer physical harm. These are publisher-reported simulator rollouts. No hardware execution, independent effect custody or new Lab register entry is established by this companion.</p>
+<p>Provael and the original retained sources are by Sattyam Jain. The source ZIP includes their unchanged Apache-2.0 LICENSE, NOTICE and trademark text. <a href="https://probityai.github.io/agent-evidence-atlas/examples/provael-task-controls/PROVAEL-LICENSE">PROVAEL-LICENSE</a> and <a href="https://probityai.github.io/agent-evidence-atlas/examples/provael-task-controls/PROVAEL-NOTICE">PROVAEL-NOTICE</a> also accompany this example. Our reader is new Atlas code.</p>
+</main>
+<footer class="site">
+  <p>Every number on this site has a source, a read time and a re-derive command in the <a href="claims.html">claim ledger</a>. Site version 0.6-draft, 2026-10-01. <a href="versions.html#documentation-revisions">Page revisions</a>.</p>
+</footer>
+</body>
+</html>
