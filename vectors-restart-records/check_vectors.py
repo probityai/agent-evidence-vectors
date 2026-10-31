@@ -382,7 +382,8 @@ def _r2_shape(p: dict[str, Any]) -> bool:
                       and _one_of(part["state"], PART_STATES)
                       and _list(part["credentials"], _text, min_items=1), min_items=1)
             and _list(p["revocations"], _r2_revocation)
-            and _exact(coverage, ("claim",), ("issuedAfter",)) and _one_of(coverage["claim"], COVERAGE)
+            and _exact(coverage, ("claim",), ("issuedAfter",))
+            and _one_of(coverage["claim"], COVERAGE)
             and ("issuedAfter" not in coverage or _time(coverage["issuedAfter"])))
 
 
