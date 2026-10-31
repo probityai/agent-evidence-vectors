@@ -1,9 +1,35 @@
 name: observed invocation binding candidate
 
 on:
+  # Not a required check, so a workflow-level path filter is safe. The paths are
+  # everything the generator, the test, the original reader and the Go reader open.
   pull_request:
+    paths:
+      - interop/observed-invocation-binding-candidate/**
+      - vectors-observed-effect/**
+      - observedeffect/**
+      - packaging/**
+      - spec/**
+      - go.mod
+      - go.work
+      - go.work.sum
+      - pyproject.toml
+      - uv.lock
+      - .github/workflows/observed-invocation-binding.yml
   push:
     branches: [main]
+    paths:
+      - interop/observed-invocation-binding-candidate/**
+      - vectors-observed-effect/**
+      - observedeffect/**
+      - packaging/**
+      - spec/**
+      - go.mod
+      - go.work
+      - go.work.sum
+      - pyproject.toml
+      - uv.lock
+      - .github/workflows/observed-invocation-binding.yml
   workflow_dispatch:
 
 permissions:

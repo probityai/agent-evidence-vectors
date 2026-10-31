@@ -11,7 +11,10 @@ name: identity-scan
 # exists because a hook can be bypassed and core.hooksPath is per machine.
 
 on:
+  # A pull request's own run covers its branch; a branch push would repeat it.
   push:
+    branches: [main]
+    tags: ['**']
   pull_request:
 
 permissions:

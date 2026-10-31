@@ -3,6 +3,7 @@ name: GovOps descriptor and decision IDs
 on:
   workflow_dispatch:
   push:
+    branches: [main]
     paths:
       - "interop/govops-capability-id/**"
       - ".github/workflows/govops-capability-id.yml"

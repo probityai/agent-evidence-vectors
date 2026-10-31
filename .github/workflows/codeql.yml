@@ -25,6 +25,8 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+    # Prose-only changes carry nothing for the Go, Python or workflow queries.
+    paths-ignore: ['**/*.md', 'LICENSE', 'DCO']
   schedule:
     # Weekly, because a query pack updates without this repository changing:
     # a scheduled run is what finds the defect that was always there and only
