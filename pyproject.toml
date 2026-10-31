@@ -143,6 +143,7 @@ only-include = [
     "vectors-agent-change-admission",
     "vectors-agentic-process-evidence",
     "vectors-delegation-lifecycle",
+    "vectors-restart-records",
     "vectors-recorded",
     "vectors-agent-decision",
     "vectors-ietf-agent-record-drafts",
@@ -207,6 +208,7 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 "vectors-agent-change-admission" = "agent_evidence_vectors/corpora/vectors-agent-change-admission"
 "vectors-agentic-process-evidence" = "agent_evidence_vectors/corpora/vectors-agentic-process-evidence"
 "vectors-delegation-lifecycle" = "agent_evidence_vectors/corpora/vectors-delegation-lifecycle"
+"vectors-restart-records" = "agent_evidence_vectors/corpora/vectors-restart-records"
 "vectors-recorded" = "agent_evidence_vectors/corpora/vectors-recorded"
 "vectors-agent-decision" = "agent_evidence_vectors/corpora/vectors-agent-decision"
 "vectors-ietf-agent-record-drafts" = "agent_evidence_vectors/corpora/vectors-ietf-agent-record-drafts"
@@ -282,6 +284,13 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 "spec/predicates/adversarial-execution-evidence.md" = "agent_evidence_vectors/corpora/spec/predicates/adversarial-execution-evidence.md"
 "spec/v1/statement.md" = "agent_evidence_vectors/corpora/spec/v1/statement.md"
 "spec/predicates/adversarial-execution-evidence/verification.md" = "agent_evidence_vectors/corpora/spec/predicates/adversarial-execution-evidence/verification.md"
+# The restart-records reader checks its corpus against these vendored documents.
+"profiles/restoration-evidence.md" = "agent_evidence_vectors/corpora/profiles/restoration-evidence.md"
+"spec/predicates/incident-action-authorization.md" = "agent_evidence_vectors/corpora/spec/predicates/incident-action-authorization.md"
+"spec/predicates/joint-authority.md" = "agent_evidence_vectors/corpora/spec/predicates/joint-authority.md"
+"spec/predicates/re-enable-decision.md" = "agent_evidence_vectors/corpora/spec/predicates/re-enable-decision.md"
+"spec/predicates/revocation-boundary.md" = "agent_evidence_vectors/corpora/spec/predicates/revocation-boundary.md"
+"spec/predicates/revocation-sweep.md" = "agent_evidence_vectors/corpora/spec/predicates/revocation-sweep.md"
 
 [tool.hatch.build.targets.sdist]
 only-include = [
@@ -311,6 +320,7 @@ only-include = [
     "vectors-agent-change-admission",
     "vectors-agentic-process-evidence",
     "vectors-delegation-lifecycle",
+    "vectors-restart-records",
     "vectors-recorded",
     "vectors-agent-decision",
     "vectors-ietf-agent-record-drafts",
@@ -318,6 +328,12 @@ only-include = [
     "spec/predicates/adversarial-execution-evidence.md",
     "spec/v1/statement.md",
     "spec/predicates/adversarial-execution-evidence/verification.md",
+    "profiles/restoration-evidence.md",
+    "spec/predicates/incident-action-authorization.md",
+    "spec/predicates/joint-authority.md",
+    "spec/predicates/re-enable-decision.md",
+    "spec/predicates/revocation-boundary.md",
+    "spec/predicates/revocation-sweep.md",
     "vectors-admission",
     "vectors-aci",
     "vectors-acs-core",
@@ -446,7 +462,7 @@ held-elsewhere = ["actions", "crates", "packages", "site", "tests"]
 # to pass if a Python file exists outside them.
 include = ["crates/jcs-admit", "docs/paper", "docs/proposals", "docs/site", "examples/mcp-receipts", "interop", "packaging", "scripts", "tools", "vectors",
            "vectors-admission",
-           "vectors-a2a-jcs-v01", "vectors-agent-audit-record", "vectors-agent-decision", "vectors-ietf-agent-record-drafts", "vectors-anchored-chain", "vectors-trace-anchor", "vectors-grade-floor", "vectors-agent-payment-mandate", "vectors-agent-change-admission", "vectors-agentic-process-evidence", "vectors-delegation-lifecycle", "vectors-recorded", "vectors-aci", "vectors-acs-core", "vectors-ai-agent-action", "vectors-ai-generation",
+           "vectors-a2a-jcs-v01", "vectors-agent-audit-record", "vectors-agent-decision", "vectors-ietf-agent-record-drafts", "vectors-anchored-chain", "vectors-trace-anchor", "vectors-grade-floor", "vectors-agent-payment-mandate", "vectors-agent-change-admission", "vectors-agentic-process-evidence", "vectors-delegation-lifecycle", "vectors-restart-records", "vectors-recorded", "vectors-aci", "vectors-acs-core", "vectors-ai-agent-action", "vectors-ai-generation",
            "vectors-anchor-stream", "vectors-artifact-binding", "vectors-dependency-selection",
            "vectors-mcp-owasp", "vectors-mcp-record-contract", "vectors-mcp-response-phase",
            "vectors-observed-effect", "vectors-receipt-chain-end", "vectors-receipt-signature",
