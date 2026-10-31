@@ -14,7 +14,7 @@ bind consumption state with an operation key, then the rows written for
 revision 02: `A21` (an `api-key` agent authentication), `SQ1` to `SQ5` (the
 `sequence` member and record identity) and `R10` to `R16` (OpenTimestamps
 anchors and the delegation root), then the rows written for revision 03:
-`IS1` and `IS2`, a record issued before its interval was sealed. Each carries `draftRevision` and the
+`IS1` and `IS2`, a record issued before its interval was sealed, then the rows written for revision 04: `CS41` to `CS49`, the payee and the settled terms of a paid call. Each carries `draftRevision` and the
 identifier the draft prints. After them come `X1` to `X18`, each an existing member with one field changed that reaches a refusal code no earlier member produced: the JSON profile (`X1`, `X2`), `issuedAt` without an offset (`X3`), the statement and predicate types (`X4`, `X5`), consumption shape and the operation key (`X6`, `X7`), the first subject (`X8`), an envelope and a statement that cannot be read (`X9`, `X10`), a retention entry that is malformed or names another envelope or an unexpected or unreadable delegation root (`X11` to `X14`), a retained member whose record or entry cannot be read (`X15`, `X16`), and a set that cannot be read or whose records are malformed (`X17`, `X18`). [`INDEX.md`](INDEX.md) lists every member beside its
 file.
 
@@ -24,7 +24,7 @@ file.
 
 | Release | Draft revision the corpus tests | Members |
 | --- | --- | --- |
-| The release after v0.28.0 | `draft-gilda-audit-agent-audit-record-03` | every member the v0.28.0 row lists, and rows `IS1` and `IS2` of -03 |
+| The release after v0.28.0 | `draft-gilda-audit-agent-audit-record-03`, and rows of `-04` | every member the v0.28.0 row lists, rows `IS1` and `IS2` of -03, and rows `CS41` to `CS49` written for -04 |
 | v0.28.0 | `draft-gilda-audit-agent-audit-record-02` | the 99 Appendix B rows of -00, 7 Section 5.4 members, 22 rows of -01 and 13 rows of -02 |
 | v0.27.0 | `draft-gilda-audit-agent-audit-record-00`, and 22 rows of `-01` | the 99 Appendix B rows, 7 Section 5.4 members and 22 rows of -01 |
 | v0.26.0 to v0.26.2 | `draft-gilda-audit-agent-audit-record-00`, and five rows of `-01` | the 99 Appendix B rows, 7 Section 5.4 members and 5 rows of -01 |
@@ -251,7 +251,7 @@ by SHA-256 in [`REVISION-01-PIN.json`](REVISION-01-PIN.json).
 coverage clause fails exactly `TI6`, `V4` and `V5`, and restoring independent
 minima in `aggregate_values` fails `FR14`'s aggregation check.
 
-## Consumption state and the operation key: `CS1` to `CS40`
+## Consumption state and the operation key: `CS1` to `CS49`
 
 A cumulative limit, such as a delegated spending limit, makes a permit correct
 only if what is already consumed, plus what is held for earlier permits that
@@ -345,6 +345,28 @@ in [#213](https://github.com/probityai/agent-evidence-vectors/issues/213).
   `consumption-set-asset-mismatch`, and two assets under two unlinked limit
   documents are two ledgers (`CS40`).
 
+- A paid tool call settled in a stablecoin carries its payee and its settled
+  terms (`CS41` to `CS49`, from vendrell46's case on #307, written against the
+  messages x402 sends over MCP). `consumption.payee`, and `payee` on each held
+  entry, is the SHA-256 digest of the payee's CAIP-10 account id, the address
+  written as its namespace profile produces it (EIP-55 case for `eip155`). A
+  retry pays the held entry's payee (`CS41`); a payment signed again to another
+  payee inside one call carries the same operation key and request digest, and
+  is `consumption-key-reused` (`CS42`). `consumption.settled` carries exactly
+  `amount`, `asset`, `payee`, `source` and `transaction`: the terms the call
+  settled on, read from the chain through the transaction the server returned
+  (`source` of `chain`), beside the approved terms that `requested`, `asset` and
+  `payee` carry from the signed payment. An x402 `upto` permit that settles below
+  its authorized maximum is valid (`CS43`); a settled amount above `requested` is
+  `consumption-settled-exceeds` (`CS44`), another asset or payee is
+  `consumption-settled-differs` (`CS45`, `CS46`), and terms read from the signed
+  payload are `consumption-value-invalid` (`CS47`). `consumed` takes the settled
+  amount, so the rest of the hold stays available: a later record of the ledger
+  that no longer holds the call counts at least the consumed the settling record
+  read plus the settled amount (`CS48`), and one that counts less is
+  `consumption-set-settled-uncounted` (`CS49`). It may count more, since other
+  calls can settle between the two records.
+
 `check_vectors.py` drops each sentence of the rule and each set check in turn and
 requires the corpus to fail on exactly the members that test it; a retry keyed
 on the request digest fails `CS10` and `CS12`, dropping the set checks fails
@@ -352,7 +374,10 @@ on the request digest fails `CS10` and `CS12`, dropping the set checks fails
 reading the set checks per `limitDigest` fails `CS20`, `CS21` and `CS30`, keying
 the claim by the limit document fails `CS32` alone, reading it without its scope
 fails `CS33`, letting `none` not end a claim fails `CS28`, and matching an asset
-by its id alone fails `CS39`. The Go rail in `corpora/` runs the same sweep.
+by its id alone fails `CS39`, dropping each payee and settled check fails `CS42`,
+`CS44`, `CS45` and `CS46`, `CS47` and `CS49` in turn, and counting the held
+amount rather than the settled one fails `CS48`. The Go rail in `corpora/` runs
+the same sweep.
 
 ## Retained records and the dating check: Section 4.7
 
