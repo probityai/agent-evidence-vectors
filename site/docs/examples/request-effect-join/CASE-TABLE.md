@@ -1,7 +1,7 @@
 # A changed call and a later changed file
 
 `giskard09` selected [execution-join-ref-v1](https://github.com/giskard09/argentum-core/blob/f4d989052bb3a61691b1b156cd6dd655793fea4f/docs/spec/execution-join-ref-v1.md)
-for [the Lab's request/effect case](https://github.com/probityai/agent-evidence/issues/24#issuecomment-6247269392).
+for [the Lab's request/effect case](https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529865473).
 This table freezes the two situations separately so a producer, reader and file-effect observer can compare the same cases.
 
 The producer's selected contract owns its identifier and failure-code semantics.
@@ -96,7 +96,7 @@ observation is the open contribution for that ordering question.
 ## Ordering cross-reference: a payment that carries the decision
 
 `babyblueviper1` filed a run on the ordering question as its own Evidence run,
-[probityai/agent-evidence#28](https://github.com/probityai/agent-evidence/issues/28).
+[probityai/agent-evidence-vectors#347](https://github.com/probityai/agent-evidence-vectors/issues/347).
 The effect is a Base mainnet payment, not a file write, so it stays a cross-reference here and does not
 change the file-shaped columns above. In exhibit 3 the EIP-3009 authorization's nonce equals the signed
 verdict's `decision_ref`, so the authorization could not have been signed before the verdict existed, and the
@@ -168,7 +168,7 @@ Both gaps are closed at `bc9449b`. Invariant 7 is still the producer's proposal.
 
 `altrudev` compared Frequency's synthetic claim-status fixture with the REMORA effect bridge this table started from,
 in [`lab-claim-comparison.md` at `d0c707c`](https://github.com/altrudev/frequency-open-evidence-lab/blob/d0c707cc8df1aa79f145068581ed6cb2621f8ae0/docs/lab-claim-comparison.md)
-([request](https://github.com/probityai/agent-evidence/issues/24#issuecomment-6247272865)).
+([request](https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529876523)).
 The Lab takes that comparison as the first shared control between a claim model and an effect bridge, on its own terms:
 
 | Frequency row | Relationship to the REMORA effect bridge |

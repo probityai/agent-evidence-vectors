@@ -3,7 +3,7 @@
 The root `action.yml` runs this repository's admission checks in a workflow. Pin it to a release tag or, better, to the commit that tag names:
 
 ```yaml
-- uses: probityai/agent-evidence@action-v0.1.0
+- uses: probityai/agent-evidence-vectors@action-v0.1.0
   with:
     check: policy
     statement: evidence/run.statement.json
@@ -31,7 +31,7 @@ To admit the sample statement this repository ships:
 ```yaml
 - uses: actions/checkout@v7
   with:
-    repository: probityai/agent-evidence
+    repository: probityai/agent-evidence-vectors
     ref: action-v0.1.0
     path: agent-evidence
 - run: |
@@ -41,7 +41,7 @@ To admit the sample statement this repository ships:
       "expected_substrate_digest": "018bbaf3710e526b0653abafbd3bd3c3356150d747db166021f1e107446c85bb",
       "demanded_classes": ["XA"]}}
     JSON
-- uses: probityai/agent-evidence@action-v0.1.0
+- uses: probityai/agent-evidence-vectors@action-v0.1.0
   with:
     check: policy
     statement: agent-evidence/packages/admission/samples/adversarial-execution-evidence.pass.statement.json
@@ -58,7 +58,7 @@ Runs `agent-evidence-admission digest-check` once per artifact: each artifact mu
 | `artifacts` | the artifact paths, one per line |
 
 ```yaml
-- uses: probityai/agent-evidence@action-v0.1.0
+- uses: probityai/agent-evidence-vectors@action-v0.1.0
   with:
     check: digest
     document: dist/provenance.statement.json
@@ -87,7 +87,7 @@ Checks that a CycloneDX BOM or SPDX 3 document accounts for every class a buyer 
 | `required` | a file listing the required classes: a JSON array, or an object with `required`, `cyclonedx` and `spdx` lists |
 
 ```yaml
-- uses: probityai/agent-evidence@action-v0.1.0
+- uses: probityai/agent-evidence-vectors@action-v0.1.0
   with:
     check: coverage
     document: sbom.cdx.json

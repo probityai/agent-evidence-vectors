@@ -200,14 +200,14 @@
 </table>
 </div>
 <h2 id="verified-by-probity">Verified by Probity</h2>
-<p>Verified by Probity (github.com/probityai/probity). A score on this board is our CI running an outside implementation against the pinned corpus. It is not the badge. The badge is granted to a project, never self-declared, recorded in the grant ledger of agent-evidence-vectors, and re-checked at every release; the rules are on the <a href="https://github.com/probityai/agent-evidence/blob/main/docs/VERIFIED-BADGE.md">Verified by Probity page</a>. No row on this board carries it.</p>
+<p>Verified by Probity (github.com/probityai/probity). A score on this board is our CI running an outside implementation against the pinned corpus. It is not the badge. The badge is granted to a project, never self-declared, recorded in the grant ledger of agent-evidence-vectors, and re-checked at every release; the rules are on the <a href="https://github.com/probityai/agent-evidence-vectors/blob/main/docs/VERIFIED-BADGE.md">Verified by Probity page</a>. No row on this board carries it.</p>
 <p>To run the same corpus in your own CI, pin the package:</p>
 <div class="code-scroll" tabindex="0" role="region" aria-label="Code example">
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> add agent-evidence-vectors==0.29.3</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install agent-evidence-vectors==0.29.3</span></code></pre></div>
 </div>
 <h2 id="add-an-implementation">Add an implementation</h2>
-<p>Add one entry to <a href="https://github.com/probityai/agent-evidence/blob/main/site/data/board.toml"><code>data/board.toml</code></a>: the repository, a pinned commit, the file and function that take the corpus, and its declared scope. The <a href="https://github.com/probityai/agent-evidence/blob/main/.github/workflows/site-board.yml">workflow</a> scores it on the next run. To run one row by hand, see <a href="https://github.com/probityai/agent-evidence/blob/main/site/tools/run_board.py"><code>tools/run_board.py</code></a>. The packaged corpus runs in your own CI with the <a href="https://github.com/probityai/agent-evidence-vectors">agent-evidence-vectors Action</a>.</p>
+<p>Add one entry to <a href="https://github.com/probityai/agent-evidence-vectors/blob/main/site/data/board.toml"><code>data/board.toml</code></a>: the repository, a pinned commit, the file and function that take the corpus, and its declared scope. The <a href="https://github.com/probityai/agent-evidence/blob/main/.github/workflows/site-board.yml">workflow</a> scores it on the next run. To run one row by hand, see <a href="https://github.com/probityai/agent-evidence-vectors/blob/main/site/tools/run_board.py"><code>tools/run_board.py</code></a>. The packaged corpus runs in your own CI with the <a href="https://github.com/probityai/agent-evidence-vectors">agent-evidence-vectors Action</a>.</p>
 <p>Each verdict has a row in the <a href="claims.html">claim ledger</a>.</p>
 </main>
 <footer class="site">

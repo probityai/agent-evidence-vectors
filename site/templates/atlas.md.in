@@ -20,7 +20,7 @@ The families map onto the three jobs that [*Three Jobs, Not One*](https://doi.or
 
 ## Who writes the record
 
-One question separates these mechanisms: who writes the record each one produces. The table uses the witness-scope terms of the [agent evidence vocabulary](https://github.com/probityai/agent-evidence/tree/main/packages/vocabulary): `self` is the observed party, or the system that runs it; `peer` is a party alongside it with its own stake, such as a gateway operator or an evaluator paid by the developer it evaluates; `external` is a party outside the observed system's control. The writer given for each mechanism is this atlas's reading of a typical deployment, not a property of the software.
+One question separates these mechanisms: who writes the record each one produces. The table uses the witness-scope terms of the [agent evidence vocabulary](https://github.com/probityai/agent-evidence-vectors/tree/main/packages/vocabulary): `self` is the observed party, or the system that runs it; `peer` is a party alongside it with its own stake, such as a gateway operator or an evaluator paid by the developer it evaluates; `external` is a party outside the observed system's control. The writer given for each mechanism is this atlas's reading of a typical deployment, not a property of the software.
 
 {{mechanism_table}}
 
@@ -57,5 +57,5 @@ These are my contributions to other bodies' work, listed where the repository me
 ## Checking this page
 
 - A "cannot establish" line is the limit of its family. The projects listed under a family are measured against that line alone.
-- Star counts measure attention, and they drift. I read each status from the body's own page or repository. The re-derive tool in the [site's repository](https://github.com/probityai/agent-evidence/tree/main/site) re-reads each count, and the [claim ledger](claims.html) gives the time of each read.
+- Star counts measure attention, and they drift. I read each status from the body's own page or repository. The re-derive tool in the [site's repository](https://github.com/probityai/agent-evidence-vectors/tree/main/site) re-reads each count, and the [claim ledger](claims.html) gives the time of each read.
 - The atlas data is published as `data/atlas.toml` in the same repository, one node per project, mechanism and artifact with its link and measurement, so any source that emits the same shape can regenerate the page.

@@ -18,7 +18,7 @@ from pathlib import Path
 
 from . import __version__, dsse
 
-PREDICATE_TYPE = "https://github.com/probityai/agent-evidence/blob/main/packages/admission/docs/CONFORMANCE-RESULT.md"
+PREDICATE_TYPE = "https://github.com/probityai/agent-evidence-vectors/blob/main/packages/admission/docs/CONFORMANCE-RESULT.md"
 STATEMENT = "https://in-toto.io/Statement/v1"
 RUN_LABELS = ("author-produced", "second-party-same-code", "independent")
 EVIDENCE = ("blind", "directed", "first-run-unchanged-build", "measured")

@@ -53,5 +53,5 @@ try {
 ```
 
 Canonicalization is one primitive. It does not establish a signature, an evidence
-claim or a policy decision. See the [public source and build guide](https://github.com/probityai/agent-evidence/blob/main/crates/jcs-admit/docs/NPM.md)
+claim or a policy decision. See the [public source and build guide](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/docs/NPM.md)
 for exact profiles, artifact identity, parity tests and release verification.

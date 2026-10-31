@@ -517,7 +517,7 @@ cannot = "Actions outside the declared coverage, or the observer's own honesty"
 # ---------------------------------------------------------------- artifacts
 [[artifact]]
 name = "agent-evidence-vocabulary"
-url = "https://github.com/probityai/agent-evidence/tree/main/packages/vocabulary"
+url = "https://github.com/probityai/agent-evidence-vectors/tree/main/packages/vocabulary"
 layers = "5, feeding 7"
 release = "v0.4.0"
 version = "v0.4.0"
@@ -539,7 +539,7 @@ does = "A conformance corpus, reference verifier, GitHub Action and PyPI package
 does_not = "It does not observe execution. A clean run shows a verifier printed the right answers, not that it computed them"
 [[artifact]]
 name = "agent-evidence-admission"
-url = "https://github.com/probityai/agent-evidence/tree/main/packages/admission"
+url = "https://github.com/probityai/agent-evidence-vectors/tree/main/packages/admission"
 layers = "2, consuming 5"
 release = "py-v0.1.0, the Python package 0.1.0 on PyPI"
 version = "py-v0.1.0"

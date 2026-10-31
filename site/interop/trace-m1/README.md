@@ -7,8 +7,8 @@ The [input manifest](INPUT-MANIFEST.json) pins REMORA's producer source at [a4a9
 With [uv installed](https://docs.astral.sh/uv/getting-started/installation/), run in a fresh Atlas checkout:
 
 ```sh
-git clone https://github.com/probityai/agent-evidence
-cd agent-evidence/site/interop/trace-m1
+git clone https://github.com/probityai/agent-evidence-vectors
+cd agent-evidence-vectors/site/interop/trace-m1
 bash scripts/qualify.sh
 ```
 

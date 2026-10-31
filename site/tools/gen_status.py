@@ -214,7 +214,7 @@ def render(register: dict, open_cells: dict, filed: dict | None = None) -> str:
         "",
         start_list(cells, starts),
         "",
-        "To take a cell, [open an Evidence run issue](https://github.com/probityai/agent-evidence/issues/new?template=evidence-run.yml) naming it. Listing a cell makes no claim about who closes it; a run that does is recorded in the Lab like any other.",
+        "To take a cell, [open an Evidence run issue](https://github.com/probityai/agent-evidence-vectors/issues/new?template=evidence-run.yml) naming it. Listing a cell makes no claim about who closes it; a run that does is recorded in the Lab like any other.",
         "",
         *([
             "## Runs filed against cells and cases",

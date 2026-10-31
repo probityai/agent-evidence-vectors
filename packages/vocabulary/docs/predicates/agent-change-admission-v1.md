@@ -4,7 +4,7 @@ Predicate type URI:
 `https://github.com/probityai/agent-evidence-vocabulary/blob/main/docs/predicates/agent-change-admission-v1.md`
 
 Status: proposed. The terms it carries are in the `change_admission` section of
-[vocabulary.yaml](https://github.com/probityai/agent-evidence/blob/main/packages/vocabulary/vocabulary.yaml),
+[vocabulary.yaml](https://github.com/probityai/agent-evidence-vectors/blob/main/packages/vocabulary/vocabulary.yaml),
 and every one of them starts proposed under the registry's promotion rule.
 
 ## Purpose

@@ -21,7 +21,7 @@ new reader authorship, who operated a run and what a host adopted retain
 separate credit.
 
 Bring a retained request/report/observation pair, write another reader, or keep
-a negative case in your project's CI. [Join the Lab case](https://github.com/probityai/agent-evidence/issues/24).
+a negative case in your project's CI. [Join the Lab case](https://github.com/probityai/agent-evidence-vectors/issues/352).
 An outside installed-package run would add evidence beyond our own operation.
 
 <details>

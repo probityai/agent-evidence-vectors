@@ -32,7 +32,7 @@ if _SPEC is None or _SPEC.loader is None:
     raise ImportError("cannot load scripts/build_predicate_pages.py")
 _predicate = importlib.util.module_from_spec(_SPEC)
 _SPEC.loader.exec_module(_predicate)
-SOURCE_URL = "https://github.com/probityai/agent-evidence/blob/main/packages/vocabulary/vocabulary.yaml"
+SOURCE_URL = "https://github.com/probityai/agent-evidence-vectors/blob/main/packages/vocabulary/vocabulary.yaml"
 CONTEXT = {"skos": "http://www.w3.org/2004/02/skos/core#", "owl": "http://www.w3.org/2002/07/owl#",
            "rdfs": "http://www.w3.org/2000/01/rdf-schema#"}
 

@@ -5,7 +5,7 @@ description: "Use the pinned producer tools, declare the caller and retain the c
 
 ## Choose the procedure
 
-The [complete source-replay procedure](https://github.com/probityai/agent-evidence/blob/main/site/experiments/aps-priorseal-source-replay/RUN.md)
+The [complete source-replay procedure](https://github.com/probityai/agent-evidence-vectors/blob/main/site/experiments/aps-priorseal-source-replay/RUN.md)
 gives the producer commits, required tools and both executable commands.
 Select and retain a published Atlas commit before running it.
 It also supports copied tools outside an Atlas checkout: retain the entrypoint,

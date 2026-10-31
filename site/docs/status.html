@@ -117,7 +117,7 @@
 <li><strong>Declarative policy decision point (OPA, Cedar, OpenFGA, Kyverno) x Effect</strong> (did the downstream system commit the effect?). Limit: “a decision precedes execution and cannot observe the result” <a href="https://github.com/open-policy-agent/opa/blob/a6c13a96f0cd11dc7ca6db9296b2af842ffdc0fd/README.md">source</a> (states the scope). Take it: a passing case binds an allow decision to an effect observed from a vantage the decider does not control.</li>
 <li><strong>Signature over a canonical JSON or CWT record (RFC 8785 JCS, JWS) x Occurrence</strong> (did the recorded event actually happen, rather than being asserted?). Limit: “TRACE LIMITATIONS: a privileged operator can produce a valid-looking Level 0 record for a run that never happened” <a href="https://github.com/agentrust-io/trace-spec/blob/5222ed4e238627590fb21e801e0acdf7c9d78cbc/LIMITATIONS.md">source</a> (states the limit). Take it: a passing case refuses a well-signed record with no independent observation of the run.</li>
 </ol>
-<p>To take a cell, <a href="https://github.com/probityai/agent-evidence/issues/new?template=evidence-run.yml">open an Evidence run issue</a> naming it. Listing a cell makes no claim about who closes it; a run that does is recorded in the Lab like any other.</p>
+<p>To take a cell, <a href="https://github.com/probityai/agent-evidence-vectors/issues/new?template=evidence-run.yml">open an Evidence run issue</a> naming it. Listing a cell makes no claim about who closes it; a run that does is recorded in the Lab like any other.</p>
 <h2 id="runs-filed-against-cells-and-cases">Runs filed against cells and cases</h2>
 <p>Runs filed as Evidence runs or in a case thread. They are not register records and carry no claim results, so the totals above do not count them. Each row says who operated the run and what the Lab reran itself.</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label="run / cell or case / pins / operated by / Lab rerun / what it shows / still open">
@@ -144,7 +144,7 @@
 </thead>
 <tbody>
 <tr>
-<td><a href="https://github.com/probityai/agent-evidence/issues/29"><code>nenrin-occurrence-257112c</code></a></td>
+<td><a href="https://github.com/probityai/agent-evidence-vectors/issues/348"><code>nenrin-occurrence-257112c</code></a></td>
 <td>Signature over a canonical JSON record x Occurrence</td>
 <td>ogasurfproject-jpg/horizon-shield@257112c33da98b21ba4b2772f98b48e704742106, occurrence-cell-v0</td>
 <td>author-operated (ogasurfproject-jpg wrote the verifier and the cases)</td>
@@ -153,7 +153,7 @@
 <td>The provider’s receipt is a second party’s signature, not an outside observation of the run.</td>
 </tr>
 <tr>
-<td><a href="https://github.com/probityai/agent-evidence/issues/25"><code>decision-bound-062faff</code></a></td>
+<td><a href="https://github.com/probityai/agent-evidence-vectors/issues/349"><code>decision-bound-062faff</code></a></td>
 <td>Declarative policy decision point x Effect (file write)</td>
 <td>giskard09/execution-join-ref-remora-bridge@062faff640e0800730f2fe47338f90dcfdef9ef6, decision-bound-output-v1; blind readers B (reader.py 5c0a685b) and C (3fbfeade) by ogasurfproject-jpg</td>
 <td>mechanism and verifier by giskard09; readers B and C written by ogasurfproject-jpg from the mechanism text alone, without the verifier</td>
@@ -162,7 +162,7 @@
 <td>babyblueviper1’s residual: COMMITMENT_AFTER_DECISION shows the output commitment could not exist before the decision, not that the write did not; anyone can bind bytes already written. KNOWN-LIMITATION-COMMITMENT-NOT-WRITE is accepted on purpose. Closing it needs a sink that accepts only bound writes, or an external anchor on both commitments.</td>
 </tr>
 <tr>
-<td><a href="https://github.com/probityai/agent-evidence/issues/28"><code>payment-ordering-f82d691</code></a></td>
+<td><a href="https://github.com/probityai/agent-evidence-vectors/issues/347"><code>payment-ordering-f82d691</code></a></td>
 <td>Declarative policy decision point x Effect (payment), cross-reference for the request/effect case</td>
 <td>babyblueviper1/preaction-governance-conformance@f82d69154d0b5eb9881f1ea1065926f86c33fec8, resolution-payment-pair-v0</td>
 <td>author-operated (one operator held the verdict key and both wallets; the chain is the outside party)</td>
@@ -180,7 +180,7 @@
 <td>Candidate seams G9 to G11, outside the frozen matrix and not rerun by the Lab: G9, a missing executedAt skips both windows in reader.mjs while the profile fails closed; G10, a non-numeric executedAt is passed or crashes the reader and no reader refuses it; G11, chainId as a JSON string gives CHAIN_MISMATCH in the shipped paths and bound in the two readers that follow the 1.0.1 paragraph. Found by piiiico, reproduced by ogasurfproject-jpg and by Tetsurohhori (run record 4bb1e1d). ogasurfproject-jpg’s 1bdbebc5 hardens only his own reader and resolves none of them. Each needs a contract decision.</td>
 </tr>
 <tr>
-<td><a href="https://github.com/probityai/agent-evidence/issues/50"><code>agentavow-tool-manifest-00e92b0</code></a></td>
+<td><a href="https://github.com/probityai/agent-evidence-vectors/issues/346"><code>agentavow-tool-manifest-00e92b0</code></a></td>
 <td>Tool manifest digest x retained local effect</td>
 <td>probityai/agent-evidence-observer@00e92b0a3fcf53376ebafc6cc9b4abde7e9fdc8c, fixture 48849607 from AgentAvow@36426cfd5152bba6a27766febfac8aaef47b6f34</td>
 <td>kenneives ran it as fixture author (macOS arm64); piiiico replayed it as a non-author on Linux aarch64; the Lab replayed it on Linux x86_64; all three ran the same reader code</td>
@@ -198,7 +198,7 @@
 <td>A separately written reader of the incident package. The replay ran Assay’s own verifier, so it shows the release behaves the same on a second architecture, not that a second implementation agrees.</td>
 </tr>
 <tr>
-<td><a href="https://github.com/probityai/agent-evidence/issues/24#issuecomment-6247272682"><code>witness-scope-unevaluated-f451b00</code></a></td>
+<td><a href="https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529875781"><code>witness-scope-unevaluated-f451b00</code></a></td>
 <td>witness_scope (vocabulary term, proposed) x Reader agreement</td>
 <td>astrogilda/agent-control-standard@f451b0089ea98a203bf930a3912deec2b4b4aea0, conformance/basis: basis_adapter.py 0e7195c5, runner.py 11c81e3f, vector.schema.json 83039478, vectors/basis_vectors.json d17faa02</td>
 <td>historical record by ossumpossum; he reports the rule it tested was struck on 2026-09-16, so there is no live rule to regress against</td>

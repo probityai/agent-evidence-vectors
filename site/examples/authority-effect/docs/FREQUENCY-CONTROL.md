@@ -5,7 +5,7 @@ retains its nine cases and three test groups. Its input decisions are supplied
 assertions. Its `assess` function uses Python truthiness, so a nonempty string
 such as `"false"` selects the authorized branch.
 
-[Pico's dated Lab report](https://github.com/probityai/agent-evidence/issues/24#issuecomment-6247271377)
+[Pico's dated Lab report](https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529871573)
 describes a cold replay operated by Pico AI under Håkon Åmdal. That disclosed
 outside operation is separate from independently established signatures or
 observations, and from host adoption or commercial use.
