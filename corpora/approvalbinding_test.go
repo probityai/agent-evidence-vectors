@@ -93,3 +93,31 @@ func TestApprovalBindingUnreadableInputsAreFindings(t *testing.T) {
 		})
 	}
 }
+
+func TestApprovalBindingRenewalChecksNameTheirOwnReason(t *testing.T) {
+	reasons := map[string]string{
+		"approval-reused-after-renewal":                   "approval_superseded",
+		"approval-renewal-transition-not-accepted":        "renewal_transition_missing",
+		"approval-renewal-decision-not-distinct":          "renewal_binding_invalid",
+		"approval-renewal-predecessor-decision-not-cited": "renewal_binding_invalid",
+		"approval-renewal-bounds-differ":                  "renewal_binding_invalid",
+		"approval-renewal-reopens-consumed-effect":        "effect_already_closed",
+		"approval-renewal-reopens-uncertain-effect":       "effect_already_closed",
+	}
+	for from, reason := range reasons {
+		t.Run(from, func(t *testing.T) {
+			dir := abStage(t, "allow-bound", "record.json", abRead(t, from, "record.json"))
+			if got := scDerived(t, dir, "allow-bound"); !strings.Contains(got, "derived deny/"+reason+",") {
+				t.Fatalf("want derived deny/%s, got %q", reason, got)
+			}
+		})
+	}
+	for _, from := range []string{"approval-renewed-same-bounds", "allow-predecessor-before-replacement"} {
+		t.Run("a denied record with the record of "+from, func(t *testing.T) {
+			dir := abStage(t, "approval-reused-after-renewal", "record.json", abRead(t, from, "record.json"))
+			if got := scDerived(t, dir, "approval-reused-after-renewal"); !strings.Contains(got, "derived allow/bound") {
+				t.Fatalf("want a derived allow, got %q", got)
+			}
+		})
+	}
+}
