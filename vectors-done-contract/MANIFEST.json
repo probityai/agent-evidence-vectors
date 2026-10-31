@@ -1,5 +1,9 @@
 {
   "corpusDigest": "d0ada63ea7cccc91033ffe50d3bb49dfd132c239985acace2bd5d22c27e182f8",
+  "counts": {
+    "invalid": 64,
+    "valid": 12
+  },
   "predicateSpec": "spec/predicates/done-contract.md",
   "predicateType": "https://w3id.org/agent-evidence/predicate/v1/done-contract",
   "recordSpec": "spec/predicates/done-records.md",

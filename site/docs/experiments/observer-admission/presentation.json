@@ -1,0 +1,72 @@
+{
+  "article": {
+    "url": "https://probityai.github.io/agent-evidence-atlas/replay-an-evidence-decision.html",
+    "sourceRepository": "probityai/agent-evidence-atlas",
+    "sourceCommit": "a592d539569c5754ea5eba70bdfd140db762fb1d",
+    "sourcePath": "src/replay-an-evidence-decision.md",
+    "sourceSha256": "42fe897cf7c5df852514eb91e602864bd8c48ca367de8a5ebe2204a162d2e886",
+    "sourceScope": "Pinned article and replay method before the additive packet-navigation link"
+  },
+  "procedure": {
+    "atlasCommit": "57d0085723c9eee1400797acf6729c4204325451",
+    "observerCommit": "8562c25fb7ec97596ea9d0297c495340298914b6",
+    "python": "3.12.14",
+    "cryptography": "46.0.7"
+  },
+  "inputs": [
+    {
+      "path": "experiments/observer-admission/source-pins.json",
+      "sha256": "2ffd87708075c0dd7b230336fdfd72c93bd2fbf3eded37ee632f75ad735418ec"
+    },
+    {
+      "path": "experiments/observer-admission/provenance.json",
+      "sha256": "8ea7581c5555e135963fc1419979157360acc724be7c17c2784136e29ce691f0"
+    }
+  ],
+  "result": {
+    "path": "experiments/observer-admission/recorded.json",
+    "sha256": "c8d9675ac0ff5fccd6545b6e6bb6ab5ac3bcc14b313d7087b253bab1f7f0f1eb",
+    "outcomes": {
+      "admissionCount": 1,
+      "admissionStatus": "admitted",
+      "replayRefusal": "interval was already admitted by this consumer",
+      "authorityRefusal": "packet authority differs from consumer policy",
+      "tamperRefusal": "signature does not verify under the pinned key",
+      "refusalsPreserveState": true
+    }
+  },
+  "assets": [
+    {
+      "path": "assets/admission-replay.svg",
+      "sha256": "c54fa6119c48fbfcf2200ba366b0e53b4e8a019ddc5eea27f6d11749c71cd564"
+    },
+    {
+      "path": "assets/admission-social.svg",
+      "sha256": "dca16bb807cac79fce5c962811453e12492d4f38695e323b3575fd1ab284fa87"
+    },
+    {
+      "path": "assets/admission-social.png",
+      "sha256": "aff9f7cf8a626d615ef3376263dcb0e85e12fb930a019c80b9412b06e5dbe43b"
+    }
+  ],
+  "roles": {
+    "fixtureOperator": "author-produced same-operator fixture",
+    "atlasReplay": "author replay",
+    "witnessScope": "PEER",
+    "evidenceVantage": "artifact",
+    "independentOperation": "not-established"
+  },
+  "nativeSource": {
+    "originalPRRun": 36808961399,
+    "originalPRCheckout": "e8040a8032ea197ea7a185a832808c5fb9ee9355",
+    "originalArchiveSha256": "bcc22cd27b1f9404e961f7329770620994a76348d085b7b711ab586986493892",
+    "laterNativeMainRun": 36825509807,
+    "laterNativeMainCheckout": "8562c25fb7ec97596ea9d0297c495340298914b6"
+  },
+  "labRecord": "https://probityai.github.io/agent-evidence-atlas/runs.html#record-E6-observer-admission",
+  "limits": [
+    "Retained evidence and admission decision; the replay does not repeat the brokered action",
+    "A refused control is an expected test outcome, not a contradiction in the admitted claim",
+    "No independent custody, complete transient effect capture, downstream exactly-once result or paid use established"
+  ]
+}

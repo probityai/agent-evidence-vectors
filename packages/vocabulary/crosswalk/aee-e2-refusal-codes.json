@@ -1,0 +1,1537 @@
+{
+  "source": {
+    "standard": "AEE (Adversarial Execution Evidence)",
+    "version": "v0.7",
+    "rail": "aee-e2",
+    "url": "https://github.com/DrVelvetFog/aee-e2",
+    "role": "verifier",
+    "note": "An independent second implementation filed under ITE#63 E2. It validates statements and issues none, so every value it produces is computed from a statement another party signed."
+  },
+  "target": {
+    "standard": "AEE reference verifier",
+    "url": "https://github.com/astrogilda/agent-evidence-vectors",
+    "suite": "adversarial-execution-evidence-conformance",
+    "suite_revision": 28,
+    "corpus_digest": "8b035678def9e5ac00ba761b8c640e4412c57163134afb9d2c1a90f49d573a52",
+    "spec_digest": "759d2383e5da36fa509dc335e6159a20b87641b25ebbadcf1676c55d75ffd8b0",
+    "spec_upstream_commit": "0dbe10bcc959b63dc42370a5db09812c9476f59a"
+  },
+  "pivot": {
+    "kind": "corpus condition identifiers",
+    "source_file": "vectors/reject/INDEX.md",
+    "conditions_registered": 93,
+    "note": "Both vocabularies are mapped onto the suite's own condition identifiers, which carry line anchors into the vendored spec. Neither rail owns them, so neither is renamed toward the other."
+  },
+  "crosswalk_kind": "vocabulary-to-vocabulary, over a shared corpus",
+  "generated_by": "tools/crosswalk-gen.py",
+  "derived_from": {
+    "run_report": {
+      "path": "reports/after-resolution/first-run.json",
+      "sha256": "25832ac4d7ed1e104aef1f3a59bbfd7f92f6594603bf2b3e824694ecf684c50f"
+    },
+    "manifest": {
+      "path": "corpus/vectors/MANIFEST.json",
+      "sha256": "7b6c7cc5f0068f5070f0da1eef2d43387eb070858cfd4041f850674de29471f0"
+    },
+    "index": {
+      "path": "corpus/vectors/reject/INDEX.md",
+      "sha256": "102b1773afd8697616ebea5197185c7b5656c4cb34fd8afcd50dc787cbef55f4"
+    },
+    "corpus_pin": {
+      "path": "spec/CORPUS-PIN.json",
+      "sha256": "e5d8becf04a71a39b61c70964ba58d6d536b6f462d741844963f4b10cef02278"
+    }
+  },
+  "counts": {
+    "reject_vectors_compared": 209,
+    "codes_this_rail": 63,
+    "codes_reference": 63,
+    "verbatim_overlap": 0,
+    "exact_pairs": 28,
+    "reference_codes_without_an_exact_pair": 35
+  },
+  "limits": [
+    "Every relation here is extensional: it says which statements two codes both refuse, across one corpus at one revision. It is not a claim that the two definitions mean the same thing, and a pair that agrees on 272 vectors may still diverge on the 273rd.",
+    "Codes are measured and not scored under the suite's comparisonSurface, so nothing here proposes that either rail adopt the other's spelling.",
+    "This rail refuses every reject vector, so no row below rests on a disagreement about whether a statement is invalid. The crosswalk relates reasons given for refusals both rails already share."
+  ],
+  "codes": [
+    {
+      "code": "cv-armed-after-issued",
+      "refusals": 1,
+      "reference_codes": [
+        {
+          "code": "arming-covers-nothing",
+          "co_refusals": 1,
+          "reference_refusals": 20,
+          "match": "structural"
+        }
+      ],
+      "conditions": [
+        "aee-c-63"
+      ]
+    },
+    {
+      "code": "cv-array-order",
+      "refusals": 2,
+      "reference_codes": [
+        {
+          "code": "arming-covers-nothing",
+          "co_refusals": 2,
+          "reference_refusals": 20,
+          "match": "structural"
+        }
+      ],
+      "conditions": [
+        "aee-c-89",
+        "aee-c-99"
+      ]
+    },
+    {
+      "code": "cv-assessed-subset",
+      "refusals": 2,
+      "reference_codes": [
+        {
+          "code": "assessed-set-exceeds-declaration",
+          "co_refusals": 2,
+          "reference_refusals": 2,
+          "match": "exact"
+        }
+      ],
+      "conditions": [
+        "aee-c-99"
+      ]
+    },
+    {
+      "code": "cv-batch-root",
+      "refusals": 9,
+      "reference_codes": [
+        {
+          "code": "batch-root-mismatch",
+          "co_refusals": 5,
+          "reference_refusals": 5,
+          "match": "structural"
+        },
+        {
+          "code": "duplicate-record",
+          "co_refusals": 2,
+          "reference_refusals": 2,
+          "match": "structural"
+        },
+        {
+          "code": "record-undecodable",
+          "co_refusals": 2,
+          "reference_refusals": 2,
+          "match": "structural"
+        },
+        {
+          "code": "batch-root-missing",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "structural"
+        }
+      ],
+      "conditions": [
+        "aee-c-19",
+        "aee-c-24",
+        "aee-c-25",
+        "aee-c-26",
+        "aee-c-27",
+        "aee-c-29",
+        "aee-c-30"
+      ]
+    },
+    {
+      "code": "cv-binding-version",
+      "refusals": 1,
+      "reference_codes": [
+        {
+          "code": "arming-covers-nothing",
+          "co_refusals": 1,
+          "reference_refusals": 20,
+          "match": "structural"
+        }
+      ],
+      "conditions": [
+        "aee-c-75"
+      ]
+    },
+    {
+      "code": "cv-chain-members",
+      "refusals": 6,
+      "reference_codes": [
+        {
+          "code": "arming-covers-nothing",
+          "co_refusals": 6,
+          "reference_refusals": 20,
+          "match": "structural"
+        }
+      ],
+      "conditions": [
+        "aee-c-89"
+      ]
+    },
+    {
+      "code": "cv-clean-row-interception",
+      "refusals": 1,
+      "reference_codes": [
+        {
+          "code": "clean-row-contradicted",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "exact"
+        }
+      ],
+      "conditions": [
+        "aee-c-94"
+      ]
+    },
+    {
+      "code": "cv-media-type",
+      "refusals": 1,
+      "reference_codes": [
+        {
+          "code": "payload-media-type",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "exact"
+        }
+      ],
+      "conditions": [
+        "aee-c-19"
+      ]
+    },
+    {
+      "code": "cv-method-strength",
+      "refusals": 4,
+      "reference_codes": [
+        {
+          "code": "method-cap-exceeded",
+          "co_refusals": 2,
+          "reference_refusals": 2,
+          "match": "structural"
+        },
+        {
+          "code": "arming-covers-nothing",
+          "co_refusals": 1,
+          "reference_refusals": 20,
+          "match": "partial"
+        },
+        {
+          "code": "sealed-covers-nothing",
+          "co_refusals": 1,
+          "reference_refusals": 30,
+          "match": "partial"
+        }
+      ],
+      "conditions": [
+        "aee-c-23",
+        "aee-c-45",
+        "aee-c-63",
+        "aee-c-65"
+      ]
+    },
+    {
+      "code": "cv-observed-attacks-row",
+      "refusals": 6,
+      "reference_codes": [
+        {
+          "code": "observed-attack-uncaught",
+          "co_refusals": 4,
+          "reference_refusals": 4,
+          "match": "structural"
+        },
+        {
+          "code": "sealed-covers-nothing",
+          "co_refusals": 2,
+          "reference_refusals": 30,
+          "match": "partial"
+        },
+        {
+          "code": "coverage-incomplete",
+          "co_refusals": 1,
+          "reference_refusals": 9,
+          "match": "partial"
+        }
+      ],
+      "conditions": [
+        "aee-c-98",
+        "aee-c-108"
+      ]
+    },
+    {
+      "code": "cv-observed-set",
+      "refusals": 18,
+      "reference_codes": [
+        {
+          "code": "payload-not-ijson",
+          "co_refusals": 7,
+          "reference_refusals": 7,
+          "match": "structural"
+        },
+        {
+          "code": "observed-set-mismatch",
+          "co_refusals": 3,
+          "reference_refusals": 3,
+          "match": "structural"
+        },
+        {
+          "code": "payload-missing-reserved",
+          "co_refusals": 2,
+          "reference_refusals": 4,
+          "match": "partial"
+        },
+        {
+          "code": "payload-not-canonical",
+          "co_refusals": 2,
+          "reference_refusals": 2,
+          "match": "structural"
+        },
+        {
+          "code": "sealed-covers-nothing",
+          "co_refusals": 2,
+          "reference_refusals": 30,
+          "match": "partial"
+        },
+        {
+          "code": "payload-media-type",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "structural"
+        },
+        {
+          "code": "record-undecodable",
+          "co_refusals": 1,
+          "reference_refusals": 2,
+          "match": "partial"
+        }
+      ],
+      "conditions": [
+        "aee-c-17",
+        "aee-c-18",
+        "aee-c-19",
+        "aee-c-20",
+        "aee-c-87",
+        "aee-c-97",
+        "aee-c-108"
+      ]
+    },
+    {
+      "code": "cv-orphan-interception",
+      "refusals": 7,
+      "reference_codes": [
+        {
+          "code": "caught-row-uncovered",
+          "co_refusals": 3,
+          "reference_refusals": 5,
+          "match": "partial"
+        },
+        {
+          "code": "interception-record-orphaned",
+          "co_refusals": 3,
+          "reference_refusals": 3,
+          "match": "structural"
+        },
+        {
+          "code": "coverage-incomplete",
+          "co_refusals": 1,
+          "reference_refusals": 9,
+          "match": "partial"
+        },
+        {
+          "code": "reconstructed-row-uncovered",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "structural"
+        },
+        {
+          "code": "refs-empty",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "structural"
+        }
+      ],
+      "conditions": [
+        "aee-c-10",
+        "aee-c-12",
+        "aee-c-13",
+        "aee-c-82",
+        "aee-c-95"
+      ]
+    },
+    {
+      "code": "cv-payload-bmp",
+      "refusals": 1,
+      "reference_codes": [
+        {
+          "code": "payload-not-canonical",
+          "co_refusals": 1,
+          "reference_refusals": 2,
+          "match": "structural"
+        }
+      ],
+      "conditions": [
+        "aee-c-87"
+      ]
+    },
+    {
+      "code": "cv-payload-canonical",
+      "refusals": 1,
+      "reference_codes": [
+        {
+          "code": "payload-not-canonical",
+          "co_refusals": 1,
+          "reference_refusals": 2,
+          "match": "structural"
+        }
+      ],
+      "conditions": [
+        "aee-c-17"
+      ]
+    },
+    {
+      "code": "cv-payload-parse",
+      "refusals": 15,
+      "reference_codes": [
+        {
+          "code": "payload-not-ijson",
+          "co_refusals": 7,
+          "reference_refusals": 7,
+          "match": "structural"
+        },
+        {
+          "code": "payload-missing-reserved",
+          "co_refusals": 3,
+          "reference_refusals": 4,
+          "match": "partial"
+        },
+        {
+          "code": "payload-not-canonical",
+          "co_refusals": 2,
+          "reference_refusals": 2,
+          "match": "structural"
+        },
+        {
+          "code": "record-undecodable",
+          "co_refusals": 2,
+          "reference_refusals": 2,
+          "match": "structural"
+        },
+        {
+          "code": "duplicate-record",
+          "co_refusals": 1,
+          "reference_refusals": 2,
+          "match": "partial"
+        },
+        {
+          "code": "payload-media-type",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "structural"
+        }
+      ],
+      "conditions": [
+        "aee-c-17",
+        "aee-c-18",
+        "aee-c-19",
+        "aee-c-20",
+        "aee-c-29",
+        "aee-c-87"
+      ]
+    },
+    {
+      "code": "cv-payload-reserved",
+      "refusals": 3,
+      "reference_codes": [
+        {
+          "code": "payload-missing-reserved",
+          "co_refusals": 3,
+          "reference_refusals": 4,
+          "match": "structural"
+        }
+      ],
+      "conditions": [
+        "aee-c-20"
+      ]
+    },
+    {
+      "code": "cv-pinned-commitment",
+      "refusals": 4,
+      "reference_codes": [
+        {
+          "code": "attribution-pin-unmatched",
+          "co_refusals": 4,
+          "reference_refusals": 4,
+          "match": "exact"
+        }
+      ],
+      "conditions": [
+        "aee-c-102"
+      ]
+    },
+    {
+      "code": "cv-pinned-no-expectation",
+      "refusals": 2,
+      "reference_codes": [
+        {
+          "code": "attribution-unpinnable",
+          "co_refusals": 2,
+          "reference_refusals": 2,
+          "match": "exact"
+        }
+      ],
+      "conditions": [
+        "aee-c-101"
+      ]
+    },
+    {
+      "code": "cv-pinned-no-interception",
+      "refusals": 3,
+      "reference_codes": [
+        {
+          "code": "attribution-pinned-recordless",
+          "co_refusals": 3,
+          "reference_refusals": 3,
+          "match": "exact"
+        },
+        {
+          "code": "caught-row-uncovered",
+          "co_refusals": 2,
+          "reference_refusals": 5,
+          "match": "partial"
+        }
+      ],
+      "conditions": [
+        "aee-c-100"
+      ]
+    },
+    {
+      "code": "cv-posture-digest",
+      "refusals": 5,
+      "reference_codes": [
+        {
+          "code": "sealed-covers-nothing",
+          "co_refusals": 4,
+          "reference_refusals": 30,
+          "match": "partial"
+        },
+        {
+          "code": "arming-covers-nothing",
+          "co_refusals": 2,
+          "reference_refusals": 20,
+          "match": "partial"
+        },
+        {
+          "code": "clean-row-uncovered",
+          "co_refusals": 1,
+          "reference_refusals": 3,
+          "match": "partial"
+        }
+      ],
+      "conditions": [
+        "aee-c-63",
+        "aee-c-65",
+        "aee-c-108"
+      ]
+    },
+    {
+      "code": "cv-record-class",
+      "refusals": 37,
+      "reference_codes": [
+        {
+          "code": "sealed-covers-nothing",
+          "co_refusals": 11,
+          "reference_refusals": 30,
+          "match": "partial"
+        },
+        {
+          "code": "payload-not-ijson",
+          "co_refusals": 7,
+          "reference_refusals": 7,
+          "match": "structural"
+        },
+        {
+          "code": "caught-row-uncovered",
+          "co_refusals": 4,
+          "reference_refusals": 5,
+          "match": "partial"
+        },
+        {
+          "code": "clean-row-uncovered",
+          "co_refusals": 3,
+          "reference_refusals": 3,
+          "match": "structural"
+        },
+        {
+          "code": "payload-missing-reserved",
+          "co_refusals": 3,
+          "reference_refusals": 4,
+          "match": "partial"
+        },
+        {
+          "code": "arming-covers-nothing",
+          "co_refusals": 2,
+          "reference_refusals": 20,
+          "match": "partial"
+        },
+        {
+          "code": "attribution-pinned-recordless",
+          "co_refusals": 2,
+          "reference_refusals": 3,
+          "match": "partial"
+        },
+        {
+          "code": "payload-not-canonical",
+          "co_refusals": 2,
+          "reference_refusals": 2,
+          "match": "structural"
+        },
+        {
+          "code": "interception-record-orphaned",
+          "co_refusals": 1,
+          "reference_refusals": 3,
+          "match": "partial"
+        },
+        {
+          "code": "moat-drop-covers-nothing",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "structural"
+        },
+        {
+          "code": "payload-media-type",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "structural"
+        },
+        {
+          "code": "reconstructed-row-uncovered",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "structural"
+        },
+        {
+          "code": "record-kind-unknown-covers-nothing",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "structural"
+        },
+        {
+          "code": "record-undecodable",
+          "co_refusals": 1,
+          "reference_refusals": 2,
+          "match": "partial"
+        },
+        {
+          "code": "records-absent",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "structural"
+        },
+        {
+          "code": "ref-out-of-range",
+          "co_refusals": 1,
+          "reference_refusals": 5,
+          "match": "partial"
+        },
+        {
+          "code": "uncommitted-observation-covers-nothing",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "structural"
+        }
+      ],
+      "conditions": [
+        "aee-c-11",
+        "aee-c-12",
+        "aee-c-13",
+        "aee-c-14",
+        "aee-c-17",
+        "aee-c-18",
+        "aee-c-19",
+        "aee-c-20",
+        "aee-c-31",
+        "aee-c-63",
+        "aee-c-64",
+        "aee-c-65",
+        "aee-c-68",
+        "aee-c-71",
+        "aee-c-87",
+        "aee-c-95",
+        "aee-c-100",
+        "aee-c-106",
+        "aee-c-107"
+      ]
+    },
+    {
+      "code": "cv-record-member",
+      "refusals": 21,
+      "reference_codes": [
+        {
+          "code": "sealed-covers-nothing",
+          "co_refusals": 10,
+          "reference_refusals": 30,
+          "match": "partial"
+        },
+        {
+          "code": "arming-covers-nothing",
+          "co_refusals": 7,
+          "reference_refusals": 20,
+          "match": "partial"
+        },
+        {
+          "code": "payload-commitment-malformed",
+          "co_refusals": 3,
+          "reference_refusals": 3,
+          "match": "structural"
+        },
+        {
+          "code": "payload-missing-reserved",
+          "co_refusals": 1,
+          "reference_refusals": 4,
+          "match": "partial"
+        }
+      ],
+      "conditions": [
+        "aee-c-63",
+        "aee-c-64",
+        "aee-c-65",
+        "aee-c-97",
+        "aee-c-98",
+        "aee-c-99",
+        "aee-c-104",
+        "aee-c-108"
+      ]
+    },
+    {
+      "code": "cv-record-method",
+      "refusals": 5,
+      "reference_codes": [
+        {
+          "code": "examination-covers-nothing",
+          "co_refusals": 2,
+          "reference_refusals": 2,
+          "match": "structural"
+        },
+        {
+          "code": "sealed-covers-nothing",
+          "co_refusals": 2,
+          "reference_refusals": 30,
+          "match": "partial"
+        },
+        {
+          "code": "arming-covers-nothing",
+          "co_refusals": 1,
+          "reference_refusals": 20,
+          "match": "partial"
+        }
+      ],
+      "conditions": [
+        "aee-c-63",
+        "aee-c-65",
+        "aee-c-66",
+        "aee-c-108"
+      ]
+    },
+    {
+      "code": "cv-record-signatures",
+      "refusals": 2,
+      "reference_codes": [
+        {
+          "code": "record-signatures-empty",
+          "co_refusals": 2,
+          "reference_refusals": 2,
+          "match": "exact"
+        }
+      ],
+      "conditions": [
+        "aee-c-91"
+      ]
+    },
+    {
+      "code": "cv-refs-empty",
+      "refusals": 1,
+      "reference_codes": [
+        {
+          "code": "caught-row-uncovered",
+          "co_refusals": 1,
+          "reference_refusals": 5,
+          "match": "structural"
+        },
+        {
+          "code": "refs-empty",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "exact"
+        }
+      ],
+      "conditions": [
+        "aee-c-10",
+        "aee-c-12"
+      ]
+    },
+    {
+      "code": "cv-run-binding",
+      "refusals": 9,
+      "reference_codes": [
+        {
+          "code": "run-binding-mismatch",
+          "co_refusals": 7,
+          "reference_refusals": 7,
+          "match": "structural"
+        },
+        {
+          "code": "run-entropy-missing",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "structural"
+        },
+        {
+          "code": "subject-sha256-missing",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "structural"
+        }
+      ],
+      "conditions": [
+        "aee-c-22",
+        "aee-c-57",
+        "aee-c-59",
+        "aee-c-60",
+        "aee-c-62",
+        "aee-c-75"
+      ]
+    },
+    {
+      "code": "cv-seal-covers-nothing",
+      "refusals": 15,
+      "reference_codes": [
+        {
+          "code": "sealed-covers-nothing",
+          "co_refusals": 14,
+          "reference_refusals": 30,
+          "match": "partial"
+        },
+        {
+          "code": "sealed-record-absent",
+          "co_refusals": 1,
+          "reference_refusals": 2,
+          "match": "partial"
+        }
+      ],
+      "conditions": [
+        "aee-c-64",
+        "aee-c-65",
+        "aee-c-68",
+        "aee-c-96",
+        "aee-c-108"
+      ]
+    },
+    {
+      "code": "cv-sealed-existence",
+      "refusals": 12,
+      "reference_codes": [
+        {
+          "code": "run-binding-mismatch",
+          "co_refusals": 7,
+          "reference_refusals": 7,
+          "match": "structural"
+        },
+        {
+          "code": "sealed-record-absent",
+          "co_refusals": 2,
+          "reference_refusals": 2,
+          "match": "structural"
+        },
+        {
+          "code": "records-absent",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "structural"
+        },
+        {
+          "code": "ref-out-of-range",
+          "co_refusals": 1,
+          "reference_refusals": 5,
+          "match": "partial"
+        },
+        {
+          "code": "run-entropy-missing",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "structural"
+        },
+        {
+          "code": "subject-sha256-missing",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "structural"
+        }
+      ],
+      "conditions": [
+        "aee-c-11",
+        "aee-c-22",
+        "aee-c-31",
+        "aee-c-57",
+        "aee-c-59",
+        "aee-c-60",
+        "aee-c-62",
+        "aee-c-75",
+        "aee-c-96"
+      ]
+    },
+    {
+      "code": "cv-uncoverable-substrate-row",
+      "refusals": 6,
+      "reference_codes": [
+        {
+          "code": "fail-closed-substrate-row",
+          "co_refusals": 6,
+          "reference_refusals": 6,
+          "match": "exact"
+        }
+      ],
+      "conditions": [
+        "aee-c-4",
+        "aee-c-5",
+        "aee-c-42",
+        "aee-c-44",
+        "aee-c-53",
+        "aee-c-105"
+      ]
+    },
+    {
+      "code": "ijson-profile",
+      "refusals": 8,
+      "reference_codes": [
+        {
+          "code": "statement-malformed",
+          "co_refusals": 8,
+          "reference_refusals": 10,
+          "match": "structural"
+        }
+      ],
+      "conditions": [
+        "aee-c-18"
+      ]
+    },
+    {
+      "code": "wf-actual-layer-type",
+      "refusals": 1,
+      "reference_codes": [
+        {
+          "code": "statement-malformed",
+          "co_refusals": 1,
+          "reference_refusals": 10,
+          "match": "structural"
+        }
+      ],
+      "conditions": [
+        "aee-c-88"
+      ]
+    },
+    {
+      "code": "wf-array-duplicate",
+      "refusals": 1,
+      "reference_codes": [
+        {
+          "code": "vocabulary-not-canonical",
+          "co_refusals": 1,
+          "reference_refusals": 4,
+          "match": "structural"
+        }
+      ],
+      "conditions": [
+        "aee-c-53"
+      ]
+    },
+    {
+      "code": "wf-array-order",
+      "refusals": 2,
+      "reference_codes": [
+        {
+          "code": "manifest-expected-payloads-malformed",
+          "co_refusals": 1,
+          "reference_refusals": 6,
+          "match": "partial"
+        },
+        {
+          "code": "vocabulary-not-canonical",
+          "co_refusals": 1,
+          "reference_refusals": 4,
+          "match": "partial"
+        }
+      ],
+      "conditions": [
+        "aee-c-53",
+        "aee-c-103"
+      ]
+    },
+    {
+      "code": "wf-batch-root",
+      "refusals": 1,
+      "reference_codes": [
+        {
+          "code": "batch-root-missing",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "exact"
+        }
+      ],
+      "conditions": [
+        "aee-c-24"
+      ]
+    },
+    {
+      "code": "wf-batch-root-orphaned",
+      "refusals": 1,
+      "reference_codes": [
+        {
+          "code": "batch-root-orphaned",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "exact"
+        }
+      ],
+      "conditions": [
+        "aee-c-31"
+      ]
+    },
+    {
+      "code": "wf-caught-subset",
+      "refusals": 1,
+      "reference_codes": [
+        {
+          "code": "vocabulary-caught-not-subset",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "exact"
+        }
+      ],
+      "conditions": [
+        "aee-c-52"
+      ]
+    },
+    {
+      "code": "wf-clean-row-actual-layer",
+      "refusals": 3,
+      "reference_codes": [
+        {
+          "code": "clean-row-layer-not-none",
+          "co_refusals": 3,
+          "reference_refusals": 3,
+          "match": "exact"
+        }
+      ],
+      "conditions": [
+        "aee-c-48"
+      ]
+    },
+    {
+      "code": "wf-corpus-digest",
+      "refusals": 1,
+      "reference_codes": [
+        {
+          "code": "corpus-digest-mismatch",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "exact"
+        }
+      ],
+      "conditions": [
+        "aee-c-79"
+      ]
+    },
+    {
+      "code": "wf-coverage-integrity",
+      "refusals": 4,
+      "reference_codes": [
+        {
+          "code": "coverage-incomplete",
+          "co_refusals": 4,
+          "reference_refusals": 9,
+          "match": "structural"
+        },
+        {
+          "code": "observed-attack-uncaught",
+          "co_refusals": 1,
+          "reference_refusals": 4,
+          "match": "partial"
+        },
+        {
+          "code": "row-attack-unknown",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "structural"
+        }
+      ],
+      "conditions": [
+        "aee-c-81",
+        "aee-c-82",
+        "aee-c-98"
+      ]
+    },
+    {
+      "code": "wf-coverage-partition",
+      "refusals": 5,
+      "reference_codes": [
+        {
+          "code": "coverage-incomplete",
+          "co_refusals": 5,
+          "reference_refusals": 9,
+          "match": "structural"
+        }
+      ],
+      "conditions": [
+        "aee-c-82"
+      ]
+    },
+    {
+      "code": "wf-digest-not-canonical",
+      "refusals": 2,
+      "reference_codes": [
+        {
+          "code": "digest-not-canonical",
+          "co_refusals": 2,
+          "reference_refusals": 2,
+          "match": "exact"
+        }
+      ],
+      "conditions": [
+        "aee-c-59"
+      ]
+    },
+    {
+      "code": "wf-duplicate-attack-id",
+      "refusals": 1,
+      "reference_codes": [
+        {
+          "code": "statement-malformed",
+          "co_refusals": 1,
+          "reference_refusals": 10,
+          "match": "structural"
+        }
+      ],
+      "conditions": [
+        "aee-c-90"
+      ]
+    },
+    {
+      "code": "wf-expected-payloads",
+      "refusals": 5,
+      "reference_codes": [
+        {
+          "code": "manifest-expected-payloads-malformed",
+          "co_refusals": 5,
+          "reference_refusals": 6,
+          "match": "structural"
+        }
+      ],
+      "conditions": [
+        "aee-c-103"
+      ]
+    },
+    {
+      "code": "wf-manifest-class-overlap",
+      "refusals": 1,
+      "reference_codes": [
+        {
+          "code": "manifest-duplicate-attack",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "exact"
+        }
+      ],
+      "conditions": [
+        "aee-c-80"
+      ]
+    },
+    {
+      "code": "wf-manifest-floor",
+      "refusals": 2,
+      "reference_codes": [
+        {
+          "code": "corpus-manifest-no-attacks",
+          "co_refusals": 2,
+          "reference_refusals": 2,
+          "match": "exact"
+        }
+      ],
+      "conditions": [
+        "aee-c-92"
+      ]
+    },
+    {
+      "code": "wf-manifest-shape",
+      "refusals": 1,
+      "reference_codes": [
+        {
+          "code": "environment-incomplete",
+          "co_refusals": 1,
+          "reference_refusals": 5,
+          "match": "structural"
+        }
+      ],
+      "conditions": [
+        "aee-c-78"
+      ]
+    },
+    {
+      "code": "wf-member-spelling",
+      "refusals": 1,
+      "reference_codes": [
+        {
+          "code": "member-spelling",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "exact"
+        }
+      ],
+      "conditions": [
+        "aee-c-84"
+      ]
+    },
+    {
+      "code": "wf-missing-member",
+      "refusals": 6,
+      "reference_codes": [
+        {
+          "code": "environment-incomplete",
+          "co_refusals": 4,
+          "reference_refusals": 5,
+          "match": "partial"
+        },
+        {
+          "code": "coverage-missing",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "structural"
+        },
+        {
+          "code": "vocabulary-missing",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "structural"
+        }
+      ],
+      "conditions": [
+        "aee-c-51",
+        "aee-c-78",
+        "aee-c-83"
+      ]
+    },
+    {
+      "code": "wf-observation-ref-range",
+      "refusals": 7,
+      "reference_codes": [
+        {
+          "code": "ref-out-of-range",
+          "co_refusals": 5,
+          "reference_refusals": 5,
+          "match": "structural"
+        },
+        {
+          "code": "ref-malformed",
+          "co_refusals": 2,
+          "reference_refusals": 2,
+          "match": "structural"
+        },
+        {
+          "code": "records-absent",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "structural"
+        }
+      ],
+      "conditions": [
+        "aee-c-11",
+        "aee-c-31"
+      ]
+    },
+    {
+      "code": "wf-posture-vocabulary",
+      "refusals": 3,
+      "reference_codes": [
+        {
+          "code": "posture-vocabulary",
+          "co_refusals": 3,
+          "reference_refusals": 3,
+          "match": "exact"
+        }
+      ],
+      "conditions": [
+        "aee-c-93"
+      ]
+    },
+    {
+      "code": "wf-predicate-type",
+      "refusals": 1,
+      "reference_codes": [
+        {
+          "code": "predicate-type-unsupported",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "exact"
+        }
+      ],
+      "conditions": [
+        "aee-c-77"
+      ]
+    },
+    {
+      "code": "wf-result-recompute",
+      "refusals": 12,
+      "reference_codes": [
+        {
+          "code": "result-recompute-mismatch",
+          "co_refusals": 10,
+          "reference_refusals": 12,
+          "match": "partial"
+        },
+        {
+          "code": "vocabulary-missing",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "structural"
+        },
+        {
+          "code": "vocabulary-not-canonical",
+          "co_refusals": 1,
+          "reference_refusals": 4,
+          "match": "partial"
+        }
+      ],
+      "conditions": [
+        "aee-c-2",
+        "aee-c-4",
+        "aee-c-5",
+        "aee-c-6",
+        "aee-c-51",
+        "aee-c-105"
+      ]
+    },
+    {
+      "code": "wf-result-token",
+      "refusals": 2,
+      "reference_codes": [
+        {
+          "code": "result-recompute-mismatch",
+          "co_refusals": 2,
+          "reference_refusals": 12,
+          "match": "structural"
+        },
+        {
+          "code": "result-vocabulary",
+          "co_refusals": 2,
+          "reference_refusals": 2,
+          "match": "exact"
+        }
+      ],
+      "conditions": [
+        "aee-c-1",
+        "aee-c-2"
+      ]
+    },
+    {
+      "code": "wf-row-member",
+      "refusals": 1,
+      "reference_codes": [
+        {
+          "code": "malformed-missing-actual-layer",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "exact"
+        }
+      ],
+      "conditions": [
+        "aee-c-47"
+      ]
+    },
+    {
+      "code": "wf-run-entropy",
+      "refusals": 1,
+      "reference_codes": [
+        {
+          "code": "run-entropy-missing",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "exact"
+        }
+      ],
+      "conditions": [
+        "aee-c-57"
+      ]
+    },
+    {
+      "code": "wf-statement-type",
+      "refusals": 1,
+      "reference_codes": [
+        {
+          "code": "statement-type-unsupported",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "exact"
+        }
+      ],
+      "conditions": [
+        "aee-c-77"
+      ]
+    },
+    {
+      "code": "wf-subject",
+      "refusals": 1,
+      "reference_codes": [
+        {
+          "code": "subject-sha256-missing",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "exact"
+        }
+      ],
+      "conditions": [
+        "aee-c-59",
+        "aee-c-60"
+      ]
+    },
+    {
+      "code": "wf-subject-cardinality",
+      "refusals": 3,
+      "reference_codes": [
+        {
+          "code": "subject-cardinality",
+          "co_refusals": 3,
+          "reference_refusals": 3,
+          "match": "exact"
+        }
+      ],
+      "conditions": [
+        "aee-c-58"
+      ]
+    },
+    {
+      "code": "wf-timestamp-profile",
+      "refusals": 5,
+      "reference_codes": [
+        {
+          "code": "issued-at-malformed",
+          "co_refusals": 4,
+          "reference_refusals": 4,
+          "match": "structural"
+        },
+        {
+          "code": "issued-at-missing",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "structural"
+        }
+      ],
+      "conditions": [
+        "aee-c-85"
+      ]
+    },
+    {
+      "code": "wf-unknown-attack-id",
+      "refusals": 1,
+      "reference_codes": [
+        {
+          "code": "coverage-incomplete",
+          "co_refusals": 1,
+          "reference_refusals": 9,
+          "match": "structural"
+        },
+        {
+          "code": "row-attack-unknown",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "exact"
+        }
+      ],
+      "conditions": [
+        "aee-c-81",
+        "aee-c-82"
+      ]
+    },
+    {
+      "code": "wf-vocabulary-bmp",
+      "refusals": 1,
+      "reference_codes": [
+        {
+          "code": "vocabulary-not-canonical",
+          "co_refusals": 1,
+          "reference_refusals": 4,
+          "match": "structural"
+        }
+      ],
+      "conditions": [
+        "aee-c-86"
+      ]
+    },
+    {
+      "code": "wf-vocabulary-digest",
+      "refusals": 1,
+      "reference_codes": [
+        {
+          "code": "vocabulary-digest-mismatch",
+          "co_refusals": 1,
+          "reference_refusals": 1,
+          "match": "exact"
+        }
+      ],
+      "conditions": [
+        "aee-c-54"
+      ]
+    },
+    {
+      "code": "wf-vocabulary-shape",
+      "refusals": 1,
+      "reference_codes": [
+        {
+          "code": "vocabulary-not-canonical",
+          "co_refusals": 1,
+          "reference_refusals": 4,
+          "match": "structural"
+        }
+      ],
+      "conditions": [
+        "aee-c-51"
+      ]
+    }
+  ],
+  "reference_codes_without_an_exact_pair": [
+    "arming-covers-nothing",
+    "batch-root-mismatch",
+    "caught-row-uncovered",
+    "clean-row-uncovered",
+    "coverage-incomplete",
+    "coverage-missing",
+    "duplicate-record",
+    "environment-incomplete",
+    "examination-covers-nothing",
+    "interception-record-orphaned",
+    "issued-at-malformed",
+    "issued-at-missing",
+    "manifest-expected-payloads-malformed",
+    "method-cap-exceeded",
+    "moat-drop-covers-nothing",
+    "observed-attack-uncaught",
+    "observed-set-mismatch",
+    "payload-commitment-malformed",
+    "payload-missing-reserved",
+    "payload-not-canonical",
+    "payload-not-ijson",
+    "reconstructed-row-uncovered",
+    "record-kind-unknown-covers-nothing",
+    "record-undecodable",
+    "records-absent",
+    "ref-malformed",
+    "ref-out-of-range",
+    "result-recompute-mismatch",
+    "run-binding-mismatch",
+    "sealed-covers-nothing",
+    "sealed-record-absent",
+    "statement-malformed",
+    "uncommitted-observation-covers-nothing",
+    "vocabulary-missing",
+    "vocabulary-not-canonical"
+  ]
+}

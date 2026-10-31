@@ -1,0 +1,88 @@
+{
+  "agt_revision": "60931ce0c65db144032cdc8e8f342c66cbb1201c",
+  "rfc8785_revision": "655cbe02b8761208e3f4cc49e879ab1e328a7dca",
+  "python": "3.12.14",
+  "pydantic": "2.13.5",
+  "source_sha256": {
+    "audit.py": "969ec84af0de56838d1ed86250437bbc300e1536974cd5429d52328dc7f3ef8b",
+    "rfc8785_impl.py": "d841b6d81ceefff296b528f54836b4d7612fab69fe7a48ebef8590eeb512637b",
+    "trace_model.py": "9126317fad759ddcfaaf888597e6f16945a3de28096f66c9e394c06c65df7aa9",
+    "trace_sink.py": "e50e7170759b5d530cc23f82bcbe49fccbe7bbc2992307ee2b4a135c590ec7b7"
+  },
+  "scope": "Real AuditEntry and session mapping functions; no signing or live agent run",
+  "cases": [
+    {
+      "case": "ascii-control",
+      "data": {
+        "value": "plain"
+      },
+      "model_hash": "sha256:96098b96308b2d07e2327876945db1f86beebaeff16c495d15d3feafe0f5f859",
+      "sink_hash": "sha256:96098b96308b2d07e2327876945db1f86beebaeff16c495d15d3feafe0f5f859",
+      "rfc8785_hash": "sha256:96098b96308b2d07e2327876945db1f86beebaeff16c495d15d3feafe0f5f859",
+      "model_equals_sink": true,
+      "model_equals_rfc8785": true,
+      "sink_equals_rfc8785": true
+    },
+    {
+      "case": "non-ascii-value",
+      "data": {
+        "value": "\u00e9"
+      },
+      "model_hash": "sha256:5e09d52f2d36599e37e8b1b02ca2be7360a906b7d0dad23f78fef1efab1f2f5d",
+      "sink_hash": "sha256:d457dcb590fe7564a281d3104855e266d18fa90b36d6199b43c4ebb831cb5810",
+      "rfc8785_hash": "sha256:5e09d52f2d36599e37e8b1b02ca2be7360a906b7d0dad23f78fef1efab1f2f5d",
+      "model_equals_sink": false,
+      "model_equals_rfc8785": true,
+      "sink_equals_rfc8785": false
+    },
+    {
+      "case": "utf16-key-order",
+      "data": {
+        "\ue000": "bmp",
+        "\ud800\udc00": "supplementary"
+      },
+      "model_hash": "sha256:aa8ea295652e1438d64dcd3bf69b153c0897e8fa7789071659046c7e7b4e60f7",
+      "sink_hash": "sha256:1ff2cf70c733128f47b96cb58fd77a17af4c8a5201cbf0808560f36a8acb94db",
+      "rfc8785_hash": "sha256:ec58db636979f4eb95e0d0dcf5d1d614dcbe4e0fab8fbc0ea672f74fcbc84f3e",
+      "model_equals_sink": false,
+      "model_equals_rfc8785": false,
+      "sink_equals_rfc8785": false
+    },
+    {
+      "case": "integer-valued-float",
+      "data": {
+        "latency": 1.0
+      },
+      "model_hash": "sha256:c75de31fcdc4bcaae5fc0b563745735febe267a33283f15c0263c0f446f4e399",
+      "sink_hash": "sha256:c75de31fcdc4bcaae5fc0b563745735febe267a33283f15c0263c0f446f4e399",
+      "rfc8785_hash": "sha256:ed05a6d6105c63ffbbdd68f99f3cb3a8a338182f596027a2543bc39b0a6f0084",
+      "model_equals_sink": true,
+      "model_equals_rfc8785": false,
+      "sink_equals_rfc8785": false
+    },
+    {
+      "case": "negative-zero",
+      "data": {
+        "latency": -0.0
+      },
+      "model_hash": "sha256:0354aa0163350ae06eea04c928b25342f16ff21110219ce319e19ba726fca87d",
+      "sink_hash": "sha256:0354aa0163350ae06eea04c928b25342f16ff21110219ce319e19ba726fca87d",
+      "rfc8785_hash": "sha256:de479a245cf025eedcb14b68f90ca21fbfcfc7882d4d083560af41a0da4fa73e",
+      "model_equals_sink": true,
+      "model_equals_rfc8785": false,
+      "sink_equals_rfc8785": false
+    },
+    {
+      "case": "small-float",
+      "data": {
+        "latency": 1e-06
+      },
+      "model_hash": "sha256:ee2f570eb698a581ecad8a71a31602df54de7bd7eeee3b3252c1f60cfc0fc44c",
+      "sink_hash": "sha256:ee2f570eb698a581ecad8a71a31602df54de7bd7eeee3b3252c1f60cfc0fc44c",
+      "rfc8785_hash": "sha256:5f616aef36c432bd9876abc1d4755796c1cbbe4cf36a5ea5cbd6a54c1ac2300b",
+      "model_equals_sink": true,
+      "model_equals_rfc8785": false,
+      "sink_equals_rfc8785": false
+    }
+  ]
+}

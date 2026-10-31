@@ -25,6 +25,9 @@ import sys
 from pathlib import Path
 from typing import NamedTuple
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import _release_source  # noqa: E402
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 RECIPE_REL = "docs/reference/release-verification.md"
@@ -609,6 +612,16 @@ def _python_install_failures(root: Path, text: str, rel: str, version: str) -> l
     return found
 
 
+def _lag_failures(root: Path, citation: str) -> list[str]:
+    """The citation and every pin follow the newest release tag, the one source."""
+    try:
+        cited = released_version(citation)
+    except GateError as exc:
+        return [str(exc)]
+    refusal = _release_source.lagging(root, cited)
+    return [f"{CITATION_REL}: {refusal}"] if refusal else []
+
+
 def failures(root: Path) -> list[str]:
     """Every disagreement, collected rather than raised one at a time.
 
@@ -626,6 +639,7 @@ def failures(root: Path) -> list[str]:
 
     return (
         _recipe_and_tag_failures(reference, page, citation)
+        + _lag_failures(root, citation)
         + _published_identity_failures(root, citation)
         + _consumer_pin_failures(root, citation)
         + _module_path_failures(root, page)

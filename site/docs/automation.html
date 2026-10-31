@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Sankalp Gilda" />
+  <meta name="description" content="Look up public projects and read pinned Open Evidence Lab records from a script." />
+  <title>Use Probity from an automated job - Agent Evidence Conformance Board</title>
+  <link rel="canonical" href="https://probityai.github.io/agent-evidence-atlas/automation.html" />
+  <link rel="alternate" type="text/markdown" href="https://probityai.github.io/agent-evidence-atlas/automation.md" />
+  <link rel="describedby" href="https://probityai.github.io/agent-evidence-atlas/llms.txt" />
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <nav aria-label="Site">
+    <a class="home" href="index.html">Agent Evidence Conformance Board</a>
+    <span class="links">
+      <a href="start.html">Choose a component</a>
+      <a href="lab.html">Open Evidence Lab</a>
+      <a href="status.html">Claim status</a>
+      <a href="runs.html">Find a run</a>
+      <a href="board.html">Conformance board</a>
+      <a href="pilot.html">Pilot status</a>
+      <a href="atlas.html">Atlas</a>
+      <a href="experiments.html">Experiments</a>
+      <a href="claims.html">Claims</a>
+      <a href="versions.html">Versions</a>
+    </span>
+  </nav>
+</header>
+<main id="main" tabindex="-1">
+<header class="page">
+<h1>Use Probity from an automated job</h1>
+</header>
+<p>Use the <a href="evidence-test-meaning.html">worked report example</a> to interpret test results separately from evidence conclusions. Its <a href="experiments/w3c-report-replay-2026-10-06/README.md">retained accounting procedure</a> checks original files through the maintained Lab consumer.</p>
+<h2 id="find-a-project">Find a project</h2>
+<p>Read <a href="llms.txt">llms.txt</a> for the navigation index or <a href="catalog.json">catalog.json</a> for structured records. Components name the tools; repository records hold their pinned README sources. Integration profiles belong to a component.</p>
+<p>Use the stable <code>id</code> for lookups. Follow <code>docs_url</code> for the quickstart and <code>source.commit</code> to reproduce the captured source.</p>
+<h2 id="check-discovery">Check discovery</h2>
+<p>Use the <a href="discovery-evaluation.md">fixed discovery prompts and receipt checker</a> to retain a reader or agent session and review its answers against pinned public sources. Keep actual discovery attempts separate from author-operated packet checks.</p>
+<h2 id="check-a-verifier-in-ci">Check a verifier in CI</h2>
+<p>Use the <a href="https://github.com/probityai/agent-evidence-vectors/blob/9e596fbff7bb29809d38319aebb56f2141923eb2/docs/guides/runner.md#run-the-suite-in-ci">pinned Vectors Action guide</a> from the <a href="start.html#vectors">verifier task</a>. Its example selects release <code>v0.18.0</code>; keep the release and source required by the result you reproduce.</p>
+<p>The <a href="https://github.com/probityai/agent-evidence-vectors/actions/runs/38480809538/job/115582642213">recorded <code>action</code> job</a> succeeded on October 13, 2026 at source <code>9e596fbff7bb29809d38319aebb56f2141923eb2</code>. The <a href="https://github.com/probityai/agent-evidence-vectors/blob/9e596fbff7bb29809d38319aebb56f2141923eb2/.github/workflows/ci.yml#L1139">workflow at that source</a> builds the verifier and calls the actual Action. It requires a nonempty corpus, complete execution and the declared conformance result. The same job requires failure when the verifier is unavailable, the canonicalizer emits the wrong number bytes, or the selected corpus directory is changed. It also checks the custom-directory digest against its source lock.</p>
+<p>The workflow declares <code>contents: read</code>. Its checkout dependency is the historical floating <code>actions/checkout@v4</code>; the recorded checkout head fixes the Action, verifier and corpus source. This author-operated control result does not establish an outside run or agreement on Windows. A successful control job can contain a required refusal. Read the <a href="evidence-test-meaning.html">test-result explanation</a> and <a href="claims.html">claim ledger</a> for the result’s scope.</p>
+<h2 id="run-a-local-replay">Run a local replay</h2>
+<p>To produce a new local APS/PriorSeal capture, use the <a href="replay-tools.html">replay tools guide</a>. Declare the caller and keep the source hashes, actual process logs and result together. The guide links one complete pinned procedure, including the copied-file route.</p>
+<h2 id="read-a-retained-run">Read a retained run</h2>
+<p>From a pinned Atlas checkout:</p>
+<div class="code-scroll" tabindex="0" role="region" aria-label="Code example">
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> tools/check_lab.py <span class="at">--list</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> tools/check_lab.py <span class="at">--record</span> E6-observer-admission <span class="at">--json</span></span></code></pre></div>
+</div>
+<p>The checker validates artifact hashes and measured fields before returning a record. The JSON includes results, operator roles and review state.</p>
+<h2 id="share-a-result">Share a result</h2>
+<p>Keep the source pins, command, raw output and retained artifact together. Submit them through the <a href="https://github.com/probityai/agent-evidence/issues/new?template=evidence-run.yml">run form</a>, or use the <a href="https://github.com/probityai/agent-evidence/issues/new?template=evidence-correction.yml">correction form</a> when a recorded claim needs fixing.</p>
+</main>
+<footer class="site">
+  <p>Every number on this site has a source, a read time and a re-derive command in the <a href="claims.html">claim ledger</a>. Site version 0.6-draft, 2026-10-01. <a href="versions.html#documentation-revisions">Page revisions</a>.</p>
+</footer>
+</body>
+</html>

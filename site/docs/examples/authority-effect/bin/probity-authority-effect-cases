@@ -1,0 +1,31 @@
+#!/bin/sh
+set -eu
+PROBITY_SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+exec "$PROBITY_SCRIPT_DIR/python" -I -B -c '
+import os, pathlib, stat, subprocess, sys, tempfile
+probe = """
+import os, pathlib, stat, sys
+prefix = pathlib.Path(sys.argv[1])
+info = prefix.lstat()
+if (not sys.flags.isolated or not sys.dont_write_bytecode
+        or sys.pycache_prefix != str(prefix)
+        or any(name.split(".")[0] in {"authority_effect", "probity_verify", "agent_evidence_vectors"}
+               for name in sys.modules)
+        or not stat.S_ISDIR(info.st_mode) or stat.S_IMODE(info.st_mode) != 0o700
+        or info.st_uid != os.geteuid() or any(prefix.iterdir())):
+    raise RuntimeError("fresh private cache profile not established")
+sys.argv = ["probity-authority-effect-cases", *sys.argv[2:]]
+from authority_effect.cli import main
+raise SystemExit(main())
+"""
+with tempfile.TemporaryDirectory(prefix="probity-authority-effect-cache-") as temporary:
+    prefix = pathlib.Path(temporary)
+    info = prefix.lstat()
+    if (stat.S_IMODE(info.st_mode) != 0o700 or info.st_uid != os.geteuid()
+            or any(prefix.iterdir())):
+        raise RuntimeError("cache prefix must be new, empty and private")
+    result = subprocess.run([sys.executable, "-I", "-B", "-X",
+                            "pycache_prefix=" + temporary, "-c", probe,
+                            temporary, *sys.argv[1:]], check=False)
+raise SystemExit(result.returncode)
+' "$@"

@@ -1,0 +1,59 @@
+{
+  "additionalMainCI": {
+    "admissionArtifact": {
+      "archiveSha256": "e1eae07bacc9761f8588b9ab0e7e784ae34930cd62f693f8c639f479f8163260",
+      "id": 11145037185
+    },
+    "boundaryArtifact": {
+      "archiveSha256": "bca80222c8f53efa513ba5269f3a70ccffc8e5783e245599f24309828c2c3a77",
+      "id": 11144802324
+    },
+    "checkoutSha": "8562c25fb7ec97596ea9d0297c495340298914b6",
+    "conclusion": "success",
+    "event": "workflow_dispatch",
+    "headSha": "8562c25fb7ec97596ea9d0297c495340298914b6",
+    "jobId": 110250197174,
+    "runId": 36825509807,
+    "testsPassed": 148,
+    "url": "https://github.com/probityai/agent-evidence-observer/actions/runs/36825509807"
+  },
+  "artifact": {
+    "archiveSha256": "bcc22cd27b1f9404e961f7329770620994a76348d085b7b711ab586986493892",
+    "createdAt": "2026-10-01T03:07:01Z",
+    "expiresAt": "2026-12-30T03:06:29Z",
+    "id": 11138571560,
+    "name": "admission-run"
+  },
+  "ci": {
+    "checkoutSha": "e8040a8032ea197ea7a185a832808c5fb9ee9355",
+    "conclusion": "success",
+    "event": "pull_request",
+    "headSha": "cc7191e344aabcd26baec8cbac922050ad1420b2",
+    "jobId": 110199499549,
+    "runId": 36808961399,
+    "testsPassed": 148,
+    "treeSha": "eb2524943a4da6f70b3f73e08318cfe523d4ed9a",
+    "url": "https://github.com/probityai/agent-evidence-observer/actions/runs/36808961399"
+  },
+  "fileSha256": {
+    "consumer/decision.json": "f5636c3f92bcb375681bfc1105213960e223918765240c65cc968fa8eb2440eb",
+    "consumer/policy.json": "2c416c6cffe2b4473cd0723ca61bbfca251341fa2697ab2fff9186f332391e18",
+    "consumer/state.json": "3a68118f5b1b0f3f21f90341a7b35ac78dc8ea6b6ceb19afd2af7233dc43ca60",
+    "demo-report.json": "a1a9a0a8dccee8ad5e09d8d3fe5da9a70dfd9be237716a00c61bef34528092c9",
+    "producer/history.jsonl": "848ecc32ac0e837bd9cd509a6b7567d351d44a41e0c55fba5ed2ec4e339b5973",
+    "producer/ledger.jsonl": "b2f484cde2cab7ffd8fbe93d143dbecb8316a41409354a0afedc31012ec13626",
+    "producer/packet.json": "401ac9b827f2b8dc4b7bcec7bdd8ea721ff3df4d8e2692404be1bedf6c91edf2",
+    "producer/workspace/result.txt": "ed7e3ade18c59cc7935a4062d94c808b7fdd84bf48b1c743a851c13f9b44a83d"
+  },
+  "observerRevision": "8562c25fb7ec97596ea9d0297c495340298914b6",
+  "omittedArchiveFiles": {
+    "consumer/state.json.lock": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "producer/ledger.jsonl.lock": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "repository": "probityai/agent-evidence-observer",
+  "runtime": {
+    "cryptography": "46.0.7",
+    "python": "3.12.14"
+  },
+  "scope": "Author-produced CI artifact and author replay; PEER; same-operator fixture; no independently operated witness or consumer"
+}

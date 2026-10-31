@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools==82.0.1", "wheel==0.46.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jcs-mintid-trace-reader"
+version = "0.1.0"
+description = "Finite raw-byte consumer for published MintID trace-manifest v2 records"
+requires-python = ">=3.11"
+license = "MIT OR Apache-2.0"
+
+[tool.setuptools]
+packages = ["mintid_trace"]

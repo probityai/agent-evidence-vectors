@@ -33,6 +33,29 @@ regexTarget = "match"
 regexes = ['''key:z[1-9A-HJ-NP-Za-km-z]{44,}''']
 
 [[allowlists]]
+description = "The Solana USDC mint address inside a CAIP-19 asset identifier"
+# EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v is the public mint account of USDC on
+# Solana, the asset id the audit-record consumption vectors carry. The generic rule
+# reads the base58 string after "token:" as a key. The value is pinned, so any other
+# base58 string after token: is still reported.
+targetRules = ["generic-api-key"]
+regexTarget = "secret"
+regexes = ['''^EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v$''']
+
+[[allowlists]]
+description = "Truncated did:key identifier in a description string of the agent-passport vectors"
+# The descriptions in agent-passport-vectors-v2*.json write a did:key identifier
+# cut short with "...", so the did:key entry above, which needs the whole 44
+# characters, does not match. AND: only these two vectors files and only a line
+# holding a did:key identifier that ends in "...". Any other line in them is
+# still scanned.
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''(^|/)experiments/aps-corrected20(-r2)?-[0-9-]+/producer/agent-passport-vectors-v2(-r2)?\.json$''']
+regexTarget = "line"
+regexes = ['''did:key:z[1-9A-HJ-NP-Za-km-z]{8,}\.\.\.''']
+
+[[allowlists]]
 description = "Type annotation, not a value"
 targetRules = ["generic-api-key"]
 regexTarget = "line"
@@ -80,3 +103,13 @@ condition = "AND"
 paths = ['''^vectors-credential-release/(gen_vectors\.py|cases/[^/]+/statement\.json)$''']
 regexTarget = "match"
 regexes = ['''token"?\s*[:=]\s*"eyJhbGciOiJub25lIn0\.e30\."''']
+
+[[allowlists]]
+description = "The ignore file lists commit:file:rule:line fingerprints, which read as high-entropy values"
+paths = ['''^\.gitleaksignore$''']
+
+[[allowlists]]
+description = "SHA-256 digest of a retained keys file, keyed by its file name (vectors-refund-connected manifest)"
+targetRules = ["generic-api-key"]
+regexTarget = "match"
+regexes = ['''keys\.json"\s*:\s*"[0-9a-f]{64}"''']

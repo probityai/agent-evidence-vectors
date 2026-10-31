@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>containment_posture: Agent Evidence vocabulary</title>
+<meta name="description" content="The containment_posture term of the Agent Evidence vocabulary.">
+<link rel="canonical" href="https://w3id.org/agent-evidence/vocab/v1/containment_posture">
+<script type="application/ld+json">
+{
+ "@context": {
+  "owl": "http://www.w3.org/2002/07/owl#",
+  "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+  "skos": "http://www.w3.org/2004/02/skos/core#"
+ },
+ "@graph": [
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/containment_posture",
+   "@type": "skos:Concept",
+   "skos:definition": "The network-egress posture of the execution environment a governed artifact actually ran inside. Digest-committed and substrate-authoritative, never runner-asserted. Closed and fail-closed: an absent, non-string, or unregistered value makes the enclosing statement malformed, never defaulting to a permissive reading.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "containment_posture",
+   "skos:prefLabel": "containment_posture",
+   "skos:topConceptOf": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   }
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/containment_posture#no_network",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/containment_posture"
+   },
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "no_network"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/containment_posture#allowlist",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/containment_posture"
+   },
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "allowlist"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/containment_posture#sinkhole",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/containment_posture"
+   },
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "sinkhole"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/containment_posture#unsafe_bypass_egress",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/containment_posture"
+   },
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "unsafe_bypass_egress"
+  }
+ ]
+}
+</script>
+<style>
+:root{color-scheme:light dark;--page:#f6f8fb;--surface:#fff;--ink:#14202e;--body:#33404f;--link:#1f4fd1;--rule:#cfd8e3;font-family:system-ui,sans-serif;color:var(--ink);background:var(--page)}
+@media (prefers-color-scheme:dark){:root{--page:#10151b;--surface:#18202a;--ink:#e8edf3;--body:#c3ccd6;--link:#8fb0ff;--rule:#2c3846}}
+*{box-sizing:border-box}body{margin:0;font:400 1rem/1.6 system-ui,sans-serif;background:var(--page)}
+.shell{max-width:52rem;margin-inline:auto;padding-inline:16px}
+header,footer{padding-block:1.25rem}header a{font-weight:700;color:var(--ink);text-decoration:none}
+footer{border-top:1px solid var(--rule);color:var(--body);font-size:.9375rem;margin-top:3rem}
+a{color:var(--link)}p,li,td{color:var(--body)}h1{line-height:1.2}
+code,pre{font-family:ui-monospace,Consolas,monospace;font-size:.875em}code{overflow-wrap:anywhere}
+pre{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:1rem;overflow-x:auto}
+blockquote{margin:1rem 0;padding:.25rem 1rem;border-left:4px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;display:block;overflow-x:auto}
+th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-align:top}
+</style>
+</head>
+<body>
+<header class="shell"><a href="https://github.com/probityai/agent-evidence">Agent Evidence</a></header>
+<main class="shell">
+<h1><code>containment_posture</code></h1>
+<p>Term URI: <a href="https://w3id.org/agent-evidence/vocab/v1/containment_posture">https://w3id.org/agent-evidence/vocab/v1/containment_posture</a></p>
+<p>Section: <code>posture_and_coverage</code>. Criticality: <code>critical</code>.</p>
+<p>The network-egress posture of the execution environment a governed artifact actually ran inside. Digest-committed and substrate-authoritative, never runner-asserted. Closed and fail-closed: an absent, non-string, or unregistered value makes the enclosing statement malformed, never defaulting to a permissive reading.</p>
+<h2>Registered values</h2>
+<ul>
+<li id="no_network"><code>https://w3id.org/agent-evidence/vocab/v1/containment_posture#no_network</code></li>
+<li id="allowlist"><code>https://w3id.org/agent-evidence/vocab/v1/containment_posture#allowlist</code></li>
+<li id="sinkhole"><code>https://w3id.org/agent-evidence/vocab/v1/containment_posture#sinkhole</code></li>
+<li id="unsafe_bypass_egress"><code>https://w3id.org/agent-evidence/vocab/v1/containment_posture#unsafe_bypass_egress</code></li>
+</ul>
+</main>
+<footer><div class="shell">Generated from <a href="https://github.com/probityai/agent-evidence/blob/main/packages/vocabulary/vocabulary.yaml">vocabulary.yaml</a>. This page describes the current registry. A record is read against the registry its registryDigest names, named on <a href="https://probityai.github.io/agent-evidence/vocab/v1/">the term listing</a>. The term URI does not change once a signed record carries it.</div></footer>
+</body>
+</html>

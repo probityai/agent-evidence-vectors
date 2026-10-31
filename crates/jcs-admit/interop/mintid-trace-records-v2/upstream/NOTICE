@@ -1,0 +1,12 @@
+MintID
+Copyright 2026 The MintID Authors
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+The MintID Authors are the contributors to this source tree; each contribution
+is made under the Developer Certificate of Origin (see CONTRIBUTING.md).
+
+Third-party components are used under their own licences, recorded in the
+dependency manifests and lock files of this tree (identity-chain/go.mod and
+go.sum, identity-proof-core/Cargo.toml and Cargo.lock, pyproject.toml and
+uv.lock, the package.json and package-lock.json files under sdk/).

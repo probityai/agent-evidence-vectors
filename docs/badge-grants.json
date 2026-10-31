@@ -1,0 +1,12 @@
+{
+  "schema": "badge-grants-v1",
+  "policy": {
+    "reusable_workflow": null,
+    "runner_environment": "github-hosted",
+    "issuer": "https://token.actions.githubusercontent.com",
+    "events": ["push", "schedule", "workflow_dispatch"]
+  },
+  "workflows": [],
+  "replay_environments": [],
+  "grants": []
+}

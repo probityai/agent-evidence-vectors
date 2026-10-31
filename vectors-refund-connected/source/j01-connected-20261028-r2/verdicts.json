@@ -1,0 +1,122 @@
+[
+  {
+    "scenario": "J01",
+    "step": "1 input: PIC native verification",
+    "code": "pic-standard examples/refund-sandbox (PIC)",
+    "operated_by": "probity runner (this run's operator)",
+    "expected": "exit 0, result allow",
+    "verdict": "ESTABLISHED"
+  },
+  {
+    "scenario": "J01",
+    "step": "1 input: APS receipt, decision, action, payload and PIC binding checks",
+    "code": "horizon-shield aps-receipt adapter over APS SDK 8.0.1 (Horizon Shield, APS)",
+    "operated_by": "probity runner (this run's operator)",
+    "expected": "verified, steps 0 to 8",
+    "verdict": "ESTABLISHED"
+  },
+  {
+    "scenario": "J01",
+    "step": "2 single-use admission: one committed record",
+    "code": "admission stand-in in this harness (door not built)",
+    "operated_by": "probity runner (this run's operator)",
+    "expected": "committed",
+    "verdict": "ESTABLISHED"
+  },
+  {
+    "scenario": "J01",
+    "step": "3 signature and trust: handoff signed and verified",
+    "code": "checkout-runner sandbox_signer (Probity)",
+    "operated_by": "probity runner (this run's operator)",
+    "expected": "verifies under the issuance snapshot",
+    "verdict": "ESTABLISHED"
+  },
+  {
+    "scenario": "J01",
+    "step": "3 signature and trust: executor pre-dispatch authorization",
+    "code": "checkout-runner sandbox_executor (Probity)",
+    "operated_by": "probity runner (this run's operator)",
+    "expected": "authorized",
+    "verdict": "ESTABLISHED"
+  },
+  {
+    "scenario": "J01",
+    "step": "4 execution: one dispatch to the provider",
+    "code": "checkout-runner sandbox_executor (Probity)",
+    "operated_by": "probity runner (this run's operator)",
+    "expected": "1 apply request",
+    "verdict": "ESTABLISHED"
+  },
+  {
+    "scenario": "J01",
+    "step": "5 observed effect: bound effect at the report cutoff",
+    "code": "checkout-runner sandbox_executor and sandbox_sim (Probity)",
+    "operated_by": "probity runner (this run's operator)",
+    "expected": "observed_success, 1 effect",
+    "verdict": "ESTABLISHED"
+  },
+  {
+    "scenario": "N1a",
+    "step": "changed amount in the signed PIC proposal",
+    "code": "pic-standard (PIC)",
+    "operated_by": "probity runner (this run's operator)",
+    "expected": "PIC blocks",
+    "verdict": "ESTABLISHED"
+  },
+  {
+    "scenario": "N1b",
+    "step": "changed amount in the APS payload",
+    "code": "horizon-shield adapter (Horizon Shield, APS)",
+    "operated_by": "probity runner (this run's operator)",
+    "expected": "refused at step 5",
+    "verdict": "ESTABLISHED"
+  },
+  {
+    "scenario": "N1c",
+    "step": "changed amount at dispatch",
+    "code": "checkout-runner sandbox_executor (Probity)",
+    "operated_by": "probity runner (this run's operator)",
+    "expected": "alternate-arguments, no new apply",
+    "verdict": "ESTABLISHED"
+  },
+  {
+    "scenario": "N2",
+    "step": "replayed admission of the consumed approval",
+    "code": "admission stand-in, executor (Probity)",
+    "operated_by": "probity runner (this run's operator)",
+    "expected": "existing operation, no second dispatch",
+    "verdict": "ESTABLISHED"
+  },
+  {
+    "scenario": "N3",
+    "step": "reissued approval with new matching PIC evidence",
+    "code": "PIC, Horizon adapter, admission stand-in, signer, executor",
+    "operated_by": "probity runner (this run's operator)",
+    "expected": "resolved_existing, signed resolution, never dispatches",
+    "verdict": "ESTABLISHED"
+  },
+  {
+    "scenario": "N3b",
+    "step": "new APS receipt with the old PIC proposal",
+    "code": "horizon-shield adapter (Horizon Shield)",
+    "operated_by": "probity runner (this run's operator)",
+    "expected": "refused at step 7",
+    "verdict": "ESTABLISHED"
+  },
+  {
+    "scenario": "N4",
+    "step": "provider commits, response lost, then retry and reconcile",
+    "code": "checkout-runner sandbox_executor and sandbox_sim (Probity)",
+    "operated_by": "probity runner (this run's operator)",
+    "expected": "unresolved until lookup, then observed_success, 1 apply",
+    "verdict": "ESTABLISHED"
+  },
+  {
+    "scenario": "all",
+    "step": "effect count across the run",
+    "code": "sandbox_sim (Probity)",
+    "operated_by": "probity runner (this run's operator)",
+    "expected": "2 effects (J01, N4); 0 from every negative",
+    "verdict": "ESTABLISHED"
+  }
+]

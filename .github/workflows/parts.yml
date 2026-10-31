@@ -1,0 +1,145 @@
+name: parts
+
+# The entry point for the crates, packages, Action and conformance board imported from
+# agent-evidence (ci.yml holds the corpus, the rail and the readers). The changes
+# job asks scripts/workspace.py which areas a change touches (crates/<name>,
+# packages/<name>, actions, vectors); each area's checks run only when needed, and
+# `ci-ok` collects them. An imported area adds its job here and to
+# the `needs` of `ci-ok`.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    # `edited` re-runs the checks when the title changes: the title becomes the
+    # merge commit's subject, and the repository job lints it.
+    types: [opened, synchronize, reopened, edited]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: parts-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  changes:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      areas: ${{ steps.map.outputs.areas }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - id: map
+        env:
+          EVENT: ${{ github.event_name }}
+          BASE: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          if [ "$EVENT" = "pull_request" ]; then
+            areas="$(python3 scripts/workspace.py changes "$BASE" HEAD)"
+          else
+            # A push to main or a manual run checks every area.
+            areas="$(python3 scripts/workspace.py all)"
+          fi
+          echo "areas=$areas" >> "$GITHUB_OUTPUT"
+          echo "areas: $areas"
+
+  repository:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa # v10.3.1
+        with:
+          version: "0.12.8"
+          enable-cache: false
+      - name: one lint configuration for the repository tools of the imported parts
+        run: uv run --frozen --only-group dev ruff check --config ruff-parts.toml scripts/workspace.py scripts/build_predicate_pages.py scripts/build_vocabulary_pages.py scripts/check-jcs-admit-python-release.py scripts/check-jcs-admit-python-release-test.py scripts/check_predicate_pages.py scripts/check_uris_resolve.py scripts/family_pin_guard.py scripts/record_paths.py scripts/go-module-size-gate.py tests packages actions
+      - name: the root Go module stays small
+        run: |
+          python3 scripts/go-module-size-gate.py --selftest
+          python3 scripts/go-module-size-gate.py
+      - name: the repository tools' tests
+        run: uv run --frozen --only-group dev python -m pytest
+      - name: the jcs-admit wheel release check refuses every fault it names
+        run: python3 scripts/check-jcs-admit-python-release-test.py
+      - name: the DCO sign-off rule
+        run: bash .github/scripts/dco-check.sh --selftest
+      - name: every workflow parses
+        run: uvx --from actionlint-py==1.7.12.25 actionlint
+      - name: every README stays one screen and every link in it resolves
+        run: |
+          python3 scripts/readme-lint-test.py
+          python3 scripts/readme-lint.py README.md
+      - name: the Cargo workspace root reads
+        run: cargo metadata --format-version 1 --no-deps > /dev/null
+      # A merge to main writes "<pull request title> (#N)" as the merge commit's
+      # subject, and the push run's commit-message lint then judges it after
+      # nothing can change it. Lint that subject here, before the merge. Dependabot
+      # writes its own title and has no length setting, so its pull requests are
+      # squash-merged with a subject written by hand and are left out here.
+      - name: the pull request title makes a valid merge commit subject
+        if: github.event_name == 'pull_request' && github.event.pull_request.user.login != 'dependabot[bot]'
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          message="$RUNNER_TEMP/merge-subject.txt"
+          printf '%s (#%s)\n' "$PR_TITLE" "$PR_NUMBER" > "$message"
+          cd packages/vocabulary
+          .githooks/commit-msg "$message"
+
+  crate-dsse:
+    needs: changes
+    if: fromJSON(needs.changes.outputs.areas)['crates/dsse']
+    uses: ./.github/workflows/crate-dsse.yml
+    secrets:
+      DSSE_FORBIDDEN_SHA256: ${{ secrets.DSSE_FORBIDDEN_SHA256 }}
+
+  crate-jcs-admit:
+    needs: changes
+    if: fromJSON(needs.changes.outputs.areas)['crates/jcs-admit']
+    uses: ./.github/workflows/crate-jcs-admit.yml
+
+  package-admission:
+    needs: changes
+    if: fromJSON(needs.changes.outputs.areas)['packages/admission']
+    uses: ./.github/workflows/package-admission.yml
+
+  actions-admission:
+    needs: changes
+    # The Action runs the admission rules, so a change to them re-checks it too.
+    if: fromJSON(needs.changes.outputs.areas)['actions'] || fromJSON(needs.changes.outputs.areas)['packages/admission']
+    uses: ./.github/workflows/actions-admission.yml
+
+  package-vocabulary:
+    needs: changes
+    if: fromJSON(needs.changes.outputs.areas)['packages/vocabulary']
+    uses: ./.github/workflows/package-vocabulary.yml
+
+  ci-ok:
+    if: always()
+    needs: [changes, repository, crate-dsse, crate-jcs-admit, package-admission, actions-admission, package-vocabulary]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: every needed job passed or was not needed
+        env:
+          RESULTS: ${{ toJSON(needs) }}
+        run: |
+          python3 - <<'PYCODE'
+          import json, os
+          needs = json.loads(os.environ["RESULTS"])
+          for name, job in sorted(needs.items()):
+              print(f"{name}: {job['result']}")
+          bad = {n: j["result"] for n, j in needs.items() if j["result"] not in ("success", "skipped")}
+          raise SystemExit(f"failed: {bad}" if bad else 0)
+          PYCODE

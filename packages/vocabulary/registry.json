@@ -1,0 +1,630 @@
+{
+  "source": "vocabulary.yaml",
+  "source_sha256": "1c5ff80bd97237a603afc402db692ffe5abe15e4a7f9eca13f20068ada347fdc",
+  "term_uri_base": "https://w3id.org/agent-evidence/vocab/v1/",
+  "terms": {
+    "acceptance_observed": {
+      "criticality": "critical",
+      "definition": "Whether the contract's acceptance commands pass when a separate verifier runs them on the agent's final tree. The agent's own report that its tests passed is not an input.",
+      "section": "done_verification",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/acceptance_observed",
+      "value_definitions": {
+        "contradicted": "At least one acceptance command exited non-zero in the verifier, or the grade names another contract.",
+        "not_established": "The grade is absent, was run on another tree, is not independent of the observed party, or the contract killed no mutant and so cannot tell a fix from a no-op.",
+        "supported": "The verifier rebuilt the agent's final tree, reset the protected paths from the contract, ran every acceptance command, and every command exited zero, under a contract that killed at least one mutant."
+      },
+      "values": [
+        "supported",
+        "contradicted",
+        "not_established"
+      ]
+    },
+    "admission_decision": {
+      "criticality": "critical",
+      "definition": "The outcome of one decision on one proposed harness change, carried on the wire as the boolean admitted (true is admitted, false is rejected). A decision is consistent only when an admitted change passed every gate the consumer requires and a rejected change failed at least one; a consumer recomputes this from the decision's own checks and treats either inconsistency as contradicted. A rejection is a record in its own right, signed and verifiable like an admission, never a decision that was not made.",
+      "section": "change_admission",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/admission_decision",
+      "value_definitions": {},
+      "values": [
+        "admitted",
+        "rejected"
+      ]
+    },
+    "admission_gate": {
+      "criticality": "critical",
+      "definition": "The closed names of the checks an admission rests on, carried as checks[].name with a boolean checks[].passed. The consumer pins which gates it requires. A required gate absent from the record leaves the decision not established. A check whose name the consumer does not require, such as a cost report, is informational and never a gate. Closed and fail-closed: a consumer requiring a name outside this set has no definition to check it against.",
+      "section": "change_admission",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/admission_gate",
+      "value_definitions": {
+        "authority": "The candidate grants no authority the parent lacked: its tool allowlist is a subset of the parent's, every parent guard and procedure is kept, and the parent's system prompt is a prefix of the candidate's, unless a human-signed approval names the exact candidate digest.",
+        "benign_twins": "The candidate intervenes on no benign twin, a case built to resemble a failure that needs no intervention.",
+        "heldout": "On fresh held-out runs the candidate beats the better of two fresh parent runs by at least the larger of 2 and one more than the number of cases whose outcome differed between those parent runs, and a second fresh candidate run confirms it.",
+        "no_regression": "No must-succeed case that passed in either parent run fails in a candidate run.",
+        "overfit_lint": "The candidate's new text carries no identifier, amount or name copied from the training traces.",
+        "replay": "Every new guard, run over a declared, digest-frozen snapshot of recorded traces with each call's recorded pre-call state, fires on every target failure at or before the causing step and on no passing trace and no benign twin. Clearance needs every trace checked."
+      },
+      "values": [
+        "replay",
+        "heldout",
+        "no_regression",
+        "benign_twins",
+        "overfit_lint",
+        "authority"
+      ]
+    },
+    "anchor_time_rule": {
+      "criticality": "critical",
+      "definition": "The rule by which a commitment_anchor's ceiling is derived, and the required companion of commitment_anchor: anchored, header_time_plus_tolerance means ceiling = anchor_time + anchor_time_tolerance_s (right where the clock states its own accuracy, as an RFC 3161 TSA does; for Bitcoin only a convention, since nothing caps how far a header time may lag). later_median means ceiling = the median time of the 11 blocks after the anchor block, on the stated assumption that a majority of those timestamps are honest. height means the outcome is ordered by the same chain, and precedence holds only if the anchor height is strictly below the outcome height, with no time compared. Absent means header_time_plus_tolerance, for records written before the field existed. A rule whose inputs are missing establishes nothing.",
+      "section": "evidence_dimensions",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/anchor_time_rule",
+      "value_definitions": {},
+      "values": [
+        "header_time_plus_tolerance",
+        "later_median",
+        "height"
+      ]
+    },
+    "attestation_tier": {
+      "criticality": "critical",
+      "definition": "Whether the subject a platform signed was RE-DERIVED by that platform from evidence the caller does not control (authoritative), or was accepted from the caller and signed as supplied (voluntary). A voluntary record is non-repudiable for exactly what was signed: this platform signed these bytes, at this time, under this key. It is not a capture and it is not unbypassable. A verifier MUST NOT read a voluntary attestation as evidence that the attested content corresponds to any independently observed fact. The tier is set by the PLATFORM and read by a verifier from the record. A caller MUST NOT select it. A caller-selected tier is the whole attack: the one party with an interest in the answer would be choosing how much weight the answer carries. Closed and fail-closed, on the same rule as containment_posture: an absent, non-string, or unregistered value makes the enclosing statement malformed, and a missing tier is never read as the stronger of the two. The bounds of what was re-derived are part of the claim. Where a caller supplied any bound of the re-derivation input, the record MUST declare that, and a verifier MUST NOT read an authoritative tier as coverage of everything the subject did. SELECTION is part of the same question. A caller that chooses which subject to request an attestation over, and when, has bounded the claim without supplying any bound, so the rule above is not satisfied by a record that merely had no bound to declare. coverage_denominator is the field that closes that gap, and an authoritative record making any claim about a population needs it. An authoritative tier is a claim about a re-derivation, which is a claim about bytes a platform fetched. It composes with observation_vantage and never substitutes for it: whether anyone observed the execution is a separate question this field does not answer. So a record declaring authoritative MUST also declare observation_vantage, and a verifier MUST reject an authoritative record that does not. Without that pairing the composition rule has nothing to compose with, and a platform the observed party operates can set the stronger tier on its own records forever.",
+      "section": "evidence_dimensions",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/attestation_tier",
+      "value_definitions": {},
+      "values": [
+        "voluntary",
+        "authoritative"
+      ]
+    },
+    "authority_change": {
+      "criticality": "critical",
+      "definition": "Whether a candidate harness grants authority its parent lacked, meaning a tool outside the parent's allowlist, a removed or altered guard or procedure, or a rewritten system prompt: none, or human_approved when a human-signed approval names the exact candidate digest. A candidate that grants authority without such an approval fails the authority gate. This is an enforced policy about who may widen a harness, not a proof that the harness is safe.",
+      "section": "change_admission",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/authority_change",
+      "value_definitions": {},
+      "values": [
+        "none",
+        "human_approved"
+      ]
+    },
+    "base_state_resolution": {
+      "criticality": "critical",
+      "definition": "How the before-state root of an observed interval was obtained, declared per record as one of three: supplied, the base was named in the request and is a full-length lowercase hexadecimal object name; authority_recorded, the base is the one the state authority itself records for the change, which for a version-control authority is the merge-base anchor and is stable across merge and squash rewrites; empty_tree, the interval began from no prior state at all and the base is the empty-tree constant of the declared object format. Resolution is ORDERED. A producer MUST try supplied, then authority_recorded, then empty_tree, and MUST refuse to emit the record where none of the three yields a base. A producer MUST NOT infer a base from the parents of the named state, which are ambiguous for merge and squash rewrites. A guessed base produces a record that verifies cleanly over an interval nobody chose. A before-state root is therefore unconditionally REQUIRED. The empty_tree case is what makes one always available, so a missing before-state root is a refusal and never a permitted omission. The empty-tree constant is a property of the object format and MUST be read from the format the record declares. For git's SHA-1 object format it is 4b825dc642cb6eb9a060e54bf8d69288fbee4904. For git's SHA-256 object format it is 6ef19b41225c5369f1c104d45d8d85efa9b057b53b14b4b9b939dd74decc5321. A record carrying the SHA-1 constant under a SHA-256 object format names an object that does not exist, and a verifier MUST reject it. empty_tree is permitted only where the authority shows the prior state was empty, which for a version-control authority means a parentless commit. It MUST NOT be used to mean that the observer did not enumerate the prior state. A record using it that way satisfies every other rule above and misstates the interval, which is why the permitted condition is normative. The state authority MUST be named in the record, for all three values. And empty_tree MUST NOT be resolved from the observer's own first sight of the state: a first observation establishes that the observer saw nothing earlier, never that nothing was there. A volume pre-populated by an image and mounted fresh is the case this closes, because it presents to a first observation exactly as an empty one does. Where no authority independent of the observed party can show the prior state was empty, the producer MUST refuse the record under the ordered rule above.",
+      "section": "posture_and_coverage",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/base_state_resolution",
+      "value_definitions": {},
+      "values": [
+        "supplied",
+        "authority_recorded",
+        "empty_tree"
+      ]
+    },
+    "claim_subject": {
+      "criticality": "critical",
+      "definition": "The class of subject a claim is about. A claim at one class is never evidence at another: a result about a tool's definition says nothing about an agent that called it, and a result about an agent's run says nothing about the organization that operates it. A consumer MUST NOT satisfy a requirement stated at one class with a claim carrying another, and a claim with no declared class MUST be treated as not satisfying any class-specific requirement.",
+      "section": "posture_and_coverage",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/claim_subject",
+      "value_definitions": {
+        "agent": "A running system that chooses which tools to call and with what arguments. A claim at this class is about the decisions and effects of that system during a stated run.",
+        "organization": "The party that operates, deploys or answers for agents and tools. A claim at this class is about its controls, keys or accountability.",
+        "tool": "A callable capability with a fixed definition, such as an MCP tool, a function exposed to a model, or a server's tool manifest. A claim at this class is about that definition and the code behind it."
+      },
+      "values": [
+        "tool",
+        "agent",
+        "organization"
+      ]
+    },
+    "claimed_tool_output": {
+      "criticality": "informational",
+      "definition": "A command the agent says it ran, as an argument vector with an optional claimed exit status, parsed from the agent's transcript. It is the agent's statement and carries no vantage pin; no check treats it as evidence of the run.",
+      "section": "done_verification",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/claimed_tool_output",
+      "value_definitions": {},
+      "values": null
+    },
+    "commitment_anchor": {
+      "criticality": "critical",
+      "definition": "Whether the latest possible time a record existed (its CEILING) is PROVEN by an external anchor over a digest that recomputes from the record, or merely ASSERTED by the issuer. The mirror of issuance_time_basis: that term proves a floor on signing time, this one proves a ceiling on existence. A ceiling is proven only under the anchor_time_rule the record states, because the same proof yields different ceilings under different rules (a Bitcoin anchor under header_time_plus_tolerance and under later_median). anchored therefore requires anchor_time_rule; a record that is anchored without one is read under the rule's stated default and a verifier SHOULD report which rule a verdict used. The anchored digest MUST recompute from the record under a named deterministic procedure, or the record has no anchor for this term. asserted MUST NOT be read as a ceiling at all. A proven ceiling establishes that the bytes existed no later than that time, and nothing about who made them or whether their content is true.",
+      "section": "evidence_dimensions",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/commitment_anchor",
+      "value_definitions": {},
+      "values": [
+        "anchored",
+        "asserted"
+      ]
+    },
+    "containment_posture": {
+      "criticality": "critical",
+      "definition": "The network-egress posture of the execution environment a governed artifact actually ran inside. Digest-committed and substrate-authoritative, never runner-asserted. Closed and fail-closed: an absent, non-string, or unregistered value makes the enclosing statement malformed, never defaulting to a permissive reading.",
+      "section": "posture_and_coverage",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/containment_posture",
+      "value_definitions": {},
+      "values": [
+        "no_network",
+        "allowlist",
+        "sinkhole",
+        "unsafe_bypass_egress"
+      ]
+    },
+    "containment_scope": {
+      "criticality": "critical",
+      "definition": "A digest-committed partition of the channels a contained subject could use (network routes, credentials, tools, shared stores, peer agents) into cut, retained-with-reason and unassessed, whose union MUST equal a channel manifest the subject does not control, with the interval [effectiveAt, observedUntil] over which each cut channel was observed closed. A containment with a non-empty unassessed set is reported as partial, never as complete.",
+      "section": "incident_response",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/containment_scope",
+      "value_definitions": {},
+      "values": null
+    },
+    "control_failure_posture": {
+      "criticality": "critical",
+      "definition": "The posture applied when the decision service for a gated action did not return a usable decision.",
+      "section": "incident_response",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/control_failure_posture",
+      "value_definitions": {
+        "fail_closed": "The decision service gave no usable decision and the action was denied.",
+        "fail_open": "The decision service gave no usable decision and the action proceeded.",
+        "late_decision": "A decision arrived after the action had run.",
+        "unguarded_start": "The session started without a decision service."
+      },
+      "values": [
+        "fail_closed",
+        "fail_open",
+        "unguarded_start",
+        "late_decision"
+      ]
+    },
+    "control_relation": {
+      "criticality": "critical",
+      "definition": "A structured statement of who can direct the party or the system a claim is about: holders of at least 5% of capital or at least 5% of voting rights including through intermediaries and voting agreements, the body empowered to take strategic decisions, the rules for appointing and removing that body, the quorum and majority a strategic decision needs, blocking and veto rights short of a majority, and influence exercised through commercial or financial links. This term is a producer assertion in the sense of field_evidence_partition and nothing in this registry can make it one of the covered fields. A record carrying field_evidence_partition MUST place it on the producer_asserted side. Its worth is that a false value is a false statement inside signed bytes, attributable to the key that signed them. A verifier MUST NOT read an absent control_relation as an absence of control.",
+      "section": "evidence_dimensions",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/control_relation",
+      "value_definitions": {},
+      "values": null
+    },
+    "coverage_denominator": {
+      "criticality": "critical",
+      "definition": "A digest-committed partition of the population a claim is drawn from into three pairwise-disjoint sets (assessed, out-of-scope-with-a-reason, and routed-elsewhere) whose union MUST equal the keys of a digest-committed manifest the producer does not control. Without this, a claim of \"found nothing\" and a claim of \"looked at nothing\" are indistinguishable on the wire.",
+      "section": "posture_and_coverage",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/coverage_denominator",
+      "value_definitions": {},
+      "values": null
+    },
+    "does_not_assert": {
+      "criticality": "critical",
+      "definition": "A machine-readable list of short strings, carried inside the signed statement itself, stating what this evidence explicitly cannot claim. One agreed spelling per claim, no accepted alias, never buried in free-text documentation where a consumer has to go looking for it.",
+      "section": "posture_and_coverage",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/does_not_assert",
+      "value_definitions": {},
+      "values": null
+    },
+    "done_contract": {
+      "criticality": "critical",
+      "definition": "The definition of done for one task, sealed before the agent's first turn: the paths the agent must leave alone, each with a digest; the acceptance commands a verifier will run; how many generated mutants those commands killed; and optionally the digests of a held-out split, a mutant set and an authority record. The agent does not write it and cannot change it, and every later record names its digest.",
+      "section": "done_verification",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/done_contract",
+      "value_definitions": {},
+      "values": null
+    },
+    "done_receipt": {
+      "criticality": "critical",
+      "definition": "The record of one done decision: the contract's digest, the final tree's digest, the observation of the agent's run, the verifier's grade, the agent's tool claims, and the verdict the three checks reach. It is a replay bundle, so a party who distrusts the producer can rerun the checks on the same bytes.",
+      "section": "done_verification",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/done_receipt",
+      "value_definitions": {},
+      "values": null
+    },
+    "enforcement_vantage": {
+      "criticality": "critical",
+      "definition": "Where an incident action is enforced and observed. An action enforced at subject_self is an instruction, not a control.",
+      "section": "incident_response",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/enforcement_vantage",
+      "value_definitions": {
+        "co_located_runtime": "A runtime the subject shares a trust boundary with (same process or host account).",
+        "relying_party": "The service whose access was cut reports refusing the subject.",
+        "subject_self": "The restricted or contained party reports or honours the action itself.",
+        "substrate": "A layer beneath the subject that the subject cannot configure (hypervisor, network, IAM)."
+      },
+      "values": [
+        "subject_self",
+        "co_located_runtime",
+        "substrate",
+        "relying_party"
+      ]
+    },
+    "escalation_outcome": {
+      "criticality": "critical",
+      "definition": "Whether a detection alert reached someone able to act in time. The record carries alertAt (when the monitor raised the alert), pagedAt (when a named responder was notified), actionAt (the effective time of the first response action, or of a continue decision) and the policy bound in seconds, so the delay from alert to action is computable from the record and is not a prose claim.",
+      "section": "incident_response",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/escalation_outcome",
+      "value_definitions": {
+        "not_established": "The alert time, the notification time or the bound is missing, or comes only from the responder's own system.",
+        "not_paged": "The alert reached no responder with authority to act.",
+        "paged": "A named responder with authority to act was notified within the stated bound after the alert.",
+        "paged_late": "A named responder was notified, after the stated bound."
+      },
+      "values": [
+        "paged",
+        "paged_late",
+        "not_paged",
+        "not_established"
+      ]
+    },
+    "evaluation_mode": {
+      "criticality": "critical",
+      "definition": "How an evaluation result attached to an admission was obtained. Only FRESH counts toward a gate; a RECORDED or CACHED result is labelled as such in the report and excluded from every count a gate uses. Values are recorded in the casing the wire carries, upper case.",
+      "section": "change_admission",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/evaluation_mode",
+      "value_definitions": {
+        "CACHED": "A byte-identical replay of a recorded model request, for debugging.",
+        "FRESH": "Produced by a run made for this decision, every model call answered fresh.",
+        "RECORDED": "A stored FRESH result shown again, with the time it was produced."
+      },
+      "values": [
+        "FRESH",
+        "RECORDED",
+        "CACHED"
+      ]
+    },
+    "evidence_origin_class": {
+      "criticality": "critical",
+      "definition": "Which kind of act produced an evidence item: a document was read, a database or IT system was queried, a person was asked, or a test was performed. The four classes are exhaustive for this registry and closed: an absent, non-string or unregistered value makes the enclosing statement malformed. This says nothing about who produced the item, which origin_kind answers, and nothing about the vantage the item was obtained at, which observation_vantage answers. A verifier MUST NOT read test as a substrate-vantage claim: a test performed by the observed party on itself is a test, and its vantage is artifact. A claim assembled from more than one class SHOULD carry the class per item. A single class declared over a mixed set is a statement about the set's weakest member, in the same composition rule observation_vantage uses.",
+      "section": "evidence_dimensions",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/evidence_origin_class",
+      "value_definitions": {},
+      "values": [
+        "document",
+        "database_or_it_system",
+        "interview",
+        "test"
+      ]
+    },
+    "field_evidence_partition": {
+      "criticality": "critical",
+      "definition": "A per-artifact declaration of which identity's signature backs which field within a mixed claim: which values are covered by an observation the observed party could not have produced, and which are backed only by the enclosing envelope and are therefore the producer's own assertion. Most execution-evidence artifacts mix observed and self-declared fields under one signature with no way to tell which is which from the wire alone; this term names the split explicitly.",
+      "section": "evidence_dimensions",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/field_evidence_partition",
+      "value_definitions": {},
+      "values": [
+        "substrate_covered",
+        "producer_asserted"
+      ]
+    },
+    "incident_identifier": {
+      "criticality": "critical",
+      "definition": "An identifier for one incident, carried in the records that each party signs, so that two organisations' records of the same incident can be joined. The first party to open the incident mints it as an issuer and an id. A party that learns of the incident from another adopts the identifier by listing it in a related array and keeps its own id; nobody rewrites a signed record to change an identifier. Two records concern one incident when they carry the same issuer and id, or when one lists the other's in related, and the join is the transitive closure of that relation.",
+      "section": "incident_response",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/incident_identifier",
+      "value_definitions": {},
+      "values": null
+    },
+    "inconclusive_verdict": {
+      "criticality": "critical",
+      "definition": "The verdict not_established: the records do not show the claim true and do not show it false. It is a result in its own right, never a pass and never a failure. Reasons include a self-reported or mismatched observation, missing visibility, incomplete coverage, no usable final tree (contract_adequacy_zero, tool_exit_unobserved and witness_scope_below_required are three codes), and a consumer that requires an external witness receiving evidence that rests on a peer witness.",
+      "section": "done_verification",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/inconclusive_verdict",
+      "value_definitions": {},
+      "values": null
+    },
+    "independence_basis": {
+      "criticality": "critical",
+      "definition": "Whether the guarantee a claim rests on was demonstrated by sources independent of the party the claim is about (independent_sources), came from that party itself (subject_supplied), or carries no declaration at all (undeclared). Independence here is a relation between two named parties and never a property of one of them, so a record declaring independent_sources MUST name the independent party under party_role. The value is REQUIRED and fail-closed. Absent, non-string or unregistered makes the enclosing statement malformed, and absence is never read as independent_sources. A verifier MUST NOT infer this value from observation_vantage, and MUST NOT infer observation_vantage from this one. The two are orthogonal: a substrate-vantage observation can be made by the observed party's own platform, and an independent party can file a claim whose inputs were all artifact-vantage.",
+      "section": "evidence_dimensions",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/independence_basis",
+      "value_definitions": {},
+      "values": [
+        "independent_sources",
+        "subject_supplied",
+        "undeclared"
+      ]
+    },
+    "intent_binding": {
+      "criticality": "critical",
+      "definition": "Whether the identifier of the intent an action ran under (the authority that permitted it, naming who requested it and who executed it) is folded into a commitment the observer signed BEFORE the action began (committed_before_execution), or only attached to the record once the action was over (asserted_after_execution). A committed identifier survives fan-out, retries and hops between agents as signed content: every record descended from one intent carries the same value inside bytes fixed before each action opened, so linking them needs no header that every hop must forward. An asserted identifier is a label a producer can choose after seeing the outcome. Composes by weakest input: a chain of actions is committed_before_execution only if every link is.",
+      "section": "evidence_dimensions",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/intent_binding",
+      "value_definitions": {},
+      "values": [
+        "committed_before_execution",
+        "asserted_after_execution"
+      ]
+    },
+    "issuance_time_basis": {
+      "criticality": "critical",
+      "definition": "Whether a record's earliest-possible signing time is PROVEN, meaning the signed pre-image folds in a publicly datable value that was unpredictable before its round (e.g. a drand round output, or an RFC 9334 Section 10.3 epoch identifier), so the signature cannot predate its round, or merely ASSERTED by the issuer with no such binding. Deliberately one-sided: a proven floor and an asserted ceiling, never claimed as a two-sided proof of freshness.",
+      "section": "evidence_dimensions",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/issuance_time_basis",
+      "value_definitions": {},
+      "values": [
+        "beacon_anchored",
+        "asserted"
+      ]
+    },
+    "material_change_trigger": {
+      "criticality": "critical",
+      "definition": "The named event that ends a standing claim's validity and obliges a re-assessment: a material change in the circumstances a claim was made about. A record carrying this term states which circumstances were assumed stable, so a later change in one of them is an event a third party can detect by comparison and not a disclosure the observed party is trusted to volunteer. A verifier MUST treat a claim carrying no such statement as making no commitment about its own continued validity, and MUST NOT read the absence as a claim of stability. The trigger is a property of the claim and never a policy threshold: it names what would invalidate the claim, and a consumer's own re-check interval sits on top of it.",
+      "section": "posture_and_coverage",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/material_change_trigger",
+      "value_definitions": {},
+      "values": null
+    },
+    "observation_directness": {
+      "criticality": "critical",
+      "definition": "Whether a claim rests on events captured as they occurred (intercepted), or on state examined after the fact, a snapshot-to-snapshot diff (reconstructed), which can miss a transient condition raised and undone between the states compared. Orthogonal to observation_vantage; composes by weakest input.",
+      "section": "evidence_dimensions",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/observation_directness",
+      "value_definitions": {},
+      "values": [
+        "intercepted",
+        "reconstructed"
+      ]
+    },
+    "observation_vantage": {
+      "criticality": "critical",
+      "definition": "Whether every input a claim depends on was obtained at a vantage the executed artifact could neither forge nor suppress (substrate, meaning a network boundary, syscall supervision, a hypervisor's read of guest state), or whether the claim rests on artifacts the executed party could have influenced (artifact). Composes by weakest input: a claim derived from a mix of substrate and artifact observations inherits artifact. A consumer with no policy-pinned substrate root MUST treat every substrate-vantage row as unattested and MUST NOT infer the root from the claim itself (no trust-on-first-use).",
+      "section": "evidence_dimensions",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/observation_vantage",
+      "value_definitions": {},
+      "values": [
+        "substrate",
+        "artifact"
+      ]
+    },
+    "observed_tool_output": {
+      "criticality": "critical",
+      "definition": "The exec events an independent observer recorded for a command, with the process's exit status when the observer saw it end, and the order of every file mutation around it. It is what a claim is checked against, and it is usable only from an observation that is independent of the observed party, sees exec and every mutation type, and has complete coverage.",
+      "section": "done_verification",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/observed_tool_output",
+      "value_definitions": {},
+      "values": null
+    },
+    "origin_kind": {
+      "criticality": "critical",
+      "definition": "Which party produced the evidence a record is assembled from: the runtime that performed the execution produced its own record (self); the record was assembled from another vendor's runtime governance output, asserted by the system that produced it with no root outside that system (third-party-control-plane); or it was assembled from a log or export whose producer is not a control plane, such as a SIEM export, an audit trail, or a batch job (log-import). first-hand is a FOURTH value this registry adds and the source enum does not carry: the producer obtained the evidence by its own observation and is not the party that executed, so it neither performed the execution nor holds somebody else's output. It exists because the borrowed enum is written from the perspective of a record about its own execution, while this registry also carries observation_vantage, which names a producer that is neither the executing party nor an assembler. Without the fourth value the field is REQUIRED and unfillable for exactly the records an independent observer emits, and the pressure is then to spell one of them self, which is the one reading that makes the field lie. The value says HOW the evidence arrived and never where the producer stood. observation_vantage says where, and the two compose: first-hand with peer and first-hand with below-observed are both real producers, and a value that carried the layer in its own name would have left one of them unfillable again. Two spellings were drafted and dropped for that reason, and the second for a second reason: observer collides with observer-attested in the source specification's own family, where it means a third party that fetched and measured the subject from outside it. A record MUST NOT declare observation_vantage: below-observed unless its origin_kind is first-hand, and a verifier MUST reject it otherwise. A party attesting its own execution is not below itself, and an assembler holding somebody else's output was not there at all. Each of the other three values names a producer that did not observe from below the observed party: self IS the observed party, and the two assembling values hold output somebody else produced. This is the rule that reaches the importer the platform rule below does not. An importer can carry software-only exactly as required, satisfy every other rule here, and still claim a vantage it never occupied, because the platform field answers what the producer runs on and the vantage field answers where it stood. A record whose origin_kind is third-party-control-plane or log-import MUST declare a software-only runtime platform, and a verifier MUST reject it otherwise. An importer holding someone else's log has no quote to present, so a hardware platform value on such a record is not a stronger claim but an untrue one. first-hand MAY declare a hardware platform, because such an observer below the observed party can hold a root of its own, and that is the case the borrowed rule had no value for. The value is REQUIRED. Absent, non-string, or unregistered makes the enclosing statement malformed, and absence is never read as self. This field names the assembler and establishes nothing about independence. A verifier MUST NOT read third-party-control-plane as evidence that the producer is independent of the observed party: the two can be one legal entity, or one can operate the other. Independence is an observation_vantage question and this field does not answer it. It launders assurance in neither direction. Naming a producer does not make unattested evidence attested, and a record with a hardware platform and a verified quote is what it is whether or not it says self. The value is a PRODUCER ASSERTION in the sense of field_evidence_partition, never a substrate-covered field, and nothing in this registry can make it one. A verifier MUST NOT read self as evidence of provenance: a record assembled from somebody else's log and declared self is indistinguishable on the wire from one the runtime produced. What the field is worth is that a false value is then a false statement inside signed bytes, attributable to the key that signed them. A record that carries field_evidence_partition MUST place origin_kind on the producer_asserted side of the split. Three of the four values are borrowed verbatim, hyphens included, from the specification cited in crosswalk/trace.yaml. Re-spelling them in this file's usual underscore style would have produced a false friend across two registries for no gain. The fourth, first-hand, is this registry's own, and the direction of the resulting mismatch is stated, not glossed: this value set is a SUPERSET, so every value that specification emits validates here, and one value this registry admits does not validate there. A crosswalk consumer reads the fourth value as unmapped, not as a renaming of any of the three.",
+      "section": "evidence_dimensions",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/origin_kind",
+      "value_definitions": {},
+      "values": [
+        "self",
+        "first-hand",
+        "third-party-control-plane",
+        "log-import"
+      ]
+    },
+    "party_role": {
+      "criticality": "critical",
+      "definition": "The role a named party holds with respect to one evidence set: the party the evidence is about (audited_provider), the party that assessed it (auditing_organisation), the party that decides admission on the strength of it (evaluating_authority), a peer party entitled to object to that decision without having seen the system (reviewing_authority), and the party that publishes the resulting entry and its withdrawal (registry_operator). The five spellings are borrowed verbatim in sense from the instrument cited below, because a role vocabulary is worth nothing if each reader translates it. One party MAY hold two roles in one exchange and a record declaring that MUST say so by carrying the party twice; a verifier MUST NOT read two roles as two parties. A record declaring independence between two roles held by one party is malformed, and that is the whole reason the roles are enumerated.",
+      "section": "evidence_dimensions",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/party_role",
+      "value_definitions": {},
+      "values": [
+        "audited_provider",
+        "auditing_organisation",
+        "evaluating_authority",
+        "reviewing_authority",
+        "registry_operator"
+      ]
+    },
+    "pause_hold": {
+      "criticality": "critical",
+      "definition": "Whether a pause held. An effect by the paused subject is an effect whose operation the subject initiated at or after effectiveAt; state the subject left behind is anything it created before effectiveAt. The two are different values because only the first shows the pause failed to stop the subject; the second shows what remains to be remediated. When several apply the record carries the first in this order: effect_after_pause, in_flight_unknown, residual_state_remains, held.",
+      "section": "incident_response",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/pause_hold",
+      "value_definitions": {
+        "effect_after_pause": "An effect caused by an operation the paused subject initiated carries a time after effectiveAt.",
+        "held": "The substrate observed no effect by the paused subject after effectiveAt, and no state it created before effectiveAt remains active.",
+        "in_flight_unknown": "An operation the subject started before effectiveAt has no confirmed outcome.",
+        "not_established": "There was no substrate observation.",
+        "residual_state_remains": "No effect by the paused subject after effectiveAt, but state it created before effectiveAt (an account, credential, pod or job) is still active."
+      },
+      "values": [
+        "held",
+        "in_flight_unknown",
+        "effect_after_pause",
+        "residual_state_remains",
+        "not_established"
+      ]
+    },
+    "protected_path": {
+      "criticality": "critical",
+      "definition": "A file or directory the contract names as off limits to the agent, with a digest. A directory entry may list path segment names (such as __pycache__) left out of its digest and its event match. Tests, graders and reward files are the usual members.",
+      "section": "done_verification",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/protected_path",
+      "value_definitions": {},
+      "values": null
+    },
+    "replay_coverage": {
+      "criticality": "critical",
+      "definition": "Whether a guard's replay checked every trace in its declared snapshot (exhaustive, stated as N of N traces checked) or stopped before the end (partial, k of N). A replay may stop at its first counterexample to reject a guard; only an exhaustive replay clears one. Replay shows what the guard predicate does on recorded inputs, never that the counterfactual continuation would have succeeded.",
+      "section": "change_admission",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/replay_coverage",
+      "value_definitions": {},
+      "values": [
+        "exhaustive",
+        "partial"
+      ]
+    },
+    "replay_snapshot": {
+      "criticality": "critical",
+      "definition": "The SHA-256 that freezes the set of recorded traces a guard was replayed over, keyed by guard in the decision. A replay over a different set of traces has a different digest, so a decision cannot be re-argued over a more favourable history after the fact.",
+      "section": "change_admission",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/replay_snapshot",
+      "value_definitions": {},
+      "values": null
+    },
+    "response_decision": {
+      "criticality": "critical",
+      "definition": "The decision taken at one incident decision point, recorded whether or not anything was done. A decision not to act is a first-class value, so a non-action is a signed, checkable record and not an absence: a reader of a log that shows no action cannot tell a considered continue from an alert nobody saw. Closed and fail-closed: an absent or unregistered value makes the statement malformed.",
+      "section": "incident_response",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/response_decision",
+      "value_definitions": {
+        "act": "The decision was to take at least one response action; the record carries the action and its response_function values.",
+        "continue": "The decision was to take no action and let the activity run on; the record carries the authority that decided and the reason.",
+        "escalate": "The decision was to hand the matter to a party with wider authority; the record names that party."
+      },
+      "values": [
+        "act",
+        "continue",
+        "escalate"
+      ]
+    },
+    "response_function": {
+      "criticality": "critical",
+      "definition": "The function an incident action served. One action MAY carry several values (a rebuild is remediation and also stops activity). restoration is never combined with another value, because resuming is a separate decision from any action that contained or repaired. Closed and fail-closed: an absent or unregistered value makes the statement malformed.",
+      "section": "incident_response",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/response_function",
+      "value_definitions": {
+        "isolation": "Channels the subject could use were cut.",
+        "monitoring_increase": "Observation of the subject was widened or deepened.",
+        "pause": "The subject was halted, wholly or in part.",
+        "remediation": "A compromised component was rebuilt or a persistence route closed.",
+        "restoration": "A containment was ended and the subject resumed.",
+        "restriction": "A credential, permission or tool was withdrawn or narrowed."
+      },
+      "values": [
+        "monitoring_increase",
+        "restriction",
+        "isolation",
+        "pause",
+        "remediation",
+        "restoration"
+      ]
+    },
+    "restoration_decision": {
+      "criticality": "critical",
+      "definition": "The decision that ends a recorded containment, bound to it by digest, with an approver identity different from the actor who activated the containment. A missing element makes the verdict not_established. A decision not to resume is remain_restricted, and it is recorded the same way as a resumption.",
+      "section": "incident_response",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/restoration_decision",
+      "value_definitions": {
+        "not_established": "A required element of the decision is missing.",
+        "remain_restricted": "The containment stays in force.",
+        "resume_full": "The containment is ended and the subject resumes in full.",
+        "resume_staged": "The containment is ended in part or in stages."
+      },
+      "values": [
+        "resume_full",
+        "resume_staged",
+        "remain_restricted",
+        "not_established"
+      ]
+    },
+    "restoration_gate": {
+      "criticality": "critical",
+      "definition": "Whether an observed restart passed the gate that restoration_decision sets. restoration_decision records the decision; this records whether the restart that actually happened was preceded by one that met its requirements. The restart time comes from the substrate, not from the party that restarted.",
+      "section": "incident_response",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/restoration_gate",
+      "value_definitions": {
+        "gate_unmet": "A resume was observed after a decision that is bound to the containment but fails a requirement of that decision.",
+        "gated": "A resume was observed, and a restoration_decision of resume_full or resume_staged bound to the containment by digest, with every element met, is timed before it.",
+        "not_established": "The resume was not observed by the substrate.",
+        "ungated": "A resume was observed and no restoration_decision is bound to the containment it ended."
+      },
+      "values": [
+        "gated",
+        "ungated",
+        "gate_unmet",
+        "not_established"
+      ]
+    },
+    "result": {
+      "criticality": "critical",
+      "definition": "A total, deterministic, severity-independent minimum over the declared conditions, in the fixed order fail < degraded < pass_indirect < pass, recomputable by any consumer from carried bytes alone, against a normative recompute table published with the spec. Not a policy verdict: it carries no threshold and no severity input, and a consumer applying its own policy threshold does so on top of this value, never inside it.",
+      "section": "outcome_lattice",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/result",
+      "value_definitions": {},
+      "values": [
+        "fail",
+        "degraded",
+        "pass_indirect",
+        "pass"
+      ]
+    },
+    "revision_reason": {
+      "criticality": "informational",
+      "definition": "A closed code stating why one entry in a record's revision history exists, carried beside a free-text reason so a consumer can count and filter revisions by cause without parsing prose. One code per revision entry. The entry it belongs to is an element of an optional, append-only revisions array on the record, each element carrying date, field, from, to, reason and reason_code. A record with no revisions array makes no claim about its own history; a consumer MUST NOT read its absence as \"never revised\". Closed and fail-closed: an unregistered reason_code makes the entry malformed.",
+      "section": "record_lifecycle",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/revision_reason",
+      "value_definitions": {
+        "declaration_added": "A field the record omitted is now declared, and a value derived from it changed as a result (for example, a vantage declaration added where none existed).",
+        "declaration_corrected": "A field the record already declared was wrong and now carries a different value.",
+        "derivation_rule_changed": "The rule that computes a derived value changed; the record's own declarations did not change.",
+        "vocabulary_member_added": "The schema the record is validated against gained a closed-vocabulary member, and re-deriving the record under it changed a derived value; the record's own declarations did not change."
+      },
+      "values": [
+        "declaration_added",
+        "declaration_corrected",
+        "vocabulary_member_added",
+        "derivation_rule_changed"
+      ]
+    },
+    "revocation_state": {
+      "criticality": "critical",
+      "definition": "Where a revocation of a credential or grant stands at one relying party at one time. Issuing a revocation and enforcing it are different facts, and a record states which one it holds.",
+      "section": "incident_response",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/revocation_state",
+      "value_definitions": {
+        "enforced_observed": "The relying party recorded a refusal of the revoked credential after the effective time.",
+        "issued": "The revocation was issued by its authority; no relying party has reported an observation.",
+        "not_established": "The relying party produced no observation.",
+        "use_after_revocation": "The relying party recorded an accepted use at or after the effective time."
+      },
+      "values": [
+        "issued",
+        "enforced_observed",
+        "use_after_revocation",
+        "not_established"
+      ]
+    },
+    "set_sufficiency": {
+      "criticality": "critical",
+      "definition": "Whether the evidence SET a claim rests on was relevant and sufficient to reach the claim, held as a separate axis from whether any individual ITEM in it was reliable. A set of items each independently verified can still be too thin to decide, and a single unreliable item can sit inside a set that is otherwise ample. Collapsing the two axes into one pass or fail makes both unsayable. The value is REQUIRED and fail-closed. Absent, non-string or unregistered makes the enclosing statement malformed, and absence is never read as sufficient. A verifier MUST NOT derive this value from item-level verification results, and MUST NOT read sufficient as a statement about any item. insufficient is a result and not an error: it says the assessment ran and the set did not reach the claim. not_assessed says the axis was never examined, and a consumer MUST treat those two as different.",
+      "section": "posture_and_coverage",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/set_sufficiency",
+      "value_definitions": {},
+      "values": [
+        "sufficient",
+        "insufficient",
+        "not_assessed"
+      ]
+    },
+    "stop_decision": {
+      "criticality": "critical",
+      "definition": "The action a published policy table returns for the history of verdicts in one run. The table is public and its digest is carried by the receipt, so whether an agent was allowed to carry on is a function of records, not of anyone's judgement in the moment.",
+      "section": "done_verification",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/stop_decision",
+      "value_definitions": {
+        "continue": "The agent proceeds; the verdict history does not call for a change.",
+        "escalate": "Control returns to a person, after two contradicted verdicts.",
+        "replan": "The agent is told once to change its plan, with the reason code of the verdict.",
+        "stop": "The run ends because its budget is spent."
+      },
+      "values": [
+        "continue",
+        "replan",
+        "escalate",
+        "stop"
+      ]
+    },
+    "witness_scope": {
+      "criticality": "critical",
+      "definition": "Who the witness is relative to the party whose execution is described: the observed party itself (SELF), another participant in the same interaction (PEER), or a party outside it that the observed party cannot reach (EXTERNAL). Orthogonal to observation_vantage, which says what was observed, and to observation_directness, which says how; this says whose account a consumer is reading. Values are recorded in the casing the wire carries, upper case. A consumer matches the emitted string, not a normalised form.",
+      "section": "evidence_dimensions",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/witness_scope",
+      "value_definitions": {},
+      "values": [
+        "SELF",
+        "PEER",
+        "EXTERNAL"
+      ]
+    }
+  },
+  "verdict_classes": {
+    "children": {},
+    "parent_term": "result",
+    "parents": [
+      "fail",
+      "degraded",
+      "pass_indirect",
+      "pass"
+    ]
+  },
+  "version": "0.8.0"
+}

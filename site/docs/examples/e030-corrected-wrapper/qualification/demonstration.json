@@ -1,0 +1,494 @@
+{
+  "profile": "probity.e030-corrected-wrapper-regression/v1",
+  "operator": {
+    "identity": "Probity Codex / ordinary shared BoxPool author-run",
+    "source": "caller-declared",
+    "authenticated": false
+  },
+  "vector": {
+    "maintainer": "Probity",
+    "finding_credit": "imokokok",
+    "files": [
+      {
+        "path": "e030_case/__init__.py",
+        "sha256": "a4e932a7b0801f276598a13247b9e0b89c5ebece57486f33304e2244801fe20d"
+      },
+      {
+        "path": "e030_case/faults.py",
+        "sha256": "fef84c8a0e1a99efc79c481bbc99fe4c82a0c05a8a54caf6b81d8b727d069fa3"
+      },
+      {
+        "path": "e030_case/regression.py",
+        "sha256": "d4d756527b6a0258a617728bd6b3e6dc5094d266179c4c16312f9dde29a1dd6e"
+      },
+      {
+        "path": "e030_case/report.py",
+        "sha256": "fd69bb098c0c1d04dfd2dbbadbe2cec4912cefeec805b3bb2d6dde2a70632d5a"
+      },
+      {
+        "path": "e030_case/expected.json",
+        "sha256": "edabf9fd4b67cc28102d57ec627f6d4778eb6c38cd3ebb51bbca7c61077a0a54"
+      }
+    ]
+  },
+  "historical_baseline": "probityai/agent-evidence-atlas@89250120e9cafe14eafb87eaa9c1454bab64683c",
+  "source_commits": {
+    "review": "cf7389097fe3a404b3557da2e72fdd8cbe962b81",
+    "aps": "948f99b85343bef2c6fa677c8543965caacfc087",
+    "priorseal": "d749d2691c3e6be139de4020e7b27cdafca2c428"
+  },
+  "wrapper_sha256": "4b289714de31174a917b9c0f856e1d8900828e1bcbf637cdc8e97bc2deec2e34",
+  "cases": [
+    {
+      "name": "failed-install",
+      "injection_origin": "author-created fault/report projection",
+      "actual_exit": 23,
+      "signal": null,
+      "termination": "exit",
+      "recorded_exit": 23,
+      "pass_printed": false,
+      "report_sha256": null,
+      "injected_commands": [
+        "npm:ci"
+      ],
+      "comparison": {
+        "accepted_projection": false,
+        "reason": "PROCESS_NONZERO",
+        "process_exit": 23,
+        "recorded_exit": 23,
+        "report_check": "REPORT_ABSENT",
+        "report_present_before": false,
+        "report_bytes": null,
+        "run_correlation": "not supplied by the native contract",
+        "generation_time": "producer-declared; window check is not authenticity or execution proof"
+      },
+      "expected": {
+        "exit": 23,
+        "reason": "PROCESS_NONZERO"
+      },
+      "matched": true,
+      "producer_verifier_executed": false
+    },
+    {
+      "name": "failed-selftest",
+      "injection_origin": "author-created fault/report projection",
+      "actual_exit": 19,
+      "signal": null,
+      "termination": "exit",
+      "recorded_exit": 19,
+      "pass_printed": false,
+      "report_sha256": null,
+      "injected_commands": [
+        "npm:ci",
+        "npm:run"
+      ],
+      "comparison": {
+        "accepted_projection": false,
+        "reason": "PROCESS_NONZERO",
+        "process_exit": 19,
+        "recorded_exit": 19,
+        "report_check": "REPORT_ABSENT",
+        "report_present_before": false,
+        "report_bytes": null,
+        "run_correlation": "not supplied by the native contract",
+        "generation_time": "producer-declared; window check is not authenticity or execution proof"
+      },
+      "expected": {
+        "exit": 19,
+        "reason": "PROCESS_NONZERO"
+      },
+      "matched": true,
+      "producer_verifier_executed": false
+    },
+    {
+      "name": "failed-node",
+      "injection_origin": "author-created fault/report projection",
+      "actual_exit": 17,
+      "signal": null,
+      "termination": "exit",
+      "recorded_exit": 17,
+      "pass_printed": false,
+      "report_sha256": null,
+      "injected_commands": [
+        "npm:ci",
+        "npm:run",
+        "node:verify.mjs"
+      ],
+      "comparison": {
+        "accepted_projection": false,
+        "reason": "PROCESS_NONZERO",
+        "process_exit": 17,
+        "recorded_exit": 17,
+        "report_check": "REPORT_ABSENT",
+        "report_present_before": false,
+        "report_bytes": null,
+        "run_correlation": "not supplied by the native contract",
+        "generation_time": "producer-declared; window check is not authenticity or execution proof"
+      },
+      "expected": {
+        "exit": 17,
+        "reason": "PROCESS_NONZERO"
+      },
+      "matched": true,
+      "producer_verifier_executed": false
+    },
+    {
+      "name": "absent-report",
+      "injection_origin": "author-created fault/report projection",
+      "actual_exit": 0,
+      "signal": null,
+      "termination": "exit",
+      "recorded_exit": 0,
+      "pass_printed": true,
+      "report_sha256": null,
+      "injected_commands": [
+        "npm:ci",
+        "npm:run",
+        "node:verify.mjs"
+      ],
+      "comparison": {
+        "accepted_projection": false,
+        "reason": "REPORT_ABSENT",
+        "process_exit": 0,
+        "recorded_exit": 0,
+        "report_check": "REPORT_ABSENT",
+        "report_present_before": false,
+        "report_bytes": null,
+        "run_correlation": "not supplied by the native contract",
+        "generation_time": "producer-declared; window check is not authenticity or execution proof"
+      },
+      "expected": {
+        "exit": 0,
+        "reason": "REPORT_ABSENT"
+      },
+      "matched": true,
+      "producer_verifier_executed": false
+    },
+    {
+      "name": "malformed-report",
+      "injection_origin": "author-created fault/report projection",
+      "actual_exit": 0,
+      "signal": null,
+      "termination": "exit",
+      "recorded_exit": 0,
+      "pass_printed": true,
+      "report_sha256": "92f308f4feddc4a68189af7050197192a0d1a6604452c7b519a6edbd9f6a009b",
+      "injected_commands": [
+        "npm:ci",
+        "npm:run",
+        "node:verify.mjs"
+      ],
+      "comparison": {
+        "accepted_projection": false,
+        "reason": "REPORT_MALFORMED",
+        "process_exit": 0,
+        "recorded_exit": 0,
+        "report_check": "REPORT_MALFORMED",
+        "report_present_before": false,
+        "report_bytes": 13,
+        "run_correlation": "not supplied by the native contract",
+        "generation_time": "producer-declared; window check is not authenticity or execution proof"
+      },
+      "expected": {
+        "exit": 0,
+        "reason": "REPORT_MALFORMED"
+      },
+      "matched": true,
+      "producer_verifier_executed": false
+    },
+    {
+      "name": "wrong-profile",
+      "injection_origin": "author-created fault/report projection",
+      "actual_exit": 0,
+      "signal": null,
+      "termination": "exit",
+      "recorded_exit": 0,
+      "pass_printed": true,
+      "report_sha256": "9bcc1914e0baece9bcd6989fac0c87cc1c68891ac7ce8e934334bb7295df452a",
+      "injected_commands": [
+        "npm:ci",
+        "npm:run",
+        "node:verify.mjs"
+      ],
+      "comparison": {
+        "accepted_projection": false,
+        "reason": "REPORT_PROFILE_MISMATCH",
+        "process_exit": 0,
+        "recorded_exit": 0,
+        "report_check": "REPORT_PROFILE_MISMATCH",
+        "report_present_before": false,
+        "report_bytes": 2585,
+        "run_correlation": "not supplied by the native contract",
+        "generation_time": "producer-declared; window check is not authenticity or execution proof"
+      },
+      "expected": {
+        "exit": 0,
+        "reason": "REPORT_PROFILE_MISMATCH"
+      },
+      "matched": true,
+      "producer_verifier_executed": false
+    },
+    {
+      "name": "wrong-input",
+      "injection_origin": "author-created fault/report projection",
+      "actual_exit": 0,
+      "signal": null,
+      "termination": "exit",
+      "recorded_exit": 0,
+      "pass_printed": true,
+      "report_sha256": "dd9898fe3a36420c710d8fe15d6531b48ad8e958198998c04c450b0fcb9ec3c3",
+      "injected_commands": [
+        "npm:ci",
+        "npm:run",
+        "node:verify.mjs"
+      ],
+      "comparison": {
+        "accepted_projection": false,
+        "reason": "REPORT_INPUT_MISMATCH",
+        "process_exit": 0,
+        "recorded_exit": 0,
+        "report_check": "REPORT_INPUT_MISMATCH",
+        "report_present_before": false,
+        "report_bytes": 2613,
+        "run_correlation": "not supplied by the native contract",
+        "generation_time": "producer-declared; window check is not authenticity or execution proof"
+      },
+      "expected": {
+        "exit": 0,
+        "reason": "REPORT_INPUT_MISMATCH"
+      },
+      "matched": true,
+      "producer_verifier_executed": false
+    },
+    {
+      "name": "wrong-claim",
+      "injection_origin": "author-created fault/report projection",
+      "actual_exit": 0,
+      "signal": null,
+      "termination": "exit",
+      "recorded_exit": 0,
+      "pass_printed": true,
+      "report_sha256": "a51cbf15d18dacbef8888d0e40f4eae06cd1f5153fc8ec30a2d56ac75f5f6886",
+      "injected_commands": [
+        "npm:ci",
+        "npm:run",
+        "node:verify.mjs"
+      ],
+      "comparison": {
+        "accepted_projection": false,
+        "reason": "REPORT_CLAIMS_MISMATCH",
+        "process_exit": 0,
+        "recorded_exit": 0,
+        "report_check": "REPORT_CLAIMS_MISMATCH",
+        "report_present_before": false,
+        "report_bytes": 2617,
+        "run_correlation": "not supplied by the native contract",
+        "generation_time": "producer-declared; window check is not authenticity or execution proof"
+      },
+      "expected": {
+        "exit": 0,
+        "reason": "REPORT_CLAIMS_MISMATCH"
+      },
+      "matched": true,
+      "producer_verifier_executed": false
+    },
+    {
+      "name": "wrong-summary",
+      "injection_origin": "author-created fault/report projection",
+      "actual_exit": 0,
+      "signal": null,
+      "termination": "exit",
+      "recorded_exit": 0,
+      "pass_printed": true,
+      "report_sha256": "0bab012fb0764d7311fdb4edec077f966ce621c16b4ce8c2592b64abd3f0f3de",
+      "injected_commands": [
+        "npm:ci",
+        "npm:run",
+        "node:verify.mjs"
+      ],
+      "comparison": {
+        "accepted_projection": false,
+        "reason": "REPORT_SUMMARY_MISMATCH",
+        "process_exit": 0,
+        "recorded_exit": 0,
+        "report_check": "REPORT_SUMMARY_MISMATCH",
+        "report_present_before": false,
+        "report_bytes": 2612,
+        "run_correlation": "not supplied by the native contract",
+        "generation_time": "producer-declared; window check is not authenticity or execution proof"
+      },
+      "expected": {
+        "exit": 0,
+        "reason": "REPORT_SUMMARY_MISMATCH"
+      },
+      "matched": true,
+      "producer_verifier_executed": false
+    },
+    {
+      "name": "stale-generation",
+      "injection_origin": "author-created fault/report projection",
+      "actual_exit": 0,
+      "signal": null,
+      "termination": "exit",
+      "recorded_exit": 0,
+      "pass_printed": true,
+      "report_sha256": "73ae58d14e72432eee7604e87f6a52a3601a4902a81af11b403ae3e77f2597a1",
+      "injected_commands": [
+        "npm:ci",
+        "npm:run",
+        "node:verify.mjs"
+      ],
+      "comparison": {
+        "accepted_projection": false,
+        "reason": "REPORT_TIME_OUTSIDE_INTERVAL",
+        "process_exit": 0,
+        "recorded_exit": 0,
+        "report_check": "REPORT_TIME_OUTSIDE_INTERVAL",
+        "report_present_before": false,
+        "report_bytes": 2613,
+        "run_correlation": "not supplied by the native contract",
+        "generation_time": "producer-declared; window check is not authenticity or execution proof"
+      },
+      "expected": {
+        "exit": 0,
+        "reason": "REPORT_TIME_OUTSIDE_INTERVAL"
+      },
+      "matched": true,
+      "producer_verifier_executed": false
+    },
+    {
+      "name": "future-generation",
+      "injection_origin": "author-created fault/report projection",
+      "actual_exit": 0,
+      "signal": null,
+      "termination": "exit",
+      "recorded_exit": 0,
+      "pass_printed": true,
+      "report_sha256": "0dc83bb3ff91234c49eeea11d3c7a40b2ec864537d6b63163577c5749ae6ea84",
+      "injected_commands": [
+        "npm:ci",
+        "npm:run",
+        "node:verify.mjs"
+      ],
+      "comparison": {
+        "accepted_projection": false,
+        "reason": "REPORT_TIME_OUTSIDE_INTERVAL",
+        "process_exit": 0,
+        "recorded_exit": 0,
+        "report_check": "REPORT_TIME_OUTSIDE_INTERVAL",
+        "report_present_before": false,
+        "report_bytes": 2613,
+        "run_correlation": "not supplied by the native contract",
+        "generation_time": "producer-declared; window check is not authenticity or execution proof"
+      },
+      "expected": {
+        "exit": 0,
+        "reason": "REPORT_TIME_OUTSIDE_INTERVAL"
+      },
+      "matched": true,
+      "producer_verifier_executed": false
+    },
+    {
+      "name": "symlink-report",
+      "injection_origin": "author-created fault/report projection",
+      "actual_exit": 0,
+      "signal": null,
+      "termination": "exit",
+      "recorded_exit": 0,
+      "pass_printed": true,
+      "report_sha256": null,
+      "injected_commands": [
+        "npm:ci",
+        "npm:run",
+        "node:verify.mjs"
+      ],
+      "comparison": {
+        "accepted_projection": false,
+        "reason": "REPORT_UNREADABLE",
+        "process_exit": 0,
+        "recorded_exit": 0,
+        "report_check": "REPORT_UNREADABLE",
+        "report_present_before": false,
+        "report_bytes": null,
+        "run_correlation": "not supplied by the native contract",
+        "generation_time": "producer-declared; window check is not authenticity or execution proof"
+      },
+      "expected": {
+        "exit": 0,
+        "reason": "REPORT_UNREADABLE"
+      },
+      "matched": true,
+      "producer_verifier_executed": false
+    },
+    {
+      "name": "matching-projection",
+      "injection_origin": "author-created fault/report projection",
+      "actual_exit": 0,
+      "signal": null,
+      "termination": "exit",
+      "recorded_exit": 0,
+      "pass_printed": true,
+      "report_sha256": "a3b75be47b0a90f2384ec22f6565d0d60c675f238f76387636428a05f9df14e3",
+      "injected_commands": [
+        "npm:ci",
+        "npm:run",
+        "node:verify.mjs"
+      ],
+      "comparison": {
+        "accepted_projection": true,
+        "reason": null,
+        "process_exit": 0,
+        "recorded_exit": 0,
+        "report_check": null,
+        "report_present_before": false,
+        "report_bytes": 2613,
+        "run_correlation": "not supplied by the native contract",
+        "generation_time": "producer-declared; window check is not authenticity or execution proof"
+      },
+      "expected": {
+        "exit": 0,
+        "reason": null
+      },
+      "matched": true,
+      "producer_verifier_executed": false
+    },
+    {
+      "name": "preexisting-attempt",
+      "injection_origin": "author-created fault/report projection",
+      "actual_exit": 2,
+      "signal": null,
+      "termination": "exit",
+      "recorded_exit": null,
+      "pass_printed": false,
+      "report_sha256": "73ae58d14e72432eee7604e87f6a52a3601a4902a81af11b403ae3e77f2597a1",
+      "injected_commands": [],
+      "comparison": {
+        "accepted_projection": false,
+        "reason": "PROCESS_NONZERO",
+        "process_exit": 2,
+        "recorded_exit": null,
+        "report_check": "REPORT_TIME_OUTSIDE_INTERVAL",
+        "report_present_before": true,
+        "report_bytes": 2613,
+        "run_correlation": "not supplied by the native contract",
+        "generation_time": "producer-declared; window check is not authenticity or execution proof"
+      },
+      "expected": {
+        "exit": 2,
+        "reason": "PROCESS_NONZERO"
+      },
+      "matched": true,
+      "producer_verifier_executed": false
+    }
+  ],
+  "all_expected_controls_matched": true,
+  "wrapper_report_content_guard": "not established; zero-exit injected bad reports print PASS",
+  "scope": {
+    "method": "unchanged pinned wrapper; injected npm/node commands and author-created reports",
+    "producer_verifier_executed": false,
+    "signatures_exercised": false,
+    "formal_pilot": false,
+    "operator_authentication": false,
+    "run_correlation": "native report has no invocation token; no authenticity inferred"
+  }
+}

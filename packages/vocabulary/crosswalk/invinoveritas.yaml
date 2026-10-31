@@ -1,0 +1,80 @@
+system: invinoveritas
+system_url: https://github.com/babyblueviper1/preaction-governance-conformance
+crosswalk_version: "0.1.0"
+vocabulary_version_targeted: "0.4.0"
+
+maintainer:
+  github: babyblueviper1
+  third_party_authored: false
+
+summary_of_system: >
+  An independent reviewer that signs a verdict on a proposed agent action BEFORE it runs (a NIP-01 event, BIP-340, published to
+  a public ledger at https://api.babyblueviper.com/ledger and OpenTimestamps-anchored). Its claims are about a proposed action as the
+  caller described it, not about an execution it observed. The records cited below are public: GET
+  https://api.babyblueviper.com/ledger/<n> returns the entry, and its proof_event.content is the signed claim.
+
+evidence_dimensions:
+  observation_vantage:
+    match: partial
+    evidence: emitted
+    source_path: https://api.babyblueviper.com/ledger/274
+    notes: "Field: context_provenance, inside proof_event.content (the signed JSON string). context_provenance says whether the context the reviewer saw was supplied by the caller and unverified; on current records it is caller_asserted_unverified, i.e. artifact vantage."
+    divergences:
+      - "Only the artifact side is ever emitted. The reviewer observes no execution, so it never emits a substrate value; a consumer can read caller_asserted_unverified as artifact, and nothing as substrate."
+      - "It describes the context handed to the reviewer for one decision, per record. It is not composed by weakest input across the inputs of an execution claim."
+      - "The value is a different spelling (caller_asserted_unverified), not the registered artifact."
+  witness_scope:
+    match: partial
+    evidence: emitted
+    source_path: https://api.babyblueviper.com/ledger/274
+    notes: "Field: source_class, inside proof_event.content (the signed JSON string). source_class says who stands behind the reviewed input: agent_reported (the acting agent itself), platform_operator (the platform the agent runs on), independent_mediator (a separately operated party on a curated registry)."
+    divergences:
+      - "It names who supplied or mediated the input to a pre-action review, not the witness of an execution. agent_reported is close to SELF and independent_mediator to EXTERNAL; platform_operator is not PEER (an operator is not a participant in the same interaction)."
+      - "Lower-case spellings, a different value set, and a min-rule across nested verdicts (the weakest class wins), which the registry term does not define."
+      - "The reviewer itself is always outside the acting agent, but that is a property of the system, not a field on the wire."
+  issuance_time_basis:
+    match: structural
+    evidence: emitted
+    source_path: https://api.babyblueviper.com/ledger/274
+    notes: "Field: freshness_beacon and freshness_beacon_hash, inside proof_event.content (the signed JSON string). Current records fold a Bitcoin block (height, hash, block_time) into the signed content, so the signature cannot predate that block: a proven floor on the signing time. Same mechanism as beacon_anchored with a different beacon and no enum value on the wire. Present on current records (e.g. 274), absent on older ones (e.g. 236), which are therefore asserted. Bitcoin block_time can differ from wall time by up to about two hours, so the floor carries that tolerance."
+
+  commitment_anchor:
+    match: partial
+    evidence: emitted
+    source_path: https://api.babyblueviper.com/ledger/274
+    notes: "Field: ots_anchor (also under commitment_proof.ots_anchor) on the ledger entry: mechanism opentimestamps-bitcoin-pow, digest = the verdict's signed event id, proof at https://api.babyblueviper.com/ledger/274/ots. The digest recomputes from the record under the NIP-01 event-id rule, so a verifier reaches anchored from the public record and the proof."
+    divergences:
+      - "A different spelling (ots_anchor, not commitment_anchor), and no anchored/asserted value on the wire: an entry without ots_anchor is asserted."
+      - "No anchor_time_rule on the wire, so the record is read under the default, header_time_plus_tolerance; the recommended later_median ceiling is not emitted."
+
+posture_and_coverage:
+  does_not_assert:
+    match: partial
+    evidence: emitted
+    source_path: https://api.babyblueviper.com/ledger/236
+    notes: "Field: vantage_limitation, inside proof_event.content (the signed JSON string). vantage_limitation states what the record cannot claim (for agent_reported input: that nothing external confirms the review happened before the action, and that the record is an occurrence claim, not an absence or completeness claim). It is inside the signed content and in the decision_ref preimage, and its value is a pure function of source_class and artifact_type, so a verifier recomputes it."
+    divergences:
+      - "One recomputable sentence per record, not a list of short strings with one agreed spelling each; a consumer cannot match it term by term."
+      - "Null on records where no limitation applies under the rubric (e.g. ledger/274), rather than an empty list."
+  claim_subject:
+    match: no_mapping
+    notes: "artifact_type names the class of action reviewed (plan, trade, onchain_action, ...), not tool / agent / organization; no field says which of those the claim is about."
+
+outcome_lattice:
+  result:
+    match: non_equivalent_similar_label
+    notes: "Our verdict (approve / approve_with_concerns / reject, with a confidence) IS a policy verdict on a proposed action, which result explicitly is not. Declared so neither is read as the other."
+
+system_attributes:
+  signature_capability: post_quantum_hybrid
+  canonicalization_profile: jcs_rfc_8785
+  hash_family: sha_256
+  domain_separation_profile: declared
+  notes: >
+    Signature: BIP-340 over the NIP-01 event id, plus an ML-DSA-65 companion signature over the same 32-byte id, carried beside the
+    event (proof.pq_companion_signature), not inside it; a verifier that ignores the companion gets classical only. Canonicalization:
+    decision_ref is sha256 over the RFC 8785 JCS form of a fixed preimage object (canonicalization_version rfc8785.v1; field list in
+    decision_ref_preimage_fields). Its byte-identity claim covers that preimage, whose members are UTF-8 strings, integers and null,
+    with no non-integer numbers; the event signature itself is over the NIP-01 serialization, not JCS. Domain separation: the
+    preimage binds intended_audience and intended_verifier, so a decision_ref computed for one audience does not verify as another's;
+    the NIP-01 event carries no separate signing domain tag.

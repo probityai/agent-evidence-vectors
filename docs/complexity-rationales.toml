@@ -155,3 +155,24 @@ verdict and reason, and the order is the rule. The function is a decision list
 with one branch per clause of the claim, so decomposing it would scatter a
 single ordered rule across helpers.
 """
+
+["packaging/agent_evidence_vectors/refundconnected.py::judge_case"]
+complexity = 12
+rationale = """
+The reader judges one case through six ordered steps and stops at the first
+layer that ends the case, so each step is one branch on a typed finding. The
+order is the contract: a refusal at an input layer must be followed by a check
+that nothing downstream exists, and a reissue ends the case before dispatch.
+Splitting the steps into functions would move the branches without removing
+them and would hide the order the contract defines.
+"""
+
+["packaging/agent_evidence_vectors/refundconnected.py::run_checks"]
+complexity = 14
+rationale = """
+The run-level checks are independent assertions over one set of retained
+streams: effect count per key, orphan records, alternate arguments and replay.
+Each is a separate fault domain that must report on its own, so the branches
+are independent rather than nested. A shared helper would couple checks that
+the manifest records separately.
+"""

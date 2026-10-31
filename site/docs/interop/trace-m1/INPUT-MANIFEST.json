@@ -1,0 +1,90 @@
+{
+  "upstream_repository": "https://github.com/darklordVirtual/REMORA-research",
+  "upstream_commit": "a4a948cae7044a474fdb55099daea866130c466f",
+  "merged_commit": "16af115660c476968f386983c54154ce8b8d614a",
+  "merged_tree_equal": "271d889b2e5444686ea98d4b88cc850b9cb67ff9",
+  "trace_schema_pin": {
+    "repository": "https://github.com/agentrust-io/trace-spec",
+    "commit": "4c7d6eccc468c87f2d00e02118b29164a4a5479b",
+    "schema_path": "schema/trace-claim.json",
+    "vendored_as": "upstream/trace-claim.json",
+    "schema_sha256": "sha256:289293315d5a480cebcb8962b4d2937738421040e4bb8dcd13c1540073443ae5",
+    "eat_profile": "tag:agentrust-io.com,2026:trace-v0.2",
+    "license": "Community Specification License 1.0 (schema/trace-claim.json, per the upstream LICENSE)"
+  },
+  "license_boundary": "Original reader; no producer imports or source copy. Fixture copies retained privately, excluded from proposed public distribution.",
+  "cases": [
+    {
+      "path": "private-inputs/01-established-with-context.json",
+      "upstream_path": "integrations/agentrust-trace/fixtures/cases/01-established-with-context.json",
+      "bytes": 9001,
+      "sha256": "0d3f16e84337e35831a8ec30f445420ac05a728fd9e6060a7e63fabe19462d27"
+    },
+    {
+      "path": "private-inputs/02-contradicted-preserved.json",
+      "upstream_path": "integrations/agentrust-trace/fixtures/cases/02-contradicted-preserved.json",
+      "bytes": 9010,
+      "sha256": "09c7c2d1eae0ac3cc0edca5a62dbcbb921d6a93dc815345f621838abb26bf556"
+    },
+    {
+      "path": "private-inputs/03-no-context-no-resolver.json",
+      "upstream_path": "integrations/agentrust-trace/fixtures/cases/03-no-context-no-resolver.json",
+      "bytes": 5448,
+      "sha256": "b32c20669ffcf03227ef24e5ceae3fb4c6c630332219f33145f570ec65f8af2b"
+    },
+    {
+      "path": "private-inputs/04-wrong-tenant.json",
+      "upstream_path": "integrations/agentrust-trace/fixtures/cases/04-wrong-tenant.json",
+      "bytes": 4164,
+      "sha256": "fbac06cbac8526184988bb3c9dc6009e3035904e40e9b967c8f2dbc415a2f6a2"
+    },
+    {
+      "path": "private-inputs/05-wrong-principal.json",
+      "upstream_path": "integrations/agentrust-trace/fixtures/cases/05-wrong-principal.json",
+      "bytes": 4165,
+      "sha256": "ccbd7ad68c017b811af359175b45e6634f1a166f00e6ef4016242a469a0a86b8"
+    },
+    {
+      "path": "private-inputs/06-context-replaced.json",
+      "upstream_path": "integrations/agentrust-trace/fixtures/cases/06-context-replaced.json",
+      "bytes": 4201,
+      "sha256": "e564f1a863053c121e3e8fd6ffe1c6e67b6015a8f390dbd9c7aa2fe14afee9ca"
+    },
+    {
+      "path": "private-inputs/07-context-not-bound.json",
+      "upstream_path": "integrations/agentrust-trace/fixtures/cases/07-context-not-bound.json",
+      "bytes": 4093,
+      "sha256": "f2bb95d171ec0ffec1e3ed771a6fa0a00d99232f80b9cb55db9bdbd5b2618aa7"
+    },
+    {
+      "path": "private-inputs/08-untrusted-signer.json",
+      "upstream_path": "integrations/agentrust-trace/fixtures/cases/08-untrusted-signer.json",
+      "bytes": 4165,
+      "sha256": "c0e4a6d5fb70ae889dee0792b3fcaaf1a5e97367a245a5eb6fd6ce2dc49efd82"
+    },
+    {
+      "path": "private-inputs/09-result-rebound-to-other-report.json",
+      "upstream_path": "integrations/agentrust-trace/fixtures/cases/09-result-rebound-to-other-report.json",
+      "bytes": 4516,
+      "sha256": "cae3af387a026137e22f879a159969f7e985e89c0d4d56025e4056125442b774"
+    },
+    {
+      "path": "private-inputs/10-tampered-envelope.json",
+      "upstream_path": "integrations/agentrust-trace/fixtures/cases/10-tampered-envelope.json",
+      "bytes": 4169,
+      "sha256": "6efc938b6f1741dbeb668d0fc232842b176fafeb81f83173f1bd8311778242ea"
+    },
+    {
+      "path": "private-inputs/11-subject-not-report-specific.json",
+      "upstream_path": "integrations/agentrust-trace/fixtures/cases/11-subject-not-report-specific.json",
+      "bytes": 4347,
+      "sha256": "f0e109c4be228374e37c87d441a4c5b07495874aacc6949d9daf119f8c92b3c4"
+    },
+    {
+      "path": "private-inputs/12-report-not-held.json",
+      "upstream_path": "integrations/agentrust-trace/fixtures/cases/12-report-not-held.json",
+      "bytes": 4178,
+      "sha256": "2a7ea3c62c4ee2e07e726d842d2fbd23d6f79a632532521646825776d8e106f9"
+    }
+  ]
+}

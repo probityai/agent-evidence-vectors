@@ -1,0 +1,1053 @@
+{
+  "profile": "probity-local-cpu-task-matrix-v1",
+  "publicationDecision": "publish-scoped-report",
+  "evidence": {
+    "complete": true,
+    "withinRunBudget": true
+  },
+  "population": {
+    "scored": 48,
+    "error": 0,
+    "incomplete": 0,
+    "unknown-start": 0,
+    "planned": 48,
+    "started": 48
+  },
+  "quality": [
+    {
+      "configuration": "short24",
+      "family": "structured-extraction",
+      "planned": 6,
+      "scored": 6,
+      "formatValid": 1,
+      "correct": 0,
+      "promptTokens": 323,
+      "completionTokens": 138,
+      "callElapsedNs": 1414865753,
+      "processCpuNs": 2736008057,
+      "processLifetimePeakRssKiB": 200360,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation"
+    },
+    {
+      "configuration": "short24",
+      "family": "arithmetic",
+      "planned": 6,
+      "scored": 6,
+      "formatValid": 0,
+      "correct": 0,
+      "promptTokens": 295,
+      "completionTokens": 103,
+      "callElapsedNs": 1012401688,
+      "processCpuNs": 1953342784,
+      "processLifetimePeakRssKiB": 200360,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation"
+    },
+    {
+      "configuration": "short24",
+      "family": "policy-decision",
+      "planned": 6,
+      "scored": 6,
+      "formatValid": 0,
+      "correct": 0,
+      "promptTokens": 396,
+      "completionTokens": 144,
+      "callElapsedNs": 1348762689,
+      "processCpuNs": 2605774685,
+      "processLifetimePeakRssKiB": 200360,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation"
+    },
+    {
+      "configuration": "short24",
+      "family": "grounded-abstention",
+      "planned": 6,
+      "scored": 6,
+      "formatValid": 0,
+      "correct": 0,
+      "promptTokens": 400,
+      "completionTokens": 54,
+      "callElapsedNs": 955651965,
+      "processCpuNs": 1867974995,
+      "processLifetimePeakRssKiB": 200360,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation"
+    },
+    {
+      "configuration": "long96",
+      "family": "structured-extraction",
+      "planned": 6,
+      "scored": 6,
+      "formatValid": 1,
+      "correct": 0,
+      "promptTokens": 323,
+      "completionTokens": 459,
+      "callElapsedNs": 3604726882,
+      "processCpuNs": 6895344697,
+      "processLifetimePeakRssKiB": 200360,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation"
+    },
+    {
+      "configuration": "long96",
+      "family": "arithmetic",
+      "planned": 6,
+      "scored": 6,
+      "formatValid": 0,
+      "correct": 0,
+      "promptTokens": 295,
+      "completionTokens": 312,
+      "callElapsedNs": 2529366617,
+      "processCpuNs": 4841425400,
+      "processLifetimePeakRssKiB": 200360,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation"
+    },
+    {
+      "configuration": "long96",
+      "family": "policy-decision",
+      "planned": 6,
+      "scored": 6,
+      "formatValid": 0,
+      "correct": 0,
+      "promptTokens": 396,
+      "completionTokens": 576,
+      "callElapsedNs": 4458558215,
+      "processCpuNs": 8521986316,
+      "processLifetimePeakRssKiB": 200488,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation"
+    },
+    {
+      "configuration": "long96",
+      "family": "grounded-abstention",
+      "planned": 6,
+      "scored": 6,
+      "formatValid": 0,
+      "correct": 0,
+      "promptTokens": 400,
+      "completionTokens": 54,
+      "callElapsedNs": 960181103,
+      "processCpuNs": 1876115841,
+      "processLifetimePeakRssKiB": 200488,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation"
+    }
+  ],
+  "nativeTokens": {
+    "prompt": 2828,
+    "completion": 1840
+  },
+  "elapsed_ns": 16723400890,
+  "attempts": [
+    {
+      "id": "short24--extract-owner",
+      "configuration": "short24",
+      "family": "structured-extraction",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "Here is the code to return JSON with exactly the specified amount, currency, and owner:\n\n```python\nimport",
+      "tokens": {
+        "completion_tokens": 24,
+        "prompt_tokens": 57,
+        "total_tokens": 81
+      },
+      "resources": {
+        "elapsed_ns": 307624963,
+        "process_cpu_ns": 598776761,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "short24--extract-quantity",
+      "configuration": "short24",
+      "family": "structured-extraction",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "Here's how you can implement this:\n\n```python\ndef get_item_quantity(record):\n    quantity",
+      "tokens": {
+        "completion_tokens": 24,
+        "prompt_tokens": 51,
+        "total_tokens": 75
+      },
+      "resources": {
+        "elapsed_ns": 243192621,
+        "process_cpu_ns": 470493723,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "short24--extract-status",
+      "configuration": "short24",
+      "family": "structured-extraction",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": true,
+      "output": "{\n  \"ticket\": {\n    \"status\": \"open\"\n  }\n}",
+      "tokens": {
+        "completion_tokens": 18,
+        "prompt_tokens": 52,
+        "total_tokens": 70
+      },
+      "resources": {
+        "elapsed_ns": 192002383,
+        "process_cpu_ns": 370859279,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "short24--extract-bool",
+      "configuration": "short24",
+      "family": "structured-extraction",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "Here's how you can implement this:\n\n```python\ndef get_required_json(record):\n    required",
+      "tokens": {
+        "completion_tokens": 24,
+        "prompt_tokens": 51,
+        "total_tokens": 75
+      },
+      "resources": {
+        "elapsed_ns": 216660093,
+        "process_cpu_ns": 417155692,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "short24--extract-null",
+      "configuration": "short24",
+      "family": "structured-extraction",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "```json\n{\n  \"id\": 1,\n  \"reviewer\": null\n}\n```\n\nThis",
+      "tokens": {
+        "completion_tokens": 24,
+        "prompt_tokens": 57,
+        "total_tokens": 81
+      },
+      "resources": {
+        "elapsed_ns": 231188384,
+        "process_cpu_ns": 446325713,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "short24--extract-list",
+      "configuration": "short24",
+      "family": "structured-extraction",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "Here's how you can implement this:\n\n```python\ndef get_colors_in_order(record):",
+      "tokens": {
+        "completion_tokens": 24,
+        "prompt_tokens": 55,
+        "total_tokens": 79
+      },
+      "resources": {
+        "elapsed_ns": 224197309,
+        "process_cpu_ns": 432396889,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "short24--arithmetic-sum",
+      "configuration": "short24",
+      "family": "arithmetic",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "Here's a Python function that calculates the sum of all numbers in a given list:\n\n```python\ndef sum",
+      "tokens": {
+        "completion_tokens": 24,
+        "prompt_tokens": 48,
+        "total_tokens": 72
+      },
+      "resources": {
+        "elapsed_ns": 212680655,
+        "process_cpu_ns": 409608544,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "short24--arithmetic-difference",
+      "configuration": "short24",
+      "family": "arithmetic",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "19-8 = 19\n\nHere's how you can calculate 19-8:\n\n",
+      "tokens": {
+        "completion_tokens": 24,
+        "prompt_tokens": 49,
+        "total_tokens": 73
+      },
+      "resources": {
+        "elapsed_ns": 210174023,
+        "process_cpu_ns": 404768949,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "short24--arithmetic-product",
+      "configuration": "short24",
+      "family": "arithmetic",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "6*4 = 24",
+      "tokens": {
+        "completion_tokens": 7,
+        "prompt_tokens": 48,
+        "total_tokens": 55
+      },
+      "resources": {
+        "elapsed_ns": 99016740,
+        "process_cpu_ns": 192083656,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "short24--arithmetic-division",
+      "configuration": "short24",
+      "family": "arithmetic",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "21/3 = 6.",
+      "tokens": {
+        "completion_tokens": 8,
+        "prompt_tokens": 49,
+        "total_tokens": 57
+      },
+      "resources": {
+        "elapsed_ns": 107072397,
+        "process_cpu_ns": 207434841,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "short24--arithmetic-remaining",
+      "configuration": "short24",
+      "family": "arithmetic",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "10-2-3 = 10 + 2 + 3",
+      "tokens": {
+        "completion_tokens": 16,
+        "prompt_tokens": 51,
+        "total_tokens": 67
+      },
+      "resources": {
+        "elapsed_ns": 166390949,
+        "process_cpu_ns": 321377937,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "short24--arithmetic-combined",
+      "configuration": "short24",
+      "family": "arithmetic",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "Here's a Python function that calculates the sum of two numbers:\n\n```python\ndef sum_of_two",
+      "tokens": {
+        "completion_tokens": 24,
+        "prompt_tokens": 50,
+        "total_tokens": 74
+      },
+      "resources": {
+        "elapsed_ns": 217066924,
+        "process_cpu_ns": 418068857,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "short24--policy-publish",
+      "configuration": "short24",
+      "family": "policy-decision",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "```json\n{\n  \"status\": \"success\",\n  \"decision\": {\n    \"decision_type\": \"success",
+      "tokens": {
+        "completion_tokens": 24,
+        "prompt_tokens": 66,
+        "total_tokens": 90
+      },
+      "resources": {
+        "elapsed_ns": 262012013,
+        "process_cpu_ns": 508705348,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "short24--policy-hold-check",
+      "configuration": "short24",
+      "family": "policy-decision",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "```json\n{\n  \"status\": \"success\",\n  \"decision\": {\n    \"decision_type\": \"success",
+      "tokens": {
+        "completion_tokens": 24,
+        "prompt_tokens": 66,
+        "total_tokens": 90
+      },
+      "resources": {
+        "elapsed_ns": 207275541,
+        "process_cpu_ns": 399131862,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "short24--policy-hold-consent",
+      "configuration": "short24",
+      "family": "policy-decision",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "```json\n{\n  \"status\": \"success\",\n  \"decision\": {\n    \"decision_type\": \"success",
+      "tokens": {
+        "completion_tokens": 24,
+        "prompt_tokens": 66,
+        "total_tokens": 90
+      },
+      "resources": {
+        "elapsed_ns": 205969805,
+        "process_cpu_ns": 396752239,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "short24--policy-admit",
+      "configuration": "short24",
+      "family": "policy-decision",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "```python\ndef get_decision(record, policy):\n    decision = record.decision\n    decision_type = record",
+      "tokens": {
+        "completion_tokens": 24,
+        "prompt_tokens": 66,
+        "total_tokens": 90
+      },
+      "resources": {
+        "elapsed_ns": 253708713,
+        "process_cpu_ns": 492080295,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "short24--policy-reject-signature",
+      "configuration": "short24",
+      "family": "policy-decision",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "```python\ndef get_decision(record, policy):\n    decision = record.decision\n    decision_type = record",
+      "tokens": {
+        "completion_tokens": 24,
+        "prompt_tokens": 66,
+        "total_tokens": 90
+      },
+      "resources": {
+        "elapsed_ns": 210929197,
+        "process_cpu_ns": 406742760,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "short24--policy-reject-expiry",
+      "configuration": "short24",
+      "family": "policy-decision",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "```python\ndef get_decision(record, policy):\n    decision = record.decision\n    decision = decision.get",
+      "tokens": {
+        "completion_tokens": 24,
+        "prompt_tokens": 66,
+        "total_tokens": 90
+      },
+      "resources": {
+        "elapsed_ns": 208867420,
+        "process_cpu_ns": 402362181,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "short24--abstain-unknown-age",
+      "configuration": "short24",
+      "family": "grounded-abstention",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "Ana is 25 years old.",
+      "tokens": {
+        "completion_tokens": 9,
+        "prompt_tokens": 62,
+        "total_tokens": 71
+      },
+      "resources": {
+        "elapsed_ns": 152575923,
+        "process_cpu_ns": 297674327,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "short24--abstain-unknown-city",
+      "configuration": "short24",
+      "family": "grounded-abstention",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "Sam lives in New York City.",
+      "tokens": {
+        "completion_tokens": 7,
+        "prompt_tokens": 67,
+        "total_tokens": 74
+      },
+      "resources": {
+        "elapsed_ns": 142143146,
+        "process_cpu_ns": 278142977,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "short24--abstain-unknown-total",
+      "configuration": "short24",
+      "family": "grounded-abstention",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "The total number of fruits is 3.",
+      "tokens": {
+        "completion_tokens": 9,
+        "prompt_tokens": 68,
+        "total_tokens": 77
+      },
+      "resources": {
+        "elapsed_ns": 163453820,
+        "process_cpu_ns": 319689518,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "short24--abstain-known-age",
+      "configuration": "short24",
+      "family": "grounded-abstention",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "Ana is 25 years old.",
+      "tokens": {
+        "completion_tokens": 9,
+        "prompt_tokens": 67,
+        "total_tokens": 76
+      },
+      "resources": {
+        "elapsed_ns": 160702272,
+        "process_cpu_ns": 314321441,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "short24--abstain-known-city",
+      "configuration": "short24",
+      "family": "grounded-abstention",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "Sam lives in Oslo.",
+      "tokens": {
+        "completion_tokens": 5,
+        "prompt_tokens": 68,
+        "total_tokens": 73
+      },
+      "resources": {
+        "elapsed_ns": 132113354,
+        "process_cpu_ns": 259405834,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "short24--abstain-known-total",
+      "configuration": "short24",
+      "family": "grounded-abstention",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "The total number of fruits is 3 + 2 = 5.",
+      "tokens": {
+        "completion_tokens": 15,
+        "prompt_tokens": 68,
+        "total_tokens": 83
+      },
+      "resources": {
+        "elapsed_ns": 204663450,
+        "process_cpu_ns": 398740898,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "long96--extract-owner",
+      "configuration": "long96",
+      "family": "structured-extraction",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "Here is a simple example of how you can use the `json` module to parse a JSON object and return a JSON object with exactly the specified property:\n\n```python\nimport json\n\n# Define the JSON object\njson_obj = '{\"owner\": \"Maya\", \"amount\": 7, \"currency\": \"USD\"}'\n\n# Parse the JSON object\njson_obj_parsed = json.loads(json_obj)\n\n# Return",
+      "tokens": {
+        "completion_tokens": 96,
+        "prompt_tokens": 57,
+        "total_tokens": 153
+      },
+      "resources": {
+        "elapsed_ns": 742032553,
+        "process_cpu_ns": 1418085215,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "long96--extract-quantity",
+      "configuration": "long96",
+      "family": "structured-extraction",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "Here's how you can implement this:\n\n```python\ndef get_item_quantity(record):\n    quantity = 0\n    for item in record.items():\n        if item.quantity == quantity:\n            quantity = item.quantity\n        else:\n            raise ValueError(\"Item quantity cannot be zero\")\n    return quantity\n```\n\nThis function iterates through the records in the given `record` and checks if each item has the specified quantity. If the quantity is",
+      "tokens": {
+        "completion_tokens": 96,
+        "prompt_tokens": 51,
+        "total_tokens": 147
+      },
+      "resources": {
+        "elapsed_ns": 735949766,
+        "process_cpu_ns": 1405626363,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "long96--extract-status",
+      "configuration": "long96",
+      "family": "structured-extraction",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": true,
+      "output": "{\n  \"ticket\": {\n    \"status\": \"open\"\n  }\n}",
+      "tokens": {
+        "completion_tokens": 18,
+        "prompt_tokens": 52,
+        "total_tokens": 70
+      },
+      "resources": {
+        "elapsed_ns": 185094834,
+        "process_cpu_ns": 357448306,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "long96--extract-bool",
+      "configuration": "long96",
+      "family": "structured-extraction",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "Here's how you can implement this:\n\n```python\ndef get_required_json(record):\n    required_json = []\n    required_json.append(record.name)\n    required_json.append(record.enabled)\n    return json.dumps(required_json)\n```",
+      "tokens": {
+        "completion_tokens": 62,
+        "prompt_tokens": 51,
+        "total_tokens": 113
+      },
+      "resources": {
+        "elapsed_ns": 492370686,
+        "process_cpu_ns": 943647417,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "long96--extract-null",
+      "configuration": "long96",
+      "family": "structured-extraction",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "```json\n{\n  \"id\": 1,\n  \"reviewer\": null\n}\n```\n\nThis is a JSON response that returns the specified record and its corresponding reviewer. The record is the key, and the value is the key-value pair. The `id` is the key, and the `reviewer` is the value. The `unknown` key is the value, and the `null` key is the value.",
+      "tokens": {
+        "completion_tokens": 91,
+        "prompt_tokens": 57,
+        "total_tokens": 148
+      },
+      "resources": {
+        "elapsed_ns": 712762907,
+        "process_cpu_ns": 1363046440,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "long96--extract-list",
+      "configuration": "long96",
+      "family": "structured-extraction",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "Here's how you can implement this:\n\n```python\ndef get_colors_in_order(record):\n    return [record[0] for record in record]\n```\n\nThis implementation uses a list comprehension to create a list of colors in the order they are in the record. The `record` argument is a dictionary where the keys are the colors and the values are the corresponding values in the record.\n\nThe `record[0]` is",
+      "tokens": {
+        "completion_tokens": 96,
+        "prompt_tokens": 55,
+        "total_tokens": 151
+      },
+      "resources": {
+        "elapsed_ns": 736516136,
+        "process_cpu_ns": 1407490956,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "long96--arithmetic-sum",
+      "configuration": "long96",
+      "family": "arithmetic",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "Here's a Python function that calculates the sum of all numbers in a given list:\n\n```python\ndef sum_of_numbers(numbers):\n    return sum(numbers)\n\n# Example usage:\nnumbers = [1, 2, 3, 4, 5]\nresult = sum_of_numbers(numbers)\nprint(result)  # Output: 15\n```\n\nThis function uses the built-in `",
+      "tokens": {
+        "completion_tokens": 96,
+        "prompt_tokens": 48,
+        "total_tokens": 144
+      },
+      "resources": {
+        "elapsed_ns": 724186188,
+        "process_cpu_ns": 1382583559,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "long96--arithmetic-difference",
+      "configuration": "long96",
+      "family": "arithmetic",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "19-8 = 19\n\nHere's how you can calculate 19-8:\n\n```python\ndef calculate_19_8(record):\n    return record[0] + record[1]\n```\n\nThis function uses the built-in `sum` function to calculate the sum of the first two elements in the record. The `+` operator is used to add the two numbers.",
+      "tokens": {
+        "completion_tokens": 89,
+        "prompt_tokens": 49,
+        "total_tokens": 138
+      },
+      "resources": {
+        "elapsed_ns": 682800325,
+        "process_cpu_ns": 1304382458,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "long96--arithmetic-product",
+      "configuration": "long96",
+      "family": "arithmetic",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "6*4 = 24",
+      "tokens": {
+        "completion_tokens": 7,
+        "prompt_tokens": 48,
+        "total_tokens": 55
+      },
+      "resources": {
+        "elapsed_ns": 111010823,
+        "process_cpu_ns": 215801021,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "long96--arithmetic-division",
+      "configuration": "long96",
+      "family": "arithmetic",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "21/3 = 6.",
+      "tokens": {
+        "completion_tokens": 8,
+        "prompt_tokens": 49,
+        "total_tokens": 57
+      },
+      "resources": {
+        "elapsed_ns": 107599324,
+        "process_cpu_ns": 208859191,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "long96--arithmetic-remaining",
+      "configuration": "long96",
+      "family": "arithmetic",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "10-2-3 = 10 + 2 + 3",
+      "tokens": {
+        "completion_tokens": 16,
+        "prompt_tokens": 51,
+        "total_tokens": 67
+      },
+      "resources": {
+        "elapsed_ns": 167373204,
+        "process_cpu_ns": 323258887,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "long96--arithmetic-combined",
+      "configuration": "long96",
+      "family": "arithmetic",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "Here's a Python function that calculates the sum of two numbers:\n\n```python\ndef sum_of_two(a, b):\n    return a + b\n\nprint(sum_of_two(3, 4))  # Output: 7\n```\n\nHowever, this function will not work correctly if the inputs are not numbers. If you want to add numbers, you can use the following function:\n\n```python\ndef sum_",
+      "tokens": {
+        "completion_tokens": 96,
+        "prompt_tokens": 50,
+        "total_tokens": 146
+      },
+      "resources": {
+        "elapsed_ns": 736396753,
+        "process_cpu_ns": 1406540284,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "long96--policy-publish",
+      "configuration": "long96",
+      "family": "policy-decision",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "```json\n{\n  \"status\": \"success\",\n  \"decision\": {\n    \"decision_type\": \"success\",\n    \"decision_type_name\": \"decision\",\n    \"decision_type_value\": \"success\",\n    \"decision_type_value_type\": \"integer\",\n    \"decision_type_value_type_name\": \"integer\",\n    \"decision_type_value_type_name\": \"integer\",\n    \"decision_type_",
+      "tokens": {
+        "completion_tokens": 96,
+        "prompt_tokens": 66,
+        "total_tokens": 162
+      },
+      "resources": {
+        "elapsed_ns": 775167731,
+        "process_cpu_ns": 1485225448,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "long96--policy-hold-check",
+      "configuration": "long96",
+      "family": "policy-decision",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "```json\n{\n  \"status\": \"success\",\n  \"decision\": {\n    \"decision_type\": \"success\",\n    \"decision_type_name\": \"decision\",\n    \"decision_type_value\": \"success\",\n    \"decision_type_value_name\": \"decision\",\n    \"decision_type_value_name\": \"decision\",\n    \"decision_type_value_name\": \"decision\",\n    \"decision_type_value_name\":",
+      "tokens": {
+        "completion_tokens": 96,
+        "prompt_tokens": 66,
+        "total_tokens": 162
+      },
+      "resources": {
+        "elapsed_ns": 733542820,
+        "process_cpu_ns": 1400350186,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "long96--policy-hold-consent",
+      "configuration": "long96",
+      "family": "policy-decision",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "```json\n{\n  \"status\": \"success\",\n  \"decision\": {\n    \"decision_type\": \"success\",\n    \"decision_type_name\": \"decision\",\n    \"decision_type_value\": \"success\",\n    \"decision_type_value_type\": \"success\",\n    \"decision_type_value_type\": \"success\",\n    \"decision_type_value_type\": \"success\",\n    \"decision_type_value_type\":",
+      "tokens": {
+        "completion_tokens": 96,
+        "prompt_tokens": 66,
+        "total_tokens": 162
+      },
+      "resources": {
+        "elapsed_ns": 723772863,
+        "process_cpu_ns": 1381754465,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "long96--policy-admit",
+      "configuration": "long96",
+      "family": "policy-decision",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "```python\ndef get_decision(record, policy):\n    decision = record.decision\n    decision_type = record.decision_type\n    decision_value = record.decision_value\n    decision_value_type = record.decision_value_type\n    decision_value_type_type = record.decision_value_type_type\n    decision_value_type_type_type = record.decision_value_type_type_type\n    decision_value",
+      "tokens": {
+        "completion_tokens": 96,
+        "prompt_tokens": 66,
+        "total_tokens": 162
+      },
+      "resources": {
+        "elapsed_ns": 777697950,
+        "process_cpu_ns": 1489935209,
+        "process_maxrss_kib": 200360
+      }
+    },
+    {
+      "id": "long96--policy-reject-signature",
+      "configuration": "long96",
+      "family": "policy-decision",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "```python\ndef get_decision(record, policy):\n    decision = record.decision\n    decision_type = record.decision_type\n    decision_value = record.decision_value\n    decision_value_type = record.decision_value_type\n    decision_value_type_type = record.decision_value_type_type\n    decision_value_type_type_type = record.decision_value_type_type_type\n    decision_value",
+      "tokens": {
+        "completion_tokens": 96,
+        "prompt_tokens": 66,
+        "total_tokens": 162
+      },
+      "resources": {
+        "elapsed_ns": 726677003,
+        "process_cpu_ns": 1386967259,
+        "process_maxrss_kib": 200488
+      }
+    },
+    {
+      "id": "long96--policy-reject-expiry",
+      "configuration": "long96",
+      "family": "policy-decision",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "```python\ndef get_decision(record, policy):\n    decision = record.decision\n    decision = decision.get_decision()\n    decision = decision.get_decision()\n    decision = decision.get_decision()\n    decision = decision.get_decision()\n    decision = decision.get_decision()\n    decision = decision.get_decision()\n    decision = decision.get_decision()\n    decision = decision.get_decision()\n    decision = decision.get",
+      "tokens": {
+        "completion_tokens": 96,
+        "prompt_tokens": 66,
+        "total_tokens": 162
+      },
+      "resources": {
+        "elapsed_ns": 721699848,
+        "process_cpu_ns": 1377753749,
+        "process_maxrss_kib": 200488
+      }
+    },
+    {
+      "id": "long96--abstain-unknown-age",
+      "configuration": "long96",
+      "family": "grounded-abstention",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "Ana is 25 years old.",
+      "tokens": {
+        "completion_tokens": 9,
+        "prompt_tokens": 62,
+        "total_tokens": 71
+      },
+      "resources": {
+        "elapsed_ns": 153223196,
+        "process_cpu_ns": 298876625,
+        "process_maxrss_kib": 200488
+      }
+    },
+    {
+      "id": "long96--abstain-unknown-city",
+      "configuration": "long96",
+      "family": "grounded-abstention",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "Sam lives in New York City.",
+      "tokens": {
+        "completion_tokens": 7,
+        "prompt_tokens": 67,
+        "total_tokens": 74
+      },
+      "resources": {
+        "elapsed_ns": 142098654,
+        "process_cpu_ns": 278111857,
+        "process_maxrss_kib": 200488
+      }
+    },
+    {
+      "id": "long96--abstain-unknown-total",
+      "configuration": "long96",
+      "family": "grounded-abstention",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "The total number of fruits is 3.",
+      "tokens": {
+        "completion_tokens": 9,
+        "prompt_tokens": 68,
+        "total_tokens": 77
+      },
+      "resources": {
+        "elapsed_ns": 166196497,
+        "process_cpu_ns": 324800141,
+        "process_maxrss_kib": 200488
+      }
+    },
+    {
+      "id": "long96--abstain-known-age",
+      "configuration": "long96",
+      "family": "grounded-abstention",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "Ana is 25 years old.",
+      "tokens": {
+        "completion_tokens": 9,
+        "prompt_tokens": 67,
+        "total_tokens": 76
+      },
+      "resources": {
+        "elapsed_ns": 162137830,
+        "process_cpu_ns": 316925668,
+        "process_maxrss_kib": 200488
+      }
+    },
+    {
+      "id": "long96--abstain-known-city",
+      "configuration": "long96",
+      "family": "grounded-abstention",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "Sam lives in Oslo.",
+      "tokens": {
+        "completion_tokens": 5,
+        "prompt_tokens": 68,
+        "total_tokens": 73
+      },
+      "resources": {
+        "elapsed_ns": 131960960,
+        "process_cpu_ns": 258941343,
+        "process_maxrss_kib": 200488
+      }
+    },
+    {
+      "id": "long96--abstain-known-total",
+      "configuration": "long96",
+      "family": "grounded-abstention",
+      "outcome": "scored",
+      "correct": false,
+      "formatValid": false,
+      "output": "The total number of fruits is 3 + 2 = 5.",
+      "tokens": {
+        "completion_tokens": 15,
+        "prompt_tokens": 68,
+        "total_tokens": 83
+      },
+      "resources": {
+        "elapsed_ns": 204563966,
+        "process_cpu_ns": 398460207,
+        "process_maxrss_kib": 200488
+      }
+    }
+  ],
+  "interpretation": "author-written operational microtasks; no benchmark estimate, deployment or custody claim",
+  "custody": "Probity-operated; independent custody not established",
+  "effects": "not executed",
+  "tokenScope": "all returned native responses; errors have unknown token use"
+}

@@ -1,0 +1,19 @@
+{
+  "server": {
+    "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
+    "name": "com.example/search",
+    "description": "Search the example index.",
+    "version": "2.0.0",
+    "remotes": [
+      {
+        "type": "streamable-http",
+        "url": "https://mcp.example.com/v2/mcp"
+      }
+    ]
+  },
+  "_meta": {
+    "io.github.probityai/agent-evidence-admission": {
+      "digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+    }
+  }
+}

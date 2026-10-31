@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pause_hold: Agent Evidence vocabulary</title>
+<meta name="description" content="The pause_hold term of the Agent Evidence vocabulary.">
+<link rel="canonical" href="https://w3id.org/agent-evidence/vocab/v1/pause_hold">
+<script type="application/ld+json">
+{
+ "@context": {
+  "owl": "http://www.w3.org/2002/07/owl#",
+  "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+  "skos": "http://www.w3.org/2004/02/skos/core#"
+ },
+ "@graph": [
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/pause_hold",
+   "@type": "skos:Concept",
+   "skos:definition": "Whether a pause held. An effect by the paused subject is an effect whose operation the subject initiated at or after effectiveAt; state the subject left behind is anything it created before effectiveAt. The two are different values because only the first shows the pause failed to stop the subject; the second shows what remains to be remediated. When several apply the record carries the first in this order: effect_after_pause, in_flight_unknown, residual_state_remains, held.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "pause_hold",
+   "skos:prefLabel": "pause_hold",
+   "skos:topConceptOf": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   }
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/pause_hold#held",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/pause_hold"
+   },
+   "skos:definition": "The substrate observed no effect by the paused subject after effectiveAt, and no state it created before effectiveAt remains active.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "held"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/pause_hold#in_flight_unknown",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/pause_hold"
+   },
+   "skos:definition": "An operation the subject started before effectiveAt has no confirmed outcome.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "in_flight_unknown"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/pause_hold#effect_after_pause",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/pause_hold"
+   },
+   "skos:definition": "An effect caused by an operation the paused subject initiated carries a time after effectiveAt.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "effect_after_pause"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/pause_hold#residual_state_remains",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/pause_hold"
+   },
+   "skos:definition": "No effect by the paused subject after effectiveAt, but state it created before effectiveAt (an account, credential, pod or job) is still active.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "residual_state_remains"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/pause_hold#not_established",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/pause_hold"
+   },
+   "skos:definition": "There was no substrate observation.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "not_established"
+  }
+ ]
+}
+</script>
+<style>
+:root{color-scheme:light dark;--page:#f6f8fb;--surface:#fff;--ink:#14202e;--body:#33404f;--link:#1f4fd1;--rule:#cfd8e3;font-family:system-ui,sans-serif;color:var(--ink);background:var(--page)}
+@media (prefers-color-scheme:dark){:root{--page:#10151b;--surface:#18202a;--ink:#e8edf3;--body:#c3ccd6;--link:#8fb0ff;--rule:#2c3846}}
+*{box-sizing:border-box}body{margin:0;font:400 1rem/1.6 system-ui,sans-serif;background:var(--page)}
+.shell{max-width:52rem;margin-inline:auto;padding-inline:16px}
+header,footer{padding-block:1.25rem}header a{font-weight:700;color:var(--ink);text-decoration:none}
+footer{border-top:1px solid var(--rule);color:var(--body);font-size:.9375rem;margin-top:3rem}
+a{color:var(--link)}p,li,td{color:var(--body)}h1{line-height:1.2}
+code,pre{font-family:ui-monospace,Consolas,monospace;font-size:.875em}code{overflow-wrap:anywhere}
+pre{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:1rem;overflow-x:auto}
+blockquote{margin:1rem 0;padding:.25rem 1rem;border-left:4px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;display:block;overflow-x:auto}
+th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-align:top}
+</style>
+</head>
+<body>
+<header class="shell"><a href="https://github.com/probityai/agent-evidence">Agent Evidence</a></header>
+<main class="shell">
+<h1><code>pause_hold</code></h1>
+<p>Term URI: <a href="https://w3id.org/agent-evidence/vocab/v1/pause_hold">https://w3id.org/agent-evidence/vocab/v1/pause_hold</a></p>
+<p>Section: <code>incident_response</code>. Criticality: <code>critical</code>.</p>
+<p>Whether a pause held. An effect by the paused subject is an effect whose operation the subject initiated at or after effectiveAt; state the subject left behind is anything it created before effectiveAt. The two are different values because only the first shows the pause failed to stop the subject; the second shows what remains to be remediated. When several apply the record carries the first in this order: effect_after_pause, in_flight_unknown, residual_state_remains, held.</p>
+<h2>Registered values</h2>
+<ul>
+<li id="held"><code>https://w3id.org/agent-evidence/vocab/v1/pause_hold#held</code>: The substrate observed no effect by the paused subject after effectiveAt, and no state it created before effectiveAt remains active.</li>
+<li id="in_flight_unknown"><code>https://w3id.org/agent-evidence/vocab/v1/pause_hold#in_flight_unknown</code>: An operation the subject started before effectiveAt has no confirmed outcome.</li>
+<li id="effect_after_pause"><code>https://w3id.org/agent-evidence/vocab/v1/pause_hold#effect_after_pause</code>: An effect caused by an operation the paused subject initiated carries a time after effectiveAt.</li>
+<li id="residual_state_remains"><code>https://w3id.org/agent-evidence/vocab/v1/pause_hold#residual_state_remains</code>: No effect by the paused subject after effectiveAt, but state it created before effectiveAt (an account, credential, pod or job) is still active.</li>
+<li id="not_established"><code>https://w3id.org/agent-evidence/vocab/v1/pause_hold#not_established</code>: There was no substrate observation.</li>
+</ul>
+</main>
+<footer><div class="shell">Generated from <a href="https://github.com/probityai/agent-evidence/blob/main/packages/vocabulary/vocabulary.yaml">vocabulary.yaml</a>. This page describes the current registry. A record is read against the registry its registryDigest names, named on <a href="https://probityai.github.io/agent-evidence/vocab/v1/">the term listing</a>. The term URI does not change once a signed record carries it.</div></footer>
+</body>
+</html>

@@ -1,0 +1,327 @@
+{
+  "$id": "https://probityai.github.io/agent-evidence-vectors/schema/revocation-sweep/v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Shape and closed values of a decoded statement of https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-sweep. Cross-member rules need the checker.",
+  "properties": {
+    "_type": {
+      "const": "https://in-toto.io/Statement/v1"
+    },
+    "predicate": {
+      "additionalProperties": false,
+      "properties": {
+        "coverage": {
+          "additionalProperties": false,
+          "properties": {
+            "claim": {
+              "enum": [
+                "complete_verified",
+                "issued_after_only",
+                "partial",
+                "unknown"
+              ],
+              "type": "string"
+            },
+            "issuedAfter": {
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "claim"
+          ],
+          "type": "object"
+        },
+        "doesNotAssert": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "incident": {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "issuer": {
+              "pattern": "^https://[^\\s]+$",
+              "type": "string"
+            },
+            "related": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "issuer": {
+                    "pattern": "^https://[^\\s]+$",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "issuer"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "id",
+            "issuer"
+          ],
+          "type": "object"
+        },
+        "issuedAt": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$",
+          "type": "string"
+        },
+        "partition": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "credentials": {
+                "items": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "state": {
+                "enum": [
+                  "retained",
+                  "revoked",
+                  "unassessed"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "credentials",
+              "state"
+            ],
+            "type": "object"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "population": {
+          "additionalProperties": false,
+          "properties": {
+            "credentials": {
+              "items": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "credentials"
+          ],
+          "type": "object"
+        },
+        "predecessors": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "digest": {
+                "additionalProperties": false,
+                "properties": {
+                  "sha256": {
+                    "pattern": "^[0-9a-f]{64}$",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "sha256"
+                ],
+                "type": "object"
+              },
+              "predicateType": {
+                "pattern": "^https://[^\\s]+$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "digest",
+              "predicateType"
+            ],
+            "type": "object"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "producer": {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "pattern": "^https://[^\\s]+$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "type": "object"
+        },
+        "registryDigest": {
+          "additionalProperties": false,
+          "properties": {
+            "sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "sha256"
+          ],
+          "type": "object"
+        },
+        "revocations": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "credential": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "evidence": {
+                "additionalProperties": false,
+                "properties": {
+                  "digest": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "sha256": {
+                        "pattern": "^[0-9a-f]{64}$",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "sha256"
+                    ],
+                    "type": "object"
+                  },
+                  "mediaType": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "uri": {
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "digest"
+                ],
+                "type": "object"
+              },
+              "relyingParties": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "state": {
+                      "enum": [
+                        "enforced_observed",
+                        "issued",
+                        "not_established",
+                        "use_after_revocation"
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "state"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "revokedAt": {
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "credential",
+              "evidence",
+              "relyingParties",
+              "revokedAt"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "coverage",
+        "doesNotAssert",
+        "incident",
+        "issuedAt",
+        "partition",
+        "population",
+        "predecessors",
+        "producer",
+        "registryDigest",
+        "revocations"
+      ],
+      "type": "object"
+    },
+    "predicateType": {
+      "const": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-sweep"
+    },
+    "subject": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "digest": {
+            "additionalProperties": false,
+            "properties": {
+              "sha256": {
+                "pattern": "^[0-9a-f]{64}$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "sha256"
+            ],
+            "type": "object"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "digest"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    }
+  },
+  "required": [
+    "_type",
+    "subject",
+    "predicateType",
+    "predicate"
+  ],
+  "title": "revocation-sweep v1 statement",
+  "type": "object"
+}

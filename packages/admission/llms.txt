@@ -1,0 +1,51 @@
+# agent-evidence-admission
+
+> Reference admission rails for agent execution evidence: four rails (OPA
+> Rego, Kyverno JMESPath, Kyverno CEL, and CUE under sigstore
+> policy-controller) that admit or refuse a Kubernetes workload on an
+> adversarial-execution-evidence statement, each declaring per obligation what
+> it enforces, what it only approximates, and what it cannot reach. Every
+> disposition is measured by running the rail over the public conformance
+> corpus, never typed by hand.
+
+The predicate is `https://in-toto.io/attestation/adversarial-execution-evidence/v0.7`,
+under review at in-toto/attestation#570. The corpus the rails are measured
+against is probityai/agent-evidence-vectors at the tag `v0.30.0`, installed from
+`requirements-vectors.txt` as the PyPI package `agent-evidence-vectors==0.30.0`
+(same corpus digest), pinned by wheel hash. These rails evaluate an already
+verified statement; the envelope signature is checked by the engine's own key
+authority before any policy body runs. The README says so in its status, and
+docs/DESIGN.md states that ceiling in full.
+
+## Entry points
+
+- [README](https://github.com/probityai/agent-evidence/blob/main/packages/admission/README.md): What the policies are, a pinned quick start with OPA, and the status.
+- [Design, trust ceiling and evidence](https://github.com/probityai/agent-evidence/blob/main/packages/admission/docs/DESIGN.md): The four-command verification of the claim, the file map, the trust ceiling, and how the profile registry is derived.
+- [The oracle, rego/execution_evidence.rego](https://github.com/probityai/agent-evidence/blob/main/packages/admission/rego/execution_evidence.rego): The Rego v1 module every other rail is compared against; its header states what it does not verify.
+- [Profile registry](https://github.com/probityai/agent-evidence/blob/main/packages/admission/PROFILE-REGISTRY.md): One row per rail per obligation, rendered from `profiles/*/PROFILE-MAP.json`.
+- [Consumer policy](https://github.com/probityai/agent-evidence/blob/main/packages/admission/docs/CONSUMER-POLICY.md): The consumer pins, what each decides, and what an absent value means.
+- [Adversarial ratchet](https://github.com/probityai/agent-evidence/blob/main/packages/admission/docs/ADVERSARIAL-RATCHET.md): The open adversarial-mutation findings against these rails, derived by `scripts/ratchet_report.py`.
+- [Provenance](https://github.com/probityai/agent-evidence/blob/main/packages/admission/PROVENANCE.md): Per lifted file, where it came from, at which commit, and the SHA-256 of the source bytes.
+- [Agent change admission](https://github.com/probityai/agent-evidence/blob/main/packages/admission/docs/AGENT-CHANGE-ADMISSION.md): A second rule set that admits an agent harness version only on a signed decision that admitted it, on OPA, Kyverno CEL and policy-controller, with its vectors and conformance driver.
+- [Verifier isolation](https://github.com/probityai/agent-evidence/blob/main/packages/admission/docs/VERIFIER-ISOLATION.md): A third rule set that refuses a done verdict whose verifier left one of the nine reward-tampering vectors of terminal-bench issue 2086 open, on OPA, Kyverno CEL and CUE, with its registry, vectors and conformance driver.
+- [Conformance harness](https://github.com/probityai/agent-evidence/blob/main/packages/admission/conformance/run_policy_conformance.py): Runs every rail over the corpus projection and refuses an undeclared divergence from the oracle.
+
+## Rails
+
+- [Kyverno ClusterPolicy documents](https://github.com/probityai/agent-evidence/tree/main/packages/admission/kyverno): Enforce, audit, and enforce-with-freshness-window on the JMESPath rail, plus the same policy on the CEL rail.
+- [policy-controller ClusterImagePolicy documents](https://github.com/probityai/agent-evidence/tree/main/packages/admission/policy-controller): A Rego one, a CUE one, and one that embeds the whole oracle module.
+- [Obligation registry](https://github.com/probityai/agent-evidence/blob/main/packages/admission/registry/conditions.json): The corpus condition table, vendored with the corpus digest it was read at.
+
+## Corpus
+
+- [probityai/agent-evidence-vectors](https://github.com/probityai/agent-evidence-vectors): The conformance vector suite these rails are measured against, at tag `v0.30.0`. The projection the rails run on is `rego/corpus_vectors.json`, regenerated and checked against that tag on every push.
+
+## Identifiers
+
+- Release tag: none published yet; the pinned corpus tag is `v0.30.0`.
+- Archival DOI: not yet minted. This line is replaced with the DOI when one exists.
+- [Citation](https://github.com/probityai/agent-evidence/blob/main/packages/admission/CITATION.cff): Cite the specification for what the predicate requires, the vectors repository for what a corpus forces, and this repository only for what a particular engine was measured to enforce.
+
+## Optional
+
+- [License](https://github.com/probityai/agent-evidence/blob/main/packages/admission/LICENSE): Apache-2.0.

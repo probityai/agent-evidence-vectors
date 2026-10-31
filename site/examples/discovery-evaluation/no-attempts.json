@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "suite_id": "probity-discovery-v1",
+  "suite_sha256": "1e95c55369e567fa21bf45afc6c537c0ef71879c02c8c23730504416e4c3ac83",
+  "client": {
+    "kind": "author_check",
+    "name": "local receipt checker",
+    "version": "1",
+    "model": null,
+    "familiarity": "not_recorded"
+  },
+  "operator": {
+    "id": "fixture-author",
+    "relationship": "author"
+  },
+  "answer_key_access": "exposed",
+  "attempts": []
+}

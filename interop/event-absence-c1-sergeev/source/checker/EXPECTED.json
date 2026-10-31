@@ -1,0 +1,78 @@
+{
+  "capability_counterexample": [
+    "gapped_empty"
+  ],
+  "cases": [
+    {
+      "checker_expected": {
+        "compatible_histories": [
+          "N"
+        ],
+        "truth_values": [
+          true
+        ],
+        "verdict": "TRUE"
+      },
+      "id": "C1-01-covered-empty",
+      "native_case_directory": "../probity/cases/C1-01-covered-empty",
+      "observation_atom": "covered_empty",
+      "pins": "expected-pins/C1-01-covered-empty.json",
+      "probity_expected": {
+        "decision": "supported",
+        "expectation_basis": "source inspection of released event_absence/v2; not an observed execution",
+        "reason": "absence_within_covered_scope"
+      },
+      "record": "records/C1-01-covered-empty.json"
+    },
+    {
+      "checker_expected": {
+        "compatible_histories": [
+          "W10"
+        ],
+        "truth_values": [
+          false
+        ],
+        "verdict": "FALSE"
+      },
+      "id": "C1-02-event-with-gap",
+      "native_case_directory": "../probity/cases/C1-02-event-with-gap",
+      "observation_atom": "gapped_event",
+      "pins": "expected-pins/C1-02-event-with-gap.json",
+      "probity_expected": {
+        "decision": "contradicted",
+        "expectation_basis": "source inspection of released event_absence/v2; not an observed execution",
+        "reason": "event_observed"
+      },
+      "record": "records/C1-02-event-with-gap.json"
+    },
+    {
+      "checker_expected": {
+        "compatible_histories": [
+          "N",
+          "W30"
+        ],
+        "truth_values": [
+          false,
+          true
+        ],
+        "verdict": "UNRESOLVED"
+      },
+      "id": "C1-03-empty-with-gap",
+      "native_case_directory": "../probity/cases/C1-03-empty-with-gap",
+      "observation_atom": "gapped_empty",
+      "pins": "expected-pins/C1-03-empty-with-gap.json",
+      "probity_expected": {
+        "decision": "not_established",
+        "expectation_basis": "source inspection of released event_absence/v2; not an observed execution",
+        "reason": "observation_coverage_unestablished"
+      },
+      "record": "records/C1-03-empty-with-gap.json"
+    }
+  ],
+  "common_model_used_for_all_cases": true,
+  "contract": "C1-CommonFragmentExpectations/0.1.0",
+  "general_equivalence_claim": false,
+  "raw_capability_expected": false,
+  "software_runs_performed": false,
+  "stage": "C1 construction only; not C2 execution"
+}

@@ -1,0 +1,85 @@
+# The pre-commit.ci app is installed on this repository, and until this file
+# existed every pull request carried a red "error during ci config" status that
+# no contributor could fix from their side. The hooks below are the CI checks
+# that need no credential and no network, so a contributor running
+# `pre-commit run --all-files` sees what CI will say before pushing, and
+# pre-commit.ci says the same thing on the pull request.
+#
+# Non-mutating only. vocabulary.yaml is cited by version and a crosswalk is a
+# filer's own signed-off statement, so no hook may rewrite a file.
+ci:
+  autofix_prs: false
+  autoupdate_schedule: quarterly
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-yaml
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: check-added-large-files
+        args: ["--maxkb=1024"]
+
+  - repo: local
+    hooks:
+      # Unless VALIDATE_CROSSWALKS_OFFLINE is set, the validator sends a HEAD
+      # request to the source_path of each entry declaring evidence: emitted or
+      # recomputed (one, in aee-e2.yaml, today), which breaks the no-network
+      # promise above. Offline, it prints each skipped source_path as a warning
+      # instead. pre-commit has no per-hook env key, so env(1) sets the
+      # variable in the entry.
+      - id: validate-crosswalks
+        name: validate every crosswalk against vocabulary.yaml
+        entry: env VALIDATE_CROSSWALKS_OFFLINE=1 python3 scripts/validate_crosswalks.py
+        language: python
+        additional_dependencies: ["PyYAML==6.0.3"]
+        pass_filenames: false
+        always_run: true
+      - id: contributing-example
+        name: run CONTRIBUTING.md's worked example through the validator
+        entry: python3 scripts/test_contributing_example.py
+        language: python
+        additional_dependencies: ["PyYAML==6.0.3"]
+        pass_filenames: false
+        always_run: true
+      - id: recomputed-state
+        name: hold the validator to the registry's definition of recomputed
+        entry: python3 scripts/test_recomputed_state.py
+        language: python
+        additional_dependencies: ["PyYAML==6.0.3"]
+        pass_filenames: false
+        always_run: true
+      - id: crosswalk-directory
+        name: hold the validator to reading every file in crosswalk/
+        entry: python3 scripts/test_crosswalk_directory.py
+        language: python
+        additional_dependencies: ["PyYAML==6.0.3"]
+        pass_filenames: false
+        always_run: true
+      - id: attribution
+        name: hold the registry to the attribution lines it carries
+        entry: python3 scripts/test_attribution.py
+        language: python
+        additional_dependencies: ["PyYAML==6.0.3"]
+        pass_filenames: false
+        always_run: true
+      - id: opencre-links
+        name: hold the OpenCRE links to the shape OpenCRE imports
+        entry: bash -c 'python3 scripts/test_check_opencre_links.py && python3 scripts/check_opencre_links.py'
+        language: python
+        additional_dependencies: ["PyYAML==6.0.3"]
+        pass_filenames: false
+        always_run: true
+      - id: ruled-out-phrases
+        name: reject ruled-out constructions in tracked prose
+        entry: python3 scripts/lint_ruled_out_phrases.py
+        language: python
+        pass_filenames: false
+        always_run: true
+      - id: forbidden-word-scan
+        name: reject forbidden strings in tracked files
+        entry: python3 scripts/forbidden-word-scan.py
+        language: python
+        pass_filenames: false
+        always_run: true

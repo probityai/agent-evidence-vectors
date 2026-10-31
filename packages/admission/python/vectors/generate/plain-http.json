@@ -1,0 +1,65 @@
+{
+  "admitted": [
+    {
+      "name": "io.github.example/files",
+      "version": "1.4.1",
+      "description": "Read and write files under one directory.",
+      "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "package": {
+        "registryType": "npm",
+        "identifier": "@example/files"
+      },
+      "stdio": {
+        "command": "npx",
+        "args": [
+          "-y",
+          "@example/files@1.4.1",
+          "/srv/data"
+        ]
+      }
+    },
+    {
+      "name": "io.github.example/files",
+      "version": "1.4.2",
+      "description": "Read and write files under one directory.",
+      "digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "package": {
+        "registryType": "npm",
+        "identifier": "@example/files"
+      },
+      "stdio": {
+        "command": "npx",
+        "args": [
+          "-y",
+          "@example/files@1.4.2",
+          "/srv/data"
+        ]
+      }
+    },
+    {
+      "name": "com.example/search",
+      "version": "2.0.0",
+      "description": "Search the example index.",
+      "digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+      "remote": {
+        "url": "http://mcp.example.com/v2/mcp",
+        "type": "streamable-http"
+      }
+    },
+    {
+      "name": "io.github.example/scripts",
+      "version": "0.3.0",
+      "key": "local_scripts",
+      "description": "Run the approved scripts.",
+      "digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+      "stdio": {
+        "command": "/opt/mcp/bin/python3.12",
+        "args": [
+          "/opt/mcp/scripts/server.py",
+          "--port",
+          "8080"
+        ]
+      }
+    }
+  ]
+}

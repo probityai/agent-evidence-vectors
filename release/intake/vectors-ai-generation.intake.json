@@ -8,7 +8,7 @@
     "total": 38
   },
   "anchor": {
-    "kind": "signed-digest-list",
+    "kind": "digest-list-line",
     "manifest": "vectors-ai-generation/MANIFEST.json",
     "reference": {
       "path": "release/CORPUS-DIGESTS.txt",
@@ -18,13 +18,6 @@
     "routine-file": "vectors-ai-generation/digest.py",
     "serialization": "corpus-routine",
     "sha256": "786164241118262620eabae41936c62512c32a365bb3c2a94800df1cbf37f037",
-    "signature": {
-      "key": "release/cosign.pub",
-      "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
-      "path": "release/CORPUS-DIGESTS.txt.sig",
-      "scheme": "ed25519",
-      "serialization": "bytes"
-    },
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -75,7 +68,7 @@
       },
       "path": "vectors-ai-generation/README.md",
       "serialization": "bytes",
-      "sha256": "a9d42bdcf6e805dcdf6ebc3c0d427f259e49cc963da1f724fc4a5281169dd757"
+      "sha256": "90439e1369e418f5699c92b1e4a3734749cef4140dfeb5c3d093550306618f68"
     },
     {
       "consumed": "unconsumed",
@@ -509,7 +502,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "eda8bc115cc19e8df0e173d4cc5080be70d270be8d562d3dc0350383b0801555"
+      "sha256": "7a52bc96a6a12d5112ccf784607b3b1567e335a14bea85246f05ccd911eb0392"
     },
     "runtime": {
       "name": "go",
@@ -830,7 +823,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "4a89c5ca8bd3f930e08ffa5c5f4c71829aae84c2329667f88d44fdc0864e8715"
+    "sha256": "5ab72687fb9b2709322cefae142e35e3409206f0dac65019d13cf102629a82f3"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -1648,7 +1641,8 @@
       "aee-verify, at the source listing named here, judges each of the 38 pinned members of ai-generation-v01-conformance as its manifest declares"
     ],
     "leaves-open": [
-      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts"
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one"
     ]
   },
   "selector": {

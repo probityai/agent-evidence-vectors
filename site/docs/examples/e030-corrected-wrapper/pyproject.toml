@@ -1,0 +1,30 @@
+[project]
+name = "oel-e030-wrapper-case"
+version = "0.1.0"
+description = "Pinned wrapper regression and report comparison for the Open Evidence Lab"
+requires-python = ">=3.11"
+dependencies = []
+
+[dependency-groups]
+dev = ["coverage==7.13.4", "pytest==9.0.3", "ruff==0.16.1"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+filterwarnings = ["error"]
+addopts = "--junitxml=gate-results/tests.xml"
+
+[tool.coverage.run]
+branch = true
+source = ["e030_case"]
+parallel = true
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]

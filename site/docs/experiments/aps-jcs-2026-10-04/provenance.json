@@ -1,0 +1,37 @@
+{
+  "schema": "probity.lab.aps-jcs.provenance.v1",
+  "nativeArchives": [
+    {
+      "archive": "original-node20.zip",
+      "artifact": 11303233565,
+      "run": 37202741175,
+      "bytes": 161258,
+      "sha256": "89b48e8a1b93bf1e5b819e9cdad53237ca6711b83130cad83b2e6bae1f79248a",
+      "node": "v20.20.2"
+    },
+    {
+      "archive": "original-node22.zip",
+      "artifact": 11302914446,
+      "run": 37202741175,
+      "bytes": 161405,
+      "sha256": "68d7c8602d44d93688be5e4a933f21eb7573d9ffcde01257ffa361bc387c35a2",
+      "node": "v22.23.3"
+    }
+  ],
+  "nativeManifest": "native-manifest.json",
+  "selectedLicensedSource": "selected-source.zip",
+  "sourceManifest": "source-manifest.json",
+  "upstreamRevision": "646490a834e1eca4aad230033502b73f3b5cd9d1",
+  "admissionRevision": "ecc8b5ef4b380a2fe38e5079d128307a1c702717",
+  "adapterRevision": "fa3e6705746e0131a7884591a86e5c05b6c050ab",
+  "controller": "astrogilda",
+  "executor": "GitHub Actions hosted runner",
+  "operator": "author-operated",
+  "answerExposure": "Frozen public conformance expectations and authored receipt controls were exposed before execution.",
+  "comparisonOrder": "Native outputs and expected-result comparisons were emitted together. Original source and native archives were retained before Atlas indexing.",
+  "profiles": "Declared RFC 8785 and opt-in I-JSON expectations remain separate. APS parsed serialization, strict raw parsing and full signed serialized receipt verification remain separate.",
+  "differences": "The 42 parsed acceptances on raw-refusal rows include profile differences; they are not all duplicate losses. The 23 strict-parser differences are retained as declared policy comparisons.",
+  "outsideHostAdoption": "not-established by these author-operated runs",
+  "formalAPSStudy": "Separate pending pre-run confirmation; no frozen study artifacts or owners change.",
+  "restoration": "Replay the pinned adapter against the selected source and integrity lockfiles. Native output ZIPs contain outputs, not upstream source. Registry package archives and Node/Rust runtimes are not vendored."
+}

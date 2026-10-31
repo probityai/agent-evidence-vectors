@@ -99,6 +99,8 @@ def _staged_copy(tmp: Path) -> Path:
     (root / "scripts").mkdir(parents=True)
     (root / FORM_REL.parent).mkdir(parents=True)
     shutil.copy2(REPO_ROOT / GATE_REL, root / GATE_REL)
+    helper = Path("scripts") / "_release_source.py"
+    shutil.copy2(REPO_ROOT / helper, root / helper)
     for rel in (
         RECIPE_REL,
         PAGE_REL,
@@ -289,9 +291,7 @@ def publication_mutation(pattern: str, replacement: str, phrase: str) -> Callabl
 
 def candidate_install_pin(rel: str, route: str) -> Callable[[Path], str]:
     def mutate(root: Path) -> str:
-        candidate = re.search(r"^version: (\S+)$", (root / CITATION_REL).read_text(), re.MULTILINE)
-        assert candidate is not None
-        version = candidate.group(1)
+        version = "99.0.0"  # a candidate no tag names
         patterns = {
             "Go install": (r"(go install \S+@)v\S+", "v" + version),
             "Python install": (
@@ -320,16 +320,24 @@ def unannotated_publication(root: Path) -> str:
     return "is not an annotated tag object"
 
 
+def undated_omission(root: Path) -> str:
+    """Drop the preferred citation and the top-level date, leaving an undated source."""
+    publication_mutation(r"^date-released:.*\n", "", "")(root)
+    return publication_mutation(r"^preferred-citation:[\s\S]*$", "", "has no published citation")(
+        root
+    )
+
+
 def candidate_tag_control() -> list[str]:
+    """A newer release tag is publication, so a citation still naming the old one lags."""
     with tempfile.TemporaryDirectory() as raw:
         root = _staged_copy(Path(raw))
-        version = re.search(r"^version: (\S+)$", (root / CITATION_REL).read_text(), re.MULTILINE)
-        assert version is not None
-        _git(root, "tag", "v" + version.group(1))
+        _git(root, "tag", "-a", "v99.0.0", "-m", "newer release")
+        _git(root, "commit", "--quiet", "--allow-empty", "-m", "after the release")
         code, output = _run_gate(root)
-        return (
-            [f"a private candidate tag changed the published identity:\n{output}"] if code else []
-        )
+        if code == 0 or "newest release tag is v99.0.0" not in output:
+            return [f"a newer tag did not make the citation lag:\n{output}"]
+        return []
 
 
 def case_tag_behind(root: Path) -> str:
@@ -688,7 +696,7 @@ CASES: tuple[tuple[str, Callable[[Path], str]], ...] = (
     ),
     (
         "a preferred publication omitted",
-        publication_mutation(r"^preferred-citation:[\s\S]*$", "", "has no published citation"),
+        undated_omission,
     ),
     (
         "a preferred publication duplicated",

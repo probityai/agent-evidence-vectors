@@ -1,0 +1,79 @@
+# Filed from outside, from the vendor's published documentation, read on
+# 2026-10-17.
+#
+# This filing maps the done decision of Claude Code's /goal command onto the
+# done_verification section. It cannot promote a term and is not offered as
+# promoting one: the promotion rule in vocabulary.yaml and GOVERNANCE.md
+# requires the emitting system's own maintainers to file, declaring evidence:
+# emitted with a resolvable path. A filing from outside records provenance and
+# nothing else, and every claim below is asserted from prose.
+
+system: "Claude Code /goal"
+system_url: "https://code.claude.com/docs/en/goal"
+crosswalk_version: "0.1.0"
+vocabulary_version_targeted: "0.6.0"
+
+maintainer:
+  github: "astrogilda"
+  third_party_authored: true
+
+summary_of_system: >
+  A session-scoped completion condition. After each turn a small fast model
+  reads the condition and the conversation so far and returns one of three
+  verdicts with a short reason: not yet met, met or impossible. The documentation
+  states that the evaluator "does not call tools, so it can only judge what
+  Claude has already surfaced in the conversation".
+
+done_verification:
+
+  done_contract:
+    match: partial
+    evidence: asserted
+    source_path: "https://code.claude.com/docs/en/goal"
+    divergences:
+      - "The condition is natural-language text, with no protected paths, no acceptance commands and no digest."
+      - "Nothing seals it before the agent's first turn, so the agent's own turns can restate it."
+    notes: "The condition plays the role of the contract: it says what done means for the session."
+
+  done_receipt:
+    match: no_mapping
+    notes: "An achieved or failed entry is recorded in the transcript. The documentation describes no signed or replayable record of the verdict."
+
+  acceptance_observed:
+    match: no_mapping
+    notes: "The evaluator runs no command and rebuilds nothing; it reads the conversation. No acceptance command is run by a party other than the agent."
+
+  protected_path:
+    match: no_mapping
+    notes: "The documentation describes no list of paths the agent must leave alone."
+
+  claimed_tool_output:
+    match: partial
+    evidence: asserted
+    source_path: "https://code.claude.com/docs/en/goal"
+    divergences:
+      - "The evaluator's whole input is what the agent surfaced, which is the claimed side; the documentation does not separate a claim from an observation."
+    source_quote: >
+      "It does not call tools, so it can only judge what Claude has already
+      surfaced in the conversation."
+    notes: "Under this term, the evaluator's only evidence is claimed output."
+
+  observed_tool_output:
+    match: no_mapping
+    notes: "No observer outside the agent's session records what ran. The documentation describes none."
+
+  stop_decision:
+    match: partial
+    evidence: asserted
+    source_path: "https://code.claude.com/docs/en/goal"
+    divergences:
+      - "The actions are met (clear the goal, record achieved), impossible (clear the goal, record failed), not yet met (keep working, with the reason as guidance), and a stop after several turns without tool use. None is keyed on a verdict history, and the documentation names no published table."
+    notes: "Closest values: met and impossible end the loop like stop; not yet met is continue; the no-progress stop returns control to the user like escalate."
+
+  inconclusive_verdict:
+    match: partial
+    evidence: asserted
+    source_path: "https://code.claude.com/docs/en/goal"
+    divergences:
+      - "Not yet met is returned both when the condition is shown false and when it is unknown, so it does not separate a contradicted claim from a not_established one."
+    notes: "Not yet met is the only verdict that can stand for an unknown outcome."

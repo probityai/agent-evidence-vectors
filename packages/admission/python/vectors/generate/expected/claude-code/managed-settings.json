@@ -1,0 +1,24 @@
+{
+  "allowManagedMcpServersOnly": true,
+  "allowedMcpServers": [
+    {
+      "serverCommand": [
+        "npx",
+        "-y",
+        "@example/files@1.4.1",
+        "/srv/data"
+      ]
+    },
+    {
+      "serverCommand": [
+        "npx",
+        "-y",
+        "@example/files@1.4.2",
+        "/srv/data"
+      ]
+    },
+    {
+      "serverUrl": "https://mcp.example.com/v2/mcp"
+    }
+  ]
+}

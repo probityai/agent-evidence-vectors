@@ -1,0 +1,74 @@
+{
+  "actionCompletion": "not-established",
+  "checkScope": "offline retained-output accounting; no captured code executed",
+  "diagnostic": [
+    {
+      "cases": 232,
+      "changedRejects": 1,
+      "mutation": "negative-witness-state",
+      "unchanged": 231,
+      "unchangedAccepts": 116
+    },
+    {
+      "cases": 232,
+      "changedRejects": 2,
+      "mutation": "checker-and-configuration",
+      "unchanged": 230,
+      "unchangedAccepts": 116
+    }
+  ],
+  "historical": {
+    "cases": 272,
+    "crosswalk": [
+      {
+        "count": 3,
+        "kind": "accept",
+        "observed_result": "degraded",
+        "observed_verdict": "valid",
+        "report_state": "fail"
+      },
+      {
+        "count": 27,
+        "kind": "accept",
+        "observed_result": "fail",
+        "observed_verdict": "valid",
+        "report_state": "fail"
+      },
+      {
+        "count": 25,
+        "kind": "accept",
+        "observed_result": "pass",
+        "observed_verdict": "valid",
+        "report_state": "pass"
+      },
+      {
+        "count": 6,
+        "kind": "accept",
+        "observed_result": "pass_indirect",
+        "observed_verdict": "valid",
+        "report_state": "pass"
+      },
+      {
+        "count": 2,
+        "kind": "indeterminate",
+        "observed_result": null,
+        "observed_verdict": "invalid",
+        "report_state": "inconclusive"
+      },
+      {
+        "count": 209,
+        "kind": "reject",
+        "observed_result": null,
+        "observed_verdict": "invalid",
+        "report_state": "fail"
+      }
+    ],
+    "harnessPassingComparisons": 272,
+    "reportStates": {
+      "fail": 239,
+      "inconclusive": 2,
+      "pass": 31
+    }
+  },
+  "independentOperation": "not-established"
+}

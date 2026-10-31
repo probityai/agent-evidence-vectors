@@ -1,0 +1,58 @@
+{
+  "actual_trace_claim": false,
+  "additional_model_premise": "The chosen capture regime does not omit a selected event outside the declared gap. A native gaps field alone does not establish this. Without it gapped_empty may also admit W10, leaving the UNRESOLVED verdict unchanged.",
+  "claim": "No write event by agent-c1 for invocation c1-call-1 in c1-window from 2026-10-28T09:00:00Z through 2026-10-28T09:01:00Z.",
+  "contract": "C1-AuthoredHistoryDescriptions/0.1.0",
+  "endpoint_state_used": false,
+  "event_type": "write",
+  "gap": {
+    "end": "2026-10-28T09:00:40Z",
+    "start": "2026-10-28T09:00:20Z"
+  },
+  "histories": {
+    "N": {
+      "claim_truth": true,
+      "description": "No selected event; complete or openly incomplete capture is possible.",
+      "selected_events": []
+    },
+    "W10": {
+      "claim_truth": false,
+      "description": "Selected event before the named gap. This chosen capture regime retains it even when later coverage is incomplete.",
+      "selected_events": [
+        {
+          "id": "e1",
+          "time": "2026-10-28T09:00:10Z",
+          "type": "write"
+        }
+      ]
+    },
+    "W30": {
+      "claim_truth": false,
+      "description": "Selected event inside the gap. The selected incomplete observation omits it; complete observation retains it.",
+      "selected_events": [
+        {
+          "id": "e1",
+          "time": "2026-10-28T09:00:30Z",
+          "type": "write"
+        }
+      ]
+    }
+  },
+  "invocation_id": "c1-call-1",
+  "observation_atoms": {
+    "covered_empty": "complete capture, no selected event",
+    "covered_event": "complete capture, selected event retained; event time projected away for this unused model atom",
+    "gapped_empty": "incomplete selected packet with gap20-40 and no retained selected event",
+    "gapped_event": "incomplete selected packet with gap20-40 and retained e1 at10; timestamp/identity are part of this atom meaning"
+  },
+  "partial_observation_language": "Other native admissible incomplete-positive packets, including an event retained at30, are outside this selected C1 fragment. They are not declared false or invalid.",
+  "party": "agent-c1",
+  "scope": {
+    "end": "2026-10-28T09:01:00Z",
+    "id": "c1-window",
+    "start": "2026-10-28T09:00:00Z"
+  },
+  "synthetic": true,
+  "unselected_events": "Excluded from this tiny language; no claim about unrelated activity.",
+  "world_completeness": "The three histories are authored representatives. Completeness for a real system is an external premise, not established here."
+}

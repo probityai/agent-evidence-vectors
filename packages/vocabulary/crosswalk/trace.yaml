@@ -1,0 +1,176 @@
+# Filed from outside, from the specification's own text, at a pinned commit.
+#
+# This filing exists to put the provenance of one borrowed enum on the record in
+# the registry itself. Two of the three terms mapped here are recorded as honest
+# gaps, and both gaps were tested with a positive control in the same session as
+# the notes state.
+#
+# It cannot promote a term and is not offered as promoting one. The promotion
+# rule in vocabulary.yaml and GOVERNANCE.md requires the system's own maintainers
+# to file, declaring evidence: emitted with a resolvable path. A third-party
+# filing records provenance and nothing else.
+#
+# vocabulary_version_targeted names the registry file this was written
+# against. The terms mapped below were added in 0.5.0, so the v0.4.0 tag does
+# not carry them.
+
+system: "TRACE (Trust, Runtime Attestation, and Compliance Evidence)"
+system_url: "https://github.com/agentrust-io/trace-spec"
+crosswalk_version: "0.1.0"
+vocabulary_version_targeted: "0.5.0"
+
+maintainer:
+  github: "astrogilda"
+  third_party_authored: true
+
+summary_of_system: >
+  A Trust Record describing one AI-agent execution, carrying workload identity, a
+  TEE measurement chain, bound policy, a tool transcript and an appraisal, signed
+  over an RFC 8785 canonical form by the key named in the record's own cnf claim.
+  Contributed to the Linux Foundation in August 2026. Read at commit
+  98aae176aa9ae4053d944624dad7629c76789ff7, specification file spec/trace-v0.2.md.
+
+evidence_dimensions:
+
+  origin_kind:
+    match: partial
+    evidence: asserted
+    source_path: "https://github.com/agentrust-io/trace-spec/blob/98aae176aa9ae4053d944624dad7629c76789ff7/spec/trace-v0.2.md"
+    notes: >
+      Section 3.1.1, `origin`: who assembled this record. Three of this registry's
+      four values are that value set, borrowed verbatim including the hyphens, so
+      every value the specification emits validates here with no translation table.
+      The platform MUST is borrowed with it, narrowed to the two assembling values.
+      The fourth value, `first-hand`, is this registry's own and maps to nothing in
+      the specification, so the set is a superset and the mismatch runs one way
+      only.
+    source_quote: >
+      "A record whose `origin.kind` is not `self` MUST carry `runtime.platform:
+      "software-only"`, and a verifier MUST reject it otherwise. An importer
+      holding someone else's log has no quote to present, so a hardware platform
+      value on such a record is not a stronger claim but an untrue one."
+      And: "`origin` is absent on every hardware profile in this specification and
+      on every record a TEE-backed runtime produces. Absence means `self`."
+    evidence_state_reasoning: >
+      asserted, not emitted, and the distinction is the registry's own bar. The
+      value is specified in normative text and modelled in schema/trace-claim.json.
+      A field in a specification and a field in a real signed statement a third
+      party can fetch are different claims, and this registry puts a fixture
+      outside the promotion bar. Declaring emitted here would be the defect the
+      0.1.x correction in vocabulary.yaml was written to remove.
+    divergences:
+      - >
+        Absence. The specification reads an absent block as `self`. This registry
+        REQUIRES the value and treats absent, non-string or unregistered as
+        malformed. The most permissive reading of the field is its default there,
+        so a record produced by the runtime it describes and a record that says
+        nothing are indistinguishable on the wire.
+      - >
+        Independence. The specification does not state that the enum establishes
+        nothing about who controls the producer. This registry states it as a
+        verifier MUST NOT, because `third-party-control-plane` reads as
+        corroboration when the producer can be the observed party's own system.
+      - >
+        Assertion class. The specification does not say that the enum is a
+        producer assertion. This registry says it: a verifier MUST NOT read self
+        as evidence of provenance, because a record assembled from somebody
+        else's log and declared self is indistinguishable on the wire from one
+        the runtime produced. The value's worth is that a false one is a false
+        statement inside signed bytes. A record carrying field_evidence_partition
+        MUST place the field on the producer_asserted side.
+      - >
+        Platform expression. The specification's MUST names one concrete field
+        value, `runtime.platform: "software-only"`. This registry states the same
+        rule over a declared software-only platform without binding it to that
+        field name, so a system carrying the platform elsewhere is still held to it.
+      - >
+        The below-the-observed role. This one ADDS A VALUE; it does not tighten a
+        reading. The specification's enum is written from the perspective of a
+        record about its own execution, and its hardware profiles carry the
+        below-the-runtime claim in `runtime.platform`, not in `origin`, so it
+        has no value for a producer that observed somebody else's execution from a
+        layer that party does not control. This registry also carries
+        observation_vantage, which names exactly that producer, so the borrowed enum
+        left a REQUIRED field unfillable for the records an independent observer
+        emits and the only spelling available was `self`. `first-hand` is added,
+        `observation_vantage: below-observed` is permitted only with it, and the
+        platform MUST is narrowed to `third-party-control-plane` and `log-import` so
+        that such an observer may still carry a root of its own.
+      - >
+        The spelling, and a claim this file nearly made. Two drafts were dropped.
+        `observer-below` went because it carried the layer in the value's own name,
+        which leaves a peer-vantage observer unfillable and reproduces the defect the
+        fourth value exists to remove; the layer belongs to observation_vantage, so
+        `first-hand` says how the evidence arrived and the two compose. `observer`
+        went earlier, on a claim this file nearly made: that the word appears nowhere
+        in the source tree. It does. At the pinned commit `git grep -nw observer -- spec schema` returns
+        two lines, both in `spec/server-provenance-v1.md`, where `observer-attested`
+        is one rung of a three-value assurance ladder and means "a third party that
+        fetched and measured the server". A control in the same run, `git grep -lw
+        origin -- spec schema`, returns `schema/trace-claim.json` and both
+        specification versions, so the read path was never in question and the
+        absence claim was simply false. Two consequences, and the second is worth
+        more than the first. A bare `observer` beside their `observer-attested` would
+        have named a different party in the same word. And that ladder is the cleanest available evidence that the
+        rung is missing, not unwanted: `observer-attested` carries the caveat
+        that it "does not catch a server that behaves one way for the observer and
+        another way for you", and the rung above it, `tee-attested`, is the observed
+        party attesting itself from inside a TEE and "requires the operator to have
+        adopted a confidential runtime". A producer below the observed party answers
+        the caveat without the requirement, and the ladder has no row for it.
+
+  attestation_tier:
+    match: no_mapping
+    notes: >
+      Honest gap, tested. The specification defines no voluntary/authoritative
+      split over whether the signer re-derived its own subject. Searched
+      spec/ schema/ docs/ examples/ src/ at the pinned commit for "voluntary" and
+      for "authoritative": zero hits each, against a positive control in the same
+      scope and the same session ("appraisal", 23 hits; "subject", 218 hits). The
+      nearest concept is `appraisal`, an EAT-style verifier appraisal of evidence,
+      which says how a verifier judged a record and not whether the signer
+      re-derived the subject it signed.
+
+posture_and_coverage:
+
+  base_state_resolution:
+    match: no_mapping
+    notes: >
+      Honest gap, tested. A Trust Record describes an execution and carries no
+      before-state and after-state pair, so it has no base to resolve. The word
+      "diff" appears once in 279 tracked files at the pinned commit, in a comment
+      in .github/workflows/contributor-check.yml, and not once in spec/ schema/
+      docs/ examples/ src/ (zero hits, against controls of 218 and 23 in the same
+      scope). This is a gap and not a defect in that specification: an
+      environment-evidence record is a different subject from a state interval.
+      The relation the specification does define for a behavioural record,
+      `references` with `rel: behavior-trace` in section 3.1.2, is explicitly a
+      pointer that a verifier MUST NOT treat as attested evidence, so nothing
+      there resolves an interval either.
+
+system_attributes:
+  canonicalization_profile: jcs_rfc_8785
+  hash_family: sha_256
+  signature_capability: classical
+  notes: >
+    Declared from the specification's own text, section 3.2.2: the signature is
+    made over an RFC 8785 JCS canonical form, carried embedded or by a JWS,
+    COSE_Sign1 or cMCP RuntimeClaim envelope. The specification names no
+    post-quantum algorithm anywhere in spec/ or schema/ at the pinned commit
+    (searched "ML-DSA" and "post-quantum", zero hits each, against a control of 19
+    hits for "8785" in the same scope), so classical is what its named primitives
+    are, never a claim that a post-quantum profile is refused.
+
+    domain_separation_profile is deliberately NOT declared here. The one
+    domain-separation statement in the specification is the RFC 6962 leaf prefix
+    for Merkle interior nodes in spec/registry-anchor-v1.md, which is a different
+    mechanism from a per-format signed-pre-image tag across artifact types. The
+    `eat_profile` field identifies the record type inside the payload without
+    being declared as a pre-image tag. That attribute is the maintainers' to
+    declare, and a filing made from outside should not put our reading of their
+    specification on the record as their declaration.
+
+    A promotion-supporting crosswalk must declare all four attributes together.
+    This filing cannot support promotion, so declaring three of four is
+    consistent with the registry's rule and is stated here so nobody reads the
+    omission as an oversight.

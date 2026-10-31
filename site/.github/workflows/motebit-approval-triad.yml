@@ -1,0 +1,54 @@
+name: Motebit approval triad reader
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - examples/motebit-approval-triad/**
+      - .github/workflows/motebit-approval-triad.yml
+  pull_request:
+    paths:
+      - examples/motebit-approval-triad/**
+      - .github/workflows/motebit-approval-triad.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  independent-reader-controls:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: motebit/motebit
+          ref: 3ed6e6d2da617d775fe9431c36020efc24749fe6
+          path: .build/motebit-producer
+          sparse-checkout: examples/interop/approval-triad
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e # v6
+        with:
+          version: "0.12.24"
+      - name: Install the pinned Atlas link parser
+        run: |
+          curl -fsSL -o pandoc.deb https://github.com/jgm/pandoc/releases/download/3.3/pandoc-3.3-1-amd64.deb
+          echo "7a6625d5aeb6b8666375807a3e16cc00659c48fb88299707651f60d88c31a360  pandoc.deb" | sha256sum -c -
+          sudo dpkg -i pandoc.deb
+      - name: Run the separate reader and pinned producer controls
+        run: |
+          bash examples/motebit-approval-triad/run_checks.sh \
+            .build/motebit-approval-triad \
+            .build/motebit-producer/examples/interop/approval-triad
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: motebit-approval-triad-controls
+          path: |
+            .build/motebit-approval-triad/report.json
+            .build/motebit-approval-triad/junit.xml
+            .build/motebit-approval-triad/coverage.json
+            .build/motebit-approval-triad/runtime.json
+          if-no-files-found: error

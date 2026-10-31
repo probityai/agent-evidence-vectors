@@ -1,0 +1,62 @@
+# Filed from outside, from AGENTSEC07-BP04 (Behavioral anomaly detection and agent containment) of the AWS Well-Architected Agentic AI Lens, read on 2026-10-30 in the copy kept in the research capture.
+#
+# This filing maps that best practice onto the incident_response section. It cannot promote a term and is not offered as promoting one: a guidance page emits no signed records. Every claim below is asserted from prose.
+
+system: AWS Well-Architected Agentic AI Lens, AGENTSEC07-BP04
+system_url: https://docs.aws.amazon.com/wellarchitected/latest/agentic-ai-lens/agentsec07-bp04.html
+crosswalk_version: 0.1.0
+vocabulary_version_targeted: 0.8.0
+maintainer:
+  github: astrogilda
+  third_party_authored: true
+summary_of_system: A best practice pairing per-agent behavioral baselines with automated credential revocation
+  and forensic capture, and a manual runbook for quarantine and restoration with multi-person authorization
+  for restoration.
+incident_response:
+  response_decision:
+    match: no_mapping
+    notes: The page asks for no record of a decision not to act.
+  response_function:
+    match: partial
+    evidence: asserted
+    source_path: https://docs.aws.amazon.com/wellarchitected/latest/agentic-ai-lens/agentsec07-bp04.html
+    divergences:
+    - The page describes quarantine, credential revocation, state capture before isolation and restoration,
+      in prose and with no closed list.
+    notes: The page lists forensic preservation before isolation as a desired outcome.
+  enforcement_vantage:
+    match: no_mapping
+    notes: The page asks for state capture that does not rely on the agent's own logs; it records no vantage
+      for the enforcement of an action.
+  control_failure_posture:
+    match: no_mapping
+    notes: The source describes nothing that maps onto this term.
+  revocation_state:
+    match: no_mapping
+    notes: The page describes automated credential revocation as an action; no enforcement observed at
+      a relying party is described.
+  containment_scope:
+    match: no_mapping
+    notes: The page describes quarantine of one agent and asks for no partition of channels against a
+      manifest.
+  pause_hold:
+    match: no_mapping
+    notes: The page defines no outcome for a quarantine or pause.
+  escalation_outcome:
+    match: no_mapping
+    notes: The page describes automated invocation on anomaly detection and defines no alert-to-action
+      times.
+  restoration_decision:
+    match: partial
+    evidence: asserted
+    source_path: https://docs.aws.amazon.com/wellarchitected/latest/agentic-ai-lens/agentsec07-bp04.html
+    divergences:
+    - The page asks for multi-person authorization for restoration; it does not bind the decision to the
+      containment it ends or define a record.
+    notes: Runbook item 6 of the implementation steps.
+  restoration_gate:
+    match: no_mapping
+    notes: The source describes nothing that maps onto this term.
+  incident_identifier:
+    match: no_mapping
+    notes: The source describes nothing that maps onto this term.

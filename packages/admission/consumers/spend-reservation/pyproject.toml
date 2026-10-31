@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "probity-spend-reservation"
+version = "0.0.1"
+description = "Atomic pre-call cost reservations for a host-controlled tool boundary"
+requires-python = ">=3.12"
+license = "Apache-2.0"
+dependencies = []
+
+[project.scripts]
+probity-spend-budget = "probity_spend_reservation:main"
+
+[tool.setuptools]
+py-modules = ["probity_spend_reservation"]

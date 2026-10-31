@@ -1,0 +1,29 @@
+# jcs-admit
+
+> Admit raw JSON bytes before RFC 8785 canonicalization, hashing or signing.
+
+Start with crate version 0.1.3 and Rust 1.74 or newer. `cargo add jcs-admit@=0.1.3` selects that release.
+
+Pass the original byte slice to `admit`, `admit_ijson` or `admit_with`. Admission preserves the evidence needed to reject repeated decoded keys, invalid strings and exceeded depth or size limits before canonicalization. A parsed map has already lost repeated-key evidence.
+
+For a producer, sign or hash the returned canonical bytes. For a verifier requiring canonical input, call `is_canonical_with` under the verification profile before hashing the received bytes. RFC 8785 uses IEEE-754 number formatting; for example, the default profile rewrites 9007199254740993 to 9007199254740992. The I-JSON profile refuses that integer.
+
+## Start here
+
+- [Quick start](https://github.com/probityai/agent-evidence/blob/main/crates/jcs-admit/README.md): Admit a document and inspect a duplicate-key refusal.
+- [Version 0.1.3 API](https://docs.rs/jcs-admit/0.1.3/jcs_admit/): Admission functions, explicit options and error variants.
+- [Design and evidence](https://github.com/probityai/agent-evidence/blob/main/crates/jcs-admit/docs/DESIGN.md): Raw-input checks, canonicalization and their test evidence.
+- [Python](https://github.com/probityai/agent-evidence/blob/main/crates/jcs-admit/docs/PYTHON.md): The `probityai` wheel's `probityai.jcs` and `probityai.dsse` bytes-in, bytes-out API.
+
+## Run a comparison
+
+- [APS byte comparison](https://github.com/probityai/agent-evidence/blob/main/crates/jcs-admit/interop/aps-canonical-bytes/README.md): Retained 8-case and 10-case canonical-byte runs.
+- [Python byte profile](https://github.com/probityai/agent-evidence/blob/main/crates/jcs-admit/interop/rfc8785-py/README.md): Source-pinned independent byte cases and raw-input refusals.
+- [Mutation sweep](https://github.com/probityai/agent-evidence/blob/main/crates/jcs-admit/docs/MUTATION-SWEEP.md): The check that detects each removed refusal.
+- [Open Evidence Lab](https://probityai.github.io/agent-evidence-atlas/lab.html): Retained runs, operators, artifacts and rerun routes.
+
+## Contribute
+
+- [Contribution guide](https://github.com/probityai/agent-evidence/blob/main/crates/jcs-admit/CONTRIBUTING.md): Build, test, lint and submit a change.
+- [Releases](https://github.com/probityai/agent-evidence/releases): Published versions and changes.
+- [Licenses](https://github.com/probityai/agent-evidence/blob/main/crates/jcs-admit/README.md#license): MIT or Apache-2.0.

@@ -1,0 +1,500 @@
+# adversarial-execution-evidence admission policy for Kyverno (ENFORCE + FRESHNESS)
+#
+# !!! PREREQUISITE — read before applying !!!
+# This policy adds an evidence-AGE window (deny if the run is older than 168h) on top
+# of the result + binding checks. The window is evaluated against `armedAt`, read out
+# of the arming record's substrate-signed payload, and NOT against the predicate's
+# top-level `issuedAt`.
+#
+# WHY NOT `issuedAt`, WHICH IS WHAT THIS FILE USED TO READ. `issuedAt` is
+# producer-asserted and sits outside every substrate signature, so a party holding the
+# outer envelope key moves it at will; the spec's one rule about it, that armedAt is no
+# later than issuedAt, survives moving it forward. A window over that field therefore
+# bounds an honest producer and nobody else, and the party it was aimed at defeats it
+# with a one-field edit that changes no digest. `armedAt` is inside a payload that party
+# cannot re-sign. See condition (17) for the measurement.
+#
+# HONESTY: what fails CLOSED here is the absence of an ARMING RECORD, not the absence
+# of `issuedAt`. A statement carrying no arming record carries no substrate-signed
+# instant, so it supports no age claim at all and is denied rather than falling back to
+# a producer-asserted field. Do NOT apply this file to a fleet whose evidence is
+# artifact-only and therefore recordless; such bundles are denied by construction, here
+# and by condition (8).
+#
+# The base (deployable-today) policy is clusterpolicy-adversarial-execution-evidence.yaml.
+#
+# This file is the base sibling's sixteen conditions, in the base sibling's order, plus
+# the evidence-age window as condition (17). Keep it that way: an earlier revision put
+# freshness in the fourth slot and dropped the posture-digest binding that lives there,
+# which left the freshness variant weaker than the policy it extends without anything
+# saying so. The conformance gate under ../conformance/ now compares the three
+# documents' condition sets directly, so a condition that goes missing from one sibling
+# fails the gate whether or not a corpus vector distinguishes them, and a condition
+# added to any one of the three has to be added to all three. Condition (16), the
+# byte-pure issuance-lag bound, is in all three for exactly that reason: it needs no
+# clock, so nothing about it is specific to this document.
+#
+# WHAT THIS POLICY CANNOT KNOW (same as the base sibling): Kyverno verifies the
+# ATTESTATION ENVELOPE and then runs JMESPath over the decoded predicate. Nothing in
+# this path verifies an observation record's signature or derives the evidence tier,
+# so it cannot distinguish a substrate observation from an assembly-plane forgery; a
+# consumer relying on it is extending FULL TRUST TO THE ENVELOPE SIGNER. Condition
+# (5) checks signature PRESENCE only (forged bytes pass), (6)/(7) are the row
+# provenance gate, (8)-(10) are the expressible part of the spec's Coverage validity
+# rule, and (13)-(15) are the member shapes the spec states directly. Read the base
+# sibling's comments for the full rationale.
+#
+# CONSUMER ANCHORS: conditions (11)/(12) carry the spec's out-of-band corpus and
+# substrate pins as literal placeholders. Like `issuedAt` above, they fail CLOSED until
+# they are real — an unedited copy of this file denies every Pod, deliberately, because
+# a silently unpinned policy admits evidence about ANY corpus forever.
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-execution-evidence-fresh
+  annotations:
+    policies.kyverno.io/title: Require fresh adversarial-execution-evidence (pass, <168h)
+    policies.kyverno.io/category: Supply Chain Security
+    policies.kyverno.io/severity: high
+    policies.kyverno.io/subject: Pod, Image
+    policies.kyverno.io/description: >-
+      Admit a Pod only when every image carries a passing, signed
+      adversarial-execution-evidence attestation whose run was armed within the last
+      168h, measured from the substrate-signed armedAt rather than from the
+      producer-asserted issuedAt. Requires an arming observation record.
+spec:
+  webhookTimeoutSeconds: 30
+  failurePolicy: Fail
+  background: false
+  rules:
+    - name: verify-fresh-execution-evidence
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+      verifyImages:
+        - failureAction: Enforce
+          imageReferences:
+            - "*"
+          mutateDigest: true
+          required: true
+          attestations:
+            - name: evidence
+              type: https://in-toto.io/attestation/adversarial-execution-evidence/v0.7
+              attestors:
+                - count: 1
+                  entries:
+                    - keys:
+                        publicKeys: |-
+                          -----BEGIN PUBLIC KEY-----
+                          MCowBQYDK2VwAyEAT2jLWVkBW84MmGahZlqmj1cxmA1ljoYa0dkp+gpUPnc=
+                          -----END PUBLIC KEY-----
+              conditions:
+                - all:
+                    # (1) [result-pass] Admission threshold: the result token this consumer admits.
+                    - key: "{{ evidence.result }}"
+                      operator: Equals
+                      value: pass
+                    # (2) [catchpolicy-digest] Defense-configuration binding: a 64-hex catchPolicy digest.
+                    - key: "{{ regex_match('^[0-9a-f]{64}$', evidence.observationEnvironment.catchPolicy.digest.sha256) }}"
+                      operator: Equals
+                      value: true
+                    # (3) [posture-known] Network posture MUST be a known value (fail closed on an unknown one).
+                    - key: "{{ evidence.observationEnvironment.networkPosture.posture }}"
+                      operator: In
+                      value:
+                        - no_network
+                        - allowlist
+                        - sinkhole
+                        - unsafe_bypass_egress
+                    # (4) [posture-digest-shape] The posture digest MUST be well-formed (64 lowercase hex).
+                    #     This condition belongs to the base sibling's binding set and
+                    #     was missing from this file, which made the freshness variant
+                    #     quietly weaker than the policy it claims to extend: a
+                    #     statement whose networkPosture digest is absent or malformed
+                    #     was denied by the base and the audit siblings and admitted
+                    #     here. The freshness window is now the LAST condition rather
+                    #     than the fourth, so conditions (1) through (12) are the base
+                    #     sibling's conditions in the base sibling's order and this file
+                    #     is that policy plus one, which is what its header promises.
+                    - key: "{{ regex_match('^[0-9a-f]{64}$', evidence.observationEnvironment.networkPosture.digest.sha256) }}"
+                      operator: Equals
+                      value: true
+                    # (5) [record-signatures-present] Structural signature PRESENCE on every observation record:
+                    #     the number of records carrying a non-empty signatures[] must
+                    #     equal the total record count. PRESENCE ONLY -- Kyverno has no
+                    #     record key here and never inspects the signature BYTES, so an
+                    #     attacker who writes garbage into signatures[0].sig passes this
+                    #     exactly as a real substrate does. What it closes is the literal
+                    #     strip: the batch-root leaves are H(0x00 || PAE) over
+                    #     (payloadType, payload) only, so deleting every signatures[]
+                    #     entry leaves the root unchanged and the statement otherwise
+                    #     intact. "Admits zero signatures" becomes "admits structurally
+                    #     present but unchecked signatures" -- a different failure.
+                    #     The type conjunct is load-bearing rather than decorative:
+                    #     JMESPath `length()` accepts a string and an object as well as
+                    #     an array, so without it `"signatures": "x"` and
+                    #     `"signatures": {"a": 1}` each read as one entry present and
+                    #     the Pod is admitted, while the rego rail and the offline
+                    #     verifiers deny both. Both spellings are driven through this
+                    #     condition by the conformance gate under ../conformance/.
+                    - key: "{{ length(not_null(evidence.observationRecords, `[]`)[?signatures && type(signatures) == 'array' && length(signatures) > `0`]) }}"
+                      operator: Equals
+                      value: "{{ length(not_null(evidence.observationRecords, `[]`)) }}"
+                    # (6) [row-provenance] Row provenance: every attackResults row must be
+                    #     basis:substrate + method:intercepted. This is the spec's own
+                    #     consumer-policy example ("keyed on both the derived tier and
+                    #     the row's `method` so a reconstructed clean row is not admitted
+                    #     as a live one"), but the spec scopes it to CLEAN rows and this
+                    #     rail applies it to EVERY row, which is a different and stricter
+                    #     predicate. The reason is that this rail cannot identify a clean
+                    #     row: which labels count as caught lives in
+                    #     observationVocabulary and a JMESPath filter has no root
+                    #     reference to name it. Applying the gate statement-wide is the
+                    #     conservative way to cover the clean rows, and the cost is
+                    #     stated rather than hidden: a legitimate mixed-basis passing
+                    #     statement, an artifact row beside substrate rows, is admitted
+                    #     by the rego rail and DENIED here. The conformance gate under
+                    #     ../conformance/ drives exactly that statement through both
+                    #     rails so the divergence stays measured.
+                    #     Do NOT justify this condition by arguing that condition (1)
+                    #     makes every admissible row clean. It does not. "A caught label
+                    #     forces the result to fail" is a property of the result
+                    #     RECOMPUTE, which this rail cannot run, and condition (10) below
+                    #     says so directly: a producer that mis-declares result: "pass"
+                    #     beside a caught label satisfies condition (1). The whole threat
+                    #     model here is a party that writes `result` freely.
+                    #     Kyverno has no consumer data document: a consumer who
+                    #     deliberately wants state-diffing evidence opts in by DELETING
+                    #     conditions (6) and (7). Default is the strict direction; the
+                    #     weaker posture has to be stated.
+                    - key: "{{ length(not_null(evidence.attackResults, `[]`)[?basis == 'substrate' && method == 'intercepted']) }}"
+                      operator: Equals
+                      value: "{{ length(not_null(evidence.attackResults, `[]`)) }}"
+                    # (7) [rows-non-empty] ...and the row list is non-empty, so deleting attackResults
+                    #     outright cannot satisfy (6) vacuously (0 == 0).
+                    - key: "{{ length(not_null(evidence.attackResults, `[]`)) }}"
+                      operator: GreaterThan
+                      value: 0
+                    # (8) [arming-record] Clean-row COVERAGE -- the spec's own Coverage validity rule:
+                    #     a clean row observed live at the substrate must reference at
+                    #     least one `arming` record, the substrate's signed claim that a
+                    #     capture vantage was armed for the run before corpus injection.
+                    #     Condition (6) already makes EVERY row of an admissible
+                    #     statement a substrate/intercepted row, so requiring the record
+                    #     on the statement is that rule's Kyverno-expressible form.
+                    #     Whether such a row is CLEAN is not decidable here, for the
+                    #     reason given on (6), so this condition covers the clean rows by
+                    #     covering all of them.
+                    #     Without it the gate admits a "nothing happened" claim backed by
+                    #     no evidence anything was ever watching, which is exactly what
+                    #     the run-level absence records exist to carry.
+                    #     The ends_with conjunct is both the spec's rule (a record whose
+                    #     media type is not +json covers nothing) and a short-circuit
+                    #     guard, so parse_json is never handed a non-JSON payload.
+                    - key: "{{ length(not_null(evidence.observationRecords, `[]`)[?ends_with(payloadType, '+json') && parse_json(base64_decode(payload)).aeeKind == 'arming' && parse_json(base64_decode(payload)).aeeMethod == 'intercepted' && parse_json(base64_decode(payload)).armedAt != null]) }}"
+                      operator: GreaterThan
+                      value: 0
+                    # (9) [sealed-record] ...and at least one COVERING `sealed` record: the vantage stayed
+                    #     armed to run-end (aeeStillArmed is the JSON literal `true`, not a
+                    #     truthy string) with either no dropped observation or a drop count
+                    #     that is POSITIVE and within an aeeDropBound declared in the SAME
+                    #     signed payload. A non-zero drop count with no bound beside it
+                    #     covers nothing.
+                    #     The positive lower bound on the bounded arm is load-bearing:
+                    #     without it `aeeDropCount: -1` beside `aeeDropBound: 5` satisfies
+                    #     -1 <= 5 and the record covers, where the rego rail's own comment
+                    #     says a negative count satisfies neither branch. It is driven
+                    #     through this condition by the conformance gate under
+                    #     ../conformance/. One residue stays: rego additionally requires
+                    #     both members to be integers, and JMESPath cannot distinguish an
+                    #     integer from a fractional number, so a drop count of 1.5 within
+                    #     its bound still covers here and does not there.
+                    #
+                    #     RAIL LIMITATION, MEASURED NOT ASSUMED. Two parts of the spec's
+                    #     condition are NOT expressible here and are NOT enforced by (8)/(9):
+                    #       * the posture equality (a covering record's aeePostureDigest must
+                    #         equal the pinned networkPosture digest). A JMESPath filter can
+                    #         only compare against literals and fields of the element under
+                    #         test; there is no root reference, so the pinned digest cannot
+                    #         be named from inside the filter.
+                    #       * the per-row reference graph. (8)/(9) assert the records EXIST on
+                    #         the statement; the spec requires each clean row to REFERENCE them
+                    #         through observationRefs. Resolving an index of one list against
+                    #         another is a join, which JMESPath has no operator for.
+                    #     So (8)/(9) are a NECESSARY condition, not the full rule: a statement
+                    #     carrying a covering pair that no row references still passes here.
+                    #     The rego rail (../rego/execution_evidence.rego, clean_row_coverage_ok)
+                    #     enforces both parts, plus the armedAt ordering / zero-UTC-offset
+                    #     profile and the arming chain-member syntax, which also need values
+                    #     the filter cannot reach. Deploy the -soundness CIP if you need them.
+                    #     To relax (NOT recommended): delete conditions (8) and (9).
+                    - key: "{{ length(not_null(evidence.observationRecords, `[]`)[?ends_with(payloadType, '+json') && parse_json(base64_decode(payload)).aeeKind == 'sealed' && parse_json(base64_decode(payload)).aeeMethod == 'intercepted' && parse_json(base64_decode(payload)).aeeStillArmed == `true` && (parse_json(base64_decode(payload)).aeeDropCount == `0` || (parse_json(base64_decode(payload)).aeeDropCount > `0` && parse_json(base64_decode(payload)).aeeDropCount <= parse_json(base64_decode(payload)).aeeDropBound))]) }}"
+                      operator: GreaterThan
+                      value: 0
+                    # (10) [refs-non-empty] Coverage validity, the REFS half: every attackResults row
+                    #      must carry a NON-EMPTY observationRefs. The spec requires a
+                    #      non-empty, in-range observationRefs on every basis:substrate
+                    #      row, and conditions (6)/(7) already make every row of an
+                    #      admissible statement a substrate row, so the non-emptiness
+                    #      half maps exactly onto this rail. Without it a row can claim
+                    #      substrate/intercepted while citing nothing at all, and
+                    #      (8)/(9) would still pass on records no row references.
+                    #      NOT EXPRESSIBLE HERE, and stated rather than left silent.
+                    #      The IN-RANGE half is the same join (8)/(9) cannot do: an
+                    #      index of one list resolved against another has no JMESPath
+                    #      operator. The per-row CLASS MATCH the rego rail enforces
+                    #      alongside this -- a caught row's `interception` record, a
+                    #      method:reconstructed row's `examination` record, every
+                    #      referenced payload readable, and the method cap (a row
+                    #      claiming `intercepted` may not rest on a covering record
+                    #      signed `reconstructed`) -- is mostly UNREACHABLE here rather
+                    #      than merely inexpressible: (6) admits only
+                    #      substrate/intercepted rows, so no reconstructed row ever
+                    #      reaches the examination arm, and a covering `arming` or
+                    #      `sealed` record is already required to be
+                    #      `aeeMethod: intercepted` by (8)/(9), so the cap is vacuous.
+                    #      What stays genuinely open is a CAUGHT row: a producer that
+                    #      mis-declares `result: "pass"` beside a caught label passes
+                    #      condition (1), because Kyverno cannot run the result
+                    #      recompute, and this rail cannot then demand that row's
+                    #      `interception` record -- the caught label set lives in
+                    #      observationVocabulary and a filter has no root reference to
+                    #      name it. The rego rail closes all of it
+                    #      (../rego/execution_evidence.rego: caught_row_coverage_ok,
+                    #      reconstructed_row_coverage_ok, referenced_records_ok,
+                    #      method_cap_ok). Deploy the -soundness CIP if you need them.
+                    #      To relax (NOT recommended): delete condition (10).
+                    - key: "{{ length(not_null(evidence.attackResults, `[]`)[?observationRefs && length(observationRefs) > `0`]) }}"
+                      operator: Equals
+                      value: "{{ length(not_null(evidence.attackResults, `[]`)) }}"
+                    # (11) [corpus-anchor] and (12) [substrate-anchor] CONSUMER ANCHORS -- the spec's out-of-band corpus and
+                    #      substrate pins. Replace both literals with the digests this
+                    #      deployment expects; unreplaced they deny every Pod, the same
+                    #      fail-closed direction this file already takes on `issuedAt`.
+                    #      Full rationale in the base sibling's (11)/(12) comment.
+                    - key: "{{ evidence.observationEnvironment.corpus.digest.sha256 }}"
+                      operator: Equals
+                      value: PIN-ME-REPLACE-WITH-THE-EXPECTED-CORPUS-DIGEST
+                    - key: "{{ evidence.observationEnvironment.substrate.digest.sha256 }}"
+                      operator: Equals
+                      value: PIN-ME-REPLACE-WITH-THE-EXPECTED-SUBSTRATE-DIGEST
+                    # (13) [batch-root] batchRoot PRESENCE and shape. The spec makes the
+                    #      predicate-level batchRoot REQUIRED whenever
+                    #      observationRecords is non-empty, and conditions (8)/(9)
+                    #      already require an arming record and a covering sealed
+                    #      record, so on every statement this rail can admit the record
+                    #      list is non-empty and the requirement is unconditional. That
+                    #      is what makes a rule the spec states conditionally reachable
+                    #      here as a plain pattern condition.
+                    #      PRESENCE AND SHAPE ONLY. The RFC 6962 fold over the records'
+                    #      DSSE PAE bytes is raw-byte hashing no rail in this bundle
+                    #      performs, so a well-formed root that commits to nothing
+                    #      passes here exactly as a real one does. What it closes is the
+                    #      statement that carries signed records and no root at all, or
+                    #      a root that is not a digest, which until now was admitted for
+                    #      want of anyone looking.
+                    - key: "{{ regex_match('^[0-9a-f]{64}$', evidence.batchRoot) }}"
+                      operator: Equals
+                      value: true
+                    # (14) [run-entropy] The run-start beacon MUST be present and well-formed
+                    #      (64 lowercase hex). The spec makes
+                    #      observationEnvironment.runEntropy REQUIRED exactly when any
+                    #      row is basis: substrate and OMITTED on an artifact-only
+                    #      statement, and condition (6) already restricts every
+                    #      admissible row to basis: substrate, so on this rail's surface
+                    #      the conditional requirement is unconditional.
+                    #      This is NOT the rego rail's rule in a weaker spelling. That
+                    #      rail never states the beacon's presence separately: it folds
+                    #      the value into the run identity, so a beacon
+                    #      deleted from a finished statement surfaces there as a
+                    #      run-binding mismatch against records that still bind to the
+                    #      old value. A producer that omits the beacon and derives every
+                    #      record binding over the omission satisfies that recompute and
+                    #      is denied here. The condition is read off the spec, not off
+                    #      the sibling rail, and the lowercase half of the pattern is
+                    #      load-bearing for the same reason: the spec requires each of
+                    #      the six run-binding inputs to be lowercase 64-hex and takes
+                    #      them verbatim, while a recompute over an uppercase value
+                    #      still matches records derived over the same uppercase value.
+                    - key: "{{ regex_match('^[0-9a-f]{64}$', evidence.observationEnvironment.runEntropy.digest.sha256) }}"
+                      operator: Equals
+                      value: true
+                    # (15) [layer-none] Every row's actualLayer is the literal "none". The spec
+                    #      requires actualLayer on every row and requires "none" on a
+                    #      CLEAN row, one whose containmentObserved is not in the
+                    #      carried caught set. Which labels are caught lives in
+                    #      observationVocabulary and a JMESPath filter has no root
+                    #      reference to name it, so a clean row is not identifiable
+                    #      here, exactly as on condition (6), and the gate covers the
+                    #      clean rows by covering all of them.
+                    #      Unlike (6) this costs nothing, and the reason is worth
+                    #      stating because it does not generalise. A statement the rego
+                    #      oracle admits records result: "pass", and its recompute only
+                    #      reaches pass when no row carries a caught label, so every row
+                    #      of an admissible statement is clean and the spec already
+                    #      demands "none" on all of them. No statement the oracle admits
+                    #      is denied by this condition. What it does deny is the
+                    #      mis-declared pass whose row names an enforcement layer that
+                    #      acted while the row claims nothing was caught, which is a
+                    #      contradiction visible in the bytes without the recompute.
+                    #      The presence half comes with it: a row omitting actualLayer
+                    #      cannot equal "none".
+                    - key: "{{ length(not_null(evidence.attackResults, `[]`)[?actualLayer == 'none']) }}"
+                      operator: Equals
+                      value: "{{ length(not_null(evidence.attackResults, `[]`)) }}"
+                    # (16) [issuance-lag] ISSUANCE LAG, the byte-pure half of freshness: at least one
+                    #      arming record is present, and issuedAt sits no further than
+                    #      168h after EVERY arming record's armedAt.
+                    #      WHY THE BOUND IS NOT READ OFF issuedAt ALONE. issuedAt is
+                    #      producer-asserted, sits outside every substrate signature, and
+                    #      is not one of the run-binding inputs, so a party holding the
+                    #      outer envelope key rewrites it without touching a digest or a
+                    #      record signature. The only comparison the spec mandates on it
+                    #      is that armedAt is no later than issuedAt, and moving issuedAt
+                    #      FORWARD keeps that true by construction. armedAt lives inside
+                    #      the arming record's signed payload, where that party cannot
+                    #      reach it, so the distance between the two can only grow under
+                    #      attack and bounding it is what turns the restatement of an old
+                    #      run into a denial.
+                    #      NO CLOCK, WHICH IS WHY ALL THREE SIBLINGS CARRY IT. Both
+                    #      operands are carried bytes, so this condition is a function of
+                    #      the statement and answers identically at two readings of it.
+                    #      That is what lets the corpus drive it, and what lets the base
+                    #      and audit documents carry it when neither has a clock. It is
+                    #      NOT an age bound: an honestly-issued statement with a small lag
+                    #      satisfies it forever. The -freshness sibling adds that separate
+                    #      bound, against the same signed operand, as its condition (17).
+                    #      FAIL-CLOSED ON ABSENCE, on its own terms rather than by leaning
+                    #      on condition (8). A statement carrying no arming record carries
+                    #      no substrate-signed instant and supports no claim about its
+                    #      distance from its own run, so the length guard denies it here
+                    #      instead of letting an empty filter satisfy the comparison
+                    #      vacuously. Condition (8) demands the record too; this condition
+                    #      deliberately does not rely on that, because a sibling condition
+                    #      going missing unnoticed is the defect this file was rebuilt
+                    #      around.
+                    #      EVERY arming record, not the first: selecting one would need an
+                    #      order, and the newest instant is the attacker-favourable choice
+                    #      in this comparison. The bound is one-sided, so a statement whose
+                    #      armedAt is AFTER its issuedAt still passes here. The rego rail
+                    #      rejects that ordering and this rail cannot name issuedAt from
+                    #      inside a filter, which is the standing bad-702 divergence.
+                    - key: "{{ length(not_null(evidence.observationRecords, `[]`)[?ends_with(payloadType, '+json') && parse_json(base64_decode(payload)).aeeKind == 'arming']) > `0` && length(not_null(evidence.observationRecords, `[]`)[?ends_with(payloadType, '+json') && parse_json(base64_decode(payload)).aeeKind == 'arming'] | [?!time_before('{{ evidence.issuedAt }}', time_add(parse_json(base64_decode(payload)).armedAt, '168h'))]) == `0` }}"
+                      operator: Equals
+                      value: true
+                    # (18) [attribution-pinned] A row claiming the STRONGER attribution must have an
+                    #      interception to claim it from. The 0.7 predicate requires an
+                    #      `attribution` member on every row, closed at "pinned" and
+                    #      "paired"; "pinned" asserts the row is bound to a specific
+                    #      observation record that committed to the attack payload. A
+                    #      statement carrying a pinned row and no interception record at
+                    #      all makes that claim against nothing, which is the spec's
+                    #      `attribution-pinned-recordless`.
+                    #      NUMBERED (18), NOT (17). The -freshness sibling already spends
+                    #      (17) on [evidence-age], and one ordinal naming two rules across
+                    #      these documents is exactly what the figure gate refuses. The
+                    #      gap in the base and audit documents is deliberate and is the
+                    #      cheaper of the two costs: renumbering a published condition
+                    #      would invalidate every citation of it that has already shipped.
+                    #      NECESSARY, NOT THE WHOLE RULE, and the residue is declared
+                    #      rather than implied. The spec requires that THE ROW resolve an
+                    #      interception through its own observationRefs and that every one
+                    #      it resolves carry a commitment the corpus manifest declared for
+                    #      that row's attack. Neither half is expressible here: resolving
+                    #      an index of one list against another is a join JMESPath has no
+                    #      operator for, and the manifest's expectedPayloads map lives at
+                    #      the document root, which a filter cannot name from inside the
+                    #      element under test. So this condition asks only the existential
+                    #      question -- does the statement carry an interception at all --
+                    #      and the assignment itself stays with the rego rail
+                    #      (../rego/execution_evidence.rego, attribution_pin_ok). The
+                    #      standing divergence that leaves is bad-982, which exchanges the
+                    #      assignment between two pinned rows and satisfies this condition
+                    #      while failing there.
+                    #      MEASURED, NOT ASSUMED. Simulated across every projected corpus
+                    #      vector before it was written: false for exactly two of them,
+                    #      bad-958 and bad-973, both of which the rego oracle also denies,
+                    #      and true for every accept and every denylisted reject. So it
+                    #      cannot deny a statement the oracle admits, which is the
+                    #      property that makes adding a condition to a deployed rail safe.
+                    #      The conformance gate under ../conformance/ re-proves that on
+                    #      every run: an admit this rail makes past the oracle has to be
+                    #      declared there, and a denial past it has to be declared too.
+                    - key: "{{ length(not_null(evidence.attackResults, `[]`)[?attribution == 'pinned']) == `0` || length(not_null(evidence.observationRecords, `[]`)[?ends_with(payloadType, '+json') && parse_json(base64_decode(payload)).aeeKind == 'interception']) > `0` }}"
+                      operator: Equals
+                      value: true
+                    # (17) [evidence-age] EVIDENCE AGE, the clock half of freshness and the one
+                    #      condition this file adds to its two siblings: at least one
+                    #      arming record is present, and now() is no more than 168h after
+                    #      EVERY arming record's armedAt.
+                    #      THE OPERAND CHANGED, AND THAT IS THE WHOLE POINT. This
+                    #      condition previously read
+                    #      time_before(time_now(), time_add(issuedAt, '168h')).
+                    #      `issuedAt` is the one temporal value a party holding the outer
+                    #      envelope key owns outright, so the window was defeated by
+                    #      exactly the party it exists to constrain: rewriting issuedAt to
+                    #      a future instant makes any statement fresh forever, changes no
+                    #      digest, and leaves every record signature intact. Measured on
+                    #      the published base vector, whose run is months old: as
+                    #      published the window denied it, and with issuedAt moved to 2099
+                    #      it admitted it. armedAt sits inside the substrate's signed
+                    #      payload, out of that party's reach, so the window is read
+                    #      against it now. A consumer bounding the age of evidence
+                    #      measures from an instant the producer could not have written,
+                    #      or it is not bounding anything.
+                    #      issuedAt IS NO LONGER READ HERE, so a producer that omits it no
+                    #      longer fails this condition. What fails closed instead is the
+                    #      absence of an ARMING RECORD, which is the thing this condition
+                    #      actually measures: a statement carrying none carries no
+                    #      substrate-signed instant, supports no claim about its own age,
+                    #      and is denied rather than quietly falling back to issuedAt.
+                    #      AGE AND LAG ARE DIFFERENT CONTROLS and both are wanted. This
+                    #      one answers how old the evidence is and needs a clock, so only
+                    #      this document can carry it. Condition (16) bounds the distance
+                    #      between the run and its issuance, needs no clock, and is
+                    #      carried by all three siblings. Neither substitutes for the
+                    #      other: the lag bound never expires, and the age bound is
+                    #      unavailable to a rail with no clock.
+                    #      time_before / time_add / time_now are Kyverno JMESPath
+                    #      functions (pkg/engine/jmespath/time.go). The conformance gate
+                    #      under ../conformance/ lifts this condition out of the corpus
+                    #      run, because it compares against the wall clock while the
+                    #      corpus fixes its timestamps in the past, and drives crafted
+                    #      cases through it instead: a recent arming record, a stale one,
+                    #      an absent one, and the restated old run whose issuedAt is
+                    #      minutes old over a run armed years ago.
+                    - key: "{{ length(not_null(evidence.observationRecords, `[]`)[?ends_with(payloadType, '+json') && parse_json(base64_decode(payload)).aeeKind == 'arming']) > `0` && length(not_null(evidence.observationRecords, `[]`)[?ends_with(payloadType, '+json') && parse_json(base64_decode(payload)).aeeKind == 'arming'] | [?!time_before(time_now(), time_add(parse_json(base64_decode(payload)).armedAt, '168h'))]) == `0` }}"
+                      operator: Equals
+                      value: true
+                    # (19) [chain-scope-vocabulary] Every chain-scope token an arming record carries is one the
+                    #      specification names. The tokens are a CLOSED vocabulary, so this is a
+                    #      membership test against a literal list and needs nothing from elsewhere
+                    #      in the document -- which is exactly why it can live on this rail while
+                    #      the subset rules below it cannot.
+                    #      The type guard is load-bearing rather than defensive. Without it a
+                    #      record whose aeeChainScope is not an array makes the inner filter throw,
+                    #      and a condition that denies by ERRORING has no verdict of its own: the
+                    #      engine reports it the same way it reports a condition it could not read.
+                    #      A non-array member is a different fault and is denied by its own rule.
+                    #      MEASURED, NOT ASSUMED. Simulated across every projected corpus vector
+                    #      before it was written: it denies ZERO accepts, denies two rejects the
+                    #      oracle also denies (bad-722 and bad-988), and denies no denylisted
+                    #      vector, so it cannot deny a statement the oracle admits.
+                    - key: "{{ length(not_null(evidence.observationRecords, `[]`)[?ends_with(payloadType, '+json') && parse_json(base64_decode(payload)).aeeKind == 'arming' && type(parse_json(base64_decode(payload)).aeeChainScope) == 'array' && length(parse_json(base64_decode(payload)).aeeChainScope[?!contains(['subject','corpus','networkPosture'], @)]) > `0`]) == `0` }}"
+                      operator: Equals
+                      value: true
+                    # (20) [assessed-attacks-shape] An arming record's assessed-attack array is sorted ascending and
+                    #      duplicate-free. Both halves are properties of the array ALONE, so both
+                    #      sit inside this rail's reach; whether its entries were declared is a
+                    #      comparison against the manifest and is not.
+                    #      Duplicate-freedom is read by building an object keyed on the entries and
+                    #      comparing key count to entry count, because this engine carries no set
+                    #      primitive. Sortedness is read the direct way, sort(x) == x.
+                    #      MEASURED, NOT ASSUMED. Simulated across every projected corpus vector:
+                    #      it denies ZERO accepts, denies exactly one reject the oracle also denies
+                    #      (bad-978), and denies no denylisted vector.
+                    - key: "{{ length(not_null(evidence.observationRecords, `[]`)[?ends_with(payloadType, '+json') && parse_json(base64_decode(payload)).aeeKind == 'arming' && type(parse_json(base64_decode(payload)).aeeAssessedAttacks) == 'array' && (sort(parse_json(base64_decode(payload)).aeeAssessedAttacks) != parse_json(base64_decode(payload)).aeeAssessedAttacks || length(keys(object_from_lists(parse_json(base64_decode(payload)).aeeAssessedAttacks, parse_json(base64_decode(payload)).aeeAssessedAttacks))) != length(parse_json(base64_decode(payload)).aeeAssessedAttacks))]) == `0` }}"
+                      operator: Equals
+                      value: true

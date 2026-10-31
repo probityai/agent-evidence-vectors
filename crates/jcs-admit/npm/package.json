@@ -1,0 +1,60 @@
+{
+  "name": "jcs-admit",
+  "version": "0.1.0",
+  "description": "Raw-byte JSON admission and RFC 8785 canonicalization through the jcs-admit Rust core",
+  "type": "module",
+  "license": "MIT OR Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/probityai/agent-evidence-vectors.git",
+    "directory": "crates/jcs-admit/npm"
+  },
+  "homepage": "https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/docs/NPM.md",
+  "engines": {
+    "node": ">=22.14.0"
+  },
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "node": {
+        "types": "./lib/index.d.ts",
+        "default": "./lib/node.mjs"
+      },
+      "default": {
+        "types": "./lib/browser.d.ts",
+        "default": "./lib/browser.mjs"
+      }
+    },
+    "./browser": {
+      "types": "./lib/browser.d.ts",
+      "default": "./lib/browser.mjs"
+    }
+  },
+  "files": [
+    "lib",
+    "generated",
+    "README.md",
+    "LICENSE-APACHE",
+    "LICENSE-MIT",
+    "BUILD.json"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "python3 build.py",
+    "test": "node test/packed-consumers.mjs"
+  },
+  "keywords": [
+    "jcs",
+    "rfc8785",
+    "json",
+    "canonicalization",
+    "wasm",
+    "duplicate-keys"
+  ],
+  "devDependencies": {
+    "playwright": "1.64.1",
+    "typescript": "7.0.2"
+  }
+}

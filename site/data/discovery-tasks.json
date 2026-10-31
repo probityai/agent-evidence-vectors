@@ -1,0 +1,592 @@
+{
+  "schema_version": 1,
+  "id": "probity-discovery-v1",
+  "reference_catalog": {
+    "id": "reference-catalog",
+    "url": "https://github.com/probityai/agent-evidence-atlas/blob/7c84ee19f16d4d0d8114e24d86e2688ed6144aa4/data/catalog.json",
+    "sha256": "60dd4a20d357467cdc1721a10d9291b1b5ce5e8c2365b5ab61528509f39dfd3a",
+    "bytes": 12501
+  },
+  "modes": [
+    "open_search",
+    "navigation"
+  ],
+  "navigation_start_urls": [
+    "https://github.com/probityai",
+    "https://probityai.github.io/agent-evidence-atlas/llms.txt"
+  ],
+  "agent_target_percent": 90,
+  "human_navigation_choices": 2,
+  "human_walkthrough_tasks": [
+    "D01",
+    "D02",
+    "D03",
+    "D10",
+    "D12"
+  ],
+  "sources": [
+    {
+      "id": "vocabulary",
+      "url": "https://github.com/probityai/agent-evidence-vocabulary/blob/8c80579ae613d7ae07982321e13a6091c402b2a8/README.md",
+      "sha256": "1ab57a8a181f13683cb175f0f49d330c930e5df3adc8907eded3e95d085e2cde",
+      "bytes": 2906
+    },
+    {
+      "id": "vectors",
+      "url": "https://github.com/probityai/agent-evidence-vectors/blob/b5320f32b1a90d03edcfd41a864ea4f5e17c7955/README.md",
+      "sha256": "bbb4063cfd4f3004c854fc5a8bc963353b934a3bdf28da037225c12e27150589",
+      "bytes": 4421
+    },
+    {
+      "id": "observer",
+      "url": "https://github.com/probityai/agent-evidence-observer/blob/671d89c2d8c023153eb5755c5afb027bf4fa553d/README.md",
+      "sha256": "cd5bdc035eb148eb451b3711bf4588120634626ce96db98b7e5ec95082c0c7cd",
+      "bytes": 3701
+    },
+    {
+      "id": "verify",
+      "url": "https://github.com/probityai/probity-verify/blob/437e484bd81e3d1eb1b9ad7230124a434a7a0ef6/README.md",
+      "sha256": "963ab168416995f5084dcef5b80fd243a5c018bbd7120dfd5730b584ed38d112",
+      "bytes": 3881
+    },
+    {
+      "id": "admission",
+      "url": "https://github.com/probityai/agent-evidence-admission/blob/bbff435d11a7c0ec9bc0e8e65e6d8fc40c10b671/README.md",
+      "sha256": "a766adb0580bc33bb0bb6a176004e6a00bd5903adb440e51025a92646cbb7846",
+      "bytes": 4510
+    },
+    {
+      "id": "jcs-admit",
+      "url": "https://github.com/probityai/jcs-admit/blob/3e189b20711a57ce91eab40509324dd1d5d54cac/README.md",
+      "sha256": "62c3ed6566f182c781ad1ab11188c7f97d0745b38eed229860b2b40dc6a2f2fa",
+      "bytes": 4040
+    },
+    {
+      "id": "dsse",
+      "url": "https://github.com/probityai/dsse/blob/35e418022b19bebedec13ebb4c31bc43b1c70caf/README.md",
+      "sha256": "0307e46dba71daa58bd468bb702c9b737a2dc7ba2882b8c4934bc5b55a97037d",
+      "bytes": 3592
+    },
+    {
+      "id": "atlas",
+      "url": "https://github.com/probityai/agent-evidence-atlas/blob/89aea5fd58850247da3aab9e0e539c20625de35b/README.md",
+      "sha256": "371df21b7b4c852bf398c5dd65b371eec6e17fce5ff96bd4b8474c1ef1017c64",
+      "bytes": 2237
+    },
+    {
+      "id": "inspect-native-reader",
+      "url": "https://github.com/probityai/agent-evidence-observer/blob/71ac0b2126473316655184235000647a6dd0f5cf/docs/NATIVE-CONSUMER-CI.md",
+      "sha256": "9673f7877d710d3e54ebcabe82230fa360e3762aa7bbdbf7cdd77448a16f13a2",
+      "bytes": 6815
+    },
+    {
+      "id": "witnessed-run-selection",
+      "url": "https://github.com/probityai/agent-evidence-observer/blob/d53776c7b783abbce42a3422f56ed390dfedd2f2/docs/WITNESSED-RUN-SELECTION.md",
+      "sha256": "8770c78793ea4f3b84ba6008c378812e678034808d9c0e54504a82a85cdec721",
+      "bytes": 4776
+    },
+    {
+      "id": "spend-reservation",
+      "url": "https://github.com/probityai/agent-evidence-admission/blob/bbff435d11a7c0ec9bc0e8e65e6d8fc40c10b671/consumers/spend-reservation/README.md",
+      "sha256": "09e6827a11febbbdc2b5755ac5d3b81a4f0b8e0b80f3f5b0820e610e50c05761",
+      "bytes": 2946
+    },
+    {
+      "id": "lab",
+      "url": "https://github.com/probityai/agent-evidence-atlas/blob/7c84ee19f16d4d0d8114e24d86e2688ed6144aa4/src/lab.md",
+      "sha256": "ea209aedc4624e7a08653aa3cc22f129bf11be7b733cfa7a00885de900b4d423",
+      "bytes": 47596
+    },
+    {
+      "id": "automation",
+      "url": "https://github.com/probityai/agent-evidence-atlas/blob/7c84ee19f16d4d0d8114e24d86e2688ed6144aa4/src/automation.md",
+      "sha256": "8d5210e52eb37094de34960b16cfacc9d1a734c149bc4dc682d302bdd235bf65",
+      "bytes": 1212
+    },
+    {
+      "id": "claims",
+      "url": "https://github.com/probityai/agent-evidence-atlas/blob/7c84ee19f16d4d0d8114e24d86e2688ed6144aa4/CLAIMS.md",
+      "sha256": "718a85025837dd2622c79978f8cf4144c49fe344474b77d995009f42543f5d68",
+      "bytes": 95737
+    },
+    {
+      "id": "reference-catalog",
+      "url": "https://github.com/probityai/agent-evidence-atlas/blob/7c84ee19f16d4d0d8114e24d86e2688ed6144aa4/data/catalog.json",
+      "sha256": "60dd4a20d357467cdc1721a10d9291b1b5ce5e8c2365b5ab61528509f39dfd3a",
+      "bytes": 12501
+    }
+  ],
+  "tasks": [
+    {
+      "id": "D01",
+      "prompt": "I need a Rust crate that rejects duplicate JSON keys before I sign a document. Where do I start?",
+      "expected": {
+        "component_ids": [
+          "jcs-admit"
+        ],
+        "profile_ids": [],
+        "delivery": "recipe",
+        "source_ids": [
+          "jcs-admit"
+        ],
+        "review_criteria": [
+          "Choose raw-byte admission before canonicalization.",
+          "Use the exact released crate dependency and its example."
+        ]
+      }
+    },
+    {
+      "id": "D02",
+      "prompt": "An agent crashed after a tool touched a file. How can I check its later report against what survived?",
+      "expected": {
+        "component_ids": [
+          "observer",
+          "verify"
+        ],
+        "profile_ids": [],
+        "delivery": "recipe",
+        "source_ids": [
+          "observer",
+          "verify"
+        ],
+        "review_criteria": [
+          "Retain supported native or brokered action artifacts, then use the matching claim adapter.",
+          "Do not infer an observed effect from an error or a successful report alone."
+        ]
+      }
+    },
+    {
+      "id": "D03",
+      "prompt": "How do I make Kubernetes reject a workload that has no required agent evidence?",
+      "expected": {
+        "component_ids": [
+          "admission"
+        ],
+        "profile_ids": [],
+        "delivery": "recipe",
+        "source_ids": [
+          "admission"
+        ],
+        "review_criteria": [
+          "Find the documented OPA or Kyverno policy route and its example.",
+          "These policies consume verified statements; do not claim that a policy verifies arbitrary evidence itself."
+        ]
+      }
+    },
+    {
+      "id": "D04",
+      "prompt": "My verifier accepts records it should reject. Where can I find passing and failing agent-evidence fixtures?",
+      "expected": {
+        "component_ids": [
+          "vectors"
+        ],
+        "profile_ids": [],
+        "delivery": "recipe",
+        "source_ids": [
+          "vectors"
+        ],
+        "review_criteria": [
+          "Choose the corpus for the record format and use the documented harness.",
+          "Preserve positive and negative outcomes and the selected source or package version."
+        ]
+      }
+    },
+    {
+      "id": "D05",
+      "prompt": "I want to check an evidence claim offline from a clean Python environment. Which tool and installation recipe should I use?",
+      "expected": {
+        "component_ids": [
+          "verify"
+        ],
+        "profile_ids": [],
+        "delivery": "recipe",
+        "source_ids": [
+          "verify"
+        ],
+        "review_criteria": [
+          "Find the source-pinned wheel installation and a claim-specific recipe.",
+          "Keep supported, contradicted and missing evidence outcomes distinct."
+        ]
+      }
+    },
+    {
+      "id": "D06",
+      "prompt": "I need to sign and verify a DSSE envelope in Rust with an explicit key and signature threshold.",
+      "expected": {
+        "component_ids": [
+          "dsse"
+        ],
+        "profile_ids": [],
+        "delivery": "recipe",
+        "source_ids": [
+          "dsse"
+        ],
+        "review_criteria": [
+          "Use the exact released crate dependency and envelope API.",
+          "Signature validity does not establish payload truth."
+        ]
+      }
+    },
+    {
+      "id": "D07",
+      "prompt": "A report says an action was observed. Where are the definitions for observation coverage and who witnessed it?",
+      "expected": {
+        "component_ids": [
+          "vocabulary"
+        ],
+        "profile_ids": [],
+        "delivery": "information",
+        "source_ids": [
+          "vocabulary"
+        ],
+        "review_criteria": [
+          "Find the versioned terms and distinguish coverage from execution truth."
+        ]
+      }
+    },
+    {
+      "id": "D08",
+      "prompt": "I have a retained Inspect execution profile. How do I install the native reader and check it without rerunning the model?",
+      "expected": {
+        "component_ids": [
+          "observer"
+        ],
+        "profile_ids": [
+          "inspect-native-reader"
+        ],
+        "delivery": "recipe",
+        "source_ids": [
+          "inspect-native-reader",
+          "observer"
+        ],
+        "review_criteria": [
+          "Use the selected native reader installation unit and supported profile.",
+          "Offline reconstruction is not a new Inspect execution or independent capture."
+        ]
+      }
+    },
+    {
+      "id": "D09",
+      "prompt": "Can a root package install give me every native framework integration, or do I need a separate reader unit?",
+      "expected": {
+        "component_ids": [
+          "observer"
+        ],
+        "profile_ids": [],
+        "delivery": "information",
+        "source_ids": [
+          "inspect-native-reader",
+          "observer"
+        ],
+        "review_criteria": [
+          "Name the exact documented integration installation unit.",
+          "Do not promise that the root package installs every native reader."
+        ]
+      }
+    },
+    {
+      "id": "D10",
+      "prompt": "Is Probity Verify available as a released package? If it is source-only, show me the supported install route.",
+      "expected": {
+        "component_ids": [
+          "verify"
+        ],
+        "profile_ids": [],
+        "delivery": "information",
+        "source_ids": [
+          "verify"
+        ],
+        "review_criteria": [
+          "Read the source-pinned release status and give its source installation route.",
+          "Do not invent a registry release."
+        ]
+      }
+    },
+    {
+      "id": "D11",
+      "prompt": "I need the original retained E6 observer-admission run, not a command silently updated to the latest code.",
+      "expected": {
+        "component_ids": [
+          "atlas"
+        ],
+        "profile_ids": [],
+        "delivery": "information",
+        "source_ids": [
+          "lab"
+        ],
+        "review_criteria": [
+          "Find the E6 record, its original source pins, artifacts and replay command.",
+          "Do not replace historical run inputs with current navigation pins."
+        ]
+      }
+    },
+    {
+      "id": "D12",
+      "prompt": "A published evidence claim looks wrong. Where can I submit a correction with the source and retained output?",
+      "expected": {
+        "component_ids": [
+          "atlas"
+        ],
+        "profile_ids": [],
+        "delivery": "information",
+        "source_ids": [
+          "automation",
+          "lab"
+        ],
+        "review_criteria": [
+          "Find the evidence-correction form and the required source-linked evidence."
+        ]
+      }
+    },
+    {
+      "id": "D13",
+      "prompt": "My team ran a supported profile. How can we contribute the result with accurate operator and review roles?",
+      "expected": {
+        "component_ids": [
+          "atlas"
+        ],
+        "profile_ids": [],
+        "delivery": "information",
+        "source_ids": [
+          "lab",
+          "automation"
+        ],
+        "review_criteria": [
+          "Find the run submission form and retained artifact requirements.",
+          "Listing a run does not establish independent custody or host adoption."
+        ]
+      }
+    },
+    {
+      "id": "D14",
+      "prompt": "How can I check that a selected evaluation run matches the plan and controls fixed in its retained witness opening?",
+      "expected": {
+        "component_ids": [
+          "observer"
+        ],
+        "profile_ids": [
+          "witnessed-run-selection"
+        ],
+        "delivery": "recipe",
+        "source_ids": [
+          "witnessed-run-selection"
+        ],
+        "review_criteria": [
+          "Find the installed witnessed-selection profile and anchored opening inputs.",
+          "Refuse substituted, late, missing or forked selected history as documented."
+        ]
+      }
+    },
+    {
+      "id": "D15",
+      "prompt": "Does a valid DSSE signature prove that an agent really completed the action described by its payload?",
+      "expected": {
+        "component_ids": [
+          "dsse",
+          "verify"
+        ],
+        "profile_ids": [],
+        "delivery": "information",
+        "source_ids": [
+          "dsse",
+          "verify"
+        ],
+        "review_criteria": [
+          "Separate envelope signature verification from a claim-specific evidence check.",
+          "Do not turn authorship or signed testimony into observed execution truth."
+        ]
+      }
+    },
+    {
+      "id": "D16",
+      "prompt": "I need to reserve the maximum allowed cost before dispatching an agent call, including unresolved receipts.",
+      "expected": {
+        "component_ids": [
+          "admission"
+        ],
+        "profile_ids": [],
+        "delivery": "recipe",
+        "source_ids": [
+          "spend-reservation",
+          "admission"
+        ],
+        "review_criteria": [
+          "Find the source-pinned reservation API or CLI and its finite example.",
+          "Keep maximum exposure for unresolved receipts and fixture prices distinct from market prices."
+        ]
+      }
+    },
+    {
+      "id": "D17",
+      "prompt": "What is the difference between testing a verifier and checking one agent report?",
+      "expected": {
+        "component_ids": [
+          "vectors",
+          "verify"
+        ],
+        "profile_ids": [],
+        "delivery": "information",
+        "source_ids": [
+          "vectors",
+          "verify"
+        ],
+        "review_criteria": [
+          "Vectors supplies conformance cases; Verify checks claims against supplied artifacts."
+        ]
+      }
+    },
+    {
+      "id": "D18",
+      "prompt": "I use Go. How can I run the published agent-evidence fixture checks from an exact source version?",
+      "expected": {
+        "component_ids": [
+          "vectors"
+        ],
+        "profile_ids": [],
+        "delivery": "recipe",
+        "source_ids": [
+          "vectors"
+        ],
+        "review_criteria": [
+          "Find the Go source-version command and the selected fixture harness.",
+          "Do not imply that a source tag guarantees a corresponding PyPI package."
+        ]
+      }
+    },
+    {
+      "id": "D19",
+      "prompt": "Which pinned Cargo dependency and API reference should I use for the released DSSE library?",
+      "expected": {
+        "component_ids": [
+          "dsse"
+        ],
+        "profile_ids": [],
+        "delivery": "recipe",
+        "source_ids": [
+          "dsse"
+        ],
+        "review_criteria": [
+          "Use the exact crates.io dependency and matching installed-version API reference."
+        ]
+      }
+    },
+    {
+      "id": "D20",
+      "prompt": "Can a script discover the public components and their documentation without scraping repository cards?",
+      "expected": {
+        "component_ids": [
+          "atlas"
+        ],
+        "profile_ids": [],
+        "delivery": "information",
+        "source_ids": [
+          "automation",
+          "reference-catalog"
+        ],
+        "review_criteria": [
+          "Find catalog.json and stable component/profile IDs.",
+          "Distinguish repository records from installable components."
+        ]
+      }
+    },
+    {
+      "id": "D21",
+      "prompt": "How do I preserve errors and unstarted attempts when reading a retained native Inspect profile?",
+      "expected": {
+        "component_ids": [
+          "observer"
+        ],
+        "profile_ids": [
+          "inspect-native-reader"
+        ],
+        "delivery": "recipe",
+        "source_ids": [
+          "inspect-native-reader"
+        ],
+        "review_criteria": [
+          "Select the supported native reader and its exact source-backed recipe.",
+          "Do not convert an unstarted attempt into a failed execution or drop an error record."
+        ]
+      }
+    },
+    {
+      "id": "D22",
+      "prompt": "How can an automated job retrieve a pinned retained Lab record and check its artifact hashes?",
+      "expected": {
+        "component_ids": [
+          "atlas"
+        ],
+        "profile_ids": [],
+        "delivery": "recipe",
+        "source_ids": [
+          "automation"
+        ],
+        "review_criteria": [
+          "Use check_lab.py with the selected record and JSON output.",
+          "Hash integrity does not authenticate the operator or prove independence."
+        ]
+      }
+    },
+    {
+      "id": "D23",
+      "prompt": "The Vectors source tag and the Python registry may disagree. How do I choose a supported installation route?",
+      "expected": {
+        "component_ids": [
+          "vectors"
+        ],
+        "profile_ids": [],
+        "delivery": "information",
+        "source_ids": [
+          "vectors",
+          "claims"
+        ],
+        "review_criteria": [
+          "Read the version-specific source and package status instead of inventing an install command.",
+          "Keep the dated availability check separate from historical source pins."
+        ]
+      }
+    },
+    {
+      "id": "D24",
+      "prompt": "Can author-generated timestamps establish unique global run selection when witness history is missing or forked?",
+      "expected": {
+        "component_ids": [
+          "observer"
+        ],
+        "profile_ids": [
+          "witnessed-run-selection"
+        ],
+        "delivery": "information",
+        "source_ids": [
+          "witnessed-run-selection"
+        ],
+        "review_criteria": [
+          "Missing or forked anchors do not establish selected-history consistency.",
+          "Author clocks and keys do not prove global selection or independent custody."
+        ]
+      }
+    },
+    {
+      "id": "D25",
+      "prompt": "A reader reconstructs a trace and Verify accepts its claim. Does that establish an independently observed real workload?",
+      "expected": {
+        "component_ids": [
+          "observer",
+          "verify",
+          "vocabulary"
+        ],
+        "profile_ids": [],
+        "delivery": "information",
+        "source_ids": [
+          "observer",
+          "verify",
+          "vocabulary"
+        ],
+        "review_criteria": [
+          "Separate supported selected bytes, execution truth, observation vantage and independently operated custody.",
+          "Do not label a first-party fixture or documentation merge as outside workload adoption."
+        ]
+      }
+    }
+  ]
+}

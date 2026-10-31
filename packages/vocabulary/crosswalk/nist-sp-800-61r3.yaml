@@ -1,0 +1,70 @@
+# Filed from outside, from a published specification read on 2026-10-30 in the copy of the NIST SP 800-61r3 text kept in the research capture, section RS.MI, RC.RP of its CSF 2.0 table.
+#
+# This filing maps the incident response and recovery recommendations of NIST SP 800-61r3 onto the incident_response section. It cannot promote a term and is not offered as promoting one: a specification emits no signed records, and the promotion rule in vocabulary.yaml and GOVERNANCE.md requires the emitting system's own maintainers to file, declaring evidence: emitted with a resolvable path. Every claim below is asserted from prose.
+
+system: NIST SP 800-61r3 (Incident Response Recommendations and Considerations for Cybersecurity Risk
+  Management)
+system_url: https://csrc.nist.gov/pubs/sp/800/61/r3/final
+crosswalk_version: 0.1.0
+vocabulary_version_targeted: 0.8.0
+maintainer:
+  github: astrogilda
+  third_party_authored: true
+summary_of_system: Recommendations for incident response mapped to CSF 2.0 outcomes. RS.MI-01 (incidents
+  are contained) and RS.MI-02 (incidents are eradicated) cover mitigation, RC.RP-01 to RC.RP-06 cover
+  recovery. The publication defines no record format for any of them.
+incident_response:
+  response_decision:
+    match: no_mapping
+    notes: RS.MI-01 R1 lets handlers select containment actions manually; the publication asks for no
+      record of a decision not to act.
+  response_function:
+    match: partial
+    evidence: asserted
+    source_path: https://csrc.nist.gov/pubs/sp/800/61/r3/final
+    divergences:
+    - The publication names containment (RS.MI-01), eradication (RS.MI-02) and recovery (RC.RP) as outcomes,
+      with no closed list of the function an action served and no separate pause or isolation.
+    notes: RS.MI-01 N1 says containment prevents the expansion of an incident; RS.MI-02 N1 lists deleting
+      malware and disabling breached user accounts as eradication.
+  enforcement_vantage:
+    match: no_mapping
+    notes: The source describes nothing that maps onto this term.
+  control_failure_posture:
+    match: no_mapping
+    notes: The source describes nothing that maps onto this term.
+  revocation_state:
+    match: no_mapping
+    notes: RS.MI-02 N1 lists disabling breached user accounts as an action; no outcome observed at a relying
+      party is described.
+  containment_scope:
+    match: partial
+    evidence: asserted
+    source_path: https://csrc.nist.gov/pubs/sp/800/61/r3/final
+    divergences:
+    - RS.MI-02 R1 asks to identify all affected hosts and services, which is a scope of remediation; nothing
+      partitions the channels of a contained subject against a manifest.
+    notes: The nearest requirement is RS.MI-02 R1, read as scope of eradication.
+  pause_hold:
+    match: no_mapping
+    notes: The publication names halting the execution of an infected container as an example of automated
+      containment (RS.MI-01 C1) and defines no outcome for it.
+  escalation_outcome:
+    match: no_mapping
+    notes: The publication asks for no times from alert to responder to action.
+  restoration_decision:
+    match: partial
+    evidence: asserted
+    source_path: https://csrc.nist.gov/pubs/sp/800/61/r3/final
+    divergences:
+    - RC.RP-05 R2 asks to verify the correctness and adequacy of restoration actions before putting a
+      restored system online, and RC.RP-01 R2 asks that people with recovery responsibilities be told
+      the authorizations required; neither requires an approver separate from the activator or a record.
+    notes: RC.RP-06 asks that the end of recovery be declared on criteria and documented.
+  restoration_gate:
+    match: no_mapping
+    notes: RC.RP-05 asks for verification before restoration; it does not ask that the restart itself
+      be observed and compared with a decision.
+  incident_identifier:
+    match: no_mapping
+    notes: The source describes nothing that maps onto this term.

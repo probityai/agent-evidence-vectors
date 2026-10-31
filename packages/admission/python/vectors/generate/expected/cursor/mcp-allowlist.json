@@ -1,0 +1,16 @@
+{
+  "entries": [
+    {
+      "server": "files",
+      "entry": "*/npx -y @example/files@1.4.1 /srv/data"
+    },
+    {
+      "server": "files",
+      "entry": "*/npx -y @example/files@1.4.2 /srv/data"
+    },
+    {
+      "server": "search",
+      "entry": "https://mcp.example.com/v2/mcp"
+    }
+  ]
+}

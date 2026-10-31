@@ -62,6 +62,16 @@ flag it is at the moment the gate is red.
 needs_operator = true
 
 [[gate]]
+ident = "install-pins"
+argv = ["python3", "scripts/sync-install-pins.py", "--check"]
+fix = ["python3", "scripts/sync-install-pins.py"]
+why = """
+The pinned install lines on the README, DISTRIBUTION.md and the runner guide are
+generated from the published release in CITATION.cff. A release bumps the
+citation and the bare invocation moves every pin to it.
+"""
+
+[[gate]]
 ident = "rail-parity"
 argv = ["python3", "scripts/rail-parity-gate.py", "--check"]
 fix = ["python3", "scripts/rail-parity-gate.py"]

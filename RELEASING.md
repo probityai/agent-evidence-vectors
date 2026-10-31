@@ -76,6 +76,10 @@ installation pins and both copies of the verification recipe.
 | `docs/reference/release-verification.md` | the checkout pin in the verification recipe |
 | `uv.lock` | the `version` of the one `[[package]]` whose source is `virtual = "."` |
 
+After bumping `CITATION.cff`, run `python3 scripts/sync-install-pins.py` to move every pin on
+`README.md`, `DISTRIBUTION.md` and `docs/guides/runner.md` to the published release; CI runs it with
+`--check`.
+
 `scripts/distribution-gate.py` holds the inbound page and `CITATION.cff` to each
 other and refuses any version token on the page that is not the released one.
 `scripts/citation-metadata-gate.py` holds the deposit metadata. The wheel is held
@@ -227,6 +231,11 @@ other half, refusing a tag whose artifacts do not verify.
 The **verify** job re-checks the published evidence as a stranger would: that the
 signed digest list verifies and that the tag holds those bytes, that the time
 evidence covers that signature, and that what a citer will verify actually does.
+It also re-checks every Verified by Probity grant in `docs/badge-grants.json`
+against the current workflow allowlist and revocations
+(`scripts/badge-grants-gate.py`), so a grant that no longer meets the evidence
+rule in `docs/VERIFIED-BADGE.md` blocks the release until it is fixed or
+withdrawn.
 
 The **publish** job builds the wheel and the sdist, runs the wheel from outside
 the checkout and replays every corpus it carries, asserts the wheel's version is
@@ -251,6 +260,36 @@ This paragraph said, until 0.12.1, that the replay "asserts `suiteRefusals ==
 0`, so a corpus in the wheel that the packaged rail cannot judge fails the
 release". The step replayed `vectors` only, and the harness ran its AEE rail
 over the eight other suites and printed that rail's failures as a verdict.
+
+## The Hugging Face dataset follows the tag
+
+`.github/workflows/publish-hf-dataset.yml` mirrors each corpus release to the
+dataset `probityai/agent-evidence-vectors` on Hugging Face. When a GitHub release
+for a `vMAJOR.MINOR.PATCH` tag is published, the workflow builds the dataset tree
+from that tag with `scripts/publish-hf-dataset.py`, runs the release digest check
+and the cosign signature check in a checkout of the tag, replaces the dataset in
+one commit and gives it a tag with the tag's name. Nothing is done by hand, and
+package releases such as `jcs-admit-npm-v0.1.0` do not start it.
+
+The upload needs the repository secret `HF_TOKEN`, a Hugging Face token with
+write access to the dataset. Without it the publish job fails before it builds
+anything and says so. A release event runs the workflow file as it stands at the
+tag, so a release cut before this workflow landed, or a publish that failed, is
+redone from the default branch: Actions, `publish-hf-dataset`, Run workflow, with
+the tag as input. Tick `dry_run` first to build and check the tree without
+uploading. A rerun for the same tag repeats the same bytes; a dataset tag that
+already points at a different commit is never moved, and the job fails instead.
+
+To build and check the tree locally:
+
+```sh
+python3 scripts/publish-hf-dataset.py build --tag vX.Y.Z --out /tmp/aev-dataset
+python3 scripts/publish-hf-dataset.py check /tmp/aev-dataset
+```
+
+`scripts/publish-hf-dataset-test.py` rebuilds v0.25.0, the first copy, and
+requires the bytes the Hub served for it, so a change to the build that would
+alter an earlier revision fails before it can publish a later one.
 
 ## Before you start
 

@@ -1,0 +1,20 @@
+# Cargo workspace root for the crates under crates/.
+#
+# The interop and readers crates are standalone probes and keep their own roots.
+#
+# Each crate arrives with its own Cargo.lock, cargo-vet store and nested
+# packages (a wasm crate, a Python binding), and keeps them: it is excluded
+# here, so `cargo` run inside crates/<name> sees that crate as its own root and
+# `cargo publish` packages exactly what it packaged in its old repository. A
+# crate becomes a member of this workspace only in a change that also moves its
+# lock file and its supply-chain audits to the root.
+#
+# Cargo run inside a crate still reads this file to learn whether the crate is a
+# member, so it must parse on every crate's declared rust-version. jcs-admit
+# declares 1.74, and resolver "3" needs 1.84, so the resolver stays "2". With no
+# members, the setting decides nothing else.
+
+[workspace]
+resolver = "2"
+members = []
+exclude = ["crates", "interop", "readers"]

@@ -1,0 +1,98 @@
+{
+  "schema": "jcs-admit.mintid-trace-source.v1",
+  "repository": "https://gitlab.com/mintid/mintid",
+  "public_tag": "public-v2026-10-06",
+  "source_commit": "e4efba09598fe0110a929e224a814cb706cc9d0c",
+  "go_source_commit": "19d51d7fe467d4706a3ff08adf8a748f29fc21e0",
+  "reader_profile": "mintid-trace-records-v2",
+  "files": [
+    {
+      "path": "upstream/records/README.md",
+      "source_path": "test-harness/trace/records/README.md",
+      "bytes": 10159,
+      "sha256": "230e18cf06e30e041d126da4d78e52252915d9d40b0674482e61d7ba95687d1c",
+      "git_blob": "3e03d3cc1dfa94273919bd0604d5327bababe32d"
+    },
+    {
+      "path": "upstream/records/revocation-trace-local-20261004T122943Z.jsonl",
+      "source_path": "test-harness/trace/records/revocation-trace-local-20261004T122943Z.jsonl",
+      "bytes": 116345,
+      "sha256": "1dbe4db8f996fa4784d6f6a8ce8d0fa58d9c4c9a136f60b9b5914e995e03daff",
+      "git_blob": "e7f96c87d60c12d577746d35dc5479d1f474f2a3"
+    },
+    {
+      "path": "upstream/records/revocation-trace-local-20261004T122943Z.manifest.json",
+      "source_path": "test-harness/trace/records/revocation-trace-local-20261004T122943Z.manifest.json",
+      "bytes": 40431,
+      "sha256": "bbac3adaaca4326940a8a45b1b2f6376573ac6461d39a96ba3d72a4bc74b6d4e",
+      "git_blob": "326c52ff1b0cb67c1e05a6c5629fb00dbaf9c58c"
+    },
+    {
+      "path": "upstream/records/revocation-trace-local-20261004T122943Z.md",
+      "source_path": "test-harness/trace/records/revocation-trace-local-20261004T122943Z.md",
+      "bytes": 8526,
+      "sha256": "26d6405a6ddf729485fe37b3ff5d6100b23666770dc879bba007cf0fe5f6ceb8",
+      "git_blob": "89936b3f5a0c7951475e6c0e7c830beab9d33175"
+    },
+    {
+      "path": "upstream/records/revocation-trace-testnet-20261004T153434Z.jsonl",
+      "source_path": "test-harness/trace/records/revocation-trace-testnet-20261004T153434Z.jsonl",
+      "bytes": 53208,
+      "sha256": "66e1a9016db956fafc31c91fa00e27bd55762ccabcefa4fb0e3a8656584ee90b",
+      "git_blob": "72914b4b477bf4e149f791f00f7f6a877520a20f"
+    },
+    {
+      "path": "upstream/records/revocation-trace-testnet-20261004T153434Z.manifest.json",
+      "source_path": "test-harness/trace/records/revocation-trace-testnet-20261004T153434Z.manifest.json",
+      "bytes": 20623,
+      "sha256": "5724af97dbb3f410a23151263bbdefee75d7e6bfaef3a8e0c113cb2fc40a5d96",
+      "git_blob": "84cf1ad738a92733c00cf475af1f2e3d0ed043aa"
+    },
+    {
+      "path": "upstream/records/revocation-trace-testnet-20261004T153434Z.md",
+      "source_path": "test-harness/trace/records/revocation-trace-testnet-20261004T153434Z.md",
+      "bytes": 8107,
+      "sha256": "41e1318b426a0b6e699490412c32775751755e16773eceaea39bc7fc294ec5c8",
+      "git_blob": "c47302d3a55122570086de05723954c94b47dc2f"
+    },
+    {
+      "path": "upstream/records/revocation-trace-testnet-20261005T022948Z.jsonl",
+      "source_path": "test-harness/trace/records/revocation-trace-testnet-20261005T022948Z.jsonl",
+      "bytes": 54336,
+      "sha256": "95b8c1dd2493d779d2d4b6ec98f22d1abee5c17fca4c2ba3430c5e9f592b7a63",
+      "git_blob": "41e6a1f07ea8fae5a277e510939f6c270c71bb88"
+    },
+    {
+      "path": "upstream/records/revocation-trace-testnet-20261005T022948Z.manifest.json",
+      "source_path": "test-harness/trace/records/revocation-trace-testnet-20261005T022948Z.manifest.json",
+      "bytes": 20224,
+      "sha256": "b9207de62f3ff0dd0deeedef9082d34983fc2bc3a215cd91e0feabd5bab544dd",
+      "git_blob": "9fba21892961c22d6b722c59b6aaa3f905c0c09f"
+    },
+    {
+      "path": "upstream/records/revocation-trace-testnet-20261005T022948Z.md",
+      "source_path": "test-harness/trace/records/revocation-trace-testnet-20261005T022948Z.md",
+      "bytes": 8861,
+      "sha256": "f9abc4e9dd0292d730458269ddfdf8546f2694117154d1d244104459d85a6c7e",
+      "git_blob": "8618b020a5a4badc350525f2da468ce61c194df6"
+    },
+    {
+      "path": "upstream/LICENSE",
+      "source_path": "LICENSE",
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "git_blob": "d645695673349e3947e8e5ae42332d0ac3164cd7"
+    },
+    {
+      "path": "upstream/NOTICE",
+      "source_path": "NOTICE",
+      "bytes": 565,
+      "sha256": "7d23735f9b2d987456cce8c4bded0d85985bd515f86991ddcea475943e46a106",
+      "git_blob": "f33728e1dc6e7ede200c405e3470eb2a2c6e7c6c"
+    }
+  ],
+  "source_limits": [
+    "Published source bytes do not authenticate trace operator, deployed chain, service build, identity or action effects.",
+    "The original October 4 tag is unavailable; these are later pinned published copies of older records, with stated revision claims kept separate."
+  ]
+}

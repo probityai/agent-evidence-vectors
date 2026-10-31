@@ -35,6 +35,11 @@ jobs:
         run: uv sync --extra dev
       - name: check page routes and links
         run: uv run --extra dev python -m pytest -q scripts/test_site_navigation.py
+      # pages/ holds the identifier pages imported from agent-evidence, which
+      # w3id.org/agent-evidence/ resolves to on the organisation site. This
+      # site does not serve them; the check keeps their pins honest here.
+      - name: every imported predicate page matches its pin
+        run: python3 scripts/check_predicate_pages.py
       - name: build the site from tracked files
         run: uv run python docs/site/build.py --out _site
       - name: the built pages load nothing from another host

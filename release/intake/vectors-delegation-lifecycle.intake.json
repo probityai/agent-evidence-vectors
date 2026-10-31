@@ -9,7 +9,7 @@
     "total": 54
   },
   "anchor": {
-    "kind": "signed-digest-list",
+    "kind": "digest-list-line",
     "manifest": "vectors-delegation-lifecycle/MANIFEST.json",
     "reference": {
       "path": "release/CORPUS-DIGESTS.txt",
@@ -19,13 +19,6 @@
     "routine-file": "vectors-delegation-lifecycle/digest.py",
     "serialization": "corpus-routine",
     "sha256": "84ba70d6a54bfc1badf80a54655814c089bd220e9d81637d2262ac84e2a63442",
-    "signature": {
-      "key": "release/cosign.pub",
-      "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
-      "path": "release/CORPUS-DIGESTS.txt.sig",
-      "scheme": "ed25519",
-      "serialization": "bytes"
-    },
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -76,7 +69,7 @@
       },
       "path": "vectors-delegation-lifecycle/README.md",
       "serialization": "bytes",
-      "sha256": "2057e1808e88880901775c5e66231397f65683ed2fe21d868178c46a2a8ffb50"
+      "sha256": "33251aa6e465d26060c2a0b082e38076dce1b566acfec4c9eb60fd0914fb0829"
     },
     {
       "consumed": "unconsumed",
@@ -122,7 +115,7 @@
       },
       "path": "vectors-delegation-lifecycle/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "30c013a2333ea3e015a0f5cc82942d922963cdf447215baeb73ee266621c0e46"
+      "sha256": "98eaffc587629df2bfecbfd6e77fa0036bdcde948babb3a041d0b5947fef784a"
     },
     {
       "consumed": "unconsumed",
@@ -197,7 +190,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "eda8bc115cc19e8df0e173d4cc5080be70d270be8d562d3dc0350383b0801555"
+      "sha256": "7a52bc96a6a12d5112ccf784607b3b1567e335a14bea85246f05ccd911eb0392"
     },
     "runtime": {
       "name": "go",
@@ -646,7 +639,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "697f4c393c160007bfa18462749c61f9289618c2f8fbfab3c811796b0f7b78ac"
+    "sha256": "955e9cb9f22763ffc50062a97dc9f5a890f0fb1fc2486e3a922e760a06f7259e"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -712,7 +705,7 @@
       "subagent-respawn-unrecorded"
     ],
     "path": "vectors-delegation-lifecycle/MANIFEST.json",
-    "sha256": "1265f6922f2d4dc8e03ee0390eacc1a217f331743d408cb3d8085e5c7b4fe67c"
+    "sha256": "ed5cf480d22ff731f97f574b2d9da1a705d3bf2735cd5dd36865e778f60d0a1b"
   },
   "members": [
     {
@@ -3799,6 +3792,7 @@
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
       "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
     ]
   },

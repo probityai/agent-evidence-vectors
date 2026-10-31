@@ -1,0 +1,192 @@
+# Agent change admission, on Kyverno's CEL rail.
+#
+# Admit a Pod only when its image carries an agent-change-admission v1
+# attestation, signed by the pinned issuer key, whose decision admitted exactly
+# the harness this deployment pins, with every gate it requires recorded once
+# and passed. The rego module `../rego/agent_change_admission.rego` is the
+# reference for every rule here; `../conformance/run_change_admission_conformance.py`
+# drives the same vectors through both and refuses a disagreement.
+#
+# WHY THE HARNESS DIGEST IS PINNED HERE. A cosign attestation attached to an
+# image names that image as its subject, so the statement's subject is the image
+# and never the harness inside it. Kyverno binds the attestation to the image by
+# verifying it for that image digest. What remains is which harness the image is
+# allowed to carry, and that is a fact about this deployment: replace the
+# `PIN-ME-` value of `pinnedHarness` below with the harness digest you admit. Left
+# as the placeholder, the policy admits nothing.
+#
+# WHAT THIS RAIL CHECKS THAT THE REGO MODULE ALSO CHECKS: the predicate type, the
+# statement type, every required field of the decision with its type, the pinned
+# harness digest, each required gate recorded once and passed, and the admitted
+# flag. What it leaves to Kyverno itself: the envelope signature, checked by
+# `verifyAttestationSignatures` against the pinned key, and the image binding.
+# What neither establishes: that the evaluations the decision names ran, or that
+# the reports it names are true.
+#
+# MINIMUM KYVERNO VERSION. The `v1` API of ImageValidatingPolicy first appears in
+# v1.17.0; the CI pin is v1.18.2.
+apiVersion: policies.kyverno.io/v1
+kind: ImageValidatingPolicy
+metadata:
+  name: agent-change-admission-cel
+  annotations:
+    policies.kyverno.io/title: agent change admission (CEL)
+    policies.kyverno.io/subject: Pod
+    policies.kyverno.io/description: >-
+      Admit a workload only when its image carries a signed agent change admission
+      decision that admitted the pinned harness with every required gate passed.
+spec:
+  # Fail closed. An image whose attestation cannot be fetched, verified or evaluated
+  # is refused, never admitted with a warning.
+  failurePolicy: Fail
+  validationActions:
+    - Deny
+  evaluation:
+    mode: Kubernetes
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: ["v1"]
+        operations: ["CREATE", "UPDATE"]
+        resources: ["pods"]
+  matchImageReferences:
+    - glob: "PIN-ME-REPLACE-WITH-THE-IMAGE-GLOB-THIS-POLICY-GOVERNS/*"
+  attestors:
+    - name: issuer
+      cosign:
+        key:
+          data: |
+            -----BEGIN PUBLIC KEY-----
+            PIN-ME-REPLACE-WITH-THE-ADMISSION-ISSUER-PUBLIC-KEY
+            -----END PUBLIC KEY-----
+  attestations:
+    - name: admission
+      intoto:
+        type: https://github.com/probityai/agent-evidence-vocabulary/blob/main/docs/predicates/agent-change-admission-v1.md
+
+  variables:
+    # `extractPayload` errors unless `verifyAttestationSignatures` ran for the same
+    # attestation, so this variable is a precondition of every expression below.
+    - name: verified
+      expression: >-
+        images.containers.map(image,
+          verifyAttestationSignatures(image, attestations.admission, [attestors.issuer]))
+    # The full in-toto Statement: `_type`, `subject`, `predicateType`, `predicate`.
+    - name: statement
+      expression: extractPayload(images.containers[0], attestations.admission)
+    - name: decision
+      expression: >-
+        has(variables.statement.predicate) && type(variables.statement.predicate) == map
+          ? variables.statement.predicate : {}
+    # The gates this deployment requires: the closed set, unless you remove one.
+    - name: requiredGates
+      expression: >-
+        ["replay", "heldout", "no_regression", "benign_twins", "overfit_lint", "authority"]
+    - name: pinnedHarness
+      expression: >-
+        "PIN-ME-REPLACE-WITH-THE-ADMITTED-HARNESS-DIGEST"
+    - name: checks
+      expression: >-
+        has(variables.decision.checks) && type(variables.decision.checks) == list
+          ? variables.decision.checks : []
+    - name: evaluator
+      expression: >-
+        has(variables.decision.evaluator) && type(variables.decision.evaluator) == map
+          ? variables.decision.evaluator : {}
+
+  validations:
+    # -- the type gate ----------------------------------------------------------
+    - expression: >-
+        has(variables.statement.predicateType)
+        && variables.statement.predicateType ==
+           "https://github.com/probityai/agent-evidence-vocabulary/blob/main/docs/predicates/agent-change-admission-v1.md"
+        && has(variables.statement.predicate) && type(variables.statement.predicate) == map
+      message: "unsupported_predicate"
+
+    - expression: variables.verified.all(e, e > 0)
+      message: "the admission attestation is not signed by the pinned issuer key"
+
+    - expression: >-
+        has(variables.statement._type)
+        && variables.statement._type == "https://in-toto.io/Statement/v1"
+      message: "unsupported_statement_type"
+
+    # -- the decision's required fields, in the reference verifier's order -------
+    - expression: >-
+        has(variables.decision.parent) && type(variables.decision.parent) == string
+        && size(variables.decision.parent) > 0
+      message: "payload_field_invalid:parent"
+    - expression: >-
+        has(variables.decision.candidate) && type(variables.decision.candidate) == string
+        && size(variables.decision.candidate) > 0
+      message: "payload_field_invalid:candidate"
+    - expression: >-
+        has(variables.decision.candidate_digest)
+        && type(variables.decision.candidate_digest) == string
+        && variables.decision.candidate_digest.matches("^[0-9a-f]{64}$")
+      message: "payload_field_invalid:candidate_digest"
+    - expression: >-
+        has(variables.evaluator.version) && type(variables.evaluator.version) == string
+        && size(variables.evaluator.version) > 0
+      message: "payload_field_invalid:evaluator"
+    - expression: >-
+        has(variables.evaluator.components)
+        && type(variables.evaluator.components) == map
+        && has(variables.evaluator.components.suite_file)
+        && type(variables.evaluator.components.suite_file) == string
+        && variables.evaluator.components.suite_file.matches("^[0-9a-f]{64}$")
+      message: "payload_field_invalid:evaluator.components.suite_file"
+    - expression: >-
+        has(variables.decision.exceptions) && type(variables.decision.exceptions) == list
+        && variables.decision.exceptions.all(e, type(e) == string)
+      message: "payload_field_invalid:exceptions"
+    - expression: >-
+        has(variables.decision.admitted) && type(variables.decision.admitted) == bool
+      message: "payload_field_invalid:admitted"
+    - expression: >-
+        has(variables.decision.checks) && type(variables.decision.checks) == list
+        && variables.decision.checks.all(c,
+             type(c) == map && has(c.name) && type(c.name) == string
+             && has(c.passed) && type(c.passed) == bool)
+      message: "payload_field_invalid:checks"
+    - expression: >-
+        has(variables.decision.corpus_digests)
+        && type(variables.decision.corpus_digests) == map
+        && variables.decision.corpus_digests.all(k,
+             k.matches("^[^\\x00-\\x1f\\x7f]{1,200}$")
+             && type(variables.decision.corpus_digests[k]) == string
+             && variables.decision.corpus_digests[k].matches("^[0-9a-f]{64}$"))
+      message: "payload_field_invalid:corpus_digests"
+    - expression: >-
+        has(variables.decision.report_digests)
+        && type(variables.decision.report_digests) == map
+        && size(variables.decision.report_digests) > 0
+        && variables.decision.report_digests.all(k,
+             k.matches("^[^\\x00-\\x1f\\x7f]{1,200}$")
+             && type(variables.decision.report_digests[k]) == string
+             && variables.decision.report_digests[k].matches("^[0-9a-f]{64}$"))
+      message: "payload_field_invalid:report_digests"
+
+    # -- which harness ----------------------------------------------------------
+    - expression: variables.pinnedHarness.matches("^[0-9a-f]{64}$")
+      message: "expected_candidate_digest_invalid"
+    - expression: >-
+        has(variables.decision.candidate_digest)
+        && variables.decision.candidate_digest == variables.pinnedHarness
+      message: "candidate_digest_mismatch"
+
+    # -- gates and the admitted flag ----------------------------------------------
+    - expression: >-
+        variables.requiredGates.all(g,
+          variables.checks.filter(c,
+            type(c) == map && has(c.name) && c.name == g).size() == 1)
+      message: "a required gate is missing or recorded more than once"
+    - expression: >-
+        has(variables.decision.admitted) && variables.decision.admitted == true
+      message: "not_admitted"
+    - expression: >-
+        variables.requiredGates.all(g,
+          variables.checks.all(c,
+            !(type(c) == map && has(c.name) && c.name == g)
+            || (has(c.passed) && c.passed == true)))
+      message: "a required gate failed"

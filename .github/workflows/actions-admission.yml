@@ -1,0 +1,128 @@
+name: actions-admission
+
+# Every check of the root action.yml and actions/admission. ci.yml calls this when a
+# change touches actions/, packages/admission (the rules the Action runs) or a shared
+# file, which includes action.yml itself.
+#
+# tests: run.py against every vector this repository holds for the three rule sets,
+# with the opa the Action pins, installed by the Action's own installer.
+# self-test: the Action itself, called as `uses: ./` the way a consumer calls it, on
+# each runner it pins an opa for. It installs the checker wheel from PyPI by hash.
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa # v10.3.1
+        with:
+          version: "0.12.8"
+          enable-cache: false
+      - name: install the pinned opa with the Action's installer
+        run: |
+          set -euo pipefail
+          opa="$(python3 actions/admission/run.py install-opa "$RUNNER_TEMP/bin")"
+          "$opa" version
+          echo "OPA=$opa" >> "$GITHUB_ENV"
+      - name: the runner answers every vector as the rules declare
+        run: uv run --frozen --only-group dev python -m pytest actions/admission/tests -ra
+
+  self-test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, ubuntu-24.04-arm, macos-15, macos-15-intel]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: write an artifact, a statement that names it, and the sample's pins
+        run: |
+          set -euo pipefail
+          printf 'abc' > "$RUNNER_TEMP/artifact.txt"
+          printf 'abd' > "$RUNNER_TEMP/other.txt"
+          cat > "$RUNNER_TEMP/statement.json" <<'JSON'
+          {"_type": "https://in-toto.io/Statement/v1",
+           "subject": [{"name": "artifact.txt", "digest": {"sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"}}],
+           "predicateType": "https://example.org/digest-demo/v1", "predicate": {}}
+          JSON
+          cat > "$RUNNER_TEMP/pins.json" <<'JSON'
+          {"consumer": {
+            "expected_corpus_digest": "cc1bdef2ffca96d86a636e5a9fb27a4a111836773e0dd1368d8de94f413979be",
+            "expected_substrate_digest": "018bbaf3710e526b0653abafbd3bd3c3356150d747db166021f1e107446c85bb",
+            "demanded_classes": ["XA"]}}
+          JSON
+      - name: digest, named bytes
+        id: digest-pass
+        uses: ./
+        with:
+          check: digest
+          document: ${{ runner.temp }}/statement.json
+          artifacts: ${{ runner.temp }}/artifact.txt
+      - name: digest, other bytes
+        id: digest-fail
+        continue-on-error: true
+        uses: ./
+        with:
+          check: digest
+          document: ${{ runner.temp }}/statement.json
+          artifacts: |
+            ${{ runner.temp }}/artifact.txt
+            ${{ runner.temp }}/other.txt
+      - name: policy, pinned consumer
+        id: policy-pass
+        uses: ./
+        with:
+          check: policy
+          statement: packages/admission/samples/adversarial-execution-evidence.pass.statement.json
+          pins: ${{ runner.temp }}/pins.json
+      - name: policy, consumer that pinned nothing
+        id: policy-fail
+        continue-on-error: true
+        uses: ./
+        with:
+          check: policy
+          statement: packages/admission/samples/adversarial-execution-evidence.pass.statement.json
+      - name: coverage, every required class accounted for
+        id: coverage-pass
+        uses: ./
+        with:
+          check: coverage
+          document: packages/admission/python/vectors/coverage/cdx-2.0-proposed.json
+          required: packages/admission/python/vectors/coverage/required-cyclonedx.json
+      - name: coverage, a required class the document never states
+        id: coverage-fail
+        continue-on-error: true
+        uses: ./
+        with:
+          check: coverage
+          document: packages/admission/python/vectors/coverage/cdx-1.6-baseline.json
+          required: packages/admission/python/vectors/coverage/required-cyclonedx.json
+      - name: each call admitted or refused as it should
+        env:
+          COVERAGE_PASS: ${{ steps.coverage-pass.outcome }}/${{ steps.coverage-pass.outputs.result }}/${{ steps.coverage-pass.outputs.refusals }}
+          COVERAGE_FAIL: ${{ steps.coverage-fail.outcome }}/${{ steps.coverage-fail.outputs.result }}/${{ steps.coverage-fail.outputs.refusals }}
+          DIGEST_PASS: ${{ steps.digest-pass.outcome }}/${{ steps.digest-pass.outputs.result }}/${{ steps.digest-pass.outputs.refusals }}
+          DIGEST_FAIL: ${{ steps.digest-fail.outcome }}/${{ steps.digest-fail.outputs.result }}/${{ steps.digest-fail.outputs.refusals }}
+          POLICY_PASS: ${{ steps.policy-pass.outcome }}/${{ steps.policy-pass.outputs.result }}/${{ steps.policy-pass.outputs.refusals }}
+          POLICY_FAIL: ${{ steps.policy-fail.outcome }}/${{ steps.policy-fail.outputs.result }}/${{ steps.policy-fail.outputs.refusals }}
+        run: |
+          set -euo pipefail
+          printf '%s\n' "digest pass $DIGEST_PASS" "digest fail $DIGEST_FAIL" "policy pass $POLICY_PASS" "policy fail $POLICY_FAIL"
+          test "$DIGEST_PASS" = "success/admitted/0"
+          test "$DIGEST_FAIL" = "failure/refused/1"
+          test "$POLICY_PASS" = "success/admitted/0"
+          test "$POLICY_FAIL" = "failure/refused/1"
+          test "$COVERAGE_PASS" = "success/admitted/0"
+          test "$COVERAGE_FAIL" = "failure/refused/4"

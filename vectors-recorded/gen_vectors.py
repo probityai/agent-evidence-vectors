@@ -196,6 +196,8 @@ def main() -> int:
         "corpusDigest": digest,
         "vectors": entries,
     }
+    verdict_words = [entry["expected"]["verdict"] for entry in entries]
+    manifest["counts"] = {word: verdict_words.count(word) for word in sorted(set(verdict_words))}
     (ROOT / "MANIFEST.json").write_bytes(reader.canonical(manifest))
     (ROOT / "INDEX.md").write_text(_index(entries, digest), encoding="utf-8")
     return 0

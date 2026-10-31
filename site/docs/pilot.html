@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Sankalp Gilda" />
+  <meta name="description" content="Probity&#x27;s proposed APS and PriorSeal Open Evidence Lab pilot, source pins, technical replay, owners to confirm, acceptance gates and open decisions." />
+  <title>APS and PriorSeal: proposed Lab pilot - Agent Evidence Conformance Board</title>
+  <link rel="canonical" href="https://probityai.github.io/agent-evidence-atlas/pilot.html" />
+  <link rel="alternate" type="text/markdown" href="https://probityai.github.io/agent-evidence-atlas/pilot.md" />
+  <link rel="describedby" href="https://probityai.github.io/agent-evidence-atlas/llms.txt" />
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <nav aria-label="Site">
+    <a class="home" href="index.html">Agent Evidence Conformance Board</a>
+    <span class="links">
+      <a href="start.html">Choose a component</a>
+      <a href="lab.html">Open Evidence Lab</a>
+      <a href="status.html">Claim status</a>
+      <a href="runs.html">Find a run</a>
+      <a href="board.html">Conformance board</a>
+      <a href="pilot.html">Pilot status</a>
+      <a href="atlas.html">Atlas</a>
+      <a href="experiments.html">Experiments</a>
+      <a href="claims.html">Claims</a>
+      <a href="versions.html">Versions</a>
+    </span>
+  </nav>
+</header>
+<main id="main" tabindex="-1">
+<header class="page">
+<h1>APS and PriorSeal: proposed Lab pilot</h1>
+<p class="subtitle">One pinned decision, one receipt, and a reader that shows exactly what the pair establishes</p>
+<p class="status">Proposed, 1 October 2026. Probity coordinates this work. APS, PriorSeal and Frequency have not confirmed this pilot or accepted its results.</p>
+</header>
+<nav class="toc" aria-label="Contents">
+<p class="toc-title">Contents</p>
+<ul>
+<li><a href="#starting-evidence" id="toc-starting-evidence">Starting evidence</a></li>
+<li><a href="#roles-and-acceptance" id="toc-roles-and-acceptance">Roles and acceptance</a></li>
+<li><a href="#open-decisions-and-next-review" id="toc-open-decisions-and-next-review">Open decisions and next review</a></li>
+</ul>
+</nav>
+<p>Probity is preparing one <a href="lab.html">Open Evidence Lab</a> pilot around the APS decision and PriorSeal receipt. The question is whether a reader can independently check the declared signatures and the association between a particular decision, authorized call and receipt from pinned owner bytes. The answer must show each established, contradicted and unestablished assertion. A valid envelope or a single <code>VERIFIED</code> label would leave too much of that question unanswered.</p>
+<p>This page is Probity’s work register. Its state is <strong>proposed</strong>. It records no agreement by APS, PriorSeal, Frequency or the <a href="https://github.com/aeoess/agent-governance-vocabulary/issues/185">federation discussion</a>, and it is not a reviewed Lab result. Probity will coordinate the question, maintain the public status, and implement and run the reader. Each producer can speak only for its own artifact; an independently operated reader or custodian needs a separately named operator and trust boundary.</p>
+<h2 id="starting-evidence">Starting evidence</h2>
+<p>The <a href="https://github.com/probityai/agent-evidence-atlas/pull/5">merged source-replay PR #5</a> contains Probity’s runnable check of the unmodified Frequency review adapter at revision <a href="https://github.com/altrudev/Frequency-Federation-Review/tree/4162622af24c94efb843f53aa27940ffd1256ad6/capsules/aps-priorseal-v0.1"><code>4162622</code></a>. It reads the <a href="https://github.com/aeoess/agent-passport-system/tree/948f99b85343bef2c6fa677c8543965caacfc087/fixtures/priorseal-decision-binding">APS owner fixture at <code>948f99b</code></a> and the <a href="https://github.com/imokokok/PriorSeal/tree/d749d2691c3e6be139de4020e7b27cdafca2c428/examples/aps-priorseal-decision-binding-v1">PriorSeal copy and observations at <code>d749d26</code></a>. The runner also pins the adapter, dependency lockfile, manifests and selected reports by SHA-256. Its <a href="https://github.com/probityai/agent-evidence-atlas/blob/516bd0aa0f93e94ee6877f64dbd122c52545f388/experiments/aps-priorseal-source-replay/RUN.md">procedure</a> and <a href="https://github.com/probityai/agent-evidence-atlas/blob/516bd0aa0f93e94ee6877f64dbd122c52545f388/experiments/aps-priorseal-source-replay/recorded.json">recorded outcomes</a> are pinned to the PR’s October 1 head.</p>
+<p>That technical replay compared all <strong>17 declared owner/copy fixture files</strong> byte for byte. The clean run reported <strong>14 established, 3 contradicted and 5 not established</strong> claims. A changed copy and a missing owner refused; omission of the owner flag refused; a failed rerun left an old output file, which the runner rejected as stale. The <a href="https://github.com/probityai/agent-evidence-atlas/actions/runs/36910480718">source-replay CI run</a> passed on the exact PR head, and PR #5 merged on 1 October. It retains Probity’s receipt as an artifact; the full generated adapter report and third-party source checkouts remain in the job. These are technical results for public fixtures using the review adapter, whose expected outcomes were visible. They do not establish mutation adequacy, live payment execution, independent custody, production adoption or approval of a formal pilot.</p>
+<p>There is a separate run-contract limit. In the <a href="https://github.com/altrudev/Frequency-Federation-Review/blob/b12879d5878991d9c3ed260d06ee11716eb99d33/capsules/aps-priorseal-v0.1/run-pinned.sh">pinned review wrapper at <code>b12879d</code></a>, stubbed command failures and an absent output report still led to a zero exit, a recorded zero and <code>PASS</code>. Probity’s <a href="https://github.com/probityai/agent-evidence/tree/main/site/experiments/aps-priorseal-source-replay">bounded control</a> checks those cases without evaluating adapter claims. Our replay invokes the adapter directly and accepts a result only with a zero exit and a fresh report. A wrapper status on its own is not evidence of a completed check.</p>
+<h2 id="roles-and-acceptance">Roles and acceptance</h2>
+<p>The <a href="replay-tools.html">replay tools guide</a> describes the current tools, which require callers to declare their runner identity. They retain the entrypoint and helper source hashes separately from producer input pins. The <a href="https://github.com/probityai/agent-evidence/blob/main/site/experiments/aps-priorseal-source-replay/RUN.md#use-copied-tools-outside-an-atlas-checkout">copied-file procedure</a> supports callers without an Atlas checkout. A declared identity does not prove who controlled the operator, keys or storage. Old receipts and pilot decisions keep the scope they were issued under.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Work / Proposed owner / Decision needed">
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Work</th>
+<th>Proposed owner</th>
+<th>Decision needed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Scope, status and retained result</td>
+<td>Probity coordinator and Lab reader</td>
+<td>Publish an exact claim set, source pins, checked fields, raw run receipt and all refusals; record the reader revision, runner and exposure to expected results</td>
+</tr>
+<tr>
+<td>APS decision bytes and meaning</td>
+<td>APS artifact owner, <strong>unconfirmed</strong></td>
+<td>Confirm the selected owner fixture, decision reference, authorized call and what its signature is meant to assert</td>
+</tr>
+<tr>
+<td>PriorSeal receipt bytes and meaning</td>
+<td>PriorSeal artifact owner, <strong>unconfirmed</strong></td>
+<td>Confirm the selected receipt, key and observation semantics, including what the fixture does not prove about an actual payment</td>
+</tr>
+<tr>
+<td>Frequency review adapter</td>
+<td>Frequency maintainer, <strong>unconfirmed</strong></td>
+<td>Confirm only the adapter revision and allowed use under its notice; any formal or shared result needs a separate scope decision</td>
+</tr>
+<tr>
+<td>Independent reading or custody</td>
+<td>Operator <strong>unassigned</strong></td>
+<td>Name who holds policy, keys, witness head and results outside producer control; document how the reader obtains them</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The first gate is an owner-confirmed, immutable input manifest and field-level question. The second is a fresh run with zero exit status, retained command, dependency pins, stdout, stderr, full report, hashes and negative cases. An independent implementation must recompute the signature and decision-to-call-to-receipt binding rather than accept the adapter’s label. Controls must distinguish a changed owner or copy byte, missing owner, wrong key, wrong decision reference, changed call or cap, and a stale output. Each control needs its exact refusal and unchanged claim ceiling. Probity will publish the result and review trail in the <a href="lab/register.json">Lab register</a> only when actual retained files and measured claim bindings pass its <a href="lab.html">protocol</a>; this proposed page is not a register entry.</p>
+<p>An actual action/effect pilot is a further gate. It requires a preselected consumer policy, an observed effect and coverage boundary, independently acquired trust anchors where independence is claimed, and a decision tied to the exact evidence bytes. A producer fixture or an adapter signature result cannot fill those fields. The result should keep <code>supported</code>, <code>contradicted</code>, <code>unestablished</code> and disputed claims visible rather than turn them into one pass mark.</p>
+<h2 id="open-decisions-and-next-review">Open decisions and next review</h2>
+<ul>
+<li><strong>Owner scope:</strong> APS and PriorSeal have not confirmed a shared artifact description, selected pair or public formal pilot. Seek each owner’s confirmation on its own side before reporting one.</li>
+<li><strong>Mutation adequacy:</strong> Source binding controls passed the bounded technical replay. Wrong-key, wrong-decision, changed-call and adversarial composition cases still need discriminating fixtures and a separate adequacy review.</li>
+<li><strong>Reuse:</strong> Frequency’s <a href="https://github.com/altrudev/Frequency-Federation-Review/blob/4162622af24c94efb843f53aa27940ffd1256ad6/REVIEW-ONLY-NOTICE.md">review-only notice</a> allows technical review and reproducibility assessment, but withholds commercial incorporation and redistribution of modified or derivative Frequency implementations. The PR invokes pinned sources without copying their implementation or fixtures into this repository. Reusing Frequency’s schema or implementation in a shared deliverable needs a separate permission decision.</li>
+<li><strong>Result custody:</strong> The October 1 CI retains a bounded Probity receipt; a formal Lab record needs the complete run inputs and outputs under clear reuse terms, plus a named runner and reviewer. Separate keys or repositories alone do not establish independent operation.</li>
+</ul>
+<p>Probity’s next status review is <strong>6 October 2026</strong>: recheck the exact PR head and CI, confirm whether the owners have answered their respective scope questions, freeze the intended controls, and record any unresolved objections here. If the answers are absent, the state stays <strong>proposed</strong>. Neither a map listing nor technical participation counts as joining a coalition or accepting a commercial role.</p>
+</main>
+<footer class="site">
+  <p>Every number on this site has a source, a read time and a re-derive command in the <a href="claims.html">claim ledger</a>. Site version 0.6-draft, 2026-10-01. <a href="versions.html#documentation-revisions">Page revisions</a>.</p>
+</footer>
+</body>
+</html>

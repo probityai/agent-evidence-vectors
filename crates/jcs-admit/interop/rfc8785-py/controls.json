@@ -1,0 +1,115 @@
+{
+  "schema": "jcs-admit.rfc8785-py.raw-controls.v1",
+  "cases": [
+    {
+      "name": "duplicate-member",
+      "profile": "rfc8785",
+      "raw": "{\"a\":1,\"a\":2}",
+      "rust_error": "DuplicateMember",
+      "python": {
+        "status": "accepted",
+        "canonical_hex": "7b2261223a327d"
+      }
+    },
+    {
+      "name": "escaped-duplicate-member",
+      "profile": "rfc8785",
+      "raw": "{\"a\":1,\"\\u0061\":2}",
+      "rust_error": "DuplicateMember",
+      "python": {
+        "status": "accepted",
+        "canonical_hex": "7b2261223a327d"
+      }
+    },
+    {
+      "name": "unsafe-integer-token",
+      "profile": "ijson",
+      "raw": "9007199254740993",
+      "rust_error": "UnsafeInteger",
+      "python": {
+        "status": "refused",
+        "error_class": "IntegerDomainError"
+      }
+    },
+    {
+      "name": "unsafe-decimal-token",
+      "profile": "ijson",
+      "raw": "9007199254740993.0",
+      "rust_error": "UnsafeInteger",
+      "python": {
+        "status": "accepted",
+        "canonical_hex": "39303037313939323534373430393932"
+      }
+    },
+    {
+      "name": "unpaired-surrogate",
+      "profile": "rfc8785",
+      "raw": "\"\\ud800\"",
+      "rust_error": "StringNotScalar",
+      "python": {
+        "status": "refused",
+        "error_class": "CanonicalizationError"
+      }
+    },
+    {
+      "name": "nonfinite-number",
+      "profile": "rfc8785",
+      "raw": "1e309",
+      "rust_error": "NonFiniteNumber",
+      "python": {
+        "status": "refused",
+        "error_class": "FloatDomainError"
+      }
+    },
+    {
+      "name": "noncharacter-profile",
+      "profile": "ijson",
+      "raw": "\"\\uffff\"",
+      "rust_error": "StringNotScalar",
+      "python": {
+        "status": "accepted",
+        "canonical_hex": "22efbfbf22"
+      }
+    },
+    {
+      "name": "fractional-integer-profile",
+      "profile": "ijson-integers",
+      "raw": "1.5",
+      "rust_error": "NonIntegerNumber",
+      "python": {
+        "status": "accepted",
+        "canonical_hex": "312e35"
+      }
+    },
+    {
+      "name": "depth-cap",
+      "profile": "rfc8785",
+      "raw": "[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[0]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]",
+      "rust_error": "TooDeep",
+      "python": {
+        "status": "accepted",
+        "canonical_hex": "5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b305d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d"
+      }
+    },
+    {
+      "name": "safe-integer",
+      "profile": "ijson",
+      "raw": "9007199254740991",
+      "rust_canonical_hex": "39303037313939323534373430393931",
+      "python": {
+        "status": "accepted",
+        "canonical_hex": "39303037313939323534373430393931"
+      }
+    },
+    {
+      "name": "utf16-member-order",
+      "profile": "rfc8785",
+      "raw": "{\"\\ue000\":2,\"\\ud83d\\ude00\":1}",
+      "rust_canonical_hex": "7b22f09f9880223a312c22ee8080223a327d",
+      "python": {
+        "status": "accepted",
+        "canonical_hex": "7b22f09f9880223a312c22ee8080223a327d"
+      }
+    }
+  ]
+}

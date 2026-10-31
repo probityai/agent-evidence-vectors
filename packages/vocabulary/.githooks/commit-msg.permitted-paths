@@ -1,0 +1,42 @@
+# Owner-qualified repository paths the identity rules must not refuse.
+#
+# The public repository can name its owning organization and its verifier.
+# The website and unrelated private names stay forbidden.
+# A clone URL, badge target, citation, action reference or Go module path must
+# be able to name its owner and repository.
+#
+# The rules no longer refuse the bare word these names are built on, so none of
+# the permits below is what lets a name through today. They stay as the
+# definition of the shapes this repository names itself by, and the tests
+# assert that the website still fails beside every one of them.
+#
+# THIS FILE IS THE ONLY DEFINITION, and that is the point of it. Three guards
+# rule on the same strings -- .githooks/commit-msg (commit messages, as a hook
+# and in CI), scripts/pre-push-identity-scan.py (pushed history) and
+# scripts/forbidden-word-scan.py (tracked file contents). The two scanners held
+# one hand-copied regex each and the hook held none, so the hook refused a
+# module path the scanners explicitly permitted: a module-path rename could not
+# state the path it was changing in the message of the commit that changed it.
+# A permit is the one rule shape that can only ever loosen, and a loosening
+# nobody notices looks exactly like the control working, so it is held in one
+# place and asserted in both directions by scripts/pre-push-identity-scan-test.py.
+#
+# FORMAT: one permit per line, exactly two tab-separated fields,
+# `<hex><TAB><regex>`. The compiled pattern is
+# `bytes.fromhex(<hex>).decode("ascii") + <regex>`, case-insensitive. The
+# matched prefix is held hex-encoded because all three readers, and this file,
+# are themselves scanned by the guards above: a rule file that spells what its
+# siblings forbid refuses its own commit. `#` comments and blank lines are
+# ignored.
+#
+# An ABSENT file means no permits at all. That is the fail-closed
+# direction and it is what keeps the hook byte-shareable with a repository that
+# has none. A MALFORMED line is a hard failure rather than a dropped permit: a
+# guard whose rule surface failed to load has verified nothing, and a permit
+# that failed to load reads as the guard working.
+#
+# ONE URL SHAPE BEYOND THE CLONE URL. The organisation's Pages host is the same
+# owner written as a hostname (`<handle>.github.io/<repository>/...`) and it is
+# where the published predicate type URIs live, so it is permitted in exactly the
+# same repository-qualified shape and nowhere else.
+70726f626974796169	(?:\.github\.io)?/agent-evidence-(?:vectors|vocabulary|admission)(?![A-Za-z0-9_-])

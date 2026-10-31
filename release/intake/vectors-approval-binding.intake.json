@@ -8,7 +8,7 @@
     "total": 23
   },
   "anchor": {
-    "kind": "signed-digest-list",
+    "kind": "digest-list-line",
     "manifest": "vectors-approval-binding/MANIFEST.json",
     "reference": {
       "path": "release/CORPUS-DIGESTS.txt",
@@ -18,13 +18,6 @@
     "routine-file": "vectors-approval-binding/gen_vectors.py",
     "serialization": "corpus-routine",
     "sha256": "49f077e5da1227669292e7524c1d3d52eb12c2b7ad58b09c0df27d19d00fb170",
-    "signature": {
-      "key": "release/cosign.pub",
-      "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
-      "path": "release/CORPUS-DIGESTS.txt.sig",
-      "scheme": "ed25519",
-      "serialization": "bytes"
-    },
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -52,7 +45,7 @@
       },
       "path": "vectors-approval-binding/README.md",
       "serialization": "bytes",
-      "sha256": "fef3da9040c67252abe30bb73efa791338668817aa5507217a17fe3fc902630f"
+      "sha256": "fdd2affe4a0b2dfcf05b759f0d46b74be0e19018a3ddadb530a676fcf41f5494"
     },
     {
       "consumed": "unconsumed",
@@ -98,7 +91,7 @@
       },
       "path": "vectors-approval-binding/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "a4830a4e67bbc9b6665f10414c5161a14a36cd29ebcdd61c9da922c1beb7a565"
+      "sha256": "060d00e7c9e7b1fc9cb4376ff03428ed1b631ef9be9b37b2454859f51168e8ef"
     },
     {
       "consumed": "unconsumed",
@@ -173,7 +166,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "eda8bc115cc19e8df0e173d4cc5080be70d270be8d562d3dc0350383b0801555"
+      "sha256": "7a52bc96a6a12d5112ccf784607b3b1567e335a14bea85246f05ccd911eb0392"
     },
     "runtime": {
       "name": "go",
@@ -374,7 +367,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "0acb8655bac444a262fc08f8d348f605d8111250aabe2335dd9e40cd2aa918d2"
+    "sha256": "fca3daf1ab9d3cef1b7f47873eb7c3f2747ebb174e97b9eeee50754517aec62b"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -409,7 +402,7 @@
       "contract-id-unknown"
     ],
     "path": "vectors-approval-binding/MANIFEST.json",
-    "sha256": "346eef819dfba2fe1d8ba058fd1e0074f964147d804fa5ab301d00a36e1e33e1"
+    "sha256": "a8be3a474a39d1ea2e5c3121acafc28a5de9be64a4bbad6d32ab021dcc1d6b0d"
   },
   "members": [
     {
@@ -784,6 +777,7 @@
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
       "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
     ]
   },

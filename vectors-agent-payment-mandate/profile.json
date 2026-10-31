@@ -1,0 +1,29 @@
+{
+  "map": {
+    "ap2-cart-mandate": {
+      "the authorised ceiling": "mandate.terms.max_amount_minor",
+      "what ran": "execution",
+      "what the agent presented": "credential",
+      "what the user authorised": "mandate.terms",
+      "who signed it": "mandate.signature"
+    },
+    "mastercard-verifiable-intent-credential": {
+      "credential bound to the intent": "credential.mandate_digest",
+      "single use": "credential.single_use",
+      "the delegated intent": "mandate.terms",
+      "what ran": "execution"
+    },
+    "receipt": {
+      "binding of mandate and execution": "receipt",
+      "what the agent did after checkout": "post_checkout.recorded"
+    },
+    "stripe-shared-payment-token": {
+      "amount and time bound": "mandate.terms.max_amount_minor, mandate.terms.expires_at",
+      "seller the token is scoped to": "mandate.terms.merchant",
+      "token identifier": "credential.token_id",
+      "what ran": "execution"
+    }
+  },
+  "note": "Maps what each scheme binds to the receipt-side record fields this suite checks. Source side is a concept, not an upstream field name.",
+  "suite": "agent-payment-mandate/v1"
+}

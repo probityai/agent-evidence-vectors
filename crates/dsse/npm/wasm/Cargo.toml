@@ -1,0 +1,29 @@
+[package]
+name = "dsse-wasm"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.88"
+publish = false
+license = "Apache-2.0"
+description = "Public raw-byte DSSE Ed25519 verification bindings"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+dsse = { path = "../.." }
+wasm-bindgen = "=0.2.129"
+js-sys = "=0.3.106"
+serde-wasm-bindgen = "=0.6.5"
+serde = { version = "1.0", features = ["derive"] }
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_docs = "deny"
+
+[lints.clippy]
+undocumented_unsafe_blocks = "deny"
+unwrap_used = "deny"
+expect_used = "deny"
+indexing_slicing = "deny"
+panic = "deny"

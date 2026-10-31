@@ -723,6 +723,11 @@ func arVerifyRetained(raw []byte, predicateType, observerKey string, heads []arT
 	if err != nil {
 		return arReport{verdict: "malformed", code: "retained-unreadable"}, unreadable
 	}
+	_, hasEnvelope := bundle["envelope"]
+	_, hasRetention := bundle["retention"]
+	if !hasEnvelope || !hasRetention {
+		return arReport{verdict: "malformed", code: "retained-unreadable"}, unreadable
+	}
 	report := arVerify(envelope, predicateType, observerKey, disabled)
 	var parsed struct {
 		Payload string `json:"payload"`

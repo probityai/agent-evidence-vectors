@@ -1,0 +1,89 @@
+# Third-party source crosswalk; no emitted registry terms or producer acceptance claimed.
+# Atomic source: 35b4b9ad56dd6e6dd1e824f89dd3afe1cbf5cdbc (dev, read 2026-10-02).
+# Vocabulary source: 8c80579ae613d7ae07982321e13a6091c402b2a8 (registry 0.3.0).
+# All positive mappings below are inferred from source. No vocabulary term is
+# claimed emitted, no execution was run for this crosswalk, and no promotion is supported.
+# system_attributes is omitted: this scoped assessment does not establish the
+# domain-separation profile of every Atomic signing format.
+system: "Atomic SCG: agent turn records and typed verification records"
+system_url: "https://github.com/atomicdotdev/atomic/tree/35b4b9ad56dd6e6dd1e824f89dd3afe1cbf5cdbc"
+crosswalk_version: "0.1.0"
+vocabulary_version_targeted: "0.3.0"
+maintainer:
+  github: "astrogilda" # Proposed crosswalk filer, not an Atomic maintainer declaration.
+  third_party_authored: true
+summary_of_system: >
+  Atomic records agent changes, provenance and session envelopes in a content-addressed
+  graph and derives view-pinned verification and promotion decisions. This source-only
+  mapping covers implemented turn-boundary file-change capture and verification records
+  at Atomic 35b4b9ad56dd6e6dd1e824f89dd3afe1cbf5cdbc; it does not equate a
+  signature, a different reviewer key, a repository owner or a sandbox with independent
+  observation authority. None of the registry's literal observation values is claimed
+  emitted in a retained Atomic execution artifact.
+evidence_dimensions:
+  observation_vantage:
+    match: partial
+    evidence: inferred
+    source_path: "https://github.com/atomicdotdev/atomic/blob/35b4b9ad56dd6e6dd1e824f89dd3afe1cbf5cdbc/atomic-agent/src/record/mod.rs#L163"
+    notes: >
+      File-change claims are inferred as artifact-vantage: record_turn consumes the
+      working-copy status, scoped manifests and local session state. Hashed provenance
+      binds recorded bytes; it does not authenticate every supplied value's observation.
+    divergences:
+      - "Atomic does not emit the registered artifact/substrate value alongside these claims."
+      - "This inference covers turn-boundary file-change records only, not every bridge event, external signer or remote owner."
+  observation_directness:
+    match: partial
+    evidence: inferred
+    source_path: "https://github.com/atomicdotdev/atomic/blob/35b4b9ad56dd6e6dd1e824f89dd3afe1cbf5cdbc/atomic-agent/src/watcher/fallback.rs#L167"
+    notes: >
+      The implemented fallback watcher compares begin/end filesystem snapshots,
+      so the file-change observation is reconstructed. record_turn separately derives
+      the actual recorded change from repository status. Lifecycle hook capture is a
+      distinct event source and is not evidence of interception of every file effect.
+    divergences:
+      - "No per-claim registered intercepted/reconstructed field is emitted."
+      - "Endpoint file state can miss transient writes; this mapping does not assert complete tool-effect history."
+  witness_scope:
+    match: no_mapping
+    notes: >
+      No SELF/PEER/EXTERNAL field is established in the scoped Atomic artifacts.
+      docs/triage.md#L106 uses a different attributedTo identity for review; identity
+      distinctness alone does not establish an unreachable externally operated witness.
+  field_evidence_partition:
+    match: non_equivalent_similar_label
+    notes: >
+      atomic-agent/README.md#L104 separates hashed provenance/envelope from unhashed
+      transcript for integrity and redaction. That is a byte-integrity partition, not
+      the registry's per-field substrate_covered/producer_asserted authority partition.
+  issuance_time_basis:
+    match: no_mapping
+    notes: >
+      No emitted beacon_anchored/asserted issuance-time-basis field or signed unpredictable
+      beacon binding was established in this source assessment. Merkle pins identify
+      repository state and do not establish earliest-possible signing time.
+posture_and_coverage:
+  containment_posture:
+    match: non_equivalent_similar_label
+    notes: >
+      README.md#L463 describes copy-on-write working-tree and build-artifact isolation.
+      That does not emit a substrate-authoritative, digest-committed no_network,
+      allowlist, sinkhole or unsafe_bypass_egress network posture.
+  coverage_denominator:
+    match: no_mapping
+    notes: >
+      Session changes, scoped manifests and recorded file sets do not establish the
+      required externally controlled manifest partition into assessed, out-of-scope
+      with reasons and routed-elsewhere. No global absence/completeness claim follows.
+  does_not_assert:
+    match: no_mapping
+    notes: >
+      Source documentation states limitations; no registered per-statement signed
+      machine-readable doesNotAssert list was established in the scoped records.
+outcome_lattice:
+  result:
+    match: non_equivalent_similar_label
+    notes: >
+      docs/triage.md#L123 defines verification outcome pass/fail and view-relative
+      done/ready promotion gates. They are not the severity-independent normative
+      minimum fail/degraded/pass_indirect/pass over a declared execution population.

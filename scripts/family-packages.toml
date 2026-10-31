@@ -1,0 +1,14 @@
+# Every Python distribution of the Probity AI family, by its PyPI name. A release
+# of one of them is refused by scripts/family_pin_guard.py when the newest
+# published release of any other one requires a version of it that excludes the
+# candidate. Every PyPI unit in release.toml must be listed (tests/test_family_pin_guard.py
+# checks that); a distribution released from another repository is listed too,
+# because its published pins decide whether a release here installs.
+packages = [
+    "agent-evidence-vectors",
+    "agent-evidence-vocabulary",
+    "agent-evidence-admission",
+    "agent-evidence-mcp",
+    "probity-verify",
+    "jcs-admit",
+]

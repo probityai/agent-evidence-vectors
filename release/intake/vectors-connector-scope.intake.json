@@ -1,0 +1,678 @@
+{
+  "aggregate": {
+    "counts": {
+      "accepted": 4,
+      "rejected": 9
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 13
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-connector-scope/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-connector-scope/gen_vectors.py",
+    "routine-file": "vectors-connector-scope/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "873332850e34c4edad77f2ca89cfb25247a940e106f67f045acbe7186b3d7ca5",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "56e12bc90f983d409d5e2a769b3875b63f7e2901ecc301171121e7130a04bb65"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "56e12bc90f983d409d5e2a769b3875b63f7e2901ecc301171121e7130a04bb65"
+        },
+        "swapped-in": "954398fab9a9822d90facae023594e53d12b0f768ff193b3857536dc1efecb40",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-connector-scope/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "7bdbc42e585fc95a15d61d5834594eb87567931084f056cf8ac89ced3b3aeef2"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "56e12bc90f983d409d5e2a769b3875b63f7e2901ecc301171121e7130a04bb65"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "56e12bc90f983d409d5e2a769b3875b63f7e2901ecc301171121e7130a04bb65"
+        },
+        "swapped-in": "4f2fc03ae31e91e3f599e0d494c6a3d3e304a4cf7250e745b89d90fa24f947cf",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-connector-scope/README.md",
+      "serialization": "bytes",
+      "sha256": "c1059fdbb446f4e94f8cdcc0f6b92641bbdcc3770f1765b50ab53418df2da041"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "56e12bc90f983d409d5e2a769b3875b63f7e2901ecc301171121e7130a04bb65"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "56e12bc90f983d409d5e2a769b3875b63f7e2901ecc301171121e7130a04bb65"
+        },
+        "swapped-in": "830851f26f4e1590f17daad53ba2470caef2687ab0cff894794a1b423d5be3fa",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-connector-scope/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "c770747e14be1a4c65cbdba5b297a7a9a2f168726bf8bd63bb4bce80f78cd6d1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "56e12bc90f983d409d5e2a769b3875b63f7e2901ecc301171121e7130a04bb65"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "56e12bc90f983d409d5e2a769b3875b63f7e2901ecc301171121e7130a04bb65"
+        },
+        "swapped-in": "d4bdda849149bfa9ebcb3f4130232524413a2570c06149e0be57cd0b347e81fd",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-connector-scope/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "8b8bfe6c1868be5e5fef93faa49ce6f59a28b1c7e4ae763759e81f7c55d6b49e"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "56e12bc90f983d409d5e2a769b3875b63f7e2901ecc301171121e7130a04bb65"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "56e12bc90f983d409d5e2a769b3875b63f7e2901ecc301171121e7130a04bb65"
+        },
+        "swapped-in": "9cd07c11cfb243ae39d96706381aca67526a311c4f618a0238a981fb56c5205b",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-connector-scope/mutation_check.py",
+      "serialization": "bytes",
+      "sha256": "5fe5b2541dcfcb4f29f494d54668757475497f68b235bd6a6f1337c498f57b89"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "56e12bc90f983d409d5e2a769b3875b63f7e2901ecc301171121e7130a04bb65"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "56e12bc90f983d409d5e2a769b3875b63f7e2901ecc301171121e7130a04bb65"
+        },
+        "swapped-in": "4ccd2e8e488936e5bfcf97e82d6c931b4a70ef57e3dbe7fdc8deacb4368ad321",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-connector-scope/profile.json",
+      "serialization": "bytes",
+      "sha256": "758ac23131c2d14097b89a5f7352433df7ece226bafc6601e062ae8c8e631e1d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "56e12bc90f983d409d5e2a769b3875b63f7e2901ecc301171121e7130a04bb65"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "56e12bc90f983d409d5e2a769b3875b63f7e2901ecc301171121e7130a04bb65"
+        },
+        "swapped-in": "d07a333980ba0cf7625b0c7f2e8ffec02fdb8cfa3e658b3b4ef427fd56ffcdce",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-connector-scope/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "79427e36d11b69ee9f755cc31c50ed158bcbc151402d09876ab8fdf58fc15d04"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "vectors-connector-scope"
+  },
+  "byte-identity": {
+    "pins": 13,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-connector-scope",
+      "aee-verify -json vectors-connector-scope",
+      "aee-verify vectors-connector-scope"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "7a52bc96a6a12d5112ccf784607b3b1567e335a14bea85246f05ccd911eb0392"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "read-in-scope-performed",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "change-in-scope-performed",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "change-on-read-only-resource-refused",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "read-of-unlisted-resource-refused",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "scope-declaration-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "scope-widened-after-grant",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "fixture-carries-an-identifier",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "fixture-not-marked-phi-free",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "change-performed-under-read-grant",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "unlisted-read-performed",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "in-scope-read-refused-as-out-of-scope",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "refusal-without-record",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "action-changed-after-record",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "f03e139c8884ae570c29e0fe7f855a4e829c33b563800463cbf02070975b9f3e"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "read-in-scope-performed",
+      "change-in-scope-performed",
+      "change-on-read-only-resource-refused",
+      "read-of-unlisted-resource-refused",
+      "scope-declaration-missing",
+      "scope-widened-after-grant",
+      "fixture-carries-an-identifier",
+      "fixture-not-marked-phi-free",
+      "change-performed-under-read-grant",
+      "unlisted-read-performed",
+      "in-scope-read-refused-as-out-of-scope",
+      "refusal-without-record",
+      "action-changed-after-record"
+    ],
+    "path": "vectors-connector-scope/MANIFEST.json",
+    "sha256": "1e4693a70f25624bea9dcb756e907a79a789c057676d287ee329e817389c4b27"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-connector-scope/cases/read-in-scope-performed/case.json",
+          "sha256": "8914a1d5727798950a4c11352330f359dfc209e420c76557cd5079416322def9"
+        }
+      ],
+      "id": "read-in-scope-performed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-connector-scope/cases/change-in-scope-performed/case.json",
+          "sha256": "241585272edea7637a4e3fb3b05822618851dfb4faff640536e5e87cf289beb0"
+        }
+      ],
+      "id": "change-in-scope-performed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-connector-scope/cases/change-on-read-only-resource-refused/case.json",
+          "sha256": "9eacd93ef328c77096526cc696c505b115e7fdc68de36c85c876f3cbefcf831b"
+        }
+      ],
+      "id": "change-on-read-only-resource-refused"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-connector-scope/cases/read-of-unlisted-resource-refused/case.json",
+          "sha256": "5202f06df2af960ab1d3c5de793bad0a41b7981cdc9e747fb9b91b09c71ceb82"
+        }
+      ],
+      "id": "read-of-unlisted-resource-refused"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-connector-scope/cases/scope-declaration-missing/case.json",
+          "sha256": "b446f593beb9e73c0f9222bbfc294ea8ef5289f52306baa1e9949552e4fb5bf8"
+        }
+      ],
+      "id": "scope-declaration-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-connector-scope/cases/scope-widened-after-grant/case.json",
+          "sha256": "98ff1f51f9fc9db64b0a13816e4dce95a8cf549b4f170190cba1e0d555aa025a"
+        }
+      ],
+      "id": "scope-widened-after-grant"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-connector-scope/cases/fixture-carries-an-identifier/case.json",
+          "sha256": "51cf6406dfc96c25e72f8718de4ee1a2fb91a287e99078255380e237c2f8f6db"
+        }
+      ],
+      "id": "fixture-carries-an-identifier"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-connector-scope/cases/fixture-not-marked-phi-free/case.json",
+          "sha256": "752ff6349855d4c7270a672145109fd3bec5e2372dacaf1e2a1af4f99387dd79"
+        }
+      ],
+      "id": "fixture-not-marked-phi-free"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-connector-scope/cases/change-performed-under-read-grant/case.json",
+          "sha256": "5287fac33b9dd5fb72560dad9c9de101de7e4f6dc5e32356cb417ed3274b39bf"
+        }
+      ],
+      "id": "change-performed-under-read-grant"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-connector-scope/cases/unlisted-read-performed/case.json",
+          "sha256": "2e58c7eae7fdaaaab6ef3c1977d14a01e2c8292dfac801dbad6b44a849c49c17"
+        }
+      ],
+      "id": "unlisted-read-performed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-connector-scope/cases/in-scope-read-refused-as-out-of-scope/case.json",
+          "sha256": "afacd5254692cd9c2a29270bc007382a812d6b5de664cab78aac9645c806d22c"
+        }
+      ],
+      "id": "in-scope-read-refused-as-out-of-scope"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-connector-scope/cases/refusal-without-record/case.json",
+          "sha256": "ba624d76b56c747196d9fcc5e617873b73b0b6434818824f5d2dab414e2c1864"
+        }
+      ],
+      "id": "refusal-without-record"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-connector-scope/cases/action-changed-after-record/case.json",
+          "sha256": "c020c6167de9714e31deee6b35da0d95adcaf04f2d6e6c90f76b474f66f7f1c9"
+        }
+      ],
+      "id": "action-changed-after-record"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-connector-scope.json",
+        "serialization": "bytes",
+        "sha256": "56e12bc90f983d409d5e2a769b3875b63f7e2901ecc301171121e7130a04bb65"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-connector-scope.txt",
+        "serialization": "bytes",
+        "sha256": "a5da0e33fa0120b209a5e1e22d5493da28f04283c70c55a4f9832abd43f5b846"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "scope-declaration-missing",
+      "inputs": [
+        "member:scope-declaration-missing",
+        "check:scope-declaration-missing"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"scope_declaration_missing\"}}"
+    },
+    {
+      "check": "scope-widened-after-grant",
+      "inputs": [
+        "member:scope-widened-after-grant",
+        "check:scope-widened-after-grant"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"grant_digest_mismatch\"}}"
+    },
+    {
+      "check": "fixture-carries-an-identifier",
+      "inputs": [
+        "member:fixture-carries-an-identifier",
+        "check:fixture-carries-an-identifier"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"fixture_not_phi_free\"}}"
+    },
+    {
+      "check": "fixture-not-marked-phi-free",
+      "inputs": [
+        "member:fixture-not-marked-phi-free",
+        "check:fixture-not-marked-phi-free"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"fixture_not_phi_free\"}}"
+    },
+    {
+      "check": "change-performed-under-read-grant",
+      "inputs": [
+        "member:change-performed-under-read-grant",
+        "check:change-performed-under-read-grant"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"change_performed_under_read_grant\"}}"
+    },
+    {
+      "check": "unlisted-read-performed",
+      "inputs": [
+        "member:unlisted-read-performed",
+        "check:unlisted-read-performed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"out_of_scope_action_performed\"}}"
+    },
+    {
+      "check": "in-scope-read-refused-as-out-of-scope",
+      "inputs": [
+        "member:in-scope-read-refused-as-out-of-scope",
+        "check:in-scope-read-refused-as-out-of-scope"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"in_scope_action_refused_as_out_of_scope\"}}"
+    },
+    {
+      "check": "refusal-without-record",
+      "inputs": [
+        "member:refusal-without-record",
+        "check:refusal-without-record"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"refusal_not_recorded\"}}"
+    },
+    {
+      "check": "action-changed-after-record",
+      "inputs": [
+        "member:action-changed-after-record",
+        "check:action-changed-after-record"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"action_digest_mismatch\"}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "56e12bc90f983d409d5e2a769b3875b63f7e2901ecc301171121e7130a04bb65"
+      },
+      {
+        "process": "run-2",
+        "sha256": "56e12bc90f983d409d5e2a769b3875b63f7e2901ecc301171121e7130a04bb65"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 13 pinned members of connector-scope-record/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 13,
+    "require": "at-least-one",
+    "selected": [
+      "read-in-scope-performed",
+      "change-in-scope-performed",
+      "change-on-read-only-resource-refused",
+      "read-of-unlisted-resource-refused",
+      "scope-declaration-missing",
+      "scope-widened-after-grant",
+      "fixture-carries-an-identifier",
+      "fixture-not-marked-phi-free",
+      "change-performed-under-read-grant",
+      "unlisted-read-performed",
+      "in-scope-read-refused-as-out-of-scope",
+      "refusal-without-record",
+      "action-changed-after-record"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "connector-scope-record/v1"
+}

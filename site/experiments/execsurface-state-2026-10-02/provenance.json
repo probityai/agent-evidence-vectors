@@ -1,0 +1,290 @@
+{
+  "schema": "probity-atlas-retained-native-run-v1",
+  "sourceRepository": "probityai/agent-evidence-observer",
+  "sourceCommit": "88f475da4c4626b52ab78900e03ba9f73aa35640",
+  "readerCommit": "88f475da4c4626b52ab78900e03ba9f73aa35640",
+  "reviewedHead": "efe62a89fe7ec1100726aee70bcc810b4f0710b9",
+  "mergedHead": "88f475da4c4626b52ab78900e03ba9f73aa35640",
+  "run": 37055671392,
+  "runUrl": "https://github.com/probityai/agent-evidence-observer/actions/runs/37055671392",
+  "artifactId": 11247818409,
+  "originalArtifactSha256": "6f6c0b9e7d6f8f63cfcf2f1ce07e49fb1ca7c8e1433ba0d73782dbfdb28dc814",
+  "originalArtifactBytes": 743420,
+  "retention": "byte-exact-original-ci-archive",
+  "retainedArchiveSha256": "6f6c0b9e7d6f8f63cfcf2f1ce07e49fb1ca7c8e1433ba0d73782dbfdb28dc814",
+  "retainedArchiveBytes": 743420,
+  "reportMember": "native-report.json",
+  "reportSha256": "7a6f9e00d7939aad6ea55c5a5143133a255ff788f82fb39f2e51058204a1b30a",
+  "roles": {
+    "producer": "Probity-owned workflow using pinned ExecSurface binary",
+    "companionAuthor": "Probity",
+    "atlasOperator": "Probity",
+    "retentionHolder": "Probity",
+    "independentOperation": "not-established",
+    "independentEffectCustody": "not-established",
+    "outsideRecurringUse": "not-established"
+  },
+  "answerExposure": "Author-written deterministic overwrite, companion and expected outcomes exposed; not blind.",
+  "comparisonOrder": "Native companion output and verifier comparison emitted together; public raw retention before indexing does not establish a blind or native raw-result-first comparison.",
+  "scope": "One declared nine-byte same-operator generated test-file overwrite; voluntary/peer/log-import/software-only predicate, scopeComplete false, typed collection health unknown. Separate producer learn/check PASS calibration outside the signed interval, not authority/health/task quality.",
+  "producerSourceSelections": {
+    "binarySha256": "11d1f70d3e6bd6526eff4889b90cba4a0ad95ce09d489643e7f3b703e455f646",
+    "execsurfaceMainCommit": "37a8d89ec931422a37171e742a198fb4966a5152",
+    "execsurfaceReleaseSource": "9e73b925d55557e33de1b0813995609aaefdc037",
+    "expectedBackend": {
+      "architecture": "x86_64",
+      "capabilities": [
+        "descendant_tracking",
+        "exec_path",
+        "path_syscall_attempts",
+        "trace_time_dirfd_resolution",
+        "openat2_metadata",
+        "fd_read_write_attribution",
+        "fd_dup_close_lifecycle",
+        "clone_files_fd_sharing",
+        "close_on_exec_tracking",
+        "connect_destination",
+        "fail_closed_event_budget"
+      ],
+      "limitations": [
+        "selected syscall metadata only; memory-mapped I/O and io_uring data access are not attributed",
+        "file open/create/delete/rename records are syscall attempts; fd read/write records require successful positive-byte I/O",
+        "kernel fd paths are runtime object evidence, not causal source-code provenance",
+        "ptrace can perturb scheduling and trace-aware programs can behave differently",
+        "hostname intent is not inferred from connect(2)",
+        "Linux x86_64 only",
+        "observation event budget is 1000000; overflow marks evidence incomplete",
+        "observation sessions are serialized within one host process to avoid cross-reaping ptrace children"
+      ],
+      "name": "linux-ptrace-metadata-v2",
+      "platform": "linux"
+    },
+    "files": {
+      "LICENSE": "8b506a9d145be0a6fbef3f0519996faf84c770f8ab8d32d120c8682f2ad6181f",
+      "execsurface/LICENSE": "b070fa0358f5dc2593d9a9d742408904245c9808020b50d1b0bf2551d3660581",
+      "execsurface/crates/execsurface-model/src/lib.rs": "26b9f431249a3cce574f27a1048699334d776d15ec1c0d8fe4e9f4271f92bb85",
+      "execsurface/crates/execsurface-observe/src/linux_ptrace.rs": "afda9661804ae99dffd7116adc91cbc1672256da29ec0b29556f38a5702b6d03",
+      "spec/predicates/observed-effect.md": "01945977073b56553e1422f6159c52bd7527d982b156a29f2d9aa6d53e507066",
+      "vectors-observed-effect/canonical.py": "ced55cfb183bebd53e2f7223b7279e230ceb84a042bd113b1dcc33948ac84c74",
+      "vectors-observed-effect/check_vectors.py": "c8e3a599998688a3be1a7dc609cb0f8114f9d1818dd8cc0b36c5c9094dc7238f",
+      "vectors-observed-effect/digest.py": "2cb7a56f17bb88988ee9fb2a0c5fff5dcda935580c242a5a9ffe32d5fe6c4c32"
+    },
+    "ownedFiles": {
+      "companion.py": "8fa2c583b92bf233e442a1c6513e4cbbcfd718f5f9013a3fccfea1cd8f0e9fe5",
+      "download_binary.py": "930c795954cfeb9254d415d7154ae4967421108ed4813d15986c2cd6f6322119",
+      "publication-policy.json": "5db6392a15d17396555986513f948f064ede8a67eb37d7bcd404b7c3408191f9",
+      "requirements.lock": "0d7918115196e40121b2e350e8f01243be59d52b6e590cbdc44525ba84dd5f9b",
+      "workload.py": "e14c53fa925a788cad3e363ada32faae67beff7d98109788bd4b5e51d9bdaf91"
+    },
+    "release": "v0.1.0-alpha.5",
+    "releaseArchiveSha256": "6a27ee3245acec67fc153cca3f6715f4395eadcf8c6358b415ecc6a9347efdb7",
+    "releaseUrl": "https://github.com/AETHERXGLOBAL/execsurface/releases/download/v0.1.0-alpha.5/execsurface-v0.1.0-alpha.5-x86_64-unknown-linux-gnu.tar.gz",
+    "vectorsCommit": "bbdef583c9241138e5c2b5d872bc77f7f539e9ac"
+  },
+  "members": [
+    {
+      "member": "doctor-report.json",
+      "bytes": 205,
+      "sha256": "b28c5657d30ffd67f359bd7ecd7bc4a1183254c8fc4cce219d53324c4a2e131f",
+      "selected": true,
+      "reason": "retained original native provider artifact member"
+    },
+    {
+      "member": "download-report.json",
+      "bytes": 188,
+      "sha256": "6f33e40477067db0d6bf132818490ec974f2db6f24872d14944117e670bb48ed",
+      "selected": true,
+      "reason": "retained original native provider artifact member"
+    },
+    {
+      "member": "execsurface.tar.gz",
+      "bytes": 703763,
+      "sha256": "6a27ee3245acec67fc153cca3f6715f4395eadcf8c6358b415ecc6a9347efdb7",
+      "selected": true,
+      "reason": "retained original native provider artifact member"
+    },
+    {
+      "member": "install-report.json",
+      "bytes": 74112,
+      "sha256": "976f4abadf8c1a21337e2bddc2d6144731ce18b5afecc7847b44104be030bb78",
+      "selected": true,
+      "reason": "retained original native provider artifact member"
+    },
+    {
+      "member": "native-report.json",
+      "bytes": 2562,
+      "sha256": "7a6f9e00d7939aad6ea55c5a5143133a255ff788f82fb39f2e51058204a1b30a",
+      "selected": true,
+      "reason": "retained original native provider artifact member"
+    },
+    {
+      "member": "native-run/after.bin",
+      "bytes": 9,
+      "sha256": "f5c8f2e145513ef4315578dcaeaf9337993bac6a6920f5aad60d15c975d632d4",
+      "selected": true,
+      "reason": "retained original native provider artifact member"
+    },
+    {
+      "member": "native-run/authority.json",
+      "bytes": 419,
+      "sha256": "2f459c0304cfe94101ac2b85e30c442e6eebc70c8b46fa37ef19cf8eab810f77",
+      "selected": true,
+      "reason": "retained original native provider artifact member"
+    },
+    {
+      "member": "native-run/before.bin",
+      "bytes": 9,
+      "sha256": "23347c317903e158d0756b6dca7f379fc0ad3b20ebb71c311215c0d6fd9249d2",
+      "selected": true,
+      "reason": "retained original native provider artifact member"
+    },
+    {
+      "member": "native-run/calibration.json",
+      "bytes": 1297,
+      "sha256": "11c77f8f3153270c39584b54cda74b05eaf2f87011707d6f8ec61e5838c6a198",
+      "selected": true,
+      "reason": "retained original native provider artifact member"
+    },
+    {
+      "member": "native-run/check.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "selected": true,
+      "reason": "retained original native provider artifact member"
+    },
+    {
+      "member": "native-run/check.stdout",
+      "bytes": 181,
+      "sha256": "ae94fc44c5cda7ff5b9369f158539e7f70b36ec179b164b9b2d54f6dfea2fa00",
+      "selected": true,
+      "reason": "retained original native provider artifact member"
+    },
+    {
+      "member": "native-run/commitment.json",
+      "bytes": 387,
+      "sha256": "6491fb35a7d3e14fb16c0381c9cb480fc920ccdbbdf24ebe113824ba572d0503",
+      "selected": true,
+      "reason": "retained original native provider artifact member"
+    },
+    {
+      "member": "native-run/envelope.json",
+      "bytes": 3457,
+      "sha256": "a51fc839e58a05d77cea4d4507051f1e92d1fec70c60ae4d97219505da073fd9",
+      "selected": true,
+      "reason": "retained original native provider artifact member"
+    },
+    {
+      "member": "native-run/invocation.json",
+      "bytes": 17,
+      "sha256": "d6b22a705027a9799738f0041a33a44909d18dca700d01c8d86efc41cfefbf95",
+      "selected": true,
+      "reason": "retained original native provider artifact member"
+    },
+    {
+      "member": "native-run/learn.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "selected": true,
+      "reason": "retained original native provider artifact member"
+    },
+    {
+      "member": "native-run/learn.stdout",
+      "bytes": 165,
+      "sha256": "1c3a46c4131f4697087d4620301a9b43c973f48366bf7bc27ae5a4e14f46edf0",
+      "selected": true,
+      "reason": "retained original native provider artifact member"
+    },
+    {
+      "member": "native-run/manifest.json",
+      "bytes": 1525,
+      "sha256": "63175009b850a6121774a66ba1e25d7be6609a8dc3bc7b2bfad96f911ee8e2cd",
+      "selected": true,
+      "reason": "retained original native provider artifact member"
+    },
+    {
+      "member": "native-run/observation.json",
+      "bytes": 12608,
+      "sha256": "bcd44ad8dfdaa4717d4ee3eea48fd7ebbe664fe13a772a95685843122ac0adff",
+      "selected": true,
+      "reason": "retained original native provider artifact member"
+    },
+    {
+      "member": "native-run/observation.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "selected": true,
+      "reason": "retained original native provider artifact member"
+    },
+    {
+      "member": "native-run/plan.json",
+      "bytes": 1063,
+      "sha256": "e9c64968014d73ff163591346860853d7381c9c44bab688cce2b8e256aba5a3a",
+      "selected": true,
+      "reason": "retained original native provider artifact member"
+    },
+    {
+      "member": "native-run/producer-baseline.json",
+      "bytes": 46164,
+      "sha256": "56e15a700dd5c956e0371c8a7a972ea1215d94f4eb22b9f34598b2e72c02c1f5",
+      "selected": true,
+      "reason": "retained original native provider artifact member"
+    },
+    {
+      "member": "native-run/producer-comparison.json",
+      "bytes": 360,
+      "sha256": "54e50f09d66dd22694f9e022c3d3879508baddc3e9b53a6a7621ddd6452d7554",
+      "selected": true,
+      "reason": "retained original native provider artifact member"
+    },
+    {
+      "member": "native-run/producer-policy.json",
+      "bytes": 58,
+      "sha256": "62a6ce85d9a6e722189a2b3c86ccf13a7765904f0a20d0755d1cd869d1107254",
+      "selected": true,
+      "reason": "retained original native provider artifact member"
+    },
+    {
+      "member": "native-run/statement.json",
+      "bytes": 2405,
+      "sha256": "a91f723c25cb99ce204a5a64b0f0556340f631cbecefd53d60ea4f92d02e4d02",
+      "selected": true,
+      "reason": "retained original native provider artifact member"
+    },
+    {
+      "member": "native-run/target.bin",
+      "bytes": 9,
+      "sha256": "f5c8f2e145513ef4315578dcaeaf9337993bac6a6920f5aad60d15c975d632d4",
+      "selected": true,
+      "reason": "retained original native provider artifact member"
+    },
+    {
+      "member": "publication-report.json",
+      "bytes": 2670,
+      "sha256": "a8c2a5897ceaabac32b4c32b69a3d0f58e6b83072029783e52a467430449900d",
+      "selected": true,
+      "reason": "retained original native provider artifact member"
+    },
+    {
+      "member": "selected-pins.json",
+      "bytes": 339,
+      "sha256": "45840cb02f0f231285bfce090642559c5384b2f4c1dbf5553224ebe281625b57",
+      "selected": true,
+      "reason": "retained original native provider artifact member"
+    },
+    {
+      "member": "source-pins.json",
+      "bytes": 3153,
+      "sha256": "9a473c8526b5ec2740236f3e13ffc9f60d6ff129e1a970b8cd8179ab64216bae",
+      "selected": true,
+      "reason": "retained original native provider artifact member"
+    },
+    {
+      "member": "test-results.xml",
+      "bytes": 11372,
+      "sha256": "68a3a992dbec0b93429c2d27a1d22ea32205a9ab0812815074d36c6ea224d028",
+      "selected": true,
+      "reason": "retained original native provider artifact member"
+    }
+  ],
+  "providerArtifactExpiresAt": "2026-12-31T19:40:44Z"
+}

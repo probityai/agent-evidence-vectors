@@ -1,0 +1,37 @@
+name: Evidence correction
+description: Challenge or correct a registered evidence claim without rewriting the original run.
+title: "[Evidence correction] "
+body:
+  - type: input
+    id: record
+    attributes:
+      label: Record ID and challenged claim
+      description: Link the immutable record/review and identify the affected field or claim.
+    validations:
+      required: true
+  - type: dropdown
+    id: correction_kind
+    attributes:
+      label: Reason for correction
+      options:
+        - Source or byte mismatch
+        - Contract or interpretation error
+        - Missing or misleading outcome
+        - Unsupported adoption or independence claim
+        - Reproduction failure
+    validations:
+      required: true
+  - type: textarea
+    id: counterevidence
+    attributes:
+      label: Immutable counterevidence and reproduction
+      description: Exact source pins, raw artifacts/digests, commands and measured result that challenge the claim.
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: Proposed correction, limits and replacement record
+      description: Name what should be disputed or superseded, preserve the original run, and link any new result separately.
+    validations:
+      required: true
