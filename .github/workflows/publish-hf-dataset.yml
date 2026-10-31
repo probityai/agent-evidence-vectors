@@ -1,38 +1,29 @@
 name: publish-hf-dataset
 
-# Keeps the Hugging Face copy of the corpus (huggingface.co/datasets/
-# probityai/agent-evidence-vectors) on the latest release. A published GitHub
-# release whose tag is v<major>.<minor>.<patch> builds the dataset tree from that
-# tag, checks it, replaces the dataset in one commit and gives the dataset a tag
-# of the same name, so `revision="v0.30.0"` works. Package releases such as
-# jcs-admit-npm-v0.1.0 do not start with `v` and never run this.
+# Tests the build of the Hugging Face copy of the corpus (huggingface.co/datasets/
+# probityai/agent-evidence-vectors). A pushed tag v<major>.<minor>.<patch> builds the
+# dataset tree from that tag in release.yml, which checks it, replaces the dataset
+# in one commit and gives the dataset a tag of the same name, so
+# `revision="v0.30.0"` works. Package releases such as jcs-admit-npm-v0.1.0 do
+# not start with `v` and never run this.
 #
-# The upload needs the repository secret HF_TOKEN, a Hugging Face access token
-# with write access to the dataset. Without it the publish job fails before it
-# builds anything. A release event runs the workflow file as it stands at the
-# release tag, so a release cut before this file landed is published by hand:
-# run this workflow from the default branch with the tag as input.
-#
-# dry_run builds and checks the tree and stops before the upload.
+# This workflow only TESTS the dataset build; it publishes nothing and holds no
+# secret. The upload is the last step of the `publish` job of release.yml, in the
+# protected environment public-release, so one approval of one tagged release
+# publishes the PyPI wheel and the Hugging Face dataset together, after the
+# release's `verify` job (signed digest list, tag signature, time evidence) has
+# passed. The environment holds the HF_TOKEN secret. The dataset mirrors the
+# release and nothing else: the tag must resolve to the commit being released,
+# which must be on main, and only the vectors directories, release/, LICENSE and
+# CITATION.cff reach the Hub (the monorepo's packages/ and every other path stay
+# out). There is no manual trigger: a release that was missed is published again
+# as a new release.
 #
 # scripts/publish-hf-dataset.py is the whole procedure. The test job rebuilds
 # v0.25.0, the first copy, and requires its bytes, so a change to the build that
 # would alter old revisions is refused before it can publish a new one.
 
 on:
-  release:
-    types: [published]
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: Release tag to publish, for example v0.30.0
-        required: true
-        type: string
-      dry_run:
-        description: Build and check only; do not upload
-        required: false
-        default: false
-        type: boolean
   pull_request:
     branches: [main]
     paths:
@@ -60,7 +51,6 @@ concurrency:
 
 jobs:
   test:
-    if: ${{ github.event_name != 'release' || startsWith(github.event.release.tag_name, 'v') }}
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
@@ -86,67 +76,3 @@ jobs:
           echo "$RUNNER_TEMP/cosign-bin" >> "$GITHUB_PATH"
       - name: rebuild the first copy (v0.25.0) and require its bytes
         run: python scripts/publish-hf-dataset-test.py
-
-  publish:
-    needs: test
-    if: ${{ github.event_name != 'push' && github.event_name != 'pull_request' }}
-    runs-on: ubuntu-24.04
-    timeout-minutes: 60
-    steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
-        with:
-          python-version: '3.13.15'
-      - name: take the tag from the release, or from the manual run
-        if: ${{ github.event_name != 'push' }}
-        env:
-          INPUT_TAG: ${{ inputs.tag }}
-        run: |
-          set -euo pipefail
-          tag="${INPUT_TAG:-${GITHUB_REF_NAME:?no tag}}"
-          echo "RELEASE_TAG=$tag" >> "$GITHUB_ENV"
-      - name: the upload token is configured
-        if: ${{ github.event_name != 'push' && !inputs.dry_run }}
-        env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: |
-          if [ -z "$HF_TOKEN" ]; then
-            echo "::error::the repository secret HF_TOKEN is not set; add a Hugging Face write token for probityai/agent-evidence-vectors and run this workflow again with the tag as input"
-            exit 1
-          fi
-      - name: install the pinned signature verifier
-        if: ${{ github.event_name != 'push' }}
-        run: |
-          set -euo pipefail
-          [ "$(uname -m)" = x86_64 ]
-          : "${RUNNER_TEMP:?RUNNER_TEMP is required}"
-          mkdir -p "$RUNNER_TEMP/cosign-bin"
-          binary="$RUNNER_TEMP/cosign-bin/cosign"
-          curl --fail --location --silent --show-error \
-            https://github.com/sigstore/cosign/releases/download/v3.1.3/cosign-linux-amd64 \
-            --output "$binary"
-          printf '%s  %s\n' 4629c757b7618056f8ddd7e2625ae9fdd94c0372a65049520bc7d9df9efc7f71 "$binary" | sha256sum --check -
-          chmod 0755 "$binary"
-          echo "$RUNNER_TEMP/cosign-bin" >> "$GITHUB_PATH"
-      - name: install the pinned Hugging Face command
-        if: ${{ github.event_name != 'push' }}
-        run: |
-          set -euo pipefail
-          python -m venv "$RUNNER_TEMP/hf-venv"
-          "$RUNNER_TEMP/hf-venv/bin/python" -m pip install --quiet --require-hashes --only-binary :all: \
-            -r scripts/hf-publish-requirements.txt
-          echo "$RUNNER_TEMP/hf-venv/bin" >> "$GITHUB_PATH"
-      - name: build the dataset tree from the release tag
-        if: ${{ github.event_name != 'push' }}
-        run: python scripts/publish-hf-dataset.py build --tag "$RELEASE_TAG" --out "$RUNNER_TEMP/dataset"
-      - name: check the built tree
-        if: ${{ github.event_name != 'push' }}
-        run: python scripts/publish-hf-dataset.py check "$RUNNER_TEMP/dataset"
-      - name: replace the dataset and tag it
-        if: ${{ github.event_name != 'push' && !inputs.dry_run }}
-        env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: python scripts/publish-hf-dataset.py upload "$RUNNER_TEMP/dataset" --tag "$RELEASE_TAG"

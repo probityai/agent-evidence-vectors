@@ -233,6 +233,28 @@ class BuildRefuses(unittest.TestCase):
             with self.subTest(tag), self.assertRaises(pub.PublishError):
                 pub.resolve_tag(pub.REPO, tag)
 
+    def test_a_commit_other_than_the_release_commit_is_refused(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp) / "dataset"
+            with self.assertRaises(pub.PublishError) as caught:
+                pub.build(pub.REPO, FIXTURE["tag"], out, "python3", None, "0" * 40)
+            self.assertIn("the release names", str(caught.exception))
+            self.assertFalse(out.exists())
+
+    def test_nothing_outside_the_release_surface_is_selected(self) -> None:
+        tree = {
+            "LICENSE": ("100644", "a"),
+            "CITATION.cff": ("100644", "b"),
+            "release/x": ("100644", "c"),
+            "vectors/MANIFEST.json": ("100644", "d"),
+            "packages/x/y.py": ("100644", "e"),
+            "src/z.go": ("100644", "f"),
+        }
+        _corpora, paths = pub.select_files(tree)
+        self.assertEqual(
+            sorted(paths), ["CITATION.cff", "LICENSE", "release/x", "vectors/MANIFEST.json"]
+        )
+
     def test_missing_cosign_fails_the_build(self) -> None:
         saved = os.environ["PATH"]
         os.environ["PATH"] = ""
@@ -276,6 +298,17 @@ class BuildRefuses(unittest.TestCase):
             with self.assertRaises(pub.PublishError) as caught:
                 pub.run_release_checks(Path(tmp), "python3", str(fake))
         self.assertIn("cosign verify-blob", str(caught.exception))
+
+
+class Rollback(unittest.TestCase):
+    def test_an_older_release_is_refused(self) -> None:
+        with self.assertRaises(pub.PublishError):
+            pub.refuse_rollback("v0.30.0", "v0.29.3")
+
+    def test_the_same_or_a_newer_release_is_allowed(self) -> None:
+        pub.refuse_rollback("v0.30.0", "v0.30.0")
+        pub.refuse_rollback("v0.30.0", "v0.31.0")
+        pub.refuse_rollback(None, "v0.1.0")
 
 
 class UploadPlan(unittest.TestCase):

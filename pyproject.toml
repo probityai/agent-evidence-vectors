@@ -89,6 +89,9 @@ agent-evidence-vectors-evalresult = "agent_evidence_vectors.eval_result.run:main
 # Recorded sets: retained bytes from a live run against the digest list their
 # publisher wrote. Also reachable as `agent-evidence-vectors recorded`.
 agent-evidence-vectors-recorded = "agent_evidence_vectors.recorded:main"
+# Push verifier pass/fail into Vanta as a custom resource (dry run unless --send), so a
+# Vanta Custom Test can read it as compliance evidence.
+agent-evidence-vectors-vanta = "agent_evidence_vectors.vanta_connector.cli:main"
 
 [build-system]
 requires = ["hatchling>=1.27"]

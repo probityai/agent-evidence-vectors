@@ -263,22 +263,27 @@ over the eight other suites and printed that rail's failures as a verdict.
 
 ## The Hugging Face dataset follows the tag
 
-`.github/workflows/publish-hf-dataset.yml` mirrors each corpus release to the
-dataset `probityai/agent-evidence-vectors` on Hugging Face. When a GitHub release
-for a `vMAJOR.MINOR.PATCH` tag is published, the workflow builds the dataset tree
-from that tag with `scripts/publish-hf-dataset.py`, runs the release digest check
-and the cosign signature check in a checkout of the tag, replaces the dataset in
-one commit and gives it a tag with the tag's name. Nothing is done by hand, and
-package releases such as `jcs-admit-npm-v0.1.0` do not start it.
+The `publish` job of `.github/workflows/release.yml` mirrors each corpus release
+to the dataset `probityai/agent-evidence-vectors` on Hugging Face. It runs on the
+pushed `vMAJOR.MINOR.PATCH` tag, after `verify` (the signed digest list, the tag
+signature and the time evidence) has passed. It builds the dataset tree from the
+tag with `scripts/publish-hf-dataset.py`, checks it, publishes the PyPI wheel,
+then replaces the dataset in one commit and gives it a tag with the tag's name.
+Package releases such as `jcs-admit-npm-v0.1.0` do not start it.
+`.github/workflows/publish-hf-dataset.yml` only tests the build and holds no
+secret.
 
-The upload needs the repository secret `HF_TOKEN`, a Hugging Face token with
-write access to the dataset. Without it the publish job fails before it builds
-anything and says so. A release event runs the workflow file as it stands at the
-tag, so a release cut before this workflow landed, or a publish that failed, is
-redone from the default branch: Actions, `publish-hf-dataset`, Run workflow, with
-the tag as input. Tick `dry_run` first to build and check the tree without
-uploading. A rerun for the same tag repeats the same bytes; a dataset tag that
-already points at a different commit is never moved, and the job fails instead.
+One approval covers both destinations. The job runs in the protected environment
+`public-release`, whose required reviewer is the repository owner, so neither
+the wheel nor the dataset is published until the owner approves the run. The
+dataset takes only the `vectors*` directories, `release/`, `LICENSE` and
+`CITATION.cff`, from the commit the run is on, which must be on `main`. A tag
+older than the one the Hub holds never replaces it. There is no manual trigger:
+a release that was missed is published again with a new tag. The `HF_TOKEN`
+secret lives in that environment, so no other job can read it.
+`scripts/publish-gate-test.py` fails CI when any workflow publishes outside
+this path. A dataset tag that already points at a different commit is never
+moved, and the job fails instead.
 
 To build and check the tree locally:
 
