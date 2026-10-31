@@ -138,3 +138,16 @@ the row identifier -01 prints, and rerun the three commands of the row above.
   most 4 workers, so it passes only in remote CI; a local run hit a 600 s timeout.
   Fix: combine the masks into one compiled alternation, or mask each file once and cache the
   result across cases. Start with `python3 -m cProfile -s cumtime scripts/count-gate.py --root .`.
+
+## Bring `site/` under the shared type-check gate
+
+- [ ] **Clear the 264 pyright errors in `site/` so the tree can leave the held-elsewhere list.**
+  Measured 2026-10-31 (the Atlas site checks PR, probityai/agent-evidence-vectors#376):
+  pyright over `site/` reports 264 errors in 253 files, 64 of them unresolved imports and
+  the rest type findings. `site/` stays in the type-check gate's held-elsewhere list, beside
+  `actions/` and `packages/`, because its own `.github/workflows/site-*.yml` jobs test it; the
+  list entry carries a comment recording this count as the work between it and the shared
+  include list. Start with the imports: `pyright site/ --outputjson` then group by rule
+  (`reportMissingImports` first), fix or declare each tree's dependencies, then the type
+  findings by directory. Done when `site/` is out of the held-elsewhere list and the type-check
+  gate passes over it.
