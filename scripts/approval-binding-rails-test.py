@@ -64,6 +64,30 @@ def _shift(stamp: str, seconds: int) -> str:
     return moved.strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
+def _accept_at(index: int, stamp: str) -> Callable[[Record], None]:
+    def move(r: Record) -> None:
+        r["transitions"][index].update(acceptedAt=stamp)
+    return move
+
+
+def _propose(index: int) -> Callable[[Record], None]:
+    def move(r: Record) -> None:
+        r["transitions"][index].update(status="proposed")
+    return move
+
+
+def _present_at(index: int, approval: Record) -> Callable[[Record], None]:
+    def move(r: Record) -> None:
+        r["presentedApprovals"].insert(index, dict(approval))
+    return move
+
+
+def _set_effect(key: str, state: str) -> Callable[[Record], None]:
+    def move(r: Record) -> None:
+        r.setdefault("effectRegistry", {}).update({key: state})
+    return move
+
+
 def mutations(record: Record) -> list[tuple[str, Callable[[Record], None]]]:
     """One-field departures from ``record`` that move the bindings this corpus judges."""
     moves: list[tuple[str, Callable[[Record], None]]] = [
@@ -78,23 +102,17 @@ def mutations(record: Record) -> list[tuple[str, Callable[[Record], None]]]:
     used = record["use"]["usedAt"]
     for i, _ in enumerate(record.get("transitions", [])):
         for label, seconds in (("before", -1), ("at", 0), ("after", 1)):
-            moves.append((f"t{i}-accepted-{label}-use", lambda r, i=i, s=seconds: r[
-                "transitions"][i].update(acceptedAt=_shift(used, s))))
-        moves.append((f"t{i}-proposed", lambda r, i=i: r["transitions"][i].update(
-            status="proposed")))
+            moves.append((f"t{i}-accepted-{label}-use", _accept_at(i, _shift(used, seconds))))
+        moves.append((f"t{i}-proposed", _propose(i)))
     for i, presented in enumerate(record["presentedApprovals"]):
         conflicting = {**presented, "decisionId": "dec-0099"}
-        moves.append((f"p{i}-conflict-after", lambda r, i=i, c=conflicting: r[
-            "presentedApprovals"].insert(i + 1, c)))
-        moves.append((f"p{i}-conflict-before", lambda r, i=i, c=conflicting: r[
-            "presentedApprovals"].insert(i, c)))
-        moves.append((f"p{i}-identical-copy", lambda r, i=i, c=dict(presented): r[
-            "presentedApprovals"].insert(i, c)))
+        moves.append((f"p{i}-conflict-after", _present_at(i + 1, conflicting)))
+        moves.append((f"p{i}-conflict-before", _present_at(i, conflicting)))
+        moves.append((f"p{i}-identical-copy", _present_at(i, dict(presented))))
     for state in ("RESERVED", "CONSUMED", "UNCERTAIN_CLOSE"):
         key = record["use"].get("effectKey")
         if key is not None:
-            moves.append((f"effect-{state}", lambda r, k=key, st=state: r.setdefault(
-                "effectRegistry", {}).update({k: st})))
+            moves.append((f"effect-{state}", _set_effect(key, state)))
     return moves
 
 
