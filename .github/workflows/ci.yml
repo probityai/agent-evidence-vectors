@@ -1286,6 +1286,11 @@ jobs:
       # with a policy moved one knob at a time.
       - name: the two admission rails agree
         run: python3 scripts/admission-rails-test.py
+      # The approval-binding corpus has a packaged reader, its own command and a
+      # Go reader. They must give the manifest's verdict on every member and the
+      # same verdict as each other on mutated copies of every member.
+      - name: the approval-binding readers agree
+        run: python3 scripts/approval-binding-rails-test.py
       # The self-reported-record corpus has two readers, one per rail. They must
       # give the manifest's answer on every member and the same bytes as each
       # other on the committed corpus and on mutated copies of its members.
