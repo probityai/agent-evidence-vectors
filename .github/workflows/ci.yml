@@ -160,8 +160,13 @@ jobs:
       # rebuilds every record and native output, refuses any byte that differs,
       # and reads each record back with the intake checker under the repository
       # root. It needs the Go toolchain, so it lives in this job.
-      - name: every published corpus has an intake record a fresh run reproduces
-        run: uv run --locked --extra generators python scripts/gen-intake-records.py --check
+      - name: every derived file is what a fresh run writes (intake records, digest list, source lock)
+        run: uv run --locked --extra generators python scripts/regenerate-derived.py --check
+      # The derived files (digest list, intake records, shared-source lock) are
+      # marked in .gitattributes; this holds that marking, the ruff layout and
+      # the merge resolution that replaces hand-editing generated records.
+      - name: derived files are marked, checked together and resolved by regeneration
+        run: python3 scripts/regenerate-derived-test.py
       # The a2a-jcs-v01 corpus is judged by a Go reader in aee-verify and the
       # Python reader other projects import as agent_evidence_vectors.a2ajcs,
       # each with its own canonicalizer. This holds the two to the same failing
@@ -353,8 +358,12 @@ jobs:
         run: uv run mypy vectors-w3c-intake/gen_vectors.py vectors-w3c-intake/tests/test_corpus.py
       - name: type-check every python file
         run: uv run python scripts/typecheck-gate.py
+      # Corpus directories are matched by glob, never listed: a new corpus is
+      # linted by default and its pull request does not edit this line. A tree
+      # that still fails is named under [tool.ruff] extend-exclude in
+      # pyproject.toml, which only shrinks.
       - name: ruff
-        run: uv run ruff check packaging vectors vectors-approval-binding vectors-delegator-right vectors-completion-confirmation vectors-dispatch-fence vectors-refund-connected vectors-aggregate-accounting vectors-uncertain-effect vectors-agent-card-receipt vectors-credential-release vectors-converted-argument-binding vectors-done-receipt vectors-done-contract vectors-spoofed-tool-output vectors-test-tampering vectors-grader-isolation vectors-done-probes vectors-admission vectors-acs-core/wire-probes vectors-acs-core/hook-probes vectors-observed-effect vectors-agent-audit-record vectors-ai-generation vectors-receipt-signature vectors-source-coverage vectors-open-weight-art53 vectors-anchored-chain vectors-receipt-chain-end vectors-identity-binding vectors-authority-at-dispatch vectors-chunked-export vectors-trace-anchor vectors-a2a-jcs-v01 vectors-mcp-owasp vectors-grade-floor vectors-connector-scope vectors-agent-payment-mandate vectors-agent-change-admission vectors-agentic-process-evidence vectors-delegation-lifecycle vectors-recorded vectors-self-reported-record vectors-agent-decision vectors-ietf-agent-record-drafts scripts interop/gemara-method-link interop/ws4-prior-witness-candidate interop/agentavow-live-mcp interop/agentavow-signed-map-v1 interop/a2a-s3-retain-2026-10-01 interop/a2a-s4-dual-name-2026-10-02 interop/action-tuple-framed-v1 vectors-w3c-intake
+        run: uv run ruff check packaging vectors vectors-* scripts interop/*
       - name: timestamp candidate custody and refusal controls
         run: python3 scripts/retain-timestamp-candidate-test.py
       - name: E2 compatibility tests in the shared development environment

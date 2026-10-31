@@ -567,7 +567,23 @@ extend-exclude = [
   "scripts/family_pin_guard.py",
   "scripts/record_paths.py",
   "scripts/go-module-size-gate.py",
+  # Trees that fail the rules above today. CI lints every vectors-* and interop/*
+  # directory by glob (force-exclude makes a named path win); this list is the
+  # burn-down and only shrinks. A new directory is linted from its first commit.
+  "vectors-acs-core/gen_vectors.py",
+  "vectors-w3c-report/gen_vectors.py",
+  "vectors-artifact-binding/gen_vectors.py",
+  "vectors-scitt-cose/gen_vectors.py",
+  "vectors-poc-evidence/build",
+  "vectors-poc-evidence/package",
+  "vectors-poc-evidence/tests",
+  "interop/aps-priorseal-e2-2026-09-30",
+  "interop/w3c-v01-appendix",
+  "interop/mcp-sdks",
+  "interop/wimse-agent-audit-record-reader-2026-10-01",
+  "interop/trace-anchor-tr-anc",
 ]
+force-exclude = true
 
 [tool.ruff.lint]
 # E/W pycodestyle, F pyflakes, I isort, UP pyupgrade, B bugbear, C901 mccabe
