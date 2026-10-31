@@ -273,7 +273,7 @@ func rrSha(value any) bool {
 		return false
 	}
 	for i := 0; i < len(s); i++ {
-		if !(s[i] >= '0' && s[i] <= '9' || s[i] >= 'a' && s[i] <= 'f') {
+		if (s[i] < '0' || s[i] > '9') && (s[i] < 'a' || s[i] > 'f') {
 			return false
 		}
 	}
@@ -1119,7 +1119,8 @@ func rrBundleDir(dir string) (map[string][]byte, error) {
 		if strings.HasPrefix(name, ".") || !strings.HasSuffix(name, ".json") {
 			continue
 		}
-		info, err := os.Stat(filepath.Join(dir, name))
+		// name is an entry of the corpus directory listing, never caller input.
+		info, err := os.Stat(filepath.Join(dir, name)) //nolint:gosec // G703: name comes from os.ReadDir(dir)
 		if err != nil || !info.Mode().IsRegular() {
 			continue
 		}

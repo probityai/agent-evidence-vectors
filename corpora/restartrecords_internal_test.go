@@ -158,14 +158,14 @@ func rrCases(t *testing.T, fx *rrFixture) []rrCase {
 		out = append(out, rrCase{label: fmt.Sprintf("bundle case %d", i), want: rrWant(t, item.Want),
 			judge: func() [2]string {
 				if len(assigned) > 0 {
-					real := rrDigest
+					realDigest := rrDigest
 					rrDigest = func(b []byte) string {
 						if d, ok := assigned[string(b)]; ok {
 							return d
 						}
-						return real(b)
+						return realDigest(b)
 					}
-					defer func() { rrDigest = real }()
+					defer func() { rrDigest = realDigest }()
 				}
 				return rrBundleAnswer(files)
 			}})
