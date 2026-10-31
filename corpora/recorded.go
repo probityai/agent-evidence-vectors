@@ -2,6 +2,7 @@ package corpora
 
 import (
 	"bytes"
+	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
@@ -10,6 +11,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"sort"
+	"strconv"
 	"strings"
 )
 
@@ -25,9 +27,15 @@ func init() { register(recordedSets{}) }
 //	sums-missing, sums-malformed, path-unsafe, file-missing, digest-mismatch,
 //	file-unlisted, sums-unpinned, binding-malformed, binding-mismatch.
 //
-// The one binding type, opentimestamps-file-digest, reads only the proof
-// file's header: it holds when the header commits to the SHA-256 of the named
-// subject file. The Bitcoin attestation is not verified.
+// opentimestamps-file-digest reads only the proof file's header: it holds when
+// the header commits to the SHA-256 of the named subject file.
+// opentimestamps-bitcoin-header also runs every operation of the proof: one
+// Bitcoin attestation at the held block's height must commit to the Merkle
+// root of the held 80-byte header, which must hash to its block id
+// (anchor-mismatch); an optional "after" pointer names a height in the subject
+// that must be below the anchor (anchor-not-after-seen), and an optional
+// "statedTime" pointer a Unix time no later than the header time plus 7200
+// seconds (stated-after-anchor). Proof of work is not checked.
 type recordedSets struct{}
 
 func (recordedSets) Suite() string { return "recorded-set-conformance/v1" }
@@ -40,9 +48,121 @@ var (
 )
 
 type recordedBinding struct {
-	Type    string `json:"type"`
-	Proof   string `json:"proof"`
-	Subject string `json:"subject"`
+	Type       string         `json:"type"`
+	Proof      string         `json:"proof"`
+	Subject    string         `json:"subject"`
+	Block      *recordedBlock `json:"block"`
+	After      *string        `json:"after"`
+	StatedTime *string        `json:"statedTime"`
+}
+
+type recordedBlock struct {
+	Height *uint64 `json:"height"`
+	Header string  `json:"header"`
+	ID     string  `json:"id"`
+}
+
+const recordedOTSTolerance = 7200
+
+func recordedBlockID(header []byte) string {
+	first := sha256.Sum256(header)
+	second := sha256.Sum256(first[:])
+	for i, j := 0, len(second)-1; i < j; i, j = i+1, j-1 {
+		second[i], second[j] = second[j], second[i]
+	}
+	return hex.EncodeToString(second[:])
+}
+
+// recordedPointer is the integer an RFC 6901 pointer names in a JSON subject.
+func recordedPointer(subject []byte, pointer string) (int64, bool) {
+	if !strings.HasPrefix(pointer, "/") {
+		return 0, false
+	}
+	decoder := json.NewDecoder(bytes.NewReader(subject))
+	decoder.UseNumber()
+	var doc any
+	if err := decoder.Decode(&doc); err != nil {
+		return 0, false
+	}
+	for _, token := range strings.Split(pointer[1:], "/") {
+		token = strings.ReplaceAll(strings.ReplaceAll(token, "~1", "/"), "~0", "~")
+		switch node := doc.(type) {
+		case map[string]any:
+			next, ok := node[token]
+			if !ok {
+				return 0, false
+			}
+			doc = next
+		case []any:
+			index, err := strconv.Atoi(token)
+			if err != nil || index < 0 || index >= len(node) || strconv.Itoa(index) != token {
+				return 0, false
+			}
+			doc = node[index]
+		default:
+			return 0, false
+		}
+	}
+	number, ok := doc.(json.Number)
+	if !ok || strings.ContainsAny(number.String(), ".eE") {
+		return 0, false
+	}
+	value, err := number.Int64()
+	return value, err == nil
+}
+
+// recordedAnchorCodes is what an opentimestamps-bitcoin-header binding adds.
+func recordedAnchorCodes(b recordedBinding, proof, subject []byte) []string {
+	if b.Block == nil || b.Block.Height == nil {
+		return []string{"binding-malformed"}
+	}
+	header, err := hex.DecodeString(b.Block.Header)
+	if err != nil || len(header) != 80 || recordedBlockID(header) != b.Block.ID {
+		return []string{"binding-malformed"}
+	}
+	digest := sha256.Sum256(subject)
+	attestations, err := arOTSAttestations(proof, digest[:])
+	if err != nil {
+		return []string{"binding-malformed"}
+	}
+	matched := false
+	for _, a := range attestations {
+		if !bytes.Equal(a.tag, arOTSBitcoin) {
+			continue
+		}
+		pr := &arTLS{data: a.payload}
+		height, err := pr.varuint()
+		if err != nil || pr.at != len(a.payload) {
+			return []string{"binding-malformed"}
+		}
+		if height == *b.Block.Height && bytes.Equal(a.message, header[36:68]) {
+			matched = true
+		}
+	}
+	var codes []string
+	if !matched {
+		codes = append(codes, "anchor-mismatch")
+	}
+	if b.After != nil {
+		seen, ok := recordedPointer(subject, *b.After)
+		if !ok {
+			return []string{"binding-malformed"}
+		}
+		if seen >= 0 && uint64(seen) >= *b.Block.Height {
+			codes = append(codes, "anchor-not-after-seen")
+		}
+	}
+	if b.StatedTime != nil {
+		stated, ok := recordedPointer(subject, *b.StatedTime)
+		if !ok {
+			return []string{"binding-malformed"}
+		}
+		seconds := int64(header[68]) | int64(header[69])<<8 | int64(header[70])<<16 | int64(header[71])<<24
+		if stated > seconds+recordedOTSTolerance {
+			codes = append(codes, "stated-after-anchor")
+		}
+	}
+	return codes
 }
 
 type recordedEntry struct {
@@ -119,29 +239,33 @@ func recordedPresent(dir string) (map[string]bool, bool, error) {
 	return present, linked, err
 }
 
-func recordedBindingCodes(dir string, b recordedBinding, listed map[string]string) string {
+func recordedBindingCodes(dir string, b recordedBinding, listed map[string]string) []string {
 	_, proofListed := listed[b.Proof]
 	_, subjectListed := listed[b.Subject]
-	if b.Type != "opentimestamps-file-digest" || !proofListed || !subjectListed {
-		return "binding-malformed"
+	known := b.Type == "opentimestamps-file-digest" || b.Type == "opentimestamps-bitcoin-header"
+	if !known || !proofListed || !subjectListed {
+		return []string{"binding-malformed"}
 	}
 	proof, err := readIn(dir, b.Proof)
 	if err != nil {
-		return "binding-malformed"
+		return []string{"binding-malformed"}
 	}
 	subject, err := readIn(dir, b.Subject)
 	if err != nil {
-		return "binding-malformed"
+		return []string{"binding-malformed"}
 	}
 	head := len(recordedOTSMagic)
 	if !bytes.HasPrefix(proof, recordedOTSMagic) || len(proof) < head+34 ||
 		proof[head] != 0x01 || proof[head+1] != 0x08 {
-		return "binding-malformed"
+		return []string{"binding-malformed"}
 	}
 	if hex.EncodeToString(proof[head+2:head+34]) != sha(subject) {
-		return "binding-mismatch"
+		return []string{"binding-mismatch"}
 	}
-	return ""
+	if b.Type == "opentimestamps-bitcoin-header" {
+		return recordedAnchorCodes(b, proof, subject)
+	}
+	return nil
 }
 
 // recordedCheck returns every code a set draws, sorted; none means verified.
@@ -188,7 +312,7 @@ func recordedCheck(dir string, pin *string, bindings []recordedBinding) ([]strin
 			}
 		}
 		for _, b := range bindings {
-			if code := recordedBindingCodes(dir, b, listed); code != "" {
+			for _, code := range recordedBindingCodes(dir, b, listed) {
 				codes[code] = true
 			}
 		}
