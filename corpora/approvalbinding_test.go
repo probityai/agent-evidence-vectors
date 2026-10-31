@@ -5,6 +5,7 @@ package corpora_test
 // must move the derived decision, and the reader must report the move.
 
 import (
+	"encoding/json"
 	"os"
 	"path/filepath"
 	"strings"
@@ -103,6 +104,10 @@ func TestApprovalBindingRenewalChecksNameTheirOwnReason(t *testing.T) {
 		"approval-renewal-bounds-differ":                  "renewal_binding_invalid",
 		"approval-renewal-reopens-consumed-effect":        "effect_already_closed",
 		"approval-renewal-reopens-uncertain-effect":       "effect_already_closed",
+		"approval-renewal-accepted-after-use":             "renewal_transition_missing",
+		"approval-renewal-predecessor-ambiguous":          "renewal_binding_invalid",
+		"approval-use-cites-predecessor":                  "approval_not_cited",
+		"approval-use-cites-no-approval":                  "approval_not_cited",
 	}
 	for from, reason := range reasons {
 		t.Run(from, func(t *testing.T) {
@@ -119,5 +124,27 @@ func TestApprovalBindingRenewalChecksNameTheirOwnReason(t *testing.T) {
 				t.Fatalf("want a derived allow, got %q", got)
 			}
 		})
+	}
+}
+
+// The ambiguous-predecessor member puts the matching predecessor first, the
+// order a reader that takes the first match allows. Moving the conflicting
+// record ahead of it must leave the derived verdict where it was.
+func TestApprovalBindingAmbiguousPredecessorIgnoresOrder(t *testing.T) {
+	const member = "approval-renewal-predecessor-ambiguous"
+	body := abRead(t, member, "record.json")
+	var record map[string]any
+	if err := json.Unmarshal(body, &record); err != nil {
+		t.Fatal(err)
+	}
+	presented := record["presentedApprovals"].([]any)
+	presented[0], presented[1] = presented[1], presented[0]
+	swapped, err := json.MarshalIndent(record, "", "  ")
+	if err != nil {
+		t.Fatal(err)
+	}
+	dir := abStage(t, "allow-bound", "record.json", append(swapped, '\n'))
+	if got := scDerived(t, dir, "allow-bound"); !strings.Contains(got, "derived deny/renewal_binding_invalid,") {
+		t.Fatalf("want derived deny/renewal_binding_invalid with the conflicting record first, got %q", got)
 	}
 }
