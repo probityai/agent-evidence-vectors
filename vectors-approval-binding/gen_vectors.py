@@ -6,6 +6,11 @@ changes one binding of an otherwise conformant record: the approval identifier,
 the consumed set, the signing key, the user principal, the event or phase, the
 tool, target or payload, the validity window, or the policy release that judged
 the record. The motivating public fixes are listed in README.md.
+
+The renewal cases add the replacement direction: an approval B that takes the
+place of an approval A over equal bounds, under a recorded and accepted
+transition, with decisions that stay distinct and an effect that stays closed
+once it is closed.
 """
 
 from __future__ import annotations
@@ -39,6 +44,37 @@ ASSERTED_APPROVAL: dict[str, Any] = {
 }
 
 
+# A renewal: B replaces A over equal bounds. The bounds are equal, the recorded
+# decisions are not, and the transition cites the predecessor's decision.
+A = {"decisionId": "dec-0001"}
+B = {"approvalId": "appr-0002", "decisionId": "dec-0002", "issuedAt": "2026-10-21T11:58:00Z",
+     "expiresAt": "2026-10-21T12:08:00Z"}
+EFFECT = "effect-0001"
+
+
+def transition(**changes: Any) -> dict[str, Any]:
+    """The accepted exclusive replacement of appr-0001 by appr-0002."""
+    body = {"acceptedAt": "2026-10-21T11:58:00Z", "mode": "exclusive-replacement",
+            "predecessorApprovalId": "appr-0001", "predecessorDecisionId": "dec-0001",
+            "status": "accepted", "successorApprovalId": "appr-0002",
+            "successorDecisionId": "dec-0002", "transitionId": "trans-0001"}
+    body.update(changes)
+    return body
+
+
+def renewal(*, successor: dict[str, Any] | None = None,
+            moved: dict[str, Any] | None = None, effect: str = "RESERVED",
+            use: dict[str, Any] | None = None) -> dict[str, Any]:
+    """B presented as a renewal of A, with ``successor`` changes to B and
+    ``moved`` changes to the transition. Each argument is one departure."""
+    b = {**B, **(successor or {})}
+    return record(
+        approved=b, presented=[approval(**A), approval(**b)],
+        transitions=[transition(**(moved or {}))], effects={EFFECT: effect},
+        use={"approvalId": "appr-0002", "authorityForm": "renewed", "effectKey": EFFECT,
+             **(use or {})})
+
+
 def _sha(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
@@ -64,7 +100,9 @@ def record(*, presented: list[dict[str, Any]] | None = None,
            consumed: list[str] | None = None, key: str = "reviewer-1-key-2026-10",
            use: dict[str, Any] | None = None, release: dict[str, Any] | None = None,
            contract: str | None = reader.CONTRACT_ID,
-           approved: dict[str, Any] | None = None) -> dict[str, Any]:
+           approved: dict[str, Any] | None = None,
+           transitions: list[dict[str, Any]] | None = None,
+           effects: dict[str, str] | None = None) -> dict[str, Any]:
     """One record; every argument is a departure from the conformant record."""
     the_approval = approval(**(approved or {}))
     body: dict[str, Any] = {
@@ -83,6 +121,10 @@ def record(*, presented: list[dict[str, Any]] | None = None,
     }
     if contract is not None:
         body["contractId"] = contract
+    if transitions is not None:
+        body["transitions"] = transitions
+    if effects is not None:
+        body["effectRegistry"] = effects
     return body
 
 
@@ -153,6 +195,49 @@ def cases() -> list[Case]:
          record(release={"lastServedAt": "2026-10-21T11:54:59Z"}), APPROVED, "deny",
          "release_not_served_at_decision",
          "the release stopped being served more than the grace period before the decision"),
+        ("approval-renewed-same-bounds", renewal(), APPROVED, "allow", "bound",
+         "control: B replaces A over equal bounds under an accepted transition that cites "
+         "A's decision; the decisions are distinct and the effect reservation moves to B"),
+        ("allow-predecessor-before-replacement", record(
+            approved=A, presented=[approval(**A), approval(**B)], transitions=[transition()],
+            effects={EFFECT: "RESERVED"},
+            use={"effectKey": EFFECT, "usedAt": "2026-10-21T11:57:00Z"}),
+         APPROVED, "allow", "bound",
+         "control: A is presented before the replacement is accepted, so it is still "
+         "applicable and unexpired"),
+        ("approval-reused-after-renewal", record(
+            approved=A, presented=[approval(**A), approval(**B)], transitions=[transition()],
+            effects={EFFECT: "RESERVED"}, use={"effectKey": EFFECT}),
+         APPROVED, "deny", "approval_superseded",
+         "A is presented after the A to B replacement was accepted and before any execution "
+         "under B; A is unexpired and unconsumed, so only supersession can refuse it"),
+        ("approval-renewal-transition-not-accepted",
+         renewal(moved={"status": "proposed"}), APPROVED, "deny",
+         "renewal_transition_missing",
+         "the use claims a renewal, and the only transition into B was proposed and never "
+         "accepted"),
+        ("approval-renewal-decision-not-distinct",
+         renewal(successor={"decisionId": "dec-0001"},
+                 moved={"successorDecisionId": "dec-0001"}),
+         APPROVED, "deny", "renewal_binding_invalid",
+         "B carries the same recorded decision as A, so the renewal is not a second decision"),
+        ("approval-renewal-predecessor-decision-not-cited",
+         renewal(moved={"predecessorDecisionId": "dec-0099"}), APPROVED, "deny",
+         "renewal_binding_invalid",
+         "the accepted transition cites a decision that is not the one that authorised A"),
+        ("approval-renewal-bounds-differ",
+         renewal(successor={"target": "workspace/archive.json"},
+                 use={"target": "workspace/archive.json"}),
+         APPROVED, "deny", "renewal_binding_invalid",
+         "B names another target than A, so a same-bounds renewal is claimed over changed "
+         "bounds"),
+        ("approval-renewal-reopens-consumed-effect", renewal(effect="CONSUMED"), APPROVED,
+         "deny", "effect_already_closed",
+         "the replacement is valid and B is unexpired, but the effect was already consumed"),
+        ("approval-renewal-reopens-uncertain-effect", renewal(effect="UNCERTAIN_CLOSE"),
+         APPROVED, "deny", "effect_already_closed",
+         "the replacement is valid, but the effect closed with an uncertain outcome that a "
+         "new grant must not turn into nothing happened"),
         ("contract-id-missing", record(contract=None), APPROVED, "deny",
          "contract_id_missing", "the record names no contract"),
         ("contract-id-unknown", record(contract=reader.CONTRACT_ID.replace("/v1", "/v0")),

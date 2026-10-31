@@ -1,0 +1,27 @@
+{
+  "guardian": "GenAI-Security-Project/agent-control-standard reference-implementations/agt",
+  "shim": "hosts/claude-code/acs-hook.ts",
+  "ref": "d1ad2943107601e3c09f8e0c8eaf57b78b38a01b",
+  "runtime": "Bun 1.4.2 on Linux x86_64",
+  "note": "the same head under the Bun version issue 111 observed silent on Windows 11",
+  "status": {
+    "C0": "PASS",
+    "H1": "PASS",
+    "H2": "PASS",
+    "H3a": "PASS",
+    "H3b": "PASS",
+    "H3c": "PASS",
+    "H3d": "PASS",
+    "H3e": "PASS",
+    "H3f": "PASS",
+    "H6-up": "PASS",
+    "H4a": "PASS",
+    "H4b": "PASS",
+    "H7": "PASS",
+    "H6-down": "PASS",
+    "H5a": "PASS",
+    "H6-deny-up": "PASS",
+    "H5b": "PASS",
+    "H6-deny-down": "PASS"
+  }
+}
