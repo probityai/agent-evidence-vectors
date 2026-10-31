@@ -22,7 +22,7 @@ ratchet = "ratchet.cli:main"
 [project.optional-dependencies]
 bench = [
     "agentdojo==0.1.35",
-    "litellm==1.102.1",
+    "litellm==1.102.2",
     "terminal-bench==0.2.18",
     "tau-bench",
     "tool-sandbox",
@@ -90,7 +90,7 @@ tool-sandbox = { git = "https://github.com/apple/ToolSandbox", rev = "c8571d7854
 [tool.uv]
 # tau2-bench caps litellm below 1.82.7 only to keep out the two compromised PyPI releases (1.82.7, 1.82.8;
 # tau2-bench commit e40aba6). The bench extra already pins litellm 1.102.1, a later clean release.
-override-dependencies = ["litellm==1.102.1"]
+override-dependencies = ["litellm==1.102.2"]
 
 [[tool.uv.dependency-metadata]]
 # The tool-sandbox package pins every dependency exactly (pydantic 2.7.4 conflicts with raindrop-ai, which needs
