@@ -83,6 +83,46 @@ the vector, the requirement, and the client run or retained transcript it used. 
 verdict record names it by digest to lift `witness_scope` above `SELF`; the runner
 cannot write one.
 
+### `predicate/v1/incident-action-authorization`
+
+- Document: `spec/predicates/incident-action-authorization.md`
+- Profile: `profiles/restoration-evidence.md` (`restoration-evidence/v1`)
+- Corpus: `vectors-restart-records/` (released with the checker)
+
+Record R1 of the restoration evidence profile: who authorized one incident response action, the role each named party held, the kind of grant the authorizer acted on, and whether the authority was committed before the action ran.
+
+### `predicate/v1/revocation-sweep`
+
+- Document: `spec/predicates/revocation-sweep.md`
+- Profile: `profiles/restoration-evidence.md` (`restoration-evidence/v1`)
+- Corpus: `vectors-restart-records/` (released with the checker)
+
+Record R2 of the restoration evidence profile: the credential population a revocation sweep ran over, its partition into revoked, retained and unassessed, and the coverage the producer claims, so that a claim wider than the partition is visible from the record alone.
+
+### `predicate/v1/re-enable-decision`
+
+- Document: `spec/predicates/re-enable-decision.md`
+- Profile: `profiles/restoration-evidence.md` (`restoration-evidence/v1`)
+- Corpus: `vectors-restart-records/` (released with the checker)
+
+Record R3 of the restoration evidence profile: one decision to resume, stage or keep restricting a stopped agent system, its approvers, and for every evidence slot either a digest or an explicit statement that it was not addressed.
+
+### `predicate/v1/joint-authority`
+
+- Document: `spec/predicates/joint-authority.md`
+- Profile: `profiles/restoration-evidence.md` (`restoration-evidence/v1`)
+- Corpus: `vectors-restart-records/` (released with the checker)
+
+Record R4 of the restoration evidence profile: which party may act on which asset when an incident spans organisations, under what kind of grant, and which indicators they share.
+
+### `predicate/v1/revocation-boundary`
+
+- Document: `spec/predicates/revocation-boundary.md`
+- Profile: `profiles/restoration-evidence.md` (`restoration-evidence/v1`)
+- Corpus: `vectors-restart-records/` (released with the checker)
+
+For one declared sink and test window, whether an effect from a task in flight committed after a credential revocation took effect, with the counts a reader needs to judge it. It names no mechanism.
+
 ## Registered here
 
 ### `predicate/v1/kernel-substrate`

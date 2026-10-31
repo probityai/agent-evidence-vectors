@@ -1516,6 +1516,7 @@ def define() -> None:
     define_consumption()
     define_consumption_carryover()
     define_audit_next()
+    define_reject_paths()
     rank = {draft_id: i for i, draft_id in enumerate(ORDER)}
     missing = [m["draftId"] for m in MEMBERS if m["draftId"] not in rank]
     if missing or len(rank) != len(MEMBERS):
@@ -3492,6 +3493,222 @@ def _r15(entry_: dict[str, Any], _logged: bytes) -> None:
             element["value"] = root_element(OTHER_ROOT_JWKS)["value"]
 
 
+def _statement_edit(parent: str, edit: Callable[[dict[str, Any]], None]) -> Callable[[], Built]:
+    """A member whose Statement, not its predicate, differs from the parent's."""
+
+    def build() -> Built:
+        stmt = statement(from_pred(parent))
+        edit(stmt)
+        return {"payload": canonical_bytes(stmt)}
+
+    return build
+
+
+def _raw_payload(parent: str, tail: bytes) -> Callable[[], Built]:
+    """The parent's Statement bytes with ``tail`` appended or substituted wholesale."""
+
+    def build() -> Built:
+        payload = canonical_bytes(statement(from_pred(parent)))
+        return {"payload": payload[:-1] + tail}
+
+    return build
+
+
+def _unreadable_envelope() -> Built:
+    env = envelope(canonical_bytes(statement(from_pred("A1"))))
+    env["payloadType"] = "application/json"
+    return {"bundle": env}
+
+
+def _held_extra(pred: dict[str, Any]) -> None:
+    _consumption(pred)["held"][0]["note"] = "extra"
+
+
+def _blank_key(pred: dict[str, Any]) -> None:
+    pred["decision"]["operationKey"] = ""
+
+
+def _entry_edit(
+    change: Callable[[dict[str, Any]], None],
+) -> Callable[[dict[str, Any], bytes], None]:
+    def apply(entry_: dict[str, Any], _logged: bytes) -> None:
+        change(entry_)
+
+    return apply
+
+
+def _extra_root(entry_: dict[str, Any]) -> None:
+    entry_["validationData"].append(root_element(ROOT_JWKS))
+
+
+def _garbled_root(entry_: dict[str, Any]) -> None:
+    for element in entry_["validationData"]:
+        if element["for"] == "delegation-root":
+            element["value"] = "***not base64***"
+
+
+def _unparseable_retained() -> Built:
+    env = envelope(b"{not json")
+    return {"retained": {"envelope": env, "retention": retention_entry(env, received=False)}}
+
+
+def _retained_without_entry() -> Built:
+    return {"bundle": {"envelope": a1_envelope()}}
+
+
+def _set_wrong_key() -> Built:
+    records = [envelope(p) for p in sequence_set([3])()["set"]]
+    return {"bundle": {"members": records}}
+
+
+def _set_all_malformed() -> Built:
+    payloads = []
+    for stamp in ("2026-09-19T11:04:05Z", "2026-09-18T11:04:06Z"):
+        pred = from_pred("A1")
+        pred["issuedAt"] = stamp
+        payloads.append(signed(pred)["payload"])
+    return {"set": payloads}
+
+
+# The section of draft-gilda-audit-agent-audit-record-04 whose text makes each
+# member malformed.
+REJECT_SECTIONS: dict[str, str] = {
+    "X1": "4.1.1", "X17": "4.9", "X18": "4.9",
+    "X2": "4.6", "X3": "4.3", "X4": "4.8", "X5": "4.8", "X6": "5.9", "X7": "5.9",
+    "X8": "4.2", "X9": "4.4", "X10": "4.6", "X11": "4.7", "X12": "4.7",
+    "X13": "4.7", "X14": "4.7", "X15": "4.6", "X16": "4.7",
+}
+
+
+def define_reject_paths() -> None:
+    """Members X1 to X18: one reject member for each path of the reference reader
+    that no earlier member reached and that fires on a one-field change of an
+    existing member. Each is its parent with that one field changed."""
+    rows: list[tuple[str, str, str, str, Callable[[], Built], list[str]]] = [
+        (
+            "X1", "x1-float-in-statement", "A1", "a number with a fraction in the Statement",
+            _raw_payload("A1", b',"ratio":0.5}'), ["value-not-representable"],
+        ),
+        (
+            "X2", "x2-payload-not-json", "A1", "a payload that is not JSON",
+            lambda: {"payload": b"{not json"}, ["not-parseable"],
+        ),
+        (
+            "X3", "x3-issued-at-no-offset", "A1", "issuedAt carrying no UTC offset",
+            mutate("A1", _set("issuedAt", "2026-09-19T11:04:06")), ["timestamp-malformed"],
+        ),
+        (
+            "X4", "x4-statement-type-unexpected", "A1", "_type naming another Statement type",
+            _statement_edit("A1", lambda st: st.__setitem__("_type", "https://example.com/Stmt")),
+            ["statement-type-unexpected"],
+        ),
+        (
+            "X5", "x5-predicate-type-mismatch", "A1", "predicateType naming another predicate",
+            _statement_edit(
+                "A1", lambda st: st.__setitem__("predicateType", "https://example.com/other/v1")
+            ),
+            ["predicate-type-mismatch"],
+        ),
+        (
+            "X6", "x6-held-entry-extra-member", "CS4",
+            "a held entry with a member beyond the three",
+            mutate("CS4", _held_extra), ["consumption-malformed"],
+        ),
+        (
+            "X7", "x7-operation-key-empty", "CS4", "decision.operationKey the empty string",
+            mutate("CS4", _blank_key), ["operation-key-invalid"],
+        ),
+        (
+            "X8", "x8-subject-digest-not-request", "A1", "the first subject's digest another value",
+            _statement_edit(
+                "A1", lambda st: st["subject"][0]["digest"].__setitem__("sha256", AFTER)
+            ),
+            ["subject-request-mismatch"],
+        ),
+        (
+            "X9", "x9-envelope-payload-type", "A1", "payloadType another media type",
+            _unreadable_envelope, ["envelope-unreadable"],
+        ),
+        (
+            "X10", "x10-predicate-not-an-object", "A1", "predicate a string, correctly signed",
+            _statement_edit("A1", lambda st: st.__setitem__("predicate", "none")),
+            ["statement-shape"],
+        ),
+    ]
+    for draft_id, slug, parent, row, build, codes in rows:
+        member(
+            draft_id, slug, parent, row, build, "malformed", codes,
+            section=REJECT_SECTIONS.get(draft_id),
+        )
+
+    dated: list[tuple[str, str, str, str, Callable[[], Built], str]] = [
+        (
+            "X11", "x11-received-not-boolean", "R1", "received a string, not a boolean",
+            retained("X11", _entry_edit(lambda e: e.__setitem__("received", "no")), "R1"),
+            "entry-shape-malformed",
+        ),
+        (
+            "X12", "x12-entry-names-another-envelope", "R1", "envelopeDigest another envelope's",
+            retained(
+                "X12",
+                _entry_edit(lambda e: e.__setitem__("envelopeDigest", h("other"))),
+                "R1",
+            ),
+            "entry-envelope-digest-mismatch",
+        ),
+        (
+            "X13", "x13-root-element-without-root-digest", "R1",
+            "a delegation-root element beside a record carrying no delegation.rootDigest",
+            retained("X13", _entry_edit(_extra_root), "R1"),
+            "entry-delegation-root-unexpected",
+        ),
+        (
+            "X14", "x14-root-element-not-base64", "R13",
+            "the delegation-root element's value not base64",
+            retained("X14", _entry_edit(_garbled_root), "R13", make_envelope=rooted_envelope),
+            "entry-delegation-root-unreadable",
+        ),
+    ]
+    for draft_id, slug, parent, row, build, code in dated:
+        member(
+            draft_id, slug, parent, row, build, "valid", tier="authoritative",
+            section=REJECT_SECTIONS.get(draft_id),
+            dating=dating(
+                dated_at=None if draft_id == "X11" else "2026-09-19T11:05:00Z",
+                entry_="malformed",
+                code=code,
+            ),
+        )
+    member(
+        "X15", "x15-retained-record-unparseable", "R1",
+        "the retained record's payload not JSON: the record malformed and the dating unreadable",
+        _unparseable_retained, "malformed", ["not-parseable"],
+        section=REJECT_SECTIONS.get("X15"),
+        dating=dating(dated_at=None, entry_="malformed", code="entry-record-unreadable"),
+    )
+    member(
+        "X16", "x16-retained-without-retention", "R1",
+        "a retained member with no retention entry",
+        _retained_without_entry, "malformed", ["retained-unreadable"],
+        section=REJECT_SECTIONS.get("X16"),
+        dating=dating(dated_at=None, entry_="malformed", code="retained-unreadable"),
+    )
+    member(
+        "X17", "x17-set-without-records", "SQ4",
+        "a set member whose records member is named otherwise",
+        _set_wrong_key, "malformed", [],
+        joint={"verdict": "malformed", "codes": ["set-unreadable"]},
+        section=REJECT_SECTIONS.get("X17"),
+    )
+    member(
+        "X18", "x18-set-of-malformed-records", "A1",
+        "a set whose two records are each malformed under IS1 and IS2",
+        _set_all_malformed, "malformed", ["issued-before-sealed"],
+        joint={"verdict": "malformed", "codes": ["set-record-malformed"]},
+        section=REJECT_SECTIONS.get("X18"),
+    )
+
+
 def define_retained() -> None:
     """Rows R1 to R9: an envelope with its retention entry. The record is A1 and
     valid in every one; what each row tests is the dating check, whose result
@@ -3712,7 +3929,8 @@ ORDER = (
     "CS26 CS27 CS28 CS29 CS30 CS31 CS32 CS33 CS34 CS35 CS36 CS37 CS38 CS39 CS40 "
     "A21 SQ1 SQ2 SQ3 SQ4 SQ5 "
     "R10 R11 R12 R13 R14 R15 R16 "
-    "IS1 IS2"
+    "IS1 IS2 "
+    "X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15 X16 X17 X18"
 ).split()
 
 
@@ -3762,6 +3980,9 @@ def member_folder(entry: Member) -> str:
 def member_bundle(made: Built) -> dict[str, Any]:
     """The JSON a member's file carries: a set's records, a retained record's
     envelope beside its entry, or the one envelope."""
+    if "bundle" in made:
+        bundle: dict[str, Any] = made["bundle"]
+        return bundle
     if "set" in made:
         return {"records": [envelope(payload) for payload in made["set"]]}
     if "retained" in made:

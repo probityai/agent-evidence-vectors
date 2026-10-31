@@ -1,0 +1,467 @@
+{
+  "schema": "probity.lab.source-manifest.v1",
+  "archive": "selected-public-source.zip",
+  "archiveBytes": 102243,
+  "archiveSha256": "9d3454dacb9ea35491bdbe63645b22db93e293046071dcccdbb84a5eebaa0eea",
+  "members": [
+    {
+      "member": "corpus/INDEX.md",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/INDEX.md",
+      "gitBlob": "5998b3f706e2a939b172649ac342f29cb3a85922",
+      "bytes": 9932,
+      "sha256": "2ba2bc5895387a5b4a8d86398f5fd4311d2f12a1077c5bd60fab1eb535998d99"
+    },
+    {
+      "member": "corpus/LICENSE",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "LICENSE",
+      "gitBlob": "9ab74de02c30f8c28d3890849711b4d556dc439c",
+      "bytes": 11343,
+      "sha256": "8b506a9d145be0a6fbef3f0519996faf84c770f8ab8d32d120c8682f2ad6181f"
+    },
+    {
+      "member": "corpus/MANIFEST.json",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/MANIFEST.json",
+      "gitBlob": "485ceebc51407984a68886c3cfb1eee8d700b0db",
+      "bytes": 43329,
+      "sha256": "df880762ac312d4754fa3ac85c21a1356552d4d442503b194324449bfc79c50c"
+    },
+    {
+      "member": "corpus/README.md",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/README.md",
+      "gitBlob": "391a05e08c0e102a7516d3eceaf408e5704ac9ac",
+      "bytes": 14614,
+      "sha256": "a7cc76d217e6c3b1cd1e13d1152366efa20d75bae9d07bc6de3c154495c4a767"
+    },
+    {
+      "member": "corpus/context/ce0cdbb366659fa7c.json",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/context/ce0cdbb366659fa7c.json",
+      "gitBlob": "838e1c1c450d11c28e15a55f2c637ced532f56ab",
+      "bytes": 457,
+      "sha256": "e0cdbb366659fa7cc657742bca35ee4423308ac46da01d7d1b90bff1292219cd"
+    },
+    {
+      "member": "corpus/digest.py",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/digest.py",
+      "gitBlob": "bf9a037cbe4de9d1987b6f366de1d8bc0fceea76",
+      "bytes": 2778,
+      "sha256": "e25e8e246981898682cd89c6efe095fdbed2469fac99e13decbe40e718fa5d21"
+    },
+    {
+      "member": "corpus/gen_vectors.py",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/gen_vectors.py",
+      "gitBlob": "d639d50d80da88f378c9b6ee21d000da468bd97a",
+      "bytes": 51171,
+      "sha256": "c4870334ee18bfabb4b97da689c8a1e251f4b0788fbf44b334997740b3cd98f4"
+    },
+    {
+      "member": "corpus/keys/jwks-no-window.json",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/keys/jwks-no-window.json",
+      "gitBlob": "331632447ec6c9b0b361eb6a842a14cf74c726b4",
+      "bytes": 884,
+      "sha256": "12943aab1abb1f3cc85c058bc2a2caf5245714cf516bbab171ae622fbcce8cd7"
+    },
+    {
+      "member": "corpus/keys/jwks.json",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/keys/jwks.json",
+      "gitBlob": "6dbc42cd84c54f8970a1761d85cf3f3c129f791e",
+      "bytes": 1239,
+      "sha256": "5f48f37dea8f6cc4197b97ccbb2d39e5ac12a789d054d3b6dd8edf4e642de441"
+    },
+    {
+      "member": "corpus/receipts/v0142580fad54af78.json",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/receipts/v0142580fad54af78.json",
+      "gitBlob": "91187fed2491604dce564e0f23c90e4a66261bd0",
+      "bytes": 509,
+      "sha256": "0142580fad54af78b8aa87581c5db0d56862662e1832f0cb417c812a5a93e3cd"
+    },
+    {
+      "member": "corpus/receipts/v03377fbbac6d12f8.json",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/receipts/v03377fbbac6d12f8.json",
+      "gitBlob": "9a5da4873c0f15ad1255aa7b6eab488c1fbcb04b",
+      "bytes": 517,
+      "sha256": "03377fbbac6d12f86c446b06194dcc0b92b8e5fc2ff3a5976b67c6abcd1feb76"
+    },
+    {
+      "member": "corpus/receipts/v0340fed8ef07e072.json",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/receipts/v0340fed8ef07e072.json",
+      "gitBlob": "682c38a246c4662a7f6acc7a2dbab47d35287327",
+      "bytes": 518,
+      "sha256": "0340fed8ef07e072f51848c5ee47f241bbca4d43f1f62821fedb9ea043ba7375"
+    },
+    {
+      "member": "corpus/receipts/v1adc0db0267a742b.json",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/receipts/v1adc0db0267a742b.json",
+      "gitBlob": "b77e7ea7a22471d810eb65c8f8dc603adfd52d7a",
+      "bytes": 518,
+      "sha256": "1adc0db0267a742b05ff4cadd613b64b78237dffa3511a88fdc2994aceb1e152"
+    },
+    {
+      "member": "corpus/receipts/v2c8c0aabb75e8aa0.json",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/receipts/v2c8c0aabb75e8aa0.json",
+      "gitBlob": "f255be131dd15d2b44b9d91bca5dc47171a32ee7",
+      "bytes": 546,
+      "sha256": "2c8c0aabb75e8aa05a9be71a864489b748ae0de97fb7b7f6afb09e4505533972"
+    },
+    {
+      "member": "corpus/receipts/v2e98d2f14251c8d6.json",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/receipts/v2e98d2f14251c8d6.json",
+      "gitBlob": "bcc607ed720add6e03bad32cdf3131df17727340",
+      "bytes": 548,
+      "sha256": "2e98d2f14251c8d650db34990ce3e2c7ff35932ae6f33d98f17f1ab5ac08b255"
+    },
+    {
+      "member": "corpus/receipts/v2f0a83c1364e52bc.json",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/receipts/v2f0a83c1364e52bc.json",
+      "gitBlob": "f54d5d01c8681755ee7315f388c1b9836b7ea3ef",
+      "bytes": 509,
+      "sha256": "2f0a83c1364e52bc3e43f56bffa3e2c802855d1f033dff1f3434b0f6a6ac0b37"
+    },
+    {
+      "member": "corpus/receipts/v3bb98f09b3068de5.json",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/receipts/v3bb98f09b3068de5.json",
+      "gitBlob": "f1d10d201f3f9a218bdb01707dc53196272f9950",
+      "bytes": 563,
+      "sha256": "3bb98f09b3068de56b076c70040d7f0d7283b107f15f62afe03b54e8bff86c95"
+    },
+    {
+      "member": "corpus/receipts/v4ec9fa36ae77ce07.json",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/receipts/v4ec9fa36ae77ce07.json",
+      "gitBlob": "7b6a35a77cd041ac4ea09edf789f6de4a1ee9be1",
+      "bytes": 521,
+      "sha256": "4ec9fa36ae77ce072a739608d965f7e68cc963c6a443d6bc586100348dd4df66"
+    },
+    {
+      "member": "corpus/receipts/v4f9fe96e52a39bfb.json",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/receipts/v4f9fe96e52a39bfb.json",
+      "gitBlob": "137c719f664ba3cf210afedfbe806878e09d0a7c",
+      "bytes": 521,
+      "sha256": "4f9fe96e52a39bfb332e405381beeca347a3283a491cf81aaa51717ab84ec440"
+    },
+    {
+      "member": "corpus/receipts/v5397adb77c3e6754.json",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/receipts/v5397adb77c3e6754.json",
+      "gitBlob": "42abaf5328510c8098d9c830c526bd9b3b24b03e",
+      "bytes": 540,
+      "sha256": "5397adb77c3e675409401cf7ec3f3553833f27ffed13f053d326939d3aa63327"
+    },
+    {
+      "member": "corpus/receipts/v814de39bf68212fc.json",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/receipts/v814de39bf68212fc.json",
+      "gitBlob": "518d18cb83e57258575c8516c705d5c0fb5aa65c",
+      "bytes": 619,
+      "sha256": "814de39bf68212fcac67e73f7a68f1440b429c50e00dd7e8c6580b69dc6260b2"
+    },
+    {
+      "member": "corpus/receipts/v9f2a63a5186a2fa8.json",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/receipts/v9f2a63a5186a2fa8.json",
+      "gitBlob": "2e021486aba945b20eff85f451055c09fb944576",
+      "bytes": 509,
+      "sha256": "9f2a63a5186a2fa87a36a93c1b0236f605b90e11fd99b60139ae3d04df8be4a7"
+    },
+    {
+      "member": "corpus/receipts/vaafe541bbd74c320.json",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/receipts/vaafe541bbd74c320.json",
+      "gitBlob": "24bf7a3116aaef86b9be6cf5f92060248a2c8d1d",
+      "bytes": 518,
+      "sha256": "aafe541bbd74c320be319674f4a82d035dd5f9701d47ca5b52d8329f57f25f6c"
+    },
+    {
+      "member": "corpus/receipts/vad088133176d7114.json",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/receipts/vad088133176d7114.json",
+      "gitBlob": "191f326fa1d178591990bbbc46ac0172b6f0da00",
+      "bytes": 518,
+      "sha256": "ad088133176d7114b49a30e860bd28570fba5d5931d5a7fb8c8c75d838559a30"
+    },
+    {
+      "member": "corpus/receipts/vb19450def8dcc5cd.json",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/receipts/vb19450def8dcc5cd.json",
+      "gitBlob": "df89a55314ac431518e68a0319c54e7210f9989d",
+      "bytes": 521,
+      "sha256": "b19450def8dcc5cddff22635c4e4d887e9842f8aa748475ed4f93408360378c4"
+    },
+    {
+      "member": "corpus/receipts/vbc25ef71da0567f9.json",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/receipts/vbc25ef71da0567f9.json",
+      "gitBlob": "44102f983bbf967137c9d9b5fb0dc57e6289f878",
+      "bytes": 521,
+      "sha256": "bc25ef71da0567f94063ce568e9020dca167c6213d38f7710b7b2f6122f4c478"
+    },
+    {
+      "member": "corpus/receipts/vc4b43c5739979581.json",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/receipts/vc4b43c5739979581.json",
+      "gitBlob": "5b3dc5e6af8be097318e36d0917001014f67bd1c",
+      "bytes": 521,
+      "sha256": "c4b43c5739979581d7ccac7275c2caf78754f53188ca22ac23ac32d3abaa5508"
+    },
+    {
+      "member": "corpus/receipts/vcc3cdb871ff27027.json",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/receipts/vcc3cdb871ff27027.json",
+      "gitBlob": "4efbad866effccd787ba5688630725421854288d",
+      "bytes": 525,
+      "sha256": "cc3cdb871ff270270354e67eceda3a2855ccdd941b151e6fb3919350edb8d7a4"
+    },
+    {
+      "member": "corpus/receipts/ve116653dd041dda0.json",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/receipts/ve116653dd041dda0.json",
+      "gitBlob": "4703c0b1a72426bfea34e6c2dbd79fc9e9060d26",
+      "bytes": 521,
+      "sha256": "e116653dd041dda0d00164fae31d899a27baffc5c8ee8f5d649fbd7d95313c06"
+    },
+    {
+      "member": "corpus/receipts/vea8370fb85e1b4b1.json",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/receipts/vea8370fb85e1b4b1.json",
+      "gitBlob": "d37bfc2eed046d03fb9964df01b5f3a3a6c2be07",
+      "bytes": 521,
+      "sha256": "ea8370fb85e1b4b143d88e349fb38581f30a37a86b1d8bdc7539f2cae77cb1ee"
+    },
+    {
+      "member": "corpus/spec-vendored/draft-farley-acta-signed-receipts-03.txt",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/spec-vendored/draft-farley-acta-signed-receipts-03.txt",
+      "gitBlob": "8a3152a1726a9ce3a91a403e28270edf8100f6a7",
+      "bytes": 96433,
+      "sha256": "bcde71799a621305254ea8b442fc829ac6d65fcff039f365e8a2349d8e902f19"
+    },
+    {
+      "member": "corpus/tools/veritasacta-verify.py",
+      "sourceRepository": "probityai/agent-evidence-vectors",
+      "sourceRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+      "sourcePath": "vectors-receipt-signature/tools/veritasacta-verify.py",
+      "gitBlob": "808201e94c597d2a097151442d5547bb7806b90c",
+      "bytes": 4304,
+      "sha256": "97160a53bf23ee4ad319ffd3054cc9302138986f7730ec3a25f98a77b1c51c34"
+    },
+    {
+      "member": "host/CONTRIBUTING.md",
+      "sourceRepository": "Agent-Authority-Conformance/aps-conformance-suite",
+      "sourceRevision": "f8d6eb4461759ce7dbb4c33ab03a688ba2bb541f",
+      "sourcePath": "CONTRIBUTING.md",
+      "gitBlob": "a4b06878516f3d2b14bd1b74edeead2d8fc4aae3",
+      "bytes": 9015,
+      "sha256": "3625bbfffab0bc79823bb14c5a50e33b3063d640397cc060c89227001fe7ad21"
+    },
+    {
+      "member": "host/LICENSE",
+      "sourceRepository": "Agent-Authority-Conformance/aps-conformance-suite",
+      "sourceRevision": "f8d6eb4461759ce7dbb4c33ab03a688ba2bb541f",
+      "sourcePath": "LICENSE",
+      "gitBlob": "63dd8db1652108be44e32740caedb45b57839249",
+      "bytes": 10768,
+      "sha256": "c6276a9c8c67588338d8439b0c7d27b3451335fc652e02a2be990e81c51ef40a"
+    },
+    {
+      "member": "record/RUN.md",
+      "sourceRepository": "Agent-Authority-Conformance/aps-conformance-suite",
+      "sourceRevision": "f8d6eb4461759ce7dbb4c33ab03a688ba2bb541f",
+      "sourcePath": "interop/receipt-signature-veritasacta-verify-0.10.21-8f81e376/RUN.md",
+      "gitBlob": "d7bdc8f69958367f16860a682352f8a4e43dea46",
+      "bytes": 5322,
+      "sha256": "829457a044c4bd68dbd3496a0aa6410003cc06fd3f45c59606e44d135a1aa141"
+    },
+    {
+      "member": "record/SHA256SUMS.txt",
+      "sourceRepository": "Agent-Authority-Conformance/aps-conformance-suite",
+      "sourceRevision": "f8d6eb4461759ce7dbb4c33ab03a688ba2bb541f",
+      "sourcePath": "interop/receipt-signature-veritasacta-verify-0.10.21-8f81e376/SHA256SUMS.txt",
+      "gitBlob": "f68078c2ec9a7952210fc23cc56bebb69b779e0f",
+      "bytes": 1297,
+      "sha256": "b622004cfd08e6a70b1355b8b88c56fadce5faf5f814af58441461b374c420dc"
+    },
+    {
+      "member": "record/always_valid.py",
+      "sourceRepository": "Agent-Authority-Conformance/aps-conformance-suite",
+      "sourceRevision": "f8d6eb4461759ce7dbb4c33ab03a688ba2bb541f",
+      "sourcePath": "interop/receipt-signature-veritasacta-verify-0.10.21-8f81e376/always_valid.py",
+      "gitBlob": "21ab4d8bf79b1461b4a904589e542c9895a4a302",
+      "bytes": 86,
+      "sha256": "b14494a37df6281be1f5d747403afc4d7216a3accfb578ce97e104e0e4dda40b"
+    },
+    {
+      "member": "record/corpus-identity.txt",
+      "sourceRepository": "Agent-Authority-Conformance/aps-conformance-suite",
+      "sourceRevision": "f8d6eb4461759ce7dbb4c33ab03a688ba2bb541f",
+      "sourcePath": "interop/receipt-signature-veritasacta-verify-0.10.21-8f81e376/corpus-identity.txt",
+      "gitBlob": "d572f74631c97d13b649335b306ea294667bc8c2",
+      "bytes": 602,
+      "sha256": "7b14d29d72735538895b771f2125c7e7f9a457b1659f5d725e9b4a17e53a59e9"
+    },
+    {
+      "member": "record/ctrl1.txt",
+      "sourceRepository": "Agent-Authority-Conformance/aps-conformance-suite",
+      "sourceRevision": "f8d6eb4461759ce7dbb4c33ab03a688ba2bb541f",
+      "sourcePath": "interop/receipt-signature-veritasacta-verify-0.10.21-8f81e376/ctrl1.txt",
+      "gitBlob": "f12d13eea138020bd4f15c2c57e4d872ed22664f",
+      "bytes": 4047,
+      "sha256": "40d733c036da8c72b553910e6954e8d1c64fb463bb0f4665256c4c77d1ea542a"
+    },
+    {
+      "member": "record/ctrl2-mutation.sh",
+      "sourceRepository": "Agent-Authority-Conformance/aps-conformance-suite",
+      "sourceRevision": "f8d6eb4461759ce7dbb4c33ab03a688ba2bb541f",
+      "sourcePath": "interop/receipt-signature-veritasacta-verify-0.10.21-8f81e376/ctrl2-mutation.sh",
+      "gitBlob": "daaa3c9d8c87e69d423760d559ebc05d95ef096b",
+      "bytes": 973,
+      "sha256": "96d4f871cba1238b11ea60c928447b8ff511084ba02de7ae3cb11978cafebc89"
+    },
+    {
+      "member": "record/ctrl2-run-on-mutated-copy.sh",
+      "sourceRepository": "Agent-Authority-Conformance/aps-conformance-suite",
+      "sourceRevision": "f8d6eb4461759ce7dbb4c33ab03a688ba2bb541f",
+      "sourcePath": "interop/receipt-signature-veritasacta-verify-0.10.21-8f81e376/ctrl2-run-on-mutated-copy.sh",
+      "gitBlob": "a2f3f2f437f9d9d07eda2a3a33c8df9aaab63354",
+      "bytes": 1048,
+      "sha256": "3117ad49f4805a2754017f513a0ca52f5783efb9eeae40cf0064ce6ea0e4eea6"
+    },
+    {
+      "member": "record/ctrl2.txt",
+      "sourceRepository": "Agent-Authority-Conformance/aps-conformance-suite",
+      "sourceRevision": "f8d6eb4461759ce7dbb4c33ab03a688ba2bb541f",
+      "sourcePath": "interop/receipt-signature-veritasacta-verify-0.10.21-8f81e376/ctrl2.txt",
+      "gitBlob": "65bd2ac9991c7486ee0aa267553c16fc9d5ab998",
+      "bytes": 8614,
+      "sha256": "57092d4e6a8648cc7256dd08aa882c33ba8b394f1721d5cd8a1d438fb4508fae"
+    },
+    {
+      "member": "record/ctrl2ok.txt",
+      "sourceRepository": "Agent-Authority-Conformance/aps-conformance-suite",
+      "sourceRevision": "f8d6eb4461759ce7dbb4c33ab03a688ba2bb541f",
+      "sourcePath": "interop/receipt-signature-veritasacta-verify-0.10.21-8f81e376/ctrl2ok.txt",
+      "gitBlob": "428126b80341a7a94ebb98f2fa6271d324be1967",
+      "bytes": 2816,
+      "sha256": "83e1edb357c1dbb83bed7846c7662d491bd5456468670f3eff5ffe8c3a7756f4"
+    },
+    {
+      "member": "record/digests21.py",
+      "sourceRepository": "Agent-Authority-Conformance/aps-conformance-suite",
+      "sourceRevision": "f8d6eb4461759ce7dbb4c33ab03a688ba2bb541f",
+      "sourcePath": "interop/receipt-signature-veritasacta-verify-0.10.21-8f81e376/digests21.py",
+      "gitBlob": "bcfaa1ab96fa22e809fc1b3265a10ce2d371fb84",
+      "bytes": 803,
+      "sha256": "917df66dfb7928bc01b4ffa340105abb4f5d9b8372e14908759c8a6cb3af96c7"
+    },
+    {
+      "member": "record/digests21.txt",
+      "sourceRepository": "Agent-Authority-Conformance/aps-conformance-suite",
+      "sourceRevision": "f8d6eb4461759ce7dbb4c33ab03a688ba2bb541f",
+      "sourcePath": "interop/receipt-signature-veritasacta-verify-0.10.21-8f81e376/digests21.txt",
+      "gitBlob": "f2b723aacc54b57e866c533098e2efcb86c824e1",
+      "bytes": 2135,
+      "sha256": "18208f10e3e568f754acb9b0e0c2afc851bb0a67fba2e26e1815ba524f2e04a4"
+    },
+    {
+      "member": "record/report1.json",
+      "sourceRepository": "Agent-Authority-Conformance/aps-conformance-suite",
+      "sourceRevision": "f8d6eb4461759ce7dbb4c33ab03a688ba2bb541f",
+      "sourcePath": "interop/receipt-signature-veritasacta-verify-0.10.21-8f81e376/report1.json",
+      "gitBlob": "0a5b61b442597e904e098d3231a0b182d98313df",
+      "bytes": 6201,
+      "sha256": "0e63176501c98c8c947bef3410f2766b99acc0ad4c5d2069b38eaee04fe735b5"
+    },
+    {
+      "member": "record/report2.json",
+      "sourceRepository": "Agent-Authority-Conformance/aps-conformance-suite",
+      "sourceRevision": "f8d6eb4461759ce7dbb4c33ab03a688ba2bb541f",
+      "sourcePath": "interop/receipt-signature-veritasacta-verify-0.10.21-8f81e376/report2.json",
+      "gitBlob": "0a5b61b442597e904e098d3231a0b182d98313df",
+      "bytes": 6201,
+      "sha256": "0e63176501c98c8c947bef3410f2766b99acc0ad4c5d2069b38eaee04fe735b5"
+    },
+    {
+      "member": "record/run1.txt",
+      "sourceRepository": "Agent-Authority-Conformance/aps-conformance-suite",
+      "sourceRevision": "f8d6eb4461759ce7dbb4c33ab03a688ba2bb541f",
+      "sourcePath": "interop/receipt-signature-veritasacta-verify-0.10.21-8f81e376/run1.txt",
+      "gitBlob": "590be7cd085a92dde4ddcb1bd36fdf3d61ee06fe",
+      "bytes": 2804,
+      "sha256": "739f1526cda624422308065176f02a203c8ffe417cfe518433db405e872f9510"
+    },
+    {
+      "member": "record/run2.txt",
+      "sourceRepository": "Agent-Authority-Conformance/aps-conformance-suite",
+      "sourceRevision": "f8d6eb4461759ce7dbb4c33ab03a688ba2bb541f",
+      "sourcePath": "interop/receipt-signature-veritasacta-verify-0.10.21-8f81e376/run2.txt",
+      "gitBlob": "590be7cd085a92dde4ddcb1bd36fdf3d61ee06fe",
+      "bytes": 2804,
+      "sha256": "739f1526cda624422308065176f02a203c8ffe417cfe518433db405e872f9510"
+    },
+    {
+      "member": "record/sha256sum-version.txt",
+      "sourceRepository": "Agent-Authority-Conformance/aps-conformance-suite",
+      "sourceRevision": "f8d6eb4461759ce7dbb4c33ab03a688ba2bb541f",
+      "sourcePath": "interop/receipt-signature-veritasacta-verify-0.10.21-8f81e376/sha256sum-version.txt",
+      "gitBlob": "864c7a7c150a828558acb622df259c620bcb4b31",
+      "bytes": 30,
+      "sha256": "111c7e892dcdc62462c425f89c99dd70e87a29f6f0462fcef7f1d9bc60142fb6"
+    },
+    {
+      "member": "record/shipped-corpus-sha256.txt",
+      "sourceRepository": "Agent-Authority-Conformance/aps-conformance-suite",
+      "sourceRevision": "f8d6eb4461759ce7dbb4c33ab03a688ba2bb541f",
+      "sourcePath": "interop/receipt-signature-veritasacta-verify-0.10.21-8f81e376/shipped-corpus-sha256.txt",
+      "gitBlob": "6079f2d25406b47b930b8dc37ed41d96cd02874b",
+      "bytes": 2735,
+      "sha256": "0f288f337b2b22e1a27b89f42c5f06a738f54c6c91313a6c31971067a16b087b"
+    }
+  ]
+}

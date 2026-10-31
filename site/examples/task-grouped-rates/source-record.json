@@ -1,0 +1,48 @@
+{
+  "checkedAt": "2026-10-03T22:04:07.545297+00:00",
+  "classification": "known mechanisms applied to a synthetic finite illustration; no novelty claim",
+  "coverageEstablished": false,
+  "format": "probity-grouped-rate-source-record-v1",
+  "searchBoundary": "Direct author manuscripts and pinned official SciPy documentation, after project-local DOI cache lookup. February2015 manuscript authenticated through web extraction; direct PDF transfer failed twice. July2014 author manuscript was acquired completely and used for the durable source check.",
+  "sourceQuestion": "Which primary sources justify whole-cluster and paired resampling, and what limits prevent a nominal toy interval from establishing population coverage?",
+  "sources": [
+    {
+      "applicationStatus": "Supports the resampling unit and diagnostics. This regression survey does not prove confidence coverage for the binary-rate example.",
+      "authors": [
+        "A. Colin Cameron",
+        "Douglas L. Miller"
+      ],
+      "extractionSha256": "392c388008749a41d9d827aabde38ab5b7c7b93b7eef0373102dab6a33988aa2",
+      "extractionTool": "pdftotext -layout",
+      "publishedIdentifier": "doi:10.3368/jhr.50.2.317",
+      "rawSha256": "8aed5e50a4cfc7984d2db9fdccf35af8710a03f70583629d874b42bb86b1e02a",
+      "resultUsed": "Resample whole clusters; check the complete bootstrap distribution, small-cluster limitations and missing statistics.",
+      "sectionsChecked": [
+        "II.B.1 cluster bootstrap, manuscript pp.11-12",
+        "VI.C.3 Bootstrap with Caution, manuscript pp.27-29"
+      ],
+      "title": "A Practitioner's Guide to Cluster-Robust Inference",
+      "translation": "A paired task with both arms is one cluster; repeated episodes are retained inside that cluster.",
+      "url": "https://faculty.econ.ucdavis.edu/faculty/cameron/research/Cameron_Miller_JHR_2014_July_09.pdf",
+      "versionChecked": "Author manuscript filename Cameron_Miller_JHR_2014_July_09.pdf; full retained PDF, 53 pages"
+    },
+    {
+      "applicationStatus": "Confirms terminology. Reader uses its declared nearest-rank empirical quantiles, not the SciPy quantile implementation.",
+      "authors": [
+        "SciPy project"
+      ],
+      "rawSha256": "5c1c115bf39764ed59465f4170764a4e7d396d3d2249a72cb908b861313f7908",
+      "representation": "Complete retrieved HTML",
+      "resultUsed": "Paired resampling shares an index array across samples; percentile intervals use bootstrap-distribution endpoints.",
+      "sectionsChecked": [
+        "paired parameter",
+        "two-sided percentile method",
+        "degenerate bootstrap distribution notes"
+      ],
+      "title": "bootstrap - SciPy v1.16.2 Manual",
+      "translation": "One shared task index sequence selects both attack and benign arm counts.",
+      "url": "https://docs.scipy.org/doc/scipy-1.16.2/reference/generated/scipy.stats.bootstrap.html",
+      "versionChecked": "1.16.2"
+    }
+  ]
+}

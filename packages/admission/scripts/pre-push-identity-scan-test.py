@@ -89,6 +89,10 @@ ESCAPED_HTML_HOST = "&#103;" + SITE[1:]
 # Joined from parts so that no line of this file is itself a hit: the history
 # scanner reads every line this file adds.
 HOME_PATH = "/".join(("", "home", "someone", "notes.txt"))  # noqa: FLY002 (see above)
+CI_HOME_PATHS = tuple(
+    "/".join(("", "home", user, "work", "out.json"))  # noqa: FLY002 (see above)
+    for user in ("runner", "gate", "default")
+)
 DOSSIER_PATH = "/".join(("research", "123-private-dossier"))  # noqa: FLY002 (see above)
 # Two hex halves, each of which decodes to harmless text, so neither this
 # file nor any guard that decodes it carries the joined name.
@@ -134,6 +138,7 @@ PERMITTED = (
     ("the handle ending a sentence", f"the owner is {OWNER}."),
     ("the organisation page", f"https://github.com/{OWNER}"),
     ("a repository the permit does not list", f"https://github.com/{OWNER}/some-future-repo"),
+    *((f"a CI home directory {path.split('/')[2]}", f"ran in {path}") for path in CI_HOME_PATHS),
 )
 
 REFUSED = (

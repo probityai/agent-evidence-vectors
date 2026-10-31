@@ -48,6 +48,18 @@ jobs:
 
       - run: python3 scripts/validate_crosswalks.py
 
+      - name: Hold every stated version, tag and sha256 to the version the package carries
+        run: |
+          # README.md, llms.txt and the docs state the install pin, the release
+          # tag and the sha256 of vocabulary.yaml, and nothing compared them to
+          # pyproject.toml or the registry: the archived repository's README said
+          # 0.4.0 while its code was 0.5.0. The stated digest must name a
+          # published registry copy of the stated version, and a pre-release
+          # change to vocabulary.yaml is allowed to differ from it. The
+          # self-test reintroduces each drift and requires a refusal by name.
+          python3 scripts/check_release_statements.py --self-test
+          python3 scripts/check_release_statements.py
+
       - name: Hold registry.json to vocabulary.yaml and registry.py to the open value rule
         run: |
           python3 scripts/gen_registry_index.py --check
@@ -95,6 +107,14 @@ jobs:
           # verifier applies, the guide names every term and every check, and
           # the three crosswalks filed for the section validate. Offline.
           python3 scripts/test_done_verification.py
+
+      - name: Hold the registry, the validator and the guide to incident_response
+        run: |
+          # Each of the eleven incident_response terms starts proposed with no
+          # issuer and carries the check a verifier applies, the guide names
+          # every term and every value, and the five crosswalks filed for the
+          # section validate. Offline.
+          python3 scripts/test_incident_response.py
 
       - name: Hold the validator to reading every file in crosswalk/
         run: |

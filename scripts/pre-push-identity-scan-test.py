@@ -107,6 +107,9 @@ ESCAPED_HTML_HOST = "&#103;" + SITE[1:]
 # scanner reads every line this file adds, and the tree scan in CI greps for
 # the joined shape.
 HOME_PATH = "/".join(("", "home", "someone", "notes.txt"))
+CI_HOME_PATHS = tuple(
+    "/".join(("", "home", user, "work", "out.json")) for user in ("runner", "gate", "default")
+)
 DOSSIER_PATH = "/".join(("research", "123-private-dossier"))
 # Two hex halves, each of which decodes to harmless text, so neither this
 # file nor any guard that decodes it carries the joined name.
@@ -157,6 +160,7 @@ PERMITTED = (
     ("the organisation page", f"https://github.com/{OWNER}"),
     ("a repository the permit does not list", f"https://github.com/{OWNER}/some-future-repo"),
     ("a name that extends the verifier's", f"the {VERIFIER_REPO}-review branch"),
+    *((f"a CI home directory {path.split('/')[2]}", f"ran in {path}") for path in CI_HOME_PATHS),
 )
 
 REFUSED = (

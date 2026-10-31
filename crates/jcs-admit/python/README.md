@@ -31,9 +31,9 @@ verified = dsse.verify_threshold(envelope, [harness.verifier(), witness.verifier
 print(verified.payload_type, verified.payload, verified.accepted_keys)
 ```
 
-The extension links `jcs-admit` 0.1.2 and `dsse` 0.1.3 unchanged. Every refusal is
+The extension links `jcs-admit` 0.1.2 and `dsse` 0.1.6 unchanged. Every refusal is
 a `JcsError` or a `DsseError` (both `ValueError`) whose `variant` and `fields` are
 the Rust variant and fields. Each crate's documentation is the reference for what
-it refuses and why: <https://docs.rs/jcs-admit/0.1.2> and <https://docs.rs/dsse/0.1.3>.
+it refuses and why: <https://docs.rs/jcs-admit/0.1.2> and <https://docs.rs/dsse/0.1.6>.
 
 Licensed under MIT or Apache-2.0, at your option.

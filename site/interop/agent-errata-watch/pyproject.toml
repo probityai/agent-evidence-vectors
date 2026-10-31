@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools==84.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "probity-watch-import"
+version = "0.0.0"
+description = "Pinned publisher-row imports and Verify token-lineage inputs"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+dependencies = []
+
+[project.scripts]
+probity-watch-import = "watch_import.cli:main"
+
+[tool.setuptools]
+packages = ["watch_import"]
+
+[tool.ruff]
+line-length = 140
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "C90"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 12

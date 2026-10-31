@@ -1,0 +1,112 @@
+{
+  "pins": {
+    "aps_commit": "948f99b85343bef2c6fa677c8543965caacfc087",
+    "priorseal_commit": "d749d2691c3e6be139de4020e7b27cdafca2c428",
+    "reference_time": "2026-09-19T10:05:00.000Z",
+    "aps_manifest_sha256": "2bf365bc9124ecfc943d5be86c34e8e0cacd51a5929b8d0c906e633a017231f9",
+    "positive_fixture_sha256": "c8dd05f412b3d1dd957f66deaf231a8becb9656e8bd1960ba88638cf9ad4c6da",
+    "over_limit_fixture_sha256": "cb45a8378a5c9f1f7f2695c4d1fb5cbe344d9c840b799cf0ecb786e5ddf3c226",
+    "producer_report_sha256": "d2c1bea5f0acf0afe06c944376c5a471402ab5d48bf85ca267ed9b5876336ae4",
+    "aps_owner_fixture_binding": {
+      "owner_commit": "948f99b85343bef2c6fa677c8543965caacfc087",
+      "manifest_sha256": "2bf365bc9124ecfc943d5be86c34e8e0cacd51a5929b8d0c906e633a017231f9",
+      "compared_files": 17,
+      "byte_identical": true
+    }
+  },
+  "claims": [
+    {
+      "id": "aps.manifest.pinned",
+      "result": "ESTABLISHED"
+    },
+    {
+      "id": "composition.aps_owner_fixture_copy.byte_identical",
+      "result": "ESTABLISHED"
+    },
+    {
+      "id": "aps.permit.receipts.authentic",
+      "result": "ESTABLISHED"
+    },
+    {
+      "id": "aps.permit.delegation.authentic",
+      "result": "ESTABLISHED"
+    },
+    {
+      "id": "aps.permit.decision_ref.bound",
+      "result": "ESTABLISHED"
+    },
+    {
+      "id": "aps.permit.temporal_validity_at_reference",
+      "result": "ESTABLISHED"
+    },
+    {
+      "id": "aps.expired.temporal_validity_at_reference",
+      "result": "CONTRADICTED"
+    },
+    {
+      "id": "aps.deny.decision_verdict",
+      "result": "ESTABLISHED"
+    },
+    {
+      "id": "priorseal.principal_eip712_authorization.authentic",
+      "result": "ESTABLISHED"
+    },
+    {
+      "id": "priorseal.issuer_acceptance.authentic",
+      "result": "ESTABLISHED"
+    },
+    {
+      "id": "priorseal.execution_receipt.positive.authentic",
+      "result": "ESTABLISHED"
+    },
+    {
+      "id": "priorseal.execution_receipt.over_limit.authentic",
+      "result": "ESTABLISHED"
+    },
+    {
+      "id": "composition.aps_decision_to_priorseal_authorization.bound",
+      "result": "ESTABLISHED"
+    },
+    {
+      "id": "positive.observation.exact_call_agreement",
+      "result": "ESTABLISHED"
+    },
+    {
+      "id": "positive.observation.aps_cap_compliance",
+      "result": "ESTABLISHED"
+    },
+    {
+      "id": "over_limit.observation.exact_call_agreement",
+      "result": "CONTRADICTED"
+    },
+    {
+      "id": "over_limit.observation.aps_cap_compliance",
+      "result": "CONTRADICTED"
+    },
+    {
+      "id": "live_chain.execution_occurred",
+      "result": "NOT_ESTABLISHED"
+    },
+    {
+      "id": "aps.decision.single_use",
+      "result": "NOT_ESTABLISHED"
+    },
+    {
+      "id": "aps.live_currency_enforcement",
+      "result": "NOT_ESTABLISHED"
+    },
+    {
+      "id": "observation.independent_external_witness",
+      "result": "NOT_ESTABLISHED"
+    },
+    {
+      "id": "production.adoption",
+      "result": "NOT_ESTABLISHED"
+    }
+  ],
+  "summary": {
+    "established": 14,
+    "contradicted": 3,
+    "not_established": 5
+  }
+}

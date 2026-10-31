@@ -17,6 +17,7 @@ Choose the record format you need, then follow its [reader route](../reference/c
 | Record an AI-assisted dependency change | [vectors-dependency-selection](../../vectors-dependency-selection/) | [Artifact-binding v1, section 6.2](../../spec/artifact-binding/v1.md) |
 | Selected source passages in a report | [vectors-source-coverage](../../vectors-source-coverage/README.md) | Consumer-pinned source capture and time window; named verifier required |
 | Evidence grade derived by the consumer, E0-E4 | [vectors-grade-floor](../../vectors-grade-floor/README.md) | Ladder of AAIF Observability WG issue #37; packaged reader or named verifier |
+| Connector scope record (read, change, refused) | [vectors-connector-scope](../../vectors-connector-scope/README.md) | A health-system connector's scope record; packaged reader or named verifier |
 | Agent payment mandate and dispute evidence pack | [vectors-agent-payment-mandate](../../vectors-agent-payment-mandate/README.md) | An agent-initiated payment judged from its own dispute evidence pack; packaged reader or named verifier |
 | The admission answer for an AEE statement under a consumer policy | [vectors-admission](../../vectors-admission/README.md) | AEE consumer obligations and the statement-layer subject rule; packaged reader or named verifier through `AEE_CONSUMER_POLICY` |
 | Signed admission of a change to an agent's harness | [vectors-agent-change-admission](../../vectors-agent-change-admission/README.md) | Agent change admission predicate, version 1; packaged reader or named verifier |

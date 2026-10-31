@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">Replay an evidence decision</title>
+  <desc id="description">Inspect retained evidence and reproduce its admission decision. Replay, changed authority and altered signatures refuse. This is a same-operator PEER fixture.</desc>
+  <rect width="1200" height="630" fill="#fbfaf7"/>
+  <rect x="0" y="0" width="16" height="630" fill="#1f5f8b"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#1d1d1f">
+    <text x="64" y="86" font-size="27" font-weight="700" fill="#1f5f8b">PROBITY AI / WORKED EXAMPLE</text>
+    <text x="64" y="195" font-size="59" font-weight="700">Replay the decision.</text>
+    <text x="64" y="269" font-size="50" font-weight="700">Preserve the evidence.</text>
+    <text x="64" y="345" font-size="29" fill="#5b5d63">Inspect the bytes. Run the pinned check.</text>
+    <text x="64" y="389" font-size="29" fill="#5b5d63">Read why each refusal matters.</text>
+    <text x="64" y="538" font-size="25" font-weight="700">Retained admission replay</text>
+    <text x="64" y="578" font-size="23" fill="#5b5d63">Same-operator PEER fixture</text>
+    <rect x="830" y="139" width="306" height="97" rx="12" fill="#f1efe9" stroke="#dcd9d2"/>
+    <text x="856" y="178" font-size="25" font-weight="700">Retained inputs</text>
+    <text x="856" y="213" font-size="23">Policy, packet and effect</text>
+    <path d="M982 236V278" stroke="#1f5f8b" stroke-width="4"/>
+    <path d="M971 266L982 280L993 266" fill="none" stroke="#1f5f8b" stroke-width="4"/>
+    <rect x="830" y="297" width="306" height="91" rx="12" fill="#1f5f8b"/>
+    <text x="856" y="335" font-size="25" font-weight="700" fill="#ffffff">Check and persist</text>
+    <text x="856" y="368" font-size="23" fill="#ffffff">Scratch consumer</text>
+    <path d="M982 388V430" stroke="#1f5f8b" stroke-width="4"/>
+    <path d="M971 418L982 432L993 418" fill="none" stroke="#1f5f8b" stroke-width="4"/>
+    <rect x="830" y="449" width="306" height="125" rx="12" fill="#fff4d6" stroke="#dcd9d2"/>
+    <text x="856" y="488" font-size="25" font-weight="700">Require refusals</text>
+    <text x="856" y="525" font-size="22">Replay, authority</text>
+    <text x="856" y="554" font-size="22">and signature</text>
+  </g>
+</svg>

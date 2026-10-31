@@ -93,13 +93,26 @@ def test_an_untrusted_extra_signature_is_skipped_not_fatal():
     assert dsse.verify(envelope, a.verifier()).accepted_keys == ("a",)
 
 
-def test_a_tampered_payload_or_swapped_type_meets_no_threshold():
+def test_a_tampered_payload_or_swapped_type_names_a_signature_failure():
     a = signer(1, "a")
     d = env_dict(dsse.sign(PT, b"x", a))
     tampered = dict(d, payload=base64.b64encode(b"y").decode())
     swapped = dict(d, payloadType="application/json")
     for bad in (tampered, swapped):
-        assert refusal(dsse.verify, encode(bad), a.verifier()).variant == "ThresholdNotMet"
+        err = refusal(dsse.verify, encode(bad), a.verifier())
+        assert (err.variant, err.fields) == (
+            "NoValidSignature",
+            {"entries": 1, "keys": 1, "mismatched_keys": ["a"]},
+        )
+
+
+def test_a_signature_by_an_untrusted_key_names_no_mismatched_key():
+    a, b = signer(1, "a"), signer(2, "b")
+    err = refusal(dsse.verify, dsse.sign(PT, b"x", a), b.verifier())
+    assert (err.variant, err.fields) == (
+        "NoValidSignature",
+        {"entries": 1, "keys": 1, "mismatched_keys": []},
+    )
 
 
 def test_both_canonical_alphabets_verify_and_noncanonical_base64_is_refused():
@@ -132,7 +145,10 @@ def test_every_reachable_refusal_is_mapped():
             encode(good), [a.verifier(), dsse.Ed25519Verifier(b.public_key, key_id="a")], 2
         ),
         "UnidentifiedKey": lambda: dsse.verify_threshold(encode(good), [signer(1, None).verifier(), b.verifier()], 2),
-        "ThresholdNotMet": lambda: dsse.verify(encode(good), b.verifier()),
+        "NoValidSignature": lambda: dsse.verify(encode(good), b.verifier()),
+        "ThresholdNotMet": lambda: dsse.verify_threshold(
+            encode(dict(good, signatures=good["signatures"] * 5)), [a.verifier(), b.verifier()], 2
+        ),
         "NonCanonicalBase64": lambda: dsse.verify(
             encode(dict(good, signatures=[{"sig": "not base64!"}])), a.verifier()
         ),
@@ -146,7 +162,8 @@ def test_every_reachable_refusal_is_mapped():
         "MalformedEnvelope": str,
         "NoSignatures": type(None),  # a unit variant
         "ZeroThreshold": type(None),
-        "ThresholdNotMet": dict,  # a struct variant
+        "NoValidSignature": dict,  # a struct variant
+        "ThresholdNotMet": dict,
     }
     for variant, shape in shapes.items():
         assert isinstance(refusal(cases[variant]).fields, shape), variant

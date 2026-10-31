@@ -1,0 +1,27 @@
+{
+  "brokered": {
+    "acceptedWrites": 1,
+    "noDetectedGap": true,
+    "offlineVerification": true,
+    "replayedRequests": 1,
+    "retryReturnedPriorEffect": true,
+    "scriptedSelfReport": "no write",
+    "witnessScope": "PEER"
+  },
+  "durableBypass": {
+    "directWriteSucceeded": true,
+    "knownGap": [
+      "workspace changed outside the broker"
+    ],
+    "offlineVerificationWithWorkspace": false
+  },
+  "observerSourceSha256": "273e4985cb4de671145bcd55ef85545be213e8520f766ab7692e9d05edae60d1",
+  "profile": "local-peer-pilot-v0",
+  "transientBypass": {
+    "directWriteSucceeded": true,
+    "knownGap": [],
+    "noDetectedGap": true,
+    "offlineVerificationWithWorkspace": true,
+    "restoredBeforeSnapshot": true
+  }
+}

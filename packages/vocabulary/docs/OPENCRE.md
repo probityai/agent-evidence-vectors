@@ -33,7 +33,12 @@ No link here is `exact`.
 Each was checked against all 522 CREs that OpenCRE's REST API returned on
 2026-10-13, reading every candidate's linked standards. The seven
 `done_verification` terms below were searched on 2026-10-17 in the names
-and linked standards of the same 522 CREs.
+and linked standards of the same 522 CREs. The eleven `incident_response` terms
+were searched on 2026-10-30 by text in the OpenCRE REST API for incident
+response, containment, revoke, restoration, recovery, escalation and separation
+of duties. The results were plans, training, user-credential and password
+items; that search did not read every CRE, so each row names the nearest
+requirement found and what it does not ask for.
 
 | term | why no CRE fits |
 | --- | --- |
@@ -65,6 +70,17 @@ and linked standards of the same 522 CREs.
 | `done_verification.stop_decision` | no requirement keys the continuation of an automated loop to a published table of verdicts |
 | `done_verification.inconclusive_verdict` | no requirement gives the unknown outcome of a check its own value apart from pass and fail |
 | `change_admission.replay_snapshot` | archiving build data for a release (461-680) is the nearest, and pinning the evaluation input of one decision is a different requirement |
+| `incident_response.response_decision` | no requirement makes a decision not to act a signed record of its own; the incident-response and plan items found read as procedures to maintain, not as a record of one choice at one decision point |
+| `incident_response.response_function` | no requirement names the functions an incident action serves (monitoring, restriction, isolation, pause, remediation, restoration) as a closed list a record carries |
+| `incident_response.enforcement_vantage` | no requirement says where an action was enforced and observed relative to the party it restricts; segregation of duties (284-521) separates who may act, not where enforcement was seen |
+| `incident_response.control_failure_posture` | no requirement names the posture applied when a decision service returns no usable decision (denied, proceeded, started without one, answered late) as a value a third party counts |
+| `incident_response.revocation_state` | the user-credential and password items found cover issuing and rotating credentials; none separates a revocation issued from one a relying party recorded refusing |
+| `incident_response.containment_scope` | the sandbox and isolate requirement (515-021) fits one network posture at one time; a partition of every channel a subject could use against a manifest the subject does not control, observed over an interval, is a different requirement |
+| `incident_response.pause_hold` | no requirement separates an effect the paused subject caused after the pause from state it left behind before it |
+| `incident_response.escalation_outcome` | no requirement asks that the alert, notification and first-action times be carried so the delay from alert to action is computed from the record |
+| `incident_response.restoration_decision` | change management (112-648) governs changes to a system; the decision that ends a recorded containment, bound to it by digest with an approver different from the activator, is a different requirement |
+| `incident_response.restoration_gate` | no requirement asks whether an observed restart was preceded by a decision that met the stated requirements, with the restart time taken from the substrate |
+| `incident_response.incident_identifier` | no requirement asks for an identifier, scoped by its issuer, that lets two organisations' signed records of one incident be joined |
 
 ## History
 

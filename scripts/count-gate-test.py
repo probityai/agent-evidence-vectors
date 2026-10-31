@@ -923,6 +923,18 @@ CENSUS_CASES.append(
 
 CENSUS_CASES.append(
     (
+        "a number standing alone after a publication identifier is still a count",
+        lambda root: append(
+            root,
+            "BUILD-NOTES.md",
+            f"\nNIST SP 800-53 is cited by a report of {TOTAL} vectors.\n",
+        ),
+        ("is an integer counting vectors",),
+    )
+)
+
+CENSUS_CASES.append(
+    (
         "a count beside a span of days is still a count",
         lambda root: append(
             root,
@@ -1225,6 +1237,18 @@ ACCEPT_CASES: list[Case] = [
             "BUILD-NOTES.md",
             "\nThe report is at https://github.com/probityai/agent-evidence-vectors/"
             f"issues/{REGISTERED_COUNT}#issuecomment-1 and nowhere else.\n",
+        ),
+        ("are accounted for",),
+    ),
+    (
+        "a publication identifier is a document name, not a count",
+        lambda root: append(
+            root,
+            "BUILD-NOTES.md",
+            f"\nSee NIST SP 800-{TOTAL}, SP 800-{TOTAL}A, NIST SP 800-{TOTAL}r1, "
+            f"ISO/IEC 27001:{TOTAL}, ISO 8601-{TOTAL}, FIPS 186-{TOTAL}, RFC {TOTAL}, "
+            f"BCP {TOTAL}, CVE-2026-{TOTAL:04d}, "
+            f"CWE-{TOTAL} and draft-ietf-example-name-{TOTAL % 100:02d} for the background.\n",
         ),
         ("are accounted for",),
     ),

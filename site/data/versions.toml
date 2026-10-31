@@ -1,0 +1,403 @@
+# The version ledger. tools/build.py renders it as versions.html and adds the
+# SHA-256 of each artifact's source file at build time, so a reader can tell
+# whether the page they read is the version recorded here.
+
+[[artifact]]
+name = "Home page"
+page = "index.html"
+source = "src/index.md"
+version = "1.14"
+date = "2026-10-15"
+status = "draft"
+note = "Links the verifier task to exact-source Action controls and their retained hosted result"
+
+[[artifact]]
+name = "Essay"
+page = "essay.html"
+source = "src/essay.md"
+version = "0.2"
+date = "2026-09-27"
+status = "draft"
+note = "Recut of the first draft: opens on one agent action; five footnote errors and eight partial matches from the source check corrected"
+
+[[artifact]]
+name = "Atlas"
+page = "atlas.html"
+source = "data/atlas.toml"
+version = "0.6.1-preview"
+date = "2026-10-16"
+status = "draft"
+note = "Records jcs-admit 0.1.2 and dsse 0.1.3 from full registry byte readback; other source and corpus pins stay unchanged"
+
+[[artifact]]
+name = "Verifier demonstration"
+page = "demo.html"
+source = "demo/verifier/run-demo.sh"
+version = "0.1"
+date = "2026-09-27"
+status = "draft"
+note = "A conformance run of the verifier, then eight cases"
+
+[[artifact]]
+name = "Experiments"
+page = "experiments.html"
+source = "src/experiments.md"
+version = "0.5"
+date = "2026-10-16"
+status = "draft"
+note = "Returns from the original admission experiment to its worked article and exact presentation packet"
+
+[[artifact]]
+name = "Series plan"
+page = "series.html"
+source = "src/series.md"
+version = "0.1"
+date = "2026-09-27"
+status = "proposed"
+note = "Twelve planned installments"
+
+[[artifact]]
+name = "Claim ledger"
+page = "claims.html"
+source = "CLAIMS.md"
+version = "0.8.37"
+date = "2026-10-16"
+status = "draft"
+note = "Binds the actual native Rust registry releases and preserves separate historical guide pins"
+
+[[artifact]]
+name = "Probity Open Evidence Lab"
+page = "lab.html"
+source = "src/lab.md"
+version = "0.1.16"
+date = "2026-10-16"
+status = "draft"
+note = "Repairs three retained workflow download paths without changing original bytes or results"
+
+[[artifact]]
+name = "Claim status"
+page = "status.html"
+source = "src/status.md"
+version = "0.4"
+date = "2026-10-15"
+status = "draft"
+note = "Counts the five retained case records at their stated evidence classes; outside hosting does not imply independent custody"
+
+[[artifact]]
+name = "Task-grouped rates worked example"
+page = "task-grouped-rates.html"
+source = "examples/task-grouped-rates/input.json"
+version = "0.1"
+date = "2026-10-03"
+status = "draft"
+note = "Authored labels, paired task resampling, explicit weighting targets and unresolved outcomes"
+
+[[artifact]]
+name = "Published robot controls companion"
+page = "provael-task-controls.html"
+source = "examples/provael-task-controls/source-record.json"
+version = "0.1"
+date = "2026-10-03"
+status = "draft"
+note = "Original publisher simulator labels, matched controls, corrected interpretation and exact paired task weights"
+
+[[artifact]]
+name = "APS and PriorSeal pilot status"
+page = "pilot.html"
+source = "src/pilot.md"
+version = "0.1.1"
+date = "2026-10-01"
+status = "proposed"
+note = "Probity-owned proposal, merged technical replay, owner slots and acceptance gates; no formal pilot agreement"
+
+[[artifact]]
+name = "Authored policy vocabulary finding"
+page = "vocabulary-findings.html"
+source = "src/vocabulary-findings.md"
+version = "0.1"
+date = "2026-10-03"
+status = "draft"
+note = "Fixed action vocabulary raises the finite authored score; all default quality rows hold"
+
+[[artifact]]
+name = "Authored tool-argument finding"
+page = "tool-argument-findings.html"
+source = "src/tool-argument-findings.md"
+version = "0.1"
+date = "2026-10-03"
+status = "draft"
+note = "Preserves all native attempts, abstention failures and separate scoped-evidence publication/quality holds"
+
+[[artifact]]
+name = "Project catalog"
+page = "start.html"
+source = "data/catalog.json"
+version = "0.12"
+date = "2026-10-16"
+status = "draft"
+note = "Uses existing registry-release rows for actual native Rust crates without invented source tags"
+
+[[artifact]]
+name = "Automation guide"
+page = "automation.html"
+source = "src/automation.md"
+version = "0.2"
+date = "2026-10-15"
+status = "draft"
+note = "Explains the existing Vectors Action failure controls with exact source and hosted job"
+
+[[artifact]]
+name = "Catalog maintenance guide"
+page = "catalog.html"
+source = "src/catalog.md"
+version = "0.7"
+date = "2026-10-15"
+status = "draft"
+note = "Explains exact registry releases without source tags and retains tagged release roles"
+
+[[artifact]]
+name = "Retained evidence decision walkthrough"
+page = "replay-an-evidence-decision.html"
+source = "src/replay-an-evidence-decision.md"
+version = "0.5"
+date = "2026-10-16"
+status = "draft"
+note = "Links one reusable source-bound presentation packet without changing the replay method"
+
+[[artifact]]
+name = "Retained-run browser"
+page = "runs.html"
+source = "src/runs.md"
+version = "0.1"
+date = "2026-10-06"
+status = "draft"
+note = "Search, exact claim-result filters and complete static navigation over the existing Lab register; no aggregate run grade"
+
+[[artifact]]
+name = "Published source routes"
+page = "start.html"
+source = "data/catalog-sources.json"
+version = "0.2.3"
+date = "2026-10-15"
+status = "draft"
+note = "Appends current Python guide source reviews while retaining all earlier recipe and Action pins"
+
+[[artifact]]
+name = "Caller-declared APS and PriorSeal replay guide"
+page = "replay-tools.html"
+source = "src/replay-tools.md"
+version = "0.1"
+date = "2026-10-06"
+status = "draft"
+note = "Links one complete v2 procedure, explicit caller declarations, hashes of files read at invocation and actual process outputs; historical results stay unchanged"
+
+
+[[artifact]]
+name = "Historical report and diagnostic retained record"
+page = "runs.html"
+source = "experiments/w3c-report-replay-2026-10-06/report.json"
+version = "0.1"
+date = "2026-10-06"
+status = "draft"
+note = "Original historical report outputs and separate diagnostic controls with maintained data-only accounting; no new native or independent-operator claim"
+
+[[artifact]]
+name = "Test outcomes and evidence conclusions"
+page = "evidence-test-meaning.html"
+source = "src/evidence-test-meaning.md"
+version = "0.1"
+date = "2026-10-06"
+status = "draft"
+note = "Worked hypothetical refund story with historical package pins, retained per-case data and a maintained Lab checking route"
+
+
+[[artifact]]
+name = "Approved SQL illustration"
+page = "approved-sql.html"
+source = "src/approved-sql.md"
+version = "0.1.0"
+date = "2026-10-09"
+status = "illustration"
+note = "Checked supplied-record comparison; native audit pair and independent reader remain separate contributions"
+
+[[artifact]]
+name = "Request and effect join cases"
+page = "request-effect-join.html"
+source = "src/request-effect-join.md"
+version = "0.1"
+date = "2026-10-09"
+status = "proposed"
+note = "Selected producer contract and separate pre-dispatch, post-commit and target-coverage cases"
+
+[[artifact]]
+name = "Synthetic authority, report and observation controls"
+page = "authority-effect-cases.html"
+source = "src/authority-effect-cases.md"
+version = "0.1.0"
+date = "2026-10-09"
+status = "synthetic controls"
+note = "Authored supplied-record comparisons, source attribution and an installed-package gate; live effects, independent observation and outside operation remain separate"
+
+[[artifact]]
+name = "Agent checkout authority-to-effect assessment"
+page = "agent-checkout-assessment.html"
+source = "src/agent-checkout-assessment.md"
+version = "0.1"
+date = "2026-10-13"
+status = "proposed"
+note = "Assessment class from shopper approval to payment, order and effect; public synthetic method, operator records stay private"
+
+# Component release identities. Existing Atlas artifact records own their current
+# version values; artifact_ref prevents a second independently authored number.
+# A source tag and a separate package release must retain their own roles.
+
+[[component_release]]
+component = "vectors"
+repository = "repo-vectors"
+artifact = "Go verifier and Python harness"
+kind = "release"
+artifact_ref = "agent-evidence-vectors"
+tag = "v0.18.1"
+commit = "33d545104ff2f8c124cff465c96c013eeb809156"
+read = "2026-10-15"
+note = "The reviewed guide also carries a 0.18.0 install recipe. Select the version required by your result."
+registry = "pypi"
+package = "agent-evidence-vectors"
+install_anchor = "try-it"
+action_guide = "https://github.com/probityai/agent-evidence-vectors/blob/9e596fbff7bb29809d38319aebb56f2141923eb2/docs/guides/runner.md#run-the-suite-in-ci"
+workflow = "ci.yml"
+workflow_name = "Vectors ci"
+
+[[component_release]]
+component = "vocabulary"
+repository = "repo-vocabulary"
+artifact = "Vocabulary registry"
+kind = "release"
+artifact_ref = "agent-evidence-vocabulary"
+tag = "v0.4.0"
+commit = "220a4f0a08b90a555a430bb7d4334eb2617d05ba"
+read = "2026-10-15"
+note = "Terms and crosswalks are versioned independently of executable packages."
+
+[[component_release]]
+component = "admission"
+repository = "repo-admission"
+artifact = "Python digest checker"
+kind = "release"
+artifact_ref = "agent-evidence-admission"
+tag = "py-v0.1.0"
+commit = "0004d2333a841c95658d4a9c75232f0913ca7141"
+read = "2026-10-15"
+note = "This release is the digest-check package. Admission policy and budget tasks retain their own source pins."
+registry = "pypi"
+package = "agent-evidence-admission"
+version_prefix = "py-v"
+profile = "artifact-digest-check"
+install_anchor = "install"
+
+[[component_release]]
+component = "jcs-admit"
+repository = "repo-jcs-admit"
+artifact = "Rust crate"
+kind = "registry-release"
+artifact_ref = "jcs-admit"
+commit = "d7e65f04bf13873e6579a91aa111234866020389"
+read = "2026-10-15"
+note = "Canonicalization and raw-input admission are separate from envelope verification."
+registry = "crates"
+package = "jcs-admit"
+install_anchor = "quick-start"
+
+[[component_release]]
+component = "dsse"
+repository = "repo-dsse"
+artifact = "Rust crate"
+kind = "registry-release"
+artifact_ref = "dsse"
+commit = "5f1e4b5ffd61b6bae0f69b43766c493370004d29"
+read = "2026-10-15"
+note = "Signature verification checks bytes under caller-selected keys, not the truth of the payload."
+registry = "crates"
+package = "dsse"
+install_anchor = "quick-start"
+
+[[component_release]]
+component = "ratchet"
+repository = "repo-ratchet"
+artifact = "Harness source"
+kind = "source-tag"
+version = "0.1.2"
+tag = "probity-ratchet-v0.1.2"
+commit = "e2daf77f75e92aa961cf184084335b67aaae7581"
+read = "2026-10-15"
+note = "Annotated harness tag, peeled to its source commit. It is separate from the public case package."
+install_anchor = "install"
+
+[[component_release]]
+component = "ratchet"
+repository = "repo-ratchet"
+artifact = "Public case suite"
+kind = "release"
+version = "0.2.0"
+tag = "probity-ratchet-cases-v0.2.0"
+commit = "b6504260db8af7d3746e9ac87740430dd988e8d9"
+read = "2026-10-15"
+note = "The case package has its own release. All shipped splits are public."
+registry = "pypi"
+package = "probity-ratchet-cases"
+profile = "ratchet-cases"
+install_anchor = "install"
+
+[[component_release]]
+component = "checkout-runner"
+repository = "repo-checkout-runner"
+artifact = "Composition CLI and Action"
+kind = "source-tag"
+version = "0.2.0"
+tag = "v0.2.0"
+commit = "297b5b182bb40605b62586eccbf93a9c68a4aee1"
+read = "2026-10-15"
+note = "A bounded synthetic composition reference. The source tag pins the CLI and Action, not a registry release or a merchant deployment."
+install_anchor = "install"
+action_guide = "https://github.com/probityai/agent-checkout-runner/blob/297b5b182bb40605b62586eccbf93a9c68a4aee1/README.md#run-it-in-your-own-ci"
+workflow = "ci.yml"
+workflow_name = "Checkout runner run"
+
+[[component_release]]
+component = "verify"
+repository = "repo-verify"
+artifact = "Python package"
+kind = "registry-release"
+version = "0.1.1"
+commit = "db28cc76e5f5aa6932d5122d9c6241ef7adb7fee"
+read = "2026-10-15"
+note = "The released wheel adds packaged sample inputs. The reviewed guide deliberately retains its earlier source recipe; historical 0.1.0 builder provenance remains separate."
+registry = "pypi"
+package = "probity-verify"
+install_anchor = "quick-start"
+
+[[component_release]]
+component = "observer"
+repository = "repo-observer"
+artifact = "Python package"
+kind = "registry-release"
+version = "0.0.1"
+commit = "c12869620f1834ce566cd924ba95918c4dde52ce"
+read = "2026-10-15"
+note = "Root package release; separate integration profile wheels and source readers keep their own installation paths. The reviewed quick start remains a pinned source recipe."
+registry = "pypi"
+package = "agent-evidence-observer"
+install_anchor = "quick-start"
+
+[[component_release]]
+component = "vocabulary"
+repository = "repo-vocabulary"
+artifact = "Python package"
+kind = "registry-release"
+version = "0.4.0"
+commit = "59c93ac4529c1e8fdf6e7cdfff7a950740c873f3"
+read = "2026-10-15"
+note = "Python package carries the released registry and crosswalk data. The reviewed quick start still reads the independently tagged v0.4.0 raw registry."
+registry = "pypi"
+package = "agent-evidence-vocabulary"
+install_anchor = "quick-start"

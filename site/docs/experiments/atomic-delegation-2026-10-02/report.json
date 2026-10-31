@@ -1,0 +1,495 @@
+{
+  "schema": "atomic-native-delegation-evaluation/v1",
+  "source": {
+    "commit": "80be8dae6feb8b9106181b78fba2c7c6a7c8f4d8",
+    "status": "",
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "cargo": "cargo 1.90.0 (840b83a10 2025-07-30)",
+    "rustc": "rustc 1.90.0 (1159e78c4 2025-09-14)",
+    "environment": {
+      "RUSTFLAGS": null,
+      "CARGO_TARGET_DIR": "/workspace/atomic-pr-tools/target-native",
+      "CARGO_PROFILE_TEST_DEBUG": "0",
+      "CARGO_INCREMENTAL": "0"
+    }
+  },
+  "build": {
+    "argv": [
+      "cargo",
+      "test",
+      "--locked",
+      "-p",
+      "atomic-canonical",
+      "--test",
+      "delegation_restart",
+      "--no-run",
+      "--message-format=json",
+      "-j",
+      "2"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_seconds": 0.16512862799936556,
+    "stdout": "build.stdout",
+    "stderr": "build.stderr"
+  },
+  "binary": {
+    "sha256": "68bb01c3dffaf5fc6b9131ce22f330664b04c8f79f66d84150df6b8f8f8af33c",
+    "filename": "delegation_restart-024c3e55c7b51ced"
+  },
+  "declared_cases": [
+    "exact_retry_and_process_restart_preserve_a_narrow_grant",
+    "revocation_survives_restart_and_does_not_revoke_a_distinct_renewal",
+    "expired_and_corrupt_grants_stay_inactive_after_restart",
+    "local_selection_does_not_establish_external_issuer_authority"
+  ],
+  "results": [
+    {
+      "argv": [
+        "/workspace/atomic-pr-tools/target-native/debug/deps/delegation_restart-024c3e55c7b51ced",
+        "--exact",
+        "exact_retry_and_process_restart_preserve_a_narrow_grant",
+        "--nocapture"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "wall_seconds": 0.11508546500044758,
+      "stdout": "case-0.stdout",
+      "stderr": "case-0.stderr",
+      "case": "exact_retry_and_process_restart_preserve_a_narrow_grant",
+      "observations": [
+        {
+          "active_id": "FYTMI4JUHEX6QWDYQFFFUE6XNUDVEMHAI5XEDCNNOASRE4N7WASQ",
+          "allows_other_project": false,
+          "allows_other_view": false,
+          "allows_production": false,
+          "allows_push": false,
+          "allows_record": true,
+          "allows_staging": true,
+          "coverage": "local-store-selection-only",
+          "locally_revoked": 0,
+          "pid": 295072,
+          "scope": {
+            "permissions": [
+              "record"
+            ],
+            "projects": [
+              "acme/project"
+            ],
+            "servers": [
+              "https://staging.example.test"
+            ],
+            "views": [
+              "review/*"
+            ],
+            "workspaces": []
+          },
+          "stored": 1,
+          "verified_for_delegate": 1
+        },
+        {
+          "active_id": "FYTMI4JUHEX6QWDYQFFFUE6XNUDVEMHAI5XEDCNNOASRE4N7WASQ",
+          "allows_other_project": false,
+          "allows_other_view": false,
+          "allows_production": false,
+          "allows_push": false,
+          "allows_record": true,
+          "allows_staging": true,
+          "coverage": "local-store-selection-only",
+          "locally_revoked": 0,
+          "pid": 295080,
+          "scope": {
+            "permissions": [
+              "record"
+            ],
+            "projects": [
+              "acme/project"
+            ],
+            "servers": [
+              "https://staging.example.test"
+            ],
+            "views": [
+              "review/*"
+            ],
+            "workspaces": []
+          },
+          "stored": 1,
+          "verified_for_delegate": 1
+        }
+      ],
+      "passed": true
+    },
+    {
+      "argv": [
+        "/workspace/atomic-pr-tools/target-native/debug/deps/delegation_restart-024c3e55c7b51ced",
+        "--exact",
+        "revocation_survives_restart_and_does_not_revoke_a_distinct_renewal",
+        "--nocapture"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "wall_seconds": 0.21452056100133632,
+      "stdout": "case-1.stdout",
+      "stderr": "case-1.stderr",
+      "case": "revocation_survives_restart_and_does_not_revoke_a_distinct_renewal",
+      "observations": [
+        {
+          "active_id": "KFPC4CDU7EPEVTTDKX6WD3OFK5CXAKF5MV6NLNQTY2N7JEIH7OFQ",
+          "allows_other_project": false,
+          "allows_other_view": false,
+          "allows_production": false,
+          "allows_push": false,
+          "allows_record": true,
+          "allows_staging": true,
+          "coverage": "local-store-selection-only",
+          "locally_revoked": 0,
+          "pid": 295090,
+          "scope": {
+            "permissions": [
+              "record"
+            ],
+            "projects": [
+              "acme/project"
+            ],
+            "servers": [
+              "https://staging.example.test"
+            ],
+            "views": [
+              "review/*"
+            ],
+            "workspaces": []
+          },
+          "stored": 1,
+          "verified_for_delegate": 1
+        },
+        {
+          "active_id": null,
+          "allows_other_project": false,
+          "allows_other_view": false,
+          "allows_production": false,
+          "allows_push": false,
+          "allows_record": false,
+          "allows_staging": false,
+          "coverage": "local-store-selection-only",
+          "locally_revoked": 1,
+          "pid": 295092,
+          "scope": null,
+          "stored": 1,
+          "verified_for_delegate": 1
+        },
+        {
+          "active_id": "M6ZCTVT2LSE4KYPPODAI6K5WORHIIWQGNDKMUJD2WE2HKFN6CX4A",
+          "allows_other_project": false,
+          "allows_other_view": false,
+          "allows_production": false,
+          "allows_push": false,
+          "allows_record": true,
+          "allows_staging": true,
+          "coverage": "local-store-selection-only",
+          "locally_revoked": 1,
+          "pid": 295094,
+          "scope": {
+            "permissions": [
+              "record"
+            ],
+            "projects": [
+              "acme/project"
+            ],
+            "servers": [
+              "https://staging.example.test"
+            ],
+            "views": [
+              "review/*"
+            ],
+            "workspaces": []
+          },
+          "stored": 2,
+          "verified_for_delegate": 2
+        },
+        {
+          "active_id": "M6ZCTVT2LSE4KYPPODAI6K5WORHIIWQGNDKMUJD2WE2HKFN6CX4A",
+          "allows_other_project": false,
+          "allows_other_view": false,
+          "allows_production": false,
+          "allows_push": false,
+          "allows_record": true,
+          "allows_staging": true,
+          "coverage": "local-store-selection-only",
+          "locally_revoked": 1,
+          "pid": 295096,
+          "scope": {
+            "permissions": [
+              "record"
+            ],
+            "projects": [
+              "acme/project"
+            ],
+            "servers": [
+              "https://staging.example.test"
+            ],
+            "views": [
+              "review/*"
+            ],
+            "workspaces": []
+          },
+          "stored": 2,
+          "verified_for_delegate": 2
+        }
+      ],
+      "passed": true
+    },
+    {
+      "argv": [
+        "/workspace/atomic-pr-tools/target-native/debug/deps/delegation_restart-024c3e55c7b51ced",
+        "--exact",
+        "expired_and_corrupt_grants_stay_inactive_after_restart",
+        "--nocapture"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "wall_seconds": 0.2147393360010028,
+      "stdout": "case-2.stdout",
+      "stderr": "case-2.stderr",
+      "case": "expired_and_corrupt_grants_stay_inactive_after_restart",
+      "observations": [
+        {
+          "active_id": null,
+          "allows_other_project": false,
+          "allows_other_view": false,
+          "allows_production": false,
+          "allows_push": false,
+          "allows_record": false,
+          "allows_staging": false,
+          "coverage": "local-store-selection-only",
+          "locally_revoked": 0,
+          "pid": 295100,
+          "scope": null,
+          "stored": 1,
+          "verified_for_delegate": 1
+        },
+        {
+          "active_id": null,
+          "allows_other_project": false,
+          "allows_other_view": false,
+          "allows_production": false,
+          "allows_push": false,
+          "allows_record": false,
+          "allows_staging": false,
+          "coverage": "local-store-selection-only",
+          "locally_revoked": 0,
+          "pid": 295102,
+          "scope": null,
+          "stored": 3,
+          "verified_for_delegate": 1
+        },
+        {
+          "active_id": null,
+          "allows_other_project": false,
+          "allows_other_view": false,
+          "allows_production": false,
+          "allows_push": false,
+          "allows_record": false,
+          "allows_staging": false,
+          "coverage": "local-store-selection-only",
+          "locally_revoked": 0,
+          "pid": 295104,
+          "scope": null,
+          "stored": 3,
+          "verified_for_delegate": 1
+        },
+        {
+          "active_id": "TOQB4BPMBHHIW2UEBH6XCTYBCIXIGJX6FMSZN333J7VED7KEOXYA",
+          "allows_other_project": false,
+          "allows_other_view": false,
+          "allows_production": false,
+          "allows_push": false,
+          "allows_record": true,
+          "allows_staging": true,
+          "coverage": "local-store-selection-only",
+          "locally_revoked": 0,
+          "pid": 295106,
+          "scope": {
+            "permissions": [
+              "record"
+            ],
+            "projects": [
+              "acme/project"
+            ],
+            "servers": [
+              "https://staging.example.test"
+            ],
+            "views": [
+              "review/*"
+            ],
+            "workspaces": []
+          },
+          "stored": 4,
+          "verified_for_delegate": 2
+        }
+      ],
+      "passed": true
+    },
+    {
+      "argv": [
+        "/workspace/atomic-pr-tools/target-native/debug/deps/delegation_restart-024c3e55c7b51ced",
+        "--exact",
+        "local_selection_does_not_establish_external_issuer_authority",
+        "--nocapture"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "wall_seconds": 0.11401919700074359,
+      "stdout": "case-3.stdout",
+      "stderr": "case-3.stderr",
+      "case": "local_selection_does_not_establish_external_issuer_authority",
+      "observations": [
+        {
+          "active_id": "ETUSTGDNWUQKSALWLOLN5T37SDVXSAPB65UGPKCQ2CLVFAGDREUQ",
+          "allows_other_project": false,
+          "allows_other_view": false,
+          "allows_production": false,
+          "allows_push": false,
+          "allows_record": true,
+          "allows_staging": true,
+          "coverage": "local-store-selection-only",
+          "locally_revoked": 0,
+          "pid": 295110,
+          "scope": {
+            "permissions": [
+              "record"
+            ],
+            "projects": [
+              "acme/project"
+            ],
+            "servers": [
+              "https://staging.example.test"
+            ],
+            "views": [
+              "review/*"
+            ],
+            "workspaces": []
+          },
+          "stored": 1,
+          "verified_for_delegate": 1
+        },
+        {
+          "active_id": "ETUSTGDNWUQKSALWLOLN5T37SDVXSAPB65UGPKCQ2CLVFAGDREUQ",
+          "allows_other_project": false,
+          "allows_other_view": false,
+          "allows_production": false,
+          "allows_push": false,
+          "allows_record": true,
+          "allows_staging": true,
+          "coverage": "local-store-selection-only",
+          "locally_revoked": 0,
+          "pid": 295112,
+          "scope": {
+            "permissions": [
+              "record"
+            ],
+            "projects": [
+              "acme/project"
+            ],
+            "servers": [
+              "https://staging.example.test"
+            ],
+            "views": [
+              "review/*"
+            ],
+            "workspaces": []
+          },
+          "stored": 2,
+          "verified_for_delegate": 1
+        }
+      ],
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "artifacts": {
+    "build.stderr": {
+      "sha256": "f9006ecc83d038fb20ca047601370a603d7898251659866e789e4f5da89b8dc7",
+      "bytes": 61
+    },
+    "build.stdout": {
+      "sha256": "a18c89700d7161d22b084149e0d6a05dec7f868886c8f43eaae8a553e65cab69",
+      "bytes": 109560
+    },
+    "case-0.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "case-0.stdout": {
+      "sha256": "a6546653cdc2106a751682efbc76705a2235b110c3a721a550c24d9b902dae51",
+      "bytes": 1154
+    },
+    "case-1.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "case-1.stdout": {
+      "sha256": "178b6d50db097aa5d3ca4abae9a13432a2038d919fa8f6644b5b2d4a90f2f769",
+      "bytes": 1961
+    },
+    "case-2.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "case-2.stdout": {
+      "sha256": "65a75211aee4e622dad775cce89bcc65302da9128474f1cc7781f94403155f80",
+      "bytes": 1593
+    },
+    "case-3.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "case-3.stdout": {
+      "sha256": "33b70e582fb9fa438d1d44b34b1f31e94560528a324ca75c0d2b75e207803f37",
+      "bytes": 1159
+    },
+    "delegation_restart-024c3e55c7b51ced": {
+      "sha256": "68bb01c3dffaf5fc6b9131ce22f330664b04c8f79f66d84150df6b8f8f8af33c",
+      "bytes": 7093160
+    },
+    "population.txt": {
+      "sha256": "1affba6a17f467328d67626e1baaee26fdf055bb9b816ef8dceeb3e531095d8d",
+      "bytes": 294
+    },
+    "source/.github/workflows/ci.yml": {
+      "sha256": "2c648e46aa3318ae292d443c72c26a87632bd0e55fe0520be8e77e0e53dacd1f",
+      "bytes": 4038
+    },
+    "source/Cargo.lock": {
+      "sha256": "a0417fb5597d69a15918d6842a86899dc29d756a93d946d310bbd0acfbda56e4",
+      "bytes": 98517
+    },
+    "source/atomic-canonical/tests/delegation_restart.rs": {
+      "sha256": "0a280ca112df679d6a2d26adf68781b75162cfff186746a80b9125a19a9a541d",
+      "bytes": 11746
+    },
+    "source/tools/native-evaluation/README.md": {
+      "sha256": "819417907e9cc01b9e3a7530b594507b47f840f29b0d6c62e3fb0034f799489c",
+      "bytes": 2075
+    },
+    "source/tools/native-evaluation/run.py": {
+      "sha256": "a14aed545f18d2462b59a2faa631104df4641c806fed029968b2fbd85d135200",
+      "bytes": 6304
+    },
+    "source.diff": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  },
+  "coverage": {
+    "boundary": "local persisted certificate selection in distinct OS processes",
+    "keys": "ephemeral keys generated by the same operator; private keys are not retained",
+    "clock": "local OS clock, with expiry controls one day away from the test time",
+    "filesystem": "operator-owned temporary identity store",
+    "server_authorization": "not established",
+    "remote_revocation": "not established",
+    "external_effects": "not observed",
+    "crash_mid_write": "not evaluated",
+    "model_execution": "not used"
+  }
+}

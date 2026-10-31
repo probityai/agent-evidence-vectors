@@ -1,0 +1,747 @@
+{
+  "local_source_head": "42089b93ab2b3ab5ba53752733587c7bf5cca15b",
+  "tested_snapshot": "3a2e8c33028b00ebbe2316ecaa67bdfad5f0e4b7",
+  "tested_tree": "623c4c2008d6cc66e4a937c531b90a859a4048f2",
+  "source_files": 19,
+  "receipt_files_and_links": 128,
+  "all_source_matches": true,
+  "all_receipt_matches": true,
+  "remote_status": "",
+  "producer_sources": {
+    "review": {
+      "head": "cf7389097fe3a404b3557da2e72fdd8cbe962b81",
+      "status": ""
+    },
+    "aps": {
+      "head": "948f99b85343bef2c6fa677c8543965caacfc087",
+      "status": ""
+    },
+    "priorseal": {
+      "head": "d749d2691c3e6be139de4020e7b27cdafca2c428",
+      "status": ""
+    }
+  },
+  "python_version": "3.14.7 (main, Aug 25 2026, 14:02:56) [Clang 22.1.3 ]",
+  "tests": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "63",
+    "time": "2.026",
+    "timestamp": "2026-10-09T07:00:04.597042+00:00",
+    "hostname": "quint-testrunner-1"
+  },
+  "coverage_per_file": {
+    "e030_case/__init__.py": 100.0,
+    "e030_case/faults.py": 97.40259740259741,
+    "e030_case/regression.py": 90.17341040462428,
+    "e030_case/report.py": 100.0
+  },
+  "steps": [
+    {
+      "step": "lock",
+      "argv": [
+        "uv",
+        "lock",
+        "--check"
+      ],
+      "actual_exit": 0
+    },
+    {
+      "step": "inputs",
+      "argv": [
+        "/home/gate/work/oel-e030-wrapper-case-r1-e030-wrapper-r3/.venv/bin/python",
+        "-m",
+        "scripts.fetch_inputs"
+      ],
+      "actual_exit": 0
+    },
+    {
+      "step": "lint",
+      "argv": [
+        "/home/gate/work/oel-e030-wrapper-case-r1-e030-wrapper-r3/.venv/bin/python",
+        "-m",
+        "ruff",
+        "check",
+        "e030_case",
+        "tests",
+        "scripts/qualify.py",
+        "scripts/fetch_inputs.py"
+      ],
+      "actual_exit": 0
+    },
+    {
+      "step": "format",
+      "argv": [
+        "/home/gate/work/oel-e030-wrapper-case-r1-e030-wrapper-r3/.venv/bin/python",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "e030_case",
+        "tests",
+        "scripts/qualify.py",
+        "scripts/fetch_inputs.py"
+      ],
+      "actual_exit": 0
+    },
+    {
+      "step": "readme",
+      "argv": [
+        "/home/gate/work/oel-e030-wrapper-case-r1-e030-wrapper-r3/.venv/bin/python",
+        "scripts/readme-lint.py"
+      ],
+      "actual_exit": 0
+    },
+    {
+      "step": "per-file-coverage",
+      "argv": [
+        "/home/gate/work/oel-e030-wrapper-case-r1-e030-wrapper-r3/.venv/bin/python",
+        "scripts/check_coverage.py",
+        "--src-dir",
+        "e030_case",
+        "--test-path",
+        "tests",
+        "--json"
+      ],
+      "actual_exit": 0
+    },
+    {
+      "step": "coverage-json",
+      "argv": [
+        "/home/gate/work/oel-e030-wrapper-case-r1-e030-wrapper-r3/.venv/bin/python",
+        "-m",
+        "coverage",
+        "json",
+        "-o",
+        "gate-results/coverage.json"
+      ],
+      "actual_exit": 0
+    },
+    {
+      "step": "demonstration",
+      "argv": [
+        "/home/gate/work/oel-e030-wrapper-case-r1-e030-wrapper-r3/.venv/bin/python",
+        "-m",
+        "e030_case.regression",
+        "--operator",
+        "Probity Codex / ordinary shared BoxPool author-run",
+        "/home/gate/work/oel-e030-wrapper-case-r1-e030-wrapper-r3/.inputs/review",
+        "/home/gate/work/oel-e030-wrapper-case-r1-e030-wrapper-r3/.inputs/aps",
+        "/home/gate/work/oel-e030-wrapper-case-r1-e030-wrapper-r3/.inputs/priorseal",
+        "/home/gate/work/oel-e030-wrapper-case-r1-e030-wrapper-r3/gate-results/demonstration"
+      ],
+      "actual_exit": 0
+    }
+  ],
+  "demonstration_case_count": 14,
+  "all_expected_controls_matched": true,
+  "operator": {
+    "identity": "Probity Codex / ordinary shared BoxPool author-run",
+    "source": "caller-declared",
+    "authenticated": false
+  },
+  "scope": {
+    "method": "unchanged pinned wrapper; injected npm/node commands and author-created reports",
+    "producer_verifier_executed": false,
+    "signatures_exercised": false,
+    "formal_pilot": false,
+    "operator_authentication": false,
+    "run_correlation": "native report has no invocation token; no authenticity inferred"
+  },
+  "archive_sha256": "6a6aa05bfffb416f88977da2a99b0f5bf5ae1dbbfacfcf46b7060544dbdb5e02",
+  "archive_bytes": 15370,
+  "source_matches": [
+    {
+      "path": ".gitignore",
+      "matches": true
+    },
+    {
+      "path": "AGENTS.md",
+      "matches": true
+    },
+    {
+      "path": "README.md",
+      "matches": true
+    },
+    {
+      "path": "docs/CONTRACT.md",
+      "matches": true
+    },
+    {
+      "path": "docs/SOURCE-MAP.md",
+      "matches": true
+    },
+    {
+      "path": "e030_case/__init__.py",
+      "matches": true
+    },
+    {
+      "path": "e030_case/expected.json",
+      "matches": true
+    },
+    {
+      "path": "e030_case/faults.py",
+      "matches": true
+    },
+    {
+      "path": "e030_case/regression.py",
+      "matches": true
+    },
+    {
+      "path": "e030_case/report.py",
+      "matches": true
+    },
+    {
+      "path": "pyproject.toml",
+      "matches": true
+    },
+    {
+      "path": "scripts/check_coverage.py",
+      "matches": true
+    },
+    {
+      "path": "scripts/fetch_inputs.py",
+      "matches": true
+    },
+    {
+      "path": "scripts/qualify.py",
+      "matches": true
+    },
+    {
+      "path": "scripts/readme-lint.py",
+      "matches": true
+    },
+    {
+      "path": "scripts/run-gate.sh",
+      "matches": true
+    },
+    {
+      "path": "tests/test_regression.py",
+      "matches": true
+    },
+    {
+      "path": "tests/test_report.py",
+      "matches": true
+    },
+    {
+      "path": "uv.lock",
+      "matches": true
+    }
+  ],
+  "receipt_matches": [
+    {
+      "path": "coverage-json.stderr",
+      "matches": true
+    },
+    {
+      "path": "coverage-json.stdout",
+      "matches": true
+    },
+    {
+      "path": "coverage.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/absent-report/attempt/exit-status.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/absent-report/attempt/run-metadata.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/absent-report/comparison.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/absent-report/injected-commands.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/absent-report/process.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/absent-report/wrapper.stderr",
+      "matches": true
+    },
+    {
+      "path": "demonstration/absent-report/wrapper.stdout",
+      "matches": true
+    },
+    {
+      "path": "demonstration/bin/node",
+      "matches": true
+    },
+    {
+      "path": "demonstration/bin/npm",
+      "matches": true
+    },
+    {
+      "path": "demonstration/failed-install/attempt/exit-status.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/failed-install/attempt/run-metadata.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/failed-install/comparison.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/failed-install/injected-commands.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/failed-install/process.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/failed-install/wrapper.stderr",
+      "matches": true
+    },
+    {
+      "path": "demonstration/failed-install/wrapper.stdout",
+      "matches": true
+    },
+    {
+      "path": "demonstration/failed-node/attempt/exit-status.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/failed-node/attempt/run-metadata.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/failed-node/comparison.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/failed-node/injected-commands.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/failed-node/process.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/failed-node/wrapper.stderr",
+      "matches": true
+    },
+    {
+      "path": "demonstration/failed-node/wrapper.stdout",
+      "matches": true
+    },
+    {
+      "path": "demonstration/failed-selftest/attempt/exit-status.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/failed-selftest/attempt/run-metadata.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/failed-selftest/comparison.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/failed-selftest/injected-commands.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/failed-selftest/process.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/failed-selftest/wrapper.stderr",
+      "matches": true
+    },
+    {
+      "path": "demonstration/failed-selftest/wrapper.stdout",
+      "matches": true
+    },
+    {
+      "path": "demonstration/future-generation/attempt/exit-status.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/future-generation/attempt/frequency-run-report.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/future-generation/attempt/run-metadata.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/future-generation/comparison.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/future-generation/injected-commands.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/future-generation/process.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/future-generation/wrapper.stderr",
+      "matches": true
+    },
+    {
+      "path": "demonstration/future-generation/wrapper.stdout",
+      "matches": true
+    },
+    {
+      "path": "demonstration/malformed-report/attempt/exit-status.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/malformed-report/attempt/frequency-run-report.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/malformed-report/attempt/run-metadata.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/malformed-report/comparison.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/malformed-report/injected-commands.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/malformed-report/process.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/malformed-report/wrapper.stderr",
+      "matches": true
+    },
+    {
+      "path": "demonstration/malformed-report/wrapper.stdout",
+      "matches": true
+    },
+    {
+      "path": "demonstration/matching-projection/attempt/exit-status.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/matching-projection/attempt/frequency-run-report.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/matching-projection/attempt/run-metadata.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/matching-projection/comparison.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/matching-projection/injected-commands.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/matching-projection/process.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/matching-projection/wrapper.stderr",
+      "matches": true
+    },
+    {
+      "path": "demonstration/matching-projection/wrapper.stdout",
+      "matches": true
+    },
+    {
+      "path": "demonstration/preexisting-attempt/attempt/frequency-run-report.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/preexisting-attempt/comparison.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/preexisting-attempt/process.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/preexisting-attempt/wrapper.stderr",
+      "matches": true
+    },
+    {
+      "path": "demonstration/preexisting-attempt/wrapper.stdout",
+      "matches": true
+    },
+    {
+      "path": "demonstration/receipt.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/stale-generation/attempt/exit-status.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/stale-generation/attempt/frequency-run-report.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/stale-generation/attempt/run-metadata.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/stale-generation/comparison.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/stale-generation/injected-commands.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/stale-generation/process.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/stale-generation/wrapper.stderr",
+      "matches": true
+    },
+    {
+      "path": "demonstration/stale-generation/wrapper.stdout",
+      "matches": true
+    },
+    {
+      "path": "demonstration/symlink-report/attempt/exit-status.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/symlink-report/attempt/frequency-run-report.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/symlink-report/attempt/linked-report.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/symlink-report/attempt/run-metadata.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/symlink-report/comparison.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/symlink-report/injected-commands.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/symlink-report/process.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/symlink-report/wrapper.stderr",
+      "matches": true
+    },
+    {
+      "path": "demonstration/symlink-report/wrapper.stdout",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-claim/attempt/exit-status.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-claim/attempt/frequency-run-report.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-claim/attempt/run-metadata.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-claim/comparison.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-claim/injected-commands.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-claim/process.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-claim/wrapper.stderr",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-claim/wrapper.stdout",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-input/attempt/exit-status.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-input/attempt/frequency-run-report.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-input/attempt/run-metadata.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-input/comparison.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-input/injected-commands.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-input/process.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-input/wrapper.stderr",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-input/wrapper.stdout",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-profile/attempt/exit-status.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-profile/attempt/frequency-run-report.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-profile/attempt/run-metadata.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-profile/comparison.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-profile/injected-commands.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-profile/process.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-profile/wrapper.stderr",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-profile/wrapper.stdout",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-summary/attempt/exit-status.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-summary/attempt/frequency-run-report.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-summary/attempt/run-metadata.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-summary/comparison.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-summary/injected-commands.txt",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-summary/process.json",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-summary/wrapper.stderr",
+      "matches": true
+    },
+    {
+      "path": "demonstration/wrong-summary/wrapper.stdout",
+      "matches": true
+    },
+    {
+      "path": "demonstration.stderr",
+      "matches": true
+    },
+    {
+      "path": "demonstration.stdout",
+      "matches": true
+    },
+    {
+      "path": "format.stderr",
+      "matches": true
+    },
+    {
+      "path": "format.stdout",
+      "matches": true
+    },
+    {
+      "path": "inputs.stderr",
+      "matches": true
+    },
+    {
+      "path": "inputs.stdout",
+      "matches": true
+    },
+    {
+      "path": "lint.stderr",
+      "matches": true
+    },
+    {
+      "path": "lint.stdout",
+      "matches": true
+    },
+    {
+      "path": "lock.stderr",
+      "matches": true
+    },
+    {
+      "path": "lock.stdout",
+      "matches": true
+    },
+    {
+      "path": "per-file-coverage.stderr",
+      "matches": true
+    },
+    {
+      "path": "per-file-coverage.stdout",
+      "matches": true
+    },
+    {
+      "path": "readme.stderr",
+      "matches": true
+    },
+    {
+      "path": "readme.stdout",
+      "matches": true
+    },
+    {
+      "path": "steps.json",
+      "matches": true
+    },
+    {
+      "path": "tests.xml",
+      "matches": true
+    }
+  ]
+}

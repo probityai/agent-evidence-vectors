@@ -1,0 +1,49 @@
+{
+  "schema": "probity-model-reader-source-v1",
+  "profile": "probity-local-cpu-task-matrix-v1",
+  "files": {
+    "model_task_reader.py": {
+      "path": "interop/local-model-tasks-2026-10-02/task_matrix.py",
+      "sha256": "1ced4b0875d56ee33e1bc8749c44669aa44ce87036ad0bbbdfc798cdffa5cee2"
+    },
+    "model_reader_cli.py": {
+      "path": "interop/model-consumer-2026-10-02/model_reader_cli.py",
+      "sha256": "65906d42658ef705d9cac5881d5203b0be37e398fea018a5dd7f6ce9e7822d00"
+    },
+    "model_gate.py": {
+      "path": "interop/model-consumer-2026-10-02/model_gate.py",
+      "sha256": "1e97d014ddb3774c502b2f2b62281079022ddb97fce0ef7d728d72e6a692ca13"
+    },
+    "pyproject.toml": {
+      "path": "interop/model-consumer-2026-10-02/READER.toml",
+      "sha256": "dca7c2d06405bd4a96f11b90061ca3589c497d7e3cf7422ee2a70017e39c99a1"
+    },
+    "LICENSE": {
+      "path": "LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    "model_comparison_reader.py": {
+      "path": "interop/local-model-comparison-2026-10-02/task_matrix.py",
+      "sha256": "744eb9a5af0328be0a4d4916b972770aa9babf91f97d4866abff34c37c453897"
+    },
+    "model_format_reader.py": {
+      "path": "interop/local-model-format-control-2026-10-02/task_matrix.py",
+      "sha256": "3f386686ea0666dda06d68dc01c7a53157a19e8c82ba2957b46dda399169c072"
+    },
+    "model_boundary_reader.py": {
+      "path": "interop/local-model-boundary-tasks-2026-10-02/task_matrix.py",
+      "sha256": "52a6000faae93178ce9e5acbf0e19c246fde69ee57055eb28cca8bddcc8f99b3"
+    },
+    "boundary_policy.py": {
+      "path": "interop/model-consumer-2026-10-02/boundary_policy.py",
+      "sha256": "51e32a2c95fba55243ed44dae100d34b0e015b415d40777b87776bd7ef1bb3a2"
+    }
+  },
+  "profiles": [
+    "probity-local-cpu-task-matrix-v1",
+    "probity-local-cpu-model-comparison-v1",
+    "probity-local-cpu-format-control-v1",
+    "probity-local-cpu-boundary-tasks-v1"
+  ],
+  "version": "0.0.4"
+}

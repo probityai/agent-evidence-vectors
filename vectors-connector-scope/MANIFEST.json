@@ -1,0 +1,181 @@
+{
+  "corpusDigest": "873332850e34c4edad77f2ca89cfb25247a940e106f67f045acbe7186b3d7ca5",
+  "counts": {
+    "accepted": 4,
+    "rejected": 9
+  },
+  "schema": "connector-scope-record/v1",
+  "specification": {
+    "scope": "A connector scope record for a health-system integration: what the connector may read, what it may change, and what it refused. All fixtures are synthetic and carry no protected health information; a rule refuses a fixture that does.",
+    "status": "proposal of this repository, not a vendored upstream text"
+  },
+  "suite": "connector-scope-record/v1",
+  "vectors": [
+    {
+      "description": "a read of a resource the connector may read",
+      "expected": {
+        "decision": "accepted",
+        "reason": "scope_respected"
+      },
+      "files": {
+        "case.json": "8914a1d5727798950a4c11352330f359dfc209e420c76557cd5079416322def9"
+      },
+      "id": "read-in-scope-performed",
+      "path": "cases/read-in-scope-performed"
+    },
+    {
+      "description": "a change to a resource the connector may change",
+      "expected": {
+        "decision": "accepted",
+        "reason": "scope_respected"
+      },
+      "files": {
+        "case.json": "241585272edea7637a4e3fb3b05822618851dfb4faff640536e5e87cf289beb0"
+      },
+      "id": "change-in-scope-performed",
+      "path": "cases/change-in-scope-performed"
+    },
+    {
+      "description": "a change to a read-only resource, refused and recorded",
+      "expected": {
+        "decision": "accepted",
+        "reason": "scope_respected"
+      },
+      "files": {
+        "case.json": "9eacd93ef328c77096526cc696c505b115e7fdc68de36c85c876f3cbefcf831b"
+      },
+      "id": "change-on-read-only-resource-refused",
+      "path": "cases/change-on-read-only-resource-refused"
+    },
+    {
+      "description": "a read of a resource in neither list, refused and recorded",
+      "expected": {
+        "decision": "accepted",
+        "reason": "scope_respected"
+      },
+      "files": {
+        "case.json": "5202f06df2af960ab1d3c5de793bad0a41b7981cdc9e747fb9b91b09c71ceb82"
+      },
+      "id": "read-of-unlisted-resource-refused",
+      "path": "cases/read-of-unlisted-resource-refused"
+    },
+    {
+      "description": "the change list is absent, so can-change is unstated",
+      "expected": {
+        "decision": "rejected",
+        "reason": "scope_declaration_missing"
+      },
+      "files": {
+        "case.json": "b446f593beb9e73c0f9222bbfc294ea8ef5289f52306baa1e9949552e4fb5bf8"
+      },
+      "id": "scope-declaration-missing",
+      "path": "cases/scope-declaration-missing",
+      "twin": "read-in-scope-performed"
+    },
+    {
+      "description": "the declared scope no longer matches the digest granted",
+      "expected": {
+        "decision": "rejected",
+        "reason": "grant_digest_mismatch"
+      },
+      "files": {
+        "case.json": "98ff1f51f9fc9db64b0a13816e4dce95a8cf549b4f170190cba1e0d555aa025a"
+      },
+      "id": "scope-widened-after-grant",
+      "path": "cases/scope-widened-after-grant",
+      "twin": "change-in-scope-performed"
+    },
+    {
+      "description": "a fixture field holds a social security number pattern",
+      "expected": {
+        "decision": "rejected",
+        "reason": "fixture_not_phi_free"
+      },
+      "files": {
+        "case.json": "51cf6406dfc96c25e72f8718de4ee1a2fb91a287e99078255380e237c2f8f6db"
+      },
+      "id": "fixture-carries-an-identifier",
+      "path": "cases/fixture-carries-an-identifier",
+      "twin": "read-in-scope-performed"
+    },
+    {
+      "description": "the fixture does not assert it is PHI-free",
+      "expected": {
+        "decision": "rejected",
+        "reason": "fixture_not_phi_free"
+      },
+      "files": {
+        "case.json": "752ff6349855d4c7270a672145109fd3bec5e2372dacaf1e2a1af4f99387dd79"
+      },
+      "id": "fixture-not-marked-phi-free",
+      "path": "cases/fixture-not-marked-phi-free",
+      "twin": "read-in-scope-performed"
+    },
+    {
+      "description": "a change performed on a resource granted for reading only",
+      "expected": {
+        "decision": "rejected",
+        "reason": "change_performed_under_read_grant"
+      },
+      "files": {
+        "case.json": "5287fac33b9dd5fb72560dad9c9de101de7e4f6dc5e32356cb417ed3274b39bf"
+      },
+      "id": "change-performed-under-read-grant",
+      "path": "cases/change-performed-under-read-grant",
+      "twin": "read-in-scope-performed"
+    },
+    {
+      "description": "a read of a resource in neither list ran",
+      "expected": {
+        "decision": "rejected",
+        "reason": "out_of_scope_action_performed"
+      },
+      "files": {
+        "case.json": "2e58c7eae7fdaaaab6ef3c1977d14a01e2c8292dfac801dbad6b44a849c49c17"
+      },
+      "id": "unlisted-read-performed",
+      "path": "cases/unlisted-read-performed",
+      "twin": "read-in-scope-performed"
+    },
+    {
+      "description": "a permitted read refused for being out of scope",
+      "expected": {
+        "decision": "rejected",
+        "reason": "in_scope_action_refused_as_out_of_scope"
+      },
+      "files": {
+        "case.json": "afacd5254692cd9c2a29270bc007382a812d6b5de664cab78aac9645c806d22c"
+      },
+      "id": "in-scope-read-refused-as-out-of-scope",
+      "path": "cases/in-scope-read-refused-as-out-of-scope",
+      "twin": "read-in-scope-performed"
+    },
+    {
+      "description": "an out-of-scope action refused with no reason and no recorder",
+      "expected": {
+        "decision": "rejected",
+        "reason": "refusal_not_recorded"
+      },
+      "files": {
+        "case.json": "ba624d76b56c747196d9fcc5e617873b73b0b6434818824f5d2dab414e2c1864"
+      },
+      "id": "refusal-without-record",
+      "path": "cases/refusal-without-record",
+      "twin": "change-on-read-only-resource-refused"
+    },
+    {
+      "description": "the action differs from the one the record digest covers",
+      "expected": {
+        "decision": "rejected",
+        "reason": "action_digest_mismatch"
+      },
+      "files": {
+        "case.json": "c020c6167de9714e31deee6b35da0d95adcaf04f2d6e6c90f76b474f66f7f1c9"
+      },
+      "id": "action-changed-after-record",
+      "path": "cases/action-changed-after-record",
+      "twin": "read-in-scope-performed"
+    }
+  ],
+  "verifierContract": "verifier case.json --json"
+}

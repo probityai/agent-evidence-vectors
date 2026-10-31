@@ -1,0 +1,161 @@
+{
+  "total_count": 1,
+  "jobs": [
+    {
+      "id": 111446260958,
+      "run_id": 37205681178,
+      "workflow_name": "AG2 push URL authority and observed effects",
+      "head_branch": "feat/ag2-push-authority-2026-10-04",
+      "run_url": "https://api.github.com/repos/probityai/agent-evidence-observer/actions/runs/37205681178",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOUz8df88AAAAZ8rb83g",
+      "head_sha": "b776345d06ced70fe4322926046687f17d698a5b",
+      "url": "https://api.github.com/repos/probityai/agent-evidence-observer/actions/jobs/111446260958",
+      "html_url": "https://github.com/probityai/agent-evidence-observer/actions/runs/37205681178/job/111446260958",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-10-04T13:27:29Z",
+      "started_at": "2026-10-04T13:27:30Z",
+      "completed_at": "2026-10-04T13:27:53Z",
+      "name": "installed-three-transport-push",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-04T13:27:31Z",
+          "completed_at": "2026-10-04T13:27:32Z"
+        },
+        {
+          "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-04T13:27:32Z",
+          "completed_at": "2026-10-04T13:27:34Z"
+        },
+        {
+          "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-04T13:27:34Z",
+          "completed_at": "2026-10-04T13:27:36Z"
+        },
+        {
+          "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-04T13:27:36Z",
+          "completed_at": "2026-10-04T13:27:37Z"
+        },
+        {
+          "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-04T13:27:37Z",
+          "completed_at": "2026-10-04T13:27:39Z"
+        },
+        {
+          "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-04T13:27:39Z",
+          "completed_at": "2026-10-04T13:27:39Z"
+        },
+        {
+          "name": "Normally install the selected native sources and SDK-free reader",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 7,
+          "started_at": "2026-10-04T13:27:39Z",
+          "completed_at": "2026-10-04T13:27:51Z"
+        },
+        {
+          "name": "Run eighteen native tasks and separate registration, dispatch and target decisions",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 8,
+          "started_at": "2026-10-04T13:27:51Z",
+          "completed_at": "2026-10-04T13:27:51Z"
+        },
+        {
+          "name": "Refuse changed semantics after their hashes are reselected",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 9,
+          "started_at": "2026-10-04T13:27:51Z",
+          "completed_at": "2026-10-04T13:27:51Z"
+        },
+        {
+          "name": "Retain source, failed child receipts, native callbacks and signed effects",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 10,
+          "started_at": "2026-10-04T13:27:51Z",
+          "completed_at": "2026-10-04T13:27:51Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 16,
+          "started_at": "2026-10-04T13:27:51Z",
+          "completed_at": "2026-10-04T13:27:51Z"
+        },
+        {
+          "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-04T13:27:51Z",
+          "completed_at": "2026-10-04T13:27:51Z"
+        },
+        {
+          "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 18,
+          "started_at": "2026-10-04T13:27:51Z",
+          "completed_at": "2026-10-04T13:27:51Z"
+        },
+        {
+          "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19,
+          "started_at": "2026-10-04T13:27:51Z",
+          "completed_at": "2026-10-04T13:27:51Z"
+        },
+        {
+          "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20,
+          "started_at": "2026-10-04T13:27:51Z",
+          "completed_at": "2026-10-04T13:27:51Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-04T13:27:51Z",
+          "completed_at": "2026-10-04T13:27:51Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/probityai/agent-evidence-observer/check-runs/111446260958",
+      "labels": [
+        "ubuntu-24.04"
+      ],
+      "runner_id": 1000004472,
+      "runner_name": "GitHub Actions 1000004472",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    }
+  ]
+}

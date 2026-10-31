@@ -102,9 +102,9 @@ dependencies = [
 
 [[package]]
 name = "dsse"
-version = "0.1.3"
+version = "0.1.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a8583a8e24c702ccc948b4e5dd18ba051d9c654eec5b63bbf164aa0617e0e023"
+checksum = "9524561ff84aed3ba342b130e2a36ca20e968609efb3cb71b27149b6a2675f8a"
 dependencies = [
  "base64",
  "ed25519-dalek",

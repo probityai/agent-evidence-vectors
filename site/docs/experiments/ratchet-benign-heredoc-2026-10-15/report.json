@@ -1,0 +1,43 @@
+{
+  "question": "Did the public guard correct a benign document-writing false alarm while keeping destructive-push controls, and which broader replay counts remain author reports?",
+  "evidenceClass": "author-reported-history-with-hosted-public-regression",
+  "source": "b2800b26ec6cf60fee8e95682660846f674f97c2",
+  "authorReportedReplay": {
+    "first": {
+      "sessions": 13712,
+      "toolCalls": 629192,
+      "fires": 7,
+      "realForcePushes": 6,
+      "falseAlarms": 1,
+      "crashes": 0,
+      "seconds": 393,
+      "workers": 4
+    },
+    "second": {
+      "sessions": 13739,
+      "toolCalls": 632126,
+      "fires": 6,
+      "realForcePushes": 6,
+      "falseAlarms": 0,
+      "crashes": 0,
+      "seconds": 552,
+      "workers": 1,
+      "unreadableTranscriptsSkipped": 1,
+      "malformedLinesSkipped": 118
+    }
+  },
+  "publicRegression": {
+    "benignPythonDocumentHeredocExpectedFire": false,
+    "mirrorPushExpectedFire": true,
+    "mirrorDryRunExpectedFire": false,
+    "shellFedHeredocExpectedFire": true
+  },
+  "nativeLog": {
+    "testsPassed": 1431,
+    "skipped": 1,
+    "deselected": 9,
+    "elapsedSeconds": 295.77,
+    "numericNativeExit": null
+  },
+  "privateAggregateIndependentlyReplayed": false
+}

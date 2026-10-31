@@ -1,0 +1,18 @@
+{
+  "note": "Decisions probity-verify 0.2.2 returned on these inputs, confirmed by running them. They match the source-derived expectations in source/probity/cases/*/expected-source-derived.json and are kept outside the reader's input.",
+  "release": "probity-verify 0.2.2",
+  "cases": {
+    "C1-01-covered-empty": {
+      "PEER": {"decision": "supported", "reason": "absence_within_covered_scope"},
+      "EXTERNAL": {"decision": "not_established", "reason": "witness_scope_below_required"}
+    },
+    "C1-02-event-with-gap": {
+      "PEER": {"decision": "contradicted", "reason": "event_observed"},
+      "EXTERNAL": {"decision": "contradicted", "reason": "event_observed"}
+    },
+    "C1-03-empty-with-gap": {
+      "PEER": {"decision": "not_established", "reason": "observation_coverage_unestablished"},
+      "EXTERNAL": {"decision": "not_established", "reason": "observation_coverage_unestablished"}
+    }
+  }
+}

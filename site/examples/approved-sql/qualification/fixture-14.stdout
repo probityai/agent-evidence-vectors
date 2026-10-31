@@ -1,0 +1,32 @@
+{
+  "application_audit_differences": [],
+  "application_outcome": {
+    "statement": "succeeded",
+    "transaction": "committed"
+  },
+  "application_present": true,
+  "approval_audit_differences": [],
+  "approval_granted": false,
+  "audit_event_id": "fixture-event-1",
+  "audit_matches": 1,
+  "audit_outcome": {
+    "statement": "succeeded",
+    "transaction": "committed"
+  },
+  "declared_audit_scope": {
+    "complete": true,
+    "matches_approval": true,
+    "request_id": "fixture-request-1",
+    "target": {
+      "database": "example",
+      "instance": "fixture-db-1",
+      "schema": "public"
+    },
+    "window_label": "fixture-window-1"
+  },
+  "later_change_attribution": "not_assessed",
+  "later_state": "not_supplied",
+  "origin": "author-created-fixture",
+  "profile": "oel-approved-sql-illustration/v1",
+  "result": "approval_not_granted"
+}

@@ -1,0 +1,1283 @@
+name: ci
+
+# The conformance suite is two Go modules (the stdlib-only core `aee/` plus the
+# go-witness attestor `witnessattestor/`, workspace-linked by go.work) and a
+# Python vector-generator + differential harness. CI runs the same gate the
+# repo is developed against: build, vet, format, race-test, and lint every Go
+# package; type-check and lint the Python; and replay all vectors on the Python
+# rail. Nothing here needs the repository to be public.
+
+on:
+  # Bot-token merges suppress push events; allow the native jobs on exact main.
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  release-integrity:
+    runs-on: ubicloud-standard-2
+    env:
+      UV_LINK_MODE: copy
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
+        with:
+          python-version: '3.13'
+      - name: install the pinned signature verifier
+        run: |
+          set -euo pipefail
+          [ "$(uname -m)" = x86_64 ]
+          : "${RUNNER_TEMP:?RUNNER_TEMP is required}"
+          mkdir -p "$RUNNER_TEMP/cosign-bin"
+          binary="$RUNNER_TEMP/cosign-bin/cosign"
+          curl --fail --location --silent --show-error \
+            https://github.com/sigstore/cosign/releases/download/v3.1.3/cosign-linux-amd64 \
+            --output "$binary"
+          printf '%s  %s\n' 4629c757b7618056f8ddd7e2625ae9fdd94c0372a65049520bc7d9df9efc7f71 "$binary" | sha256sum --check -
+          chmod 0755 "$binary"
+          echo "$RUNNER_TEMP/cosign-bin" >> "$GITHUB_PATH"
+      - name: sync the owning Python environment
+        run: uv sync --locked --extra dev --extra generators
+      - name: release controls use transient fixture keys and real refusals
+        run: |
+          .venv/bin/python -B scripts/release-digests-test.py
+          .venv/bin/python -B scripts/release-gate-test.py
+
+  installed-wheel:
+    # The publish job's wheel replay, run before a tag can exist. Until v0.17.8
+    # it ran only in release.yml, so a wheel that dropped a corpus's vendored
+    # specification passed every pull request and failed at publication.
+    runs-on: ubicloud-standard-2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+        with:
+          go-version-file: go.mod
+      - name: build the wheel and the directory reader
+        run: |
+          rm -rf dist
+          uv build
+          go build -o "$RUNNER_TEMP/aee-verify-installed" ./cmd/aee-verify
+      - name: the wheel runs from outside the checkout and replays every corpus
+        run: scripts/installed-wheel-replay.sh "$(ls "$PWD"/dist/agent_evidence_vectors-*.whl)" "$RUNNER_TEMP/aee-verify-installed"
+
+  go:
+    runs-on: ubicloud-standard-2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+        with:
+          go-version: '1.24'
+      - name: gofmt (no diffs)
+        run: |
+          unformatted=$(gofmt -l aee cmd corpora observedeffect witnessattestor)
+          if [ -n "$unformatted" ]; then
+            echo "gofmt needs to run on:"; echo "$unformatted"; exit 1
+          fi
+      - name: build
+        run: |
+          go build ./aee/... ./cmd/... ./corpora/... ./observedeffect/...
+          (cd witnessattestor && go build ./...)
+      - name: vet
+        run: |
+          go vet ./aee/... ./cmd/... ./corpora/... ./observedeffect/...
+          (cd witnessattestor && go vet ./...)
+      - name: test (race)
+        run: |
+          go test ./aee/... ./cmd/... ./corpora/... ./observedeffect/... -race -count=1
+          (cd witnessattestor && go test ./... -race -count=1)
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: check canonical JSON transcript bytes
+        run: node corpora/jcs-byte-vectors/check.mjs
+      # These readers use the package's supported Python runtime. The
+      # obligation proof also loads the reject generator to re-sign a record,
+      # so this job needs its declared dependencies. The separate Python
+      # job's sync cannot supply this runner.
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
+        with:
+          python-version: '3.13'
+      - name: sync the Python readers' generator dependencies
+        run: uv sync --locked --extra generators
+      # The README advertises cmd/aee-verify as a consumer implementation and
+      # separately tells a third party how to wire a rail into the harness.
+      # Nothing ran the one against the other, and the shipped CLI scored 0 of
+      # 186 the first time anybody tried: its -json mode wrote indented JSON,
+      # and the harness parses the last line of stdout. This step runs the real
+      # corpus through the real harness against the freshly built binary. It
+      # lives in this job rather than the Python one because it needs the Go
+      # toolchain, and it refuses rather than skips when that toolchain is
+      # absent.
+      - name: the shipped CLI clears the published corpus as an external rail
+        run: uv run --locked --extra generators python scripts/external-rail-gate.py scripts/forcing-gate.py scripts/forcing-gate-test.py
+      # The W3C report corpus is judged by three readers: corpora/w3creport.go,
+      # packaging/agent_evidence_vectors/w3creport.py, and readers/w3c-report-rs,
+      # a Rust reader written from the v0.1 text and the corpus with no code path
+      # shared with the other two (docs/research/w3c-reader-independence.md).
+      # The parity test runs here because it builds aee-verify; it also builds
+      # the Rust reader, and a toolchain that is absent fails it rather than
+      # skipping the third rail.
+      - name: install the Rust toolchain the third W3C reader builds with
+        run: |
+          rustup toolchain install 1.90.0 --profile minimal --component clippy,rustfmt
+          echo "RUSTUP_TOOLCHAIN=1.90.0" >> "$GITHUB_ENV"
+      - name: the Rust W3C reader is formatted, lint-clean and tested
+        run: |
+          cargo fmt --manifest-path readers/w3c-report-rs/Cargo.toml --check
+          cargo clippy --locked --manifest-path readers/w3c-report-rs/Cargo.toml --all-targets -- -D warnings
+          cargo test --locked --manifest-path readers/w3c-report-rs/Cargo.toml
+      - name: the three W3C report readers print the same bytes
+        run: uv run --locked --extra generators python scripts/w3c-rails-parity-test.py
+      - name: the Rust reader validates the published emitter run and re-writes it byte for byte
+        run: |
+          cargo run --locked --release --manifest-path readers/w3c-report-rs/Cargo.toml -- \
+            --report vectors-w3c-report/observed/aee-v0.12.0/report.json
+      # The receipt-signature corpus is judged by a Go reader in aee-verify and a
+      # Python reader in the packaged harness, and a named verifier runs through
+      # the harness's contract. This holds the two readers to identical output on
+      # the committed corpus and on mutated copies, and drives stub verifiers
+      # through the contract so the executed count is measured, not assumed.
+      - name: the two receipt-signature readers print the same bytes
+        run: uv run --locked --extra generators python scripts/receipt-signature-rails-test.py
+
+      # The step above asks whether each rail clears the corpus. It cannot ask
+      # whether the two rails AGREE on a reason, because the MANIFEST declares
+      # codes measured rather than normative and the reject contract grades by
+      # intersecting the declared and observed code sets -- so two rails that
+      # reject one statement for entirely different reasons both pass. That is
+      # the right contract for a third-party rail and the wrong one for the two
+      # rails in this repository, which share one code vocabulary. This step
+      # drives both directly over the three empty predicate states and refuses
+      # unless every outcome is identical, within each rail and between them.
+      # It lives here because it builds the Go binary, and it refuses rather
+      # than skips when the toolchain is absent.
+      - name: both rails read the three empty predicate states identically
+        run: uv run --locked --extra generators python scripts/predicate-state-gate.py
+
+      # Each rail was measured against the corpus and neither was ever measured
+      # against the other. The Go vector test asserts the Go rail's PRIMARY code
+      # is in the declared set; the observed-code-closure gate pins what the
+      # Python rail emits. Both looked complete, and between them a statement
+      # existed that the Go rail refused and the Python rail declared VALID with
+      # a result token the recompute never derives. This step replays both rails
+      # over every member and refuses a verdict split outright. It lives in this
+      # job because it builds the Go CLI.
+      - name: the two first-party rails agree, member by member
+        run: |
+          set -euo pipefail
+          uv run --locked --extra generators python scripts/rail-parity-gate.py --check
+          uv run --locked --extra generators python scripts/rail-parity-gate-test.py
+
+      # One binary judges every corpus in this repository. Each corpus used to
+      # ship a Python runner beside its vectors, so the command a third party
+      # was told to run was a different command per corpus and three of the six
+      # runners were wired into no workflow at all. This step walks every
+      # vectors* directory that carries a MANIFEST.json and hands each to
+      # aee-verify. A directory whose suite names no reader exits non-zero and
+      # is named, so a corpus can never stop being checked quietly.
+      - name: one harness judges every corpus
+        run: |
+          set -euo pipefail
+          : "${RUNNER_TEMP:?RUNNER_TEMP is required}"
+          binary="$RUNNER_TEMP/aee-verify"
+          go build -o "$binary" ./cmd/aee-verify
+          status=0
+          for dir in vectors*/; do
+            [ -f "${dir}MANIFEST.json" ] || continue
+            echo "== ${dir%/}"
+            rc=0
+            "$binary" "${dir%/}" || rc=$?
+            case "$rc" in
+              0) ;;
+              # 2 is the reader saying it cannot judge this suite yet, and it says
+              # so rather than reporting a corpus nothing read as clean. That is
+              # only acceptable while the corpus is judged by its own checker, so
+              # the absence of one is a failure here: it is the state where a
+              # corpus is covered by nothing at all and every exit status still
+              # looks fine.
+              2)
+                if [ -f "${dir}check_vectors.py" ]; then
+                  # "runs in the python job" was a sentence, not a check. A corpus
+                  # arrived with a checker, a mutation sweep and no step invoking
+                  # either, and this branch reported it as judged while nothing
+                  # judged it: the Go reader exits 2, the checker exists, and the
+                  # loop said so approvingly. The claim is now verified against
+                  # this file, so a corpus whose checker no step runs fails here.
+                  if grep -q "${dir}check_vectors.py" .github/workflows/ci.yml; then
+                    echo "   no Go reader yet; ${dir}check_vectors.py judges this corpus and a step in this workflow runs it"
+                  else
+                    echo "   ${dir}check_vectors.py exists and no step in this workflow runs it: judged by nothing" >&2
+                    status=1
+                  fi
+                else
+                  echo "   no Go reader and no ${dir}check_vectors.py: this corpus is judged by nothing" >&2
+                  status=1
+                fi
+                ;;
+              *) status=1 ;;
+            esac
+          done
+          exit "$status"
+
+      # No workflow referenced this proof at all. It had been refusing since the
+      # specification was re-vendored under it -- its pinned sentence split no
+      # longer matched the vendored text -- and nothing was there to hear it,
+      # which is the first member of the family every silently-stopped reader
+      # belongs to: a check nothing runs cannot report that it has stopped
+      # applying. It lives in this job because it builds cmd/aee-verify from
+      # source rather than trusting a binary beside the corpus.
+      - name: every newly cited obligation is paid for by a rail that gets it wrong
+        run: |
+          uv run --locked --extra generators python scripts/uncited-obligations-proof.py
+          uv run --locked --extra generators python scripts/uncited-obligations-proof-test.py
+
+      - name: coverage (per-file 80% minimum)
+        run: |
+          go test ./aee/... ./cmd/... ./corpora/... ./observedeffect/... -coverprofile=core.cov -count=1
+          (cd witnessattestor && go test ./... -coverprofile=../wa.cov -count=1)
+          # The aee-witness-demo command is a runnable library-mode example; its
+          # attest lifecycle is covered by the attestor tests, so it is excluded.
+          uv run --locked --extra generators python scripts/coverage-gate.py --threshold 80 \
+            --exclude cmd/aee-witness-demo core.cov wa.cov
+      - name: staticcheck
+        run: |
+          go install honnef.co/go/tools/cmd/staticcheck@latest
+          "$(go env GOPATH)/bin/staticcheck" ./aee/... ./cmd/... ./corpora/... ./observedeffect/...
+          (cd witnessattestor && "$(go env GOPATH)/bin/staticcheck" ./...)
+      # The accepted-complexity table in docs/architecture/DESIGN_DECISIONS.md
+      # names each branch-heavy Go function and its measured complexity. This
+      # gate re-measures and fails on drift. Only the Go rail runs here; the
+      # same script gates the Python records in the sibling job, because the two
+      # analyzers come from different toolchains. gocyclo is installed from
+      # source exactly as staticcheck is above, and this job already runs a
+      # python3 gate script (coverage-gate.py).
+      - name: accepted-complexity table matches the source
+        run: |
+          # Pinned, unlike staticcheck@latest above: this tool's numeric output
+          # is committed in the table, so an upstream change to how complexity
+          # is counted would fail an unrelated PR. Bump deliberately, then run
+          # the gate with --sync.
+          go install github.com/fzipp/gocyclo/cmd/gocyclo@v0.6.0
+          uv run --locked --extra generators python scripts/complexity-table-gate.py --rail go \
+            --gocyclo "$(go env GOPATH)/bin/gocyclo"
+      - name: golangci-lint (core module)
+        uses: golangci/golangci-lint-action@v7
+        with:
+          version: v2.11.4
+      - name: golangci-lint (attestor module)
+        uses: golangci/golangci-lint-action@v7
+        with:
+          version: v2.11.4
+          working-directory: witnessattestor
+
+  python:
+    runs-on: ubicloud-standard-2
+    steps:
+      # Full history, because the consumer-lag gate measures the vendored copies
+      # against the corpus the DEFAULT BRANCH publishes -- the only corpus a rail
+      # in another repository could have fetched. A shallow checkout carries the
+      # pushed commit and no origin/main, and that gate then reports that it did
+      # not run rather than guessing, so the whole job would stop here.
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      # The package floor is 3.12 (the held-out runner workflow proves it), so
+      # an unpinned sync would pick the runner's system 3.12. The development
+      # environment, and the pre-push hook this job tests, require 3.13.
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
+        with:
+          python-version: '3.13'
+      - name: sync toolchain
+        run: uv sync --locked --extra dev --extra generators
+      - name: Install checkout wheel for distribution imports
+        run: uv pip install --no-deps .
+      - name: mypy --strict
+        run: uv run mypy packaging/run_vectors.py packaging/agent_evidence_vectors/w3creport.py packaging/agent_evidence_vectors/observedeffect.py packaging/agent_evidence_vectors/auditrecord.py packaging/agent_evidence_vectors/runmetrics.py packaging/agent_evidence_vectors/contextdiscovery.py vectors-w3c-report/gen_vectors.py vectors-w3c-report/origin/derive_pairs.py scripts/w3c-rails-parity-test.py scripts/w3c-reader-differential.py scripts/w3c-report-rules-test.py scripts/json-encoding-differential-test.py packaging/agent_evidence_vectors/receiptsignature.py packaging/agent_evidence_vectors/a2ajcs.py packaging/agent_evidence_vectors/changeadmission.py scripts/receipt-signature-rails-test.py vectors-receipt-signature/digest.py vectors-receipt-signature/tools/veritasacta-verify.py scripts/gen-w3c-appendix.py vectors/reject/gen_invalid_vectors.py vectors/accept/gen_valid_vectors.py vectors/gen_manifest.py scripts/spec-drift-gate.py scripts/interpretation-registry-gate.py scripts/interpretation-registry-gate-test.py scripts/coverage-matrix-gate.py scripts/complexity-table-gate.py scripts/specpins.py scripts/spec-anchor-gate.py scripts/spec-anchor-gate-test.py scripts/code-contract-gate.py scripts/code-contract-gate-test.py scripts/consumer-lag-gate.py scripts/consumer-lag-gate-test.py scripts/independent-runs-gate.py scripts/suite-commit-gate.py scripts/suite-commit-gate-test.py scripts/condition-registry-gate.py scripts/condition-registry-gate-test.py scripts/condition-forcing-gate.py scripts/condition-forcing-gate-test.py scripts/condition-forcing-crosscheck.py scripts/condition-forcing-crosscheck-test.py scripts/external-rail-gate.py scripts/predicate-state-gate.py scripts/forcing-gate.py scripts/forcing-gate-test.py scripts/countcensus.py scripts/countcensus-sparse-test.py scripts/count-gate.py scripts/count-gate-test.py scripts/distribution-gate.py scripts/distribution-gate-test.py scripts/test_doc_gate_migration.py scripts/test_site_navigation.py docs/site/build.py scripts/regenerability-gate.py scripts/mutationdiff.py scripts/accept-anchor-gate.py scripts/accept-anchor-gate-test.py scripts/liveness-probe.py scripts/liveness-probe-test.py scripts/citation-metadata-gate.py scripts/citation-metadata-gate-test.py scripts/expectation-slack-gate.py scripts/expectation-slack-gate-test.py scripts/observed-code-closure-gate.py scripts/observed-code-closure-gate-test.py scripts/uncited-crosscheck-gate.py scripts/reading-differential.py scripts/reading-differential-test.py scripts/vendor-remap-test.py scripts/vector-distinctness-gate.py scripts/vector-distinctness-gate-test.py scripts/surface-leakage-gate.py scripts/surface-leakage-gate-test.py scripts/harness-output-contract-test.py scripts/verifier-must-run-test.py scripts/report-provenance-test.py scripts/action-retention-test.py scripts/action-build-pin-test.py scripts/verify-release-tag.py scripts/verify-release-tag-test.py scripts/workflow-steps-gate.py scripts/workflow-steps-gate-test.py scripts/_go_selector.py scripts/go-selector-test.py scripts/_lockfile.py scripts/_lockfile-test.py scripts/manifest-revision-test.py scripts/statement-layer-test.py scripts/independent-runs-gate-test.py scripts/indeterminate-readers-test.py scripts/indeterminate-scoring-gate.py scripts/indeterminate-scoring-gate-test.py interop/action-tuple-framed-v1/reader.py packaging/agent_evidence_vectors/heldout.py scripts/heldout-runner-test.py
+      # Type-checks by DIRECTORY, which is why it sits beside the pass above
+      # rather than replacing it. That one is driven from the list of files
+      # written out on the line above, and a list is only accurate on the day it
+      # is edited: four files had accumulated that it never named, among them
+      # the runner that executes every step in this file. This one derives its
+      # scope from [tool.pyright].include and refuses if any Python file in the
+      # repository falls outside it, so a new script is covered by existing and
+      # not by being remembered. It also refuses if it analysed fewer files than
+      # the repository has -- a checker aimed at nothing reports no problems in
+      # the same breath and the same exit status as a clean tree.
+      #
+      # A shell step and not a marketplace action, deliberately: scripts/
+      # workflow-steps-gate.py runs every shell step in this directory before a
+      # push, so declaring it here is what makes it run locally too. There is no
+      # second place to register it and no second place to forget.
+      - name: strict Gemara reader and test types
+        run: uv run mypy interop/gemara-method-link
+      - name: type-check every python file
+        run: uv run python scripts/typecheck-gate.py
+      - name: ruff
+        run: uv run ruff check packaging vectors vectors-acs-core/wire-probes vectors-observed-effect vectors-agent-audit-record vectors-ai-generation vectors-receipt-signature vectors-source-coverage vectors-anchored-chain vectors-a2a-jcs-v01 vectors-mcp-owasp vectors-grade-floor vectors-agent-change-admission vectors-self-reported-record vectors-agent-decision scripts interop/gemara-method-link interop/ws4-prior-witness-candidate interop/agentavow-live-mcp interop/agentavow-signed-map-v1 interop/a2a-s3-retain-2026-10-01 interop/a2a-s4-dual-name-2026-10-02 interop/action-tuple-framed-v1
+      - name: timestamp candidate custody and refusal controls
+        run: python3 scripts/retain-timestamp-candidate-test.py
+      - name: E2 compatibility tests in the shared development environment
+        run: uv run python -m pytest -q interop/aps-priorseal-e2-2026-09-30/test_reproduction.py
+      - name: WS4 prior witness candidate cases
+        run: |
+          PYTHONPATH=packaging uv run python interop/ws4-prior-witness-candidate/gen_fixture.py --check
+          PYTHONPATH=packaging uv run python -m unittest discover -s interop/ws4-prior-witness-candidate -p 'test_profile.py'
+      - name: Live MCP named-tool definition cases
+        run: |
+          PYTHONPATH=packaging uv run python interop/agentavow-live-mcp/build_cases.py --check
+          PYTHONPATH=packaging uv run python interop/agentavow-live-mcp/run.py
+          PYTHONPATH=packaging uv run python -m unittest discover -s interop/agentavow-live-mcp -p 'test_definition_pin.py'
+      - name: E2 reports reproduce in the shared development environment
+        run: |
+          cd interop/aps-priorseal-e2-2026-09-30
+          sh fetch_inputs.sh
+          uv run python check_reproduction.py
+      # The other half of the accepted-complexity gate. It runs here rather than
+      # beside the Go half because it measures with ruff, and it measures with
+      # --ignore-noqa because the marker that brings a function into
+      # docs/complexity-rationales.toml is the same marker that stops the step
+      # above from reporting its number.
+      - name: accepted-complexity rationales match the source
+        run: uv run python scripts/complexity-table-gate.py --rail python
+      - name: spec/corpus non-drift gate
+        run: python3 scripts/spec-drift-gate.py
+      # The generators' slug-to-identifier maps. A vector is published under a
+      # digest of its own bytes while its generator files the vector's anchors
+      # under the slug somebody typed, so the anchor gate below cannot compare a
+      # published row against the source row that records it without the
+      # pairing. The maps are build intermediates and deliberately uncommitted:
+      # the slug surface is label-bearing, which is what content addressing
+      # removed. Each generator writes its map on every run, and both are
+      # deterministic -- the regenerability gate later in this job is the check
+      # that says so, which is also why running them here cannot dirty the tree.
+      #
+      # This runs BEFORE the anchor gate rather than being read opportunistically
+      # by it. A missing map is a did-not-run, and the gate refuses on one; read
+      # as an empty map instead it would resolve no row, file every vector row
+      # under an owner no source has, and drop all of them into a weaker
+      # whole-file question while still printing OK.
+      - name: the generator identifier maps the anchor gate resolves rows through
+        run: |
+          python3 vectors/accept/gen_valid_vectors.py
+          python3 vectors/reject/gen_invalid_vectors.py
+      # Every line anchor into the specification is rewritten when the spec is
+      # re-vendored, and that rewrite had never been exercised against an
+      # insertion -- which is exactly what the next re-vendor carries. Its
+      # failure is silent by construction: an anchor landing a few lines off its
+      # subject still resolves, still passes the anchor gate, and addresses text
+      # that does not carry its rule, which is the defect that gate exists to
+      # refuse arrived at from the other direction.
+      #
+      # The test asserts the invariant rather than that the remap ran: every
+      # anchor must still open and close on the words the pin ledger recorded
+      # for it. It proves its own instrument first, against an identity map
+      # after an insertion -- the shape a lazy remap has -- and refuses to
+      # report on the real re-vendor unless that mutation went red.
+      # --synthetic, and the flag is the whole point. This check has two halves.
+      # The synthetic half constructs an insertion and a replacement and proves the
+      # remap carries every anchor onto the same prose; it needs nothing but this
+      # checkout and it is what runs here. The other half compares against the
+      # PINNED upstream revision in spec/VENDOR-PIN.json, read out of a local clone
+      # of the upstream fork -- which a hosted runner does not have and cannot get,
+      # because the pinned revision is not on any remote yet.
+      #
+      # That half has therefore never run on a runner. It did not say so: it
+      # printed SKIPPED and exited 0, so every green CI run has reported a pass for
+      # a question nobody asked. It now REFUSES when it cannot be asked, which is
+      # why it is not invoked here: a check that must refuse in CI forever is not a
+      # CI check. Run it before a re-vendor, where it is the whole point:
+      #
+      #     python3 scripts/vendor-remap-test.py
+      - name: the vendor remap keeps every anchor on its own prose
+        run: python3 scripts/vendor-remap-test.py --synthetic
+      # The line-number citation spelling is retired and so is its gate. What it
+      # checked -- that a citation still addresses the prose it was written for,
+      # not merely that it resolves to text -- is now the second half of
+      # spec-drift-gate above, over `spec:<anchor-id>@<digest>` citations, and
+      # spec-anchor-gate below still covers the `Lnnn` table anchors. There is no
+      # step here because a gate whose population is empty by design can only
+      # refuse, and a step that must refuse forever is not a check.
+      # The anchor gate's own tests, which are mostly refusals for the reason
+      # every other gate test here is. This one has now run green while
+      # enforcing less than it claimed twice: once when resolution was the only
+      # question, and once when a synchronise would refuse a citation that left
+      # its subject but waved through one that merely shortened onto part of it.
+      # Two of the cases also cover the empty subject set, where the old
+      # collector could stop matching, the check could report zero, --sync could
+      # write an empty ledger and exit zero, and every run after that was green.
+      - name: spec anchor gate
+        run: |
+          python3 scripts/spec-anchor-gate.py
+          python3 scripts/spec-anchor-gate-test.py
+      # Two artifacts describe the same population of normative sentences, and
+      # they are deliberately not merged: the `[[uncited]]` rows in
+      # spec/READINGS.toml are the enforced ledger, each pinning a sentence
+      # digest, and docs/UNCITED-OBLIGATIONS.md is the document a person reads,
+      # carrying the remedy and the evidence for every sentence the sweep
+      # examined including the ones a later citation closed. Merging them was
+      # proposed and would have lost the closed dispositions, which are the
+      # record of what the sweep achieved; keeping two copies with nothing
+      # comparing them is the other failure, and this repository has hit that
+      # shape often enough to name it -- two internally correct documents
+      # drifting until they disagree about the size of the thing they describe.
+      # This gate holds them together in both directions, and it answers a
+      # parse that found nothing with its own exit code rather than with
+      # agreement, because a ledger read as empty agrees with everything.
+      - name: the uncited-obligation ledger and the document about it agree
+        run: python3 scripts/uncited-crosscheck-gate.py
+      # A named forcing vector proves a rule is EXERCISED. Only a vector whose
+      # observable moves when the reading changes proves it is FORCED. The gate
+      # conflated the two until a twenty-first decision -- a genuinely open
+      # question, classified forced, citing five vectors measured at zero
+      # verdict flips -- was injected and accepted at exit 0. The test runs the
+      # same attack, so the conflation cannot return silently.
+      - name: interpretation-decision registry gate
+        run: |
+          python3 scripts/interpretation-registry-gate.py
+          python3 scripts/interpretation-registry-gate-test.py
+      # A condition id is the normative link between a vector and the rule it
+      # forces. Both index files pointed a reader at an id-to-spec-line table in
+      # the README that has never existed in any revision, and the table that
+      # does exist was generated from the ids the reject set happened to use, so
+      # 17 ids were cited by live vectors and registered nowhere. This gate
+      # reconciles both directions, and its own tests are mostly refusals
+      # because a gate evidenced only by a green run is the shape the seven
+      # documented pass-while-enforcing-nothing checks had.
+      - name: condition-registry gate
+        run: |
+          python3 scripts/condition-registry-gate.py
+          python3 scripts/condition-registry-gate-test.py
+      # The failure-code contract the README states, checked against the
+      # evaluator that enforces it and against the enumerated code set. It runs
+      # the documented third-party response shapes through the runner rather
+      # than counting codes, because the drift it exists to catch was prose
+      # describing a fallback the evaluator never had.
+      #
+      # Its tests are new and mostly refusals, for the reason the other gates'
+      # are: this one ran green for the life of the corpus while the values of an
+      # indeterminate vector's declared readings -- which the runner folds into
+      # that vector's expected code set -- sat outside its subject, so a failure
+      # code in no registry at all could be authored, regenerate byte-identically
+      # and clear a whole-corpus replay with every gate green. A gate evidenced
+      # only by a green run says nothing about what it is quantified over.
+      - name: failure-code contract gate
+        run: |
+          python3 scripts/code-contract-gate.py
+          python3 scripts/code-contract-gate-test.py
+      # A reject vector is graded by intersecting the codes a rail emits with
+      # the codes it declares, so a cell naming both conditions a statement
+      # deliberately carries is satisfied by either one of them and forces
+      # neither. The corpus owns exactly one discriminator between the narrow
+      # and broad readings of the sealed existential, and it is one such cell.
+      # Widening it by a word was performed and measured: the replay stayed
+      # green, seven other gates exited 0, and the only vector that separates
+      # the two readings had quietly stopped measuring anything. The rule was
+      # already stated in two docstrings, which is where a rule the next edit
+      # is free to break lives. So this gate measures the property rather than
+      # the spelling of the cell -- it runs the reference rail over every
+      # reject vector and refuses when more than one DECLARED code is actually
+      # EMITTED -- and the vectors already in that state are frozen by
+      # identifier and by the pair that overlaps, so an inherited one that
+      # changes shape fails as loudly as a new one. Its test runs beside it
+      # because a gate evidenced only by a green run is the defect it exists
+      # to catch.
+      - name: no reject expectation is satisfied by more than one emitted code
+        run: |
+          python3 scripts/expectation-slack-gate.py
+          python3 scripts/expectation-slack-gate-test.py
+      # The mirror of the step above, and the half that was missing. That one
+      # refuses an expectation satisfied by too many of the codes a statement
+      # emits; this one refuses a code a statement emits that no expectation
+      # mentions at all. The intersection grading leaves the second kind
+      # entirely unchecked: `bad-817` declared two codes and emitted four, and
+      # when suiteRevision 27 moved its parent from a caught row to a
+      # reconstructed one, one of the two undeclared codes changed with it and
+      # nothing refused. Measured over the corpus as it then stood, nineteen
+      # vectors were in that state with 24 unpinned emissions between them.
+      #
+      # It is a gate here rather than a rule inside the replay for one reason:
+      # the replay runs over external rails, and a closure rule there would turn
+      # this repository's private code vocabulary into an obligation on everyone
+      # who replays the corpus. The manifest's comparisonSurface promises the
+      # opposite, and README promises that a superset-emitting implementation
+      # certifies against the same manifest as a single-code one. Both promises
+      # survive this gate unchanged, because the gate only ever drives the
+      # reference rail. Its test runs beside it and includes a case that patches
+      # the rail rather than the manifest, since every manifest-only case would
+      # also pass a gate that compared the manifest against nothing but itself.
+      - name: the reference rail emits no code the corpus declares nowhere
+        run: |
+          python3 scripts/observed-code-closure-gate.py
+          python3 scripts/observed-code-closure-gate-test.py
+      # A verifier that rejects its input unconditionally passes every reject
+      # vector ever written, and scored against a reject-only corpus it looks
+      # perfect. The cure is a paired accept anchor, and the corpus said so in
+      # exactly one index row while nothing checked that the property held
+      # anywhere else. This gate checks it at both granularities: every reject
+      # vector's parent ships as an accept vector, and the traceability gap --
+      # the conditions only refusals cite -- is measured and ratcheted rather
+      # than left as a caveat in prose. It also reads the two sentences that
+      # publish those figures, because the count census skips them on the
+      # strength of recording this gate as their owner, and an owner that never
+      # opens the prose leaves the one published number in the corpus with
+      # nothing behind it. Its own tests are refusals, because a gate that
+      # cannot go red is the defect it exists to catch.
+      - name: every refusal ships beside a vector that must be accepted
+        run: |
+          python3 scripts/accept-anchor-gate.py
+          python3 scripts/accept-anchor-gate-test.py
+      # Detector liveness, computed per channel. A check that never fires and a
+      # boundary nothing reached emit the same clean run, so the vectors plant a
+      # stimulus per channel and the probe recomputes, from the carried bytes,
+      # which channels can show they caught it.
+      #
+      # The first line is the headline assertion and the second is what makes it
+      # worth anything. A probe hard-wired to answer "demonstrated" would clear
+      # the first line and report a live detector for a corpus of dead ones, so
+      # the test switches off each arm of the construction in turn -- the planted
+      # expectation, the commitment comparison, the caught row, the resolved
+      # interception, the stronger attribution, the record signature and the
+      # run-end seal -- and requires the affected channel to degrade to a named
+      # state. It also pins every per-channel verdict the documentation
+      # publishes, so prose and computation cannot drift apart.
+      - name: per-channel detector liveness, and each arm of it switched off
+        run: |
+          uv run python scripts/liveness-probe.py --require-demonstrated \
+            --key 496cbe15e391eccd3a0864f2709df0eeb4f5b6c1bad750c95cc80ee49bceae62 \
+            vectors/statements/vda285efc96ac6e75.json
+          uv run python scripts/liveness-probe-test.py
+      - name: requirement-coverage matrix is current
+        run: python3 scripts/coverage-matrix-gate.py --check
+      # The suite publishes what it does NOT force, and that figure is the one an
+      # outside reader is most entitled to distrust. Two projections of one
+      # mutation campaign -- by rail site, and by the normative condition ids the
+      # vectors cite -- were taken at two different corpus revisions and then
+      # quoted side by side, which reads as two measurements disagreeing when it
+      # is one measurement seen twice. The condition projection is now derived
+      # from the published baseline on every run rather than recorded by hand, so
+      # a corpus that moves without the figure moving fails here. Its own tests
+      # are refusals, including the one that stops an unrecognised failure-code
+      # identifier being resolved by nearest match, which is how a published weak
+      # spot would turn into a claim of coverage.
+      #
+      # The last two lines are a SECOND implementation of the same three
+      # definitions, sharing no code with the generator. --check compares the
+      # page against what the generator would write again, which cannot see a
+      # generator that read the definitions wrongly: it would write a wrong page
+      # and then agree with it. The crosscheck recomputes from the manifest and
+      # the baseline and reads the page's prose back, so the two disagree if
+      # either is wrong. Its own tests distinguish the two exit codes, because
+      # a broken input reported as a disagreement is the same class of defect.
+      #
+      # --without-history on the two suites, because this job checks out at
+      # depth 1 and nineteen of their cases read the git objects the earlier
+      # figure is pinned to. Without the flag those cases do not merely fail
+      # here: a shallow clone answers exit 2 to every one of them, and four of
+      # the nineteen WANT exit 2, so they would have gone green in a clone that
+      # could read nothing at all. The flag runs the rest and prints how many it
+      # left; the full suites run in forcing-nightly.yml, which fetches
+      # everything. A default run in a clone that cannot reach the pinned
+      # objects refuses rather than reporting a smaller suite as a passing one.
+      - name: the published weak-spot figure follows from the forcing baseline
+        run: |
+          python3 scripts/condition-forcing-gate.py --check
+          python3 scripts/condition-forcing-gate-test.py --without-history
+          python3 scripts/condition-forcing-crosscheck.py
+          python3 scripts/condition-forcing-crosscheck-test.py --without-history
+      # The one column here that is not this author's work is a record of what
+      # somebody else ran, so it is worth less than nothing when it is stale.
+      # The sentence naming which revisions were NOT run had rotted in three
+      # documents at once, each naming a different set and none naming revision
+      # 4. This gate derives that set from docs/INDEPENDENT-RUNS.json and fails
+      # when the published prose names anything else.
+      - name: the independence column is the run ledger
+        run: |
+          python3 scripts/independent-runs-gate.py
+          python3 scripts/independent-runs-gate-test.py
+      # A run record binds itself to this corpus by commit ID, and on 2026-09-18
+      # a history rewrite gave every commit a new one. Every outside record then
+      # named a commit no clone carries, and the run ledger went on recording an
+      # old ID for three dispatches. The API and actions/checkout both still
+      # served those commits, so nothing went red. This gate asks what a fresh
+      # clone would carry: the default branch and the tags, which this job
+      # fetches because it checks out with full history.
+      - name: every commit an outside record cites is reachable in a clone
+        run: |
+          python3 scripts/suite-commit-gate.py
+          python3 scripts/suite-commit-gate-test.py
+      # The two files that decide how this corpus is cited carried an author, an
+      # address and an identifier that nothing read back. They were correct when
+      # written and checked by nothing afterwards, which is indistinguishable
+      # from checked until the day it is not. This gate parses both, requires
+      # them to name the same people, and verifies the check digit an ORCID
+      # carries -- a transposed digit is arithmetic, not something to be noticed
+      # by eye.
+      # It also reads the corpus size the deposit publishes. That number was
+      # typed, and by the time anyone looked it named a revision the corpus had
+      # left five revisions earlier -- unseen because the count gate reads .md,
+      # .yml, .yaml, .py, .go and .toml, and this file is .json. Every other stale
+      # count in this repository is a file edit away from right; this one mints a
+      # DOI, whose metadata is permanent and is what anybody citing the corpus
+      # quotes from then on.
+      - name: the citation metadata parses and agrees with itself
+        run: uv run --extra dev python scripts/citation-metadata-gate.py
+      # And the gate is watched to go red. Each case breaks one figure in a
+      # staged copy of the tree and asserts the refusal names it, because a
+      # citation gate that could not refuse is the safeguard the last one was.
+      - name: the citation gate refuses a wrong figure
+        run: uv run --extra dev python scripts/citation-metadata-gate-test.py
+      # Two identifiers addressed one statement for as long as both existed: a
+      # reject vector was byte-identical to another condition's, so a condition
+      # was credited with a discriminator it did not have. The manifest carries
+      # no per-vector digest, so nothing pinned vector content at all and every
+      # count still added up. The suite's own weakness report could not see it
+      # either, because it counts declared conditions rather than distinct
+      # statements.
+      #
+      # It has since been widened twice, and both widenings found something. It
+      # read one manifest, so the AI Agent Action corpus was outside the only
+      # check asking this question, and a byte-identical accept pair had been
+      # sitting in it since it shipped. And it compared bytes only, so two files
+      # that differ in their bytes and decode to one statement were invisible to
+      # it -- which for a pair carrying DIFFERENT labels means the corpus is
+      # asking a decoding rail for two verdicts about one input, and the only
+      # thing separating them is the `ok-`/`bad-` prefix in the identifier. Both
+      # readings a rail can take are now asked, over both corpora, and every
+      # collision has to be declared with a reason in docs/VECTOR-COLLISIONS.json
+      # or the gate refuses it.
+      #
+      # The test runs beside the gate for the reason every other gate test in
+      # this file does, and one of its cases exists specifically to catch the
+      # narrowing coming back: it puts a collision in the second corpus and
+      # nowhere else, so a gate rescoped to one manifest fails that case while
+      # passing all the others.
+      - name: no two vector identifiers address one statement
+        run: |
+          python3 scripts/vector-distinctness-gate.py
+          python3 scripts/vector-distinctness-gate-test.py
+      # Every other check in this directory asks whether one vector forces one
+      # rule. This one asks the question a corpus can fail as a whole: can a
+      # consumer answer it without implementing anything? A cheap classifier is
+      # trained on the surface -- the tokens of the vector's whole path, the
+      # file's size, the statement's shape, the member paths it carries, its
+      # member names and short string values -- and asked to predict
+      # accept-or-reject.
+      #
+      # The threshold is MEASURED rather than chosen, and getting that wrong is
+      # the most useful thing this gate has done so far. It first refused above a
+      # flat 0.55, on the reasoning that chance is 0.5. But the statistic is
+      # folded, max(auc, 1 - auc), so it cannot go below 0.5 and ordinary
+      # sampling spread lifts it above 0.5 with no signal present at all:
+      # permuting the labels of the larger corpus gives a mean near 0.54 and
+      # exceeds 0.585 one run in twenty. A corpus with zero leakage would have
+      # failed that gate more often than it passed. Each surface is now held to
+      # its OWN null, and calibrating retired four rows that had confident
+      # causal explanations written against sampling noise.
+      #
+      # Six of the twelve measurements are genuinely outside their null and each
+      # names its constraint in docs/SURFACE-LEAKAGE-BASELINE.json. The largest
+      # is the identifier namespace: measured over the whole manifest-relative
+      # path it is a PERFECT predictor, because the prefix and the directory each
+      # name the label and either alone is enough.
+      - name: the corpus is not scoreable from its surface
+        run: |
+          uv run python scripts/surface-leakage-gate.py
+          uv run python scripts/surface-leakage-gate-test.py
+      # The corpus is vendored into rails that live in other repositories, and
+      # each of those checks its own copy against its own stamp. Nothing asked
+      # whether the copy was current, so the refresh ran when somebody
+      # remembered and twice it was not remembered. This gate makes a corpus
+      # change here fail until the rails carry it, which is the only place the
+      # question can be asked without one repository reading another in CI. It
+      # also holds the implementation report to that ledger: the note and the
+      # per-rail cells describing what the rails vendor were written at
+      # suiteRevision 6 and still said so at 14, and a rail the report named
+      # had no row behind it at all.
+      # A historical corpus reader in vectors/gen_manifest.py used to sit beside
+      # this gate, for one caller and one reason: the gate materializes the
+      # DEFAULT BRANCH's tree to learn what the rails could actually have
+      # vendored, and until the flattening reached that branch, that tree
+      # carried the retired per-verdict layout. An expiry gate of its own
+      # watched for the reason to lapse, because the obvious placement could not
+      # work -- making this gate refuse a flat default branch would have made it
+      # fail its own fixtures, which stage a self-contained repository from this
+      # corpus and are therefore always flat.
+      #
+      # The flattening reached the default branch at suiteRevision 28, the
+      # expiry gate turned red on the first run afterwards exactly as designed,
+      # and the reader, the two-layout dispatch and the gate itself were deleted
+      # together in the commit that answered it.
+      - name: consumers carry the corpus the default branch publishes, and the report says so
+        run: python3 scripts/consumer-lag-gate.py --check
+
+      # Every gate above that COMPARES a committed artifact against a regenerable
+      # one has a repair, and the repair is written down rather than remembered.
+      # This step reads the workflow itself and refuses when a comparing gate has
+      # no row in scripts/repairs.toml -- so a gate added here without one turns
+      # the build red instead of leaving the next operator to work out which
+      # generator to run at the moment it goes red.
+      #
+      # It audits and writes nothing. `python3 scripts/regen.py` with no flag is
+      # the repair path, and it runs to a fixed point because the repairs are not
+      # independent: regenerating one artifact can move a figure another derives.
+      - name: every comparing gate declares how to repair it
+        run: python3 scripts/regen.py --audit
+      # And the gate is watched to go red, and to go red at the right moment.
+      # Measured against the checked-out tree instead of the default branch it
+      # refused correctly and too early: a branch adding vectors could not be
+      # pushed until rails had vendored a commit no rail could fetch, and the
+      # corpus could not be published because the push was refused. Both halves
+      # of every pair below are asserted, because a gate that never refuses and
+      # a gate that refuses what cannot yet be satisfied are the same failure.
+      - name: the lag gate refuses a real lag and only a real lag
+        run: python3 scripts/consumer-lag-gate-test.py
+      # The local gates refuse a second copy of themselves, and the refusal names
+      # the holder. `flock` binds the open file description rather than the
+      # process, so a child that inherits the descriptor keeps the lock after its
+      # parent is killed, while the file still names the parent. The refusal read
+      # that name and reported it as a running process without asking whether it
+      # was one, so an operator who stopped the named pid found the lock still
+      # held and no pid left to blame. Both directions are asserted here, because
+      # the obvious repair breaks the other one: a killed holder nothing
+      # inherited from must free the lock, and an inherited lock must keep
+      # refusing while saying the recorded holder is gone.
+      - name: the gate lock refuses only what it confirmed, and frees itself
+        run: python3 scripts/_lockfile-test.py
+      # A count is a derived fact with exactly one source, and every copy of it
+      # in prose is a cache nothing invalidates. The copies went stale at
+      # different rates until two documents here disagreed about the size of the
+      # same corpus: a badge, a build note and a published crosswalk were each
+      # wrong by a different amount, and the crosswalk cited the manifest it
+      # disagreed with. This gate checks every published count against its
+      # source, and then takes a census: a count-shaped integer that nothing
+      # declares fails, so the next one typed into a new paragraph fails on the
+      # push that adds it rather than on the revision that outdates it.
+      # The one path a reader walks with nothing installed. It is asserted from
+      # outside, in a subprocess that cannot see site-packages, because every
+      # environment that runs this workflow has the generator extras and would
+      # therefore pass a check that a fresh clone fails. v0.10.0 shipped exactly
+      # that way.
+      - name: the digest check runs with no third-party package
+        run: python3 scripts/scitt-digest-isolation-test.py
+      - name: every published count is derived, and no new one is hand-written
+        run: |
+          python3 scripts/count-gate.py
+          python3 scripts/count-gate-test.py
+          python3 scripts/countcensus-sparse-test.py
+      # Keep the release recipe, corpus list and form aligned with their sources.
+      - name: check distribution metadata and release recipe
+        run: |
+          python3 scripts/distribution-gate.py
+          python3 scripts/distribution-gate-test.py
+          uv run --extra dev python -m pytest -q scripts/test_doc_gate_migration.py
+      # The pre-push mirror runs every step of every workflow locally, and it
+      # ran them under a plain bash while Actions runs them under `bash -e`.
+      # A step with one command cannot tell the two apart; a step with several
+      # reports only its last command's status, so a block whose first command
+      # failed passed locally and failed here. It did, on the forcing step. The
+      # mirror is only worth having if it agrees with this file, so the test
+      # runs here rather than only in the hook it protects.
+      - name: the local pre-push mirror agrees with this workflow's shell
+        run: .venv/bin/python -B scripts/workflow-steps-gate-test.py
+      - name: the pool venue retains source-bound native results and refuses incomplete runs
+        run: .venv/bin/python -B scripts/pre-push-pool-test.py
+      - name: required native providers bind real tools and refuse unsafe archives
+        run: .venv/bin/python -B scripts/native-provider-test.py
+      - name: setup-go selects the declared workspace file before dependent commands
+        run: .venv/bin/python -B scripts/go-selector-test.py
+      # Both vector indexes publish a determinism recipe saying the set
+      # regenerates byte-identically from the generator beside it, and until
+      # this gate nothing ran it. Seven vector files and seven manifest entries
+      # were committed with no builder and no index row behind them, and the
+      # tree stayed green: the harness replays the committed bytes against the
+      # committed manifest, and both had been written by hand. This gate
+      # regenerates everything into a copy and diffs, so a file no generator
+      # produces fails on the push that adds it.
+      # `uv run` since the SCITT/COSE generator joined the set this gate drives:
+      # it shells each generator with sys.executable, and that corpus is built
+      # with pycose, so the interpreter running the gate has to be the one the
+      # `generators` extra was synced into.
+      - name: every generated file regenerates byte-identically
+        run: uv run python scripts/regenerability-gate.py
+      # The v0.1 report reader's rules that no corpus member can pin: a tree
+      # shape outside the closed set is refused rather than hashed as another
+      # shape, and each registered shape is hashed by the construction its name
+      # denotes, checked against the RFC text written out independently. It also
+      # runs every worked digest INDEX.md prints and every command the corpus
+      # README prints, under sh, and holds each to the root or the corpusDigest
+      # it states.
+      - name: the v0.1 report reader's tree-shape rules
+        run: python3 scripts/w3c-report-rules-test.py
+      # One table of JSON documents and the bytes each digest encoding writes
+      # for them, computed here from the Python implementations. The go job's
+      # corpora/pyjson_table_test.go holds the Go encoders to the same file, so
+      # a Go encoder and its Python twin are compared over the same inputs. The
+      # Go encoder once wrote the token -0 where CPython writes 0, and a list
+      # participant found it by measuring both readers; this is that
+      # measurement, kept.
+      - name: the shared JSON encoding table holds against the Python encoders
+        run: python3 scripts/json-encoding-differential-test.py
+      # The corpus revision has one home, the newest heading in
+      # vectors/CHANGES.md, and the manifest copies it. Before it was a field an
+      # outside implementer read the suite NAME for it, because that was the only
+      # suite-shaped key in the file. The two refusals matter as much as the
+      # match: an unreadable changelog and one with no heading each mean the
+      # revision could not be established, which is not the same as the corpus
+      # having none, and a reader that answered anyway would publish that
+      # ambiguity.
+      - name: the manifest's suite revision is the changelog's
+        run: python3 scripts/manifest-revision-test.py
+      # Three members carry a Statement-layer verdict beside the AEE one: the
+      # empty predicate, spelled three ways, is an invalid AEE statement and a
+      # valid in-toto Statement. A verdict written into a manifest and never
+      # executed is a sentence, so this runs a Statement-layer check over the
+      # members that carry one and holds the recorded verdict to it, with
+      # controls that refuse a check which accepts everything.
+      - name: the recorded Statement-layer verdicts are the executed ones
+        run: python3 scripts/statement-layer-test.py
+      # Whether every corpus BEHAVES as its manifest claims is a different
+      # question from whether its bytes regenerate, and it is asked once for
+      # all six corpora by the "one harness judges every corpus" step in the Go
+      # job. It used to be asked here, per corpus, by a Python runner that
+      # shipped beside each vector set -- and only two of the six were ever
+      # wired into this file, so four of them passed because somebody ran them
+      # by hand on the day they landed.
+      #
+      # The artifact-binding tool that produces those records still has its own
+      # properties to hold, and the four demonstration arms still have to reach
+      # the outcomes the contract requires end to end. The last is the one an
+      # outside reader runs first, so a break there fails here rather than in
+      # their terminal.
+      - name: the artifact-binding tool holds its properties
+        run: uv run --extra dev python -m pytest tools/artifact-binding/tests -q
+      - name: the four-arm demonstration reaches the contract outcomes
+        run: uv run --extra artifact-binding ./demo/four-arms.sh
+      # The SCITT/COSE carriage suite's own mutation check. Same question as the
+      # step above and a different subject: whether a member claiming a root
+      # divergence actually diverges, whether every accept member's signature
+      # and inclusion proof actually verify, and whether each reject member
+      # carries the specific fault it names rather than some other one.
+      #
+      # `uv run` and not bare `python3`, unlike its two neighbours, because this
+      # corpus is COSE and CBOR is not in the standard library. The checker
+      # decodes with cbor2 and verifies through pycose, both declared in the
+      # `generators` extra this job already synced. A bare python3 here would
+      # find neither and the step would die on an ImportError, which reads like
+      # a broken corpus.
+      - name: the SCITT/COSE corpus behaves as its manifest claims
+        run: uv run python vectors-scitt-cose/check_vectors.py
+      # The artifact-binding corpus keeps a Python checker after the other five
+      # were deleted, and the reason is one check the Go reader cannot make. A
+      # member already expected to fail absorbs a second fault of the same class
+      # in silence, because both faults raise the same code and the member
+      # identifier covers the record rather than the files the record names. The
+      # generator therefore records a digest over the reference verifier's own
+      # sorted message list and this checker recomputes it. That digest is
+      # implementation-pinned by construction: it hashes one verifier's message
+      # prose, so a second implementation cannot satisfy it without copying the
+      # wording, which is why the check stayed here rather than moving into
+      # corpora/artifactbinding.go with the rest of the corpus's rules.
+      - name: the artifact-binding corpus carries exactly the faults it names
+        run: uv run --extra artifact-binding python vectors-artifact-binding/check_vectors.py
+      - name: the dependency-selection corpus carries exactly the faults it names
+        run: uv run --extra artifact-binding python vectors-artifact-binding/check_vectors.py vectors-dependency-selection
+      # The observed-effect corpus needs the `generators` extra for the same
+      # reason the SCITT one does: its reference verifier checks Ed25519
+      # signatures, including the prior-commitment signature, and that is not in
+      # the standard library.
+      - name: the observed-effect corpus behaves as its manifest claims
+        run: uv run --extra generators python vectors-observed-effect/check_vectors.py
+      # Worked receipts for a sequential MCP call chain and a parallel fan-out,
+      # built from the corpus's own helpers and verified by its reference
+      # verifier, with two controls that must fail.
+      - name: the MCP receipt examples verify and link
+        run: uv run --extra generators python examples/mcp-receipts/check_examples.py
+      - name: source-coverage fixtures regenerate and refuse invalid replays
+        run: uv run --extra dev pytest vectors-source-coverage/tests -q
+      - name: anchored-chain cases regenerate and force every check
+        run: uv run --extra dev pytest vectors-anchored-chain/tests -q
+      - name: grade-floor cases regenerate, agree and every rule is load-bearing
+        run: |
+          set -euo pipefail
+          uv run --extra dev pytest vectors-grade-floor/tests -q
+          uv run python vectors-grade-floor/check_vectors.py
+          uv run python vectors-grade-floor/mutation_check.py
+      - name: change-admission cases regenerate, agree and every rule is load-bearing
+        run: |
+          set -euo pipefail
+          uv run --extra dev pytest vectors-agent-change-admission/tests -q
+          uv run python vectors-agent-change-admission/check_vectors.py
+          uv run python vectors-agent-change-admission/mutation_check.py
+      # The a2a canonicalization corpus is upstream's bytes, not ours: the
+      # lock check refuses any drift from the pinned a2a-tck commit and corpus
+      # digest, and the tests replay it through the rail with a conformant and
+      # a non-conformant verifier.
+      - name: the vendored a2a-jcs-v01 corpus matches its source lock
+        run: python3 vectors-a2a-jcs-v01/upstream.py check
+      - name: the a2a-jcs-v01 corpus replays under its verifier contract
+        run: uv run --extra dev pytest vectors-a2a-jcs-v01/tests -q
+      - name: OWASP MCP drafts regenerate and every rule owns its reject
+        run: |
+          uv run python vectors-mcp-owasp/gen_vectors.py --check
+          uv run python scripts/mcp-owasp-reader-test.py
+      - name: probity-verify checks source coverage
+        run: |
+          mkdir -p .build
+          uv run python packaging/run_vectors.py \
+            --corpus vectors-source-coverage \
+            --verifier "uv run --no-project --python 3.13 --with git+https://github.com/probityai/probity-verify@d3c0213ff3697c19535b6bcb63e29e74182807b5 probity-verify" \
+            --report .build/probity-source-coverage.json
+      # A second question the checker above cannot ask about itself: would any
+      # member still be refused if a rule were removed? The sweep disables one
+      # rule at a time and requires some member to stop being refused. It earns
+      # its own step because it has already failed for real: two rules added in
+      # one pass were each masked by another rule that refused the same member
+      # first, so both measured nothing and the suite was green.
+      - name: every observed-effect rule is load-bearing
+        run: uv run --extra generators python vectors-observed-effect/mutation_check.py
+      # The agent audit record corpus is Appendix B of an Internet-Draft. Its
+      # checker judges it with the packaged reader, verifies the signatures with a
+      # second Ed25519 library, and sweeps every rule for load-bearing effect.
+      - name: the agent-audit-record corpus behaves as its manifest claims
+        run: uv run --extra generators python vectors-agent-audit-record/check_vectors.py
+      # The agent-decision corpus pins the args_hash rule proposed on
+      # in-toto/attestation#554. Its checker judges every member, recomputes each
+      # canonical argument form with a second number writer, and disables each
+      # rule in turn, standing in the library behaviour a reject is built against.
+      - name: the agent-decision corpus behaves as its manifest claims
+        run: uv run --extra generators python vectors-agent-decision/check_vectors.py
+      # An indeterminate member is a row the specification leaves open, and a
+      # verifier conforms on it by reaching any verdict its readings list. N1 and
+      # N2 shipped with expected.verdict pinned to one of their two readings while
+      # the manifest said to score on that field, and every judge passed them
+      # because none read it. An outside reader found it. These cases pin a
+      # verdict and delete each reading in turn, and require both packaged
+      # readers to refuse the result.
+      - name: indeterminate members are scored on their readings
+        run: uv run --extra generators python scripts/indeterminate-readers-test.py
+      # The same rule over every corpus, including one added after this step was
+      # written: a member whose readings allow more than one verdict pins none.
+      - name: no corpus pins a verdict on an open member
+        run: |
+          python3 scripts/indeterminate-scoring-gate.py
+          python3 scripts/indeterminate-scoring-gate-test.py
+      # The rail's own oracle, which is a different question from the corpus.
+      # A vector states what the rail must decide about bytes on disk; the
+      # self-test states what the rail must decide about a statement it builds
+      # itself, and it reaches two layers no vector can: the hand-rolled RFC
+      # 8032 signer, checked against a value the cryptography library produced,
+      # and the UTF-16 comparator, whose order stops being expressible once the
+      # BMP-only profile is enforced.
+      #
+      # It shipped with the harness and nothing ran it. Held that way it decayed
+      # exactly as an uncalled capability decays: four members the rail now
+      # requires were missing from the statement it builds, so its base was
+      # invalid, five checks were red, and one of the checks still reporting
+      # PASS was satisfied by a code the invalid base emitted anyway rather than
+      # by the mutation it names. It runs before the corpus replay because a
+      # rail that cannot verify its own statement should be reported as a rail
+      # fault rather than as a corpus-wide replay failure.
+      #
+      # The step name carries no check count on purpose. The self-test prints
+      # its own total on every run, which is the one derived source; a number
+      # typed here would be a copy of it that nothing invalidates.
+      - name: the reference rail clears its own oracle
+        run: python3 packaging/run_vectors.py --self-test
+      # This step name DOES carry a count, unlike the one above it, and the
+      # difference is where the number comes from rather than a preference
+      # about names. The self-test's total has one source, which is the
+      # self-test's own output, so a figure typed here would be a copy nothing
+      # could check. The replay's total has a source outside this file --
+      # vectors/MANIFEST.json -- and scripts/count-gate.py declares this step
+      # name as one of the claims it resolves against that source on every run,
+      # so a corpus change fails on the push that makes it rather than on the
+      # revision that outdates the name. A checked copy of a derived number is
+      # what the census asks for; an unchecked one is what it refuses.
+      - name: replay every vector on the Python rail (must be 285/285)
+        run: python3 packaging/run_vectors.py
+      # The replay above says a rail cleared the corpus. This step says the
+      # corpus can refuse one, which is a different claim and the one nothing
+      # here held. A rail that emitted no tier column passed all six pinned tier
+      # expectations by staying silent, because the evaluator compared a column
+      # only when it had been handed one and a skipped comparison prints exactly
+      # like a satisfied one. So this drives rails that are broken in one named
+      # way each -- no output, unparseable output, a missing member, a null
+      # member, a failed second pass -- and requires a refusal that names the
+      # fault, plus always-accept and always-reject controls that must both fail
+      # the census. It runs AFTER the replay on purpose: a green replay beside a
+      # harness that cannot fail is the shape of evidence this repository exists
+      # to stop shipping.
+      - name: the harness refuses a rail that answers nothing
+        run: python3 scripts/harness-output-contract-test.py
+      # A named verifier is the program that runs, or the run fails saying it
+      # did not. Until this step existed the harness probed the verifier's bytes
+      # for the predicate type URI and, when the probe failed, replayed the
+      # corpus on its own reference rail and exited 0 on that rail's pass. The
+      # test ends by restoring that fallback in a copy of the harness and
+      # requiring itself to go red.
+      - name: a named verifier runs, or the harness says it did not
+        run: python3 scripts/verifier-must-run-test.py
+      # The RFC 8785 byte cases ship in the wheel so an SDK's CI can pin the
+      # package and read them offline. The test builds the wheel, compares the
+      # shipped bytes with the repository copy and resolves the documented
+      # locator from outside the checkout.
+      - name: the wheel ships the JCS byte cases at the path the package names
+        run: python3 scripts/wheel-jcs-bytes-test.py
+      # A report names the corpus release and digest it ran, matched against
+      # the signed digest list. The test ends by deleting the block in a copy of
+      # the harness and requiring itself to go red.
+      - name: a report names the corpus release and digest it ran
+        run: python3 scripts/report-provenance-test.py
+      # The report's retention period is an input with the old fixed value as
+      # its default; the test restores the fixed number in a copy of the action
+      # and requires itself to go red.
+      - name: the action's report retention is an input
+        run: uv run python scripts/action-retention-test.py
+      # The action builds on an exact Python release with a hash-locked build
+      # backend and no index; the test restores the floating version and the
+      # unhashed install in copies of the action and requires itself to go red.
+      - name: the action builds on a pinned interpreter and a locked backend
+        run: uv run python scripts/action-build-pin-test.py
+      # The release tag check accepts only a tag signed by the pinned key. The
+      # test builds throwaway keys and ends by deleting the fingerprint pin in
+      # a copy of the script and requiring itself to go red.
+      - name: the release tag check refuses a tag the pinned key did not sign
+        run: python3 scripts/verify-release-tag-test.py
+
+  # What the corpus FORCES, held as a tighten-only ratchet. A vector count is an
+  # upper bound on forcing and never a measurement of it: a vector declaring
+  # several expected codes is satisfied by any one of them, so deleting the
+  # result-vocabulary emission from the rail turns two vectors' gate-0 column
+  # FAIL and the suite still reports 285 of 285, exit 0. The only way to know
+  # what this corpus obliges a third party to implement is to switch one rule
+  # off at a time and replay, which is what this job does.
+  #
+  # It is a separate job, on a wider runner, for two reasons. It is the only job
+  # here that is CPU-bound rather than latency-bound -- it rebuilds and replays
+  # one mutant per rule -- so it wants cores rather than a place in the queue
+  # behind the linters; and it must not lengthen the path a contributor waits on
+  # for a lint error.
+  #
+  # SCOPE: this runs the sites the baseline records as KILLED, which is the
+  # complete set where a regression is possible (a regression is by definition a
+  # site that used to be killed and is not) and also, by construction, the set
+  # already known to build, run and terminate. The remaining sites can only
+  # improve; an improvement is invisible to a check that would pass either way,
+  # and the nightly full sweep is what sees one. The gate prints what it did not
+  # run, by class and count, on every run.
+  #
+  # MEASURED on a 16-worker workstation, in CPU-seconds because that is the number
+  # that carries between machines: 466 of 808 sites and ~1670 CPU-seconds there, against
+  # ~3370 for the full sweep. Wall time on that box was 88-110s at 8-16 workers. Both
+  # CPU-second figures were taken while the sweep was smaller, before the quantifier
+  # operator was added, and are not re-measured here: restating a figure for a machine
+  # this change never ran on would be inventing a measurement rather than taking one.
+  forcing:
+    runs-on: ubicloud-standard-8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+        with:
+          go-version: '1.24'
+      - name: the corpus still forces every rule it is recorded as forcing
+        run: python3 scripts/forcing-gate.py --scope forced --workers 8
+      # The gate's own tests, which are mostly refusals: this repository has
+      # shipped a verifier that scored 0 of 186 while its unit test passed, so a
+      # gate evidenced only by a green run is a known failure shape here. Two of
+      # the cases are live and one of them is rigged to regress, so the path from
+      # a weakened corpus to a non-zero exit is exercised rather than argued.
+      - name: the forcing gate can fail
+        run: python3 scripts/forcing-gate-test.py
+      # The step above mutates the RAIL, which is why it cannot reach this. A
+      # sentence whose text admits two readings has no site to mutate: the rail
+      # implements one of them, the code expressing the rival was never
+      # written, and the two implementations score identically over the whole
+      # corpus. An outside implementer found that exact shape four times in one
+      # review, each time by accident of instrumenting his own checker, and at
+      # one of them we wrote the lesson down and built nothing on it. So the
+      # thing to mutate is the reading: build the rail under each declared
+      # reading of one sentence, replay every vector under both, and ask
+      # whether any observable moved. Zero difference is a finding here and
+      # never a confirmation, which is the property that let a full green
+      # replay read as settling a question it could not see.
+      #
+      # It belongs in this job rather than beside the Python gates for the same
+      # two reasons the forcing gate does. It needs the Go toolchain to build
+      # each variant rail, and a missing toolchain is a failure and never a
+      # skip; and it is CPU-bound for over a minute rather than latency-bound,
+      # so it wants the cores on this runner and must not sit in the path a
+      # contributor waits on for a lint error.
+      #
+      # --fail-on-finding is deliberately NOT set. Every declared reading comes
+      # back DISCRIMINATED or REPORT-ONLY today, so the flag would change
+      # nothing and this step would be green either way. Turning it on before
+      # every reading is settled would be a gate whose passing means nothing,
+      # which is the shape the rest of this file exists to refuse. It goes on
+      # in the change that settles the last open reading, not before.
+      - name: the corpus can tell two readings of a rule apart, or it says so
+        run: |
+          python3 scripts/reading-differential.py --workers 8
+          python3 scripts/reading-differential-test.py
+
+  # The action a relying party adds to its own workflow, run here against the
+  # shipped verifier, the way theupdateframework/tuf-conformance runs its own
+  # action in its own CI. Nothing else exercises action.yml before a consumer
+  # does: the release workflow proves the wheel and the Python job proves the
+  # harness, and a composite action that wires the two together could still
+  # name an input wrong or write the report where the upload step does not
+  # look. The verifier is built into the workspace first because the action
+  # resolves a relative first token from there.
+  action:
+    runs-on: ubicloud-standard-2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+        with:
+          go-version: '1.24'
+      - name: build the shipped verifier into the workspace
+        run: go build -o ./aee-verify ./cmd/aee-verify
+      - name: the action replays the corpus against it
+        id: replay
+        uses: ./
+        with:
+          verifier: ./aee-verify -json
+      - name: the outputs carry the totals
+        env:
+          RESULT: ${{ steps.replay.outputs.result }}
+          VECTORS: ${{ steps.replay.outputs.vectors }}
+          CONFORM: ${{ steps.replay.outputs.conform }}
+          EXECUTED: ${{ steps.replay.outputs.executed }}
+        run: |
+          echo "result=$RESULT vectors=$VECTORS conform=$CONFORM executed=$EXECUTED"
+          test "$RESULT" = pass
+          test "$VECTORS" -gt 0
+          test "$CONFORM" = "$VECTORS"
+          test "$EXECUTED" = "$VECTORS"
+      # The action must fail a job whose verifier never ran. Before the fix a
+      # verifier the harness could not start was replaced by its reference rail
+      # and this step went green, so the negative case is run through the
+      # action itself rather than argued from the harness's unit test.
+      - name: the action refuses a verifier it cannot run
+        id: unrunnable
+        continue-on-error: true
+        uses: ./
+        with:
+          verifier: ./no-such-verifier -json
+          artifact-name: agent-evidence-vectors-results-unrunnable
+          report-path: unrunnable-report.json
+      - name: and that job would have failed
+        env:
+          OUTCOME: ${{ steps.unrunnable.outcome }}
+          RESULT: ${{ steps.unrunnable.outputs.result }}
+        run: |
+          echo "outcome=$OUTCOME result=$RESULT"
+          test "$OUTCOME" = failure
+          test "$RESULT" = fail
+      # A corpus other than the default, through the same action: the a2a
+      # Agent Card canonicalization corpus vendored from a2a-tck, replayed
+      # against the packaged reference canonicalizer and then against one
+      # that canonicalizes the way a2a-python did, which must fail the job.
+      - name: the action replays the a2a-jcs-v01 corpus
+        id: a2a
+        uses: ./
+        with:
+          corpus: vectors-a2a-jcs-v01
+          verifier: python -m agent_evidence_vectors.a2ajcs
+          artifact-name: agent-evidence-vectors-results-a2a
+          report-path: a2a-report.json
+      - name: every a2a signing-input vector ran and conformed
+        env:
+          RESULT: ${{ steps.a2a.outputs.result }}
+          VECTORS: ${{ steps.a2a.outputs.vectors }}
+          CONFORM: ${{ steps.a2a.outputs.conform }}
+          EXECUTED: ${{ steps.a2a.outputs.executed }}
+        run: |
+          echo "result=$RESULT vectors=$VECTORS conform=$CONFORM executed=$EXECUTED"
+          test "$RESULT" = pass
+          test "$VECTORS" -gt 0
+          test "$CONFORM" = "$VECTORS"
+          test "$EXECUTED" = "$VECTORS"
+      - name: the action fails a canonicalizer that writes 1e-06
+        id: a2abad
+        continue-on-error: true
+        uses: ./
+        with:
+          corpus: vectors-a2a-jcs-v01
+          verifier: python vectors-a2a-jcs-v01/tests/bad_verifier.py
+          artifact-name: agent-evidence-vectors-results-a2a-bad
+          report-path: a2a-bad-report.json
+      - name: and that job would have failed
+        env:
+          OUTCOME: ${{ steps.a2abad.outcome }}
+          RESULT: ${{ steps.a2abad.outputs.result }}
+          EXECUTED: ${{ steps.a2abad.outputs.executed }}
+          VECTORS: ${{ steps.a2abad.outputs.vectors }}
+        run: |
+          echo "outcome=$OUTCOME result=$RESULT executed=$EXECUTED"
+          test "$OUTCOME" = failure
+          test "$RESULT" = fail
+          test "$VECTORS" -gt 0
+          test "$EXECUTED" = "$VECTORS"
+      # The same corpus from a directory in the workspace, through the vectors
+      # input, which is how a consumer that pins a corpus by commit replays its
+      # own checkout rather than the copy this release carries. The clean copy
+      # must pass and report the lock's digest. A copy with one expected byte
+      # string changed must fail the job, which it can do only if the action
+      # read the directory it was given.
+      - name: stage the a2a-jcs-v01 corpus as workspace directories
+        run: |
+          mkdir -p .build
+          rm -rf .build/a2a-jcs-dir .build/a2a-jcs-dir-edited
+          cp -R vectors-a2a-jcs-v01 .build/a2a-jcs-dir
+          cp -R vectors-a2a-jcs-v01 .build/a2a-jcs-dir-edited
+          sed -i 's/302e3030303030317d/31652d30367d/' .build/a2a-jcs-dir-edited/a5-number-serialization/A5-001.json
+          ! cmp -s vectors-a2a-jcs-v01/a5-number-serialization/A5-001.json .build/a2a-jcs-dir-edited/a5-number-serialization/A5-001.json
+      - name: the action replays a corpus directory named by the vectors input
+        id: a2adir
+        uses: ./
+        with:
+          vectors: .build/a2a-jcs-dir
+          verifier: python -m agent_evidence_vectors.a2ajcs
+          artifact-name: agent-evidence-vectors-results-a2a-dir
+          report-path: a2a-dir-report.json
+      - name: every vector in the directory ran, under the locked digest
+        env:
+          RESULT: ${{ steps.a2adir.outputs.result }}
+          VECTORS: ${{ steps.a2adir.outputs.vectors }}
+          EXECUTED: ${{ steps.a2adir.outputs.executed }}
+          REPORT: ${{ steps.a2adir.outputs.report }}
+        run: |
+          echo "result=$RESULT vectors=$VECTORS executed=$EXECUTED"
+          test "$RESULT" = pass
+          test "$VECTORS" -gt 0
+          test "$EXECUTED" = "$VECTORS"
+          replayed=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["corpus"]["corpusDigest"])' "$REPORT")
+          locked=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["corpusDigest"])' vectors-a2a-jcs-v01/source-lock.json)
+          echo "replayed=$replayed locked=$locked"
+          test "$replayed" = "$locked"
+      - name: the action fails a directory whose bytes were changed
+        id: a2adiredited
+        continue-on-error: true
+        uses: ./
+        with:
+          vectors: .build/a2a-jcs-dir-edited
+          verifier: python -m agent_evidence_vectors.a2ajcs
+          artifact-name: agent-evidence-vectors-results-a2a-dir-edited
+          report-path: a2a-dir-edited-report.json
+      - name: and that job would have failed
+        env:
+          OUTCOME: ${{ steps.a2adiredited.outcome }}
+          RESULT: ${{ steps.a2adiredited.outputs.result }}
+        run: |
+          echo "outcome=$OUTCOME result=$RESULT"
+          test "$OUTCOME" = failure
+          test "$RESULT" = fail

@@ -4,6 +4,22 @@ A record of every notable change to this Rust crate. Its format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and its version numbers
 follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.1.6
+
+### Changed
+
+A signature failure is now named as one. `verify` returned `Error::ThresholdNotMet`
+for an envelope whose payload, payload type or signature bytes had changed, which
+reads as a quorum shortfall when no trusted key had verified anything. It now
+returns the new `Error::NoValidSignature { entries, keys, mismatched_keys }` when no
+trusted key verifies any entry. `mismatched_keys` lists the trusted keys that an
+entry named by `keyid` but whose signature did not verify, which is evidence that
+the signed bytes changed. `Error::ThresholdNotMet` now means what it says: at
+least one trusted key did sign these bytes, and fewer than `threshold` did. A
+caller that matched `ThresholdNotMet` to detect a failed signature must also match
+`NoValidSignature`. The `Error` enum is non-exhaustive, so the added variant does
+not break a caller that already has a catch-all arm.
+
 ## 0.1.5
 
 ### Changed

@@ -25,7 +25,35 @@ pub enum Error {
     #[error("envelope carries no signatures; the schema requires at least one")]
     NoSignatures,
 
-    /// Fewer than `threshold` distinct trusted keys produced a valid signature.
+    /// No signature entry verified under any trusted key.
+    ///
+    /// This is the refusal for a changed payload, a changed `payloadType`, a
+    /// signature over different bytes, a wrong-length signature, a signer that
+    /// is not among the trusted keys, and an empty trusted set. It is separate
+    /// from [`Error::ThresholdNotMet`] because the two call for different
+    /// reactions: a threshold shortfall means some trusted key did sign these
+    /// bytes, while this means none did. The caller cannot tell from the
+    /// signature alone which of the causes above applies, and the crate does
+    /// not guess; it reports what it observed.
+    #[error(
+        "no signature verified (signature entries tried: {entries}, trusted keys: {keys}); {}",
+        mismatch_note(.mismatched_keys)
+    )]
+    NoValidSignature {
+        /// How many signature entries decoded and were tried.
+        entries: usize,
+        /// How many trusted keys were supplied.
+        keys: usize,
+        /// The `key_id` of every trusted key that an entry named by `keyid`
+        /// but whose signature did not verify. `keyid` is outside the signed
+        /// bytes, so this is evidence that the signed bytes differ from what
+        /// the signer signed, not proof. Empty when no entry named a trusted
+        /// key.
+        mismatched_keys: Vec<String>,
+    },
+
+    /// Some, but fewer than `threshold`, distinct trusted keys produced a
+    /// valid signature. At least one trusted key did sign these exact bytes.
     #[error("signature threshold not met: {accepted} distinct trusted key(s) accepted, {threshold} required")]
     ThresholdNotMet {
         /// How many distinct trusted keys verified.
@@ -102,3 +130,15 @@ pub enum Error {
 
 /// The result of any operation in this crate.
 pub type Result<T> = core::result::Result<T, Error>;
+
+fn mismatch_note(mismatched_keys: &[String]) -> String {
+    if mismatched_keys.is_empty() {
+        "no entry named a trusted key, so the signer is untrusted or the signature is malformed"
+            .to_string()
+    } else {
+        format!(
+            "entries naming {} did not verify, so the payload, the payload type or the signature differs from what was signed",
+            mismatched_keys.join(", ")
+        )
+    }
+}

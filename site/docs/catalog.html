@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Sankalp Gilda" />
+  <meta name="description" content="Add a public project without changing existing project identities or Lab run records." />
+  <title>Maintain the project catalog - Agent Evidence Conformance Board</title>
+  <link rel="canonical" href="https://probityai.github.io/agent-evidence-atlas/catalog.html" />
+  <link rel="alternate" type="text/markdown" href="https://probityai.github.io/agent-evidence-atlas/catalog.md" />
+  <link rel="describedby" href="https://probityai.github.io/agent-evidence-atlas/llms.txt" />
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <nav aria-label="Site">
+    <a class="home" href="index.html">Agent Evidence Conformance Board</a>
+    <span class="links">
+      <a href="start.html">Choose a component</a>
+      <a href="lab.html">Open Evidence Lab</a>
+      <a href="status.html">Claim status</a>
+      <a href="runs.html">Find a run</a>
+      <a href="board.html">Conformance board</a>
+      <a href="pilot.html">Pilot status</a>
+      <a href="atlas.html">Atlas</a>
+      <a href="experiments.html">Experiments</a>
+      <a href="claims.html">Claims</a>
+      <a href="versions.html">Versions</a>
+    </span>
+  </nav>
+</header>
+<main id="main" tabindex="-1">
+<header class="page">
+<h1>Maintain the project catalog</h1>
+</header>
+<p>Edit <code>data/catalog.json</code>, then run the site build. It generates the task page, public JSON, llms.txt and sitemap.</p>
+<h2 id="add-an-entry">Add an entry</h2>
+<ul>
+<li>Add a repository record with its public path and pinned README commit.</li>
+<li>Give the component a stable <code>id</code>, a task and a short summary. Link its repositories.</li>
+<li>Add a profile when a specific adapter or integration needs its own entry.</li>
+<li>Review the source and publication fields. Add its status source to <code>CLAIMS.md</code> and <code>data/catalog-sources.json</code>.</li>
+</ul>
+<p>Components may share repositories or span several of them. Rename the display label without changing the ID. Retain an old ID when retiring a project.</p>
+<p>Use public metadata in this file; planning notes belong in a private workspace. The schema owns field shape; <code>tools/discoverability/catalog.py</code> checks names, references, destinations and source pins. The build projects reviewed public fields.</p>
+<h2 id="check-the-update">Check the update</h2>
+<div class="code-scroll" tabindex="0" role="region" aria-label="Code example">
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> pip install <span class="at">-r</span> requirements/discoverability-test.txt</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> pytest <span class="at">-q</span> tools/discoverability/test_catalog.py tests/test_discovery.py</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> tools/build.py</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> tools/build.py <span class="at">--check</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> tools/check_links.py</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> tools/check_lab.py</span></code></pre></div>
+</div>
+<p>For a rename or retirement, validate with the previous catalog too:</p>
+<div class="code-scroll" tabindex="0" role="region" aria-label="Code example">
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> tools/discoverability/catalog.py validate data/catalog.json <span class="at">--previous</span> tools/discoverability/catalog.seed.json</span></code></pre></div>
+</div>
+<h2 id="import-a-reviewed-catalog">Import a reviewed catalog</h2>
+<p>Keep the current catalog as the baseline. Import the reviewed public fields with stable IDs and publication gates, then validate against that baseline. Review its pinned README sources and retain their earlier rows in <code>data/catalog-sources.json</code>.</p>
+<p>Run the native build and compare <code>docs/catalog.json</code> with the reviewed public projection. They should contain the same repositories, components and profiles. Update the C rows in <code>CLAIMS.md</code> and the catalog revision in <code>data/versions.toml</code> with the source capture.</p>
+<p>Leave planning fields out of the import. Generate the pages and indexes from the catalog; the source history retains the earlier pins.</p>
+<p>For a source refresh, give each component quickstart the same reviewed README pin as its owning repository. Append source history; keep earlier reviews. Current navigation does not update historical Lab claims or experiment objects.</p>
+<h2 id="record-versions-without-duplicating-release-numbers">Record versions without duplicating release numbers</h2>
+<p><code>data/atlas.toml</code> owns the existing artifact release values and their re-derive readers. A <code>component_release</code> row in <code>data/versions.toml</code> names that artifact with <code>artifact_ref</code>, then adds the catalog component, repository, exact tag, peeled source commit, read date and scope. The build refuses a tag that no longer matches its artifact version. Update the identity when its release changes.</p>
+<p>For an artifact absent from the assurance atlas, keep its version in that ledger row. Use a separate row for each independently versioned artifact. Ratchet’s harness source tag and public case package release are separate records. <code>kind = "source-tag"</code> never becomes a published package release.</p>
+<p>A package published directly to a registry can use <code>kind = "registry-release"</code> with its exact <code>registry</code>, <code>package</code>, <code>version</code> and source <code>commit</code>. It has no <code>tag</code> or <code>version_prefix</code>: the version link opens the actual registry release. This records a package publication without inventing a GitHub release or tag. Keep a separate source-tag or data release row when it has a different role.</p>
+<p>The task page and version ledger render those same rows. Catalog JSON retains its stable schema and identities; the Markdown version ledger is linked from <code>llms.txt</code>. Reviewed guides describe recipes. A tested installation needs its exact source, environment, command and retained output. Historical results and citation snapshots keep their recorded pins when current navigation changes.</p>
+<h2 id="bind-package-actions-to-their-artifact">Bind package actions to their artifact</h2>
+<p>The same release row can record a <code>registry</code>, <code>package</code> and <code>install_anchor</code>. Use <code>profile</code> when the package serves a specific task, such as the digest checker or Ratchet cases. The build checks that the package belongs to that task and refuses registry controls on a source tag. Catalog JSON keeps its existing schema.</p>
+<p>The package version comes from the release value. <code>version_prefix</code> records an actual release namespace: Admission’s GitHub tag starts with <code>py-v</code>, while its PyPI package version does not. The build removes only that recorded prefix and refuses a mismatch. It does not maintain a second version number.</p>
+<p>Install buttons open the task’s reviewed guide at its named heading. File links select the recorded package release. Registry and download badges are live and can describe a newer registry state. PePy includes PyPI and known mirrors; crate download counters read crates.io. Neither counter measures users or adoption.</p>
+<p>An <code>action_guide</code> selects an immutable guide URL and heading from the retained source reviews. The build binds it to its owning repository; a README refresh cannot silently move that Action recipe. A <code>workflow</code> and <code>workflow_name</code> identify one workflow file and name its live status. That report describes the named workflow, not a product-wide result or the installation shown by a pinned guide.</p>
+<p>Keep project navigation in the catalog and measured runs in the Lab register.</p>
+<p>Integration profiles link the reviewed reader guide. Record upstream listing acceptance and live documentation publication separately in <code>CLAIMS.md</code>; the profile status describes the tool.</p>
+</main>
+<footer class="site">
+  <p>Every number on this site has a source, a read time and a re-derive command in the <a href="claims.html">claim ledger</a>. Site version 0.6-draft, 2026-10-01. <a href="versions.html#documentation-revisions">Page revisions</a>.</p>
+</footer>
+</body>
+</html>

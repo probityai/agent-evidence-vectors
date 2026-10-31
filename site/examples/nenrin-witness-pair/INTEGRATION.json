@@ -1,0 +1,277 @@
+{
+  "preparation_head": "f61b1822769342d0fe749fec70ea6d13146fb95d",
+  "preparation_tree": "98245984fd3d17609a9f7f9dfae4879d734e527c",
+  "preparation_tested_snapshot": "0fac00ef3707cfa8de762d62ca8e601cd3836a34",
+  "atlas_base": "005c335f7f62488b3b987d28fd9cacd17b1216e0",
+  "selected_manifest_sha256": "a5b504629c539e0a4359a669e265a2cf3b4dcaef43451acec607b618368e7069",
+  "selected_files": [
+    {
+      "source": "execution/oel-nenrin-witness-reader-r1/.gitignore",
+      "destination": "examples/nenrin-witness-pair/.gitignore",
+      "bytes": 95,
+      "sha256": "eac725bf4736ed32628e8c47e0b7a71104dc732e07158c02ff3bfa051923e6f4",
+      "kind": "source"
+    },
+    {
+      "source": "execution/oel-nenrin-witness-reader-r1/AGENTS.md",
+      "destination": "examples/nenrin-witness-pair/AGENTS.md",
+      "bytes": 705,
+      "sha256": "e78605a305a15ac37009c4b05b41f5651e04b82ac304b45f22b19f94c69ab054",
+      "kind": "source"
+    },
+    {
+      "source": "execution/oel-nenrin-witness-reader-r1/README.md",
+      "destination": "examples/nenrin-witness-pair/README.md",
+      "bytes": 1405,
+      "sha256": "b7289c53567d5271a0622426c64b7ffe92f6aa7b6d91cbbf3cbb843209d9a6e1",
+      "kind": "source"
+    },
+    {
+      "source": "execution/oel-nenrin-witness-reader-r1/docs/INPUT-CONTRACT.md",
+      "destination": "examples/nenrin-witness-pair/docs/INPUT-CONTRACT.md",
+      "bytes": 3002,
+      "sha256": "cc2c3326ba2a740a8cbcb14433b7754e98ba920d298f1df9c2e81f1cd2f80a8b",
+      "kind": "source"
+    },
+    {
+      "source": "execution/oel-nenrin-witness-reader-r1/docs/QUALIFICATION.md",
+      "destination": "examples/nenrin-witness-pair/docs/QUALIFICATION.md",
+      "bytes": 1937,
+      "sha256": "2f9d87d20399dd7fad4761e9fad68126012f84533f7c7067206e49ecc1698367",
+      "kind": "source"
+    },
+    {
+      "source": "execution/oel-nenrin-witness-reader-r1/docs/SOURCE-MAP.md",
+      "destination": "examples/nenrin-witness-pair/docs/SOURCE-MAP.md",
+      "bytes": 2670,
+      "sha256": "953895ff8ad186d55d13e88f2dc0679c6005b1995f6e99d07ea390f09b78ef9a",
+      "kind": "source"
+    },
+    {
+      "source": "execution/oel-nenrin-witness-reader-r1/fixtures/a.api.json",
+      "destination": "examples/nenrin-witness-pair/fixtures/a.api.json",
+      "bytes": 8747,
+      "sha256": "ceff4501242956b8fba637ed6c8571f4b3cfb188162bfc8d56e7a785d41a7cec",
+      "kind": "source"
+    },
+    {
+      "source": "execution/oel-nenrin-witness-reader-r1/fixtures/a.key.json",
+      "destination": "examples/nenrin-witness-pair/fixtures/a.key.json",
+      "bytes": 79,
+      "sha256": "c2aeb7c14095aa8e22eeb6fea2d7d8975ba77db87825a25738155ff77f0bf609",
+      "kind": "source"
+    },
+    {
+      "source": "execution/oel-nenrin-witness-reader-r1/fixtures/b.api.json",
+      "destination": "examples/nenrin-witness-pair/fixtures/b.api.json",
+      "bytes": 8607,
+      "sha256": "491e8e927f94d6c8fb5db79ca63c8029b5debbaf05182fdd729f41c41daedc2a",
+      "kind": "source"
+    },
+    {
+      "source": "execution/oel-nenrin-witness-reader-r1/fixtures/b.key.json",
+      "destination": "examples/nenrin-witness-pair/fixtures/b.key.json",
+      "bytes": 74,
+      "sha256": "cb761905d8a2af4145c62e453fa8c65a4c9bb616ecbf727f4aacddb1f65131f2",
+      "kind": "source"
+    },
+    {
+      "source": "execution/oel-nenrin-witness-reader-r1/fixtures/ledger73.ots",
+      "destination": "examples/nenrin-witness-pair/fixtures/ledger73.ots",
+      "bytes": 1599,
+      "sha256": "a425332429d9cda7ba9ed5030d3df11bad951def96a23c84601587c1db273f93",
+      "kind": "source"
+    },
+    {
+      "source": "execution/oel-nenrin-witness-reader-r1/fixtures/pins.json",
+      "destination": "examples/nenrin-witness-pair/fixtures/pins.json",
+      "bytes": 934,
+      "sha256": "4452245cbd4dfbf0f3c18b83e7485c09325eb70d03f3e4b63a42e82592260287",
+      "kind": "source"
+    },
+    {
+      "source": "execution/oel-nenrin-witness-reader-r1/pyproject.toml",
+      "destination": "examples/nenrin-witness-pair/pyproject.toml",
+      "bytes": 539,
+      "sha256": "804e0b01bbaef68ab1df5132a23fa89ddbd985625ac1f280041d3a8ac9b7a86d",
+      "kind": "source"
+    },
+    {
+      "source": "execution/oel-nenrin-witness-reader-r1/scripts/check_coverage.py",
+      "destination": "examples/nenrin-witness-pair/scripts/check_coverage.py",
+      "bytes": 12896,
+      "sha256": "0d1d575245b51762de8fb1cc23251816a1d2808c0b44846334981fcfceebaae9",
+      "kind": "source"
+    },
+    {
+      "source": "execution/oel-nenrin-witness-reader-r1/scripts/qualify.py",
+      "destination": "examples/nenrin-witness-pair/scripts/qualify.py",
+      "bytes": 4003,
+      "sha256": "aa84faf22dfe989997e2efa958c490cb68ddf0fa75115f5bad49cb12e7c8eefe",
+      "kind": "source"
+    },
+    {
+      "source": "execution/oel-nenrin-witness-reader-r1/scripts/readme-lint.py",
+      "destination": "examples/nenrin-witness-pair/scripts/readme-lint.py",
+      "bytes": 5146,
+      "sha256": "ce6f7082503ea7b948d0306e125ad3d9c5e9e3ee5d1d7b47c8a054a266b169a8",
+      "kind": "source"
+    },
+    {
+      "source": "execution/oel-nenrin-witness-reader-r1/scripts/run-gate.sh",
+      "destination": "examples/nenrin-witness-pair/scripts/run-gate.sh",
+      "bytes": 88,
+      "sha256": "d75b5e678e90feadc909f932003bd7b4e03f6d68240ddb7582d5f2f57d9e128b",
+      "kind": "source"
+    },
+    {
+      "source": "execution/oel-nenrin-witness-reader-r1/tests/test_io.py",
+      "destination": "examples/nenrin-witness-pair/tests/test_io.py",
+      "bytes": 3310,
+      "sha256": "d54a45702b2d10584af29feb303e906265d1ae0c1e98c743122f35c79301da99",
+      "kind": "source"
+    },
+    {
+      "source": "execution/oel-nenrin-witness-reader-r1/tests/test_reader.py",
+      "destination": "examples/nenrin-witness-pair/tests/test_reader.py",
+      "bytes": 11058,
+      "sha256": "44e74bdd64f9e3d6499e0dbafaea25b30dd075b50e97833f3645e89db03f16a7",
+      "kind": "source"
+    },
+    {
+      "source": "execution/oel-nenrin-witness-reader-r1/uv.lock",
+      "destination": "examples/nenrin-witness-pair/uv.lock",
+      "bytes": 88935,
+      "sha256": "c7132b30315b3bb58a77c5161fb13e891b09d83b0a19190f5bacbcce4aee4af6",
+      "kind": "source"
+    },
+    {
+      "source": "execution/oel-nenrin-witness-reader-r1/witness_case/__init__.py",
+      "destination": "examples/nenrin-witness-pair/witness_case/__init__.py",
+      "bytes": 75,
+      "sha256": "2bd3c755bb5640e5278b6ace036f77f5fe92d775b96facc9bf6eb971c4812326",
+      "kind": "source"
+    },
+    {
+      "source": "execution/oel-nenrin-witness-reader-r1/witness_case/io.py",
+      "destination": "examples/nenrin-witness-pair/witness_case/io.py",
+      "bytes": 4132,
+      "sha256": "78aabe72a6e3cfc61115befbb5da79fc6e8631f3977082e35c22877c85d8091b",
+      "kind": "source"
+    },
+    {
+      "source": "execution/oel-nenrin-witness-reader-r1/witness_case/reader.py",
+      "destination": "examples/nenrin-witness-pair/witness_case/reader.py",
+      "bytes": 11832,
+      "sha256": "1478d9fd1d72dc1c5d5cf14d1355d5b2c7df653f0c4ee5eddf4afb4eb43f17a1",
+      "kind": "source"
+    },
+    {
+      "source": "execution/_raw/oel-nenrin-witness-reader-r1/R2-receipts/gate-results/steps.json",
+      "destination": "examples/nenrin-witness-pair/qualification/steps.json",
+      "bytes": 5165,
+      "sha256": "9835db60d7b52a690d003faf9b1774b068f31afe6b80edf7db052505ccaf641b",
+      "kind": "retained-real-receipt"
+    },
+    {
+      "source": "execution/_raw/oel-nenrin-witness-reader-r1/R2-receipts/gate-results/tests.xml",
+      "destination": "examples/nenrin-witness-pair/qualification/tests.xml",
+      "bytes": 17186,
+      "sha256": "2b814baaaf41a0048bd68942d27050780b23606300e9f08ff9a7735371f97d53",
+      "kind": "retained-real-receipt"
+    },
+    {
+      "source": "execution/_raw/oel-nenrin-witness-reader-r1/R2-receipts/gate-results/coverage.json",
+      "destination": "examples/nenrin-witness-pair/qualification/coverage.json",
+      "bytes": 22257,
+      "sha256": "7e422b325c885266c65f04dcad989075a0e2bd8d56e5c316e987de1dbd3607c1",
+      "kind": "retained-real-receipt"
+    },
+    {
+      "source": "execution/_raw/oel-nenrin-witness-reader-r1/R2-receipts/gate-results/per-file-coverage.stdout",
+      "destination": "examples/nenrin-witness-pair/qualification/per-file-coverage.json",
+      "bytes": 169,
+      "sha256": "f71d9216e9aca3f80a535903a09fa652fdef3e1219e994a148d51826d62823da",
+      "kind": "retained-real-receipt"
+    },
+    {
+      "source": "execution/_raw/oel-nenrin-witness-reader-r1/R2-receipts/gate-results/pair-a-a2a.stdout",
+      "destination": "examples/nenrin-witness-pair/qualification/pair-a-a2a.json",
+      "bytes": 3340,
+      "sha256": "15e3b36739eb5445f747b31bdd0febbce071ad66d886c2c320115bd9a581e940",
+      "kind": "retained-real-receipt"
+    },
+    {
+      "source": "execution/_raw/oel-nenrin-witness-reader-r1/R2-receipts/gate-results/pair-b-a2a.stdout",
+      "destination": "examples/nenrin-witness-pair/qualification/pair-b-a2a.json",
+      "bytes": 2917,
+      "sha256": "8b57e4401992e635ba7298c7a825aa63c3bfb9d43c42ee483e01afe10c0c951f",
+      "kind": "retained-real-receipt"
+    },
+    {
+      "source": "execution/_raw/oel-nenrin-witness-reader-r1/R2-receipts/gate-results/pair-a-slash.stdout",
+      "destination": "examples/nenrin-witness-pair/qualification/pair-a-slash.json",
+      "bytes": 3330,
+      "sha256": "68909c071aa28a654742c1052c0e4cc7b67ba7b05eb37323f8c9871b4bbf2f68",
+      "kind": "retained-real-receipt"
+    },
+    {
+      "source": "execution/_raw/oel-nenrin-witness-reader-r1/R2-receipts/gate-results/pair-b-slash.stdout",
+      "destination": "examples/nenrin-witness-pair/qualification/pair-b-slash.json",
+      "bytes": 2918,
+      "sha256": "af8bdf94b254b6fc95d242dbb9224060e6a2956206d2de579f1f4e31b4bd8d99",
+      "kind": "retained-real-receipt"
+    },
+    {
+      "source": "execution/_raw/oel-nenrin-witness-reader-r1/FINAL-R2-QUALIFICATION.json",
+      "destination": "examples/nenrin-witness-pair/qualification/RESULT.json",
+      "bytes": 12441,
+      "sha256": "a62d69efa2ffd811703bae0df6daf8e01502eb2fa1fe3ff1f37f0bb5b8d1bd39",
+      "kind": "bounded-qualification-record"
+    }
+  ],
+  "all32_selected_files_copied_byte_exact_before_instruction_adaptation": true,
+  "adaptation": {
+    "path": "examples/nenrin-witness-pair/AGENTS.md",
+    "original_preserved": "qualification/preparation-AGENTS.md",
+    "original_sha256": "e78605a305a15ac37009c4b05b41f5651e04b82ac304b45f22b19f94c69ab054",
+    "integrated_sha256": "fa269babe21876369e97c0ad17e71548f3ae20f5282ec91f1723f488fbd70629",
+    "reason": "Replace the preparation-only integration owner instruction with the actual public Atlas ownership; runtime, tests, locks and native fixture bytes are unchanged."
+  },
+  "original_r1_adverse_receipts": [
+    {
+      "source": "execution/_raw/oel-nenrin-witness-reader-r1/R1-DIAGNOSIS.json",
+      "destination": "examples/nenrin-witness-pair/qualification/original-r1/diagnosis.json",
+      "sha256": "ef62f607c41e2b6d6619b51a4099f4aa3188baa90f29626f5ccdadd8828411b3",
+      "bytes": 5005
+    },
+    {
+      "source": "execution/_raw/oel-nenrin-witness-reader-r1/R1-receipts/gate-results/steps.json",
+      "destination": "examples/nenrin-witness-pair/qualification/original-r1/steps.json",
+      "sha256": "40cb6f0166e9449bf7b8b2a9bc6e9bc28705808810e2bc05a48e7b085c0b4dd5",
+      "bytes": 1385
+    },
+    {
+      "source": "execution/_raw/oel-nenrin-witness-reader-r1/R1-receipts/gate-results/tests.xml",
+      "destination": "examples/nenrin-witness-pair/qualification/original-r1/tests.xml",
+      "sha256": "cb3f83381e8732d89e990ba959022845749d72998b608c94c373c430bc827d33",
+      "bytes": 21457
+    },
+    {
+      "source": "execution/_raw/oel-nenrin-witness-reader-r1/R1-receipts/gate-results/per-file-coverage.stderr",
+      "destination": "examples/nenrin-witness-pair/qualification/original-r1/per-file-coverage.stderr",
+      "sha256": "93181ceebaaba4c5f3aed7c9727eed6db9cb66701976871fa0cfc39998fdc55a",
+      "bytes": 4356
+    }
+  ],
+  "role_record": {
+    "record_a_producer": "pipavlo82",
+    "record_b_producer": "kuangmi-bit",
+    "pair_contributor": "Horizon Shield / ogasurfproject-jpg",
+    "reader_implementation_and_preparation_run": "Probity Codex",
+    "atlas_integration_owner": "Probity Codex",
+    "public_sender": "root",
+    "independent_run_of_new_reader": "not established"
+  },
+  "trust_scope": "Exact canonical record bytes, signatures under separately pinned current local witness keys, exact requested URL and true/false/null assertion retention. No new endpoint walk, card/response correctness check, historical key ownership, OpenTimestamps validation or affiliation-independent observation."
+}

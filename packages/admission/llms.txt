@@ -10,8 +10,8 @@
 
 The predicate is `https://in-toto.io/attestation/adversarial-execution-evidence/v0.7`,
 under review at in-toto/attestation#570. The corpus the rails are measured
-against is probityai/agent-evidence-vectors at the tag `v0.10.1`, installed in
-the repository-root `.github/workflows/package-admission.yml` as the PyPI package `agent-evidence-vectors==0.12.1`
+against is probityai/agent-evidence-vectors at the tag `v0.30.0`, installed from
+`requirements-vectors.txt` as the PyPI package `agent-evidence-vectors==0.30.0`
 (same corpus digest), pinned by wheel hash. These rails evaluate an already
 verified statement; the envelope signature is checked by the engine's own key
 authority before any policy body runs. The README says so in its status, and
@@ -38,11 +38,11 @@ docs/DESIGN.md states that ceiling in full.
 
 ## Corpus
 
-- [probityai/agent-evidence-vectors](https://github.com/probityai/agent-evidence-vectors): The conformance vector suite these rails are measured against, at tag `v0.10.1`. The projection the rails run on is `rego/corpus_vectors.json`, regenerated and checked against that tag on every push.
+- [probityai/agent-evidence-vectors](https://github.com/probityai/agent-evidence-vectors): The conformance vector suite these rails are measured against, at tag `v0.30.0`. The projection the rails run on is `rego/corpus_vectors.json`, regenerated and checked against that tag on every push.
 
 ## Identifiers
 
-- Release tag: none published yet; the pinned corpus tag is `v0.10.1`.
+- Release tag: none published yet; the pinned corpus tag is `v0.30.0`.
 - Archival DOI: not yet minted. This line is replaced with the DOI when one exists.
 - [Citation](https://github.com/probityai/agent-evidence/blob/main/packages/admission/CITATION.cff): Cite the specification for what the predicate requires, the vectors repository for what a corpus forces, and this repository only for what a particular engine was measured to enforce.
 

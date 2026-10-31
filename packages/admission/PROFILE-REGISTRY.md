@@ -1,8 +1,8 @@
 # Profile registry: what each rail enforces
 
-93 obligations, 4 rails, and one row per pair. Every disposition below is measured by `scripts/gen_profile_map.py` from a live run of every rail over this bundle's corpus projection, and `scripts/profile-map-gate.py` refuses a map that claims more than the measurement supports.
+95 obligations, 4 rails, and one row per pair. Every disposition below is measured by `scripts/gen_profile_map.py` from a live run of every rail over this bundle's corpus projection, and `scripts/profile-map-gate.py` refuses a map that claims more than the measurement supports.
 
-Corpus digest `8b035678def9`, predicate type `https://in-toto.io/attestation/adversarial-execution-evidence/v0.7`. Re-derive the registry with `scripts/gen_condition_registry.py --corpus <vectors checkout>` and this document with `scripts/gen_profile_registry.py`.
+Corpus digest `bf3e5befd716`, predicate type `https://in-toto.io/attestation/adversarial-execution-evidence/v0.7`. Re-derive the registry with `scripts/gen_condition_registry.py --corpus <vectors checkout>` and this document with `scripts/gen_profile_registry.py`.
 
 ## What the three dispositions mean
 
@@ -16,10 +16,10 @@ Corpus digest `8b035678def9`, predicate type `https://in-toto.io/attestation/adv
 
 | rail | enforced | approx | unreachable |
 |---|---|---|---|
-| `cue` | 0 | 69 | 24 |
-| `kyverno-cel` | 0 | 91 | 2 |
-| `kyverno-jmespath` | 0 | 74 | 19 |
-| `rego` | 5 | 88 | 0 |
+| `cue` | 0 | 69 | 26 |
+| `kyverno-cel` | 0 | 91 | 4 |
+| `kyverno-jmespath` | 0 | 74 | 21 |
+| `rego` | 5 | 90 | 0 |
 
 ## The obligations
 
@@ -50,7 +50,7 @@ Corpus digest `8b035678def9`, predicate type `https://in-toto.io/attestation/adv
 | `aee-c-26` | L1747-1749 | RFC 6962 recursive split, never duplicate-pad | approx | approx | approx | approx |
 | `aee-c-27` | L1749 | leaves in array order | approx | approx | approx | approx |
 | `aee-c-28` | L1749 | a single-record tree's root is its leaf hash | approx | approx | approx | approx |
-| `aee-c-29` | L1751-1752 | duplicate byte-identical records invalid | approx | approx | approx | approx |
+| `aee-c-29` | L1751-1752 | duplicate byte-identical records invalid | unreachable (oracle-divergence-declared) | unreachable (oracle-divergence-declared) | unreachable (oracle-divergence-declared) | approx |
 | `aee-c-30` | L1754-1756 | batchRoot must recompute | approx | approx | approx | approx |
 | `aee-c-31` | L1758-1770 | batchRoot omitted exactly when records absent | approx | approx | approx | approx |
 | `aee-c-32` | L1744-1748 | batchRoot is over every carried record in array order, referenced by a row or not | approx | approx | approx | approx |
@@ -118,6 +118,8 @@ Corpus digest `8b035678def9`, predicate type `https://in-toto.io/attestation/adv
 | `aee-c-106` | L1394-1408 | a moat-drop record covers nothing in every state and carries no constraint that could change that; it still contributes its leaf to batchRoot, never enters aeeObservedSet or the method cap, and the refusal a row earns by resolving one names the kind rather than reporting an unrecognized kind | approx | approx | approx | approx |
 | `aee-c-107` | L1394-1408 | an uncommitted-observation record covers nothing in every state on the same terms, and in particular cannot stand in for an interception: not for a caught row's coverage, not for the existence requirement a pinned row must satisfy, and not for the expectedPayloads comparison | approx | approx | approx | approx |
 | `aee-c-108` | L586-594; L1322-1366 | every carried record that binds to this run and whose aeeKind names a covering kind satisfies every constraint of that kind, whether or not any row resolves an observationRefs index to it. The universal partner of aee-c-96, over the same records on the same terms: that one asks whether a valid sealed record is present, this asks whether an invalid one is carried beside it | approx | unreachable (oracle-divergence-declared) | unreachable (oracle-divergence-declared) | approx |
+| `aee-c-109` | L388 | an absent `predicate` member, `"predicate": null` and `"predicate": {}` are ONE input: all three decode to the empty predicate object and a verifier emits the identical verdict and the identical reason codes for all three. The anchor is the predicate's own opt-in to the framework parsing rules, which is what makes the framework's sentence binding here; the rule is stated in full, with the in-toto and SLSA text it lifts, at spec/v1/statement.md | approx | approx | approx | approx |
+| `aee-c-110` | L1300-1302 | a record's payload is the base64 of the exact bytes the substrate signed, spelled the one canonical RFC 4648 way: standard alphabet, minimal padding, zero trailing bits, no line break and no other non-alphabet byte. A payload spelled any other way carries no bytes and the record is undecodable. The vendored revision states the base64 member; the registry entry on the pull request branch states the canonical clause | unreachable (oracle-divergence-declared) | unreachable (oracle-divergence-declared) | unreachable (oracle-divergence-declared) | approx |
 
 A row reading `unreachable (no-vector-in-projection)` is a hole in the measurement, not a finding about the rail. Closing one means adding a vector that forces the obligation, which is work in the conformance corpus rather than work here.
 

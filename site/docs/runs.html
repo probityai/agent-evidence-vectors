@@ -1,0 +1,4580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Sankalp Gilda" />
+  <meta name="description" content="Find public run artifacts and inspect their separate claim results, operator roles, review state and limits." />
+<link rel="stylesheet" href="assets/run-browser.css" />
+<script src="assets/run-browser.js" defer></script>
+  <title>Find a retained run - Agent Evidence Conformance Board</title>
+  <link rel="canonical" href="https://probityai.github.io/agent-evidence-atlas/runs.html" />
+  <link rel="alternate" type="text/markdown" href="https://probityai.github.io/agent-evidence-atlas/runs.md" />
+  <link rel="describedby" href="https://probityai.github.io/agent-evidence-atlas/llms.txt" />
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <nav aria-label="Site">
+    <a class="home" href="index.html">Agent Evidence Conformance Board</a>
+    <span class="links">
+      <a href="start.html">Choose a component</a>
+      <a href="lab.html">Open Evidence Lab</a>
+      <a href="status.html">Claim status</a>
+      <a href="runs.html">Find a run</a>
+      <a href="board.html">Conformance board</a>
+      <a href="pilot.html">Pilot status</a>
+      <a href="atlas.html">Atlas</a>
+      <a href="experiments.html">Experiments</a>
+      <a href="claims.html">Claims</a>
+      <a href="versions.html">Versions</a>
+    </span>
+  </nav>
+</header>
+<main id="main" tabindex="-1">
+<header class="page">
+<h1>Find a retained run</h1>
+</header>
+<p>Choose a run to inspect its original <a href="lab/register.json">report, provenance and contract</a>. Each record keeps its own claim results, roles and limits. A passed claim does not establish that every claim passed or that someone independently operated the workload.</p>
+<p>Search by a project, claim, role or limit. The result filter shows records that contain the selected per-claim token. It does not give a run an overall grade. Without JavaScript, every record remains below and in the <a href="runs.md">Markdown page</a>.</p>
+<p>Use the <a href="lab.html">Open Evidence Lab</a> for the submission protocol and review process. Use <a href="experiments.html">Experiments</a> for procedures and <a href="claims.html#retained-run-navigation">the claim ledger</a> for sources.</p>
+<form id="run-filters" class="run-filters" hidden>
+<label for="run-search">Search records, claims, roles or limits</label> <input id="run-search" type="search" autocomplete="off" aria-controls="run-records" /> <label for="run-result">Contains a per-claim result</label> <select id="run-result" aria-controls="run-records"><option value="">All result tokens</option><option value="fail">fail</option><option value="not-exercised">not-exercised</option><option value="out-of-scope">out-of-scope</option><option value="pass">pass</option></select> <button type="reset">Clear filters</button>
+<p id="run-count" role="status" aria-live="polite">
+</p>
+</form>
+<p id="run-empty" hidden>
+No retained record matches these filters. Clear filters or use another search term.
+</p>
+<div id="run-records">
+<section id="record-E6-observer-admission" class="run-record" data-results="not-exercised pass">
+<h2>E6-observer-admission</h2>
+<p>Claim scope: verifier-behavior-on-author-fixture</p>
+<p>Review state: retained-measured-record</p>
+<p>Open <a href="experiments/observer-admission/recorded.json">Report</a>, <a href="experiments/observer-admission/provenance.json">Provenance</a> and <a href="https://github.com/probityai/agent-evidence-observer/blob/8562c25fb7ec97596ea9d0297c495340298914b6/docs/CONSUMER-ADMISSION.md">Contract</a>.</p>
+<p><a href="experiments.html#observer-consumer-admission">Recorded procedure</a></p>
+<h3 id="per-claim-results">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>consumer-authority-binding</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>durable-consumer-admission</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>persisted-replay-refusal</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>signed-claim-tamper-refusal</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>independent-custody</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>external-host-ci-adoption</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>unmediated-effect-capture</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>atlasReplay</td>
+<td>author-produced</td>
+</tr>
+<tr>
+<td>evidenceVantage</td>
+<td>artifact</td>
+</tr>
+<tr>
+<td>fixtureOperator</td>
+<td>same-operator-fixture</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>witnessScope</td>
+<td>PEER</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits">Limits</h3>
+<ul>
+<li>One declared broker file write and one local consumer admission</li>
+<li>No live-agent or production-isolation measurement</li>
+<li>No independently operated witness or consumer</li>
+<li>Consumer-state rollback can erase replay protection</li>
+<li>No exactly-once downstream-effect claim</li>
+</ul>
+<p>answerExposure: Implementation, demo and retained expected outcomes were available to the atlas runner; not an answer-blind replication</p>
+<p>comparisonOrder: Retrospective retained-fixture comparison; not a result frozen before expected-answer comparison</p>
+</section>
+<section id="record-jep-core07-2026-10-02" class="run-record" data-results="not-exercised pass">
+<h2>jep-core07-2026-10-02</h2>
+<p>Claim scope: verifier-behavior-on-public-producer-fixtures</p>
+<p>Review state: submitted-awaiting-producer-response</p>
+<p>Open <a href="experiments/jep-core07-2026-10-02/report.json">Report</a>, <a href="experiments/jep-core07-2026-10-02/provenance.json">Provenance</a> and <a href="https://github.com/probityai/agent-evidence-vectors/blob/4f344209c8ea65f60bab0f51747ae4f80346181d/interop/jep-core07-reader/PROTOCOL.md">Contract</a>.</p>
+<h3 id="per-claim-results-1">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>validation-assertions-match-pinned-expectations</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>producer-assertions-match-pinned-expectations</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>acceptance-assertions-match-pinned-expectations</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>external-host-ci-adoption</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>independent-effect-custody</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-1">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>readerAuthor</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>runner</td>
+<td>Probity-owned GitHub Actions</td>
+</tr>
+<tr>
+<td>producer</td>
+<td>JEP</td>
+</tr>
+<tr>
+<td>independentEffectCustody</td>
+<td>not-established</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-1">Limits</h3>
+<ul>
+<li>Pinned manifest coverage only, not complete JEP Core coverage.</li>
+<li>Acceptance effects are synthetic local SQLite rows.</li>
+<li>No power-loss or distributed failover experiment.</li>
+</ul>
+<p>answerExposure: Published expected outcomes were available before implementation; not answer-blind.</p>
+<p>comparisonOrder: Actual per-case outputs retained before comparison in memory; raw output and comparison published together, not separate revisions.</p>
+</section>
+<section id="record-remora-e7-2026-10-02" class="run-record" data-results="not-exercised pass">
+<h2>remora-e7-2026-10-02</h2>
+<p>Claim scope: verifier-behavior-on-public-producer-fixtures</p>
+<p>Review state: producer-review-open</p>
+<p>Open <a href="experiments/remora-e7-2026-10-02/report.json">Report</a>, <a href="experiments/remora-e7-2026-10-02/provenance.json">Provenance</a> and <a href="https://github.com/darklordVirtual/REMORA-research/tree/e4fe474f488c3047b346abb01cbfd77ab447ad69/artifacts/interop/runtime-surface-e7-v0.1">Contract</a>.</p>
+<h3 id="per-claim-results-2">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>valid_reference_surface-matches-native-fixture-outcome</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>undeclared_tool_invocation_surface-matches-native-fixture-outcome</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>runtime_identity_changed-matches-native-fixture-outcome</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>observation_coverage_incomplete-matches-native-fixture-outcome</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>alternative_effect_path_observed-matches-native-fixture-outcome</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>global-runtime-capability-surface-completeness</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>external-host-ci-adoption</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>independent-effect-custody</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-2">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>readerAuthor</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>runner</td>
+<td>Probity-owned GitHub Actions</td>
+</tr>
+<tr>
+<td>producer</td>
+<td>REMORA</td>
+</tr>
+<tr>
+<td>independentEffectCustody</td>
+<td>not-established</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-2">Limits</h3>
+<ul>
+<li>Native INDEPENDENT means the external operator and separate implementation satisfy REMORA package criteria; it establishes no independent effect custody.</li>
+<li>Global runtime_capability_surface_completeness remains NOT_ESTABLISHED.</li>
+<li>Producer review is open; it does not establish producer acceptance, final verification or CI adoption.</li>
+</ul>
+<p>answerExposure: Published expected outcomes were available before implementation; not answer-blind. REMORA reference-verifier text was also exposed during lint diagnostics after implementation.</p>
+<p>comparisonOrder: Actual per-case outputs retained before comparison in memory; raw output and comparison published together, not separate revisions.</p>
+</section>
+<section id="record-langgraph-durable-2026-10-02" class="run-record" data-results="not-exercised pass">
+<h2>langgraph-durable-2026-10-02</h2>
+<p>Claim scope: author-operated-native-framework-control</p>
+<p>Review state: author-retained-measured-record</p>
+<p>Open <a href="experiments/langgraph-durable-2026-10-02/report.json">Report</a>, <a href="experiments/langgraph-durable-2026-10-02/provenance.json">Provenance</a> and <a href="https://github.com/probityai/agent-evidence-observer/tree/90cd62c0ee926b456aa9aada3537f36ee5f17cd3/interop/langgraph-ticket-2026-10-02">Contract</a>.</p>
+<h3 id="per-claim-results-3">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bounded-six-case-population</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>reader-reconstructed-native-record</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>crash-after-effect-recovers-at-revision-one</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>pending-intent-no-automatic-replay</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>missing-checkpoint-refusal</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>wrong-thread-refusal</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>external-host-recurring-adoption</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>independent-effect-custody</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-3">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>producer</td>
+<td>Probity-owned workflow</td>
+</tr>
+<tr>
+<td>readerAuthor</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>atlasOperator</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>retentionHolder</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>independentEffectCustody</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>outsideRecurringUse</td>
+<td>not-established</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-3">Limits</h3>
+<ul>
+<li>Graph-worker hard exits/reopened SQLite checkpoints only; target process remains alive.</li>
+<li>No target-process restart, host power loss, issuer authentication, general exactly-once guarantee or independent custody.</li>
+</ul>
+<p>answerExposure: Author-written tasks/controls and expected outcomes exposed; not blind.</p>
+<p>comparisonOrder: Native output and comparison published together; not separate raw-result-first revisions.</p>
+</section>
+<section id="record-pydantic-failure-2026-10-02" class="run-record" data-results="not-exercised pass">
+<h2>pydantic-failure-2026-10-02</h2>
+<p>Claim scope: author-operated-native-framework-control</p>
+<p>Review state: author-retained-measured-record</p>
+<p>Open <a href="experiments/pydantic-failure-2026-10-02/report.json">Report</a>, <a href="experiments/pydantic-failure-2026-10-02/provenance.json">Provenance</a> and <a href="https://github.com/probityai/agent-evidence-observer/tree/afda549c3f20f8e7b031275c06558a50bf20726e/interop/pydantic-ai-native-2026-10-02">Contract</a>.</p>
+<h3 id="per-claim-results-4">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bounded-seven-case-population</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>reader-reconstructed-native-record</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>retry-exhaustion-remains-error-no-effect</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>committed-effect-error-retains-revision-one</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>external-host-recurring-adoption</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>independent-effect-custody</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-4">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>producer</td>
+<td>Probity-owned workflow</td>
+</tr>
+<tr>
+<td>readerAuthor</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>atlasOperator</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>retentionHolder</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>independentEffectCustody</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>outsideRecurringUse</td>
+<td>not-established</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-4">Limits</h3>
+<ul>
+<li>Real Pydantic framework with scripted FunctionModel; no model-quality or real-provider inference measurement.</li>
+<li>Selected loopback ticket effects; no caller authentication, outside adoption or independent custody.</li>
+</ul>
+<p>answerExposure: Author-written tasks/controls and expected outcomes exposed; not blind.</p>
+<p>comparisonOrder: Native output and comparison published together; not separate raw-result-first revisions.</p>
+</section>
+<section id="record-model-operational-2026-10-02" class="run-record" data-results="fail not-exercised pass">
+<h2>model-operational-2026-10-02</h2>
+<p>Claim scope: author-operated-actual-weight-microtask-result</p>
+<p>Review state: author-retained-measured-record</p>
+<p>Open <a href="experiments/model-operational-2026-10-02/report.json">Report</a>, <a href="experiments/model-operational-2026-10-02/provenance.json">Provenance</a> and <a href="https://github.com/probityai/agent-evidence-observer/tree/ab84161d09bb7bd696bba57717a418a95dd1d976/interop/local-model-tasks-2026-10-02">Contract</a>.</p>
+<h3 id="per-claim-results-5">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>complete-declared-population</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>evidence-complete</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>declared-run-budget</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>task-correctness-short24-structured-extraction</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>task-correctness-short24-arithmetic</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>task-correctness-short24-policy-decision</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>task-correctness-short24-grounded-abstention</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>task-correctness-long96-structured-extraction</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>task-correctness-long96-arithmetic</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>task-correctness-long96-policy-decision</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>task-correctness-long96-grounded-abstention</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>external-host-recurring-adoption</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>independent-effect-custody</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-5">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>producer</td>
+<td>Probity-owned workflow</td>
+</tr>
+<tr>
+<td>readerAuthor</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>atlasOperator</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>retentionHolder</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>independentEffectCustody</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>outsideRecurringUse</td>
+<td>not-established</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-5">Limits</h3>
+<ul>
+<li>Original 274795286-byte ZIP retained locally and available through expiring GitHub workflow artifact, not committed to Git or represented by the capsule.</li>
+<li>Capsule retains exact selected JSON/text members and excludes model weights/binaries; it cannot replay the full source/binary integrity check or rerun inference alone.</li>
+<li>Fixed configuration order confounds cache/warmup; author microtasks are not a benchmark estimate.</li>
+<li>CPU is whole-process delta; RSS process-lifetime peak; no task memory isolation, monetary cost or independent effects.</li>
+</ul>
+<p>answerExposure: Author-written tasks/controls and expected outcomes exposed; not blind.</p>
+<p>comparisonOrder: Native output and comparison published together; not separate raw-result-first revisions.</p>
+</section>
+<section id="record-authority-recovery-2026-10-02" class="run-record" data-results="not-exercised pass">
+<h2>authority-recovery-2026-10-02</h2>
+<p>Claim scope: author-operated-native-recovery-authority-control</p>
+<p>Review state: author-retained-measured-record</p>
+<p>Open <a href="experiments/authority-recovery-2026-10-02/report.json">Report</a>, <a href="experiments/authority-recovery-2026-10-02/provenance.json">Provenance</a> and <a href="https://github.com/probityai/agent-evidence-observer/tree/b02988a771bea3652660bec934c3c599c3ec4d27/interop/langgraph-recovery-authority-2026-10-02">Contract</a>.</p>
+<h3 id="per-claim-results-6">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>complete-selected-population</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>exact-reader-reconstruction</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>valid-before-recovery-and-effect-separate</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>valid-after-recovery-and-effect-separate</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>revoked-before-recovery-and-effect-separate</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>revoked-after-recovery-and-effect-separate</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>expired-before-recovery-and-effect-separate</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>expired-after-recovery-and-effect-separate</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>rollback-before-recovery-and-effect-separate</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>rollback-after-recovery-and-effect-separate</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>external-host-recurring-adoption</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>independent-effect-custody</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-6">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>producer</td>
+<td>Probity-owned workflow</td>
+</tr>
+<tr>
+<td>readerAuthor</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>atlasOperator</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>retentionHolder</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>independentEffectCustody</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>outsideRecurringUse</td>
+<td>not-established</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-6">Limits</h3>
+<ul>
+<li>Host-selected deterministic integer recovery clock; signed target grant remains separate.</li>
+<li>Graph workers hard-exit/reopen; target process stays alive; no host power loss, distributed exactly-once or independent custody.</li>
+</ul>
+<p>answerExposure: Author-written tasks/controls and expected outcomes exposed; not blind.</p>
+<p>comparisonOrder: Native output and comparison emitted and published together; public Atlas retention before indexing does not establish a blind or raw-result-first comparison.</p>
+</section>
+<section id="record-target-process-recovery-2026-10-02" class="run-record" data-results="not-exercised pass">
+<h2>target-process-recovery-2026-10-02</h2>
+<p>Claim scope: author-operated-native-target-process-control</p>
+<p>Review state: author-retained-measured-record</p>
+<p>Open <a href="experiments/target-process-recovery-2026-10-02/report.json">Report</a>, <a href="experiments/target-process-recovery-2026-10-02/provenance.json">Provenance</a> and <a href="https://github.com/probityai/agent-evidence-observer/tree/37d1dd42239fbe2ef55f625855e385d7337572c1/interop/target-recovery-2026-10-02">Contract</a>.</p>
+<h3 id="per-claim-results-7">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>complete-selected-population</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>exact-reader-reconstruction</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>retained-completedEffects</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>retained-incompleteRefusals</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>retained-startupRefusals</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>retained-targetProcesses</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>restart-ready-retained-state</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>crash-after-intent-retained-state</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>crash-inside-effect-retained-state</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>crash-after-effect-retained-state</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>concurrent-intent-retained-state</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>missing-store-retained-state</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>changed-configuration-retained-state</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>external-host-recurring-adoption</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>independent-effect-custody</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-7">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>producer</td>
+<td>Probity-owned workflow</td>
+</tr>
+<tr>
+<td>readerAuthor</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>atlasOperator</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>retentionHolder</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>independentEffectCustody</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>outsideRecurringUse</td>
+<td>not-established</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-7">Limits</h3>
+<ul>
+<li>Selected target-process hard exits/reopen and local concurrency only; process IDs are unsigned runner testimony.</li>
+<li>Native SQLite/key/clock/HTTP remain same-operator; no power loss, production containment, general exactly-once or outside adoption.</li>
+</ul>
+<p>answerExposure: Author-written tasks/controls and expected outcomes exposed; not blind.</p>
+<p>comparisonOrder: Native output and comparison emitted and published together; public Atlas retention before indexing does not establish a blind or raw-result-first comparison.</p>
+</section>
+<section id="record-model-paired-cpu-2026-10-02" class="run-record" data-results="fail not-exercised pass">
+<h2>model-paired-cpu-2026-10-02</h2>
+<p>Claim scope: author-operated-actual-weight-paired-microtask-result</p>
+<p>Review state: author-retained-measured-record</p>
+<p>Open <a href="experiments/model-paired-cpu-2026-10-02/report.json">Report</a>, <a href="experiments/model-paired-cpu-2026-10-02/provenance.json">Provenance</a> and <a href="https://github.com/probityai/agent-evidence-observer/tree/b7db63c319d53b0cb27638a229f966d477a2bbd5/interop/local-model-comparison-2026-10-02">Contract</a>.</p>
+<h3 id="per-claim-results-8">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>complete-selected-population</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>exact-reader-reconstruction</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>within-declared-native-run-budget</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>smol135-q4-short24-structured-extraction-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-short24-arithmetic-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-short24-policy-decision-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-short24-grounded-abstention-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-long96-structured-extraction-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-long96-arithmetic-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-long96-policy-decision-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-long96-grounded-abstention-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-short24-structured-extraction-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-short24-arithmetic-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-short24-policy-decision-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-short24-grounded-abstention-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-long96-structured-extraction-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-long96-arithmetic-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-long96-policy-decision-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-long96-grounded-abstention-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>external-host-recurring-adoption</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>independent-effect-custody</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-8">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>producer</td>
+<td>Probity-owned workflow</td>
+</tr>
+<tr>
+<td>readerAuthor</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>atlasOperator</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>retentionHolder</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>independentEffectCustody</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>outsideRecurringUse</td>
+<td>not-established</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-8">Limits</h3>
+<ul>
+<li>Producer-selected compact original retains native source/library/call bytes; full preparation weights/source/dependency wheels remain privately archived and provider-expiring.</li>
+<li>Two separately declared preparation attempts, initial failure before inference and corrected preparation; cumulative transfer is not one 512MiB budget.</li>
+<li>Author tasks/answers exposed; blocked interleaving and cache reset do not make a representative benchmark or independent operation.</li>
+<li>Whole-process CPU and shared lifetime RSS are not per-task allocations; no live decision effects.</li>
+</ul>
+<p>answerExposure: Author-written tasks/controls and expected outcomes exposed; not blind.</p>
+<p>comparisonOrder: Native output and comparison emitted and published together; public Atlas retention before indexing does not establish a blind or raw-result-first comparison.</p>
+</section>
+<section id="record-openai-agents-ticket-2026-10-02" class="run-record" data-results="not-exercised pass">
+<h2>openai-agents-ticket-2026-10-02</h2>
+<p>Claim scope: author-operated-scripted-native-sdk-control</p>
+<p>Review state: author-retained-measured-record</p>
+<p>Open <a href="experiments/openai-agents-ticket-2026-10-02/report.json">Report</a>, <a href="experiments/openai-agents-ticket-2026-10-02/provenance.json">Provenance</a> and <a href="https://github.com/probityai/agent-evidence-observer/tree/7a4b26058e54f0e6bbbaeab400dcd93c47607389/interop/openai-agents-ticket-2026-10-02">Contract</a>.</p>
+<h3 id="per-claim-results-9">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>complete-selected-population</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>exact-reader-reconstruction</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>typed-quality-not-evaluated</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>scripted-sdk-call-and-resource-accounting</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>permit-task-effect-and-resource-axes</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>deny-task-effect-and-resource-axes</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>changed-arguments-task-effect-and-resource-axes</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>producer-error-task-effect-and-resource-axes</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>committed-effect-error-task-effect-and-resource-axes</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>turns-exhausted-task-effect-and-resource-axes</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>external-host-recurring-adoption</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>independent-effect-custody</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-9">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>producer</td>
+<td>Probity-owned workflow</td>
+</tr>
+<tr>
+<td>readerAuthor</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>atlasOperator</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>retentionHolder</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>independentEffectCustody</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>outsideRecurringUse</td>
+<td>not-established</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-9">Limits</h3>
+<ul>
+<li>Actual OpenAI Agents SDK Runner/function_tool/TraceProcessor with scripted Model; nine model calls do not measure remote inference or model quality.</li>
+<li>Producer implementation, PR synthetic execution, final reader and separately pinned protected target revisions remain distinct.</li>
+<li>Same-operator synthetic HTTP ticket effect/key/clock; no independent custody, target restart or outside recurring adoption.</li>
+</ul>
+<p>answerExposure: Author-written tasks/controls and expected outcomes exposed; not blind.</p>
+<p>comparisonOrder: Native output and comparison emitted and published together; public Atlas retention before indexing does not establish a blind or raw-result-first comparison.</p>
+</section>
+<section id="record-execsurface-state-2026-10-02" class="run-record" data-results="fail not-exercised pass">
+<h2>execsurface-state-2026-10-02</h2>
+<p>Claim scope: author-operated-native-metadata-and-endpoint-state-join</p>
+<p>Review state: author-retained-measured-record</p>
+<p>Open <a href="experiments/execsurface-state-2026-10-02/report.json">Report</a>, <a href="experiments/execsurface-state-2026-10-02/provenance.json">Provenance</a> and <a href="https://github.com/probityai/agent-evidence-observer/tree/88f475da4c4626b52ab78900e03ba9f73aa35640/interop/execsurface-state-2026-10-02">Contract</a>.</p>
+<h3 id="per-claim-results-10">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>selected-byte-predicate-valid</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>selected-evidence-valid</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>declared-carried-write-count</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>separate-endpoint-after-byte-count</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>native-invocation-complete</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>import-origin-remains-disclosed</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>voluntary-tier-remains-disclosed</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>complete-observation-scope</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>unknown-typed-collection-health-remains-disclosed</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>native-write-count-not-invented</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>producer-calibration-pass</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>producer-comparison-outside-claimed-interval</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>independent-effect-key-store-clock-custody</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>external-host-recurring-adoption</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>typed-collection-health-envelope</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>absence-of-intermediate-writes</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-10">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>producer</td>
+<td>Probity-owned workflow using pinned ExecSurface binary</td>
+</tr>
+<tr>
+<td>companionAuthor</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>atlasOperator</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>retentionHolder</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>independentEffectCustody</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>outsideRecurringUse</td>
+<td>not-established</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-10">Limits</h3>
+<ul>
+<li>Voluntary/peer/log-import/software-only predicate with incomplete scope and unknown typed collection health.</li>
+<li>Native schema-v2 metadata does not carry written bytes or write count; nine-byte content comes from separate snapshots and declared workload.</li>
+<li>Same operator controls generated fixture, key, store, clock and captures; no independent custody, principal authentication or outside adoption.</li>
+<li>Selected Linux x86_64 ptrace metadata only; no mmap/io_uring attribution or absence-of-intermediate-write claim.</li>
+<li>Native learn/check producer PASS is a separate outside-interval same-byte calibration, not authority, collection health or task quality.</li>
+<li>Release source/binary association is pinned but Rust build reproducibility is not established.</li>
+</ul>
+<p>answerExposure: Author-written deterministic overwrite, companion and expected outcomes exposed; not blind.</p>
+<p>comparisonOrder: Native companion output and verifier comparison emitted together; public raw retention before indexing does not establish a blind or native raw-result-first comparison.</p>
+</section>
+<section id="record-model-format-cpu-2026-10-02" class="run-record" data-results="fail not-exercised pass">
+<h2>model-format-cpu-2026-10-02</h2>
+<p>Claim scope: author-operated-actual-weight-paired-format-and-correctness-result</p>
+<p>Review state: author-retained-measured-record</p>
+<p>Open <a href="experiments/model-format-cpu-2026-10-02/report.json">Report</a>, <a href="experiments/model-format-cpu-2026-10-02/provenance.json">Provenance</a> and <a href="https://github.com/probityai/agent-evidence-observer/tree/75797cbb4fafc0669849357dd2275825b469c1f9/interop/local-model-format-control-2026-10-02">Contract</a>.</p>
+<h3 id="per-claim-results-11">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>complete-selected-population</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>exact-reader-reconstruction</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>within-declared-native-run-budget</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>smol135-q4-short24-unconstrained-structured-extraction-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-short24-unconstrained-arithmetic-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-short24-unconstrained-policy-decision-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-short24-unconstrained-grounded-abstention-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-short24-schema-structured-extraction-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-short24-schema-arithmetic-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-short24-schema-policy-decision-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-short24-schema-grounded-abstention-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-long96-unconstrained-structured-extraction-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-long96-unconstrained-arithmetic-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-long96-unconstrained-policy-decision-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-long96-unconstrained-grounded-abstention-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-long96-schema-structured-extraction-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-long96-schema-arithmetic-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-long96-schema-policy-decision-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-long96-schema-grounded-abstention-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-short24-unconstrained-structured-extraction-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-short24-unconstrained-arithmetic-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-short24-unconstrained-policy-decision-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-short24-unconstrained-grounded-abstention-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-short24-schema-structured-extraction-all-six-strict-targets</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>smol360-q4-short24-schema-arithmetic-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-short24-schema-policy-decision-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-short24-schema-grounded-abstention-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-long96-unconstrained-structured-extraction-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-long96-unconstrained-arithmetic-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-long96-unconstrained-policy-decision-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-long96-unconstrained-grounded-abstention-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-long96-schema-structured-extraction-all-six-strict-targets</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>smol360-q4-long96-schema-arithmetic-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-long96-schema-policy-decision-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-long96-schema-grounded-abstention-all-six-strict-targets</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>independent-effect-key-store-clock-custody</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>external-host-recurring-adoption</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>protected-decision-effects</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-11">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>producer</td>
+<td>Probity-owned workflow</td>
+</tr>
+<tr>
+<td>readerAuthor</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>atlasOperator</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>retentionHolder</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>independentEffectCustody</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>outsideRecurringUse</td>
+<td>not-established</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-11">Limits</h3>
+<ul>
+<li>Format/schema correctness separate from typed-exact target correctness; each model/cap/decoder/family row retained independently.</li>
+<li>Protocol/compiler/grammars frozen before inference; selected integer-length, key-order and spacing restrictions limit generalization.</li>
+<li>Exposed author tasks and same-operator native execution; no representative benchmark, live protected decision effects or independent custody.</li>
+<li>Four separately declared preparation envelopes; cumulative transfer exceeds one512MiB envelope.</li>
+<li>Original compact native provider archive retains sources/grammars/outputs and resources; full preparation weights/source/wheels remain privately archived.</li>
+<li>CPU is whole-process delta and RSS shared lifetime peak; not per-model/task allocation.</li>
+</ul>
+<p>answerExposure: Author-written tasks/controls and expected outcomes exposed; not blind.</p>
+<p>comparisonOrder: Native output and comparison emitted and published together; public Atlas retention before indexing does not establish a blind or raw-result-first comparison.</p>
+</section>
+<section id="record-google-adk-ticket-2026-10-02" class="run-record" data-results="fail not-exercised pass">
+<h2>google-adk-ticket-2026-10-02</h2>
+<p>Claim scope: author-operated-native-google-adk-scripted-reference-result</p>
+<p>Review state: author-retained-measured-record</p>
+<p>Open <a href="experiments/google-adk-ticket-2026-10-02/report.json">Report</a>, <a href="experiments/google-adk-ticket-2026-10-02/provenance.json">Provenance</a> and <a href="https://github.com/probityai/agent-evidence-observer/tree/a6cb0b0eb767e01ad2d0813c9483c39af08163cd/interop/adk-ticket-2026-10-02">Contract</a>.</p>
+<h3 id="per-claim-results-12">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bounded-reference-evidence-verified</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>declared-reference-population</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>scripted-SDK-resource-counts</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>model-quality-not-measured</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>permit-task-completion</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>permit-native-revision-one</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>deny-task-completion</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>deny-native-revision-one</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>changed-arguments-task-completion</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>changed-arguments-native-revision-one</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>unhandled-before-task-completion</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>unhandled-before-native-revision-one</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>unhandled-after-task-completion</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>unhandled-after-native-revision-one</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>handled-first-task-completion</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>handled-first-native-revision-one</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>handled-last-task-completion</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>handled-last-native-revision-one</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>exhausted-first-task-completion</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>exhausted-first-native-revision-one</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>exhausted-last-task-completion</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>exhausted-last-native-revision-one</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>returned-error-first-task-completion</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>returned-error-first-native-revision-one</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>returned-error-last-task-completion</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>returned-error-last-native-revision-one</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>incomplete-close-task-completion</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>incomplete-close-native-revision-one</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>independent-effect-key-store-clock-custody</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>external-host-recurring-adoption</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-12">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>producer</td>
+<td>Probity-owned workflow</td>
+</tr>
+<tr>
+<td>readerAuthor</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>atlasOperator</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>retentionHolder</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>independentEffectCustody</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>outsideRecurringUse</td>
+<td>not-established</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-12">Limits</h3>
+<ul>
+<li>Real Google ADK nativeRunner/plugin/retry paths with scriptedBaseLlm; no remote inference or model-quality evaluation.</li>
+<li>Typed MCPisError throughFunctionTool is not actual MCP transport.</li>
+<li>Task complete/error/incomplete separate from signednativeRevision; after-effect error and early close retain committed effects.</li>
+<li>Author-operated target/store/key/clock/capture and exposed expected outcomes; no independent custody/outside adoption.</li>
+<li>Original synthetic execution source, producer implementation, reviewed reader and protected target baseline separately pinned.</li>
+</ul>
+<p>answerExposure: Author-written tasks/controls and expected outcomes exposed; not blind.</p>
+<p>comparisonOrder: Native output and comparison emitted and published together; public Atlas retention before indexing does not establish a blind or raw-result-first comparison.</p>
+</section>
+<section id="record-installed-format-policy-2026-10-02" class="run-record" data-results="not-exercised pass">
+<h2>installed-format-policy-2026-10-02</h2>
+<p>Claim scope: author-operated-installed-native-reader-upgrade-and-publication-policy-result</p>
+<p>Review state: author-retained-measured-record</p>
+<p>Open <a href="experiments/installed-format-policy-2026-10-02/report.json">Report</a>, <a href="experiments/installed-format-policy-2026-10-02/provenance.json">Provenance</a> and <a href="https://github.com/probityai/agent-evidence-observer/tree/efa0a2932e31dc69db60bb812b142e580fbf993c/interop/model-consumer-2026-10-02">Contract</a>.</p>
+<h3 id="per-claim-results-13">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>baseline-installed-version</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>baseline-framework-modules-absent</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>baseline-original-evidence-state</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>baseline-original-selected-publication-state</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>baseline-comparison-evidence-state</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>baseline-comparison-selected-publication-state</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>baseline-format-evidence-state</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>baseline-format-selected-publication-state</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>candidate-installed-version</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>candidate-framework-modules-absent</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>candidate-original-evidence-state</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>candidate-original-selected-publication-state</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>candidate-comparison-evidence-state</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>candidate-comparison-selected-publication-state</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>candidate-format-evidence-state</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>candidate-format-selected-publication-state</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>prior-native-report-hashes-preserved</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>old-reader-refuses-unsupported-format</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>schema-policy-evidence-verified</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>schema-policy-selected-quality-hold</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>two-low-policy-score-refusals</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>changed-source-evidence-refused</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>changed-source-publication-held</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>independent-effect-key-store-clock-custody</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>external-host-recurring-adoption</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-13">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>producer</td>
+<td>Probity-owned workflow</td>
+</tr>
+<tr>
+<td>readerAuthor</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>atlasOperator</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>retentionHolder</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>independentEffectCustody</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>outsideRecurringUse</td>
+<td>not-established</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-13">Limits</h3>
+<ul>
+<li>Actual framework-free installed0.0.2→0.0.3 upgrade and selectedhostpolicy run, not a new inference experiment.</li>
+<li>Verified scoped-report publication separate from held policy1/6 correctness, no dispatch or recovery authority.</li>
+<li>Full original2268member provider artifact retained including previous upgrade, wheels, immutable fixture packets and rawgate streams; no omissions.</li>
+<li>Same operator selects installation/reader/policy/expected outcomes; no registry release, outside recurring use or independent custody.</li>
+<li>Consumer source/reviewed commit and actualnative192 producer source/run remain separate.</li>
+</ul>
+<p>answerExposure: Author-written tasks/controls and expected outcomes exposed; not blind.</p>
+<p>comparisonOrder: Native output and comparison emitted and published together; public Atlas retention before indexing does not establish a blind or raw-result-first comparison.</p>
+</section>
+<section id="record-model-boundary-cpu-2026-10-02" class="run-record" data-results="fail not-exercised out-of-scope pass">
+<h2>model-boundary-cpu-2026-10-02</h2>
+<p>Claim scope: author-operated-finite-typed-policy-grounded-boundary-result</p>
+<p>Review state: author-retained-measured-record</p>
+<p>Open <a href="experiments/model-boundary-cpu-2026-10-02/report.json">Report</a>, <a href="experiments/model-boundary-cpu-2026-10-02/provenance.json">Provenance</a> and <a href="https://github.com/probityai/agent-evidence-observer/tree/6cfd28dc61aa0ae43be5da8382fe959c94235997/interop/local-model-boundary-tasks-2026-10-02">Contract</a>.</p>
+<h3 id="per-claim-results-14">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>all384-original-attempts-scored</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>evidence-complete-and-within-run-budget</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>protected-effects-not-executed</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>smol135-q4-short24-unconstrained-typed-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-short24-unconstrained-policy-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-short24-unconstrained-grounded-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-short24-schema-typed-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>smol135-q4-short24-schema-policy-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-short24-schema-grounded-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-long96-unconstrained-typed-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-long96-unconstrained-policy-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-long96-unconstrained-grounded-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-long96-schema-typed-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>smol135-q4-long96-schema-policy-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol135-q4-long96-schema-grounded-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-short24-unconstrained-typed-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-short24-unconstrained-policy-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-short24-unconstrained-grounded-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-short24-schema-typed-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-short24-schema-policy-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-short24-schema-grounded-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-long96-unconstrained-typed-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-long96-unconstrained-policy-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-long96-unconstrained-grounded-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-long96-schema-typed-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-long96-schema-policy-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>smol360-q4-long96-schema-grounded-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>independent-effect-custody</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>outside-recurring-host-use</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>representative-benchmark-performance</td>
+<td>out-of-scope</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-14">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>producer</td>
+<td>Probity-owned workflow</td>
+</tr>
+<tr>
+<td>readerAuthor</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>atlasOperator</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>retentionHolder</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>independentEffectCustody</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>outsideRecurringUse</td>
+<td>not-established</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-14">Limits</h3>
+<ul>
+<li>All24 model/cap/decoder/family rows and384 original attempt scores retained unchanged; pair correctness separate from schema validity.</li>
+<li>48 authored case identities include46 unique literal inputs and two repeated positive controls; exposed targets, not blind or representative.</li>
+<li>No protected model decision effects, independent operation/effect custody or outside recurring use.</li>
+<li>Five separate preparation envelopes; cumulative2167006362 response-body bytes cannot be presented as one512MiB acquisition.</li>
+<li>Complete original preparation privately archived; public871-member original compact maps to901 full members with30 explicit omissions.</li>
+<li>Total process CPU includes initialization; returned-call CPU and shared lifetime RSS keep their original scopes.</li>
+<li>Post hoc vocabulary diagnosis and cap comparisons do not alter the frozen rubric or published scores.</li>
+</ul>
+<p>answerExposure: Author-written cases, public targets and previous public failures informed selection;48 identities include46 literal inputs and two repeated positive-control inputs. Not blind.</p>
+<p>comparisonOrder: Native output and comparison emitted and published together; public Atlas retention before indexing does not establish a blind or raw-result-first comparison.</p>
+</section>
+<section id="record-atomic-delegation-2026-10-02" class="run-record" data-results="not-exercised pass">
+<h2>atomic-delegation-2026-10-02</h2>
+<p>Claim scope: native-local-certificate-selection-persistence</p>
+<p>Review state: author-operated-upstream-review-pending</p>
+<p>Open <a href="experiments/atomic-delegation-2026-10-02/report.json">Report</a>, <a href="experiments/atomic-delegation-2026-10-02/provenance.json">Provenance</a> and <a href="https://github.com/astrogilda/atomic/blob/80be8dae6feb8b9106181b78fba2c7c6a7c8f4d8/tools/native-evaluation/README.md">Contract</a>.</p>
+<h3 id="per-claim-results-15">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>complete-declared-native-population</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>exact_retry_and_process_restart_preserve_a_narrow_grant</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>revocation_survives_restart_and_does_not_revoke_a_distinct_renewal</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>expired_and_corrupt_grants_stay_inactive_after_restart</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>local_selection_does_not_establish_external_issuer_authority</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>upstream-maintainer-acceptance</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>outside-recurring-host-use</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>independent-effect-custody</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>server-permission-enforcement</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>remote-revocation</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>crash-mid-write</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-15">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fixtureAuthor</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>runner</td>
+<td>Probity local workspace</td>
+</tr>
+<tr>
+<td>keyClockFilesystemCustodian</td>
+<td>Probity local workspace</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>independentEffectCustody</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>outsideRecurringUse</td>
+<td>not-established</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-15">Limits</h3>
+<ul>
+<li>Normal fresh reader-process restart, not crash-mid-write consistency.</li>
+<li>Self-contained local grant selection does not establish external issuer authority or server permission enforcement.</li>
+<li>Local key, clock and filesystem remain under one operator; child PIDs are unsigned testimony.</li>
+<li>No remote revocation, independently operated effect custody, model task quality or recurring outside use is established.</li>
+<li>Full author-assembled ZIP packages byte-exact original retained-run files; it is not a CI provider archive.</li>
+</ul>
+<p>answerExposure: Author-written native cases and expected outcomes exposed; not blind.</p>
+<p>comparisonOrder: Original native observations and test assertions emitted together, not separate public raw-result-first revisions.</p>
+</section>
+<section id="record-installed-boundary-policy-2026-10-02" class="run-record" data-results="fail not-exercised pass">
+<h2>installed-boundary-policy-2026-10-02</h2>
+<p>Claim scope: author-operated-installed-reader-publication-and-quality-policy-result</p>
+<p>Review state: author-retained-measured-record</p>
+<p>Open <a href="experiments/installed-boundary-policy-2026-10-02/report.json">Report</a>, <a href="experiments/installed-boundary-policy-2026-10-02/provenance.json">Provenance</a> and <a href="https://github.com/probityai/agent-evidence-observer/tree/72fc276003232e3b34aed057adc9a76db4f147e3/interop/model-consumer-2026-10-02">Contract</a>.</p>
+<h3 id="per-claim-results-16">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ordinary-installed-0.0.3-to0.0.4-upgrade</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>baseline-boundary-refuses-before-reader-launch</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>complete-evidence-publication</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>selected-quality-policy-acceptance</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>installed-smol135-q4-short24-unconstrained-typed-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>installed-smol135-q4-short24-unconstrained-policy-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>installed-smol135-q4-short24-unconstrained-grounded-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>installed-smol135-q4-short24-schema-typed-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>installed-smol135-q4-short24-schema-policy-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>installed-smol135-q4-short24-schema-grounded-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>installed-smol135-q4-long96-unconstrained-typed-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>installed-smol135-q4-long96-unconstrained-policy-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>installed-smol135-q4-long96-unconstrained-grounded-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>installed-smol135-q4-long96-schema-typed-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>installed-smol135-q4-long96-schema-policy-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>installed-smol135-q4-long96-schema-grounded-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>installed-smol360-q4-short24-unconstrained-typed-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>installed-smol360-q4-short24-unconstrained-policy-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>installed-smol360-q4-short24-unconstrained-grounded-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>installed-smol360-q4-short24-schema-typed-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>installed-smol360-q4-short24-schema-policy-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>installed-smol360-q4-short24-schema-grounded-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>installed-smol360-q4-long96-unconstrained-typed-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>installed-smol360-q4-long96-unconstrained-policy-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>installed-smol360-q4-long96-unconstrained-grounded-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>installed-smol360-q4-long96-schema-typed-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>installed-smol360-q4-long96-schema-policy-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>installed-smol360-q4-long96-schema-grounded-boundary-all-sixteen-targets-and-eight-pairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>selected-quality-smol135-q4-short24-schema-policy-boundary-correct</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>selected-quality-smol135-q4-short24-schema-policy-boundary-fullyCorrectPairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>selected-quality-smol135-q4-short24-schema-grounded-boundary-correct</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>selected-quality-smol135-q4-short24-schema-grounded-boundary-fullyCorrectPairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>selected-quality-smol135-q4-long96-schema-policy-boundary-correct</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>selected-quality-smol135-q4-long96-schema-policy-boundary-fullyCorrectPairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>selected-quality-smol135-q4-long96-schema-grounded-boundary-correct</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>selected-quality-smol135-q4-long96-schema-grounded-boundary-fullyCorrectPairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>selected-quality-smol360-q4-short24-schema-policy-boundary-correct</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>selected-quality-smol360-q4-short24-schema-policy-boundary-fullyCorrectPairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>selected-quality-smol360-q4-short24-schema-grounded-boundary-correct</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>selected-quality-smol360-q4-short24-schema-grounded-boundary-fullyCorrectPairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>selected-quality-smol360-q4-long96-schema-policy-boundary-correct</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>selected-quality-smol360-q4-long96-schema-policy-boundary-fullyCorrectPairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>selected-quality-smol360-q4-long96-schema-grounded-boundary-correct</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>selected-quality-smol360-q4-long96-schema-grounded-boundary-fullyCorrectPairs</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>external-host-recurring-adoption</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>independent-effect-custody</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>model-action-acceptance</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>new-model-inference</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>general-benchmark-performance</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-16">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>atlasOperator</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>independentEffectCustody</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>outsideRecurringUse</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>producer</td>
+<td>Probity-owned workflow</td>
+</tr>
+<tr>
+<td>readerAuthor</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>retentionHolder</td>
+<td>Probity</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-16">Limits</h3>
+<ul>
+<li>Author-operated installed0.0.3-to0.0.4 reader and host-selected publication/quality policy; no new inference.</li>
+<li>Public selected capsule omits native packet duplicates and unrelated earlier workflow results; hashes cannot recreate omitted bytes.</li>
+<li>The complete provider original is retained separately; native compact archive and preparation originals have their own retention records.</li>
+<li>Evidence verification and complete measurement are distinct from selected quality acceptance, action authority, recurring outside adoption and independent effect custody.</li>
+</ul>
+<p>answerExposure: Author-written cases, targets and host quality thresholds exposed; not blind.</p>
+<p>comparisonOrder: Original CI execution and comparison emitted together. Selected raw Atlas retention precedes indexing at dc54f604d90278fc41c730313ffa9310a18d7ebc; it does not establish blind or independent comparison.</p>
+</section>
+<section id="record-model-vocabulary-cpu-2026-10-03" class="run-record" data-results="fail not-exercised pass">
+<h2>model-vocabulary-cpu-2026-10-03</h2>
+<p>Claim scope: authored-native-action-vocabulary-and-installed-quality-hold</p>
+<p>Review state: author-retained-measured-record</p>
+<p>Open <a href="experiments/model-vocabulary-cpu-2026-10-03/report.json">Report</a>, <a href="experiments/model-vocabulary-cpu-2026-10-03/provenance.json">Provenance</a> and <a href="https://github.com/probityai/agent-evidence-observer/tree/ff556045011010025cc95b7572bffb0dbe0dc0d6/interop/local-model-vocabulary-2026-10-02">Contract</a>.</p>
+<h3 id="per-claim-results-17">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>complete-native-population</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>complete-evidence-within-declared-budget</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>control-complete-policy-correctness</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>vocabulary-complete-policy-correctness</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>default-quality--smol135-q4--short24--policy-control</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>default-quality--smol135-q4--short24--policy-vocabulary</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>default-quality--smol135-q4--long96--policy-control</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>default-quality--smol135-q4--long96--policy-vocabulary</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>default-quality--smol360-q4--short24--policy-control</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>default-quality--smol360-q4--short24--policy-vocabulary</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>default-quality--smol360-q4--long96--policy-control</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>default-quality--smol360-q4--long96--policy-vocabulary</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>native-resource--elapsed_ns</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>native-resource--process_cpu_ns</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>native-resource--nativeTokens</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>native-resource--preparation</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>installed-replay--evidenceDecision</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>installed-replay--stdoutReplayExact</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>installed-replay--structuredReplayExact</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>installed-replay--evidenceOnlyStillQualityHold</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>installed-replay--mutations</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>installed-replay--cumulativeSixPreparationsResponseBodyBytes</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>installed-default-quality</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>outside-producer-acceptance</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>external-host-recurring-adoption</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>independent-effect-custody</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>model-action-acceptance</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>general-benchmark-performance</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>independent-transfer-or-inference-witness</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-17">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>atlasOperator</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>independentEffectCustody</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>outsideRecurringUse</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>producer</td>
+<td>Probity-owned workflow</td>
+</tr>
+<tr>
+<td>readerAuthor</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>retentionHolder</td>
+<td>Probity</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-17">Limits</h3>
+<ul>
+<li>Finite authored CPU policy task; schema validity does not imply policy correctness.</li>
+<li>Installed review performs no model calls and grants no action authority.</li>
+<li>Same operator source-bound readback; outside producer acceptance, recurring adoption and independent effect custody remain unestablished.</li>
+<li>Public retention preserves all native packet members; full weights, dependency wheels, source archive and CI installed environment remain outside this capsule. Their hashes cannot reconstruct omitted bytes.</li>
+<li>Provider retention expiry is recorded; separate same-operator retention is not independent custody.</li>
+</ul>
+<p>answerExposure: Authored policy inputs and targets exposed; vocabulary intervention informed by previous 384-call results; not blind.</p>
+<p>comparisonOrder: Native inference follows frozen protocol, source-bound controls and protected merge; Atlas raw retention precedes indexing at e1122b6c08915207921ca575d98115cea4790062. Same-operator replay does not establish independent custody.</p>
+</section>
+<section id="record-model-tool-arguments-cpu-2026-10-03" class="run-record" data-results="fail not-exercised pass">
+<h2>model-tool-arguments-cpu-2026-10-03</h2>
+<p>Claim scope: authored-native-tool-arguments-with-strict-quality-hold</p>
+<p>Review state: author-retained-measured-record</p>
+<p>Open <a href="experiments/model-tool-arguments-cpu-2026-10-03/native-report.json">Report</a>, <a href="experiments/model-tool-arguments-cpu-2026-10-03/provenance.json">Provenance</a> and <a href="https://github.com/probityai/agent-evidence-observer/tree/884814fe8cbc2e3b21d267fbaf86726c37892b14/interop/local-model-tool-arguments-2026-10-03">Contract</a>.</p>
+<h3 id="per-claim-results-18">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>complete-native-population</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>complete-evidence-within-run-budget</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>scoped-evidence-publication</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>strict-tool-quality</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>strict-quality-row--0</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>strict-quality-row--1</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>strict-quality-row--2</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>strict-quality-row--3</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>strict-quality-row--4</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>strict-quality-row--5</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>strict-quality-row--6</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>strict-quality-row--7</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>native--nativeTokens</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>native--resources</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>native--preparationReuse</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>native--effectsExecuted</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>native--providerCalls</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>native--providerDollars</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>outside-producer-acceptance</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>external-host-recurring-adoption</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>independent-effect-custody</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>independent-inference-witness</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>model-action-acceptance</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>general-benchmark-performance</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-18">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>atlasOperator</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>independentEffectCustody</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>outsideRecurringUse</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>producer</td>
+<td>Probity-owned workflow</td>
+</tr>
+<tr>
+<td>readerAuthor</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>retentionHolder</td>
+<td>Probity</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-18">Limits</h3>
+<ul>
+<li>Finite exposed authored tool-argument and abstention cases; no representative benchmark or blind evaluation.</li>
+<li>Native inference, evidence publication and semantic quality are separate; all eight strict quality rows hold.</li>
+<li>No tools or protected publication/admission/dispatch/recovery effects execute from model answers.</li>
+<li>Atlas retains the entire compact native provider artifact, not the complete preparation artifact containing model weights, wheels, archive and installed environment; hashes cannot reconstruct omitted bytes.</li>
+<li>Provider artifact expiry is disclosed; durable author-held Git bytes do not establish independent effect custody, outside acceptance or recurring adoption.</li>
+<li>Atlas validation reads data only and performs no new inference or installation of packet code.</li>
+</ul>
+<p>answerExposure: Authored inputs, targets and thresholds exposed; prospective new study follows earlier 384/128-call findings; not blind.</p>
+<p>comparisonOrder: Prospective protocol and reviewed source precede the protected Observer main execution; exact native provider bytes are retained additively in Atlas afterward. Neither raw retention nor replay establishes independent execution.</p>
+</section>
+<section id="record-aps-jcs-2026-10-04" class="run-record" data-results="not-exercised pass">
+<h2>aps-jcs-2026-10-04</h2>
+<p>Claim scope: raw-admission-serializer-and-signed-receipt-comparison</p>
+<p>Review state: author-retained-measured-record</p>
+<p>Open <a href="experiments/aps-jcs-2026-10-04/report.json">Report</a>, <a href="experiments/aps-jcs-2026-10-04/provenance.json">Provenance</a> and <a href="https://github.com/probityai/agent-evidence-vectors/blob/fa3e6705746e0131a7884591a86e5c05b6c050ab/interop/aps-jcs/README.md">Contract</a>.</p>
+<h3 id="per-claim-results-19">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>native-admission-outcomes--v20.20.2</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>signed-receipt-controls--v20.20.2</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>native-admission-outcomes--v22.23.3</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>signed-receipt-controls--v22.23.3</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>cross-runtime-machine-agreement</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>cross-runtime-receipt-agreement</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>diagnostic-prose-differences</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>outside-recurring-host-adoption</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>independently-operated-custody</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>formal-frozen-APS-study</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-19">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>producer</td>
+<td>Pinned public native inputs and Probity-authored finite controls</td>
+</tr>
+<tr>
+<td>readerAuthor</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>runner</td>
+<td>Probity-owned GitHub Actions</td>
+</tr>
+<tr>
+<td>atlasOperator</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>retentionHolder</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>independentEffectCustody</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>outsideRecurringUse</td>
+<td>not-established</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-19">Limits</h3>
+<ul>
+<li>Two runtimes repeat the same 1,223 identities; populations remain separate.</li>
+<li>Parsed serialization, strict raw parsing and signed serialized receipt verification remain separate.</li>
+<li>The 42 parsed acceptances on raw-refusal rows include profile differences; they are not all duplicate losses.</li>
+<li>RFC 8785 and opt-in I-JSON numeric and Unicode policies differ; all 23 strict-parser policy rows remain retained.</li>
+<li>Selected licensed first-party source is retained separately from native output. Registry packages restore from integrity lockfiles; Node and Rust runtimes are not vendored.</li>
+<li>Author-operated conformance; separately proposed APS dependency and formal pre-run study confirmation remain separate.</li>
+</ul>
+<p>answerExposure: Frozen public conformance expectations and authored receipt controls were exposed before implementation.</p>
+<p>comparisonOrder: Native outputs and comparisons were emitted together; original archives and selected source were published before Atlas indexing.</p>
+</section>
+<section id="record-google-adk-responses-2026-10-04" class="run-record" data-results="not-exercised pass">
+<h2>google-adk-responses-2026-10-04</h2>
+<p>Claim scope: native-user-response-routing-callback-effect-and-separate-verify-comparison</p>
+<p>Review state: author-retained-measured-record</p>
+<p>Open <a href="experiments/google-adk-responses-2026-10-04/report.json">Report</a>, <a href="experiments/google-adk-responses-2026-10-04/provenance.json">Provenance</a> and <a href="https://github.com/probityai/agent-evidence-observer/blob/de522aa60966309599d03b06d02f50a52d7fb58f/interop/adk-user-responses-2026-10-04/README.md">Contract</a>.</p>
+<h3 id="per-claim-results-20">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>issuing-call-later-root-and-effects--37202968778</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>installed-routing-reader-repeat--37202968778</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>native-semantic-controls--37202968778</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>actual-verify-six-repeated-cases--37202968778</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>actual-verify-boundary-controls--37202968778</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>issuing-call-later-root-and-effects--37204220648</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>installed-routing-reader-repeat--37204220648</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>native-semantic-controls--37204220648</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>actual-verify-six-repeated-cases--37204220648</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>actual-verify-boundary-controls--37204220648</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>outside-recurring-host-adoption</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>independently-operated-effect-custody</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>prospective-eight-task-study</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-20">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>producer</td>
+<td>Actual pinned Google ADK Runner with fixed public BaseLlm responses</td>
+</tr>
+<tr>
+<td>readerAuthor</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>runner</td>
+<td>Probity-owned GitHub Actions</td>
+</tr>
+<tr>
+<td>atlasOperator</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>retentionHolder</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>independentEffectCustody</td>
+<td>not-established; author-operated PEER</td>
+</tr>
+<tr>
+<td>outsideRecurringUse</td>
+<td>not-established</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-20">Limits</h3>
+<ul>
+<li>Three finite three-turn cases on each fully qualified execution; resumability disabled.</li>
+<li>Actual ADK framework with a fixed public BaseLlm script, no provider inference or model-quality measurement.</li>
+<li>The LRO write is a same-author host completion, separate from the native start-only tool body.</li>
+<li>Two distinct Observer/witness keys remain author-held PEER custody with author-operated storage and clock.</li>
+<li>Actual Verify event_absence/v1 covers the six plugin-delivered native turns; whole-second projections retain original fractional timestamps separately.</li>
+<li>First failed reader attempt and intermediate correction remain separate original archives.</li>
+<li>The older 16-row comparison remains pinned separately; the prospective eight-task implementation-owned study has not started.</li>
+<li>Restore the originally empty denied-workspace directory before installed-reader replay; no file bytes change.</li>
+</ul>
+<p>answerExposure: Fixed public model responses, authored controls and expected outcomes were exposed before execution.</p>
+<p>comparisonOrder: Native outputs and assertions were emitted together. Failed, corrected, PR and merged-main originals were retained before Atlas indexing.</p>
+</section>
+<section id="record-go-jcs-2026-10-04" class="run-record" data-results="not-exercised pass">
+<h2>go-jcs-2026-10-04</h2>
+<p>Claim scope: raw-input-admission-and-pinned-go-canonical-byte-comparison</p>
+<p>Review state: author-retained-measured-record</p>
+<p>Open <a href="experiments/go-jcs-2026-10-04/report.json">Report</a>, <a href="experiments/go-jcs-2026-10-04/provenance.json">Provenance</a> and <a href="https://github.com/probityai/jcs-admit/blob/7573937b882de4f32cbc4cd69dfaab8098729412/interop/go-jcs/README.md">Contract</a>.</p>
+<h3 id="per-claim-results-21">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>complete-conformance-outcomes--pull-request-go1.27.1</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>bare-go-outcomes-retained--pull-request-go1.27.1</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>clean-native-worktree--pull-request-go1.27.1</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>complete-conformance-outcomes--pull-request-go1.25.5</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>bare-go-outcomes-retained--pull-request-go1.25.5</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>clean-native-worktree--pull-request-go1.25.5</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>complete-conformance-outcomes--push-go1.25.5</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>bare-go-outcomes-retained--push-go1.25.5</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>clean-native-worktree--push-go1.25.5</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>complete-conformance-outcomes--push-go1.27.1</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>bare-go-outcomes-retained--push-go1.27.1</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>clean-native-worktree--push-go1.27.1</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>outside-recurring-host-adoption</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>independently-operated-custody</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>task-or-workload-execution</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>complete-conformance-outcomes--main-go1.25.5</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>bare-go-outcomes-retained--main-go1.25.5</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>clean-native-worktree--main-go1.25.5</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>complete-conformance-outcomes--main-go1.27.1</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>bare-go-outcomes-retained--main-go1.27.1</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>clean-native-worktree--main-go1.27.1</td>
+<td>pass</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-21">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>producer</td>
+<td>Public RFC, Go-rail, attack and Node number fixtures; Probity-authored finite controls</td>
+</tr>
+<tr>
+<td>readerAuthor</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>runner</td>
+<td>Probity-owned GitHub Actions</td>
+</tr>
+<tr>
+<td>atlasOperator</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>retentionHolder</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>independentEffectCustody</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>outsideRecurringUse</td>
+<td>not-established</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-21">Limits</h3>
+<ul>
+<li>Finite conformance inputs and exposed expected answers; no task or workload experiment.</li>
+<li>Six executions on two Go runtimes repeat the same 1,263 case identities: two final-PR, two branch-push and two merged-main runs; each stays separate.</li>
+<li>Go accepts objects or arrays; number samples use declared array wrappers, admitted scalar roots refuse separately.</li>
+<li>RFC 8785 and I-JSON policies differ; bare Go outcomes remain separate from admission policy.</li>
+<li>The original native archives retain source and reports. Installed executable hashes are recorded, but executables and the full installed runtime are outside those provider archives.</li>
+<li>The upstream multi-gigabyte number benchmark was not selected.</li>
+</ul>
+<p>answerExposure: Public fixture expectations and finite controls were available before implementation.</p>
+<p>comparisonOrder: Native outputs and comparisons were emitted together; all four originals were byte-retained before Atlas indexing.</p>
+</section>
+<section id="record-ag2-push-authority-2026-10-04" class="run-record" data-results="not-exercised pass">
+<h2>ag2-push-authority-2026-10-04</h2>
+<p>Claim scope: native-task-and-push-url-admission-dispatch-target-and-observed-effect-comparison</p>
+<p>Review state: author-retained-measured-record</p>
+<p>Open <a href="experiments/ag2-push-authority-2026-10-04/report.json">Report</a>, <a href="experiments/ag2-push-authority-2026-10-04/provenance.json">Provenance</a> and <a href="https://github.com/probityai/agent-evidence-observer/blob/4b5ca47854c9be2814eeb5fe6f72b79b0182d2c7/interop/ag2-push-authority-2026-10-04/README.md">Contract</a>.</p>
+<h3 id="per-claim-results-22">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>native-task-population--pull-request</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>target-callbacks--pull-request</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>observed-writes--pull-request</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>semantic-controls--pull-request</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>installed-reader-repeat--pull-request</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>native-task-population--main</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>target-callbacks--main</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>observed-writes--main</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>semantic-controls--main</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>installed-reader-repeat--main</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>outside-effect-custody</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>automatic-task-dispatch</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>callback-network-service</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>recurring-consumer-adoption</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>provider-or-model-quality</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>configuration-callback-effect-matrix--pull-request</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>configuration-callback-effect-matrix--main</td>
+<td>pass</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-22">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>producer</td>
+<td>Pinned native AG2 TestConfig and A2A Python, with Probity-authored finite controls</td>
+</tr>
+<tr>
+<td>readerAuthor</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>runner</td>
+<td>Probity-owned GitHub Actions</td>
+</tr>
+<tr>
+<td>atlasOperator</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>retentionHolder</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>independentEffectCustody</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>outsideRecurringUse</td>
+<td>not-established</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-22">Limits</h3>
+<ul>
+<li>18 finite actual native tasks per qualified run; fixed answers and no provider inference.</li>
+<li>Explicit same-author post-completion sender call; no automatic task callback dispatch.</li>
+<li>Controlled ASGI target and native plaintext gRPC loopback; no external callback target.</li>
+<li>PEER keys, target and custody; no outside operator or host adoption.</li>
+<li>Original native JSON and wire bytes retained; the reader checks JSON semantics without decoding protobuf wire.</li>
+<li>Older 16 rows unchanged; prospective eight-task study not started.</li>
+</ul>
+<p>answerExposure: Public fixed responses and finite expected outcomes were exposed before execution.</p>
+<p>comparisonOrder: Original failures and passing native archives were retained before Lab indexing.</p>
+</section>
+<section id="record-remora-boundary-2026-10-04" class="run-record" data-results="not-exercised out-of-scope pass">
+<h2>remora-boundary-2026-10-04</h2>
+<p>Claim scope: verifier-behavior-on-public-producer-fixtures</p>
+<p>Review state: producer-review-pending-submission</p>
+<p>Open <a href="experiments/remora-boundary-2026-10-04/report.json">Report</a>, <a href="experiments/remora-boundary-2026-10-04/provenance.json">Provenance</a> and <a href="https://github.com/darklordVirtual/REMORA-research/blob/fe324dd734734d9227aa894330ac52c2bb916b94/artifacts/interop/index.json">Contract</a>.</p>
+<h3 id="per-claim-results-23">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>exact-call-binding-v1-cases-match-fixture</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>fresh-authority-v1-cases-match-fixture</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>effect-evidence-v1-cases-match-fixture</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>exact_call_binding-status</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>single_use_authorization-status</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>fresh_authority_at_dispatch-status</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>effect_state_distinction-status</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>interpreters-agree-on-every-case</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>source-mutations-caught</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>run-record-independence</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>effect-hash-rule</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>independent-effect-custody</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>production-safety</td>
+<td>out-of-scope</td>
+</tr>
+<tr>
+<td>producer-acceptance</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-23">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>readerAuthor</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>runner</td>
+<td>Probity-owned GitHub Actions</td>
+</tr>
+<tr>
+<td>producer</td>
+<td>REMORA</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>independentEffectCustody</td>
+<td>not-established</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-23">Limits</h3>
+<ul>
+<li>Run records state SECOND_IMPLEMENTATION, EXTERNAL operator and NOT_INDEPENDENT; under REMORA's rule they support REPRODUCED, not EXTERNALLY_VERIFIED.</li>
+<li>Authorization signatures use a public test-only HMAC key created and checked by the reader; no REMORA-issued authorization is authenticated.</li>
+<li>The effect hash rule is unsupported until the contract defines its preimage; no frozen case uses it.</li>
+<li>Fixture premises such as revocation visibility at presentation and the observed field values are taken as supplied.</li>
+<li>No production safety, authority, independent effect custody or lifecycle change follows from these records.</li>
+</ul>
+<p>answerExposure: Expected outcomes are inside the frozen fixtures and the reader compares against them; not answer-blind. Whether reference-verifier text was read while the reader was written is not recorded.</p>
+<p>comparisonOrder: Native outputs and comparisons were emitted together in one run.</p>
+</section>
+<section id="record-aeoess-receipt-signature-2026-10-05" class="run-record" data-results="not-exercised pass">
+<h2>aeoess-receipt-signature-2026-10-05</h2>
+<p>Claim scope: source-reported-outside-verifier-and-primitive-checks-on-public-fixtures</p>
+<p>Review state: upstream-merged-retained-run</p>
+<p>Open <a href="experiments/aeoess-receipt-signature-2026-10-05/report.json">Report</a>, <a href="experiments/aeoess-receipt-signature-2026-10-05/provenance.json">Provenance</a> and <a href="https://github.com/Agent-Authority-Conformance/aps-conformance-suite/blob/f8d6eb4461759ce7dbb4c33ab03a688ba2bb541f/CONTRIBUTING.md">Contract</a>.</p>
+<h3 id="per-claim-results-24">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>outside-verifier-fixture-comparisons</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>outside-context-free-identifiers</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>always-valid-negative-control-failures</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>signature-mutation-affected-members</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>outside-context-bearing-identifier-checks</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>independent-semantic-grading</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>independent-effect-custody</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>maintained-host-ci-adoption</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-24">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>runner</td>
+<td>Claude under Tymofii Pidlisnyi (<span class="citation" data-cites="aeoess">@aeoess</span>)’s revocable mandate, as declared in RUN.md</td>
+</tr>
+<tr>
+<td>humanReviewer</td>
+<td>Tymofii Pidlisnyi (<span class="citation" data-cites="aeoess">@aeoess</span>), source-reported</td>
+</tr>
+<tr>
+<td>verifierAuthor</td>
+<td>tomjwxf</td>
+</tr>
+<tr>
+<td>identifierPrimitive</td>
+<td>GNU coreutils sha256sum, invoked by runner-authored digests21.py</td>
+</tr>
+<tr>
+<td>atlasRetentionAndIntegrityChecks</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>independentEffectCustody</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>corpusMemberAuthors</td>
+<td>giskard09, tomjwxf and astrogilda, as declared by original RUN.md and corpus README</td>
+</tr>
+<tr>
+<td>adapterAndHarnessAuthor</td>
+<td>astrogilda (Probity)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-24">Limits</h3>
+<ul>
+<li>Operator identity, human review and container custody are declared by the original source, not independently authenticated.</li>
+<li>Four context-bearing identifier checks remain outside the runner primitive coverage.</li>
+<li>Author harness interpretation and grading remain a separate layer.</li>
+<li>Repeated runs use the same 25 fixtures; no agent, production effect or independent custody measurement.</li>
+<li>Merged run record does not establish full-family admission or maintained host CI adoption.</li>
+</ul>
+<p>answerExposure: Published expected outcomes and the author harness were available before the run; not answer-blind.</p>
+<p>comparisonOrder: The original harness emitted verifier answers and comparison results together. No separate raw-result revision preceded comparison.</p>
+</section>
+<section id="record-w3c-report-replay-2026-10-06" class="run-record" data-results="not-exercised pass">
+<h2>w3c-report-replay-2026-10-06</h2>
+<p>Claim scope: historical-report-accounting-and-separate-diagnostic-control-dependencies</p>
+<p>Review state: author-retained-measured-record</p>
+<p>Open <a href="experiments/w3c-report-replay-2026-10-06/report.json">Report</a>, <a href="experiments/w3c-report-replay-2026-10-06/provenance.json">Provenance</a> and <a href="https://github.com/probityai/agent-evidence-vectors/tree/2f3aee40a454df6de0f571d119f057d7dbb8dd67">Contract</a>.</p>
+<h3 id="per-claim-results-25">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>historical-harness-comparisons</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>historical-report-state-accounting</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>historical-report-crosswalk</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>negative-witness-state-recorded-control</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>checker-and-configuration-recorded-control</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>real-workload-action-completion</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>independent-operation</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>outside-maintained-host-adoption</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>current-vectors-reader-replay</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-25">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>verifierAuthor</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>historicalRunner</td>
+<td>Probity, author-operated</td>
+</tr>
+<tr>
+<td>diagnosticRunner</td>
+<td>Probity, author-operated</td>
+</tr>
+<tr>
+<td>retentionAndAccounting</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>independentOperator</td>
+<td>not-established</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-25">Limits</h3>
+<ul>
+<li>Synthetic conformance artifacts; the customer refund story is hypothetical.</li>
+<li>Retained-output accounting executes no captured reader or mutant code and performs no new model inference.</li>
+<li>Historical 272-case report and separate 232-fixture diagnostic population are not combined.</li>
+<li>Report validity, evidence conclusion and actual action completion are distinct.</li>
+<li>Reader binding check is a historical proposed rule; its draft normative status is not promoted.</li>
+<li>No independent operation, effect custody, production workload, customer payment or outside maintained job is established.</li>
+</ul>
+<p>answerExposure: Published expected answers and author-selected predicates were exposed; not answer-blind.</p>
+<p>comparisonOrder: Historical harness outcomes and comparison grades emitted together. Diagnostic copies remove one predicate each; outputs are retained separately from the historical report.</p>
+</section>
+<section id="record-aps-corrected20-2026-10-10" class="run-record" data-results="not-exercised out-of-scope pass">
+<h2>aps-corrected20-2026-10-10</h2>
+<p>Claim scope: independently-written-and-operated-reader-on-producer-authored-finite-synthetic-corpus</p>
+<p>Review state: author-retained-measured-record</p>
+<p>Open <a href="experiments/aps-corrected20-2026-10-10/report.json">Report</a>, <a href="experiments/aps-corrected20-2026-10-10/provenance.json">Provenance</a> and <a href="https://github.com/agent-passport-system/agent-passport-system/blob/407ca2d5ad10c846860ad1b6faafc971ae9690e5/fixtures/agent-passport-v2/README.md">Contract</a>.</p>
+<h3 id="per-claim-results-26">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>corrected-corpus-source-SHA256</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>finite-diagnostic-comparison</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>upstream-SDK-observation-population</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>separate-reader-outcome-population</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>five-separate-upstream-draft-annotations</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>reader-does-not-import-APS-SDK</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>selected-SDK-corpus-characterization</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>historical-ambiguous-key-SDK-characterization</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>authenticated-historical-key-authority</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>principal-binding</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>general-JCS-conformance</td>
+<td>out-of-scope</td>
+</tr>
+<tr>
+<td>independent-cryptographic-backend</td>
+<td>out-of-scope</td>
+</tr>
+<tr>
+<td>outside-recurring-host-adoption</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>independent-effect-custody</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-26">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>producer</td>
+<td>APS/AEOESS</td>
+</tr>
+<tr>
+<td>readerAuthor</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>runner</td>
+<td>Probity, normal canonical one-CPU job</td>
+</tr>
+<tr>
+<td>atlasOperator</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>retentionHolder</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>Probity operated the reader separately from APS/AEOESS fixture authors; not independent of Probity</td>
+</tr>
+<tr>
+<td>independentEffectCustody</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>outsideRecurringUse</td>
+<td>not-established</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-26">Limits</h3>
+<ul>
+<li>Finite printable-ASCII corpus reader; not general JCS conformance.</li>
+<li>Signature verification uses cryptography/OpenSSL; no independent cryptographic-backend claim.</li>
+<li>Diagnostic agreement does not force the five normatively undetermined SDK outcomes.</li>
+<li>Resolver answers are supplied synthetic data, without historical validity windows or authenticated lookup.</li>
+<li>No APS package qualification, principal binding, live DID lookup, host adoption, federation enrollment or commercial agreement.</li>
+<li>Twenty public synthetic cases, not a representative deployment population.</li>
+<li>Three declared full-outcome differences remain visible; PASS means the bounded diagnostic comparison, not uniform verdict agreement.</li>
+<li>The five upstream draft annotations are separate from the two indeterminate source outcomes.</li>
+<li>No new package release, maintainer acceptance of this reader, host adoption, federation enrollment or commercial agreement.</li>
+<li>Both selected SDK invocations stopped at IPC creation; their corpus/ambiguity checks remain not exercised.</li>
+<li>Original dependency audit remains adverse; the finite reader result is a separate evidence layer.</li>
+</ul>
+<p>answerExposure: The corrected public fixture, all upstream expected outcomes and README annotations were available before the reader and run.</p>
+<p>comparisonOrder: The independently written reader emitted raw checks, its outcomes and comparisons in one report; not answer-blind or separately graded.</p>
+</section>
+<section id="record-aps-corrected20-r2-2026-10-27" class="run-record" data-results="not-exercised out-of-scope pass">
+<h2>aps-corrected20-r2-2026-10-27</h2>
+<p>Claim scope: independently-written-and-operated-reader-on-producer-authored-finite-synthetic-corpus</p>
+<p>Review state: author-retained-measured-record</p>
+<p>Open <a href="experiments/aps-corrected20-r2-2026-10-27/report.json">Report</a>, <a href="experiments/aps-corrected20-r2-2026-10-27/provenance.json">Provenance</a> and <a href="https://github.com/agent-passport-system/agent-passport-system/blob/e061462cea95b029203374496bbd14488d8d2993/fixtures/agent-passport-v2/README.md">Contract</a>.</p>
+<h3 id="per-claim-results-27">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>revision-2-corpus-source-SHA256</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>superseded-revision-1-source-SHA256</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>finite-diagnostic-comparison</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>upstream-source-outcome-population</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>separate-reader-outcome-population</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>five-separate-upstream-draft-annotations</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>reader-does-not-import-APS-SDK</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>selected-SDK-corpus-characterization</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>authenticated-historical-key-authority</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>principal-binding</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>general-JCS-conformance</td>
+<td>out-of-scope</td>
+</tr>
+<tr>
+<td>independent-cryptographic-backend</td>
+<td>out-of-scope</td>
+</tr>
+<tr>
+<td>outside-recurring-host-adoption</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>independent-effect-custody</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-27">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>producer</td>
+<td>APS/AEOESS</td>
+</tr>
+<tr>
+<td>readerAuthor</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>runner</td>
+<td>Probity, operator workstation; not the one-CPU lab job of revision 1</td>
+</tr>
+<tr>
+<td>atlasOperator</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>retentionHolder</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>Probity operated the reader separately from APS/AEOESS fixture authors; not independent of Probity</td>
+</tr>
+<tr>
+<td>independentEffectCustody</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>outsideRecurringUse</td>
+<td>not-established</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-27">Limits</h3>
+<ul>
+<li>Finite printable-ASCII corpus reader; not general JCS conformance.</li>
+<li>Signature verification uses cryptography/OpenSSL; no independent cryptographic-backend claim.</li>
+<li>Resolver answers are supplied synthetic data, without historical validity windows or authenticated lookup.</li>
+<li>No APS package qualification, principal binding, live DID lookup, host adoption, federation enrollment or commercial agreement.</li>
+<li>Twenty public synthetic cases, not a representative deployment population.</li>
+<li>Run on an operator workstation with a hash-enforced install; wall-clock authentication of the run time is not established.</li>
+<li>Agreement with the revision 2 file follows the producer moving three outcomes to the revision 1 report values; it is not a new blind test.</li>
+<li>No SDK invocation, dependency audit or one-CPU lab job was rerun for revision 2; the adverse revision 1 SDK and audit records stand as published.</li>
+<li>No new package release, maintainer acceptance of this reader, host adoption, federation enrollment or commercial agreement.</li>
+</ul>
+<p>answerExposure: The revision 2 public fixture, all upstream expected outcomes and README annotations were available before the reader and run; the reader had already been written and run over revision 1.</p>
+<p>comparisonOrder: The revision 1 reader, with a small retained diff, emitted raw checks, its outcomes and comparisons in one report. The producer moved three expected outcomes to the values the revision 1 report returned, so agreement confirms the revision; it is not a new blind test.</p>
+</section>
+<section id="record-trace-m1-consumer-2026-10-11" class="run-record" data-results="not-exercised out-of-scope pass">
+<h2>trace-m1-consumer-2026-10-11</h2>
+<p>Claim scope: signature-report-binding-and-native-claim-ceiling-on-public-synthetic-inputs</p>
+<p>Review state: retained-independent-consumer-result</p>
+<p>Open <a href="interop/trace-m1/retained/public-report.json">Report</a>, <a href="interop/trace-m1/retained/QUALIFICATION.json">Provenance</a> and <a href="https://github.com/darklordVirtual/REMORA-research/pull/822">Contract</a>.</p>
+<p><a href="trace-m1-consumer.html">Recorded procedure</a></p>
+<h3 id="per-claim-results-28">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>frozen-case-population</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>declared-comparison-agreement</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>native-contradiction-preserved</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>absent-selected-report-refused</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>trace-trust-record-ceiling-preserved</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>native-result-truth</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>outside-host-adoption</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>trace-conformance</td>
+<td>out-of-scope</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-28">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>readerAuthorship</td>
+<td>Probity; second implementation maintained outside REMORA</td>
+</tr>
+<tr>
+<td>fixtureOperator</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>evidenceVantage</td>
+<td>artifact</td>
+</tr>
+<tr>
+<td>producerIndependence</td>
+<td>external implementation and operator; no REMORA runtime or reference-verifier imports</td>
+</tr>
+<tr>
+<td>independentWitness</td>
+<td>not-established</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-28">Limits</h3>
+<ul>
+<li>Bounded ASCII JSON, explicit report digest, P1Y retention and frozen synthetic inputs</li>
+<li>Native reason codes are preserved; independent refusal codes are not equated</li>
+<li>Signature and binding checks do not establish truth, workload identity, authority or effects</li>
+<li>Unsigned external-evidence mapping is not a TRACE Trust Record or conformance level</li>
+<li>No REMORA or AgenTrust host adoption, deployment or commercial agreement is established</li>
+</ul>
+<p>answerExposure: Author read producer source and expected cases before implementation; not an answer-blind study</p>
+<p>comparisonOrder: Synthetic known-answer replay; retained native output compared to published fixture expectations</p>
+</section>
+<section id="record-packslip-dsse-host-ci-2026-10-11" class="run-record" data-results="not-exercised pass">
+<h2>packslip-dsse-host-ci-2026-10-11</h2>
+<p>Claim scope: host-project-ci-dependency</p>
+<p>Review state: retained-source-bound-observation</p>
+<p>Open <a href="experiments/packslip-dsse-host-ci-2026-10-11/report.json">Report</a>, <a href="experiments/packslip-dsse-host-ci-2026-10-11/provenance.json">Provenance</a> and <a href="lab.html#choose-the-claim-you-are-submitting">Contract</a>.</p>
+<p><a href="experiments/packslip-dsse-host-ci-2026-10-11/README.md">Recorded procedure</a></p>
+<h3 id="per-claim-results-29">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>host-ci-cargo-test-all-features-success</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>published-development-dependency</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>independently-authored-regression</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>production-runtime-adoption</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>independently-observed-effect</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>paid-use</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-29">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fixtureOperator</td>
+<td>Packslip host CI at jdx/packslip</td>
+</tr>
+<tr>
+<td>regressionAuthor</td>
+<td>astrogilda (author-contributed regression)</td>
+</tr>
+<tr>
+<td>hostMaintainer</td>
+<td>jdx</td>
+</tr>
+<tr>
+<td>atlasReplay</td>
+<td>Probity retained metadata reader; no test execution repeated</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>sourceOfObservation</td>
+<td>GitHub host job metadata and crates.io publisher metadata</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-29">Limits</h3>
+<ul>
+<li>Historical exact-head job and source; no current or recurring success claim</li>
+<li>Author-contributed regression maintained by the host; not independently authored</li>
+<li>Published development dependency, not a production runtime dependency</li>
+<li>No numeric native exit, raw process output, independent witness custody, effect or payment established</li>
+</ul>
+<p>answerExposure: Published regression source and results available to the Atlas reader; no answer-blind replication</p>
+<p>comparisonOrder: Retrospective source-bound metadata reading; no new host execution or model/effect run</p>
+</section>
+<section id="record-horizon-signed-target-reader-2026-10-09" class="run-record" data-results="fail not-exercised pass">
+<h2>horizon-signed-target-reader-2026-10-09</h2>
+<p>Claim scope: outside-hosted-signed-record-reader</p>
+<p>Review state: retained-source-bound-observation</p>
+<p>Open <a href="experiments/horizon-signed-target-reader-2026-10-09/report.json">Report</a>, <a href="experiments/horizon-signed-target-reader-2026-10-09/provenance.json">Provenance</a> and <a href="lab.html#choose-the-claim-you-are-submitting">Contract</a>.</p>
+<p><a href="experiments/horizon-signed-target-reader-2026-10-09/README.md">Recorded procedure</a></p>
+<h3 id="per-claim-results-30">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>recorded-command-exits-match-expectations</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>pair-a-signed-record-matches-exact-target</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>pair-b-wrong-target-refused</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>all-eight-pair-a-assertions-reported-true</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>fresh-network-effect-reproduction</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>independent-witness-custody</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-30">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fixtureOperator</td>
+<td>GitHub Actions in ogasurfproject-jpg/horizon-shield (actor ogasurfproject-jpg)</td>
+</tr>
+<tr>
+<td>atlasReplay</td>
+<td>Probity retained-output reader; no original workload repeated</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>not-established</td>
+</tr>
+<tr>
+<td>signedRecordProducers</td>
+<td>pipavlo82 and kuangmi-bit; producer-declared vantages retained</td>
+</tr>
+<tr>
+<td>readerMaintainer</td>
+<td>Probity</td>
+</tr>
+<tr>
+<td>reportOperator</td>
+<td>Caller-declared unauthenticated Probity Codex / ordinary shared BoxPool author-run; not GitHub actor identity</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-30">Limits</h3>
+<ul>
+<li>Host CI actor is separately established by GitHub metadata; the output operator string is caller-declared and unauthenticated</li>
+<li>The original signed-record assertions remain producer-declared: pair A has seven true assertions and one unevaluated assertion.</li>
+<li>Both ledger fetches returned HTTP 403. A successful job does not establish successful ledger acquisition.</li>
+<li>No new walk, response correctness, historical key control, independent custody, production effect or paid use established</li>
+</ul>
+<p>answerExposure: Public original results and expected controls available before Atlas reading; no answer-blind replication</p>
+<p>comparisonOrder: Retrospective reading of retained exact-head source/output; no new native workload or effect execution</p>
+</section>
+<section id="record-ten-sdk-json-bytes-2026-10-09" class="run-record" data-results="not-exercised pass">
+<h2>ten-sdk-json-bytes-2026-10-09</h2>
+<p>Claim scope: author-hosted-serializer-byte-comparison</p>
+<p>Review state: retained-source-bound-observation</p>
+<p>Open <a href="experiments/ten-sdk-json-bytes-2026-10-09/report.json">Report</a>, <a href="experiments/ten-sdk-json-bytes-2026-10-09/provenance.json">Provenance</a> and <a href="lab.html#choose-the-claim-you-are-submitting">Contract</a>.</p>
+<p><a href="experiments/ten-sdk-json-bytes-2026-10-09/README.md">Recorded procedure</a></p>
+<h3 id="per-claim-results-31">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>all-ten-sdk-original-reports-retained</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>complete-27-row-populations-and-raw-verdicts</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>historical-workflow-reports-differences-by-default</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>sdk-jcs-conformance</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>independent-operation</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>production-or-commercial-effect</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-31">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fixtureOperator</td>
+<td>Probity public repository GitHub Actions</td>
+</tr>
+<tr>
+<td>atlasReplay</td>
+<td>Probity retained-output reader; no original workload repeated</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>not-established</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-31">Limits</h3>
+<ul>
+<li>The 27 recorded rows include the row for the bounded profile. Earlier summaries with 26 rows do not cover the full artifact population.</li>
+<li>The raw canonical, differs and refused values are byte-comparison outcomes. They do not grade whether an SDK met its contract.</li>
+<li>The workflow reports differences by default; its green jobs do not establish canonicalization conformance</li>
+<li>The same retained JCS oracle report appears in each ZIP; it is not ten independent oracle runs</li>
+<li>No current SDK behavior, deployment, incident or paid use inferred</li>
+</ul>
+<p>answerExposure: Public original results and expected controls available before Atlas reading; no answer-blind replication</p>
+<p>comparisonOrder: Retrospective reading of retained exact-head source/output; no new native workload or effect execution</p>
+</section>
+<section id="record-nist-ai300-1-checker-2026-10-13" class="run-record" data-results="not-exercised pass">
+<h2>nist-ai300-1-checker-2026-10-13</h2>
+<p>Claim scope: author-hosted-structural-rule-check</p>
+<p>Review state: retained-source-bound-observation</p>
+<p>Open <a href="experiments/nist-ai300-1-checker-2026-10-13/report.json">Report</a>, <a href="experiments/nist-ai300-1-checker-2026-10-13/provenance.json">Provenance</a> and <a href="lab.html#choose-the-claim-you-are-submitting">Contract</a>.</p>
+<p><a href="experiments/nist-ai300-1-checker-2026-10-13/README.md">Recorded procedure</a></p>
+<h3 id="per-claim-results-32">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>original-thirteen-native-tests-succeeded</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>complete-structural-and-mutation-check-output</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>recorded-regeneration-kept-source-clean</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>nist-certification</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>semantic-sufficiency-of-all-requirements</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>production-compliance</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-32">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fixtureOperator</td>
+<td>Probity public repository GitHub Actions</td>
+</tr>
+<tr>
+<td>atlasReplay</td>
+<td>Probity retained-output reader; no original workload repeated</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>not-established</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-32">Limits</h3>
+<ul>
+<li>The original Python 3.13.15 host output is retained. This packet does not repeat the checker workload.</li>
+<li>Structural extraction and mutation sensitivity do not establish semantic completeness, NIST certification or compliance</li>
+<li>The population of 235 members over 139 rules comes from the actual checker output. Another current corpus count cannot replace it.</li>
+<li>Reviewer ambiguities and requirements beyond structural checks stay open</li>
+</ul>
+<p>answerExposure: Public original results and expected controls available before Atlas reading; no answer-blind replication</p>
+<p>comparisonOrder: Retrospective reading of retained exact-head source/output; no new native workload or effect execution</p>
+</section>
+<section id="record-signed-history-boundaries-2026-10-13" class="run-record" data-results="not-exercised pass">
+<h2>signed-history-boundaries-2026-10-13</h2>
+<p>Claim scope: author-hosted-signed-history-controls</p>
+<p>Review state: retained-source-bound-observation</p>
+<p>Open <a href="experiments/signed-history-boundaries-2026-10-13/report.json">Report</a>, <a href="experiments/signed-history-boundaries-2026-10-13/provenance.json">Provenance</a> and <a href="lab.html#choose-the-claim-you-are-submitting">Contract</a>.</p>
+<p><a href="experiments/signed-history-boundaries-2026-10-13/README.md">Recorded procedure</a></p>
+<h3 id="per-claim-results-33">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>original-fifteen-case-specific-tests-passed</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>executed-tests-force-genuine-signature-order-anchor-controls</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>default-285-report-not-substituted-as-anchored-evidence</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>independent-anchor-publication</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>independent-key-custody</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>production-history-completeness</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-33">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fixtureOperator</td>
+<td>Probity public repository GitHub Actions</td>
+</tr>
+<tr>
+<td>atlasReplay</td>
+<td>Probity retained-output reader; no original workload repeated</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>not-established</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-33">Limits</h3>
+<ul>
+<li>Public deterministic test keys and author-generated synthetic histories; independently controlled anchors and custody remain unestablished</li>
+<li>The original output for the case-specific job and the exact executed tests bind the control claims. The default artifact of 285 cases does not.</li>
+<li>Fourteen is the fixture population declared by the source. Fifteen is the actual pytest result, not fifteen independent reproductions.</li>
+<li>No continuous operation, real-world rollback prevention or commercial effect inferred</li>
+</ul>
+<p>answerExposure: Public original results and expected controls available before Atlas reading; no answer-blind replication</p>
+<p>comparisonOrder: Retrospective reading of retained exact-head source/output; no new native workload or effect execution</p>
+</section>
+<section id="record-ratchet-benign-heredoc-2026-10-15" class="run-record" data-results="not-exercised pass">
+<h2>ratchet-benign-heredoc-2026-10-15</h2>
+<p>Claim scope: author-reported-history-with-hosted-public-regression</p>
+<p>Review state: retained-source-bound-observation</p>
+<p>Open <a href="experiments/ratchet-benign-heredoc-2026-10-15/report.json">Report</a>, <a href="experiments/ratchet-benign-heredoc-2026-10-15/provenance.json">Provenance</a> and <a href="lab.html#choose-the-claim-you-are-submitting">Contract</a>.</p>
+<p><a href="experiments/ratchet-benign-heredoc-2026-10-15/README.md">Recorded procedure</a></p>
+<h3 id="per-claim-results-34">Per-claim results</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim / Recorded result">
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Recorded result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>original-public-regression-job-succeeded</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>benign-document-and-destructive-push-controls-remain-distinct</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>dated-author-replay-counts-retained-as-author-report</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>independent-replay-of-private-transcripts</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>zero-false-alarms-outside-selected-history</td>
+<td>not-exercised</td>
+</tr>
+<tr>
+<td>prevented-production-incident</td>
+<td>not-exercised</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="roles-34">Roles</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Role / Declaration">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Role</th>
+<th>Declaration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fixtureOperator</td>
+<td>Probity public repository GitHub Actions</td>
+</tr>
+<tr>
+<td>atlasReplay</td>
+<td>Probity retained-output reader; no original workload repeated</td>
+</tr>
+<tr>
+<td>independentOperation</td>
+<td>not-established</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="limits-34">Limits</h3>
+<ul>
+<li>The 13,739 sessions and 632,126 tool calls are the author's pinned report. They are not an independent measured Atlas run.</li>
+<li>The first reported run had one false alarm: a Python heredoc wrote documentation naming a force push; no push occurred</li>
+<li>The corrected source treats heredoc data separately, handles --mirror and ignores a dry run. The public test source and the default pytest selection bind the regression.</li>
+<li>The hosted suite reports 1,431 tests passed, one skipped and nine deselected. It is not a fresh replay of private historical transcripts.</li>
+<li>This packet copies no private transcript or private source. It does not establish production prevention or revenue.</li>
+</ul>
+<p>answerExposure: Public original results and expected controls available before Atlas reading; no answer-blind replication</p>
+<p>comparisonOrder: Retrospective reading of retained exact-head source/output; no new native workload or effect execution</p>
+</section>
+</div>
+</main>
+<footer class="site">
+  <p>Every number on this site has a source, a read time and a re-derive command in the <a href="claims.html">claim ledger</a>. Site version 0.6-draft, 2026-10-01. <a href="versions.html#documentation-revisions">Page revisions</a>.</p>
+</footer>
+</body>
+</html>

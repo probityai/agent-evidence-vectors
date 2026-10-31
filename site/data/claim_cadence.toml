@@ -1,0 +1,339 @@
+# How long each claim-ledger row stays current after its read time.
+#
+# tools/build.py stamps every row of CLAIMS.md that has a read time with its cadence, and
+# the claim-ledger page marks a row stale when the reader's clock is past read date plus
+# cadence. A row with a read time and no entry here fails the build, so a new row cannot
+# go unclassified.
+#
+# The rule, as the ledger states it: star counts, pull-request and issue states, a
+# project's current release and link checks change weekly (7 days); standards and project
+# statuses, descriptions and labels monthly (30 days); a version pinned by number, dated
+# events, content pinned to a tag and the site's own data do not expire ("none").
+#
+# "Current release" and "latest release" are states, not pinned versions: a newer release
+# makes the row wrong the day it ships. tools/build.py refuses a row whose claim names a
+# current or latest release unless its cadence is 7 days or less.
+
+[cadence]
+# 7 days
+"A-02" = 7
+"A-06" = 7
+"A-07" = 7
+"A-08" = 7
+"A-09" = 7
+"A-stars" = 7
+"A-39" = 7
+"A-40" = 7
+"A-38" = 7
+"P-05" = 7
+"L-01" = 7
+"L-02" = 7
+# 30 days
+"A-01" = 30
+"A-03" = 30
+"A-04" = 30
+"A-05" = 30
+"A-16" = 30
+"A-18" = 30
+"A-19" = 30
+"A-21" = 30
+"A-24" = 30
+"A-25" = 30
+"A-26" = 30
+"A-27" = 30
+"A-29" = 30
+"A-30" = 30
+"A-31" = 30
+"A-34" = 30
+"A-36" = 30
+"A-37" = 30
+"A-38q" = 30
+"A-41" = 30
+"A-44" = 30
+"A-45" = 30
+"L-03" = 30
+"D-04" = 30
+# never expire
+"A-20" = "none"
+"A-22" = "none"
+"A-23" = "none"
+"A-28" = "none"
+"A-32" = "none"
+"A-33" = "none"
+"A-35" = "none"
+"A-42" = "none"
+"A-46" = "none"
+"I-01" = "none"
+"I-02" = "none"
+"I-03" = "none"
+"I-05" = "none"
+"I-06" = "none"
+"I-07" = "none"
+"I-08" = "none"
+"E-01" = "none"
+"E-02" = "none"
+"E-03" = "none"
+"E-04" = "none"
+"E-05" = "none"
+"E-06" = "none"
+"E-07" = "none"
+"E-08" = "none"
+"E-09" = "none"
+"E-10" = "none"
+"E-11" = "none"
+"E-12" = "none"
+"E-13" = "none"
+"D-01" = "none"
+"D-02" = "none"
+"D-03" = "none"
+"D-05" = "none"
+"D-06" = "none"
+"D-07" = "none"
+
+"P-01" = "none"
+"P-02" = "none"
+"P-03" = "none"
+"P-04" = "none"
+"P-06" = "none"
+"P-07" = "none"
+"P-35" = "none"
+"P-36" = "none"
+"P-37" = "none"
+"P-38" = "none"
+"P-08" = "none"
+"P-09" = "none"
+"P-10" = 7
+"P-11" = "none"
+"P-12" = "none"
+"P-13" = "none"
+"P-14" = "none"
+"P-15" = "none"
+"P-16" = "none"
+"P-17" = "none"
+"P-18" = "none"
+"P-19" = "none"
+"P-20" = "none"
+"P-21" = "none"
+"P-22" = "none"
+"P-23" = "none"
+"P-24" = "none"
+"P-25" = "none"
+"P-26" = "none"
+"P-27" = "none"
+"P-28" = "none"
+"P-29" = "none"
+"P-30" = "none"
+"P-31" = "none"
+"P-32" = "none"
+"P-33" = "none"
+"P-34" = "none"
+"P-39" = "none"
+"P-40" = "none"
+"P-41" = "none"
+"P-42" = "none"
+"P-43" = "none"
+"P-44" = "none"
+"P-45" = "none"
+"P-46" = "none"
+"P-47" = "none"
+"P-48" = "none"
+"P-49" = "none"
+"P-50" = "none"
+
+# Immutable original tool-argument run and additive retention.
+"P-51" = "none"
+"P-52" = "none"
+"P-53" = "none"
+"P-54" = "none"
+"P-55" = "none"
+"P-56" = "none"
+
+# Immutable authored task-rate example and explicit calculation contract.
+"P-57" = "none"
+"P-58" = "none"
+
+# Immutable published simulator source and separate exact task-control calculation.
+"P-59" = "none"
+"P-60" = "none"
+"P-61" = "none"
+"P-62" = "none"
+"P-63" = "none"
+
+# Immutable native records and their dated Lab publications.
+"P-64" = "none"
+"P-65" = "none"
+"P-66" = "none"
+"P-67" = "none"
+"P-68" = "none"
+"P-69" = "none"
+# The maintainer's current recurring integration state can change.
+"P-70" = 7
+# Preserved AG2 and REMORA records and original dated publications.
+"P-71" = "none"
+"P-72" = "none"
+"P-73" = "none"
+"P-74" = "none"
+# Immutable outside receipt-run bytes and dated Lab retention.
+"P-75" = "none"
+"P-76" = "none"
+
+# Project catalog sources are pinned.
+"C-01" = "none"
+"C-02" = "none"
+"C-03" = "none"
+"C-04" = "none"
+"C-05" = "none"
+"C-06" = "none"
+"C-07" = "none"
+"C-08" = "none"
+"C-09" = "none"
+"C-10" = "none"
+"C-11" = "none"
+"C-12" = "none"
+"C-13" = "none"
+# Acceptance is dated; the current live listing can change.
+"C-14" = 7
+"C-15" = "none"
+"C-16" = "none"
+"C-17" = "none"
+"C-18" = "none"
+"C-19" = "none"
+"C-20" = 7
+
+# The worked article replays unchanged historical source and retained bytes.
+"W-01" = "none"
+"W-02" = 7
+"W-03" = 7
+"W-04" = 7
+"W-05" = 7
+# The essay link and its publication date are a dated event.
+"W-07" = "none"
+
+"C-21" = "none"
+
+# Source-bound retained-run presentation; live results remain in their own records.
+"W-06" = "none"
+"P-77" = "none"
+P-78 = "none"
+
+# Immutable historical replay and separate diagnostic output accounting.
+"P-79" = "none"
+"P-80" = "none"
+
+# Worked interpretation of fixed historical source and output pins.
+"P-81" = "none"
+
+# Source-bound practical Lab entry; new runs and invitations have separate records.
+"P-82" = "none"
+
+"P-83" = "none"
+"P-84" = "none"
+"P-85" = "none"
+"P-100" = "none"
+"A-60" = "none"
+"A-61" = "none"
+"A-62" = "none"
+"A-63" = "none"
+
+# Fixed corrected-wrapper source and retained qualification.
+"P-86" = "none"
+
+# Fixed supplied witness bytes and retained reader qualification.
+"P-87" = "none"
+# Agent incident record: fixed source evidence
+"N-01" = "none"
+"N-02" = "none"
+"N-03" = "none"
+"N-04" = "none"
+"N-05" = "none"
+"N-06" = "none"
+"N-07" = "none"
+"N-08" = "none"
+"N-09" = "none"
+"N-10" = "none"
+"N-11" = "none"
+"N-12" = "none"
+"N-13" = "none"
+
+# Fixed authored controls and pinned upstream source/licensing interpretation.
+"P-88" = "none"
+"P-89" = "none"
+"P-90" = "none"
+
+"P-91" = "none"
+"P-92" = "none"
+"P-93" = "none"
+"P-94" = "none"
+
+# Fixed source pins and original current-head consumer output.
+"P-96" = "none"
+
+# Fixed independent synthetic-consumer source and original native result.
+"P-98" = "none"
+"P-99" = "none"
+
+# Claim status page: the site's own register and open-cell data.
+"P-101" = "none"
+"P-102" = "none"
+
+# Component publication records and fixed documentation/source observations.
+"C-22" = 7
+"C-23" = "none"
+"C-24" = "none"
+"C-25" = "none"
+"C-26" = "none"
+"C-27" = "none"
+"C-28" = "none"
+"C-29" = 7
+"C-30" = 7
+"C-31" = "none"
+"C-32" = 7
+
+# Historical exact-head Action execution and source controls.
+"C-33" = "none"
+
+# Metadata gate and unchanged retained register are source-bound.
+"C-34" = "none"
+
+# Existing unknown outcome retained through affected consumers.
+"P-103" = "none"
+"P-115" = "none"
+"P-116" = "none"
+
+# Fixed registry-publication readback and source-bound footer meaning.
+"C-35" = "none"
+"C-36" = "none"
+
+# Historical host CI and published development dependency, with fixed source bodies.
+"P-104" = "none"
+
+# Five retained source/output case views; historical immutable pins.
+"P-105" = "none"
+"P-106" = "none"
+"P-107" = "none"
+"P-108" = "none"
+"P-109" = "none"
+"P-110" = "none"
+"P-111" = "none"
+"P-112" = "none"
+"P-113" = "none"
+"P-114" = "none"
+"P-117" = "none"
+"P-118" = "none"
+
+# Exact immutable Pages upload contract and retained workflow bytes.
+"C-37" = "none"
+
+# Immutable retained replay and presentation bindings.
+"W-08" = "none"
+
+# Exact recorded native registry releases and byte/source bindings.
+"C-38" = "none"
+
+# The conformance board: B-01 counts rows and names the default-branch head, the rest are bound to pinned commits and one retained run.
+"B-01" = 7
+"B-02" = "none"
+"B-03" = "none"
+"B-04" = "none"
+"B-05" = "none"
+"B-06" = "none"

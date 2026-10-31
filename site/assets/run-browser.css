@@ -1,0 +1,35 @@
+/* Reuse Atlas type, theme and focus tokens. A disclosure represents one record. */
+.run-filters {
+  padding: 1rem;
+  margin: 1.5rem 0;
+  background: var(--code-bg);
+  font-family: var(--sans);
+}
+.run-filters label { display: block; font-weight: 600; margin-bottom: .25rem; }
+.run-filters input, .run-filters select, .run-filters button {
+  width: 100%;
+  min-height: 2.75rem;
+  font: inherit;
+  color: var(--fg);
+  background: var(--bg);
+  border: 1px solid var(--muted);
+  border-radius: .2rem;
+  padding: .5rem;
+  margin: 0 0 1rem;
+}
+.run-filters button { width: auto; padding: .5rem 1rem; cursor: pointer; }
+.run-filters p { margin: 0; }
+.run-disclosure { border-block-start: 1px solid var(--rule); padding: .75rem 0; }
+.run-disclosure:last-child { border-block-end: 1px solid var(--rule); }
+.run-disclosure summary { cursor: pointer; min-height: 2.75rem; padding: .5rem 0; }
+.run-disclosure summary h2 {
+  display: inline;
+  font-size: 1rem;
+  font-family: var(--sans);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.run-record h2 { overflow-wrap: anywhere; }
+.run-record h3 { font-size: 1.15rem; }
+.run-record p, .run-record td, .run-record li { overflow-wrap: anywhere; }
+.run-disclosure[open] > .run-record { padding: 0 0 1rem; }

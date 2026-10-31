@@ -1,0 +1,615 @@
+{
+  "schema": "probity.aps-jcs.source-lock.v1",
+  "aps": {
+    "repository": "agent-passport-system/agent-passport-system",
+    "commit": "646490a834e1eca4aad230033502b73f3b5cd9d1",
+    "files": [
+      {
+        "path": "src/core/canonical-jcs.ts",
+        "bytes": 15004,
+        "sha256": "a37e5d49dc181344fceaeac2c17db32b0547ae4a4e3e26b3d717fa8266da9d27",
+        "git_blob_sha": "e466d7a6a04a9814a5a7b134a5f7846841be41fd"
+      },
+      {
+        "path": "src/core/write-policy.ts",
+        "bytes": 5062,
+        "sha256": "2f3e4974d68455938a46ce4711823255c9ee849f576f3bc45091d1c13d630e23",
+        "git_blob_sha": "33c1dfe324249c051fcecfebf652f5640e90e9bf"
+      },
+      {
+        "path": "src/v2/receipt-core/jcs.ts",
+        "bytes": 8487,
+        "sha256": "60cb5277f2daa9a254709355a31c485fac5a244f4f7814cf1331582c1d844de4",
+        "git_blob_sha": "40ea862f11018ad067ab469784838d2abc44cd44"
+      },
+      {
+        "path": "src/v2/receipt-core/receipt.ts",
+        "bytes": 26475,
+        "sha256": "3cee5e8f14c6eead33dd0484d319242ebd736880dd478998f2d0101bd30795ef",
+        "git_blob_sha": "e90c25335f175a38ff54a47876c0dcab1cb2d889"
+      },
+      {
+        "path": "tests/receipt-core-serialized.test.ts",
+        "bytes": 8172,
+        "sha256": "cd8ceaa4e9919066bbd4bb1c04ad96c095e430660414e730adea283439f8aac5",
+        "git_blob_sha": "2174c51172e02d5f7d5d9a3a6f306ffb47b83bbb"
+      },
+      {
+        "path": "package.json",
+        "bytes": 24130,
+        "sha256": "ca0dbf0b2808866aca6f03440b1f7b26872f433de275ee44cc6d4aeb270e56dc",
+        "git_blob_sha": "888923abac55b46b7d42a119cf07586da5332dec"
+      },
+      {
+        "path": "package-lock.json",
+        "bytes": 141695,
+        "sha256": "487873a4e3ddb9015bf0bf8cb13283c40b08a351de30186727e2852bcdba3dfc",
+        "git_blob_sha": "3abed649b5212cf581e883d7c142f7fd68ca08e8"
+      },
+      {
+        "path": "tests/interop/motebit-receipts.test.ts",
+        "bytes": 6882,
+        "sha256": "fdce8ea7bb04e64a1a9d49b7994091e5614301233b1c9a9b6de4bc4cff2a13f9",
+        "git_blob_sha": "c36b8f06a6c68d795421a1c1aa9761461a6e4086"
+      },
+      {
+        "path": ".github/workflows/tests.yml",
+        "bytes": 2566,
+        "sha256": "3dc9d6deaf3b030b35e4ed14cc7e937ca80b38d720947349a3d0a0848e8abdef",
+        "git_blob_sha": "abd649f3f998acebf8f0934e9257322b55c9c80b"
+      }
+    ]
+  },
+  "jcs_admit": {
+    "repository": "probityai/jcs-admit",
+    "commit": "ecc8b5ef4b380a2fe38e5079d128307a1c702717",
+    "files": [
+      {
+        "path": "tests/vectors/PROVENANCE.md",
+        "bytes": 4900,
+        "sha256": "8fb59d49f073b9609dd5a4e08700a4db89a8b31989fcc9b1762707d8151df165",
+        "git_blob_sha": "c50b5fac17d1be2250110d6605386c15a3ea53d0"
+      },
+      {
+        "path": "tests/vectors/attack/strings-keys-members.tsv",
+        "bytes": 25198,
+        "sha256": "fb72d50eb5642252ffa428a00daa28f25397fc060543087c4e7ad4fdb112714d",
+        "git_blob_sha": "8f5823f508cf06762396b4598b2a0bce7509db5e"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/v0099f25838779fcc.json",
+        "bytes": 4155,
+        "sha256": "bcdc73af6050c685814a947fff0e5b6f559e42572236a217b2818302844500e6",
+        "git_blob_sha": "462fce3e4eae45f5497fb9a71696b2a0ac63dff8"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/v081d9eeddbd5634f.json",
+        "bytes": 3029,
+        "sha256": "5a91c7dc312695572d20d59b4197abbe7a0dd850bd8511c48c7d9a7fb8059f3a",
+        "git_blob_sha": "d17e1829d92ee62367fd066b466eab14c5dbe928"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/v0ac6d948f2af5b6f.json",
+        "bytes": 2919,
+        "sha256": "139791936c2e0974fa09021967cfb7182002c6c9db9c029ccd0a4e0647a44c41",
+        "git_blob_sha": "ce86c496a7ce0c10c6fed173f3d62f11fe15c193"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/v12389306fa02ce0c.json",
+        "bytes": 3064,
+        "sha256": "d2187f3d4e0cba1a7fe04e0aaffb2ef2bc75435097ec7715afa31403ac45df21",
+        "git_blob_sha": "8d4dc652c4c8a1a4f12635f9a249ae4acdc8a460"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/v1a3d0ce04c3f7524.json",
+        "bytes": 3226,
+        "sha256": "18106023702514953600b51eefd8368de07c6e167e7232fcea88b2fdcc5f0106",
+        "git_blob_sha": "3e89dba74aa3b0cf8a9a08c1e759f6267c06586d"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/v210a8e2d17bfcc47.json",
+        "bytes": 3007,
+        "sha256": "366b77e285dd29a744547ab466d657acc09f1ee6a4146095a7a6dceabea71e8a",
+        "git_blob_sha": "db4fa5457d666cdea16a33432dd94cfb5464072f"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/v28b0cf874ea02de1.json",
+        "bytes": 3867,
+        "sha256": "3a423dbdba4638c813f461118367b3f51902f090a748cf63733288a700d73c78",
+        "git_blob_sha": "e2b357d5e4d52c03775e657ce8230aa62a7eac48"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/v320cc6344593c639.json",
+        "bytes": 5062,
+        "sha256": "68f128049a74922ef832f4d444cda9816b531ec5eb6c270c083fb7428111c57d",
+        "git_blob_sha": "36bbfaef6251006afba0a858263ccb1985f2439a"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/v3b58f7a2e30d8cad.json",
+        "bytes": 1474,
+        "sha256": "f4fb5f1c26ce4d828634f334009e0e16bf78e555e62f50e5026d3b0538c2c68d",
+        "git_blob_sha": "f49982ba29b1b18b4e81d8b88d1a1dc077140302"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/v41de149d50373e9e.json",
+        "bytes": 3013,
+        "sha256": "d65542b68a0b0e055661c00b387fbaf2a81d3f651e981f272647516538999e9b",
+        "git_blob_sha": "57efa2c0a104ec2e3ce00230af92a296674262a6"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/v495bb03f306ef6aa.json",
+        "bytes": 2997,
+        "sha256": "82fbb2a83d038667f5805c82aba19072fb3a08aa57992b2b0aff5542ecfcd3a0",
+        "git_blob_sha": "02efbd99ec796d3f5eaf41782cb3cfe8cc23108a"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/v539055896bf3a954.json",
+        "bytes": 3007,
+        "sha256": "cec328a70af4914de40ff7527dce9ea912519fb89541ba741a65134eb3cfab37",
+        "git_blob_sha": "7c86c3347c3bc242b00671cb03510b16509dc06a"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/v5dcc150714259e09.json",
+        "bytes": 3005,
+        "sha256": "dd4be7c0104b0f89a2a3e1fb04102c128590b668594c40965127e3f82dee6eb1",
+        "git_blob_sha": "9ca564948281b0e5561c8e8d8f4f9ff5c6fe582d"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/v692f9605520a617d.json",
+        "bytes": 1414,
+        "sha256": "74ff32700c0da31020aa8a4c9db60df90927cee7850881b9d836008949799a0b",
+        "git_blob_sha": "6635b2972827c622d465e8eb0eeac523af84d4be"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/v73244f2068e58c68.json",
+        "bytes": 5062,
+        "sha256": "44f6a916e4a267f6c6d323fdc2f5503d3dd4cf33b3b3b4571c18f12fe67de01e",
+        "git_blob_sha": "f7abb36962c75182f7893d0701baf6640a3e540e"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/v7cd4ebe08eb1605a.json",
+        "bytes": 3596,
+        "sha256": "dededf1ec7590bcde7f447c607027efdfd0d355a4d20203579628bfee94935ed",
+        "git_blob_sha": "7331464aa89baa243b51face728b05c5cd632ddb"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/v83f4b7fe6068ef86.json",
+        "bytes": 4039,
+        "sha256": "e81319a2a072fb6cedfa45424b269f0f1966ad94ab8dd5f003a21b268a1707dd",
+        "git_blob_sha": "c9a1c64676dd4c44cec1ba29da7cee5fb2137a2c"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/v8a7008d1673711a9.json",
+        "bytes": 3089,
+        "sha256": "8e7ffcde4f768b54e1823674f7001e377bd9431955cf2e04347251184a251089",
+        "git_blob_sha": "d020e9be69084e3620b19dac955ba0969394a010"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/v99fb4ac5cb385049.json",
+        "bytes": 2472,
+        "sha256": "a20fd8095949addb59a206452e7e8357a76d3b14743ec2792e627fec4c8123ec",
+        "git_blob_sha": "ed03144c5094f7583119354821fa8bb33d2043d2"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/va1881488724114fd.json",
+        "bytes": 4749,
+        "sha256": "06a870235a33c457f3a2b46c23c85bfcadf086baa4f2ac71cfbf0c597f66de7a",
+        "git_blob_sha": "1ebfbde8f1655c6cba0533c59f7b46be477c6097"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/vacd28b5127a54254.json",
+        "bytes": 3102,
+        "sha256": "186d24275d5fe461621b1ec290ada67773410a078809ee24ac0ee2d07966a835",
+        "git_blob_sha": "5131526504e2d5ba8823cebd596778dcea04cefa"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/vb730e62ac8f072b0.json",
+        "bytes": 2997,
+        "sha256": "a807d73588ca467ecde2dee7d7c88d8e2635ee51ef6ee7a0cadac05d93474514",
+        "git_blob_sha": "e083dd392aefd38eeae17bb032e673f8046d24cd"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/vbe54956653060e0c.json",
+        "bytes": 3009,
+        "sha256": "8fb500498e092e80080818a6a66b0e205705876609b82b5f3889095bf7b2a2c9",
+        "git_blob_sha": "24e106e4a07b172356e714778a2c61ab293037fb"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/vc7111b58eecb4d0c.json",
+        "bytes": 2943,
+        "sha256": "3a6c29b1ae933a317ea8a631e6e6a22b80cdf734dc2c4038b24119617fa9c169",
+        "git_blob_sha": "e8548dec7d894c439a9555b225a0baace962b112"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/vcb23d2c4509c9daf.json",
+        "bytes": 3007,
+        "sha256": "dc2d2d97613677a5b772bb57b948aeaf38631739cb17da98406b3dd05151b2c5",
+        "git_blob_sha": "9e7c6d22c54f8f786fd48697f48359f244af32f6"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/vd70d546cef512eff.json",
+        "bytes": 3649,
+        "sha256": "81e8fa8ef9aad12825a7069a33890e676c61595decde5d7fc8a5d8634f3e9f68",
+        "git_blob_sha": "3087836b0ddb0a0ae13eb2be28886f3be6d737cd"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/vded1d495746a647a.json",
+        "bytes": 3015,
+        "sha256": "d5ee8f391a29608dceb88be061bc84b5a931eb1be35401dc3ea218e531458ee4",
+        "git_blob_sha": "2f169b756a7060d0838355b954a3ffa313fc2d32"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/vea5ff2dabe340db7.json",
+        "bytes": 3749,
+        "sha256": "0bd7c48d684ac9df8748d2adf0315a3df54ed6e92ac50b4b6d7e39ab72be77c0",
+        "git_blob_sha": "bc463aa0075ea436d6b05db625550ac33fba8345"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/vf362be6b8302b409.json",
+        "bytes": 3507,
+        "sha256": "ea208a5b0028c7951f679b7b2c17366e4cca754fc02db2028f55416296364ffb",
+        "git_blob_sha": "132e87fb659df6c2f324ecc74bcaef99410be273"
+      },
+      {
+        "path": "tests/vectors/cross-rail/canonical/vfb979cb9ce40f1be.json",
+        "bytes": 3749,
+        "sha256": "f0d5452761fa030285aa40c2de689d5c932de02c4ee5a35383d860944a635af0",
+        "git_blob_sha": "ea1816f3dd32dd9c663a949da80d63237a3ff6d3"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/v0099f25838779fcc.json",
+        "bytes": 5333,
+        "sha256": "0099f25838779fcc05c807e7d1886ee584078f0ebc80c43ba6353c4539fddd34",
+        "git_blob_sha": "e000407c6b0455d2b08fbac9401b628e18f7f85b"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/v081d9eeddbd5634f.json",
+        "bytes": 3990,
+        "sha256": "081d9eeddbd5634fb39e1e59d04c685687de2cbe44671d2ce9bdd704e5b07a02",
+        "git_blob_sha": "8cc9c058343f7a4db0584aeef1d980cf748c4639"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/v0ac6d948f2af5b6f.json",
+        "bytes": 3869,
+        "sha256": "0ac6d948f2af5b6fbc593a8df73a96674a610cf91728f3201bc9ed2404d63673",
+        "git_blob_sha": "b11eb34d456efcf26f558d4fa2ea4370500238cb"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/v12389306fa02ce0c.json",
+        "bytes": 4066,
+        "sha256": "12389306fa02ce0c6ef33915ea314d733e539e4555e7fec423ef41101222f777",
+        "git_blob_sha": "bed0c81eb5c4d2dcf41cca3a508a03b814bc7737"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/v198c19b52cf8890e.json",
+        "bytes": 3981,
+        "sha256": "198c19b52cf8890e3d6ee780218fd52fc403cc3da51833a4818cebf6f8c7273e",
+        "git_blob_sha": "dbe4a880dfe0034326312d658e06c2e3d4272995"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/v1a3d0ce04c3f7524.json",
+        "bytes": 4342,
+        "sha256": "1a3d0ce04c3f7524b03ebf321922afe46f01fd0f69ebf4f8a26eb64d00b4d925",
+        "git_blob_sha": "8008a6f3de343a48917737711b85222801601172"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/v210a8e2d17bfcc47.json",
+        "bytes": 3957,
+        "sha256": "210a8e2d17bfcc471d7b29a7811b4579a28b812a355dbc97b4c085034695e876",
+        "git_blob_sha": "210c1eb058eb8de2cfaa36a474cb16614f4992da"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/v28b0cf874ea02de1.json",
+        "bytes": 5050,
+        "sha256": "28b0cf874ea02de187c19fd4140f05afbeb07d28537e0ae639c79bb6c589de36",
+        "git_blob_sha": "fb45f3b4440b6178b31be24f9af94e5c45d88c5d"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/v320cc6344593c639.json",
+        "bytes": 6688,
+        "sha256": "320cc6344593c6394694dc51697b4aa9232ecb27a1d45734fe13bdcf6bfaf1ce",
+        "git_blob_sha": "413736d7b58bcb0688e21744b39b285ada10e68f"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/v3b58f7a2e30d8cad.json",
+        "bytes": 2209,
+        "sha256": "3b58f7a2e30d8cadb9b77bd94900c691a973efe15c053745a521bd37267906b7",
+        "git_blob_sha": "177a6a9cf91dc1f56df6d3268b353d11c665d601"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/v41de149d50373e9e.json",
+        "bytes": 3974,
+        "sha256": "41de149d50373e9e2f6501bdace76e2b460a91e6d285a24a004801d3948f1b3f",
+        "git_blob_sha": "4a7698cd803e6ee9f92c9b19092707625b1f95a6"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/v495bb03f306ef6aa.json",
+        "bytes": 3958,
+        "sha256": "495bb03f306ef6aa1dcb4b66365072c46cb5034ad21922f04d42e11ea053f5e8",
+        "git_blob_sha": "7f740f38cae2b7131e7c2efcfb2dca774697c867"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/v5155dde01a4538fd.json",
+        "bytes": 4047,
+        "sha256": "5155dde01a4538fd34dbcc1490353bb06ac540b7618ced81235b7ec4821d0363",
+        "git_blob_sha": "76f75f48c33742ddfc9059b69ce7ff808e774223"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/v539055896bf3a954.json",
+        "bytes": 3957,
+        "sha256": "539055896bf3a954771f2bdbf5dc86a50b80d6b874b6cab308406d60b5468058",
+        "git_blob_sha": "bf107bac74fad65228541f8d8889194e3cda5885"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/v5717f72827e39413.json",
+        "bytes": 3981,
+        "sha256": "5717f72827e39413cf03eed2c934da85c12ff703f8bc1054d80b357e24ba1784",
+        "git_blob_sha": "b21ff12b6e3906eb99ae2b44c5a6632411003a2f"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/v5dcc150714259e09.json",
+        "bytes": 3966,
+        "sha256": "5dcc150714259e091462b4c37012974f903bbc86bfbe28593504916de8b3e2df",
+        "git_blob_sha": "6e6f95cb538835bd39333f73284880206b1e9715"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/v692f9605520a617d.json",
+        "bytes": 2075,
+        "sha256": "692f9605520a617d02a48f193c65835bc65f9a06e00691306aff3cf0988659c4",
+        "git_blob_sha": "8d7238a9418c5edc00ccafde064cdcedad59ef9f"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/v73244f2068e58c68.json",
+        "bytes": 6688,
+        "sha256": "73244f2068e58c683bcb46ee60ac5d7f4f3eb7d626a5268f68d354c13912c9aa",
+        "git_blob_sha": "609ba445e657846568d490f79e0696861612a4cf"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/v7cd4ebe08eb1605a.json",
+        "bytes": 4601,
+        "sha256": "7cd4ebe08eb1605aa5e9425c00e93dfb8e99bda4d31cce60c605ade45f5f60aa",
+        "git_blob_sha": "b4feee5b393cc40f4ae86d2371b7b08b5fe9ec09"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/v83f4b7fe6068ef86.json",
+        "bytes": 4989,
+        "sha256": "83f4b7fe6068ef861081ab3607a7a4d1884ac5b15a5c0f94ca91dd99692dfc71",
+        "git_blob_sha": "680e033ee47e9a762a136c28581ae288f9b28ffc"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/v86f3484735f41acb.json",
+        "bytes": 3987,
+        "sha256": "86f3484735f41acb684b616dd04f3cdff933f1b6a1cfbb0e1c1313e51c743c8c",
+        "git_blob_sha": "87d312aa9c4b25905e8e10dcd8909b4b6fa58a56"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/v8a7008d1673711a9.json",
+        "bytes": 4050,
+        "sha256": "8a7008d1673711a98a09238879468ac991d1b7ec96af888b8c69f78e2639cfef",
+        "git_blob_sha": "f26d3ace4e2ba9accd3119f4965728b8b2d1283a"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/v99fb4ac5cb385049.json",
+        "bytes": 3384,
+        "sha256": "99fb4ac5cb385049afb489068356e48e71ae526d228f2f335ec9d25a8f093c83",
+        "git_blob_sha": "20c8a0263e62530ab4d8b68e4e14770f64fa7710"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/va1881488724114fd.json",
+        "bytes": 6190,
+        "sha256": "a1881488724114fd6f39d8ba7f00aaca89514a3a77e092830298e2f86e867653",
+        "git_blob_sha": "fc069b9d27236f97dc0ba5c49a2643e98c025a75"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/va501d76c995de6d3.json",
+        "bytes": 3981,
+        "sha256": "a501d76c995de6d3ae5693aad1c9763683287209a88f88f65a3ca29b664a4d38",
+        "git_blob_sha": "07fddf4c568d1b83f5f6d4e422721f4ff2836fcc"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/va507b8f9a9cc675c.json",
+        "bytes": 3972,
+        "sha256": "a507b8f9a9cc675cf7a0aa99054858fda53bfa13521e3ad0b2c67f5cbe2e5069",
+        "git_blob_sha": "906f5c1b7d2f89473d08c14a749a4e73e42b7d6d"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/vacd28b5127a54254.json",
+        "bytes": 4128,
+        "sha256": "acd28b5127a54254e16d9c1d5063a6513f07b51bda35ade4fb6449b1225cc9e8",
+        "git_blob_sha": "91cc057695e7df18a0c14cd09f959dbba9887a59"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/vb705b260669aedc7.json",
+        "bytes": 3976,
+        "sha256": "b705b260669aedc77d10f7873557b15ae7291b20495298fbe42fc4a8176928d1",
+        "git_blob_sha": "a7b7321557c8376188a2d0ee91f0c98ba3680f8e"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/vb730e62ac8f072b0.json",
+        "bytes": 3958,
+        "sha256": "b730e62ac8f072b00af6a5ebb8d654f77f694d4b86b2e1b5cbdbe6a668576e90",
+        "git_blob_sha": "7dfd454b6ede4c9f44943745ac1a593e818aace3"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/vbc7012fb2fcbf1f8.json",
+        "bytes": 3977,
+        "sha256": "bc7012fb2fcbf1f899029f558e0f333a4733f141faf29635d741dc229520d1d1",
+        "git_blob_sha": "159bae2d4653066fddc3713754faff1e413ece3d"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/vbe54956653060e0c.json",
+        "bytes": 3970,
+        "sha256": "be54956653060e0ca27487539e67a252c14a6b734e9d0d975012d681b0284d02",
+        "git_blob_sha": "e1c35f2e1e429f2aa0a038fce32f20486d49eb09"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/vc7111b58eecb4d0c.json",
+        "bytes": 3893,
+        "sha256": "c7111b58eecb4d0c979d5a90411c04ddf8d1ae3c9a2dbba0eba3769f913cba3d",
+        "git_blob_sha": "043a51d681bffe338a04824f63066851509f1143"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/vcb23d2c4509c9daf.json",
+        "bytes": 3957,
+        "sha256": "cb23d2c4509c9daf0ec11961da94706e257c226dbbc0e7cf517bffa624d6cff4",
+        "git_blob_sha": "7c9c4a0a86b7b11fa6d052986c388d1fc4eba826"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/vd70d546cef512eff.json",
+        "bytes": 4713,
+        "sha256": "d70d546cef512eff544638857c47b3fe2e0014ce6b21e1e2eb70756dfc0d3282",
+        "git_blob_sha": "7bada0a403cf255ee15deeb05ddaa03783a6a5cc"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/vded1d495746a647a.json",
+        "bytes": 3987,
+        "sha256": "ded1d495746a647a52c544f119a55a2fee4cb50ddba0bfb8dcae9e047ed9350b",
+        "git_blob_sha": "70cf0828508a9a9ad085c618c8c8a506c90fa578"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/vea5ff2dabe340db7.json",
+        "bytes": 4813,
+        "sha256": "ea5ff2dabe340db777ad8864ee2c4e5cd229cc07cc9e21b868e916215db19f1e",
+        "git_blob_sha": "a546b6e9b45e789d7b6a235114b24ddacee96399"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/vf362be6b8302b409.json",
+        "bytes": 4560,
+        "sha256": "f362be6b8302b409476583040bedf88714a3bf59f56d70f9a2558137eb7eebed",
+        "git_blob_sha": "b90b5bee1e24a8cf6c9ed7c472b9cafacffdb0d6"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/vf5599bb2dbe66e12.json",
+        "bytes": 3978,
+        "sha256": "f5599bb2dbe66e1243672845576c95c7521a60b412d533cb7b9ef76adec59ff3",
+        "git_blob_sha": "560a1cdea7bdf2890c203e416d4f5baa8047077d"
+      },
+      {
+        "path": "tests/vectors/cross-rail/input/vfb979cb9ce40f1be.json",
+        "bytes": 4813,
+        "sha256": "fb979cb9ce40f1be5d55fd1e9430c2adcb778bebaa9de50afec9ef92735e3146",
+        "git_blob_sha": "45d587e85224f57649a17bfacdd5f0aef4e85115"
+      },
+      {
+        "path": "tests/vectors/cross-rail/refused.tsv",
+        "bytes": 686,
+        "sha256": "67d0de74a40fa56b3eb5c4fcac66f82f5856bedccaccc2af805f8ba279553b4c",
+        "git_blob_sha": "ea1cb88897a3ff5075a09b880b26337ce2264a9d"
+      },
+      {
+        "path": "tests/vectors/es-number-ties.tsv",
+        "bytes": 46773,
+        "sha256": "008a84ecc9d70961c62d5d32f24ee3af0acd0b18b96c80696f254e63ec721dae",
+        "git_blob_sha": "1d907910d2fa46b743628e20a28685f14a1e634a"
+      },
+      {
+        "path": "tests/vectors/rfc8785/appendix-b.tsv",
+        "bytes": 1422,
+        "sha256": "0eeb452a05160d24e7b63134047d5b70a3332f42c51f7a1ca047d8b90b0eee98",
+        "git_blob_sha": "6e48872475d7b368764a35aad3e60a5c3db6f7bf"
+      },
+      {
+        "path": "tests/vectors/rfc8785/input/arrays.json",
+        "bytes": 62,
+        "sha256": "e503b6d71d1afa595b1c74b1016445c944cd89f90418066b23de1aeda7d17563",
+        "git_blob_sha": "20e62263c430a205944284778973c7633d5879b1"
+      },
+      {
+        "path": "tests/vectors/rfc8785/input/french.json",
+        "bytes": 150,
+        "sha256": "03676a951cd8753ac62589f72eb2105cc782c33425418cfe1d517c111f6e5d5a",
+        "git_blob_sha": "4ff6d3de24ce8a488a205ac97f04c480cbc38ab8"
+      },
+      {
+        "path": "tests/vectors/rfc8785/input/structures.json",
+        "bytes": 138,
+        "sha256": "d66893805be1784116af50af3110d08766c70a6b4aad93374723f72346e7aaa6",
+        "git_blob_sha": "eb71efb84cf0bb9a022d0c3cbe1e286f0000f824"
+      },
+      {
+        "path": "tests/vectors/rfc8785/input/unicode.json",
+        "bytes": 39,
+        "sha256": "4621864e014d4a805a563f55b9ea20aba4a2d2dc09c7394f625496998c00702c",
+        "git_blob_sha": "4b5bc7699670c930aab223a46114c2c5c3e612cd"
+      },
+      {
+        "path": "tests/vectors/rfc8785/input/values.json",
+        "bytes": 182,
+        "sha256": "c4a041b503d6bc236036ef44db4dac499272f60fc22c40dc3b7a54870ba6f1c3",
+        "git_blob_sha": "f7712c2fbb73d7afd30e14a15d8c5a2791ce1cd9"
+      },
+      {
+        "path": "tests/vectors/rfc8785/input/weird.json",
+        "bytes": 283,
+        "sha256": "a3a905266bd4a49a969274ea69baa14ee0c4af0ead926d6fa2b7612b4af75387",
+        "git_blob_sha": "53fabe67bc60bb1897a91c9387caf4b8abb5ef29"
+      },
+      {
+        "path": "tests/vectors/rfc8785/output/arrays.json",
+        "bytes": 32,
+        "sha256": "099601b171cafed97c333f8878d68e7f8c8f795412adb34b2fdcf0e7c7beac42",
+        "git_blob_sha": "5efb93db77cb8aaeffcda0c9bf7c474d5183360b"
+      },
+      {
+        "path": "tests/vectors/rfc8785/output/french.json",
+        "bytes": 130,
+        "sha256": "d99d0ebdcb0033cb858cfa830ae46bc0fb3309413b271f1da828c89901a27ed5",
+        "git_blob_sha": "2e15cd1b22fe2723596e4ba513e0e269a56939c6"
+      },
+      {
+        "path": "tests/vectors/rfc8785/output/structures.json",
+        "bytes": 98,
+        "sha256": "605f65004ec2db7692522a0852c22f1c989e036d547e88963d1a3143cf3195d5",
+        "git_blob_sha": "dc21e2424e9cc4c84e4cc1114826f3d146bd6156"
+      },
+      {
+        "path": "tests/vectors/rfc8785/output/unicode.json",
+        "bytes": 30,
+        "sha256": "0d99aad92a125196ff887876643fd3206786a84ddce2cee52ba4ad256d2381d3",
+        "git_blob_sha": "ee60fd121be2f97943e77eb16294c211a915faa7"
+      },
+      {
+        "path": "tests/vectors/rfc8785/output/values.json",
+        "bytes": 118,
+        "sha256": "2d5e01a318d0f0879ab568c4be289c8b1f64ef8921a53c6277d5e069978baacb",
+        "git_blob_sha": "29b720b6e754a0dd9c4dbddac69bdc5cd3ab8792"
+      },
+      {
+        "path": "tests/vectors/rfc8785/output/weird.json",
+        "bytes": 214,
+        "sha256": "6af595a9aa80110b964b4de3f82a05fa6ae7423005019bacfa2620dddc4e94d1",
+        "git_blob_sha": "62c83a333e3141f9e16767a7829debbd34bfa913"
+      },
+      {
+        "path": "src/lib.rs",
+        "bytes": 13206,
+        "sha256": "5b9dad8f04975467889c60517f959d94dd2b18e73371c7b04ade2581a4d81e49",
+        "git_blob_sha": "b25fda9becdc5dfc787d889eef6451f65637f28c"
+      },
+      {
+        "path": "src/error.rs",
+        "bytes": 8102,
+        "sha256": "9dc5aba3037e2e928b775fd38adb830eed682672caff669e0216756a6243e16b",
+        "git_blob_sha": "f8cb9874325286aeb9a3f66ad04542e3ebd336c3"
+      },
+      {
+        "path": "Cargo.toml",
+        "bytes": 2582,
+        "sha256": "ea8ab5e8cfdec8fe790a475ccfdf89151bc5258235403b9de927ddb4a3f5297d",
+        "git_blob_sha": "7603a327e38accaca67073a16ea84c794dd87139"
+      },
+      {
+        "path": "Cargo.lock",
+        "bytes": 3131,
+        "sha256": "594e48d0f167c5f50ec82a82e0d020367ace099983be0cd446edb578db95107a",
+        "git_blob_sha": "65cf7fbb0a784de24743a4c682c9fba8b9573d99"
+      },
+      {
+        "path": "interop/rfc8785-py/controls.json",
+        "bytes": 3625,
+        "sha256": "32abb52ef7af96d24ac72a88eea467b350dc729b2626146b803e6773cb0f31ea",
+        "git_blob_sha": "56161df40d784761072e53d23b097d5952f262c0"
+      }
+    ]
+  }
+}

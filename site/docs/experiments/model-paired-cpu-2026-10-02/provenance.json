@@ -1,0 +1,3986 @@
+{
+  "schema": "probity-atlas-retained-native-run-v1",
+  "sourceRepository": "probityai/agent-evidence-observer",
+  "sourceCommit": "b7db63c319d53b0cb27638a229f966d477a2bbd5",
+  "readerCommit": "94e62e803959c0ee73d1171a03858f48e6a424e0",
+  "reviewedHead": "94e62e803959c0ee73d1171a03858f48e6a424e0",
+  "mergedHead": "4a50e61471355611121a578f3a4c22daa931d419",
+  "run": 37053301748,
+  "runUrl": "https://github.com/probityai/agent-evidence-observer/actions/runs/37053301748",
+  "artifactId": 11246474999,
+  "providerArtifactExpiresAt": "2026-12-31T19:18:57Z",
+  "originalArtifactSha256": "e3b0daad07fb6880fbb4d66adbe92c9cc9c39d5e824667bd38e9289636340efa",
+  "originalArtifactBytes": 2108815,
+  "retention": "byte-exact-original-compact-native-ci-archive",
+  "retainedArchiveSha256": "e3b0daad07fb6880fbb4d66adbe92c9cc9c39d5e824667bd38e9289636340efa",
+  "retainedArchiveBytes": 2108815,
+  "reportMember": "report.json",
+  "reportSha256": "7926e4e5998459c1be38b69a81b14be56a22924ea2ccec04509e2cb8fff7c62b",
+  "roles": {
+    "producer": "Probity-owned workflow",
+    "readerAuthor": "Probity",
+    "atlasOperator": "Probity",
+    "retentionHolder": "Probity",
+    "independentOperation": "not-established",
+    "independentEffectCustody": "not-established",
+    "outsideRecurringUse": "not-established"
+  },
+  "answerExposure": "Author-written tasks/controls and expected outcomes exposed; not blind.",
+  "comparisonOrder": "Native output and comparison emitted and published together; public Atlas retention before indexing does not establish a blind or raw-result-first comparison.",
+  "scope": "Two actual-weight CPU models, original authored operational tasks, output caps24/96 and declared blocked interleaving; cache disabled/reset. No model retuning, inference retries, independent custody or live decision effects.",
+  "members": [
+    {
+      "member": "calls/smol135-q4--long96--abstain-known-age-returned.json",
+      "bytes": 1031,
+      "sha256": "ee7d30ee3edb8692fba300aece6bb5b906fbc05e4e65619f3f0ebc3549e94edb",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--abstain-known-age-started.json",
+      "bytes": 564,
+      "sha256": "c5e8ed666941156b4582edee2208d631e12bce73b288803ff47e8a27fd737226",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--abstain-known-city-returned.json",
+      "bytes": 1044,
+      "sha256": "2cc2dc30ef4e83b0937184d8551fe5f42c9a0f60e64ca453474cb6326720ccb3",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--abstain-known-city-started.json",
+      "bytes": 579,
+      "sha256": "667696499bb406bd300ee3d6e87108342829586224b64344177dbd6104c35969",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--abstain-known-total-returned.json",
+      "bytes": 1076,
+      "sha256": "87eb73abad2707873c2f48957c2cd0279e0053713c34a7993eccdfda91367a9f",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--abstain-known-total-started.json",
+      "bytes": 588,
+      "sha256": "4ade65849b28f8c8a6650f2a2979465ee99154ee9aea0c1ed4ea2f0ddab06c77",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--abstain-unknown-age-returned.json",
+      "bytes": 1025,
+      "sha256": "06c1e2efbdbacc00bcb599cbc6d18d0596ad74162a93165668fc83cdce3d0bcf",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--abstain-unknown-age-started.json",
+      "bytes": 558,
+      "sha256": "fa239a163052806a0c161bf169ee05d0171961861c351f81b9b981c6c6c975d0",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--abstain-unknown-city-returned.json",
+      "bytes": 1065,
+      "sha256": "9f8aba3ecaea484369482b7e7cda7561ffb07a473091935cb2d97997d9a12770",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--abstain-unknown-city-started.json",
+      "bytes": 583,
+      "sha256": "3c27d1a6148b29a0968cd99794c27bb1137b3da82c57f58e119f374d594e5aab",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--abstain-unknown-total-returned.json",
+      "bytes": 1075,
+      "sha256": "c4a3905c0c1dca2992a97915ecaddd43db6288d3f7e923c4b0f8e98b4330c24d",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--abstain-unknown-total-started.json",
+      "bytes": 596,
+      "sha256": "a7fb029a928ff8b07e2a8e507e706c469a85b179dd0ef5e52b4bc35978509071",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--arithmetic-combined-returned.json",
+      "bytes": 1282,
+      "sha256": "14f63515e7573c781b4bd3d32ac79d4b21a067da0dd10fbf2e30d552334e0c13",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--arithmetic-combined-started.json",
+      "bytes": 499,
+      "sha256": "18e19a3abba2ca9cc8863e9b08854aa3f9cb6af3914f911b54042fde45b11d2a",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--arithmetic-difference-returned.json",
+      "bytes": 1237,
+      "sha256": "9b7ef0fe4f15e708e7c8e56f18515d270ec2cd19f4e0c47e112af199254d7c08",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--arithmetic-difference-started.json",
+      "bytes": 498,
+      "sha256": "869ab91ba341f5d23748260792c63ad5445a69a1fa9957a8ed96b41a68f803e5",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--arithmetic-division-returned.json",
+      "bytes": 1193,
+      "sha256": "7ddcdfc0d372b92a4ee85fe37ad7f8045580ff9f1f247bbd85fc5317683f9776",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--arithmetic-division-started.json",
+      "bytes": 496,
+      "sha256": "a40fca8227b2995e0697198fe065eda98f414d302731caea5a3a140952a439b9",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--arithmetic-product-returned.json",
+      "bytes": 949,
+      "sha256": "c74efe37c24978ff3ff7ef9b174e4f09a3fdb8fab4086145314a73810d46e3d1",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--arithmetic-product-started.json",
+      "bytes": 494,
+      "sha256": "aa1712bddb4feda3dd2df0c4cd7675901ba05c9539be192c1a24844e58b99e4b",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--arithmetic-remaining-returned.json",
+      "bytes": 966,
+      "sha256": "7da25ccd9a343a8dc33ba3dbbeb7df519da2f315e38558d393948637f097b84d",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--arithmetic-remaining-started.json",
+      "bytes": 499,
+      "sha256": "6bd56418f0edfd8a5a3b94a323490032a9a1cdcd1fd6e89a5294065f17bbfb8c",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--arithmetic-sum-returned.json",
+      "bytes": 1242,
+      "sha256": "3c1a5e965cd04ff2ade32a8be3fc46baf934f73d2a65f4a709bb2ac8d15cdd4e",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--arithmetic-sum-started.json",
+      "bytes": 490,
+      "sha256": "16431926d65b64c25e6fdb1ea6c80e5fafd80346f08bfd724b02a0575aaeca0c",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--extract-bool-returned.json",
+      "bytes": 1182,
+      "sha256": "27b6dee387ebb950b2bde16e71d790fa19701d49645c684af850b906bd412e58",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--extract-bool-started.json",
+      "bytes": 505,
+      "sha256": "f87f6d3229fd168aac863703e6a76e4ab0408ad60934edc1a5edb05241df68e3",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--extract-list-returned.json",
+      "bytes": 1341,
+      "sha256": "afb8d71d995adbf8b4fee3a6d3af4da120c316ef8f6db593764412d13c5c91e0",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--extract-list-started.json",
+      "bytes": 526,
+      "sha256": "8af0f50d6216487e03df0ca3b8414b57aa9e6cfb6efdadf0602ea122980c053e",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--extract-null-returned.json",
+      "bytes": 1190,
+      "sha256": "a3453527466e5b24ca0f783b24907d9274f9822d2ffce2c2ae4edc0652734886",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--extract-null-started.json",
+      "bytes": 525,
+      "sha256": "28e06b8ce959e1e305713eebaf652a369a7214697f0af22f4bfcd7747f64e2fc",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--extract-owner-returned.json",
+      "bytes": 1363,
+      "sha256": "e8acef4e09d927962f5f301452ff2a69bc48d37c47dd76eef6eb8657be9a27cd",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--extract-owner-started.json",
+      "bytes": 523,
+      "sha256": "f87c6a0b463e0fe079852d963648a1acac2a14afff768f10871c8798f2d3f139",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--extract-quantity-returned.json",
+      "bytes": 1029,
+      "sha256": "a1b4f0a232e1765097300b2eda17d710a91719d40761b4ee10a6b24f394e34ab",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--extract-quantity-started.json",
+      "bytes": 508,
+      "sha256": "462448a5234116594f4cd8b016ce01a64b4ba07fd83cde5627ea7628fad5eb90",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--extract-status-returned.json",
+      "bytes": 1349,
+      "sha256": "544d11b5ab98818159436453072bb642d15d4fc38886801e08bc96c74346a945",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--extract-status-started.json",
+      "bytes": 506,
+      "sha256": "3e17704e2af877e69635791c76446fb85b1a012d32d2fb3e4b2bef25a242259c",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--policy-admit-returned.json",
+      "bytes": 1447,
+      "sha256": "a3b6aa5b6edb59bfdbcddd9effad7a0f4d8bebe246690639548db56c67f11af4",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--policy-admit-started.json",
+      "bytes": 566,
+      "sha256": "a940f1d425975096c62ca42a942a0fe25ecc5a4153d0734211ddfe50a3f2a83d",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--policy-hold-check-returned.json",
+      "bytes": 1382,
+      "sha256": "a7ff1c271c9448435da208c8efeb5587e875a7ae5d67502926925e55b51299ca",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--policy-hold-check-started.json",
+      "bytes": 568,
+      "sha256": "b43464438ee7402669b42dade12d3de65d0498147e917b80926e4fbc857a8f77",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--policy-hold-consent-returned.json",
+      "bytes": 1381,
+      "sha256": "92e66eabb7f6f1c57b364ad5dcb682f5543b34dec71bab546675909261277b0d",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--policy-hold-consent-started.json",
+      "bytes": 570,
+      "sha256": "4b3d280ffb2f8ab533191280de2f8560cb7f973b540c6f13f33759ebdeb6e92a",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--policy-publish-returned.json",
+      "bytes": 1372,
+      "sha256": "d6a3d571579bb2e2ad457a9d5d884a866deb019795a5dedddfd30f8fab034c03",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--policy-publish-started.json",
+      "bytes": 564,
+      "sha256": "daa8e0e5aea91fe6cb315ec7780ecdf4287f7a19473a90e255b577f06422ffba",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--policy-reject-expiry-returned.json",
+      "bytes": 1450,
+      "sha256": "cbea922df889a68a545f1b9c7455c66f8d6b11ebc7454fea60981b71a2907534",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--policy-reject-expiry-started.json",
+      "bytes": 573,
+      "sha256": "4bdf49d4530ddb01882d961397f6655f95dbcad68996c15b2fc83d1ed2fead51",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--policy-reject-signature-returned.json",
+      "bytes": 1404,
+      "sha256": "b379ba4fb1d5ce308c0999840838b7b9639658162c3e0dd491c071a8a91a91b2",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--long96--policy-reject-signature-started.json",
+      "bytes": 578,
+      "sha256": "fb26ce8bdbc4b257dcf6edaa78b21e2dae392896df164da7b78a189ddb8a2418",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--abstain-known-age-returned.json",
+      "bytes": 1032,
+      "sha256": "c66218ebf004f93743c8d8f41fad101e400b2687bf1ad159ecd93cc62f3d2a48",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--abstain-known-age-started.json",
+      "bytes": 565,
+      "sha256": "dcad6062d6b8a67f9ba54b4ce3ad99527b828bc4ef60846cb762b0743b5d73cf",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--abstain-known-city-returned.json",
+      "bytes": 1045,
+      "sha256": "d26dc108f578fe7a1fb030c191fa30c0dfda74ff2ddd55da62c80e587a1c4951",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--abstain-known-city-started.json",
+      "bytes": 580,
+      "sha256": "afd65fe7b7c19665157b20d5fc85b51c2f91e1bad394bad507429d813ff02881",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--abstain-known-total-returned.json",
+      "bytes": 1077,
+      "sha256": "5003ff038d3a8a12c360742cffd37dc672c22b34fddb0410cf62904a13aa5adc",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--abstain-known-total-started.json",
+      "bytes": 589,
+      "sha256": "6f070f51557efbbc63fb82507866b22053d14613cd278220afddbeb557773e29",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--abstain-unknown-age-returned.json",
+      "bytes": 1026,
+      "sha256": "31316a54c1179e5a89a9c2815a9c5e2ecc09c9e86dc4d1a884dfd0c34901fb21",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--abstain-unknown-age-started.json",
+      "bytes": 559,
+      "sha256": "12465d8d547f2ea9c6936a6469d0ecf37f9931f20e56d9367c260863ce494219",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--abstain-unknown-city-returned.json",
+      "bytes": 1066,
+      "sha256": "74974e2a8a1bae2d7f6cb08ece43fc91af93efe6a26c30b697ebc827d13fe9d4",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--abstain-unknown-city-started.json",
+      "bytes": 584,
+      "sha256": "a60e59bf67f36427d74fd4a29f80a7781a84c11a54db8d2e6b83346508b598a8",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--abstain-unknown-total-returned.json",
+      "bytes": 1076,
+      "sha256": "e49effa1f400d522a86f7c02fd42f93adf4ddee6f3ca4f40b097b8ef14f3b4d6",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--abstain-unknown-total-started.json",
+      "bytes": 597,
+      "sha256": "c63804c3da805119acd90626cca01c2dd7f5c2ab3b1c0e1018ffffbc21f46735",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--arithmetic-combined-returned.json",
+      "bytes": 1043,
+      "sha256": "4cf4c34adfafda299fe4efd361f071ebd4f6f83fd7833213f785ac5937a59b7f",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--arithmetic-combined-started.json",
+      "bytes": 500,
+      "sha256": "b1fb59f512c98d36102ae8227082d94e59a64b5636febe0eb4a528d23a713d08",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--arithmetic-difference-returned.json",
+      "bytes": 1000,
+      "sha256": "c3f35343c613dd163260c942505394fbb7b01ad337c914e13217d69fa21ae3dd",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--arithmetic-difference-started.json",
+      "bytes": 499,
+      "sha256": "c43b0cf93c6f8e8dc8688e87834a89c065df2b5e44cfb339b55850b2c88ced0b",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--arithmetic-division-returned.json",
+      "bytes": 1031,
+      "sha256": "165486a9dd4ad87d122cc33c3702b4f17441076cdbafeafcc6a8c5149f3ce204",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--arithmetic-division-started.json",
+      "bytes": 497,
+      "sha256": "682dd96eec2fcdbf8b1cc8f4e5906b458d097c491cdc9819bfe1eb50d4d061c9",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--arithmetic-product-returned.json",
+      "bytes": 950,
+      "sha256": "bc3884e6a7028cfc42e06e848816d8a14660e00cbde80e31a61fd9f878460a94",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--arithmetic-product-started.json",
+      "bytes": 495,
+      "sha256": "31a8e8c7740a1b0038ec5e1bf494ef7dfdbc41dcffe5b43eb6bd05c2cb84c39d",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--arithmetic-remaining-returned.json",
+      "bytes": 967,
+      "sha256": "a6390e682f9d25ca70d10ba5cbb4c7d71ebbe7ae4f1141c557f7c7b11968db6c",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--arithmetic-remaining-started.json",
+      "bytes": 500,
+      "sha256": "0fe43f2e659369176eb29147fefae292db6ab4a2bfd08ba86ca989bd1125bc9f",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--arithmetic-sum-returned.json",
+      "bytes": 1043,
+      "sha256": "fe45073fbf95526c6de29e6347caea2c00952f0f0092fc208d7df8567c6bdee5",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--arithmetic-sum-started.json",
+      "bytes": 491,
+      "sha256": "88bf90ec9bec87b42b67bebd0e518206d52644a4cdc51dfeac2ccef3937c3f65",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--extract-bool-returned.json",
+      "bytes": 1049,
+      "sha256": "e49a64e5ef21f439ebf32be67e3ad89f00e08e136d509712ddc3e0e011a80d66",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--extract-bool-started.json",
+      "bytes": 506,
+      "sha256": "171d8e22d437cf921a30736cf5702e2dc9a0b46761a446fd2d51db33334d681d",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--extract-list-returned.json",
+      "bytes": 1069,
+      "sha256": "ea963b00d455ca52b5babaacc290eb14e3d82c52fa2628b9fee5ca484af937f4",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--extract-list-started.json",
+      "bytes": 527,
+      "sha256": "adbd0d14ee3a2d5618a17befae8b58b3ef8de2ccabaa2c70fa5b3acbccfdbc6f",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--extract-null-returned.json",
+      "bytes": 1061,
+      "sha256": "f468106a86effb8dec584d445921bc025c4aac1fcfd4c6b5d38310380b3cff5f",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--extract-null-started.json",
+      "bytes": 526,
+      "sha256": "dda72386b93b59355141a98eecbbe59a0b9f3e98f8737dacef0a5be6340130c1",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--extract-owner-returned.json",
+      "bytes": 1082,
+      "sha256": "cf52d37dea3038e7e9ddb2360f8440da6617610d6dc252d5a358663c5479027e",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--extract-owner-started.json",
+      "bytes": 524,
+      "sha256": "649e9046ee87c6c1a879292632d4e54f09762cd8f2d58cba81259e697b832170",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--extract-quantity-returned.json",
+      "bytes": 1030,
+      "sha256": "1c7f84713c1e8b4f27d0d53133d8bc93890fdc0db2a8818712ff7049bc07a8f5",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--extract-quantity-started.json",
+      "bytes": 509,
+      "sha256": "040597398f071155665107b94440592fabcddeb2555084d2e228beb36e5e80c6",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--extract-status-returned.json",
+      "bytes": 1036,
+      "sha256": "8f94fbae910b2fb7eea9dc8915c845b442911772669b1b2c2d2f1ca9f2d89413",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--extract-status-started.json",
+      "bytes": 507,
+      "sha256": "3b9c65e191cd46cdce522a2fd271a4457d9a9f14ab3b0b5d980fbbac39552cee",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--policy-admit-returned.json",
+      "bytes": 1116,
+      "sha256": "b437415d27397a872218ddd9e593a621a24a50b5f7e5c35d7b7664f509b78e3d",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--policy-admit-started.json",
+      "bytes": 567,
+      "sha256": "3ea630d9c1565824f18a3e4be4f9509548bdba7495967599218021d989e66722",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--policy-hold-check-returned.json",
+      "bytes": 1110,
+      "sha256": "f9949e4bb36cb78abc1404ae6da6c692c81812610e1407c208b9ed67e1f5f0ab",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--policy-hold-check-started.json",
+      "bytes": 569,
+      "sha256": "bc62a65ec0a0b62e4794a41d477a443456aa9bd48704394e2d43835bcb27b0be",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--policy-hold-consent-returned.json",
+      "bytes": 1112,
+      "sha256": "824ff4c08436943c60d8b4fcb7e233cff4dee22db4128eb9ec36d2fe8623796e",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--policy-hold-consent-started.json",
+      "bytes": 571,
+      "sha256": "801929545aa76bd0a47767bfa675b289ae4507ff6b464d21fd22f8aa83896dbb",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--policy-publish-returned.json",
+      "bytes": 1106,
+      "sha256": "bee38276c096ea88400a58fad7c5c17a2bf0dadb542dfb0c11566390b528c8cd",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--policy-publish-started.json",
+      "bytes": 565,
+      "sha256": "b61d7cd0a456b5278f0b3a7e5f212ea7927eb1118459a4997c546cf7dab44237",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--policy-reject-expiry-returned.json",
+      "bytes": 1129,
+      "sha256": "927ce7f1fec42367ca03f39650730b1958c1faa86ccf69ebe2b322c1003f18cf",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--policy-reject-expiry-started.json",
+      "bytes": 574,
+      "sha256": "787b0808c80475ab79712a77cedebe6b48aff77845276bdb23510e7030d5bc7d",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--policy-reject-signature-returned.json",
+      "bytes": 1133,
+      "sha256": "97ebf0a8b8952d495e0a3963236d2886c943831dc68a5b229028ce27e5f9bf83",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol135-q4--short24--policy-reject-signature-started.json",
+      "bytes": 579,
+      "sha256": "5121c359e39189de9add16a61f9308b28614d7b9f480aba45a7389648d1da5d2",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--abstain-known-age-returned.json",
+      "bytes": 1032,
+      "sha256": "0f05d1a3be0e1b92aebfa107d0a3a93b250700eee576982c9d60e07fe8c27497",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--abstain-known-age-started.json",
+      "bytes": 564,
+      "sha256": "5284419c93aac4ea5a96666960b211f99785d7dc66db66bbe433bc6ae4494dfc",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--abstain-known-city-returned.json",
+      "bytes": 1076,
+      "sha256": "a603463d61c273edd2376b32f7ac8887780f1ccdc65de22162837c3d4b3eabee",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--abstain-known-city-started.json",
+      "bytes": 579,
+      "sha256": "f9ab489f9ab7c2b05a1f3799bdb832956a9a6e33e0e18f15d7de10c54746981f",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--abstain-known-total-returned.json",
+      "bytes": 1081,
+      "sha256": "d431551d2cc5e935073f2df0bf35205f9e6f78ce12ed6ac63d9e76a6b93174ac",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--abstain-known-total-started.json",
+      "bytes": 588,
+      "sha256": "30a10b2212088a0aa1dabe68d9a088c61a9ee3e1711040a9716fb70af1495709",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--abstain-unknown-age-returned.json",
+      "bytes": 1050,
+      "sha256": "211b9ca6629d55a0b2a945cadb16df9f0f693d8405a42631f2bbd60c6089938e",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--abstain-unknown-age-started.json",
+      "bytes": 558,
+      "sha256": "7b00adc9c5f31af303c9db08dbd4142ee3fb0c866cf9da5de7ec86659b1ad9ad",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--abstain-unknown-city-returned.json",
+      "bytes": 1058,
+      "sha256": "551cb43225719763e2017f26f1d50c6c8290f551f88f1a0e6f4ba3acf51d515a",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--abstain-unknown-city-started.json",
+      "bytes": 583,
+      "sha256": "62445bc339f01d12cf496cce6c944919a99b2948937e5a11605c0688ba7ce5d6",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--abstain-unknown-total-returned.json",
+      "bytes": 1088,
+      "sha256": "249f7d538c0b9dd669c351280184e1ebea67d3c2728dfaa7482a5f1b37f2409a",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--abstain-unknown-total-started.json",
+      "bytes": 596,
+      "sha256": "d6afbca64e8bab0d6f9a91059338f98d8ee0003b5b08e254eba47ada5cb84ca4",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--arithmetic-combined-returned.json",
+      "bytes": 965,
+      "sha256": "803d370199809bdad75d290159e7d19f30e89d653c9eb00529608d6b27723941",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--arithmetic-combined-started.json",
+      "bytes": 499,
+      "sha256": "169ad8327ad73b0070904b14c9a79e10ce8cfd97049903bd3ddf9509f720bf69",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--arithmetic-difference-returned.json",
+      "bytes": 968,
+      "sha256": "e0f30fbf02df59df742b435baac92c9329fc3d10050fec45633f0b35f9c2ac6c",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--arithmetic-difference-started.json",
+      "bytes": 498,
+      "sha256": "2044041723fb278bdb71db37f098fe79c0ba712b300eebcca3571d82248eb09b",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--arithmetic-division-returned.json",
+      "bytes": 966,
+      "sha256": "fb6508f54ab1a1a0ee9d9f0ecbe5aac5474dc53d965874767dc83a731a661f36",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--arithmetic-division-started.json",
+      "bytes": 496,
+      "sha256": "c55b4245f3e71e5ca0c2dacdc209fc726bbfcd71eef06929bdaddfcc889dfc84",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--arithmetic-product-returned.json",
+      "bytes": 964,
+      "sha256": "50517a131d3be8af5f9c050eb3c8ec87f23550e46fd4a0f05f5d7f819a6944df",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--arithmetic-product-started.json",
+      "bytes": 494,
+      "sha256": "629ecf41de13f5d5e7cbd0a33659abf63ebd2fb4c711ddf59243b151c4be2384",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--arithmetic-remaining-returned.json",
+      "bytes": 993,
+      "sha256": "86a23e3218279c631c3da939866670cd4314ae8df5ee35cd3e0a33d53cd7de83",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--arithmetic-remaining-started.json",
+      "bytes": 499,
+      "sha256": "adb4a2d29020319fb24c81beb6193b551fb73625605af9aaef4d016f51059e96",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--arithmetic-sum-returned.json",
+      "bytes": 955,
+      "sha256": "e5427a6a4ce9440917c498b4c063ba5ac79d3004d0118d42bd8cceaf7a6c5024",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--arithmetic-sum-started.json",
+      "bytes": 490,
+      "sha256": "b05582bdedd8b2e10754a6afe94c0122e6c30d5ec674152071e1c4957a446e85",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--extract-bool-returned.json",
+      "bytes": 1007,
+      "sha256": "9ecab015fb3c0138d3f726c967a6f241d230560466ba79f3e39c2d4c49530881",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--extract-bool-started.json",
+      "bytes": 505,
+      "sha256": "e5d5c69e9135ef5d5cc4e8f36ab940ec75b64265eaa620265f081fbcb695be1b",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--extract-list-returned.json",
+      "bytes": 1022,
+      "sha256": "1fb912ae5861ad386c0671f717a73f5c91a47001657ca5a9d78b2e32cb92dd6f",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--extract-list-started.json",
+      "bytes": 526,
+      "sha256": "6254da1b3d76a9611394e0a9240251609e5e9848d725c47e2bd8615240ea0a7a",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--extract-null-returned.json",
+      "bytes": 1015,
+      "sha256": "75c291f75f55e0da9fb8770828159dd3bd85f716baf0e971e572eecc49a02d74",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--extract-null-started.json",
+      "bytes": 525,
+      "sha256": "0ea677ce5af6921df470f5faf391890c3d2ff385d14f89f57c9c3b64a010bae3",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--extract-owner-returned.json",
+      "bytes": 1037,
+      "sha256": "3f1b10a80a14b29204dbb236c85f78e44abe60753991ee5306a12980492f25f7",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--extract-owner-started.json",
+      "bytes": 523,
+      "sha256": "6286e4b16c4c5a1f574a865bbe75054b925de0cd0d54dcaa36785d05c1ad84aa",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--extract-quantity-returned.json",
+      "bytes": 1004,
+      "sha256": "ed3287549c24d09f8140fca12c147e25e8aa9116e90c6fd579f4e4524a3b53f0",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--extract-quantity-started.json",
+      "bytes": 508,
+      "sha256": "1fc35ec80f6b140a8d29f5b5940eae43c0c666377aae11425a9afc3776e0e09c",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--extract-status-returned.json",
+      "bytes": 999,
+      "sha256": "ef3a26e5f3b1689294f0ecb00e06d604d317e985dececfe47f398c0e38068c44",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--extract-status-started.json",
+      "bytes": 506,
+      "sha256": "d8822029e1764d9817f7ba24f54b2278a3abe45e233e60742049718216fc12c9",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--policy-admit-returned.json",
+      "bytes": 1046,
+      "sha256": "ceb2b5b4d5b1c1fa251e945ce2c1c325157309637a7864f1bc0736c14ac916d5",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--policy-admit-started.json",
+      "bytes": 566,
+      "sha256": "d3e26b40ecfba764bfd6bd4d3d3905155de960f1a4b5a94d9af3682b9dad9927",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--policy-hold-check-returned.json",
+      "bytes": 1050,
+      "sha256": "27785cbd03be321b4257e9f0b0b7debfe21c94c5dfbc62315877c2b805656448",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--policy-hold-check-started.json",
+      "bytes": 568,
+      "sha256": "68318d9ec8050af7d7c9ff963df1815d565cc5ae9f9bbd94eae97c47cd6e8c8e",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--policy-hold-consent-returned.json",
+      "bytes": 1054,
+      "sha256": "c3fc332cb9543bf5290da5b3fc8117bfc3b8be47a61f4619c73576eac53dccf5",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--policy-hold-consent-started.json",
+      "bytes": 570,
+      "sha256": "f222cbf7ece0698e329d81594ee7c093a35b423ad8c9753349756d121880113c",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--policy-publish-returned.json",
+      "bytes": 1048,
+      "sha256": "56ffa6ef6f57a7509c2c4df8235d586e2f6f0f9e0361228c01be130e8f18225a",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--policy-publish-started.json",
+      "bytes": 564,
+      "sha256": "61b89f63990f3fd28abd064870125ef395f22e8430105311ec211ed5ecd72d43",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--policy-reject-expiry-returned.json",
+      "bytes": 1053,
+      "sha256": "e88adaa411e717e338c6ea94f2627f59e55d5fe2ccd3de45d57d5ea27540284c",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--policy-reject-expiry-started.json",
+      "bytes": 573,
+      "sha256": "f3bb368e11f007434f0e93a1535be74964921a7797e11a00950c6980039fa013",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--policy-reject-signature-returned.json",
+      "bytes": 1058,
+      "sha256": "2579a01059054e07a54fb468a8477a3c47f013ef1ed8b2ca464f13195717d274",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--long96--policy-reject-signature-started.json",
+      "bytes": 578,
+      "sha256": "c69d31e3f292774e25e664468ce8bef4e718b60bb17b561bcc0b79a4385863e9",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--abstain-known-age-returned.json",
+      "bytes": 1033,
+      "sha256": "8cdc730f70bd827b5cd9e4659ee986d5455f34fb2f7a6dedf2fbbc41c20118b5",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--abstain-known-age-started.json",
+      "bytes": 565,
+      "sha256": "8ac2f98fec915a9db33382076572689cc92a28eca8ec64de8ef0502f3b995dbf",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--abstain-known-city-returned.json",
+      "bytes": 1077,
+      "sha256": "580be1b5cebab9afbd1c1384629c8c18df62e6a04fe088e8fc3e391e9a41f72b",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--abstain-known-city-started.json",
+      "bytes": 580,
+      "sha256": "7a71da5345410a81a3f9fc3d8ca6147f1b0d5110f77d699ed06c4c0ce6d0ea32",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--abstain-known-total-returned.json",
+      "bytes": 1082,
+      "sha256": "a033bdeaeb04cf8502a46e1ee554eec2f5dd3de484c6d06f57155d02f1d8f588",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--abstain-known-total-started.json",
+      "bytes": 589,
+      "sha256": "694e83966f401e4f7d7ee383ab6697de41b6abf5dca0575e7e6e29283f14a0e1",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--abstain-unknown-age-returned.json",
+      "bytes": 1051,
+      "sha256": "43a0bcd8e1a26094d3f15698d884b198ac2c46614a503edcc0886891d5e7b26f",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--abstain-unknown-age-started.json",
+      "bytes": 559,
+      "sha256": "a800c4ca56da9eca6f94c87eb317d5843d0b11dda3a26679f4e07d4cff31caee",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--abstain-unknown-city-returned.json",
+      "bytes": 1059,
+      "sha256": "7d8deff7be5b9c658377ad83e2436cc82112653ef03e74974ad9aed1fc0345e4",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--abstain-unknown-city-started.json",
+      "bytes": 584,
+      "sha256": "90abb08811c8234a761d718e8ec4d0de7649247c070bab8b7de37e11bd31b1e4",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--abstain-unknown-total-returned.json",
+      "bytes": 1089,
+      "sha256": "82eef4e8df675e541e1a1c38b9408f80c7a8f70b1f4ab6fa7bb0a10b4a5f5d3c",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--abstain-unknown-total-started.json",
+      "bytes": 597,
+      "sha256": "feb2b4ca36c463b4f4a90332e564358eeba3bdf6df43457cfc2ac4ed845236cc",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--arithmetic-combined-returned.json",
+      "bytes": 965,
+      "sha256": "1f5278c16d4aeeb18ff77b7d0df9101ed15d277bd1cceb8934761c627bd3ddbe",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--arithmetic-combined-started.json",
+      "bytes": 500,
+      "sha256": "7b9a7f6805bc4eeec4235e92e1e986e89419425b3a77733415db2de5f9373ed3",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--arithmetic-difference-returned.json",
+      "bytes": 969,
+      "sha256": "27be18249916f9dc44b69107d08e8643b672e7447c27dea82f891bcb76396c1d",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--arithmetic-difference-started.json",
+      "bytes": 499,
+      "sha256": "ef84959b024f19c3d96592fd5e7d5ea2ad7596b1f277fffc887f9f7e02f25d85",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--arithmetic-division-returned.json",
+      "bytes": 967,
+      "sha256": "d619c6616b1a5096b51d70b814040f7f808b7c1ec3e23589ff5043dec4c82159",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--arithmetic-division-started.json",
+      "bytes": 497,
+      "sha256": "26f85ff6df42a43d707da5c45f3f6e8378e8a41df833f4fe0c8b71098afdfc54",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--arithmetic-product-returned.json",
+      "bytes": 965,
+      "sha256": "3481f6e1e2103920a887a20c3724d391e22906a519af08e3e4be7999bc48ec88",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--arithmetic-product-started.json",
+      "bytes": 495,
+      "sha256": "7cca95800860c12ce83c8fda3681306d1a1d7667d7730c39e7289e13e40e3101",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--arithmetic-remaining-returned.json",
+      "bytes": 994,
+      "sha256": "adb2cba1d2249296977034df9278c6099789372d7ba5c440b1afa287ceef6bb1",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--arithmetic-remaining-started.json",
+      "bytes": 500,
+      "sha256": "4551416073aaf9b72964d610e3c663d99cfb6ca2f2c31c063608e166a46805f4",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--arithmetic-sum-returned.json",
+      "bytes": 956,
+      "sha256": "f0b0701b732ed1801a6ff25acf952e3b8f502332d1ac1fae04336c0deee92adb",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--arithmetic-sum-started.json",
+      "bytes": 491,
+      "sha256": "8eb57523712dc45cc15110360e5e7bb2c6be19d95b8a1da89d23cc67af44adf5",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--extract-bool-returned.json",
+      "bytes": 1008,
+      "sha256": "06bbe5555699681169d5c51182a6874fa504bde670d100dbc184ed04c893c4c4",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--extract-bool-started.json",
+      "bytes": 506,
+      "sha256": "910baee136939f5d04ad51c83e6298e9b4a2b658c382fd2df7042ac0d732b293",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--extract-list-returned.json",
+      "bytes": 1023,
+      "sha256": "2b87bf80be1127f8f4ac714062b36944ca597f011a66843cbc95aa3c4b168a4b",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--extract-list-started.json",
+      "bytes": 527,
+      "sha256": "657d914c9c75b1c98ad504d5d7cb6a08bd7593efbd8fe3d68567e584fb22f373",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--extract-null-returned.json",
+      "bytes": 1016,
+      "sha256": "6ef2b09e97219a3b711948ebed8f5bb57037b83067fa900d684c456d23e1edfd",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--extract-null-started.json",
+      "bytes": 526,
+      "sha256": "41346b5ec388ca716d80ff469531f61e940fc18ed45f42aa261fe2d1c95024cd",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--extract-owner-returned.json",
+      "bytes": 1038,
+      "sha256": "87ec8adf23ca364ea9506f8d9d649fa9acf656fe919322cfd5796d1c8e7d654a",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--extract-owner-started.json",
+      "bytes": 524,
+      "sha256": "c31b1e80e974052e7a21895de7385c76572c2beb04b2c9696f38a1a47f694e90",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--extract-quantity-returned.json",
+      "bytes": 1005,
+      "sha256": "3d4da0a68a3b8a2e41effd251409f0e563b923bdfced2b82764ec91d593e4099",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--extract-quantity-started.json",
+      "bytes": 509,
+      "sha256": "f7d1cc0db0c5e9179d7937f7452d88a4fa3144c3e9e55efe5d9a5b8ef9c5b0b4",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--extract-status-returned.json",
+      "bytes": 1000,
+      "sha256": "47ca3eb014735e5fd46c043a788eaff781e04552e74f077a4adf68c0e7285517",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--extract-status-started.json",
+      "bytes": 507,
+      "sha256": "2fd49128431ea500338cb3a524c70129c329718ea3fd54311b34f28bea55edde",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--policy-admit-returned.json",
+      "bytes": 1047,
+      "sha256": "7fc81933953acb5cd4c0e68e0655ba7ae6c95d4c08c102a3366f6573ca376721",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--policy-admit-started.json",
+      "bytes": 567,
+      "sha256": "07154e52f3e4b2a5dfcc3bc5c148595e8e781a19d1c9ee2a0f46af6d338a3ecc",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--policy-hold-check-returned.json",
+      "bytes": 1051,
+      "sha256": "c3922ed45dd9a4a301aa0eabd70999df949cd237917adba875c328c1fc2b44ae",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--policy-hold-check-started.json",
+      "bytes": 569,
+      "sha256": "787b39ff7704de7d226b3d6a57a7bd64cebd4249048cf6d70c8c76060d2259f4",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--policy-hold-consent-returned.json",
+      "bytes": 1055,
+      "sha256": "1f876ee5f6822fc12f063556d7030ae51afffe8d5b1489bf8dd357e4c61ea844",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--policy-hold-consent-started.json",
+      "bytes": 571,
+      "sha256": "bc61a6ff4d13f00766a950457ce1f6bf49b3ccb084bb1f9c55fd5bcb28aa62a4",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--policy-publish-returned.json",
+      "bytes": 1049,
+      "sha256": "c6d612a19b7c2c253c2f8ddb7bf143b9419c8b8762ef40b50616c5f2c41bea9d",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--policy-publish-started.json",
+      "bytes": 565,
+      "sha256": "141fecb212ed890e2621d958a737b53a3542c92a7ac34466c3a6f3e68d033c81",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--policy-reject-expiry-returned.json",
+      "bytes": 1054,
+      "sha256": "83f19a51e35bead92ca7384599a2f44d9958c8c048fbb4a69b51dea0884b233e",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--policy-reject-expiry-started.json",
+      "bytes": 574,
+      "sha256": "406267a386831149e59f1d235895cf827af870ac826b9816319792738914f9f7",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--policy-reject-signature-returned.json",
+      "bytes": 1059,
+      "sha256": "6b8c9c800dc8694d8152feea317ca68c51333b35548e8764e1f5768137d79d2f",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "calls/smol360-q4--short24--policy-reject-signature-started.json",
+      "bytes": 579,
+      "sha256": "9c54ab25fbb83554182d06b898abdf782e033c108f3381c256bba87180c92f75",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "consumer-pins.json",
+      "bytes": 456,
+      "sha256": "db42e0ea7ebecf031e64b8c19c59418e2cf874961a2452732dfd2ff3a721a947",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "declaration.json",
+      "bytes": 1322,
+      "sha256": "c6503122060ee77e6c5dab9f2b40f855ffca96c4f2ee496c272688dfb9596c0a",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "manifest.json",
+      "bytes": 29550,
+      "sha256": "46d0e937f45947b40b0412c5584100962e7e3c042bade4e6f4b4025c8da1f852",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "protocol.json",
+      "bytes": 19387,
+      "sha256": "fb11ab63a4e26acac255a176b0af89931bd8424aa246a1b291e9c35991c85a00",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "report.json",
+      "bytes": 49488,
+      "sha256": "7926e4e5998459c1be38b69a81b14be56a22924ea2ccec04509e2cb8fff7c62b",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama-cpp-python/LICENSE.md",
+      "bytes": 1069,
+      "sha256": "c479fb11a66a85fed2004a17dd1b3e44a1858c564b167aecb20ff66cb422ed75",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama-cpp-python/METADATA.txt",
+      "bytes": 33608,
+      "sha256": "124186f5883bd7bf1adb1cb380fc012d9d4de5dcb6e30375a298e0b0c0f56b41",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama-system-info.txt",
+      "bytes": 112,
+      "sha256": "0fea1eb5fc8d844ea89aaa648da3d02a397b8bb51512a51b8bbad157aa185e1a",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama/__init__.py",
+      "bytes": 70,
+      "sha256": "4c2a5af3fc96d346a6e80f6eaab84298b744daefa930040cb66dab6a24956ce1",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama/_ctypes_extensions.py",
+      "bytes": 4085,
+      "sha256": "9e5241832feb61e3c439b0e9e4d9a9ff4e7a6a54b0809a8f5995f0175d841876",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama/_ggml.py",
+      "bytes": 369,
+      "sha256": "0df174a6f6dda3b8880b8b09ca72c0e1e7c60182b34cc9a26b6e4ff5d5cb62e4",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama/_internals.py",
+      "bytes": 29562,
+      "sha256": "ca4dfec07dd99f3bce88f5b85abeca02371b06d2f9ac8e3c2131e8c289719362",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama/_logger.py",
+      "bytes": 1309,
+      "sha256": "71ca61bea0e1423885465b88706eda54ea02b3810a9ef1ab142e66bc49bc9358",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama/_utils.py",
+      "bytes": 2260,
+      "sha256": "69d6ee0d03fa2a5411a6f40f49b3af7c3ef28aa47957399e75ab904d1b4cd587",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama/lib/libggml-base.so",
+      "bytes": 657256,
+      "sha256": "06b3614dfc30f915bd5efb947c7281c47946ee92b32b2a76bfc8c912cbc07b7c",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama/lib/libggml-cpu.so",
+      "bytes": 791688,
+      "sha256": "0d5fb832c8c77e5f99cae03450f966160364b6a2d473b023ae42976eb00d720c",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama/lib/libggml.so",
+      "bytes": 51920,
+      "sha256": "356ffe6417a10142bdb78c07940e29d54bbbffa2ec73943253ab180ca7ac0f40",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama/lib/libllama.so",
+      "bytes": 2209048,
+      "sha256": "e600e0d02445e5dcf2420093ee130312965a444a75c34f3765246fad135c04f3",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama/lib/libmtmd.so",
+      "bytes": 730848,
+      "sha256": "18e03aee495c4eab93762d7bd7dd6bd935932d00ffaafb508470e0a0daaa5d58",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama/llama.py",
+      "bytes": 96173,
+      "sha256": "334b15f16ec31de65adea58c85dbd04057f88749cade66a7adf42684c4d010d8",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama/llama_cache.py",
+      "bytes": 5010,
+      "sha256": "a3cb101cbd5e06f88366b12a73c131a54c24f83bc8085b64c5035a8c671bdc69",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama/llama_chat_format.py",
+      "bytes": 157215,
+      "sha256": "35de04fc3e16b61f6d7044cd961e6980252c9def2ce24f58fcd5265aac38e18c",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama/llama_cpp.py",
+      "bytes": 152717,
+      "sha256": "4b27f8e92537cfd01ae20341745c5a22704be811ffbf3ef9efa66ba644404921",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama/llama_grammar.py",
+      "bytes": 32913,
+      "sha256": "4d39699197909f4aa98f45086c824bd0521fbeb27c7aaee249a723c62e1d0dd8",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama/llama_speculative.py",
+      "bytes": 2088,
+      "sha256": "37dabf1ee9aad01d82da6d5e69fbc0a37cdebd7ac5bc042cac8ead4e3d6fb6ba",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama/llama_tokenizer.py",
+      "bytes": 3876,
+      "sha256": "482e57da563dd537fba8c5d2ae09dc352c3054dfd8622957a2cb919b8478ca9f",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama/llama_types.py",
+      "bytes": 8666,
+      "sha256": "103a91a9f890d7f314c1f85173ae5e1efd2c12139202ffd4307fb754c055859e",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama/llava_cpp.py",
+      "bytes": 4552,
+      "sha256": "e6d0d9ac2f4195bef5021a49d3be026af92e8f065015483acbe67642c2c0fb41",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama/mtmd_cpp.py",
+      "bytes": 8834,
+      "sha256": "e52851c5e6aaf3d0e0c161271c3faa2d7249ff283781bea472bf725f55ea7930",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama/server/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama/server/__main__.py",
+      "bytes": 2849,
+      "sha256": "1cbf72bcf5f497b172fc1e2dec96e892e714f425f95270b1e284549c18a4b696",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama/server/app.py",
+      "bytes": 19572,
+      "sha256": "7a968a6f4bf386524d8aef79cd9eed8151dfc082c43d2e86dec201297e4950da",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama/server/cli.py",
+      "bytes": 3268,
+      "sha256": "996f0d032f3e19ca7eb824b2bcb3486b1011227b693dc0f5fcad647221d18524",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama/server/errors.py",
+      "bytes": 7164,
+      "sha256": "ca5f95333829d58d233b7a4c137e78ef99c44f5442c2746db213ecf481e173b3",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama/server/model.py",
+      "bytes": 13556,
+      "sha256": "a2c3e2f35a2120de7c00053fb04de863a7b0ea2c1f4e7c15047ce763c314e8d4",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama/server/settings.py",
+      "bytes": 8566,
+      "sha256": "cd5722e3a06350ac748122462a3211f04f685abae3e6cdc7aa3da12e7e577777",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/llama/server/types.py",
+      "bytes": 12216,
+      "sha256": "a6c5b3b848df178537924b341d113aeee8b33239a5f2039ffb35efa6c96522bb",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/model-provenance.json",
+      "bytes": 1853,
+      "sha256": "f770243a4267a67a8f57b50c8a1477757eeca805eafcba8b8ec9c2e15d3281a9",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/protocol-preregistration.json",
+      "bytes": 130,
+      "sha256": "5db99545a41c01c6ca18db9ae30a0df57f23ac835983ae38546bc14b568f4146",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/provenance/build-gcc.log",
+      "bytes": 958,
+      "sha256": "db15c7754157566d3b8d3287cca7d644b714ea13a9794deb4c2822dd580afd8d",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/provenance/candidate-original-README.txt",
+      "bytes": 7304,
+      "sha256": "6b88794416ac9da8f254ebb0bec228967a2bdd0badf9a2853863928b25facd95",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/provenance/candidate-original-tokenizer_config.json",
+      "bytes": 3764,
+      "sha256": "4ec77d44f62efeb38d7e044a1db318f6a939438425312dfa333b8382dbad98df",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/provenance/candidate-quant-README.txt",
+      "bytes": 4567,
+      "sha256": "4a0a8e83b9c22c340aa73fd047428cc3aa89f16856dc0df2e5bf4555c05a95e8",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/provenance/dependency-lock.json",
+      "bytes": 4705,
+      "sha256": "7f2b24a65df36b66fbf23425bb03365e4af560c9c7838c6608886e70f5409a66",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/provenance/download-accounting.json",
+      "bytes": 11359,
+      "sha256": "b7c2cc6f7d1ba2164151128772bee3a053dd999b8134205c42a90cbc5ef2b7eb",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/provenance/download-declaration.json",
+      "bytes": 7716,
+      "sha256": "6116550e136ba47a89a0e4ca9495abf98577fa527bd0c01de8decc92fb5995de",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/provenance/downloads.json",
+      "bytes": 7359,
+      "sha256": "93b89e16434655d7ca63bbf7d1caad36e8ca01d1af496dd1391417e5ece1364f",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/provenance/original-card.txt",
+      "bytes": 6772,
+      "sha256": "4f97533ad95b1b2fea15fbc075c01b94578ebdd7c8138888fa43fa3abd530dc4",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/provenance/quant-card.txt",
+      "bytes": 4567,
+      "sha256": "b464dc4a9ff26fea06ec45165546bbeb0c32b1a7847babcef048d5b84486ed84",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/provenance/requirements.txt",
+      "bytes": 966,
+      "sha256": "30b02b3f04bd6a817aa729ba09d10f07b18f16fd1b3aa6c18760dbc0c63816f3",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/provenance/source-download.json",
+      "bytes": 308,
+      "sha256": "512f7a53412c5ee551d4a8ee45fb8e06fbf7a35fad8a43b4b421e5a2c5476769",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/provenance/tokenizer-config.json",
+      "bytes": 3764,
+      "sha256": "4ec77d44f62efeb38d7e044a1db318f6a939438425312dfa333b8382dbad98df",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "sources/task_matrix.py",
+      "bytes": 28449,
+      "sha256": "744eb9a5af0328be0a4d4916b972770aa9babf91f97d4866abff34c37c453897",
+      "selected": true,
+      "reason": "retained original compact native member"
+    },
+    {
+      "member": "terminal.json",
+      "bytes": 95,
+      "sha256": "76680c7b960e3b85744f3b836c1bcfa0910393012054cd88be1006e091235911",
+      "selected": true,
+      "reason": "retained original compact native member"
+    }
+  ],
+  "fullPreparationArchive": {
+    "artifactId": 11247990023,
+    "sha256": "b16c1bd2316046a1270301e28ad021ecd64b55be0f68c6c7609decf8134bbbe8",
+    "bytes": 465338754,
+    "memberCount": 276,
+    "memberManifestSource": "sha-authenticated original full provider archive; primary retained member manifest",
+    "publiclyRetainedNativeMembers": 246,
+    "omittedPreparationMembers": 30,
+    "privateArchiveReference": "Probity private program recovery-continuation archive; original-11247990023.zip",
+    "providerExpiresAt": "2026-12-31T19:18:57Z",
+    "limit": "Full preparation archive, model weights, source/dependency wheels and acquisition/build logs are not committed here. Compact archive reconstructs native run/source/library hashes but cannot independently reconstruct all acquisition bytes or rerun inference without omitted weights."
+  },
+  "fullPreparationMembers": [
+    {
+      "member": "build-gcc.log",
+      "bytes": 958,
+      "sha256": "db15c7754157566d3b8d3287cca7d644b714ea13a9794deb4c2822dd580afd8d",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    },
+    {
+      "member": "candidate-original-README.txt",
+      "bytes": 7304,
+      "sha256": "6b88794416ac9da8f254ebb0bec228967a2bdd0badf9a2853863928b25facd95",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    },
+    {
+      "member": "candidate-original-tokenizer_config.json",
+      "bytes": 3764,
+      "sha256": "4ec77d44f62efeb38d7e044a1db318f6a939438425312dfa333b8382dbad98df",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    },
+    {
+      "member": "candidate-quant-README.txt",
+      "bytes": 4567,
+      "sha256": "4a0a8e83b9c22c340aa73fd047428cc3aa89f16856dc0df2e5bf4555c05a95e8",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    },
+    {
+      "member": "dependency-lock.json",
+      "bytes": 4705,
+      "sha256": "7f2b24a65df36b66fbf23425bb03365e4af560c9c7838c6608886e70f5409a66",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    },
+    {
+      "member": "download-accounting.json",
+      "bytes": 11359,
+      "sha256": "b7c2cc6f7d1ba2164151128772bee3a053dd999b8134205c42a90cbc5ef2b7eb",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    },
+    {
+      "member": "download-declaration.json",
+      "bytes": 7716,
+      "sha256": "6116550e136ba47a89a0e4ca9495abf98577fa527bd0c01de8decc92fb5995de",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    },
+    {
+      "member": "downloads.json",
+      "bytes": 7359,
+      "sha256": "93b89e16434655d7ca63bbf7d1caad36e8ca01d1af496dd1391417e5ece1364f",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    },
+    {
+      "member": "downloads/cmake-4.0.3-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "bytes": 27912444,
+      "sha256": "d840e780c48c5df1330879d50615176896e8e6eee554507d21ce8e2f1a5f0ff8",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    },
+    {
+      "member": "downloads/diskcache-5.6.3-py3-none-any.whl",
+      "bytes": 45550,
+      "sha256": "5e31b2d5fbad117cc363ebaf6b689474db18a1f6438bc82358b024abd4c2ca19",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    },
+    {
+      "member": "downloads/jinja2-3.1.6-py3-none-any.whl",
+      "bytes": 134899,
+      "sha256": "85ece4451f492d0c13c5dd7c13a64681a86afae63a5f347908daf103ce6d2f67",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    },
+    {
+      "member": "downloads/llama_cpp_python-0.3.16.tar.gz",
+      "bytes": 50688636,
+      "sha256": "34ed0f9bd9431af045bb63d9324ae620ad0536653740e9bb163a2e1fcb973be6",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    },
+    {
+      "member": "downloads/markupsafe-3.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "bytes": 22947,
+      "sha256": "d6dd0be5b5b189d31db7cda48b91d7e0a9795f31430b7f271219ab30f1d3ac9d",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    },
+    {
+      "member": "downloads/ninja-1.11.1.3-py3-none-manylinux_2_12_x86_64.manylinux2010_x86_64.whl",
+      "bytes": 422884,
+      "sha256": "a27e78ca71316c8654965ee94b286a98c83877bfebe2607db96897bbfe458af0",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    },
+    {
+      "member": "downloads/numpy-2.2.6-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "bytes": 16527618,
+      "sha256": "fd83c01228a688733f1ded5201c678f0c53ecc1006ffbc404db9f7a899ac6249",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    },
+    {
+      "member": "downloads/packaging-26.3-py3-none-any.whl",
+      "bytes": 129956,
+      "sha256": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    },
+    {
+      "member": "downloads/pathspec-0.12.1-py3-none-any.whl",
+      "bytes": 31191,
+      "sha256": "a0d503e138a4c123b27490a4f7beda6a01c6f288df0e4a8b79c7eb0dc7b4cc08",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    },
+    {
+      "member": "downloads/scikit_build_core-0.11.6-py3-none-any.whl",
+      "bytes": 185764,
+      "sha256": "ce6d8fe64e6b4c759ea0fb95d2f8a68f60d2df31c2989838633b8ec930736360",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    },
+    {
+      "member": "downloads/typing_extensions-4.15.0-py3-none-any.whl",
+      "bytes": 44614,
+      "sha256": "f0fa19c6845758ab08074a0cfa8b7aecb71c999ca73d62883bc25cc018c4e548",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    },
+    {
+      "member": "original-card.txt",
+      "bytes": 6772,
+      "sha256": "4f97533ad95b1b2fea15fbc075c01b94578ebdd7c8138888fa43fa3abd530dc4",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    },
+    {
+      "member": "provenance.json",
+      "bytes": 1853,
+      "sha256": "f770243a4267a67a8f57b50c8a1477757eeca805eafcba8b8ec9c2e15d3281a9",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    },
+    {
+      "member": "quant-card.txt",
+      "bytes": 4567,
+      "sha256": "b464dc4a9ff26fea06ec45165546bbeb0c32b1a7847babcef048d5b84486ed84",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    },
+    {
+      "member": "reader.json",
+      "bytes": 67254,
+      "sha256": "62fb95b5fff895ff76e4a42e17e391ec0525d3c5f9fade90efc64f5c0cad0892",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    },
+    {
+      "member": "requirements.txt",
+      "bytes": 966,
+      "sha256": "30b02b3f04bd6a817aa729ba09d10f07b18f16fd1b3aa6c18760dbc0c63816f3",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    },
+    {
+      "member": "run-stderr.txt",
+      "bytes": 222,
+      "sha256": "55c854a3e0750bce29bbf1f3506b7e819d3e49023f78d879fb4c976295a68e15",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    },
+    {
+      "member": "run-stdout.json",
+      "bytes": 67254,
+      "sha256": "62fb95b5fff895ff76e4a42e17e391ec0525d3c5f9fade90efc64f5c0cad0892",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--abstain-known-age-returned.json",
+      "bytes": 1031,
+      "sha256": "ee7d30ee3edb8692fba300aece6bb5b906fbc05e4e65619f3f0ebc3549e94edb",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--abstain-known-age-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--abstain-known-age-started.json",
+      "bytes": 564,
+      "sha256": "c5e8ed666941156b4582edee2208d631e12bce73b288803ff47e8a27fd737226",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--abstain-known-age-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--abstain-known-city-returned.json",
+      "bytes": 1044,
+      "sha256": "2cc2dc30ef4e83b0937184d8551fe5f42c9a0f60e64ca453474cb6326720ccb3",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--abstain-known-city-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--abstain-known-city-started.json",
+      "bytes": 579,
+      "sha256": "667696499bb406bd300ee3d6e87108342829586224b64344177dbd6104c35969",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--abstain-known-city-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--abstain-known-total-returned.json",
+      "bytes": 1076,
+      "sha256": "87eb73abad2707873c2f48957c2cd0279e0053713c34a7993eccdfda91367a9f",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--abstain-known-total-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--abstain-known-total-started.json",
+      "bytes": 588,
+      "sha256": "4ade65849b28f8c8a6650f2a2979465ee99154ee9aea0c1ed4ea2f0ddab06c77",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--abstain-known-total-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--abstain-unknown-age-returned.json",
+      "bytes": 1025,
+      "sha256": "06c1e2efbdbacc00bcb599cbc6d18d0596ad74162a93165668fc83cdce3d0bcf",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--abstain-unknown-age-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--abstain-unknown-age-started.json",
+      "bytes": 558,
+      "sha256": "fa239a163052806a0c161bf169ee05d0171961861c351f81b9b981c6c6c975d0",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--abstain-unknown-age-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--abstain-unknown-city-returned.json",
+      "bytes": 1065,
+      "sha256": "9f8aba3ecaea484369482b7e7cda7561ffb07a473091935cb2d97997d9a12770",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--abstain-unknown-city-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--abstain-unknown-city-started.json",
+      "bytes": 583,
+      "sha256": "3c27d1a6148b29a0968cd99794c27bb1137b3da82c57f58e119f374d594e5aab",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--abstain-unknown-city-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--abstain-unknown-total-returned.json",
+      "bytes": 1075,
+      "sha256": "c4a3905c0c1dca2992a97915ecaddd43db6288d3f7e923c4b0f8e98b4330c24d",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--abstain-unknown-total-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--abstain-unknown-total-started.json",
+      "bytes": 596,
+      "sha256": "a7fb029a928ff8b07e2a8e507e706c469a85b179dd0ef5e52b4bc35978509071",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--abstain-unknown-total-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--arithmetic-combined-returned.json",
+      "bytes": 1282,
+      "sha256": "14f63515e7573c781b4bd3d32ac79d4b21a067da0dd10fbf2e30d552334e0c13",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--arithmetic-combined-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--arithmetic-combined-started.json",
+      "bytes": 499,
+      "sha256": "18e19a3abba2ca9cc8863e9b08854aa3f9cb6af3914f911b54042fde45b11d2a",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--arithmetic-combined-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--arithmetic-difference-returned.json",
+      "bytes": 1237,
+      "sha256": "9b7ef0fe4f15e708e7c8e56f18515d270ec2cd19f4e0c47e112af199254d7c08",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--arithmetic-difference-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--arithmetic-difference-started.json",
+      "bytes": 498,
+      "sha256": "869ab91ba341f5d23748260792c63ad5445a69a1fa9957a8ed96b41a68f803e5",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--arithmetic-difference-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--arithmetic-division-returned.json",
+      "bytes": 1193,
+      "sha256": "7ddcdfc0d372b92a4ee85fe37ad7f8045580ff9f1f247bbd85fc5317683f9776",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--arithmetic-division-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--arithmetic-division-started.json",
+      "bytes": 496,
+      "sha256": "a40fca8227b2995e0697198fe065eda98f414d302731caea5a3a140952a439b9",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--arithmetic-division-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--arithmetic-product-returned.json",
+      "bytes": 949,
+      "sha256": "c74efe37c24978ff3ff7ef9b174e4f09a3fdb8fab4086145314a73810d46e3d1",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--arithmetic-product-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--arithmetic-product-started.json",
+      "bytes": 494,
+      "sha256": "aa1712bddb4feda3dd2df0c4cd7675901ba05c9539be192c1a24844e58b99e4b",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--arithmetic-product-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--arithmetic-remaining-returned.json",
+      "bytes": 966,
+      "sha256": "7da25ccd9a343a8dc33ba3dbbeb7df519da2f315e38558d393948637f097b84d",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--arithmetic-remaining-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--arithmetic-remaining-started.json",
+      "bytes": 499,
+      "sha256": "6bd56418f0edfd8a5a3b94a323490032a9a1cdcd1fd6e89a5294065f17bbfb8c",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--arithmetic-remaining-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--arithmetic-sum-returned.json",
+      "bytes": 1242,
+      "sha256": "3c1a5e965cd04ff2ade32a8be3fc46baf934f73d2a65f4a709bb2ac8d15cdd4e",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--arithmetic-sum-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--arithmetic-sum-started.json",
+      "bytes": 490,
+      "sha256": "16431926d65b64c25e6fdb1ea6c80e5fafd80346f08bfd724b02a0575aaeca0c",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--arithmetic-sum-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--extract-bool-returned.json",
+      "bytes": 1182,
+      "sha256": "27b6dee387ebb950b2bde16e71d790fa19701d49645c684af850b906bd412e58",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--extract-bool-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--extract-bool-started.json",
+      "bytes": 505,
+      "sha256": "f87f6d3229fd168aac863703e6a76e4ab0408ad60934edc1a5edb05241df68e3",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--extract-bool-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--extract-list-returned.json",
+      "bytes": 1341,
+      "sha256": "afb8d71d995adbf8b4fee3a6d3af4da120c316ef8f6db593764412d13c5c91e0",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--extract-list-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--extract-list-started.json",
+      "bytes": 526,
+      "sha256": "8af0f50d6216487e03df0ca3b8414b57aa9e6cfb6efdadf0602ea122980c053e",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--extract-list-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--extract-null-returned.json",
+      "bytes": 1190,
+      "sha256": "a3453527466e5b24ca0f783b24907d9274f9822d2ffce2c2ae4edc0652734886",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--extract-null-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--extract-null-started.json",
+      "bytes": 525,
+      "sha256": "28e06b8ce959e1e305713eebaf652a369a7214697f0af22f4bfcd7747f64e2fc",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--extract-null-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--extract-owner-returned.json",
+      "bytes": 1363,
+      "sha256": "e8acef4e09d927962f5f301452ff2a69bc48d37c47dd76eef6eb8657be9a27cd",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--extract-owner-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--extract-owner-started.json",
+      "bytes": 523,
+      "sha256": "f87c6a0b463e0fe079852d963648a1acac2a14afff768f10871c8798f2d3f139",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--extract-owner-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--extract-quantity-returned.json",
+      "bytes": 1029,
+      "sha256": "a1b4f0a232e1765097300b2eda17d710a91719d40761b4ee10a6b24f394e34ab",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--extract-quantity-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--extract-quantity-started.json",
+      "bytes": 508,
+      "sha256": "462448a5234116594f4cd8b016ce01a64b4ba07fd83cde5627ea7628fad5eb90",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--extract-quantity-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--extract-status-returned.json",
+      "bytes": 1349,
+      "sha256": "544d11b5ab98818159436453072bb642d15d4fc38886801e08bc96c74346a945",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--extract-status-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--extract-status-started.json",
+      "bytes": 506,
+      "sha256": "3e17704e2af877e69635791c76446fb85b1a012d32d2fb3e4b2bef25a242259c",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--extract-status-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--policy-admit-returned.json",
+      "bytes": 1447,
+      "sha256": "a3b6aa5b6edb59bfdbcddd9effad7a0f4d8bebe246690639548db56c67f11af4",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--policy-admit-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--policy-admit-started.json",
+      "bytes": 566,
+      "sha256": "a940f1d425975096c62ca42a942a0fe25ecc5a4153d0734211ddfe50a3f2a83d",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--policy-admit-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--policy-hold-check-returned.json",
+      "bytes": 1382,
+      "sha256": "a7ff1c271c9448435da208c8efeb5587e875a7ae5d67502926925e55b51299ca",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--policy-hold-check-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--policy-hold-check-started.json",
+      "bytes": 568,
+      "sha256": "b43464438ee7402669b42dade12d3de65d0498147e917b80926e4fbc857a8f77",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--policy-hold-check-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--policy-hold-consent-returned.json",
+      "bytes": 1381,
+      "sha256": "92e66eabb7f6f1c57b364ad5dcb682f5543b34dec71bab546675909261277b0d",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--policy-hold-consent-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--policy-hold-consent-started.json",
+      "bytes": 570,
+      "sha256": "4b3d280ffb2f8ab533191280de2f8560cb7f973b540c6f13f33759ebdeb6e92a",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--policy-hold-consent-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--policy-publish-returned.json",
+      "bytes": 1372,
+      "sha256": "d6a3d571579bb2e2ad457a9d5d884a866deb019795a5dedddfd30f8fab034c03",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--policy-publish-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--policy-publish-started.json",
+      "bytes": 564,
+      "sha256": "daa8e0e5aea91fe6cb315ec7780ecdf4287f7a19473a90e255b577f06422ffba",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--policy-publish-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--policy-reject-expiry-returned.json",
+      "bytes": 1450,
+      "sha256": "cbea922df889a68a545f1b9c7455c66f8d6b11ebc7454fea60981b71a2907534",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--policy-reject-expiry-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--policy-reject-expiry-started.json",
+      "bytes": 573,
+      "sha256": "4bdf49d4530ddb01882d961397f6655f95dbcad68996c15b2fc83d1ed2fead51",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--policy-reject-expiry-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--policy-reject-signature-returned.json",
+      "bytes": 1404,
+      "sha256": "b379ba4fb1d5ce308c0999840838b7b9639658162c3e0dd491c071a8a91a91b2",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--policy-reject-signature-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--long96--policy-reject-signature-started.json",
+      "bytes": 578,
+      "sha256": "fb26ce8bdbc4b257dcf6edaa78b21e2dae392896df164da7b78a189ddb8a2418",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--long96--policy-reject-signature-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--abstain-known-age-returned.json",
+      "bytes": 1032,
+      "sha256": "c66218ebf004f93743c8d8f41fad101e400b2687bf1ad159ecd93cc62f3d2a48",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--abstain-known-age-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--abstain-known-age-started.json",
+      "bytes": 565,
+      "sha256": "dcad6062d6b8a67f9ba54b4ce3ad99527b828bc4ef60846cb762b0743b5d73cf",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--abstain-known-age-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--abstain-known-city-returned.json",
+      "bytes": 1045,
+      "sha256": "d26dc108f578fe7a1fb030c191fa30c0dfda74ff2ddd55da62c80e587a1c4951",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--abstain-known-city-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--abstain-known-city-started.json",
+      "bytes": 580,
+      "sha256": "afd65fe7b7c19665157b20d5fc85b51c2f91e1bad394bad507429d813ff02881",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--abstain-known-city-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--abstain-known-total-returned.json",
+      "bytes": 1077,
+      "sha256": "5003ff038d3a8a12c360742cffd37dc672c22b34fddb0410cf62904a13aa5adc",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--abstain-known-total-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--abstain-known-total-started.json",
+      "bytes": 589,
+      "sha256": "6f070f51557efbbc63fb82507866b22053d14613cd278220afddbeb557773e29",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--abstain-known-total-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--abstain-unknown-age-returned.json",
+      "bytes": 1026,
+      "sha256": "31316a54c1179e5a89a9c2815a9c5e2ecc09c9e86dc4d1a884dfd0c34901fb21",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--abstain-unknown-age-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--abstain-unknown-age-started.json",
+      "bytes": 559,
+      "sha256": "12465d8d547f2ea9c6936a6469d0ecf37f9931f20e56d9367c260863ce494219",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--abstain-unknown-age-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--abstain-unknown-city-returned.json",
+      "bytes": 1066,
+      "sha256": "74974e2a8a1bae2d7f6cb08ece43fc91af93efe6a26c30b697ebc827d13fe9d4",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--abstain-unknown-city-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--abstain-unknown-city-started.json",
+      "bytes": 584,
+      "sha256": "a60e59bf67f36427d74fd4a29f80a7781a84c11a54db8d2e6b83346508b598a8",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--abstain-unknown-city-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--abstain-unknown-total-returned.json",
+      "bytes": 1076,
+      "sha256": "e49effa1f400d522a86f7c02fd42f93adf4ddee6f3ca4f40b097b8ef14f3b4d6",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--abstain-unknown-total-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--abstain-unknown-total-started.json",
+      "bytes": 597,
+      "sha256": "c63804c3da805119acd90626cca01c2dd7f5c2ab3b1c0e1018ffffbc21f46735",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--abstain-unknown-total-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--arithmetic-combined-returned.json",
+      "bytes": 1043,
+      "sha256": "4cf4c34adfafda299fe4efd361f071ebd4f6f83fd7833213f785ac5937a59b7f",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--arithmetic-combined-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--arithmetic-combined-started.json",
+      "bytes": 500,
+      "sha256": "b1fb59f512c98d36102ae8227082d94e59a64b5636febe0eb4a528d23a713d08",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--arithmetic-combined-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--arithmetic-difference-returned.json",
+      "bytes": 1000,
+      "sha256": "c3f35343c613dd163260c942505394fbb7b01ad337c914e13217d69fa21ae3dd",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--arithmetic-difference-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--arithmetic-difference-started.json",
+      "bytes": 499,
+      "sha256": "c43b0cf93c6f8e8dc8688e87834a89c065df2b5e44cfb339b55850b2c88ced0b",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--arithmetic-difference-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--arithmetic-division-returned.json",
+      "bytes": 1031,
+      "sha256": "165486a9dd4ad87d122cc33c3702b4f17441076cdbafeafcc6a8c5149f3ce204",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--arithmetic-division-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--arithmetic-division-started.json",
+      "bytes": 497,
+      "sha256": "682dd96eec2fcdbf8b1cc8f4e5906b458d097c491cdc9819bfe1eb50d4d061c9",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--arithmetic-division-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--arithmetic-product-returned.json",
+      "bytes": 950,
+      "sha256": "bc3884e6a7028cfc42e06e848816d8a14660e00cbde80e31a61fd9f878460a94",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--arithmetic-product-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--arithmetic-product-started.json",
+      "bytes": 495,
+      "sha256": "31a8e8c7740a1b0038ec5e1bf494ef7dfdbc41dcffe5b43eb6bd05c2cb84c39d",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--arithmetic-product-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--arithmetic-remaining-returned.json",
+      "bytes": 967,
+      "sha256": "a6390e682f9d25ca70d10ba5cbb4c7d71ebbe7ae4f1141c557f7c7b11968db6c",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--arithmetic-remaining-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--arithmetic-remaining-started.json",
+      "bytes": 500,
+      "sha256": "0fe43f2e659369176eb29147fefae292db6ab4a2bfd08ba86ca989bd1125bc9f",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--arithmetic-remaining-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--arithmetic-sum-returned.json",
+      "bytes": 1043,
+      "sha256": "fe45073fbf95526c6de29e6347caea2c00952f0f0092fc208d7df8567c6bdee5",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--arithmetic-sum-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--arithmetic-sum-started.json",
+      "bytes": 491,
+      "sha256": "88bf90ec9bec87b42b67bebd0e518206d52644a4cdc51dfeac2ccef3937c3f65",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--arithmetic-sum-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--extract-bool-returned.json",
+      "bytes": 1049,
+      "sha256": "e49a64e5ef21f439ebf32be67e3ad89f00e08e136d509712ddc3e0e011a80d66",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--extract-bool-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--extract-bool-started.json",
+      "bytes": 506,
+      "sha256": "171d8e22d437cf921a30736cf5702e2dc9a0b46761a446fd2d51db33334d681d",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--extract-bool-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--extract-list-returned.json",
+      "bytes": 1069,
+      "sha256": "ea963b00d455ca52b5babaacc290eb14e3d82c52fa2628b9fee5ca484af937f4",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--extract-list-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--extract-list-started.json",
+      "bytes": 527,
+      "sha256": "adbd0d14ee3a2d5618a17befae8b58b3ef8de2ccabaa2c70fa5b3acbccfdbc6f",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--extract-list-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--extract-null-returned.json",
+      "bytes": 1061,
+      "sha256": "f468106a86effb8dec584d445921bc025c4aac1fcfd4c6b5d38310380b3cff5f",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--extract-null-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--extract-null-started.json",
+      "bytes": 526,
+      "sha256": "dda72386b93b59355141a98eecbbe59a0b9f3e98f8737dacef0a5be6340130c1",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--extract-null-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--extract-owner-returned.json",
+      "bytes": 1082,
+      "sha256": "cf52d37dea3038e7e9ddb2360f8440da6617610d6dc252d5a358663c5479027e",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--extract-owner-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--extract-owner-started.json",
+      "bytes": 524,
+      "sha256": "649e9046ee87c6c1a879292632d4e54f09762cd8f2d58cba81259e697b832170",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--extract-owner-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--extract-quantity-returned.json",
+      "bytes": 1030,
+      "sha256": "1c7f84713c1e8b4f27d0d53133d8bc93890fdc0db2a8818712ff7049bc07a8f5",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--extract-quantity-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--extract-quantity-started.json",
+      "bytes": 509,
+      "sha256": "040597398f071155665107b94440592fabcddeb2555084d2e228beb36e5e80c6",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--extract-quantity-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--extract-status-returned.json",
+      "bytes": 1036,
+      "sha256": "8f94fbae910b2fb7eea9dc8915c845b442911772669b1b2c2d2f1ca9f2d89413",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--extract-status-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--extract-status-started.json",
+      "bytes": 507,
+      "sha256": "3b9c65e191cd46cdce522a2fd271a4457d9a9f14ab3b0b5d980fbbac39552cee",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--extract-status-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--policy-admit-returned.json",
+      "bytes": 1116,
+      "sha256": "b437415d27397a872218ddd9e593a621a24a50b5f7e5c35d7b7664f509b78e3d",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--policy-admit-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--policy-admit-started.json",
+      "bytes": 567,
+      "sha256": "3ea630d9c1565824f18a3e4be4f9509548bdba7495967599218021d989e66722",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--policy-admit-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--policy-hold-check-returned.json",
+      "bytes": 1110,
+      "sha256": "f9949e4bb36cb78abc1404ae6da6c692c81812610e1407c208b9ed67e1f5f0ab",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--policy-hold-check-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--policy-hold-check-started.json",
+      "bytes": 569,
+      "sha256": "bc62a65ec0a0b62e4794a41d477a443456aa9bd48704394e2d43835bcb27b0be",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--policy-hold-check-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--policy-hold-consent-returned.json",
+      "bytes": 1112,
+      "sha256": "824ff4c08436943c60d8b4fcb7e233cff4dee22db4128eb9ec36d2fe8623796e",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--policy-hold-consent-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--policy-hold-consent-started.json",
+      "bytes": 571,
+      "sha256": "801929545aa76bd0a47767bfa675b289ae4507ff6b464d21fd22f8aa83896dbb",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--policy-hold-consent-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--policy-publish-returned.json",
+      "bytes": 1106,
+      "sha256": "bee38276c096ea88400a58fad7c5c17a2bf0dadb542dfb0c11566390b528c8cd",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--policy-publish-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--policy-publish-started.json",
+      "bytes": 565,
+      "sha256": "b61d7cd0a456b5278f0b3a7e5f212ea7927eb1118459a4997c546cf7dab44237",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--policy-publish-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--policy-reject-expiry-returned.json",
+      "bytes": 1129,
+      "sha256": "927ce7f1fec42367ca03f39650730b1958c1faa86ccf69ebe2b322c1003f18cf",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--policy-reject-expiry-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--policy-reject-expiry-started.json",
+      "bytes": 574,
+      "sha256": "787b0808c80475ab79712a77cedebe6b48aff77845276bdb23510e7030d5bc7d",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--policy-reject-expiry-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--policy-reject-signature-returned.json",
+      "bytes": 1133,
+      "sha256": "97ebf0a8b8952d495e0a3963236d2886c943831dc68a5b229028ce27e5f9bf83",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--policy-reject-signature-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol135-q4--short24--policy-reject-signature-started.json",
+      "bytes": 579,
+      "sha256": "5121c359e39189de9add16a61f9308b28614d7b9f480aba45a7389648d1da5d2",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol135-q4--short24--policy-reject-signature-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--abstain-known-age-returned.json",
+      "bytes": 1032,
+      "sha256": "0f05d1a3be0e1b92aebfa107d0a3a93b250700eee576982c9d60e07fe8c27497",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--abstain-known-age-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--abstain-known-age-started.json",
+      "bytes": 564,
+      "sha256": "5284419c93aac4ea5a96666960b211f99785d7dc66db66bbe433bc6ae4494dfc",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--abstain-known-age-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--abstain-known-city-returned.json",
+      "bytes": 1076,
+      "sha256": "a603463d61c273edd2376b32f7ac8887780f1ccdc65de22162837c3d4b3eabee",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--abstain-known-city-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--abstain-known-city-started.json",
+      "bytes": 579,
+      "sha256": "f9ab489f9ab7c2b05a1f3799bdb832956a9a6e33e0e18f15d7de10c54746981f",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--abstain-known-city-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--abstain-known-total-returned.json",
+      "bytes": 1081,
+      "sha256": "d431551d2cc5e935073f2df0bf35205f9e6f78ce12ed6ac63d9e76a6b93174ac",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--abstain-known-total-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--abstain-known-total-started.json",
+      "bytes": 588,
+      "sha256": "30a10b2212088a0aa1dabe68d9a088c61a9ee3e1711040a9716fb70af1495709",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--abstain-known-total-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--abstain-unknown-age-returned.json",
+      "bytes": 1050,
+      "sha256": "211b9ca6629d55a0b2a945cadb16df9f0f693d8405a42631f2bbd60c6089938e",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--abstain-unknown-age-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--abstain-unknown-age-started.json",
+      "bytes": 558,
+      "sha256": "7b00adc9c5f31af303c9db08dbd4142ee3fb0c866cf9da5de7ec86659b1ad9ad",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--abstain-unknown-age-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--abstain-unknown-city-returned.json",
+      "bytes": 1058,
+      "sha256": "551cb43225719763e2017f26f1d50c6c8290f551f88f1a0e6f4ba3acf51d515a",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--abstain-unknown-city-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--abstain-unknown-city-started.json",
+      "bytes": 583,
+      "sha256": "62445bc339f01d12cf496cce6c944919a99b2948937e5a11605c0688ba7ce5d6",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--abstain-unknown-city-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--abstain-unknown-total-returned.json",
+      "bytes": 1088,
+      "sha256": "249f7d538c0b9dd669c351280184e1ebea67d3c2728dfaa7482a5f1b37f2409a",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--abstain-unknown-total-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--abstain-unknown-total-started.json",
+      "bytes": 596,
+      "sha256": "d6afbca64e8bab0d6f9a91059338f98d8ee0003b5b08e254eba47ada5cb84ca4",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--abstain-unknown-total-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--arithmetic-combined-returned.json",
+      "bytes": 965,
+      "sha256": "803d370199809bdad75d290159e7d19f30e89d653c9eb00529608d6b27723941",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--arithmetic-combined-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--arithmetic-combined-started.json",
+      "bytes": 499,
+      "sha256": "169ad8327ad73b0070904b14c9a79e10ce8cfd97049903bd3ddf9509f720bf69",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--arithmetic-combined-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--arithmetic-difference-returned.json",
+      "bytes": 968,
+      "sha256": "e0f30fbf02df59df742b435baac92c9329fc3d10050fec45633f0b35f9c2ac6c",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--arithmetic-difference-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--arithmetic-difference-started.json",
+      "bytes": 498,
+      "sha256": "2044041723fb278bdb71db37f098fe79c0ba712b300eebcca3571d82248eb09b",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--arithmetic-difference-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--arithmetic-division-returned.json",
+      "bytes": 966,
+      "sha256": "fb6508f54ab1a1a0ee9d9f0ecbe5aac5474dc53d965874767dc83a731a661f36",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--arithmetic-division-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--arithmetic-division-started.json",
+      "bytes": 496,
+      "sha256": "c55b4245f3e71e5ca0c2dacdc209fc726bbfcd71eef06929bdaddfcc889dfc84",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--arithmetic-division-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--arithmetic-product-returned.json",
+      "bytes": 964,
+      "sha256": "50517a131d3be8af5f9c050eb3c8ec87f23550e46fd4a0f05f5d7f819a6944df",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--arithmetic-product-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--arithmetic-product-started.json",
+      "bytes": 494,
+      "sha256": "629ecf41de13f5d5e7cbd0a33659abf63ebd2fb4c711ddf59243b151c4be2384",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--arithmetic-product-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--arithmetic-remaining-returned.json",
+      "bytes": 993,
+      "sha256": "86a23e3218279c631c3da939866670cd4314ae8df5ee35cd3e0a33d53cd7de83",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--arithmetic-remaining-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--arithmetic-remaining-started.json",
+      "bytes": 499,
+      "sha256": "adb4a2d29020319fb24c81beb6193b551fb73625605af9aaef4d016f51059e96",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--arithmetic-remaining-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--arithmetic-sum-returned.json",
+      "bytes": 955,
+      "sha256": "e5427a6a4ce9440917c498b4c063ba5ac79d3004d0118d42bd8cceaf7a6c5024",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--arithmetic-sum-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--arithmetic-sum-started.json",
+      "bytes": 490,
+      "sha256": "b05582bdedd8b2e10754a6afe94c0122e6c30d5ec674152071e1c4957a446e85",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--arithmetic-sum-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--extract-bool-returned.json",
+      "bytes": 1007,
+      "sha256": "9ecab015fb3c0138d3f726c967a6f241d230560466ba79f3e39c2d4c49530881",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--extract-bool-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--extract-bool-started.json",
+      "bytes": 505,
+      "sha256": "e5d5c69e9135ef5d5cc4e8f36ab940ec75b64265eaa620265f081fbcb695be1b",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--extract-bool-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--extract-list-returned.json",
+      "bytes": 1022,
+      "sha256": "1fb912ae5861ad386c0671f717a73f5c91a47001657ca5a9d78b2e32cb92dd6f",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--extract-list-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--extract-list-started.json",
+      "bytes": 526,
+      "sha256": "6254da1b3d76a9611394e0a9240251609e5e9848d725c47e2bd8615240ea0a7a",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--extract-list-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--extract-null-returned.json",
+      "bytes": 1015,
+      "sha256": "75c291f75f55e0da9fb8770828159dd3bd85f716baf0e971e572eecc49a02d74",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--extract-null-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--extract-null-started.json",
+      "bytes": 525,
+      "sha256": "0ea677ce5af6921df470f5faf391890c3d2ff385d14f89f57c9c3b64a010bae3",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--extract-null-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--extract-owner-returned.json",
+      "bytes": 1037,
+      "sha256": "3f1b10a80a14b29204dbb236c85f78e44abe60753991ee5306a12980492f25f7",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--extract-owner-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--extract-owner-started.json",
+      "bytes": 523,
+      "sha256": "6286e4b16c4c5a1f574a865bbe75054b925de0cd0d54dcaa36785d05c1ad84aa",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--extract-owner-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--extract-quantity-returned.json",
+      "bytes": 1004,
+      "sha256": "ed3287549c24d09f8140fca12c147e25e8aa9116e90c6fd579f4e4524a3b53f0",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--extract-quantity-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--extract-quantity-started.json",
+      "bytes": 508,
+      "sha256": "1fc35ec80f6b140a8d29f5b5940eae43c0c666377aae11425a9afc3776e0e09c",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--extract-quantity-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--extract-status-returned.json",
+      "bytes": 999,
+      "sha256": "ef3a26e5f3b1689294f0ecb00e06d604d317e985dececfe47f398c0e38068c44",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--extract-status-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--extract-status-started.json",
+      "bytes": 506,
+      "sha256": "d8822029e1764d9817f7ba24f54b2278a3abe45e233e60742049718216fc12c9",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--extract-status-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--policy-admit-returned.json",
+      "bytes": 1046,
+      "sha256": "ceb2b5b4d5b1c1fa251e945ce2c1c325157309637a7864f1bc0736c14ac916d5",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--policy-admit-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--policy-admit-started.json",
+      "bytes": 566,
+      "sha256": "d3e26b40ecfba764bfd6bd4d3d3905155de960f1a4b5a94d9af3682b9dad9927",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--policy-admit-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--policy-hold-check-returned.json",
+      "bytes": 1050,
+      "sha256": "27785cbd03be321b4257e9f0b0b7debfe21c94c5dfbc62315877c2b805656448",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--policy-hold-check-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--policy-hold-check-started.json",
+      "bytes": 568,
+      "sha256": "68318d9ec8050af7d7c9ff963df1815d565cc5ae9f9bbd94eae97c47cd6e8c8e",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--policy-hold-check-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--policy-hold-consent-returned.json",
+      "bytes": 1054,
+      "sha256": "c3fc332cb9543bf5290da5b3fc8117bfc3b8be47a61f4619c73576eac53dccf5",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--policy-hold-consent-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--policy-hold-consent-started.json",
+      "bytes": 570,
+      "sha256": "f222cbf7ece0698e329d81594ee7c093a35b423ad8c9753349756d121880113c",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--policy-hold-consent-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--policy-publish-returned.json",
+      "bytes": 1048,
+      "sha256": "56ffa6ef6f57a7509c2c4df8235d586e2f6f0f9e0361228c01be130e8f18225a",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--policy-publish-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--policy-publish-started.json",
+      "bytes": 564,
+      "sha256": "61b89f63990f3fd28abd064870125ef395f22e8430105311ec211ed5ecd72d43",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--policy-publish-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--policy-reject-expiry-returned.json",
+      "bytes": 1053,
+      "sha256": "e88adaa411e717e338c6ea94f2627f59e55d5fe2ccd3de45d57d5ea27540284c",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--policy-reject-expiry-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--policy-reject-expiry-started.json",
+      "bytes": 573,
+      "sha256": "f3bb368e11f007434f0e93a1535be74964921a7797e11a00950c6980039fa013",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--policy-reject-expiry-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--policy-reject-signature-returned.json",
+      "bytes": 1058,
+      "sha256": "2579a01059054e07a54fb468a8477a3c47f013ef1ed8b2ca464f13195717d274",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--policy-reject-signature-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--long96--policy-reject-signature-started.json",
+      "bytes": 578,
+      "sha256": "c69d31e3f292774e25e664468ce8bef4e718b60bb17b561bcc0b79a4385863e9",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--long96--policy-reject-signature-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--abstain-known-age-returned.json",
+      "bytes": 1033,
+      "sha256": "8cdc730f70bd827b5cd9e4659ee986d5455f34fb2f7a6dedf2fbbc41c20118b5",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--abstain-known-age-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--abstain-known-age-started.json",
+      "bytes": 565,
+      "sha256": "8ac2f98fec915a9db33382076572689cc92a28eca8ec64de8ef0502f3b995dbf",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--abstain-known-age-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--abstain-known-city-returned.json",
+      "bytes": 1077,
+      "sha256": "580be1b5cebab9afbd1c1384629c8c18df62e6a04fe088e8fc3e391e9a41f72b",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--abstain-known-city-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--abstain-known-city-started.json",
+      "bytes": 580,
+      "sha256": "7a71da5345410a81a3f9fc3d8ca6147f1b0d5110f77d699ed06c4c0ce6d0ea32",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--abstain-known-city-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--abstain-known-total-returned.json",
+      "bytes": 1082,
+      "sha256": "a033bdeaeb04cf8502a46e1ee554eec2f5dd3de484c6d06f57155d02f1d8f588",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--abstain-known-total-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--abstain-known-total-started.json",
+      "bytes": 589,
+      "sha256": "694e83966f401e4f7d7ee383ab6697de41b6abf5dca0575e7e6e29283f14a0e1",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--abstain-known-total-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--abstain-unknown-age-returned.json",
+      "bytes": 1051,
+      "sha256": "43a0bcd8e1a26094d3f15698d884b198ac2c46614a503edcc0886891d5e7b26f",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--abstain-unknown-age-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--abstain-unknown-age-started.json",
+      "bytes": 559,
+      "sha256": "a800c4ca56da9eca6f94c87eb317d5843d0b11dda3a26679f4e07d4cff31caee",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--abstain-unknown-age-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--abstain-unknown-city-returned.json",
+      "bytes": 1059,
+      "sha256": "7d8deff7be5b9c658377ad83e2436cc82112653ef03e74974ad9aed1fc0345e4",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--abstain-unknown-city-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--abstain-unknown-city-started.json",
+      "bytes": 584,
+      "sha256": "90abb08811c8234a761d718e8ec4d0de7649247c070bab8b7de37e11bd31b1e4",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--abstain-unknown-city-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--abstain-unknown-total-returned.json",
+      "bytes": 1089,
+      "sha256": "82eef4e8df675e541e1a1c38b9408f80c7a8f70b1f4ab6fa7bb0a10b4a5f5d3c",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--abstain-unknown-total-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--abstain-unknown-total-started.json",
+      "bytes": 597,
+      "sha256": "feb2b4ca36c463b4f4a90332e564358eeba3bdf6df43457cfc2ac4ed845236cc",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--abstain-unknown-total-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--arithmetic-combined-returned.json",
+      "bytes": 965,
+      "sha256": "1f5278c16d4aeeb18ff77b7d0df9101ed15d277bd1cceb8934761c627bd3ddbe",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--arithmetic-combined-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--arithmetic-combined-started.json",
+      "bytes": 500,
+      "sha256": "7b9a7f6805bc4eeec4235e92e1e986e89419425b3a77733415db2de5f9373ed3",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--arithmetic-combined-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--arithmetic-difference-returned.json",
+      "bytes": 969,
+      "sha256": "27be18249916f9dc44b69107d08e8643b672e7447c27dea82f891bcb76396c1d",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--arithmetic-difference-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--arithmetic-difference-started.json",
+      "bytes": 499,
+      "sha256": "ef84959b024f19c3d96592fd5e7d5ea2ad7596b1f277fffc887f9f7e02f25d85",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--arithmetic-difference-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--arithmetic-division-returned.json",
+      "bytes": 967,
+      "sha256": "d619c6616b1a5096b51d70b814040f7f808b7c1ec3e23589ff5043dec4c82159",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--arithmetic-division-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--arithmetic-division-started.json",
+      "bytes": 497,
+      "sha256": "26f85ff6df42a43d707da5c45f3f6e8378e8a41df833f4fe0c8b71098afdfc54",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--arithmetic-division-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--arithmetic-product-returned.json",
+      "bytes": 965,
+      "sha256": "3481f6e1e2103920a887a20c3724d391e22906a519af08e3e4be7999bc48ec88",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--arithmetic-product-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--arithmetic-product-started.json",
+      "bytes": 495,
+      "sha256": "7cca95800860c12ce83c8fda3681306d1a1d7667d7730c39e7289e13e40e3101",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--arithmetic-product-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--arithmetic-remaining-returned.json",
+      "bytes": 994,
+      "sha256": "adb2cba1d2249296977034df9278c6099789372d7ba5c440b1afa287ceef6bb1",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--arithmetic-remaining-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--arithmetic-remaining-started.json",
+      "bytes": 500,
+      "sha256": "4551416073aaf9b72964d610e3c663d99cfb6ca2f2c31c063608e166a46805f4",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--arithmetic-remaining-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--arithmetic-sum-returned.json",
+      "bytes": 956,
+      "sha256": "f0b0701b732ed1801a6ff25acf952e3b8f502332d1ac1fae04336c0deee92adb",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--arithmetic-sum-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--arithmetic-sum-started.json",
+      "bytes": 491,
+      "sha256": "8eb57523712dc45cc15110360e5e7bb2c6be19d95b8a1da89d23cc67af44adf5",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--arithmetic-sum-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--extract-bool-returned.json",
+      "bytes": 1008,
+      "sha256": "06bbe5555699681169d5c51182a6874fa504bde670d100dbc184ed04c893c4c4",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--extract-bool-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--extract-bool-started.json",
+      "bytes": 506,
+      "sha256": "910baee136939f5d04ad51c83e6298e9b4a2b658c382fd2df7042ac0d732b293",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--extract-bool-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--extract-list-returned.json",
+      "bytes": 1023,
+      "sha256": "2b87bf80be1127f8f4ac714062b36944ca597f011a66843cbc95aa3c4b168a4b",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--extract-list-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--extract-list-started.json",
+      "bytes": 527,
+      "sha256": "657d914c9c75b1c98ad504d5d7cb6a08bd7593efbd8fe3d68567e584fb22f373",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--extract-list-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--extract-null-returned.json",
+      "bytes": 1016,
+      "sha256": "6ef2b09e97219a3b711948ebed8f5bb57037b83067fa900d684c456d23e1edfd",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--extract-null-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--extract-null-started.json",
+      "bytes": 526,
+      "sha256": "41346b5ec388ca716d80ff469531f61e940fc18ed45f42aa261fe2d1c95024cd",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--extract-null-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--extract-owner-returned.json",
+      "bytes": 1038,
+      "sha256": "87ec8adf23ca364ea9506f8d9d649fa9acf656fe919322cfd5796d1c8e7d654a",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--extract-owner-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--extract-owner-started.json",
+      "bytes": 524,
+      "sha256": "c31b1e80e974052e7a21895de7385c76572c2beb04b2c9696f38a1a47f694e90",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--extract-owner-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--extract-quantity-returned.json",
+      "bytes": 1005,
+      "sha256": "3d4da0a68a3b8a2e41effd251409f0e563b923bdfced2b82764ec91d593e4099",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--extract-quantity-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--extract-quantity-started.json",
+      "bytes": 509,
+      "sha256": "f7d1cc0db0c5e9179d7937f7452d88a4fa3144c3e9e55efe5d9a5b8ef9c5b0b4",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--extract-quantity-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--extract-status-returned.json",
+      "bytes": 1000,
+      "sha256": "47ca3eb014735e5fd46c043a788eaff781e04552e74f077a4adf68c0e7285517",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--extract-status-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--extract-status-started.json",
+      "bytes": 507,
+      "sha256": "2fd49128431ea500338cb3a524c70129c329718ea3fd54311b34f28bea55edde",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--extract-status-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--policy-admit-returned.json",
+      "bytes": 1047,
+      "sha256": "7fc81933953acb5cd4c0e68e0655ba7ae6c95d4c08c102a3366f6573ca376721",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--policy-admit-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--policy-admit-started.json",
+      "bytes": 567,
+      "sha256": "07154e52f3e4b2a5dfcc3bc5c148595e8e781a19d1c9ee2a0f46af6d338a3ecc",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--policy-admit-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--policy-hold-check-returned.json",
+      "bytes": 1051,
+      "sha256": "c3922ed45dd9a4a301aa0eabd70999df949cd237917adba875c328c1fc2b44ae",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--policy-hold-check-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--policy-hold-check-started.json",
+      "bytes": 569,
+      "sha256": "787b39ff7704de7d226b3d6a57a7bd64cebd4249048cf6d70c8c76060d2259f4",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--policy-hold-check-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--policy-hold-consent-returned.json",
+      "bytes": 1055,
+      "sha256": "1f876ee5f6822fc12f063556d7030ae51afffe8d5b1489bf8dd357e4c61ea844",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--policy-hold-consent-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--policy-hold-consent-started.json",
+      "bytes": 571,
+      "sha256": "bc61a6ff4d13f00766a950457ce1f6bf49b3ccb084bb1f9c55fd5bcb28aa62a4",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--policy-hold-consent-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--policy-publish-returned.json",
+      "bytes": 1049,
+      "sha256": "c6d612a19b7c2c253c2f8ddb7bf143b9419c8b8762ef40b50616c5f2c41bea9d",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--policy-publish-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--policy-publish-started.json",
+      "bytes": 565,
+      "sha256": "141fecb212ed890e2621d958a737b53a3542c92a7ac34466c3a6f3e68d033c81",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--policy-publish-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--policy-reject-expiry-returned.json",
+      "bytes": 1054,
+      "sha256": "83f19a51e35bead92ca7384599a2f44d9958c8c048fbb4a69b51dea0884b233e",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--policy-reject-expiry-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--policy-reject-expiry-started.json",
+      "bytes": 574,
+      "sha256": "406267a386831149e59f1d235895cf827af870ac826b9816319792738914f9f7",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--policy-reject-expiry-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--policy-reject-signature-returned.json",
+      "bytes": 1059,
+      "sha256": "6b8c9c800dc8694d8152feea317ca68c51333b35548e8764e1f5768137d79d2f",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--policy-reject-signature-returned.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/calls/smol360-q4--short24--policy-reject-signature-started.json",
+      "bytes": 579,
+      "sha256": "9c54ab25fbb83554182d06b898abdf782e033c108f3381c256bba87180c92f75",
+      "retainedInCompact": true,
+      "compactMember": "calls/smol360-q4--short24--policy-reject-signature-started.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/consumer-pins.json",
+      "bytes": 456,
+      "sha256": "db42e0ea7ebecf031e64b8c19c59418e2cf874961a2452732dfd2ff3a721a947",
+      "retainedInCompact": true,
+      "compactMember": "consumer-pins.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/declaration.json",
+      "bytes": 1322,
+      "sha256": "c6503122060ee77e6c5dab9f2b40f855ffca96c4f2ee496c272688dfb9596c0a",
+      "retainedInCompact": true,
+      "compactMember": "declaration.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/manifest.json",
+      "bytes": 29550,
+      "sha256": "46d0e937f45947b40b0412c5584100962e7e3c042bade4e6f4b4025c8da1f852",
+      "retainedInCompact": true,
+      "compactMember": "manifest.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/protocol.json",
+      "bytes": 19387,
+      "sha256": "fb11ab63a4e26acac255a176b0af89931bd8424aa246a1b291e9c35991c85a00",
+      "retainedInCompact": true,
+      "compactMember": "protocol.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/report.json",
+      "bytes": 49488,
+      "sha256": "7926e4e5998459c1be38b69a81b14be56a22924ea2ccec04509e2cb8fff7c62b",
+      "retainedInCompact": true,
+      "compactMember": "report.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama-cpp-python/LICENSE.md",
+      "bytes": 1069,
+      "sha256": "c479fb11a66a85fed2004a17dd1b3e44a1858c564b167aecb20ff66cb422ed75",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama-cpp-python/LICENSE.md",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama-cpp-python/METADATA.txt",
+      "bytes": 33608,
+      "sha256": "124186f5883bd7bf1adb1cb380fc012d9d4de5dcb6e30375a298e0b0c0f56b41",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama-cpp-python/METADATA.txt",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama-system-info.txt",
+      "bytes": 112,
+      "sha256": "0fea1eb5fc8d844ea89aaa648da3d02a397b8bb51512a51b8bbad157aa185e1a",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama-system-info.txt",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama/__init__.py",
+      "bytes": 70,
+      "sha256": "4c2a5af3fc96d346a6e80f6eaab84298b744daefa930040cb66dab6a24956ce1",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama/__init__.py",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama/_ctypes_extensions.py",
+      "bytes": 4085,
+      "sha256": "9e5241832feb61e3c439b0e9e4d9a9ff4e7a6a54b0809a8f5995f0175d841876",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama/_ctypes_extensions.py",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama/_ggml.py",
+      "bytes": 369,
+      "sha256": "0df174a6f6dda3b8880b8b09ca72c0e1e7c60182b34cc9a26b6e4ff5d5cb62e4",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama/_ggml.py",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama/_internals.py",
+      "bytes": 29562,
+      "sha256": "ca4dfec07dd99f3bce88f5b85abeca02371b06d2f9ac8e3c2131e8c289719362",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama/_internals.py",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama/_logger.py",
+      "bytes": 1309,
+      "sha256": "71ca61bea0e1423885465b88706eda54ea02b3810a9ef1ab142e66bc49bc9358",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama/_logger.py",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama/_utils.py",
+      "bytes": 2260,
+      "sha256": "69d6ee0d03fa2a5411a6f40f49b3af7c3ef28aa47957399e75ab904d1b4cd587",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama/_utils.py",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama/lib/libggml-base.so",
+      "bytes": 657256,
+      "sha256": "06b3614dfc30f915bd5efb947c7281c47946ee92b32b2a76bfc8c912cbc07b7c",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama/lib/libggml-base.so",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama/lib/libggml-cpu.so",
+      "bytes": 791688,
+      "sha256": "0d5fb832c8c77e5f99cae03450f966160364b6a2d473b023ae42976eb00d720c",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama/lib/libggml-cpu.so",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama/lib/libggml.so",
+      "bytes": 51920,
+      "sha256": "356ffe6417a10142bdb78c07940e29d54bbbffa2ec73943253ab180ca7ac0f40",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama/lib/libggml.so",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama/lib/libllama.so",
+      "bytes": 2209048,
+      "sha256": "e600e0d02445e5dcf2420093ee130312965a444a75c34f3765246fad135c04f3",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama/lib/libllama.so",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama/lib/libmtmd.so",
+      "bytes": 730848,
+      "sha256": "18e03aee495c4eab93762d7bd7dd6bd935932d00ffaafb508470e0a0daaa5d58",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama/lib/libmtmd.so",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama/llama.py",
+      "bytes": 96173,
+      "sha256": "334b15f16ec31de65adea58c85dbd04057f88749cade66a7adf42684c4d010d8",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama/llama.py",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama/llama_cache.py",
+      "bytes": 5010,
+      "sha256": "a3cb101cbd5e06f88366b12a73c131a54c24f83bc8085b64c5035a8c671bdc69",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama/llama_cache.py",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama/llama_chat_format.py",
+      "bytes": 157215,
+      "sha256": "35de04fc3e16b61f6d7044cd961e6980252c9def2ce24f58fcd5265aac38e18c",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama/llama_chat_format.py",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama/llama_cpp.py",
+      "bytes": 152717,
+      "sha256": "4b27f8e92537cfd01ae20341745c5a22704be811ffbf3ef9efa66ba644404921",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama/llama_cpp.py",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama/llama_grammar.py",
+      "bytes": 32913,
+      "sha256": "4d39699197909f4aa98f45086c824bd0521fbeb27c7aaee249a723c62e1d0dd8",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama/llama_grammar.py",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama/llama_speculative.py",
+      "bytes": 2088,
+      "sha256": "37dabf1ee9aad01d82da6d5e69fbc0a37cdebd7ac5bc042cac8ead4e3d6fb6ba",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama/llama_speculative.py",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama/llama_tokenizer.py",
+      "bytes": 3876,
+      "sha256": "482e57da563dd537fba8c5d2ae09dc352c3054dfd8622957a2cb919b8478ca9f",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama/llama_tokenizer.py",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama/llama_types.py",
+      "bytes": 8666,
+      "sha256": "103a91a9f890d7f314c1f85173ae5e1efd2c12139202ffd4307fb754c055859e",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama/llama_types.py",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama/llava_cpp.py",
+      "bytes": 4552,
+      "sha256": "e6d0d9ac2f4195bef5021a49d3be026af92e8f065015483acbe67642c2c0fb41",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama/llava_cpp.py",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama/mtmd_cpp.py",
+      "bytes": 8834,
+      "sha256": "e52851c5e6aaf3d0e0c161271c3faa2d7249ff283781bea472bf725f55ea7930",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama/mtmd_cpp.py",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama/server/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama/server/__init__.py",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama/server/__main__.py",
+      "bytes": 2849,
+      "sha256": "1cbf72bcf5f497b172fc1e2dec96e892e714f425f95270b1e284549c18a4b696",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama/server/__main__.py",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama/server/app.py",
+      "bytes": 19572,
+      "sha256": "7a968a6f4bf386524d8aef79cd9eed8151dfc082c43d2e86dec201297e4950da",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama/server/app.py",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama/server/cli.py",
+      "bytes": 3268,
+      "sha256": "996f0d032f3e19ca7eb824b2bcb3486b1011227b693dc0f5fcad647221d18524",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama/server/cli.py",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama/server/errors.py",
+      "bytes": 7164,
+      "sha256": "ca5f95333829d58d233b7a4c137e78ef99c44f5442c2746db213ecf481e173b3",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama/server/errors.py",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama/server/model.py",
+      "bytes": 13556,
+      "sha256": "a2c3e2f35a2120de7c00053fb04de863a7b0ea2c1f4e7c15047ce763c314e8d4",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama/server/model.py",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama/server/settings.py",
+      "bytes": 8566,
+      "sha256": "cd5722e3a06350ac748122462a3211f04f685abae3e6cdc7aa3da12e7e577777",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama/server/settings.py",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/llama/server/types.py",
+      "bytes": 12216,
+      "sha256": "a6c5b3b848df178537924b341d113aeee8b33239a5f2039ffb35efa6c96522bb",
+      "retainedInCompact": true,
+      "compactMember": "sources/llama/server/types.py",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/model-provenance.json",
+      "bytes": 1853,
+      "sha256": "f770243a4267a67a8f57b50c8a1477757eeca805eafcba8b8ec9c2e15d3281a9",
+      "retainedInCompact": true,
+      "compactMember": "sources/model-provenance.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/protocol-preregistration.json",
+      "bytes": 130,
+      "sha256": "5db99545a41c01c6ca18db9ae30a0df57f23ac835983ae38546bc14b568f4146",
+      "retainedInCompact": true,
+      "compactMember": "sources/protocol-preregistration.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/provenance/build-gcc.log",
+      "bytes": 958,
+      "sha256": "db15c7754157566d3b8d3287cca7d644b714ea13a9794deb4c2822dd580afd8d",
+      "retainedInCompact": true,
+      "compactMember": "sources/provenance/build-gcc.log",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/provenance/candidate-original-README.txt",
+      "bytes": 7304,
+      "sha256": "6b88794416ac9da8f254ebb0bec228967a2bdd0badf9a2853863928b25facd95",
+      "retainedInCompact": true,
+      "compactMember": "sources/provenance/candidate-original-README.txt",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/provenance/candidate-original-tokenizer_config.json",
+      "bytes": 3764,
+      "sha256": "4ec77d44f62efeb38d7e044a1db318f6a939438425312dfa333b8382dbad98df",
+      "retainedInCompact": true,
+      "compactMember": "sources/provenance/candidate-original-tokenizer_config.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/provenance/candidate-quant-README.txt",
+      "bytes": 4567,
+      "sha256": "4a0a8e83b9c22c340aa73fd047428cc3aa89f16856dc0df2e5bf4555c05a95e8",
+      "retainedInCompact": true,
+      "compactMember": "sources/provenance/candidate-quant-README.txt",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/provenance/dependency-lock.json",
+      "bytes": 4705,
+      "sha256": "7f2b24a65df36b66fbf23425bb03365e4af560c9c7838c6608886e70f5409a66",
+      "retainedInCompact": true,
+      "compactMember": "sources/provenance/dependency-lock.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/provenance/download-accounting.json",
+      "bytes": 11359,
+      "sha256": "b7c2cc6f7d1ba2164151128772bee3a053dd999b8134205c42a90cbc5ef2b7eb",
+      "retainedInCompact": true,
+      "compactMember": "sources/provenance/download-accounting.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/provenance/download-declaration.json",
+      "bytes": 7716,
+      "sha256": "6116550e136ba47a89a0e4ca9495abf98577fa527bd0c01de8decc92fb5995de",
+      "retainedInCompact": true,
+      "compactMember": "sources/provenance/download-declaration.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/provenance/downloads.json",
+      "bytes": 7359,
+      "sha256": "93b89e16434655d7ca63bbf7d1caad36e8ca01d1af496dd1391417e5ece1364f",
+      "retainedInCompact": true,
+      "compactMember": "sources/provenance/downloads.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/provenance/original-card.txt",
+      "bytes": 6772,
+      "sha256": "4f97533ad95b1b2fea15fbc075c01b94578ebdd7c8138888fa43fa3abd530dc4",
+      "retainedInCompact": true,
+      "compactMember": "sources/provenance/original-card.txt",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/provenance/quant-card.txt",
+      "bytes": 4567,
+      "sha256": "b464dc4a9ff26fea06ec45165546bbeb0c32b1a7847babcef048d5b84486ed84",
+      "retainedInCompact": true,
+      "compactMember": "sources/provenance/quant-card.txt",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/provenance/requirements.txt",
+      "bytes": 966,
+      "sha256": "30b02b3f04bd6a817aa729ba09d10f07b18f16fd1b3aa6c18760dbc0c63816f3",
+      "retainedInCompact": true,
+      "compactMember": "sources/provenance/requirements.txt",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/provenance/source-download.json",
+      "bytes": 308,
+      "sha256": "512f7a53412c5ee551d4a8ee45fb8e06fbf7a35fad8a43b4b421e5a2c5476769",
+      "retainedInCompact": true,
+      "compactMember": "sources/provenance/source-download.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/provenance/tokenizer-config.json",
+      "bytes": 3764,
+      "sha256": "4ec77d44f62efeb38d7e044a1db318f6a939438425312dfa333b8382dbad98df",
+      "retainedInCompact": true,
+      "compactMember": "sources/provenance/tokenizer-config.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/sources/task_matrix.py",
+      "bytes": 28449,
+      "sha256": "744eb9a5af0328be0a4d4916b972770aa9babf91f97d4866abff34c37c453897",
+      "retainedInCompact": true,
+      "compactMember": "sources/task_matrix.py",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "run/terminal.json",
+      "bytes": 95,
+      "sha256": "76680c7b960e3b85744f3b836c1bcfa0910393012054cd88be1006e091235911",
+      "retainedInCompact": true,
+      "compactMember": "terminal.json",
+      "reason": "same literal native member retained under producer compact name"
+    },
+    {
+      "member": "smol135-q4.gguf",
+      "bytes": 105454144,
+      "sha256": "ed5fa30c487b282ec156c29062f1222e5c20875a944ac98289dbd242e947f747",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    },
+    {
+      "member": "smol360-q4.gguf",
+      "bytes": 270590560,
+      "sha256": "16c7f1667fea34bacad196a57b548effcb37614db4ab5677a20c8c7b823b9e63",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    },
+    {
+      "member": "source-download.json",
+      "bytes": 308,
+      "sha256": "512f7a53412c5ee551d4a8ee45fb8e06fbf7a35fad8a43b4b421e5a2c5476769",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    },
+    {
+      "member": "tokenizer-config.json",
+      "bytes": 3764,
+      "sha256": "4ec77d44f62efeb38d7e044a1db318f6a939438425312dfa333b8382dbad98df",
+      "retainedInCompact": false,
+      "compactMember": null,
+      "reason": "full preparation member omitted from original native compact archive; retained in private full-original archive"
+    }
+  ],
+  "preparationHistory": {
+    "initialNoInferenceFailureResponseBodyBytes": 472190754,
+    "correctedSuccessfulResponseBodyBytes": 472221945,
+    "cumulativeResponseBodyBytesAcrossTwoPreparations": 944412699,
+    "scope": "Two separately selected 512MiB preparation envelopes; cumulative acquisition is not one 512MiB run; no model inference was retried.",
+    "initialFailedRun": 37052641046,
+    "initialFailedArtifact": 11246658645,
+    "initialFailedArtifactSha256": "f91a521397d4e5df550e2398b5f026aa4d4a4ee254a8aed19d3edfff748aba41"
+  }
+}

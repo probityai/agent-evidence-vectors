@@ -21,14 +21,14 @@ defaults:
     working-directory: packages/admission
 
 env:
-  # The corpus these rails are measured against, installed the way any consumer
-  # gets it: the published agent-evidence-vectors package from PyPI, pinned by
-  # version AND by the SHA-256 of its wheel, and then held to the corpus digest
-  # the vendored registry records. That release ships the AEE corpus of tag
-  # v0.10.1 unchanged (same corpus digest), so the projection is the same bytes.
-  VECTORS_PACKAGE: agent-evidence-vectors==0.12.1
-  VECTORS_WHEEL_SHA256: 9b9e7371feff06d96657cd8116150d394211ea639275f35d71461857bb4b0d8d
-  VECTORS_CORPUS_DIGEST: 8b035678def9e5ac00ba761b8c640e4412c57163134afb9d2c1a90f49d573a52
+  # The corpus these rails are measured against. The package itself is pinned
+  # by version and wheel SHA-256 in packages/admission/requirements-vectors.txt,
+  # where Dependabot proposes each release. This digest is the MEASUREMENT pin:
+  # the AEE corpus the vendored registry, the projection and the profile maps
+  # were measured at. A version bump that ships a different corpus digest fails
+  # the corpus and rails jobs until all three are re-measured and this line is
+  # moved with them, so a new release can never be read through old maps.
+  VECTORS_CORPUS_DIGEST: bf3e5befd71640757ff1b3f0af63507364b823b5e3f9059678f72f64a46e11c1
 
   # Engine versions, each with the SHA-256 of the release asset. An unpinned
   # engine turns a red build into a question about which binary ran.
@@ -69,6 +69,10 @@ jobs:
         run: python3 scripts/gen_profile_registry.py --check
       - name: the ratchet report agrees with its own data
         run: python3 scripts/ratchet_report.py --check
+      - name: the vectors pin gate fires on its own controls
+        run: python3 scripts/vectors-pin-gate.py --selftest
+      - name: every page names the pinned vectors release, digest and obligation count
+        run: python3 scripts/vectors-pin-gate.py
       - name: the maturity-model gate fires on its own positive controls
         run: python3 scripts/maturity-map-gate.py --selftest
       - name: the maturity-model page cites files that exist and quotes the model exactly
@@ -123,20 +127,20 @@ jobs:
       - name: install the published vectors package at the pinned hash
         run: |
           set -euo pipefail
-          echo "$VECTORS_PACKAGE --hash=sha256:$VECTORS_WHEEL_SHA256" > "$RUNNER_TEMP/vectors.lock"
           # Only the corpus files are read and nothing from the package is
           # imported, so the wheel's own interpreter floor does not apply here.
           python3 -m pip install --quiet --disable-pip-version-check --no-deps --require-hashes \
             --only-binary=:all: --ignore-requires-python --target "$RUNNER_TEMP/vectors-pkg" \
-            -r "$RUNNER_TEMP/vectors.lock"
+            -r requirements-vectors.txt
           corpus="$RUNNER_TEMP/vectors-pkg/agent_evidence_vectors/corpora"
           got="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["corpusDigest"])' "$corpus/vectors/MANIFEST.json")"
           if [ "$got" != "$VECTORS_CORPUS_DIGEST" ]; then
-            echo "$VECTORS_PACKAGE ships corpus digest $got, not the pinned $VECTORS_CORPUS_DIGEST" >&2
+            echo "requirements-vectors.txt installs a corpus at digest $got, not the measured $VECTORS_CORPUS_DIGEST." >&2
+            echo "Re-measure the registry, the projection and the profile maps against it, then move VECTORS_CORPUS_DIGEST." >&2
             exit 1
           fi
           ln -s "$corpus" "$RUNNER_TEMP/vectors"
-          echo "$VECTORS_PACKAGE ships corpus $got, as pinned"
+          echo "requirements-vectors.txt ships corpus $got, as measured"
       - name: the vendored obligation registry is the corpus registry
         run: python3 scripts/gen_condition_registry.py --check --corpus "$RUNNER_TEMP/vectors"
       - name: the corpus projection re-derives from that corpus
@@ -287,20 +291,20 @@ jobs:
       - name: install the published vectors package at the pinned hash
         run: |
           set -euo pipefail
-          echo "$VECTORS_PACKAGE --hash=sha256:$VECTORS_WHEEL_SHA256" > "$RUNNER_TEMP/vectors.lock"
           # Only the corpus files are read and nothing from the package is
           # imported, so the wheel's own interpreter floor does not apply here.
           python3 -m pip install --quiet --disable-pip-version-check --no-deps --require-hashes \
             --only-binary=:all: --ignore-requires-python --target "$RUNNER_TEMP/vectors-pkg" \
-            -r "$RUNNER_TEMP/vectors.lock"
+            -r requirements-vectors.txt
           corpus="$RUNNER_TEMP/vectors-pkg/agent_evidence_vectors/corpora"
           got="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["corpusDigest"])' "$corpus/vectors/MANIFEST.json")"
           if [ "$got" != "$VECTORS_CORPUS_DIGEST" ]; then
-            echo "$VECTORS_PACKAGE ships corpus digest $got, not the pinned $VECTORS_CORPUS_DIGEST" >&2
+            echo "requirements-vectors.txt installs a corpus at digest $got, not the measured $VECTORS_CORPUS_DIGEST." >&2
+            echo "Re-measure the registry, the projection and the profile maps against it, then move VECTORS_CORPUS_DIGEST." >&2
             exit 1
           fi
           ln -s "$corpus" "$RUNNER_TEMP/vectors"
-          echo "$VECTORS_PACKAGE ships corpus $got, as pinned"
+          echo "requirements-vectors.txt ships corpus $got, as measured"
       - name: the vectors these rails will run on are that corpus
         run: |
           set -euo pipefail
@@ -314,6 +318,12 @@ jobs:
       # about it.
       - name: measure every rail over every vector
         run: python3 scripts/gen_profile_map.py --jobs 4
+
+      # The conformance harness asserts every declared rail divergence in both
+      # directions over the same corpus, so a declaration that has gone stale
+      # against a new release fails here instead of living on in the harness.
+      - name: the declared rail divergences are what the rails do
+        run: python3 conformance/run_policy_conformance.py --jobs 4
 
       - name: the committed maps are what the measurement produces
         run: |

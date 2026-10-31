@@ -1,0 +1,67 @@
+{
+  "sourceType": "retained-public-source-and-original-host-output",
+  "repository": "probityai/ratchet",
+  "sourceCommit": "b2800b26ec6cf60fee8e95682660846f674f97c2",
+  "runID": 38783949790,
+  "jobID": 116591068820,
+  "retainedPacketAt": "2026-10-16T00:47:36.224877+00:00",
+  "sources": [
+    {
+      "path": "job.json",
+      "url": "https://api.github.com/repos/probityai/ratchet/actions/jobs/116591068820",
+      "bytes": 2986,
+      "sha256": "a923f356e5559590e291029cef55bcba150c6769a3db9b54e38863eebb9f9e9d"
+    },
+    {
+      "path": "job-log.zip",
+      "url": "https://api.github.com/repos/probityai/ratchet/actions/jobs/116591068820/logs",
+      "bytes": 719825,
+      "sha256": "3f71a2d1e314d2dd94fc54863126ada65c3947dced8f6ae0563ec6e060d30c99",
+      "members": [
+        {
+          "path": "job-log.txt",
+          "bytes": 8008375,
+          "sha256": "e98010c7bfa4ae18e1f8fccc72da7307681ab6833e9ff2ee3b1cf6f2272fce2e"
+        }
+      ],
+      "packaging": "Lossless deterministic ZIP of original public body; 1980 container timestamp is not execution time"
+    },
+    {
+      "path": "source/docs/results/hooks-replay.md",
+      "url": "https://raw.githubusercontent.com/probityai/ratchet/b2800b26ec6cf60fee8e95682660846f674f97c2/docs/results/hooks-replay.md",
+      "bytes": 1795,
+      "sha256": "0719613418dee2c94b93cf137b600e2b521819698fc0bacae268a1d7f0e58584"
+    },
+    {
+      "path": "source/pyproject.toml",
+      "url": "https://raw.githubusercontent.com/probityai/ratchet/b2800b26ec6cf60fee8e95682660846f674f97c2/pyproject.toml",
+      "bytes": 3800,
+      "sha256": "95c6f7175246cd52be84099d2973c717aaf765a3e5dbe9fa4b84932c5c217cfb"
+    },
+    {
+      "path": "source/workflows/ci.yml",
+      "url": "https://raw.githubusercontent.com/probityai/ratchet/b2800b26ec6cf60fee8e95682660846f674f97c2/.github/workflows/ci.yml",
+      "bytes": 9335,
+      "sha256": "577b8b33e8d84584ad3bb5e613389cfacd85c3ece45dff049878ae0d06dbf5fc"
+    },
+    {
+      "path": "source/tests/export/test_example.py",
+      "url": "https://raw.githubusercontent.com/probityai/ratchet/b2800b26ec6cf60fee8e95682660846f674f97c2/tests/export/test_example.py",
+      "bytes": 8328,
+      "sha256": "10e8f9c57eb18618f9b8b0d95d4275753d40a384ceedd43380f00db960e2f8d1"
+    },
+    {
+      "path": "source/examples/claude-code/no_force_push_main.py",
+      "url": "https://raw.githubusercontent.com/probityai/ratchet/b2800b26ec6cf60fee8e95682660846f674f97c2/examples/claude-code/no_force_push_main.py",
+      "bytes": 13020,
+      "sha256": "93ff0217a5d985a7c5d6bde1a28598ecc5562e535cfc2efcb0ec7129567ee341"
+    },
+    {
+      "path": "source/examples/claude-code/hooks/ratchet_no_force_push_main.py",
+      "url": "https://raw.githubusercontent.com/probityai/ratchet/b2800b26ec6cf60fee8e95682660846f674f97c2/examples/claude-code/hooks/ratchet_no_force_push_main.py",
+      "bytes": 63391,
+      "sha256": "b99b090d0805d3745e542dc0d3af5484dd5c6c780bef080eca4e6121bc92515e"
+    }
+  ],
+  "limit": "Historical source and original output only. This packet does not execute the original workload, authenticate a copied operator string or independently repeat a private aggregate."
+}

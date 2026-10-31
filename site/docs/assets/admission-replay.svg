@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="742" viewBox="0 0 360 742" role="img" aria-labelledby="title description">
+  <title id="title">Replay the decision, preserve the action evidence</title>
+  <desc id="description">Policy, signed packet, broker history, witness receipts and durable file bytes enter a scratch consumer. The first admission is stored. Replay, changed authority and altered signed bytes each refuse and preserve consumer state. This is a same-operator PEER fixture.</desc>
+  <rect width="360" height="742" rx="16" fill="#fbfaf7"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#1d1d1f">
+    <text x="20" y="39" font-size="24" font-weight="700">Replay the decision</text>
+    <text x="20" y="67" font-size="17" fill="#5b5d63">Keep action evidence unchanged.</text>
+    <rect x="20" y="90" width="320" height="210" rx="10" fill="#f1efe9" stroke="#dcd9d2"/>
+    <text x="36" y="124" font-size="20" font-weight="700">Retained inputs</text>
+    <text x="36" y="155" font-size="17">Policy and pinned keys</text>
+    <text x="36" y="183" font-size="17">Signed packet and broker history</text>
+    <text x="36" y="211" font-size="17">Witness receipts and file bytes</text>
+    <text x="36" y="250" font-size="16" fill="#5b5d63">Check exact source blobs</text>
+    <text x="36" y="275" font-size="16" fill="#5b5d63">and retained hashes first.</text>
+    <path d="M180 300V326" stroke="#1f5f8b" stroke-width="3"/>
+    <path d="M172 318L180 328L188 318" fill="none" stroke="#1f5f8b" stroke-width="3"/>
+    <rect x="20" y="343" width="320" height="110" rx="10" fill="#1f5f8b"/>
+    <text x="36" y="376" font-size="20" font-weight="700" fill="#ffffff">Scratch consumer</text>
+    <text x="36" y="408" font-size="17" fill="#ffffff">Check the evidence.</text>
+    <text x="36" y="435" font-size="17" fill="#ffffff">Persist admission before success.</text>
+    <path d="M180 453V479" stroke="#1f5f8b" stroke-width="3"/>
+    <path d="M172 471L180 481L188 471" fill="none" stroke="#1f5f8b" stroke-width="3"/>
+    <rect x="20" y="496" width="320" height="154" rx="10" fill="#fff4d6" stroke="#dcd9d2"/>
+    <text x="36" y="530" font-size="20" font-weight="700">Require refusals</text>
+    <text x="36" y="562" font-size="17">Same interval: replay refuses</text>
+    <text x="36" y="590" font-size="17">Changed policy: authority refuses</text>
+    <text x="36" y="618" font-size="17">Altered claim: signature refuses</text>
+    <text x="20" y="683" font-size="17" font-weight="700">All refusals preserve state.</text>
+    <text x="20" y="710" font-size="15" fill="#5b5d63">Same-operator PEER fixture.</text>
+    <text x="20" y="732" font-size="15" fill="#5b5d63">Independent custody is unestablished.</text>
+  </g>
+</svg>

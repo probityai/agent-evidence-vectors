@@ -1,0 +1,193 @@
+[
+  {
+    "step": "lock",
+    "argv": [
+      "uv",
+      "lock",
+      "--check"
+    ],
+    "exit": 0
+  },
+  {
+    "step": "lint",
+    "argv": [
+      "/home/gate/work/oel-sql-native-case-r1-sql-illustration-r3-20261009/.venv/bin/python",
+      "-m",
+      "ruff",
+      "check",
+      "sql_illustration",
+      "tests",
+      "scripts/qualify.py"
+    ],
+    "exit": 0
+  },
+  {
+    "step": "format",
+    "argv": [
+      "/home/gate/work/oel-sql-native-case-r1-sql-illustration-r3-20261009/.venv/bin/python",
+      "-m",
+      "ruff",
+      "format",
+      "--check",
+      "sql_illustration",
+      "tests",
+      "scripts/qualify.py"
+    ],
+    "exit": 0
+  },
+  {
+    "step": "readme",
+    "argv": [
+      "/home/gate/work/oel-sql-native-case-r1-sql-illustration-r3-20261009/.venv/bin/python",
+      "scripts/readme-lint.py"
+    ],
+    "exit": 0
+  },
+  {
+    "step": "tests",
+    "argv": [
+      "/home/gate/work/oel-sql-native-case-r1-sql-illustration-r3-20261009/.venv/bin/python",
+      "-m",
+      "pytest",
+      "--junitxml=gate-results/tests.xml"
+    ],
+    "exit": 0
+  },
+  {
+    "step": "per-file-coverage",
+    "argv": [
+      "/home/gate/work/oel-sql-native-case-r1-sql-illustration-r3-20261009/.venv/bin/python",
+      "scripts/check_coverage.py",
+      "--src-dir",
+      "sql_illustration",
+      "--test-path",
+      "tests",
+      "--json"
+    ],
+    "exit": 0
+  },
+  {
+    "step": "coverage-json",
+    "argv": [
+      "/home/gate/work/oel-sql-native-case-r1-sql-illustration-r3-20261009/.venv/bin/python",
+      "-m",
+      "coverage",
+      "json",
+      "-o",
+      "gate-results/coverage.json"
+    ],
+    "exit": 0
+  },
+  {
+    "step": "fixture-00",
+    "fixture": "fixtures/matching-commit.json",
+    "exit": 0,
+    "expected_exit": 0,
+    "result": "recorded_commit_matches"
+  },
+  {
+    "step": "fixture-01",
+    "fixture": "fixtures/approved-audit-incomplete.json",
+    "exit": 1,
+    "expected_exit": 1,
+    "result": "insufficient_audit_evidence"
+  },
+  {
+    "step": "fixture-02",
+    "fixture": "fixtures/approved-no-match-declared-scope.json",
+    "exit": 1,
+    "expected_exit": 1,
+    "result": "no_match_in_declared_complete_scope"
+  },
+  {
+    "step": "fixture-03",
+    "fixture": "fixtures/different-sql.json",
+    "exit": 1,
+    "expected_exit": 1,
+    "result": "execution_differs_from_approval"
+  },
+  {
+    "step": "fixture-04",
+    "fixture": "fixtures/different-parameters.json",
+    "exit": 1,
+    "expected_exit": 1,
+    "result": "execution_differs_from_approval"
+  },
+  {
+    "step": "fixture-05",
+    "fixture": "fixtures/different-database.json",
+    "exit": 1,
+    "expected_exit": 1,
+    "result": "execution_differs_from_approval"
+  },
+  {
+    "step": "fixture-06",
+    "fixture": "fixtures/different-schema.json",
+    "exit": 1,
+    "expected_exit": 1,
+    "result": "execution_differs_from_approval"
+  },
+  {
+    "step": "fixture-07",
+    "fixture": "fixtures/different-principal.json",
+    "exit": 1,
+    "expected_exit": 1,
+    "result": "execution_differs_from_approval"
+  },
+  {
+    "step": "fixture-08",
+    "fixture": "fixtures/rolled-back.json",
+    "exit": 1,
+    "expected_exit": 1,
+    "result": "transaction_rolled_back"
+  },
+  {
+    "step": "fixture-09",
+    "fixture": "fixtures/statement-failed.json",
+    "exit": 1,
+    "expected_exit": 1,
+    "result": "statement_failed"
+  },
+  {
+    "step": "fixture-10",
+    "fixture": "fixtures/commit-unknown.json",
+    "exit": 1,
+    "expected_exit": 1,
+    "result": "commit_not_established"
+  },
+  {
+    "step": "fixture-11",
+    "fixture": "fixtures/outcome-disagreement.json",
+    "exit": 1,
+    "expected_exit": 1,
+    "result": "application_audit_disagreement"
+  },
+  {
+    "step": "fixture-12",
+    "fixture": "fixtures/matching-commit-later-change.json",
+    "exit": 0,
+    "expected_exit": 0,
+    "result": "recorded_commit_matches"
+  },
+  {
+    "step": "fixture-13",
+    "fixture": "fixtures/ambiguous-execution.json",
+    "exit": 1,
+    "expected_exit": 1,
+    "result": "ambiguous_database_join"
+  },
+  {
+    "step": "fixture-14",
+    "fixture": "fixtures/approval-not-granted.json",
+    "exit": 1,
+    "expected_exit": 1,
+    "result": "approval_not_granted"
+  },
+  {
+    "step": "fixture-15",
+    "fixture": "fixtures/application-record-missing.json",
+    "exit": 1,
+    "expected_exit": 1,
+    "result": "application_record_missing"
+  }
+]

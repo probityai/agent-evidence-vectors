@@ -1,0 +1,31 @@
+[
+  {
+    "after": "elif False:",
+    "before": "elif control.get(\"state\") != \"fail\":",
+    "changed_occurrences": 1,
+    "flipped_cases": [
+      "v4e4face5dd4ff492"
+    ],
+    "flipped_count": 1,
+    "mutant_sha256": "a57f365c5046ab4e400ef215ca3beea93fd975239a92726eb2eb0618c127816d",
+    "mutation": "negative-witness-state",
+    "original_reader_sha256": "08179121ac0ce86b5fa64c489f37bc3a3c2edd7767f6abec1182ca55a3f9e5b1",
+    "total_cases": 232,
+    "unchanged_count": 231
+  },
+  {
+    "after": "if False:",
+    "before": "if any(bound.get(slot) != run_fixed.get(slot) for slot in BINDING_SLOTS):",
+    "changed_occurrences": 1,
+    "flipped_cases": [
+      "va86e962a5024f152",
+      "ve9c436f93e42e394"
+    ],
+    "flipped_count": 2,
+    "mutant_sha256": "6c2541c985569a3cf3483efc8e121a2a615fef64ab490c7fde98161dc9b4775e",
+    "mutation": "checker-and-configuration",
+    "original_reader_sha256": "08179121ac0ce86b5fa64c489f37bc3a3c2edd7767f6abec1182ca55a3f9e5b1",
+    "total_cases": 232,
+    "unchanged_count": 230
+  }
+]

@@ -1,0 +1,63 @@
+[
+  {
+    "actual_flipped_count": 1,
+    "actual_unchanged_count": 231,
+    "all_116_accept_controls_unchanged": true,
+    "baseline_reader_sha256": "08179121ac0ce86b5fa64c489f37bc3a3c2edd7767f6abec1182ca55a3f9e5b1",
+    "flipped_cases": [
+      {
+        "baseline_rejections": [
+          "W3C-R-013"
+        ],
+        "changed": true,
+        "family": "w3c-f-13",
+        "id": "v4e4face5dd4ff492",
+        "input_sha256": "c607383f2e951c3034d48805bed0400b8ef7b97915b7164ae4edf14d504e12ec",
+        "kind": "reject",
+        "mutant_rejections": [],
+        "source_file": "vectors/v4e4face5dd4ff492.json",
+        "subject_type": "report"
+      }
+    ],
+    "mutant_sha256": "a57f365c5046ab4e400ef215ca3beea93fd975239a92726eb2eb0618c127816d",
+    "mutation": "negative-witness-state",
+    "scope": "One predicate is disabled in a private module copy. All 232 input documents and resolution stores are unchanged. This is a separate diagnostic experiment."
+  },
+  {
+    "actual_flipped_count": 2,
+    "actual_unchanged_count": 230,
+    "all_116_accept_controls_unchanged": true,
+    "baseline_reader_sha256": "08179121ac0ce86b5fa64c489f37bc3a3c2edd7767f6abec1182ca55a3f9e5b1",
+    "flipped_cases": [
+      {
+        "baseline_rejections": [
+          "W3C-R-029"
+        ],
+        "changed": true,
+        "family": "w3c-f-29",
+        "id": "va86e962a5024f152",
+        "input_sha256": "15d71668c0b2a8ae37084f1c3090c9160fb1c8d440af0bef0457f014604e8385",
+        "kind": "reject",
+        "mutant_rejections": [],
+        "source_file": "vectors/va86e962a5024f152.json",
+        "subject_type": "report"
+      },
+      {
+        "baseline_rejections": [
+          "W3C-R-029"
+        ],
+        "changed": true,
+        "family": "w3c-f-29",
+        "id": "ve9c436f93e42e394",
+        "input_sha256": "7f539cd292ae5ea5b5e414d56559cf588bbbdb8c74f3daa1e509a3cc3ddfbecb",
+        "kind": "reject",
+        "mutant_rejections": [],
+        "source_file": "vectors/ve9c436f93e42e394.json",
+        "subject_type": "report"
+      }
+    ],
+    "mutant_sha256": "6c2541c985569a3cf3483efc8e121a2a615fef64ab490c7fde98161dc9b4775e",
+    "mutation": "checker-and-configuration",
+    "scope": "One predicate is disabled in a private module copy. All 232 input documents and resolution stores are unchanged. This is a separate diagnostic experiment."
+  }
+]

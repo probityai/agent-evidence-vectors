@@ -301,6 +301,13 @@ test_fail_closed_oov_label_is_valid if {
 	_valid_and_floored_at_fail(_artifact_row({"containmentObserved": "totally-unknown"}))
 }
 
+# An ABSENT label is fail-closed exactly as an out-of-vocabulary one is. It is swept
+# separately because the actualLayer rule once refused it: a negated call with the
+# absent member as its argument fails rather than holding.
+test_fail_closed_missing_label_is_valid if {
+	_valid_and_floored_at_fail(json.remove(_artifact_row({}), ["containmentObserved"]))
+}
+
 # The other side of the same sentence: the identical faults on a `basis: substrate` row
 # leave the class match with nothing to dispatch on, and there the statement IS
 # invalid. `basis` is named in that sentence and cannot fire from it — a row whose
@@ -385,6 +392,30 @@ test_reject_stripped_catch_policy if {
 # ── substrate-carrying rejects (records + run-binding + batch-root) ───────────────
 
 _bad_record := _record(object.union(_arming_payload, {"aeeRunBinding": "deadbeef"}))
+
+# A record payload spelled any way but the canonical RFC 4648 one carries no bytes.
+# The Go decoder behind base64.decode refuses a missing pad and a non-alphabet byte by
+# itself; these two shapes it accepts, so they are the ones the round trip exists for.
+test_payload_nonzero_trailing_bits_undecodable if {
+	base64.decode("YR==") == "a"
+	not _payload_text({"payload": "YR=="})
+	_payload_text({"payload": "YQ=="}) == "a"
+}
+
+test_payload_line_break_undecodable if {
+	base64.decode("YWJj\r\nZGVm") == "abcdef"
+	not _payload_text({"payload": "YWJj\r\nZGVm"})
+}
+
+test_reject_record_payload_with_line_break if {
+	spelled := _arming_record.payload
+	broken := concat("\r\n", [substring(spelled, 0, 16), substring(spelled, 16, -1)])
+	stmt := object.union(accept, {"predicate": {"observationRecords": [object.union(_arming_record, {"payload": broken}), _sealed_record]}})
+	bindings_ok with input as stmt
+	not soundness_ok with input as stmt
+	soundness_ok with input as accept
+}
+
 
 # Clean-row coverage still resolves here (the covering predicate reads the record
 # CLASS; run_binding_ok owns the binding, for every record rather than the referenced

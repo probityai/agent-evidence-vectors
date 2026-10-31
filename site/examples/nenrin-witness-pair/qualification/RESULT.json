@@ -1,0 +1,410 @@
+{
+  "profile": "probity.nenrin-witness-byte-reader-qualification/v1",
+  "source_head": "f61b1822769342d0fe749fec70ea6d13146fb95d",
+  "source_tree": "98245984fd3d17609a9f7f9dfae4879d734e527c",
+  "tested_source_head": "029f45b6475044c7e66f4bb69b43bc120009a34b",
+  "tested_snapshot": "0fac00ef3707cfa8de762d62ca8e601cd3836a34",
+  "operator": {
+    "identity": "Probity Codex / ordinary shared BoxPool author-run",
+    "source": "caller-declared",
+    "authenticated": false
+  },
+  "runtime": "CPython3.14.7",
+  "cryptography": "50.0.2",
+  "allocation": {
+    "regular_shared_box": true,
+    "burst": false,
+    "free_gib_on_admission": 18,
+    "floor_gib": 15
+  },
+  "actual_driver_exit": 0,
+  "gate_steps": [
+    {
+      "step": "lock",
+      "argv": [
+        "uv",
+        "lock",
+        "--check"
+      ],
+      "actual_exit": 0,
+      "expected_exit": 0,
+      "matched": true
+    },
+    {
+      "step": "lint",
+      "argv": [
+        "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/.venv/bin/python",
+        "-m",
+        "ruff",
+        "check",
+        "witness_case",
+        "tests",
+        "scripts/qualify.py"
+      ],
+      "actual_exit": 0,
+      "expected_exit": 0,
+      "matched": true
+    },
+    {
+      "step": "format",
+      "argv": [
+        "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/.venv/bin/python",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "witness_case",
+        "tests",
+        "scripts/qualify.py"
+      ],
+      "actual_exit": 0,
+      "expected_exit": 0,
+      "matched": true
+    },
+    {
+      "step": "readme",
+      "argv": [
+        "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/.venv/bin/python",
+        "scripts/readme-lint.py"
+      ],
+      "actual_exit": 0,
+      "expected_exit": 0,
+      "matched": true
+    },
+    {
+      "step": "per-file-coverage",
+      "argv": [
+        "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/.venv/bin/python",
+        "scripts/check_coverage.py",
+        "--src-dir",
+        "witness_case",
+        "--test-path",
+        "tests",
+        "--json"
+      ],
+      "actual_exit": 0,
+      "expected_exit": 0,
+      "matched": true
+    },
+    {
+      "step": "coverage-json",
+      "argv": [
+        "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/.venv/bin/python",
+        "-m",
+        "coverage",
+        "json",
+        "-o",
+        "gate-results/coverage.json"
+      ],
+      "actual_exit": 0,
+      "expected_exit": 0,
+      "matched": true
+    },
+    {
+      "step": "pair-a-a2a",
+      "argv": [
+        "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/.venv/bin/python",
+        "-m",
+        "witness_case.reader",
+        "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/fixtures/a.api.json",
+        "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/fixtures/a.key.json",
+        "--record-sha256",
+        "747ecd97635e104e75185212cfb70e3cc37310ea1f41966a818bfb5b5d57df15",
+        "--key-document-sha256",
+        "c2aeb7c14095aa8e22eeb6fea2d7d8975ba77db87825a25738155ff77f0bf609",
+        "--key-url",
+        "https://pipavlo82.github.io/keys/witness.json",
+        "--target",
+        "https://gate.horizonshield.dev/a2a",
+        "--operator",
+        "Probity Codex / ordinary shared BoxPool author-run"
+      ],
+      "actual_exit": 0,
+      "expected_exit": 0,
+      "matched": true
+    },
+    {
+      "step": "pair-b-a2a",
+      "argv": [
+        "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/.venv/bin/python",
+        "-m",
+        "witness_case.reader",
+        "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/fixtures/b.api.json",
+        "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/fixtures/b.key.json",
+        "--record-sha256",
+        "e1521f115d61116e3c4d7957903c12afe88617cff468403351f5cea432894b24",
+        "--key-document-sha256",
+        "cb761905d8a2af4145c62e453fa8c65a4c9bb616ecbf727f4aacddb1f65131f2",
+        "--key-url",
+        "https://kuangmi-bit.github.io/conduct-witness/conduct-witness-key.json",
+        "--target",
+        "https://gate.horizonshield.dev/a2a",
+        "--operator",
+        "Probity Codex / ordinary shared BoxPool author-run"
+      ],
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "matched": true
+    },
+    {
+      "step": "pair-a-slash",
+      "argv": [
+        "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/.venv/bin/python",
+        "-m",
+        "witness_case.reader",
+        "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/fixtures/a.api.json",
+        "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/fixtures/a.key.json",
+        "--record-sha256",
+        "747ecd97635e104e75185212cfb70e3cc37310ea1f41966a818bfb5b5d57df15",
+        "--key-document-sha256",
+        "c2aeb7c14095aa8e22eeb6fea2d7d8975ba77db87825a25738155ff77f0bf609",
+        "--key-url",
+        "https://pipavlo82.github.io/keys/witness.json",
+        "--target",
+        "https://gate.horizonshield.dev/a2a/",
+        "--operator",
+        "Probity Codex / ordinary shared BoxPool author-run"
+      ],
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "matched": true
+    },
+    {
+      "step": "pair-b-slash",
+      "argv": [
+        "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/.venv/bin/python",
+        "-m",
+        "witness_case.reader",
+        "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/fixtures/b.api.json",
+        "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/fixtures/b.key.json",
+        "--record-sha256",
+        "e1521f115d61116e3c4d7957903c12afe88617cff468403351f5cea432894b24",
+        "--key-document-sha256",
+        "cb761905d8a2af4145c62e453fa8c65a4c9bb616ecbf727f4aacddb1f65131f2",
+        "--key-url",
+        "https://kuangmi-bit.github.io/conduct-witness/conduct-witness-key.json",
+        "--target",
+        "https://gate.horizonshield.dev/a2a/",
+        "--operator",
+        "Probity Codex / ordinary shared BoxPool author-run"
+      ],
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "matched": true
+    }
+  ],
+  "test_counts": {
+    "tests": 62,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "per_file_gate": {
+    "threshold": 80.0,
+    "total_files": 2,
+    "files_passing": 2,
+    "files_failing": 0,
+    "aggregate_coverage": 99.19,
+    "passing": true,
+    "files_below_threshold": []
+  },
+  "coverage": {
+    "witness_case/__init__.py": {
+      "covered_lines": 0,
+      "num_statements": 0,
+      "percent_covered": 100.0,
+      "percent_covered_display": "100",
+      "missing_lines": 0,
+      "excluded_lines": 0,
+      "percent_statements_covered": 100.0,
+      "percent_statements_covered_display": "100",
+      "num_branches": 0,
+      "num_partial_branches": 0,
+      "covered_branches": 0,
+      "missing_branches": 0,
+      "percent_branches_covered": 100.0,
+      "percent_branches_covered_display": "100"
+    },
+    "witness_case/io.py": {
+      "covered_lines": 91,
+      "num_statements": 91,
+      "percent_covered": 100.0,
+      "percent_covered_display": "100",
+      "missing_lines": 0,
+      "excluded_lines": 0,
+      "percent_statements_covered": 100.0,
+      "percent_statements_covered_display": "100",
+      "num_branches": 36,
+      "num_partial_branches": 0,
+      "covered_branches": 36,
+      "missing_branches": 0,
+      "percent_branches_covered": 100.0,
+      "percent_branches_covered_display": "100"
+    },
+    "witness_case/reader.py": {
+      "covered_lines": 153,
+      "num_statements": 155,
+      "percent_covered": 98.65470852017937,
+      "percent_covered_display": "99",
+      "missing_lines": 2,
+      "excluded_lines": 0,
+      "percent_statements_covered": 98.70967741935483,
+      "percent_statements_covered_display": "99",
+      "num_branches": 68,
+      "num_partial_branches": 1,
+      "covered_branches": 67,
+      "missing_branches": 1,
+      "percent_branches_covered": 98.52941176470588,
+      "percent_branches_covered_display": "99"
+    }
+  },
+  "actual_reads": [
+    {
+      "step": "pair-a-a2a",
+      "actual_exit": 0,
+      "target": "https://gate.horizonshield.dev/a2a",
+      "signed_purpose_url": "https://gate.horizonshield.dev/a2a",
+      "outcome": "MATCHING_SIGNED_OBSERVATION",
+      "signature_verified_under_pinned_key": true,
+      "true": 7,
+      "false": 0,
+      "null": 1,
+      "card_signature_verified_declared": null
+    },
+    {
+      "step": "pair-b-a2a",
+      "actual_exit": 1,
+      "target": "https://gate.horizonshield.dev/a2a",
+      "signed_purpose_url": "https://gate.horizonshield.dev/mcp",
+      "outcome": "TARGET_MISMATCH",
+      "signature_verified_under_pinned_key": true,
+      "true": 4,
+      "false": 0,
+      "null": 4,
+      "card_signature_verified_declared": null
+    },
+    {
+      "step": "pair-a-slash",
+      "actual_exit": 1,
+      "target": "https://gate.horizonshield.dev/a2a/",
+      "signed_purpose_url": "https://gate.horizonshield.dev/a2a",
+      "outcome": "TARGET_MISMATCH",
+      "signature_verified_under_pinned_key": true,
+      "true": 7,
+      "false": 0,
+      "null": 1,
+      "card_signature_verified_declared": null
+    },
+    {
+      "step": "pair-b-slash",
+      "actual_exit": 1,
+      "target": "https://gate.horizonshield.dev/a2a/",
+      "signed_purpose_url": "https://gate.horizonshield.dev/mcp",
+      "outcome": "TARGET_MISMATCH",
+      "signature_verified_under_pinned_key": true,
+      "true": 4,
+      "false": 0,
+      "null": 4,
+      "card_signature_verified_declared": null
+    }
+  ],
+  "source_and_receipt_custody": {
+    "r1_source_files": 22,
+    "r1_receipts": 12,
+    "r2_source_files": 22,
+    "r2_receipts": 23,
+    "all_matched": true
+  },
+  "post_gate_changes": "Only INPUT-CONTRACT argument-error wording and new QUALIFICATION.md; reader, tests, fixtures, lock and gate source remain byte-identical to R2. Atlas integration requires its owning site/source gate.",
+  "tested_runtime_and_fixture_files": [
+    {
+      "path": "witness_case/__init__.py",
+      "unchanged": true
+    },
+    {
+      "path": "witness_case/io.py",
+      "unchanged": true
+    },
+    {
+      "path": "witness_case/reader.py",
+      "unchanged": true
+    },
+    {
+      "path": "tests/test_io.py",
+      "unchanged": true
+    },
+    {
+      "path": "tests/test_reader.py",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/check_coverage.py",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/qualify.py",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/readme-lint.py",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/run-gate.sh",
+      "unchanged": true
+    },
+    {
+      "path": "pyproject.toml",
+      "unchanged": true
+    },
+    {
+      "path": "uv.lock",
+      "unchanged": true
+    },
+    {
+      "path": "fixtures/a.api.json",
+      "unchanged": true
+    },
+    {
+      "path": "fixtures/a.key.json",
+      "unchanged": true
+    },
+    {
+      "path": "fixtures/b.api.json",
+      "unchanged": true
+    },
+    {
+      "path": "fixtures/b.key.json",
+      "unchanged": true
+    },
+    {
+      "path": "fixtures/ledger73.ots",
+      "unchanged": true
+    },
+    {
+      "path": "fixtures/pins.json",
+      "unchanged": true
+    }
+  ],
+  "adverse_r1": {
+    "actual_driver_exit": 2,
+    "passed": 61,
+    "failed": 1,
+    "source_head": "20b5ff17e667b94958c1042169b602f4fff24d1b",
+    "snapshot": "3be43b0d9520faa348364d74debfb560dec6e117",
+    "cause": "Explicit JSON nesting bound absent; deep-array control received a different refusal code.",
+    "repair": "Fixed64-container preflight with boundary and quoted-bracket controls; native record/key/pin bytes unchanged."
+  },
+  "credits": {
+    "record_a": "Pavlo / pipavlo82",
+    "record_b": "kuangmi-bit",
+    "pair_supplier": "Horizon Shield",
+    "reader_implementation_and_run": "Probity"
+  },
+  "limits": [
+    "A second independently authored reader, run by its author on supplied external records. Not an outside run of the new reader.",
+    "Current pinned-key signature verification does not establish historical key/domain control or unaffiliated observation.",
+    "Card-signature status remains declared null; no card or response-claim verification, fresh network walk or separately observed dispatch.",
+    "OTS1599bytes retained; no timestamp-proof validation."
+  ]
+}

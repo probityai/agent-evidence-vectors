@@ -5,6 +5,7 @@ import base64
 import csv
 import hashlib
 import io
+import json
 import stat
 import tomllib
 from pathlib import Path, PurePosixPath
@@ -27,8 +28,8 @@ def check(wheel: Path, sdist: Path, source_root: Path | None = None) -> None:
             and project["license-files"] == ["LICENSE", "LICENSE-CC0"], "released registry grants")
     data = (root / "vocabulary.yaml").read_bytes()
     require(yaml.safe_load(data)["meta"]["version"] == project["version"], "registry and package version")
-    require(hashlib.sha256(data).hexdigest() == "76233ba8924cebdf053f0449ce023186805156aedca4121b9b156bd747a411b4",
-            "registry digest")
+    index = json.loads((root / "registry.json").read_text(encoding="utf-8"))
+    require(hashlib.sha256(data).hexdigest() == index["source_sha256"], "registry digest")
     source = {"agent_evidence_vocabulary/__init__.py": root / "__init__.py",
               "agent_evidence_vocabulary/vocabulary.yaml": root / "vocabulary.yaml",
               "agent_evidence_vocabulary/registry.json": root / "registry.json",

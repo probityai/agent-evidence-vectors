@@ -31,6 +31,7 @@ TERM_SECTIONS = (
     "record_lifecycle",
     "change_admission",
     "done_verification",
+    "incident_response",
 )
 CRITICALITY = ("critical", "informational")
 

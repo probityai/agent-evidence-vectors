@@ -1,0 +1,58 @@
+{
+  "accept_members": 116,
+  "baseline_dispatch": "subject_shape_errors(subjectType, subject), then subject_rejections(subjectType, subject, resolves=document.get('resolves'))",
+  "configuration": {
+    "control_binding_slots": [
+      "checker",
+      "constraint-set"
+    ],
+    "relax_argument": [],
+    "resolution_store": "Original document's resolves object; no added resolution or network lookup"
+  },
+  "corpus_digest": "55c26ea4f504c417b412f8671cef757a46f196ded5589bb465980a793d337522",
+  "dataset": "Historical 0.13.0 vectors-w3c-report fixture corpus; separate from the original 272-record report",
+  "historical_report_modified": false,
+  "interpreter": "CPython 3.13.7, Linux x86_64",
+  "mutations": [
+    {
+      "after": "elif False:",
+      "before": "elif control.get(\"state\") != \"fail\":",
+      "changed_occurrences": 1,
+      "flipped_cases": [
+        "v4e4face5dd4ff492"
+      ],
+      "flipped_count": 1,
+      "mutant_sha256": "a57f365c5046ab4e400ef215ca3beea93fd975239a92726eb2eb0618c127816d",
+      "mutation": "negative-witness-state",
+      "original_reader_sha256": "08179121ac0ce86b5fa64c489f37bc3a3c2edd7767f6abec1182ca55a3f9e5b1",
+      "total_cases": 232,
+      "unchanged_count": 231
+    },
+    {
+      "after": "if False:",
+      "before": "if any(bound.get(slot) != run_fixed.get(slot) for slot in BINDING_SLOTS):",
+      "changed_occurrences": 1,
+      "flipped_cases": [
+        "va86e962a5024f152",
+        "ve9c436f93e42e394"
+      ],
+      "flipped_count": 2,
+      "mutant_sha256": "6c2541c985569a3cf3483efc8e121a2a615fef64ab490c7fde98161dc9b4775e",
+      "mutation": "checker-and-configuration",
+      "original_reader_sha256": "08179121ac0ce86b5fa64c489f37bc3a3c2edd7767f6abec1182ca55a3f9e5b1",
+      "total_cases": 232,
+      "unchanged_count": 230
+    }
+  ],
+  "normative_scope": "The frozen September 30 v0.1 text leaves its section 10 digest open. Corpus binding rule 29 is a historical proposed check and permits missing bindings. Section 5.5 fixture records are proposed, not normative.",
+  "production_source_modified": false,
+  "reject_members": 116,
+  "source_commit": "e07cd52999204d7c0f6562a5098dc4784fe025a6",
+  "source_reader_sha256": "08179121ac0ce86b5fa64c489f37bc3a3c2edd7767f6abec1182ca55a3f9e5b1",
+  "subjects": {
+    "agent-run-metrics": 44,
+    "llm-context-discovery": 22,
+    "report": 166
+  },
+  "wheel_sha256": "7038658ee3bfe5c3c78b3cc42fcded9fdfb664e56b2f634bc0733c40fc0e2277"
+}

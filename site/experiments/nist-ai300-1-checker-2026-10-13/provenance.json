@@ -1,0 +1,49 @@
+{
+  "sourceType": "retained-public-source-and-original-host-output",
+  "repository": "probityai/agent-evidence-vectors",
+  "sourceCommit": "2212fe0fb413003b1b329e4c4b034c45746f571d",
+  "runID": 38361073429,
+  "jobID": 115175144532,
+  "retainedPacketAt": "2026-10-16T00:47:36.224877+00:00",
+  "sources": [
+    {
+      "path": "jobs.json",
+      "url": "https://api.github.com/repos/probityai/agent-evidence-vectors/actions/runs/38361073429/jobs?per_page=100",
+      "bytes": 5905,
+      "sha256": "4b5e519a8eb8764b74e3bb1c218861b8bffdf30c2097721905d55cf567d99c25"
+    },
+    {
+      "path": "job-log.zip",
+      "url": "https://api.github.com/repos/probityai/agent-evidence-vectors/actions/jobs/115175144532/logs",
+      "bytes": 6622,
+      "sha256": "5d2ac1335d8c3e8b68a1d1b4866331b023e1502f9857e63cb668a81d0f2ba831",
+      "members": [
+        {
+          "path": "job-log.txt",
+          "bytes": 29795,
+          "sha256": "8a1a8914b25c0483013e544815efa146159cc797d28f9e896c7834976f778df5"
+        }
+      ],
+      "packaging": "Lossless deterministic ZIP of original public body; 1980 container timestamp is not execution time"
+    },
+    {
+      "path": "source/workflows/nist-ai-300-1.yml",
+      "url": "https://raw.githubusercontent.com/probityai/agent-evidence-vectors/2212fe0fb413003b1b329e4c4b034c45746f571d/.github/workflows/nist-ai-300-1.yml",
+      "bytes": 2361,
+      "sha256": "7602f2fca48a01d4fe6e3f51777ec150520688bb1d572918de3c91935c3419d1"
+    },
+    {
+      "path": "source/interop/nist-ai-300-1/README.md",
+      "url": "https://raw.githubusercontent.com/probityai/agent-evidence-vectors/2212fe0fb413003b1b329e4c4b034c45746f571d/interop/nist-ai-300-1/README.md",
+      "bytes": 5032,
+      "sha256": "01e06b65b10a7306b0201a02c9fb373a83867677c898baf77e221e232b37a29a"
+    },
+    {
+      "path": "source/interop/nist-ai-300-1/check_vectors.py",
+      "url": "https://raw.githubusercontent.com/probityai/agent-evidence-vectors/2212fe0fb413003b1b329e4c4b034c45746f571d/interop/nist-ai-300-1/check_vectors.py",
+      "bytes": 14667,
+      "sha256": "19a86a0b5cb3eb3882e08777b378c03f72f766bedfcf1d529ec5641111a037c5"
+    }
+  ],
+  "limit": "Historical source and original output only. This packet does not execute the original workload, authenticate a copied operator string or independently repeat a private aggregate."
+}

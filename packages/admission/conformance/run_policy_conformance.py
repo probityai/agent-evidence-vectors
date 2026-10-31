@@ -808,6 +808,12 @@ _REFS_JOIN = (
 )
 _RUN_IDENTITY = "the run-identity recompute, which needs canonical JSON and SHA-256"
 _UNREAD_MEMBER = "a predicate member no constraint on this rail reads"
+_RECORD_DEDUP_AND_SPELLING = (
+    "the record-hash dedup across the carried records and the canonical RFC 4648 "
+    "spelling of a record payload (zero trailing bits). No rail compares one record "
+    "with another; the decoders the JMESPath and CEL rails call accept nonzero "
+    "trailing bits, and the CUE rail never decodes a payload at all"
+)
 _OUTSIDE_CONTEXT = (
     "a STATEMENT member outside this rail's evaluation context. Kyverno hands the "
     "conditions the predicate object and nothing else, both merged at the context "
@@ -845,6 +851,14 @@ _HARNESS_DECODER = (
     "denial belongs to the harness rather than to the deployed rail, which receives "
     "a statement cosign has already decoded. Recorded as a divergence rather than "
     "claimed as a rail strength"
+)
+_HARNESS_DECODER_PAIR = (
+    "the Kyverno command line tool's YAML reader refuses every surrogate escape, "
+    "and the harness spells a character above U+FFFF as an escaped surrogate pair, "
+    "so the pair that encodes a noncharacter is denied by the tool while the oracle "
+    "reads it as one valid character. This denial belongs to the harness rather than "
+    "to the deployed rail, which receives a statement cosign has already decoded. "
+    "Recorded as a divergence rather than claimed as a rail strength"
 )
 _CUE_DECODER = (
     "CUE's JSON reader rejects the unpaired surrogate, and cosign compiles the "
@@ -1065,6 +1079,29 @@ def _has_lone_or_reversed_surrogate(statement: dict[str, Any]) -> bool:
     return any(0xD800 <= ord(ch) <= 0xDFFF for ch in text)
 
 
+def _has_supplementary_plane_character(statement: dict[str, Any]) -> bool:
+    """The harness writes each statement with `json.dumps`, which spells a character
+    above U+FFFF as an escaped UTF-16 surrogate pair. The Kyverno command line tool's
+    YAML reader refuses every surrogate escape, a well-formed pair included, so a
+    statement carrying such a character is denied by the tool before any rail runs.
+    A pair that encodes a noncharacter (U+1FFFE) is the corpus case; the oracle
+    admits it, because it parses the pair as one valid character.
+    """
+    text = json.dumps(statement, ensure_ascii=False)
+    return any(ord(ch) > 0xFFFF for ch in text)
+
+
+def _c2_has_attack_rows(statement: dict[str, Any]) -> bool:
+    """A statement with at least one attack row. Without one, the result the rails
+    are asked to accept is `pass_indirect` over an empty row list, and the rails deny
+    that on their own conditions, so only a statement with rows is a result recompute
+    they cannot perform.
+    """
+    predicate = statement.get("predicate")
+    rows = predicate.get("attackResults") if isinstance(predicate, dict) else None
+    return isinstance(rows, list) and bool(rows)
+
+
 def _c59_substrate_digest_noncanonical(statement: dict[str, Any]) -> bool:
     """Separates bad-609's substrate-digest shape (deferred to the consumer anchor
     on both rails) from bad-608's runEntropy-digest shape: Kyverno's condition (14)
@@ -1210,6 +1247,12 @@ _KYVERNO_ADMITS: tuple[_Divergence, ...] = (
         "aee-c-2; aee-c-6 | codes: result-recompute-mismatch",
         {"codes": ["result-recompute-mismatch"], "verdict": "invalid"},
         _RESULT_RECOMPUTE,
+        shape=_c2_has_attack_rows,
+    ),
+    _Divergence(
+        "aee-c-29; aee-c-110 | codes: duplicate-record,record-undecodable",
+        {"codes": ["duplicate-record", "record-undecodable"], "verdict": "invalid"},
+        _RECORD_DEDUP_AND_SPELLING,
     ),
     _Divergence(
         "aee-c-14 | codes: clean-row-uncovered",
@@ -1392,6 +1435,12 @@ _KYVERNO_DENIES: tuple[_Divergence, ...] = (
         {"codes": ["statement-malformed"], "verdict": "invalid"},
         _HARNESS_DECODER,
         shape=_has_lone_or_reversed_surrogate,
+    ),
+    _Divergence(
+        "aee-c-18 | codes: statement-malformed",
+        {"codes": ["statement-malformed"], "verdict": "invalid"},
+        _HARNESS_DECODER_PAIR,
+        shape=_has_supplementary_plane_character,
     ),
     # An unreferenced carried arming record omitting aeeArmedAt. The Kyverno armedAt
     # condition evaluates a JMESPath over the null field and errors ("Invalid type
@@ -2131,9 +2180,7 @@ def _check_condition_parity(policies: list[KyvernoPolicy]) -> list[str]:
 _EXPECTED_ATTESTATION_TYPE = (
     "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7"
 )
-_PUBLISHED_KEY = (
-    _ADMISSION / "keys" / "observation-key.pub"
-)
+_PUBLISHED_KEY = _ADMISSION / "keys" / "observation-key.pub"
 # Per document: the enforcement action, and whether the rule pins the image to its
 # digest form. The audit variant does not, because rewriting the image reference of a
 # Pod it is not blocking would mutate a resource it only reports on.
@@ -2228,19 +2275,27 @@ def _check_policy_invariants(paths: list[Path]) -> list[str]:
 # leave a total standing.
 # Corpus vectors the CEL rail ADMITS and the rego oracle DENIES.
 #
-# THE SET IS EMPTY, AND THAT IS THE MEASUREMENT THIS RAIL EXISTS TO REPORT. The
-# JMESPath bundle declares thirty-five, every one of them a rule that path cannot
-# express. Ported to CEL, all thirty-five close: the refs join is native list
-# indexing, the result recompute and the coverage partition are ordinary set algebra,
-# the posture-digest equalities needed only a document-root reference that policy
-# variables supply, the record payloads open with `base64.decode` + `json.unmarshal`,
-# and the run-identity recompute -- which no other rail here can attempt at all --
-# reproduces byte for byte with `hash.sha256` over `json.marshal`, whose object output
-# is key-sorted and therefore RFC 8785 for this corpus's ASCII profile.
+# THE SET HOLDS ONE FAMILY, AND THE REST OF WHAT THE JMESPATH BUNDLE DECLARES IS GONE.
+# The JMESPath bundle declares thirty-five rules that path cannot express. Ported to
+# CEL, all thirty-five close: the refs join is native list indexing, the result
+# recompute and the coverage partition are ordinary set algebra, the posture-digest
+# equalities needed only a document-root reference that policy variables supply, the
+# record payloads open with `base64.decode` + `json.unmarshal`, and the run-identity
+# recompute -- which no other rail here can attempt at all -- reproduces byte for byte
+# with `hash.sha256` over `json.marshal`, whose object output is key-sorted and
+# therefore RFC 8785 for this corpus's ASCII profile.
 #
-# An empty declaration is asserted for equality exactly as a populated one is, so a
-# CEL rail that LOSES power over any vector fails this gate loudly.
-_CEL_ADMITS: tuple[_Divergence, ...] = ()
+# The one family left is the record-hash dedup and the canonical base64 spelling, which
+# the oracle enforces and no rail does. It is declared, never elided, and an exact
+# equality is asserted for it as for every other declaration, so a CEL rail that gains
+# or loses power over any vector fails this gate loudly.
+_CEL_ADMITS: tuple[_Divergence, ...] = (
+    _Divergence(
+        "aee-c-29; aee-c-110 | codes: duplicate-record,record-undecodable",
+        {"codes": ["duplicate-record", "record-undecodable"], "verdict": "invalid"},
+        _RECORD_DEDUP_AND_SPELLING,
+    ),
+)
 
 # Corpus vectors the CEL rail DENIES and the rego oracle ADMITS. The same family the
 # JMESPath rail declares, in the same layer and for the same reason, but the reason is
@@ -2254,12 +2309,27 @@ _CEL_TOOL_DECODER = (
     "which is handed a statement cosign has already decoded. Recorded as a divergence "
     "rather than claimed as a rail strength"
 )
+_CEL_TOOL_DECODER_PAIR = (
+    "the Kyverno command line tool's YAML reader refuses every surrogate escape "
+    "before any CEL runs, and the harness spells a character above U+FFFF as an "
+    "escaped surrogate pair, so the pair that encodes a noncharacter is denied by "
+    "the tool while the oracle reads it as one valid character. This denial belongs "
+    "to the harness rather than to the deployed rail, which is handed a statement "
+    "cosign has already decoded. Recorded as a divergence rather than claimed as a "
+    "rail strength"
+)
 _CEL_DENIES: tuple[_Divergence, ...] = (
     _Divergence(
         "aee-c-18 | codes: statement-malformed",
         {"codes": ["statement-malformed"], "verdict": "invalid"},
         _CEL_TOOL_DECODER,
         shape=_has_lone_or_reversed_surrogate,
+    ),
+    _Divergence(
+        "aee-c-18 | codes: statement-malformed",
+        {"codes": ["statement-malformed"], "verdict": "invalid"},
+        _CEL_TOOL_DECODER_PAIR,
+        shape=_has_supplementary_plane_character,
     ),
     # An unreferenced carried sealed record whose aeePostureDigest is not the pinned
     # network posture digest. The CEL posture condition reads that digest and denies;
@@ -2289,7 +2359,7 @@ _CEL_DENIES: tuple[_Divergence, ...] = (
 _MEASURED_ADMITS: dict[str, int] = {
     "rego": 62,
     "kyverno": 98,
-    "cue": 116,
+    "cue": 117,
     "cel": 58,
 }
 

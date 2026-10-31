@@ -131,6 +131,9 @@ def _tracked_records() -> list[Path]:
         for name in out.split("\0")
         if name.endswith(RECORD_SUFFIXES)
         and "/cases/" not in name
+        # site/ holds retained qualification records whose bytes are bound by digests and
+        # carry the CI runner's own paths; rewriting one would break the digest that binds it.
+        and not name.startswith("site/")
     ]
 
 

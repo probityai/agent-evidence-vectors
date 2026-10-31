@@ -105,7 +105,11 @@ IDENTITY_SPANS = (
     "6d63705b2d5f205d746573745b2d5f205d746f6f6c6b6974",
 )
 IDENTITY = re.compile(_hex(*IDENTITY_SPANS), re.IGNORECASE)
-ABSOLUTE_HOME = re.compile(r"^\+.*(/home/[a-z]+/|/Users/[A-Za-z]+/)")
+# The home directories of a hosted CI runner, a gate box and a sandbox default user name
+# no person (the same three `scripts/record_paths.py` exempts), so a recorded run that
+# prints one is not a leak.
+_CI_HOMES = r"(?!(?:runner|gate|default)/)"
+ABSOLUTE_HOME = re.compile(rf"^\+.*(/home/{_CI_HOMES}[a-z]+/|/Users/[A-Za-z]+/)")
 DOSSIER = re.compile(r"research/[0-9]{3}-[a-z0-9-]+")
 
 RULES: tuple[tuple[str, re.Pattern[str]], ...] = (
@@ -118,7 +122,7 @@ RULES: tuple[tuple[str, re.Pattern[str]], ...] = (
 # and the decoded view of an added line. `ABSOLUTE_HOME` is anchored to the `+`
 # of a diff line, so it is restated here unanchored, not reused, and the
 # order matches the one the message scan has always printed in.
-HOME_ANYWHERE = re.compile(r"(/home/[a-z]+/|/Users/[A-Za-z]+/)")
+HOME_ANYWHERE = re.compile(rf"(/home/{_CI_HOMES}[a-z]+/|/Users/[A-Za-z]+/)")
 BARE_RULES: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("first-party product name", IDENTITY),
     ("private dossier name", DOSSIER),

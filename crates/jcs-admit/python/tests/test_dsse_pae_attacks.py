@@ -114,7 +114,7 @@ def test_a_signature_never_verifies_with_the_boundary_moved(
     env["payload"] = base64.b64encode(presented[1]).decode()
     with pytest.raises(dsse.DsseError) as info:
         dsse.verify(json.dumps(env).encode(), KEY)
-    assert info.value.variant == "ThresholdNotMet"
+    assert info.value.variant == "NoValidSignature"
 
 
 def test_a_signed_pae_payload_verifies_only_as_the_outer_type():

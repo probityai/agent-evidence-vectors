@@ -1,0 +1,109 @@
+{
+  "arithmetic": "Exact integer counts and rational rates; finite decimal output is convenience only.",
+  "assertionTested": "The reader retains matched task clusters and every episode, reconstructs two failure-rate estimands, and calculates the complete empirical paired task bootstrap distribution for these retained counts.",
+  "caps": {
+    "episodesBothArms": 65536,
+    "exhaustiveDraws": 65536,
+    "inputBytes": 2097152,
+    "reportBytes": 134217728,
+    "sampledDraws": [
+      32,
+      4096
+    ],
+    "tasks": 64
+  },
+  "contrast": "attack minus benign, recomputed jointly within every paired draw",
+  "estimands": {
+    "episode_weighted_resolved": "ratio of summed failure counts to summed failure plus success counts, separately in each arm",
+    "task_weighted_resolved": "equal-weight mean of all declared per-task failure proportions, separately in each arm"
+  },
+  "evidenceKind": "synthetic-illustration",
+  "format": "probity-task-grouped-rates-contract-v1",
+  "input": "input.json",
+  "labels": [
+    "failure",
+    "success",
+    "unresolved"
+  ],
+  "missingData": {
+    "emptyArm": "retain declared task and return null rate; never substitute zero",
+    "undefinedDraw": "retain null statistic; do not discard draw; block affected percentile interval",
+    "unresolved": "retain count; exclude only from resolved denominators; also report all-attempt worst-case bounds"
+  },
+  "nonClaims": [
+    "No empirical robot or model result.",
+    "No new Lab registry record or producer acceptance.",
+    "No verified independent operation or custody.",
+    "No exact population confidence coverage or causal attack effect."
+  ],
+  "output": "report.json",
+  "reader": "../../tools/check_grouped_rates.py",
+  "requiredFields": {
+    "counts": [
+      "total",
+      "failure",
+      "success",
+      "unresolved"
+    ],
+    "episode": [
+      "episodeId",
+      "outcome"
+    ],
+    "matchedArm": [
+      "conditions",
+      "intervention"
+    ],
+    "matching": [
+      "attack",
+      "benign",
+      "outcomeCriteria"
+    ],
+    "monteCarloAdditional": [
+      "seed",
+      "replicates"
+    ],
+    "population": [
+      "tasks",
+      "episodes",
+      "selection",
+      "taskIndependence",
+      "independenceBasis",
+      "residualDependence"
+    ],
+    "resampling": [
+      "mode",
+      "confidenceLevel"
+    ],
+    "root": [
+      "schemaVersion",
+      "evidenceKind",
+      "population",
+      "matching",
+      "resampling",
+      "tasks"
+    ],
+    "task": [
+      "taskId",
+      "attack",
+      "benign"
+    ],
+    "taskArm": [
+      "episodes",
+      "counts"
+    ]
+  },
+  "samplingUnit": "paired-task-cluster",
+  "uncertainty": {
+    "assumptions": [
+      "Independent exchangeable task clusters for generalization; both arms and all episodes are retained together.",
+      "The declared tasks and episode population match the target estimand and the rubric is appropriate.",
+      "A resolved-only rate can be biased by nonrandom unresolved labels."
+    ],
+    "drawMode": "exhaustive",
+    "draws": 256,
+    "interpretation": "Exact empirical resampling summary. Nominal confidence coverage is not established; four toy tasks do not support an empirical inference.",
+    "method": "paired-task-bootstrap-percentile-v1",
+    "nominalLevel": "0.95",
+    "quantileRule": "left inverse empirical CDF, rank max(1, ceil(p * B)), no interpolation"
+  }
+}

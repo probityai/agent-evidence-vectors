@@ -1,0 +1,49 @@
+{
+  "schema": "probity.lab-native-resource-profile/v1",
+  "startedAt": "2026-10-10T23:46:33.885482+00:00",
+  "initialAffinity": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "selectedAffinity": [
+    0
+  ],
+  "actualParentAffinityBeforeHeavyWork": [
+    0
+  ],
+  "childReadback": {
+    "affinity": [
+      0
+    ],
+    "controls": {
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "UV_CONCURRENT_BUILDS": "1",
+      "UV_CONCURRENT_DOWNLOADS": "1",
+      "UV_CONCURRENT_INSTALLS": "1"
+    }
+  },
+  "childReadbackExit": 0,
+  "controls": {
+    "UV_CONCURRENT_BUILDS": "1",
+    "UV_CONCURRENT_DOWNLOADS": "1",
+    "UV_CONCURRENT_INSTALLS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1"
+  },
+  "scope": "One Linux CPU inherited by native descendants; controlled build and numerical-library concurrency, not a sandbox",
+  "actualParentAffinityAfterHeavyWork": [
+    0
+  ],
+  "completedAt": "2026-10-10T23:46:57.388480+00:00"
+}

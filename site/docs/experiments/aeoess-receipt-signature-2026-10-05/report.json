@@ -1,0 +1,26 @@
+{
+  "originalRecordDigestBindings": 16,
+  "outsideVerifier": {
+    "members": 25,
+    "executed": 25,
+    "passingFixtureComparisons": 25,
+    "profileAnswersPerRun": 50
+  },
+  "identifiers": {
+    "outsideContextFreeIdentifiers": 21,
+    "outsideContextIdentifiersNotCovered": [
+      "v6d872b14889dc9e2",
+      "v75158ebfd05a56e5",
+      "vab0c4dde2038340e",
+      "ve24bce7210cacee9"
+    ],
+    "authorIntegrityIdentifiers": 25,
+    "authorIntegrityCorpusDigest": "cb490284f25c5eebc0a91c7776e6f195ae571c4f7dce029ae437128fce03a6ae"
+  },
+  "controls": {
+    "alwaysValidFailures": 8,
+    "alwaysValidShouldRefusals": 3,
+    "signatureMutationAffectedMembers": 5,
+    "unmodifiedExplicitCorpusPasses": 25
+  }
+}

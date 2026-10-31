@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Sankalp Gilda" />
+  <meta name="description" content="Run an approved SQL example, then help connect a real database audit pair or another reader." />
+  <title>Did the database write match its approval? - Agent Evidence Conformance Board</title>
+  <link rel="canonical" href="https://probityai.github.io/agent-evidence-atlas/approved-sql.html" />
+  <link rel="alternate" type="text/markdown" href="https://probityai.github.io/agent-evidence-atlas/approved-sql.md" />
+  <link rel="describedby" href="https://probityai.github.io/agent-evidence-atlas/llms.txt" />
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <nav aria-label="Site">
+    <a class="home" href="index.html">Agent Evidence Conformance Board</a>
+    <span class="links">
+      <a href="start.html">Choose a component</a>
+      <a href="lab.html">Open Evidence Lab</a>
+      <a href="status.html">Claim status</a>
+      <a href="runs.html">Find a run</a>
+      <a href="board.html">Conformance board</a>
+      <a href="pilot.html">Pilot status</a>
+      <a href="atlas.html">Atlas</a>
+      <a href="experiments.html">Experiments</a>
+      <a href="claims.html">Claims</a>
+      <a href="versions.html">Versions</a>
+    </span>
+  </nav>
+</header>
+<main id="main" tabindex="-1">
+<header class="page">
+<h1>Did the database write match its approval?</h1>
+<p class="subtitle">Compare the request, execution record and audit event</p>
+</header>
+<p>An agent gets approval to update a database. The application reports success. Later, someone reads a different value. Did the approved write happen, or did another write change it afterwards?</p>
+<p><a href="examples/approved-sql/README.md">Try the reader and examples</a>. They compare the approved SQL and parameters with the application record and audit projection, including the database, schema, principal and transaction outcome. A later state change stays separate from an earlier matching commit.</p>
+<p>Cho HyunJong brought this case to the <a href="https://github.com/probityai/agent-evidence/issues/24#issuecomment-6247269344">Lab thread</a>. The examples are ours. A real Tadpole approval and database audit pair is the next contribution; another project can bring a reader and compare results.</p>
+<p>Want to help? Bring a shareable pair, run the examples with another reader, or pick a check to keep in your own CI. <a href="https://github.com/probityai/agent-evidence/issues/24">Join the case in the Lab</a>. We maintain the comparison code and credit the case, code and runs separately.</p>
+<details>
+<summary>
+Run it and inspect the exact fields, source and results
+</summary>
+<p>The illustration was qualified on 9 October with 16 author-created fixtures and 56 passing tests. A 17th fixture, added on 24 October, pins a refused approval with no matching audit record; 57 tests pass. It compares supplied records; it does not authenticate their source or verify that an audit collection is complete.</p>
+<p>From the Atlas checkout:</p>
+<div class="code-scroll" tabindex="0" role="region" aria-label="Code example">
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> examples/approved-sql</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> sync <span class="at">--frozen</span> <span class="at">--group</span> dev</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">.venv/bin/python</span> <span class="at">-m</span> sql_illustration.check fixtures/matching-commit-later-change.json</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">.venv/bin/python</span> scripts/qualify.py</span></code></pre></div>
+</div>
+<p>The first command reports <code>recorded_commit_matches</code> alongside <code>supplied_state_differs</code>. Changed SQL, parameters, target or identity produce separate failures. Missing or ambiguous audit evidence keeps its own outcome.</p>
+<p>Read the <a href="examples/approved-sql/docs/INPUT-CONTRACT.md">input contract</a>, <a href="examples/approved-sql/SOURCE-MAP.md">source map</a>, <a href="examples/approved-sql/docs/architecture/DESIGN_DECISIONS.md">design decisions</a> and <a href="examples/approved-sql/QUALIFICATION.json">retained check record</a>. <a href="claims.html">Claims P-83, P-84 and P-114</a> bind the source and measured scope.</p>
+</details>
+</main>
+<footer class="site">
+  <p>Every number on this site has a source, a read time and a re-derive command in the <a href="claims.html">claim ledger</a>. Site version 0.6-draft, 2026-10-01. <a href="versions.html#documentation-revisions">Page revisions</a>.</p>
+</footer>
+</body>
+</html>

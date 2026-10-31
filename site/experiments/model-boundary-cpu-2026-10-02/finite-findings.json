@@ -1,0 +1,4347 @@
+{
+  "allConstrainedTypedFailures": [
+    {
+      "attemptId": "smol360-q4--short24--schema--typed-empty-list",
+      "frozenTarget": {
+        "value": []
+      },
+      "originalReportPointer": "/attempts/12",
+      "output": "{ \"value\": [ \"payload\" ] }",
+      "publishedStrictCorrect": false,
+      "schemaValid": true
+    },
+    {
+      "attemptId": "smol360-q4--long96--schema--typed-empty-list",
+      "frozenTarget": {
+        "value": []
+      },
+      "originalReportPointer": "/attempts/14",
+      "output": "{ \"value\": [ \"payload\" ] }",
+      "publishedStrictCorrect": false,
+      "schemaValid": true
+    },
+    {
+      "attemptId": "smol360-q4--short24--schema--typed-string-null",
+      "frozenTarget": {
+        "value": "null"
+      },
+      "originalReportPointer": "/attempts/275",
+      "output": "{ \"value\": null }",
+      "publishedStrictCorrect": false,
+      "schemaValid": true
+    },
+    {
+      "attemptId": "smol360-q4--long96--schema--typed-string-null",
+      "frozenTarget": {
+        "value": "null"
+      },
+      "originalReportPointer": "/attempts/277",
+      "output": "{ \"value\": null }",
+      "publishedStrictCorrect": false,
+      "schemaValid": true
+    },
+    {
+      "attemptId": "smol360-q4--short24--schema--typed-empty-string",
+      "frozenTarget": {
+        "value": ""
+      },
+      "originalReportPointer": "/attempts/282",
+      "output": "{ \"value\": \"payload\" }",
+      "publishedStrictCorrect": false,
+      "schemaValid": true
+    },
+    {
+      "attemptId": "smol360-q4--long96--schema--typed-empty-string",
+      "frozenTarget": {
+        "value": ""
+      },
+      "originalReportPointer": "/attempts/284",
+      "output": "{ \"value\": \"payload\" }",
+      "publishedStrictCorrect": false,
+      "schemaValid": true
+    }
+  ],
+  "authoredCaseIdentities": 48,
+  "capComparisons": [
+    {
+      "comparedCaseIdentities": 96,
+      "decoder": "unconstrained",
+      "identicalOutputText": 41,
+      "identicalPublishedVerdicts": 82,
+      "scope": "Descriptive paired original outputs. Cap identity does not establish causal invariance, future output stability or a benchmark effect."
+    },
+    {
+      "comparedCaseIdentities": 96,
+      "decoder": "schema",
+      "identicalOutputText": 96,
+      "identicalPublishedVerdicts": 96,
+      "scope": "Descriptive paired original outputs. Cap identity does not establish causal invariance, future output stability or a benchmark effect."
+    }
+  ],
+  "interpretation": "Schema constraints remove selected format/type failures while decision logic and grounding remain unresolved. All96 constrained cap comparisons have identical text in this original run; neither policy nor grounded pairs are fully correct. These finite authored findings do not imply general benchmark performance or action acceptance.",
+  "limits": [
+    "Author-selected exposed cases and targets; selection informed by earlier public failures.",
+    "Published strict rubric and scores unchanged; vocabulary diagnosis is post hoc.",
+    "No new inference, protected effect, blind custody or outside recurring adoption."
+  ],
+  "nativeRun": 37060702246,
+  "originalReportSHA256": "fa7b0e39b69bcd42f82fc93096e071b534557c34cf0e03e73e1bac56dcdd72af",
+  "pairRows": [
+    {
+      "configuration": "short24",
+      "decoder": "unconstrained",
+      "family": "typed-boundary",
+      "model": "smol135-q4",
+      "pairs": [
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--typed-integer-zero",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--typed-integer-negative",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-0"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--typed-boolean-false",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--typed-boolean-true",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-1"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--typed-null-value",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--typed-string-null",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-2"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--typed-string-number",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--typed-integer-seven",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-3"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--typed-empty-string",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--typed-space-string",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-4"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--typed-escaped-quote",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--typed-escaped-backslash",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-5"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--typed-empty-list",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--typed-ordered-list",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-6"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--typed-unicode-string",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--typed-newline-string",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-7"
+        }
+      ]
+    },
+    {
+      "configuration": "short24",
+      "decoder": "unconstrained",
+      "family": "policy-boundary",
+      "model": "smol135-q4",
+      "pairs": [
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--policy-admit-expiry-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--policy-admit-expiry-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-admit-expiry"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--policy-admit-signature-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--policy-admit-signature-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-admit-signature"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--policy-dispatch-spent-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--policy-dispatch-spent-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-dispatch-spent"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--policy-publish-checks-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--policy-publish-checks-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-publish-checks"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--policy-publish-consent-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--policy-publish-consent-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-publish-consent"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--policy-publish-reader-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--policy-publish-reader-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-publish-reader"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--policy-recover-authorized-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--policy-recover-authorized-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-recover-authorized"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--policy-recover-committed-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--policy-recover-committed-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-recover-committed"
+        }
+      ]
+    },
+    {
+      "configuration": "short24",
+      "decoder": "unconstrained",
+      "family": "grounded-boundary",
+      "model": "smol135-q4",
+      "pairs": [
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--grounded-empty-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--grounded-empty-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-empty"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--grounded-false-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--grounded-false-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-false"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--grounded-integer-conflict-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--grounded-integer-conflict-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-integer-conflict"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--grounded-matching-record-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--grounded-matching-record-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-matching-record"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--grounded-null-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--grounded-null-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-null"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--grounded-string-conflict-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--grounded-string-conflict-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-string-conflict"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--grounded-string-number-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--grounded-string-number-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-string-number"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--grounded-zero-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--unconstrained--grounded-zero-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-zero"
+        }
+      ]
+    },
+    {
+      "configuration": "short24",
+      "decoder": "schema",
+      "family": "typed-boundary",
+      "model": "smol135-q4",
+      "pairs": [
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol135-q4--short24--schema--typed-integer-zero",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol135-q4--short24--schema--typed-integer-negative",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": true,
+          "pair": "typed-pair-0"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol135-q4--short24--schema--typed-boolean-false",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol135-q4--short24--schema--typed-boolean-true",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": true,
+          "pair": "typed-pair-1"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol135-q4--short24--schema--typed-null-value",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol135-q4--short24--schema--typed-string-null",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": true,
+          "pair": "typed-pair-2"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol135-q4--short24--schema--typed-string-number",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol135-q4--short24--schema--typed-integer-seven",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": true,
+          "pair": "typed-pair-3"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol135-q4--short24--schema--typed-empty-string",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol135-q4--short24--schema--typed-space-string",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": true,
+          "pair": "typed-pair-4"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol135-q4--short24--schema--typed-escaped-quote",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol135-q4--short24--schema--typed-escaped-backslash",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": true,
+          "pair": "typed-pair-5"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol135-q4--short24--schema--typed-empty-list",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol135-q4--short24--schema--typed-ordered-list",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": true,
+          "pair": "typed-pair-6"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol135-q4--short24--schema--typed-unicode-string",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol135-q4--short24--schema--typed-newline-string",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": true,
+          "pair": "typed-pair-7"
+        }
+      ]
+    },
+    {
+      "configuration": "short24",
+      "decoder": "schema",
+      "family": "policy-boundary",
+      "model": "smol135-q4",
+      "pairs": [
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--schema--policy-admit-expiry-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--schema--policy-admit-expiry-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-admit-expiry"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--schema--policy-admit-signature-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--schema--policy-admit-signature-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-admit-signature"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--schema--policy-dispatch-spent-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--schema--policy-dispatch-spent-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-dispatch-spent"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--schema--policy-publish-checks-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--schema--policy-publish-checks-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-publish-checks"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--schema--policy-publish-consent-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--schema--policy-publish-consent-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-publish-consent"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--schema--policy-publish-reader-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--schema--policy-publish-reader-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-publish-reader"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--schema--policy-recover-authorized-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--schema--policy-recover-authorized-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-recover-authorized"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--schema--policy-recover-committed-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--schema--policy-recover-committed-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-recover-committed"
+        }
+      ]
+    },
+    {
+      "configuration": "short24",
+      "decoder": "schema",
+      "family": "grounded-boundary",
+      "model": "smol135-q4",
+      "pairs": [
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol135-q4--short24--schema--grounded-empty-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--schema--grounded-empty-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-empty"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--schema--grounded-false-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--schema--grounded-false-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-false"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--schema--grounded-integer-conflict-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--schema--grounded-integer-conflict-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-integer-conflict"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--schema--grounded-matching-record-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--schema--grounded-matching-record-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-matching-record"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--schema--grounded-null-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--schema--grounded-null-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-null"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol135-q4--short24--schema--grounded-string-conflict-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--schema--grounded-string-conflict-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-string-conflict"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol135-q4--short24--schema--grounded-string-number-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--schema--grounded-string-number-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-string-number"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--schema--grounded-zero-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--short24--schema--grounded-zero-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-zero"
+        }
+      ]
+    },
+    {
+      "configuration": "long96",
+      "decoder": "unconstrained",
+      "family": "typed-boundary",
+      "model": "smol135-q4",
+      "pairs": [
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--typed-integer-zero",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--typed-integer-negative",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-0"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--typed-boolean-false",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--typed-boolean-true",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-1"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--typed-null-value",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--typed-string-null",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-2"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--typed-string-number",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--typed-integer-seven",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-3"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--typed-empty-string",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--typed-space-string",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-4"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--typed-escaped-quote",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--typed-escaped-backslash",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-5"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--typed-empty-list",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--typed-ordered-list",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-6"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--typed-unicode-string",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--typed-newline-string",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-7"
+        }
+      ]
+    },
+    {
+      "configuration": "long96",
+      "decoder": "unconstrained",
+      "family": "policy-boundary",
+      "model": "smol135-q4",
+      "pairs": [
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--policy-admit-expiry-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--policy-admit-expiry-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-admit-expiry"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--policy-admit-signature-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--policy-admit-signature-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-admit-signature"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--policy-dispatch-spent-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--policy-dispatch-spent-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-dispatch-spent"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--policy-publish-checks-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--policy-publish-checks-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-publish-checks"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--policy-publish-consent-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--policy-publish-consent-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-publish-consent"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--policy-publish-reader-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--policy-publish-reader-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-publish-reader"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--policy-recover-authorized-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--policy-recover-authorized-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-recover-authorized"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--policy-recover-committed-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--policy-recover-committed-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-recover-committed"
+        }
+      ]
+    },
+    {
+      "configuration": "long96",
+      "decoder": "unconstrained",
+      "family": "grounded-boundary",
+      "model": "smol135-q4",
+      "pairs": [
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--grounded-empty-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--grounded-empty-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-empty"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--grounded-false-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--grounded-false-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-false"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--grounded-integer-conflict-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--grounded-integer-conflict-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-integer-conflict"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--grounded-matching-record-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--grounded-matching-record-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-matching-record"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--grounded-null-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--grounded-null-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-null"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--grounded-string-conflict-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--grounded-string-conflict-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-string-conflict"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--grounded-string-number-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--grounded-string-number-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-string-number"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--grounded-zero-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--unconstrained--grounded-zero-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-zero"
+        }
+      ]
+    },
+    {
+      "configuration": "long96",
+      "decoder": "schema",
+      "family": "typed-boundary",
+      "model": "smol135-q4",
+      "pairs": [
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol135-q4--long96--schema--typed-integer-zero",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol135-q4--long96--schema--typed-integer-negative",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": true,
+          "pair": "typed-pair-0"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol135-q4--long96--schema--typed-boolean-false",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol135-q4--long96--schema--typed-boolean-true",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": true,
+          "pair": "typed-pair-1"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol135-q4--long96--schema--typed-null-value",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol135-q4--long96--schema--typed-string-null",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": true,
+          "pair": "typed-pair-2"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol135-q4--long96--schema--typed-string-number",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol135-q4--long96--schema--typed-integer-seven",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": true,
+          "pair": "typed-pair-3"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol135-q4--long96--schema--typed-empty-string",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol135-q4--long96--schema--typed-space-string",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": true,
+          "pair": "typed-pair-4"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol135-q4--long96--schema--typed-escaped-quote",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol135-q4--long96--schema--typed-escaped-backslash",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": true,
+          "pair": "typed-pair-5"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol135-q4--long96--schema--typed-empty-list",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol135-q4--long96--schema--typed-ordered-list",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": true,
+          "pair": "typed-pair-6"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol135-q4--long96--schema--typed-unicode-string",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol135-q4--long96--schema--typed-newline-string",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": true,
+          "pair": "typed-pair-7"
+        }
+      ]
+    },
+    {
+      "configuration": "long96",
+      "decoder": "schema",
+      "family": "policy-boundary",
+      "model": "smol135-q4",
+      "pairs": [
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--schema--policy-admit-expiry-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--schema--policy-admit-expiry-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-admit-expiry"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--schema--policy-admit-signature-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--schema--policy-admit-signature-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-admit-signature"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--schema--policy-dispatch-spent-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--schema--policy-dispatch-spent-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-dispatch-spent"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--schema--policy-publish-checks-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--schema--policy-publish-checks-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-publish-checks"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--schema--policy-publish-consent-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--schema--policy-publish-consent-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-publish-consent"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--schema--policy-publish-reader-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--schema--policy-publish-reader-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-publish-reader"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--schema--policy-recover-authorized-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--schema--policy-recover-authorized-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-recover-authorized"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--schema--policy-recover-committed-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--schema--policy-recover-committed-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-recover-committed"
+        }
+      ]
+    },
+    {
+      "configuration": "long96",
+      "decoder": "schema",
+      "family": "grounded-boundary",
+      "model": "smol135-q4",
+      "pairs": [
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol135-q4--long96--schema--grounded-empty-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--schema--grounded-empty-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-empty"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--schema--grounded-false-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--schema--grounded-false-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-false"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--schema--grounded-integer-conflict-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--schema--grounded-integer-conflict-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-integer-conflict"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--schema--grounded-matching-record-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--schema--grounded-matching-record-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-matching-record"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--schema--grounded-null-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--schema--grounded-null-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-null"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol135-q4--long96--schema--grounded-string-conflict-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--schema--grounded-string-conflict-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-string-conflict"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol135-q4--long96--schema--grounded-string-number-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--schema--grounded-string-number-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-string-number"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--schema--grounded-zero-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol135-q4--long96--schema--grounded-zero-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-zero"
+        }
+      ]
+    },
+    {
+      "configuration": "short24",
+      "decoder": "unconstrained",
+      "family": "typed-boundary",
+      "model": "smol360-q4",
+      "pairs": [
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--typed-integer-zero",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--typed-integer-negative",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-0"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--typed-boolean-false",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--typed-boolean-true",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-1"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--typed-null-value",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--typed-string-null",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-2"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--typed-string-number",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--typed-integer-seven",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-3"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--typed-empty-string",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--typed-space-string",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-4"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--typed-escaped-quote",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--typed-escaped-backslash",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-5"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--typed-empty-list",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--typed-ordered-list",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-6"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--typed-unicode-string",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--typed-newline-string",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-7"
+        }
+      ]
+    },
+    {
+      "configuration": "short24",
+      "decoder": "unconstrained",
+      "family": "policy-boundary",
+      "model": "smol360-q4",
+      "pairs": [
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--policy-admit-expiry-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--policy-admit-expiry-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-admit-expiry"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--policy-admit-signature-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--policy-admit-signature-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-admit-signature"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--policy-dispatch-spent-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--policy-dispatch-spent-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-dispatch-spent"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--policy-publish-checks-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--policy-publish-checks-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-publish-checks"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--policy-publish-consent-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--policy-publish-consent-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-publish-consent"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--policy-publish-reader-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--policy-publish-reader-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-publish-reader"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--policy-recover-authorized-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--policy-recover-authorized-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-recover-authorized"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--policy-recover-committed-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--policy-recover-committed-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-recover-committed"
+        }
+      ]
+    },
+    {
+      "configuration": "short24",
+      "decoder": "unconstrained",
+      "family": "grounded-boundary",
+      "model": "smol360-q4",
+      "pairs": [
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--grounded-empty-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--grounded-empty-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-empty"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--grounded-false-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--grounded-false-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-false"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--grounded-integer-conflict-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--grounded-integer-conflict-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-integer-conflict"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--grounded-matching-record-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--grounded-matching-record-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-matching-record"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol360-q4--short24--unconstrained--grounded-null-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--grounded-null-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-null"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--grounded-string-conflict-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--grounded-string-conflict-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-string-conflict"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--grounded-string-number-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--grounded-string-number-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-string-number"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--grounded-zero-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--unconstrained--grounded-zero-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-zero"
+        }
+      ]
+    },
+    {
+      "configuration": "short24",
+      "decoder": "schema",
+      "family": "typed-boundary",
+      "model": "smol360-q4",
+      "pairs": [
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol360-q4--short24--schema--typed-integer-zero",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol360-q4--short24--schema--typed-integer-negative",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": true,
+          "pair": "typed-pair-0"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol360-q4--short24--schema--typed-boolean-false",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol360-q4--short24--schema--typed-boolean-true",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": true,
+          "pair": "typed-pair-1"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol360-q4--short24--schema--typed-null-value",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--typed-string-null",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-2"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol360-q4--short24--schema--typed-string-number",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol360-q4--short24--schema--typed-integer-seven",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": true,
+          "pair": "typed-pair-3"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--typed-empty-string",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol360-q4--short24--schema--typed-space-string",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-4"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol360-q4--short24--schema--typed-escaped-quote",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol360-q4--short24--schema--typed-escaped-backslash",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": true,
+          "pair": "typed-pair-5"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--typed-empty-list",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol360-q4--short24--schema--typed-ordered-list",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-6"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol360-q4--short24--schema--typed-unicode-string",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol360-q4--short24--schema--typed-newline-string",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": true,
+          "pair": "typed-pair-7"
+        }
+      ]
+    },
+    {
+      "configuration": "short24",
+      "decoder": "schema",
+      "family": "policy-boundary",
+      "model": "smol360-q4",
+      "pairs": [
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--policy-admit-expiry-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--policy-admit-expiry-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-admit-expiry"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--policy-admit-signature-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol360-q4--short24--schema--policy-admit-signature-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-admit-signature"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--policy-dispatch-spent-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--policy-dispatch-spent-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-dispatch-spent"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--policy-publish-checks-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--policy-publish-checks-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-publish-checks"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--policy-publish-consent-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--policy-publish-consent-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-publish-consent"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--policy-publish-reader-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol360-q4--short24--schema--policy-publish-reader-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-publish-reader"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--policy-recover-authorized-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--policy-recover-authorized-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-recover-authorized"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--policy-recover-committed-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--policy-recover-committed-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-recover-committed"
+        }
+      ]
+    },
+    {
+      "configuration": "short24",
+      "decoder": "schema",
+      "family": "grounded-boundary",
+      "model": "smol360-q4",
+      "pairs": [
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--grounded-empty-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--grounded-empty-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-empty"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--grounded-false-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--grounded-false-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-false"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--grounded-integer-conflict-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--grounded-integer-conflict-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-integer-conflict"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--grounded-matching-record-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--grounded-matching-record-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-matching-record"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol360-q4--short24--schema--grounded-null-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--grounded-null-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-null"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--grounded-string-conflict-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--grounded-string-conflict-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-string-conflict"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--grounded-string-number-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--grounded-string-number-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-string-number"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--grounded-zero-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--short24--schema--grounded-zero-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-zero"
+        }
+      ]
+    },
+    {
+      "configuration": "long96",
+      "decoder": "unconstrained",
+      "family": "typed-boundary",
+      "model": "smol360-q4",
+      "pairs": [
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--typed-integer-zero",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--typed-integer-negative",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-0"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--typed-boolean-false",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--typed-boolean-true",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-1"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--typed-null-value",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--typed-string-null",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-2"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--typed-string-number",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--typed-integer-seven",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-3"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--typed-empty-string",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--typed-space-string",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-4"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--typed-escaped-quote",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--typed-escaped-backslash",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-5"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--typed-empty-list",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--typed-ordered-list",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-6"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--typed-unicode-string",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--typed-newline-string",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-7"
+        }
+      ]
+    },
+    {
+      "configuration": "long96",
+      "decoder": "unconstrained",
+      "family": "policy-boundary",
+      "model": "smol360-q4",
+      "pairs": [
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--policy-admit-expiry-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--policy-admit-expiry-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-admit-expiry"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--policy-admit-signature-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--policy-admit-signature-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-admit-signature"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--policy-dispatch-spent-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--policy-dispatch-spent-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-dispatch-spent"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--policy-publish-checks-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--policy-publish-checks-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-publish-checks"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--policy-publish-consent-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--policy-publish-consent-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-publish-consent"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--policy-publish-reader-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--policy-publish-reader-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-publish-reader"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--policy-recover-authorized-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--policy-recover-authorized-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-recover-authorized"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--policy-recover-committed-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--policy-recover-committed-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-recover-committed"
+        }
+      ]
+    },
+    {
+      "configuration": "long96",
+      "decoder": "unconstrained",
+      "family": "grounded-boundary",
+      "model": "smol360-q4",
+      "pairs": [
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--grounded-empty-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--grounded-empty-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-empty"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--grounded-false-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--grounded-false-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-false"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--grounded-integer-conflict-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--grounded-integer-conflict-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-integer-conflict"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--grounded-matching-record-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--grounded-matching-record-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-matching-record"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol360-q4--long96--unconstrained--grounded-null-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--grounded-null-b",
+              "pairRole": "b",
+              "schemaValid": false
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-null"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--grounded-string-conflict-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--grounded-string-conflict-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-string-conflict"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--grounded-string-number-a",
+              "pairRole": "a",
+              "schemaValid": false
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--grounded-string-number-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-string-number"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--grounded-zero-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--unconstrained--grounded-zero-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-zero"
+        }
+      ]
+    },
+    {
+      "configuration": "long96",
+      "decoder": "schema",
+      "family": "typed-boundary",
+      "model": "smol360-q4",
+      "pairs": [
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol360-q4--long96--schema--typed-integer-zero",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol360-q4--long96--schema--typed-integer-negative",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": true,
+          "pair": "typed-pair-0"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol360-q4--long96--schema--typed-boolean-false",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol360-q4--long96--schema--typed-boolean-true",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": true,
+          "pair": "typed-pair-1"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol360-q4--long96--schema--typed-null-value",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--typed-string-null",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-2"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol360-q4--long96--schema--typed-string-number",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol360-q4--long96--schema--typed-integer-seven",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": true,
+          "pair": "typed-pair-3"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--typed-empty-string",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol360-q4--long96--schema--typed-space-string",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-4"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol360-q4--long96--schema--typed-escaped-quote",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol360-q4--long96--schema--typed-escaped-backslash",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": true,
+          "pair": "typed-pair-5"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--typed-empty-list",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol360-q4--long96--schema--typed-ordered-list",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "typed-pair-6"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol360-q4--long96--schema--typed-unicode-string",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol360-q4--long96--schema--typed-newline-string",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": true,
+          "pair": "typed-pair-7"
+        }
+      ]
+    },
+    {
+      "configuration": "long96",
+      "decoder": "schema",
+      "family": "policy-boundary",
+      "model": "smol360-q4",
+      "pairs": [
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--policy-admit-expiry-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--policy-admit-expiry-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-admit-expiry"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--policy-admit-signature-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol360-q4--long96--schema--policy-admit-signature-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-admit-signature"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--policy-dispatch-spent-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--policy-dispatch-spent-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-dispatch-spent"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--policy-publish-checks-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--policy-publish-checks-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-publish-checks"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--policy-publish-consent-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--policy-publish-consent-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-publish-consent"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--policy-publish-reader-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": true,
+              "id": "smol360-q4--long96--schema--policy-publish-reader-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-publish-reader"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--policy-recover-authorized-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--policy-recover-authorized-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-recover-authorized"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--policy-recover-committed-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--policy-recover-committed-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "policy-recover-committed"
+        }
+      ]
+    },
+    {
+      "configuration": "long96",
+      "decoder": "schema",
+      "family": "grounded-boundary",
+      "model": "smol360-q4",
+      "pairs": [
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--grounded-empty-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--grounded-empty-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-empty"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--grounded-false-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--grounded-false-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-false"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--grounded-integer-conflict-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--grounded-integer-conflict-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-integer-conflict"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--grounded-matching-record-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--grounded-matching-record-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-matching-record"
+        },
+        {
+          "attempts": [
+            {
+              "correct": true,
+              "id": "smol360-q4--long96--schema--grounded-null-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--grounded-null-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-null"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--grounded-string-conflict-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--grounded-string-conflict-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-string-conflict"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--grounded-string-number-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--grounded-string-number-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-string-number"
+        },
+        {
+          "attempts": [
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--grounded-zero-a",
+              "pairRole": "a",
+              "schemaValid": true
+            },
+            {
+              "correct": false,
+              "id": "smol360-q4--long96--schema--grounded-zero-b",
+              "pairRole": "b",
+              "schemaValid": true
+            }
+          ],
+          "bothStrictlyCorrect": false,
+          "pair": "grounded-zero"
+        }
+      ]
+    }
+  ],
+  "policyVocabulary": [
+    "admit",
+    "dispatch",
+    "hold",
+    "inspect",
+    "publish",
+    "reject",
+    "retry"
+  ],
+  "policyVocabularyDiagnostic": [
+    {
+      "configuration": "short24",
+      "decoder": "schema",
+      "family": "policy-boundary",
+      "inVocabularyButWrong": 0,
+      "model": "smol135-q4",
+      "originalAttemptIds": [
+        "smol135-q4--short24--schema--policy-dispatch-spent-b",
+        "smol135-q4--short24--schema--policy-publish-reader-a",
+        "smol135-q4--short24--schema--policy-admit-signature-b",
+        "smol135-q4--short24--schema--policy-admit-expiry-a",
+        "smol135-q4--short24--schema--policy-publish-consent-b",
+        "smol135-q4--short24--schema--policy-recover-committed-b",
+        "smol135-q4--short24--schema--policy-publish-reader-b",
+        "smol135-q4--short24--schema--policy-admit-signature-a",
+        "smol135-q4--short24--schema--policy-dispatch-spent-a",
+        "smol135-q4--short24--schema--policy-recover-authorized-a",
+        "smol135-q4--short24--schema--policy-publish-checks-b",
+        "smol135-q4--short24--schema--policy-admit-expiry-b",
+        "smol135-q4--short24--schema--policy-recover-authorized-b",
+        "smol135-q4--short24--schema--policy-recover-committed-a",
+        "smol135-q4--short24--schema--policy-publish-consent-a",
+        "smol135-q4--short24--schema--policy-publish-checks-a"
+      ],
+      "outsideFrozenActionVocabulary": 16,
+      "planned": 16,
+      "publishedStrictCorrect": 0,
+      "scope": "Post hoc case-sensitive label diagnosis, not a replacement rubric or new inference result."
+    },
+    {
+      "configuration": "long96",
+      "decoder": "schema",
+      "family": "policy-boundary",
+      "inVocabularyButWrong": 0,
+      "model": "smol135-q4",
+      "originalAttemptIds": [
+        "smol135-q4--long96--schema--policy-dispatch-spent-b",
+        "smol135-q4--long96--schema--policy-publish-reader-a",
+        "smol135-q4--long96--schema--policy-admit-signature-b",
+        "smol135-q4--long96--schema--policy-admit-expiry-a",
+        "smol135-q4--long96--schema--policy-publish-consent-b",
+        "smol135-q4--long96--schema--policy-recover-committed-b",
+        "smol135-q4--long96--schema--policy-publish-reader-b",
+        "smol135-q4--long96--schema--policy-admit-signature-a",
+        "smol135-q4--long96--schema--policy-dispatch-spent-a",
+        "smol135-q4--long96--schema--policy-recover-authorized-a",
+        "smol135-q4--long96--schema--policy-publish-checks-b",
+        "smol135-q4--long96--schema--policy-admit-expiry-b",
+        "smol135-q4--long96--schema--policy-recover-authorized-b",
+        "smol135-q4--long96--schema--policy-recover-committed-a",
+        "smol135-q4--long96--schema--policy-publish-consent-a",
+        "smol135-q4--long96--schema--policy-publish-checks-a"
+      ],
+      "outsideFrozenActionVocabulary": 16,
+      "planned": 16,
+      "publishedStrictCorrect": 0,
+      "scope": "Post hoc case-sensitive label diagnosis, not a replacement rubric or new inference result."
+    },
+    {
+      "configuration": "short24",
+      "decoder": "schema",
+      "family": "policy-boundary",
+      "inVocabularyButWrong": 5,
+      "model": "smol360-q4",
+      "originalAttemptIds": [
+        "smol360-q4--short24--schema--policy-dispatch-spent-b",
+        "smol360-q4--short24--schema--policy-publish-reader-a",
+        "smol360-q4--short24--schema--policy-admit-signature-b",
+        "smol360-q4--short24--schema--policy-admit-expiry-a",
+        "smol360-q4--short24--schema--policy-publish-consent-b",
+        "smol360-q4--short24--schema--policy-recover-committed-b",
+        "smol360-q4--short24--schema--policy-publish-reader-b",
+        "smol360-q4--short24--schema--policy-admit-signature-a",
+        "smol360-q4--short24--schema--policy-dispatch-spent-a",
+        "smol360-q4--short24--schema--policy-recover-authorized-a",
+        "smol360-q4--short24--schema--policy-publish-checks-b",
+        "smol360-q4--short24--schema--policy-admit-expiry-b",
+        "smol360-q4--short24--schema--policy-recover-authorized-b",
+        "smol360-q4--short24--schema--policy-recover-committed-a",
+        "smol360-q4--short24--schema--policy-publish-consent-a",
+        "smol360-q4--short24--schema--policy-publish-checks-a"
+      ],
+      "outsideFrozenActionVocabulary": 9,
+      "planned": 16,
+      "publishedStrictCorrect": 2,
+      "scope": "Post hoc case-sensitive label diagnosis, not a replacement rubric or new inference result."
+    },
+    {
+      "configuration": "long96",
+      "decoder": "schema",
+      "family": "policy-boundary",
+      "inVocabularyButWrong": 5,
+      "model": "smol360-q4",
+      "originalAttemptIds": [
+        "smol360-q4--long96--schema--policy-dispatch-spent-b",
+        "smol360-q4--long96--schema--policy-publish-reader-a",
+        "smol360-q4--long96--schema--policy-admit-signature-b",
+        "smol360-q4--long96--schema--policy-admit-expiry-a",
+        "smol360-q4--long96--schema--policy-publish-consent-b",
+        "smol360-q4--long96--schema--policy-recover-committed-b",
+        "smol360-q4--long96--schema--policy-publish-reader-b",
+        "smol360-q4--long96--schema--policy-admit-signature-a",
+        "smol360-q4--long96--schema--policy-dispatch-spent-a",
+        "smol360-q4--long96--schema--policy-recover-authorized-a",
+        "smol360-q4--long96--schema--policy-publish-checks-b",
+        "smol360-q4--long96--schema--policy-admit-expiry-b",
+        "smol360-q4--long96--schema--policy-recover-authorized-b",
+        "smol360-q4--long96--schema--policy-recover-committed-a",
+        "smol360-q4--long96--schema--policy-publish-consent-a",
+        "smol360-q4--long96--schema--policy-publish-checks-a"
+      ],
+      "outsideFrozenActionVocabulary": 9,
+      "planned": 16,
+      "publishedStrictCorrect": 2,
+      "scope": "Post hoc case-sensitive label diagnosis, not a replacement rubric or new inference result."
+    }
+  ],
+  "population": {
+    "error": 0,
+    "incomplete": 0,
+    "planned": 384,
+    "scored": 384,
+    "started": 384,
+    "unknown-start": 0,
+    "unsupported": 0
+  },
+  "qualityRowsUnpooled": [
+    {
+      "callElapsedNs": 4723831541,
+      "completionTokens": 310,
+      "configuration": "short24",
+      "correct": 0,
+      "decoder": "unconstrained",
+      "family": "typed-boundary",
+      "formatValid": 0,
+      "fullyCorrectPairs": 0,
+      "model": "smol135-q4",
+      "planned": 16,
+      "plannedPairs": 8,
+      "processCpuNs": 9240492026,
+      "processLifetimePeakRssKiB": 567192,
+      "promptTokens": 1051,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation",
+      "schemaValid": 0,
+      "scored": 16
+    },
+    {
+      "callElapsedNs": 5976613495,
+      "completionTokens": 384,
+      "configuration": "short24",
+      "correct": 0,
+      "decoder": "unconstrained",
+      "family": "policy-boundary",
+      "formatValid": 0,
+      "fullyCorrectPairs": 0,
+      "model": "smol135-q4",
+      "planned": 16,
+      "plannedPairs": 8,
+      "processCpuNs": 11693640399,
+      "processLifetimePeakRssKiB": 567192,
+      "promptTokens": 1328,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation",
+      "schemaValid": 0,
+      "scored": 16
+    },
+    {
+      "callElapsedNs": 7814501471,
+      "completionTokens": 384,
+      "configuration": "short24",
+      "correct": 0,
+      "decoder": "unconstrained",
+      "family": "grounded-boundary",
+      "formatValid": 0,
+      "fullyCorrectPairs": 0,
+      "model": "smol135-q4",
+      "planned": 16,
+      "plannedPairs": 8,
+      "processCpuNs": 15363970770,
+      "processLifetimePeakRssKiB": 567192,
+      "promptTokens": 2031,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation",
+      "schemaValid": 0,
+      "scored": 16
+    },
+    {
+      "callElapsedNs": 4291221990,
+      "completionTokens": 131,
+      "configuration": "short24",
+      "correct": 16,
+      "decoder": "schema",
+      "family": "typed-boundary",
+      "formatValid": 16,
+      "fullyCorrectPairs": 8,
+      "model": "smol135-q4",
+      "planned": 16,
+      "plannedPairs": 8,
+      "processCpuNs": 7754893355,
+      "processLifetimePeakRssKiB": 567192,
+      "promptTokens": 1051,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation",
+      "schemaValid": 16,
+      "scored": 16
+    },
+    {
+      "callElapsedNs": 5077534177,
+      "completionTokens": 138,
+      "configuration": "short24",
+      "correct": 0,
+      "decoder": "schema",
+      "family": "policy-boundary",
+      "formatValid": 16,
+      "fullyCorrectPairs": 0,
+      "model": "smol135-q4",
+      "planned": 16,
+      "plannedPairs": 8,
+      "processCpuNs": 9286420480,
+      "processLifetimePeakRssKiB": 567192,
+      "promptTokens": 1328,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation",
+      "schemaValid": 16,
+      "scored": 16
+    },
+    {
+      "callElapsedNs": 7993651119,
+      "completionTokens": 220,
+      "configuration": "short24",
+      "correct": 3,
+      "decoder": "schema",
+      "family": "grounded-boundary",
+      "formatValid": 16,
+      "fullyCorrectPairs": 0,
+      "model": "smol135-q4",
+      "planned": 16,
+      "plannedPairs": 8,
+      "processCpuNs": 14628609279,
+      "processLifetimePeakRssKiB": 567192,
+      "promptTokens": 2031,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation",
+      "schemaValid": 16,
+      "scored": 16
+    },
+    {
+      "callElapsedNs": 6497086579,
+      "completionTokens": 553,
+      "configuration": "long96",
+      "correct": 0,
+      "decoder": "unconstrained",
+      "family": "typed-boundary",
+      "formatValid": 0,
+      "fullyCorrectPairs": 0,
+      "model": "smol135-q4",
+      "planned": 16,
+      "plannedPairs": 8,
+      "processCpuNs": 12617390214,
+      "processLifetimePeakRssKiB": 567192,
+      "promptTokens": 1051,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation",
+      "schemaValid": 0,
+      "scored": 16
+    },
+    {
+      "callElapsedNs": 10725354267,
+      "completionTokens": 1041,
+      "configuration": "long96",
+      "correct": 0,
+      "decoder": "unconstrained",
+      "family": "policy-boundary",
+      "formatValid": 0,
+      "fullyCorrectPairs": 0,
+      "model": "smol135-q4",
+      "planned": 16,
+      "plannedPairs": 8,
+      "processCpuNs": 20732146066,
+      "processLifetimePeakRssKiB": 567192,
+      "promptTokens": 1328,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation",
+      "schemaValid": 0,
+      "scored": 16
+    },
+    {
+      "callElapsedNs": 14098939614,
+      "completionTokens": 1231,
+      "configuration": "long96",
+      "correct": 0,
+      "decoder": "unconstrained",
+      "family": "grounded-boundary",
+      "formatValid": 0,
+      "fullyCorrectPairs": 0,
+      "model": "smol135-q4",
+      "planned": 16,
+      "plannedPairs": 8,
+      "processCpuNs": 27341884632,
+      "processLifetimePeakRssKiB": 567192,
+      "promptTokens": 2031,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation",
+      "schemaValid": 0,
+      "scored": 16
+    },
+    {
+      "callElapsedNs": 4320565423,
+      "completionTokens": 131,
+      "configuration": "long96",
+      "correct": 16,
+      "decoder": "schema",
+      "family": "typed-boundary",
+      "formatValid": 16,
+      "fullyCorrectPairs": 8,
+      "model": "smol135-q4",
+      "planned": 16,
+      "plannedPairs": 8,
+      "processCpuNs": 7797561488,
+      "processLifetimePeakRssKiB": 567192,
+      "promptTokens": 1051,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation",
+      "schemaValid": 16,
+      "scored": 16
+    },
+    {
+      "callElapsedNs": 5112517206,
+      "completionTokens": 138,
+      "configuration": "long96",
+      "correct": 0,
+      "decoder": "schema",
+      "family": "policy-boundary",
+      "formatValid": 16,
+      "fullyCorrectPairs": 0,
+      "model": "smol135-q4",
+      "planned": 16,
+      "plannedPairs": 8,
+      "processCpuNs": 9348957832,
+      "processLifetimePeakRssKiB": 567192,
+      "promptTokens": 1328,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation",
+      "schemaValid": 16,
+      "scored": 16
+    },
+    {
+      "callElapsedNs": 7948825378,
+      "completionTokens": 220,
+      "configuration": "long96",
+      "correct": 3,
+      "decoder": "schema",
+      "family": "grounded-boundary",
+      "formatValid": 16,
+      "fullyCorrectPairs": 0,
+      "model": "smol135-q4",
+      "planned": 16,
+      "plannedPairs": 8,
+      "processCpuNs": 14550379810,
+      "processLifetimePeakRssKiB": 567192,
+      "promptTokens": 2031,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation",
+      "schemaValid": 16,
+      "scored": 16
+    },
+    {
+      "callElapsedNs": 9954980498,
+      "completionTokens": 159,
+      "configuration": "short24",
+      "correct": 0,
+      "decoder": "unconstrained",
+      "family": "typed-boundary",
+      "formatValid": 16,
+      "fullyCorrectPairs": 0,
+      "model": "smol360-q4",
+      "planned": 16,
+      "plannedPairs": 8,
+      "processCpuNs": 19774843637,
+      "processLifetimePeakRssKiB": 567192,
+      "promptTokens": 1051,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation",
+      "schemaValid": 0,
+      "scored": 16
+    },
+    {
+      "callElapsedNs": 15309358990,
+      "completionTokens": 384,
+      "configuration": "short24",
+      "correct": 0,
+      "decoder": "unconstrained",
+      "family": "policy-boundary",
+      "formatValid": 2,
+      "fullyCorrectPairs": 0,
+      "model": "smol360-q4",
+      "planned": 16,
+      "plannedPairs": 8,
+      "processCpuNs": 30337025043,
+      "processLifetimePeakRssKiB": 567192,
+      "promptTokens": 1328,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation",
+      "schemaValid": 0,
+      "scored": 16
+    },
+    {
+      "callElapsedNs": 17731268785,
+      "completionTokens": 211,
+      "configuration": "short24",
+      "correct": 1,
+      "decoder": "unconstrained",
+      "family": "grounded-boundary",
+      "formatValid": 16,
+      "fullyCorrectPairs": 0,
+      "model": "smol360-q4",
+      "planned": 16,
+      "plannedPairs": 8,
+      "processCpuNs": 35279417494,
+      "processLifetimePeakRssKiB": 567192,
+      "promptTokens": 2031,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation",
+      "schemaValid": 10,
+      "scored": 16
+    },
+    {
+      "callElapsedNs": 10347515652,
+      "completionTokens": 133,
+      "configuration": "short24",
+      "correct": 13,
+      "decoder": "schema",
+      "family": "typed-boundary",
+      "formatValid": 16,
+      "fullyCorrectPairs": 5,
+      "model": "smol360-q4",
+      "planned": 16,
+      "plannedPairs": 8,
+      "processCpuNs": 19844845665,
+      "processLifetimePeakRssKiB": 567192,
+      "promptTokens": 1051,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation",
+      "schemaValid": 16,
+      "scored": 16
+    },
+    {
+      "callElapsedNs": 12744687672,
+      "completionTokens": 151,
+      "configuration": "short24",
+      "correct": 2,
+      "decoder": "schema",
+      "family": "policy-boundary",
+      "formatValid": 16,
+      "fullyCorrectPairs": 0,
+      "model": "smol360-q4",
+      "planned": 16,
+      "plannedPairs": 8,
+      "processCpuNs": 24487405820,
+      "processLifetimePeakRssKiB": 567192,
+      "promptTokens": 1328,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation",
+      "schemaValid": 16,
+      "scored": 16
+    },
+    {
+      "callElapsedNs": 18142441570,
+      "completionTokens": 176,
+      "configuration": "short24",
+      "correct": 1,
+      "decoder": "schema",
+      "family": "grounded-boundary",
+      "formatValid": 16,
+      "fullyCorrectPairs": 0,
+      "model": "smol360-q4",
+      "planned": 16,
+      "plannedPairs": 8,
+      "processCpuNs": 35251934237,
+      "processLifetimePeakRssKiB": 567192,
+      "promptTokens": 2031,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation",
+      "schemaValid": 16,
+      "scored": 16
+    },
+    {
+      "callElapsedNs": 9897596024,
+      "completionTokens": 159,
+      "configuration": "long96",
+      "correct": 0,
+      "decoder": "unconstrained",
+      "family": "typed-boundary",
+      "formatValid": 16,
+      "fullyCorrectPairs": 0,
+      "model": "smol360-q4",
+      "planned": 16,
+      "plannedPairs": 8,
+      "processCpuNs": 19661772937,
+      "processLifetimePeakRssKiB": 567192,
+      "promptTokens": 1051,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation",
+      "schemaValid": 0,
+      "scored": 16
+    },
+    {
+      "callElapsedNs": 18560132988,
+      "completionTokens": 573,
+      "configuration": "long96",
+      "correct": 0,
+      "decoder": "unconstrained",
+      "family": "policy-boundary",
+      "formatValid": 16,
+      "fullyCorrectPairs": 0,
+      "model": "smol360-q4",
+      "planned": 16,
+      "plannedPairs": 8,
+      "processCpuNs": 36688759188,
+      "processLifetimePeakRssKiB": 567192,
+      "promptTokens": 1328,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation",
+      "schemaValid": 0,
+      "scored": 16
+    },
+    {
+      "callElapsedNs": 17766238167,
+      "completionTokens": 211,
+      "configuration": "long96",
+      "correct": 1,
+      "decoder": "unconstrained",
+      "family": "grounded-boundary",
+      "formatValid": 16,
+      "fullyCorrectPairs": 0,
+      "model": "smol360-q4",
+      "planned": 16,
+      "plannedPairs": 8,
+      "processCpuNs": 35348355485,
+      "processLifetimePeakRssKiB": 567192,
+      "promptTokens": 2031,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation",
+      "schemaValid": 10,
+      "scored": 16
+    },
+    {
+      "callElapsedNs": 10294154970,
+      "completionTokens": 133,
+      "configuration": "long96",
+      "correct": 13,
+      "decoder": "schema",
+      "family": "typed-boundary",
+      "formatValid": 16,
+      "fullyCorrectPairs": 5,
+      "model": "smol360-q4",
+      "planned": 16,
+      "plannedPairs": 8,
+      "processCpuNs": 19721071852,
+      "processLifetimePeakRssKiB": 567192,
+      "promptTokens": 1051,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation",
+      "schemaValid": 16,
+      "scored": 16
+    },
+    {
+      "callElapsedNs": 12591439115,
+      "completionTokens": 151,
+      "configuration": "long96",
+      "correct": 2,
+      "decoder": "schema",
+      "family": "policy-boundary",
+      "formatValid": 16,
+      "fullyCorrectPairs": 0,
+      "model": "smol360-q4",
+      "planned": 16,
+      "plannedPairs": 8,
+      "processCpuNs": 24186369255,
+      "processLifetimePeakRssKiB": 567192,
+      "promptTokens": 1328,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation",
+      "schemaValid": 16,
+      "scored": 16
+    },
+    {
+      "callElapsedNs": 18069864840,
+      "completionTokens": 176,
+      "configuration": "long96",
+      "correct": 1,
+      "decoder": "schema",
+      "family": "grounded-boundary",
+      "formatValid": 16,
+      "fullyCorrectPairs": 0,
+      "model": "smol360-q4",
+      "planned": 16,
+      "plannedPairs": 8,
+      "processCpuNs": 35113092656,
+      "processLifetimePeakRssKiB": 567192,
+      "promptTokens": 2031,
+      "resourceScope": "returned calls only; CPU is whole-process delta, RSS is lifetime peak, not task allocation",
+      "schemaValid": 16,
+      "scored": 16
+    }
+  ],
+  "resources": {
+    "currentPreparationResponseBodyBytes": 472221945,
+    "originalNativeTokens": {
+      "completion": 7498,
+      "prompt": 35280
+    },
+    "originalTotalProcessCpuNs": 497394631919,
+    "originalWallNs": 257401173568,
+    "returnedCallProcessCpuNs": 496051239620,
+    "scope": "Total CPU includes initialization; row CPU sums returned-call deltas. RSS is shared lifetime peak, not per-model/task memory. Acquisition is one of five separately budgeted attempts.",
+    "sharedProcessLifetimePeakRssKiB": 567192
+  },
+  "schema": "probity-atlas-finite-boundary-findings-v1",
+  "uniqueLiteralInputs": 46
+}

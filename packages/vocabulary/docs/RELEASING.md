@@ -19,6 +19,8 @@ once it is pushed.
    - `llms.txt`: the release tag.
 2. Run `git grep -n "<previous version>"`. What is left should only be history
    that names an older version on purpose, such as "added in 0.3.0".
+   `python3 scripts/check_release_statements.py` does the same for the install
+   pin, the tags, the dates and the sha256 the files above state, and CI runs it.
 3. Open the pull request, wait for every check to pass, and squash-merge it
    with an explicit conventional subject.
 4. Tag the merge commit and push the tag:

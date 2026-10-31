@@ -1,0 +1,375 @@
+{
+  "baseline-installation": {
+    "version": "0.0.2",
+    "frameworkModules": {
+      "llama_cpp": false,
+      "inspect_ai": false,
+      "langgraph": false,
+      "pydantic_ai": false,
+      "agents": false
+    }
+  },
+  "baseline-original": {
+    "command": [
+      "/home/runner/work/_temp/previous-consumer/bin/probity-model-publication-gate",
+      "/home/runner/work/_temp/model-format-upgrade-result/original-packet",
+      "/home/runner/work/_temp/model-format-upgrade-result/baseline-original",
+      "--pins-file",
+      "/home/runner/work/agent-evidence-observer/agent-evidence-observer/interop/model-consumer-2026-10-02/selected-native-pins.json",
+      "--policy-file",
+      "/home/runner/work/agent-evidence-observer/agent-evidence-observer/interop/model-consumer-2026-10-02/evidence-policy.json",
+      "--policy-sha256",
+      "5c075f390e583d711f65908e11aeee4445c1012d4c55311e03e4faa88b8b39cc"
+    ],
+    "exit": 0,
+    "gate": {
+      "evidenceDecision": "verified",
+      "publicationDecision": "publish",
+      "policySha256": "5c075f390e583d711f65908e11aeee4445c1012d4c55311e03e4faa88b8b39cc",
+      "launched": true,
+      "child": {
+        "returncode": 0,
+        "timedOut": false,
+        "streams": {
+          "reader.stdout": {
+            "bytes": 33853,
+            "sha256": "acb8f021b5a9bda6b64e33ab38f9da592b8d2c2bba81de7bfdaef586256608f2"
+          },
+          "reader.stderr": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "policyFailures": [],
+      "resources": {
+        "elapsedNs": 16723400890,
+        "promptTokens": 2828,
+        "completionTokens": 1840,
+        "returnedCallProcessCpuNs": 31297972775,
+        "processLifetimePeakRssKiB": 200488
+      },
+      "scope": "host-selected report publication; no dispatch or recovery authority"
+    }
+  },
+  "baseline-comparison": {
+    "command": [
+      "/home/runner/work/_temp/previous-consumer/bin/probity-model-publication-gate",
+      "/home/runner/work/_temp/model-format-upgrade-result/comparison-packet",
+      "/home/runner/work/_temp/model-format-upgrade-result/baseline-comparison",
+      "--pins-file",
+      "/home/runner/work/agent-evidence-observer/agent-evidence-observer/interop/model-consumer-2026-10-02/comparison-native-pins.json",
+      "--policy-file",
+      "/home/runner/work/agent-evidence-observer/agent-evidence-observer/interop/model-consumer-2026-10-02/comparison-evidence-policy.json",
+      "--policy-sha256",
+      "d22205e8f256a53d176dcdf6c7125855d6ff7218827dc728323bc8eb955dbf77"
+    ],
+    "exit": 0,
+    "gate": {
+      "evidenceDecision": "verified",
+      "publicationDecision": "publish",
+      "policySha256": "d22205e8f256a53d176dcdf6c7125855d6ff7218827dc728323bc8eb955dbf77",
+      "launched": true,
+      "child": {
+        "returncode": 0,
+        "timedOut": false,
+        "streams": {
+          "reader.stdout": {
+            "bytes": 67254,
+            "sha256": "62fb95b5fff895ff76e4a42e17e391ec0525d3c5f9fade90efc64f5c0cad0892"
+          },
+          "reader.stderr": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "policyFailures": [],
+      "resources": {
+        "elapsedNs": 50885084703,
+        "promptTokens": 5656,
+        "completionTokens": 2539,
+        "returnedCallProcessCpuNs": 98295793573,
+        "processLifetimePeakRssKiB": 535884
+      },
+      "scope": "host-selected report publication; no dispatch or recovery authority"
+    }
+  },
+  "baseline-format": {
+    "command": [
+      "/home/runner/work/_temp/previous-consumer/bin/probity-model-publication-gate",
+      "/home/runner/work/_temp/model-format-upgrade-result/format-packet",
+      "/home/runner/work/_temp/model-format-upgrade-result/baseline-format",
+      "--pins-file",
+      "/home/runner/work/agent-evidence-observer/agent-evidence-observer/interop/model-consumer-2026-10-02/format-native-pins.json",
+      "--policy-file",
+      "/home/runner/work/agent-evidence-observer/agent-evidence-observer/interop/model-consumer-2026-10-02/format-evidence-policy.json",
+      "--policy-sha256",
+      "b771ed50681ba68359b6d42cb52fd19dbf06d235799271e733681704e6fee73c"
+    ],
+    "exit": 1,
+    "gate": {
+      "evidenceDecision": "not-verified",
+      "publicationDecision": "hold",
+      "policySha256": "b771ed50681ba68359b6d42cb52fd19dbf06d235799271e733681704e6fee73c",
+      "launched": false,
+      "reason": "policy schema differs"
+    }
+  },
+  "candidate-installation": {
+    "version": "0.0.3",
+    "frameworkModules": {
+      "llama_cpp": false,
+      "inspect_ai": false,
+      "langgraph": false,
+      "pydantic_ai": false,
+      "agents": false
+    }
+  },
+  "candidate-original": {
+    "command": [
+      "/home/runner/work/_temp/consumer/bin/probity-model-publication-gate",
+      "/home/runner/work/_temp/model-format-upgrade-result/original-packet",
+      "/home/runner/work/_temp/model-format-upgrade-result/candidate-original",
+      "--pins-file",
+      "/home/runner/work/agent-evidence-observer/agent-evidence-observer/interop/model-consumer-2026-10-02/selected-native-pins.json",
+      "--policy-file",
+      "/home/runner/work/agent-evidence-observer/agent-evidence-observer/interop/model-consumer-2026-10-02/evidence-policy.json",
+      "--policy-sha256",
+      "5c075f390e583d711f65908e11aeee4445c1012d4c55311e03e4faa88b8b39cc"
+    ],
+    "exit": 0,
+    "gate": {
+      "evidenceDecision": "verified",
+      "publicationDecision": "publish",
+      "policySha256": "5c075f390e583d711f65908e11aeee4445c1012d4c55311e03e4faa88b8b39cc",
+      "launched": true,
+      "child": {
+        "returncode": 0,
+        "timedOut": false,
+        "streams": {
+          "reader.stdout": {
+            "bytes": 33853,
+            "sha256": "acb8f021b5a9bda6b64e33ab38f9da592b8d2c2bba81de7bfdaef586256608f2"
+          },
+          "reader.stderr": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "policyFailures": [],
+      "resources": {
+        "elapsedNs": 16723400890,
+        "promptTokens": 2828,
+        "completionTokens": 1840,
+        "returnedCallProcessCpuNs": 31297972775,
+        "processLifetimePeakRssKiB": 200488
+      },
+      "scope": "host-selected report publication; no dispatch or recovery authority"
+    }
+  },
+  "candidate-comparison": {
+    "command": [
+      "/home/runner/work/_temp/consumer/bin/probity-model-publication-gate",
+      "/home/runner/work/_temp/model-format-upgrade-result/comparison-packet",
+      "/home/runner/work/_temp/model-format-upgrade-result/candidate-comparison",
+      "--pins-file",
+      "/home/runner/work/agent-evidence-observer/agent-evidence-observer/interop/model-consumer-2026-10-02/comparison-native-pins.json",
+      "--policy-file",
+      "/home/runner/work/agent-evidence-observer/agent-evidence-observer/interop/model-consumer-2026-10-02/comparison-evidence-policy.json",
+      "--policy-sha256",
+      "d22205e8f256a53d176dcdf6c7125855d6ff7218827dc728323bc8eb955dbf77"
+    ],
+    "exit": 0,
+    "gate": {
+      "evidenceDecision": "verified",
+      "publicationDecision": "publish",
+      "policySha256": "d22205e8f256a53d176dcdf6c7125855d6ff7218827dc728323bc8eb955dbf77",
+      "launched": true,
+      "child": {
+        "returncode": 0,
+        "timedOut": false,
+        "streams": {
+          "reader.stdout": {
+            "bytes": 67254,
+            "sha256": "62fb95b5fff895ff76e4a42e17e391ec0525d3c5f9fade90efc64f5c0cad0892"
+          },
+          "reader.stderr": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "policyFailures": [],
+      "resources": {
+        "elapsedNs": 50885084703,
+        "promptTokens": 5656,
+        "completionTokens": 2539,
+        "returnedCallProcessCpuNs": 98295793573,
+        "processLifetimePeakRssKiB": 535884
+      },
+      "scope": "host-selected report publication; no dispatch or recovery authority"
+    }
+  },
+  "candidate-format": {
+    "command": [
+      "/home/runner/work/_temp/consumer/bin/probity-model-publication-gate",
+      "/home/runner/work/_temp/model-format-upgrade-result/format-packet",
+      "/home/runner/work/_temp/model-format-upgrade-result/candidate-format",
+      "--pins-file",
+      "/home/runner/work/agent-evidence-observer/agent-evidence-observer/interop/model-consumer-2026-10-02/format-native-pins.json",
+      "--policy-file",
+      "/home/runner/work/agent-evidence-observer/agent-evidence-observer/interop/model-consumer-2026-10-02/format-evidence-policy.json",
+      "--policy-sha256",
+      "b771ed50681ba68359b6d42cb52fd19dbf06d235799271e733681704e6fee73c"
+    ],
+    "exit": 0,
+    "gate": {
+      "evidenceDecision": "verified",
+      "publicationDecision": "publish",
+      "policySha256": "b771ed50681ba68359b6d42cb52fd19dbf06d235799271e733681704e6fee73c",
+      "launched": true,
+      "child": {
+        "returncode": 0,
+        "timedOut": false,
+        "streams": {
+          "reader.stdout": {
+            "bytes": 142240,
+            "sha256": "7cb54cc76384347736acdfa18c5e85427b60050f0da36b84a01d6ac9f110093f"
+          },
+          "reader.stderr": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "policyFailures": [],
+      "resources": {
+        "elapsedNs": 93963267580,
+        "promptTokens": 11312,
+        "completionTokens": 3495,
+        "returnedCallProcessCpuNs": 177947250784,
+        "processLifetimePeakRssKiB": 554152
+      },
+      "scope": "host-selected report publication; no dispatch or recovery authority"
+    }
+  },
+  "preservedReports": {
+    "original": "acb8f021b5a9bda6b64e33ab38f9da592b8d2c2bba81de7bfdaef586256608f2",
+    "comparison": "62fb95b5fff895ff76e4a42e17e391ec0525d3c5f9fade90efc64f5c0cad0892"
+  },
+  "baseline-reader": {
+    "command": [
+      "/home/runner/work/_temp/previous-consumer/bin/probity-model-task-read",
+      "/home/runner/work/_temp/model-format-upgrade-result/format-packet",
+      "--pins-file",
+      "/home/runner/work/agent-evidence-observer/agent-evidence-observer/interop/model-consumer-2026-10-02/format-native-pins.json",
+      "--reader-sha256",
+      "3f386686ea0666dda06d68dc01c7a53157a19e8c82ba2957b46dda399169c072"
+    ],
+    "exit": 1,
+    "stdoutSha256": "c4e95bf792ecec38c196224f6d87d41fb73bad5088afa9fbf9c307bd3fb2f446"
+  },
+  "candidate-format-quality": {
+    "command": [
+      "/home/runner/work/_temp/consumer/bin/probity-model-publication-gate",
+      "/home/runner/work/_temp/model-format-upgrade-result/format-packet",
+      "/home/runner/work/_temp/model-format-upgrade-result/candidate-format-quality",
+      "--pins-file",
+      "/home/runner/work/agent-evidence-observer/agent-evidence-observer/interop/model-consumer-2026-10-02/format-native-pins.json",
+      "--policy-file",
+      "/home/runner/work/agent-evidence-observer/agent-evidence-observer/interop/model-consumer-2026-10-02/format-quality-policy.json",
+      "--policy-sha256",
+      "df8702bef152f22f5ab4f2010558db72f17cb40d44174a59afdbc3898e2764f0"
+    ],
+    "exit": 1,
+    "gate": {
+      "evidenceDecision": "verified",
+      "publicationDecision": "hold-selected-score-or-resource",
+      "policySha256": "df8702bef152f22f5ab4f2010558db72f17cb40d44174a59afdbc3898e2764f0",
+      "launched": true,
+      "child": {
+        "returncode": 0,
+        "timedOut": false,
+        "streams": {
+          "reader.stdout": {
+            "bytes": 142240,
+            "sha256": "7cb54cc76384347736acdfa18c5e85427b60050f0da36b84a01d6ac9f110093f"
+          },
+          "reader.stderr": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "policyFailures": [
+        {
+          "row": {
+            "decoder": "schema",
+            "model": "smol360-q4",
+            "configuration": "short24",
+            "family": "policy-decision"
+          },
+          "field": "correct",
+          "measured": 1,
+          "minimum": 3
+        },
+        {
+          "row": {
+            "decoder": "schema",
+            "model": "smol360-q4",
+            "configuration": "long96",
+            "family": "policy-decision"
+          },
+          "field": "correct",
+          "measured": 1,
+          "minimum": 3
+        }
+      ],
+      "resources": {
+        "elapsedNs": 93963267580,
+        "promptTokens": 11312,
+        "completionTokens": 3495,
+        "returnedCallProcessCpuNs": 177947250784,
+        "processLifetimePeakRssKiB": 554152
+      },
+      "scope": "host-selected report publication; no dispatch or recovery authority"
+    }
+  },
+  "candidate-mutant": {
+    "command": [
+      "/home/runner/work/_temp/consumer/bin/probity-model-publication-gate",
+      "/home/runner/work/_temp/model-format-upgrade-result/mutant-packet",
+      "/home/runner/work/_temp/model-format-upgrade-result/candidate-mutant",
+      "--pins-file",
+      "/home/runner/work/agent-evidence-observer/agent-evidence-observer/interop/model-consumer-2026-10-02/format-native-pins.json",
+      "--policy-file",
+      "/home/runner/work/agent-evidence-observer/agent-evidence-observer/interop/model-consumer-2026-10-02/format-evidence-policy.json",
+      "--policy-sha256",
+      "b771ed50681ba68359b6d42cb52fd19dbf06d235799271e733681704e6fee73c"
+    ],
+    "exit": 1,
+    "gate": {
+      "evidenceDecision": "not-verified",
+      "publicationDecision": "hold",
+      "policySha256": "b771ed50681ba68359b6d42cb52fd19dbf06d235799271e733681704e6fee73c",
+      "launched": true,
+      "child": {
+        "returncode": 1,
+        "timedOut": false,
+        "streams": {
+          "reader.stdout": {
+            "bytes": 69,
+            "sha256": "11d7e04a543bc8ab088315d00daee1a2b505c0d2f01f7bcc8261c9bb229fe147"
+          },
+          "reader.stderr": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "reason": "installed reader timed out or refused selected evidence"
+    }
+  }
+}

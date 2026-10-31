@@ -2997,7 +2997,20 @@ MASKS = tuple(
         # otherwise arrive as a fresh false refusal against text claiming
         # nothing. The canonicalization argument this corpus publishes cites
         # floating-point and checksum standards by name throughout.
-        r"\b(?:IEEE|ISO|IEC|ANSI|ECMA|FIPS|NIST\s+SP)[\s-]*\d+",
+        #
+        # The designator is the WHOLE identifier, not its first number: `NIST SP
+        # 800-184` is one document, and masking only `NIST SP 800` left `-184`
+        # to be read as a count the day the audit-record corpus reached 184. So
+        # the number may continue through `-`, `/`, `:` or `.` segments
+        # (`800-184`, `27001:2022`, `8601-1`) and a revision suffix (`63r3`).
+        # The same applies to the other publication identifiers the prose cites:
+        # a CVE or CWE id, an IETF BCP or STD number, and a draft name with its
+        # two-digit version (`draft-ietf-foo-bar-04`).
+        r"\b(?:IEEE|ISO|IEC|ANSI|ECMA|FIPS|(?:NIST\s+)?(?:SP|IR)|BCP|STD)[\s-]*\d+"
+        r"(?:[-/:.]\d+)*(?:r\d+)?",
+        r"\bCVE-\d{4}-\d{4,}\b",
+        r"\bCWE-\d+\b",
+        r"\bdraft-[a-z0-9]+(?:-[a-z0-9]+)*-\d{2}\b",
         # Encoding names. The digit in UTF-16 is part of the name of a character
         # encoding and never a quantity of anything, and this corpus argues about
         # UTF-16 code-unit ordering in a dozen places. It went unmasked only
@@ -3022,6 +3035,10 @@ MASKS = tuple(
         # is the argument the w3c rule-id mask gives against freezing an id.
         r"https?://github\.com/[\w.-]+/[\w.-]+/(?:issues|pull|discussions)/\d+",
         r"#\d+",  # upstream issue and pull-request numbers
+        # The same identifier written as words, `issue 184`, in link text, a table
+        # cell or a docstring. It surfaced when the audit-record corpus total reached
+        # the number of the upstream issue that the ACS-Core wire probes cite.
+        r"\bissues?\s+\d+\b",
         # A PEP 508 version bound in a quoted requirement string. `"cryptography>=43"`
         # names a release of a dependency and counts nothing; the version-string
         # mask below needs a dot and this form has none. It stayed invisible only
@@ -3303,6 +3320,12 @@ EXEMPT: dict[str, str] = {
     ),
 }
 EXEMPT_PREFIXES: dict[str, str] = {
+    "site/": (
+        "the Atlas site source, a standalone tree with its own claims register "
+        "(site/CLAIMS.md) and its own check jobs; its integers are atlas entry "
+        "numbers, star counts, dates and URL parts, none of them a count of this "
+        "repository's corpora, which this gate's declared claims and manifests check"
+    ),
     "docs/paper/": (
         "a paper section about named past releases (0.12.0, 0.17.4, 0.18.1) and a "
         "recorded experiment; every figure is pinned to its tag and digest in the same "

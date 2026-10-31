@@ -638,15 +638,24 @@ result_recompute_ok if {
 
 # actualLayer REQUIRED: present on every row; a clean-label row's actualLayer is
 # the literal "none".
+#
+# The clean test is wrapped in `_clean_label_row` rather than written as
+# `not _is_clean_label(r.containmentObserved)`. OPA hoists a function argument out of
+# a negation, so with the label ABSENT that form fails instead of holding, and a row
+# whose label is missing (fail-closed, valid, floored at "fail") was refused here as a
+# malformed statement. The corpus accept with an absent label and actualLayer "none"
+# measured exactly that false reject.
+_clean_label_row(r) if _is_clean_label(r.containmentObserved)
+
 _actual_layer_row_ok(r) if {
 	r.actualLayer
-	_is_clean_label(r.containmentObserved)
+	_clean_label_row(r)
 	r.actualLayer == "none"
 }
 
 _actual_layer_row_ok(r) if {
 	r.actualLayer
-	not _is_clean_label(r.containmentObserved)
+	not _clean_label_row(r)
 }
 
 actual_layer_ok if {
@@ -732,7 +741,7 @@ run_binding_ok if {
 	is_evidence
 	count(observation_records) > 0
 	every env in observation_records {
-		rec := json.unmarshal(base64.decode(env.payload))
+		rec := _payload(env)
 		rec.aeeRunBinding == run_identity
 	}
 }
@@ -879,7 +888,20 @@ _chain_scope_tokens := {"subject", "corpus", "networkPosture"}
 
 _member_present(obj, k) if object.keys(obj)[k]
 
-_payload(env) := json.unmarshal(base64.decode(env.payload))
+# A record's payload is the base64 of the bytes the substrate signed, spelled the one
+# canonical RFC 4648 way: standard alphabet, minimal padding, zero trailing bits and no
+# line break. A payload spelled any other way carries no bytes and the record is
+# undecodable. OPA's base64.decode is the Go standard decoder, which already refuses a
+# missing pad or a non-alphabet byte but accepts nonzero trailing bits and skips CR and
+# LF, so on its own it enforced half of that sentence. Re-encoding the decoded bytes
+# and requiring the carried spelling back enforces all of it, and every read of a
+# record goes through here.
+_payload_text(env) := text if {
+	text := base64.decode(env.payload)
+	base64.encode(text) == env.payload
+}
+
+_payload(env) := json.unmarshal(_payload_text(env))
 
 # A record whose media type is not +json covers nothing (spec: observationRecords).
 _record_json_media_type(env) if endswith(env.payloadType, "+json")
@@ -1255,8 +1277,9 @@ clean_row_coverage_ok if {
 # of it moves: the per-record Ed25519 signature over the DSSE PAE, the RFC 8785
 # canonicality and I-JSON profile of the payload BYTES (rego evaluates the lenient
 # parse, so "parses as a canonical +json object" is enforced only as far as the
-# media type and the decoded members — an unsorted, duplicate-membered, or
-# non-canonically-base64'd payload reads the same here as a canonical one), and the
+# media type and the decoded members — an unsorted or duplicate-membered payload
+# reads the same here as a canonical one; a non-canonical base64 spelling does not,
+# see `_payload_text`), and the
 # RFC-6962 batchRoot fold. Every member read below comes out of a payload whose
 # signature nothing in this path checks, so a party assembling the statement can
 # write a perfectly class-matching record set describing observations that never

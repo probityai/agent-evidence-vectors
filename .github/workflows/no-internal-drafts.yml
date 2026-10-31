@@ -20,6 +20,9 @@ on:
     branches: [main]
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   guard:
     runs-on: ubuntu-latest
@@ -79,9 +82,9 @@ jobs:
             fi
           done
           # Absolute home paths are never legitimate in a published artifact.
-          if git grep -nI -E '/home/[a-z_][a-z0-9_-]*/' -- . ':!*.yml' >/dev/null 2>&1; then
+          if git grep -nI -P '/home/(?!(?:runner|gate|default)/)[a-z_][a-z0-9_-]*/' -- . ':!*.yml' >/dev/null 2>&1; then
             echo "::error::an absolute /home/<user>/ path is tracked; it leaks the author's filesystem"
-            git grep -nI -E '/home/[a-z_][a-z0-9_-]*/' -- . ':!*.yml' | head -20
+            git grep -nI -P '/home/(?!(?:runner|gate|default)/)[a-z_][a-z0-9_-]*/' -- . ':!*.yml' | head -20
             found=1
           fi
           exit $found
