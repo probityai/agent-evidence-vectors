@@ -911,6 +911,46 @@ def workflow_job_and_step_environment_use_actual_context() -> None:
     assert rc == 0, log
 
 
+def _scratch_evidence_run(keep: bool) -> tuple[int, str, list[str]]:
+    """Run a trivial workflow with no evidence dir; return (exit, log, leftovers)."""
+    prefix = GATE.EVIDENCE_PREFIX  # type: ignore[attr-defined]
+    keep_env = GATE.KEEP_EVIDENCE_ENV  # type: ignore[attr-defined]
+    previous_tempdir = tempfile.tempdir
+    previous_keep = os.environ.pop(keep_env, None)
+    with tempfile.TemporaryDirectory() as tmp:
+        scratch_root = pathlib.Path(tmp) / "scratch"
+        scratch_root.mkdir()
+        tempfile.tempdir = str(scratch_root)
+        try:
+            if keep:
+                os.environ[keep_env] = "1"
+            root = pathlib.Path(tmp) / "source"
+            path = _fixture("jobs:\n  j:\n    steps:\n      - run: 'true'\n", root)
+            out = pathlib.Path(tmp) / "out.txt"
+            with _local_input(root), open(out, "w") as handle, contextlib.redirect_stdout(handle):
+                rc = GATE.execute([path], branch_authority=fixture_authority(path.parents[2]))  # type: ignore[attr-defined]
+            leftovers = sorted(p.name for p in scratch_root.iterdir() if p.name.startswith(prefix))
+            return rc, out.read_text(), leftovers
+        finally:
+            tempfile.tempdir = previous_tempdir
+            os.environ.pop(keep_env, None)
+            if previous_keep is not None:
+                os.environ[keep_env] = previous_keep
+
+
+def a_run_leaves_no_evidence_directory_behind() -> None:
+    rc, log, leftovers = _scratch_evidence_run(keep=False)
+    assert rc == 0, log
+    assert leftovers == [], f"a run left scratch evidence behind: {leftovers}"
+
+
+def the_keep_variable_retains_the_scratch_directory_and_prints_its_path() -> None:
+    rc, log, leftovers = _scratch_evidence_run(keep=True)
+    assert rc == 0, log
+    assert len(leftovers) == 1, leftovers
+    assert leftovers[0] in log, "the kept directory's path was not printed"
+
+
 def sparse_inputs_produce_complete_jobs_and_hidden_drift_is_refused() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = pathlib.Path(tmp) / "source"
@@ -2158,6 +2198,15 @@ def main() -> int:
     check(
         "setup-python owns uv interpreter selection",
         setup_python_owns_uv_selection_despite_ambient_pin,
+    )
+
+    check(
+        "a run leaves no evidence directory behind",
+        a_run_leaves_no_evidence_directory_behind,
+    )
+    check(
+        "the keep variable retains the scratch directory and prints its path",
+        the_keep_variable_retains_the_scratch_directory_and_prints_its_path,
     )
 
     if FAILURES:
