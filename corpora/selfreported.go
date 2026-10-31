@@ -6,7 +6,6 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
-	"path/filepath"
 	"regexp"
 	"sort"
 )
@@ -187,7 +186,7 @@ func srrCorpusFindings(dir string, manifest *srrManifest, sets srrSets) []string
 	}
 	// The contract sits above the corpus directory, so it resolves against the
 	// parent. A corpus whose contract is missing measures a rule nobody can read.
-	if bad := checkVendored(filepath.Dir(dir), manifest.Contract,
+	if bad := checkVendored(corpusParent(dir), manifest.Contract,
 		manifest.ContractDigest, "contract"); bad != "" {
 		findings = append(findings, bad)
 	}

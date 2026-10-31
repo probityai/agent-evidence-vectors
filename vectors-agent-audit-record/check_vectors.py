@@ -902,6 +902,23 @@ def _section_sweep(manifest: dict[str, object]) -> list[str]:
     return findings
 
 
+def _set_bundle_profile() -> list[str]:
+    """A set bundle is read under the JSON profile and must carry a records array."""
+    findings = []
+    for name, raw in [
+        ("records is an empty object", b'{"records":{}}'),
+        ("records is an empty string", b'{"records":""}'),
+        ("bundle is an array", b"[]"),
+        ("records carries a float token", b'{"records":[],"n":1.0}'),
+    ]:
+        try:
+            auditrecord.set_records(raw)
+        except (auditrecord.Malformed, ValueError, KeyError, TypeError):
+            continue
+        findings.append(f"set_records accepts a set bundle where {name}")
+    return findings
+
+
 def main() -> int:
     judged = auditrecord.judge(HERE)
     sys.stdout.write(auditrecord.render(judged, auditrecord.SUITE))
@@ -913,6 +930,7 @@ def main() -> int:
         + _dating_sweep(manifest)
         + _section_sweep(manifest)
         + _aggregation_check(manifest)
+        + _set_bundle_profile()
     )
     for note in notes:
         print(f"note: {note}")

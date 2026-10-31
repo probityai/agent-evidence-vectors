@@ -1132,8 +1132,9 @@ RULES: list[tuple[str, Callable[[_State], None]]] = [
 #: Rules no Appendix B row reaches. The draft states them and a reader must keep
 #: them, but the corpus carries no member for them, so a mutation sweep that
 #: disabled one would report it inert for a reason that is the draft's, not this
-#: reader's. Named here so the exemption is visible rather than silent.
-UNREACHED_BY_CORPUS = frozenset({"statement"})
+#: reader's. Empty since X4 and X5 reach the statement rule. Kept as the named
+#: place for any future exemption, so it is visible rather than silent.
+UNREACHED_BY_CORPUS: frozenset[str] = frozenset()
 
 
 def rule_names() -> list[str]:
@@ -1952,8 +1953,13 @@ def sequence_set_findings(predicates: list[dict[str, Any]], payloads: list[bytes
 
 
 def set_records(raw: bytes) -> list[bytes]:
-    """The envelopes a set member carries, each as bytes a verifier is handed."""
-    bundle = json.loads(raw, object_pairs_hook=_no_duplicates)
+    """The envelopes a set member carries, each as bytes a verifier is handed.
+
+    The bundle is read under the JSON profile (Section 4.1.1), is an object, and
+    carries a ``records`` array (Section 4.9)."""
+    bundle = parse_statement(raw)
+    if not isinstance(bundle, dict) or not isinstance(bundle.get("records"), list):
+        raise Malformed("set-unreadable")
     return [json.dumps(env).encode() for env in bundle["records"]]
 
 

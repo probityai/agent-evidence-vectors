@@ -3024,6 +3024,7 @@
     },
     {
       "draftId": "X1",
+      "draftSection": "4.1.1",
       "expected": {
         "codes": [
           "value-not-representable"
@@ -3074,7 +3075,7 @@
     },
     {
       "draftId": "X4",
-      "draftSection": "4",
+      "draftSection": "4.8",
       "expected": {
         "codes": [
           "statement-type-unexpected"
@@ -3091,7 +3092,7 @@
     },
     {
       "draftId": "X5",
-      "draftSection": "4",
+      "draftSection": "4.8",
       "expected": {
         "codes": [
           "predicate-type-mismatch"
@@ -3348,6 +3349,7 @@
     },
     {
       "draftId": "X17",
+      "draftSection": "4.9",
       "expected": {
         "codes": [],
         "set": {
@@ -3368,6 +3370,7 @@
     },
     {
       "draftId": "X18",
+      "draftSection": "4.9",
       "expected": {
         "codes": [
           "issued-before-sealed"
