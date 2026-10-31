@@ -5,8 +5,12 @@ name: release
 # 1. The corpus. A pushed tag `v<major>.<minor>.<patch>` runs `verify` (the
 #    signed digest list, the tag signature, the time evidence) and then
 #    `publish`, which builds the agent-evidence-vectors wheel and sdist and
-#    uploads them to PyPI with attestations; its job names no environment, as
-#    its trusted publisher entry names none. This workflow
+#    uploads them to PyPI with attestations, then replaces the Hugging Face dataset
+#    with the same release. The job runs in the protected environment
+#    public-release (required reviewer: the repository owner), so one approval
+#    publishes both. The PyPI trusted publisher entry should name that
+#    environment; until it does, the environment gates this workflow's job but not
+#    PyPI's acceptance of another job in this file. This workflow
 #    VERIFIES and never signs: the private half of the corpus signing key is in
 #    the maintainer's keyring and the signature is made locally, at tag time, by
 #    scripts/release-sign.sh. Putting the key in an Actions secret would make it
@@ -25,7 +29,7 @@ name: release
 # Trusted publisher entries, all alike: owner probityai, repository
 # agent-evidence-vectors, workflow release.yml, and the environment named by the
 # job (the corpus wheel's entry predates the environments and names none, which
-# also matches).
+# matches any environment, so register public-release on it).
 #
 #   tag prefix                  registry   unit
 #   v<version> (bare)           PyPI       the agent-evidence-vectors wheel (path 1)
@@ -67,7 +71,6 @@ on:
     tags: ['v*']
   release:
     types: [published]
-  workflow_dispatch:
 
 # Least privilege at the top; the publish jobs alone add id-token, which is what
 # the registries verify the workflow identity with.
@@ -287,10 +290,56 @@ jobs:
     needs: [verify, build-corpus, family-pin-guard-corpus]
     if: ${{ github.event_name != 'release' && startsWith(github.ref, 'refs/tags/v') }}
     runs-on: ubuntu-latest
+    # The owner's approval of the release, which covers the PyPI wheel and the
+    # Hugging Face dataset together: both are published by this one job.
+    environment: public-release
     permissions:
       contents: read
       id-token: write
     steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.13.15'
+      - name: the released commit is on main, and the dataset token is set
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          set -euo pipefail
+          git merge-base --is-ancestor "$GITHUB_SHA" origin/main
+          if [ -z "$HF_TOKEN" ]; then
+            echo "::error::the HF_TOKEN secret of the public-release environment is not set"
+            exit 1
+          fi
+      - name: install the pinned signature verifier
+        run: |
+          set -euo pipefail
+          [ "$(uname -m)" = x86_64 ]
+          : "${RUNNER_TEMP:?RUNNER_TEMP is required}"
+          mkdir -p "$RUNNER_TEMP/cosign-bin"
+          binary="$RUNNER_TEMP/cosign-bin/cosign"
+          curl --fail --location --silent --show-error \
+            https://github.com/sigstore/cosign/releases/download/v3.1.3/cosign-linux-amd64 \
+            --output "$binary"
+          printf '%s  %s\n' 4629c757b7618056f8ddd7e2625ae9fdd94c0372a65049520bc7d9df9efc7f71 "$binary" | sha256sum --check -
+          chmod 0755 "$binary"
+          echo "$RUNNER_TEMP/cosign-bin" >> "$GITHUB_PATH"
+      - name: install the pinned Hugging Face command
+        run: |
+          set -euo pipefail
+          python -m venv "$RUNNER_TEMP/hf-venv"
+          "$RUNNER_TEMP/hf-venv/bin/python" -m pip install --quiet --require-hashes --only-binary :all: \
+            -r scripts/hf-publish-requirements.txt
+          echo "$RUNNER_TEMP/hf-venv/bin" >> "$GITHUB_PATH"
+      # Built and checked before anything is published, so a dataset that cannot
+      # be built stops the wheel too.
+      - name: build the dataset tree from the release tag
+        run: python scripts/publish-hf-dataset.py build --tag "$GITHUB_REF_NAME" --commit "$GITHUB_SHA" --out "$RUNNER_TEMP/dataset"
+      - name: check the built tree
+        run: python scripts/publish-hf-dataset.py check "$RUNNER_TEMP/dataset"
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: python-dist-agent-evidence-vectors
@@ -318,6 +367,11 @@ jobs:
           # already refused any wheel whose version is not the tag's, so this
           # cannot quietly pass over a version that needed publishing.
           skip-existing: true
+
+      - name: replace the dataset and tag it
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: python scripts/publish-hf-dataset.py upload "$RUNNER_TEMP/dataset" --tag "$GITHUB_REF_NAME"
 
   resolve:
     if: ${{ github.event_name == 'release' && !github.event.release.prerelease }}
