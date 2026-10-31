@@ -1,0 +1,94 @@
+name: ACS-Core hook probes
+
+# Runs vectors-acs-core/hook-probes against the Claude Code shim of the AGT
+# reference implementation at pinned refs of the specification's repository,
+# with that checkout's own Guardian started and stopped around the probes. Five
+# rows: the integration head under the Bun version the repository's own
+# workflow pins and under the version issue 111 named, then the commit and Bun
+# version of issue 250's measurement, that commit under the other Bun, and the
+# commit and Bun version of the run issue 111 reports. Each run must match its
+# recorded expectation exactly, and produce every probe the expectation names,
+# so a probe that starts failing, starts passing or goes missing turns this
+# red. The self-test runs first and proves the probes fail a shim that answers
+# nothing.
+
+# Pull requests only. The job runs a third party's code, so it never runs in
+# the default branch's context, where a cache it wrote could be read later.
+on:
+  pull_request:
+    paths:
+      - vectors-acs-core/hook-probes/**
+      - .github/workflows/acs-hook-probes.yml
+
+permissions:
+  contents: read
+
+jobs:
+  probes:
+    name: hook probes against AGT (${{ matrix.label }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: integration-d1ad294-bun-1.3.11
+            ref: d1ad2943107601e3c09f8e0c8eaf57b78b38a01b
+            bun: 1.3.11
+            expect: agt-integration-d1ad294-bun-1.3.11.json
+          - label: integration-d1ad294-bun-1.4.2
+            ref: d1ad2943107601e3c09f8e0c8eaf57b78b38a01b
+            bun: 1.4.2
+            expect: agt-integration-d1ad294-bun-1.4.2.json
+          - label: integration-27799c2-bun-1.3.11
+            ref: 27799c2c27414a483a4a043b957bfd2997d53231
+            bun: 1.3.11
+            expect: agt-integration-27799c2-bun-1.3.11.json
+          - label: integration-27799c2-bun-1.4.2
+            ref: 27799c2c27414a483a4a043b957bfd2997d53231
+            bun: 1.4.2
+            expect: agt-integration-27799c2-bun-1.4.2.json
+          - label: integration-7d2dd3c-bun-1.4.2
+            ref: 7d2dd3c69f82ec7565eef49b1609906deba1ef6b
+            bun: 1.4.2
+            expect: agt-integration-7d2dd3c-bun-1.4.2.json
+    steps:
+      - name: Check out the probes
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+
+      - name: Check out the shim and Guardian under test
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          repository: GenAI-Security-Project/agent-control-standard
+          ref: ${{ matrix.ref }}
+          path: source/acs
+          persist-credentials: false
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2.0.2
+        with:
+          bun-version: ${{ matrix.bun }}
+
+      - name: Install the locked reference implementation dependencies
+        working-directory: source/acs/reference-implementations/agt
+        run: bun install --frozen-lockfile --ignore-scripts
+
+      - name: The probes fail a shim that answers nothing
+        run: >-
+          python3 -I vectors-acs-core/hook-probes/acs_hook_probes.py --acs source/acs
+          --out out --selftest
+
+      - name: Run the probes against the recorded expectation
+        run: >-
+          bash vectors-acs-core/hook-probes/run_against_agt.sh source/acs out
+          vectors-acs-core/hook-probes/expected/${{ matrix.expect }}
+
+      - name: Keep the hook captures
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: acs-hook-probes-${{ matrix.label }}
+          path: out
+          retention-days: 30

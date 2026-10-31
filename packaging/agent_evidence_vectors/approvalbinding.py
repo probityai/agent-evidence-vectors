@@ -17,22 +17,51 @@ The reader checks in a fixed order and names the first check that fails:
 3. no other presented approval shares the approval's identifier with different
    content (``approval_id_ambiguous``);
 4. the identifier is not among the consumed ones (``approval_replayed``);
-5. the approval's ``keyId`` is the trusted key of its approver
+5. no replacement accepted at or before the use has taken the approval's place
+   (``approval_superseded``);
+6. a use that claims ``authorityForm: renewed`` has an accepted transition
+   naming this approval as successor (``renewal_transition_missing``);
+7. that transition binds the successor to its predecessor
+   (``renewal_binding_invalid``);
+8. the approval's ``keyId`` is the trusted key of its approver
    (``key_not_bound``);
-6. the use's principal is the approval's principal; a shared ``clientId`` does
+9. the use's principal is the approval's principal; a shared ``clientId`` does
    not stand in for the user (``principal_mismatch``);
-7. the use's event and phase are the approved ones (``event_phase_mismatch``);
-8. the used tool, target and payload bytes are the approved ones
-   (``payload_mismatch``);
-9. ``usedAt`` is at or after ``issuedAt`` and before ``expiresAt``
-   (``approval_outside_validity``);
-10. the policy release lookup answered (``comparison_unavailable``); an
+10. the use's event and phase are the approved ones (``event_phase_mismatch``);
+11. the used tool, target and payload bytes are the approved ones
+    (``payload_mismatch``);
+12. ``usedAt`` is at or after ``issuedAt`` and before ``expiresAt``
+    (``approval_outside_validity``);
+13. the effect the use names is not closed (``effect_already_closed``);
+14. the policy release lookup answered (``comparison_unavailable``); an
     unanswered lookup is never read as a match;
-11. the release was served at the decision time: first served at or before it,
+15. the release was served at the decision time: first served at or before it,
     and last served at or after it minus the grace period
     (``release_not_served_at_decision``).
 
-A record that passes all eleven is ``allow`` with reason ``bound``.
+A record that passes all of them is ``allow`` with reason ``bound``.
+
+Renewal by replacement is judged by checks 5, 6, 7 and 13. An approval B can
+replace an earlier approval A over equal bounds. Equal bounds, the same
+recorded decision and the same logical effect are three different identities,
+so the record carries each one apart:
+
+* every approval may carry a ``decisionId``, the recorded decision that
+  authorised it;
+* ``transitions`` lists the replacements the issuer recorded. An accepted
+  ``exclusive-replacement`` names the predecessor approval and decision and the
+  successor approval and decision, and takes effect at ``acceptedAt``;
+* the use may claim ``authorityForm: renewed``. That is a claim about a
+  transition and is never evidence that one was accepted;
+* the use may name an ``effectKey``, and ``effectRegistry`` states that
+  effect's lifecycle state. ``CONSUMED`` and ``UNCERTAIN_CLOSE`` are closed, so
+  a new grant does not reopen them.
+
+Check 5 refuses the predecessor because it was superseded, not because it
+expired or was consumed, and it needs no execution under the successor. Check 7
+requires the transition to cite the predecessor's recorded decision, the
+successor's decision to be distinct from it, and the predecessor and successor
+to hold equal ``BOUND_FIELDS``.
 
 ``comparison_unavailable`` is a deny, not an indeterminate outcome: the record
 itself states that the lookup failed, so the specification is not silent about
@@ -66,14 +95,23 @@ CHECKS = (
     "contract_id_unknown",
     "approval_id_ambiguous",
     "approval_replayed",
+    "approval_superseded",
+    "renewal_transition_missing",
+    "renewal_binding_invalid",
     "key_not_bound",
     "principal_mismatch",
     "event_phase_mismatch",
     "payload_mismatch",
     "approval_outside_validity",
+    "effect_already_closed",
     "comparison_unavailable",
     "release_not_served_at_decision",
 )
+# The fields a renewal holds equal. Validity limits are not among them: a
+# renewal is a fresh grant, so its own window is its own.
+BOUND_FIELDS = ("event", "payloadSha256", "phase", "principal", "target", "tool")
+REPLACEMENT = "exclusive-replacement"
+CLOSED_EFFECT_STATES = ("CONSUMED", "UNCERTAIN_CLOSE")
 _HERE = Path(__file__).resolve().parent
 ROOT = (_HERE / "corpora" / "vectors-approval-binding" if
         (_HERE / "corpora").exists() else _HERE.parents[1] / "vectors-approval-binding")
@@ -100,6 +138,49 @@ def _ambiguous(record: dict[str, Any]) -> bool:
 def _validity(record: dict[str, Any]) -> bool:
     approval, used = record["approval"], _when(record["use"]["usedAt"])
     return _when(approval["issuedAt"]) <= used < _when(approval["expiresAt"])
+
+
+def _superseded(record: dict[str, Any]) -> bool:
+    """Whether an accepted replacement had already taken this approval's place at the use."""
+    approval, used = record["approval"], _when(record["use"]["usedAt"])
+    return any(t["status"] == "accepted" and t["predecessorApprovalId"] == approval["approvalId"]
+               and _when(t["acceptedAt"]) <= used for t in record.get("transitions", []))
+
+
+def _accepted_into(record: dict[str, Any]) -> list[dict[str, Any]]:
+    approval = record["approval"]
+    return [t for t in record.get("transitions", [])
+            if t["status"] == "accepted" and t["successorApprovalId"] == approval["approvalId"]]
+
+
+def _renewal_missing(record: dict[str, Any]) -> bool:
+    return record["use"].get("authorityForm") == "renewed" and not _accepted_into(record)
+
+
+def _renewal_invalid(record: dict[str, Any]) -> bool:
+    """Whether the accepted transition into this approval fails to bind it to its predecessor."""
+    if record["use"].get("authorityForm") != "renewed":
+        return False
+    approval, accepted = record["approval"], _accepted_into(record)
+    return bool(accepted) and not any(_binds(record, approval, t) for t in accepted)
+
+
+def _binds(record: dict[str, Any], approval: dict[str, Any], transition: dict[str, Any]) -> bool:
+    predecessor = next((a for a in record.get("presentedApprovals", [])
+                        if a["approvalId"] == transition["predecessorApprovalId"]), None)
+    if predecessor is None or transition["mode"] != REPLACEMENT:
+        return False
+    decision = approval.get("decisionId")
+    return bool(
+        decision is not None and transition["successorDecisionId"] == decision
+        and transition["predecessorDecisionId"] == predecessor.get("decisionId")
+        and decision != predecessor.get("decisionId")
+        and all(predecessor.get(f) == approval.get(f) for f in BOUND_FIELDS))
+
+
+def _effect_closed(record: dict[str, Any]) -> bool:
+    key = record["use"].get("effectKey")
+    return key is not None and record.get("effectRegistry", {}).get(key) in CLOSED_EFFECT_STATES
 
 
 def _served(record: dict[str, Any]) -> bool:
@@ -134,6 +215,9 @@ def _first_failure(record: dict[str, Any], used: bytes, skip: frozenset[str]) ->
         "approval_id_ambiguous": lambda: _ambiguous(record),
         "approval_replayed": lambda: approval["approvalId"] in record.get(
             "consumedApprovalIds", []),
+        "approval_superseded": lambda: _superseded(record),
+        "renewal_transition_missing": lambda: _renewal_missing(record),
+        "renewal_binding_invalid": lambda: _renewal_invalid(record),
         "key_not_bound": lambda: record["trustedKeys"].get(approval["approver"]) != approval[
             "keyId"],
         "principal_mismatch": lambda: use["principal"] != approval["principal"],
@@ -141,6 +225,7 @@ def _first_failure(record: dict[str, Any], used: bytes, skip: frozenset[str]) ->
             approval["event"], approval["phase"]),
         "payload_mismatch": lambda: not use_matches_approval(record, used),
         "approval_outside_validity": lambda: not _validity(record),
+        "effect_already_closed": lambda: _effect_closed(record),
         "comparison_unavailable": lambda: record["policyRelease"]["lookup"] != "ok",
         "release_not_served_at_decision": lambda: not _served(record),
     }
