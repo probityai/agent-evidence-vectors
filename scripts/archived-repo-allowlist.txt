@@ -1,0 +1,18 @@
+# Files that may name the archived probityai/agent-evidence, each with its reason.
+# Read by scripts/archived-repo-gate.py. A line is `<path or dir/**>  # <reason>`.
+.githooks/commit-msg.imported-tips  # history: the commit ids imported from the archived repository
+packages/vocabulary/.githooks/commit-msg.imported-tips  # history: the commit ids imported from the archived repository
+.gitleaksignore  # history: findings in commits imported from the archived repository
+scripts/pre-push-identity-scan.py  # history: why imported commits are exempt from the scan
+site/IMPORTED-COMMITS.tsv  # history: the commit map written at the import
+site/tests/imported_commits.py  # history: reads the commit map written at the import
+.github/workflows/identifier-hosts.yml  # watches on purpose that the archived repository keeps its name
+crates/dsse/CHANGELOG.md  # history: a released entry that recorded the repository field of its day
+crates/jcs-admit/CHANGELOG.md  # history: a released entry that recorded the repository field of its day
+vectors-anchor-stream/baseline/external-unterminated-final-line/PROVENANCE.md  # corpus member pinned by sha256 in its intake record
+vectors-chunked-export/MANIFEST.json  # corpus manifest bound by the release corpus digests
+vectors-chunked-export/gen_vectors.py  # writes the manifest above; changing it changes the corpus
+w3id/agent-evidence.htaccess  # must equal the live w3id.org rules byte for byte
+scripts/archived-repo-gate.py  # the gate itself
+scripts/archived-repo-gate-test.py  # the gate's tests
+scripts/archived-repo-allowlist.txt  # this list

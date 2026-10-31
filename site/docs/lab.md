@@ -44,9 +44,9 @@ Probity offers working examples, verification tools, a shared result page, and h
 
 You keep control of your implementation, policy, and original result. The first contribution is a concrete experiment with a named owner. A run in the Lab does not appoint your project to a coalition role or establish its endorsement.
 
-Have a tool, a check, or a problem to work on? [Join the collaboration thread](https://github.com/probityai/agent-evidence/issues/24) and tell us about it.
+Have a tool, a check, or a problem to work on? [Join the collaboration thread](https://github.com/probityai/agent-evidence-vectors/issues/352) and tell us about it.
 
-[Propose a run](https://github.com/probityai/agent-evidence/issues/new?template=evidence-run.yml). Describe the question and the evidence you can supply. The form and technical protocol list the inputs needed for review.
+[Propose a run](https://github.com/probityai/agent-evidence-vectors/issues/new?template=evidence-run.yml). Describe the question and the evidence you can supply. The form and technical protocol list the inputs needed for review.
 
 <a id="read-a-result-with-its-limits"></a>
 
@@ -54,7 +54,7 @@ Have a tool, a check, or a problem to work on? [Join the collaboration thread](h
 
 A signature check, an authorization decision, and an observed effect answer different questions. A result should say which it checked. Missing evidence must remain visible. A run by the author can be useful without establishing that another operator independently controlled its keys or observations.
 
-Keep the original report separate from later comparisons or corrections. [Report a correction](https://github.com/probityai/agent-evidence/issues/new?template=evidence-correction.yml) when the retained evidence does not support a claim.
+Keep the original report separate from later comparisons or corrections. [Report a correction](https://github.com/probityai/agent-evidence-vectors/issues/new?template=evidence-correction.yml) when the retained evidence does not support a claim.
 
 <a id="technical-protocol-and-retained-run-notes"></a>
 
@@ -71,7 +71,7 @@ Protocol draft 0.1.9. Register updated 11 October 2026. The register retains nat
 
 Maintainers can use this protocol to submit a verifier run, a host-project CI integration, or an observer/witness experiment. Each record names its contract, retained inputs, implementation and operators, and reports what passed, failed or remained untested. Probity maintains this register. A listed result makes no membership, endorsement or adoption commitment on behalf of another project.
 
-[Submit a run](https://github.com/probityai/agent-evidence/issues/new?template=evidence-run.yml) or [report a correction](https://github.com/probityai/agent-evidence/issues/new?template=evidence-correction.yml). The forms request the evidence needed for review. The [machine-readable register](lab/register.json), [experiments](experiments.md) and [claim ledger](claims.md) retain the supporting records.
+[Submit a run](https://github.com/probityai/agent-evidence-vectors/issues/new?template=evidence-run.yml) or [report a correction](https://github.com/probityai/agent-evidence-vectors/issues/new?template=evidence-correction.yml). The forms request the evidence needed for review. The [machine-readable register](lab/register.json), [experiments](experiments.md) and [claim ledger](claims.md) retain the supporting records.
 
 [Find a retained run](runs.md) by a claim, declared role, limit or per-claim result. Each entry links its original report, provenance and contract. The browser keeps the recorded result tokens and does not assign a grade to the whole run.
 
@@ -265,7 +265,7 @@ The first register entry is [E6: observer declaration, admission and replay](exp
 On Linux, use the actual checked-in runner and retained bytes:
 
 ``` sh
-git clone https://github.com/probityai/agent-evidence/tree/main/site atlas
+git clone https://github.com/probityai/agent-evidence-vectors/tree/main/site atlas
 cd atlas
 git checkout --detach 91a0759e459acee8355e2f9aba34f8e80d19e038
 git clone https://github.com/probityai/probity/tree/main/packages/observer .observer-source
@@ -343,7 +343,7 @@ A submission starts as **submitted**. Review can classify individual claims as *
 
 Review returns an explicit missing field, unresolved rule, counterexample or evidence mismatch. Changed source bytes without a new revision, missing raw outputs, answer-key exposure described as blind, an accept-all control that succeeds, bundled keys described as independently pinned, and missing observations counted as success block the affected claim. A useful failed or partial run can still be retained as a gap record.
 
-Use the [correction form](https://github.com/probityai/agent-evidence/issues/new?template=evidence-correction.yml) with the record ID, challenged claim, immutable counterevidence and proposed correction. A corrective pull request marks the affected claim disputed or superseded, links the replacement record and preserves the original result and review trail. Do not rewrite an old run to look like the corrected experiment. Scope or contract disagreements remain named until the relevant specification owner resolves them.
+Use the [correction form](https://github.com/probityai/agent-evidence-vectors/issues/new?template=evidence-correction.yml) with the record ID, challenged claim, immutable counterevidence and proposed correction. A corrective pull request marks the affected claim disputed or superseded, links the replacement record and preserves the original result and review trail. Do not rewrite an old run to look like the corrected experiment. Scope or contract disagreements remain named until the relevant specification owner resolves them.
 
 <a id="connections-to-current-upstream-work"></a>
 

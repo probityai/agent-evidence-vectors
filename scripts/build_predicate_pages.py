@@ -3,8 +3,8 @@
     python3 scripts/build_predicate_pages.py --spec-dir DIR --commit SHA
 
 Each type URI under https://w3id.org/agent-evidence/predicate/v1/ redirects to
-https://probityai.github.io/agent-evidence/predicate/v1/<name>/, the Pages site of
-this repository, and the page there is its specification rendered to HTML. DIR
+https://probityai.github.io/agent-evidence/predicate/v1/<name>/, on the organisation
+Pages site that copies pages/ from this repository, and the page there is its specification rendered to HTML. DIR
 holds the specification files (spec/predicates/ of agent-evidence-vectors at
 SHA). The build needs pandoc 3.3 and writes pages/; CI does not run it. CI checks
 the published bytes instead (scripts/check_predicate_pages.py), because a page
@@ -57,7 +57,7 @@ def _page(title: str, canonical: str, description: str, body: str, footer: str, 
 </style>
 </head>
 <body>
-<header class="shell"><a href="https://github.com/probityai/agent-evidence">Agent Evidence</a></header>
+<header class="shell"><a href="https://github.com/probityai/agent-evidence-vectors">Agent Evidence</a></header>
 <main class="shell">
 {body}
 </main>
@@ -107,7 +107,7 @@ def build(spec_dir: Path, commit: str) -> dict[str, str]:
               '<h1>Agent Evidence</h1>\n<p>The pages behind the persistent identifiers under '
               '<code>https://w3id.org/agent-evidence/</code>.</p>\n<ul>\n<li><a href="predicate/v1/">'
               "Predicate types, version 1</a></li>\n</ul>",
-              '<a href="https://github.com/probityai/agent-evidence">probityai/agent-evidence</a>'),
+              '<a href="https://github.com/probityai/agent-evidence-vectors">probityai/agent-evidence-vectors</a>'),
         encoding="utf-8")
     (PAGES / "predicate" / "v1" / "PAGES.sha256").write_text(
         "".join(f"{digests[n]}  {n}\n" for n in sorted(digests)), encoding="utf-8")

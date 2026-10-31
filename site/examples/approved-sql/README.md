@@ -21,7 +21,7 @@ The reader compares supplied records. It does not authenticate them or prove tha
 | [Input contract](docs/INPUT-CONTRACT.md) | Fields, exact comparisons, outputs, and native input needed |
 | [Source map](SOURCE-MAP.md) | Cho's case, pinned Tadpole source, and the actual native boundaries |
 | [Design decisions](docs/architecture/DESIGN_DECISIONS.md) | Why SQL bytes, outcome, and later state stay separate |
-| [Join the case](https://github.com/probityai/agent-evidence/issues/24) | Bring a native pair, another reader, or a check to keep |
+| [Join the case](https://github.com/probityai/agent-evidence-vectors/issues/352) | Bring a native pair, another reader, or a check to keep |
 
 ## Other readers
 
@@ -56,5 +56,5 @@ Run either from this directory:
 for f in fixtures/*.json; do [ "$(basename $f)" = manifest.json ] || { python3 <path>/reader.py "$f" > /dev/null; echo "$(basename $f) $?"; }; done
 ```
 
-Cho HyunJong (`hangum`) supplied the case in [the Lab thread](https://github.com/probityai/agent-evidence/issues/24#issuecomment-6247269344).
+Cho HyunJong (`hangum`) supplied the case in [the Lab thread](https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529865364).
 We own this illustration's fields and code. The producer owns its export semantics.

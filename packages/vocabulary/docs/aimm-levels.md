@@ -14,8 +14,10 @@ agent-evidence-vectors --corpus vectors-anchored-chain
 
 Pinned: `agent-evidence-vectors` 0.17.5 (tag `v0.17.5` of
 [probityai/agent-evidence-vectors](https://github.com/probityai/agent-evidence-vectors)), and
-[probityai/agent-evidence/packages/admission](https://github.com/probityai/agent-evidence/tree/main/packages/admission) at commit
-`53913a9007aa3d582378a924ab5fc2fe6f662fc1`. `python3 scripts/check_aimm_levels.py` checks that every
+the admission policies at agent-evidence-admission commit
+`53913a9007aa3d582378a924ab5fc2fe6f662fc1`, whose tree is
+[packages/admission at 377bbb3](https://github.com/probityai/agent-evidence-vectors/tree/377bbb3a690cc41f4231330a82820481278da19c/packages/admission)
+in this repository. `python3 scripts/check_aimm_levels.py` checks that every
 family, case and policy named below exists at those pins.
 
 A cell reading "assessed from records" has no vector family yet: the assessor reads the

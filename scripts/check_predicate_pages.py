@@ -3,7 +3,7 @@
     python3 scripts/check_predicate_pages.py
 
 A predicate type URI under https://w3id.org/agent-evidence/predicate/v1/ redirects to
-pages/predicate/v1/<name>/index.html on this repository's Pages site, and a third
+pages/predicate/v1/<name>/index.html as served by the organisation Pages site, and a third
 party writes the URI inside the bytes they sign. So each page is pinned by digest
 in pages/predicate/v1/PAGES.sha256, names its own type URI as its canonical link,
 and links to no host but the ones listed here. Changing a page on purpose means

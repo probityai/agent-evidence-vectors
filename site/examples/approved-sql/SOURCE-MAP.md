@@ -1,6 +1,6 @@
 # Approved SQL: approval, execution, and a later change
 
-Cho HyunJong (`hangum`) nominated this case in [the Open Evidence Lab thread](https://github.com/probityai/agent-evidence/issues/24#issuecomment-6247269344). He described a Settle approval record and `executed_sql_resource`, compared with a database-native audit record. He did not supply a fixture or a database run in that comment.
+Cho HyunJong (`hangum`) nominated this case in [the Open Evidence Lab thread](https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529865364). He described a Settle approval record and `executed_sql_resource`, compared with a database-native audit record. He did not supply a fixture or a database run in that comment.
 
 The useful check compares four things: exact SQL and bound parameters, database and schema, the database principal, and the actual outcome. A later database read is a separate observation. It cannot by itself tell us who made an earlier change.
 

@@ -12,7 +12,7 @@ The local checker validates their retained bytes and reports declared outcomes.
 From a new checkout, with Python 3.11 or later:
 
 ```sh
-git clone https://github.com/probityai/agent-evidence/tree/main/site
+git clone https://github.com/probityai/agent-evidence-vectors/tree/main/site
 cd agent-evidence-atlas
 git checkout 753a60ccd3ec84a80fd8ca84da283d8ec09a60fa
 python3 -m venv .venv
@@ -140,5 +140,5 @@ custody need their own evidence.
 Use a failed task to improve its public title, missing term, link or recipe.
 Retain the first result, change the surface, then record the next attempt without
 overwriting the original. Submit a source-linked
-[correction](https://github.com/probityai/agent-evidence/issues/new?template=evidence-correction.yml)
+[correction](https://github.com/probityai/agent-evidence-vectors/issues/new?template=evidence-correction.yml)
 when the documentation itself is wrong.

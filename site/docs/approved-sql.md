@@ -6,9 +6,9 @@ An agent gets approval to update a database. The application reports success. La
 
 [Try the reader and examples](examples/approved-sql/README.md). They compare the approved SQL and parameters with the application record and audit projection, including the database, schema, principal and transaction outcome. A later state change stays separate from an earlier matching commit.
 
-Cho HyunJong brought this case to the [Lab thread](https://github.com/probityai/agent-evidence/issues/24#issuecomment-6247269344). The examples are ours. A real Tadpole approval and database audit pair is the next contribution; another project can bring a reader and compare results.
+Cho HyunJong brought this case to the [Lab thread](https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529865364). The examples are ours. A real Tadpole approval and database audit pair is the next contribution; another project can bring a reader and compare results.
 
-Want to help? Bring a shareable pair, run the examples with another reader, or pick a check to keep in your own CI. [Join the case in the Lab](https://github.com/probityai/agent-evidence/issues/24). We maintain the comparison code and credit the case, code and runs separately.
+Want to help? Bring a shareable pair, run the examples with another reader, or pick a check to keep in your own CI. [Join the case in the Lab](https://github.com/probityai/agent-evidence-vectors/issues/352). We maintain the comparison code and credit the case, code and runs separately.
 
 <details>
 

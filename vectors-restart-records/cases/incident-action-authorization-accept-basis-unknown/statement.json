@@ -1,0 +1,71 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "action": {
+      "functions": [
+        "pause",
+        "restriction"
+      ],
+      "inducedEffects": {
+        "declared": "none_observed",
+        "observation": {
+          "sha256": "49e5bcfe1937fa1b8f644eed7a55ec335d7094afc266cedbdc3dac8a31614bae"
+        }
+      },
+      "targets": [
+        {
+          "id": "https://agents.example.com/agent-a"
+        }
+      ]
+    },
+    "authorizedAt": "2026-01-10T10:00:00Z",
+    "doesNotAssert": [
+      "that the authorizer held the authority the basis names"
+    ],
+    "executedAt": "2026-01-10T10:05:00Z",
+    "incident": {
+      "id": "synthetic-incident-0001",
+      "issuer": "https://ops.example.com/incidents"
+    },
+    "intentBinding": "committed_before_execution",
+    "issuedAt": "2026-01-10T10:10:00Z",
+    "notAfter": "2026-01-10T18:00:00Z",
+    "parties": [
+      {
+        "authorityBasis": "unknown",
+        "id": "https://people.example.com/responder-a",
+        "roles": [
+          "authorized"
+        ]
+      },
+      {
+        "id": "https://people.example.com/responder-b",
+        "roles": [
+          "accountable",
+          "executed"
+        ]
+      }
+    ],
+    "pause": {
+      "hold": "held",
+      "holdProof": {
+        "sha256": "27f8b8156c2361a0f825bbbdfeaa645ce66100e8b4a692babc392e70cb4a7557"
+      }
+    },
+    "producer": {
+      "id": "https://records.example.com/producer"
+    },
+    "registryDigest": {
+      "sha256": "1c5ff80bd97237a603afc402db692ffe5abe15e4a7f9eca13f20068ada347fdc"
+    }
+  },
+  "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/incident-action-authorization",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "ff325a8aa93c6c29842f63887a55c7aac54d1edd2995a601c051441c75d57868"
+      },
+      "name": "operation description: pause and restrict agent-a"
+    }
+  ]
+}

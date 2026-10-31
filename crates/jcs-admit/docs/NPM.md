@@ -45,7 +45,7 @@ Node 22.14 or newer loads the WASM bytes internally through the package's ESM
 entry point. Browsers import `jcs-admit/browser` and await its default initializer.
 A bundler or static server must retain the adjacent generated modules and `.wasm`
 file. Both routes use the same bytes, without an install script or runtime npm
-dependency. See [the package README](https://github.com/probityai/agent-evidence/blob/main/crates/jcs-admit/npm/README.md) for complete consumer
+dependency. See [the package README](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/npm/README.md) for complete consumer
 examples.
 
 ## Build and verify a tarball
@@ -96,7 +96,7 @@ identity before requesting npm publication through OIDC. Only that job receives
 tarball or use a long-lived npm token.
 
 The npm trusted-publisher configuration binds the package identity to
-`probityai/agent-evidence`, the exact `release.yml` workflow and the `npm`
+`probityai/agent-evidence-vectors`, the exact `release.yml` workflow and the `npm`
 environment. Establish the package identity and configure that binding through
 npm's supported account flow before the OIDC publish job runs. Registry account
 access alone does not establish namespace ownership, direct publication authority

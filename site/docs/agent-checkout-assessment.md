@@ -42,6 +42,6 @@ The method is public and runnable today: the [refund-handoff conformance profile
 
 An operator's credentials, records, connectors, control comparison and findings stay with that operator. None of them enters this repository, a Lab result or a paper. Cases added to the public set after such work are written from scratch and synthetic.
 
-Bring a reader or a retained synthetic run to the [Lab thread](https://github.com/probityai/agent-evidence/issues/24). An operator that wants its own flow checked can ask there; the conversation about its records continues privately.
+Bring a reader or a retained synthetic run to the [Lab thread](https://github.com/probityai/agent-evidence-vectors/issues/352). An operator that wants its own flow checked can ask there; the conversation about its records continues privately.
 
 [HTML view](agent-checkout-assessment.html) | [Agent guide](llms.txt)

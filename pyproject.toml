@@ -117,7 +117,7 @@ crosscheck = ["probity-verify"]
 # tests under tests/). The packages under packages/ are standalone projects built
 # by directory (`uv build packages/<name>`); none of them has a runtime dependency. Their ruff run
 # reads ruff-parts.toml, not the rules below, which the corpora and the rail keep.
-dev = ["packaging==26.3", "pytest==9.1.1", "ruff==0.17.1"]
+dev = ["packaging==26.3", "pytest==9.2.0", "ruff==0.17.3"]
 
 # What the wheel carries, and where. The rail is a single stdlib-only module
 # kept at packaging/run_vectors.py, where every gate in scripts/ imports it by
@@ -143,6 +143,7 @@ only-include = [
     "vectors-agent-change-admission",
     "vectors-agentic-process-evidence",
     "vectors-delegation-lifecycle",
+    "vectors-restart-records",
     "vectors-recorded",
     "vectors-agent-decision",
     "vectors-ietf-agent-record-drafts",
@@ -208,6 +209,7 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 "vectors-agent-change-admission" = "agent_evidence_vectors/corpora/vectors-agent-change-admission"
 "vectors-agentic-process-evidence" = "agent_evidence_vectors/corpora/vectors-agentic-process-evidence"
 "vectors-delegation-lifecycle" = "agent_evidence_vectors/corpora/vectors-delegation-lifecycle"
+"vectors-restart-records" = "agent_evidence_vectors/corpora/vectors-restart-records"
 "vectors-recorded" = "agent_evidence_vectors/corpora/vectors-recorded"
 "vectors-agent-decision" = "agent_evidence_vectors/corpora/vectors-agent-decision"
 "vectors-ietf-agent-record-drafts" = "agent_evidence_vectors/corpora/vectors-ietf-agent-record-drafts"
@@ -284,6 +286,13 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 "spec/predicates/adversarial-execution-evidence.md" = "agent_evidence_vectors/corpora/spec/predicates/adversarial-execution-evidence.md"
 "spec/v1/statement.md" = "agent_evidence_vectors/corpora/spec/v1/statement.md"
 "spec/predicates/adversarial-execution-evidence/verification.md" = "agent_evidence_vectors/corpora/spec/predicates/adversarial-execution-evidence/verification.md"
+# The restart-records reader checks its corpus against these vendored documents.
+"profiles/restoration-evidence.md" = "agent_evidence_vectors/corpora/profiles/restoration-evidence.md"
+"spec/predicates/incident-action-authorization.md" = "agent_evidence_vectors/corpora/spec/predicates/incident-action-authorization.md"
+"spec/predicates/joint-authority.md" = "agent_evidence_vectors/corpora/spec/predicates/joint-authority.md"
+"spec/predicates/re-enable-decision.md" = "agent_evidence_vectors/corpora/spec/predicates/re-enable-decision.md"
+"spec/predicates/revocation-boundary.md" = "agent_evidence_vectors/corpora/spec/predicates/revocation-boundary.md"
+"spec/predicates/revocation-sweep.md" = "agent_evidence_vectors/corpora/spec/predicates/revocation-sweep.md"
 
 [tool.hatch.build.targets.sdist]
 only-include = [
@@ -313,6 +322,7 @@ only-include = [
     "vectors-agent-change-admission",
     "vectors-agentic-process-evidence",
     "vectors-delegation-lifecycle",
+    "vectors-restart-records",
     "vectors-recorded",
     "vectors-agent-decision",
     "vectors-ietf-agent-record-drafts",
@@ -320,6 +330,12 @@ only-include = [
     "spec/predicates/adversarial-execution-evidence.md",
     "spec/v1/statement.md",
     "spec/predicates/adversarial-execution-evidence/verification.md",
+    "profiles/restoration-evidence.md",
+    "spec/predicates/incident-action-authorization.md",
+    "spec/predicates/joint-authority.md",
+    "spec/predicates/re-enable-decision.md",
+    "spec/predicates/revocation-boundary.md",
+    "spec/predicates/revocation-sweep.md",
     "vectors-admission",
     "vectors-aci",
     "vectors-acs-core",
@@ -405,10 +421,10 @@ artifact-binding = ["cryptography>=43"]
 # pymupdf is pinned exactly because interop/nist-ai-300-1 binds digests to the text
 # it extracts from the NIST AI 300-1 PDF; another release may extract other text.
 dev = ["cryptography>=43", "pycose>=1.1,<2", "cbor2>=5.6,<6", "markdown>=3.9",
-       "packaging>=25", "hypothesis==6.168.3", "pycryptodome==3.23.0", "jsonschema==4.25.1", "rfc8785==0.1.4",
+       "packaging>=25", "hypothesis==6.170.12", "pycryptodome==4.2.0", "jsonschema==4.26.0", "rfc8785==0.1.4",
        "mypy>=1.11", "pyright>=1.1.400", "pytest>=8", "pytest-cov>=5",
        "pyyaml>=6", "ruff>=0.6", "types-Markdown>=3.9", "types-PyYAML>=6",
-       "numpy>=2.1", "mcp==2.3.0", "pymupdf==1.26.7", "types-jsonschema==4.25.1.20251009"]
+       "numpy>=2.1", "mcp==2.3.0", "pymupdf==1.26.7", "types-jsonschema==4.26.0.20261006"]
 
 [tool.mypy]
 # scripts/code-contract-gate.py imports the reference rail to drive its own
@@ -449,7 +465,7 @@ held-elsewhere = ["actions", "crates", "packages", "site", "tests"]
 # to pass if a Python file exists outside them.
 include = ["crates/jcs-admit", "docs/paper", "docs/proposals", "docs/site", "examples/mcp-receipts", "interop", "packaging", "scripts", "tools", "vectors",
            "vectors-admission",
-           "vectors-a2a-jcs-v01", "vectors-agent-audit-record", "vectors-agent-decision", "vectors-ietf-agent-record-drafts", "vectors-anchored-chain", "vectors-trace-anchor", "vectors-grade-floor", "vectors-agent-payment-mandate", "vectors-agent-change-admission", "vectors-agentic-process-evidence", "vectors-delegation-lifecycle", "vectors-recorded", "vectors-aci", "vectors-acs-core", "vectors-ai-agent-action", "vectors-ai-generation",
+           "vectors-a2a-jcs-v01", "vectors-agent-audit-record", "vectors-agent-decision", "vectors-ietf-agent-record-drafts", "vectors-anchored-chain", "vectors-trace-anchor", "vectors-grade-floor", "vectors-agent-payment-mandate", "vectors-agent-change-admission", "vectors-agentic-process-evidence", "vectors-delegation-lifecycle", "vectors-restart-records", "vectors-recorded", "vectors-aci", "vectors-acs-core", "vectors-ai-agent-action", "vectors-ai-generation",
            "vectors-anchor-stream", "vectors-artifact-binding", "vectors-dependency-selection",
            "vectors-mcp-owasp", "vectors-mcp-record-contract", "vectors-mcp-response-phase",
            "vectors-observed-effect", "vectors-receipt-chain-end", "vectors-receipt-signature",
@@ -570,7 +586,23 @@ extend-exclude = [
   "scripts/family_pin_guard.py",
   "scripts/record_paths.py",
   "scripts/go-module-size-gate.py",
+  # Trees that fail the rules above today. CI lints every vectors-* and interop/*
+  # directory by glob (force-exclude makes a named path win); this list is the
+  # burn-down and only shrinks. A new directory is linted from its first commit.
+  "vectors-acs-core/gen_vectors.py",
+  "vectors-w3c-report/gen_vectors.py",
+  "vectors-artifact-binding/gen_vectors.py",
+  "vectors-scitt-cose/gen_vectors.py",
+  "vectors-poc-evidence/build",
+  "vectors-poc-evidence/package",
+  "vectors-poc-evidence/tests",
+  "interop/aps-priorseal-e2-2026-09-30",
+  "interop/w3c-v01-appendix",
+  "interop/mcp-sdks",
+  "interop/wimse-agent-audit-record-reader-2026-10-01",
+  "interop/trace-anchor-tr-anc",
 ]
+force-exclude = true
 
 [tool.ruff.lint]
 # E/W pycodestyle, F pyflakes, I isort, UP pyupgrade, B bugbear, C901 mccabe

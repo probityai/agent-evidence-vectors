@@ -32,7 +32,7 @@ historical key control and timestamp proofs. Those details are in the [source ma
 
 - `ogasurfproject-jpg` ran the gate at `2bff38d8` on Ubuntu 22.04 aarch64 with CPython 3.14.7: all 10 steps
   matched their expected exits, and a direct read with their own operator string gave the same four outcomes
-  ([report](https://github.com/probityai/agent-evidence/issues/24#issuecomment-6247270874)).
+  ([report](https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529870053)).
   Their machine checked the two key documents against the SHA-256 in `pins.json`, not a live fetch.
 - Horizon Shield keeps the same gate as a weekly check in
   [`probity-witness-reader.yml`](https://github.com/ogasurfproject-jpg/horizon-shield/blob/main/.github/workflows/probity-witness-reader.yml)

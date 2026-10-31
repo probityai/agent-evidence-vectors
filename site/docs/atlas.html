@@ -123,7 +123,7 @@
 </div>
 <p>The families map onto the three jobs that <a href="https://doi.org/10.5281/zenodo.21935891"><em>Three Jobs, Not One</em></a> separates. Families 1 and 2 carry the policy job: the decision on what may be attempted. Family 3 does the containment job: enforcing a boundary the agent’s code does not control. Families 4 and 5 are where systems usually attempt the evidence job. The table shows why neither finishes it: the party a trace describes writes the trace, and a signature fixes bytes without saying what they describe happened. Evaluation and governance are complementary roles. The evaluators and regulators who work in them scrutinize the other families. Neither role can stand in for any of them.</p>
 <h2 id="who-writes-the-record">Who writes the record</h2>
-<p>One question separates these mechanisms: who writes the record each one produces. The table uses the witness-scope terms of the <a href="https://github.com/probityai/agent-evidence/tree/main/packages/vocabulary">agent evidence vocabulary</a>: <code>self</code> is the observed party, or the system that runs it; <code>peer</code> is a party alongside it with its own stake, such as a gateway operator or an evaluator paid by the developer it evaluates; <code>external</code> is a party outside the observed system’s control. The writer given for each mechanism is this atlas’s reading of a typical deployment, not a property of the software.</p>
+<p>One question separates these mechanisms: who writes the record each one produces. The table uses the witness-scope terms of the <a href="https://github.com/probityai/agent-evidence-vectors/tree/main/packages/vocabulary">agent evidence vocabulary</a>: <code>self</code> is the observed party, or the system that runs it; <code>peer</code> is a party alongside it with its own stake, such as a gateway operator or an evaluator paid by the developer it evaluates; <code>external</code> is a party outside the observed system’s control. The writer given for each mechanism is this atlas’s reading of a typical deployment, not a property of the software.</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label="mechanism / family / writer / establishes / cannot establish">
 <table>
 <colgroup>
@@ -737,7 +737,7 @@ Accountability obligations end in a person or an organization. The record that w
 </thead>
 <tbody>
 <tr>
-<td><a href="https://github.com/probityai/agent-evidence/tree/main/packages/vocabulary">agent-evidence-vocabulary</a></td>
+<td><a href="https://github.com/probityai/agent-evidence-vectors/tree/main/packages/vocabulary">agent-evidence-vocabulary</a></td>
 <td>5, feeding 7</td>
 <td>v0.4.0; read 2026-10-14 22:51 UTC <span class="label draft">draft</span></td>
 <td>A closed, versioned vocabulary for what an evidence claim means: observer vantage, directness, witness scope (self, peer, external), coverage denominator, and what the record does not assert</td>
@@ -751,7 +751,7 @@ Accountability obligations end in a person or an organization. The record that w
 <td>It does not observe execution. A clean run shows a verifier printed the right answers, not that it computed them</td>
 </tr>
 <tr>
-<td><a href="https://github.com/probityai/agent-evidence/tree/main/packages/admission">agent-evidence-admission</a></td>
+<td><a href="https://github.com/probityai/agent-evidence-vectors/tree/main/packages/admission">agent-evidence-admission</a></td>
 <td>2, consuming 5</td>
 <td>py-v0.1.0, the Python package 0.1.0 on PyPI; read 2026-10-14 22:51 UTC <span class="label draft">draft</span></td>
 <td>Admission rules in four policy engines (OPA, two Kyverno dialects, and Sigstore’s policy-controller) that admit or refuse a workload on its execution evidence</td>
@@ -1041,7 +1041,7 @@ Accountability obligations end in a person or an organization. The record that w
 <h2 id="checking-this-page">Checking this page</h2>
 <ul>
 <li>A “cannot establish” line is the limit of its family. The projects listed under a family are measured against that line alone.</li>
-<li>Star counts measure attention, and they drift. I read each status from the body’s own page or repository. The re-derive tool in the <a href="https://github.com/probityai/agent-evidence/tree/main/site">site’s repository</a> re-reads each count, and the <a href="claims.html">claim ledger</a> gives the time of each read.</li>
+<li>Star counts measure attention, and they drift. I read each status from the body’s own page or repository. The re-derive tool in the <a href="https://github.com/probityai/agent-evidence-vectors/tree/main/site">site’s repository</a> re-reads each count, and the <a href="claims.html">claim ledger</a> gives the time of each read.</li>
 <li>The atlas data is published as <code>data/atlas.toml</code> in the same repository, one node per project, mechanism and artifact with its link and measurement, so any source that emits the same shape can regenerate the page.</li>
 </ul>
 </main>

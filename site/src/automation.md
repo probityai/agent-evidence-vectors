@@ -59,4 +59,4 @@ The checker validates artifact hashes and measured fields before returning a rec
 
 ## Share a result
 
-Keep the source pins, command, raw output and retained artifact together. Submit them through the [run form](https://github.com/probityai/agent-evidence/issues/new?template=evidence-run.yml), or use the [correction form](https://github.com/probityai/agent-evidence/issues/new?template=evidence-correction.yml) when a recorded claim needs fixing.
+Keep the source pins, command, raw output and retained artifact together. Submit them through the [run form](https://github.com/probityai/agent-evidence-vectors/issues/new?template=evidence-run.yml), or use the [correction form](https://github.com/probityai/agent-evidence-vectors/issues/new?template=evidence-correction.yml) when a recorded claim needs fixing.

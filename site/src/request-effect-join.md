@@ -17,7 +17,7 @@ It follows `giskard09`'s [selected execution-join contract](https://github.com/g
 and keeps the proposed later-state outcome separate from its existing digest checks.
 
 Bring a reader, the producer's vectors, or a retained file-effect run to the
-[Lab thread](https://github.com/probityai/agent-evidence/issues/24).
+[Lab thread](https://github.com/probityai/agent-evidence-vectors/issues/352).
 Another project can run the same cases and compare outcomes directly with you.
 We maintain the case table and credit the case, code and runs separately.
 

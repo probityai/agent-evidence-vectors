@@ -42,7 +42,7 @@ agent-evidence-admission conformance run manifest.json \
 | field | meaning |
 |---|---|
 | `_type` | `https://in-toto.io/Statement/v1` |
-| `predicateType` | `https://github.com/probityai/agent-evidence/blob/main/packages/admission/docs/CONFORMANCE-RESULT.md` |
+| `predicateType` | `https://github.com/probityai/agent-evidence-vectors/blob/main/packages/admission/docs/CONFORMANCE-RESULT.md` |
 | `subject[0].name` | `run:<implementation>@suite-revision-<N>` for a replayed row, `results:<implementation>@suite-revision-<N>` for a local run |
 | `subject[0].digest.sha256` | SHA-256 of the canonical JSON of the evidence: the posted row, or the list of `{id, expect, verdict}` the runner produced |
 | `predicate.implementation` | who was measured |
