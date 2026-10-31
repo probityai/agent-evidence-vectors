@@ -57,7 +57,7 @@ jobs:
         sdk: ${{ fromJSON(inputs.sdks || '["typescript","python","go","java","kotlin","csharp","swift","rust","ruby","php"]') }}
     steps:
       - name: Check out the harnesses
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: probityai/agent-evidence-vectors
           ref: ${{ inputs.ref || github.sha }}
@@ -72,7 +72,7 @@ jobs:
         run: cat table.md >> "$GITHUB_STEP_SUMMARY"
 
       - name: Keep the raw results
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: mcp-sdk-jcs-${{ matrix.sdk }}
           path: interop/mcp-sdks/results/
