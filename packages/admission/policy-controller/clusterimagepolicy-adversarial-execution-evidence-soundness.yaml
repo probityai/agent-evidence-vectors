@@ -2588,6 +2588,46 @@ spec:
               	not referenced_records_ok
               }
 
+              errors contains "seal: a basis:substrate row is present but the statement carries no valid run-level sealed record (aeeKind \"sealed\", aeeMethod \"intercepted\", still armed, drops within a declared bound, posture digest equal to the pinned one and to every arming record's)" if {
+              	is_evidence
+              	not run_seal_present_ok
+              }
+
+              errors contains "observation refs: a row's observationRefs names an index outside observationRecords" if {
+              	is_evidence
+              	not refs_in_range_ok
+              }
+
+              errors contains "observed attacks: a sealed record's aeeObservedAttacks names an attack for which the statement carries no row labelled with a caught outcome (the seal observed an attack the rows report as uncaught)" if {
+              	is_evidence
+              	not observed_attacks_caught_ok
+              }
+
+              errors contains "assessed attacks: the attacks of the carried coverage.assessedClasses are not a subset of an arming record's aeeAssessedAttacks (the statement assesses more than the run declared when it armed)" if {
+              	is_evidence
+              	not assessed_within_declaration_ok
+              }
+
+              errors contains "record shape: an arming record's aeeAssessedAttacks, or an interception record's aeePayloadCommitment, is absent or not a well-formed array (sorted, duplicate-free, lowercase 64-hex entries)" if {
+              	is_evidence
+              	not record_kind_arrays_ok
+              }
+
+              errors contains "attribution: corpus.manifest.expectedPayloads is malformed (every key must be a declared attack, every array non-empty, sorted, duplicate-free, lowercase 64-hex)" if {
+              	is_evidence
+              	not expected_payloads_ok
+              }
+
+              errors contains "attribution: a row declaring attribution:pinned names an attack for which the corpus manifest carries no expected payload commitment" if {
+              	is_evidence
+              	not attribution_expectation_ok
+              }
+
+              errors contains "attribution: a row declaring attribution:pinned resolves no interception record, or resolves one whose aeePayloadCommitment carries no value the corpus manifest declared for that row's attack" if {
+              	is_evidence
+              	not attribution_pin_ok
+              }
+
               errors contains "method cap: a row claiming method:intercepted rests on a covering record whose signed aeeMethod is \"reconstructed\" (a row's method may be no stronger than the weakest aeeMethod across its covering records)" if {
               	is_evidence
               	not method_cap_ok
