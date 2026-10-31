@@ -143,6 +143,7 @@ only-include = [
     "vectors-agent-change-admission",
     "vectors-agentic-process-evidence",
     "vectors-delegation-lifecycle",
+    "vectors-restart-records",
     "vectors-recorded",
     "vectors-agent-decision",
     "vectors-ietf-agent-record-drafts",
@@ -207,6 +208,7 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 "vectors-agent-change-admission" = "agent_evidence_vectors/corpora/vectors-agent-change-admission"
 "vectors-agentic-process-evidence" = "agent_evidence_vectors/corpora/vectors-agentic-process-evidence"
 "vectors-delegation-lifecycle" = "agent_evidence_vectors/corpora/vectors-delegation-lifecycle"
+"vectors-restart-records" = "agent_evidence_vectors/corpora/vectors-restart-records"
 "vectors-recorded" = "agent_evidence_vectors/corpora/vectors-recorded"
 "vectors-agent-decision" = "agent_evidence_vectors/corpora/vectors-agent-decision"
 "vectors-ietf-agent-record-drafts" = "agent_evidence_vectors/corpora/vectors-ietf-agent-record-drafts"
@@ -311,6 +313,7 @@ only-include = [
     "vectors-agent-change-admission",
     "vectors-agentic-process-evidence",
     "vectors-delegation-lifecycle",
+    "vectors-restart-records",
     "vectors-recorded",
     "vectors-agent-decision",
     "vectors-ietf-agent-record-drafts",
