@@ -840,6 +840,13 @@ jobs:
       # jobs ran about 15 hours on one box and held v0.30.0 back.
       - name: the release procedure runs only the leak tier locally
         run: .venv/bin/python -B scripts/release-procedure-test.py
+      # One approval of one release publishes the wheel and the dataset. No
+      # workflow may publish without the public-release environment or from a
+      # trigger other than the release.
+      - name: every publish job sits behind the approved release
+        run: |
+          .venv/bin/python -B scripts/publish-gate-test.py
+          .venv/bin/python -B scripts/publish-gate-selftest.py
       # The README is the first screen and nothing more: what the suite is, who it
       # is for, the pinned install line, an example, the status and the links.
       # Detail lives in docs/, and this keeps it there.
