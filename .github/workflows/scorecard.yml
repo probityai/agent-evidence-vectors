@@ -116,7 +116,7 @@ jobs:
           persist-credentials: false
 
       - name: Run analysis
-        uses: ossf/scorecard-action@v2.4.4
+        uses: ossf/scorecard-action@v2.5.0
         with:
           results_file: results.sarif
           results_format: sarif
@@ -131,7 +131,7 @@ jobs:
       # the findings; this is the file they were derived from, which is what a
       # reader needs to disagree with one.
       - name: Upload the raw SARIF as an artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v7.0.2
         with:
           name: scorecard-results
           path: results.sarif

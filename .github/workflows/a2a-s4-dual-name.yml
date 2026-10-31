@@ -26,10 +26,10 @@ jobs:
       run:
         working-directory: interop/a2a-s4-dual-name-2026-10-02
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
-      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
         with:
           python-version: '3.13'
       - name: Install selected regression dependencies
@@ -41,7 +41,7 @@ jobs:
       - name: Recompute both native readings
         run: python run_dual_name.py > fresh-report.json
       - name: Retain report
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: a2a-s4-dual-name-report
           path: interop/a2a-s4-dual-name-2026-10-02/fresh-report.json

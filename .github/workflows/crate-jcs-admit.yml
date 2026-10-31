@@ -155,7 +155,7 @@ jobs:
       - run: rustup default stable
       - run: cargo build --locked --example a2a_jcs
       - name: replay the published a2a-jcs-v01 corpus, rfc8785 target
-        uses: probityai/agent-evidence-vectors@33d545104ff2f8c124cff465c96c013eeb809156 # v0.18.1
+        uses: probityai/agent-evidence-vectors@a78eb265ece4163e5d4e08eb5865fac05d12cab0 # v0.29.3
         env:
           A2A_JCS_TARGET: rfc8785
         with:
@@ -250,7 +250,7 @@ jobs:
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: ${{ matrix.python }}
-      - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa # v10.3.1
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
       - run: rustup toolchain install stable --profile minimal -c rustfmt -c clippy
       - name: qualify installed original records and refusal controls
         run: |
@@ -299,7 +299,7 @@ jobs:
         run: |
           rustup toolchain install stable --profile minimal -c rustfmt -c clippy
           rustup default stable
-      - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa # v10.3.1
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
         with:
           version: ${{ env.UV_VERSION }}
           python-version: ${{ matrix.python }}
@@ -358,7 +358,7 @@ jobs:
         with:
           name: python-sdist
           path: built
-      - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa # v10.3.1
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
         with:
           version: ${{ env.UV_VERSION }}
           python-version: ${{ matrix.python }}
