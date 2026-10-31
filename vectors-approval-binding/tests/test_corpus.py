@@ -123,3 +123,77 @@ class TestApprovalBindingCorpus:
             (copied / "cases" / "allow-bound" / "payload.bin").write_bytes(b"other")
             _, errors = corpus.check(root=copied)
             assert "allow-bound: fixture digest mismatch" in errors
+
+
+def _case(name: str) -> dict:  # type: ignore[type-arg]
+    return json.loads((ROOT / "cases" / name / "record.json").read_text(encoding="utf-8"))
+
+
+def _verdict(name: str, skip: frozenset[str] = frozenset()) -> dict:  # type: ignore[type-arg]
+    return approvalbinding.verify(ROOT / "cases" / name / "record.json", skip)
+
+
+class TestRenewalByReplacement:
+    """A replaced approval is refused for supersession, and for nothing else."""
+
+    def test_replacement_is_allowed_with_distinct_decisions_and_equal_bounds(self) -> None:
+        record = _case("approval-renewed-same-bounds")
+        predecessor, successor = record["presentedApprovals"]
+        assert predecessor["decisionId"] != successor["decisionId"]
+        assert all(predecessor[f] == successor[f] for f in approvalbinding.BOUND_FIELDS)
+        assert record["transitions"][0]["predecessorDecisionId"] == predecessor["decisionId"]
+        assert _verdict("approval-renewed-same-bounds") == {"decision": "allow",
+                                                            "reason": "bound"}
+
+    def test_predecessor_is_refused_before_any_execution_under_the_successor(self) -> None:
+        record = _case("approval-reused-after-renewal")
+        approval, use = record["approval"], record["use"]
+        # Nothing else can be what refuses it: it has not expired, it is not
+        # consumed, and the effect is reserved and not executed.
+        assert approval["issuedAt"] <= use["usedAt"] < approval["expiresAt"]
+        assert approval["approvalId"] not in record["consumedApprovalIds"]
+        assert record["effectRegistry"][use["effectKey"]] == "RESERVED"
+        assert _verdict("approval-reused-after-renewal") == {
+            "decision": "deny", "reason": "approval_superseded"}
+
+    def test_predecessor_passes_every_other_check(self) -> None:
+        skipped = _verdict("approval-reused-after-renewal",
+                           frozenset({"approval_superseded"}))
+        assert skipped == {"decision": "allow", "reason": "bound"}
+
+    def test_deduplicating_verifier_misses_the_supersession(self, tmp_path: Path) -> None:
+        # A reader that refuses only an approval already consumed lets A through.
+        skip = tuple(c for c in approvalbinding.CHECKS if c != "approval_replayed")
+        _, errors = corpus.check(_stub(tmp_path, skip))
+        assert "approval-reused-after-renewal" in _failed(errors)
+
+    def test_predecessor_is_applicable_until_the_replacement_is_accepted(self) -> None:
+        record = _case("allow-predecessor-before-replacement")
+        assert record["use"]["usedAt"] < record["transitions"][0]["acceptedAt"]
+        assert _verdict("allow-predecessor-before-replacement")["decision"] == "allow"
+
+    @pytest.mark.parametrize("name,reason", [
+        ("approval-renewal-transition-not-accepted", "renewal_transition_missing"),
+        ("approval-renewal-decision-not-distinct", "renewal_binding_invalid"),
+        ("approval-renewal-predecessor-decision-not-cited", "renewal_binding_invalid"),
+        ("approval-renewal-bounds-differ", "renewal_binding_invalid"),
+        ("approval-renewal-reopens-consumed-effect", "effect_already_closed"),
+        ("approval-renewal-reopens-uncertain-effect", "effect_already_closed"),
+    ])
+    def test_renewal_claim_is_refused_for_its_own_reason(self, name: str, reason: str) -> None:
+        assert _verdict(name) == {"decision": "deny", "reason": reason}
+        # The same record clears every other check, so the reason is the only cause.
+        assert _verdict(name, frozenset({reason}))["decision"] == "allow"
+
+    def test_renewed_claim_is_not_evidence_of_a_transition(self) -> None:
+        record = _case("approval-renewal-transition-not-accepted")
+        assert record["use"]["authorityForm"] == "renewed"
+        assert record["transitions"][0]["status"] == "proposed"
+
+    def test_closed_effect_is_refused_whatever_the_transition(self) -> None:
+        for name in ("approval-renewal-reopens-consumed-effect",
+                     "approval-renewal-reopens-uncertain-effect"):
+            record = _case(name)
+            assert record["transitions"][0]["status"] == "accepted"
+            assert record["effectRegistry"][record["use"]["effectKey"]] in (
+                approvalbinding.CLOSED_EFFECT_STATES)
