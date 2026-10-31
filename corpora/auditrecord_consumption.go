@@ -123,14 +123,13 @@ func arHeldShape(item any) error {
 	return nil
 }
 
-func arConsumptionShape(consumption map[string]any) error {
-	if err := arConsumptionMembership(consumption); err != nil {
-		return err
-	}
+// arConsumptionLimit checks the limit digest and the unit, and returns the
+// digest the supersedes check needs.
+func arConsumptionLimit(consumption map[string]any) (string, error) {
 	_, hasAsset := consumption["asset"]
 	_, hasUnit := consumption["unit"]
 	if arConsumptionChecks["asset-exclusive"] && hasAsset && hasUnit {
-		return arRefuse("consumption-unit-ambiguous")
+		return "", arRefuse("consumption-unit-ambiguous")
 	}
 	digest, _ := consumption["limitDigest"].(string)
 	unit, isText := consumption["unit"].(string)
@@ -138,8 +137,20 @@ func arConsumptionShape(consumption map[string]any) error {
 		unit, isText = "-", true
 	}
 	if !arIsDigest(digest) || !isText || unit == "" {
-		return arRefuse("consumption-value-invalid")
+		return "", arRefuse("consumption-value-invalid")
 	}
+	return digest, nil
+}
+
+func arConsumptionShape(consumption map[string]any) error {
+	if err := arConsumptionMembership(consumption); err != nil {
+		return err
+	}
+	digest, err := arConsumptionLimit(consumption)
+	if err != nil {
+		return err
+	}
+	_, hasAsset := consumption["asset"]
 	if hasAsset {
 		if err := arAssetShape(consumption["asset"]); err != nil {
 			return err
@@ -319,6 +330,15 @@ func arRuleConsumption(s *arState) error {
 	if _, has := decision["operationKey"]; arConsumptionChecks["operation-key"] && !has {
 		return arRefuse("member-missing")
 	}
+	if err := arRetryChecks(consumption, decision); err != nil {
+		return err
+	}
+	return arSettledAgainstApproved(consumption)
+}
+
+// arRetryChecks: a call whose operation key is held is a retry, and it repeats
+// the held entry's request digest, amount and payee.
+func arRetryChecks(consumption, decision map[string]any) error {
 	if retried := arHeldFor(consumption, decision); arConsumptionChecks["key-reuse"] && retried != nil {
 		requested, _ := arInt(consumption["requested"])
 		amount, _ := arInt(retried["amount"])
@@ -330,7 +350,7 @@ func arRuleConsumption(s *arState) error {
 		!arSameValue(retried["payee"], consumption["payee"]) {
 		return arRefuse("consumption-key-reused")
 	}
-	return arSettledAgainstApproved(consumption)
+	return nil
 }
 
 // arSameValue compares two decoded JSON values, an absent value equal only to
