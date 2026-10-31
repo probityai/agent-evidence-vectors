@@ -906,7 +906,8 @@ def _settled_shape(settled: Any) -> None:
         raise Malformed("consumption-value-invalid")
 
 
-def _consumption_shape(consumption: Any) -> dict[str, Any]:
+def _consumption_members(consumption: Any) -> None:
+    """Refuse a consumption object whose member set is wrong."""
     if not isinstance(consumption, dict):
         raise Malformed("consumption-malformed")
     required = [
@@ -921,6 +922,10 @@ def _consumption_shape(consumption: Any) -> dict[str, Any]:
         raise Malformed("consumption-malformed")
     if "asset-exclusive" in CONSUMPTION_CHECKS and "asset" in consumption and "unit" in consumption:
         raise Malformed("consumption-unit-ambiguous")
+
+
+def _consumption_shape(consumption: Any) -> dict[str, Any]:
+    _consumption_members(consumption)
     unit = consumption.get("unit", "-")
     if not _is_digest(consumption["limitDigest"]) or not isinstance(unit, str) or not unit:
         raise Malformed("consumption-value-invalid")
