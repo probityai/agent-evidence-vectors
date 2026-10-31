@@ -154,6 +154,7 @@ from agent_evidence_vectors import (
     receiptsignature,
     recorded,
     refundconnected,
+    selfreportedrecord,
     sourcecoverage,
     starhint,
     traceanchor,
@@ -3920,6 +3921,7 @@ def _run_non_reference_suite(
         a2ajcs.SUITE,
         mcpowasp.SUITE,
         admission.SUITE,
+        selfreportedrecord.SUITE,
     )
     if not own_reader and external_cmd is not None:
         misfit = generic_contract_misfit(manifest or {})
@@ -3997,8 +3999,13 @@ def _run_non_reference_suite(
         auditrecord.SUITE: auditrecord,
         mcpowasp.SUITE: mcpowasp,
         admission.SUITE: admission,
+        selfreportedrecord.SUITE: selfreportedrecord,
     }.get(suite, observedeffect)
-    judged = reader.judge(suite_dir)
+    try:
+        judged = reader.judge(suite_dir)
+    except selfreportedrecord.CorpusUnreadable as exc:
+        print(f"agent-evidence-vectors: {exc}", file=sys.stderr)
+        return 2
     sys.stdout.write(reader.render(judged, reader.SUITE))
     return 0 if judged.ok() else 1
 

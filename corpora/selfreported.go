@@ -1,13 +1,17 @@
 package corpora
 
 import (
+	"bytes"
 	"crypto/ed25519"
 	"encoding/base64"
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"io"
 	"regexp"
 	"sort"
+	"strings"
+	"unicode/utf8"
 )
 
 func init() { register(selfReportedRecord{}) }
@@ -221,7 +225,7 @@ func (s selfReportedRecord) judgeMember(
 	if idFromBytes(body) != v.ID {
 		out.Findings = append(out.Findings, "identifier does not recompute from the member's own bytes")
 	}
-	statement, err := decodeJSONNumbers(body)
+	statement, err := srrDecode(body)
 	if err != nil {
 		out.Findings = append(out.Findings, "the member does not parse: "+err.Error())
 		return
@@ -317,6 +321,9 @@ func srrWellformed(statement map[string]any) bool {
 			return false
 		}
 	}
+	if !srrContainersOK(predicate) {
+		return false
+	}
 	for member, allowed := range srrVocabularies {
 		if !srrIn(allowed, str(predicate[member])) {
 			return false
@@ -343,6 +350,54 @@ func srrWellformed(statement map[string]any) bool {
 	return srrRowsWellformed(predicate)
 }
 
+// srrContainers are the predicate members that hold a repeated record. Each
+// must be a JSON array: a string, number, object or null in its place is a
+// malformed record, not an empty one.
+var srrContainers = []string{"selfSigners", "turns", "memoryReads", "ledgers", "fields"}
+
+func srrContainersOK(predicate map[string]any) bool {
+	for _, name := range srrContainers {
+		if _, ok := predicate[name].([]any); !ok {
+			return false
+		}
+	}
+	return true
+}
+
+// srrSignatureSpelled accepts standard base64 characters only. Go's decoder
+// skips carriage returns and line feeds, so one signature could be written
+// several ways that all verify while the member's digest differs.
+func srrSignatureSpelled(signature string) bool {
+	for _, r := range signature {
+		switch {
+		case r >= 'A' && r <= 'Z', r >= 'a' && r <= 'z', r >= '0' && r <= '9',
+			r == '+', r == '/', r == '=':
+		default:
+			return false
+		}
+	}
+	return true
+}
+
+// srrDecode reads a member as exactly one JSON document in UTF-8. Bytes after
+// the document, or a byte that is not UTF-8, make the member unparsed: two files
+// that differ only there would carry one statement under two digests.
+func srrDecode(raw []byte) (any, error) {
+	if !utf8.Valid(raw) {
+		return nil, fmt.Errorf("the member is not valid UTF-8")
+	}
+	dec := json.NewDecoder(bytes.NewReader(raw))
+	dec.UseNumber()
+	var value any
+	if err := dec.Decode(&value); err != nil {
+		return nil, err
+	}
+	if err := dec.Decode(new(any)); err != io.EOF {
+		return nil, fmt.Errorf("extra data after the statement")
+	}
+	return value, nil
+}
+
 func srrSubjectWellformed(value any) bool {
 	subject := srrArray(value)
 	if len(subject) != 1 {
@@ -365,7 +420,8 @@ func srrRowsWellformed(predicate map[string]any) bool {
 		if !srrIsHex64(attested["keyid"]) {
 			return false
 		}
-		if _, ok := attested["sig"].(string); !ok {
+		signature, ok := attested["sig"].(string)
+		if !ok || !srrSignatureSpelled(signature) {
 			return false
 		}
 		if _, ok := row["changeIds"].([]any); !ok {
@@ -403,6 +459,9 @@ func srrFieldRowsWellformed(predicate map[string]any) bool {
 			return false
 		}
 		if !srrIn(srrFieldEvidence, str(row["evidence"])) {
+			return false
+		}
+		if covering, ok := objectAt(row["coveredBy"])["sig"].(string); ok && !srrSignatureSpelled(covering) {
 			return false
 		}
 	}
@@ -537,6 +596,9 @@ func srrFieldCoverage(predicate map[string]any) bool {
 func srrEd25519OK(publicHex string, payload []byte, signatureB64 string) bool {
 	public, err := hex.DecodeString(publicHex)
 	if err != nil || len(public) != ed25519.PublicKeySize {
+		return false
+	}
+	if strings.ContainsAny(signatureB64, "\r\n") {
 		return false
 	}
 	signature, err := base64.StdEncoding.DecodeString(signatureB64)
