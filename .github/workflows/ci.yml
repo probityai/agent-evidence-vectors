@@ -1079,6 +1079,11 @@ jobs:
           uv run python vectors-agentic-process-evidence/mutation_check.py
       - name: delegation-lifecycle cases regenerate and their digest recomputes
         run: uv run --extra dev pytest vectors-delegation-lifecycle/tests -q
+      - name: restart-records members regenerate, every rule is forced and the checker agrees
+        run: |
+          set -euo pipefail
+          uv run --extra dev pytest vectors-restart-records/tests -q
+          uv run python vectors-restart-records/check_vectors.py
       # The a2a canonicalization corpus is upstream's bytes, not ours: the
       # lock check refuses any drift from the pinned a2a-tck commit and corpus
       # digest, and the tests replay it through the rail with a conformant and
