@@ -32,7 +32,7 @@ The families map onto the three jobs that [*Three Jobs, Not One*](https://doi.or
 
 ## Who writes the record
 
-One question separates these mechanisms: who writes the record each one produces. The table uses the witness-scope terms of the [agent evidence vocabulary](https://github.com/probityai/agent-evidence/tree/main/packages/vocabulary): `self` is the observed party, or the system that runs it; `peer` is a party alongside it with its own stake, such as a gateway operator or an evaluator paid by the developer it evaluates; `external` is a party outside the observed system's control. The writer given for each mechanism is this atlas's reading of a typical deployment, not a property of the software.
+One question separates these mechanisms: who writes the record each one produces. The table uses the witness-scope terms of the [agent evidence vocabulary](https://github.com/probityai/agent-evidence-vectors/tree/main/packages/vocabulary): `self` is the observed party, or the system that runs it; `peer` is a party alongside it with its own stake, such as a gateway operator or an evaluator paid by the developer it evaluates; `external` is a party outside the observed system's control. The writer given for each mechanism is this atlas's reading of a typical deployment, not a property of the software.
 
 | mechanism | family | writer | establishes | cannot establish |
 |----|----|----|----|----|
@@ -223,9 +223,9 @@ My vocabulary, conformance corpus and admission rules address that cell. Two Rus
 
 | artifact | family | release and read time; status label | what it does | what it does not do |
 |----|----|----|----|----|
-| [agent-evidence-vocabulary](https://github.com/probityai/agent-evidence/tree/main/packages/vocabulary) | 5, feeding 7 | v0.4.0; read 2026-10-14 22:51 UTC draft | A closed, versioned vocabulary for what an evidence claim means: observer vantage, directness, witness scope (self, peer, external), coverage denominator, and what the record does not assert | It defines words. It neither verifies nor observes anything |
+| [agent-evidence-vocabulary](https://github.com/probityai/agent-evidence-vectors/tree/main/packages/vocabulary) | 5, feeding 7 | v0.4.0; read 2026-10-14 22:51 UTC draft | A closed, versioned vocabulary for what an evidence claim means: observer vantage, directness, witness scope (self, peer, external), coverage denominator, and what the record does not assert | It defines words. It neither verifies nor observes anything |
 | [agent-evidence-vectors](https://github.com/probityai/agent-evidence-vectors) | 5 into 6 | v0.18.1; read 2026-10-13 22:15 UTC published | A conformance corpus, reference verifier, GitHub Action and PyPI package. The corpus table below counts release v0.18.1 | It does not observe execution. A clean run shows a verifier printed the right answers, not that it computed them |
-| [agent-evidence-admission](https://github.com/probityai/agent-evidence/tree/main/packages/admission) | 2, consuming 5 | py-v0.1.0, the Python package 0.1.0 on PyPI; read 2026-10-14 22:51 UTC draft | Admission rules in four policy engines (OPA, two Kyverno dialects, and Sigstore's policy-controller) that admit or refuse a workload on its execution evidence | "The rails evaluate a statement whose envelope signature your engine's key authority has already verified; they don't verify signatures themselves." |
+| [agent-evidence-admission](https://github.com/probityai/agent-evidence-vectors/tree/main/packages/admission) | 2, consuming 5 | py-v0.1.0, the Python package 0.1.0 on PyPI; read 2026-10-14 22:51 UTC draft | Admission rules in four policy engines (OPA, two Kyverno dialects, and Sigstore's policy-controller) that admit or refuse a workload on its execution evidence | "The rails evaluate a statement whose envelope signature your engine's key authority has already verified; they don't verify signatures themselves." |
 | [jcs-admit](https://crates.io/crates/jcs-admit) | 5, bytes | 0.1.2 on crates.io; read 2026-10-15 23:51 UTC published | Refuses JSON with more than one reading (duplicate members, excess nesting, invalid strings) before RFC 8785 canonicalization | It hands number formatting to another crate |
 | [dsse](https://crates.io/crates/dsse) | 5, envelope | 0.1.3 on crates.io; read 2026-10-15 23:59 UTC published | A standalone Rust implementation of the DSSE envelope that refuses six permissive behaviors | The envelope alone, with "no in-toto dependency and no Sigstore dependency"; the caller supplies the keys |
 
@@ -285,7 +285,7 @@ These are my contributions to other bodies' work, listed where the repository me
 ## Checking this page
 
 - A "cannot establish" line is the limit of its family. The projects listed under a family are measured against that line alone.
-- Star counts measure attention, and they drift. I read each status from the body's own page or repository. The re-derive tool in the [site's repository](https://github.com/probityai/agent-evidence/tree/main/site) re-reads each count, and the [claim ledger](claims.md) gives the time of each read.
+- Star counts measure attention, and they drift. I read each status from the body's own page or repository. The re-derive tool in the [site's repository](https://github.com/probityai/agent-evidence-vectors/tree/main/site) re-reads each count, and the [claim ledger](claims.md) gives the time of each read.
 - The atlas data is published as `data/atlas.toml` in the same repository, one node per project, mechanism and artifact with its link and measurement, so any source that emits the same shape can regenerate the page.
 
 [HTML view](atlas.html) | [Agent guide](llms.txt)

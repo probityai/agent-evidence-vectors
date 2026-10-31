@@ -667,6 +667,14 @@ jobs:
       # citation gate that could not refuse is the safeguard the last one was.
       - name: the citation gate refuses a wrong figure
         run: uv run --extra dev python scripts/citation-metadata-gate-test.py
+      # The agent-evidence repository was merged here and archived. A live link to it
+      # sends a reader to a frozen copy, so every reference outside the records
+      # that exist only there, and the files the allowlist names with a reason,
+      # must point at this repository. The test watches the gate go red.
+      - name: no live reference to the archived agent-evidence repository
+        run: python3 scripts/archived-repo-gate.py
+      - name: the archived-repository gate refuses a live reference
+        run: python3 scripts/archived-repo-gate-test.py
       # Two identifiers addressed one statement for as long as both existed: a
       # reject vector was byte-identical to another condition's, so a condition
       # was credited with a discriminator it did not have. The manifest carries

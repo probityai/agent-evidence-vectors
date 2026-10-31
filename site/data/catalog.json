@@ -10,7 +10,6 @@
     "probityai/agent-evidence-atlas",
     "probityai/ratchet",
     "probityai/agent-checkout-runner",
-    "probityai/agent-evidence",
     "probityai/probity"
   ],
   "components": [
@@ -29,7 +28,7 @@
       "packages": [
         "agent-evidence-vocabulary"
       ],
-      "docs_url": "https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/packages/vocabulary/README.md",
+      "docs_url": "https://github.com/probityai/agent-evidence-vectors/blob/c25bf904877985625655595a905542282e069868/packages/vocabulary/README.md",
       "relationships": []
     },
     {
@@ -101,7 +100,7 @@
       "packages": [
         "agent-evidence-admission"
       ],
-      "docs_url": "https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/packages/admission/README.md",
+      "docs_url": "https://github.com/probityai/agent-evidence-vectors/blob/c25bf904877985625655595a905542282e069868/packages/admission/README.md",
       "relationships": []
     },
     {
@@ -119,7 +118,7 @@
       "packages": [
         "jcs-admit"
       ],
-      "docs_url": "https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/crates/jcs-admit/README.md",
+      "docs_url": "https://github.com/probityai/agent-evidence-vectors/blob/c25bf904877985625655595a905542282e069868/crates/jcs-admit/README.md",
       "relationships": []
     },
     {
@@ -137,7 +136,7 @@
       "packages": [
         "dsse"
       ],
-      "docs_url": "https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/crates/dsse/README.md",
+      "docs_url": "https://github.com/probityai/agent-evidence-vectors/blob/c25bf904877985625655595a905542282e069868/crates/dsse/README.md",
       "relationships": []
     },
     {
@@ -153,7 +152,7 @@
         "repo-atlas"
       ],
       "packages": [],
-      "docs_url": "https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/site/README.md",
+      "docs_url": "https://github.com/probityai/agent-evidence-vectors/blob/c25bf904877985625655595a905542282e069868/site/README.md",
       "relationships": []
     },
     {
@@ -250,7 +249,7 @@
         "repo-jcs-admit"
       ],
       "component": "jcs-admit",
-      "docs_url": "https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/crates/jcs-admit/interop/mintid-trace-records-v2/README.md"
+      "docs_url": "https://github.com/probityai/agent-evidence-vectors/blob/c25bf904877985625655595a905542282e069868/crates/jcs-admit/interop/mintid-trace-records-v2/README.md"
     },
     {
       "id": "artifact-digest-check",
@@ -265,7 +264,7 @@
         "repo-admission"
       ],
       "component": "admission",
-      "docs_url": "https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/packages/admission/python/README.md",
+      "docs_url": "https://github.com/probityai/agent-evidence-vectors/blob/c25bf904877985625655595a905542282e069868/packages/admission/python/README.md",
       "packages": [
         "agent-evidence-admission"
       ]
@@ -303,8 +302,8 @@
       "url": "https://github.com/probityai/agent-evidence-vocabulary",
       "source": {
         "repository": "repo-vocabulary",
-        "commit": "44066a188c1b080b7c9bd5a73f6626c229baaa14",
-        "url": "https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/packages/vocabulary/README.md"
+        "commit": "c25bf904877985625655595a905542282e069868",
+        "url": "https://github.com/probityai/agent-evidence-vectors/blob/c25bf904877985625655595a905542282e069868/packages/vocabulary/README.md"
       }
     },
     {
@@ -371,8 +370,8 @@
       "url": "https://github.com/probityai/agent-evidence-admission",
       "source": {
         "repository": "repo-admission",
-        "commit": "44066a188c1b080b7c9bd5a73f6626c229baaa14",
-        "url": "https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/packages/admission/README.md"
+        "commit": "c25bf904877985625655595a905542282e069868",
+        "url": "https://github.com/probityai/agent-evidence-vectors/blob/c25bf904877985625655595a905542282e069868/packages/admission/README.md"
       }
     },
     {
@@ -388,8 +387,8 @@
       "url": "https://github.com/probityai/jcs-admit",
       "source": {
         "repository": "repo-jcs-admit",
-        "commit": "44066a188c1b080b7c9bd5a73f6626c229baaa14",
-        "url": "https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/crates/jcs-admit/README.md"
+        "commit": "c25bf904877985625655595a905542282e069868",
+        "url": "https://github.com/probityai/agent-evidence-vectors/blob/c25bf904877985625655595a905542282e069868/crates/jcs-admit/README.md"
       }
     },
     {
@@ -405,8 +404,8 @@
       "url": "https://github.com/probityai/dsse",
       "source": {
         "repository": "repo-dsse",
-        "commit": "44066a188c1b080b7c9bd5a73f6626c229baaa14",
-        "url": "https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/crates/dsse/README.md"
+        "commit": "c25bf904877985625655595a905542282e069868",
+        "url": "https://github.com/probityai/agent-evidence-vectors/blob/c25bf904877985625655595a905542282e069868/crates/dsse/README.md"
       }
     },
     {
@@ -418,12 +417,12 @@
       "status": "draft",
       "publication": "public",
       "reviewed": true,
-      "full_name": "probityai/agent-evidence",
-      "url": "https://github.com/probityai/agent-evidence",
+      "full_name": "probityai/agent-evidence-vectors",
+      "url": "https://github.com/probityai/agent-evidence-vectors",
       "source": {
         "repository": "repo-atlas",
-        "commit": "44066a188c1b080b7c9bd5a73f6626c229baaa14",
-        "url": "https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/site/README.md"
+        "commit": "c25bf904877985625655595a905542282e069868",
+        "url": "https://github.com/probityai/agent-evidence-vectors/blob/c25bf904877985625655595a905542282e069868/site/README.md"
       }
     },
     {

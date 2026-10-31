@@ -35,7 +35,7 @@
 <h1>Run the APS and PriorSeal replay</h1>
 </header>
 <h2 id="choose-the-procedure">Choose the procedure</h2>
-<p>The <a href="https://github.com/probityai/agent-evidence/blob/main/site/experiments/aps-priorseal-source-replay/RUN.md">complete source-replay procedure</a> gives the producer commits, required tools and both executable commands. Select and retain a published Atlas commit before running it. It also supports copied tools outside an Atlas checkout: retain the entrypoint, its <code>runner.mjs</code> helper and, for the replay, the unchanged <code>recorded.json</code> baseline. Use all files from the same selected Atlas commit.</p>
+<p>The <a href="https://github.com/probityai/agent-evidence-vectors/blob/main/site/experiments/aps-priorseal-source-replay/RUN.md">complete source-replay procedure</a> gives the producer commits, required tools and both executable commands. Select and retain a published Atlas commit before running it. It also supports copied tools outside an Atlas checkout: retain the entrypoint, its <code>runner.mjs</code> helper and, for the replay, the unchanged <code>recorded.json</code> baseline. Use all files from the same selected Atlas commit.</p>
 <p>The replay runs the pinned Frequency adapter directly. The separate wrapper check asks whether a zero exit also produced a new report. These are different checks. Neither authenticates a real operator or establishes a live action, production use or an independently operated witness.</p>
 <h2 id="declare-who-ran-it">Declare who ran it</h2>
 <p>Both entrypoints require one <code>--runner</code> before their four path arguments:</p>

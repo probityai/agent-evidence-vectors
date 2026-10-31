@@ -60,7 +60,7 @@ The board's publication rules hold these implementations out of the tables above
 
 ## Verified by Probity
 
-Verified by Probity (github.com/probityai/probity). A score on this board is our CI running an outside implementation against the pinned corpus. It is not the badge. The badge is granted to a project, never self-declared, recorded in the grant ledger of agent-evidence-vectors, and re-checked at every release; the rules are on the [Verified by Probity page](https://github.com/probityai/agent-evidence/blob/main/docs/VERIFIED-BADGE.md). No row on this board carries it.
+Verified by Probity (github.com/probityai/probity). A score on this board is our CI running an outside implementation against the pinned corpus. It is not the badge. The badge is granted to a project, never self-declared, recorded in the grant ledger of agent-evidence-vectors, and re-checked at every release; the rules are on the [Verified by Probity page](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/VERIFIED-BADGE.md). No row on this board carries it.
 
 To run the same corpus in your own CI, pin the package:
 
@@ -73,7 +73,7 @@ pip install agent-evidence-vectors==0.29.3
 
 ## Add an implementation
 
-Add one entry to [`data/board.toml`](https://github.com/probityai/agent-evidence/blob/main/site/data/board.toml): the repository, a pinned commit, the file and function that take the corpus, and its declared scope. The [workflow](https://github.com/probityai/agent-evidence/blob/main/.github/workflows/site-board.yml) scores it on the next run. To run one row by hand, see [`tools/run_board.py`](https://github.com/probityai/agent-evidence/blob/main/site/tools/run_board.py). The packaged corpus runs in your own CI with the [agent-evidence-vectors Action](https://github.com/probityai/agent-evidence-vectors).
+Add one entry to [`data/board.toml`](https://github.com/probityai/agent-evidence-vectors/blob/main/site/data/board.toml): the repository, a pinned commit, the file and function that take the corpus, and its declared scope. The [workflow](https://github.com/probityai/agent-evidence/blob/main/.github/workflows/site-board.yml) scores it on the next run. To run one row by hand, see [`tools/run_board.py`](https://github.com/probityai/agent-evidence-vectors/blob/main/site/tools/run_board.py). The packaged corpus runs in your own CI with the [agent-evidence-vectors Action](https://github.com/probityai/agent-evidence-vectors).
 
 Each verdict has a row in the [claim ledger](claims.md).
 

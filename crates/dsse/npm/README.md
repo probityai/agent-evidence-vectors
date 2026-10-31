@@ -1,7 +1,7 @@
 # dsse for JavaScript
 
 Raw-byte DSSE Ed25519 threshold verification through the
-[public Rust implementation](https://github.com/probityai/agent-evidence/tree/main/crates/dsse).
+[public Rust implementation](https://github.com/probityai/agent-evidence-vectors/tree/main/crates/dsse).
 Verification returns the payload bytes that the native verifier checked.
 
 ## Install
@@ -32,9 +32,9 @@ does not verify a signature. Native refusals throw `DsseError` with the original
 `variant`, `fields` and message. Invalid JavaScript transport arguments throw
 `TypeError` or `RangeError`.
 
-The [full guide](https://github.com/probityai/agent-evidence/blob/main/crates/dsse/docs/NPM.md) has a
+The [full guide](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/dsse/docs/NPM.md) has a
 public test fixture, browser initialization, exact error shapes and transport
 limits. This binding checks offline DSSE envelopes; it does not validate a
 Sigstore bundle or establish authority, occurrence or a downstream effect.
 
-Apache-2.0. See the [source documentation](https://github.com/probityai/agent-evidence/tree/main/crates/dsse#documentation).
+Apache-2.0. See the [source documentation](https://github.com/probityai/agent-evidence-vectors/tree/main/crates/dsse#documentation).

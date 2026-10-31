@@ -4,7 +4,7 @@
 
 ## Choose the procedure
 
-The [complete source-replay procedure](https://github.com/probityai/agent-evidence/blob/main/site/experiments/aps-priorseal-source-replay/RUN.md) gives the producer commits, required tools and both executable commands. Select and retain a published Atlas commit before running it. It also supports copied tools outside an Atlas checkout: retain the entrypoint, its `runner.mjs` helper and, for the replay, the unchanged `recorded.json` baseline. Use all files from the same selected Atlas commit.
+The [complete source-replay procedure](https://github.com/probityai/agent-evidence-vectors/blob/main/site/experiments/aps-priorseal-source-replay/RUN.md) gives the producer commits, required tools and both executable commands. Select and retain a published Atlas commit before running it. It also supports copied tools outside an Atlas checkout: retain the entrypoint, its `runner.mjs` helper and, for the replay, the unchanged `recorded.json` baseline. Use all files from the same selected Atlas commit.
 
 The replay runs the pinned Frequency adapter directly. The separate wrapper check asks whether a zero exit also produced a new report. These are different checks. Neither authenticates a real operator or establishes a live action, production use or an independently operated witness.
 

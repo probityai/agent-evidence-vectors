@@ -7,7 +7,7 @@ Version: 0.2.0
 Predicate Name: Done Receipt
 
 > Status: DRAFT, issued under a self-hosted `predicateType` URI. The URI redirects to a
-> page built from this file and served by the Pages site of `probityai/agent-evidence`, at
+> page built from this file and served by the organisation Pages site (`probityai/probityai.github.io`), at
 > `https://probityai.github.io/agent-evidence/predicate/v1/done-receipt/`. The URI will not
 > move once a signed statement carries it, and no signed statement carries it before that
 > page is live.
