@@ -26,12 +26,12 @@ jobs:
         node: ['20', '22']
     steps:
       - name: Check out the comparison
-        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
 
       - name: Check out the APS source
-        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: agent-passport-system/agent-passport-system
           ref: 646490a834e1eca4aad230033502b73f3b5cd9d1
@@ -39,7 +39,7 @@ jobs:
           persist-credentials: false
 
       - name: Check out the corpus and native admission source
-        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: probityai/jcs-admit
           ref: ecc8b5ef4b380a2fe38e5079d128307a1c702717
@@ -47,7 +47,7 @@ jobs:
           persist-credentials: false
 
       - name: Set up Node
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
         with:
           node-version: ${{ matrix.node }}
           package-manager-cache: false
@@ -89,7 +89,7 @@ jobs:
 
       - name: Retain reports and native logs
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: aps-jcs-node-${{ matrix.node }}
           path: retained/

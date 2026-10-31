@@ -24,7 +24,7 @@ jobs:
     env:
       UV_LINK_MODE: copy
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
         with:
           python-version: '3.13'
@@ -54,11 +54,11 @@ jobs:
     # specification passed every pull request and failed at publication.
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
         with:
           python-version: '3.13'
-      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
           go-version: '1.26'
       - name: build the wheel and the directory reader
@@ -72,8 +72,8 @@ jobs:
   go:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
           go-version: '1.26'
       - name: gofmt (no diffs)
@@ -94,7 +94,7 @@ jobs:
         run: |
           go test ./aee/... ./cmd/... ./corpora/... ./observedeffect/... -race -count=1 -timeout 30m
           (cd witnessattestor && go test ./... -race -count=1 -timeout 30m)
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: '22'
       - name: check canonical JSON transcript bytes
@@ -292,11 +292,11 @@ jobs:
           uv run --locked --extra generators python scripts/complexity-table-gate.py --rail go \
             --gocyclo "$(go env GOPATH)/bin/gocyclo"
       - name: golangci-lint (core module)
-        uses: golangci/golangci-lint-action@v7
+        uses: golangci/golangci-lint-action@v9
         with:
           version: v2.11.4
       - name: golangci-lint (attestor module)
-        uses: golangci/golangci-lint-action@v7
+        uses: golangci/golangci-lint-action@v9
         with:
           version: v2.11.4
           working-directory: witnessattestor
@@ -311,7 +311,7 @@ jobs:
       # every branch and tag. A shallow checkout carries the pushed commit, no
       # origin/main and no tags, and that gate then reports that it did not run
       # rather than guessing, so the whole job would stop here.
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       # The package floor is 3.11 (the held-out runner workflow proves it), so
@@ -1309,8 +1309,8 @@ jobs:
   forcing:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
           go-version: '1.26'
       - name: the corpus still forces every rule it is recorded as forcing
@@ -1364,8 +1364,8 @@ jobs:
   action:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
           go-version: '1.26'
       - name: build the shipped verifier into the workspace
