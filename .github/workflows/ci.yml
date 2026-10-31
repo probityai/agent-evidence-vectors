@@ -779,7 +779,9 @@ jobs:
       # the repair path, and it runs to a fixed point because the repairs are not
       # independent: regenerating one artifact can move a figure another derives.
       - name: every comparing gate declares how to repair it
-        run: python3 scripts/regen.py --audit
+        run: |
+          python3 scripts/regen.py --audit
+          python3 scripts/regen-test.py
       # And the gate is watched to go red, and to go red at the right moment.
       # Measured against the checked-out tree instead of the default branch it
       # refused correctly and too early: a branch adding vectors could not be
