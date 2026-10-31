@@ -63,6 +63,8 @@ from _native_provider import ensure as ensure_provider  # noqa: E402
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
 WORKFLOWS = REPO / ".github" / "workflows"
+EVIDENCE_PREFIX = "aee-workflow-evidence-"
+KEEP_EVIDENCE_ENV = "AEE_KEEP_WORKFLOW_EVIDENCE"
 
 
 def git(root: pathlib.Path, *args: str) -> bytes:
@@ -1832,12 +1834,33 @@ def execute(
     evidence_dir: pathlib.Path | None = None,
     branch_authority: dict[str, Any] | None = None,
 ) -> int:
+    """Run the workflows; evidence the caller did not ask for is removed afterwards.
+
+    A caller-named evidence_dir is the caller's to keep. Without one, the run
+    writes to a scratch directory that is deleted on exit, because every run
+    used to leave one behind (253 of them, 6.4 GB, from a single session).
+    Setting KEEP_EVIDENCE_ENV keeps the scratch directory for debugging and
+    prints its path.
+    """
+    if evidence_dir is not None:
+        return execute_into(files, evidence_dir, branch_authority)
+    if os.environ.get(KEEP_EVIDENCE_ENV):
+        kept = pathlib.Path(tempfile.mkdtemp(prefix=EVIDENCE_PREFIX))
+        print(f"{KEEP_EVIDENCE_ENV} is set: scratch evidence kept at {kept}")
+        return execute_into(files, kept, branch_authority)
+    with tempfile.TemporaryDirectory(prefix=EVIDENCE_PREFIX) as scratch:
+        return execute_into(files, pathlib.Path(scratch), branch_authority)
+
+
+def execute_into(
+    files: list[pathlib.Path],
+    evidence_dir: pathlib.Path,
+    branch_authority: dict[str, Any] | None = None,
+) -> int:
     ran = failed = 0
     not_run: list[str] = []
     base = step_base_environment(os.environ)
-    evidence = (
-        evidence_dir or pathlib.Path(tempfile.mkdtemp(prefix="aee-workflow-evidence-"))
-    ).resolve()
+    evidence = evidence_dir.resolve()
     if evidence.is_relative_to(REPO.resolve()):
         print("FAULT: evidence-dir must be outside the input checkout")
         return 1

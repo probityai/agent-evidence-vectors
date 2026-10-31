@@ -144,7 +144,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "44448b72d598952c369fb4f256c5c543551b167cd64341cebf255951ee3bc5ac"
+      "sha256": "7a52bc96a6a12d5112ccf784607b3b1567e335a14bea85246f05ccd911eb0392"
     },
     "runtime": {
       "name": "go",
@@ -433,7 +433,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "b0ca5a8e7807d0b3bf4732e2aacd034e862fc8eb539cf82a2834e31207429979"
+    "sha256": "526ecc2acf52040bc47a204807e12baf491083568209b2e9be9119de9edafe70"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -479,7 +479,7 @@
       "write-under-an-excluded-path"
     ],
     "path": "vectors-test-tampering/MANIFEST.json",
-    "sha256": "e522e40c48aa188a698934b5286229326056ae69db292e784e932daa251936ad"
+    "sha256": "62979c1b5e0afa0feb5e88895c244f38f66f903034923a3c09345a2438c570ad"
   },
   "members": [
     {

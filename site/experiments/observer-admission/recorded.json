@@ -1,0 +1,41 @@
+{
+  "observerRevision": "8562c25fb7ec97596ea9d0297c495340298914b6",
+  "outcomes": {
+    "admissionCount": 1,
+    "admissionStatus": "admitted",
+    "afterRoot": "2f0cc2861b48d65496307b1e15b7437d12e79be08861dc6134bcbf7f89f22286",
+    "authorityRefusal": "packet authority differs from consumer policy",
+    "coverage": {
+      "knownGaps": [],
+      "noDetectedGap": true,
+      "observedPopulation": "broker-write-calls-with-valid-request-id",
+      "scope": "/work",
+      "unmediatedEffects": "not-established"
+    },
+    "effectSha256": "ed7e3ade18c59cc7935a4062d94c808b7fdd84bf48b1c743a851c13f9b44a83d",
+    "evidence_vantage": "artifact",
+    "intervalId": "admission-demo-1",
+    "ledgerReceiptCount": 2,
+    "operator": "same-operator-fixture",
+    "refusalsPreserveState": true,
+    "replayRefusal": "interval was already admitted by this consumer",
+    "status": "demo-passed",
+    "tamperRefusal": "signature does not verify under the pinned key",
+    "witnessScope": "PEER"
+  },
+  "scope": "author-produced same-operator fixture; no independent custody or live agent",
+  "sourceSha256": {
+    "examples/admission_demo.py": "5e93b439408a7be60de3af39b3dfc99a986460bb59facebffe33990086b9d8ad",
+    "pyproject.toml": "ff40f807dccaa4c4e0b6538edeafcdb94911ec08a2f2ef73d9bb1f249405ee1b",
+    "src/probity_observer/__init__.py": "fd35bea460843bd946ee6193b1adf5a557fbe0993dea3ca4c58b3c35df1ea4ae",
+    "src/probity_observer/admission.py": "5b9f68dbfc59b1c088b7de9c41e81fabdf2e3a72426e8766845d0cea28b2af0f",
+    "src/probity_observer/broker.py": "9e36cc446dd63112bfda8555df9319345f825d74c5794ac0b037c92d235c0bd8",
+    "src/probity_observer/cli.py": "615b58fd5ea3401ca3e1ff9ebab63508a22dee6578a28890793054da72fb78d8",
+    "src/probity_observer/crypto.py": "a334d7d2776d362788ce5e8687a916a62ba1614e97c0ccb8994d2acb22bc315f",
+    "src/probity_observer/history.py": "e2618b8dc34f1251d9c1fa82232313a9524f8b3a38654352bf7a4d2b9ca1b267",
+    "src/probity_observer/isolation.py": "737256706038ef6c05db2860dba22af0f023e44ba1cd213ee44516c0f9fcb3c0",
+    "src/probity_observer/ledger.py": "028a41eefce7abc88f31237a0407dae6a9728394c7b10634424e53967f8b9d53",
+    "src/probity_observer/probe_agent.py": "3699eeb662610fea2d8403294fad3239cbecf3dfcaeb542ceb2c40abdb0897f6",
+    "src/probity_observer/verify.py": "a787abe4189556cd3da87569eccaf6cfe6fa265662b9505f733a6742867bdcf2"
+  }
+}

@@ -1,0 +1,61 @@
+[build-system]
+requires = ["setuptools>=83"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "probity-authority-effect-cases"
+version = "0.1.0"
+description = "Offline controls for signed intent, declared dispatch and supplied observations"
+requires-python = ">=3.13"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+dependencies = [
+    "agent-evidence-vectors==0.17.6",
+    "probity-verify @ git+https://github.com/probityai/probity-verify@a2a7e23413be0ab0ad1001d60085a2ff21eaa907",
+]
+
+[dependency-groups]
+dev = [
+    "build==1.4.0",
+    "coverage==7.13.4",
+    "pip-audit==2.9.0",
+    "pyright>=1.1.400",
+    "pytest==9.0.3",
+    "ruff==0.16.1",
+    "setuptools>=83",
+    "wheel>=0.46.2",
+]
+
+[tool.setuptools.packages.find]
+include = ["authority_effect*"]
+
+[tool.setuptools]
+script-files = ["bin/probity-authority-effect-cases"]
+
+[tool.setuptools.package-data]
+authority_effect = ["fixtures/*.json", "fixtures/cases/*.json", "fixtures/policies/*.json", "frequency_fixtures/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = ["error"]
+
+[tool.pyright]
+include = ["authority_effect", "scripts", "tests"]
+venvPath = "."
+venv = ".venv"
+pythonVersion = "3.13"
+typeCheckingMode = "basic"
+
+[tool.coverage.run]
+branch = true
+source = ["authority_effect"]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "C901"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10

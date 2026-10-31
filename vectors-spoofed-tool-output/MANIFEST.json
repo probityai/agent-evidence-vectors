@@ -1,5 +1,10 @@
 {
   "corpusDigest": "b3c47a5974eefa98dace6fe23957eb286d4ba5f57eed46c3c22cc8cc49c754e9",
+  "counts": {
+    "contradicted": 21,
+    "not_established": 14,
+    "supported": 12
+  },
   "predicateSpec": "spec/predicates/done-receipt.md",
   "predicateType": "https://w3id.org/agent-evidence/predicate/v1/done-receipt",
   "recordSpec": "spec/predicates/done-records.md",

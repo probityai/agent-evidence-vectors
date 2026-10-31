@@ -1,0 +1,115 @@
+{
+  "claim_ceiling_repeated": true,
+  "command": "probity-remora-boundary --profile PROFILE --output NEW_PATH --implementation-revision EXECUTED_REVISION",
+  "consumed_revision": "fe324dd734734d9227aa894330ac52c2bb916b94",
+  "contract_id": "fresh-authority-v1",
+  "environment": "Python 3.13.15; Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+  "implementation_diversity": "SECOND_IMPLEMENTATION",
+  "imports": {
+    "reference_verifier": false,
+    "remora_runtime": false
+  },
+  "independence": "NOT_INDEPENDENT",
+  "input_digests": [
+    {
+      "path": "artifacts/interop/fresh-authority-v1/README.md",
+      "sha256": "791b9092c3e5e44959712107624396dd443824c7d18657946b5fcb8db3b86830"
+    },
+    {
+      "path": "artifacts/interop/fresh-authority-v1/claim-packet.json",
+      "sha256": "7a283ebd44cc5a2be867577ba01354fd73453f5626743b6f4bdfffc50d029bb6"
+    },
+    {
+      "path": "artifacts/interop/fresh-authority-v1/fixtures.json",
+      "sha256": "77327dc7911f0046f558536e454ed981f96f92d1025d6c11893ef7d625741276"
+    },
+    {
+      "path": "artifacts/interop/fresh-authority-v1/verifier-request.json",
+      "sha256": "ffa0dcd7ad2dc83f7d040600362cfc3ab9a9b8399b5a8266ebd862d5e6ed3c4b"
+    }
+  ],
+  "non_claims_repeated": true,
+  "operator": "EXTERNAL",
+  "package_digest": "sha256:234c57d0ed79b0cd87e702b2efbc52e99af1c619bd7fed2aef7be5c14964b691",
+  "published_at": null,
+  "results": [
+    {
+      "case_id": "grant_within_window_admitted",
+      "claim_id": "fresh_authority_at_dispatch",
+      "result": "ESTABLISHED"
+    },
+    {
+      "case_id": "grant_expired_at_presentation",
+      "claim_id": "fresh_authority_at_dispatch",
+      "result": "ESTABLISHED"
+    },
+    {
+      "case_id": "grant_presented_before_issued",
+      "claim_id": "fresh_authority_at_dispatch",
+      "result": "ESTABLISHED"
+    },
+    {
+      "case_id": "grant_signing_key_revoked",
+      "claim_id": "fresh_authority_at_dispatch",
+      "result": "ESTABLISHED"
+    },
+    {
+      "case_id": "grant_for_other_observation",
+      "claim_id": "fresh_authority_at_dispatch",
+      "result": "ESTABLISHED"
+    },
+    {
+      "case_id": "grant_presented_twice",
+      "claim_id": "fresh_authority_at_dispatch",
+      "result": "ESTABLISHED"
+    },
+    {
+      "case_id": "grant_decision_not_accept",
+      "claim_id": "fresh_authority_at_dispatch",
+      "result": "ESTABLISHED"
+    },
+    {
+      "case_id": "lease_within_window_dispatches",
+      "claim_id": "fresh_authority_at_dispatch",
+      "result": "ESTABLISHED"
+    },
+    {
+      "case_id": "lease_expired_at_dispatch",
+      "claim_id": "fresh_authority_at_dispatch",
+      "result": "ESTABLISHED"
+    },
+    {
+      "case_id": "lease_not_yet_valid",
+      "claim_id": "fresh_authority_at_dispatch",
+      "result": "ESTABLISHED"
+    },
+    {
+      "case_id": "policy_bundle_changed",
+      "claim_id": "fresh_authority_at_dispatch",
+      "result": "ESTABLISHED"
+    },
+    {
+      "case_id": "toolspec_changed",
+      "claim_id": "fresh_authority_at_dispatch",
+      "result": "ESTABLISHED"
+    },
+    {
+      "case_id": "toolspec_version_changed",
+      "claim_id": "fresh_authority_at_dispatch",
+      "result": "ESTABLISHED"
+    },
+    {
+      "case_id": "lease_unsigned",
+      "claim_id": "fresh_authority_at_dispatch",
+      "result": "NOT_ESTABLISHED"
+    }
+  ],
+  "run_ref": "https://github.com/probityai/agent-evidence-vectors/actions/runs/37232420650",
+  "schema_version": "remora-external-run-record-v1",
+  "verifier": {
+    "implementation_revision": "308c5b4401b18d42ed73dea80459375932e6b8e8",
+    "maintained_by": "EXTERNAL",
+    "project": "Probity REMORA boundary reader",
+    "repository": "probityai/agent-evidence-vectors"
+  }
+}

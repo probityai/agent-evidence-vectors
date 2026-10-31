@@ -1,0 +1,166 @@
+{
+  "schema": "probity.aps-priorseal-source-replay/v1",
+  "recordedAt": "2026-10-01T18:44:57.123Z",
+  "sourceCommits": {
+    "capsule": "4162622af24c94efb843f53aa27940ffd1256ad6",
+    "aps": "948f99b85343bef2c6fa677c8543965caacfc087",
+    "priorseal": "d749d2691c3e6be139de4020e7b27cdafca2c428"
+  },
+  "sourceSha256": {
+    "adapter": "5f5cc203c921ecd576b81ee5d22063d39efc3ec74cc0b3aa75d1e41916e5cad3",
+    "lock": "2ca396b3f9b357f5a79e3c6ff7d6dbd9d33ee179c5132792608a8e330e014c7a",
+    "manifest": "2bf365bc9124ecfc943d5be86c34e8e0cacd51a5929b8d0c906e633a017231f9",
+    "positive": "c8dd05f412b3d1dd957f66deaf231a8becb9656e8bd1960ba88638cf9ad4c6da",
+    "overLimit": "cb45a8378a5c9f1f7f2695c4d1fb5cbe344d9c840b799cf0ecb786e5ddf3c226",
+    "producerReport": "d2c1bea5f0acf0afe06c944376c5a471402ab5d48bf85ca267ed9b5876336ae4"
+  },
+  "node": "v24.19.0",
+  "selftest": "pass",
+  "claims": [
+    {
+      "id": "aps.manifest.pinned",
+      "result": "ESTABLISHED"
+    },
+    {
+      "id": "composition.aps_owner_fixture_copy.byte_identical",
+      "result": "ESTABLISHED"
+    },
+    {
+      "id": "aps.permit.receipts.authentic",
+      "result": "ESTABLISHED"
+    },
+    {
+      "id": "aps.permit.delegation.authentic",
+      "result": "ESTABLISHED"
+    },
+    {
+      "id": "aps.permit.decision_ref.bound",
+      "result": "ESTABLISHED"
+    },
+    {
+      "id": "aps.permit.temporal_validity_at_reference",
+      "result": "ESTABLISHED"
+    },
+    {
+      "id": "aps.expired.temporal_validity_at_reference",
+      "result": "CONTRADICTED"
+    },
+    {
+      "id": "aps.deny.decision_verdict",
+      "result": "ESTABLISHED"
+    },
+    {
+      "id": "priorseal.principal_eip712_authorization.authentic",
+      "result": "ESTABLISHED"
+    },
+    {
+      "id": "priorseal.issuer_acceptance.authentic",
+      "result": "ESTABLISHED"
+    },
+    {
+      "id": "priorseal.execution_receipt.positive.authentic",
+      "result": "ESTABLISHED"
+    },
+    {
+      "id": "priorseal.execution_receipt.over_limit.authentic",
+      "result": "ESTABLISHED"
+    },
+    {
+      "id": "composition.aps_decision_to_priorseal_authorization.bound",
+      "result": "ESTABLISHED"
+    },
+    {
+      "id": "positive.observation.exact_call_agreement",
+      "result": "ESTABLISHED"
+    },
+    {
+      "id": "positive.observation.aps_cap_compliance",
+      "result": "ESTABLISHED"
+    },
+    {
+      "id": "over_limit.observation.exact_call_agreement",
+      "result": "CONTRADICTED"
+    },
+    {
+      "id": "over_limit.observation.aps_cap_compliance",
+      "result": "CONTRADICTED"
+    },
+    {
+      "id": "live_chain.execution_occurred",
+      "result": "NOT_ESTABLISHED"
+    },
+    {
+      "id": "aps.decision.single_use",
+      "result": "NOT_ESTABLISHED"
+    },
+    {
+      "id": "aps.live_currency_enforcement",
+      "result": "NOT_ESTABLISHED"
+    },
+    {
+      "id": "observation.independent_external_witness",
+      "result": "NOT_ESTABLISHED"
+    },
+    {
+      "id": "production.adoption",
+      "result": "NOT_ESTABLISHED"
+    }
+  ],
+  "summary": {
+    "established": 14,
+    "contradicted": 3,
+    "not_established": 5
+  },
+  "sourceBindingComparedFiles": 17,
+  "cases": [
+    {
+      "name": "clean",
+      "exitCode": 0,
+      "reportPresentBefore": false,
+      "reportPresentAfter": true,
+      "reportSha256": "9669d5cf4da83f5b0ef13c110db290a2a6052b3109be9585fa9fdfd08764132b",
+      "acceptedAsFresh": true
+    },
+    {
+      "name": "substituted-byte",
+      "exitCode": 1,
+      "reportPresentBefore": false,
+      "reportPresentAfter": false,
+      "reportSha256": null,
+      "acceptedAsFresh": false
+    },
+    {
+      "name": "missing-owner",
+      "exitCode": 1,
+      "reportPresentBefore": false,
+      "reportPresentAfter": false,
+      "reportSha256": null,
+      "acceptedAsFresh": false
+    },
+    {
+      "name": "missing-owner-flag",
+      "exitCode": 2,
+      "reportPresentBefore": false,
+      "reportPresentAfter": false,
+      "reportSha256": null,
+      "acceptedAsFresh": false
+    },
+    {
+      "name": "stale-output",
+      "exitCode": 1,
+      "reportPresentBefore": true,
+      "reportPresentAfter": true,
+      "reportSha256": "9669d5cf4da83f5b0ef13c110db290a2a6052b3109be9585fa9fdfd08764132b",
+      "acceptedAsFresh": false
+    }
+  ],
+  "scope": {
+    "runner": "Probity",
+    "inputCustody": "public producer fixtures",
+    "verifier": "unmodified pinned Frequency review adapter",
+    "formalFederationRun": false,
+    "mutationAdequacyRun": false,
+    "externalWitness": false,
+    "productionAdoption": false
+  }
+}

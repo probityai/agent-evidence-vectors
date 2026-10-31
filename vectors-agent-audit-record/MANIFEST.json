@@ -75,11 +75,11 @@
       }
     ]
   },
-  "corpusDigest": "733405708033dc7802f0c72e8f732db1f97b87a54eb3ef52b7fb24a11ad49194",
+  "corpusDigest": "5c584eb9e9594d7a0265ab7afb302da0803ee8811ca6b4be0a6fca2b08ddd509",
   "counts": {
-    "accept": 77,
+    "accept": 81,
     "indeterminate": 1,
-    "reject": 88
+    "reject": 102
   },
   "draft": "draft-gilda-audit-agent-audit-record-00",
   "emptyTree": {
@@ -3021,6 +3021,375 @@
       "parentDraftId": "A1",
       "row": "issuedAt one day earlier than effect.interval.sealedAt, on a day before the interval opened",
       "slug": "is2-issued-one-day-before-sealed"
+    },
+    {
+      "draftId": "X1",
+      "draftSection": "4.1.1",
+      "expected": {
+        "codes": [
+          "value-not-representable"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vb3a1cd46d33b8b3c.json",
+      "id": "vb3a1cd46d33b8b3c",
+      "kind": "reject",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "a number with a fraction in the Statement",
+      "slug": "x1-float-in-statement"
+    },
+    {
+      "draftId": "X2",
+      "draftSection": "4.6",
+      "expected": {
+        "codes": [
+          "not-parseable"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/va43a28488a94e4c8.json",
+      "id": "va43a28488a94e4c8",
+      "kind": "reject",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "a payload that is not JSON",
+      "slug": "x2-payload-not-json"
+    },
+    {
+      "draftId": "X3",
+      "draftSection": "4.3",
+      "expected": {
+        "codes": [
+          "timestamp-malformed"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v8e7e0c83386e4498.json",
+      "id": "v8e7e0c83386e4498",
+      "kind": "reject",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "issuedAt carrying no UTC offset",
+      "slug": "x3-issued-at-no-offset"
+    },
+    {
+      "draftId": "X4",
+      "draftSection": "4.8",
+      "expected": {
+        "codes": [
+          "statement-type-unexpected"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/ve84f8df9e1887b14.json",
+      "id": "ve84f8df9e1887b14",
+      "kind": "reject",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "_type naming another Statement type",
+      "slug": "x4-statement-type-unexpected"
+    },
+    {
+      "draftId": "X5",
+      "draftSection": "4.8",
+      "expected": {
+        "codes": [
+          "predicate-type-mismatch"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v0260a7415403fee4.json",
+      "id": "v0260a7415403fee4",
+      "kind": "reject",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "predicateType naming another predicate",
+      "slug": "x5-predicate-type-mismatch"
+    },
+    {
+      "draftId": "X6",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [
+          "consumption-malformed"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v460418d6fe1a5ba2.json",
+      "id": "v460418d6fe1a5ba2",
+      "kind": "reject",
+      "parent": "v9b00b354248b297c",
+      "parentDraftId": "CS4",
+      "row": "a held entry with a member beyond the three",
+      "slug": "x6-held-entry-extra-member"
+    },
+    {
+      "draftId": "X7",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [
+          "operation-key-invalid"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v348a99dd78f563d9.json",
+      "id": "v348a99dd78f563d9",
+      "kind": "reject",
+      "parent": "v9b00b354248b297c",
+      "parentDraftId": "CS4",
+      "row": "decision.operationKey the empty string",
+      "slug": "x7-operation-key-empty"
+    },
+    {
+      "draftId": "X8",
+      "draftSection": "4.2",
+      "expected": {
+        "codes": [
+          "subject-request-mismatch"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v219ae2dc9d96d2c0.json",
+      "id": "v219ae2dc9d96d2c0",
+      "kind": "reject",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "the first subject's digest another value",
+      "slug": "x8-subject-digest-not-request"
+    },
+    {
+      "draftId": "X9",
+      "draftSection": "4.4",
+      "expected": {
+        "codes": [
+          "envelope-unreadable"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vb0c4f6608a0e9440.json",
+      "id": "vb0c4f6608a0e9440",
+      "kind": "reject",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "payloadType another media type",
+      "slug": "x9-envelope-payload-type"
+    },
+    {
+      "draftId": "X10",
+      "draftSection": "4.6",
+      "expected": {
+        "codes": [
+          "statement-shape"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vb695708df82323e5.json",
+      "id": "vb695708df82323e5",
+      "kind": "reject",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "predicate a string, correctly signed",
+      "slug": "x10-predicate-not-an-object"
+    },
+    {
+      "draftId": "X11",
+      "draftSection": "4.7",
+      "expected": {
+        "codes": [],
+        "dating": {
+          "codes": [
+            "entry-shape-malformed"
+          ],
+          "delegationRoot": {
+            "result": "not-established"
+          },
+          "entry": "malformed"
+        },
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "retained/vc8c061f291fe0343.json",
+      "id": "vc8c061f291fe0343",
+      "kind": "accept",
+      "parent": "vcca72e0d016c5db3",
+      "parentDraftId": "R1",
+      "row": "received a string, not a boolean",
+      "slug": "x11-received-not-boolean"
+    },
+    {
+      "draftId": "X12",
+      "draftSection": "4.7",
+      "expected": {
+        "codes": [],
+        "dating": {
+          "codes": [
+            "entry-envelope-digest-mismatch"
+          ],
+          "datedAt": "2026-09-19T11:05:00Z",
+          "delegationRoot": {
+            "result": "not-established"
+          },
+          "entry": "malformed"
+        },
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "retained/ve9350800b1486fbb.json",
+      "id": "ve9350800b1486fbb",
+      "kind": "accept",
+      "parent": "vcca72e0d016c5db3",
+      "parentDraftId": "R1",
+      "row": "envelopeDigest another envelope's",
+      "slug": "x12-entry-names-another-envelope"
+    },
+    {
+      "draftId": "X13",
+      "draftSection": "4.7",
+      "expected": {
+        "codes": [],
+        "dating": {
+          "codes": [
+            "entry-delegation-root-unexpected"
+          ],
+          "datedAt": "2026-09-19T11:05:00Z",
+          "delegationRoot": {
+            "result": "not-established"
+          },
+          "entry": "malformed"
+        },
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "retained/v7cb7da46ce7042b9.json",
+      "id": "v7cb7da46ce7042b9",
+      "kind": "accept",
+      "parent": "vcca72e0d016c5db3",
+      "parentDraftId": "R1",
+      "row": "a delegation-root element beside a record carrying no delegation.rootDigest",
+      "slug": "x13-root-element-without-root-digest"
+    },
+    {
+      "draftId": "X14",
+      "draftSection": "4.7",
+      "expected": {
+        "codes": [],
+        "dating": {
+          "codes": [
+            "entry-delegation-root-unreadable"
+          ],
+          "datedAt": "2026-09-19T11:05:00Z",
+          "delegationRoot": {
+            "result": "not-established"
+          },
+          "entry": "malformed"
+        },
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "retained/vfb3f83b35b6cadd4.json",
+      "id": "vfb3f83b35b6cadd4",
+      "kind": "accept",
+      "parent": "v5fdda90f44e68c91",
+      "parentDraftId": "R13",
+      "row": "the delegation-root element's value not base64",
+      "slug": "x14-root-element-not-base64"
+    },
+    {
+      "draftId": "X15",
+      "draftSection": "4.6",
+      "expected": {
+        "codes": [
+          "not-parseable"
+        ],
+        "dating": {
+          "codes": [
+            "entry-record-unreadable"
+          ],
+          "delegationRoot": {
+            "result": "not-established"
+          },
+          "entry": "malformed"
+        },
+        "verdict": "malformed"
+      },
+      "file": "retained/v45d4d20fab787f9b.json",
+      "id": "v45d4d20fab787f9b",
+      "kind": "reject",
+      "parent": "vcca72e0d016c5db3",
+      "parentDraftId": "R1",
+      "row": "the retained record's payload not JSON: the record malformed and the dating unreadable",
+      "slug": "x15-retained-record-unparseable"
+    },
+    {
+      "draftId": "X16",
+      "draftSection": "4.7",
+      "expected": {
+        "codes": [
+          "retained-unreadable"
+        ],
+        "dating": {
+          "codes": [
+            "retained-unreadable"
+          ],
+          "delegationRoot": {
+            "result": "not-established"
+          },
+          "entry": "malformed"
+        },
+        "verdict": "malformed"
+      },
+      "file": "retained/v52d0e34839045b02.json",
+      "id": "v52d0e34839045b02",
+      "kind": "reject",
+      "parent": "vcca72e0d016c5db3",
+      "parentDraftId": "R1",
+      "row": "a retained member with no retention entry",
+      "slug": "x16-retained-without-retention"
+    },
+    {
+      "draftId": "X17",
+      "draftSection": "4.9",
+      "expected": {
+        "codes": [],
+        "set": {
+          "codes": [
+            "set-unreadable"
+          ],
+          "verdict": "malformed"
+        },
+        "verdict": "malformed"
+      },
+      "file": "sets/v932e921118b63a4b.json",
+      "id": "v932e921118b63a4b",
+      "kind": "reject",
+      "parent": "vadd36be4ba786f38",
+      "parentDraftId": "SQ4",
+      "row": "a set member whose records member is named otherwise",
+      "slug": "x17-set-without-records"
+    },
+    {
+      "draftId": "X18",
+      "draftSection": "4.9",
+      "expected": {
+        "codes": [
+          "issued-before-sealed"
+        ],
+        "set": {
+          "codes": [
+            "set-record-malformed"
+          ],
+          "verdict": "malformed"
+        },
+        "verdict": "malformed"
+      },
+      "file": "sets/v425531073d0c4bd6.json",
+      "id": "v425531073d0c4bd6",
+      "kind": "reject",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "a set whose two records are each malformed under IS1 and IS2",
+      "slug": "x18-set-of-malformed-records"
     }
   ]
 }

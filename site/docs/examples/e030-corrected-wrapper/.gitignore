@@ -1,0 +1,9 @@
+.venv/
+.inputs/
+.coverage*
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+gate-results/
+run-results/
+*.bundle

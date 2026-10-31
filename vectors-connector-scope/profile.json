@@ -1,0 +1,11 @@
+{
+  "map": {
+    "can change": "connector.declared_scope.change",
+    "can read": "connector.declared_scope.read",
+    "refused an out-of-scope action": "action + outcome.result=refused + outcome.reason",
+    "the action that ran or was refused": "record.action_digest",
+    "the scope the connector was granted, unchanged": "connector.grant_digest"
+  },
+  "note": "Maps the three statements a connector owner makes to the record fields checked.",
+  "suite": "connector-scope-record/v1"
+}

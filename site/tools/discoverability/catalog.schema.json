@@ -1,0 +1,391 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Probity discoverability catalog",
+  "description": "Record structure. Cross-record names, publication boundaries and approved public URL membership additionally require catalog.validate_catalog.",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "approved_repositories": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^probityai/[a-z0-9][a-z0-9._-]*$(?![\\r\\n])"
+      },
+      "uniqueItems": true
+    },
+    "repositories": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/repository"
+      }
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/component"
+      }
+    },
+    "profiles": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/profile"
+      }
+    },
+    "extensions": {
+      "type": "object"
+    },
+    "private_notes": {}
+  },
+  "required": [
+    "schema_version",
+    "approved_repositories",
+    "repositories",
+    "components",
+    "profiles"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "repository": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$(?![\\r\\n])"
+        },
+        "aliases": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$(?![\\r\\n])"
+          },
+          "uniqueItems": true
+        },
+        "display_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "task": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "released",
+            "prototype",
+            "unreleased",
+            "draft",
+            "retired"
+          ]
+        },
+        "publication": {
+          "type": "string",
+          "enum": [
+            "public",
+            "private",
+            "draft",
+            "held"
+          ]
+        },
+        "reviewed": {
+          "type": "boolean"
+        },
+        "extensions": {
+          "type": "object"
+        },
+        "private_notes": {},
+        "full_name": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*/[A-Za-z0-9][A-Za-z0-9_.-]*$(?![\\r\\n])"
+        },
+        "url": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "source": {
+          "type": "object",
+          "properties": {
+            "repository": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$(?![\\r\\n])"
+            },
+            "commit": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{40}$(?![\\r\\n])"
+            },
+            "url": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            }
+          },
+          "required": [
+            "repository",
+            "commit",
+            "url"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "id",
+        "aliases",
+        "display_name",
+        "summary",
+        "task",
+        "status",
+        "publication",
+        "reviewed",
+        "full_name",
+        "url",
+        "source"
+      ],
+      "additionalProperties": false
+    },
+    "component": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$(?![\\r\\n])"
+        },
+        "aliases": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$(?![\\r\\n])"
+          },
+          "uniqueItems": true
+        },
+        "display_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "task": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "released",
+            "prototype",
+            "unreleased",
+            "draft",
+            "retired"
+          ]
+        },
+        "publication": {
+          "type": "string",
+          "enum": [
+            "public",
+            "private",
+            "draft",
+            "held"
+          ]
+        },
+        "reviewed": {
+          "type": "boolean"
+        },
+        "extensions": {
+          "type": "object"
+        },
+        "private_notes": {},
+        "repositories": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$(?![\\r\\n])"
+          },
+          "uniqueItems": true,
+          "minItems": 1
+        },
+        "docs_url": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "packages": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "uniqueItems": true
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$(?![\\r\\n])"
+              },
+              "target": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$(?![\\r\\n])"
+              }
+            },
+            "required": [
+              "kind",
+              "target"
+            ],
+            "additionalProperties": false
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "aliases",
+        "display_name",
+        "summary",
+        "task",
+        "status",
+        "publication",
+        "reviewed",
+        "repositories"
+      ],
+      "additionalProperties": false
+    },
+    "profile": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$(?![\\r\\n])"
+        },
+        "aliases": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$(?![\\r\\n])"
+          },
+          "uniqueItems": true
+        },
+        "display_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "task": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "released",
+            "prototype",
+            "unreleased",
+            "draft",
+            "retired"
+          ]
+        },
+        "publication": {
+          "type": "string",
+          "enum": [
+            "public",
+            "private",
+            "draft",
+            "held"
+          ]
+        },
+        "reviewed": {
+          "type": "boolean"
+        },
+        "extensions": {
+          "type": "object"
+        },
+        "private_notes": {},
+        "repositories": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$(?![\\r\\n])"
+          },
+          "uniqueItems": true,
+          "minItems": 1
+        },
+        "docs_url": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "packages": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "uniqueItems": true
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$(?![\\r\\n])"
+              },
+              "target": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$(?![\\r\\n])"
+              }
+            },
+            "required": [
+              "kind",
+              "target"
+            ],
+            "additionalProperties": false
+          },
+          "uniqueItems": true
+        },
+        "component": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$(?![\\r\\n])"
+        }
+      },
+      "required": [
+        "id",
+        "aliases",
+        "display_name",
+        "summary",
+        "task",
+        "status",
+        "publication",
+        "reviewed",
+        "repositories",
+        "component"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

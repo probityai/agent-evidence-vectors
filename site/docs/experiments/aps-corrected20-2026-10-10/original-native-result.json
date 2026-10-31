@@ -1,0 +1,224 @@
+{
+  "schema": "probity.lab.aps-native-result/v1",
+  "at": "2026-10-10T23:46:57.388688+00:00",
+  "failedLanes": [
+    "aps-original-sdk-dependency-audit",
+    "aps-sdk-c31",
+    "aps-sdk-348",
+    "aps-comparison"
+  ],
+  "status": "ADVERSE",
+  "steps": [
+    {
+      "name": "job-installer-version",
+      "command": [
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/r16-python-runtime/bin/uv",
+        "--version"
+      ],
+      "cwd": "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1",
+      "startedAt": "2026-10-10T23:46:34.497798+00:00",
+      "completedAt": "2026-10-10T23:46:34.503417+00:00",
+      "exit": 0
+    },
+    {
+      "name": "job-both-python-install",
+      "command": [
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/r16-python-runtime/bin/uv",
+        "python",
+        "install",
+        "--no-bin",
+        "--install-dir",
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/r16-python-runtime/python",
+        "3.14.7",
+        "3.13.16"
+      ],
+      "cwd": "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1",
+      "startedAt": "2026-10-10T23:46:34.503749+00:00",
+      "completedAt": "2026-10-10T23:46:36.148703+00:00",
+      "exit": 0
+    },
+    {
+      "name": "job-python-3.14.7-preflight",
+      "command": [
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/r16-python-runtime/python/cpython-3.14.7-linux-x86_64-gnu/bin/python3.14",
+        "-I",
+        "-c",
+        "import json,os,platform,sys; print(json.dumps({\"version\":platform.python_version(),\"implementation\":platform.python_implementation(),\"executable\":sys.executable,\"cpuAffinity\":sorted(os.sched_getaffinity(0))}))"
+      ],
+      "cwd": "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1",
+      "startedAt": "2026-10-10T23:46:36.367181+00:00",
+      "completedAt": "2026-10-10T23:46:36.475265+00:00",
+      "exit": 0
+    },
+    {
+      "name": "job-python-3.13.16-preflight",
+      "command": [
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/r16-python-runtime/python/cpython-3.13.16-linux-x86_64-gnu/bin/python3.13",
+        "-I",
+        "-c",
+        "import json,os,platform,sys; print(json.dumps({\"version\":platform.python_version(),\"implementation\":platform.python_implementation(),\"executable\":sys.executable,\"cpuAffinity\":sorted(os.sched_getaffinity(0))}))"
+      ],
+      "cwd": "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1",
+      "startedAt": "2026-10-10T23:46:36.684575+00:00",
+      "completedAt": "2026-10-10T23:46:36.783716+00:00",
+      "exit": 0
+    },
+    {
+      "name": "aps-python-venv",
+      "command": [
+        "uv",
+        "venv",
+        "--python",
+        "3.14.7",
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/aps-runtime/python-reader"
+      ],
+      "cwd": "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1",
+      "startedAt": "2026-10-10T23:46:36.816786+00:00",
+      "completedAt": "2026-10-10T23:46:36.825538+00:00",
+      "exit": 0
+    },
+    {
+      "name": "aps-python-pinned-wheels",
+      "command": [
+        "uv",
+        "pip",
+        "install",
+        "--python",
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/aps-runtime/python-reader/bin/python",
+        "--require-hashes",
+        "--only-binary",
+        ":all:",
+        "-r",
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/lab-native-results/aps-source/reader-requirements.txt"
+      ],
+      "cwd": "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1",
+      "startedAt": "2026-10-10T23:46:36.825918+00:00",
+      "completedAt": "2026-10-10T23:46:37.291795+00:00",
+      "exit": 0
+    },
+    {
+      "name": "aps-python-inventory",
+      "command": [
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/aps-runtime/python-reader/bin/python",
+        "-I",
+        "-B",
+        "-c",
+        "\nimport importlib.metadata as metadata, json, os, platform, sys\nfrom pathlib import Path\nrows = sorted([{'name': item.metadata['Name'], 'version': item.version}\n               for item in metadata.distributions()], key=lambda row: row['name'])\nexpected = {'cryptography': '50.0.2', 'cffi': '2.1.1', 'pycparser': '3.11'}\nif {row['name'].lower(): row['version'] for row in rows} != expected:\n    raise RuntimeError('independent reader runtime inventory differs')\nif sys.version_info[:3] != (3, 14, 7) or len(os.sched_getaffinity(0)) != 1:\n    raise RuntimeError('independent reader interpreter/resource profile differs')\nout = {'schema': 'probity.lab.aps-python-runtime/v1', 'python': sys.version,\n       'platform': platform.platform(), 'affinity': sorted(os.sched_getaffinity(0)),\n       'installedDistributions': rows, 'sourceWheelHashEnforcement': True,\n       'scope': 'Exact three-distribution finite independent-reader runtime'}\nPath(sys.argv[1]).write_text(json.dumps(out, indent=2) + '\\n')\nprint(json.dumps(out))\n",
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/lab-native-results/aps-python-runtime.json"
+      ],
+      "cwd": "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1",
+      "startedAt": "2026-10-10T23:46:37.292504+00:00",
+      "completedAt": "2026-10-10T23:46:37.608888+00:00",
+      "exit": 0
+    },
+    {
+      "name": "aps-independent-corrected20",
+      "command": [
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/aps-runtime/python-reader/bin/python",
+        "-I",
+        "-B",
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/lab-native-results/aps-source/read_corpus.py",
+        "--fixture",
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/lab-native-results/aps-source/inputs/corrected20/agent-passport-vectors-v2.json",
+        "--output",
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/lab-native-results/aps-independent-reader.json"
+      ],
+      "cwd": "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1",
+      "startedAt": "2026-10-10T23:46:37.609363+00:00",
+      "completedAt": "2026-10-10T23:46:37.916397+00:00",
+      "exit": 0
+    },
+    {
+      "name": "aps-node-runtime",
+      "command": [
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/aps-runtime/node-v24.21.0-linux-x64/bin/node",
+        "-e",
+        "const fs=require('node:fs');if(process.version!=='v24.21.0')throw Error('node pin');fs.writeFileSync(process.argv[1],JSON.stringify({node:process.version,versions:process.versions,archiveSHA256:process.argv[2],archiveBytes:Number(process.argv[3]),scope:'Official pinned Node artifact; no independent release signature claim'},null,2)+'\\n',{flag:'wx'});",
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/lab-native-results/aps-node-runtime.json",
+        "fd8e59d5a511510f6a298afb548f18c7d2b1be404d8b4a27d94fbe49f56cb2d6",
+        "31890184"
+      ],
+      "cwd": "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1",
+      "startedAt": "2026-10-10T23:46:45.076988+00:00",
+      "completedAt": "2026-10-10T23:46:45.104716+00:00",
+      "exit": 0
+    },
+    {
+      "name": "aps-original-sdk-dependency-install",
+      "command": [
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/aps-runtime/node-v24.21.0-linux-x64/bin/node",
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/aps-runtime/node-v24.21.0-linux-x64/lib/node_modules/npm/bin/npm-cli.js",
+        "ci",
+        "--ignore-scripts",
+        "--no-audit",
+        "--no-fund"
+      ],
+      "cwd": "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/aps-runtime/sdk-transpiler",
+      "startedAt": "2026-10-10T23:46:45.105713+00:00",
+      "completedAt": "2026-10-10T23:46:54.022697+00:00",
+      "exit": 0
+    },
+    {
+      "name": "aps-original-sdk-dependency-inventory",
+      "command": [
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/aps-runtime/node-v24.21.0-linux-x64/bin/node",
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/aps-runtime/node-v24.21.0-linux-x64/lib/node_modules/npm/bin/npm-cli.js",
+        "ls",
+        "--all",
+        "--json"
+      ],
+      "cwd": "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/aps-runtime/sdk-transpiler",
+      "startedAt": "2026-10-10T23:46:54.023174+00:00",
+      "completedAt": "2026-10-10T23:46:54.497610+00:00",
+      "exit": 0
+    },
+    {
+      "name": "aps-original-sdk-dependency-audit",
+      "command": [
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/aps-runtime/node-v24.21.0-linux-x64/bin/node",
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/aps-runtime/node-v24.21.0-linux-x64/lib/node_modules/npm/bin/npm-cli.js",
+        "audit",
+        "--json"
+      ],
+      "cwd": "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/aps-runtime/sdk-transpiler",
+      "startedAt": "2026-10-10T23:46:54.498206+00:00",
+      "completedAt": "2026-10-10T23:46:57.258847+00:00",
+      "exit": 1
+    },
+    {
+      "name": "aps-sdk-c31",
+      "command": [
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/aps-runtime/node-v24.21.0-linux-x64/bin/node",
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/aps-runtime/sdk-transpiler/node_modules/tsx/dist/cli.mjs",
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/aps-runtime/sdk-transpiler/selected-sources/run_sdk.mjs",
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/aps-runtime/sdk-transpiler/selected-sources/inputs/sdkc31",
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/lab-native-results/aps-source/inputs/corrected20/agent-passport-vectors-v2.json",
+        "c31d94aad86713ae9b2e4cbc811deeab4b5d91ed",
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/lab-native-results/aps-sdk-c31.json"
+      ],
+      "cwd": "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/aps-runtime/sdk-transpiler",
+      "startedAt": "2026-10-10T23:46:57.263714+00:00",
+      "completedAt": "2026-10-10T23:46:57.316791+00:00",
+      "exit": 1
+    },
+    {
+      "name": "aps-sdk-348",
+      "command": [
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/aps-runtime/node-v24.21.0-linux-x64/bin/node",
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/aps-runtime/sdk-transpiler/node_modules/tsx/dist/cli.mjs",
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/aps-runtime/sdk-transpiler/selected-sources/run_sdk.mjs",
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/aps-runtime/sdk-transpiler/selected-sources/inputs/sdk348",
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/lab-native-results/aps-source/inputs/corrected20/agent-passport-vectors-v2.json",
+        "348c238b634b1d2d392c5e4c818398285bf8634d",
+        "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/lab-native-results/aps-sdk-348.json"
+      ],
+      "cwd": "/home/gate/work/atlas-lab-owned-atlas-aps20-oct10-normal-r1/.atlas-tools/aps-runtime/sdk-transpiler",
+      "startedAt": "2026-10-10T23:46:57.317290+00:00",
+      "completedAt": "2026-10-10T23:46:57.377439+00:00",
+      "exit": 1
+    }
+  ],
+  "sourceFiles": 40,
+  "scope": "Probity-operated synthetic corpus consumption, independent finite Python reader and separate selected SDK characterization",
+  "publication": "No external message, release, adoption or commercial agreement"
+}

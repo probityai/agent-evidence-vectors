@@ -1,0 +1,29 @@
+name: Event absence C1 cases
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'interop/event-absence-c1-sergeev/**'
+      - '.github/workflows/event-absence-c1.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'interop/event-absence-c1-sergeev/**'
+      - '.github/workflows/event-absence-c1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v5
+      - name: Run the three cases through the pinned verifier
+        run: uv run --no-project --python 3.13 --with probity-verify==0.2.2 python interop/event-absence-c1-sergeev/run.py

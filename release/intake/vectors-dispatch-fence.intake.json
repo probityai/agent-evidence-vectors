@@ -91,7 +91,7 @@
       },
       "path": "vectors-dispatch-fence/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "6f0ace6b9fd4f2bfbd754e29c1b4048d0927ff1f89989a7f6f352e1b04425200"
+      "sha256": "8af9fe66c567d6229833214f40f74400c4073a3b0afd2569d5d88e350f5875d7"
     },
     {
       "consumed": "unconsumed",
@@ -166,7 +166,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "44448b72d598952c369fb4f256c5c543551b167cd64341cebf255951ee3bc5ac"
+      "sha256": "7a52bc96a6a12d5112ccf784607b3b1567e335a14bea85246f05ccd911eb0392"
     },
     "runtime": {
       "name": "go",
@@ -287,7 +287,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "e4bb3f9a5d77056ad0d0ad4a625f8165d0a0c50fa069f3e5799b5de9144b86b9"
+    "sha256": "4e6f2459e82a69f4afef4a31829e13e7dc337f4d9b7dabfbadcb0f1754e4aa27"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -312,7 +312,7 @@
       "commit-after-own-hold-expired"
     ],
     "path": "vectors-dispatch-fence/MANIFEST.json",
-    "sha256": "405c76a4acf9d77bea7618733c706041974d14816d358227c51ec3b42e803be7"
+    "sha256": "13698fd68ba0bf85ce675cb29c89538ddc7f8807c979e45454cce10ebb003d7d"
   },
   "members": [
     {

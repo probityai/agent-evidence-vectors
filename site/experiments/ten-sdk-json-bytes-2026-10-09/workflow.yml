@@ -1,0 +1,84 @@
+name: MCP SDK JCS divergence
+
+# Runs the JCS byte corpus through the JSON-RPC codec of each official MCP SDK
+# and reports, per vector, whether the SDK refuses the input, re-emits the
+# RFC 8785 bytes, or emits something else. An SDK repository can call it:
+#
+#   jobs:
+#     jcs:
+#       uses: probityai/agent-evidence-vectors/.github/workflows/mcp-sdk-jcs.yml@<sha>
+#       with:
+#         sdks: '["python"]'
+#
+# The job reports; it does not fail on a divergence. Set fail-on-divergence to
+# true to turn a non-canonical or wrongly admitted vector into a red check.
+
+on:
+  workflow_dispatch:
+    inputs:
+      sdks:
+        description: JSON array of harness names under interop/mcp-sdks
+        default: '["typescript","python","go","java","kotlin","csharp","swift","rust","ruby","php"]'
+        type: string
+      fail-on-divergence:
+        description: Fail the job when a vector diverges
+        default: false
+        type: boolean
+  workflow_call:
+    inputs:
+      sdks:
+        description: JSON array of harness names under interop/mcp-sdks
+        default: '["typescript","python","go","java","kotlin","csharp","swift","rust","ruby","php"]'
+        type: string
+      ref:
+        description: Ref of probityai/agent-evidence-vectors that holds the harnesses
+        default: main
+        type: string
+      fail-on-divergence:
+        description: Fail the job when a vector diverges
+        default: false
+        type: boolean
+  pull_request:
+    paths:
+      - interop/mcp-sdks/**
+      - .github/workflows/mcp-sdk-jcs.yml
+
+permissions:
+  contents: read
+
+jobs:
+  sdk:
+    name: JCS corpus through ${{ matrix.sdk }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        sdk: ${{ fromJSON(inputs.sdks || '["typescript","python","go","java","kotlin","csharp","swift","rust","ruby","php"]') }}
+    steps:
+      - name: Check out the harnesses
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          repository: probityai/agent-evidence-vectors
+          ref: ${{ inputs.ref || github.sha }}
+          persist-credentials: false
+
+      - name: Run the corpus through the SDK
+        working-directory: interop/mcp-sdks
+        run: ./run-all.sh "${{ matrix.sdk }}" > table.md
+
+      - name: Publish the table
+        working-directory: interop/mcp-sdks
+        run: cat table.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Keep the raw results
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: mcp-sdk-jcs-${{ matrix.sdk }}
+          path: interop/mcp-sdks/results/
+          retention-days: 30
+
+      - name: Fail on divergence
+        if: ${{ inputs.fail-on-divergence }}
+        working-directory: interop/mcp-sdks
+        run: python3 driver.py gate "${{ matrix.sdk }}"

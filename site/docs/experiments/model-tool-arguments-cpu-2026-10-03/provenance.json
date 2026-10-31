@@ -1,0 +1,1767 @@
+{
+  "answerExposure": "Authored inputs, targets and thresholds exposed; prospective new study follows earlier 384/128-call findings; not blind.",
+  "archiveCharge": {
+    "archiveIdentity": {
+      "bytes": 465478943,
+      "sha256": "7ed25dea35cdca4df3275990b3d70ca47f391490c8ffb5225396df7bc573d03f"
+    },
+    "archivePath": "/home/runner/work/agent-evidence-observer/agent-evidence-observer/tool-argument-preparation/selected-runtime.zip",
+    "elapsedSeconds": 10.565064801000005,
+    "networkAttempts": 1,
+    "originalPreparation": {
+      "aggregateSixPreparationResponseBytes": 2639228307,
+      "elapsedSeconds": 8.880832050999999,
+      "responseBodyBytes": 472221945,
+      "run": 37094901561,
+      "sourceCommit": "62f5d0c6fbd785259db2d5c8076dd844b53a0593"
+    },
+    "providerCalls": 0,
+    "providerDollars": 0,
+    "responseBodyBytes": 465478943,
+    "route": "github-artifact-once",
+    "schema": "probity-runtime-archive-charge-v1",
+    "sha256": "7ed25dea35cdca4df3275990b3d70ca47f391490c8ffb5225396df7bc573d03f",
+    "status": "passed"
+  },
+  "atlasBaseline": "91632533e3834ebefb7e96a25d2d7ca6fe9e7499",
+  "comparisonOrder": "Prospective protocol and reviewed source precede the protected Observer main execution; exact native provider bytes are retained additively in Atlas afterward. Neither raw retention nor replay establishes independent execution.",
+  "id": "model-tool-arguments-cpu-2026-10-03",
+  "installation": {
+    "abi": {
+      "implementation": "CPython",
+      "machine": "x86_64",
+      "osReleaseId": "ubuntu",
+      "osReleaseVersion": "24.04",
+      "python": "3.12",
+      "system": "Linux"
+    },
+    "elapsedSeconds": 6.719390232000023,
+    "importProbe": "0.3.16",
+    "installedBytes": 144315685,
+    "interpreter": "/home/runner/work/agent-evidence-observer/agent-evidence-observer/tool-argument-preparation/runtime-environment/bin/python",
+    "nativeBuilds": 0,
+    "networkResponseBytes": 0,
+    "retainedBytes": 1088340047,
+    "schema": "probity-runtime-installation-v1",
+    "sitePackages": "/home/runner/work/agent-evidence-observer/agent-evidence-observer/tool-argument-preparation/runtime-environment/lib/python3.12/site-packages",
+    "status": "passed"
+  },
+  "limits": [
+    "Finite exposed authored tool-argument and abstention cases; no representative benchmark or blind evaluation.",
+    "Native inference, evidence publication and semantic quality are separate; all eight strict quality rows hold.",
+    "No tools or protected publication/admission/dispatch/recovery effects execute from model answers.",
+    "Atlas retains the entire compact native provider artifact, not the complete preparation artifact containing model weights, wheels, archive and installed environment; hashes cannot reconstruct omitted bytes.",
+    "Provider artifact expiry is disclosed; durable author-held Git bytes do not establish independent effect custody, outside acceptance or recurring adoption.",
+    "Atlas validation reads data only and performs no new inference or installation of packet code."
+  ],
+  "nativeArchive": {
+    "allMembersRetained": true,
+    "artifactId": 11272425629,
+    "bytes": 2639358,
+    "expiresAt": "2027-01-01T10:33:56Z",
+    "members": [
+      {
+        "bytes": 2180,
+        "path": "calls/smol135-q4--long96--control--tool-ambiguous-key-a-control-returned.json",
+        "sha256": "794001b99804b0cd2db64aec1eb562ace5534463914d90eb7a77d3c7991da1bd"
+      },
+      {
+        "bytes": 1560,
+        "path": "calls/smol135-q4--long96--control--tool-ambiguous-key-a-control-started.json",
+        "sha256": "ac93a3280f81e83b2c4fafdee2c6ad515f4a0967c2ed1dad70c0b37dffc42ce6"
+      },
+      {
+        "bytes": 2190,
+        "path": "calls/smol135-q4--long96--control--tool-ambiguous-key-b-control-returned.json",
+        "sha256": "4c90dd34794cee34f2cca1685d2b5b9f9b3d588c68acc6757702a0264dee5bb0"
+      },
+      {
+        "bytes": 1569,
+        "path": "calls/smol135-q4--long96--control--tool-ambiguous-key-b-control-started.json",
+        "sha256": "6c048f9098fd8ccb87858aef38ceb2af208c0652ada6bff6ff3f4924ed237587"
+      },
+      {
+        "bytes": 2197,
+        "path": "calls/smol135-q4--long96--control--tool-inspect-permission-a-control-returned.json",
+        "sha256": "b2709aa26f6fb69a77467378f7bea97528cab7b6040bb5e72ab05761b24b35b2"
+      },
+      {
+        "bytes": 1567,
+        "path": "calls/smol135-q4--long96--control--tool-inspect-permission-a-control-started.json",
+        "sha256": "6308e6b585ed3beb04b2393f5800e02c87cb98851a579b95b562ec89e5641545"
+      },
+      {
+        "bytes": 2199,
+        "path": "calls/smol135-q4--long96--control--tool-inspect-permission-b-control-returned.json",
+        "sha256": "e695bb6b1b0ee52b101dbebd33b47cc56d9987277215b42e75c33b1f75e58a58"
+      },
+      {
+        "bytes": 1568,
+        "path": "calls/smol135-q4--long96--control--tool-inspect-permission-b-control-started.json",
+        "sha256": "43eb40c1b5b1ad63eef858631cc25ceaf4bfff3ba067d4fd3d42e1d18cafe862"
+      },
+      {
+        "bytes": 2178,
+        "path": "calls/smol135-q4--long96--control--tool-missing-key-a-control-returned.json",
+        "sha256": "9f5b8a557f8e69b263311a92fc14642fe4731e8db69f44f8ee6b908cea134b1d"
+      },
+      {
+        "bytes": 1558,
+        "path": "calls/smol135-q4--long96--control--tool-missing-key-a-control-started.json",
+        "sha256": "29abb09c296104967407d7c6c40bdb6da1dd2adeeef736bf2c6ef42f87c9c461"
+      },
+      {
+        "bytes": 2174,
+        "path": "calls/smol135-q4--long96--control--tool-missing-key-b-control-returned.json",
+        "sha256": "80f7638f03fb86e72f921625919919b2a9cb83df98a9f25355ae3247bf7ebdbe"
+      },
+      {
+        "bytes": 1553,
+        "path": "calls/smol135-q4--long96--control--tool-missing-key-b-control-started.json",
+        "sha256": "e830b29d2c665126e8ad20458408b2988b8c9ad0e507673a083e3d4eee936d0a"
+      },
+      {
+        "bytes": 2181,
+        "path": "calls/smol135-q4--long96--control--tool-stale-evidence-a-control-returned.json",
+        "sha256": "04fb4612bc36c40efb8d2b90cd37b54ed13a8bac2fff7cb2e3cb7165a6ac1f72"
+      },
+      {
+        "bytes": 1561,
+        "path": "calls/smol135-q4--long96--control--tool-stale-evidence-a-control-started.json",
+        "sha256": "99be3bd226c5e9351dd406b5194daaf5c98318fd216d5367cfbc032f78fa23a8"
+      },
+      {
+        "bytes": 2182,
+        "path": "calls/smol135-q4--long96--control--tool-stale-evidence-b-control-returned.json",
+        "sha256": "1bef2711077a0bed2e72c4729d6992e19b24c46f2d76c22cd0103a82063974ad"
+      },
+      {
+        "bytes": 1561,
+        "path": "calls/smol135-q4--long96--control--tool-stale-evidence-b-control-started.json",
+        "sha256": "c222ccb36a8502098be8c66123c2873225766d5b016186b5746b7a4e0c7569fd"
+      },
+      {
+        "bytes": 2179,
+        "path": "calls/smol135-q4--long96--control--tool-unknown-tool-a-control-returned.json",
+        "sha256": "54583073e233a92ff73897928927ff1b517f0568f79de6f2b2b845a2681344d9"
+      },
+      {
+        "bytes": 1559,
+        "path": "calls/smol135-q4--long96--control--tool-unknown-tool-a-control-started.json",
+        "sha256": "2a6784e9886612cbdc5afadb9e7a95dd2386e4ef7397e3873fe508dff0eb8000"
+      },
+      {
+        "bytes": 2182,
+        "path": "calls/smol135-q4--long96--control--tool-unknown-tool-b-control-returned.json",
+        "sha256": "c94021a87eeeed438db558d83104113bd989ee7914cbc2b8a9433d9204aa969d"
+      },
+      {
+        "bytes": 1556,
+        "path": "calls/smol135-q4--long96--control--tool-unknown-tool-b-control-started.json",
+        "sha256": "7df138d47335d01c9e48bd3eb4dc286055d3851a095700bf4ea62b23c0837fe6"
+      },
+      {
+        "bytes": 2177,
+        "path": "calls/smol135-q4--long96--control--tool-value-type-a-control-returned.json",
+        "sha256": "68aa7c1b4ab493829ffb4e82454790da37b5e31d136fbef74d12d24d11e9f462"
+      },
+      {
+        "bytes": 2182,
+        "path": "calls/smol135-q4--long96--control--tool-value-type-b-control-returned.json",
+        "sha256": "b16bfb10015d340fa04fee84532fbb6d433354ece96e74eb14c19207566fb5f5"
+      },
+      {
+        "bytes": 1557,
+        "path": "calls/smol135-q4--long96--control--tool-value-type-a-control-started.json",
+        "sha256": "0170b0c5722ea489da45332cb2c16b765076cc0885aac3ba7640ba64bf054f75"
+      },
+      {
+        "bytes": 1561,
+        "path": "calls/smol135-q4--long96--control--tool-value-type-b-control-started.json",
+        "sha256": "8f6ea510e5110efcaaf8c2f134c293478314f3d22128ea2af2526df35ac24e99"
+      },
+      {
+        "bytes": 2183,
+        "path": "calls/smol135-q4--long96--control--tool-write-permission-a-control-returned.json",
+        "sha256": "1338b2507d871012f55d3a4bf6202fa44526c3765191eb21ffcc2f4a10cbf336"
+      },
+      {
+        "bytes": 1563,
+        "path": "calls/smol135-q4--long96--control--tool-write-permission-a-control-started.json",
+        "sha256": "d75b4efd8f4c2f386cfce4f17277d524d8062f8b1355c0c49451efe0b5d48417"
+      },
+      {
+        "bytes": 2191,
+        "path": "calls/smol135-q4--long96--control--tool-write-permission-b-control-returned.json",
+        "sha256": "01b5309be67ab6e08ecc801ae1dae4f527cb22d3f8a039ab044a6e50343797b2"
+      },
+      {
+        "bytes": 1564,
+        "path": "calls/smol135-q4--long96--control--tool-write-permission-b-control-started.json",
+        "sha256": "0fed3763962e4bf10eeef100a1aba2652401309ca82c9c41128c0ffd69eb51f2"
+      },
+      {
+        "bytes": 2178,
+        "path": "calls/smol135-q4--long96--control--tool-write-quota-a-control-returned.json",
+        "sha256": "fb5664f1d03c094641f891ffae5bab8a0cf044c537df7614271cb38cd1b8694a"
+      },
+      {
+        "bytes": 1558,
+        "path": "calls/smol135-q4--long96--control--tool-write-quota-a-control-started.json",
+        "sha256": "be206fbf716aca202fc8d3904e519fc21747affd51b923236c325693ee95443b"
+      },
+      {
+        "bytes": 2179,
+        "path": "calls/smol135-q4--long96--control--tool-write-quota-b-control-returned.json",
+        "sha256": "f4756bc7b14dffe4f642f459231fe71ac55e982d3765f7d8489b992c7f66eb73"
+      },
+      {
+        "bytes": 1558,
+        "path": "calls/smol135-q4--long96--control--tool-write-quota-b-control-started.json",
+        "sha256": "1208fa4098424961af37c246b0f02d648effd30f79f44f2767e17596990f3e9b"
+      },
+      {
+        "bytes": 2200,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-ambiguous-key-a-tool-schema-returned.json",
+        "sha256": "01e66c56a5364d9ad8e9ff1882e55b924544b3563d6d505504cc29f8cd4a7f4b"
+      },
+      {
+        "bytes": 1572,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-ambiguous-key-a-tool-schema-started.json",
+        "sha256": "561361efae7695e0625f2c1f617beb927d5a12dd9d9e1353e2b1558438ae2c8c"
+      },
+      {
+        "bytes": 2202,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-ambiguous-key-b-tool-schema-returned.json",
+        "sha256": "1d621fb4ffbf5b764814cdd9d96faaca521f127ee0d47b80cb7589d907e48491"
+      },
+      {
+        "bytes": 1581,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-ambiguous-key-b-tool-schema-started.json",
+        "sha256": "1ea3fa2f04e04019aad042b19bde9f42ae32b015c0ec190d497fbcc0bb1d60d4"
+      },
+      {
+        "bytes": 2209,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-inspect-permission-a-tool-schema-returned.json",
+        "sha256": "f0770e96a0a746e486fb2521c392e51d80e0643429b09d863c31848f5551a985"
+      },
+      {
+        "bytes": 1579,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-inspect-permission-a-tool-schema-started.json",
+        "sha256": "a0c539348967dca86fd5b25a4857a84b5b8061037588347f5f0d9c7065a2e467"
+      },
+      {
+        "bytes": 2204,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-inspect-permission-b-tool-schema-returned.json",
+        "sha256": "9069620b1b588b7dbee68f9c714d9a46cca58e946411a97729d2711289076708"
+      },
+      {
+        "bytes": 1580,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-inspect-permission-b-tool-schema-started.json",
+        "sha256": "82cd6577f71bf4827f94dc895d5cdd00968aa3ad86ff1ef3acd77793b9f26483"
+      },
+      {
+        "bytes": 2198,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-missing-key-a-tool-schema-returned.json",
+        "sha256": "757a429f5b6cf95f68c4168eb95c96b6981c98c770c2f68f743c4347db8708de"
+      },
+      {
+        "bytes": 1570,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-missing-key-a-tool-schema-started.json",
+        "sha256": "3e09a3cb9966d590393ce87f3a18b5a85b252a8d18613eb2bb4529d79ace6b1f"
+      },
+      {
+        "bytes": 2186,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-missing-key-b-tool-schema-returned.json",
+        "sha256": "02a98eff8443188b2b7b3104e63f44c8f7a7ec619baad01a94470894c1cdcc0e"
+      },
+      {
+        "bytes": 1565,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-missing-key-b-tool-schema-started.json",
+        "sha256": "f086d29f0af96eaf78dd327b73a9d93a19f3b8fd564e9cabd657c0963327a078"
+      },
+      {
+        "bytes": 2201,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-stale-evidence-a-tool-schema-returned.json",
+        "sha256": "143c06be2405dcd7ee20809e9a80102d8d5274a42a0f3624a00ceaf30a1be0eb"
+      },
+      {
+        "bytes": 1573,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-stale-evidence-a-tool-schema-started.json",
+        "sha256": "22e58f85761a53b84dbc79bc23eaacc7eb74a35d07ecc610a681adc3d696a20a"
+      },
+      {
+        "bytes": 2197,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-stale-evidence-b-tool-schema-returned.json",
+        "sha256": "6dd85206cabe0dd93fb597b3d8ddbb30efda7fe83d1180421011647cc416c6c1"
+      },
+      {
+        "bytes": 1573,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-stale-evidence-b-tool-schema-started.json",
+        "sha256": "7dfa3a00dd50e4c0c0e1c22e3f2864a036813e5bf2a90cd1f9e8fad7ebb13fda"
+      },
+      {
+        "bytes": 2199,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-unknown-tool-a-tool-schema-returned.json",
+        "sha256": "19bcc1b6127844ed1e1b76424e21abfd8f6c594a97f26b5b3b57c04ad6bb71a5"
+      },
+      {
+        "bytes": 1571,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-unknown-tool-a-tool-schema-started.json",
+        "sha256": "2cd5cbe799697fb5559a11ac931545bb66266e615486ad66c85920651ce6e335"
+      },
+      {
+        "bytes": 2196,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-unknown-tool-b-tool-schema-returned.json",
+        "sha256": "6553a5b4659eb7152254d88c7d3028d71371d755cc0b4f8e081b60b56b0fcc38"
+      },
+      {
+        "bytes": 1568,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-unknown-tool-b-tool-schema-started.json",
+        "sha256": "738b616732a683b7781d8ee650cd0b254c29e5f24ba6308624207afd06362374"
+      },
+      {
+        "bytes": 2197,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-value-type-a-tool-schema-returned.json",
+        "sha256": "f698a143b124657ff8b2d54848990a307a40ec692b9e1700a484b6e238da8356"
+      },
+      {
+        "bytes": 1569,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-value-type-a-tool-schema-started.json",
+        "sha256": "2402f1292d6f227af4d8ce3f6cb9eda32cef2afc9d9ddbd6359ee26db5c51412"
+      },
+      {
+        "bytes": 2201,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-value-type-b-tool-schema-returned.json",
+        "sha256": "14a2c4fe4adc453c77cfb829276ca5444e1bcb3fa01f7225661660e5d5e30e11"
+      },
+      {
+        "bytes": 1573,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-value-type-b-tool-schema-started.json",
+        "sha256": "0a4571bb97e7f91d0ef1c91bd790cd3328bb932b6344a0864bf4c0e9c21cf413"
+      },
+      {
+        "bytes": 2203,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-write-permission-a-tool-schema-returned.json",
+        "sha256": "efe892ee5600004068478d57d054731c13725156b79ebfac1acce479cfff3307"
+      },
+      {
+        "bytes": 1575,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-write-permission-a-tool-schema-started.json",
+        "sha256": "94eba1a2e009958ee3b525c0534362e9604d1ac0c63f485ea110976f7e267d04"
+      },
+      {
+        "bytes": 2197,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-write-permission-b-tool-schema-returned.json",
+        "sha256": "c6ba02e37e5453e56a0b25970bd3337683901fd8cbcedcbeb883f7c7f951d6ba"
+      },
+      {
+        "bytes": 1576,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-write-permission-b-tool-schema-started.json",
+        "sha256": "de3929b1931dc529d4f68cdd6dcb1ed06a905fb1876c06e75e5f6dbd8fd6c330"
+      },
+      {
+        "bytes": 2198,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-write-quota-a-tool-schema-returned.json",
+        "sha256": "e835156e7b9ba18fc858351aa4787dd6098a3d603e1345e1cc3e5f6f16084453"
+      },
+      {
+        "bytes": 1570,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-write-quota-a-tool-schema-started.json",
+        "sha256": "1cacfade5db982253398142d3b919b0c36e469c6f443a48ef4d9efa2122a9ff2"
+      },
+      {
+        "bytes": 1570,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-write-quota-b-tool-schema-started.json",
+        "sha256": "a286325b69e9e933025114168cabd95bd893752811774e02fe09a38dda57d480"
+      },
+      {
+        "bytes": 2194,
+        "path": "calls/smol135-q4--long96--tool-schema--tool-write-quota-b-tool-schema-returned.json",
+        "sha256": "5e62e91fac8adeb04c8bf7f74cf001f78c09bad2f4554121801bdc59a21bbe14"
+      },
+      {
+        "bytes": 1561,
+        "path": "calls/smol135-q4--short24--control--tool-ambiguous-key-a-control-started.json",
+        "sha256": "051524bd0f42bfd1c8bdee64ca9afd43227443b0b5bf0b357914aca81fbf02c9"
+      },
+      {
+        "bytes": 2175,
+        "path": "calls/smol135-q4--short24--control--tool-ambiguous-key-a-control-returned.json",
+        "sha256": "df35a5eb5911333346cd8e0b08d4fb2ce58f79cf6c1085e47c778a48b4af05a2"
+      },
+      {
+        "bytes": 2192,
+        "path": "calls/smol135-q4--short24--control--tool-ambiguous-key-b-control-returned.json",
+        "sha256": "0d3fcebdc69b2a8ab8428780564d3f2522fa96aa8cc8bcc16f9f35c9b0fbf649"
+      },
+      {
+        "bytes": 1570,
+        "path": "calls/smol135-q4--short24--control--tool-ambiguous-key-b-control-started.json",
+        "sha256": "045dde8fc89ceac83dbc89ab6eef4780f26a2ef61568254781e41e5e505316e0"
+      },
+      {
+        "bytes": 2176,
+        "path": "calls/smol135-q4--short24--control--tool-inspect-permission-a-control-returned.json",
+        "sha256": "f708fd567634596f775d1ceedd00f94c681229ffdfb948da59ad8615bc04f4ba"
+      },
+      {
+        "bytes": 1568,
+        "path": "calls/smol135-q4--short24--control--tool-inspect-permission-a-control-started.json",
+        "sha256": "20174992c74c7027f63913e345073f86d7e14edf0449a70fa78ce5789a9b05e4"
+      },
+      {
+        "bytes": 2189,
+        "path": "calls/smol135-q4--short24--control--tool-inspect-permission-b-control-returned.json",
+        "sha256": "a762494ca0cfbcd3e406a188379e5e8a787927970efc08cd13e64a1090cebe4b"
+      },
+      {
+        "bytes": 1569,
+        "path": "calls/smol135-q4--short24--control--tool-inspect-permission-b-control-started.json",
+        "sha256": "43dd7566e887610963ac0aa19dc99680ee24caa2a0a6ab7228dfa29084c90a18"
+      },
+      {
+        "bytes": 2172,
+        "path": "calls/smol135-q4--short24--control--tool-missing-key-a-control-returned.json",
+        "sha256": "6c5985da0835b3e633bd38398ed17da546028fb51bcde677294e3c54cdaea22d"
+      },
+      {
+        "bytes": 1559,
+        "path": "calls/smol135-q4--short24--control--tool-missing-key-a-control-started.json",
+        "sha256": "ed483e8d895c4896ac6c93762b22d58c9799c7e85f173034d806851deb1f685a"
+      },
+      {
+        "bytes": 2160,
+        "path": "calls/smol135-q4--short24--control--tool-missing-key-b-control-returned.json",
+        "sha256": "76c6018653baed4c2fbc62d79b762dd58987bb2457ec84d00f41c0bd1717c137"
+      },
+      {
+        "bytes": 1554,
+        "path": "calls/smol135-q4--short24--control--tool-missing-key-b-control-started.json",
+        "sha256": "4a190b44df2caf92015a7deb586612977d9abebfaa3b31ace1d01990616c455a"
+      },
+      {
+        "bytes": 2176,
+        "path": "calls/smol135-q4--short24--control--tool-stale-evidence-a-control-returned.json",
+        "sha256": "37078792011fc990758b83ba7117ded5387fea02d10368f2570728c75060445a"
+      },
+      {
+        "bytes": 1562,
+        "path": "calls/smol135-q4--short24--control--tool-stale-evidence-a-control-started.json",
+        "sha256": "6d9bc5b20936b503776e48a68bb389d872cbeef69b783ca680e7ac12c793a5d1"
+      },
+      {
+        "bytes": 2179,
+        "path": "calls/smol135-q4--short24--control--tool-stale-evidence-b-control-returned.json",
+        "sha256": "a8c76e7af2dd7a319c550a7a5a0bc82ac5100ae08a2288ea8adbef8e2e7f3aa3"
+      },
+      {
+        "bytes": 1562,
+        "path": "calls/smol135-q4--short24--control--tool-stale-evidence-b-control-started.json",
+        "sha256": "e4e7870186198e829770b0dff9a72c68310f97fbb7731d5f7451a125f60ff994"
+      },
+      {
+        "bytes": 2174,
+        "path": "calls/smol135-q4--short24--control--tool-unknown-tool-a-control-returned.json",
+        "sha256": "4e7c8e22a3663e8dc2313e6fd5753112e39a50a5c470953542c08598ccc587b0"
+      },
+      {
+        "bytes": 1560,
+        "path": "calls/smol135-q4--short24--control--tool-unknown-tool-a-control-started.json",
+        "sha256": "473a46bb3462f11f2b706cce0c0dbd0580f68800148b96ded7d9c92734962c4c"
+      },
+      {
+        "bytes": 2160,
+        "path": "calls/smol135-q4--short24--control--tool-unknown-tool-b-control-returned.json",
+        "sha256": "e5e538de86b8862774b16c160350a1dee0b4f5fa12acf4f24712a87a7513bdaf"
+      },
+      {
+        "bytes": 1557,
+        "path": "calls/smol135-q4--short24--control--tool-unknown-tool-b-control-started.json",
+        "sha256": "bba14b7b868f4d4ebc66b4fc8639f00c4156c935667b56327cecad1d2ce144ce"
+      },
+      {
+        "bytes": 2172,
+        "path": "calls/smol135-q4--short24--control--tool-value-type-a-control-returned.json",
+        "sha256": "99155746516b53d0deae53367b8d20323ea9aa27681524acde12ce1a5ed6149e"
+      },
+      {
+        "bytes": 1558,
+        "path": "calls/smol135-q4--short24--control--tool-value-type-a-control-started.json",
+        "sha256": "9d35d1137bf44a0d414752aef2bebdef6030dc197a024ebc405dafafda7ad555"
+      },
+      {
+        "bytes": 2167,
+        "path": "calls/smol135-q4--short24--control--tool-value-type-b-control-returned.json",
+        "sha256": "5ea946b7ba3f055436e037745eb8b58fdc33eab2059df59b1b14478677203222"
+      },
+      {
+        "bytes": 1562,
+        "path": "calls/smol135-q4--short24--control--tool-value-type-b-control-started.json",
+        "sha256": "93458fba3b453119f9dc661f7a144ae23bdd59a9a1a26801f190a97f2f4f7df6"
+      },
+      {
+        "bytes": 2177,
+        "path": "calls/smol135-q4--short24--control--tool-write-permission-a-control-returned.json",
+        "sha256": "f4cc061621defc4b3549908eaad239e403f1eacaab043fef3df5304582013433"
+      },
+      {
+        "bytes": 1564,
+        "path": "calls/smol135-q4--short24--control--tool-write-permission-a-control-started.json",
+        "sha256": "1624cff2ae6408d84db0ec79b7fe2c423e22d06cd3a7080d9d9cf97dae769705"
+      },
+      {
+        "bytes": 2185,
+        "path": "calls/smol135-q4--short24--control--tool-write-permission-b-control-returned.json",
+        "sha256": "b1d9e57dc94a553c8800ea90ecb5af23a8a5eb3afe06fe8f9ceb8313c3db155b"
+      },
+      {
+        "bytes": 1565,
+        "path": "calls/smol135-q4--short24--control--tool-write-permission-b-control-started.json",
+        "sha256": "1c7f0142a131e95cffa650197038911d2288514e2be159a07ce5235f86a68947"
+      },
+      {
+        "bytes": 2173,
+        "path": "calls/smol135-q4--short24--control--tool-write-quota-a-control-returned.json",
+        "sha256": "a68df45dd64695b5d4be04a6458f9bad9050a214b3d9e37b94c8c90ed0496531"
+      },
+      {
+        "bytes": 1559,
+        "path": "calls/smol135-q4--short24--control--tool-write-quota-a-control-started.json",
+        "sha256": "f3d74c0e50f23c4da720c4a2f5f3f73f0e5287f0246d843985a4af0aff6e53bd"
+      },
+      {
+        "bytes": 2164,
+        "path": "calls/smol135-q4--short24--control--tool-write-quota-b-control-returned.json",
+        "sha256": "f0b2346104ae62165f51d12fada85ca2384939de5f90c738bcfffa77b6c3e2dd"
+      },
+      {
+        "bytes": 1559,
+        "path": "calls/smol135-q4--short24--control--tool-write-quota-b-control-started.json",
+        "sha256": "61c6263520be7a46745aa7b6660db1e695346ccb2c72e843620bc0575f2e058b"
+      },
+      {
+        "bytes": 2179,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-ambiguous-key-a-tool-schema-returned.json",
+        "sha256": "13f26d1e22390c7b23c7dea149eef34846138940a1d1e48c98a88c9f4f58052a"
+      },
+      {
+        "bytes": 1573,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-ambiguous-key-a-tool-schema-started.json",
+        "sha256": "f4614e9bb2fa689305772af278bae0ee0fb40a9f5823fed624973288df6f46d7"
+      },
+      {
+        "bytes": 2196,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-ambiguous-key-b-tool-schema-returned.json",
+        "sha256": "3b63966658f4bffd90de29fcb18360705e907efaa4fb345902b7e4bcf5b9ed47"
+      },
+      {
+        "bytes": 1582,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-ambiguous-key-b-tool-schema-started.json",
+        "sha256": "8059fce6a86aa8d99f42975457c0deeb4360b0417eaba0e0d41415452d84d5e0"
+      },
+      {
+        "bytes": 2188,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-inspect-permission-a-tool-schema-returned.json",
+        "sha256": "8927a276138474b0d4fd616e44a0eab36e64b66283de992786421adc507ba3df"
+      },
+      {
+        "bytes": 1580,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-inspect-permission-a-tool-schema-started.json",
+        "sha256": "4d5e56ba8e8970999bd0c83fab1569b3722ca96ea6ded497acd1764fe736fd54"
+      },
+      {
+        "bytes": 1581,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-inspect-permission-b-tool-schema-started.json",
+        "sha256": "804cda4f80ba87083f33489338b0339042ac22f960feaa4bd5ea809716b0e493"
+      },
+      {
+        "bytes": 2193,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-inspect-permission-b-tool-schema-returned.json",
+        "sha256": "158f0dfa021dfbd1d9e9e8f28506e5a5330f98736278bba605cf01edfae4102a"
+      },
+      {
+        "bytes": 2177,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-missing-key-a-tool-schema-returned.json",
+        "sha256": "4ebc7029bfa6c124c3cd14be97c170717736416ad06623126bf099a17304bfcb"
+      },
+      {
+        "bytes": 1571,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-missing-key-a-tool-schema-started.json",
+        "sha256": "5f8ca8343c936884aef468c5ae012aa450aa8cb0fea4058319cee41ccb05e60e"
+      },
+      {
+        "bytes": 2171,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-missing-key-b-tool-schema-returned.json",
+        "sha256": "8eef14ead2f63d3bdca6023b59d5fee7ef3e95fdb45922de2b5fb3762188cb15"
+      },
+      {
+        "bytes": 1566,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-missing-key-b-tool-schema-started.json",
+        "sha256": "bddf61c364417fd8bb804e24ab9cbfe18cbffe07b2e193ddbc6b9f8419ba800b"
+      },
+      {
+        "bytes": 2181,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-stale-evidence-a-tool-schema-returned.json",
+        "sha256": "9f7011bbfaee5e295877352559e76c433892d4aeb6455cbf9747cae3342fae96"
+      },
+      {
+        "bytes": 1574,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-stale-evidence-a-tool-schema-started.json",
+        "sha256": "7df758fd0b3e7e36afaa8d9a0ef9cee93a4b2e83eda4d6561138aa596006f7c8"
+      },
+      {
+        "bytes": 2185,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-stale-evidence-b-tool-schema-returned.json",
+        "sha256": "95bd8b5f18a4e9e02da0da5a5f42f8a81634dd4649bdf0550adcfa791421ed49"
+      },
+      {
+        "bytes": 1574,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-stale-evidence-b-tool-schema-started.json",
+        "sha256": "66ecf25e2ee9ef68a969bac5a500015f5c8b7f01430230775a869f4eb503efcb"
+      },
+      {
+        "bytes": 1572,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-unknown-tool-a-tool-schema-started.json",
+        "sha256": "b6b9c17e5e687d9c8d94f254cddd8cbfa85b16386342992c9fe44ade36df060e"
+      },
+      {
+        "bytes": 2179,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-unknown-tool-a-tool-schema-returned.json",
+        "sha256": "ef327261dfb02bfa69cb66f84fe64f4ff8c7946603190b8eeb9f3b7e83065e0b"
+      },
+      {
+        "bytes": 2176,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-unknown-tool-b-tool-schema-returned.json",
+        "sha256": "5502cc8a3a1bf0af1904db24c4414a6b0225548b6a0e9fefd4796cfbf722225b"
+      },
+      {
+        "bytes": 1569,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-unknown-tool-b-tool-schema-started.json",
+        "sha256": "9b0815da617d318654ed2373403298aade6fede0529bb4802d1a0e1ac358a743"
+      },
+      {
+        "bytes": 2176,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-value-type-a-tool-schema-returned.json",
+        "sha256": "456fbb6f73970dc84fe18e3b6ddaee15216a87135643ca3f7a31bacfba58dce2"
+      },
+      {
+        "bytes": 1570,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-value-type-a-tool-schema-started.json",
+        "sha256": "0039743ebef0efb14b6fe843ea6fbf180b4b7f314dff0fb58a0bdf9d28a82d86"
+      },
+      {
+        "bytes": 2180,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-value-type-b-tool-schema-returned.json",
+        "sha256": "5687c8ec2027a0e6de8db795c713d8d70a60ef9ca7abc42dffd2096264ad3d90"
+      },
+      {
+        "bytes": 1574,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-value-type-b-tool-schema-started.json",
+        "sha256": "08e82467fee5c4768627ebbe88aac0a1ac65150b4d01a05608ca52dadf943aea"
+      },
+      {
+        "bytes": 2182,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-write-permission-a-tool-schema-returned.json",
+        "sha256": "d072e273f61ff414f6fc1e805cfae018cead81e686ee6912efa220c2be8a124b"
+      },
+      {
+        "bytes": 1576,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-write-permission-a-tool-schema-started.json",
+        "sha256": "4d921929cfbbe98d1c226452d0b266b56dfd7cec1f70ef396d240b15dcbe817d"
+      },
+      {
+        "bytes": 2191,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-write-permission-b-tool-schema-returned.json",
+        "sha256": "6c8975e8b3851f17ef6aea15b6e6ea9862fc7202c984460cc82e72ec6898c672"
+      },
+      {
+        "bytes": 1577,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-write-permission-b-tool-schema-started.json",
+        "sha256": "71b1917c8594778cb317b6625b265be683faf9a4439e0e3049cc4d5de1e9ec20"
+      },
+      {
+        "bytes": 2177,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-write-quota-a-tool-schema-returned.json",
+        "sha256": "a5d4946955707f87fe439cb839aa5554863e58426704454c753a52aafcfda577"
+      },
+      {
+        "bytes": 1571,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-write-quota-a-tool-schema-started.json",
+        "sha256": "862effb52eef199a24c1683c9a84cbd2ada01a42012f7dedb6a0cbb7c6475ae6"
+      },
+      {
+        "bytes": 2182,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-write-quota-b-tool-schema-returned.json",
+        "sha256": "dd9a64fd8d8a2466f1f0d4b3c92b1d4137c61cf5026de800f78ac1b570e9e780"
+      },
+      {
+        "bytes": 1571,
+        "path": "calls/smol135-q4--short24--tool-schema--tool-write-quota-b-tool-schema-started.json",
+        "sha256": "011611a8042cc5bfa5ef4e5810dc7c37b9ea1f11d532562667cd03669ab9d7f8"
+      },
+      {
+        "bytes": 2187,
+        "path": "calls/smol360-q4--long96--control--tool-ambiguous-key-a-control-returned.json",
+        "sha256": "0bedc56a3856ef94ceaebbcca9e9f551aac71eda96685cdcb865b8b88edcd4f2"
+      },
+      {
+        "bytes": 1560,
+        "path": "calls/smol360-q4--long96--control--tool-ambiguous-key-a-control-started.json",
+        "sha256": "0921adf04dc5ccf8c39bbd8c341924429f4776f6ab1a7c21236d80c24b184446"
+      },
+      {
+        "bytes": 1569,
+        "path": "calls/smol360-q4--long96--control--tool-ambiguous-key-b-control-started.json",
+        "sha256": "0dccd74a1dbd05cce7539f7d4583ecd13d2a0ee4dffe0a50e47978d46bf0b408"
+      },
+      {
+        "bytes": 2196,
+        "path": "calls/smol360-q4--long96--control--tool-ambiguous-key-b-control-returned.json",
+        "sha256": "b07cd56af5f8c7ebb2779a9650952a087b664f45362842d5147e9331e53b818e"
+      },
+      {
+        "bytes": 2196,
+        "path": "calls/smol360-q4--long96--control--tool-inspect-permission-a-control-returned.json",
+        "sha256": "f037b92d5c8b486cca36e893b8f5a1e6100451f6c97672b05202aa9e25b40284"
+      },
+      {
+        "bytes": 1567,
+        "path": "calls/smol360-q4--long96--control--tool-inspect-permission-a-control-started.json",
+        "sha256": "df4ec7f1fc7e617ed4cfe4f7515aa27b8f41b8c1b9681c7ad513ba545d4082bc"
+      },
+      {
+        "bytes": 2197,
+        "path": "calls/smol360-q4--long96--control--tool-inspect-permission-b-control-returned.json",
+        "sha256": "7ec41c086ff7b3a831878af4d267c5bdc995c069f7a22734ab50eadd38447be1"
+      },
+      {
+        "bytes": 1568,
+        "path": "calls/smol360-q4--long96--control--tool-inspect-permission-b-control-started.json",
+        "sha256": "c65c3b1abca3c8c177ea92c16a49c6683995b4dc9807372966a2daaad5e9bdfa"
+      },
+      {
+        "bytes": 2185,
+        "path": "calls/smol360-q4--long96--control--tool-missing-key-a-control-returned.json",
+        "sha256": "56091e7a63aea36b6a269218f54a6ddd0c7a73bc0611817acbfd0c97969229dc"
+      },
+      {
+        "bytes": 1558,
+        "path": "calls/smol360-q4--long96--control--tool-missing-key-a-control-started.json",
+        "sha256": "7f64db4eedbbd5d45be567a9748ee6dd231929649899d45e5a0e7100068f409b"
+      },
+      {
+        "bytes": 2178,
+        "path": "calls/smol360-q4--long96--control--tool-missing-key-b-control-returned.json",
+        "sha256": "1bda64471b6669590b38bc25d1d095b9a5aea6039be245a48309889fb3f93ae6"
+      },
+      {
+        "bytes": 1553,
+        "path": "calls/smol360-q4--long96--control--tool-missing-key-b-control-started.json",
+        "sha256": "7d595ba739ebad84ee3c3885e0f715541f3342369ccf54927f9706b0ef35352c"
+      },
+      {
+        "bytes": 2188,
+        "path": "calls/smol360-q4--long96--control--tool-stale-evidence-a-control-returned.json",
+        "sha256": "24561ab9a98459a53da980eabb8805bdf527d7e0a20c85ce4a4df618a576089f"
+      },
+      {
+        "bytes": 1561,
+        "path": "calls/smol360-q4--long96--control--tool-stale-evidence-a-control-started.json",
+        "sha256": "bceac4ae9d4098f1c15f1a77ee97074d6adac74843ae58774239c9e4e63094a1"
+      },
+      {
+        "bytes": 2188,
+        "path": "calls/smol360-q4--long96--control--tool-stale-evidence-b-control-returned.json",
+        "sha256": "3d5b01bcace62b67115ed3d4391e89875b87dc8d2dcde22caa536f27103269cf"
+      },
+      {
+        "bytes": 1561,
+        "path": "calls/smol360-q4--long96--control--tool-stale-evidence-b-control-started.json",
+        "sha256": "02d71eae228288bfe3875f73eb992fbbae598d5b24765fba842869e62f0316e4"
+      },
+      {
+        "bytes": 2186,
+        "path": "calls/smol360-q4--long96--control--tool-unknown-tool-a-control-returned.json",
+        "sha256": "cb515485075712a3d6ac11f20bcf4478e118b623c370a18422c19a99863a6c66"
+      },
+      {
+        "bytes": 1559,
+        "path": "calls/smol360-q4--long96--control--tool-unknown-tool-a-control-started.json",
+        "sha256": "39dfab3463cb3c286819e58194ad2ed573cb3af4877248918f4e79b138c51373"
+      },
+      {
+        "bytes": 2180,
+        "path": "calls/smol360-q4--long96--control--tool-unknown-tool-b-control-returned.json",
+        "sha256": "00a8751c65048e1724f2a04c680b9542fd334a8700138e05778c079b97045981"
+      },
+      {
+        "bytes": 1556,
+        "path": "calls/smol360-q4--long96--control--tool-unknown-tool-b-control-started.json",
+        "sha256": "194e0010c311776b953b8fbfd24c1b8fe82b79e3e2ffc5c12ba8ee49b92a7f8c"
+      },
+      {
+        "bytes": 2184,
+        "path": "calls/smol360-q4--long96--control--tool-value-type-a-control-returned.json",
+        "sha256": "266ff0115680cb8fa99f32c47c714af827a4b181eed05fed6c20a66ab954aab9"
+      },
+      {
+        "bytes": 1557,
+        "path": "calls/smol360-q4--long96--control--tool-value-type-a-control-started.json",
+        "sha256": "c5fe8e98149c309296eb3688c36b42d347ae8251778864b45ab05c4d7aab00d3"
+      },
+      {
+        "bytes": 2192,
+        "path": "calls/smol360-q4--long96--control--tool-value-type-b-control-returned.json",
+        "sha256": "9bf51dbe68cfd77d17691e3feaced08c1631a980601a4c71f9a0a0419122b550"
+      },
+      {
+        "bytes": 1561,
+        "path": "calls/smol360-q4--long96--control--tool-value-type-b-control-started.json",
+        "sha256": "696da7ee4a333e5837fcbe1825502d05637a7782b1ebad12e2ab2e6d57ab912c"
+      },
+      {
+        "bytes": 2190,
+        "path": "calls/smol360-q4--long96--control--tool-write-permission-a-control-returned.json",
+        "sha256": "27a689e695565deb2cdc329ca3e60405d2d9fd43dc6a844dc1085de2b05c8d4a"
+      },
+      {
+        "bytes": 1563,
+        "path": "calls/smol360-q4--long96--control--tool-write-permission-a-control-started.json",
+        "sha256": "937b827870413f30789de5ff5c9a49df9da3bfafb02286f3f1d724e396b69c14"
+      },
+      {
+        "bytes": 1564,
+        "path": "calls/smol360-q4--long96--control--tool-write-permission-b-control-started.json",
+        "sha256": "fd242f0d59a0621f7958f5799e68ef26429cc2c0bb82d2525bbe126c82c392f5"
+      },
+      {
+        "bytes": 2191,
+        "path": "calls/smol360-q4--long96--control--tool-write-permission-b-control-returned.json",
+        "sha256": "059845f9b42fc587255ed0270c94efb5117b37c0a81116451af4455a57d00746"
+      },
+      {
+        "bytes": 2185,
+        "path": "calls/smol360-q4--long96--control--tool-write-quota-a-control-returned.json",
+        "sha256": "57381b8fefaf990368cfb19d5308cb87d49c1d34839fb251ea5fa3e72e33ee2b"
+      },
+      {
+        "bytes": 1558,
+        "path": "calls/smol360-q4--long96--control--tool-write-quota-a-control-started.json",
+        "sha256": "e916be12b47a7fc87fc212ac4a5afd6deedfbf3d24826343040cf154f53d6d22"
+      },
+      {
+        "bytes": 2185,
+        "path": "calls/smol360-q4--long96--control--tool-write-quota-b-control-returned.json",
+        "sha256": "47314452ddedfe632391a59b67ee4f46f6e8fed48dd72cc2bd6e35d2e4c4e1b8"
+      },
+      {
+        "bytes": 1558,
+        "path": "calls/smol360-q4--long96--control--tool-write-quota-b-control-started.json",
+        "sha256": "5457e167b34f83eabe9f5b3e0fc64436103e04acfd8178c3d5f5e2ba3804dc83"
+      },
+      {
+        "bytes": 2199,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-ambiguous-key-a-tool-schema-returned.json",
+        "sha256": "066a2e589384140d5ca7a73094aa303a4abd4c9d7c03d3cdfe150fe802f1e4c5"
+      },
+      {
+        "bytes": 1572,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-ambiguous-key-a-tool-schema-started.json",
+        "sha256": "ebf928caee746abc1c3cd584124a66c4b2d3df051b8a37acef8689d9ce1914ee"
+      },
+      {
+        "bytes": 2208,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-ambiguous-key-b-tool-schema-returned.json",
+        "sha256": "7f141820a6619dbacc569a077a26f90d2fcba9857b21c2ff4738c33bf7ed782a"
+      },
+      {
+        "bytes": 1581,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-ambiguous-key-b-tool-schema-started.json",
+        "sha256": "285843076a2340664b18b7c5bc4c12b84f69d6b9c1a70f498b1d0dc1f4dc8f64"
+      },
+      {
+        "bytes": 2208,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-inspect-permission-a-tool-schema-returned.json",
+        "sha256": "1c0483dcf6728b6b1018789f0867cee5f2157e5e5897648cff9b7a0efa1702fb"
+      },
+      {
+        "bytes": 1579,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-inspect-permission-a-tool-schema-started.json",
+        "sha256": "a7cfdb4fcd59729f6258f6b37d1ed9cfecbee5fd8d88fa5d811a1fbf7415ad6b"
+      },
+      {
+        "bytes": 2209,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-inspect-permission-b-tool-schema-returned.json",
+        "sha256": "f225fed5d826721f4086927cc6a30c11e3e3219a178d8889c3633193f11c2642"
+      },
+      {
+        "bytes": 1580,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-inspect-permission-b-tool-schema-started.json",
+        "sha256": "294f5119b39dd3cfcc2bf5354a3cc76246f536f5f933fdc6ce47577c83259512"
+      },
+      {
+        "bytes": 2197,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-missing-key-a-tool-schema-returned.json",
+        "sha256": "990cf25dd702b4dc993609ba79dbd1ee6169ccc47d06f18127865d28a6af2dc6"
+      },
+      {
+        "bytes": 1570,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-missing-key-a-tool-schema-started.json",
+        "sha256": "5f896567e48f8bd0d3e6e411fa9fdec14cf881657925d9d527bd8f1d8413bbac"
+      },
+      {
+        "bytes": 2190,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-missing-key-b-tool-schema-returned.json",
+        "sha256": "f7c87ddb1d2b9137e3d3ac4185a4808f1b060e493c57e16437b7a9c345c5b2bb"
+      },
+      {
+        "bytes": 1565,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-missing-key-b-tool-schema-started.json",
+        "sha256": "2ed3ae639cd56133456bc20903665ec1c230a7d59122d1bb10bc436589323cf9"
+      },
+      {
+        "bytes": 2200,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-stale-evidence-a-tool-schema-returned.json",
+        "sha256": "5f31ac6223eb8f22dead678f2ce0033deb62e41fa091e8144656e15d69fa8226"
+      },
+      {
+        "bytes": 1573,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-stale-evidence-a-tool-schema-started.json",
+        "sha256": "cce60f3a966fb8eade9092019bae90eaa7a2f4f13aa9cdededf4157015e0988a"
+      },
+      {
+        "bytes": 2200,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-stale-evidence-b-tool-schema-returned.json",
+        "sha256": "edcbae0d697f3295ca6a6e54932e1d3e4de1571cf64db73fc54ee6fa95850b79"
+      },
+      {
+        "bytes": 1573,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-stale-evidence-b-tool-schema-started.json",
+        "sha256": "7f0458751548bfcbbd92475bdedc6ce8cc98f7b610012ae8d3d754861a998831"
+      },
+      {
+        "bytes": 2198,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-unknown-tool-a-tool-schema-returned.json",
+        "sha256": "8132da31887ad9e9f0832d9c90d4e420ae43c2d016cd6716bffafa255ced452f"
+      },
+      {
+        "bytes": 1571,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-unknown-tool-a-tool-schema-started.json",
+        "sha256": "2dae40c7ae9b2dd418be0e108c3b8fc6cb521c06e50557e3edf94344141ad916"
+      },
+      {
+        "bytes": 2190,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-unknown-tool-b-tool-schema-returned.json",
+        "sha256": "eab9261f7776d3795647ca80df42595fef5a70c0712989ba36515ae944aae02c"
+      },
+      {
+        "bytes": 1568,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-unknown-tool-b-tool-schema-started.json",
+        "sha256": "6bfbb447c2b387249c6a86fc23ae17e37e5389c31d093ad67ed0bdc8e09740bc"
+      },
+      {
+        "bytes": 2196,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-value-type-a-tool-schema-returned.json",
+        "sha256": "a3f51f3e1c347adcf35c60c6e39d63ad598ecda1e6641a358d8a8fd1d1aed10a"
+      },
+      {
+        "bytes": 1569,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-value-type-a-tool-schema-started.json",
+        "sha256": "1c03a0f60f6c3ef6b07ee0a50913a4d4d27bad4b4f5df75d695e56b6d22aa452"
+      },
+      {
+        "bytes": 1573,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-value-type-b-tool-schema-started.json",
+        "sha256": "1bba54124f503cb3d7c83c224c081f2ad11348f3128d519102c6aad500869d63"
+      },
+      {
+        "bytes": 2200,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-value-type-b-tool-schema-returned.json",
+        "sha256": "2d32121a5dbdbc71ed6266533ba57d7627eac78fe3eaea14adcac862cfc00abd"
+      },
+      {
+        "bytes": 2202,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-write-permission-a-tool-schema-returned.json",
+        "sha256": "f4249d94095e1d5c68d3ee0853eb4d63f696f26f4859c144cdc3936165c56e31"
+      },
+      {
+        "bytes": 1575,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-write-permission-a-tool-schema-started.json",
+        "sha256": "46b34a84212d23049c888e38992d5dd8c5c90c2be80df32a598abb3175345eaa"
+      },
+      {
+        "bytes": 1576,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-write-permission-b-tool-schema-started.json",
+        "sha256": "93c954f8535668224a77b4250c624f1775003c8df3ace1da91bf77816a980254"
+      },
+      {
+        "bytes": 2203,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-write-permission-b-tool-schema-returned.json",
+        "sha256": "0414df4afd28e23e6eadf941184a9caca9a7d29a18893445ef5222c48f0d6aaf"
+      },
+      {
+        "bytes": 2197,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-write-quota-a-tool-schema-returned.json",
+        "sha256": "23f78086fa95f18d38423fdfc0272eeeff8b439a969403093f1a5ad737998993"
+      },
+      {
+        "bytes": 1570,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-write-quota-a-tool-schema-started.json",
+        "sha256": "1ffbe5e21b9893aaaabc4835c242c583041cbff258bca6d599a204f66f729df2"
+      },
+      {
+        "bytes": 2197,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-write-quota-b-tool-schema-returned.json",
+        "sha256": "1a130bc8794d992dc0a901b1ed741d7599415b44048b3d490d8a6ca8c45fb7f1"
+      },
+      {
+        "bytes": 2169,
+        "path": "calls/smol360-q4--short24--control--tool-ambiguous-key-a-control-returned.json",
+        "sha256": "2df0012eadcd2fc5b4ee67879af31d7c7f9ba6bc5a6ce1f149853d6435b39dad"
+      },
+      {
+        "bytes": 1570,
+        "path": "calls/smol360-q4--long96--tool-schema--tool-write-quota-b-tool-schema-started.json",
+        "sha256": "0a76f4918542294662cc9be2783e09501c81e0e757df0c8413dd3582126c6e38"
+      },
+      {
+        "bytes": 1561,
+        "path": "calls/smol360-q4--short24--control--tool-ambiguous-key-a-control-started.json",
+        "sha256": "e967aa1ccb95ca493f925156511358bfd4f1ab7d5193f085e8c9de5bf0a746bc"
+      },
+      {
+        "bytes": 2178,
+        "path": "calls/smol360-q4--short24--control--tool-ambiguous-key-b-control-returned.json",
+        "sha256": "f8481d9a764907d69fe0df6fbfa1e7a689b2a85845e0635619c4a6b1f5ca3d0d"
+      },
+      {
+        "bytes": 1570,
+        "path": "calls/smol360-q4--short24--control--tool-ambiguous-key-b-control-started.json",
+        "sha256": "bb513d9640460bb4da869abf53ecc4ce725721a48e69df3d9269fb71bbd1e58c"
+      },
+      {
+        "bytes": 2176,
+        "path": "calls/smol360-q4--short24--control--tool-inspect-permission-a-control-returned.json",
+        "sha256": "744461c5e527e364e88c8c3f181a1de0fb449503272263c6406b95a25f036a30"
+      },
+      {
+        "bytes": 1568,
+        "path": "calls/smol360-q4--short24--control--tool-inspect-permission-a-control-started.json",
+        "sha256": "6b96bf30d71ab4ba3fef76ac92ee959067748dbef2aa85a4a97b972ddefe7a65"
+      },
+      {
+        "bytes": 2177,
+        "path": "calls/smol360-q4--short24--control--tool-inspect-permission-b-control-returned.json",
+        "sha256": "c8deaa3584c6579117ab0ffcdcb3f5ae37ccea2107b08df6c44b0cbe8d8c1e0a"
+      },
+      {
+        "bytes": 1569,
+        "path": "calls/smol360-q4--short24--control--tool-inspect-permission-b-control-started.json",
+        "sha256": "49d3690ebb1182655172d0a20f19478a58a2e453e969fff50d91d43110512b10"
+      },
+      {
+        "bytes": 2167,
+        "path": "calls/smol360-q4--short24--control--tool-missing-key-a-control-returned.json",
+        "sha256": "63bd0a67833394fe6257b91c9089d92ff2b886580af68ea382cf7782676d995c"
+      },
+      {
+        "bytes": 1559,
+        "path": "calls/smol360-q4--short24--control--tool-missing-key-a-control-started.json",
+        "sha256": "5f199044f94c6aadfa5619d3a30b82554b6e485b0bbe7604ab608f10dc5c2527"
+      },
+      {
+        "bytes": 2165,
+        "path": "calls/smol360-q4--short24--control--tool-missing-key-b-control-returned.json",
+        "sha256": "7d59e1fc64e5cd59024b9099d07b863706d5f7ec5bddf3c15c47d7113a114545"
+      },
+      {
+        "bytes": 1554,
+        "path": "calls/smol360-q4--short24--control--tool-missing-key-b-control-started.json",
+        "sha256": "54f73deded9cb2406c7794020398b672ef3720cc8cba110566fa18e34ca10e7e"
+      },
+      {
+        "bytes": 2170,
+        "path": "calls/smol360-q4--short24--control--tool-stale-evidence-a-control-returned.json",
+        "sha256": "6baedf13161df613139a8826125373ce527f0719ebfada1676006476fe248f0f"
+      },
+      {
+        "bytes": 1562,
+        "path": "calls/smol360-q4--short24--control--tool-stale-evidence-a-control-started.json",
+        "sha256": "fc228b7a11149860ed5a8ce8550a3036f274b555e4567e190ca79e6221470aa8"
+      },
+      {
+        "bytes": 2170,
+        "path": "calls/smol360-q4--short24--control--tool-stale-evidence-b-control-returned.json",
+        "sha256": "ec26e993ddff453d96eb718e43599ceb48531d7aca5c51fe945f98c620151ec4"
+      },
+      {
+        "bytes": 2168,
+        "path": "calls/smol360-q4--short24--control--tool-unknown-tool-a-control-returned.json",
+        "sha256": "6e3bbfa639516f28665db72ea43dae935bcc6130d532ee918713995362e0a140"
+      },
+      {
+        "bytes": 1562,
+        "path": "calls/smol360-q4--short24--control--tool-stale-evidence-b-control-started.json",
+        "sha256": "7337e8e8a84838b8a016049f7cca00bb8c17b2719e31f3b989626a65afd4d703"
+      },
+      {
+        "bytes": 1560,
+        "path": "calls/smol360-q4--short24--control--tool-unknown-tool-a-control-started.json",
+        "sha256": "de35464f14a11fe483594d8d191d9358cff1a21b83336e36738ed14afbd50df3"
+      },
+      {
+        "bytes": 2160,
+        "path": "calls/smol360-q4--short24--control--tool-unknown-tool-b-control-returned.json",
+        "sha256": "57e849107f9e9ec784f9a8fc9d1fc43abf520af42ee51c1318dea44d5003b65b"
+      },
+      {
+        "bytes": 1557,
+        "path": "calls/smol360-q4--short24--control--tool-unknown-tool-b-control-started.json",
+        "sha256": "4e4e936c0ed459f23fa5ac2a00fe5b3c130e49be5e34f8c32221fb16cd887a06"
+      },
+      {
+        "bytes": 2166,
+        "path": "calls/smol360-q4--short24--control--tool-value-type-a-control-returned.json",
+        "sha256": "d3898702e4ad9da0f05db527dd9f55c2bda8fa2caf6fe1759b0b3f59c3169d3a"
+      },
+      {
+        "bytes": 1558,
+        "path": "calls/smol360-q4--short24--control--tool-value-type-a-control-started.json",
+        "sha256": "f7d3328edf5bb34dfb7d511918105b684065b527b192d762b9ed6b8a3bdc30ac"
+      },
+      {
+        "bytes": 2174,
+        "path": "calls/smol360-q4--short24--control--tool-value-type-b-control-returned.json",
+        "sha256": "eef2a2e2bb954effc21896a99505514f77750aa55d792e2bba0e463ec8dfeff1"
+      },
+      {
+        "bytes": 1562,
+        "path": "calls/smol360-q4--short24--control--tool-value-type-b-control-started.json",
+        "sha256": "1f16f057c9656bcfdfa9ee2a7a1716764d7adcac940d76aa4392b272097f5683"
+      },
+      {
+        "bytes": 2172,
+        "path": "calls/smol360-q4--short24--control--tool-write-permission-a-control-returned.json",
+        "sha256": "72dd5a3a5fe6200cbd25d72be8bd6a0c8c5a43a7e92456fa0e0e85de20c33526"
+      },
+      {
+        "bytes": 1564,
+        "path": "calls/smol360-q4--short24--control--tool-write-permission-a-control-started.json",
+        "sha256": "b9d8b077542013e85e891243f87ac0203cfbf51a504aef61f1eafa23af8afd44"
+      },
+      {
+        "bytes": 2173,
+        "path": "calls/smol360-q4--short24--control--tool-write-permission-b-control-returned.json",
+        "sha256": "c54b3cb8a1de8e4a7f9465eafacc76787a309cf05a694f41b8d8665c8cb830a4"
+      },
+      {
+        "bytes": 1565,
+        "path": "calls/smol360-q4--short24--control--tool-write-permission-b-control-started.json",
+        "sha256": "d033f112101e0201c574a9d204224f89caa684a69fb78c34b1cf5f69f37b01a5"
+      },
+      {
+        "bytes": 2167,
+        "path": "calls/smol360-q4--short24--control--tool-write-quota-a-control-returned.json",
+        "sha256": "fcbe44000f295b75fbb3df3088d046f5c7c0cd8c492bae570941c7eaf7b11d92"
+      },
+      {
+        "bytes": 1559,
+        "path": "calls/smol360-q4--short24--control--tool-write-quota-a-control-started.json",
+        "sha256": "8483e852fbd7123344d16c87669ab7131b9c96114b23205c5b2a3183b685a1e1"
+      },
+      {
+        "bytes": 2167,
+        "path": "calls/smol360-q4--short24--control--tool-write-quota-b-control-returned.json",
+        "sha256": "1b633aff35ab03c6c4c39067ff61e698f9b6736e45a220ebc07f9656437b9b9f"
+      },
+      {
+        "bytes": 1559,
+        "path": "calls/smol360-q4--short24--control--tool-write-quota-b-control-started.json",
+        "sha256": "c5e4b8d7417ddd6135cef593b43d9e1466f3ecb9dba4a1107fd50d0b334d3ea6"
+      },
+      {
+        "bytes": 2181,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-ambiguous-key-a-tool-schema-returned.json",
+        "sha256": "a38803fc5f1ffd62f242fc0c6dd3676432e26d7f5aab9d32bf80632e078695d3"
+      },
+      {
+        "bytes": 1573,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-ambiguous-key-a-tool-schema-started.json",
+        "sha256": "720361784cf3ed9dc3c034b26d2adb1beacc258d698802063edd328abd8526d5"
+      },
+      {
+        "bytes": 2190,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-ambiguous-key-b-tool-schema-returned.json",
+        "sha256": "0db8fee786e9547e8bf7e0d94891631efb461506b1b4e9d42148c71502d8ca38"
+      },
+      {
+        "bytes": 1582,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-ambiguous-key-b-tool-schema-started.json",
+        "sha256": "404976e30e425f90572f1a1be981dfa0517c678ebc0952b77ddba9d98485a359"
+      },
+      {
+        "bytes": 2188,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-inspect-permission-a-tool-schema-returned.json",
+        "sha256": "c22b0d832d7b635e4f68bbc799fa4901a1d9a7b0a44ad1236fb24897255bcc6b"
+      },
+      {
+        "bytes": 1580,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-inspect-permission-a-tool-schema-started.json",
+        "sha256": "774ababff4563a991cdefb80187aef892e00aea89169a8e5433479c7a0346603"
+      },
+      {
+        "bytes": 2189,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-inspect-permission-b-tool-schema-returned.json",
+        "sha256": "fec8b9fee43d49f4d3d4cd7ddb8cdb8b1296ab9c99795a101d322a4ae165a44d"
+      },
+      {
+        "bytes": 1581,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-inspect-permission-b-tool-schema-started.json",
+        "sha256": "b2b37ad210dd32fe47558bf352c3ac88abfcddae70377eab47c93bc78c62cdd2"
+      },
+      {
+        "bytes": 2179,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-missing-key-a-tool-schema-returned.json",
+        "sha256": "0a8ba11e418a018a7e755f77abd6aae99bef64942626524a0b40327472a76529"
+      },
+      {
+        "bytes": 1571,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-missing-key-a-tool-schema-started.json",
+        "sha256": "37c3c0dddfcc6ab6b29d891a0ea72f6ad7cb02d3fdb4280e1383de9534574183"
+      },
+      {
+        "bytes": 2177,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-missing-key-b-tool-schema-returned.json",
+        "sha256": "f8d8fd74eda846f238ff1e43b801ebe5f3fb1715985749924df795868379ef78"
+      },
+      {
+        "bytes": 2182,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-stale-evidence-a-tool-schema-returned.json",
+        "sha256": "e54ffce325b4f929985bbe4c88216a62c39c3f5f13f8b742ea9727bbf949359c"
+      },
+      {
+        "bytes": 1566,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-missing-key-b-tool-schema-started.json",
+        "sha256": "9a461df8255e633ad7f68a7a72544f18d631d35fd856adbf651d774d2fc850ad"
+      },
+      {
+        "bytes": 1574,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-stale-evidence-a-tool-schema-started.json",
+        "sha256": "00c3f29f2683da7ffa6be2b47e8185d17c73f1ef7deab80bb90f10d036c31781"
+      },
+      {
+        "bytes": 2182,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-stale-evidence-b-tool-schema-returned.json",
+        "sha256": "09b0cd48e27c490d1e7b547aa745f2effb5dea4a74a7f70d898debf421e152bd"
+      },
+      {
+        "bytes": 1574,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-stale-evidence-b-tool-schema-started.json",
+        "sha256": "b0d2eef0b0a6921c0e924ed0931ceeec91e9b64f28b49867ce5735cc971e2a13"
+      },
+      {
+        "bytes": 2180,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-unknown-tool-a-tool-schema-returned.json",
+        "sha256": "fb80352d40da47bfb3e49a8e98de7af0fb54361fa0189075bc1f2688e64e4a0e"
+      },
+      {
+        "bytes": 1572,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-unknown-tool-a-tool-schema-started.json",
+        "sha256": "4ee3f1a61e6954ad412358aa96dfd9ac07d9d0209add97c7eb2b38cc2ff1f99b"
+      },
+      {
+        "bytes": 1569,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-unknown-tool-b-tool-schema-started.json",
+        "sha256": "c9954a509c42f61c7fbb0841acabda2ae2fba4becc604107c85544e210d92ae2"
+      },
+      {
+        "bytes": 2179,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-unknown-tool-b-tool-schema-returned.json",
+        "sha256": "7745a15138d594191c0c561be43ece1470f7f5c6201f81faaa337da409c7e97d"
+      },
+      {
+        "bytes": 2178,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-value-type-a-tool-schema-returned.json",
+        "sha256": "32424f3cadb55316f58bb779c040c2f2ec47ba98a9ad1d8529293ea6ff235b32"
+      },
+      {
+        "bytes": 1570,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-value-type-a-tool-schema-started.json",
+        "sha256": "e94dc4afa3d8128872e49fcd0bc3f23bf86c7ea242351a57d460847a259b3851"
+      },
+      {
+        "bytes": 2182,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-value-type-b-tool-schema-returned.json",
+        "sha256": "7a52fc02187fc3ef380675fe69bd2e72a58acd00aa8b43ccc316910c919bb9c3"
+      },
+      {
+        "bytes": 1574,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-value-type-b-tool-schema-started.json",
+        "sha256": "a1bc95f1a6dd49226c0c82132afc5233f4cd771ae3ecebb2fe029776ee684f3a"
+      },
+      {
+        "bytes": 2184,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-write-permission-a-tool-schema-returned.json",
+        "sha256": "380100a19cc0815c212ec3cbe214d7efd5d6310968926e7646e9dcbda46266ef"
+      },
+      {
+        "bytes": 1576,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-write-permission-a-tool-schema-started.json",
+        "sha256": "0dfd582df6fbf251e9ad54b4ec4bec0261fd1f3dbfbb75b8385f378f473cd480"
+      },
+      {
+        "bytes": 2185,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-write-permission-b-tool-schema-returned.json",
+        "sha256": "1882f2ae13708ef478d556445aa0080c84ae0bf1371a51cea96c6945f54145b2"
+      },
+      {
+        "bytes": 1577,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-write-permission-b-tool-schema-started.json",
+        "sha256": "7df7b8ea8010be7c524c66991342b27a67f40448adcda58a1695d56b73f800fc"
+      },
+      {
+        "bytes": 2179,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-write-quota-a-tool-schema-returned.json",
+        "sha256": "619ad84ca5678bbdaf0eb2b991c7eabb527ab694895ea2e8f86c1ebd2d263c75"
+      },
+      {
+        "bytes": 1571,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-write-quota-a-tool-schema-started.json",
+        "sha256": "0ccad0d92ef697867a58b5aab8ac97281803b32dc8f982418452f8ff68f6bdc8"
+      },
+      {
+        "bytes": 2179,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-write-quota-b-tool-schema-returned.json",
+        "sha256": "e23fb6d933d7f736b151aa7b07917f5c79512a9f773a0157e0439ede1b889abb"
+      },
+      {
+        "bytes": 1571,
+        "path": "calls/smol360-q4--short24--tool-schema--tool-write-quota-b-tool-schema-started.json",
+        "sha256": "30686ba82563479741ea23e0cc16f8d6982257a8bbf2e3b5a81b67a272a46802"
+      },
+      {
+        "bytes": 456,
+        "path": "consumer-pins.json",
+        "sha256": "2f97a055989b555bd283afeca87ff27be1de654d6d645b1f839c64646bf8129c"
+      },
+      {
+        "bytes": 1052,
+        "path": "declaration.json",
+        "sha256": "a426e7c9a5f3802edf79221ac9280de452ca5c143078b4db365e61cd24384cbf"
+      },
+      {
+        "bytes": 154,
+        "path": "inference-terminal.json",
+        "sha256": "9f4ef98f0e3a5dbb18ca7c554285356800a2477f08571e2eb4777f500ee7e45b"
+      },
+      {
+        "bytes": 46022,
+        "path": "manifest.json",
+        "sha256": "f3d4a12d57e7ce1a20b0143e8adcf509582f1b9ab035374df1853282a6ce232d"
+      },
+      {
+        "bytes": 76540,
+        "path": "protocol.json",
+        "sha256": "f62ded1a32862839da80a80f8e871ef6cda4acc8c30363367cccf6bec9e92c97"
+      },
+      {
+        "bytes": 81221,
+        "path": "report.json",
+        "sha256": "92b0a21e5fe5efc682e7b6c287a850e28847f33b4515b1a02155ad706bb673ba"
+      },
+      {
+        "bytes": 4017,
+        "path": "sources/build_installed_reader.py",
+        "sha256": "aaa5a7b0b8ab951639f01e6a52810dae628d6976d0b4598bd8e68a36d5f1b277"
+      },
+      {
+        "bytes": 5001,
+        "path": "sources/consume_actual.py",
+        "sha256": "6cbbd0b6cbec598a83bb936c3e62003f5d2a0506addd50194bfb4b8fc0666f43"
+      },
+      {
+        "bytes": 6331,
+        "path": "sources/evidence_io.py",
+        "sha256": "be10f659bb1b906b84e83503fb8baca281913f8c2cd52e5fd4c3c35d01694580"
+      },
+      {
+        "bytes": 7238,
+        "path": "sources/execute_guard.py",
+        "sha256": "988ea1ec6ecd727f7f405bb199cf04574ccbc6d5b59c75916fcbc2fee977ae95"
+      },
+      {
+        "bytes": 2571,
+        "path": "sources/execution_contract.py",
+        "sha256": "a0ce62e6e840a8b88263056ac3e14a385f87ee3e020f9be987afe80683eaa418"
+      },
+      {
+        "bytes": 1552,
+        "path": "sources/grammars/control.gbnf",
+        "sha256": "c23e56829a7449cecc2ca99fb9d5fc21d422b6fb0218f7f6ab33297f66537caf"
+      },
+      {
+        "bytes": 988,
+        "path": "sources/grammars/tool-schema.gbnf",
+        "sha256": "e3ec2776d62afd99230381b9e4e9a99cc7f86f20ae9cf62fde3e5f32881497ba"
+      },
+      {
+        "bytes": 70,
+        "path": "sources/llama/__init__.py",
+        "sha256": "4c2a5af3fc96d346a6e80f6eaab84298b744daefa930040cb66dab6a24956ce1"
+      },
+      {
+        "bytes": 4085,
+        "path": "sources/llama/_ctypes_extensions.py",
+        "sha256": "9e5241832feb61e3c439b0e9e4d9a9ff4e7a6a54b0809a8f5995f0175d841876"
+      },
+      {
+        "bytes": 369,
+        "path": "sources/llama/_ggml.py",
+        "sha256": "0df174a6f6dda3b8880b8b09ca72c0e1e7c60182b34cc9a26b6e4ff5d5cb62e4"
+      },
+      {
+        "bytes": 29562,
+        "path": "sources/llama/_internals.py",
+        "sha256": "ca4dfec07dd99f3bce88f5b85abeca02371b06d2f9ac8e3c2131e8c289719362"
+      },
+      {
+        "bytes": 1309,
+        "path": "sources/llama/_logger.py",
+        "sha256": "71ca61bea0e1423885465b88706eda54ea02b3810a9ef1ab142e66bc49bc9358"
+      },
+      {
+        "bytes": 2260,
+        "path": "sources/llama/_utils.py",
+        "sha256": "69d6ee0d03fa2a5411a6f40f49b3af7c3ef28aa47957399e75ab904d1b4cd587"
+      },
+      {
+        "bytes": 657256,
+        "path": "sources/llama/lib/libggml-base.so",
+        "sha256": "0969e023c61eb42b8c3baf5e99cddb563d390f405c2812ebc8fc0abf24bc5199"
+      },
+      {
+        "bytes": 791688,
+        "path": "sources/llama/lib/libggml-cpu.so",
+        "sha256": "07adada1a880ede4cf7fa9c89048fd7c6ea88fea777baf79f6b94e6569bfb942"
+      },
+      {
+        "bytes": 2209048,
+        "path": "sources/llama/lib/libllama.so",
+        "sha256": "fe9aabde799eb0d7b39ccef8b48eba3fa6d1f937c7b26e076a7aaab2ac4ad09a"
+      },
+      {
+        "bytes": 51920,
+        "path": "sources/llama/lib/libggml.so",
+        "sha256": "4d5ca9cfaa69176a53193698c572a67c5198b79f902b6b69197395cc7ae8e3d7"
+      },
+      {
+        "bytes": 730848,
+        "path": "sources/llama/lib/libmtmd.so",
+        "sha256": "401ee4a279187480175cb69953cc8482480f8366d318907fb8d66ef40da3893a"
+      },
+      {
+        "bytes": 96173,
+        "path": "sources/llama/llama.py",
+        "sha256": "334b15f16ec31de65adea58c85dbd04057f88749cade66a7adf42684c4d010d8"
+      },
+      {
+        "bytes": 5010,
+        "path": "sources/llama/llama_cache.py",
+        "sha256": "a3cb101cbd5e06f88366b12a73c131a54c24f83bc8085b64c5035a8c671bdc69"
+      },
+      {
+        "bytes": 157215,
+        "path": "sources/llama/llama_chat_format.py",
+        "sha256": "35de04fc3e16b61f6d7044cd961e6980252c9def2ce24f58fcd5265aac38e18c"
+      },
+      {
+        "bytes": 152717,
+        "path": "sources/llama/llama_cpp.py",
+        "sha256": "4b27f8e92537cfd01ae20341745c5a22704be811ffbf3ef9efa66ba644404921"
+      },
+      {
+        "bytes": 32913,
+        "path": "sources/llama/llama_grammar.py",
+        "sha256": "4d39699197909f4aa98f45086c824bd0521fbeb27c7aaee249a723c62e1d0dd8"
+      },
+      {
+        "bytes": 2088,
+        "path": "sources/llama/llama_speculative.py",
+        "sha256": "37dabf1ee9aad01d82da6d5e69fbc0a37cdebd7ac5bc042cac8ead4e3d6fb6ba"
+      },
+      {
+        "bytes": 3876,
+        "path": "sources/llama/llama_tokenizer.py",
+        "sha256": "482e57da563dd537fba8c5d2ae09dc352c3054dfd8622957a2cb919b8478ca9f"
+      },
+      {
+        "bytes": 8666,
+        "path": "sources/llama/llama_types.py",
+        "sha256": "103a91a9f890d7f314c1f85173ae5e1efd2c12139202ffd4307fb754c055859e"
+      },
+      {
+        "bytes": 4552,
+        "path": "sources/llama/llava_cpp.py",
+        "sha256": "e6d0d9ac2f4195bef5021a49d3be026af92e8f065015483acbe67642c2c0fb41"
+      },
+      {
+        "bytes": 8834,
+        "path": "sources/llama/mtmd_cpp.py",
+        "sha256": "e52851c5e6aaf3d0e0c161271c3faa2d7249ff283781bea472bf725f55ea7930"
+      },
+      {
+        "bytes": 0,
+        "path": "sources/llama/server/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 2849,
+        "path": "sources/llama/server/__main__.py",
+        "sha256": "1cbf72bcf5f497b172fc1e2dec96e892e714f425f95270b1e284549c18a4b696"
+      },
+      {
+        "bytes": 19572,
+        "path": "sources/llama/server/app.py",
+        "sha256": "7a968a6f4bf386524d8aef79cd9eed8151dfc082c43d2e86dec201297e4950da"
+      },
+      {
+        "bytes": 3268,
+        "path": "sources/llama/server/cli.py",
+        "sha256": "996f0d032f3e19ca7eb824b2bcb3486b1011227b693dc0f5fcad647221d18524"
+      },
+      {
+        "bytes": 7164,
+        "path": "sources/llama/server/errors.py",
+        "sha256": "ca5f95333829d58d233b7a4c137e78ef99c44f5442c2746db213ecf481e173b3"
+      },
+      {
+        "bytes": 13556,
+        "path": "sources/llama/server/model.py",
+        "sha256": "a2c3e2f35a2120de7c00053fb04de863a7b0ea2c1f4e7c15047ce763c314e8d4"
+      },
+      {
+        "bytes": 8566,
+        "path": "sources/llama/server/settings.py",
+        "sha256": "cd5722e3a06350ac748122462a3211f04f685abae3e6cdc7aa3da12e7e577777"
+      },
+      {
+        "bytes": 12216,
+        "path": "sources/llama/server/types.py",
+        "sha256": "a6c5b3b848df178537924b341d113aeee8b33239a5f2039ffb35efa6c96522bb"
+      },
+      {
+        "bytes": 1069,
+        "path": "sources/llama-cpp-python/LICENSE.md",
+        "sha256": "c479fb11a66a85fed2004a17dd1b3e44a1858c564b167aecb20ff66cb422ed75"
+      },
+      {
+        "bytes": 33608,
+        "path": "sources/llama-cpp-python/METADATA.txt",
+        "sha256": "124186f5883bd7bf1adb1cb380fc012d9d4de5dcb6e30375a298e0b0c0f56b41"
+      },
+      {
+        "bytes": 17493,
+        "path": "sources/native_runner.py",
+        "sha256": "2b2091e5e707cef3692b6d6d36d413d7676be1e5b3cfaf42bf961a77c1faa3a6"
+      },
+      {
+        "bytes": 13261,
+        "path": "sources/protocol_builder.py",
+        "sha256": "579ca4f3c7198db3f4da85b1a07c9dde1545536a8293fcfcc14f6536fe30268e"
+      },
+      {
+        "bytes": 18416,
+        "path": "sources/reader.py",
+        "sha256": "09df8624c0b0f6b7d5bf3ea7f0efc0521a845d6f45eeac08716c4c2236e440e0"
+      },
+      {
+        "bytes": 27899,
+        "path": "sources/reusable_runtime.py",
+        "sha256": "33ed0f47e67aacbb6d1c641c767c883c1f5fc859a0fef21a8eac7475e0b3c36e"
+      },
+      {
+        "bytes": 851,
+        "path": "sources/reuse/archive-accounting.json",
+        "sha256": "38049cda8fdf8c9f13c1bb6d380ad1f3b52fb0776ed73fbab1c0fd36ac013624"
+      },
+      {
+        "bytes": 1037019,
+        "path": "sources/reuse/installation.json",
+        "sha256": "ebfe77a27be560a2881b60573c17144e232bc56154d2290eef65ac3e3b053967"
+      },
+      {
+        "bytes": 958,
+        "path": "sources/reuse/original/build-gcc.log",
+        "sha256": "4f9b02b1028bc8535709d214cb65124d990e071fc78d45331af0d755b5212b80"
+      },
+      {
+        "bytes": 7304,
+        "path": "sources/reuse/original/candidate-original-README.txt",
+        "sha256": "6b88794416ac9da8f254ebb0bec228967a2bdd0badf9a2853863928b25facd95"
+      },
+      {
+        "bytes": 3764,
+        "path": "sources/reuse/original/candidate-original-tokenizer_config.json",
+        "sha256": "4ec77d44f62efeb38d7e044a1db318f6a939438425312dfa333b8382dbad98df"
+      },
+      {
+        "bytes": 4567,
+        "path": "sources/reuse/original/candidate-quant-README.txt",
+        "sha256": "4a0a8e83b9c22c340aa73fd047428cc3aa89f16856dc0df2e5bf4555c05a95e8"
+      },
+      {
+        "bytes": 4705,
+        "path": "sources/reuse/original/dependency-lock.json",
+        "sha256": "7f2b24a65df36b66fbf23425bb03365e4af560c9c7838c6608886e70f5409a66"
+      },
+      {
+        "bytes": 11358,
+        "path": "sources/reuse/original/download-accounting.json",
+        "sha256": "468308fb2a9251b7fa72cc9f4794b410ae66ec3171948da308ee45ecbd924e27"
+      },
+      {
+        "bytes": 7710,
+        "path": "sources/reuse/original/download-declaration.json",
+        "sha256": "00c275b24ca020556f7627cd68cf802982d02451aa7a88f24e3b2c5d16a8bd3f"
+      },
+      {
+        "bytes": 7359,
+        "path": "sources/reuse/original/downloads.json",
+        "sha256": "93b89e16434655d7ca63bbf7d1caad36e8ca01d1af496dd1391417e5ece1364f"
+      },
+      {
+        "bytes": 112,
+        "path": "sources/reuse/original/llama-system-info.txt",
+        "sha256": "0fea1eb5fc8d844ea89aaa648da3d02a397b8bb51512a51b8bbad157aa185e1a"
+      },
+      {
+        "bytes": 6772,
+        "path": "sources/reuse/original/original-card.txt",
+        "sha256": "4f97533ad95b1b2fea15fbc075c01b94578ebdd7c8138888fa43fa3abd530dc4"
+      },
+      {
+        "bytes": 64233,
+        "path": "sources/reuse/original/original-protocol.json",
+        "sha256": "64e0f444a457cb2e82e00dd905e4de186f7384dd95a129600c6185de454c02d2"
+      },
+      {
+        "bytes": 1853,
+        "path": "sources/reuse/original/provenance.json",
+        "sha256": "c28a23af13fa2c53ab4037e95ddcd05102340b2a9cd8bbbd1c5bf906a7b8f994"
+      },
+      {
+        "bytes": 4567,
+        "path": "sources/reuse/original/quant-card.txt",
+        "sha256": "b464dc4a9ff26fea06ec45165546bbeb0c32b1a7847babcef048d5b84486ed84"
+      },
+      {
+        "bytes": 966,
+        "path": "sources/reuse/original/requirements.txt",
+        "sha256": "30b02b3f04bd6a817aa729ba09d10f07b18f16fd1b3aa6c18760dbc0c63816f3"
+      },
+      {
+        "bytes": 308,
+        "path": "sources/reuse/original/source-download.json",
+        "sha256": "512f7a53412c5ee551d4a8ee45fb8e06fbf7a35fad8a43b4b421e5a2c5476769"
+      },
+      {
+        "bytes": 184,
+        "path": "sources/reuse/preparation-terminal.json",
+        "sha256": "adf0a6e90b6bca079d33987e9c728492bfdd934d2a1ef2223864a0ec943d1a37"
+      },
+      {
+        "bytes": 3764,
+        "path": "sources/reuse/original/tokenizer-config.json",
+        "sha256": "4ec77d44f62efeb38d7e044a1db318f6a939438425312dfa333b8382dbad98df"
+      },
+      {
+        "bytes": 17547,
+        "path": "sources/reuse/reuse-projection.json",
+        "sha256": "f083a9c3ac18abef9eee99260c7c69a0bc26f6359cc42ed422126b6089f7e37d"
+      },
+      {
+        "bytes": 3157,
+        "path": "sources/schema_contract.py",
+        "sha256": "bf7e87ac03a8a182f59b69e6d732d02256559eea731d91ac49698dec2c6e3424"
+      },
+      {
+        "bytes": 1069,
+        "path": "sources/selected/LICENSE.llama-cpp-python.md",
+        "sha256": "c479fb11a66a85fed2004a17dd1b3e44a1858c564b167aecb20ff66cb422ed75"
+      },
+      {
+        "bytes": 32913,
+        "path": "sources/selected/llama_grammar_0_3_16.py",
+        "sha256": "4d39699197909f4aa98f45086c824bd0521fbeb27c7aaee249a723c62e1d0dd8"
+      },
+      {
+        "bytes": 6354,
+        "path": "sources/synthetic_packet.py",
+        "sha256": "e024c4c26f2210bbb7e5366a8de06da576cd2544a768f54d97f83696ca36da7d"
+      },
+      {
+        "bytes": 5864,
+        "path": "sources/task_matrix.py",
+        "sha256": "1d66b369d9e783416a96ef42590492ded6ed89bbc9fd8f9b5b8ed755471e8d58"
+      },
+      {
+        "bytes": 10303,
+        "path": "sources/verify_installation.py",
+        "sha256": "326ddc9293eed5af90ab965c02e51ddff89a13e338677b3d6c435f7905fee445"
+      },
+      {
+        "bytes": 293,
+        "path": "terminal.json",
+        "sha256": "2c2b8676c337b790c2b1772f271f4922b0ee2fcdeaef11176fa78de7567aa4e2"
+      }
+    ],
+    "omissions": [],
+    "sha256": "67ef1e638e814c71bbf354fe9895ea0faf5d9ef11eae2ff76b10b065bd7a7e54"
+  },
+  "observer": {
+    "executionMain": "51e0c12551339cce5898d3bfae2ba9ef3d9607f5",
+    "protocolCommit": "db429775f139396df4028a9f4367e9bdfaa4ba17",
+    "protocolSHA256": "f62ded1a32862839da80a80f8e871ef6cda4acc8c30363367cccf6bec9e92c97",
+    "repository": "probityai/agent-evidence-observer",
+    "runId": 37116827382,
+    "runUrl": "https://github.com/probityai/agent-evidence-observer/actions/runs/37116827382",
+    "sourceCommit": "884814fe8cbc2e3b21d267fbaf86726c37892b14"
+  },
+  "preparation": {
+    "elapsedSeconds": 13.785495131000005,
+    "responseBodyBytes": 465478943,
+    "schema": "probity-runtime-preparation-terminal-v1",
+    "selectedBytes": 477404572,
+    "status": "passed"
+  },
+  "preparationArchive": {
+    "artifactId": 11272310915,
+    "bytes": 1051848146,
+    "evidenceScope": "Provider metadata verified through the original run artifact API; no claim that this Atlas archive contains or reconstructs full preparation members.",
+    "expiresAt": "2027-01-01T10:33:56Z",
+    "retainedInAtlas": false,
+    "sha256": "9ae6d49f3445510ea3b094f6070271898bdc25f02cab405e54ac6825b5137076"
+  },
+  "readAt": "2026-10-03T10:52:03.235354+00:00",
+  "resourceBoundary": {
+    "cpuCompatibility": "retained selected compiled libraries reported x86_64 AVX/AVX2/FMA/F16C/SSE3/SSSE3; required flags are preflighted and same Ubuntu24.04 CPython3.12 ABI is selected",
+    "run": "external wait4-selected native child from spawn through reap includes its source checks, both model initialization, all attempted calls, source retention and inference-terminal serialization; source reconstruction runs afterward; actual installed model-free reconstruction is a subsequent separately recorded consumer stage",
+    "wallGuard": "595s TERM plus5s KILL within600s total; observed CPU/RSS additionally checked at call boundaries and final wait4; no guarantee resource-limit interruptions yield complete packets"
+  },
+  "roles": {
+    "atlasOperator": "Probity",
+    "independentEffectCustody": "not-established",
+    "independentOperation": "not-established",
+    "outsideRecurringUse": "not-established",
+    "producer": "Probity-owned workflow",
+    "readerAuthor": "Probity",
+    "retentionHolder": "Probity"
+  },
+  "schema": "probity-atlas-tool-argument-retention-v1",
+  "sourceContract": {
+    "bytes": 1905,
+    "sha256": "1cf2a5f3527f72db90ad0881c5dd360bb0775f005cd4cc8971e287015fe400d4",
+    "sourceCommit": "884814fe8cbc2e3b21d267fbaf86726c37892b14"
+  }
+}

@@ -91,7 +91,7 @@
       },
       "path": "vectors-aggregate-accounting/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "f1f9a2fbc40c087d2677a71d8d4d1e4c50e6702b2b9ada9368c11271a48d6900"
+      "sha256": "1b7e083258a64eb20c499969c35bf821912d2ecb447bc275c9f470f211a9dd49"
     },
     {
       "consumed": "unconsumed",
@@ -166,7 +166,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "44448b72d598952c369fb4f256c5c543551b167cd64341cebf255951ee3bc5ac"
+      "sha256": "7a52bc96a6a12d5112ccf784607b3b1567e335a14bea85246f05ccd911eb0392"
     },
     "runtime": {
       "name": "go",
@@ -335,7 +335,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "aef6cf83e1c84fe93b43b127edf137da55902a9c5ffa11639f16afaeaf54bf1e"
+    "sha256": "d5269cf99cfc663f644a97b81a08ec608eb995e0504f08306e23b322d6cef7d4"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -366,7 +366,7 @@
       "effect-counts-disagree"
     ],
     "path": "vectors-aggregate-accounting/MANIFEST.json",
-    "sha256": "435af6ec52512422427e21c3fd47261ee4cdb9d55962bdfe95aa5141c1f69088"
+    "sha256": "7c22a854067b484af972dbbc3e88d0833562ad168dabb8906dc61ae124bd2a1c"
   },
   "members": [
     {

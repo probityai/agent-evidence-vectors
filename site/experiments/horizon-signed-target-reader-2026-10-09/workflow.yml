@@ -1,0 +1,88 @@
+# A second operator for Probity's reader of our signed witness records.
+#
+# Probity AI wrote a reader for two NENRIN witness records (pipavlo82's walk of gate /a2a and kuangmi-bit's walk of
+# gate /mcp, both in ledger entry 73) from the record format alone, without our reader:
+# probityai/agent-evidence-atlas examples/nenrin-witness-pair. They asked for a run from another operator, kept as a
+# check (probityai/agent-evidence-atlas#49). This runs their complete retained gate at the pinned commit, then checks
+# that the two records in their fixtures are byte for byte the records our ledger keeps.
+#
+# Nothing here is ours to change: the reader, its fixtures and its expected exits are Probity's. If their gate goes red
+# at this commit, that is a finding to report to them, not something to patch here.
+name: probity-witness-reader
+
+on:
+  schedule:
+    - cron: "41 3 * * 2"      # Tuesdays 03:41 UTC
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/probity-witness-reader.yml
+
+permissions:
+  contents: read
+
+env:
+  PROBITY_REPO: probityai/agent-evidence-atlas
+  PROBITY_COMMIT: 2bff38d8c13f7038d8d773bc77e44ab4f160751a
+
+jobs:
+  second-operator:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ${{ env.PROBITY_REPO }}
+          ref: ${{ env.PROBITY_COMMIT }}
+          path: probity
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: uv (the version the reader's lock was checked with here)
+        run: python -m pip install --disable-pip-version-check "uv==0.12.13"
+      - name: Probity's complete retained gate (lock, lint, format, tests, coverage, the four pair reads)
+        working-directory: probity/examples/nenrin-witness-pair
+        run: |
+          test "$(git -C ../.. rev-parse HEAD)" = "$PROBITY_COMMIT"
+          bash scripts/run-gate.sh
+          python3 - <<'EOF'
+          import json, sys
+          steps = json.load(open("gate-results/steps.json"))
+          bad = [s["step"] for s in steps if not s.get("matched")]
+          for s in steps:
+              print("%-20s exit %s, expected %s" % (s["step"], s["actual_exit"], s["expected_exit"]))
+          sys.exit(1 if bad or not steps else 0)
+          EOF
+      - name: The fixtures are the records our ledger keeps
+        working-directory: probity/examples/nenrin-witness-pair
+        run: |
+          python3 - <<'EOF'
+          import hashlib, json, sys, urllib.request
+          pins = json.load(open("fixtures/pins.json"))
+          fail = 0
+          for name in ("a", "b"):
+              p = pins[name]
+              env = json.load(open("fixtures/" + p["envelope_file"]))
+              raw = env["record"]["record_canonical"].encode("utf-8")
+              sha = hashlib.sha256(raw).hexdigest()
+              ok = sha == p["record_sha256"] == env["sha"]
+              print("%s fixture: sha256(record_canonical) %s pinned %s" % (name, sha[:16], "ok" if ok else "MISMATCH"))
+              fail |= not ok
+              url = "https://ledger.horizonshield.dev/witness/" + sha
+              try:
+                  with urllib.request.urlopen(urllib.request.Request(url, headers={"accept": "application/json"}), timeout=30) as r:
+                      live = json.load(r)
+                  live_raw = (live.get("record") or {}).get("record_canonical", "").encode("utf-8")
+                  same = hashlib.sha256(live_raw).hexdigest() == sha
+                  print("%s ledger:  %s %s" % (name, url, "same bytes" if same else "DIFFERENT BYTES"))
+                  fail |= not same
+              except Exception as e:
+                  print("%s ledger:  not readable (%s); not a finding about the reader" % (name, e))
+          sys.exit(1 if fail else 0)
+          EOF
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: probity-gate-results
+          path: probity/examples/nenrin-witness-pair/gate-results/
+          if-no-files-found: warn

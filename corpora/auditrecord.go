@@ -318,6 +318,29 @@ func arDepth(value any) int {
 	return 0
 }
 
+// arWrittenAsFloat reports whether any number in the value is written with a
+// fraction or an exponent, whatever its value: the profile refuses the token,
+// so 1.0 and 1e2 are refused although each denotes an integer.
+func arWrittenAsFloat(v any) bool {
+	switch t := v.(type) {
+	case json.Number:
+		return strings.ContainsAny(string(t), ".eE")
+	case map[string]any:
+		for _, e := range t {
+			if arWrittenAsFloat(e) {
+				return true
+			}
+		}
+	case []any:
+		for _, e := range t {
+			if arWrittenAsFloat(e) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
 // arParse applies the JSON profile and returns the RFC 8785 bytes and the
 // decoded statement. A repeated name or an unsafe integer is refused by the
 // canonicalizer; the depth bound is counted here with the top-level value as
@@ -344,6 +367,9 @@ func arParse(payload []byte) ([]byte, map[string]any, error) {
 	}
 	if arDepth(value) > arMaxDepth {
 		return nil, nil, arRefuse("nesting-too-deep")
+	}
+	if arWrittenAsFloat(value) {
+		return nil, nil, arRefuse("value-not-representable")
 	}
 	canonical, err := aee.Canonicalize(payload)
 	if err != nil {

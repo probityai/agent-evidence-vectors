@@ -1,0 +1,41 @@
+TAP version 13
+# {"revision":"base","listed":["pick","unused"],"providerValidatorRequests":["pick","https://example.invalid/unresolved.json"],"serverCalls":["pick","pick"]}
+# Subtest: complete catalog plus unusable uncalled schema: valid call and reuse
+ok 1 - complete catalog plus unusable uncalled schema: valid call and reuse
+  ---
+  duration_ms: 92.633068
+  ...
+# Subtest: uncompilable called schema refuses before any server call
+ok 2 - uncompilable called schema refuses before any server call
+  ---
+  duration_ms: 67.504858
+  ...
+# Subtest: invalid called output refuses after one actual server call
+ok 3 - invalid called output refuses after one actual server call
+  ---
+  duration_ms: 63.854197
+  ...
+# Subtest: explicit public toolDefinition validates without discovering the catalog
+ok 4 - explicit public toolDefinition validates without discovering the catalog
+  ---
+  duration_ms: 62.5202
+  ...
+# Subtest: a cold cache supplies no output schema: this is not universal validation
+ok 5 - a cold cache supplies no output schema: this is not universal validation
+  ---
+  duration_ms: 56.660994
+  ...
+# Subtest: unknown revision names refuse instead of silently selecting the head
+ok 6 - unknown revision names refuse instead of silently selecting the head
+  ---
+  duration_ms: 280.021626
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 928.355789

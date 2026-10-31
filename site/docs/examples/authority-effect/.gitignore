@@ -1,0 +1,8 @@
+.venv/
+.coverage*
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+gate-results*/
+dist/
+.sdist-venv/

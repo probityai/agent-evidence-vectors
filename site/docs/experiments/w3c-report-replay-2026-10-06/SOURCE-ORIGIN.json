@@ -1,0 +1,9 @@
+{
+  "license": "Apache-2.0",
+  "license_sha256": "8b506a9d145be0a6fbef3f0519996faf84c770f8ab8d32d120c8682f2ad6181f",
+  "modifications": "Each .mutant.py file changes exactly one predicate in the original reader for the separately identified diagnostic experiment; logic-control-configuration.json records the exact changes and outcomes.",
+  "reader_source_commit": "e07cd52999204d7c0f6562a5098dc4784fe025a6",
+  "reader_source_path": "packaging/agent_evidence_vectors/w3creport.py",
+  "repository": "https://github.com/probityai/agent-evidence-vectors",
+  "unchanged_source_notice": "Retain original source attribution and LICENSE with any distributed reader copies."
+}

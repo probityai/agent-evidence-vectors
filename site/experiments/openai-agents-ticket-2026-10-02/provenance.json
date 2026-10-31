@@ -1,0 +1,2605 @@
+{
+  "schema": "probity-atlas-retained-native-run-v1",
+  "sourceRepository": "probityai/agent-evidence-observer",
+  "sourceCommit": "7a4b26058e54f0e6bbbaeab400dcd93c47607389",
+  "readerCommit": "0ec4c970807d0f1bc4215e6d34dc4a6124fa3b4f",
+  "reviewedHead": "0ec4c970807d0f1bc4215e6d34dc4a6124fa3b4f",
+  "mergedHead": "9ea60a22ddab9a2fda3910aad6c68b01cd505bcf",
+  "run": 37053806564,
+  "runUrl": "https://github.com/probityai/agent-evidence-observer/actions/runs/37053806564",
+  "artifactId": 11247178966,
+  "providerArtifactExpiresAt": "2026-12-31T19:23:32Z",
+  "originalArtifactSha256": "6f90d31bc08599b97641d6e6215a937b4b3ba5962953ce718e24c9ec904f53d2",
+  "originalArtifactBytes": 1348019,
+  "retention": "byte-exact-original-ci-archive",
+  "retainedArchiveSha256": "6f90d31bc08599b97641d6e6215a937b4b3ba5962953ce718e24c9ec904f53d2",
+  "retainedArchiveBytes": 1348019,
+  "reportMember": "fresh-run/packet/report.json",
+  "reportSha256": "936a277df9f5559a7a423fb6b5f70c9460438f6af41c98659ca7b9e8eb42b748",
+  "roles": {
+    "producer": "Probity-owned workflow",
+    "readerAuthor": "Probity",
+    "atlasOperator": "Probity",
+    "retentionHolder": "Probity",
+    "independentOperation": "not-established",
+    "independentEffectCustody": "not-established",
+    "outsideRecurringUse": "not-established"
+  },
+  "answerExposure": "Author-written tasks/controls and expected outcomes exposed; not blind.",
+  "comparisonOrder": "Native output and comparison emitted and published together; public Atlas retention before indexing does not establish a blind or raw-result-first comparison.",
+  "scope": "Real OpenAI Agents SDK0.23.1 Runner/function_tool/TraceProcessor, scripted Model; nine scripted model calls are not provider inference or model-quality measurements. Separate native protected target pinned71ac0b2 remains same-operator; no independent custody or outside adoption.",
+  "members": [
+    {
+      "member": "fresh-run/packet/artifact-manifest.json",
+      "bytes": 529,
+      "sha256": "ce84bd11ff8afd267c72b7732c5bb7636b80d3e42796a42e5dc74d2f894485ef",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/artifacts/changed-arguments.json",
+      "bytes": 15973,
+      "sha256": "f36d099db5679df5c216b4a56084ba84c6920b93310c7f2061085a47cdd08a96",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/artifacts/committed-effect-error.json",
+      "bytes": 16872,
+      "sha256": "9d861643a43bac0f2f5a28ea15d1043d8b65484842b1498cfc6c8e3339c510bb",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/artifacts/deny.json",
+      "bytes": 15406,
+      "sha256": "736c51094cf0678865c1c6ebf60d242645d8a3c1765ad0e2c07472adfbab25f0",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/artifacts/permit.json",
+      "bytes": 18988,
+      "sha256": "a3d7b29f86881f2749520f429b9e4906b024819d43c1356d45d5b2ace7271aa7",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/artifacts/producer-error.json",
+      "bytes": 8202,
+      "sha256": "9b8554ca48023e9f04ac3062cee1f2969b9470284ccdc7d6aece06398af1bf1d",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/artifacts/turns-exhausted.json",
+      "bytes": 16386,
+      "sha256": "80ce8309abca086ec207893fb9860198f89d93bddb349b58b9abc30fdc014e35",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/consumer-pins.json",
+      "bytes": 357,
+      "sha256": "4f0d036fdb97dcc3e46c1e4af86521b54fc7647b6acc2d35ffd3f11299261c0b",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/plan-before-run.json",
+      "bytes": 15412,
+      "sha256": "cc78ba4c2f4e851168335f9f9a3c98a899b0512086f573ac881b0cbb2614386c",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/report.json",
+      "bytes": 1610,
+      "sha256": "936a277df9f5559a7a423fb6b5f70c9460438f6af41c98659ca7b9e8eb42b748",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/source-manifest-before-run.json",
+      "bytes": 36028,
+      "sha256": "cc7271c6e13b7ace15ef50cedb21ed48fa2b5f06d6ff34cc0b19c936d4a34372",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/adapter/__init__.py",
+      "bytes": 77,
+      "sha256": "eda5e44e1e590484ad086342ff4c46de3314f08f96c8061676cfc73de14e391c",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/adapter/contract.py",
+      "bytes": 2871,
+      "sha256": "955bd267180e8d2096754d0c58088f9be8a44bf8639bcbbb3d75a682f6cd12f6",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/adapter/processor.py",
+      "bytes": 3359,
+      "sha256": "b500f7e444f932c5d6535c13950fe35e558821183b6a135fdb70ab88f6933a98",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/adapter/producer.py",
+      "bytes": 13924,
+      "sha256": "934afa6ec3960bef75b18bf7e451d9945551cbba173f8a677a9558400c22424f",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/adapter/reader.py",
+      "bytes": 25847,
+      "sha256": "dd8664ad2512f4727509055066953a05449d02b6182dfd722d5d0190633612a4",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/__init__.py",
+      "bytes": 17575,
+      "sha256": "3877fa1f1126020413a17a03015acf13f1f52d77eeaadf87505f54ecbd40ab15",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/_config.py",
+      "bytes": 1726,
+      "sha256": "9bdf72d26568f02d78cae5a29d965dc925ae9b0392460e5e21cc135eb1cc7665",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/_config_coercion.py",
+      "bytes": 3472,
+      "sha256": "158c7f2d8431856100cf52b02bb4425d575933c5c5b223c2f825b871ce581ed7",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/_debug.py",
+      "bytes": 987,
+      "sha256": "00521ca31aa34f1015d1937fc0f65529868fa958f95860f415dbc92685fa3f2f",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/_function_tool_arguments.py",
+      "bytes": 6170,
+      "sha256": "b22027b09e5e9e81ff28e1ffa417d14aeb196ddfe72a453d2f381f91d75f9141",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/_httpx_compat.py",
+      "bytes": 1210,
+      "sha256": "88be6a98c541d7133409a2fb77b9d690bd862b055635ac8a4edb6f16a386208f",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/_mcp_tool_metadata.py",
+      "bytes": 2972,
+      "sha256": "89799535ec68af7b9c10d4e13768cb4c8d9f420cccf2748befb35d3b45532537",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/_public_agent.py",
+      "bytes": 852,
+      "sha256": "aee3d22e9c4d552cb9d8ceb7ea78f538e0c5b8c27a7143880820b73a264a1fcd",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/_run_state_agent_identity.py",
+      "bytes": 19691,
+      "sha256": "c80b214b355f57fcbdaf4d13636ab7b3731da1e747363e445b472cef7b0de7ff",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/_tool_identity.py",
+      "bytes": 26665,
+      "sha256": "c370128f014c5ae4d20c700135f7f94a73dddcc0a673128f02f6fbd960fe74bc",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/_tool_invocation.py",
+      "bytes": 10610,
+      "sha256": "3a2e131d6bcbe230fae290f08c5ab9242973a9e7f420a19b8c34f14f9c9f3451",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/agent.py",
+      "bytes": 53672,
+      "sha256": "16dddcf79534fc4d107b6d2a50f10dbefe64743c99b0c537fba407c109c77fe2",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/agent_output.py",
+      "bytes": 7899,
+      "sha256": "e8c6e4a39aac804e32fc47356b5bab22a9133bcbac867a565e3e4a4c1ee4ed9b",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/agent_tool_input.py",
+      "bytes": 8507,
+      "sha256": "f27e92c2c9b50a6b6b89f7848ec73cee5ce2ec89ad602b4d55f3c233b6976260",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/agent_tool_state.py",
+      "bytes": 10189,
+      "sha256": "4f5c79ba504c2d4fe1bfa9d67735eb6eb6bcd1c6c6e05d52f8e7977197186b94",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/apply_diff.py",
+      "bytes": 12867,
+      "sha256": "bb2fd2b0f9846ab22743934c61b0886eabc59dcddacbe871e0c906a9ad23fb53",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/computer.py",
+      "bytes": 4356,
+      "sha256": "f5cf1b3102e94a6c368c26b711b32946082728e638c4136558352a3ab4d41a5b",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/decorators.py",
+      "bytes": 439,
+      "sha256": "76cf266dbe6053aa352f42deeaf199b9de5657445d4ea48506860c47103793da",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/editor.py",
+      "bytes": 1377,
+      "sha256": "dda9b6ba0886cb7b525115e0ddeec424ffd664197f529820181bc24e0b54c6b5",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/exceptions.py",
+      "bytes": 20329,
+      "sha256": "e1b7882e4cecebe8f5539727a2f0fb8ec92cad1a331f8565a9ad5054c43f3b80",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/__init__.py",
+      "bytes": 84,
+      "sha256": "af293272def4c44264bb3b8e4da15989a59b6423b223d3cae04e93466367da32",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/experimental/__init__.py",
+      "bytes": 203,
+      "sha256": "bf798c42b950ac1db73ae3341a1b8ca2b8e9ed2b96e8fc6a3299d547ce2cd80a",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/experimental/codex/__init__.py",
+      "bytes": 1914,
+      "sha256": "c2a0acfdeed11d06c1d06043eba248bb313656860beb2468e62aac82f0c26e23",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/experimental/codex/codex.py",
+      "bytes": 3454,
+      "sha256": "f0de85787af6888197e27a16e71382cf7f014715e75f33d7cd4e38985251b3c9",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/experimental/codex/codex_options.py",
+      "bytes": 1308,
+      "sha256": "2eb0e232c37863ea378c4b63fc8a08c2b660b7e73ff36e88ad3403541ffc728c",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/experimental/codex/codex_tool.py",
+      "bytes": 50786,
+      "sha256": "9f049fb51131772b3aded1fc6b38722446d6e263b3c1182c570ab4ac0f128782",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/experimental/codex/events.py",
+      "bytes": 4911,
+      "sha256": "07d7ee93c06f8ef9904a60b7f08258f19718a1ccf1e95cbacce905303563dc85",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/experimental/codex/exec.py",
+      "bytes": 11446,
+      "sha256": "e02df968a30a488c18563bc4e93095e6ad72406105799cd701240abd3bf97a95",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/experimental/codex/items.py",
+      "bytes": 7183,
+      "sha256": "105ca3fccf4b2627289ed9d5c7f0c71971baaee8af718d22fbdc290a8f8e6927",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/experimental/codex/output_schema_file.py",
+      "bytes": 1536,
+      "sha256": "7d9b67978366516956d5aea64ca6334d612ded42fd79030bc524c540fbe6cde4",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/experimental/codex/payloads.py",
+      "bytes": 892,
+      "sha256": "c92e7c51b3291936d67b2168ecdfc95b2be416470cb7a6e70dab65916b639fb4",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/experimental/codex/thread.py",
+      "bytes": 7269,
+      "sha256": "c5eb18bd86834f94a2387bc05ad6f93b5b5cd3d267dac21f1f1e10d76bded58c",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/experimental/codex/thread_options.py",
+      "bytes": 2065,
+      "sha256": "9f931bfa6b59bd9c473616a871ef1ba0dc5f75ff516f15cc7ff98493c0bf8fae",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/experimental/codex/turn_options.py",
+      "bytes": 1124,
+      "sha256": "00d6a27211e218f4ddb1195bcec33b5752f3f33dd3516ef0f9b1d270f276a1af",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/experimental/hosted_multi_agent/__init__.py",
+      "bytes": 345,
+      "sha256": "9f3ee223cc28d9fafb702cf94a0ef8414cf4277b01a8d29357ceea6314ffe076",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/experimental/hosted_multi_agent/model.py",
+      "bytes": 39729,
+      "sha256": "885b329c72f8043886b6638b18cab4a5bbd940ba97cf7c260d70ebd80e5cd203",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/handoff_filters.py",
+      "bytes": 3637,
+      "sha256": "aebeb1565f7fa3135172a78f53ec033d9bac2e716fc0d5b39821537b4b70d300",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/handoff_prompt.py",
+      "bytes": 1006,
+      "sha256": "a0658dd2e361dd9d4bec4f84bf6ba9f16d3ce1f16b0cd3ac2c3cbb3fa6dc9a27",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/memory/__init__.py",
+      "bytes": 2688,
+      "sha256": "fd711d3ea4bec0bddeb96b2324f27332e206dec149e50f8fb5d8076d20bad254",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/memory/_optional_imports.py",
+      "bytes": 466,
+      "sha256": "fda22fc07e8cb77c3b16dc62cb7943ea75b7e1919abc8e041416788f86b31284",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/memory/advanced_sqlite_session.py",
+      "bytes": 89319,
+      "sha256": "85c5832dd56674ef7bb653e1fd3c313ed328d36c01218972a66863631b596ff9",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/memory/async_sqlite_session.py",
+      "bytes": 22041,
+      "sha256": "82d8e8c0eb4cb4baf9e0ce9f220601942c5ab984429a07e74753b0786c39ecd4",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/memory/dapr_session.py",
+      "bytes": 24551,
+      "sha256": "645086c0b5fd7e37cc0d5239809d6206707754750bab38821409acd9c7e87d1a",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/memory/encrypt_session.py",
+      "bytes": 19878,
+      "sha256": "f1a61b3ec913a9c4e8385a8a2b64e87e7bd9f6d0a315cae2fc0f4533ebaae5fd",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/memory/mongodb_session.py",
+      "bytes": 24424,
+      "sha256": "4a4341afafe212ddca6316efd1c6284fb2b6c990168ab3e755faea802da74bcd",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/memory/redis_session.py",
+      "bytes": 33533,
+      "sha256": "47afa43917209fd72988d29e85fde05d970a956659f6e5e31a41a72317cb07b9",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/memory/sqlalchemy_session.py",
+      "bytes": 30542,
+      "sha256": "4fb5b25d8215405c146931fcd0b46da04f43979034b43eda56ecdc45ee862554",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/models/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/models/any_llm_model.py",
+      "bytes": 65264,
+      "sha256": "03cee3ddced9d7dcc980afee6d27b46751c46a4e27475ab526d838aa4149eaaa",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/models/any_llm_provider.py",
+      "bytes": 1224,
+      "sha256": "99cad9c4732789a5536dc7463863afb434487b9c612acacb83bdc6e978439f5b",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/models/litellm_model.py",
+      "bytes": 44444,
+      "sha256": "96d33be32041fc1dd2f0f7cb75c15bcd472ee640cd1c0b41e513dfb553c9c949",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/models/litellm_provider.py",
+      "bytes": 1084,
+      "sha256": "a5e11edb8b914dc7f616bc701e352c11991322c032ec17005ff3c8ce2489ded1",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/sandbox/__init__.py",
+      "bytes": 7038,
+      "sha256": "44080b3c766903f2116a8174f2cd3f757b5e12cd931dc36d16e8a7563bbdc92f",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/sandbox/_rclone.py",
+      "bytes": 6993,
+      "sha256": "d3dabcd47b1257739d69a46e3e3e04612854260b1929d6f420388afeec05574c",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/sandbox/blaxel/__init__.py",
+      "bytes": 989,
+      "sha256": "bb8bf8b63f969e3899115f41496c39ae3ca24622e101327ac21472a1fa764d0d",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/sandbox/blaxel/mounts.py",
+      "bytes": 26926,
+      "sha256": "fdc0d366eec8ec5e54bcb4eac589ac43515a16709bf4f6fe94014f517e57af87",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/sandbox/blaxel/sandbox.py",
+      "bytes": 51511,
+      "sha256": "372c817845d641925f9b293c8266ca77ddd532db8f9bf29d5336f623ecc2c4dc",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/sandbox/cloudflare/__init__.py",
+      "bytes": 495,
+      "sha256": "bf3e6cf6d95784cbdb619b807bd858a87a9cc869ff96ea17285c82c5092803e7",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/sandbox/cloudflare/mounts.py",
+      "bytes": 9140,
+      "sha256": "b3e0c06538aca387f6c13751f9f5ea4edfd735233bea8e5b6e1030803bf7c9d6",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/sandbox/cloudflare/sandbox.py",
+      "bytes": 67229,
+      "sha256": "17fc63c14a9fcb0f6f1d053cca3c471f232ae10b540f1ae3fecc54ac52629e1d",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/sandbox/daytona/__init__.py",
+      "bytes": 832,
+      "sha256": "00b9008a5d62011c65af539da4bc810dcc2aeea188cda3d762f93de5f0f91be6",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/sandbox/daytona/mounts.py",
+      "bytes": 9560,
+      "sha256": "7be7b810d23f1e807ee82eee8cdac1da6bc9a97d4c9497d107311d7e316871a8",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/sandbox/daytona/sandbox.py",
+      "bytes": 53878,
+      "sha256": "9aafbfe30a0247363f07e29bcb8b1292cfe8abe346991e7d90c2aa3289839f3c",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/sandbox/e2b/__init__.py",
+      "bytes": 683,
+      "sha256": "279d68e12c89b9ad712fe78b73a3477a7dc2fa52c76dd303b0e48a301560137f",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/sandbox/e2b/mounts.py",
+      "bytes": 5065,
+      "sha256": "b7013a5fdf16a54a25571ab89a3284bd6a08f1d3058f086ce596162ec95a3664",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/sandbox/e2b/sandbox.py",
+      "bytes": 69117,
+      "sha256": "c9f1d3fad19bea05fdac4c1e9db2e09261b858fddf840ed0f179092f143b73f1",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/sandbox/modal/__init__.py",
+      "bytes": 990,
+      "sha256": "bd30c4a55ce31c77aaf966eb5a017d4f529863b0b52959f72f29e55c117d1106",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/sandbox/modal/mounts.py",
+      "bytes": 8302,
+      "sha256": "7e5cf1364f3ccbe757ab0388fb383124d5151b3ffe59134d73af2b57fc751ace",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/sandbox/modal/sandbox.py",
+      "bytes": 97015,
+      "sha256": "e35f05db9426b8cb478650cfc592ea424346301dddd7d3cd2b866e9f9296636e",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/sandbox/runloop/__init__.py",
+      "bytes": 1545,
+      "sha256": "53998a741a4b73f5fb24387e6b7f46ab7d474a85a7e137e3a4739e6b60deab6b",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/sandbox/runloop/mounts.py",
+      "bytes": 6826,
+      "sha256": "f880b65cb425cd5dc14f303f02a4bc9719fd3ccc73c4e40c61883f466a237913",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/sandbox/runloop/sandbox.py",
+      "bytes": 68113,
+      "sha256": "4e89af60a21f5b8bd2fed1c2bcfb4bee723904b21e5f669d405c4faa4174cda7",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/sandbox/vercel/__init__.py",
+      "bytes": 401,
+      "sha256": "432b38c45edf49994a2d47634d89537401699829dd1672baaa85e613d36fee1e",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/sandbox/vercel/_network_policy.py",
+      "bytes": 1874,
+      "sha256": "872d2a036cc4b26d954a14ea8568b8e43f547b95717efe22cadcb5ac3d773dbc",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/sandbox/vercel/_provider.py",
+      "bytes": 8959,
+      "sha256": "7e70e534b3fbb8fb1b8cf01422c4de3676eec31520d5619332d3f8ef088ae38d",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/sandbox/vercel/mounts.py",
+      "bytes": 21207,
+      "sha256": "cae045f5802b25c9b64eaa12e570c6e686fad03ae44a4f56d6639dd390789502",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/sandbox/vercel/sandbox.py",
+      "bytes": 68364,
+      "sha256": "09f41df02baf4aa64bca99a9bbe1eab0a9a35c207df90a39b1087224ca34cfd8",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/tool_output_trimmer.py",
+      "bytes": 20898,
+      "sha256": "9671663a0e4f631a0ebd1dff57db9b78f7012c106222be021160710191816e3f",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/extensions/visualization.py",
+      "bytes": 14574,
+      "sha256": "fa267f8fc14f46c17cc8636b03ef59a16cbba4622a45502809093f55d56f3199",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/function_schema.py",
+      "bytes": 23967,
+      "sha256": "63105996c6069bcf0af27295b85cb111195c6b7c162400486700ddf1f9bb36cd",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/guardrail.py",
+      "bytes": 10225,
+      "sha256": "117c5347ad6a39361d402fe499f730918b9efa9f65648415b6bc1c4185e3212b",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/handoffs/__init__.py",
+      "bytes": 16323,
+      "sha256": "81c5111ee64fa120851754c22d0480506b5d894e75b8e29c978a954522049821",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/handoffs/history.py",
+      "bytes": 25263,
+      "sha256": "5c72143522fb9a659d78e8edb69773472e238db2c58ed9be3827863e22e37217",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/items.py",
+      "bytes": 40719,
+      "sha256": "8cccaec9a8f42e277a5e52ee4525cc8125d09db002cc6310580fcf319777f8f9",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/lifecycle.py",
+      "bytes": 8601,
+      "sha256": "b8e0d844dafd5fe0f796f4a9647961d03091f08abd127a734815da19f8df57c1",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/logger.py",
+      "bytes": 7309,
+      "sha256": "4b53b754ec5b629d6c9b4e28e652ca827ade9e47e076d33ecf14c098c24136a0",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/mcp/__init__.py",
+      "bytes": 2239,
+      "sha256": "f3c3405c11b3024fba06fab6d9698872a022a047c89daf17344623f7de637175",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/mcp/_compat.py",
+      "bytes": 6232,
+      "sha256": "0efefbb154ed4c5dfd0f9bf1ad68304e221ea8436333d85629e0b47c281c4c76",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/mcp/_logging.py",
+      "bytes": 1652,
+      "sha256": "7fce0507f60bf8eba806b4977f125cf4bd1c1850199d0c5c86cebf020087fda4",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/mcp/manager.py",
+      "bytes": 28554,
+      "sha256": "0a7ed1e3a9bd9c17e4b906fce9174e9fa3ff8b193400b3fab036fd18c54ef774",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/mcp/server.py",
+      "bytes": 118167,
+      "sha256": "f2596229ed74af0c879e966c695f8095813d6e53ee083db22be551f8d8c0506b",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/mcp/util.py",
+      "bytes": 32828,
+      "sha256": "d633e4b76df8047c069ccd7ec63200350266cfac2f9bcf6b33e0cb49176e7541",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/memory/__init__.py",
+      "bytes": 1151,
+      "sha256": "df98fcfce7bb897b394bd77f8a78e888510fc8ccfe74f8c92f2c190774a05bac",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/memory/openai_conversations_session.py",
+      "bytes": 5539,
+      "sha256": "54fa8465890deb50bf77a5bdc1aff188ca39039d57304ecea202fb4b6a04614d",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/memory/openai_responses_compaction_session.py",
+      "bytes": 41289,
+      "sha256": "66130715c00e7dd36f29daaa99010475cd1b497c38b095a317017c02416a65e7",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/memory/session.py",
+      "bytes": 7840,
+      "sha256": "54b2558a4227d03030525bbc57207eab33602ebe3b7c90a9d60bd7e9ed375ffe",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/memory/session_settings.py",
+      "bytes": 2629,
+      "sha256": "4dadf6fc93125d86f5d70d84cf79ea4e8e3b9af10b6d4ef8d053baa46e458dc4",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/memory/sqlite_session.py",
+      "bytes": 24083,
+      "sha256": "7a229344eef38f3c805d43274589f25c7bde2e64aa33717fdab3b38b2debeabb",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/memory/util.py",
+      "bytes": 595,
+      "sha256": "a0eafe07b1f4e539e3305995bfacf3ca1c995d9849c6692cedac5b95beb7919a",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/model_settings.py",
+      "bytes": 16000,
+      "sha256": "daedb9cae33d1dbc006e309d53056b537191dafb51c3fafa23d7411dfa9afc71",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/models/__init__.py",
+      "bytes": 393,
+      "sha256": "3466c0c6003b59880cbfc92534b9db70cd57c80205772390940d7dbb9bd63e53",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/models/_openai_retry.py",
+      "bytes": 3558,
+      "sha256": "a04805a3cf6eb7ae2e4c5e65fb35d235d0c7e6983cfaf6bb7a6d185630ae50e3",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/models/_openai_shared.py",
+      "bytes": 2318,
+      "sha256": "d4895d4c4c8d4b8eabfd9274a0767a96e4ce60a4fb90f587a75a9422d158cc85",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/models/_openai_websocket.py",
+      "bytes": 4623,
+      "sha256": "ac3c78eb8cd9d831a558b4e31052146616a5f63f93529a62293232df6164601b",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/models/_response_terminal.py",
+      "bytes": 2002,
+      "sha256": "1b074bfd631fa40241b716ce966c6659aea352ea256763710ed1a03c082520d6",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/models/_retry_runtime.py",
+      "bytes": 5463,
+      "sha256": "4c21196df4d35ade5bf99f9657bf82d6a7bba1f921b9227b47f1902efb906db5",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/models/_run_context.py",
+      "bytes": 1016,
+      "sha256": "dca58d83e398828afdc3f8dfb4e9d6b276e23d702bf0fba63b29433955e2ea29",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/models/_trace.py",
+      "bytes": 2735,
+      "sha256": "3b7ea6195c0cc4110e9d828fb620962100dabfa4a80c14f357b206a2109c9517",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/models/chatcmpl_converter.py",
+      "bytes": 48452,
+      "sha256": "7dd78990e37748a3ec088a3c6831f9a70d25d00a0bf91d4e8c54644edf293309",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/models/chatcmpl_helpers.py",
+      "bytes": 6568,
+      "sha256": "f6765cdd0b4a8201d00a478697c1c2759cbf49540697cf9e0a785237cd50f9cd",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/models/chatcmpl_stream_handler.py",
+      "bytes": 64151,
+      "sha256": "f5ae9c95976baeeb89be21584876171c39c4ec6e002310c1419ad7cfffc6109c",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/models/default_models.py",
+      "bytes": 4718,
+      "sha256": "425cae741d1908459463ddf2a461861249d8ef6055f3a9eed8898d6ee56a189f",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/models/fake_id.py",
+      "bytes": 268,
+      "sha256": "95b5e351448c78043c785c7857940b52704294713a69d2656186afe794651b9c",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/models/interface.py",
+      "bytes": 5593,
+      "sha256": "2546773afaa681de498506708eb388fc8106342f6baba8b95e59d7f714b35740",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/models/multi_provider.py",
+      "bytes": 12731,
+      "sha256": "8e53bf776550ed03d7372ac793e44fc4bde86979b4157e6617228523007c8503",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/models/openai_agent_registration.py",
+      "bytes": 4082,
+      "sha256": "373af3541a26a184c057b626228cb22e3abe286778192d94f9bd862afd97093d",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/models/openai_chatcompletions.py",
+      "bytes": 32986,
+      "sha256": "6b835d1e8fad555145ca29b4b3d7d6fe3eb8f2a5e438768601bab6a00193ac65",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/models/openai_client_utils.py",
+      "bytes": 572,
+      "sha256": "7955e407b9bdb4574e456aca72527b4fd3227271bf77867702b557390dfcf83a",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/models/openai_provider.py",
+      "bytes": 13085,
+      "sha256": "189b421c1507544238a5de40cfc2f603fa3d2452f30a9b4accba06183b13e455",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/models/openai_responses.py",
+      "bytes": 96638,
+      "sha256": "44659b5aa1ed41e229e1c9b464488a9d71b90ce39fdfb13efbc806e824990814",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/models/reasoning_content_replay.py",
+      "bytes": 2116,
+      "sha256": "18df10a39e28d39b8ca5432190dbb00add024eee81323317d4e07053c233d995",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/prompts.py",
+      "bytes": 2475,
+      "sha256": "57da21d844dc799be92dc85343a5406a7330d95c49d66f96e7a7b1e15b579452",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/realtime/__init__.py",
+      "bytes": 5773,
+      "sha256": "41615811316390484ae9ca98276ac6a72947cc1419061e35ebe7c692bb26687b",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/realtime/_default_tracker.py",
+      "bytes": 4124,
+      "sha256": "43ffb3dfaca1d59c83f270b1aeb1d08ded942dce0245ca695febc36c309e94cb",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/realtime/_tool_filtering.py",
+      "bytes": 1194,
+      "sha256": "82e8f250beb79ed1f085855c4d1061b7f2914eb3cc36f3c493387347465c4364",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/realtime/_tool_validation.py",
+      "bytes": 1708,
+      "sha256": "8f259ab8d69e90774becef5d1987445192da0bb16840d2eec4ff6f77a8b12313",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/realtime/_util.py",
+      "bytes": 1963,
+      "sha256": "641b2fee261222a8da6923d8f18815538b929d09b81205dddf8993077376d75f",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/realtime/agent.py",
+      "bytes": 6589,
+      "sha256": "b8505f08df215518264262df9dbe04393f5c54754bda797f2acd985d0ce5c74a",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/realtime/audio_formats.py",
+      "bytes": 2557,
+      "sha256": "c0876ef9b118432440e013056bcadae2a285556c2aeeb44c3ec32a6689e04d06",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/realtime/config.py",
+      "bytes": 11054,
+      "sha256": "115bf723463b572ac48b959372ed4506502a2d56e7bcdb1794c4ebadd70a370a",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/realtime/events.py",
+      "bytes": 6618,
+      "sha256": "280fcde3f217cf7128a138a49d289c66b4c68460f6fe3c16024149ad8110c199",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/realtime/handoffs.py",
+      "bytes": 8165,
+      "sha256": "6bdba5ff49499e51341ad209b30164d4b9298ffdc10be781e99f9e39d87ee261",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/realtime/items.py",
+      "bytes": 5499,
+      "sha256": "a6cb79692bf62c15b04242028141a7a47a1bc551267bd1286b4b8d2635f1bb9a",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/realtime/model.py",
+      "bytes": 7665,
+      "sha256": "48db0bb687119a2fa2bb5ec0fb3cabb2ce8940cfb1cb9a327e41374a34c4b8f4",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/realtime/model_events.py",
+      "bytes": 6296,
+      "sha256": "4c70ed4d406d444d076af146f01b41c291a752165dbc623c5035dda3f37abd36",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/realtime/model_inputs.py",
+      "bytes": 3341,
+      "sha256": "4e0c9cd39cfaa5b2eba427ba5d3d462a7706722d7bd405ec4cf84d7989deafe6",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/realtime/openai_realtime.py",
+      "bytes": 91369,
+      "sha256": "d0a94f682439876df35c0bb3b8953c2a2d44a869264a5420d42ee849fb97b550",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/realtime/runner.py",
+      "bytes": 2628,
+      "sha256": "6e7bf98d49f76bac8bff6d4aeea7a1ca0431e73c22c9b25deb82302a53648a52",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/realtime/session.py",
+      "bytes": 88747,
+      "sha256": "3f6bb7eadc4dfe1e074166fdea634b5eea0544bf62a8a1b10f1036d95b313886",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/realtime/testing.py",
+      "bytes": 17296,
+      "sha256": "14c9fa28931cac5e16aef5a73cfdc2725297bc3514431ef2f7c21b088b540e3f",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/repl.py",
+      "bytes": 2959,
+      "sha256": "f1ffe1109bca91653a70fb25370cbecacf50fda2e2ccb90e350b9f4a368e108c",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/responses_websocket_session.py",
+      "bytes": 5538,
+      "sha256": "247991d35310bc5753f53c17b7d67cc881952a1c41197d8825eb4403ca119629",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/result.py",
+      "bytes": 53683,
+      "sha256": "19cc5944e6bbe7d2b2411f92784cb7a3a3e35f92ddf0aa7c8ca1a7b7d345e52b",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/retry.py",
+      "bytes": 16533,
+      "sha256": "ce05243642b1d13972af5226b239ebe1c9da7e404c45467f127ffb2280767e94",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run.py",
+      "bytes": 136672,
+      "sha256": "59afaa93c36e42493785acc67d2b16894530dfc25c6ffefb7284998525b707fa",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_config.py",
+      "bytes": 26878,
+      "sha256": "7cab9c394e7281c8c8531ba487de26f4fb466957a54ceb9a341a9ec2e4b8e218",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_context.py",
+      "bytes": 73635,
+      "sha256": "80046edd13783cd8c62ebe6f7bde966331b6f87234aa7a3c1f04b4e7def4da7b",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_error_handlers.py",
+      "bytes": 1726,
+      "sha256": "f99e19467c0cbc11c5f738c88dd56f483653d95b9e75cdc10877895105e4b733",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_internal/__init__.py",
+      "bytes": 269,
+      "sha256": "2a402d896885f961741701ff5ff33735c8bb539df90e66921675e2be6ca05a0f",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_internal/_asyncio_progress.py",
+      "bytes": 6932,
+      "sha256": "d3acaf5396b1af96c4f7c68cecc52225b15609ac0179cca58efd1cbcb5053191",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_internal/agent_bindings.py",
+      "bytes": 1019,
+      "sha256": "75dff0ff9dec5987c21413c74031c578024ea8522347200ac8a322e8b7335975",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_internal/agent_runner_helpers.py",
+      "bytes": 24419,
+      "sha256": "084fa918d616ab33274fe710f1e400e965ea5f1dfb47ac1755676623fbc53408",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_internal/agent_tool_configuration.py",
+      "bytes": 4347,
+      "sha256": "0029a37cfa3810acd913dd25b86285e9a6647716b36e2c202b4db53a7baa154e",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_internal/approvals.py",
+      "bytes": 3365,
+      "sha256": "b7d5cb32c940d94473ee6654f39ceb81758023579d5927d87a721f44a155dc65",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_internal/blocked_output.py",
+      "bytes": 34922,
+      "sha256": "12fd5df6468e6c7b23badb5ffd4581df2cbf06f9cba1ea2269a91d2c8695fec4",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_internal/error_handlers.py",
+      "bytes": 9075,
+      "sha256": "d94e251a833e2d7b0e6e099b70bbf173b294c4ff96cc2bbc1a56207fb1f2437e",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_internal/guardrails.py",
+      "bytes": 9435,
+      "sha256": "bd27b2a2c88787d9b75283cc81d9e175b9674f24e7ab29ca2ac5a2cde502ce67",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_internal/items.py",
+      "bytes": 42329,
+      "sha256": "6522066233eb2657ed42acd21a445c0b1169342205c00590ca7b2eac5d430731",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_internal/model_provider_lifecycle.py",
+      "bytes": 1522,
+      "sha256": "ffb617fa3458fd0ee335d7cd14c9ce66339020f0456e64150bbe26c9682c0a96",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_internal/model_retry.py",
+      "bytes": 35088,
+      "sha256": "536eebc6143b10533acb949c4ae7160e172a8432280680267421e20a9a6bc25a",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_internal/oai_conversation.py",
+      "bytes": 30211,
+      "sha256": "ac3533886bd4fbc71c84270389cee39f1634e9ca2a2b7b9308fe772071aa42c4",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_internal/prompt_cache_key.py",
+      "bytes": 4384,
+      "sha256": "fbac7eac634820ab60edaa1c4206d81aa8e2e1ccc4850f5a0f89a081d2440a46",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_internal/run_grouping.py",
+      "bytes": 1547,
+      "sha256": "a12bf56fd2961fe179e19b1c5732a054b92590f789869b088f030546fc6a1c2f",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_internal/run_loop.py",
+      "bytes": 119953,
+      "sha256": "8e98d99ff7131232f357f596a6f0412ed3185c990528247c77aaf292f65450e3",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_internal/run_steps.py",
+      "bytes": 7228,
+      "sha256": "3fb6311a1a9957505217d4bbfae4f491ce0b09e42e0f834df119ba5d435bde1b",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_internal/session_persistence.py",
+      "bytes": 55921,
+      "sha256": "99fb71222ffba5c07e8ad881b8d4f8287c1b013216bc153d093346123c3676ee",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_internal/streaming.py",
+      "bytes": 2994,
+      "sha256": "dd83880b86aa077f993ad2647a42b039c57ee0e2f8c7c2f039c33d0c1da769e9",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_internal/tool_actions.py",
+      "bytes": 41569,
+      "sha256": "0b04ed31f668453e7589d943f0a85b3a05f1e7397a92b4ecebd6e9472f583f63",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_internal/tool_caller.py",
+      "bytes": 4509,
+      "sha256": "2c93dccef277e43088268470abbe91147e6862c9135177d28719e45388f62f6c",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_internal/tool_execution.py",
+      "bytes": 105950,
+      "sha256": "a1e62fd61150c767cf47990f64bfbfe42d68a3199917d1070f2785e9f7c16a77",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_internal/tool_planning.py",
+      "bytes": 43767,
+      "sha256": "de8d71288dadc56b79b596174cae7b8b229c2235179f32184f2f5b86c9c0613a",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_internal/tool_use_tracker.py",
+      "bytes": 6355,
+      "sha256": "76561d423c18a8c2a0cedcca979d374a75e90e73bab5c2d084854e9ac444ae85",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_internal/turn_preparation.py",
+      "bytes": 6297,
+      "sha256": "ccef589e604884483da762a26e2212e59aa2faa53cf0529493af2a41c8ae34fd",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_internal/turn_resolution.py",
+      "bytes": 154430,
+      "sha256": "558e1eaeef4b366f3d9abb789bf0102f4055e83b36f952e0f5768daf7df9e7c5",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/run_state.py",
+      "bytes": 227149,
+      "sha256": "f120113f8dbba44025b0d3ba2efefe01d649661ee4d11ec769286b9533856ba6",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/__init__.py",
+      "bytes": 1726,
+      "sha256": "787f6e5265bbbb1533f8be2aab018e0259a39d7877ceafe1da7f400b5d258c8a",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/_mount_security.py",
+      "bytes": 87068,
+      "sha256": "9f3a61546a63a81042991ac0370882f58807ddf8eb1ed6fa800429e6511f1403",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/apply_patch.py",
+      "bytes": 15317,
+      "sha256": "a83e5f9382d8a5c68b70a19ebb946c31f21cc96bc31f6ad4d8cef913290b12d2",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/capabilities/__init__.py",
+      "bytes": 808,
+      "sha256": "2931deb43c4dd52453886120de8136296cf82ccd3044d5bc4bb6e7f5401fb559",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/capabilities/capabilities.py",
+      "bytes": 264,
+      "sha256": "7a40308ac95dd8f649bc06047af0d7183b76338120ec6453acef9991f9d1d406",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/capabilities/capability.py",
+      "bytes": 3849,
+      "sha256": "ec5cbbfe97d693ae24a0d02f2d14c4794ac1cdb1701e667032f60f98f434e3a9",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/capabilities/compaction.py",
+      "bytes": 7148,
+      "sha256": "7c9c33ccd3ac9319c4ac5ab4d052edd69e42dd3c4b5cc2810df510b148641796",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/capabilities/filesystem.py",
+      "bytes": 1695,
+      "sha256": "ed298ef9d0cd80e54da8fb208f52cec387f654b7fd1b7fec429ccd69666a2df9",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/capabilities/memory.py",
+      "bytes": 3760,
+      "sha256": "f9e08b5ef09f6a4c7c74f7475ed53c36ee724a3f615a94fd470353b61b0a35ba",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/capabilities/shell.py",
+      "bytes": 2310,
+      "sha256": "dbc239578b9464eba67cc91613aacd966ec892266a483b026afe372c33f4e120",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/capabilities/skills.py",
+      "bytes": 37866,
+      "sha256": "5ce7aebd87530a492ae2d450a16d91ebacb9a070282b19d3c88ef98515d38bbc",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/capabilities/tools/__init__.py",
+      "bytes": 426,
+      "sha256": "463361f978f9c056346e4afc8fbb4a6b2362e499305865261a0759ae10545adf",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/capabilities/tools/apply_patch_tool.py",
+      "bytes": 16218,
+      "sha256": "14f00614d461a3916fe0d9fdd3663a93763967a2a2e7264a1bcb318cea8e4b49",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/capabilities/tools/shell_tool.py",
+      "bytes": 12768,
+      "sha256": "4c48c6e1e98b955196145137672d3055ba0c7409b6074821db9a7dd1db6c9e5c",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/capabilities/tools/view_image.py",
+      "bytes": 5839,
+      "sha256": "917287ddf35a669c4b2a88e14932e1db003e3e2940961fb75f4899cbb6d093e0",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/config.py",
+      "bytes": 5312,
+      "sha256": "b133653523cbdd4b96f2b54f840550b1949f79050dcfa024e45b02bb123965a9",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/entries/__init__.py",
+      "bytes": 1032,
+      "sha256": "c0cea70363d9ed1b44f9fd73ea4c0454b002649dd2c320b3d48245ceddb0accd",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/entries/artifacts.py",
+      "bytes": 32670,
+      "sha256": "98451b20346be07e560d45a1f60ddb7bca3c67439f3c8e769e96b3413023528c",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/entries/base.py",
+      "bytes": 6579,
+      "sha256": "83b2bba5c2b3dfb9d8db5f3227f72502d7525430a48e189b359ca66555f8b25a",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/entries/mounts/__init__.py",
+      "bytes": 821,
+      "sha256": "ed5fd8b632d90d5273e2fe80299920818e23346f477a5cd89535dc6fded58faa",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/entries/mounts/_redaction.py",
+      "bytes": 2018,
+      "sha256": "2b44043cc849fcc4d9a8c2da66074a855bbe7ad17be74813d206e0a869723a98",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/entries/mounts/base.py",
+      "bytes": 19784,
+      "sha256": "ecd70df23d6eb8e1cdc1a20e8ea1a8c55ae2b81bac155ab85df7ddc1e2215f4f",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/entries/mounts/patterns.py",
+      "bytes": 37048,
+      "sha256": "dcca3f229fe841b187ba1ec4ee09b2f0dbf85504688969f3dda7126add92d563",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/entries/mounts/providers/__init__.py",
+      "bytes": 329,
+      "sha256": "0ff594c6b88fa961aa937aa414a8e2e8674a117025166097b80f9222ba6e0eb3",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/entries/mounts/providers/azure_blob.py",
+      "bytes": 3719,
+      "sha256": "9f79f3aa027fe71590f21a7c34d7d9fd1d8502ce0e5372f6b6e5d4430bb894b6",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/entries/mounts/providers/base.py",
+      "bytes": 4570,
+      "sha256": "9181b9a9535c28149cec059b0eb9203d60b0665f7250ffbc4e24a1f97903a410",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/entries/mounts/providers/box.py",
+      "bytes": 5020,
+      "sha256": "3c53dc70c0471c738599bd321bcf7d8e316866ad82a28be83a934bf2dea21932",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/entries/mounts/providers/gcs.py",
+      "bytes": 7911,
+      "sha256": "be3682458540b788e27fcaa3b33b72790d0233fa0a81b52a34dd9d88cb16819e",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/entries/mounts/providers/r2.py",
+      "bytes": 3645,
+      "sha256": "3a6890c72f5a74305d6c801d81de10eae0fed693bb63f88273161546d53795c6",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/entries/mounts/providers/s3.py",
+      "bytes": 5210,
+      "sha256": "2e694fca441dee869d10f11ef5f6dfcae491c305705c5e7f7739e97cce2d44ea",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/entries/mounts/providers/s3_files.py",
+      "bytes": 2950,
+      "sha256": "b84646520ae62474be0bc3b799dee884c3d41e1bb430213214c4ab789cc7f1f5",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/errors.py",
+      "bytes": 27671,
+      "sha256": "82587fa58c567f3399bf78237f997d98db82feb194212b6402c9e967e4a52a51",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/files.py",
+      "bytes": 504,
+      "sha256": "e8a6ce0c5a8036ea25a79d0178f3131a419d7eef13a640853239e54a378044f6",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/manifest.py",
+      "bytes": 24614,
+      "sha256": "c822fa9674898e135b62d70a64cc74cb4badd2592687c5f3b7c0aee61d2425de",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/manifest_render.py",
+      "bytes": 8609,
+      "sha256": "49dd2a2ff11edd29b0c0f06dd0c2482b9ab585c845fe97ef7a87020e6813006e",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/materialization.py",
+      "bytes": 2214,
+      "sha256": "7ddafe00e9bddd49273746909473d65786a813874ad206d0a6b07938ade96e5f",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/memory/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/memory/interface.py",
+      "bytes": 966,
+      "sha256": "c6e2f6aea4221030c0fcf448b99c9c85dec09d8d98079338345a853ce3692caf",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/memory/manager.py",
+      "bytes": 13870,
+      "sha256": "c270a4992d19b302ba25c8656ff9c55a2e916d59fc48a7563682c066b77f4495",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/memory/phase_one.py",
+      "bytes": 4624,
+      "sha256": "d20cb309b6e7b2e87508886a7a4e89b75807a267b88a046885066c70cee9637b",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/memory/phase_two.py",
+      "bytes": 1143,
+      "sha256": "67d76c884bac7ed3f7b548f594bbaf2bd18e8bc40939c0d7cc2ff7f1bd0be39e",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/memory/prompts.py",
+      "bytes": 6171,
+      "sha256": "2eb0bf2e2e097a396ca6eba9cbf98c8b0e5e3c72f1cdfc5e7f1ed5194a5f93b0",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/memory/rollouts.py",
+      "bytes": 8466,
+      "sha256": "269b19a978aa0e1ccf32a1027955b4984a312dc0def37a2833d428f6a9ec8250",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/memory/storage.py",
+      "bytes": 9286,
+      "sha256": "75fe67c6394c8250e5515f413cabf290fa4321866501f78029ab8981c629d64f",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/remote_mount_policy.py",
+      "bytes": 2628,
+      "sha256": "1bd5bd0841c42cc2fab4ad7a7717c1fd38499f480351f0805e964dd264665ced",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/runtime.py",
+      "bytes": 13154,
+      "sha256": "e00bfee54efab9b99877f0121c41986a613162d993f359744dbad412322d53b8",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/runtime_agent_preparation.py",
+      "bytes": 9194,
+      "sha256": "ff5df2a03e18b4292412467f7f43b7572f534349cacc10e853fb716a2782b341",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/runtime_session_manager.py",
+      "bytes": 42100,
+      "sha256": "5afe42df5907896c68e373995e90e63226a55ce37872b16c0c28f09a6c94cd16",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/sandbox_agent.py",
+      "bytes": 5728,
+      "sha256": "90c216fe61346d8568cb0c6d1436657d89e7b05ed4f2ded299584b8336fee9cb",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/sandboxes/__init__.py",
+      "bytes": 1651,
+      "sha256": "a385d53c5c7ef9105613da008ac1dcef3dc0ef3dcf669e3a4620d4080af3e260",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/sandboxes/_docker_removal_worker.py",
+      "bytes": 12250,
+      "sha256": "d403871303e1e7c37294d10f838c5ff9a47af5d4017ea80b9c39200cd9981daa",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/sandboxes/_unix_local_file_ops.py",
+      "bytes": 12433,
+      "sha256": "c1d2ca9204a9c1647104cbc4917bc4c9709ca717efbd2d8c4926ec9fb898a530",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/sandboxes/_unix_local_files.py",
+      "bytes": 2148,
+      "sha256": "894364a8204298151aacc0e90550dad75508060104ce17b8d45a71184a009876",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/sandboxes/docker.py",
+      "bytes": 82296,
+      "sha256": "3391a62517cbe780f7029331ab0c79b09741851fa8ce06968267e0e2f223de7d",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/sandboxes/docker_removal.py",
+      "bytes": 22504,
+      "sha256": "4bf0d5e36aa6039c64884d6464a4377ed21fdcdd18986687531cfe6ea963dc2d",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/sandboxes/unix_local.py",
+      "bytes": 64350,
+      "sha256": "055e3e3fa794900e1676c2a629e12ae0374874ae51f7585a3bf048763ec8b078",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/session/__init__.py",
+      "bytes": 3590,
+      "sha256": "e4984791b929e131bc96cf5c5863b8b3f699434395f33d43b2052a513cc17732",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/session/archive_extraction.py",
+      "bytes": 18381,
+      "sha256": "8e0553e924bd5f7590bf33adb8146ddb68b7ab8993cd1c0cf4ba5bca541993ee",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/session/archive_ops.py",
+      "bytes": 4329,
+      "sha256": "7bc4e1d597859fbb7c2e0b865dbcb47b39703f15ab5e0b90b1ddbab0026034cb",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/session/base_sandbox_session.py",
+      "bytes": 60191,
+      "sha256": "b6c65e12eab2c1775d0869318a949f5e69843220a4c769a5b156ba2286f6440c",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/session/bounded_read.py",
+      "bytes": 432,
+      "sha256": "093d3c3a5eefd969fa6a92dadce07d848b30a35afdbeaa19294ab4c91fc8e08d",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/session/dependencies.py",
+      "bytes": 9090,
+      "sha256": "a44e76c1c9b348201de46703c99d558ebc40cc106afee2dd3ee920d9c62970bf",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/session/events.py",
+      "bytes": 2921,
+      "sha256": "68e39a05d03f6b59e749f0420967909a66384102fa513b9faefb2cf5c84a0e28",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/session/manager.py",
+      "bytes": 6800,
+      "sha256": "71d3b6372c842df2ed0a07540478792f2688ae4579055955c0bb2ebaae241714",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/session/manifest_application.py",
+      "bytes": 6825,
+      "sha256": "491e0b8eac49728f7ff280b3737c73121845ff5e31d40e049a681b4641053f8f",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/session/manifest_ops.py",
+      "bytes": 2122,
+      "sha256": "6e5d0e9aa03a153294117c43ccc84dacff98b3c5768ca7d14054760ae7f05879",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/session/mount_lifecycle.py",
+      "bytes": 8617,
+      "sha256": "bacaa4bafddc44aca64ace25a42fdfbdbad581f4a8fbc7b536e6b170b0cdf32c",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/session/pty_output.py",
+      "bytes": 5095,
+      "sha256": "13690774bcdd059fea715bcf37d0c5b905fcc96e192f3676911d3c32ffb9d749",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/session/pty_types.py",
+      "bytes": 2879,
+      "sha256": "d5ac4d91f4cc7fbec4f6b28aecf6982c65c5b54f825f8b4260193e45b40d6a66",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/session/runtime_helpers.py",
+      "bytes": 9404,
+      "sha256": "1064328c0cce7a290bd081ca894feb7e4c310e28802d90a30b165960a3591a7a",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/session/sandbox_client.py",
+      "bytes": 11263,
+      "sha256": "0c2429c5a48da7966255dfe7cb8224bf434ca837e32201b50ca357124e14a45f",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/session/sandbox_session.py",
+      "bytes": 25330,
+      "sha256": "fae513a72aa8bc8ed9115f3210bc3eb555282741d64e09a36739b48e2416c994",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/session/sandbox_session_state.py",
+      "bytes": 18272,
+      "sha256": "70c6199496f5d22d0c67f5aca3c5260eb05a0a2b15ff7ed077244d4c0bcee7a8",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/session/sinks.py",
+      "bytes": 14364,
+      "sha256": "482beb35e6019493c9f7c155dbb9b09c967a5522e613abcd1ec4fb84d663296b",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/session/snapshot_lifecycle.py",
+      "bytes": 9436,
+      "sha256": "f86e669bc24edf84e2378323f13f1a4773fadf6bfb2605605660e1ca81e5041d",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/session/tar_workspace.py",
+      "bytes": 616,
+      "sha256": "fd40d0f78e36847ab0735af3223aabac26d327d4780fc08dbb2ea52216eb3fcc",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/session/utils.py",
+      "bytes": 937,
+      "sha256": "953fe59cd97ce189338e4b9f09f9fc6a571f87e51356e16b7690e11aa0633a6b",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/session/workspace_payloads.py",
+      "bytes": 2300,
+      "sha256": "4db439f6069746ec7ebe2435ee8ec6f71c247a9497c09f40a318c214360af886",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/snapshot.py",
+      "bytes": 9211,
+      "sha256": "00cb6086fe175d046ae792cf6c58bf9d777d2f9cc6408f57dc105c25ef8f390b",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/snapshot_defaults.py",
+      "bytes": 3371,
+      "sha256": "1b2059db05a1eff5a198b66992e51a4483190221344e681342dbc0a67f9c170a",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/types.py",
+      "bytes": 5780,
+      "sha256": "883b035e812c9c3180acedaffae1db2eef68124c03f99bb8f01e4fd1658673ae",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/util/__init__.py",
+      "bytes": 2101,
+      "sha256": "46284d5a7bbd82814da996edbf8aeca33a1219ef534ae03d56440d4df6cd646f",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/util/blocking_io.py",
+      "bytes": 1486,
+      "sha256": "e75862d5ffed4f5892d3235c3c678966dd17d5a1b88cc558c4c6997cf98df976",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/util/checksums.py",
+      "bytes": 1090,
+      "sha256": "6a764fd52143a7a85fd157c991a0cbfa6d10c4666341702ff19bc1b807ecb4de",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/util/deep_merge.py",
+      "bytes": 753,
+      "sha256": "f792b3d076b71c6e9f96ba5712c43962a0c90815eb68b2be5c4e82b54e994c22",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/util/github.py",
+      "bytes": 1387,
+      "sha256": "a53fca259fa02595987bd7487294f1c34e59354c299468166a52d2eaccd396d9",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/util/iterator_io.py",
+      "bytes": 2509,
+      "sha256": "b78237df1f99283ea2b611d1e42e24d83ff7c53e4097ddd17a390103496c5527",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/util/parse_utils.py",
+      "bytes": 2761,
+      "sha256": "45caed6356c7ad1fb21b6a2c81e2de839f6d0bf02fcfea0cfb95b57ca6d6f8f6",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/util/retry.py",
+      "bytes": 4248,
+      "sha256": "7b26492b0b4e4fc72bda06512af053458f5c26a8d294ed2f3e949f4b394da194",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/util/tar_utils.py",
+      "bytes": 24191,
+      "sha256": "86720f29ce0443b1b1e3ac1e4428be20b81641f427f051444365a032e60dac43",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/util/token_truncation.py",
+      "bytes": 7304,
+      "sha256": "4e9d8114cc777eaea8c1ea2ca613a6531d9c07b8db21ebbe78cc10d65ac40c84",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/sandbox/workspace_paths.py",
+      "bytes": 22449,
+      "sha256": "5ca34858e8472504c9dd1210cb340c0fa450e2fe2f4d83b26d420a2816bd431c",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/stream_events.py",
+      "bytes": 1759,
+      "sha256": "d28151397c5d15da9e11ee3c5ea6f917a2005b6f614a9c6d0fed32ee380e0aee",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/strict_schema.py",
+      "bytes": 19899,
+      "sha256": "dc3e869668c39f344c92d383576fce8f417d7f80b0bf762f637327f639c72e61",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/testing/__init__.py",
+      "bytes": 1027,
+      "sha256": "ab0cc21b0b214d6314e28ddc5daebdf23ea36697a8a6aef5dd0cda8a855d73e9",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/testing/model.py",
+      "bytes": 47414,
+      "sha256": "f3f7fc68902618c8d7c4b44e3487cdd4ded7479d929248c770347e5655df95f2",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/testing/sandbox.py",
+      "bytes": 20245,
+      "sha256": "d589c008e697fc47cee25c790f6c8e95d4c0b93ccf786e6b2e7c73582e42ae01",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/tool.py",
+      "bytes": 114233,
+      "sha256": "befdeba1be291f6d0e6f5b860c89f4c84a829921a9903bf5cde5f26bc0c16306",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/tool_context.py",
+      "bytes": 11570,
+      "sha256": "acf2513ef9ee644977883885e2e226b5e2b1b73c0ede9f694c6b3f7e3966b52f",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/tool_guardrails.py",
+      "bytes": 8454,
+      "sha256": "9a051c0d519c337e8c7b49887d20e2b2a9c4bf99331b6b7a83ce806648877b04",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/tracing/__init__.py",
+      "bytes": 3215,
+      "sha256": "ad0d210194c340ca0e7ecd9d636b09bda15dd2a1dfc41c7dbab941805600954b",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/tracing/config.py",
+      "bytes": 602,
+      "sha256": "e753fc028b99828d7f98130adbdefc8810b016c9860df5df34dc1b9891c78217",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/tracing/context.py",
+      "bytes": 4152,
+      "sha256": "fd8f6b6854bd947c6979461268b35fc4847cb4ff58592e310b22420fc9dd2fde",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/tracing/create.py",
+      "bytes": 19086,
+      "sha256": "cc3f381abaeae11b70fab75869daddad498329018a0368e5cdace52c20a34068",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/tracing/logger.py",
+      "bytes": 68,
+      "sha256": "2782940d14866bbc795157d4c167be81b2b0a1aabc01e11346a90fb7742fb468",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/tracing/model_tracing.py",
+      "bytes": 456,
+      "sha256": "3ee47c79c83a04bd2e04f937b6099660b05dfcfe1542af7b2cd7de4c87107d7f",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/tracing/processor_interface.py",
+      "bytes": 4385,
+      "sha256": "fe46f2f8cc9a27d352227648a098bdb49958916b089469b6582781f0385c3e66",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/tracing/processors.py",
+      "bytes": 38541,
+      "sha256": "510ccad6e22356c9544277324e2c94eae2d8535582972cd8c3d84616f4915500",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/tracing/provider.py",
+      "bytes": 18475,
+      "sha256": "56720ae787d2cc737af7a74c1519e49d2a2eac181dab4675069bb1acd2623a65",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/tracing/scope.py",
+      "bytes": 1458,
+      "sha256": "ff8eb37253d02b53c5dcbcfa92ae1efed64781ac6f8dd7b5b86613fdff348ce6",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/tracing/setup.py",
+      "bytes": 2083,
+      "sha256": "ceebd1fe2ec9ed222ddb4ea50d97cf94003cda6f15c918f098635f15d2e324b1",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/tracing/span_data.py",
+      "bytes": 11024,
+      "sha256": "f9d7e2fc19d2acffd47de18efd2958036f920367a248386cba9fd4f42da33831",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/tracing/spans.py",
+      "bytes": 12373,
+      "sha256": "89ca21515427cb30a8cdfbd26c72602add0f5a71ac4bde563cd41b18e16f4968",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/tracing/traces.py",
+      "bytes": 19093,
+      "sha256": "ae5b5585a2c1c2a285d99722543395d6806b01e60522f3bf7ff60456e40d060d",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/tracing/util.py",
+      "bytes": 490,
+      "sha256": "27b2198150e6796d1a643c3c2c14a304aae541b70e99aa9913b5d08e894fc22f",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/usage.py",
+      "bytes": 20270,
+      "sha256": "671eff94948adf76f419247b07eacf33012a57bbf753b2dc809cbd599cf114a5",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/util/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/util/_approvals.py",
+      "bytes": 3228,
+      "sha256": "b996e812c21ad30b03dd2f2d530defc301c71e791d0ce761e64986aa81affbb4",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/util/_asyncio_tasks.py",
+      "bytes": 5072,
+      "sha256": "f02b1c339e9cdc618aacdfb8145eacceeb71ccdcb37243f353daeb86d9acb02f",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/util/_coro.py",
+      "bytes": 45,
+      "sha256": "4b7f17518142edba9310b4a031406c017d46a11948ad5edca2ea5c500587fffe",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/util/_custom_data.py",
+      "bytes": 1895,
+      "sha256": "08c4ba9eebe39e0290edcea1ff6817ec36696cfe50e2c375d178a07108ac112d",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/util/_error_tracing.py",
+      "bytes": 5203,
+      "sha256": "658edd18a64191d404c58813e5ab5335ae90624ef9814f7fe82f3b7bcd34e5ea",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/util/_json.py",
+      "bytes": 2611,
+      "sha256": "cc2a4d473fe3ec0627679d430351b4ab9a883a2e3628b90c59f9d24d094dc128",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/util/_pretty_print.py",
+      "bytes": 3460,
+      "sha256": "af3a13e9814b6cebb912708eaf69ede33c3d4883d7b304f6a91400ad152d37bb",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/util/_tool_errors.py",
+      "bytes": 560,
+      "sha256": "866c679d926b8dbfb5dcb5a13eeeea47bb6105a16a0d666a524e18817a9a9455",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/util/_transforms.py",
+      "bytes": 761,
+      "sha256": "3d8c6b8c5037e1ba039bcdfb68953f7fa2ded7d79825d102ae2ee8a046d3ab4a",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/util/_types.py",
+      "bytes": 169,
+      "sha256": "0ca58b7cb078edc666271c2b647900e0bdf64daa49419e903db46e0f51dd0f72",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/version.py",
+      "bytes": 231,
+      "sha256": "89e29eea860f7762b757a42f290a6e09c4d84d522dd8a1cb93a268ea00ff3155",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/voice/__init__.py",
+      "bytes": 1652,
+      "sha256": "767304a8dcc50128ef14b5f9e1fdbca67691609da5d55ab350a41f481dc1ade3",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/voice/events.py",
+      "bytes": 1176,
+      "sha256": "6a1e3293fa9b41a0e1b20b028826ca839786d83e3d9d253765c2b36fa39b8c5a",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/voice/exceptions.py",
+      "bytes": 233,
+      "sha256": "41cc9fbda51305ee20c5b14ff36a0349afe9bb36786783b8934d41f290079cad",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/voice/imports.py",
+      "bytes": 348,
+      "sha256": "55a13923c6894cff5997fd3ecbd771d547003fb28f44331a8a414ada31679fcb",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/voice/input.py",
+      "bytes": 4849,
+      "sha256": "a1c1953e06dba857011acefd79a2139d0b58c5e7be13bb90cfeae34d02bd17e2",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/voice/model.py",
+      "bytes": 6842,
+      "sha256": "fa2da05e6b6ff15568faedd96f71e8dfc2b4364f9c71470988670787025dbfb6",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/voice/models/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/voice/models/openai_model_provider.py",
+      "bytes": 5035,
+      "sha256": "6d609f0ddf4fd05824dba46d53ffcd5c6f589cc1156b1f51c7a7f6504c88e890",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/voice/models/openai_stt.py",
+      "bytes": 28129,
+      "sha256": "bafdb5949aa2913e2793f1290a5a1f3e6334bca595279daa72c2437c32519ce0",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/voice/models/openai_tts.py",
+      "bytes": 1557,
+      "sha256": "27ae94a8dbfcc0526979045a794ff7ad99097dff454a2d307ce57ae5c46e36ac",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/voice/pipeline.py",
+      "bytes": 10577,
+      "sha256": "34241195a09d5ad35deb322fa5101ccdf6736e952750c1c88ab923089f65d6d4",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/voice/pipeline_config.py",
+      "bytes": 4670,
+      "sha256": "995696b31a2224c9191b5adf8a4e22ef048b14e8bb6cc10695d78f83125263f3",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/voice/result.py",
+      "bytes": 22115,
+      "sha256": "9ee01cf7db7727719c072eb2a0738eae79f2ba9d4dce02f86003efd50745cfc9",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/voice/testing.py",
+      "bytes": 14365,
+      "sha256": "7748dd38a3bbe189e20d138d28cfb0bd4744c5acb1cd0dab57191a303dbcc829",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/voice/utils.py",
+      "bytes": 1726,
+      "sha256": "17b8c8d6d6e3f675a9dfc47409126e737b457e7d837e5c2aa090276aba066c8e",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/agents/voice/workflow.py",
+      "bytes": 4089,
+      "sha256": "b4ee8582b71733f06fb396fdd16c2c188686ecef53d8a07dd3879aa1415f0723",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/distribution/LICENSE",
+      "bytes": 1063,
+      "sha256": "13df7812ca53ecaae1cb4a868844bb598373047ae1d580e4debfbef1dd5b6915",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/distribution/METADATA",
+      "bytes": 13584,
+      "sha256": "1117bc3fb93c9fb646b7e007ea0aaa159cc4c131e83a4c4737c1a56a434f512f",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/distribution/versions.json",
+      "bytes": 164,
+      "sha256": "37341fa4c33e20881634d69fb2bd8df3572e1e80a4d5b3937fdbdfd661e4bdbd",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/__init__.py",
+      "bytes": 723,
+      "sha256": "fd35bea460843bd946ee6193b1adf5a557fbe0993dea3ca4c58b3c35df1ea4ae",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/aae_binding.py",
+      "bytes": 10885,
+      "sha256": "72ac29fe90b8b20549a41a1dd6a9d25ec8a945bdbbbf4b1ba4f5891e09b6b093",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/aae_dispatch.py",
+      "bytes": 8015,
+      "sha256": "70e6e669d24fbfd5275b25217523ea55d3da1495bb16e0834ff7a8de2a1cf6bb",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/aae_enforce.py",
+      "bytes": 21776,
+      "sha256": "5b79dacd2fbd873ae073af5186e606b5baa1c6c9d8e627a0387ae9fc7bb96a94",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/aae_ticket.py",
+      "bytes": 6287,
+      "sha256": "ac12299c5d3bd5de030937d55358031a6ba72f152571ef20c521437fabe54743",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/admission.py",
+      "bytes": 20440,
+      "sha256": "5b9f68dbfc59b1c088b7de9c41e81fabdf2e3a72426e8766845d0cea28b2af0f",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/attribution.py",
+      "bytes": 7799,
+      "sha256": "9aa531cfbd99df6185c35220db157c78d1c7b97c7c99bd2e24caa3f498dd0dee",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/authorization.py",
+      "bytes": 28758,
+      "sha256": "35e28320cc6aa344938d9e678efa6de9b803b7b22e2431e8e918a8b57c08e4a9",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/broker.py",
+      "bytes": 19690,
+      "sha256": "9e36cc446dd63112bfda8555df9319345f825d74c5794ac0b037c92d235c0bd8",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/cli.py",
+      "bytes": 4090,
+      "sha256": "615b58fd5ea3401ca3e1ff9ebab63508a22dee6578a28890793054da72fb78d8",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/crypto.py",
+      "bytes": 5729,
+      "sha256": "a334d7d2776d362788ce5e8687a916a62ba1614e97c0ccb8994d2acb22bc315f",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/declaration.py",
+      "bytes": 20694,
+      "sha256": "71c3112fd8bbaffd4adc03af46d16a8f36c41187a36fa86231d8a8d2caf37a66",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/evaluation_history.py",
+      "bytes": 23576,
+      "sha256": "175467e7eac8381cc0a79c8f35efb80b406c99dbdc0b05bb5cec65afb41532c7",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/history.py",
+      "bytes": 9435,
+      "sha256": "e2618b8dc34f1251d9c1fa82232313a9524f8b3a38654352bf7a4d2b9ca1b267",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/inspect_history.py",
+      "bytes": 26903,
+      "sha256": "1d0fc978360c60f8e57cfdb8f3f7b6d07b56bfefc92b4dcdc928006222ca041c",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/isolation.py",
+      "bytes": 13166,
+      "sha256": "737256706038ef6c05db2860dba22af0f023e44ba1cd213ee44516c0f9fcb3c0",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/ledger.py",
+      "bytes": 15866,
+      "sha256": "028a41eefce7abc88f31237a0407dae6a9728394c7b10634424e53967f8b9d53",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/native_reader.py",
+      "bytes": 12815,
+      "sha256": "880501767490ea8c439251df18c269c331522bb406b21bd59265a622bcd494db",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/probe_agent.py",
+      "bytes": 2584,
+      "sha256": "3699eeb662610fea2d8403294fad3239cbecf3dfcaeb542ceb2c40abdb0897f6",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/protected_dispatch.py",
+      "bytes": 33609,
+      "sha256": "91c748e4e21bcbc347fdaab129785671765214758f043482f8f31af043e12b34",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/protected_isolation.py",
+      "bytes": 19183,
+      "sha256": "6d99ddca3f03ada6c05ff21f4796ec3b8eea7097c1119b38e53239b16e44809d",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/protected_probe.py",
+      "bytes": 5872,
+      "sha256": "9e89109a168837662c434f0988e6ab8d90d6dd6e472b516c27ad8b8b16f8138f",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/replay.py",
+      "bytes": 29625,
+      "sha256": "e156c0a2daa2eb56feae8e09339401b4fc8a641375d569ea80a4c50fd7f47261",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/ticket_service.py",
+      "bytes": 29826,
+      "sha256": "c6df218d6a81c21ab99ff2549b07f0691ff00e4e44b3f7520562d5c90fcdbda7",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/verify.py",
+      "bytes": 9511,
+      "sha256": "a787abe4189556cd3da87569eccaf6cfe6fa265662b9505f733a6742867bdcf2",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/producer-stdout.json",
+      "bytes": 1611,
+      "sha256": "aab49f9e15d77f1d18da1473af58a5ba3f76ed5d1b7e6ad5326e7b8633777600",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/reader-stdout.json",
+      "bytes": 1611,
+      "sha256": "aab49f9e15d77f1d18da1473af58a5ba3f76ed5d1b7e6ad5326e7b8633777600",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "installed-source-proof.json",
+      "bytes": 658,
+      "sha256": "3edbd60f9f6399b62d42d9962aa44b8be681213a4b9203db42cda2d57fefd031",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "test-results.xml",
+      "bytes": 4473,
+      "sha256": "4f5f1caf3124fd18a6d15fa20afd43153444ad1d82dcec8808b65d3d97388085",
+      "selected": true,
+      "reason": "retained original native member"
+    }
+  ],
+  "nativeProducerImplementationHead": "faa22f16b459f10f53705a2d377754135db63e2b",
+  "separatelyPinnedTargetObserverHead": "71ac0b2126473316655184235000647a6dd0f5cf",
+  "nativeSourceIsPullRequestSyntheticMerge": true
+}

@@ -89,7 +89,10 @@ def _set(entry: dict[str, object]) -> bool:
 def _envelopes(entry: dict[str, object]) -> list[bytes]:
     """Every envelope a member carries: a set member's records, else the one."""
     if _set(entry):
-        return auditrecord.set_records(_raw(entry))
+        try:
+            return auditrecord.set_records(_raw(entry))
+        except (auditrecord.Malformed, ValueError, KeyError, TypeError):
+            return []
     return [_envelope_bytes(entry)]
 
 
@@ -107,6 +110,10 @@ def _verify(
     policy: auditrecord.Policy,
     disabled: str | None = None,
 ) -> auditrecord.Report:
+    if _retained(entry):
+        with open(os.path.join(HERE, "MANIFEST.json"), encoding="utf-8") as fh:
+            heads = auditrecord.tree_heads(json.load(fh))
+        return auditrecord.verify_retained(_raw(entry), policy, heads, disabled=disabled)[0]
     return auditrecord.verify(_envelope_bytes(entry), policy, disabled=disabled)
 
 
@@ -895,6 +902,23 @@ def _section_sweep(manifest: dict[str, object]) -> list[str]:
     return findings
 
 
+def _set_bundle_profile() -> list[str]:
+    """A set bundle is read under the JSON profile and must carry a records array."""
+    findings = []
+    for name, raw in [
+        ("records is an empty object", b'{"records":{}}'),
+        ("records is an empty string", b'{"records":""}'),
+        ("bundle is an array", b"[]"),
+        ("records carries a float token", b'{"records":[],"n":1.0}'),
+    ]:
+        try:
+            auditrecord.set_records(raw)
+        except (auditrecord.Malformed, ValueError, KeyError, TypeError):
+            continue
+        findings.append(f"set_records accepts a set bundle where {name}")
+    return findings
+
+
 def main() -> int:
     judged = auditrecord.judge(HERE)
     sys.stdout.write(auditrecord.render(judged, auditrecord.SUITE))
@@ -906,6 +930,7 @@ def main() -> int:
         + _dating_sweep(manifest)
         + _section_sweep(manifest)
         + _aggregation_check(manifest)
+        + _set_bundle_profile()
     )
     for note in notes:
         print(f"note: {note}")

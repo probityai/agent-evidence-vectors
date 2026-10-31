@@ -1,0 +1,175 @@
+[
+  {
+    "step": "lock",
+    "argv": [
+      "uv",
+      "lock",
+      "--check"
+    ],
+    "actual_exit": 0,
+    "expected_exit": 0,
+    "matched": true
+  },
+  {
+    "step": "lint",
+    "argv": [
+      "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/.venv/bin/python",
+      "-m",
+      "ruff",
+      "check",
+      "witness_case",
+      "tests",
+      "scripts/qualify.py"
+    ],
+    "actual_exit": 0,
+    "expected_exit": 0,
+    "matched": true
+  },
+  {
+    "step": "format",
+    "argv": [
+      "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/.venv/bin/python",
+      "-m",
+      "ruff",
+      "format",
+      "--check",
+      "witness_case",
+      "tests",
+      "scripts/qualify.py"
+    ],
+    "actual_exit": 0,
+    "expected_exit": 0,
+    "matched": true
+  },
+  {
+    "step": "readme",
+    "argv": [
+      "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/.venv/bin/python",
+      "scripts/readme-lint.py"
+    ],
+    "actual_exit": 0,
+    "expected_exit": 0,
+    "matched": true
+  },
+  {
+    "step": "per-file-coverage",
+    "argv": [
+      "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/.venv/bin/python",
+      "scripts/check_coverage.py",
+      "--src-dir",
+      "witness_case",
+      "--test-path",
+      "tests",
+      "--json"
+    ],
+    "actual_exit": 0,
+    "expected_exit": 0,
+    "matched": true
+  },
+  {
+    "step": "coverage-json",
+    "argv": [
+      "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/.venv/bin/python",
+      "-m",
+      "coverage",
+      "json",
+      "-o",
+      "gate-results/coverage.json"
+    ],
+    "actual_exit": 0,
+    "expected_exit": 0,
+    "matched": true
+  },
+  {
+    "step": "pair-a-a2a",
+    "argv": [
+      "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/.venv/bin/python",
+      "-m",
+      "witness_case.reader",
+      "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/fixtures/a.api.json",
+      "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/fixtures/a.key.json",
+      "--record-sha256",
+      "747ecd97635e104e75185212cfb70e3cc37310ea1f41966a818bfb5b5d57df15",
+      "--key-document-sha256",
+      "c2aeb7c14095aa8e22eeb6fea2d7d8975ba77db87825a25738155ff77f0bf609",
+      "--key-url",
+      "https://pipavlo82.github.io/keys/witness.json",
+      "--target",
+      "https://gate.horizonshield.dev/a2a",
+      "--operator",
+      "Probity Codex / ordinary shared BoxPool author-run"
+    ],
+    "actual_exit": 0,
+    "expected_exit": 0,
+    "matched": true
+  },
+  {
+    "step": "pair-b-a2a",
+    "argv": [
+      "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/.venv/bin/python",
+      "-m",
+      "witness_case.reader",
+      "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/fixtures/b.api.json",
+      "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/fixtures/b.key.json",
+      "--record-sha256",
+      "e1521f115d61116e3c4d7957903c12afe88617cff468403351f5cea432894b24",
+      "--key-document-sha256",
+      "cb761905d8a2af4145c62e453fa8c65a4c9bb616ecbf727f4aacddb1f65131f2",
+      "--key-url",
+      "https://kuangmi-bit.github.io/conduct-witness/conduct-witness-key.json",
+      "--target",
+      "https://gate.horizonshield.dev/a2a",
+      "--operator",
+      "Probity Codex / ordinary shared BoxPool author-run"
+    ],
+    "actual_exit": 1,
+    "expected_exit": 1,
+    "matched": true
+  },
+  {
+    "step": "pair-a-slash",
+    "argv": [
+      "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/.venv/bin/python",
+      "-m",
+      "witness_case.reader",
+      "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/fixtures/a.api.json",
+      "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/fixtures/a.key.json",
+      "--record-sha256",
+      "747ecd97635e104e75185212cfb70e3cc37310ea1f41966a818bfb5b5d57df15",
+      "--key-document-sha256",
+      "c2aeb7c14095aa8e22eeb6fea2d7d8975ba77db87825a25738155ff77f0bf609",
+      "--key-url",
+      "https://pipavlo82.github.io/keys/witness.json",
+      "--target",
+      "https://gate.horizonshield.dev/a2a/",
+      "--operator",
+      "Probity Codex / ordinary shared BoxPool author-run"
+    ],
+    "actual_exit": 1,
+    "expected_exit": 1,
+    "matched": true
+  },
+  {
+    "step": "pair-b-slash",
+    "argv": [
+      "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/.venv/bin/python",
+      "-m",
+      "witness_case.reader",
+      "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/fixtures/b.api.json",
+      "/home/gate/work/oel-nenrin-witness-reader-r1-nenrin-witness-r2/fixtures/b.key.json",
+      "--record-sha256",
+      "e1521f115d61116e3c4d7957903c12afe88617cff468403351f5cea432894b24",
+      "--key-document-sha256",
+      "cb761905d8a2af4145c62e453fa8c65a4c9bb616ecbf727f4aacddb1f65131f2",
+      "--key-url",
+      "https://kuangmi-bit.github.io/conduct-witness/conduct-witness-key.json",
+      "--target",
+      "https://gate.horizonshield.dev/a2a/",
+      "--operator",
+      "Probity Codex / ordinary shared BoxPool author-run"
+    ],
+    "actual_exit": 1,
+    "expected_exit": 1,
+    "matched": true
+  }
+]

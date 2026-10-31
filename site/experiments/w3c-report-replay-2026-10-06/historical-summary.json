@@ -1,0 +1,74 @@
+{
+  "corpus_digest": "8b035678def9e5ac00ba761b8c640e4412c57163134afb9d2c1a90f49d573a52",
+  "crosswalk_cells": [
+    {
+      "count": 3,
+      "kind": "accept",
+      "observed_result": "degraded",
+      "observed_verdict": "valid",
+      "report_state": "fail"
+    },
+    {
+      "count": 27,
+      "kind": "accept",
+      "observed_result": "fail",
+      "observed_verdict": "valid",
+      "report_state": "fail"
+    },
+    {
+      "count": 25,
+      "kind": "accept",
+      "observed_result": "pass",
+      "observed_verdict": "valid",
+      "report_state": "pass"
+    },
+    {
+      "count": 6,
+      "kind": "accept",
+      "observed_result": "pass_indirect",
+      "observed_verdict": "valid",
+      "report_state": "pass"
+    },
+    {
+      "count": 2,
+      "kind": "indeterminate",
+      "observed_result": null,
+      "observed_verdict": "invalid",
+      "report_state": "inconclusive"
+    },
+    {
+      "count": 209,
+      "kind": "reject",
+      "observed_result": null,
+      "observed_verdict": "invalid",
+      "report_state": "fail"
+    }
+  ],
+  "emitted_evidence_objects": 0,
+  "harness_conformance": {
+    "PASS": 272
+  },
+  "harness_statuses": {
+    "PASS": 272
+  },
+  "report_rollup": {
+    "carried": 0,
+    "declared": 272,
+    "exercised": 272,
+    "fail": 239,
+    "inconclusive": 2,
+    "negative-capable": {
+      "kind": "shown-by-run"
+    },
+    "not-exercised": 0,
+    "pass": 31,
+    "referenced": 0,
+    "void": 0
+  },
+  "report_states": {
+    "fail": 239,
+    "inconclusive": 2,
+    "pass": 31
+  },
+  "suite_revision": 28
+}

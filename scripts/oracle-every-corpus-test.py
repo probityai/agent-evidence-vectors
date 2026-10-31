@@ -58,12 +58,14 @@ RUNS_A_VERIFIER = (
     "vectors-converted-argument-binding",
     "vectors-dispatch-fence",
     "vectors-grade-floor",
+    "vectors-connector-scope",
     "vectors-agent-payment-mandate",
     "vectors-identity-binding",
     "vectors-receipt-chain-end",
     "vectors-receipt-signature",
     "vectors-scitt-cose",
     "vectors-source-coverage",
+    "vectors-open-weight-art53",
     "vectors-trace-anchor",
 )
 

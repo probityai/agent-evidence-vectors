@@ -65,6 +65,21 @@ def corpus_digest(manifest: dict[str, Any], root: str | Path = ROOT) -> str:
     return _sha(_json({"runs": runs, "vectors": manifest["vectors"]}))
 
 
+def _outcome(steps: dict[str, str]) -> str:
+    """One word per vector, from the statuses its steps carry.
+
+    The corpus has no accept/reject split because its expectation is a table of step
+    statuses. A vector counts as `refused` when any step is refused, `established`
+    when every step is established, and `not_established` otherwise.
+    """
+    statuses = list(steps.values())
+    if any(status.startswith("REFUSED") for status in statuses):
+        return "refused"
+    if all(status == "ESTABLISHED" for status in statuses):
+        return "established"
+    return "not_established"
+
+
 def generate(root: Path = ROOT) -> dict[str, Any]:
     """Write the manifest from the run trees and return it."""
     runs = {
@@ -91,6 +106,8 @@ def generate(root: Path = ROOT) -> dict[str, Any]:
         "suite": SUITE,
         "vectors": vectors,
     }
+    outcomes = [_outcome(entry["expected"]["steps"]) for entry in vectors]
+    manifest["counts"] = {word: outcomes.count(word) for word in sorted(set(outcomes))}
     manifest["corpusDigest"] = corpus_digest(manifest, root)
     (root / "MANIFEST.json").write_bytes(_json(manifest))
     return manifest

@@ -354,7 +354,7 @@ jobs:
       - name: type-check every python file
         run: uv run python scripts/typecheck-gate.py
       - name: ruff
-        run: uv run ruff check packaging vectors vectors-approval-binding vectors-delegator-right vectors-completion-confirmation vectors-dispatch-fence vectors-refund-connected vectors-aggregate-accounting vectors-uncertain-effect vectors-agent-card-receipt vectors-credential-release vectors-converted-argument-binding vectors-done-receipt vectors-done-contract vectors-spoofed-tool-output vectors-test-tampering vectors-grader-isolation vectors-done-probes vectors-admission vectors-acs-core/wire-probes vectors-observed-effect vectors-agent-audit-record vectors-ai-generation vectors-receipt-signature vectors-source-coverage vectors-anchored-chain vectors-receipt-chain-end vectors-identity-binding vectors-authority-at-dispatch vectors-chunked-export vectors-trace-anchor vectors-a2a-jcs-v01 vectors-mcp-owasp vectors-grade-floor vectors-agent-payment-mandate vectors-agent-change-admission vectors-agentic-process-evidence vectors-delegation-lifecycle vectors-recorded vectors-self-reported-record vectors-agent-decision vectors-ietf-agent-record-drafts scripts interop/gemara-method-link interop/ws4-prior-witness-candidate interop/agentavow-live-mcp interop/agentavow-signed-map-v1 interop/a2a-s3-retain-2026-10-01 interop/a2a-s4-dual-name-2026-10-02 interop/action-tuple-framed-v1 vectors-w3c-intake
+        run: uv run ruff check packaging vectors vectors-approval-binding vectors-delegator-right vectors-completion-confirmation vectors-dispatch-fence vectors-refund-connected vectors-aggregate-accounting vectors-uncertain-effect vectors-agent-card-receipt vectors-credential-release vectors-converted-argument-binding vectors-done-receipt vectors-done-contract vectors-spoofed-tool-output vectors-test-tampering vectors-grader-isolation vectors-done-probes vectors-admission vectors-acs-core/wire-probes vectors-observed-effect vectors-agent-audit-record vectors-ai-generation vectors-receipt-signature vectors-source-coverage vectors-open-weight-art53 vectors-anchored-chain vectors-receipt-chain-end vectors-identity-binding vectors-authority-at-dispatch vectors-chunked-export vectors-trace-anchor vectors-a2a-jcs-v01 vectors-mcp-owasp vectors-grade-floor vectors-connector-scope vectors-agent-payment-mandate vectors-agent-change-admission vectors-agentic-process-evidence vectors-delegation-lifecycle vectors-recorded vectors-self-reported-record vectors-agent-decision vectors-ietf-agent-record-drafts scripts interop/gemara-method-link interop/ws4-prior-witness-candidate interop/agentavow-live-mcp interop/agentavow-signed-map-v1 interop/a2a-s3-retain-2026-10-01 interop/a2a-s4-dual-name-2026-10-02 interop/action-tuple-framed-v1 vectors-w3c-intake
       - name: timestamp candidate custody and refusal controls
         run: python3 scripts/retain-timestamp-candidate-test.py
       - name: E2 compatibility tests in the shared development environment
@@ -808,6 +808,10 @@ jobs:
           python3 scripts/count-gate.py
           python3 scripts/count-gate-test.py
           python3 scripts/countcensus-sparse-test.py
+      - name: every corpus manifest carries counts that match its entries
+        run: |
+          python3 scripts/manifest-counts-gate.py
+          python3 scripts/manifest-counts-gate-test.py
       # Keep the release recipe, corpus list and form aligned with their sources.
       - name: check distribution metadata and release recipe
         run: |
@@ -977,6 +981,8 @@ jobs:
         run: uv run --extra generators python examples/mcp-receipts/check_examples.py
       - name: source-coverage fixtures regenerate and refuse invalid replays
         run: uv run --extra dev pytest vectors-source-coverage/tests -q
+      - name: open-weight cases regenerate and force every condition
+        run: uv run --extra dev pytest vectors-open-weight-art53/tests -q
       - name: anchored-chain cases regenerate and force every check
         run: uv run --extra dev pytest vectors-anchored-chain/tests -q
       - name: receipt-chain-end cases regenerate and force every check
@@ -1030,6 +1036,12 @@ jobs:
           uv run --extra dev pytest vectors-agent-payment-mandate/tests -q
           uv run python vectors-agent-payment-mandate/check_vectors.py
           uv run python vectors-agent-payment-mandate/mutation_check.py
+      - name: vectors-connector-scope cases regenerate, agree and every rule is load-bearing
+        run: |
+          set -euo pipefail
+          uv run --extra dev pytest vectors-connector-scope/tests -q
+          uv run python vectors-connector-scope/check_vectors.py
+          uv run python vectors-connector-scope/mutation_check.py
       - name: grade-floor cases regenerate, agree and every rule is load-bearing
         run: |
           set -euo pipefail

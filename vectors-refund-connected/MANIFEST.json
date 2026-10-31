@@ -1,6 +1,11 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/refund-connected/v1",
   "corpusDigest": "1588224056bb6f7f5971386164b4a737c422ec6b16bcdea3ca8dc559adb5f9a5",
+  "counts": {
+    "established": 2,
+    "not_established": 4,
+    "refused": 6
+  },
   "runs": {
     "r1": {
       "files": {

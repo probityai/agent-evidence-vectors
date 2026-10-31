@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Sankalp Gilda" />
+  <meta name="description" content="Original policy vocabulary scores, strict quality holds and a source-bound installed replay." />
+  <title>A fixed action vocabulary improves this authored score; quality still holds - Agent Evidence Conformance Board</title>
+  <link rel="canonical" href="https://probityai.github.io/agent-evidence-atlas/vocabulary-findings.html" />
+  <link rel="alternate" type="text/markdown" href="https://probityai.github.io/agent-evidence-atlas/vocabulary-findings.md" />
+  <link rel="describedby" href="https://probityai.github.io/agent-evidence-atlas/llms.txt" />
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <nav aria-label="Site">
+    <a class="home" href="index.html">Agent Evidence Conformance Board</a>
+    <span class="links">
+      <a href="start.html">Choose a component</a>
+      <a href="lab.html">Open Evidence Lab</a>
+      <a href="status.html">Claim status</a>
+      <a href="runs.html">Find a run</a>
+      <a href="board.html">Conformance board</a>
+      <a href="pilot.html">Pilot status</a>
+      <a href="atlas.html">Atlas</a>
+      <a href="experiments.html">Experiments</a>
+      <a href="claims.html">Claims</a>
+      <a href="versions.html">Versions</a>
+    </span>
+  </nav>
+</header>
+<main id="main" tabindex="-1">
+<header class="page">
+<h1>A fixed action vocabulary improves this authored score; quality still holds</h1>
+</header>
+<nav class="toc" aria-label="Contents">
+<p class="toc-title">Contents</p>
+<ul>
+<li><a href="#what-changed-before-inference" id="toc-what-changed-before-inference">What changed before inference</a></li>
+<li><a href="#original-semantic-scores" id="toc-original-semantic-scores">Original semantic scores</a></li>
+<li><a href="#evidence-acceptance-and-quality-refusal" id="toc-evidence-acceptance-and-quality-refusal">Evidence acceptance and quality refusal</a></li>
+<li><a href="#native-resource-scope" id="toc-native-resource-scope">Native resource scope</a></li>
+<li><a href="#what-the-public-retention-contains" id="toc-what-the-public-retention-contains">What the public retention contains</a></li>
+</ul>
+</nav>
+<p>The native CPU run on 2026-10-03 scored 18 of 64 decisions with a fixed action vocabulary, versus 4 of 64 with a broad string schema. It scored 2 of 32 complete contrast pairs, versus 0 of 32. All 128 outputs satisfy their selected JSON schema. All eight rows fail the default semantic quality gate.</p>
+<p>These are exposed, authored policy cases. The vocabulary intervention follows the earlier 384-call <a href="boundary-findings.html">boundary diagnosis</a>. It does not establish general model quality or authorize model-directed publication, admission, dispatch, recovery or effects. Scoped evidence-report publication has a separate decision. <a href="claims.html">Claims P-43–P-50</a> record the sources, read times and limits.</p>
+<h2 id="what-changed-before-inference">What changed before inference</h2>
+<p>The frozen protocol copies the original sixteen policy inputs, targets, pair identities and roles into two modes. The control permits any string decision. The vocabulary mode permits the same seven case-sensitive labels for every case: <code>publish</code>, <code>hold</code>, <code>admit</code>, <code>reject</code>, <code>retry</code>, <code>inspect</code> and <code>dispatch</code>. It exposes no case-specific answer through its grammar.</p>
+<p>The protocol declares 32 case identities and 128 unique model calls. Each of the sixteen policy-case blocks rotates the eight model/cap/mode cells. Each cell occupies each position twice. The prompts remain identical between modes. The contrast analysis contains sixteen matching policy pair identities, without the older arithmetic or grounded pairs. These choices precede inference and the normal protected merge. The <a href="experiments/model-vocabulary-cpu-2026-10-03/provenance.json">provenance</a> records the frozen protocol, reviewed source, merge and authenticated workflow run separately.</p>
+<p>All 128 calls started and scored. None has an error, incomplete, unknown-start or unsupported outcome. A complete run can still contain wrong policy decisions.</p>
+<h2 id="original-semantic-scores">Original semantic scores</h2>
+<p>Each row contains sixteen decisions and eight contrast pairs. Every row has sixteen schema-valid outputs. The native caps allow 24 or 96 completion tokens per call.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Model / Cap / Control correct / Vocabulary correct / Control complete pairs / Vocabulary complete pairs">
+<table>
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr>
+<th>Model</th>
+<th style="text-align: right;">Cap</th>
+<th style="text-align: right;">Control correct</th>
+<th style="text-align: right;">Vocabulary correct</th>
+<th style="text-align: right;">Control complete pairs</th>
+<th style="text-align: right;">Vocabulary complete pairs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>smol135-q4</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">0/16</td>
+<td style="text-align: right;">2/16</td>
+<td style="text-align: right;">0/8</td>
+<td style="text-align: right;">0/8</td>
+</tr>
+<tr>
+<td>smol135-q4</td>
+<td style="text-align: right;">96</td>
+<td style="text-align: right;">0/16</td>
+<td style="text-align: right;">2/16</td>
+<td style="text-align: right;">0/8</td>
+<td style="text-align: right;">0/8</td>
+</tr>
+<tr>
+<td>smol360-q4</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">2/16</td>
+<td style="text-align: right;">7/16</td>
+<td style="text-align: right;">0/8</td>
+<td style="text-align: right;">1/8</td>
+</tr>
+<tr>
+<td>smol360-q4</td>
+<td style="text-align: right;">96</td>
+<td style="text-align: right;">2/16</td>
+<td style="text-align: right;">7/16</td>
+<td style="text-align: right;">0/8</td>
+<td style="text-align: right;">1/8</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The table copies all eight original quality rows. It does not select a better cap, change the rubric, or count schema success as semantic correctness. The same outputs and correct-case identities recur across the two caps in this run. These observations are descriptive, not independent trials.</p>
+<h2 id="evidence-acceptance-and-quality-refusal">Evidence acceptance and quality refusal</h2>
+<p>The ordinary installed reader accepts the scoped evidence and reconstructs the exact producer report. Its default host policy needs sixteen correct decisions and eight complete pairs per row. It reports <code>hold-quality</code> for all eight rows and exits with code 1. A second replay returns byte-identical stdout.</p>
+<p><code>--evidence-only</code> exits with code 0 while it still reports the quality hold. Changed terminal bytes fail the original host pins. A reselected over-budget terminal and a changed helper with new outer hashes both produce <code>hold-evidence</code>. The <a href="experiments/model-vocabulary-cpu-2026-10-03/installed-replay.json">installed replay receipt</a> records these actual model-free checks. The <a href="experiments/model-vocabulary-cpu-2026-10-03/source-contract.json">source contract</a> pins the wheel’s selected source bytes independently of packet declarations.</p>
+<p>A fresh checkout can run the downstream consumer without a model runtime. Use Python with the standard <code>venv</code> and <code>ensurepip</code> modules. On Debian or Ubuntu, install the <code>python3-venv</code> package for the selected Python first.</p>
+<div class="code-scroll" tabindex="0" role="region" aria-label="Code example">
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> tools/replay_vocabulary.py <span class="at">--output</span> /tmp/probity-vocabulary-replay</span></code></pre></div>
+</div>
+<p>Use a new output directory. The command checks the source-bound Atlas register before it creates files or installs the retained wheel. It uses a clean virtual environment and an offline installation. It repeats the actual packet, retains the quality hold, checks evidence-only behavior, and refuses a changed terminal. The ordinary pull-request workflow declares this path without model inference. These remain checks by the same operator. They do not establish outside producer acceptance, recurring adoption, effect execution or independent custody.</p>
+<h2 id="native-resource-scope">Native resource scope</h2>
+<p>The native run uses 45.317547439 seconds wall time and 84.910453532 seconds whole-process CPU time. Its shared lifetime peak is 557,932 KiB. Returned native responses account for 10,624 prompt tokens and 1,172 completion tokens. CPU includes whole-process deltas. RSS is a shared lifetime peak, not a task or model allocation.</p>
+<p>The current preparation transfers 472,221,945 response-body bytes in 8.880832051 seconds, rounded to nine decimal places. Its selected totals are 376,044,704 model bytes, 50,688,636 source bytes, 45,457,867 dependency bytes and 30,738 metadata bytes. The five earlier preparations total 2,167,006,362 bytes. The six-preparation cumulative total is 2,639,228,307 bytes. Failed earlier preparation stays in the history. These are separate preparation envelopes.</p>
+<p>The frozen limits remain 512 MiB and 180 seconds for preparation, 335 seconds for the build, 600 seconds for native wall time and process CPU, 1 GiB lifetime RSS, 65,536 prompt tokens and 7,680 completion tokens. Each network operation has a 30-second limit. Paid provider calls and provider dollars are zero. The complete retained evidence passes these run limits. That pass grants no policy decision authority.</p>
+<h2 id="what-the-public-retention-contains">What the public retention contains</h2>
+<p>The <a href="experiments/model-vocabulary-cpu-2026-10-03/original-artifact.zip">original native ZIP</a> is the exact 2,248,748-byte provider artifact. It retains all 346 members, including every started/returned call record and the selected runner, helper, preparation, protocol builder, native grammars and compiler. Its SHA-256 is <code>eef05226335f9e2de6783ee797d891cbd1fe47058264e2d57eb41f1ec39131d8</code>.</p>
+<p>The complete preparation original contains 376 members and 465,478,943 ZIP bytes. The public native packet maps exactly to 346 members under <code>run/</code>. The thirty omitted members include weights, dependency wheels and the source archive. The same operator separately retains the full original. Hashes cannot recreate omitted bytes.</p>
+<p>The <a href="experiments/model-vocabulary-cpu-2026-10-03/installed-capsule.zip">installed capsule</a> is a 120,616-byte author-assembled selection with 37 members. It retains sixteen original installed-artifact members and the separate actual replay receipts. The original installed artifact contains 2,088 members and 9,441,817 ZIP bytes. All 2,072 omissions are explicit. The capsule omits the CI virtual environment and authored synthetic packet. The selected reader wheel is 35,389 bytes. Its full-byte reproducibility is scoped to its recorded toolchain. The box and CI wheels share selected source bytes but differ in complete wheel hashes.</p>
+<p>The <a href="experiments/model-vocabulary-cpu-2026-10-03/provider-inventory.json">provider inventory</a> and provenance account for every member of all three provider originals. Provider retention expiry and separately retained originals are disclosed. This is the eighteenth bounded <a href="lab.html">Lab record</a>. It preserves all seventeen earlier literal record objects and their artifact bytes. Original measurements, quality acceptance, model actions, adoption and custody remain separate.</p>
+</main>
+<footer class="site">
+  <p>Every number on this site has a source, a read time and a re-derive command in the <a href="claims.html">claim ledger</a>. Site version 0.6-draft, 2026-10-01. <a href="versions.html#documentation-revisions">Page revisions</a>.</p>
+</footer>
+</body>
+</html>

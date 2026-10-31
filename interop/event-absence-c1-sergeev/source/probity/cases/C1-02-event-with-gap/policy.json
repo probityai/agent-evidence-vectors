@@ -1,0 +1,32 @@
+{
+  "schema_version": "probity-policy/v1",
+  "witnesses": {
+    "capability": {
+      "artifact": "capability",
+      "sha256": "9610e9926b1f9e1f197284fd7eee1e1cc496a063649e08bbed094ce216f4a6c4",
+      "authority": "Synthetic C1 consumer-selected premise; not authenticated"
+    },
+    "observation": {
+      "artifact": "observation",
+      "sha256": "7d3263d03220fbb9ef6c549284a4639c70f9aaf1e9993cd905485af824acd80c",
+      "authority": "Synthetic C1 consumer-selected premise; not authenticated",
+      "producer": "observer-c1",
+      "vantage": "independent"
+    }
+  },
+  "assessments": {
+    "c1-absence": {
+      "claim_type": "event_absence/v2",
+      "event_type": "write",
+      "invocation_id": "c1-call-1",
+      "scope": {
+        "id": "c1-window",
+        "start": "2026-10-28T09:00:00Z",
+        "end": "2026-10-28T09:01:00Z"
+      },
+      "capability_witness": "capability",
+      "observation_witness": "observation",
+      "observed_party": "agent-c1"
+    }
+  }
+}

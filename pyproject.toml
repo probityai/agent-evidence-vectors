@@ -8,7 +8,7 @@
 
 [project]
 name = "agent-evidence-vectors"
-version = "0.30.0"
+version = "0.31.0"
 description = "Conformance corpora and reference verifiers for agent evidence records"
 requires-python = ">=3.11"
 license = { text = "Apache-2.0" }
@@ -135,6 +135,7 @@ only-include = [
     "vectors-anchored-chain",
     "vectors-trace-anchor",
     "vectors-grade-floor",
+    "vectors-connector-scope",
     "vectors-agent-payment-mandate",
     "vectors-agent-change-admission",
     "vectors-agentic-process-evidence",
@@ -178,6 +179,7 @@ only-include = [
     "vectors-scitt-cose",
     "vectors-self-reported-record",
     "vectors-source-coverage",
+    "vectors-open-weight-art53",
     "vectors-w3c-intake",
     "vectors-w3c-report",
 ]
@@ -197,6 +199,7 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 "vectors-anchored-chain" = "agent_evidence_vectors/corpora/vectors-anchored-chain"
 "vectors-trace-anchor" = "agent_evidence_vectors/corpora/vectors-trace-anchor"
 "vectors-grade-floor" = "agent_evidence_vectors/corpora/vectors-grade-floor"
+"vectors-connector-scope" = "agent_evidence_vectors/corpora/vectors-connector-scope"
 "vectors-agent-payment-mandate" = "agent_evidence_vectors/corpora/vectors-agent-payment-mandate"
 "vectors-agent-change-admission" = "agent_evidence_vectors/corpora/vectors-agent-change-admission"
 "vectors-agentic-process-evidence" = "agent_evidence_vectors/corpora/vectors-agentic-process-evidence"
@@ -240,6 +243,7 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 "vectors-scitt-cose" = "agent_evidence_vectors/corpora/vectors-scitt-cose"
 "vectors-self-reported-record" = "agent_evidence_vectors/corpora/vectors-self-reported-record"
 "vectors-source-coverage" = "agent_evidence_vectors/corpora/vectors-source-coverage"
+"vectors-open-weight-art53" = "agent_evidence_vectors/corpora/vectors-open-weight-art53"
 "vectors-w3c-intake" = "agent_evidence_vectors/corpora/vectors-w3c-intake"
 "vectors-w3c-report" = "agent_evidence_vectors/corpora/vectors-w3c-report"
 
@@ -299,6 +303,7 @@ only-include = [
     "vectors-anchored-chain",
     "vectors-trace-anchor",
     "vectors-grade-floor",
+    "vectors-connector-scope",
     "vectors-agent-payment-mandate",
     "vectors-agent-change-admission",
     "vectors-agentic-process-evidence",
@@ -345,6 +350,7 @@ only-include = [
     "vectors-scitt-cose",
     "vectors-self-reported-record",
     "vectors-source-coverage",
+    "vectors-open-weight-art53",
     "vectors-w3c-intake",
     "vectors-w3c-report",
     "README.md",
@@ -415,7 +421,10 @@ files = ["packaging", "vectors", "tools"]
 # parts.yml lints and tests actions/, packages/ and tests/, the crate workflows
 # own crates/. scripts/typecheck-gate.py
 # does not read these directories and does not count them.
-held-elsewhere = ["actions", "crates", "packages", "tests"]
+# site/ is the Atlas source moved in from the archived specification repository; its own
+# check jobs have not moved with it yet (row ATLAS-SOURCE-IN-ARCHIVED-REPO), so it is held
+# here until they do.
+held-elsewhere = ["actions", "crates", "packages", "site", "tests"]
 
 [tool.pyright]
 # Named by DIRECTORY, deliberately, and this is the whole point of the section.
@@ -441,8 +450,8 @@ include = ["crates/jcs-admit", "docs/paper", "docs/proposals", "docs/site", "exa
            "vectors-identity-binding", "vectors-authority-at-dispatch", "vectors-approval-binding", "vectors-delegator-right", "vectors-completion-confirmation", "vectors-dispatch-fence", "vectors-refund-connected", "vectors-aggregate-accounting", "vectors-uncertain-effect", "vectors-agent-card-receipt", "vectors-credential-release",
            "vectors-converted-argument-binding", "vectors-chunked-export",
            "vectors-done-contract", "vectors-done-receipt", "vectors-spoofed-tool-output", "vectors-test-tampering", "vectors-grader-isolation",
-           "vectors-done-probes", "vectors-scitt-cose", "vectors-source-coverage", "vectors-self-reported-record",
-           "vectors-w3c-intake", "vectors-w3c-report", "vectors-poc-evidence"]
+           "vectors-done-probes", "vectors-scitt-cose", "vectors-source-coverage", "vectors-open-weight-art53", "vectors-self-reported-record",
+           "vectors-w3c-intake", "vectors-w3c-report", "vectors-poc-evidence", "vectors-connector-scope"]
 
 # The reference rail is imported by the gates that drive it, and it lives in
 # packaging/ rather than on the default path, so the checker needs the same

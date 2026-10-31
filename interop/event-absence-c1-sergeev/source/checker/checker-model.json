@@ -1,0 +1,59 @@
+{
+  "model": {
+    "alphabets": [
+      [
+        "covered_empty",
+        "covered_event",
+        "gapped_empty",
+        "gapped_event"
+      ]
+    ],
+    "binding": "identity",
+    "claim": "No write event by agent-c1 for invocation c1-call-1 in c1-window from 2026-10-28T09:00:00Z through 2026-10-28T09:01:00Z.",
+    "domains": [
+      "admitted_observation"
+    ],
+    "faults": [
+      []
+    ],
+    "histories": [
+      "N",
+      "W10",
+      "W30"
+    ],
+    "joint": {
+      "N": [
+        [
+          "covered_empty"
+        ],
+        [
+          "gapped_empty"
+        ]
+      ],
+      "W10": [
+        [
+          "covered_event"
+        ],
+        [
+          "gapped_event"
+        ]
+      ],
+      "W30": [
+        [
+          "covered_event"
+        ],
+        [
+          "gapped_empty"
+        ]
+      ]
+    },
+    "name": "C1-event-absence-common-fragment",
+    "truth": {
+      "N": true,
+      "W10": false,
+      "W30": false
+    }
+  },
+  "schema_version": "wresearch-checker-input-1",
+  "semantics_version": "finite-joint-identity-1"
+}

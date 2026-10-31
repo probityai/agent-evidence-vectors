@@ -1,0 +1,24 @@
+{
+  "schema": "atlas.report-replay-retention.v1",
+  "sourceRevision": "2f3aee40a454df6de0f571d119f057d7dbb8dd67",
+  "diagnosticReaderRevision": "e07cd52999204d7c0f6562a5098dc4784fe025a6",
+  "historicalPackage": "agent-evidence-vectors==0.12.0",
+  "diagnosticPackage": "agent-evidence-vectors==0.13.0",
+  "roles": {
+    "verifierAuthor": "Probity",
+    "historicalRunner": "Probity, author-operated",
+    "diagnosticRunner": "Probity, author-operated",
+    "retentionAndAccounting": "Probity",
+    "independentOperator": "not-established"
+  },
+  "answerExposure": "Published expected answers and author-selected predicates were exposed; not answer-blind.",
+  "comparisonOrder": "Historical harness outcomes and comparison grades emitted together. Diagnostic copies remove one predicate each; outputs are retained separately from the historical report.",
+  "limits": [
+    "Synthetic conformance artifacts; the customer refund story is hypothetical.",
+    "Retained-output accounting executes no captured reader or mutant code and performs no new model inference.",
+    "Historical 272-case report and separate 232-fixture diagnostic population are not combined.",
+    "Report validity, evidence conclusion and actual action completion are distinct.",
+    "Reader binding check is a historical proposed rule; its draft normative status is not promoted.",
+    "No independent operation, effect custody, production workload, customer payment or outside maintained job is established."
+  ]
+}

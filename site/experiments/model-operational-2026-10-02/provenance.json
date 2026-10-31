@@ -1,0 +1,1790 @@
+{
+  "schema": "probity-atlas-retained-native-run-v1",
+  "sourceRepository": "probityai/agent-evidence-observer",
+  "sourceCommit": "ab84161d09bb7bd696bba57717a418a95dd1d976",
+  "run": 37044646302,
+  "runUrl": "https://github.com/probityai/agent-evidence-observer/actions/runs/37044646302",
+  "originalArtifactSha256": "f7e6abdb54f16c3f07777f83a7b68999b9a3f332bbf4f19d4eef5d3add0fcf29",
+  "originalArtifactBytes": 274795286,
+  "retention": "bounded-derivative-selected-capsule",
+  "retainedArchiveSha256": "1613aeff57e696ac1d0f87bbe2c0fe22157cbd6655f1130a2de95b29929b95e2",
+  "retainedArchiveBytes": 326125,
+  "reportMember": "reader.json",
+  "reportSha256": "acb8f021b5a9bda6b64e33ab38f9da592b8d2c2bba81de7bfdaef586256608f2",
+  "roles": {
+    "producer": "Probity-owned workflow",
+    "readerAuthor": "Probity",
+    "atlasOperator": "Probity",
+    "retentionHolder": "Probity",
+    "independentOperation": "not-established",
+    "independentEffectCustody": "not-established",
+    "outsideRecurringUse": "not-established"
+  },
+  "answerExposure": "Author-written tasks/controls and expected outcomes exposed; not blind.",
+  "comparisonOrder": "Native output and comparison published together; not separate raw-result-first revisions.",
+  "members": [
+    {
+      "member": "build-gcc.log",
+      "bytes": 948,
+      "sha256": "7fc3cfb54b177c55081b15274c5b21b9413ecf6fe624e40f924324dc79a87b4b",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "download-accounting.json",
+      "bytes": 54706,
+      "sha256": "43fbb39bce89c13708c8be0f855d1e7a683628cec0108662c705849249eaff56",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "dependency-lock.json",
+      "bytes": 36919,
+      "sha256": "ddd3c69884664dffb3bf5e1ec1a3ddbb204252f1f3e66a05b006141019b9a1c3",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "download-declaration.json",
+      "bytes": 37111,
+      "sha256": "a860ec7c7e07674403c7b1d087f8d6e425238b4cdedb3596c38a1493b8d53c33",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "downloads/agent_client_protocol-0.12.1-py3-none-any.whl",
+      "bytes": 85929,
+      "sha256": "aaf3cc301ed87d9e2c4ccb91adfe1cd58784355f6ce7e513f50e7ca2391862ef",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/aiobotocore-3.9.2-py3-none-any.whl",
+      "bytes": 102571,
+      "sha256": "363b4892423b272eb84afbb58000da0be6ccd0cf8a68b98438c957d05b841efc",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/aiohappyeyeballs-2.7.1-py3-none-any.whl",
+      "bytes": 15038,
+      "sha256": "9243213661e29250eb41368e5daa826fc017156c3b8a11440826b2e3ed376472",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/aiohttp-3.14.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "bytes": 1792122,
+      "sha256": "543906c127fb1d929b95076db19b83fa2d46751006ff1e23b093aa5ac4d8db42",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/aioitertools-0.13.0-py3-none-any.whl",
+      "bytes": 24182,
+      "sha256": "0be0292b856f08dfac90e31f4739432f4cb6d7520ab9eb73e143f4f2fa5259be",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/aiosignal-1.4.0-py3-none-any.whl",
+      "bytes": 7490,
+      "sha256": "053243f8b92b990551949e63930a839ff0cf0b0ebbe0597b0f3fb19e1a0fe82e",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/annotated_doc-0.0.5-py3-none-any.whl",
+      "bytes": 5302,
+      "sha256": "117bac03a25ede5df5440e855b32d556049ca169ead221505badf432fed4b101",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/annotated_types-0.8.0-py3-none-any.whl",
+      "bytes": 13427,
+      "sha256": "f072f4d804ea359e4eaf198b1af7a8b0943881a87f31bb764f8bf219bb9419e0",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/anyio-4.14.2-py3-none-any.whl",
+      "bytes": 125813,
+      "sha256": "9f505dda5ac9f0c8309b5e8bd445a8c2bf7246f3ce950121e45ea15bc41d1494",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/attrs-26.1.0-py3-none-any.whl",
+      "bytes": 67548,
+      "sha256": "c647aa4a12dfbad9333ca4e71fe62ddc36f4e63b2d260a37a8b83d2f043ac309",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/beautifulsoup4-4.15.0-py3-none-any.whl",
+      "bytes": 109924,
+      "sha256": "d6f88de62e1d4e38ecb1077eb9724cd0eff29d2a08ca16a401e9b9e93f117cf9",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/boto3-1.43.106-py3-none-any.whl",
+      "bytes": 140045,
+      "sha256": "fdf2e304f9e8864b8613591b18b36ee995560c9666033622eda1cb9057866880",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/botocore-1.43.106-py3-none-any.whl",
+      "bytes": 15965506,
+      "sha256": "c1fb8818f9957cb5037f73db34ac1a12ba43562e31d6e7f9cb7e5fc64e1dba78",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/certifi-2026.7.22-py3-none-any.whl",
+      "bytes": 136983,
+      "sha256": "62f22742b58a1a33014a2b6b706588a8d7e2a88ae7bd1a6ebe8c992928483775",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/charset_normalizer-3.5.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "bytes": 257601,
+      "sha256": "3d31298449090ab8d47b7b1b2a555ff73cac7ed438a08b7ac160980c7ebed649",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/click-8.5.0-py3-none-any.whl",
+      "bytes": 125251,
+      "sha256": "255bc9599cf7748b4b1a446ccc735421bd08a2ae529a8b88597d3de5664ee360",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/cmake-4.0.3-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "bytes": 27912444,
+      "sha256": "d840e780c48c5df1330879d50615176896e8e6eee554507d21ce8e2f1a5f0ff8",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/debugpy-1.8.22-py2.py3-none-any.whl",
+      "bytes": 5374857,
+      "sha256": "a9e9d3550e15ca479c59333e90845029190531f0cacfedab3b815a57bd913947",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/docstring_parser-0.18.0-py3-none-any.whl",
+      "bytes": 22484,
+      "sha256": "b3fcbed555c47d8479be0796ef7e19c2670d428d72e96da63f3a40122860374b",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/diskcache-5.6.3-py3-none-any.whl",
+      "bytes": 45550,
+      "sha256": "5e31b2d5fbad117cc363ebaf6b689474db18a1f6438bc82358b024abd4c2ca19",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/fastapi-0.142.2-py3-none-any.whl",
+      "bytes": 144409,
+      "sha256": "bd5f4d81f1e93a88bcd77caf4dfe3c2dbffc3805407a0007e9a114c18b3a670b",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/frozenlist-1.8.0-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl",
+      "bytes": 242411,
+      "sha256": "494a5952b1c597ba44e0e78113a7266e656b9794eec897b19ead706bd7074383",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/fsspec-2026.6.0-py3-none-any.whl",
+      "bytes": 203949,
+      "sha256": "02e0b71817df9b2169dc30a16832045764def1191b43dcff5bb85bdee212d2a1",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/h11-0.16.0-py3-none-any.whl",
+      "bytes": 37515,
+      "sha256": "63cf8bbe7522de3bf65932fda1d9c2772064ffb3dae62d55932da54b31cb6c86",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/httpcore-1.0.9-py3-none-any.whl",
+      "bytes": 78784,
+      "sha256": "2d400746a40668fc9dec9810239072b40b4484b640a8c38fd654a024c7a1bf55",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/httpx-0.28.1-py3-none-any.whl",
+      "bytes": 73517,
+      "sha256": "d909fcccc110f8c7faf814ca82a9a4d816bc5a6dbfea25d6591d6985b8ba59ad",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/idna-3.20-py3-none-any.whl",
+      "bytes": 69583,
+      "sha256": "ab7ae7122974553370f0bdb919e1a960b2cd1bc1ef0276416d896db81c14582c",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/ijson-3.5.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "bytes": 149848,
+      "sha256": "e4fcebfe1685bb7ba06a8255a5d428ea6b4b895d7acf979cb637d8bbc9db2f47",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/inspect_ai-0.3.273-py3-none-any.whl",
+      "bytes": 34804221,
+      "sha256": "8a8594237e3281bcb02b9be7638757f8693b78cbdef76eab348f6cdc6c6996f1",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/jinja2-3.1.6-py3-none-any.whl",
+      "bytes": 134899,
+      "sha256": "85ece4451f492d0c13c5dd7c13a64681a86afae63a5f347908daf103ce6d2f67",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/jmespath-1.1.0-py3-none-any.whl",
+      "bytes": 20419,
+      "sha256": "a5663118de4908c91729bea0acadca56526eb2698e83de10cd116ae0f4e97c64",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/jsonlines-4.0.0-py3-none-any.whl",
+      "bytes": 8701,
+      "sha256": "185b334ff2ca5a91362993f42e83588a360cf95ce4b71a73548502bda52a7c55",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/jsonpatch-1.33-py2.py3-none-any.whl",
+      "bytes": 12898,
+      "sha256": "0ae28c0cd062bbd8b8ecc26d7d164fbbea9652a1a3693f3b956c1eae5145dade",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/jsonpath_ng-1.8.0-py3-none-any.whl",
+      "bytes": 67844,
+      "sha256": "b8dde192f8af58d646fc031fac9c99fe4d00326afc4148f1f043c601a8cfe138",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/jsonpointer-3.1.1-py3-none-any.whl",
+      "bytes": 7659,
+      "sha256": "8ff8b95779d071ba472cf5bc913028df06031797532f08a7d5b602d8b2a488ca",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/jsonref-1.1.0-py3-none-any.whl",
+      "bytes": 9425,
+      "sha256": "590dc7773df6c21cbf948b5dac07a72a251db28b0238ceecce0a2abfa8ec30a9",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/jsonschema-4.26.0-py3-none-any.whl",
+      "bytes": 90630,
+      "sha256": "d489f15263b8d200f8387e64b4c3a75f06629559fb73deb8fdfb525f2dab50ce",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/jsonschema_specifications-2025.9.1-py3-none-any.whl",
+      "bytes": 18437,
+      "sha256": "98802fee3a11ee76ecaca44429fda8a41bff98b00a0f2838151b113f210cc6fe",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/llama_cpp_python-0.3.16.tar.gz",
+      "bytes": 50688636,
+      "sha256": "34ed0f9bd9431af045bb63d9324ae620ad0536653740e9bb163a2e1fcb973be6",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/linkify_it_py-2.2.0-py3-none-any.whl",
+      "bytes": 21971,
+      "sha256": "3adc40eb5af300b2605fcfdb968c24e1d780a90f1f2221af7c15e5111e94d443",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/markdown_it_py-4.2.0-py3-none-any.whl",
+      "bytes": 91687,
+      "sha256": "9f7ebbcd14fe59494226453aed97c1070d83f8d24b6fc3a3bcf9a38092641c4a",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/markupsafe-3.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "bytes": 22947,
+      "sha256": "d6dd0be5b5b189d31db7cda48b91d7e0a9795f31430b7f271219ab30f1d3ac9d",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/mdit_py_plugins-0.6.1-py3-none-any.whl",
+      "bytes": 66663,
+      "sha256": "214c82fb2ac524472ab6a5bcab1de80f73b50443e187f401bfd77efbc7c6481d",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/mdurl-0.1.2-py3-none-any.whl",
+      "bytes": 9979,
+      "sha256": "84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/mmh3-5.3.1-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl",
+      "bytes": 103108,
+      "sha256": "3b037280edc7a609a987fa7661a1132a3f6d721f46b299ed5f9f641b35ab415a",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/multidict-6.9.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "bytes": 336881,
+      "sha256": "976fd7689d69ec78d67d31d38d396d8adb562f7e8368279f76aed4aa451fa06d",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/nest_asyncio2-1.7.3-py3-none-any.whl",
+      "bytes": 8364,
+      "sha256": "2bc87bdca654e719425145f5e84eaeb0080b013fdd47d65729a7d66243f4987c",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/ninja-1.11.1.3-py3-none-manylinux_2_12_x86_64.manylinux2010_x86_64.whl",
+      "bytes": 422884,
+      "sha256": "a27e78ca71316c8654965ee94b286a98c83877bfebe2607db96897bbfe458af0",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/numpy-2.2.6-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "bytes": 16527618,
+      "sha256": "fd83c01228a688733f1ded5201c678f0c53ecc1006ffbc404db9f7a899ac6249",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/opentelemetry_api-1.45.0-py3-none-any.whl",
+      "bytes": 60020,
+      "sha256": "80e068aba7cd56c8b58512d6a36f8d25cb1dfaa0c0a4cc1c938ccf9f362d9cb3",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/packaging-26.3-py3-none-any.whl",
+      "bytes": 129956,
+      "sha256": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/pathlib_abc-0.5.2-py3-none-any.whl",
+      "bytes": 19070,
+      "sha256": "4c9d94cf1b23af417ce7c0417b43333b06a106c01000b286c99de230d95eefbb",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/pathspec-1.1.1-py3-none-any.whl",
+      "bytes": 57328,
+      "sha256": "a00ce642f577bf7f473932318056212bc4f8bfdf53128c78bbd5af0b9b20b189",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/platformdirs-4.12.2-py3-none-any.whl",
+      "bytes": 32457,
+      "sha256": "29dbf06d96c500bc6bdbce75fb0a14d63279c93b1842f97e72a135b33e856983",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/propcache-0.5.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "bytes": 250424,
+      "sha256": "2814ecd8e818f487bee4b0f921bc4d1c176cc5fc71ac0f072d0fa67eda4ac14b",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/psutil-7.2.2-cp36-abi3-manylinux2010_x86_64.manylinux_2_12_x86_64.manylinux_2_28_x86_64.whl",
+      "bytes": 155560,
+      "sha256": "076a2d2f923fd4821644f5ba89f059523da90dc9014e85f8e45a5774ca5bc6f9",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/pydantic-2.13.5-py3-none-any.whl",
+      "bytes": 472589,
+      "sha256": "346a034f080da3755d8e9cb5e00e8b07de1d39e4f6e2c87d8ab7cafa0b269a73",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/pydantic_core-2.46.5-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "bytes": 2066284,
+      "sha256": "0fc5be0abd4a407e200d844b404e33639a554e7bd0d448e7b9ae181be4789ac2",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/pygments-2.21.0-py3-none-any.whl",
+      "bytes": 1250147,
+      "sha256": "2363c69b61c4a97c838da3b130dcd6468f4848992b21a82f2a63ec34377137d9",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/python_dateutil-2.9.0.post0-py2.py3-none-any.whl",
+      "bytes": 229892,
+      "sha256": "a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/python_dotenv-1.2.4-py3-none-any.whl",
+      "bytes": 23266,
+      "sha256": "42269a8a5b3fd54ffa6f3d84b18abed50064717576b4ecf03dc4a55d8aa04fdc",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "bytes": 807870,
+      "sha256": "ba1cc08a7ccde2d2ec775841541641e4548226580ab850948cbfda66a1befcdc",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/referencing-0.37.0-py3-none-any.whl",
+      "bytes": 26766,
+      "sha256": "381329a9f99628c9069361716891d34ad94af76e461dcb0335825aecc7692231",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/regex-2026.9.29-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "bytes": 807783,
+      "sha256": "39ab5894d971f9ac68baa6eca5c50387db579cfcacf36ae8df3feceb1815e6d0",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/requests-2.34.2-py3-none-any.whl",
+      "bytes": 73075,
+      "sha256": "2a0d60c172f83ac6ab31e4554906c0f3b3588d37b5cb939b1c061f4907e278e0",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/rich-15.0.0-py3-none-any.whl",
+      "bytes": 310654,
+      "sha256": "33bd4ef74232fb73fe9279a257718407f169c09b78a87ad3d296f548e27de0bb",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/rpds_py-2026.6.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "bytes": 366189,
+      "sha256": "ecabd69db66de867690f9797f2f8fa27ba501bbc24540cbdbdc649cd15888ba6",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/s3fs-2026.6.0-py3-none-any.whl",
+      "bytes": 32573,
+      "sha256": "60576e31bb31193c1f643f32b4c6439548720ea6918ac702e21cd757c80b5db8",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/s3transfer-0.19.2-py3-none-any.whl",
+      "bytes": 90216,
+      "sha256": "d8168eccca828cbb2cd573675333f3bddd254313a9c42494b84c76b539e8ba25",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/scikit_build_core-0.11.6-py3-none-any.whl",
+      "bytes": 185764,
+      "sha256": "ce6d8fe64e6b4c759ea0fb95d2f8a68f60d2df31c2989838633b8ec930736360",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/semver-3.1.0-py3-none-any.whl",
+      "bytes": 18783,
+      "sha256": "6e4998f8b4762acdfea85f9bfd5b4032e0bb50038dc04bf82011b42d5d1145c5",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/shortuuid-1.0.13-py3-none-any.whl",
+      "bytes": 10529,
+      "sha256": "a482a497300b49b4953e15108a7913244e1bb0d41f9d332f5e9925dba33a3c5a",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/six-1.17.0-py2.py3-none-any.whl",
+      "bytes": 11050,
+      "sha256": "4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/sniffio-1.3.1-py3-none-any.whl",
+      "bytes": 10235,
+      "sha256": "2f6da418d1f1e0fddd844478f41680e794e6051915791a034ff65e5f100525a2",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/soupsieve-2.10-py3-none-any.whl",
+      "bytes": 38019,
+      "sha256": "8596eb8967d744174820280fa62b4542a2e955bfaccca73ed8a13c6eb8e9b502",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/starlette-1.7.0-py3-none-any.whl",
+      "bytes": 78980,
+      "sha256": "67f8e99895493dd2911a03f11314af6ceebeae4e704bb9f43dfc6a9db151c93e",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/tenacity-9.1.4-py3-none-any.whl",
+      "bytes": 28926,
+      "sha256": "6095a360c919085f28c6527de529e76a06ad89b23659fa881ae0649b867a9d55",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/textual-8.2.8-py3-none-any.whl",
+      "bytes": 731418,
+      "sha256": "267375fd402dc8d981457212efa71f0e3365fd17bba144ba9bb3ed7563cb374a",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/tiktoken-0.14.0-cp312-cp312-manylinux_2_28_x86_64.whl",
+      "bytes": 1204197,
+      "sha256": "7896eea257fe497a2b7134474d909156c6744ce8da35bce88011a960e008aa0d",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/typing_extensions-4.15.0-py3-none-any.whl",
+      "bytes": 44614,
+      "sha256": "f0fa19c6845758ab08074a0cfa8b7aecb71c999ca73d62883bc25cc018c4e548",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/typing_inspection-0.4.4-py3-none-any.whl",
+      "bytes": 14750,
+      "sha256": "65b8397ba37ccbce054456aaccddfc91e6e3083c92824df348d96ca832f3f147",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/universal_pathlib-0.3.10-py3-none-any.whl",
+      "bytes": 83528,
+      "sha256": "dfaf2fb35683d2eb1287a3ed7b215e4d6016aa6eaf339c607023d22f90821c66",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/urllib3-2.8.0-py3-none-any.whl",
+      "bytes": 135717,
+      "sha256": "0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/uvicorn-0.54.0-py3-none-any.whl",
+      "bytes": 87427,
+      "sha256": "505bdb0f318731d45f1f712071fc781a8981f6847a31c902c9f5e652d4f67faf",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/wrapt-2.5.0-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl",
+      "bytes": 250177,
+      "sha256": "0cabb9c17ab79b2549d1f23b36f436473ad9253ef53995a817feba26fae69d5b",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/yarl-1.25.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "bytes": 117050,
+      "sha256": "c6f117789d22dce188e5754e8bc65b7e6ebf8cb73963b9fa761f672a5883769d",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/zipfile_zstd-0.0.4-py3-none-any.whl",
+      "bytes": 4058,
+      "sha256": "c8e07be35765c072eb7b1be715c89ecb248a1127b014e12a9b8ac7db2600c166",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/zstandard-0.25.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+      "bytes": 5546993,
+      "sha256": "5a56ba0db2d244117ed744dfa8f6f5b366e14148e00de44723413b2f3938a902",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads.json",
+      "bytes": 36759,
+      "sha256": "9467dc3f6089292e25908f34c1bc5900462a8029b6d40caf873bb5573e253ae1",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "model.gguf",
+      "bytes": 105454144,
+      "sha256": "ed5fa30c487b282ec156c29062f1222e5c20875a944ac98289dbd242e947f747",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "downloads/zipp-4.1.0-py3-none-any.whl",
+      "bytes": 10238,
+      "sha256": "25ad4e16390cd314347dd8f1de67a2ac538ae658ed4ab9db16029c07c188e97f",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "original-card.txt",
+      "bytes": 6772,
+      "sha256": "4f97533ad95b1b2fea15fbc075c01b94578ebdd7c8138888fa43fa3abd530dc4",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "provenance.json",
+      "bytes": 1517,
+      "sha256": "b6f93798bedfff417e2a0acc5529c760d653f0fb83da9de33ebff8b5c38f4745",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "quant-card.txt",
+      "bytes": 4567,
+      "sha256": "b464dc4a9ff26fea06ec45165546bbeb0c32b1a7847babcef048d5b84486ed84",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "reader.json",
+      "bytes": 33853,
+      "sha256": "acb8f021b5a9bda6b64e33ab38f9da592b8d2c2bba81de7bfdaef586256608f2",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "requirements.txt",
+      "bytes": 8541,
+      "sha256": "4f1d4c6f34eca79b319b596f2fc582f34e4a3d3cfbb2cf5b5844238dd2adbb91",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--abstain-known-age-returned.json",
+      "bytes": 1009,
+      "sha256": "34fdc1b80f126c1321498dd5d098147f802bcd68dd35f858a7494b0809d19a94",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--abstain-known-age-started.json",
+      "bytes": 552,
+      "sha256": "04e369bf4a8e0a38b791e3668171084b74dfeafe5f599455f97e6476af02a91b",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--abstain-known-city-started.json",
+      "bytes": 567,
+      "sha256": "12273bedd7a54235087ff72d48297c68de18507b73707db23a1c0b6a90c38aec",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--abstain-known-city-returned.json",
+      "bytes": 1022,
+      "sha256": "306cf18c92df737c25f60b9f94d7f19a68479a808c9aed64094a44128ef1df56",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--abstain-known-total-returned.json",
+      "bytes": 1054,
+      "sha256": "c9e9fddf8bf7c752cb67b04decee61c0a6dfce1cecf1cc5f6092d8839e7dbdb2",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--abstain-known-total-started.json",
+      "bytes": 576,
+      "sha256": "dc6545b1e62d7ce46308fd427fa925cbd5b48ea882f98157676c7b33414c6da9",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--abstain-unknown-age-returned.json",
+      "bytes": 1003,
+      "sha256": "7e37e9ea2352ae71ccb05a0ee81957054931a10c840b4c21d59fbd97e9c05042",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--abstain-unknown-age-started.json",
+      "bytes": 546,
+      "sha256": "228629385626cbba3cb6833e3c79ccb5559471ecfb48b81582cb536fa12a047c",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--abstain-unknown-city-returned.json",
+      "bytes": 1035,
+      "sha256": "42bbb6abfb41a4604a3d58d5f599ad9bbc7cb2f683adf44af7664ec8de4c1948",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--abstain-unknown-city-started.json",
+      "bytes": 571,
+      "sha256": "cfa20fd3bdc3d86685f866c9972a0d1afbf39e3d630de2b2ef72f9947b8f65c3",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--abstain-unknown-total-returned.json",
+      "bytes": 1053,
+      "sha256": "01bbf7798bb57660bd08c72f8c8a25332920009e673f91856eb978d347e295c9",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--abstain-unknown-total-started.json",
+      "bytes": 584,
+      "sha256": "9a27e077c4544b13c5b5dc18e37d2b0d9d5c2cef03dcfdecccd3561859e21561",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--arithmetic-combined-returned.json",
+      "bytes": 1260,
+      "sha256": "e57189cbc9f1555e4f2477309c73b0bc24de55b3237dc67f4ea00659ffc9b9c8",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--arithmetic-combined-started.json",
+      "bytes": 487,
+      "sha256": "6425dc73aae140e431bcb37461d20b4ba497611c1831516830ac4fcaea68c1a8",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--arithmetic-difference-returned.json",
+      "bytes": 1215,
+      "sha256": "8ad42c79a3c8c317b1e6c0e16953fb7b5d36e0747c8cc07deae7e4bfcb15ff95",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--arithmetic-difference-started.json",
+      "bytes": 486,
+      "sha256": "fb871e28dc6f96f0e256d82c0825789df7133f63dd6ab9474d54985f6be2fb37",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--arithmetic-division-returned.json",
+      "bytes": 930,
+      "sha256": "0ec99978bccbc8f51be9401fbe00a7f76cbfe195ed987d45e90005159e79dc4a",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--arithmetic-division-started.json",
+      "bytes": 484,
+      "sha256": "0aa4aeeb2112139d8b56bd10a1b7b005ac6cb8a6083a9db27c8f14d01f522a52",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--arithmetic-product-returned.json",
+      "bytes": 927,
+      "sha256": "0078fa5504db235d3c725fd5bdc050175f5b630151032b21c135bc48d8a67728",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--arithmetic-product-started.json",
+      "bytes": 482,
+      "sha256": "e833b5fbd33d24c86b724fb1d1c1523d2de116361c4f5ad34dd2021756acf5d7",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--arithmetic-remaining-returned.json",
+      "bytes": 944,
+      "sha256": "761bda903ac44a2a44bfc663cb38f9d5721d8ee5a9a2a931dca183e75c58e893",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--arithmetic-remaining-started.json",
+      "bytes": 487,
+      "sha256": "c888815410015976f289493e81200c51284316ddab591b5b5b5c3721c10099b6",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--arithmetic-sum-returned.json",
+      "bytes": 1220,
+      "sha256": "38ff55d7553e4d57cacc5698ceb97ef17851da31f6cf824388ca61f6826ed6a0",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--arithmetic-sum-started.json",
+      "bytes": 478,
+      "sha256": "ebf418dd1cf7562a20739a5ad2ee0d430a2ab1785c76ae1ebc26cc7ef07e88ac",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--extract-bool-returned.json",
+      "bytes": 1159,
+      "sha256": "9339455861531a0afa5209363d8b8441dbeea1445bedf068f6dbeaa1b188b11d",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--extract-bool-started.json",
+      "bytes": 493,
+      "sha256": "2f5ca6aa84a5bbc8cdb303656ee4f1ed58056383bddde4c6335bd98b61fff203",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--extract-list-returned.json",
+      "bytes": 1349,
+      "sha256": "e97e7b6ae2c7a0e7339a669c6b3fe1e48beee87f0d783bc6f03a72a8fb57c394",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--extract-list-started.json",
+      "bytes": 514,
+      "sha256": "d1b5e942ad309884b4fe31daad729f1c0508ef26dc258dc61f260526f3612411",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--extract-null-returned.json",
+      "bytes": 1279,
+      "sha256": "c2d6a49160c7ca5dd4b2cabd842df5467f74e9336960d95acf74f0d6a4544984",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--extract-null-started.json",
+      "bytes": 513,
+      "sha256": "c01d70855a3e76986db4c78ada153c4239da1119786474793f017362bbe2ec49",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--extract-owner-returned.json",
+      "bytes": 1306,
+      "sha256": "c3d96c93600a2d5a2236988eec2914f58449a4b8f7dc93c85aaf9f62f1876a28",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--extract-owner-started.json",
+      "bytes": 511,
+      "sha256": "4eae9c242e3f9bca12e9c3c0561f5d571d6305d607c9b1bd404d14272f78378f",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--extract-quantity-returned.json",
+      "bytes": 1389,
+      "sha256": "89b5d47bfa3ed1db8925e2554d1e1b57466c074849c0c0ab580eb299a6e4f2fd",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--extract-quantity-started.json",
+      "bytes": 496,
+      "sha256": "f120b8a422fc0e82b3fe4e1e3ffe4e3bd7bac631bb715dc93c73f91fce77768c",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--extract-status-returned.json",
+      "bytes": 984,
+      "sha256": "c59d146489bb158b8cda873c01476071283c5d9074e8bbac20059297261b97b1",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--extract-status-started.json",
+      "bytes": 494,
+      "sha256": "8951d4070d0e85756fa5bf0cc91934a0464107e1e87ccd513939da62962de3d8",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--policy-admit-returned.json",
+      "bytes": 1370,
+      "sha256": "cf090e2a244dd4adc2ee46ceec8457baa9c3c864d2f79eeb7b60e7a551408663",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--policy-admit-started.json",
+      "bytes": 554,
+      "sha256": "caf35e4a0d27608b4a9e79a2fd6517734479f51e69c9dc452760455dffd6f620",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--policy-hold-check-returned.json",
+      "bytes": 1360,
+      "sha256": "51004b264cd0db6a941e1c1ac57e82765537fd6800696100987642f6412ad82c",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--policy-hold-check-started.json",
+      "bytes": 556,
+      "sha256": "02daf8cfb24e93145c8a09463645696d32ccd7cab3d55b2905f217c769a06d4e",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--policy-hold-consent-returned.json",
+      "bytes": 1359,
+      "sha256": "250477f6fcc50fb119467d0022f26a8a890dd9f92bba7e879ab6a3f2f2d7c6f1",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--policy-hold-consent-started.json",
+      "bytes": 558,
+      "sha256": "de87db9c415ff614a8c0bb0c436eeef0a79e89f8f8ee5f66e11cc7b1a3b2acb8",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--policy-publish-returned.json",
+      "bytes": 1350,
+      "sha256": "f57c57d34241bfe18b7588281c902b58f0db640d048d55a3afcde1bbb382ee66",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--policy-publish-started.json",
+      "bytes": 552,
+      "sha256": "37c3cf50289017c4d2f76bd401a75b1130f158310b36d330d58392d727469396",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--policy-reject-expiry-returned.json",
+      "bytes": 1428,
+      "sha256": "50c865f23b38a609304c4d2e5578c74ca1af4778409bdae0860564ec125e9375",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--policy-reject-expiry-started.json",
+      "bytes": 561,
+      "sha256": "0306872987950665949582ae089c2c90186b300ce5ce3bba62705e2066eec15e",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--policy-reject-signature-returned.json",
+      "bytes": 1382,
+      "sha256": "407d114ad82b6cf8e4688c6fb31b6784550663d860bd1b66d87d2fac2b95c300",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/long96--policy-reject-signature-started.json",
+      "bytes": 566,
+      "sha256": "186ee5ad7123fd15b7ac1db9c5edcb75e2ed361eda0a958682313d5a4a507173",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--abstain-known-age-returned.json",
+      "bytes": 1010,
+      "sha256": "e9e198df6908205ae2d56eaed5ae645759510a72bf766bf9e2b25d2fadf811b0",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--abstain-known-age-started.json",
+      "bytes": 553,
+      "sha256": "1015b1eed7a47f2a6ba42c954f9cbdcb4cfc03fc2ce9697086186bf2214a1071",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--abstain-known-city-returned.json",
+      "bytes": 1023,
+      "sha256": "ee8650871485972e767ed789907cb37de2a586ab03876e0794be624a7362760c",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--abstain-known-city-started.json",
+      "bytes": 568,
+      "sha256": "1bfd3abf6ce637d55f5b0b4ed300389325e05a7c3c4e3d2a431d280537b3dda0",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--abstain-known-total-returned.json",
+      "bytes": 1055,
+      "sha256": "a0368bfa1c085044bad9808243793699351c115be9c70f15a4c73fe133f4b6dd",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--abstain-known-total-started.json",
+      "bytes": 577,
+      "sha256": "e772140726ef80546266c06fe163a3c761f06f6a981fe190db8e6497bdc0673f",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--abstain-unknown-age-returned.json",
+      "bytes": 1004,
+      "sha256": "d1d96dc029f7fdedc80ff15220f3851d70ca80d51fcac723bf2c155052770a79",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--abstain-unknown-age-started.json",
+      "bytes": 547,
+      "sha256": "31f76bd297bb08c8a853bf692b6829610dfa9ff0d16292a158c3cc43445769cc",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--abstain-unknown-city-returned.json",
+      "bytes": 1036,
+      "sha256": "897e259e9604116478ae3e1f94e5c495dfe36b4d843ba6c40ad7bf3ecacc0d44",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--abstain-unknown-city-started.json",
+      "bytes": 572,
+      "sha256": "6d68fea05e61ae2c64a7f1fc82948c203a5557b70f2a5c0c86010be5347d71ef",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--abstain-unknown-total-returned.json",
+      "bytes": 1054,
+      "sha256": "147a07c8becd015f72c8f7ae27bdb6796c7ca1cb21c5e48453fc3d459cbcc36b",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--abstain-unknown-total-started.json",
+      "bytes": 585,
+      "sha256": "a4b187cb72add815267e76e2eef3e0b86a35b7eed1f569f6cd29b2d14f2dd03c",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--arithmetic-combined-returned.json",
+      "bytes": 1021,
+      "sha256": "20410db9daf3da6815944c8d59a8f54373fd974e25feebd3e8e6f2c8495e9c9b",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--arithmetic-combined-started.json",
+      "bytes": 488,
+      "sha256": "a6680d2639d1308426e18c937df9ff5506851759830852ad85438bffdf83e21c",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--arithmetic-difference-returned.json",
+      "bytes": 978,
+      "sha256": "22b99cacfffeac13ba780a48a023566c37257f974119c2286dff13c21197a361",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--arithmetic-difference-started.json",
+      "bytes": 487,
+      "sha256": "7e8952c3fabfd99e8ad2819ce9ea08d5509de2ff41e3945d6095e11470f9121f",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--arithmetic-division-returned.json",
+      "bytes": 931,
+      "sha256": "a4785f7b06d5d243fc0589ca939c0b1acc7e24553331a3d2a301556ee64ee143",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--arithmetic-division-started.json",
+      "bytes": 485,
+      "sha256": "f2ec561e2ee9f5ed8dc8a44cb53ae658ba0b36868b6cb0e14ae34d5a9839a36e",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--arithmetic-product-returned.json",
+      "bytes": 927,
+      "sha256": "3ca66a2e2a938b09192e4e5d0a8bf9a237d316bf40fa4c61b6a74c9faed3355e",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--arithmetic-remaining-returned.json",
+      "bytes": 945,
+      "sha256": "ad8cf53979ba42dfd734b4fd6e37bc35b90bb1711ba0094f4b728785ce08feab",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--arithmetic-product-started.json",
+      "bytes": 483,
+      "sha256": "747dc5f4495a9ec45140acd1acc131a42f6ed83522cea187abfe9782a92fd85e",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--arithmetic-remaining-started.json",
+      "bytes": 488,
+      "sha256": "475feab58b923291361cc58d682b26c22a423a4a034caefcfb93a0578c89413a",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--arithmetic-sum-returned.json",
+      "bytes": 1021,
+      "sha256": "8c3456706962c5bcee80c075b59c16a2e2586067744e9ff2095a870d94a358ee",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--arithmetic-sum-started.json",
+      "bytes": 479,
+      "sha256": "44ce94885a4ace7ad922516995d4a6045f7e2c95e5b740dc87b2faf685a28390",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--extract-bool-returned.json",
+      "bytes": 1027,
+      "sha256": "4d2bd17eee23e61f87744cdf3dd636ff7c93343f49dea7b919c3e08aa0fa9b68",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--extract-bool-started.json",
+      "bytes": 494,
+      "sha256": "2fccd1824d23b0986fad7e28921f05f4de34e2356802f6f73520700c949fc548",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--extract-list-returned.json",
+      "bytes": 1036,
+      "sha256": "0f969ff3fa511b664be613b61f92baeb8894e2b92c5e84e9c2b5c6cb76334e14",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--extract-list-started.json",
+      "bytes": 515,
+      "sha256": "940cdc56425a2741539041d9262f67782d296aef112246c309cb2f453a2f1806",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--extract-null-returned.json",
+      "bytes": 1016,
+      "sha256": "aee31ed428efbc5c2ec472dcd47435b78a3de81ae683a2b104eca24c62ac4952",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--extract-null-started.json",
+      "bytes": 514,
+      "sha256": "079032c7b866a432c7171f25ce444d70e3cf4d0ed88d212de7f1f35b104747f3",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--extract-owner-started.json",
+      "bytes": 512,
+      "sha256": "7485db966642b4043121dc7a3a62e7465923522bb2a6b928e2ac48cc89eaaf07",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--extract-quantity-returned.json",
+      "bytes": 1030,
+      "sha256": "db3e9610b2e5a5b397d2a6bf92eae39cde119e6589c5b2c4624a5c9db066f46c",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--extract-owner-returned.json",
+      "bytes": 1060,
+      "sha256": "c4c4ee57f2b793686f0b4e02a8748f7c7e79fa61088e10f75a0961141769d2ed",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--extract-quantity-started.json",
+      "bytes": 497,
+      "sha256": "5852e2eec513fe40642aa593816c38176bcbe461d4ca9b7bd03fce388150cc30",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--extract-status-returned.json",
+      "bytes": 985,
+      "sha256": "d464928844d79ef14ffb59d9f59e3c426779f339039ac7168dd676b0d58fc3b6",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--extract-status-started.json",
+      "bytes": 495,
+      "sha256": "86cb02ea5feb7d0de5d6e47405236da6beeb1edee4c9e52df1df7657ac5c9ecc",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--policy-admit-returned.json",
+      "bytes": 1099,
+      "sha256": "2cdf992afb40b6a7b85536f7a9c19faa09598592fd34ec9ec7d4f6de6c6575c1",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--policy-admit-started.json",
+      "bytes": 555,
+      "sha256": "e380246c988a99f9a249c2ad10381a29582dd8827b7a0c0a8315769251a8d55d",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--policy-hold-check-returned.json",
+      "bytes": 1088,
+      "sha256": "464149c9047cd51b8ae0eb95ac53bcf35f5d0fa837f327122f54e1cb77efdb80",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--policy-hold-check-started.json",
+      "bytes": 557,
+      "sha256": "0a5f694945a90a7f8e25148487863836278e66444ea21d27908ad8bddcc5244e",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--policy-hold-consent-returned.json",
+      "bytes": 1090,
+      "sha256": "5c0efca6a646127cf8f065ac977377fe0779153747026926a2d7612effe71712",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--policy-hold-consent-started.json",
+      "bytes": 559,
+      "sha256": "3aaf72d3f42f04d07dad7b34a15db92b666ed592a1913952f9e5bedafd437122",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--policy-publish-returned.json",
+      "bytes": 1084,
+      "sha256": "fa655cfd1889c96ddbc2153c82276d5a2bff3f90ad421366d0a62e8fe3967d2a",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--policy-publish-started.json",
+      "bytes": 553,
+      "sha256": "d89631fc90c6281a451242c70f69f71615dc7ae43c4f2844cc80bb6b31cd45b6",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--policy-reject-expiry-returned.json",
+      "bytes": 1107,
+      "sha256": "4732ef7b79250bfef32f4791772b34cd9d66c8b0c1b64472d76c8f0bd65ca011",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--policy-reject-expiry-started.json",
+      "bytes": 562,
+      "sha256": "7ca2a5e11b23dc11b09f4ae106d38a0364becd49e7e6bd68b00e015f1c618709",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--policy-reject-signature-returned.json",
+      "bytes": 1111,
+      "sha256": "b3c6e45a0a2c73c9ec03aeec287c0e061d69777e8e52fe31956c19bd1e7fd7b6",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/calls/short24--policy-reject-signature-started.json",
+      "bytes": 567,
+      "sha256": "efdb3e48af456d3d97aec38fd93580fd93ec033feea9171d047e60818d6b89a7",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/consumer-pins.json",
+      "bytes": 456,
+      "sha256": "8370275315894f4b9ae20db80fad708698c6574b1179bd0d2aba32443a82fca3",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/declaration.json",
+      "bytes": 513,
+      "sha256": "f998615e50f6378a157a04e2321b2f013a1c4a4eb2fa1fe91680e860d70815ff",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/manifest.json",
+      "bytes": 15840,
+      "sha256": "ec68fd7a43381e879c1d88ed72e92ab14054190cb3d3a57cb9459cd5685501ec",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/protocol.json",
+      "bytes": 8998,
+      "sha256": "8838108611ebc0ea97caa160f9b9d07eb27dc29c587f04c3354ccbb671ecb8e1",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/report.json",
+      "bytes": 25393,
+      "sha256": "a776bca8e277be66f8e7b5338248d8895e94467840ec314483238ea168133cc4",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/llama/__init__.py",
+      "bytes": 70,
+      "sha256": "4c2a5af3fc96d346a6e80f6eaab84298b744daefa930040cb66dab6a24956ce1",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/llama/_ctypes_extensions.py",
+      "bytes": 4085,
+      "sha256": "9e5241832feb61e3c439b0e9e4d9a9ff4e7a6a54b0809a8f5995f0175d841876",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/llama/_internals.py",
+      "bytes": 29562,
+      "sha256": "ca4dfec07dd99f3bce88f5b85abeca02371b06d2f9ac8e3c2131e8c289719362",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/llama/_ggml.py",
+      "bytes": 369,
+      "sha256": "0df174a6f6dda3b8880b8b09ca72c0e1e7c60182b34cc9a26b6e4ff5d5cb62e4",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/llama/_logger.py",
+      "bytes": 1309,
+      "sha256": "71ca61bea0e1423885465b88706eda54ea02b3810a9ef1ab142e66bc49bc9358",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/llama/_utils.py",
+      "bytes": 2260,
+      "sha256": "69d6ee0d03fa2a5411a6f40f49b3af7c3ef28aa47957399e75ab904d1b4cd587",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/llama/lib/libggml-base.so",
+      "bytes": 657256,
+      "sha256": "ad8981a3cce0fcc49fb0206fd5266134e793e4b57143b80d78f1b2900d5f030e",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "run/sources/llama/lib/libggml-cpu.so",
+      "bytes": 791688,
+      "sha256": "6b8b2e3bb103c149f418fa38b4f30275c645dc939da01a6c3c3fb2312a914912",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "run/sources/llama/lib/libggml.so",
+      "bytes": 51920,
+      "sha256": "623f6f5f05f03385e8c2bfc72edd406446179aef3542ea44b8b223417a737675",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "run/sources/llama/lib/libllama.so",
+      "bytes": 2209048,
+      "sha256": "c5552293d232c88d2d17ca2338a4db723d071cebd00de513b25a151d62d9fd3d",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "run/sources/llama/lib/libmtmd.so",
+      "bytes": 730848,
+      "sha256": "7467514edd891c872729838d583aa54c422e6d8cd8c43598f47dca9cdb944f37",
+      "selected": false,
+      "reason": "excluded from bounded derivative; model weights/binary and build artifacts not retained"
+    },
+    {
+      "member": "run/sources/llama/llama.py",
+      "bytes": 96173,
+      "sha256": "334b15f16ec31de65adea58c85dbd04057f88749cade66a7adf42684c4d010d8",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/llama/llama_cache.py",
+      "bytes": 5010,
+      "sha256": "a3cb101cbd5e06f88366b12a73c131a54c24f83bc8085b64c5035a8c671bdc69",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/llama/llama_chat_format.py",
+      "bytes": 157215,
+      "sha256": "35de04fc3e16b61f6d7044cd961e6980252c9def2ce24f58fcd5265aac38e18c",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/llama/llama_cpp.py",
+      "bytes": 152717,
+      "sha256": "4b27f8e92537cfd01ae20341745c5a22704be811ffbf3ef9efa66ba644404921",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/llama/llama_grammar.py",
+      "bytes": 32913,
+      "sha256": "4d39699197909f4aa98f45086c824bd0521fbeb27c7aaee249a723c62e1d0dd8",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/llama/llama_speculative.py",
+      "bytes": 2088,
+      "sha256": "37dabf1ee9aad01d82da6d5e69fbc0a37cdebd7ac5bc042cac8ead4e3d6fb6ba",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/llama/llama_tokenizer.py",
+      "bytes": 3876,
+      "sha256": "482e57da563dd537fba8c5d2ae09dc352c3054dfd8622957a2cb919b8478ca9f",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/llama/llama_types.py",
+      "bytes": 8666,
+      "sha256": "103a91a9f890d7f314c1f85173ae5e1efd2c12139202ffd4307fb754c055859e",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/llama/llava_cpp.py",
+      "bytes": 4552,
+      "sha256": "e6d0d9ac2f4195bef5021a49d3be026af92e8f065015483acbe67642c2c0fb41",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/llama/mtmd_cpp.py",
+      "bytes": 8834,
+      "sha256": "e52851c5e6aaf3d0e0c161271c3faa2d7249ff283781bea472bf725f55ea7930",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/llama/server/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/llama/server/__main__.py",
+      "bytes": 2849,
+      "sha256": "1cbf72bcf5f497b172fc1e2dec96e892e714f425f95270b1e284549c18a4b696",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/llama/server/app.py",
+      "bytes": 19572,
+      "sha256": "7a968a6f4bf386524d8aef79cd9eed8151dfc082c43d2e86dec201297e4950da",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/llama/server/cli.py",
+      "bytes": 3268,
+      "sha256": "996f0d032f3e19ca7eb824b2bcb3486b1011227b693dc0f5fcad647221d18524",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/llama/server/errors.py",
+      "bytes": 7164,
+      "sha256": "ca5f95333829d58d233b7a4c137e78ef99c44f5442c2746db213ecf481e173b3",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/llama/server/settings.py",
+      "bytes": 8566,
+      "sha256": "cd5722e3a06350ac748122462a3211f04f685abae3e6cdc7aa3da12e7e577777",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/llama/server/types.py",
+      "bytes": 12216,
+      "sha256": "a6c5b3b848df178537924b341d113aeee8b33239a5f2039ffb35efa6c96522bb",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/llama/server/model.py",
+      "bytes": 13556,
+      "sha256": "a2c3e2f35a2120de7c00053fb04de863a7b0ea2c1f4e7c15047ce763c314e8d4",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/llama-cpp-python/LICENSE.md",
+      "bytes": 1069,
+      "sha256": "c479fb11a66a85fed2004a17dd1b3e44a1858c564b167aecb20ff66cb422ed75",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/llama-cpp-python/METADATA.txt",
+      "bytes": 33608,
+      "sha256": "124186f5883bd7bf1adb1cb380fc012d9d4de5dcb6e30375a298e0b0c0f56b41",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/model-provenance.json",
+      "bytes": 1517,
+      "sha256": "b6f93798bedfff417e2a0acc5529c760d653f0fb83da9de33ebff8b5c38f4745",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/llama-system-info.txt",
+      "bytes": 112,
+      "sha256": "0fea1eb5fc8d844ea89aaa648da3d02a397b8bb51512a51b8bbad157aa185e1a",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/protocol-preregistration.json",
+      "bytes": 130,
+      "sha256": "499eaad06146c972546ee441fd6e4d74814ba31df01ea2284e5e1cca4ffd3d15",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/provenance/build-gcc.log",
+      "bytes": 948,
+      "sha256": "7fc3cfb54b177c55081b15274c5b21b9413ecf6fe624e40f924324dc79a87b4b",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/provenance/dependency-lock.json",
+      "bytes": 36919,
+      "sha256": "ddd3c69884664dffb3bf5e1ec1a3ddbb204252f1f3e66a05b006141019b9a1c3",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/provenance/download-accounting.json",
+      "bytes": 54706,
+      "sha256": "43fbb39bce89c13708c8be0f855d1e7a683628cec0108662c705849249eaff56",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/provenance/downloads.json",
+      "bytes": 36759,
+      "sha256": "9467dc3f6089292e25908f34c1bc5900462a8029b6d40caf873bb5573e253ae1",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/provenance/download-declaration.json",
+      "bytes": 37111,
+      "sha256": "a860ec7c7e07674403c7b1d087f8d6e425238b4cdedb3596c38a1493b8d53c33",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/provenance/quant-card.txt",
+      "bytes": 4567,
+      "sha256": "b464dc4a9ff26fea06ec45165546bbeb0c32b1a7847babcef048d5b84486ed84",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/provenance/original-card.txt",
+      "bytes": 6772,
+      "sha256": "4f97533ad95b1b2fea15fbc075c01b94578ebdd7c8138888fa43fa3abd530dc4",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/provenance/requirements.txt",
+      "bytes": 8541,
+      "sha256": "4f1d4c6f34eca79b319b596f2fc582f34e4a3d3cfbb2cf5b5844238dd2adbb91",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/provenance/source-download.json",
+      "bytes": 308,
+      "sha256": "512f7a53412c5ee551d4a8ee45fb8e06fbf7a35fad8a43b4b421e5a2c5476769",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/provenance/tokenizer-config.json",
+      "bytes": 3764,
+      "sha256": "4ec77d44f62efeb38d7e044a1db318f6a939438425312dfa333b8382dbad98df",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/sources/task_matrix.py",
+      "bytes": 21119,
+      "sha256": "124d41350d03b0b0a8b8a9ccec92cbc7228b2575cadbf26662697ab8ad4f39e5",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run/terminal.json",
+      "bytes": 95,
+      "sha256": "842736dbc6f9c0f09c8492958de1802258df25f5b9b269052fece36e090308ee",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run-stderr.txt",
+      "bytes": 111,
+      "sha256": "e0b09bdd22c9651128f1075181859c9e1430b5f17c11dab4f7b3c1650dec4e38",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "run-stdout.json",
+      "bytes": 33853,
+      "sha256": "acb8f021b5a9bda6b64e33ab38f9da592b8d2c2bba81de7bfdaef586256608f2",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "source-download.json",
+      "bytes": 308,
+      "sha256": "512f7a53412c5ee551d4a8ee45fb8e06fbf7a35fad8a43b4b421e5a2c5476769",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "tokenizer-config.json",
+      "bytes": 3764,
+      "sha256": "4ec77d44f62efeb38d7e044a1db318f6a939438425312dfa333b8382dbad98df",
+      "selected": true,
+      "reason": "retained original member"
+    }
+  ],
+  "limits": [
+    "Original 274795286-byte ZIP retained locally and available through expiring GitHub workflow artifact, not committed to Git or represented by the capsule.",
+    "Capsule retains exact selected JSON/text members and excludes model weights/binaries; it cannot replay the full source/binary integrity check or rerun inference alone.",
+    "Fixed configuration order confounds cache/warmup; author microtasks are not a benchmark estimate.",
+    "CPU is whole-process delta; RSS process-lifetime peak; no task memory isolation, monetary cost or independent effects."
+  ]
+}

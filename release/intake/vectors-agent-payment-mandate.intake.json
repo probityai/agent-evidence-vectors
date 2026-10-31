@@ -114,7 +114,7 @@
       },
       "path": "vectors-agent-payment-mandate/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "88d336503beb9fe39a30d9a61c1a5fd173b98d73f8c5ab3569af19317b5a3641"
+      "sha256": "1a6153fc3d0baa1eb8eae882b19442d3ab98fde6abd5af45d25b5d016573e6e0"
     },
     {
       "consumed": "unconsumed",
@@ -235,7 +235,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "44448b72d598952c369fb4f256c5c543551b167cd64341cebf255951ee3bc5ac"
+      "sha256": "7a52bc96a6a12d5112ccf784607b3b1567e335a14bea85246f05ccd911eb0392"
     },
     "runtime": {
       "name": "go",
@@ -372,7 +372,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "509482b3b0e92f563fc0412eb9ddb498c5a449db287eb6391fdfd27392918ec5"
+    "sha256": "5e4da456a5bc83896cc3443df635b65e8879e2b2242eb153581191e0e4a5d3f9"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -399,7 +399,7 @@
       "post-checkout-fulfilment-missing"
     ],
     "path": "vectors-agent-payment-mandate/MANIFEST.json",
-    "sha256": "f989d16f24c2193254c4f2bdf8a0f93198f4593cd7cdb1bcad69b1386575f437"
+    "sha256": "972d83e2aa97dbe90bc4643d6652d7c5838a9414880a803a7abae33a5432309e"
   },
   "members": [
     {
