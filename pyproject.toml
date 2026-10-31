@@ -284,6 +284,13 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 "spec/predicates/adversarial-execution-evidence.md" = "agent_evidence_vectors/corpora/spec/predicates/adversarial-execution-evidence.md"
 "spec/v1/statement.md" = "agent_evidence_vectors/corpora/spec/v1/statement.md"
 "spec/predicates/adversarial-execution-evidence/verification.md" = "agent_evidence_vectors/corpora/spec/predicates/adversarial-execution-evidence/verification.md"
+# The restart-records reader checks its corpus against these vendored documents.
+"profiles/restoration-evidence.md" = "agent_evidence_vectors/corpora/profiles/restoration-evidence.md"
+"spec/predicates/incident-action-authorization.md" = "agent_evidence_vectors/corpora/spec/predicates/incident-action-authorization.md"
+"spec/predicates/joint-authority.md" = "agent_evidence_vectors/corpora/spec/predicates/joint-authority.md"
+"spec/predicates/re-enable-decision.md" = "agent_evidence_vectors/corpora/spec/predicates/re-enable-decision.md"
+"spec/predicates/revocation-boundary.md" = "agent_evidence_vectors/corpora/spec/predicates/revocation-boundary.md"
+"spec/predicates/revocation-sweep.md" = "agent_evidence_vectors/corpora/spec/predicates/revocation-sweep.md"
 
 [tool.hatch.build.targets.sdist]
 only-include = [
@@ -321,6 +328,12 @@ only-include = [
     "spec/predicates/adversarial-execution-evidence.md",
     "spec/v1/statement.md",
     "spec/predicates/adversarial-execution-evidence/verification.md",
+    "profiles/restoration-evidence.md",
+    "spec/predicates/incident-action-authorization.md",
+    "spec/predicates/joint-authority.md",
+    "spec/predicates/re-enable-decision.md",
+    "spec/predicates/revocation-boundary.md",
+    "spec/predicates/revocation-sweep.md",
     "vectors-admission",
     "vectors-aci",
     "vectors-acs-core",
