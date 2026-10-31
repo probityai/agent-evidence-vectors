@@ -2,10 +2,10 @@
   "aggregate": {
     "counts": {
       "allow": 8,
-      "deny": 24
+      "deny": 28
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 32
+    "total": 36
   },
   "anchor": {
     "kind": "digest-list-line",
@@ -17,7 +17,7 @@
     "routine": "corpus_digest in vectors-approval-binding/gen_vectors.py",
     "routine-file": "vectors-approval-binding/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "3ee24e73759f13cb2e7ce1fc849859f32e2457d9d1990189e9f7c7c0db89960b",
+    "sha256": "54ad08f0dd40429440393a706ef7fed361e00c12ce3033d18b353231a9a266a5",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -29,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "957acf057050b75a3585687dc3d199b98b295075b19151faf9f9ab44e1563911"
+          "sha256": "2409211ac917546447b1ca270ff2f1c293724481d0aced8276d409ff2391921b"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,21 +38,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "957acf057050b75a3585687dc3d199b98b295075b19151faf9f9ab44e1563911"
+          "sha256": "2409211ac917546447b1ca270ff2f1c293724481d0aced8276d409ff2391921b"
         },
         "swapped-in": "a8d8561496fb9f726058d23f37d7c4774eb5e8a74696ca383057498ac2334ff7",
         "test": "swap-and-re-pin"
       },
       "path": "vectors-approval-binding/README.md",
       "serialization": "bytes",
-      "sha256": "4e4db4823b1e5f7e3031bd9d4d88b651d0b03c61c22f8a626c0ca2e11da3212c"
+      "sha256": "d9bedd268fb90cc440e173d45fb28e3b874b083ea944bb7217e01484f4b0d30d"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "957acf057050b75a3585687dc3d199b98b295075b19151faf9f9ab44e1563911"
+          "sha256": "2409211ac917546447b1ca270ff2f1c293724481d0aced8276d409ff2391921b"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,7 +61,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "957acf057050b75a3585687dc3d199b98b295075b19151faf9f9ab44e1563911"
+          "sha256": "2409211ac917546447b1ca270ff2f1c293724481d0aced8276d409ff2391921b"
         },
         "swapped-in": "4fa8893eae25654b03ca4a8407a2520edaccc6ffb21033f2b2d38386a9f047b6",
         "test": "swap-and-re-pin"
@@ -75,7 +75,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "957acf057050b75a3585687dc3d199b98b295075b19151faf9f9ab44e1563911"
+          "sha256": "2409211ac917546447b1ca270ff2f1c293724481d0aced8276d409ff2391921b"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,21 +84,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "957acf057050b75a3585687dc3d199b98b295075b19151faf9f9ab44e1563911"
+          "sha256": "2409211ac917546447b1ca270ff2f1c293724481d0aced8276d409ff2391921b"
         },
         "swapped-in": "686696929a891b8fdc916e1ccad4edb384a9c3b65a81a0df011e808770c73aaf",
         "test": "swap-and-re-pin"
       },
       "path": "vectors-approval-binding/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "3773cb2fae1de8416b4bc28cae52f48475da4083536b2bf4e0a30a9c8e290c51"
+      "sha256": "d747054d8f581e797adfa6ef8d8e9a4154c7422c8bd3a2306562bf8eb015a9e0"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "957acf057050b75a3585687dc3d199b98b295075b19151faf9f9ab44e1563911"
+          "sha256": "2409211ac917546447b1ca270ff2f1c293724481d0aced8276d409ff2391921b"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,14 +107,14 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "957acf057050b75a3585687dc3d199b98b295075b19151faf9f9ab44e1563911"
+          "sha256": "2409211ac917546447b1ca270ff2f1c293724481d0aced8276d409ff2391921b"
         },
         "swapped-in": "625e805d3c4d76702c6fd3cc983d9a84f42d57a6c304ebbc973b2696d63999b4",
         "test": "swap-and-re-pin"
       },
       "path": "vectors-approval-binding/tests/test_corpus.py",
       "serialization": "bytes",
-      "sha256": "374780d9a868d94169477c3a4d998e5415d9a6bb468cf3d97dbc3906e49a3317"
+      "sha256": "2118db61653ad63160be724e7c84f2df2a54b61d83e38c507c9e9c8030fae57e"
     }
   ],
   "boundary": {
@@ -129,7 +129,7 @@
     "root": "vectors-approval-binding"
   },
   "byte-identity": {
-    "pins": 64,
+    "pins": 72,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -166,7 +166,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "1632591a86ab4fab3c65f5e29c492efefa5a9d1b8a38a39a4747623a12b03d27"
+      "sha256": "06d46c0cefa36605d541e7de147af463872a95a41fb6f11ce04f40c7d67c1203"
     },
     "runtime": {
       "name": "go",
@@ -421,6 +421,38 @@
       "state": "pass"
     },
     {
+      "check": "approval-renewal-accepted-after-use",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "approval-renewal-predecessor-ambiguous",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "approval-use-cites-predecessor",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "approval-use-cites-no-approval",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
       "check": "contract-id-missing",
       "native": {
         "reasons": [],
@@ -439,7 +471,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "97d882d4464d2f94100f5219abc57ebde6bc757ed775736badd4e10d32733897"
+    "sha256": "cad6b37d0143d35cda7bfa566eb40fb29b495261043fbdf140d238bf38dc441e"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -479,11 +511,15 @@
       "approval-renewal-bounds-differ",
       "approval-renewal-reopens-consumed-effect",
       "approval-renewal-reopens-uncertain-effect",
+      "approval-renewal-accepted-after-use",
+      "approval-renewal-predecessor-ambiguous",
+      "approval-use-cites-predecessor",
+      "approval-use-cites-no-approval",
       "contract-id-missing",
       "contract-id-unknown"
     ],
     "path": "vectors-approval-binding/MANIFEST.json",
-    "sha256": "ca7a9f872affbdc50f68b2fec451feff08a1e8d76c064c5c1271abc0a3d2aaf0"
+    "sha256": "b06f2ecb9e6a315867d01ea413c8d2c4492e79703fb01cdf200cdc7f82472893"
   },
   "members": [
     {
@@ -879,6 +915,58 @@
     {
       "files": [
         {
+          "path": "vectors-approval-binding/cases/approval-renewal-accepted-after-use/payload.bin",
+          "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
+        },
+        {
+          "path": "vectors-approval-binding/cases/approval-renewal-accepted-after-use/record.json",
+          "sha256": "d50d78106a0cfde01b9da90aa312c02bca0f40b18da2e31901c36a465be5d124"
+        }
+      ],
+      "id": "approval-renewal-accepted-after-use"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-approval-binding/cases/approval-renewal-predecessor-ambiguous/payload.bin",
+          "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
+        },
+        {
+          "path": "vectors-approval-binding/cases/approval-renewal-predecessor-ambiguous/record.json",
+          "sha256": "dc1c784a740a8a6993dd57fdfb4d3a087430369882bd1bf2781b93d448b05ef8"
+        }
+      ],
+      "id": "approval-renewal-predecessor-ambiguous"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-approval-binding/cases/approval-use-cites-predecessor/payload.bin",
+          "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
+        },
+        {
+          "path": "vectors-approval-binding/cases/approval-use-cites-predecessor/record.json",
+          "sha256": "cb9ed1b72054bc95f3b11b926dd98f25c11a10f2f3a5ff01e0c64d5fe36ff19a"
+        }
+      ],
+      "id": "approval-use-cites-predecessor"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-approval-binding/cases/approval-use-cites-no-approval/payload.bin",
+          "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
+        },
+        {
+          "path": "vectors-approval-binding/cases/approval-use-cites-no-approval/record.json",
+          "sha256": "32074b20e247674999d534f5a19fff8e8365decd60f648145024d42853adef55"
+        }
+      ],
+      "id": "approval-use-cites-no-approval"
+    },
+    {
+      "files": [
+        {
           "path": "vectors-approval-binding/cases/contract-id-missing/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
@@ -919,7 +1007,7 @@
       "reference": {
         "path": "release/intake/native/vectors-approval-binding.json",
         "serialization": "bytes",
-        "sha256": "957acf057050b75a3585687dc3d199b98b295075b19151faf9f9ab44e1563911"
+        "sha256": "2409211ac917546447b1ca270ff2f1c293724481d0aced8276d409ff2391921b"
       }
     },
     {
@@ -928,7 +1016,7 @@
       "reference": {
         "path": "release/intake/native/vectors-approval-binding.txt",
         "serialization": "bytes",
-        "sha256": "92a6b63178c383e156389e70a68bffa07f326c9bb7e0e95ec38ca876dc677129"
+        "sha256": "01cedaa69c9fde39bf5798a74e91b563f5507c1e7a07f2a31194fe229dd345f4"
       }
     },
     {
@@ -953,11 +1041,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "957acf057050b75a3585687dc3d199b98b295075b19151faf9f9ab44e1563911"
+        "sha256": "2409211ac917546447b1ca270ff2f1c293724481d0aced8276d409ff2391921b"
       },
       {
         "process": "run-2",
-        "sha256": "957acf057050b75a3585687dc3d199b98b295075b19151faf9f9ab44e1563911"
+        "sha256": "2409211ac917546447b1ca270ff2f1c293724481d0aced8276d409ff2391921b"
       }
     ],
     "seed": null,
@@ -971,7 +1059,7 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 32 pinned members of approval-binding/v1 as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 36 pinned members of approval-binding/v1 as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
@@ -982,7 +1070,7 @@
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 32,
+    "matched": 36,
     "require": "at-least-one",
     "selected": [
       "allow-bound",
@@ -1015,6 +1103,10 @@
       "approval-renewal-bounds-differ",
       "approval-renewal-reopens-consumed-effect",
       "approval-renewal-reopens-uncertain-effect",
+      "approval-renewal-accepted-after-use",
+      "approval-renewal-predecessor-ambiguous",
+      "approval-use-cites-predecessor",
+      "approval-use-cites-no-approval",
       "contract-id-missing",
       "contract-id-unknown"
     ]
