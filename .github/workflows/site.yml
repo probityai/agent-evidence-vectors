@@ -1,0 +1,170 @@
+# Moved from site/.github/workflows/site.yml when the package was imported;
+# its steps run from site.
+name: site
+
+# Three checks keep the published site honest between releases:
+#   build     on every push and pull request: the pages rebuild from their sources with zero
+#             pandoc warnings, docs/ matches what the sources give, and every internal link
+#             and anchor resolves.
+#   links     weekly and on demand: every external URL still answers 2xx, and every page of
+#             the published site reads back.
+#   rederive  weekly and on demand: every automatable claim-ledger row is re-read. A value
+#             that moved is reported in the run summary; a row that could not be read fails.
+
+on:
+  push:
+    paths: ['site/**', '.github/workflows/site.yml']
+    branches: [main]
+  pull_request:
+    paths: ['site/**', '.github/workflows/site.yml']
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: site
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - name: Install pandoc 3.3
+        run: |
+          curl -sSL -o pandoc.deb https://github.com/jgm/pandoc/releases/download/3.3/pandoc-3.3-1-amd64.deb
+          echo "7a6625d5aeb6b8666375807a3e16cc00659c48fb88299707651f60d88c31a360  pandoc.deb" | sha256sum -c -
+          sudo dpkg -i pandoc.deb
+          pandoc --version | head -1
+      - name: Check the atlas page against its data
+        run: |
+          if [ -f src/atlas.md ]; then python3 tools/gen_atlas.py --check; else echo "no atlas page in this tree"; fi
+      - name: Install catalog checks
+        run: python3 -m pip install -r requirements/discoverability-test.txt
+      - name: Check project identities and generated navigation
+        run: python3 -m pytest -q tools/discoverability/test_catalog.py tests/test_discovery.py tests/test_markdown_mirrors.py tests/test_run_browser.py tests/test_link_manual_hosts.py tests/test_corpus_census.py tests/test_release_freshness.py
+      - name: Check docs/ against its sources
+        run: python3 tools/build.py --check
+      - name: Check preview metadata and escaped attributes
+        run: python3 -m pytest -q tests/test_social_metadata.py
+      - name: Check internal links and anchors
+        run: python3 tools/check_links.py
+      - name: the README stays one screen and every link in it resolves
+        run: |
+          python3 scripts/readme-lint.py README.md
+          python3 scripts/readme-lint-test.py
+      - name: Install public layout checks
+        run: |
+          python3 -m pip install -r requirements/public-layout.txt
+          python3 -m playwright install --with-deps chromium
+      - name: Check mobile pages and keyboard controls
+        env:
+          ATLAS_LAYOUT_EVIDENCE: public-layout-evidence
+        run: python3 -m pytest -q tests/test_public_layout.py tests/test_run_browser_layout.py tests/test_evidence_article_layout.py
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: public-layout
+          path: site/public-layout-evidence/
+
+  observer-admission:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          # Preservation checks read the immutable fourteen-record baseline.
+          fetch-depth: 0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: probityai/agent-evidence-observer
+          ref: 8562c25fb7ec97596ea9d0297c495340298914b6
+          path: site/.observer-source
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12.14"
+      - name: Install the pinned experiment runtime
+        run: python -m pip install cryptography==46.0.7 pytest==9.1.1 hypothesis==6.168.3
+      - name: Test source pins and refusal accounting
+        run: python -m pytest -q tests/test_observer_admission_experiment.py tests/test_lab_register.py tests/test_lab_cli.py tests/test_retained_native_runs.py tests/test_boundary_retention.py tests/test_atomic_retention.py tests/test_installed_boundary.py tests/test_vocabulary_retention.py tests/test_vocabulary_replay.py tests/test_tool_argument_retention.py tests/test_aeoess_receipt_retention.py tests/test_report_replay.py
+      - name: Require the original-boundary comparative finding and selected register
+        run: |
+          python tools/derive_boundary_findings.py --check
+          python tools/check_lab.py
+      - name: Replay the retained vocabulary packet through its installed reader
+        run: python tools/replay_vocabulary.py --output vocabulary-installed-replay
+      - name: Replay the retained CI bundle and its negative controls
+        run: |
+          python experiments/observer-admission/run.py \
+            --observer-root .observer-source \
+            --bundle experiments/observer-admission/retained \
+            --manifest experiments/observer-admission/provenance.json \
+            --expect experiments/observer-admission/recorded.json
+      - name: Run the original pinned demo and require the same bounded outcomes
+        run: |
+          python experiments/observer-admission/run.py \
+            --observer-root .observer-source --output observer-admission-run \
+            --expect experiments/observer-admission/recorded.json > observer-admission-report.json
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: observer-admission
+          path: |
+            site/observer-admission-run/
+            site/observer-admission-report.json
+            site/vocabulary-installed-replay/
+
+  links:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - name: Install pandoc 3.3
+        run: |
+          curl -sSL -o pandoc.deb https://github.com/jgm/pandoc/releases/download/3.3/pandoc-3.3-1-amd64.deb
+          echo "7a6625d5aeb6b8666375807a3e16cc00659c48fb88299707651f60d88c31a360  pandoc.deb" | sha256sum -c -
+          sudo dpkg -i pandoc.deb
+          pandoc --version | head -1
+      - name: Check every external link and read back the published site
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/check_links.py --external --live
+
+  rederive:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - name: Re-derive every automatable claim
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -o pipefail
+          status=0
+          python3 tools/rederive.py --unread-fails > rederive.txt || status=$?
+          {
+            echo "## Claim re-derive, $(date -u +%Y-%m-%dT%H:%MZ)"
+            echo
+            echo '```'
+            grep -v '^same' rederive.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          exit $status
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: rederive
+          path: site/rederive.txt

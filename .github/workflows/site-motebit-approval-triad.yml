@@ -1,19 +1,25 @@
+# Moved from site/.github/workflows/motebit-approval-triad.yml, where it never ran, because
+# GitHub reads workflows only from the repository root; its steps run from site.
 name: Motebit approval triad reader
 
 on:
   push:
     branches: [main]
     paths:
-      - examples/motebit-approval-triad/**
-      - .github/workflows/motebit-approval-triad.yml
+      - 'site/examples/motebit-approval-triad/**'
+      - '.github/workflows/site-motebit-approval-triad.yml'
   pull_request:
     paths:
-      - examples/motebit-approval-triad/**
-      - .github/workflows/motebit-approval-triad.yml
+      - 'site/examples/motebit-approval-triad/**'
+      - '.github/workflows/site-motebit-approval-triad.yml'
   workflow_dispatch:
 
 permissions:
   contents: read
+
+defaults:
+  run:
+    working-directory: site
 
 jobs:
   independent-reader-controls:
@@ -26,10 +32,10 @@ jobs:
         with:
           repository: motebit/motebit
           ref: 3ed6e6d2da617d775fe9431c36020efc24749fe6
-          path: .build/motebit-producer
+          path: site/.build/motebit-producer
           sparse-checkout: examples/interop/approval-triad
           persist-credentials: false
-      - uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e # v6
+      - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa # v10.3.1
         with:
           version: "0.12.24"
       - name: Install the pinned Atlas link parser
@@ -42,13 +48,13 @@ jobs:
           bash examples/motebit-approval-triad/run_checks.sh \
             .build/motebit-approval-triad \
             .build/motebit-producer/examples/interop/approval-triad
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
           name: motebit-approval-triad-controls
           path: |
-            .build/motebit-approval-triad/report.json
-            .build/motebit-approval-triad/junit.xml
-            .build/motebit-approval-triad/coverage.json
-            .build/motebit-approval-triad/runtime.json
+            site/.build/motebit-approval-triad/report.json
+            site/.build/motebit-approval-triad/junit.xml
+            site/.build/motebit-approval-triad/coverage.json
+            site/.build/motebit-approval-triad/runtime.json
           if-no-files-found: error

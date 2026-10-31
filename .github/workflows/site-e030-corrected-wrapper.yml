@@ -1,0 +1,40 @@
+# Moved from site/.github/workflows/e030-corrected-wrapper.yml when the package was imported;
+# its steps run from site.
+name: corrected-wrapper
+
+on:
+  push:
+    paths: ['site/**', '.github/workflows/site-e030-corrected-wrapper.yml']
+    branches: [main]
+  pull_request:
+    paths: ['site/**', '.github/workflows/site-e030-corrected-wrapper.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: site
+
+jobs:
+  process-and-report-controls:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa # v10.3.1
+        with:
+          version: "0.12.24"
+      - name: Install the exact case tools
+        working-directory: site/examples/e030-corrected-wrapper
+        run: uv sync --frozen --group dev --python 3.14.7
+      - name: Compare actual wrapper exits and report fields
+        working-directory: site/examples/e030-corrected-wrapper
+        run: .venv/bin/python scripts/qualify.py
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: corrected-wrapper-process-and-report-controls
+          path: site/examples/e030-corrected-wrapper/gate-results/

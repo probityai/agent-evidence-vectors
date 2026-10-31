@@ -1,0 +1,61 @@
+# Moved from site/.github/workflows/nenrin-tsunagi-referee.yml when the package was imported;
+# its steps run from site.
+name: nenrin-tsunagi-referee
+
+on:
+  push:
+    paths: ['site/**', '.github/workflows/site-nenrin-tsunagi-referee.yml']
+    branches: [main]
+  pull_request:
+    paths: ['site/**', '.github/workflows/site-nenrin-tsunagi-referee.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: site
+
+jobs:
+  action-presence-under-the-board-referee:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa # v10.3.1
+        with:
+          version: "0.12.24"
+      - name: Install the reader and the referee in separate hash-pinned environments
+        run: |
+          uv venv --python 3.14.7 .research-cache/reader
+          uv pip install --python .research-cache/reader/bin/python --require-hashes --only-binary=:all: -r interop/action-presence/requirements-dev.txt
+          uv venv --python 3.13 .research-cache/referee
+          uv pip install --python .research-cache/referee/bin/python --require-hashes --only-binary=:all: -r interop/nenrin-tsunagi/requirements-referee.txt
+          .research-cache/referee/bin/python -c "from importlib.metadata import version; v = version('nenrin-verify'); assert v == '0.5.5', v"
+      - name: Check the batch adapter
+        run: |
+          .research-cache/reader/bin/ruff check --isolated interop/nenrin-tsunagi
+          .research-cache/reader/bin/ruff format --isolated --check interop/nenrin-tsunagi
+          PYTHONPATH=interop/action-presence:interop/nenrin-tsunagi .research-cache/reader/bin/python -m pytest interop/nenrin-tsunagi/test_batch.py -q
+      - name: Score the reader with nenrin-tsunagi, offline, corpus from the pinned wheel
+        env:
+          PYTHONPATH: ${{ github.workspace }}/site/interop/action-presence
+        run: |
+          mkdir -p .research-cache/referee-run
+          set +e
+          .research-cache/referee/bin/nenrin-tsunagi run nenrin-interop-v0.2-action-presence -- \
+            "${GITHUB_WORKSPACE}/site/.research-cache/reader/bin/python ${GITHUB_WORKSPACE}/site/interop/nenrin-tsunagi/batch.py {in} {out}" \
+            > .research-cache/referee-run/tsunagi.txt 2>&1
+          status=$?
+          set -e
+          cat .research-cache/referee-run/tsunagi.txt
+          echo "exit=${status}" >> .research-cache/referee-run/tsunagi.txt
+          { echo '```'; cat .research-cache/referee-run/tsunagi.txt; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          exit "${status}"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: nenrin-tsunagi-referee
+          path: site/.research-cache/referee-run/tsunagi.txt
