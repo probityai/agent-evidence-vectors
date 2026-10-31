@@ -14,12 +14,15 @@ has no row for, and name the section in ``draftSection``. Members carrying
 they differ: an entry for an input with several values takes its pair from one
 value (``aggregate_values``), and the coverage clause of Section 5.7 is
 ``scopeComplete`` of true, a gap inside ``pathScope`` beside it being malformed
-at any tier. Members CS1 to CS40 are rows of the same revision: a
+at any tier. Members CS1 to CS49 bind consumption: a
 ``consumption-state`` entry may carry the ``consumption`` member, and
 ``decision.operationKey`` is the agent's identifier for one intended operation
 and the identity of a retry (``consumption_findings``, ``within_limit``,
 ``verify_set``). ``consumption.supersedes`` names the limit document a record's
-``limitDigest`` replaced. A set member (CS7, CS8, CS17, CS18 to CS22, CS25) is a file
+``limitDigest`` replaced, ``consumption.payee`` and each held entry's ``payee``
+the account a payment goes to, and ``consumption.settled`` the terms a paid call
+settled on as read from the chain (CS41 to CS49). A set member (CS7, CS8, CS17,
+CS18 to CS22, CS25, CS48, CS49) is a file
 of several records judged one by one and then as a set, under one ledger: the
 ``limitDigest`` values that ``supersedes`` links, so a permit held under a
 limit that was then replaced is still seen.
@@ -159,9 +162,11 @@ CONSUMPTION_MEMBERS = (
     "held",
     "stateRevision",
 )
-#: The one member ``consumption`` may carry beside them: the digest of the limit
-#: document this record's ``limitDigest`` replaced (a raise or a cut).
-CONSUMPTION_OPTIONAL = ("supersedes", "asset")
+#: The members ``consumption`` may carry beside them: the digest of the limit
+#: document this record's ``limitDigest`` replaced (a raise or a cut), the exact
+#: asset, the payee digest of this request's payment, and the terms the call
+#: settled on (CS41 to CS49).
+CONSUMPTION_OPTIONAL = ("supersedes", "asset", "payee", "settled")
 #: The members of ``asset``, the optional exact asset a consumption counts in
 #: when no ISO 4217 code names it (a token on one chain): a CAIP-19 asset id and
 #: the decimals of its smallest subunit. A record carries ``unit`` or ``asset``,
@@ -176,8 +181,21 @@ CAIP19 = re.compile(
 )
 #: The non-negative integers among them (smallest subunit of ``unit``).
 CONSUMPTION_COUNTS = ("limit", "consumed", "reserved", "requested", "stateRevision")
-#: The members of one ``held`` entry, an earlier permit that has not settled.
+#: The members of one ``held`` entry, an earlier permit that has not settled,
+#: and the one it may carry beside them: the payee digest of that permit's
+#: payment (CS41, CS42).
 HELD_MEMBERS = ("operationKey", "requestDigest", "amount")
+HELD_OPTIONAL = ("payee",)
+#: The members of ``settled``, each required: the amount, asset and payee the
+#: call settled on, where they were read, and the transaction read. The terms
+#: are read from the chain through the transaction the server returned; the
+#: signed payment shows only what was approved (CS47).
+SETTLED_MEMBERS = ("amount", "asset", "payee", "source", "transaction")
+SETTLED_SOURCES = frozenset({"chain"})
+#: Which amount a later record of the ledger must count for a call that carries
+#: ``settled``: the settled amount (CS48), never the held one. A test reads the
+#: held amount instead.
+SETTLED_READING = {"amount": "settled"}
 PERMITS = frozenset({"permit", "permit-with-conditions"})
 #: The sentences of the consumption rule, by name, so a sweep can weaken one at a
 #: time (check_vectors.py): where the member sits, that ``reserved`` is the held
@@ -199,6 +217,10 @@ CONSUMPTION_CHECKS = frozenset(
         "asset-id",
         "asset-decimals",
         "asset-exclusive",
+        "retry-payee",
+        "settled-amount",
+        "settled-terms",
+        "settled-source",
     }
 )
 #: The lastResult of an input the decision point never held a value of.
@@ -794,6 +816,12 @@ def held_for(consumption: dict[str, Any], decision: dict[str, Any]) -> dict[str,
     return None
 
 
+def _payee_shape(container: dict[str, Any]) -> None:
+    """An optional payee: the SHA-256 digest of the payee's CAIP-10 account id."""
+    if "payee" in container and not _is_digest(container["payee"]):
+        raise Malformed("consumption-value-invalid")
+
+
 def within_limit(pred: dict[str, Any]) -> bool | None:
     """The value a verifier derives for a record that carries consumption: the
     amount already consumed, plus the amount held for earlier permits, plus this
@@ -809,13 +837,15 @@ def within_limit(pred: dict[str, Any]) -> bool | None:
 
 
 def _held_shape(item: Any) -> None:
-    """One held entry: exactly operationKey, requestDigest and amount."""
+    """One held entry: operationKey, requestDigest and amount, and an optional
+    payee."""
     if not isinstance(item, dict):
         raise Malformed("consumption-malformed")
     if any(name not in item for name in HELD_MEMBERS):
         raise Malformed("member-missing")
-    if set(item) - set(HELD_MEMBERS):
+    if set(item) - set(HELD_MEMBERS) - set(HELD_OPTIONAL):
         raise Malformed("consumption-malformed")
+    _payee_shape(item)
     key = item["operationKey"]
     if not isinstance(key, str) or not key or not _is_digest(item["requestDigest"]):
         raise Malformed("consumption-value-invalid")
@@ -856,6 +886,26 @@ def _asset_shape(asset: Any) -> None:
         raise Malformed("consumption-value-invalid")
 
 
+def _settled_shape(settled: Any) -> None:
+    """The optional settled terms: exactly amount, asset, payee, source and
+    transaction; the amount a count, the asset an asset, the payee a digest, the
+    source the chain (CS47) and the transaction a non-empty string."""
+    if not isinstance(settled, dict):
+        raise Malformed("consumption-malformed")
+    if any(name not in settled for name in SETTLED_MEMBERS):
+        raise Malformed("member-missing")
+    if set(settled) - set(SETTLED_MEMBERS):
+        raise Malformed("consumption-malformed")
+    _asset_shape(settled["asset"])
+    if not _is_count(settled["amount"]) or not _is_digest(settled["payee"]):
+        raise Malformed("consumption-value-invalid")
+    if "settled-source" in CONSUMPTION_CHECKS and settled["source"] not in SETTLED_SOURCES:
+        raise Malformed("consumption-value-invalid")
+    transaction = settled["transaction"]
+    if not isinstance(transaction, str) or not transaction:
+        raise Malformed("consumption-value-invalid")
+
+
 def _consumption_shape(consumption: Any) -> dict[str, Any]:
     if not isinstance(consumption, dict):
         raise Malformed("consumption-malformed")
@@ -876,6 +926,9 @@ def _consumption_shape(consumption: Any) -> dict[str, Any]:
         raise Malformed("consumption-value-invalid")
     if "asset" in consumption:
         _asset_shape(consumption["asset"])
+    _payee_shape(consumption)
+    if "settled" in consumption:
+        _settled_shape(consumption["settled"])
     _supersedes_shape(consumption)
     counted = [name for name in CONSUMPTION_COUNTS if name in consumption]
     if "counts" in CONSUMPTION_CHECKS and not all(_is_count(consumption[n]) for n in counted):
@@ -931,6 +984,28 @@ def _rule_consumption(state: _State) -> None:
         )
     ):
         raise Malformed("consumption-key-reused")
+    if (
+        "retry-payee" in CONSUMPTION_CHECKS
+        and retried is not None
+        and retried.get("payee") != consumption.get("payee")
+    ):
+        raise Malformed("consumption-key-reused")
+    _settled_against_approved(consumption)
+
+
+def _settled_against_approved(consumption: dict[str, Any]) -> None:
+    """The settled terms beside the approved ones (CS43 to CS46): the amount at
+    most the authorized maximum, which is ``requested`` (an x402 upto permit may
+    settle lower, or at 0), and the asset and payee the approved ones."""
+    settled = consumption.get("settled")
+    if settled is None:
+        return
+    if "settled-amount" in CONSUMPTION_CHECKS and settled["amount"] > consumption["requested"]:
+        raise Malformed("consumption-settled-exceeds")
+    if "settled-terms" in CONSUMPTION_CHECKS and (
+        settled["asset"] != consumption.get("asset") or settled["payee"] != consumption.get("payee")
+    ):
+        raise Malformed("consumption-settled-differs")
 
 
 def _rule_delegation(state: _State) -> None:
@@ -1807,10 +1882,40 @@ def _set_asset_mismatch(group: list[dict[str, Any]]) -> bool:
     return len({_denomination(pred) for pred in group}) > 1
 
 
+def _set_settled_uncounted(group: list[dict[str, Any]]) -> bool:
+    """A call whose record carries ``settled`` moved its settled amount, not its
+    held one, into ``consumed`` (CS48). A record of the ledger that read a later
+    stateRevision and no longer holds that call counts at least the amount the
+    settling record read as consumed plus the settled amount (CS49). It may count
+    more, since other calls may settle between the two records."""
+    for settling in group:
+        consumption = consumption_of(settling)
+        assert consumption is not None
+        settled = consumption.get("settled")
+        if settled is None:
+            continue
+        key = settling["decision"].get("operationKey")
+        held = held_for(consumption, settling["decision"])
+        amount = settled["amount"]
+        if SETTLED_READING["amount"] == "held":
+            amount = held["amount"] if held is not None else consumption["requested"]
+        for later in group:
+            if later is settling or _revision(later) <= _revision(settling):
+                continue
+            if key in _held_keys(later):
+                continue
+            counted = consumption_of(later)
+            assert counted is not None
+            if counted["consumed"] < consumption["consumed"] + amount:
+                return True
+    return False
+
+
 SET_RULES: list[tuple[str, str, Callable[[list[dict[str, Any]]], bool]]] = [
     ("stale-revision", "consumption-set-stale-revision", _set_stale_revision),
     ("release-unshown", "consumption-set-release-unshown", _set_release_unshown),
     ("asset-mismatch", "consumption-set-asset-mismatch", _set_asset_mismatch),
+    ("settled-uncounted", "consumption-set-settled-uncounted", _set_settled_uncounted),
 ]
 
 
