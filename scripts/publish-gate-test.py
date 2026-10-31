@@ -43,7 +43,9 @@ PUBLISH_MARKERS = re.compile(
     r"|huggingface_hub|HfApi|upload_folder|publish-hf-dataset\.py upload"
     r"|gh release (create|upload)|deploy-pages|id-token:\s*write"
 )
-DYNAMIC_SECRET = re.compile(r"secrets\s*\[|toJSON\(\s*secrets|fromJSON\(\s*secrets|secrets:\s*inherit")
+DYNAMIC_SECRET = re.compile(
+    r"secrets\s*\[|toJSON\(\s*secrets|fromJSON\(\s*secrets|secrets:\s*inherit"
+)
 NAMED_SECRET = re.compile(r"secrets\.([A-Za-z_][A-Za-z0-9_]*)")
 # Jobs that publish and are not the corpus release: the project site and OpenSSF
 # result publishing. They may name only these environments and read no secret.
@@ -129,7 +131,12 @@ def check_hf(doc: dict[str, Any]) -> list[str]:
     if set(triggers(doc)) - TEST_TRIGGERS:
         problems.append("publish-hf-dataset.yml: a trigger other than the test runs")
     text = dump(doc)
-    if "secrets" in text or ENV in text or "environment" in text or "upload" in text.replace("upload\n", ""):
+    if (
+        "secrets" in text
+        or ENV in text
+        or "environment" in text
+        or "upload" in text.replace("upload\n", "")
+    ):
         problems.append("publish-hf-dataset.yml: holds a secret, an environment or an upload")
     return problems
 

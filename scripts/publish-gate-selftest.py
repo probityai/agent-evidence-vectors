@@ -40,55 +40,101 @@ class Mutations(unittest.TestCase):
 
     def test_manual_trigger_on_release_refused(self) -> None:
         self.assertTrue(
-            self.mutate("release.yml", "  release:\n    types: [published]\n", "  release:\n    types: [published]\n  workflow_dispatch:\n")
+            self.mutate(
+                "release.yml",
+                "  release:\n    types: [published]\n",
+                "  release:\n    types: [published]\n  workflow_dispatch:\n",
+            )
         )
 
     def test_branch_filter_on_the_tag_trigger_refused(self) -> None:
-        self.assertTrue(self.mutate("release.yml", "tags: ['v*']", "tags: ['v*']\n    branches: ['**']"))
+        self.assertTrue(
+            self.mutate("release.yml", "tags: ['v*']", "tags: ['v*']\n    branches: ['**']")
+        )
 
     def test_corpus_publish_without_environment_refused(self) -> None:
         self.assertTrue(self.mutate("release.yml", "    environment: public-release\n", ""))
 
     def test_publish_condition_changed_refused(self) -> None:
-        self.assertTrue(self.mutate("release.yml", "startsWith(github.ref, 'refs/tags/v') }}\n    runs-on: ubuntu-latest\n    # The owner", "startsWith(github.ref, 'refs/tags/v') || true }}\n    runs-on: ubuntu-latest\n    # The owner"))
+        self.assertTrue(
+            self.mutate(
+                "release.yml",
+                "startsWith(github.ref, 'refs/tags/v') }}\n    runs-on: ubuntu-latest\n"
+                "    # The owner",
+                "startsWith(github.ref, 'refs/tags/v') || true }}\n"
+                "    runs-on: ubuntu-latest\n    # The owner",
+            )
+        )
 
     def test_hf_workflow_gaining_a_publish_job_refused(self) -> None:
-        self.assertTrue(self.mutate("publish-hf-dataset.yml", "\non:\n", "\non:\n  workflow_dispatch:\n"))
+        self.assertTrue(
+            self.mutate("publish-hf-dataset.yml", "\non:\n", "\non:\n  workflow_dispatch:\n")
+        )
 
     def test_hf_token_in_another_workflow_refused(self) -> None:
-        body = "name: x\non: push\njobs:\n  a:\n    runs-on: ubuntu-latest\n    steps:\n      - run: echo ${{ secrets.HF_TOKEN }}\n"
+        body = (
+            "name: x\non: push\njobs:\n  a:\n    runs-on: ubuntu-latest\n"
+            "    steps:\n      - run: echo ${{ secrets.HF_TOKEN }}\n"
+        )
         self.assertTrue(self.add_workflow("x.yml", body))
 
     def test_yaml_extension_is_scanned(self) -> None:
-        body = "name: x\non: push\njobs:\n  a:\n    runs-on: ubuntu-latest\n    steps:\n      - run: echo ${{ secrets.HF_TOKEN }}\n"
+        body = (
+            "name: x\non: push\njobs:\n  a:\n    runs-on: ubuntu-latest\n"
+            "    steps:\n      - run: echo ${{ secrets.HF_TOKEN }}\n"
+        )
         self.assertTrue(self.add_workflow("x.yaml", body))
 
     def test_computed_secret_name_refused(self) -> None:
-        body = "name: x\non: push\njobs:\n  a:\n    runs-on: ubuntu-latest\n    steps:\n      - run: echo ${{ secrets[format('HF_{0}','TOKEN')] }}\n"
+        body = (
+            "name: x\non: push\njobs:\n  a:\n    runs-on: ubuntu-latest\n"
+            "    steps:\n"
+            "      - run: echo ${{ secrets[format('HF_{0}','TOKEN')] }}\n"
+        )
         self.assertTrue(self.add_workflow("x.yml", body))
 
     def test_to_json_secrets_refused(self) -> None:
-        body = "name: x\non: push\njobs:\n  a:\n    runs-on: ubuntu-latest\n    steps:\n      - run: echo ${{ toJSON(secrets) }}\n"
+        body = (
+            "name: x\non: push\njobs:\n  a:\n    runs-on: ubuntu-latest\n"
+            "    steps:\n      - run: echo ${{ toJSON(secrets) }}\n"
+        )
         self.assertTrue(self.add_workflow("x.yml", body))
 
     def test_workflow_level_token_env_refused(self) -> None:
-        body = "name: x\non: push\nenv:\n  T: ${{ secrets.HF_TOKEN }}\njobs:\n  a:\n    runs-on: ubuntu-latest\n    steps:\n      - run: echo hi\n"
+        body = (
+            "name: x\non: push\nenv:\n  T: ${{ secrets.HF_TOKEN }}\njobs:\n  a:\n"
+            "    runs-on: ubuntu-latest\n    steps:\n      - run: echo hi\n"
+        )
         self.assertTrue(self.add_workflow("x.yml", body))
 
     def test_uv_publish_with_oidc_refused(self) -> None:
-        body = "name: x\non: push\njobs:\n  a:\n    runs-on: ubuntu-latest\n    permissions:\n      id-token: write\n    steps:\n      - run: uv publish\n"
+        body = (
+            "name: x\non: push\njobs:\n  a:\n    runs-on: ubuntu-latest\n"
+            "    permissions:\n      id-token: write\n    steps:\n"
+            "      - run: uv publish\n"
+        )
         self.assertTrue(self.add_workflow("x.yml", body))
 
     def test_environment_without_the_gate_refused(self) -> None:
-        body = "name: x\non: push\njobs:\n  a:\n    runs-on: ubuntu-latest\n    environment: github-pages\n    steps:\n      - run: twine upload dist/*\n"
+        body = (
+            "name: x\non: push\njobs:\n  a:\n    runs-on: ubuntu-latest\n"
+            "    environment: github-pages\n    steps:\n"
+            "      - run: twine upload dist/*\n"
+        )
         self.assertTrue(self.add_workflow("x.yml", body))
 
     def test_computed_environment_refused(self) -> None:
-        body = "name: x\non: push\njobs:\n  a:\n    runs-on: ubuntu-latest\n    environment: ${{ matrix.e }}\n    steps:\n      - run: echo hi\n"
+        body = (
+            "name: x\non: push\njobs:\n  a:\n    runs-on: ubuntu-latest\n"
+            "    environment: ${{ matrix.e }}\n    steps:\n      - run: echo hi\n"
+        )
         self.assertTrue(self.add_workflow("x.yml", body))
 
     def test_public_release_on_another_job_refused(self) -> None:
-        body = "name: x\non: push\njobs:\n  a:\n    runs-on: ubuntu-latest\n    environment: public-release\n    steps:\n      - run: echo hi\n"
+        body = (
+            "name: x\non: push\njobs:\n  a:\n    runs-on: ubuntu-latest\n"
+            "    environment: public-release\n    steps:\n      - run: echo hi\n"
+        )
         self.assertTrue(self.add_workflow("x.yml", body))
 
 
