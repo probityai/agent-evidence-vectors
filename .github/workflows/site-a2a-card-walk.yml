@@ -1,0 +1,47 @@
+# Moved from site/.github/workflows/a2a-card-walk.yml when the package was imported;
+# its steps run from site.
+name: a2a-card-walk
+
+on:
+  push:
+    paths: ['site/**', '.github/workflows/site-a2a-card-walk.yml']
+    branches: [main]
+  pull_request:
+    paths: ['site/**', '.github/workflows/site-a2a-card-walk.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: site
+
+jobs:
+  retained-walk-rechecks-offline:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: site/interop/a2a-card-walk
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa # v10.3.1
+        with:
+          version: "0.12.24"
+      - name: Install the hash-pinned walk dependencies
+        run: |
+          uv venv --python 3.14.7 .venv
+          uv pip install --python .venv/bin/python --require-hashes --only-binary=:all: -r requirements.txt
+      - name: Lint and test the walk, tampering controls included
+        run: |
+          .venv/bin/ruff check --isolated walk.py test_walk.py
+          .venv/bin/ruff format --isolated --check walk.py test_walk.py
+          .venv/bin/python -m coverage run --source=walk -m pytest -q test_walk.py
+          .venv/bin/python -m coverage report --fail-under=80
+      - name: Re-check every retained walk offline
+        run: |
+          for directory in retained/*/; do
+            .venv/bin/python walk.py verify "$directory"
+          done
