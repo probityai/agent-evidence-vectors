@@ -1,0 +1,21 @@
+{
+  "authority_state": {
+    "grant": "refund-j01-connected"
+  },
+  "policy_input": {
+    "merchant_decision": {
+      "decision_id": "decision-n4",
+      "merchant_id": "merchant-test"
+    }
+  },
+  "decision_context": {
+    "channel": "sandbox"
+  },
+  "decision_output": {
+    "profile": "aps-core-decision-output-v1",
+    "verdict": "permit",
+    "effective_authority_ref": "4b37993011ecba7cbb4f8eb75faa7f190057cadcc3f7ccf4e9e8eaea86ab014e",
+    "constraints": [],
+    "valid_until": "2026-10-28T22:15:52.867Z"
+  }
+}

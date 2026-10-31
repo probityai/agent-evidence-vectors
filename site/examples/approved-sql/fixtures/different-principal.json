@@ -1,0 +1,101 @@
+{
+  "profile": "oel-approved-sql-illustration/v1",
+  "origin": "author-created-fixture",
+  "approval": {
+    "granted": true,
+    "call": {
+      "request_id": "fixture-request-1",
+      "sql_utf8_b64": "VVBEQVRFIGFjY291bnRzIFNFVCBiYWxhbmNlID0gJDEgV0hFUkUgYWNjb3VudF9pZCA9ICQy",
+      "parameters": [
+        {
+          "position": 1,
+          "database_type": "int8",
+          "value_b64": "NTAw"
+        },
+        {
+          "position": 2,
+          "database_type": "int8",
+          "value_b64": "Nw=="
+        }
+      ],
+      "target": {
+        "instance": "fixture-db-1",
+        "database": "example",
+        "schema": "public"
+      },
+      "executing_principal": "fixture_writer"
+    }
+  },
+  "application": {
+    "call": {
+      "request_id": "fixture-request-1",
+      "sql_utf8_b64": "VVBEQVRFIGFjY291bnRzIFNFVCBiYWxhbmNlID0gJDEgV0hFUkUgYWNjb3VudF9pZCA9ICQy",
+      "parameters": [
+        {
+          "position": 1,
+          "database_type": "int8",
+          "value_b64": "NTAw"
+        },
+        {
+          "position": 2,
+          "database_type": "int8",
+          "value_b64": "Nw=="
+        }
+      ],
+      "target": {
+        "instance": "fixture-db-1",
+        "database": "example",
+        "schema": "public"
+      },
+      "executing_principal": "fixture_other_writer"
+    },
+    "outcome": {
+      "statement": "succeeded",
+      "transaction": "committed"
+    }
+  },
+  "audit": {
+    "scope": {
+      "request_id": "fixture-request-1",
+      "target": {
+        "instance": "fixture-db-1",
+        "database": "example",
+        "schema": "public"
+      },
+      "window_label": "fixture-window-1"
+    },
+    "complete": true,
+    "records": [
+      {
+        "event_id": "fixture-event-1",
+        "call": {
+          "request_id": "fixture-request-1",
+          "sql_utf8_b64": "VVBEQVRFIGFjY291bnRzIFNFVCBiYWxhbmNlID0gJDEgV0hFUkUgYWNjb3VudF9pZCA9ICQy",
+          "parameters": [
+            {
+              "position": 1,
+              "database_type": "int8",
+              "value_b64": "NTAw"
+            },
+            {
+              "position": 2,
+              "database_type": "int8",
+              "value_b64": "Nw=="
+            }
+          ],
+          "target": {
+            "instance": "fixture-db-1",
+            "database": "example",
+            "schema": "public"
+          },
+          "executing_principal": "fixture_other_writer"
+        },
+        "outcome": {
+          "statement": "succeeded",
+          "transaction": "committed"
+        }
+      }
+    ]
+  },
+  "later_state": null
+}

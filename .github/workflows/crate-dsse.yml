@@ -1,0 +1,235 @@
+name: crate-dsse
+
+# Every check of crates/dsse, run from the crate directory. ci.yml calls this
+# when a change touches crates/dsse or a shared file. The jobs are the ones
+# probityai/dsse ran before its import (test.yml, rust.yml, policy.yml,
+# readme.yml, npm.yml, sigstore-js-threshold.yml). The npm qualification is its
+# own reusable workflow, crate-dsse-npm.yml, because release.yml runs it too.
+#
+# The name scan reads its refused list, as SHA-256 digests, from the
+# DSSE_FORBIDDEN_SHA256 secret, held in both the Actions and the Dependabot
+# store. A pull request from a fork gets no secrets, so the list is required
+# only on pushes and on pull requests from this repository.
+
+on:
+  workflow_call:
+    secrets:
+      DSSE_FORBIDDEN_SHA256:
+        required: false
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: crates/dsse
+
+env:
+  CARGO_TERM_COLOR: never
+  # The checkout root go.work (go 1.26.0) would capture this crate's Go modules.
+  GOWORK: "off"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      DSSE_FORBIDDEN_SHA256: ${{ secrets.DSSE_FORBIDDEN_SHA256 }}
+      DSSE_REQUIRE_FORBIDDEN_LIST: ${{ (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) && '1' || '0' }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install the stable toolchain
+        run: |
+          rustup toolchain install stable --profile minimal --component clippy,rustfmt
+          rustup default stable
+      - name: Format
+        run: cargo fmt --check
+      - name: Clippy, warnings as errors
+        run: cargo clippy --all-targets --all-features -- -D warnings
+      - name: Docs, warnings as errors
+        env:
+          RUSTDOCFLAGS: -D warnings
+        run: cargo doc --no-deps --all-features
+      - name: Test
+        run: cargo test --all-features
+      - name: Scan the packaged crate, decoded
+        run: |
+          cargo package
+          rm -rf "$RUNNER_TEMP/pkg" && mkdir -p "$RUNNER_TEMP/pkg"
+          tar xzf target/package/dsse-*.crate -C "$RUNNER_TEMP/pkg"
+          root=$(find "$RUNNER_TEMP/pkg" -mindepth 1 -maxdepth 1 -type d)
+          test -f "$root/vectors/cross_lang_signing.json"
+          DSSE_SCAN_ROOT="$root" cargo test --all-features --test no_private_names no_shipped_file
+
+  vectors:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GOTOOLCHAIN: go1.25.5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: The fixture file equals its generator's output
+        working-directory: crates/dsse/vectors/generate
+        run: |
+          go run . > "$RUNNER_TEMP/regenerated.json"
+          diff -u ../cross_lang_signing.json "$RUNNER_TEMP/regenerated.json"
+
+  # Verifies every envelope of the agent audit record corpus shipped in the
+  # pinned agent-evidence-vectors package from PyPI, under the observer key its
+  # manifest publishes, and refuses a one-byte payload tamper of each.
+  published-envelopes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa # v10.3.1
+      - name: Install the stable toolchain
+        run: |
+          rustup toolchain install stable --profile minimal
+          rustup default stable
+      - name: Verify the published audit record envelopes
+        run: |
+          corpus="$(uv run --no-project --python 3.13 --with agent-evidence-vectors==0.18.1 \
+            python -c 'import agent_evidence_vectors as a, pathlib; print(pathlib.Path(a.__file__).parent / "corpora" / "vectors-agent-audit-record")')"
+          test -f "$corpus/MANIFEST.json"
+          cargo run --locked --example verify_corpus -- "$corpus"
+
+  rust:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install Rust
+        run: rustup toolchain install 1.98.1 --profile minimal
+      - name: Test
+        run: cargo +1.98.1 test --all-features
+      - name: Check without Ed25519
+        run: cargo +1.98.1 check --no-default-features
+
+  # The declared rust-version builds and passes the tests, on the locked
+  # versions and on a fresh resolution.
+  msrv:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: The declared rust-version builds and passes the tests
+        run: |
+          msrv=$(sed -n 's/^rust-version = "\(.*\)"$/\1/p' Cargo.toml)
+          test -n "$msrv"
+          rustup toolchain install "$msrv" --profile minimal
+          cargo +"$msrv" test --locked --all-features
+          cargo +"$msrv" check --locked --no-default-features
+
+  msrv-fresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: The declared rust-version builds and passes the tests on a fresh resolution
+        run: |
+          msrv=$(sed -n 's/^rust-version = "\(.*\)"$/\1/p' Cargo.toml)
+          test -n "$msrv"
+          rustup toolchain install "$msrv" --profile minimal
+          rm Cargo.lock
+          cargo +"$msrv" update
+          cargo +"$msrv" test --all-features
+          cargo +"$msrv" check --no-default-features
+
+  # The public API against the newest release on crates.io.
+  semver:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: obi1kenobi/cargo-semver-checks-action@6b69fcf40e9b5fb17adeb57e4b6ecd020649a239 # v2
+        with:
+          manifest-path: crates/dsse/Cargo.toml
+
+  # Every dependency in Cargo.lock is covered by an imported audit or listed as
+  # an exemption in supply-chain/config.toml.
+  vet:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install cargo-vet
+        run: cargo install cargo-vet --version 0.10.2 --locked
+      - name: Every dependency is audited or exempted
+        run: cargo vet --locked
+
+  readme:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: the README stays one screen and every link in it resolves
+        run: python3 scripts/readme-lint.py crates/dsse/README.md
+
+  npm-package:
+    uses: ./.github/workflows/crate-dsse-npm.yml
+    secrets:
+      DSSE_FORBIDDEN_SHA256: ${{ secrets.DSSE_FORBIDDEN_SHA256 }}
+
+  sigstore-js-threshold:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24.19.0'
+      - name: Check native source, installed consumer and refusal controls
+        env:
+          SIGSTORE_INSTALL_EVIDENCE_DIR: ${{ runner.temp }}/sigstore-installed
+        run: |
+          node --test --test-reporter=tap interop/sigstore-js-threshold-2026-10-04/consumer.test.mjs > "$RUNNER_TEMP/sigstore-tests.tap"
+          node interop/sigstore-js-threshold-2026-10-04/replay.mjs "$RUNNER_TEMP/sigstore-replay.json"
+          cp interop/sigstore-js-threshold-2026-10-04/cases.json "$RUNNER_TEMP/old-cases.json"
+          node interop/sigstore-js-threshold-2026-10-04/generate-cases.mjs
+          cmp interop/sigstore-js-threshold-2026-10-04/cases.json "$RUNNER_TEMP/old-cases.json"
+      - name: Check the same finite controls using the Rust crate
+        run: |
+          rustup toolchain install stable --profile minimal
+          cargo +stable test --all-features --test sigstore_js_profile -- --nocapture > "$RUNNER_TEMP/sigstore-rust-tests.txt" 2>&1
+      - name: Retain exact source, fixtures and results
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: sigstore-source-threshold-consumer
+          path: |
+            crates/dsse/interop/sigstore-js-threshold-2026-10-04/
+            crates/dsse/vectors/cross_lang_signing.json
+            crates/dsse/tests/sigstore_js_profile.rs
+            crates/dsse/src/
+            crates/dsse/Cargo.toml
+            crates/dsse/Cargo.lock
+            ${{ runner.temp }}/sigstore-tests.tap
+            ${{ runner.temp }}/sigstore-replay.json
+            ${{ runner.temp }}/sigstore-rust-tests.txt
+            ${{ runner.temp }}/sigstore-installed/
+          if-no-files-found: error
+          retention-days: 90

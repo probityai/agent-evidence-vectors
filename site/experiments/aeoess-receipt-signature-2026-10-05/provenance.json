@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "probity.lab-run-provenance.v1",
+  "sourceRepository": "Agent-Authority-Conformance/aps-conformance-suite",
+  "sourcePullRequest": "https://github.com/Agent-Authority-Conformance/aps-conformance-suite/pull/154",
+  "sourceRevision": "debe86725158fe6f8d8c41da27b4308408679bff",
+  "sourceMergeRevision": "f8d6eb4461759ce7dbb4c33ab03a688ba2bb541f",
+  "sourceTree": "1f7057d93e386646322a951d0f4bf26fb4b95eaa",
+  "sourceDirectory": "interop/receipt-signature-veritasacta-verify-0.10.21-8f81e376",
+  "vectorsRepository": "probityai/agent-evidence-vectors",
+  "vectorsRevision": "8f81e376bcbf58ff0a27ff97a633e0481b148f79",
+  "vectorsVersionAtRun": "0.15.0, installed from pinned Git source",
+  "verifier": "@veritasacta/verify",
+  "verifierVersion": "0.10.21",
+  "verifierIntegrity": "sha512-48roJsv+GsS9v5KiQA7RKL9qCqZ13e8ohQYJhM9Alr6xCB0U7MRy+zXiYeQC2aop9ve0Uage4kN/TlwrqgPi5A==",
+  "adapterSha256": "97160a53bf23ee4ad319ffd3054cc9302138986f7730ec3a25f98a77b1c51c34",
+  "reportedEnvironment": {
+    "node": "22.22.2",
+    "python": "3.13.13",
+    "isolation": "isolated Linux container, source declaration"
+  },
+  "roles": {
+    "runner": "Claude under Tymofii Pidlisnyi (@aeoess)’s revocable mandate, as declared in RUN.md",
+    "humanReviewer": "Tymofii Pidlisnyi (@aeoess), source-reported",
+    "verifierAuthor": "tomjwxf",
+    "identifierPrimitive": "GNU coreutils sha256sum, invoked by runner-authored digests21.py",
+    "atlasRetentionAndIntegrityChecks": "Probity",
+    "independentEffectCustody": "not-established",
+    "corpusMemberAuthors": "giskard09, tomjwxf and astrogilda, as declared by original RUN.md and corpus README",
+    "adapterAndHarnessAuthor": "astrogilda (Probity)"
+  },
+  "operatorAuthentication": "The original public declaration is retained. Atlas does not independently authenticate the actor, model, human review or container custody.",
+  "answerExposure": "Published expected outcomes and the author harness were available before the run; not answer-blind.",
+  "comparisonOrder": "The original harness emitted verifier answers and comparison results together. No separate raw-result revision preceded comparison.",
+  "classification": "Source-reported outside operation of the separately authored verifier and 21 context-free GNU SHA-256 identifier checks. Harness interpretation and grading remain author implementation. Four context-bearing identifiers were not covered by the outside primitive check.",
+  "recomputedVersusRead": {
+    "recomputedByAtlas": [
+      "SHA-256 and Git blob bindings of every capsule member",
+      "16 original record-file digest bindings",
+      "exact repeated report and stdout equality",
+      "report and control consistency with pinned manifest expectations",
+      "25 author-side identifier preimages and corpus digest for retention integrity"
+    ],
+    "readOnly": [
+      "original operator and environment declarations",
+      "outside verifier answers and original control output",
+      "outside GNU digest output for 21 identifiers"
+    ],
+    "notEstablished": [
+      "four outside context-bearing identifier recomputations",
+      "independently authored semantic grading",
+      "independent effect custody",
+      "maintained host CI adoption",
+      "full-family admission"
+    ]
+  },
+  "retention": {
+    "archive": "selected-public-source.zip",
+    "manifest": "source-manifest.json",
+    "members": 51,
+    "recordFiles": 17,
+    "corpusFilesIncludingLicense": 32,
+    "hostContractAndLicenseFiles": 2,
+    "foreignCodeExecutedByAtlasChecker": false
+  },
+  "licensing": {
+    "recordAndHost": "Apache-2.0; original host/LICENSE retains Copyright 2026 Tymofii Pidlisnyi",
+    "vectors": "Apache-2.0; exact corpus/LICENSE included. No NOTICE file exists at pinned vectors revision.",
+    "changes": "Source members and original reports are unchanged. The capsule, manifest, derived report and retention checker are Atlas additions. Registry dependencies and runtimes are not redistributed."
+  },
+  "limits": [
+    "Repeated runs cover the same 25-member population.",
+    "A merged record does not establish host-family admission, endorsement or a maintenance commitment.",
+    "This retained fixture run does not measure agent behavior, production effects or independently operated custody."
+  ]
+}

@@ -75,11 +75,11 @@
       }
     ]
   },
-  "corpusDigest": "c4b910caf88a731f5658e3e476ae5a34c2e926ef19bea10172a22738b5fa033d",
+  "corpusDigest": "5c584eb9e9594d7a0265ab7afb302da0803ee8811ca6b4be0a6fca2b08ddd509",
   "counts": {
-    "accept": 65,
+    "accept": 81,
     "indeterminate": 1,
-    "reject": 83
+    "reject": 102
   },
   "draft": "draft-gilda-audit-agent-audit-record-00",
   "emptyTree": {
@@ -2380,6 +2380,329 @@
       "slug": "cs25-set-separate-ledger-no-supersedes"
     },
     {
+      "draftId": "CS26",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "set": {
+          "codes": [],
+          "verdict": "valid",
+          "withinLimit": [
+            false,
+            true
+          ]
+        },
+        "verdict": "valid"
+      },
+      "file": "sets/vcd25bd185157ec57.json",
+      "id": "vcd25bd185157ec57",
+      "kind": "accept",
+      "row": "a call refused before its tool ran under the first limit document (25000 on 30000 consumed of 50000) leaves no claim; its retry, the same operation key and request, is read under a raised limit document that names the first as supersedes, holds nothing and is counted as new: within the raise, permitted, the set valid",
+      "slug": "cs26-set-refused-before-run-retried-under-raise"
+    },
+    {
+      "draftId": "CS27",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "set": {
+          "codes": [],
+          "verdict": "valid",
+          "withinLimit": [
+            true,
+            false
+          ]
+        },
+        "verdict": "valid"
+      },
+      "file": "sets/v0940ca40dc4db85c.json",
+      "id": "v0940ca40dc4db85c",
+      "kind": "accept",
+      "row": "CS26 under a cut: a call of 12000 refused before its tool ran leaves no claim, and its retry is checked as new under the cut limit of 40000, where it is over the limit and refused: the set valid",
+      "slug": "cs27-set-refused-before-run-retried-under-cut"
+    },
+    {
+      "draftId": "CS28",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "set": {
+          "codes": [],
+          "verdict": "valid",
+          "withinLimit": [
+            true,
+            true,
+            true
+          ]
+        },
+        "verdict": "valid"
+      },
+      "file": "sets/vbb73d1139d98888d.json",
+      "id": "vbb73d1139d98888d",
+      "kind": "accept",
+      "row": "a call is held; the record of its retry shows the tool sent nothing (effect none), which ends the claim; under a raised limit document the same operation key is then a new operation, holds nothing and is counted: the set valid",
+      "slug": "cs28-set-nothing-sent-ends-claim-across-replacement"
+    },
+    {
+      "draftId": "CS29",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "set": {
+          "codes": [],
+          "verdict": "valid",
+          "withinLimit": [
+            true,
+            true,
+            true
+          ]
+        },
+        "verdict": "valid"
+      },
+      "file": "sets/v1436cb1bd7305b8b.json",
+      "id": "v1436cb1bd7305b8b",
+      "kind": "accept",
+      "row": "a call is held and the record of its retry shows an unknown outcome; the limit is raised, and a new operation under the new document carries the held entry unchanged: the claim survives the replacement, the set valid",
+      "slug": "cs29-set-unknown-outcome-carried-over-replacement"
+    },
+    {
+      "draftId": "CS30",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "set": {
+          "codes": [
+            "consumption-set-release-unshown"
+          ],
+          "verdict": "malformed",
+          "withinLimit": [
+            true,
+            true,
+            true
+          ]
+        },
+        "verdict": "valid"
+      },
+      "file": "sets/vac6a83d3eb89cedd.json",
+      "id": "vac6a83d3eb89cedd",
+      "kind": "accept",
+      "row": "CS29 where the new operation under the new document omits the held entry: an unknown outcome does not release a claim, so the release is unexplained",
+      "slug": "cs30-set-unknown-outcome-dropped-on-replacement"
+    },
+    {
+      "draftId": "CS31",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "set": {
+          "codes": [
+            "consumption-set-retry-as-new"
+          ],
+          "verdict": "malformed",
+          "withinLimit": [
+            true,
+            true
+          ]
+        },
+        "verdict": "valid"
+      },
+      "file": "sets/v792d3e64b071293b.json",
+      "id": "v792d3e64b071293b",
+      "kind": "accept",
+      "row": "a call is held under the first limit document; a permit for the same operation key, under a raised document that names the first as supersedes, holds nothing and counts the request again as a new operation: each record valid, the retry presented as new",
+      "slug": "cs31-set-held-retry-forged-as-new-under-replacement"
+    },
+    {
+      "draftId": "CS32",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "set": {
+          "codes": [
+            "consumption-set-retry-as-new"
+          ],
+          "verdict": "malformed",
+          "withinLimit": [
+            true,
+            true
+          ]
+        },
+        "verdict": "valid"
+      },
+      "file": "sets/v852d5f9a104bb585.json",
+      "id": "v852d5f9a104bb585",
+      "kind": "accept",
+      "row": "CS31 where the new limit document names no supersedes: the claim is keyed by the principal, the agent key and the operation key, never by the limit document, so leaving out the link does not make the retry new",
+      "slug": "cs32-set-held-retry-forged-as-new-under-unlinked-limit"
+    },
+    {
+      "draftId": "CS33",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "set": {
+          "codes": [],
+          "verdict": "valid",
+          "withinLimit": [
+            true,
+            true
+          ]
+        },
+        "verdict": "valid"
+      },
+      "file": "sets/v209f3b5dc6bae152.json",
+      "id": "v209f3b5dc6bae152",
+      "kind": "accept",
+      "row": "CS32 where the second permit is under another principal and another agent key: the same operation key in another scope is another claim, the set valid",
+      "slug": "cs33-set-same-key-other-principal-and-agent-key"
+    },
+    {
+      "draftId": "CS34",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid",
+        "withinLimit": true
+      },
+      "file": "statements/v8fa7a7183c96762f.json",
+      "id": "v8fa7a7183c96762f",
+      "kind": "accept",
+      "parent": "vd831202c1ad2f50c",
+      "parentDraftId": "CS1",
+      "row": "CS1 counted in USDC on Base: no unit, asset carrying the CAIP-19 id eip155:8453/erc20:0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913 and decimals 6, amounts in its smallest subunit",
+      "slug": "cs34-asset-usdc-on-base"
+    },
+    {
+      "draftId": "CS35",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "expected": {
+        "codes": [
+          "consumption-value-invalid"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v5f0ad7836909a477.json",
+      "id": "v5f0ad7836909a477",
+      "kind": "reject",
+      "parent": "v8fa7a7183c96762f",
+      "parentDraftId": "CS34",
+      "row": "CS34 with asset.id USDC, a ticker that names no chain or contract",
+      "slug": "cs35-asset-id-not-caip19"
+    },
+    {
+      "draftId": "CS36",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "expected": {
+        "codes": [
+          "consumption-value-invalid"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vbb79dddb4241fe3f.json",
+      "id": "vbb79dddb4241fe3f",
+      "kind": "reject",
+      "parent": "v8fa7a7183c96762f",
+      "parentDraftId": "CS34",
+      "row": "CS34 with asset.decimals 256, beyond any token's decimals",
+      "slug": "cs36-asset-decimals-out-of-range"
+    },
+    {
+      "draftId": "CS37",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "expected": {
+        "codes": [
+          "consumption-unit-ambiguous"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v1714ffa1d3efa663.json",
+      "id": "v1714ffa1d3efa663",
+      "kind": "reject",
+      "parent": "v8fa7a7183c96762f",
+      "parentDraftId": "CS34",
+      "row": "CS34 that also carries unit USD: the amounts would be read in two subunits",
+      "slug": "cs37-asset-and-unit-both"
+    },
+    {
+      "draftId": "CS38",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "set": {
+          "codes": [
+            "consumption-set-asset-mismatch"
+          ],
+          "verdict": "malformed",
+          "withinLimit": [
+            true,
+            true
+          ]
+        },
+        "verdict": "valid"
+      },
+      "file": "sets/vdb9556d48947ef84.json",
+      "id": "vdb9556d48947ef84",
+      "kind": "accept",
+      "row": "two operations under one limit document, the first counted in USDC on Base (eip155:8453/erc20:0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913), the second in USDC on Solana (solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp/token:EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v): two assets in one ledger, the set malformed",
+      "slug": "cs38-set-usdc-base-and-usdc-solana-one-limit"
+    },
+    {
+      "draftId": "CS39",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "set": {
+          "codes": [
+            "consumption-set-asset-mismatch"
+          ],
+          "verdict": "malformed",
+          "withinLimit": [
+            true,
+            true
+          ]
+        },
+        "verdict": "valid"
+      },
+      "file": "sets/v38c2a8727af3b997.json",
+      "id": "v38c2a8727af3b997",
+      "kind": "accept",
+      "row": "CS38 where both operations name USDC on Base and the second declares decimals 18: one amount read at two scales, the set malformed",
+      "slug": "cs39-set-asset-decimals-mismatch"
+    },
+    {
+      "draftId": "CS40",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "set": {
+          "codes": [],
+          "verdict": "valid",
+          "withinLimit": [
+            true,
+            true
+          ]
+        },
+        "verdict": "valid"
+      },
+      "file": "sets/v1135206646a3a25c.json",
+      "id": "v1135206646a3a25c",
+      "kind": "accept",
+      "row": "CS38 where the second operation is under another limit document that names no supersedes: two ledgers, each counting one asset, the set valid",
+      "slug": "cs40-set-two-assets-two-ledgers"
+    },
+    {
       "draftId": "A21",
       "draftRevision": "draft-gilda-audit-agent-audit-record-01",
       "expected": {
@@ -2664,6 +2987,409 @@
       "parentDraftId": "R1",
       "row": "the only anchor an opentimestamps proof whose path runs from envelopeDigest through a Merkle tree the retaining party built and a Bitcoin transaction carrying its root to the block header",
       "slug": "r16-opentimestamps-through-own-tree"
+    },
+    {
+      "draftId": "IS1",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-03",
+      "expected": {
+        "codes": [
+          "issued-before-sealed"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v17091ccb23254ec6.json",
+      "id": "v17091ccb23254ec6",
+      "kind": "reject",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "issuedAt one second earlier than effect.interval.sealedAt",
+      "slug": "is1-issued-one-second-before-sealed"
+    },
+    {
+      "draftId": "IS2",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-03",
+      "expected": {
+        "codes": [
+          "issued-before-sealed"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/ve2802a038120dd2c.json",
+      "id": "ve2802a038120dd2c",
+      "kind": "reject",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "issuedAt one day earlier than effect.interval.sealedAt, on a day before the interval opened",
+      "slug": "is2-issued-one-day-before-sealed"
+    },
+    {
+      "draftId": "X1",
+      "draftSection": "4.1.1",
+      "expected": {
+        "codes": [
+          "value-not-representable"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vb3a1cd46d33b8b3c.json",
+      "id": "vb3a1cd46d33b8b3c",
+      "kind": "reject",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "a number with a fraction in the Statement",
+      "slug": "x1-float-in-statement"
+    },
+    {
+      "draftId": "X2",
+      "draftSection": "4.6",
+      "expected": {
+        "codes": [
+          "not-parseable"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/va43a28488a94e4c8.json",
+      "id": "va43a28488a94e4c8",
+      "kind": "reject",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "a payload that is not JSON",
+      "slug": "x2-payload-not-json"
+    },
+    {
+      "draftId": "X3",
+      "draftSection": "4.3",
+      "expected": {
+        "codes": [
+          "timestamp-malformed"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v8e7e0c83386e4498.json",
+      "id": "v8e7e0c83386e4498",
+      "kind": "reject",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "issuedAt carrying no UTC offset",
+      "slug": "x3-issued-at-no-offset"
+    },
+    {
+      "draftId": "X4",
+      "draftSection": "4.8",
+      "expected": {
+        "codes": [
+          "statement-type-unexpected"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/ve84f8df9e1887b14.json",
+      "id": "ve84f8df9e1887b14",
+      "kind": "reject",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "_type naming another Statement type",
+      "slug": "x4-statement-type-unexpected"
+    },
+    {
+      "draftId": "X5",
+      "draftSection": "4.8",
+      "expected": {
+        "codes": [
+          "predicate-type-mismatch"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v0260a7415403fee4.json",
+      "id": "v0260a7415403fee4",
+      "kind": "reject",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "predicateType naming another predicate",
+      "slug": "x5-predicate-type-mismatch"
+    },
+    {
+      "draftId": "X6",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [
+          "consumption-malformed"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v460418d6fe1a5ba2.json",
+      "id": "v460418d6fe1a5ba2",
+      "kind": "reject",
+      "parent": "v9b00b354248b297c",
+      "parentDraftId": "CS4",
+      "row": "a held entry with a member beyond the three",
+      "slug": "x6-held-entry-extra-member"
+    },
+    {
+      "draftId": "X7",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [
+          "operation-key-invalid"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v348a99dd78f563d9.json",
+      "id": "v348a99dd78f563d9",
+      "kind": "reject",
+      "parent": "v9b00b354248b297c",
+      "parentDraftId": "CS4",
+      "row": "decision.operationKey the empty string",
+      "slug": "x7-operation-key-empty"
+    },
+    {
+      "draftId": "X8",
+      "draftSection": "4.2",
+      "expected": {
+        "codes": [
+          "subject-request-mismatch"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v219ae2dc9d96d2c0.json",
+      "id": "v219ae2dc9d96d2c0",
+      "kind": "reject",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "the first subject's digest another value",
+      "slug": "x8-subject-digest-not-request"
+    },
+    {
+      "draftId": "X9",
+      "draftSection": "4.4",
+      "expected": {
+        "codes": [
+          "envelope-unreadable"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vb0c4f6608a0e9440.json",
+      "id": "vb0c4f6608a0e9440",
+      "kind": "reject",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "payloadType another media type",
+      "slug": "x9-envelope-payload-type"
+    },
+    {
+      "draftId": "X10",
+      "draftSection": "4.6",
+      "expected": {
+        "codes": [
+          "statement-shape"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vb695708df82323e5.json",
+      "id": "vb695708df82323e5",
+      "kind": "reject",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "predicate a string, correctly signed",
+      "slug": "x10-predicate-not-an-object"
+    },
+    {
+      "draftId": "X11",
+      "draftSection": "4.7",
+      "expected": {
+        "codes": [],
+        "dating": {
+          "codes": [
+            "entry-shape-malformed"
+          ],
+          "delegationRoot": {
+            "result": "not-established"
+          },
+          "entry": "malformed"
+        },
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "retained/vc8c061f291fe0343.json",
+      "id": "vc8c061f291fe0343",
+      "kind": "accept",
+      "parent": "vcca72e0d016c5db3",
+      "parentDraftId": "R1",
+      "row": "received a string, not a boolean",
+      "slug": "x11-received-not-boolean"
+    },
+    {
+      "draftId": "X12",
+      "draftSection": "4.7",
+      "expected": {
+        "codes": [],
+        "dating": {
+          "codes": [
+            "entry-envelope-digest-mismatch"
+          ],
+          "datedAt": "2026-09-19T11:05:00Z",
+          "delegationRoot": {
+            "result": "not-established"
+          },
+          "entry": "malformed"
+        },
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "retained/ve9350800b1486fbb.json",
+      "id": "ve9350800b1486fbb",
+      "kind": "accept",
+      "parent": "vcca72e0d016c5db3",
+      "parentDraftId": "R1",
+      "row": "envelopeDigest another envelope's",
+      "slug": "x12-entry-names-another-envelope"
+    },
+    {
+      "draftId": "X13",
+      "draftSection": "4.7",
+      "expected": {
+        "codes": [],
+        "dating": {
+          "codes": [
+            "entry-delegation-root-unexpected"
+          ],
+          "datedAt": "2026-09-19T11:05:00Z",
+          "delegationRoot": {
+            "result": "not-established"
+          },
+          "entry": "malformed"
+        },
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "retained/v7cb7da46ce7042b9.json",
+      "id": "v7cb7da46ce7042b9",
+      "kind": "accept",
+      "parent": "vcca72e0d016c5db3",
+      "parentDraftId": "R1",
+      "row": "a delegation-root element beside a record carrying no delegation.rootDigest",
+      "slug": "x13-root-element-without-root-digest"
+    },
+    {
+      "draftId": "X14",
+      "draftSection": "4.7",
+      "expected": {
+        "codes": [],
+        "dating": {
+          "codes": [
+            "entry-delegation-root-unreadable"
+          ],
+          "datedAt": "2026-09-19T11:05:00Z",
+          "delegationRoot": {
+            "result": "not-established"
+          },
+          "entry": "malformed"
+        },
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "retained/vfb3f83b35b6cadd4.json",
+      "id": "vfb3f83b35b6cadd4",
+      "kind": "accept",
+      "parent": "v5fdda90f44e68c91",
+      "parentDraftId": "R13",
+      "row": "the delegation-root element's value not base64",
+      "slug": "x14-root-element-not-base64"
+    },
+    {
+      "draftId": "X15",
+      "draftSection": "4.6",
+      "expected": {
+        "codes": [
+          "not-parseable"
+        ],
+        "dating": {
+          "codes": [
+            "entry-record-unreadable"
+          ],
+          "delegationRoot": {
+            "result": "not-established"
+          },
+          "entry": "malformed"
+        },
+        "verdict": "malformed"
+      },
+      "file": "retained/v45d4d20fab787f9b.json",
+      "id": "v45d4d20fab787f9b",
+      "kind": "reject",
+      "parent": "vcca72e0d016c5db3",
+      "parentDraftId": "R1",
+      "row": "the retained record's payload not JSON: the record malformed and the dating unreadable",
+      "slug": "x15-retained-record-unparseable"
+    },
+    {
+      "draftId": "X16",
+      "draftSection": "4.7",
+      "expected": {
+        "codes": [
+          "retained-unreadable"
+        ],
+        "dating": {
+          "codes": [
+            "retained-unreadable"
+          ],
+          "delegationRoot": {
+            "result": "not-established"
+          },
+          "entry": "malformed"
+        },
+        "verdict": "malformed"
+      },
+      "file": "retained/v52d0e34839045b02.json",
+      "id": "v52d0e34839045b02",
+      "kind": "reject",
+      "parent": "vcca72e0d016c5db3",
+      "parentDraftId": "R1",
+      "row": "a retained member with no retention entry",
+      "slug": "x16-retained-without-retention"
+    },
+    {
+      "draftId": "X17",
+      "draftSection": "4.9",
+      "expected": {
+        "codes": [],
+        "set": {
+          "codes": [
+            "set-unreadable"
+          ],
+          "verdict": "malformed"
+        },
+        "verdict": "malformed"
+      },
+      "file": "sets/v932e921118b63a4b.json",
+      "id": "v932e921118b63a4b",
+      "kind": "reject",
+      "parent": "vadd36be4ba786f38",
+      "parentDraftId": "SQ4",
+      "row": "a set member whose records member is named otherwise",
+      "slug": "x17-set-without-records"
+    },
+    {
+      "draftId": "X18",
+      "draftSection": "4.9",
+      "expected": {
+        "codes": [
+          "issued-before-sealed"
+        ],
+        "set": {
+          "codes": [
+            "set-record-malformed"
+          ],
+          "verdict": "malformed"
+        },
+        "verdict": "malformed"
+      },
+      "file": "sets/v425531073d0c4bd6.json",
+      "id": "v425531073d0c4bd6",
+      "kind": "reject",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "a set whose two records are each malformed under IS1 and IS2",
+      "slug": "x18-set-of-malformed-records"
     }
   ]
 }

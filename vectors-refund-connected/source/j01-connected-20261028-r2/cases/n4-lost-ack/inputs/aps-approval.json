@@ -1,0 +1,28 @@
+{
+  "profile": "aps-receipt-v1",
+  "receipt_type": "aps:policy-decision:v1",
+  "issuer": "did:example:refund-approval-boundary",
+  "subject_agent": "did:example:refund-worker",
+  "action_ref": "4d80bac7f2e6960fff5adbe9cde14b530527ff4f3798cfaefe70bc4719b01a3c",
+  "delegation_ref": "sha256:bd116bebeb923945ce19ac6fcda51ce22d08538a5846c10b7ed198daf4965e2c",
+  "decision_ref": "faa172d1fdcaf7987a48a6ae4dee28a9125cced9aec59910ae600585ee226fc2",
+  "issued_at": "2026-10-28T21:45:52.868Z",
+  "evidence_refs": [],
+  "result": {
+    "profile": "aps-core-decision-output-v1",
+    "verdict": "permit",
+    "effective_authority_ref": "4b37993011ecba7cbb4f8eb75faa7f190057cadcc3f7ccf4e9e8eaea86ab014e",
+    "constraints": [],
+    "valid_until": "2026-10-28T22:15:52.867Z"
+  },
+  "prev": "c4fc5f0447090a6685433d7a3d7cecc430226baf84a9c129aa2d27e36be23d0f",
+  "receipt_id": "b830ec174e0544df37a5a571b47a11b7ad3433a6b25c2f3afea94f6d1ef40d31",
+  "signatures": [
+    {
+      "signer": "did:example:refund-approval-boundary",
+      "key_id": "bnd-1",
+      "alg": "Ed25519",
+      "value": "893601ba1af94480ecd16b9b2f7539eefb7391e8c92db3b041c445cc93dec17c0e9933fb09c9abf61e3809fc0f2a13b015725863d4f9753566128dad6e77de00"
+    }
+  ]
+}

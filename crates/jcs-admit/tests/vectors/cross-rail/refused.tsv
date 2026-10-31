@@ -1,0 +1,10 @@
+# id	expected error class	what the Go rail said
+v198c19b52cf8890e	StringNotScalar	unpaired low surrogate \uDC00
+v5155dde01a4538fd	DuplicateMember	duplicate object member: "predicateType"
+v5717f72827e39413	StringNotScalar	unpaired high surrogate \uD800
+v86f3484735f41acb	StringNotScalar	unpaired low surrogate \uDC00
+va501d76c995de6d3	StringNotScalar	noncharacter U+FFFF in string
+va507b8f9a9cc675c	NonIntegerNumber	non-integer number outside the integers-only profile: 1.5
+vb705b260669aedc7	StringNotScalar	invalid character '\x01' in string literal
+vbc7012fb2fcbf1f8	StringNotScalar	invalid UTF-8 at byte 4 of string
+vf5599bb2dbe66e12	StringNotScalar	invalid UTF-8 at byte 4 of string

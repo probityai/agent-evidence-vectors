@@ -1,0 +1,123 @@
+{
+  "checkerPin": "https://github.com/Witnessability/witnessability-research/tree/4a37199f2a59b7ecd97055cfc1af5cb787a76265",
+  "files": {
+    "checker/C1-03-ambiguity-certificate.json": {
+      "length": 794,
+      "sha256": "06888d8cd787420fbcf7e19d82a5caf0ee37abec4be9aba9d326f385a171f474"
+    },
+    "checker/EXPECTED.json": {
+      "length": 2391,
+      "sha256": "a06057ba8a656c5621ea350248946839b8572eb30cae892b9e25dc95e5c8021b"
+    },
+    "checker/HISTORIES.json": {
+      "length": 2546,
+      "sha256": "e7a9d9bb655fb9970c8a39c3e212e7501e61a443b3fc8c412507ccf68bec1445"
+    },
+    "checker/capability-pins.json": {
+      "length": 322,
+      "sha256": "dde9326a1849270fd41b43b36c61b8bf7e285402e65ac17a9b595e0448709299"
+    },
+    "checker/checker-model.json": {
+      "length": 1062,
+      "sha256": "a0f865860ab02bfb3c586eab46a152f6230e2dac39e392f591c46e1268089820"
+    },
+    "checker/checker-policy.json": {
+      "length": 83,
+      "sha256": "c66ce3c733d0eb1360fef95faf869fb3b07affbdcd56d648cac0bf3a3ef43b71"
+    },
+    "checker/expected-pins/C1-01-covered-empty.json": {
+      "length": 402,
+      "sha256": "49fa1e3f495bcbf1814df46cb650903a8cd1dedca2ade7f220aee07cc135b725"
+    },
+    "checker/expected-pins/C1-02-event-with-gap.json": {
+      "length": 402,
+      "sha256": "2ec6f1160fb4bc8d46458504052f266127b9c41a92d909cc087143278f70728c"
+    },
+    "checker/expected-pins/C1-03-empty-with-gap.json": {
+      "length": 402,
+      "sha256": "f54badabc2a68a9dbf0bc0a6281993f7f5f87eb454d31c50b983e83386be1991"
+    },
+    "checker/records/C1-01-covered-empty.json": {
+      "length": 22,
+      "sha256": "4abf2f5a2513ca065ada6de553abf6147ca020b6149a61e968768857159f1918"
+    },
+    "checker/records/C1-02-event-with-gap.json": {
+      "length": 21,
+      "sha256": "bb3f385f90a9e53cb7d3607561c893163e6bb5a983865e08101d450883aa8f56"
+    },
+    "checker/records/C1-03-empty-with-gap.json": {
+      "length": 21,
+      "sha256": "842074ed23b53f5132e8bda94a1944626b6d2aa8a71a41167d5c00401a4cceb2"
+    },
+    "probity/cases/C1-01-covered-empty/capability.json": {
+      "length": 183,
+      "sha256": "9610e9926b1f9e1f197284fd7eee1e1cc496a063649e08bbed094ce216f4a6c4"
+    },
+    "probity/cases/C1-01-covered-empty/case.json": {
+      "length": 420,
+      "sha256": "a267ca85fc13adb87e979d8fb6f662bce04b83ad6da55fd5bb444653d0b015cf"
+    },
+    "probity/cases/C1-01-covered-empty/expected-source-derived.json": {
+      "length": 811,
+      "sha256": "ad7b3460ee336bf526b08caec56240333d948a848f02f1d6dab4d7a36c27fbac"
+    },
+    "probity/cases/C1-01-covered-empty/observation.json": {
+      "length": 320,
+      "sha256": "172c3b592ad839859ed1c8fc1d1b2576cfa4044140524267dc2248549f9cf155"
+    },
+    "probity/cases/C1-01-covered-empty/policy.json": {
+      "length": 984,
+      "sha256": "6c38ab542ac454f6807bcdd7cc47f5611253541d58bb4601460878c866cb816d"
+    },
+    "probity/cases/C1-02-event-with-gap/capability.json": {
+      "length": 183,
+      "sha256": "9610e9926b1f9e1f197284fd7eee1e1cc496a063649e08bbed094ce216f4a6c4"
+    },
+    "probity/cases/C1-02-event-with-gap/case.json": {
+      "length": 420,
+      "sha256": "38963e17790dac8fe999de8162b6619cb47ba2c6be15bf61984a00314f8892cf"
+    },
+    "probity/cases/C1-02-event-with-gap/expected-source-derived.json": {
+      "length": 784,
+      "sha256": "848e15572865cac97c3aa097c31e77b66769d1633aca34638a8c148169b5f97c"
+    },
+    "probity/cases/C1-02-event-with-gap/observation.json": {
+      "length": 519,
+      "sha256": "7d3263d03220fbb9ef6c549284a4639c70f9aaf1e9993cd905485af824acd80c"
+    },
+    "probity/cases/C1-02-event-with-gap/policy.json": {
+      "length": 984,
+      "sha256": "ba69f4964188aff4d929c3b35bcdb93617ef78c73fb8d88357087f3723bd1e5e"
+    },
+    "probity/cases/C1-03-empty-with-gap/capability.json": {
+      "length": 183,
+      "sha256": "9610e9926b1f9e1f197284fd7eee1e1cc496a063649e08bbed094ce216f4a6c4"
+    },
+    "probity/cases/C1-03-empty-with-gap/case.json": {
+      "length": 420,
+      "sha256": "38ceedc878022e2e8281aeef9289cd73c0f9ad307aa72d93b49f0057a8e09e0f"
+    },
+    "probity/cases/C1-03-empty-with-gap/expected-source-derived.json": {
+      "length": 830,
+      "sha256": "b662f417d0f60cfe634bb752b5da8db66ee592ca5efae31d6eca20255cd1f641"
+    },
+    "probity/cases/C1-03-empty-with-gap/observation.json": {
+      "length": 426,
+      "sha256": "38e4870e4a44f6b187760798ec5297e790610c859afe182c7538c979cc0bf05c"
+    },
+    "probity/cases/C1-03-empty-with-gap/policy.json": {
+      "length": 984,
+      "sha256": "250482371186ca3252d9931219e6104d4ee0bade713927ce013d705d42012878"
+    },
+    "witnessability-probity-c1.json": {
+      "length": 27613,
+      "sha256": "7d20fec5c887f56e20b3131c8540e93ebfd106b1a32c03b29c4cf4859e5cf244"
+    },
+    "witnessability-probity-c1.md": {
+      "length": 5597,
+      "sha256": "2bde5d355b20661521ebbdb8661697b12e9878d25ae7032eedbb59314a9341a6"
+    }
+  },
+  "source": "Mikhail Sergeev, Technical comments on draft-gilda-audit-agent-audit-record-00, message of 2026-10-28, attachments witnessability-probity-c1.md and .json",
+  "verifierPin": "probity-verify 0.2.2, source https://github.com/probityai/probity/tree/bc4557b1237c0d949087c19c6ee17dd858edbedd/packages/probity-verify"
+}

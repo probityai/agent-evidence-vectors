@@ -1,0 +1,1505 @@
+{
+  "schema": "probity.aps-jcs.runtime-comparison.v1",
+  "machine_outcomes_equal": true,
+  "signed_receipt_outcomes_byte_equal": true,
+  "diagnostic_only_differences": 88,
+  "diagnostics": [
+    {
+      "name": "cross-rail/vb705b260669aedc7.json",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 1669"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 1669 (line 63 column 15)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-00",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-00",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-01",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-01",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-02",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-02",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-03",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-03",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-04",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-04",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-05",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-05",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-06",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-06",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-07",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-07",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-08",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-08",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-09",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-09",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-0A",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-0A",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-0B",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-0B",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-0C",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-0C",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-0D",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-0D",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-0E",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-0E",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-0F",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-0F",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-10",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-10",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-11",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-11",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-12",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-12",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-13",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-13",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-14",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-14",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-15",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-15",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-16",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-16",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-17",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-17",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-18",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-18",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-19",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-19",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-1A",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-1A",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-1B",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-1B",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-1C",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-1C",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-1D",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-1D",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-1E",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-1E",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-value-1F",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 6 (line 1 column 7)"
+      }
+    },
+    {
+      "name": "attack/B.ctrl-raw-key-1F",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/D.unknown-esc-a",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad escaped character in JSON at position 7"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad escaped character in JSON at position 7 (line 1 column 8)"
+      }
+    },
+    {
+      "name": "attack/D.unknown-esc-v",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad escaped character in JSON at position 7"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad escaped character in JSON at position 7 (line 1 column 8)"
+      }
+    },
+    {
+      "name": "attack/D.unknown-esc-x41",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad escaped character in JSON at position 7"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad escaped character in JSON at position 7 (line 1 column 8)"
+      }
+    },
+    {
+      "name": "attack/D.unknown-esc-0",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad escaped character in JSON at position 7"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad escaped character in JSON at position 7 (line 1 column 8)"
+      }
+    },
+    {
+      "name": "attack/D.unknown-esc-U",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad escaped character in JSON at position 7"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad escaped character in JSON at position 7 (line 1 column 8)"
+      }
+    },
+    {
+      "name": "attack/D.unknown-esc-nonascii",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad escaped character in JSON at position 7"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad escaped character in JSON at position 7 (line 1 column 8)"
+      }
+    },
+    {
+      "name": "attack/E.short-hex-3",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad Unicode escape in JSON at position 11"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad Unicode escape in JSON at position 11 (line 1 column 12)"
+      }
+    },
+    {
+      "name": "attack/E.short-hex-0",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad Unicode escape in JSON at position 8"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad Unicode escape in JSON at position 8 (line 1 column 9)"
+      }
+    },
+    {
+      "name": "attack/E.nonhex",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad Unicode escape in JSON at position 10"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad Unicode escape in JSON at position 10 (line 1 column 11)"
+      }
+    },
+    {
+      "name": "attack/E.hex-with-space",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad Unicode escape in JSON at position 8"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad Unicode escape in JSON at position 8 (line 1 column 9)"
+      }
+    },
+    {
+      "name": "attack/E.truncated-at-eof",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad Unicode escape in JSON at position 10"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad Unicode escape in JSON at position 10 (line 1 column 11)"
+      }
+    },
+    {
+      "name": "attack/E.hex-negative-sign",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad Unicode escape in JSON at position 8"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad Unicode escape in JSON at position 8 (line 1 column 9)"
+      }
+    },
+    {
+      "name": "attack/F.high-then-truncated-u",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad Unicode escape in JSON at position 16"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad Unicode escape in JSON at position 16 (line 1 column 17)"
+      }
+    },
+    {
+      "name": "attack/F.high-then-nonhex-u",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad Unicode escape in JSON at position 14"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad Unicode escape in JSON at position 14 (line 1 column 15)"
+      }
+    },
+    {
+      "name": "attack/J.dup-key-then-invalid-json",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Expected double-quoted property name in JSON at position 13"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Expected double-quoted property name in JSON at position 13 (line 1 column 14)"
+      }
+    },
+    {
+      "name": "attack/M.unterminated-string",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Unterminated string in JSON at position 9"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Unterminated string in JSON at position 9 (line 1 column 10)"
+      }
+    },
+    {
+      "name": "attack/M.unterminated-key",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Unterminated string in JSON at position 5"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Unterminated string in JSON at position 5 (line 1 column 6)"
+      }
+    },
+    {
+      "name": "attack/M.key-not-a-string",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Expected property name or '}' in JSON at position 1"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Expected property name or '}' in JSON at position 1 (line 1 column 2)"
+      }
+    },
+    {
+      "name": "attack/M.trailing-comma-object",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Expected double-quoted property name in JSON at position 7"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Expected double-quoted property name in JSON at position 7 (line 1 column 8)"
+      }
+    },
+    {
+      "name": "attack/M.single-quoted-key",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Expected property name or '}' in JSON at position 1"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Expected property name or '}' in JSON at position 1 (line 1 column 2)"
+      }
+    },
+    {
+      "name": "attack/M.nul-after-document",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Unexpected non-whitespace character after JSON at position 2"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Unexpected non-whitespace character after JSON at position 2 (line 1 column 3)"
+      }
+    },
+    {
+      "name": "attack/M.key-with-raw-tab",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 3"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Bad control character in string literal in JSON at position 3 (line 1 column 4)"
+      }
+    },
+    {
+      "name": "attack/M.nbsp-whitespace",
+      "node20": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Expected property name or '}' in JSON at position 1"
+      },
+      "node22": {
+        "status": "refused",
+        "error_class": "SyntaxError",
+        "error": "Expected property name or '}' in JSON at position 1 (line 1 column 2)"
+      }
+    }
+  ],
+  "summary": {
+    "corpus_cases": 1223,
+    "expected_accepted": 1048,
+    "aps_raw_accepted": 1069,
+    "parsed_refusal_bypasses": 42,
+    "raw_policy_differences": 23,
+    "signed_receipt_controls": 5
+  },
+  "policy_differences": [
+    {
+      "name": "rfc8785/values.json",
+      "profile": "rfc8785",
+      "native_admission": {
+        "canonical_hex": "7b226c69746572616c73223a5b6e756c6c2c747275652c66616c73655d2c226e756d62657273223a5b3333333333333333332e333333333333332c31652b33302c342e352c302e3030322c31652d32375d2c22737472696e67223a22e282ac245c75303030665c6e4127425c225c5c5c5c5c222f227d",
+        "status": "accepted"
+      },
+      "aps_raw_parser": {
+        "status": "refused",
+        "error_class": "IJsonValidationError",
+        "error": "$: integer exceeds the interoperable IEEE 754 range"
+      }
+    },
+    {
+      "name": "cross-rail/va501d76c995de6d3.json",
+      "profile": "ijson-integers",
+      "native_admission": {
+        "error": "JSON string is not a sequence of Unicode scalar values at byte 1669: Unicode noncharacter in string",
+        "error_class": "StringNotScalar",
+        "status": "refused"
+      },
+      "aps_raw_parser": {
+        "status": "accepted",
+        "canonical_hex": "7b225f74797065223a2268747470733a2f2f696e2d746f746f2e696f2f53746174656d656e742f7631222c22707265646963617465223a7b2261747461636b526573756c7473223a5b7b2261637475616c4c61796572223a226e6f6e65222c2261747461636b4964223a2258412d4558414d504c452d31222c226174747269627574696f6e223a22706169726564222c226261736973223a22737562737472617465222c22636f6e7461696e6d656e744f62736572766564223a226e6f5f656772657373222c226d6574686f64223a22696e746572636570746564222c226f62736572766174696f6e52656673223a5b302c315d7d5d2c226261746368526f6f74223a2263366238366265663933323864313233393663303038396266393863303733376161636265303630323965366134386566306565663434383835336535393064222c22636f766572616765223a7b226173736573736564436c6173736573223a5b225841225d2c226f75744f6653636f7065223a7b7d2c22726f75746564456c73657768657265223a7b7d7d2c226973737565644174223a22323032362d30312d30315430303a30303a30305a222c226f62736572766174696f6e456e7669726f6e6d656e74223a7b226361746368506f6c696379223a7b22646967657374223a7b22736861323536223a2238343663326363663937623561356634646133333566653733336537663466373836666664323234636535383266623561393638356435323138346162646333227d7d2c22636f72707573223a7b22646967657374223a7b22736861323536223a2263633162646566326666636139366438366136333665356139666232376134613131313833363737336530646431333638643864653934663431333937396265227d2c226d616e6966657374223a7b22636c6173736573223a7b225841223a5b2258412d4558414d504c452d31225d7d7d2c226e616d65223a226578616d706c652d616476657273617269616c2d636f72707573222c22757269223a22706b673a6578616d706c652f616476657273617269616c2d636f7270757340312e302e30227d2c226e6574776f726b506f7374757265223a7b22646967657374223a7b22736861323536223a2261366562666338343562666539313061303939333230666437656333336532313238326138623536643832313131353237613830343434636131386534333532227d2c22706f7374757265223a2273696e6b686f6c65227d2c226f62736572766174696f6e566f636162756c617279223a7b22636175676874223a5b226567726573735f6361707475726564225d2c22646967657374223a7b22736861323536223a2232633564616231313835363464333363623564386239663834383366306438313561333830313730333261653932303930306364633731323931386531303331227d2c226c6162656c73223a5b226567726573735f6361707475726564222c226e6f5f656772657373222c227a7a5fefbfbf225d7d2c2272756e456e74726f7079223a7b22646967657374223a7b22736861323536223a2230316232356465313564386263363966623363623132623332336536316332663035303738613632393665376233666639663631393764353837303134373338227d7d2c22737562737472617465223a7b22646967657374223a7b22736861323536223a2230313862626166333731306535323662303635336162616662643362643363333335363135306437343764623136363032316631653130373434366338356262227d2c226e616d65223a226578616d706c652d7375627374726174652d696d616765227d7d2c226f62736572766174696f6e5265636f726473223a5b7b227061796c6f6164223a2265794a685a57564263334e6c63334e6c5a4546306447466a61334d694f6c736957454574525668425456424d52533078496c3073496d466c5a557470626d51694f694a68636d3170626d63694c434a685a57564e5a58526f623251694f694a70626e526c636d4e6c6348526c5a434973496d466c5a56427663335231636d56456157646c633351694f694a684e6d56695a6d4d344e4456695a6d55354d5442684d446b354d7a49775a6d51335a574d7a4d3255794d5449344d6d4534596a55325a4467794d5445784e544933595467774e445130593245784f4755304d7a5579496977695957566c556e5675516d6c755a476c755a794936496a5a6a4e47526c4e7a4d794d4751324e5463324d7a52695a6a6b784e444d784d474e6b5a446c694e574d325a5745354f5745345a6d4d30596d497a4d7a42694e4455775a574e684e5455334f474668595455305a6a4d694c434a68636d316c5a454630496a6f694d6a41794e5330784d69307a4d5651794d7a6f314f546f774d466f6966513d3d222c227061796c6f616454797065223a226170706c69636174696f6e2f766e642e6578616d706c652e6165652d6f62736572766174696f6e2e76312b6a736f6e222c227369676e617475726573223a5b7b226b65796964223a2237653262303635326438363731366634376533353537336165303038326436373037303662376135343864636236383564663762663130333932336463623963222c22736967223a22394d4c35725558514e38707448484630443478574f39684b375a646334303841736f7452346166507941625561615151784e44774b336e466559496a4e534e55576e4842727962764e4b774d785a706d67646d7843513d3d227d5d7d2c7b227061796c6f6164223a2265794a685a575645636d397751323931626e51694f6a4173496d466c5a557470626d51694f694a7a5a5746735a5751694c434a685a57564e5a58526f623251694f694a70626e526c636d4e6c6348526c5a434973496d466c5a55396963325679646d566b5158523059574e726379493657313073496d466c5a55396963325679646d566b55325630496a6f694e4759314d324e6b59544534597a4a6959574577597a417a4e545269596a566d4f57457a5a574e695a54566c5a444579595749305a44686c4d544669595467334d324d795a6a45784d5459784d6a4179596a6b304e534973496d466c5a56427663335231636d56456157646c633351694f694a684e6d56695a6d4d344e4456695a6d55354d5442684d446b354d7a49775a6d51335a574d7a4d3255794d5449344d6d4534596a55325a4467794d5445784e544933595467774e445130593245784f4755304d7a5579496977695957566c556e5675516d6c755a476c755a794936496a5a6a4e47526c4e7a4d794d4751324e5463324d7a52695a6a6b784e444d784d474e6b5a446c694e574d325a5745354f5745345a6d4d30596d497a4d7a42694e4455775a574e684e5455334f474668595455305a6a4d694c434a685a57565464476c73624546796257566b496a7030636e566c66513d3d222c227061796c6f616454797065223a226170706c69636174696f6e2f766e642e6578616d706c652e6165652d6f62736572766174696f6e2e76312b6a736f6e222c227369676e617475726573223a5b7b226b65796964223a2237653262303635326438363731366634376533353537336165303038326436373037303662376135343864636236383564663762663130333932336463623963222c22736967223a22756538536a65474d4c5164416a4949667244626f666c4768516d49582b56552b56494e52474b433951587666594351634446673541515155747a73697274654b4a6f4150554d5877743347376e2f565a792f654743673d3d227d5d7d5d2c22726573756c74223a2270617373227d2c2270726564696361746554797065223a2268747470733a2f2f696e2d746f746f2e696f2f6174746573746174696f6e2f616476657273617269616c2d657865637574696f6e2d65766964656e63652f76302e37222c227375626a656374223a5b7b22646967657374223a7b22736861323536223a2264313466626263643037366336626665356536616135326231363963306261663766373034346561343666653237396166643736323965393262616163386663227d2c226e616d65223a226578616d706c652d6167656e742d62756e646c65227d5d7d",
+        "canonical_sha256": "5769fa5abfcd693ef9de129067720f18b4efbe8436033f6c1cef01034ee5f730",
+        "canonical_bytes": 3006
+      }
+    },
+    {
+      "name": "cross-rail/va507b8f9a9cc675c.json",
+      "profile": "ijson-integers",
+      "native_admission": {
+        "error": "non-integer number outside the integers-only profile: \"1.5\"",
+        "error_class": "NonIntegerNumber",
+        "status": "refused"
+      },
+      "aps_raw_parser": {
+        "status": "accepted",
+        "canonical_hex": "7b225f74797065223a2268747470733a2f2f696e2d746f746f2e696f2f53746174656d656e742f7631222c22707265646963617465223a7b2261747461636b526573756c7473223a5b7b2261637475616c4c61796572223a22706f6c6963792e6567726573735f73696e6b686f6c65222c2261747461636b4964223a2258412d4558414d504c452d31222c226174747269627574696f6e223a22706169726564222c226261736973223a22737562737472617465222c22636f6e7461696e6d656e744f62736572766564223a226567726573735f6361707475726564222c226d6574686f64223a22696e746572636570746564222c226f62736572766174696f6e52656673223a5b302c312e355d7d5d2c226261746368526f6f74223a2261626264373466303138343666333330643831313735663063633366613766396538343964663936646165636337336332366663343734316532666136666531222c22636f766572616765223a7b226173736573736564436c6173736573223a5b225841225d2c226f75744f6653636f7065223a7b7d2c22726f75746564456c73657768657265223a7b7d7d2c226973737565644174223a22323032362d30312d30315430303a30303a30305a222c226f62736572766174696f6e456e7669726f6e6d656e74223a7b226361746368506f6c696379223a7b22646967657374223a7b22736861323536223a2238343663326363663937623561356634646133333566653733336537663466373836666664323234636535383266623561393638356435323138346162646333227d7d2c22636f72707573223a7b22646967657374223a7b22736861323536223a2263633162646566326666636139366438366136333665356139666232376134613131313833363737336530646431333638643864653934663431333937396265227d2c226d616e6966657374223a7b22636c6173736573223a7b225841223a5b2258412d4558414d504c452d31225d7d7d2c226e616d65223a226578616d706c652d616476657273617269616c2d636f72707573222c22757269223a22706b673a6578616d706c652f616476657273617269616c2d636f7270757340312e302e30227d2c226e6574776f726b506f7374757265223a7b22646967657374223a7b22736861323536223a2261366562666338343562666539313061303939333230666437656333336532313238326138623536643832313131353237613830343434636131386534333532227d2c22706f7374757265223a2273696e6b686f6c65227d2c226f62736572766174696f6e566f636162756c617279223a7b22636175676874223a5b226567726573735f6361707475726564225d2c22646967657374223a7b22736861323536223a2235653938396263383261313130613966623538373238346663363033356434323639366663653436626436356331346333343761353338636661623763306436227d2c226c6162656c73223a5b226567726573735f6361707475726564222c226e6f5f656772657373225d7d2c2272756e456e74726f7079223a7b22646967657374223a7b22736861323536223a2230316232356465313564386263363966623363623132623332336536316332663035303738613632393665376233666639663631393764353837303134373338227d7d2c22737562737472617465223a7b22646967657374223a7b22736861323536223a2230313862626166333731306535323662303635336162616662643362643363333335363135306437343764623136363032316631653130373434366338356262227d2c226e616d65223a226578616d706c652d7375627374726174652d696d616765227d7d2c226f62736572766174696f6e5265636f726473223a5b7b227061796c6f6164223a2265794a685a57564c6157356b496a6f69615735305a584a6a5a58423061573975496977695957566c545756306147396b496a6f69615735305a584a6a5a5842305a5751694c434a685a57565159586c736232466b5132397462576c306257567564434936577949344e7a4d314f574a694e7a6b794e6a63335a446c6a5a6a646c4e4445784f4759794e7a49354f4449784d44637a4e544d774d546b304e44417a5a6d52684e3245354e544d775a6d45344e54466d4e474534596a426d496c3073496d466c5a564a31626b4a70626d5270626d63694f6949794e5449354d6a5a6a59574a6c4d4759334e4749325a5445344d5449345a5745305a5759775a546b304d5449774e6a46694f544533596a426c4e47517a4e5467324e475a6a4f47526a4f4449345a544a6d4e4755354969776963484a765a48566a5a584a4f6233526c496a6f695a586868625842735a534270626e526c636d4e6c634852706232346762324a7a5a584a32595852706232346759534a39222c227061796c6f616454797065223a226170706c69636174696f6e2f766e642e6578616d706c652e6165652d6f62736572766174696f6e2e76312b6a736f6e222c227369676e617475726573223a5b7b226b65796964223a2237653262303635326438363731366634376533353537336165303038326436373037303662376135343864636236383564663762663130333932336463623963222c22736967223a224a6b76626e6c7052322b4443556c36377a34752f6d4150557473475931494877774a774e7778334b33476c3063362b786b6c5459756d2f625a314e367778686f593074376a707a5a4962556549484d497352454f43673d3d227d5d7d2c7b227061796c6f6164223a2265794a685a575645636d397751323931626e51694f6a4173496d466c5a557470626d51694f694a7a5a5746735a5751694c434a685a57564e5a58526f623251694f694a70626e526c636d4e6c6348526c5a434973496d466c5a55396963325679646d566b5158523059574e726379493657313073496d466c5a55396963325679646d566b55325630496a6f69596a63325a44686a4e574a6b4f4756685a544d78596d55784f4745324f54566d4f574a6a4e6a55784d446732595449305a4449354d5449314e44426b4d7a67784e44686c5a6d557a5a54597a4f4445794d6a51314f434973496d466c5a56427663335231636d56456157646c633351694f694a684e6d56695a6d4d344e4456695a6d55354d5442684d446b354d7a49775a6d51335a574d7a4d3255794d5449344d6d4534596a55325a4467794d5445784e544933595467774e445130593245784f4755304d7a5579496977695957566c556e5675516d6c755a476c755a794936496a49314d6a6b794e6d4e68596d55775a6a6330596a5a6c4d5467784d6a686c5954526c5a6a426c4f5451784d6a41324d5749354d5464694d4755305a444d314f4459305a6d4d345a474d344d6a686c4d6d59305a546b694c434a685a57565464476c73624546796257566b496a7030636e566c66513d3d222c227061796c6f616454797065223a226170706c69636174696f6e2f766e642e6578616d706c652e6165652d6f62736572766174696f6e2e76312b6a736f6e222c227369676e617475726573223a5b7b226b65796964223a2237653262303635326438363731366634376533353537336165303038326436373037303662376135343864636236383564663762663130333932336463623963222c22736967223a2262626e32746831694b79647132334a78675a517844596f693232474943734a6e4f6d7436334b6a6f6b432f34777a6f674f675a7a30412f356d7159536a4864514c6b443551713461524d7531464c42657147776841673d3d227d5d7d5d2c22726573756c74223a226661696c227d2c2270726564696361746554797065223a2268747470733a2f2f696e2d746f746f2e696f2f6174746573746174696f6e2f616476657273617269616c2d657865637574696f6e2d65766964656e63652f76302e37222c227375626a656374223a5b7b22646967657374223a7b22736861323536223a2264313466626263643037366336626665356536616135326231363963306261663766373034346561343666653237396166643736323965393262616163386663227d2c226e616d65223a226578616d706c652d6167656e742d62756e646c65227d5d7d",
+        "canonical_sha256": "1213c9ec7f6fa814d50b539cef9b87d51ad884c65b4f11c1a60f5de6edb530c8",
+        "canonical_bytes": 3011
+      }
+    },
+    {
+      "name": "attack/F.valid-pair-max",
+      "profile": "ijson-integers",
+      "native_admission": {
+        "error": "JSON string is not a sequence of Unicode scalar values at byte 6: Unicode noncharacter in string",
+        "error_class": "StringNotScalar",
+        "status": "refused"
+      },
+      "aps_raw_parser": {
+        "status": "accepted",
+        "canonical_hex": "7b226b223a22f48fbfbf227d",
+        "canonical_sha256": "729cc3ebfcff836419b34a3b394606b63611b3cc671c518b3eb1738260ffc4ea",
+        "canonical_bytes": 12
+      }
+    },
+    {
+      "name": "attack/H.noncharacter-esc-FFFE",
+      "profile": "ijson-integers",
+      "native_admission": {
+        "error": "JSON string is not a sequence of Unicode scalar values at byte 6: Unicode noncharacter in string",
+        "error_class": "StringNotScalar",
+        "status": "refused"
+      },
+      "aps_raw_parser": {
+        "status": "accepted",
+        "canonical_hex": "7b226b223a22efbfbe227d",
+        "canonical_sha256": "e6e3166b9df29331d5abfccf14029fa8039130a5fa1308ae31ac256a74e02ae5",
+        "canonical_bytes": 11
+      }
+    },
+    {
+      "name": "attack/H.noncharacter-raw-FFFE",
+      "profile": "ijson-integers",
+      "native_admission": {
+        "error": "JSON string is not a sequence of Unicode scalar values at byte 6: Unicode noncharacter in string",
+        "error_class": "StringNotScalar",
+        "status": "refused"
+      },
+      "aps_raw_parser": {
+        "status": "accepted",
+        "canonical_hex": "7b226b223a22efbfbe227d",
+        "canonical_sha256": "e6e3166b9df29331d5abfccf14029fa8039130a5fa1308ae31ac256a74e02ae5",
+        "canonical_bytes": 11
+      }
+    },
+    {
+      "name": "attack/H.noncharacter-esc-FFFF",
+      "profile": "ijson-integers",
+      "native_admission": {
+        "error": "JSON string is not a sequence of Unicode scalar values at byte 6: Unicode noncharacter in string",
+        "error_class": "StringNotScalar",
+        "status": "refused"
+      },
+      "aps_raw_parser": {
+        "status": "accepted",
+        "canonical_hex": "7b226b223a22efbfbf227d",
+        "canonical_sha256": "d40f11c8ee86795c4b1bbe30b8f64e007714eeb894370d012a4a741ec6d1af1d",
+        "canonical_bytes": 11
+      }
+    },
+    {
+      "name": "attack/H.noncharacter-raw-FFFF",
+      "profile": "ijson-integers",
+      "native_admission": {
+        "error": "JSON string is not a sequence of Unicode scalar values at byte 6: Unicode noncharacter in string",
+        "error_class": "StringNotScalar",
+        "status": "refused"
+      },
+      "aps_raw_parser": {
+        "status": "accepted",
+        "canonical_hex": "7b226b223a22efbfbf227d",
+        "canonical_sha256": "d40f11c8ee86795c4b1bbe30b8f64e007714eeb894370d012a4a741ec6d1af1d",
+        "canonical_bytes": 11
+      }
+    },
+    {
+      "name": "attack/H.noncharacter-esc-FDD0",
+      "profile": "ijson-integers",
+      "native_admission": {
+        "error": "JSON string is not a sequence of Unicode scalar values at byte 6: Unicode noncharacter in string",
+        "error_class": "StringNotScalar",
+        "status": "refused"
+      },
+      "aps_raw_parser": {
+        "status": "accepted",
+        "canonical_hex": "7b226b223a22efb790227d",
+        "canonical_sha256": "816bde40bfd7bfd7033048dfbcd52d0c536068a2846384d3dfac7d347671b794",
+        "canonical_bytes": 11
+      }
+    },
+    {
+      "name": "attack/H.noncharacter-raw-FDD0",
+      "profile": "ijson-integers",
+      "native_admission": {
+        "error": "JSON string is not a sequence of Unicode scalar values at byte 6: Unicode noncharacter in string",
+        "error_class": "StringNotScalar",
+        "status": "refused"
+      },
+      "aps_raw_parser": {
+        "status": "accepted",
+        "canonical_hex": "7b226b223a22efb790227d",
+        "canonical_sha256": "816bde40bfd7bfd7033048dfbcd52d0c536068a2846384d3dfac7d347671b794",
+        "canonical_bytes": 11
+      }
+    },
+    {
+      "name": "attack/H.noncharacter-esc-FDEF",
+      "profile": "ijson-integers",
+      "native_admission": {
+        "error": "JSON string is not a sequence of Unicode scalar values at byte 6: Unicode noncharacter in string",
+        "error_class": "StringNotScalar",
+        "status": "refused"
+      },
+      "aps_raw_parser": {
+        "status": "accepted",
+        "canonical_hex": "7b226b223a22efb7af227d",
+        "canonical_sha256": "9e6969652116c07345b07f83b43656a5ee2427cbd0fba570fc26705a6965d670",
+        "canonical_bytes": 11
+      }
+    },
+    {
+      "name": "attack/H.noncharacter-raw-FDEF",
+      "profile": "ijson-integers",
+      "native_admission": {
+        "error": "JSON string is not a sequence of Unicode scalar values at byte 6: Unicode noncharacter in string",
+        "error_class": "StringNotScalar",
+        "status": "refused"
+      },
+      "aps_raw_parser": {
+        "status": "accepted",
+        "canonical_hex": "7b226b223a22efb7af227d",
+        "canonical_sha256": "9e6969652116c07345b07f83b43656a5ee2427cbd0fba570fc26705a6965d670",
+        "canonical_bytes": 11
+      }
+    },
+    {
+      "name": "attack/H.noncharacter-pair-1FFFE",
+      "profile": "ijson-integers",
+      "native_admission": {
+        "error": "JSON string is not a sequence of Unicode scalar values at byte 6: Unicode noncharacter in string",
+        "error_class": "StringNotScalar",
+        "status": "refused"
+      },
+      "aps_raw_parser": {
+        "status": "accepted",
+        "canonical_hex": "7b226b223a22f09fbfbe227d",
+        "canonical_sha256": "9c0f20403f3f2756abe3e269ea6c706c341efec62c5a0e4bf1c586462737ab83",
+        "canonical_bytes": 12
+      }
+    },
+    {
+      "name": "attack/H.noncharacter-direct-1FFFE",
+      "profile": "ijson-integers",
+      "native_admission": {
+        "error": "JSON string is not a sequence of Unicode scalar values at byte 6: Unicode noncharacter in string",
+        "error_class": "StringNotScalar",
+        "status": "refused"
+      },
+      "aps_raw_parser": {
+        "status": "accepted",
+        "canonical_hex": "7b226b223a22f09fbfbe227d",
+        "canonical_sha256": "9c0f20403f3f2756abe3e269ea6c706c341efec62c5a0e4bf1c586462737ab83",
+        "canonical_bytes": 12
+      }
+    },
+    {
+      "name": "attack/H.noncharacter-pair-1FFFF",
+      "profile": "ijson-integers",
+      "native_admission": {
+        "error": "JSON string is not a sequence of Unicode scalar values at byte 6: Unicode noncharacter in string",
+        "error_class": "StringNotScalar",
+        "status": "refused"
+      },
+      "aps_raw_parser": {
+        "status": "accepted",
+        "canonical_hex": "7b226b223a22f09fbfbf227d",
+        "canonical_sha256": "e4bedc073d5b42943501d95ceaa4309e6d48cd682cd7101e0ac93a87b3114df7",
+        "canonical_bytes": 12
+      }
+    },
+    {
+      "name": "attack/H.noncharacter-direct-1FFFF",
+      "profile": "ijson-integers",
+      "native_admission": {
+        "error": "JSON string is not a sequence of Unicode scalar values at byte 6: Unicode noncharacter in string",
+        "error_class": "StringNotScalar",
+        "status": "refused"
+      },
+      "aps_raw_parser": {
+        "status": "accepted",
+        "canonical_hex": "7b226b223a22f09fbfbf227d",
+        "canonical_sha256": "e4bedc073d5b42943501d95ceaa4309e6d48cd682cd7101e0ac93a87b3114df7",
+        "canonical_bytes": 12
+      }
+    },
+    {
+      "name": "attack/H.noncharacter-pair-10FFFE",
+      "profile": "ijson-integers",
+      "native_admission": {
+        "error": "JSON string is not a sequence of Unicode scalar values at byte 6: Unicode noncharacter in string",
+        "error_class": "StringNotScalar",
+        "status": "refused"
+      },
+      "aps_raw_parser": {
+        "status": "accepted",
+        "canonical_hex": "7b226b223a22f48fbfbe227d",
+        "canonical_sha256": "d48a2f3c5db57228e0a8f427c42f369b8ad64accc283be37de9e33b9b79fec77",
+        "canonical_bytes": 12
+      }
+    },
+    {
+      "name": "attack/H.noncharacter-direct-10FFFE",
+      "profile": "ijson-integers",
+      "native_admission": {
+        "error": "JSON string is not a sequence of Unicode scalar values at byte 6: Unicode noncharacter in string",
+        "error_class": "StringNotScalar",
+        "status": "refused"
+      },
+      "aps_raw_parser": {
+        "status": "accepted",
+        "canonical_hex": "7b226b223a22f48fbfbe227d",
+        "canonical_sha256": "d48a2f3c5db57228e0a8f427c42f369b8ad64accc283be37de9e33b9b79fec77",
+        "canonical_bytes": 12
+      }
+    },
+    {
+      "name": "attack/H.noncharacter-pair-10FFFF",
+      "profile": "ijson-integers",
+      "native_admission": {
+        "error": "JSON string is not a sequence of Unicode scalar values at byte 6: Unicode noncharacter in string",
+        "error_class": "StringNotScalar",
+        "status": "refused"
+      },
+      "aps_raw_parser": {
+        "status": "accepted",
+        "canonical_hex": "7b226b223a22f48fbfbf227d",
+        "canonical_sha256": "729cc3ebfcff836419b34a3b394606b63611b3cc671c518b3eb1738260ffc4ea",
+        "canonical_bytes": 12
+      }
+    },
+    {
+      "name": "attack/H.noncharacter-direct-10FFFF",
+      "profile": "ijson-integers",
+      "native_admission": {
+        "error": "JSON string is not a sequence of Unicode scalar values at byte 6: Unicode noncharacter in string",
+        "error_class": "StringNotScalar",
+        "status": "refused"
+      },
+      "aps_raw_parser": {
+        "status": "accepted",
+        "canonical_hex": "7b226b223a22f48fbfbf227d",
+        "canonical_sha256": "729cc3ebfcff836419b34a3b394606b63611b3cc671c518b3eb1738260ffc4ea",
+        "canonical_bytes": 12
+      }
+    },
+    {
+      "name": "attack/H.noncharacter-in-key-FFFF",
+      "profile": "ijson-integers",
+      "native_admission": {
+        "error": "JSON string is not a sequence of Unicode scalar values at byte 2: Unicode noncharacter in string",
+        "error_class": "StringNotScalar",
+        "status": "refused"
+      },
+      "aps_raw_parser": {
+        "status": "accepted",
+        "canonical_hex": "7b22efbfbf223a317d",
+        "canonical_sha256": "100ae8189f40a0e500c71a6db32e2d3a4d9d6d1f1e600203a32f416be0dc851e",
+        "canonical_bytes": 9
+      }
+    },
+    {
+      "name": "raw-control/noncharacter-profile",
+      "profile": "ijson",
+      "native_admission": {
+        "error": "JSON string is not a sequence of Unicode scalar values at byte 1: Unicode noncharacter in string",
+        "error_class": "StringNotScalar",
+        "status": "refused"
+      },
+      "aps_raw_parser": {
+        "status": "accepted",
+        "canonical_hex": "22efbfbf22",
+        "canonical_sha256": "7c6c5c98a320272b95b2a73e2a2ff15825794b0460f8af7835c9dfd9e76b38bb",
+        "canonical_bytes": 5
+      }
+    },
+    {
+      "name": "raw-control/fractional-integer-profile",
+      "profile": "ijson-integers",
+      "native_admission": {
+        "error": "non-integer number outside the integers-only profile: \"1.5\"",
+        "error_class": "NonIntegerNumber",
+        "status": "refused"
+      },
+      "aps_raw_parser": {
+        "status": "accepted",
+        "canonical_hex": "312e35",
+        "canonical_sha256": "9f29a130438b81170b92a42650f9a94291ecad60bd47af2a3886e75f7f728725",
+        "canonical_bytes": 3
+      }
+    }
+  ]
+}

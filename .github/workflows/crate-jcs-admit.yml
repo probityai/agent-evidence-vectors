@@ -1,0 +1,425 @@
+name: crate-jcs-admit
+
+# Every check of crates/jcs-admit, run from the crate directory. ci.yml calls
+# this when a change touches crates/jcs-admit or a shared file. The jobs are the
+# ones probityai/jcs-admit ran before its import (ci.yml, go-jcs.yml,
+# mintid-trace-records.yml, python.yml, readme.yml, npm.yml):
+#   test    the committed Cargo.lock on stable, with rustfmt, clippy and rustdoc
+#           holding every warning as an error;
+#   msrv    the committed Cargo.lock on the rust-version in Cargo.toml;
+#   floors  every dependency resolved to the lowest version its requirement
+#           allows (-Z minimal-versions), on the rust-version, which proves the
+#           floors in Cargo.toml (tests/dependency_floor.rs names this job);
+#   python-*  the Python binding in python/: lint, tests and the type stub from
+#           source, the binding MSRV, the seven wheels and the sdist built by
+#           jcs-admit-python-build.yml (the same build release.yml publishes),
+#           each runnable wheel installed alone, and the release check;
+#   npm-package  the npm qualification, crate-jcs-admit-npm.yml.
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: crates/jcs-admit
+
+env:
+  CARGO_TERM_COLOR: always
+  # The checkout root go.work (go 1.26.0) would capture this crate's Go modules.
+  GOWORK: "off"
+  MSRV: "1.74"
+  UV_VERSION: "0.12.8"
+  BINDING_MSRV: "1.88"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: install stable with rustfmt and clippy
+        run: |
+          rustup toolchain install stable --profile minimal -c rustfmt -c clippy
+          rustup default stable
+      - run: cargo fmt --check
+      - run: cargo clippy --locked --all-targets -- -D warnings
+      - run: cargo doc --locked --no-deps
+        env:
+          RUSTDOCFLAGS: -D warnings
+      - run: cargo test --locked
+
+  msrv:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - run: rustup toolchain install "$MSRV" --profile minimal
+      - run: cargo "+$MSRV" test --locked
+
+  floors:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - run: rustup toolchain install nightly "$MSRV" --profile minimal
+      - name: resolve every dependency to its lowest allowed version
+        run: |
+          cargo +nightly generate-lockfile -Z minimal-versions
+          grep -A1 -E '^name = "(serde|serde_json|serde_json_canonicalizer)"$' Cargo.lock
+      - run: cargo "+$MSRV" test --locked
+
+  aps-canonical-bytes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - run: rustup toolchain install stable --profile minimal
+      - run: rustup default stable
+      - run: python3 interop/aps-canonical-bytes/check.py
+
+  rfc8785-py:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.10", "3.14"]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: check out the pinned Python canonicalizer
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: trailofbits/rfc8785.py
+          ref: 655cbe02b8761208e3f4cc49e879ab1e328a7dca
+          path: crates/jcs-admit/interop/rfc8785-py/source
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: ${{ matrix.python }}
+      - run: rustup toolchain install stable --profile minimal
+      - run: rustup default stable
+      - run: python interop/rfc8785-py/check.py --verify-source
+      - run: python -m pip install "pytest>=8,<10"
+      - name: run the Python canonicalizer's native tests
+        run: python -m pytest interop/rfc8785-py/source/test
+        env:
+          PYTHONPATH: interop/rfc8785-py/source/src
+      - name: run the qualification's failure controls
+        run: python -m unittest discover -s interop/rfc8785-py -p test_check.py
+      - name: compare independent bytes and native raw refusals
+        run: python interop/rfc8785-py/check.py
+      - name: retain the exact corpus, source and native report
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: rfc8785-py-${{ matrix.python }}-${{ github.sha }}
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            crates/jcs-admit/interop/rfc8785-py/MANIFEST.json
+            crates/jcs-admit/interop/rfc8785-py/controls.json
+            crates/jcs-admit/interop/rfc8785-py/check.py
+            crates/jcs-admit/interop/rfc8785-py/test_check.py
+            crates/jcs-admit/interop/rfc8785-py/report.json
+            crates/jcs-admit/interop/rfc8785-py/source/src/rfc8785
+            crates/jcs-admit/interop/rfc8785-py/source/test
+            crates/jcs-admit/interop/rfc8785-py/source/pyproject.toml
+            crates/jcs-admit/interop/rfc8785-py/source/LICENSE
+            crates/jcs-admit/tests/rfc8785_python_boundary.rs
+            crates/jcs-admit/tests/vectors/rfc8785
+            crates/jcs-admit/tests/vectors/cross-rail
+
+  # Replays the RFC 8785 target of the a2a-jcs-v01 corpus, as shipped in a pinned
+  # agent-evidence-vectors release, against `admit` through examples/a2a_jcs.rs,
+  # using the published GitHub Action the way any other canonicalizer would.
+  a2a-jcs-vectors:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - run: rustup toolchain install stable --profile minimal
+      - run: rustup default stable
+      - run: cargo build --locked --example a2a_jcs
+      - name: replay the published a2a-jcs-v01 corpus, rfc8785 target
+        uses: probityai/agent-evidence-vectors@33d545104ff2f8c124cff465c96c013eeb809156 # v0.18.1
+        env:
+          A2A_JCS_TARGET: rfc8785
+        with:
+          corpus: vectors-a2a-jcs-v01
+          verifier: crates/jcs-admit/target/debug/examples/a2a_jcs
+
+  go-jcs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        go: ["1.25.5", "1.27.1"]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: check out the pinned Go JCS source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: cyberphone/json-canonicalization
+          ref: 19d51d7fe467d4706a3ff08adf8a748f29fc21e0
+          path: crates/jcs-admit/interop/go-jcs/upstream
+          persist-credentials: false
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: ${{ matrix.go }}
+          cache: false
+      - run: rustup toolchain install stable --profile minimal -c rustfmt -c clippy
+      - run: rustup default stable
+      - name: check the native admission command
+        run: |
+          cargo fmt --manifest-path interop/go-jcs/admission/Cargo.toml --check
+          cargo clippy --locked --manifest-path interop/go-jcs/admission/Cargo.toml --all-targets -- -D warnings
+      - name: check source pins and failure controls
+        run: python3 -m unittest discover -s interop/go-jcs -p test_check.py
+      - name: compare installed readers and original byte corpus
+        run: |
+          python3 interop/go-jcs/check.py --installation "$RUNNER_TEMP/go-jcs-${{ matrix.go }}/installed"
+          cp "$RUNNER_TEMP/go-jcs-${{ matrix.go }}/go-upstream-native.log" interop/go-jcs/
+      - name: retain exact originals and native results
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: go-jcs-${{ matrix.go }}-${{ github.sha }}
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            crates/jcs-admit/interop/go-jcs/adapter.go
+            crates/jcs-admit/interop/go-jcs/adapter_test.go
+            crates/jcs-admit/interop/go-jcs/cmd
+            crates/jcs-admit/interop/go-jcs/go.mod
+            crates/jcs-admit/interop/go-jcs/admission/Cargo.toml
+            crates/jcs-admit/interop/go-jcs/admission/Cargo.lock
+            crates/jcs-admit/interop/go-jcs/admission/src
+            crates/jcs-admit/interop/go-jcs/MANIFEST.json
+            crates/jcs-admit/interop/go-jcs/check.py
+            crates/jcs-admit/interop/go-jcs/test_check.py
+            crates/jcs-admit/interop/go-jcs/report.json
+            crates/jcs-admit/interop/go-jcs/go-upstream-native.log
+            crates/jcs-admit/interop/go-jcs/source
+            crates/jcs-admit/interop/go-jcs/upstream/go
+            crates/jcs-admit/interop/go-jcs/upstream/testdata/input
+            crates/jcs-admit/interop/go-jcs/upstream/testdata/output
+            crates/jcs-admit/interop/go-jcs/upstream/LICENSE
+            crates/jcs-admit/tests/vectors
+
+  mintid-trace:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        go: ["1.25.5", "1.27.1"]
+        python: ["3.11", "3.14"]
+    env:
+      RUSTUP_TOOLCHAIN: stable
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: cyberphone/json-canonicalization
+          ref: 19d51d7fe467d4706a3ff08adf8a748f29fc21e0
+          path: crates/jcs-admit/interop/go-jcs/upstream
+          persist-credentials: false
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: ${{ matrix.go }}
+          cache: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa # v10.3.1
+      - run: rustup toolchain install stable --profile minimal -c rustfmt -c clippy
+      - name: qualify installed original records and refusal controls
+        run: |
+          python interop/mintid-trace-records-v2/qualify.py \
+            --upstream interop/go-jcs/upstream \
+            --output "$RUNNER_TEMP/mintid-trace-${{ matrix.go }}-${{ matrix.python }}"
+      - name: retain selected source and complete consumer results
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: mintid-trace-${{ matrix.go }}-${{ matrix.python }}-${{ github.sha }}
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            crates/jcs-admit/interop/mintid-trace-records-v2
+            crates/jcs-admit/interop/go-jcs/MANIFEST.json
+            crates/jcs-admit/interop/go-jcs/adapter.go
+            crates/jcs-admit/interop/go-jcs/admission/src
+            ${{ runner.temp }}/mintid-trace-${{ matrix.go }}-${{ matrix.python }}/ARTIFACTS.json
+            ${{ runner.temp }}/mintid-trace-${{ matrix.go }}-${{ matrix.python }}/results.json
+            ${{ runner.temp }}/mintid-trace-${{ matrix.go }}-${{ matrix.python }}/steps.json
+            ${{ runner.temp }}/mintid-trace-${{ matrix.go }}-${{ matrix.python }}/*.stdout
+            ${{ runner.temp }}/mintid-trace-${{ matrix.go }}-${{ matrix.python }}/*.stderr
+            ${{ runner.temp }}/mintid-trace-${{ matrix.go }}-${{ matrix.python }}/control-results.json
+            ${{ runner.temp }}/mintid-trace-${{ matrix.go }}-${{ matrix.python }}/go-report.json
+            ${{ runner.temp }}/mintid-trace-${{ matrix.go }}-${{ matrix.python }}/wheels
+            ${{ runner.temp }}/mintid-trace-${{ matrix.go }}-${{ matrix.python }}/commands
+            ${{ runner.temp }}/mintid-trace-${{ matrix.go }}-${{ matrix.python }}/original-captures
+            ${{ runner.temp }}/mintid-trace-${{ matrix.go }}-${{ matrix.python }}/control-captures
+
+  python-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.10", "3.14"]
+    defaults:
+      run:
+        working-directory: crates/jcs-admit/python
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: install stable with rustfmt and clippy
+        run: |
+          rustup toolchain install stable --profile minimal -c rustfmt -c clippy
+          rustup default stable
+      - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa # v10.3.1
+        with:
+          version: ${{ env.UV_VERSION }}
+          python-version: ${{ matrix.python }}
+          enable-cache: false
+      - run: cargo fmt --check
+      - run: cargo clippy --locked --all-targets -- -D warnings
+      - run: uv sync --locked
+      - run: uv run --locked pytest
+      - name: the type stub matches the built extension
+        run: uv run --locked python -m mypy.stubtest jcs_admit._native
+
+  python-msrv:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: crates/jcs-admit/python
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: the declared rust-version is the one in Cargo.toml
+        run: grep -qx "rust-version = \"$BINDING_MSRV\"" Cargo.toml
+      - run: rustup toolchain install "$BINDING_MSRV" --profile minimal
+      - run: cargo "+$BINDING_MSRV" check --locked
+
+  python-build:
+    uses: ./.github/workflows/jcs-admit-python-build.yml
+
+  python-wheel-test:
+    needs: python-build
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { wheel: manylinux-x86_64, runner: ubuntu-latest, python: "3.10" }
+          - { wheel: manylinux-x86_64, runner: ubuntu-latest, python: "3.14" }
+          - { wheel: manylinux-aarch64, runner: ubuntu-24.04-arm, python: "3.14" }
+          - { wheel: macos-aarch64, runner: macos-latest, python: "3.14" }
+          - { wheel: windows-x86_64, runner: windows-latest, python: "3.14" }
+    defaults:
+      run:
+        shell: bash
+        working-directory: .
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: python-wheel-${{ matrix.wheel }}
+          path: built
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: python-sdist
+          path: built
+      - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa # v10.3.1
+        with:
+          version: ${{ env.UV_VERSION }}
+          python-version: ${{ matrix.python }}
+          enable-cache: false
+      - name: one abi3 wheel, tagged for CPython 3.10 and later
+        run: |
+          ls built
+          version=$(python3 -c "import tomllib; print(tomllib.load(open('crates/jcs-admit/python/pyproject.toml','rb'))['project']['version'])")
+          echo "JCS_PY_VERSION=$version" >> "$GITHUB_ENV"
+          wheels=(built/jcs_admit-"$version"-cp310-abi3-*.whl)
+          test "${#wheels[@]}" -eq 1 && test -f "${wheels[0]}"
+      - name: install the built files only, with nothing from the source tree
+        run: |
+          uv venv --python "${{ matrix.python }}" "$RUNNER_TEMP/venv"
+          uv pip install --python "$RUNNER_TEMP/venv" --no-index --only-binary :all: --find-links built "jcs-admit==$JCS_PY_VERSION"
+          uv pip install --python "$RUNNER_TEMP/venv" pytest==9.1.1
+      - name: the whole suite against the installed wheel
+        run: |
+          py="$RUNNER_TEMP/venv/bin/python"
+          [ -x "$py" ] || py="$RUNNER_TEMP/venv/Scripts/python.exe"
+          "$py" -c "import jcs_admit, pathlib; p = pathlib.Path(jcs_admit.__file__).resolve(); assert 'site-packages' in p.parts, p; print(p)"
+          "$py" -m pytest crates/jcs-admit/python/tests -p no:cacheprovider
+
+  python-release-check:
+    needs: python-build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # Only this crate's artifacts: other areas upload into the same run.
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: python-wheel-*
+          merge-multiple: true
+          path: built
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: python-sdist
+          path: built
+      - name: the built files pass the release verification release.yml runs
+        run: |
+          version=$(python3 -c "import tomllib; print(tomllib.load(open('crates/jcs-admit/python/pyproject.toml','rb'))['project']['version'])")
+          python3 scripts/check-jcs-admit-python-release.py built --tag "jcs-admit-py-v$version" --out "$RUNNER_TEMP/upload"
+
+  readme:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: the README stays one screen and every link in it resolves
+        run: python3 scripts/readme-lint.py crates/jcs-admit/README.md
+
+  npm-package:
+    uses: ./.github/workflows/crate-jcs-admit-npm.yml

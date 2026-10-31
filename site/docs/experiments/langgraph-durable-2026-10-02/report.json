@@ -1,0 +1,84 @@
+{
+  "profile": "probity-langgraph-durable-restart-v0",
+  "status": "verified",
+  "plannedAttempts": 6,
+  "records": [
+    {
+      "attemptId": "restart-before",
+      "recoveryOutcome": "recovered-durable-checkpoint",
+      "effectOutcome": "verified-local-ticket-update",
+      "httpCalls": 1,
+      "nativeRevision": 1,
+      "workerExitCodes": [
+        73,
+        0
+      ]
+    },
+    {
+      "attemptId": "restart-after",
+      "recoveryOutcome": "recovered-durable-checkpoint",
+      "effectOutcome": "verified-local-ticket-update",
+      "httpCalls": 2,
+      "nativeRevision": 1,
+      "workerExitCodes": [
+        73,
+        0
+      ]
+    },
+    {
+      "attemptId": "crash-after-effect",
+      "recoveryOutcome": "recovered-durable-checkpoint",
+      "effectOutcome": "verified-local-ticket-update",
+      "httpCalls": 2,
+      "nativeRevision": 1,
+      "workerExitCodes": [
+        74,
+        0
+      ]
+    },
+    {
+      "attemptId": "restart-pending",
+      "recoveryOutcome": "recovered-durable-checkpoint",
+      "effectOutcome": "incomplete-no-automatic-replay",
+      "httpCalls": 2,
+      "nativeRevision": 0,
+      "workerExitCodes": [
+        73,
+        0
+      ]
+    },
+    {
+      "attemptId": "missing-checkpoint",
+      "recoveryOutcome": "refused-missing-checkpoint",
+      "effectOutcome": "refused-no-local-row",
+      "httpCalls": 0,
+      "nativeRevision": 0,
+      "workerExitCodes": [
+        73,
+        0
+      ]
+    },
+    {
+      "attemptId": "wrong-thread",
+      "recoveryOutcome": "refused-missing-checkpoint",
+      "effectOutcome": "refused-no-local-row",
+      "httpCalls": 0,
+      "nativeRevision": 0,
+      "workerExitCodes": [
+        73,
+        0
+      ]
+    }
+  ],
+  "checkpointScope": "native-SqliteSaver-distinct-process-sync-hard-exit-reopen",
+  "effectScope": "selected-loopback-service-local-SQLite-row",
+  "targetProcessRestart": "not-exercised",
+  "powerLoss": "not-exercised",
+  "independentCustody": "not-established",
+  "issuerAuthentication": "not-established",
+  "exactlyOnce": "not-established",
+  "providerCalls": 0,
+  "inputTokens": 0,
+  "outputTokens": 0,
+  "taskScope": "deterministic-real-framework-integration-control"
+}

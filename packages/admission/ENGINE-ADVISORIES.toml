@@ -1,0 +1,43 @@
+# Advisories published against a pinned engine version that this repository
+# has read and is holding. scripts/engine-advisory-gate.py fails the build on
+# any advisory absent from this file, on any entry whose expiry has passed,
+# and on any entry that no longer matches a pinned engine.
+#
+# An entry is not a way to make a red build green. It is a dated claim that
+# somebody read the advisory and established why this repository is out of
+# reach of it, with the date that reading is to be done again.
+
+[[advisory]]
+id = "GO-2025-3615"
+engine = "kyverno"
+reason = """
+Server-side request forgery through the apiCall context entry of a running \
+Kyverno admission controller. No fixed version exists: OSV records the range \
+as introduced at 0 with no fix event, because the capability is the feature. \
+This repository runs the kyverno command-line binary over a fixed corpus of \
+local files and never admits anything into a cluster, so no policy it \
+evaluates carries an apiCall and no request leaves the runner.\
+"""
+expires = 2026-12-16
+
+[[advisory]]
+id = "GO-2026-5337"
+engine = "kyverno"
+reason = """
+Cross-namespace read that bypasses the controller's RBAC isolation, an \
+incomplete fix for CVE-2026-22039. It is reachable only through a Kyverno \
+controller holding cluster credentials. Nothing here runs a controller, \
+holds a service account, or reaches a Kubernetes API server: the rail is the \
+CLI evaluating files.\
+"""
+expires = 2026-12-16
+
+[[advisory]]
+id = "GO-2026-5594"
+engine = "kyverno"
+reason = """
+Unrestricted outbound requests from the apiCall context entry, the same \
+reachability as GO-2025-3615 and likewise with no fixed version. Held on the \
+same ground and re-read on the same date.\
+"""
+expires = 2026-12-16

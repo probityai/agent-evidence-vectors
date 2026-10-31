@@ -1,0 +1,541 @@
+{
+  "schema": "probity.lab.adk-responses.v1",
+  "adkRevision": "86a47f6974bae349a5c9ea15a74a4b450614ae42",
+  "verifyRevision": "e835ce2bd6a960e7a1cc2fa6522f16d55dce728a",
+  "operator": "author-operated",
+  "witnessScope": "PEER",
+  "attempts": [
+    {
+      "archive": "first-failed-artifact.zip",
+      "stage": "original-reader-failure",
+      "run": 37178588953,
+      "artifact": 11293929868,
+      "executedHead": "d7f692234ba00094959f89895cf47d3d82da2178",
+      "bytes": 2636306,
+      "sha256": "b6080fea3c0dcd50e9de2c9b853aedea673b007490cc47f550f0dda1dffb3f2a"
+    },
+    {
+      "archive": "label-correction-artifact.zip",
+      "stage": "label-boundary-correction",
+      "run": 37202352798,
+      "artifact": 11303905668,
+      "executedHead": "aa0eaeaf16da9a1fbbc808ef6cae0ec00992736a",
+      "bytes": 2640126,
+      "sha256": "ad66c11b615d0e020dedaecba7121a89bc0ce9225e5e877f6dd679cca5d216b7"
+    },
+    {
+      "archive": "original-artifact.zip",
+      "stage": "routing-and-actual-verify",
+      "run": 37202968778,
+      "artifact": 11303836144,
+      "executedHead": "de522aa60966309599d03b06d02f50a52d7fb58f",
+      "bytes": 2742751,
+      "sha256": "c9f86ee644798ed44f902484d195ed05c94fb85b92b96ab897b61537fad46e9d"
+    },
+    {
+      "archive": "main-artifact.zip",
+      "stage": "merged-main-rerun",
+      "run": 37204220648,
+      "artifact": 11303737895,
+      "executedHead": "7eb18757745b4ac869131d9d319b9ccd7287edf1",
+      "bytes": 2742823,
+      "sha256": "24cb05e6dcc2226ada9acccd6ebec4c671503a9e7109572a267c5ac99ddd4283"
+    }
+  ],
+  "qualifiedRuns": [
+    {
+      "archive": "original-artifact.zip",
+      "workflowRun": 37202968778,
+      "executedHead": "de522aa60966309599d03b06d02f50a52d7fb58f",
+      "routingDecision": {
+        "authority": "explicit author-operated broker scope",
+        "doesNotAssert": [
+          "provider-inference",
+          "real-model-quality",
+          "outside-custody",
+          "recurring-consumer-adoption",
+          "unmediated-effects",
+          "general-application-traces"
+        ],
+        "modelQuality": "not-evaluated",
+        "outsideOperator": false,
+        "profile": "probity-adk-user-response-routing-v1",
+        "prospectiveEightTaskRun": "not-started",
+        "publicationDecision": "admit-this-finite-reference-only",
+        "rows": [
+          {
+            "case": "approval-granted",
+            "modelCalls": 4,
+            "nativeLaterTextAuthors": [
+              "root"
+            ],
+            "nativeResponseAuthors": [
+              "issuer"
+            ],
+            "observedWrites": 1,
+            "toolBodyCalls": 1
+          },
+          {
+            "case": "approval-denied",
+            "modelCalls": 4,
+            "nativeLaterTextAuthors": [
+              "root"
+            ],
+            "nativeResponseAuthors": [
+              "issuer"
+            ],
+            "observedWrites": 0,
+            "toolBodyCalls": 0
+          },
+          {
+            "case": "long-running-completed",
+            "modelCalls": 4,
+            "nativeLaterTextAuthors": [
+              "root"
+            ],
+            "nativeResponseAuthors": [
+              "issuer"
+            ],
+            "observedWrites": 1,
+            "toolBodyCalls": 1
+          }
+        ],
+        "runId": "adk-responses-b80d4b0f67e04228a34d8f5a80ff31a1",
+        "sourceRevision": "86a47f6974bae349a5c9ea15a74a4b450614ae42",
+        "status": "verified",
+        "witnessScope": "PEER"
+      },
+      "routingDecisionSha256": "ef103af5374b2cd032e030c791c769dc91d96d110fbdd6b9e7bbf3b68e44634e",
+      "routingRepeatedByteExact": true,
+      "rows": [
+        {
+          "case": "approval-granted",
+          "modelCalls": 4,
+          "nativeLaterTextAuthors": [
+            "root"
+          ],
+          "nativeResponseAuthors": [
+            "issuer"
+          ],
+          "observedWrites": 1,
+          "toolBodyCalls": 1,
+          "originalTool": "approved_write",
+          "originalCallId": "adk-667a6b80-69fb-48c8-843a-3df3cac1cb75",
+          "suppliedResponseId": "adk-588b1668-63bc-4f0e-91e5-6132f1b78321",
+          "suppliedResponseName": "adk_request_confirmation",
+          "callbacks": 38,
+          "callbackFailures": 0,
+          "callbackClosed": true,
+          "hostCompletionCalls": 0
+        },
+        {
+          "case": "approval-denied",
+          "modelCalls": 4,
+          "nativeLaterTextAuthors": [
+            "root"
+          ],
+          "nativeResponseAuthors": [
+            "issuer"
+          ],
+          "observedWrites": 0,
+          "toolBodyCalls": 0,
+          "originalTool": "approved_write",
+          "originalCallId": "adk-f52a4db5-10d4-4a6c-91cf-b2dff1127cb3",
+          "suppliedResponseId": "adk-1a4746ff-ef4e-4e63-bd11-8b7cbcb3f89b",
+          "suppliedResponseName": "adk_request_confirmation",
+          "callbacks": 38,
+          "callbackFailures": 0,
+          "callbackClosed": true,
+          "hostCompletionCalls": 0
+        },
+        {
+          "case": "long-running-completed",
+          "modelCalls": 4,
+          "nativeLaterTextAuthors": [
+            "root"
+          ],
+          "nativeResponseAuthors": [
+            "issuer"
+          ],
+          "observedWrites": 1,
+          "toolBodyCalls": 1,
+          "originalTool": "pending_work",
+          "originalCallId": "adk-9242db5f-cd27-4187-84d3-86e392d5a13f",
+          "suppliedResponseId": "adk-9242db5f-cd27-4187-84d3-86e392d5a13f",
+          "suppliedResponseName": "pending_work",
+          "callbacks": 33,
+          "callbackFailures": 0,
+          "callbackClosed": true,
+          "hostCompletionCalls": 1
+        }
+      ],
+      "semanticControls": 19,
+      "providerRequests": 0,
+      "nativeSourcePythonFiles": 778,
+      "hostPlan": {
+        "budget": {
+          "cases": 3,
+          "elapsedSeconds": 120,
+          "modelCalls": 12,
+          "toolBodyCalls": 2,
+          "turnsPerCase": 3
+        },
+        "cases": [
+          "approval-granted",
+          "approval-denied",
+          "long-running-completed"
+        ],
+        "issuer": "issuer",
+        "model": "fixed-public-script",
+        "modelQuality": "not-evaluated",
+        "observerRevision": "8c074d7b8f380dd01fd55277b68a37ad8217c8cb",
+        "operator": "author-operated",
+        "profile": "probity-adk-user-response-routing-v1",
+        "prospectiveEightTaskRun": "not-started",
+        "providerRequests": 0,
+        "resumability": false,
+        "root": "root",
+        "runId": "adk-responses-b80d4b0f67e04228a34d8f5a80ff31a1",
+        "sourceRevision": "86a47f6974bae349a5c9ea15a74a4b450614ae42",
+        "witnessScope": "PEER"
+      },
+      "hostPolicySha256": "165b16a66c8af5cd919a28877d8b50b23e1a8227359adf19cb7cfa59b276e8a0",
+      "verify": {
+        "adkRevision": "86a47f6974bae349a5c9ea15a74a4b450614ae42",
+        "component": "probityai/probity-verify event_absence/v1; custom routing reader remains separate",
+        "controls": [
+          {
+            "control": "event-present",
+            "decision": "contradicted",
+            "reselectedBytes": true
+          },
+          {
+            "control": "coverage-unknown",
+            "decision": "not_established",
+            "reselectedBytes": true
+          },
+          {
+            "control": "malformed-duplicate",
+            "exitStatus": 2,
+            "verdictBytes": 0
+          }
+        ],
+        "frameworkFree": true,
+        "nativeHostPolicySHA256": "165b16a66c8af5cd919a28877d8b50b23e1a8227359adf19cb7cfa59b276e8a0",
+        "operator": "author-operated",
+        "outsideOperator": false,
+        "prospectiveEightTaskRun": "not-started",
+        "rows": [
+          {
+            "absentEventType": "root-native-output",
+            "case": "approval-granted/user-response",
+            "claimType": "event_absence/v1",
+            "decision": "supported",
+            "decisionSHA256": "cd0b642354bc383fd1925792f31a1f3573e5cc6ae43f9634a6d51eff65980bad",
+            "literalRepeat": true,
+            "nativeEvents": 2
+          },
+          {
+            "absentEventType": "issuer-native-output",
+            "case": "approval-granted/later-plain-text",
+            "claimType": "event_absence/v1",
+            "decision": "supported",
+            "decisionSHA256": "1aaabab7657619dab70aba8baab2c48b527260c7ad0ae50dbd0847dc730de4e4",
+            "literalRepeat": true,
+            "nativeEvents": 1
+          },
+          {
+            "absentEventType": "root-native-output",
+            "case": "approval-denied/user-response",
+            "claimType": "event_absence/v1",
+            "decision": "supported",
+            "decisionSHA256": "8c710e3026bf7ae1cf512af1cb1e5d299b373ce7d025bdc15e650d99d014884a",
+            "literalRepeat": true,
+            "nativeEvents": 2
+          },
+          {
+            "absentEventType": "issuer-native-output",
+            "case": "approval-denied/later-plain-text",
+            "claimType": "event_absence/v1",
+            "decision": "supported",
+            "decisionSHA256": "e45e7ffb23a0199481ee1d4c15d29e0f5163119821aeb157cfdf2c034533cdd7",
+            "literalRepeat": true,
+            "nativeEvents": 1
+          },
+          {
+            "absentEventType": "root-native-output",
+            "case": "long-running-completed/user-response",
+            "claimType": "event_absence/v1",
+            "decision": "supported",
+            "decisionSHA256": "0aade8aff7b2b7774005d4d986afcb793768cfb8e99a8f8b1dffa33ec497b3b2",
+            "literalRepeat": true,
+            "nativeEvents": 1
+          },
+          {
+            "absentEventType": "issuer-native-output",
+            "case": "long-running-completed/later-plain-text",
+            "claimType": "event_absence/v1",
+            "decision": "supported",
+            "decisionSHA256": "85cf4144e9e2050ff00228ef79aaea6b50c9a6190db0dd8664c46c1612738684",
+            "literalRepeat": true,
+            "nativeEvents": 1
+          }
+        ],
+        "scope": "absence of wrong-agent output in the plugin's six retained native turns",
+        "status": "installed-verify-consumer-passed",
+        "verifyPythonFiles": 11,
+        "verifyRevision": "e835ce2bd6a960e7a1cc2fa6522f16d55dce728a",
+        "verifyWheelSHA256": "a885aac9c11e3d7a8e35d94c442e9ecd0c9aec5e7f7db1272c83c6b951908c10",
+        "witnessScope": "PEER"
+      }
+    },
+    {
+      "archive": "main-artifact.zip",
+      "workflowRun": 37204220648,
+      "executedHead": "7eb18757745b4ac869131d9d319b9ccd7287edf1",
+      "routingDecision": {
+        "authority": "explicit author-operated broker scope",
+        "doesNotAssert": [
+          "provider-inference",
+          "real-model-quality",
+          "outside-custody",
+          "recurring-consumer-adoption",
+          "unmediated-effects",
+          "general-application-traces"
+        ],
+        "modelQuality": "not-evaluated",
+        "outsideOperator": false,
+        "profile": "probity-adk-user-response-routing-v1",
+        "prospectiveEightTaskRun": "not-started",
+        "publicationDecision": "admit-this-finite-reference-only",
+        "rows": [
+          {
+            "case": "approval-granted",
+            "modelCalls": 4,
+            "nativeLaterTextAuthors": [
+              "root"
+            ],
+            "nativeResponseAuthors": [
+              "issuer"
+            ],
+            "observedWrites": 1,
+            "toolBodyCalls": 1
+          },
+          {
+            "case": "approval-denied",
+            "modelCalls": 4,
+            "nativeLaterTextAuthors": [
+              "root"
+            ],
+            "nativeResponseAuthors": [
+              "issuer"
+            ],
+            "observedWrites": 0,
+            "toolBodyCalls": 0
+          },
+          {
+            "case": "long-running-completed",
+            "modelCalls": 4,
+            "nativeLaterTextAuthors": [
+              "root"
+            ],
+            "nativeResponseAuthors": [
+              "issuer"
+            ],
+            "observedWrites": 1,
+            "toolBodyCalls": 1
+          }
+        ],
+        "runId": "adk-responses-2cab377090fa45f09469d9db310b0b09",
+        "sourceRevision": "86a47f6974bae349a5c9ea15a74a4b450614ae42",
+        "status": "verified",
+        "witnessScope": "PEER"
+      },
+      "routingDecisionSha256": "e22288435c04a1746efe604cf1bd662f55f75d32b4e232e0285976e2c8a96bc4",
+      "routingRepeatedByteExact": true,
+      "rows": [
+        {
+          "case": "approval-granted",
+          "modelCalls": 4,
+          "nativeLaterTextAuthors": [
+            "root"
+          ],
+          "nativeResponseAuthors": [
+            "issuer"
+          ],
+          "observedWrites": 1,
+          "toolBodyCalls": 1,
+          "originalTool": "approved_write",
+          "originalCallId": "adk-ac817898-5c72-479b-8174-0fdf4d0c87fd",
+          "suppliedResponseId": "adk-770a44ee-4c17-42ee-a2c4-22eb1b551d02",
+          "suppliedResponseName": "adk_request_confirmation",
+          "callbacks": 38,
+          "callbackFailures": 0,
+          "callbackClosed": true,
+          "hostCompletionCalls": 0
+        },
+        {
+          "case": "approval-denied",
+          "modelCalls": 4,
+          "nativeLaterTextAuthors": [
+            "root"
+          ],
+          "nativeResponseAuthors": [
+            "issuer"
+          ],
+          "observedWrites": 0,
+          "toolBodyCalls": 0,
+          "originalTool": "approved_write",
+          "originalCallId": "adk-3c80001d-91fe-4f13-8d46-07621a8f7b04",
+          "suppliedResponseId": "adk-11c412d9-f1ad-404f-89bb-fc4118482370",
+          "suppliedResponseName": "adk_request_confirmation",
+          "callbacks": 38,
+          "callbackFailures": 0,
+          "callbackClosed": true,
+          "hostCompletionCalls": 0
+        },
+        {
+          "case": "long-running-completed",
+          "modelCalls": 4,
+          "nativeLaterTextAuthors": [
+            "root"
+          ],
+          "nativeResponseAuthors": [
+            "issuer"
+          ],
+          "observedWrites": 1,
+          "toolBodyCalls": 1,
+          "originalTool": "pending_work",
+          "originalCallId": "adk-08e466dd-355f-4ee6-aa48-71a5e46a1a77",
+          "suppliedResponseId": "adk-08e466dd-355f-4ee6-aa48-71a5e46a1a77",
+          "suppliedResponseName": "pending_work",
+          "callbacks": 33,
+          "callbackFailures": 0,
+          "callbackClosed": true,
+          "hostCompletionCalls": 1
+        }
+      ],
+      "semanticControls": 19,
+      "providerRequests": 0,
+      "nativeSourcePythonFiles": 778,
+      "hostPlan": {
+        "budget": {
+          "cases": 3,
+          "elapsedSeconds": 120,
+          "modelCalls": 12,
+          "toolBodyCalls": 2,
+          "turnsPerCase": 3
+        },
+        "cases": [
+          "approval-granted",
+          "approval-denied",
+          "long-running-completed"
+        ],
+        "issuer": "issuer",
+        "model": "fixed-public-script",
+        "modelQuality": "not-evaluated",
+        "observerRevision": "8c074d7b8f380dd01fd55277b68a37ad8217c8cb",
+        "operator": "author-operated",
+        "profile": "probity-adk-user-response-routing-v1",
+        "prospectiveEightTaskRun": "not-started",
+        "providerRequests": 0,
+        "resumability": false,
+        "root": "root",
+        "runId": "adk-responses-2cab377090fa45f09469d9db310b0b09",
+        "sourceRevision": "86a47f6974bae349a5c9ea15a74a4b450614ae42",
+        "witnessScope": "PEER"
+      },
+      "hostPolicySha256": "f51e3a0249dae35fcb157bc846dcdc0f0014eb2c46cb83e499e6bc33d49844d4",
+      "verify": {
+        "adkRevision": "86a47f6974bae349a5c9ea15a74a4b450614ae42",
+        "component": "probityai/probity-verify event_absence/v1; custom routing reader remains separate",
+        "controls": [
+          {
+            "control": "event-present",
+            "decision": "contradicted",
+            "reselectedBytes": true
+          },
+          {
+            "control": "coverage-unknown",
+            "decision": "not_established",
+            "reselectedBytes": true
+          },
+          {
+            "control": "malformed-duplicate",
+            "exitStatus": 2,
+            "verdictBytes": 0
+          }
+        ],
+        "frameworkFree": true,
+        "nativeHostPolicySHA256": "f51e3a0249dae35fcb157bc846dcdc0f0014eb2c46cb83e499e6bc33d49844d4",
+        "operator": "author-operated",
+        "outsideOperator": false,
+        "prospectiveEightTaskRun": "not-started",
+        "rows": [
+          {
+            "absentEventType": "root-native-output",
+            "case": "approval-granted/user-response",
+            "claimType": "event_absence/v1",
+            "decision": "supported",
+            "decisionSHA256": "97b09c75cbfdcd1dd62a12b20eb9184fc96d46b0fec3520af91dc4a11afc6c02",
+            "literalRepeat": true,
+            "nativeEvents": 2
+          },
+          {
+            "absentEventType": "issuer-native-output",
+            "case": "approval-granted/later-plain-text",
+            "claimType": "event_absence/v1",
+            "decision": "supported",
+            "decisionSHA256": "b4c50a200af01b081c5eb43c39f0b88f2a6e1f4504e3314d057884879cdea769",
+            "literalRepeat": true,
+            "nativeEvents": 1
+          },
+          {
+            "absentEventType": "root-native-output",
+            "case": "approval-denied/user-response",
+            "claimType": "event_absence/v1",
+            "decision": "supported",
+            "decisionSHA256": "fca7b255c10093157575d130680972c73004829a49afa4b3e0d29cc2eb0cef31",
+            "literalRepeat": true,
+            "nativeEvents": 2
+          },
+          {
+            "absentEventType": "issuer-native-output",
+            "case": "approval-denied/later-plain-text",
+            "claimType": "event_absence/v1",
+            "decision": "supported",
+            "decisionSHA256": "95a3dd7ca99859b4f404cd39ef431cfef75f9896c8829460fce3d03d4b619f36",
+            "literalRepeat": true,
+            "nativeEvents": 1
+          },
+          {
+            "absentEventType": "root-native-output",
+            "case": "long-running-completed/user-response",
+            "claimType": "event_absence/v1",
+            "decision": "supported",
+            "decisionSHA256": "f93900a1cca64fe9a13b787e604faa7abfdba0f0daf8753c008e360cca43214d",
+            "literalRepeat": true,
+            "nativeEvents": 1
+          },
+          {
+            "absentEventType": "issuer-native-output",
+            "case": "long-running-completed/later-plain-text",
+            "claimType": "event_absence/v1",
+            "decision": "supported",
+            "decisionSHA256": "b07847192acbc7463bf82d53b91ba03daedb04801ee1252197fdb5e57526e213",
+            "literalRepeat": true,
+            "nativeEvents": 1
+          }
+        ],
+        "scope": "absence of wrong-agent output in the plugin's six retained native turns",
+        "status": "installed-verify-consumer-passed",
+        "verifyPythonFiles": 11,
+        "verifyRevision": "e835ce2bd6a960e7a1cc2fa6522f16d55dce728a",
+        "verifyWheelSHA256": "a885aac9c11e3d7a8e35d94c442e9ecd0c9aec5e7f7db1272c83c6b951908c10",
+        "witnessScope": "PEER"
+      }
+    }
+  ],
+  "historicalComparisonRows": 16,
+  "prospectiveEightTaskRun": "not-started"
+}

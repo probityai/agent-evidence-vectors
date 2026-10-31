@@ -1,0 +1,106 @@
+{
+  "auditReportVersion": 2,
+  "vulnerabilities": {
+    "@modelcontextprotocol/client": {
+      "name": "@modelcontextprotocol/client",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1241338,
+          "name": "@modelcontextprotocol/client",
+          "dependency": "@modelcontextprotocol/client",
+          "title": "MCP TypeScript SDK: OAuth client could send credentials to an authorization server chosen by the MCP server",
+          "url": "https://github.com/advisories/GHSA-6qxp-vccf-f47h",
+          "severity": "high",
+          "cwe": [
+            "CWE-345",
+            "CWE-522"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+          },
+          "range": ">=2.0.0 <2.2.0"
+        }
+      ],
+      "effects": [
+        "mcp-use"
+      ],
+      "range": "2.0.0 - 2.1.0",
+      "nodes": [
+        "node_modules/@modelcontextprotocol/client"
+      ],
+      "fixAvailable": {
+        "name": "mcp-use",
+        "version": "2.8.2",
+        "isSemVerMajor": false
+      }
+    },
+    "mcp-use": {
+      "name": "mcp-use",
+      "severity": "high",
+      "isDirect": true,
+      "via": [
+        "@modelcontextprotocol/client"
+      ],
+      "effects": [],
+      "range": "2.0.0-beta.0 - 2.8.0-canary.1 || >=3.0.0-canary.7",
+      "nodes": [
+        "node_modules/mcp-use"
+      ],
+      "fixAvailable": {
+        "name": "mcp-use",
+        "version": "2.8.2",
+        "isSemVerMajor": false
+      }
+    },
+    "source-map-js": {
+      "name": "source-map-js",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1241209,
+          "name": "source-map-js",
+          "dependency": "source-map-js",
+          "title": "source-map-js allows event-loop denial of service through indexed source-map section offsets",
+          "url": "https://github.com/advisories/GHSA-68fv-2mgg-jv7q",
+          "severity": "high",
+          "cwe": [
+            "CWE-1284"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": ">=1.0.0 <1.2.2"
+        }
+      ],
+      "effects": [],
+      "range": "1.0.0 - 1.2.1",
+      "nodes": [
+        "node_modules/source-map-js"
+      ],
+      "fixAvailable": true
+    }
+  },
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 3,
+      "critical": 0,
+      "total": 3
+    },
+    "dependencies": {
+      "prod": 4,
+      "dev": 268,
+      "optional": 97,
+      "peer": 0,
+      "peerOptional": 0,
+      "total": 271
+    }
+  }
+}

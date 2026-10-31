@@ -1,0 +1,43 @@
+[build-system]
+requires = ["hatchling==1.32.4"]
+build-backend = "hatchling.build"
+
+[project]
+name = "agent-evidence-admission"
+version = "0.2.0"
+description = "Check that an artifact has the digest its compliance document, SBOM or attestation names."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+# Distribution copy of the repository LICENSE; scripts/python-license-gate.py
+# refuses copy drift before CI builds or installs the package.
+license-files = ["LICENSE"]
+authors = [{ name = "Sankalp Gilda" }]
+keywords = ["attestation", "sbom", "in-toto", "digest", "admission-control", "supply-chain-security"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Security",
+    "Topic :: Software Development :: Quality Assurance",
+]
+dependencies = []
+
+[project.urls]
+Source = "https://github.com/probityai/agent-evidence-vectors/tree/main/packages/admission"
+Documentation = "https://github.com/probityai/agent-evidence-vectors/blob/main/packages/admission/python/README.md"
+Issues = "https://github.com/probityai/agent-evidence-vectors/issues"
+
+[project.scripts]
+agent-evidence-admission = "agent_evidence_admission.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/agent_evidence_admission"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+filterwarnings = ["error"]

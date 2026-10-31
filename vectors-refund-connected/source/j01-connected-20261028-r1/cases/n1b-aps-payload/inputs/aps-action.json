@@ -1,0 +1,12 @@
+{
+  "profile": "aps-action-ref-v2",
+  "agent_id": "did:example:refund-worker",
+  "action_type": "refund",
+  "target": "https://payments.operator.example/v1/payments/pay_D/refunds",
+  "payload_ref": "93308fb4eaa5fd8458fe49cd30d0772e74fbf459626692103fd9061b028e3e68",
+  "scope_required": [
+    "payments:refund"
+  ],
+  "issued_at": "2026-10-28T21:45:38.054Z",
+  "nonce": "00000000000000000000000000000003"
+}

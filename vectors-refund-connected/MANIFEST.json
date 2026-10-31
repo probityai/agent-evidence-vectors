@@ -1,0 +1,471 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/refund-connected/v1",
+  "corpusDigest": "1588224056bb6f7f5971386164b4a737c422ec6b16bcdea3ca8dc559adb5f9a5",
+  "counts": {
+    "established": 2,
+    "not_established": 4,
+    "refused": 6
+  },
+  "runs": {
+    "r1": {
+      "files": {
+        "VERDICTS.md": "cfde52655b4732cf64a4299eb73255d92e81cead41096fc9f93d2997de263004",
+        "admission/state.json": "106bf41ebe86890cd2fe49208a2eee8e4790fee81711b7f6c939a0b5dfddb716",
+        "cases/j01/inputs/aps-action.json": "d240322c0cfc2cbdf4689426cde3b438b0fd5df43e2546b12af53c18f6038d3d",
+        "cases/j01/inputs/aps-approval.json": "8ff1509bfff289da210c5458e117b4e01c43bdc14dd103158a103bd482a20357",
+        "cases/j01/inputs/aps-intent.json": "7693e9f4e69f3c9aec6ba592282635e35ad74b87499ed9b3547842f959b93fc2",
+        "cases/j01/inputs/aps-payload.json": "06308c11ca6c26e4d0b423eb6dc2d0f9640a4e7fb89588b41606677d43fb13d3",
+        "cases/j01/inputs/decision-evidence.json": "0225f54688052f489ad7e12bd4b8fd708d7669cc10cf7f85590bed23cf921bcf",
+        "cases/j01/inputs/pic-proposal.json": "4f240393358b88b31f846ffac21f056265f0f2e016a42b50727b5c8314205ca0",
+        "cases/j01/inputs/pic-verification.json": "2ec44933dff611aabdee5ec753fb819c0ddcd097b428134cd250de73772a3ad6",
+        "cases/j01/trust/aps-consumption.json": "b191451af9d940a113afff713760917a00d1f1d4923da6446da7dec16b324f11",
+        "cases/j01/trust/handoff-evaluation.json": "9ead0cd5584b1581e7b14ff158faac2b4470290e96f3c5e52169a3e41b0dbbc9",
+        "cases/j01/trust/handoff-issuance.json": "4bc619212384e0cfe61028cfd36dd16f1242b3753b2722724a3704f795927b12",
+        "cases/j01/trust/pic-keys.json": "c9129f3ab83f7e464574a5aac46f48275ffdef07b5c8fa3645fd8a61d18114c1",
+        "cases/n1a-pic-args/inputs/aps-action.json": "bbce44f617cb9ea612dcd274c42cb455c73ef7d6855b5a7a40e338eb86189a79",
+        "cases/n1a-pic-args/inputs/aps-approval.json": "42d4f65adee866e95abc585493c6b9b57071987bb2f2df13d3c256f5063e8a3c",
+        "cases/n1a-pic-args/inputs/aps-intent.json": "e29a976be21d3b93ff0df7cd7c1d44e774975c9e3ad11ab94f1bb54380ba01a2",
+        "cases/n1a-pic-args/inputs/aps-payload.json": "f33b6fe4b1b12c3ecaed8c79b35874a2a5fb6e693fdb128cd1c39dd742fbb3b0",
+        "cases/n1a-pic-args/inputs/decision-evidence.json": "fca467c01a6252d216d6845a230ce0dae9bcc3419d831e269e8bd92c2117d2e6",
+        "cases/n1a-pic-args/inputs/pic-proposal.json": "9b815637a22b625840270627fabbc6ac38ab61e97783a4f04f1a2543918a2546",
+        "cases/n1a-pic-args/inputs/pic-verification.json": "e978bf8efca43d742e06cf2050bbe2265f38caffb974e1833c60a7a36019e29e",
+        "cases/n1a-pic-args/trust/aps-consumption.json": "bf6b55bfe1d816d35b4bb76fa819940c2cbacc079cafd47d58a2f7694ff6a871",
+        "cases/n1a-pic-args/trust/handoff-evaluation.json": "9ead0cd5584b1581e7b14ff158faac2b4470290e96f3c5e52169a3e41b0dbbc9",
+        "cases/n1a-pic-args/trust/handoff-issuance.json": "4bc619212384e0cfe61028cfd36dd16f1242b3753b2722724a3704f795927b12",
+        "cases/n1a-pic-args/trust/pic-keys.json": "c9129f3ab83f7e464574a5aac46f48275ffdef07b5c8fa3645fd8a61d18114c1",
+        "cases/n1b-aps-payload/inputs/aps-action.json": "3abb7176936036054678e886861fb81d2fcacf893fe7d3fea1cf17a593819d7e",
+        "cases/n1b-aps-payload/inputs/aps-approval.json": "accc2225043a7ef5518ebb6efe8b1c587681415ce07f2635c29cf71153bcf94d",
+        "cases/n1b-aps-payload/inputs/aps-intent.json": "502d2e4192b627e76938eab2c7e57e3f2daeff3de1688e01ae90599dcd863e15",
+        "cases/n1b-aps-payload/inputs/aps-payload.json": "95b5f7eff43adcd062d62d019aa4fba48ae350c4e90c5e02ca1188083adeae61",
+        "cases/n1b-aps-payload/inputs/decision-evidence.json": "497239f52ca2bd1ceefebee170938265d184d000787bfb85a08e7d033f49ee60",
+        "cases/n1b-aps-payload/inputs/pic-proposal.json": "9bc7b377ee476bfa7b6b6b75f07610d65d3caed82a0154fda76ced3ebbda8c40",
+        "cases/n1b-aps-payload/inputs/pic-verification.json": "f05926bc692e776f7641e27d0bb4b239ac7f31f374f4da0d210d9941cb246311",
+        "cases/n1b-aps-payload/trust/aps-consumption.json": "e8fd359116d9a6cc5800a7ea79f9ebf62faaadf4f3fba4f5f549620f6d7a7172",
+        "cases/n1b-aps-payload/trust/handoff-evaluation.json": "9ead0cd5584b1581e7b14ff158faac2b4470290e96f3c5e52169a3e41b0dbbc9",
+        "cases/n1b-aps-payload/trust/handoff-issuance.json": "4bc619212384e0cfe61028cfd36dd16f1242b3753b2722724a3704f795927b12",
+        "cases/n1b-aps-payload/trust/pic-keys.json": "c9129f3ab83f7e464574a5aac46f48275ffdef07b5c8fa3645fd8a61d18114c1",
+        "cases/n3-reissue/inputs/aps-action.json": "d240322c0cfc2cbdf4689426cde3b438b0fd5df43e2546b12af53c18f6038d3d",
+        "cases/n3-reissue/inputs/aps-approval.json": "8ef521879931915c0ab69d2acfc6b97466335d23eab29a83e982b75799835a9d",
+        "cases/n3-reissue/inputs/aps-intent.json": "7693e9f4e69f3c9aec6ba592282635e35ad74b87499ed9b3547842f959b93fc2",
+        "cases/n3-reissue/inputs/aps-payload.json": "06308c11ca6c26e4d0b423eb6dc2d0f9640a4e7fb89588b41606677d43fb13d3",
+        "cases/n3-reissue/inputs/decision-evidence.json": "747a697eafdc5823a9ee7a390e526e464a97787d2fda262589f1b7d2f6a68115",
+        "cases/n3-reissue/inputs/pic-proposal.json": "1e182979c635555ad0fff4f19da75fc85ff18be7a12867e725a60360cd587e0a",
+        "cases/n3-reissue/inputs/pic-verification.json": "3378e85143873f26ef3e427992cd125536c002e07b640a65a78d6d24249f548a",
+        "cases/n3-reissue/trust/aps-consumption.json": "b191451af9d940a113afff713760917a00d1f1d4923da6446da7dec16b324f11",
+        "cases/n3-reissue/trust/handoff-evaluation.json": "9ead0cd5584b1581e7b14ff158faac2b4470290e96f3c5e52169a3e41b0dbbc9",
+        "cases/n3-reissue/trust/handoff-issuance.json": "4bc619212384e0cfe61028cfd36dd16f1242b3753b2722724a3704f795927b12",
+        "cases/n3-reissue/trust/pic-keys.json": "c9129f3ab83f7e464574a5aac46f48275ffdef07b5c8fa3645fd8a61d18114c1",
+        "cases/n3b-old-pic/inputs/aps-action.json": "d240322c0cfc2cbdf4689426cde3b438b0fd5df43e2546b12af53c18f6038d3d",
+        "cases/n3b-old-pic/inputs/aps-approval.json": "8ef521879931915c0ab69d2acfc6b97466335d23eab29a83e982b75799835a9d",
+        "cases/n3b-old-pic/inputs/aps-intent.json": "7693e9f4e69f3c9aec6ba592282635e35ad74b87499ed9b3547842f959b93fc2",
+        "cases/n3b-old-pic/inputs/aps-payload.json": "06308c11ca6c26e4d0b423eb6dc2d0f9640a4e7fb89588b41606677d43fb13d3",
+        "cases/n3b-old-pic/inputs/decision-evidence.json": "747a697eafdc5823a9ee7a390e526e464a97787d2fda262589f1b7d2f6a68115",
+        "cases/n3b-old-pic/inputs/pic-proposal.json": "4f240393358b88b31f846ffac21f056265f0f2e016a42b50727b5c8314205ca0",
+        "cases/n3b-old-pic/inputs/pic-verification.json": "b6460064fcea463975589bdfa0687a778588048140015f78faa9a9657c979f01",
+        "cases/n3b-old-pic/trust/aps-consumption.json": "b191451af9d940a113afff713760917a00d1f1d4923da6446da7dec16b324f11",
+        "cases/n3b-old-pic/trust/handoff-evaluation.json": "9ead0cd5584b1581e7b14ff158faac2b4470290e96f3c5e52169a3e41b0dbbc9",
+        "cases/n3b-old-pic/trust/handoff-issuance.json": "4bc619212384e0cfe61028cfd36dd16f1242b3753b2722724a3704f795927b12",
+        "cases/n3b-old-pic/trust/pic-keys.json": "c9129f3ab83f7e464574a5aac46f48275ffdef07b5c8fa3645fd8a61d18114c1",
+        "cases/n4-lost-ack/inputs/aps-action.json": "f557653ac1e460859eada47368d04424d644adbaf8980b0a44a0d6235bd47df8",
+        "cases/n4-lost-ack/inputs/aps-approval.json": "aba24190eed8773896a044f07da1853c3c299a828639af587168e9dc203a5e50",
+        "cases/n4-lost-ack/inputs/aps-intent.json": "0fd6ff611117a5637ca9d582d2c1d36e31babde7221c14e9821c47ef25c2d42e",
+        "cases/n4-lost-ack/inputs/aps-payload.json": "e212d8d2edd9aef30ee2a01f977ffa793cb26ae52089795a752fb9033b87dbd6",
+        "cases/n4-lost-ack/inputs/decision-evidence.json": "faf33733193406df6eefc18a3fdf96cec8d3bdfb0801b1be607f84d87a0a5524",
+        "cases/n4-lost-ack/inputs/pic-proposal.json": "995e5c6dc703c7ad8bfdbe2a991b40fa0fd3836279f4ec77f644b8230f4abcac",
+        "cases/n4-lost-ack/inputs/pic-verification.json": "3a87eca67212ce4d327a20db259866b1957caede9baaee60af56cef772962c3e",
+        "cases/n4-lost-ack/trust/aps-consumption.json": "67bc43a11023d9215c6ec47ccaddc82b07f6d4405f94f9cfe369653a8e8a67f4",
+        "cases/n4-lost-ack/trust/handoff-evaluation.json": "9ead0cd5584b1581e7b14ff158faac2b4470290e96f3c5e52169a3e41b0dbbc9",
+        "cases/n4-lost-ack/trust/handoff-issuance.json": "4bc619212384e0cfe61028cfd36dd16f1242b3753b2722724a3704f795927b12",
+        "cases/n4-lost-ack/trust/pic-keys.json": "c9129f3ab83f7e464574a5aac46f48275ffdef07b5c8fa3645fd8a61d18114c1",
+        "executor/report-context-j01.json": "109c606d8fe27e6beed9b39a06bb75cff302d79727e1aea125e65ca125bd22b4",
+        "executor/report-context-n4.json": "7df26f86a74a645bc740835e32cfd459e680b69c9040d4abeae869a5df9a4623",
+        "results.json": "842fd6677a7e60951cbb803ae33f2b2b0904c4f4ad39b5ecf1e16bca460e508d",
+        "signer/j01.handoff.json": "3601851c03caf560d572334d75b0b88874dacc235931ae1ac46d0bb0a2526583",
+        "signer/n3.resolution.json": "2d5194127ac189db2e81f099ec3d92f14a5a2ca75d3c8843367d6812b525df64",
+        "signer/n4.handoff.json": "4520b9a61d264aa0ecb268fad7a3394ed501a6d2369433de79b5f84a5f15b2ec",
+        "sim/sim.json": "39e41058e8441a7925d45881d0cd6149da73ed6845db36ea00c37eacefde83f8",
+        "trust/handoff-evaluation.json": "9ead0cd5584b1581e7b14ff158faac2b4470290e96f3c5e52169a3e41b0dbbc9",
+        "trust/handoff-issuance.json": "4bc619212384e0cfe61028cfd36dd16f1242b3753b2722724a3704f795927b12",
+        "verdicts.json": "5e23abe9700a3e6626012d84f061820d0a56a2817fa4b56ceb8969cb9a0ed392"
+      },
+      "note": "run before the dispatch-window fix: the executor stopped before it dispatched",
+      "path": "source/j01-connected-20261028-r1"
+    },
+    "r2": {
+      "files": {
+        "VERDICTS.md": "df7c4d9cddd5b6fa562d0e88e60c7e2340acf8f863dffb8b4216106996e279f2",
+        "admission/state.json": "dc378aa49d25e5304124b5846683703f4a7a7ef57d6abd6bcf549a5c5fbc67db",
+        "cases/j01/inputs/aps-action.json": "db6d99d0c501a3f7ffb7e23dc260f864dfc279a233bfd588998b16413cb06d44",
+        "cases/j01/inputs/aps-approval.json": "5f942a4c6abe9c4295672ec2d170ee23831a816f2a3e1e0952cc72e62773b796",
+        "cases/j01/inputs/aps-intent.json": "11e78d8b5f68bb052466f7abbd98351f6f1f0561130513921cf3b0dae77a8324",
+        "cases/j01/inputs/aps-payload.json": "06308c11ca6c26e4d0b423eb6dc2d0f9640a4e7fb89588b41606677d43fb13d3",
+        "cases/j01/inputs/decision-evidence.json": "d3f89d5bb1f114dd6fff3e38fc9d7c63c6e5be80c092d0dcc4dd436a3babfc04",
+        "cases/j01/inputs/pic-proposal.json": "b8c2a5a696138f30514ce5dd046d1141062891f14a5f8826f994d940b60b826b",
+        "cases/j01/inputs/pic-verification.json": "0ef29cfab6656cb0b09c0b5be06aadbf4fe62d055151ddb30cb66656b044177e",
+        "cases/j01/trust/aps-consumption.json": "b191451af9d940a113afff713760917a00d1f1d4923da6446da7dec16b324f11",
+        "cases/j01/trust/handoff-evaluation.json": "e222275ae7b431a86c1b3804638578b6315591fa4dc95a10e32ad8dbc80e9344",
+        "cases/j01/trust/handoff-issuance.json": "4bc619212384e0cfe61028cfd36dd16f1242b3753b2722724a3704f795927b12",
+        "cases/j01/trust/pic-keys.json": "c9129f3ab83f7e464574a5aac46f48275ffdef07b5c8fa3645fd8a61d18114c1",
+        "cases/n1a-pic-args/inputs/aps-action.json": "bcd94b138ec69db52683a270c2059721750d6ffebf50a87f74a4bfbb753db0d3",
+        "cases/n1a-pic-args/inputs/aps-approval.json": "91b0aefa6b2fa1ea9a8179a717d877ad82843a642e1e7c815624645862fe1b14",
+        "cases/n1a-pic-args/inputs/aps-intent.json": "90a01f60bfe0e0ba2f9dea7224876fe800ce73dcefd778c1e5feae3e7cbe1500",
+        "cases/n1a-pic-args/inputs/aps-payload.json": "f33b6fe4b1b12c3ecaed8c79b35874a2a5fb6e693fdb128cd1c39dd742fbb3b0",
+        "cases/n1a-pic-args/inputs/decision-evidence.json": "e9a5f3cd4b56257beb939cea8806842afa814c42e82e099e9bb4031449127328",
+        "cases/n1a-pic-args/inputs/pic-proposal.json": "e113ec4ead3a71ad8aa34c0fc5a339e147d3d81e00714df5e74567ca7950ecdd",
+        "cases/n1a-pic-args/inputs/pic-verification.json": "e49c1b4fc7d726e62ce6c00c4065104078b4492c74df51883b4cc4eb5b637ab7",
+        "cases/n1a-pic-args/trust/aps-consumption.json": "bf6b55bfe1d816d35b4bb76fa819940c2cbacc079cafd47d58a2f7694ff6a871",
+        "cases/n1a-pic-args/trust/handoff-evaluation.json": "e222275ae7b431a86c1b3804638578b6315591fa4dc95a10e32ad8dbc80e9344",
+        "cases/n1a-pic-args/trust/handoff-issuance.json": "4bc619212384e0cfe61028cfd36dd16f1242b3753b2722724a3704f795927b12",
+        "cases/n1a-pic-args/trust/pic-keys.json": "c9129f3ab83f7e464574a5aac46f48275ffdef07b5c8fa3645fd8a61d18114c1",
+        "cases/n1b-aps-payload/inputs/aps-action.json": "60434a4c37b124d41f4f87b05e9f94925c7a46e6ce1680b5765c17f7386426d1",
+        "cases/n1b-aps-payload/inputs/aps-approval.json": "8e747b69d4378e203e27d5afba80a056664256900fbc7bb96fc12ba25fa498bd",
+        "cases/n1b-aps-payload/inputs/aps-intent.json": "80542b61ed7c6026bc6f1b7334d068147b51614c306bf318df4a0b91ee8c2857",
+        "cases/n1b-aps-payload/inputs/aps-payload.json": "95b5f7eff43adcd062d62d019aa4fba48ae350c4e90c5e02ca1188083adeae61",
+        "cases/n1b-aps-payload/inputs/decision-evidence.json": "f5ad67978c23a8897f63aed1895e47c1339d85a1a17d293ba1d02b19870599bb",
+        "cases/n1b-aps-payload/inputs/pic-proposal.json": "bb2d8b2139dc3867f1c5f6e02aa40678050b8d7257366cfd1ef79a43ac46f300",
+        "cases/n1b-aps-payload/inputs/pic-verification.json": "b1cf36f1c1837a61fd25b9be2007593bee0ade534108d05fced7a5f37103cc54",
+        "cases/n1b-aps-payload/trust/aps-consumption.json": "e8fd359116d9a6cc5800a7ea79f9ebf62faaadf4f3fba4f5f549620f6d7a7172",
+        "cases/n1b-aps-payload/trust/handoff-evaluation.json": "e222275ae7b431a86c1b3804638578b6315591fa4dc95a10e32ad8dbc80e9344",
+        "cases/n1b-aps-payload/trust/handoff-issuance.json": "4bc619212384e0cfe61028cfd36dd16f1242b3753b2722724a3704f795927b12",
+        "cases/n1b-aps-payload/trust/pic-keys.json": "c9129f3ab83f7e464574a5aac46f48275ffdef07b5c8fa3645fd8a61d18114c1",
+        "cases/n3-reissue/inputs/aps-action.json": "db6d99d0c501a3f7ffb7e23dc260f864dfc279a233bfd588998b16413cb06d44",
+        "cases/n3-reissue/inputs/aps-approval.json": "b4f4e300008b50a6480fff4d007ed5a328af5698f3a5f2c6e7b8eefa2637718c",
+        "cases/n3-reissue/inputs/aps-intent.json": "11e78d8b5f68bb052466f7abbd98351f6f1f0561130513921cf3b0dae77a8324",
+        "cases/n3-reissue/inputs/aps-payload.json": "06308c11ca6c26e4d0b423eb6dc2d0f9640a4e7fb89588b41606677d43fb13d3",
+        "cases/n3-reissue/inputs/decision-evidence.json": "211dbb440c490de17e98897ce5d1d84011abc3fe6defa6d385d4aaeeffd40845",
+        "cases/n3-reissue/inputs/pic-proposal.json": "79c32cb0700f0e4c3eb9e7b5d08b55370170f79fb25034a5ad37026c525a88bd",
+        "cases/n3-reissue/inputs/pic-verification.json": "58758743102c954af1eaba55a50599de06cbb30a10f89f1830cc1b318f8a7cda",
+        "cases/n3-reissue/trust/aps-consumption.json": "b191451af9d940a113afff713760917a00d1f1d4923da6446da7dec16b324f11",
+        "cases/n3-reissue/trust/handoff-evaluation.json": "e222275ae7b431a86c1b3804638578b6315591fa4dc95a10e32ad8dbc80e9344",
+        "cases/n3-reissue/trust/handoff-issuance.json": "4bc619212384e0cfe61028cfd36dd16f1242b3753b2722724a3704f795927b12",
+        "cases/n3-reissue/trust/pic-keys.json": "c9129f3ab83f7e464574a5aac46f48275ffdef07b5c8fa3645fd8a61d18114c1",
+        "cases/n3b-old-pic/inputs/aps-action.json": "db6d99d0c501a3f7ffb7e23dc260f864dfc279a233bfd588998b16413cb06d44",
+        "cases/n3b-old-pic/inputs/aps-approval.json": "b4f4e300008b50a6480fff4d007ed5a328af5698f3a5f2c6e7b8eefa2637718c",
+        "cases/n3b-old-pic/inputs/aps-intent.json": "11e78d8b5f68bb052466f7abbd98351f6f1f0561130513921cf3b0dae77a8324",
+        "cases/n3b-old-pic/inputs/aps-payload.json": "06308c11ca6c26e4d0b423eb6dc2d0f9640a4e7fb89588b41606677d43fb13d3",
+        "cases/n3b-old-pic/inputs/decision-evidence.json": "211dbb440c490de17e98897ce5d1d84011abc3fe6defa6d385d4aaeeffd40845",
+        "cases/n3b-old-pic/inputs/pic-proposal.json": "b8c2a5a696138f30514ce5dd046d1141062891f14a5f8826f994d940b60b826b",
+        "cases/n3b-old-pic/inputs/pic-verification.json": "daad6abe4b7aa6ffddf2e6764a22330c0dec13c09a606a21766af6d910909a4e",
+        "cases/n3b-old-pic/trust/aps-consumption.json": "b191451af9d940a113afff713760917a00d1f1d4923da6446da7dec16b324f11",
+        "cases/n3b-old-pic/trust/handoff-evaluation.json": "e222275ae7b431a86c1b3804638578b6315591fa4dc95a10e32ad8dbc80e9344",
+        "cases/n3b-old-pic/trust/handoff-issuance.json": "4bc619212384e0cfe61028cfd36dd16f1242b3753b2722724a3704f795927b12",
+        "cases/n3b-old-pic/trust/pic-keys.json": "c9129f3ab83f7e464574a5aac46f48275ffdef07b5c8fa3645fd8a61d18114c1",
+        "cases/n4-lost-ack/inputs/aps-action.json": "c1e89351f9a192064372f4fc645b1a8399f2e8fe2b4e1ab93381d0e65398e81d",
+        "cases/n4-lost-ack/inputs/aps-approval.json": "2ed382e6bcfed203a014a04dd49eda740fbdac5d009b4ff253193740ac02182d",
+        "cases/n4-lost-ack/inputs/aps-intent.json": "a51e3cc2863bf055299965472119a4739c12db818cb7d34c9fdfb344d4ca5be7",
+        "cases/n4-lost-ack/inputs/aps-payload.json": "e212d8d2edd9aef30ee2a01f977ffa793cb26ae52089795a752fb9033b87dbd6",
+        "cases/n4-lost-ack/inputs/decision-evidence.json": "a4f785a6195621cee80e27f3cd04bc1d809af0c781ef02cea1a785d8c3122f2f",
+        "cases/n4-lost-ack/inputs/pic-proposal.json": "605d53e9a447021372df6a5a9ed89205ca6540d3e6060875c20911ed70a90a31",
+        "cases/n4-lost-ack/inputs/pic-verification.json": "d76f9e7da6c1e4f09e678578a5930b61945be7f5b327ca490c616d54371f464d",
+        "cases/n4-lost-ack/trust/aps-consumption.json": "67bc43a11023d9215c6ec47ccaddc82b07f6d4405f94f9cfe369653a8e8a67f4",
+        "cases/n4-lost-ack/trust/handoff-evaluation.json": "e222275ae7b431a86c1b3804638578b6315591fa4dc95a10e32ad8dbc80e9344",
+        "cases/n4-lost-ack/trust/handoff-issuance.json": "4bc619212384e0cfe61028cfd36dd16f1242b3753b2722724a3704f795927b12",
+        "cases/n4-lost-ack/trust/pic-keys.json": "c9129f3ab83f7e464574a5aac46f48275ffdef07b5c8fa3645fd8a61d18114c1",
+        "executor/attempts.jsonl": "8ed1074c4ebcceef6a71e9a81eaad2008ec80e0fc89d0d0621bb353fe2737725",
+        "executor/effects.jsonl": "7d8d3b3df660f2d93c4321a9b35c178b7fea6befb0e888a8db8dc2d6a94be399",
+        "executor/observations.jsonl": "fd450d0769029e8cb895c2b21a380ff2df29d512591e18938af413897d780542",
+        "executor/operations.json": "98e084bcf983bfcb38b3a4c8558243f0ca059ad656d7515d08b032967a0f1856",
+        "executor/outcomes.jsonl": "c5d351b07dd9124035a588a7d4625144f516fc87ab32cbc351e4a6fcccac0e2a",
+        "executor/raw/dispatch-times.jsonl": "5790217743ed49907cc868ec7f1b00710f6ba90371d2e2d6b869286c6d31df43",
+        "executor/raw/op-0c47260b6ceba041-a1-o.json": "f944a84855fb2abb07a01b470077c8971938393054706caa719469a5c1b8ec09",
+        "executor/raw/op-febd39b142add9e1-a2-o.json": "3b25fef05b3590ed6b2c26b451f84a6aa70e6981bb5e104ee704fc31c62dca06",
+        "executor/report-context-j01.json": "4ba711edf68888573b275d18f84815acb40c376d0631b4929949ad417a1245c4",
+        "executor/report-context-n4.json": "cf76c20cd5fee76ebe4ec3068c2a5fb1b11826bab5ec543485191ac95a1cd2f4",
+        "results.json": "7d9e8be3921387b50ed676be851780b872030cc1e4f2d53b6a11da35a670c544",
+        "signer/j01.handoff.json": "71dbfacdc1dcf4b85857ded8e635bc2cef6bac1e0f811f66f9f98edc18817b2e",
+        "signer/n2-resigned.handoff.json": "455df9c50fea0821933b9312e908efa0c2e516e3958661528f34ac448d74b94d",
+        "signer/n3.resolution.json": "fbe7104ee228da40e0494333518771f857e8a88cac39b1c940afabe85e345d2a",
+        "signer/n4.handoff.json": "0ce8f78138bc6b4ee0393e69d1ae6f1b4e29820c4df366f155bdd074ad0a7aae",
+        "sim/sim.json": "3b25fef05b3590ed6b2c26b451f84a6aa70e6981bb5e104ee704fc31c62dca06",
+        "trust/handoff-evaluation.json": "e222275ae7b431a86c1b3804638578b6315591fa4dc95a10e32ad8dbc80e9344",
+        "trust/handoff-issuance.json": "4bc619212384e0cfe61028cfd36dd16f1242b3753b2722724a3704f795927b12",
+        "verdicts.json": "84e03326b2ae8e67f56f9912160347c4da84899747cd5bd17e5ab4466d95c28d"
+      },
+      "note": "run after the fix: every layer held and each effect is bound to its operation",
+      "path": "source/j01-connected-20261028-r2"
+    }
+  },
+  "source": {
+    "commit": "dcc07c3cdde0ca4beab6f7b5afe6a7e15801eb58",
+    "path": "examples/checkout-runner/connected/runs"
+  },
+  "suite": "refund-connected/v1",
+  "vectors": [
+    {
+      "case": "j01",
+      "expected": {
+        "run_checks": {
+          "effect_count": "ESTABLISHED",
+          "effect_count_per_key": "ESTABLISHED",
+          "no_alternate_arguments": "ESTABLISHED",
+          "no_orphan_records": "ESTABLISHED",
+          "replay_single_effect": "ESTABLISHED"
+        },
+        "steps": {
+          "admission": "ESTABLISHED",
+          "execution": "NOT_ESTABLISHED:no-dispatch-attempt",
+          "input_aps": "ESTABLISHED",
+          "input_pic": "ESTABLISHED",
+          "observed_effect": "NOT_REACHED",
+          "signature_trust": "ESTABLISHED"
+        }
+      },
+      "id": "r1-j01",
+      "path": "source/j01-connected-20261028-r1",
+      "run": "r1"
+    },
+    {
+      "case": "n1a-pic-args",
+      "expected": {
+        "run_checks": {
+          "effect_count": "ESTABLISHED",
+          "effect_count_per_key": "ESTABLISHED",
+          "no_alternate_arguments": "ESTABLISHED",
+          "no_orphan_records": "ESTABLISHED",
+          "replay_single_effect": "ESTABLISHED"
+        },
+        "steps": {
+          "admission": "NOT_REACHED",
+          "execution": "NOT_REACHED",
+          "input_aps": "NOT_REACHED",
+          "input_pic": "REFUSED:PIC_ARGS_DIGEST",
+          "observed_effect": "NOT_REACHED",
+          "signature_trust": "NOT_REACHED"
+        }
+      },
+      "id": "r1-n1a-pic-args",
+      "path": "source/j01-connected-20261028-r1",
+      "run": "r1"
+    },
+    {
+      "case": "n1b-aps-payload",
+      "expected": {
+        "run_checks": {
+          "effect_count": "ESTABLISHED",
+          "effect_count_per_key": "ESTABLISHED",
+          "no_alternate_arguments": "ESTABLISHED",
+          "no_orphan_records": "ESTABLISHED",
+          "replay_single_effect": "ESTABLISHED"
+        },
+        "steps": {
+          "admission": "NOT_REACHED",
+          "execution": "NOT_REACHED",
+          "input_aps": "REFUSED:PAYLOAD_REF",
+          "input_pic": "ESTABLISHED",
+          "observed_effect": "NOT_REACHED",
+          "signature_trust": "NOT_REACHED"
+        }
+      },
+      "id": "r1-n1b-aps-payload",
+      "path": "source/j01-connected-20261028-r1",
+      "run": "r1"
+    },
+    {
+      "case": "n3-reissue",
+      "expected": {
+        "run_checks": {
+          "effect_count": "ESTABLISHED",
+          "effect_count_per_key": "ESTABLISHED",
+          "no_alternate_arguments": "ESTABLISHED",
+          "no_orphan_records": "ESTABLISHED",
+          "replay_single_effect": "ESTABLISHED"
+        },
+        "steps": {
+          "admission": "ESTABLISHED",
+          "execution": "NOT_REACHED",
+          "input_aps": "ESTABLISHED",
+          "input_pic": "ESTABLISHED",
+          "observed_effect": "NOT_REACHED",
+          "signature_trust": "ESTABLISHED"
+        }
+      },
+      "id": "r1-n3-reissue",
+      "path": "source/j01-connected-20261028-r1",
+      "run": "r1"
+    },
+    {
+      "case": "n3b-old-pic",
+      "expected": {
+        "run_checks": {
+          "effect_count": "ESTABLISHED",
+          "effect_count_per_key": "ESTABLISHED",
+          "no_alternate_arguments": "ESTABLISHED",
+          "no_orphan_records": "ESTABLISHED",
+          "replay_single_effect": "ESTABLISHED"
+        },
+        "steps": {
+          "admission": "NOT_REACHED",
+          "execution": "NOT_REACHED",
+          "input_aps": "REFUSED:APPROVAL_AFTER_CONSUMPTION",
+          "input_pic": "ESTABLISHED",
+          "observed_effect": "NOT_REACHED",
+          "signature_trust": "NOT_REACHED"
+        }
+      },
+      "id": "r1-n3b-old-pic",
+      "path": "source/j01-connected-20261028-r1",
+      "run": "r1"
+    },
+    {
+      "case": "n4-lost-ack",
+      "expected": {
+        "run_checks": {
+          "effect_count": "ESTABLISHED",
+          "effect_count_per_key": "ESTABLISHED",
+          "no_alternate_arguments": "ESTABLISHED",
+          "no_orphan_records": "ESTABLISHED",
+          "replay_single_effect": "ESTABLISHED"
+        },
+        "steps": {
+          "admission": "ESTABLISHED",
+          "execution": "NOT_ESTABLISHED:no-dispatch-attempt",
+          "input_aps": "ESTABLISHED",
+          "input_pic": "ESTABLISHED",
+          "observed_effect": "NOT_REACHED",
+          "signature_trust": "ESTABLISHED"
+        }
+      },
+      "id": "r1-n4-lost-ack",
+      "path": "source/j01-connected-20261028-r1",
+      "run": "r1"
+    },
+    {
+      "case": "j01",
+      "expected": {
+        "run_checks": {
+          "effect_count": "ESTABLISHED",
+          "effect_count_per_key": "ESTABLISHED",
+          "no_alternate_arguments": "ESTABLISHED",
+          "no_orphan_records": "ESTABLISHED",
+          "replay_single_effect": "ESTABLISHED"
+        },
+        "steps": {
+          "admission": "ESTABLISHED",
+          "execution": "ESTABLISHED",
+          "input_aps": "ESTABLISHED",
+          "input_pic": "ESTABLISHED",
+          "observed_effect": "ESTABLISHED",
+          "signature_trust": "ESTABLISHED"
+        }
+      },
+      "id": "r2-j01",
+      "path": "source/j01-connected-20261028-r2",
+      "run": "r2"
+    },
+    {
+      "case": "n1a-pic-args",
+      "expected": {
+        "run_checks": {
+          "effect_count": "ESTABLISHED",
+          "effect_count_per_key": "ESTABLISHED",
+          "no_alternate_arguments": "ESTABLISHED",
+          "no_orphan_records": "ESTABLISHED",
+          "replay_single_effect": "ESTABLISHED"
+        },
+        "steps": {
+          "admission": "NOT_REACHED",
+          "execution": "NOT_REACHED",
+          "input_aps": "NOT_REACHED",
+          "input_pic": "REFUSED:PIC_ARGS_DIGEST",
+          "observed_effect": "NOT_REACHED",
+          "signature_trust": "NOT_REACHED"
+        }
+      },
+      "id": "r2-n1a-pic-args",
+      "path": "source/j01-connected-20261028-r2",
+      "run": "r2"
+    },
+    {
+      "case": "n1b-aps-payload",
+      "expected": {
+        "run_checks": {
+          "effect_count": "ESTABLISHED",
+          "effect_count_per_key": "ESTABLISHED",
+          "no_alternate_arguments": "ESTABLISHED",
+          "no_orphan_records": "ESTABLISHED",
+          "replay_single_effect": "ESTABLISHED"
+        },
+        "steps": {
+          "admission": "NOT_REACHED",
+          "execution": "NOT_REACHED",
+          "input_aps": "REFUSED:PAYLOAD_REF",
+          "input_pic": "ESTABLISHED",
+          "observed_effect": "NOT_REACHED",
+          "signature_trust": "NOT_REACHED"
+        }
+      },
+      "id": "r2-n1b-aps-payload",
+      "path": "source/j01-connected-20261028-r2",
+      "run": "r2"
+    },
+    {
+      "case": "n3-reissue",
+      "expected": {
+        "run_checks": {
+          "effect_count": "ESTABLISHED",
+          "effect_count_per_key": "ESTABLISHED",
+          "no_alternate_arguments": "ESTABLISHED",
+          "no_orphan_records": "ESTABLISHED",
+          "replay_single_effect": "ESTABLISHED"
+        },
+        "steps": {
+          "admission": "ESTABLISHED",
+          "execution": "NOT_REACHED",
+          "input_aps": "ESTABLISHED",
+          "input_pic": "ESTABLISHED",
+          "observed_effect": "NOT_REACHED",
+          "signature_trust": "ESTABLISHED"
+        }
+      },
+      "id": "r2-n3-reissue",
+      "path": "source/j01-connected-20261028-r2",
+      "run": "r2"
+    },
+    {
+      "case": "n3b-old-pic",
+      "expected": {
+        "run_checks": {
+          "effect_count": "ESTABLISHED",
+          "effect_count_per_key": "ESTABLISHED",
+          "no_alternate_arguments": "ESTABLISHED",
+          "no_orphan_records": "ESTABLISHED",
+          "replay_single_effect": "ESTABLISHED"
+        },
+        "steps": {
+          "admission": "NOT_REACHED",
+          "execution": "NOT_REACHED",
+          "input_aps": "REFUSED:APPROVAL_AFTER_CONSUMPTION",
+          "input_pic": "ESTABLISHED",
+          "observed_effect": "NOT_REACHED",
+          "signature_trust": "NOT_REACHED"
+        }
+      },
+      "id": "r2-n3b-old-pic",
+      "path": "source/j01-connected-20261028-r2",
+      "run": "r2"
+    },
+    {
+      "case": "n4-lost-ack",
+      "expected": {
+        "run_checks": {
+          "effect_count": "ESTABLISHED",
+          "effect_count_per_key": "ESTABLISHED",
+          "no_alternate_arguments": "ESTABLISHED",
+          "no_orphan_records": "ESTABLISHED",
+          "replay_single_effect": "ESTABLISHED"
+        },
+        "steps": {
+          "admission": "ESTABLISHED",
+          "execution": "ESTABLISHED",
+          "input_aps": "ESTABLISHED",
+          "input_pic": "ESTABLISHED",
+          "observed_effect": "ESTABLISHED",
+          "signature_trust": "ESTABLISHED"
+        }
+      },
+      "id": "r2-n4-lost-ack",
+      "path": "source/j01-connected-20261028-r2",
+      "run": "r2"
+    }
+  ]
+}

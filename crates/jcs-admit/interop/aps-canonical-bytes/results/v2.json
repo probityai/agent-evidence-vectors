@@ -1,0 +1,96 @@
+{
+  "cases": [
+    {
+      "actual_bytes_hex": "7b2276616c7565223a302e317d",
+      "actual_sha256": "097a678e9d1339735cc744964f1c2b1271b2e650d7c59c72d2ff1c93064ceb6e",
+      "byte_match": true,
+      "first_divergent_byte_offset": null,
+      "name": "float-tenth",
+      "sha256_match": true
+    },
+    {
+      "actual_bytes_hex": "7b2276616c7565223a31652b32317d",
+      "actual_sha256": "776bf0d292f3767fdfca3fdc9683d0ba51886b8e6e79cd228a41bafcfa9a1a6f",
+      "byte_match": true,
+      "first_divergent_byte_offset": null,
+      "name": "float-1e21-boundary",
+      "sha256_match": true
+    },
+    {
+      "actual_bytes_hex": "7b2276616c7565223a307d",
+      "actual_sha256": "23d7b286bd429460b92a2a1c21b6afc34110446c5034c17363fda363aa0a7c5d",
+      "byte_match": true,
+      "first_divergent_byte_offset": null,
+      "name": "negative-zero",
+      "sha256_match": true
+    },
+    {
+      "actual_bytes_hex": "7b2276616c7565223a393030373139393235343734303939347d",
+      "actual_sha256": "ab21889a153140e1e3f9d33a98584898dad088dd462faa45c36b5686cf76aee3",
+      "byte_match": true,
+      "first_divergent_byte_offset": null,
+      "name": "integer-above-2pow53",
+      "sha256_match": true
+    },
+    {
+      "actual_bytes_hex": "7b22646563223a302e3030303030312c22657870223a31652d377d",
+      "actual_sha256": "4ecf258561293513519a28337ef76c2ebb21c28cbcb13cf2def91616edab7de1",
+      "byte_match": true,
+      "first_divergent_byte_offset": null,
+      "name": "small-exponent-vs-decimal",
+      "sha256_match": true
+    },
+    {
+      "actual_bytes_hex": "7b22f09d8c86223a322c22efbda1223a317d",
+      "actual_sha256": "0ed25e94bd02f7ca63a6019a9671e12af3ce4b0ed0233c786ea424c9dd322047",
+      "byte_match": true,
+      "first_divergent_byte_offset": null,
+      "name": "astral-key-ordering",
+      "sha256_match": true
+    },
+    {
+      "actual_bytes_hex": "7b2263616665cc81223a312c22706c61696e223a327d",
+      "actual_sha256": "05ba6cbd8fd6ef6e0b64b4cb3d907bb9521369d0f50cb31d55e002460eef77df",
+      "byte_match": true,
+      "first_divergent_byte_offset": null,
+      "name": "nfd-key-used-as-given",
+      "sha256_match": true
+    },
+    {
+      "actual_bytes_hex": "7b22617272223a5b332c312c325d2c226f75746572223a7b2261223a312c2262223a327d7d",
+      "actual_sha256": "be6fc370ca7efc25ae4b5ee7736507cbbac8fbc8278cb3371d1b8020a2bd0ca3",
+      "byte_match": true,
+      "first_divergent_byte_offset": null,
+      "name": "nested-object-and-array",
+      "sha256_match": true
+    },
+    {
+      "actual_bytes_hex": "7b2276616c7565223a313135323932313530343630363834373030307d",
+      "actual_sha256": "001814306319dfed540de7a22f61e88baf0288ebe916380796e8995d5db5eb00",
+      "byte_match": true,
+      "first_divergent_byte_offset": null,
+      "name": "integer-2pow60-inside-int64",
+      "sha256_match": true
+    },
+    {
+      "actual_bytes_hex": "7b2276616c7565223a3239353134373930353137393335323833303030307d",
+      "actual_sha256": "57c82398dfd8be4a4ac903d1d2d01beee4c1d7179c9a5afc574bdf972646783b",
+      "byte_match": true,
+      "first_divergent_byte_offset": null,
+      "name": "integer-2pow68-above-int64",
+      "sha256_match": true
+    }
+  ],
+  "fixture": "fixtures/canonical-bytes-jcs-v2.json",
+  "fixture_sha256": "9502d72102b10f083ce91529e025e4a9c8a18881c5a9ec8f9ac46b1c0e48f593",
+  "implementation": "jcs_admit::admit",
+  "implementation_kind": "rfc8785",
+  "implementation_version": "0.1.0",
+  "runner": "rust",
+  "runtime_version": "rustc 1.90.0 (1159e78c4 2025-09-14)",
+  "summary": {
+    "byte_match": 10,
+    "sha256_match": 10,
+    "total": 10
+  }
+}

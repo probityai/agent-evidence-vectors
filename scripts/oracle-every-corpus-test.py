@@ -59,11 +59,14 @@ RUNS_A_VERIFIER = (
     "vectors-converted-argument-binding",
     "vectors-dispatch-fence",
     "vectors-grade-floor",
+    "vectors-connector-scope",
+    "vectors-agent-payment-mandate",
     "vectors-identity-binding",
     "vectors-receipt-chain-end",
     "vectors-receipt-signature",
     "vectors-scitt-cose",
     "vectors-source-coverage",
+    "vectors-open-weight-art53",
     "vectors-trace-anchor",
 )
 
@@ -92,6 +95,7 @@ REFUSES_A_VERIFIER = (
     "vectors-mcp-record-contract",
     "vectors-mcp-response-phase",
     "vectors-observed-effect",
+    "vectors-refund-connected",
     "vectors-self-reported-record",
     "vectors-w3c-report",
     "vectors-w3c-intake",

@@ -1,0 +1,106 @@
+--- a/read_corpus.py
++++ b/read_corpus.py
+@@ -19,7 +19,9 @@
+ from cryptography.hazmat.backends.openssl.backend import backend
+ from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
+ 
+-FIXTURE_SHA256 = "9fce76dbf13de9749a2ef52c8dedecce08e4874da0203b39a7d941eb479b5ac5"
++FIXTURE_COMMIT = "e061462cea95b029203374496bbd14488d8d2993"
++FIXTURE_SHA256 = "9bd1f1849910c85f0555baf8efaa529aa9d057dce13c24606285b8643a003b89"
++SUPERSEDES_SHA256 = "9fce76dbf13de9749a2ef52c8dedecce08e4874da0203b39a7d941eb479b5ac5"
+ ID_DOMAIN = b"APS-PASSPORT-ID-V2\0"
+ SIGNATURE_DOMAIN = b"APS-PASSPORT-SIG-V2\0"
+ BASE58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
+@@ -125,11 +127,17 @@
+ 
+ 
+ def structure(passport):
+-    if not isinstance(passport, dict) or set(passport) != FIELDS:
++    if not isinstance(passport, dict):
+         return "invalid", "closed wire object differs"
+-    assert_ascii_json(passport)
+-    if passport["record_type"] != "aps.agent-passport" or passport["version"] != "2.0":
++    record_type, version = passport.get("record_type"), passport.get("version")
++    if isinstance(record_type, str) and (
++        record_type != "aps.agent-passport"
++        or (isinstance(version, str) and version != "2.0")
++    ):
+         return "unsupported", "profile is outside the selected version"
++    if set(passport) != FIELDS:
++        return "invalid", "closed wire object differs"
++    assert_ascii_json(passport)
+     for name in FIELDS - {"self_asserted"}:
+         if not isinstance(passport[name], str):
+             return "invalid", "wire string field is not a string"
+@@ -203,7 +211,9 @@
+     raw = raw_checks(passport)
+     classification, reason = structure(passport)
+     layers = {
+-        "structure": "ok" if classification == "supported" else "rejected",
++        "structure": "ok"
++        if classification == "supported"
++        else ("unsupported" if classification == "unsupported" else "rejected"),
+         "passport_id": "not_checked",
+         "signature": "not_checked",
+         "validity_window": "not_checked",
+@@ -315,8 +325,13 @@
+     args = parser.parse_args()
+     raw = args.fixture.read_bytes()
+     if hashlib.sha256(raw).hexdigest() != FIXTURE_SHA256:
+-        raise ValueError("corrected immutable fixture bytes differ")
++        raise ValueError("revision 2 immutable fixture bytes differ")
+     fixture = json.loads(raw, object_pairs_hook=unique_object)
++    if (
++        fixture["family_revision"] != 2
++        or fixture["supersedes"]["sha256"] != SUPERSEDES_SHA256
++    ):
++        raise ValueError("fixture is not revision 2 of the pinned family")
+     cases = fixture["cases"]
+     if len(cases) != 20 or len({case["name"] for case in cases}) != 20:
+         raise ValueError("case population differs")
+@@ -348,20 +363,12 @@
+         row["readerOutcomeAgreesWithSDKObservation"] = (
+             row["readerOutcome"] == case["verification"]["state"]
+         )
+-        row["expectedOutcomeDivergence"] = case["name"] in {
+-            "did-web-resolver-not-found",
+-            "version-changed",
+-            "record-type-changed",
+-        }
+         acceptable = (
+             row["diagnosticLayersAgree"]
+             and row["resolverRequestsAgree"]
+             and row.get("frozenPreimagesAgree", True)
+         )
+-        acceptable = acceptable and (
+-            row["readerOutcomeAgreesWithSDKObservation"]
+-            != row["expectedOutcomeDivergence"]
+-        )
++        acceptable = acceptable and row["readerOutcomeAgreesWithSDKObservation"]
+         acceptable = acceptable and (
+             row["admittedByThisFiniteReader"]
+             == (case["verification"]["state"] == "valid")
+@@ -370,10 +377,12 @@
+             mismatches.append(case["name"])
+         rows.append(row)
+     report = {
+-        "schema": "probity.lab.aps-corrected20-independent-reader/v1",
++        "schema": "probity.lab.aps-corrected20-independent-reader/v2",
+         "at": datetime.now(timezone.utc).isoformat(),
+-        "fixtureCommit": "407ca2d5ad10c846860ad1b6faafc971ae9690e5",
++        "fixtureCommit": FIXTURE_COMMIT,
+         "fixtureSHA256": FIXTURE_SHA256,
++        "fixtureRevision": 2,
++        "supersedesFixtureSHA256": SUPERSEDES_SHA256,
+         "fixtureAuthor": "APS/AEOESS",
+         "readerOperator": "Probity",
+         "readerImportsAPSSDK": False,
+@@ -390,7 +399,7 @@
+         "limits": [
+             "Finite printable-ASCII corpus reader; not general JCS conformance.",
+             "Signature verification uses cryptography/OpenSSL; no independent cryptographic-backend claim.",
+-            "Diagnostic agreement does not force the five normatively undetermined SDK outcomes.",
++            "Agreement on the five annotated cases follows the producer's revision 2 outputs; draft-04 does not require those outcomes.",
+             "Resolver answers are supplied synthetic data, without historical validity windows or authenticated lookup.",
+             "No APS package qualification, principal binding, live DID lookup, host adoption, federation enrollment or commercial agreement.",
+         ],

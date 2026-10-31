@@ -1,0 +1,31 @@
+{
+  "actual_interpreters": [
+    "CPython 3.13.7, Linux x86_64",
+    "CPython 3.14.3, Linux x86_64"
+  ],
+  "all_272_per_case_outcomes_identical_across_interpreters": true,
+  "cases": 272,
+  "command": "agent-evidence-vectors --emit-w3c-report report.json",
+  "corpus_digest": "8b035678def9e5ac00ba761b8c640e4412c57163134afb9d2c1a90f49d573a52",
+  "dataset": "AEE conformance artifacts, not live agent workloads",
+  "expected_answers_exposed": true,
+  "external_verifier_environment": "AEE_EXTERNAL_VERIFIER removed; no --verifier supplied",
+  "harness_sha256": "ee349e66697a2f4f95dd8223fd261810f99f5f2807e03bde03c9a9f57359529d",
+  "install": "Install the exact retained wheel into an isolated interpreter with --no-deps --no-index. Run in an empty directory.",
+  "key_environment": "AEE_SUBSTRATE_KEYS removed; corpus's pinned test-key role retained",
+  "manifest_sha256": "bfa066d422881e03d0b5af3f2674c4743a7e60a78b08348955679499ab1e8c5e",
+  "new_model_inference": false,
+  "package": "agent-evidence-vectors==0.12.0",
+  "prospective_task_study": false,
+  "reference_rail": true,
+  "reference_reader_sha256": "b7124041730937637f79f613025b3484f60ec8dcdb722b13802927166d3f1421",
+  "result_sha256": "37288d8dfc01f56cb5ef553232258dc596928bc962e2309e0c7dc09ae588baf2",
+  "runner_sha256": "88f2a41c222dce7c1c6018d329055e68ae20b418a7e19805becb502f6753bd51",
+  "source_commit": "2f3aee40a454df6de0f571d119f057d7dbb8dd67",
+  "suite_revision": 28,
+  "unmodified_emitter_defaults": {
+    "domain": "d-aee-replay",
+    "tree_shape": "flat"
+  },
+  "wheel_sha256": "cb346a41f715029f8e68542150560b08a71ac23eb7660eaa411aea4fd2ec1f59"
+}

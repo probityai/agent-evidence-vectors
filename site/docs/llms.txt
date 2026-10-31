@@ -1,0 +1,42 @@
+# Probity AI
+
+> Tools and run records for checking claims about agent actions.
+
+## Guides
+
+- [Choose a project](https://probityai.github.io/agent-evidence-atlas/start.md): Tools grouped by the task you need.
+- [Automation](https://probityai.github.io/agent-evidence-atlas/automation.md): Read the catalog and pinned run records.
+- [Open Evidence Lab](https://probityai.github.io/agent-evidence-atlas/lab.md): Retained runs, submissions and corrections.
+- [Find a retained run](https://probityai.github.io/agent-evidence-atlas/runs.md): Search recorded claims, declared roles, limits and original evidence.
+- [Assurance atlas](https://probityai.github.io/agent-evidence-atlas/atlas.md): Projects, mechanisms and evidence boundaries.
+- [Experiments](https://probityai.github.io/agent-evidence-atlas/experiments.md): Pinned procedures and recorded results.
+- [Replay an evidence decision](https://probityai.github.io/agent-evidence-atlas/replay-an-evidence-decision.md): A retained admission and its state-preserving refusals.
+- [Run the APS and PriorSeal replay](https://probityai.github.io/agent-evidence-atlas/replay-tools.md): Declare the caller and retain pinned sources, process logs and results.
+- [Interpret a green test suite](https://probityai.github.io/agent-evidence-atlas/evidence-test-meaning.md): Separate test outcomes, record validity and action results using retained artifacts.
+- [Claim ledger](https://probityai.github.io/agent-evidence-atlas/claims.md): Sources and re-derive commands.
+- [Versions and source pins](https://probityai.github.io/agent-evidence-atlas/versions.md): Published releases, reviewed guides and historical result pins.
+- [Repository guide](https://probityai.github.io/agent-evidence-atlas/repository.md): Sources, checks and the site build.
+
+## Projects
+
+- [Probity Admission](https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/packages/admission/README.md): Component ID: `admission`. Provides a Python artifact-digest checker, admission policies for OPA, Kyverno and policy-controller, and a pre-call budget reservation API.
+- [Probity APS refund example](https://github.com/probityai/probity/blob/e2164379c19cf17a00356dfbdf625a998272ac58/packages/observer/docs/APS-REFUND-RETRIES.md): Profile ID: `aps-refund-retries`. Component ID: `observer`. Runs a local APS refund example that ties retries to approved actions and retains records for a separate reader.
+- [Probity artifact digest check](https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/packages/admission/python/README.md): Profile ID: `artifact-digest-check`. Component ID: `admission`. Checks an artifact against digests named by a TEA document, CycloneDX SBOM or VEX, or in-toto statement.
+- [Agent Evidence Conformance Board](https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/site/README.md): Component ID: `atlas`. Provides task-based project navigation, agent assurance documentation and an Open Evidence Lab run register.
+- [Checkout composition reference](https://github.com/probityai/probity/blob/e2164379c19cf17a00356dfbdf625a998272ac58/examples/checkout-runner/README.md): Component ID: `checkout-runner`. Runs a bounded synthetic checkout and refund composition as a CLI or Action, with separate decisions, attempts, effects and observations for offline replay.
+- [dsse](https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/crates/dsse/README.md): Component ID: `dsse`. Signs and verifies DSSE envelopes with explicit threshold and key handling.
+- [Probity native Inspect reader](https://github.com/probityai/probity/blob/e2164379c19cf17a00356dfbdf625a998272ac58/packages/observer/docs/NATIVE-CONSUMER-CI.md): Profile ID: `inspect-native-reader`. Component ID: `observer`. Reads selected retained Inspect execution profiles offline, preserving errors and unstarted attempts. Inspect accepted the catalog entry, and the live Inspect extensions catalog lists it as of October 14, 2026.
+- [jcs-admit](https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/crates/jcs-admit/README.md): Component ID: `jcs-admit`. Checks raw JSON input before producing its RFC 8785 canonical form.
+- [Probity MintID trace reader](https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/crates/jcs-admit/interop/mintid-trace-records-v2/README.md): Profile ID: `mintid-trace-records-v2`. Component ID: `jcs-admit`. Reads published MintID trace records after raw JSON admission and checks source-bound evidence and actor attribution.
+- [Probity Observer](https://github.com/probityai/probity/blob/e2164379c19cf17a00356dfbdf625a998272ac58/packages/observer/README.md): Component ID: `observer`. Records brokered file actions with signed packets and history, and reads selected native delegation evidence offline.
+- [Probity Ratchet](https://github.com/probityai/probity/blob/e2164379c19cf17a00356dfbdf625a998272ac58/packages/ratchet/README.md): Component ID: `ratchet`. Provides a source-tagged agent guard harness, signed admission records and public regression cases.
+- [Probity Ratchet public cases](https://github.com/probityai/probity/blob/e2164379c19cf17a00356dfbdf625a998272ac58/packages/ratchet/probity-ratchet-cases/README.md): Profile ID: `ratchet-cases`. Component ID: `ratchet`. Grades agent tasks in a simulated company on final state, with declared tool faults, traps and benign cases. All shipped splits are public.
+- [Agent Evidence Vectors](https://github.com/probityai/agent-evidence-vectors/blob/9e596fbff7bb29809d38319aebb56f2141923eb2/README.md): Component ID: `vectors`. Provides conformance cases and reference verifiers for selected agent evidence formats.
+- [Probity Verify](https://github.com/probityai/probity/blob/08a27efd567a754ce72a4c789e23f28924f49754/packages/probity-verify/README.md): Component ID: `verify`. Checks supplied evidence bytes through claim-specific offline adapters. Its README links to source-pinned installation and checked task recipes.
+- [Probity Vocabulary](https://github.com/probityai/agent-evidence/blob/44066a188c1b080b7c9bd5a73f6626c229baaa14/packages/vocabulary/README.md): Component ID: `vocabulary`. Defines versioned terms and crosswalks for claims about agent execution.
+- [Probity witnessed run selection](https://github.com/probityai/probity/blob/e2164379c19cf17a00356dfbdf625a998272ac58/packages/observer/docs/WITNESSED-RUN-SELECTION.md): Profile ID: `witnessed-run-selection`. Component ID: `observer`. Checks a supplied run against consumer-retained witness anchors, plan and control pins, and execution closure.
+
+## Data
+
+- [Project catalog](https://probityai.github.io/agent-evidence-atlas/catalog.json): Stable project IDs, tasks and pinned README sources.
+- [Lab register](https://probityai.github.io/agent-evidence-atlas/lab/register.json): Retained artifacts, results and review state.

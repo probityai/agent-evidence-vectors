@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Sankalp Gilda" />
+  <meta name="description" content="Open-source tools, conformance tests and retained runs for checking claims about agent actions." />
+  <title>Agent Evidence Conformance Board</title>
+  <link rel="canonical" href="https://probityai.github.io/agent-evidence-atlas/" />
+  <link rel="alternate" type="text/markdown" href="https://probityai.github.io/agent-evidence-atlas/index.md" />
+  <link rel="describedby" href="https://probityai.github.io/agent-evidence-atlas/llms.txt" />
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <nav aria-label="Site">
+    <a class="home" href="index.html">Agent Evidence Conformance Board</a>
+    <span class="links">
+      <a href="start.html">Choose a component</a>
+      <a href="lab.html">Open Evidence Lab</a>
+      <a href="status.html">Claim status</a>
+      <a href="runs.html">Find a run</a>
+      <a href="board.html">Conformance board</a>
+      <a href="pilot.html">Pilot status</a>
+      <a href="atlas.html">Atlas</a>
+      <a href="experiments.html">Experiments</a>
+      <a href="claims.html">Claims</a>
+      <a href="versions.html">Versions</a>
+    </span>
+  </nav>
+</header>
+<main id="main" tabindex="-1">
+<header class="page">
+<h1>Agent Evidence Conformance Board</h1>
+<p class="subtitle">Check claims about agent actions.</p>
+</header>
+<p>Probity builds evidence tools for agent harnesses, reviewers and platform teams. Use them to define claims, test verifiers, inspect action records and apply workload policy.</p>
+<p><a href="start.html">Choose a project</a> for your task, or <a href="runs.html">find a retained run</a> by its claims, roles and limits.</p>
+<h2 id="the-public-code">The public code</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Task / Start with">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Task</th>
+<th>Start with</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Define an evidence claim</td>
+<td><a href="start.html#vocabulary">Vocabulary</a></td>
+</tr>
+<tr>
+<td>Test a verifier</td>
+<td><a href="start.html#vectors">Vectors</a> · <a href="automation.html#check-a-verifier-in-ci">Recorded Action controls</a></td>
+</tr>
+<tr>
+<td>Record file actions or check delegation runs</td>
+<td><a href="start.html#observer">Observer</a></td>
+</tr>
+<tr>
+<td>Check a supplied claim</td>
+<td><a href="start.html#verify">Verify</a></td>
+</tr>
+<tr>
+<td>Apply workload admission policy</td>
+<td><a href="start.html#admission">Admission</a></td>
+</tr>
+<tr>
+<td>Work with canonical JSON or signature envelopes</td>
+<td><a href="start.html#jcs-admit">jcs-admit</a> and <a href="start.html#dsse">dsse</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The task page links a pinned quickstart for each project. For scripts and agents, use the <a href="automation.html">automation guide</a>, <a href="llms.txt">llms.txt</a> or <a href="catalog.json">project catalog</a>.</p>
+<figure>
+<img src="assets/component-tasks.svg" alt="Choose by task: Vocabulary defines evidence terms; Vectors tests verifier cases; Observer records actions; Verify checks supplied claims; Admission applies workload policy; jcs-admit handles canonical JSON; dsse handles signature envelopes; Atlas publishes mechanisms and retained runs. These are entry points, not a required sequence." />
+<figcaption aria-hidden="true">Choose by task: Vocabulary defines evidence terms; Vectors tests verifier cases; Observer records actions; Verify checks supplied claims; Admission applies workload policy; jcs-admit handles canonical JSON; dsse handles signature envelopes; Atlas publishes mechanisms and retained runs. These are entry points, not a required sequence.</figcaption>
+</figure>
+<p><a href="replay-an-evidence-decision.html">Replay an evidence decision</a> to inspect a retained signed packet, admit it once and reproduce the replay, authority and signature refusals. The walkthrough checks the decision from recorded bytes; it does not execute the original agent action. The essay <a href="https://thepragmaticquant.com/independent-evaluators-need-something-to-verify/"><em>Independent AI evaluators need evidence they can verify</em></a> (October 14, 2026) explains which records a buyer should require before an agent action counts as approved, and ends with this replay.</p>
+<p>Inspect accepted our <a href="https://github.com/UKGovernmentBEIS/inspect_ai/blob/c9f2d1cadb5e46cd8b89d217c7a2a1f816bce057/docs/extensions/extensions.json">bounded native result reader listing</a> on October 3, 2026, and the <a href="https://inspect.aisi.org.uk/extensions/">live extensions catalog</a> lists it (checked October 14). <a href="https://github.com/probityai/agent-evidence-observer/blob/71ac0b2126473316655184235000647a6dd0f5cf/docs/NATIVE-CONSUMER-CI.md">Read the pinned consumer guide</a>.</p>
+<p>Read <a href="evidence-test-meaning.html">why a green test suite can contain negative conclusions</a>. The worked example separates a correct test, a valid record and the result of an action, with retained files and a checking procedure.</p>
+<h2 id="agent-action-assurance">Agent action assurance</h2>
+<p>The <a href="atlas.html">assurance atlas</a> maps the mechanisms teams use to control agents and check their actions. The <a href="lab.html">Open Evidence Lab</a> publishes run artifacts, replay commands and review state. <a href="experiments.html">Experiments</a> document the procedure behind each recorded check.</p>
+<p>Sources and re-derive commands live in the <a href="claims.html">claim ledger</a>. The <a href="versions.html">version ledger</a> records each artifact and its release state.</p>
+<h2 id="peer-reviewed-work">Research</h2>
+<p><em>Three Jobs, Not One</em> explains why deciding, containing and witnessing agent execution need separate mechanisms (<a href="https://doi.org/10.5281/zenodo.21935891">Zenodo</a>).</p>
+<p>Sankalp Gilda and Shlok Gilda, <em>Position: Evaluation Scores Are Perishable Knowledge Claims</em>, GEM (<a href="https://doi.org/10.18653/v1/2026.gem-main.80">paper</a>).</p>
+<p><a href="repository.html">Working in the repository</a> covers the sources and checks; <a href="catalog.html">maintaining the catalog</a> covers new project entries.</p>
+</main>
+<footer class="site">
+  <p>Every number on this site has a source, a read time and a re-derive command in the <a href="claims.html">claim ledger</a>. Site version 0.6-draft, 2026-10-01. <a href="versions.html#documentation-revisions">Page revisions</a>.</p>
+</footer>
+</body>
+</html>

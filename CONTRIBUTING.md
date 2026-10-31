@@ -318,3 +318,14 @@ license by publishing them.
 A sign-off is a statement a person makes. If a coding assistant or another tool
 wrote part of a change, you review the change, you are the commit's author, and
 the sign-off is yours; a tool does not add one on your behalf.
+
+## Crates, packages and the Action
+
+The repository also holds the `dsse` and `jcs-admit` crates under `crates/`, the vocabulary and admission packages under `packages/`, and the admission checks of the root Action under `actions/`. Each directory documents its own checks in its README. From the repository root:
+
+```bash
+uv run --frozen --only-group dev ruff check .
+uv run --frozen --only-group dev python -m pytest
+```
+
+CI runs the checks of every area your change touches (`scripts/workspace.py` maps paths to areas); the `ci-ok` job of `parts.yml` collects them. [`docs/LAYOUT.md`](docs/LAYOUT.md) lists directories, tag prefixes and publishing.

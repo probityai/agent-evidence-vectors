@@ -1,0 +1,206 @@
+# Filed from outside, from the Internet-Draft's own text, at a pinned revision.
+#
+# This filing exists to put the provenance of two borrowed rules on the record in
+# the registry itself: the two-tier split over whether a signer re-derived its own
+# subject, and the ordered base resolution with an empty-tree terminal case.
+#
+# It cannot promote a term and is not offered as promoting one. The promotion rule
+# in vocabulary.yaml and GOVERNANCE.md requires the system's own maintainers to
+# file, declaring evidence: emitted with a resolvable path. A third-party filing
+# records provenance and nothing else.
+#
+# vocabulary_version_targeted names the registry file this was written
+# against. The terms mapped below were added in 0.5.0, so the v0.4.0 tag does
+# not carry them.
+
+system: "Asqav compliance receipts profile (draft-marques-asqav-compliance-receipts-08)"
+system_url: "https://datatracker.ietf.org/doc/draft-marques-asqav-compliance-receipts/08/"
+crosswalk_version: "0.1.0"
+vocabulary_version_targeted: "0.5.0"
+
+maintainer:
+  github: "astrogilda"
+  third_party_authored: true
+
+summary_of_system: >
+  A compliance profile of signed action receipts for AI agents: a JCS-canonical
+  receipt envelope, plus DSSE attestation statements over in-toto Statements signed
+  with ML-DSA-65 under a named service identity. Revision 08, dated 31 August 2026,
+  expires 4 March 2027. Read from the revision text at
+  https://www.ietf.org/archive/id/draft-marques-asqav-compliance-receipts-08.txt
+  (392,828 bytes as fetched 2026-09-19).
+
+evidence_dimensions:
+
+  attestation_tier:
+    match: partial
+    evidence: asserted
+    source_path: "https://www.ietf.org/archive/id/draft-marques-asqav-compliance-receipts-08.txt"
+    notes: >
+      Section 8.1, Attestation Statement Envelope. The two tier names, the
+      platform-sets-it rule and the verifier prohibition are borrowed from this
+      section, and the prohibition is carried in the registry word for word.
+      Section 8.2 supplies what makes a record authoritative, which is that the
+      subject digest is re-derived by the signer from the source host and a
+      caller-supplied digest is advisory only. Section 8.5 carries the same tiering
+      applied to deployments.
+    source_quote: >
+      "Two tiers of attestation statement are defined. The tier is a property the
+      issuing platform sets and a verifier reads from the statement; a caller MUST
+      NOT select the tier." And: "A verifier MUST NOT read a voluntary attestation
+      as evidence that the attested content corresponds to any independently
+      observed fact." And, on the authoritative tier: "The caller-supplied digest,
+      if any, is advisory only and is never the signed subject."
+    evidence_state_reasoning: >
+      asserted, not emitted. The rules are normative text in a published
+      Internet-Draft. No signed statement carrying a tier field was fetched by this
+      filing, so the registry's emitted bar is not met and is not claimed.
+    divergences:
+      - >
+        Scope of the re-derivation is undeclared. Under section 8.2 the caller MAY
+        supply the base identifier of the commit range the signer re-derives over,
+        so the signer re-derives honestly across a window the observed party chose.
+        The draft concedes the consequence in its own words: the signed subject
+        digest "is not a claim that the range covers every change the producer
+        authored." A reader who sees only the tier reads it as one. This registry
+        therefore makes the bound declaration normative: where a caller supplied
+        any bound of the re-derivation input, the record MUST say so, and a
+        verifier MUST NOT read the authoritative tier as coverage.
+      - >
+        Selection, and a required pairing. A caller that supplies no bound at all
+        still chooses WHICH subject to request an attestation over, and when, so
+        the bound rule above is not satisfied by a record that merely had no
+        bound to declare. This registry routes that through
+        coverage_denominator, and it requires an authoritative record to declare
+        observation_vantage, which a verifier MUST reject the absence of. Without
+        that pairing the draft's composition has nothing to compose with, and a
+        platform the observed party operates sets the stronger tier on its own
+        records forever.
+      - >
+        Absence. The draft defines the two tiers and does not say what an absent
+        tier means. This registry treats absent, non-string or unregistered as
+        malformed and never reads a missing tier as the stronger one.
+      - >
+        Composition with vantage. The draft's tier is platform-set, and section 8.5
+        states that unbypassability is a property of the deployer's network policy
+        and not of the product. Where the deployer and the observed party are the
+        same entity, a platform-set tier is caller-controlled through one more hop.
+        This registry states that the tier composes with observation_vantage and
+        never substitutes for it: an authoritative tier is a claim about a
+        re-derivation, and whether anyone observed the execution is a separate field.
+      - >
+        Subject class. The draft's authoritative tier is defined for a code-change
+        subject re-derived from one host's diff rendering. This registry's term is
+        stated over any subject a signer re-derives from evidence the caller does
+        not control.
+
+  origin_kind:
+    match: no_mapping
+    notes: >
+      Honest gap, tested. The draft carries no enum for which party assembled a
+      record. Searched the revision text for "log-import", "log_import",
+      "control-plane" and "control_plane": zero hits each, against a positive
+      control in the same file and the same session ("capture_layer", 10 hits;
+      "network_proxy", 9 hits). Every one of the 32 matches for "origin" is
+      "originator", "originating", "original", or one mention of key origin, and
+      none is a producer-assembly value. The nearest concept is `capture_layer` in
+      section 8.3 (github_sha_pull, network_proxy, in_process_sdk,
+      passive_telemetry), which answers how evidence was captured and not who
+      assembled the record. The two axes are recorded as distinct here so the gap
+      is not later read as a false friend.
+
+posture_and_coverage:
+
+  base_state_resolution:
+    match: partial
+    evidence: asserted
+    source_path: "https://www.ietf.org/archive/id/draft-marques-asqav-compliance-receipts-08.txt"
+    notes: >
+      Section 8.2, Authoritative Code-Authorship Re-Derivation, described there as
+      the principal addition of revision 08. The ordered three-step resolution, the
+      empty-tree terminal case and the refuse-never-guess rule are borrowed from
+      this paragraph.
+    source_quote: >
+      "The issuing platform MUST therefore resolve a base commit identifier for the
+      range before fetching, in the following order, and MUST NOT silently guess
+      one: (a) the base identifier supplied with the attestation request ... (b)
+      otherwise the base the source host records for the pull request associated
+      with commit_sha, which is the merge-base anchor for the change and is
+      therefore stable across merge and squash commits; (c) otherwise, where
+      commit_sha names a parentless commit, the empty tree object name
+      4b825dc642cb6eb9a060e54bf8d69288fbee4904. Where none of (a) through (c)
+      yields a base, the platform MUST refuse to emit an authoritative attestation
+      rather than infer a base from the commit parents, which are ambiguous for
+      merge and squash commits."
+    evidence_state_reasoning: >
+      asserted, not emitted. Normative text in a published Internet-Draft. No
+      signed statement carrying a resolved base was fetched by this filing.
+    divergences:
+      - >
+        Object format. The draft names the SHA-1 empty-tree object name as a bare
+        constant and does not bind it to an object format. Git's SHA-256 object
+        format has a different empty tree, and a record carrying the SHA-1 constant
+        under a SHA-256 format names an object that does not exist. This registry
+        binds the constant to the declared object format, carries both values, and
+        makes the mismatch a verifier MUST reject. Both were checked against
+        repositories in each format before being written into the registry, on
+        2026-09-19: git hash-object -t tree /dev/null gives
+        4b825dc642cb6eb9a060e54bf8d69288fbee4904, and the root tree of an empty
+        commit in a repository created with --object-format=sha256 gives
+        6ef19b41225c5369f1c104d45d8d85efa9b057b53b14b4b9b939dd74decc5321.
+      - >
+        Which branch was taken is undeclared. The draft requires the platform to
+        record the resolved base identifier and the commit identifier, so a verifier
+        re-derives the named range. It does not require the platform to say which
+        of (a), (b) or (c) produced that base. A supplied base and an empty-tree
+        terminal case are very different claims about the interval, and they arrive
+        as the same field. This registry makes the branch itself the registered
+        value.
+      - >
+        Permitted condition on the terminal case. The draft admits the empty-tree
+        base where the named commit is parentless. This registry states, as a MUST
+        NOT, that the terminal case may not stand for a prior state the observer
+        did not enumerate: that record satisfies every other rule and misstates the
+        interval, and the condition is what closes it.
+      - >
+        Naming the authority, and a first sight. The draft's terminal case turns
+        on a parentless commit, which a version-control host can show. It says
+        nothing about a subject with no such authority. This registry requires
+        the state authority to be named in the record for all three values, and
+        refuses empty_tree resolved from the observer's own first sight of the
+        state: a first observation establishes that the observer saw nothing
+        earlier, never that nothing was there. A volume pre-populated by an image
+        and mounted fresh presents to a first observation exactly as an empty one
+        does, and that is the case this closes.
+      - >
+        Host scope. The draft's rule is defined for GitHub-hosted repositories only
+        and depends on a proprietary, unregistered media type, which the draft says
+        plainly. This registry's term is stated over any state authority that
+        records a base for a change, with the host-specific fetch left to a profile.
+
+system_attributes:
+  signature_capability: post_quantum_hybrid
+  canonicalization_profile: jcs_rfc_8785
+  hash_family: sha_256
+  domain_separation_profile: declared
+  notes: >
+    Declared from the draft's own text. Section 8.1: attestation statements are
+    DSSE envelopes over in-toto Statement v1, signed with ML-DSA-65 (FIPS 204)
+    under the section 8.6 service identity, and the signature is computed over the
+    DSSE PAE and MUST NOT be computed over any ad-hoc serialization. Section 5
+    governs the receipt envelope with the JCS rule, and section 8.1 states that the
+    attestation statement's canonical form is the DSSE PAE, which is independent of
+    that JCS rule. Digests are carried in the sha256:<64 lowercase hex> wire form.
+
+    Two readings are worth a reviewer's eye before anyone relies on them.
+    signature_capability is recorded as post_quantum_hybrid because ML-DSA-65 is
+    the named algorithm; the registry's enum has no post-quantum-only member, so
+    this is the closest registered value and not a claim that a classical signature
+    travels alongside. domain_separation_profile is recorded as declared because
+    DSSE PAE tags the pre-image with its payload type, which is a per-format
+    identifier by construction. Both are our reading of their text, which is what
+    third_party_authored: true above is for.
+
+    A promotion-supporting crosswalk must declare all four attributes together.
+    This filing cannot support promotion, and the four are declared here because
+    the draft states each one, never as a promotion claim.

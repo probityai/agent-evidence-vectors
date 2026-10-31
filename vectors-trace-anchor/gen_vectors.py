@@ -369,6 +369,8 @@ def generate(target: Path = HERE) -> None:
         "corpusDigest": hashlib.sha256(_json(vectors)).hexdigest(),
         "vectors": vectors,
     }
+    verdict_words = [entry["expected"]["decision"] for entry in vectors]
+    manifest["counts"] = {word: verdict_words.count(word) for word in sorted(set(verdict_words))}
     (target / "MANIFEST.json").write_bytes(_json(manifest))
 
 

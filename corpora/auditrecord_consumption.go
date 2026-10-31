@@ -14,7 +14,7 @@ import (
 // the Go rail, mirroring packaging/agent_evidence_vectors/auditrecord.py. A
 // consumption-state entry of evaluation.inputs may carry a consumption member,
 // and decision.operationKey is the agent's identifier for one intended
-// operation and the identity of a retry. Members CS1 to CS25 exercise it, and
+// operation and the identity of a retry. Members CS1 to CS40 exercise it, and
 // consumption.supersedes names the limit document a record's limitDigest
 // replaced. CS7, CS8, CS17, CS18 to CS22 and CS25 are files of several records judged
 // one by one and then as a set, under one ledger: the limitDigest values that
@@ -108,10 +108,23 @@ func arConsumptionShape(consumption map[string]any) error {
 	if err := arConsumptionMembership(consumption); err != nil {
 		return err
 	}
+	_, hasAsset := consumption["asset"]
+	_, hasUnit := consumption["unit"]
+	if arConsumptionChecks["asset-exclusive"] && hasAsset && hasUnit {
+		return arRefuse("consumption-unit-ambiguous")
+	}
 	digest, _ := consumption["limitDigest"].(string)
 	unit, isText := consumption["unit"].(string)
+	if !hasUnit {
+		unit, isText = "-", true
+	}
 	if !arIsDigest(digest) || !isText || unit == "" {
 		return arRefuse("consumption-value-invalid")
+	}
+	if hasAsset {
+		if err := arAssetShape(consumption["asset"]); err != nil {
+			return err
+		}
 	}
 	if err := arConsumptionSupersedes(consumption, digest); err != nil {
 		return err
@@ -131,11 +144,42 @@ func arConsumptionShape(consumption map[string]any) error {
 	return nil
 }
 
+// arAssetShape: the optional asset carries exactly id and decimals, the id a
+// CAIP-19 asset id (CS35) and decimals a count no larger than
+// arAssetDecimalsMax (CS36).
+func arAssetShape(raw any) error {
+	asset, ok := raw.(map[string]any)
+	if !ok {
+		return arRefuse("consumption-malformed")
+	}
+	if !arHasAll(asset, arAssetMembers) {
+		return arRefuse("member-missing")
+	}
+	for name := range asset {
+		if !arContains(arAssetMembers, name) {
+			return arRefuse("consumption-malformed")
+		}
+	}
+	id, isText := asset["id"].(string)
+	if arConsumptionChecks["asset-id"] && (!isText || !arCAIP19.MatchString(id)) {
+		return arRefuse("consumption-value-invalid")
+	}
+	decimals, isInt := arInt(asset["decimals"])
+	if arConsumptionChecks["asset-decimals"] && (!isInt || decimals < 0 || decimals > arAssetDecimalsMax) {
+		return arRefuse("consumption-value-invalid")
+	}
+	return nil
+}
+
 // arConsumptionMembership: every required member is present and no member is
-// outside the required and optional sets.
+// outside the required and optional sets. unit is not required beside asset.
 func arConsumptionMembership(consumption map[string]any) error {
+	_, hasAsset := consumption["asset"]
 	for _, name := range arConsumptionMembers {
 		if name == "stateRevision" && !arConsumptionChecks["state-revision"] {
+			continue
+		}
+		if name == "unit" && hasAsset {
 			continue
 		}
 		if _, ok := consumption[name]; !ok {
@@ -277,6 +321,107 @@ type arSetRule struct {
 var arSetRules = []arSetRule{
 	{"stale-revision", "consumption-set-stale-revision", arSetStaleRevision},
 	{"release-unshown", "consumption-set-release-unshown", arSetReleaseUnshown},
+	{"asset-mismatch", "consumption-set-asset-mismatch", arSetAssetMismatch},
+}
+
+// arAssetMatchDecimals: an asset is its id with its decimals. A test drops the
+// decimals (CS39).
+var arAssetMatchDecimals = true
+
+// arDenomination is what a record's consumption counts in.
+func arDenomination(pred map[string]any) string {
+	consumption := arConsumptionOf(pred)
+	asset, has := consumption["asset"].(map[string]any)
+	if !has {
+		unit, _ := consumption["unit"].(string)
+		return "unit\x00" + unit
+	}
+	id, _ := asset["id"].(string)
+	decimals := ""
+	if arAssetMatchDecimals {
+		number, _ := asset["decimals"].(json.Number)
+		decimals = number.String()
+	}
+	return "asset\x00" + id + "\x00" + decimals
+}
+
+// arSetAssetMismatch: one ledger counts one denomination, every record naming
+// the same ISO 4217 unit or the same CAIP-19 asset with the same decimals. USDC
+// on Base and USDC on Solana are two assets (CS38), and one asset id under two
+// decimals values reads one amount at two scales (CS39).
+func arSetAssetMismatch(group []map[string]any) bool {
+	seen := map[string]bool{}
+	for _, pred := range group {
+		seen[arDenomination(pred)] = true
+	}
+	return len(seen) > 1
+}
+
+// arClaimReading is how the claim check reads a set: check turns it on; ledger
+// confines it to one ledger, as if the claim were keyed by the limit document
+// (CS32); scope reads the claim under the principal and the agent key (CS33);
+// release lets a record of the operation showing none end its claim (CS28).
+var arClaimReading = map[string]bool{"check": true, "ledger": false, "scope": true, "release": true}
+
+// arClaimScope is the principal (delegation.subject) and the agent key
+// (agent.signers). A rotated agent key is a new scope.
+func arClaimScope(pred map[string]any) string {
+	if !arClaimReading["scope"] {
+		return ""
+	}
+	signers := []string{}
+	for _, item := range arList(pred, "agent.signers") {
+		text, _ := item.(string)
+		signers = append(signers, text)
+	}
+	return arStr(pred, "delegation.subject") + "\x00" + strings.Join(signers, "\x00")
+}
+
+// arSetRetryAsNew: a held claim is keyed by the principal, the agent key and the
+// operation key, never by the limit document. A permit whose operation key a
+// record of the same scope holds, which does not itself hold that key, presents
+// a retry as a new operation (CS31, CS32), unless it is the original call (a
+// lower stateRevision in the same ledger) or a record of that operation shows
+// none, which leaves no claim (CS28).
+func arSetRetryAsNew(predicates []map[string]any, ledgerOf map[int]int) bool {
+	for i, perm := range predicates {
+		key, _ := arObj(perm, "decision")["operationKey"].(string)
+		if !arPermitted(perm) || arHeldKeys(perm)[key] {
+			continue
+		}
+		for j, hold := range predicates {
+			if i == j || arClaimScope(hold) != arClaimScope(perm) || !arHeldKeys(hold)[key] {
+				continue
+			}
+			sameLedger := ledgerOf[i] == ledgerOf[j]
+			if arClaimReading["ledger"] && !sameLedger {
+				continue
+			}
+			if sameLedger && arRevision(perm) < arRevision(hold) {
+				continue
+			}
+			if !arClaimReleased(predicates, i, key) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// arClaimReleased: a record other than the permit at index perm, of the same
+// operation key and scope, shows none.
+func arClaimReleased(predicates []map[string]any, perm int, key string) bool {
+	if !arClaimReading["release"] {
+		return false
+	}
+	for k, other := range predicates {
+		otherKey, _ := arObj(other, "decision")["operationKey"].(string)
+		if k != perm && otherKey == key && arClaimScope(other) == arClaimScope(predicates[perm]) &&
+			arStr(other, "effect.observed") == "none" {
+			return true
+		}
+	}
+	return false
 }
 
 func arHeldKeys(pred map[string]any) map[string]bool {
@@ -429,6 +574,17 @@ func arConsumptionSetFindings(predicates []map[string]any, disabled string) arSe
 				return arSetReport{verdict: "malformed", codes: []string{rule.code}}
 			}
 		}
+	}
+	var carrying []map[string]any
+	ledgerOf := map[int]int{}
+	for index, group := range groups {
+		for _, pred := range group {
+			ledgerOf[len(carrying)] = index
+			carrying = append(carrying, pred)
+		}
+	}
+	if arClaimReading["check"] && disabled != "retry-as-new" && arSetRetryAsNew(carrying, ledgerOf) {
+		return arSetReport{verdict: "malformed", codes: []string{"consumption-set-retry-as-new"}}
 	}
 	return arSetReport{verdict: "valid"}
 }

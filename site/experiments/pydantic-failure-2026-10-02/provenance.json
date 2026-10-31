@@ -1,0 +1,1746 @@
+{
+  "schema": "probity-atlas-retained-native-run-v1",
+  "sourceRepository": "probityai/agent-evidence-observer",
+  "sourceCommit": "afda549c3f20f8e7b031275c06558a50bf20726e",
+  "run": 37044768724,
+  "runUrl": "https://github.com/probityai/agent-evidence-observer/actions/runs/37044768724",
+  "originalArtifactSha256": "caa5db0decc85720f26c0a605c59338646702d348f45a26bd21761a8e412f4e5",
+  "originalArtifactBytes": 728803,
+  "retention": "byte-exact-original-ci-archive",
+  "retainedArchiveSha256": "caa5db0decc85720f26c0a605c59338646702d348f45a26bd21761a8e412f4e5",
+  "retainedArchiveBytes": 728803,
+  "reportMember": "fresh-run/fresh-consumer-report.json",
+  "reportSha256": "4c26e0792c89ceecc3ec9d314f9f6179f7cb54763a6d982e827e88ab23a853c7",
+  "roles": {
+    "producer": "Probity-owned workflow",
+    "readerAuthor": "Probity",
+    "atlasOperator": "Probity",
+    "retentionHolder": "Probity",
+    "independentOperation": "not-established",
+    "independentEffectCustody": "not-established",
+    "outsideRecurringUse": "not-established"
+  },
+  "answerExposure": "Author-written tasks/controls and expected outcomes exposed; not blind.",
+  "comparisonOrder": "Native output and comparison published together; not separate raw-result-first revisions.",
+  "members": [
+    {
+      "member": "fresh-run/fresh-consumer-report.json",
+      "bytes": 1717,
+      "sha256": "4c26e0792c89ceecc3ec9d314f9f6179f7cb54763a6d982e827e88ab23a853c7",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/artifact-manifest.json",
+      "bytes": 1814,
+      "sha256": "dbe58c384f7db62ed5813a2ec25ff2952ba33ab2c2a2e4537f9f1d3950ce6863",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/artifacts/changed-arguments-0-http.json",
+      "bytes": 4692,
+      "sha256": "802314cdd5f3391e3919b4087be870d8370ff37d7141e8f30b1ee474101317b9",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/artifacts/changed-arguments-execution.json",
+      "bytes": 2655,
+      "sha256": "c9b7edc998d13c4430f2351afc2abe91ddc8b057a21f9525675b38704efd52b5",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/artifacts/changed-arguments-messages.json",
+      "bytes": 1946,
+      "sha256": "2e02fd890ef644c28bd614e2f40ba05c4fa3bb1e34fa95a8bd89e0dcb2f46cdc",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/artifacts/committed-effect-error-0-http.json",
+      "bytes": 7759,
+      "sha256": "f33fcd803159809b2c03bb452744985ce5ba75e2655491d9b6e62f4f30f176fd",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/artifacts/committed-effect-error-execution.json",
+      "bytes": 3440,
+      "sha256": "4b572dc8317d5029fd66b8beb530ca8f9363c66588c227719c216471468e5c1f",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/artifacts/committed-effect-error-messages.json",
+      "bytes": 919,
+      "sha256": "0f1166cd1d6bf3268090b85451b3b912edca3864e711bbf23f2e489b50ef75ef",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/artifacts/deny-0-http.json",
+      "bytes": 4405,
+      "sha256": "21174bdf4a90588db0d14f6d74adf2ec7e44dd96033263fdeeaff57b5d2405de",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/artifacts/deny-execution.json",
+      "bytes": 2520,
+      "sha256": "61b18bd2419b418a5475080889c1ed51afffdad7f72946cf14dbb62eb96e3e63",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/artifacts/deny-messages.json",
+      "bytes": 1917,
+      "sha256": "10411a5d982be7c5eb7696741db667214bf59b673c5cbed473bb7398076b522b",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/artifacts/permit-0-http.json",
+      "bytes": 7327,
+      "sha256": "e951100f73d210e1c3623c841cd9d732e6a3cc2f638401d5e9657c8bb8afd236",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/artifacts/permit-execution.json",
+      "bytes": 3130,
+      "sha256": "9d700b911918889384363ba12ca029710c974831c1e571b70a7e4b95ee47bdff",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/artifacts/permit-messages.json",
+      "bytes": 1921,
+      "sha256": "c8d29ea6e3b81bf1365c960964ad1925ad88285dc8e2ad03167a930de278ef1c",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/artifacts/producer-error-execution.json",
+      "bytes": 2571,
+      "sha256": "06cf6e29aedf2fa09156419f20e18df74fcf761e44fb0675085bc6c31f5d151a",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/artifacts/producer-error-messages.json",
+      "bytes": 911,
+      "sha256": "e831d22a2492a12690a92fc6e8e1bd60992e8c39e89d1cd585c24608d6acf0a6",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/artifacts/retry-1-http.json",
+      "bytes": 7300,
+      "sha256": "fdd8ece4dbb0744ee8e50113f5b610bd742dc650f44fe88d57a073dae6f14deb",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/artifacts/retry-execution.json",
+      "bytes": 3235,
+      "sha256": "14b67317bfa88374e5528136b473222bf5dc653abdc0feefdcb249fdcfddc5d7",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/artifacts/retry-exhausted-execution.json",
+      "bytes": 2715,
+      "sha256": "17c1d5e7e856635201fe51a2827349172d41a7f77551b24476b5d90b97c3cd6d",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/artifacts/retry-exhausted-messages.json",
+      "bytes": 1892,
+      "sha256": "333c80c050eddf8c6b13eca12aeb48cf6f7aa4eeee68aab15c64cdf84437e2d0",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/artifacts/retry-messages.json",
+      "bytes": 2880,
+      "sha256": "f19114364acedb13d8e3f5c4ef76d9012260cee5855ee7ec982f2567e717cf32",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/consumer-pins.json",
+      "bytes": 315,
+      "sha256": "2f637b63affa7a131fae67af565d32ec4355a131033cdf1c49e8e1100dc04c33",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/plan-before-run.json",
+      "bytes": 16947,
+      "sha256": "c5f154df4b0876ea9912fe4a31768ecf38a9abb995d64b1d02bc97429e679e37",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/report.json",
+      "bytes": 1716,
+      "sha256": "7bbb088c15eb4fd315984f4386d989fb955e01cbc681ffb92d23f3e2e23df7a2",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/source-manifest-before-run.json",
+      "bytes": 21990,
+      "sha256": "bad33e67f9f304139081a8ab4a61eb9817e0fb1703456b53e7e3280771f59a64",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/adapter/__init__.py",
+      "bytes": 78,
+      "sha256": "52b7258401efd1100fc4d20dd63e5a61708f859c46b592fcf1224cd2236bcb3b",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/adapter/contract.py",
+      "bytes": 3874,
+      "sha256": "24d33f798c86a6bb8869a18ae78c3055bbe42e8ba623f0e2a1381fd04e912599",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/adapter/producer.py",
+      "bytes": 14907,
+      "sha256": "1e64f5d8dd87d7679a7de79f833aa8a932614c45e7d0dbf35a979e1bc2062a7b",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/adapter/reader.py",
+      "bytes": 24682,
+      "sha256": "038d730370c070c492a88bdc6985c600ea83f31550d489ea28f8dd79e4c7542a",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/distribution/METADATA",
+      "bytes": 7161,
+      "sha256": "10176918137a08e06cf43c54beb62c3b22a2f90ad13ee77e6f8d112e08bb78a3",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/distribution/licenses/LICENSE",
+      "bytes": 1100,
+      "sha256": "bc0e89738f36944c8106e1947c3d69631f9c33b8f1bcb60ec4f89d677d2dfcf4",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/distribution/versions.json",
+      "bytes": 133,
+      "sha256": "7de9b8105d372dded1fb782d94fd039a28b11facf710428bd808a4cd1b33508f",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/__init__.py",
+      "bytes": 723,
+      "sha256": "fd35bea460843bd946ee6193b1adf5a557fbe0993dea3ca4c58b3c35df1ea4ae",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/aae_binding.py",
+      "bytes": 10885,
+      "sha256": "72ac29fe90b8b20549a41a1dd6a9d25ec8a945bdbbbf4b1ba4f5891e09b6b093",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/aae_dispatch.py",
+      "bytes": 8015,
+      "sha256": "70e6e669d24fbfd5275b25217523ea55d3da1495bb16e0834ff7a8de2a1cf6bb",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/aae_enforce.py",
+      "bytes": 21776,
+      "sha256": "5b79dacd2fbd873ae073af5186e606b5baa1c6c9d8e627a0387ae9fc7bb96a94",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/aae_ticket.py",
+      "bytes": 6287,
+      "sha256": "ac12299c5d3bd5de030937d55358031a6ba72f152571ef20c521437fabe54743",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/admission.py",
+      "bytes": 20440,
+      "sha256": "5b9f68dbfc59b1c088b7de9c41e81fabdf2e3a72426e8766845d0cea28b2af0f",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/attribution.py",
+      "bytes": 7799,
+      "sha256": "9aa531cfbd99df6185c35220db157c78d1c7b97c7c99bd2e24caa3f498dd0dee",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/authorization.py",
+      "bytes": 28758,
+      "sha256": "35e28320cc6aa344938d9e678efa6de9b803b7b22e2431e8e918a8b57c08e4a9",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/cli.py",
+      "bytes": 4090,
+      "sha256": "615b58fd5ea3401ca3e1ff9ebab63508a22dee6578a28890793054da72fb78d8",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/broker.py",
+      "bytes": 19690,
+      "sha256": "9e36cc446dd63112bfda8555df9319345f825d74c5794ac0b037c92d235c0bd8",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/crypto.py",
+      "bytes": 5729,
+      "sha256": "a334d7d2776d362788ce5e8687a916a62ba1614e97c0ccb8994d2acb22bc315f",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/declaration.py",
+      "bytes": 20694,
+      "sha256": "71c3112fd8bbaffd4adc03af46d16a8f36c41187a36fa86231d8a8d2caf37a66",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/evaluation_history.py",
+      "bytes": 23576,
+      "sha256": "175467e7eac8381cc0a79c8f35efb80b406c99dbdc0b05bb5cec65afb41532c7",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/history.py",
+      "bytes": 9435,
+      "sha256": "e2618b8dc34f1251d9c1fa82232313a9524f8b3a38654352bf7a4d2b9ca1b267",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/inspect_history.py",
+      "bytes": 26903,
+      "sha256": "1d0fc978360c60f8e57cfdb8f3f7b6d07b56bfefc92b4dcdc928006222ca041c",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/isolation.py",
+      "bytes": 13166,
+      "sha256": "737256706038ef6c05db2860dba22af0f023e44ba1cd213ee44516c0f9fcb3c0",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/ledger.py",
+      "bytes": 15866,
+      "sha256": "028a41eefce7abc88f31237a0407dae6a9728394c7b10634424e53967f8b9d53",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/native_reader.py",
+      "bytes": 12815,
+      "sha256": "880501767490ea8c439251df18c269c331522bb406b21bd59265a622bcd494db",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/probe_agent.py",
+      "bytes": 2584,
+      "sha256": "3699eeb662610fea2d8403294fad3239cbecf3dfcaeb542ceb2c40abdb0897f6",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/protected_isolation.py",
+      "bytes": 19183,
+      "sha256": "6d99ddca3f03ada6c05ff21f4796ec3b8eea7097c1119b38e53239b16e44809d",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/protected_dispatch.py",
+      "bytes": 33609,
+      "sha256": "91c748e4e21bcbc347fdaab129785671765214758f043482f8f31af043e12b34",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/protected_probe.py",
+      "bytes": 5872,
+      "sha256": "9e89109a168837662c434f0988e6ab8d90d6dd6e472b516c27ad8b8b16f8138f",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/replay.py",
+      "bytes": 29625,
+      "sha256": "e156c0a2daa2eb56feae8e09339401b4fc8a641375d569ea80a4c50fd7f47261",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/ticket_service.py",
+      "bytes": 29826,
+      "sha256": "c6df218d6a81c21ab99ff2549b07f0691ff00e4e44b3f7520562d5c90fcdbda7",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/observer/verify.py",
+      "bytes": 9511,
+      "sha256": "a787abe4189556cd3da87569eccaf6cfe6fa265662b9505f733a6742867bdcf2",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/__init__.py",
+      "bytes": 6181,
+      "sha256": "950dc5a1aef9db4e32d414f525aed02885fd91afdcef47ef753dd652095e3b0a",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/__main__.py",
+      "bytes": 132,
+      "sha256": "43fcc9535e43500d3562d949da69da2c2a08776626826ade5441111ae413f98d",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/_a2a.py",
+      "bytes": 12175,
+      "sha256": "1c6224bb1d3ca8233707b546f5f038b227459b8a301f5fa74b56dd9cf54ee062",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/_agent_graph.py",
+      "bytes": 73998,
+      "sha256": "5c584822640313f3e82c0a981c728914e5565c17a034aa8ee91f93df7432571a",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/_cli/__init__.py",
+      "bytes": 18144,
+      "sha256": "acd7af5926b6e4ee577f50501aeeb15931a13559e797eb6a9af0e5f3b0fb63a7",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/_cli/web.py",
+      "bytes": 3354,
+      "sha256": "479ed0ea5694ee13b85442263eeceb4f2e8b219bfac8f12f4aecc84f1b3a9685",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/_function_schema.py",
+      "bytes": 11707,
+      "sha256": "9a428d6bc4f080512d687f26b94db839d274f6acf7ce21d9e88372041c3bde20",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/_griffe.py",
+      "bytes": 5454,
+      "sha256": "4eb1a687286c470490ffd83e8897903bcb57c7213092ce3b25610f68862e216e",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/_instrumentation.py",
+      "bytes": 2964,
+      "sha256": "dd72714544f49b62ba35fa406fe24aae8e11a70fbcc1ea90ff276db9f78a56b5",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/_json_schema.py",
+      "bytes": 8058,
+      "sha256": "e07dea62eda015402e79b46e93c8f719fe72e5ce0079733b6b9dcc2441352a7f",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/_mcp.py",
+      "bytes": 6412,
+      "sha256": "0ec13df27ccdf5c2f11cc92553c7661214ae91e679371512a1f58e9146bbac2c",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/_otel_messages.py",
+      "bytes": 3210,
+      "sha256": "7109d38d13ba1f85cb52dce0ac2d0ca1ff88f723ea6a1fce52622cd194b89372",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/_output.py",
+      "bytes": 39373,
+      "sha256": "c7847766845b41f765590f5d33f0350537c699facc1bc81dacf83dc4fdd95895",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/_parts_manager.py",
+      "bytes": 24729,
+      "sha256": "71357719319de877609b2434fd86aec7744d76d4f024ab4f25d46783efe6f925",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/_run_context.py",
+      "bytes": 4474,
+      "sha256": "604ef2cc191eaed9ca6caf0f2d5e4ea0f2e9db63ec6f3243d0119fd7f2d8c0d1",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/_ssrf.py",
+      "bytes": 12479,
+      "sha256": "dc97de85f7da3ee7199c276d1f5a00e3bf40bc7746f77d8d3c5c74c591ffe421",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/_system_prompt.py",
+      "bytes": 1163,
+      "sha256": "91662d0ba46bc541e598a07590bb729657165c95cb76a72fafa1f9ce9a0c7c16",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/_thinking_part.py",
+      "bytes": 1295,
+      "sha256": "ff40da8c6c963dae745944cf58dd543df670d310fcfe11dcb92b744f77e046bd",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/_tool_manager.py",
+      "bytes": 18296,
+      "sha256": "035917c997ae5a18c5fe9a99f649bf9dd5eec84f65d0a181102167815dafc3ac",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/_utils.py",
+      "bytes": 18416,
+      "sha256": "7c8320b00716547255babb62119f93eeea73f35f4c834b3cee3985dfbc4ecbc7",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/ag_ui.py",
+      "bytes": 7592,
+      "sha256": "7a8e51845bb59938cc5599bb27af911288384a68a9dc2dae8e7db5b3b7f78792",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/agent/__init__.py",
+      "bytes": 80588,
+      "sha256": "bb8eb58cd404f9e0a4eb1cd0c1a261e879dab0954f71681eb30b86f5ba971c96",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/agent/wrapper.py",
+      "bytes": 11339,
+      "sha256": "c4d30551a983bf63003487d1024f339a631f78ada8720e349e066e044eb212ab",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/agent/abstract.py",
+      "bytes": 71190,
+      "sha256": "4c0d0207158e54752b99eccff258db1dd0d350ce4f79634b175ceaf4cdb37118",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/builtin_tools.py",
+      "bytes": 13342,
+      "sha256": "51af395e512d4e4306a29e95db5c4f4a1a6b24dc065cc0bf8a993d029e8d5116",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/common_tools/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/common_tools/duckduckgo.py",
+      "bytes": 2265,
+      "sha256": "4a49a980592daab5ef0324ad86721e56435ff36dbb4cef956cb4fce3a78aa886",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/common_tools/exa.py",
+      "bytes": 14904,
+      "sha256": "16148a7da528c689216ab2a547f12c62e2e2b51818ca3ef88fc8a47f7413cb34",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/common_tools/tavily.py",
+      "bytes": 6989,
+      "sha256": "bb9684558c8a5e9e6857d293946a9da085a8a742210490db715029bdcca08b0f",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/concurrency.py",
+      "bytes": 9909,
+      "sha256": "5a7547ffc81b691c3b977622c59cb6130fb2235b7ec9b1792e3395c449ec491c",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/direct.py",
+      "bytes": 15563,
+      "sha256": "67fcf96ff5008bce8eb52a046e34e291c7762d6b0d138ab42d4bfd69f4c44aa3",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/durable_exec/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/durable_exec/dbos/__init__.py",
+      "bytes": 255,
+      "sha256": "f3e9c9eb29f8625c8d968375fa352f5d187d2f826304ceae2b3e936ec9fe9675",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/durable_exec/dbos/_agent.py",
+      "bytes": 46790,
+      "sha256": "bcdb98940e251fa7b6de8d358cfdb9d9a1a4b5d5759a467e971075ef8d7384ff",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/durable_exec/dbos/_fastmcp_toolset.py",
+      "bytes": 919,
+      "sha256": "6ec4ebfa82cf26e251457dd17dc0aa5e756d0e9e5f0577d5b9f2fa85e90eb16a",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/durable_exec/dbos/_mcp.py",
+      "bytes": 3710,
+      "sha256": "b5fec99ac771350fda4c438df95a9b77fa086cfd48c86c563c7f698aeafbf65a",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/durable_exec/dbos/_mcp_server.py",
+      "bytes": 1893,
+      "sha256": "913e212ce08db6e860066c7d7eeec924dbda667afffe23e518d24fec3264d1e3",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/durable_exec/dbos/_model.py",
+      "bytes": 4145,
+      "sha256": "16930c625b3bf80b785ecba6117666c7e55409e99200db94d65de343f6351d25",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/durable_exec/dbos/_utils.py",
+      "bytes": 242,
+      "sha256": "fda35c785bd370d7aa6fbf2c4c360cd93758a61f39b5b75e2ee7b25d8d656d30",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/durable_exec/prefect/__init__.py",
+      "bytes": 422,
+      "sha256": "11aaf49ab7df3a49921bc8ad368ed4f8b9cba14e7e7b258affd01c7cfc098d9d",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/durable_exec/prefect/_agent.py",
+      "bytes": 43953,
+      "sha256": "16262bb39b9a238184e7010d0972c841e30e62ba1ca0f5a31025ef9bf5010298",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/durable_exec/prefect/_cache_policies.py",
+      "bytes": 3463,
+      "sha256": "34ea9c18d64eb682856005f0ec0fe1a3ed68a2d0f6b8ea8c1080fa7b76e3376b",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/durable_exec/prefect/_function_toolset.py",
+      "bytes": 2052,
+      "sha256": "4c4cad3fc580548833f3dee65b2fdd2a614e397ab7807aba0880d639462328bd",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/durable_exec/prefect/_mcp_server.py",
+      "bytes": 1861,
+      "sha256": "e6e1ded81349c9951578d3cda361c8d23b50912cb101d3891814c0c0fd52b74e",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/durable_exec/prefect/_model.py",
+      "bytes": 4500,
+      "sha256": "0e7af7676c949a4fdd3afc82bdc7c74bcf74a3bbce8c5e489aeaa1363bb79002",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/durable_exec/prefect/_toolset.py",
+      "bytes": 2050,
+      "sha256": "74180832c4229232601abeff400b37506ee7c9c0411fad5e8a833037c98faa80",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/durable_exec/prefect/_types.py",
+      "bytes": 1270,
+      "sha256": "713b579caa243d2083301409acb944868d2624bbc3206342645faaea29df9245",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/durable_exec/temporal/__init__.py",
+      "bytes": 5627,
+      "sha256": "f21bd428913aed18806e29048287bc3b02f50fb8bbe268889159ae0206236aff",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/durable_exec/temporal/_agent.py",
+      "bytes": 50948,
+      "sha256": "12f04b839326f8e173fecc58ebc98c22d2585dcd3bd8a94b4387794fb81256c2",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/durable_exec/temporal/_dynamic_toolset.py",
+      "bytes": 6373,
+      "sha256": "6fb18c910f4ff6fe933d4b208e768f34626ffbb1852678da1766ddd29a81100d",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/durable_exec/temporal/_fastmcp_toolset.py",
+      "bytes": 1278,
+      "sha256": "d7771c57538e24c492d139994ae795847f9f4ba2a356ccb1faa7804c1f18ec7c",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/durable_exec/temporal/_function_toolset.py",
+      "bytes": 3975,
+      "sha256": "aee36678878fa171d97dc6e0bb841a7fc38126a3fd03ed78e42251a2411312b5",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/durable_exec/temporal/_logfire.py",
+      "bytes": 2304,
+      "sha256": "ab4fda0d4d21116d3cd47045d5e37587ce93e21be81433c82e3485669633783b",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/durable_exec/temporal/_mcp.py",
+      "bytes": 5732,
+      "sha256": "2eff26222e5b57f405bc193ecdbe5b214f1c61df09f87d8d615052bf5efe33b7",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/durable_exec/temporal/_mcp_server.py",
+      "bytes": 2403,
+      "sha256": "7bea892d068d416a22d2c90c1c5474f89d93599ab4a8e5ebf1335db47359c2b2",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/durable_exec/temporal/_run_context.py",
+      "bytes": 2876,
+      "sha256": "f3e98b0486a355f3164dd1040591c7814dee12a7654891e21f17886e0c4de245",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/durable_exec/temporal/_model.py",
+      "bytes": 16462,
+      "sha256": "dbc3495bc5f5d94ff9a9328ebf6c7bdd74b790daeac36bc62914101e2954e260",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/durable_exec/temporal/_toolset.py",
+      "bytes": 7212,
+      "sha256": "5121e1a67c495c936c56f6716c93b11df2effcacd91b82342316cb56caea297d",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/durable_exec/temporal/_workflow.py",
+      "bytes": 321,
+      "sha256": "81be4aecbde88ff6cdff31839e4f814e2b721343a9d1b9035c6d40fa4cdc2e50",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/embeddings/__init__.py",
+      "bytes": 15807,
+      "sha256": "8d96cfe97ad663090ced27570f991c52a5247b3e4ee5ae9c031db880eaf41529",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/embeddings/base.py",
+      "bytes": 3991,
+      "sha256": "1f0217e58f8089ca2a7dfa940ef35c646523e0ca81d3c6868208edcec2c2b6ac",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/embeddings/bedrock.py",
+      "bytes": 24371,
+      "sha256": "ceb4124535a7f86571e69c668e870968ebb69a270a8087f39811ed5b6f4cd1f2",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/embeddings/cohere.py",
+      "bytes": 9270,
+      "sha256": "167436292c9ce0b2db9503e164c11ae63a98cdc4558e6ff8aeafa8509ef73b96",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/embeddings/google.py",
+      "bytes": 8465,
+      "sha256": "93f20de59f0bd9b221d7977578193ab22532041de7cd5998fb89de4fe4927255",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/embeddings/instrumented.py",
+      "bytes": 8222,
+      "sha256": "f35841f94e922f22324172311516789d8bc15857d62ef52e369c058f6b6866eb",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/embeddings/openai.py",
+      "bytes": 7061,
+      "sha256": "4cc4669ac6cf19c9f3685110a78987c183953aadf87f4e90feca6a84a2041453",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/embeddings/result.py",
+      "bytes": 3678,
+      "sha256": "50b734fe1668dd2b774b2e6c3060e0c860f57973912969d54d01a23708c474ee",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/embeddings/sentence_transformers.py",
+      "bytes": 6898,
+      "sha256": "dd49254222684279f0b7497438111389f6ad7eb58f8c1b6f0a99be8990aa57e9",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/embeddings/settings.py",
+      "bytes": 2444,
+      "sha256": "cd74bf2840cc6c7c160978944f933e5738cec80ea8d8ae7511459d0f1f786714",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/embeddings/test.py",
+      "bytes": 3681,
+      "sha256": "8e8e9f7de2de6da2a043f097f595a5b9ccca3ce874cc5271b7f5fe27cbd536f8",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/embeddings/voyageai.py",
+      "bytes": 6267,
+      "sha256": "bcf100e0f0b06ea70328fd7e81981129cc6f59e26d5ddc17c3532e738f018c84",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/embeddings/wrapper.py",
+      "bytes": 2343,
+      "sha256": "f3a9edfaaf0e574287de66a3b26c9a8589c315ddc4ec2ee9d7a67ec3572f62fb",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/exceptions.py",
+      "bytes": 8265,
+      "sha256": "8cb6ba10697ffdb2a0220351d9df69c290523128e550df264b189b81b77b902c",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/ext/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/ext/aci.py",
+      "bytes": 2527,
+      "sha256": "61660b5f34d027a852eea7e0372700f1c465ebd82880681386a114e8823b78c0",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/ext/langchain.py",
+      "bytes": 2317,
+      "sha256": "9266db5770b1d8188d60424264c1d5610aae5100fecc6d8bfdbc036a7832d16c",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/format_prompt.py",
+      "bytes": 10674,
+      "sha256": "06f8baaefbf0785967e147749c0fde229eeb6e1cea504cbd8fc8a892244a2fef",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/mcp.py",
+      "bytes": 54973,
+      "sha256": "5206bede9c4635b96ffeafc04edbeea1f1c83ce803704c9a9630e974bf27d0ad",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/messages.py",
+      "bytes": 88897,
+      "sha256": "73c26171cf4b3dda389bb83278a69a74fc9bf55cb5ab84ccd2bc431ebbbe6bf6",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/models/__init__.py",
+      "bytes": 61609,
+      "sha256": "b4573b4356db7f543e1bf65649d43e4ed5be8bc1e4e2def4be5bb7d09d0fe0f4",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/models/anthropic.py",
+      "bytes": 73130,
+      "sha256": "8c1bdab1cafaf52b1cdb78654e7ed9a1b76b725624736a2a63e4c7ef9e668751",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/models/bedrock.py",
+      "bytes": 56540,
+      "sha256": "dfa25b7f3aa689197cde2d588248383526adf06bed123ba5de7e14bba7fbacb8",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/models/cerebras.py",
+      "bytes": 4151,
+      "sha256": "2c8bd801b0404cc86b506481eaed1883147f851b66d211fcb1537418773d693e",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/models/cohere.py",
+      "bytes": 14116,
+      "sha256": "81157edef08dfcc1ce295d06053fa1d3fc16f049cfc0c356cd1a7e0ce1aa2e7d",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/models/concurrency.py",
+      "bytes": 5217,
+      "sha256": "b6d17b610d952e6abcbec30e15414e5b19dd6395fe6f793fd783781f0b4ef549",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/models/fallback.py",
+      "bytes": 6443,
+      "sha256": "ed5c08e7c091997e7731d2b70c9895dc64e1b83db347e21c8bf121fdbb0a31a2",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/models/function.py",
+      "bytes": 16804,
+      "sha256": "423e4308b66ff6bc06cc2f1ca4a55fde7e442bf7680d69530c8fbfa2449d8dab",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/models/gemini.py",
+      "bytes": 42213,
+      "sha256": "fed1a4b3707fdc9b6fe7f9ea465b577c6a9b48aea8934d58a6a47c4fe7624a5e",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/models/google.py",
+      "bytes": 67500,
+      "sha256": "02d2ef91dec141a706299a2e1e92a57b60ce51197916f39c399c43bc98de6e1b",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/models/groq.py",
+      "bytes": 32421,
+      "sha256": "1b46e99166601a26e8ca5323b04d3b8df0cc93dfea5eaf080fab1bcd5ed41c1e",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/models/huggingface.py",
+      "bytes": 22193,
+      "sha256": "89aec910e0fba771f1c9f0e7c6eb09a7d4e5bb180d3aa2ec0154785629607b40",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/models/instrumented.py",
+      "bytes": 25650,
+      "sha256": "f4c848c3e5dbea607bee71f14f3befd63813dd34624bf4a903637885be60c05d",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/models/mcp_sampling.py",
+      "bytes": 3553,
+      "sha256": "a98e32e275db469369d906e47e3cd62ef17ff0a2d9197ca9cf871cd256111d75",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/models/mistral.py",
+      "bytes": 35928,
+      "sha256": "47b13ac2b817e115dbad8bbcb1228cc2963acd10895149ef2d0a8b5c9058e429",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/models/openai.py",
+      "bytes": 148284,
+      "sha256": "07ad6c4d352d33f7a6e4993f2fc6b4cd8fb5804a7c38df9523c15627424c49e8",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/models/openrouter.py",
+      "bytes": 30118,
+      "sha256": "d96b32e7502aaf550220c90c47e612075b7b37c75d614c4ba5e10a15eb3de7ac",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/models/outlines.py",
+      "bytes": 25067,
+      "sha256": "cff3ed37bede65509dad934e0ee9718cf7b3ee8137eb698639e4c55a86f6ada9",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/models/test.py",
+      "bytes": 21052,
+      "sha256": "a7fb761af1f9d433fda052279730ae1f64a58ec1f57b161c966677f16cfbec77",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/models/wrapper.py",
+      "bytes": 4260,
+      "sha256": "60f6c480963d7a4b9c3a04104974c66c7c7f5ae38b1980dbd9531e047de87824",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/models/xai.py",
+      "bytes": 53067,
+      "sha256": "0a68fa7d148e09a5375d38f4a41ea6e0cde36f485427d10eb7316bd116e356cd",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/output.py",
+      "bytes": 13786,
+      "sha256": "4b1997b3ad64f4ffe810ffc12354e273cd491143e382f80907cb5de2d201a5a4",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/profiles/__init__.py",
+      "bytes": 4287,
+      "sha256": "8beeca4d52619f624c19e6267e9b8d95199fb19fc535c5e837be9f7d8a96a669",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/profiles/amazon.py",
+      "bytes": 314,
+      "sha256": "20f6b6c3276971b14b2ef8432b7e7ea70c282a8d0f838bcff38f36ddf1f1d337",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/profiles/anthropic.py",
+      "bytes": 920,
+      "sha256": "494ae6f70681b1c7e1af76792578182e4f390ff67016ef50dc431d6a0636e79b",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/profiles/cohere.py",
+      "bytes": 215,
+      "sha256": "95c2f7e07b758d9a29c2eaa853a395f65f2f378cf017e8e23e396c10005b491a",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/profiles/deepseek.py",
+      "bytes": 282,
+      "sha256": "243c1f92bfb4628be50778c42a4edd345bdea7135ffd8b8b80b9060adc971d29",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/profiles/google.py",
+      "bytes": 3171,
+      "sha256": "1a326616e16c469121d143b7674ec09b5d3192f5310e209256021e747df3eb00",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/profiles/grok.py",
+      "bytes": 1657,
+      "sha256": "4bd1a43d0b60536b726ce22a6a3b0a1b967d238ff25b026bc34b9b8730da5171",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/profiles/groq.py",
+      "bytes": 682,
+      "sha256": "8c3fef1ba339abfbb02e626090f6af5968460aaa371ef4ffe1461fc330b504c5",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/profiles/harmony.py",
+      "bytes": 555,
+      "sha256": "1ca390d5050177d8cb2da6cef63302abdeddde9800cdddd8edcfe38b03c54b6b",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/profiles/meta.py",
+      "bytes": 309,
+      "sha256": "25d65ca5d456c7c3d8d6953d6768bf4d8b40d02a5b836df1c85ad5ede5e7a286",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/profiles/mistral.py",
+      "bytes": 217,
+      "sha256": "965d353e670adeccf09537db6892d099f7744c00cdf25aa3a2ff47a4f27308c4",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/profiles/moonshotai.py",
+      "bytes": 272,
+      "sha256": "7b54499db12f6b313a68902a7e660b60636dc0dc20e765d00d10e470baefddf5",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/profiles/openai.py",
+      "bytes": 14332,
+      "sha256": "6a61f25de65256073fefac06eb5c1f3bfb2bd58ec17a333a5b88d426ed794b20",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/profiles/qwen.py",
+      "bytes": 1099,
+      "sha256": "8cdff97a42a718360409c61111f5a567c8879b3f037a20092187b68eea8e9f8a",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/profiles/zai.py",
+      "bytes": 305,
+      "sha256": "a29c22b8c7d178dc79f901f7aff8156faf129ef443c2eb73dd23cd10713d8f59",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/__init__.py",
+      "bytes": 6101,
+      "sha256": "17d271a281b3982848049687103a6eba280896e9e39353d90467ab2aa2180b46",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/alibaba.py",
+      "bytes": 3198,
+      "sha256": "54ff1be96e33867c07d681b1fb11b636682bb8efdcf75a25712c01fa5c3ac930",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/anthropic.py",
+      "bytes": 5992,
+      "sha256": "b20f1607340451fbca157dfda47f609116c80e80fd2fe976eb12a6ca075e373d",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/azure.py",
+      "bytes": 5826,
+      "sha256": "317eb503a4e03208dec313f5142eaad4c0dfe74b391bfd04cafc7568947eda8a",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/bedrock.py",
+      "bytes": 10619,
+      "sha256": "6f63f89688e940fa1fc1e2c6be03ad65bde45790b94c65484087ccf621a75a48",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/cerebras.py",
+      "bytes": 4440,
+      "sha256": "6e57096c741383a4490f464813931a8246033277e7be44c83b40bf516cca3a5c",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/cohere.py",
+      "bytes": 3208,
+      "sha256": "e2ab6d36c2766ad27feb97403b8c6de93f55f29e71bb187af014f256b412c7bf",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/deepseek.py",
+      "bytes": 3557,
+      "sha256": "c060ac732c233fba76e06d2e13bd19f7c31ec8c1a13ca80f6e08f8479ab5d9a1",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/fireworks.py",
+      "bytes": 3597,
+      "sha256": "ea89690f3d52d91b12d14d4f01d5cc3eea11a7c96ad6490ab60c4c5b2b2f3248",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/gateway.py",
+      "bytes": 7970,
+      "sha256": "dd29deed98a74f235d7c6dab4f090cdb4d703e7822dff11e237a288b883de532",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/github.py",
+      "bytes": 4381,
+      "sha256": "cff77a32d34b001f1ec9edaf4e929e43d26266ac158ade9c3b65c5d66853a1c3",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/google.py",
+      "bytes": 7699,
+      "sha256": "8b81364368b3524dba1d34d2a107d25d2e9e04721c694fd47526ec50a880e6db",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/google_gla.py",
+      "bytes": 1963,
+      "sha256": "ea6262fe58edfe979ce01eb98c3532bd5dade542ceccc60be053db134c189264",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/google_vertex.py",
+      "bytes": 9755,
+      "sha256": "36b4a48e3d9996290a66d10a10651e7298416fd0eb0c8ca370946cfde10af965",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/grok.py",
+      "bytes": 3580,
+      "sha256": "a084ab5fe4edc766d521e1baebb3ab2e33999e3f4b6fc33258da3070f1fbb299",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/groq.py",
+      "bytes": 5320,
+      "sha256": "0013dba5651d446a4867b3634f68f1531701db700a1ecf5492653432b7333146",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/heroku.py",
+      "bytes": 2951,
+      "sha256": "0ee93bee0d89b3fa492018af3173837c8d7db26790fd0de07556773ce3c52f24",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/huggingface.py",
+      "bytes": 5327,
+      "sha256": "a44b1a01738e1191c2f01c4c1bd3e19fa3798673c4b3cba314673d4dc98ebb72",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/litellm.py",
+      "bytes": 5082,
+      "sha256": "bfc4e1df32714c347a0aeedf2496b480da56c3823b1e69c8d1ac69a00035fe71",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/mistral.py",
+      "bytes": 3086,
+      "sha256": "e751b1ae70080f4dc0b8c8420a55b8ee3249951db0c3a376b8747f79c24ad96d",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/moonshotai.py",
+      "bytes": 3381,
+      "sha256": "4b56e76e1849e8d7f6ca161141784bda4f43669822b070698a302f3b38e58267",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/ollama.py",
+      "bytes": 4912,
+      "sha256": "19804e9177ffe5fe6a11f348ca52200fce7311d515fd8f7871bd8060c927888d",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/nebius.py",
+      "bytes": 3868,
+      "sha256": "e5518bc225059c2861fc8f71d4c67d75fe27e5341e23d4b0b4d7b31bd9f2f268",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/openai.py",
+      "bytes": 3413,
+      "sha256": "46aa5bffdf4518ebc9ce77798b8f18d27f678c4dd8caf38b976d5f4b33294f8d",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/openrouter.py",
+      "bytes": 8333,
+      "sha256": "ccf82c7b3a1d691edf565f16071244093c2a3ce3182d479fcb481046ee8fd905",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/outlines.py",
+      "bytes": 1327,
+      "sha256": "895d2d4efd77584db8f44fc95b72a6c5395d1d9ac242a9c2d5cc5ede420c4a6b",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/ovhcloud.py",
+      "bytes": 3440,
+      "sha256": "457cb4be89a2c44b5e8e1aaf0477be1f3f49c3bd684bb3a7fecb46208f168ac6",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/sentence_transformers.py",
+      "bytes": 695,
+      "sha256": "733c9c5c4dbd6a756a304d2df9e03fba4073badf756cf1652eb9d0e954545e89",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/sambanova.py",
+      "bytes": 4154,
+      "sha256": "00a6c007cd0fd92b0b231ea70c1c1a5f8c6059da4a5887702cefd3eff9b45823",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/together.py",
+      "bytes": 3453,
+      "sha256": "19702f9b0c3900ab79dd708225fbf0a303b8a73d393413fd390c5a89c0ad4455",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/vercel.py",
+      "bytes": 4242,
+      "sha256": "0060371aea19da9dac902e6799397256de58478805108edc8dd6177a786da71b",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/voyageai.py",
+      "bytes": 2183,
+      "sha256": "8697b1f60c85187ad2ee7678c6ecb71b68aed5536369d0baa6f7fdc3fbb52751",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/providers/xai.py",
+      "bytes": 3471,
+      "sha256": "7cf79c6afef8175bcca1a6dfc6ce5e05abff884d5d95055eba278c904b96a91e",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/result.py",
+      "bytes": 37965,
+      "sha256": "f7edaaa2352d088b05dbed650ca76ef09a496e7690db418368a6a1aba6437b5e",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/retries.py",
+      "bytes": 14650,
+      "sha256": "40ce280c0f431be636a8fd3a7db0a9f03aaaf2ea6ce3446be0762300e95b3723",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/run.py",
+      "bytes": 19156,
+      "sha256": "be82bdfb06e280d4ed00645c88cb538834b1762cb00ddb2fbc09bcbc39942402",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/settings.py",
+      "bytes": 4038,
+      "sha256": "b9dcd322d37cf45e837f3d43028775d2529b646fd4bdba5deac65573b25a214f",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/tools.py",
+      "bytes": 23016,
+      "sha256": "295700f3785acb4b30eb9a7653d0511b19ed695c75d20b78d548bb0925931ff2",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/toolsets/__init__.py",
+      "bytes": 806,
+      "sha256": "958c27c634aac58eab2186034c372dc963dc903c27457ffda2bbea636029d81f",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/toolsets/_dynamic.py",
+      "bytes": 4014,
+      "sha256": "3889add862a197c2aa95395361025bd5e859f5f892825d2ea812376899f82be3",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/toolsets/abstract.py",
+      "bytes": 8233,
+      "sha256": "15f6da05541d9fcf6e5083030d30a46ebecf0bb3d89fa191e962392e1ebaa056",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/toolsets/approval_required.py",
+      "bytes": 1100,
+      "sha256": "cf2606131d95aa9acb79dd7a397835416afcd6b9c00740a60334dec9027d038a",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/toolsets/combined.py",
+      "bytes": 4092,
+      "sha256": "91d6fb5a34bd34953f6779cd632f24ffcca4b2f215650b8257a879ef249712f9",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/toolsets/external.py",
+      "bytes": 1736,
+      "sha256": "27d996426d472db442389c292c122f51964647fcb0481ee9cfc32b5e444d0685",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/toolsets/fastmcp.py",
+      "bytes": 7140,
+      "sha256": "9f91b485120a380ff8593573aaee78f3acebc4f9008932ae3d49405dac6e743f",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/toolsets/filtered.py",
+      "bytes": 864,
+      "sha256": "3d2406f446c1609a4750405bff84c6ce18c07103e8e5a3cabd3b9179ea1662d4",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/toolsets/function.py",
+      "bytes": 19854,
+      "sha256": "f85085f54e4edd44385bee5ceb23b1d75643bb121d28dd74a208ca36b3746a0c",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/toolsets/prefixed.py",
+      "bytes": 1426,
+      "sha256": "d0ac1c0e45bc38cdfa654b0e2d53f987e363dad3eaefc2f7fc4d9cfb515b879b",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/toolsets/prepared.py",
+      "bytes": 1431,
+      "sha256": "6637f3e92f089fa3c1571a0a14df6c28f37df38cceeadd1ac01ecb9eae4a383c",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/toolsets/renamed.py",
+      "bytes": 1637,
+      "sha256": "26e2c7a62fa160f8923e5693a4df168972e21accb060ad1ac62da55b642cef99",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/toolsets/wrapper.py",
+      "bytes": 1673,
+      "sha256": "291cc5d69f1d9dc1dbbdaf0213a51df880b913f6b28081e5c07e5ab572b9e64e",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/ui/_adapter.py",
+      "bytes": 19774,
+      "sha256": "1f066fd7655f9214442c99ac39f7a47931f207062f4fa326079897bbd3ed9856",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/ui/__init__.py",
+      "bytes": 748,
+      "sha256": "531863fc91b9cd4c3f3f1f6cfc21362bc02dd8279150e7e96d90181b93d72ea7",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/ui/_event_stream.py",
+      "bytes": 25076,
+      "sha256": "89c5ba384902e32dad04ff0f963cd448faa6136ad242eacd437175c68b48ffe2",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/ui/_messages_builder.py",
+      "bytes": 1229,
+      "sha256": "db3dddd83c850e1ec82e03e7c912bda81014d681f360b4734ccc500d478468fc",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/ui/_web/__init__.py",
+      "bytes": 208,
+      "sha256": "d822a6d56915bbfc33e56f6afa17b7a89943b90ed2819d53931704dddb8e653b",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/ui/_web/api.py",
+      "bytes": 7642,
+      "sha256": "dfdce4541a23f6cf5797d7ef73a7d54e40a08f928395f571ca69f707acec2397",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/ui/_web/app.py",
+      "bytes": 6294,
+      "sha256": "8910e19caf48052b935aa68e60fc5858feeb4643cc3835540b5278dc856bab71",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/ui/ag_ui/__init__.py",
+      "bytes": 192,
+      "sha256": "096b5cfd7bbeba9721cc9628120272ff4a363677d422d4fe8056ce5560cef141",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/ui/ag_ui/_event_stream.py",
+      "bytes": 10197,
+      "sha256": "22ae9955310c81e831e90807203c64b7c817a5c6ffac5332509845ee7fe46d25",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/ui/ag_ui/_adapter.py",
+      "bytes": 9738,
+      "sha256": "d29fbf30df9d2f0f723e6a366089dcdeb5b4c5b91f77ae7ca9afb6e56587fc64",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/ui/ag_ui/app.py",
+      "bytes": 7927,
+      "sha256": "d2b79536e48e177bcdb8e3636c5cacf29525d308a4809e2520c7dfc3373ff2ca",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/ui/vercel_ai/__init__.py",
+      "bytes": 488,
+      "sha256": "446e89fd6ec7afcf573fe1924fcb913cc6f1bde036101e019a8612b94928efdb",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/ui/vercel_ai/_adapter.py",
+      "bytes": 38577,
+      "sha256": "1e40670c8174d98ecca82727db4bb4f016d5f027780828b9ebd369ab00444e7b",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/ui/vercel_ai/_event_stream.py",
+      "bytes": 11499,
+      "sha256": "9faf541a8c34af94a989168fcdc82024e6bf4fb583700266041b6a9d12b670f6",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/ui/vercel_ai/_models.py",
+      "bytes": 330,
+      "sha256": "395a9a60f5c14a68d44de5645d7e29d5c912bf1b8501bdde59c4ec6141839292",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/ui/vercel_ai/_utils.py",
+      "bytes": 5699,
+      "sha256": "850033c27ab8b23f05f332bd5d9002113d77fb07528ba4ea89815550244a1155",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/ui/vercel_ai/request_types.py",
+      "bytes": 11272,
+      "sha256": "9796bdd0c885dc0fcb5d08b8f73e8e69dd09dc37ccfdd8d03aaeb5e3f5090ece",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/ui/vercel_ai/response_types.py",
+      "bytes": 6443,
+      "sha256": "0b9eed555dedbb8b21fb8193bf2921e092b8bd0957acdec576219a8fa9e248d5",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/packet/sources/pydantic_ai/usage.py",
+      "bytes": 16659,
+      "sha256": "d0e0032975ce05ff11e0f5874c627e2b8bb78f9e3e0ce45faa7e01782561cc15",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "fresh-run/producer-stdout.json",
+      "bytes": 1717,
+      "sha256": "4c26e0792c89ceecc3ec9d314f9f6179f7cb54763a6d982e827e88ab23a853c7",
+      "selected": true,
+      "reason": "retained original member"
+    },
+    {
+      "member": "test-results.xml",
+      "bytes": 9809,
+      "sha256": "08d50639e0177d0e97f552001ffd3a83035e2797f421f1001d4152d817eeb629",
+      "selected": true,
+      "reason": "retained original member"
+    }
+  ],
+  "limits": [
+    "Real Pydantic framework with scripted FunctionModel; no model-quality or real-provider inference measurement.",
+    "Selected loopback ticket effects; no caller authentication, outside adoption or independent custody."
+  ]
+}

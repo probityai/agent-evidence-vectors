@@ -1,0 +1,1012 @@
+#!/usr/bin/env python3
+"""commit-msg gate: refuse a commit message that breaks the documented rules.
+
+This file is the CANONICAL copy. It is deliberately self-contained -- stdlib
+only, no repository-local imports -- because a git hook runs before anything
+has been installed, in a clone whose dependencies may not exist yet, from a
+working directory git does not promise anything about. An earlier pair of
+copies drifted apart precisely because one of them reached into a sibling
+module (`scripts/_id_patterns.py`) that exists in one repository alone; that
+copy could never be shared, so the shared rules stopped being shared.
+
+Rules enforced (each has a matching case in `--selftest`):
+
+1. Subject line at most 72 characters.
+2. Plain ASCII only, anywhere in the message (this is also what refuses
+   emoji, smart quotes and non-breaking spaces).
+3. No AI-attribution trailer or "Generated with/by <assistant>" line.
+4. No project-internal jargon: audit identifiers, decision-log and
+   failed-attempt identifiers, risk-register and research-artefact
+   identifiers, future-work identifiers, workflow-scaffolding labels
+   (Phase N, Wave N, Round N, ...) and session-cycle labels.
+
+Why rule 4: those identifiers are durable INSIDE `DECISION_LOG.md`,
+`TODO.md` and code comments, where the surrounding document resolves them.
+They are not durable in a commit history that outlives the audit that
+minted them. A message reading "closes CR-9 + HA-M5 per Bundle 1
+(DEC-20260505-004)" is unreadable six months later. Commit messages must
+stand on their own prose.
+
+Modes:
+
+    commit-msg <path>              lint one message file (git's hook contract)
+    commit-msg --selftest          run the embedded rule fixtures
+    commit-msg --check-range A..B  lint every commit message in a range
+
+`--check-range` exists so CI can enforce the same rules from the same file.
+A hook is advisory -- `git commit --no-verify` bypasses it and a clone that
+never ran the bootstrap has no hook at all -- so the hook cannot be the only
+enforcement point.
+
+Two repository-specific rule sets are supported WITHOUT forking this file, so
+this hook stays byte-identical everywhere and a missing sidecar simply means
+no extra rules.
+
+`commit-msg.extra-patterns`, if present, contributes `<regex><TAB><label>`
+lines as additional rules. Suitable for anything whose pattern is not itself
+sensitive.
+
+`commit-msg.permitted-paths`, if present, contributes owner-qualified
+repository paths that the identity rules below must not refuse. A permit is
+the one rule shape that can only ever loosen, and the two tree scanners
+beside this hook rule on the same strings, so the pattern is held in that one
+file and read by all three rather than hand-copied into each. The hook held
+no permit at all while the scanners held one each, which is how a
+module-path rename came to be unable to name the path it was changing.
+
+`commit-msg.forbidden-words`, if present, contributes a salted hash per
+forbidden word. It exists because a regex has to spell what it forbids, and
+one of these repositories is public and product-neutral: a rule written there
+as a literal would publish the very names it is meant to keep out, and a rule
+written to exempt its own file leaves the one file nobody checks as the one
+file that names them. Hashing removes the dilemma -- the tree carries no
+readable form of the word, and the scan still covers every tracked file
+including the rule file itself.
+
+The check lowercases each line and slides a window of every declared word
+length across it, looking up `sha256(salt + window)`. That is exactly what a
+case-insensitive substring search does, so it matches the guard it replaces
+rather than narrowing it: a word glued inside a longer identifier is still
+caught, which a tokenizing check would miss.
+
+The sidecar therefore declares the lengths. Leaking "some forbidden word is
+seven characters long" is a far smaller disclosure than the word, and the
+alternative -- sweeping every length in a range -- costs the scan an order of
+magnitude for nothing.
+
+Case sensitivity is per entry, declared as two length lists. A product name
+must match in any casing, so it is hashed lowercased and probed against a
+lowercased window. A marker like an all-caps status word must not be, because
+lower-cased it is ordinary English: matching it case-insensitively fires on
+prose such as "a run that was not posted" or "if not sentences". A guard with
+that failure rate gets switched off, and a switched-off guard protects
+nothing, so the distinction is part of the format rather than a caller's
+option.
+
+Those examples are deliberately generic. An earlier draft of this paragraph
+spelled the real words out to illustrate the tokenizer, which published them
+in the file whose entire purpose is to stop that. The scan caught it on the
+first run, because this rule surface is one the scan covers.
+
+This is obscurity, not secrecy: the candidate space is small enough to
+brute-force against a wordlist. It defeats casual reading, search indexing
+and an accidental paste, which is what this gate is for, and it is strictly
+better than publishing the string.
+
+Bypass: `git commit --no-verify`. Loud and deliberate, by design.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+SUBJECT_MAX_LEN = 72
+
+# Subjects git itself generates, or that never survive to the history.
+# Exempt from the LENGTH rule only: `git revert` quotes the reverted subject
+# verbatim, so a 72-char subject mechanically produces an 82-char revert, and
+# the only way past a length failure there is `--no-verify`, which switches
+# off every other rule as well. Trading one rule for all four is worse than
+# tolerating a long machine-written subject. All other rules still apply.
+LENGTH_EXEMPT_PREFIXES = ('Merge ', 'Revert "', "fixup! ", "squash! ")
+
+# Any code point outside 0x00-0x7F. Lone surrogates appear here too, because
+# the message is decoded with surrogateescape so that invalid UTF-8 is
+# reported as a violation instead of crashing the hook.
+NON_ASCII = re.compile(r"[^\x00-\x7f]")
+
+# Project-internal identifier families that take a `PREFIX-<suffix>` shape.
+_AUDIT_FAMILIES = (
+    r"AUD|CR|CS|GATE|HA|HEALTH|HR|IR|LI|LR|MM|MR|REVIEW|SILENT|SIMPLIFY"
+    r"|ST|STATIC|TYPE"
+)
+
+JARGON_PATTERNS: list[tuple[re.Pattern[str], str]] = [
+    # Audit identifiers, single suffix segment: CR-3, HA-M9, STATIC-PY-3's
+    # short form, ST-001, GATE-1. The suffix must be alphanumeric AND must
+    # contain at least one digit, so ordinary hyphenated words that happen
+    # to start with a family prefix ("TYPE-SAFE", "GATE-KEEPER") are not
+    # mistaken for identifiers.
+    (
+        re.compile(rf"\b(?:{_AUDIT_FAMILIES})-(?=[A-Z0-9]*[0-9])[A-Z0-9]+\b"),
+        "audit identifier",
+    ),
+    # Audit identifiers, two suffix segments: the severity-class compound
+    # form (AR-CRIT-1, CS-HIGH-3, HA-LOW-7, R1-HIGH-3) and the
+    # letter-then-number form (HA-CR-3, STATIC-GO-9). The family list is
+    # explicit rather than [A-Z]{1,3} so that an arbitrary two-letter token
+    # followed by a severity word is not swept up.
+    (
+        re.compile(rf"\b(?:AR|R\d|{_AUDIT_FAMILIES})-[A-Z]+-\d+\b"),
+        "audit identifier",
+    ),
+    # Future-work identifiers. Two arms with different digit requirements:
+    # FUT-29 / FUT-43.1a must begin with a digit, so placeholder prose like
+    # "FUT-PREFIX" does not match; FUT-NEW-... may be all letters because
+    # real IDs take that form (FUT-NEW-IDNA-2026-DISCLOSURE).
+    (
+        re.compile(
+            r"\bFUT-(?:"
+            r"NEW-[A-Za-z0-9]+(?:[.-][A-Za-z0-9]+)*"
+            r"|"
+            r"\d[A-Za-z0-9]*(?:[.-][A-Za-z0-9]+)*"
+            r")"
+        ),
+        "future-work identifier",
+    ),
+    (re.compile(r"\bDEC-\d{8}-\d+\b"), "decision-log identifier"),
+    (re.compile(r"\bFAIL-\d{8}-\d+\b"), "failed-attempt identifier"),
+    # Risk-register identifier. Fixed-width three digits on purpose: AR-1
+    # and AR-1234 are not valid IDs in this project, and a looser pattern
+    # here would flag ordinary tokens.
+    (re.compile(r"\bAR-\d{3}\b"), "risk-register identifier"),
+    (re.compile(r"\bAV-\d+\b"), "research-artefact identifier"),
+    # Workflow-scaffolding labels with a numeric suffix: "Phase 2",
+    # "Set 1.2", "Stage 2b". Case-insensitive.
+    #
+    # The separator is OPTIONAL, which both earlier copies of this hook got
+    # wrong: they required `\s+`, so the single most common spelling of the
+    # violation -- the scope token `chore(phase2): ...` -- passed, and so did
+    # 44 `round-N` / `wave-N` / `stage-N` messages that are in the history
+    # right now.
+    #
+    # `Tier` is deliberately NOT in this list, though both earlier copies had
+    # it. Measured over the four repositories' full history, `Tier N` occurs
+    # 49 times and every single occurrence is product vocabulary, not a
+    # workflow label: "the Tier-3 forensic dump", "register the Tier-1
+    # static-scan-verdict predicate", "Tier 2 monitoring uses Prometheus".
+    # A pattern whose every real-world firing is a false positive teaches
+    # developers to reach for --no-verify, which switches off the rules that
+    # do work. `Stage` was checked the same way and kept: `stage-0` appears
+    # in messages but names no durable symbol in any tree, so it is
+    # scaffolding.
+    (
+        re.compile(
+            r"\b(?:Phase|Wave|Bundle|Round|Set|Stage)[\s_-]*\d+(?:\.\d+)?[a-z]?\b",
+            re.IGNORECASE,
+        ),
+        "workflow-scaffolding label",
+    ),
+    # The same labels with a single-letter suffix: "Phase A", "Wave B".
+    # Case-SENSITIVE, unlike the numeric arm: real labels are capitalised,
+    # and a case-insensitive version of this pattern rejects ordinary
+    # English ("set a default", "round a corner").
+    (
+        re.compile(r"\b(?:Phase|Wave|Bundle|Round|Set|Stage)\s+[A-Z]\b"),
+        "workflow-scaffolding label",
+    ),
+    (re.compile(r"\bsession[\s_-]*\d+\b", re.IGNORECASE), "session-cycle label"),
+]
+
+# AI-attribution shapes. Deliberately attribution-shaped rather than a bare
+# name search: "docs: document the .claude hook wiring" is a legitimate
+# subject, while a Co-authored-by trailer naming an assistant is not.
+_AI_NAMES = (
+    r"claude|anthropic|openai|chatgpt|gpt|copilot|codex|cursor|gemini"
+    r"|devin|aider|llm|ai assistant"
+)
+
+ATTRIBUTION_PATTERNS: list[tuple[re.Pattern[str], str]] = [
+    (
+        re.compile(
+            rf"(?im)^\s*(?:co-authored-by|assisted-by|signed-off-by|committed-by)"
+            rf"\s*:.*(?:{_AI_NAMES})"
+        ),
+        "AI attribution",
+    ),
+    (
+        re.compile(
+            rf"(?i)\bgenerated\s+(?:with|by)\s+\[?\W*(?:{_AI_NAMES})",
+            ),
+        "AI attribution",
+    ),
+    (
+        re.compile(rf"(?i)\bwritten\s+by\s+(?:{_AI_NAMES})\b"),
+        "AI attribution",
+    ),
+]
+
+EXTRA_PATTERNS_FILENAME = "commit-msg.extra-patterns"
+
+#: Sidecar of salted hashes, one forbidden word per line. See the module
+#: docstring for why a hash rather than a pattern.
+FORBIDDEN_WORDS_FILENAME = "commit-msg.forbidden-words"
+
+#: Sidecar of owner-qualified repository paths the identity rules must not
+#: refuse. Held in data rather than in this file for two reasons. The pattern
+#: names an organisation and a repository family, which differ per repository,
+#: so a literal here would fork a file that is byte-identical everywhere. And
+#: the two tree scanners beside this hook rule on the same strings from the same
+#: sidecar directory, so one definition read by three guards is the only shape
+#: in which they cannot disagree -- they did disagree, and the hook was the one
+#: with no permit.
+#:
+#: Absent means no permitted paths, which is the fail-closed direction and is
+#: what keeps this file shareable with a repository that has none. Malformed is
+#: a hard failure, for the reason the two sidecars above give: a permit that
+#: failed to load reads exactly like the guard working.
+PERMITTED_PATHS_FILENAME = "commit-msg.permitted-paths"
+
+#: Optional per-repository commit from which `--check-range` takes effect. Same
+#: sidecar convention as the extra patterns above, and for the same reason: the
+#: value differs per repository, so holding it in data keeps this file
+#: byte-identical everywhere.
+#:
+#: A rule takes effect when it is adopted. Without a baseline, adding this gate
+#: to a repository makes it retroactive over whatever history a push happens to
+#: carry, so the first push after installation fails on messages written before
+#: the rule existed. That is not a finding, and a gate that reports one teaches
+#: people that the correct response to it is `--no-verify`. Commits reachable
+#: from the baseline are reported as skipped, never silently dropped: a count
+#: that vanishes is how a check stops being a check.
+BASELINE_FILENAME = "commit-msg.baseline"
+
+
+def load_baseline() -> str | None:
+    """The commit from which `--check-range` takes effect, or None if unset.
+
+    One revision, `#` comments and blank lines ignored. Absent file means no
+    baseline and the whole range is linted, so this stays portable to a
+    repository that has always had the gate.
+
+    A file that is present but unusable -- empty, more than one revision, or a
+    revision this repository cannot resolve -- is a hard failure. Treating it as
+    "no baseline" would silently widen the check, and treating it as "skip
+    everything" would silently empty it; the second is how a gate comes to
+    report success while enforcing nothing.
+    """
+    path = Path(__file__).resolve().parent / BASELINE_FILENAME
+    if not path.is_file():
+        return None
+    revisions = [
+        line.strip()
+        for line in path.read_text(encoding="utf-8").splitlines()
+        if line.strip() and not line.lstrip().startswith("#")
+    ]
+    if len(revisions) != 1:
+        print(
+            f"commit-msg: {path} must name exactly one revision, "
+            f"found {len(revisions)}",
+            file=sys.stderr,
+        )
+        raise SystemExit(2)
+    resolved = subprocess.run(
+        ["git", "rev-parse", "--verify", f"{revisions[0]}^{{commit}}"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if resolved.returncode != 0:
+        print(
+            f"commit-msg: baseline {revisions[0]!r} in {path} does not resolve "
+            "to a commit in this repository",
+            file=sys.stderr,
+        )
+        raise SystemExit(2)
+    return resolved.stdout.strip()
+
+
+def load_extra_patterns() -> list[tuple[re.Pattern[str], str]]:
+    """Load the optional per-repository rules that sit beside this hook.
+
+    Format is one `<regex><TAB><label>` per line; `#` comments and blank
+    lines are ignored. Reading a data file beside the hook is not the same
+    mistake as importing a repo-local module: the hook still runs correctly
+    when the file is absent, so it remains portable to a repository that has
+    no such rules.
+
+    A malformed line is a hard failure rather than a skipped rule. A guard
+    that silently drops a rule it cannot parse reports "clean" for a check
+    that never ran.
+    """
+    path = Path(__file__).resolve().parent / EXTRA_PATTERNS_FILENAME
+    if not path.is_file():
+        return []
+    return parse_extra_patterns(path.read_text(encoding="utf-8"), str(path))
+
+
+def parse_extra_patterns(text: str, origin: str) -> list[tuple[re.Pattern[str], str]]:
+    patterns: list[tuple[re.Pattern[str], str]] = []
+    for number, raw in enumerate(text.splitlines(), start=1):
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        if "\t" not in raw:
+            raise ValueError(
+                f"{origin}:{number}: expected '<regex><TAB><label>', found {raw!r}"
+            )
+        expression, _, label = raw.partition("\t")
+        patterns.append((re.compile(expression.strip()), label.strip() or "extra rule"))
+    return patterns
+
+
+def load_forbidden_words() -> tuple[str, list[int], list[int], dict[str, str]]:
+    """Load the optional salted-hash rules that sit beside this hook.
+
+    Returns `(salt, nocase_lengths, cased_lengths, {digest: label})`; an absent
+    file yields an empty table, which is what keeps this hook portable to a
+    repository that has no such rules.
+    """
+    path = Path(__file__).resolve().parent / FORBIDDEN_WORDS_FILENAME
+    if not path.is_file():
+        return "", [], [], {}
+    return parse_forbidden_words(path.read_text(encoding="utf-8"), str(path))
+
+
+def parse_forbidden_words(
+    text: str, origin: str
+) -> tuple[str, list[int], list[int], dict[str, str]]:
+    """Parse `# salt:`, `# lengths-i:`, `# lengths-s:` and `<digest><TAB><label>`.
+
+    Malformed input is a hard failure for the same reason a malformed extra
+    pattern is: a guard that silently drops a rule it cannot parse reports
+    "clean" for a check that never ran. A file that declares no salt, or
+    declares one and lists nothing, is malformed rather than empty -- an
+    empty table has to mean "no sidecar", never "the sidecar failed to load".
+    """
+    salt = ""
+    widths: dict[str, list[int]] = {"i": [], "s": []}
+    table: dict[str, str] = {}
+    for number, raw in enumerate(text.splitlines(), start=1):
+        line = raw.strip()
+        if not line:
+            continue
+        if line.startswith("#"):
+            marker = "# salt:"
+            if line.startswith(marker):
+                if salt:
+                    raise ValueError(f"{origin}:{number}: salt declared twice")
+                salt = line[len(marker) :].strip()
+                if not re.fullmatch(r"[0-9a-f]{16,}", salt):
+                    raise ValueError(
+                        f"{origin}:{number}: salt must be >=16 lowercase hex chars"
+                    )
+            for kind, marker in (("i", "# lengths-i:"), ("s", "# lengths-s:")):
+                if not line.startswith(marker):
+                    continue
+                if widths[kind]:
+                    raise ValueError(
+                        f"{origin}:{number}: {marker} declared twice"
+                    )
+                field = line[len(marker) :].strip()
+                if not re.fullmatch(r"\d+(,\d+)*", field):
+                    raise ValueError(
+                        f"{origin}:{number}: {marker} must be a comma-separated "
+                        "list of positive integers"
+                    )
+                widths[kind] = sorted({int(n) for n in field.split(",")})
+                if widths[kind][0] < 1:
+                    raise ValueError(f"{origin}:{number}: lengths must be positive")
+            continue
+        if "\t" not in raw:
+            raise ValueError(
+                f"{origin}:{number}: expected '<sha256hex><TAB><label>', found {raw!r}"
+            )
+        digest, _, label = raw.partition("\t")
+        digest = digest.strip().lower()
+        if not re.fullmatch(r"[0-9a-f]{64}", digest):
+            raise ValueError(f"{origin}:{number}: not a sha256 hex digest: {digest!r}")
+        table[digest] = label.strip() or "forbidden token"
+    if table and not salt:
+        raise ValueError(f"{origin}: digests listed with no '# salt:' line")
+    if table and not (widths["i"] or widths["s"]):
+        raise ValueError(f"{origin}: digests listed with no '# lengths-*:' line")
+    if salt and not table:
+        raise ValueError(f"{origin}: salt declared with no digests")
+    return salt, widths["i"], widths["s"], table
+
+
+def load_permitted_paths() -> list[re.Pattern[str]]:
+    """Load the optional path permits that sit beside this hook.
+
+    An absent file yields no permits, which leaves every identity rule as wide
+    as it was written.
+    """
+    path = Path(__file__).resolve().parent / PERMITTED_PATHS_FILENAME
+    if not path.is_file():
+        return []
+    return parse_permitted_paths(path.read_text(encoding="utf-8"), str(path))
+
+
+def parse_permitted_paths(text: str, origin: str) -> list[re.Pattern[str]]:
+    """Parse `<hex><TAB><regex>` lines into compiled, case-insensitive permits.
+
+    Exactly two tab-separated fields per line. A third field would silently
+    become part of the pattern, and this is a rule that loosens: a permit that
+    compiled into something wider than it reads is the one parse error whose
+    result looks like the guard passing.
+
+    The first field is hex-encoded because this file's readers are scanned by
+    the guards they implement, so a rule surface that spells the name it permits
+    refuses its own commit. A hex field with nothing after it is refused rather
+    than accepted as a bare-name permit, which is the single thing a PATH permit
+    exists not to be.
+    """
+    permits: list[re.Pattern[str]] = []
+    for number, raw in enumerate(text.splitlines(), start=1):
+        if not raw.strip() or raw.lstrip().startswith("#"):
+            continue
+        fields = raw.split("\t")
+        if len(fields) != 2:
+            raise ValueError(
+                f"{origin}:{number}: expected exactly two tab-separated fields "
+                f"'<hex><TAB><regex>', found {len(fields)}: {raw!r}"
+            )
+        encoded, expression = fields[0].strip(), fields[1].strip()
+        if not re.fullmatch(r"(?:[0-9a-f]{2})+", encoded):
+            raise ValueError(
+                f"{origin}:{number}: the first field must be lowercase hex pairs"
+            )
+        if not expression:
+            raise ValueError(
+                f"{origin}:{number}: a hex prefix with nothing after it would permit "
+                "the bare name, which is what a path permit exists not to do"
+            )
+        try:
+            prefix = bytes.fromhex(encoded).decode("ascii")
+        except UnicodeDecodeError as exc:
+            raise ValueError(f"{origin}:{number}: hex field is not ASCII") from exc
+        try:
+            permits.append(re.compile(prefix + expression, re.IGNORECASE))
+        except re.error as exc:
+            raise ValueError(f"{origin}:{number}: pattern does not compile: {exc}") from exc
+    return permits
+
+
+def permit(text: str, permits: list[re.Pattern[str]]) -> str:
+    """Blank every permitted owner-qualified path, preserving every offset.
+
+    The filler is the same length as what it replaces, so a hash window that
+    starts inside the masked span can no longer match a rule, while a second
+    mention on the same line that is NOT owner-qualified still reaches every
+    rule unchanged. That asymmetry is the whole permit: the path passes, the
+    bare name does not.
+    """
+    for pattern in permits:
+        text = pattern.sub(lambda match: "." * len(match.group(0)), text)
+    return text
+
+
+def forbidden_word_errors(
+    text: str,
+    salt: str,
+    nocase_lengths: list[int],
+    cased_lengths: list[int],
+    table: dict[str, str],
+) -> list[str]:
+    """Report every forbidden word occurring anywhere in `text`.
+
+    Lowercases and slides a window of each declared length, which reproduces a
+    case-insensitive substring search exactly. Matching only whole tokens would
+    silently narrow the rule this replaces, letting a name glued inside a longer
+    identifier through.
+
+    The matched word is deliberately NOT echoed. A guard that prints what it
+    caught reproduces the string into CI logs, terminal scrollback and issue
+    reports -- which is the leak this rule exists to prevent, committed by the
+    rule itself.
+    """
+    if not table:
+        return []
+    errors: list[str] = []
+    seen: set[str] = set()
+    for haystack, lengths in ((text.lower(), nocase_lengths), (text, cased_lengths)):
+        for width in lengths:
+            for start in range(0, len(haystack) - width + 1):
+                window = haystack[start : start + width]
+                digest = hashlib.sha256((salt + window).encode("utf-8")).hexdigest()
+                label = table.get(digest)
+                if label is not None and digest not in seen:
+                    seen.add(digest)
+                    errors.append(
+                        f"forbidden {label} (word withheld; see the sidecar)"
+                    )
+    return errors
+
+
+# `git commit --verbose` appends the staged diff after this marker. Git strips
+# it after the hook has run, so the hook must strip it too, or a non-ASCII
+# byte in the diff would be reported as a message violation.
+SCISSORS = re.compile(r"^\s*#\s*-+\s*>8\s*-+")
+
+
+def strip_noise(message: str) -> list[str]:
+    """Return the message lines git will actually keep."""
+    lines: list[str] = []
+    for line in message.splitlines():
+        if SCISSORS.match(line):
+            break
+        if line.startswith("#"):
+            continue
+        lines.append(line)
+    while lines and not lines[-1].strip():
+        lines.pop()
+    return lines
+
+
+def rule_errors(
+    patterns: list[tuple[re.Pattern[str], str]], text: str
+) -> list[str]:
+    """Every hit of every pattern in `text`, reported with what matched.
+
+    Split out of `lint` because the two rule families are now handed DIFFERENT
+    text -- the hygiene rules read the message as written, the configured rules
+    read it with permitted paths masked -- and inlining both loops put a
+    branch-heavy function further over the ceiling for no reading benefit.
+    """
+    return [
+        f"forbidden {label}: {match.group(0).strip()!r}"
+        for pattern, label in patterns
+        for match in pattern.finditer(text)
+    ]
+
+
+def lint(
+    message: str,
+    extra: list[tuple[re.Pattern[str], str]] | None = None,
+    forbidden: tuple[str, list[int], list[int], dict[str, str]] | None = None,
+    permits: list[re.Pattern[str]] | None = None,
+) -> list[str]:
+    """Return a list of human-readable violations; empty means the message passes."""
+    lines = strip_noise(message)
+    if not any(line.strip() for line in lines):
+        return ["empty commit message"]
+
+    errors: list[str] = []
+    subject = lines[0]
+
+    if len(subject) > SUBJECT_MAX_LEN and not subject.startswith(
+        LENGTH_EXEMPT_PREFIXES
+    ):
+        errors.append(
+            f"subject line is {len(subject)} chars; max is {SUBJECT_MAX_LEN}"
+        )
+
+    for idx, line in enumerate(lines, start=1):
+        match = NON_ASCII.search(line)
+        if match:
+            char = match.group(0)
+            point = ord(char)
+            if 0xDC80 <= point <= 0xDCFF:
+                shown = f"raw byte 0x{point - 0xDC00:02X} (not valid UTF-8)"
+            else:
+                shown = f"{char!r} (U+{point:04X})"
+            errors.append(
+                f"line {idx}: non-ASCII character {shown}; "
+                "commit messages must be plain ASCII"
+            )
+
+    full = "\n".join(lines)
+    # The permit masks owner-qualified repository paths, and it is applied to the
+    # two DATA-DRIVEN rule surfaces only. Those are the surfaces a repository
+    # uses to refuse its own names, so they are the surfaces a repository needs a
+    # way to name its own URLs through. The jargon and attribution rules are
+    # about message hygiene and cannot fire on a path of this shape, so masking
+    # anything for them could only ever hide a real hit.
+    permitted = permit(full, permits or [])
+    errors.extend(rule_errors(JARGON_PATTERNS + ATTRIBUTION_PATTERNS, full))
+    errors.extend(rule_errors(extra or [], permitted))
+
+    salt, nocase, cased, table = forbidden or ("", [], [], {})
+    errors.extend(forbidden_word_errors(permitted, salt, nocase, cased, table))
+
+    return errors
+
+
+def read_message(path: Path) -> str:
+    """Read a message file without letting invalid UTF-8 crash the hook.
+
+    Undecodable bytes survive as lone surrogates, which the non-ASCII rule
+    then reports. Raising here instead would abort the commit with a
+    traceback rather than with the reason.
+    """
+    return path.read_bytes().decode("utf-8", errors="surrogateescape")
+
+
+def report(errors: list[str], where: str) -> None:
+    print(f"commit-msg: REJECTED {where}", file=sys.stderr)
+    for error in errors:
+        print(f"  - {error}", file=sys.stderr)
+    print(
+        "\nRewrite the message. Bypass only with a stated reason:\n"
+        "  git commit --no-verify",
+        file=sys.stderr,
+    )
+
+
+# (message, expected-substring-of-a-violation or None for "must pass").
+SELFTEST_CASES: list[tuple[str, str | None]] = [
+    # Rule 1: subject length.
+    (
+        "feat(gate): " + "x" * 61,
+        "max is 72",
+    ),
+    ("feat(gate): " + "x" * 60, None),
+    # Rule 2: non-ASCII.
+    ("fix(api): drop the — dash", "non-ASCII"),
+    ("fix(api): add batch endpoint \U0001f680", "non-ASCII"),
+    # Rule 3: AI attribution.
+    (
+        "fix(api): add batch endpoint\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+        "AI attribution",
+    ),
+    (
+        "fix(api): add batch endpoint\n\nGenerated with [Claude Code](https://x)",
+        "AI attribution",
+    ),
+    (
+        "fix(api): add batch endpoint\n\n\U0001f916 Generated by Copilot",
+        "AI attribution",
+    ),
+    # A real DCO sign-off by a human must still pass.
+    (
+        "fix(api): add batch endpoint\n\nSigned-off-by: A Developer <dev@example.com>",
+        None,
+    ),
+    # Rule 4: internal jargon.
+    ("chore(phase2): tidy the runner", "workflow-scaffolding label"),
+    ("chore: wrap up wave-7 of the sweep", "workflow-scaffolding label"),
+    ("chore: wrap up session12", "session-cycle label"),
+    ("chore: finish Phase 2 of the runner", "workflow-scaffolding label"),
+    ("chore: finish Wave 7", "workflow-scaffolding label"),
+    ("chore: finish Wave B", "workflow-scaffolding label"),
+    ("chore: finish stage-0 of the sweep", "workflow-scaffolding label"),
+    ("fix(lint): close CR-9 and HA-M5", "audit identifier"),
+    ("fix(lint): close AR-CRIT-1", "audit identifier"),
+    ("docs: record DEC-20260505-004", "decision-log identifier"),
+    ("docs: record FAIL-20260505-004", "failed-attempt identifier"),
+    ("docs: record AR-001", "risk-register identifier"),
+    ("docs: record AV-9", "research-artefact identifier"),
+    ("docs: close FUT-NEW-IDNA-2026-DISCLOSURE", "future-work identifier"),
+    ("docs: close FUT-43.1a", "future-work identifier"),
+    ("chore: wrap up session-12", "session-cycle label"),
+    # Ordinary English that the case-sensitive letter arm must NOT reject.
+    ("fix(config): set a default timeout", None),
+    ("fix(ui): round a corner radius", None),
+    # Product vocabulary that must NOT be read as a workflow label.
+    ("feat(forensics): add the Tier-3 forensic dump", None),
+    ("feat(verdict): register the Tier-1 static-scan predicate", None),
+    # Hyphenated words that are not identifiers.
+    ("refactor(api): make the TYPE-SAFE cast explicit", None),
+    # A clean conventional commit with a body.
+    (
+        "feat(api): add batch processing endpoint\n\n"
+        "Add support for processing multiple items in a single request.\n"
+        "Reduces API calls by 80 percent for bulk operations.\n",
+        None,
+    ),
+    # Git-generated subjects: exempt from length, not from anything else.
+    ('Revert "feat(api): ' + "x" * 60 + '"', None),
+    ("Merge branch " + "x" * 70, None),
+    ('Revert "feat(api): finish Phase 2"', "workflow-scaffolding label"),
+    # Empty.
+    ("\n# a comment only\n", "empty"),
+    # A verbose-commit diff after the scissors line must not be scanned.
+    (
+        "feat(api): add batch endpoint\n"
+        "# ------------------------ >8 ------------------------\n"
+        "diff --git a/x b/x\n+café\n",
+        None,
+    ),
+]
+
+
+def selftest() -> int:
+    #: Every assertion below goes through `check`, so the tally at the end
+    #: counts what actually ran. It previously reported `len(SELFTEST_CASES)`
+    #: while the rule-surface assertions ran uncounted -- a gate that
+    #: under-reports its own coverage is the same defect class as one that
+    #: skips a rule silently, and this file's other comments say so.
+    failures = 0
+    checks = 0
+
+    def check(passed: bool, message: str) -> None:
+        nonlocal failures, checks
+        checks += 1
+        if not passed:
+            failures += 1
+            print(f"FAIL {message}", file=sys.stderr)
+
+    def raises(call: object, *args: object) -> bool:
+        try:
+            call(*args)  # type: ignore[operator]
+        except ValueError:
+            return True
+        return False
+
+    # The extension point is a rule surface, so it gets tested like one.
+    parsed = parse_extra_patterns(
+        "# comment\n\n(?i)\\bwidget\\b\tproduct name\n", "<fixture>"
+    )
+    check(
+        [e for e in lint("feat: ship the Widget", parsed) if "product name" in e] != [],
+        "extra-patterns: loaded rule did not fire",
+    )
+    check(
+        not lint("feat: ship the thing", parsed),
+        "extra-patterns: loaded rule over-matched",
+    )
+    check(
+        raises(parse_extra_patterns, "no-tab-here\n", "<fixture>"),
+        "extra-patterns: malformed line was accepted",
+    )
+
+    # The hashed rule surface, tested the same way. The fixture salt and word
+    # are local to this test, so the selftest never needs a real forbidden
+    # word to prove the mechanism works.
+    fixture_salt = "abcdef0123456789"
+    fixture_word = "widget"
+    fixture_digest = hashlib.sha256(
+        (fixture_salt + fixture_word).encode("utf-8")
+    ).hexdigest()
+    hashed = parse_forbidden_words(
+        f"# salt: {fixture_salt}\n# lengths-i: {len(fixture_word)}\n"
+        f"{fixture_digest}\tproduct name\n",
+        "<fixture>",
+    )
+    check(
+        hashed
+        == (fixture_salt, [len(fixture_word)], [], {fixture_digest: "product name"}),
+        "forbidden-words: parse produced the wrong table",
+    )
+
+    # A case-SENSITIVE entry must not fire on the same letters in another case.
+    # This is the property that keeps an all-caps marker from matching prose.
+    cased_word = "NOTPOSTED"
+    cased_digest = hashlib.sha256(
+        (fixture_salt + cased_word).encode("utf-8")
+    ).hexdigest()
+    cased = parse_forbidden_words(
+        f"# salt: {fixture_salt}\n# lengths-s: {len(cased_word)}\n"
+        f"{cased_digest}\tmarker\n",
+        "<fixture>",
+    )
+    check(
+        [e for e in lint("feat: NOTPOSTED yet", None, cased) if "marker" in e] != [],
+        "forbidden-words: case-sensitive entry did not fire on its exact form",
+    )
+    check(
+        not [e for e in lint("feat: notposted yet", None, cased) if "marker" in e],
+        "forbidden-words: case-sensitive entry fired on a different case",
+    )
+
+    # Fires on the bare word and on the word embedded in punctuation, a scope
+    # and a hyphenated compound -- the shapes the tokenizer exists for.
+    for probe in (
+        "feat: ship the Widget",
+        "feat: ship Widget, Inc. today",
+        "feat: bump @widget/verify",
+        "feat: bump widget-runtime",
+        "feat: rename mywidgetthing",
+    ):
+        hits = [e for e in lint(probe, None, hashed) if "product name" in e]
+        check(bool(hits), f"forbidden-words: no hit on {probe!r}")
+        # The report must never echo what it caught, or the failure message
+        # reproduces the string the rule exists to suppress.
+        check(
+            fixture_word not in " ".join(hits).lower(),
+            f"forbidden-words: the error echoed the forbidden word for {probe!r}",
+        )
+    check(
+        not lint("feat: ship the thing", None, hashed),
+        "forbidden-words: rule over-matched",
+    )
+    # A forbidden word glued inside a longer identifier MUST fire. This is the
+    # property that keeps the rule as wide as the case-insensitive substring
+    # search it replaces; a tokenizing check would let it through.
+    check(
+        [e for e in lint("feat: ship the widgets", None, hashed) if "product name" in e] != [],
+        "forbidden-words: missed the word inside a longer identifier",
+    )
+    # An absent sidecar means no rules, never a silent pass of a broken one.
+    check(
+        not lint("feat: ship the Widget", None, ("", [], [], {})),
+        "forbidden-words: empty table still fired",
+    )
+    for bad_text, why in (
+        (f"# salt: {fixture_salt}\n# lengths-i: 6\nnot-a-digest\tlabel\n", "non-digest accepted"),
+        (f"# lengths-i: 6\n{fixture_digest}\tlabel\n", "digests with no salt accepted"),
+        (f"# salt: {fixture_salt}\n{fixture_digest}\tlabel\n", "digests with no lengths accepted"),
+        (f"# salt: {fixture_salt}\n# lengths-i: zero\n{fixture_digest}\tlabel\n", "non-numeric lengths accepted"),
+        (f"# salt: {fixture_salt}\n", "salt with no digests accepted"),
+        (f"# salt: SHOUTY\n# lengths-i: 6\n{fixture_digest}\tlabel\n", "non-hex salt accepted"),
+        (f"# salt: {fixture_salt}\n# lengths-i: 6\n{fixture_digest} label\n", "missing tab accepted"),
+        (
+            f"# salt: {fixture_salt}\n# salt: {fixture_salt}\n# lengths-i: 6\n{fixture_digest}\tl\n",
+            "duplicate salt accepted",
+        ),
+    ):
+        check(
+            raises(parse_forbidden_words, bad_text, "<fixture>"),
+            f"forbidden-words: {why}",
+        )
+
+    # The permit surface. A permit is the one rule shape that can only ever
+    # loosen, so every case below asserts a direction and the refusals outnumber
+    # the permission. The fixture owner and the fixture forbidden word are local
+    # to this test, so the selftest proves the mechanism without this file ever
+    # carrying a real name -- which matters here, because this file is scanned by
+    # the guard it implements.
+    fixture_owner = "acmeorg"
+    permits = parse_permitted_paths(
+        f"# comment\n\n{fixture_owner.encode('ascii').hex()}\t/{fixture_word}-repo\\b\n",
+        "<fixture>",
+    )
+    check(len(permits) == 1, "permitted-paths: parse produced the wrong number of permits")
+    owned = f"feat: bump {fixture_owner}/{fixture_word}-repo"
+    check(
+        not [e for e in lint(owned, None, hashed, permits) if "product name" in e],
+        "permitted-paths: an owner-qualified path was still refused",
+    )
+    # The same line with no permits must refuse, or the case above proves nothing
+    # about the permit and only that the rule does not fire on this shape.
+    check(
+        [e for e in lint(owned, None, hashed) if "product name" in e] != [],
+        "permitted-paths: the path passed with NO permit loaded, so the permit is not what allowed it",
+    )
+    for what, probe in (
+        ("the bare name", f"feat: ship the {fixture_word}"),
+        (
+            "a second mention that is not owner-qualified",
+            f"feat: bump {fixture_owner}/{fixture_word}-repo and the {fixture_word} runtime",
+        ),
+        (
+            "a repository outside the permit",
+            f"feat: bump {fixture_owner}/{fixture_word}-other",
+        ),
+    ):
+        check(
+            [e for e in lint(probe, None, hashed, permits) if "product name" in e] != [],
+            f"permitted-paths: {what} passed, which widens the permit past a path",
+        )
+    # The permit covers BOTH configured rule surfaces. A repository that writes
+    # its identity rule as a pattern rather than as a digest must not find the
+    # permit missing there: that is the same defect in the other spelling, and
+    # nothing asserted it until a mutation walked straight through.
+    extra_identity = parse_extra_patterns(
+        f"(?i)\\b{fixture_word}\\b\tproduct name\n", "<fixture>"
+    )
+    check(
+        not [e for e in lint(owned, extra_identity, None, permits) if "product name" in e],
+        "permitted-paths: the permit does not reach the extra-pattern rule surface",
+    )
+    check(
+        [
+            e
+            for e in lint(f"feat: ship the {fixture_word}", extra_identity, None, permits)
+            if "product name" in e
+        ]
+        != [],
+        "permitted-paths: the extra-pattern surface stopped refusing the bare name",
+    )
+    for bad_permit, why in (
+        (f"{fixture_owner.encode('ascii').hex()}\t/a\tlabel\n", "a third field accepted"),
+        (f"{fixture_owner.encode('ascii').hex()}\n", "a line with no pattern accepted"),
+        (f"{fixture_owner.encode('ascii').hex()}\t\n", "an empty pattern accepted"),
+        ("nothex\t/a\n", "a non-hex first field accepted"),
+        ("ff\t/a\n", "a non-ASCII hex field accepted"),
+        (f"{fixture_owner.encode('ascii').hex()}\t/a(\n", "a pattern that does not compile accepted"),
+    ):
+        check(
+            raises(parse_permitted_paths, bad_permit, "<fixture>"),
+            f"permitted-paths: {why}",
+        )
+
+    for message, expected in SELFTEST_CASES:
+        errors = lint(message)
+        label = message.splitlines()[0][:58] if message.strip() else "<empty>"
+        if expected is None:
+            check(not errors, f"expected-pass: {label!r} -> {errors}")
+        else:
+            check(
+                any(expected in error for error in errors),
+                f"expected {expected!r}: {label!r} -> {errors}",
+            )
+
+    if failures:
+        print(f"commit-msg selftest: {failures}/{checks} checks FAILED", file=sys.stderr)
+        return 1
+    print(f"commit-msg selftest: {checks}/{checks} checks passed")
+    return 0
+
+
+def check_range(rev_range: str) -> int:
+    """Lint every commit message in a revision range (used by CI)."""
+    extra = load_extra_patterns()
+    forbidden = load_forbidden_words()
+    permits = load_permitted_paths()
+    baseline = load_baseline()
+    # `^<baseline>` drops everything the baseline already reaches, which is what
+    # makes the gate effective-from rather than retroactive. It is passed to the
+    # same rev-list that resolves the range, so an unresolvable baseline fails
+    # here rather than quietly widening or emptying the set.
+    argv = ["git", "rev-list", rev_range]
+    if baseline is not None:
+        argv.append(f"^{baseline}")
+    listed = subprocess.run(
+        argv,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if listed.returncode != 0:
+        print(
+            f"commit-msg: cannot resolve range {rev_range!r}: "
+            f"{listed.stderr.strip()}",
+            file=sys.stderr,
+        )
+        return 2
+    revisions = listed.stdout.split()
+    bad = 0
+    for revision in revisions:
+        shown = subprocess.run(
+            ["git", "show", "-s", "--format=%B", revision],
+            capture_output=True,
+            check=True,
+        )
+        message = shown.stdout.decode("utf-8", errors="surrogateescape")
+        errors = lint(message, extra, forbidden, permits)
+        if errors:
+            bad += 1
+            report(errors, f"commit {revision[:12]}")
+    scope = f" (from baseline {baseline[:12]})" if baseline is not None else ""
+    print(
+        f"commit-msg: checked {len(revisions)} commit message(s) in "
+        f"{rev_range}{scope}; {bad} rejected"
+    )
+    return 1 if bad else 0
+
+
+def main(argv: list[str]) -> int:
+    if len(argv) < 2:
+        print("commit-msg: missing message-file path", file=sys.stderr)
+        return 2
+    if argv[1] == "--selftest":
+        return selftest()
+    if argv[1] == "--check-range":
+        if len(argv) < 3:
+            print("commit-msg: --check-range needs a revision range", file=sys.stderr)
+            return 2
+        return check_range(argv[2])
+
+    path = Path(argv[1])
+    try:
+        message = read_message(path)
+    except OSError as exc:
+        print(f"commit-msg: cannot read {path}: {exc}", file=sys.stderr)
+        return 2
+    errors = lint(
+        message, load_extra_patterns(), load_forbidden_words(), load_permitted_paths()
+    )
+    if errors:
+        report(errors, "the commit message")
+        return 1
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv))

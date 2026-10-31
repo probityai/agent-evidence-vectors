@@ -1,0 +1,87 @@
+{
+  "question": "Which retained SDK serializer outputs matched the selected canonical bytes, differed, or refused, across the complete recorded input population?",
+  "evidenceClass": "author-hosted-serializer-byte-comparison",
+  "source": "16d6c5edc700fea2f22cda6044f90953e01d7d8e",
+  "sdkCount": 10,
+  "perSDK": {
+    "csharp": {
+      "rows": 27,
+      "verdicts": {
+        "canonical": 6,
+        "differs": 18,
+        "refused": 3
+      }
+    },
+    "go": {
+      "rows": 27,
+      "verdicts": {
+        "canonical": 9,
+        "differs": 18
+      }
+    },
+    "java": {
+      "rows": 27,
+      "verdicts": {
+        "canonical": 13,
+        "differs": 14
+      }
+    },
+    "kotlin": {
+      "rows": 27,
+      "verdicts": {
+        "canonical": 14,
+        "differs": 12,
+        "refused": 1
+      }
+    },
+    "php": {
+      "rows": 27,
+      "verdicts": {
+        "canonical": 11,
+        "differs": 14,
+        "refused": 2
+      }
+    },
+    "python": {
+      "rows": 27,
+      "verdicts": {
+        "canonical": 17,
+        "differs": 9,
+        "refused": 1
+      }
+    },
+    "ruby": {
+      "rows": 27,
+      "verdicts": {
+        "canonical": 15,
+        "differs": 9,
+        "refused": 3
+      }
+    },
+    "rust": {
+      "rows": 27,
+      "verdicts": {
+        "canonical": 17,
+        "differs": 7,
+        "refused": 3
+      }
+    },
+    "swift": {
+      "rows": 27,
+      "verdicts": {
+        "canonical": 19,
+        "differs": 6,
+        "refused": 2
+      }
+    },
+    "typescript": {
+      "rows": 27,
+      "verdicts": {
+        "canonical": 20,
+        "differs": 7
+      }
+    }
+  },
+  "workflowReportsDifferencesByDefault": true,
+  "numericNativeExit": null
+}

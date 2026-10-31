@@ -1,0 +1,97 @@
+[
+  {
+    "step": "lock",
+    "argv": [
+      "uv",
+      "lock",
+      "--check"
+    ],
+    "actual_exit": 0
+  },
+  {
+    "step": "inputs",
+    "argv": [
+      "/home/gate/work/oel-e030-wrapper-case-r1-e030-wrapper-r3/.venv/bin/python",
+      "-m",
+      "scripts.fetch_inputs"
+    ],
+    "actual_exit": 0
+  },
+  {
+    "step": "lint",
+    "argv": [
+      "/home/gate/work/oel-e030-wrapper-case-r1-e030-wrapper-r3/.venv/bin/python",
+      "-m",
+      "ruff",
+      "check",
+      "e030_case",
+      "tests",
+      "scripts/qualify.py",
+      "scripts/fetch_inputs.py"
+    ],
+    "actual_exit": 0
+  },
+  {
+    "step": "format",
+    "argv": [
+      "/home/gate/work/oel-e030-wrapper-case-r1-e030-wrapper-r3/.venv/bin/python",
+      "-m",
+      "ruff",
+      "format",
+      "--check",
+      "e030_case",
+      "tests",
+      "scripts/qualify.py",
+      "scripts/fetch_inputs.py"
+    ],
+    "actual_exit": 0
+  },
+  {
+    "step": "readme",
+    "argv": [
+      "/home/gate/work/oel-e030-wrapper-case-r1-e030-wrapper-r3/.venv/bin/python",
+      "scripts/readme-lint.py"
+    ],
+    "actual_exit": 0
+  },
+  {
+    "step": "per-file-coverage",
+    "argv": [
+      "/home/gate/work/oel-e030-wrapper-case-r1-e030-wrapper-r3/.venv/bin/python",
+      "scripts/check_coverage.py",
+      "--src-dir",
+      "e030_case",
+      "--test-path",
+      "tests",
+      "--json"
+    ],
+    "actual_exit": 0
+  },
+  {
+    "step": "coverage-json",
+    "argv": [
+      "/home/gate/work/oel-e030-wrapper-case-r1-e030-wrapper-r3/.venv/bin/python",
+      "-m",
+      "coverage",
+      "json",
+      "-o",
+      "gate-results/coverage.json"
+    ],
+    "actual_exit": 0
+  },
+  {
+    "step": "demonstration",
+    "argv": [
+      "/home/gate/work/oel-e030-wrapper-case-r1-e030-wrapper-r3/.venv/bin/python",
+      "-m",
+      "e030_case.regression",
+      "--operator",
+      "Probity Codex / ordinary shared BoxPool author-run",
+      "/home/gate/work/oel-e030-wrapper-case-r1-e030-wrapper-r3/.inputs/review",
+      "/home/gate/work/oel-e030-wrapper-case-r1-e030-wrapper-r3/.inputs/aps",
+      "/home/gate/work/oel-e030-wrapper-case-r1-e030-wrapper-r3/.inputs/priorseal",
+      "/home/gate/work/oel-e030-wrapper-case-r1-e030-wrapper-r3/gate-results/demonstration"
+    ],
+    "actual_exit": 0
+  }
+]

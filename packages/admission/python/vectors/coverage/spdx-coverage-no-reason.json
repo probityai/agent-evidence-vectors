@@ -1,0 +1,124 @@
+{
+  "@context": "https://spdx.org/rdf/3.0.1/spdx-context.jsonld",
+  "@graph": [
+    {
+      "type": "CreationInfo",
+      "@id": "_:ci",
+      "specVersion": "3.0.1",
+      "createdBy": [
+        "https://example.com/spdx/agent/acme"
+      ],
+      "created": "2026-10-26T12:00:00Z"
+    },
+    {
+      "type": "Agent",
+      "spdxId": "https://example.com/spdx/agent/acme",
+      "creationInfo": "_:ci",
+      "name": "Acme build team"
+    },
+    {
+      "type": "SpdxDocument",
+      "spdxId": "https://example.com/spdx/doc/acme-portal",
+      "creationInfo": "_:ci",
+      "name": "acme-portal SBOM",
+      "profileConformance": [
+        "core",
+        "software"
+      ],
+      "dataLicense": "https://spdx.org/licenses/CC0-1.0",
+      "rootElement": [
+        "https://example.com/spdx/pkg/acme-portal"
+      ],
+      "element": [
+        "https://example.com/spdx/pkg/acme-portal",
+        "https://example.com/spdx/pkg/http-client",
+        "https://example.com/spdx/pkg/json-codec",
+        "https://example.com/spdx/rel/libraries",
+        "https://example.com/spdx/rel/models",
+        "https://example.com/spdx/rel/data",
+        "https://example.com/spdx/rel/applications"
+      ],
+      "import": [
+        {
+          "type": "ExternalMap",
+          "externalSpdxId": "https://vendor.example.net/spdx/pkg/assist-service",
+          "locationHint": "https://vendor.example.net/spdx/assist-service.json"
+        }
+      ]
+    },
+    {
+      "type": "software_Package",
+      "spdxId": "https://example.com/spdx/pkg/acme-portal",
+      "creationInfo": "_:ci",
+      "name": "acme-portal",
+      "software_packageVersion": "4.2.0",
+      "software_primaryPurpose": "application"
+    },
+    {
+      "type": "software_Package",
+      "spdxId": "https://example.com/spdx/pkg/http-client",
+      "creationInfo": "_:ci",
+      "name": "http-client",
+      "software_packageVersion": "2.1.0",
+      "software_primaryPurpose": "library"
+    },
+    {
+      "type": "software_Package",
+      "spdxId": "https://example.com/spdx/pkg/json-codec",
+      "creationInfo": "_:ci",
+      "name": "json-codec",
+      "software_packageVersion": "1.9.3",
+      "software_primaryPurpose": "library"
+    },
+    {
+      "type": "software_CoverageRelationship",
+      "spdxId": "https://example.com/spdx/rel/libraries",
+      "creationInfo": "_:ci",
+      "relationshipType": "dependsOn",
+      "completeness": "complete",
+      "from": "https://example.com/spdx/pkg/acme-portal",
+      "to": [
+        "https://example.com/spdx/pkg/http-client",
+        "https://example.com/spdx/pkg/json-codec"
+      ],
+      "software_coveredPurpose": "library"
+    },
+    {
+      "type": "software_CoverageRelationship",
+      "spdxId": "https://example.com/spdx/rel/models",
+      "creationInfo": "_:ci",
+      "relationshipType": "dependsOn",
+      "completeness": "noAssertion",
+      "from": "https://example.com/spdx/pkg/acme-portal",
+      "to": [
+        "https://spdx.org/rdf/3.0.1/terms/Core/NoAssertionElement"
+      ],
+      "software_coveredPurpose": "model",
+      "software_notAssessedReason": "unknown"
+    },
+    {
+      "type": "software_CoverageRelationship",
+      "spdxId": "https://example.com/spdx/rel/data",
+      "creationInfo": "_:ci",
+      "relationshipType": "dependsOn",
+      "completeness": "noAssertion",
+      "from": "https://example.com/spdx/pkg/acme-portal",
+      "to": [
+        "https://spdx.org/rdf/3.0.1/terms/Core/NoAssertionElement"
+      ],
+      "software_coveredPurpose": "data"
+    },
+    {
+      "type": "software_CoverageRelationship",
+      "spdxId": "https://example.com/spdx/rel/applications",
+      "creationInfo": "_:ci",
+      "relationshipType": "dependsOn",
+      "completeness": "complete",
+      "from": "https://example.com/spdx/pkg/acme-portal",
+      "to": [
+        "https://vendor.example.net/spdx/pkg/assist-service"
+      ],
+      "software_coveredPurpose": "application"
+    }
+  ]
+}

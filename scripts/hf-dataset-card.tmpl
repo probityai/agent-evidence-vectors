@@ -1,0 +1,69 @@
+---
+license: apache-2.0
+pretty_name: agent-evidence-vectors
+language:
+- en
+tags:
+- conformance
+- test-vectors
+- in-toto
+- attestation
+- ai-agents
+- supply-chain-security
+- evaluation
+size_categories:
+- {size}
+configs:
+- config_name: cases
+  default: true
+  data_files:
+  - split: cases
+    path: data/cases.jsonl
+- config_name: corpora
+  data_files:
+  - split: corpora
+    path: data/corpora.jsonl
+---
+
+# agent-evidence-vectors
+
+Labelled conformance cases for AI-agent and supply-chain evidence formats: {cases} cases in {corpora} corpora, each one a record a verifier must accept or reject, with the verdict it must reach.
+
+It is for people who build or evaluate verifiers for agent execution evidence (in-toto attestations, done receipts, audit records, MCP and A2A records, SCITT statements) and for evaluation harnesses that need cases with known answers.
+
+This dataset mirrors release [{tag}]({repository}/releases/tag/{tag}) of [{slug}]({repository}), commit `{commit}`, byte for byte. Pin it by revision:
+
+```python
+from datasets import load_dataset
+
+cases = load_dataset("{dataset}", "cases", revision="{tag}", split="cases")
+print(cases.num_rows)
+print(cases.filter(lambda r: r["corpus"] == "vectors")[0]["expected"])
+```
+
+```text
+{cases}
+{first_expected}
+```
+
+Each row names its `corpus`, `suite`, `case_id`, `kind`, the `path` of the vector file in this repository, the `expected` verdict as JSON (null where a corpus keeps the verdict inside the vector file), and the full manifest `entry`. The vector files themselves sit under each corpus directory at the same paths as on GitHub. To run a verifier over them, download the snapshot and check every byte first:
+
+```bash
+hf download {dataset} --repo-type dataset --revision {tag} --local-dir aev
+cd aev && sha256sum -c --quiet SHA256SUMS && echo all files match
+```
+
+## Status
+
+Version {tag}. Each corpus release on GitHub becomes a new revision tag here with the same name. `release/CORPUS-DIGESTS.txt` is the maintainer-signed list of every corpus digest, with an RFC 3161 timestamp and an OpenTimestamps proof over the signature; `SOURCE.json` records the tag, the commit and the checks that passed before upload. A tag can be moved, so a conformance claim cites the commit hash of the revision it ran.
+
+## Links
+
+| What | Where |
+| --- | --- |
+| Source, issues, verifiers | [github.com/{slug}]({repository}) |
+| Verifying a release without trusting us | [docs/reference/release-verification.md]({repository}/blob/{tag}/docs/reference/release-verification.md) |
+| Python package, pinned | `pip install agent-evidence-vectors=={version}` ([PyPI](https://pypi.org/project/agent-evidence-vectors/)) |
+| GitHub Action for CI | `uses: {slug}@{tag}` |
+| Archive and citation | Zenodo concept DOI [{doi}](https://doi.org/{doi}); `CITATION.cff` |
+| Licence | Apache-2.0, `LICENSE` |

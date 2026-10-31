@@ -1180,6 +1180,8 @@ def generate(root: Path = ROOT) -> dict[str, Any]:
     manifest = {"suite": SUITE, "payloadType": PAYLOAD_TYPE, "vectors": entries,
                 "registryKeyid": keyid(REGISTRY), "relyingPartyKeyid": keyid(RELYING_PARTY),
                 "corpusDigest": digest}
+    verdict_words = [entry["expected"]["decision"] for entry in entries]
+    manifest["counts"] = {word: verdict_words.count(word) for word in sorted(set(verdict_words))}
     (root / "MANIFEST.json").write_bytes(_pretty(manifest))
     (root / "INDEX.md").write_bytes(_index(entries, digest))
     return manifest

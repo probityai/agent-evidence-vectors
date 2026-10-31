@@ -10,6 +10,7 @@ import (
 	"errors"
 	"fmt"
 	"math"
+	"regexp"
 	"sort"
 	"strconv"
 	"strings"
@@ -116,8 +117,21 @@ var (
 		"requested", "held", "stateRevision"}
 	arConsumptionCounts   = []string{"limit", "consumed", "reserved", "requested", "stateRevision"}
 	arHeldMembers         = []string{"operationKey", "requestDigest", "amount"}
-	arConsumptionOptional = []string{"supersedes"}
+	arConsumptionOptional = []string{"supersedes", "asset"}
+	// arAssetMembers are the members of asset, the exact asset a consumption
+	// counts in when no ISO 4217 code names it: a CAIP-19 asset id and the
+	// decimals of its smallest subunit. A record carries unit or asset, never both
+	// (CS34 to CS40).
+	arAssetMembers = []string{"id", "decimals"}
 )
+
+// arAssetDecimalsMax is the largest decimals an asset may declare (an ERC-20
+// decimals is a uint8).
+const arAssetDecimalsMax = 255
+
+// arCAIP19 is a CAIP-19 asset id: chain_id "/" asset_namespace ":"
+// asset_reference, with an optional token id.
+var arCAIP19 = regexp.MustCompile(`^[-a-z0-9]{3,8}:[-_a-zA-Z0-9]{1,32}/[-a-z0-9]{3,8}:[-.%a-zA-Z0-9]{1,128}(/[-.%a-zA-Z0-9]{1,78})?$`)
 
 // arConsumptionChecks names the sentences of the consumption rule so a test can
 // weaken one at a time: where the member sits, that reserved is the held sum,
@@ -129,6 +143,7 @@ var arConsumptionChecks = map[string]bool{
 	"misplaced": true, "reserved": true, "distinct-keys": true, "operation-key": true,
 	"counts": true, "state-revision": true, "key-reuse": true,
 	"supersedes-digest": true, "supersedes-self": true,
+	"asset-id": true, "asset-decimals": true, "asset-exclusive": true,
 }
 
 // arRetryOf says whether a held entry is the one this call retries. Retry
@@ -303,6 +318,29 @@ func arDepth(value any) int {
 	return 0
 }
 
+// arWrittenAsFloat reports whether any number in the value is written with a
+// fraction or an exponent, whatever its value: the profile refuses the token,
+// so 1.0 and 1e2 are refused although each denotes an integer.
+func arWrittenAsFloat(v any) bool {
+	switch t := v.(type) {
+	case json.Number:
+		return strings.ContainsAny(string(t), ".eE")
+	case map[string]any:
+		for _, e := range t {
+			if arWrittenAsFloat(e) {
+				return true
+			}
+		}
+	case []any:
+		for _, e := range t {
+			if arWrittenAsFloat(e) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
 // arParse applies the JSON profile and returns the RFC 8785 bytes and the
 // decoded statement. A repeated name or an unsafe integer is refused by the
 // canonicalizer; the depth bound is counted here with the top-level value as
@@ -329,6 +367,9 @@ func arParse(payload []byte) ([]byte, map[string]any, error) {
 	}
 	if arDepth(value) > arMaxDepth {
 		return nil, nil, arRefuse("nesting-too-deep")
+	}
+	if arWrittenAsFloat(value) {
+		return nil, nil, arRefuse("value-not-representable")
 	}
 	canonical, err := aee.Canonicalize(payload)
 	if err != nil {
@@ -467,6 +508,7 @@ func arRules(predicateType string) []arRule {
 			return nil
 		}},
 		{"remediation-order", arRuleRemediationOrder},
+		{"issued-after-sealed", arRuleIssuedAfterSealed},
 		{"empty-tree", func(s *arState) error {
 			if arStr(s.pred, "effect.interval.baseResolution") != "empty-tree" {
 				return nil
@@ -819,6 +861,23 @@ func arRuleRemediationOrder(s *arState) error {
 		if enforced.Before(signal) {
 			return arRefuse("remediation-order")
 		}
+	}
+	return nil
+}
+
+// arRuleIssuedAfterSealed: issuedAt parses as an instant and is not earlier
+// than effect.interval.sealedAt (IS1, IS2).
+func arRuleIssuedAfterSealed(s *arState) error {
+	issued, err := arInstant(fmt.Sprint(s.pred["issuedAt"]))
+	if err != nil {
+		return err
+	}
+	sealed, err := arInstant(arStr(s.pred, "effect.interval.sealedAt"))
+	if err != nil {
+		return err
+	}
+	if issued.Before(sealed) {
+		return arRefuse("issued-before-sealed")
 	}
 	return nil
 }

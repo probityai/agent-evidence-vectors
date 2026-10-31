@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "probity.lab-run-provenance.v1",
+  "readerRepository": "probityai/agent-evidence-vectors",
+  "readerRevision": "a0b89170fd671be2314be6079acccdebdf07a950",
+  "workflowRun": "https://github.com/probityai/agent-evidence-vectors/actions/runs/37031452628",
+  "artifactId": 11237158552,
+  "archiveSha256": "079a27b72aebb3252546233a5b9a1c3a7400c6f19e2251773520db0350125e1f",
+  "archiveBytes": 3343,
+  "reviewState": "producer-review-open",
+  "producerReviewStartedAt": "2026-10-02T17:04:37Z",
+  "producerReviewEndsAt": "2026-10-09T17:04:37Z",
+  "hostCiAdoption": "not-established",
+  "roles": {
+    "readerAuthor": "Probity",
+    "runner": "Probity-owned GitHub Actions",
+    "producer": "REMORA",
+    "independentEffectCustody": "not-established"
+  },
+  "answerExposure": "Published expected outcomes were available before implementation; not answer-blind. REMORA reference-verifier text was also exposed during lint diagnostics after implementation.",
+  "comparisonOrder": "Actual per-case outputs retained before comparison in memory; raw output and comparison published together, not separate revisions.",
+  "protocolDeviations": [
+    "Atlas protocol asks for separate raw-result publication before comparison; this run retains both in one record."
+  ],
+  "files": {
+    "external-run-record-v1.json": {
+      "sha256": "24731968cb599c52f000b4584ed41a5b977637fd9b00f5756f8f8e2c4566fc48",
+      "bytes": 3357
+    },
+    "original-artifact.zip": {
+      "sha256": "079a27b72aebb3252546233a5b9a1c3a7400c6f19e2251773520db0350125e1f",
+      "bytes": 3343
+    },
+    "report.json": {
+      "sha256": "8cab9f748fb17ba3bd2c20ca1896b1b50be96120e53a1e6c5394aa404a26bca1",
+      "bytes": 4988
+    }
+  },
+  "retrievedDate": "2026-10-02",
+  "producerSubmission": "https://github.com/darklordVirtual/REMORA-research/issues/707#issuecomment-5957358281"
+}

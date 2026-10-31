@@ -1,0 +1,25 @@
+{
+  "envelope": {
+    "payload": "e25vdCBqc29u",
+    "payloadType": "application/vnd.in-toto+json",
+    "signatures": [
+      {
+        "keyid": "292f087bf72c85a72cdea8483084d18d",
+        "sig": "O51un7FYyUoNC8Jw7U6ZgB+hn5zEXiYcOjxFCiNcA23vZ88GDcLcNXwQI8acsnH2SMFieKxDXupzQ1PD3PzKCw=="
+      }
+    ]
+  },
+  "retention": {
+    "anchorWithin": 300,
+    "anchors": [],
+    "envelopeDigest": "3095a9fdefa625ac2645a15b997cd6ade11fd8b4ecbf92970ad1351bf482aac9",
+    "received": false,
+    "validationData": [
+      {
+        "for": "envelope",
+        "mediaType": "application/jwk-set+json",
+        "value": "eyJrZXlzIjpbeyJjcnYiOiJFZDI1NTE5Iiwia2lkIjoiMjkyZjA4N2JmNzJjODVhNzJjZGVhODQ4MzA4NGQxOGQiLCJrdHkiOiJPS1AiLCJ4IjoiWUxuS1lUYzRwR3FUVUFocG1ja3ppZVpjTkNTQ3VfWmNaWW5VTVJiZVhubyJ9XX0="
+      }
+    ]
+  }
+}

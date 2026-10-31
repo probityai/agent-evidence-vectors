@@ -1,0 +1,250 @@
+{
+  "suite": "vectors-receipt-signature",
+  "rail": "external",
+  "railNote": "external verifier: python3 vectors-receipt-signature/tools/veritasacta-verify.py",
+  "verifier": {
+    "command": "python3 vectors-receipt-signature/tools/veritasacta-verify.py",
+    "vectorsExecuted": 25,
+    "vectors": 25
+  },
+  "totals": {
+    "vectors": 25,
+    "pass": 25,
+    "fail": 0,
+    "conform": 25,
+    "notHonoured": 0,
+    "closesGap": 0,
+    "reasonParityMismatch": 0,
+    "suiteRefusals": 0,
+    "notExercised": 0
+  },
+  "grading": "README.md, How a SHOULD is graded",
+  "notes": [],
+  "vectors": [
+    {
+      "id": "v0142580fad54af78",
+      "kind": "accept",
+      "withWindows": "valid",
+      "withoutWindows": "valid",
+      "verifierRan": true,
+      "status": "PASS",
+      "reasons": []
+    },
+    {
+      "id": "v03377fbbac6d12f8",
+      "kind": "accept",
+      "withWindows": "valid",
+      "withoutWindows": "valid",
+      "verifierRan": true,
+      "status": "PASS",
+      "reasons": []
+    },
+    {
+      "id": "v0340fed8ef07e072",
+      "kind": "reject",
+      "withWindows": "invalid signature_invalid",
+      "withoutWindows": "invalid signature_invalid",
+      "verifierRan": true,
+      "status": "PASS",
+      "reasons": []
+    },
+    {
+      "id": "v1adc0db0267a742b",
+      "kind": "reject",
+      "withWindows": "invalid signature_invalid",
+      "withoutWindows": "invalid signature_invalid",
+      "verifierRan": true,
+      "status": "PASS",
+      "reasons": []
+    },
+    {
+      "id": "v2c8c0aabb75e8aa0",
+      "kind": "reject",
+      "withWindows": "invalid signature_in_signing_input",
+      "withoutWindows": "invalid signature_in_signing_input",
+      "verifierRan": true,
+      "status": "PASS",
+      "reasons": []
+    },
+    {
+      "id": "v2e98d2f14251c8d6",
+      "kind": "reject",
+      "withWindows": "invalid signature_in_signing_input",
+      "withoutWindows": "invalid signature_in_signing_input",
+      "verifierRan": true,
+      "status": "PASS",
+      "reasons": []
+    },
+    {
+      "id": "v2f0a83c1364e52bc",
+      "kind": "accept",
+      "withWindows": "valid",
+      "withoutWindows": "valid",
+      "verifierRan": true,
+      "status": "PASS",
+      "reasons": []
+    },
+    {
+      "id": "v3bb98f09b3068de5",
+      "kind": "reject",
+      "withWindows": "invalid signature_in_signing_input",
+      "withoutWindows": "invalid signature_in_signing_input",
+      "verifierRan": true,
+      "status": "PASS",
+      "reasons": []
+    },
+    {
+      "id": "v4ec9fa36ae77ce07",
+      "kind": "indeterminate",
+      "withWindows": "invalid key_outside_validity_window",
+      "withoutWindows": "valid",
+      "verifierRan": true,
+      "status": "PASS",
+      "reasons": []
+    },
+    {
+      "id": "v4f9fe96e52a39bfb",
+      "kind": "accept",
+      "withWindows": "valid",
+      "withoutWindows": "valid",
+      "verifierRan": true,
+      "status": "PASS",
+      "reasons": []
+    },
+    {
+      "id": "v5397adb77c3e6754",
+      "kind": "reject",
+      "withWindows": "invalid signature_in_signing_input",
+      "withoutWindows": "invalid signature_in_signing_input",
+      "verifierRan": true,
+      "status": "PASS",
+      "reasons": []
+    },
+    {
+      "id": "v6d872b14889dc9e2",
+      "kind": "gap",
+      "withWindows": "valid",
+      "withoutWindows": "valid",
+      "verifierRan": true,
+      "status": "PASS",
+      "reasons": []
+    },
+    {
+      "id": "v75158ebfd05a56e5",
+      "kind": "accept",
+      "withWindows": "valid",
+      "withoutWindows": "valid",
+      "verifierRan": true,
+      "status": "PASS",
+      "reasons": []
+    },
+    {
+      "id": "v814de39bf68212fc",
+      "kind": "accept",
+      "withWindows": "valid",
+      "withoutWindows": "valid",
+      "verifierRan": true,
+      "status": "PASS",
+      "reasons": []
+    },
+    {
+      "id": "v9f2a63a5186a2fa8",
+      "kind": "gap",
+      "withWindows": "valid",
+      "withoutWindows": "valid",
+      "verifierRan": true,
+      "status": "PASS",
+      "reasons": []
+    },
+    {
+      "id": "vaafe541bbd74c320",
+      "kind": "accept",
+      "withWindows": "valid",
+      "withoutWindows": "valid",
+      "verifierRan": true,
+      "status": "PASS",
+      "reasons": []
+    },
+    {
+      "id": "vab0c4dde2038340e",
+      "kind": "accept",
+      "withWindows": "valid",
+      "withoutWindows": "valid",
+      "verifierRan": true,
+      "status": "PASS",
+      "reasons": []
+    },
+    {
+      "id": "vad088133176d7114",
+      "kind": "accept",
+      "withWindows": "valid",
+      "withoutWindows": "valid",
+      "verifierRan": true,
+      "status": "PASS",
+      "reasons": []
+    },
+    {
+      "id": "vb19450def8dcc5cd",
+      "kind": "accept",
+      "withWindows": "valid",
+      "withoutWindows": "valid",
+      "verifierRan": true,
+      "status": "PASS",
+      "reasons": []
+    },
+    {
+      "id": "vbc25ef71da0567f9",
+      "kind": "indeterminate",
+      "withWindows": "invalid key_outside_validity_window",
+      "withoutWindows": "valid",
+      "verifierRan": true,
+      "status": "PASS",
+      "reasons": []
+    },
+    {
+      "id": "vc4b43c5739979581",
+      "kind": "indeterminate",
+      "withWindows": "invalid key_outside_validity_window",
+      "withoutWindows": "valid",
+      "verifierRan": true,
+      "status": "PASS",
+      "reasons": []
+    },
+    {
+      "id": "vcc3cdb871ff27027",
+      "kind": "accept",
+      "withWindows": "valid",
+      "withoutWindows": "valid",
+      "verifierRan": true,
+      "status": "PASS",
+      "reasons": []
+    },
+    {
+      "id": "ve116653dd041dda0",
+      "kind": "reject",
+      "withWindows": "invalid signature_invalid",
+      "withoutWindows": "invalid signature_invalid",
+      "verifierRan": true,
+      "status": "PASS",
+      "reasons": []
+    },
+    {
+      "id": "ve24bce7210cacee9",
+      "kind": "reject",
+      "withWindows": "invalid chain_link_mismatch",
+      "withoutWindows": "invalid chain_link_mismatch",
+      "verifierRan": true,
+      "status": "PASS",
+      "reasons": []
+    },
+    {
+      "id": "vea8370fb85e1b4b1",
+      "kind": "accept",
+      "withWindows": "valid",
+      "withoutWindows": "valid",
+      "verifierRan": true,
+      "status": "PASS",
+      "reasons": []
+    }
+  ]
+}

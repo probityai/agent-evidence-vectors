@@ -45,7 +45,7 @@
       },
       "path": "vectors-chunked-export/README.md",
       "serialization": "bytes",
-      "sha256": "d73d7070e040082c677dd103cb331a1e51bb86a18f57fd39304e011ee25c6333"
+      "sha256": "132bf71f15d582cfec1a8631777dd77b2e3f2d75549e65b638c9583e23427b54"
     },
     {
       "consumed": "unconsumed",
@@ -91,7 +91,7 @@
       },
       "path": "vectors-chunked-export/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "540e57b65eab1809fd0937e235354226dc2597a78afd1900ad7d8eec7c706353"
+      "sha256": "c2938a1e9b634dda8906f553da3a6bb1b505194d4347d9d84fd15e7e9657f3ff"
     },
     {
       "consumed": "unconsumed",
@@ -166,7 +166,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "3d44833b58f0a47934226ef2caade5151ad9b05b9e39905b0383ebdf91365ae5"
+      "sha256": "7a52bc96a6a12d5112ccf784607b3b1567e335a14bea85246f05ccd911eb0392"
     },
     "runtime": {
       "name": "go",
@@ -279,7 +279,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "35954467c62e57d72f5505818ffac32966bf294037e082e52cd27fc81e32a983"
+    "sha256": "27cac35c2c0dcd64abc61307789892c13e1b9865c93adbaad95e56889c163664"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -303,7 +303,7 @@
       "contract-id-unknown"
     ],
     "path": "vectors-chunked-export/MANIFEST.json",
-    "sha256": "72c42c75941a8e5a429221d9b73c58b67106b8cfe46529951d559107a6d83c2b"
+    "sha256": "04c22c098bd6d6d5824514b1bf14c7ff3b414e54e325371f154199dc5b34c70e"
   },
   "members": [
     {

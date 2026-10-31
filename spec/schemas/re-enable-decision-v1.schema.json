@@ -1,0 +1,1067 @@
+{
+  "$id": "https://probityai.github.io/agent-evidence-vectors/schema/re-enable-decision/v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Shape and closed values of a decoded statement of https://probityai.github.io/agent-evidence-vectors/predicate/v1/re-enable-decision. Cross-member rules need the checker.",
+  "properties": {
+    "_type": {
+      "const": "https://in-toto.io/Statement/v1"
+    },
+    "predicate": {
+      "additionalProperties": false,
+      "properties": {
+        "approvers": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "independenceBasis": {
+                "enum": [
+                  "independent_sources",
+                  "subject_supplied",
+                  "undeclared"
+                ],
+                "type": "string"
+              },
+              "roles": {
+                "items": {
+                  "enum": [
+                    "accountable",
+                    "advised",
+                    "authorized",
+                    "executed"
+                  ],
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              }
+            },
+            "required": [
+              "id",
+              "independenceBasis",
+              "roles"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "doesNotAssert": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "evidence": {
+          "additionalProperties": false,
+          "properties": {
+            "actorObjective": {
+              "oneOf": [
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "digest": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "sha256": {
+                          "pattern": "^[0-9a-f]{64}$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "sha256"
+                      ],
+                      "type": "object"
+                    },
+                    "mediaType": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "uri": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "digest"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "notAddressed": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "notAddressed"
+                  ],
+                  "type": "object"
+                }
+              ]
+            },
+            "affectedScope": {
+              "oneOf": [
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "digest": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "sha256": {
+                          "pattern": "^[0-9a-f]{64}$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "sha256"
+                      ],
+                      "type": "object"
+                    },
+                    "mediaType": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "uri": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "digest"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "notAddressed": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "notAddressed"
+                  ],
+                  "type": "object"
+                }
+              ]
+            },
+            "assetIntegrity": {
+              "oneOf": [
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "digest": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "sha256": {
+                          "pattern": "^[0-9a-f]{64}$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "sha256"
+                      ],
+                      "type": "object"
+                    },
+                    "mediaType": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "uri": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "digest"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "notAddressed": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "notAddressed"
+                  ],
+                  "type": "object"
+                }
+              ]
+            },
+            "containmentReproof": {
+              "oneOf": [
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "digest": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "sha256": {
+                          "pattern": "^[0-9a-f]{64}$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "sha256"
+                      ],
+                      "type": "object"
+                    },
+                    "mediaType": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "uri": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "digest"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "notAddressed": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "notAddressed"
+                  ],
+                  "type": "object"
+                }
+              ]
+            },
+            "controlsNotDegraded": {
+              "oneOf": [
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "digest": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "sha256": {
+                          "pattern": "^[0-9a-f]{64}$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "sha256"
+                      ],
+                      "type": "object"
+                    },
+                    "mediaType": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "uri": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "digest"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "notAddressed": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "notAddressed"
+                  ],
+                  "type": "object"
+                }
+              ]
+            },
+            "exclusiveControl": {
+              "oneOf": [
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "digest": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "sha256": {
+                          "pattern": "^[0-9a-f]{64}$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "sha256"
+                      ],
+                      "type": "object"
+                    },
+                    "mediaType": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "uri": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "digest"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "notAddressed": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "notAddressed"
+                  ],
+                  "type": "object"
+                }
+              ]
+            },
+            "incidentReplay": {
+              "oneOf": [
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "digest": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "sha256": {
+                          "pattern": "^[0-9a-f]{64}$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "sha256"
+                      ],
+                      "type": "object"
+                    },
+                    "mediaType": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "uri": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "digest"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "notAddressed": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "notAddressed"
+                  ],
+                  "type": "object"
+                }
+              ]
+            },
+            "multiPartyAuthorization": {
+              "oneOf": [
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "digest": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "sha256": {
+                          "pattern": "^[0-9a-f]{64}$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "sha256"
+                      ],
+                      "type": "object"
+                    },
+                    "mediaType": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "uri": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "digest"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "notAddressed": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "notAddressed"
+                  ],
+                  "type": "object"
+                }
+              ]
+            },
+            "ownerConfirmation": {
+              "oneOf": [
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "digest": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "sha256": {
+                          "pattern": "^[0-9a-f]{64}$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "sha256"
+                      ],
+                      "type": "object"
+                    },
+                    "mediaType": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "uri": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "digest"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "notAddressed": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "notAddressed"
+                  ],
+                  "type": "object"
+                }
+              ]
+            },
+            "persistence": {
+              "oneOf": [
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "digest": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "sha256": {
+                          "pattern": "^[0-9a-f]{64}$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "sha256"
+                      ],
+                      "type": "object"
+                    },
+                    "mediaType": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "uri": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "digest"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "notAddressed": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "notAddressed"
+                  ],
+                  "type": "object"
+                }
+              ]
+            },
+            "postRestartMonitoring": {
+              "oneOf": [
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "digest": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "sha256": {
+                          "pattern": "^[0-9a-f]{64}$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "sha256"
+                      ],
+                      "type": "object"
+                    },
+                    "mediaType": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "uri": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "digest"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "notAddressed": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "notAddressed"
+                  ],
+                  "type": "object"
+                }
+              ]
+            },
+            "residualRisk": {
+              "oneOf": [
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "digest": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "sha256": {
+                          "pattern": "^[0-9a-f]{64}$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "sha256"
+                      ],
+                      "type": "object"
+                    },
+                    "mediaType": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "uri": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "digest"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "notAddressed": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "notAddressed"
+                  ],
+                  "type": "object"
+                }
+              ]
+            },
+            "restoreOrder": {
+              "oneOf": [
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "digest": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "sha256": {
+                          "pattern": "^[0-9a-f]{64}$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "sha256"
+                      ],
+                      "type": "object"
+                    },
+                    "mediaType": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "uri": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "digest"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "notAddressed": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "notAddressed"
+                  ],
+                  "type": "object"
+                }
+              ]
+            },
+            "restoredAssetsClean": {
+              "oneOf": [
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "digest": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "sha256": {
+                          "pattern": "^[0-9a-f]{64}$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "sha256"
+                      ],
+                      "type": "object"
+                    },
+                    "mediaType": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "uri": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "digest"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "notAddressed": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "notAddressed"
+                  ],
+                  "type": "object"
+                }
+              ]
+            },
+            "rootCause": {
+              "oneOf": [
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "digest": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "sha256": {
+                          "pattern": "^[0-9a-f]{64}$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "sha256"
+                      ],
+                      "type": "object"
+                    },
+                    "mediaType": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "uri": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "digest"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "notAddressed": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "notAddressed"
+                  ],
+                  "type": "object"
+                }
+              ]
+            },
+            "seniorApproval": {
+              "oneOf": [
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "digest": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "sha256": {
+                          "pattern": "^[0-9a-f]{64}$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "sha256"
+                      ],
+                      "type": "object"
+                    },
+                    "mediaType": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "uri": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "digest"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "notAddressed": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "notAddressed"
+                  ],
+                  "type": "object"
+                }
+              ]
+            }
+          },
+          "required": [
+            "actorObjective",
+            "affectedScope",
+            "assetIntegrity",
+            "containmentReproof",
+            "controlsNotDegraded",
+            "exclusiveControl",
+            "incidentReplay",
+            "multiPartyAuthorization",
+            "ownerConfirmation",
+            "persistence",
+            "postRestartMonitoring",
+            "residualRisk",
+            "restoreOrder",
+            "restoredAssetsClean",
+            "rootCause",
+            "seniorApproval"
+          ],
+          "type": "object"
+        },
+        "incident": {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "issuer": {
+              "pattern": "^https://[^\\s]+$",
+              "type": "string"
+            },
+            "related": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "issuer": {
+                    "pattern": "^https://[^\\s]+$",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "issuer"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "id",
+            "issuer"
+          ],
+          "type": "object"
+        },
+        "issuedAt": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$",
+          "type": "string"
+        },
+        "predecessors": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "digest": {
+                "additionalProperties": false,
+                "properties": {
+                  "sha256": {
+                    "pattern": "^[0-9a-f]{64}$",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "sha256"
+                ],
+                "type": "object"
+              },
+              "predicateType": {
+                "pattern": "^https://[^\\s]+$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "digest",
+              "predicateType"
+            ],
+            "type": "object"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "producer": {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "pattern": "^https://[^\\s]+$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "type": "object"
+        },
+        "registryDigest": {
+          "additionalProperties": false,
+          "properties": {
+            "sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "sha256"
+          ],
+          "type": "object"
+        },
+        "restoration": {
+          "additionalProperties": false,
+          "properties": {
+            "decision": {
+              "enum": [
+                "not_established",
+                "remain_restricted",
+                "resume_full",
+                "resume_staged"
+              ],
+              "type": "string"
+            },
+            "restoredScope": {
+              "additionalProperties": false,
+              "properties": {
+                "agents": {
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "minItems": 0,
+                  "type": "array",
+                  "uniqueItems": true
+                },
+                "credentials": {
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "minItems": 0,
+                  "type": "array",
+                  "uniqueItems": true
+                },
+                "routes": {
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "minItems": 0,
+                  "type": "array",
+                  "uniqueItems": true
+                },
+                "tools": {
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "minItems": 0,
+                  "type": "array",
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "agents",
+                "credentials",
+                "routes",
+                "tools"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "decision"
+          ],
+          "type": "object"
+        },
+        "setSufficiency": {
+          "enum": [
+            "insufficient",
+            "not_assessed",
+            "sufficient"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "approvers",
+        "doesNotAssert",
+        "evidence",
+        "incident",
+        "issuedAt",
+        "predecessors",
+        "producer",
+        "registryDigest",
+        "restoration",
+        "setSufficiency"
+      ],
+      "type": "object"
+    },
+    "predicateType": {
+      "const": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/re-enable-decision"
+    },
+    "subject": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "digest": {
+            "additionalProperties": false,
+            "properties": {
+              "sha256": {
+                "pattern": "^[0-9a-f]{64}$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "sha256"
+            ],
+            "type": "object"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "digest"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    }
+  },
+  "required": [
+    "_type",
+    "subject",
+    "predicateType",
+    "predicate"
+  ],
+  "title": "re-enable-decision v1 statement",
+  "type": "object"
+}

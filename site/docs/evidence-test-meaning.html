@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Sankalp Gilda" />
+  <meta name="description" content="A complete 272-case replay separates test outcomes from evidence conclusions. Two reader changes expose specific control dependencies." />
+  <title>A green test suite can contain negative conclusions - Agent Evidence Conformance Board</title>
+  <link rel="canonical" href="https://probityai.github.io/agent-evidence-atlas/evidence-test-meaning.html" />
+  <link rel="alternate" type="text/markdown" href="https://probityai.github.io/agent-evidence-atlas/evidence-test-meaning.md" />
+  <link rel="describedby" href="https://probityai.github.io/agent-evidence-atlas/llms.txt" />
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <nav aria-label="Site">
+    <a class="home" href="index.html">Agent Evidence Conformance Board</a>
+    <span class="links">
+      <a href="start.html">Choose a component</a>
+      <a href="lab.html">Open Evidence Lab</a>
+      <a href="status.html">Claim status</a>
+      <a href="runs.html">Find a run</a>
+      <a href="board.html">Conformance board</a>
+      <a href="pilot.html">Pilot status</a>
+      <a href="atlas.html">Atlas</a>
+      <a href="experiments.html">Experiments</a>
+      <a href="claims.html">Claims</a>
+      <a href="versions.html">Versions</a>
+    </span>
+  </nav>
+</header>
+<main id="main" tabindex="-1">
+<header class="page">
+<h1>A green test suite can contain negative conclusions</h1>
+<p class="subtitle">Reproduce the difference between a correct test, a valid record and a successful action</p>
+<p class="status">Historical package replay and two diagnostic rule controls, 6 October 2026.</p>
+</header>
+<nav class="toc" aria-label="Contents">
+<p class="toc-title">Contents</p>
+<ul>
+<li><a href="#reproduce-the-historical-report" id="toc-reproduce-the-historical-report">Reproduce the historical report</a></li>
+<li><a href="#check-which-rules-change-the-result" id="toc-check-which-rules-change-the-result">Check which rules change the result</a></li>
+<li><a href="#what-a-customer-can-use" id="toc-what-a-customer-can-use">What a customer can use</a></li>
+</ul>
+</nav>
+<p>A payments team wants an agent to issue refunds within an approved limit. Its tests cover a permitted refund, a refused refund, an altered approval and a repeated request. Each test can pass. That does not mean each refund succeeded. A test also passes when the checker correctly refuses the altered approval.</p>
+<p>The distinction matters after an incident. A valid record can describe a failed action. An invalid record cannot establish whether the action succeeded. Probity keeps the test outcome, the record’s validity and the recorded result separate, with the inputs and reader needed to repeat the check.</p>
+<p>This note shows those meanings on published conformance fixtures. The refund workflow is an example of the customer problem. The measurements below come from synthetic artifacts.</p>
+<p>Read the <a href="runs.html#record-w3c-report-replay-2026-10-06">retained Lab record</a> or <a href="experiments/w3c-report-replay-2026-10-06/README.md">check its retained accounting</a>. The maintained checker reads the original outputs; it does not rerun captured reader code.</p>
+<h2 id="reproduce-the-historical-report">Reproduce the historical report</h2>
+<p>We replayed all 272 cases in <code>agent-evidence-vectors==0.12.0</code> on CPython 3.13.7 and 3.14.3. Both runs reproduced the complete historical report and harness bytes. All 272 test outcomes passed. The report contained 31 passing, 239 failing and two inconclusive checks.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Record kind / Reader verdict / Recorded result / Report state / Cases">
+<table>
+<colgroup>
+<col style="width: 18%" />
+<col style="width: 18%" />
+<col style="width: 18%" />
+<col style="width: 18%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Record kind</th>
+<th>Reader verdict</th>
+<th>Recorded result</th>
+<th>Report state</th>
+<th style="text-align: right;">Cases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>accept</td>
+<td>valid</td>
+<td>pass</td>
+<td>pass</td>
+<td style="text-align: right;">25</td>
+</tr>
+<tr>
+<td>accept</td>
+<td>valid</td>
+<td>pass_indirect</td>
+<td>pass</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr>
+<td>accept</td>
+<td>valid</td>
+<td>fail</td>
+<td>fail</td>
+<td style="text-align: right;">27</td>
+</tr>
+<tr>
+<td>accept</td>
+<td>valid</td>
+<td>degraded</td>
+<td>fail</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr>
+<td>reject</td>
+<td>invalid</td>
+<td>absent</td>
+<td>fail</td>
+<td style="text-align: right;">209</td>
+</tr>
+<tr>
+<td>indeterminate</td>
+<td>invalid</td>
+<td>absent</td>
+<td>inconclusive</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Thirty valid artifacts described a failing or degraded result. The other 209 negative checks came from invalid artifacts. The test suite passed because each case produced its expected answer. The two indeterminate cases retained the historical <code>unsupported_input</code> cause.</p>
+<p>The <a href="experiments/w3c-report-replay-2026-10-06/original-report.json">original report</a>, <a href="experiments/w3c-report-replay-2026-10-06/original-conformance-report.json">original harness output</a> and <a href="experiments/w3c-report-replay-2026-10-06/per-case-outcomes.csv">complete case table</a> retain each conclusion. The report SHA-256 is <code>37288d8dfc01f56cb5ef553232258dc596928bc962e2309e0c7dc09ae588baf2</code>. The harness SHA-256 is <code>ee349e66697a2f4f95dd8223fd261810f99f5f2807e03bde03c9a9f57359529d</code>.</p>
+<p>The source is commit <code>2f3aee40a454df6de0f571d119f057d7dbb8dd67</code>. Its 61 accepting, 209 rejecting and two indeterminate fixtures have corpus digest <code>8b035678def9e5ac00ba761b8c640e4412c57163134afb9d2c1a90f49d573a52</code>. The measured installation used the published wheel with SHA-256 <code>cb346a41f715029f8e68542150560b08a71ac23eb7660eaa411aea4fd2ec1f59</code>. All 1,191 package files matched that wheel and their source Git blobs. The <a href="experiments/w3c-report-replay-2026-10-06/report-replay-configuration.json">replay configuration</a> records the exact package, environment and command:</p>
+<div class="code-scroll" tabindex="0" role="region" aria-label="Code example">
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">agent-evidence-vectors</span> <span class="at">--emit-w3c-report</span> report.json</span></code></pre></div>
+</div>
+<p>Run it from an empty directory with that installed package. The experiment used the reference reader, removed <code>AEE_EXTERNAL_VERIFIER</code> and <code>AEE_SUBSTRATE_KEYS</code>, and exposed the expected answers. It ran no model inference or new agent task.</p>
+<h2 id="check-which-rules-change-the-result">Check which rules change the result</h2>
+<p>A separate experiment used the 232 fixtures in the published 0.13.0 report corpus. We copied its reader twice and disabled one predicate in each copy. The fixture documents, resolution stores and all other checks stayed fixed. Each actual reader ran over every fixture.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Disabled rule / Original rejection / Rejecting cases changed / Cases unchanged">
+<table style="width:100%;">
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 28%" />
+<col style="width: 28%" />
+</colgroup>
+<thead>
+<tr>
+<th>Disabled rule</th>
+<th>Original rejection</th>
+<th style="text-align: right;">Rejecting cases changed</th>
+<th style="text-align: right;">Cases unchanged</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A failed control witness must have state <code>fail</code></td>
+<td><code>W3C-R-013</code></td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">231</td>
+</tr>
+<tr>
+<td>A declared control and run must name the same checker and constraint set</td>
+<td><code>W3C-R-029</code></td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">230</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The first change accepted a witness whose state was <code>inconclusive</code>. The second accepted a control that named another checker or constraint set. All 116 accepting fixtures and every other rejecting fixture stayed unchanged.</p>
+<p>The <a href="experiments/w3c-report-replay-2026-10-06/logic-control-configuration.json">rule configuration</a>, <a href="experiments/w3c-report-replay-2026-10-06/logic-control-evidence.json">complete rule results</a> and <a href="experiments/w3c-report-replay-2026-10-06/SOURCE-ORIGIN.json">source record</a> identify the exact readers and modifications. These controls test the predicates themselves. They do not remove rejection labels after the reader runs.</p>
+<h2 id="what-a-customer-can-use">What a customer can use</h2>
+<p>A release test answers whether the system produced the expected decision for the selected case. An incident report answers what the retained evidence supports. Keeping those answers separate prevents a dashboard from turning a correct refusal into a successful agent action.</p>
+<p>The retained files let another reader check the same inputs, rules and results. This experiment used the same reference implementation on two runtimes. A <a href="https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0089.html">second-party replay</a> also reported the historical file digests. Repeated output supports reproducibility; it does not establish an independently written implementation.</p>
+<p>The <a href="https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0087.html">September 30 draft</a> provides the reporting context. It remains draft correspondence. These fixture results establish no live refund, customer deployment or independent custody. A deployed workflow needs its own permitted action, refusal, retry and fault results, with records checked at the actual effect boundary.</p>
+</main>
+<footer class="site">
+  <p>Every number on this site has a source, a read time and a re-derive command in the <a href="claims.html">claim ledger</a>. Site version 0.6-draft, 2026-10-01. <a href="versions.html#documentation-revisions">Page revisions</a>.</p>
+</footer>
+</body>
+</html>

@@ -38,10 +38,15 @@ func arLoad(t *testing.T) (arManifest, map[string][]byte) {
 			// A set member's file is a bundle of envelopes; the record rules
 			// judge its first, and TestAuditRecordSetRulesAreLoadBearing the set.
 			envelopes, err := arSetRecords(body)
-			if err != nil || len(envelopes) == 0 {
+			switch {
+			case err == nil && len(envelopes) > 0:
+				body = envelopes[0]
+			case len(v.Expected.Set.Codes) > 0 && v.Expected.Set.Codes[0] == "set-unreadable":
+				// A set declared unreadable has no record to judge; the record
+				// rules judge the bytes as they stand.
+			default:
 				t.Fatalf("%s: the set carries no readable record", v.DraftID)
 			}
-			body = envelopes[0]
 		}
 		bodies[v.ID] = body
 	}
@@ -113,8 +118,12 @@ func TestAuditRecordDatingRulesAreLoadBearing(t *testing.T) {
 				t.Fatal(err)
 			}
 			report, dated := arVerifyRetained(body, manifest.PredicateType, key, heads, name)
-			if report.verdict != "valid" {
-				t.Errorf("disabling %s moves %s's verdict to %s", name, v.DraftID, report.verdict)
+			want := "valid"
+			if v.Expected.Verdict != nil {
+				want = *v.Expected.Verdict
+			}
+			if report.verdict != want {
+				t.Errorf("disabling %s moves %s's verdict to %s, declared %s", name, v.DraftID, report.verdict, want)
 			}
 			if !dated.equal(*v.Expected.Dating) {
 				moved = true
@@ -180,6 +189,8 @@ func TestAuditRecordRefusesForeignShapes(t *testing.T) {
 		"bad base64":        []byte(`{"payload":"@@","payloadType":"application/vnd.in-toto+json","signatures":[]}`),
 		"array statement":   []byte(`{"payload":"W10=","payloadType":"application/vnd.in-toto+json","signatures":[]}`),
 		"float statement":   []byte(`{"payload":"eyJhIjoxLjV9","payloadType":"application/vnd.in-toto+json","signatures":[]}`),
+		"integral fraction": []byte(`{"payload":"eyJhIjoxLjB9","payloadType":"application/vnd.in-toto+json","signatures":[]}`),
+		"integral exponent": []byte(`{"payload":"eyJhIjoxZTJ9","payloadType":"application/vnd.in-toto+json","signatures":[]}`),
 		"garbage statement": []byte(`{"payload":"e30x","payloadType":"application/vnd.in-toto+json","signatures":[]}`),
 	}
 	for name, body := range cases {
@@ -221,6 +232,48 @@ func TestAuditRecordHelpers(t *testing.T) {
 	}
 	if arHasAll(nil, []string{"a"}) {
 		t.Error("a missing object carries no members")
+	}
+}
+
+// TestAuditRecordIssuedAtRule: issuedAt must parse as an instant and must not
+// be earlier than effect.interval.sealedAt, however far earlier (IS1, IS2).
+func TestAuditRecordIssuedAtRule(t *testing.T) {
+	for _, c := range []struct {
+		issued any
+		want   string
+	}{
+		{"2026-09-19T11:04:06Z", ""},
+		{"2026-09-19T11:04:11Z", ""},
+		{"2026-09-19T13:04:06+02:00", ""},
+		{"2026-09-19T11:04:05Z", "issued-before-sealed"},
+		{"2026-09-18T11:04:06Z", "issued-before-sealed"},
+		{"2026-09-19T12:04:05+02:00", "issued-before-sealed"},
+		{"yesterday", "timestamp-malformed"},
+		{"2026-09-19", "timestamp-malformed"},
+		{"2026-09-19T11:04:11", "timestamp-malformed"},
+		{"", "timestamp-malformed"},
+		{20260919, "timestamp-malformed"},
+		{nil, "timestamp-malformed"},
+	} {
+		state := &arState{pred: map[string]any{
+			"issuedAt": c.issued,
+			"effect":   map[string]any{"interval": map[string]any{"sealedAt": "2026-09-19T11:04:06Z"}},
+		}}
+		err := arRuleIssuedAfterSealed(state)
+		got := ""
+		if err != nil {
+			got = err.Error()
+		}
+		if !strings.Contains(got, c.want) || (c.want == "" && got != "") {
+			t.Errorf("issuedAt %v: got %q, want %q", c.issued, got, c.want)
+		}
+	}
+	state := &arState{pred: map[string]any{
+		"issuedAt": "2026-09-19T11:04:11Z",
+		"effect":   map[string]any{"interval": map[string]any{"sealedAt": "later"}},
+	}}
+	if arRuleIssuedAfterSealed(state) == nil {
+		t.Error("an unparsable sealedAt leaves the two times uncomparable and must refuse")
 	}
 }
 

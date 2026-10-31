@@ -1,0 +1,32 @@
+{
+  "action": {
+    "kind": "read",
+    "resource": "Observation",
+    "subject": "123-45-6789"
+  },
+  "case_id": "vectors-connector-scope-fixture-carries-an-identifier",
+  "connector": {
+    "declared_scope": {
+      "change": [
+        "Appointment"
+      ],
+      "read": [
+        "Observation",
+        "Condition",
+        "Appointment"
+      ]
+    },
+    "grant_digest": "4d71862e7cdf8baccaf29e5694f6ad3a005467a0f724ab65761bc96c39bd13c6",
+    "id": "ehr-sandbox-connector-1"
+  },
+  "fixture": {
+    "phi_free": true
+  },
+  "outcome": {
+    "result": "performed"
+  },
+  "record": {
+    "action_digest": "b58dd4e0e031e113e625eb07798f917fd06e4973e53afe5f26320e88de6b1941"
+  },
+  "schema": "connector-scope-record/v1"
+}

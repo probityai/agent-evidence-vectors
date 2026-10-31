@@ -1,0 +1,2550 @@
+[
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-10",
+    "id": "v0090b52048ca1f51",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "ARM-R-010"
+    ],
+    "changed": false,
+    "family": "arm-f-usage",
+    "id": "v0120d95db38b892b",
+    "kind": "reject",
+    "mutant_rejections": [
+      "ARM-R-010"
+    ],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-14",
+    "id": "v04934d23180f6d9c",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v04b7811e691bd2c9",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v050e5667630b8bf7",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "arm-f-run",
+    "id": "v068436e239f3711a",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v086f61b528d28efd",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-008"
+    ],
+    "changed": false,
+    "family": "w3c-f-8",
+    "id": "v0e286b53de78162a",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-008"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-22",
+    "id": "v0f620037c42bbfc3",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "arm-f-steps",
+    "id": "v0f648c5f3080e1b1",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-15",
+    "id": "v1032eb59a7cdb30f",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v10aaaebb49b0bcd3",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-022"
+    ],
+    "changed": false,
+    "family": "w3c-f-22",
+    "id": "v1158315f2ce233a8",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-022"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "LCD-R-006"
+    ],
+    "changed": false,
+    "family": "lcd-f-consumer",
+    "id": "v12f1e7e27b3f59c5",
+    "kind": "reject",
+    "mutant_rejections": [
+      "LCD-R-006"
+    ],
+    "subject_type": "llm-context-discovery"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-15",
+    "id": "v148fc59046a8548a",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-013"
+    ],
+    "changed": false,
+    "family": "w3c-f-13",
+    "id": "v1660acd2e4efb7c7",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-013"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v183b37dea5ad4159",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "lcd-f-publisher",
+    "id": "v1910c8190bcd1b5c",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "llm-context-discovery"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "lcd-f-consumer",
+    "id": "v191fc069115f8706",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "llm-context-discovery"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-8",
+    "id": "v1a0f984d88bb9fe2",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v1a5c0a7b37f5d2c4",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v1bb2e51524055d00",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v1bc07a427d07bb7f",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-017"
+    ],
+    "changed": false,
+    "family": "w3c-f-17",
+    "id": "v1c020dd1ed49874c",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-017"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-027"
+    ],
+    "changed": false,
+    "family": "w3c-f-27",
+    "id": "v20a798b25fc2ec0b",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-027"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v20f99b9d22c842a3",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "arm-f-serialization",
+    "id": "v21fe5a5de5f50124",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v22f803622ac75918",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v239dc2ee7b28a2bb",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v254933bf314c82fc",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v25ba541b9d311416",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "ARM-R-020"
+    ],
+    "changed": false,
+    "family": "arm-f-serialization",
+    "id": "v2652b0b04c946504",
+    "kind": "reject",
+    "mutant_rejections": [
+      "ARM-R-020"
+    ],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v265c2e6f0a3d31f6",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-019"
+    ],
+    "changed": false,
+    "family": "w3c-f-19",
+    "id": "v27a01b14321f6ae5",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-019"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-015"
+    ],
+    "changed": false,
+    "family": "w3c-f-15",
+    "id": "v28820b464a335617",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-015"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "ARM-R-013"
+    ],
+    "changed": false,
+    "family": "arm-f-usage",
+    "id": "v28824a66a84f4b8c",
+    "kind": "reject",
+    "mutant_rejections": [
+      "ARM-R-013"
+    ],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-19",
+    "id": "v2a251ae413920da5",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v2a90adc95b2fbdaf",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "arm-f-usage",
+    "id": "v2b052236457b678c",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v2ddb14c9194e0341",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-5",
+    "id": "v320406e03fff4faa",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "ARM-R-016"
+    ],
+    "changed": false,
+    "family": "arm-f-run",
+    "id": "v32c1e0be1a7bf104",
+    "kind": "reject",
+    "mutant_rejections": [
+      "ARM-R-016"
+    ],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v32c6afab9eb5888a",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v36999d5568e9aacf",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "LCD-R-005"
+    ],
+    "changed": false,
+    "family": "lcd-f-publisher",
+    "id": "v388dee224f53c2c1",
+    "kind": "reject",
+    "mutant_rejections": [
+      "LCD-R-005"
+    ],
+    "subject_type": "llm-context-discovery"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v3a14f94887e53e0d",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "ARM-R-008"
+    ],
+    "changed": false,
+    "family": "arm-f-steps",
+    "id": "v3add8861d36c2543",
+    "kind": "reject",
+    "mutant_rejections": [
+      "ARM-R-008"
+    ],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v3aef8ba9ac745dbf",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "arm-f-run",
+    "id": "v3d5079f23e498451",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-025"
+    ],
+    "changed": false,
+    "family": "w3c-f-25",
+    "id": "v3fef7c8cc4ed5e4b",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-025"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-22",
+    "id": "v42d2d180b1c0b5b3",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v44f7a4acc7f66fa4",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-20",
+    "id": "v472759709d82c585",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-018"
+    ],
+    "changed": false,
+    "family": "w3c-f-18",
+    "id": "v48877f27bbd03b55",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-018"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v48d22035dc3a5f54",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v494ac13464d685ee",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-020"
+    ],
+    "changed": false,
+    "family": "w3c-f-20",
+    "id": "v499412698a1dd50e",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-020"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-29",
+    "id": "v49afe44cc51bc376",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-015"
+    ],
+    "changed": false,
+    "family": "w3c-f-15",
+    "id": "v4a06b866afca0d49",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-015"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v4c778d3ee20deb35",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-013"
+    ],
+    "changed": false,
+    "family": "w3c-f-13",
+    "id": "v4e4face5dd4ff492",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-013"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-20",
+    "id": "v4f343e8bd3d6af08",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-16",
+    "id": "v518aa8d55ab5460b",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v5390d3d7133f3963",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v54dea8bab0674755",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v568e8a1311ecb396",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-12",
+    "id": "v56b6337b612b1ee3",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-25",
+    "id": "v56f37afaff2a6ca8",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-009"
+    ],
+    "changed": false,
+    "family": "w3c-f-9",
+    "id": "v5a2ff35648828621",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-009"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v5a678e8560a4f0f1",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-023"
+    ],
+    "changed": false,
+    "family": "w3c-f-23",
+    "id": "v5c26b11179a2277a",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-023"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "arm-f-run",
+    "id": "v668c618f2a50e26e",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-014"
+    ],
+    "changed": false,
+    "family": "w3c-f-14",
+    "id": "v66fd68ad7d106fac",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-014"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v67727ceb5f2f7932",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-022"
+    ],
+    "changed": false,
+    "family": "w3c-f-22",
+    "id": "v67e996a3fa03e959",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-022"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "ARM-R-002"
+    ],
+    "changed": false,
+    "family": "arm-f-run",
+    "id": "v696c5dd5918c854b",
+    "kind": "reject",
+    "mutant_rejections": [
+      "ARM-R-002"
+    ],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-020"
+    ],
+    "changed": false,
+    "family": "w3c-f-20",
+    "id": "v6cd84ff1aea45153",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-020"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v6cfd1d72b49d8853",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "LCD-R-009"
+    ],
+    "changed": false,
+    "family": "lcd-f-consumer",
+    "id": "v70533f1029ed78e6",
+    "kind": "reject",
+    "mutant_rejections": [
+      "LCD-R-009"
+    ],
+    "subject_type": "llm-context-discovery"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "arm-f-serialization",
+    "id": "v7257ad4efb1d0638",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v7351d22d2343dfb5",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-17",
+    "id": "v735efb00ce85d044",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v737955ac1c0d9c2e",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-25",
+    "id": "v76c0022fb2a7f21e",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v77f27a301818a512",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "LCD-R-011"
+    ],
+    "changed": false,
+    "family": "lcd-f-consumer",
+    "id": "v79266aba771310af",
+    "kind": "reject",
+    "mutant_rejections": [
+      "LCD-R-011"
+    ],
+    "subject_type": "llm-context-discovery"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-29",
+    "id": "v796a6048345b8f58",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v7aca350e00458527",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "LCD-R-003"
+    ],
+    "changed": false,
+    "family": "lcd-f-publisher",
+    "id": "v7bc7c1460093e973",
+    "kind": "reject",
+    "mutant_rejections": [
+      "LCD-R-003"
+    ],
+    "subject_type": "llm-context-discovery"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-015"
+    ],
+    "changed": false,
+    "family": "w3c-f-15",
+    "id": "v7c22f1451e51aeb5",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-015"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-005"
+    ],
+    "changed": false,
+    "family": "w3c-f-5",
+    "id": "v7cac3bda7403c268",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-005"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v7ead0086cb766b10",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v7ec5cc451c0c1564",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-2",
+    "id": "v804ca6858fa22efe",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "arm-f-serialization",
+    "id": "v81c7f6fc68ea35a7",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v8224d0f41c80f492",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-3",
+    "id": "v822b02c01fe9ddd2",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "arm-f-totals",
+    "id": "v827901388ec40c23",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v828ec4d8309aa2e3",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "arm-f-steps",
+    "id": "v838fe3be3393696c",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v84f8c68bc5fc2810",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "lcd-f-publisher",
+    "id": "v85c0428fc7fdabc7",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "llm-context-discovery"
+  },
+  {
+    "baseline_rejections": [
+      "LCD-R-007"
+    ],
+    "changed": false,
+    "family": "lcd-f-consumer",
+    "id": "v85db98532abea6d9",
+    "kind": "reject",
+    "mutant_rejections": [
+      "LCD-R-007"
+    ],
+    "subject_type": "llm-context-discovery"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-15",
+    "id": "v86e1560a0d27b432",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-015"
+    ],
+    "changed": false,
+    "family": "w3c-f-15",
+    "id": "v88935f0b29397a80",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-015"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-006"
+    ],
+    "changed": false,
+    "family": "w3c-f-6",
+    "id": "v8981e0830c69b869",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-006"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-7",
+    "id": "v8a7442b19984a1ff",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v8b06a7e78dc8d039",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v8c15455bb3d933cb",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "ARM-R-019"
+    ],
+    "changed": false,
+    "family": "arm-f-serialization",
+    "id": "v8d4e61737e9ee6a6",
+    "kind": "reject",
+    "mutant_rejections": [
+      "ARM-R-019"
+    ],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "v96087777a4afe26f",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "ARM-R-003"
+    ],
+    "changed": false,
+    "family": "arm-f-run",
+    "id": "v9815e1f08a7e0664",
+    "kind": "reject",
+    "mutant_rejections": [
+      "ARM-R-003"
+    ],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-003"
+    ],
+    "changed": false,
+    "family": "w3c-f-3",
+    "id": "v98252c989e84999d",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-003"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-26",
+    "id": "v9b7c8cf7d1b9f679",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-021"
+    ],
+    "changed": false,
+    "family": "w3c-f-21",
+    "id": "v9c68a108ed63da63",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-021"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "lcd-f-publisher",
+    "id": "v9cfb2c8197757948",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "llm-context-discovery"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "arm-f-run",
+    "id": "v9dc96e6ca225e6e2",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-23",
+    "id": "v9f618dfd3e44b84a",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-28",
+    "id": "va0620b488f2ff2f5",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "va18bfa567e0405b7",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "va19ba1b3f9f382bb",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-23",
+    "id": "va1e910d25ebbb2c4",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-13",
+    "id": "va213bada85cc9abe",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "arm-f-steps",
+    "id": "va32bdaeb5f8aed8f",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-024"
+    ],
+    "changed": false,
+    "family": "w3c-f-24",
+    "id": "va3c277aa6743807a",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-024"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "va4fc9fc8f711bd58",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-029"
+    ],
+    "changed": true,
+    "family": "w3c-f-29",
+    "id": "va86e962a5024f152",
+    "kind": "reject",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "va91d537fa714f2d3",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "ARM-R-001"
+    ],
+    "changed": false,
+    "family": "arm-f-run",
+    "id": "va934761de6c65857",
+    "kind": "reject",
+    "mutant_rejections": [
+      "ARM-R-001"
+    ],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [
+      "ARM-R-017"
+    ],
+    "changed": false,
+    "family": "arm-f-serialization",
+    "id": "vaac3a24b2552738b",
+    "kind": "reject",
+    "mutant_rejections": [
+      "ARM-R-017"
+    ],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-6",
+    "id": "vaad2cb64c5b0646b",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vab06fd8893fe7da9",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-020"
+    ],
+    "changed": false,
+    "family": "w3c-f-20",
+    "id": "vab508347e605c0af",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-020"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vac685ed4f2b7b142",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vaca8620fefade22f",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-013"
+    ],
+    "changed": false,
+    "family": "w3c-f-13",
+    "id": "vaeb76896b202e837",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-013"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-001"
+    ],
+    "changed": false,
+    "family": "w3c-f-1",
+    "id": "vb11134a37e7c0c2b",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-001"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-13",
+    "id": "vb195f23e8436fd19",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "arm-f-usage",
+    "id": "vb1c8d4729c06472c",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "lcd-f-consumer",
+    "id": "vb450f39bace98641",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "llm-context-discovery"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vb4de5d37845a1546",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "LCD-R-004"
+    ],
+    "changed": false,
+    "family": "lcd-f-publisher",
+    "id": "vb608f4ddfcc00a20",
+    "kind": "reject",
+    "mutant_rejections": [
+      "LCD-R-004"
+    ],
+    "subject_type": "llm-context-discovery"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vb684dfb39487fcb1",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vb6be26b7111909cb",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "arm-f-usage",
+    "id": "vb6e8cb7973f1fab5",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "lcd-f-publisher",
+    "id": "vb7065104515600ba",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "llm-context-discovery"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vb7ec64962345ec63",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vb8c546609d4103b0",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vbb1688d0226174aa",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "arm-f-serialization",
+    "id": "vbba71aa9e6a41e1c",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vbbeed17aecbe9848",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vbca0a5030104e2f3",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vbdcffc81f99b2078",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vbdf5d0dc993f1310",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-010"
+    ],
+    "changed": false,
+    "family": "w3c-f-10",
+    "id": "vbe6937292f4f1614",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-010"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vbec908a03edd1250",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "arm-f-steps",
+    "id": "vbf88ec51ebd083b6",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [
+      "ARM-R-009"
+    ],
+    "changed": false,
+    "family": "arm-f-usage",
+    "id": "vc17bb5b854981008",
+    "kind": "reject",
+    "mutant_rejections": [
+      "ARM-R-009"
+    ],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vc2cab6dea09f0a3b",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vc39c75a8c00ab957",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-013"
+    ],
+    "changed": false,
+    "family": "w3c-f-13",
+    "id": "vc58647a590befbb7",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-013"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vc653bb099d9c5839",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "arm-f-run",
+    "id": "vc7c310827b9dbd10",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-27",
+    "id": "vc938b2ab36cae34a",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "LCD-R-010"
+    ],
+    "changed": false,
+    "family": "lcd-f-publisher",
+    "id": "vcbd0eaef95bc9181",
+    "kind": "reject",
+    "mutant_rejections": [
+      "LCD-R-010"
+    ],
+    "subject_type": "llm-context-discovery"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vcc4002f4776bac10",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "ARM-R-006"
+    ],
+    "changed": false,
+    "family": "arm-f-steps",
+    "id": "vccc374459c05dd52",
+    "kind": "reject",
+    "mutant_rejections": [
+      "ARM-R-006"
+    ],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "lcd-f-consumer",
+    "id": "vcd6021208e8e8a6e",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "llm-context-discovery"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "arm-f-serialization",
+    "id": "vcdb9ae63a12852a8",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-026"
+    ],
+    "changed": false,
+    "family": "w3c-f-26",
+    "id": "vcf1cbb85d729dcd1",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-026"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "ARM-R-011"
+    ],
+    "changed": false,
+    "family": "arm-f-usage",
+    "id": "vd02cc7abe1dbc2bf",
+    "kind": "reject",
+    "mutant_rejections": [
+      "ARM-R-011"
+    ],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-012"
+    ],
+    "changed": false,
+    "family": "w3c-f-12",
+    "id": "vd1eb6a3fb13eb97d",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-012"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vd27e483fe63e78c0",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-028"
+    ],
+    "changed": false,
+    "family": "w3c-f-28",
+    "id": "vd2ae28ba9140bc89",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-028"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-023"
+    ],
+    "changed": false,
+    "family": "w3c-f-23",
+    "id": "vd2e50306dcd6c470",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-023"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "ARM-R-018"
+    ],
+    "changed": false,
+    "family": "arm-f-serialization",
+    "id": "vd302fdc2d7a97e6e",
+    "kind": "reject",
+    "mutant_rejections": [
+      "ARM-R-018"
+    ],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-24",
+    "id": "vd3e84d6a85cb6a0f",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-16",
+    "id": "vd4eb88d206b3abdd",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "arm-f-usage",
+    "id": "vd53bcd623743858d",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vd64679c8b7f9e736",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vd7d23c0d86701fc6",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vd841f2eea4d0651e",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vd85d62c0213a9749",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "lcd-f-consumer",
+    "id": "vd88fd757419269aa",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "llm-context-discovery"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-13",
+    "id": "vd8d93fd735111aa5",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vdcb0849fc754aaea",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-007"
+    ],
+    "changed": false,
+    "family": "w3c-f-7",
+    "id": "vdcbd067d047bfbd0",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-007"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vdec1361509de89d4",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-18",
+    "id": "vdf05d359490e7833",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "ve14d385f9bcbd83b",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "ve2460634487d8a8f",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "LCD-R-008"
+    ],
+    "changed": false,
+    "family": "lcd-f-consumer",
+    "id": "ve2b3a699bc06e53d",
+    "kind": "reject",
+    "mutant_rejections": [
+      "LCD-R-008"
+    ],
+    "subject_type": "llm-context-discovery"
+  },
+  {
+    "baseline_rejections": [
+      "ARM-R-007"
+    ],
+    "changed": false,
+    "family": "arm-f-steps",
+    "id": "ve2c7ff41cba0be5d",
+    "kind": "reject",
+    "mutant_rejections": [
+      "ARM-R-007"
+    ],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [
+      "ARM-R-005"
+    ],
+    "changed": false,
+    "family": "arm-f-run",
+    "id": "ve3fcd2bc70913ea2",
+    "kind": "reject",
+    "mutant_rejections": [
+      "ARM-R-005"
+    ],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "ve4744745405812b9",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "ARM-R-012"
+    ],
+    "changed": false,
+    "family": "arm-f-totals",
+    "id": "ve4b9c82536808f52",
+    "kind": "reject",
+    "mutant_rejections": [
+      "ARM-R-012"
+    ],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "ve53f0521c7e3a30c",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "lcd-f-publisher",
+    "id": "ve5819dc9edb1f47b",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "llm-context-discovery"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-gaps",
+    "id": "ve5d916a50130739e",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-1",
+    "id": "ve70386fdb6f071d3",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "ve7520b18160365d2",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "ve784e75da615e795",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-029"
+    ],
+    "changed": true,
+    "family": "w3c-f-29",
+    "id": "ve9c436f93e42e394",
+    "kind": "reject",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "ve9cefed56bbc8359",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "ve9ebdb7db94e0b9d",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vea3ee7919ceb2e10",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "arm-f-usage",
+    "id": "vea598711b897286e",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vea80ece35200e349",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-004"
+    ],
+    "changed": false,
+    "family": "w3c-f-4",
+    "id": "vec36e393a92b69eb",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-004"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-21",
+    "id": "vecd8b7bb20fed3a3",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "ARM-R-004"
+    ],
+    "changed": false,
+    "family": "arm-f-run",
+    "id": "vecddffbd8678e5ef",
+    "kind": "reject",
+    "mutant_rejections": [
+      "ARM-R-004"
+    ],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-011"
+    ],
+    "changed": false,
+    "family": "w3c-f-11",
+    "id": "vee997c119f09258b",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-011"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "ARM-R-022"
+    ],
+    "changed": false,
+    "family": "arm-f-usage",
+    "id": "vef09761654b57a92",
+    "kind": "reject",
+    "mutant_rejections": [
+      "ARM-R-022"
+    ],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vf0793a8c5fc26e52",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "ARM-R-014"
+    ],
+    "changed": false,
+    "family": "arm-f-usage",
+    "id": "vf1e99cf0310cc1c6",
+    "kind": "reject",
+    "mutant_rejections": [
+      "ARM-R-014"
+    ],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vf2fde28af69a1348",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-002"
+    ],
+    "changed": false,
+    "family": "w3c-f-2",
+    "id": "vf374114fe7f28e7d",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-002"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "ARM-R-021"
+    ],
+    "changed": false,
+    "family": "arm-f-serialization",
+    "id": "vf3af943ff1bf7375",
+    "kind": "reject",
+    "mutant_rejections": [
+      "ARM-R-021"
+    ],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [
+      "ARM-R-015"
+    ],
+    "changed": false,
+    "family": "arm-f-steps",
+    "id": "vf414a4c9065ad7b8",
+    "kind": "reject",
+    "mutant_rejections": [
+      "ARM-R-015"
+    ],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "arm-f-run",
+    "id": "vf7334aa7dcf00826",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "lcd-f-consumer",
+    "id": "vf753bb908231e0a1",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "llm-context-discovery"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-4",
+    "id": "vf82e507d268fed9d",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "LCD-R-002"
+    ],
+    "changed": false,
+    "family": "lcd-f-publisher",
+    "id": "vf86d92beb5a12905",
+    "kind": "reject",
+    "mutant_rejections": [
+      "LCD-R-002"
+    ],
+    "subject_type": "llm-context-discovery"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-9",
+    "id": "vf9b5623144960dda",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-20",
+    "id": "vfa24e4f45c2e826e",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-11",
+    "id": "vfa79ad0a7bd957b9",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-015"
+    ],
+    "changed": false,
+    "family": "w3c-f-15",
+    "id": "vfbc5db1c2a012359",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-015"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "w3c-f-gaps",
+    "id": "vfbd7379026575f04",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [
+      "W3C-R-016"
+    ],
+    "changed": false,
+    "family": "w3c-f-disensor",
+    "id": "vfbf04f56b585e3fa",
+    "kind": "reject",
+    "mutant_rejections": [
+      "W3C-R-016"
+    ],
+    "subject_type": "report"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "lcd-f-publisher",
+    "id": "vfeb5d1872929ab35",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "llm-context-discovery"
+  },
+  {
+    "baseline_rejections": [],
+    "changed": false,
+    "family": "arm-f-usage",
+    "id": "vff5545c0760d7544",
+    "kind": "accept",
+    "mutant_rejections": [],
+    "subject_type": "agent-run-metrics"
+  },
+  {
+    "baseline_rejections": [
+      "LCD-R-001"
+    ],
+    "changed": false,
+    "family": "lcd-f-publisher",
+    "id": "vff8f75223d6658ef",
+    "kind": "reject",
+    "mutant_rejections": [
+      "LCD-R-001"
+    ],
+    "subject_type": "llm-context-discovery"
+  }
+]

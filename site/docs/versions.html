@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Sankalp Gilda" />
+
+  <title>Version ledger - Agent Evidence Conformance Board</title>
+  <link rel="canonical" href="https://probityai.github.io/agent-evidence-atlas/versions.html" />
+  <link rel="alternate" type="text/markdown" href="https://probityai.github.io/agent-evidence-atlas/versions.md" />
+  <link rel="describedby" href="https://probityai.github.io/agent-evidence-atlas/llms.txt" />
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <nav aria-label="Site">
+    <a class="home" href="index.html">Agent Evidence Conformance Board</a>
+    <span class="links">
+      <a href="start.html">Choose a component</a>
+      <a href="lab.html">Open Evidence Lab</a>
+      <a href="status.html">Claim status</a>
+      <a href="runs.html">Find a run</a>
+      <a href="board.html">Conformance board</a>
+      <a href="pilot.html">Pilot status</a>
+      <a href="atlas.html">Atlas</a>
+      <a href="experiments.html">Experiments</a>
+      <a href="claims.html">Claims</a>
+      <a href="versions.html">Versions</a>
+    </span>
+  </nav>
+</header>
+<main id="main" tabindex="-1">
+<header class="page">
+<h1>Version ledger</h1>
+<p class="subtitle">Component releases, source tags and the documentation built from them</p>
+<p class="status">Draft. Site version 0.6-draft, 2026-10-01. Rebuilt on every change; the digests let a reader check that a page matches the version recorded here.</p>
+</header>
+<h2 id="component-versions">Component versions</h2>
+<p>These are publication records at the read time shown. The source column names the commit behind each release or tag. Registry releases do not imply a GitHub tag; source tags name the peeled commit. A repository can publish a harness and a case package at different versions.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Component and artifact / Publication role / Version / Source commit / Read (UTC) / Scope">
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>Component and artifact</th>
+<th>Publication role</th>
+<th>Version</th>
+<th>Source commit</th>
+<th>Read (UTC)</th>
+<th>Scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="start.html#artifact-digest-check">Probity Admission</a> / Python digest checker</td>
+<td>Published release</td>
+<td><a href="https://github.com/probityai/agent-evidence-admission/releases/tag/py-v0.1.0">py-v0.1.0</a></td>
+<td><a href="https://github.com/probityai/agent-evidence-admission/tree/0004d2333a841c95658d4a9c75232f0913ca7141"><code>0004d2333a84</code></a></td>
+<td>2026-10-15</td>
+<td>This release is the digest-check package. Admission policy and budget tasks retain their own source pins.</td>
+</tr>
+<tr>
+<td><a href="start.html#checkout-runner">Checkout composition reference</a> / Composition CLI and Action</td>
+<td>Source tag</td>
+<td><a href="https://github.com/probityai/agent-checkout-runner/tree/v0.2.0">0.2.0</a></td>
+<td><a href="https://github.com/probityai/agent-checkout-runner/tree/297b5b182bb40605b62586eccbf93a9c68a4aee1"><code>297b5b182bb4</code></a></td>
+<td>2026-10-15</td>
+<td>A bounded synthetic composition reference. The source tag pins the CLI and Action, not a registry release or a merchant deployment.</td>
+</tr>
+<tr>
+<td><a href="start.html#dsse">dsse</a> / Rust crate</td>
+<td>Registry release</td>
+<td><a href="https://crates.io/crates/dsse/0.1.3">0.1.3</a></td>
+<td><a href="https://github.com/probityai/dsse/tree/5f1e4b5ffd61b6bae0f69b43766c493370004d29"><code>5f1e4b5ffd61</code></a></td>
+<td>2026-10-15</td>
+<td>Signature verification checks bytes under caller-selected keys, not the truth of the payload.</td>
+</tr>
+<tr>
+<td><a href="start.html#jcs-admit">jcs-admit</a> / Rust crate</td>
+<td>Registry release</td>
+<td><a href="https://crates.io/crates/jcs-admit/0.1.2">0.1.2</a></td>
+<td><a href="https://github.com/probityai/jcs-admit/tree/d7e65f04bf13873e6579a91aa111234866020389"><code>d7e65f04bf13</code></a></td>
+<td>2026-10-15</td>
+<td>Canonicalization and raw-input admission are separate from envelope verification.</td>
+</tr>
+<tr>
+<td><a href="start.html#observer">Probity Observer</a> / Python package</td>
+<td>Registry release</td>
+<td><a href="https://pypi.org/project/agent-evidence-observer/0.0.1/">0.0.1</a></td>
+<td><a href="https://github.com/probityai/agent-evidence-observer/tree/c12869620f1834ce566cd924ba95918c4dde52ce"><code>c12869620f18</code></a></td>
+<td>2026-10-15</td>
+<td>Root package release; separate integration profile wheels and source readers keep their own installation paths. The reviewed quick start remains a pinned source recipe.</td>
+</tr>
+<tr>
+<td><a href="start.html#ratchet">Probity Ratchet</a> / Harness source</td>
+<td>Source tag</td>
+<td><a href="https://github.com/probityai/probity/tree/probity-ratchet-v0.1.2">0.1.2</a></td>
+<td><a href="https://github.com/probityai/probity/tree/e2daf77f75e92aa961cf184084335b67aaae7581"><code>e2daf77f75e9</code></a></td>
+<td>2026-10-15</td>
+<td>Annotated harness tag, peeled to its source commit. It is separate from the public case package.</td>
+</tr>
+<tr>
+<td><a href="start.html#ratchet-cases">Probity Ratchet</a> / Public case suite</td>
+<td>Published release</td>
+<td><a href="https://github.com/probityai/probity/releases/tag/probity-ratchet-cases-v0.2.0">0.2.0</a></td>
+<td><a href="https://github.com/probityai/probity/tree/b6504260db8af7d3746e9ac87740430dd988e8d9"><code>b6504260db8a</code></a></td>
+<td>2026-10-15</td>
+<td>The case package has its own release. All shipped splits are public.</td>
+</tr>
+<tr>
+<td><a href="start.html#vectors">Agent Evidence Vectors</a> / Go verifier and Python harness</td>
+<td>Published release</td>
+<td><a href="https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.18.1">0.18.1</a></td>
+<td><a href="https://github.com/probityai/agent-evidence-vectors/tree/33d545104ff2f8c124cff465c96c013eeb809156"><code>33d545104ff2</code></a></td>
+<td>2026-10-15</td>
+<td>The reviewed guide also carries a 0.18.0 install recipe. Select the version required by your result.</td>
+</tr>
+<tr>
+<td><a href="start.html#verify">Probity Verify</a> / Python package</td>
+<td>Registry release</td>
+<td><a href="https://pypi.org/project/probity-verify/0.1.1/">0.1.1</a></td>
+<td><a href="https://github.com/probityai/probity/tree/db28cc76e5f5aa6932d5122d9c6241ef7adb7fee"><code>db28cc76e5f5</code></a></td>
+<td>2026-10-15</td>
+<td>The released wheel adds packaged sample inputs. The reviewed guide deliberately retains its earlier source recipe; historical 0.1.0 builder provenance remains separate.</td>
+</tr>
+<tr>
+<td><a href="start.html#vocabulary">Probity Vocabulary</a> / Python package</td>
+<td>Registry release</td>
+<td><a href="https://pypi.org/project/agent-evidence-vocabulary/0.4.0/">0.4.0</a></td>
+<td><a href="https://github.com/probityai/agent-evidence-vocabulary/tree/59c93ac4529c1e8fdf6e7cdfff7a950740c873f3"><code>59c93ac4529c</code></a></td>
+<td>2026-10-15</td>
+<td>Python package carries the released registry and crosswalk data. The reviewed quick start still reads the independently tagged v0.4.0 raw registry.</td>
+</tr>
+<tr>
+<td><a href="start.html#vocabulary">Probity Vocabulary</a> / Vocabulary registry</td>
+<td>Published release</td>
+<td><a href="https://github.com/probityai/agent-evidence-vocabulary/releases/tag/v0.4.0">v0.4.0</a></td>
+<td><a href="https://github.com/probityai/agent-evidence-vocabulary/tree/220a4f0a08b90a555a430bb7d4334eb2617d05ba"><code>220a4f0a08b9</code></a></td>
+<td>2026-10-15</td>
+<td>Terms and crosswalks are versioned independently of executable packages.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="choose-the-pin-for-your-task">Choose the pin for your task</h3>
+<ul>
+<li><strong>Install or integrate:</strong> use a component’s <a href="start.html">reviewed guide</a>, then keep the exact package version or source commit its recipe selects. A guide can deliberately use an older release.</li>
+<li><strong>Repeat a tested installation:</strong> use the recipe’s recorded source, environment, command and retained output. A release number alone is not an install result.</li>
+<li><strong>Cite or replay a result:</strong> retain the source and artifact digests in that result. <a href="lab.html">Lab records</a>, historical examples and citation snapshots do not move when a new release appears.</li>
+</ul>
+<h2 id="documentation-revisions">Documentation revisions</h2>
+<p>A digest here is the SHA-256 of the artifact’s source file in the site’s repository, truncated to 16 hexadecimal characters for display. A change to the source changes the digest, and a change that alters what a page claims also gets a new version and a note.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="artifact / version / date / status / source SHA-256 (first 16) / note">
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>artifact</th>
+<th>version</th>
+<th>date</th>
+<th>status</th>
+<th>source SHA-256 (first 16)</th>
+<th>note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="index.html">Home page</a></td>
+<td>1.14</td>
+<td>2026-10-15</td>
+<td><span class="label draft">draft</span></td>
+<td><code>56c3a5383ab947a4</code> <code>src/index.md</code></td>
+<td>Links the verifier task to exact-source Action controls and their retained hosted result</td>
+</tr>
+<tr>
+<td>Essay</td>
+<td>0.2</td>
+<td>2026-09-27</td>
+<td><span class="label draft">held</span></td>
+<td>page not built in this repository yet</td>
+<td>Held until it passes its release criteria</td>
+</tr>
+<tr>
+<td><a href="atlas.html">Atlas</a></td>
+<td>0.6.1-preview</td>
+<td>2026-10-16</td>
+<td><span class="label draft">draft</span></td>
+<td><code>b81d48c0a430edec</code> <code>data/atlas.toml</code></td>
+<td>Records jcs-admit 0.1.2 and dsse 0.1.3 from full registry byte readback; other source and corpus pins stay unchanged</td>
+</tr>
+<tr>
+<td>Verifier demonstration</td>
+<td>0.1</td>
+<td>2026-09-27</td>
+<td><span class="label draft">held</span></td>
+<td>page not built in this repository yet</td>
+<td>Held until it passes its release criteria</td>
+</tr>
+<tr>
+<td><a href="experiments.html">Experiments</a></td>
+<td>0.5</td>
+<td>2026-10-16</td>
+<td><span class="label draft">draft</span></td>
+<td><code>11e849dc1744fbdc</code> <code>src/experiments.md</code></td>
+<td>Returns from the original admission experiment to its worked article and exact presentation packet</td>
+</tr>
+<tr>
+<td>Series plan</td>
+<td>0.1</td>
+<td>2026-09-27</td>
+<td><span class="label draft">held</span></td>
+<td>page not built in this repository yet</td>
+<td>Held until it passes its release criteria</td>
+</tr>
+<tr>
+<td><a href="claims.html">Claim ledger</a></td>
+<td>0.8.37</td>
+<td>2026-10-16</td>
+<td><span class="label draft">draft</span></td>
+<td><code>46eb456887433ecd</code> <code>CLAIMS.md</code></td>
+<td>Binds the actual native Rust registry releases and preserves separate historical guide pins</td>
+</tr>
+<tr>
+<td><a href="lab.html">Probity Open Evidence Lab</a></td>
+<td>0.1.16</td>
+<td>2026-10-16</td>
+<td><span class="label draft">draft</span></td>
+<td><code>d044098693f69ae7</code> <code>src/lab.md</code></td>
+<td>Repairs three retained workflow download paths without changing original bytes or results</td>
+</tr>
+<tr>
+<td><a href="status.html">Claim status</a></td>
+<td>0.4</td>
+<td>2026-10-15</td>
+<td><span class="label draft">draft</span></td>
+<td><code>f83d8633f8f0c709</code> <code>src/status.md</code></td>
+<td>Counts the five retained case records at their stated evidence classes; outside hosting does not imply independent custody</td>
+</tr>
+<tr>
+<td><a href="task-grouped-rates.html">Task-grouped rates worked example</a></td>
+<td>0.1</td>
+<td>2026-10-03</td>
+<td><span class="label draft">draft</span></td>
+<td><code>92940ce8ee827ad0</code> <code>examples/task-grouped-rates/input.json</code></td>
+<td>Authored labels, paired task resampling, explicit weighting targets and unresolved outcomes</td>
+</tr>
+<tr>
+<td><a href="provael-task-controls.html">Published robot controls companion</a></td>
+<td>0.1</td>
+<td>2026-10-03</td>
+<td><span class="label draft">draft</span></td>
+<td><code>20b90c1ae59c399d</code> <code>examples/provael-task-controls/source-record.json</code></td>
+<td>Original publisher simulator labels, matched controls, corrected interpretation and exact paired task weights</td>
+</tr>
+<tr>
+<td><a href="pilot.html">APS and PriorSeal pilot status</a></td>
+<td>0.1.1</td>
+<td>2026-10-01</td>
+<td><span class="label proposed">proposed</span></td>
+<td><code>f4a3c2913444e399</code> <code>src/pilot.md</code></td>
+<td>Probity-owned proposal, merged technical replay, owner slots and acceptance gates; no formal pilot agreement</td>
+</tr>
+<tr>
+<td><a href="vocabulary-findings.html">Authored policy vocabulary finding</a></td>
+<td>0.1</td>
+<td>2026-10-03</td>
+<td><span class="label draft">draft</span></td>
+<td><code>f83b9c1ae54db624</code> <code>src/vocabulary-findings.md</code></td>
+<td>Fixed action vocabulary raises the finite authored score; all default quality rows hold</td>
+</tr>
+<tr>
+<td><a href="tool-argument-findings.html">Authored tool-argument finding</a></td>
+<td>0.1</td>
+<td>2026-10-03</td>
+<td><span class="label draft">draft</span></td>
+<td><code>8a871f92f8f890ff</code> <code>src/tool-argument-findings.md</code></td>
+<td>Preserves all native attempts, abstention failures and separate scoped-evidence publication/quality holds</td>
+</tr>
+<tr>
+<td><a href="start.html">Project catalog</a></td>
+<td>0.12</td>
+<td>2026-10-16</td>
+<td><span class="label draft">draft</span></td>
+<td><code>b3ec4db5d77af72a</code> <code>data/catalog.json</code></td>
+<td>Uses existing registry-release rows for actual native Rust crates without invented source tags</td>
+</tr>
+<tr>
+<td><a href="automation.html">Automation guide</a></td>
+<td>0.2</td>
+<td>2026-10-15</td>
+<td><span class="label draft">draft</span></td>
+<td><code>37fa8cc37f43e32a</code> <code>src/automation.md</code></td>
+<td>Explains the existing Vectors Action failure controls with exact source and hosted job</td>
+</tr>
+<tr>
+<td><a href="catalog.html">Catalog maintenance guide</a></td>
+<td>0.7</td>
+<td>2026-10-15</td>
+<td><span class="label draft">draft</span></td>
+<td><code>8aad602241e86dc6</code> <code>src/catalog.md</code></td>
+<td>Explains exact registry releases without source tags and retains tagged release roles</td>
+</tr>
+<tr>
+<td><a href="replay-an-evidence-decision.html">Retained evidence decision walkthrough</a></td>
+<td>0.5</td>
+<td>2026-10-16</td>
+<td><span class="label draft">draft</span></td>
+<td><code>6e8a10dd814f8e01</code> <code>src/replay-an-evidence-decision.md</code></td>
+<td>Links one reusable source-bound presentation packet without changing the replay method</td>
+</tr>
+<tr>
+<td><a href="runs.html">Retained-run browser</a></td>
+<td>0.1</td>
+<td>2026-10-06</td>
+<td><span class="label draft">draft</span></td>
+<td><code>6a2ac67797c7adf9</code> <code>src/runs.md</code></td>
+<td>Search, exact claim-result filters and complete static navigation over the existing Lab register; no aggregate run grade</td>
+</tr>
+<tr>
+<td><a href="start.html">Published source routes</a></td>
+<td>0.2.3</td>
+<td>2026-10-15</td>
+<td><span class="label draft">draft</span></td>
+<td><code>76f6a619c66b1f36</code> <code>data/catalog-sources.json</code></td>
+<td>Appends current Python guide source reviews while retaining all earlier recipe and Action pins</td>
+</tr>
+<tr>
+<td><a href="replay-tools.html">Caller-declared APS and PriorSeal replay guide</a></td>
+<td>0.1</td>
+<td>2026-10-06</td>
+<td><span class="label draft">draft</span></td>
+<td><code>94025818d44f6e6d</code> <code>src/replay-tools.md</code></td>
+<td>Links one complete v2 procedure, explicit caller declarations, hashes of files read at invocation and actual process outputs; historical results stay unchanged</td>
+</tr>
+<tr>
+<td><a href="runs.html">Historical report and diagnostic retained record</a></td>
+<td>0.1</td>
+<td>2026-10-06</td>
+<td><span class="label draft">draft</span></td>
+<td><code>892a154384a1c6d9</code> <code>experiments/w3c-report-replay-2026-10-06/report.json</code></td>
+<td>Original historical report outputs and separate diagnostic controls with maintained data-only accounting; no new native or independent-operator claim</td>
+</tr>
+<tr>
+<td><a href="evidence-test-meaning.html">Test outcomes and evidence conclusions</a></td>
+<td>0.1</td>
+<td>2026-10-06</td>
+<td><span class="label draft">draft</span></td>
+<td><code>d0b4380e2ea9f868</code> <code>src/evidence-test-meaning.md</code></td>
+<td>Worked hypothetical refund story with historical package pins, retained per-case data and a maintained Lab checking route</td>
+</tr>
+<tr>
+<td><a href="approved-sql.html">Approved SQL illustration</a></td>
+<td>0.1.0</td>
+<td>2026-10-09</td>
+<td><span class="label illustration">illustration</span></td>
+<td><code>1bf0e167febeafe3</code> <code>src/approved-sql.md</code></td>
+<td>Checked supplied-record comparison; native audit pair and independent reader remain separate contributions</td>
+</tr>
+<tr>
+<td><a href="request-effect-join.html">Request and effect join cases</a></td>
+<td>0.1</td>
+<td>2026-10-09</td>
+<td><span class="label proposed">proposed</span></td>
+<td><code>f7668c14559f2470</code> <code>src/request-effect-join.md</code></td>
+<td>Selected producer contract and separate pre-dispatch, post-commit and target-coverage cases</td>
+</tr>
+<tr>
+<td><a href="authority-effect-cases.html">Synthetic authority, report and observation controls</a></td>
+<td>0.1.0</td>
+<td>2026-10-09</td>
+<td>[synthetic controls]{.label .synthetic controls}</td>
+<td><code>ee68331360373c87</code> <code>src/authority-effect-cases.md</code></td>
+<td>Authored supplied-record comparisons, source attribution and an installed-package gate; live effects, independent observation and outside operation remain separate</td>
+</tr>
+<tr>
+<td><a href="agent-checkout-assessment.html">Agent checkout authority-to-effect assessment</a></td>
+<td>0.1</td>
+<td>2026-10-13</td>
+<td><span class="label proposed">proposed</span></td>
+<td><code>9f8a0a73bf650683</code> <code>src/agent-checkout-assessment.md</code></td>
+<td>Assessment class from shopper approval to payment, order and effect; public synthetic method, operator records stay private</td>
+</tr>
+</tbody>
+</table>
+</div>
+</main>
+<footer class="site">
+  <p>Every number on this site has a source, a read time and a re-derive command in the <a href="claims.html">claim ledger</a>. Site version 0.6-draft, 2026-10-01. <a href="versions.html#documentation-revisions">Page revisions</a>.</p>
+</footer>
+</body>
+</html>

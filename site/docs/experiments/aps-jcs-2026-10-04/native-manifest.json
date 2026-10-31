@@ -1,0 +1,128 @@
+[
+  {
+    "artifact_id": 11303233565,
+    "name": "aps-jcs-node-20",
+    "run_id": 37202741175,
+    "archive_bytes": 161258,
+    "archive_sha256": "89b48e8a1b93bf1e5b819e9cdad53237ca6711b83130cad83b2e6bae1f79248a",
+    "members": [
+      {
+        "path": "cargo-version.txt",
+        "bytes": 36,
+        "sha256": "5f9bdc5e0a6960db4a3cc66e9b3ae15bad5b9b506e8b7c49739c88dc5355c3f1"
+      },
+      {
+        "path": "aps-native-tests.log",
+        "bytes": 19363,
+        "sha256": "8b80f6513216d4d9efbf394cceb1246f0c13342d9ee3be5a66e4ec1a1530cc76"
+      },
+      {
+        "path": "SHA256SUMS",
+        "bytes": 765,
+        "sha256": "3e4025f59bba9743999d223f6990bacc35b70bb7952ca7b8a2ea024147f50aa9"
+      },
+      {
+        "path": "comparison.json",
+        "bytes": 1994525,
+        "sha256": "dac85a7f2b9abec1e9fb7c5500db39184cda201badbfbb1fcf86869d79bc6b13"
+      },
+      {
+        "path": "comparison.json.native.ndjson",
+        "bytes": 305832,
+        "sha256": "31b0017bd0b2ba58058c13b5f533ca49c0daa508aa05368ff8568b05b5ddc69f"
+      },
+      {
+        "path": "comparison.json.native.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "comparison.log",
+        "bytes": 227,
+        "sha256": "f2a3a587855fb5610243f01230ce6d6c721818b3c255160de5e4a3d87bba27c9"
+      },
+      {
+        "path": "native-build.log",
+        "bytes": 940,
+        "sha256": "5d14cf4b77d5227fb342a329f168b4bf1f05e1b87501b9979fe0b30814a8a88a"
+      },
+      {
+        "path": "rustc-version.txt",
+        "bytes": 36,
+        "sha256": "3397f54a03033c1b027496d83acc64e8f3ceeb4017e0575150f78726edce8a1a"
+      }
+    ],
+    "result_summary": {
+      "corpus_cases": 1223,
+      "expected_accepted": 1048,
+      "aps_raw_accepted": 1069,
+      "parsed_refusal_bypasses": 42,
+      "raw_policy_differences": 23,
+      "signed_receipt_controls": 5
+    },
+    "node_version": "v20.20.2"
+  },
+  {
+    "artifact_id": 11302914446,
+    "name": "aps-jcs-node-22",
+    "run_id": 37202741175,
+    "archive_bytes": 161405,
+    "archive_sha256": "68d7c8602d44d93688be5e4a933f21eb7573d9ffcde01257ffa361bc387c35a2",
+    "members": [
+      {
+        "path": "SHA256SUMS",
+        "bytes": 765,
+        "sha256": "819ee09eca649aa1c3504f72824aa693d5d77e6d68cb0560203a54ac0e9cb7b3"
+      },
+      {
+        "path": "cargo-version.txt",
+        "bytes": 36,
+        "sha256": "5f9bdc5e0a6960db4a3cc66e9b3ae15bad5b9b506e8b7c49739c88dc5355c3f1"
+      },
+      {
+        "path": "aps-native-tests.log",
+        "bytes": 21118,
+        "sha256": "b4fe29e1e673bc4e9358ebed4146d34abb33b49acd5d9667f41eafe84e267c24"
+      },
+      {
+        "path": "comparison.json",
+        "bytes": 1996118,
+        "sha256": "e7293f087faa6564b425033754138d28399dc999402f17559a09d814c7b5f249"
+      },
+      {
+        "path": "comparison.json.native.ndjson",
+        "bytes": 305832,
+        "sha256": "31b0017bd0b2ba58058c13b5f533ca49c0daa508aa05368ff8568b05b5ddc69f"
+      },
+      {
+        "path": "comparison.json.native.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "comparison.log",
+        "bytes": 227,
+        "sha256": "d3704b234874d48e5a0ee0cd178c0144d6e754dc71a0b1d41525d4f08fd43a31"
+      },
+      {
+        "path": "native-build.log",
+        "bytes": 940,
+        "sha256": "d355e66cc0c6442d45db5f26e19007e924923b7261216b778533c8042d715674"
+      },
+      {
+        "path": "rustc-version.txt",
+        "bytes": 36,
+        "sha256": "3397f54a03033c1b027496d83acc64e8f3ceeb4017e0575150f78726edce8a1a"
+      }
+    ],
+    "result_summary": {
+      "corpus_cases": 1223,
+      "expected_accepted": 1048,
+      "aps_raw_accepted": 1069,
+      "parsed_refusal_bypasses": 42,
+      "raw_policy_differences": 23,
+      "signed_receipt_controls": 5
+    },
+    "node_version": "v22.23.3"
+  }
+]

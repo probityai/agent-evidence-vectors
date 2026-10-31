@@ -1,0 +1,72 @@
+# Filed from outside, from the vendor's published cookbook page and an open
+# issue in its repository, both read on 2026-10-17.
+#
+# This filing maps the goal lifecycle of Codex onto the done_verification
+# section. It cannot promote a term and is not offered as promoting one: the
+# promotion rule in vocabulary.yaml and GOVERNANCE.md requires the emitting
+# system's own maintainers to file, declaring evidence: emitted with a
+# resolvable path. A filing from outside records provenance and nothing else,
+# and every claim below is asserted from prose.
+
+system: "Codex Goals"
+system_url: "https://developers.openai.com/cookbook/examples/codex/using_goals_in_codex"
+crosswalk_version: "0.1.0"
+vocabulary_version_targeted: "0.6.0"
+
+maintainer:
+  github: "astrogilda"
+  third_party_authored: true
+
+summary_of_system: >
+  A thread-scoped persistent objective set with /goal. The cookbook describes a
+  durable state that records the objective, lifecycle, budget and progress, with
+  four states (active, paused, complete, budget-limited), and says completion
+  "must be evidence-based": checked against files, tests, logs or other concrete
+  evidence in the thread.
+
+done_verification:
+
+  done_contract:
+    match: partial
+    evidence: asserted
+    source_path: "https://developers.openai.com/cookbook/examples/codex/using_goals_in_codex"
+    divergences:
+      - "A goal carries an outcome, a verification surface and constraints written in prose, with no protected paths and no digest."
+      - "The model that works the goal can start it and can mark it complete, so the definition is not sealed against the agent."
+    notes: "The guide says a goal should state what should be true, how success should be checked and what constraints must stay intact."
+
+  done_receipt:
+    match: no_mapping
+    notes: "The documentation describes a goal state on the thread, not a record a third party can replay."
+
+  acceptance_observed:
+    match: partial
+    evidence: asserted
+    source_path: "https://developers.openai.com/cookbook/examples/codex/using_goals_in_codex"
+    divergences:
+      - "The check is made by the agent itself, against the evidence in its own thread; no separate verifier rebuilds the tree and runs the commands."
+    notes: "The cookbook requires completion to rest on tests, logs or artifacts. The check is the same kind, run by the same party."
+
+  protected_path:
+    match: no_mapping
+    notes: "The documentation names constraints in prose and no list of protected paths."
+
+  claimed_tool_output:
+    match: no_mapping
+    notes: "The documentation does not separate what the agent reports from what an observer recorded."
+
+  observed_tool_output:
+    match: no_mapping
+    notes: "No observer outside the thread is described."
+
+  stop_decision:
+    match: partial
+    evidence: asserted
+    source_path: "https://developers.openai.com/cookbook/examples/codex/using_goals_in_codex"
+    divergences:
+      - "The states are active, paused, complete and budget-limited, set by the user, the system or the model. None is a function of a published table over verdicts."
+    notes: "A budget-limited goal stops substantive work, which corresponds to stop. An issue in the Codex repository (openai/codex#34215) reports that its budget cannot be raised and the same goal resumed."
+
+  inconclusive_verdict:
+    match: no_mapping
+    notes: "The states carry no value for an outcome the evidence neither shows nor refutes; a goal is complete or it is not."

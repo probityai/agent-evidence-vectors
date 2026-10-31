@@ -1,0 +1,292 @@
+{
+  "schema": "probity-atlas-retained-native-run-v1",
+  "sourceRepository": "probityai/agent-evidence-observer",
+  "sourceCommit": "37d1dd42239fbe2ef55f625855e385d7337572c1",
+  "readerCommit": "37d1dd42239fbe2ef55f625855e385d7337572c1",
+  "reviewedHead": "ea43a09603e3776e6e34e7c48f5d80f88bcd89d9",
+  "mergedHead": "37d1dd42239fbe2ef55f625855e385d7337572c1",
+  "run": 37053794133,
+  "runUrl": "https://github.com/probityai/agent-evidence-observer/actions/runs/37053794133",
+  "artifactId": 11247318868,
+  "providerArtifactExpiresAt": "2026-12-31T19:23:25Z",
+  "originalArtifactSha256": "3082655631a358344f22c5e982e46f6358a2acd5e6a57af200da19e79b85e70d",
+  "originalArtifactBytes": 237344,
+  "retention": "byte-exact-original-ci-archive",
+  "retainedArchiveSha256": "3082655631a358344f22c5e982e46f6358a2acd5e6a57af200da19e79b85e70d",
+  "retainedArchiveBytes": 237344,
+  "reportMember": "fresh-run/report.json",
+  "reportSha256": "740ffb0d27fd39241231a4b8122282974f63cf88407c54b7cabc38e9cec77792",
+  "roles": {
+    "producer": "Probity-owned workflow",
+    "readerAuthor": "Probity",
+    "atlasOperator": "Probity",
+    "retentionHolder": "Probity",
+    "independentOperation": "not-established",
+    "independentEffectCustody": "not-established",
+    "outsideRecurringUse": "not-established"
+  },
+  "answerExposure": "Author-written tasks/controls and expected outcomes exposed; not blind.",
+  "comparisonOrder": "Native output and comparison emitted and published together; public Atlas retention before indexing does not establish a blind or raw-result-first comparison.",
+  "scope": "Seven real target-process cases and selected concurrent-dispatch barrier; native SQLite/HTTP/key/clock remain same-operator; PIDs are unsigned runner testimony; no power loss, general exactly-once, independent custody or outside adoption.",
+  "members": [
+    {
+      "member": "fresh-report.json",
+      "bytes": 2385,
+      "sha256": "217d11649b08d1bb9ae8729ef1a5233bac105acfd73137cffecfc7e47473c6aa",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/artifact-manifest.json",
+      "bytes": 1854,
+      "sha256": "f85b9c101a4edc2a38a34aa20f35ed07a22158e583c4ec777d672fb9aa7d73cf",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/changed-configuration.json",
+      "bytes": 2731,
+      "sha256": "166654441a7cbb4006b52099c5965326900c7f6c6bea5453713ae86d67316111",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/concurrent-intent.json",
+      "bytes": 32562,
+      "sha256": "7deb7cb8bf80c1f0729941152dfad8dc7e9d46008b312482d625227628328a54",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/concurrent-intent.sqlite",
+      "bytes": 20480,
+      "sha256": "6e61e318d969839fc943f789d85512efec6a0fd8b78ab63eb8339c94145c0e07",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/consumer-pins.json",
+      "bytes": 265,
+      "sha256": "4147fa5e419d4c00362aa2abd5bb5c2c758af3bdc665e4f1c2b3b22424bc06c5",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/crash-after-effect.json",
+      "bytes": 19300,
+      "sha256": "914f4690cea07a1fabe1e041a24c7f1bc9c863697055dabb3c22531b61688885",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/crash-after-effect.sqlite",
+      "bytes": 20480,
+      "sha256": "a7693b34746d7b0f00e2572bd08aea1f2ce5cf48da595063ce6b016987f9aae1",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/crash-after-intent.json",
+      "bytes": 17319,
+      "sha256": "61586abe847ec72cc155497069bb4330454437c72d63bba65fa906ed71f7c244",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/crash-after-intent.sqlite",
+      "bytes": 20480,
+      "sha256": "91a133601671fb16cd80285f41cd85d9a9404655e717d97d04ce6300e8a695d0",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/crash-inside-effect.json",
+      "bytes": 17394,
+      "sha256": "565d88689fb78aeab1678dfc0a59f55b08ec87b2919fe51b20f38343e55c4fa7",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/crash-inside-effect.sqlite",
+      "bytes": 20480,
+      "sha256": "e3d1a851bf8036c16a38c4d06fbc0cdd200aad608627a997b4c1857dc3065d7d",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/missing-store.json",
+      "bytes": 2676,
+      "sha256": "5a3df1834011fa57d3333f34a7be00646613400f5fa95545542783f685360703",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/plan-before-run.json",
+      "bytes": 18106,
+      "sha256": "6e82acf2e316672b2c775e5d62bd6505fd3dd239860c7fe4269874e4f61ed37b",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/report.json",
+      "bytes": 1759,
+      "sha256": "740ffb0d27fd39241231a4b8122282974f63cf88407c54b7cabc38e9cec77792",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/restart-ready.json",
+      "bytes": 15474,
+      "sha256": "5a7d034377c73d523df686bb20df23b0f32380e743664f021903ee92dc04c4f9",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/restart-ready.sqlite",
+      "bytes": 20480,
+      "sha256": "3c3611ec2d93a3a5da150fa02901b15a95a539f19de8d41f09012924b9df9872",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/sources/authorization.py",
+      "bytes": 28758,
+      "sha256": "35e28320cc6aa344938d9e678efa6de9b803b7b22e2431e8e918a8b57c08e4a9",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/sources/crypto.py",
+      "bytes": 5729,
+      "sha256": "a334d7d2776d362788ce5e8687a916a62ba1614e97c0ccb8994d2acb22bc315f",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/sources/target_common.py",
+      "bytes": 1687,
+      "sha256": "b90aa663c3e3a7f5631f480d31306ebb0b858d4834d86f153dea4c89bf968cf8",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/sources/target_reader.py",
+      "bytes": 14385,
+      "sha256": "bd221af7e2c8e0ee065502290236029cf7b76107b9ca216226276d24e2da38be",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/sources/target_run.py",
+      "bytes": 11070,
+      "sha256": "1261b35561789cdb5b4cabcdb30187588925365e1a21403a4fbda949e494e202",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/sources/target_worker.py",
+      "bytes": 2025,
+      "sha256": "4424d0232c3c9ca26fd8ecf8afcca9553d54dc60adbd5ab12ab75c6d8107a13c",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "fresh-run/sources/ticket_service.py",
+      "bytes": 29826,
+      "sha256": "c6df218d6a81c21ab99ff2549b07f0691ff00e4e44b3f7520562d5c90fcdbda7",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "host-decision.json",
+      "bytes": 262,
+      "sha256": "1de2f6b0f02129da853f5bf4fde9050487c7375555c46b683e35b4c6d11d10db",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "host-receipts/gate-report.json",
+      "bytes": 262,
+      "sha256": "1de2f6b0f02129da853f5bf4fde9050487c7375555c46b683e35b4c6d11d10db",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "host-receipts/host-policy.json",
+      "bytes": 153,
+      "sha256": "647f583ca964121dd2f73283391ff9d9dd2206129d00d906bd083403160a91b0",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "host-receipts/launch.json",
+      "bytes": 402,
+      "sha256": "0406bcaf6af37da8b5ea0d9bbe1affc37fbac779f1e8d198f5dbc8f01729e368",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "host-receipts/reader.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "host-receipts/reader.stdout",
+      "bytes": 2385,
+      "sha256": "217d11649b08d1bb9ae8729ef1a5233bac105acfd73137cffecfc7e47473c6aa",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "host-receipts/selected-pins.json",
+      "bytes": 265,
+      "sha256": "4147fa5e419d4c00362aa2abd5bb5c2c758af3bdc665e4f1c2b3b22424bc06c5",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "install-report.json",
+      "bytes": 84941,
+      "sha256": "a3bf58985b840e04714ab5c14601a7f6f5406d30a0f65396434fdac835da7992",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "reader-install-report.json",
+      "bytes": 84941,
+      "sha256": "a3bf58985b840e04714ab5c14601a7f6f5406d30a0f65396434fdac835da7992",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "test-results.xml",
+      "bytes": 6802,
+      "sha256": "bed5347466c7575644f660e830ada6811afbe1cf0f2de284040d1919bca7325e",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "wheels-sha256.txt",
+      "bytes": 247,
+      "sha256": "8d3cbe8c84a69c5b678487cfee395610fabb8fdb925b769112f27a1183ddb1c7",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "wheels/agent_evidence_observer-0.0.1-py3-none-any.whl",
+      "bytes": 120341,
+      "sha256": "c6ff1684cfb923f0cd3d86d8436a9f152f8abe47760e1c906e5f4c57985ec80b",
+      "selected": true,
+      "reason": "retained original native member"
+    },
+    {
+      "member": "wheels/probity_target_recovery_reader-0.0.1-py3-none-any.whl",
+      "bytes": 6912,
+      "sha256": "75d3160e7fa8622afe99dd31ccf61f51647abba40609a387c56e0fc5dece5b19",
+      "selected": true,
+      "reason": "retained original native member"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+name: package-admission-history
+
+# The push-range scan gates what is about to land. This reads what already has:
+# every commit origin/main reaches, first to tip, with the same rules and the
+# same rule sidecar. It is the instrument that names a leak that walked past an
+# older guard, so it runs on a schedule. It does not wait for a reader.
+
+on:
+  schedule:
+    # Mondays 06:00 UTC.
+    - cron: '0 6 * * 1'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: packages/admission
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: no commit reachable from origin/main carries a private path, dossier name or product name
+        run: |
+          set -uo pipefail
+          python3 scripts/history-identity-audit.py --ref origin/main
+          status=$?
+          if [ "$status" -eq 1 ]; then
+            echo "::error::The published history carries a private path, a dossier name or a product name. Rewrite it and request an object purge."
+            exit 1
+          elif [ "$status" -ne 0 ]; then
+            echo "::error::The history audit could not run (exit $status); nothing was verified."
+            exit 1
+          fi

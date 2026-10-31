@@ -9,6 +9,8 @@ Each corpus has a manifest naming its source revision, digest and expected outco
 - [Quickstart](https://github.com/probityai/agent-evidence-vectors/blob/main/README.md): Install the released verifier and replay a corpus.
 - [Install and cite](https://github.com/probityai/agent-evidence-vectors/blob/main/DISTRIBUTION.md): Package routes, release tag and corpus identifiers.
 - [Corpus guide](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/guides/corpora.md): Choose a format and check which readers support it.
+- [Log checking guide](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/guides/cra-ai-act-logs.md): Check an AI Act log for later revision with the anchored-chain corpus.
+- [Open-weight guide](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/guides/cra-ai-act-open-weight.md): Check an open-weight model release record against the conditions of AI Act Article 53(2).
 
 ## Run your verifier
 
@@ -30,3 +32,10 @@ Each corpus has a manifest naming its source revision, digest and expected outco
 - [Citation metadata](https://github.com/probityai/agent-evidence-vectors/blob/main/CITATION.cff): Current release and archive identifier.
 - [Security](https://github.com/probityai/agent-evidence-vectors/blob/main/SECURITY.md): Report a vulnerability.
 - [Probity projects](https://github.com/probityai): Vocabulary, records, verification, admission and the evidence atlas.
+
+## Specification layer: vocabulary, admission, Action and crates
+
+- [Layout and releases](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/LAYOUT.md): directories, CI, tag prefixes and publishing for the crates, packages, Action and conformance board
+- [Action](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/ACTION.md): the admission checks (digest, policy, coverage) and the corpus replay, one Action with two modes
+- [Used by](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/USED-BY.md): outside projects that run the vectors in CI
+- [Predicate and vocabulary pages](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/predicate-pages.md): when a published page may change

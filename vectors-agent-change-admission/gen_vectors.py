@@ -468,6 +468,8 @@ def generate(root: Path = ROOT) -> dict[str, Any]:
     manifest = {"suite": SUITE, "predicateType": PREDICATE, "vectors": entries,
                 "issuerKeyid": keyid(ISSUER),
                 "verifierContract": "verifier case.json --json", "corpusDigest": digest}
+    verdict_words = [entry["expected"]["decision"] for entry in entries]
+    manifest["counts"] = {word: verdict_words.count(word) for word in sorted(set(verdict_words))}
     (root / "MANIFEST.json").write_bytes(_pretty(manifest))
     (root / "INDEX.md").write_bytes(_index(entries, digest))
     return manifest

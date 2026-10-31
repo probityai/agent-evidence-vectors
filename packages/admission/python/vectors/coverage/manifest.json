@@ -1,0 +1,277 @@
+{
+  "about": "Positive and negative vectors for agent-evidence-admission coverage-check. Each case runs the checker on a document with a required-class list and expects the exit code and, per class, the status named. NOT-ASSESSED stands for a reasoned not-assessed entry (unknown or withheld).",
+  "cases": [
+    {
+      "id": "cdx-1.6-library-and-linked-service",
+      "document": "cdx-1.6-baseline.json",
+      "required": [
+        "library",
+        "service"
+      ],
+      "exit": 0,
+      "statuses": {
+        "library": "ASSESSED",
+        "service": "COVERED-ELSEWHERE"
+      },
+      "polarity": "positive",
+      "why": "CycloneDX 1.6 as published: a complete composition and an unknown composition that carries a BOM-Link"
+    },
+    {
+      "id": "cdx-2.0-proposed-all-six",
+      "document": "cdx-2.0-proposed.json",
+      "required": [
+        "application",
+        "framework",
+        "library",
+        "machine-learning-model",
+        "cryptographic-asset",
+        "service"
+      ],
+      "exit": 0,
+      "statuses": {
+        "application": "ASSESSED",
+        "framework": "ASSESSED",
+        "library": "ASSESSED",
+        "machine-learning-model": "NOT-ASSESSED",
+        "cryptographic-asset": "NOT-ASSESSED",
+        "service": "COVERED-ELSEWHERE"
+      },
+      "polarity": "positive",
+      "why": "the CycloneDX#1159 example: filter, not-assessed, notAssessedReason, BOM-Link"
+    },
+    {
+      "id": "spdx-3.0.1-library",
+      "document": "spdx-3.0.1-baseline.json",
+      "required": [
+        "library"
+      ],
+      "exit": 0,
+      "statuses": {
+        "library": "ASSESSED"
+      },
+      "polarity": "positive",
+      "why": "SPDX 3.0.1 as published: relationship completeness states libraries complete"
+    },
+    {
+      "id": "spdx-coverage-proposed-all-four",
+      "document": "spdx-coverage-proposed.json",
+      "required": [
+        "library",
+        "model",
+        "data",
+        "application"
+      ],
+      "exit": 0,
+      "statuses": {
+        "library": "ASSESSED",
+        "model": "NOT-ASSESSED",
+        "data": "NOT-ASSESSED",
+        "application": "COVERED-ELSEWHERE"
+      },
+      "polarity": "positive",
+      "why": "the spdx-3-model#1105 example: software_CoverageRelationship per purpose, import for the covered-elsewhere class"
+    },
+    {
+      "id": "cdx-1.6-missing-model",
+      "document": "cdx-1.6-baseline.json",
+      "required": [
+        "library",
+        "service",
+        "machine-learning-model"
+      ],
+      "exit": 1,
+      "statuses": {
+        "machine-learning-model": "MISSING"
+      },
+      "polarity": "negative",
+      "why": "nothing in the BOM states the class"
+    },
+    {
+      "id": "spdx-3.0.1-missing-model",
+      "document": "spdx-3.0.1-baseline.json",
+      "required": [
+        "library",
+        "model"
+      ],
+      "exit": 1,
+      "statuses": {
+        "library": "ASSESSED",
+        "model": "MISSING"
+      },
+      "polarity": "negative",
+      "why": "3.0.1 cannot say which class a noAssertion relationship is about, so model is missing"
+    },
+    {
+      "id": "cdx-2.0-not-assessed-without-reason",
+      "document": "cdx-2.0-no-reason.json",
+      "required": [
+        "application",
+        "framework",
+        "library",
+        "machine-learning-model",
+        "cryptographic-asset",
+        "service"
+      ],
+      "exit": 1,
+      "statuses": {
+        "machine-learning-model": "NO-REASON"
+      },
+      "polarity": "negative",
+      "why": "not-assessed with no reason and no BOM-Link"
+    },
+    {
+      "id": "cdx-2.0-reason-outside-vocabulary",
+      "document": "cdx-2.0-bad-reason.json",
+      "required": [
+        "application",
+        "framework",
+        "library",
+        "machine-learning-model",
+        "cryptographic-asset",
+        "service"
+      ],
+      "exit": 1,
+      "statuses": {
+        "machine-learning-model": "NO-REASON"
+      },
+      "polarity": "negative",
+      "why": "the reason must be unknown or withheld"
+    },
+    {
+      "id": "cdx-2.0-double-selection",
+      "document": "cdx-2.0-double-selection.json",
+      "required": [
+        "application",
+        "framework",
+        "library",
+        "machine-learning-model",
+        "cryptographic-asset",
+        "service"
+      ],
+      "exit": 1,
+      "statuses": {
+        "library": "DOUBLE",
+        "machine-learning-model": "NOT-ASSESSED"
+      },
+      "polarity": "negative",
+      "why": "two entries in one BOM select library"
+    },
+    {
+      "id": "cdx-2.0-disjoint-targets-separate-statements",
+      "document": "cdx-2.0-disjoint-targets.json",
+      "required": [
+        "library"
+      ],
+      "exit": 0,
+      "statuses": {
+        "library": "NOT-ASSESSED"
+      },
+      "polarity": "positive",
+      "why": "entries for different targets do not overlap, so one class may be complete for one target and not assessed for another; the weakest statement is reported"
+    },
+    {
+      "id": "cdx-1.6-unknown-without-link",
+      "document": "cdx-1.6-unknown-no-link.json",
+      "required": [
+        "library",
+        "service"
+      ],
+      "exit": 1,
+      "statuses": {
+        "service": "NO-REASON"
+      },
+      "polarity": "negative",
+      "why": "1.6 aggregate unknown names no reason, and with the BOM-Link removed nothing covers it"
+    },
+    {
+      "id": "cdx-1.6-component-in-no-composition",
+      "document": "cdx-1.6-unlisted-component.json",
+      "required": [
+        "library"
+      ],
+      "exit": 1,
+      "statuses": {
+        "library": "MISSING"
+      },
+      "polarity": "negative",
+      "why": "a library exists that no composition covers, so the class is not fully stated"
+    },
+    {
+      "id": "cdx-1.6-incomplete-passes",
+      "document": "cdx-1.6-incomplete.json",
+      "required": [
+        "library"
+      ],
+      "exit": 0,
+      "statuses": {
+        "library": "INCOMPLETE"
+      },
+      "polarity": "positive",
+      "why": "an honest incomplete statement is accounted for"
+    },
+    {
+      "id": "cdx-1.6-incomplete-fails-when-complete-required",
+      "document": "cdx-1.6-incomplete.json",
+      "required": [
+        "library"
+      ],
+      "exit": 1,
+      "statuses": {
+        "library": "NOT-COMPLETE"
+      },
+      "polarity": "negative",
+      "why": "--require-complete fails a class stated incomplete",
+      "flags": [
+        "--require-complete"
+      ]
+    },
+    {
+      "id": "spdx-coverage-two-relationships-for-library",
+      "document": "spdx-coverage-double.json",
+      "required": [
+        "library",
+        "model",
+        "data",
+        "application"
+      ],
+      "exit": 1,
+      "statuses": {
+        "library": "DOUBLE"
+      },
+      "polarity": "negative",
+      "why": "exactly one relationship per required purpose"
+    },
+    {
+      "id": "spdx-coverage-noassertion-without-reason",
+      "document": "spdx-coverage-no-reason.json",
+      "required": [
+        "library",
+        "model",
+        "data",
+        "application"
+      ],
+      "exit": 1,
+      "statuses": {
+        "data": "NO-REASON"
+      },
+      "polarity": "negative",
+      "why": "noAssertion with no reason and no imported target"
+    },
+    {
+      "id": "spdx-coverage-missing-purpose",
+      "document": "spdx-coverage-missing-model.json",
+      "required": [
+        "library",
+        "model",
+        "data",
+        "application"
+      ],
+      "exit": 1,
+      "statuses": {
+        "model": "MISSING"
+      },
+      "polarity": "negative",
+      "why": "a required purpose has no relationship"
+    }
+  ]
+}

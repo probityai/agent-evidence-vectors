@@ -1,0 +1,25 @@
+# dsse
+
+> Rust tools for DSSE envelopes: pre-authentication encoding, signing and threshold verification.
+
+Start with crate version 0.1.6 and Rust 1.88 or newer. `cargo add dsse@=0.1.6` selects that release. The default feature supplies Ed25519 signing and verification.
+
+Use `sign` to bind the payload type and bytes. Give `verify` the consumer's trusted verifiers and a distinct-key threshold, then use the returned `VerifiedPayload` bytes and payload type. A key ID helps order verification attempts. Implement the `Signer` and `Verifier` traits for another signature provider.
+
+## Start here
+
+- [Quick start](https://github.com/probityai/agent-evidence/blob/main/crates/dsse/README.md): Sign an envelope, verify it and read the checked payload.
+- [Version 0.1.6 API](https://docs.rs/dsse/0.1.6/dsse/): Functions, traits, envelope types and errors.
+- [Design and evidence](https://github.com/probityai/agent-evidence/blob/main/crates/dsse/docs/DESIGN.md): Encoding, key selection, thresholds and refusal cases.
+
+## Run a comparison
+
+- [Sigstore JS consumer](https://github.com/probityai/agent-evidence/blob/main/crates/dsse/docs/SIGSTORE-JS-THRESHOLD.md): Install the source-pinned offline reader and repeat the consumer-key threshold controls.
+- [Provenance](https://github.com/probityai/agent-evidence/blob/main/crates/dsse/PROVENANCE.md): DSSE specification sources and independent Go fixtures.
+- [Open Evidence Lab](https://probityai.github.io/agent-evidence-atlas/lab.html): Find retained runs and their sources, operators and rerun commands.
+
+## Contribute
+
+- [Contribution guide](https://github.com/probityai/agent-evidence/blob/main/crates/dsse/CONTRIBUTING.md): Build, test, lint and submit a change.
+- [Releases](https://github.com/probityai/agent-evidence/releases): Published versions and changes.
+- [License](https://github.com/probityai/agent-evidence/blob/main/crates/dsse/LICENSE): Apache-2.0.

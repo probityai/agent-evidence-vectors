@@ -1,0 +1,123 @@
+{
+  "answer_exposure": "Published expectations read before implementation; not blind.",
+  "assumptions": [
+    "runtime identity is evaluated exactly as supplied by the fixture",
+    "complete=true is a fixture premise for the bounded observation, not proof of external-host completeness",
+    "tool-definition identity is represented by the supplied ToolSpec hash"
+  ],
+  "claims": [
+    {
+      "claim_ceiling": "ESTABLISHED means only that the supplied complete agent-runtime observation matches the supplied governed tool set under this fixture contract.",
+      "claim_id": "bounded_observed_surface_matches_governed_set",
+      "result_vocabulary": [
+        "ESTABLISHED",
+        "CONTRADICTED",
+        "NOT_ESTABLISHED"
+      ]
+    },
+    {
+      "claim_ceiling": "An observed alternative path can contradict exclusivity. Absence of an observed path establishes exclusivity only when path-inventory completeness is independently established.",
+      "claim_id": "exclusive_effect_path",
+      "result_vocabulary": [
+        "ESTABLISHED",
+        "CONTRADICTED",
+        "NOT_ESTABLISHED"
+      ]
+    }
+  ],
+  "command": "/opt/hostedtoolcache/Python/3.13.15/x64/bin/python interop/remora-e7-reader/run.py --upstream interop/remora-e7-reader/upstream --output .build/remora-e7-result --reader-revision a0b89170fd671be2314be6079acccdebdf07a950 --operator EXTERNAL --run-ref https://probityai.github.io/agent-evidence-atlas/lab.html",
+  "consumed_revision": "e4fe474f488c3047b346abb01cbfd77ab447ad69",
+  "contract_id": "runtime-surface-e7-v0.1",
+  "environment": "Python 3.13.15 on Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+  "explicit_non_claims": [
+    "runtime_capability_surface_completeness for an external host",
+    "absence of host credentials or capabilities outside the observed process",
+    "absence of unobserved alternative execution paths",
+    "execution occurrence",
+    "production enforcement",
+    "causation of an observed effect",
+    "Federation endorsement",
+    "a second implementation is by itself an independent verification record"
+  ],
+  "failures": [],
+  "global_property": {
+    "id": "runtime_capability_surface_completeness",
+    "status": "NOT_ESTABLISHED"
+  },
+  "input_digests": [
+    {
+      "path": "artifacts/interop/runtime-surface-e7-v0.1/README.md",
+      "sha256": "a12c3da58dd79e651a5a7cd8526d5b6e4ca6a1a24a176bfc0e13d6182540ae15"
+    },
+    {
+      "path": "artifacts/interop/runtime-surface-e7-v0.1/claim-packet.json",
+      "sha256": "6c140d12f66e06aa3ae60e6aec62e38836509a91a32056649520f2bbb8aa2833"
+    },
+    {
+      "path": "artifacts/interop/runtime-surface-e7-v0.1/fixtures.json",
+      "sha256": "b09b937ad263169682fd0d6175564d084b4a61f5c996adb1237fd2eac31aaccf"
+    },
+    {
+      "path": "artifacts/interop/runtime-surface-e7-v0.1/reference_verifier.py",
+      "sha256": "3b8525a5d5b570a9e736c3b8c6f31053b49268965540bb098147a2e10ec1e388"
+    },
+    {
+      "path": "artifacts/interop/runtime-surface-e7-v0.1/verifier-request.json",
+      "sha256": "d9241cebf42d539767bf161e33557dfafc6d34f14fa842d55138a05e359d6119"
+    }
+  ],
+  "operator_scope": "Operator is external to REMORA when EXTERNAL is selected. Reader and output are under Probity control; this proves no independent effect observation or key/store custody.",
+  "package_digest": "sha256:01dfdb7885bdbb18c025bc013edc28b482b0631ae282aca877bd0953b865e4bf",
+  "reader_files": [
+    {
+      "path": "reader.py",
+      "sha256": "1461c3001d30cfdb3e0b9dc1c2bb87efe7e32bba20279d801675fde6d8b0cb4c"
+    },
+    {
+      "path": "run.py",
+      "sha256": "4882ef9a27090c763f662abfdee1a53bd634867b34dd3643888f302c24638d96"
+    }
+  ],
+  "results": [
+    {
+      "case_id": "valid_reference_surface",
+      "claim_id": "bounded_observed_surface_matches_governed_set",
+      "claim_result": "ESTABLISHED",
+      "surface_verdict": "MATCHED_OBSERVATION"
+    },
+    {
+      "case_id": "undeclared_tool_invocation_surface",
+      "claim_id": "bounded_observed_surface_matches_governed_set",
+      "claim_result": "CONTRADICTED",
+      "surface_verdict": "MISMATCH",
+      "unexpected_tools": [
+        "shell"
+      ]
+    },
+    {
+      "case_id": "runtime_identity_changed",
+      "claim_id": "bounded_observed_surface_matches_governed_set",
+      "claim_result": "NOT_ESTABLISHED",
+      "reasons": [
+        "runtime_identity_mismatch"
+      ],
+      "surface_verdict": "NOT_ESTABLISHED"
+    },
+    {
+      "case_id": "observation_coverage_incomplete",
+      "claim_id": "bounded_observed_surface_matches_governed_set",
+      "claim_result": "NOT_ESTABLISHED",
+      "reasons": [
+        "surface_incomplete"
+      ],
+      "surface_verdict": "NOT_ESTABLISHED"
+    },
+    {
+      "case_id": "alternative_effect_path_observed",
+      "claim_id": "exclusive_effect_path",
+      "claim_result": "CONTRADICTED",
+      "reason": "alternative_effect_path_observed"
+    }
+  ],
+  "temporal_scope": "Pinned fixture evaluation only; no live deployment time window is established."
+}

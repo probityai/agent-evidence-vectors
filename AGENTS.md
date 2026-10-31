@@ -17,3 +17,11 @@ most often breaks here.
 - Keep `README.md` to the first screen. Detail goes in `docs/`, and
   `scripts/readme-lint.py` fails a README over 600 prose words, with no code block in its first
   45 lines, or with a relative link that resolves to no file.
+
+Parts imported from agent-evidence (`crates/`, `packages/`, `actions/`, `pages/`, `release.toml`):
+
+- Run `uv run --frozen --only-group dev ruff check .` and `uv run --frozen --only-group dev python -m pytest` from the root before every commit that touches them.
+- Run `actionlint` after editing anything under `.github/workflows/`.
+- A part adds its CI job to `.github/workflows/parts.yml` and to the `needs` of its `ci-ok` job, and its row to `release.toml`.
+- A crate or package release is a published GitHub release whose tag is `<prefix>-v<version>` (prefixes in `release.toml`); `release.yml` checks it. A bare `v<version>` tag is the corpus release and publishes only the `agent-evidence-vectors` wheel.
+- Never edit `pages/` by hand. Rebuild it with `scripts/build_predicate_pages.py` and commit the new pin in `pages/predicate/v1/PAGES.sha256` with the page; `docs/predicate-pages.md` says when a page may change.

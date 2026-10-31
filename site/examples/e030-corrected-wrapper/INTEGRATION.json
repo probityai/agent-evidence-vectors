@@ -1,0 +1,151 @@
+{
+  "preparation_commit": "42089b93ab2b3ab5ba53752733587c7bf5cca15b",
+  "preparation_tested_tree": "623c4c2008d6cc66e4a937c531b90a859a4048f2",
+  "preparation_source_files": [
+    {
+      "source_relative": ".gitignore",
+      "destination_relative": "examples/e030-corrected-wrapper/.gitignore",
+      "git_mode": "100644",
+      "bytes": 104,
+      "sha256": "83ad4194cff7ae408fed7d0a94d0fcc0f4ad40bd0458eda1eaeb76d7f2dc68da"
+    },
+    {
+      "source_relative": "AGENTS.md",
+      "destination_relative": "examples/e030-corrected-wrapper/AGENTS.md",
+      "git_mode": "100644",
+      "bytes": 696,
+      "sha256": "0c419b4b188d0c30cfd4911522006b1f2fd10bd7af4bdfe211a87f47e6c042ed"
+    },
+    {
+      "source_relative": "README.md",
+      "destination_relative": "examples/e030-corrected-wrapper/README.md",
+      "git_mode": "100644",
+      "bytes": 1944,
+      "sha256": "f51178deb205111e29c5467ed30f4117fab2253adbabb793360f28d10d4a9799"
+    },
+    {
+      "source_relative": "docs/CONTRACT.md",
+      "destination_relative": "examples/e030-corrected-wrapper/docs/CONTRACT.md",
+      "git_mode": "100644",
+      "bytes": 2713,
+      "sha256": "c640c9c770545cf641379d71b2fcce5500db56eb559bb8470d750ecce0638a3c"
+    },
+    {
+      "source_relative": "docs/SOURCE-MAP.md",
+      "destination_relative": "examples/e030-corrected-wrapper/docs/SOURCE-MAP.md",
+      "git_mode": "100644",
+      "bytes": 2292,
+      "sha256": "d06669e4b31b4e4ca1abe8b7354ac74f7f0622e8eed50959aa6bc179a1ff1950"
+    },
+    {
+      "source_relative": "e030_case/__init__.py",
+      "destination_relative": "examples/e030-corrected-wrapper/e030_case/__init__.py",
+      "git_mode": "100644",
+      "bytes": 79,
+      "sha256": "a4e932a7b0801f276598a13247b9e0b89c5ebece57486f33304e2244801fe20d"
+    },
+    {
+      "source_relative": "e030_case/expected.json",
+      "destination_relative": "examples/e030-corrected-wrapper/e030_case/expected.json",
+      "git_mode": "100644",
+      "bytes": 3087,
+      "sha256": "edabf9fd4b67cc28102d57ec627f6d4778eb6c38cd3ebb51bbca7c61077a0a54"
+    },
+    {
+      "source_relative": "e030_case/faults.py",
+      "destination_relative": "examples/e030-corrected-wrapper/e030_case/faults.py",
+      "git_mode": "100644",
+      "bytes": 2379,
+      "sha256": "fef84c8a0e1a99efc79c481bbc99fe4c82a0c05a8a54caf6b81d8b727d069fa3"
+    },
+    {
+      "source_relative": "e030_case/regression.py",
+      "destination_relative": "examples/e030-corrected-wrapper/e030_case/regression.py",
+      "git_mode": "100644",
+      "bytes": 12616,
+      "sha256": "d4d756527b6a0258a617728bd6b3e6dc5094d266179c4c16312f9dde29a1dd6e"
+    },
+    {
+      "source_relative": "e030_case/report.py",
+      "destination_relative": "examples/e030-corrected-wrapper/e030_case/report.py",
+      "git_mode": "100644",
+      "bytes": 5733,
+      "sha256": "fd69bb098c0c1d04dfd2dbbadbe2cec4912cefeec805b3bb2d6dde2a70632d5a"
+    },
+    {
+      "source_relative": "pyproject.toml",
+      "destination_relative": "examples/e030-corrected-wrapper/pyproject.toml",
+      "git_mode": "100644",
+      "bytes": 616,
+      "sha256": "3ac15e60a11e5cbc50d6c52db51d7e8c7c632bcd9801435813357c536f8c1373"
+    },
+    {
+      "source_relative": "scripts/check_coverage.py",
+      "destination_relative": "examples/e030-corrected-wrapper/scripts/check_coverage.py",
+      "git_mode": "100644",
+      "bytes": 12896,
+      "sha256": "0d1d575245b51762de8fb1cc23251816a1d2808c0b44846334981fcfceebaae9"
+    },
+    {
+      "source_relative": "scripts/fetch_inputs.py",
+      "destination_relative": "examples/e030-corrected-wrapper/scripts/fetch_inputs.py",
+      "git_mode": "100644",
+      "bytes": 1291,
+      "sha256": "e6309eb88fa341588ab5497c738bb5fb9789d8ef1549aaedf3fb7fdf95cabff7"
+    },
+    {
+      "source_relative": "scripts/qualify.py",
+      "destination_relative": "examples/e030-corrected-wrapper/scripts/qualify.py",
+      "git_mode": "100644",
+      "bytes": 3095,
+      "sha256": "7f39e04b502fab4b909c0497f0f83cdcdc73513d65a8175e3eb3bd4143dfb137"
+    },
+    {
+      "source_relative": "scripts/readme-lint.py",
+      "destination_relative": "examples/e030-corrected-wrapper/scripts/readme-lint.py",
+      "git_mode": "100644",
+      "bytes": 5146,
+      "sha256": "ce6f7082503ea7b948d0306e125ad3d9c5e9e3ee5d1d7b47c8a054a266b169a8"
+    },
+    {
+      "source_relative": "scripts/run-gate.sh",
+      "destination_relative": "examples/e030-corrected-wrapper/scripts/run-gate.sh",
+      "git_mode": "100755",
+      "bytes": 103,
+      "sha256": "53f92d0d1a156e7841e8e45ab8edc4d34c189309b8978fd0836b76874eb43cdc"
+    },
+    {
+      "source_relative": "tests/test_regression.py",
+      "destination_relative": "examples/e030-corrected-wrapper/tests/test_regression.py",
+      "git_mode": "100644",
+      "bytes": 6060,
+      "sha256": "0c697c7ac98297b2e465fd6ade9e2aa9f5e3b090b2afeb8491bed0994443701a"
+    },
+    {
+      "source_relative": "tests/test_report.py",
+      "destination_relative": "examples/e030-corrected-wrapper/tests/test_report.py",
+      "git_mode": "100644",
+      "bytes": 6423,
+      "sha256": "bfefc236b277841af98012a1bb846b44ca7074ae8587b2460d364dfd0ed3db31"
+    },
+    {
+      "source_relative": "uv.lock",
+      "destination_relative": "examples/e030-corrected-wrapper/uv.lock",
+      "git_mode": "100644",
+      "bytes": 40651,
+      "sha256": "d83f8da4f5adb8a6880ae3768840d1c20424a01c17d8b8e51db1421b0a4e3a99"
+    }
+  ],
+  "runtime_and_test_files_byte_equal": true,
+  "adaptation": "Nested AGENTS instruction now names public Atlas ownership; original bytes retained in qualification/preparation-AGENTS.md",
+  "historical_vector_unchanged": "89250120e9cafe14eafb87eaa9c1454bab64683c",
+  "source_scope": "Unchanged native wrapper, injected commands and reports. No native producer verifier or signature run.",
+  "documentation_adaptations": {
+    "docs/SOURCE-MAP.md": {
+      "change": "Remove one trailing blank line; source text and contract remain unchanged.",
+      "preparation_sha256": "d06669e4b31b4e4ca1abe8b7354ac74f7f0622e8eed50959aa6bc179a1ff1950",
+      "atlas_sha256": "2daacc6ad5bf6b703a5d3e8e78b391f3265554da1c9817fd2dc1f7449664f4b2",
+      "original_preserved_in": "Preparation commit42089b93ab2b3ab5ba53752733587c7bf5cca15b and its independently preserved source bundle"
+    }
+  }
+}

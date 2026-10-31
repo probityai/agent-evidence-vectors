@@ -1,0 +1,11 @@
+# Findings in the history imported from probityai/agent-evidence (merged with
+# its commit ids kept; already public there). Each line is one exact finding
+# (commit:file:rule:line), reviewed as a false positive: a did:key identifier in
+# a description string, and a "key: Ed25519PrivateKey = SIGNER" type annotation.
+# This is not a pattern: a new commit or a different line is still scanned.
+055c23052f51b0d9022d58311e563031f673b134:site/experiments/aps-corrected20-r2-2026-10-27/producer/agent-passport-vectors-v2-r2.json:generic-api-key:442
+abd4373542e9d0867494ecce291a2614351b7fa8:site/docs/experiments/aps-corrected20-r2-2026-10-27/producer/agent-passport-vectors-v2-r2.json:generic-api-key:442
+2b5e1abc8b8fa7377e62528c423ba0a1f4ae1e2a:packages/admission/rego/gen_agent_change_admission_vectors.py:generic-api-key:159
+2b5e1abc8b8fa7377e62528c423ba0a1f4ae1e2a:packages/admission/rego/gen_agent_change_admission_vectors.py:generic-api-key:163
+11d7ff6cefe6ef29844bccccf9787663404a39fd:site/docs/experiments/aps-corrected20-2026-10-10/producer/agent-passport-vectors-v2.json:generic-api-key:435
+11d7ff6cefe6ef29844bccccf9787663404a39fd:site/experiments/aps-corrected20-2026-10-10/producer/agent-passport-vectors-v2.json:generic-api-key:435

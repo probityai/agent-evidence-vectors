@@ -1,0 +1,329 @@
+{
+  "J01": {
+    "admission": {
+      "verdict": "committed"
+    },
+    "aps": {
+      "action_ref": "6c1257be72fcb62d81443d3a0334b9d5fedef3e1a35ec0e4d904e0b2043bab70",
+      "approval_issued_at": "2026-10-28T21:45:34.564Z",
+      "aps_package_tree_sha256": "4926ca17ecc588e1aad98866530a946ae000f589ec14937103f45994bacd1da5",
+      "aps_sdk_version": "8.0.1",
+      "decision_id": "decision-j01",
+      "intent_issued_at": "2026-10-28T21:45:34.563Z",
+      "intent_receipt_id": "bf2d6bbde1ff282ca866ac961a24653e43bf2e18fef60a3de83f8fd2b6efe15d",
+      "receipt_id": "e36a7dc0be570e381196a06fbbf22f84db3d098be5383ba02764568a5b7df9ee",
+      "valid_until": "2026-10-28T22:15:34.563Z"
+    },
+    "consumed_at": "2026-10-28T21:45:35.376Z",
+    "executor": {
+      "refused": "pic-arguments"
+    },
+    "handoff_verifies": true,
+    "horizon": {
+      "action_ref": "6c1257be72fcb62d81443d3a0334b9d5fedef3e1a35ec0e4d904e0b2043bab70",
+      "approval_ref": "e36a7dc0be570e381196a06fbbf22f84db3d098be5383ba02764568a5b7df9ee",
+      "code": null,
+      "consumed_at": "2026-10-28T21:45:35.376Z",
+      "contract_revision": "review-2026-10-23",
+      "decision_id": "decision-j01",
+      "decision_valid_until": "2026-10-28T22:15:34.563Z",
+      "detail": null,
+      "inputs": [
+        {
+          "canonical_sha256": "a5d193d758ce160312a8195c5d18dc8dcb8404633b6797c1e96f829ed0c71265",
+          "file": "inputs/pic-proposal.json",
+          "raw_sha256": "sha256:4f240393358b88b31f846ffac21f056265f0f2e016a42b50727b5c8314205ca0"
+        },
+        {
+          "canonical_sha256": "ea6e797fcc56e51546b7bb577f2d744bd0275a3fb0f1fc17e6924d6cc6ca9f57",
+          "file": "inputs/aps-approval.json",
+          "raw_sha256": "sha256:8ff1509bfff289da210c5458e117b4e01c43bdc14dd103158a103bd482a20357"
+        },
+        {
+          "canonical_sha256": "e18473ac16e611a2f5f492a5006e640ea9ef789434b3692f9e82a94bfcecff89",
+          "file": "inputs/aps-intent.json",
+          "raw_sha256": "sha256:7693e9f4e69f3c9aec6ba592282635e35ad74b87499ed9b3547842f959b93fc2"
+        },
+        {
+          "canonical_sha256": "8d0321e6c929e81eb85bdddcd80dd78ca212a06b4a94249e483ecd3ca2c42f13",
+          "file": "inputs/aps-action.json",
+          "raw_sha256": "sha256:d240322c0cfc2cbdf4689426cde3b438b0fd5df43e2546b12af53c18f6038d3d"
+        },
+        {
+          "canonical_sha256": "0807321ed7a9fd18ced8b410487ef10a43c8f539d1f36b2693619fce62b4e698",
+          "file": "inputs/aps-payload.json",
+          "raw_sha256": "sha256:06308c11ca6c26e4d0b423eb6dc2d0f9640a4e7fb89588b41606677d43fb13d3"
+        },
+        {
+          "canonical_sha256": "cb04a0ffbbb20467c121ea55b7de9b8b1f688f725a8afb699b5039fca9dfe517",
+          "file": "inputs/decision-evidence.json",
+          "raw_sha256": "sha256:0225f54688052f489ad7e12bd4b8fd708d7669cc10cf7f85590bed23cf921bcf"
+        },
+        {
+          "canonical_sha256": "2ec44933dff611aabdee5ec753fb819c0ddcd097b428134cd250de73772a3ad6",
+          "file": "inputs/pic-verification.json",
+          "raw_sha256": "sha256:2ec44933dff611aabdee5ec753fb819c0ddcd097b428134cd250de73772a3ad6"
+        },
+        {
+          "canonical_sha256": "987497eac382fa77122ae6aa36ced40d67530e40be7220f3ea875db914724d4a",
+          "file": "trust/pic-keys.json",
+          "raw_sha256": "sha256:c9129f3ab83f7e464574a5aac46f48275ffdef07b5c8fa3645fd8a61d18114c1"
+        },
+        {
+          "canonical_sha256": "16f8c56039ca9734a4c8c6be02b4cd3f4ad762eb9b141abfe039d6411ee20318",
+          "file": "trust/aps-consumption.json",
+          "raw_sha256": "sha256:b191451af9d940a113afff713760917a00d1f1d4923da6446da7dec16b324f11"
+        },
+        {
+          "canonical_sha256": "4bc619212384e0cfe61028cfd36dd16f1242b3753b2722724a3704f795927b12",
+          "file": "trust/handoff-issuance.json",
+          "raw_sha256": "sha256:4bc619212384e0cfe61028cfd36dd16f1242b3753b2722724a3704f795927b12"
+        },
+        {
+          "canonical_sha256": "9ead0cd5584b1581e7b14ff158faac2b4470290e96f3c5e52169a3e41b0dbbc9",
+          "file": "trust/handoff-evaluation.json",
+          "raw_sha256": "sha256:9ead0cd5584b1581e7b14ff158faac2b4470290e96f3c5e52169a3e41b0dbbc9"
+        }
+      ],
+      "intent_ref": "bf2d6bbde1ff282ca866ac961a24653e43bf2e18fef60a3de83f8fd2b6efe15d",
+      "profile": "hs-refund-admission-profile/0.1",
+      "reason": null,
+      "run_id": "j01-connected-20261028-r1",
+      "schema": "hs-aps-receipt-adapter-case-v0",
+      "step": null,
+      "tuple": {
+        "amount_minor": 4000,
+        "currency": "EUR",
+        "payment_id": "pay_A"
+      },
+      "verified": true
+    },
+    "horizon_exit": 0,
+    "pic_exit": 0,
+    "pic_result": {
+      "args_digest": "0807321ed7a9fd18ced8b410487ef10a43c8f539d1f36b2693619fce62b4e698",
+      "claims_digest": "b27026c1bc333de2f1a916b8c4136a4d93779ec582bb79094fef8d184f6432c8",
+      "contract_revision": "review-2026-10-23",
+      "error_code": null,
+      "evaluated_at": "2026-10-28T21:45:35.339Z",
+      "impact": "money",
+      "intent_digest": "1e4dadb9e68434207b0166968fee81c8d44028fbf09b0c29b38703366d3feba5",
+      "pic_sdk_commit": "330fdd817ef81d43461ea1787939e0d1cc87d589",
+      "pic_trust_file_ref": "sha256:c9129f3ab83f7e464574a5aac46f48275ffdef07b5c8fa3645fd8a61d18114c1",
+      "proposal_file_ref": "sha256:4f240393358b88b31f846ffac21f056265f0f2e016a42b50727b5c8314205ca0",
+      "result": "allow",
+      "run_id": "j01-connected-20261028-r1",
+      "schema": "refund-sandbox-pic-result/0.1",
+      "tool": "refund"
+    },
+    "result_at_cutoff": {
+      "effect_count": 0,
+      "result": "NOT_ESTABLISHED"
+    },
+    "waited_for_window_s": 0.268
+  },
+  "N1a": {
+    "pic_error": "PIC_EVIDENCE_FAILED",
+    "pic_exit": 1,
+    "pic_result": "block"
+  },
+  "N1b": {
+    "horizon": {
+      "action_ref": "375076525e292815aa394733ce4ea8a80ec850a6b6a36a947b0e191b000c659a",
+      "approval_ref": "0f61bc806bdfa9b573655588f5f5912b5f6221b30e58188d6b72f50dfab415f1",
+      "code": "PAYLOAD_REF",
+      "consumed_at": "2026-10-28T21:45:38.942Z",
+      "contract_revision": "review-2026-10-23",
+      "decision_id": null,
+      "decision_valid_until": "2026-10-28T22:15:38.054Z",
+      "detail": "computePayloadRefV1(payload) is not action.payload_ref",
+      "inputs": [
+        {
+          "canonical_sha256": "adb830f1b89ba9239761afb41076e9eb0c5785a0d1ab27dd61a571e2ccfb1e9e",
+          "file": "inputs/pic-proposal.json",
+          "raw_sha256": "sha256:9bc7b377ee476bfa7b6b6b75f07610d65d3caed82a0154fda76ced3ebbda8c40"
+        },
+        {
+          "canonical_sha256": "65cc32c14310017a339ad416f6a2965fd71d032935f712c6082726b330b889ab",
+          "file": "inputs/aps-approval.json",
+          "raw_sha256": "sha256:accc2225043a7ef5518ebb6efe8b1c587681415ce07f2635c29cf71153bcf94d"
+        },
+        {
+          "canonical_sha256": "6e53264ad56c62985abe67f8595464fbeb96e948a264f1945f1aa4c91c0739a4",
+          "file": "inputs/aps-intent.json",
+          "raw_sha256": "sha256:502d2e4192b627e76938eab2c7e57e3f2daeff3de1688e01ae90599dcd863e15"
+        },
+        {
+          "canonical_sha256": "da6807f53aad02e9a4c1391bb00373774a3228e12f8314c3a4b646f7b8edd858",
+          "file": "inputs/aps-action.json",
+          "raw_sha256": "sha256:3abb7176936036054678e886861fb81d2fcacf893fe7d3fea1cf17a593819d7e"
+        },
+        {
+          "canonical_sha256": "87f32ba77d7ca064528affe0487160968ce2695cd7d2e72793aa5b8783ad1aa3",
+          "file": "inputs/aps-payload.json",
+          "raw_sha256": "sha256:95b5f7eff43adcd062d62d019aa4fba48ae350c4e90c5e02ca1188083adeae61"
+        },
+        {
+          "canonical_sha256": "ae6591a4d1e83384d53a9ee80db52e95e9157e764258d271573bae56672343f4",
+          "file": "inputs/decision-evidence.json",
+          "raw_sha256": "sha256:497239f52ca2bd1ceefebee170938265d184d000787bfb85a08e7d033f49ee60"
+        },
+        {
+          "canonical_sha256": "f05926bc692e776f7641e27d0bb4b239ac7f31f374f4da0d210d9941cb246311",
+          "file": "inputs/pic-verification.json",
+          "raw_sha256": "sha256:f05926bc692e776f7641e27d0bb4b239ac7f31f374f4da0d210d9941cb246311"
+        },
+        {
+          "canonical_sha256": "987497eac382fa77122ae6aa36ced40d67530e40be7220f3ea875db914724d4a",
+          "file": "trust/pic-keys.json",
+          "raw_sha256": "sha256:c9129f3ab83f7e464574a5aac46f48275ffdef07b5c8fa3645fd8a61d18114c1"
+        },
+        {
+          "canonical_sha256": "090f1385be7559673b73704b40a06a54269b2d7fa61545146d827d3af7eee227",
+          "file": "trust/aps-consumption.json",
+          "raw_sha256": "sha256:e8fd359116d9a6cc5800a7ea79f9ebf62faaadf4f3fba4f5f549620f6d7a7172"
+        },
+        {
+          "canonical_sha256": "4bc619212384e0cfe61028cfd36dd16f1242b3753b2722724a3704f795927b12",
+          "file": "trust/handoff-issuance.json",
+          "raw_sha256": "sha256:4bc619212384e0cfe61028cfd36dd16f1242b3753b2722724a3704f795927b12"
+        },
+        {
+          "canonical_sha256": "9ead0cd5584b1581e7b14ff158faac2b4470290e96f3c5e52169a3e41b0dbbc9",
+          "file": "trust/handoff-evaluation.json",
+          "raw_sha256": "sha256:9ead0cd5584b1581e7b14ff158faac2b4470290e96f3c5e52169a3e41b0dbbc9"
+        }
+      ],
+      "intent_ref": "d7be2f37e1dc524611b6acb6d914926c947efb34c1d5e78438720caa8ed164cd",
+      "profile": "hs-refund-admission-profile/0.1",
+      "reason": "action_digest_mismatch",
+      "run_id": "j01-connected-20261028-r1",
+      "schema": "hs-aps-receipt-adapter-case-v0",
+      "step": 5,
+      "tuple": null,
+      "verified": false
+    },
+    "horizon_exit": 1,
+    "pic_exit": 0
+  },
+  "N1c": {
+    "applies_for_key": 0,
+    "executor_refused": "pic-arguments"
+  },
+  "N2": {
+    "admission": "existing",
+    "applies_for_key": 0,
+    "horizon_exit": 0,
+    "same_admission_ref": true
+  },
+  "N3": {
+    "admission": "resolved_existing",
+    "applies_for_key": 0,
+    "dispatch_authorized": false,
+    "executor_refused_resolution_as_handoff": "payload-fields",
+    "horizon_exit": 0,
+    "new_receipt_id": "eea6f5ea3a306db72aaa0bc09537213f2e170a4535831413c085b62be7999d18",
+    "original_receipt_id": "e36a7dc0be570e381196a06fbbf22f84db3d098be5383ba02764568a5b7df9ee",
+    "pic_exit": 0,
+    "resolution_verifies": true
+  },
+  "N3b": {
+    "horizon": {
+      "action_ref": "6c1257be72fcb62d81443d3a0334b9d5fedef3e1a35ec0e4d904e0b2043bab70",
+      "approval_ref": "eea6f5ea3a306db72aaa0bc09537213f2e170a4535831413c085b62be7999d18",
+      "code": "PIC_APPROVAL_REF",
+      "consumed_at": "2026-10-28T21:45:41.384Z",
+      "contract_revision": "review-2026-10-23",
+      "decision_id": "decision-j01",
+      "decision_valid_until": "2026-10-28T22:15:39.811Z",
+      "detail": "the PIC claim names another APS receipt",
+      "inputs": [
+        {
+          "canonical_sha256": "a5d193d758ce160312a8195c5d18dc8dcb8404633b6797c1e96f829ed0c71265",
+          "file": "inputs/pic-proposal.json",
+          "raw_sha256": "sha256:4f240393358b88b31f846ffac21f056265f0f2e016a42b50727b5c8314205ca0"
+        },
+        {
+          "canonical_sha256": "73f6407169c3fad19609bc68c679e57856bcc39914ff257c58f3e3ed251d33aa",
+          "file": "inputs/aps-approval.json",
+          "raw_sha256": "sha256:8ef521879931915c0ab69d2acfc6b97466335d23eab29a83e982b75799835a9d"
+        },
+        {
+          "canonical_sha256": "e18473ac16e611a2f5f492a5006e640ea9ef789434b3692f9e82a94bfcecff89",
+          "file": "inputs/aps-intent.json",
+          "raw_sha256": "sha256:7693e9f4e69f3c9aec6ba592282635e35ad74b87499ed9b3547842f959b93fc2"
+        },
+        {
+          "canonical_sha256": "8d0321e6c929e81eb85bdddcd80dd78ca212a06b4a94249e483ecd3ca2c42f13",
+          "file": "inputs/aps-action.json",
+          "raw_sha256": "sha256:d240322c0cfc2cbdf4689426cde3b438b0fd5df43e2546b12af53c18f6038d3d"
+        },
+        {
+          "canonical_sha256": "0807321ed7a9fd18ced8b410487ef10a43c8f539d1f36b2693619fce62b4e698",
+          "file": "inputs/aps-payload.json",
+          "raw_sha256": "sha256:06308c11ca6c26e4d0b423eb6dc2d0f9640a4e7fb89588b41606677d43fb13d3"
+        },
+        {
+          "canonical_sha256": "21775766a72fcc684e91212ac82bf85b58e02b3a1983ab8b4f9ffe8494002a9f",
+          "file": "inputs/decision-evidence.json",
+          "raw_sha256": "sha256:747a697eafdc5823a9ee7a390e526e464a97787d2fda262589f1b7d2f6a68115"
+        },
+        {
+          "canonical_sha256": "b6460064fcea463975589bdfa0687a778588048140015f78faa9a9657c979f01",
+          "file": "inputs/pic-verification.json",
+          "raw_sha256": "sha256:b6460064fcea463975589bdfa0687a778588048140015f78faa9a9657c979f01"
+        },
+        {
+          "canonical_sha256": "987497eac382fa77122ae6aa36ced40d67530e40be7220f3ea875db914724d4a",
+          "file": "trust/pic-keys.json",
+          "raw_sha256": "sha256:c9129f3ab83f7e464574a5aac46f48275ffdef07b5c8fa3645fd8a61d18114c1"
+        },
+        {
+          "canonical_sha256": "16f8c56039ca9734a4c8c6be02b4cd3f4ad762eb9b141abfe039d6411ee20318",
+          "file": "trust/aps-consumption.json",
+          "raw_sha256": "sha256:b191451af9d940a113afff713760917a00d1f1d4923da6446da7dec16b324f11"
+        },
+        {
+          "canonical_sha256": "4bc619212384e0cfe61028cfd36dd16f1242b3753b2722724a3704f795927b12",
+          "file": "trust/handoff-issuance.json",
+          "raw_sha256": "sha256:4bc619212384e0cfe61028cfd36dd16f1242b3753b2722724a3704f795927b12"
+        },
+        {
+          "canonical_sha256": "9ead0cd5584b1581e7b14ff158faac2b4470290e96f3c5e52169a3e41b0dbbc9",
+          "file": "trust/handoff-evaluation.json",
+          "raw_sha256": "sha256:9ead0cd5584b1581e7b14ff158faac2b4470290e96f3c5e52169a3e41b0dbbc9"
+        }
+      ],
+      "intent_ref": "bf2d6bbde1ff282ca866ac961a24653e43bf2e18fef60a3de83f8fd2b6efe15d",
+      "profile": "hs-refund-admission-profile/0.1",
+      "reason": "action_digest_mismatch",
+      "run_id": "j01-connected-20261028-r1",
+      "schema": "hs-aps-receipt-adapter-case-v0",
+      "step": 7,
+      "tuple": {
+        "amount_minor": 4000,
+        "currency": "EUR",
+        "payment_id": "pay_A"
+      },
+      "verified": false
+    },
+    "horizon_exit": 1,
+    "pic_exit": 0
+  },
+  "N4": {
+    "admission": "committed",
+    "applies_for_key": 0,
+    "executor_refused": "pic-arguments",
+    "horizon_exit": 0,
+    "pic_exit": 0,
+    "result_at_cutoff": {
+      "effect_count": 0,
+      "result": "NOT_ESTABLISHED"
+    }
+  },
+  "diagnostics": [],
+  "simulator": {
+    "effect_count": 0,
+    "ledger": []
+  }
+}

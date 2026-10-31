@@ -1,0 +1,388 @@
+name: package-vocabulary
+
+# Every check of packages/vocabulary, run from the package directory. ci.yml
+# calls this when a change touches packages/vocabulary or a shared file. The
+# jobs are the ones probityai/agent-evidence-vocabulary ran before its import:
+# validate.yml, python-distribution.yml (its build and qualification; the
+# release itself is release.yml, unit agent-evidence-vocabulary), readme.yml,
+# commit-message-lint.yml and identity-scan.yml. Its weekly history audit and
+# OSV scan are package-vocabulary-schedule.yml; codeql.yml and scorecard.yml
+# moved to the repository root; the root dco.yml replaces the package copy.
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: packages/vocabulary
+
+jobs:
+  validate-crosswalks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+
+      - name: Vulnerability scan (requirements.txt against OSV)
+        # A green pipeline with no dependency scan says nothing about the
+        # dependency. This resolves the pinned requirement against the OSV
+        # database on every push and pull request and fails the job on any
+        # advisory -- the same policy the scan uses in the author's other
+        # repositories, so all of them agree. osv-scanner is a Go binary (not
+        # on PyPI), so fetch the pinned release asset for the linux-amd64
+        # runner. There is nothing to install it from.
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh release download v2.3.8 --repo google/osv-scanner \
+            --pattern osv-scanner_linux_amd64 --output ./osv-scanner --clobber
+          chmod +x ./osv-scanner
+          ./osv-scanner scan source --lockfile=requirements.txt
+
+      - run: python3 scripts/validate_crosswalks.py
+
+      - name: Hold every stated version, tag and sha256 to the version the package carries
+        run: |
+          # README.md, llms.txt and the docs state the install pin, the release
+          # tag and the sha256 of vocabulary.yaml, and nothing compared them to
+          # pyproject.toml or the registry: the archived repository's README said
+          # 0.4.0 while its code was 0.5.0. The stated digest must name a
+          # published registry copy of the stated version, and a pre-release
+          # change to vocabulary.yaml is allowed to differ from it. The
+          # self-test reintroduces each drift and requires a refusal by name.
+          python3 scripts/check_release_statements.py --self-test
+          python3 scripts/check_release_statements.py
+
+      - name: Hold registry.json to vocabulary.yaml and registry.py to the open value rule
+        run: |
+          python3 scripts/gen_registry_index.py --check
+          python3 scripts/test_open_enums.py
+
+      - name: Run the contribution guide's own worked example through the validator
+        run: |
+          # CONTRIBUTING.md shows a filer a complete crosswalk and tells them to
+          # build one like it. That is a claim about what happens when the
+          # instructions are followed, and until 2026-08-30 nobody had followed
+          # them: the example was missing three required top-level keys, so a
+          # filer copying it got three errors on their first push. It also wrote
+          # `system` as a block, which the validator did not reject until the
+          # scalar check landed the same day.
+          #
+          # Two adversarial review rounds over four vendors read that file and
+          # none found it. Reading a guide and running it are different checks.
+          python3 scripts/test_contributing_example.py
+
+      - name: Hold the validator to the registry's definition of recomputed
+        run: |
+          # The registry defines evidence: recomputed as agreement on every
+          # accepted member of a pinned corpus, stated as a count. This runs one
+          # valid claim and one claim per way the count or the corpus can be
+          # wrong through the real validator, and fails unless each refusal
+          # names the field that is wrong. Offline by construction.
+          python3 scripts/test_recomputed_state.py
+
+      - name: Hold the registry and the validator to record_lifecycle
+        run: |
+          # Every revision_reason code carries a definition, and the validator
+          # accepts the term under its own section and refuses it elsewhere.
+          python3 scripts/test_record_lifecycle.py
+
+      - name: Hold the registry, the validator and the predicate page to change_admission
+        run: |
+          # The agent-change-admission predicate page lives at the URL signed
+          # decisions carry as their predicate type, and its gate table and wire
+          # fields must agree with the change_admission terms. Offline.
+          python3 scripts/test_change_admission.py
+
+      - name: Hold the registry, the validator and the guide to done_verification
+        run: |
+          # Each of the eight done_verification terms carries the check a
+          # verifier applies, the guide names every term and every check, and
+          # the three crosswalks filed for the section validate. Offline.
+          python3 scripts/test_done_verification.py
+
+      - name: Hold the registry, the validator and the guide to incident_response
+        run: |
+          # Each of the eleven incident_response terms starts proposed with no
+          # issuer and carries the check a verifier applies, the guide names
+          # every term and every value, and the five crosswalks filed for the
+          # section validate. Offline.
+          python3 scripts/test_incident_response.py
+
+      - name: Hold the validator to reading every file in crosswalk/
+        run: |
+          # Every file in crosswalk/ is a crosswalk, a sidecar of one, or the
+          # template, and the template targets the current registry version. This
+          # builds a wrong directory per case and requires each to be refused by
+          # name. Offline by construction.
+          python3 scripts/test_crosswalk_directory.py
+
+      - name: Hold the registry to the attribution lines it carries
+        run: |
+          # The registry is CC0 and owes nobody attribution, so the validator
+          # reads term names and never the keys under them. A credit we gave in
+          # public would vanish from a term with nothing turning red. This
+          # requires each recorded credit on its own term, by name. Offline.
+          python3 scripts/test_attribution.py
+
+      - name: Hold the OpenCRE links to the shape OpenCRE imports
+        run: |
+          # OpenCRE's importer reads every opencre.org CRE URL in vocabulary.yaml,
+          # so each one must be a declared link on a term, in the one shape the
+          # importer reads, and docs/OPENCRE.md must list the same links. The test
+          # builds one wrong registry per way a link can be malformed and requires
+          # each refusal by name. The check then asks opencre.org that every
+          # linked CRE exists, a network call made on purpose: only the live
+          # catalogue can say whether an id is real. Exit 2 there means the
+          # catalogue could not be asked, which fails the job and is never a pass.
+          python3 scripts/test_check_opencre_links.py
+          python3 scripts/check_opencre_links.py --live
+
+      - name: Hold the AIMM levels page to its pinned releases
+        run: |
+          # docs/aimm-levels.md names vector families, cases and admission
+          # policies at a pinned tag and commit. The offline test holds the
+          # parser; the check then reads both trees from the GitHub API, which
+          # is a network call made on purpose: the claim is about a published
+          # tree, and only that tree can settle it.
+          python3 scripts/test_check_aimm_levels.py
+          python3 scripts/check_aimm_levels.py
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Reject ruled-out constructions in tracked prose
+        run: |
+          # Three phrasings this project does not publish. Separate from the
+          # forbidden-string scan below, and separate on purpose: that scan
+          # hashes fixed-length windows and its declared lengths cannot match an
+          # eleven-character phrase, so the rule was written down, a guard
+          # existed, and the two never touched. One of the three shipped into
+          # vocabulary.yaml on 2026-08-30 inside the very commit rewriting that
+          # passage.
+          #
+          # Exit 2 means the subject set could not be built and nothing was
+          # checked, which is a broken run and never a clean one.
+          python3 scripts/lint_ruled_out_phrases.py
+
+      - name: Reject forbidden strings in tracked files
+        run: |
+          # Product names and internal-only markers, held as salted digests in
+          # .githooks/commit-msg.forbidden-words and shared with the commit-msg
+          # hook so the message surface and the content surface cannot drift
+          # apart. Nothing readable is in the tree and nothing is echoed when a
+          # match is found: printing it would reproduce the string into this log.
+          #
+          # This repository is product-neutral by design. The guard was installed
+          # BEFORE publication, never after, because the cost of arriving late is
+          # a name in a history that is already public: removing one then means
+          # rewriting every commit from that point on, and the rewrite still
+          # leaves the old objects fetchable by anyone who kept a commit id.
+          #
+          # Exit 2 means the rule list did not load, which is a failure: a guard
+          # that could not read its rules has verified nothing.
+          python3 scripts/forbidden-word-scan.py
+          status=$?
+          if [ "$status" -eq 1 ]; then
+            echo "::error::A tracked file contains a forbidden string. Product names and drafting notes belong in the private research tree."
+            exit 1
+          elif [ "$status" -ne 0 ]; then
+            echo "::error::The forbidden-string rule list failed to load; nothing was verified."
+            exit 1
+          fi
+
+  published-corpus-values:
+    # The closed values this registry defines, held against the corpora that
+    # the published agent-evidence-vectors package ships, installed from PyPI
+    # by version and wheel hash the way any consumer would get them.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Install the published corpora
+        run: |
+          echo "agent-evidence-vectors==0.18.1 --hash=sha256:3953c8ab3c48f3e8b6d1779c2eafacb997f0336555ea0e1e6a83056fe2c5755f" > "$RUNNER_TEMP/corpora.lock"
+          pip install --no-deps --require-hashes -r "$RUNNER_TEMP/corpora.lock"
+      - name: Hold the check to refusing an undefined value
+        run: python3 scripts/check_published_corpus_values.py --self-test
+      - name: Hold the published corpora to the registry's closed values
+        run: python3 scripts/check_published_corpus_values.py
+
+  python-distribution:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+      - name: Install the pinned release tools
+        run: python -m pip install --require-hashes -r requirements-release.lock
+      - name: Build and check the exact wheel and source distribution
+        env:
+          PYTHONHASHSEED: '0'
+        run: |
+          SOURCE_DATE_EPOCH="$(git show -s --format=%ct HEAD)"
+          export SOURCE_DATE_EPOCH
+          python -m build --no-isolation
+          python -m twine check --strict dist/*
+          python scripts/check-artifacts.py dist/*.whl dist/*.tar.gz
+          sha256sum dist/* > SHA256SUMS
+          git rev-parse HEAD > SOURCE-COMMIT
+      - name: Check distribution refusal controls
+        run: |
+          python scripts/check-artifacts-controls.py dist/*.whl dist/*.tar.gz
+      - name: Install outside the checkout and rebuild the source distribution
+        run: |
+          set -euo pipefail
+          python -m venv "$RUNNER_TEMP/package-consumer"
+          "$RUNNER_TEMP/package-consumer/bin/python" -m pip install dist/*.whl PyYAML==6.0.3 --report wheel-install.json
+          "$RUNNER_TEMP/package-consumer/bin/python" -m pip check
+          mkdir "$RUNNER_TEMP/package-consumer-cwd" "$RUNNER_TEMP/package-source"
+          cd "$RUNNER_TEMP/package-consumer-cwd"
+          "$RUNNER_TEMP/package-consumer/bin/python" "$GITHUB_WORKSPACE/packages/vocabulary/scripts/check-installed.py" > "$GITHUB_WORKSPACE/packages/vocabulary/wheel-consumer.json"
+          cd "$GITHUB_WORKSPACE/packages/vocabulary"
+          tar -xzf dist/*.tar.gz -C "$RUNNER_TEMP/package-source"
+          python -m build --no-isolation --wheel --outdir rebuilt "$RUNNER_TEMP/package-source/"*
+          "$RUNNER_TEMP/package-consumer/bin/python" -m pip install --no-deps --force-reinstall rebuilt/*.whl --report sdist-install.json
+          cd "$RUNNER_TEMP/package-consumer-cwd"
+          "$RUNNER_TEMP/package-consumer/bin/python" "$GITHUB_WORKSPACE/packages/vocabulary/scripts/check-installed.py" > "$GITHUB_WORKSPACE/packages/vocabulary/sdist-consumer.json"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: vocabulary-python-distributions
+          path: |
+            packages/vocabulary/dist/
+            packages/vocabulary/SHA256SUMS
+            packages/vocabulary/SOURCE-COMMIT
+            packages/vocabulary/wheel-install.json
+            packages/vocabulary/sdist-install.json
+            packages/vocabulary/wheel-consumer.json
+            packages/vocabulary/sdist-consumer.json
+          if-no-files-found: error
+          retention-days: 30
+
+
+  readme:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: the README stays one screen and every link in it resolves
+        run: |
+          python3 scripts/readme-lint.py README.md
+          python3 scripts/readme-lint-test.py
+
+  commit-message-lint:
+    # A job with no ceiling can hang a queue for six hours.
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Gate self-test
+        run: .githooks/commit-msg --selftest
+
+      - name: Lint the commit messages this event introduces
+        env:
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PR_BASE_REF: ${{ github.event.pull_request.base.ref }}
+          PUSH_BEFORE: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          zero=0000000000000000000000000000000000000000
+          # A pull request's base sha can be older than its target's tip, and
+          # HEAD merges into the current tip, so anchor on the current tip when
+          # the target branch can be read: only the pull request's own commits.
+          if [ -n "${PR_BASE_REF:-}" ] \
+               && git rev-parse -q --verify "refs/remotes/origin/${PR_BASE_REF}^{commit}" >/dev/null; then
+            range="$(git merge-base "refs/remotes/origin/${PR_BASE_REF}" HEAD)..HEAD"
+          elif [ -n "${PR_BASE:-}" ]; then
+            range="$(git merge-base "$PR_BASE" HEAD)..HEAD"
+          elif [ -n "${PUSH_BEFORE:-}" ] && [ "$PUSH_BEFORE" != "$zero" ] \
+               && git cat-file -e "${PUSH_BEFORE}^{commit}" 2>/dev/null; then
+            range="${PUSH_BEFORE}..HEAD"
+          elif git rev-parse -q --verify HEAD~1 >/dev/null; then
+            # New branch, or a force-push whose old tip is gone: lint the tip.
+            range="HEAD~1..HEAD"
+          else
+            range="HEAD"
+          fi
+          echo "linting $range"
+          .githooks/commit-msg --check-range "$range"
+
+  identity-push-range:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      # The whole history: the range below reaches back past the pushed tip,
+      # and a shallow clone would turn "could not compute the range" into a
+      # pass. The scanner exits 2, not 0, when that happens, and a
+      # complete clone is the cheaper way to never ask.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      # The scanner carries one permit: the owner handle passes where a slash
+      # and one of this family's repository names follow it, because a clone URL
+      # cannot avoid naming its owner. A permit on a refusal can only ever
+      # loosen, and a loosening nobody notices looks exactly like the control
+      # working, so the shapes it must still refuse are asserted here and
+      # outnumber the ones it allows.
+      - name: the owner permit allows a repository path and nothing else
+        run: python3 scripts/pre-push-identity-scan-test.py
+      - name: every commit in the push range is free of private paths, dossier names and product names
+        env:
+          PUSH_BEFORE: ${{ github.event.before }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PR_BASE_REF: ${{ github.event.pull_request.base.ref }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -uo pipefail
+          # Which commits a push carries has four arms and one trap, so it is
+          # decided by a script with a selftest, never by a fragment here.
+          #
+          # The arm that was wrong: a branch creation reports the all-zero
+          # before-sha, and the fallback for it read the last fifty commits of
+          # HEAD. On a branch cut from the default branch that is mostly the
+          # default branch's own history, so every new branch was scanned
+          # against commits it did not introduce and refused for a defect only
+          # a rewrite of published history can clear.
+          #
+          # The trap: a range resolving to no commits makes the scanner print
+          # "0 commit(s) scanned, clean" and exit 0, so a mis-resolved range
+          # does not fail -- it passes, having read nothing. The resolver never
+          # returns an empty range, and falls back to a bound that is a bound
+          # and not a pass.
+          if ! python3 scripts/push-scan-range.py --selftest; then
+            echo "::error::The push-range resolver failed its own selftest; nothing was verified."
+            exit 1
+          fi
+          mapfile -t scan_args < <(python3 scripts/push-scan-range.py --why)
+          if [ "${#scan_args[@]}" -eq 0 ]; then
+            echo "::error::The push range could not be resolved; nothing was verified."
+            exit 1
+          fi
+          echo "scanning with: ${scan_args[*]}"
+          python3 scripts/pre-push-identity-scan.py "${scan_args[@]}"
+          status=$?
+          if [ "$status" -eq 1 ]; then
+            echo "::error::A commit in this range carries a private path, a dossier name or a product name. The tip may be clean; the history is not. Rewrite the commits."
+            exit 1
+          elif [ "$status" -ne 0 ]; then
+            echo "::error::The history scan could not run (exit $status); nothing was verified."
+            exit 1
+          fi

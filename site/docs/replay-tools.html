@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Sankalp Gilda" />
+  <meta name="description" content="Use the pinned producer tools, declare the caller and retain the commands, source hashes and results." />
+  <title>Run the APS and PriorSeal replay - Agent Evidence Conformance Board</title>
+  <link rel="canonical" href="https://probityai.github.io/agent-evidence-atlas/replay-tools.html" />
+  <link rel="alternate" type="text/markdown" href="https://probityai.github.io/agent-evidence-atlas/replay-tools.md" />
+  <link rel="describedby" href="https://probityai.github.io/agent-evidence-atlas/llms.txt" />
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <nav aria-label="Site">
+    <a class="home" href="index.html">Agent Evidence Conformance Board</a>
+    <span class="links">
+      <a href="start.html">Choose a component</a>
+      <a href="lab.html">Open Evidence Lab</a>
+      <a href="status.html">Claim status</a>
+      <a href="runs.html">Find a run</a>
+      <a href="board.html">Conformance board</a>
+      <a href="pilot.html">Pilot status</a>
+      <a href="atlas.html">Atlas</a>
+      <a href="experiments.html">Experiments</a>
+      <a href="claims.html">Claims</a>
+      <a href="versions.html">Versions</a>
+    </span>
+  </nav>
+</header>
+<main id="main" tabindex="-1">
+<header class="page">
+<h1>Run the APS and PriorSeal replay</h1>
+</header>
+<h2 id="choose-the-procedure">Choose the procedure</h2>
+<p>The <a href="https://github.com/probityai/agent-evidence/blob/main/site/experiments/aps-priorseal-source-replay/RUN.md">complete source-replay procedure</a> gives the producer commits, required tools and both executable commands. Select and retain a published Atlas commit before running it. It also supports copied tools outside an Atlas checkout: retain the entrypoint, its <code>runner.mjs</code> helper and, for the replay, the unchanged <code>recorded.json</code> baseline. Use all files from the same selected Atlas commit.</p>
+<p>The replay runs the pinned Frequency adapter directly. The separate wrapper check asks whether a zero exit also produced a new report. These are different checks. Neither authenticates a real operator or establishes a live action, production use or an independently operated witness.</p>
+<h2 id="declare-who-ran-it">Declare who ran it</h2>
+<p>Both entrypoints require one <code>--runner</code> before their four path arguments:</p>
+<div class="code-scroll" tabindex="0" role="region" aria-label="Code example">
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">node</span> experiments/aps-priorseal-source-replay/run.mjs <span class="dt">\</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--runner</span> https://github.com/OWNER/REPOSITORY <span class="dt">\</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  CAPSULE APS_OWNER PRIORSEAL_COPY NEW_OUTPUT</span></code></pre></div>
+</div>
+<p>Replace the caller and paths with your selected inputs. The complete procedure gives the corresponding wrapper command. The tools refuse an omitted, repeated or unknown option before inspecting the producer checkouts or creating output. They never infer the caller from a publisher or an earlier record.</p>
+<p>New v2 records retain <code>scope.runner.identity</code> and <code>source: "caller-declared"</code>. The declaration is not an authenticated identity. <code>harness.files</code> binds the entrypoint and helper bytes read at invocation. Those hashes do not attest the publisher or the runtime.</p>
+<h2 id="keep-the-actual-outputs">Keep the actual outputs</h2>
+<p>Keep the generated <code>receipt.json</code> or <code>record.json</code>, its child command metadata and raw stdout and stderr together. Process-file paths are relative to their record’s directory. The record binds those files by size and SHA-256. A spawn or capture error is incomplete and refuses a successful record. Retain the source selection and environment with your capture.</p>
+<p>The CI artifact keeps <code>result/receipt.json</code> and <code>contract-result/record.json</code> with their sibling logs. The curated controls are in <code>caller-controls/public-results/</code>. Their manifest declares that base relative to its own directory and binds each selected file by size and SHA-256. Follow those declared paths to check the artifact.</p>
+<p>The wrapper’s <code>meetsRunContract</code> is true only when its actual and retained exits are zero and a previously absent report path exists after execution. It does not establish that the report is valid or that Probity admitted it. The procedure leaves the original producer outcomes and their stated limits unchanged.</p>
+<h2 id="read-the-existing-evidence">Read the existing evidence</h2>
+<p>The <a href="pilot.html">pilot status</a> distinguishes technical replay from a formal pilot. The <a href="runs.html">retained-run browser</a> presents existing registered claims and their original artifacts. The <a href="claims.html">claim ledger</a> records this interface and its re-derive commands. Historical records keep their original schemas and bytes; a new caller declaration does not change their results.</p>
+</main>
+<footer class="site">
+  <p>Every number on this site has a source, a read time and a re-derive command in the <a href="claims.html">claim ledger</a>. Site version 0.6-draft, 2026-10-01. <a href="versions.html#documentation-revisions">Page revisions</a>.</p>
+</footer>
+</body>
+</html>

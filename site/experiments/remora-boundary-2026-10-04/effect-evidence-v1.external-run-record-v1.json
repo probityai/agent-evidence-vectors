@@ -1,0 +1,105 @@
+{
+  "claim_ceiling_repeated": true,
+  "command": "probity-remora-boundary --profile PROFILE --output NEW_PATH --implementation-revision EXECUTED_REVISION",
+  "consumed_revision": "fe324dd734734d9227aa894330ac52c2bb916b94",
+  "contract_id": "effect-evidence-v1",
+  "environment": "Python 3.13.15; Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+  "implementation_diversity": "SECOND_IMPLEMENTATION",
+  "imports": {
+    "reference_verifier": false,
+    "remora_runtime": false
+  },
+  "independence": "NOT_INDEPENDENT",
+  "input_digests": [
+    {
+      "path": "artifacts/interop/effect-evidence-v1/README.md",
+      "sha256": "a098e7e9f25902a2eac43343d520b5f8f148e51e884dadb247e529b70993952f"
+    },
+    {
+      "path": "artifacts/interop/effect-evidence-v1/claim-packet.json",
+      "sha256": "b00afa69d78732842dd8ba013e1726e408b79ed68c7962c9ba2dec09dfe25a03"
+    },
+    {
+      "path": "artifacts/interop/effect-evidence-v1/fixtures.json",
+      "sha256": "676978802d981f11ae0a40ba9c13ced4b41f302c8c40370eb3dd883e2b716e66"
+    },
+    {
+      "path": "artifacts/interop/effect-evidence-v1/verifier-request.json",
+      "sha256": "a9413e4d4b2daa74e4a17246c9a7e33bf5ab293b66dc55859c94bc5ab5c3181b"
+    }
+  ],
+  "non_claims_repeated": true,
+  "operator": "EXTERNAL",
+  "package_digest": "sha256:26c437c65a5c3890a0672845dd9e1e54b03c38ae5f05a6fbe7131402b952034c",
+  "published_at": null,
+  "results": [
+    {
+      "case_id": "verified_declared_delta",
+      "claim_id": "effect_state_distinction",
+      "result": "ESTABLISHED"
+    },
+    {
+      "case_id": "reader_returns_nothing",
+      "claim_id": "effect_state_distinction",
+      "result": "ESTABLISHED"
+    },
+    {
+      "case_id": "observed_contradicts_report",
+      "claim_id": "effect_state_distinction",
+      "result": "ESTABLISHED"
+    },
+    {
+      "case_id": "vacuous_contract",
+      "claim_id": "effect_state_distinction",
+      "result": "ESTABLISHED"
+    },
+    {
+      "case_id": "report_without_dispatch",
+      "claim_id": "effect_state_distinction",
+      "result": "ESTABLISHED"
+    },
+    {
+      "case_id": "dispatch_began_outcome_unknown",
+      "claim_id": "effect_state_distinction",
+      "result": "ESTABLISHED"
+    },
+    {
+      "case_id": "unrelated_field_changed",
+      "claim_id": "effect_state_distinction",
+      "result": "ESTABLISHED"
+    },
+    {
+      "case_id": "version_advanced",
+      "claim_id": "effect_state_distinction",
+      "result": "ESTABLISHED"
+    },
+    {
+      "case_id": "version_not_advanced",
+      "claim_id": "effect_state_distinction",
+      "result": "ESTABLISHED"
+    },
+    {
+      "case_id": "bool_is_not_int",
+      "claim_id": "effect_state_distinction",
+      "result": "ESTABLISHED"
+    },
+    {
+      "case_id": "no_report_no_contract",
+      "claim_id": "effect_state_distinction",
+      "result": "ESTABLISHED"
+    },
+    {
+      "case_id": "report_failure_observed_delta",
+      "claim_id": "effect_state_distinction",
+      "result": "ESTABLISHED"
+    }
+  ],
+  "run_ref": "https://github.com/probityai/agent-evidence-vectors/actions/runs/37232420650",
+  "schema_version": "remora-external-run-record-v1",
+  "verifier": {
+    "implementation_revision": "308c5b4401b18d42ed73dea80459375932e6b8e8",
+    "maintained_by": "EXTERNAL",
+    "project": "Probity REMORA boundary reader",
+    "repository": "probityai/agent-evidence-vectors"
+  }
+}

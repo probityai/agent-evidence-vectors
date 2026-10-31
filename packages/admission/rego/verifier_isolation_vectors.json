@@ -1,0 +1,5410 @@
+{
+  "verifier_isolation_vectors": {
+    "cases": {
+      "baseline-admitted": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "the isolation report closes all nine vectors",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "baseline-admitted",
+        "opens": null,
+        "reasons": []
+      },
+      "contract-digest-invalid": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "the contract digest is not 64 lowercase hex",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "ABC",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "contract-digest-invalid",
+        "opens": null,
+        "reasons": [
+          "contract_digest_invalid"
+        ]
+      },
+      "contract-pin-matches": {
+        "consumer": {
+          "expected_contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+          "signature_verified_upstream": true
+        },
+        "description": "the consumer pins the contract the report names",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "contract-pin-matches",
+        "opens": null,
+        "reasons": []
+      },
+      "contract-pin-mismatch": {
+        "consumer": {
+          "expected_contract_sha256": "24006a277ce20de5294370eb86708173dc8085163a3ccb973c0e76568594f0e9",
+          "signature_verified_upstream": true
+        },
+        "description": "the report names another contract than the one pinned",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "contract-pin-mismatch",
+        "opens": null,
+        "reasons": [
+          "contract_digest_mismatch"
+        ]
+      },
+      "predicate-type-wrong": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "another predicate type",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://example.invalid/predicate/other",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "predicate-type-wrong",
+        "opens": null,
+        "reasons": [
+          "unsupported_predicate"
+        ]
+      },
+      "report-missing": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "a receipt that carries no isolation report opens every vector",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340"
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "report-missing",
+        "opens": "all",
+        "reasons": [
+          "contract_digest_invalid",
+          "isolation_report_missing",
+          "vi-1:excluded_names_not_reset",
+          "vi-1:trusted_tree_not_reset_to_contract",
+          "vi-2:assertions_not_in_parent",
+          "vi-2:replay_parent_environment_not_scrubbed",
+          "vi-2:replay_parent_not_contained",
+          "vi-2:replay_parent_shares_verifier_uid",
+          "vi-2:trusted_python_not_isolated",
+          "vi-2:worker_not_unprivileged",
+          "vi-2:worker_supplementary_groups_kept",
+          "vi-3:result_dir_open_to_worker",
+          "vi-3:result_not_precleared",
+          "vi-3:result_not_written_by_verifier",
+          "vi-3:result_source_ambiguous",
+          "vi-4:no_tests_expected",
+          "vi-4:test_count_mismatch",
+          "vi-4:tests_skipped",
+          "vi-4:verdict_from_exit_status_alone",
+          "vi-5:result_read_before_kill",
+          "vi-5:worker_processes_not_killed",
+          "vi-5:worker_processes_remain",
+          "vi-6:destination_not_removed_first",
+          "vi-6:links_followed",
+          "vi-6:special_files_admitted",
+          "vi-7:environment_not_scrubbed",
+          "vi-7:evidence_taken_from_worker",
+          "vi-7:no_scratch_copy",
+          "vi-8:reference_inside_artifact",
+          "vi-8:reference_readable_by_worker",
+          "vi-9:loaders_undeclared"
+        ]
+      },
+      "signature-undeclared": {
+        "consumer": {},
+        "description": "the consumer never declared an upstream signature check",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "signature-undeclared",
+        "opens": null,
+        "reasons": [
+          "signature_verification_undeclared"
+        ]
+      },
+      "statement-type-wrong": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "not an in-toto Statement v1",
+        "input": {
+          "_type": "https://example.invalid/Statement/v9",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "statement-type-wrong",
+        "opens": null,
+        "reasons": [
+          "unsupported_statement_type"
+        ]
+      },
+      "vi1-excluded-names-kept": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "a poisoned bytecode cache survives because excluded names were not reset",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": false,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi1-excluded-names-kept",
+        "opens": "vi-1",
+        "reasons": [
+          "vi-1:excluded_names_not_reset"
+        ]
+      },
+      "vi1-trusted-tree-differs": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "the trusted files measured before grading are not the contract's",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "880acb4070e8b787fa69c64697fd8148299c4d0625de2d88620f0a908baff533"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi1-trusted-tree-differs",
+        "opens": "vi-1",
+        "reasons": [
+          "vi-1:trusted_tree_not_reset_to_contract"
+        ]
+      },
+      "vi1-trusted-tree-undeclared": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "no expected digest, so nothing was compared",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi1-trusted-tree-undeclared",
+        "opens": "vi-1",
+        "reasons": [
+          "vi-1:trusted_tree_not_reset_to_contract"
+        ]
+      },
+      "vi2-assertions-with-submission": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "assertions ran in the process that imported the submission",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": false,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi2-assertions-with-submission",
+        "opens": "vi-2",
+        "reasons": [
+          "vi-2:assertions_not_in_parent"
+        ]
+      },
+      "vi2-flag-is-string": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "the flag is the string true, which closes nothing",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": "true",
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi2-flag-is-string",
+        "opens": "vi-2",
+        "reasons": [
+          "vi-2:assertions_not_in_parent"
+        ]
+      },
+      "vi2-groups-kept": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "supplementary groups were not cleared",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [
+                  27
+                ],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi2-groups-kept",
+        "opens": "vi-2",
+        "reasons": [
+          "vi-2:worker_supplementary_groups_kept"
+        ]
+      },
+      "vi2-groups-undeclared": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "no statement about supplementary groups",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi2-groups-undeclared",
+        "opens": "vi-2",
+        "reasons": [
+          "vi-2:worker_supplementary_groups_kept"
+        ]
+      },
+      "vi2-python-not-isolated": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "trusted Python saw the artifact directory on its path",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": false,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi2-python-not-isolated",
+        "opens": "vi-2",
+        "reasons": [
+          "vi-2:trusted_python_not_isolated"
+        ]
+      },
+      "vi2-replay-parent-claims-container-as-verifier": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "the record names a container, but the parent measured the verifier's own uid",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 0
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi2-replay-parent-claims-container-as-verifier",
+        "opens": "vi-2",
+        "reasons": [
+          "vi-2:replay_parent_shares_verifier_uid"
+        ]
+      },
+      "vi2-replay-parent-env-undeclared": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "no statement about the parent's environment",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi2-replay-parent-env-undeclared",
+        "opens": "vi-2",
+        "reasons": [
+          "vi-2:replay_parent_environment_not_scrubbed"
+        ]
+      },
+      "vi2-replay-parent-on-host": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "the parent that ran the sealed tests ran on the verifier host, as the verifier's uid",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "host",
+                  "uid": 0
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi2-replay-parent-on-host",
+        "opens": "vi-2",
+        "reasons": [
+          "vi-2:replay_parent_not_contained",
+          "vi-2:replay_parent_shares_verifier_uid"
+        ]
+      },
+      "vi2-replay-parent-root": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "the parent ran as uid 0",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 0
+                },
+                "uid": 1000
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi2-replay-parent-root",
+        "opens": "vi-2",
+        "reasons": [
+          "vi-2:replay_parent_shares_verifier_uid"
+        ]
+      },
+      "vi2-replay-parent-runtime-socket": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "the parent's environment names the container runtime",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE",
+                    "DOCKER_HOST"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi2-replay-parent-runtime-socket",
+        "opens": "vi-2",
+        "reasons": [
+          "vi-2:replay_parent_environment_not_scrubbed"
+        ]
+      },
+      "vi2-replay-parent-unrecorded": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "no statement about where the parent ran",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi2-replay-parent-unrecorded",
+        "opens": "vi-2",
+        "reasons": [
+          "vi-2:replay_parent_environment_not_scrubbed",
+          "vi-2:replay_parent_not_contained",
+          "vi-2:replay_parent_shares_verifier_uid"
+        ]
+      },
+      "vi2-replay-parent-unverified": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "the parent never reported the host name of the container it was launched in",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "unverified",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi2-replay-parent-unverified",
+        "opens": "vi-2",
+        "reasons": [
+          "vi-2:replay_parent_not_contained"
+        ]
+      },
+      "vi2-worker-is-root": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "submitted code ran as uid 0",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 0
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi2-worker-is-root",
+        "opens": "vi-2",
+        "reasons": [
+          "vi-2:worker_not_unprivileged"
+        ]
+      },
+      "vi2-worker-is-verifier": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "submitted code ran as the verifier's own uid",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 1000
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 1000
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi2-worker-is-verifier",
+        "opens": "vi-2",
+        "reasons": [
+          "vi-2:worker_not_unprivileged"
+        ]
+      },
+      "vi2-worker-uid-string": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "the uid is a string, not a number",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": "65534"
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi2-worker-uid-string",
+        "opens": "vi-2",
+        "reasons": [
+          "vi-2:worker_not_unprivileged"
+        ]
+      },
+      "vi3-no-source": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "no reward file was read",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi3-no-source",
+        "opens": "vi-3",
+        "reasons": [
+          "vi-3:result_source_ambiguous"
+        ]
+      },
+      "vi3-not-precleared": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "a reward file from before the run was not removed",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": false,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi3-not-precleared",
+        "opens": "vi-3",
+        "reasons": [
+          "vi-3:result_not_precleared"
+        ]
+      },
+      "vi3-result-dir-777": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "the result directory is world-writable, as Harbor leaves it",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0777",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi3-result-dir-777",
+        "opens": "vi-3",
+        "reasons": [
+          "vi-3:result_dir_open_to_worker"
+        ]
+      },
+      "vi3-result-dir-group": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "the result directory is open to its group",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "770",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi3-result-dir-group",
+        "opens": "vi-3",
+        "reasons": [
+          "vi-3:result_dir_open_to_worker"
+        ]
+      },
+      "vi3-result-dir-undeclared": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "no mode recorded",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi3-result-dir-undeclared",
+        "opens": "vi-3",
+        "reasons": [
+          "vi-3:result_dir_open_to_worker"
+        ]
+      },
+      "vi3-two-sources": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "two reward files were candidates, so which one counted depends on read order",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.json",
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi3-two-sources",
+        "opens": "vi-3",
+        "reasons": [
+          "vi-3:result_source_ambiguous"
+        ]
+      },
+      "vi3-written-by-worker": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "the result was written by the worker",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "worker"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi3-written-by-worker",
+        "opens": "vi-3",
+        "reasons": [
+          "vi-3:result_not_written_by_verifier"
+        ]
+      },
+      "vi4-exit-status-alone": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "exit status zero was taken as the verdict",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": true,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi4-exit-status-alone",
+        "opens": "vi-4",
+        "reasons": [
+          "vi-4:verdict_from_exit_status_alone"
+        ]
+      },
+      "vi4-fewer-collected": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "fewer tests ran than the contract expects",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 7,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi4-fewer-collected",
+        "opens": "vi-4",
+        "reasons": [
+          "vi-4:test_count_mismatch"
+        ]
+      },
+      "vi4-no-tests": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "the suite is empty",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 0,
+                "exit_status_alone_accepted": false,
+                "expected": 0,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi4-no-tests",
+        "opens": "vi-4",
+        "reasons": [
+          "vi-4:no_tests_expected"
+        ]
+      },
+      "vi4-skipped": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "tests were skipped and counted as passes",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 3
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi4-skipped",
+        "opens": "vi-4",
+        "reasons": [
+          "vi-4:tests_skipped"
+        ]
+      },
+      "vi4-skipped-undeclared": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "no skip count at all",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi4-skipped-undeclared",
+        "opens": "vi-4",
+        "reasons": [
+          "vi-4:tests_skipped"
+        ]
+      },
+      "vi5-not-killed": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "the worker's processes were not killed",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": false
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi5-not-killed",
+        "opens": "vi-5",
+        "reasons": [
+          "vi-5:worker_processes_not_killed"
+        ]
+      },
+      "vi5-read-before-kill": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "the result was read before the kill",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 50,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi5-read-before-kill",
+        "opens": "vi-5",
+        "reasons": [
+          "vi-5:result_read_before_kill"
+        ]
+      },
+      "vi5-remaining": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "a worker process was still alive after the kill",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 1,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi5-remaining",
+        "opens": "vi-5",
+        "reasons": [
+          "vi-5:worker_processes_remain"
+        ]
+      },
+      "vi5-steps-equal": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "the kill and the read share one step, so their order is unknown",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 44,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi5-steps-equal",
+        "opens": "vi-5",
+        "reasons": [
+          "vi-5:result_read_before_kill"
+        ]
+      },
+      "vi6-destination-kept": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "the copy destination was not removed first",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": false,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi6-destination-kept",
+        "opens": "vi-6",
+        "reasons": [
+          "vi-6:destination_not_removed_first"
+        ]
+      },
+      "vi6-links-followed": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "a symlink in the submission was followed",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": false,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi6-links-followed",
+        "opens": "vi-6",
+        "reasons": [
+          "vi-6:links_followed"
+        ]
+      },
+      "vi6-special-files": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "device nodes and sockets in the submission were admitted",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": false
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi6-special-files",
+        "opens": "vi-6",
+        "reasons": [
+          "vi-6:special_files_admitted"
+        ]
+      },
+      "vi7-env-not-scrubbed": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "verifier secrets stayed in the worker's environment",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": false,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi7-env-not-scrubbed",
+        "opens": "vi-7",
+        "reasons": [
+          "vi-7:environment_not_scrubbed"
+        ]
+      },
+      "vi7-no-scratch-copy": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "the worker ran on the verifier's own tree",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": false,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi7-no-scratch-copy",
+        "opens": "vi-7",
+        "reasons": [
+          "vi-7:no_scratch_copy"
+        ]
+      },
+      "vi7-worker-evidence": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "a timer reading came from the worker's own output",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [
+                "elapsed_ms"
+              ],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi7-worker-evidence",
+        "opens": "vi-7",
+        "reasons": [
+          "vi-7:evidence_taken_from_worker"
+        ]
+      },
+      "vi7-worker-evidence-undeclared": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "the list was not recorded",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi7-worker-evidence-undeclared",
+        "opens": "vi-7",
+        "reasons": [
+          "vi-7:evidence_taken_from_worker"
+        ]
+      },
+      "vi8-reference-in-artifact": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "reference outputs sit inside the artifact directory",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": true
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi8-reference-in-artifact",
+        "opens": "vi-8",
+        "reasons": [
+          "vi-8:reference_inside_artifact"
+        ]
+      },
+      "vi8-reference-readable": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "reference outputs are readable by the worker",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0755",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi8-reference-readable",
+        "opens": "vi-8",
+        "reasons": [
+          "vi-8:reference_readable_by_worker"
+        ]
+      },
+      "vi8-reference-undeclared": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "no mode recorded for the reference outputs",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load weights_only",
+                  "safe": true
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi8-reference-undeclared",
+        "opens": "vi-8",
+        "reasons": [
+          "vi-8:reference_readable_by_worker"
+        ]
+      },
+      "vi9-loader-safe-undeclared": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "a loader that does not say it is safe is not safe",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "yaml.load"
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi9-loader-safe-undeclared",
+        "opens": "vi-9",
+        "reasons": [
+          "vi-9:unsafe_loader:yaml.load"
+        ]
+      },
+      "vi9-no-loaders": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "the report lists no loaders, so nothing was accounted for",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi9-no-loaders",
+        "opens": "vi-9",
+        "reasons": [
+          "vi-9:loaders_undeclared"
+        ]
+      },
+      "vi9-unnamed-unsafe-loader": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "an unsafe loader with no name",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "safe": false
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi9-unnamed-unsafe-loader",
+        "opens": "vi-9",
+        "reasons": [
+          "vi-9:unsafe_loader:unnamed"
+        ]
+      },
+      "vi9-unsafe-loader": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "a pickle loader read submitted data in a privileged process",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+            "verifier_isolation": {
+              "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+              "evidence_from_worker": [],
+              "loaders": [
+                {
+                  "name": "json",
+                  "safe": true
+                },
+                {
+                  "name": "torch.load",
+                  "safe": false
+                }
+              ],
+              "processes": {
+                "killed_step": 41,
+                "remaining": 0,
+                "result_read_step": 44,
+                "worker_killed": true
+              },
+              "reference": {
+                "dir_mode": "0700",
+                "inside_artifact_dir": false
+              },
+              "result": {
+                "dir_mode": "0700",
+                "files_read": [
+                  "reward.txt"
+                ],
+                "precleared": true,
+                "written_by": "verifier"
+              },
+              "staging": {
+                "destination_removed_first": true,
+                "nofollow": true,
+                "special_files_rejected": true
+              },
+              "tests": {
+                "collected": 12,
+                "exit_status_alone_accepted": false,
+                "expected": 12,
+                "skipped": 0
+              },
+              "trusted_tree": {
+                "excluded_names_reset": true,
+                "expected_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9",
+                "measured_sha256": "366cc5efa92f50813db2a11d5b6e8f400d13d8d4234a8efb4c10456b6fbb07e9"
+              },
+              "verifier": {
+                "assertions_in_parent": true,
+                "python_isolated": true,
+                "replay_parent": {
+                  "env": [
+                    "HOME",
+                    "LANG",
+                    "PATH",
+                    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+                    "PYTHONDONTWRITEBYTECODE",
+                    "PYTHONHASHSEED",
+                    "PYTHONNOUSERSITE"
+                  ],
+                  "runtime": "docker",
+                  "uid": 65534
+                },
+                "uid": 0
+              },
+              "worker": {
+                "env_scrubbed": true,
+                "scratch_copy": true,
+                "supplementary_groups": [],
+                "uid": 65534
+              }
+            }
+          },
+          "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "bc5acb48b583572f8e915d3628be22a59dd973368be006e344abac780922c892"
+              },
+              "name": "final-tree"
+            }
+          ]
+        },
+        "name": "vi9-unsafe-loader",
+        "opens": "vi-9",
+        "reasons": [
+          "vi-9:unsafe_loader:torch.load"
+        ]
+      }
+    },
+    "contract_sha256": "3b49e09409ac5b3864afddc64e5ef211be3eb673f11027ec9ffff2b7076d0340",
+    "predicate_type": "https://probityai.github.io/probity/predicate/v1/done-receipt"
+  }
+}

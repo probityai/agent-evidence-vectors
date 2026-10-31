@@ -1,0 +1,1628 @@
+{
+  "agent_change_admission_vectors": {
+    "candidate_digest": "ff7219b82f46ae2e56711f770467c629c41e221b692a25bb4b11ab80eb7bbc3a",
+    "cases": {
+      "admitted-with-failed-gate": {
+        "consumer": {
+          "signature_verified_upstream": true,
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "the decision says admitted while its replay gate failed",
+        "input": {
+          "payload": "eyJhZG1pdHRlZCI6dHJ1ZSwiY2FuZGlkYXRlIjoiZmY3MjE5YjgyZjQ2IiwiY2FuZGlkYXRlX2RpZ2VzdCI6ImZmNzIxOWI4MmY0NmFlMmU1NjcxMWY3NzA0NjdjNjI5YzQxZTIyMWI2OTJhMjViYjRiMTFhYjgwZWI3YmJjM2EiLCJjaGVja3MiOlt7ImV2aWRlbmNlIjp7ImdhdGUiOiJyZXBsYXkifSwibmFtZSI6InJlcGxheSIsInBhc3NlZCI6ZmFsc2V9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6ImhlbGRvdXQifSwibmFtZSI6ImhlbGRvdXQiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6Im5vX3JlZ3Jlc3Npb24ifSwibmFtZSI6Im5vX3JlZ3Jlc3Npb24iLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6ImJlbmlnbl90d2lucyJ9LCJuYW1lIjoiYmVuaWduX3R3aW5zIiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJvdmVyZml0X2xpbnQifSwibmFtZSI6Im92ZXJmaXRfbGludCIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiYXV0aG9yaXR5In0sIm5hbWUiOiJhdXRob3JpdHkiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6ZmFsc2V9LCJuYW1lIjoiY29zdCIsInBhc3NlZCI6dHJ1ZX1dLCJjb250ZXh0Ijp7fSwiY29ycHVzX2RpZ2VzdHMiOnsiZ3VhcmQtcmVmdW5kLW9uY2UiOiIxMGU2OWJkMDNkM2RhYjA0Yjc3ODk4YjkxYmM4YmY5MTM4YWU5NjQ3ZDkyYjJiZWFiMmEzOTUyMWMxODc1MTg3In0sImRlY2lkZWRfYXQiOiIyMDI2LTEwLTExVDEyOjAwOjAwKzAwOjAwIiwiZXZhbHVhdG9yIjp7ImNhc2VzIjo0MCwiY29tcG9uZW50cyI6eyJjYXNlcyI6IjM1MmI4NDc3N2Q4ZGQ5NmFjOWMwYjNjMTcwZWNiMmM3Y2NhN2ZjMmRiYWU0MWExZWMxZWQ0Mjg2ZmIyYzQzZGIiLCJmYXVsdHMiOiIwOTAzZWM2YWQ2OTE1Yjg2NzBjYzA2NmQ3YTcwMDdkODRjNjUwZGYzMDFlMDlhMjk3ZDQwZDA0YTc1MDRmYmJlIiwiZ3JhZGVycyI6ImU1ZTRiNTk2NzczMmZlYWQzMTc2YzYxMjI3MDc0OTIyNTJmYzVjM2YzMzY1MDRjNmQyZDRiODJiYzBjYzNjZWEiLCJtb2RlbF9jb25maWciOiIwOTZlYjUzZmVkMzc1YWVlZjFjODNiYTM5NWM3ZDU2M2E4ZTY3ZjdhMjA5ZDA1NjUzNTc0YWYyZWQ2YTIxNWE0Iiwic3VpdGVfZmlsZSI6ImM4ZDFlZTA3NGM4NmUyYTQ0MmFkOGU3ZGJlODE5NGRhZDFkZTk3M2NkYzA2NTgxMDk5ODUwNzNkYjllOTI4YzYifSwibW9kZWxfY29uZmlnIjp7Im1vZGVsIjoidGVzdC1tb2RlbCJ9LCJ2ZXJzaW9uIjoiMjdmNjM0M2Y5ODBjIn0sImV4Y2VwdGlvbnMiOltdLCJwYXJlbnQiOiIzNDYxNDM5MmI4ZmQiLCJwcmVkaWNhdGVUeXBlIjoiaHR0cHM6Ly9naXRodWIuY29tL3Byb2JpdHlhaS9hZ2VudC1ldmlkZW5jZS12b2NhYnVsYXJ5L2Jsb2IvbWFpbi9kb2NzL3ByZWRpY2F0ZXMvYWdlbnQtY2hhbmdlLWFkbWlzc2lvbi12MS5tZCIsInJhdGVzIjp7fSwicmVwb3J0X2RpZ2VzdHMiOnsiY2FuZGlkYXRlX2NvbmZpcm1fcnVuIjoiNGIwOGFlOTJlNjJhYTI1ZTZiYTM5MDhiMTczNmFhMTRhYmZiNGM4MDNlYjRkNzgwZjk4YTMwNGIzODgyYzM3MiIsImNhbmRpZGF0ZV9ydW4iOiI0NmY2YWFhMzE1NTk1ZjNhNWEyNGVmYzJiMTViYzg5NGU3Y2U0YjI0YWY3NzI4NzJlNGU1OTE5N2ViMDA2YTk3IiwicGFyZW50X3J1bl8xIjoiN2YyM2M4MzliMGJjYTc2YmYxMjNjMjkwYWVhZmU3YzA4ODllZDY5NDAxNTFmM2Y4YjdkZWQ4MWQ1ZTA3N2JmNSIsInBhcmVudF9ydW5fMiI6ImU3N2Q5ZTZkNWIxNjllZWVhMTEwMmEzZmUxZTU1OTBhNzYzNWNjYzU3OGNkOWY5NTNjMWRjOTIwMmM4NmFmZDUiLCJyZXBsYXk6Z3VhcmQtcmVmdW5kLW9uY2UiOiJlMzdjMDRjNDYyYTkwMjlhNzQ3YjMwNzExMjU3NzA3MjFhZjNjYWNhODNlMTcyZWYyZDJkOTU5NGVjZGRkNDQ4In0sInR5cGUiOiJkZWNpc2lvbiIsInZpc2libGVfY2FzZV9pZHMiOltdfQ==",
+          "payloadType": "application/vnd.ratchet.decision+json",
+          "signatures": [
+            {
+              "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+              "sig": "X+VAtvbo8H0o/CcIjWgvJ5I9V3RHZAV2gAhM2kFOfDccTrN3fLWQ40qyVMGLGXjv8F470UmQ/0Q5xoqRCzvrCQ=="
+            }
+          ]
+        },
+        "name": "admitted-with-failed-gate",
+        "reasons": [
+          "admitted_with_failed_gate:replay"
+        ]
+      },
+      "envelope-bare-admitted": {
+        "consumer": {
+          "signature_verified_upstream": true,
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "a bare decision envelope signed by the pinned key, every gate passed",
+        "input": {
+          "payload": "eyJhZG1pdHRlZCI6dHJ1ZSwiY2FuZGlkYXRlIjoiZmY3MjE5YjgyZjQ2IiwiY2FuZGlkYXRlX2RpZ2VzdCI6ImZmNzIxOWI4MmY0NmFlMmU1NjcxMWY3NzA0NjdjNjI5YzQxZTIyMWI2OTJhMjViYjRiMTFhYjgwZWI3YmJjM2EiLCJjaGVja3MiOlt7ImV2aWRlbmNlIjp7ImdhdGUiOiJyZXBsYXkifSwibmFtZSI6InJlcGxheSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiaGVsZG91dCJ9LCJuYW1lIjoiaGVsZG91dCIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoibm9fcmVncmVzc2lvbiJ9LCJuYW1lIjoibm9fcmVncmVzc2lvbiIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiYmVuaWduX3R3aW5zIn0sIm5hbWUiOiJiZW5pZ25fdHdpbnMiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6Im92ZXJmaXRfbGludCJ9LCJuYW1lIjoib3ZlcmZpdF9saW50IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJhdXRob3JpdHkifSwibmFtZSI6ImF1dGhvcml0eSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjpmYWxzZX0sIm5hbWUiOiJjb3N0IiwicGFzc2VkIjp0cnVlfV0sImNvbnRleHQiOnt9LCJjb3JwdXNfZGlnZXN0cyI6eyJndWFyZC1yZWZ1bmQtb25jZSI6IjEwZTY5YmQwM2QzZGFiMDRiNzc4OThiOTFiYzhiZjkxMzhhZTk2NDdkOTJiMmJlYWIyYTM5NTIxYzE4NzUxODcifSwiZGVjaWRlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MDArMDA6MDAiLCJldmFsdWF0b3IiOnsiY2FzZXMiOjQwLCJjb21wb25lbnRzIjp7ImNhc2VzIjoiMzUyYjg0Nzc3ZDhkZDk2YWM5YzBiM2MxNzBlY2IyYzdjY2E3ZmMyZGJhZTQxYTFlYzFlZDQyODZmYjJjNDNkYiIsImZhdWx0cyI6IjA5MDNlYzZhZDY5MTViODY3MGNjMDY2ZDdhNzAwN2Q4NGM2NTBkZjMwMWUwOWEyOTdkNDBkMDRhNzUwNGZiYmUiLCJncmFkZXJzIjoiZTVlNGI1OTY3NzMyZmVhZDMxNzZjNjEyMjcwNzQ5MjI1MmZjNWMzZjMzNjUwNGM2ZDJkNGI4MmJjMGNjM2NlYSIsIm1vZGVsX2NvbmZpZyI6IjA5NmViNTNmZWQzNzVhZWVmMWM4M2JhMzk1YzdkNTYzYThlNjdmN2EyMDlkMDU2NTM1NzRhZjJlZDZhMjE1YTQiLCJzdWl0ZV9maWxlIjoiYzhkMWVlMDc0Yzg2ZTJhNDQyYWQ4ZTdkYmU4MTk0ZGFkMWRlOTczY2RjMDY1ODEwOTk4NTA3M2RiOWU5MjhjNiJ9LCJtb2RlbF9jb25maWciOnsibW9kZWwiOiJ0ZXN0LW1vZGVsIn0sInZlcnNpb24iOiIyN2Y2MzQzZjk4MGMifSwiZXhjZXB0aW9ucyI6W10sInBhcmVudCI6IjM0NjE0MzkyYjhmZCIsInByZWRpY2F0ZVR5cGUiOiJodHRwczovL2dpdGh1Yi5jb20vcHJvYml0eWFpL2FnZW50LWV2aWRlbmNlLXZvY2FidWxhcnkvYmxvYi9tYWluL2RvY3MvcHJlZGljYXRlcy9hZ2VudC1jaGFuZ2UtYWRtaXNzaW9uLXYxLm1kIiwicmF0ZXMiOnt9LCJyZXBvcnRfZGlnZXN0cyI6eyJjYW5kaWRhdGVfY29uZmlybV9ydW4iOiI0YjA4YWU5MmU2MmFhMjVlNmJhMzkwOGIxNzM2YWExNGFiZmI0YzgwM2ViNGQ3ODBmOThhMzA0YjM4ODJjMzcyIiwiY2FuZGlkYXRlX3J1biI6IjQ2ZjZhYWEzMTU1OTVmM2E1YTI0ZWZjMmIxNWJjODk0ZTdjZTRiMjRhZjc3Mjg3MmU0ZTU5MTk3ZWIwMDZhOTciLCJwYXJlbnRfcnVuXzEiOiI3ZjIzYzgzOWIwYmNhNzZiZjEyM2MyOTBhZWFmZTdjMDg4OWVkNjk0MDE1MWYzZjhiN2RlZDgxZDVlMDc3YmY1IiwicGFyZW50X3J1bl8yIjoiZTc3ZDllNmQ1YjE2OWVlZWExMTAyYTNmZTFlNTU5MGE3NjM1Y2NjNTc4Y2Q5Zjk1M2MxZGM5MjAyYzg2YWZkNSIsInJlcGxheTpndWFyZC1yZWZ1bmQtb25jZSI6ImUzN2MwNGM0NjJhOTAyOWE3NDdiMzA3MTEyNTc3MDcyMWFmM2NhY2E4M2UxNzJlZjJkMmQ5NTk0ZWNkZGQ0NDgifSwidHlwZSI6ImRlY2lzaW9uIiwidmlzaWJsZV9jYXNlX2lkcyI6W119",
+          "payloadType": "application/vnd.ratchet.decision+json",
+          "signatures": [
+            {
+              "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+              "sig": "+M1ZBew6vUkZw7BqacXRmwi8ugYF+2bNPWuKV46pv53l4TZDMQfT1AIcGNwELvXpC55k5Vd3LbtR60oON5ffBQ=="
+            }
+          ]
+        },
+        "name": "envelope-bare-admitted",
+        "reasons": []
+      },
+      "envelope-intoto-admitted": {
+        "consumer": {
+          "signature_verified_upstream": true,
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "an in-toto statement envelope signed by the pinned key, every gate passed",
+        "input": {
+          "payload": "eyJfdHlwZSI6Imh0dHBzOi8vaW4tdG90by5pby9TdGF0ZW1lbnQvdjEiLCJwcmVkaWNhdGUiOnsiYWRtaXR0ZWQiOnRydWUsImNhbmRpZGF0ZSI6ImZmNzIxOWI4MmY0NiIsImNhbmRpZGF0ZV9kaWdlc3QiOiJmZjcyMTliODJmNDZhZTJlNTY3MTFmNzcwNDY3YzYyOWM0MWUyMjFiNjkyYTI1YmI0YjExYWI4MGViN2JiYzNhIiwiY2hlY2tzIjpbeyJldmlkZW5jZSI6eyJnYXRlIjoicmVwbGF5In0sIm5hbWUiOiJyZXBsYXkiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6ImhlbGRvdXQifSwibmFtZSI6ImhlbGRvdXQiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6Im5vX3JlZ3Jlc3Npb24ifSwibmFtZSI6Im5vX3JlZ3Jlc3Npb24iLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6ImJlbmlnbl90d2lucyJ9LCJuYW1lIjoiYmVuaWduX3R3aW5zIiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJvdmVyZml0X2xpbnQifSwibmFtZSI6Im92ZXJmaXRfbGludCIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiYXV0aG9yaXR5In0sIm5hbWUiOiJhdXRob3JpdHkiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6ZmFsc2V9LCJuYW1lIjoiY29zdCIsInBhc3NlZCI6dHJ1ZX1dLCJjb250ZXh0Ijp7fSwiY29ycHVzX2RpZ2VzdHMiOnsiZ3VhcmQtcmVmdW5kLW9uY2UiOiIxMGU2OWJkMDNkM2RhYjA0Yjc3ODk4YjkxYmM4YmY5MTM4YWU5NjQ3ZDkyYjJiZWFiMmEzOTUyMWMxODc1MTg3In0sImRlY2lkZWRfYXQiOiIyMDI2LTEwLTExVDEyOjAwOjAwKzAwOjAwIiwiZXZhbHVhdG9yIjp7ImNhc2VzIjo0MCwiY29tcG9uZW50cyI6eyJjYXNlcyI6IjM1MmI4NDc3N2Q4ZGQ5NmFjOWMwYjNjMTcwZWNiMmM3Y2NhN2ZjMmRiYWU0MWExZWMxZWQ0Mjg2ZmIyYzQzZGIiLCJmYXVsdHMiOiIwOTAzZWM2YWQ2OTE1Yjg2NzBjYzA2NmQ3YTcwMDdkODRjNjUwZGYzMDFlMDlhMjk3ZDQwZDA0YTc1MDRmYmJlIiwiZ3JhZGVycyI6ImU1ZTRiNTk2NzczMmZlYWQzMTc2YzYxMjI3MDc0OTIyNTJmYzVjM2YzMzY1MDRjNmQyZDRiODJiYzBjYzNjZWEiLCJtb2RlbF9jb25maWciOiIwOTZlYjUzZmVkMzc1YWVlZjFjODNiYTM5NWM3ZDU2M2E4ZTY3ZjdhMjA5ZDA1NjUzNTc0YWYyZWQ2YTIxNWE0Iiwic3VpdGVfZmlsZSI6ImM4ZDFlZTA3NGM4NmUyYTQ0MmFkOGU3ZGJlODE5NGRhZDFkZTk3M2NkYzA2NTgxMDk5ODUwNzNkYjllOTI4YzYifSwibW9kZWxfY29uZmlnIjp7Im1vZGVsIjoidGVzdC1tb2RlbCJ9LCJ2ZXJzaW9uIjoiMjdmNjM0M2Y5ODBjIn0sImV4Y2VwdGlvbnMiOltdLCJwYXJlbnQiOiIzNDYxNDM5MmI4ZmQiLCJyYXRlcyI6e30sInJlcG9ydF9kaWdlc3RzIjp7ImNhbmRpZGF0ZV9jb25maXJtX3J1biI6IjRiMDhhZTkyZTYyYWEyNWU2YmEzOTA4YjE3MzZhYTE0YWJmYjRjODAzZWI0ZDc4MGY5OGEzMDRiMzg4MmMzNzIiLCJjYW5kaWRhdGVfcnVuIjoiNDZmNmFhYTMxNTU5NWYzYTVhMjRlZmMyYjE1YmM4OTRlN2NlNGIyNGFmNzcyODcyZTRlNTkxOTdlYjAwNmE5NyIsInBhcmVudF9ydW5fMSI6IjdmMjNjODM5YjBiY2E3NmJmMTIzYzI5MGFlYWZlN2MwODg5ZWQ2OTQwMTUxZjNmOGI3ZGVkODFkNWUwNzdiZjUiLCJwYXJlbnRfcnVuXzIiOiJlNzdkOWU2ZDViMTY5ZWVlYTExMDJhM2ZlMWU1NTkwYTc2MzVjY2M1NzhjZDlmOTUzYzFkYzkyMDJjODZhZmQ1IiwicmVwbGF5Omd1YXJkLXJlZnVuZC1vbmNlIjoiZTM3YzA0YzQ2MmE5MDI5YTc0N2IzMDcxMTI1NzcwNzIxYWYzY2FjYTgzZTE3MmVmMmQyZDk1OTRlY2RkZDQ0OCJ9LCJ0eXBlIjoiZGVjaXNpb24iLCJ2aXNpYmxlX2Nhc2VfaWRzIjpbXX0sInByZWRpY2F0ZVR5cGUiOiJodHRwczovL2dpdGh1Yi5jb20vcHJvYml0eWFpL2FnZW50LWV2aWRlbmNlLXZvY2FidWxhcnkvYmxvYi9tYWluL2RvY3MvcHJlZGljYXRlcy9hZ2VudC1jaGFuZ2UtYWRtaXNzaW9uLXYxLm1kIiwic3ViamVjdCI6W3siZGlnZXN0Ijp7InNoYTI1NiI6ImZmNzIxOWI4MmY0NmFlMmU1NjcxMWY3NzA0NjdjNjI5YzQxZTIyMWI2OTJhMjViYjRiMTFhYjgwZWI3YmJjM2EifSwibmFtZSI6Imhhcm5lc3MifV19",
+          "payloadType": "application/vnd.in-toto+json",
+          "signatures": [
+            {
+              "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+              "sig": "zjM+5sFAdfT/t+QFWIBtH9SN3QYdi2In8lggPj6qq8ZCBwqUCbI6DHxeRi7SVX6noIc4eFlVwsDn2jcZTJpSBw=="
+            }
+          ]
+        },
+        "name": "envelope-intoto-admitted",
+        "reasons": []
+      },
+      "expected-candidate-digest-invalid": {
+        "consumer": {
+          "expected_candidate_digest": "PIN-ME-REPLACE-WITH-THE-ADMITTED-HARNESS-DIGEST",
+          "signature_verified_upstream": true,
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "the pinned harness digest is still the placeholder",
+        "input": {
+          "payload": "eyJhZG1pdHRlZCI6dHJ1ZSwiY2FuZGlkYXRlIjoiZmY3MjE5YjgyZjQ2IiwiY2FuZGlkYXRlX2RpZ2VzdCI6ImZmNzIxOWI4MmY0NmFlMmU1NjcxMWY3NzA0NjdjNjI5YzQxZTIyMWI2OTJhMjViYjRiMTFhYjgwZWI3YmJjM2EiLCJjaGVja3MiOlt7ImV2aWRlbmNlIjp7ImdhdGUiOiJyZXBsYXkifSwibmFtZSI6InJlcGxheSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiaGVsZG91dCJ9LCJuYW1lIjoiaGVsZG91dCIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoibm9fcmVncmVzc2lvbiJ9LCJuYW1lIjoibm9fcmVncmVzc2lvbiIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiYmVuaWduX3R3aW5zIn0sIm5hbWUiOiJiZW5pZ25fdHdpbnMiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6Im92ZXJmaXRfbGludCJ9LCJuYW1lIjoib3ZlcmZpdF9saW50IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJhdXRob3JpdHkifSwibmFtZSI6ImF1dGhvcml0eSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjpmYWxzZX0sIm5hbWUiOiJjb3N0IiwicGFzc2VkIjp0cnVlfV0sImNvbnRleHQiOnt9LCJjb3JwdXNfZGlnZXN0cyI6eyJndWFyZC1yZWZ1bmQtb25jZSI6IjEwZTY5YmQwM2QzZGFiMDRiNzc4OThiOTFiYzhiZjkxMzhhZTk2NDdkOTJiMmJlYWIyYTM5NTIxYzE4NzUxODcifSwiZGVjaWRlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MDArMDA6MDAiLCJldmFsdWF0b3IiOnsiY2FzZXMiOjQwLCJjb21wb25lbnRzIjp7ImNhc2VzIjoiMzUyYjg0Nzc3ZDhkZDk2YWM5YzBiM2MxNzBlY2IyYzdjY2E3ZmMyZGJhZTQxYTFlYzFlZDQyODZmYjJjNDNkYiIsImZhdWx0cyI6IjA5MDNlYzZhZDY5MTViODY3MGNjMDY2ZDdhNzAwN2Q4NGM2NTBkZjMwMWUwOWEyOTdkNDBkMDRhNzUwNGZiYmUiLCJncmFkZXJzIjoiZTVlNGI1OTY3NzMyZmVhZDMxNzZjNjEyMjcwNzQ5MjI1MmZjNWMzZjMzNjUwNGM2ZDJkNGI4MmJjMGNjM2NlYSIsIm1vZGVsX2NvbmZpZyI6IjA5NmViNTNmZWQzNzVhZWVmMWM4M2JhMzk1YzdkNTYzYThlNjdmN2EyMDlkMDU2NTM1NzRhZjJlZDZhMjE1YTQiLCJzdWl0ZV9maWxlIjoiYzhkMWVlMDc0Yzg2ZTJhNDQyYWQ4ZTdkYmU4MTk0ZGFkMWRlOTczY2RjMDY1ODEwOTk4NTA3M2RiOWU5MjhjNiJ9LCJtb2RlbF9jb25maWciOnsibW9kZWwiOiJ0ZXN0LW1vZGVsIn0sInZlcnNpb24iOiIyN2Y2MzQzZjk4MGMifSwiZXhjZXB0aW9ucyI6W10sInBhcmVudCI6IjM0NjE0MzkyYjhmZCIsInByZWRpY2F0ZVR5cGUiOiJodHRwczovL2dpdGh1Yi5jb20vcHJvYml0eWFpL2FnZW50LWV2aWRlbmNlLXZvY2FidWxhcnkvYmxvYi9tYWluL2RvY3MvcHJlZGljYXRlcy9hZ2VudC1jaGFuZ2UtYWRtaXNzaW9uLXYxLm1kIiwicmF0ZXMiOnt9LCJyZXBvcnRfZGlnZXN0cyI6eyJjYW5kaWRhdGVfY29uZmlybV9ydW4iOiI0YjA4YWU5MmU2MmFhMjVlNmJhMzkwOGIxNzM2YWExNGFiZmI0YzgwM2ViNGQ3ODBmOThhMzA0YjM4ODJjMzcyIiwiY2FuZGlkYXRlX3J1biI6IjQ2ZjZhYWEzMTU1OTVmM2E1YTI0ZWZjMmIxNWJjODk0ZTdjZTRiMjRhZjc3Mjg3MmU0ZTU5MTk3ZWIwMDZhOTciLCJwYXJlbnRfcnVuXzEiOiI3ZjIzYzgzOWIwYmNhNzZiZjEyM2MyOTBhZWFmZTdjMDg4OWVkNjk0MDE1MWYzZjhiN2RlZDgxZDVlMDc3YmY1IiwicGFyZW50X3J1bl8yIjoiZTc3ZDllNmQ1YjE2OWVlZWExMTAyYTNmZTFlNTU5MGE3NjM1Y2NjNTc4Y2Q5Zjk1M2MxZGM5MjAyYzg2YWZkNSIsInJlcGxheTpndWFyZC1yZWZ1bmQtb25jZSI6ImUzN2MwNGM0NjJhOTAyOWE3NDdiMzA3MTEyNTc3MDcyMWFmM2NhY2E4M2UxNzJlZjJkMmQ5NTk0ZWNkZGQ0NDgifSwidHlwZSI6ImRlY2lzaW9uIiwidmlzaWJsZV9jYXNlX2lkcyI6W119",
+          "payloadType": "application/vnd.ratchet.decision+json",
+          "signatures": [
+            {
+              "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+              "sig": "+M1ZBew6vUkZw7BqacXRmwi8ugYF+2bNPWuKV46pv53l4TZDMQfT1AIcGNwELvXpC55k5Vd3LbtR60oON5ffBQ=="
+            }
+          ]
+        },
+        "name": "expected-candidate-digest-invalid",
+        "reasons": [
+          "expected_candidate_digest_invalid"
+        ]
+      },
+      "field-invalid-admitted": {
+        "consumer": {
+          "signature_verified_upstream": true,
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "the signed decision carries a malformed admitted",
+        "input": {
+          "payload": "eyJhZG1pdHRlZCI6InRydWUiLCJjYW5kaWRhdGUiOiJmZjcyMTliODJmNDYiLCJjYW5kaWRhdGVfZGlnZXN0IjoiZmY3MjE5YjgyZjQ2YWUyZTU2NzExZjc3MDQ2N2M2MjljNDFlMjIxYjY5MmEyNWJiNGIxMWFiODBlYjdiYmMzYSIsImNoZWNrcyI6W3siZXZpZGVuY2UiOnsiZ2F0ZSI6InJlcGxheSJ9LCJuYW1lIjoicmVwbGF5IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJoZWxkb3V0In0sIm5hbWUiOiJoZWxkb3V0IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJub19yZWdyZXNzaW9uIn0sIm5hbWUiOiJub19yZWdyZXNzaW9uIiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJiZW5pZ25fdHdpbnMifSwibmFtZSI6ImJlbmlnbl90d2lucyIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoib3ZlcmZpdF9saW50In0sIm5hbWUiOiJvdmVyZml0X2xpbnQiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6ImF1dGhvcml0eSJ9LCJuYW1lIjoiYXV0aG9yaXR5IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOmZhbHNlfSwibmFtZSI6ImNvc3QiLCJwYXNzZWQiOnRydWV9XSwiY29udGV4dCI6e30sImNvcnB1c19kaWdlc3RzIjp7Imd1YXJkLXJlZnVuZC1vbmNlIjoiMTBlNjliZDAzZDNkYWIwNGI3Nzg5OGI5MWJjOGJmOTEzOGFlOTY0N2Q5MmIyYmVhYjJhMzk1MjFjMTg3NTE4NyJ9LCJkZWNpZGVkX2F0IjoiMjAyNi0xMC0xMVQxMjowMDowMCswMDowMCIsImV2YWx1YXRvciI6eyJjYXNlcyI6NDAsImNvbXBvbmVudHMiOnsiY2FzZXMiOiIzNTJiODQ3NzdkOGRkOTZhYzljMGIzYzE3MGVjYjJjN2NjYTdmYzJkYmFlNDFhMWVjMWVkNDI4NmZiMmM0M2RiIiwiZmF1bHRzIjoiMDkwM2VjNmFkNjkxNWI4NjcwY2MwNjZkN2E3MDA3ZDg0YzY1MGRmMzAxZTA5YTI5N2Q0MGQwNGE3NTA0ZmJiZSIsImdyYWRlcnMiOiJlNWU0YjU5Njc3MzJmZWFkMzE3NmM2MTIyNzA3NDkyMjUyZmM1YzNmMzM2NTA0YzZkMmQ0YjgyYmMwY2MzY2VhIiwibW9kZWxfY29uZmlnIjoiMDk2ZWI1M2ZlZDM3NWFlZWYxYzgzYmEzOTVjN2Q1NjNhOGU2N2Y3YTIwOWQwNTY1MzU3NGFmMmVkNmEyMTVhNCIsInN1aXRlX2ZpbGUiOiJjOGQxZWUwNzRjODZlMmE0NDJhZDhlN2RiZTgxOTRkYWQxZGU5NzNjZGMwNjU4MTA5OTg1MDczZGI5ZTkyOGM2In0sIm1vZGVsX2NvbmZpZyI6eyJtb2RlbCI6InRlc3QtbW9kZWwifSwidmVyc2lvbiI6IjI3ZjYzNDNmOTgwYyJ9LCJleGNlcHRpb25zIjpbXSwicGFyZW50IjoiMzQ2MTQzOTJiOGZkIiwicHJlZGljYXRlVHlwZSI6Imh0dHBzOi8vZ2l0aHViLmNvbS9wcm9iaXR5YWkvYWdlbnQtZXZpZGVuY2Utdm9jYWJ1bGFyeS9ibG9iL21haW4vZG9jcy9wcmVkaWNhdGVzL2FnZW50LWNoYW5nZS1hZG1pc3Npb24tdjEubWQiLCJyYXRlcyI6e30sInJlcG9ydF9kaWdlc3RzIjp7ImNhbmRpZGF0ZV9jb25maXJtX3J1biI6IjRiMDhhZTkyZTYyYWEyNWU2YmEzOTA4YjE3MzZhYTE0YWJmYjRjODAzZWI0ZDc4MGY5OGEzMDRiMzg4MmMzNzIiLCJjYW5kaWRhdGVfcnVuIjoiNDZmNmFhYTMxNTU5NWYzYTVhMjRlZmMyYjE1YmM4OTRlN2NlNGIyNGFmNzcyODcyZTRlNTkxOTdlYjAwNmE5NyIsInBhcmVudF9ydW5fMSI6IjdmMjNjODM5YjBiY2E3NmJmMTIzYzI5MGFlYWZlN2MwODg5ZWQ2OTQwMTUxZjNmOGI3ZGVkODFkNWUwNzdiZjUiLCJwYXJlbnRfcnVuXzIiOiJlNzdkOWU2ZDViMTY5ZWVlYTExMDJhM2ZlMWU1NTkwYTc2MzVjY2M1NzhjZDlmOTUzYzFkYzkyMDJjODZhZmQ1IiwicmVwbGF5Omd1YXJkLXJlZnVuZC1vbmNlIjoiZTM3YzA0YzQ2MmE5MDI5YTc0N2IzMDcxMTI1NzcwNzIxYWYzY2FjYTgzZTE3MmVmMmQyZDk1OTRlY2RkZDQ0OCJ9LCJ0eXBlIjoiZGVjaXNpb24iLCJ2aXNpYmxlX2Nhc2VfaWRzIjpbXX0=",
+          "payloadType": "application/vnd.ratchet.decision+json",
+          "signatures": [
+            {
+              "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+              "sig": "IcK8PdoxrjUjK8Evn5pdrbUlPKTOh/ZUuwzhhybW9U9YgzSKnDo8O3j3S50927PMGDKKzk2RyNxUar2jsv0uAg=="
+            }
+          ]
+        },
+        "name": "field-invalid-admitted",
+        "reasons": [
+          "payload_field_invalid:admitted"
+        ]
+      },
+      "field-invalid-candidate": {
+        "consumer": {
+          "signature_verified_upstream": true,
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "the signed decision carries a malformed candidate",
+        "input": {
+          "payload": "eyJhZG1pdHRlZCI6dHJ1ZSwiY2FuZGlkYXRlIjo3LCJjYW5kaWRhdGVfZGlnZXN0IjoiZmY3MjE5YjgyZjQ2YWUyZTU2NzExZjc3MDQ2N2M2MjljNDFlMjIxYjY5MmEyNWJiNGIxMWFiODBlYjdiYmMzYSIsImNoZWNrcyI6W3siZXZpZGVuY2UiOnsiZ2F0ZSI6InJlcGxheSJ9LCJuYW1lIjoicmVwbGF5IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJoZWxkb3V0In0sIm5hbWUiOiJoZWxkb3V0IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJub19yZWdyZXNzaW9uIn0sIm5hbWUiOiJub19yZWdyZXNzaW9uIiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJiZW5pZ25fdHdpbnMifSwibmFtZSI6ImJlbmlnbl90d2lucyIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoib3ZlcmZpdF9saW50In0sIm5hbWUiOiJvdmVyZml0X2xpbnQiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6ImF1dGhvcml0eSJ9LCJuYW1lIjoiYXV0aG9yaXR5IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOmZhbHNlfSwibmFtZSI6ImNvc3QiLCJwYXNzZWQiOnRydWV9XSwiY29udGV4dCI6e30sImNvcnB1c19kaWdlc3RzIjp7Imd1YXJkLXJlZnVuZC1vbmNlIjoiMTBlNjliZDAzZDNkYWIwNGI3Nzg5OGI5MWJjOGJmOTEzOGFlOTY0N2Q5MmIyYmVhYjJhMzk1MjFjMTg3NTE4NyJ9LCJkZWNpZGVkX2F0IjoiMjAyNi0xMC0xMVQxMjowMDowMCswMDowMCIsImV2YWx1YXRvciI6eyJjYXNlcyI6NDAsImNvbXBvbmVudHMiOnsiY2FzZXMiOiIzNTJiODQ3NzdkOGRkOTZhYzljMGIzYzE3MGVjYjJjN2NjYTdmYzJkYmFlNDFhMWVjMWVkNDI4NmZiMmM0M2RiIiwiZmF1bHRzIjoiMDkwM2VjNmFkNjkxNWI4NjcwY2MwNjZkN2E3MDA3ZDg0YzY1MGRmMzAxZTA5YTI5N2Q0MGQwNGE3NTA0ZmJiZSIsImdyYWRlcnMiOiJlNWU0YjU5Njc3MzJmZWFkMzE3NmM2MTIyNzA3NDkyMjUyZmM1YzNmMzM2NTA0YzZkMmQ0YjgyYmMwY2MzY2VhIiwibW9kZWxfY29uZmlnIjoiMDk2ZWI1M2ZlZDM3NWFlZWYxYzgzYmEzOTVjN2Q1NjNhOGU2N2Y3YTIwOWQwNTY1MzU3NGFmMmVkNmEyMTVhNCIsInN1aXRlX2ZpbGUiOiJjOGQxZWUwNzRjODZlMmE0NDJhZDhlN2RiZTgxOTRkYWQxZGU5NzNjZGMwNjU4MTA5OTg1MDczZGI5ZTkyOGM2In0sIm1vZGVsX2NvbmZpZyI6eyJtb2RlbCI6InRlc3QtbW9kZWwifSwidmVyc2lvbiI6IjI3ZjYzNDNmOTgwYyJ9LCJleGNlcHRpb25zIjpbXSwicGFyZW50IjoiMzQ2MTQzOTJiOGZkIiwicHJlZGljYXRlVHlwZSI6Imh0dHBzOi8vZ2l0aHViLmNvbS9wcm9iaXR5YWkvYWdlbnQtZXZpZGVuY2Utdm9jYWJ1bGFyeS9ibG9iL21haW4vZG9jcy9wcmVkaWNhdGVzL2FnZW50LWNoYW5nZS1hZG1pc3Npb24tdjEubWQiLCJyYXRlcyI6e30sInJlcG9ydF9kaWdlc3RzIjp7ImNhbmRpZGF0ZV9jb25maXJtX3J1biI6IjRiMDhhZTkyZTYyYWEyNWU2YmEzOTA4YjE3MzZhYTE0YWJmYjRjODAzZWI0ZDc4MGY5OGEzMDRiMzg4MmMzNzIiLCJjYW5kaWRhdGVfcnVuIjoiNDZmNmFhYTMxNTU5NWYzYTVhMjRlZmMyYjE1YmM4OTRlN2NlNGIyNGFmNzcyODcyZTRlNTkxOTdlYjAwNmE5NyIsInBhcmVudF9ydW5fMSI6IjdmMjNjODM5YjBiY2E3NmJmMTIzYzI5MGFlYWZlN2MwODg5ZWQ2OTQwMTUxZjNmOGI3ZGVkODFkNWUwNzdiZjUiLCJwYXJlbnRfcnVuXzIiOiJlNzdkOWU2ZDViMTY5ZWVlYTExMDJhM2ZlMWU1NTkwYTc2MzVjY2M1NzhjZDlmOTUzYzFkYzkyMDJjODZhZmQ1IiwicmVwbGF5Omd1YXJkLXJlZnVuZC1vbmNlIjoiZTM3YzA0YzQ2MmE5MDI5YTc0N2IzMDcxMTI1NzcwNzIxYWYzY2FjYTgzZTE3MmVmMmQyZDk1OTRlY2RkZDQ0OCJ9LCJ0eXBlIjoiZGVjaXNpb24iLCJ2aXNpYmxlX2Nhc2VfaWRzIjpbXX0=",
+          "payloadType": "application/vnd.ratchet.decision+json",
+          "signatures": [
+            {
+              "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+              "sig": "lCZZ1uX3faK6cMEnJwQ7Pbq18Z6UjI8MVOHqcG30vSbVjePy/G6/8Rgoe9EyfowEPe5PYecC1bou7j6eIuwdAg=="
+            }
+          ]
+        },
+        "name": "field-invalid-candidate",
+        "reasons": [
+          "payload_field_invalid:candidate"
+        ]
+      },
+      "field-invalid-candidate-digest": {
+        "consumer": {
+          "signature_verified_upstream": true,
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "the signed decision carries a malformed candidate_digest",
+        "input": {
+          "payload": "eyJhZG1pdHRlZCI6dHJ1ZSwiY2FuZGlkYXRlIjoiZmY3MjE5YjgyZjQ2IiwiY2FuZGlkYXRlX2RpZ2VzdCI6IkFCQyIsImNoZWNrcyI6W3siZXZpZGVuY2UiOnsiZ2F0ZSI6InJlcGxheSJ9LCJuYW1lIjoicmVwbGF5IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJoZWxkb3V0In0sIm5hbWUiOiJoZWxkb3V0IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJub19yZWdyZXNzaW9uIn0sIm5hbWUiOiJub19yZWdyZXNzaW9uIiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJiZW5pZ25fdHdpbnMifSwibmFtZSI6ImJlbmlnbl90d2lucyIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoib3ZlcmZpdF9saW50In0sIm5hbWUiOiJvdmVyZml0X2xpbnQiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6ImF1dGhvcml0eSJ9LCJuYW1lIjoiYXV0aG9yaXR5IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOmZhbHNlfSwibmFtZSI6ImNvc3QiLCJwYXNzZWQiOnRydWV9XSwiY29udGV4dCI6e30sImNvcnB1c19kaWdlc3RzIjp7Imd1YXJkLXJlZnVuZC1vbmNlIjoiMTBlNjliZDAzZDNkYWIwNGI3Nzg5OGI5MWJjOGJmOTEzOGFlOTY0N2Q5MmIyYmVhYjJhMzk1MjFjMTg3NTE4NyJ9LCJkZWNpZGVkX2F0IjoiMjAyNi0xMC0xMVQxMjowMDowMCswMDowMCIsImV2YWx1YXRvciI6eyJjYXNlcyI6NDAsImNvbXBvbmVudHMiOnsiY2FzZXMiOiIzNTJiODQ3NzdkOGRkOTZhYzljMGIzYzE3MGVjYjJjN2NjYTdmYzJkYmFlNDFhMWVjMWVkNDI4NmZiMmM0M2RiIiwiZmF1bHRzIjoiMDkwM2VjNmFkNjkxNWI4NjcwY2MwNjZkN2E3MDA3ZDg0YzY1MGRmMzAxZTA5YTI5N2Q0MGQwNGE3NTA0ZmJiZSIsImdyYWRlcnMiOiJlNWU0YjU5Njc3MzJmZWFkMzE3NmM2MTIyNzA3NDkyMjUyZmM1YzNmMzM2NTA0YzZkMmQ0YjgyYmMwY2MzY2VhIiwibW9kZWxfY29uZmlnIjoiMDk2ZWI1M2ZlZDM3NWFlZWYxYzgzYmEzOTVjN2Q1NjNhOGU2N2Y3YTIwOWQwNTY1MzU3NGFmMmVkNmEyMTVhNCIsInN1aXRlX2ZpbGUiOiJjOGQxZWUwNzRjODZlMmE0NDJhZDhlN2RiZTgxOTRkYWQxZGU5NzNjZGMwNjU4MTA5OTg1MDczZGI5ZTkyOGM2In0sIm1vZGVsX2NvbmZpZyI6eyJtb2RlbCI6InRlc3QtbW9kZWwifSwidmVyc2lvbiI6IjI3ZjYzNDNmOTgwYyJ9LCJleGNlcHRpb25zIjpbXSwicGFyZW50IjoiMzQ2MTQzOTJiOGZkIiwicHJlZGljYXRlVHlwZSI6Imh0dHBzOi8vZ2l0aHViLmNvbS9wcm9iaXR5YWkvYWdlbnQtZXZpZGVuY2Utdm9jYWJ1bGFyeS9ibG9iL21haW4vZG9jcy9wcmVkaWNhdGVzL2FnZW50LWNoYW5nZS1hZG1pc3Npb24tdjEubWQiLCJyYXRlcyI6e30sInJlcG9ydF9kaWdlc3RzIjp7ImNhbmRpZGF0ZV9jb25maXJtX3J1biI6IjRiMDhhZTkyZTYyYWEyNWU2YmEzOTA4YjE3MzZhYTE0YWJmYjRjODAzZWI0ZDc4MGY5OGEzMDRiMzg4MmMzNzIiLCJjYW5kaWRhdGVfcnVuIjoiNDZmNmFhYTMxNTU5NWYzYTVhMjRlZmMyYjE1YmM4OTRlN2NlNGIyNGFmNzcyODcyZTRlNTkxOTdlYjAwNmE5NyIsInBhcmVudF9ydW5fMSI6IjdmMjNjODM5YjBiY2E3NmJmMTIzYzI5MGFlYWZlN2MwODg5ZWQ2OTQwMTUxZjNmOGI3ZGVkODFkNWUwNzdiZjUiLCJwYXJlbnRfcnVuXzIiOiJlNzdkOWU2ZDViMTY5ZWVlYTExMDJhM2ZlMWU1NTkwYTc2MzVjY2M1NzhjZDlmOTUzYzFkYzkyMDJjODZhZmQ1IiwicmVwbGF5Omd1YXJkLXJlZnVuZC1vbmNlIjoiZTM3YzA0YzQ2MmE5MDI5YTc0N2IzMDcxMTI1NzcwNzIxYWYzY2FjYTgzZTE3MmVmMmQyZDk1OTRlY2RkZDQ0OCJ9LCJ0eXBlIjoiZGVjaXNpb24iLCJ2aXNpYmxlX2Nhc2VfaWRzIjpbXX0=",
+          "payloadType": "application/vnd.ratchet.decision+json",
+          "signatures": [
+            {
+              "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+              "sig": "xE4oCLrdaaWcHM7SliwW0QIbL7BHP4FSLB06sRpVD505lX2PU3Swsx62cuIKtZsIixODuQ5/J8KNxyvS2+oqDA=="
+            }
+          ]
+        },
+        "name": "field-invalid-candidate-digest",
+        "reasons": [
+          "payload_field_invalid:candidate_digest"
+        ]
+      },
+      "field-invalid-checks": {
+        "consumer": {
+          "signature_verified_upstream": true,
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "the signed decision carries a malformed checks",
+        "input": {
+          "payload": "eyJhZG1pdHRlZCI6dHJ1ZSwiY2FuZGlkYXRlIjoiZmY3MjE5YjgyZjQ2IiwiY2FuZGlkYXRlX2RpZ2VzdCI6ImZmNzIxOWI4MmY0NmFlMmU1NjcxMWY3NzA0NjdjNjI5YzQxZTIyMWI2OTJhMjViYjRiMTFhYjgwZWI3YmJjM2EiLCJjaGVja3MiOlt7Im5hbWUiOiJyZXBsYXkiLCJwYXNzZWQiOiJ5ZXMifV0sImNvbnRleHQiOnt9LCJjb3JwdXNfZGlnZXN0cyI6eyJndWFyZC1yZWZ1bmQtb25jZSI6IjEwZTY5YmQwM2QzZGFiMDRiNzc4OThiOTFiYzhiZjkxMzhhZTk2NDdkOTJiMmJlYWIyYTM5NTIxYzE4NzUxODcifSwiZGVjaWRlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MDArMDA6MDAiLCJldmFsdWF0b3IiOnsiY2FzZXMiOjQwLCJjb21wb25lbnRzIjp7ImNhc2VzIjoiMzUyYjg0Nzc3ZDhkZDk2YWM5YzBiM2MxNzBlY2IyYzdjY2E3ZmMyZGJhZTQxYTFlYzFlZDQyODZmYjJjNDNkYiIsImZhdWx0cyI6IjA5MDNlYzZhZDY5MTViODY3MGNjMDY2ZDdhNzAwN2Q4NGM2NTBkZjMwMWUwOWEyOTdkNDBkMDRhNzUwNGZiYmUiLCJncmFkZXJzIjoiZTVlNGI1OTY3NzMyZmVhZDMxNzZjNjEyMjcwNzQ5MjI1MmZjNWMzZjMzNjUwNGM2ZDJkNGI4MmJjMGNjM2NlYSIsIm1vZGVsX2NvbmZpZyI6IjA5NmViNTNmZWQzNzVhZWVmMWM4M2JhMzk1YzdkNTYzYThlNjdmN2EyMDlkMDU2NTM1NzRhZjJlZDZhMjE1YTQiLCJzdWl0ZV9maWxlIjoiYzhkMWVlMDc0Yzg2ZTJhNDQyYWQ4ZTdkYmU4MTk0ZGFkMWRlOTczY2RjMDY1ODEwOTk4NTA3M2RiOWU5MjhjNiJ9LCJtb2RlbF9jb25maWciOnsibW9kZWwiOiJ0ZXN0LW1vZGVsIn0sInZlcnNpb24iOiIyN2Y2MzQzZjk4MGMifSwiZXhjZXB0aW9ucyI6W10sInBhcmVudCI6IjM0NjE0MzkyYjhmZCIsInByZWRpY2F0ZVR5cGUiOiJodHRwczovL2dpdGh1Yi5jb20vcHJvYml0eWFpL2FnZW50LWV2aWRlbmNlLXZvY2FidWxhcnkvYmxvYi9tYWluL2RvY3MvcHJlZGljYXRlcy9hZ2VudC1jaGFuZ2UtYWRtaXNzaW9uLXYxLm1kIiwicmF0ZXMiOnt9LCJyZXBvcnRfZGlnZXN0cyI6eyJjYW5kaWRhdGVfY29uZmlybV9ydW4iOiI0YjA4YWU5MmU2MmFhMjVlNmJhMzkwOGIxNzM2YWExNGFiZmI0YzgwM2ViNGQ3ODBmOThhMzA0YjM4ODJjMzcyIiwiY2FuZGlkYXRlX3J1biI6IjQ2ZjZhYWEzMTU1OTVmM2E1YTI0ZWZjMmIxNWJjODk0ZTdjZTRiMjRhZjc3Mjg3MmU0ZTU5MTk3ZWIwMDZhOTciLCJwYXJlbnRfcnVuXzEiOiI3ZjIzYzgzOWIwYmNhNzZiZjEyM2MyOTBhZWFmZTdjMDg4OWVkNjk0MDE1MWYzZjhiN2RlZDgxZDVlMDc3YmY1IiwicGFyZW50X3J1bl8yIjoiZTc3ZDllNmQ1YjE2OWVlZWExMTAyYTNmZTFlNTU5MGE3NjM1Y2NjNTc4Y2Q5Zjk1M2MxZGM5MjAyYzg2YWZkNSIsInJlcGxheTpndWFyZC1yZWZ1bmQtb25jZSI6ImUzN2MwNGM0NjJhOTAyOWE3NDdiMzA3MTEyNTc3MDcyMWFmM2NhY2E4M2UxNzJlZjJkMmQ5NTk0ZWNkZGQ0NDgifSwidHlwZSI6ImRlY2lzaW9uIiwidmlzaWJsZV9jYXNlX2lkcyI6W119",
+          "payloadType": "application/vnd.ratchet.decision+json",
+          "signatures": [
+            {
+              "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+              "sig": "1x4e9ktQ0PK1efdQj6lBdWbbGg2zcbnkmZNJ57Hq6N+hyOo1MFm4vND2Gv7LYE77B1cJpo1EYHTpruyKbvJGBA=="
+            }
+          ]
+        },
+        "name": "field-invalid-checks",
+        "reasons": [
+          "payload_field_invalid:checks"
+        ]
+      },
+      "field-invalid-corpus-digests": {
+        "consumer": {
+          "signature_verified_upstream": true,
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "the signed decision carries a malformed corpus_digests",
+        "input": {
+          "payload": "eyJhZG1pdHRlZCI6dHJ1ZSwiY2FuZGlkYXRlIjoiZmY3MjE5YjgyZjQ2IiwiY2FuZGlkYXRlX2RpZ2VzdCI6ImZmNzIxOWI4MmY0NmFlMmU1NjcxMWY3NzA0NjdjNjI5YzQxZTIyMWI2OTJhMjViYjRiMTFhYjgwZWI3YmJjM2EiLCJjaGVja3MiOlt7ImV2aWRlbmNlIjp7ImdhdGUiOiJyZXBsYXkifSwibmFtZSI6InJlcGxheSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiaGVsZG91dCJ9LCJuYW1lIjoiaGVsZG91dCIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoibm9fcmVncmVzc2lvbiJ9LCJuYW1lIjoibm9fcmVncmVzc2lvbiIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiYmVuaWduX3R3aW5zIn0sIm5hbWUiOiJiZW5pZ25fdHdpbnMiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6Im92ZXJmaXRfbGludCJ9LCJuYW1lIjoib3ZlcmZpdF9saW50IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJhdXRob3JpdHkifSwibmFtZSI6ImF1dGhvcml0eSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjpmYWxzZX0sIm5hbWUiOiJjb3N0IiwicGFzc2VkIjp0cnVlfV0sImNvbnRleHQiOnt9LCJjb3JwdXNfZGlnZXN0cyI6eyJndWFyZC1yZWZ1bmQtb25jZSI6Im5vdC1hLWRpZ2VzdCJ9LCJkZWNpZGVkX2F0IjoiMjAyNi0xMC0xMVQxMjowMDowMCswMDowMCIsImV2YWx1YXRvciI6eyJjYXNlcyI6NDAsImNvbXBvbmVudHMiOnsiY2FzZXMiOiIzNTJiODQ3NzdkOGRkOTZhYzljMGIzYzE3MGVjYjJjN2NjYTdmYzJkYmFlNDFhMWVjMWVkNDI4NmZiMmM0M2RiIiwiZmF1bHRzIjoiMDkwM2VjNmFkNjkxNWI4NjcwY2MwNjZkN2E3MDA3ZDg0YzY1MGRmMzAxZTA5YTI5N2Q0MGQwNGE3NTA0ZmJiZSIsImdyYWRlcnMiOiJlNWU0YjU5Njc3MzJmZWFkMzE3NmM2MTIyNzA3NDkyMjUyZmM1YzNmMzM2NTA0YzZkMmQ0YjgyYmMwY2MzY2VhIiwibW9kZWxfY29uZmlnIjoiMDk2ZWI1M2ZlZDM3NWFlZWYxYzgzYmEzOTVjN2Q1NjNhOGU2N2Y3YTIwOWQwNTY1MzU3NGFmMmVkNmEyMTVhNCIsInN1aXRlX2ZpbGUiOiJjOGQxZWUwNzRjODZlMmE0NDJhZDhlN2RiZTgxOTRkYWQxZGU5NzNjZGMwNjU4MTA5OTg1MDczZGI5ZTkyOGM2In0sIm1vZGVsX2NvbmZpZyI6eyJtb2RlbCI6InRlc3QtbW9kZWwifSwidmVyc2lvbiI6IjI3ZjYzNDNmOTgwYyJ9LCJleGNlcHRpb25zIjpbXSwicGFyZW50IjoiMzQ2MTQzOTJiOGZkIiwicHJlZGljYXRlVHlwZSI6Imh0dHBzOi8vZ2l0aHViLmNvbS9wcm9iaXR5YWkvYWdlbnQtZXZpZGVuY2Utdm9jYWJ1bGFyeS9ibG9iL21haW4vZG9jcy9wcmVkaWNhdGVzL2FnZW50LWNoYW5nZS1hZG1pc3Npb24tdjEubWQiLCJyYXRlcyI6e30sInJlcG9ydF9kaWdlc3RzIjp7ImNhbmRpZGF0ZV9jb25maXJtX3J1biI6IjRiMDhhZTkyZTYyYWEyNWU2YmEzOTA4YjE3MzZhYTE0YWJmYjRjODAzZWI0ZDc4MGY5OGEzMDRiMzg4MmMzNzIiLCJjYW5kaWRhdGVfcnVuIjoiNDZmNmFhYTMxNTU5NWYzYTVhMjRlZmMyYjE1YmM4OTRlN2NlNGIyNGFmNzcyODcyZTRlNTkxOTdlYjAwNmE5NyIsInBhcmVudF9ydW5fMSI6IjdmMjNjODM5YjBiY2E3NmJmMTIzYzI5MGFlYWZlN2MwODg5ZWQ2OTQwMTUxZjNmOGI3ZGVkODFkNWUwNzdiZjUiLCJwYXJlbnRfcnVuXzIiOiJlNzdkOWU2ZDViMTY5ZWVlYTExMDJhM2ZlMWU1NTkwYTc2MzVjY2M1NzhjZDlmOTUzYzFkYzkyMDJjODZhZmQ1IiwicmVwbGF5Omd1YXJkLXJlZnVuZC1vbmNlIjoiZTM3YzA0YzQ2MmE5MDI5YTc0N2IzMDcxMTI1NzcwNzIxYWYzY2FjYTgzZTE3MmVmMmQyZDk1OTRlY2RkZDQ0OCJ9LCJ0eXBlIjoiZGVjaXNpb24iLCJ2aXNpYmxlX2Nhc2VfaWRzIjpbXX0=",
+          "payloadType": "application/vnd.ratchet.decision+json",
+          "signatures": [
+            {
+              "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+              "sig": "NdnN6bsX/YTTqHFpO2+P9xtbM+KfbfMCBp3n44FAbyARgtyeqUwVIQLGOHaw+r2exatgGvCRMULreGXfDTQDCA=="
+            }
+          ]
+        },
+        "name": "field-invalid-corpus-digests",
+        "reasons": [
+          "payload_field_invalid:corpus_digests"
+        ]
+      },
+      "field-invalid-evaluator": {
+        "consumer": {
+          "signature_verified_upstream": true,
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "the signed decision carries a malformed evaluator",
+        "input": {
+          "payload": "eyJhZG1pdHRlZCI6dHJ1ZSwiY2FuZGlkYXRlIjoiZmY3MjE5YjgyZjQ2IiwiY2FuZGlkYXRlX2RpZ2VzdCI6ImZmNzIxOWI4MmY0NmFlMmU1NjcxMWY3NzA0NjdjNjI5YzQxZTIyMWI2OTJhMjViYjRiMTFhYjgwZWI3YmJjM2EiLCJjaGVja3MiOlt7ImV2aWRlbmNlIjp7ImdhdGUiOiJyZXBsYXkifSwibmFtZSI6InJlcGxheSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiaGVsZG91dCJ9LCJuYW1lIjoiaGVsZG91dCIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoibm9fcmVncmVzc2lvbiJ9LCJuYW1lIjoibm9fcmVncmVzc2lvbiIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiYmVuaWduX3R3aW5zIn0sIm5hbWUiOiJiZW5pZ25fdHdpbnMiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6Im92ZXJmaXRfbGludCJ9LCJuYW1lIjoib3ZlcmZpdF9saW50IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJhdXRob3JpdHkifSwibmFtZSI6ImF1dGhvcml0eSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjpmYWxzZX0sIm5hbWUiOiJjb3N0IiwicGFzc2VkIjp0cnVlfV0sImNvbnRleHQiOnt9LCJjb3JwdXNfZGlnZXN0cyI6eyJndWFyZC1yZWZ1bmQtb25jZSI6IjEwZTY5YmQwM2QzZGFiMDRiNzc4OThiOTFiYzhiZjkxMzhhZTk2NDdkOTJiMmJlYWIyYTM5NTIxYzE4NzUxODcifSwiZGVjaWRlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MDArMDA6MDAiLCJldmFsdWF0b3IiOnsiY29tcG9uZW50cyI6e319LCJleGNlcHRpb25zIjpbXSwicGFyZW50IjoiMzQ2MTQzOTJiOGZkIiwicHJlZGljYXRlVHlwZSI6Imh0dHBzOi8vZ2l0aHViLmNvbS9wcm9iaXR5YWkvYWdlbnQtZXZpZGVuY2Utdm9jYWJ1bGFyeS9ibG9iL21haW4vZG9jcy9wcmVkaWNhdGVzL2FnZW50LWNoYW5nZS1hZG1pc3Npb24tdjEubWQiLCJyYXRlcyI6e30sInJlcG9ydF9kaWdlc3RzIjp7ImNhbmRpZGF0ZV9jb25maXJtX3J1biI6IjRiMDhhZTkyZTYyYWEyNWU2YmEzOTA4YjE3MzZhYTE0YWJmYjRjODAzZWI0ZDc4MGY5OGEzMDRiMzg4MmMzNzIiLCJjYW5kaWRhdGVfcnVuIjoiNDZmNmFhYTMxNTU5NWYzYTVhMjRlZmMyYjE1YmM4OTRlN2NlNGIyNGFmNzcyODcyZTRlNTkxOTdlYjAwNmE5NyIsInBhcmVudF9ydW5fMSI6IjdmMjNjODM5YjBiY2E3NmJmMTIzYzI5MGFlYWZlN2MwODg5ZWQ2OTQwMTUxZjNmOGI3ZGVkODFkNWUwNzdiZjUiLCJwYXJlbnRfcnVuXzIiOiJlNzdkOWU2ZDViMTY5ZWVlYTExMDJhM2ZlMWU1NTkwYTc2MzVjY2M1NzhjZDlmOTUzYzFkYzkyMDJjODZhZmQ1IiwicmVwbGF5Omd1YXJkLXJlZnVuZC1vbmNlIjoiZTM3YzA0YzQ2MmE5MDI5YTc0N2IzMDcxMTI1NzcwNzIxYWYzY2FjYTgzZTE3MmVmMmQyZDk1OTRlY2RkZDQ0OCJ9LCJ0eXBlIjoiZGVjaXNpb24iLCJ2aXNpYmxlX2Nhc2VfaWRzIjpbXX0=",
+          "payloadType": "application/vnd.ratchet.decision+json",
+          "signatures": [
+            {
+              "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+              "sig": "1f802sXmNeF35KfReuBWoFol1/M6X74wqGd/eZkrwMec7zvJuKZAd8qCtHSm8gta0k8M/PZLCspSQ39lSuQxBg=="
+            }
+          ]
+        },
+        "name": "field-invalid-evaluator",
+        "reasons": [
+          "payload_field_invalid:evaluator"
+        ]
+      },
+      "field-invalid-evaluator-components-suite-file": {
+        "consumer": {
+          "signature_verified_upstream": true,
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "the signed decision carries a malformed evaluator.components.suite_file",
+        "input": {
+          "payload": "eyJhZG1pdHRlZCI6dHJ1ZSwiY2FuZGlkYXRlIjoiZmY3MjE5YjgyZjQ2IiwiY2FuZGlkYXRlX2RpZ2VzdCI6ImZmNzIxOWI4MmY0NmFlMmU1NjcxMWY3NzA0NjdjNjI5YzQxZTIyMWI2OTJhMjViYjRiMTFhYjgwZWI3YmJjM2EiLCJjaGVja3MiOlt7ImV2aWRlbmNlIjp7ImdhdGUiOiJyZXBsYXkifSwibmFtZSI6InJlcGxheSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiaGVsZG91dCJ9LCJuYW1lIjoiaGVsZG91dCIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoibm9fcmVncmVzc2lvbiJ9LCJuYW1lIjoibm9fcmVncmVzc2lvbiIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiYmVuaWduX3R3aW5zIn0sIm5hbWUiOiJiZW5pZ25fdHdpbnMiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6Im92ZXJmaXRfbGludCJ9LCJuYW1lIjoib3ZlcmZpdF9saW50IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJhdXRob3JpdHkifSwibmFtZSI6ImF1dGhvcml0eSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjpmYWxzZX0sIm5hbWUiOiJjb3N0IiwicGFzc2VkIjp0cnVlfV0sImNvbnRleHQiOnt9LCJjb3JwdXNfZGlnZXN0cyI6eyJndWFyZC1yZWZ1bmQtb25jZSI6IjEwZTY5YmQwM2QzZGFiMDRiNzc4OThiOTFiYzhiZjkxMzhhZTk2NDdkOTJiMmJlYWIyYTM5NTIxYzE4NzUxODcifSwiZGVjaWRlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MDArMDA6MDAiLCJldmFsdWF0b3IiOnsiY2FzZXMiOjQwLCJjb21wb25lbnRzIjp7ImNhc2VzIjoiMzUyYjg0Nzc3ZDhkZDk2YWM5YzBiM2MxNzBlY2IyYzdjY2E3ZmMyZGJhZTQxYTFlYzFlZDQyODZmYjJjNDNkYiIsImZhdWx0cyI6IjA5MDNlYzZhZDY5MTViODY3MGNjMDY2ZDdhNzAwN2Q4NGM2NTBkZjMwMWUwOWEyOTdkNDBkMDRhNzUwNGZiYmUiLCJncmFkZXJzIjoiZTVlNGI1OTY3NzMyZmVhZDMxNzZjNjEyMjcwNzQ5MjI1MmZjNWMzZjMzNjUwNGM2ZDJkNGI4MmJjMGNjM2NlYSIsIm1vZGVsX2NvbmZpZyI6IjA5NmViNTNmZWQzNzVhZWVmMWM4M2JhMzk1YzdkNTYzYThlNjdmN2EyMDlkMDU2NTM1NzRhZjJlZDZhMjE1YTQiLCJzdWl0ZV9maWxlIjoiMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwIn0sIm1vZGVsX2NvbmZpZyI6eyJtb2RlbCI6InRlc3QtbW9kZWwifSwidmVyc2lvbiI6IjI3ZjYzNDNmOTgwYyJ9LCJleGNlcHRpb25zIjpbXSwicGFyZW50IjoiMzQ2MTQzOTJiOGZkIiwicHJlZGljYXRlVHlwZSI6Imh0dHBzOi8vZ2l0aHViLmNvbS9wcm9iaXR5YWkvYWdlbnQtZXZpZGVuY2Utdm9jYWJ1bGFyeS9ibG9iL21haW4vZG9jcy9wcmVkaWNhdGVzL2FnZW50LWNoYW5nZS1hZG1pc3Npb24tdjEubWQiLCJyYXRlcyI6e30sInJlcG9ydF9kaWdlc3RzIjp7ImNhbmRpZGF0ZV9jb25maXJtX3J1biI6IjRiMDhhZTkyZTYyYWEyNWU2YmEzOTA4YjE3MzZhYTE0YWJmYjRjODAzZWI0ZDc4MGY5OGEzMDRiMzg4MmMzNzIiLCJjYW5kaWRhdGVfcnVuIjoiNDZmNmFhYTMxNTU5NWYzYTVhMjRlZmMyYjE1YmM4OTRlN2NlNGIyNGFmNzcyODcyZTRlNTkxOTdlYjAwNmE5NyIsInBhcmVudF9ydW5fMSI6IjdmMjNjODM5YjBiY2E3NmJmMTIzYzI5MGFlYWZlN2MwODg5ZWQ2OTQwMTUxZjNmOGI3ZGVkODFkNWUwNzdiZjUiLCJwYXJlbnRfcnVuXzIiOiJlNzdkOWU2ZDViMTY5ZWVlYTExMDJhM2ZlMWU1NTkwYTc2MzVjY2M1NzhjZDlmOTUzYzFkYzkyMDJjODZhZmQ1IiwicmVwbGF5Omd1YXJkLXJlZnVuZC1vbmNlIjoiZTM3YzA0YzQ2MmE5MDI5YTc0N2IzMDcxMTI1NzcwNzIxYWYzY2FjYTgzZTE3MmVmMmQyZDk1OTRlY2RkZDQ0OCJ9LCJ0eXBlIjoiZGVjaXNpb24iLCJ2aXNpYmxlX2Nhc2VfaWRzIjpbXX0=",
+          "payloadType": "application/vnd.ratchet.decision+json",
+          "signatures": [
+            {
+              "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+              "sig": "6WGQrzlirKyv7Mm0mfCQq2FSf5HWcF9OZbLq365t7FFaf/mH47BtmXgNdlmLj/ikwTstqIT49+tF8P18yxgoBw=="
+            }
+          ]
+        },
+        "name": "field-invalid-evaluator-components-suite-file",
+        "reasons": [
+          "payload_field_invalid:evaluator.components.suite_file"
+        ]
+      },
+      "field-invalid-exceptions": {
+        "consumer": {
+          "signature_verified_upstream": true,
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "the signed decision carries a malformed exceptions",
+        "input": {
+          "payload": "eyJhZG1pdHRlZCI6dHJ1ZSwiY2FuZGlkYXRlIjoiZmY3MjE5YjgyZjQ2IiwiY2FuZGlkYXRlX2RpZ2VzdCI6ImZmNzIxOWI4MmY0NmFlMmU1NjcxMWY3NzA0NjdjNjI5YzQxZTIyMWI2OTJhMjViYjRiMTFhYjgwZWI3YmJjM2EiLCJjaGVja3MiOlt7ImV2aWRlbmNlIjp7ImdhdGUiOiJyZXBsYXkifSwibmFtZSI6InJlcGxheSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiaGVsZG91dCJ9LCJuYW1lIjoiaGVsZG91dCIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoibm9fcmVncmVzc2lvbiJ9LCJuYW1lIjoibm9fcmVncmVzc2lvbiIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiYmVuaWduX3R3aW5zIn0sIm5hbWUiOiJiZW5pZ25fdHdpbnMiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6Im92ZXJmaXRfbGludCJ9LCJuYW1lIjoib3ZlcmZpdF9saW50IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJhdXRob3JpdHkifSwibmFtZSI6ImF1dGhvcml0eSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjpmYWxzZX0sIm5hbWUiOiJjb3N0IiwicGFzc2VkIjp0cnVlfV0sImNvbnRleHQiOnt9LCJjb3JwdXNfZGlnZXN0cyI6eyJndWFyZC1yZWZ1bmQtb25jZSI6IjEwZTY5YmQwM2QzZGFiMDRiNzc4OThiOTFiYzhiZjkxMzhhZTk2NDdkOTJiMmJlYWIyYTM5NTIxYzE4NzUxODcifSwiZGVjaWRlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MDArMDA6MDAiLCJldmFsdWF0b3IiOnsiY2FzZXMiOjQwLCJjb21wb25lbnRzIjp7ImNhc2VzIjoiMzUyYjg0Nzc3ZDhkZDk2YWM5YzBiM2MxNzBlY2IyYzdjY2E3ZmMyZGJhZTQxYTFlYzFlZDQyODZmYjJjNDNkYiIsImZhdWx0cyI6IjA5MDNlYzZhZDY5MTViODY3MGNjMDY2ZDdhNzAwN2Q4NGM2NTBkZjMwMWUwOWEyOTdkNDBkMDRhNzUwNGZiYmUiLCJncmFkZXJzIjoiZTVlNGI1OTY3NzMyZmVhZDMxNzZjNjEyMjcwNzQ5MjI1MmZjNWMzZjMzNjUwNGM2ZDJkNGI4MmJjMGNjM2NlYSIsIm1vZGVsX2NvbmZpZyI6IjA5NmViNTNmZWQzNzVhZWVmMWM4M2JhMzk1YzdkNTYzYThlNjdmN2EyMDlkMDU2NTM1NzRhZjJlZDZhMjE1YTQiLCJzdWl0ZV9maWxlIjoiYzhkMWVlMDc0Yzg2ZTJhNDQyYWQ4ZTdkYmU4MTk0ZGFkMWRlOTczY2RjMDY1ODEwOTk4NTA3M2RiOWU5MjhjNiJ9LCJtb2RlbF9jb25maWciOnsibW9kZWwiOiJ0ZXN0LW1vZGVsIn0sInZlcnNpb24iOiIyN2Y2MzQzZjk4MGMifSwiZXhjZXB0aW9ucyI6W3siY29kZSI6InJ1bl9lcnJvciJ9XSwicGFyZW50IjoiMzQ2MTQzOTJiOGZkIiwicHJlZGljYXRlVHlwZSI6Imh0dHBzOi8vZ2l0aHViLmNvbS9wcm9iaXR5YWkvYWdlbnQtZXZpZGVuY2Utdm9jYWJ1bGFyeS9ibG9iL21haW4vZG9jcy9wcmVkaWNhdGVzL2FnZW50LWNoYW5nZS1hZG1pc3Npb24tdjEubWQiLCJyYXRlcyI6e30sInJlcG9ydF9kaWdlc3RzIjp7ImNhbmRpZGF0ZV9jb25maXJtX3J1biI6IjRiMDhhZTkyZTYyYWEyNWU2YmEzOTA4YjE3MzZhYTE0YWJmYjRjODAzZWI0ZDc4MGY5OGEzMDRiMzg4MmMzNzIiLCJjYW5kaWRhdGVfcnVuIjoiNDZmNmFhYTMxNTU5NWYzYTVhMjRlZmMyYjE1YmM4OTRlN2NlNGIyNGFmNzcyODcyZTRlNTkxOTdlYjAwNmE5NyIsInBhcmVudF9ydW5fMSI6IjdmMjNjODM5YjBiY2E3NmJmMTIzYzI5MGFlYWZlN2MwODg5ZWQ2OTQwMTUxZjNmOGI3ZGVkODFkNWUwNzdiZjUiLCJwYXJlbnRfcnVuXzIiOiJlNzdkOWU2ZDViMTY5ZWVlYTExMDJhM2ZlMWU1NTkwYTc2MzVjY2M1NzhjZDlmOTUzYzFkYzkyMDJjODZhZmQ1IiwicmVwbGF5Omd1YXJkLXJlZnVuZC1vbmNlIjoiZTM3YzA0YzQ2MmE5MDI5YTc0N2IzMDcxMTI1NzcwNzIxYWYzY2FjYTgzZTE3MmVmMmQyZDk1OTRlY2RkZDQ0OCJ9LCJ0eXBlIjoiZGVjaXNpb24iLCJ2aXNpYmxlX2Nhc2VfaWRzIjpbXX0=",
+          "payloadType": "application/vnd.ratchet.decision+json",
+          "signatures": [
+            {
+              "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+              "sig": "f+iuzKhPJQMR7aU+2ktcXM249EeHeWv5XOVuYGPb4ImOBnX8DftQkkCtKwEk60roPYXj1/fpOUyBiKHAqZbRDQ=="
+            }
+          ]
+        },
+        "name": "field-invalid-exceptions",
+        "reasons": [
+          "payload_field_invalid:exceptions"
+        ]
+      },
+      "field-invalid-parent": {
+        "consumer": {
+          "signature_verified_upstream": true,
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "the signed decision carries a malformed parent",
+        "input": {
+          "payload": "eyJhZG1pdHRlZCI6dHJ1ZSwiY2FuZGlkYXRlIjoiZmY3MjE5YjgyZjQ2IiwiY2FuZGlkYXRlX2RpZ2VzdCI6ImZmNzIxOWI4MmY0NmFlMmU1NjcxMWY3NzA0NjdjNjI5YzQxZTIyMWI2OTJhMjViYjRiMTFhYjgwZWI3YmJjM2EiLCJjaGVja3MiOlt7ImV2aWRlbmNlIjp7ImdhdGUiOiJyZXBsYXkifSwibmFtZSI6InJlcGxheSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiaGVsZG91dCJ9LCJuYW1lIjoiaGVsZG91dCIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoibm9fcmVncmVzc2lvbiJ9LCJuYW1lIjoibm9fcmVncmVzc2lvbiIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiYmVuaWduX3R3aW5zIn0sIm5hbWUiOiJiZW5pZ25fdHdpbnMiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6Im92ZXJmaXRfbGludCJ9LCJuYW1lIjoib3ZlcmZpdF9saW50IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJhdXRob3JpdHkifSwibmFtZSI6ImF1dGhvcml0eSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjpmYWxzZX0sIm5hbWUiOiJjb3N0IiwicGFzc2VkIjp0cnVlfV0sImNvbnRleHQiOnt9LCJjb3JwdXNfZGlnZXN0cyI6eyJndWFyZC1yZWZ1bmQtb25jZSI6IjEwZTY5YmQwM2QzZGFiMDRiNzc4OThiOTFiYzhiZjkxMzhhZTk2NDdkOTJiMmJlYWIyYTM5NTIxYzE4NzUxODcifSwiZGVjaWRlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MDArMDA6MDAiLCJldmFsdWF0b3IiOnsiY2FzZXMiOjQwLCJjb21wb25lbnRzIjp7ImNhc2VzIjoiMzUyYjg0Nzc3ZDhkZDk2YWM5YzBiM2MxNzBlY2IyYzdjY2E3ZmMyZGJhZTQxYTFlYzFlZDQyODZmYjJjNDNkYiIsImZhdWx0cyI6IjA5MDNlYzZhZDY5MTViODY3MGNjMDY2ZDdhNzAwN2Q4NGM2NTBkZjMwMWUwOWEyOTdkNDBkMDRhNzUwNGZiYmUiLCJncmFkZXJzIjoiZTVlNGI1OTY3NzMyZmVhZDMxNzZjNjEyMjcwNzQ5MjI1MmZjNWMzZjMzNjUwNGM2ZDJkNGI4MmJjMGNjM2NlYSIsIm1vZGVsX2NvbmZpZyI6IjA5NmViNTNmZWQzNzVhZWVmMWM4M2JhMzk1YzdkNTYzYThlNjdmN2EyMDlkMDU2NTM1NzRhZjJlZDZhMjE1YTQiLCJzdWl0ZV9maWxlIjoiYzhkMWVlMDc0Yzg2ZTJhNDQyYWQ4ZTdkYmU4MTk0ZGFkMWRlOTczY2RjMDY1ODEwOTk4NTA3M2RiOWU5MjhjNiJ9LCJtb2RlbF9jb25maWciOnsibW9kZWwiOiJ0ZXN0LW1vZGVsIn0sInZlcnNpb24iOiIyN2Y2MzQzZjk4MGMifSwiZXhjZXB0aW9ucyI6W10sInBhcmVudCI6IiIsInByZWRpY2F0ZVR5cGUiOiJodHRwczovL2dpdGh1Yi5jb20vcHJvYml0eWFpL2FnZW50LWV2aWRlbmNlLXZvY2FidWxhcnkvYmxvYi9tYWluL2RvY3MvcHJlZGljYXRlcy9hZ2VudC1jaGFuZ2UtYWRtaXNzaW9uLXYxLm1kIiwicmF0ZXMiOnt9LCJyZXBvcnRfZGlnZXN0cyI6eyJjYW5kaWRhdGVfY29uZmlybV9ydW4iOiI0YjA4YWU5MmU2MmFhMjVlNmJhMzkwOGIxNzM2YWExNGFiZmI0YzgwM2ViNGQ3ODBmOThhMzA0YjM4ODJjMzcyIiwiY2FuZGlkYXRlX3J1biI6IjQ2ZjZhYWEzMTU1OTVmM2E1YTI0ZWZjMmIxNWJjODk0ZTdjZTRiMjRhZjc3Mjg3MmU0ZTU5MTk3ZWIwMDZhOTciLCJwYXJlbnRfcnVuXzEiOiI3ZjIzYzgzOWIwYmNhNzZiZjEyM2MyOTBhZWFmZTdjMDg4OWVkNjk0MDE1MWYzZjhiN2RlZDgxZDVlMDc3YmY1IiwicGFyZW50X3J1bl8yIjoiZTc3ZDllNmQ1YjE2OWVlZWExMTAyYTNmZTFlNTU5MGE3NjM1Y2NjNTc4Y2Q5Zjk1M2MxZGM5MjAyYzg2YWZkNSIsInJlcGxheTpndWFyZC1yZWZ1bmQtb25jZSI6ImUzN2MwNGM0NjJhOTAyOWE3NDdiMzA3MTEyNTc3MDcyMWFmM2NhY2E4M2UxNzJlZjJkMmQ5NTk0ZWNkZGQ0NDgifSwidHlwZSI6ImRlY2lzaW9uIiwidmlzaWJsZV9jYXNlX2lkcyI6W119",
+          "payloadType": "application/vnd.ratchet.decision+json",
+          "signatures": [
+            {
+              "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+              "sig": "P3x8ekkB2ZUHAQ03bEglL/fwzFrM8I6ZWfWIWOKVdfV6gkz6yVFzTEhIy7sgmxzD7upAzt1d3GVQdkWPTDEQDA=="
+            }
+          ]
+        },
+        "name": "field-invalid-parent",
+        "reasons": [
+          "payload_field_invalid:parent"
+        ]
+      },
+      "field-invalid-report-digests": {
+        "consumer": {
+          "signature_verified_upstream": true,
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "the signed decision carries a malformed report_digests",
+        "input": {
+          "payload": "eyJhZG1pdHRlZCI6dHJ1ZSwiY2FuZGlkYXRlIjoiZmY3MjE5YjgyZjQ2IiwiY2FuZGlkYXRlX2RpZ2VzdCI6ImZmNzIxOWI4MmY0NmFlMmU1NjcxMWY3NzA0NjdjNjI5YzQxZTIyMWI2OTJhMjViYjRiMTFhYjgwZWI3YmJjM2EiLCJjaGVja3MiOlt7ImV2aWRlbmNlIjp7ImdhdGUiOiJyZXBsYXkifSwibmFtZSI6InJlcGxheSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiaGVsZG91dCJ9LCJuYW1lIjoiaGVsZG91dCIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoibm9fcmVncmVzc2lvbiJ9LCJuYW1lIjoibm9fcmVncmVzc2lvbiIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiYmVuaWduX3R3aW5zIn0sIm5hbWUiOiJiZW5pZ25fdHdpbnMiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6Im92ZXJmaXRfbGludCJ9LCJuYW1lIjoib3ZlcmZpdF9saW50IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJhdXRob3JpdHkifSwibmFtZSI6ImF1dGhvcml0eSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjpmYWxzZX0sIm5hbWUiOiJjb3N0IiwicGFzc2VkIjp0cnVlfV0sImNvbnRleHQiOnt9LCJjb3JwdXNfZGlnZXN0cyI6eyJndWFyZC1yZWZ1bmQtb25jZSI6IjEwZTY5YmQwM2QzZGFiMDRiNzc4OThiOTFiYzhiZjkxMzhhZTk2NDdkOTJiMmJlYWIyYTM5NTIxYzE4NzUxODcifSwiZGVjaWRlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MDArMDA6MDAiLCJldmFsdWF0b3IiOnsiY2FzZXMiOjQwLCJjb21wb25lbnRzIjp7ImNhc2VzIjoiMzUyYjg0Nzc3ZDhkZDk2YWM5YzBiM2MxNzBlY2IyYzdjY2E3ZmMyZGJhZTQxYTFlYzFlZDQyODZmYjJjNDNkYiIsImZhdWx0cyI6IjA5MDNlYzZhZDY5MTViODY3MGNjMDY2ZDdhNzAwN2Q4NGM2NTBkZjMwMWUwOWEyOTdkNDBkMDRhNzUwNGZiYmUiLCJncmFkZXJzIjoiZTVlNGI1OTY3NzMyZmVhZDMxNzZjNjEyMjcwNzQ5MjI1MmZjNWMzZjMzNjUwNGM2ZDJkNGI4MmJjMGNjM2NlYSIsIm1vZGVsX2NvbmZpZyI6IjA5NmViNTNmZWQzNzVhZWVmMWM4M2JhMzk1YzdkNTYzYThlNjdmN2EyMDlkMDU2NTM1NzRhZjJlZDZhMjE1YTQiLCJzdWl0ZV9maWxlIjoiYzhkMWVlMDc0Yzg2ZTJhNDQyYWQ4ZTdkYmU4MTk0ZGFkMWRlOTczY2RjMDY1ODEwOTk4NTA3M2RiOWU5MjhjNiJ9LCJtb2RlbF9jb25maWciOnsibW9kZWwiOiJ0ZXN0LW1vZGVsIn0sInZlcnNpb24iOiIyN2Y2MzQzZjk4MGMifSwiZXhjZXB0aW9ucyI6W10sInBhcmVudCI6IjM0NjE0MzkyYjhmZCIsInByZWRpY2F0ZVR5cGUiOiJodHRwczovL2dpdGh1Yi5jb20vcHJvYml0eWFpL2FnZW50LWV2aWRlbmNlLXZvY2FidWxhcnkvYmxvYi9tYWluL2RvY3MvcHJlZGljYXRlcy9hZ2VudC1jaGFuZ2UtYWRtaXNzaW9uLXYxLm1kIiwicmF0ZXMiOnt9LCJyZXBvcnRfZGlnZXN0cyI6e30sInR5cGUiOiJkZWNpc2lvbiIsInZpc2libGVfY2FzZV9pZHMiOltdfQ==",
+          "payloadType": "application/vnd.ratchet.decision+json",
+          "signatures": [
+            {
+              "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+              "sig": "l7PgkahmIl8sQpzuT1H1etkbRhEfeqV1kQwvux0OeQYUJNjPg2mEHlL4fdKCHjUVs6sCs4SFHFPgR9WdBqtcBQ=="
+            }
+          ]
+        },
+        "name": "field-invalid-report-digests",
+        "reasons": [
+          "payload_field_invalid:report_digests"
+        ]
+      },
+      "gate-duplicated": {
+        "consumer": {
+          "signature_verified_upstream": true,
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "the decision records the replay gate twice, so its outcome is ambiguous",
+        "input": {
+          "payload": "eyJhZG1pdHRlZCI6dHJ1ZSwiY2FuZGlkYXRlIjoiZmY3MjE5YjgyZjQ2IiwiY2FuZGlkYXRlX2RpZ2VzdCI6ImZmNzIxOWI4MmY0NmFlMmU1NjcxMWY3NzA0NjdjNjI5YzQxZTIyMWI2OTJhMjViYjRiMTFhYjgwZWI3YmJjM2EiLCJjaGVja3MiOlt7ImV2aWRlbmNlIjp7ImdhdGUiOiJyZXBsYXkifSwibmFtZSI6InJlcGxheSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiaGVsZG91dCJ9LCJuYW1lIjoiaGVsZG91dCIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoibm9fcmVncmVzc2lvbiJ9LCJuYW1lIjoibm9fcmVncmVzc2lvbiIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiYmVuaWduX3R3aW5zIn0sIm5hbWUiOiJiZW5pZ25fdHdpbnMiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6Im92ZXJmaXRfbGludCJ9LCJuYW1lIjoib3ZlcmZpdF9saW50IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJhdXRob3JpdHkifSwibmFtZSI6ImF1dGhvcml0eSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjpmYWxzZX0sIm5hbWUiOiJjb3N0IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7fSwibmFtZSI6InJlcGxheSIsInBhc3NlZCI6dHJ1ZX1dLCJjb250ZXh0Ijp7fSwiY29ycHVzX2RpZ2VzdHMiOnsiZ3VhcmQtcmVmdW5kLW9uY2UiOiIxMGU2OWJkMDNkM2RhYjA0Yjc3ODk4YjkxYmM4YmY5MTM4YWU5NjQ3ZDkyYjJiZWFiMmEzOTUyMWMxODc1MTg3In0sImRlY2lkZWRfYXQiOiIyMDI2LTEwLTExVDEyOjAwOjAwKzAwOjAwIiwiZXZhbHVhdG9yIjp7ImNhc2VzIjo0MCwiY29tcG9uZW50cyI6eyJjYXNlcyI6IjM1MmI4NDc3N2Q4ZGQ5NmFjOWMwYjNjMTcwZWNiMmM3Y2NhN2ZjMmRiYWU0MWExZWMxZWQ0Mjg2ZmIyYzQzZGIiLCJmYXVsdHMiOiIwOTAzZWM2YWQ2OTE1Yjg2NzBjYzA2NmQ3YTcwMDdkODRjNjUwZGYzMDFlMDlhMjk3ZDQwZDA0YTc1MDRmYmJlIiwiZ3JhZGVycyI6ImU1ZTRiNTk2NzczMmZlYWQzMTc2YzYxMjI3MDc0OTIyNTJmYzVjM2YzMzY1MDRjNmQyZDRiODJiYzBjYzNjZWEiLCJtb2RlbF9jb25maWciOiIwOTZlYjUzZmVkMzc1YWVlZjFjODNiYTM5NWM3ZDU2M2E4ZTY3ZjdhMjA5ZDA1NjUzNTc0YWYyZWQ2YTIxNWE0Iiwic3VpdGVfZmlsZSI6ImM4ZDFlZTA3NGM4NmUyYTQ0MmFkOGU3ZGJlODE5NGRhZDFkZTk3M2NkYzA2NTgxMDk5ODUwNzNkYjllOTI4YzYifSwibW9kZWxfY29uZmlnIjp7Im1vZGVsIjoidGVzdC1tb2RlbCJ9LCJ2ZXJzaW9uIjoiMjdmNjM0M2Y5ODBjIn0sImV4Y2VwdGlvbnMiOltdLCJwYXJlbnQiOiIzNDYxNDM5MmI4ZmQiLCJwcmVkaWNhdGVUeXBlIjoiaHR0cHM6Ly9naXRodWIuY29tL3Byb2JpdHlhaS9hZ2VudC1ldmlkZW5jZS12b2NhYnVsYXJ5L2Jsb2IvbWFpbi9kb2NzL3ByZWRpY2F0ZXMvYWdlbnQtY2hhbmdlLWFkbWlzc2lvbi12MS5tZCIsInJhdGVzIjp7fSwicmVwb3J0X2RpZ2VzdHMiOnsiY2FuZGlkYXRlX2NvbmZpcm1fcnVuIjoiNGIwOGFlOTJlNjJhYTI1ZTZiYTM5MDhiMTczNmFhMTRhYmZiNGM4MDNlYjRkNzgwZjk4YTMwNGIzODgyYzM3MiIsImNhbmRpZGF0ZV9ydW4iOiI0NmY2YWFhMzE1NTk1ZjNhNWEyNGVmYzJiMTViYzg5NGU3Y2U0YjI0YWY3NzI4NzJlNGU1OTE5N2ViMDA2YTk3IiwicGFyZW50X3J1bl8xIjoiN2YyM2M4MzliMGJjYTc2YmYxMjNjMjkwYWVhZmU3YzA4ODllZDY5NDAxNTFmM2Y4YjdkZWQ4MWQ1ZTA3N2JmNSIsInBhcmVudF9ydW5fMiI6ImU3N2Q5ZTZkNWIxNjllZWVhMTEwMmEzZmUxZTU1OTBhNzYzNWNjYzU3OGNkOWY5NTNjMWRjOTIwMmM4NmFmZDUiLCJyZXBsYXk6Z3VhcmQtcmVmdW5kLW9uY2UiOiJlMzdjMDRjNDYyYTkwMjlhNzQ3YjMwNzExMjU3NzA3MjFhZjNjYWNhODNlMTcyZWYyZDJkOTU5NGVjZGRkNDQ4In0sInR5cGUiOiJkZWNpc2lvbiIsInZpc2libGVfY2FzZV9pZHMiOltdfQ==",
+          "payloadType": "application/vnd.ratchet.decision+json",
+          "signatures": [
+            {
+              "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+              "sig": "IceRMjK4C3tJO8Kf2dN17beEEClG5yT+QEUcygT3pagMyNCLYBbcqm4bOu4+gh21gbzVFl03cR9F3lUI4IcoAw=="
+            }
+          ]
+        },
+        "name": "gate-duplicated",
+        "reasons": [
+          "gate_duplicated:replay"
+        ]
+      },
+      "gate-missing": {
+        "consumer": {
+          "signature_verified_upstream": true,
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "the decision records no held-out gate",
+        "input": {
+          "payload": "eyJhZG1pdHRlZCI6dHJ1ZSwiY2FuZGlkYXRlIjoiZmY3MjE5YjgyZjQ2IiwiY2FuZGlkYXRlX2RpZ2VzdCI6ImZmNzIxOWI4MmY0NmFlMmU1NjcxMWY3NzA0NjdjNjI5YzQxZTIyMWI2OTJhMjViYjRiMTFhYjgwZWI3YmJjM2EiLCJjaGVja3MiOlt7ImV2aWRlbmNlIjp7ImdhdGUiOiJyZXBsYXkifSwibmFtZSI6InJlcGxheSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoibm9fcmVncmVzc2lvbiJ9LCJuYW1lIjoibm9fcmVncmVzc2lvbiIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiYmVuaWduX3R3aW5zIn0sIm5hbWUiOiJiZW5pZ25fdHdpbnMiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6Im92ZXJmaXRfbGludCJ9LCJuYW1lIjoib3ZlcmZpdF9saW50IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJhdXRob3JpdHkifSwibmFtZSI6ImF1dGhvcml0eSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjpmYWxzZX0sIm5hbWUiOiJjb3N0IiwicGFzc2VkIjp0cnVlfV0sImNvbnRleHQiOnt9LCJjb3JwdXNfZGlnZXN0cyI6eyJndWFyZC1yZWZ1bmQtb25jZSI6IjEwZTY5YmQwM2QzZGFiMDRiNzc4OThiOTFiYzhiZjkxMzhhZTk2NDdkOTJiMmJlYWIyYTM5NTIxYzE4NzUxODcifSwiZGVjaWRlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MDArMDA6MDAiLCJldmFsdWF0b3IiOnsiY2FzZXMiOjQwLCJjb21wb25lbnRzIjp7ImNhc2VzIjoiMzUyYjg0Nzc3ZDhkZDk2YWM5YzBiM2MxNzBlY2IyYzdjY2E3ZmMyZGJhZTQxYTFlYzFlZDQyODZmYjJjNDNkYiIsImZhdWx0cyI6IjA5MDNlYzZhZDY5MTViODY3MGNjMDY2ZDdhNzAwN2Q4NGM2NTBkZjMwMWUwOWEyOTdkNDBkMDRhNzUwNGZiYmUiLCJncmFkZXJzIjoiZTVlNGI1OTY3NzMyZmVhZDMxNzZjNjEyMjcwNzQ5MjI1MmZjNWMzZjMzNjUwNGM2ZDJkNGI4MmJjMGNjM2NlYSIsIm1vZGVsX2NvbmZpZyI6IjA5NmViNTNmZWQzNzVhZWVmMWM4M2JhMzk1YzdkNTYzYThlNjdmN2EyMDlkMDU2NTM1NzRhZjJlZDZhMjE1YTQiLCJzdWl0ZV9maWxlIjoiYzhkMWVlMDc0Yzg2ZTJhNDQyYWQ4ZTdkYmU4MTk0ZGFkMWRlOTczY2RjMDY1ODEwOTk4NTA3M2RiOWU5MjhjNiJ9LCJtb2RlbF9jb25maWciOnsibW9kZWwiOiJ0ZXN0LW1vZGVsIn0sInZlcnNpb24iOiIyN2Y2MzQzZjk4MGMifSwiZXhjZXB0aW9ucyI6W10sInBhcmVudCI6IjM0NjE0MzkyYjhmZCIsInByZWRpY2F0ZVR5cGUiOiJodHRwczovL2dpdGh1Yi5jb20vcHJvYml0eWFpL2FnZW50LWV2aWRlbmNlLXZvY2FidWxhcnkvYmxvYi9tYWluL2RvY3MvcHJlZGljYXRlcy9hZ2VudC1jaGFuZ2UtYWRtaXNzaW9uLXYxLm1kIiwicmF0ZXMiOnt9LCJyZXBvcnRfZGlnZXN0cyI6eyJjYW5kaWRhdGVfY29uZmlybV9ydW4iOiI0YjA4YWU5MmU2MmFhMjVlNmJhMzkwOGIxNzM2YWExNGFiZmI0YzgwM2ViNGQ3ODBmOThhMzA0YjM4ODJjMzcyIiwiY2FuZGlkYXRlX3J1biI6IjQ2ZjZhYWEzMTU1OTVmM2E1YTI0ZWZjMmIxNWJjODk0ZTdjZTRiMjRhZjc3Mjg3MmU0ZTU5MTk3ZWIwMDZhOTciLCJwYXJlbnRfcnVuXzEiOiI3ZjIzYzgzOWIwYmNhNzZiZjEyM2MyOTBhZWFmZTdjMDg4OWVkNjk0MDE1MWYzZjhiN2RlZDgxZDVlMDc3YmY1IiwicGFyZW50X3J1bl8yIjoiZTc3ZDllNmQ1YjE2OWVlZWExMTAyYTNmZTFlNTU5MGE3NjM1Y2NjNTc4Y2Q5Zjk1M2MxZGM5MjAyYzg2YWZkNSIsInJlcGxheTpndWFyZC1yZWZ1bmQtb25jZSI6ImUzN2MwNGM0NjJhOTAyOWE3NDdiMzA3MTEyNTc3MDcyMWFmM2NhY2E4M2UxNzJlZjJkMmQ5NTk0ZWNkZGQ0NDgifSwidHlwZSI6ImRlY2lzaW9uIiwidmlzaWJsZV9jYXNlX2lkcyI6W119",
+          "payloadType": "application/vnd.ratchet.decision+json",
+          "signatures": [
+            {
+              "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+              "sig": "jPZKhl4HTc3Xm8pl/BKXyNgm5DMx9jqpefY724ES6F1PG0CIlVdYiESztqe1LpoeOKjF9tye3eUASP6Qrx9jAQ=="
+            }
+          ]
+        },
+        "name": "gate-missing",
+        "reasons": [
+          "gate_missing:heldout"
+        ]
+      },
+      "image-binding-mismatch": {
+        "consumer": {
+          "expected_candidate_digest": "8e5344adbab03ae6a6500389b2ece405acf7d02c41167f409f9074996fcc061e",
+          "signature_verified_upstream": true,
+          "subject_binding": "image"
+        },
+        "description": "the image carries a receipt for a different harness from the pinned one",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "admitted": true,
+            "candidate": "ff7219b82f46",
+            "candidate_digest": "ff7219b82f46ae2e56711f770467c629c41e221b692a25bb4b11ab80eb7bbc3a",
+            "checks": [
+              {
+                "evidence": {
+                  "gate": "replay"
+                },
+                "name": "replay",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "heldout"
+                },
+                "name": "heldout",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "no_regression"
+                },
+                "name": "no_regression",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "benign_twins"
+                },
+                "name": "benign_twins",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "overfit_lint"
+                },
+                "name": "overfit_lint",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "authority"
+                },
+                "name": "authority",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": false
+                },
+                "name": "cost",
+                "passed": true
+              }
+            ],
+            "context": {},
+            "corpus_digests": {
+              "guard-refund-once": "10e69bd03d3dab04b77898b91bc8bf9138ae9647d92b2beab2a39521c1875187"
+            },
+            "decided_at": "2026-10-11T12:00:00+00:00",
+            "evaluator": {
+              "cases": 40,
+              "components": {
+                "cases": "352b84777d8dd96ac9c0b3c170ecb2c7cca7fc2dbae41a1ec1ed4286fb2c43db",
+                "faults": "0903ec6ad6915b8670cc066d7a7007d84c650df301e09a297d40d04a7504fbbe",
+                "graders": "e5e4b5967732fead3176c6122707492252fc5c3f336504c6d2d4b82bc0cc3cea",
+                "model_config": "096eb53fed375aeef1c83ba395c7d563a8e67f7a209d05653574af2ed6a215a4",
+                "suite_file": "c8d1ee074c86e2a442ad8e7dbe8194dad1de973cdc0658109985073db9e928c6"
+              },
+              "model_config": {
+                "model": "test-model"
+              },
+              "version": "27f6343f980c"
+            },
+            "exceptions": [],
+            "parent": "34614392b8fd",
+            "rates": {},
+            "report_digests": {
+              "candidate_confirm_run": "4b08ae92e62aa25e6ba3908b1736aa14abfb4c803eb4d780f98a304b3882c372",
+              "candidate_run": "46f6aaa315595f3a5a24efc2b15bc894e7ce4b24af772872e4e59197eb006a97",
+              "parent_run_1": "7f23c839b0bca76bf123c290aeafe7c0889ed6940151f3f8b7ded81d5e077bf5",
+              "parent_run_2": "e77d9e6d5b169eeea1102a3fe1e5590a7635ccc578cd9f953c1dc9202c86afd5",
+              "replay:guard-refund-once": "e37c04c462a9029a747b3071125770721af3caca83e172ef2d2d9594ecddd448"
+            },
+            "type": "decision",
+            "visible_case_ids": []
+          },
+          "predicateType": "https://github.com/probityai/agent-evidence-vocabulary/blob/main/docs/predicates/agent-change-admission-v1.md",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "77e841f14bf202be78921777a52464a91647a3fc216c22f15f5cbf5d6482690e"
+              },
+              "name": "harness"
+            }
+          ]
+        },
+        "name": "image-binding-mismatch",
+        "reasons": [
+          "candidate_digest_mismatch"
+        ]
+      },
+      "image-binding-pinned": {
+        "consumer": {
+          "expected_candidate_digest": "ff7219b82f46ae2e56711f770467c629c41e221b692a25bb4b11ab80eb7bbc3a",
+          "signature_verified_upstream": true,
+          "subject_binding": "image"
+        },
+        "description": "an attestation attached to an image: the engine binds the subject to the image, and the consumer pins the harness digest the image must carry",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "admitted": true,
+            "candidate": "ff7219b82f46",
+            "candidate_digest": "ff7219b82f46ae2e56711f770467c629c41e221b692a25bb4b11ab80eb7bbc3a",
+            "checks": [
+              {
+                "evidence": {
+                  "gate": "replay"
+                },
+                "name": "replay",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "heldout"
+                },
+                "name": "heldout",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "no_regression"
+                },
+                "name": "no_regression",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "benign_twins"
+                },
+                "name": "benign_twins",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "overfit_lint"
+                },
+                "name": "overfit_lint",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "authority"
+                },
+                "name": "authority",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": false
+                },
+                "name": "cost",
+                "passed": true
+              }
+            ],
+            "context": {},
+            "corpus_digests": {
+              "guard-refund-once": "10e69bd03d3dab04b77898b91bc8bf9138ae9647d92b2beab2a39521c1875187"
+            },
+            "decided_at": "2026-10-11T12:00:00+00:00",
+            "evaluator": {
+              "cases": 40,
+              "components": {
+                "cases": "352b84777d8dd96ac9c0b3c170ecb2c7cca7fc2dbae41a1ec1ed4286fb2c43db",
+                "faults": "0903ec6ad6915b8670cc066d7a7007d84c650df301e09a297d40d04a7504fbbe",
+                "graders": "e5e4b5967732fead3176c6122707492252fc5c3f336504c6d2d4b82bc0cc3cea",
+                "model_config": "096eb53fed375aeef1c83ba395c7d563a8e67f7a209d05653574af2ed6a215a4",
+                "suite_file": "c8d1ee074c86e2a442ad8e7dbe8194dad1de973cdc0658109985073db9e928c6"
+              },
+              "model_config": {
+                "model": "test-model"
+              },
+              "version": "27f6343f980c"
+            },
+            "exceptions": [],
+            "parent": "34614392b8fd",
+            "rates": {},
+            "report_digests": {
+              "candidate_confirm_run": "4b08ae92e62aa25e6ba3908b1736aa14abfb4c803eb4d780f98a304b3882c372",
+              "candidate_run": "46f6aaa315595f3a5a24efc2b15bc894e7ce4b24af772872e4e59197eb006a97",
+              "parent_run_1": "7f23c839b0bca76bf123c290aeafe7c0889ed6940151f3f8b7ded81d5e077bf5",
+              "parent_run_2": "e77d9e6d5b169eeea1102a3fe1e5590a7635ccc578cd9f953c1dc9202c86afd5",
+              "replay:guard-refund-once": "e37c04c462a9029a747b3071125770721af3caca83e172ef2d2d9594ecddd448"
+            },
+            "type": "decision",
+            "visible_case_ids": []
+          },
+          "predicateType": "https://github.com/probityai/agent-evidence-vocabulary/blob/main/docs/predicates/agent-change-admission-v1.md",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "77e841f14bf202be78921777a52464a91647a3fc216c22f15f5cbf5d6482690e"
+              },
+              "name": "harness"
+            }
+          ]
+        },
+        "name": "image-binding-pinned",
+        "reasons": []
+      },
+      "image-binding-unpinned": {
+        "consumer": {
+          "signature_verified_upstream": true,
+          "subject_binding": "image"
+        },
+        "description": "image binding with no pinned harness digest admits nothing",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "admitted": true,
+            "candidate": "ff7219b82f46",
+            "candidate_digest": "ff7219b82f46ae2e56711f770467c629c41e221b692a25bb4b11ab80eb7bbc3a",
+            "checks": [
+              {
+                "evidence": {
+                  "gate": "replay"
+                },
+                "name": "replay",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "heldout"
+                },
+                "name": "heldout",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "no_regression"
+                },
+                "name": "no_regression",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "benign_twins"
+                },
+                "name": "benign_twins",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "overfit_lint"
+                },
+                "name": "overfit_lint",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "authority"
+                },
+                "name": "authority",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": false
+                },
+                "name": "cost",
+                "passed": true
+              }
+            ],
+            "context": {},
+            "corpus_digests": {
+              "guard-refund-once": "10e69bd03d3dab04b77898b91bc8bf9138ae9647d92b2beab2a39521c1875187"
+            },
+            "decided_at": "2026-10-11T12:00:00+00:00",
+            "evaluator": {
+              "cases": 40,
+              "components": {
+                "cases": "352b84777d8dd96ac9c0b3c170ecb2c7cca7fc2dbae41a1ec1ed4286fb2c43db",
+                "faults": "0903ec6ad6915b8670cc066d7a7007d84c650df301e09a297d40d04a7504fbbe",
+                "graders": "e5e4b5967732fead3176c6122707492252fc5c3f336504c6d2d4b82bc0cc3cea",
+                "model_config": "096eb53fed375aeef1c83ba395c7d563a8e67f7a209d05653574af2ed6a215a4",
+                "suite_file": "c8d1ee074c86e2a442ad8e7dbe8194dad1de973cdc0658109985073db9e928c6"
+              },
+              "model_config": {
+                "model": "test-model"
+              },
+              "version": "27f6343f980c"
+            },
+            "exceptions": [],
+            "parent": "34614392b8fd",
+            "rates": {},
+            "report_digests": {
+              "candidate_confirm_run": "4b08ae92e62aa25e6ba3908b1736aa14abfb4c803eb4d780f98a304b3882c372",
+              "candidate_run": "46f6aaa315595f3a5a24efc2b15bc894e7ce4b24af772872e4e59197eb006a97",
+              "parent_run_1": "7f23c839b0bca76bf123c290aeafe7c0889ed6940151f3f8b7ded81d5e077bf5",
+              "parent_run_2": "e77d9e6d5b169eeea1102a3fe1e5590a7635ccc578cd9f953c1dc9202c86afd5",
+              "replay:guard-refund-once": "e37c04c462a9029a747b3071125770721af3caca83e172ef2d2d9594ecddd448"
+            },
+            "type": "decision",
+            "visible_case_ids": []
+          },
+          "predicateType": "https://github.com/probityai/agent-evidence-vocabulary/blob/main/docs/predicates/agent-change-admission-v1.md",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "77e841f14bf202be78921777a52464a91647a3fc216c22f15f5cbf5d6482690e"
+              },
+              "name": "harness"
+            }
+          ]
+        },
+        "name": "image-binding-unpinned",
+        "reasons": [
+          "candidate_digest_unpinned"
+        ]
+      },
+      "limit-tampered-payload-passes-this-rule": {
+        "consumer": {
+          "signature_verified_upstream": true,
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "the payload was edited after signing. This rule cannot check signature bytes; the upstream verifier the consumer declared refuses it with signature_invalid",
+        "input": {
+          "payload": "eyJhZG1pdHRlZCI6dHJ1ZSwiY2FuZGlkYXRlIjoidGFtcGVyZWQwMDAwIiwiY2FuZGlkYXRlX2RpZ2VzdCI6ImZmNzIxOWI4MmY0NmFlMmU1NjcxMWY3NzA0NjdjNjI5YzQxZTIyMWI2OTJhMjViYjRiMTFhYjgwZWI3YmJjM2EiLCJjaGVja3MiOlt7ImV2aWRlbmNlIjp7ImdhdGUiOiJyZXBsYXkifSwibmFtZSI6InJlcGxheSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiaGVsZG91dCJ9LCJuYW1lIjoiaGVsZG91dCIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoibm9fcmVncmVzc2lvbiJ9LCJuYW1lIjoibm9fcmVncmVzc2lvbiIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiYmVuaWduX3R3aW5zIn0sIm5hbWUiOiJiZW5pZ25fdHdpbnMiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6Im92ZXJmaXRfbGludCJ9LCJuYW1lIjoib3ZlcmZpdF9saW50IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJhdXRob3JpdHkifSwibmFtZSI6ImF1dGhvcml0eSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjpmYWxzZX0sIm5hbWUiOiJjb3N0IiwicGFzc2VkIjp0cnVlfV0sImNvbnRleHQiOnt9LCJjb3JwdXNfZGlnZXN0cyI6eyJndWFyZC1yZWZ1bmQtb25jZSI6IjEwZTY5YmQwM2QzZGFiMDRiNzc4OThiOTFiYzhiZjkxMzhhZTk2NDdkOTJiMmJlYWIyYTM5NTIxYzE4NzUxODcifSwiZGVjaWRlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MDArMDA6MDAiLCJldmFsdWF0b3IiOnsiY2FzZXMiOjQwLCJjb21wb25lbnRzIjp7ImNhc2VzIjoiMzUyYjg0Nzc3ZDhkZDk2YWM5YzBiM2MxNzBlY2IyYzdjY2E3ZmMyZGJhZTQxYTFlYzFlZDQyODZmYjJjNDNkYiIsImZhdWx0cyI6IjA5MDNlYzZhZDY5MTViODY3MGNjMDY2ZDdhNzAwN2Q4NGM2NTBkZjMwMWUwOWEyOTdkNDBkMDRhNzUwNGZiYmUiLCJncmFkZXJzIjoiZTVlNGI1OTY3NzMyZmVhZDMxNzZjNjEyMjcwNzQ5MjI1MmZjNWMzZjMzNjUwNGM2ZDJkNGI4MmJjMGNjM2NlYSIsIm1vZGVsX2NvbmZpZyI6IjA5NmViNTNmZWQzNzVhZWVmMWM4M2JhMzk1YzdkNTYzYThlNjdmN2EyMDlkMDU2NTM1NzRhZjJlZDZhMjE1YTQiLCJzdWl0ZV9maWxlIjoiYzhkMWVlMDc0Yzg2ZTJhNDQyYWQ4ZTdkYmU4MTk0ZGFkMWRlOTczY2RjMDY1ODEwOTk4NTA3M2RiOWU5MjhjNiJ9LCJtb2RlbF9jb25maWciOnsibW9kZWwiOiJ0ZXN0LW1vZGVsIn0sInZlcnNpb24iOiIyN2Y2MzQzZjk4MGMifSwiZXhjZXB0aW9ucyI6W10sInBhcmVudCI6IjM0NjE0MzkyYjhmZCIsInByZWRpY2F0ZVR5cGUiOiJodHRwczovL2dpdGh1Yi5jb20vcHJvYml0eWFpL2FnZW50LWV2aWRlbmNlLXZvY2FidWxhcnkvYmxvYi9tYWluL2RvY3MvcHJlZGljYXRlcy9hZ2VudC1jaGFuZ2UtYWRtaXNzaW9uLXYxLm1kIiwicmF0ZXMiOnt9LCJyZXBvcnRfZGlnZXN0cyI6eyJjYW5kaWRhdGVfY29uZmlybV9ydW4iOiI0YjA4YWU5MmU2MmFhMjVlNmJhMzkwOGIxNzM2YWExNGFiZmI0YzgwM2ViNGQ3ODBmOThhMzA0YjM4ODJjMzcyIiwiY2FuZGlkYXRlX3J1biI6IjQ2ZjZhYWEzMTU1OTVmM2E1YTI0ZWZjMmIxNWJjODk0ZTdjZTRiMjRhZjc3Mjg3MmU0ZTU5MTk3ZWIwMDZhOTciLCJwYXJlbnRfcnVuXzEiOiI3ZjIzYzgzOWIwYmNhNzZiZjEyM2MyOTBhZWFmZTdjMDg4OWVkNjk0MDE1MWYzZjhiN2RlZDgxZDVlMDc3YmY1IiwicGFyZW50X3J1bl8yIjoiZTc3ZDllNmQ1YjE2OWVlZWExMTAyYTNmZTFlNTU5MGE3NjM1Y2NjNTc4Y2Q5Zjk1M2MxZGM5MjAyYzg2YWZkNSIsInJlcGxheTpndWFyZC1yZWZ1bmQtb25jZSI6ImUzN2MwNGM0NjJhOTAyOWE3NDdiMzA3MTEyNTc3MDcyMWFmM2NhY2E4M2UxNzJlZjJkMmQ5NTk0ZWNkZGQ0NDgifSwidHlwZSI6ImRlY2lzaW9uIiwidmlzaWJsZV9jYXNlX2lkcyI6W119",
+          "payloadType": "application/vnd.ratchet.decision+json",
+          "signatures": [
+            {
+              "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+              "sig": "+M1ZBew6vUkZw7BqacXRmwi8ugYF+2bNPWuKV46pv53l4TZDMQfT1AIcGNwELvXpC55k5Vd3LbtR60oON5ffBQ=="
+            }
+          ]
+        },
+        "name": "limit-tampered-payload-passes-this-rule",
+        "reasons": []
+      },
+      "payload-not-json-object": {
+        "consumer": {
+          "signature_verified_upstream": true,
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "the signed payload is a JSON array",
+        "input": {
+          "payload": "WzEsMiwzXQ==",
+          "payloadType": "application/vnd.ratchet.decision+json",
+          "signatures": [
+            {
+              "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+              "sig": "85AewWbLi7YN6uHKkhgtaQB0VnSiBBq1kRPg44SaouPpdxr0whJBfoHXetbegIwdp29jhVA8m4T3TgJTautPBg=="
+            }
+          ]
+        },
+        "name": "payload-not-json-object",
+        "reasons": [
+          "payload_not_json_object"
+        ]
+      },
+      "rejected-with-all-gates-passed": {
+        "consumer": {
+          "signature_verified_upstream": true,
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "the decision says rejected while every required gate passed",
+        "input": {
+          "payload": "eyJhZG1pdHRlZCI6ZmFsc2UsImNhbmRpZGF0ZSI6ImZmNzIxOWI4MmY0NiIsImNhbmRpZGF0ZV9kaWdlc3QiOiJmZjcyMTliODJmNDZhZTJlNTY3MTFmNzcwNDY3YzYyOWM0MWUyMjFiNjkyYTI1YmI0YjExYWI4MGViN2JiYzNhIiwiY2hlY2tzIjpbeyJldmlkZW5jZSI6eyJnYXRlIjoicmVwbGF5In0sIm5hbWUiOiJyZXBsYXkiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiY2FuZGlkYXRlX2ZyZXNoX3Bhc3NlZCI6MTIsInJlcXVpcmVkIjoxNH0sIm5hbWUiOiJoZWxkb3V0IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJub19yZWdyZXNzaW9uIn0sIm5hbWUiOiJub19yZWdyZXNzaW9uIiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJiZW5pZ25fdHdpbnMifSwibmFtZSI6ImJlbmlnbl90d2lucyIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoib3ZlcmZpdF9saW50In0sIm5hbWUiOiJvdmVyZml0X2xpbnQiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6ImF1dGhvcml0eSJ9LCJuYW1lIjoiYXV0aG9yaXR5IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOmZhbHNlfSwibmFtZSI6ImNvc3QiLCJwYXNzZWQiOnRydWV9XSwiY29udGV4dCI6e30sImNvcnB1c19kaWdlc3RzIjp7Imd1YXJkLXJlZnVuZC1vbmNlIjoiMTBlNjliZDAzZDNkYWIwNGI3Nzg5OGI5MWJjOGJmOTEzOGFlOTY0N2Q5MmIyYmVhYjJhMzk1MjFjMTg3NTE4NyJ9LCJkZWNpZGVkX2F0IjoiMjAyNi0xMC0xMVQxMjowMDowMCswMDowMCIsImV2YWx1YXRvciI6eyJjYXNlcyI6NDAsImNvbXBvbmVudHMiOnsiY2FzZXMiOiIzNTJiODQ3NzdkOGRkOTZhYzljMGIzYzE3MGVjYjJjN2NjYTdmYzJkYmFlNDFhMWVjMWVkNDI4NmZiMmM0M2RiIiwiZmF1bHRzIjoiMDkwM2VjNmFkNjkxNWI4NjcwY2MwNjZkN2E3MDA3ZDg0YzY1MGRmMzAxZTA5YTI5N2Q0MGQwNGE3NTA0ZmJiZSIsImdyYWRlcnMiOiJlNWU0YjU5Njc3MzJmZWFkMzE3NmM2MTIyNzA3NDkyMjUyZmM1YzNmMzM2NTA0YzZkMmQ0YjgyYmMwY2MzY2VhIiwibW9kZWxfY29uZmlnIjoiMDk2ZWI1M2ZlZDM3NWFlZWYxYzgzYmEzOTVjN2Q1NjNhOGU2N2Y3YTIwOWQwNTY1MzU3NGFmMmVkNmEyMTVhNCIsInN1aXRlX2ZpbGUiOiJjOGQxZWUwNzRjODZlMmE0NDJhZDhlN2RiZTgxOTRkYWQxZGU5NzNjZGMwNjU4MTA5OTg1MDczZGI5ZTkyOGM2In0sIm1vZGVsX2NvbmZpZyI6eyJtb2RlbCI6InRlc3QtbW9kZWwifSwidmVyc2lvbiI6IjI3ZjYzNDNmOTgwYyJ9LCJleGNlcHRpb25zIjpbXSwicGFyZW50IjoiMzQ2MTQzOTJiOGZkIiwicHJlZGljYXRlVHlwZSI6Imh0dHBzOi8vZ2l0aHViLmNvbS9wcm9iaXR5YWkvYWdlbnQtZXZpZGVuY2Utdm9jYWJ1bGFyeS9ibG9iL21haW4vZG9jcy9wcmVkaWNhdGVzL2FnZW50LWNoYW5nZS1hZG1pc3Npb24tdjEubWQiLCJyYXRlcyI6e30sInJlcG9ydF9kaWdlc3RzIjp7ImNhbmRpZGF0ZV9jb25maXJtX3J1biI6IjRiMDhhZTkyZTYyYWEyNWU2YmEzOTA4YjE3MzZhYTE0YWJmYjRjODAzZWI0ZDc4MGY5OGEzMDRiMzg4MmMzNzIiLCJjYW5kaWRhdGVfcnVuIjoiNDZmNmFhYTMxNTU5NWYzYTVhMjRlZmMyYjE1YmM4OTRlN2NlNGIyNGFmNzcyODcyZTRlNTkxOTdlYjAwNmE5NyIsInBhcmVudF9ydW5fMSI6IjdmMjNjODM5YjBiY2E3NmJmMTIzYzI5MGFlYWZlN2MwODg5ZWQ2OTQwMTUxZjNmOGI3ZGVkODFkNWUwNzdiZjUiLCJwYXJlbnRfcnVuXzIiOiJlNzdkOWU2ZDViMTY5ZWVlYTExMDJhM2ZlMWU1NTkwYTc2MzVjY2M1NzhjZDlmOTUzYzFkYzkyMDJjODZhZmQ1IiwicmVwbGF5Omd1YXJkLXJlZnVuZC1vbmNlIjoiZTM3YzA0YzQ2MmE5MDI5YTc0N2IzMDcxMTI1NzcwNzIxYWYzY2FjYTgzZTE3MmVmMmQyZDk1OTRlY2RkZDQ0OCJ9LCJ0eXBlIjoiZGVjaXNpb24iLCJ2aXNpYmxlX2Nhc2VfaWRzIjpbXX0=",
+          "payloadType": "application/vnd.ratchet.decision+json",
+          "signatures": [
+            {
+              "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+              "sig": "UnSeBzx+xbXKWClLUMtQf9ZWLFRJQSrvWoSSX297sxUJwTV774dGWdRgP/dPCLHCQFTwhThA04HFPFscXKndAg=="
+            }
+          ]
+        },
+        "name": "rejected-with-all-gates-passed",
+        "reasons": [
+          "rejected_with_all_gates_passed"
+        ]
+      },
+      "rejection-receipt": {
+        "consumer": {
+          "signature_verified_upstream": true,
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "a consistent, verified rejection: the held-out gate failed and the decision says rejected",
+        "input": {
+          "payload": "eyJhZG1pdHRlZCI6ZmFsc2UsImNhbmRpZGF0ZSI6ImZmNzIxOWI4MmY0NiIsImNhbmRpZGF0ZV9kaWdlc3QiOiJmZjcyMTliODJmNDZhZTJlNTY3MTFmNzcwNDY3YzYyOWM0MWUyMjFiNjkyYTI1YmI0YjExYWI4MGViN2JiYzNhIiwiY2hlY2tzIjpbeyJldmlkZW5jZSI6eyJnYXRlIjoicmVwbGF5In0sIm5hbWUiOiJyZXBsYXkiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiY2FuZGlkYXRlX2ZyZXNoX3Bhc3NlZCI6MTIsInJlcXVpcmVkIjoxNH0sIm5hbWUiOiJoZWxkb3V0IiwicGFzc2VkIjpmYWxzZX0seyJldmlkZW5jZSI6eyJnYXRlIjoibm9fcmVncmVzc2lvbiJ9LCJuYW1lIjoibm9fcmVncmVzc2lvbiIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiYmVuaWduX3R3aW5zIn0sIm5hbWUiOiJiZW5pZ25fdHdpbnMiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6Im92ZXJmaXRfbGludCJ9LCJuYW1lIjoib3ZlcmZpdF9saW50IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJhdXRob3JpdHkifSwibmFtZSI6ImF1dGhvcml0eSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjpmYWxzZX0sIm5hbWUiOiJjb3N0IiwicGFzc2VkIjp0cnVlfV0sImNvbnRleHQiOnt9LCJjb3JwdXNfZGlnZXN0cyI6eyJndWFyZC1yZWZ1bmQtb25jZSI6IjEwZTY5YmQwM2QzZGFiMDRiNzc4OThiOTFiYzhiZjkxMzhhZTk2NDdkOTJiMmJlYWIyYTM5NTIxYzE4NzUxODcifSwiZGVjaWRlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MDArMDA6MDAiLCJldmFsdWF0b3IiOnsiY2FzZXMiOjQwLCJjb21wb25lbnRzIjp7ImNhc2VzIjoiMzUyYjg0Nzc3ZDhkZDk2YWM5YzBiM2MxNzBlY2IyYzdjY2E3ZmMyZGJhZTQxYTFlYzFlZDQyODZmYjJjNDNkYiIsImZhdWx0cyI6IjA5MDNlYzZhZDY5MTViODY3MGNjMDY2ZDdhNzAwN2Q4NGM2NTBkZjMwMWUwOWEyOTdkNDBkMDRhNzUwNGZiYmUiLCJncmFkZXJzIjoiZTVlNGI1OTY3NzMyZmVhZDMxNzZjNjEyMjcwNzQ5MjI1MmZjNWMzZjMzNjUwNGM2ZDJkNGI4MmJjMGNjM2NlYSIsIm1vZGVsX2NvbmZpZyI6IjA5NmViNTNmZWQzNzVhZWVmMWM4M2JhMzk1YzdkNTYzYThlNjdmN2EyMDlkMDU2NTM1NzRhZjJlZDZhMjE1YTQiLCJzdWl0ZV9maWxlIjoiYzhkMWVlMDc0Yzg2ZTJhNDQyYWQ4ZTdkYmU4MTk0ZGFkMWRlOTczY2RjMDY1ODEwOTk4NTA3M2RiOWU5MjhjNiJ9LCJtb2RlbF9jb25maWciOnsibW9kZWwiOiJ0ZXN0LW1vZGVsIn0sInZlcnNpb24iOiIyN2Y2MzQzZjk4MGMifSwiZXhjZXB0aW9ucyI6W10sInBhcmVudCI6IjM0NjE0MzkyYjhmZCIsInByZWRpY2F0ZVR5cGUiOiJodHRwczovL2dpdGh1Yi5jb20vcHJvYml0eWFpL2FnZW50LWV2aWRlbmNlLXZvY2FidWxhcnkvYmxvYi9tYWluL2RvY3MvcHJlZGljYXRlcy9hZ2VudC1jaGFuZ2UtYWRtaXNzaW9uLXYxLm1kIiwicmF0ZXMiOnt9LCJyZXBvcnRfZGlnZXN0cyI6eyJjYW5kaWRhdGVfY29uZmlybV9ydW4iOiI0YjA4YWU5MmU2MmFhMjVlNmJhMzkwOGIxNzM2YWExNGFiZmI0YzgwM2ViNGQ3ODBmOThhMzA0YjM4ODJjMzcyIiwiY2FuZGlkYXRlX3J1biI6IjQ2ZjZhYWEzMTU1OTVmM2E1YTI0ZWZjMmIxNWJjODk0ZTdjZTRiMjRhZjc3Mjg3MmU0ZTU5MTk3ZWIwMDZhOTciLCJwYXJlbnRfcnVuXzEiOiI3ZjIzYzgzOWIwYmNhNzZiZjEyM2MyOTBhZWFmZTdjMDg4OWVkNjk0MDE1MWYzZjhiN2RlZDgxZDVlMDc3YmY1IiwicGFyZW50X3J1bl8yIjoiZTc3ZDllNmQ1YjE2OWVlZWExMTAyYTNmZTFlNTU5MGE3NjM1Y2NjNTc4Y2Q5Zjk1M2MxZGM5MjAyYzg2YWZkNSIsInJlcGxheTpndWFyZC1yZWZ1bmQtb25jZSI6ImUzN2MwNGM0NjJhOTAyOWE3NDdiMzA3MTEyNTc3MDcyMWFmM2NhY2E4M2UxNzJlZjJkMmQ5NTk0ZWNkZGQ0NDgifSwidHlwZSI6ImRlY2lzaW9uIiwidmlzaWJsZV9jYXNlX2lkcyI6W119",
+          "payloadType": "application/vnd.ratchet.decision+json",
+          "signatures": [
+            {
+              "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+              "sig": "0s9o7aXxniulNmqyeuwuNTRgKi8h2pPRE3z+x1tCv0070OYSrOVhIKcEUBlwwGGwkdzgIFe9JQKimnrYcPi6BQ=="
+            }
+          ]
+        },
+        "name": "rejection-receipt",
+        "reasons": [
+          "not_admitted"
+        ]
+      },
+      "required-gate-unknown": {
+        "consumer": {
+          "required_gates": [
+            "replay",
+            "cost"
+          ],
+          "signature_verified_upstream": true,
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "the consumer requires a check that is not an admission gate",
+        "input": {
+          "payload": "eyJhZG1pdHRlZCI6dHJ1ZSwiY2FuZGlkYXRlIjoiZmY3MjE5YjgyZjQ2IiwiY2FuZGlkYXRlX2RpZ2VzdCI6ImZmNzIxOWI4MmY0NmFlMmU1NjcxMWY3NzA0NjdjNjI5YzQxZTIyMWI2OTJhMjViYjRiMTFhYjgwZWI3YmJjM2EiLCJjaGVja3MiOlt7ImV2aWRlbmNlIjp7ImdhdGUiOiJyZXBsYXkifSwibmFtZSI6InJlcGxheSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiaGVsZG91dCJ9LCJuYW1lIjoiaGVsZG91dCIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoibm9fcmVncmVzc2lvbiJ9LCJuYW1lIjoibm9fcmVncmVzc2lvbiIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiYmVuaWduX3R3aW5zIn0sIm5hbWUiOiJiZW5pZ25fdHdpbnMiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6Im92ZXJmaXRfbGludCJ9LCJuYW1lIjoib3ZlcmZpdF9saW50IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJhdXRob3JpdHkifSwibmFtZSI6ImF1dGhvcml0eSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjpmYWxzZX0sIm5hbWUiOiJjb3N0IiwicGFzc2VkIjp0cnVlfV0sImNvbnRleHQiOnt9LCJjb3JwdXNfZGlnZXN0cyI6eyJndWFyZC1yZWZ1bmQtb25jZSI6IjEwZTY5YmQwM2QzZGFiMDRiNzc4OThiOTFiYzhiZjkxMzhhZTk2NDdkOTJiMmJlYWIyYTM5NTIxYzE4NzUxODcifSwiZGVjaWRlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MDArMDA6MDAiLCJldmFsdWF0b3IiOnsiY2FzZXMiOjQwLCJjb21wb25lbnRzIjp7ImNhc2VzIjoiMzUyYjg0Nzc3ZDhkZDk2YWM5YzBiM2MxNzBlY2IyYzdjY2E3ZmMyZGJhZTQxYTFlYzFlZDQyODZmYjJjNDNkYiIsImZhdWx0cyI6IjA5MDNlYzZhZDY5MTViODY3MGNjMDY2ZDdhNzAwN2Q4NGM2NTBkZjMwMWUwOWEyOTdkNDBkMDRhNzUwNGZiYmUiLCJncmFkZXJzIjoiZTVlNGI1OTY3NzMyZmVhZDMxNzZjNjEyMjcwNzQ5MjI1MmZjNWMzZjMzNjUwNGM2ZDJkNGI4MmJjMGNjM2NlYSIsIm1vZGVsX2NvbmZpZyI6IjA5NmViNTNmZWQzNzVhZWVmMWM4M2JhMzk1YzdkNTYzYThlNjdmN2EyMDlkMDU2NTM1NzRhZjJlZDZhMjE1YTQiLCJzdWl0ZV9maWxlIjoiYzhkMWVlMDc0Yzg2ZTJhNDQyYWQ4ZTdkYmU4MTk0ZGFkMWRlOTczY2RjMDY1ODEwOTk4NTA3M2RiOWU5MjhjNiJ9LCJtb2RlbF9jb25maWciOnsibW9kZWwiOiJ0ZXN0LW1vZGVsIn0sInZlcnNpb24iOiIyN2Y2MzQzZjk4MGMifSwiZXhjZXB0aW9ucyI6W10sInBhcmVudCI6IjM0NjE0MzkyYjhmZCIsInByZWRpY2F0ZVR5cGUiOiJodHRwczovL2dpdGh1Yi5jb20vcHJvYml0eWFpL2FnZW50LWV2aWRlbmNlLXZvY2FidWxhcnkvYmxvYi9tYWluL2RvY3MvcHJlZGljYXRlcy9hZ2VudC1jaGFuZ2UtYWRtaXNzaW9uLXYxLm1kIiwicmF0ZXMiOnt9LCJyZXBvcnRfZGlnZXN0cyI6eyJjYW5kaWRhdGVfY29uZmlybV9ydW4iOiI0YjA4YWU5MmU2MmFhMjVlNmJhMzkwOGIxNzM2YWExNGFiZmI0YzgwM2ViNGQ3ODBmOThhMzA0YjM4ODJjMzcyIiwiY2FuZGlkYXRlX3J1biI6IjQ2ZjZhYWEzMTU1OTVmM2E1YTI0ZWZjMmIxNWJjODk0ZTdjZTRiMjRhZjc3Mjg3MmU0ZTU5MTk3ZWIwMDZhOTciLCJwYXJlbnRfcnVuXzEiOiI3ZjIzYzgzOWIwYmNhNzZiZjEyM2MyOTBhZWFmZTdjMDg4OWVkNjk0MDE1MWYzZjhiN2RlZDgxZDVlMDc3YmY1IiwicGFyZW50X3J1bl8yIjoiZTc3ZDllNmQ1YjE2OWVlZWExMTAyYTNmZTFlNTU5MGE3NjM1Y2NjNTc4Y2Q5Zjk1M2MxZGM5MjAyYzg2YWZkNSIsInJlcGxheTpndWFyZC1yZWZ1bmQtb25jZSI6ImUzN2MwNGM0NjJhOTAyOWE3NDdiMzA3MTEyNTc3MDcyMWFmM2NhY2E4M2UxNzJlZjJkMmQ5NTk0ZWNkZGQ0NDgifSwidHlwZSI6ImRlY2lzaW9uIiwidmlzaWJsZV9jYXNlX2lkcyI6W119",
+          "payloadType": "application/vnd.ratchet.decision+json",
+          "signatures": [
+            {
+              "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+              "sig": "+M1ZBew6vUkZw7BqacXRmwi8ugYF+2bNPWuKV46pv53l4TZDMQfT1AIcGNwELvXpC55k5Vd3LbtR60oON5ffBQ=="
+            }
+          ]
+        },
+        "name": "required-gate-unknown",
+        "reasons": [
+          "required_gate_unknown:cost"
+        ]
+      },
+      "required-gates-empty": {
+        "consumer": {
+          "required_gates": [],
+          "signature_verified_upstream": true,
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "the consumer pins an empty gate list, which would admit on the admitted flag alone",
+        "input": {
+          "payload": "eyJhZG1pdHRlZCI6dHJ1ZSwiY2FuZGlkYXRlIjoiZmY3MjE5YjgyZjQ2IiwiY2FuZGlkYXRlX2RpZ2VzdCI6ImZmNzIxOWI4MmY0NmFlMmU1NjcxMWY3NzA0NjdjNjI5YzQxZTIyMWI2OTJhMjViYjRiMTFhYjgwZWI3YmJjM2EiLCJjaGVja3MiOlt7ImV2aWRlbmNlIjp7ImdhdGUiOiJyZXBsYXkifSwibmFtZSI6InJlcGxheSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiaGVsZG91dCJ9LCJuYW1lIjoiaGVsZG91dCIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoibm9fcmVncmVzc2lvbiJ9LCJuYW1lIjoibm9fcmVncmVzc2lvbiIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiYmVuaWduX3R3aW5zIn0sIm5hbWUiOiJiZW5pZ25fdHdpbnMiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6Im92ZXJmaXRfbGludCJ9LCJuYW1lIjoib3ZlcmZpdF9saW50IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJhdXRob3JpdHkifSwibmFtZSI6ImF1dGhvcml0eSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjpmYWxzZX0sIm5hbWUiOiJjb3N0IiwicGFzc2VkIjp0cnVlfV0sImNvbnRleHQiOnt9LCJjb3JwdXNfZGlnZXN0cyI6eyJndWFyZC1yZWZ1bmQtb25jZSI6IjEwZTY5YmQwM2QzZGFiMDRiNzc4OThiOTFiYzhiZjkxMzhhZTk2NDdkOTJiMmJlYWIyYTM5NTIxYzE4NzUxODcifSwiZGVjaWRlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MDArMDA6MDAiLCJldmFsdWF0b3IiOnsiY2FzZXMiOjQwLCJjb21wb25lbnRzIjp7ImNhc2VzIjoiMzUyYjg0Nzc3ZDhkZDk2YWM5YzBiM2MxNzBlY2IyYzdjY2E3ZmMyZGJhZTQxYTFlYzFlZDQyODZmYjJjNDNkYiIsImZhdWx0cyI6IjA5MDNlYzZhZDY5MTViODY3MGNjMDY2ZDdhNzAwN2Q4NGM2NTBkZjMwMWUwOWEyOTdkNDBkMDRhNzUwNGZiYmUiLCJncmFkZXJzIjoiZTVlNGI1OTY3NzMyZmVhZDMxNzZjNjEyMjcwNzQ5MjI1MmZjNWMzZjMzNjUwNGM2ZDJkNGI4MmJjMGNjM2NlYSIsIm1vZGVsX2NvbmZpZyI6IjA5NmViNTNmZWQzNzVhZWVmMWM4M2JhMzk1YzdkNTYzYThlNjdmN2EyMDlkMDU2NTM1NzRhZjJlZDZhMjE1YTQiLCJzdWl0ZV9maWxlIjoiYzhkMWVlMDc0Yzg2ZTJhNDQyYWQ4ZTdkYmU4MTk0ZGFkMWRlOTczY2RjMDY1ODEwOTk4NTA3M2RiOWU5MjhjNiJ9LCJtb2RlbF9jb25maWciOnsibW9kZWwiOiJ0ZXN0LW1vZGVsIn0sInZlcnNpb24iOiIyN2Y2MzQzZjk4MGMifSwiZXhjZXB0aW9ucyI6W10sInBhcmVudCI6IjM0NjE0MzkyYjhmZCIsInByZWRpY2F0ZVR5cGUiOiJodHRwczovL2dpdGh1Yi5jb20vcHJvYml0eWFpL2FnZW50LWV2aWRlbmNlLXZvY2FidWxhcnkvYmxvYi9tYWluL2RvY3MvcHJlZGljYXRlcy9hZ2VudC1jaGFuZ2UtYWRtaXNzaW9uLXYxLm1kIiwicmF0ZXMiOnt9LCJyZXBvcnRfZGlnZXN0cyI6eyJjYW5kaWRhdGVfY29uZmlybV9ydW4iOiI0YjA4YWU5MmU2MmFhMjVlNmJhMzkwOGIxNzM2YWExNGFiZmI0YzgwM2ViNGQ3ODBmOThhMzA0YjM4ODJjMzcyIiwiY2FuZGlkYXRlX3J1biI6IjQ2ZjZhYWEzMTU1OTVmM2E1YTI0ZWZjMmIxNWJjODk0ZTdjZTRiMjRhZjc3Mjg3MmU0ZTU5MTk3ZWIwMDZhOTciLCJwYXJlbnRfcnVuXzEiOiI3ZjIzYzgzOWIwYmNhNzZiZjEyM2MyOTBhZWFmZTdjMDg4OWVkNjk0MDE1MWYzZjhiN2RlZDgxZDVlMDc3YmY1IiwicGFyZW50X3J1bl8yIjoiZTc3ZDllNmQ1YjE2OWVlZWExMTAyYTNmZTFlNTU5MGE3NjM1Y2NjNTc4Y2Q5Zjk1M2MxZGM5MjAyYzg2YWZkNSIsInJlcGxheTpndWFyZC1yZWZ1bmQtb25jZSI6ImUzN2MwNGM0NjJhOTAyOWE3NDdiMzA3MTEyNTc3MDcyMWFmM2NhY2E4M2UxNzJlZjJkMmQ5NTk0ZWNkZGQ0NDgifSwidHlwZSI6ImRlY2lzaW9uIiwidmlzaWJsZV9jYXNlX2lkcyI6W119",
+          "payloadType": "application/vnd.ratchet.decision+json",
+          "signatures": [
+            {
+              "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+              "sig": "+M1ZBew6vUkZw7BqacXRmwi8ugYF+2bNPWuKV46pv53l4TZDMQfT1AIcGNwELvXpC55k5Vd3LbtR60oON5ffBQ=="
+            }
+          ]
+        },
+        "name": "required-gates-empty",
+        "reasons": [
+          "required_gates_empty"
+        ]
+      },
+      "required-gates-subset": {
+        "consumer": {
+          "required_gates": [
+            "replay",
+            "heldout",
+            "authority"
+          ],
+          "signature_verified_upstream": true,
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "the consumer requires three gates; the receipt omits benign_twins, which nobody requires",
+        "input": {
+          "payload": "eyJhZG1pdHRlZCI6dHJ1ZSwiY2FuZGlkYXRlIjoiZmY3MjE5YjgyZjQ2IiwiY2FuZGlkYXRlX2RpZ2VzdCI6ImZmNzIxOWI4MmY0NmFlMmU1NjcxMWY3NzA0NjdjNjI5YzQxZTIyMWI2OTJhMjViYjRiMTFhYjgwZWI3YmJjM2EiLCJjaGVja3MiOlt7ImV2aWRlbmNlIjp7ImdhdGUiOiJyZXBsYXkifSwibmFtZSI6InJlcGxheSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiaGVsZG91dCJ9LCJuYW1lIjoiaGVsZG91dCIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoibm9fcmVncmVzc2lvbiJ9LCJuYW1lIjoibm9fcmVncmVzc2lvbiIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoib3ZlcmZpdF9saW50In0sIm5hbWUiOiJvdmVyZml0X2xpbnQiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6ImF1dGhvcml0eSJ9LCJuYW1lIjoiYXV0aG9yaXR5IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOmZhbHNlfSwibmFtZSI6ImNvc3QiLCJwYXNzZWQiOnRydWV9XSwiY29udGV4dCI6e30sImNvcnB1c19kaWdlc3RzIjp7Imd1YXJkLXJlZnVuZC1vbmNlIjoiMTBlNjliZDAzZDNkYWIwNGI3Nzg5OGI5MWJjOGJmOTEzOGFlOTY0N2Q5MmIyYmVhYjJhMzk1MjFjMTg3NTE4NyJ9LCJkZWNpZGVkX2F0IjoiMjAyNi0xMC0xMVQxMjowMDowMCswMDowMCIsImV2YWx1YXRvciI6eyJjYXNlcyI6NDAsImNvbXBvbmVudHMiOnsiY2FzZXMiOiIzNTJiODQ3NzdkOGRkOTZhYzljMGIzYzE3MGVjYjJjN2NjYTdmYzJkYmFlNDFhMWVjMWVkNDI4NmZiMmM0M2RiIiwiZmF1bHRzIjoiMDkwM2VjNmFkNjkxNWI4NjcwY2MwNjZkN2E3MDA3ZDg0YzY1MGRmMzAxZTA5YTI5N2Q0MGQwNGE3NTA0ZmJiZSIsImdyYWRlcnMiOiJlNWU0YjU5Njc3MzJmZWFkMzE3NmM2MTIyNzA3NDkyMjUyZmM1YzNmMzM2NTA0YzZkMmQ0YjgyYmMwY2MzY2VhIiwibW9kZWxfY29uZmlnIjoiMDk2ZWI1M2ZlZDM3NWFlZWYxYzgzYmEzOTVjN2Q1NjNhOGU2N2Y3YTIwOWQwNTY1MzU3NGFmMmVkNmEyMTVhNCIsInN1aXRlX2ZpbGUiOiJjOGQxZWUwNzRjODZlMmE0NDJhZDhlN2RiZTgxOTRkYWQxZGU5NzNjZGMwNjU4MTA5OTg1MDczZGI5ZTkyOGM2In0sIm1vZGVsX2NvbmZpZyI6eyJtb2RlbCI6InRlc3QtbW9kZWwifSwidmVyc2lvbiI6IjI3ZjYzNDNmOTgwYyJ9LCJleGNlcHRpb25zIjpbXSwicGFyZW50IjoiMzQ2MTQzOTJiOGZkIiwicHJlZGljYXRlVHlwZSI6Imh0dHBzOi8vZ2l0aHViLmNvbS9wcm9iaXR5YWkvYWdlbnQtZXZpZGVuY2Utdm9jYWJ1bGFyeS9ibG9iL21haW4vZG9jcy9wcmVkaWNhdGVzL2FnZW50LWNoYW5nZS1hZG1pc3Npb24tdjEubWQiLCJyYXRlcyI6e30sInJlcG9ydF9kaWdlc3RzIjp7ImNhbmRpZGF0ZV9jb25maXJtX3J1biI6IjRiMDhhZTkyZTYyYWEyNWU2YmEzOTA4YjE3MzZhYTE0YWJmYjRjODAzZWI0ZDc4MGY5OGEzMDRiMzg4MmMzNzIiLCJjYW5kaWRhdGVfcnVuIjoiNDZmNmFhYTMxNTU5NWYzYTVhMjRlZmMyYjE1YmM4OTRlN2NlNGIyNGFmNzcyODcyZTRlNTkxOTdlYjAwNmE5NyIsInBhcmVudF9ydW5fMSI6IjdmMjNjODM5YjBiY2E3NmJmMTIzYzI5MGFlYWZlN2MwODg5ZWQ2OTQwMTUxZjNmOGI3ZGVkODFkNWUwNzdiZjUiLCJwYXJlbnRfcnVuXzIiOiJlNzdkOWU2ZDViMTY5ZWVlYTExMDJhM2ZlMWU1NTkwYTc2MzVjY2M1NzhjZDlmOTUzYzFkYzkyMDJjODZhZmQ1IiwicmVwbGF5Omd1YXJkLXJlZnVuZC1vbmNlIjoiZTM3YzA0YzQ2MmE5MDI5YTc0N2IzMDcxMTI1NzcwNzIxYWYzY2FjYTgzZTE3MmVmMmQyZDk1OTRlY2RkZDQ0OCJ9LCJ0eXBlIjoiZGVjaXNpb24iLCJ2aXNpYmxlX2Nhc2VfaWRzIjpbXX0=",
+          "payloadType": "application/vnd.ratchet.decision+json",
+          "signatures": [
+            {
+              "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+              "sig": "uMQzck45SQsuTXBDpdfUsP6p9tnyIRCjp8uDzsRtwWSt8PInWL2LcMw+7usYM1xMER4Q9uUP+rUChfwCV8QUAg=="
+            }
+          ]
+        },
+        "name": "required-gates-subset",
+        "reasons": []
+      },
+      "signature-verification-undeclared": {
+        "consumer": {
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "the consumer never said anything verified the envelope signature before this rule ran",
+        "input": {
+          "payload": "eyJhZG1pdHRlZCI6dHJ1ZSwiY2FuZGlkYXRlIjoiZmY3MjE5YjgyZjQ2IiwiY2FuZGlkYXRlX2RpZ2VzdCI6ImZmNzIxOWI4MmY0NmFlMmU1NjcxMWY3NzA0NjdjNjI5YzQxZTIyMWI2OTJhMjViYjRiMTFhYjgwZWI3YmJjM2EiLCJjaGVja3MiOlt7ImV2aWRlbmNlIjp7ImdhdGUiOiJyZXBsYXkifSwibmFtZSI6InJlcGxheSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiaGVsZG91dCJ9LCJuYW1lIjoiaGVsZG91dCIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoibm9fcmVncmVzc2lvbiJ9LCJuYW1lIjoibm9fcmVncmVzc2lvbiIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiYmVuaWduX3R3aW5zIn0sIm5hbWUiOiJiZW5pZ25fdHdpbnMiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6Im92ZXJmaXRfbGludCJ9LCJuYW1lIjoib3ZlcmZpdF9saW50IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJhdXRob3JpdHkifSwibmFtZSI6ImF1dGhvcml0eSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjpmYWxzZX0sIm5hbWUiOiJjb3N0IiwicGFzc2VkIjp0cnVlfV0sImNvbnRleHQiOnt9LCJjb3JwdXNfZGlnZXN0cyI6eyJndWFyZC1yZWZ1bmQtb25jZSI6IjEwZTY5YmQwM2QzZGFiMDRiNzc4OThiOTFiYzhiZjkxMzhhZTk2NDdkOTJiMmJlYWIyYTM5NTIxYzE4NzUxODcifSwiZGVjaWRlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MDArMDA6MDAiLCJldmFsdWF0b3IiOnsiY2FzZXMiOjQwLCJjb21wb25lbnRzIjp7ImNhc2VzIjoiMzUyYjg0Nzc3ZDhkZDk2YWM5YzBiM2MxNzBlY2IyYzdjY2E3ZmMyZGJhZTQxYTFlYzFlZDQyODZmYjJjNDNkYiIsImZhdWx0cyI6IjA5MDNlYzZhZDY5MTViODY3MGNjMDY2ZDdhNzAwN2Q4NGM2NTBkZjMwMWUwOWEyOTdkNDBkMDRhNzUwNGZiYmUiLCJncmFkZXJzIjoiZTVlNGI1OTY3NzMyZmVhZDMxNzZjNjEyMjcwNzQ5MjI1MmZjNWMzZjMzNjUwNGM2ZDJkNGI4MmJjMGNjM2NlYSIsIm1vZGVsX2NvbmZpZyI6IjA5NmViNTNmZWQzNzVhZWVmMWM4M2JhMzk1YzdkNTYzYThlNjdmN2EyMDlkMDU2NTM1NzRhZjJlZDZhMjE1YTQiLCJzdWl0ZV9maWxlIjoiYzhkMWVlMDc0Yzg2ZTJhNDQyYWQ4ZTdkYmU4MTk0ZGFkMWRlOTczY2RjMDY1ODEwOTk4NTA3M2RiOWU5MjhjNiJ9LCJtb2RlbF9jb25maWciOnsibW9kZWwiOiJ0ZXN0LW1vZGVsIn0sInZlcnNpb24iOiIyN2Y2MzQzZjk4MGMifSwiZXhjZXB0aW9ucyI6W10sInBhcmVudCI6IjM0NjE0MzkyYjhmZCIsInByZWRpY2F0ZVR5cGUiOiJodHRwczovL2dpdGh1Yi5jb20vcHJvYml0eWFpL2FnZW50LWV2aWRlbmNlLXZvY2FidWxhcnkvYmxvYi9tYWluL2RvY3MvcHJlZGljYXRlcy9hZ2VudC1jaGFuZ2UtYWRtaXNzaW9uLXYxLm1kIiwicmF0ZXMiOnt9LCJyZXBvcnRfZGlnZXN0cyI6eyJjYW5kaWRhdGVfY29uZmlybV9ydW4iOiI0YjA4YWU5MmU2MmFhMjVlNmJhMzkwOGIxNzM2YWExNGFiZmI0YzgwM2ViNGQ3ODBmOThhMzA0YjM4ODJjMzcyIiwiY2FuZGlkYXRlX3J1biI6IjQ2ZjZhYWEzMTU1OTVmM2E1YTI0ZWZjMmIxNWJjODk0ZTdjZTRiMjRhZjc3Mjg3MmU0ZTU5MTk3ZWIwMDZhOTciLCJwYXJlbnRfcnVuXzEiOiI3ZjIzYzgzOWIwYmNhNzZiZjEyM2MyOTBhZWFmZTdjMDg4OWVkNjk0MDE1MWYzZjhiN2RlZDgxZDVlMDc3YmY1IiwicGFyZW50X3J1bl8yIjoiZTc3ZDllNmQ1YjE2OWVlZWExMTAyYTNmZTFlNTU5MGE3NjM1Y2NjNTc4Y2Q5Zjk1M2MxZGM5MjAyYzg2YWZkNSIsInJlcGxheTpndWFyZC1yZWZ1bmQtb25jZSI6ImUzN2MwNGM0NjJhOTAyOWE3NDdiMzA3MTEyNTc3MDcyMWFmM2NhY2E4M2UxNzJlZjJkMmQ5NTk0ZWNkZGQ0NDgifSwidHlwZSI6ImRlY2lzaW9uIiwidmlzaWJsZV9jYXNlX2lkcyI6W119",
+          "payloadType": "application/vnd.ratchet.decision+json",
+          "signatures": [
+            {
+              "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+              "sig": "+M1ZBew6vUkZw7BqacXRmwi8ugYF+2bNPWuKV46pv53l4TZDMQfT1AIcGNwELvXpC55k5Vd3LbtR60oON5ffBQ=="
+            }
+          ]
+        },
+        "name": "signature-verification-undeclared",
+        "reasons": [
+          "signature_verification_undeclared"
+        ]
+      },
+      "statement-admitted": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "a verified in-toto statement whose subject is the candidate harness, every gate passed",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "admitted": true,
+            "candidate": "ff7219b82f46",
+            "candidate_digest": "ff7219b82f46ae2e56711f770467c629c41e221b692a25bb4b11ab80eb7bbc3a",
+            "checks": [
+              {
+                "evidence": {
+                  "gate": "replay"
+                },
+                "name": "replay",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "heldout"
+                },
+                "name": "heldout",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "no_regression"
+                },
+                "name": "no_regression",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "benign_twins"
+                },
+                "name": "benign_twins",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "overfit_lint"
+                },
+                "name": "overfit_lint",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "authority"
+                },
+                "name": "authority",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": false
+                },
+                "name": "cost",
+                "passed": true
+              }
+            ],
+            "context": {},
+            "corpus_digests": {
+              "guard-refund-once": "10e69bd03d3dab04b77898b91bc8bf9138ae9647d92b2beab2a39521c1875187"
+            },
+            "decided_at": "2026-10-11T12:00:00+00:00",
+            "evaluator": {
+              "cases": 40,
+              "components": {
+                "cases": "352b84777d8dd96ac9c0b3c170ecb2c7cca7fc2dbae41a1ec1ed4286fb2c43db",
+                "faults": "0903ec6ad6915b8670cc066d7a7007d84c650df301e09a297d40d04a7504fbbe",
+                "graders": "e5e4b5967732fead3176c6122707492252fc5c3f336504c6d2d4b82bc0cc3cea",
+                "model_config": "096eb53fed375aeef1c83ba395c7d563a8e67f7a209d05653574af2ed6a215a4",
+                "suite_file": "c8d1ee074c86e2a442ad8e7dbe8194dad1de973cdc0658109985073db9e928c6"
+              },
+              "model_config": {
+                "model": "test-model"
+              },
+              "version": "27f6343f980c"
+            },
+            "exceptions": [],
+            "parent": "34614392b8fd",
+            "rates": {},
+            "report_digests": {
+              "candidate_confirm_run": "4b08ae92e62aa25e6ba3908b1736aa14abfb4c803eb4d780f98a304b3882c372",
+              "candidate_run": "46f6aaa315595f3a5a24efc2b15bc894e7ce4b24af772872e4e59197eb006a97",
+              "parent_run_1": "7f23c839b0bca76bf123c290aeafe7c0889ed6940151f3f8b7ded81d5e077bf5",
+              "parent_run_2": "e77d9e6d5b169eeea1102a3fe1e5590a7635ccc578cd9f953c1dc9202c86afd5",
+              "replay:guard-refund-once": "e37c04c462a9029a747b3071125770721af3caca83e172ef2d2d9594ecddd448"
+            },
+            "type": "decision",
+            "visible_case_ids": []
+          },
+          "predicateType": "https://github.com/probityai/agent-evidence-vocabulary/blob/main/docs/predicates/agent-change-admission-v1.md",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "ff7219b82f46ae2e56711f770467c629c41e221b692a25bb4b11ab80eb7bbc3a"
+              },
+              "name": "harness"
+            }
+          ]
+        },
+        "name": "statement-admitted",
+        "reasons": []
+      },
+      "statement-predicate-not-object": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "the statement names this predicate type and carries no decision object",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": "admitted",
+          "predicateType": "https://github.com/probityai/agent-evidence-vocabulary/blob/main/docs/predicates/agent-change-admission-v1.md",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "ff7219b82f46ae2e56711f770467c629c41e221b692a25bb4b11ab80eb7bbc3a"
+              },
+              "name": "harness"
+            }
+          ]
+        },
+        "name": "statement-predicate-not-object",
+        "reasons": [
+          "unsupported_predicate"
+        ]
+      },
+      "subject-binding-unknown": {
+        "consumer": {
+          "signature_verified_upstream": true,
+          "subject_binding": "tag"
+        },
+        "description": "the consumer names a subject binding this rule does not define",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "admitted": true,
+            "candidate": "ff7219b82f46",
+            "candidate_digest": "ff7219b82f46ae2e56711f770467c629c41e221b692a25bb4b11ab80eb7bbc3a",
+            "checks": [
+              {
+                "evidence": {
+                  "gate": "replay"
+                },
+                "name": "replay",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "heldout"
+                },
+                "name": "heldout",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "no_regression"
+                },
+                "name": "no_regression",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "benign_twins"
+                },
+                "name": "benign_twins",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "overfit_lint"
+                },
+                "name": "overfit_lint",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "authority"
+                },
+                "name": "authority",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": false
+                },
+                "name": "cost",
+                "passed": true
+              }
+            ],
+            "context": {},
+            "corpus_digests": {
+              "guard-refund-once": "10e69bd03d3dab04b77898b91bc8bf9138ae9647d92b2beab2a39521c1875187"
+            },
+            "decided_at": "2026-10-11T12:00:00+00:00",
+            "evaluator": {
+              "cases": 40,
+              "components": {
+                "cases": "352b84777d8dd96ac9c0b3c170ecb2c7cca7fc2dbae41a1ec1ed4286fb2c43db",
+                "faults": "0903ec6ad6915b8670cc066d7a7007d84c650df301e09a297d40d04a7504fbbe",
+                "graders": "e5e4b5967732fead3176c6122707492252fc5c3f336504c6d2d4b82bc0cc3cea",
+                "model_config": "096eb53fed375aeef1c83ba395c7d563a8e67f7a209d05653574af2ed6a215a4",
+                "suite_file": "c8d1ee074c86e2a442ad8e7dbe8194dad1de973cdc0658109985073db9e928c6"
+              },
+              "model_config": {
+                "model": "test-model"
+              },
+              "version": "27f6343f980c"
+            },
+            "exceptions": [],
+            "parent": "34614392b8fd",
+            "rates": {},
+            "report_digests": {
+              "candidate_confirm_run": "4b08ae92e62aa25e6ba3908b1736aa14abfb4c803eb4d780f98a304b3882c372",
+              "candidate_run": "46f6aaa315595f3a5a24efc2b15bc894e7ce4b24af772872e4e59197eb006a97",
+              "parent_run_1": "7f23c839b0bca76bf123c290aeafe7c0889ed6940151f3f8b7ded81d5e077bf5",
+              "parent_run_2": "e77d9e6d5b169eeea1102a3fe1e5590a7635ccc578cd9f953c1dc9202c86afd5",
+              "replay:guard-refund-once": "e37c04c462a9029a747b3071125770721af3caca83e172ef2d2d9594ecddd448"
+            },
+            "type": "decision",
+            "visible_case_ids": []
+          },
+          "predicateType": "https://github.com/probityai/agent-evidence-vocabulary/blob/main/docs/predicates/agent-change-admission-v1.md",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "ff7219b82f46ae2e56711f770467c629c41e221b692a25bb4b11ab80eb7bbc3a"
+              },
+              "name": "harness"
+            }
+          ]
+        },
+        "name": "subject-binding-unknown",
+        "reasons": [
+          "subject_binding_unknown"
+        ]
+      },
+      "subject-digest-mismatch": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "the statement's subject is not the candidate the decision admits",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "admitted": true,
+            "candidate": "ff7219b82f46",
+            "candidate_digest": "ff7219b82f46ae2e56711f770467c629c41e221b692a25bb4b11ab80eb7bbc3a",
+            "checks": [
+              {
+                "evidence": {
+                  "gate": "replay"
+                },
+                "name": "replay",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "heldout"
+                },
+                "name": "heldout",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "no_regression"
+                },
+                "name": "no_regression",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "benign_twins"
+                },
+                "name": "benign_twins",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "overfit_lint"
+                },
+                "name": "overfit_lint",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "authority"
+                },
+                "name": "authority",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": false
+                },
+                "name": "cost",
+                "passed": true
+              }
+            ],
+            "context": {},
+            "corpus_digests": {
+              "guard-refund-once": "10e69bd03d3dab04b77898b91bc8bf9138ae9647d92b2beab2a39521c1875187"
+            },
+            "decided_at": "2026-10-11T12:00:00+00:00",
+            "evaluator": {
+              "cases": 40,
+              "components": {
+                "cases": "352b84777d8dd96ac9c0b3c170ecb2c7cca7fc2dbae41a1ec1ed4286fb2c43db",
+                "faults": "0903ec6ad6915b8670cc066d7a7007d84c650df301e09a297d40d04a7504fbbe",
+                "graders": "e5e4b5967732fead3176c6122707492252fc5c3f336504c6d2d4b82bc0cc3cea",
+                "model_config": "096eb53fed375aeef1c83ba395c7d563a8e67f7a209d05653574af2ed6a215a4",
+                "suite_file": "c8d1ee074c86e2a442ad8e7dbe8194dad1de973cdc0658109985073db9e928c6"
+              },
+              "model_config": {
+                "model": "test-model"
+              },
+              "version": "27f6343f980c"
+            },
+            "exceptions": [],
+            "parent": "34614392b8fd",
+            "rates": {},
+            "report_digests": {
+              "candidate_confirm_run": "4b08ae92e62aa25e6ba3908b1736aa14abfb4c803eb4d780f98a304b3882c372",
+              "candidate_run": "46f6aaa315595f3a5a24efc2b15bc894e7ce4b24af772872e4e59197eb006a97",
+              "parent_run_1": "7f23c839b0bca76bf123c290aeafe7c0889ed6940151f3f8b7ded81d5e077bf5",
+              "parent_run_2": "e77d9e6d5b169eeea1102a3fe1e5590a7635ccc578cd9f953c1dc9202c86afd5",
+              "replay:guard-refund-once": "e37c04c462a9029a747b3071125770721af3caca83e172ef2d2d9594ecddd448"
+            },
+            "type": "decision",
+            "visible_case_ids": []
+          },
+          "predicateType": "https://github.com/probityai/agent-evidence-vocabulary/blob/main/docs/predicates/agent-change-admission-v1.md",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "b689d048c691ecb41faac2794e8d2ead69afa42a2d06aad26af3002de6217bde"
+              },
+              "name": "harness"
+            }
+          ]
+        },
+        "name": "subject-digest-mismatch",
+        "reasons": [
+          "subject_digest_mismatch"
+        ]
+      },
+      "trusted-keys-unpinned": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "an envelope reaches a consumer that pinned no signer key",
+        "input": {
+          "payload": "eyJhZG1pdHRlZCI6dHJ1ZSwiY2FuZGlkYXRlIjoiZmY3MjE5YjgyZjQ2IiwiY2FuZGlkYXRlX2RpZ2VzdCI6ImZmNzIxOWI4MmY0NmFlMmU1NjcxMWY3NzA0NjdjNjI5YzQxZTIyMWI2OTJhMjViYjRiMTFhYjgwZWI3YmJjM2EiLCJjaGVja3MiOlt7ImV2aWRlbmNlIjp7ImdhdGUiOiJyZXBsYXkifSwibmFtZSI6InJlcGxheSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiaGVsZG91dCJ9LCJuYW1lIjoiaGVsZG91dCIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoibm9fcmVncmVzc2lvbiJ9LCJuYW1lIjoibm9fcmVncmVzc2lvbiIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiYmVuaWduX3R3aW5zIn0sIm5hbWUiOiJiZW5pZ25fdHdpbnMiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6Im92ZXJmaXRfbGludCJ9LCJuYW1lIjoib3ZlcmZpdF9saW50IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJhdXRob3JpdHkifSwibmFtZSI6ImF1dGhvcml0eSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjpmYWxzZX0sIm5hbWUiOiJjb3N0IiwicGFzc2VkIjp0cnVlfV0sImNvbnRleHQiOnt9LCJjb3JwdXNfZGlnZXN0cyI6eyJndWFyZC1yZWZ1bmQtb25jZSI6IjEwZTY5YmQwM2QzZGFiMDRiNzc4OThiOTFiYzhiZjkxMzhhZTk2NDdkOTJiMmJlYWIyYTM5NTIxYzE4NzUxODcifSwiZGVjaWRlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MDArMDA6MDAiLCJldmFsdWF0b3IiOnsiY2FzZXMiOjQwLCJjb21wb25lbnRzIjp7ImNhc2VzIjoiMzUyYjg0Nzc3ZDhkZDk2YWM5YzBiM2MxNzBlY2IyYzdjY2E3ZmMyZGJhZTQxYTFlYzFlZDQyODZmYjJjNDNkYiIsImZhdWx0cyI6IjA5MDNlYzZhZDY5MTViODY3MGNjMDY2ZDdhNzAwN2Q4NGM2NTBkZjMwMWUwOWEyOTdkNDBkMDRhNzUwNGZiYmUiLCJncmFkZXJzIjoiZTVlNGI1OTY3NzMyZmVhZDMxNzZjNjEyMjcwNzQ5MjI1MmZjNWMzZjMzNjUwNGM2ZDJkNGI4MmJjMGNjM2NlYSIsIm1vZGVsX2NvbmZpZyI6IjA5NmViNTNmZWQzNzVhZWVmMWM4M2JhMzk1YzdkNTYzYThlNjdmN2EyMDlkMDU2NTM1NzRhZjJlZDZhMjE1YTQiLCJzdWl0ZV9maWxlIjoiYzhkMWVlMDc0Yzg2ZTJhNDQyYWQ4ZTdkYmU4MTk0ZGFkMWRlOTczY2RjMDY1ODEwOTk4NTA3M2RiOWU5MjhjNiJ9LCJtb2RlbF9jb25maWciOnsibW9kZWwiOiJ0ZXN0LW1vZGVsIn0sInZlcnNpb24iOiIyN2Y2MzQzZjk4MGMifSwiZXhjZXB0aW9ucyI6W10sInBhcmVudCI6IjM0NjE0MzkyYjhmZCIsInByZWRpY2F0ZVR5cGUiOiJodHRwczovL2dpdGh1Yi5jb20vcHJvYml0eWFpL2FnZW50LWV2aWRlbmNlLXZvY2FidWxhcnkvYmxvYi9tYWluL2RvY3MvcHJlZGljYXRlcy9hZ2VudC1jaGFuZ2UtYWRtaXNzaW9uLXYxLm1kIiwicmF0ZXMiOnt9LCJyZXBvcnRfZGlnZXN0cyI6eyJjYW5kaWRhdGVfY29uZmlybV9ydW4iOiI0YjA4YWU5MmU2MmFhMjVlNmJhMzkwOGIxNzM2YWExNGFiZmI0YzgwM2ViNGQ3ODBmOThhMzA0YjM4ODJjMzcyIiwiY2FuZGlkYXRlX3J1biI6IjQ2ZjZhYWEzMTU1OTVmM2E1YTI0ZWZjMmIxNWJjODk0ZTdjZTRiMjRhZjc3Mjg3MmU0ZTU5MTk3ZWIwMDZhOTciLCJwYXJlbnRfcnVuXzEiOiI3ZjIzYzgzOWIwYmNhNzZiZjEyM2MyOTBhZWFmZTdjMDg4OWVkNjk0MDE1MWYzZjhiN2RlZDgxZDVlMDc3YmY1IiwicGFyZW50X3J1bl8yIjoiZTc3ZDllNmQ1YjE2OWVlZWExMTAyYTNmZTFlNTU5MGE3NjM1Y2NjNTc4Y2Q5Zjk1M2MxZGM5MjAyYzg2YWZkNSIsInJlcGxheTpndWFyZC1yZWZ1bmQtb25jZSI6ImUzN2MwNGM0NjJhOTAyOWE3NDdiMzA3MTEyNTc3MDcyMWFmM2NhY2E4M2UxNzJlZjJkMmQ5NTk0ZWNkZGQ0NDgifSwidHlwZSI6ImRlY2lzaW9uIiwidmlzaWJsZV9jYXNlX2lkcyI6W119",
+          "payloadType": "application/vnd.ratchet.decision+json",
+          "signatures": [
+            {
+              "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+              "sig": "+M1ZBew6vUkZw7BqacXRmwi8ugYF+2bNPWuKV46pv53l4TZDMQfT1AIcGNwELvXpC55k5Vd3LbtR60oON5ffBQ=="
+            }
+          ]
+        },
+        "name": "trusted-keys-unpinned",
+        "reasons": [
+          "trusted_keys_unpinned"
+        ]
+      },
+      "unsupported-payload-type": {
+        "consumer": {
+          "signature_verified_upstream": true,
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "the envelope carries a payload type that is neither carriage of the predicate",
+        "input": {
+          "payload": "eyJhZG1pdHRlZCI6dHJ1ZSwiY2FuZGlkYXRlIjoiZmY3MjE5YjgyZjQ2IiwiY2FuZGlkYXRlX2RpZ2VzdCI6ImZmNzIxOWI4MmY0NmFlMmU1NjcxMWY3NzA0NjdjNjI5YzQxZTIyMWI2OTJhMjViYjRiMTFhYjgwZWI3YmJjM2EiLCJjaGVja3MiOlt7ImV2aWRlbmNlIjp7ImdhdGUiOiJyZXBsYXkifSwibmFtZSI6InJlcGxheSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiaGVsZG91dCJ9LCJuYW1lIjoiaGVsZG91dCIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoibm9fcmVncmVzc2lvbiJ9LCJuYW1lIjoibm9fcmVncmVzc2lvbiIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiYmVuaWduX3R3aW5zIn0sIm5hbWUiOiJiZW5pZ25fdHdpbnMiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6Im92ZXJmaXRfbGludCJ9LCJuYW1lIjoib3ZlcmZpdF9saW50IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJhdXRob3JpdHkifSwibmFtZSI6ImF1dGhvcml0eSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjpmYWxzZX0sIm5hbWUiOiJjb3N0IiwicGFzc2VkIjp0cnVlfV0sImNvbnRleHQiOnt9LCJjb3JwdXNfZGlnZXN0cyI6eyJndWFyZC1yZWZ1bmQtb25jZSI6IjEwZTY5YmQwM2QzZGFiMDRiNzc4OThiOTFiYzhiZjkxMzhhZTk2NDdkOTJiMmJlYWIyYTM5NTIxYzE4NzUxODcifSwiZGVjaWRlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MDArMDA6MDAiLCJldmFsdWF0b3IiOnsiY2FzZXMiOjQwLCJjb21wb25lbnRzIjp7ImNhc2VzIjoiMzUyYjg0Nzc3ZDhkZDk2YWM5YzBiM2MxNzBlY2IyYzdjY2E3ZmMyZGJhZTQxYTFlYzFlZDQyODZmYjJjNDNkYiIsImZhdWx0cyI6IjA5MDNlYzZhZDY5MTViODY3MGNjMDY2ZDdhNzAwN2Q4NGM2NTBkZjMwMWUwOWEyOTdkNDBkMDRhNzUwNGZiYmUiLCJncmFkZXJzIjoiZTVlNGI1OTY3NzMyZmVhZDMxNzZjNjEyMjcwNzQ5MjI1MmZjNWMzZjMzNjUwNGM2ZDJkNGI4MmJjMGNjM2NlYSIsIm1vZGVsX2NvbmZpZyI6IjA5NmViNTNmZWQzNzVhZWVmMWM4M2JhMzk1YzdkNTYzYThlNjdmN2EyMDlkMDU2NTM1NzRhZjJlZDZhMjE1YTQiLCJzdWl0ZV9maWxlIjoiYzhkMWVlMDc0Yzg2ZTJhNDQyYWQ4ZTdkYmU4MTk0ZGFkMWRlOTczY2RjMDY1ODEwOTk4NTA3M2RiOWU5MjhjNiJ9LCJtb2RlbF9jb25maWciOnsibW9kZWwiOiJ0ZXN0LW1vZGVsIn0sInZlcnNpb24iOiIyN2Y2MzQzZjk4MGMifSwiZXhjZXB0aW9ucyI6W10sInBhcmVudCI6IjM0NjE0MzkyYjhmZCIsInByZWRpY2F0ZVR5cGUiOiJodHRwczovL2dpdGh1Yi5jb20vcHJvYml0eWFpL2FnZW50LWV2aWRlbmNlLXZvY2FidWxhcnkvYmxvYi9tYWluL2RvY3MvcHJlZGljYXRlcy9hZ2VudC1jaGFuZ2UtYWRtaXNzaW9uLXYxLm1kIiwicmF0ZXMiOnt9LCJyZXBvcnRfZGlnZXN0cyI6eyJjYW5kaWRhdGVfY29uZmlybV9ydW4iOiI0YjA4YWU5MmU2MmFhMjVlNmJhMzkwOGIxNzM2YWExNGFiZmI0YzgwM2ViNGQ3ODBmOThhMzA0YjM4ODJjMzcyIiwiY2FuZGlkYXRlX3J1biI6IjQ2ZjZhYWEzMTU1OTVmM2E1YTI0ZWZjMmIxNWJjODk0ZTdjZTRiMjRhZjc3Mjg3MmU0ZTU5MTk3ZWIwMDZhOTciLCJwYXJlbnRfcnVuXzEiOiI3ZjIzYzgzOWIwYmNhNzZiZjEyM2MyOTBhZWFmZTdjMDg4OWVkNjk0MDE1MWYzZjhiN2RlZDgxZDVlMDc3YmY1IiwicGFyZW50X3J1bl8yIjoiZTc3ZDllNmQ1YjE2OWVlZWExMTAyYTNmZTFlNTU5MGE3NjM1Y2NjNTc4Y2Q5Zjk1M2MxZGM5MjAyYzg2YWZkNSIsInJlcGxheTpndWFyZC1yZWZ1bmQtb25jZSI6ImUzN2MwNGM0NjJhOTAyOWE3NDdiMzA3MTEyNTc3MDcyMWFmM2NhY2E4M2UxNzJlZjJkMmQ5NTk0ZWNkZGQ0NDgifSwidHlwZSI6ImRlY2lzaW9uIiwidmlzaWJsZV9jYXNlX2lkcyI6W119",
+          "payloadType": "application/json",
+          "signatures": [
+            {
+              "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+              "sig": "gl5ZlYdXZDfewLbkdvBUkUS/C4oF8d56zYYrMfIjKVH7SNuTV5tGNvFeTDlysYcc7nbmKlRHrK63+cWkZ9oGCQ=="
+            }
+          ]
+        },
+        "name": "unsupported-payload-type",
+        "reasons": [
+          "unsupported_payload_type"
+        ]
+      },
+      "unsupported-predicate-bare": {
+        "consumer": {
+          "signature_verified_upstream": true,
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "the bare decision names another predicate type",
+        "input": {
+          "payload": "eyJhZG1pdHRlZCI6dHJ1ZSwiY2FuZGlkYXRlIjoiZmY3MjE5YjgyZjQ2IiwiY2FuZGlkYXRlX2RpZ2VzdCI6ImZmNzIxOWI4MmY0NmFlMmU1NjcxMWY3NzA0NjdjNjI5YzQxZTIyMWI2OTJhMjViYjRiMTFhYjgwZWI3YmJjM2EiLCJjaGVja3MiOlt7ImV2aWRlbmNlIjp7ImdhdGUiOiJyZXBsYXkifSwibmFtZSI6InJlcGxheSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiaGVsZG91dCJ9LCJuYW1lIjoiaGVsZG91dCIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoibm9fcmVncmVzc2lvbiJ9LCJuYW1lIjoibm9fcmVncmVzc2lvbiIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiYmVuaWduX3R3aW5zIn0sIm5hbWUiOiJiZW5pZ25fdHdpbnMiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6Im92ZXJmaXRfbGludCJ9LCJuYW1lIjoib3ZlcmZpdF9saW50IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJhdXRob3JpdHkifSwibmFtZSI6ImF1dGhvcml0eSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjpmYWxzZX0sIm5hbWUiOiJjb3N0IiwicGFzc2VkIjp0cnVlfV0sImNvbnRleHQiOnt9LCJjb3JwdXNfZGlnZXN0cyI6eyJndWFyZC1yZWZ1bmQtb25jZSI6IjEwZTY5YmQwM2QzZGFiMDRiNzc4OThiOTFiYzhiZjkxMzhhZTk2NDdkOTJiMmJlYWIyYTM5NTIxYzE4NzUxODcifSwiZGVjaWRlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MDArMDA6MDAiLCJldmFsdWF0b3IiOnsiY2FzZXMiOjQwLCJjb21wb25lbnRzIjp7ImNhc2VzIjoiMzUyYjg0Nzc3ZDhkZDk2YWM5YzBiM2MxNzBlY2IyYzdjY2E3ZmMyZGJhZTQxYTFlYzFlZDQyODZmYjJjNDNkYiIsImZhdWx0cyI6IjA5MDNlYzZhZDY5MTViODY3MGNjMDY2ZDdhNzAwN2Q4NGM2NTBkZjMwMWUwOWEyOTdkNDBkMDRhNzUwNGZiYmUiLCJncmFkZXJzIjoiZTVlNGI1OTY3NzMyZmVhZDMxNzZjNjEyMjcwNzQ5MjI1MmZjNWMzZjMzNjUwNGM2ZDJkNGI4MmJjMGNjM2NlYSIsIm1vZGVsX2NvbmZpZyI6IjA5NmViNTNmZWQzNzVhZWVmMWM4M2JhMzk1YzdkNTYzYThlNjdmN2EyMDlkMDU2NTM1NzRhZjJlZDZhMjE1YTQiLCJzdWl0ZV9maWxlIjoiYzhkMWVlMDc0Yzg2ZTJhNDQyYWQ4ZTdkYmU4MTk0ZGFkMWRlOTczY2RjMDY1ODEwOTk4NTA3M2RiOWU5MjhjNiJ9LCJtb2RlbF9jb25maWciOnsibW9kZWwiOiJ0ZXN0LW1vZGVsIn0sInZlcnNpb24iOiIyN2Y2MzQzZjk4MGMifSwiZXhjZXB0aW9ucyI6W10sInBhcmVudCI6IjM0NjE0MzkyYjhmZCIsInByZWRpY2F0ZVR5cGUiOiJodHRwczovL2dpdGh1Yi5jb20vcHJvYml0eWFpL2FnZW50LWV2aWRlbmNlLXZvY2FidWxhcnkvYmxvYi9tYWluL2RvY3MvcHJlZGljYXRlcy9hZ2VudC1jaGFuZ2UtYWRtaXNzaW9uLXYyLm1kIiwicmF0ZXMiOnt9LCJyZXBvcnRfZGlnZXN0cyI6eyJjYW5kaWRhdGVfY29uZmlybV9ydW4iOiI0YjA4YWU5MmU2MmFhMjVlNmJhMzkwOGIxNzM2YWExNGFiZmI0YzgwM2ViNGQ3ODBmOThhMzA0YjM4ODJjMzcyIiwiY2FuZGlkYXRlX3J1biI6IjQ2ZjZhYWEzMTU1OTVmM2E1YTI0ZWZjMmIxNWJjODk0ZTdjZTRiMjRhZjc3Mjg3MmU0ZTU5MTk3ZWIwMDZhOTciLCJwYXJlbnRfcnVuXzEiOiI3ZjIzYzgzOWIwYmNhNzZiZjEyM2MyOTBhZWFmZTdjMDg4OWVkNjk0MDE1MWYzZjhiN2RlZDgxZDVlMDc3YmY1IiwicGFyZW50X3J1bl8yIjoiZTc3ZDllNmQ1YjE2OWVlZWExMTAyYTNmZTFlNTU5MGE3NjM1Y2NjNTc4Y2Q5Zjk1M2MxZGM5MjAyYzg2YWZkNSIsInJlcGxheTpndWFyZC1yZWZ1bmQtb25jZSI6ImUzN2MwNGM0NjJhOTAyOWE3NDdiMzA3MTEyNTc3MDcyMWFmM2NhY2E4M2UxNzJlZjJkMmQ5NTk0ZWNkZGQ0NDgifSwidHlwZSI6ImRlY2lzaW9uIiwidmlzaWJsZV9jYXNlX2lkcyI6W119",
+          "payloadType": "application/vnd.ratchet.decision+json",
+          "signatures": [
+            {
+              "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+              "sig": "6UHm1fLmyzTb+fn1s+CSADeVzkL7mU4Oxx30KIPHPZuMjRno/o+3eZ/Mv6OCohDFYzhowy614HHN0xPpPQ6zBA=="
+            }
+          ]
+        },
+        "name": "unsupported-predicate-bare",
+        "reasons": [
+          "unsupported_predicate"
+        ]
+      },
+      "unsupported-predicate-statement": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "the statement names another predicate type",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v1",
+          "predicate": {
+            "admitted": true,
+            "candidate": "ff7219b82f46",
+            "candidate_digest": "ff7219b82f46ae2e56711f770467c629c41e221b692a25bb4b11ab80eb7bbc3a",
+            "checks": [
+              {
+                "evidence": {
+                  "gate": "replay"
+                },
+                "name": "replay",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "heldout"
+                },
+                "name": "heldout",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "no_regression"
+                },
+                "name": "no_regression",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "benign_twins"
+                },
+                "name": "benign_twins",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "overfit_lint"
+                },
+                "name": "overfit_lint",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "authority"
+                },
+                "name": "authority",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": false
+                },
+                "name": "cost",
+                "passed": true
+              }
+            ],
+            "context": {},
+            "corpus_digests": {
+              "guard-refund-once": "10e69bd03d3dab04b77898b91bc8bf9138ae9647d92b2beab2a39521c1875187"
+            },
+            "decided_at": "2026-10-11T12:00:00+00:00",
+            "evaluator": {
+              "cases": 40,
+              "components": {
+                "cases": "352b84777d8dd96ac9c0b3c170ecb2c7cca7fc2dbae41a1ec1ed4286fb2c43db",
+                "faults": "0903ec6ad6915b8670cc066d7a7007d84c650df301e09a297d40d04a7504fbbe",
+                "graders": "e5e4b5967732fead3176c6122707492252fc5c3f336504c6d2d4b82bc0cc3cea",
+                "model_config": "096eb53fed375aeef1c83ba395c7d563a8e67f7a209d05653574af2ed6a215a4",
+                "suite_file": "c8d1ee074c86e2a442ad8e7dbe8194dad1de973cdc0658109985073db9e928c6"
+              },
+              "model_config": {
+                "model": "test-model"
+              },
+              "version": "27f6343f980c"
+            },
+            "exceptions": [],
+            "parent": "34614392b8fd",
+            "rates": {},
+            "report_digests": {
+              "candidate_confirm_run": "4b08ae92e62aa25e6ba3908b1736aa14abfb4c803eb4d780f98a304b3882c372",
+              "candidate_run": "46f6aaa315595f3a5a24efc2b15bc894e7ce4b24af772872e4e59197eb006a97",
+              "parent_run_1": "7f23c839b0bca76bf123c290aeafe7c0889ed6940151f3f8b7ded81d5e077bf5",
+              "parent_run_2": "e77d9e6d5b169eeea1102a3fe1e5590a7635ccc578cd9f953c1dc9202c86afd5",
+              "replay:guard-refund-once": "e37c04c462a9029a747b3071125770721af3caca83e172ef2d2d9594ecddd448"
+            },
+            "type": "decision",
+            "visible_case_ids": []
+          },
+          "predicateType": "https://example.invalid/predicates/other/v1",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "ff7219b82f46ae2e56711f770467c629c41e221b692a25bb4b11ab80eb7bbc3a"
+              },
+              "name": "harness"
+            }
+          ]
+        },
+        "name": "unsupported-predicate-statement",
+        "reasons": [
+          "unsupported_predicate"
+        ]
+      },
+      "unsupported-statement-type": {
+        "consumer": {
+          "signature_verified_upstream": true
+        },
+        "description": "the statement is not an in-toto Statement v1",
+        "input": {
+          "_type": "https://in-toto.io/Statement/v0.1",
+          "predicate": {
+            "admitted": true,
+            "candidate": "ff7219b82f46",
+            "candidate_digest": "ff7219b82f46ae2e56711f770467c629c41e221b692a25bb4b11ab80eb7bbc3a",
+            "checks": [
+              {
+                "evidence": {
+                  "gate": "replay"
+                },
+                "name": "replay",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "heldout"
+                },
+                "name": "heldout",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "no_regression"
+                },
+                "name": "no_regression",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "benign_twins"
+                },
+                "name": "benign_twins",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "overfit_lint"
+                },
+                "name": "overfit_lint",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": "authority"
+                },
+                "name": "authority",
+                "passed": true
+              },
+              {
+                "evidence": {
+                  "gate": false
+                },
+                "name": "cost",
+                "passed": true
+              }
+            ],
+            "context": {},
+            "corpus_digests": {
+              "guard-refund-once": "10e69bd03d3dab04b77898b91bc8bf9138ae9647d92b2beab2a39521c1875187"
+            },
+            "decided_at": "2026-10-11T12:00:00+00:00",
+            "evaluator": {
+              "cases": 40,
+              "components": {
+                "cases": "352b84777d8dd96ac9c0b3c170ecb2c7cca7fc2dbae41a1ec1ed4286fb2c43db",
+                "faults": "0903ec6ad6915b8670cc066d7a7007d84c650df301e09a297d40d04a7504fbbe",
+                "graders": "e5e4b5967732fead3176c6122707492252fc5c3f336504c6d2d4b82bc0cc3cea",
+                "model_config": "096eb53fed375aeef1c83ba395c7d563a8e67f7a209d05653574af2ed6a215a4",
+                "suite_file": "c8d1ee074c86e2a442ad8e7dbe8194dad1de973cdc0658109985073db9e928c6"
+              },
+              "model_config": {
+                "model": "test-model"
+              },
+              "version": "27f6343f980c"
+            },
+            "exceptions": [],
+            "parent": "34614392b8fd",
+            "rates": {},
+            "report_digests": {
+              "candidate_confirm_run": "4b08ae92e62aa25e6ba3908b1736aa14abfb4c803eb4d780f98a304b3882c372",
+              "candidate_run": "46f6aaa315595f3a5a24efc2b15bc894e7ce4b24af772872e4e59197eb006a97",
+              "parent_run_1": "7f23c839b0bca76bf123c290aeafe7c0889ed6940151f3f8b7ded81d5e077bf5",
+              "parent_run_2": "e77d9e6d5b169eeea1102a3fe1e5590a7635ccc578cd9f953c1dc9202c86afd5",
+              "replay:guard-refund-once": "e37c04c462a9029a747b3071125770721af3caca83e172ef2d2d9594ecddd448"
+            },
+            "type": "decision",
+            "visible_case_ids": []
+          },
+          "predicateType": "https://github.com/probityai/agent-evidence-vocabulary/blob/main/docs/predicates/agent-change-admission-v1.md",
+          "subject": [
+            {
+              "digest": {
+                "sha256": "ff7219b82f46ae2e56711f770467c629c41e221b692a25bb4b11ab80eb7bbc3a"
+              },
+              "name": "harness"
+            }
+          ]
+        },
+        "name": "unsupported-statement-type",
+        "reasons": [
+          "unsupported_statement_type"
+        ]
+      },
+      "untrusted-key": {
+        "consumer": {
+          "signature_verified_upstream": true,
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "the envelope is signed by a key the consumer does not pin",
+        "input": {
+          "payload": "eyJhZG1pdHRlZCI6dHJ1ZSwiY2FuZGlkYXRlIjoiZmY3MjE5YjgyZjQ2IiwiY2FuZGlkYXRlX2RpZ2VzdCI6ImZmNzIxOWI4MmY0NmFlMmU1NjcxMWY3NzA0NjdjNjI5YzQxZTIyMWI2OTJhMjViYjRiMTFhYjgwZWI3YmJjM2EiLCJjaGVja3MiOlt7ImV2aWRlbmNlIjp7ImdhdGUiOiJyZXBsYXkifSwibmFtZSI6InJlcGxheSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiaGVsZG91dCJ9LCJuYW1lIjoiaGVsZG91dCIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoibm9fcmVncmVzc2lvbiJ9LCJuYW1lIjoibm9fcmVncmVzc2lvbiIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiYmVuaWduX3R3aW5zIn0sIm5hbWUiOiJiZW5pZ25fdHdpbnMiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6Im92ZXJmaXRfbGludCJ9LCJuYW1lIjoib3ZlcmZpdF9saW50IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJhdXRob3JpdHkifSwibmFtZSI6ImF1dGhvcml0eSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjpmYWxzZX0sIm5hbWUiOiJjb3N0IiwicGFzc2VkIjp0cnVlfV0sImNvbnRleHQiOnt9LCJjb3JwdXNfZGlnZXN0cyI6eyJndWFyZC1yZWZ1bmQtb25jZSI6IjEwZTY5YmQwM2QzZGFiMDRiNzc4OThiOTFiYzhiZjkxMzhhZTk2NDdkOTJiMmJlYWIyYTM5NTIxYzE4NzUxODcifSwiZGVjaWRlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MDArMDA6MDAiLCJldmFsdWF0b3IiOnsiY2FzZXMiOjQwLCJjb21wb25lbnRzIjp7ImNhc2VzIjoiMzUyYjg0Nzc3ZDhkZDk2YWM5YzBiM2MxNzBlY2IyYzdjY2E3ZmMyZGJhZTQxYTFlYzFlZDQyODZmYjJjNDNkYiIsImZhdWx0cyI6IjA5MDNlYzZhZDY5MTViODY3MGNjMDY2ZDdhNzAwN2Q4NGM2NTBkZjMwMWUwOWEyOTdkNDBkMDRhNzUwNGZiYmUiLCJncmFkZXJzIjoiZTVlNGI1OTY3NzMyZmVhZDMxNzZjNjEyMjcwNzQ5MjI1MmZjNWMzZjMzNjUwNGM2ZDJkNGI4MmJjMGNjM2NlYSIsIm1vZGVsX2NvbmZpZyI6IjA5NmViNTNmZWQzNzVhZWVmMWM4M2JhMzk1YzdkNTYzYThlNjdmN2EyMDlkMDU2NTM1NzRhZjJlZDZhMjE1YTQiLCJzdWl0ZV9maWxlIjoiYzhkMWVlMDc0Yzg2ZTJhNDQyYWQ4ZTdkYmU4MTk0ZGFkMWRlOTczY2RjMDY1ODEwOTk4NTA3M2RiOWU5MjhjNiJ9LCJtb2RlbF9jb25maWciOnsibW9kZWwiOiJ0ZXN0LW1vZGVsIn0sInZlcnNpb24iOiIyN2Y2MzQzZjk4MGMifSwiZXhjZXB0aW9ucyI6W10sInBhcmVudCI6IjM0NjE0MzkyYjhmZCIsInByZWRpY2F0ZVR5cGUiOiJodHRwczovL2dpdGh1Yi5jb20vcHJvYml0eWFpL2FnZW50LWV2aWRlbmNlLXZvY2FidWxhcnkvYmxvYi9tYWluL2RvY3MvcHJlZGljYXRlcy9hZ2VudC1jaGFuZ2UtYWRtaXNzaW9uLXYxLm1kIiwicmF0ZXMiOnt9LCJyZXBvcnRfZGlnZXN0cyI6eyJjYW5kaWRhdGVfY29uZmlybV9ydW4iOiI0YjA4YWU5MmU2MmFhMjVlNmJhMzkwOGIxNzM2YWExNGFiZmI0YzgwM2ViNGQ3ODBmOThhMzA0YjM4ODJjMzcyIiwiY2FuZGlkYXRlX3J1biI6IjQ2ZjZhYWEzMTU1OTVmM2E1YTI0ZWZjMmIxNWJjODk0ZTdjZTRiMjRhZjc3Mjg3MmU0ZTU5MTk3ZWIwMDZhOTciLCJwYXJlbnRfcnVuXzEiOiI3ZjIzYzgzOWIwYmNhNzZiZjEyM2MyOTBhZWFmZTdjMDg4OWVkNjk0MDE1MWYzZjhiN2RlZDgxZDVlMDc3YmY1IiwicGFyZW50X3J1bl8yIjoiZTc3ZDllNmQ1YjE2OWVlZWExMTAyYTNmZTFlNTU5MGE3NjM1Y2NjNTc4Y2Q5Zjk1M2MxZGM5MjAyYzg2YWZkNSIsInJlcGxheTpndWFyZC1yZWZ1bmQtb25jZSI6ImUzN2MwNGM0NjJhOTAyOWE3NDdiMzA3MTEyNTc3MDcyMWFmM2NhY2E4M2UxNzJlZjJkMmQ5NTk0ZWNkZGQ0NDgifSwidHlwZSI6ImRlY2lzaW9uIiwidmlzaWJsZV9jYXNlX2lkcyI6W119",
+          "payloadType": "application/vnd.ratchet.decision+json",
+          "signatures": [
+            {
+              "keyid": "ea9a876237ae4e43f0eeb176e40e83a47e2b2f85c9fb8b0e9d63ea7632b9b696",
+              "sig": "PpUkJO/jf2DU84kb7eiEHRBhiSB/TtjKXE9XTBpi/4NgbNWuveEAJt5Ubf51eIBffuYM8g5vvonSZdfXJtG3Dg=="
+            }
+          ]
+        },
+        "name": "untrusted-key",
+        "reasons": [
+          "untrusted_key"
+        ]
+      },
+      "wrapper-harness-digest-invalid": {
+        "consumer": {
+          "signature_verified_upstream": true,
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "the deploy gate names its harness by something other than a SHA-256 digest",
+        "input": {
+          "envelope": {
+            "payload": "eyJhZG1pdHRlZCI6dHJ1ZSwiY2FuZGlkYXRlIjoiZmY3MjE5YjgyZjQ2IiwiY2FuZGlkYXRlX2RpZ2VzdCI6ImZmNzIxOWI4MmY0NmFlMmU1NjcxMWY3NzA0NjdjNjI5YzQxZTIyMWI2OTJhMjViYjRiMTFhYjgwZWI3YmJjM2EiLCJjaGVja3MiOlt7ImV2aWRlbmNlIjp7ImdhdGUiOiJyZXBsYXkifSwibmFtZSI6InJlcGxheSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiaGVsZG91dCJ9LCJuYW1lIjoiaGVsZG91dCIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoibm9fcmVncmVzc2lvbiJ9LCJuYW1lIjoibm9fcmVncmVzc2lvbiIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiYmVuaWduX3R3aW5zIn0sIm5hbWUiOiJiZW5pZ25fdHdpbnMiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6Im92ZXJmaXRfbGludCJ9LCJuYW1lIjoib3ZlcmZpdF9saW50IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJhdXRob3JpdHkifSwibmFtZSI6ImF1dGhvcml0eSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjpmYWxzZX0sIm5hbWUiOiJjb3N0IiwicGFzc2VkIjp0cnVlfV0sImNvbnRleHQiOnt9LCJjb3JwdXNfZGlnZXN0cyI6eyJndWFyZC1yZWZ1bmQtb25jZSI6IjEwZTY5YmQwM2QzZGFiMDRiNzc4OThiOTFiYzhiZjkxMzhhZTk2NDdkOTJiMmJlYWIyYTM5NTIxYzE4NzUxODcifSwiZGVjaWRlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MDArMDA6MDAiLCJldmFsdWF0b3IiOnsiY2FzZXMiOjQwLCJjb21wb25lbnRzIjp7ImNhc2VzIjoiMzUyYjg0Nzc3ZDhkZDk2YWM5YzBiM2MxNzBlY2IyYzdjY2E3ZmMyZGJhZTQxYTFlYzFlZDQyODZmYjJjNDNkYiIsImZhdWx0cyI6IjA5MDNlYzZhZDY5MTViODY3MGNjMDY2ZDdhNzAwN2Q4NGM2NTBkZjMwMWUwOWEyOTdkNDBkMDRhNzUwNGZiYmUiLCJncmFkZXJzIjoiZTVlNGI1OTY3NzMyZmVhZDMxNzZjNjEyMjcwNzQ5MjI1MmZjNWMzZjMzNjUwNGM2ZDJkNGI4MmJjMGNjM2NlYSIsIm1vZGVsX2NvbmZpZyI6IjA5NmViNTNmZWQzNzVhZWVmMWM4M2JhMzk1YzdkNTYzYThlNjdmN2EyMDlkMDU2NTM1NzRhZjJlZDZhMjE1YTQiLCJzdWl0ZV9maWxlIjoiYzhkMWVlMDc0Yzg2ZTJhNDQyYWQ4ZTdkYmU4MTk0ZGFkMWRlOTczY2RjMDY1ODEwOTk4NTA3M2RiOWU5MjhjNiJ9LCJtb2RlbF9jb25maWciOnsibW9kZWwiOiJ0ZXN0LW1vZGVsIn0sInZlcnNpb24iOiIyN2Y2MzQzZjk4MGMifSwiZXhjZXB0aW9ucyI6W10sInBhcmVudCI6IjM0NjE0MzkyYjhmZCIsInByZWRpY2F0ZVR5cGUiOiJodHRwczovL2dpdGh1Yi5jb20vcHJvYml0eWFpL2FnZW50LWV2aWRlbmNlLXZvY2FidWxhcnkvYmxvYi9tYWluL2RvY3MvcHJlZGljYXRlcy9hZ2VudC1jaGFuZ2UtYWRtaXNzaW9uLXYxLm1kIiwicmF0ZXMiOnt9LCJyZXBvcnRfZGlnZXN0cyI6eyJjYW5kaWRhdGVfY29uZmlybV9ydW4iOiI0YjA4YWU5MmU2MmFhMjVlNmJhMzkwOGIxNzM2YWExNGFiZmI0YzgwM2ViNGQ3ODBmOThhMzA0YjM4ODJjMzcyIiwiY2FuZGlkYXRlX3J1biI6IjQ2ZjZhYWEzMTU1OTVmM2E1YTI0ZWZjMmIxNWJjODk0ZTdjZTRiMjRhZjc3Mjg3MmU0ZTU5MTk3ZWIwMDZhOTciLCJwYXJlbnRfcnVuXzEiOiI3ZjIzYzgzOWIwYmNhNzZiZjEyM2MyOTBhZWFmZTdjMDg4OWVkNjk0MDE1MWYzZjhiN2RlZDgxZDVlMDc3YmY1IiwicGFyZW50X3J1bl8yIjoiZTc3ZDllNmQ1YjE2OWVlZWExMTAyYTNmZTFlNTU5MGE3NjM1Y2NjNTc4Y2Q5Zjk1M2MxZGM5MjAyYzg2YWZkNSIsInJlcGxheTpndWFyZC1yZWZ1bmQtb25jZSI6ImUzN2MwNGM0NjJhOTAyOWE3NDdiMzA3MTEyNTc3MDcyMWFmM2NhY2E4M2UxNzJlZjJkMmQ5NTk0ZWNkZGQ0NDgifSwidHlwZSI6ImRlY2lzaW9uIiwidmlzaWJsZV9jYXNlX2lkcyI6W119",
+            "payloadType": "application/vnd.ratchet.decision+json",
+            "signatures": [
+              {
+                "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+                "sig": "+M1ZBew6vUkZw7BqacXRmwi8ugYF+2bNPWuKV46pv53l4TZDMQfT1AIcGNwELvXpC55k5Vd3LbtR60oON5ffBQ=="
+              }
+            ]
+          },
+          "harness_digest": "latest"
+        },
+        "name": "wrapper-harness-digest-invalid",
+        "reasons": [
+          "harness_digest_invalid"
+        ]
+      },
+      "wrapper-harness-match": {
+        "consumer": {
+          "signature_verified_upstream": true,
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "a deploy gate names the harness it is about to deploy and the receipt admits exactly it",
+        "input": {
+          "envelope": {
+            "payload": "eyJhZG1pdHRlZCI6dHJ1ZSwiY2FuZGlkYXRlIjoiZmY3MjE5YjgyZjQ2IiwiY2FuZGlkYXRlX2RpZ2VzdCI6ImZmNzIxOWI4MmY0NmFlMmU1NjcxMWY3NzA0NjdjNjI5YzQxZTIyMWI2OTJhMjViYjRiMTFhYjgwZWI3YmJjM2EiLCJjaGVja3MiOlt7ImV2aWRlbmNlIjp7ImdhdGUiOiJyZXBsYXkifSwibmFtZSI6InJlcGxheSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiaGVsZG91dCJ9LCJuYW1lIjoiaGVsZG91dCIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoibm9fcmVncmVzc2lvbiJ9LCJuYW1lIjoibm9fcmVncmVzc2lvbiIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiYmVuaWduX3R3aW5zIn0sIm5hbWUiOiJiZW5pZ25fdHdpbnMiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6Im92ZXJmaXRfbGludCJ9LCJuYW1lIjoib3ZlcmZpdF9saW50IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJhdXRob3JpdHkifSwibmFtZSI6ImF1dGhvcml0eSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjpmYWxzZX0sIm5hbWUiOiJjb3N0IiwicGFzc2VkIjp0cnVlfV0sImNvbnRleHQiOnt9LCJjb3JwdXNfZGlnZXN0cyI6eyJndWFyZC1yZWZ1bmQtb25jZSI6IjEwZTY5YmQwM2QzZGFiMDRiNzc4OThiOTFiYzhiZjkxMzhhZTk2NDdkOTJiMmJlYWIyYTM5NTIxYzE4NzUxODcifSwiZGVjaWRlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MDArMDA6MDAiLCJldmFsdWF0b3IiOnsiY2FzZXMiOjQwLCJjb21wb25lbnRzIjp7ImNhc2VzIjoiMzUyYjg0Nzc3ZDhkZDk2YWM5YzBiM2MxNzBlY2IyYzdjY2E3ZmMyZGJhZTQxYTFlYzFlZDQyODZmYjJjNDNkYiIsImZhdWx0cyI6IjA5MDNlYzZhZDY5MTViODY3MGNjMDY2ZDdhNzAwN2Q4NGM2NTBkZjMwMWUwOWEyOTdkNDBkMDRhNzUwNGZiYmUiLCJncmFkZXJzIjoiZTVlNGI1OTY3NzMyZmVhZDMxNzZjNjEyMjcwNzQ5MjI1MmZjNWMzZjMzNjUwNGM2ZDJkNGI4MmJjMGNjM2NlYSIsIm1vZGVsX2NvbmZpZyI6IjA5NmViNTNmZWQzNzVhZWVmMWM4M2JhMzk1YzdkNTYzYThlNjdmN2EyMDlkMDU2NTM1NzRhZjJlZDZhMjE1YTQiLCJzdWl0ZV9maWxlIjoiYzhkMWVlMDc0Yzg2ZTJhNDQyYWQ4ZTdkYmU4MTk0ZGFkMWRlOTczY2RjMDY1ODEwOTk4NTA3M2RiOWU5MjhjNiJ9LCJtb2RlbF9jb25maWciOnsibW9kZWwiOiJ0ZXN0LW1vZGVsIn0sInZlcnNpb24iOiIyN2Y2MzQzZjk4MGMifSwiZXhjZXB0aW9ucyI6W10sInBhcmVudCI6IjM0NjE0MzkyYjhmZCIsInByZWRpY2F0ZVR5cGUiOiJodHRwczovL2dpdGh1Yi5jb20vcHJvYml0eWFpL2FnZW50LWV2aWRlbmNlLXZvY2FidWxhcnkvYmxvYi9tYWluL2RvY3MvcHJlZGljYXRlcy9hZ2VudC1jaGFuZ2UtYWRtaXNzaW9uLXYxLm1kIiwicmF0ZXMiOnt9LCJyZXBvcnRfZGlnZXN0cyI6eyJjYW5kaWRhdGVfY29uZmlybV9ydW4iOiI0YjA4YWU5MmU2MmFhMjVlNmJhMzkwOGIxNzM2YWExNGFiZmI0YzgwM2ViNGQ3ODBmOThhMzA0YjM4ODJjMzcyIiwiY2FuZGlkYXRlX3J1biI6IjQ2ZjZhYWEzMTU1OTVmM2E1YTI0ZWZjMmIxNWJjODk0ZTdjZTRiMjRhZjc3Mjg3MmU0ZTU5MTk3ZWIwMDZhOTciLCJwYXJlbnRfcnVuXzEiOiI3ZjIzYzgzOWIwYmNhNzZiZjEyM2MyOTBhZWFmZTdjMDg4OWVkNjk0MDE1MWYzZjhiN2RlZDgxZDVlMDc3YmY1IiwicGFyZW50X3J1bl8yIjoiZTc3ZDllNmQ1YjE2OWVlZWExMTAyYTNmZTFlNTU5MGE3NjM1Y2NjNTc4Y2Q5Zjk1M2MxZGM5MjAyYzg2YWZkNSIsInJlcGxheTpndWFyZC1yZWZ1bmQtb25jZSI6ImUzN2MwNGM0NjJhOTAyOWE3NDdiMzA3MTEyNTc3MDcyMWFmM2NhY2E4M2UxNzJlZjJkMmQ5NTk0ZWNkZGQ0NDgifSwidHlwZSI6ImRlY2lzaW9uIiwidmlzaWJsZV9jYXNlX2lkcyI6W119",
+            "payloadType": "application/vnd.ratchet.decision+json",
+            "signatures": [
+              {
+                "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+                "sig": "+M1ZBew6vUkZw7BqacXRmwi8ugYF+2bNPWuKV46pv53l4TZDMQfT1AIcGNwELvXpC55k5Vd3LbtR60oON5ffBQ=="
+              }
+            ]
+          },
+          "harness_digest": "ff7219b82f46ae2e56711f770467c629c41e221b692a25bb4b11ab80eb7bbc3a"
+        },
+        "name": "wrapper-harness-match",
+        "reasons": []
+      },
+      "wrapper-harness-mismatch": {
+        "consumer": {
+          "signature_verified_upstream": true,
+          "trusted_keyids": [
+            "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9"
+          ]
+        },
+        "description": "the receipt admits a different harness from the one being deployed",
+        "input": {
+          "envelope": {
+            "payload": "eyJhZG1pdHRlZCI6dHJ1ZSwiY2FuZGlkYXRlIjoiZmY3MjE5YjgyZjQ2IiwiY2FuZGlkYXRlX2RpZ2VzdCI6ImZmNzIxOWI4MmY0NmFlMmU1NjcxMWY3NzA0NjdjNjI5YzQxZTIyMWI2OTJhMjViYjRiMTFhYjgwZWI3YmJjM2EiLCJjaGVja3MiOlt7ImV2aWRlbmNlIjp7ImdhdGUiOiJyZXBsYXkifSwibmFtZSI6InJlcGxheSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiaGVsZG91dCJ9LCJuYW1lIjoiaGVsZG91dCIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoibm9fcmVncmVzc2lvbiJ9LCJuYW1lIjoibm9fcmVncmVzc2lvbiIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjoiYmVuaWduX3R3aW5zIn0sIm5hbWUiOiJiZW5pZ25fdHdpbnMiLCJwYXNzZWQiOnRydWV9LHsiZXZpZGVuY2UiOnsiZ2F0ZSI6Im92ZXJmaXRfbGludCJ9LCJuYW1lIjoib3ZlcmZpdF9saW50IiwicGFzc2VkIjp0cnVlfSx7ImV2aWRlbmNlIjp7ImdhdGUiOiJhdXRob3JpdHkifSwibmFtZSI6ImF1dGhvcml0eSIsInBhc3NlZCI6dHJ1ZX0seyJldmlkZW5jZSI6eyJnYXRlIjpmYWxzZX0sIm5hbWUiOiJjb3N0IiwicGFzc2VkIjp0cnVlfV0sImNvbnRleHQiOnt9LCJjb3JwdXNfZGlnZXN0cyI6eyJndWFyZC1yZWZ1bmQtb25jZSI6IjEwZTY5YmQwM2QzZGFiMDRiNzc4OThiOTFiYzhiZjkxMzhhZTk2NDdkOTJiMmJlYWIyYTM5NTIxYzE4NzUxODcifSwiZGVjaWRlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MDArMDA6MDAiLCJldmFsdWF0b3IiOnsiY2FzZXMiOjQwLCJjb21wb25lbnRzIjp7ImNhc2VzIjoiMzUyYjg0Nzc3ZDhkZDk2YWM5YzBiM2MxNzBlY2IyYzdjY2E3ZmMyZGJhZTQxYTFlYzFlZDQyODZmYjJjNDNkYiIsImZhdWx0cyI6IjA5MDNlYzZhZDY5MTViODY3MGNjMDY2ZDdhNzAwN2Q4NGM2NTBkZjMwMWUwOWEyOTdkNDBkMDRhNzUwNGZiYmUiLCJncmFkZXJzIjoiZTVlNGI1OTY3NzMyZmVhZDMxNzZjNjEyMjcwNzQ5MjI1MmZjNWMzZjMzNjUwNGM2ZDJkNGI4MmJjMGNjM2NlYSIsIm1vZGVsX2NvbmZpZyI6IjA5NmViNTNmZWQzNzVhZWVmMWM4M2JhMzk1YzdkNTYzYThlNjdmN2EyMDlkMDU2NTM1NzRhZjJlZDZhMjE1YTQiLCJzdWl0ZV9maWxlIjoiYzhkMWVlMDc0Yzg2ZTJhNDQyYWQ4ZTdkYmU4MTk0ZGFkMWRlOTczY2RjMDY1ODEwOTk4NTA3M2RiOWU5MjhjNiJ9LCJtb2RlbF9jb25maWciOnsibW9kZWwiOiJ0ZXN0LW1vZGVsIn0sInZlcnNpb24iOiIyN2Y2MzQzZjk4MGMifSwiZXhjZXB0aW9ucyI6W10sInBhcmVudCI6IjM0NjE0MzkyYjhmZCIsInByZWRpY2F0ZVR5cGUiOiJodHRwczovL2dpdGh1Yi5jb20vcHJvYml0eWFpL2FnZW50LWV2aWRlbmNlLXZvY2FidWxhcnkvYmxvYi9tYWluL2RvY3MvcHJlZGljYXRlcy9hZ2VudC1jaGFuZ2UtYWRtaXNzaW9uLXYxLm1kIiwicmF0ZXMiOnt9LCJyZXBvcnRfZGlnZXN0cyI6eyJjYW5kaWRhdGVfY29uZmlybV9ydW4iOiI0YjA4YWU5MmU2MmFhMjVlNmJhMzkwOGIxNzM2YWExNGFiZmI0YzgwM2ViNGQ3ODBmOThhMzA0YjM4ODJjMzcyIiwiY2FuZGlkYXRlX3J1biI6IjQ2ZjZhYWEzMTU1OTVmM2E1YTI0ZWZjMmIxNWJjODk0ZTdjZTRiMjRhZjc3Mjg3MmU0ZTU5MTk3ZWIwMDZhOTciLCJwYXJlbnRfcnVuXzEiOiI3ZjIzYzgzOWIwYmNhNzZiZjEyM2MyOTBhZWFmZTdjMDg4OWVkNjk0MDE1MWYzZjhiN2RlZDgxZDVlMDc3YmY1IiwicGFyZW50X3J1bl8yIjoiZTc3ZDllNmQ1YjE2OWVlZWExMTAyYTNmZTFlNTU5MGE3NjM1Y2NjNTc4Y2Q5Zjk1M2MxZGM5MjAyYzg2YWZkNSIsInJlcGxheTpndWFyZC1yZWZ1bmQtb25jZSI6ImUzN2MwNGM0NjJhOTAyOWE3NDdiMzA3MTEyNTc3MDcyMWFmM2NhY2E4M2UxNzJlZjJkMmQ5NTk0ZWNkZGQ0NDgifSwidHlwZSI6ImRlY2lzaW9uIiwidmlzaWJsZV9jYXNlX2lkcyI6W119",
+            "payloadType": "application/vnd.ratchet.decision+json",
+            "signatures": [
+              {
+                "keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+                "sig": "+M1ZBew6vUkZw7BqacXRmwi8ugYF+2bNPWuKV46pv53l4TZDMQfT1AIcGNwELvXpC55k5Vd3LbtR60oON5ffBQ=="
+              }
+            ]
+          },
+          "harness_digest": "d07d8148714d818d57128e590779a2e8627b90da297c13c05b205f8fc8f38ee3"
+        },
+        "name": "wrapper-harness-mismatch",
+        "reasons": [
+          "candidate_digest_mismatch"
+        ]
+      }
+    },
+    "image_digest": "77e841f14bf202be78921777a52464a91647a3fc216c22f15f5cbf5d6482690e",
+    "issuer_keyid": "7243f5d7c11972ef945393f906f650a2e194870542096704f104e039792028f9",
+    "issuer_public_key_b64": "v85NvAeK5MiML36HY6PRNAdgth+LiiR3sv48sNEyPVk=",
+    "predicate_type": "https://github.com/probityai/agent-evidence-vocabulary/blob/main/docs/predicates/agent-change-admission-v1.md",
+    "unpinned_keyid": "ea9a876237ae4e43f0eeb176e40e83a47e2b2f85c9fb8b0e9d63ea7632b9b696"
+  }
+}

@@ -42,6 +42,7 @@ COMPANIONS = (
 )
 PREDICATES = (
     ("v1", "observed-effect"),
+    ("v1", "uncertain-effect"),
     ("v1", "evaluation-claim"),
     ("v1", "self-reported-record"),
     ("v1", "kernel-substrate"),
@@ -50,6 +51,11 @@ PREDICATES = (
     ("v1", "agent-audit-record"),
     ("v1", "govops-trace-record"),
     ("v1", "peer-verification"),
+    ("v1", "incident-action-authorization"),
+    ("v1", "revocation-sweep"),
+    ("v1", "re-enable-decision"),
+    ("v1", "joint-authority"),
+    ("v1", "revocation-boundary"),
     ("v1", "evidence-scope-disclosure"),
     ("v1", "launch-chain"),
     ("v1", "ml-bom"),
@@ -144,9 +150,16 @@ def repository(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
     for relative in (
         "spec/predicates/REGISTRY.md",
         "spec/predicates/observed-effect.md",
+        "vectors-uncertain-effect/README.md",
         "spec/predicates/evaluation-claim.md",
         "spec/self-reported-record/v1.md",
         "spec/predicates/peer-verification.md",
+        "spec/predicates/incident-action-authorization.md",
+        "spec/predicates/revocation-sweep.md",
+        "spec/predicates/re-enable-decision.md",
+        "spec/predicates/joint-authority.md",
+        "spec/predicates/revocation-boundary.md",
+        "profiles/restoration-evidence.md",
         "spec/predicates/adversarial-execution-evidence.md",
         "spec/schemas/observed-effect-code-digest-v0.5.schema.json",
         "spec/schemas/observed-effect-invocation-binding-v0.9.schema.json",
@@ -394,7 +407,7 @@ class TestSiteNavigation:
             root = fromstring((built_site / "sitemap.xml").read_bytes())
             namespace = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
             urls = [node.text for node in root.findall("s:url/s:loc", namespace)]
-            assert len(urls) == len(set(urls)) == 40
+            assert len(urls) == len(set(urls)) == 46
             assert root.find("s:url/s:lastmod", namespace) is None
 
         def test_local_image_loads_repository_bytes(self, repository: Path) -> None:

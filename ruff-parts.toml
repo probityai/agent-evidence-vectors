@@ -1,0 +1,8 @@
+# Ruff rules for the parts imported from agent-evidence: the repository tools
+# (scripts/workspace.py and its siblings), tests/, packages/ and actions/. The
+# corpora and the reference rail keep the stricter rules in pyproject.toml.
+# Run: uv run --frozen --only-group dev ruff check --config ruff-parts.toml scripts/workspace.py tests packages actions
+# The repository tools read TOML with tomllib, which needs Python 3.11.
+target-version = "py311"
+# A crate brings its own checks (crate-<name>.yml), which ruff was never part of.
+extend-exclude = ["crates"]

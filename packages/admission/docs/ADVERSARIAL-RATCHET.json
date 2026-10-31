@@ -1,0 +1,416 @@
+{
+  "counts": {
+    "by_axis": {
+      "caught-label": 21,
+      "policy": 5,
+      "temporal-distance": 6,
+      "tier": 1,
+      "verdict": 29
+    },
+    "by_class": {
+      "S1": 4,
+      "S10": 32,
+      "S2": 2,
+      "S3a": 10,
+      "S3b/S4": 4,
+      "S6": 3,
+      "S7": 6,
+      "U7": 1
+    },
+    "by_mutation": {
+      "artifact-downgrade": 32,
+      "coverage-inflate": 4,
+      "coverage-suppress": 10,
+      "drop-interception": 3,
+      "issuedat-future": 6,
+      "refs-splice": 1,
+      "relabel-clean": 4,
+      "vocab-narrow": 2
+    },
+    "distinct_vector_mutation_pairs": 39,
+    "distinct_vectors": 25,
+    "mutation_families": 8,
+    "open_findings": 62
+  },
+  "findings": [
+    {
+      "axis": "caught-label",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-001-caught-intercepted-fail"
+    },
+    {
+      "axis": "verdict",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-001-caught-intercepted-fail"
+    },
+    {
+      "axis": "policy",
+      "class": "S3b/S4",
+      "mutation": "coverage-inflate",
+      "vector": "ok-004-degraded-out-of-scope"
+    },
+    {
+      "axis": "verdict",
+      "class": "S3b/S4",
+      "mutation": "coverage-inflate",
+      "vector": "ok-004-degraded-out-of-scope"
+    },
+    {
+      "axis": "temporal-distance",
+      "class": "S7",
+      "mutation": "issuedat-future",
+      "vector": "ok-004-degraded-out-of-scope"
+    },
+    {
+      "axis": "policy",
+      "class": "S3b/S4",
+      "mutation": "coverage-inflate",
+      "vector": "ok-005-degraded-routed-elsewhere"
+    },
+    {
+      "axis": "verdict",
+      "class": "S3b/S4",
+      "mutation": "coverage-inflate",
+      "vector": "ok-005-degraded-routed-elsewhere"
+    },
+    {
+      "axis": "temporal-distance",
+      "class": "S7",
+      "mutation": "issuedat-future",
+      "vector": "ok-005-degraded-routed-elsewhere"
+    },
+    {
+      "axis": "verdict",
+      "class": "S3a",
+      "mutation": "coverage-suppress",
+      "vector": "ok-008-artifact-fail-closed-method"
+    },
+    {
+      "axis": "verdict",
+      "class": "S3a",
+      "mutation": "coverage-suppress",
+      "vector": "ok-009-artifact-oov-label-fail"
+    },
+    {
+      "axis": "verdict",
+      "class": "S3a",
+      "mutation": "coverage-suppress",
+      "vector": "ok-010-artifact-retired-basis-fail"
+    },
+    {
+      "axis": "caught-label",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-014-three-record-odd-split"
+    },
+    {
+      "axis": "verdict",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-014-three-record-odd-split"
+    },
+    {
+      "axis": "policy",
+      "class": "S6",
+      "mutation": "drop-interception",
+      "vector": "ok-014-three-record-odd-split"
+    },
+    {
+      "axis": "temporal-distance",
+      "class": "S7",
+      "mutation": "issuedat-future",
+      "vector": "ok-014-three-record-odd-split"
+    },
+    {
+      "axis": "caught-label",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-015-four-record-tree"
+    },
+    {
+      "axis": "verdict",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-015-four-record-tree"
+    },
+    {
+      "axis": "policy",
+      "class": "S6",
+      "mutation": "drop-interception",
+      "vector": "ok-015-four-record-tree"
+    },
+    {
+      "axis": "temporal-distance",
+      "class": "S7",
+      "mutation": "issuedat-future",
+      "vector": "ok-015-four-record-tree"
+    },
+    {
+      "axis": "caught-label",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-016-caught-actuallayer-none"
+    },
+    {
+      "axis": "verdict",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-016-caught-actuallayer-none"
+    },
+    {
+      "axis": "caught-label",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-017-method-weakening-allowed"
+    },
+    {
+      "axis": "verdict",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-017-method-weakening-allowed"
+    },
+    {
+      "axis": "caught-label",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-020-non-pae-signature"
+    },
+    {
+      "axis": "verdict",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-020-non-pae-signature"
+    },
+    {
+      "axis": "caught-label",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-021-producer-extra-members"
+    },
+    {
+      "axis": "verdict",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-021-producer-extra-members"
+    },
+    {
+      "axis": "caught-label",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-024-mixed-basis-rows"
+    },
+    {
+      "axis": "verdict",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-024-mixed-basis-rows"
+    },
+    {
+      "axis": "tier",
+      "class": "U7",
+      "mutation": "refs-splice",
+      "vector": "ok-024-mixed-basis-rows"
+    },
+    {
+      "axis": "caught-label",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-026-five-record-tree"
+    },
+    {
+      "axis": "verdict",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-026-five-record-tree"
+    },
+    {
+      "axis": "policy",
+      "class": "S6",
+      "mutation": "drop-interception",
+      "vector": "ok-026-five-record-tree"
+    },
+    {
+      "axis": "temporal-distance",
+      "class": "S7",
+      "mutation": "issuedat-future",
+      "vector": "ok-026-five-record-tree"
+    },
+    {
+      "axis": "verdict",
+      "class": "S3a",
+      "mutation": "coverage-suppress",
+      "vector": "ok-027-artifact-missing-method"
+    },
+    {
+      "axis": "caught-label",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-030-method-min-multirecord"
+    },
+    {
+      "axis": "verdict",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-030-method-min-multirecord"
+    },
+    {
+      "axis": "caught-label",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-031-caught-reconstructed"
+    },
+    {
+      "axis": "verdict",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-031-caught-reconstructed"
+    },
+    {
+      "axis": "caught-label",
+      "class": "S3a",
+      "mutation": "coverage-suppress",
+      "vector": "ok-031-caught-reconstructed"
+    },
+    {
+      "axis": "verdict",
+      "class": "S3a",
+      "mutation": "coverage-suppress",
+      "vector": "ok-031-caught-reconstructed"
+    },
+    {
+      "axis": "caught-label",
+      "class": "S1",
+      "mutation": "relabel-clean",
+      "vector": "ok-031-caught-reconstructed"
+    },
+    {
+      "axis": "verdict",
+      "class": "S1",
+      "mutation": "relabel-clean",
+      "vector": "ok-031-caught-reconstructed"
+    },
+    {
+      "axis": "verdict",
+      "class": "S3a",
+      "mutation": "coverage-suppress",
+      "vector": "ok-032-method-inferred-retired"
+    },
+    {
+      "axis": "caught-label",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-046-seal-attacks-lower-bound"
+    },
+    {
+      "axis": "verdict",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-046-seal-attacks-lower-bound"
+    },
+    {
+      "axis": "caught-label",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-048-attribution-paired-despite-expectation"
+    },
+    {
+      "axis": "verdict",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-048-attribution-paired-despite-expectation"
+    },
+    {
+      "axis": "caught-label",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-049-seal-names-caught-attack"
+    },
+    {
+      "axis": "verdict",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-049-seal-names-caught-attack"
+    },
+    {
+      "axis": "temporal-distance",
+      "class": "S7",
+      "mutation": "issuedat-future",
+      "vector": "ok-053-liveness-probe-uncaught-on-one-channel"
+    },
+    {
+      "axis": "caught-label",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-054-producer-ordered-axis-inert"
+    },
+    {
+      "axis": "verdict",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-054-producer-ordered-axis-inert"
+    },
+    {
+      "axis": "caught-label",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-900-fail-outranks-degraded"
+    },
+    {
+      "axis": "verdict",
+      "class": "S10",
+      "mutation": "artifact-downgrade",
+      "vector": "ok-900-fail-outranks-degraded"
+    },
+    {
+      "axis": "caught-label",
+      "class": "S3a",
+      "mutation": "coverage-suppress",
+      "vector": "ok-900-fail-outranks-degraded"
+    },
+    {
+      "axis": "verdict",
+      "class": "S3a",
+      "mutation": "coverage-suppress",
+      "vector": "ok-900-fail-outranks-degraded"
+    },
+    {
+      "axis": "caught-label",
+      "class": "S1",
+      "mutation": "relabel-clean",
+      "vector": "ok-900-fail-outranks-degraded"
+    },
+    {
+      "axis": "verdict",
+      "class": "S1",
+      "mutation": "relabel-clean",
+      "vector": "ok-900-fail-outranks-degraded"
+    },
+    {
+      "axis": "caught-label",
+      "class": "S2",
+      "mutation": "vocab-narrow",
+      "vector": "ok-900-fail-outranks-degraded"
+    },
+    {
+      "axis": "verdict",
+      "class": "S2",
+      "mutation": "vocab-narrow",
+      "vector": "ok-900-fail-outranks-degraded"
+    },
+    {
+      "axis": "verdict",
+      "class": "S3a",
+      "mutation": "coverage-suppress",
+      "vector": "ok-901-row-missing-basis"
+    }
+  ],
+  "source": {
+    "corpusDigest": "8b035678def9e5ac00ba761b8c640e4412c57163134afb9d2c1a90f49d573a52",
+    "derived_by": "scripts/ratchet_report.py --ledger <ratchet ledger>",
+    "ledgerDigest": "a56bb21f65bc912fe9cf501fbeb96ba3cf4db3fee6d4f9c1aa1f1e192ef17ae3",
+    "predicateType": "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7",
+    "transitionsIncluded": false
+  }
+}
