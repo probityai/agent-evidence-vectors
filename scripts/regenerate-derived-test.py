@@ -66,7 +66,8 @@ class Layout(unittest.TestCase):
         self.assertIn("vectors-*", step.group(1))
 
     def test_ruff_excludes_name_existing_paths(self) -> None:
-        config = tomllib.loads((REPO / "pyproject.toml").read_text(encoding="utf-8"))["tool"]["ruff"]
+        text = (REPO / "pyproject.toml").read_text(encoding="utf-8")
+        config = tomllib.loads(text)["tool"]["ruff"]
         self.assertTrue(config["force-exclude"])
         stale = [p for p in config["extend-exclude"] if not (REPO / p).exists()]
         self.assertEqual(stale, [], "an exclusion names a path that is gone; delete it")
@@ -85,9 +86,13 @@ class Layout(unittest.TestCase):
     def test_a_stale_lock_is_refused(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            for rel in (LOCK_DIR + "/lock_sources.py", LOCK_DIR + "/source-lock.json",
-                        LOCK_DIR + "/selection.json", "interop/agentavow-live-mcp/definition_pin.py",
-                        "packaging/run_vectors.py"):
+            for rel in (
+                LOCK_DIR + "/lock_sources.py",
+                LOCK_DIR + "/source-lock.json",
+                LOCK_DIR + "/selection.json",
+                "interop/agentavow-live-mcp/definition_pin.py",
+                "packaging/run_vectors.py",
+            ):
                 (root / rel).parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy(REPO / rel, root / rel)
             lock = root / LOCK_DIR / "lock_sources.py"
