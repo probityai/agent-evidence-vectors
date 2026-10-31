@@ -14,9 +14,12 @@ import (
 // the Go rail, mirroring packaging/agent_evidence_vectors/auditrecord.py. A
 // consumption-state entry of evaluation.inputs may carry a consumption member,
 // and decision.operationKey is the agent's identifier for one intended
-// operation and the identity of a retry. Members CS1 to CS40 exercise it, and
+// operation and the identity of a retry. Members CS1 to CS49 exercise it,
 // consumption.supersedes names the limit document a record's limitDigest
-// replaced. CS7, CS8, CS17, CS18 to CS22 and CS25 are files of several records judged
+// replaced, consumption.payee and each held entry's payee name the account a
+// payment goes to, and consumption.settled carries the terms a paid call settled
+// on, read from the chain (CS41 to CS49). CS7, CS8, CS17, CS18 to CS22, CS25,
+// CS48 and CS49 are files of several records judged
 // one by one and then as a set, under one ledger: the limitDigest values that
 // supersedes links.
 
@@ -81,8 +84,21 @@ func arWithinLimit(pred map[string]any) *bool {
 	return &within
 }
 
-// arHeldShape holds one held entry to exactly operationKey, requestDigest and
-// amount.
+// arPayeeShape: an optional payee is the SHA-256 digest of the payee's CAIP-10
+// account id.
+func arPayeeShape(container map[string]any) error {
+	raw, present := container["payee"]
+	if !present {
+		return nil
+	}
+	if digest, ok := raw.(string); !ok || !arIsDigest(digest) {
+		return arRefuse("consumption-value-invalid")
+	}
+	return nil
+}
+
+// arHeldShape holds one held entry to operationKey, requestDigest and amount,
+// and an optional payee.
 func arHeldShape(item any) error {
 	entry, ok := item.(map[string]any)
 	if !ok {
@@ -92,9 +108,12 @@ func arHeldShape(item any) error {
 		return arRefuse("member-missing")
 	}
 	for name := range entry {
-		if !arContains(arHeldMembers, name) {
+		if !arContains(arHeldMembers, name) && !arContains(arHeldOptional, name) {
 			return arRefuse("consumption-malformed")
 		}
+	}
+	if err := arPayeeShape(entry); err != nil {
+		return err
 	}
 	key, isText := entry["operationKey"].(string)
 	digest, _ := entry["requestDigest"].(string)
@@ -123,6 +142,14 @@ func arConsumptionShape(consumption map[string]any) error {
 	}
 	if hasAsset {
 		if err := arAssetShape(consumption["asset"]); err != nil {
+			return err
+		}
+	}
+	if err := arPayeeShape(consumption); err != nil {
+		return err
+	}
+	if raw, has := consumption["settled"]; has {
+		if err := arSettledShape(raw); err != nil {
 			return err
 		}
 	}
@@ -166,6 +193,40 @@ func arAssetShape(raw any) error {
 	}
 	decimals, isInt := arInt(asset["decimals"])
 	if arConsumptionChecks["asset-decimals"] && (!isInt || decimals < 0 || decimals > arAssetDecimalsMax) {
+		return arRefuse("consumption-value-invalid")
+	}
+	return nil
+}
+
+// arSettledShape: the optional settled terms carry exactly amount, asset,
+// payee, source and transaction; the amount a count, the asset an asset, the
+// payee a digest, the source the chain (CS47) and the transaction a non-empty
+// string.
+func arSettledShape(raw any) error {
+	settled, ok := raw.(map[string]any)
+	if !ok {
+		return arRefuse("consumption-malformed")
+	}
+	if !arHasAll(settled, arSettledMembers) {
+		return arRefuse("member-missing")
+	}
+	for name := range settled {
+		if !arContains(arSettledMembers, name) {
+			return arRefuse("consumption-malformed")
+		}
+	}
+	if err := arAssetShape(settled["asset"]); err != nil {
+		return err
+	}
+	payee, isText := settled["payee"].(string)
+	if !arIsCount(settled["amount"]) || !isText || !arIsDigest(payee) {
+		return arRefuse("consumption-value-invalid")
+	}
+	source, _ := settled["source"].(string)
+	if arConsumptionChecks["settled-source"] && !arContains(arSettledSources, source) {
+		return arRefuse("consumption-value-invalid")
+	}
+	if transaction, ok := settled["transaction"].(string); !ok || transaction == "" {
 		return arRefuse("consumption-value-invalid")
 	}
 	return nil
@@ -265,6 +326,39 @@ func arRuleConsumption(s *arState) error {
 			return arRefuse("consumption-key-reused")
 		}
 	}
+	if retried := arHeldFor(consumption, decision); arConsumptionChecks["retry-payee"] && retried != nil &&
+		!arSameValue(retried["payee"], consumption["payee"]) {
+		return arRefuse("consumption-key-reused")
+	}
+	return arSettledAgainstApproved(consumption)
+}
+
+// arSameValue compares two decoded JSON values, an absent value equal only to
+// an absent one.
+func arSameValue(a, b any) bool {
+	left, errLeft := json.Marshal(a)
+	right, errRight := json.Marshal(b)
+	return errLeft == nil && errRight == nil && string(left) == string(right)
+}
+
+// arSettledAgainstApproved: the settled terms beside the approved ones (CS43 to
+// CS46). The amount is at most the authorized maximum, which is requested (an
+// x402 upto permit may settle lower, or at 0), and the asset and payee are the
+// approved ones.
+func arSettledAgainstApproved(consumption map[string]any) error {
+	settled, has := consumption["settled"].(map[string]any)
+	if !has {
+		return nil
+	}
+	amount, _ := arInt(settled["amount"])
+	requested, _ := arInt(consumption["requested"])
+	if arConsumptionChecks["settled-amount"] && amount > requested {
+		return arRefuse("consumption-settled-exceeds")
+	}
+	if arConsumptionChecks["settled-terms"] && (!arSameValue(settled["asset"], consumption["asset"]) ||
+		!arSameValue(settled["payee"], consumption["payee"])) {
+		return arRefuse("consumption-settled-differs")
+	}
 	return nil
 }
 
@@ -322,6 +416,41 @@ var arSetRules = []arSetRule{
 	{"stale-revision", "consumption-set-stale-revision", arSetStaleRevision},
 	{"release-unshown", "consumption-set-release-unshown", arSetReleaseUnshown},
 	{"asset-mismatch", "consumption-set-asset-mismatch", arSetAssetMismatch},
+	{"settled-uncounted", "consumption-set-settled-uncounted", arSetSettledUncounted},
+}
+
+// arSetSettledUncounted: a call whose record carries settled moved its settled
+// amount, not its held one, into consumed (CS48). A record of the ledger that
+// read a later stateRevision and no longer holds that call counts at least the
+// amount the settling record read as consumed plus the settled amount (CS49).
+// It may count more, since other calls may settle between the two records.
+func arSetSettledUncounted(group []map[string]any) bool {
+	for i, settling := range group {
+		consumption := arConsumptionOf(settling)
+		settled, has := consumption["settled"].(map[string]any)
+		if !has {
+			continue
+		}
+		decision := arObj(settling, "decision")
+		key, _ := decision["operationKey"].(string)
+		amount, _ := arInt(settled["amount"])
+		if arSettledReadingHeld {
+			amount, _ = arInt(consumption["requested"])
+			if held := arHeldFor(consumption, decision); held != nil {
+				amount, _ = arInt(held["amount"])
+			}
+		}
+		base, _ := arInt(consumption["consumed"])
+		for j, later := range group {
+			if i == j || arRevision(later) <= arRevision(settling) || arHeldKeys(later)[key] {
+				continue
+			}
+			if counted, _ := arInt(arConsumptionOf(later)["consumed"]); counted < base+amount {
+				return true
+			}
+		}
+	}
+	return false
 }
 
 // arAssetMatchDecimals: an asset is its id with its decimals. A test drops the
