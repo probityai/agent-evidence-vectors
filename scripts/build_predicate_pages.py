@@ -3,8 +3,8 @@
     python3 scripts/build_predicate_pages.py --spec-dir DIR --commit SHA
 
 Each type URI under https://w3id.org/agent-evidence/predicate/v1/ redirects to
-https://probityai.github.io/agent-evidence/predicate/v1/<name>/, the Pages site of
-this repository, and the page there is its specification rendered to HTML. DIR
+https://probityai.github.io/agent-evidence/predicate/v1/<name>/, on the organisation
+Pages site that copies pages/ from this repository, and the page there is its specification rendered to HTML. DIR
 holds the specification files (spec/predicates/ of agent-evidence-vectors at
 SHA). The build needs pandoc 3.3 and writes pages/; CI does not run it. CI checks
 the published bytes instead (scripts/check_predicate_pages.py), because a page

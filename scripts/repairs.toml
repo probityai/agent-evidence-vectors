@@ -96,3 +96,14 @@ checker. --check reruns every checker and refuses any differing byte; a bare
 invocation is what writes the records. It needs the Go toolchain, because the
 checker is aee-verify.
 """
+
+[[gate]]
+ident = "derived-files"
+argv = ["uv", "run", "--locked", "--extra", "generators", "python", "scripts/regenerate-derived.py", "--check"]
+fix = ["uv", "run", "--locked", "--extra", "generators", "python", "scripts/regenerate-derived.py"]
+why = """
+The signed digest list, the intake records and the shared-source lock are
+derived files. --check runs the three generators in comparing mode and refuses
+any differing byte; a bare invocation rewrites all three in order. After a
+merge whose conflicts are all in derived files, --resolve-merge settles it.
+"""
