@@ -1,0 +1,1827 @@
+{
+  "aggregate": {
+    "counts": {
+      "accept": 15,
+      "reject": 42
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 57
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-restart-records/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-restart-records/gen_vectors.py",
+    "routine-file": "vectors-restart-records/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "5b7f58c91b517bd7c96dcccdef0d827a4f730fd4a650b4992b362bb9925cae29",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "c54737dfbe94529fbd8508d30d4ba8b4031d1c66b03068141cef3cd743f3c089"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "c54737dfbe94529fbd8508d30d4ba8b4031d1c66b03068141cef3cd743f3c089"
+        },
+        "swapped-in": "cc343abe0e2c9a422a6b648276d571b4eff6de88805988be66b7b52252e997c6",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-restart-records/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "c543a742cca4943a788b9eb637a32d8361dd223db07413d7980b3fd713c5a816"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "c54737dfbe94529fbd8508d30d4ba8b4031d1c66b03068141cef3cd743f3c089"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "c54737dfbe94529fbd8508d30d4ba8b4031d1c66b03068141cef3cd743f3c089"
+        },
+        "swapped-in": "d1773a3b48fb13a421911f99fa423ab15683bd457dab9f7f85f35e3740647a12",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-restart-records/README.md",
+      "serialization": "bytes",
+      "sha256": "bd29ec5a3ddb0dfdbaef87bbdce2ec57c0cf6a3c8bd8a7156ecc83f1da1521a5"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "c54737dfbe94529fbd8508d30d4ba8b4031d1c66b03068141cef3cd743f3c089"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "c54737dfbe94529fbd8508d30d4ba8b4031d1c66b03068141cef3cd743f3c089"
+        },
+        "swapped-in": "ada970a4c5514b695beff0eb7d5172153a36092cf3a50bef7bceab660ce432cf",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-restart-records/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "8ca8586de5766dbe99257ece5cb10115d76da0ce74232af9af78d596cc911c2c"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "c54737dfbe94529fbd8508d30d4ba8b4031d1c66b03068141cef3cd743f3c089"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "c54737dfbe94529fbd8508d30d4ba8b4031d1c66b03068141cef3cd743f3c089"
+        },
+        "swapped-in": "598493f90f871d1e75b0c9635612fe3bdcc87ec568dab4a8b43969a7d7fd1e12",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-restart-records/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "ba5849be2bc0ddf080588450bf7247f5fd7d33b5cc4466e14c26d2bc6ce859a4"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "c54737dfbe94529fbd8508d30d4ba8b4031d1c66b03068141cef3cd743f3c089"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "c54737dfbe94529fbd8508d30d4ba8b4031d1c66b03068141cef3cd743f3c089"
+        },
+        "swapped-in": "ba77bd4ad0229b0a9b55217bb1520e3ec27dde0161933b9ffeca39f0d8f599cf",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-restart-records/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "defe8b0d49516954011bc676d4db41e7feacff9c3ac146739bfdd277a664e0aa"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "c54737dfbe94529fbd8508d30d4ba8b4031d1c66b03068141cef3cd743f3c089"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "c54737dfbe94529fbd8508d30d4ba8b4031d1c66b03068141cef3cd743f3c089"
+        },
+        "swapped-in": "0262ad143be6dd056eb389614096accffb6553245ebda01bc537b2dc707eb6ac",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-restart-records/tests/test_go_parity.py",
+      "serialization": "bytes",
+      "sha256": "478f48d8d2bcc81ea03b4f7103239aa10c9d5500f365e911c1077957c8478647"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "vectors-restart-records"
+  },
+  "byte-identity": {
+    "pins": 75,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-restart-records",
+      "aee-verify -json vectors-restart-records",
+      "aee-verify vectors-restart-records"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "6a71b93fc5429aa5fb6d09c570b5f4cf5272ab62ee3fc8940b5ba01b0ab75f12"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "incident-action-authorization-control",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "incident-action-authorization-accept-after-the-fact",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "incident-action-authorization-accept-basis-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "incident-action-authorization-statement-malformed",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "incident-action-authorization-predicate-malformed",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "incident-action-authorization-closed-vocabulary-violation",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "incident-action-authorization-no-authorizer",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "incident-action-authorization-no-accountable-party",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "incident-action-authorization-authority-basis-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "incident-action-authorization-authorization-window-inverted",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "incident-action-authorization-intent-not-committed-before",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "incident-action-authorization-authorization-expired",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "incident-action-authorization-induced-effects-unobserved",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "revocation-sweep-control",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "revocation-sweep-accept-issued-after-only",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "revocation-sweep-accept-use-after-revocation",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "revocation-sweep-statement-malformed",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "revocation-sweep-predicate-malformed",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "revocation-sweep-closed-vocabulary-violation",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "revocation-sweep-denominator-union-mismatch",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "revocation-sweep-revocation-entries-mismatch",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "revocation-sweep-coverage-claim-exceeds-proof",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "revocation-sweep-coverage-claim-incomplete",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "re-enable-decision-control",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "re-enable-decision-accept-resume-full",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "re-enable-decision-accept-remain-restricted",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "re-enable-decision-statement-malformed",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "re-enable-decision-predicate-malformed",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "re-enable-decision-closed-vocabulary-violation",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "re-enable-decision-evidence-slot-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "re-enable-decision-evidence-slot-unexplained",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "re-enable-decision-no-approver",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "re-enable-decision-partial-without-scope",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "re-enable-decision-full-with-scope",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "joint-authority-control",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "joint-authority-statement-malformed",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "joint-authority-predicate-malformed",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "joint-authority-authority-basis-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "joint-authority-single-organization",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "joint-authority-party-acts-outside-assignment",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "revocation-boundary-control",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "revocation-boundary-accept-commit-observed",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "revocation-boundary-accept-not-established",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "revocation-boundary-statement-malformed",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "revocation-boundary-predicate-malformed",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "revocation-boundary-revocation-outside-window",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "revocation-boundary-counts-inconsistent",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "revocation-boundary-result-contradicts-counts",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "revocation-boundary-observer-not-at-sink",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "bundle-consistent",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "bundle-consistent-with-optional-records",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "bundle-record-coverage-claim-exceeds-proof",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "bundle-predecessor-not-carried",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "bundle-predecessor-type-mismatch",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "bundle-incident-mismatch",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "bundle-predecessor-issued-later",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "bundle-restored-credential-unswept",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "50d798482ee137bc5c237b8366ce390b2eed1dbaa443a21a5f47d25f0c290e93"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "incident-action-authorization-control",
+      "incident-action-authorization-accept-after-the-fact",
+      "incident-action-authorization-accept-basis-unknown",
+      "incident-action-authorization-statement-malformed",
+      "incident-action-authorization-predicate-malformed",
+      "incident-action-authorization-closed-vocabulary-violation",
+      "incident-action-authorization-no-authorizer",
+      "incident-action-authorization-no-accountable-party",
+      "incident-action-authorization-authority-basis-missing",
+      "incident-action-authorization-authorization-window-inverted",
+      "incident-action-authorization-intent-not-committed-before",
+      "incident-action-authorization-authorization-expired",
+      "incident-action-authorization-induced-effects-unobserved",
+      "revocation-sweep-control",
+      "revocation-sweep-accept-issued-after-only",
+      "revocation-sweep-accept-use-after-revocation",
+      "revocation-sweep-statement-malformed",
+      "revocation-sweep-predicate-malformed",
+      "revocation-sweep-closed-vocabulary-violation",
+      "revocation-sweep-denominator-union-mismatch",
+      "revocation-sweep-revocation-entries-mismatch",
+      "revocation-sweep-coverage-claim-exceeds-proof",
+      "revocation-sweep-coverage-claim-incomplete",
+      "re-enable-decision-control",
+      "re-enable-decision-accept-resume-full",
+      "re-enable-decision-accept-remain-restricted",
+      "re-enable-decision-statement-malformed",
+      "re-enable-decision-predicate-malformed",
+      "re-enable-decision-closed-vocabulary-violation",
+      "re-enable-decision-evidence-slot-missing",
+      "re-enable-decision-evidence-slot-unexplained",
+      "re-enable-decision-no-approver",
+      "re-enable-decision-partial-without-scope",
+      "re-enable-decision-full-with-scope",
+      "joint-authority-control",
+      "joint-authority-statement-malformed",
+      "joint-authority-predicate-malformed",
+      "joint-authority-authority-basis-missing",
+      "joint-authority-single-organization",
+      "joint-authority-party-acts-outside-assignment",
+      "revocation-boundary-control",
+      "revocation-boundary-accept-commit-observed",
+      "revocation-boundary-accept-not-established",
+      "revocation-boundary-statement-malformed",
+      "revocation-boundary-predicate-malformed",
+      "revocation-boundary-revocation-outside-window",
+      "revocation-boundary-counts-inconsistent",
+      "revocation-boundary-result-contradicts-counts",
+      "revocation-boundary-observer-not-at-sink",
+      "bundle-consistent",
+      "bundle-consistent-with-optional-records",
+      "bundle-record-coverage-claim-exceeds-proof",
+      "bundle-predecessor-not-carried",
+      "bundle-predecessor-type-mismatch",
+      "bundle-incident-mismatch",
+      "bundle-predecessor-issued-later",
+      "bundle-restored-credential-unswept"
+    ],
+    "path": "vectors-restart-records/MANIFEST.json",
+    "sha256": "7a3cd31da92c7349f508b8225f032dd43d16cb983ea647ac0027586bed31a6d0"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/incident-action-authorization-control/statement.json",
+          "sha256": "9319b6c60acc1e282f81d6824fb5bdb1d43c6d21a2105c6258459257ea312636"
+        }
+      ],
+      "id": "incident-action-authorization-control"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/incident-action-authorization-accept-after-the-fact/statement.json",
+          "sha256": "29a7216c6bdb65b2cab741831394c687be9a7358d7690473eaae97f47e900354"
+        }
+      ],
+      "id": "incident-action-authorization-accept-after-the-fact"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/incident-action-authorization-accept-basis-unknown/statement.json",
+          "sha256": "39ba115ee13296af2398531b6bb1dd6c491bba4c2e8f396f28f91de0cfceb507"
+        }
+      ],
+      "id": "incident-action-authorization-accept-basis-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/incident-action-authorization-statement-malformed/statement.json",
+          "sha256": "07dae1049e8df39e5d81de8f8570398f4d2d4a70f8d603082a1aa9474833ea37"
+        }
+      ],
+      "id": "incident-action-authorization-statement-malformed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/incident-action-authorization-predicate-malformed/statement.json",
+          "sha256": "bdeb1d320ba2bc5571034a8299dabf8ccb15cd508279f16994aba69e3a468fce"
+        }
+      ],
+      "id": "incident-action-authorization-predicate-malformed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/incident-action-authorization-closed-vocabulary-violation/statement.json",
+          "sha256": "c967e32b35665f421e7f4d772309a87bb75cede349bc31bdb471ac40669a0464"
+        }
+      ],
+      "id": "incident-action-authorization-closed-vocabulary-violation"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/incident-action-authorization-no-authorizer/statement.json",
+          "sha256": "ba8042220ca72c1ef4691d432063543b5bb99e17d96e5838f2ce6c1d31bb42e5"
+        }
+      ],
+      "id": "incident-action-authorization-no-authorizer"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/incident-action-authorization-no-accountable-party/statement.json",
+          "sha256": "46efb715c9a499a0dbb84df600ec36e4d48efa434a23957d7b9867b7fa52a99b"
+        }
+      ],
+      "id": "incident-action-authorization-no-accountable-party"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/incident-action-authorization-authority-basis-missing/statement.json",
+          "sha256": "aaa4e864ab8807a140987cdae02c4854fc6a9f566aa68893fcf5f2af145782cf"
+        }
+      ],
+      "id": "incident-action-authorization-authority-basis-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/incident-action-authorization-authorization-window-inverted/statement.json",
+          "sha256": "c710326055566f2b34919890f8b580539fc452018fc520ba4130c46ace34d948"
+        }
+      ],
+      "id": "incident-action-authorization-authorization-window-inverted"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/incident-action-authorization-intent-not-committed-before/statement.json",
+          "sha256": "d4fb19a4005bf4ca7ab2e8b219edd4558ce0a3ded89dd556e012f4bebb4914a5"
+        }
+      ],
+      "id": "incident-action-authorization-intent-not-committed-before"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/incident-action-authorization-authorization-expired/statement.json",
+          "sha256": "686beeaf8ccea56806f8bcd53c452175cab143954bb8a48655e829b1519874e0"
+        }
+      ],
+      "id": "incident-action-authorization-authorization-expired"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/incident-action-authorization-induced-effects-unobserved/statement.json",
+          "sha256": "9727e73aef1e92b1f992b435979bc8c343ff17bc21c0f1f859245182c0f06b3d"
+        }
+      ],
+      "id": "incident-action-authorization-induced-effects-unobserved"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/revocation-sweep-control/statement.json",
+          "sha256": "c864e1b41caf7a10e19cbfc08940e164c117fef8833660c76e7b864a80e4b834"
+        }
+      ],
+      "id": "revocation-sweep-control"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/revocation-sweep-accept-issued-after-only/statement.json",
+          "sha256": "f631ef952ba3516bbca3b8e254f2ea5d3954c54d617c14639fef8f7733772bc6"
+        }
+      ],
+      "id": "revocation-sweep-accept-issued-after-only"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/revocation-sweep-accept-use-after-revocation/statement.json",
+          "sha256": "3235759dbe88091070328b94483b467ef27822aa3c023aff8feb95ad763138b5"
+        }
+      ],
+      "id": "revocation-sweep-accept-use-after-revocation"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/revocation-sweep-statement-malformed/statement.json",
+          "sha256": "12cfa7ba3432404bbc99ab193eec79d42100f469b83449be7b700e04ff33ce93"
+        }
+      ],
+      "id": "revocation-sweep-statement-malformed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/revocation-sweep-predicate-malformed/statement.json",
+          "sha256": "8848e41b1cbb7f0773c1576f3c18049acf572f2316264494fe3e1123b6d21aab"
+        }
+      ],
+      "id": "revocation-sweep-predicate-malformed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/revocation-sweep-closed-vocabulary-violation/statement.json",
+          "sha256": "2c566b819339e7657707e931c9462b62e5c5ea9489ca8c2daf671d9ae20c080c"
+        }
+      ],
+      "id": "revocation-sweep-closed-vocabulary-violation"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/revocation-sweep-denominator-union-mismatch/statement.json",
+          "sha256": "93ea2038497b2bbe2e4e35e19a6106fa0be95d90ad87e5889d0e34ef6f1215bd"
+        }
+      ],
+      "id": "revocation-sweep-denominator-union-mismatch"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/revocation-sweep-revocation-entries-mismatch/statement.json",
+          "sha256": "15b64ec407ef51cd5ce9ba8738b67302798c862e3ae16bbf90869d9a062f2a84"
+        }
+      ],
+      "id": "revocation-sweep-revocation-entries-mismatch"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/revocation-sweep-coverage-claim-exceeds-proof/statement.json",
+          "sha256": "c6f6b7e122b173aa7ba926dac476a79b5ce411ed7cb5472f0355d5edefb77a09"
+        }
+      ],
+      "id": "revocation-sweep-coverage-claim-exceeds-proof"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/revocation-sweep-coverage-claim-incomplete/statement.json",
+          "sha256": "9b437367334d1ada2cf3edd3798296fa0c2d599c5bb56ec173d669a76be474b4"
+        }
+      ],
+      "id": "revocation-sweep-coverage-claim-incomplete"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/re-enable-decision-control/statement.json",
+          "sha256": "81c99939127c22e31a4af4eda46558143f397035b99d36960f0a7342670c6543"
+        }
+      ],
+      "id": "re-enable-decision-control"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/re-enable-decision-accept-resume-full/statement.json",
+          "sha256": "a44228f221033dfbe7372ab2e415c228ec66d2a4ee107a44eb7bca84a4f0b986"
+        }
+      ],
+      "id": "re-enable-decision-accept-resume-full"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/re-enable-decision-accept-remain-restricted/statement.json",
+          "sha256": "6f9762e28b3fd66a65001568c53b9d4acaa8cc5d7c0f14a7b2a52a2cde51be5b"
+        }
+      ],
+      "id": "re-enable-decision-accept-remain-restricted"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/re-enable-decision-statement-malformed/statement.json",
+          "sha256": "ef1d16323974382d7f6601fb98c09e0bdd128fe1db82deb654c7b2d4fb002648"
+        }
+      ],
+      "id": "re-enable-decision-statement-malformed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/re-enable-decision-predicate-malformed/statement.json",
+          "sha256": "4781501504c004d71b0bffd071ced93b589f3203be7116223efe55a1d90bc0f2"
+        }
+      ],
+      "id": "re-enable-decision-predicate-malformed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/re-enable-decision-closed-vocabulary-violation/statement.json",
+          "sha256": "9aadb3de706aab2834ddbdb0ba40fb02581cb2d3fb66173aab637d046585725b"
+        }
+      ],
+      "id": "re-enable-decision-closed-vocabulary-violation"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/re-enable-decision-evidence-slot-missing/statement.json",
+          "sha256": "07f94b7923d6415458b238cd285c48f0ba058c7c89eea57c57c8d3db5ba7f637"
+        }
+      ],
+      "id": "re-enable-decision-evidence-slot-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/re-enable-decision-evidence-slot-unexplained/statement.json",
+          "sha256": "f68c20b673b9fe3723894ee881e907ed093c43d9f566ff50cfd95da0c42499c5"
+        }
+      ],
+      "id": "re-enable-decision-evidence-slot-unexplained"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/re-enable-decision-no-approver/statement.json",
+          "sha256": "a95d0570df03197f1ffda197f15d1ac3d93e72ca6d71c8e3c4beb5992353a8cf"
+        }
+      ],
+      "id": "re-enable-decision-no-approver"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/re-enable-decision-partial-without-scope/statement.json",
+          "sha256": "2b58979052f8a34c0d4d06fd0b23459f52ac710a20156c9871e8c403a7be0642"
+        }
+      ],
+      "id": "re-enable-decision-partial-without-scope"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/re-enable-decision-full-with-scope/statement.json",
+          "sha256": "51aab3151b6aa5a82605c09da66fa9ad46c872cfe623bb4fd4f2c3652d26e5f1"
+        }
+      ],
+      "id": "re-enable-decision-full-with-scope"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/joint-authority-control/statement.json",
+          "sha256": "df3388712d8e2a475176170cfc6b053e64c5af4e24f44c45ec952c47c0a4b1d9"
+        }
+      ],
+      "id": "joint-authority-control"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/joint-authority-statement-malformed/statement.json",
+          "sha256": "da0e07941333b94d704c741ffa224b281c0cb5f7dc04209e439783b00537fe0b"
+        }
+      ],
+      "id": "joint-authority-statement-malformed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/joint-authority-predicate-malformed/statement.json",
+          "sha256": "541be3c5856c0ada3204eb95f94e9359a847c37a784d6454d87609cf3ed90947"
+        }
+      ],
+      "id": "joint-authority-predicate-malformed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/joint-authority-authority-basis-missing/statement.json",
+          "sha256": "1c5ed9d670fd9c73b7a4f5ba492855ff2abdce219e55a1bdf2c29c6638780000"
+        }
+      ],
+      "id": "joint-authority-authority-basis-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/joint-authority-single-organization/statement.json",
+          "sha256": "50f95efaf5507e437626cf68ac84529bd54f80439832db0c019f8cefc8ea61dd"
+        }
+      ],
+      "id": "joint-authority-single-organization"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/joint-authority-party-acts-outside-assignment/statement.json",
+          "sha256": "1d6360ae3267fbb321376ad40b4b1c367d1b5d759e77f74519b778d119ac8eb2"
+        }
+      ],
+      "id": "joint-authority-party-acts-outside-assignment"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/revocation-boundary-control/statement.json",
+          "sha256": "2c6792d6a7c6678f6edb8a70949229c2839540df4ad99fa278d372452d3a2514"
+        }
+      ],
+      "id": "revocation-boundary-control"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/revocation-boundary-accept-commit-observed/statement.json",
+          "sha256": "401c3a7770890875af158549e6fe61784b52ea710e0121aa08383279ef36fbdb"
+        }
+      ],
+      "id": "revocation-boundary-accept-commit-observed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/revocation-boundary-accept-not-established/statement.json",
+          "sha256": "05672bbfd0f8a3d5af11f0aa6e5e551934c4711f21e6f0e7b74073b573c82e6e"
+        }
+      ],
+      "id": "revocation-boundary-accept-not-established"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/revocation-boundary-statement-malformed/statement.json",
+          "sha256": "6f9492f85a1df84ef052632359ab9119e97739c7c0e3a081ba720e8d2d8134f4"
+        }
+      ],
+      "id": "revocation-boundary-statement-malformed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/revocation-boundary-predicate-malformed/statement.json",
+          "sha256": "c985b3b7913d4c50ca4d3aa6dcb5170d6e05270f32ddb217ab000f143d6c7c75"
+        }
+      ],
+      "id": "revocation-boundary-predicate-malformed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/revocation-boundary-revocation-outside-window/statement.json",
+          "sha256": "7216e4bfad52796975efe6d9120aafd1ea894128d5d59aba15e37818bac9060b"
+        }
+      ],
+      "id": "revocation-boundary-revocation-outside-window"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/revocation-boundary-counts-inconsistent/statement.json",
+          "sha256": "e5db0e5eb966ca2934c396fd6f0d8bd8a5c15faea9029dff20b27a0917eb5bf7"
+        }
+      ],
+      "id": "revocation-boundary-counts-inconsistent"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/revocation-boundary-result-contradicts-counts/statement.json",
+          "sha256": "e0795591e99aa7a8f01b823cea8b6eb1e1be43f3f3f3d9df9b2431fb3022340a"
+        }
+      ],
+      "id": "revocation-boundary-result-contradicts-counts"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/revocation-boundary-observer-not-at-sink/statement.json",
+          "sha256": "020659904aafe89577b6e3b5bd524932fd2e76c31bdc419c4a7b9183df019c50"
+        }
+      ],
+      "id": "revocation-boundary-observer-not-at-sink"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/bundle-consistent/r1.json",
+          "sha256": "9319b6c60acc1e282f81d6824fb5bdb1d43c6d21a2105c6258459257ea312636"
+        },
+        {
+          "path": "vectors-restart-records/cases/bundle-consistent/r2.json",
+          "sha256": "c864e1b41caf7a10e19cbfc08940e164c117fef8833660c76e7b864a80e4b834"
+        },
+        {
+          "path": "vectors-restart-records/cases/bundle-consistent/r3.json",
+          "sha256": "81c99939127c22e31a4af4eda46558143f397035b99d36960f0a7342670c6543"
+        }
+      ],
+      "id": "bundle-consistent"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/bundle-consistent-with-optional-records/r1.json",
+          "sha256": "9319b6c60acc1e282f81d6824fb5bdb1d43c6d21a2105c6258459257ea312636"
+        },
+        {
+          "path": "vectors-restart-records/cases/bundle-consistent-with-optional-records/r2.json",
+          "sha256": "c864e1b41caf7a10e19cbfc08940e164c117fef8833660c76e7b864a80e4b834"
+        },
+        {
+          "path": "vectors-restart-records/cases/bundle-consistent-with-optional-records/r3.json",
+          "sha256": "81c99939127c22e31a4af4eda46558143f397035b99d36960f0a7342670c6543"
+        },
+        {
+          "path": "vectors-restart-records/cases/bundle-consistent-with-optional-records/r4.json",
+          "sha256": "df3388712d8e2a475176170cfc6b053e64c5af4e24f44c45ec952c47c0a4b1d9"
+        },
+        {
+          "path": "vectors-restart-records/cases/bundle-consistent-with-optional-records/rb.json",
+          "sha256": "97b942ec4f0b3bc228bcce622078133ccc9f477099e0cf059842cbb6dfabc80d"
+        }
+      ],
+      "id": "bundle-consistent-with-optional-records"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/bundle-record-coverage-claim-exceeds-proof/r1.json",
+          "sha256": "9319b6c60acc1e282f81d6824fb5bdb1d43c6d21a2105c6258459257ea312636"
+        },
+        {
+          "path": "vectors-restart-records/cases/bundle-record-coverage-claim-exceeds-proof/r2.json",
+          "sha256": "c6f6b7e122b173aa7ba926dac476a79b5ce411ed7cb5472f0355d5edefb77a09"
+        },
+        {
+          "path": "vectors-restart-records/cases/bundle-record-coverage-claim-exceeds-proof/r3.json",
+          "sha256": "3cf57b8d3a09cf037fa9984b78549836d39d00cc4ff96c9c5a641ea28a4b9b79"
+        }
+      ],
+      "id": "bundle-record-coverage-claim-exceeds-proof"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/bundle-predecessor-not-carried/r1.json",
+          "sha256": "9319b6c60acc1e282f81d6824fb5bdb1d43c6d21a2105c6258459257ea312636"
+        },
+        {
+          "path": "vectors-restart-records/cases/bundle-predecessor-not-carried/r2.json",
+          "sha256": "c864e1b41caf7a10e19cbfc08940e164c117fef8833660c76e7b864a80e4b834"
+        },
+        {
+          "path": "vectors-restart-records/cases/bundle-predecessor-not-carried/r3.json",
+          "sha256": "2e5745489693bd0bb9151fadb2778f24eb36515347caf6029047644ec12b51a6"
+        }
+      ],
+      "id": "bundle-predecessor-not-carried"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/bundle-predecessor-type-mismatch/r1.json",
+          "sha256": "9319b6c60acc1e282f81d6824fb5bdb1d43c6d21a2105c6258459257ea312636"
+        },
+        {
+          "path": "vectors-restart-records/cases/bundle-predecessor-type-mismatch/r2.json",
+          "sha256": "c864e1b41caf7a10e19cbfc08940e164c117fef8833660c76e7b864a80e4b834"
+        },
+        {
+          "path": "vectors-restart-records/cases/bundle-predecessor-type-mismatch/r3.json",
+          "sha256": "7c81b7d2d1524f11ccea5a3859a7927892bb4c6653d2689a225dc01f4e4aefdd"
+        }
+      ],
+      "id": "bundle-predecessor-type-mismatch"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/bundle-incident-mismatch/r1.json",
+          "sha256": "9319b6c60acc1e282f81d6824fb5bdb1d43c6d21a2105c6258459257ea312636"
+        },
+        {
+          "path": "vectors-restart-records/cases/bundle-incident-mismatch/r2.json",
+          "sha256": "032e024dfeea1d615dda5d2e355da68cc4c1e8d8254983fff92cb4f17f71b11a"
+        },
+        {
+          "path": "vectors-restart-records/cases/bundle-incident-mismatch/r3.json",
+          "sha256": "4c78dc29af7b755647466fc5ae8b0bf71c35df6678a5af01af2a188e61d373ce"
+        }
+      ],
+      "id": "bundle-incident-mismatch"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/bundle-predecessor-issued-later/r1.json",
+          "sha256": "9319b6c60acc1e282f81d6824fb5bdb1d43c6d21a2105c6258459257ea312636"
+        },
+        {
+          "path": "vectors-restart-records/cases/bundle-predecessor-issued-later/r2.json",
+          "sha256": "c864e1b41caf7a10e19cbfc08940e164c117fef8833660c76e7b864a80e4b834"
+        },
+        {
+          "path": "vectors-restart-records/cases/bundle-predecessor-issued-later/r3.json",
+          "sha256": "34c7b42fe4372a96984c0aab1a5f62339b29c0e8a80f7af07744d6b81db81166"
+        }
+      ],
+      "id": "bundle-predecessor-issued-later"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-restart-records/cases/bundle-restored-credential-unswept/r1.json",
+          "sha256": "9319b6c60acc1e282f81d6824fb5bdb1d43c6d21a2105c6258459257ea312636"
+        },
+        {
+          "path": "vectors-restart-records/cases/bundle-restored-credential-unswept/r2.json",
+          "sha256": "c864e1b41caf7a10e19cbfc08940e164c117fef8833660c76e7b864a80e4b834"
+        },
+        {
+          "path": "vectors-restart-records/cases/bundle-restored-credential-unswept/r3.json",
+          "sha256": "ef00f621d8febf934b4e893d814a564b147455f2d2b9632517a46a63a6c477cc"
+        }
+      ],
+      "id": "bundle-restored-credential-unswept"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-restart-records.json",
+        "serialization": "bytes",
+        "sha256": "c54737dfbe94529fbd8508d30d4ba8b4031d1c66b03068141cef3cd743f3c089"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-restart-records.txt",
+        "serialization": "bytes",
+        "sha256": "38dbe5a6d3f06d9da507d96147cd95c360e3d1d02cc2048ee035f4a50ed74251"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "incident-action-authorization-statement-malformed",
+      "inputs": [
+        "member:incident-action-authorization-statement-malformed",
+        "check:incident-action-authorization-statement-malformed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"statement-malformed\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "incident-action-authorization-predicate-malformed",
+      "inputs": [
+        "member:incident-action-authorization-predicate-malformed",
+        "check:incident-action-authorization-predicate-malformed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"predicate-malformed\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "incident-action-authorization-closed-vocabulary-violation",
+      "inputs": [
+        "member:incident-action-authorization-closed-vocabulary-violation",
+        "check:incident-action-authorization-closed-vocabulary-violation"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"closed-vocabulary-violation\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "incident-action-authorization-no-authorizer",
+      "inputs": [
+        "member:incident-action-authorization-no-authorizer",
+        "check:incident-action-authorization-no-authorizer"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"no-authorizer\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "incident-action-authorization-no-accountable-party",
+      "inputs": [
+        "member:incident-action-authorization-no-accountable-party",
+        "check:incident-action-authorization-no-accountable-party"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"no-accountable-party\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "incident-action-authorization-authority-basis-missing",
+      "inputs": [
+        "member:incident-action-authorization-authority-basis-missing",
+        "check:incident-action-authorization-authority-basis-missing"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"authority-basis-missing\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "incident-action-authorization-authorization-window-inverted",
+      "inputs": [
+        "member:incident-action-authorization-authorization-window-inverted",
+        "check:incident-action-authorization-authorization-window-inverted"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"authorization-window-inverted\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "incident-action-authorization-intent-not-committed-before",
+      "inputs": [
+        "member:incident-action-authorization-intent-not-committed-before",
+        "check:incident-action-authorization-intent-not-committed-before"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"intent-not-committed-before\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "incident-action-authorization-authorization-expired",
+      "inputs": [
+        "member:incident-action-authorization-authorization-expired",
+        "check:incident-action-authorization-authorization-expired"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"authorization-expired\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "incident-action-authorization-induced-effects-unobserved",
+      "inputs": [
+        "member:incident-action-authorization-induced-effects-unobserved",
+        "check:incident-action-authorization-induced-effects-unobserved"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"induced-effects-unobserved\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "revocation-sweep-statement-malformed",
+      "inputs": [
+        "member:revocation-sweep-statement-malformed",
+        "check:revocation-sweep-statement-malformed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"statement-malformed\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "revocation-sweep-predicate-malformed",
+      "inputs": [
+        "member:revocation-sweep-predicate-malformed",
+        "check:revocation-sweep-predicate-malformed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"predicate-malformed\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "revocation-sweep-closed-vocabulary-violation",
+      "inputs": [
+        "member:revocation-sweep-closed-vocabulary-violation",
+        "check:revocation-sweep-closed-vocabulary-violation"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"closed-vocabulary-violation\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "revocation-sweep-denominator-union-mismatch",
+      "inputs": [
+        "member:revocation-sweep-denominator-union-mismatch",
+        "check:revocation-sweep-denominator-union-mismatch"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"denominator-union-mismatch\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "revocation-sweep-revocation-entries-mismatch",
+      "inputs": [
+        "member:revocation-sweep-revocation-entries-mismatch",
+        "check:revocation-sweep-revocation-entries-mismatch"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"revocation-entries-mismatch\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "revocation-sweep-coverage-claim-exceeds-proof",
+      "inputs": [
+        "member:revocation-sweep-coverage-claim-exceeds-proof",
+        "check:revocation-sweep-coverage-claim-exceeds-proof"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"coverage-claim-exceeds-proof\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "revocation-sweep-coverage-claim-incomplete",
+      "inputs": [
+        "member:revocation-sweep-coverage-claim-incomplete",
+        "check:revocation-sweep-coverage-claim-incomplete"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"coverage-claim-incomplete\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "re-enable-decision-statement-malformed",
+      "inputs": [
+        "member:re-enable-decision-statement-malformed",
+        "check:re-enable-decision-statement-malformed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"statement-malformed\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "re-enable-decision-predicate-malformed",
+      "inputs": [
+        "member:re-enable-decision-predicate-malformed",
+        "check:re-enable-decision-predicate-malformed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"predicate-malformed\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "re-enable-decision-closed-vocabulary-violation",
+      "inputs": [
+        "member:re-enable-decision-closed-vocabulary-violation",
+        "check:re-enable-decision-closed-vocabulary-violation"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"closed-vocabulary-violation\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "re-enable-decision-evidence-slot-missing",
+      "inputs": [
+        "member:re-enable-decision-evidence-slot-missing",
+        "check:re-enable-decision-evidence-slot-missing"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"evidence-slot-missing\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "re-enable-decision-evidence-slot-unexplained",
+      "inputs": [
+        "member:re-enable-decision-evidence-slot-unexplained",
+        "check:re-enable-decision-evidence-slot-unexplained"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"evidence-slot-unexplained\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "re-enable-decision-no-approver",
+      "inputs": [
+        "member:re-enable-decision-no-approver",
+        "check:re-enable-decision-no-approver"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"no-approver\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "re-enable-decision-partial-without-scope",
+      "inputs": [
+        "member:re-enable-decision-partial-without-scope",
+        "check:re-enable-decision-partial-without-scope"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"partial-without-scope\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "re-enable-decision-full-with-scope",
+      "inputs": [
+        "member:re-enable-decision-full-with-scope",
+        "check:re-enable-decision-full-with-scope"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"full-with-scope\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "joint-authority-statement-malformed",
+      "inputs": [
+        "member:joint-authority-statement-malformed",
+        "check:joint-authority-statement-malformed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"statement-malformed\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "joint-authority-predicate-malformed",
+      "inputs": [
+        "member:joint-authority-predicate-malformed",
+        "check:joint-authority-predicate-malformed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"predicate-malformed\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "joint-authority-authority-basis-missing",
+      "inputs": [
+        "member:joint-authority-authority-basis-missing",
+        "check:joint-authority-authority-basis-missing"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"authority-basis-missing\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "joint-authority-single-organization",
+      "inputs": [
+        "member:joint-authority-single-organization",
+        "check:joint-authority-single-organization"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"single-organization\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "joint-authority-party-acts-outside-assignment",
+      "inputs": [
+        "member:joint-authority-party-acts-outside-assignment",
+        "check:joint-authority-party-acts-outside-assignment"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"party-acts-outside-assignment\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "revocation-boundary-statement-malformed",
+      "inputs": [
+        "member:revocation-boundary-statement-malformed",
+        "check:revocation-boundary-statement-malformed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"statement-malformed\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "revocation-boundary-predicate-malformed",
+      "inputs": [
+        "member:revocation-boundary-predicate-malformed",
+        "check:revocation-boundary-predicate-malformed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"predicate-malformed\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "revocation-boundary-revocation-outside-window",
+      "inputs": [
+        "member:revocation-boundary-revocation-outside-window",
+        "check:revocation-boundary-revocation-outside-window"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"revocation-outside-window\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "revocation-boundary-counts-inconsistent",
+      "inputs": [
+        "member:revocation-boundary-counts-inconsistent",
+        "check:revocation-boundary-counts-inconsistent"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"counts-inconsistent\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "revocation-boundary-result-contradicts-counts",
+      "inputs": [
+        "member:revocation-boundary-result-contradicts-counts",
+        "check:revocation-boundary-result-contradicts-counts"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"result-contradicts-counts\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "revocation-boundary-observer-not-at-sink",
+      "inputs": [
+        "member:revocation-boundary-observer-not-at-sink",
+        "check:revocation-boundary-observer-not-at-sink"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"observer-not-at-sink\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "bundle-record-coverage-claim-exceeds-proof",
+      "inputs": [
+        "member:bundle-record-coverage-claim-exceeds-proof",
+        "check:bundle-record-coverage-claim-exceeds-proof"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"coverage-claim-exceeds-proof\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "bundle-predecessor-not-carried",
+      "inputs": [
+        "member:bundle-predecessor-not-carried",
+        "check:bundle-predecessor-not-carried"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"predecessor-not-carried\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "bundle-predecessor-type-mismatch",
+      "inputs": [
+        "member:bundle-predecessor-type-mismatch",
+        "check:bundle-predecessor-type-mismatch"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"predecessor-type-mismatch\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "bundle-incident-mismatch",
+      "inputs": [
+        "member:bundle-incident-mismatch",
+        "check:bundle-incident-mismatch"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"incident-mismatch\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "bundle-predecessor-issued-later",
+      "inputs": [
+        "member:bundle-predecessor-issued-later",
+        "check:bundle-predecessor-issued-later"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"predecessor-issued-later\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "bundle-restored-credential-unswept",
+      "inputs": [
+        "member:bundle-restored-credential-unswept",
+        "check:bundle-restored-credential-unswept"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"restored-credential-unswept\",\"verdict\":\"reject\"}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "c54737dfbe94529fbd8508d30d4ba8b4031d1c66b03068141cef3cd743f3c089"
+      },
+      {
+        "process": "run-2",
+        "sha256": "c54737dfbe94529fbd8508d30d4ba8b4031d1c66b03068141cef3cd743f3c089"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 57 pinned members of restart-records/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 57,
+    "require": "at-least-one",
+    "selected": [
+      "incident-action-authorization-control",
+      "incident-action-authorization-accept-after-the-fact",
+      "incident-action-authorization-accept-basis-unknown",
+      "incident-action-authorization-statement-malformed",
+      "incident-action-authorization-predicate-malformed",
+      "incident-action-authorization-closed-vocabulary-violation",
+      "incident-action-authorization-no-authorizer",
+      "incident-action-authorization-no-accountable-party",
+      "incident-action-authorization-authority-basis-missing",
+      "incident-action-authorization-authorization-window-inverted",
+      "incident-action-authorization-intent-not-committed-before",
+      "incident-action-authorization-authorization-expired",
+      "incident-action-authorization-induced-effects-unobserved",
+      "revocation-sweep-control",
+      "revocation-sweep-accept-issued-after-only",
+      "revocation-sweep-accept-use-after-revocation",
+      "revocation-sweep-statement-malformed",
+      "revocation-sweep-predicate-malformed",
+      "revocation-sweep-closed-vocabulary-violation",
+      "revocation-sweep-denominator-union-mismatch",
+      "revocation-sweep-revocation-entries-mismatch",
+      "revocation-sweep-coverage-claim-exceeds-proof",
+      "revocation-sweep-coverage-claim-incomplete",
+      "re-enable-decision-control",
+      "re-enable-decision-accept-resume-full",
+      "re-enable-decision-accept-remain-restricted",
+      "re-enable-decision-statement-malformed",
+      "re-enable-decision-predicate-malformed",
+      "re-enable-decision-closed-vocabulary-violation",
+      "re-enable-decision-evidence-slot-missing",
+      "re-enable-decision-evidence-slot-unexplained",
+      "re-enable-decision-no-approver",
+      "re-enable-decision-partial-without-scope",
+      "re-enable-decision-full-with-scope",
+      "joint-authority-control",
+      "joint-authority-statement-malformed",
+      "joint-authority-predicate-malformed",
+      "joint-authority-authority-basis-missing",
+      "joint-authority-single-organization",
+      "joint-authority-party-acts-outside-assignment",
+      "revocation-boundary-control",
+      "revocation-boundary-accept-commit-observed",
+      "revocation-boundary-accept-not-established",
+      "revocation-boundary-statement-malformed",
+      "revocation-boundary-predicate-malformed",
+      "revocation-boundary-revocation-outside-window",
+      "revocation-boundary-counts-inconsistent",
+      "revocation-boundary-result-contradicts-counts",
+      "revocation-boundary-observer-not-at-sink",
+      "bundle-consistent",
+      "bundle-consistent-with-optional-records",
+      "bundle-record-coverage-claim-exceeds-proof",
+      "bundle-predecessor-not-carried",
+      "bundle-predecessor-type-mismatch",
+      "bundle-incident-mismatch",
+      "bundle-predecessor-issued-later",
+      "bundle-restored-credential-unswept"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "restart-records/v1"
+}
