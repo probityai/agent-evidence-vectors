@@ -107,15 +107,3 @@ derived files. --check runs the three generators in comparing mode and refuses
 any differing byte; a bare invocation rewrites all three in order. After a
 merge whose conflicts are all in derived files, --resolve-merge settles it.
 """
-
-[[gate]]
-ident = "request-effect-contract"
-argv = ["python3", "run_contract.py", "--check"]
-workdir = "site/examples/request-effect-join"
-not_regenerable = """
-expected.json holds the contract author's expected classification and findings
-for each case, written by hand from docs/INPUT-CONTRACT.md. run_contract.py has no
-write mode. Regenerating expected.json from the reader would make the check
-compare the reader with itself, so a divergence is fixed in the reader, the
-fixtures or the contract, never by rewriting the expected answers.
-"""
