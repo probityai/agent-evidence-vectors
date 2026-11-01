@@ -3,7 +3,8 @@ name: W3C v0.1 paper appendix reruns
 # Reruns every row of the results-to-inputs table for the W3C Agent Conformance
 # CG's v0.1 reporting-format paper from its pins, and fails when a posted
 # digest does not come out. interop/w3c-v01-appendix/README.md has the table.
-# The weekly run catches a pin that stops resolving upstream.
+# The weekly run catches a pin that stops resolving upstream. Every job runs on
+# Linux x86_64, Linux arm64 and macOS arm64, and the results name the platform.
 
 on:
   workflow_dispatch:
@@ -31,8 +32,12 @@ concurrency:
 
 jobs:
   harness:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, ubuntu-24.04-arm, macos-15]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -45,11 +50,12 @@ jobs:
         run: uv run --no-project --with pytest==9.1.1 python -m pytest -q tests
 
   rerun:
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
+        os: [ubuntu-24.04, ubuntu-24.04-arm, macos-15]
         # R3-v01 reads the records R3 writes, and R14 reads the reports R1, R2,
         # R3-v01, R4 and R5 write, so those jobs rerun their inputs too.
         rows:
@@ -82,7 +88,7 @@ jobs:
           node-version: '22'
           package-manager-cache: false
       - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
-        if: matrix.rows == 'R10'
+        if: matrix.rows == 'R9' || matrix.rows == 'R10'
         with:
           go-version: '1.26'
           cache: false
@@ -95,7 +101,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: w3c-v01-appendix-${{ strategy.job-index }}
+          name: w3c-v01-appendix-${{ matrix.os }}-${{ strategy.job-index }}
           path: results/
           if-no-files-found: error
           retention-days: 90

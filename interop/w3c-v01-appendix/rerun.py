@@ -25,11 +25,13 @@ import hashlib
 import io
 import json
 import os
+import platform
 import re
 import shutil
 import subprocess
 import sys
 import tarfile
+import tomllib
 import urllib.request
 import zipfile
 from pathlib import Path
@@ -160,6 +162,61 @@ def unittest_summary(text: str) -> dict[str, Any]:
     skipped = re.findall(r"skipped=(\d+)", text)
     return {"ran": int(ran[-1]) if ran else None, "skipped": int(skipped[-1]) if skipped else 0,
             "ok": bool(re.search(r"^OK\b", text, re.M))}
+
+
+def cargo_test_summary(text: str) -> dict[str, Any]:
+    """The tests cargo ran and its closing result lines, read from cargo's own output."""
+    ran = sorted((name, outcome) for name, outcome in re.findall(r"^test (\S+) \.\.\. (\w+)$", text, re.M))
+    totals = {"passed": 0, "failed": 0, "ignored": 0, "filtered_out": 0}
+    results = re.findall(r"^test result: (\w+)\. (\d+) passed; (\d+) failed; (\d+) ignored; "
+                         r"\d+ measured; (\d+) filtered out", text, re.M)
+    for _, passed, failed, ignored, filtered in results:
+        totals["passed"] += int(passed)
+        totals["failed"] += int(failed)
+        totals["ignored"] += int(ignored)
+        totals["filtered_out"] += int(filtered)
+    return {"tests": [name for name, _ in ran], "outcomes": sorted({o for _, o in ran}),
+            "result_lines": len(results), **totals}
+
+
+def platform_record() -> dict[str, str]:
+    """The machine a row ran on, written into every result so a digest is read with its platform."""
+    runner = {k: os.environ[k] for k in ("RUNNER_OS", "RUNNER_ARCH", "ImageOS", "ImageVersion")
+              if k in os.environ}
+    return {"system": platform.system(), "machine": platform.machine(),
+            "python": platform.python_version(), **runner}
+
+
+def sha256_check(directory: Path, listing: Path) -> dict[str, Any]:
+    """What ``sha256sum -c`` decides, in Python so it runs where GNU coreutils is absent.
+
+    Each line is 64 hex digits, a space, a space or ``*``, then the path. A
+    path that is missing or whose bytes hash to another value fails, and so
+    does a line of any other form.
+    """
+    results: list[dict[str, Any]] = []
+    for line in listing.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        found = re.fullmatch(r"([0-9a-f]{64}) [ *](.+)", line)
+        if not found:
+            results.append({"line": line, "ok": False, "why": "not a checksum line"})
+            continue
+        digest, name = found.groups()
+        path = directory / name
+        got = sha256_file(path) if path.is_file() else None
+        results.append({"file": name, "posted": digest, "observed": got, "ok": got == digest})
+    return {"files": len(results), "ok_files": sum(1 for r in results if r["ok"]),
+            "results": results, "ok": bool(results) and all(r["ok"] for r in results)}
+
+
+def rust_toolchain(channel: str, work: Path, log: Path) -> str:
+    """Install one Rust toolchain by name with rustup; return the ``+channel`` argument for cargo."""
+    if shutil.which("rustup") is None:
+        raise Refused("rustup is not on PATH")
+    must(run(["rustup", "toolchain", "install", channel, "--profile", "minimal", "--no-self-update"],
+             work, log), f"rustup toolchain install {channel}")
+    return f"+{channel}"
 
 
 def tree_digests(root: Path) -> dict[str, str]:
@@ -345,14 +402,31 @@ def row_r5(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str, Any
     return detail["ok"], detail
 
 
+def row_r6_rust(w: Path, log: Path, src: Path, commit: str, rust: dict[str, Any]) -> dict[str, Any]:
+    """The Rust approval tests of one assay commit, built with the toolchain the commit pins."""
+    channel = tomllib.loads((src / "rust-toolchain.toml").read_text(encoding="utf-8"))["toolchain"]["channel"]
+    cargo = rust_toolchain(channel, w, log)
+    version = subprocess.run(["rustc", cargo, "--version"], capture_output=True, text=True,
+                             check=False).stdout.strip()
+    out = w / f"cargo-{commit[:8]}.txt"
+    code = run(["cargo", cargo, "test", "--locked", "-p", "assay-core", "--lib", rust["filter"],
+                "--", "--test-threads=1"], src, log,
+               env={"CARGO_TARGET_DIR": str(w / f"target-{commit[:8]}"), "CARGO_TERM_COLOR": "never"},
+               stdout=out, merge=True)
+    summary = cargo_test_summary(out.read_text(encoding="utf-8", errors="replace"))
+    ok = (code == 0 and summary["tests"] == rust["tests"] and summary["outcomes"] == ["ok"]
+          and summary["passed"] == len(rust["tests"]) and not summary["failed"]
+          and not summary["ignored"] and summary["result_lines"] == 1)
+    return {"toolchain": channel, "rustc": version, "exit": code, "summary": summary, "ok": ok}
+
+
 def row_r6(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
     p = row["pins"]
     py = venv(w, "r6", p["python"], [], log)
     detail: dict[str, Any] = {}
     ok = True
     for commit in p["commits"]:
-        src = fetch_commit(p["repository"], commit, w / f"src-{commit[:8]}", log,
-                           [f"/{p['directory'].rsplit('/', 1)[0]}/"])
+        src = fetch_commit(p["repository"], commit, w / f"src-{commit[:8]}", log)
         here = src / p["directory"]
         stdout = w / f"check-{commit[:8]}.txt"
         code = run([str(py), "check.py", "--controls"], here, log, stdout=stdout)
@@ -363,11 +437,12 @@ def row_r6(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str, Any
         text = stdout.read_text(encoding="utf-8", errors="replace")
         passed = (code == 0 and tests == 0 and row["expect"]["stdout"] in text and summary["ok"]
                   and summary["ran"] == row["expect"]["tests"] and not summary["skipped"])
+        rust = row_r6_rust(w, log, src, commit, row["rust"])
         detail[commit] = {"check_exit": code, "unittest_exit": tests, "tests": summary,
                           "check_stdout_sha256": sha256_file(stdout),
                           "check_stdout_last_line": text.strip().splitlines()[-1] if text.strip() else "",
-                          "ok": passed}
-        ok = ok and passed
+                          "rust": rust, "ok": passed and rust["ok"]}
+        ok = ok and detail[commit]["ok"]
     return ok, detail
 
 
@@ -559,14 +634,13 @@ def row_r13(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str, An
     tests = run([str(py), "-m", "unittest", "-v", "test_experiment.py"], src, log,
                 stdout=test_out, merge=True)
     summary = unittest_summary(test_out.read_text(encoding="utf-8", errors="replace"))
-    sums = w / "sha256sum.txt"
-    check = run(["sha256sum", "-c", "SHA256SUMS"], src, log, stdout=sums)
-    lines = sums.read_text(encoding="utf-8").splitlines()
+    sums = sha256_check(src, src / "SHA256SUMS")
     detail = {"experiment_exit": experiment, "unittest_exit": tests, "tests": summary,
-              "sha256sum_exit": check,
-              "files_ok": sum(1 for line in lines if line.endswith(": OK")), "files": len(lines),
+              "checksums_ok": sums["ok"],
+              "files_ok": sums["ok_files"], "files": sums["files"],
+              "checksums": sums["results"],
               "results.json": sha256_file(src / "results.json") if (src / "results.json").exists() else None}
-    ok = (experiment == 0 and tests == 0 and check == 0 and summary["ok"]
+    ok = (experiment == 0 and tests == 0 and sums["ok"] and summary["ok"]
           and summary["ran"] == row["expect"]["tests"] and not summary["skipped"]
           and detail["files_ok"] == detail["files"] == row["expect"]["files"])
     return ok, detail
@@ -661,7 +735,7 @@ def rerun(row_id: str, work: Path, results: Path) -> str:
         status = (RECORDED if row["kind"] == "no-command" else REPRODUCED) if ok else DIFFERS
     except Refused as exc:
         status, detail = ERROR, {"refused": str(exc)}
-    result = {"row": row_id, "status": status, "result": row["result"],
+    result = {"row": row_id, "status": status, "platform": platform_record(), "result": row["result"],
               "messages": row["messages"], "command": row["command"], "pins": row["pins"],
               "detail": detail}
     results.mkdir(parents=True, exist_ok=True)
