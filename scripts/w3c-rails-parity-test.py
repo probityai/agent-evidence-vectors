@@ -48,7 +48,7 @@ from pathlib import Path
 from typing import Any
 
 REPO = Path(__file__).resolve().parent.parent
-CORPUS = "vectors-w3c-report"
+CORPUS = "corpora/vectors-w3c-report"
 
 
 def run(cmd: list[str], cwd: Path) -> tuple[int, str]:
