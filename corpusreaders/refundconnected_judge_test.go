@@ -14,7 +14,7 @@ import (
 	"testing"
 )
 
-const rcCorpusDir = "../vectors-refund-connected"
+const rcCorpusDir = "../corpora/vectors-refund-connected"
 
 // rcCopyCorpus copies the corpus into a temporary directory and returns it.
 func rcCopyCorpus(t *testing.T) string {

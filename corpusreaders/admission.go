@@ -162,13 +162,12 @@ func admissionConditionFindings(dir string, m *admissionManifest) []string {
 		names = append(names, name)
 	}
 	sort.Strings(names)
-	root := filepath.Dir(filepath.Clean(dir))
 	for _, name := range names {
 		if !byKind[name]["accept"] || !byKind[name]["reject"] {
 			findings = append(findings, fmt.Sprintf("condition %s is not carried by both an admitted and a refused member", name))
 		}
 		cond := m.Conditions[name]
-		text, err := os.ReadFile(filepath.Join(root, cond.File)) // #nosec G304,G703 -- a repository path the manifest names
+		text, err := os.ReadFile(filepath.Join(vendoredRoot(dir, cond.File), cond.File)) // #nosec G304,G703 -- a repository path the manifest names
 		if err != nil {
 			findings = append(findings, fmt.Sprintf("condition %s rests on %s, which cannot be read: %v", name, cond.File, err))
 			continue

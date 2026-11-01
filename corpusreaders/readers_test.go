@@ -77,7 +77,14 @@ var corpusCases = []corpusCase{
 	{dir: "vectors-recorded", memberFileKey: "file"},
 }
 
-func corpusPath(dir string) string { return filepath.Join("..", dir) }
+// corpusPath is where a corpus sits in this repository: under corpora/<id>/,
+// except the root corpus vectors/, which stays at the root.
+func corpusPath(dir string) string {
+	if dir == "vectors" {
+		return filepath.Join("..", dir)
+	}
+	return filepath.Join("..", "corpora", dir)
+}
 
 // stageSiblingSpec copies the repository's spec tree next to a staged corpus.
 //
@@ -219,9 +226,17 @@ func TestRegisteredButUnimplementedSuiteRefuses(t *testing.T) {
 // sit unregistered. Without this, adding a corpus and forgetting the reader
 // would be invisible: nothing runs it, so nothing reports it.
 func TestEverySuiteInTheTreeHasAReader(t *testing.T) {
-	entries, err := os.ReadDir("..")
-	if err != nil {
-		t.Fatal(err)
+	var entries []string
+	for _, parent := range []string{"..", filepath.Join("..", "corpora")} {
+		listed, err := os.ReadDir(parent)
+		if err != nil {
+			t.Fatal(err)
+		}
+		for _, entry := range listed {
+			if entry.IsDir() && strings.HasPrefix(entry.Name(), "vectors") {
+				entries = append(entries, filepath.Join(parent, entry.Name()))
+			}
+		}
 	}
 	known := map[string]bool{}
 	for _, suite := range corpusreaders.Suites() {
@@ -229,10 +244,7 @@ func TestEverySuiteInTheTreeHasAReader(t *testing.T) {
 	}
 	found := 0
 	for _, entry := range entries {
-		if !entry.IsDir() || !strings.HasPrefix(entry.Name(), "vectors") {
-			continue
-		}
-		raw, err := os.ReadFile(filepath.Join("..", entry.Name(), corpusreaders.ManifestName))
+		raw, err := os.ReadFile(filepath.Join(entry, corpusreaders.ManifestName)) // #nosec G304 -- the repository's own corpora
 		if err != nil {
 			continue
 		}
@@ -241,13 +253,13 @@ func TestEverySuiteInTheTreeHasAReader(t *testing.T) {
 		}
 		if json.Unmarshal(raw, &head) != nil || head.Suite == "" {
 			t.Errorf("%s/MANIFEST.json declares no suite, so no reader can be selected for it",
-				entry.Name())
+				entry)
 			continue
 		}
 		found++
 		if !known[head.Suite] {
 			t.Errorf("%s declares suite %q and no reader is registered for it; "+
-				"one binary judges every corpus in this repository", entry.Name(), head.Suite)
+				"one binary judges every corpus in this repository", entry, head.Suite)
 		}
 	}
 	if found == 0 {

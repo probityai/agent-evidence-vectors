@@ -9,7 +9,7 @@ import (
 	"testing"
 )
 
-const arCorpusDir = "../vectors-agent-audit-record"
+const arCorpusDir = "../corpora/vectors-agent-audit-record"
 
 func arLoad(t *testing.T) (arManifest, map[string][]byte) {
 	t.Helper()

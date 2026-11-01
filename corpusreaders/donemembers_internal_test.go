@@ -106,7 +106,7 @@ func TestDoneMembersAgreeWithPython(t *testing.T) {
 		if !known {
 			t.Fatalf("case %d names %s", index, item.Member)
 		}
-		source := filepath.Join("..", item.Member)
+		source := filepath.Join("..", "corpora", item.Member)
 		entries, err := os.ReadDir(source)
 		if err != nil {
 			t.Fatal(err)
@@ -167,7 +167,7 @@ func doneDeclared(t *testing.T, member string) []string {
 		return found
 	}
 	parts := strings.SplitN(member, "/", 2)
-	raw, err := os.ReadFile(filepath.Join("..", parts[0], ManifestName)) // #nosec G304 -- a test reading its own corpus
+	raw, err := os.ReadFile(filepath.Join("..", "corpora", parts[0], ManifestName)) // #nosec G304 -- a test reading its own corpus
 	if err != nil {
 		t.Fatal(err)
 	}

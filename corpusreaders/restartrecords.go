@@ -1175,7 +1175,7 @@ func (restartRecords) Judge(dir string, raw []byte) (*Result, error) {
 		result.Findings = append(result.Findings, bad)
 	}
 	for _, rel := range sortedKeys(manifest.SpecDigests) {
-		if bad := checkVendored(filepath.Join(dir, ".."), rel, manifest.SpecDigests[rel], "document"); bad != "" {
+		if bad := checkVendored(vendoredRoot(dir, rel), rel, manifest.SpecDigests[rel], "document"); bad != "" {
 			result.Findings = append(result.Findings, bad)
 		}
 	}

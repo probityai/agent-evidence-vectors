@@ -22,15 +22,15 @@ func TestContractResolvesAgainstTheParentWhateverTheSpelling(t *testing.T) {
 		"vectors-mcp-response-phase",
 		"vectors-ai-generation",
 	} {
-		abs, err := filepath.Abs(filepath.Join("..", corpus))
+		abs, err := filepath.Abs(filepath.Join("..", "corpora", corpus))
 		if err != nil {
 			t.Fatal(err)
 		}
 		spellings := map[string]string{
-			"relative":       filepath.Join("..", corpus),
-			"trailing slash": filepath.Join("..", corpus) + string(filepath.Separator),
+			"relative":       filepath.Join("..", "corpora", corpus),
+			"trailing slash": filepath.Join("..", "corpora", corpus) + string(filepath.Separator),
 			"absolute":       abs,
-			"dot segments":   filepath.Join("..", "corpora", "..", corpus),
+			"dot segments":   "../corpora/../corpora/" + corpus,
 		}
 		for name, dir := range spellings {
 			result, err := corpusreaders.Judge(dir)

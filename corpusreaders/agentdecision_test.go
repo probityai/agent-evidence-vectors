@@ -12,7 +12,7 @@ import (
 	"testing"
 )
 
-const adCorpusDir = "../vectors-agent-decision"
+const adCorpusDir = "../corpora/vectors-agent-decision"
 
 func adLoad(t *testing.T) (adManifest, []byte) {
 	t.Helper()

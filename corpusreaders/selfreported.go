@@ -188,9 +188,9 @@ func srrCorpusFindings(dir string, manifest *srrManifest, sets srrSets) []string
 	} else if digest != manifest.CorpusDigest {
 		findings = append(findings, "corpusDigest does not match the member files on disk")
 	}
-	// The contract sits above the corpus directory, so it resolves against the
-	// parent. A corpus whose contract is missing measures a rule nobody can read.
-	if bad := checkVendored(corpusParent(dir), manifest.Contract,
+	// The contract sits above the corpus directory (vendoredRoot). A corpus
+	// whose contract is missing measures a rule nobody can read.
+	if bad := checkVendored(vendoredRoot(dir, manifest.Contract), manifest.Contract,
 		manifest.ContractDigest, "contract"); bad != "" {
 		findings = append(findings, bad)
 	}

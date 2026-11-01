@@ -105,7 +105,7 @@ func (m mcpResponsePhase) Judge(dir string, raw []byte) (*Result, error) {
 			fmt.Sprintf("conditions declared and carried by no member: %v", idle))
 	}
 	// The criterion document sits above the corpus directory.
-	if !existsIn(corpusParent(dir), manifest.Criterion) {
+	if !existsIn(vendoredRoot(dir, manifest.Criterion), manifest.Criterion) {
 		result.Findings = append(result.Findings, fmt.Sprintf(
 			"the manifest names the criterion at %s and no such file is there, so the "+
 				"corpus measures a rule nobody can read", manifest.Criterion))

@@ -103,7 +103,7 @@ func (o observedEffect) policy(dir string, m observedEffectManifest) (observedef
 			"%s/MANIFEST.json names no predicateSpec, so the predicate type cannot be read "+
 				"out of the document that defines it", dir)
 	}
-	predicateType, err := observedeffect.PredicateTypeFromSpec(filepath.Join(dir, "..", spec))
+	predicateType, err := observedeffect.PredicateTypeFromSpec(filepath.Join(vendoredRoot(dir, spec), spec))
 	if err != nil {
 		return observedeffect.Policy{}, err
 	}

@@ -23,7 +23,7 @@ import (
 	"testing"
 )
 
-const rrCorpus = "../vectors-restart-records"
+const rrCorpus = "../corpora/vectors-restart-records"
 
 type rrRecordCase struct {
 	Base  int      `json:"base"`
@@ -309,7 +309,10 @@ func TestRestartRecordsCorpusIsClean(t *testing.T) {
 func rrStage(t *testing.T) string {
 	t.Helper()
 	root := t.TempDir()
-	for _, dir := range []string{"vectors-restart-records", "profiles", "spec/predicates"} {
+	// The corpus is staged beside the documents it vendors, the layout the
+	// wheel ships: corpora/<id>/ beside corpora/profiles/ and corpora/spec/.
+	rrCopyTree(t, rrCorpus, filepath.Join(root, "vectors-restart-records"))
+	for _, dir := range []string{"profiles", "spec/predicates"} {
 		rrCopyTree(t, filepath.Join("..", dir), filepath.Join(root, dir))
 	}
 	return filepath.Join(root, "vectors-restart-records")

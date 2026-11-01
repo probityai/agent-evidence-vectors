@@ -9,7 +9,7 @@ import (
 	"testing"
 )
 
-const iarCorpusDir = "../vectors-ietf-agent-record-drafts"
+const iarCorpusDir = "../corpora/vectors-ietf-agent-record-drafts"
 
 // TestIETFAgentRecordCorpusBehaves: every member reaches the verdict and first
 // refusal its manifest entry declares on this rail, and the draft's own

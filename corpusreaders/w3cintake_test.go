@@ -5,7 +5,7 @@ import "testing"
 // A manifest root or a record path that leaves the directory the operator
 // named lists nothing; the same walk over a record path inside it does.
 func TestIntakeWalkStaysUnderTheRoot(t *testing.T) {
-	root := "../vectors-w3c-intake"
+	root := "../corpora/vectors-w3c-intake"
 	if got := intakeWalk(root, "vectors", ".json", true); len(got) == 0 {
 		t.Fatal("control: the corpus's own vectors directory listed nothing")
 	}

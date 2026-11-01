@@ -16,17 +16,34 @@ func sha(data []byte) string {
 	return hex.EncodeToString(sum[:])
 }
 
-// corpusParent is the directory a corpus sits in, which is where its vendored
-// contract or criterion lives. It resolves the argument to an absolute path
-// first: filepath.Dir("corpus/") is "corpus" and filepath.Dir(".") is ".", so
-// naming the corpus with a trailing slash, or from inside it, looked for the
-// contract in the wrong directory and reported it missing.
+// corpusParent is the directory a corpus sits in. It resolves the argument to
+// an absolute path first: filepath.Dir("corpus/") is "corpus" and
+// filepath.Dir(".") is ".", so naming the corpus with a trailing slash, or from
+// inside it, looked for the contract in the wrong directory and reported it
+// missing.
 func corpusParent(dir string) string {
 	abs, err := filepath.Abs(dir)
 	if err != nil {
 		return filepath.Dir(filepath.Clean(dir))
 	}
 	return filepath.Dir(abs)
+}
+
+// vendoredRoot is the directory a corpus's vendored contract, criterion or
+// specification resolves against. In the wheel the vendored files sit beside
+// the corpus, under corpora/. In a checkout the corpus sits one level deeper,
+// under corpora/<id>/, with the vendored files at the repository root, so the
+// grandparent is used when the parent does not carry rel. When neither does,
+// the parent is returned, so the finding names the place the wheel reads.
+func vendoredRoot(dir, rel string) string {
+	parent := corpusParent(dir)
+	if existsIn(parent, rel) {
+		return parent
+	}
+	if grand := filepath.Dir(parent); existsIn(grand, rel) {
+		return grand
+	}
+	return parent
 }
 
 // readIn reads a corpus-relative path. Every path in a manifest is relative to
