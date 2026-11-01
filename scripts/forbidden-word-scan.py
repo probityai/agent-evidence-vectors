@@ -243,7 +243,9 @@ def labels(
     reported: set[bytes] = set()
     for haystack, lengths in ((line.lower(), nocase_lengths), (line, cased_lengths)):
         for width in lengths:
-            for window in windows(haystack, width):
+            # Distinct windows only: filler of one repeated character has a
+            # handful, and hashing each of a million equal ones answers nothing.
+            for window in dict.fromkeys(windows(haystack, width)):
                 digest = hashlib.sha256(salt_bytes + window).digest()
                 label = raw_table.get(digest)
                 if label is None or digest in reported:
