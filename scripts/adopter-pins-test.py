@@ -184,7 +184,8 @@ def release_failures(repo: Path) -> list[str]:
             and re.fullmatch(r"vectors=\d+", fields[3])
         ):
             fail.append(
-                f"P5 digest list line is not <digest> <id>/MANIFEST.json <suite> vectors=<n>: {line[:90]}"
+                "P5 digest list line is not <digest> <id>/MANIFEST.json <suite> vectors=<n>: "
+                + line[:90]
             )
             continue
         listed.add(match.group(1))
@@ -261,7 +262,8 @@ def metadata_failures(repo: Path) -> list[str]:
             here = str(Path(rel).parent.as_posix())
             if directory != here:
                 fail.append(
-                    f"P10 npm {data['name']} repository.directory is {directory}; the package is at {here}"
+                    f"P10 npm {data['name']} repository.directory is {directory}; "
+                    f"the package is at {here}"
                 )
     return fail
 

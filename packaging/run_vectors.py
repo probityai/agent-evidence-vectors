@@ -2209,9 +2209,7 @@ class ReferenceVerifier:
         return [
             st.views[ref]
             for ref in refs
-            if not isinstance(ref, bool)
-            and isinstance(ref, int)
-            and 0 <= ref < len(st.views)
+            if not isinstance(ref, bool) and isinstance(ref, int) and 0 <= ref < len(st.views)
         ]
 
     def _commit_clean_row_contradicted(self, st: _VerifyState, out: Outcome) -> None:
@@ -2384,9 +2382,7 @@ class ReferenceVerifier:
         if st.caught is None:
             return
         caught_ids = {
-            r.get("attackId")
-            for r in st.rows
-            if r.get("containmentObserved") in st.caught
+            r.get("attackId") for r in st.rows if r.get("containmentObserved") in st.caught
         }
         for rv in st.views:
             if rv.kind != "sealed" or not isinstance(rv.payload, dict):
@@ -2412,9 +2408,7 @@ class ReferenceVerifier:
         """
         cov = st.coverage if isinstance(st.coverage, dict) else {}
         assessed_classes = cov.get("assessedClasses")
-        if not isinstance(assessed_classes, list) or not isinstance(
-            st.manifest_classes, dict
-        ):
+        if not isinstance(assessed_classes, list) or not isinstance(st.manifest_classes, dict):
             return
         assessed: set[str] = set()
         for cls in assessed_classes:
@@ -2961,9 +2955,7 @@ def run_external(
         # It started and did not exit, so it answered nothing: not counted
         # among the vectors the verifier ran on.
         return {
-            **external_failure(
-                [f"external-verifier-timeout: {name}: the rail did not terminate"]
-            ),
+            **external_failure([f"external-verifier-timeout: {name}: the rail did not terminate"]),
             "ran": False,
         }
     except OSError as e:
@@ -3066,7 +3058,8 @@ def external_record(
             " The rail reports mode 'admission': its exit status answers whether "
             "the statement is admitted, which this corpus does not judge. Drive "
             "it in its validity-only mode (aee-verify -validity-only -json)."
-            if parsed.get("mode") == "admission" else ""
+            if parsed.get("mode") == "admission"
+            else ""
         )
         return external_failure(
             [
@@ -3223,9 +3216,7 @@ def discover_vectors(suite_dir: str, kinds: Sequence[str]) -> list[tuple[str, st
         rel = entry.get("file")
         kind = entry.get("kind")
         if not isinstance(rel, str) or not isinstance(kind, str):
-            raise SystemExit(
-                f"MANIFEST row {entry.get('id')!r} declares no file or no kind"
-            )
+            raise SystemExit(f"MANIFEST row {entry.get('id')!r} declares no file or no kind")
         found.append((kind, os.path.join(suite_dir, rel)))
     return found
 
@@ -3235,9 +3226,7 @@ def vector_files_in(directory: str) -> list[str]:
     if not os.path.isdir(directory):
         return []
     return sorted(
-        os.path.splitext(name)[0]
-        for name in os.listdir(directory)
-        if name.endswith(".json")
+        os.path.splitext(name)[0] for name in os.listdir(directory) if name.endswith(".json")
     )
 
 
@@ -3539,9 +3528,7 @@ def family_coherence_failures(
             for m in members
         )
         matched = [
-            name
-            for name in declared
-            if all(_answers(m, name, idx, committed) for m in members)
+            name for name in declared if all(_answers(m, name, idx, committed) for m in members)
         ]
         if matched:
             how = (
@@ -3836,25 +3823,29 @@ def generic_contract_misfit(manifest: dict[str, Any]) -> list[str]:
     reasons: list[str] = []
     # An indeterminate member pins no verdict: its declared readings say which
     # answers a conforming rail may give, and admissible_verdicts reads them.
-    verdicts = sorted({
-        str((e.get("expected") or {}).get("verdict"))
-        for e in entries
-        if isinstance(e, dict)
-        and not (e.get("kind") == "indeterminate" and (e.get("expected") or {}).get("readings"))
-        and (e.get("expected") or {}).get("verdict") not in CONTRACT_VERDICTS
-    })
+    verdicts = sorted(
+        {
+            str((e.get("expected") or {}).get("verdict"))
+            for e in entries
+            if isinstance(e, dict)
+            and not (e.get("kind") == "indeterminate" and (e.get("expected") or {}).get("readings"))
+            and (e.get("expected") or {}).get("verdict") not in CONTRACT_VERDICTS
+        }
+    )
     if verdicts:
-        reasons.append(
-            f"member verdicts {verdicts} are not {' or '.join(CONTRACT_VERDICTS)}"
-        )
-    kinds = sorted({
-        str(e.get("kind")) for e in entries
-        if isinstance(e, dict) and e.get("kind") not in REPLAYED_KINDS
-    })
+        reasons.append(f"member verdicts {verdicts} are not {' or '.join(CONTRACT_VERDICTS)}")
+    kinds = sorted(
+        {
+            str(e.get("kind"))
+            for e in entries
+            if isinstance(e, dict) and e.get("kind") not in REPLAYED_KINDS
+        }
+    )
     if kinds:
         reasons.append(f"member kinds {kinds} have no contract in this rail")
     fileless = [
-        str(e.get("id")) for e in entries
+        str(e.get("id"))
+        for e in entries
         if isinstance(e, dict) and not (isinstance(e.get("file"), str) and "/" in e["file"])
     ]
     if fileless:
@@ -4097,9 +4088,7 @@ def run_suite(args: argparse.Namespace) -> int:
                 # be the split reporting a contradiction rather than a finding.
                 row["conformance"] = "FAIL"
                 row["reasons"] = [*row["reasons"], *coherence_failures]
-                row["conformanceReasons"] = [
-                    *row["conformanceReasons"], *coherence_failures
-                ]
+                row["conformanceReasons"] = [*row["conformanceReasons"], *coherence_failures]
                 row["gates"]["gate0"] = "FAIL"
         failures += len(coherence_failures)
 
@@ -4110,8 +4099,15 @@ def run_suite(args: argparse.Namespace) -> int:
     # repository exists to stop shipping.
     suite_refusals = failures - sum(1 for r in rows_out if r["status"] == "FAIL")
     report, report_path = _run_write_report(
-        args, suite_dir, report_base, external_cmd, rail_note, suite_notes, rows_out,
-        max(suite_refusals, 0), executed,
+        args,
+        suite_dir,
+        report_base,
+        external_cmd,
+        rail_note,
+        suite_notes,
+        rows_out,
+        max(suite_refusals, 0),
+        executed,
     )
     args.report_written = report_path
     _run_print_table(report, rows_out, suite_notes, rail_note, report_path, report_base)
@@ -4227,9 +4223,7 @@ def observe_external(external_cmd: list[str], path: str, keys_path: str) -> dict
     # forward per pass: the pinned-key pass supplies the byte-pure facts, and
     # the no-key pass supplies exactly two -- its tier column and its result.
     absent = [WITH_KEY_MEMBER[m] for m in with_key["absent"] if m in WITH_KEY_MEMBER]
-    absent += [
-        WITHOUT_KEY_MEMBER[m] for m in without_key["absent"] if m in WITHOUT_KEY_MEMBER
-    ]
+    absent += [WITHOUT_KEY_MEMBER[m] for m in without_key["absent"] if m in WITHOUT_KEY_MEMBER]
     errors = [f"pinned-key: {e}" for e in with_key["errors"]]
     errors += [f"no-key: {e}" for e in without_key["errors"]]
     return {
@@ -4476,8 +4470,7 @@ def _closure_kind_coverage(
 
 
 def _closure_flat(
-    suite_dir: str, idx: dict[str, dict[str, Any]], listed: dict[str, list[str]],
-    flat: str
+    suite_dir: str, idx: dict[str, dict[str, Any]], listed: dict[str, list[str]], flat: str
 ) -> tuple[list[str], dict[str, str]]:
     """Rows against files for a suite whose vectors share one directory."""
     failures: list[str] = []
@@ -4493,8 +4486,7 @@ def _closure_flat(
                 continue
             if not os.path.isfile(os.path.join(suite_dir, declared)):
                 failures.append(
-                    f"MANIFEST row {vid} declares file {declared!r}, which is "
-                    "not on disk"
+                    f"MANIFEST row {vid} declares file {declared!r}, which is not on disk"
                 )
     for vid in sorted(held):
         if not any(vid in listed[k] for k in listed):
@@ -4578,8 +4570,7 @@ def stray_vector_files(
 
 
 def _closure_directories_other_suite(
-    suite_dir: str, manifest: dict[str, Any], listed: dict[str, list[str]],
-    idx: dict[str, Any]
+    suite_dir: str, manifest: dict[str, Any], listed: dict[str, list[str]], idx: dict[str, Any]
 ) -> list[str]:
     """The directory rule for a suite other than the reference one.
 
@@ -4670,8 +4661,7 @@ def _counts_against_rows(
             )
         elif counts[kind] != held:
             failures.append(
-                f"MANIFEST counts[{kind!r}] is {counts[kind]}; {where} holds "
-                f"{held} vector(s)"
+                f"MANIFEST counts[{kind!r}] is {counts[kind]}; {where} holds {held} vector(s)"
             )
     total_files = len(vector_files_in(os.path.join(suite_dir, flat)))
     total_rows = sum(len(v) for v in listed.values())
@@ -4684,8 +4674,7 @@ def _counts_against_rows(
 
 
 def _closure_counts(
-    suite_dir: str, counts: Any, listed: dict[str, list[str]],
-    idx: dict[str, Any]
+    suite_dir: str, counts: Any, listed: dict[str, list[str]], idx: dict[str, Any]
 ) -> list[str]:
     """The MANIFEST's own counts block against the tree.
 
@@ -4703,9 +4692,7 @@ def _closure_counts(
     failures.extend(_counts_against_rows(suite_dir, counts, listed, flat))
     for kind in sorted(counts):
         if kind not in listed:
-            failures.append(
-                f"MANIFEST counts declares kind {kind!r} that no MANIFEST row carries"
-            )
+            failures.append(f"MANIFEST counts declares kind {kind!r} that no MANIFEST row carries")
     return failures
 
 
@@ -4734,9 +4721,7 @@ def manifest_closure(
         failures.extend(_closure_directories(suite_dir, listed, idx))
     else:
         failures.extend(_closure_directories_other_suite(suite_dir, manifest, listed, idx))
-    failures.extend(
-        _closure_counts(suite_dir, manifest.get("counts"), listed, idx)
-    )
+    failures.extend(_closure_counts(suite_dir, manifest.get("counts"), listed, idx))
     return failures, unlisted
 
 
@@ -4766,9 +4751,7 @@ def _run_manifest_closure(
         row["status"] = "FAIL"
         row["conformance"] = "FAIL"
         row["reasons"] = [*row["reasons"], "no MANIFEST row names this file"]
-        row["conformanceReasons"] = [
-            *row["conformanceReasons"], "no MANIFEST row names this file"
-        ]
+        row["conformanceReasons"] = [*row["conformanceReasons"], "no MANIFEST row names this file"]
         row["gates"]["gate0"] = "FAIL"
     suite_notes.extend(failures)
     return suite_notes, len(failures)
@@ -4834,8 +4817,10 @@ def corpus_provenance(suite_dir: str) -> dict[str, Any]:
 
 def _report_path(args: argparse.Namespace) -> str:
     """Where the report goes: --report, else beside this file."""
-    return str(args.report) if args.report else os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "conformance-report.json"
+    return (
+        str(args.report)
+        if args.report
+        else os.path.join(os.path.dirname(os.path.abspath(__file__)), "conformance-report.json")
     )
 
 
@@ -4881,9 +4866,7 @@ def _run_write_report(
             # vocabulary sits from this corpus's, and neither substitutes for
             # the other.
             "conform": sum(1 for r in rows_out if r.get("conformance") == "PASS"),
-            "reasonParityMismatch": sum(
-                1 for r in rows_out if r.get("reasonParity") == "FAIL"
-            ),
+            "reasonParityMismatch": sum(1 for r in rows_out if r.get("reasonParity") == "FAIL"),
             "suiteRefusals": suite_refusals,
             # Rows a declared exclusion kept out of the score. Counted so a
             # total that reads "all pass" says how many of its members were
@@ -5040,9 +5023,7 @@ def _selftest_build(keys: dict[str, dict[str, Any]]) -> dict[str, Any]:
     # recomputes: the sorted, duplicate-free array of H(0x00 || PAE) over every
     # interception and examination record. Nothing here is circular, because the
     # sealed record is not itself a member of that set.
-    intercept_pae = pae(
-        rec_intercept["payloadType"], base64.b64decode(rec_intercept["payload"])
-    )
+    intercept_pae = pae(rec_intercept["payloadType"], base64.b64decode(rec_intercept["payload"]))
     observed_leaves = sorted({hashlib.sha256(b"\x00" + intercept_pae).hexdigest()})
     rec_sealed = record(
         {
@@ -5407,6 +5388,16 @@ def jcs_byte_vectors_path() -> str:
     return os.path.join(corpora_root(), JCS_BYTE_VECTORS)
 
 
+def print_corpora(form: str) -> int:
+    """Print the shipped corpus names: one per line, or one JSON array for a CI matrix."""
+    if form == "json":
+        print(json.dumps(shipped_corpora()))
+    else:
+        for name in shipped_corpora():
+            print(name)
+    return 0
+
+
 def main() -> int:
     if len(sys.argv) > 1 and sys.argv[1] == "claim":
         # The evaluation claim record: verify, emit or replay. Its verifier lives in
@@ -5531,12 +5522,7 @@ def rail_main() -> int:
     )
     args = parser.parse_args()
     if args.list_corpora:
-        if args.format == "json":
-            print(json.dumps(shipped_corpora()))
-        else:
-            for name in shipped_corpora():
-                print(name)
-        return 0
+        return print_corpora(args.format)
     if args.jcs_byte_vectors:
         print(jcs_byte_vectors_path())
         return 0
