@@ -48,7 +48,7 @@ Case = tuple[str, Mutation, int, tuple[str, ...]]
 
 
 def stage(destination: Path) -> None:
-    """Copy every tracked top-level MANIFEST.json, and nothing else."""
+    """Copy every tracked corpus MANIFEST.json, and nothing else."""
     listed = subprocess.run(
         ["git", "-C", str(REPO_ROOT), "ls-files", "*/MANIFEST.json"],
         capture_output=True,
@@ -57,7 +57,8 @@ def stage(destination: Path) -> None:
     )
     copied = 0
     for rel in listed.stdout.split():
-        if rel.count("/") != 1:
+        parts = rel.split("/")
+        if len(parts) != 2 and not (len(parts) == 3 and parts[0] == "corpora"):
             continue
         target = destination / rel
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -82,7 +83,8 @@ def run(root: Path) -> tuple[int, str]:
 
 
 def edit(root: Path, corpus: str, change: Callable[[dict[str, Any]], None]) -> None:
-    path = root / corpus / "MANIFEST.json"
+    base = root / corpus if corpus == "vectors" else root / "corpora" / corpus
+    path = base / "MANIFEST.json"
     loaded: dict[str, Any] = json.loads(path.read_text(encoding="utf-8"))
     change(loaded)
     path.write_text(json.dumps(loaded, indent=2) + "\n", encoding="utf-8")
@@ -137,7 +139,7 @@ def contradict_condition_scoped(root: Path) -> None:
 
 
 def strip_every_reading(root: Path) -> None:
-    for path in root.glob("*/MANIFEST.json"):
+    for path in [*root.glob("*/MANIFEST.json"), *root.glob("corpora/*/MANIFEST.json")]:
         loaded = json.loads(path.read_text(encoding="utf-8"))
         for entry in loaded.get("vectors", []):
             entry.pop("readings", None)

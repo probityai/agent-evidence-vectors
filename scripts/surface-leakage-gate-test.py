@@ -78,7 +78,10 @@ def _staged() -> tuple[str, ...]:
         raise SystemExit(f"test setup: {GATE} could not be loaded to read CORPORA")
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
-    return tuple(f"{corpus}/" for corpus in module.CORPORA) + (BASELINE_REL,)
+    return tuple(
+        f"{corpus}/" if corpus == "vectors" else f"corpora/{corpus}/"
+        for corpus in module.CORPORA
+    ) + (BASELINE_REL,)
 
 
 STAGED = _staged()
