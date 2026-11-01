@@ -1,0 +1,1481 @@
+{
+  "aggregate": {
+    "counts": {
+      "accepted": 20,
+      "needs-yaml": 2,
+      "refused": 43
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 65
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-skill-frontmatter/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-skill-frontmatter/gen_vectors.py",
+    "routine-file": "vectors-skill-frontmatter/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "8d0e9cd95eb3bbf9f428582caf558ecc8d92431492b16683a242ba3b664d27df",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "d5855d65ca32824b20ac102d9436b7302e52d08c42234260b71bbe2be79c58f5"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-skill-frontmatter/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "d5855d65ca32824b20ac102d9436b7302e52d08c42234260b71bbe2be79c58f5"
+        },
+        "swapped-in": "d8f54b7566a8e69350b1cb5c33d9c8540e6ed45eea09153d37c25b0680b4e6ee",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-skill-frontmatter/SPEC.md",
+      "serialization": "bytes",
+      "sha256": "18498fd2044c817e531e3ad56ff4edfdbbfb7535c90c720316f20d5c3b2c54be"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "d5855d65ca32824b20ac102d9436b7302e52d08c42234260b71bbe2be79c58f5"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "d5855d65ca32824b20ac102d9436b7302e52d08c42234260b71bbe2be79c58f5"
+        },
+        "swapped-in": "3ddb36f976f0e9092f87a79665aa7a9528f020a918378c323c87d6a3583f26b0",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-skill-frontmatter/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "2a9806a91682f4433cbb73d891996727d65ce2a1b5ed38db4236bfb726e36d4d"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "vectors-skill-frontmatter"
+  },
+  "byte-identity": {
+    "pins": 65,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-skill-frontmatter",
+      "aee-verify -json vectors-skill-frontmatter",
+      "aee-verify vectors-skill-frontmatter"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "2d2328501c75e567f433749605d546265313943da5f16cf0b9f78e9ebc35af46"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "minimal",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "no-body",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "crlf",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "cr-only",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "mixed-terminators",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "trailing-space-on-delimiters",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "unicode-line-separator-is-content",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "dashes-inside-value",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "dashes-inside-body",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "comment-lines",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nested-mapping",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "same-key-nested-not-duplicate",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "block-scalar-contents",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "sequence-at-key-indent",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "quoted-keys",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "document-end-in-body",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "hyphen-key",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "body-keeps-bom-after-frontmatter",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "empty-file",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "no-delimiter",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "blank-line-before-opening",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "html-comment-before-opening",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "code-fence-wrapped",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "four-dash-opening",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "leading-space-opening",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "bom",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "invalid-utf8",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "overlong-utf8",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "unterminated",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "four-dash-closing",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "indented-closing",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "closing-with-text",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "opening-only",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "empty-frontmatter",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "comment-only-frontmatter",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "document-end",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "document-end-with-comment",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "document-end-first",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "document-start-with-content",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "duplicate-same-value",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "duplicate-different-value",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "duplicate-unknown-key",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "duplicate-quoted-and-plain",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "duplicate-escaped",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "scalar-root",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "sequence-root",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "flow-mapping-root",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "flow-sequence-root",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "indented-root",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "tab-root",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "block-scalar-root",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "directive-line",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "stray-scalar-after-entry",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "sequence-after-valued-key",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "sequence-after-nested-content",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "key-without-space",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "multiline-quoted-key",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nul-in-block",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "escape-in-block",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "frontmatter-too-large",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "frontmatter-at-limit",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "file-too-large",
+      "native": {
+        "reasons": [],
+        "verdict": "refused"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "file-at-limit",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "yaml-syntax-error",
+      "native": {
+        "reasons": [],
+        "verdict": "needs-yaml"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "yaml-bad-indent",
+      "native": {
+        "reasons": [],
+        "verdict": "needs-yaml"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "e22662d62bc13d57fc0e7723321934a3d97d20eb7dcd5caffc3c2bcfdc6af855"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "minimal",
+      "no-body",
+      "crlf",
+      "cr-only",
+      "mixed-terminators",
+      "trailing-space-on-delimiters",
+      "unicode-line-separator-is-content",
+      "dashes-inside-value",
+      "dashes-inside-body",
+      "comment-lines",
+      "nested-mapping",
+      "same-key-nested-not-duplicate",
+      "block-scalar-contents",
+      "sequence-at-key-indent",
+      "quoted-keys",
+      "document-end-in-body",
+      "hyphen-key",
+      "body-keeps-bom-after-frontmatter",
+      "empty-file",
+      "no-delimiter",
+      "blank-line-before-opening",
+      "html-comment-before-opening",
+      "code-fence-wrapped",
+      "four-dash-opening",
+      "leading-space-opening",
+      "bom",
+      "invalid-utf8",
+      "overlong-utf8",
+      "unterminated",
+      "four-dash-closing",
+      "indented-closing",
+      "closing-with-text",
+      "opening-only",
+      "empty-frontmatter",
+      "comment-only-frontmatter",
+      "document-end",
+      "document-end-with-comment",
+      "document-end-first",
+      "document-start-with-content",
+      "duplicate-same-value",
+      "duplicate-different-value",
+      "duplicate-unknown-key",
+      "duplicate-quoted-and-plain",
+      "duplicate-escaped",
+      "scalar-root",
+      "sequence-root",
+      "flow-mapping-root",
+      "flow-sequence-root",
+      "indented-root",
+      "tab-root",
+      "block-scalar-root",
+      "directive-line",
+      "stray-scalar-after-entry",
+      "sequence-after-valued-key",
+      "sequence-after-nested-content",
+      "key-without-space",
+      "multiline-quoted-key",
+      "nul-in-block",
+      "escape-in-block",
+      "frontmatter-too-large",
+      "frontmatter-at-limit",
+      "file-too-large",
+      "file-at-limit",
+      "yaml-syntax-error",
+      "yaml-bad-indent"
+    ],
+    "path": "vectors-skill-frontmatter/MANIFEST.json",
+    "sha256": "00ea223285ede0011ed4a232e7b33b56800539f7a023a98e72da5b4986a93eed"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/minimal/SKILL.md",
+          "sha256": "d9473c78dc3890389f17a6937f58adae1f95459ec58f633353fd4b10ca68eae9"
+        }
+      ],
+      "id": "minimal"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/no-body/SKILL.md",
+          "sha256": "d03003e5d1a3252bf915226c4ded337e88c60cd841907253d5ff820619d33e4a"
+        }
+      ],
+      "id": "no-body"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/crlf/SKILL.md",
+          "sha256": "f7796aa3ddf2dc949dacd1897cd1c95925af6babce8ecc9f7b45ac84161ce6d8"
+        }
+      ],
+      "id": "crlf"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/cr-only/SKILL.md",
+          "sha256": "1ec1e0efaf9a40010a9b3641c03da0ee4c385561e7830c9bb1090de239256591"
+        }
+      ],
+      "id": "cr-only"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/mixed-terminators/SKILL.md",
+          "sha256": "04f9ea55bdc4bffa86aa66addd7ed7b7de9b6cd0eece1e09844bce67162ec39e"
+        }
+      ],
+      "id": "mixed-terminators"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/trailing-space-on-delimiters/SKILL.md",
+          "sha256": "80185a949b7d86e6ca83374a7dc7f1221db7ee07d1476f3d6713b8f183fd4838"
+        }
+      ],
+      "id": "trailing-space-on-delimiters"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/unicode-line-separator-is-content/SKILL.md",
+          "sha256": "9e25b06c64163704faaecc6a8c7f1b27da9d2142ceff29255d2f2d2ead9a448b"
+        }
+      ],
+      "id": "unicode-line-separator-is-content"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/dashes-inside-value/SKILL.md",
+          "sha256": "59e9c7cc283d4528f2dadcadc8c199b029b358daa9d1f3b9454de9edb1a91255"
+        }
+      ],
+      "id": "dashes-inside-value"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/dashes-inside-body/SKILL.md",
+          "sha256": "fc7a29d65af1004089e01e353958bf81d56e6cb9cd0e48dd3dbd65b99e85cb5e"
+        }
+      ],
+      "id": "dashes-inside-body"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/comment-lines/SKILL.md",
+          "sha256": "ada41012a34269507300107659ecdad2d0d97c89abfb14eb070885e0bd682327"
+        }
+      ],
+      "id": "comment-lines"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/nested-mapping/SKILL.md",
+          "sha256": "c2dde8afb85380bc9940a907c3434010879d4616eb331dbc3d555e954bf71fe9"
+        }
+      ],
+      "id": "nested-mapping"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/same-key-nested-not-duplicate/SKILL.md",
+          "sha256": "9a32fe82c2dba536f5e5bb164ffa43cdef78f5bc36ce63586fcee5ca3a3c77fb"
+        }
+      ],
+      "id": "same-key-nested-not-duplicate"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/block-scalar-contents/SKILL.md",
+          "sha256": "043b8bf115cb858dffc1b12863d2f6182528c74f9bd052e7ff49eaf7f105de3d"
+        }
+      ],
+      "id": "block-scalar-contents"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/sequence-at-key-indent/SKILL.md",
+          "sha256": "d62fa5057d54bab6a23fab0165617e0723e3ef65f1f3d1d1ec9277ef61d8b7ae"
+        }
+      ],
+      "id": "sequence-at-key-indent"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/quoted-keys/SKILL.md",
+          "sha256": "4de0dc71411f32c24fa56cd9a2481778741c44e7083272bdc3b48dc5fa65b453"
+        }
+      ],
+      "id": "quoted-keys"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/document-end-in-body/SKILL.md",
+          "sha256": "e35b08840514960cd2d8cf1b9b5fc514159ee8d6a0123291b7d782727f5fad8e"
+        }
+      ],
+      "id": "document-end-in-body"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/hyphen-key/SKILL.md",
+          "sha256": "eb015e2411f69cb15c109e2075aedc5b1218605acf81941df979a511256d1f49"
+        }
+      ],
+      "id": "hyphen-key"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/body-keeps-bom-after-frontmatter/SKILL.md",
+          "sha256": "c3ff0647d230cb390346758d25e4fc523d81e879d67f3d6999c2c31d645581de"
+        }
+      ],
+      "id": "body-keeps-bom-after-frontmatter"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/empty-file/SKILL.md",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "id": "empty-file"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/no-delimiter/SKILL.md",
+          "sha256": "d58d548bdb9b18792c6f5a4b1538f79fffd01f37466065452c137eabc7f3ee37"
+        }
+      ],
+      "id": "no-delimiter"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/blank-line-before-opening/SKILL.md",
+          "sha256": "1dd5ea078c46746ab563b46b7d332cd4e0d5e4c3d6f14e6bfcaf0f1eb2bfb6fc"
+        }
+      ],
+      "id": "blank-line-before-opening"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/html-comment-before-opening/SKILL.md",
+          "sha256": "f7490fead56422a96af5f0f85672e88787b13facb40b998ba6bd059a5a6e82d0"
+        }
+      ],
+      "id": "html-comment-before-opening"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/code-fence-wrapped/SKILL.md",
+          "sha256": "33bc80aea5843e5d7ebd5950bfec1b4bf768984821b46adacbcb01aa8ef0b108"
+        }
+      ],
+      "id": "code-fence-wrapped"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/four-dash-opening/SKILL.md",
+          "sha256": "032b5f6a7da0fdea4b3cf89baa9d437911e3cac9a6f372255beedd764fd24a47"
+        }
+      ],
+      "id": "four-dash-opening"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/leading-space-opening/SKILL.md",
+          "sha256": "1ef69b096a35ba88a92ac8198b69a816e1bd740e263a7695c4489f161f3cc153"
+        }
+      ],
+      "id": "leading-space-opening"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/bom/SKILL.md",
+          "sha256": "7c5b5527c410ce2e42e00a5f9dba7e299cd7f9bce7bf9e0e51ad71a4a22b930d"
+        }
+      ],
+      "id": "bom"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/invalid-utf8/SKILL.md",
+          "sha256": "40b114f642711dd4aef66b220b7051953247ac788fd8eddfc6c329e72ba56372"
+        }
+      ],
+      "id": "invalid-utf8"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/overlong-utf8/SKILL.md",
+          "sha256": "2bd7b839fae2eec30469b1adbba9c6d5649adb6e676563f537793931fb4b0717"
+        }
+      ],
+      "id": "overlong-utf8"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/unterminated/SKILL.md",
+          "sha256": "71c85ec0cc62a22343c11e5c70eb47305f5a2ab3a1df76f67db12044b3242f6b"
+        }
+      ],
+      "id": "unterminated"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/four-dash-closing/SKILL.md",
+          "sha256": "3ca20e76d13c4c6699a0b851e6e2b986a493cf518a532f376e9562163eba35ee"
+        }
+      ],
+      "id": "four-dash-closing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/indented-closing/SKILL.md",
+          "sha256": "081e6e8bda0b0e1521a205c8ebf2a4d632ad9c4ff0d68e78d548044286702856"
+        }
+      ],
+      "id": "indented-closing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/closing-with-text/SKILL.md",
+          "sha256": "2c8302d07825af14b9e59c5d7936d904a72ffaa228219ad4bde9f635c03ed36c"
+        }
+      ],
+      "id": "closing-with-text"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/opening-only/SKILL.md",
+          "sha256": "f52d711103d50a437830c6fbcd04fb4bab49a0f82f6d26d1c791c6e8488dd090"
+        }
+      ],
+      "id": "opening-only"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/empty-frontmatter/SKILL.md",
+          "sha256": "995dc8a454cbdff00e4581c3145ddd2831d6c71f3cc72c59823ca7ea63b8e833"
+        }
+      ],
+      "id": "empty-frontmatter"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/comment-only-frontmatter/SKILL.md",
+          "sha256": "dd33f2f8eaec6f5cc5512ee1d665e33cc069baad6132fdcecac71fdf8f285fb6"
+        }
+      ],
+      "id": "comment-only-frontmatter"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/document-end/SKILL.md",
+          "sha256": "143b545dc113b2bbf1b25487e469be17a7a3102d444a8332d5a74054bdde4b8f"
+        }
+      ],
+      "id": "document-end"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/document-end-with-comment/SKILL.md",
+          "sha256": "6c60c9c1278bb58689ce4a44392fb28aa61d0006825a63b34cf43f6663c92f30"
+        }
+      ],
+      "id": "document-end-with-comment"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/document-end-first/SKILL.md",
+          "sha256": "4e138d2a1c074e3017d085df37fb3f945fc5684011e68b23999de8a47b2b541f"
+        }
+      ],
+      "id": "document-end-first"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/document-start-with-content/SKILL.md",
+          "sha256": "5f4a71245a147cde6a4b6e39bd684710047eb170937463fcc6edc70328ddb1bf"
+        }
+      ],
+      "id": "document-start-with-content"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/duplicate-same-value/SKILL.md",
+          "sha256": "f289a889eef680cc0306dc593ee3de684fa0d1fa03353f519f3999f29e41c052"
+        }
+      ],
+      "id": "duplicate-same-value"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/duplicate-different-value/SKILL.md",
+          "sha256": "aae73abbc141b04283966f59d66f9ea64a672d5529fe404935d389535ae7a5d3"
+        }
+      ],
+      "id": "duplicate-different-value"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/duplicate-unknown-key/SKILL.md",
+          "sha256": "ce2bd358064a1a13b6281a6cd0e5cc987695a613f5e22412d40255ded5efa636"
+        }
+      ],
+      "id": "duplicate-unknown-key"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/duplicate-quoted-and-plain/SKILL.md",
+          "sha256": "a380613341433a2b7a6420b0ae6d2df4ae80ae381041d0a9de297be744d2a1ac"
+        }
+      ],
+      "id": "duplicate-quoted-and-plain"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/duplicate-escaped/SKILL.md",
+          "sha256": "88e88e221c1ca6b3f134b60d05ae7082d5f6454f4f3655a1ca8e201e9d95ff5a"
+        }
+      ],
+      "id": "duplicate-escaped"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/scalar-root/SKILL.md",
+          "sha256": "0c9053ac9600455b302446378f212621cdd4badb1d5acb475955d4ae8a5d1b37"
+        }
+      ],
+      "id": "scalar-root"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/sequence-root/SKILL.md",
+          "sha256": "d7961887aa1219e1c8afd5b3e488ab870a5fdb3877f9eec270520d8d2061aadb"
+        }
+      ],
+      "id": "sequence-root"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/flow-mapping-root/SKILL.md",
+          "sha256": "fb4d369716ab3ab7628f74fd42b617bbab38d5e23cda800b73887d296d533fab"
+        }
+      ],
+      "id": "flow-mapping-root"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/flow-sequence-root/SKILL.md",
+          "sha256": "54e276f9fe91856285c32db75c6e3404ed0fe5f6f0c84a9a829f6ef91e0e9bae"
+        }
+      ],
+      "id": "flow-sequence-root"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/indented-root/SKILL.md",
+          "sha256": "ad26e0b3311cf9c2b65fe97ea1cb485ce0173af8e94af4edbd00a5bfe6121be3"
+        }
+      ],
+      "id": "indented-root"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/tab-root/SKILL.md",
+          "sha256": "b3b4745eeaaadb2d59b017909e7450b8c7a38b600e04ba4ebfb431e249f0819e"
+        }
+      ],
+      "id": "tab-root"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/block-scalar-root/SKILL.md",
+          "sha256": "36ed8b24acf3a171b9cacfdadb9bb1ad02bf7c120e1a6c06d8a092e16222c647"
+        }
+      ],
+      "id": "block-scalar-root"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/directive-line/SKILL.md",
+          "sha256": "52b9b2b284797ae78655d78a9bac22ac68395ad61570c38872bc5d425efe51de"
+        }
+      ],
+      "id": "directive-line"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/stray-scalar-after-entry/SKILL.md",
+          "sha256": "75209109a1f0e64179ec3723424dce2edf3bd6f90e05c516bd1b97333002705c"
+        }
+      ],
+      "id": "stray-scalar-after-entry"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/sequence-after-valued-key/SKILL.md",
+          "sha256": "36d463b9c1550649034163d309d0cd71328e37c6cb6661321a7c7f7dc0c95b9f"
+        }
+      ],
+      "id": "sequence-after-valued-key"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/sequence-after-nested-content/SKILL.md",
+          "sha256": "1c1f7e280dbf1a13a8f752e7db5ef71ef153f0d0262bf6e58e440496d964e866"
+        }
+      ],
+      "id": "sequence-after-nested-content"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/key-without-space/SKILL.md",
+          "sha256": "caffd8f3dd8506f2d9896aaf48c2b18313d452891444fa502aede1f6b46a6e8b"
+        }
+      ],
+      "id": "key-without-space"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/multiline-quoted-key/SKILL.md",
+          "sha256": "f10b33def8b43adbc388f6421c12a8a019e82d7edff28308c84e816577d717bb"
+        }
+      ],
+      "id": "multiline-quoted-key"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/nul-in-block/SKILL.md",
+          "sha256": "5a5d173f780dc841b2a61d976f26df92a6d1773f976c867d9e1d7f16104d3753"
+        }
+      ],
+      "id": "nul-in-block"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/escape-in-block/SKILL.md",
+          "sha256": "575a0e5f93cd3ee6bd618e26603f6d3efe67460a86b54fd5f5537cd6a5a10441"
+        }
+      ],
+      "id": "escape-in-block"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/frontmatter-too-large/SKILL.md",
+          "sha256": "94149e4c483791b2cd02f5cacd3f128573fbcaef2b4f99dfddb716bd168bf173"
+        }
+      ],
+      "id": "frontmatter-too-large"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/frontmatter-at-limit/SKILL.md",
+          "sha256": "32ac5130e83593f47ee4edbd50724233508aa660be17b9a2f209fd9fdeaa1d37"
+        }
+      ],
+      "id": "frontmatter-at-limit"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/file-too-large/SKILL.md",
+          "sha256": "4bdbb3d3b28382c0a119b9f113ad8605ef0d0e7f50785cc7d26dfa20f647a55b"
+        }
+      ],
+      "id": "file-too-large"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/file-at-limit/SKILL.md",
+          "sha256": "2dd4d85f993c0460dd4ae9d27e65bac656e3a9aeb31e1d50af3582f72a9b7cae"
+        }
+      ],
+      "id": "file-at-limit"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/yaml-syntax-error/SKILL.md",
+          "sha256": "c4e6e912d70243df245958b0605ef2127db729f776395bfa6b7e5ab6e0911d70"
+        }
+      ],
+      "id": "yaml-syntax-error"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-skill-frontmatter/cases/yaml-bad-indent/SKILL.md",
+          "sha256": "304ad0ef3884555383da3a68eabb29a927dace5d8bb9ff4df74c78b116f248a5"
+        }
+      ],
+      "id": "yaml-bad-indent"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-skill-frontmatter.json",
+        "serialization": "bytes",
+        "sha256": "d5855d65ca32824b20ac102d9436b7302e52d08c42234260b71bbe2be79c58f5"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-skill-frontmatter.txt",
+        "serialization": "bytes",
+        "sha256": "9901c2947915b400cbde23a69ed698685927b10fde7914cd77faa12a589a75a7"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "d5855d65ca32824b20ac102d9436b7302e52d08c42234260b71bbe2be79c58f5"
+      },
+      {
+        "process": "run-2",
+        "sha256": "d5855d65ca32824b20ac102d9436b7302e52d08c42234260b71bbe2be79c58f5"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 65 pinned members of skill-frontmatter-parse/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 65,
+    "require": "at-least-one",
+    "selected": [
+      "minimal",
+      "no-body",
+      "crlf",
+      "cr-only",
+      "mixed-terminators",
+      "trailing-space-on-delimiters",
+      "unicode-line-separator-is-content",
+      "dashes-inside-value",
+      "dashes-inside-body",
+      "comment-lines",
+      "nested-mapping",
+      "same-key-nested-not-duplicate",
+      "block-scalar-contents",
+      "sequence-at-key-indent",
+      "quoted-keys",
+      "document-end-in-body",
+      "hyphen-key",
+      "body-keeps-bom-after-frontmatter",
+      "empty-file",
+      "no-delimiter",
+      "blank-line-before-opening",
+      "html-comment-before-opening",
+      "code-fence-wrapped",
+      "four-dash-opening",
+      "leading-space-opening",
+      "bom",
+      "invalid-utf8",
+      "overlong-utf8",
+      "unterminated",
+      "four-dash-closing",
+      "indented-closing",
+      "closing-with-text",
+      "opening-only",
+      "empty-frontmatter",
+      "comment-only-frontmatter",
+      "document-end",
+      "document-end-with-comment",
+      "document-end-first",
+      "document-start-with-content",
+      "duplicate-same-value",
+      "duplicate-different-value",
+      "duplicate-unknown-key",
+      "duplicate-quoted-and-plain",
+      "duplicate-escaped",
+      "scalar-root",
+      "sequence-root",
+      "flow-mapping-root",
+      "flow-sequence-root",
+      "indented-root",
+      "tab-root",
+      "block-scalar-root",
+      "directive-line",
+      "stray-scalar-after-entry",
+      "sequence-after-valued-key",
+      "sequence-after-nested-content",
+      "key-without-space",
+      "multiline-quoted-key",
+      "nul-in-block",
+      "escape-in-block",
+      "frontmatter-too-large",
+      "frontmatter-at-limit",
+      "file-too-large",
+      "file-at-limit",
+      "yaml-syntax-error",
+      "yaml-bad-indent"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "skill-frontmatter-parse/v1"
+}

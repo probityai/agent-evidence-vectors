@@ -185,6 +185,7 @@ only-include = [
     "vectors-self-reported-record",
     "vectors-source-coverage",
     "vectors-open-weight-art53",
+    "vectors-skill-frontmatter",
     "vectors-w3c-intake",
     "vectors-w3c-report",
 ]
@@ -251,6 +252,7 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 "vectors-self-reported-record" = "agent_evidence_vectors/corpora/vectors-self-reported-record"
 "vectors-source-coverage" = "agent_evidence_vectors/corpora/vectors-source-coverage"
 "vectors-open-weight-art53" = "agent_evidence_vectors/corpora/vectors-open-weight-art53"
+"vectors-skill-frontmatter" = "agent_evidence_vectors/corpora/vectors-skill-frontmatter"
 "vectors-w3c-intake" = "agent_evidence_vectors/corpora/vectors-w3c-intake"
 "vectors-w3c-report" = "agent_evidence_vectors/corpora/vectors-w3c-report"
 
@@ -373,6 +375,7 @@ only-include = [
     "vectors-self-reported-record",
     "vectors-source-coverage",
     "vectors-open-weight-art53",
+    "vectors-skill-frontmatter",
     "vectors-w3c-intake",
     "vectors-w3c-report",
     "README.md",
@@ -474,7 +477,7 @@ include = ["crates/jcs-admit", "docs/paper", "docs/proposals", "docs/site", "exa
            "vectors-identity-binding", "vectors-authority-at-dispatch", "vectors-approval-binding", "vectors-delegator-right", "vectors-badge-vc-verify", "vectors-completion-confirmation", "vectors-dispatch-fence", "vectors-refund-connected", "vectors-aggregate-accounting", "vectors-uncertain-effect", "vectors-agent-card-receipt", "vectors-credential-release",
            "vectors-converted-argument-binding", "vectors-chunked-export",
            "vectors-done-contract", "vectors-done-receipt", "vectors-spoofed-tool-output", "vectors-test-tampering", "vectors-grader-isolation",
-           "vectors-done-probes", "vectors-scitt-cose", "vectors-source-coverage", "vectors-open-weight-art53", "vectors-self-reported-record",
+           "vectors-done-probes", "vectors-scitt-cose", "vectors-source-coverage", "vectors-open-weight-art53", "vectors-skill-frontmatter", "vectors-self-reported-record",
            "vectors-w3c-intake", "vectors-w3c-report", "vectors-poc-evidence", "vectors-connector-scope"]
 
 # The reference rail is imported by the gates that drive it, and it lives in

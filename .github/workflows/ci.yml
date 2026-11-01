@@ -1018,6 +1018,10 @@ jobs:
         run: uv run --extra dev pytest vectors-source-coverage/tests -q
       - name: open-weight cases regenerate and force every condition
         run: uv run --extra dev pytest vectors-open-weight-art53/tests -q
+      - name: skill-frontmatter cases regenerate and force every step
+        run: |
+          uv run --extra dev pytest vectors-skill-frontmatter/tests -q
+          uv run python vectors-skill-frontmatter/check_vectors.py
       - name: anchored-chain cases regenerate and force every check
         run: uv run --extra dev pytest vectors-anchored-chain/tests -q
       - name: receipt-chain-end cases regenerate and force every check

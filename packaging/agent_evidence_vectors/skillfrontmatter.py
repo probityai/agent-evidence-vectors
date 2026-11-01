@@ -428,7 +428,9 @@ def run(root: str, verifier: list[str] | None, report_path: str, rail_note: str)
         },
         "failures": errors,
     }
-    Path(report_path).write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    Path(report_path).write_text(
+        json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
     return 1 if errors or answered + not_applicable != total else 0
 
 
@@ -449,7 +451,9 @@ def main(argv: list[str] | None = None) -> int:
         elif result["outcome"] == "ok":
             print("ok " + " ".join(result["keys"]))
         else:
-            print(f"refused {result['code']}" + (f" line {result['line']}" if result["line"] else ""))
+            print(
+                f"refused {result['code']}" + (f" line {result['line']}" if result["line"] else "")
+            )
         return 0
     answered, not_applicable, errors = check(args.verifier, yaml_check=yaml_processor())
     for error in errors:

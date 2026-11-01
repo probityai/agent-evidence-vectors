@@ -3321,6 +3321,11 @@ EXEMPT: dict[str, str] = {
     ),
 }
 EXEMPT_PREFIXES: dict[str, str] = {
+    "vectors-skill-frontmatter/cases/": (
+        "test inputs: the exact octets of SKILL.md files, some of them deliberately not "
+        "UTF-8 or carrying size-limit padding; none is prose, and the corpus counts are "
+        "derived from its MANIFEST.json"
+    ),
     "site/": (
         "the Atlas site source, a standalone tree with its own claims register "
         "(site/CLAIMS.md) and its own check jobs; its integers are atlas entry "

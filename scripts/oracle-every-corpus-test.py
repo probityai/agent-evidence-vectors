@@ -67,6 +67,7 @@ RUNS_A_VERIFIER = (
     "vectors-scitt-cose",
     "vectors-source-coverage",
     "vectors-open-weight-art53",
+    "vectors-skill-frontmatter",
     "vectors-trace-anchor",
 )
 

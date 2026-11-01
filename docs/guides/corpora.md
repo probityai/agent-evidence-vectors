@@ -15,6 +15,7 @@ Choose the record format you need, then follow its [reader route](../reference/c
 | SCITT/COSE carriage | [vectors-scitt-cose](../../vectors-scitt-cose/) | [SCITT/COSE profile](../../profiles/scitt-cose.md), COSE_Sign1 and RFC 9942 receipts |
 | Bind an evaluation to saved inputs | [vectors-artifact-binding](../../vectors-artifact-binding/) | [Artifact-binding v1](../../spec/artifact-binding/v1.md) |
 | Record an AI-assisted dependency change | [vectors-dependency-selection](../../vectors-dependency-selection/) | [Artifact-binding v1, section 6.2](../../spec/artifact-binding/v1.md) |
+| Which bytes of a SKILL.md are the frontmatter (delimiters, document end, duplicate keys) | [vectors-skill-frontmatter](../../vectors-skill-frontmatter/README.md) | The Parsing section proposed for the Agent Skills specification ([SPEC.md](../../vectors-skill-frontmatter/SPEC.md)); packaged reader or named verifier |
 | Selected source passages in a report | [vectors-source-coverage](../../vectors-source-coverage/README.md) | Consumer-pinned source capture and time window; named verifier required |
 | Evidence grade derived by the consumer, E0-E4 | [vectors-grade-floor](../../vectors-grade-floor/README.md) | Ladder of AAIF Observability WG issue #37; packaged reader or named verifier |
 | Connector scope record (read, change, refused) | [vectors-connector-scope](../../vectors-connector-scope/README.md) | A health-system connector's scope record; packaged reader or named verifier |

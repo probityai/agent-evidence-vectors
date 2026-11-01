@@ -157,6 +157,7 @@ from agent_evidence_vectors import (
     recorded,
     refundconnected,
     selfreportedrecord,
+    skillfrontmatter,
     sourcecoverage,
     starhint,
     traceanchor,
@@ -3899,6 +3900,7 @@ def _run_non_reference_suite(
         sourcecoverage.SUITE,
         anchoredchain.SUITE,
         openweight.SUITE,
+        skillfrontmatter.SUITE,
         receiptchainend.SUITE,
         identitybinding.SUITE,
         authoritydispatch.SUITE,
@@ -3941,6 +3943,7 @@ def _run_non_reference_suite(
     full_reader = {
         anchoredchain.SUITE: anchoredchain.run,
         openweight.SUITE: openweight.run,
+        skillfrontmatter.SUITE: skillfrontmatter.run,
         receiptchainend.SUITE: receiptchainend.run,
         identitybinding.SUITE: identitybinding.run,
         authoritydispatch.SUITE: authoritydispatch.run,
