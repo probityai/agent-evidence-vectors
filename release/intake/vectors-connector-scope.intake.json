@@ -91,7 +91,7 @@
       },
       "path": "corpora/vectors-connector-scope/check_vectors.py",
       "serialization": "bytes",
-      "sha256": "c770747e14be1a4c65cbdba5b297a7a9a2f168726bf8bd63bb4bce80f78cd6d1"
+      "sha256": "649b43fb48ef220537357fce4492d27388b77f82bd887407df1be54e6423fa15"
     },
     {
       "consumed": "unconsumed",
@@ -137,7 +137,7 @@
       },
       "path": "corpora/vectors-connector-scope/mutation_check.py",
       "serialization": "bytes",
-      "sha256": "5fe5b2541dcfcb4f29f494d54668757475497f68b235bd6a6f1337c498f57b89"
+      "sha256": "a301ad7d8ec8f7e080f1754e61d718805874a4fcb4281474e703d26a41ee7f48"
     },
     {
       "consumed": "unconsumed",
@@ -183,7 +183,7 @@
       },
       "path": "corpora/vectors-connector-scope/tests/test_corpus.py",
       "serialization": "bytes",
-      "sha256": "01135b62b4812084b9b2abddb580b79291a993766ec1cef6af4c59253def962d"
+      "sha256": "3129b98c5e2fc3c1a77b5b2150a4b8e5b27a8bb4785a7ec9615de3a7b08ac987"
     }
   ],
   "boundary": {
@@ -356,7 +356,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "1397f5400fafb41123c746577517a8201cf025d3c46c3d16f6f03221a0debb58"
+    "sha256": "9b91baab2c58403956e8e9a0ee07768fd973ae1de70cea5f67461035e6157d32"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",

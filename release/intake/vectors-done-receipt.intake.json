@@ -94,7 +94,7 @@
       },
       "path": "corpora/vectors-done-receipt/check_vectors.py",
       "serialization": "bytes",
-      "sha256": "3075d861b03203c946c070fb06167cd6f9da87760347270fdef9f15a3621a9da"
+      "sha256": "a7c562b9ac70135a4bb0222e01beab07d46dc9a29ae22c49801e7e750a1c620f"
     },
     {
       "consumed": "unconsumed",
@@ -117,7 +117,7 @@
       },
       "path": "corpora/vectors-done-receipt/crosscheck_probity_verify.py",
       "serialization": "bytes",
-      "sha256": "8528a2886564991813a42786fb9b497993df31ac2c78c0be63d7dbbecd370dd7"
+      "sha256": "4aada40c62149d7b47fb1786957b983fd0d3543ce7bb900c9e44d420fd66064a"
     },
     {
       "consumed": "unconsumed",
@@ -163,7 +163,7 @@
       },
       "path": "corpora/vectors-done-receipt/tests/test_corpora.py",
       "serialization": "bytes",
-      "sha256": "57659a956c6b54f15d85b098b1734eb64cfa0d52b075e85c1934655997f868e6"
+      "sha256": "2a55e80fa00eaee9fd8c9ac01acd20bdece25d6586f8d5db4e4ec40c92ee3d3b"
     },
     {
       "consumed": "unconsumed",
@@ -186,7 +186,7 @@
       },
       "path": "corpora/vectors-done-receipt/tests/test_done_argv_cases.py",
       "serialization": "bytes",
-      "sha256": "d58708e9ff1d802dc4979d40ec88bd81f27a1e97be487a28863cc5784bb0f706"
+      "sha256": "b8adea95204e65120ef94bf0399ba3c1da046224b7bf1adaca6d9b7bb6bee5a0"
     },
     {
       "consumed": "unconsumed",
@@ -209,7 +209,7 @@
       },
       "path": "corpora/vectors-done-receipt/tests/test_done_event_cases.py",
       "serialization": "bytes",
-      "sha256": "41eed818829c04511753c8464775924643d2f28223c58c1ac89f3a0fb1629725"
+      "sha256": "899a97d55e43b6c70084c7e8015161e3e9b994d435804645d2d9f0d879da6a77"
     },
     {
       "consumed": "unconsumed",
@@ -232,7 +232,7 @@
       },
       "path": "corpora/vectors-done-receipt/tests/test_done_member_cases.py",
       "serialization": "bytes",
-      "sha256": "2f37b396a6e0fb1d18155451923f18dbdc7468a5942a3bc269fcf4377befaa31"
+      "sha256": "b1d29b1dd0d0da4515c151d6aaa81c115bd8f621d01314cf4871d43180653dd5"
     },
     {
       "consumed": "unconsumed",
@@ -255,7 +255,7 @@
       },
       "path": "corpora/vectors-done-receipt/tests/test_done_record_cases.py",
       "serialization": "bytes",
-      "sha256": "72d8d1c2a2e8a9c45f64554f8a2e3b95e4a6ea3afaf9480dd961bd6f9b46bed4"
+      "sha256": "034a978de61f59aa506da24c936698600f01a88d746215c401580781aef9fb81"
     }
   ],
   "boundary": {
@@ -2140,7 +2140,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "0d13ee82a9ff315f9639c19d01bce1510642055f809744ee4bc9f0a145a66a4f"
+    "sha256": "90f87698e76de69e8b8c1b16904d7e55a73e3cbd6fa611a071ed2f4c8134cabf"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
