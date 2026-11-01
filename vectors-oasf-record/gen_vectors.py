@@ -327,6 +327,8 @@ def generate(root: Path = ROOT) -> dict[str, Any]:
         "verifierContract": "verifier case.json --json; exit 0 allow, 1 deny",
         "vectors": entries,
     }
+    decisions = [entry["expected"]["decision"] for entry in entries]
+    manifest["counts"] = {word: decisions.count(word) for word in sorted(set(decisions))}
     (root / "MANIFEST.json").write_bytes(_json(manifest))
     return manifest
 
