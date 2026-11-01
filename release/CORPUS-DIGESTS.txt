@@ -5,7 +5,7 @@
 aa8deffa934df48d43f228e48e299be2a136aef32ff5a55d18a2ef99e0286740  vectors-aci/MANIFEST.json  aci  vectors=26  no-suiteRevision
 b9151ff03291101b4074258cef91ee31206fbc4cf6e61c16e4038348d2b221bb  vectors-acs-core/MANIFEST.json  acs-core-negative-conformance  vectors=140  no-suiteRevision
 17caeb3817557d779266de29ba9a65ebf553f7503925de7e7b5a01126ede5446  vectors-admission/MANIFEST.json  adversarial-execution-evidence-admission  vectors=22  no-suiteRevision
-5c584eb9e9594d7a0265ab7afb302da0803ee8811ca6b4be0a6fca2b08ddd509  vectors-agent-audit-record/MANIFEST.json  agent-audit-record-conformance  vectors=184  no-suiteRevision
+47fab839747e0ab798fdeb7c028dbe31a5d0ce381934fc4f7a630c99a19a8654  vectors-agent-audit-record/MANIFEST.json  agent-audit-record-conformance  vectors=193  no-suiteRevision
 99c46fa19029691a1bdfb9f78f80c457639d9df985bf05e9609255006f07dd6e  vectors-agent-card-receipt/MANIFEST.json  agent-card-receipt/v1  vectors=44  no-suiteRevision
 27623d6a4a10f4cd0aedc1145182c276456e619c3ae771ec646746ef823f5ec4  vectors-agent-change-admission/MANIFEST.json  agent-change-admission/v1  vectors=35  no-suiteRevision
 a2674abfcf5b0edfaa8fe0f68be393066d962aee95c24362e00ea45ddbed1efc  vectors-agent-decision/MANIFEST.json  agent-decision-conformance  vectors=41  no-suiteRevision
@@ -19,6 +19,7 @@ a92cf47c64f905ec6a57c4bf624c2667c075da4a76d58b4d251584831202dc86  vectors-anchor
 3ee24e73759f13cb2e7ce1fc849859f32e2457d9d1990189e9f7c7c0db89960b  vectors-approval-binding/MANIFEST.json  approval-binding/v1  vectors=32  no-suiteRevision
 e26e5a50267f4f09052f3349388f703d0a332a41cf325a4d248e21414070cbef  vectors-artifact-binding/MANIFEST.json  artifact-binding-conformance  vectors=8  no-suiteRevision
 6ca7ba7ec5a425f4b9e4c4b4a03be5fcfb4354760339e9f0b37be53b3b6f2dff  vectors-authority-at-dispatch/MANIFEST.json  authority-at-dispatch/v1  vectors=14  no-suiteRevision
+e089c0eab6732d3e87dedacdfb1862f27b080425b8cd433c6549145efbacf92e  vectors-badge-vc-verify/MANIFEST.json  badge-vc-verify/v1  vectors=40  no-suiteRevision
 8d9e15ebf4e6a6b76960491fff189ccdad8521479fff71de1da8ddc43f22b12a  vectors-chunked-export/MANIFEST.json  chunked-export/v1  vectors=12  no-suiteRevision
 96b6a79576ee8d4ffcdbb88bbddd00d4a91b2a471744064843e6e934cca445bb  vectors-completion-confirmation/MANIFEST.json  completion-confirmation/v1  vectors=28  no-suiteRevision
 873332850e34c4edad77f2ca89cfb25247a940e106f67f045acbe7186b3d7ca5  vectors-connector-scope/MANIFEST.json  connector-scope-record/v1  vectors=13  no-suiteRevision
@@ -42,7 +43,7 @@ caa09e57af6e6ee85feff1fa5117095fa424c11a57a7518ca127d19676bfd5bc  vectors-mcp-re
 ed7da273f2629a6a3ae08bd0227ab3201c1d481e37f66c63998bca766982eb5d  vectors-open-weight-art53/MANIFEST.json  open-weight-art53/v1  vectors=16  no-suiteRevision
 73babeef6e8be17cd20cc65de636f1c36a1b92946fe5fe880d2b6a9ff29241bf  vectors-receipt-chain-end/MANIFEST.json  receipt-chain-end/v1  vectors=24  no-suiteRevision
 cb490284f25c5eebc0a91c7776e6f195ae571c4f7dce029ae437128fce03a6ae  vectors-receipt-signature/MANIFEST.json  receipt-signature-conformance  vectors=25  no-suiteRevision
-07d57f56f50a6ea9cf3f3bfd444c07d2bd37d7f0b8594d5e2a1c14947e5529a9  vectors-recorded/MANIFEST.json  recorded-set-conformance/v1  vectors=12  no-suiteRevision
+27a6cbefafbf1edd8f834e4d1958ff19f82c82c7c4b85ab14271b5c84bf24f55  vectors-recorded/MANIFEST.json  recorded-set-conformance/v1  vectors=18  no-suiteRevision
 1588224056bb6f7f5971386164b4a737c422ec6b16bcdea3ca8dc559adb5f9a5  vectors-refund-connected/MANIFEST.json  refund-connected/v1  vectors=12  no-suiteRevision
 5b7f58c91b517bd7c96dcccdef0d827a4f730fd4a650b4992b362bb9925cae29  vectors-restart-records/MANIFEST.json  restart-records/v1  vectors=57  no-suiteRevision
 79d651d3e127ce9bb68d4bf782f86b4e79391962ddda37f131fba641ca0c20da  vectors-scitt-cose/MANIFEST.json  scitt-cose-carriage-conformance  vectors=27  no-suiteRevision

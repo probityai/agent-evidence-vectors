@@ -486,8 +486,8 @@ def _set_checks(drop: str | None = None, by_request_digest: bool = False) -> Ite
 
 
 @contextlib.contextmanager
-def _reading(table: dict[str, bool], name: str, value: bool) -> Iterator[None]:
-    """One knob of a set reading (CLAIM_READING, ASSET_MATCH) set to value."""
+def _reading(table: dict[str, Any], name: str, value: Any) -> Iterator[None]:
+    """One knob of a set reading (CLAIM_READING, ASSET_MATCH, SETTLED_READING) set to value."""
     original = table[name]
     table[name] = value
     try:
@@ -743,7 +743,7 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
     (
         "no check across the records of a set",
         lambda: _set_checks(),
-        "CS7,CS8,CS17,CS20,CS21,CS30,CS31,CS32,CS38,CS39",
+        "CS7,CS8,CS17,CS20,CS21,CS30,CS31,CS32,CS38,CS39,CS49",
     ),
     (
         "a record that read an older state and omits a held permit accepted",
@@ -804,6 +804,36 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
         "an asset matched by its id alone, its decimals ignored",
         lambda: _reading(auditrecord.ASSET_MATCH, "decimals", False),
         "CS39",
+    ),
+    (
+        "a retry whose payee differs from the held entry's accepted",
+        lambda: _without_check("retry-payee"),
+        "CS42",
+    ),
+    (
+        "a settled amount above the authorized maximum accepted",
+        lambda: _without_check("settled-amount"),
+        "CS44",
+    ),
+    (
+        "a settled asset or payee other than the approved one accepted",
+        lambda: _without_check("settled-terms"),
+        "CS45,CS46",
+    ),
+    (
+        "settled terms read from the signed payload accepted",
+        lambda: _without_check("settled-source"),
+        "CS47",
+    ),
+    (
+        "a later record counting less than the settled amount accepted",
+        lambda: _set_checks("settled-uncounted"),
+        "CS49",
+    ),
+    (
+        "consumed taking the held amount of an upto permit, not the settled amount",
+        lambda: _reading(auditrecord.SETTLED_READING, "amount", "held"),
+        "CS48",
     ),
     (
         "every record of a set grouped into one ledger whatever its limitDigest",

@@ -28,6 +28,7 @@ Exit 0 when every case holds; 1 on the first summary of failures.
 
 from __future__ import annotations
 
+import contextlib
 import os
 import re
 import shutil
@@ -35,7 +36,7 @@ import subprocess
 import sys
 import tempfile
 import tomllib
-from collections.abc import Callable
+from collections.abc import Callable, Iterator
 from pathlib import Path
 
 import yaml
@@ -60,6 +61,38 @@ QUIESCENT = {
     "gc.auto": "0",
     "gc.autoDetach": "false",
 }
+
+
+def git(command: list[str], cwd: Path) -> None:
+    """Run one staging command, and carry git's own message into the failure.
+
+    The call captures output so a passing run stays quiet; a bare
+    CalledProcessError then reports only the exit status, which hid the cause of
+    an exit 128 in CI.
+    """
+    done = subprocess.run(command, cwd=cwd, capture_output=True, text=True)
+    if done.returncode != 0:
+        raise AssertionError(
+            f"{' '.join(command)} exited {done.returncode} in {cwd}:\n"
+            f"{done.stderr}{done.stdout}"
+        )
+
+
+@contextlib.contextmanager
+def staged(tmp: Path, name: str, dated: bool = True) -> Iterator[Path]:
+    """Stage one copy of the repository and remove it when its case is done.
+
+    A copy is about 400 MB (16,000 tracked files, each also a loose object).
+    Keeping every case's copy until the run ended needed more than 40 GB, so a
+    hosted runner ran out of disk partway through and `git add` exited 128.
+    """
+    root = tmp / name
+    root.mkdir()
+    try:
+        stage(root, dated)
+        yield root
+    finally:
+        shutil.rmtree(root, ignore_errors=True)
 
 
 def advance_candidate(destination: Path) -> None:
@@ -120,7 +153,7 @@ def stage(destination: Path, dated: bool = True) -> None:
         *[["git", "config", key, value] for key, value in QUIESCENT.items()],
         ["git", "add", "-A"],
     ):
-        subprocess.run(command, cwd=destination, check=True, capture_output=True)
+        git(command, destination)
     original_text = (destination / CFF).read_text(encoding="utf-8")
     original = yaml.safe_load(original_text)
     preferred = original.get("preferred-citation")
@@ -435,7 +468,7 @@ def source_version(root: Path) -> str:
 
 
 def fixture_commit(root: Path, message: str) -> None:
-    subprocess.run(["git", "add", "-A"], cwd=root, check=True, capture_output=True)
+    git(["git", "add", "-A"], root)
     subprocess.run(
         [
             "git",
@@ -568,11 +601,9 @@ def check(
 ) -> list[str]:
     failures: list[str] = []
     for index, (name, mutate, phrases) in enumerate(cases):
-        root = tmp / f"{group}{index}"
-        root.mkdir()
-        stage(root, dated)
-        mutate(root)
-        code, output = run(root)
+        with staged(tmp, f"{group}{index}", dated) as root:
+            mutate(root)
+            code, output = run(root)
         if want_refusal and code == 0:
             failures.append(f"{name}: the gate accepted it")
             continue
@@ -628,45 +659,41 @@ def timezone_date_checks(tmp: Path) -> list[str]:
     """
     failures: list[str] = []
     for index, (committer, author, expected, wrong) in enumerate(DATED_CUTS):
-        root = tmp / f"timezone{index}"
-        root.mkdir()
-        stage(root)
-        path = root / CFF
-        text = path.read_text(encoding="utf-8")
-        path.write_text(text.split("preferred-citation:", 1)[0], encoding="utf-8")
-        subprocess.run(["git", "add", "-A"], cwd=root, check=True, capture_output=True)
-        commit_with_dates(root, committer, author)
-        version = re.search(r"^version: (\S+)$", (root / CFF).read_text(), re.MULTILINE)
-        assert version is not None, "the staged citation has no version to tag"
-        tag(root, f"v{version.group(1)}")
-        for timezone in TIMEZONES:
-            set_release_date(root, expected)
-            code, output = run(root, timezone)
-            if code != 0:
-                failures.append(f"stored committer date {expected} under {timezone}:\n{output}")
-            set_release_date(root, wrong)
-            code, output = run(root, timezone)
-            if code == 0 or f"commit dated {expected}" not in output:
-                failures.append(f"wrong release date {wrong} under {timezone}:\n{output}")
+        with staged(tmp, f"timezone{index}") as root:
+            path = root / CFF
+            text = path.read_text(encoding="utf-8")
+            path.write_text(text.split("preferred-citation:", 1)[0], encoding="utf-8")
+            git(["git", "add", "-A"], root)
+            commit_with_dates(root, committer, author)
+            version = re.search(r"^version: (\S+)$", (root / CFF).read_text(), re.MULTILINE)
+            assert version is not None, "the staged citation has no version to tag"
+            tag(root, f"v{version.group(1)}")
+            for timezone in TIMEZONES:
+                set_release_date(root, expected)
+                code, output = run(root, timezone)
+                if code != 0:
+                    failures.append(f"stored committer date {expected} under {timezone}:\n{output}")
+                set_release_date(root, wrong)
+                code, output = run(root, timezone)
+                if code == 0 or f"commit dated {expected}" not in output:
+                    failures.append(f"wrong release date {wrong} under {timezone}:\n{output}")
     return failures
 
 
 def candidate_publication_checks(tmp: Path) -> list[str]:
     """A private candidate tag neither publishes the candidate nor permits a date."""
-    root = tmp / "candidate-publication"
-    root.mkdir()
-    stage(root)
-    tag(root, "v" + source_version(root))
     failures: list[str] = []
-    for timezone in TIMEZONES:
-        code, output = run(root, timezone)
-        if code != 0:
-            failures.append(f"undated candidate with a private tag under {timezone}:\n{output}")
-        set_release_date(root, head_date(root))
-        code, output = run(root, timezone)
-        if code == 0 or "source candidate must not carry date-released" not in output:
-            failures.append(f"invented candidate release date under {timezone}:\n{output}")
-        set_release_date(root, None)
+    with staged(tmp, "candidate-publication") as root:
+        tag(root, "v" + source_version(root))
+        for timezone in TIMEZONES:
+            code, output = run(root, timezone)
+            if code != 0:
+                failures.append(f"undated candidate with a private tag under {timezone}:\n{output}")
+            set_release_date(root, head_date(root))
+            code, output = run(root, timezone)
+            if code == 0 or "source candidate must not carry date-released" not in output:
+                failures.append(f"invented candidate release date under {timezone}:\n{output}")
+            set_release_date(root, None)
     return failures
 
 
@@ -687,6 +714,11 @@ def main() -> int:
         )
         failures.extend(timezone_date_checks(tmp))
         failures.extend(candidate_publication_checks(tmp))
+        # A case that leaves its copy behind brings back the disk exhaustion
+        # that `staged` removes: peak usage must stay one copy, not one per case.
+        leftover = sorted(entry.name for entry in tmp.iterdir())
+        if leftover:
+            failures.append(f"staged copies were not removed: {leftover}")
     total = (
         len(STALE_CASES)
         + len(CENSUS_CASES)

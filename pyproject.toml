@@ -158,6 +158,7 @@ only-include = [
     "vectors-approval-binding",
     "vectors-artifact-binding",
     "vectors-authority-at-dispatch",
+    "vectors-badge-vc-verify",
     "vectors-chunked-export",
     "vectors-completion-confirmation",
     "vectors-connector-scope",
@@ -217,6 +218,7 @@ exclude = [
     "vectors-approval-binding/**/*.py",
     "vectors-artifact-binding/**/*.py",
     "vectors-authority-at-dispatch/**/*.py",
+    "vectors-badge-vc-verify/**/*.py",
     "vectors-chunked-export/**/*.py",
     "vectors-completion-confirmation/**/*.py",
     "vectors-connector-scope/**/*.py",
@@ -275,6 +277,7 @@ exclude = [
 "vectors-approval-binding" = "agent_evidence_vectors/corpora/vectors-approval-binding"
 "vectors-artifact-binding" = "agent_evidence_vectors/corpora/vectors-artifact-binding"
 "vectors-authority-at-dispatch" = "agent_evidence_vectors/corpora/vectors-authority-at-dispatch"
+"vectors-badge-vc-verify" = "agent_evidence_vectors/corpora/vectors-badge-vc-verify"
 "vectors-chunked-export" = "agent_evidence_vectors/corpora/vectors-chunked-export"
 "vectors-completion-confirmation" = "agent_evidence_vectors/corpora/vectors-completion-confirmation"
 "vectors-connector-scope" = "agent_evidence_vectors/corpora/vectors-connector-scope"
@@ -408,6 +411,7 @@ only-include = [
     "vectors-approval-binding",
     "vectors-artifact-binding",
     "vectors-authority-at-dispatch",
+    "vectors-badge-vc-verify",
     "vectors-chunked-export",
     "vectors-completion-confirmation",
     "vectors-connector-scope",
@@ -538,7 +542,7 @@ include = ["crates/jcs-admit", "docs/paper", "docs/proposals", "docs/site", "exa
            "vectors-anchor-stream", "vectors-artifact-binding", "vectors-dependency-selection",
            "vectors-mcp-owasp", "vectors-mcp-record-contract", "vectors-mcp-response-phase",
            "vectors-observed-effect", "vectors-receipt-chain-end", "vectors-receipt-signature",
-           "vectors-identity-binding", "vectors-authority-at-dispatch", "vectors-approval-binding", "vectors-delegator-right", "vectors-completion-confirmation", "vectors-dispatch-fence", "vectors-refund-connected", "vectors-aggregate-accounting", "vectors-uncertain-effect", "vectors-agent-card-receipt", "vectors-credential-release",
+           "vectors-identity-binding", "vectors-authority-at-dispatch", "vectors-approval-binding", "vectors-delegator-right", "vectors-badge-vc-verify", "vectors-completion-confirmation", "vectors-dispatch-fence", "vectors-refund-connected", "vectors-aggregate-accounting", "vectors-uncertain-effect", "vectors-agent-card-receipt", "vectors-credential-release",
            "vectors-converted-argument-binding", "vectors-chunked-export",
            "vectors-done-contract", "vectors-done-receipt", "vectors-spoofed-tool-output", "vectors-test-tampering", "vectors-grader-isolation",
            "vectors-done-probes", "vectors-scitt-cose", "vectors-source-coverage", "vectors-open-weight-art53", "vectors-self-reported-record",

@@ -1,0 +1,26 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/badge-vc-verify/v1",
+  "credential": "eyJhbGciOiJFZERTQSIsImtpZCI6ImRpZDp3ZWI6aXNzdWVyLmV4YW1wbGUja2V5LTEiLCJ0eXAiOiJ2Yytqd3QifQ.eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJjcmVkZW50aWFsU3RhdHVzIjp7ImlkIjoiaHR0cHM6Ly9pc3N1ZXIuZXhhbXBsZS9zdGF0dXMvcmV2b2tlZC1pbi1pc3N1ZXItc3RvcmUiLCJzdGF0dXNQdXJwb3NlIjoicmV2b2NhdGlvbiIsInR5cGUiOiJSZXZvY2F0aW9uTGlzdCJ9LCJjcmVkZW50aWFsU3ViamVjdCI6eyJiYWRnZSI6ImNvZGUtcmV2aWV3ZXIiLCJpZCI6ImRpZDp3ZWI6YWdlbnQuZXhhbXBsZSIsImxldmVsIjoiZ29sZCJ9LCJpZCI6InVybjp1dWlkOjU3NTMxYmFhLWNhNjAtNTQyZC05OWFhLTM4ZjUzY2ExNTIxYyIsImlzc3VhbmNlRGF0ZSI6IjIwMjYtMTAtMDFUMDA6MDA6MDBaIiwiaXNzdWVyIjoiZGlkOndlYjppc3N1ZXIuZXhhbXBsZSIsInR5cGUiOlsiVmVyaWZpYWJsZUNyZWRlbnRpYWwiLCJBZ2VudEJhZGdlIl19.SC-5D3iKeUbHRtTlmr4sYA_jmAh7zvB-mD5Ojfsr9RJAThSPvvOtkVp2oVbdx3L45i9eWqJNpdInBKd44eYsAA",
+  "issuers": {
+    "did:web:agent.example": {
+      "keys": {
+        "key-1": "IePaEtmhPj55BlrY-cPeb9Tf6iqzmTtLQdeph11LwhA"
+      }
+    },
+    "did:web:issuer.example": {
+      "keys": {
+        "key-1": "hOoo3zadJEQUxkij69EknjVufJzk-np0Wo9KsqJYVvY",
+        "key-2": "MQu5mJwKhhGBnRn9cMKkdgDGX7udYkQu1owWHD49wZY"
+      }
+    }
+  },
+  "status": {
+    "revoked": [
+      "urn:uuid:57531baa-ca60-542d-99aa-38f53ca1521c"
+    ]
+  },
+  "trustedIssuers": [
+    "did:web:issuer.example"
+  ],
+  "verificationTime": "2026-10-28T12:00:00Z"
+}

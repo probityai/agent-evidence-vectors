@@ -349,6 +349,18 @@ standards = []
 shapes = ["stale-authority", "scope-overreach", "missing-binding"]
 
 [[corpus]]
+id = "vectors-badge-vc-verify"
+path = "vectors-badge-vc-verify"
+wheel = true
+sdist = true
+title = "Agent badge credentials"
+summary = "A verifier must accept an agent badge issued as a W3C Verifiable Credential only for a trusted issuer, bound key, valid window and unrevoked status."
+record_class = "credential"
+domains = ["identity", "authority"]
+standards = ["w3c"]
+shapes = ["forged-signature", "stale-authority"]
+
+[[corpus]]
 id = "vectors-chunked-export"
 path = "vectors-chunked-export"
 wheel = true

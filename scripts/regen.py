@@ -26,6 +26,12 @@ rather than stopping at the first. A gate whose repair needs an argument only th
 operator can supply is declared `needs_operator` and is REPORTED, never invented:
 running it without that argument would either fail or, worse, write a record of
 something nobody measured.
+
+SOME COMPARING GATES HAVE NO REPAIR, ON PURPOSE. A gate that compares a reader
+against hand-authored expected answers must never be "repaired": regenerating the
+expected file from the reader would make the check compare the reader with itself.
+Such a row carries `not_regenerable = "<why>"` in place of `fix`. The audit counts
+it as declared, and the repair loop reports it and never runs anything for it.
 """
 
 from __future__ import annotations
@@ -65,9 +71,14 @@ def load() -> list[dict[str, Any]]:
     if not isinstance(gates, list) or not gates:
         raise Refused(f"{REGISTRY} declares no [[gate]] rows")
     for g in gates:
-        for field in ("ident", "argv", "fix"):
+        for field in ("ident", "argv"):
             if not g.get(field):
                 raise Refused(f"a [[gate]] row is missing {field!r}: {g!r}")
+        has_fix, has_reason = bool(g.get("fix")), bool(g.get("not_regenerable"))
+        if has_fix == has_reason:
+            raise Refused(
+                f"a [[gate]] row needs exactly one of 'fix' or 'not_regenerable': {g!r}"
+            )
     return gates
 
 
@@ -134,8 +145,13 @@ def run_one(gate: dict[str, Any]) -> tuple[bool, str]:
 
 
 def regenerate(gates: list[dict[str, Any]]) -> int:
-    runnable = [g for g in gates if not g.get("needs_operator")]
-    deferred = [g for g in gates if g.get("needs_operator")]
+    fixed = [g for g in gates if not g.get("not_regenerable")]
+    runnable = [g for g in fixed if not g.get("needs_operator")]
+    deferred = [g for g in fixed if g.get("needs_operator")]
+
+    for g in gates:
+        if g.get("not_regenerable"):
+            print(f"NOT REGENERABLE {g['ident']}: {g['not_regenerable']}")
 
     for g in deferred:
         print(
@@ -196,7 +212,10 @@ def main(argv: list[str]) -> int:
             flag = " [needs operator]" if g.get("needs_operator") else ""
             print(f"{g['ident']}{flag}")
             print(f"    gate   {' '.join(g['argv'])}")
-            print(f"    repair {' '.join(g['fix'])}")
+            if g.get("not_regenerable"):
+                print(f"    repair none: {g['not_regenerable']}")
+            else:
+                print(f"    repair {' '.join(g['fix'])}")
         return 0
 
     if args.audit:
@@ -210,7 +229,9 @@ def main(argv: list[str]) -> int:
         if problems:
             return 1
         n = sum(1 for g in gates if is_comparing(list(g["argv"])))
-        print(f"All {n} comparing gate(s) declare a repair.")
+        none = sum(1 for g in gates if g.get("not_regenerable"))
+        print(f"All {n} comparing gate(s) declare a repair or, for {none} of them, "
+              "why none exists.")
         return 0
 
     return regenerate(gates)
