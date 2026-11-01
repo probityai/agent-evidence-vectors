@@ -370,7 +370,7 @@ def exit_code(checks: list[Check], require_green: int | None) -> int:
 
 
 def main(argv: list[str]) -> int:
-    parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
+    parser = argparse.ArgumentParser(description=(__doc__ or "").split("\n\n")[0])
     parser.add_argument("field")
     parser.add_argument("--config", type=Path, default=CONFIG)
     parser.add_argument(

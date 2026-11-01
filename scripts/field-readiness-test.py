@@ -18,12 +18,13 @@ import importlib.util
 import json
 import sys
 import tempfile
+from collections.abc import Set as AbstractSet
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 spec = importlib.util.spec_from_file_location("fr", HERE / "field-readiness.py")
+assert spec is not None and spec.loader is not None
 fr = importlib.util.module_from_spec(spec)
-assert spec.loader is not None
 sys.modules["fr"] = fr
 spec.loader.exec_module(fr)
 
@@ -39,7 +40,7 @@ UNLISTED = b"abc  vectors-y/MANIFEST.json  y  vectors=3  no-suiteRevision\n"
 FAILURES: list[str] = []
 
 
-def web(pages: dict[str, tuple[int, bytes]], down: set[str] = frozenset()):
+def web(pages: dict[str, tuple[int, bytes]], down: AbstractSet[str] = frozenset()):
     def get(url: str) -> tuple[int, bytes]:
         if url in down:
             raise fr.ReadFailed(f"{url}: down")
@@ -68,7 +69,7 @@ def release(digests: bytes | None) -> dict[str, tuple[int, bytes]]:
 
 
 def full(checked: int, total: int):
-    return lambda tag, corpus: {"checked": checked, "total": total, "notes": []}
+    return lambda *_: {"checked": checked, "total": total, "notes": []}
 
 
 def expect(label: str, checks: list, states: list[str]) -> None:
@@ -77,7 +78,7 @@ def expect(label: str, checks: list, states: list[str]) -> None:
         FAILURES.append(f"{label}: expected {states}, got {got}")
 
 
-def outside(config: dict, workflow_text: str, conclusion: str) -> dict[str, tuple[int, bytes]]:
+def outside(workflow_text: str, conclusion: str) -> dict[str, tuple[int, bytes]]:
     pages = release(LISTED)
     pages[f"{fr.API}/repos/a/b"] = (200, json.dumps({"default_branch": "main"}).encode())
     pages[f"{fr.API}/repos/a/b/contents/.github/workflows/w.yml?ref=main"] = (
@@ -140,7 +141,7 @@ def main() -> int:
         [G, Q, Q, R, N],
     )
 
-    def broken(tag: str, corpus: str) -> dict:
+    def broken(*_: str) -> dict:
         raise fr.ReadFailed("uv did not start")
 
     checks = fr.run_checks("f", CONFIG, web(release(LISTED)), broken)
@@ -153,17 +154,17 @@ def main() -> int:
     uses = "uses: o/r@v1\n  with:\n    corpus: vectors-x\n"
     expect(
         "outside run passed",
-        fr.run_checks("f", config, web(outside(config, uses, "success")), full(3, 3)),
+        fr.run_checks("f", config, web(outside(uses, "success")), full(3, 3)),
         [G, G, G, G, N],
     )
     expect(
         "outside run failed",
-        fr.run_checks("f", config, web(outside(config, uses, "failure")), full(3, 3)),
+        fr.run_checks("f", config, web(outside(uses, "failure")), full(3, 3)),
         [G, G, G, R, N],
     )
     expect(
         "outside run of another corpus",
-        fr.run_checks("f", config, web(outside(config, "uses: o/r@v1\n", "success")), full(3, 3)),
+        fr.run_checks("f", config, web(outside("uses: o/r@v1\n", "success")), full(3, 3)),
         [G, G, G, R, N],
     )
     own = json.loads(json.dumps(config))
@@ -181,9 +182,7 @@ def main() -> int:
                 {"records": [{"field": "f", "date": "2026-11-01", "digest": "sha256:" + "a" * 64}]}
             )
         )
-        checks = fr.run_checks(
-            "f", config, web(outside(config, uses, "success")), full(3, 3), records=held
-        )
+        checks = fr.run_checks("f", config, web(outside(uses, "success")), full(3, 3), records=held)
         expect("all five", checks, [G, G, G, G, G])
         if fr.exit_code(checks, 5) != 0 or "5 of 5 green" not in fr.summary("f", checks):
             FAILURES.append("five greens must meet a floor of five")
@@ -192,9 +191,7 @@ def main() -> int:
         )
         expect(
             "a record for another field",
-            fr.run_checks(
-                "f", config, web(outside(config, uses, "success")), full(3, 3), records=held
-            ),
+            fr.run_checks("f", config, web(outside(uses, "success")), full(3, 3), records=held),
             [G, G, G, G, R],
         )
     if fr.exit_code([fr.Check(1, "x", G, ""), fr.Check(2, "y", R, "")], 2) != 1:
