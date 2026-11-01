@@ -16,6 +16,8 @@ python rerun.py --all         # every row; R14 runs last
 ```
 
 Needs git, [uv](https://docs.astral.sh/uv/), Node for R3 and R4, and Go for R10.
+R3-v01 reads the records R3 writes, and R14 the reports of R1, R2, R3-v01, R4
+and R5, so run those first (`--all` does).
 Each row writes `<work>/results/<row>.json` with the posted and observed
 digests side by side. The exit status is 0 only when every row run reproduced.
 A row that does not reproduce is reported with what came out, and nothing is
@@ -23,6 +25,10 @@ adjusted to make it match.
 [`.github/workflows/w3c-v01-appendix.yml`](../../.github/workflows/w3c-v01-appendix.yml)
 runs every row on each change here and weekly, so a pin that stops resolving
 upstream shows up as a red run.
+
+For the paper, [`paper/reproducing.tex`](paper/reproducing.tex) is a
+"Reproducing every result" section with this table, generated from `rows.json`
+by `python paper/make_tex.py`; a test fails when the two disagree.
 
 ## What the harness checks
 
@@ -48,18 +54,20 @@ values.
 | R1 | `uvx agent-evidence-vectors==0.12.0 --emit-w3c-report report.json` | release 0.12.0, commit `2f3aee40` | `report.json` `37288d8d`, `conformance-report.json` `ee349e66` (Sep/0089) |
 | R2 | `python3 -P tools/emitir-55.py --runner "<runner>" <out>` | `NicolasRocchia/disensor` `dbdb6518`, CPython 3.14.2, jsonschema 4.26.0, zip from 0063 | every file of the zip; `SHA256SUMS` `3714de64` (0063) |
 | R3 | `python3 emit_w3c_v01.py --artifact papers/dependable-multiroot-agent-evidence/artifact --out <out> --runner "<runner>"` | `tyche-institute/eatf-multiroot-softwarex` `c421dadc`, script from the 0060 zip | every file of `records/`; `SHA256SUMS` `8e52d99a` (0060, 0062) |
+| R3-v01 | `python3 reencode_v01.py <R3 records/> --out run-report-v01.json` | converter from Nov/0000 (`7878f24e`), records from the R3 rerun | `run-report-v01.json` `0e608637` (Nov/0000) |
 | R4 | `python emit.py --runner "<name>" --runner-wrote none --out <out>` | `AgentAvow/AgentAvow` `fbbbd4ac`, cryptography 50.0.2, rfc8785 0.1.4 | every committed record except `run.json`; committed `SHA256SUMS` `c720c68a` (0099) |
 | R4-driver | `python fetch_fixture.py --output vectors.json` then `python run_agentavow.py --fixture vectors.json` | this repository at `82b8bb67`, producer `b7c5cd2f` | report equal to `recorded-run.json` (lock moved in #236) |
 | R5 | `python3 -m paybench.w3c_report.emit --out <file> --verify` | `agentic-paybench/payhelm` `c221b478` | `7eb4e434` (0080, 0083, 0084) |
 | R6 | `python3 check.py --controls` and `python3 -m unittest test_claim_boundary` | `Rul1an/assay` `0e59b404` and `8a385471` | exit 0 and "limited checks: ok" (0016, 0018); no output digest posted |
 | R7 | `PYTHONHASHSEED=0 python3 -B packages/evidence-fabric/tests/test_w3c_control2_packet.py -v` | `CSOAI-ORG/councilof-ai` `d0cbe773`, cryptography 50.0.2 | `MANIFEST.json` `7094c4a9`, helper `752d29eb` (0081, 0088) |
 | R8 | `python3 -B reader/v01reader.py <vectors> out/rerun` | reader tarball from 0039 (`396dbac8`), corpus at v0.17.4 | `verdicts.tsv` `de987220`, `not-selected.tsv` `cd6962f3` (0103, 0104, 0105) |
+| R8-compare | `python3 -I r8_compare.py MANIFEST.json verdicts.tsv --exclude-family w3c-f-22` | script from 0188 (`44691cf4`), `verdicts.tsv` from 0039, manifest at v0.17.4, selection by the 0022 rule | 92 of 96; 23, 2, 44 of 69 (0039, 0188, Nov/0002) |
 | R9 | `python rows/r9_corpus_history.py` | this repository at v0.17.4, v0.18.0, v0.18.1 | corpusDigest `f00d4443` then `f9e58e62`; selection counts as in 0079 |
 | R10 | `python rows/r10_minus_zero.py` | Python and Go readers at v0.17.4 and v0.18.1 | `{"v":-0}` written as `7b2276223a307d` or `7b2276223a2d307d` (0038, 0046, 0079) |
 | R11 | `PYTHONHASHSEED=0 python3 -I reader.py <members>` | `MoltyCel/reporting-format-v01-reader` `6d8ee54b`, members listed in the 0139 attachment at v0.18.1 | output `505dfb71` (0139) |
 | R12 | `python -I score_w3c_jcs.py <api> <corpus> <manifest>` | `MoltyCel/moltrust-api` `fbc5e288`, jcs 0.2.1, corpus v0.18.1 | per-member verdicts of the 0140 TSV (`a7cefa02`) |
 | R13 | `python3 experiment.py`, `python3 -m unittest -v test_experiment.py`, `sha256sum -c SHA256SUMS` | `LaToucheai/prior-run-evidence-v01` `98366047` | every listed file OK (0154) |
-| R14 | the reference reader of each release over the R1, R2, R4 and R5 reports | releases 0.12.0, 0.13.0, 0.17.4, 0.18.1 | accept or reject as posted in Sep/0089, 0084, 0101, 0145, 0150 |
+| R14 | the reference reader of each release over the R1, R2, R3-v01, R4 and R5 reports | releases 0.12.0, 0.13.0, 0.17.4, 0.18.1 | accept or reject as posted in Sep/0089, 0084, 0101, 0145, 0150, Nov/0000 |
 | R15 | no command was posted | the census URL in Sep/0080 | tally of the file's own `state` fields; the classifier is not rerun |
 
 Limits that belong to the rows rather than to the harness are in each row's
