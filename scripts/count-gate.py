@@ -959,7 +959,7 @@ def declared_claims(src: Sources) -> tuple[Claim, ...]:
         Claim(
             "profiles/scitt-cose.md",
             "the SCITT/COSE corpus size the profile states",
-            "`corpora/vectors-scitt-cose/` carries ",
+            "The corpus in `vectors-scitt-cose/` carries ",
             " members, ",
             str(scitt["total"]),
         ),
