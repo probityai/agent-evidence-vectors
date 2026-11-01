@@ -1,6 +1,6 @@
 """The intake corpus, the checker that judges it, and the records it admits.
 
-Run: uv run --locked --extra dev --extra generators pytest vectors-w3c-intake/tests -q
+Run: uv run --locked --extra dev --extra generators pytest corpora/vectors-w3c-intake/tests -q
 """
 
 from __future__ import annotations
@@ -160,7 +160,7 @@ def test_a_record_whose_native_output_moved_is_refused(tmp_path: Path) -> None:
 
 def test_the_scitt_checker_attributes_a_finding_to_its_member(tmp_path: Path) -> None:
     copy = tmp_path / "vectors-scitt-cose"
-    shutil.copytree(REPO / "vectors-scitt-cose", copy)
+    shutil.copytree(REPO / "corpora" / "vectors-scitt-cose", copy)
     data = json.loads((copy / "MANIFEST.json").read_text())
     entry = data["vectors"][0]
     target = copy / entry["file"]
@@ -205,9 +205,14 @@ def generator() -> ModuleType:
 def test_a_digest_routine_that_is_not_here_is_refused(tmp_path: Path) -> None:
     """owner() names the routine a record's anchor cites, and refuses a missing one."""
     module = generator()
-    (tmp_path / "vectors-example").mkdir()
+    (tmp_path / "corpora" / "vectors-example").mkdir(parents=True)
+    (tmp_path / "corpora" / "REGISTRY.toml").write_text(
+        '[[corpus]]\nid = "vectors-example"\npath = "corpora/vectors-example"\n'
+    )
     module.__dict__["REPO"] = tmp_path
     with pytest.raises(SystemExit, match="has no digest routine"):
         module.owner("vectors-example")
-    (tmp_path / "vectors-example" / "gen_vectors.py").write_text("")
-    assert module.owner("vectors-example") == "vectors-example/gen_vectors.py"
+    (tmp_path / "corpora" / "vectors-example" / "gen_vectors.py").write_text("")
+    assert module.owner("vectors-example") == "corpora/vectors-example/gen_vectors.py"
+    with pytest.raises(SystemExit, match="not in corpora/REGISTRY.toml"):
+        module.owner("vectors-unregistered")
