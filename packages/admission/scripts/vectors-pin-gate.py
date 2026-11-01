@@ -45,7 +45,13 @@ MEASUREMENTS = HERE / "profiles" / "MEASUREMENTS.json"
 
 # Pages a reader follows to reproduce the measurement. Each must state the pinned
 # version or tag at least once; the workflow is checked for disagreement only.
-PAGES = ("README.md", "llms.txt", "PROVENANCE.md", "docs/DESIGN.md")
+PAGES = (
+    "README.md",
+    "llms.txt",
+    "PROVENANCE.md",
+    "docs/DESIGN.md",
+    "docs/CONSUMER-POLICY.md",
+)
 
 PIN_LINE = re.compile(
     r"^agent-evidence-vectors==(\d+\.\d+\.\d+) --hash=sha256:([0-9a-f]{64})$"
@@ -61,7 +67,10 @@ TAG_RES = (
     re.compile(r"--branch\s+v(\d+\.\d+\.\d+)"),
     re.compile(r"\bcorpus of tag\s+`?v(\d+\.\d+\.\d+)"),
 )
-DIGEST_RE = re.compile(r"corpus\s+digest[\s:`*]*([0-9a-f]{12,64})\b", re.IGNORECASE)
+# Prose ("corpus digest `ab..`") and JSON keys (expected_corpus_digest, corpusDigest).
+DIGEST_RE = re.compile(
+    r"corpus[\s_]*digest[\s:`*\"]*([0-9a-f]{12,64})\b", re.IGNORECASE
+)
 COUNT_RE = re.compile(r"\b(\d+) obligations\b")
 
 
@@ -171,6 +180,14 @@ def selftest() -> int:
             1,
         ),
         "a different corpus digest fails": (good.replace(d, "cd" * 32), 1),
+        "a stale digest in a JSON key fails": (
+            good + '{"consumer": {"expected_corpus_digest": "' + "cd" * 32 + '"}}\n',
+            1,
+        ),
+        "a current digest in a JSON key passes": (
+            good + '{"consumer": {"expected_corpus_digest": "' + d + '"}}\n',
+            0,
+        ),
         "a different short digest fails": (good.replace(f"`{d}`", "`8b035678def9`"), 1),
         "a stale obligation count fails": (
             good.replace(f"{n} obligations", "93 obligations"),
