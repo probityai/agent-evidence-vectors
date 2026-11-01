@@ -54,7 +54,7 @@ STAGED: list[Path] = []
 def staged(corpus: str, change: Callable[[dict[str, Any]], None] | None) -> Path:
     root = Path(tempfile.mkdtemp())
     STAGED.append(root)
-    shutil.copytree(REPO_ROOT / corpus, root / corpus)
+    shutil.copytree(REPO_ROOT / "corpora" / corpus, root / corpus)
     if change is not None:
         path = root / corpus / "MANIFEST.json"
         loaded: dict[str, Any] = json.loads(path.read_text(encoding="utf-8"))
@@ -96,7 +96,7 @@ def _drop(position: int) -> Callable[[dict[str, Any]], None]:
 
 def reader_failures(corpus: str, reader: ModuleType) -> list[str]:
     """The tracked corpus is clean; a pinned verdict and a deleted reading are not."""
-    manifest = json.loads((REPO_ROOT / corpus / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = json.loads((REPO_ROOT / "corpora" / corpus / "MANIFEST.json").read_text(encoding="utf-8"))
     members = indeterminate(manifest)
     if not members:
         return [f"{corpus}: no indeterminate member, so these cases test nothing"]

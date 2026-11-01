@@ -146,10 +146,14 @@ def check_locator(wheel: Path, scratch: Path) -> list[str]:
     return failures
 
 
+def corpus_dir(name: str) -> Path:
+    return ROOT / name if name == "vectors" else ROOT / "corpora" / name
+
+
 def repository_corpora() -> list[str]:
     return sorted(
         d.name
-        for d in ROOT.iterdir()
+        for d in [ROOT / "vectors", *(ROOT / "corpora").iterdir()]
         if (d.name == "vectors" or d.name.startswith("vectors-"))
         and (d / "MANIFEST.json").is_file()
     )
@@ -163,7 +167,7 @@ def check_corpora(wheel: Path, scratch: Path) -> list[str]:
     for name in repository_corpora():
         if f"agent_evidence_vectors/corpora/{name}/MANIFEST.json" not in names:
             failures.append(f"{name} is a corpus in the repository and is not in the wheel")
-        for case in sorted((ROOT / name / "cases").glob("*.json")):
+        for case in sorted((corpus_dir(name) / "cases").glob("*.json")):
             if f"agent_evidence_vectors/corpora/{name}/cases/{case.name}" not in names:
                 failures.append(f"{name}/cases/{case.name} is in the repository, not the wheel")
         if name not in listed:

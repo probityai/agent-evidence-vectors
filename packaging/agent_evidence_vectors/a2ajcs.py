@@ -79,7 +79,7 @@ _HERE = Path(__file__).resolve().parent
 ROOT = (
     _HERE / "corpora" / CORPUS_DIR
     if (_HERE / "corpora").exists()
-    else _HERE.parents[1] / CORPUS_DIR
+    else _HERE.parents[1] / "corpora" / CORPUS_DIR
 )
 
 

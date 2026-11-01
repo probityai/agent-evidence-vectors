@@ -205,7 +205,7 @@ def check(suite: str, root: Path | None = None) -> tuple[int, list[str]]:
 def _default_root(suite: str) -> Path:
     name = "vectors-" + suite.split("/")[0]
     packaged = ROOT_PARENT / "corpora" / name
-    return packaged if packaged.exists() else ROOT_PARENT.parents[1] / name
+    return packaged if packaged.exists() else ROOT_PARENT.parents[1] / "corpora" / name
 
 
 def run(suite: str, root: str, verifier: list[str] | None, report_path: str,
