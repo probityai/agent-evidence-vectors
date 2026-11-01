@@ -107,3 +107,14 @@ derived files. --check runs the three generators in comparing mode and refuses
 any differing byte; a bare invocation rewrites all three in order. After a
 merge whose conflicts are all in derived files, --resolve-merge settles it.
 """
+
+[[gate]]
+ident = "corpus-registry"
+argv = ["uv", "run", "--locked", "--extra", "dev", "python", "scripts/corpus-registry.py", "--check"]
+fix = ["uv", "run", "--locked", "--extra", "dev", "python", "scripts/corpus-registry.py"]
+why = """
+corpora/REGISTRY.toml is the one place a corpus is declared. The packaging
+block in pyproject.toml (between its BEGIN and END markers) and corpora/README.md
+are derived from it. --check refuses when either differs from what a run writes;
+a bare invocation rewrites both.
+"""
