@@ -51,7 +51,7 @@ organization's inventory and policy as the AIMM section describes.
 | L2 | `vectors-agent-audit-record`, `vectors-ai-agent-action` | none |
 | L3 | `vectors-mcp-record-contract` | none |
 | L4 | `vectors-observed-effect`, `vectors-source-coverage` | `kyverno/clusterpolicy-adversarial-execution-evidence-audit.yaml` |
-| L5 | `vectors`, `vectors-scitt-cose`, `vectors-anchor-stream`, `vectors-anchored-chain`, `corpora/vectors-anchored-chain/cases/t2-tail-removal`, `corpora/vectors-anchored-chain/cases/t7-rollback-older-record` | `kyverno/clusterpolicy-adversarial-execution-evidence-freshness.yaml` |
+| L5 | `vectors`, `vectors-scitt-cose`, `vectors-anchor-stream`, `vectors-anchored-chain`, `vectors-anchored-chain/cases/t2-tail-removal`, `vectors-anchored-chain/cases/t7-rollback-older-record` | `kyverno/clusterpolicy-adversarial-execution-evidence-freshness.yaml` |
 
 At Pillar 3 L1 the self-reported family shows the limit 6.1 states: a record the agent writes about
 itself is refusable on its face. The two named L5 cases are the 6.1 L5 truncation of records written

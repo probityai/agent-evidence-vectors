@@ -12,8 +12,8 @@ PIN = "<!-- pins: vectors=v9.9.9 admission=" + "a" * 40 + " -->\n"
 def test_real_page_parses():
     vref, aref, vpaths, apaths = c.parse(c.PAGE.read_text(encoding="utf-8"))
     assert vref.startswith("v") and len(aref) == 40
-    assert "corpora/vectors-anchored-chain/cases/t2-tail-removal" in vpaths
-    assert "corpora/vectors-anchored-chain/cases/t7-rollback-older-record" in vpaths
+    assert "vectors-anchored-chain/cases/t2-tail-removal" in vpaths
+    assert "vectors-anchored-chain/cases/t7-rollback-older-record" in vpaths
     assert all(p.endswith(".yaml") for p in apaths)
 
 

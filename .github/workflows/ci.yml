@@ -1570,8 +1570,8 @@ jobs:
         run: |
           mkdir -p .build
           rm -rf .build/a2a-jcs-dir .build/a2a-jcs-dir-edited
-          cp -R vectors-a2a-jcs-v01 .build/a2a-jcs-dir
-          cp -R vectors-a2a-jcs-v01 .build/a2a-jcs-dir-edited
+          cp -R corpora/vectors-a2a-jcs-v01 .build/a2a-jcs-dir
+          cp -R corpora/vectors-a2a-jcs-v01 .build/a2a-jcs-dir-edited
           sed -i 's/302e3030303030317d/31652d30367d/' .build/a2a-jcs-dir-edited/a5-number-serialization/A5-001.json
           ! cmp -s corpora/vectors-a2a-jcs-v01/a5-number-serialization/A5-001.json .build/a2a-jcs-dir-edited/a5-number-serialization/A5-001.json
       - name: the action replays a corpus directory named by the vectors input
