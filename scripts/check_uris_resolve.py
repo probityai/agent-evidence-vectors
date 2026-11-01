@@ -3,14 +3,21 @@
     python3 scripts/check_uris_resolve.py            # offline, against pages/
     python3 scripts/check_uris_resolve.py --network  # live w3id.org and Pages
 
+Exit codes: 0 every identifier resolves, 1 at least one does not, 2 a control
+URI did not answer 200, so the read path is broken and no finding is reported.
+
 The identifiers are the predicate type URIs (one per directory under
 pages/predicate/v1/), every vocabulary term URI and every registered value URI
 (term URI plus #value) in packages/vocabulary/registry.json, and the listing
 roots. Offline, each is rewritten by the rules in w3id/agent-evidence.htaccess,
 the copy of the live w3id.org rules, and must land on a file under pages/ that
 carries the fragment as an id. With --network the copy is compared with the live
-rules, each identifier must answer w3id.org with a 302 to the same target, and
-the target must answer 200. The offline check runs on every pull request; the
+rules, each identifier must answer w3id.org with a 302 to the same target, the
+target must answer 200 with the same bytes as its file under pages/ (so a stale
+copy on the organisation site fails), and every type URI that
+spec/predicates/REGISTRY.md registers under the agent-evidence-vectors host must
+answer 200. Two control URIs are requested first; when it does not answer 200 the
+check stops with exit 2 rather than report the identifiers as missing. The offline check runs on every pull request; the
 network check runs on its own schedule, because a rule added here waits for a
 w3id.org merge before the live service follows it.
 """
@@ -33,6 +40,14 @@ RULES = ROOT / "w3id" / "agent-evidence.htaccess"
 LIVE_RULES = "https://raw.githubusercontent.com/perma-id/w3id.org/master/ids/agent-evidence/.htaccess"
 RESERVED = {"registry"}
 RULE = re.compile(r"^RewriteRule\s+(\S+)\s+(\S+)\s+\[R=302,L\]\s*$")
+REGISTRY = ROOT / "spec" / "predicates" / "REGISTRY.md"
+REGISTRY_HEADING = re.compile(r"^### `predicate/(v\d+)/([a-z0-9-]+)`$", re.MULTILINE)
+VECTORS_TYPES = "https://probityai.github.io/agent-evidence-vectors/predicate/"
+# Pages outside our namespace on the same two hosts that must answer 200. If one
+# does not, the runner cannot reach that host and every identifier would read as
+# missing, so the check reports nothing instead.
+CONTROLS = ("https://w3id.org/", "https://pages.github.com/")
+INCONCLUSIVE = 2
 
 
 def rules(text: str) -> list[tuple[re.Pattern, str]]:
@@ -67,6 +82,17 @@ def identifiers(pages: Path, index: dict) -> list[str]:
     return uris
 
 
+def vectors_type_uris(registry: str) -> list[str]:
+    """Every type URI the registry lists under the agent-evidence-vectors host."""
+    return [f"{VECTORS_TYPES}{version}/{name}" for version, name in REGISTRY_HEADING.findall(registry)]
+
+
+def local_page(pages: Path, target: str) -> Path:
+    """The file under ``pages`` that a w3id target names."""
+    rel = target.removeprefix(PAGES_BASE)
+    return pages / (rel + "index.html" if rel == "" or rel.endswith("/") else rel)
+
+
 def check(pages: Path, index: dict, table: list[tuple[re.Pattern, str]]) -> list[str]:
     """Every identifier that does not land on a page (and anchor) under ``pages``."""
     failures = [f"{name}: reserved for the registry snapshots, never a term key"
@@ -76,8 +102,7 @@ def check(pages: Path, index: dict, table: list[tuple[re.Pattern, str]]) -> list
         if target is None or not target.startswith(PAGES_BASE):
             failures.append(f"{uri}: no w3id rule sends it to {PAGES_BASE}")
             continue
-        rel = target.removeprefix(PAGES_BASE)
-        page = pages / (rel + "index.html" if rel == "" or rel.endswith("/") else rel)
+        page = local_page(pages, target)
         if page.suffix == ".yaml" and page.is_file():
             if "sha256-" + hashlib.sha256(page.read_bytes()).hexdigest() + ".yaml" != page.name:
                 failures.append(f"{uri}: {page.name} does not hash to its name")
@@ -95,7 +120,25 @@ class _NoRedirect(urllib.request.HTTPRedirectHandler):
         return None
 
 
-def check_network(pages: Path, index: dict, table: list[tuple[re.Pattern, str]]) -> list[str]:
+def _get(url: str) -> tuple[int, bytes]:
+    """The status and body of ``url`` after redirects; an HTTP error is a status, not an exception."""
+    try:
+        with urllib.request.urlopen(url, timeout=30) as response:
+            return response.status, response.read()
+    except urllib.error.HTTPError as err:
+        return err.code, b""
+
+
+def control_answers(urls: tuple[str, ...] = CONTROLS) -> bool:
+    """Whether every control URI answers 200; anything else means the read path is down."""
+    try:
+        return all(_get(url)[0] == 200 for url in urls)
+    except (urllib.error.URLError, OSError):
+        return False
+
+
+def check_network(pages: Path, index: dict, table: list[tuple[re.Pattern, str]],
+                  registry: str = "") -> list[str]:
     failures = []
     with urllib.request.urlopen(LIVE_RULES, timeout=30) as response:
         live = rules(response.read().decode("utf-8"))
@@ -115,12 +158,17 @@ def check_network(pages: Path, index: dict, table: list[tuple[re.Pattern, str]])
             if err.code != 302 or err.headers.get("Location") != expected:
                 failures.append(f"{uri}: answered {err.code} {err.headers.get('Location')}, expected 302 {expected}")
                 continue
-        try:
-            with urllib.request.urlopen(urllib.request.Request(expected, method="HEAD"), timeout=30) as response:
-                if response.status != 200:
-                    failures.append(f"{expected}: answered {response.status}")
-        except urllib.error.HTTPError as err:
-            failures.append(f"{expected}: answered {err.code}")
+        status, body = _get(expected)
+        if status != 200:
+            failures.append(f"{expected}: answered {status}")
+            continue
+        page = local_page(pages, expected)
+        if page.is_file() and hashlib.sha256(body).digest() != hashlib.sha256(page.read_bytes()).digest():
+            failures.append(f"{expected}: served bytes differ from {page.relative_to(pages.parent)}")
+    for uri in vectors_type_uris(registry):
+        status, _ = _get(uri)
+        if status != 200:
+            failures.append(f"{uri}: answered {status}")
     return failures
 
 
@@ -132,13 +180,19 @@ def main(argv: list[str] | None = None) -> int:
     index = json.loads((ROOT / "packages" / "vocabulary" / "registry.json").read_text(encoding="utf-8"))
     table = rules(RULES.read_text(encoding="utf-8"))
     failures = check(pages, index, table)
+    registry = REGISTRY.read_text(encoding="utf-8")
     if args.network:
-        failures += check_network(pages, index, table)
+        if not control_answers():
+            print(f"INCONCLUSIVE: a control of {', '.join(CONTROLS)} did not answer 200; nothing was checked",
+                  file=sys.stderr)
+            return INCONCLUSIVE
+        failures += check_network(pages, index, table, registry)
     for failure in failures:
         print(failure, file=sys.stderr)
     if failures:
         return 1
-    print(f"{len(identifiers(pages, index))} identifiers resolve" + (" (live)" if args.network else ""))
+    count = len(identifiers(pages, index)) + (len(vectors_type_uris(registry)) if args.network else 0)
+    print(f"{count} identifiers resolve" + (" (live)" if args.network else ""))
     return 0
 
 

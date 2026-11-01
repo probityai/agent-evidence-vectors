@@ -3,14 +3,18 @@ name: uris-network
 # Every pull request checks offline that each identifier under
 # https://w3id.org/agent-evidence/ lands on a page in pages/ (the repository job's
 # tests). This asks the live services: the copy of the w3id rules must equal the
-# live file, each identifier must answer w3id.org with a 302 to its page, and the
-# page must answer 200. It runs on a schedule, never on a pull request, because a
-# rule added to w3id/agent-evidence.htaccess waits for a w3id.org merge.
+# live file, each identifier must answer w3id.org with a 302 to its page, the page
+# must answer 200 with the bytes of its file under pages/, and every type URI in
+# spec/predicates/REGISTRY.md under this repository's own Pages host must answer
+# 200. Two control URIs are requested first; when one fails the job exits 2 and
+# reports nothing as missing. It runs on a schedule, never on a pull request,
+# because a rule added to w3id/agent-evidence.htaccess waits for a w3id.org merge
+# and a page added to pages/ waits for the organisation site to copy it.
 
 on:
   schedule:
-    # Mondays 07:00 UTC.
-    - cron: '0 7 * * 1'
+    # Every day, 07:00 UTC.
+    - cron: '0 7 * * *'
   workflow_dispatch: {}
 
 permissions:

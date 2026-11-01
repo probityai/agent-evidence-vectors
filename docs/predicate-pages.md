@@ -4,8 +4,12 @@ A predicate type URI of this project is a persistent identifier under `https://w
 
 | Type URI | Page | Specification |
 | --- | --- | --- |
+| `https://w3id.org/agent-evidence/predicate/v1/agent-card-receipt` | `pages/predicate/v1/agent-card-receipt/` | `spec/predicates/agent-card-receipt.md` of agent-evidence-vectors |
+| `https://w3id.org/agent-evidence/predicate/v1/credential-release` | `pages/predicate/v1/credential-release/` | `spec/predicates/credential-release.md` of agent-evidence-vectors |
 | `https://w3id.org/agent-evidence/predicate/v1/done-contract` | `pages/predicate/v1/done-contract/` | `spec/predicates/done-contract.md` of agent-evidence-vectors |
 | `https://w3id.org/agent-evidence/predicate/v1/done-receipt` | `pages/predicate/v1/done-receipt/` | `spec/predicates/done-receipt.md` of agent-evidence-vectors |
+
+Every page, and the listing at `pages/predicate/v1/`, cites the record format of [draft-gilda-audit-agent-audit-record-03](https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/03/), Section 4. The listing also names every type URI that `spec/predicates/REGISTRY.md` registers under `https://probityai.github.io/agent-evidence-vectors/predicate/`; those URIs were minted on that host, are served by this repository's own Pages site, and have no w3id.org form.
 
 ## Why the identifier and the page are separate
 
@@ -35,7 +39,7 @@ python3 scripts/build_vocabulary_pages.py
 
 The first command writes `packages/vocabulary/registry.json`, which carries the SHA-256 of the exact `vocabulary.yaml` bytes (the `registryDigest` a record carries); the second writes `pages/vocab/v1/` and publishes those bytes at `pages/vocab/v1/registry/sha256-<hex>.yaml`.
 
-`w3id/agent-evidence.htaccess` is the copy, kept here, of `ids/agent-evidence/.htaccess` in perma-id/w3id.org. `scripts/check_uris_resolve.py` applies it to every predicate type URI, term URI and value URI, and fails when one does not land on a page and anchor under `pages/`; the repository job runs it on every pull request. `--network` (the `uris-network` workflow) also compares the copy with the live rules and requests every identifier, so a rule added to the copy and not yet merged upstream shows there.
+`w3id/agent-evidence.htaccess` is the copy, kept here, of `ids/agent-evidence/.htaccess` in perma-id/w3id.org. `scripts/check_uris_resolve.py` applies it to every predicate type URI, term URI and value URI, and fails when one does not land on a page and anchor under `pages/`; the repository job runs it on every pull request. `--network` (the daily `uris-network` workflow) also compares the copy with the live rules, requests every identifier, compares each served page with its bytes under `pages/` (so a copy the organisation site has not taken yet shows there), and requests every type URI the registry lists under this repository's own host. It first requests two control pages (`https://w3id.org/` and `https://pages.github.com/`) and exits 2 without a finding when one does not answer 200.
 
 ### Why the term URIs take this shape
 
