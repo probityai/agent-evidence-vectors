@@ -51,6 +51,13 @@ from digest import corpus_digest  # noqa: E402
 
 GLOB_METACHARACTERS = set("*?[]{}!")
 PREDICATE_SPEC_PATH = "spec/predicates/observed-effect.md"
+#: Where spec/ and interop/ sit: beside the corpus in the wheel (corpora/spec/),
+#: one level further up in a checkout, where the corpus is corpora/<id>/.
+SOURCE_ROOT = next(
+    (root for root in (os.path.join(HERE, ".."), os.path.join(HERE, "..", ".."))
+     if os.path.isfile(os.path.join(root, PREDICATE_SPEC_PATH))),
+    os.path.join(HERE, ".."),
+)
 
 
 def _predicate_type_from_spec() -> str:
@@ -64,7 +71,7 @@ def _predicate_type_from_spec() -> str:
     the one first-party host name in this public repository confined to the
     document that has to carry it.
     """
-    spec = os.path.join(HERE, "..", PREDICATE_SPEC_PATH)
+    spec = os.path.join(SOURCE_ROOT, PREDICATE_SPEC_PATH)
     with open(spec, encoding="utf-8") as fh:
         for line in fh:
             if line.startswith("Type URI:"):
@@ -75,9 +82,9 @@ def _predicate_type_from_spec() -> str:
 PREDICATE_TYPE = _predicate_type_from_spec()
 #: An Ed25519 signature is 64 bytes, so priorCommitment.sig is 128 hex characters.
 SIGNATURE_BYTES = 64
-CODE_DIGEST_PROFILE = os.path.join(HERE, "..", "interop", "observed-code-digest-candidate")
+CODE_DIGEST_PROFILE = os.path.join(SOURCE_ROOT, "interop", "observed-code-digest-candidate")
 INVOCATION_BINDING_PROFILE = os.path.join(
-    HERE, "..", "interop", "observed-invocation-binding-candidate"
+    SOURCE_ROOT, "interop", "observed-invocation-binding-candidate"
 )
 #: RFC 3339, UTC, Z designator, no fractional second. The grammar is fixed so that
 #: a lexical comparison of two timestamps IS a comparison of two instants. While it
@@ -1157,7 +1164,7 @@ def check_parents(manifest: dict[str, Any]) -> None:
 
 def _schema_from_spec() -> dict[str, Any]:
     """The statement shape the predicate document shows under its Schema heading."""
-    spec = os.path.join(HERE, "..", PREDICATE_SPEC_PATH)
+    spec = os.path.join(SOURCE_ROOT, PREDICATE_SPEC_PATH)
     with open(spec, encoding="utf-8") as fh:
         text = fh.read()
     found = re.search(r"^## Schema\n\n```jsonc\n(.*?)\n```", text, re.S | re.M)
@@ -1330,7 +1337,7 @@ def _raised(fn: Callable[..., Any]) -> list[tuple[str, str | None]]:
 
 def _stage_texts() -> tuple[str, str, str]:
     """The stage-one list, the stage-two list and the whole Parsing Rules section."""
-    with open(os.path.join(HERE, "..", PREDICATE_SPEC_PATH), encoding="utf-8") as fh:
+    with open(os.path.join(SOURCE_ROOT, PREDICATE_SPEC_PATH), encoding="utf-8") as fh:
         text = fh.read()
     section = re.search(r"^## Parsing Rules\n(.*?)^## ", text, re.S | re.M)
     if section is None:

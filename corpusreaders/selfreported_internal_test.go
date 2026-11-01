@@ -11,7 +11,7 @@ import (
 // as a decoded statement.
 func srrAcceptedStatement(t *testing.T) map[string]any {
 	t.Helper()
-	dir := filepath.Join("..", "vectors-self-reported-record")
+	dir := filepath.Join("..", "corpora", "vectors-self-reported-record")
 	raw, err := os.ReadFile(filepath.Join(dir, "MANIFEST.json"))
 	if err != nil {
 		t.Fatal(err)

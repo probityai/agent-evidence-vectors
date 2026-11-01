@@ -45,7 +45,7 @@ func TestContractResolvesAgainstTheParentWhateverTheSpelling(t *testing.T) {
 }
 
 func TestContractResolvesFromInsideTheCorpus(t *testing.T) {
-	abs, err := filepath.Abs(filepath.Join("..", "vectors-self-reported-record"))
+	abs, err := filepath.Abs(filepath.Join("..", "corpora", "vectors-self-reported-record"))
 	if err != nil {
 		t.Fatal(err)
 	}

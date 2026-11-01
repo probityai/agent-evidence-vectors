@@ -409,9 +409,14 @@ def tracked_corpora(root: Path) -> dict[str, str]:
     )
     corpora: dict[str, str] = {}
     for rel in sorted(listed.stdout.split()):
-        if rel.count("/") != 1 or not rel.endswith("/MANIFEST.json"):
+        if not rel.endswith("/MANIFEST.json"):
             continue
-        directory = rel.split("/")[0]
+        parts = rel.split("/")
+        if len(parts) == 3 and parts[0] == "corpora":
+            parts = parts[1:]
+        if len(parts) != 2:
+            continue
+        directory = parts[0]
         if not (directory == "vectors" or directory.startswith("vectors-")):
             continue
         path = root / rel

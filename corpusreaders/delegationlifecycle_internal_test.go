@@ -13,7 +13,7 @@ import (
 )
 
 func TestDelegationLifecycleEveryRuleIsLoadBearing(t *testing.T) {
-	dir := filepath.Join("..", "vectors-delegation-lifecycle")
+	dir := filepath.Join("..", "corpora", "vectors-delegation-lifecycle")
 	raw, err := os.ReadFile(filepath.Join(dir, ManifestName)) // #nosec G304 -- the committed manifest
 	if err != nil {
 		t.Fatal(err)

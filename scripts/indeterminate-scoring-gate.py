@@ -23,7 +23,7 @@ Two rules follow, and each has already been broken here:
    evidence corpus, where the verdict is settled and only the condition is open)
    may carry `expected.verdict`, and it must be the verdict its readings imply.
 
-Every top-level `*/MANIFEST.json` under the root is read, so a corpus added
+Every `*/MANIFEST.json` at the root or under `corpora/` is read, so a corpus added
 tomorrow is held to the rule without being registered here. A run that finds no
 member declaring readings refuses: a gate quantified over nothing cannot be told
 apart from a clean one.
@@ -58,7 +58,7 @@ def reading_verdicts(entry: dict[str, Any]) -> list[str] | None:
 def refusals(root: Path) -> tuple[list[str], int]:
     out: list[str] = []
     read = 0
-    for manifest_path in sorted(root.glob("*/MANIFEST.json")):
+    for manifest_path in sorted([*root.glob("*/MANIFEST.json"), *root.glob("corpora/*/MANIFEST.json")]):
         rel = manifest_path.relative_to(root).as_posix()
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
         entries = manifest.get("vectors") if isinstance(manifest, dict) else None

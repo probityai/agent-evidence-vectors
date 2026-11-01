@@ -80,7 +80,7 @@ def _candidate_members() -> list[tuple[dict[str, Any], bytes]]:
     """Load extension controls without changing the released corpus manifest."""
     members = []
     for profile in ("observed-code-digest-candidate", "observed-invocation-binding-candidate"):
-        directory = os.path.join(HERE, "..", "interop", profile)
+        directory = os.path.join(HERE, "..", "..", "interop", profile)
         with open(os.path.join(directory, "MANIFEST.json"), encoding="utf-8") as fh:
             candidate = json.load(fh)
         for entry in candidate["vectors"]:

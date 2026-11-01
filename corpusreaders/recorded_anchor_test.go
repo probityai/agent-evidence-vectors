@@ -13,7 +13,7 @@ import (
 // and against its own header nothing, so the Go reader runs the proof's
 // operations rather than reading its header alone.
 func TestARealProofAgainstAnotherHeldHeaderIsRefused(t *testing.T) {
-	root := filepath.Join("..", "vectors-recorded")
+	root := filepath.Join("..", "corpora", "vectors-recorded")
 	raw, err := os.ReadFile(filepath.Join(root, "MANIFEST.json"))
 	if err != nil {
 		t.Fatal(err)

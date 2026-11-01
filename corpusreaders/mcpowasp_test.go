@@ -11,7 +11,7 @@ import (
 // rule that frees nothing was never the reason its reject member failed, and a
 // rule that frees another member is judging a requirement it does not own.
 func TestMCPOWASPEachRuleOwnsItsReject(t *testing.T) {
-	dir := filepath.Join("..", "vectors-mcp-owasp")
+	dir := filepath.Join("..", "corpora", "vectors-mcp-owasp")
 	raw, err := os.ReadFile(filepath.Join(dir, ManifestName))
 	if err != nil {
 		t.Fatal(err)
@@ -115,7 +115,7 @@ func TestMCPOWASPRulesRefuseMalformedObservations(t *testing.T) {
 
 // A broken registry and a broken manifest are named, never passed.
 func TestMCPOWASPRefusesBrokenCorpus(t *testing.T) {
-	src := filepath.Join("..", "vectors-mcp-owasp")
+	src := filepath.Join("..", "corpora", "vectors-mcp-owasp")
 	dir := t.TempDir()
 	for _, sub := range []string{"", "records", "drafts"} {
 		entries, err := os.ReadDir(filepath.Join(src, sub))
