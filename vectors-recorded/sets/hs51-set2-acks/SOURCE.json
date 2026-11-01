@@ -1,0 +1,161 @@
+{
+  "bindings": [
+    {
+      "after": "/seen_block/height",
+      "height": 972403,
+      "proof": "astrogilda/ack_budget.jcs.ots",
+      "subject": "astrogilda/ack_budget.jcs",
+      "type": "opentimestamps-bitcoin-header"
+    },
+    {
+      "after": "/seen_block/height",
+      "height": 972405,
+      "proof": "astrogilda/ack_budget.jcs.ots",
+      "subject": "astrogilda/ack_budget.jcs",
+      "type": "opentimestamps-bitcoin-header"
+    },
+    {
+      "after": "/seen_block/height",
+      "height": 972403,
+      "proof": "astrogilda/ack_criteria_A.jcs.ots",
+      "subject": "astrogilda/ack_criteria_A.jcs",
+      "type": "opentimestamps-bitcoin-header"
+    },
+    {
+      "after": "/seen_block/height",
+      "height": 972405,
+      "proof": "astrogilda/ack_criteria_A.jcs.ots",
+      "subject": "astrogilda/ack_criteria_A.jcs",
+      "type": "opentimestamps-bitcoin-header"
+    },
+    {
+      "after": "/seen_block/height",
+      "height": 972403,
+      "proof": "astrogilda/ack_criteria_B.jcs.ots",
+      "subject": "astrogilda/ack_criteria_B.jcs",
+      "type": "opentimestamps-bitcoin-header"
+    },
+    {
+      "after": "/seen_block/height",
+      "height": 972405,
+      "proof": "astrogilda/ack_criteria_B.jcs.ots",
+      "subject": "astrogilda/ack_criteria_B.jcs",
+      "type": "opentimestamps-bitcoin-header"
+    },
+    {
+      "after": "/seen_block/height",
+      "height": 972403,
+      "proof": "astrogilda/ack_criteria_C.jcs.ots",
+      "subject": "astrogilda/ack_criteria_C.jcs",
+      "type": "opentimestamps-bitcoin-header"
+    },
+    {
+      "after": "/seen_block/height",
+      "height": 972405,
+      "proof": "astrogilda/ack_criteria_C.jcs.ots",
+      "subject": "astrogilda/ack_criteria_C.jcs",
+      "type": "opentimestamps-bitcoin-header"
+    },
+    {
+      "after": "/seen_block/height",
+      "height": 972423,
+      "proof": "Poke-nushi/ack_budget.jcs.ots",
+      "subject": "Poke-nushi/ack_budget.jcs",
+      "type": "opentimestamps-bitcoin-header"
+    },
+    {
+      "after": "/seen_block/height",
+      "height": 972425,
+      "proof": "Poke-nushi/ack_budget.jcs.ots",
+      "subject": "Poke-nushi/ack_budget.jcs",
+      "type": "opentimestamps-bitcoin-header"
+    },
+    {
+      "after": "/seen_block/height",
+      "height": 972423,
+      "proof": "Poke-nushi/ack_criteria_A.jcs.ots",
+      "subject": "Poke-nushi/ack_criteria_A.jcs",
+      "type": "opentimestamps-bitcoin-header"
+    },
+    {
+      "after": "/seen_block/height",
+      "height": 972425,
+      "proof": "Poke-nushi/ack_criteria_A.jcs.ots",
+      "subject": "Poke-nushi/ack_criteria_A.jcs",
+      "type": "opentimestamps-bitcoin-header"
+    },
+    {
+      "after": "/seen_block/height",
+      "height": 972423,
+      "proof": "Poke-nushi/ack_criteria_B.jcs.ots",
+      "subject": "Poke-nushi/ack_criteria_B.jcs",
+      "type": "opentimestamps-bitcoin-header"
+    },
+    {
+      "after": "/seen_block/height",
+      "height": 972425,
+      "proof": "Poke-nushi/ack_criteria_B.jcs.ots",
+      "subject": "Poke-nushi/ack_criteria_B.jcs",
+      "type": "opentimestamps-bitcoin-header"
+    },
+    {
+      "after": "/seen_block/height",
+      "height": 972423,
+      "proof": "Poke-nushi/ack_criteria_C.jcs.ots",
+      "subject": "Poke-nushi/ack_criteria_C.jcs",
+      "type": "opentimestamps-bitcoin-header"
+    },
+    {
+      "after": "/seen_block/height",
+      "height": 972425,
+      "proof": "Poke-nushi/ack_criteria_C.jcs.ots",
+      "subject": "Poke-nushi/ack_criteria_C.jcs",
+      "type": "opentimestamps-bitcoin-header"
+    }
+  ],
+  "commit": "e4ea84f5",
+  "contributor": "ogasurfproject-jpg (HORIZON SHIELD, The HORIZONs Co., Ltd.)",
+  "headerView": {
+    "file": "bundle.json",
+    "member": "hs51-set2",
+    "pointer": "/view/headers"
+  },
+  "licence": "MIT, copyright notice in LICENSE beside bytes/",
+  "notListed": {
+    "README.md": {
+      "sha256": "31c5b8e2a7628fec63c4cc094700e20e4d10dfb52b9c3c021f90c6cc66f9b4c2",
+      "why": "published in the directory but not named by its SHA256SUMS, so it is kept out of bytes/ and a check of the directory as published draws file-unlisted until the list names it"
+    }
+  },
+  "path": "workers/hs-ledger/nenrin/musubi-v0/ca2a-companion-v0/pilot51/witness-acks-set2",
+  "pointers": [
+    {
+      "at": "https://github.com/ogasurfproject-jpg/horizon-shield/tree/82ae447f/workers/hs-ledger/nenrin/musubi-v0/ca2a-companion-v0/pilot51/witness-giskard09",
+      "owner": "ogasurfproject-jpg",
+      "what": "the four optional acknowledgements by giskard09, outside the trust configuration; that directory carries no SHA256SUMS"
+    }
+  ],
+  "publishedDigests": {
+    "Poke-nushi/ack_budget.jcs": "902525f591fc05949a62137c85ad046087cf52addb3276e132dd7d7be8c797a2",
+    "Poke-nushi/ack_budget.jcs.ots": "0e1b92d04d288311dc0b7f2258ade1086cecc199d475971cb641ea16a3773eae",
+    "Poke-nushi/ack_criteria_A.jcs": "6feb40a5c67c85f69238104e793f4d13156a2660bfa9cca6f7bf8b9795679634",
+    "Poke-nushi/ack_criteria_A.jcs.ots": "1a93b19df610a82508c74daecb2c8e88e7fe11641157d56d10529fefc3b0b0f7",
+    "Poke-nushi/ack_criteria_B.jcs": "290bd476a05042790f89a962d9ee1b4655d4937fa056158df6be7ad442f7e522",
+    "Poke-nushi/ack_criteria_B.jcs.ots": "39ff48948324a17f80d1a9b2618c4ab93dfee897e819a7393f6d5eb06078b306",
+    "Poke-nushi/ack_criteria_C.jcs": "e99bb95e4d11192894bb7fea3258c9766beec729ff690b485f374a9604913a31",
+    "Poke-nushi/ack_criteria_C.jcs.ots": "b1b5fcda53863f4e4f7ed5034a1cb3a29d57c8e2e133b59986a15a1ecf1691d3",
+    "astrogilda/ack_budget.jcs": "79369fca3f9a5943796f27c18e50974acf1bca7537f479981c00d5d79be8a648",
+    "astrogilda/ack_budget.jcs.ots": "a9015596ac06810b0a2b28c48da72cc746d95f252e2bb93103d73f93358d8caf",
+    "astrogilda/ack_criteria_A.jcs": "5526d0292c070a1fc9c6339f43cafb45122cfb01cdb628ffce732fe889878d3d",
+    "astrogilda/ack_criteria_A.jcs.ots": "011cffea6ddb9a0df3552aaefbb1bdd0301db8cdea117b0d28be49c4a41ba3a2",
+    "astrogilda/ack_criteria_B.jcs": "fcdb03840f94375c56d0e98c8d7432c1faf8dcbe951f9c4ebf8fe63ef5d11df4",
+    "astrogilda/ack_criteria_B.jcs.ots": "c649480a34bc87105216dec6f9f1158282c8752ff9705997703771fc299da58d",
+    "astrogilda/ack_criteria_C.jcs": "18e3888ab25ff16b5ef5f293b6b25e2872ca5541acb7f6d4c3c879c1245f9955",
+    "astrogilda/ack_criteria_C.jcs.ots": "74ca54593073e2fb131dd8839765f892c9ffb4e8e5e3e44f231cacb26a2385c0"
+  },
+  "publishedIn": "https://github.com/probityai/agent-evidence-vectors/issues/247#issuecomment-6524698622",
+  "related": "hs51-set2",
+  "repository": "https://github.com/ogasurfproject-jpg/horizon-shield",
+  "scope": "The check says the retained bytes match the digests their publisher listed, and that each acknowledgement's OpenTimestamps proof reaches a Bitcoin attestation committing to the Merkle root of the header held for its block, above the block the acknowledgement says it saw. The headers are the ones in the header view of hs51-set2; proof of work and chain position are not checked. It says nothing about whether a witness checked what it acknowledged.",
+  "sumsSha256": "7096f9499742f488ac95b0f97e17e96cff6f851c78baec2071de1dbe21f53a5a"
+}

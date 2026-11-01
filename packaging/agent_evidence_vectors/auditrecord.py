@@ -14,12 +14,18 @@ has no row for, and name the section in ``draftSection``. Members carrying
 they differ: an entry for an input with several values takes its pair from one
 value (``aggregate_values``), and the coverage clause of Section 5.7 is
 ``scopeComplete`` of true, a gap inside ``pathScope`` beside it being malformed
-at any tier. Members CS1 to CS17 are rows of the same revision: a
+at any tier. Members CS1 to CS49 bind consumption: a
 ``consumption-state`` entry may carry the ``consumption`` member, and
 ``decision.operationKey`` is the agent's identifier for one intended operation
 and the identity of a retry (``consumption_findings``, ``within_limit``,
-``verify_set``). A set member (CS7, CS8, CS17) is a file of several records
-judged one by one and then as a set under one ``limitDigest``.
+``verify_set``). ``consumption.supersedes`` names the limit document a record's
+``limitDigest`` replaced, ``consumption.payee`` and each held entry's ``payee``
+the account a payment goes to, and ``consumption.settled`` the terms a paid call
+settled on as read from the chain (CS41 to CS49). A set member (CS7, CS8, CS17,
+CS18 to CS22, CS25, CS48, CS49) is a file
+of several records judged one by one and then as a set, under one ledger: the
+``limitDigest`` values that ``supersedes`` links, so a permit held under a
+limit that was then replaced is still seen.
 
 ``evaluation.inputs`` is required under both statuses, each entry's age runs
 from its ``lastResult`` to ``decision.reportedAt``, and the unavailable inputs
@@ -58,6 +64,7 @@ import hashlib
 import importlib
 import json
 import os
+import re
 import sys
 from collections.abc import Callable
 from dataclasses import dataclass, field
@@ -144,7 +151,7 @@ ENTRY_MEMBERS = frozenset({"input", "lastResult", "maxAge"})
 #: point read.
 ENTRY_OPTIONAL = frozenset({"consumption"})
 CONSUMPTION_INPUT = "consumption-state"
-#: The members of ``consumption``, each required, and no other.
+#: The members of ``consumption``, each required, and the optional ones below.
 CONSUMPTION_MEMBERS = (
     "limitDigest",
     "unit",
@@ -155,16 +162,47 @@ CONSUMPTION_MEMBERS = (
     "held",
     "stateRevision",
 )
+#: The members ``consumption`` may carry beside them: the digest of the limit
+#: document this record's ``limitDigest`` replaced (a raise or a cut), the exact
+#: asset, the payee digest of this request's payment, and the terms the call
+#: settled on (CS41 to CS49).
+CONSUMPTION_OPTIONAL = ("supersedes", "asset", "payee", "settled")
+#: The members of ``asset``, the optional exact asset a consumption counts in
+#: when no ISO 4217 code names it (a token on one chain): a CAIP-19 asset id and
+#: the decimals of its smallest subunit. A record carries ``unit`` or ``asset``,
+#: never both (CS34 to CS40).
+ASSET_MEMBERS = ("id", "decimals")
+#: The largest decimals an asset may declare (an ERC-20 decimals is a uint8).
+ASSET_DECIMALS_MAX = 255
+#: CAIP-19: chain_id "/" asset_namespace ":" asset_reference, optional token id.
+CAIP19 = re.compile(
+    r"[-a-z0-9]{3,8}:[-_a-zA-Z0-9]{1,32}/[-a-z0-9]{3,8}:[-.%a-zA-Z0-9]{1,128}"
+    r"(/[-.%a-zA-Z0-9]{1,78})?"
+)
 #: The non-negative integers among them (smallest subunit of ``unit``).
 CONSUMPTION_COUNTS = ("limit", "consumed", "reserved", "requested", "stateRevision")
-#: The members of one ``held`` entry, an earlier permit that has not settled.
+#: The members of one ``held`` entry, an earlier permit that has not settled,
+#: and the one it may carry beside them: the payee digest of that permit's
+#: payment (CS41, CS42).
 HELD_MEMBERS = ("operationKey", "requestDigest", "amount")
+HELD_OPTIONAL = ("payee",)
+#: The members of ``settled``, each required: the amount, asset and payee the
+#: call settled on, where they were read, and the transaction read. The terms
+#: are read from the chain through the transaction the server returned; the
+#: signed payment shows only what was approved (CS47).
+SETTLED_MEMBERS = ("amount", "asset", "payee", "source", "transaction")
+SETTLED_SOURCES = frozenset({"chain"})
+#: Which amount a later record of the ledger must count for a call that carries
+#: ``settled``: the settled amount (CS48), never the held one. A test reads the
+#: held amount instead.
+SETTLED_READING = {"amount": "settled"}
 PERMITS = frozenset({"permit", "permit-with-conditions"})
 #: The sentences of the consumption rule, by name, so a sweep can weaken one at a
 #: time (check_vectors.py): where the member sits, that ``reserved`` is the held
 #: sum, that held keys are distinct, that the call carries its operation key,
 #: that counts are non-negative integers, that stateRevision is required, and
-#: that one key is one request.
+#: that one key is one request, that ``supersedes`` is a digest, and that it
+#: names another limit document than the record's own.
 CONSUMPTION_CHECKS = frozenset(
     {
         "misplaced",
@@ -174,6 +212,15 @@ CONSUMPTION_CHECKS = frozenset(
         "counts",
         "state-revision",
         "key-reuse",
+        "supersedes-digest",
+        "supersedes-self",
+        "asset-id",
+        "asset-decimals",
+        "asset-exclusive",
+        "retry-payee",
+        "settled-amount",
+        "settled-terms",
+        "settled-source",
     }
 )
 #: The lastResult of an input the decision point never held a value of.
@@ -769,6 +816,12 @@ def held_for(consumption: dict[str, Any], decision: dict[str, Any]) -> dict[str,
     return None
 
 
+def _payee_shape(container: dict[str, Any]) -> None:
+    """An optional payee: the SHA-256 digest of the payee's CAIP-10 account id."""
+    if "payee" in container and not _is_digest(container["payee"]):
+        raise Malformed("consumption-value-invalid")
+
+
 def within_limit(pred: dict[str, Any]) -> bool | None:
     """The value a verifier derives for a record that carries consumption: the
     amount already consumed, plus the amount held for earlier permits, plus this
@@ -784,13 +837,15 @@ def within_limit(pred: dict[str, Any]) -> bool | None:
 
 
 def _held_shape(item: Any) -> None:
-    """One held entry: exactly operationKey, requestDigest and amount."""
+    """One held entry: operationKey, requestDigest and amount, and an optional
+    payee."""
     if not isinstance(item, dict):
         raise Malformed("consumption-malformed")
     if any(name not in item for name in HELD_MEMBERS):
         raise Malformed("member-missing")
-    if set(item) - set(HELD_MEMBERS):
+    if set(item) - set(HELD_MEMBERS) - set(HELD_OPTIONAL):
         raise Malformed("consumption-malformed")
+    _payee_shape(item)
     key = item["operationKey"]
     if not isinstance(key, str) or not key or not _is_digest(item["requestDigest"]):
         raise Malformed("consumption-value-invalid")
@@ -798,21 +853,88 @@ def _held_shape(item: Any) -> None:
         raise Malformed("consumption-value-invalid")
 
 
-def _consumption_shape(consumption: Any) -> dict[str, Any]:
+def _supersedes_shape(consumption: dict[str, Any]) -> None:
+    """The optional supersedes: a digest (CS24) that is not the record's own
+    limitDigest (CS23)."""
+    if "supersedes" not in consumption:
+        return
+    replaced = consumption["supersedes"]
+    if "supersedes-digest" in CONSUMPTION_CHECKS and not _is_digest(replaced):
+        raise Malformed("consumption-value-invalid")
+    if "supersedes-self" in CONSUMPTION_CHECKS and replaced == consumption["limitDigest"]:
+        raise Malformed("consumption-supersedes-self")
+
+
+def _asset_shape(asset: Any) -> None:
+    """The optional asset: exactly id and decimals, the id a CAIP-19 asset id
+    (CS35) and decimals a count no larger than ASSET_DECIMALS_MAX (CS36)."""
+    if not isinstance(asset, dict):
+        raise Malformed("consumption-malformed")
+    if any(name not in asset for name in ASSET_MEMBERS):
+        raise Malformed("member-missing")
+    if set(asset) - set(ASSET_MEMBERS):
+        raise Malformed("consumption-malformed")
+    asset_id = asset["id"]
+    if "asset-id" in CONSUMPTION_CHECKS and not (
+        isinstance(asset_id, str) and CAIP19.fullmatch(asset_id)
+    ):
+        raise Malformed("consumption-value-invalid")
+    decimals = asset["decimals"]
+    if "asset-decimals" in CONSUMPTION_CHECKS and not (
+        _is_count(decimals) and decimals <= ASSET_DECIMALS_MAX
+    ):
+        raise Malformed("consumption-value-invalid")
+
+
+def _settled_shape(settled: Any) -> None:
+    """The optional settled terms: exactly amount, asset, payee, source and
+    transaction; the amount a count, the asset an asset, the payee a digest, the
+    source the chain (CS47) and the transaction a non-empty string."""
+    if not isinstance(settled, dict):
+        raise Malformed("consumption-malformed")
+    if any(name not in settled for name in SETTLED_MEMBERS):
+        raise Malformed("member-missing")
+    if set(settled) - set(SETTLED_MEMBERS):
+        raise Malformed("consumption-malformed")
+    _asset_shape(settled["asset"])
+    if not _is_count(settled["amount"]) or not _is_digest(settled["payee"]):
+        raise Malformed("consumption-value-invalid")
+    if "settled-source" in CONSUMPTION_CHECKS and settled["source"] not in SETTLED_SOURCES:
+        raise Malformed("consumption-value-invalid")
+    transaction = settled["transaction"]
+    if not isinstance(transaction, str) or not transaction:
+        raise Malformed("consumption-value-invalid")
+
+
+def _consumption_members(consumption: Any) -> None:
+    """Refuse a consumption object whose member set is wrong."""
     if not isinstance(consumption, dict):
         raise Malformed("consumption-malformed")
     required = [
         name
         for name in CONSUMPTION_MEMBERS
-        if name != "stateRevision" or "state-revision" in CONSUMPTION_CHECKS
+        if (name != "stateRevision" or "state-revision" in CONSUMPTION_CHECKS)
+        and (name != "unit" or "asset" not in consumption)
     ]
     if any(name not in consumption for name in required):
         raise Malformed("member-missing")
-    if set(consumption) - set(CONSUMPTION_MEMBERS):
+    if set(consumption) - set(CONSUMPTION_MEMBERS) - set(CONSUMPTION_OPTIONAL):
         raise Malformed("consumption-malformed")
-    unit = consumption["unit"]
+    if "asset-exclusive" in CONSUMPTION_CHECKS and "asset" in consumption and "unit" in consumption:
+        raise Malformed("consumption-unit-ambiguous")
+
+
+def _consumption_shape(consumption: Any) -> dict[str, Any]:
+    _consumption_members(consumption)
+    unit = consumption.get("unit", "-")
     if not _is_digest(consumption["limitDigest"]) or not isinstance(unit, str) or not unit:
         raise Malformed("consumption-value-invalid")
+    if "asset" in consumption:
+        _asset_shape(consumption["asset"])
+    _payee_shape(consumption)
+    if "settled" in consumption:
+        _settled_shape(consumption["settled"])
+    _supersedes_shape(consumption)
     counted = [name for name in CONSUMPTION_COUNTS if name in consumption]
     if "counts" in CONSUMPTION_CHECKS and not all(_is_count(consumption[n]) for n in counted):
         raise Malformed("consumption-value-invalid")
@@ -821,7 +943,8 @@ def _consumption_shape(consumption: Any) -> dict[str, Any]:
         raise Malformed("consumption-malformed")
     for item in held:
         _held_shape(item)
-    return consumption
+    shaped: dict[str, Any] = consumption
+    return shaped
 
 
 def _rule_consumption(state: _State) -> None:
@@ -867,6 +990,28 @@ def _rule_consumption(state: _State) -> None:
         )
     ):
         raise Malformed("consumption-key-reused")
+    if (
+        "retry-payee" in CONSUMPTION_CHECKS
+        and retried is not None
+        and retried.get("payee") != consumption.get("payee")
+    ):
+        raise Malformed("consumption-key-reused")
+    _settled_against_approved(consumption)
+
+
+def _settled_against_approved(consumption: dict[str, Any]) -> None:
+    """The settled terms beside the approved ones (CS43 to CS46): the amount at
+    most the authorized maximum, which is ``requested`` (an x402 upto permit may
+    settle lower, or at 0), and the asset and payee the approved ones."""
+    settled = consumption.get("settled")
+    if settled is None:
+        return
+    if "settled-amount" in CONSUMPTION_CHECKS and settled["amount"] > consumption["requested"]:
+        raise Malformed("consumption-settled-exceeds")
+    if "settled-terms" in CONSUMPTION_CHECKS and (
+        settled["asset"] != consumption.get("asset") or settled["payee"] != consumption.get("payee")
+    ):
+        raise Malformed("consumption-settled-differs")
 
 
 def _rule_delegation(state: _State) -> None:
@@ -916,6 +1061,15 @@ def _rule_remediation_order(state: _State) -> None:
     for row in state.predicate["remediation"]:
         if _instant(row["enforcedAt"]) < _instant(row["signalReceivedAt"]):
             raise Malformed("remediation-order")
+
+
+def _rule_issued_after_sealed(state: _State) -> None:
+    """issuedAt parses as an instant and is not earlier than sealedAt (IS1, IS2)."""
+    pred = state.predicate
+    issued = _instant(pred["issuedAt"])
+    sealed = _instant(pred["effect"]["interval"]["sealedAt"])
+    if issued < sealed:
+        raise Malformed("issued-before-sealed")
 
 
 def _rule_empty_tree(state: _State) -> None:
@@ -1041,6 +1195,7 @@ RULES: list[tuple[str, Callable[[_State], None]]] = [
     ("subject-after-root", _rule_subject_after_root),
     ("external-anchor", _rule_external_anchor),
     ("remediation-order", _rule_remediation_order),
+    ("issued-after-sealed", _rule_issued_after_sealed),
     ("empty-tree", _rule_empty_tree),
     ("commitment", _rule_commitment),
     ("write-chain", _rule_write_chain),
@@ -1058,8 +1213,9 @@ RULES: list[tuple[str, Callable[[_State], None]]] = [
 #: Rules no Appendix B row reaches. The draft states them and a reader must keep
 #: them, but the corpus carries no member for them, so a mutation sweep that
 #: disabled one would report it inert for a reason that is the draft's, not this
-#: reader's. Named here so the exemption is visible rather than silent.
-UNREACHED_BY_CORPUS = frozenset({"statement"})
+#: reader's. Empty since X4 and X5 reach the statement rule. Kept as the named
+#: place for any future exemption, so it is visible rather than silent.
+UNREACHED_BY_CORPUS: frozenset[str] = frozenset()
 
 
 def rule_names() -> list[str]:
@@ -1654,7 +1810,7 @@ def dating_rule_names() -> list[str]:
 
 @dataclass
 class SetReport:
-    """A set of records judged together under one limitDigest."""
+    """A set of records judged together under one ledger."""
 
     verdict: str
     codes: list[str]
@@ -1710,25 +1866,169 @@ def _set_release_unshown(group: list[dict[str, Any]]) -> bool:
     return False
 
 
+#: What one ledger counts in: a ledger counts one unit or one asset, and an asset
+#: is its CAIP-19 id with its decimals. A test drops the decimals (CS39).
+ASSET_MATCH = {"decimals": True}
+
+
+def _denomination(pred: dict[str, Any]) -> tuple[Any, ...]:
+    consumption = consumption_of(pred)
+    assert consumption is not None
+    asset = consumption.get("asset")
+    if asset is None:
+        return ("unit", consumption["unit"])
+    return ("asset", asset["id"], asset["decimals"] if ASSET_MATCH["decimals"] else None)
+
+
+def _set_asset_mismatch(group: list[dict[str, Any]]) -> bool:
+    """One ledger counts one denomination: every record names the same ISO 4217
+    unit, or the same CAIP-19 asset with the same decimals. USDC on Base and
+    USDC on Solana are two assets (CS38), and one asset id under two decimals
+    values counts one amount at two scales (CS39)."""
+    return len({_denomination(pred) for pred in group}) > 1
+
+
+def _set_settled_uncounted(group: list[dict[str, Any]]) -> bool:
+    """A call whose record carries ``settled`` moved its settled amount, not its
+    held one, into ``consumed`` (CS48). A record of the ledger that read a later
+    stateRevision and no longer holds that call counts at least the amount the
+    settling record read as consumed plus the settled amount (CS49). It may count
+    more, since other calls may settle between the two records."""
+    for settling in group:
+        consumption = consumption_of(settling)
+        assert consumption is not None
+        settled = consumption.get("settled")
+        if settled is None:
+            continue
+        key = settling["decision"].get("operationKey")
+        held = held_for(consumption, settling["decision"])
+        amount = settled["amount"]
+        if SETTLED_READING["amount"] == "held":
+            amount = held["amount"] if held is not None else consumption["requested"]
+        for later in group:
+            if later is settling or _revision(later) <= _revision(settling):
+                continue
+            if key in _held_keys(later):
+                continue
+            counted = consumption_of(later)
+            assert counted is not None
+            if counted["consumed"] < consumption["consumed"] + amount:
+                return True
+    return False
+
+
 SET_RULES: list[tuple[str, str, Callable[[list[dict[str, Any]]], bool]]] = [
     ("stale-revision", "consumption-set-stale-revision", _set_stale_revision),
     ("release-unshown", "consumption-set-release-unshown", _set_release_unshown),
+    ("asset-mismatch", "consumption-set-asset-mismatch", _set_asset_mismatch),
+    ("settled-uncounted", "consumption-set-settled-uncounted", _set_settled_uncounted),
 ]
+
+
+#: How the claim check reads a set: ``ledger`` confines it to the records of one
+#: ledger, so the claim would be keyed by the limit document (CS32); ``scope``
+#: reads the claim under the principal and the agent key (CS33); ``release``
+#: lets a record of the operation showing none end its claim (CS28).
+CLAIM_READING = {"check": True, "ledger": False, "scope": True, "release": True}
+
+
+def _claim_scope(pred: dict[str, Any]) -> tuple[Any, ...]:
+    """The scope of a claim: the principal (delegation.subject) and the agent
+    key (agent.signers). A rotated agent key is a new scope."""
+    if not CLAIM_READING["scope"]:
+        return ()
+    return (pred["delegation"].get("subject"), tuple(pred["agent"].get("signers") or []))
+
+
+def _set_retry_as_new(predicates: list[dict[str, Any]], ledger_of: dict[int, int]) -> bool:
+    """A held claim is keyed by the principal, the agent key and the operation
+    key, never by the limit document. A permit whose operation key a record of
+    the same scope holds, which does not itself hold that key, presents a retry
+    as a new operation (CS31, CS32), unless it is the original call (a lower
+    stateRevision of the same ledger) or a record of that operation shows none,
+    which leaves no claim (CS28). Replacing the limit neither drops the claim nor
+    makes its retry new, whether or not the new limit document names the old one
+    as supersedes (CS32)."""
+    carrying = [p for p in predicates if consumption_of(p) is not None]
+    for perm in carrying:
+        key = perm["decision"].get("operationKey")
+        if perm["decision"]["reported"] not in PERMITS or key in _held_keys(perm):
+            continue
+        for hold in carrying:
+            if hold is perm or _claim_scope(hold) != _claim_scope(perm):
+                continue
+            if key not in _held_keys(hold):
+                continue
+            same_ledger = ledger_of[id(hold)] == ledger_of[id(perm)]
+            if CLAIM_READING["ledger"] and not same_ledger:
+                continue
+            if same_ledger and _revision(perm) < _revision(hold):
+                continue
+            released = CLAIM_READING["release"] and any(
+                other is not perm
+                and other["decision"].get("operationKey") == key
+                and _claim_scope(other) == _claim_scope(perm)
+                and other["effect"]["observed"] == "none"
+                for other in carrying
+            )
+            if not released:
+                return True
+    return False
+
+
+#: The one way records are grouped: a replacement links two limit documents into
+#: one ledger. A test drops it to read the groups as one limitDigest each, or sets
+#: ``all`` to read every record as one ledger whatever its limit (CS25).
+SET_GROUPING = {"chain": True, "all": False}
+
+
+def consumption_groups(predicates: list[dict[str, Any]]) -> list[list[dict[str, Any]]]:
+    """Group the records that carry consumption by ledger. Two limitDigest values
+    belong to one ledger when any record names one as the other's ``supersedes``,
+    transitively (CS18 to CS22): a permit held under a limit that was then
+    replaced is still held under the replacement, so its retry is the same
+    operation and its release has to be shown. Records whose limitDigest values
+    no ``supersedes`` links stay in separate groups (CS25). A retry is identified by its
+    operation key and never by the limit, and ``stateRevision`` orders the whole
+    ledger, so a replacement does not restart it."""
+    parent: dict[str, str] = {}
+
+    def find(digest: str) -> str:
+        parent.setdefault(digest, digest)
+        while parent[digest] != digest:
+            parent[digest] = parent[parent[digest]]
+            digest = parent[digest]
+        return digest
+
+    carrying: list[tuple[str, dict[str, Any]]] = []
+    for pred in predicates:
+        consumption = consumption_of(pred)
+        if consumption is None:
+            continue
+        digest = consumption["limitDigest"]
+        if SET_GROUPING["chain"] and "supersedes" in consumption:
+            parent[find(consumption["supersedes"])] = find(digest)
+        carrying.append((digest, pred))
+    groups: dict[str, list[dict[str, Any]]] = {}
+    for digest, pred in carrying:
+        groups.setdefault("" if SET_GROUPING["all"] else find(digest), []).append(pred)
+    return list(groups.values())
 
 
 def consumption_set_findings(
     predicates: list[dict[str, Any]], *, disabled: str | None = None
 ) -> SetReport:
-    """Judge records that carry consumption, grouped by limitDigest. A set is
-    malformed on the first check, in SET_RULES order, that any group fails."""
-    groups: dict[str, list[dict[str, Any]]] = {}
-    for pred in predicates:
-        consumption = consumption_of(pred)
-        if consumption is not None:
-            groups.setdefault(consumption["limitDigest"], []).append(pred)
+    """Judge records that carry consumption, grouped by ledger
+    (``consumption_groups``). A set is malformed on the first check, in
+    SET_RULES order, that any group fails."""
+    groups = consumption_groups(predicates)
     for name, code, check in SET_RULES:
-        if name != disabled and any(check(group) for group in groups.values()):
+        if name != disabled and any(check(group) for group in groups):
             return SetReport("malformed", [code])
+    ledger_of = {id(pred): index for index, group in enumerate(groups) for pred in group}
+    claim_on = CLAIM_READING["check"] and disabled != "retry-as-new"
+    if claim_on and _set_retry_as_new(predicates, ledger_of):
+        return SetReport("malformed", ["consumption-set-retry-as-new"])
     return SetReport("valid", [])
 
 
@@ -1764,8 +2064,13 @@ def sequence_set_findings(predicates: list[dict[str, Any]], payloads: list[bytes
 
 
 def set_records(raw: bytes) -> list[bytes]:
-    """The envelopes a set member carries, each as bytes a verifier is handed."""
-    bundle = json.loads(raw, object_pairs_hook=_no_duplicates)
+    """The envelopes a set member carries, each as bytes a verifier is handed.
+
+    The bundle is read under the JSON profile (Section 4.1.1), is an object, and
+    carries a ``records`` array (Section 4.9)."""
+    bundle = parse_statement(raw)
+    if not isinstance(bundle, dict) or not isinstance(bundle.get("records"), list):
+        raise Malformed("set-unreadable")
     return [json.dumps(env).encode() for env in bundle["records"]]
 
 
@@ -1790,7 +2095,7 @@ def verify_set(
 
 
 def set_rule_names() -> list[str]:
-    return [name for name, _, _ in SET_RULES]
+    return [name for name, _, _ in SET_RULES] + ["retry-as-new"]
 
 
 # --------------------------------------------------------------------------
@@ -1862,7 +2167,11 @@ def _set_findings(entry: dict[str, Any], raw: bytes, policy: Policy) -> list[str
         for found in _declared_findings(entry, report):
             findings.append(f"record {index + 1}: {found}")
     limits = []
-    for env in set_records(raw):
+    try:
+        envelopes = set_records(raw)
+    except (Malformed, ValueError, KeyError, TypeError):
+        envelopes = []
+    for env in envelopes:
         limits.append(within_limit(json.loads(_envelope_payload(env)[1])["predicate"]))
     if limits != declared.get("withinLimit", [None] * len(limits)):
         findings.append(

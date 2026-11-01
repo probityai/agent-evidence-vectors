@@ -1,0 +1,40 @@
+{
+  "action": {
+    "args": {
+      "amount_minor": 2500,
+      "currency": "EUR",
+      "payment_id": "pay_B"
+    },
+    "tool": "refund"
+  },
+  "claims": [
+    {
+      "evidence": [
+        "merchant-approval"
+      ],
+      "text": "{\"approval_ref\":\"b830ec174e0544df37a5a571b47a11b7ad3433a6b25c2f3afea94f6d1ef40d31\",\"decision_id\":\"decision-n4\"}"
+    }
+  ],
+  "evidence": [
+    {
+      "alg": "ed25519",
+      "id": "merchant-approval",
+      "key_id": "refund-sandbox-merchant-test-v1",
+      "payload": "{\"args_digest\":\"d1d9a174c3b123cc574e9d389ee27ad2a46b029f29864e9798bfc10bec0dd4ef\",\"attestation_version\":\"PIC-ATT/1.0\",\"claims_digest\":\"04c600c732ae1538091f13ff71fa5485b3574f997581f0e2cc483413fba4aa32\",\"expires_at\":\"2026-10-28T22:15:54Z\",\"impact\":\"money\",\"intent_digest\":\"d76628b370d6165fab75b13a43f47681f535f1123f368834aa48c752eb09d7d2\",\"provenance_ids\":[\"merchant-approval\"],\"tool\":\"refund\"}",
+      "ref": "inline:merchant_approval_canonical_attestation",
+      "signature": "aVWRbgX4HD0l1mHT5tyOMEL51mlY4ly3plQpPHGtItXkvJUuCJItZzWW1zCZS5FUiQHSYwKPTloCJNyjmOceAA==",
+      "signer": "refund-sandbox-merchant-test-v1",
+      "type": "sig"
+    }
+  ],
+  "impact": "money",
+  "intent": "Test fixture: refund 2500 minor units of EUR on pay_B per merchant decision decision-n4; approval_ref source: copied from an APS receipt_id; APS evidence not verified by this tool.",
+  "protocol": "PIC/1.0",
+  "provenance": [
+    {
+      "id": "merchant-approval",
+      "source": "merchant-signer:refund-sandbox-merchant-test-v1",
+      "trust": "trusted"
+    }
+  ]
+}

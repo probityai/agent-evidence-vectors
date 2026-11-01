@@ -1,0 +1,243 @@
+{
+  "$id": "https://probityai.github.io/agent-evidence-vectors/schema/joint-authority/v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Shape and closed values of a decoded statement of https://probityai.github.io/agent-evidence-vectors/predicate/v1/joint-authority. Cross-member rules need the checker.",
+  "properties": {
+    "_type": {
+      "const": "https://in-toto.io/Statement/v1"
+    },
+    "predicate": {
+      "additionalProperties": false,
+      "properties": {
+        "actions": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "asset": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "party": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "record": {
+                "additionalProperties": false,
+                "properties": {
+                  "sha256": {
+                    "pattern": "^[0-9a-f]{64}$",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "sha256"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "asset",
+              "party",
+              "record"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "doesNotAssert": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "incident": {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "issuer": {
+              "pattern": "^https://[^\\s]+$",
+              "type": "string"
+            },
+            "related": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "issuer": {
+                    "pattern": "^https://[^\\s]+$",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "issuer"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "id",
+            "issuer"
+          ],
+          "type": "object"
+        },
+        "issuedAt": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$",
+          "type": "string"
+        },
+        "parties": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "assets": {
+                "items": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "minItems": 0,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "authorityBasis": {
+                "enum": [
+                  "contract_third_party",
+                  "executive_approval",
+                  "policy_preauthorized",
+                  "role_grant",
+                  "unknown"
+                ],
+                "type": "string"
+              },
+              "correlationId": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "id": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "organization": {
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "required": [
+              "assets",
+              "authorityBasis",
+              "correlationId",
+              "id",
+              "organization"
+            ],
+            "type": "object"
+          },
+          "minItems": 2,
+          "type": "array"
+        },
+        "producer": {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "pattern": "^https://[^\\s]+$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "type": "object"
+        },
+        "registryDigest": {
+          "additionalProperties": false,
+          "properties": {
+            "sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "sha256"
+          ],
+          "type": "object"
+        },
+        "sharedIndicators": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "sha256": {
+                "pattern": "^[0-9a-f]{64}$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "sha256"
+            ],
+            "type": "object"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "doesNotAssert",
+        "incident",
+        "issuedAt",
+        "parties",
+        "producer",
+        "registryDigest",
+        "sharedIndicators"
+      ],
+      "type": "object"
+    },
+    "predicateType": {
+      "const": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/joint-authority"
+    },
+    "subject": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "digest": {
+            "additionalProperties": false,
+            "properties": {
+              "sha256": {
+                "pattern": "^[0-9a-f]{64}$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "sha256"
+            ],
+            "type": "object"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "digest"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    }
+  },
+  "required": [
+    "_type",
+    "subject",
+    "predicateType",
+    "predicate"
+  ],
+  "title": "joint-authority v1 statement",
+  "type": "object"
+}

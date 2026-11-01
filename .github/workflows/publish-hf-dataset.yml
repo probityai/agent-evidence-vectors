@@ -1,0 +1,78 @@
+name: publish-hf-dataset
+
+# Tests the build of the Hugging Face copy of the corpus (huggingface.co/datasets/
+# probityai/agent-evidence-vectors). A pushed tag v<major>.<minor>.<patch> builds the
+# dataset tree from that tag in release.yml, which checks it, replaces the dataset
+# in one commit and gives the dataset a tag of the same name, so
+# `revision="v0.30.0"` works. Package releases such as jcs-admit-npm-v0.1.0 do
+# not start with `v` and never run this.
+#
+# This workflow only TESTS the dataset build; it publishes nothing and holds no
+# secret. The upload is the last step of the `publish` job of release.yml, in the
+# protected environment public-release, so one approval of one tagged release
+# publishes the PyPI wheel and the Hugging Face dataset together, after the
+# release's `verify` job (signed digest list, tag signature, time evidence) has
+# passed. The environment holds the HF_TOKEN secret. The dataset mirrors the
+# release and nothing else: the tag must resolve to the commit being released,
+# which must be on main, and only the vectors directories, release/, LICENSE and
+# CITATION.cff reach the Hub (the monorepo's packages/ and every other path stay
+# out). There is no manual trigger: a release that was missed is published again
+# as a new release.
+#
+# scripts/publish-hf-dataset.py is the whole procedure. The test job rebuilds
+# v0.25.0, the first copy, and requires its bytes, so a change to the build that
+# would alter old revisions is refused before it can publish a new one.
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/publish-hf-dataset.py'
+      - 'scripts/publish-hf-dataset-test.py'
+      - 'scripts/publish-hf-dataset-v0.25.0.json'
+      - 'scripts/hf-publish-requirements.txt'
+      - '.github/workflows/publish-hf-dataset.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/publish-hf-dataset.py'
+      - 'scripts/publish-hf-dataset-test.py'
+      - 'scripts/publish-hf-dataset-v0.25.0.json'
+      - 'scripts/hf-publish-requirements.txt'
+      - '.github/workflows/publish-hf-dataset.yml'
+
+permissions:
+  contents: read
+
+# One publication at a time; a second release waits for the first.
+concurrency:
+  group: publish-hf-dataset-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.13.15'
+      - name: install the pinned signature verifier
+        run: |
+          set -euo pipefail
+          [ "$(uname -m)" = x86_64 ]
+          : "${RUNNER_TEMP:?RUNNER_TEMP is required}"
+          mkdir -p "$RUNNER_TEMP/cosign-bin"
+          binary="$RUNNER_TEMP/cosign-bin/cosign"
+          curl --fail --location --silent --show-error \
+            https://github.com/sigstore/cosign/releases/download/v3.1.3/cosign-linux-amd64 \
+            --output "$binary"
+          printf '%s  %s\n' 4629c757b7618056f8ddd7e2625ae9fdd94c0372a65049520bc7d9df9efc7f71 "$binary" | sha256sum --check -
+          chmod 0755 "$binary"
+          echo "$RUNNER_TEMP/cosign-bin" >> "$GITHUB_PATH"
+      - name: rebuild the first copy (v0.25.0) and require its bytes
+        run: python scripts/publish-hf-dataset-test.py

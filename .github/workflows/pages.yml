@@ -25,8 +25,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v5
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v7
       # The same toolchain the type-checking job syncs, and the same one
       # declaration of the markdown version. A version pinned a second time in
       # this file would be free to drift from the one the checker reads, and the
@@ -35,6 +35,11 @@ jobs:
         run: uv sync --extra dev
       - name: check page routes and links
         run: uv run --extra dev python -m pytest -q scripts/test_site_navigation.py
+      # pages/ holds the identifier pages imported from agent-evidence, which
+      # w3id.org/agent-evidence/ resolves to on the organisation site. This
+      # site does not serve them; the check keeps their pins honest here.
+      - name: every imported predicate page matches its pin
+        run: python3 scripts/check_predicate_pages.py
       - name: build the site from tracked files
         run: uv run python docs/site/build.py --out _site
       - name: the built pages load nothing from another host
@@ -46,8 +51,8 @@ jobs:
             exit 1
           fi
           echo "no script or external stylesheet in the built pages"
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: _site
 
@@ -60,7 +65,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
 
   # The per-push gate proves the build writes a page for every type URI; only
   # the host can prove it serves one. This runs after the deploy that
@@ -70,6 +75,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: every predicate type URI answers 200 from the published host
         run: python3 scripts/predicate-uri-gate.py --live

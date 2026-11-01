@@ -1,0 +1,14 @@
+{
+  "schema_version": "probity-observation/v1",
+  "claim_id": "c1-absence",
+  "invocation_id": "c1-call-1",
+  "producer": "observer-c1",
+  "scope": {
+    "id": "c1-window",
+    "start": "2026-10-28T09:00:00Z",
+    "end": "2026-10-28T09:01:00Z"
+  },
+  "coverage": "complete",
+  "vantage": "independent",
+  "events": []
+}

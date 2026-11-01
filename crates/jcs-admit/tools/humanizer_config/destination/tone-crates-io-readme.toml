@@ -1,0 +1,61 @@
+# Layer 3 -- the TONE of the crate READMEs this crate's README will sit beside on crates.io
+# and docs.rs.
+#
+# Why this exists. The general P21 inline-code ceiling is 109.5 spans per 10k prose words, fitted
+# on research papers. A crate README is not research prose: it names types, functions, error
+# variants and file paths, and a reader on docs.rs expects each one in code font. This crate's
+# README measured 389.0/10k against that ceiling, so the ceiling would have been satisfied only by
+# a README barer of identifiers than the documents it ships next to. Rather than assert that the
+# register governs, this descriptor measures it: the band comes from the neighbours themselves.
+#
+# The selection rule, so the corpus is re-derivable rather than chosen. Every crate returned by a
+# crates.io keyword search on this crate's own five declared keywords -- jcs, rfc8785,
+# canonicalization, attestation, in-toto -- whose download count is at least 10,000, plus the two
+# RFC 8785 implementations this crate's own documentation measures itself against
+# (serde_json_canonicalizer, serde_jcs), which carry different keywords and so do not appear in
+# that search. README bytes are taken from the published .crate tarball, which is the copy
+# crates.io actually serves.
+#
+# What the corpus holds, and the four exclusions. Every README above, plus the other reader-facing
+# markdown those same tarballs ship: two CHANGELOGs, one CHANGES.md, one CONTRIBUTING.md. Four
+# units were pulled and then dropped, and each exclusion is recorded because a corpus chosen
+# silently is a judgement nobody can re-check. `xml_c14n__Readme.md` is byte-identical to
+# `xml_c14n.md` (sha256 9aa6e25c...), so it would have weighted one document twice.
+# `packslip__AGENTS.md` and `packslip__CLAUDE.md` are byte-identical to each other (322ecd5a...)
+# and are instructions to a tool rather than prose for a reader. `packslip__docs_spec_packslip.md`
+# is a 9,263-word normative specification -- a different register, and a unit that size would set
+# the band on its own.
+#
+# Captured 2026-09-19. The capture is gitignored and local-only by design: it is 23 other people's
+# README text, it is re-fetchable with the command below, and this file is the recipe. The band a
+# draft is bound to therefore expires -- re-capture rather than trusting an old one.
+
+[destination]
+name = "markdown shipped by this crate's keyword neighbours on crates.io"
+kind = "local_dir"
+# A crate README is developer documentation: second person, active voice, present tense, dense
+# inline identifiers. It is not a normative specification and it is not correspondence.
+genre = "developer-documentation"
+capture_dir = "../_capture/tone-crates-io-readme"
+register_note = """Markdown published inside crate tarballs -- 23 READMEs plus two CHANGELOGs, a CHANGES.md and a CONTRIBUTING.md -- read from the .crate files crates.io serves. Developer documentation: second person, sentence-case headings, an installation or usage block near the top, and inline code font on every type, function, error variant and path. The axis this band exists for is inline-identifier density: the general ceiling of 109.5 spans per 10k prose words is fitted on research papers, and a crate README that satisfied it would name fewer identifiers than every document beside it in the registry. The corpus is dominated by READMEs, so a CHANGELOG or a measurement appendix bound to this band is being read against its nearest measured neighbour rather than against its own kind: a direction, not a validated verdict."""
+
+[source]
+# ABSOLUTE on purpose, so the value below is a placeholder: replace <checkout> with the
+# absolute path of your checkout before running. `capture_dir` resolves against this TOML; `source.root` does NOT --
+# tone_capture._capture_local_dir expands it as given, so a relative root silently resolves
+# against whatever directory the command was run from and reports "is not a readable directory".
+root = "<checkout>/crates/jcs-admit/tools/humanizer_config/_neighbours"
+glob = "*.md"
+# Re-derive:
+#   for kw in jcs rfc8785 canonicalization attestation in-toto; do
+#     curl -sS "https://crates.io/api/v1/crates?keyword=$kw&per_page=25&sort=downloads"
+#   done
+#   # keep every crate with downloads >= 10000, add serde_json_canonicalizer and serde_jcs,
+#   # then for each: curl static.crates.io/crates/<name>/<name>-<ver>.crate and extract its README
+#   humanizer-core tone capture tools/humanizer_config/destination/tone-crates-io-readme.toml
+#   humanizer-core tone derive  tools/humanizer_config/destination/tone-crates-io-readme.toml
+
+[unit]
+# A README under 25 prose words carries no measurable rate. Three of the 23 sit near that floor
+# and the derivation counts its own exclusions.
+min_words = 25

@@ -2,11 +2,11 @@
 
 ## Verify a release without trusting us
 
-Check the corpus bytes, the maintainer's signature and the two timestamp proofs at the release you intend to cite. The commands below select the published [v0.26.0 release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.26.0).
+Check the corpus bytes, the maintainer's signature and the two timestamp proofs at the release you intend to cite. The commands below select the published [v0.31.0 release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.26.0).
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors && cd agent-evidence-vectors
-git checkout v0.26.0
+git checkout v0.31.0
 
 # 1. the digest list is what the vector files on disk hash to, recomputed
 python3 scripts/release-digests.py --check
@@ -34,6 +34,10 @@ ots verify -d "$(base64 -d release/CORPUS-DIGESTS.txt.sig | sha256sum | cut -d' 
 | `ots verify` | The proof binds the same signature bytes to a Bitcoin block verified through the configured Bitcoin node |
 
 The signature was not submitted to a transparency log; `--insecure-ignore-tlog` selects offline signature verification. A verified timestamp dates the signature's commitment to the corpus. A key stored beside the corpus must still be selected through the consumer's own trust process.
+
+## Verify inside an air-gapped enclave
+
+[The enclave brief](../guides/airgap-enclave.md) builds one offline bundle that carries the wheel, the corpora and this signed digest list, and installs it with no network.
 
 ## Timestamp status
 

@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=84.2.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agent-evidence-vocabulary"
+version = "0.8.0"
+description = "Versioned terms for claims about agent execution evidence"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0 AND CC0-1.0"
+license-files = ["LICENSE", "LICENSE-CC0"]
+authors = [{name = "Sankalp Gilda"}]
+keywords = ["ai-agents", "evidence", "vocabulary", "provenance", "attestation", "in-toto"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Security",
+    "Topic :: Software Development :: Libraries",
+]
+
+[project.urls]
+Documentation = "https://github.com/probityai/agent-evidence-vectors/blob/main/packages/vocabulary/docs/ABOUT.md"
+Source = "https://github.com/probityai/agent-evidence-vectors/tree/main/packages/vocabulary"
+Issues = "https://github.com/probityai/agent-evidence-vectors/issues"
+
+[tool.setuptools]
+packages = ["agent_evidence_vocabulary"]
+package-dir = {"agent_evidence_vocabulary" = "."}
+
+[tool.setuptools.package-data]
+agent_evidence_vocabulary = ["vocabulary.yaml", "registry.json"]

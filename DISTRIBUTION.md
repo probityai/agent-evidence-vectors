@@ -4,7 +4,7 @@ Use this page to choose an installation route or identify the corpus you ran. Fo
 
 ## The tag to cite
 
-`v0.26.0`, the published version named by the preferred citation in [CITATION.cff](CITATION.cff). Cite its signed tag or full source commit and corpus digest when reporting a result.
+`v0.31.0`, the published version named by the preferred citation in [CITATION.cff](CITATION.cff). Cite its signed tag or full source commit and corpus digest when reporting a result.
 
 The installation examples are pinned to the version above. The corpus table
 describes this checkout; a release tag or installed wheel identifies its own
@@ -12,8 +12,8 @@ population.
 
 This checkout prepares an unreleased source version with package metadata and
 criterion-document repairs. Those changes are not part of the published release.
-For a release run, select the matching [GitHub release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.26.0) and
-[PyPI wheel and source archive](https://pypi.org/project/agent-evidence-vectors/0.26.0/).
+For a release run, select the matching [GitHub release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.31.0) and
+[PyPI wheel and source archive](https://pypi.org/project/agent-evidence-vectors/0.31.0/).
 Use the installation route below or build from a reviewed source checkout.
 The [source-wheel recipe](README.md#try-it) builds the verifier and harness
 from a reviewed checkout, then runs the installed harness outside it. Record
@@ -26,19 +26,19 @@ unchanged as historical evidence.
 Install matching published versions:
 
 ```bash
-go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.26.0
-uvx agent-evidence-vectors==0.26.0 --verifier "aee-verify -validity-only -json"
+go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.31.0
+uvx agent-evidence-vectors==0.31.0 --verifier "aee-verify -validity-only -json"
 ```
 
 Run the same harness from the published release checkout:
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors
-cd agent-evidence-vectors && git checkout v0.26.0
+cd agent-evidence-vectors && git checkout v0.31.0
 python3 packaging/run_vectors.py --verifier "aee-verify -validity-only -json"
 ```
 
-The [runner guide](docs/guides/runner.md) covers the GitHub Action, its inputs and report fields. [Probity Admission](https://github.com/probityai/agent-evidence/tree/main/packages/admission) uses pinned corpora to check policy-engine enforcement.
+The [runner guide](docs/guides/runner.md) covers the GitHub Action, its inputs and report fields. [Probity Admission](https://github.com/probityai/agent-evidence-vectors/tree/main/packages/admission) uses pinned corpora to check policy-engine enforcement.
 
 If your verifier disagrees with a vector, [report the run](docs/guides/report-run.md) with its source revision and report. We can then check the verifier and the fixture against the same specification.
 
@@ -48,7 +48,7 @@ Recompute the corpus digests, then check the signature and timestamp proofs:
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors && cd agent-evidence-vectors
-git checkout v0.26.0
+git checkout v0.31.0
 
 # 1. the digest list is what the vector files on disk hash to, recomputed
 python3 scripts/release-digests.py --check
@@ -101,18 +101,23 @@ Choose a corpus for the format your verifier supports. Each has its own manifest
 | `vectors-receipt-chain-end/` | `receipt-chain-end/v1` | signed agent action receipt chains in the ActionReceipt v1 wire format, judged on whether the chain held is the whole chain: tail cuts, forks, re-rooted rotations and stale heads that keep every signature and link valid, and the close or retained head that proves the end |
 | `vectors-trace-anchor/` | `trace-registry-anchor/v1` | the TRACE Level 2 anchor check, Registry Anchor Format v1 with trace-spec#533: a missing or malformed registry entry, a receipt that anchors itself, and receipt fields that lie about the entry, graded against TRACE's own TR-ANC-002 at pinned commits |
 | `vectors-grade-floor/` | `evidence-grade-floor/v1` | the E0-E4 evidence ladder of AAIF Observability WG issue #37, with the grade derived by the consumer: a producer-declared grade or integrity boolean never raises it, and an operationally-conformant claim needs E3 and no contradiction |
+| `vectors-connector-scope/` | `connector-scope-record/v1` | A health-system connector's scope record: what it can read, what it can change and what it refused, with synthetic PHI-free fixtures, refusing a change under a read grant, an unlisted action that ran, a permitted action refused as out of scope and a refusal with no recorded reason |
+| `vectors-agent-payment-mandate/` | `agent-payment-mandate/v1` | An agent-initiated payment judged from its own dispute evidence pack: the mandate the user signed, the credential presented, the charge that ran and the receipt that binds them, refused when the charge leaves the mandate in amount, currency, merchant, time or token or a single-use token is replayed or the post-checkout actions are not all recorded |
 | `vectors-agent-change-admission/` | `agent-change-admission/v1` | signed decisions that admit or reject a change to an AI agent's harness, in a bare DSSE carriage and an in-toto Statement carriage: pinned keys, the predicate's required fields, the gate record against the admitted flag, and stored reports against the digests the decision names |
 | `vectors-agentic-process-evidence/` | `agentic-process-evidence/v0.1` | signed in-toto Statements carrying the Agentic Process Evidence predicate proposed in in-toto/attestation#609: provider stacks, result, accountable owner, timestamps, session logs, tools and context artifacts, each field rule taken from the predicate's own specification |
 | `vectors-delegation-lifecycle/` | `delegation-lifecycle/v1` | signed grants, revocations, disputes and identifier links, each case asking whether a presenter holds delegated authority when the relying party observed it: revocation across a delegation tree, a disputed revocation, re-registration of an agent under a new identifier, recovery after a lost or compromised key, and sub-agents bound to the parent's lifespan |
+| `vectors-restart-records/` | `restart-records/v1` | synthetic unsigned in-toto Statements of the restoration-evidence/v1 profile and bundles of them: who authorised an incident response action, which credentials a revocation sweep covered, the decision to resume a stopped agent system with each evidence slot cited or declared not addressed, joint authority across organisations, and the revocation boundary at one sink, each reject changing one value so that the rule it names fails first |
 | `vectors-authority-at-dispatch/` | `authority-at-dispatch/v1` | delegated authority judged at the moment of dispatch: revocation, expiry, stale evidence and scope amplification across hops, including denied records that dispatch exactly the approved bytes |
-| `vectors-approval-binding/` | `approval-binding/v1` | an approval presented for a use, refused when it is not bound to that use: a reused approval identifier, a consumed approval, a key that is not the approver's, another user behind the same OAuth client, a different event or phase, a payload changed after approval, a use outside the validity window, a failed policy lookup, and a policy release not served at the decision time |
+| `vectors-approval-binding/` | `approval-binding/v1` | an approval presented for a use, refused when it is not bound to that use: a reused approval identifier, a consumed approval, a key that is not the approver's, another user behind the same OAuth client, a different event or phase, a payload changed after approval, a use outside the validity window, a failed policy lookup, a policy release not served at the decision time, a use citing another approval or none, an approval replaced by a later one, a renewal claim without a transition accepted by the use, a predecessor that does not resolve to one record, and a closed effect reopened by a new grant |
 | `vectors-dispatch-fence/` | `dispatch-fence/v1` | one exclusive dispatch judged from its own record: the fence bound to the sequence number the policy check read, no state change between the two, and a hold with its renewals that covers the effect and the commit with no other proposal admitted meanwhile |
+| `vectors-uncertain-effect/` | `uncertain-effect/v1` | one operation whose reply may have been lost: a retry after an unknown outcome, an idempotency key reused with changed arguments, a dispatch beyond the worker's lease, an unknown released at reservation expiry and an outcome reported without the effect owner's answer, each paired with a runtime scenario a counting effect owner plays |
 | `vectors-aggregate-accounting/` | `aggregate-accounting/v1` | the decisions an accounting authority took against one budget shared by a principal and its delegation subtrees: concurrent requests admitted inside the budget, racing requests that cannot both be admitted, an unknown-outcome reservation that stays charged past its expiry, a request past the latency bound refused or held, and the principal, subtree, budget, action and counts retained |
 | `vectors-agent-card-receipt/` | `agent-card-receipt/v1` | a receipt for an A2A Agent Card judged from the card, the receipt statement, the issuer's signed revocation list and the time of the check: the card digest over RFC 8785 without its signatures, the validity window, a list that is absent, malformed, signed by another key, stale or naming the receipt |
 | `vectors-credential-release/` | `credential-release/v1` | a broker's record of a credential released against an agent-card receipt: the receipt's digest, copied fields, subject, result and currency at release, a credential that must not outlive the receipt, a closed credential object with no field for a secret, and the revocation list consulted |
 | `vectors-converted-argument-binding/` | `converted-argument-binding/v1` | an approved tool call whose shown, approved, rebuilt and executed arguments must agree under RFC 8785, with the approval naming the shown bytes and the call unchanged after approval; the rule inspect_ai adopted in UKGovernmentBEIS/inspect_ai#5652 |
 | `vectors-delegator-right/` | `delegator-right/v1` | a delegated request refused when the delegating principal did not hold the right to pass the operation on: never entitled, entitlement removed at the source, an ancestor grant narrowed, or a scope wider than the delegator's, with a stated propagation limit |
 | `vectors-oasf-record/` | `oasf-record/v1` | an OASF record named by SHA-256 over its RFC 8785 bytes, not a general-purpose encoder's (escaped `<`, `>`, `&`, U+2028 and U+2029, UTF-8 key order, negative zero), integers inside the exact double range, the fields OASF marks required, and a signer whose subject and issuer equal the policy's exactly rather than as a pattern |
+| `vectors-badge-vc-verify/` | `badge-vc-verify/v1` | an agent badge issued as a W3C Verifiable Credential in a compact JWS (EdDSA): the issuer named in the credential bound to the key that signed it, the signature over the exact signed bytes, the validity window at the verification time, and the revocation status the issuer holds rather than the copy the holder presents |
 | `vectors-completion-confirmation/` | `completion-confirmation/v1` | a completion claim refused when no confirmation record is bound to the task: none, another task or arguments, the acting agent's own, a reused one, one outside the authorization window, or an unresolved or absent outcome |
 | `vectors-chunked-export/` | `chunked-export/v1` | an export gate's decision on each chunk of a chunked export whose every step is reversible on its own: a count or a set-of-chunks reconstruction rule committed before the first chunk, and a seal that must state the composed class rather than the maximum of the per-step labels |
 | `vectors-identity-binding/` | `agent-did-identity-binding/v1` | DSSE-signed agent records whose subject is a did:web or did:wba DID, bound to the signing key through resolved DID documents, including rejected records whose signature verifies |
@@ -122,13 +127,15 @@ Choose a corpus for the format your verifier supports. Each has its own manifest
 | `vectors-test-tampering/` | `test-tampering/v2` | edits of the files an agent is judged by, seen by the observer or lost to it and shown only by the final tree |
 | `vectors-grader-isolation/` | `grader-isolation/v2` | a result file or interpreter hook planted where the grader reads it, a mutation of the sealed execution surface or test configuration above the workspace, and a grade run on another tree or contract |
 | `vectors-done-probes/` | `done-probes/v1` | the probes a grader runs beside the acceptance commands: an import probe that reads no answer, an in-process twin of the visible test whose pass hides a failure, and detectors over the visible test, each with its honest control |
-| `vectors-recorded/` | `recorded-set-conformance/v1` | bytes recorded from live runs, kept byte for byte beside their publisher's `SHA256SUMS`, with synthetic sets one mutation away: a listed file missing or edited, an unlisted file, a list that is malformed, unpinned or names a path outside the set, and a timestamp proof that names other bytes |
+| `vectors-recorded/` | `recorded-set-conformance/v1` | bytes recorded from live runs, kept byte for byte beside their publisher's `SHA256SUMS`, with synthetic sets one mutation away: a listed file missing or edited, an unlisted file, a list that is malformed, unpinned or names a path outside the set, a timestamp proof that names other bytes, and an OpenTimestamps proof checked against a held Bitcoin header: a proof that misses the header, a seen block at the anchor and a stated time past the 7200-second allowance |
 | `vectors-a2a-jcs-v01/` | `a2a-agent-card-canonicalization-conformance` | RFC 8785 canonical bytes and the bytes an A2A Agent Card signature covers, vendored byte for byte from a2aproject/a2a-tck at a locked commit and corpus digest |
 | `vectors-mcp-owasp/` | `owasp-mcp-verification-draft` | draft MCP verification requirements MCPVS-1 to MCPVS-12 and threats MCPTM-1 to MCPTM-10, minted once in one registry, with one accept and one reject observation per requirement |
+| `vectors-open-weight-art53/` | `open-weight-art53/v1` | a model release record against the conditions of AI Act Article 53(2): open licence, public weights, architecture and usage information, no monetisation, no systemic risk |
 | `vectors-source-coverage/` | `source-text-coverage/v1` | selected source passages against a consumer-pinned capture, report, and time window |
 | `vectors-self-reported-record/` | `self-reported-record-conformance` | a self-reported agent record: turn signatures under the named key, memory-read digests over the bytes at the named path, an attesting key outside the observed runtime's reach, ledgers that name one change set, and covering signatures on declared substrate coverage |
 | `vectors-w3c-intake/` | `w3c-intake-v2-conformance` | the W3C public-agent-conformance group's intake criteria for a submitted conformance result, v2 with the accepted v2.1 deltas: every rejection ground bound to its sentence, each with a record that must be refused and one that must be admitted |
 | `vectors-w3c-report/` | `w3c-report-v01-conformance` | the W3C public-agent-conformance group's v0.1 per-check report: five states, the cause vocabulary, fourteen rejection rows and roll-up claims (including a declared no-void claim), as whole reports |
+| `vectors-refund-connected/` | `refund-connected/v1` | retained runs of a connected refund pilot judged offline from their bytes: inputs, trust files, admission state, signed handoffs and resolutions, the executor streams and the payment simulator record, refused when any link between them breaks |
 
 The distribution gate checks the directory and suite names against the tracked manifests. Read vector counts and digests from those manifests or [release/CORPUS-DIGESTS.txt](release/CORPUS-DIGESTS.txt). The [corpus guide](docs/guides/corpora.md) describes the formats and packaged readers.
 
@@ -150,3 +157,4 @@ Use the [run form](.github/ISSUE_TEMPLATE/independent-run.yml) and retain the fu
 | Releases | [GitHub releases](https://github.com/probityai/agent-evidence-vectors/releases) |
 | Signed digests | [release/CORPUS-DIGESTS.txt](release/CORPUS-DIGESTS.txt) |
 | Archive | [Zenodo concept DOI](https://doi.org/10.5281/zenodo.22758687), with release-specific identifiers on the archive record |
+| Dataset | [Hugging Face](https://huggingface.co/datasets/probityai/agent-evidence-vectors), one revision tag per release, built by [the publish workflow](.github/workflows/publish-hf-dataset.yml) |

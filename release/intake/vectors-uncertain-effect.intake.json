@@ -1,0 +1,825 @@
+{
+  "aggregate": {
+    "counts": {
+      "allow": 10,
+      "deny": 17
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 27
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-uncertain-effect/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-uncertain-effect/gen_vectors.py",
+    "routine-file": "vectors-uncertain-effect/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "5e662ed999ebd931b07a9c593167b20700a74d45a5129e550d27ec85057282e5",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "0b6628acaf48e9b621dcd65adf360c51f1bae7871a4b7b797976bf43f2ecec81"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "0b6628acaf48e9b621dcd65adf360c51f1bae7871a4b7b797976bf43f2ecec81"
+        },
+        "swapped-in": "96fba6d8661a40ad5abf18620000915417a5e60872c3a51931d88ca4a747306f",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-uncertain-effect/README.md",
+      "serialization": "bytes",
+      "sha256": "1d02020bc150ef4de74bd5c7f46b9dc636b35c2a9fa8d0880ba5c81bccf776ed"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "0b6628acaf48e9b621dcd65adf360c51f1bae7871a4b7b797976bf43f2ecec81"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "0b6628acaf48e9b621dcd65adf360c51f1bae7871a4b7b797976bf43f2ecec81"
+        },
+        "swapped-in": "84c85f8fafae5547545ca73330677aaeac2ab8d8aafac548c467bef08594bc4d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-uncertain-effect/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "5cf1a6e5e2228cfe876e8e657ed35816e9ba2f69748b4f134aab4472ac5ff208"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "0b6628acaf48e9b621dcd65adf360c51f1bae7871a4b7b797976bf43f2ecec81"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "0b6628acaf48e9b621dcd65adf360c51f1bae7871a4b7b797976bf43f2ecec81"
+        },
+        "swapped-in": "4774c33d0cfc160779a20dd680f9a86cd21e01652f4ce84a92f315c78bce3361",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-uncertain-effect/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "1e8fcafe516e27e8794420435885d46408f421559c8667858840001cd49a269d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "0b6628acaf48e9b621dcd65adf360c51f1bae7871a4b7b797976bf43f2ecec81"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "0b6628acaf48e9b621dcd65adf360c51f1bae7871a4b7b797976bf43f2ecec81"
+        },
+        "swapped-in": "ca4c15a14452143a2391b66c12e820609781c41294cc6524d72d86e20c297bdb",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-uncertain-effect/tests/runtime_adapter.py",
+      "serialization": "bytes",
+      "sha256": "4b1eb5a09d0e3349ddef5bd584383f59667c02fa179bdd25c4c4181ab2a2a784"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "0b6628acaf48e9b621dcd65adf360c51f1bae7871a4b7b797976bf43f2ecec81"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "0b6628acaf48e9b621dcd65adf360c51f1bae7871a4b7b797976bf43f2ecec81"
+        },
+        "swapped-in": "82c8eb1567c4aa225ac9549425239a6d3af4988c4ec9dba452a64b84e6b6310a",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-uncertain-effect/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "d345d28c9437989822a2573815f11eb5d3b564e98db5a3534ba3fd5bc022a854"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "vectors-uncertain-effect"
+  },
+  "byte-identity": {
+    "pins": 27,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-uncertain-effect",
+      "aee-verify -json vectors-uncertain-effect",
+      "aee-verify vectors-uncertain-effect"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "f66d8b63e11bbd9d9edb5de48491229ce52dd5689bc965991274f8c28275c5ae"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "allow-confirmed-first-attempt",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-commit-timeout-reconciled-present",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-commit-timeout-held-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-unknown-charged-past-expiry",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-timeout-reconciled-absent-not-run",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-retry-after-final-absent",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-retry-same-key-owner-deduplicates",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-definite-no-effect-then-retry",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-lease-taken-over-reconciled",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-late-commit-awaited",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "contract-id-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "contract-id-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "identity-missing-key",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "identity-missing-args-digest",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "key-reused-args-changed",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "dispatch-after-lease-expired",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "dispatch-with-superseded-token",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "retry-after-commit-timeout",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "retry-after-lookup-not-final",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "retry-under-new-key",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "retry-after-key-retention-expired",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "duplicate-effect-despite-deduplication",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "unknown-released-at-expiry",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "timeout-reported-not-run",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "timeout-reported-committed",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reconciled-absent-reported-committed",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reconciled-present-still-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "1200e250c50f915a36d7d9b7063d2fb0fb3ee5edc53467e2ce36b2963487ab0c"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "allow-confirmed-first-attempt",
+      "allow-commit-timeout-reconciled-present",
+      "allow-commit-timeout-held-unknown",
+      "allow-unknown-charged-past-expiry",
+      "allow-timeout-reconciled-absent-not-run",
+      "allow-retry-after-final-absent",
+      "allow-retry-same-key-owner-deduplicates",
+      "allow-definite-no-effect-then-retry",
+      "allow-lease-taken-over-reconciled",
+      "allow-late-commit-awaited",
+      "contract-id-missing",
+      "contract-id-unknown",
+      "identity-missing-key",
+      "identity-missing-args-digest",
+      "key-reused-args-changed",
+      "dispatch-after-lease-expired",
+      "dispatch-with-superseded-token",
+      "retry-after-commit-timeout",
+      "retry-after-lookup-not-final",
+      "retry-under-new-key",
+      "retry-after-key-retention-expired",
+      "duplicate-effect-despite-deduplication",
+      "unknown-released-at-expiry",
+      "timeout-reported-not-run",
+      "timeout-reported-committed",
+      "reconciled-absent-reported-committed",
+      "reconciled-present-still-unknown"
+    ],
+    "path": "vectors-uncertain-effect/MANIFEST.json",
+    "sha256": "231f34d327c6f67e2df0117a63a012d082ee68c289bf1dedfa8018f6136fc921"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-uncertain-effect/cases/allow-confirmed-first-attempt/record.json",
+          "sha256": "8ff4e87d4a8555b45904fcb604babb6d9ddb7350578b44bf8c6e3e2faa716617"
+        }
+      ],
+      "id": "allow-confirmed-first-attempt"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-uncertain-effect/cases/allow-commit-timeout-reconciled-present/record.json",
+          "sha256": "29cf64027fe24e088d508cb80f4bba853a0170b659f387728ce085c3e821ffdc"
+        }
+      ],
+      "id": "allow-commit-timeout-reconciled-present"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-uncertain-effect/cases/allow-commit-timeout-held-unknown/record.json",
+          "sha256": "b5d76c160285101e6ee88bd4e174b46f17b3be6dc23c12dead4bfce1f6551a77"
+        }
+      ],
+      "id": "allow-commit-timeout-held-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-uncertain-effect/cases/allow-unknown-charged-past-expiry/record.json",
+          "sha256": "5ad238aae73e2984a1030b45b1cc1c5dd935f99a9b4230292fde95a5d4273fb9"
+        }
+      ],
+      "id": "allow-unknown-charged-past-expiry"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-uncertain-effect/cases/allow-timeout-reconciled-absent-not-run/record.json",
+          "sha256": "58685455dbb7bc7abcaa34c1838d8a3277abc849a9da66574e1b68346f75ac3c"
+        }
+      ],
+      "id": "allow-timeout-reconciled-absent-not-run"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-uncertain-effect/cases/allow-retry-after-final-absent/record.json",
+          "sha256": "244c4ee23644f04815db126ce5781be5e196960d1eaa288afcf41d44a45368a3"
+        }
+      ],
+      "id": "allow-retry-after-final-absent"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-uncertain-effect/cases/allow-retry-same-key-owner-deduplicates/record.json",
+          "sha256": "6a721294aeb25400fb42aa0f5e598c841e30afa5e4c23a2d995e129d113911a2"
+        }
+      ],
+      "id": "allow-retry-same-key-owner-deduplicates"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-uncertain-effect/cases/allow-definite-no-effect-then-retry/record.json",
+          "sha256": "5a67a3bbf669639b330a404a4961625ac91295967f2650488cdc2c6ba56f6e67"
+        }
+      ],
+      "id": "allow-definite-no-effect-then-retry"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-uncertain-effect/cases/allow-lease-taken-over-reconciled/record.json",
+          "sha256": "1cf9b043795827959b2a1f65e9a82aee788cbbfb528d854c3f9df09e7a443533"
+        }
+      ],
+      "id": "allow-lease-taken-over-reconciled"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-uncertain-effect/cases/allow-late-commit-awaited/record.json",
+          "sha256": "60db3ebfe73fd52a84e624da53b16ab8f3ce5c8447d682846112f1d3f8a8f685"
+        }
+      ],
+      "id": "allow-late-commit-awaited"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-uncertain-effect/cases/contract-id-missing/record.json",
+          "sha256": "d9e257a16a3e8123fe93e19fe0cdf2e5fa53fef50513cd7343b2823156cef8fa"
+        }
+      ],
+      "id": "contract-id-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-uncertain-effect/cases/contract-id-unknown/record.json",
+          "sha256": "b078882b6c690ed40119e23b4a440d9f1694cf1e562267b04bb4606e96d7963f"
+        }
+      ],
+      "id": "contract-id-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-uncertain-effect/cases/identity-missing-key/record.json",
+          "sha256": "8cd6862783774886557e8ce75ddf130e420306b1d810ab7ab8dc588e3e19fbc9"
+        }
+      ],
+      "id": "identity-missing-key"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-uncertain-effect/cases/identity-missing-args-digest/record.json",
+          "sha256": "2a8b696901f541dab0812a0617b77bbbd552b3f57bf0a43add8368c06053fa30"
+        }
+      ],
+      "id": "identity-missing-args-digest"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-uncertain-effect/cases/key-reused-args-changed/record.json",
+          "sha256": "b2065b6b4d1702c578718f9e43eece89bcb4ae0c74cc833d3c0c7ca8b67687e3"
+        }
+      ],
+      "id": "key-reused-args-changed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-uncertain-effect/cases/dispatch-after-lease-expired/record.json",
+          "sha256": "ce8a2a4f6c2a0ee5d2d10a4f1e149db0a3fb3bed09a158fb6cc3eb7b411b0049"
+        }
+      ],
+      "id": "dispatch-after-lease-expired"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-uncertain-effect/cases/dispatch-with-superseded-token/record.json",
+          "sha256": "5657d1e85d5a7ae808f4191a6220dff51bef3fa1ffd0845d01e274f8aa2dcf82"
+        }
+      ],
+      "id": "dispatch-with-superseded-token"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-uncertain-effect/cases/retry-after-commit-timeout/record.json",
+          "sha256": "8367be054c8a8bab881cf8efef7770807efcdcd63bb7e27be599a0d59fa14090"
+        }
+      ],
+      "id": "retry-after-commit-timeout"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-uncertain-effect/cases/retry-after-lookup-not-final/record.json",
+          "sha256": "41355ba28b7d5862f3199c280f5755da15609ec1d0cd3e09efbd7c0160f46ffa"
+        }
+      ],
+      "id": "retry-after-lookup-not-final"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-uncertain-effect/cases/retry-under-new-key/record.json",
+          "sha256": "a9d0e5d74795eed00a7fc7c7ad18b129336062c3363bb6adbf999a20405270cb"
+        }
+      ],
+      "id": "retry-under-new-key"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-uncertain-effect/cases/retry-after-key-retention-expired/record.json",
+          "sha256": "a21669031855eb32a669b0ba1605289a46be04c7966d2267bb5fce6306f17a1c"
+        }
+      ],
+      "id": "retry-after-key-retention-expired"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-uncertain-effect/cases/duplicate-effect-despite-deduplication/record.json",
+          "sha256": "c14d9456c88b9faa3e4c16b3e57c9864b9f14d16e583aeefc0fb25a45bc0a81e"
+        }
+      ],
+      "id": "duplicate-effect-despite-deduplication"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-uncertain-effect/cases/unknown-released-at-expiry/record.json",
+          "sha256": "aa8a7bc40a6c1fd6e345e3ba9454538f0d5e69abaceafe875e6275a2a6aa0395"
+        }
+      ],
+      "id": "unknown-released-at-expiry"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-uncertain-effect/cases/timeout-reported-not-run/record.json",
+          "sha256": "3705a272f996b7600d7aacc7d21b7254c30d649bdbfe467f05b407805f7a0375"
+        }
+      ],
+      "id": "timeout-reported-not-run"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-uncertain-effect/cases/timeout-reported-committed/record.json",
+          "sha256": "7c41caf4133fd10e7a8f82f9ef2232682289ed6e4b71689b29684f0d1f2eb6f5"
+        }
+      ],
+      "id": "timeout-reported-committed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-uncertain-effect/cases/reconciled-absent-reported-committed/record.json",
+          "sha256": "729859118456b6b6758f42edcce38a90f383e139869cc3b30dd800d83697fc68"
+        }
+      ],
+      "id": "reconciled-absent-reported-committed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-uncertain-effect/cases/reconciled-present-still-unknown/record.json",
+          "sha256": "023d0e73f784681173c5b0d5a3e85a013ee5a37ad8e5c2522d2d4a4b1a290229"
+        }
+      ],
+      "id": "reconciled-present-still-unknown"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-uncertain-effect.json",
+        "serialization": "bytes",
+        "sha256": "0b6628acaf48e9b621dcd65adf360c51f1bae7871a4b7b797976bf43f2ecec81"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-uncertain-effect.txt",
+        "serialization": "bytes",
+        "sha256": "40eadb2dd0d0a879ee2414bf6ec645a50a94492e905f2e5f4a0ff99a0771d12f"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "0b6628acaf48e9b621dcd65adf360c51f1bae7871a4b7b797976bf43f2ecec81"
+      },
+      {
+        "process": "run-2",
+        "sha256": "0b6628acaf48e9b621dcd65adf360c51f1bae7871a4b7b797976bf43f2ecec81"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 27 pinned members of uncertain-effect/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 27,
+    "require": "at-least-one",
+    "selected": [
+      "allow-confirmed-first-attempt",
+      "allow-commit-timeout-reconciled-present",
+      "allow-commit-timeout-held-unknown",
+      "allow-unknown-charged-past-expiry",
+      "allow-timeout-reconciled-absent-not-run",
+      "allow-retry-after-final-absent",
+      "allow-retry-same-key-owner-deduplicates",
+      "allow-definite-no-effect-then-retry",
+      "allow-lease-taken-over-reconciled",
+      "allow-late-commit-awaited",
+      "contract-id-missing",
+      "contract-id-unknown",
+      "identity-missing-key",
+      "identity-missing-args-digest",
+      "key-reused-args-changed",
+      "dispatch-after-lease-expired",
+      "dispatch-with-superseded-token",
+      "retry-after-commit-timeout",
+      "retry-after-lookup-not-final",
+      "retry-under-new-key",
+      "retry-after-key-retention-expired",
+      "duplicate-effect-despite-deduplication",
+      "unknown-released-at-expiry",
+      "timeout-reported-not-run",
+      "timeout-reported-committed",
+      "reconciled-absent-reported-committed",
+      "reconciled-present-still-unknown"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "uncertain-effect/v1"
+}

@@ -5,6 +5,7 @@ package corpora_test
 // must move the derived decision, and the reader must report the move.
 
 import (
+	"encoding/json"
 	"os"
 	"path/filepath"
 	"strings"
@@ -91,5 +92,59 @@ func TestApprovalBindingUnreadableInputsAreFindings(t *testing.T) {
 				t.Fatalf("want %q in %q", tc.want, got)
 			}
 		})
+	}
+}
+
+func TestApprovalBindingRenewalChecksNameTheirOwnReason(t *testing.T) {
+	reasons := map[string]string{
+		"approval-reused-after-renewal":                   "approval_superseded",
+		"approval-renewal-transition-not-accepted":        "renewal_transition_missing",
+		"approval-renewal-decision-not-distinct":          "renewal_binding_invalid",
+		"approval-renewal-predecessor-decision-not-cited": "renewal_binding_invalid",
+		"approval-renewal-bounds-differ":                  "renewal_binding_invalid",
+		"approval-renewal-reopens-consumed-effect":        "effect_already_closed",
+		"approval-renewal-reopens-uncertain-effect":       "effect_already_closed",
+		"approval-renewal-accepted-after-use":             "renewal_transition_missing",
+		"approval-renewal-predecessor-ambiguous":          "renewal_binding_invalid",
+		"approval-use-cites-predecessor":                  "approval_not_cited",
+		"approval-use-cites-no-approval":                  "approval_not_cited",
+	}
+	for from, reason := range reasons {
+		t.Run(from, func(t *testing.T) {
+			dir := abStage(t, "allow-bound", "record.json", abRead(t, from, "record.json"))
+			if got := scDerived(t, dir, "allow-bound"); !strings.Contains(got, "derived deny/"+reason+",") {
+				t.Fatalf("want derived deny/%s, got %q", reason, got)
+			}
+		})
+	}
+	for _, from := range []string{"approval-renewed-same-bounds", "allow-predecessor-before-replacement"} {
+		t.Run("a denied record with the record of "+from, func(t *testing.T) {
+			dir := abStage(t, "approval-reused-after-renewal", "record.json", abRead(t, from, "record.json"))
+			if got := scDerived(t, dir, "approval-reused-after-renewal"); !strings.Contains(got, "derived allow/bound") {
+				t.Fatalf("want a derived allow, got %q", got)
+			}
+		})
+	}
+}
+
+// The ambiguous-predecessor member puts the matching predecessor first, the
+// order a reader that takes the first match allows. Moving the conflicting
+// record ahead of it must leave the derived verdict where it was.
+func TestApprovalBindingAmbiguousPredecessorIgnoresOrder(t *testing.T) {
+	const member = "approval-renewal-predecessor-ambiguous"
+	body := abRead(t, member, "record.json")
+	var record map[string]any
+	if err := json.Unmarshal(body, &record); err != nil {
+		t.Fatal(err)
+	}
+	presented := record["presentedApprovals"].([]any)
+	presented[0], presented[1] = presented[1], presented[0]
+	swapped, err := json.MarshalIndent(record, "", "  ")
+	if err != nil {
+		t.Fatal(err)
+	}
+	dir := abStage(t, "allow-bound", "record.json", append(swapped, '\n'))
+	if got := scDerived(t, dir, "allow-bound"); !strings.Contains(got, "derived deny/renewal_binding_invalid,") {
+		t.Fatalf("want derived deny/renewal_binding_invalid with the conflicting record first, got %q", got)
 	}
 }

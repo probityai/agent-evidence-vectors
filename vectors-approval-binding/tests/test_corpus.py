@@ -123,3 +123,183 @@ class TestApprovalBindingCorpus:
             (copied / "cases" / "allow-bound" / "payload.bin").write_bytes(b"other")
             _, errors = corpus.check(root=copied)
             assert "allow-bound: fixture digest mismatch" in errors
+
+
+def _case(name: str) -> dict:  # type: ignore[type-arg]
+    return json.loads((ROOT / "cases" / name / "record.json").read_text(encoding="utf-8"))
+
+
+def _verdict(name: str, skip: frozenset[str] = frozenset()) -> dict:  # type: ignore[type-arg]
+    return approvalbinding.verify(ROOT / "cases" / name / "record.json", skip)
+
+
+class TestRenewalByReplacement:
+    """A replaced approval is refused for supersession, and for nothing else."""
+
+    def test_replacement_is_allowed_with_distinct_decisions_and_equal_bounds(self) -> None:
+        record = _case("approval-renewed-same-bounds")
+        predecessor, successor = record["presentedApprovals"]
+        assert predecessor["decisionId"] != successor["decisionId"]
+        assert all(predecessor[f] == successor[f] for f in approvalbinding.BOUND_FIELDS)
+        assert record["transitions"][0]["predecessorDecisionId"] == predecessor["decisionId"]
+        assert _verdict("approval-renewed-same-bounds") == {"decision": "allow",
+                                                            "reason": "bound"}
+
+    def test_predecessor_is_refused_before_any_execution_under_the_successor(self) -> None:
+        record = _case("approval-reused-after-renewal")
+        approval, use = record["approval"], record["use"]
+        # Nothing else can be what refuses it: it has not expired, it is not
+        # consumed, and the effect is reserved and not executed.
+        assert approval["issuedAt"] <= use["usedAt"] < approval["expiresAt"]
+        assert approval["approvalId"] not in record["consumedApprovalIds"]
+        assert record["effectRegistry"][use["effectKey"]] == "RESERVED"
+        assert _verdict("approval-reused-after-renewal") == {
+            "decision": "deny", "reason": "approval_superseded"}
+
+    def test_predecessor_passes_every_other_check(self) -> None:
+        skipped = _verdict("approval-reused-after-renewal",
+                           frozenset({"approval_superseded"}))
+        assert skipped == {"decision": "allow", "reason": "bound"}
+
+    def test_deduplicating_verifier_misses_the_supersession(self, tmp_path: Path) -> None:
+        # A reader that refuses only an approval already consumed lets A through.
+        skip = tuple(c for c in approvalbinding.CHECKS if c != "approval_replayed")
+        _, errors = corpus.check(_stub(tmp_path, skip))
+        assert "approval-reused-after-renewal" in _failed(errors)
+
+    def test_predecessor_is_applicable_until_the_replacement_is_accepted(self) -> None:
+        record = _case("allow-predecessor-before-replacement")
+        assert record["use"]["usedAt"] < record["transitions"][0]["acceptedAt"]
+        assert _verdict("allow-predecessor-before-replacement")["decision"] == "allow"
+
+    @pytest.mark.parametrize("name,reason", [
+        ("approval-renewal-transition-not-accepted", "renewal_transition_missing"),
+        ("approval-renewal-decision-not-distinct", "renewal_binding_invalid"),
+        ("approval-renewal-predecessor-decision-not-cited", "renewal_binding_invalid"),
+        ("approval-renewal-bounds-differ", "renewal_binding_invalid"),
+        ("approval-renewal-reopens-consumed-effect", "effect_already_closed"),
+        ("approval-renewal-reopens-uncertain-effect", "effect_already_closed"),
+    ])
+    def test_renewal_claim_is_refused_for_its_own_reason(self, name: str, reason: str) -> None:
+        assert _verdict(name) == {"decision": "deny", "reason": reason}
+        # The same record clears every other check, so the reason is the only cause.
+        assert _verdict(name, frozenset({reason}))["decision"] == "allow"
+
+    def test_renewed_claim_is_not_evidence_of_a_transition(self) -> None:
+        record = _case("approval-renewal-transition-not-accepted")
+        assert record["use"]["authorityForm"] == "renewed"
+        assert record["transitions"][0]["status"] == "proposed"
+
+    def test_closed_effect_is_refused_whatever_the_transition(self) -> None:
+        for name in ("approval-renewal-reopens-consumed-effect",
+                     "approval-renewal-reopens-uncertain-effect"):
+            record = _case(name)
+            assert record["transitions"][0]["status"] == "accepted"
+            assert record["effectRegistry"][record["use"]["effectKey"]] in (
+                approvalbinding.CLOSED_EFFECT_STATES)
+
+
+def _probe(tmp_path: Path, name: str, move) -> dict:  # type: ignore[no-untyped-def, type-arg]
+    """``move`` applied to a copy of member ``name``, judged by the packaged reader."""
+    record = _case(name)
+    move(record)
+    shutil.copy(ROOT / "cases" / name / "payload.bin", tmp_path / "payload.bin")
+    (tmp_path / "record.json").write_text(json.dumps(record), encoding="utf-8")
+    return approvalbinding.verify(tmp_path / "record.json")
+
+
+ALLOW = {"decision": "allow", "reason": "bound"}
+
+
+class TestBindingsAtTheUse:
+    """The probes from the review of the renewal cases, each on a copy of the
+    positive renewal record with one field changed."""
+
+    def test_unchanged_positive_record_is_allowed(self, tmp_path: Path) -> None:
+        assert _probe(tmp_path, "approval-renewed-same-bounds", lambda r: None) == ALLOW
+
+    def test_transition_accepted_after_the_use_does_not_establish_renewal(
+        self, tmp_path: Path
+    ) -> None:
+        def later(record: dict) -> None:  # type: ignore[type-arg]
+            assert record["use"]["usedAt"] == "2026-10-21T12:00:00Z"
+            record["transitions"][0]["acceptedAt"] = "2026-10-21T12:00:01Z"
+        assert _probe(tmp_path, "approval-renewed-same-bounds", later) == {
+            "decision": "deny", "reason": "renewal_transition_missing"}
+
+    def test_transition_accepted_at_the_use_establishes_renewal(self, tmp_path: Path) -> None:
+        def at(record: dict) -> None:  # type: ignore[type-arg]
+            record["transitions"][0]["acceptedAt"] = record["use"]["usedAt"]
+        assert _probe(tmp_path, "approval-renewed-same-bounds", at) == ALLOW
+
+    @pytest.mark.parametrize("name", ["approval-renewed-same-bounds", "allow-bound"])
+    @pytest.mark.parametrize("cited", ["appr-0001", "appr-0002", "appr-9999", None])
+    def test_use_must_cite_the_approval_checked(
+        self, tmp_path: Path, name: str, cited: str | None
+    ) -> None:
+        # The base reader and the renewal reader alike: a use is judged against
+        # the approval it names, and only that one.
+        def cite(record: dict) -> None:  # type: ignore[type-arg]
+            if cited is None:
+                record["use"].pop("approvalId")
+            else:
+                record["use"]["approvalId"] = cited
+        checked = _case(name)["approval"]["approvalId"]
+        want = ALLOW if cited == checked else {"decision": "deny",
+                                               "reason": "approval_not_cited"}
+        assert _probe(tmp_path, name, cite) == want
+
+    @pytest.mark.parametrize("position", [1, 0])
+    def test_conflicting_predecessor_records_refuse_in_either_order(
+        self, tmp_path: Path, position: int
+    ) -> None:
+        def conflict(record: dict) -> None:  # type: ignore[type-arg]
+            other = {**record["presentedApprovals"][0], "decisionId": "dec-0099"}
+            record["presentedApprovals"].insert(position, other)
+        assert _probe(tmp_path, "approval-renewed-same-bounds", conflict) == {
+            "decision": "deny", "reason": "renewal_binding_invalid"}
+
+    def test_identical_predecessor_copies_are_one_predecessor(self, tmp_path: Path) -> None:
+        def copy_first(record: dict) -> None:  # type: ignore[type-arg]
+            record["presentedApprovals"].insert(0, dict(record["presentedApprovals"][0]))
+        assert _probe(tmp_path, "approval-renewed-same-bounds", copy_first) == ALLOW
+
+
+class TestBindingMembers:
+    @pytest.mark.parametrize("name,reason", [
+        ("approval-renewal-accepted-after-use", "renewal_transition_missing"),
+        ("approval-renewal-predecessor-ambiguous", "renewal_binding_invalid"),
+        ("approval-use-cites-predecessor", "approval_not_cited"),
+        ("approval-use-cites-no-approval", "approval_not_cited"),
+    ])
+    def test_member_is_refused_for_its_own_reason(self, name: str, reason: str) -> None:
+        assert _verdict(name) == {"decision": "deny", "reason": reason}
+        assert _verdict(name, frozenset({reason})) == ALLOW
+
+    def test_ambiguous_predecessor_verdict_does_not_depend_on_order(
+        self, tmp_path: Path
+    ) -> None:
+        member = _verdict("approval-renewal-predecessor-ambiguous")
+        reversed_ = _probe(tmp_path, "approval-renewal-predecessor-ambiguous",
+                           lambda r: r["presentedApprovals"].reverse())
+        conflict_first = _probe(tmp_path, "approval-renewal-predecessor-ambiguous",
+                                lambda r: r["presentedApprovals"].insert(
+                                    0, r["presentedApprovals"].pop(1)))
+        assert member == reversed_ == conflict_first == {
+            "decision": "deny", "reason": "renewal_binding_invalid"}
+
+    def test_ambiguous_predecessor_member_is_the_order_a_first_match_reader_allows(
+        self,
+    ) -> None:
+        presented = _case("approval-renewal-predecessor-ambiguous")["presentedApprovals"]
+        cited = _case("approval-renewal-predecessor-ambiguous")["transitions"][0][
+            "predecessorDecisionId"]
+        assert [a["approvalId"] for a in presented[:2]] == ["appr-0001", "appr-0001"]
+        assert presented[0]["decisionId"] == cited != presented[1]["decisionId"]
+
+    def test_accepted_after_use_member_differs_from_the_control_only_in_time(self) -> None:
+        member, control = _case("approval-renewal-accepted-after-use"), _case(
+            "approval-renewed-same-bounds")
+        assert member["transitions"][0]["acceptedAt"] > member["use"]["usedAt"]
+        member["transitions"][0]["acceptedAt"] = control["transitions"][0]["acceptedAt"]
+        assert member == control

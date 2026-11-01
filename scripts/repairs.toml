@@ -62,6 +62,16 @@ flag it is at the moment the gate is red.
 needs_operator = true
 
 [[gate]]
+ident = "install-pins"
+argv = ["python3", "scripts/sync-install-pins.py", "--check"]
+fix = ["python3", "scripts/sync-install-pins.py"]
+why = """
+The pinned install lines on the README, DISTRIBUTION.md and the runner guide are
+generated from the published release in CITATION.cff. A release bumps the
+citation and the bare invocation moves every pin to it.
+"""
+
+[[gate]]
 ident = "rail-parity"
 argv = ["python3", "scripts/rail-parity-gate.py", "--check"]
 fix = ["python3", "scripts/rail-parity-gate.py"]
@@ -85,4 +95,15 @@ checker output under release/intake/, written from a fresh run of that corpus's
 checker. --check reruns every checker and refuses any differing byte; a bare
 invocation is what writes the records. It needs the Go toolchain, because the
 checker is aee-verify.
+"""
+
+[[gate]]
+ident = "derived-files"
+argv = ["uv", "run", "--locked", "--extra", "generators", "python", "scripts/regenerate-derived.py", "--check"]
+fix = ["uv", "run", "--locked", "--extra", "generators", "python", "scripts/regenerate-derived.py"]
+why = """
+The signed digest list, the intake records and the shared-source lock are
+derived files. --check runs the three generators in comparing mode and refuses
+any differing byte; a bare invocation rewrites all three in order. After a
+merge whose conflicts are all in derived files, --resolve-merge settles it.
 """

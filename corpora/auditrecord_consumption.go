@@ -14,9 +14,14 @@ import (
 // the Go rail, mirroring packaging/agent_evidence_vectors/auditrecord.py. A
 // consumption-state entry of evaluation.inputs may carry a consumption member,
 // and decision.operationKey is the agent's identifier for one intended
-// operation and the identity of a retry. Members CS1 to CS17 exercise it; CS7,
-// CS8 and CS17 are files of several records judged one by one and then as a
-// set under one limitDigest.
+// operation and the identity of a retry. Members CS1 to CS49 exercise it,
+// consumption.supersedes names the limit document a record's limitDigest
+// replaced, consumption.payee and each held entry's payee name the account a
+// payment goes to, and consumption.settled carries the terms a paid call settled
+// on, read from the chain (CS41 to CS49). CS7, CS8, CS17, CS18 to CS22, CS25,
+// CS48 and CS49 are files of several records judged
+// one by one and then as a set, under one ledger: the limitDigest values that
+// supersedes links.
 
 // arInt reads a JSON integer as the decoder's json.Number.
 func arInt(value any) (int64, bool) {
@@ -79,8 +84,21 @@ func arWithinLimit(pred map[string]any) *bool {
 	return &within
 }
 
-// arHeldShape holds one held entry to exactly operationKey, requestDigest and
-// amount.
+// arPayeeShape: an optional payee is the SHA-256 digest of the payee's CAIP-10
+// account id.
+func arPayeeShape(container map[string]any) error {
+	raw, present := container["payee"]
+	if !present {
+		return nil
+	}
+	if digest, ok := raw.(string); !ok || !arIsDigest(digest) {
+		return arRefuse("consumption-value-invalid")
+	}
+	return nil
+}
+
+// arHeldShape holds one held entry to operationKey, requestDigest and amount,
+// and an optional payee.
 func arHeldShape(item any) error {
 	entry, ok := item.(map[string]any)
 	if !ok {
@@ -90,9 +108,12 @@ func arHeldShape(item any) error {
 		return arRefuse("member-missing")
 	}
 	for name := range entry {
-		if !arContains(arHeldMembers, name) {
+		if !arContains(arHeldMembers, name) && !arContains(arHeldOptional, name) {
 			return arRefuse("consumption-malformed")
 		}
+	}
+	if err := arPayeeShape(entry); err != nil {
+		return err
 	}
 	key, isText := entry["operationKey"].(string)
 	digest, _ := entry["requestDigest"].(string)
@@ -102,31 +123,52 @@ func arHeldShape(item any) error {
 	return nil
 }
 
-func arConsumptionShape(consumption map[string]any) error {
-	for _, name := range arConsumptionMembers {
-		if name == "stateRevision" && !arConsumptionChecks["state-revision"] {
-			continue
-		}
-		if _, ok := consumption[name]; !ok {
-			return arRefuse("member-missing")
-		}
-	}
-	for name := range consumption {
-		if !arContains(arConsumptionMembers, name) {
-			return arRefuse("consumption-malformed")
-		}
+// arConsumptionLimit checks the limit digest and the unit, and returns the
+// digest the supersedes check needs.
+func arConsumptionLimit(consumption map[string]any) (string, error) {
+	_, hasAsset := consumption["asset"]
+	_, hasUnit := consumption["unit"]
+	if arConsumptionChecks["asset-exclusive"] && hasAsset && hasUnit {
+		return "", arRefuse("consumption-unit-ambiguous")
 	}
 	digest, _ := consumption["limitDigest"].(string)
 	unit, isText := consumption["unit"].(string)
-	if !arIsDigest(digest) || !isText || unit == "" {
-		return arRefuse("consumption-value-invalid")
+	if !hasUnit {
+		unit, isText = "-", true
 	}
-	if arConsumptionChecks["counts"] {
-		for _, name := range arConsumptionCounts {
-			if value, ok := consumption[name]; ok && !arIsCount(value) {
-				return arRefuse("consumption-value-invalid")
-			}
+	if !arIsDigest(digest) || !isText || unit == "" {
+		return "", arRefuse("consumption-value-invalid")
+	}
+	return digest, nil
+}
+
+func arConsumptionShape(consumption map[string]any) error {
+	if err := arConsumptionMembership(consumption); err != nil {
+		return err
+	}
+	digest, err := arConsumptionLimit(consumption)
+	if err != nil {
+		return err
+	}
+	_, hasAsset := consumption["asset"]
+	if hasAsset {
+		if err := arAssetShape(consumption["asset"]); err != nil {
+			return err
 		}
+	}
+	if err := arPayeeShape(consumption); err != nil {
+		return err
+	}
+	if raw, has := consumption["settled"]; has {
+		if err := arSettledShape(raw); err != nil {
+			return err
+		}
+	}
+	if err := arConsumptionSupersedes(consumption, digest); err != nil {
+		return err
+	}
+	if err := arConsumptionCountValues(consumption); err != nil {
+		return err
 	}
 	held, ok := consumption["held"].([]any)
 	if !ok {
@@ -135,6 +177,120 @@ func arConsumptionShape(consumption map[string]any) error {
 	for _, item := range held {
 		if err := arHeldShape(item); err != nil {
 			return err
+		}
+	}
+	return nil
+}
+
+// arAssetShape: the optional asset carries exactly id and decimals, the id a
+// CAIP-19 asset id (CS35) and decimals a count no larger than
+// arAssetDecimalsMax (CS36).
+func arAssetShape(raw any) error {
+	asset, ok := raw.(map[string]any)
+	if !ok {
+		return arRefuse("consumption-malformed")
+	}
+	if !arHasAll(asset, arAssetMembers) {
+		return arRefuse("member-missing")
+	}
+	for name := range asset {
+		if !arContains(arAssetMembers, name) {
+			return arRefuse("consumption-malformed")
+		}
+	}
+	id, isText := asset["id"].(string)
+	if arConsumptionChecks["asset-id"] && (!isText || !arCAIP19.MatchString(id)) {
+		return arRefuse("consumption-value-invalid")
+	}
+	decimals, isInt := arInt(asset["decimals"])
+	if arConsumptionChecks["asset-decimals"] && (!isInt || decimals < 0 || decimals > arAssetDecimalsMax) {
+		return arRefuse("consumption-value-invalid")
+	}
+	return nil
+}
+
+// arSettledShape: the optional settled terms carry exactly amount, asset,
+// payee, source and transaction; the amount a count, the asset an asset, the
+// payee a digest, the source the chain (CS47) and the transaction a non-empty
+// string.
+func arSettledShape(raw any) error {
+	settled, ok := raw.(map[string]any)
+	if !ok {
+		return arRefuse("consumption-malformed")
+	}
+	if !arHasAll(settled, arSettledMembers) {
+		return arRefuse("member-missing")
+	}
+	for name := range settled {
+		if !arContains(arSettledMembers, name) {
+			return arRefuse("consumption-malformed")
+		}
+	}
+	if err := arAssetShape(settled["asset"]); err != nil {
+		return err
+	}
+	payee, isText := settled["payee"].(string)
+	if !arIsCount(settled["amount"]) || !isText || !arIsDigest(payee) {
+		return arRefuse("consumption-value-invalid")
+	}
+	source, _ := settled["source"].(string)
+	if arConsumptionChecks["settled-source"] && !arContains(arSettledSources, source) {
+		return arRefuse("consumption-value-invalid")
+	}
+	if transaction, ok := settled["transaction"].(string); !ok || transaction == "" {
+		return arRefuse("consumption-value-invalid")
+	}
+	return nil
+}
+
+// arConsumptionMembership: every required member is present and no member is
+// outside the required and optional sets. unit is not required beside asset.
+func arConsumptionMembership(consumption map[string]any) error {
+	_, hasAsset := consumption["asset"]
+	for _, name := range arConsumptionMembers {
+		if name == "stateRevision" && !arConsumptionChecks["state-revision"] {
+			continue
+		}
+		if name == "unit" && hasAsset {
+			continue
+		}
+		if _, ok := consumption[name]; !ok {
+			return arRefuse("member-missing")
+		}
+	}
+	for name := range consumption {
+		if !arContains(arConsumptionMembers, name) && !arContains(arConsumptionOptional, name) {
+			return arRefuse("consumption-malformed")
+		}
+	}
+	return nil
+}
+
+// arConsumptionSupersedes: a supersedes member is a digest and names a limit
+// other than the one this set is held under.
+func arConsumptionSupersedes(consumption map[string]any, digest string) error {
+	raw, present := consumption["supersedes"]
+	if !present {
+		return nil
+	}
+	replaced, isDigest := raw.(string)
+	if arConsumptionChecks["supersedes-digest"] && (!isDigest || !arIsDigest(replaced)) {
+		return arRefuse("consumption-value-invalid")
+	}
+	if arConsumptionChecks["supersedes-self"] && replaced == digest {
+		return arRefuse("consumption-supersedes-self")
+	}
+	return nil
+}
+
+// arConsumptionCountValues: each declared count member is a count.
+func arConsumptionCountValues(consumption map[string]any) error {
+	if !arConsumptionChecks["counts"] {
+		return nil
+	}
+	for _, name := range arConsumptionCounts {
+		if value, ok := consumption[name]; ok && !arIsCount(value) {
+			return arRefuse("consumption-value-invalid")
 		}
 	}
 	return nil
@@ -174,12 +330,54 @@ func arRuleConsumption(s *arState) error {
 	if _, has := decision["operationKey"]; arConsumptionChecks["operation-key"] && !has {
 		return arRefuse("member-missing")
 	}
+	if err := arRetryChecks(consumption, decision); err != nil {
+		return err
+	}
+	return arSettledAgainstApproved(consumption)
+}
+
+// arRetryChecks: a call whose operation key is held is a retry, and it repeats
+// the held entry's request digest, amount and payee.
+func arRetryChecks(consumption, decision map[string]any) error {
 	if retried := arHeldFor(consumption, decision); arConsumptionChecks["key-reuse"] && retried != nil {
 		requested, _ := arInt(consumption["requested"])
 		amount, _ := arInt(retried["amount"])
 		if retried["requestDigest"] != decision["requestDigest"] || amount != requested {
 			return arRefuse("consumption-key-reused")
 		}
+	}
+	if retried := arHeldFor(consumption, decision); arConsumptionChecks["retry-payee"] && retried != nil &&
+		!arSameValue(retried["payee"], consumption["payee"]) {
+		return arRefuse("consumption-key-reused")
+	}
+	return nil
+}
+
+// arSameValue compares two decoded JSON values, an absent value equal only to
+// an absent one.
+func arSameValue(a, b any) bool {
+	left, errLeft := json.Marshal(a)
+	right, errRight := json.Marshal(b)
+	return errLeft == nil && errRight == nil && string(left) == string(right)
+}
+
+// arSettledAgainstApproved: the settled terms beside the approved ones (CS43 to
+// CS46). The amount is at most the authorized maximum, which is requested (an
+// x402 upto permit may settle lower, or at 0), and the asset and payee are the
+// approved ones.
+func arSettledAgainstApproved(consumption map[string]any) error {
+	settled, has := consumption["settled"].(map[string]any)
+	if !has {
+		return nil
+	}
+	amount, _ := arInt(settled["amount"])
+	requested, _ := arInt(consumption["requested"])
+	if arConsumptionChecks["settled-amount"] && amount > requested {
+		return arRefuse("consumption-settled-exceeds")
+	}
+	if arConsumptionChecks["settled-terms"] && (!arSameValue(settled["asset"], consumption["asset"]) ||
+		!arSameValue(settled["payee"], consumption["payee"])) {
+		return arRefuse("consumption-settled-differs")
 	}
 	return nil
 }
@@ -232,11 +430,147 @@ type arSetRule struct {
 	check func(group []map[string]any) bool
 }
 
-// arSetRules are the checks across the records under one limitDigest, in the
+// arSetRules are the checks across the records of one ledger, in the
 // order a set is refused. It is a variable so a test can drop one.
 var arSetRules = []arSetRule{
 	{"stale-revision", "consumption-set-stale-revision", arSetStaleRevision},
 	{"release-unshown", "consumption-set-release-unshown", arSetReleaseUnshown},
+	{"asset-mismatch", "consumption-set-asset-mismatch", arSetAssetMismatch},
+	{"settled-uncounted", "consumption-set-settled-uncounted", arSetSettledUncounted},
+}
+
+// arSetSettledUncounted: a call whose record carries settled moved its settled
+// amount, not its held one, into consumed (CS48). A record of the ledger that
+// read a later stateRevision and no longer holds that call counts at least the
+// amount the settling record read as consumed plus the settled amount (CS49).
+// It may count more, since other calls may settle between the two records.
+func arSetSettledUncounted(group []map[string]any) bool {
+	for i, settling := range group {
+		consumption := arConsumptionOf(settling)
+		settled, has := consumption["settled"].(map[string]any)
+		if !has {
+			continue
+		}
+		decision := arObj(settling, "decision")
+		key, _ := decision["operationKey"].(string)
+		amount, _ := arInt(settled["amount"])
+		if arSettledReadingHeld {
+			amount, _ = arInt(consumption["requested"])
+			if held := arHeldFor(consumption, decision); held != nil {
+				amount, _ = arInt(held["amount"])
+			}
+		}
+		base, _ := arInt(consumption["consumed"])
+		for j, later := range group {
+			if i == j || arRevision(later) <= arRevision(settling) || arHeldKeys(later)[key] {
+				continue
+			}
+			if counted, _ := arInt(arConsumptionOf(later)["consumed"]); counted < base+amount {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// arAssetMatchDecimals: an asset is its id with its decimals. A test drops the
+// decimals (CS39).
+var arAssetMatchDecimals = true
+
+// arDenomination is what a record's consumption counts in.
+func arDenomination(pred map[string]any) string {
+	consumption := arConsumptionOf(pred)
+	asset, has := consumption["asset"].(map[string]any)
+	if !has {
+		unit, _ := consumption["unit"].(string)
+		return "unit\x00" + unit
+	}
+	id, _ := asset["id"].(string)
+	decimals := ""
+	if arAssetMatchDecimals {
+		number, _ := asset["decimals"].(json.Number)
+		decimals = number.String()
+	}
+	return "asset\x00" + id + "\x00" + decimals
+}
+
+// arSetAssetMismatch: one ledger counts one denomination, every record naming
+// the same ISO 4217 unit or the same CAIP-19 asset with the same decimals. USDC
+// on Base and USDC on Solana are two assets (CS38), and one asset id under two
+// decimals values reads one amount at two scales (CS39).
+func arSetAssetMismatch(group []map[string]any) bool {
+	seen := map[string]bool{}
+	for _, pred := range group {
+		seen[arDenomination(pred)] = true
+	}
+	return len(seen) > 1
+}
+
+// arClaimReading is how the claim check reads a set: check turns it on; ledger
+// confines it to one ledger, as if the claim were keyed by the limit document
+// (CS32); scope reads the claim under the principal and the agent key (CS33);
+// release lets a record of the operation showing none end its claim (CS28).
+var arClaimReading = map[string]bool{"check": true, "ledger": false, "scope": true, "release": true}
+
+// arClaimScope is the principal (delegation.subject) and the agent key
+// (agent.signers). A rotated agent key is a new scope.
+func arClaimScope(pred map[string]any) string {
+	if !arClaimReading["scope"] {
+		return ""
+	}
+	signers := []string{}
+	for _, item := range arList(pred, "agent.signers") {
+		text, _ := item.(string)
+		signers = append(signers, text)
+	}
+	return arStr(pred, "delegation.subject") + "\x00" + strings.Join(signers, "\x00")
+}
+
+// arSetRetryAsNew: a held claim is keyed by the principal, the agent key and the
+// operation key, never by the limit document. A permit whose operation key a
+// record of the same scope holds, which does not itself hold that key, presents
+// a retry as a new operation (CS31, CS32), unless it is the original call (a
+// lower stateRevision in the same ledger) or a record of that operation shows
+// none, which leaves no claim (CS28).
+func arSetRetryAsNew(predicates []map[string]any, ledgerOf map[int]int) bool {
+	for i, perm := range predicates {
+		key, _ := arObj(perm, "decision")["operationKey"].(string)
+		if !arPermitted(perm) || arHeldKeys(perm)[key] {
+			continue
+		}
+		for j, hold := range predicates {
+			if i == j || arClaimScope(hold) != arClaimScope(perm) || !arHeldKeys(hold)[key] {
+				continue
+			}
+			sameLedger := ledgerOf[i] == ledgerOf[j]
+			if arClaimReading["ledger"] && !sameLedger {
+				continue
+			}
+			if sameLedger && arRevision(perm) < arRevision(hold) {
+				continue
+			}
+			if !arClaimReleased(predicates, i, key) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// arClaimReleased: a record other than the permit at index perm, of the same
+// operation key and scope, shows none.
+func arClaimReleased(predicates []map[string]any, perm int, key string) bool {
+	if !arClaimReading["release"] {
+		return false
+	}
+	for k, other := range predicates {
+		otherKey, _ := arObj(other, "decision")["operationKey"].(string)
+		if k != perm && otherKey == key && arClaimScope(other) == arClaimScope(predicates[perm]) &&
+			arStr(other, "effect.observed") == "none" {
+			return true
+		}
+	}
+	return false
 }
 
 func arHeldKeys(pred map[string]any) map[string]bool {
@@ -311,17 +645,75 @@ func arSetReleaseUnshown(group []map[string]any) bool {
 	return false
 }
 
-// arConsumptionSetFindings judges the records that carry consumption, grouped
-// by limitDigest. A set is malformed on the first check, in arSetRules order,
-// that any group fails. disabled names one check to skip.
-func arConsumptionSetFindings(predicates []map[string]any, disabled string) arSetReport {
-	groups := map[string][]map[string]any{}
-	for _, pred := range predicates {
-		if consumption := arConsumptionOf(pred); consumption != nil {
-			digest, _ := consumption["limitDigest"].(string)
-			groups[digest] = append(groups[digest], pred)
+// arSetChainJoin is the one way records are grouped: a replacement links two
+// limit documents into one ledger. A test drops it to read the groups as one
+// limitDigest each. arSetJoinAll reads every record as one ledger whatever its
+// limit (CS25).
+var (
+	arSetChainJoin = true
+	arSetJoinAll   = false
+)
+
+// arConsumptionGroups groups the records that carry consumption by ledger. Two
+// limitDigest values belong to one ledger when any record names one as the
+// other's supersedes, transitively (CS18 to CS22): a permit held under a limit
+// that was then replaced is still held under the replacement, so its retry is
+// the same operation and its release has to be shown. Records whose limitDigest
+// values no supersedes links stay in separate groups (CS25). A retry is identified by
+// its operation key and never by the limit, and stateRevision orders the whole
+// ledger, so a replacement does not restart it.
+func arConsumptionGroups(predicates []map[string]any) [][]map[string]any {
+	parent := map[string]string{}
+	var find func(digest string) string
+	find = func(digest string) string {
+		if _, known := parent[digest]; !known {
+			parent[digest] = digest
 		}
+		if parent[digest] != digest {
+			parent[digest] = find(parent[digest])
+		}
+		return parent[digest]
 	}
+	type carrier struct {
+		digest string
+		pred   map[string]any
+	}
+	var carrying []carrier
+	for _, pred := range predicates {
+		consumption := arConsumptionOf(pred)
+		if consumption == nil {
+			continue
+		}
+		digest, _ := consumption["limitDigest"].(string)
+		if replaced, has := consumption["supersedes"].(string); arSetChainJoin && has {
+			parent[find(replaced)] = find(digest)
+		}
+		carrying = append(carrying, carrier{digest, pred})
+	}
+	grouped := map[string][]map[string]any{}
+	var order []string
+	for _, item := range carrying {
+		root := find(item.digest)
+		if arSetJoinAll {
+			root = ""
+		}
+		if _, seen := grouped[root]; !seen {
+			order = append(order, root)
+		}
+		grouped[root] = append(grouped[root], item.pred)
+	}
+	groups := make([][]map[string]any, 0, len(order))
+	for _, root := range order {
+		groups = append(groups, grouped[root])
+	}
+	return groups
+}
+
+// arConsumptionSetFindings judges the records that carry consumption, grouped
+// by ledger (arConsumptionGroups). A set is malformed on the first check, in
+// arSetRules order, that any group fails. disabled names one check to skip.
+func arConsumptionSetFindings(predicates []map[string]any, disabled string) arSetReport {
+	groups := arConsumptionGroups(predicates)
 	for _, rule := range arSetRules {
 		if rule.name == disabled {
 			continue
@@ -331,6 +723,17 @@ func arConsumptionSetFindings(predicates []map[string]any, disabled string) arSe
 				return arSetReport{verdict: "malformed", codes: []string{rule.code}}
 			}
 		}
+	}
+	var carrying []map[string]any
+	ledgerOf := map[int]int{}
+	for index, group := range groups {
+		for _, pred := range group {
+			ledgerOf[len(carrying)] = index
+			carrying = append(carrying, pred)
+		}
+	}
+	if arClaimReading["check"] && disabled != "retry-as-new" && arSetRetryAsNew(carrying, ledgerOf) {
+		return arSetReport{verdict: "malformed", codes: []string{"consumption-set-retry-as-new"}}
 	}
 	return arSetReport{verdict: "valid"}
 }

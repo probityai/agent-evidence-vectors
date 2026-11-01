@@ -1,0 +1,312 @@
+# Verifier isolation, on Kyverno's CEL rail.
+#
+# Admit a Pod only when its image carries a done-receipt attestation, signed by the pinned
+# issuer key, whose isolation report closes all nine reward-tampering vectors of terminal-bench
+# issue 2086 (vi-1 to vi-9). The rego module `../rego/verifier_isolation.rego` is the reference
+# for every rule here, and `../conformance/run_verifier_isolation_conformance.py` drives the same
+# vectors through both and refuses a disagreement. Each validation below carries the rego
+# module's own refusal reason as its message, so the two rails name the same fact.
+#
+# FAIL CLOSED. Every expression asks for the closing fact to be present, of the right type and
+# true, never for the opening fact to be absent. A string "true" closes nothing, and a number
+# is accepted as an int or a double because the payload an engine extracts is decoded JSON.
+#
+# THE CONTRACT PIN. Replace the `PIN-ME-` value of `pinnedContract` below with the contract
+# digest this deployment grades against. Left as the placeholder, the policy admits nothing. To
+# decline the comparison, delete the `contract_digest_mismatch` and `contract_digest_invalid`
+# validations; that is this rail's equivalent of leaving `expected_contract_sha256` unset in the
+# rego module's consumer data.
+#
+# WHAT THIS RAIL CHECKS THAT THE REGO MODULE ALSO CHECKS: the statement type, the predicate
+# type, that the report exists, and every closing fact of vi-1 to vi-9. What it leaves to
+# Kyverno itself: the envelope signature, checked by `verifyAttestationSignatures` against the
+# pinned key, and the image binding. What neither establishes: that the report is true. It is
+# the verifier's account of itself, and the done receipt's observation record is where a
+# consumer that needs more than the verifier's word looks.
+#
+# MINIMUM KYVERNO VERSION. The `v1` API of ImageValidatingPolicy first appears in v1.17.0; the
+# CI pin is v1.18.2.
+apiVersion: policies.kyverno.io/v1
+kind: ImageValidatingPolicy
+metadata:
+  name: verifier-isolation-cel
+  annotations:
+    policies.kyverno.io/title: verifier isolation (CEL)
+    policies.kyverno.io/subject: Pod
+    policies.kyverno.io/description: >-
+      Admit a workload only when its image carries a signed done receipt whose verifier
+      isolation report closes every reward-tampering vector the rule set names.
+spec:
+  # Fail closed. An image whose attestation cannot be fetched, verified or evaluated is
+  # refused, never admitted with a warning.
+  failurePolicy: Fail
+  validationActions:
+    - Deny
+  evaluation:
+    mode: Kubernetes
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: ["v1"]
+        operations: ["CREATE", "UPDATE"]
+        resources: ["pods"]
+  matchImageReferences:
+    - glob: "PIN-ME-REPLACE-WITH-THE-IMAGE-GLOB-THIS-POLICY-GOVERNS/*"
+  attestors:
+    - name: issuer
+      cosign:
+        key:
+          data: |
+            -----BEGIN PUBLIC KEY-----
+            PIN-ME-REPLACE-WITH-THE-RECEIPT-ISSUER-PUBLIC-KEY
+            -----END PUBLIC KEY-----
+  attestations:
+    - name: receipt
+      intoto:
+        type: https://probityai.github.io/probity/predicate/v1/done-receipt
+
+  variables:
+    # `extractPayload` errors unless `verifyAttestationSignatures` ran for the same
+    # attestation, so this variable is a precondition of every expression below.
+    - name: verified
+      expression: >-
+        images.containers.map(image,
+          verifyAttestationSignatures(image, attestations.receipt, [attestors.issuer]))
+    # The full in-toto Statement: `_type`, `subject`, `predicateType`, `predicate`.
+    - name: statement
+      expression: extractPayload(images.containers[0], attestations.receipt)
+    - name: pinnedContract
+      expression: >-
+        "PIN-ME-REPLACE-WITH-THE-CONTRACT-DIGEST"
+    - name: predicate
+      expression: >-
+        has(variables.statement.predicate) && type(variables.statement.predicate) == map
+          ? variables.statement.predicate : {}
+    # The isolation report, or an empty map. An empty report opens every obligation below.
+    - name: report
+      expression: >-
+        has(variables.predicate.verifier_isolation)
+        && type(variables.predicate.verifier_isolation) == map
+          ? variables.predicate.verifier_isolation : {}
+    - name: trusted
+      expression: >-
+        has(variables.report.trusted_tree) && type(variables.report.trusted_tree) == map
+          ? variables.report.trusted_tree : {}
+    - name: worker
+      expression: >-
+        has(variables.report.worker) && type(variables.report.worker) == map
+          ? variables.report.worker : {}
+    - name: verifier
+      expression: >-
+        has(variables.report.verifier) && type(variables.report.verifier) == map
+          ? variables.report.verifier : {}
+    - name: replayParent
+      expression: >-
+        has(variables.verifier.replay_parent) && type(variables.verifier.replay_parent) == map
+          ? variables.verifier.replay_parent : {}
+    - name: result
+      expression: >-
+        has(variables.report.result) && type(variables.report.result) == map
+          ? variables.report.result : {}
+    - name: tests
+      expression: >-
+        has(variables.report.tests) && type(variables.report.tests) == map
+          ? variables.report.tests : {}
+    - name: procs
+      expression: >-
+        has(variables.report.processes) && type(variables.report.processes) == map
+          ? variables.report.processes : {}
+    - name: staging
+      expression: >-
+        has(variables.report.staging) && type(variables.report.staging) == map
+          ? variables.report.staging : {}
+    - name: reference
+      expression: >-
+        has(variables.report.reference) && type(variables.report.reference) == map
+          ? variables.report.reference : {}
+    # The names of the loaders that are not declared safe. A loader that says nothing about
+    # being safe is not safe, and one without a string name is called "unnamed".
+    - name: unsafeLoaders
+      expression: >-
+        has(variables.report.loaders) && type(variables.report.loaders) == list
+          ? variables.report.loaders
+              .filter(l, !(type(l) == map && has(l.safe) && l.safe == true))
+              .map(l, type(l) == map && has(l.name) && type(l.name) == string ? l.name : "unnamed")
+          : []
+
+  validations:
+    # -- the statement ----------------------------------------------------------
+    - expression: variables.verified.all(e, e > 0)
+      message: "the done receipt is not signed by the pinned issuer key"
+    - expression: >-
+        has(variables.statement._type)
+        && variables.statement._type == "https://in-toto.io/Statement/v1"
+      message: "unsupported_statement_type"
+    - expression: >-
+        has(variables.statement.predicateType)
+        && variables.statement.predicateType ==
+           "https://probityai.github.io/probity/predicate/v1/done-receipt"
+      message: "unsupported_predicate"
+    - expression: >-
+        has(variables.predicate.verifier_isolation)
+        && type(variables.predicate.verifier_isolation) == map
+      message: "isolation_report_missing"
+    - expression: >-
+        has(variables.report.contract_sha256)
+        && type(variables.report.contract_sha256) == string
+        && variables.report.contract_sha256.matches("^[0-9a-f]{64}$")
+      message: "contract_digest_invalid"
+    - expression: >-
+        has(variables.report.contract_sha256)
+        && variables.report.contract_sha256 == variables.pinnedContract
+      message: "contract_digest_mismatch"
+
+    # -- vi-1  V1 Overwrite -------------------------------------------------------
+    - expression: >-
+        has(variables.trusted.expected_sha256)
+        && type(variables.trusted.expected_sha256) == string
+        && variables.trusted.expected_sha256.matches("^[0-9a-f]{64}$")
+        && has(variables.trusted.measured_sha256)
+        && variables.trusted.measured_sha256 == variables.trusted.expected_sha256
+      message: "vi-1:trusted_tree_not_reset_to_contract"
+    - expression: >-
+        has(variables.trusted.excluded_names_reset) && variables.trusted.excluded_names_reset == true
+      message: "vi-1:excluded_names_not_reset"
+
+    # -- vi-2  V2 Patch -----------------------------------------------------------
+    - expression: >-
+        has(variables.worker.uid)
+        && (type(variables.worker.uid) == int || type(variables.worker.uid) == double)
+        && has(variables.verifier.uid)
+        && (type(variables.verifier.uid) == int || type(variables.verifier.uid) == double)
+        && double(variables.worker.uid) != 0.0
+        && double(variables.worker.uid) != double(variables.verifier.uid)
+      message: "vi-2:worker_not_unprivileged"
+    - expression: >-
+        has(variables.worker.supplementary_groups)
+        && type(variables.worker.supplementary_groups) == list
+        && size(variables.worker.supplementary_groups) == 0
+      message: "vi-2:worker_supplementary_groups_kept"
+    - expression: >-
+        has(variables.verifier.assertions_in_parent) && variables.verifier.assertions_in_parent == true
+      message: "vi-2:assertions_not_in_parent"
+    - expression: >-
+        has(variables.verifier.python_isolated) && variables.verifier.python_isolated == true
+      message: "vi-2:trusted_python_not_isolated"
+    - expression: >-
+        has(variables.replayParent.runtime)
+        && type(variables.replayParent.runtime) == string
+        && variables.replayParent.runtime in ["docker", "podman"]
+      message: "vi-2:replay_parent_not_contained"
+    - expression: >-
+        has(variables.replayParent.uid)
+        && (type(variables.replayParent.uid) == int || type(variables.replayParent.uid) == double)
+        && has(variables.verifier.uid)
+        && (type(variables.verifier.uid) == int || type(variables.verifier.uid) == double)
+        && double(variables.replayParent.uid) != 0.0
+        && double(variables.replayParent.uid) != double(variables.verifier.uid)
+      message: "vi-2:replay_parent_shares_verifier_uid"
+    - expression: >-
+        has(variables.replayParent.env)
+        && type(variables.replayParent.env) == list
+        && variables.replayParent.env.all(name, type(name) == string
+             && name in ["HOME", "LANG", "LC_ALL", "PATH", "PYTEST_DISABLE_PLUGIN_AUTOLOAD", "PYTHONDONTWRITEBYTECODE", "PYTHONHASHSEED", "PYTHONNOUSERSITE", "TMPDIR", "TZ"])
+      message: "vi-2:replay_parent_environment_not_scrubbed"
+
+    # -- vi-3  V3 Reward ----------------------------------------------------------
+    # A mode with group and other bits clear: `700`, `0700` and `600` pass, `770` and `777` do not.
+    - expression: >-
+        has(variables.result.dir_mode) && type(variables.result.dir_mode) == string
+        && variables.result.dir_mode.matches("^0?[0-7]00$")
+      message: "vi-3:result_dir_open_to_worker"
+    - expression: >-
+        has(variables.result.precleared) && variables.result.precleared == true
+      message: "vi-3:result_not_precleared"
+    - expression: >-
+        has(variables.result.written_by) && variables.result.written_by == "verifier"
+      message: "vi-3:result_not_written_by_verifier"
+    - expression: >-
+        has(variables.result.files_read) && type(variables.result.files_read) == list
+        && size(variables.result.files_read) == 1
+      message: "vi-3:result_source_ambiguous"
+
+    # -- vi-4  V4 Fail-open -------------------------------------------------------
+    - expression: >-
+        has(variables.tests.expected)
+        && (type(variables.tests.expected) == int || type(variables.tests.expected) == double)
+        && double(variables.tests.expected) > 0.0
+      message: "vi-4:no_tests_expected"
+    - expression: >-
+        has(variables.tests.expected)
+        && (type(variables.tests.expected) == int || type(variables.tests.expected) == double)
+        && has(variables.tests.collected)
+        && (type(variables.tests.collected) == int || type(variables.tests.collected) == double)
+        && double(variables.tests.collected) == double(variables.tests.expected)
+      message: "vi-4:test_count_mismatch"
+    - expression: >-
+        has(variables.tests.skipped)
+        && (type(variables.tests.skipped) == int || type(variables.tests.skipped) == double)
+        && double(variables.tests.skipped) == 0.0
+      message: "vi-4:tests_skipped"
+    - expression: >-
+        has(variables.tests.exit_status_alone_accepted)
+        && variables.tests.exit_status_alone_accepted == false
+      message: "vi-4:verdict_from_exit_status_alone"
+
+    # -- vi-5  V5 Sleeper ---------------------------------------------------------
+    - expression: >-
+        has(variables.procs.worker_killed) && variables.procs.worker_killed == true
+      message: "vi-5:worker_processes_not_killed"
+    - expression: >-
+        has(variables.procs.remaining)
+        && (type(variables.procs.remaining) == int || type(variables.procs.remaining) == double)
+        && double(variables.procs.remaining) == 0.0
+      message: "vi-5:worker_processes_remain"
+    - expression: >-
+        has(variables.procs.killed_step)
+        && (type(variables.procs.killed_step) == int || type(variables.procs.killed_step) == double)
+        && has(variables.procs.result_read_step)
+        && (type(variables.procs.result_read_step) == int || type(variables.procs.result_read_step) == double)
+        && double(variables.procs.killed_step) < double(variables.procs.result_read_step)
+      message: "vi-5:result_read_before_kill"
+
+    # -- vi-6  V6 Staging ---------------------------------------------------------
+    - expression: >-
+        has(variables.staging.nofollow) && variables.staging.nofollow == true
+      message: "vi-6:links_followed"
+    - expression: >-
+        has(variables.staging.destination_removed_first) && variables.staging.destination_removed_first == true
+      message: "vi-6:destination_not_removed_first"
+    - expression: >-
+        has(variables.staging.special_files_rejected) && variables.staging.special_files_rejected == true
+      message: "vi-6:special_files_admitted"
+
+    # -- vi-7  V7 Forgery ---------------------------------------------------------
+    - expression: >-
+        has(variables.report.evidence_from_worker)
+        && type(variables.report.evidence_from_worker) == list
+        && size(variables.report.evidence_from_worker) == 0
+      message: "vi-7:evidence_taken_from_worker"
+    - expression: >-
+        has(variables.worker.env_scrubbed) && variables.worker.env_scrubbed == true
+      message: "vi-7:environment_not_scrubbed"
+    - expression: >-
+        has(variables.worker.scratch_copy) && variables.worker.scratch_copy == true
+      message: "vi-7:no_scratch_copy"
+
+    # -- vi-8  V8 Disclosure ------------------------------------------------------
+    - expression: >-
+        has(variables.reference.dir_mode) && type(variables.reference.dir_mode) == string
+        && variables.reference.dir_mode.matches("^0?[0-7]00$")
+      message: "vi-8:reference_readable_by_worker"
+    - expression: >-
+        has(variables.reference.inside_artifact_dir) && variables.reference.inside_artifact_dir == false
+      message: "vi-8:reference_inside_artifact"
+
+    # -- vi-9  V9 Exploit ---------------------------------------------------------
+    - expression: >-
+        has(variables.report.loaders) && type(variables.report.loaders) == list
+        && size(variables.report.loaders) > 0
+      message: "vi-9:loaders_undeclared"
+    - expression: size(variables.unsafeLoaders) == 0
+      messageExpression: "'vi-9:unsafe_loader:' + variables.unsafeLoaders.join(',')"

@@ -1,0 +1,132 @@
+system: aee-e2
+system_url: https://github.com/DrVelvetFog/aee-e2
+crosswalk_version: "0.2.0"
+vocabulary_version_targeted: "0.3.0"
+
+maintainer:
+  github: DrVelvetFog
+  third_party_authored: false
+
+summary_of_system: >
+  An independent second implementation of the AEE v0.7 predicate, written for the
+  E2 seat on in-toto/attestation#570. Python, standard library only. It reads a
+  statement someone else signed and decides whether the statement is well formed,
+  whether its coverage holds, and what result token the carried predicate
+  recomputes to. It issues nothing and signs nothing.
+
+# ---------------------------------------------------------------------------
+# One thing to say before the rows, because it decides how most of them read.
+#
+# This registry promotes a term when an independently-maintained system emits it
+# in a real, signed artifact. aee-e2 is a verifier. It consumes AEE statements
+# and produces no signed artifact of its own, so for six of the seven terms
+# below the honest answer is no_mapping: the rail implements the term and
+# enforces it on every vector, and still emits no field carrying it. That is a
+# gap in what aee-e2 publishes, never a gap in what it checks, and each note
+# below says which of the two it is.
+#
+# The consequence is worth stating plainly, since it bears on the lifecycle
+# and not just on this file: a second verifier cannot promote a term. Both
+# implementations that exist for this predicate, this one and aee-checker, read
+# statements and issue none. On today's evidence the registry's promotion bar
+# needs a second ISSUER, and neither of us is one.
+# ---------------------------------------------------------------------------
+
+evidence_dimensions:
+  observation_vantage:
+    match: no_mapping
+    notes: >
+      Implemented and enforced as the closed basis vocabulary, composing by
+      weakest input, and no value is emitted: aee-e2 reads basis from a signed
+      statement and never declares one.
+
+  observation_directness:
+    match: no_mapping
+    notes: >
+      Implemented and enforced as the closed method vocabulary, including the cap
+      that a row's method is no stronger than the weakest record covering it.
+      Read from a signed statement, never declared.
+
+  field_evidence_partition:
+    match: no_mapping
+    notes: >
+      Enforced where the predicate carries it, through the per-row evidence tier
+      and the record binding. aee-e2 produces no mixed claim of its own, so it
+      has no partition to declare.
+
+  issuance_time_basis:
+    match: no_mapping
+    notes: >
+      aee-e2 checks the issuedAt and armedAt profile and holds the bytes it was
+      given, never normalising them. It folds no publicly datable value into
+      anything it produces, so it sits at this term's asserted pole and has
+      nothing to file at the proven one.
+
+posture_and_coverage:
+  containment_posture:
+    match: no_mapping
+    notes: >
+      Enforced closed and fail-closed, with the digest recomputed against the
+      pinned networkPosture. The value is read from the statement; aee-e2
+      declares no posture of its own.
+
+  coverage_denominator:
+    match: no_mapping
+    notes: >
+      Enforced as the three-way disjoint partition over a digest-committed
+      manifest, including the floor that a manifest declaring no attack at all
+      is malformed. Checked on every vector, emitted nowhere.
+
+  does_not_assert:
+    match: no_mapping
+    notes: >
+      The shape is validated where a statement carries it, and the snake_case
+      spelling is treated as an unread member and never as an alias. aee-e2
+      publishes no such list for itself.
+
+outcome_lattice:
+  result:
+    match: exact
+    evidence: recomputed
+    source_path: https://raw.githubusercontent.com/DrVelvetFog/aee-e2/main/reports/after-resolution/first-run.json
+    corpus_digest: 8b035678def9e5ac00ba761b8c640e4412c57163134afb9d2c1a90f49d573a52
+    accepted_agreed: 61
+    accepted_total: 61
+    notes: >
+      The one term this rail does produce a value for. aee-e2 recomputes result
+      from the carried predicate alone, as a minimum over three independent
+      conditions in the order fail < degraded < pass_indirect < pass, and the
+      function is structurally unable to read observationRecords, signature
+      outcomes or any consumer policy. The cited file carries got_result beside
+      expected_result for all 272 vectors; the 61 accepted statements agreed on
+      every one, across all four values, at the first run and after it.
+      Declared recomputed, the state 0.3.0 added for a verifier: the value is
+      computed here, and the file carrying it is a run report, not a signed
+      statement, so it is not emitted and promotes nothing. The corpus digest is
+      the one aee-e2 pins in spec/CORPUS-PIN.json (agent-evidence-vectors v0.10.1,
+      suiteRevision 28), and the 61 of 61 is the count of accepted vectors in the
+      cited file whose got_result equals expected_result.
+
+system_attributes:
+  signature_capability: other
+  canonicalization_profile: jcs_rfc_8785
+  hash_family: sha_256
+  domain_separation_profile: declared
+  notes: >
+    signature_capability is other because aee-e2 verifies no signature at all.
+    The spec puts envelope and per-record signature verification in stage two,
+    which is trust-relative; this rail implements stage one, so it checks that
+    a record's signatures member is present and non-empty and reads no key.
+    domain_separation_profile is declared through DSSE PAE, computed over the
+    decoded payload with lengths counted in bytes.
+
+    On the byte-identity claim the template asks about: aee-e2's JCS covers
+    strings, the ECMAScript Number::toString layout for any IEEE 754 double,
+    objects sorted by UTF-16 code unit, arrays, and the three literals. Two
+    boundaries are deliberate and either could cost byte-equality against
+    another RFC 8785 implementation that drew them elsewhere. Python integers of
+    magnitude 2^53 or greater are refused, since no faithful double exists for
+    them, while any float is formatted. And the safe-integer rule is enforced on
+    integer-form numbers only, so 1e21 parses and serialises to 1e+21, which is
+    the layout JCS pins for it. Both readings are recorded with their
+    alternatives in NOTES.md in the repository named above.

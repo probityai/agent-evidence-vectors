@@ -1,0 +1,138 @@
+{
+  "about": "Positive and negative vectors for agent-evidence-admission generate. Each case runs the generator on an admit list, for the clients named (default all four), and expects the exit code and the (client, server) pairs refused. Exit 2 means the admit list itself is invalid and nothing is written. The expected directory holds the exact files the first case writes.",
+  "cases": [
+    {
+      "id": "three-servers-every-client",
+      "admit_list": "admit-list.json",
+      "exit": 0,
+      "refused": [],
+      "expected": "expected",
+      "polarity": "positive",
+      "why": "two versions of one npm stdio server and one remote server render for all four clients"
+    },
+    {
+      "id": "local-script-three-clients",
+      "admit_list": "local-script.json",
+      "clients": [
+        "claude-code",
+        "cursor",
+        "windsurf"
+      ],
+      "exit": 0,
+      "refused": [],
+      "polarity": "positive",
+      "why": "a local script with an absolute command path is exact in Claude Code, Cursor and Windsurf"
+    },
+    {
+      "id": "local-script-registry-refused",
+      "admit_list": "local-script.json",
+      "exit": 1,
+      "refused": [
+        [
+          "registry",
+          "io.github.example/scripts@0.3.0"
+        ]
+      ],
+      "polarity": "negative",
+      "why": "a stdio server with no package cannot be listed in an MCP registry, so the registry refuses it and the other clients still render it"
+    },
+    {
+      "id": "space-in-argument-cursor-refused",
+      "admit_list": "space-in-argument.json",
+      "clients": [
+        "claude-code",
+        "cursor",
+        "windsurf"
+      ],
+      "exit": 1,
+      "refused": [
+        [
+          "cursor",
+          "io.github.example/scripts@0.3.0"
+        ]
+      ],
+      "polarity": "negative",
+      "why": "Cursor joins arguments with spaces, so an argument holding a space cannot be matched exactly"
+    },
+    {
+      "id": "no-admitted",
+      "admit_list": "no-admitted.json",
+      "exit": 2,
+      "refused": [],
+      "polarity": "negative",
+      "why": "the admit list is refused: an empty admit list"
+    },
+    {
+      "id": "bad-digest",
+      "admit_list": "bad-digest.json",
+      "exit": 2,
+      "refused": [],
+      "polarity": "negative",
+      "why": "the admit list is refused: a digest that is not sha256 and 64 lowercase hex digits"
+    },
+    {
+      "id": "plain-http",
+      "admit_list": "plain-http.json",
+      "exit": 2,
+      "refused": [],
+      "polarity": "negative",
+      "why": "the admit list is refused: a remote URL over plain http"
+    },
+    {
+      "id": "wildcard-url",
+      "admit_list": "wildcard-url.json",
+      "exit": 2,
+      "refused": [],
+      "polarity": "negative",
+      "why": "the admit list is refused: a remote URL with a wildcard"
+    },
+    {
+      "id": "both-transports",
+      "admit_list": "both-transports.json",
+      "exit": 2,
+      "refused": [],
+      "polarity": "negative",
+      "why": "the admit list is refused: an entry with both stdio and remote"
+    },
+    {
+      "id": "env-expansion",
+      "admit_list": "env-expansion.json",
+      "exit": 2,
+      "refused": [],
+      "polarity": "negative",
+      "why": "the admit list is refused: an argument with ${...}, which expands on the user's machine"
+    },
+    {
+      "id": "latest-version",
+      "admit_list": "latest-version.json",
+      "exit": 2,
+      "refused": [],
+      "polarity": "negative",
+      "why": "the admit list is refused: version latest instead of one release"
+    },
+    {
+      "id": "duplicate",
+      "admit_list": "duplicate.json",
+      "exit": 2,
+      "refused": [],
+      "polarity": "negative",
+      "why": "the admit list is refused: one name and version admitted twice"
+    },
+    {
+      "id": "key-collision",
+      "admit_list": "key-collision.json",
+      "exit": 2,
+      "refused": [],
+      "polarity": "negative",
+      "why": "the admit list is refused: one client key naming two servers"
+    },
+    {
+      "id": "bad-name",
+      "admit_list": "bad-name.json",
+      "exit": 2,
+      "refused": [],
+      "polarity": "negative",
+      "why": "the admit list is refused: a name that is not a registry name"
+    }
+  ]
+}

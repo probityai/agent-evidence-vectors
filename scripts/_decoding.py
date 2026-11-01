@@ -110,7 +110,16 @@ MAX_OUTPUT = 1 << 19
 # the runs are matched greedily and whole.
 BASE64_SPAN = re.compile(rf"[A-Za-z0-9+/_-]{{{MIN_SPAN},}}={{0,2}}")
 HEX_SPAN = re.compile(rf"(?:[0-9a-fA-F]{{2}}){{{MIN_SPAN // 2},}}")
-PERCENT_SPAN = re.compile(r"(?:[A-Za-z0-9._~/:-]*%[0-9a-fA-F]{2})+[A-Za-z0-9._~/:-]*")
+# THE LOOKBEHIND KEEPS THIS LINEAR. Without it every start position inside a long
+# run of ordinary characters re-reads the rest of the run looking for a `%` that
+# is not there, so one line of N such characters costs N squared: a 64 KiB line
+# took 8.6 s here and a 1 MiB line (a boundary vector for a size limit) outlasts
+# the 900 s push-gate deadline. A match always starts at the beginning of a run
+# of ordinary characters, because any later start in the same run reads the same
+# tail, so refusing to start mid-run loses nothing.
+PERCENT_SPAN = re.compile(
+    r"(?<![A-Za-z0-9._~/:-])(?:[A-Za-z0-9._~/:-]*%[0-9a-fA-F]{2})+[A-Za-z0-9._~/:-]*"
+)
 
 # The JSON key immediately before a span, so a finding inside a diff line can
 # name the field it sits in even though one line of a pretty-printed file is not

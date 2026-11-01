@@ -40,7 +40,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from canonical import jcs
+from canonical import decode_strict, jcs
 from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 from digest import corpus_digest
@@ -55,8 +55,14 @@ PREDICATE_TYPE = (
 TURN_CONTEXT = "agent-evidence/self-reported-record/v1/turn"
 FIELD_CONTEXT = "agent-evidence/self-reported-record/v1/field"
 
-HEX64 = re.compile(r"^[0-9a-f]{64}$")
-RFC3339_UTC = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
+# Go's regexp `$` matches only at the end of the text, where Python's also
+# matches before a final newline, and Go's `\d` is ASCII only. fullmatch with
+# explicit classes keeps both readings identical.
+HEX64 = re.compile(r"[0-9a-f]{64}")
+RFC3339_UTC = re.compile(r"[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z")
+HEX_DIGITS = re.compile(r"(?:[0-9a-fA-F]{2})*")
+SIGNATURE_ALPHABET = re.compile(r"[A-Za-z0-9+/=]*")
+CONTAINERS = ("selfSigners", "turns", "memoryReads", "ledgers", "fields")
 
 # The closed vocabularies, each a registered term in agent-evidence-vocabulary.
 # Spelled here as the contract spells them, so a value the registry does not
@@ -114,7 +120,13 @@ CODE_OF_RULE = {
 
 
 def ed25519_ok(public_hex: str, payload: bytes, signature_b64: str) -> bool:
-    """Verify, refusing rather than raising on anything the bytes get wrong."""
+    """Verify, refusing rather than raising on anything the bytes get wrong.
+
+    Hex is read as Go reads it (even length, either case, no spaces); the
+    signature is standard base64 with padding and no line break.
+    """
+    if HEX_DIGITS.fullmatch(public_hex) is None:
+        return False
     try:
         public = bytes.fromhex(public_hex)
         signature = base64.b64decode(signature_b64, validate=True)
@@ -129,169 +141,212 @@ def ed25519_ok(public_hex: str, payload: bytes, signature_b64: str) -> bool:
     return True
 
 
+# A value of the wrong type reads as empty, so a rule never raises on it and the
+# well-formedness rule, which runs first, is what refuses the record.
+
+
+def _str(value: Any) -> str:
+    return value if isinstance(value, str) else ""
+
+
+def _object(value: Any) -> dict[str, Any]:
+    return value if isinstance(value, dict) else {}
+
+
+def _array(value: Any) -> list[Any]:
+    return value if isinstance(value, list) else []
+
+
 def _is_hex64(value: Any) -> bool:
-    return isinstance(value, str) and bool(HEX64.match(value))
+    return isinstance(value, str) and HEX64.fullmatch(value) is not None
 
 
-def _subject_wellformed(statement: dict[str, Any]) -> bool:
-    subject = statement.get("subject")
-    if not isinstance(subject, list) or len(subject) != 1:
+def _signature_spelled(signature: str) -> bool:
+    """A signature is standard base64 characters only: no line break, no space."""
+    return SIGNATURE_ALPHABET.fullmatch(signature) is not None
+
+
+def _subject_wellformed(value: Any) -> bool:
+    subject = _array(value)
+    if len(subject) != 1:
         return False
-    entry = subject[0]
-    if not isinstance(entry, dict) or not isinstance(entry.get("name"), str):
+    entry = _object(subject[0])
+    if not isinstance(entry.get("name"), str):
         return False
-    digest = entry.get("digest")
-    return isinstance(digest, dict) and _is_hex64(digest.get("sha256"))
+    return _is_hex64(_object(entry.get("digest")).get("sha256"))
 
 
-def _turn_row_wellformed(row: Any) -> bool:
-    if not isinstance(row, dict) or not isinstance(row.get("turnId"), str):
-        return False
-    attested = row.get("attestedBy")
-    if not isinstance(attested, dict) or not isinstance(attested.get("sig"), str):
-        return False
-    return _is_hex64(attested.get("keyid")) and isinstance(row.get("changeIds"), list)
+def _turns_wellformed(predicate: dict[str, Any]) -> bool:
+    for item in _array(predicate["turns"]):
+        row = _object(item)
+        attested = _object(row.get("attestedBy"))
+        signature = attested.get("sig")
+        if not isinstance(row.get("turnId"), str):
+            return False
+        if not _is_hex64(attested.get("keyid")) or not isinstance(signature, str):
+            return False
+        if not _signature_spelled(signature) or not isinstance(row.get("changeIds"), list):
+            return False
+    return True
 
 
-def _memory_row_wellformed(row: Any) -> bool:
-    if not isinstance(row, dict) or not isinstance(row.get("path"), str):
-        return False
-    return _is_hex64(row.get("assertedDigest")) and _is_hex64(row.get("pathDigest"))
+def _memory_wellformed(predicate: dict[str, Any]) -> bool:
+    for item in _array(predicate["memoryReads"]):
+        row = _object(item)
+        if not isinstance(row.get("path"), str):
+            return False
+        if not _is_hex64(row.get("assertedDigest")) or not _is_hex64(row.get("pathDigest")):
+            return False
+    return True
 
 
-def _ledger_row_wellformed(row: Any) -> bool:
-    return (
-        isinstance(row, dict)
-        and isinstance(row.get("name"), str)
-        and isinstance(row.get("members"), list)
-    )
+def _ledgers_wellformed(predicate: dict[str, Any]) -> bool:
+    for item in _array(predicate["ledgers"]):
+        row = _object(item)
+        if not isinstance(row.get("name"), str) or not isinstance(row.get("members"), list):
+            return False
+    return True
 
 
-def _field_row_wellformed(row: Any) -> bool:
-    return (
-        isinstance(row, dict)
-        and isinstance(row.get("name"), str)
-        and isinstance(row.get("value"), str)
-        and row.get("evidence") in FIELD_EVIDENCE
-    )
-
-
-def _rows_wellformed(predicate: dict[str, Any]) -> bool:
-    """Every carried row's own shape, one predicate per array.
-
-    Split per array rather than written as one loop nest: a single function over
-    four row shapes runs past this repository's complexity ceiling, and the four
-    predicates are independently readable, which is the same reason the ceiling
-    is there.
-    """
-    return (
-        all(_turn_row_wellformed(row) for row in predicate["turns"])
-        and all(_memory_row_wellformed(row) for row in predicate["memoryReads"])
-        and all(_ledger_row_wellformed(row) for row in predicate["ledgers"])
-        and all(_field_row_wellformed(row) for row in predicate["fields"])
-    )
+def _fields_wellformed(predicate: dict[str, Any]) -> bool:
+    for item in _array(predicate["fields"]):
+        row = _object(item)
+        if not isinstance(row.get("name"), str) or not isinstance(row.get("value"), str):
+            return False
+        if _str(row.get("evidence")) not in FIELD_EVIDENCE:
+            return False
+        covering = _object(row.get("coveredBy")).get("sig")
+        if isinstance(covering, str) and not _signature_spelled(covering):
+            return False
+    return True
 
 
 def _scalars_wellformed(predicate: dict[str, Any]) -> bool:
-    """The predicate's own scalar members, apart from the carried rows."""
     for member, allowed in VOCABULARIES.items():
-        if predicate[member] not in allowed:
+        if _str(predicate[member]) not in allowed:
             return False
-    if predicate["hashAlgorithm"] != "sha256":
+    if _str(predicate["hashAlgorithm"]) != "sha256":
         return False
-    key = predicate["attestingKey"]
-    if not isinstance(key, dict):
-        return False
+    key = _object(predicate["attestingKey"])
     if not _is_hex64(key.get("keyid")) or not _is_hex64(key.get("publicKey")):
         return False
-    if not isinstance(predicate["selfSigners"], list):
+    if not all(_is_hex64(keyid) for keyid in _array(predicate["selfSigners"])):
         return False
-    if not all(_is_hex64(keyid) for keyid in predicate["selfSigners"]):
+    if len(_array(predicate["ledgers"])) < 2:
         return False
-    if not isinstance(predicate["ledgers"], list) or len(predicate["ledgers"]) < 2:
-        return False
-    return bool(RFC3339_UTC.match(str(predicate["issuedAt"])))
+    return RFC3339_UTC.fullmatch(_str(predicate["issuedAt"])) is not None
 
 
 def rule_wellformed(statement: dict[str, Any]) -> bool:
     """Stage one: the record can be read at all, under the shape it declares."""
-    if statement.get("_type") != STATEMENT_TYPE:
+    if _str(statement.get("_type")) != STATEMENT_TYPE:
         return False
-    if statement.get("predicateType") != PREDICATE_TYPE:
+    if _str(statement.get("predicateType")) != PREDICATE_TYPE:
         return False
-    if not _subject_wellformed(statement):
+    if not _subject_wellformed(statement.get("subject")):
         return False
     predicate = statement.get("predicate")
     if not isinstance(predicate, dict):
         return False
     if any(member not in predicate for member in REQUIRED):
         return False
-    return _scalars_wellformed(predicate) and _rows_wellformed(predicate)
+    if not all(isinstance(predicate[name], list) for name in CONTAINERS):
+        return False
+    return (
+        _scalars_wellformed(predicate)
+        and _turns_wellformed(predicate)
+        and _memory_wellformed(predicate)
+        and _ledgers_wellformed(predicate)
+        and _fields_wellformed(predicate)
+    )
+
+
+def _preimage(members: dict[str, Any]) -> bytes | None:
+    try:
+        return jcs(members)
+    except TypeError:
+        return None
 
 
 def rule_turn_attestation(statement: dict[str, Any]) -> bool:
     """srr-c-1: every turn is signed by the key the record names."""
     predicate = statement["predicate"]
-    public = predicate["attestingKey"]["publicKey"]
-    for row in predicate["turns"]:
-        payload = jcs(
+    public = _str(_object(predicate["attestingKey"]).get("publicKey"))
+    for item in _array(predicate["turns"]):
+        row = _object(item)
+        payload = _preimage(
             {
-                "changeIds": row["changeIds"],
+                "changeIds": row.get("changeIds"),
                 "context": TURN_CONTEXT,
-                "goalMarker": row["goalMarker"],
-                "priorTurn": row["priorTurn"],
+                "goalMarker": row.get("goalMarker"),
+                "priorTurn": row.get("priorTurn"),
                 "sessionId": predicate["sessionId"],
-                "turnId": row["turnId"],
+                "turnId": row.get("turnId"),
             }
         )
-        if not ed25519_ok(public, payload, row["attestedBy"]["sig"]):
+        signature = _str(_object(row.get("attestedBy")).get("sig"))
+        if payload is None or not ed25519_ok(public, payload, signature):
             return False
     return True
 
 
 def rule_memory_digest_over_named_path(statement: dict[str, Any]) -> bool:
     """srr-c-2: the digest reported is the digest of the bytes at the path."""
-    return all(
-        row["assertedDigest"] == row["pathDigest"]
-        for row in statement["predicate"]["memoryReads"]
-    )
+    for item in _array(statement["predicate"]["memoryReads"]):
+        row = _object(item)
+        if _str(row.get("assertedDigest")) != _str(row.get("pathDigest")):
+            return False
+    return True
 
 
 def rule_attesting_key_disjoint(statement: dict[str, Any]) -> bool:
     """srr-c-3: the attesting key is not one the record says the runtime holds."""
     predicate = statement["predicate"]
-    return predicate["attestingKey"]["keyid"] not in predicate["selfSigners"]
+    keyid = _str(_object(predicate["attestingKey"]).get("keyid"))
+    return all(_str(signer) != keyid for signer in _array(predicate["selfSigners"]))
 
 
 def rule_ledgers_agree(statement: dict[str, Any]) -> bool:
     """srr-c-4: every ledger names the same change set."""
-    sets = [frozenset(row["members"]) for row in statement["predicate"]["ledgers"]]
+    sets = [
+        frozenset(_str(member) for member in _array(_object(item).get("members")))
+        for item in _array(statement["predicate"]["ledgers"])
+    ]
     return all(members == sets[0] for members in sets)
 
 
+def _field_covered(row: dict[str, Any], predicate: dict[str, Any], self_signers: set[str]) -> bool:
+    key = _object(row.get("coveredBy"))
+    if not key or _str(key.get("keyid")) in self_signers:
+        return False
+    payload = _preimage(
+        {
+            "context": FIELD_CONTEXT,
+            "name": row.get("name"),
+            "recordId": predicate["recordId"],
+            "value": row.get("value"),
+        }
+    )
+    if payload is None:
+        return False
+    return ed25519_ok(_str(key.get("publicKey")), payload, _str(key.get("sig")))
+
+
 def rule_field_coverage(statement: dict[str, Any]) -> bool:
-    """srr-c-5: a field claiming substrate coverage carries the covering signature."""
+    """srr-c-5: a field claiming substrate coverage carries the covering signature.
+
+    A field declaring producer_asserted carries no coveredBy at all, and a
+    coveredBy that is present but null counts as carried.
+    """
     predicate = statement["predicate"]
-    self_signers = set(predicate["selfSigners"])
-    for row in predicate["fields"]:
-        covered = row.get("coveredBy")
-        if row["evidence"] == "producer_asserted":
-            if covered is not None:
+    self_signers = {_str(signer) for signer in _array(predicate["selfSigners"])}
+    for item in _array(predicate["fields"]):
+        row = _object(item)
+        if _str(row.get("evidence")) == "producer_asserted":
+            if "coveredBy" in row:
                 return False
             continue
-        if not isinstance(covered, dict):
-            return False
-        if covered.get("keyid") in self_signers:
-            return False
-        payload = jcs(
-            {
-                "context": FIELD_CONTEXT,
-                "name": row["name"],
-                "recordId": predicate["recordId"],
-                "value": row["value"],
-            }
-        )
-        if not ed25519_ok(str(covered.get("publicKey")), payload, str(covered.get("sig"))):
+        if not _field_covered(row, predicate, self_signers):
             return False
     return True
 
@@ -337,6 +392,20 @@ def verify(
     if firing == ["rule_wellformed"]:
         return "malformed", [CODE_OF_RULE["rule_wellformed"]]
     return "invalid", [CODE_OF_RULE[name] for name in firing]
+
+
+def verify_bytes(raw: bytes) -> tuple[str, list[str]]:
+    """The verdict over a member's bytes. Never raises.
+
+    Bytes that are not exactly one JSON document in UTF-8 give ("unparsed", []):
+    no verdict exists for them, and the corpus carries no such member. A
+    document that is not a JSON object is record-malformed.
+    """
+    try:
+        statement = decode_strict(raw)
+    except (ValueError, RecursionError):
+        return "unparsed", []
+    return verify(_object(statement))
 
 
 # ---------------------------------------------------------------------------
@@ -434,7 +503,12 @@ def main() -> int:
         bodies[entry["id"]] = body
         if "v" + hashlib.sha256(body).hexdigest()[:16] != entry["id"]:
             findings.append(f"{entry['id']}: does not recompute from its own bytes")
-        findings.extend(_member_findings(entry, json.loads(body)))
+        try:
+            statement = decode_strict(body)
+        except (ValueError, RecursionError) as exc:
+            findings.append(f"{entry['id']}: does not parse: {exc}")
+            continue
+        findings.extend(_member_findings(entry, _object(statement)))
     findings.extend(_corpus_findings(manifest, bodies))
 
     if findings:

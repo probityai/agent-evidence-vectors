@@ -93,6 +93,19 @@ def included_dirs() -> list[str]:
     return list(dirs)
 
 
+def held_elsewhere_dirs() -> list[str]:
+    """Directories whose Python is checked by the workflow that owns them.
+
+    The trees imported from the sibling specification repository carry their
+    own lint and test jobs (parts.yml and the crate, package and site
+    workflows). They are named here, in pyproject.toml, so the exclusion is
+    visible and reviewed; a Python file outside both lists is still an error.
+    """
+    config = tomllib.loads(PYPROJECT.read_text(encoding="utf-8"))
+    held = config.get("tool", {}).get("typecheck-gate", {}).get("held-elsewhere", [])
+    return list(held)
+
+
 def repository_python_files() -> list[pathlib.Path]:
     """Every Python file git knows about, tracked or not yet added.
 
@@ -185,7 +198,12 @@ def main() -> int:
     args = ap.parse_args()
 
     dirs = included_dirs()
-    files = repository_python_files()
+    held = [pathlib.Path(d) for d in held_elsewhere_dirs()]
+    files = [
+        f
+        for f in repository_python_files()
+        if not any(r == f or r in f.parents for r in held)
+    ]
     if not files:
         fail(
             "git reported no Python files in this repository.\n"

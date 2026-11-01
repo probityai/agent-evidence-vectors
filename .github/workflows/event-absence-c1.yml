@@ -1,0 +1,35 @@
+name: Event absence C1 cases
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'interop/event-absence-c1-sergeev/**'
+      - '.github/workflows/event-absence-c1.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'interop/event-absence-c1-sergeev/**'
+      - '.github/workflows/event-absence-c1.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  # A newer push to the same pull request or branch supersedes the older run.
+  # Main and tags never cancel: each main push keeps its own group by sha.
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || (github.ref == 'refs/heads/main' && github.sha) || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' || github.event_name == 'pull_request_target' || (github.event_name == 'push' && github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/tags/')) }}
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v7
+      - name: Run the three cases through the pinned verifier
+        run: uv run --no-project --python 3.13 --with probity-verify==0.2.2 python interop/event-absence-c1-sergeev/run.py

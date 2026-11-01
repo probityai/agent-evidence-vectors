@@ -1,0 +1,32 @@
+{
+  "action": {
+    "kind": "change",
+    "resource": "Appointment",
+    "subject": "patient-synthetic-0001"
+  },
+  "case_id": "vectors-connector-scope-change-in-scope-performed",
+  "connector": {
+    "declared_scope": {
+      "change": [
+        "Appointment"
+      ],
+      "read": [
+        "Observation",
+        "Condition",
+        "Appointment"
+      ]
+    },
+    "grant_digest": "4d71862e7cdf8baccaf29e5694f6ad3a005467a0f724ab65761bc96c39bd13c6",
+    "id": "ehr-sandbox-connector-1"
+  },
+  "fixture": {
+    "phi_free": true
+  },
+  "outcome": {
+    "result": "performed"
+  },
+  "record": {
+    "action_digest": "df123676927f828a491506ebab843989c429fa493c9a07683790a2ff58c00b62"
+  },
+  "schema": "connector-scope-record/v1"
+}

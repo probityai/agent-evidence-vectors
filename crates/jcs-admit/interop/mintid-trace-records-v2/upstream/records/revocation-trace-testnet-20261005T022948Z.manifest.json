@@ -1,0 +1,700 @@
+{
+  "schema": "mintid-trace-manifest/2",
+  "record": "revocation-trace-testnet-20261005T022948Z",
+  "derived": true,
+  "started_utc": "2026-10-05T02:29:50.649Z",
+  "source": null,
+  "stated": {
+    "source_revision": "4a01bf1",
+    "services_revision": "2bd3b23c761c"
+  },
+  "deployment": {
+    "target": "testnet",
+    "chain_id": "mintid-testnet-2",
+    "issuer_id": "3d2a9df3cc5cb853ba6a61bfc475cda119eb215c22aad7b2b4bcebc46399183b",
+    "verifier_id": "6f4c5d1becd3c47e56efcbfc950fc5d845eff13c318a8aed866613e045621661",
+    "kyc_provider": "sandbox",
+    "endpoints": {
+      "issuer_url": "https://issuer.testnet.mintid.net",
+      "verifier_url": "https://verifier.testnet.mintid.net",
+      "rpc": "https://rpc.testnet.mintid.net",
+      "relay": "https://relay.testnet.mintid.net"
+    },
+    "build": null,
+    "parameters": {
+      "A": 180,
+      "H": 30,
+      "K": 5,
+      "G": 60,
+      "cascade_spread_beats": 8
+    },
+    "max_root_age_seconds": 180,
+    "heartbeat_seconds": 30,
+    "max_height_lag": 100
+  },
+  "policy": null,
+  "verifier_status": {
+    "before": {
+      "observed_unix": 1791167391,
+      "substrate": "ok",
+      "chain_height": 18526,
+      "root_epoch": 1305,
+      "root_height": 18517,
+      "root_age_seconds": 23,
+      "fresh": true,
+      "max_root_age_seconds": 180,
+      "heartbeat_seconds": 30,
+      "max_height_lag": 100
+    },
+    "after": {
+      "observed_unix": 1791167753,
+      "substrate": "ok",
+      "chain_height": 18697,
+      "root_epoch": 1318,
+      "root_height": 18688,
+      "root_age_seconds": 22,
+      "fresh": true,
+      "max_root_age_seconds": 180,
+      "heartbeat_seconds": 30,
+      "max_height_lag": 100
+    }
+  },
+  "decision_log_source": "verifier console /console/decisions (MINT-307)",
+  "paths": [
+    {
+      "path": "issuer",
+      "t0_unix": 1791167491.213908,
+      "t0_definition": "the issuer's removal of the agent (revoke response)",
+      "bound_seconds": 185,
+      "bound_formula": "t0 + A + K",
+      "last_accepted": null,
+      "first_refused": {
+        "utc": "2026-10-05T02:31:45.372Z",
+        "seconds_after_t0": 14.2,
+        "session_id": "08dfdb046aedfbca83a268fe4d16aca7",
+        "accepted": false,
+        "reason_code": "status_root_stale",
+        "chain_height_after": 18580,
+        "decision_log": {
+          "condition": 5,
+          "root_epoch": 1309,
+          "root_height": 18573,
+          "root_age_seconds": 16
+        }
+      },
+      "root_at_denial": {
+        "status_epoch": 1309,
+        "finalized_height": 18573,
+        "generated_at_unix": 1791167488,
+        "finalized_at_utc": null,
+        "emergency": false
+      },
+      "root_carrying_revocation": {
+        "status_epoch": 1310,
+        "finalized_height": 18587,
+        "generated_at_unix": 1791167517,
+        "finalized_at_utc": "2026-10-05T02:31:56.817Z",
+        "emergency": false
+      },
+      "refresh_refused_seconds_after_t0": 8.4,
+      "control_never_revoked": {
+        "last_accepted": null,
+        "first_refused": {
+          "utc": "2026-10-05T02:31:38.794Z",
+          "seconds_after_t0": 7.6,
+          "session_id": "b290e8bb05b26d83a413709b0a62970b",
+          "accepted": false,
+          "reason_code": "status_root_stale",
+          "chain_height_after": 18577,
+          "decision_log": {
+            "condition": 5,
+            "root_epoch": 1309,
+            "root_height": 18573,
+            "root_age_seconds": 9
+          }
+        },
+        "after_refresh": {
+          "utc": "2026-10-05T02:32:13.019Z",
+          "seconds_after_t0": 41.8,
+          "session_id": "ade1410b7237f98ebf966107ff8a0d3b",
+          "accepted": true,
+          "reason_code": "accepted",
+          "chain_height_after": 18593,
+          "decision_log": {
+            "condition": 9,
+            "root_epoch": 1310,
+            "root_height": 18587,
+            "root_age_seconds": 13
+          }
+        }
+      },
+      "attribution": {
+        "revoked": {
+          "agent": "agent_issuer",
+          "refresh": {
+            "observation": "refused",
+            "outcome": "credential_revoked",
+            "utc": "2026-10-05T02:31:39.624Z",
+            "seconds_after_t0": 8.4
+          }
+        },
+        "control": {
+          "agent": "sibling_control",
+          "refused": {
+            "utc": "2026-10-05T02:31:38.794Z",
+            "seconds_after_t0": 7.6,
+            "session_id": "b290e8bb05b26d83a413709b0a62970b",
+            "accepted": false,
+            "reason_code": "status_root_stale",
+            "chain_height_after": 18577,
+            "decision_log": {
+              "condition": 5,
+              "root_epoch": 1309,
+              "root_height": 18573,
+              "root_age_seconds": 9
+            }
+          },
+          "refresh": {
+            "observation": "not_recorded",
+            "outcome": null,
+            "utc": null,
+            "seconds_after_t0": null
+          },
+          "after_refresh": {
+            "utc": "2026-10-05T02:32:13.019Z",
+            "seconds_after_t0": 41.8,
+            "session_id": "ade1410b7237f98ebf966107ff8a0d3b",
+            "accepted": true,
+            "reason_code": "accepted",
+            "chain_height_after": 18593,
+            "decision_log": {
+              "condition": 9,
+              "root_epoch": 1310,
+              "root_height": 18587,
+              "root_age_seconds": 13
+            }
+          }
+        }
+      }
+    },
+    {
+      "path": "kill_switch",
+      "t0_unix": 1791167548.7366579,
+      "t0_definition": "the recording of the nullifier on chain (block time of the relay's tx)",
+      "bound_seconds": 245,
+      "bound_formula": "t0 + G + A + K",
+      "last_accepted": {
+        "utc": "2026-10-05T02:33:04.076Z",
+        "seconds_after_t0": 35.3,
+        "session_id": "9fb794001acb003a3f0cd09d52a62a0b",
+        "accepted": true,
+        "reason_code": "accepted",
+        "chain_height_after": 18617,
+        "decision_log": {
+          "condition": 9,
+          "root_epoch": 1311,
+          "root_height": 18601,
+          "root_age_seconds": 33
+        }
+      },
+      "first_refused": {
+        "utc": "2026-10-05T02:33:11.981Z",
+        "seconds_after_t0": 43.2,
+        "session_id": "1dc57a363929ddc03a47225fa1ad38e3",
+        "accepted": false,
+        "reason_code": "status_root_stale",
+        "chain_height_after": 18621,
+        "decision_log": {
+          "condition": 5,
+          "root_epoch": 1312,
+          "root_height": 18616,
+          "root_age_seconds": 12
+        }
+      },
+      "root_at_denial": {
+        "status_epoch": 1312,
+        "finalized_height": 18616,
+        "generated_at_unix": 1791167578,
+        "finalized_at_utc": null,
+        "emergency": false
+      },
+      "root_carrying_revocation": {
+        "status_epoch": 1312,
+        "finalized_height": 18616,
+        "generated_at_unix": 1791167578,
+        "finalized_at_utc": "2026-10-05T02:32:58.475Z",
+        "emergency": false
+      },
+      "refresh_refused_seconds_after_t0": 37.7,
+      "attribution": {
+        "revoked": {
+          "agent": "agent_kill_switch",
+          "refresh": {
+            "observation": "refused",
+            "outcome": "credential_revoked",
+            "utc": "2026-10-05T02:33:06.408Z",
+            "seconds_after_t0": 37.7
+          }
+        },
+        "control": null
+      }
+    },
+    {
+      "path": "cascade",
+      "agent": "cascade_agent_1",
+      "t0_unix": 1791167638,
+      "t0_definition": "generation of the trigger root (the root carrying the principal's revocation)",
+      "bound_seconds": 395,
+      "bound_formula": "t_T + 7\u00b7H + A + K",
+      "last_accepted": {
+        "utc": "2026-10-05T02:34:16.883Z",
+        "seconds_after_t0": 18.9,
+        "session_id": "59fdbb0b7728db88ee9dfc11ac212d08",
+        "accepted": true,
+        "reason_code": "accepted",
+        "chain_height_after": 18651,
+        "decision_log": {
+          "condition": 9,
+          "root_epoch": 1314,
+          "root_height": 18644,
+          "root_age_seconds": 16
+        }
+      },
+      "first_refused": {
+        "utc": "2026-10-05T02:34:36.011Z",
+        "seconds_after_t0": 38.0,
+        "session_id": "01b89dff410ca66c9425eeb425a04128",
+        "accepted": false,
+        "reason_code": "status_root_stale",
+        "chain_height_after": 18660,
+        "decision_log": {
+          "condition": 5,
+          "root_epoch": 1315,
+          "root_height": 18658,
+          "root_age_seconds": 6
+        }
+      },
+      "root_at_denial": {
+        "status_epoch": 1315,
+        "finalized_height": 18658,
+        "generated_at_unix": 1791167668,
+        "finalized_at_utc": null,
+        "emergency": false
+      },
+      "root_carrying_revocation": {
+        "status_epoch": 1314,
+        "finalized_height": 18644,
+        "generated_at_unix": 1791167638,
+        "finalized_at_utc": "2026-10-05T02:33:57.924Z",
+        "emergency": false
+      },
+      "refresh_refused_seconds_after_t0": null,
+      "attribution": {
+        "revoked": {
+          "agent": "cascade_agent_1",
+          "refresh": {
+            "observation": "not_recorded",
+            "outcome": null,
+            "utc": null,
+            "seconds_after_t0": null
+          }
+        },
+        "control": null
+      }
+    },
+    {
+      "path": "cascade",
+      "agent": "cascade_agent_2",
+      "t0_unix": 1791167638,
+      "t0_definition": "generation of the trigger root (the root carrying the principal's revocation)",
+      "bound_seconds": 395,
+      "bound_formula": "t_T + 7\u00b7H + A + K",
+      "last_accepted": {
+        "utc": "2026-10-05T02:34:56.143Z",
+        "seconds_after_t0": 58.1,
+        "session_id": "142d793dbbfdd70ca3aedad78f2cb64f",
+        "accepted": true,
+        "reason_code": "accepted",
+        "chain_height_after": 18670,
+        "decision_log": {
+          "condition": 9,
+          "root_epoch": 1315,
+          "root_height": 18658,
+          "root_age_seconds": 24
+        }
+      },
+      "first_refused": {
+        "utc": "2026-10-05T02:35:06.384Z",
+        "seconds_after_t0": 68.4,
+        "session_id": "070f8922226c09bd0067865483451608",
+        "accepted": false,
+        "reason_code": "status_root_stale",
+        "chain_height_after": 18675,
+        "decision_log": {
+          "condition": 5,
+          "root_epoch": 1316,
+          "root_height": 18672,
+          "root_age_seconds": 6
+        }
+      },
+      "root_at_denial": {
+        "status_epoch": 1316,
+        "finalized_height": 18672,
+        "generated_at_unix": 1791167698,
+        "finalized_at_utc": null,
+        "emergency": false
+      },
+      "root_carrying_revocation": {
+        "status_epoch": 1314,
+        "finalized_height": 18644,
+        "generated_at_unix": 1791167638,
+        "finalized_at_utc": "2026-10-05T02:33:57.924Z",
+        "emergency": false
+      },
+      "refresh_refused_seconds_after_t0": 61.0,
+      "attribution": {
+        "revoked": {
+          "agent": "cascade_agent_2",
+          "refresh": {
+            "observation": "refused",
+            "outcome": "credential_revoked",
+            "utc": "2026-10-05T02:34:58.956Z",
+            "seconds_after_t0": 61.0
+          }
+        },
+        "control": null
+      }
+    },
+    {
+      "path": "emergency",
+      "t0_unix": 1791167732.289542,
+      "t0_definition": "the emergency root's submission (the issuer's answer; the bound itself is block-based)",
+      "bound_seconds": 0,
+      "bound_formula": "the emergency root's finalisation: measured in blocks below",
+      "last_accepted": null,
+      "first_refused": {
+        "utc": "2026-10-05T02:35:39.459Z",
+        "seconds_after_t0": 7.2,
+        "session_id": "10a20f1abd57eb8ebad9377d6cf90307",
+        "accepted": false,
+        "reason_code": "status_root_stale",
+        "chain_height_after": 18690,
+        "decision_log": {
+          "condition": 5,
+          "root_epoch": 1318,
+          "root_height": 18688,
+          "root_age_seconds": 7
+        }
+      },
+      "root_at_denial": {
+        "status_epoch": 1318,
+        "finalized_height": 18688,
+        "generated_at_unix": 1791167731,
+        "finalized_at_utc": null,
+        "emergency": true
+      },
+      "root_carrying_revocation": {
+        "status_epoch": 1318,
+        "finalized_height": 18688,
+        "generated_at_unix": 1791167731,
+        "finalized_at_utc": "2026-10-05T02:35:31.360Z",
+        "emergency": true
+      },
+      "refresh_refused_seconds_after_t0": 0.9,
+      "attribution": {
+        "revoked": {
+          "agent": "agent_emergency",
+          "refresh": {
+            "observation": "refused",
+            "outcome": "credential_revoked",
+            "utc": "2026-10-05T02:35:33.163Z",
+            "seconds_after_t0": 0.9
+          }
+        },
+        "control": null
+      }
+    }
+  ],
+  "decisions": [
+    {
+      "utc": "2026-10-05T02:31:29.550Z",
+      "path": "issuer",
+      "agent": "agent_issuer",
+      "attempt": "baseline",
+      "accepted": true,
+      "reason_code": "accepted",
+      "condition": 9,
+      "root_epoch": 1308,
+      "root_height": 18559,
+      "root_age_seconds": 28
+    },
+    {
+      "utc": "2026-10-05T02:31:38.794Z",
+      "path": "issuer",
+      "agent": "sibling_control",
+      "attempt": "control_stale",
+      "accepted": false,
+      "reason_code": "status_root_stale",
+      "condition": 5,
+      "root_epoch": 1309,
+      "root_height": 18573,
+      "root_age_seconds": 9
+    },
+    {
+      "utc": "2026-10-05T02:31:45.372Z",
+      "path": "issuer",
+      "agent": "agent_issuer",
+      "attempt": "forced",
+      "accepted": false,
+      "reason_code": "status_root_stale",
+      "condition": 5,
+      "root_epoch": 1309,
+      "root_height": 18573,
+      "root_age_seconds": 16
+    },
+    {
+      "utc": "2026-10-05T02:31:51.002Z",
+      "path": "issuer",
+      "agent": "agent_issuer",
+      "attempt": "forced_confirm",
+      "accepted": false,
+      "reason_code": "status_root_stale",
+      "condition": 5,
+      "root_epoch": 1309,
+      "root_height": 18573,
+      "root_age_seconds": 21
+    },
+    {
+      "utc": "2026-10-05T02:32:13.019Z",
+      "path": "issuer",
+      "agent": "sibling_refreshed",
+      "attempt": "control_refreshed",
+      "accepted": true,
+      "reason_code": "accepted",
+      "condition": 9,
+      "root_epoch": 1310,
+      "root_height": 18587,
+      "root_age_seconds": 13
+    },
+    {
+      "utc": "2026-10-05T02:32:23.056Z",
+      "path": "kill_switch",
+      "agent": "agent_kill_switch",
+      "attempt": "baseline",
+      "accepted": true,
+      "reason_code": "accepted",
+      "condition": 9,
+      "root_epoch": 1310,
+      "root_height": 18587,
+      "root_age_seconds": 23
+    },
+    {
+      "utc": "2026-10-05T02:32:42.818Z",
+      "path": "kill_switch",
+      "agent": "agent_kill_switch",
+      "attempt": "forced",
+      "accepted": true,
+      "reason_code": "accepted",
+      "condition": 9,
+      "root_epoch": 1311,
+      "root_height": 18601,
+      "root_age_seconds": 12
+    },
+    {
+      "utc": "2026-10-05T02:32:53.468Z",
+      "path": "kill_switch",
+      "agent": "agent_kill_switch",
+      "attempt": "forced",
+      "accepted": true,
+      "reason_code": "accepted",
+      "condition": 9,
+      "root_epoch": 1311,
+      "root_height": 18601,
+      "root_age_seconds": 22
+    },
+    {
+      "utc": "2026-10-05T02:33:04.076Z",
+      "path": "kill_switch",
+      "agent": "agent_kill_switch",
+      "attempt": "forced",
+      "accepted": true,
+      "reason_code": "accepted",
+      "condition": 9,
+      "root_epoch": 1311,
+      "root_height": 18601,
+      "root_age_seconds": 33
+    },
+    {
+      "utc": "2026-10-05T02:33:11.981Z",
+      "path": "kill_switch",
+      "agent": "agent_kill_switch",
+      "attempt": "forced",
+      "accepted": false,
+      "reason_code": "status_root_stale",
+      "condition": 5,
+      "root_epoch": 1312,
+      "root_height": 18616,
+      "root_age_seconds": 12
+    },
+    {
+      "utc": "2026-10-05T02:33:17.758Z",
+      "path": "kill_switch",
+      "agent": "agent_kill_switch",
+      "attempt": "forced_confirm",
+      "accepted": false,
+      "reason_code": "status_root_stale",
+      "condition": 5,
+      "root_epoch": 1312,
+      "root_height": 18616,
+      "root_age_seconds": 18
+    },
+    {
+      "utc": "2026-10-05T02:33:33.608Z",
+      "path": "cascade",
+      "agent": "cascade_agent_1",
+      "attempt": "baseline",
+      "accepted": true,
+      "reason_code": "accepted",
+      "condition": 9,
+      "root_epoch": 1312,
+      "root_height": 18616,
+      "root_age_seconds": 33
+    },
+    {
+      "utc": "2026-10-05T02:33:39.410Z",
+      "path": "cascade",
+      "agent": "cascade_agent_2",
+      "attempt": "baseline",
+      "accepted": false,
+      "reason_code": "status_root_stale",
+      "condition": 5,
+      "root_epoch": 1313,
+      "root_height": 18630,
+      "root_age_seconds": 10
+    },
+    {
+      "utc": "2026-10-05T02:34:16.883Z",
+      "path": "cascade",
+      "agent": "cascade_agent_1",
+      "attempt": "forced",
+      "accepted": true,
+      "reason_code": "accepted",
+      "condition": 9,
+      "root_epoch": 1314,
+      "root_height": 18644,
+      "root_age_seconds": 16
+    },
+    {
+      "utc": "2026-10-05T02:34:26.451Z",
+      "path": "cascade",
+      "agent": "cascade_agent_2",
+      "attempt": "forced",
+      "accepted": true,
+      "reason_code": "accepted",
+      "condition": 9,
+      "root_epoch": 1314,
+      "root_height": 18644,
+      "root_age_seconds": 25
+    },
+    {
+      "utc": "2026-10-05T02:34:36.011Z",
+      "path": "cascade",
+      "agent": "cascade_agent_1",
+      "attempt": "forced",
+      "accepted": false,
+      "reason_code": "status_root_stale",
+      "condition": 5,
+      "root_epoch": 1315,
+      "root_height": 18658,
+      "root_age_seconds": 6
+    },
+    {
+      "utc": "2026-10-05T02:34:42.180Z",
+      "path": "cascade",
+      "agent": "cascade_agent_1",
+      "attempt": "forced_confirm",
+      "accepted": false,
+      "reason_code": "status_root_stale",
+      "condition": 5,
+      "root_epoch": 1315,
+      "root_height": 18658,
+      "root_age_seconds": 12
+    },
+    {
+      "utc": "2026-10-05T02:34:56.143Z",
+      "path": "cascade",
+      "agent": "cascade_agent_2",
+      "attempt": "forced",
+      "accepted": true,
+      "reason_code": "accepted",
+      "condition": 9,
+      "root_epoch": 1315,
+      "root_height": 18658,
+      "root_age_seconds": 24
+    },
+    {
+      "utc": "2026-10-05T02:35:06.384Z",
+      "path": "cascade",
+      "agent": "cascade_agent_2",
+      "attempt": "forced",
+      "accepted": false,
+      "reason_code": "status_root_stale",
+      "condition": 5,
+      "root_epoch": 1316,
+      "root_height": 18672,
+      "root_age_seconds": 6
+    },
+    {
+      "utc": "2026-10-05T02:35:12.631Z",
+      "path": "cascade",
+      "agent": "cascade_agent_2",
+      "attempt": "forced_confirm",
+      "accepted": false,
+      "reason_code": "status_root_stale",
+      "condition": 5,
+      "root_epoch": 1316,
+      "root_height": 18672,
+      "root_age_seconds": 13
+    },
+    {
+      "utc": "2026-10-05T02:35:27.164Z",
+      "path": "emergency",
+      "agent": "agent_emergency",
+      "attempt": "baseline",
+      "accepted": true,
+      "reason_code": "accepted",
+      "condition": 9,
+      "root_epoch": 1316,
+      "root_height": 18672,
+      "root_age_seconds": 26
+    },
+    {
+      "utc": "2026-10-05T02:35:39.459Z",
+      "path": "emergency",
+      "agent": "agent_emergency",
+      "attempt": "forced",
+      "accepted": false,
+      "reason_code": "status_root_stale",
+      "condition": 5,
+      "root_epoch": 1318,
+      "root_height": 18688,
+      "root_age_seconds": 7
+    },
+    {
+      "utc": "2026-10-05T02:35:45.399Z",
+      "path": "emergency",
+      "agent": "agent_emergency",
+      "attempt": "forced_confirm",
+      "accepted": false,
+      "reason_code": "status_root_stale",
+      "condition": 5,
+      "root_epoch": 1318,
+      "root_height": 18688,
+      "root_age_seconds": 13
+    }
+  ],
+  "files": {
+    "revocation-trace-testnet-20261005T022948Z.jsonl": "95b8c1dd2493d779d2d4b6ec98f22d1abee5c17fca4c2ba3430c5e9f592b7a63",
+    "revocation-trace-testnet-20261005T022948Z.md": "f9abc4e9dd0292d730458269ddfdf8546f2694117154d1d244104459d85a6c7e"
+  }
+}

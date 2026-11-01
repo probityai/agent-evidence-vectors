@@ -1,0 +1,158 @@
+# adversarial-execution-evidence admission policy for sigstore policy-controller (rego)
+#
+# Equivalent of the Kyverno ClusterPolicy, expressed for sigstore
+# policy-controller. A key-based authority verifies the producer's observation
+# key, then a rego `attestations` policy asserts, over the in-toto Statement:
+#   - predicateType == https://in-toto.io/attestation/adversarial-execution-evidence/v0.7
+#   - predicate.result == "pass"              (consumer admission threshold)
+#   - observationEnvironment.catchPolicy.digest.sha256 is 64-hex
+#                                             (fail-closed defense-config binding)
+#   - observationEnvironment.networkPosture.posture is a known posture with a
+#     64-hex digest                           (fail-closed posture binding)
+#   - every observationRecords[] entry carries a non-empty signatures[] array
+#                                             (PRESENCE only — see below)
+#   - every attackResults row is basis:substrate + method:intercepted, unless the
+#     consumer sets data.consumer.admit_unintercepted_clean_rows
+#   - observationEnvironment.corpus.digest.sha256 and .substrate.digest.sha256 equal
+#     the digests THIS consumer pinned out of band (spec MUST — see below)
+# mirroring the offline verifier's binding chokepoint
+# (website/app/components/lib/verifier/bindings.ts).
+#
+# CONSUMER ANCHORS — THIS POLICY DENIES EVERY POD UNTIL YOU EDIT IT. The spec's
+# "Consumer policy obligations" require a consumer to pin, out of band, the corpus and
+# substrate digests it expects and to compare them at consumption; everything else the
+# policy checks about the corpus is self-consistency, which an envelope-key-only
+# attacker gets for free (emptying the manifest and re-hashing it needs no key). This
+# rail has no consumer data document, so the two pins are LITERALS in the rego below
+# and the operator replaces them before deploying. Left unreplaced they are not 64-hex,
+# so nothing can equal them and admission fails CLOSED and loudly — the deliberate
+# direction, chosen over a silently permissive default that would admit evidence about
+# ANY corpus forever. To decline the spec's MUST, delete the two conjuncts from
+# isCompliant; that is the equivalent of data.consumer.allow_unpinned_anchors in the
+# full module.
+#
+# WHAT THIS POLICY CANNOT KNOW: policy-controller verifies the DSSE ENVELOPE against
+# the pinned key and hands the decoded payload to rego. NOTHING in this path verifies
+# an observation record's signature or derives the evidence tier, so a verifier here
+# cannot distinguish a substrate observation from an assembly-plane forgery. A
+# consumer relying on this admission controller is extending FULL TRUST TO THE
+# ENVELOPE SIGNER. The signature check below is PRESENCE ONLY and is a band-aid, not
+# verification: forged signature bytes pass it. What it closes is the literal strip —
+# the batch-root leaves are H(0x00 || PAE) over (payloadType, payload) only, so
+# deleting every signatures[] entry leaves the root and the statement intact, and that
+# shape was previously admitted with no gate at all.
+#
+# The row gate is the spec's own consumer-policy example ("keyed on both the derived
+# tier and the row's `method` so a reconstructed clean row is not admitted as a live
+# one"). Because this policy already pins result == "pass", and any caught label
+# forces the result to "fail", every row of an admissible statement is a CLEAN row —
+# so requiring substrate/intercepted on every row is exactly the spec's clean-row
+# gate here. Default is the strict direction; the opt-in must be stated.
+#
+# THIS IS THE BINDING-ONLY (SHALLOW) POLICY, retained for policy-controller runtimes
+# whose bundled OPA predates rego v1: it checks result=="pass" + the structural
+# bindings only. For full in-cluster enforcement of the six offline soundness rules
+# (coverage integrity + attack-level exhaustion, result recompute + OOV fail-closed,
+# payload chain, batchRoot presence, run-binding, coherence + no-orphan), deploy
+# clusterimagepolicy-adversarial-execution-evidence-soundness.yaml instead — it embeds
+# the full ../rego/execution_evidence.rego module. The deeper rules
+# also always run in the offline TS/Python verifiers.
+#
+# No `ctlog:` block is set: This provenance is STATIC-KEY cosign
+# with --tlog-upload=false (no Fulcio cert, no public Rekor), so the
+# authority verifies by the embedded public key alone, matching the upstream
+# `cip-key-with-attestations-no-rekor.yaml` shape.
+#
+# Identity references (verbatim, do NOT invent fields):
+#   predicateType : https://in-toto.io/attestation/adversarial-execution-evidence/v0.7
+#   public key    : the producer's published ed25519 SPKI public key
+#   RFC-7638 keyid: 427a109244697aacd5075f0a36e3e4f3c16eb9176c41e3f43bd7bb9989e57a86
+#                   (the producer's in-process key identity; policy-controller verifies by
+#                    the PEM `key.data` below)
+#
+# Enforcement: spec.mode defaults to `enforce` (reject). Set `mode: warn` for the
+# audit-first rollout (admit but warn) — see the commented field below.
+#
+# Validate (no live cluster needed):
+#   kubeconform -strict clusterimagepolicy-adversarial-execution-evidence.yaml   # (needs CIP CRD)
+#   opa test ../rego/                                                            # rego unit tests
+apiVersion: policy.sigstore.dev/v1alpha1
+kind: ClusterImagePolicy
+metadata:
+  name: require-execution-evidence
+spec:
+  # mode: enforce   # default; reject Pods whose images fail the policy.
+  # mode: warn      # audit-first variant: admit but surface a warning.
+  mode: enforce
+  images:
+    - glob: "**"
+  authorities:
+    - name: producer-observation-key
+      key:
+        # ed25519 SPKI PEM, byte-identical to keys/observation-key.pub in this repository
+        data: |
+          -----BEGIN PUBLIC KEY-----
+          MCowBQYDK2VwAyEAT2jLWVkBW84MmGahZlqmj1cxmA1ljoYa0dkp+gpUPnc=
+          -----END PUBLIC KEY-----
+      attestations:
+        - name: must-pass-execution-evidence
+          predicateType: "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7"
+          policy:
+            type: rego
+            data: |
+              package sigstore
+              default isCompliant = false
+
+              # Consumer opt-in, default OFF: admit reconstructed / artifact-basis
+              # rows. Undefined when unset, so `not admit_unintercepted` holds and
+              # the strict direction is the default.
+              admit_unintercepted { data.consumer.admit_unintercepted_clean_rows == true }
+
+              # THE EDIT POINT. Replace each right-hand side with the 64-hex digest
+              # this deployment expects. Unreplaced, nothing equals them and every
+              # Pod is denied -- fail-closed, which is the intended direction.
+              expected_corpus_digest = "PIN-ME-REPLACE-WITH-THE-EXPECTED-CORPUS-DIGEST"
+              expected_substrate_digest = "PIN-ME-REPLACE-WITH-THE-EXPECTED-SUBSTRATE-DIGEST"
+
+              # Signature PRESENCE only (no key here) — absent, non-array, or empty.
+              unsigned_record {
+                rec := input.predicate.observationRecords[_]
+                not rec.signatures
+              }
+              unsigned_record {
+                rec := input.predicate.observationRecords[_]
+                not is_array(rec.signatures)
+              }
+              unsigned_record {
+                rec := input.predicate.observationRecords[_]
+                count(rec.signatures) == 0
+              }
+
+              # Row provenance: every row of a result=="pass" statement is a clean
+              # row, so a live observation means basis:substrate + method:intercepted.
+              live_row(row) {
+                row.basis == "substrate"
+                row.method == "intercepted"
+              }
+              unintercepted_row {
+                row := input.predicate.attackResults[_]
+                not live_row(row)
+              }
+              blocked_row {
+                unintercepted_row
+                not admit_unintercepted
+              }
+
+              # `input` is the verified in-toto Statement.
+              isCompliant {
+                input.predicateType == "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7"
+                input.predicate.result == "pass"
+                regex.match(`^[0-9a-f]{64}$`, input.predicate.observationEnvironment.catchPolicy.digest.sha256)
+                postures := {"no_network", "allowlist", "sinkhole", "unsafe_bypass_egress"}
+                postures[input.predicate.observationEnvironment.networkPosture.posture]
+                regex.match(`^[0-9a-f]{64}$`, input.predicate.observationEnvironment.networkPosture.digest.sha256)
+                not unsigned_record
+                not blocked_row
+                input.predicate.observationEnvironment.corpus.digest.sha256 == expected_corpus_digest
+                input.predicate.observationEnvironment.substrate.digest.sha256 == expected_substrate_digest
+              }

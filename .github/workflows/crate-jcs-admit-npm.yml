@@ -1,0 +1,72 @@
+name: crate-jcs-admit-npm
+
+# Builds the jcs-admit npm package from crates/jcs-admit/npm, installs the
+# packed tarball into Node and browser consumers, and checks the tarball
+# against the exact source identity (crates/jcs-admit/npm/check_release.py).
+# crate-jcs-admit.yml calls it for every change to the crate; release.yml calls
+# it for a jcs-admit-npm-v<version> release and publishes the artifact it
+# uploads, never a rebuild.
+#
+# crates/jcs-admit/npm/artifact.py hashes this file into the package's source
+# identity, and check_release.py reads the two Node pins below from it.
+
+on:
+  workflow_call:
+    outputs:
+      artifact-name:
+        description: Immutable artifact from this qualification attempt
+        value: ${{ jobs.package.outputs.artifact-name }}
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: crates/jcs-admit
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      artifact-name: jcs-npm-${{ github.run_id }}-${{ github.run_attempt }}
+    env:
+      CARGO_BUILD_JOBS: 2
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22.14.0
+          package-manager-cache: false
+      - name: retain the minimum supported Node executable
+        run: echo "JCS_NODE_MIN=$(command -v node)" >> "$GITHUB_ENV"
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24.19.0
+          package-manager-cache: false
+      - name: install the optional WASM toolchain
+        run: |
+          rustup toolchain install 1.99.0 --profile minimal -c clippy --target wasm32-unknown-unknown
+          rustup default 1.99.0
+          cargo install wasm-bindgen-cli --version 0.2.129 --locked
+      - run: cargo clippy --manifest-path npm/wasm/Cargo.toml --locked --target wasm32-unknown-unknown --lib -- -D warnings
+      - run: cargo test --locked --features serde
+      - run: cargo build --locked --features serde --example wasm_oracle
+      - run: npm ci --prefix npm --ignore-scripts --no-audit --no-fund
+      - run: python3 npm/build.py --require-clean
+      - run: npx --no-install playwright install --with-deps chromium --only-shell
+        working-directory: crates/jcs-admit/npm
+      - run: npm test --prefix npm
+      - run: python3 npm/test/release-guard.py
+      - name: verify the tested tarball and exact source identity
+        run: python3 npm/check_release.py npm/test-results --commit "$GITHUB_SHA"
+      - name: retain the actual tarball and native consumer records
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: jcs-npm-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: warn
+          retention-days: 90
+          path: crates/jcs-admit/npm/test-results/

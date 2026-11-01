@@ -76,6 +76,10 @@ installation pins and both copies of the verification recipe.
 | `docs/reference/release-verification.md` | the checkout pin in the verification recipe |
 | `uv.lock` | the `version` of the one `[[package]]` whose source is `virtual = "."` |
 
+After bumping `CITATION.cff`, run `python3 scripts/sync-install-pins.py` to move every pin on
+`README.md`, `DISTRIBUTION.md` and `docs/guides/runner.md` to the published release; CI runs it with
+`--check`.
+
 `scripts/distribution-gate.py` holds the inbound page and `CITATION.cff` to each
 other and refuses any version token on the page that is not the released one.
 `scripts/citation-metadata-gate.py` holds the deposit metadata. The wheel is held
@@ -164,16 +168,14 @@ GIT_AUTHOR_DATE="$release_epoch +0000" GIT_COMMITTER_DATE="$release_epoch +0000"
 git tag -s -u 494767A5F0B0494C3A8878F320D2E0E72DF45D39 -m vX.Y.Z vX.Y.Z
 python3 scripts/verify-release-tag.py vX.Y.Z
 
-# 6. Run the local mirror of every workflow step against the tagged revision.
-#    This is what step 5's ordering costs and it is the whole payment: the tag
-#    now precedes the remote run, so the evidence that the run will pass has to
-#    come from here instead. Nothing is pushed until this is green.
-#    Run it the way the pre-push hook does: from the project's own Python 3.13
-#    environment. The gate builds its controls' environments from the
-#    interpreter that runs it, so a system python3 older than 3.13 fails the
-#    pool controls on a tree the remote accepts.
-uv sync --locked --extra dev --python 3.13
-UV_PROJECT_ENVIRONMENT="$PWD/.venv" .venv/bin/python -B scripts/workflow-steps-gate.py
+# 6. Run the leak tier and nothing more. The pre-push hook does it: the
+#    runner-label check, the push-range identity scan, the push-hygiene check
+#    (blob size, conflict markers) and the secret scan. Remote CI is the proof
+#    (ruling of 2026-10-07). Do not mirror the CI jobs on a local machine or a
+#    box: the serial mirror runs about 15 hours, and on 2026-10-29 it was still
+#    at job 41 of about 220 when the v0.30.0 release was landed from remote CI.
+#    Step 7's push runs the hook; the tag check below is cheap and local.
+python3 scripts/verify-release-tag.py vX.Y.Z
 
 # 7. Publish the owned feature branch and the new tag atomically. The feature
 #    branch's installation pin and signed tag arrive together. The default
@@ -229,6 +231,11 @@ other half, refusing a tag whose artifacts do not verify.
 The **verify** job re-checks the published evidence as a stranger would: that the
 signed digest list verifies and that the tag holds those bytes, that the time
 evidence covers that signature, and that what a citer will verify actually does.
+It also re-checks every Verified by Probity grant in `docs/badge-grants.json`
+against the current workflow allowlist and revocations
+(`scripts/badge-grants-gate.py`), so a grant that no longer meets the evidence
+rule in `docs/VERIFIED-BADGE.md` blocks the release until it is fixed or
+withdrawn.
 
 The **publish** job builds the wheel and the sdist, runs the wheel from outside
 the checkout and replays every corpus it carries, asserts the wheel's version is
@@ -254,12 +261,48 @@ This paragraph said, until 0.12.1, that the replay "asserts `suiteRefusals ==
 release". The step replayed `vectors` only, and the harness ran its AEE rail
 over the eight other suites and printed that rail's failures as a verdict.
 
+## The Hugging Face dataset follows the tag
+
+The `publish` job of `.github/workflows/release.yml` mirrors each corpus release
+to the dataset `probityai/agent-evidence-vectors` on Hugging Face. It runs on the
+pushed `vMAJOR.MINOR.PATCH` tag, after `verify` (the signed digest list, the tag
+signature and the time evidence) has passed. It builds the dataset tree from the
+tag with `scripts/publish-hf-dataset.py`, checks it, publishes the PyPI wheel,
+then replaces the dataset in one commit and gives it a tag with the tag's name.
+Package releases such as `jcs-admit-npm-v0.1.0` do not start it.
+`.github/workflows/publish-hf-dataset.yml` only tests the build and holds no
+secret.
+
+One approval covers both destinations. The job runs in the protected environment
+`public-release`, whose required reviewer is the repository owner, so neither
+the wheel nor the dataset is published until the owner approves the run. The
+dataset takes only the `vectors*` directories, `release/`, `LICENSE` and
+`CITATION.cff`, from the commit the run is on, which must be on `main`. A tag
+older than the one the Hub holds never replaces it. There is no manual trigger:
+a release that was missed is published again with a new tag. The `HF_TOKEN`
+secret lives in that environment, so no other job can read it.
+`scripts/publish-gate-test.py` fails CI when any workflow publishes outside
+this path. A dataset tag that already points at a different commit is never
+moved, and the job fails instead.
+
+To build and check the tree locally:
+
+```sh
+python3 scripts/publish-hf-dataset.py build --tag vX.Y.Z --out /tmp/aev-dataset
+python3 scripts/publish-hf-dataset.py check /tmp/aev-dataset
+```
+
+`scripts/publish-hf-dataset-test.py` rebuilds v0.25.0, the first copy, and
+requires the bytes the Hub served for it, so a change to the build that would
+alter an earlier revision fails before it can publish a later one.
+
 ## Before you start
 
-- The local gate is the pre-push mirror, and it is the same 89-plus steps CI
-  runs: `.venv/bin/python -B scripts/workflow-steps-gate.py`, from the
-  environment step 6 syncs. It takes upwards of ninety
-  minutes and holds a single-instance lock, so one release at a time.
+- The local gate is the leak tier only: runner labels, the push-range identity
+  scan, push hygiene, and the secret scan. It runs in seconds. Remote CI on the
+  release pull request is the proof, and the release is not delivered until
+  every hosted check on it is green. `scripts/release-procedure-test.py` refuses
+  a release procedure that asks for the full local mirror of the CI jobs.
 - Read the count you publish off the tagged tree, by counting members in the
   manifests. Never quote it from a README: that is the defect that put a wrong
   vector count in front of a user who installed the release and counted.

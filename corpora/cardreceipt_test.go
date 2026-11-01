@@ -196,7 +196,9 @@ func TestCardReceiptDamagedManifestIsAFinding(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		damaged := strings.Replace(string(raw), `"accept"`, `"accept "`, 1)
+		// The counts block sits outside the digest, so damage a row after the vectors key.
+		rows := strings.Index(string(raw), `"vectors"`)
+		damaged := string(raw)[:rows] + strings.Replace(string(raw)[rows:], `"accept"`, `"accept "`, 1)
 		if err := os.WriteFile(path, []byte(damaged), 0o600); err != nil {
 			t.Fatal(err)
 		}

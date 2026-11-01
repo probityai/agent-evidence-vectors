@@ -1,0 +1,38 @@
+{
+  "suite": {
+    "revision": 7,
+    "commit": null
+  },
+  "cases": [
+    {
+      "id": "accepts-one",
+      "input": "cases/accepts-one.json",
+      "expect": "accept"
+    },
+    {
+      "id": "accepts-two",
+      "input": "cases/accepts-two.json",
+      "expect": "accept"
+    },
+    {
+      "id": "refuses-one",
+      "input": "cases/refuses-one.json",
+      "expect": "refuse"
+    },
+    {
+      "id": "refuses-two",
+      "input": "cases/refuses-two.json",
+      "expect": "refuse"
+    },
+    {
+      "id": "wrong-on-purpose",
+      "input": "cases/wrong-on-purpose.json",
+      "expect": "refuse"
+    },
+    {
+      "id": "breaks-the-implementation",
+      "input": "cases/breaks-the-implementation.json",
+      "expect": "refuse"
+    }
+  ]
+}

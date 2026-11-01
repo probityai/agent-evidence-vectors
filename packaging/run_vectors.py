@@ -135,11 +135,14 @@ from agent_evidence_vectors import (
     approvalbinding,
     auditrecord,
     authoritydispatch,
+    badgevc,
     cardreceipt,
     changeadmission,
     chunkedexport,
     completionconfirmation,
+    connectorscope,
     convertedargs,
+    delegationlifecycle,
     delegatorright,
     dispatchfence,
     donerun,
@@ -148,12 +151,17 @@ from agent_evidence_vectors import (
     mcpowasp,
     oasfrecord,
     observedeffect,
+    openweight,
+    paymentmandate,
     receiptchainend,
     receiptsignature,
     recorded,
+    refundconnected,
+    selfreportedrecord,
     sourcecoverage,
     starhint,
     traceanchor,
+    uncertaineffect,
     w3cintake,
     w3creport,
 )
@@ -3891,27 +3899,35 @@ def _run_non_reference_suite(
         auditrecord.SUITE,
         sourcecoverage.SUITE,
         anchoredchain.SUITE,
+        openweight.SUITE,
         receiptchainend.SUITE,
         identitybinding.SUITE,
         authoritydispatch.SUITE,
         approvalbinding.SUITE,
         dispatchfence.SUITE,
+        refundconnected.SUITE,
         aggregateaccounting.SUITE,
+        uncertaineffect.SUITE,
         *cardreceipt.SUITES,
         convertedargs.SUITE,
         delegatorright.SUITE,
         oasfrecord.SUITE,
+        badgevc.SUITE,
+        delegationlifecycle.SUITE,
         completionconfirmation.SUITE,
         chunkedexport.SUITE,
         *donerun.SUITES,
         traceanchor.SUITE,
         gradefloor.SUITE,
+        connectorscope.SUITE,
+        paymentmandate.SUITE,
         recorded.SUITE,
         changeadmission.SUITE,
         agenticprocess.SUITE,
         a2ajcs.SUITE,
         mcpowasp.SUITE,
         admission.SUITE,
+        selfreportedrecord.SUITE,
     )
     if not own_reader and external_cmd is not None:
         misfit = generic_contract_misfit(manifest or {})
@@ -3926,21 +3942,27 @@ def _run_non_reference_suite(
     # contract their README states, so every case is answered or the run fails.
     full_reader = {
         anchoredchain.SUITE: anchoredchain.run,
+        openweight.SUITE: openweight.run,
         receiptchainend.SUITE: receiptchainend.run,
         identitybinding.SUITE: identitybinding.run,
         authoritydispatch.SUITE: authoritydispatch.run,
         approvalbinding.SUITE: approvalbinding.run,
         dispatchfence.SUITE: dispatchfence.run,
+        refundconnected.SUITE: refundconnected.run,
         aggregateaccounting.SUITE: aggregateaccounting.run,
+        uncertaineffect.SUITE: uncertaineffect.run,
         **{suite: cardreceipt.runner(suite) for suite in cardreceipt.SUITES},
         convertedargs.SUITE: convertedargs.run,
         delegatorright.SUITE: delegatorright.run,
         oasfrecord.SUITE: oasfrecord.run,
+        badgevc.SUITE: badgevc.run,
         completionconfirmation.SUITE: completionconfirmation.run,
         chunkedexport.SUITE: chunkedexport.run,
         **{suite: donerun.runner(suite) for suite in donerun.SUITES},
         traceanchor.SUITE: traceanchor.run,
         gradefloor.SUITE: gradefloor.run,
+        connectorscope.SUITE: connectorscope.run,
+        paymentmandate.SUITE: paymentmandate.run,
         recorded.SUITE: recorded.run,
         changeadmission.SUITE: changeadmission.run,
         agenticprocess.SUITE: agenticprocess.run,
@@ -3985,8 +4007,14 @@ def _run_non_reference_suite(
         auditrecord.SUITE: auditrecord,
         mcpowasp.SUITE: mcpowasp,
         admission.SUITE: admission,
+        selfreportedrecord.SUITE: selfreportedrecord,
+        delegationlifecycle.SUITE: delegationlifecycle,
     }.get(suite, observedeffect)
-    judged = reader.judge(suite_dir)
+    try:
+        judged = reader.judge(suite_dir)
+    except selfreportedrecord.CorpusUnreadable as exc:
+        print(f"agent-evidence-vectors: {exc}", file=sys.stderr)
+        return 2
     sys.stdout.write(reader.render(judged, reader.SUITE))
     return 0 if judged.ok() else 1
 
@@ -5397,10 +5425,52 @@ def main() -> int:
         from agent_evidence_vectors.eval_result.run import main as evalresult_main
 
         return evalresult_main(sys.argv[2:])
+    if len(sys.argv) > 1 and sys.argv[1] == "runtime":
+        # Drive a runtime, rather than a verifier, through a corpus that defines
+        # a runtime contract: today the uncertain-effect scenarios.
+        return runtime_main(sys.argv[2:])
     if len(sys.argv) > 1 and sys.argv[1] == "recorded":
         # Recorded sets: retained bytes against their publisher's digest list.
         return recorded.main(sys.argv[2:])
     return rail_main()
+
+
+def runtime_main(argv: list[str]) -> int:
+    """Run a runtime adapter through the scenarios of a corpus with a runtime contract."""
+    from pathlib import Path
+
+    from agent_evidence_vectors import uncertaineffect_runtime
+
+    parser = argparse.ArgumentParser(
+        prog="agent-evidence-vectors runtime",
+        description="drive a runtime adapter, run as <runtime> <scenario.json>, through a "
+        "corpus's runtime scenarios against a counting effect owner",
+    )
+    parser.add_argument("--corpus", default="vectors-uncertain-effect")
+    parser.add_argument("--vectors", default=None, help="corpus directory (overrides --corpus)")
+    parser.add_argument("--runtime", required=True, help="adapter command line")
+    parser.add_argument("--report", default="conformance-report.json")
+    args = parser.parse_args(argv)
+    root = args.vectors or os.path.join(corpora_root(), args.corpus)
+    manifest = _read_manifest_suite(root)
+    if manifest != uncertaineffect.SUITE:
+        print(
+            f"the runtime {args.runtime!r} {DID_NOT_RUN}: the corpus at {root} "
+            f"({manifest!r}) defines no runtime contract; only "
+            f"{uncertaineffect.SUITE!r} does",
+            file=sys.stderr,
+        )
+        return 2
+    return uncertaineffect_runtime.run_runtime(args.runtime, args.report, Path(root))
+
+
+def _read_manifest_suite(root: str) -> str | None:
+    try:
+        with open(os.path.join(root, "MANIFEST.json"), encoding="utf-8") as handle:
+            suite = json.load(handle).get("suite")
+    except (OSError, ValueError, AttributeError):
+        return None
+    return suite if isinstance(suite, str) else None
 
 
 def rail_main() -> int:

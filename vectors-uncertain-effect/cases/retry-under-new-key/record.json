@@ -1,0 +1,37 @@
+{
+  "asOf": "2026-10-28T12:05:00Z",
+  "attempts": [
+    {
+      "argsDigest": "sha256:4387e2ee160bf3fcff4b791dca54265b771444b164553613a33c151f177cf16c",
+      "attempt": 1,
+      "dispatchedAt": "2026-10-28T12:00:01Z",
+      "idempotencyKey": "order-7f3a",
+      "reply": "timeout"
+    },
+    {
+      "argsDigest": "sha256:4387e2ee160bf3fcff4b791dca54265b771444b164553613a33c151f177cf16c",
+      "attempt": 2,
+      "dispatchedAt": "2026-10-28T12:00:40Z",
+      "idempotencyKey": "order-7f3b",
+      "reply": "confirmed"
+    }
+  ],
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/uncertain-effect",
+  "effectOwner": {
+    "deduplicatesByKey": true,
+    "id": "orders-service",
+    "keyRetentionSeconds": 86400
+  },
+  "operation": {
+    "action": "create-order",
+    "argsDigest": "sha256:4387e2ee160bf3fcff4b791dca54265b771444b164553613a33c151f177cf16c",
+    "id": "op-1",
+    "idempotencyKey": "order-7f3a"
+  },
+  "ownerEffects": 2,
+  "reconciliations": [],
+  "recordId": "record-retry-under-new-key",
+  "reported": {
+    "outcome": "committed"
+  }
+}

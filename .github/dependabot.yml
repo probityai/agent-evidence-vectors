@@ -1,0 +1,67 @@
+version: 2
+
+# The squash subject of a Dependabot pull request is its title plus " (#N)",
+# and the repository job refuses a subject over 72 characters. Dependabot
+# writes the title and has no length setting, but a grouped pull request is
+# titled "<prefix>: bump the <group> group [in <directory>] with N updates",
+# which does not grow with package names or versions. Every ecosystem is
+# therefore one group with a short name, so a title stays under 65 characters
+# by construction and the limit is never relaxed. One group per ecosystem
+# also moves related pins together: the GitHub Actions group bumps
+# codeql-action's init and analyze steps in one pull request, where
+# separate ones left the two at different versions.
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: deps
+    groups:
+      gha:
+        patterns: ["*"]
+  - package-ecosystem: uv
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: deps
+    groups:
+      uv:
+        patterns: ["*"]
+  - package-ecosystem: cargo
+    directory: /crates/dsse
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: deps
+    groups:
+      dsse:
+        patterns: ["*"]
+  - package-ecosystem: cargo
+    directory: /crates/jcs-admit
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: deps
+    groups:
+      jcs:
+        patterns: ["*"]
+  - package-ecosystem: pip
+    directory: /packages/admission
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: deps
+    groups:
+      adm:
+        patterns: ["*"]
+  - package-ecosystem: pip
+    directory: /packages/vocabulary
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: deps
+    groups:
+      vocab:
+        patterns: ["*"]

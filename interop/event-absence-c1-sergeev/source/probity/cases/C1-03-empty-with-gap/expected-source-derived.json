@@ -1,0 +1,18 @@
+{
+  "status": "SOURCE_DERIVED_NOT_EXECUTED",
+  "fixture_id": "C1-03-empty-with-gap",
+  "release": "probity-verify-v0.2.2",
+  "source_commit": "bc4557b1237c0d949087c19c6ee17dd858edbedd",
+  "entrypoint": "probity_verify.core.adjudicate",
+  "require_witness_scope": "PEER",
+  "decision": "not_established",
+  "reason": "observation_coverage_unestablished",
+  "policy_sha256": "7a1d6258b1a87a85496ef02b1ff849a665e46b70fe7854c5f76ce5d9d4a40d9b",
+  "expected_cli_exit": 0,
+  "trust_limit": "The independent label and distinct producer are consumer pins only. These synthetic records establish neither authenticated identity/custody nor actual event truth or complete capture.",
+  "if_require_external": {
+    "decision": "not_established",
+    "reason": "observation_coverage_unestablished"
+  },
+  "not_an_execution_transcript": true
+}

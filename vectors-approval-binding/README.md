@@ -4,6 +4,8 @@ Cases for `approval-binding/v1`: a record of one approval presented for one
 use, the payload bytes of the use, and the decision a verifier must reach. The
 expected decision and reason for every case are in `MANIFEST.json`.
 
+[![Checked with Probity](https://img.shields.io/badge/checked-with_Probity-0969da?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAkFBMVEX8%2B%2Bzr5NPgyrfKyLnSq5Wzo4tWltqRkZI2kPU1kvk1j%2FMwkPgzjfI2jO80jO40jO3MdWOZc1SLblN1aFxxXFJzVDY2i%2B40i%2B00i%2Bw0i%2Bs0ius1iOZAapwugNYtdbUqaq0qV4tkRzJXOB47Oz43JRkjNEYiHBwlFxIfFxMcEg0XEQ0WEAwXDAUWCAEOCQcJAgCa503RAAAB3klEQVR42rWT2ZacIBCGceHYoN240SK2Crig4vL%2BbxfszJyZTmaSm6S4rI9a%2FwK3vxj41wDj5E9AwS%2Foxjn7DmARqgVHCBHyJcBxJeZtEG2Nv4hAGEPXYVumddvWAbFfgJJECDfDukxa63ldmw%2FiCTCEK%2BteFzNbQI%2BbQPwzwKJGjNO2LMacxNqK1wgcNfO2mqfbHMs8NEkeXT8AjurRTKfbMlqOa5vFyc8cZclu4PSvWptlPlOMeb4PsQu78MoYQWFIwKUet0nPZl%2FMki1H3x%2FKd1PVhhdkS2tDgM7m9bR3XX8EXtYde59SSVVXNx2NMwuIbbGl74HUu%2BcFXrArSpXqlVSpGz8sUG%2FjoCej1RHA6ZAgl1SmUvVUQjduEGDIdt0MxuwjCHYNAZSwT1IbhaZ%2BFt7BrUAXbguxnx3gZ9AJVJLal0hKaYv4OShGbu249Z4F4jhQ1PcpTUYLDBF5WxZB9dBB14O%2Bm6eu48QQpjBXIizf113iS9sF0LYxZMD1PODbVvtznu96sGOrWyFEiwQEwHNcC8gaF58UxfG1qiqMqzx2AACJ0i0qXyRXEIwjwnD1SBOYdKJ%2B7vxF1eRUaxGF9ePRVgiX3xxOccdhiK5v6v%2Fysgp2Z%2BR%2F3ebv9gP5RU8tSdZhDwAAAABJRU5ErkJggg%3D%3D)](https://github.com/probityai/probity)
+
 An approval can be well formed, correctly signed and unexpired and still be the
 wrong approval for the use in front of the verifier. Every denied case here
 changes exactly one binding of an otherwise conformant record, so a verifier
@@ -26,14 +28,19 @@ from any project.
 | Event and phase | `event-differs`, `phase-differs` | [modelcontextprotocol/experimental-ext-interceptors#46](https://github.com/modelcontextprotocol/experimental-ext-interceptors/pull/46): confirmation bound to event, phase, target and payload |
 | Payload after mutation | `payload-mutated-after-approval`, `target-differs`, `tool-differs` | the same proposal: rechecked after a mutation |
 | Validity window | `used-at-expiry`, `used-before-issued` | |
+| The use cites the approval checked | `approval-use-cites-predecessor`, `approval-use-cites-no-approval` | the review of the renewal cases on [#292](https://github.com/probityai/agent-evidence-vectors/pull/292#issuecomment-6491378743) by `AAkhtanin`: a use naming another approval, or none, was judged against the one presented |
 | Policy served at decision time | `release-first-served-after-decision`, `release-retired-beyond-grace` | [JanssenProject/jans#15447](https://github.com/JanssenProject/jans/pull/15447): release history and a grace period for late records |
 | A failed lookup is not a match | `release-lookup-unavailable` | the same pull request |
+| Renewal by replacement | `approval-renewed-same-bounds`, `approval-reused-after-renewal`, `approval-renewal-transition-not-accepted`, `approval-renewal-decision-not-distinct`, `approval-renewal-predecessor-decision-not-cited`, `approval-renewal-bounds-differ`, `approval-renewal-accepted-after-use`, `approval-renewal-predecessor-ambiguous` | the approval-renewal thread in [aaif/wg-observability-and-traceability#66](https://github.com/aaif/wg-observability-and-traceability/issues/66): the cases were asked for by `narko4u` and the sequence comes from `AAkhtanin` |
+| A new grant does not reopen a closed effect | `approval-renewal-reopens-consumed-effect`, `approval-renewal-reopens-uncertain-effect` | the same thread |
 
 The controls (`allow-*`) keep a verifier from denying everything: another
 approval under a different identifier, the same approval presented twice with
 identical content, a use one second before expiry, a release first served at
-the decision instant, and a release last served exactly the grace period
-before it.
+the decision instant, a release last served exactly the grace period
+before it, a replacement B that cites its predecessor's decision
+(`approval-renewed-same-bounds`), and the predecessor presented before the
+replacement was accepted (`allow-predecessor-before-replacement`).
 
 ## The checks, in order
 
@@ -43,29 +50,76 @@ A verifier names the first check that fails.
 2. `contractId` is
    `https://probityai.github.io/agent-evidence-vectors/contract/approval-binding/v1`
    (`contract_id_unknown`).
-3. No other entry in `presentedApprovals` has the approval's `approvalId` with
+3. The use's `approvalId` is the approval's `approvalId`
+   (`approval_not_cited`). A use that names another approval, or none, is not
+   judged against the approval presented, in a renewal or not.
+4. No other entry in `presentedApprovals` has the approval's `approvalId` with
    different content (`approval_id_ambiguous`). The same approval presented
    twice is not ambiguous.
-4. `approvalId` is not in `consumedApprovalIds` (`approval_replayed`).
-5. `trustedKeys[approver]` is the approval's `keyId` (`key_not_bound`).
-6. The use's `principal` is the approval's `principal` (`principal_mismatch`).
-   A matching `clientId` does not stand in for the user.
-7. The use's `event` and `phase` are the approved ones
-   (`event_phase_mismatch`).
-8. The used `tool`, `target` and payload bytes are the approved ones
-   (`payload_mismatch`).
-9. `usedAt` is at or after `issuedAt` and before `expiresAt`
-   (`approval_outside_validity`).
-10. `policyRelease.lookup` is `ok` (`comparison_unavailable`).
-11. The release's `firstServedAt` is at or before `decisionTime`, and its
+5. `approvalId` is not in `consumedApprovalIds` (`approval_replayed`).
+6. No replacement accepted at or before `usedAt` has taken the approval's
+   place (`approval_superseded`).
+7. A use that claims `authorityForm: renewed` has a transition accepted at or
+   before `usedAt` whose successor is the approval
+   (`renewal_transition_missing`). A transition accepted after the use does
+   not establish the renewal.
+8. That transition binds the successor to its predecessor
+   (`renewal_binding_invalid`). The presented records under the predecessor's
+   identifier must agree, so two that differ refuse whatever their order.
+9. `trustedKeys[approver]` is the approval's `keyId` (`key_not_bound`).
+10. The use's `principal` is the approval's `principal` (`principal_mismatch`).
+    A matching `clientId` does not stand in for the user.
+11. The use's `event` and `phase` are the approved ones
+    (`event_phase_mismatch`).
+12. The used `tool`, `target` and payload bytes are the approved ones
+    (`payload_mismatch`).
+13. `usedAt` is at or after `issuedAt` and before `expiresAt`
+    (`approval_outside_validity`).
+14. The effect named by the use's `effectKey` is not `CONSUMED` or
+    `UNCERTAIN_CLOSE` in `effectRegistry` (`effect_already_closed`).
+15. `policyRelease.lookup` is `ok` (`comparison_unavailable`).
+16. The release's `firstServedAt` is at or before `decisionTime`, and its
     `lastServedAt` plus `graceSeconds` is at or after it
     (`release_not_served_at_decision`).
 
-A record that passes all eleven is `allow` with reason `bound`.
+A record that passes every check is `allow` with reason `bound`.
 
 `comparison_unavailable` is a deny rather than an indeterminate outcome. The
 record states that the lookup failed, so the contract is not silent about the
 input; what it forbids is reading "not checked" as "matched".
+
+## Renewal by replacement
+
+Reusing an approval cites the existing approval A. Renewal by replacement cites
+the new approval B and an accepted transition from A to B. Equal bounds, the same
+recorded decision and the same logical effect are three different identities, so
+the record carries each apart:
+
+- `approval.decisionId` is the recorded decision that authorised that approval.
+- `transitions` lists the replacements the issuer recorded. An accepted
+  `exclusive-replacement` names the predecessor approval and decision, the
+  successor approval and decision, and `acceptedAt`. The bounds a renewal holds
+  equal are `event`, `payloadSha256`, `phase`, `principal`, `target` and `tool`;
+  the validity window is B's own. A transition counts from `acceptedAt` on, for
+  the predecessor it replaces and for the successor it establishes alike. Exclusive replacement is this suite's policy,
+  not a claim that every renewal policy forbids overlap.
+- `use.authorityForm: renewed` is a claim about a transition, and is never
+  evidence that one was accepted.
+- `use.effectKey` and `effectRegistry` carry the logical effect. A new grant
+  does not reopen an effect that closed as `CONSUMED` or `UNCERTAIN_CLOSE`.
+
+`approval-reused-after-renewal` presents A after the A to B replacement was
+accepted and before any execution under B. A is unexpired and unconsumed and the
+effect is reserved, not executed, so only supersession can refuse it. A reader
+that tests A only after B has run can pass this through its consumed set and
+miss a broken supersession. The control `allow-predecessor-before-replacement`
+presents A before the replacement was accepted and is allowed, so the case does
+not reward refusing every predecessor.
+
+The reader grades the approval decision: deny A, then allow B. That an
+executor started nothing and consumed no effect reservation on the refusal, and
+that exactly one execution followed under B, are runtime observations an approval
+reader cannot make; a runtime counterpart records them separately.
 
 ## Running it
 
@@ -83,6 +137,9 @@ python3 vectors-approval-binding/check_vectors.py --verifier './verifier'
 ```
 
 `aee-verify vectors-approval-binding` judges the same cases with the Go reader.
+`python3 scripts/approval-binding-rails-test.py` holds the packaged reader,
+`check_vectors.py` and the Go reader to one decision and reason on every member
+and on mutated copies of every member.
 Regenerate the cases with `python3 vectors-approval-binding/gen_vectors.py`.
 
 Passing these cases does not establish that a signature is valid, that the

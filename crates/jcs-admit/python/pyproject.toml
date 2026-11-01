@@ -1,0 +1,38 @@
+[build-system]
+requires = ["maturin==1.15.0"]
+build-backend = "maturin"
+
+[project]
+name = "jcs-admit"
+version = "0.1.0"
+description = "Admission control and RFC 8785 canonicalization for JSON about to be signed, plus DSSE signing, from the jcs-admit and dsse Rust crates"
+readme = "README.md"
+license = "MIT OR Apache-2.0"
+license-files = ["LICENSE-APACHE", "LICENSE-MIT"]
+requires-python = ">=3.10"
+keywords = ["jcs", "rfc8785", "canonicalization", "dsse", "attestation", "in-toto"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Rust",
+    "Topic :: Security :: Cryptography",
+    "Typing :: Typed",
+]
+
+[project.urls]
+Source = "https://github.com/probityai/agent-evidence-vectors/tree/main/crates/jcs-admit/python"
+Issues = "https://github.com/probityai/agent-evidence-vectors/issues"
+
+[dependency-groups]
+dev = ["maturin==1.15.0", "pytest==9.1.1", "mypy==2.4.0"]
+
+[tool.maturin]
+module-name = "jcs_admit._native"
+python-source = "pysrc"
+
+[tool.uv]
+# Rebuild the extension whenever `uv sync` or `uv run` finds the Rust source changed.
+cache-keys = [{ file = "pyproject.toml" }, { file = "Cargo.toml" }, { file = "Cargo.lock" }, { file = "src/**/*.rs" }]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["--strict-markers", "-ra"]

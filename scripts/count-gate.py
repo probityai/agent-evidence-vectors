@@ -223,6 +223,7 @@ EXTRA_CORPORA: tuple[str, ...] = (
     "vectors-receipt-signature",
     "vectors-agent-audit-record",
     "vectors-admission",
+    "vectors-restart-records",
 )
 CHANGES_REL = "vectors/CHANGES.md"
 BASELINE_REL = "docs/FORCING-BASELINE.json"
@@ -1640,6 +1641,20 @@ FROZEN: tuple[Frozen, ...] = (
         'incident and must not track the corpus.',
     ),
     Frozen(
+        'docs/proposals/catalog-1-body.md',
+        'a witness prefix byte length in a quoted verifier error',
+        'witness prefix byte length 164 does not equal',
+        'An integer that counts something other than this corpus and equals one of its figures by'
+        ' coincidence: a byte length in a verifier error message quoted verbatim.',
+    ),
+    Frozen(
+        'docs/proposals/packets/catalog-1.md',
+        'a witness prefix byte length in a quoted verifier error',
+        'witness prefix byte length 164 does not equal',
+        'An integer that counts something other than this corpus and equals one of its figures by'
+        ' coincidence: a byte length in a verifier error message quoted verbatim.',
+    ),
+    Frozen(
         'vectors-receipt-signature/gen_vectors.py',
         'the zero-byte length of the upstream key-seed recipe',
         "suite's recipe: 31 zero bytes and",
@@ -2025,6 +2040,28 @@ FROZEN: tuple[Frozen, ...] = (
             "which lives in a2aproject/a2a-tck and not here, at corpus commit 97b0072. "
             "Its denominator is that corpus's size, not any corpus in this tree, and "
             "it records one past run of one commit."
+        ),
+    ),
+    Frozen(
+        "RUNS.md",
+        "the agent audit record outside run score at release 0.28.0",
+        "141 of 141 agree with `MANIFEST.json`",
+        (
+            "The score Laurent-Lemonnier posted on agent-evidence-vectors#335 for "
+            "vectors-agent-audit-record at release 0.28.0, from his own verifier at "
+            "dps-scitt-decision-layer@f72f092 on 2026-10-29. It records one past run of "
+            "one release and does not track the corpus as it grows."
+        ),
+    ),
+    Frozen(
+        "RUNS.md",
+        "the agent audit record outside run reject-member score at release 0.28.0",
+        "agrees on 81 of 81 reject members",
+        (
+            "The score Laurent-Lemonnier posted on agent-evidence-vectors#335 for "
+            "vectors-agent-audit-record at release 0.28.0, from his own verifier at "
+            "dps-scitt-decision-layer@f72f092 on 2026-10-29. It records one past run of "
+            "one release and does not track the corpus as it grows."
         ),
     ),
     Frozen(
@@ -2544,7 +2581,7 @@ FROZEN: tuple[Frozen, ...] = (
     Frozen(
         "scripts/consumer-lag-gate.py",
         "the two remembered lags",
-        "two rails sat at 140 vectors while this repository",
+        "two rails sat at 140 vectors while this repository published 149",
         "The lag as it was measured. Both figures are sizes this corpus has had, and "
         "moving either would erase the event that made this gate necessary.",
     ),
@@ -2823,6 +2860,22 @@ FROZEN: tuple[Frozen, ...] = (
         'both named in the record. It describes that fixture and does not track'
         ' the corpus.',
     ),
+    Frozen(
+        'docs/USED-BY.md',
+        "a third party's recorded replay of the invocation-axes corpus",
+        'replays the invocation-axes corpus, 25 of 25 cases, in its CI',
+        'What one named third-party repository reported for one named workflow run '
+        'on the date it ran, with the run linked in the same row. It records that '
+        'run and does not track the corpus.',
+    ),
+    Frozen(
+        'docs/USED-BY.md',
+        "a third party's recorded replay of the receipt-signature corpus",
+        'actions/runs/38343248903), 25 of 25 vectors pass',
+        'What one named third-party repository reported for one named workflow run '
+        'on the date it ran, with the run linked in the same row. It records that '
+        'run and does not track the corpus.',
+    ),
 )
 
 
@@ -2967,7 +3020,20 @@ MASKS = tuple(
         # otherwise arrive as a fresh false refusal against text claiming
         # nothing. The canonicalization argument this corpus publishes cites
         # floating-point and checksum standards by name throughout.
-        r"\b(?:IEEE|ISO|IEC|ANSI|ECMA|FIPS|NIST\s+SP)[\s-]*\d+",
+        #
+        # The designator is the WHOLE identifier, not its first number: `NIST SP
+        # 800-184` is one document, and masking only `NIST SP 800` left `-184`
+        # to be read as a count the day the audit-record corpus reached 184. So
+        # the number may continue through `-`, `/`, `:` or `.` segments
+        # (`800-184`, `27001:2022`, `8601-1`) and a revision suffix (`63r3`).
+        # The same applies to the other publication identifiers the prose cites:
+        # a CVE or CWE id, an IETF BCP or STD number, and a draft name with its
+        # two-digit version (`draft-ietf-foo-bar-04`).
+        r"\b(?:IEEE|ISO|IEC|ANSI|ECMA|FIPS|(?:NIST\s+)?(?:SP|IR)|BCP|STD)[\s-]*\d+"
+        r"(?:[-/:.]\d+)*(?:r\d+)?",
+        r"\bCVE-\d{4}-\d{4,}\b",
+        r"\bCWE-\d+\b",
+        r"\bdraft-[a-z0-9]+(?:-[a-z0-9]+)*-\d{2}\b",
         # Encoding names. The digit in UTF-16 is part of the name of a character
         # encoding and never a quantity of anything, and this corpus argues about
         # UTF-16 code-unit ordering in a dozen places. It went unmasked only
@@ -2992,6 +3058,10 @@ MASKS = tuple(
         # is the argument the w3c rule-id mask gives against freezing an id.
         r"https?://github\.com/[\w.-]+/[\w.-]+/(?:issues|pull|discussions)/\d+",
         r"#\d+",  # upstream issue and pull-request numbers
+        # The same identifier written as words, `issue 184`, in link text, a table
+        # cell or a docstring. It surfaced when the audit-record corpus total reached
+        # the number of the upstream issue that the ACS-Core wire probes cite.
+        r"\bissues?\s+\d+\b",
         # A PEP 508 version bound in a quoted requirement string. `"cryptography>=43"`
         # names a release of a dependency and counts nothing; the version-string
         # mask below needs a dot and this form has none. It stayed invisible only
@@ -3289,6 +3359,42 @@ EXEMPT_PREFIXES: dict[str, str] = {
         "files on disk, and the builder's --check refuses a corpus that differs; the "
         "integers in its prose and builder notes are requirement ids, tree sizes and "
         "record indexes of the Proof-of-Control draft, not counts of this repository"
+    ),
+    "crates/jcs-admit/": (
+        "a standalone crate with its own Cargo tests, interop fixtures and recorded "
+        "run output; its integers are byte widths, nesting-depth bounds, upstream "
+        "event counts and the figures of its own mutation sweep and incumbent "
+        "measurement, none of them a count of this repository's corpora, which this "
+        "gate's declared claims and manifests check"
+    ),
+    "crates/dsse/": (
+        "a standalone crate with its own Cargo tests (the crate-dsse job); its "
+        "integers are key and signature widths in bytes and its own test totals, "
+        "none of them a count of this repository's corpora, which this gate's "
+        "declared claims and manifests check"
+    ),
+    "actions/admission/": (
+        "a standalone Action whose pytest suite (the actions-admission job) asserts "
+        "its own outputs; its integers are the sizes and ratios of its test data, "
+        "none of them a count of this repository's corpora"
+    ),
+    "packages/admission/": (
+        "a standalone package with its own pytest and conformance suite (the "
+        "package-admission job). Its per-rail vector counts and verdict tallies come "
+        "from profiles/MEASUREMENTS.json, which scripts/profile-map-gate.py pins to a "
+        "corpus digest and refuses when the corpus has moved; its other integers are "
+        "obligation counts of its own registries and ids of the specifications it cites"
+    ),
+    "packages/vocabulary/": (
+        "a standalone package whose vocabulary, crosswalks and tests are held by its "
+        "own checks (the package-vocabulary job); its integers are dated measurements "
+        "recorded in the entry that states the date, regulation and article numbers, "
+        "and test data, none of them a live count of this repository's corpora"
+    ),
+    "pages/vocab/": (
+        "content-addressed snapshots of packages/vocabulary/vocabulary.yaml; each "
+        "file name is the digest of its bytes, so an edit changes the name, and the "
+        "integers inside are the source's dated measurements and citations"
     ),
     "vectors-ai-agent-action/spec-vendored/": (
         "vendored upstream bytes; the manifest's specDigest owns them, "

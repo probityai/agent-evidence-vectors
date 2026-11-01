@@ -1,0 +1,27 @@
+{
+  "schema": "hs-aps-consumption-trust/0.1",
+  "profile": "aps-receipt-v1",
+  "scope": [
+    "payments:refund"
+  ],
+  "keys": [
+    {
+      "signer": "did:example:refund-worker",
+      "key_id": "wrk-1",
+      "role": "worker",
+      "public_key": "5b5b1be086629a00f47faede72859154745e51e4a191709c64478195c93351b0",
+      "not_before": "2026-10-01T00:00:00.000Z",
+      "not_after": null,
+      "revoked_at": null
+    },
+    {
+      "signer": "did:example:refund-approval-boundary",
+      "key_id": "bnd-1",
+      "role": "approval-boundary",
+      "public_key": "189cf230eae902479adacaf5123bce3d758f03d5808715fd48a1caf8db47c6f6",
+      "not_before": "2026-10-01T00:00:00.000Z",
+      "not_after": null,
+      "revoked_at": null
+    }
+  ]
+}

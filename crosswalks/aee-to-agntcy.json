@@ -1,0 +1,917 @@
+{
+ "crosswalk_kind": "surface-to-member, one target family",
+ "generated": "2026-10-28",
+ "generated_by": "hand-written and hand-anchored from the AGNTCY checkouts named under targets. scripts/crosswalk-gen.py produces crosswalks/aee-to-ave.json only and was not run for this file. Every source below carries the commit it was read at, and every member carries the manifest path that lists its case ids.",
+ "note": "Maps each AGNTCY surface that a record, a digest, a signature or a credential passes through to the vectors member that tests it. Relation TESTED means a member judges the surface end to end; PARTIALLY_TESTED means it judges part and the unmeasurable field says which part is left; NOT_TESTED means no member applies and the unmeasurable field says why. Nothing here states whether any AGNTCY software passes a member. A member is run against an implementation by whoever holds that implementation. Companion prose is aee-to-agntcy.md beside this file.",
+ "availability_legend": {
+  "on_main": "the corpus directory is on main of this repository today",
+  "next_minor_release": "the corpus directory arrives in the next minor release; its path is given and its manifest was read from the branch that builds it"
+ },
+ "source": {
+  "standard": "AEE (Adversarial Execution Evidence)",
+  "repository": "https://github.com/probityai/agent-evidence-vectors",
+  "read_at_commit": "922c7827ebe148912fb925876af5a8d98683ffe2",
+  "conformance_suite": {
+   "derived_by": "python3 -c \"import json,re,pathlib; m=json.loads(pathlib.Path('vectors/MANIFEST.json').read_text()); r=re.search(r'^## suiteRevision ([0-9]+)\\b', pathlib.Path('vectors/CHANGES.md').read_text(), re.M).group(1); print(r, len(m['vectors']), m['counts'])\"",
+   "note": "Deliberately not snapshotted here; scripts/count-gate.py holds the one sentence that states the suite total."
+  }
+ },
+ "targets": [
+  {
+   "key": "dir",
+   "repository": "https://github.com/agntcy/dir",
+   "commit": "6ae6ab04adfa147d1ee050745b96e4cb328a4277",
+   "derived_by": "git -C <dir-checkout> rev-parse HEAD"
+  },
+  {
+   "key": "dir-spec",
+   "repository": "https://github.com/agntcy/dir-spec",
+   "commit": "846e47590f4c5fa8420e75dc9114cffc1f806627",
+   "derived_by": "git -C <dir-spec-checkout> rev-parse HEAD"
+  },
+  {
+   "key": "oasf",
+   "repository": "https://github.com/agntcy/oasf",
+   "commit": "9f370e8ca1cc0d1b73cb61328198868ead55dbbb",
+   "derived_by": "git -C <oasf-checkout> rev-parse HEAD"
+  },
+  {
+   "key": "slim-spec",
+   "repository": "https://github.com/agntcy/slim-spec",
+   "commit": "20d92915ef4b3ed3a8d3233e08a225d4a97bcd0d",
+   "derived_by": "git -C <slim-spec-checkout> rev-parse HEAD"
+  },
+  {
+   "key": "identity-spec",
+   "repository": "https://github.com/agntcy/identity-spec",
+   "commit": "bdbf1457581fc5ea73dbdbbfe962c337ec0ad1ab",
+   "derived_by": "git -C <identity-spec-checkout> rev-parse HEAD"
+  },
+  {
+   "key": "observe",
+   "repository": "https://github.com/agntcy/observe",
+   "commit": "e0af12080fcdf4b5b15fafa946b6eb7ee9f99b07",
+   "derived_by": "git -C <observe-checkout> rev-parse HEAD"
+  }
+ ],
+ "rows": [
+  {
+   "id": "oasf-record-required-fields",
+   "agntcy_component": "OASF",
+   "agntcy_surface": "Record object: the fields the schema marks required",
+   "agntcy_sources": [
+    {
+     "repo": "agntcy/oasf",
+     "commit": "9f370e8ca1cc0d1b73cb61328198868ead55dbbb",
+     "path": "schema/objects/record.json",
+     "line": null,
+     "url": "https://github.com/agntcy/oasf/blob/9f370e8ca1cc0d1b73cb61328198868ead55dbbb/schema/objects/record.json",
+     "note": "fields with requirement: required"
+    }
+   ],
+   "members": [
+    {
+     "corpus": "vectors-oasf-record",
+     "availability": "next_minor_release",
+     "path": "vectors-oasf-record/MANIFEST.json",
+     "select": {
+      "reason": "oasf_required_field"
+     },
+     "case_ids": [
+      "allow-plain",
+      "allow-optional-fields"
+     ]
+    }
+   ],
+   "relation": "TESTED",
+   "unmeasurable": null
+  },
+  {
+   "id": "oasf-record-json-form",
+   "agntcy_component": "OASF",
+   "agntcy_surface": "Record bytes as JSON: duplicate members, non-UTF-8, non-finite numbers, integers outside the exact double range",
+   "agntcy_sources": [
+    {
+     "repo": "agntcy/oasf",
+     "commit": "9f370e8ca1cc0d1b73cb61328198868ead55dbbb",
+     "path": "schema/objects/record.json",
+     "line": null,
+     "url": "https://github.com/agntcy/oasf/blob/9f370e8ca1cc0d1b73cb61328198868ead55dbbb/schema/objects/record.json",
+     "note": "record object"
+    }
+   ],
+   "members": [
+    {
+     "corpus": "vectors-oasf-record",
+     "availability": "next_minor_release",
+     "path": "vectors-oasf-record/MANIFEST.json",
+     "select": {
+      "reason": [
+       "record_not_json",
+       "number_not_exact"
+      ]
+     },
+     "case_ids": [
+      "allow-integer-at-exact-limit"
+     ]
+    }
+   ],
+   "relation": "TESTED",
+   "unmeasurable": null
+  },
+  {
+   "id": "oasf-extension-registry",
+   "agntcy_component": "OASF",
+   "agntcy_surface": "Extension registry: names and UIDs reserved for schema extensions",
+   "agntcy_sources": [
+    {
+     "repo": "agntcy/oasf",
+     "commit": "9f370e8ca1cc0d1b73cb61328198868ead55dbbb",
+     "path": "schema/extensions.md",
+     "line": 1,
+     "url": "https://github.com/agntcy/oasf/blob/9f370e8ca1cc0d1b73cb61328198868ead55dbbb/schema/extensions.md#L1",
+     "note": "registry table"
+    },
+    {
+     "repo": "agntcy/oasf",
+     "commit": "9f370e8ca1cc0d1b73cb61328198868ead55dbbb",
+     "path": "schema/test/extensions/example",
+     "line": null,
+     "url": "https://github.com/agntcy/oasf/blob/9f370e8ca1cc0d1b73cb61328198868ead55dbbb/schema/test/extensions/example",
+     "note": "reference extension"
+    }
+   ],
+   "members": [],
+   "relation": "NOT_TESTED",
+   "unmeasurable": "The registry is a table of names and UIDs that avoids collisions. No member judges extension registration or the payload an extension carries; the nearest artifact is the controlled vocabulary in agent-evidence-vocabulary, which is not a vectors member."
+  },
+  {
+   "id": "oasf-a2a-card",
+   "agntcy_component": "OASF",
+   "agntcy_surface": "A2A Agent Card carried in a record (a2a_data.card_data, and the artifact reference that replaces it)",
+   "agntcy_sources": [
+    {
+     "repo": "agntcy/oasf",
+     "commit": "9f370e8ca1cc0d1b73cb61328198868ead55dbbb",
+     "path": "schema/objects/a2a_data.json",
+     "line": 7,
+     "url": "https://github.com/agntcy/oasf/blob/9f370e8ca1cc0d1b73cb61328198868ead55dbbb/schema/objects/a2a_data.json#L7",
+     "note": "card_data and card_schema_version"
+    }
+   ],
+   "members": [
+    {
+     "corpus": "vectors-a2a-jcs-v01",
+     "availability": "on_main",
+     "path": "vectors-a2a-jcs-v01/MANIFEST.json",
+     "select": {
+      "groups": [
+       "a2-signatures-exclusion",
+       "a3-object-key-ordering",
+       "a4-string-serialization",
+       "a5-number-serialization",
+       "a6-arrays-nesting-literals"
+      ]
+     },
+     "note": "RFC 8785 serialization of the card bytes"
+    },
+    {
+     "corpus": "vectors-agent-card-receipt",
+     "availability": "on_main",
+     "path": "vectors-agent-card-receipt/MANIFEST.json",
+     "select": {
+      "reasons": [
+       "card_digest_mismatch",
+       "card_malformed"
+      ]
+     },
+     "case_ids": [
+      "accept-card-without-signatures",
+      "accept-signatures-excluded",
+      "accept-rfc8785-edges"
+     ],
+     "note": "digest of the served card"
+    }
+   ],
+   "relation": "PARTIALLY_TESTED",
+   "unmeasurable": "How OASF resolves the artifact reference to the card bytes is not a record format any member judges."
+  },
+  {
+   "id": "dir-record-digest",
+   "agntcy_component": "Directory",
+   "agntcy_surface": "Record identity digest: the SHA-256 a record is named by",
+   "agntcy_sources": [
+    {
+     "repo": "agntcy/dir",
+     "commit": "6ae6ab04adfa147d1ee050745b96e4cb328a4277",
+     "path": "api/core/v1/cid.go",
+     "line": null,
+     "url": "https://github.com/agntcy/dir/blob/6ae6ab04adfa147d1ee050745b96e4cb328a4277/api/core/v1/cid.go",
+     "note": "record identity"
+    },
+    {
+     "repo": "agntcy/dir",
+     "commit": "6ae6ab04adfa147d1ee050745b96e4cb328a4277",
+     "path": "api/core/v1/record.go",
+     "line": null,
+     "url": "https://github.com/agntcy/dir/blob/6ae6ab04adfa147d1ee050745b96e4cb328a4277/api/core/v1/record.go",
+     "note": "record marshalling"
+    }
+   ],
+   "members": [
+    {
+     "corpus": "vectors-oasf-record",
+     "availability": "next_minor_release",
+     "path": "vectors-oasf-record/MANIFEST.json",
+     "select": {
+      "reason": "digest_mismatch"
+     },
+     "case_ids": [
+      "allow-plain",
+      "allow-compact-bytes",
+      "allow-html-characters",
+      "allow-line-separator",
+      "allow-key-order-utf16",
+      "allow-negative-zero"
+     ],
+     "note": "digest over RFC 8785 bytes; each denied digest-over-* case has an allowed twin"
+    },
+    {
+     "corpus": "vectors-a2a-jcs-v01",
+     "availability": "on_main",
+     "path": "vectors-a2a-jcs-v01/MANIFEST.json",
+     "select": {
+      "groups": [
+       "a3-object-key-ordering",
+       "a4-string-serialization",
+       "a5-number-serialization"
+      ]
+     },
+     "note": "RFC 8785 byte conformance"
+    }
+   ],
+   "relation": "TESTED",
+   "unmeasurable": null
+  },
+  {
+   "id": "dir-record-cid",
+   "agntcy_component": "Directory",
+   "agntcy_surface": "Record CID: the digest wrapped as a content identifier",
+   "agntcy_sources": [
+    {
+     "repo": "agntcy/dir",
+     "commit": "6ae6ab04adfa147d1ee050745b96e4cb328a4277",
+     "path": "api/core/v1/cid.go",
+     "line": null,
+     "url": "https://github.com/agntcy/dir/blob/6ae6ab04adfa147d1ee050745b96e4cb328a4277/api/core/v1/cid.go",
+     "note": "CID construction"
+    }
+   ],
+   "members": [
+    {
+     "corpus": "vectors-oasf-record",
+     "availability": "next_minor_release",
+     "path": "vectors-oasf-record/MANIFEST.json",
+     "select": {
+      "reason": "digest_mismatch"
+     },
+     "note": "the corpus compares the SHA-256 multihash inside a CID with recordDigest"
+    }
+   ],
+   "relation": "PARTIALLY_TESTED",
+   "unmeasurable": "The CID version, codec and multibase text are outside the corpus: the member judges the digest the CID carries, not the identifier's wrapping."
+  },
+  {
+   "id": "dir-signer-pinned-identity",
+   "agntcy_component": "Directory",
+   "agntcy_surface": "Signer identity (OIDC subject and issuer) a consumer pins when verifying a record signature",
+   "agntcy_sources": [
+    {
+     "repo": "agntcy/dir",
+     "commit": "6ae6ab04adfa147d1ee050745b96e4cb328a4277",
+     "path": "docs/content/dir/dir-component-trust-model.md",
+     "line": 47,
+     "url": "https://github.com/agntcy/dir/blob/6ae6ab04adfa147d1ee050745b96e4cb328a4277/docs/content/dir/dir-component-trust-model.md#L47",
+     "note": "signatures stored as referrers; trusted status"
+    },
+    {
+     "repo": "agntcy/dir",
+     "commit": "6ae6ab04adfa147d1ee050745b96e4cb328a4277",
+     "path": "docs/content/dir/dir-cli-reference.md",
+     "line": null,
+     "url": "https://github.com/agntcy/dir/blob/6ae6ab04adfa147d1ee050745b96e4cb328a4277/docs/content/dir/dir-cli-reference.md",
+     "note": "verify options"
+    }
+   ],
+   "members": [
+    {
+     "corpus": "vectors-oasf-record",
+     "availability": "next_minor_release",
+     "path": "vectors-oasf-record/MANIFEST.json",
+     "select": {
+      "reason": "signer_not_policy"
+     },
+     "case_ids": [
+      "allow-plain",
+      "allow-signer-plus-address"
+     ],
+     "note": "signer subject and issuer compared with the policy's, character for character"
+    },
+    {
+     "corpus": "vectors-admission",
+     "availability": "on_main",
+     "path": "vectors-admission/MANIFEST.json",
+     "note": "admission of a statement under the relying party's own policy"
+    }
+   ],
+   "relation": "TESTED",
+   "unmeasurable": null
+  },
+  {
+   "id": "dir-sigstore-bundle",
+   "agntcy_component": "Directory",
+   "agntcy_surface": "Sigstore bundle, Fulcio certificate chain and transparency-log entry attached to a record",
+   "agntcy_sources": [
+    {
+     "repo": "agntcy/dir",
+     "commit": "6ae6ab04adfa147d1ee050745b96e4cb328a4277",
+     "path": "docs/content/dir/dir-component-trust-model.md",
+     "line": 66,
+     "url": "https://github.com/agntcy/dir/blob/6ae6ab04adfa147d1ee050745b96e4cb328a4277/docs/content/dir/dir-component-trust-model.md#L66",
+     "note": "Sigstore keyless signing"
+    }
+   ],
+   "members": [
+    {
+     "corpus": "vectors-receipt-signature",
+     "availability": "on_main",
+     "path": "vectors-receipt-signature/MANIFEST.json",
+     "note": "signature verification over signed input, key validity windows and superseded keys, for DSSE-shaped receipts"
+    }
+   ],
+   "relation": "NOT_TESTED",
+   "unmeasurable": "No member parses a Sigstore bundle, a Fulcio certificate or a Rekor entry. Receipt-signature checks signature mechanics for a different envelope, so it is context and not coverage."
+  },
+  {
+   "id": "dir-identity-ownership-claims",
+   "agntcy_component": "Directory",
+   "agntcy_surface": "Identity and ownership claims: a signed claim checked against the subject's current keys (DNS, HTTPS JWKS, did:web, did:key, SPIFFE, ANS), with expiry",
+   "agntcy_sources": [
+    {
+     "repo": "agntcy/dir",
+     "commit": "6ae6ab04adfa147d1ee050745b96e4cb328a4277",
+     "path": "docs/content/dir/dir-component-identity.md",
+     "line": 116,
+     "url": "https://github.com/agntcy/dir/blob/6ae6ab04adfa147d1ee050745b96e4cb328a4277/docs/content/dir/dir-component-identity.md#L116",
+     "note": "what is signed"
+    },
+    {
+     "repo": "agntcy/dir",
+     "commit": "6ae6ab04adfa147d1ee050745b96e4cb328a4277",
+     "path": "docs/content/dir/dir-component-identity.md",
+     "line": 147,
+     "url": "https://github.com/agntcy/dir/blob/6ae6ab04adfa147d1ee050745b96e4cb328a4277/docs/content/dir/dir-component-identity.md#L147",
+     "note": "subjects and key publication"
+    }
+   ],
+   "members": [
+    {
+     "corpus": "vectors-identity-binding",
+     "availability": "on_main",
+     "path": "vectors-identity-binding/MANIFEST.json",
+     "select": {
+      "reasons": [
+       "key_not_authorized",
+       "key_rotated_out",
+       "did_unresolvable",
+       "signer_not_subject",
+       "signature_invalid",
+       "did_malformed"
+      ]
+     },
+     "case_ids": [
+      "web-verified",
+      "web-signed-before-rotation"
+     ],
+     "note": "did:web and did:wba subject bound to the key that signed"
+    },
+    {
+     "corpus": "vectors-badge-vc-verify",
+     "availability": "next_minor_release",
+     "path": "vectors-badge-vc-verify/MANIFEST.json",
+     "select": {
+      "reasons": [
+       "not_yet_valid",
+       "expired"
+      ]
+     },
+     "case_ids": [
+      "allow-expiration-in-future"
+     ],
+     "note": "validity window of a signed credential"
+    }
+   ],
+   "relation": "PARTIALLY_TESTED",
+   "unmeasurable": "The claim payload and its detached JWS, and the DNS TXT, JWKS, SPIFFE and ANS key channels, have no member. Identity-binding covers DID documents only."
+  },
+  {
+   "id": "dir-policy-verdicts",
+   "agntcy_component": "Directory",
+   "agntcy_surface": "Content policies (OPA or CEL) and the per-record verdict the node stores and serves",
+   "agntcy_sources": [
+    {
+     "repo": "agntcy/dir",
+     "commit": "6ae6ab04adfa147d1ee050745b96e4cb328a4277",
+     "path": "docs/content/dir/dir-content-policy-enforcement.md",
+     "line": 9,
+     "url": "https://github.com/agntcy/dir/blob/6ae6ab04adfa147d1ee050745b96e4cb328a4277/docs/content/dir/dir-content-policy-enforcement.md#L9",
+     "note": "verdict per record"
+    },
+    {
+     "repo": "agntcy/dir",
+     "commit": "6ae6ab04adfa147d1ee050745b96e4cb328a4277",
+     "path": "proto/agntcy/dir/policy/v1/policy_audit_service.proto",
+     "line": 18,
+     "url": "https://github.com/agntcy/dir/blob/6ae6ab04adfa147d1ee050745b96e4cb328a4277/proto/agntcy/dir/policy/v1/policy_audit_service.proto#L18",
+     "note": "audit service"
+    }
+   ],
+   "members": [
+    {
+     "corpus": "vectors-admission",
+     "availability": "on_main",
+     "path": "vectors-admission/MANIFEST.json",
+     "note": "whether a statement is admitted under a relying party's own policy, with the policy codes that refused it"
+    }
+   ],
+   "relation": "PARTIALLY_TESTED",
+   "unmeasurable": "The member judges admission under a policy; it does not judge the stored verdict's encoding or the audit service's replies."
+  },
+  {
+   "id": "ads-trustmanifest-attestations",
+   "agntcy_component": "ADS draft",
+   "agntcy_surface": "TrustManifest object: identity, trust_schema, attestations, provenance",
+   "agntcy_sources": [
+    {
+     "repo": "agntcy/dir-spec",
+     "commit": "846e47590f4c5fa8420e75dc9114cffc1f806627",
+     "path": "draft-mp-agntcy-ads.md",
+     "line": 1336,
+     "url": "https://github.com/agntcy/dir-spec/blob/846e47590f4c5fa8420e75dc9114cffc1f806627/draft-mp-agntcy-ads.md#L1336",
+     "note": "TrustManifest"
+    }
+   ],
+   "members": [
+    {
+     "corpus": "vectors",
+     "availability": "on_main",
+     "path": "vectors/MANIFEST.json",
+     "note": "the signed statement an attestations entry can carry: vectors/MANIFEST.json"
+    }
+   ],
+   "relation": "PARTIALLY_TESTED",
+   "unmeasurable": "No member judges the TrustManifest object itself, only a statement placed in it."
+  },
+  {
+   "id": "ads-trustmanifest-detached-jws",
+   "agntcy_component": "ADS draft",
+   "agntcy_surface": "TrustManifest detached JWS over the RFC 8785 serialization",
+   "agntcy_sources": [
+    {
+     "repo": "agntcy/dir-spec",
+     "commit": "846e47590f4c5fa8420e75dc9114cffc1f806627",
+     "path": "draft-mp-agntcy-ads.md",
+     "line": 1413,
+     "url": "https://github.com/agntcy/dir-spec/blob/846e47590f4c5fa8420e75dc9114cffc1f806627/draft-mp-agntcy-ads.md#L1413",
+     "note": "detached JWS computed over RFC 8785"
+    }
+   ],
+   "members": [
+    {
+     "corpus": "vectors-a2a-jcs-v01",
+     "availability": "on_main",
+     "path": "vectors-a2a-jcs-v01/MANIFEST.json",
+     "select": {
+      "groups": [
+       "a3-object-key-ordering",
+       "a4-string-serialization",
+       "a5-number-serialization",
+       "a6-arrays-nesting-literals"
+      ]
+     },
+     "note": "RFC 8785 serialization conformance"
+    },
+    {
+     "corpus": "vectors-receipt-signature",
+     "availability": "on_main",
+     "path": "vectors-receipt-signature/MANIFEST.json",
+     "note": "signed-input construction rules"
+    }
+   ],
+   "relation": "PARTIALLY_TESTED",
+   "unmeasurable": "The detached JWS form (a compact JWS with the payload omitted) has no member."
+  },
+  {
+   "id": "identity-badge-issuer-trust",
+   "agntcy_component": "Identity",
+   "agntcy_surface": "Agent badge: the issuer a verifier trusts",
+   "agntcy_sources": [
+    {
+     "repo": "agntcy/identity-spec",
+     "commit": "bdbf1457581fc5ea73dbdbbfe962c337ec0ad1ab",
+     "path": "docs-src/docs/vc/agent-badge.md",
+     "line": 3,
+     "url": "https://github.com/agntcy/identity-spec/blob/bdbf1457581fc5ea73dbdbbfe962c337ec0ad1ab/docs-src/docs/vc/agent-badge.md#L3",
+     "note": "Agent Badge examples"
+    },
+    {
+     "repo": "agntcy/identity-spec",
+     "commit": "bdbf1457581fc5ea73dbdbbfe962c337ec0ad1ab",
+     "path": "docs-src/jsonschema/agntcy/identity/core/v1alpha1/Issuer.mdx",
+     "line": null,
+     "url": "https://github.com/agntcy/identity-spec/blob/bdbf1457581fc5ea73dbdbbfe962c337ec0ad1ab/docs-src/jsonschema/agntcy/identity/core/v1alpha1/Issuer.mdx",
+     "note": ""
+    }
+   ],
+   "members": [
+    {
+     "corpus": "vectors-badge-vc-verify",
+     "availability": "next_minor_release",
+     "path": "vectors-badge-vc-verify/MANIFEST.json",
+     "select": {
+      "reason": "issuer_not_trusted"
+     },
+     "case_ids": [
+      "allow-plain"
+     ]
+    }
+   ],
+   "relation": "TESTED",
+   "unmeasurable": null
+  },
+  {
+   "id": "identity-badge-issuer-key-binding",
+   "agntcy_component": "Identity",
+   "agntcy_surface": "Agent badge: binding of the issuer to the key that signs",
+   "agntcy_sources": [
+    {
+     "repo": "agntcy/identity-spec",
+     "commit": "bdbf1457581fc5ea73dbdbbfe962c337ec0ad1ab",
+     "path": "docs-src/docs/vc/agent-badge.md",
+     "line": 74,
+     "url": "https://github.com/agntcy/identity-spec/blob/bdbf1457581fc5ea73dbdbbfe962c337ec0ad1ab/docs-src/docs/vc/agent-badge.md#L74",
+     "note": "proof verified with the assertionMethod in ResolverMetadata"
+    },
+    {
+     "repo": "agntcy/identity-spec",
+     "commit": "bdbf1457581fc5ea73dbdbbfe962c337ec0ad1ab",
+     "path": "docs-src/jsonschema/agntcy/identity/core/v1alpha1/ResolverMetadata.mdx",
+     "line": null,
+     "url": "https://github.com/agntcy/identity-spec/blob/bdbf1457581fc5ea73dbdbbfe962c337ec0ad1ab/docs-src/jsonschema/agntcy/identity/core/v1alpha1/ResolverMetadata.mdx",
+     "note": ""
+    }
+   ],
+   "members": [
+    {
+     "corpus": "vectors-badge-vc-verify",
+     "availability": "next_minor_release",
+     "path": "vectors-badge-vc-verify/MANIFEST.json",
+     "select": {
+      "reason": "issuer_key_binding"
+     },
+     "case_ids": [
+      "allow-plain",
+      "allow-second-key-of-issuer"
+     ]
+    },
+    {
+     "corpus": "vectors-identity-binding",
+     "availability": "on_main",
+     "path": "vectors-identity-binding/MANIFEST.json",
+     "select": {
+      "reasons": [
+       "key_not_authorized",
+       "signer_not_subject"
+      ]
+     },
+     "case_ids": [
+      "web-verified"
+     ]
+    }
+   ],
+   "relation": "TESTED",
+   "unmeasurable": null
+  },
+  {
+   "id": "identity-badge-jws-form",
+   "agntcy_component": "Identity",
+   "agntcy_surface": "Agent badge: a credential in a compact JWS, its header, structure and signature",
+   "agntcy_sources": [
+    {
+     "repo": "agntcy/identity-spec",
+     "commit": "bdbf1457581fc5ea73dbdbbfe962c337ec0ad1ab",
+     "path": "docs-src/jsonschema/agntcy/identity/core/v1alpha1/EnvelopedCredential.mdx",
+     "line": null,
+     "url": "https://github.com/agntcy/identity-spec/blob/bdbf1457581fc5ea73dbdbbfe962c337ec0ad1ab/docs-src/jsonschema/agntcy/identity/core/v1alpha1/EnvelopedCredential.mdx",
+     "note": ""
+    },
+    {
+     "repo": "agntcy/identity-spec",
+     "commit": "bdbf1457581fc5ea73dbdbbfe962c337ec0ad1ab",
+     "path": "docs-src/jsonschema/agntcy/identity/core/v1alpha1/VerifiableCredential.mdx",
+     "line": null,
+     "url": "https://github.com/agntcy/identity-spec/blob/bdbf1457581fc5ea73dbdbbfe962c337ec0ad1ab/docs-src/jsonschema/agntcy/identity/core/v1alpha1/VerifiableCredential.mdx",
+     "note": ""
+    }
+   ],
+   "members": [
+    {
+     "corpus": "vectors-badge-vc-verify",
+     "availability": "next_minor_release",
+     "path": "vectors-badge-vc-verify/MANIFEST.json",
+     "select": {
+      "reasons": [
+       "jws_malformed",
+       "credential_malformed",
+       "signature_invalid"
+      ]
+     },
+     "case_ids": [
+      "allow-plain"
+     ]
+    }
+   ],
+   "relation": "TESTED",
+   "unmeasurable": null
+  },
+  {
+   "id": "identity-badge-validity-window",
+   "agntcy_component": "Identity",
+   "agntcy_surface": "Agent badge: issuance and expiry",
+   "agntcy_sources": [
+    {
+     "repo": "agntcy/identity-spec",
+     "commit": "bdbf1457581fc5ea73dbdbbfe962c337ec0ad1ab",
+     "path": "docs-src/jsonschema/agntcy/identity/core/v1alpha1/VerifiableCredential.mdx",
+     "line": null,
+     "url": "https://github.com/agntcy/identity-spec/blob/bdbf1457581fc5ea73dbdbbfe962c337ec0ad1ab/docs-src/jsonschema/agntcy/identity/core/v1alpha1/VerifiableCredential.mdx",
+     "note": ""
+    },
+    {
+     "repo": "agntcy/identity-spec",
+     "commit": "bdbf1457581fc5ea73dbdbbfe962c337ec0ad1ab",
+     "path": "docs-src/jsonschema/agntcy/identity/core/v1alpha1/Time.mdx",
+     "line": null,
+     "url": "https://github.com/agntcy/identity-spec/blob/bdbf1457581fc5ea73dbdbbfe962c337ec0ad1ab/docs-src/jsonschema/agntcy/identity/core/v1alpha1/Time.mdx",
+     "note": ""
+    }
+   ],
+   "members": [
+    {
+     "corpus": "vectors-badge-vc-verify",
+     "availability": "next_minor_release",
+     "path": "vectors-badge-vc-verify/MANIFEST.json",
+     "select": {
+      "reasons": [
+       "not_yet_valid",
+       "expired"
+      ]
+     },
+     "case_ids": [
+      "allow-expiration-in-future",
+      "allow-expiration-one-second-after",
+      "allow-issuance-equals-verification-time",
+      "allow-offset-timestamps"
+     ],
+     "note": "half-open window: expiry equal to the check time is refused"
+    }
+   ],
+   "relation": "TESTED",
+   "unmeasurable": null
+  },
+  {
+   "id": "identity-badge-revocation",
+   "agntcy_component": "Identity",
+   "agntcy_surface": "Agent badge: revocation recorded in the issuer's status store",
+   "agntcy_sources": [
+    {
+     "repo": "agntcy/identity-spec",
+     "commit": "bdbf1457581fc5ea73dbdbbfe962c337ec0ad1ab",
+     "path": "docs-src/jsonschema/agntcy/identity/core/v1alpha1/CredentialStatus.mdx",
+     "line": null,
+     "url": "https://github.com/agntcy/identity-spec/blob/bdbf1457581fc5ea73dbdbbfe962c337ec0ad1ab/docs-src/jsonschema/agntcy/identity/core/v1alpha1/CredentialStatus.mdx",
+     "note": ""
+    }
+   ],
+   "members": [
+    {
+     "corpus": "vectors-badge-vc-verify",
+     "availability": "next_minor_release",
+     "path": "vectors-badge-vc-verify/MANIFEST.json",
+     "select": {
+      "reason": "revoked"
+     },
+     "case_ids": [
+      "allow-revoked-list-names-another"
+     ],
+     "note": "the issuer's store is the authority, not the token"
+    },
+    {
+     "corpus": "vectors-delegation-lifecycle",
+     "availability": "on_main",
+     "path": "vectors-delegation-lifecycle/MANIFEST.json",
+     "select": {
+      "reasons": [
+       "grant_revoked",
+       "grant_revoked_dispute_open",
+       "revocation_incomplete"
+      ]
+     },
+     "case_ids": [
+      "tree-parent-revoked-child-presented",
+      "tree-child-presented-before-revocation"
+     ],
+     "note": "revocation across a delegation tree"
+    }
+   ],
+   "relation": "TESTED",
+   "unmeasurable": null
+  },
+  {
+   "id": "identity-badge-data-integrity-proof",
+   "agntcy_component": "Identity",
+   "agntcy_surface": "Agent badge in the JSON-LD form with an embedded Data Integrity proof",
+   "agntcy_sources": [
+    {
+     "repo": "agntcy/identity-spec",
+     "commit": "bdbf1457581fc5ea73dbdbbfe962c337ec0ad1ab",
+     "path": "docs-src/docs/vc/agent-badge.md",
+     "line": 23,
+     "url": "https://github.com/agntcy/identity-spec/blob/bdbf1457581fc5ea73dbdbbfe962c337ec0ad1ab/docs-src/docs/vc/agent-badge.md#L23",
+     "note": "proof of type DataIntegrityProof"
+    }
+   ],
+   "members": [],
+   "relation": "NOT_TESTED",
+   "unmeasurable": "The badge member judges the compact JWS (EdDSA) form only. No member judges JSON-LD canonicalization or an embedded Data Integrity proof."
+  },
+  {
+   "id": "identity-badge-wraps-card",
+   "agntcy_component": "Identity",
+   "agntcy_surface": "Agent badge wrapping an OASF record or an A2A Agent Card",
+   "agntcy_sources": [
+    {
+     "repo": "agntcy/identity-spec",
+     "commit": "bdbf1457581fc5ea73dbdbbfe962c337ec0ad1ab",
+     "path": "docs-src/docs/vc/agent-badge.md",
+     "line": 37,
+     "url": "https://github.com/agntcy/identity-spec/blob/bdbf1457581fc5ea73dbdbbfe962c337ec0ad1ab/docs-src/docs/vc/agent-badge.md#L37",
+     "note": "A2A Agent Badge"
+    }
+   ],
+   "members": [
+    {
+     "corpus": "vectors-agent-card-receipt",
+     "availability": "on_main",
+     "path": "vectors-agent-card-receipt/MANIFEST.json",
+     "select": {
+      "reasons": [
+       "card_digest_mismatch",
+       "receipt_expired",
+       "receipt_revoked"
+      ]
+     },
+     "case_ids": [
+      "accept-card-without-signatures"
+     ],
+     "note": "a receipt bound to the digest of the card served"
+    },
+    {
+     "corpus": "vectors-oasf-record",
+     "availability": "next_minor_release",
+     "path": "vectors-oasf-record/MANIFEST.json",
+     "select": {
+      "reason": "digest_mismatch"
+     },
+     "case_ids": [
+      "allow-plain"
+     ],
+     "note": "digest of the wrapped record"
+    }
+   ],
+   "relation": "PARTIALLY_TESTED",
+   "unmeasurable": "The wrapping credential's subject-to-card link is not judged; the members judge the card digest and the record digest."
+  },
+  {
+   "id": "identity-tbac",
+   "agntcy_component": "Identity",
+   "agntcy_surface": "Task-based access control: authority to act on a task",
+   "agntcy_sources": [
+    {
+     "repo": "agntcy/identity-spec",
+     "commit": "bdbf1457581fc5ea73dbdbbfe962c337ec0ad1ab",
+     "path": "docs-src/docs/vc/intro.md",
+     "line": null,
+     "url": "https://github.com/agntcy/identity-spec/blob/bdbf1457581fc5ea73dbdbbfe962c337ec0ad1ab/docs-src/docs/vc/intro.md",
+     "note": "credential model"
+    }
+   ],
+   "members": [
+    {
+     "corpus": "vectors-delegation-lifecycle",
+     "availability": "on_main",
+     "path": "vectors-delegation-lifecycle/MANIFEST.json",
+     "select": {
+      "reasons": [
+       "authority_valid",
+       "chain_broken",
+       "presenter_not_delegate",
+       "parent_inactive"
+      ]
+     },
+     "case_ids": [
+      "tree-chain-valid"
+     ],
+     "note": "does this presenter hold this delegated authority at the time observed"
+    }
+   ],
+   "relation": "PARTIALLY_TESTED",
+   "unmeasurable": "Task semantics and the policy language are not judged; the member judges the delegation chain."
+  },
+  {
+   "id": "slim-mls-message-claims",
+   "agntcy_component": "SLIM",
+   "agntcy_surface": "MLS group messages: what a message claims and who sent it",
+   "agntcy_sources": [
+    {
+     "repo": "agntcy/slim-spec",
+     "commit": "20d92915ef4b3ed3a8d3233e08a225d4a97bcd0d",
+     "path": "draft-mpsb-agntcy-slim.md",
+     "line": 683,
+     "url": "https://github.com/agntcy/slim-spec/blob/20d92915ef4b3ed3a8d3233e08a225d4a97bcd0d/draft-mpsb-agntcy-slim.md#L683",
+     "note": "security considerations"
+    }
+   ],
+   "members": [],
+   "relation": "NOT_TESTED",
+   "unmeasurable": "AGNTCY publishes no record or statement format for an MLS message claim, and the drafts define a transport. The vectors corpora judge records and statements, not protocol messages."
+  },
+  {
+   "id": "slim-keypackage-expiry",
+   "agntcy_component": "SLIM",
+   "agntcy_surface": "KeyPackage and credential freshness: stale or expired ones are rejected",
+   "agntcy_sources": [
+    {
+     "repo": "agntcy/slim-spec",
+     "commit": "20d92915ef4b3ed3a8d3233e08a225d4a97bcd0d",
+     "path": "draft-mpsb-agntcy-slim.md",
+     "line": 683,
+     "url": "https://github.com/agntcy/slim-spec/blob/20d92915ef4b3ed3a8d3233e08a225d4a97bcd0d/draft-mpsb-agntcy-slim.md#L683",
+     "note": "MUST reject stale or expired credentials"
+    }
+   ],
+   "members": [],
+   "relation": "NOT_TESTED",
+   "unmeasurable": "A KeyPackage is an MLS (RFC 9420) structure and no member parses one. The validity-window logic in the badge member applies to a different object."
+  },
+  {
+   "id": "slim-name-derivation",
+   "agntcy_component": "SLIM",
+   "agntcy_surface": "Node and client names derived from public-key hashes, with optional DIDs",
+   "agntcy_sources": [
+    {
+     "repo": "agntcy/slim-spec",
+     "commit": "20d92915ef4b3ed3a8d3233e08a225d4a97bcd0d",
+     "path": "draft-mpsb-agntcy-slim.md",
+     "line": null,
+     "url": "https://github.com/agntcy/slim-spec/blob/20d92915ef4b3ed3a8d3233e08a225d4a97bcd0d/draft-mpsb-agntcy-slim.md",
+     "note": "naming section"
+    }
+   ],
+   "members": [],
+   "relation": "NOT_TESTED",
+   "unmeasurable": "No published record format: the name is a derivation rule inside the protocol. Identity-binding judges DID documents, not this derivation."
+  },
+  {
+   "id": "observe-otel-attributes",
+   "agntcy_component": "Observe",
+   "agntcy_surface": "OpenTelemetry attributes and metrics for agent observability",
+   "agntcy_sources": [
+    {
+     "repo": "agntcy/observe",
+     "commit": "e0af12080fcdf4b5b15fafa946b6eb7ee9f99b07",
+     "path": "schema/agntcy_observability_data_schema.json",
+     "line": 1,
+     "url": "https://github.com/agntcy/observe/blob/e0af12080fcdf4b5b15fafa946b6eb7ee9f99b07/schema/agntcy_observability_data_schema.json#L1",
+     "note": "metric names, units, stability"
+    }
+   ],
+   "members": [],
+   "relation": "NOT_TESTED",
+   "unmeasurable": "The schema lists attribute and metric names with units and stability levels. It defines no record, digest or signature to judge, so no member applies; observed-effect judges state-change statements, not telemetry."
+  }
+ ],
+ "row_counts": {
+  "derived_by": "python3 -c \"import json,collections; d=json.load(open('crosswalks/aee-to-agntcy.json')); print(collections.Counter(r['agntcy_component'] for r in d['rows']), collections.Counter(r['relation'] for r in d['rows']))\""
+ }
+}

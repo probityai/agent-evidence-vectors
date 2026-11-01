@@ -1,0 +1,203 @@
+# adversarial-execution-evidence admission policy for sigstore policy-controller (CUE)
+#
+# CUE variant of clusterimagepolicy-adversarial-execution-evidence.yaml. CUE
+# constrains the Statement by unification: the document is admitted only if it
+# unifies with the constraints. The catchPolicy / networkPosture digests are
+# constrained by the `=~` regex operator; predicateType and result are pinned to
+# exact values; the posture is pinned to the known NetworkPosture enum.
+#
+# Same key authority and the same no-ctlog (static-key) posture as the rego file.
+#
+# WHAT THIS POLICY CANNOT KNOW: policy-controller verifies the DSSE ENVELOPE against
+# the pinned key and unifies the decoded payload with the constraints below. NOTHING
+# in this path verifies an observation record's signature or derives the evidence
+# tier, so it cannot distinguish a substrate observation from an assembly-plane
+# forgery. A consumer relying on this admission controller is extending FULL TRUST TO
+# THE ENVELOPE SIGNER; the record-level cryptography is evidence for an offline
+# auditor, not for this gate.
+#
+# CUE has no notion of a consumer data document, so the two gates below are the
+# STRICT default in the file itself. A consumer who deliberately wants the weaker
+# evidence (state-diffing rather than live interception) relaxes them by editing this
+# file — see the comment on each. That edit is the CUE equivalent of setting
+# `data.consumer.admit_unintercepted_clean_rows` in the rego module.
+#
+# CONSUMER ANCHORS — THIS POLICY DENIES EVERY POD UNTIL YOU EDIT IT. The spec's
+# "Consumer policy obligations" require a consumer to pin, out of band, the corpus and
+# substrate digests it expects and to compare them at consumption. This is the one part
+# of the spec's rules that CUE expresses at full strength: unification against a
+# concrete string is exactly a pinned-value comparison, and a differing digest is a
+# conflict under any evaluator. The two literals below ship as `PIN-ME-...`
+# placeholders, so an unedited deployment admits NOTHING — chosen deliberately over a
+# silently permissive default, which would admit evidence about ANY corpus forever
+# without ever saying so. To decline the spec's MUST, delete the two lines; that is
+# this rail's equivalent of `data.consumer.allow_unpinned_anchors`.
+#
+# This rail enforces ONE piece of the spec's Coverage validity rule — a row must
+# carry a non-empty `observationRefs` — and none of the rest: it does not resolve
+# those refs, does not match them against the record class the row's shape requires
+# (`interception` / `examination` / `arming` + covering `sealed`), and does not apply
+# the `aeeMethod` cap. The gap and the two measured reasons for it are stated at the
+# bottom of the policy body.
+apiVersion: policy.sigstore.dev/v1alpha1
+kind: ClusterImagePolicy
+metadata:
+  name: require-execution-evidence-cue
+spec:
+  mode: enforce
+  images:
+    - glob: "**"
+  authorities:
+    - name: producer-observation-key
+      key:
+        data: |
+          -----BEGIN PUBLIC KEY-----
+          MCowBQYDK2VwAyEAT2jLWVkBW84MmGahZlqmj1cxmA1ljoYa0dkp+gpUPnc=
+          -----END PUBLIC KEY-----
+      attestations:
+        - name: must-pass-execution-evidence
+          predicateType: "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7"
+          policy:
+            type: cue
+            data: |
+              predicateType: "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7"
+              predicate: {
+                result: "pass"
+                observationEnvironment: {
+                  catchPolicy: digest: sha256: =~"^[0-9a-f]{64}$"
+                  networkPosture: {
+                    posture: "no_network" | "allowlist" | "sinkhole" | "unsafe_bypass_egress"
+                    digest: sha256: =~"^[0-9a-f]{64}$"
+                  }
+                  // THE EDIT POINT for the consumer anchors (see the header). Replace
+                  // each placeholder with the 64-hex digest this deployment expects.
+                  // A differing digest is a unification CONFLICT, which is an error
+                  // under cosign's no-Concrete Unify().Validate() semantics -- so
+                  // unlike `signatures!` / `basis!` this constraint bites at full
+                  // strength. Same rail limitation on the ABSENT form only: a
+                  // statement that omits corpus.digest.sha256 entirely leaves an
+                  // incomplete value that Validate() does not report, so the omitted
+                  // -member case is denied by the rego rail (corpus_anchor_ok /
+                  // substrate_anchor_ok fail-close on an undefined comparison) and not
+                  // here. To decline the spec's MUST, delete these two lines.
+                  corpus: digest: sha256: "PIN-ME-REPLACE-WITH-THE-EXPECTED-CORPUS-DIGEST"
+                  substrate: digest: sha256: "PIN-ME-REPLACE-WITH-THE-EXPECTED-SUBSTRATE-DIGEST"
+                }
+                // Signature PRESENCE on every observation record: `[_, ...]` is a
+                // list with at least one element, so a stripped `signatures: []`
+                // fails to unify. PRESENCE ONLY -- no key is available here and the
+                // bytes are never checked, so forged signature bytes pass. What it
+                // closes is the literal strip: the batch-root leaves are
+                // H(0x00 || PAE) over (payloadType, payload) only, so deleting every
+                // signature leaves the root and the statement intact.
+                // RAIL LIMITATION, MEASURED, NOT ASSUMED: policy-controller evaluates
+                // CUE as CompileString(policy).Unify(doc).Validate() with NO
+                // `cue.Concrete(true)` (cosign pkg/policy/eval.go, evaluateCue). Under
+                // those semantics only a CONFLICTING value is an error; an ABSENT
+                // member leaves an incomplete value, which Validate() does not report.
+                // So this constraint denies `signatures: []` but CANNOT deny a record
+                // that omits `signatures` entirely -- and the `!` required-field marker
+                // does not change that under this evaluator either (it is kept because
+                // it is correct, is enforced by `cue vet`, and would take effect if
+                // policy-controller ever adds the concreteness option). The rego rail
+                // (../rego/execution_evidence.rego, record_signatures_ok) DOES deny the
+                // absent-member form; deploy the -soundness CIP if you need it.
+                // To relax (NOT recommended): drop this line.
+                observationRecords?: [...{signatures!: [_, ...]}]
+                // Row provenance -- the spec's consumer-policy example, which keys on
+                // the row's `method` "so a reconstructed clean row is not admitted as
+                // a live one". The spec scopes that gate to CLEAN rows; this rail
+                // applies it to EVERY row, which is a different and stricter
+                // predicate, because nothing here can tell a clean row from a caught
+                // one: the caught label set lives in observationVocabulary and reading
+                // it from inside a per-element constraint is the same unmeasured
+                // indirection recorded at the bottom of this file. Applying the gate
+                // statement-wide is the conservative way to cover the clean rows, and
+                // the cost is stated rather than hidden: a legitimate mixed-basis
+                // passing statement, an artifact row beside substrate rows, is
+                // admitted by the rego rail and DENIED here. The conformance gate
+                // under ../conformance/ drives exactly that statement through both
+                // rails so the divergence stays measured.
+                // Do NOT justify this constraint by arguing that `result: "pass"`
+                // above already excludes every caught label. It does not. "A caught
+                // label forces the result to fail" is a property of the result
+                // RECOMPUTE, which this rail cannot run, and the whole threat model
+                // here is a party holding the envelope key that writes `result`
+                // freely.
+                // Same rail limitation as above: a row carrying the WRONG basis or
+                // method is denied; a row that OMITS them is not. `!` kept for the
+                // same reasons. What catches the omitted form on the rego rail is
+                // NOT one rule and is worth naming precisely, because the obvious
+                // answer was wrong for a year: the deleted basis_method_ok called
+                // every such statement invalid, which the spec does not. An omitted
+                // `method` on a substrate row -- and the conjunct above makes every
+                // admissible row a substrate row -- is invalid there under
+                // substrate_fail_closed_ok, because the row dispatches to no record
+                // class. An omitted `basis` makes the row not-substrate at all: the
+                // recompute fail-closes it and result_recompute_ok denies the carried
+                // `result: "pass"` this rail requires. Both forms are denied on both
+                // rails; only the altitude differs.
+                // The `observationRefs!: [_, ...]` conjunct is the one piece of the
+                // spec's Coverage validity rule this rail CAN express: every
+                // `basis: substrate` row must carry a non-empty `observationRefs`, and
+                // the `basis!: "substrate"` conjunct beside it makes every admissible
+                // row such a row. The `[_, ...]` half denies `observationRefs: []`
+                // outright -- an incompatible-list-length conflict, an error under any
+                // evaluator. Whether the `!` marker's required-field error reaches
+                // cosign's no-Concrete `Unify().Validate()` is the same open question
+                // recorded on `signatures!` above; MEASURED here with the `cue` CLI
+                // v0.17.1, `cue vet` reports the omitted-member form at both `-c=true`
+                // and `-c=false`, but cosign's evaluator was not available to measure,
+                // so the conservative reading stands. The rego rail denies both forms
+                // for certain (`_refs_resolvable`, inside each class-match arm).
+                // To opt in to reconstructed / artifact-basis clean rows, replace with
+                //   attackResults!: [...{basis!: "substrate" | "artifact"}]
+                // -- dropping the refs conjunct with it, because the spec scopes the
+                // refs requirement to `basis: substrate` rows and CUE cannot express a
+                // per-row conditional under this evaluator.
+                attackResults!: [...{basis!: "substrate", method!: "intercepted", observationRefs!: [_, ...]}]
+                // GAP, STATED RATHER THAN LEFT SILENT: the REST of the spec's Coverage
+                // validity rule -- resolving those refs against `observationRecords`,
+                // matching each row against the record class its shape requires (a
+                // caught intercepted row an `interception` record, a
+                // method:reconstructed row an `examination` record, a clean intercepted
+                // row a valid `arming` record plus a COVERING `sealed` record: still
+                // armed, drop count zero or within a bound declared in the same
+                // payload, posture digest equal to the pinned one), requiring every
+                // referenced payload to be readable, and capping a row's `method` by
+                // the weakest `aeeMethod` across its covering records -- is NOT
+                // enforced on this rail, and the constraints above do not approximate
+                // it. Two reasons, in order of how hard they are to work around:
+                //   1. The condition lives INSIDE the base64 `payload`. Reaching it
+                //      needs a decode and a JSON parse (CUE's encoding/base64 and
+                //      encoding/json), and whether cosign's evaluator resolves a
+                //      builtin import at all is unmeasured here: it compiles the
+                //      policy with CompileString, not a full CUE build, and this
+                //      authoring environment has no cosign to measure it against.
+                //      This file's standard is MEASURED, NOT ASSUMED -- an unverified
+                //      construct in an `enforce` policy fails closed on every Pod,
+                //      which is an outage rather than a weaker gate.
+                //   2. Even with the payload in hand, "at least one element matches"
+                //      is an existential over an open list. CUE constrains lists
+                //      element-wise; expressing it needs a comprehension whose
+                //      falsity has to be turned into a unification conflict, and the
+                //      same no-Concrete semantics that already blunt `!` above make
+                //      that indirection's behavior under Validate() unmeasured too.
+                // A third reason applies to the class match specifically: which class
+                // a row needs depends on that row's own label and `method`, and the
+                // caught label set lives in `observationEnvironment
+                // .observationVocabulary.caught` -- a per-element constraint that has
+                // to read a value from elsewhere in the document. Under this
+                // evaluator's semantics that is the same unmeasured indirection as
+                // reason 2.
+                // Consequence: this rail admits the "nothing happened" claim with no
+                // evidence the vantage was ever armed, and admits a row citing refs
+                // that resolve to the wrong record class or to nothing at all. The
+                // rego rail closes all of it (../rego/execution_evidence.rego:
+                // clean_row_coverage_ok, caught_row_coverage_ok,
+                // reconstructed_row_coverage_ok, referenced_records_ok, method_cap_ok)
+                // and the Kyverno rail closes the existence half plus the same
+                // non-empty-refs half this file now carries (conditions 8/9/10).
+                // Deploy the -soundness CIP if this rule matters to you; the CUE
+                // variant is for runtimes where rego is unavailable.
+              }

@@ -36,6 +36,19 @@ The predicate carries an observed effect of an execution, separately from the
 claim an executor makes about it, so that a consumer recomputes the effect from
 carried bytes instead of accepting an asserted one.
 
+### `predicate/v1/uncertain-effect`
+
+- Document: `vectors-uncertain-effect/README.md`
+- Corpus: `vectors-uncertain-effect/`, suite `uncertain-effect/v1`
+- Rails: `corpora/uncertaineffect.go`, `packaging/agent_evidence_vectors/uncertaineffect.py`
+  and the runtime contract in `packaging/agent_evidence_vectors/uncertaineffect_runtime.py`
+
+The predicate carries one runtime's trail for an operation whose reply may have been
+lost: its attempts and their replies, the leases they were sent under, the effect
+owner's reconciliation answers and ledger count, the reservation held for it and the
+outcome the runtime reported, so a consumer can tell a settled effect from an
+unknown one and a safe resend from a duplicate.
+
 ### `predicate/v1/evaluation-claim`
 
 - Document: `spec/predicates/evaluation-claim.md`
@@ -69,6 +82,46 @@ The statement a second party signs when it checked a conformance requirement its
 the vector, the requirement, and the client run or retained transcript it used. A
 verdict record names it by digest to lift `witness_scope` above `SELF`; the runner
 cannot write one.
+
+### `predicate/v1/incident-action-authorization`
+
+- Document: `spec/predicates/incident-action-authorization.md`
+- Profile: `profiles/restoration-evidence.md` (`restoration-evidence/v1`)
+- Corpus: `vectors-restart-records/` (released with the checker)
+
+Record R1 of the restoration evidence profile: who authorized one incident response action, the role each named party held, the kind of grant the authorizer acted on, and whether the authority was committed before the action ran.
+
+### `predicate/v1/revocation-sweep`
+
+- Document: `spec/predicates/revocation-sweep.md`
+- Profile: `profiles/restoration-evidence.md` (`restoration-evidence/v1`)
+- Corpus: `vectors-restart-records/` (released with the checker)
+
+Record R2 of the restoration evidence profile: the credential population a revocation sweep ran over, its partition into revoked, retained and unassessed, and the coverage the producer claims, so that a claim wider than the partition is visible from the record alone.
+
+### `predicate/v1/re-enable-decision`
+
+- Document: `spec/predicates/re-enable-decision.md`
+- Profile: `profiles/restoration-evidence.md` (`restoration-evidence/v1`)
+- Corpus: `vectors-restart-records/` (released with the checker)
+
+Record R3 of the restoration evidence profile: one decision to resume, stage or keep restricting a stopped agent system, its approvers, and for every evidence slot either a digest or an explicit statement that it was not addressed.
+
+### `predicate/v1/joint-authority`
+
+- Document: `spec/predicates/joint-authority.md`
+- Profile: `profiles/restoration-evidence.md` (`restoration-evidence/v1`)
+- Corpus: `vectors-restart-records/` (released with the checker)
+
+Record R4 of the restoration evidence profile: which party may act on which asset when an incident spans organisations, under what kind of grant, and which indicators they share.
+
+### `predicate/v1/revocation-boundary`
+
+- Document: `spec/predicates/revocation-boundary.md`
+- Profile: `profiles/restoration-evidence.md` (`restoration-evidence/v1`)
+- Corpus: `vectors-restart-records/` (released with the checker)
+
+For one declared sink and test window, whether an effect from a task in flight committed after a credential revocation took effect, with the counts a reader needs to judge it. It names no mechanism.
 
 ## Registered here
 
@@ -111,8 +164,9 @@ cannot write one.
   one member per row of Appendix B of draft-gilda-audit-agent-audit-record-00,
   each carrying its Appendix B identifier, then members for sentences of
   Section 5.4 that Appendix B has no row for, each naming its section in
-  `draftSection`, then rows of revision 01 (`CS1` to `CS17`) that bind
-  consumption state to the agent's operation key; `CS7`, `CS8` and `CS17` are
+  `draftSection`, then rows of revision 01 (`CS1` to `CS40`) that bind
+  consumption state to the agent's operation key, and rows written for revision
+  04 (`CS41` to `CS49`) that add a paid call's payee and settled terms; `CS7`, `CS8`, `CS17`, `CS18` to `CS22`, `CS25` to `CS33`, `CS38` to `CS40`, `CS48` and `CS49` are
   files of several records judged as a set. Rows R1 to R9 are retained records
   judged by the dating check of Section 4.7. Judged by `packaging/agent_evidence_vectors/auditrecord.py`.
   Releases up to v0.25.0 test revision 02 of the earlier draft.

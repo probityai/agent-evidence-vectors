@@ -1,0 +1,28 @@
+name: uris-network
+
+# Every pull request checks offline that each identifier under
+# https://w3id.org/agent-evidence/ lands on a page in pages/ (the repository job's
+# tests). This asks the live services: the copy of the w3id rules must equal the
+# live file, each identifier must answer w3id.org with a 302 to its page, and the
+# page must answer 200. It runs on a schedule, never on a pull request, because a
+# rule added to w3id/agent-evidence.htaccess waits for a w3id.org merge.
+
+on:
+  schedule:
+    # Mondays 07:00 UTC.
+    - cron: '0 7 * * 1'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  resolve:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: every identifier resolves on the live services
+        run: python3 scripts/check_uris_resolve.py --network

@@ -4,10 +4,29 @@
       "proof": "log/checkpoint.stamp.ots",
       "subject": "log/checkpoint.json",
       "type": "opentimestamps-file-digest"
+    },
+    {
+      "height": 972551,
+      "proof": "log/checkpoint.stamp.ots",
+      "statedTime": "/as_of",
+      "subject": "log/checkpoint.stamp",
+      "type": "opentimestamps-bitcoin-header"
+    },
+    {
+      "height": 972552,
+      "proof": "log/checkpoint.stamp.ots",
+      "statedTime": "/as_of",
+      "subject": "log/checkpoint.stamp",
+      "type": "opentimestamps-bitcoin-header"
     }
   ],
   "commit": "b85029de8d22c5246886f4f50ede03da0f54dfcf",
   "contributor": "ogasurfproject-jpg (HORIZON SHIELD, The HORIZONs Co., Ltd.)",
+  "headerView": {
+    "file": "bundle.json",
+    "member": "hs51-set2",
+    "pointer": "/view/headers"
+  },
   "licence": "MIT, copyright notice in LICENSE beside bytes/",
   "path": "workers/hs-ledger/nenrin/musubi-v0/ca2a-companion-v0/pilot51/set2",
   "pointers": [
@@ -36,6 +55,6 @@
   },
   "publishedIn": "https://github.com/probityai/agent-evidence-vectors/issues/247",
   "repository": "https://github.com/ogasurfproject-jpg/horizon-shield",
-  "scope": "The check says the retained bytes match the digests their publisher listed and that the timestamp proof header names the checkpoint bytes. It says nothing about whether the payments, the budget or the settlement outcome were right.",
+  "scope": "The check says the retained bytes match the digests their publisher listed, that the timestamp proof header names the checkpoint bytes, and that the proof reaches Bitcoin attestations committing to the Merkle roots of the headers held for blocks 972551 and 972552, taken from the header view in bundle.json, with the checkpoint's as_of no later than either header time plus 7200 seconds. Proof of work and chain position are not checked. It says nothing about whether the payments, the budget or the settlement outcome were right.",
   "sumsSha256": "53b4ddb5b6a9c9908ef02e9d0d47717d7bc779171bb2611b664bc21ac1b93fdd"
 }

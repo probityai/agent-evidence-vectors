@@ -1,0 +1,236 @@
+{
+  "format": "witnessability-probity-c1-input-bundle/v1",
+  "date": "2026-10-28",
+  "stage": "C1: constructed inputs and derived expectations, not C2 execution",
+  "synthetic": true,
+  "source_engines_executed": false,
+  "general_equivalence_claim": false,
+  "interpretation_note": "Read witnessability-probity-c1.md first. Expected decision/reason fields are selected source-derived predictions, not complete native execution transcripts. All independent labels are synthetic inputs, not independent-custody claims.",
+  "sources": {
+    "checker": {
+      "repository": "Witnessability/witnessability-research",
+      "commit": "4a37199f2a59b7ecd97055cfc1af5cb787a76265",
+      "implementation": "0.2.0.dev1",
+      "semantics": "finite-joint-identity-1",
+      "contract_url": "https://github.com/Witnessability/witnessability-research/blob/4a37199f2a59b7ecd97055cfc1af5cb787a76265/standalone/CONTRACT.md",
+      "contract_git_blob": "56a618d2853fed021a2d95d37fda6829a82f2fc1"
+    },
+    "probity": {
+      "package": "probity-verify",
+      "version": "0.2.2",
+      "commit": "bc4557b1237c0d949087c19c6ee17dd858edbedd",
+      "adapter": "event_absence/v2",
+      "require_witness_scope": "PEER",
+      "upstream_files": [
+        {
+          "url": "https://github.com/probityai/probity/blob/bc4557b1237c0d949087c19c6ee17dd858edbedd/packages/probity-verify/src/probity_verify/adapters/event_absence.py",
+          "git_blob_sha": "1ee63f9ff9246556f81f3e61e54ca9f3f75ce402"
+        },
+        {
+          "url": "https://github.com/probityai/probity/blob/bc4557b1237c0d949087c19c6ee17dd858edbedd/packages/probity-verify/src/probity_verify/core.py",
+          "git_blob_sha": "aa0990346aa1b4f2918155c6a4249efbe1eb45d8"
+        },
+        {
+          "url": "https://github.com/probityai/probity/blob/bc4557b1237c0d949087c19c6ee17dd858edbedd/packages/probity-verify/src/probity_verify/common.py",
+          "git_blob_sha": "78f0f9a19a56a97f841a58038b49303e8c9b5339"
+        },
+        {
+          "url": "https://github.com/probityai/probity/blob/bc4557b1237c0d949087c19c6ee17dd858edbedd/packages/probity-verify/src/probity_verify/cli.py",
+          "git_blob_sha": "69a6072ed49da3c4359676ceda330e752a682de8"
+        }
+      ]
+    }
+  },
+  "materialization": "Create a new empty directory. For each files entry, write content as UTF-8 bytes to filename relative to that directory, without newline normalization. Verify length and SHA-256. The paths are relative data filenames; no script execution is needed to inspect them. Consumer policy and expected pins are separate from supplied evidence and require the consumer's own acceptance.",
+  "files": [
+    {
+      "filename": "probity/cases/C1-01-covered-empty/capability.json",
+      "encoding": "UTF-8",
+      "length": 183,
+      "sha256": "9610e9926b1f9e1f197284fd7eee1e1cc496a063649e08bbed094ce216f4a6c4",
+      "content": "{\n  \"schema_version\": \"probity-capabilities/v1\",\n  \"claim_id\": \"c1-absence\",\n  \"invocation_id\": \"c1-call-1\",\n  \"producer\": \"observer-c1\",\n  \"visible_event_types\": [\n    \"write\"\n  ]\n}\n"
+    },
+    {
+      "filename": "probity/cases/C1-01-covered-empty/observation.json",
+      "encoding": "UTF-8",
+      "length": 320,
+      "sha256": "172c3b592ad839859ed1c8fc1d1b2576cfa4044140524267dc2248549f9cf155",
+      "content": "{\n  \"schema_version\": \"probity-observation/v1\",\n  \"claim_id\": \"c1-absence\",\n  \"invocation_id\": \"c1-call-1\",\n  \"producer\": \"observer-c1\",\n  \"scope\": {\n    \"id\": \"c1-window\",\n    \"start\": \"2026-10-28T09:00:00Z\",\n    \"end\": \"2026-10-28T09:01:00Z\"\n  },\n  \"coverage\": \"complete\",\n  \"vantage\": \"independent\",\n  \"events\": []\n}\n"
+    },
+    {
+      "filename": "probity/cases/C1-01-covered-empty/case.json",
+      "encoding": "UTF-8",
+      "length": 420,
+      "sha256": "a267ca85fc13adb87e979d8fb6f662bce04b83ad6da55fd5bb444653d0b015cf",
+      "content": "{\n  \"schema_version\": \"probity-case/v1\",\n  \"case_id\": \"c1-absence\",\n  \"artifacts\": {\n    \"capability\": {\n      \"path\": \"capability.json\",\n      \"sha256\": \"9610e9926b1f9e1f197284fd7eee1e1cc496a063649e08bbed094ce216f4a6c4\",\n      \"length\": 183\n    },\n    \"observation\": {\n      \"path\": \"observation.json\",\n      \"sha256\": \"172c3b592ad839859ed1c8fc1d1b2576cfa4044140524267dc2248549f9cf155\",\n      \"length\": 320\n    }\n  }\n}\n"
+    },
+    {
+      "filename": "probity/cases/C1-01-covered-empty/policy.json",
+      "encoding": "UTF-8",
+      "length": 984,
+      "sha256": "6c38ab542ac454f6807bcdd7cc47f5611253541d58bb4601460878c866cb816d",
+      "content": "{\n  \"schema_version\": \"probity-policy/v1\",\n  \"witnesses\": {\n    \"capability\": {\n      \"artifact\": \"capability\",\n      \"sha256\": \"9610e9926b1f9e1f197284fd7eee1e1cc496a063649e08bbed094ce216f4a6c4\",\n      \"authority\": \"Synthetic C1 consumer-selected premise; not authenticated\"\n    },\n    \"observation\": {\n      \"artifact\": \"observation\",\n      \"sha256\": \"172c3b592ad839859ed1c8fc1d1b2576cfa4044140524267dc2248549f9cf155\",\n      \"authority\": \"Synthetic C1 consumer-selected premise; not authenticated\",\n      \"producer\": \"observer-c1\",\n      \"vantage\": \"independent\"\n    }\n  },\n  \"assessments\": {\n    \"c1-absence\": {\n      \"claim_type\": \"event_absence/v2\",\n      \"event_type\": \"write\",\n      \"invocation_id\": \"c1-call-1\",\n      \"scope\": {\n        \"id\": \"c1-window\",\n        \"start\": \"2026-10-28T09:00:00Z\",\n        \"end\": \"2026-10-28T09:01:00Z\"\n      },\n      \"capability_witness\": \"capability\",\n      \"observation_witness\": \"observation\",\n      \"observed_party\": \"agent-c1\"\n    }\n  }\n}\n"
+    },
+    {
+      "filename": "probity/cases/C1-01-covered-empty/expected-source-derived.json",
+      "encoding": "UTF-8",
+      "length": 811,
+      "sha256": "ad7b3460ee336bf526b08caec56240333d948a848f02f1d6dab4d7a36c27fbac",
+      "content": "{\n  \"status\": \"SOURCE_DERIVED_NOT_EXECUTED\",\n  \"fixture_id\": \"C1-01-covered-empty\",\n  \"release\": \"probity-verify-v0.2.2\",\n  \"source_commit\": \"bc4557b1237c0d949087c19c6ee17dd858edbedd\",\n  \"entrypoint\": \"probity_verify.core.adjudicate\",\n  \"require_witness_scope\": \"PEER\",\n  \"decision\": \"supported\",\n  \"reason\": \"absence_within_covered_scope\",\n  \"policy_sha256\": \"ed7e2fd5a5abbdddce19143bdb53445b17a4c07f04a995a1a2d863f6459c7378\",\n  \"expected_cli_exit\": 0,\n  \"trust_limit\": \"The independent label and distinct producer are consumer pins only. These synthetic records establish neither authenticated identity/custody nor actual event truth or complete capture.\",\n  \"if_require_external\": {\n    \"decision\": \"not_established\",\n    \"reason\": \"witness_scope_below_required\"\n  },\n  \"not_an_execution_transcript\": true\n}\n"
+    },
+    {
+      "filename": "probity/cases/C1-02-event-with-gap/capability.json",
+      "encoding": "UTF-8",
+      "length": 183,
+      "sha256": "9610e9926b1f9e1f197284fd7eee1e1cc496a063649e08bbed094ce216f4a6c4",
+      "content": "{\n  \"schema_version\": \"probity-capabilities/v1\",\n  \"claim_id\": \"c1-absence\",\n  \"invocation_id\": \"c1-call-1\",\n  \"producer\": \"observer-c1\",\n  \"visible_event_types\": [\n    \"write\"\n  ]\n}\n"
+    },
+    {
+      "filename": "probity/cases/C1-02-event-with-gap/observation.json",
+      "encoding": "UTF-8",
+      "length": 519,
+      "sha256": "7d3263d03220fbb9ef6c549284a4639c70f9aaf1e9993cd905485af824acd80c",
+      "content": "{\n  \"schema_version\": \"probity-observation/v1\",\n  \"claim_id\": \"c1-absence\",\n  \"invocation_id\": \"c1-call-1\",\n  \"producer\": \"observer-c1\",\n  \"scope\": {\n    \"id\": \"c1-window\",\n    \"start\": \"2026-10-28T09:00:00Z\",\n    \"end\": \"2026-10-28T09:01:00Z\"\n  },\n  \"coverage\": \"incomplete\",\n  \"vantage\": \"independent\",\n  \"events\": [\n    {\n      \"id\": \"e1\",\n      \"type\": \"write\",\n      \"time\": \"2026-10-28T09:00:10Z\"\n    }\n  ],\n  \"gaps\": [\n    {\n      \"start\": \"2026-10-28T09:00:20Z\",\n      \"end\": \"2026-10-28T09:00:40Z\"\n    }\n  ]\n}\n"
+    },
+    {
+      "filename": "probity/cases/C1-02-event-with-gap/case.json",
+      "encoding": "UTF-8",
+      "length": 420,
+      "sha256": "38963e17790dac8fe999de8162b6619cb47ba2c6be15bf61984a00314f8892cf",
+      "content": "{\n  \"schema_version\": \"probity-case/v1\",\n  \"case_id\": \"c1-absence\",\n  \"artifacts\": {\n    \"capability\": {\n      \"path\": \"capability.json\",\n      \"sha256\": \"9610e9926b1f9e1f197284fd7eee1e1cc496a063649e08bbed094ce216f4a6c4\",\n      \"length\": 183\n    },\n    \"observation\": {\n      \"path\": \"observation.json\",\n      \"sha256\": \"7d3263d03220fbb9ef6c549284a4639c70f9aaf1e9993cd905485af824acd80c\",\n      \"length\": 519\n    }\n  }\n}\n"
+    },
+    {
+      "filename": "probity/cases/C1-02-event-with-gap/policy.json",
+      "encoding": "UTF-8",
+      "length": 984,
+      "sha256": "ba69f4964188aff4d929c3b35bcdb93617ef78c73fb8d88357087f3723bd1e5e",
+      "content": "{\n  \"schema_version\": \"probity-policy/v1\",\n  \"witnesses\": {\n    \"capability\": {\n      \"artifact\": \"capability\",\n      \"sha256\": \"9610e9926b1f9e1f197284fd7eee1e1cc496a063649e08bbed094ce216f4a6c4\",\n      \"authority\": \"Synthetic C1 consumer-selected premise; not authenticated\"\n    },\n    \"observation\": {\n      \"artifact\": \"observation\",\n      \"sha256\": \"7d3263d03220fbb9ef6c549284a4639c70f9aaf1e9993cd905485af824acd80c\",\n      \"authority\": \"Synthetic C1 consumer-selected premise; not authenticated\",\n      \"producer\": \"observer-c1\",\n      \"vantage\": \"independent\"\n    }\n  },\n  \"assessments\": {\n    \"c1-absence\": {\n      \"claim_type\": \"event_absence/v2\",\n      \"event_type\": \"write\",\n      \"invocation_id\": \"c1-call-1\",\n      \"scope\": {\n        \"id\": \"c1-window\",\n        \"start\": \"2026-10-28T09:00:00Z\",\n        \"end\": \"2026-10-28T09:01:00Z\"\n      },\n      \"capability_witness\": \"capability\",\n      \"observation_witness\": \"observation\",\n      \"observed_party\": \"agent-c1\"\n    }\n  }\n}\n"
+    },
+    {
+      "filename": "probity/cases/C1-02-event-with-gap/expected-source-derived.json",
+      "encoding": "UTF-8",
+      "length": 784,
+      "sha256": "848e15572865cac97c3aa097c31e77b66769d1633aca34638a8c148169b5f97c",
+      "content": "{\n  \"status\": \"SOURCE_DERIVED_NOT_EXECUTED\",\n  \"fixture_id\": \"C1-02-event-with-gap\",\n  \"release\": \"probity-verify-v0.2.2\",\n  \"source_commit\": \"bc4557b1237c0d949087c19c6ee17dd858edbedd\",\n  \"entrypoint\": \"probity_verify.core.adjudicate\",\n  \"require_witness_scope\": \"PEER\",\n  \"decision\": \"contradicted\",\n  \"reason\": \"event_observed\",\n  \"policy_sha256\": \"1e7c1acf0665a0856751031e65b4973f3864c9325aee0962676ce936920c37b2\",\n  \"expected_cli_exit\": 0,\n  \"trust_limit\": \"The independent label and distinct producer are consumer pins only. These synthetic records establish neither authenticated identity/custody nor actual event truth or complete capture.\",\n  \"if_require_external\": {\n    \"decision\": \"contradicted\",\n    \"reason\": \"event_observed\"\n  },\n  \"not_an_execution_transcript\": true\n}\n"
+    },
+    {
+      "filename": "probity/cases/C1-03-empty-with-gap/capability.json",
+      "encoding": "UTF-8",
+      "length": 183,
+      "sha256": "9610e9926b1f9e1f197284fd7eee1e1cc496a063649e08bbed094ce216f4a6c4",
+      "content": "{\n  \"schema_version\": \"probity-capabilities/v1\",\n  \"claim_id\": \"c1-absence\",\n  \"invocation_id\": \"c1-call-1\",\n  \"producer\": \"observer-c1\",\n  \"visible_event_types\": [\n    \"write\"\n  ]\n}\n"
+    },
+    {
+      "filename": "probity/cases/C1-03-empty-with-gap/observation.json",
+      "encoding": "UTF-8",
+      "length": 426,
+      "sha256": "38e4870e4a44f6b187760798ec5297e790610c859afe182c7538c979cc0bf05c",
+      "content": "{\n  \"schema_version\": \"probity-observation/v1\",\n  \"claim_id\": \"c1-absence\",\n  \"invocation_id\": \"c1-call-1\",\n  \"producer\": \"observer-c1\",\n  \"scope\": {\n    \"id\": \"c1-window\",\n    \"start\": \"2026-10-28T09:00:00Z\",\n    \"end\": \"2026-10-28T09:01:00Z\"\n  },\n  \"coverage\": \"incomplete\",\n  \"vantage\": \"independent\",\n  \"events\": [],\n  \"gaps\": [\n    {\n      \"start\": \"2026-10-28T09:00:20Z\",\n      \"end\": \"2026-10-28T09:00:40Z\"\n    }\n  ]\n}\n"
+    },
+    {
+      "filename": "probity/cases/C1-03-empty-with-gap/case.json",
+      "encoding": "UTF-8",
+      "length": 420,
+      "sha256": "38ceedc878022e2e8281aeef9289cd73c0f9ad307aa72d93b49f0057a8e09e0f",
+      "content": "{\n  \"schema_version\": \"probity-case/v1\",\n  \"case_id\": \"c1-absence\",\n  \"artifacts\": {\n    \"capability\": {\n      \"path\": \"capability.json\",\n      \"sha256\": \"9610e9926b1f9e1f197284fd7eee1e1cc496a063649e08bbed094ce216f4a6c4\",\n      \"length\": 183\n    },\n    \"observation\": {\n      \"path\": \"observation.json\",\n      \"sha256\": \"38e4870e4a44f6b187760798ec5297e790610c859afe182c7538c979cc0bf05c\",\n      \"length\": 426\n    }\n  }\n}\n"
+    },
+    {
+      "filename": "probity/cases/C1-03-empty-with-gap/policy.json",
+      "encoding": "UTF-8",
+      "length": 984,
+      "sha256": "250482371186ca3252d9931219e6104d4ee0bade713927ce013d705d42012878",
+      "content": "{\n  \"schema_version\": \"probity-policy/v1\",\n  \"witnesses\": {\n    \"capability\": {\n      \"artifact\": \"capability\",\n      \"sha256\": \"9610e9926b1f9e1f197284fd7eee1e1cc496a063649e08bbed094ce216f4a6c4\",\n      \"authority\": \"Synthetic C1 consumer-selected premise; not authenticated\"\n    },\n    \"observation\": {\n      \"artifact\": \"observation\",\n      \"sha256\": \"38e4870e4a44f6b187760798ec5297e790610c859afe182c7538c979cc0bf05c\",\n      \"authority\": \"Synthetic C1 consumer-selected premise; not authenticated\",\n      \"producer\": \"observer-c1\",\n      \"vantage\": \"independent\"\n    }\n  },\n  \"assessments\": {\n    \"c1-absence\": {\n      \"claim_type\": \"event_absence/v2\",\n      \"event_type\": \"write\",\n      \"invocation_id\": \"c1-call-1\",\n      \"scope\": {\n        \"id\": \"c1-window\",\n        \"start\": \"2026-10-28T09:00:00Z\",\n        \"end\": \"2026-10-28T09:01:00Z\"\n      },\n      \"capability_witness\": \"capability\",\n      \"observation_witness\": \"observation\",\n      \"observed_party\": \"agent-c1\"\n    }\n  }\n}\n"
+    },
+    {
+      "filename": "probity/cases/C1-03-empty-with-gap/expected-source-derived.json",
+      "encoding": "UTF-8",
+      "length": 830,
+      "sha256": "b662f417d0f60cfe634bb752b5da8db66ee592ca5efae31d6eca20255cd1f641",
+      "content": "{\n  \"status\": \"SOURCE_DERIVED_NOT_EXECUTED\",\n  \"fixture_id\": \"C1-03-empty-with-gap\",\n  \"release\": \"probity-verify-v0.2.2\",\n  \"source_commit\": \"bc4557b1237c0d949087c19c6ee17dd858edbedd\",\n  \"entrypoint\": \"probity_verify.core.adjudicate\",\n  \"require_witness_scope\": \"PEER\",\n  \"decision\": \"not_established\",\n  \"reason\": \"observation_coverage_unestablished\",\n  \"policy_sha256\": \"7a1d6258b1a87a85496ef02b1ff849a665e46b70fe7854c5f76ce5d9d4a40d9b\",\n  \"expected_cli_exit\": 0,\n  \"trust_limit\": \"The independent label and distinct producer are consumer pins only. These synthetic records establish neither authenticated identity/custody nor actual event truth or complete capture.\",\n  \"if_require_external\": {\n    \"decision\": \"not_established\",\n    \"reason\": \"observation_coverage_unestablished\"\n  },\n  \"not_an_execution_transcript\": true\n}\n"
+    },
+    {
+      "filename": "checker/HISTORIES.json",
+      "encoding": "UTF-8",
+      "length": 2546,
+      "sha256": "e7a9d9bb655fb9970c8a39c3e212e7501e61a443b3fc8c412507ccf68bec1445",
+      "content": "{\n  \"actual_trace_claim\": false,\n  \"additional_model_premise\": \"The chosen capture regime does not omit a selected event outside the declared gap. A native gaps field alone does not establish this. Without it gapped_empty may also admit W10, leaving the UNRESOLVED verdict unchanged.\",\n  \"claim\": \"No write event by agent-c1 for invocation c1-call-1 in c1-window from 2026-10-28T09:00:00Z through 2026-10-28T09:01:00Z.\",\n  \"contract\": \"C1-AuthoredHistoryDescriptions/0.1.0\",\n  \"endpoint_state_used\": false,\n  \"event_type\": \"write\",\n  \"gap\": {\n    \"end\": \"2026-10-28T09:00:40Z\",\n    \"start\": \"2026-10-28T09:00:20Z\"\n  },\n  \"histories\": {\n    \"N\": {\n      \"claim_truth\": true,\n      \"description\": \"No selected event; complete or openly incomplete capture is possible.\",\n      \"selected_events\": []\n    },\n    \"W10\": {\n      \"claim_truth\": false,\n      \"description\": \"Selected event before the named gap. This chosen capture regime retains it even when later coverage is incomplete.\",\n      \"selected_events\": [\n        {\n          \"id\": \"e1\",\n          \"time\": \"2026-10-28T09:00:10Z\",\n          \"type\": \"write\"\n        }\n      ]\n    },\n    \"W30\": {\n      \"claim_truth\": false,\n      \"description\": \"Selected event inside the gap. The selected incomplete observation omits it; complete observation retains it.\",\n      \"selected_events\": [\n        {\n          \"id\": \"e1\",\n          \"time\": \"2026-10-28T09:00:30Z\",\n          \"type\": \"write\"\n        }\n      ]\n    }\n  },\n  \"invocation_id\": \"c1-call-1\",\n  \"observation_atoms\": {\n    \"covered_empty\": \"complete capture, no selected event\",\n    \"covered_event\": \"complete capture, selected event retained; event time projected away for this unused model atom\",\n    \"gapped_empty\": \"incomplete selected packet with gap20-40 and no retained selected event\",\n    \"gapped_event\": \"incomplete selected packet with gap20-40 and retained e1 at10; timestamp/identity are part of this atom meaning\"\n  },\n  \"partial_observation_language\": \"Other native admissible incomplete-positive packets, including an event retained at30, are outside this selected C1 fragment. They are not declared false or invalid.\",\n  \"party\": \"agent-c1\",\n  \"scope\": {\n    \"end\": \"2026-10-28T09:01:00Z\",\n    \"id\": \"c1-window\",\n    \"start\": \"2026-10-28T09:00:00Z\"\n  },\n  \"synthetic\": true,\n  \"unselected_events\": \"Excluded from this tiny language; no claim about unrelated activity.\",\n  \"world_completeness\": \"The three histories are authored representatives. Completeness for a real system is an external premise, not established here.\"\n}\n"
+    },
+    {
+      "filename": "checker/checker-model.json",
+      "encoding": "UTF-8",
+      "length": 1062,
+      "sha256": "a0f865860ab02bfb3c586eab46a152f6230e2dac39e392f591c46e1268089820",
+      "content": "{\n  \"model\": {\n    \"alphabets\": [\n      [\n        \"covered_empty\",\n        \"covered_event\",\n        \"gapped_empty\",\n        \"gapped_event\"\n      ]\n    ],\n    \"binding\": \"identity\",\n    \"claim\": \"No write event by agent-c1 for invocation c1-call-1 in c1-window from 2026-10-28T09:00:00Z through 2026-10-28T09:01:00Z.\",\n    \"domains\": [\n      \"admitted_observation\"\n    ],\n    \"faults\": [\n      []\n    ],\n    \"histories\": [\n      \"N\",\n      \"W10\",\n      \"W30\"\n    ],\n    \"joint\": {\n      \"N\": [\n        [\n          \"covered_empty\"\n        ],\n        [\n          \"gapped_empty\"\n        ]\n      ],\n      \"W10\": [\n        [\n          \"covered_event\"\n        ],\n        [\n          \"gapped_event\"\n        ]\n      ],\n      \"W30\": [\n        [\n          \"covered_event\"\n        ],\n        [\n          \"gapped_empty\"\n        ]\n      ]\n    },\n    \"name\": \"C1-event-absence-common-fragment\",\n    \"truth\": {\n      \"N\": true,\n      \"W10\": false,\n      \"W30\": false\n    }\n  },\n  \"schema_version\": \"wresearch-checker-input-1\",\n  \"semantics_version\": \"finite-joint-identity-1\"\n}\n"
+    },
+    {
+      "filename": "checker/checker-policy.json",
+      "encoding": "UTF-8",
+      "length": 83,
+      "sha256": "c66ce3c733d0eb1360fef95faf869fb3b07affbdcd56d648cac0bf3a3ef43b71",
+      "content": "{\n  \"acknowledged_assumptions\": true,\n  \"id\": \"declared-model\",\n  \"version\": \"1\"\n}\n"
+    },
+    {
+      "filename": "checker/EXPECTED.json",
+      "encoding": "UTF-8",
+      "length": 2391,
+      "sha256": "a06057ba8a656c5621ea350248946839b8572eb30cae892b9e25dc95e5c8021b",
+      "content": "{\n  \"capability_counterexample\": [\n    \"gapped_empty\"\n  ],\n  \"cases\": [\n    {\n      \"checker_expected\": {\n        \"compatible_histories\": [\n          \"N\"\n        ],\n        \"truth_values\": [\n          true\n        ],\n        \"verdict\": \"TRUE\"\n      },\n      \"id\": \"C1-01-covered-empty\",\n      \"native_case_directory\": \"../probity/cases/C1-01-covered-empty\",\n      \"observation_atom\": \"covered_empty\",\n      \"pins\": \"expected-pins/C1-01-covered-empty.json\",\n      \"probity_expected\": {\n        \"decision\": \"supported\",\n        \"expectation_basis\": \"source inspection of released event_absence/v2; not an observed execution\",\n        \"reason\": \"absence_within_covered_scope\"\n      },\n      \"record\": \"records/C1-01-covered-empty.json\"\n    },\n    {\n      \"checker_expected\": {\n        \"compatible_histories\": [\n          \"W10\"\n        ],\n        \"truth_values\": [\n          false\n        ],\n        \"verdict\": \"FALSE\"\n      },\n      \"id\": \"C1-02-event-with-gap\",\n      \"native_case_directory\": \"../probity/cases/C1-02-event-with-gap\",\n      \"observation_atom\": \"gapped_event\",\n      \"pins\": \"expected-pins/C1-02-event-with-gap.json\",\n      \"probity_expected\": {\n        \"decision\": \"contradicted\",\n        \"expectation_basis\": \"source inspection of released event_absence/v2; not an observed execution\",\n        \"reason\": \"event_observed\"\n      },\n      \"record\": \"records/C1-02-event-with-gap.json\"\n    },\n    {\n      \"checker_expected\": {\n        \"compatible_histories\": [\n          \"N\",\n          \"W30\"\n        ],\n        \"truth_values\": [\n          false,\n          true\n        ],\n        \"verdict\": \"UNRESOLVED\"\n      },\n      \"id\": \"C1-03-empty-with-gap\",\n      \"native_case_directory\": \"../probity/cases/C1-03-empty-with-gap\",\n      \"observation_atom\": \"gapped_empty\",\n      \"pins\": \"expected-pins/C1-03-empty-with-gap.json\",\n      \"probity_expected\": {\n        \"decision\": \"not_established\",\n        \"expectation_basis\": \"source inspection of released event_absence/v2; not an observed execution\",\n        \"reason\": \"observation_coverage_unestablished\"\n      },\n      \"record\": \"records/C1-03-empty-with-gap.json\"\n    }\n  ],\n  \"common_model_used_for_all_cases\": true,\n  \"contract\": \"C1-CommonFragmentExpectations/0.1.0\",\n  \"general_equivalence_claim\": false,\n  \"raw_capability_expected\": false,\n  \"software_runs_performed\": false,\n  \"stage\": \"C1 construction only; not C2 execution\"\n}\n"
+    },
+    {
+      "filename": "checker/capability-pins.json",
+      "encoding": "UTF-8",
+      "length": 322,
+      "sha256": "dde9326a1849270fd41b43b36c61b8bf7e285402e65ac17a9b595e0448709299",
+      "content": "{\n  \"claim\": \"85e5d1d9edb158f20d791c6f957ed6bc80fa9d4c077898c4b1e9f3b5b7fbf734\",\n  \"context\": \"5f92fa9616704c0059986b9fe0559536d364530ea4090bcbd3f4f66fd44b3eb6\",\n  \"model\": \"b3bdc370f45d1265118ce992c000811489fe6b59384953cc94967324078e1415\",\n  \"policy\": \"83cd116c0167ff994736ae53dd21e31b4e02037bdb934842a2f8f48251bb71b4\"\n}\n"
+    },
+    {
+      "filename": "checker/C1-03-ambiguity-certificate.json",
+      "encoding": "UTF-8",
+      "length": 794,
+      "sha256": "06888d8cd787420fbcf7e19d82a5caf0ee37abec4be9aba9d326f385a171f474",
+      "content": "{\n  \"pins\": {\n    \"claim\": \"85e5d1d9edb158f20d791c6f957ed6bc80fa9d4c077898c4b1e9f3b5b7fbf734\",\n    \"context\": \"5f92fa9616704c0059986b9fe0559536d364530ea4090bcbd3f4f66fd44b3eb6\",\n    \"model\": \"b3bdc370f45d1265118ce992c000811489fe6b59384953cc94967324078e1415\",\n    \"policy\": \"83cd116c0167ff994736ae53dd21e31b4e02037bdb934842a2f8f48251bb71b4\",\n    \"record\": \"327f30abfe074534954c414a7e017b33eed7d96d2929ffe0ed2805a8d61177b2\"\n  },\n  \"record\": [\n    \"gapped_empty\"\n  ],\n  \"schema_version\": \"wresearch-checker-input-1\",\n  \"semantics_version\": \"finite-joint-identity-1\",\n  \"witnesses\": [\n    {\n      \"fault\": [],\n      \"history\": \"W30\",\n      \"honest\": [\n        \"gapped_empty\"\n      ]\n    },\n    {\n      \"fault\": [],\n      \"history\": \"N\",\n      \"honest\": [\n        \"gapped_empty\"\n      ]\n    }\n  ]\n}\n"
+    },
+    {
+      "filename": "checker/records/C1-01-covered-empty.json",
+      "encoding": "UTF-8",
+      "length": 22,
+      "sha256": "4abf2f5a2513ca065ada6de553abf6147ca020b6149a61e968768857159f1918",
+      "content": "[\n  \"covered_empty\"\n]\n"
+    },
+    {
+      "filename": "checker/records/C1-02-event-with-gap.json",
+      "encoding": "UTF-8",
+      "length": 21,
+      "sha256": "bb3f385f90a9e53cb7d3607561c893163e6bb5a983865e08101d450883aa8f56",
+      "content": "[\n  \"gapped_event\"\n]\n"
+    },
+    {
+      "filename": "checker/records/C1-03-empty-with-gap.json",
+      "encoding": "UTF-8",
+      "length": 21,
+      "sha256": "842074ed23b53f5132e8bda94a1944626b6d2aa8a71a41167d5c00401a4cceb2",
+      "content": "[\n  \"gapped_empty\"\n]\n"
+    },
+    {
+      "filename": "checker/expected-pins/C1-01-covered-empty.json",
+      "encoding": "UTF-8",
+      "length": 402,
+      "sha256": "49fa1e3f495bcbf1814df46cb650903a8cd1dedca2ade7f220aee07cc135b725",
+      "content": "{\n  \"claim\": \"85e5d1d9edb158f20d791c6f957ed6bc80fa9d4c077898c4b1e9f3b5b7fbf734\",\n  \"context\": \"5f92fa9616704c0059986b9fe0559536d364530ea4090bcbd3f4f66fd44b3eb6\",\n  \"model\": \"b3bdc370f45d1265118ce992c000811489fe6b59384953cc94967324078e1415\",\n  \"policy\": \"83cd116c0167ff994736ae53dd21e31b4e02037bdb934842a2f8f48251bb71b4\",\n  \"record\": \"572949158e207abe678560b866df736a2f27637d8b66aef39e5e9a175b7ca3fa\"\n}\n"
+    },
+    {
+      "filename": "checker/expected-pins/C1-02-event-with-gap.json",
+      "encoding": "UTF-8",
+      "length": 402,
+      "sha256": "2ec6f1160fb4bc8d46458504052f266127b9c41a92d909cc087143278f70728c",
+      "content": "{\n  \"claim\": \"85e5d1d9edb158f20d791c6f957ed6bc80fa9d4c077898c4b1e9f3b5b7fbf734\",\n  \"context\": \"5f92fa9616704c0059986b9fe0559536d364530ea4090bcbd3f4f66fd44b3eb6\",\n  \"model\": \"b3bdc370f45d1265118ce992c000811489fe6b59384953cc94967324078e1415\",\n  \"policy\": \"83cd116c0167ff994736ae53dd21e31b4e02037bdb934842a2f8f48251bb71b4\",\n  \"record\": \"9adcffd7c489047a788df198a1725ec118e30714cdc0e19d78735c77c7e0f8de\"\n}\n"
+    },
+    {
+      "filename": "checker/expected-pins/C1-03-empty-with-gap.json",
+      "encoding": "UTF-8",
+      "length": 402,
+      "sha256": "f54badabc2a68a9dbf0bc0a6281993f7f5f87eb454d31c50b983e83386be1991",
+      "content": "{\n  \"claim\": \"85e5d1d9edb158f20d791c6f957ed6bc80fa9d4c077898c4b1e9f3b5b7fbf734\",\n  \"context\": \"5f92fa9616704c0059986b9fe0559536d364530ea4090bcbd3f4f66fd44b3eb6\",\n  \"model\": \"b3bdc370f45d1265118ce992c000811489fe6b59384953cc94967324078e1415\",\n  \"policy\": \"83cd116c0167ff994736ae53dd21e31b4e02037bdb934842a2f8f48251bb71b4\",\n  \"record\": \"327f30abfe074534954c414a7e017b33eed7d96d2929ffe0ed2805a8d61177b2\"\n}\n"
+    }
+  ]
+}

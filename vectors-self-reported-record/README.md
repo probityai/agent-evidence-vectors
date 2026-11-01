@@ -5,6 +5,8 @@ refusable on its face, and a verifier that reads such a record's assertions
 without requiring the signature an observation would carry accepts every one of
 five attacks that already succeeded against a deployed self-reported store.**
 
+[![Checked with Probity](https://img.shields.io/badge/checked-with_Probity-0969da?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAkFBMVEX8%2B%2Bzr5NPgyrfKyLnSq5Wzo4tWltqRkZI2kPU1kvk1j%2FMwkPgzjfI2jO80jO40jO3MdWOZc1SLblN1aFxxXFJzVDY2i%2B40i%2B00i%2Bw0i%2Bs0ius1iOZAapwugNYtdbUqaq0qV4tkRzJXOB47Oz43JRkjNEYiHBwlFxIfFxMcEg0XEQ0WEAwXDAUWCAEOCQcJAgCa503RAAAB3klEQVR42rWT2ZacIBCGceHYoN240SK2Crig4vL%2BbxfszJyZTmaSm6S4rI9a%2FwK3vxj41wDj5E9AwS%2Foxjn7DmARqgVHCBHyJcBxJeZtEG2Nv4hAGEPXYVumddvWAbFfgJJECDfDukxa63ldmw%2FiCTCEK%2BteFzNbQI%2BbQPwzwKJGjNO2LMacxNqK1wgcNfO2mqfbHMs8NEkeXT8AjurRTKfbMlqOa5vFyc8cZclu4PSvWptlPlOMeb4PsQu78MoYQWFIwKUet0nPZl%2FMki1H3x%2FKd1PVhhdkS2tDgM7m9bR3XX8EXtYde59SSVVXNx2NMwuIbbGl74HUu%2BcFXrArSpXqlVSpGz8sUG%2FjoCej1RHA6ZAgl1SmUvVUQjduEGDIdt0MxuwjCHYNAZSwT1IbhaZ%2BFt7BrUAXbguxnx3gZ9AJVJLal0hKaYv4OShGbu249Z4F4jhQ1PcpTUYLDBF5WxZB9dBB14O%2Bm6eu48QQpjBXIizf113iS9sF0LYxZMD1PODbVvtznu96sGOrWyFEiwQEwHNcC8gaF58UxfG1qiqMqzx2AACJ0i0qXyRXEIwjwnD1SBOYdKJ%2B7vxF1eRUaxGF9ePRVgiX3xxOccdhiK5v6v%2Fysgp2Z%2BR%2F3ebv9gP5RU8tSdZhDwAAAABJRU5ErkJggg%3D%3D)](https://github.com/probityai/probity)
+
 Conformance corpus for the contract at
 [`spec/self-reported-record/v1.md`](../spec/self-reported-record/v1.md), type URI
 `https://probityai.github.io/agent-evidence-vectors/predicate/v1/self-reported-record`.
@@ -110,9 +112,18 @@ uv run --extra generators python vectors-self-reported-record/mutation_check.py
 
 # Rail two, Go: the same eleven members, a second independent implementation.
 go build -o aee-verify ./cmd/aee-verify && ./aee-verify vectors-self-reported-record
+
+# Rail three, the Python reader in this repository: the same suite, printing the
+# lines aee-verify prints. Exit 0 when every member is judged as declared.
+python3 packaging/run_vectors.py --corpus vectors-self-reported-record
+# A released wheel runs it as `uvx agent-evidence-vectors --corpus
+# vectors-self-reported-record` once a release includes the reader.
+
+# Do the Go and packaged rails give one answer off the committed members too?
+uv run --extra generators python scripts/self-reported-record-rails-test.py
 ```
 
-Both rails agree on all eleven members, on the verdict and on the code.
+The Go and packaged rails print the same bytes on all eleven members, on the verdict and on the code. `scripts/self-reported-record-rails-test.py` extends that to several hundred mutated copies of the members (canonicalization, base64 and hex spelling, wrong-typed arrays, integer and float spellings) and CI runs it on every push.
 
 ## What each harness asks, and why there are three
 

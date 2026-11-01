@@ -6,6 +6,8 @@ anybody can check is that they are still the bytes their publisher released.
 This corpus gives such sets a home and a check, and it is the check a
 publisher's own CI can run against the directory it keeps.
 
+[![Checked with Probity](https://img.shields.io/badge/checked-with_Probity-0969da?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAkFBMVEX8%2B%2Bzr5NPgyrfKyLnSq5Wzo4tWltqRkZI2kPU1kvk1j%2FMwkPgzjfI2jO80jO40jO3MdWOZc1SLblN1aFxxXFJzVDY2i%2B40i%2B00i%2Bw0i%2Bs0ius1iOZAapwugNYtdbUqaq0qV4tkRzJXOB47Oz43JRkjNEYiHBwlFxIfFxMcEg0XEQ0WEAwXDAUWCAEOCQcJAgCa503RAAAB3klEQVR42rWT2ZacIBCGceHYoN240SK2Crig4vL%2BbxfszJyZTmaSm6S4rI9a%2FwK3vxj41wDj5E9AwS%2Foxjn7DmARqgVHCBHyJcBxJeZtEG2Nv4hAGEPXYVumddvWAbFfgJJECDfDukxa63ldmw%2FiCTCEK%2BteFzNbQI%2BbQPwzwKJGjNO2LMacxNqK1wgcNfO2mqfbHMs8NEkeXT8AjurRTKfbMlqOa5vFyc8cZclu4PSvWptlPlOMeb4PsQu78MoYQWFIwKUet0nPZl%2FMki1H3x%2FKd1PVhhdkS2tDgM7m9bR3XX8EXtYde59SSVVXNx2NMwuIbbGl74HUu%2BcFXrArSpXqlVSpGz8sUG%2FjoCej1RHA6ZAgl1SmUvVUQjduEGDIdt0MxuwjCHYNAZSwT1IbhaZ%2BFt7BrUAXbguxnx3gZ9AJVJLal0hKaYv4OShGbu249Z4F4jhQ1PcpTUYLDBF5WxZB9dBB14O%2Bm6eu48QQpjBXIizf113iS9sF0LYxZMD1PODbVvtznu96sGOrWyFEiwQEwHNcC8gaF58UxfG1qiqMqzx2AACJ0i0qXyRXEIwjwnD1SBOYdKJ%2B7vxF1eRUaxGF9ePRVgiX3xxOccdhiK5v6v%2Fysgp2Z%2BR%2F3ebv9gP5RU8tSdZhDwAAAABJRU5ErkJggg%3D%3D)](https://github.com/probityai/probity)
+
 ## The contract
 
 A recorded set is a directory holding a `SHA256SUMS` file and the files it
@@ -22,11 +24,26 @@ below that applies:
 | `file-unlisted` | a file in the set is not listed |
 | `sums-unpinned` | the list itself does not hash to the digest the manifest pins, so a file and its list edited together are still caught |
 | `binding-malformed` | a declared binding names an unlisted file, an unknown type, or a timestamp proof whose header does not parse |
-| `binding-mismatch` | an `opentimestamps-file-digest` proof's header commits to bytes other than the named subject's |
+| `binding-mismatch` | a timestamp proof's header commits to bytes other than the named subject's |
+| `anchor-mismatch` | an `opentimestamps-bitcoin-header` proof has no Bitcoin attestation at the held block's height committing to that header's Merkle root, or only a pending one |
+| `anchor-not-after-seen` | the block height the subject says it saw is not below the anchoring block |
+| `stated-after-anchor` | the time the subject states is later than the anchoring header's time plus 7200 seconds |
 
-A leading `./` on a listed path is ignored. The binding check reads only the
-OpenTimestamps header and the SHA-256 it commits to; it does not verify the
-Bitcoin attestation or any operation after the header.
+A leading `./` on a listed path is ignored. An `opentimestamps-file-digest`
+binding reads only the OpenTimestamps header and the SHA-256 it commits to. An
+`opentimestamps-bitcoin-header` binding also runs every operation of the proof
+and holds the 80-byte header of the anchoring block, with its height and the
+block id it must hash to. A `binding-malformed` also covers a held header that
+does not hash to its id and a pointer the subject does not carry. The header is
+a trust input: proof of work and the block's place on the chain with the most
+work are not checked, so the binding says the proof commits to a header the
+corpus holds, taken from the header view its publisher recorded. The 7200
+seconds are the allowance draft-gilda-audit-agent-audit-record gives an
+OpenTimestamps time; its `R10` sits inside it and its `R11` one second past,
+which is what the synthetic `anchor-intact` and `stated-after-anchor` members
+mirror. Real header times show why the allowance is not the 300-second skew: in
+the header view of `hs51-set2`, block 972547 came 3,792 seconds after block
+972546.
 
 **What a verified set says, and what it does not.** It says the retained bytes
 match the digests their publisher listed. It says nothing about whether what
@@ -44,6 +61,13 @@ the bytes record, a payment, a budget, a settlement or a verdict, was right.
 The first recorded member is `hs51-set2`: the companion log, its anchor and the
 settlement of the horizon-shield pilot run of 2026-10-22, contributed by its
 publisher in [issue 247](https://github.com/probityai/agent-evidence-vectors/issues/247).
+Its checkpoint proof is checked against the headers of blocks 972551 and 972552
+in its own `bundle.json`. `hs51-set2-acks` holds the trusted witness
+acknowledgements of the same run with their complete OpenTimestamps proofs,
+each checked against the held headers of both blocks it is attested in and
+above the block it says it saw. A set lands as its own member when its
+publisher released it in its own directory with its own `SHA256SUMS`, so a
+check of each directory as its publisher keeps it stays exact.
 
 ## Run it
 

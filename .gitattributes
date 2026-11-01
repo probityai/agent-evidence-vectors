@@ -12,3 +12,9 @@ packaging/agent_evidence_vectors/acs_outage/corpus/** -text
 packaging/agent_evidence_vectors/verdict_evidence/corpus/** -text
 packaging/agent_evidence_vectors/operand_provenance/corpus/** -text
 vectors-poc-evidence/package/poc_evidence_vectors/corpus/** -text
+# Files a generator derives from the rest of the tree (scripts/regenerate-derived.py).
+# A merge conflict in one is never a real disagreement: after `git merge`, run
+# `scripts/regenerate-derived.py --resolve-merge` instead of editing them.
+release/CORPUS-DIGESTS.txt derived
+release/intake/** derived
+interop/agentavow-signed-map-v1/source-lock.json derived

@@ -1,0 +1,209 @@
+# Filed from outside, from the proposal text, as it read on 2026-09-30.
+#
+# The system mapped here is a candidate field set, not a running issuer. Its
+# author filed the same set as a v1.1 proposal against two documents he
+# maintains, and both proposals cite this registry by name:
+#
+#   raknor-ai/agent-governance-standard#2, "[v1.1] Define a normative evidence
+#   field set for Observability records" (opened 2026-09-29T10:15:45Z, last
+#   updated 2026-09-30T02:19:22Z)
+#   Equilateral-AI/agent-governance-scorecard#4, "[v1.1] Define evidence field
+#   set for Observability criteria" (opened 2026-09-29T10:15:55Z, last updated
+#   2026-09-30T02:19:29Z)
+#
+# The two lists carry the same candidate fields with two differences: the
+# scorecard's list has no policy_version, and its wording of two definitions
+# differs by a few words. Each row below quotes the standard's wording and
+# names the scorecard's where it differs.
+#
+# An issue body can be edited, so each source_quote is the text as read at the
+# last-updated times above. Every evidence state is asserted: the fields exist
+# in proposal prose, and no running system emits them yet. This filing records
+# where the proposal and this registry agree and where they diverge. It promotes
+# nothing and lists no issuer, by the rule in vocabulary.yaml.
+#
+# Fields in the proposal that this registry has no term for (schema_version and
+# the six governance-context fields) cannot appear in a crosswalk, which is
+# keyed by this registry's terms. They are mapped the other way, field by field,
+# in the sidecar beside this file, obs-evidence-field-set-fields.md.
+
+system: "Observability evidence field set proposed for v1.1 of the Raknor Agent Governance Standard and the Agent Governance Scorecard"
+system_url: "https://github.com/raknor-ai/agent-governance-standard/issues/2"
+crosswalk_version: "0.1.0"
+vocabulary_version_targeted: "0.8.0"
+
+maintainer:
+  github: "astrogilda"
+  third_party_authored: true
+
+summary_of_system: >
+  A format-neutral list of the minimum fields a conforming Observability
+  evidence record must carry: three evidence-scope fields named after terms in
+  this registry, a schema version, and six governance-context fields (identity,
+  task, authority_in_effect, policy_version, action, outcome). It defines
+  required fields and no serialization. Proposed for comment through 2026-11-30.
+
+evidence_dimensions:
+
+  observation_vantage:
+    match: partial
+    evidence: asserted
+    source_path: "https://github.com/raknor-ai/agent-governance-standard/issues/2"
+    source_quote: >
+      "observation_vantage — whether the observed party could have influenced
+      the input to the observation". The scorecard's list reads "the
+      observation input".
+    divergences:
+      - >
+        No value set. This registry's term is closed over two values, substrate
+        and artifact. The proposal names the question with no values, so two
+        conformant records can answer it in words a shared verifier cannot
+        compare.
+      - >
+        No composition rule. Here a claim inherits the weakest vantage among its
+        inputs: one input the observed party could have influenced makes the
+        whole claim artifact. The proposal says nothing about a claim built from
+        several inputs, which is the usual case for a decision record.
+      - >
+        Who vouches for the value. Here a consumer with no policy-pinned
+        substrate root MUST treat a substrate value as unattested and MUST NOT
+        infer the root from the claim itself. The proposal has no such rule, so
+        the recording party's own statement that it could not have influenced
+        its inputs is the only evidence the field carries.
+      - >
+        Influence and suppression. The definition here names both forging an
+        input and suppressing one. The proposal says influenced, which a reader
+        can take as alteration only. The omission case that agentbaseline#26
+        argued for needs suppression named.
+
+  observation_directness:
+    match: no_mapping
+    notes: >
+      The proposal has no field for whether a record was captured as the event
+      happened or reconstructed afterwards from state left behind.
+
+  witness_scope:
+    match: no_mapping
+    notes: >
+      No field says whose account the record is: the observed party's, a peer's,
+      or a party outside it. The proposal's author argued on agentbaseline#26 that
+      a completeness claim should name the external witness it was reconciled
+      against. If that lands as a field, this is the nearest term, with EXTERNAL
+      as the value it would carry.
+
+  field_evidence_partition:
+    match: no_mapping
+    notes: >
+      No field marks which values the operator asserted and which an outside
+      observation covers. The six governance-context fields are where this
+      matters most: identity, task, authority_in_effect, policy_version, action
+      and outcome are all written by the recording party unless something says
+      otherwise, and this term is how a record says otherwise.
+
+  issuance_time_basis:
+    match: no_mapping
+    notes: >
+      The candidate set has no timing field. commitment_anchor, below, is the
+      opposite bound to this term, which proves a signature cannot predate a
+      public beacon round. The two compose: a record carrying both has its
+      signing time bracketed from both sides.
+
+  commitment_anchor:
+    match: partial
+    evidence: asserted
+    source_path: "https://github.com/raknor-ai/agent-governance-standard/blob/a71192866cb430f46b9561a1118e37f2b7a856cd/conformance/v1.1-draft/sc-ob-01-commitment-anchor.md"
+    source_quote: >
+      "A decision record that asserts it existed before its outcome SHALL carry a
+      commitment_anchor and SHALL satisfy the precedence rule. A record that does
+      not establish precedence SHALL declare precedence_before_outcome in
+      does_not_assert." The file is a draft clause under SC-OB-01, linked to this
+      registry's entry at 36056a3bcb09 (vocabulary 0.7.0), and stays non-normative
+      until the v1.1 disposition after 2026-11-30. It is not part of the
+      candidate set the rest of this filing maps. It entered through a comment on
+      the standard's issue (issuecomment-5902784028) and was placed under SC-OB-01
+      on 2026-10-25.
+    divergences:
+      - >
+        The rule that fixes the ceiling. Here an anchored value is proven only
+        under the anchor_time_rule the record states (header_time_plus_tolerance,
+        later_median or height), and an absent rule is read as
+        header_time_plus_tolerance, which for a Bitcoin anchor is a convention
+        and not a bound. The clause says "the precedence rule" and does not name
+        anchor_time_rule or that default; both sit in the pinned vectors it
+        references, babyblueviper1/preaction-governance-conformance at e12d3e9.
+      - >
+        The value set. Here commitment_anchor takes anchored or asserted, and
+        asserted must not be read as a ceiling. The clause reaches the same
+        place by requiring a declared limitation, with no value to compare.
+      - >
+        The digest. Here the anchored digest must recompute from the record
+        under a named deterministic procedure, or the record has no anchor. The
+        clause leaves digest_rule to the pinned vectors.
+
+posture_and_coverage:
+
+  containment_posture:
+    match: no_mapping
+    notes: >
+      The proposal has no field for the network posture of the environment the
+      agent ran in.
+
+  coverage_denominator:
+    match: partial
+    evidence: asserted
+    source_path: "https://github.com/raknor-ai/agent-governance-standard/issues/2"
+    source_quote: >
+      "coverage_denominator — the population a completeness claim counts against
+      (distinguishes "unmeasured" from "empty")". The scorecard's list drops the
+      parenthesis.
+    divergences:
+      - >
+        Shape. Here the population is partitioned into three pairwise-disjoint
+        sets, assessed, out of scope with a reason, and routed elsewhere, whose
+        union MUST equal a manifest's keys. The proposal names one population
+        with no partition, so a record can count what it assessed without saying
+        what it set aside or why.
+      - >
+        Who holds the population. Here the manifest is digest-committed and the
+        producer does not control it. The proposal does not say who defines the
+        population, so the recording party can restate it after the fact, which
+        is the understatement this term exists to catch. A manifest the producer
+        does not control is the second holder the proposal's author asked for on
+        agentbaseline#26.
+
+  does_not_assert:
+    match: partial
+    evidence: asserted
+    source_path: "https://github.com/raknor-ai/agent-governance-standard/issues/2"
+    source_quote: >
+      "does_not_assert — explicit declaration of what the record cannot claim".
+      The scorecard's list reads "explicit bounds on what the record does not
+      claim".
+    divergences:
+      - >
+        Where it lives. Here the list is carried inside the signed statement.
+        The proposal is format-neutral and does not say the declaration is
+        covered by the record's integrity protection, so it can be dropped when
+        the record crosses a boundary without the record failing a check. That
+        is the handoff-survival case the proposal's author named on
+        agentbaseline#26.
+      - >
+        Spelling. Here each non-claim has one agreed spelling and no alias. The
+        proposal fixes no spellings, so two records withholding the same claim
+        in different words cannot be matched by shared tooling.
+
+outcome_lattice:
+
+  result:
+    match: non_equivalent_similar_label
+    notes: >
+      Not the proposal's outcome field. There, outcome is governance context:
+      what the action led to. Here, result is a verdict a consumer recomputes as
+      the minimum over a record's declared conditions, fail < degraded <
+      pass_indirect < pass. A record can carry both, and neither answers the
+      other's question.
+
+# system_attributes is deliberately omitted. The proposal defines fields and no
+# serialization, so it has no canonicalization profile, hash family, signature
+# capability or pre-image tagging to declare. A filing made from outside should
+# not declare those on its authors' behalf.

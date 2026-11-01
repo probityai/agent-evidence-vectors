@@ -1,0 +1,73 @@
+# Filed from outside, from the NIST publication Key Practices for Incident Readiness and Response in Super Intelligence Training and Evaluation (16 October 2026), practices 2.6, 6.1 to 6.5 and 7.1 to 7.6, read on 2026-10-30 in the copy kept in the research capture.
+#
+# This filing maps those practices onto the incident_response section. It cannot promote a term and is not offered as promoting one: a guidance document emits no signed records. Every claim below is asserted from prose.
+
+system: NIST Key Practices for Incident Readiness and Response in Super Intelligence Training and Evaluation
+system_url: https://www.nist.gov/system/files/documents/2026/10/16/Key_Practices_for_Incident_Readiness_and_Response_in_Super_Intelligence%20_Training_and_Evaluation.pdf
+crosswalk_version: 0.1.0
+vocabulary_version_targeted: 0.8.0
+maintainer:
+  github: astrogilda
+  third_party_authored: true
+summary_of_system: Practices for shutdown (6.1 to 6.5) and for verification and a documented decision
+  before resuming agent activity (7.1 to 7.6). The document defines no record format.
+incident_response:
+  response_decision:
+    match: no_mapping
+    notes: The practices ask for no record of a decision not to act.
+  response_function:
+    match: partial
+    evidence: asserted
+    source_path: https://www.nist.gov/system/files/documents/2026/10/16/Key_Practices_for_Incident_Readiness_and_Response_in_Super_Intelligence%20_Training_and_Evaluation.pdf
+    divergences:
+    - The practices name shutdown, pause, credential revocation, environment rebuild and persistence remediation,
+      in prose and with no closed list.
+    notes: Practices 6.1 to 6.5 and 7.1.
+  enforcement_vantage:
+    match: no_mapping
+    notes: Practice 2.4 asks for independent evaluators to verify that systems operate as intended; no
+      vantage is recorded per action.
+  control_failure_posture:
+    match: partial
+    evidence: asserted
+    source_path: https://www.nist.gov/system/files/documents/2026/10/16/Key_Practices_for_Incident_Readiness_and_Response_in_Super_Intelligence%20_Training_and_Evaluation.pdf
+    divergences:
+    - Practice 6.1 asks for shutdown policies on control failures and monitor outages, and 6.2 for automatic
+      shutdown on detection of a control failure; this is the fail-closed posture as a requirement, with
+      no record of which posture applied.
+    notes: Practices 6.1 and 6.2.
+  revocation_state:
+    match: no_mapping
+    notes: Practice 6.4 asks to revoke credentials accessed during the incident; no enforcement at a relying
+      party is described.
+  containment_scope:
+    match: no_mapping
+    notes: Practice 7.3 lists containment layers to validate; no partition against a manifest is asked
+      for.
+  pause_hold:
+    match: no_mapping
+    notes: Practice 6.3 asks to shut down or pause similar agents; no outcome of the pause is defined.
+  escalation_outcome:
+    match: no_mapping
+    notes: Practice 2.3 asks for inbound reporting channels; no alert-to-action times are defined.
+  restoration_decision:
+    match: partial
+    evidence: asserted
+    source_path: https://www.nist.gov/system/files/documents/2026/10/16/Key_Practices_for_Incident_Readiness_and_Response_in_Super_Intelligence%20_Training_and_Evaluation.pdf
+    divergences:
+    - Practice 2.6 asks that activity resume only if senior leadership is satisfied with the risk levels;
+      7.5 asks to document the recovery decision and the remaining risks. Neither asks that the approver
+      differ from the activator or that the decision be bound to the containment by digest.
+    notes: Practices 2.6 and 7.5.
+  restoration_gate:
+    match: partial
+    evidence: asserted
+    source_path: https://www.nist.gov/system/files/documents/2026/10/16/Key_Practices_for_Incident_Readiness_and_Response_in_Super_Intelligence%20_Training_and_Evaluation.pdf
+    divergences:
+    - Practice 7.3 asks that monitors, logging, egress allowlists, shutdown mechanisms, permission restrictions
+      and other containment layers be validated as functional before agents are restarted; it asks for
+      no observation of the restart.
+    notes: Practice 7.3.
+  incident_identifier:
+    match: no_mapping
+    notes: The source describes nothing that maps onto this term.

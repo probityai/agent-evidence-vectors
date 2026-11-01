@@ -1,0 +1,49 @@
+[package]
+name = "dsse"
+version = "0.1.6"
+edition = "2021"
+rust-version = "1.88"
+license = "Apache-2.0"
+description = "DSSE (Dead Simple Signing Envelope) with PAE pre-authentication encoding: envelope construction, signing, and threshold verification."
+repository = "https://github.com/probityai/agent-evidence-vectors"
+documentation = "https://docs.rs/dsse"
+homepage = "https://github.com/probityai/agent-evidence-vectors/tree/main/crates/dsse#readme"
+readme = "README.md"
+exclude = ["*.ledger.json", ".humanizer/", "/scripts", "/vectors/generate", "/npm"]
+keywords = ["dsse", "in-toto", "sigstore", "signing", "attestation"]
+categories = ["cryptography", "encoding"]
+
+[features]
+default = ["ed25519"]
+ed25519 = ["dep:ed25519-dalek"]
+
+[dependencies]
+base64 = "0.23"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "2.0"
+ed25519-dalek = { version = "3.0", optional = true, default-features = false, features = ["alloc", "fast", "zeroize"] }
+
+[dev-dependencies]
+base64 = "0.23"
+serde_json = "1.0"
+sha2 = "0.11"
+
+[[example]]
+name = "wasm_oracle"
+required-features = ["ed25519"]
+
+[[example]]
+name = "verify_corpus"
+required-features = ["ed25519"]
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_docs = "deny"
+
+[lints.clippy]
+undocumented_unsafe_blocks = "deny"
+unwrap_used = "deny"
+expect_used = "deny"
+indexing_slicing = "deny"
+panic = "deny"

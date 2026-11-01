@@ -16,6 +16,19 @@ func sha(data []byte) string {
 	return hex.EncodeToString(sum[:])
 }
 
+// corpusParent is the directory a corpus sits in, which is where its vendored
+// contract or criterion lives. It resolves the argument to an absolute path
+// first: filepath.Dir("corpus/") is "corpus" and filepath.Dir(".") is ".", so
+// naming the corpus with a trailing slash, or from inside it, looked for the
+// contract in the wrong directory and reported it missing.
+func corpusParent(dir string) string {
+	abs, err := filepath.Abs(dir)
+	if err != nil {
+		return filepath.Dir(filepath.Clean(dir))
+	}
+	return filepath.Dir(abs)
+}
+
 // readIn reads a corpus-relative path. Every path in a manifest is relative to
 // the corpus directory, so nothing here takes an absolute one.
 // #nosec G304,G703 -- the corpus directory is a path the operator named on the

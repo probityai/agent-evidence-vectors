@@ -1,0 +1,185 @@
+{
+  "$comment": "Three rows copied unchanged from docs/INDEPENDENT-RUNS.json of probityai/agent-evidence-vectors at commit 20e93ccb265d13f149dbfbd59a291207289d9b30. A test fixture for 'conformance replay'; it is not the record of those runs.",
+  "implementation": "Rul1an/aee-checker",
+  "runs": [
+    {
+      "suiteRevision": 1,
+      "figures": [
+        {
+          "figure": "125/125",
+          "role": "score",
+          "carriedIn": [
+            {
+              "file": "docs/research/independence.md",
+              "times": 2
+            },
+            {
+              "file": "docs/IMPLEMENTATION-REPORT.md",
+              "times": 3
+            }
+          ]
+        }
+      ],
+      "evidence": "blind",
+      "runLabel": "independent",
+      "unprompted": true,
+      "posting": "in-toto/attestation#570",
+      "date": null,
+      "dateNote": "not recorded in this repository; per-run dates are transcribed only from aee-checker#3 onward",
+      "checkerSourceDigest": null,
+      "digestNote": "these records are content-digest-bound in the checker's own provenance index; this repository transcribed the digest only for the revision-6 record",
+      "suiteCommit": null,
+      "suiteCommitNote": "not recorded in this repository",
+      "note": "the first full corpus run, with no vector-driven fixes"
+    },
+    {
+      "suiteRevision": 6,
+      "figures": [
+        {
+          "figure": "153/153",
+          "role": "score",
+          "carriedIn": [
+            {
+              "file": "docs/research/independence.md",
+              "times": 1
+            },
+            {
+              "file": "docs/IMPLEMENTATION-REPORT.md",
+              "times": 2
+            },
+            {
+              "file": "vectors/CHANGES.md",
+              "times": null
+            }
+          ]
+        },
+        {
+          "figure": "151/153",
+          "role": "unchanged-build",
+          "carriedIn": [
+            {
+              "file": "docs/research/independence.md",
+              "times": 1
+            },
+            {
+              "file": "docs/IMPLEMENTATION-REPORT.md",
+              "times": 1
+            },
+            {
+              "file": "vectors/CHANGES.md",
+              "times": null
+            }
+          ]
+        },
+        {
+          "figure": "36/36",
+          "role": "accepts",
+          "carriedIn": [
+            {
+              "file": "docs/research/independence.md",
+              "times": 1
+            },
+            {
+              "file": "docs/IMPLEMENTATION-REPORT.md",
+              "times": 1
+            },
+            {
+              "file": "vectors/CHANGES.md",
+              "times": null
+            }
+          ]
+        },
+        {
+          "figure": "117/117",
+          "role": "rejects",
+          "carriedIn": [
+            {
+              "file": "docs/research/independence.md",
+              "times": 1
+            },
+            {
+              "file": "docs/IMPLEMENTATION-REPORT.md",
+              "times": 1
+            },
+            {
+              "file": "vectors/CHANGES.md",
+              "times": null
+            }
+          ]
+        }
+      ],
+      "evidence": "directed",
+      "runLabel": "independent",
+      "unprompted": false,
+      "posting": "Rul1an/aee-checker#4",
+      "date": "2026-07-28",
+      "dateNote": null,
+      "checkerSourceDigest": "sha256:1c3e2e78",
+      "digestNote": null,
+      "suiteCommit": "6aa7c60",
+      "suiteCommitNote": null,
+      "equivalentSuiteCommit": "6aa7c60",
+      "note": "the last author-run, and the revision that checker's CI now verifies continuously. The suite commit the record names no longer resolves in a fresh clone of this repository, because the history it sat on was rewritten here after the record was pinned; 6aa7c60 carries the identical tree and therefore the identical 153 vectors, and is where a reproduction should point until the record is repinned. The unchanged revision-5 build scored 151/153 against it: ok-036 and bad-742 passed on the container-branch counter already in place, and bad-743 and bad-744 did not, because that build had not implemented the RFC 7493 section 2.1 noncharacter exclusion this revision makes normative."
+    },
+    {
+      "suiteRevision": 28,
+      "figures": [
+        {
+          "figure": "272/272",
+          "role": "score",
+          "carriedIn": [
+            {
+              "file": "docs/research/independence.md",
+              "times": 1
+            },
+            {
+              "file": "docs/IMPLEMENTATION-REPORT.md",
+              "times": 1
+            }
+          ]
+        },
+        {
+          "figure": "61/61",
+          "role": "accepts",
+          "carriedIn": [
+            {
+              "file": "docs/IMPLEMENTATION-REPORT.md",
+              "times": 1
+            }
+          ]
+        },
+        {
+          "figure": "209/209",
+          "role": "rejects",
+          "carriedIn": [
+            {
+              "file": "docs/IMPLEMENTATION-REPORT.md",
+              "times": 1
+            }
+          ]
+        },
+        {
+          "figure": "80/209",
+          "role": "reason-parity",
+          "carriedIn": [
+            {
+              "file": "docs/IMPLEMENTATION-REPORT.md",
+              "times": 1
+            }
+          ]
+        }
+      ],
+      "evidence": "directed",
+      "runLabel": "independent",
+      "unprompted": false,
+      "posting": "Rul1an/aee-checker#21, opened and merged 2026-09-06, recording the run as reports/v0.7-rev27-directed-run.json in the checker's provenance index",
+      "date": "2026-09-06",
+      "dateNote": null,
+      "checkerSourceDigest": "sha256:5fbe879e9d6a7355d5af8c4ea6f7c055f9289753c69b9336b5ce0a213371b596",
+      "digestNote": null,
+      "suiteCommit": "e98de66d7296c4eb01abc38b6aee0b51b0c87a8e",
+      "suiteCommitNote": null,
+      "note": "the checker's own index labels this run revision 27, and this row records it at suiteRevision 28 because that is what the corpus at the suite commit says: its CHANGES.md opens at suiteRevision 28, and its manifest carries 272 vectors, 61 accept, 209 reject and 2 indeterminate, under corpusDigest 8b035678. The checker counts one run per corpus it read, and it read suiteRevision 25 twice (248 and then 250 vectors), which is where the numbering parts. The run is directed and pre-registered in the checker's PIN-rev27-RUN.md, which discloses an unregistered exploratory pass before it. Its author claims one property only: the build under test predates every vector here and its source did not change, so no vector-driven fix is possible in either direction. It runs aee-checker on the vectors directly and never went through this package's --verifier path, so the reference-rail fallback fixed in 0.12.1 could not have supplied any figure in it. The checker source digest is transcribed from the checker's reports/INDEX.json record for this run, at checker commit 61b5e28b84ede1dec26ae8d1e33f9e65f84cb013, and is byte-identical to the digest that index records for the previous run. The run posted suite commit 94c163c8e4d9b52a7056c63bc489932329d42a42, from before the history rewrite of 2026-09-18; this row records the rewritten commit docs/REWRITE-MAP-2026-09-18.json maps it to, whose vectors tree is identical, so a fresh clone resolves it, and the annotated tag cited/94c163c holds the commit as posted."
+    }
+  ]
+}

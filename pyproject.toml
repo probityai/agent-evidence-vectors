@@ -8,7 +8,7 @@
 
 [project]
 name = "agent-evidence-vectors"
-version = "0.29.3"
+version = "0.31.0"
 description = "Conformance corpora and reference verifiers for agent evidence records"
 requires-python = ">=3.11"
 license = { text = "Apache-2.0" }
@@ -89,6 +89,9 @@ agent-evidence-vectors-evalresult = "agent_evidence_vectors.eval_result.run:main
 # Recorded sets: retained bytes from a live run against the digest list their
 # publisher wrote. Also reachable as `agent-evidence-vectors recorded`.
 agent-evidence-vectors-recorded = "agent_evidence_vectors.recorded:main"
+# Push verifier pass/fail into Vanta as a custom resource (dry run unless --send), so a
+# Vanta Custom Test can read it as compliance evidence.
+agent-evidence-vectors-vanta = "agent_evidence_vectors.vanta_connector.cli:main"
 
 [build-system]
 requires = ["hatchling>=1.27"]
@@ -110,6 +113,11 @@ probity-verify = { git = "https://github.com/probityai/probity", rev = "932c1e3e
 
 [dependency-groups]
 crosscheck = ["probity-verify"]
+# The repository tools of the imported parts (scripts/workspace.py and the other
+# tests under tests/). The packages under packages/ are standalone projects built
+# by directory (`uv build packages/<name>`); none of them has a runtime dependency. Their ruff run
+# reads ruff-parts.toml, not the rules below, which the corpora and the rail keep.
+dev = ["packaging==26.3", "pytest==9.2.0", "ruff==0.17.3"]
 
 # What the wheel carries, and where. The rail is a single stdlib-only module
 # kept at packaging/run_vectors.py, where every gate in scripts/ imports it by
@@ -130,9 +138,12 @@ only-include = [
     "vectors-anchored-chain",
     "vectors-trace-anchor",
     "vectors-grade-floor",
+    "vectors-connector-scope",
+    "vectors-agent-payment-mandate",
     "vectors-agent-change-admission",
     "vectors-agentic-process-evidence",
     "vectors-delegation-lifecycle",
+    "vectors-restart-records",
     "vectors-recorded",
     "vectors-agent-decision",
     "vectors-ietf-agent-record-drafts",
@@ -153,12 +164,15 @@ only-include = [
     "vectors-authority-at-dispatch",
     "vectors-approval-binding",
     "vectors-dispatch-fence",
+    "vectors-refund-connected",
     "vectors-aggregate-accounting",
+    "vectors-uncertain-effect",
     "vectors-agent-card-receipt",
     "vectors-credential-release",
     "vectors-converted-argument-binding",
     "vectors-delegator-right",
     "vectors-oasf-record",
+    "vectors-badge-vc-verify",
     "vectors-completion-confirmation",
     "vectors-chunked-export",
     "vectors-done-contract",
@@ -171,6 +185,7 @@ only-include = [
     "vectors-scitt-cose",
     "vectors-self-reported-record",
     "vectors-source-coverage",
+    "vectors-open-weight-art53",
     "vectors-w3c-intake",
     "vectors-w3c-report",
 ]
@@ -190,9 +205,12 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 "vectors-anchored-chain" = "agent_evidence_vectors/corpora/vectors-anchored-chain"
 "vectors-trace-anchor" = "agent_evidence_vectors/corpora/vectors-trace-anchor"
 "vectors-grade-floor" = "agent_evidence_vectors/corpora/vectors-grade-floor"
+"vectors-connector-scope" = "agent_evidence_vectors/corpora/vectors-connector-scope"
+"vectors-agent-payment-mandate" = "agent_evidence_vectors/corpora/vectors-agent-payment-mandate"
 "vectors-agent-change-admission" = "agent_evidence_vectors/corpora/vectors-agent-change-admission"
 "vectors-agentic-process-evidence" = "agent_evidence_vectors/corpora/vectors-agentic-process-evidence"
 "vectors-delegation-lifecycle" = "agent_evidence_vectors/corpora/vectors-delegation-lifecycle"
+"vectors-restart-records" = "agent_evidence_vectors/corpora/vectors-restart-records"
 "vectors-recorded" = "agent_evidence_vectors/corpora/vectors-recorded"
 "vectors-agent-decision" = "agent_evidence_vectors/corpora/vectors-agent-decision"
 "vectors-ietf-agent-record-drafts" = "agent_evidence_vectors/corpora/vectors-ietf-agent-record-drafts"
@@ -213,12 +231,15 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 "vectors-authority-at-dispatch" = "agent_evidence_vectors/corpora/vectors-authority-at-dispatch"
 "vectors-approval-binding" = "agent_evidence_vectors/corpora/vectors-approval-binding"
 "vectors-dispatch-fence" = "agent_evidence_vectors/corpora/vectors-dispatch-fence"
+"vectors-refund-connected" = "agent_evidence_vectors/corpora/vectors-refund-connected"
 "vectors-aggregate-accounting" = "agent_evidence_vectors/corpora/vectors-aggregate-accounting"
+"vectors-uncertain-effect" = "agent_evidence_vectors/corpora/vectors-uncertain-effect"
 "vectors-agent-card-receipt" = "agent_evidence_vectors/corpora/vectors-agent-card-receipt"
 "vectors-credential-release" = "agent_evidence_vectors/corpora/vectors-credential-release"
 "vectors-converted-argument-binding" = "agent_evidence_vectors/corpora/vectors-converted-argument-binding"
 "vectors-delegator-right" = "agent_evidence_vectors/corpora/vectors-delegator-right"
 "vectors-oasf-record" = "agent_evidence_vectors/corpora/vectors-oasf-record"
+"vectors-badge-vc-verify" = "agent_evidence_vectors/corpora/vectors-badge-vc-verify"
 "vectors-completion-confirmation" = "agent_evidence_vectors/corpora/vectors-completion-confirmation"
 "vectors-chunked-export" = "agent_evidence_vectors/corpora/vectors-chunked-export"
 "vectors-done-contract" = "agent_evidence_vectors/corpora/vectors-done-contract"
@@ -231,6 +252,7 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 "vectors-scitt-cose" = "agent_evidence_vectors/corpora/vectors-scitt-cose"
 "vectors-self-reported-record" = "agent_evidence_vectors/corpora/vectors-self-reported-record"
 "vectors-source-coverage" = "agent_evidence_vectors/corpora/vectors-source-coverage"
+"vectors-open-weight-art53" = "agent_evidence_vectors/corpora/vectors-open-weight-art53"
 "vectors-w3c-intake" = "agent_evidence_vectors/corpora/vectors-w3c-intake"
 "vectors-w3c-report" = "agent_evidence_vectors/corpora/vectors-w3c-report"
 
@@ -266,6 +288,13 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 "spec/predicates/adversarial-execution-evidence.md" = "agent_evidence_vectors/corpora/spec/predicates/adversarial-execution-evidence.md"
 "spec/v1/statement.md" = "agent_evidence_vectors/corpora/spec/v1/statement.md"
 "spec/predicates/adversarial-execution-evidence/verification.md" = "agent_evidence_vectors/corpora/spec/predicates/adversarial-execution-evidence/verification.md"
+# The restart-records reader checks its corpus against these vendored documents.
+"profiles/restoration-evidence.md" = "agent_evidence_vectors/corpora/profiles/restoration-evidence.md"
+"spec/predicates/incident-action-authorization.md" = "agent_evidence_vectors/corpora/spec/predicates/incident-action-authorization.md"
+"spec/predicates/joint-authority.md" = "agent_evidence_vectors/corpora/spec/predicates/joint-authority.md"
+"spec/predicates/re-enable-decision.md" = "agent_evidence_vectors/corpora/spec/predicates/re-enable-decision.md"
+"spec/predicates/revocation-boundary.md" = "agent_evidence_vectors/corpora/spec/predicates/revocation-boundary.md"
+"spec/predicates/revocation-sweep.md" = "agent_evidence_vectors/corpora/spec/predicates/revocation-sweep.md"
 
 [tool.hatch.build.targets.sdist]
 only-include = [
@@ -290,9 +319,12 @@ only-include = [
     "vectors-anchored-chain",
     "vectors-trace-anchor",
     "vectors-grade-floor",
+    "vectors-connector-scope",
+    "vectors-agent-payment-mandate",
     "vectors-agent-change-admission",
     "vectors-agentic-process-evidence",
     "vectors-delegation-lifecycle",
+    "vectors-restart-records",
     "vectors-recorded",
     "vectors-agent-decision",
     "vectors-ietf-agent-record-drafts",
@@ -300,6 +332,12 @@ only-include = [
     "spec/predicates/adversarial-execution-evidence.md",
     "spec/v1/statement.md",
     "spec/predicates/adversarial-execution-evidence/verification.md",
+    "profiles/restoration-evidence.md",
+    "spec/predicates/incident-action-authorization.md",
+    "spec/predicates/joint-authority.md",
+    "spec/predicates/re-enable-decision.md",
+    "spec/predicates/revocation-boundary.md",
+    "spec/predicates/revocation-sweep.md",
     "vectors-admission",
     "vectors-aci",
     "vectors-acs-core",
@@ -316,12 +354,15 @@ only-include = [
     "vectors-authority-at-dispatch",
     "vectors-approval-binding",
     "vectors-dispatch-fence",
+    "vectors-refund-connected",
     "vectors-aggregate-accounting",
+    "vectors-uncertain-effect",
     "vectors-agent-card-receipt",
     "vectors-credential-release",
     "vectors-converted-argument-binding",
     "vectors-delegator-right",
     "vectors-oasf-record",
+    "vectors-badge-vc-verify",
     "vectors-completion-confirmation",
     "vectors-chunked-export",
     "vectors-done-contract",
@@ -334,6 +375,7 @@ only-include = [
     "vectors-scitt-cose",
     "vectors-self-reported-record",
     "vectors-source-coverage",
+    "vectors-open-weight-art53",
     "vectors-w3c-intake",
     "vectors-w3c-report",
     "README.md",
@@ -382,10 +424,10 @@ artifact-binding = ["cryptography>=43"]
 # pymupdf is pinned exactly because interop/nist-ai-300-1 binds digests to the text
 # it extracts from the NIST AI 300-1 PDF; another release may extract other text.
 dev = ["cryptography>=43", "pycose>=1.1,<2", "cbor2>=5.6,<6", "markdown>=3.9",
-       "packaging>=25", "hypothesis==6.168.3", "pycryptodome==3.23.0", "jsonschema==4.25.1", "rfc8785==0.1.4",
+       "packaging>=25", "hypothesis==6.170.12", "pycryptodome==4.2.0", "jsonschema==4.26.0", "rfc8785==0.1.4",
        "mypy>=1.11", "pyright>=1.1.400", "pytest>=8", "pytest-cov>=5",
        "pyyaml>=6", "ruff>=0.6", "types-Markdown>=3.9", "types-PyYAML>=6",
-       "numpy>=2.1", "mcp==2.3.0", "pymupdf==1.26.7", "types-jsonschema==4.25.1.20251009"]
+       "numpy>=2.1", "mcp==2.3.0", "pymupdf==1.26.7", "types-jsonschema==4.26.0.20261006"]
 
 [tool.mypy]
 # scripts/code-contract-gate.py imports the reference rail to drive its own
@@ -398,6 +440,13 @@ warn_unused_configs = true
 show_error_codes = true
 python_version = "3.13"
 files = ["packaging", "vectors", "tools"]
+
+[tool.typecheck-gate]
+# Imported from the sibling specification repository with their own jobs:
+# parts.yml lints and tests actions/, packages/ and tests/, the crate workflows
+# own crates/. scripts/typecheck-gate.py
+# does not read these directories and does not count them.
+held-elsewhere = ["actions", "crates", "packages", "tests"]
 
 [tool.pyright]
 # Named by DIRECTORY, deliberately, and this is the whole point of the section.
@@ -414,17 +463,17 @@ files = ["packaging", "vectors", "tools"]
 # Directories cannot forget. A file added to any of these is checked because it
 # is there, not because it was announced, and scripts/typecheck-gate.py refuses
 # to pass if a Python file exists outside them.
-include = ["docs/paper", "docs/proposals", "docs/site", "examples/mcp-receipts", "interop", "packaging", "scripts", "tools", "vectors",
+include = ["crates/jcs-admit", "docs/paper", "docs/proposals", "docs/site", "examples/mcp-receipts", "interop", "packaging", "scripts", "tools", "vectors",
            "vectors-admission",
-           "vectors-a2a-jcs-v01", "vectors-agent-audit-record", "vectors-agent-decision", "vectors-ietf-agent-record-drafts", "vectors-anchored-chain", "vectors-trace-anchor", "vectors-grade-floor", "vectors-agent-change-admission", "vectors-agentic-process-evidence", "vectors-delegation-lifecycle", "vectors-recorded", "vectors-aci", "vectors-acs-core", "vectors-ai-agent-action", "vectors-ai-generation",
+           "vectors-a2a-jcs-v01", "vectors-agent-audit-record", "vectors-agent-decision", "vectors-ietf-agent-record-drafts", "vectors-anchored-chain", "vectors-trace-anchor", "vectors-grade-floor", "vectors-agent-payment-mandate", "vectors-agent-change-admission", "vectors-agentic-process-evidence", "vectors-delegation-lifecycle", "vectors-restart-records", "vectors-recorded", "vectors-aci", "vectors-acs-core", "vectors-ai-agent-action", "vectors-ai-generation",
            "vectors-anchor-stream", "vectors-artifact-binding", "vectors-dependency-selection",
            "vectors-mcp-owasp", "vectors-mcp-record-contract", "vectors-mcp-response-phase",
            "vectors-observed-effect", "vectors-receipt-chain-end", "vectors-receipt-signature",
-           "vectors-identity-binding", "vectors-authority-at-dispatch", "vectors-approval-binding", "vectors-delegator-right", "vectors-oasf-record", "vectors-completion-confirmation", "vectors-dispatch-fence", "vectors-aggregate-accounting", "vectors-agent-card-receipt", "vectors-credential-release",
+           "vectors-identity-binding", "vectors-authority-at-dispatch", "vectors-approval-binding", "vectors-delegator-right", "vectors-oasf-record", "vectors-badge-vc-verify", "vectors-completion-confirmation", "vectors-dispatch-fence", "vectors-refund-connected", "vectors-aggregate-accounting", "vectors-uncertain-effect", "vectors-agent-card-receipt", "vectors-credential-release",
            "vectors-converted-argument-binding", "vectors-chunked-export",
            "vectors-done-contract", "vectors-done-receipt", "vectors-spoofed-tool-output", "vectors-test-tampering", "vectors-grader-isolation",
-           "vectors-done-probes", "vectors-scitt-cose", "vectors-source-coverage", "vectors-self-reported-record",
-           "vectors-w3c-intake", "vectors-w3c-report", "vectors-poc-evidence"]
+           "vectors-done-probes", "vectors-scitt-cose", "vectors-source-coverage", "vectors-open-weight-art53", "vectors-self-reported-record",
+           "vectors-w3c-intake", "vectors-w3c-report", "vectors-poc-evidence", "vectors-connector-scope"]
 
 # The reference rail is imported by the gates that drive it, and it lives in
 # packaging/ rather than on the default path, so the checker needs the same
@@ -438,7 +487,7 @@ include = ["docs/paper", "docs/proposals", "docs/site", "examples/mcp-receipts",
 # import that resolves fine when it runs.
 extraPaths = ["packaging", "vectors", "tools/artifact-binding",
               "vectors-artifact-binding", "vectors-observed-effect",
-              "interop/a2a-s3-retain-2026-10-01"]
+              "interop/a2a-s3-retain-2026-10-01", "crates/jcs-admit/python/pysrc"]
 
 # "standard" rather than "strict", chosen rather than defaulted into. Standard
 # carries every rule that describes a script CRASHING -- an undefined name, a
@@ -524,6 +573,36 @@ extraPaths = ["packaging", "interop/agentavow-live-mcp", "interop/agentavow-sign
 [tool.ruff]
 line-length = 100
 target-version = "py313"
+# The repository tools of the imported parts are linted by ruff-parts.toml in
+# parts.yml; both configs on one file would give it two contradictory verdicts.
+extend-exclude = [
+  "scripts/workspace.py",
+  "scripts/build_predicate_pages.py",
+  "scripts/build_vocabulary_pages.py",
+  "scripts/check-jcs-admit-python-release.py",
+  "scripts/check-jcs-admit-python-release-test.py",
+  "scripts/check_predicate_pages.py",
+  "scripts/check_uris_resolve.py",
+  "scripts/family_pin_guard.py",
+  "scripts/record_paths.py",
+  "scripts/go-module-size-gate.py",
+  # Trees that fail the rules above today. CI lints every vectors-* and interop/*
+  # directory by glob (force-exclude makes a named path win); this list is the
+  # burn-down and only shrinks. A new directory is linted from its first commit.
+  "vectors-acs-core/gen_vectors.py",
+  "vectors-w3c-report/gen_vectors.py",
+  "vectors-artifact-binding/gen_vectors.py",
+  "vectors-scitt-cose/gen_vectors.py",
+  "vectors-poc-evidence/build",
+  "vectors-poc-evidence/package",
+  "vectors-poc-evidence/tests",
+  "interop/aps-priorseal-e2-2026-09-30",
+  "interop/w3c-v01-appendix",
+  "interop/mcp-sdks",
+  "interop/wimse-agent-audit-record-reader-2026-10-01",
+  "interop/trace-anchor-tr-anc",
+]
+force-exclude = true
 
 [tool.ruff.lint]
 # E/W pycodestyle, F pyflakes, I isort, UP pyupgrade, B bugbear, C901 mccabe
@@ -533,3 +612,7 @@ select = ["E", "F", "W", "I", "UP", "B", "C901"]
 
 [tool.ruff.lint.mccabe]
 max-complexity = 10
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["--strict-markers", "-ra"]

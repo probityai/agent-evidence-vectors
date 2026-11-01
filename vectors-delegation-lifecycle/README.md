@@ -7,6 +7,8 @@ records (identifier registrations, grants, revocations, disputes, resolutions,
 identifier links, retirements), one signed presentation, and the policy that
 judges them. The cases come in four sets:
 
+[![Checked with Probity](https://img.shields.io/badge/checked-with_Probity-0969da?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAkFBMVEX8%2B%2Bzr5NPgyrfKyLnSq5Wzo4tWltqRkZI2kPU1kvk1j%2FMwkPgzjfI2jO80jO40jO3MdWOZc1SLblN1aFxxXFJzVDY2i%2B40i%2B00i%2Bw0i%2Bs0ius1iOZAapwugNYtdbUqaq0qV4tkRzJXOB47Oz43JRkjNEYiHBwlFxIfFxMcEg0XEQ0WEAwXDAUWCAEOCQcJAgCa503RAAAB3klEQVR42rWT2ZacIBCGceHYoN240SK2Crig4vL%2BbxfszJyZTmaSm6S4rI9a%2FwK3vxj41wDj5E9AwS%2Foxjn7DmARqgVHCBHyJcBxJeZtEG2Nv4hAGEPXYVumddvWAbFfgJJECDfDukxa63ldmw%2FiCTCEK%2BteFzNbQI%2BbQPwzwKJGjNO2LMacxNqK1wgcNfO2mqfbHMs8NEkeXT8AjurRTKfbMlqOa5vFyc8cZclu4PSvWptlPlOMeb4PsQu78MoYQWFIwKUet0nPZl%2FMki1H3x%2FKd1PVhhdkS2tDgM7m9bR3XX8EXtYde59SSVVXNx2NMwuIbbGl74HUu%2BcFXrArSpXqlVSpGz8sUG%2FjoCej1RHA6ZAgl1SmUvVUQjduEGDIdt0MxuwjCHYNAZSwT1IbhaZ%2BFt7BrUAXbguxnx3gZ9AJVJLal0hKaYv4OShGbu249Z4F4jhQ1PcpTUYLDBF5WxZB9dBB14O%2Bm6eu48QQpjBXIizf113iS9sF0LYxZMD1PODbVvtznu96sGOrWyFEiwQEwHNcC8gaF58UxfG1qiqMqzx2AACJ0i0qXyRXEIwjwnD1SBOYdKJ%2B7vxF1eRUaxGF9ePRVgiX3xxOccdhiK5v6v%2Fysgp2Z%2BR%2F3ebv9gP5RU8tSdZhDwAAAABJRU5ErkJggg%3D%3D)](https://github.com/probityai/probity)
+
 - `tree-`: revocation across a delegation tree, including a revocation that is
   disputed, as in the case "revocation issued in error, or disputed" proposed to
   the AAIF Identity and Trust working group;
@@ -19,14 +21,24 @@ judges them. The cases come in four sets:
   the second open question of use case B, and what happens to them when the
   parent retires, is recovered or is succeeded.
 
-Judge the corpus with the Go verifier, from the repository root:
+Judge the corpus with the Python reader in this repository, which needs
+nothing beyond the standard library, from the repository root:
+
+```sh
+python3 packaging/run_vectors.py --corpus vectors-delegation-lifecycle
+```
+
+A released wheel runs it as `uvx agent-evidence-vectors --corpus
+vectors-delegation-lifecycle` once a release includes the reader.
+
+or with the Go verifier, from the repository root:
 
 ```sh
 GOWORK=off go build -o aee-verify ./cmd/aee-verify
 ./aee-verify vectors-delegation-lifecycle
 ```
 
-`aee-verify` derives the outcome of every case from its records and exits 0 only
+Both derive the outcome of every case from its records and exit 0 only
 when each one matches the outcome `MANIFEST.json` declares. [INDEX.md](INDEX.md)
 lists every case with its situation, its expected outcome and the rule it applies.
 
@@ -239,5 +251,14 @@ labels in `gen_vectors.py`. Anyone can re-derive them. They are test keys only.
 - `corpora/delegationlifecycle.go` is the verifier `aee-verify` runs. Its tests
   swap each refused case with its accepted twin and require the derived outcome
   to move, and switch off each rule in turn and require some case to change.
+- `packaging/agent_evidence_vectors/delegationlifecycle.py` is the Python reader
+  the packaged harness runs, a port of the Go verifier that prints the same
+  lines. Both judge the corpus alone and refuse a named verifier, because the
+  suite has no external-verifier contract.
+- `mutate.py` edits a copy of a case: it drops a record, flips a signature byte,
+  or moves a time and signs the record again with the key that signed it.
+  `tests/test_python_reader.py` uses it for the negative controls and
+  `scripts/delegation-lifecycle-rails-test.py` judges every mutant on both
+  readers and requires identical output.
 - `tests/test_corpus.py` regenerates the corpus byte for byte and recomputes its
   digest from the files.

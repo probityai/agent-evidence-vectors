@@ -1,0 +1,22 @@
+{
+  "source_repository": "https://github.com/Agent-Authority-Conformance/aps-conformance-suite",
+  "source_commit": "5829e2ff00d75f49ce21e9d87e756658deb1ef33",
+  "implementation": "jcs-admit",
+  "implementation_version": "0.1.0",
+  "implementation_source_commit": "de09844b0d9ae62496cf1d13755091f4be6edfb3",
+  "crate_sha256": "e5e809813f7ed9d15536d3038657aee1489e5f4f4b2df5b58519007aebf8f9a9",
+  "fixtures": [
+    {
+      "path": "fixtures/canonical-bytes-jcs-v1.json",
+      "source_path": "fixtures/canonical-bytes/canonical-bytes-jcs-v1.json",
+      "sha256": "914803e87ce165f59958835519b30274623f2afab9a8ef5059bd2902ff0c9a8a",
+      "cases": 8
+    },
+    {
+      "path": "fixtures/canonical-bytes-jcs-v2.json",
+      "source_path": "fixtures/canonical-bytes/canonical-bytes-jcs-v2.json",
+      "sha256": "9502d72102b10f083ce91529e025e4a9c8a18881c5a9ec8f9ac46b1c0e48f593",
+      "cases": 10
+    }
+  ]
+}

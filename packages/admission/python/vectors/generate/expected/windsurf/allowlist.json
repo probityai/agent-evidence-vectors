@@ -1,0 +1,32 @@
+{
+  "entries": [
+    {
+      "serverId": "files",
+      "serverConfig": {
+        "command": "npx",
+        "args": [
+          "-y",
+          "@example/files@1\\.4\\.1",
+          "/srv/data"
+        ]
+      }
+    },
+    {
+      "serverId": "files",
+      "serverConfig": {
+        "command": "npx",
+        "args": [
+          "-y",
+          "@example/files@1\\.4\\.2",
+          "/srv/data"
+        ]
+      }
+    },
+    {
+      "serverId": "search",
+      "serverConfig": {
+        "serverUrl": "https://mcp\\.example\\.com/v2/mcp"
+      }
+    }
+  ]
+}

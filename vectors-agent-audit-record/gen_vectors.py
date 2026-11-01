@@ -1514,7 +1514,10 @@ def define() -> None:
     define_retained()
     define_revision_01()
     define_consumption()
+    define_consumption_carryover()
+    define_settlement()
     define_audit_next()
+    define_reject_paths()
     rank = {draft_id: i for i, draft_id in enumerate(ORDER)}
     missing = [m["draftId"] for m in MEMBERS if m["draftId"] not in rank]
     if missing or len(rank) != len(MEMBERS):
@@ -1785,6 +1788,8 @@ def define_freshness() -> None:
 # ---------------------------------------------------------------------------
 
 REVISION_01 = "draft-gilda-audit-agent-audit-record-01"
+REVISION_03 = "draft-gilda-audit-agent-audit-record-03"
+REVISION_04 = "draft-gilda-audit-agent-audit-record-04"
 
 #: The two values of standing-source a deny judging two delegation paths
 #: depended on, as the producer held them, and decision.reportedAt of A2.
@@ -1893,7 +1898,7 @@ def define_revision_01() -> None:
 
 
 # ---------------------------------------------------------------------------
-# Consumption binding (Section 5.4 of revision 01): rows CS1 to CS17.
+# Consumption binding (Section 5.4 of revision 01): rows CS1 to CS25.
 #
 # A decision under a cumulative limit carries decision.operationKey, the
 # agent's identifier for one intended operation, and its consumption-state
@@ -1902,10 +1907,19 @@ def define_revision_01() -> None:
 # identical intended payments share one and the second must still be counted.
 # The worked numbers are a limit of 50000 pence with 30000 consumed and a
 # request of 12000 (probityai/agent-evidence-vectors#213).
+#
+# CS18 to CS25 cover a limit document that is replaced while a permit is held.
+# consumption.supersedes names the limit document a record's limitDigest
+# replaced, the set checks group records by the ledger that link draws, and a
+# retry is still the operation key, never the limit. CS25 is the control: two
+# limit documents no supersedes links stay two ledgers.
 # ---------------------------------------------------------------------------
 
 CS_LIMIT_DOCUMENT = h("limit/spend-limit-document")
 CS_OTHER_LIMIT_DOCUMENT = h("limit/limit-document-named-by-the-authority")
+CS_RAISED_LIMIT_DOCUMENT = h("limit/spend-limit-document-raised")
+CS_CUT_LIMIT_DOCUMENT = h("limit/spend-limit-document-cut")
+CS_SEPARATE_LIMIT_DOCUMENT = h("limit/spend-limit-document-of-another-ledger")
 CS_HELD_REQUEST = h("request/the-first-call-as-the-held-entry-recorded-it")
 OP_R1, OP_R2, OP_R3 = "urn:example:op:r1", "urn:example:op:r2", "urn:example:op:r3"
 CONSUMPTION_ENTRY = 2
@@ -1923,6 +1937,8 @@ def consumption_pred(
     held: list[dict[str, Any]] | None = None,
     revision: int = 41,
     limit_digest: str = CS_LIMIT_DOCUMENT,
+    limit: int = 50000,
+    supersedes: str | None = None,
 ) -> dict[str, Any]:
     """The baseline decision under a 50000 GBP pence limit, carrying its operation
     key and the consumption it read."""
@@ -1933,13 +1949,15 @@ def consumption_pred(
     state["consumption"] = {
         "limitDigest": limit_digest,
         "unit": "GBP",
-        "limit": 50000,
+        "limit": limit,
         "consumed": consumed,
         "reserved": sum(item["amount"] for item in held),
         "requested": requested,
         "held": held,
         "stateRevision": revision,
     }
+    if supersedes is not None:
+        state["consumption"]["supersedes"] = supersedes
     pred["evaluation"]["inputs"] = baseline_inputs() + [state]
     return pred
 
@@ -2008,9 +2026,19 @@ def _second_operation(
     consumed: int = 30000,
     requested: int = 12000,
     record: str,
+    limit_digest: str = CS_LIMIT_DOCUMENT,
+    limit: int = 50000,
+    supersedes: str | None = None,
 ) -> dict[str, Any]:
     pred = consumption_pred(
-        key=key, revision=revision, held=held, consumed=consumed, requested=requested
+        key=key,
+        revision=revision,
+        held=held,
+        consumed=consumed,
+        requested=requested,
+        limit_digest=limit_digest,
+        limit=limit,
+        supersedes=supersedes,
     )
     pred["recordId"] = f"urn:example:record:{record}"
     if not same_request:
@@ -2071,6 +2099,120 @@ def _release_pair(name: str) -> Callable[[], Built]:
         return {"set": [signed(a)["payload"], signed(b)["payload"]]}
 
     return build
+
+
+def _ledger_set(name: str, records: Callable[[], list[dict[str, Any]]]) -> Callable[[], Built]:
+    """A set member whose records are one ledger across a limit replacement."""
+
+    def build() -> Built:
+        built = records()
+        PREDICATES[name] = copy.deepcopy(built[-1])
+        return {"set": [signed(pred)["payload"] for pred in built]}
+
+    return build
+
+
+def _held_under_first_limit(record: str) -> dict[str, Any]:
+    """The record every replacement set starts from: a new operation, under the
+    first limit document, that reads revision 42 with the first call held (CS4's
+    call, the entry carrying its own request digest and amount)."""
+    held = [held_entry(OP_R1, PREDICATES["CS4"]["decision"]["requestDigest"], 12000)]
+    return _second_operation(
+        key=OP_R2, revision=42, same_request=False, held=held, requested=5000, record=record
+    )
+
+
+def _retry_after_replacement(limit: int, limit_digest: str) -> dict[str, Any]:
+    """CS4's retry of the held call, read at revision 43 under a limit document
+    that replaces the first one."""
+    pred = from_pred("CS4")
+    _consumption(pred).update(
+        limitDigest=limit_digest, limit=limit, stateRevision=43, supersedes=CS_LIMIT_DOCUMENT
+    )
+    return pred
+
+
+def _raise_pair() -> list[dict[str, Any]]:
+    return [
+        _held_under_first_limit("cs18-first"),
+        _retry_after_replacement(80000, CS_RAISED_LIMIT_DOCUMENT),
+    ]
+
+
+def _cut_pair() -> list[dict[str, Any]]:
+    return [
+        _held_under_first_limit("cs19-first"),
+        _retry_after_replacement(40000, CS_CUT_LIMIT_DOCUMENT),
+    ]
+
+
+def _new_operation_after_cut(record: str, revision: int, consumed: int) -> dict[str, Any]:
+    """A new operation, third in the series, under the cut limit document that
+    replaces the first and does not carry the held call."""
+    return _second_operation(
+        key=OP_R3,
+        revision=revision,
+        same_request=False,
+        consumed=consumed,
+        requested=5000,
+        record=record,
+        limit_digest=CS_CUT_LIMIT_DOCUMENT,
+        limit=45000,
+        supersedes=CS_LIMIT_DOCUMENT,
+    )
+
+
+def _dropped_pair() -> list[dict[str, Any]]:
+    return [
+        _held_under_first_limit("cs20-first"),
+        _new_operation_after_cut("cs20-second", 43, 35000),
+    ]
+
+
+def _stale_pair() -> list[dict[str, Any]]:
+    return [
+        _held_under_first_limit("cs21-first"),
+        _new_operation_after_cut("cs21-second", 41, 30000),
+    ]
+
+
+def _separate_ledger_set() -> list[dict[str, Any]]:
+    """CS20's shape with the link removed: the second record is a new operation
+    under a different limit document that names no supersedes, and omits the
+    held call. Two limit documents nothing links are two ledgers."""
+    return [
+        _held_under_first_limit("cs25-first"),
+        _second_operation(
+            key=OP_R3,
+            revision=43,
+            same_request=False,
+            consumed=35000,
+            requested=5000,
+            record="cs25-second",
+            limit_digest=CS_SEPARATE_LIMIT_DOCUMENT,
+            limit=45000,
+        ),
+    ]
+
+
+def _settled_set() -> list[dict[str, Any]]:
+    """CS20's pair and the record of the held call's own operation, a retry
+    denied under the cut limit with effect none, which releases it."""
+    denied = consumption_pred(
+        key=OP_R1,
+        revision=44,
+        consumed=35000,
+        requested=12000,
+        limit_digest=CS_CUT_LIMIT_DOCUMENT,
+        limit=45000,
+    )
+    denied["recordId"] = "urn:example:record:cs22-third"
+    denied["decision"]["reported"] = "deny"
+    denied["effect"]["observed"] = "none"
+    denied["effect"]["writes"] = []
+    denied["effect"]["interval"]["afterRoot"] = BEFORE
+    seal_commitment(denied)
+    return [*_dropped_pair(), denied]
 
 
 def define_consumption() -> None:
@@ -2229,6 +2371,27 @@ def define_consumption() -> None:
             [],
             True,
         ),
+        (
+            "CS23",
+            "cs23-supersedes-names-its-own-limit-document",
+            "CS1",
+            "CS1 with supersedes the record's own limitDigest: a limit document cannot replace "
+            "itself",
+            mutate("CS1", lambda p: _consumption(p).update(supersedes=CS_LIMIT_DOCUMENT)),
+            "malformed",
+            ["consumption-supersedes-self"],
+            None,
+        ),
+        (
+            "CS24",
+            "cs24-supersedes-is-not-a-digest",
+            "CS1",
+            "CS1 with supersedes a string that is not a digest",
+            mutate("CS1", lambda p: _consumption(p).update(supersedes="limit-document-v1")),
+            "malformed",
+            ["consumption-value-invalid"],
+            None,
+        ),
     ]
     for draft_id, slug, parent, row, build, verdict, codes, within in rows:
         member(
@@ -2292,6 +2455,707 @@ def define_consumption() -> None:
             "withinLimit": [True, True],
         },
     )
+    replaced = [
+        (
+            "CS18",
+            "cs18-set-limit-raised-while-held",
+            "a call is held under the first limit document; the limit is raised, and the retry "
+            "of the held call is read under the new document, which names the first as "
+            "supersedes and carries the held entry unchanged: each record valid, the set valid",
+            _raise_pair,
+            "valid",
+            None,
+            [True, True],
+        ),
+        (
+            "CS19",
+            "cs19-set-limit-cut-while-held",
+            "CS18 where the new document cuts the limit below what is consumed and held: the "
+            "retry is not counted twice and is beyond the cut limit, so its withinLimit is "
+            "false. Each record valid, the set valid, and the over-limit permit is findable",
+            _cut_pair,
+            "valid",
+            None,
+            [True, False],
+        ),
+        (
+            "CS20",
+            "cs20-set-held-permit-dropped-on-replacement",
+            "a call is held under the first limit document; the limit is cut, and the next "
+            "record, under the new document that names the first as supersedes, is a new "
+            "operation that omits the held call, with no record of that call showing none or "
+            "occurred: each record valid, the held permit left unseen, the set is malformed",
+            _dropped_pair,
+            "malformed",
+            "consumption-set-release-unshown",
+            [True, True],
+        ),
+        (
+            "CS21",
+            "cs21-set-stale-revision-across-replacement",
+            "CS20 where the record under the new document read a stateRevision older than the "
+            "record holding the permit and omits it: each record valid, the set malformed "
+            "across the replacement",
+            _stale_pair,
+            "malformed",
+            "consumption-set-stale-revision",
+            [True, True],
+        ),
+        (
+            "CS22",
+            "cs22-set-held-permit-settled-across-replacement",
+            "CS20 where the set also holds the record of the held call's own operation, "
+            "denied under the cut limit with effect none: the release is shown, the set valid",
+            _settled_set,
+            "valid",
+            None,
+            [True, True, False],
+        ),
+        (
+            "CS25",
+            "cs25-set-separate-ledger-no-supersedes",
+            "CS20 without the link: a call is held under the first limit document, and the next "
+            "record is a new operation under a different limit document that names no "
+            "supersedes and omits the held call: each record valid, the two limit documents are "
+            "two ledgers, the set valid",
+            _separate_ledger_set,
+            "valid",
+            None,
+            [True, True],
+        ),
+    ]
+    for draft_id, slug, row, records, verdict, joint_code, limits in replaced:
+        member(
+            draft_id,
+            slug,
+            None,
+            row,
+            _ledger_set(draft_id, records),
+            "valid",
+            tier="authoritative",
+            revision=REVISION_01,
+            joint={
+                "verdict": verdict,
+                "codes": [joint_code] if joint_code else [],
+                "withinLimit": limits,
+            },
+        )
+
+
+# ---------------------------------------------------------------------------
+# CS26 to CS33: what a limit replacement does to a claim, from the enforcement
+# answer on modelcontextprotocol/financial-services-interest-group#17. A call
+# refused before the tool ran, or whose tool reported nothing sent, leaves no
+# claim, so its retry is new under the limit then in force: a raise admits it
+# (CS26), a cut refuses it (CS27), and a record of the operation showing none
+# ends a claim that was held (CS28). Any other call keeps its claim, keyed by
+# the principal, the agent key and the operation key, never by the limit
+# document: an unknown outcome is carried over (CS29) and cannot be dropped
+# (CS30), and a permit that presents the held key as a new operation under a
+# new limit document is caught whether or not that document names the old one
+# (CS31, CS32). CS33 is the control: the same operation key under another
+# principal and agent key is another claim.
+#
+# CS34 to CS40: the exact asset. consumption may carry asset, a CAIP-19 asset
+# id with the decimals of its smallest subunit, in place of the ISO 4217 unit
+# (vendrell46 on the same thread). One ledger counts one denomination.
+# ---------------------------------------------------------------------------
+
+USDC_BASE = "eip155:8453/erc20:0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+USDC_SOLANA = (
+    "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp/token:EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+)
+OTHER_PRINCIPAL = "user:bob@example.org"
+OTHER_AGENT_KEYID = hashlib.sha256(b"another agent key").hexdigest()[:32]
+
+
+def _named(pred: dict[str, Any], record: str) -> dict[str, Any]:
+    pred["recordId"] = f"urn:example:record:{record}"
+    seal_commitment(pred)
+    return pred
+
+
+def _refused_before_run(pred: dict[str, Any]) -> None:
+    """A deny: the tool never ran, so the effect is none and nothing is claimed."""
+    pred["decision"]["reported"] = "deny"
+    _effect_none(pred)
+    pred["agreement"] = "agree"
+
+
+def _effect_none(pred: dict[str, Any]) -> None:
+    pred["effect"]["observed"] = "none"
+    pred["effect"]["writes"] = []
+    pred["effect"]["interval"]["afterRoot"] = BEFORE
+    pred["agreement"] = "not-exercised"
+
+
+def _effect_unknown(pred: dict[str, Any]) -> None:
+    after = h("root/after-unattributed-write-of-the-held-call")
+    pred["effect"]["writes"] = [write(LEDGER_PATH, BEFORE, after, "unattributed")]
+    pred["effect"]["interval"]["afterRoot"] = after
+    pred["effect"]["observed"] = "unknown"
+    pred["agreement"] = "indeterminate"
+
+
+def _refused_then_retried(cut: bool) -> list[dict[str, Any]]:
+    """CS26 and CS27: the first call is refused before its tool ran, under the
+    first limit document; its retry, the same operation key and request, is read
+    under the replacement with nothing held. Under the raise (80000) a request of
+    25000 the first limit could not admit is within; under the cut (40000) a
+    request of 12000 the first limit could admit is not, and is refused."""
+    requested = 12000 if cut else 25000
+    first = consumption_pred(key=OP_R1, revision=41, requested=requested)
+    _refused_before_run(first)
+    retry = consumption_pred(
+        key=OP_R1,
+        revision=42,
+        requested=requested,
+        limit_digest=CS_CUT_LIMIT_DOCUMENT if cut else CS_RAISED_LIMIT_DOCUMENT,
+        limit=40000 if cut else 80000,
+        supersedes=CS_LIMIT_DOCUMENT,
+    )
+    if cut:
+        _refused_before_run(retry)
+    return [
+        _named(first, f"cs{27 if cut else 26}-first"),
+        _named(retry, f"cs{27 if cut else 26}-retry"),
+    ]
+
+
+def _held_retry_record(
+    record: str, revision: int, effect: Callable[[dict[str, Any]], None]
+) -> dict[str, Any]:
+    """The held call's own retry record under the first limit document, holding
+    its own key (CS4's shape), with the effect its tool reported."""
+    pred = from_pred("CS4")
+    _consumption(pred)["stateRevision"] = revision
+    effect(pred)
+    return _named(pred, record)
+
+
+def _nothing_sent_then_new() -> list[dict[str, Any]]:
+    """CS28: a call is held; its tool reports nothing sent (effect none), which
+    ends the claim; under the raised limit the same key is a new operation."""
+    new = consumption_pred(
+        key=OP_R1,
+        revision=44,
+        limit_digest=CS_RAISED_LIMIT_DOCUMENT,
+        limit=80000,
+        supersedes=CS_LIMIT_DOCUMENT,
+    )
+    return [
+        _held_under_first_limit("cs28-first"),
+        _held_retry_record("cs28-nothing-sent", 43, _effect_none),
+        _named(new, "cs28-new"),
+    ]
+
+
+def _unknown_carried(dropped: bool) -> list[dict[str, Any]]:
+    """CS29 and CS30: a call is held and its retry's outcome is unknown; the limit
+    is raised, and a new operation under the new document carries the held
+    entry (CS29) or omits it (CS30)."""
+    held = (
+        []
+        if dropped
+        else [held_entry(OP_R1, PREDICATES["CS4"]["decision"]["requestDigest"], 12000)]
+    )
+    name = "cs30" if dropped else "cs29"
+    later = _second_operation(
+        key=OP_R3,
+        revision=44,
+        same_request=False,
+        held=held,
+        consumed=30000,
+        requested=5000,
+        record=f"{name}-new",
+        limit_digest=CS_RAISED_LIMIT_DOCUMENT,
+        limit=80000,
+        supersedes=CS_LIMIT_DOCUMENT,
+    )
+    return [
+        _held_under_first_limit(f"{name}-first"),
+        _held_retry_record(f"{name}-unknown", 43, _effect_unknown),
+        later,
+    ]
+
+
+def _forged_new(linked: bool, other_scope: bool = False) -> list[dict[str, Any]]:
+    """CS31 to CS33: a call is held under the first limit document; a permit for
+    the same operation key, under a raised limit document, holds nothing and
+    counts the request again as a new operation."""
+    forged = consumption_pred(
+        key=OP_R1,
+        revision=43,
+        limit_digest=CS_RAISED_LIMIT_DOCUMENT,
+        limit=80000,
+        supersedes=CS_LIMIT_DOCUMENT if linked else None,
+    )
+    if other_scope:
+        forged["delegation"]["subject"] = OTHER_PRINCIPAL
+        forged["agent"]["signers"] = [OTHER_AGENT_KEYID]
+    name = "cs33" if other_scope else ("cs31" if linked else "cs32")
+    return [_held_under_first_limit(f"{name}-first"), _named(forged, f"{name}-forged")]
+
+
+def _in_asset(pred: dict[str, Any], asset_id: str, decimals: int = 6) -> None:
+    """Count the consumption in a token: no ISO 4217 unit, the CAIP-19 asset and
+    its decimals, amounts in micro-USDC (50 USDC, 30 consumed, 12 requested)."""
+    state = _consumption(pred)
+    del state["unit"]
+    state["asset"] = {"id": asset_id, "decimals": decimals}
+    state["limit"], state["consumed"], state["requested"] = 50_000_000, 30_000_000, 12_000_000
+
+
+def _asset_pair(second_asset: str, decimals: int, unlinked: bool = False) -> list[dict[str, Any]]:
+    """CS38 to CS40: two new operations under one limit document, the first
+    counted in USDC on Base, the second in second_asset at decimals."""
+    first = consumption_pred(key=OP_R2, revision=41)
+    _in_asset(first, USDC_BASE)
+    second = consumption_pred(
+        key=OP_R3,
+        revision=42,
+        limit_digest=CS_SEPARATE_LIMIT_DOCUMENT if unlinked else CS_LIMIT_DOCUMENT,
+    )
+    _in_asset(second, second_asset, decimals)
+    second["resource"]["argumentsDigest"] = h("arguments/settlements-append-second")
+    rebind_request(second)
+    return [_named(first, "asset-first"), _named(second, "asset-second")]
+
+
+def define_consumption_carryover() -> None:
+    sets: list[
+        tuple[str, str, str, Callable[[], list[dict[str, Any]]], str, str | None, list[bool]]
+    ] = [
+        (
+            "CS26",
+            "cs26-set-refused-before-run-retried-under-raise",
+            "a call refused before its tool ran under the first limit document (25000 on 30000 "
+            "consumed of 50000) leaves no claim; its retry, the same operation key and request, "
+            "is read under a raised limit document that names the first as supersedes, holds "
+            "nothing and is counted as new: within the raise, permitted, the set valid",
+            lambda: _refused_then_retried(False),
+            "valid",
+            None,
+            [False, True],
+        ),
+        (
+            "CS27",
+            "cs27-set-refused-before-run-retried-under-cut",
+            "CS26 under a cut: a call of 12000 refused before its tool ran leaves no claim, "
+            "and its retry is checked as new under the cut limit of 40000, where it is over "
+            "the limit and refused: the set valid",
+            lambda: _refused_then_retried(True),
+            "valid",
+            None,
+            [True, False],
+        ),
+        (
+            "CS28",
+            "cs28-set-nothing-sent-ends-claim-across-replacement",
+            "a call is held; the record of its retry shows the tool sent nothing (effect none), "
+            "which ends the claim; under a raised limit document the same operation key is then "
+            "a new operation, holds nothing and is counted: the set valid",
+            _nothing_sent_then_new,
+            "valid",
+            None,
+            [True, True, True],
+        ),
+        (
+            "CS29",
+            "cs29-set-unknown-outcome-carried-over-replacement",
+            "a call is held and the record of its retry shows an unknown outcome; the limit is "
+            "raised, and a new operation under the new document carries the held entry "
+            "unchanged: the claim survives the replacement, the set valid",
+            lambda: _unknown_carried(False),
+            "valid",
+            None,
+            [True, True, True],
+        ),
+        (
+            "CS30",
+            "cs30-set-unknown-outcome-dropped-on-replacement",
+            "CS29 where the new operation under the new document omits the held entry: an "
+            "unknown outcome does not release a claim, so the release is unexplained",
+            lambda: _unknown_carried(True),
+            "malformed",
+            "consumption-set-release-unshown",
+            [True, True, True],
+        ),
+        (
+            "CS31",
+            "cs31-set-held-retry-forged-as-new-under-replacement",
+            "a call is held under the first limit document; a permit for the same operation key, "
+            "under a raised document that names the first as supersedes, holds nothing and counts "
+            "the request again as a new operation: each record valid, the retry presented as new",
+            lambda: _forged_new(True),
+            "malformed",
+            "consumption-set-retry-as-new",
+            [True, True],
+        ),
+        (
+            "CS32",
+            "cs32-set-held-retry-forged-as-new-under-unlinked-limit",
+            "CS31 where the new limit document names no supersedes: the claim is keyed by the "
+            "principal, the agent key and the operation key, never by the limit document, so "
+            "leaving out the link does not make the retry new",
+            lambda: _forged_new(False),
+            "malformed",
+            "consumption-set-retry-as-new",
+            [True, True],
+        ),
+        (
+            "CS33",
+            "cs33-set-same-key-other-principal-and-agent-key",
+            "CS32 where the second permit is under another principal and another agent key: the "
+            "same operation key in another scope is another claim, the set valid",
+            lambda: _forged_new(False, other_scope=True),
+            "valid",
+            None,
+            [True, True],
+        ),
+        (
+            "CS38",
+            "cs38-set-usdc-base-and-usdc-solana-one-limit",
+            "two operations under one limit document, the first counted in USDC on Base "
+            f"({USDC_BASE}), the second in USDC on Solana ({USDC_SOLANA}): two assets in one "
+            "ledger, the set malformed",
+            lambda: _asset_pair(USDC_SOLANA, 6),
+            "malformed",
+            "consumption-set-asset-mismatch",
+            [True, True],
+        ),
+        (
+            "CS39",
+            "cs39-set-asset-decimals-mismatch",
+            "CS38 where both operations name USDC on Base and the second declares decimals 18: "
+            "one amount read at two scales, the set malformed",
+            lambda: _asset_pair(USDC_BASE, 18),
+            "malformed",
+            "consumption-set-asset-mismatch",
+            [True, True],
+        ),
+        (
+            "CS40",
+            "cs40-set-two-assets-two-ledgers",
+            "CS38 where the second operation is under another limit document that names no "
+            "supersedes: two ledgers, each counting one asset, the set valid",
+            lambda: _asset_pair(USDC_SOLANA, 6, unlinked=True),
+            "valid",
+            None,
+            [True, True],
+        ),
+    ]
+    singles: list[ConsumptionRow] = [
+        (
+            "CS34",
+            "cs34-asset-usdc-on-base",
+            "CS1",
+            "CS1 counted in USDC on Base: no unit, asset carrying the CAIP-19 id "
+            f"{USDC_BASE} and decimals 6, amounts in its smallest subunit",
+            cs_from("CS1", "CS34", lambda p: _in_asset(p, USDC_BASE)),
+            "valid",
+            [],
+            True,
+        ),
+        (
+            "CS35",
+            "cs35-asset-id-not-caip19",
+            "CS34",
+            "CS34 with asset.id USDC, a ticker that names no chain or contract",
+            mutate("CS34", lambda p: _consumption(p)["asset"].update(id="USDC")),
+            "malformed",
+            ["consumption-value-invalid"],
+            None,
+        ),
+        (
+            "CS36",
+            "cs36-asset-decimals-out-of-range",
+            "CS34",
+            "CS34 with asset.decimals 256, beyond any token's decimals",
+            mutate("CS34", lambda p: _consumption(p)["asset"].update(decimals=256)),
+            "malformed",
+            ["consumption-value-invalid"],
+            None,
+        ),
+        (
+            "CS37",
+            "cs37-asset-and-unit-both",
+            "CS34",
+            "CS34 that also carries unit USD: the amounts would be read in two subunits",
+            mutate("CS34", lambda p: _consumption(p).update(unit="USD")),
+            "malformed",
+            ["consumption-unit-ambiguous"],
+            None,
+        ),
+    ]
+
+    def add_sets(chosen: list[Any]) -> None:
+        for draft_id, slug, row, records, verdict, joint_code, limits in chosen:
+            member(
+                draft_id,
+                slug,
+                None,
+                row,
+                _ledger_set(draft_id, records),
+                "valid",
+                tier="authoritative",
+                revision=REVISION_01,
+                joint={
+                    "verdict": verdict,
+                    "codes": [joint_code] if joint_code else [],
+                    "withinLimit": limits,
+                },
+            )
+
+    add_sets(sets[:8])
+    for draft_id, slug, parent, row, build, verdict, codes, within in singles:
+        member(
+            draft_id,
+            slug,
+            parent,
+            row,
+            build,
+            verdict,
+            codes,
+            tier="authoritative" if verdict == "valid" else None,
+            revision=REVISION_01,
+            within=within,
+        )
+    add_sets(sets[8:])
+
+
+# ---------------------------------------------------------------------------
+# CS41 to CS49: a paid tool call settled in a stablecoin, from vendrell46's case
+# on probityai/agent-evidence-vectors#307, written against the messages x402
+# sends over MCP. The approved terms are the ones the signed payment carries:
+# requested, asset and payee. A retry of a held permit pays the held entry's
+# payee (CS41), so a payment signed again to another payee inside one call is
+# not a retry (CS42). consumption.settled carries the terms read from the chain
+# through the transaction the server returned: an x402 upto settlement below
+# the authorized maximum is valid (CS43), above it is not (CS44), and another
+# asset or payee at settlement is not (CS45, CS46). The terms come from the
+# chain and never from the signed payload (CS47). A later record of the ledger
+# counts the settled amount, not the held one (CS48, CS49).
+# ---------------------------------------------------------------------------
+
+#: USDC on Base Sepolia, the asset of the x402 MCP transport's example, and the
+#: two accounts the case pays: P, the example's payTo, and Q, another account.
+USDC_BASE_SEPOLIA = "eip155:84532/erc20:0x036CbD53842c5426634e7929541eC2318f3dCF7e"
+PAYEE_P_ACCOUNT = "eip155:84532:0x209693Bc6afc0C5328bA36FaF03C514EF312287C"
+PAYEE_Q_ACCOUNT = "eip155:84532:0x000000000000000000000000000000000000dEaD"
+
+
+def payee_digest(account: str) -> str:
+    """The digest of a payee: SHA-256 of its CAIP-10 account id's UTF-8 bytes,
+    the address written as its namespace profile produces it (EIP-55 case)."""
+    return hashlib.sha256(account.encode()).hexdigest()
+
+
+PAYEE_P = payee_digest(PAYEE_P_ACCOUNT)
+PAYEE_Q = payee_digest(PAYEE_Q_ACCOUNT)
+#: The authorized maximum of the upto permit, and what settled (micro-USDC).
+UPTO_MAX = 12_000_000
+UPTO_SETTLED = 7_000_000
+SETTLEMENT_TX = "0x" + h("transaction/the-upto-settlement-on-base-sepolia")
+
+
+def _paid_in_sepolia(pred: dict[str, Any]) -> None:
+    """The call paid in USDC on Base Sepolia to payee P: 50 USDC limit, 30
+    consumed, the authorized maximum 12 requested, and any held entry the
+    same call's payment to P."""
+    _in_asset(pred, USDC_BASE_SEPOLIA)
+    state = _consumption(pred)
+    state["requested"] = UPTO_MAX
+    state["payee"] = PAYEE_P
+    for item in state["held"]:
+        item["amount"] = UPTO_MAX
+        item["payee"] = PAYEE_P
+    state["reserved"] = sum(item["amount"] for item in state["held"])
+
+
+def _cs41(pred: dict[str, Any]) -> None:
+    _cs4(pred)
+    _paid_in_sepolia(pred)
+
+
+def _settled(pred: dict[str, Any]) -> None:
+    """The record of the paid call carries what settled, read from the chain
+    through the transaction the server returned in x402/payment-response."""
+    _paid_in_sepolia(pred)
+    _consumption(pred)["settled"] = {
+        "amount": UPTO_SETTLED,
+        "asset": {"id": USDC_BASE_SEPOLIA, "decimals": 6},
+        "payee": PAYEE_P,
+        "source": "chain",
+        "transaction": SETTLEMENT_TX,
+    }
+
+
+def _settled_edit(name: str, value: Any) -> Callable[[dict[str, Any]], None]:
+    def change(pred: dict[str, Any]) -> None:
+        _consumption(pred)["settled"][name] = value
+
+    return change
+
+
+def _counted_after_settlement(consumed: int) -> Callable[[], list[dict[str, Any]]]:
+    """CS48 and CS49: the settled call of CS43, then a new operation under the
+    same limit document that reads a later revision, holds nothing and counts
+    the settled call in consumed."""
+
+    def records() -> list[dict[str, Any]]:
+        settled = from_pred("CS43")
+        later = _second_operation(
+            key=OP_R2,
+            revision=43,
+            same_request=False,
+            requested=5_000_000,
+            record="settled-later",
+        )
+        _in_asset(later, USDC_BASE_SEPOLIA)
+        state = _consumption(later)
+        state["consumed"], state["requested"], state["payee"] = consumed, 5_000_000, PAYEE_P
+        seal_commitment(later)
+        return [_named(settled, "settled-call"), _named(later, "settled-later")]
+
+    return records
+
+
+def define_settlement() -> None:
+    p_short, q_short = PAYEE_P_ACCOUNT.rsplit(":", 1)[1], PAYEE_Q_ACCOUNT.rsplit(":", 1)[1]
+    singles: list[ConsumptionRow] = [
+        (
+            "CS41",
+            "cs41-retry-same-payee",
+            None,
+            f"CS4 paid in USDC on Base Sepolia ({USDC_BASE_SEPOLIA}, decimals 6): the retry "
+            f"of a held call whose payment is signed again to the same payee P ({p_short}); "
+            "the held entry and the request carry P's payee digest, so it is the held "
+            "operation and is not counted twice",
+            cs_from("CS4", "CS41", _cs41),
+            "valid",
+            [],
+            True,
+        ),
+        (
+            "CS42",
+            "cs42-retry-payee-differs",
+            "CS41",
+            f"CS41 where the payment is signed again inside the same call to payee Q "
+            f"({q_short}): the operation key, request digest and amount are the held "
+            "entry's, the payee is not, so it is not a retry of the held permit",
+            mutate("CS41", lambda p: _consumption(p).update(payee=PAYEE_Q)),
+            "malformed",
+            ["consumption-key-reused"],
+            None,
+        ),
+        (
+            "CS43",
+            "cs43-upto-settled-below-the-hold",
+            None,
+            "CS1 paid in USDC on Base Sepolia to payee P under an x402 upto permit of 12 "
+            "USDC: the call settled 7 USDC, and settled carries the amount, asset and payee "
+            "read from the chain through the transaction beside the approved terms",
+            cs_from("CS1", "CS43", _settled),
+            "valid",
+            [],
+            True,
+        ),
+        (
+            "CS44",
+            "cs44-settled-above-the-authorized-maximum",
+            "CS43",
+            "CS43 settled at 13 USDC, above the 12 USDC the permit authorized",
+            mutate("CS43", _settled_edit("amount", UPTO_MAX + 1_000_000)),
+            "malformed",
+            ["consumption-settled-exceeds"],
+            None,
+        ),
+        (
+            "CS45",
+            "cs45-settled-asset-differs",
+            "CS43",
+            f"CS43 settled in USDC on Base ({USDC_BASE}), not the asset approved",
+            mutate("CS43", _settled_edit("asset", {"id": USDC_BASE, "decimals": 6})),
+            "malformed",
+            ["consumption-settled-differs"],
+            None,
+        ),
+        (
+            "CS46",
+            "cs46-settled-payee-differs",
+            "CS43",
+            f"CS43 settled to payee Q ({q_short}), not the payee P approved",
+            mutate("CS43", _settled_edit("payee", PAYEE_Q)),
+            "malformed",
+            ["consumption-settled-differs"],
+            None,
+        ),
+        (
+            "CS47",
+            "cs47-settled-read-from-the-signed-payload",
+            "CS43",
+            "CS43 with settled.source signed-payload: the signed payment shows what was "
+            "approved, and only the chain shows what moved",
+            mutate("CS43", _settled_edit("source", "signed-payload")),
+            "malformed",
+            ["consumption-value-invalid"],
+            None,
+        ),
+    ]
+    for draft_id, slug, parent, row, build, verdict, codes, within in singles:
+        member(
+            draft_id,
+            slug,
+            parent,
+            row,
+            build,
+            verdict,
+            codes,
+            tier="authoritative" if verdict == "valid" else None,
+            section="5.9",
+            revision=REVISION_04,
+            within=within,
+        )
+    sets = [
+        (
+            "CS48",
+            "cs48-set-later-record-counts-the-settled-amount",
+            "CS43, then a new operation under the same limit document that reads a later "
+            "revision and counts the call at the 7 USDC it settled (consumed 37 USDC), not "
+            "the 12 USDC it held: each record valid, the set valid",
+            UPTO_SETTLED,
+            "valid",
+            None,
+        ),
+        (
+            "CS49",
+            "cs49-set-later-record-counts-less-than-settled",
+            "CS48 where the later record counts 35 USDC consumed, less than the 30 USDC "
+            "already committed plus the 7 USDC that settled: each record valid, the set "
+            "malformed",
+            UPTO_SETTLED - 2_000_000,
+            "malformed",
+            "consumption-set-settled-uncounted",
+        ),
+    ]
+    for draft_id, slug, row, settled_amount, verdict, joint_code in sets:
+        member(
+            draft_id,
+            slug,
+            None,
+            row,
+            _ledger_set(draft_id, _counted_after_settlement(30_000_000 + settled_amount)),
+            "valid",
+            tier="authoritative",
+            section="5.9",
+            revision=REVISION_04,
+            joint={
+                "verdict": verdict,
+                "codes": [joint_code] if joint_code else [],
+                "withinLimit": [True, True],
+            },
+        )
 
 
 # ---------------------------------------------------------------------------
@@ -2402,6 +3266,27 @@ def define_audit_next() -> None:
         tier="authoritative",
         revision=REVISION_01,
         joint={"verdict": "malformed", "codes": ["sequence-duplicate"]},
+    )
+    member(
+        "IS1",
+        "is1-issued-one-second-before-sealed",
+        "A1",
+        "issuedAt one second earlier than effect.interval.sealedAt",
+        mutate("A1", _set("issuedAt", "2026-09-19T11:04:05Z")),
+        "malformed",
+        ["issued-before-sealed"],
+        revision=REVISION_03,
+    )
+    member(
+        "IS2",
+        "is2-issued-one-day-before-sealed",
+        "A1",
+        "issuedAt one day earlier than effect.interval.sealedAt, on a day before the "
+        "interval opened",
+        mutate("A1", _set("issuedAt", "2026-09-18T11:04:06Z")),
+        "malformed",
+        ["issued-before-sealed"],
+        revision=REVISION_03,
     )
 
 
@@ -2844,6 +3729,222 @@ def _r15(entry_: dict[str, Any], _logged: bytes) -> None:
             element["value"] = root_element(OTHER_ROOT_JWKS)["value"]
 
 
+def _statement_edit(parent: str, edit: Callable[[dict[str, Any]], None]) -> Callable[[], Built]:
+    """A member whose Statement, not its predicate, differs from the parent's."""
+
+    def build() -> Built:
+        stmt = statement(from_pred(parent))
+        edit(stmt)
+        return {"payload": canonical_bytes(stmt)}
+
+    return build
+
+
+def _raw_payload(parent: str, tail: bytes) -> Callable[[], Built]:
+    """The parent's Statement bytes with ``tail`` appended or substituted wholesale."""
+
+    def build() -> Built:
+        payload = canonical_bytes(statement(from_pred(parent)))
+        return {"payload": payload[:-1] + tail}
+
+    return build
+
+
+def _unreadable_envelope() -> Built:
+    env = envelope(canonical_bytes(statement(from_pred("A1"))))
+    env["payloadType"] = "application/json"
+    return {"bundle": env}
+
+
+def _held_extra(pred: dict[str, Any]) -> None:
+    _consumption(pred)["held"][0]["note"] = "extra"
+
+
+def _blank_key(pred: dict[str, Any]) -> None:
+    pred["decision"]["operationKey"] = ""
+
+
+def _entry_edit(
+    change: Callable[[dict[str, Any]], None],
+) -> Callable[[dict[str, Any], bytes], None]:
+    def apply(entry_: dict[str, Any], _logged: bytes) -> None:
+        change(entry_)
+
+    return apply
+
+
+def _extra_root(entry_: dict[str, Any]) -> None:
+    entry_["validationData"].append(root_element(ROOT_JWKS))
+
+
+def _garbled_root(entry_: dict[str, Any]) -> None:
+    for element in entry_["validationData"]:
+        if element["for"] == "delegation-root":
+            element["value"] = "***not base64***"
+
+
+def _unparseable_retained() -> Built:
+    env = envelope(b"{not json")
+    return {"retained": {"envelope": env, "retention": retention_entry(env, received=False)}}
+
+
+def _retained_without_entry() -> Built:
+    return {"bundle": {"envelope": a1_envelope()}}
+
+
+def _set_wrong_key() -> Built:
+    records = [envelope(p) for p in sequence_set([3])()["set"]]
+    return {"bundle": {"members": records}}
+
+
+def _set_all_malformed() -> Built:
+    payloads = []
+    for stamp in ("2026-09-19T11:04:05Z", "2026-09-18T11:04:06Z"):
+        pred = from_pred("A1")
+        pred["issuedAt"] = stamp
+        payloads.append(signed(pred)["payload"])
+    return {"set": payloads}
+
+
+# The section of draft-gilda-audit-agent-audit-record-04 whose text makes each
+# member malformed.
+REJECT_SECTIONS: dict[str, str] = {
+    "X1": "4.1.1", "X17": "4.9", "X18": "4.9",
+    "X2": "4.6", "X3": "4.3", "X4": "4.8", "X5": "4.8", "X6": "5.9", "X7": "5.9",
+    "X8": "4.2", "X9": "4.4", "X10": "4.6", "X11": "4.7", "X12": "4.7",
+    "X13": "4.7", "X14": "4.7", "X15": "4.6", "X16": "4.7",
+}
+
+
+def define_reject_paths() -> None:
+    """Members X1 to X18: one reject member for each path of the reference reader
+    that no earlier member reached and that fires on a one-field change of an
+    existing member. Each is its parent with that one field changed."""
+    rows: list[tuple[str, str, str, str, Callable[[], Built], list[str]]] = [
+        (
+            "X1", "x1-float-in-statement", "A1", "a number with a fraction in the Statement",
+            _raw_payload("A1", b',"ratio":0.5}'), ["value-not-representable"],
+        ),
+        (
+            "X2", "x2-payload-not-json", "A1", "a payload that is not JSON",
+            lambda: {"payload": b"{not json"}, ["not-parseable"],
+        ),
+        (
+            "X3", "x3-issued-at-no-offset", "A1", "issuedAt carrying no UTC offset",
+            mutate("A1", _set("issuedAt", "2026-09-19T11:04:06")), ["timestamp-malformed"],
+        ),
+        (
+            "X4", "x4-statement-type-unexpected", "A1", "_type naming another Statement type",
+            _statement_edit("A1", lambda st: st.__setitem__("_type", "https://example.com/Stmt")),
+            ["statement-type-unexpected"],
+        ),
+        (
+            "X5", "x5-predicate-type-mismatch", "A1", "predicateType naming another predicate",
+            _statement_edit(
+                "A1", lambda st: st.__setitem__("predicateType", "https://example.com/other/v1")
+            ),
+            ["predicate-type-mismatch"],
+        ),
+        (
+            "X6", "x6-held-entry-extra-member", "CS4",
+            "a held entry with a member beyond the three",
+            mutate("CS4", _held_extra), ["consumption-malformed"],
+        ),
+        (
+            "X7", "x7-operation-key-empty", "CS4", "decision.operationKey the empty string",
+            mutate("CS4", _blank_key), ["operation-key-invalid"],
+        ),
+        (
+            "X8", "x8-subject-digest-not-request", "A1", "the first subject's digest another value",
+            _statement_edit(
+                "A1", lambda st: st["subject"][0]["digest"].__setitem__("sha256", AFTER)
+            ),
+            ["subject-request-mismatch"],
+        ),
+        (
+            "X9", "x9-envelope-payload-type", "A1", "payloadType another media type",
+            _unreadable_envelope, ["envelope-unreadable"],
+        ),
+        (
+            "X10", "x10-predicate-not-an-object", "A1", "predicate a string, correctly signed",
+            _statement_edit("A1", lambda st: st.__setitem__("predicate", "none")),
+            ["statement-shape"],
+        ),
+    ]
+    for draft_id, slug, parent, row, build, codes in rows:
+        member(
+            draft_id, slug, parent, row, build, "malformed", codes,
+            section=REJECT_SECTIONS.get(draft_id),
+        )
+
+    dated: list[tuple[str, str, str, str, Callable[[], Built], str]] = [
+        (
+            "X11", "x11-received-not-boolean", "R1", "received a string, not a boolean",
+            retained("X11", _entry_edit(lambda e: e.__setitem__("received", "no")), "R1"),
+            "entry-shape-malformed",
+        ),
+        (
+            "X12", "x12-entry-names-another-envelope", "R1", "envelopeDigest another envelope's",
+            retained(
+                "X12",
+                _entry_edit(lambda e: e.__setitem__("envelopeDigest", h("other"))),
+                "R1",
+            ),
+            "entry-envelope-digest-mismatch",
+        ),
+        (
+            "X13", "x13-root-element-without-root-digest", "R1",
+            "a delegation-root element beside a record carrying no delegation.rootDigest",
+            retained("X13", _entry_edit(_extra_root), "R1"),
+            "entry-delegation-root-unexpected",
+        ),
+        (
+            "X14", "x14-root-element-not-base64", "R13",
+            "the delegation-root element's value not base64",
+            retained("X14", _entry_edit(_garbled_root), "R13", make_envelope=rooted_envelope),
+            "entry-delegation-root-unreadable",
+        ),
+    ]
+    for draft_id, slug, parent, row, build, code in dated:
+        member(
+            draft_id, slug, parent, row, build, "valid", tier="authoritative",
+            section=REJECT_SECTIONS.get(draft_id),
+            dating=dating(
+                dated_at=None if draft_id == "X11" else "2026-09-19T11:05:00Z",
+                entry_="malformed",
+                code=code,
+            ),
+        )
+    member(
+        "X15", "x15-retained-record-unparseable", "R1",
+        "the retained record's payload not JSON: the record malformed and the dating unreadable",
+        _unparseable_retained, "malformed", ["not-parseable"],
+        section=REJECT_SECTIONS.get("X15"),
+        dating=dating(dated_at=None, entry_="malformed", code="entry-record-unreadable"),
+    )
+    member(
+        "X16", "x16-retained-without-retention", "R1",
+        "a retained member with no retention entry",
+        _retained_without_entry, "malformed", ["retained-unreadable"],
+        section=REJECT_SECTIONS.get("X16"),
+        dating=dating(dated_at=None, entry_="malformed", code="retained-unreadable"),
+    )
+    member(
+        "X17", "x17-set-without-records", "SQ4",
+        "a set member whose records member is named otherwise",
+        _set_wrong_key, "malformed", [],
+        joint={"verdict": "malformed", "codes": ["set-unreadable"]},
+        section=REJECT_SECTIONS.get("X17"),
+    )
+    member(
+        "X18", "x18-set-of-malformed-records", "A1",
+        "a set whose two records are each malformed under IS1 and IS2",
+        _set_all_malformed, "malformed", ["issued-before-sealed"],
+        joint={"verdict": "malformed", "codes": ["set-record-malformed"]},
+        section=REJECT_SECTIONS.get("X18"),
+    )
+
+
 def define_retained() -> None:
     """Rows R1 to R9: an envelope with its retention entry. The record is A1 and
     valid in every one; what each row tests is the dating check, whose result
@@ -3060,8 +4161,13 @@ ORDER = (
     "FR13b FR16 FR17a FR17b FR17c FR18 EV14 "
     "TI6 V4 V5 FR14 FR15 "
     "CS1 CS2 CS3 CS4 CS5 CS6 CS7 CS8 CS9 CS10 CS11 CS12 CS13 CS14 CS15 CS16 CS17 "
+    "CS18 CS19 CS20 CS21 CS22 CS23 CS24 CS25 "
+    "CS26 CS27 CS28 CS29 CS30 CS31 CS32 CS33 CS34 CS35 CS36 CS37 CS38 CS39 CS40 "
+    "CS41 CS42 CS43 CS44 CS45 CS46 CS47 CS48 CS49 "
     "A21 SQ1 SQ2 SQ3 SQ4 SQ5 "
-    "R10 R11 R12 R13 R14 R15 R16"
+    "R10 R11 R12 R13 R14 R15 R16 "
+    "IS1 IS2 "
+    "X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15 X16 X17 X18"
 ).split()
 
 
@@ -3111,6 +4217,9 @@ def member_folder(entry: Member) -> str:
 def member_bundle(made: Built) -> dict[str, Any]:
     """The JSON a member's file carries: a set's records, a retained record's
     envelope beside its entry, or the one envelope."""
+    if "bundle" in made:
+        bundle: dict[str, Any] = made["bundle"]
+        return bundle
     if "set" in made:
         return {"records": [envelope(payload) for payload in made["set"]]}
     if "retained" in made:
