@@ -27,9 +27,9 @@ def test_the_published_pages_pass() -> None:
     assert pages_check.check(_ROOT / "pages") == []
 
 
-def test_the_done_pages_are_published() -> None:
+def test_every_w3id_type_has_a_page() -> None:
     names = {d.name for d in (_ROOT / "pages" / "predicate" / "v1").iterdir() if d.is_dir()}
-    assert {"done-contract", "done-receipt"} <= names
+    assert {"agent-card-receipt", "credential-release", "done-contract", "done-receipt"} <= names
 
 
 def test_a_changed_byte_is_refused(pages: Path) -> None:

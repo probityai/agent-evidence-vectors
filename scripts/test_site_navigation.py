@@ -49,6 +49,7 @@ PREDICATES = (
     ("v2", "kernel-substrate"),
     ("v2", "launch-chain"),
     ("v1", "agent-audit-record"),
+    ("v2", "agent-audit-record"),
     ("v1", "govops-trace-record"),
     ("v1", "peer-verification"),
     ("v1", "incident-action-authorization"),
@@ -80,6 +81,8 @@ EXPECTED_HTML = (
             "distribution.html",
             "codes.html",
             "predicate/index.html",
+            "predicate/v1/index.html",
+            "predicate/v2/index.html",
         )
     }
     | {
@@ -358,7 +361,9 @@ class TestSiteNavigation:
             pages = site.predicate_pages("v0.15.0")
             source = site.defined_documents().get((version, name), site.PREDICATE_REGISTRY)
             original = markdown.markdown(source.read_text(), extensions=["tables", "fenced_code"])
-            expected = " ".join(HtmlView(f"<main>{original}</main>").text).split()
+            expected = " ".join(
+                HtmlView(f"<main>{original}{site.AUDIT_RECORD_CITE}</main>").text
+            ).split()
             for relative in (
                 Path(f"predicate/{version}/{name}.html"),
                 Path(f"predicate/{version}/{name}/index.html"),
@@ -391,6 +396,8 @@ class TestSiteNavigation:
             [
                 ("start.html", True),
                 ("predicate/v1/observed-effect", True),
+                ("predicate/v1/", True),
+                ("predicate/v2/", True),
                 ("predicate/v1/observed-effect.html", False),
                 ("predicate/v1/observed-effect/index.html", False),
             ],
@@ -407,7 +414,7 @@ class TestSiteNavigation:
             root = fromstring((built_site / "sitemap.xml").read_bytes())
             namespace = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
             urls = [node.text for node in root.findall("s:url/s:loc", namespace)]
-            assert len(urls) == len(set(urls)) == 46
+            assert len(urls) == len(set(urls)) == 49
             assert root.find("s:url/s:lastmod", namespace) is None
 
         def test_local_image_loads_repository_bytes(self, repository: Path) -> None:

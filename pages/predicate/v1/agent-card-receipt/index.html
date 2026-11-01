@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Predicate type: Agent Card Receipt</title>
+<meta name="description" content="Type URI, schema and rules of the Agent Card Receipt in-toto predicate.">
+<link rel="canonical" href="https://w3id.org/agent-evidence/predicate/v1/agent-card-receipt">
+<style>
+:root{color-scheme:light dark;--page:#f6f8fb;--surface:#fff;--ink:#14202e;--body:#33404f;--link:#1f4fd1;--rule:#cfd8e3;font-family:system-ui,sans-serif;color:var(--ink);background:var(--page)}
+@media (prefers-color-scheme:dark){:root{--page:#10151b;--surface:#18202a;--ink:#e8edf3;--body:#c3ccd6;--link:#8fb0ff;--rule:#2c3846}}
+*{box-sizing:border-box}body{margin:0;font:400 1rem/1.6 system-ui,sans-serif;background:var(--page)}
+.shell{max-width:52rem;margin-inline:auto;padding-inline:16px}
+header,footer{padding-block:1.25rem}header a{font-weight:700;color:var(--ink);text-decoration:none}
+footer{border-top:1px solid var(--rule);color:var(--body);font-size:.9375rem;margin-top:3rem}
+a{color:var(--link)}p,li,td{color:var(--body)}h1{line-height:1.2}
+code,pre{font-family:ui-monospace,Consolas,monospace;font-size:.875em}code{overflow-wrap:anywhere}
+pre{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:1rem;overflow-x:auto}
+blockquote{margin:1rem 0;padding:.25rem 1rem;border-left:4px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;display:block;overflow-x:auto}
+th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-align:top}
+</style>
+</head>
+<body>
+<header class="shell"><a href="https://github.com/probityai/agent-evidence-vectors">Agent Evidence</a></header>
+<main class="shell">
+<h1 id="predicate-type-agent-card-receipt">Predicate type: Agent Card Receipt</h1>
+<p>Type URI: <a href="https://w3id.org/agent-evidence/predicate/v1/agent-card-receipt">https://w3id.org/agent-evidence/predicate/v1/agent-card-receipt</a></p>
+<p>Version: 0.1.0</p>
+<p>Predicate Name: Agent Card Receipt</p>
+<blockquote>
+<p>Status: DRAFT, issued under a self-hosted <code>predicateType</code> URI. The in-toto new-predicate guidelines leave the URI namespace to the predicate designer. The URI redirects to a page built from this file and served by the Pages site of the organisation (<code>probityai/probityai.github.io</code>), at <code>https://probityai.github.io/agent-evidence/predicate/v1/agent-card-receipt/</code>. The URI will not move once a signed statement carries it, and no signed statement carries it before that page is live. The conformance corpus in this repository, <code>vectors-agent-card-receipt/</code>, carries it in unsigned statements.</p>
+</blockquote>
+<h2 id="purpose">Purpose</h2>
+<p>Binds the result of an evaluation of an agent to the exact A2A Agent Card the agent serves, and says how long the result may be relied on. An Agent Card is the document a caller reads to decide whether to talk to an agent, and the card is self-declared. A receipt is the missing second statement: someone other than the agent ran it, graded it, and signed the grade over the card's bytes. A caller, a gateway or a credential broker that holds the card can check the receipt without asking the agent anything.</p>
+<h2 id="use-cases">Use cases</h2>
+<ul>
+<li>A caller fetches an Agent Card, looks up the receipt for it, and refuses to delegate to an agent whose card has changed since the evaluation, whose receipt has lapsed, or whose receipt the issuer has revoked.</li>
+<li>A credential broker releases a scoped credential to an agent only against a current, passing receipt for the card the agent presented. <a href="https://github.com/probityai/agent-evidence-vectors/blob/c588c8a23b3027eef33c42458ebac2bdb4cc758b/spec/predicates/credential-release.md">credential-release</a> records that decision.</li>
+<li>A registry that lists agents shows the receipt state beside each card, and the state is recomputed by the registry's reader and not copied from the agent.</li>
+</ul>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>The in-toto Attestation Framework, strict JSON (a duplicate member at any depth makes a file malformed), RFC 8785 (JSON Canonicalization Scheme), the A2A Agent Card specification, and DSSE for the revocation list.</p>
+<h2 id="model">Model</h2>
+<p>The producer is the party that evaluated the agent: a harness operator, an auditor or a registry. The same party issues the signed revocation list.</p>
+<p>The <strong>subject</strong> is the Agent Card, by digest. <code>subject</code> MUST carry exactly one member, whose <code>digest</code> MUST carry exactly one entry, <code>sha256</code>, in lowercase hexadecimal. The digest is the SHA-256 of the RFC 8785 form of the card as served, without its top-level <code>signatures</code> member. These are A2A specification section 8.4.1 rules 2 and 3, the bytes a card's own JWS signatures cover, so the receipt binds the bytes the card owner signs and a card carrying signatures and the same card without them have one digest. Rule 1 of that section, which decides whether a member the card omits is treated as present at its default, is open in a2aproject/A2A issue 2122 and is not applied here: the digest is over the card as it is served. A card that is not an I-JSON object, carries a duplicate member or an integer of magnitude 2^53 or more, or has no RFC 8785 form, has no digest, and a receipt for it is refused.</p>
+<p>The <strong>predicate</strong> is the evaluation result:</p>
+<ul>
+<li><code>run</code>: <code>predicateType</code> (an https URL) and <code>digest</code> (<code>sha256</code>) of the statement of the evaluation run the result was taken from, for example a done-receipt.</li>
+<li><code>result</code>: one of <code>fail</code>, <code>degraded</code>, <code>pass_indirect</code>, <code>pass</code>, the lattice of the agent-evidence vocabulary, ordered in that sequence.</li>
+<li><code>registryDigest</code>: the <code>sha256</code> of the vocabulary registry the result is expressed in.</li>
+<li><code>issuedAt</code> and <code>validUntil</code>: RFC 3339 UTC times to whole seconds (<code>YYYY-MM-DDTHH:MM:SSZ</code>), with <code>issuedAt</code> before <code>validUntil</code>. The receipt is current from <code>issuedAt</code> inclusive to <code>validUntil</code> exclusive.</li>
+<li><code>revocationList</code>: the https URL of the issuer's signed revocation list.</li>
+<li><code>agentKeyThumbprints</code> (optional): a non-empty, sorted, duplicate-free list of RFC 7638 JWK SHA-256 thumbprints, base64url without padding, of the keys the agent acts with.</li>
+</ul>
+<p><code>predicateType</code> MUST equal the Type URI above.</p>
+<h3 id="the-revocation-list">The revocation list</h3>
+<p>The list is a DSSE envelope with <code>payloadType</code> <code>application/vnd.agent-evidence.agent-card-receipt-revocations.v1+json</code>, at least one signature, and a payload that is a JSON object with exactly <code>issuedAt</code>, <code>nextUpdate</code> and <code>revoked</code>. <code>revoked</code> is a sorted, duplicate-free list of lowercase SHA-256 digests of the bytes of revoked receipt statements. The envelope MUST be signed with the key that signs the receipts (the verifier is given that key out of band), and the check time MUST be inside the list's own window, <code>issuedAt</code> inclusive to <code>nextUpdate</code> exclusive. A missing list, an unparseable one, one signed by another key, or a stale one is a refusal, never a clean pass: a verifier that cannot read the revocation state does not know the receipt is good.</p>
+<h2 id="schema">Schema</h2>
+<pre class="jsonc"><code>{
+  &quot;_type&quot;: &quot;https://in-toto.io/Statement/v1&quot;,
+  &quot;subject&quot;: [
+    { &quot;name&quot;: &quot;https://travel-agent.example.com/.well-known/agent-card.json&quot;,
+      &quot;digest&quot;: { &quot;sha256&quot;: &quot;&lt;64-hex of RFC 8785 of the card without signatures&gt;&quot; } }
+  ],
+  &quot;predicateType&quot;: &quot;https://w3id.org/agent-evidence/predicate/v1/agent-card-receipt&quot;,
+  &quot;predicate&quot;: {
+    &quot;run&quot;: { &quot;predicateType&quot;: &quot;https://w3id.org/agent-evidence/predicate/v1/done-receipt&quot;,
+             &quot;digest&quot;: { &quot;sha256&quot;: &quot;&lt;64-hex of the run statement&gt;&quot; } },
+    &quot;result&quot;: &quot;pass&quot;,
+    &quot;registryDigest&quot;: { &quot;sha256&quot;: &quot;&lt;64-hex of the vocabulary registry&gt;&quot; },
+    &quot;issuedAt&quot;: &quot;2026-10-20T00:00:00Z&quot;,
+    &quot;validUntil&quot;: &quot;2026-11-19T00:00:00Z&quot;,
+    &quot;revocationList&quot;: &quot;https://receipts.example.org/agent-card-receipt/revocations.dsse.json&quot;,
+    &quot;agentKeyThumbprints&quot;: [&quot;&lt;43-character base64url thumbprint&gt;&quot;]
+  }
+}</code></pre>
+<h2 id="rules">Rules</h2>
+<p>A verifier is given the card as served, the receipt statement, the revocation list, the public key of the receipt signer and the time of the check. It applies these in order and reports the first that fails.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Rule</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>The statement is strict JSON with exactly <code>_type</code>, <code>subject</code>, <code>predicateType</code> and <code>predicate</code></td>
+<td><code>statement_malformed</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>_type</code> is <code>https://in-toto.io/Statement/v1</code></td>
+<td><code>statement_type_wrong</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>predicateType</code> is this document's Type URI</td>
+<td><code>predicate_type_wrong</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>subject</code> has one member with <code>name</code> and a <code>digest</code> holding only a lowercase <code>sha256</code></td>
+<td><code>subject_malformed</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>The predicate has exactly its members, each well formed</td>
+<td><code>predicate_malformed</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>issuedAt</code> is before <code>validUntil</code></td>
+<td><code>validity_window_inverted</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td>The card is an I-JSON object with an RFC 8785 form</td>
+<td><code>card_malformed</code></td>
+</tr>
+<tr>
+<td>8</td>
+<td>The subject digest is the SHA-256 of that form without <code>signatures</code></td>
+<td><code>card_digest_mismatch</code></td>
+</tr>
+<tr>
+<td>9</td>
+<td>The check time is not before <code>issuedAt</code></td>
+<td><code>receipt_not_yet_valid</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td>The check time is before <code>validUntil</code></td>
+<td><code>receipt_expired</code></td>
+</tr>
+<tr>
+<td>11</td>
+<td>A revocation list is present</td>
+<td><code>revocation_list_absent</code></td>
+</tr>
+<tr>
+<td>12</td>
+<td>The list is a well formed envelope and payload</td>
+<td><code>revocation_list_malformed</code></td>
+</tr>
+<tr>
+<td>13</td>
+<td>The envelope verifies under the receipt signer's key over the DSSE PAE of the payload</td>
+<td><code>revocation_list_signature</code></td>
+</tr>
+<tr>
+<td>14</td>
+<td>The check time is inside the list's window</td>
+<td><code>revocation_list_stale</code></td>
+</tr>
+<tr>
+<td>15</td>
+<td>The list does not name the SHA-256 of the receipt statement's bytes</td>
+<td><code>receipt_revoked</code></td>
+</tr>
+</tbody>
+</table>
+<p>A member that passes every rule is accepted with the reason <code>receipt_current</code>.</p>
+<h2 id="carrying-the-receipt-on-an-a2a-card">Carrying the receipt on an A2A card</h2>
+<p>A2A section 4.6 lets a card declare extensions in <code>capabilities.extensions[]</code>, each <code>{uri, description, required, params}</code>. A card declares this predicate by listing an extension whose <code>uri</code> is the Type URI above and whose <code>params</code> carry the https URL of an index of receipts for the agent. The extension MUST NOT carry a receipt digest: the receipt is over the card's bytes, and a digest inside the card would make the card and the receipt depend on each other. Setting <code>required</code> to false keeps a caller that does not know the extension working, which is what A2A section 4.6 asks of an unknown optional extension.</p>
+<h2 id="carrying-the-result-in-an-ap2-mandate">Carrying the result in an AP2 mandate</h2>
+<p>AP2's extension points let a deployment add a mandate constraint with a unique <code>type</code>, a schema and an evaluation algorithm, and AP2 requires that an unknown constraint evaluates as failing. A constraint of <code>type</code> equal to this document's Type URI therefore carries a minimum <code>result</code>, and its evaluation is the rules above applied to the card of the agent that holds the mandate, followed by a check that the receipt's <code>result</code> is at least the constraint's. An AP2 open mandate names the agent's key as <code>cnf</code>; when the receipt carries <code>agentKeyThumbprints</code>, the evaluation also requires the RFC 7638 thumbprint of that key to be listed. A processor that does not implement the constraint fails the mandate, as AP2 already requires.</p>
+<h2 id="web-bot-auth">Web Bot Auth</h2>
+<p>A request signed under the IETF Web Bot Auth drafts names its key in <code>keyid</code> as an RFC 7638 JWK SHA-256 thumbprint, and the <code>Signature-Agent</code> header names where the key directory lives. The thumbprints in <code>agentKeyThumbprints</code> are the same value. A site or gateway that verifies the request signature can look up the receipt for the thumbprint and evaluate the rules above, so one 43-character string joins the request signature, the AP2 mandate key and the card's receipt.</p>
+<h2 id="what-a-receipt-does-not-establish">What a receipt does not establish</h2>
+<p>A receipt is a signed statement that one party evaluated an agent and found the result stated. It does not show that the evaluation was well designed: <code>run</code> names the run and the registry names the vocabulary, and a reader who does not trust either has to read them. It does not show that the card describes what the agent does at runtime, only that the card as served is the card that was evaluated. It does not show who the signer is: the verifier is handed the signer's key, and a key nobody vouches for proves nothing about origin. And it says nothing after <code>validUntil</code> or after the revocation list names it.</p>
+<h2 id="conformance">Conformance</h2>
+<p><code>vectors-agent-card-receipt/</code> (suite <code>agent-card-receipt/v1</code>) holds the members: a card, an unsigned statement, a signed revocation list and a context naming the check time and the signer's key. Every rule above is the first failure of at least one member, and the accepting members are the controls: a card with and without signatures, a check at <code>issuedAt</code>, a list at its own <code>issuedAt</code>, a list that names a different receipt, and the receipt extension declared on the card. A reader conforms when it reaches the declared decision and reason for every member. <code>aee-verify vectors-agent-card-receipt</code> and the packaged Python reader both replay it.</p>
+
+</main>
+<footer><div class="shell">Built from <a href="https://github.com/probityai/agent-evidence-vectors/blob/c588c8a23b3027eef33c42458ebac2bdb4cc758b/spec/predicates/agent-card-receipt.md">spec/predicates/agent-card-receipt.md</a> (SHA-256 <code>ca79d7562288d5554f5e522e77ed947d54e6b96e750c7488be65285111cd605d</code>). The type URI is <code>https://w3id.org/agent-evidence/predicate/v1/agent-card-receipt</code>; it does not change once a signed statement carries it. Record format: <a href="https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/03/">draft-gilda-audit-agent-audit-record-03</a>, Section 4 (an in-toto Statement carried in a DSSE envelope).</div></footer>
+</body>
+</html>

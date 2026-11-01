@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Predicate type: Credential Release</title>
+<meta name="description" content="Type URI, schema and rules of the Credential Release in-toto predicate.">
+<link rel="canonical" href="https://w3id.org/agent-evidence/predicate/v1/credential-release">
+<style>
+:root{color-scheme:light dark;--page:#f6f8fb;--surface:#fff;--ink:#14202e;--body:#33404f;--link:#1f4fd1;--rule:#cfd8e3;font-family:system-ui,sans-serif;color:var(--ink);background:var(--page)}
+@media (prefers-color-scheme:dark){:root{--page:#10151b;--surface:#18202a;--ink:#e8edf3;--body:#c3ccd6;--link:#8fb0ff;--rule:#2c3846}}
+*{box-sizing:border-box}body{margin:0;font:400 1rem/1.6 system-ui,sans-serif;background:var(--page)}
+.shell{max-width:52rem;margin-inline:auto;padding-inline:16px}
+header,footer{padding-block:1.25rem}header a{font-weight:700;color:var(--ink);text-decoration:none}
+footer{border-top:1px solid var(--rule);color:var(--body);font-size:.9375rem;margin-top:3rem}
+a{color:var(--link)}p,li,td{color:var(--body)}h1{line-height:1.2}
+code,pre{font-family:ui-monospace,Consolas,monospace;font-size:.875em}code{overflow-wrap:anywhere}
+pre{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:1rem;overflow-x:auto}
+blockquote{margin:1rem 0;padding:.25rem 1rem;border-left:4px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;display:block;overflow-x:auto}
+th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-align:top}
+</style>
+</head>
+<body>
+<header class="shell"><a href="https://github.com/probityai/agent-evidence-vectors">Agent Evidence</a></header>
+<main class="shell">
+<h1 id="predicate-type-credential-release">Predicate type: Credential Release</h1>
+<p>Type URI: <a href="https://w3id.org/agent-evidence/predicate/v1/credential-release">https://w3id.org/agent-evidence/predicate/v1/credential-release</a></p>
+<p>Version: 0.1.0</p>
+<p>Predicate Name: Credential Release</p>
+<blockquote>
+<p>Status: DRAFT, issued under a self-hosted <code>predicateType</code> URI. The in-toto new-predicate guidelines leave the URI namespace to the predicate designer. The URI redirects to a page built from this file and served by the Pages site of the organisation (<code>probityai/probityai.github.io</code>), at <code>https://probityai.github.io/agent-evidence/predicate/v1/credential-release/</code>. The URI will not move once a signed statement carries it, and no signed statement carries it before that page is live. The conformance corpus in this repository, <code>vectors-credential-release/</code>, carries it in unsigned statements.</p>
+</blockquote>
+<h2 id="purpose">Purpose</h2>
+<p>Records that a broker released a credential to an agent against a named <a href="https://github.com/probityai/agent-evidence-vectors/blob/c588c8a23b3027eef33c42458ebac2bdb4cc758b/spec/predicates/agent-card-receipt.md">agent-card-receipt</a>, and holds the broker to what it said it checked. The record names the receipt by digest, repeats the two receipt fields the decision turned on, names the revocation list the broker consulted by digest, and states the credential's audience, scope and lifetime. It has no field that can hold the credential, a hash of it or a fingerprint of it, so the record can be shared with an auditor without sharing anything that works as a secret.</p>
+<h2 id="use-cases">Use cases</h2>
+<ul>
+<li>An auditor reading a broker's log can tell, for each credential released, which receipt it was released against, whether that receipt was passing and current at that moment, and that the credential expired no later than the receipt did.</li>
+<li>A resource server that receives a request from an agent can ask the broker for the release record for the presented audience and scope, and check it without learning the credential.</li>
+<li>A reviewer comparing two brokers sees the same record shape and the same refusal codes.</li>
+</ul>
+<h2 id="prerequisites">Prerequisites</h2>
+<p><a href="https://github.com/probityai/agent-evidence-vectors/blob/c588c8a23b3027eef33c42458ebac2bdb4cc758b/spec/predicates/agent-card-receipt.md">agent-card-receipt</a>, the in-toto Attestation Framework, strict JSON, and DSSE for the revocation list.</p>
+<h2 id="model">Model</h2>
+<p>The producer is the broker that released the credential.</p>
+<p>The <strong>subject</strong> is the Agent Card the credential went to, by the same digest the receipt carries: one member whose <code>digest</code> holds only <code>sha256</code>. The subject of the release MUST equal the subject of the receipt it names, so a receipt for one card cannot release a credential to another.</p>
+<p>The <strong>predicate</strong> carries:</p>
+<ul>
+<li><code>releaseId</code>: a non-empty text.</li>
+<li><code>releasedAt</code>: an RFC 3339 UTC time to whole seconds. Every time check is made at this moment, never at the time the record is read.</li>
+<li><code>ttlSeconds</code>: a positive integer below 2^31. The credential expires <code>ttlSeconds</code> after <code>releasedAt</code>.</li>
+<li><code>receipt</code>: <code>predicateType</code> (the agent-card-receipt Type URI), <code>digest</code> (<code>sha256</code> of the receipt statement's bytes), and the receipt's <code>result</code> and <code>validUntil</code> as the broker read them.</li>
+<li><code>minResult</code>: <code>pass_indirect</code> or <code>pass</code>, the lowest receipt result the broker accepts.</li>
+<li><code>revocationList</code>: <code>digest</code>, the <code>sha256</code> of the bytes of the revocation list consulted.</li>
+<li><code>credential</code>: exactly <code>kind</code>, <code>audience</code> (an https URL) and <code>scope</code> (a non-empty, sorted, duplicate-free list of non-empty texts). The object is closed. A member outside these three, such as a token, a secret, a hash or a fingerprint, is refused under its own code, because a record that can hold one will eventually be handed one.</li>
+<li><code>broker</code>: <code>id</code>, an https URL.</li>
+<li><code>registryDigest</code>: the <code>sha256</code> of the vocabulary registry the results are expressed in.</li>
+</ul>
+<p><code>predicateType</code> MUST equal the Type URI above.</p>
+<h2 id="schema">Schema</h2>
+<pre class="jsonc"><code>{
+  &quot;_type&quot;: &quot;https://in-toto.io/Statement/v1&quot;,
+  &quot;subject&quot;: [
+    { &quot;name&quot;: &quot;https://travel-agent.example.com/.well-known/agent-card.json&quot;,
+      &quot;digest&quot;: { &quot;sha256&quot;: &quot;&lt;the receipt&#39;s subject digest&gt;&quot; } }
+  ],
+  &quot;predicateType&quot;: &quot;https://w3id.org/agent-evidence/predicate/v1/credential-release&quot;,
+  &quot;predicate&quot;: {
+    &quot;releaseId&quot;: &quot;release-0001&quot;,
+    &quot;releasedAt&quot;: &quot;2026-10-27T12:00:00Z&quot;,
+    &quot;ttlSeconds&quot;: 900,
+    &quot;receipt&quot;: { &quot;predicateType&quot;: &quot;https://w3id.org/agent-evidence/predicate/v1/agent-card-receipt&quot;,
+                 &quot;digest&quot;: { &quot;sha256&quot;: &quot;&lt;64-hex of the receipt statement&gt;&quot; },
+                 &quot;result&quot;: &quot;pass&quot;, &quot;validUntil&quot;: &quot;2026-11-19T00:00:00Z&quot; },
+    &quot;minResult&quot;: &quot;pass&quot;,
+    &quot;revocationList&quot;: { &quot;digest&quot;: { &quot;sha256&quot;: &quot;&lt;64-hex of the list consulted&gt;&quot; } },
+    &quot;credential&quot;: { &quot;kind&quot;: &quot;oauth2-access-token&quot;,
+                    &quot;audience&quot;: &quot;https://api.travel-bookings.example.com&quot;,
+                    &quot;scope&quot;: [&quot;bookings:hold&quot;, &quot;bookings:read&quot;] },
+    &quot;broker&quot;: { &quot;id&quot;: &quot;https://broker.example.org/credential-broker&quot; },
+    &quot;registryDigest&quot;: { &quot;sha256&quot;: &quot;&lt;64-hex of the vocabulary registry&gt;&quot; }
+  }
+}</code></pre>
+<h2 id="rules">Rules</h2>
+<p>A verifier is given the release statement, the receipt statement it names, the revocation list it says it consulted, and the public key of the receipt signer. It applies these in order and reports the first that fails.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Rule</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>The release statement is strict JSON with exactly <code>_type</code>, <code>subject</code>, <code>predicateType</code> and <code>predicate</code></td>
+<td><code>statement_malformed</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>_type</code> is <code>https://in-toto.io/Statement/v1</code></td>
+<td><code>statement_type_wrong</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>predicateType</code> is this document's Type URI</td>
+<td><code>predicate_type_wrong</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>subject</code> has one member with <code>name</code> and a <code>digest</code> holding only a lowercase <code>sha256</code></td>
+<td><code>subject_malformed</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>credential</code> has no member outside <code>kind</code>, <code>audience</code> and <code>scope</code></td>
+<td><code>credential_fields</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>The predicate has exactly its members, each well formed</td>
+<td><code>predicate_malformed</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td>The receipt's bytes hash to the digest the release names</td>
+<td><code>receipt_digest_mismatch</code></td>
+</tr>
+<tr>
+<td>8</td>
+<td>The receipt is a well formed agent-card receipt statement</td>
+<td><code>receipt_malformed</code></td>
+</tr>
+<tr>
+<td>9</td>
+<td>The receipt's <code>result</code> and <code>validUntil</code> are the ones the release copied</td>
+<td><code>receipt_fields_differ</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td>The release's subject is the receipt's subject</td>
+<td><code>subject_not_receipted</code></td>
+</tr>
+<tr>
+<td>11</td>
+<td>The receipt's result is at least <code>minResult</code></td>
+<td><code>receipt_not_passing</code></td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>releasedAt</code> is inside the receipt's window</td>
+<td><code>receipt_not_current</code></td>
+</tr>
+<tr>
+<td>13</td>
+<td><code>releasedAt</code> plus <code>ttlSeconds</code> is not after the receipt's <code>validUntil</code></td>
+<td><code>credential_outlives_receipt</code></td>
+</tr>
+<tr>
+<td>14</td>
+<td>The revocation list's bytes hash to the digest the release names</td>
+<td><code>revocation_list_digest_mismatch</code></td>
+</tr>
+<tr>
+<td>15</td>
+<td>The list is well formed, signed by the receipt signer's key, current at <code>releasedAt</code>, and does not name the receipt</td>
+<td><code>revocation_list_malformed</code>, <code>revocation_list_signature</code>, <code>revocation_list_stale</code>, <code>receipt_revoked</code></td>
+</tr>
+</tbody>
+</table>
+<p>A member that passes every rule is accepted with the reason <code>release_bound</code>.</p>
+<h2 id="what-a-release-does-not-establish">What a release does not establish</h2>
+<p>A release is a statement by the broker about what it checked. It does not show that the broker checked it: a broker can write a record for a release it never gated, and a record is evidence only to a reader who trusts the broker's key. It does not show that the credential was used as scoped, that it was not copied after release, or that the receipt was a good evaluation: the receipt's own limits are in <a href="https://github.com/probityai/agent-evidence-vectors/blob/c588c8a23b3027eef33c42458ebac2bdb4cc758b/spec/predicates/agent-card-receipt.md">agent-card-receipt</a>. It does not hold the credential.</p>
+<h2 id="conformance">Conformance</h2>
+<p><code>vectors-credential-release/</code> (suite <code>credential-release/v1</code>) holds the members: a release statement, the receipt statement it names, the revocation list it consulted and a context naming the signer's key. Every rule above is the first failure of at least one member, and the accepting members are the controls: a minimum of <code>pass_indirect</code>, a release at the receipt's <code>issuedAt</code>, a credential that ends exactly when the receipt does, and a plain release against a passing receipt. A reader conforms when it reaches the declared decision and reason for every member. <code>aee-verify vectors-credential-release</code> and the packaged Python reader both replay it.</p>
+
+</main>
+<footer><div class="shell">Built from <a href="https://github.com/probityai/agent-evidence-vectors/blob/c588c8a23b3027eef33c42458ebac2bdb4cc758b/spec/predicates/credential-release.md">spec/predicates/credential-release.md</a> (SHA-256 <code>2319014abc7c2d11a839bd59ccd69bb0c502b8c566e0c4ce9dafac0d8f000c8e</code>). The type URI is <code>https://w3id.org/agent-evidence/predicate/v1/credential-release</code>; it does not change once a signed statement carries it. Record format: <a href="https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/03/">draft-gilda-audit-agent-audit-record-03</a>, Section 4 (an in-toto Statement carried in a DSSE envelope).</div></footer>
+</body>
+</html>

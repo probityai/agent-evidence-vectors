@@ -33,7 +33,7 @@ th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-
 </blockquote>
 <h2 id="purpose">Purpose</h2>
 <p>States, before an agent's first turn, what "done" means for one task: which paths the agent may not change, which commands a separate verifier will run, and how well those commands tell a fix from a no-op. The contract is sealed by whoever starts the agent. An outside verifier later checks the agent's claim of completion against this statement, so the agent's own transcript is never the standard it is held to.</p>
-<p>The contract carries no verdict. Verdicts belong to <a href="https://github.com/probityai/agent-evidence-vectors/blob/f70e16b6b59b0f159cf0d56eb1064f0f80179030/spec/predicates/done-receipt.md">done-receipt</a>, computed over this statement and the records of the run.</p>
+<p>The contract carries no verdict. Verdicts belong to <a href="https://github.com/probityai/agent-evidence-vectors/blob/c588c8a23b3027eef33c42458ebac2bdb4cc758b/spec/predicates/done-receipt.md">done-receipt</a>, computed over this statement and the records of the run.</p>
 <h2 id="use-cases">Use cases</h2>
 <ul>
 <li>A harness seals a contract for a repository task and signs it. A verifier that sees the agent's final tree can tell whether the protected tests were left alone and whether the acceptance commands pass when it runs them, without asking the agent.</li>
@@ -41,7 +41,7 @@ th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-
 <li>A benchmark publishes contracts beside its tasks, so two harnesses that grade the same agent hold it to the same paths and commands.</li>
 </ul>
 <h2 id="prerequisites">Prerequisites</h2>
-<p>The in-toto Attestation Framework and the record rules in <a href="https://github.com/probityai/agent-evidence-vectors/blob/f70e16b6b59b0f159cf0d56eb1064f0f80179030/spec/predicates/done-records.md">done-records</a>, including strict JSON: a duplicate member at any depth makes the statement malformed.</p>
+<p>The in-toto Attestation Framework and the record rules in <a href="https://github.com/probityai/agent-evidence-vectors/blob/c588c8a23b3027eef33c42458ebac2bdb4cc758b/spec/predicates/done-records.md">done-records</a>, including strict JSON: a duplicate member at any depth makes the statement malformed.</p>
 <h2 id="model">Model</h2>
 <p>The producer is whoever seals the contract: a harness or a task author. The contract is sealed before the agent runs, so nothing the agent does can enter it.</p>
 <p>The <strong>subject</strong> is the contract record, by digest. <code>subject</code> MUST carry exactly one member, whose <code>digest</code> MUST carry exactly one entry, <code>sha256</code>, equal to the SHA-256 of the bytes of the <code>probity-done-contract/v1</code> record the statement accompanies. The <strong>predicate</strong> is that record as a JSON value. A verifier MUST parse the record bytes and refuse the statement if the predicate is not equal to the parsed record. The statement and the record say one thing, and a statement that says another is a statement about a different contract.</p>
@@ -69,7 +69,7 @@ th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-
     &quot;heldout_split_sha256&quot;: &quot;&lt;64-hex of the held-out split&gt;&quot;
   }
 }</code></pre>
-<p>The members of the predicate, their types and their rules are those of the done contract in <a href="https://github.com/probityai/agent-evidence-vectors/blob/f70e16b6b59b0f159cf0d56eb1064f0f80179030/spec/predicates/done-records.md">done-records</a>: beside the paths, commands and adequacy shown, a contract may seal how and where each command runs (<code>cwd</code>, <code>exe</code>, <code>interpreter</code>, <code>run_writes</code>, <code>ids</code>), mark oracle-free probes and in-process twins, measure adequacy by mutant class and gate, and seal the agent image's execution surface and the module under test. Version 0.2.0 follows the done contract of probity-verify at probityai/probity commit <code>932c1e3</code>; 0.1.0 named the paths, commands and adequacy only.</p>
+<p>The members of the predicate, their types and their rules are those of the done contract in <a href="https://github.com/probityai/agent-evidence-vectors/blob/c588c8a23b3027eef33c42458ebac2bdb4cc758b/spec/predicates/done-records.md">done-records</a>: beside the paths, commands and adequacy shown, a contract may seal how and where each command runs (<code>cwd</code>, <code>exe</code>, <code>interpreter</code>, <code>run_writes</code>, <code>ids</code>), mark oracle-free probes and in-process twins, measure adequacy by mutant class and gate, and seal the agent image's execution surface and the module under test. Version 0.2.0 follows the done contract of probity-verify at probityai/probity commit <code>932c1e3</code>; 0.1.0 named the paths, commands and adequacy only.</p>
 <h2 id="rules">Rules</h2>
 <p>A verifier applies these in order and reports the first that fails.</p>
 <table>
@@ -124,6 +124,6 @@ th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-
 <p><code>vectors-done-contract/</code> (suite <code>done-contract/v2</code>) holds the members, a valid case for every optional member and one invalid case for every rule above and every rule of the record, with the code each is refused under. A reader conforms when it reaches the declared verdict and code for every member. <code>aee-verify</code> and the packaged Python reader both replay it.</p>
 
 </main>
-<footer><div class="shell">Built from <a href="https://github.com/probityai/agent-evidence-vectors/blob/f70e16b6b59b0f159cf0d56eb1064f0f80179030/spec/predicates/done-contract.md">spec/predicates/done-contract.md</a> (SHA-256 <code>2b32269327716b5e12d0910e83fac4a3cac321d041967e0567cdbef64c60416c</code>). The type URI is <code>https://w3id.org/agent-evidence/predicate/v1/done-contract</code>; it does not change once a signed statement carries it.</div></footer>
+<footer><div class="shell">Built from <a href="https://github.com/probityai/agent-evidence-vectors/blob/c588c8a23b3027eef33c42458ebac2bdb4cc758b/spec/predicates/done-contract.md">spec/predicates/done-contract.md</a> (SHA-256 <code>2b32269327716b5e12d0910e83fac4a3cac321d041967e0567cdbef64c60416c</code>). The type URI is <code>https://w3id.org/agent-evidence/predicate/v1/done-contract</code>; it does not change once a signed statement carries it. Record format: <a href="https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/03/">draft-gilda-audit-agent-audit-record-03</a>, Section 4 (an in-toto Statement carried in a DSSE envelope).</div></footer>
 </body>
 </html>
