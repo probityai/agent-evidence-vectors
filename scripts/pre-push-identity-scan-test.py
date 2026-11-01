@@ -62,6 +62,7 @@ import hashlib
 import importlib.util
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -724,6 +725,41 @@ def _encoding_cases() -> tuple[int, list[str]]:
     return ran, bad
 
 
+def _long_line_cases() -> tuple[int, list[str]]:
+    """A single very long line costs time linear in its length, not its square.
+
+    A size-limit vector holds a file of exactly the limit, one million characters
+    of filler on one line. The percent-encoding pattern used to re-read the rest
+    of the run from every start position, so that line outlasted the 900 s push
+    gate. The first case runs the real scanner over such a line; the second holds
+    the pattern equal to the one it replaced on strings where the two could differ.
+    """
+    bad: list[str] = []
+    ran = 2
+    started = time.monotonic()
+    status = history_status(json.dumps({"filler": "x" * (1 << 20)}))
+    elapsed = time.monotonic() - started
+    if status != 0:
+        bad.append(f"a one-million-character line: exit {status}, expected a clean 0")
+    elif elapsed > 60:
+        bad.append(f"a one-million-character line: {elapsed:.0f}s, over the 60s bound")
+    else:
+        print(f"ok   linear     a one-million-character line scanned in {elapsed:.1f}s")
+    import _decoding
+
+    before = re.compile(r"(?:[A-Za-z0-9._~/:-]*%[0-9a-fA-F]{2})+[A-Za-z0-9._~/:-]*")
+    strings = ("a%41b", "%41", "%%41", "%4", "x%zz y%41z", "ab%41%42cd ef%43", "a/b%2Fc:d",
+               "%41%4", "-%41-", "  %41", "q" * 40 + "%41" + "r" * 40, "no escape here", "")
+    differing = [t for t in strings
+                 if [m.group(0) for m in before.finditer(t)]
+                 != [m.group(0) for m in _decoding.PERCENT_SPAN.finditer(t)]]
+    if differing:
+        bad.append(f"the percent-encoding pattern changed its matches on {differing!r}")
+    else:
+        print("ok   linear     the percent-encoding pattern matches what it matched before")
+    return ran, bad
+
+
 def _import_exemption_cases() -> tuple[int, list[str]]:
     """The import exemption covers only commits reachable from the pinned tip.
 
@@ -807,7 +843,7 @@ def main() -> int:
     else:
         print("skip content scanner: this repository does not carry one")
     for cases in (_material_cases, _nested_document_cases, _cycle_guard_cases, _encoding_cases,
-                  _import_exemption_cases):
+                  _long_line_cases, _import_exemption_cases):
         more, bad = cases()
         total += more
         failures += bad
