@@ -96,7 +96,8 @@ def _drop(position: int) -> Callable[[dict[str, Any]], None]:
 
 def reader_failures(corpus: str, reader: ModuleType) -> list[str]:
     """The tracked corpus is clean; a pinned verdict and a deleted reading are not."""
-    manifest = json.loads((REPO_ROOT / "corpora" / corpus / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest_path = REPO_ROOT / "corpora" / corpus / "MANIFEST.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     members = indeterminate(manifest)
     if not members:
         return [f"{corpus}: no indeterminate member, so these cases test nothing"]
