@@ -65,7 +65,7 @@ Choose the record format you need, then follow its [reader route](../reference/c
 | W3C reports | Frozen rejection table, two additions of 18 September, settled thread rules, 42 delta-related pairs recut against v0.1, plus Run and discovery-snapshot subjects from `draft-arsentev-agent-run-metrics-00` and `draft-arsentev-llm-context-discovery-00`. Vendored texts and condition citations are digest-pinned. |
 | Receipt signatures | Canonical signing input, an external key set, its validity windows and three further Section 6.6 rules. Every member is checked with and without key windows; the draft's SHOULD is graded as the corpus README specifies. |
 
-The W3C Go and Python readers are checked by [w3c-rails-parity-test.py](../../scripts/w3c-rails-parity-test.py). Its Python module also emits a v0.1 report with `--emit-w3c-report`; the [conformance appendix](../W3C-V01-CONFORMANCE-APPENDIX.md) is generated from the manifest. Receipt readers are checked by [receipt-signature-rails-test.py](../../scripts/receipt-signature-rails-test.py).
+The W3C Go and Python readers are checked by [w3c-rails-parity-test.py](../../scripts/w3c-rails-parity-test.py). Its Python module also emits a v0.1 report with `--emit-w3c-report`, and reads one with `--read-w3c-report <file>`, which prints `conforms` or each shape error and rejection with its v0.1 row and exits 0 when the report conforms, 1 when it does not, and 2 when no verdict was reached; the [conformance appendix](../W3C-V01-CONFORMANCE-APPENDIX.md) is generated from the manifest. Receipt readers are checked by [receipt-signature-rails-test.py](../../scripts/receipt-signature-rails-test.py).
 
 ## Version axes
 

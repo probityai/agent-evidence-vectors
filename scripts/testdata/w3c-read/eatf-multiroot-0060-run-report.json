@@ -1,0 +1,588 @@
+{
+  "format": "W3C Agent Conformance CG reporting format v0.1 (2026Sep/0087), section 5.5 as proposed (not normative, O7)",
+  "producer": "EATF-MultiRoot (SoftwareX SOFTX-D-26-00623), the corpus and verifier at eatf-multiroot-softwarex-v0.2.3",
+  "checker": {
+    "repository": "https://github.com/tyche-institute/eatf-multiroot-softwarex",
+    "tag": "eatf-multiroot-softwarex-v0.2.3",
+    "commit": "c421dadc1aacf77342f66aca15247994f0d10fb6",
+    "doi": "10.5281/zenodo.21874026",
+    "artifact_path": "papers/dependable-multiroot-agent-evidence/artifact",
+    "files_sha256": {
+      "src/eatf_policy_overlay.py": "c0a1784f302655fd544c070f6c1d8d5ae38248f741c1515ea9f3843b6b5f5c71",
+      "scripts/run_evaluation.py": "7bafa2cf46751efc37cc04dd42f56448a5e40596648dc2c96adee34e96e7e15a",
+      "vendor/eatf/cli/eatf-verify/bin/eatf-verify.js": "da1116738a8928213ca3be646d8b6dc775a8304c35a5107d0f27c0a4f7224085",
+      "vendor/eatf/lib/package.json": "c110cd75c17c80ce7c831b5e52cb592f9f7e72d2689e6a7e6bcb4de186138762",
+      "vendor/eatf/lib/package-lock.json": "b81ae9ebedaafb8345522393f1246a1522fad5bd3847a795e4d922272505fed7"
+    },
+    "lib_dist_sha256": {
+      "browser.js": "f867602e8fccbbf9ae239b6c6a8f4d8ecb42e4e0652334af7edb5b0f169bbf9f",
+      "canonical.js": "4056d23ac2669ee77c1d2d27dbce60d65bf8003e5ed18c90c7a4278a5d172f34",
+      "hash.js": "9e77ca6dcaf26eff985188681f37fd69542e635ae229ada03537a5394dc19f0f",
+      "index.js": "5c01d0e35fb992b38cdee91886f8d1b626174ca4df7c4aa73d7a91580b255675",
+      "mldsa.js": "734a23c8111c0571e9d218b26a855dd46e12b1f6c014a372fc904e1658bd9d28",
+      "overt.js": "3548afd6c6d347fa5e76090069c883fc521dfbc29b4bee92987a4747da01a868",
+      "rsa.js": "f927547c4f2de29e1cfae9b8c9b6791024c210d5dc03d93b691dde09735c3dc1",
+      "signer.js": "fa0488f6642d00c9b232a397e2b8cfe5aaa359fba2bd65623bb46a8b793a1575",
+      "tsa-trust-list.js": "2ced3f1cccd34f4db68b7ed1d44c41bcbc56c5bf52bcc68372d198cde43d8b0d",
+      "tsa.js": "9b147ea60214045add5393171bcbae90a5667b31badee6dea2a0601fe4a2fdc6",
+      "verifier.js": "cc01141bb25c2e99c7f7fdf5273b486fa9b1ebeeaecdda0d45f483dead09c691"
+    }
+  },
+  "config": {
+    "ref": "config.json",
+    "sha256": "eae0b74e2529ac20dc504561d58bb62f55642b0e7bb252acf247d87cd60816c5",
+    "serialization": "RFC 8785 (sorted keys, no whitespace; the configuration holds no floats)"
+  },
+  "inputs": {
+    "C1": {
+      "tree": {
+        "entries": 4,
+        "shape": "flat",
+        "manifest": {
+          "ref": "manifests/C1.txt",
+          "sha256": "25b9bbe51585e5807a5cb9ea39072ef768f324c295bb1b56d14a8e5144ae2d1c"
+        }
+      }
+    },
+    "C2": {
+      "tree": {
+        "entries": 2,
+        "shape": "flat",
+        "manifest": {
+          "ref": "manifests/C2.txt",
+          "sha256": "390ce02aa6782afd7d6f5f687d8be4d6a3b6111e98be31f4fdc18db325d80748"
+        }
+      }
+    },
+    "C8": {
+      "tree": {
+        "entries": 2,
+        "shape": "flat",
+        "manifest": {
+          "ref": "manifests/C8.txt",
+          "sha256": "3cc8b0cdabce8d9f0a7841768794b49281c05b6462c1c525edc579f55f65ea51"
+        }
+      }
+    }
+  },
+  "records": [
+    {
+      "case": "C1",
+      "site": "id-alpha",
+      "check_id": "package.eatf-verify",
+      "reported_code": "eatf-package-valid",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C1",
+      "site": "id-beta",
+      "check_id": "package.eatf-verify",
+      "reported_code": "eatf-package-valid",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C1",
+      "site": "act-alpha",
+      "check_id": "package.eatf-verify",
+      "reported_code": "eatf-package-valid",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C1",
+      "site": "act-beta",
+      "check_id": "package.eatf-verify",
+      "reported_code": "eatf-package-valid",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C1",
+      "site": "id-alpha",
+      "check_id": "identity.issuer",
+      "reported_code": "identity-issuer",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C1",
+      "site": "id-alpha",
+      "check_id": "identity.method",
+      "reported_code": "identity-method",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C1",
+      "site": "id-alpha",
+      "check_id": "identity.assurance",
+      "reported_code": "identity-assurance",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C1",
+      "site": "id-beta",
+      "check_id": "identity.issuer",
+      "reported_code": "identity-issuer",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C1",
+      "site": "id-beta",
+      "check_id": "identity.method",
+      "reported_code": "identity-method",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C1",
+      "site": "id-beta",
+      "check_id": "identity.assurance",
+      "reported_code": "identity-assurance",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C1",
+      "site": "act-alpha",
+      "check_id": "action.issuer",
+      "reported_code": "action-issuer",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C1",
+      "site": "act-alpha",
+      "check_id": "action.binding",
+      "reported_code": "identity-binding",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C1",
+      "site": "act-alpha",
+      "check_id": "action.scope",
+      "reported_code": "scope",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C1",
+      "site": "act-alpha",
+      "check_id": "action.material",
+      "reported_code": "archive-material",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C1",
+      "site": "act-alpha",
+      "check_id": "action.revocation",
+      "reported_code": "revocation-status",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C1",
+      "site": "act-alpha",
+      "check_id": "action.algorithm",
+      "reported_code": "algorithm-profile",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C1",
+      "site": "act-alpha",
+      "check_id": "action.broker",
+      "reported_code": "broker-policy",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C1",
+      "site": "act-beta",
+      "check_id": "action.issuer",
+      "reported_code": "action-issuer",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C1",
+      "site": "act-beta",
+      "check_id": "action.binding",
+      "reported_code": "identity-binding",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C1",
+      "site": "act-beta",
+      "check_id": "action.scope",
+      "reported_code": "scope",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C1",
+      "site": "act-beta",
+      "check_id": "action.material",
+      "reported_code": "archive-material",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C1",
+      "site": "act-beta",
+      "check_id": "action.revocation",
+      "reported_code": "revocation-status",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C1",
+      "site": "act-beta",
+      "check_id": "action.algorithm",
+      "reported_code": "algorithm-profile",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C1",
+      "site": "act-beta",
+      "check_id": "action.broker",
+      "reported_code": "broker-policy",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C2",
+      "site": "id-gamma",
+      "check_id": "package.eatf-verify",
+      "reported_code": "eatf-package-valid",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C2",
+      "site": "act-gamma",
+      "check_id": "package.eatf-verify",
+      "reported_code": "eatf-package-valid",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C2",
+      "site": "id-gamma",
+      "check_id": "identity.issuer",
+      "reported_code": "identity-issuer",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C2",
+      "site": "id-gamma",
+      "check_id": "identity.method",
+      "reported_code": "identity-method",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C2",
+      "site": "id-gamma",
+      "check_id": "identity.assurance",
+      "reported_code": "identity-assurance",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C2",
+      "site": "act-gamma",
+      "check_id": "action.issuer",
+      "reported_code": "action-issuer",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C2",
+      "site": "act-gamma",
+      "check_id": "action.binding",
+      "reported_code": "identity-binding",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C2",
+      "site": "act-gamma",
+      "check_id": "action.scope",
+      "reported_code": "scope",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C2",
+      "site": "act-gamma",
+      "check_id": "action.material",
+      "reported_code": "archive-material",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C2",
+      "site": "act-gamma",
+      "check_id": "action.revocation",
+      "reported_code": "revocation-status",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C2",
+      "site": "act-gamma",
+      "check_id": "action.algorithm",
+      "reported_code": "algorithm-profile",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C2",
+      "site": "act-gamma",
+      "check_id": "action.broker",
+      "reported_code": "broker-absent",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C8",
+      "site": "id-iota",
+      "check_id": "package.eatf-verify",
+      "reported_code": "eatf-package-valid",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C8",
+      "site": "act-offline",
+      "check_id": "package.eatf-verify",
+      "reported_code": "eatf-package-valid",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C8",
+      "site": "id-iota",
+      "check_id": "identity.issuer",
+      "reported_code": "identity-issuer",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C8",
+      "site": "id-iota",
+      "check_id": "identity.method",
+      "reported_code": "identity-method",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C8",
+      "site": "id-iota",
+      "check_id": "identity.assurance",
+      "reported_code": "identity-assurance",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C8",
+      "site": "act-offline",
+      "check_id": "action.issuer",
+      "reported_code": "action-issuer",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C8",
+      "site": "act-offline",
+      "check_id": "action.binding",
+      "reported_code": "identity-binding",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C8",
+      "site": "act-offline",
+      "check_id": "action.scope",
+      "reported_code": "scope",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C8",
+      "site": "act-offline",
+      "check_id": "action.material",
+      "reported_code": "archive-material",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C8",
+      "site": "act-offline",
+      "check_id": "action.revocation",
+      "reported_code": "revocation-status",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C8",
+      "site": "act-offline",
+      "check_id": "action.algorithm",
+      "reported_code": "algorithm-profile",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    },
+    {
+      "case": "C8",
+      "site": "act-offline",
+      "check_id": "action.broker",
+      "reported_code": "broker-absent",
+      "state": "pass",
+      "other-verdict": "unknown",
+      "discrimination": "unknown"
+    }
+  ],
+  "rollup": {
+    "aggregate": {
+      "declared_exercised": 48,
+      "pass": 48,
+      "fail": 0,
+      "inconclusive": 0,
+      "void": 0
+    },
+    "not_exercised": 0,
+    "discriminating_power": {
+      "run_has_declared_fail": false,
+      "answer": "control",
+      "controls": [
+        "eatf-multiroot-v0.2.3/M-C1-000-identity-issuer-unknown",
+        "eatf-multiroot-v0.2.3/M-C1-001-identity-method-unknown",
+        "eatf-multiroot-v0.2.3/M-C1-002-identity-assurance-low",
+        "eatf-multiroot-v0.2.3/M-C1-004-identity-issuer-unknown",
+        "eatf-multiroot-v0.2.3/M-C1-005-identity-method-unknown",
+        "eatf-multiroot-v0.2.3/M-C1-006-identity-assurance-low",
+        "eatf-multiroot-v0.2.3/M-C1-008-action-issuer-unknown",
+        "eatf-multiroot-v0.2.3/M-C1-009-action-issuer-retired-after-cutoff",
+        "eatf-multiroot-v0.2.3/M-C1-012-binding-subject-substitution",
+        "eatf-multiroot-v0.2.3/M-C1-013-scope-unknown",
+        "eatf-multiroot-v0.2.3/M-C1-016-revocation-missing",
+        "eatf-multiroot-v0.2.3/M-C1-022-broker-untrusted",
+        "eatf-multiroot-v0.2.3/M-C1-023-broker-assurance-low",
+        "eatf-multiroot-v0.2.3/M-C1-025-broker-claims-authoritative-verdict",
+        "eatf-multiroot-v0.2.3/M-C1-027-action-issuer-unknown",
+        "eatf-multiroot-v0.2.3/M-C1-028-action-issuer-retired-after-cutoff",
+        "eatf-multiroot-v0.2.3/M-C1-031-binding-subject-substitution",
+        "eatf-multiroot-v0.2.3/M-C1-032-scope-unknown",
+        "eatf-multiroot-v0.2.3/M-C1-035-revocation-missing",
+        "eatf-multiroot-v0.2.3/M-C1-041-broker-untrusted",
+        "eatf-multiroot-v0.2.3/M-C1-042-broker-assurance-low",
+        "eatf-multiroot-v0.2.3/M-C1-044-broker-claims-authoritative-verdict",
+        "eatf-multiroot-v0.2.3/M-C2-000-identity-issuer-unknown",
+        "eatf-multiroot-v0.2.3/M-C2-001-identity-method-unknown",
+        "eatf-multiroot-v0.2.3/M-C2-002-identity-assurance-low",
+        "eatf-multiroot-v0.2.3/M-C2-004-action-issuer-unknown",
+        "eatf-multiroot-v0.2.3/M-C2-005-action-issuer-retired-after-cutoff",
+        "eatf-multiroot-v0.2.3/M-C2-007-binding-dangling-identity",
+        "eatf-multiroot-v0.2.3/M-C2-008-binding-subject-substitution",
+        "eatf-multiroot-v0.2.3/M-C2-009-scope-unknown",
+        "eatf-multiroot-v0.2.3/M-C2-011-validation-material-stripped",
+        "eatf-multiroot-v0.2.3/M-C2-012-revocation-missing",
+        "eatf-multiroot-v0.2.3/M-C2-018-broker-added-untrusted",
+        "eatf-multiroot-v0.2.3/M-C8-000-identity-issuer-unknown",
+        "eatf-multiroot-v0.2.3/M-C8-001-identity-method-unknown",
+        "eatf-multiroot-v0.2.3/M-C8-002-identity-assurance-low",
+        "eatf-multiroot-v0.2.3/M-C8-004-action-issuer-unknown",
+        "eatf-multiroot-v0.2.3/M-C8-005-action-issuer-retired-after-cutoff",
+        "eatf-multiroot-v0.2.3/M-C8-007-binding-dangling-identity",
+        "eatf-multiroot-v0.2.3/M-C8-008-binding-subject-substitution",
+        "eatf-multiroot-v0.2.3/M-C8-009-scope-unknown",
+        "eatf-multiroot-v0.2.3/M-C8-011-validation-material-stripped",
+        "eatf-multiroot-v0.2.3/M-C8-012-revocation-missing",
+        "eatf-multiroot-v0.2.3/M-C8-018-broker-added-untrusted"
+      ],
+      "binding": {
+        "checker_revision": "c421dadc1aacf77342f66aca15247994f0d10fb6",
+        "config_digest": "eae0b74e2529ac20dc504561d58bb62f55642b0e7bb252acf247d87cd60816c5"
+      },
+      "controls_per_check": {
+        "action.algorithm": 0,
+        "action.binding": 6,
+        "action.broker": 8,
+        "action.issuer": 8,
+        "action.material": 2,
+        "action.revocation": 4,
+        "action.scope": 4,
+        "identity.assurance": 4,
+        "identity.issuer": 4,
+        "identity.method": 4,
+        "package.eatf-verify": 0
+      }
+    }
+  },
+  "emitter_read_sha256": {
+    "policies/org-a-policy.json": "668ed2685f4bffc9750cb9354273df71c388391c031fd2e4d794123668c5dc70",
+    "corpus/generated/corpus-index.json": "877487c492676c665fa7d17f19a0efacec659422a19fb0cfbaffb0198218407c",
+    "corpus/generated-mutants/corpus-index.json": "e5c702ef9ec88bcc24dc107fd7d18d9ce9e71ee0536cb7dba57d952c4de18704",
+    "corpus/case_plan.json": "43e7bb254813699ab9f81bef5b29df4032ac2f50d41eccbca915f91bc2151a67",
+    "corpus/case_plan_mutants.json": "587723cd7b66924d86c7e09567abe3e38dfb683bac56c351749890d95ff71567",
+    "scripts/check_reason_codes.py": "53f0f83430b9cd46546f5b85107a555aef5019ec96e9aaea27c4eb86f5255960",
+    "src/spec_oracle.py": "6c4ceba69dbaf8b35121794d537814a487b9ae7d89a9438762d80898874a97ab"
+  }
+}
