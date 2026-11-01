@@ -210,7 +210,7 @@
         "2026Oct/0027"
       ],
       "kind": "rerun",
-      "command": "python3 check.py --controls && python3 -m unittest test_claim_boundary",
+      "command": "python3 check.py --controls && python3 -m unittest test_claim_boundary && cargo test --locked -p assay-core --lib mcp::tool_call_handler::tests::approval -- --test-threads=1",
       "pins": {
         "repository": "Rul1an/assay",
         "commits": [
@@ -218,14 +218,25 @@
           "8a38547143d42f152c3a46d76b2c026b601ae354"
         ],
         "directory": "docs/experiments/approval-freshness-discrimination-2026-09/w3c-v0.1",
-        "python": "3.11"
+        "python": "3.11",
+        "rust": "the channel in rust-toolchain.toml at each commit"
       },
       "expect": {
-        "exit": "0 for both commands",
+        "exit": "0 for all three commands",
         "stdout": "limited checks: ok",
         "tests": 6
       },
-      "limits": "No published output digest. The Rust approval tests are not rerun, as in 0018."
+      "rust": {
+        "filter": "mcp::tool_call_handler::tests::approval",
+        "tests": [
+          "mcp::tool_call_handler::tests::approval::approval_required_bound_resource_mismatch_denies",
+          "mcp::tool_call_handler::tests::approval::approval_required_bound_tool_mismatch_denies",
+          "mcp::tool_call_handler::tests::approval::approval_required_expired_denies",
+          "mcp::tool_call_handler::tests::approval::approval_required_missing_denies"
+        ],
+        "passed": 4
+      },
+      "limits": "No published output digest. The Rust tests are the four of the experiment's own recompute.sh, built with the toolchain each commit pins in rust-toolchain.toml; their expected result is the four names passing, as in observations/baseline.txt of that experiment, and the count of tests filtered out is recorded but not compared, since it moves with the commit."
     },
     "R7": {
       "result": "Control-2 packet: 21 selected outcomes over 15 baseline and relaxation pairs",
@@ -337,7 +348,8 @@
           "v0.17.4",
           "v0.18.0",
           "v0.18.1"
-        ]
+        ],
+        "rust": "1.96.0"
       },
       "expect": {
         "v0.17.4": {
@@ -362,7 +374,7 @@
           }
         }
       },
-      "limits": "Runs the Python reference reader at each release; the Go and Rust readers are not rerun here."
+      "limits": "Runs the Python, Go and Rust reference readers of this repository at each tag over the corpus as shipped and over a probe copy that makes each reader print its own verdict for every member, and compares the verdicts on the members that cite W3C-R-016. The Rust reader does not exist at v0.17.4 (readers/w3c-report-rs came in v0.18.0), so it is not run there."
     },
     "R10": {
       "result": "Integer -0: the Python reader writes 0 and the Go reader -0 at v0.17.4; both write 0 from v0.18.0",
@@ -462,7 +474,8 @@
       "expect": {
         "files": 15,
         "tests": 23
-      }
+      },
+      "limits": "The checksum check is `sha256sum -c` done in Python, so it runs on macOS, which has no GNU sha256sum; it reads the same SHA256SUMS lines and fails on a missing file or a different digest."
     },
     "R14": {
       "result": "Reader verdicts posted on the list for R1, R2, R3, R4 and R5",
