@@ -37,7 +37,7 @@ from pathlib import Path
 from typing import Any
 
 REPO = Path(__file__).resolve().parent.parent
-CORPUS = "vectors-delegation-lifecycle"
+CORPUS = "corpora/vectors-delegation-lifecycle"
 DERIVED = re.compile(r"^FAIL (\S+): derived (\S+)/(\S+), the manifest declares ", re.M)
 UNDECLARED = {"decision": "accept", "reason": "undeclared"}
 

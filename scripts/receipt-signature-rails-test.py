@@ -33,7 +33,7 @@ from pathlib import Path
 from typing import Any
 
 REPO = Path(__file__).resolve().parent.parent
-CORPUS = "vectors-receipt-signature"
+CORPUS = "corpora/vectors-receipt-signature"
 
 
 def run(cmd: list[str], cwd: Path) -> tuple[int, str]:
