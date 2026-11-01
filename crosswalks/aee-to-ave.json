@@ -19,12 +19,12 @@
     "standard": "AVE (Agentic Vulnerability Enumeration)",
     "url": "https://aveproject.org",
     "repository": "https://github.com/aveproject/ave",
-    "commit": "7d32d20f0256e21725c8796ea7698befe3c3f10c",
-    "record_count": 87,
-    "records_read": "2026-10-06",
+    "commit": "ec06412936b5f2eb58353315a1bb60179b1b0950",
+    "record_count": 89,
+    "records_read": "2026-10-31",
     "derived_by": "git -C <ave-checkout> rev-parse HEAD && ls <ave-checkout>/records/AVE-*.json | wc -l"
   },
-  "generated": "2026-10-06",
+  "generated": "2026-10-31",
   "generated_by": "scripts/crosswalk-gen.py",
   "crosswalk_kind": "vocabulary-to-structure",
   "note": "AEE is not a scanner and emits no finding IDs, so a finding-to-record table would invent a correspondence that does not exist. This maps AVE's existing evidence-provenance vocabulary onto AEE's evidence structure instead: for each way AVE already describes how a finding was reached, what the corresponding signed, offline-verifiable record looks like. Every count in this file is derived by scripts/crosswalk-gen.py from the upstream commit named in target.commit and from this repository's own vectors/MANIFEST.json; the command for each side is recorded beside the figures it produces. Offered as a basis for collaboration, not as a competing taxonomy.",
@@ -40,7 +40,7 @@
     {
       "ave_field": "detection_stage",
       "ave_value": "runtime_observed",
-      "record_count": 24,
+      "record_count": 26,
       "aee_field": "aeeKind",
       "aee_value": "interception, under a run-level arming and sealed pair",
       "notes": "The component executed and something watched. An interception record covers the caught event; an arming record says a live vantage existed before the corpus was injected, and a sealed record says it stayed armed to run-end. AVE records the stage; the arming and sealed pair is what makes a clean result at that stage mean anything, because absence of a catch is only evidence if something was watching for it."
@@ -64,7 +64,7 @@
     {
       "ave_field": "detection_layer",
       "ave_value": "runtime",
-      "record_count": 26,
+      "record_count": 28,
       "aee_field": "observationEnvironment",
       "aee_value": "substrate + corpus + manifest + catchPolicy + networkPosture",
       "notes": "A real environment existed and every part of it is pinnable. networkPosture in particular (no_network, allowlist, sinkhole) changes what a runtime finding means and is not currently recoverable from an AVE record."
@@ -96,7 +96,7 @@
     {
       "ave_field": "evidence_basis_engines",
       "ave_value": "sandbox",
-      "record_count": 15,
+      "record_count": 17,
       "aee_field": "basis",
       "aee_value": "substrate, with method intercepted",
       "notes": "The engine value where a substrate basis is available, because here the component actually ran and something outside it watched. Both members are required on every AEE row and both compose by weakest input, so a sandbox observation fused with the component's own stdout degrades to artifact rather than silently keeping the stronger label.",
@@ -115,7 +115,9 @@
         "AVE-2026-00084",
         "AVE-2026-00085",
         "AVE-2026-00086",
-        "AVE-2026-00087"
+        "AVE-2026-00087",
+        "AVE-2026-00088",
+        "AVE-2026-00089"
       ]
     },
     {
@@ -139,7 +141,7 @@
     }
   ],
   "coverage": {
-    "ave_records_read": 87,
+    "ave_records_read": 89,
     "ave_values_mapped": 11,
     "ave_values_not_mapped": 4
   },
