@@ -14,8 +14,8 @@
       "path": "release/CORPUS-DIGESTS.txt",
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
-    "routine": "corpus_digest in vectors-ai-agent-action/gen_vectors.py",
-    "routine-file": "vectors-ai-agent-action/gen_vectors.py",
+    "routine": "corpus_digest in corpora/vectors-ai-agent-action/gen_vectors.py",
+    "routine-file": "corpora/vectors-ai-agent-action/gen_vectors.py",
     "serialization": "corpus-routine",
     "sha256": "36ab3447ae8a037ca30576209591cb0d0223b0539e64513c9c97ee0ed87288b5",
     "verdicts": {
@@ -29,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,12 +38,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
-        "swapped-in": "d3b785db0bfcc4432db49a94c5662e93184dba8b83720fe14cad9d36978b9ba9",
+        "swapped-in": "4f0949430b2d76e954c7aa5f6ca6e7eb4f9a59bbe7d0856eb3e8644e26eff00c",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-ai-agent-action/INDEX.md",
+      "path": "corpora/vectors-ai-agent-action/INDEX.md",
       "serialization": "bytes",
       "sha256": "d0781ab58318c93c40aa3db28e0eb32f1d9a10b9ddb639ab20f307d911609330"
     },
@@ -52,7 +52,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,12 +61,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
-        "swapped-in": "4d20bd4493b4e3b4326641a0023c451828fa39f029f269da32c2f90acc916257",
+        "swapped-in": "25c304a5544fc45bb29db3a90f78895def7690a24bf868035b97de07a0f14ed8",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-ai-agent-action/README.md",
+      "path": "corpora/vectors-ai-agent-action/README.md",
       "serialization": "bytes",
       "sha256": "1aa23385cb819097b86b94837bd072799a17edd021baa4ad2dca95780acaf479"
     },
@@ -75,7 +75,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,12 +84,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
-        "swapped-in": "3b9e4d39e08e7979e5677a8ccad097e76f560ad778c4b694566dcae243a7c7c1",
+        "swapped-in": "3917a73b844af012a715b2ced20803325ab687eeb3be910d311f2d1097bf98f9",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-ai-agent-action/attacks/artifacts/SUMMARY.json",
+      "path": "corpora/vectors-ai-agent-action/attacks/artifacts/SUMMARY.json",
       "serialization": "bytes",
       "sha256": "27f2057d1bb45fb6ceb55e3677cfb5be7a9c3f894f371de4dc17b60ab7c85ea1"
     },
@@ -98,7 +98,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,12 +107,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
-        "swapped-in": "62021f98d7240482afa44115c285f358d03b522d58ea0f3d50af42edf9451844",
+        "swapped-in": "883a648430e7e65512ca379f097697eec32dc44aff5c085e46bfb3bdce6e890c",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-ai-agent-action/attacks/artifacts/a1-integer-like-key-order.json",
+      "path": "corpora/vectors-ai-agent-action/attacks/artifacts/a1-integer-like-key-order.json",
       "serialization": "bytes",
       "sha256": "83c4d04f1454b0e9775f6e5919bbf9e780eb1929cb6957ff785886934a1990f8"
     },
@@ -121,7 +121,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -130,12 +130,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
-        "swapped-in": "e11d56a2599ce6acd821c78c3f39ff9605d496ddbff4f914f5969db2365f5d23",
+        "swapped-in": "e35535da0051026de150c92b3a6e9ace04b4e8c0649c8c9202be9ed21af950b1",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-ai-agent-action/attacks/artifacts/a10-signing-field-list-absent.json",
+      "path": "corpora/vectors-ai-agent-action/attacks/artifacts/a10-signing-field-list-absent.json",
       "serialization": "bytes",
       "sha256": "de0592234966734f001a2ac38dc2efbf8e7f63a5d99cfa2841503a6d76818b76"
     },
@@ -144,7 +144,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -153,12 +153,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
-        "swapped-in": "ec699519343e32d9d7d547a0c340659606a436925616b214c3d375524f0ef705",
+        "swapped-in": "a7e2212966c97818e7f330ea4e5ae20563ade24dbb54162c2fd1157ac70b7aec",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-ai-agent-action/attacks/artifacts/a11-planted-null-priorhead-break.json",
+      "path": "corpora/vectors-ai-agent-action/attacks/artifacts/a11-planted-null-priorhead-break.json",
       "serialization": "bytes",
       "sha256": "03d1fc486104c8d7c87f148a1af377350f85d2f3ad5b25352ec18d76c15b927a"
     },
@@ -167,7 +167,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -176,12 +176,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
-        "swapped-in": "f0935820a33468c65e96731357ad595a444b2b4bb79da7f015dec74607487ac7",
+        "swapped-in": "7502fa7a2093fb531eb957ed9d2e0c4406e84ff755e05856d3c8625d9fd97e70",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-ai-agent-action/attacks/artifacts/a2-string-escaping.json",
+      "path": "corpora/vectors-ai-agent-action/attacks/artifacts/a2-string-escaping.json",
       "serialization": "bytes",
       "sha256": "8864754b73215eeb73d9262587d0bee6fc7762db00781c74a987a2491317f2e4"
     },
@@ -190,7 +190,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -199,12 +199,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
-        "swapped-in": "df0298f776a2b28daa9c56e423aa028dca95dc7b09e22bf26f07500aac1aed34",
+        "swapped-in": "dfa887feae3845db35046cb6c8d5ab94b5c7cff5fab9d06c355985709ffc79de",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-ai-agent-action/attacks/artifacts/a3-preimage-reading-split.json",
+      "path": "corpora/vectors-ai-agent-action/attacks/artifacts/a3-preimage-reading-split.json",
       "serialization": "bytes",
       "sha256": "27752d439dfccd1f4e20bb22b8dc67cbd6d160f7085c8183dbfaee12b6cb8978"
     },
@@ -213,7 +213,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -222,12 +222,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
-        "swapped-in": "2325f15bd1393c7f47681ec5e0a53810fe9bae7365aac0760cd09ed3f8b79628",
+        "swapped-in": "1ed254837ef3e76a0e3c4c36922cec58fb5b1ec917e607750f11b4be0069fe3b",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-ai-agent-action/attacks/artifacts/a4-duplicate-member.json",
+      "path": "corpora/vectors-ai-agent-action/attacks/artifacts/a4-duplicate-member.json",
       "serialization": "bytes",
       "sha256": "3bf611e04ff34420bcdcff484999331ea165754d8186b63a9180e7ac16a99247"
     },
@@ -236,7 +236,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -245,12 +245,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
-        "swapped-in": "50578f61e277e587e23e43b0ca34ef1f44b4b08b1aa98acef63b43cc53dc9685",
+        "swapped-in": "132304364ebdfa20b2c731d2e0cd857729d5fddb394430d4a7d02329927af3e8",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-ai-agent-action/attacks/artifacts/a5-chain-fork-honest.jsonl",
+      "path": "corpora/vectors-ai-agent-action/attacks/artifacts/a5-chain-fork-honest.jsonl",
       "serialization": "bytes",
       "sha256": "2684aef4cb1016b0b8f7f9883268f3243b28dd2236d17494323d2bc37ee1fff1"
     },
@@ -259,7 +259,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -268,12 +268,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
-        "swapped-in": "a46dca12ff3d049075eb5a027656559511ba6516b6eaf0d28a7cebe9d8881e00",
+        "swapped-in": "655713974f32fb4ccfbc8ab9b5545c4ad851a820bda1dcedddfec46036f14ee6",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-ai-agent-action/attacks/artifacts/a5-chain-fork-presented.jsonl",
+      "path": "corpora/vectors-ai-agent-action/attacks/artifacts/a5-chain-fork-presented.jsonl",
       "serialization": "bytes",
       "sha256": "63d9f5767c71fa47d195e6f5b39f88a3ce19bbffff0998747af2d74846e3538c"
     },
@@ -282,7 +282,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -291,12 +291,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
-        "swapped-in": "7544bdc208e544daefd2047fc0020de7f633ddd7007b93e986f1329f34d2a2b2",
+        "swapped-in": "6e9b2ee33c82db676898b8eb2823125f80fe4e2041294658618cbc42f7de15f3",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-ai-agent-action/attacks/artifacts/a5-chain-fork.json",
+      "path": "corpora/vectors-ai-agent-action/attacks/artifacts/a5-chain-fork.json",
       "serialization": "bytes",
       "sha256": "d150925432ada2ca2b37901c68a70dc2dff71070f5c0b9331a91285c13947c34"
     },
@@ -305,7 +305,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -314,12 +314,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
-        "swapped-in": "eba60952c54c7755a1751c3dae0a5abe25801f9f1220d9af0b75b1ff3229be30",
+        "swapped-in": "9bb340e964ba67e0355d02cffda6ff44d29aa81d025804691ca0b9ddef8a48ab",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-ai-agent-action/attacks/artifacts/a6-checkpoint-not-on-chain.json",
+      "path": "corpora/vectors-ai-agent-action/attacks/artifacts/a6-checkpoint-not-on-chain.json",
       "serialization": "bytes",
       "sha256": "2a18cbaa8d276912088dce88183c500323d9810147b33c5ca278b63f81a3344d"
     },
@@ -328,7 +328,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -337,12 +337,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
-        "swapped-in": "61df2692c96aba14f938656382a7315caff430f55806d1c974b1bc3ac8cf2928",
+        "swapped-in": "e5c2a3aab9f448871207f61aa159ecb719cf786ab232d5f09a69e9c11be90dfb",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-ai-agent-action/attacks/artifacts/a7-float-rule-contradiction.json",
+      "path": "corpora/vectors-ai-agent-action/attacks/artifacts/a7-float-rule-contradiction.json",
       "serialization": "bytes",
       "sha256": "22644276986ccb8ddd6ee3478da97d8d1c79dccb55f9234fab70c76e296973b4"
     },
@@ -351,7 +351,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -360,12 +360,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
-        "swapped-in": "48b8a8ff34f98ba55c2032a393d9a3a9d0c3ed56f3c323afc7b2710d08132f2f",
+        "swapped-in": "a6833defc59e30af408b17bab75bc9451d4a6a5d7822e8b11ccbb2c449cbeb77",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-ai-agent-action/attacks/artifacts/a8-error-response-preimage.json",
+      "path": "corpora/vectors-ai-agent-action/attacks/artifacts/a8-error-response-preimage.json",
       "serialization": "bytes",
       "sha256": "a09e1e42560c0f2e9b19821c79a0085c8e5542025994a93c56a17a214b95b5c0"
     },
@@ -374,7 +374,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -383,12 +383,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
-        "swapped-in": "776c36663f20837b49a32c2ddc61131a7e918606115fcc8f6cf0205499b8be40",
+        "swapped-in": "75872ab7f07a7d0514bc7ba52dee2e98f6f72e6d447fe26a2614d9f969271320",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-ai-agent-action/attacks/artifacts/a9-previoushash-unpinned.json",
+      "path": "corpora/vectors-ai-agent-action/attacks/artifacts/a9-previoushash-unpinned.json",
       "serialization": "bytes",
       "sha256": "17d7bc5a3031134fe4a76093bc85f7202ca106855689c26ae57c821134e46762"
     },
@@ -397,7 +397,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -406,12 +406,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
-        "swapped-in": "ff9324b305bad254b71f208baa778b9644cbc30d6e3c43aab1febfe6da40705f",
+        "swapped-in": "d42e0d496a105af4774665336bdbd38522e0a1dbb4c80840069c65f283280417",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-ai-agent-action/attacks/artifacts/f1-strip-chain-object.json",
+      "path": "corpora/vectors-ai-agent-action/attacks/artifacts/f1-strip-chain-object.json",
       "serialization": "bytes",
       "sha256": "ed7133116c2b7c23ddac9acd7649df8cb1f47d1355eeac8f90288e5664bf00b4"
     },
@@ -420,7 +420,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -429,12 +429,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
-        "swapped-in": "c23c60ca253f8df2396bb69f362867a6c90e4def15bc89fedab6f4714614f8d8",
+        "swapped-in": "dba15e23fa5524529a19f0b6f85dd2700d0ce154f03c0c82f80b8c1e6e6d3cc6",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-ai-agent-action/attacks/artifacts/f2-unpaired-surrogate.json",
+      "path": "corpora/vectors-ai-agent-action/attacks/artifacts/f2-unpaired-surrogate.json",
       "serialization": "bytes",
       "sha256": "09071bcc80889dda7b63fd5ceae4b95713924dc51635f2e588424aab8b3e5497"
     },
@@ -443,7 +443,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -452,12 +452,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
-        "swapped-in": "8451821dcb56532d713cc4718b0c715922fe77ab0db1649b59fb046a4f4db98d",
+        "swapped-in": "b8bd329eaf8a5d78284a09a50409f64136606c90148e01be696ecc7882b11b04",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-ai-agent-action/attacks/artifacts/f3-second-genesis.json",
+      "path": "corpora/vectors-ai-agent-action/attacks/artifacts/f3-second-genesis.json",
       "serialization": "bytes",
       "sha256": "2e4429be0c98df947a74588c300a42cc50f8b229af570e670e8bd7efaf0dd0e5"
     },
@@ -466,7 +466,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -475,12 +475,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
-        "swapped-in": "3ddb1e435e3f11e78106fa0d24f6de5551db33280c6636eed5c644b9fe8137e0",
+        "swapped-in": "1ae177b6140832fd699e35e42be943aec142f7815fc8cce6855f9556e0d995de",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-ai-agent-action/attacks/run_attacks.py",
+      "path": "corpora/vectors-ai-agent-action/attacks/run_attacks.py",
       "serialization": "bytes",
       "sha256": "35609009fdc3543202070f14b39e7a32fb768db50982b2588ce3d736e7a65eba"
     },
@@ -489,7 +489,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -498,12 +498,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
-        "swapped-in": "0e1f2f4525832d2e52d952ae185f610ae2f23b29674367fe1b46fca85313677b",
+        "swapped-in": "85f84de7342b9dfaad947694abe960cdc336590a7c68a85c5f36ad0126dbdec1",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-ai-agent-action/gen_vectors.py",
+      "path": "corpora/vectors-ai-agent-action/gen_vectors.py",
       "serialization": "bytes",
       "sha256": "1538b39b691f8a977311bb5e278beb8939d0e45d6b85e4469b42e23d732ffb7c"
     },
@@ -512,20 +512,20 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+          "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
-          "vectors-ai-agent-action/MANIFEST.json"
+          "corpora/vectors-ai-agent-action/MANIFEST.json"
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "43d5ac6b4f0c98bdce53fba03f5c03e5f7dd878efec33fa03f432ddd16589703"
+          "sha256": "66fbf1a9b99eec38a1a58fcd61f8e459f48eaf9de5140ecc9f62160478955e82"
         },
-        "swapped-in": "d903946fdcdcf0f480755894b4ee1cd30b437a12770f5102753f36c193853640",
+        "swapped-in": "5eea31e274e5b1ddcad6bc66f500c3509e83a57265587663d8dd6475d8a9d90f",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-ai-agent-action/spec-vendored/ai-agent-action-a5dd509.md",
+      "path": "corpora/vectors-ai-agent-action/spec-vendored/ai-agent-action-a5dd509.md",
       "serialization": "bytes",
       "sha256": "5c417e9cb61fa61daaaa7ecf18a5c50f83bb4160635dc353920d3f9d3de73d4c"
     }
@@ -544,7 +544,7 @@
         "suffix": ".json"
       }
     ],
-    "root": "vectors-ai-agent-action"
+    "root": "corpora/vectors-ai-agent-action"
   },
   "byte-identity": {
     "pins": 104,
@@ -556,9 +556,9 @@
   "checker": {
     "commands": [
       "go build -o aee-verify ./cmd/aee-verify",
-      "aee-verify -json vectors-ai-agent-action",
-      "aee-verify -json vectors-ai-agent-action",
-      "aee-verify vectors-ai-agent-action"
+      "aee-verify -json corpora/vectors-ai-agent-action",
+      "aee-verify -json corpora/vectors-ai-agent-action",
+      "aee-verify corpora/vectors-ai-agent-action"
     ],
     "dependencies": [
       {
@@ -580,11 +580,11 @@
       "paths": [
         "aee",
         "cmd/aee-verify",
-        "corpora",
+        "corpusreaders",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "712a1932ef34c3166fdc0517647e0008db691ea8963f36e1331517673e968c64"
+      "sha256": "2417e926ca98a6022a518e36af066f6072afc9f6cb2009a276f1d6fbb0775bf7"
     },
     "runtime": {
       "name": "go",
@@ -593,7 +593,7 @@
     "shared-verification-code": [
       "aee",
       "cmd/aee-verify",
-      "corpora",
+      "corpusreaders",
       "go.mod"
     ]
   },
@@ -1201,7 +1201,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "1e151f1c32b5c234e1e5f6c34a1a38709e4500f83b778f6158d02acc1a410e2d"
+    "sha256": "1853c83b4de15a6cd0d45e512e507fd21b98299100d61c27352a99363bd1222d"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -1287,14 +1287,14 @@
       "vf2f6991c55096b1a",
       "vf89ec86066d8cf9b"
     ],
-    "path": "vectors-ai-agent-action/MANIFEST.json",
+    "path": "corpora/vectors-ai-agent-action/MANIFEST.json",
     "sha256": "99f7a03de42096350028013b7481bb47335efc97909062ef083fcaaa2134867c"
   },
   "members": [
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/v031c8b3d46725200.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v031c8b3d46725200.json",
           "sha256": "031c8b3d467252001efcfbf13808704bee708885c8759fcc97bb6fadf97d25e0"
         }
       ],
@@ -1303,11 +1303,11 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/records/v0805461f7a5c9a1f.jsonl",
+          "path": "corpora/vectors-ai-agent-action/records/v0805461f7a5c9a1f.jsonl",
           "sha256": "2aa843dee9068e22ba883e8e856121b5b2dd0feef6cd13b3c88cb1d43bf86d7a"
         },
         {
-          "path": "vectors-ai-agent-action/statements/v0805461f7a5c9a1f.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v0805461f7a5c9a1f.json",
           "sha256": "2f1147f84d1eed16972678ede282b06c74dbcbe499d8760267e89e48d8a4722e"
         }
       ],
@@ -1316,11 +1316,11 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/records/v0f4f2093061d303f.jsonl",
+          "path": "corpora/vectors-ai-agent-action/records/v0f4f2093061d303f.jsonl",
           "sha256": "9d91bad0d5ed10edb29785fc66f6ca406895890f5828d96e1cec0115c8a97cce"
         },
         {
-          "path": "vectors-ai-agent-action/statements/v0f4f2093061d303f.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v0f4f2093061d303f.json",
           "sha256": "9db677a16797cc72701efde716d487da9d016cf1ecb94ef3bc1011ba3839df96"
         }
       ],
@@ -1329,7 +1329,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/v0fbb0059f0813e81.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v0fbb0059f0813e81.json",
           "sha256": "0fbb0059f0813e81d311fe6e57912918255ddd27d3431defedac254349d16a88"
         }
       ],
@@ -1338,7 +1338,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/v16f7e58b18eed9ce.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v16f7e58b18eed9ce.json",
           "sha256": "16f7e58b18eed9ced99a9a1e808388e11418feddb90456d4d9096db4c76564ee"
         }
       ],
@@ -1347,7 +1347,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/v19200ece1a40066b.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v19200ece1a40066b.json",
           "sha256": "19200ece1a40066b2d01724b8ae28225fbf9bdda951ff08ac926e539272a0d21"
         }
       ],
@@ -1356,7 +1356,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/v1a09354386e0ed57.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v1a09354386e0ed57.json",
           "sha256": "1a09354386e0ed57c9312bd4b237ee34a2a333c64428ec4268332f50a2c9f48e"
         }
       ],
@@ -1365,7 +1365,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/v1aa63bb62de9b357.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v1aa63bb62de9b357.json",
           "sha256": "1aa63bb62de9b35794a1111707859d03047d6c7065cc27ab7fb5d7f2d78196d8"
         }
       ],
@@ -1374,11 +1374,11 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/records/v26230ff87959bda5.jsonl",
+          "path": "corpora/vectors-ai-agent-action/records/v26230ff87959bda5.jsonl",
           "sha256": "59ecda62209057f6df6c3700082edc1d1fd300297909fb56b1f5607f4f3931dc"
         },
         {
-          "path": "vectors-ai-agent-action/statements/v26230ff87959bda5.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v26230ff87959bda5.json",
           "sha256": "6a16a6174e56cbd3bc853391d49bbfee2c4a7a99e72eb4deece0c38b84d52599"
         }
       ],
@@ -1387,7 +1387,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/v27af706aa6237b7a.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v27af706aa6237b7a.json",
           "sha256": "27af706aa6237b7a71dd332617b6e921d8ca92d213d45caad256ecbf4cd37951"
         }
       ],
@@ -1396,7 +1396,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/v288bb68e53e8e8b4.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v288bb68e53e8e8b4.json",
           "sha256": "288bb68e53e8e8b4043a97d504a46b450ad2e15382b8767f02688171bf99ce80"
         }
       ],
@@ -1405,7 +1405,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/v2d317372d8b62a5b.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v2d317372d8b62a5b.json",
           "sha256": "2d317372d8b62a5bc9f6602e759231b71a7f9901d04fad42a0e141b72e488431"
         }
       ],
@@ -1414,7 +1414,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/v362600d69975d14c.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v362600d69975d14c.json",
           "sha256": "362600d69975d14c6c54eec27e38aec0bec190646d7aa22fa0ed9b0cd4b6dd07"
         }
       ],
@@ -1423,7 +1423,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/v3e30ec52a2e1f716.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v3e30ec52a2e1f716.json",
           "sha256": "3e30ec52a2e1f716b8cc2f83feee39980b54a6249f062b059242b7a0f4c590d9"
         }
       ],
@@ -1432,7 +1432,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/v401b49d063fe0a5e.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v401b49d063fe0a5e.json",
           "sha256": "401b49d063fe0a5e59c1aa61ec638f2a069ed9f677244bd142ef70ce0f6856d3"
         }
       ],
@@ -1441,7 +1441,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/v4163675fb8d766a9.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v4163675fb8d766a9.json",
           "sha256": "4163675fb8d766a928a7203c6371dcbb046e48ece88bfb68386309a8a24067f1"
         }
       ],
@@ -1450,7 +1450,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/v4c882a9f1bbeb7f0.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v4c882a9f1bbeb7f0.json",
           "sha256": "4c882a9f1bbeb7f00793af007740c7fdf081da5c1db184429ded67fefdeee1e7"
         }
       ],
@@ -1459,7 +1459,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/v4d02dbb1731f4972.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v4d02dbb1731f4972.json",
           "sha256": "4d02dbb1731f49720516323eb5854495f1bd1c1cf888f6e47fb221fd5fcbdb1e"
         }
       ],
@@ -1468,7 +1468,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/v5441e430ab64dcbe.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v5441e430ab64dcbe.json",
           "sha256": "5441e430ab64dcbec57cd44e6088a231f80c4abc6f024fb0e614b8ebf0bfa42f"
         }
       ],
@@ -1477,11 +1477,11 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/records/v5e1aca8594076334.jsonl",
+          "path": "corpora/vectors-ai-agent-action/records/v5e1aca8594076334.jsonl",
           "sha256": "e5ec17eed0cd26ce0c4c2a53d37e75513fd6e7d0035876376ceca4c19b76a425"
         },
         {
-          "path": "vectors-ai-agent-action/statements/v5e1aca8594076334.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v5e1aca8594076334.json",
           "sha256": "baf6b6c41b7bf0d8bb41ea81136107bb249dd8baea6441120e64a5b24f26da59"
         }
       ],
@@ -1490,11 +1490,11 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/records/v663dae0ae9cfda97.jsonl",
+          "path": "corpora/vectors-ai-agent-action/records/v663dae0ae9cfda97.jsonl",
           "sha256": "79c24c0038930d17f67dae8174fada2ffe16b1354fee398e61beb38c07d03c8b"
         },
         {
-          "path": "vectors-ai-agent-action/statements/v663dae0ae9cfda97.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v663dae0ae9cfda97.json",
           "sha256": "51a86d0ca14834d0cd62eac6502034dd6477b72ff625efbee44af594b52c6c86"
         }
       ],
@@ -1503,7 +1503,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/v679f56481420e45a.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v679f56481420e45a.json",
           "sha256": "679f56481420e45a6196f2be61f29d51cc76b011e04bd8df8d6af6064c53511b"
         }
       ],
@@ -1512,7 +1512,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/v6d21ff18cfa69ef8.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v6d21ff18cfa69ef8.json",
           "sha256": "6d21ff18cfa69ef8dd8693cbf702c382e080459279e82519ebfa818f0692eb0f"
         }
       ],
@@ -1521,11 +1521,11 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/records/v726e35aa6179f8d9.jsonl",
+          "path": "corpora/vectors-ai-agent-action/records/v726e35aa6179f8d9.jsonl",
           "sha256": "5658575da5722e84ed455c009d2ad11e6dd65f3dda037e69f4f09e1bcfabe23e"
         },
         {
-          "path": "vectors-ai-agent-action/statements/v726e35aa6179f8d9.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v726e35aa6179f8d9.json",
           "sha256": "7c1b32960619d5906a3cf473a425f8427a9d7a1f88282308038bae60546eeea6"
         }
       ],
@@ -1534,7 +1534,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/v7460b093ad19f68d.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v7460b093ad19f68d.json",
           "sha256": "7460b093ad19f68d73c1dc46baa2ea3d81a0fa6451838346d1106cfaafb55b5e"
         }
       ],
@@ -1543,7 +1543,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/v791c2a09aa3a06bc.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v791c2a09aa3a06bc.json",
           "sha256": "791c2a09aa3a06bcba21e9f21e22b2ced1a62f48754c3b6a14884490b44e4b31"
         }
       ],
@@ -1552,11 +1552,11 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/records/v79fbd4b605a4d914.jsonl",
+          "path": "corpora/vectors-ai-agent-action/records/v79fbd4b605a4d914.jsonl",
           "sha256": "1d57fe205b37cc02c3e25fccf911ff77eeb0d1a307dd87037952f9b39b2b1b0b"
         },
         {
-          "path": "vectors-ai-agent-action/statements/v79fbd4b605a4d914.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v79fbd4b605a4d914.json",
           "sha256": "c90666c1408e18bea25f30ed435e70eb2a7669e4400643eb3ecf0466e2888bad"
         }
       ],
@@ -1565,7 +1565,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/v7d0402b3c091526e.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v7d0402b3c091526e.json",
           "sha256": "7d0402b3c091526e7c768408ca3a32db4183419f8b71b99a23a564ad202eb70d"
         }
       ],
@@ -1574,11 +1574,11 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/records/v7d78f7f696236714.jsonl",
+          "path": "corpora/vectors-ai-agent-action/records/v7d78f7f696236714.jsonl",
           "sha256": "43118f02eb7c8e944cf65bc8a46c12308231475ae10ab8962a4e35c843299d1b"
         },
         {
-          "path": "vectors-ai-agent-action/statements/v7d78f7f696236714.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v7d78f7f696236714.json",
           "sha256": "92464014b9afb02735c6f0ec570fc46fe764d7cc20cf608ab1887beb107a3734"
         }
       ],
@@ -1587,7 +1587,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/v7fe454a506f992b2.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v7fe454a506f992b2.json",
           "sha256": "7fe454a506f992b205dcd17f9723e8c0c4424861881694a4586a92929139c536"
         }
       ],
@@ -1596,7 +1596,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/v843566cf72cd33c3.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v843566cf72cd33c3.json",
           "sha256": "843566cf72cd33c38da744d63162aacd50e6bb2edea998ef60248a0703c23d03"
         }
       ],
@@ -1605,11 +1605,11 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/records/v861f20f3fa63ce2b.jsonl",
+          "path": "corpora/vectors-ai-agent-action/records/v861f20f3fa63ce2b.jsonl",
           "sha256": "99d5fb4916160e298a39cee2fba1b4e75148882f81141699306858f9179bb504"
         },
         {
-          "path": "vectors-ai-agent-action/statements/v861f20f3fa63ce2b.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v861f20f3fa63ce2b.json",
           "sha256": "0f42153f27d3203278a1d1a871d500985112ea5ad5ccf655c9bbe022c9c34267"
         }
       ],
@@ -1618,11 +1618,11 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/records/v86bb8bc8908fea42.jsonl",
+          "path": "corpora/vectors-ai-agent-action/records/v86bb8bc8908fea42.jsonl",
           "sha256": "a766966966d7f0e38cdf2c411d97588644baa203f68c771fce58f1a3e81badec"
         },
         {
-          "path": "vectors-ai-agent-action/statements/v86bb8bc8908fea42.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v86bb8bc8908fea42.json",
           "sha256": "d38be45e3f51c53d79d4a768439e445f3df9ada32128bb81c260a62c6ed16772"
         }
       ],
@@ -1631,11 +1631,11 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/records/v886b10508ab8ba51.jsonl",
+          "path": "corpora/vectors-ai-agent-action/records/v886b10508ab8ba51.jsonl",
           "sha256": "1b8e8f9441d21641541485239afa392f5048596448ea03521590f40ec2b3cb9f"
         },
         {
-          "path": "vectors-ai-agent-action/statements/v886b10508ab8ba51.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v886b10508ab8ba51.json",
           "sha256": "f8b220bd60f254038d1702df4353f734f7893e9b2ec2e79975094e1715345a7b"
         }
       ],
@@ -1644,7 +1644,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/v904d162069c03d18.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v904d162069c03d18.json",
           "sha256": "904d162069c03d1821e6b4d093655262e020de26fd60ac41d44800b43c76efc5"
         }
       ],
@@ -1653,11 +1653,11 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/records/v925e6daf8ac78ef3.jsonl",
+          "path": "corpora/vectors-ai-agent-action/records/v925e6daf8ac78ef3.jsonl",
           "sha256": "c0441ff0fe1e0786d3a356be84ac563519ceff7ccabe8b9d07699158cb4c7211"
         },
         {
-          "path": "vectors-ai-agent-action/statements/v925e6daf8ac78ef3.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v925e6daf8ac78ef3.json",
           "sha256": "c7ae9cc35e44e846b3cbde88b85b9a352d4c7987496441d35bbe15d3052ff036"
         }
       ],
@@ -1666,7 +1666,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/v92de4e2cb2a687c8.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v92de4e2cb2a687c8.json",
           "sha256": "92de4e2cb2a687c8e4439f9e5a869cdecb0317b18efbc87413c7048bb23f38a4"
         }
       ],
@@ -1675,11 +1675,11 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/records/v95fcded705b036d0.jsonl",
+          "path": "corpora/vectors-ai-agent-action/records/v95fcded705b036d0.jsonl",
           "sha256": "68756411abc7d8bc7a3210dbb969725bf8ac3f4481b770e81d2e2201dbd6ec7d"
         },
         {
-          "path": "vectors-ai-agent-action/statements/v95fcded705b036d0.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v95fcded705b036d0.json",
           "sha256": "1c6324046b4a98dae250644b999381c1eb5da2944bb3e4589f84263f12894096"
         }
       ],
@@ -1688,11 +1688,11 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/records/v97f5d8777e514257.jsonl",
+          "path": "corpora/vectors-ai-agent-action/records/v97f5d8777e514257.jsonl",
           "sha256": "52251e852eab4dc9eeb26ce0f9ccf13e3852c4ff2bfbb5e1b7380d34c2ef59c0"
         },
         {
-          "path": "vectors-ai-agent-action/statements/v97f5d8777e514257.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v97f5d8777e514257.json",
           "sha256": "12cb18bfc2e4c133eda60b59718a87b7e01c166bb279fbfb98c98d712dea6791"
         }
       ],
@@ -1701,7 +1701,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/v9a8b364b8bc121de.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v9a8b364b8bc121de.json",
           "sha256": "9a8b364b8bc121de71e4ac532c7fedb91505f7dcb92e58eed80a6f2e3c24e51f"
         }
       ],
@@ -1710,11 +1710,11 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/records/v9b57de6db73c1f29.jsonl",
+          "path": "corpora/vectors-ai-agent-action/records/v9b57de6db73c1f29.jsonl",
           "sha256": "e5ec17eed0cd26ce0c4c2a53d37e75513fd6e7d0035876376ceca4c19b76a425"
         },
         {
-          "path": "vectors-ai-agent-action/statements/v9b57de6db73c1f29.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v9b57de6db73c1f29.json",
           "sha256": "07cfb5ec2f241c04417d974074d7a7861452e3d52b468265068eea0fd4299fd2"
         }
       ],
@@ -1723,7 +1723,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/v9bcf0d6fd251418f.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v9bcf0d6fd251418f.json",
           "sha256": "9bcf0d6fd251418f623b31ae3eb0b96e929d299983514a5ea3dc9a372e247bcc"
         }
       ],
@@ -1732,11 +1732,11 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/records/v9cc43bcbf367a00e.jsonl",
+          "path": "corpora/vectors-ai-agent-action/records/v9cc43bcbf367a00e.jsonl",
           "sha256": "6ead8d982ca942f3ed03d4e7d91f78156340bd5a8c8f6cd1a0006a2e00cd602a"
         },
         {
-          "path": "vectors-ai-agent-action/statements/v9cc43bcbf367a00e.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v9cc43bcbf367a00e.json",
           "sha256": "4b1a847fdc2e37abaf2fd6e6a0346dc1217eb5b8483d7889b915a52eed01d36c"
         }
       ],
@@ -1745,7 +1745,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/v9e2642dc299801e5.json",
+          "path": "corpora/vectors-ai-agent-action/statements/v9e2642dc299801e5.json",
           "sha256": "9e2642dc299801e58e649a8924f5723b58899edbb7c4a97003c695860b9788e4"
         }
       ],
@@ -1754,11 +1754,11 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/records/va1ecbadeabba7b77.jsonl",
+          "path": "corpora/vectors-ai-agent-action/records/va1ecbadeabba7b77.jsonl",
           "sha256": "68c00337eee4f88eab62fb5895b5d82252a5f7157ff5e9532fbaa7655a13338d"
         },
         {
-          "path": "vectors-ai-agent-action/statements/va1ecbadeabba7b77.json",
+          "path": "corpora/vectors-ai-agent-action/statements/va1ecbadeabba7b77.json",
           "sha256": "bcd8d3875db17b6221adca45a410df0e8c72de8cd45d9a4d1485b3e2948d3a23"
         }
       ],
@@ -1767,7 +1767,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/vaa33c34f7bd1058b.json",
+          "path": "corpora/vectors-ai-agent-action/statements/vaa33c34f7bd1058b.json",
           "sha256": "aa33c34f7bd1058bfd150a38ca5ce0709f64ffc56fbd6e9de60634898f723520"
         }
       ],
@@ -1776,7 +1776,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/vad17f7bf034c8dde.json",
+          "path": "corpora/vectors-ai-agent-action/statements/vad17f7bf034c8dde.json",
           "sha256": "ad17f7bf034c8dde424699412f08dcbc4e68772e9ec5e8c8290e5bdebcdbf1d9"
         }
       ],
@@ -1785,11 +1785,11 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/records/vaec7f1c565e1a91a.jsonl",
+          "path": "corpora/vectors-ai-agent-action/records/vaec7f1c565e1a91a.jsonl",
           "sha256": "8e0a695df301914eb04dd7ea455db1a3750204855f04af4348cbc2c26c5e171e"
         },
         {
-          "path": "vectors-ai-agent-action/statements/vaec7f1c565e1a91a.json",
+          "path": "corpora/vectors-ai-agent-action/statements/vaec7f1c565e1a91a.json",
           "sha256": "3d89e2a64f5e6790bc3133bde0b15bbcc25b4b54d2c045d1c7058b51ba936f89"
         }
       ],
@@ -1798,7 +1798,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/vaf1b67f038ffff84.json",
+          "path": "corpora/vectors-ai-agent-action/statements/vaf1b67f038ffff84.json",
           "sha256": "af1b67f038ffff847c6f6a491d052d027fcef692e0259d078fcd54220b1fd706"
         }
       ],
@@ -1807,7 +1807,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/vb0d8a7a7dbeb9f87.json",
+          "path": "corpora/vectors-ai-agent-action/statements/vb0d8a7a7dbeb9f87.json",
           "sha256": "b0d8a7a7dbeb9f872d0e24384fa06a225af6d1eb218979fc6f3b0477da6066fa"
         }
       ],
@@ -1816,11 +1816,11 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/records/vb1262555f2fd8afe.jsonl",
+          "path": "corpora/vectors-ai-agent-action/records/vb1262555f2fd8afe.jsonl",
           "sha256": "8e0a695df301914eb04dd7ea455db1a3750204855f04af4348cbc2c26c5e171e"
         },
         {
-          "path": "vectors-ai-agent-action/statements/vb1262555f2fd8afe.json",
+          "path": "corpora/vectors-ai-agent-action/statements/vb1262555f2fd8afe.json",
           "sha256": "23134c9f116544d3d6ce5c2a3c6e1a6154f7a60375c4f1845af196cfc14cb7c3"
         }
       ],
@@ -1829,7 +1829,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/vb177ef3b3a945a72.json",
+          "path": "corpora/vectors-ai-agent-action/statements/vb177ef3b3a945a72.json",
           "sha256": "b177ef3b3a945a7282dcce9ff4837375b5833e84f57edd0a257473cc686bde80"
         }
       ],
@@ -1838,11 +1838,11 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/records/vb1f091f42efd0715.jsonl",
+          "path": "corpora/vectors-ai-agent-action/records/vb1f091f42efd0715.jsonl",
           "sha256": "38ea354ce2c528a82a743356a2f1953d2c00ee6dc46dd4c2f2e0e6c447ace516"
         },
         {
-          "path": "vectors-ai-agent-action/statements/vb1f091f42efd0715.json",
+          "path": "corpora/vectors-ai-agent-action/statements/vb1f091f42efd0715.json",
           "sha256": "5f874241d83a3b1e137c3ab5f82aaaa247be92de9f4c8a1184fcae0ec2d1ebfb"
         }
       ],
@@ -1851,7 +1851,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/vb5fff22526265bef.json",
+          "path": "corpora/vectors-ai-agent-action/statements/vb5fff22526265bef.json",
           "sha256": "b5fff22526265befeb0d6cddff2e400958e3578948b8945e3dbf9e82a17f8914"
         }
       ],
@@ -1860,7 +1860,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/vb7ceb3d8d07bbeab.json",
+          "path": "corpora/vectors-ai-agent-action/statements/vb7ceb3d8d07bbeab.json",
           "sha256": "b7ceb3d8d07bbeab54353d686ef81941d3289220e1e1529052685e3879e113c7"
         }
       ],
@@ -1869,7 +1869,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/vb7dd5fb8dcb6e345.json",
+          "path": "corpora/vectors-ai-agent-action/statements/vb7dd5fb8dcb6e345.json",
           "sha256": "b7dd5fb8dcb6e34549a00ef9a76eb9c1fd4c8de4e1c74b71f14e294517da0b9d"
         }
       ],
@@ -1878,7 +1878,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/vbbea645b85eb9836.json",
+          "path": "corpora/vectors-ai-agent-action/statements/vbbea645b85eb9836.json",
           "sha256": "bbea645b85eb98369bf1bd711e44a2de06f8706900f3922ad5754854fd286d7a"
         }
       ],
@@ -1887,7 +1887,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/vbc437bec9fff72d6.json",
+          "path": "corpora/vectors-ai-agent-action/statements/vbc437bec9fff72d6.json",
           "sha256": "bc437bec9fff72d6328f85f644e14d81d1823e01035b887f79eb8bb43be32c75"
         }
       ],
@@ -1896,7 +1896,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/vbd5d1d64de299ed7.json",
+          "path": "corpora/vectors-ai-agent-action/statements/vbd5d1d64de299ed7.json",
           "sha256": "bd5d1d64de299ed76599cff01a972810aafe79c9439d0823c9f8407665c821ea"
         }
       ],
@@ -1905,11 +1905,11 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/records/vc4898200910d84a2.jsonl",
+          "path": "corpora/vectors-ai-agent-action/records/vc4898200910d84a2.jsonl",
           "sha256": "8c3c25fc3f788c26b943c22342ecb67eef6102a517338d7223e8939a2ba15fc4"
         },
         {
-          "path": "vectors-ai-agent-action/statements/vc4898200910d84a2.json",
+          "path": "corpora/vectors-ai-agent-action/statements/vc4898200910d84a2.json",
           "sha256": "61876184148067f6a267f13f335f57907e1f5b89e3cc29be939d8948fd38a5d7"
         }
       ],
@@ -1918,11 +1918,11 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/records/vc6a1b1b8e0388411.jsonl",
+          "path": "corpora/vectors-ai-agent-action/records/vc6a1b1b8e0388411.jsonl",
           "sha256": "44dc96ee5a1582f7ad59f42bcd0bbe69782ef4a7ee87d372c5ac13026af83099"
         },
         {
-          "path": "vectors-ai-agent-action/statements/vc6a1b1b8e0388411.json",
+          "path": "corpora/vectors-ai-agent-action/statements/vc6a1b1b8e0388411.json",
           "sha256": "d43454a14f28556040b9995162644ad66508c03558f413d14aab865c26a42a34"
         }
       ],
@@ -1931,11 +1931,11 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/records/vc79800639733ed68.jsonl",
+          "path": "corpora/vectors-ai-agent-action/records/vc79800639733ed68.jsonl",
           "sha256": "ce97b06978ae60562a8429bb86ba53723a289169cd7abde56a1bde056567cd94"
         },
         {
-          "path": "vectors-ai-agent-action/statements/vc79800639733ed68.json",
+          "path": "corpora/vectors-ai-agent-action/statements/vc79800639733ed68.json",
           "sha256": "d17b909da4eeb8dd04765c9b7117e1b83926ec14690ef3da4152c19d94840734"
         }
       ],
@@ -1944,7 +1944,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/vced2927f55260ad1.json",
+          "path": "corpora/vectors-ai-agent-action/statements/vced2927f55260ad1.json",
           "sha256": "ced2927f55260ad16647ab59b6496e3d937e9595fa149d1440bf47ea79349925"
         }
       ],
@@ -1953,7 +1953,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/vd2659c36ece7eb47.json",
+          "path": "corpora/vectors-ai-agent-action/statements/vd2659c36ece7eb47.json",
           "sha256": "d2659c36ece7eb47ab35658c3c3594f488d35dce265044be9b4e2b7fc2d3e404"
         }
       ],
@@ -1962,11 +1962,11 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/records/vd473932a82fd8779.jsonl",
+          "path": "corpora/vectors-ai-agent-action/records/vd473932a82fd8779.jsonl",
           "sha256": "d2813f580652bba797841afca188aa0d516d7046c457971f87a6d84631b17934"
         },
         {
-          "path": "vectors-ai-agent-action/statements/vd473932a82fd8779.json",
+          "path": "corpora/vectors-ai-agent-action/statements/vd473932a82fd8779.json",
           "sha256": "792bfc444d10dc5e0bb90c6610181de94e5621d591393520c347338451001474"
         }
       ],
@@ -1975,7 +1975,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/vdb3c544d148ad808.json",
+          "path": "corpora/vectors-ai-agent-action/statements/vdb3c544d148ad808.json",
           "sha256": "db3c544d148ad808b8b79b0c90c2b7e101cda511ea64bed509d0e409576e3b09"
         }
       ],
@@ -1984,11 +1984,11 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/records/vdd8899ebf08f5040.jsonl",
+          "path": "corpora/vectors-ai-agent-action/records/vdd8899ebf08f5040.jsonl",
           "sha256": "2aa843dee9068e22ba883e8e856121b5b2dd0feef6cd13b3c88cb1d43bf86d7a"
         },
         {
-          "path": "vectors-ai-agent-action/statements/vdd8899ebf08f5040.json",
+          "path": "corpora/vectors-ai-agent-action/statements/vdd8899ebf08f5040.json",
           "sha256": "e78e781633d7138e528a7f05c47c459b96233832848cdc0965ac5b65f8579c1d"
         }
       ],
@@ -1997,11 +1997,11 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/records/ve49e9dafdd7f4df9.jsonl",
+          "path": "corpora/vectors-ai-agent-action/records/ve49e9dafdd7f4df9.jsonl",
           "sha256": "44dc96ee5a1582f7ad59f42bcd0bbe69782ef4a7ee87d372c5ac13026af83099"
         },
         {
-          "path": "vectors-ai-agent-action/statements/ve49e9dafdd7f4df9.json",
+          "path": "corpora/vectors-ai-agent-action/statements/ve49e9dafdd7f4df9.json",
           "sha256": "2d859bd24aa4b808cb2d351af4d5878d6c1f6137fd3500b7df70538d09e1410e"
         }
       ],
@@ -2010,11 +2010,11 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/records/ve763abe0a98c932f.jsonl",
+          "path": "corpora/vectors-ai-agent-action/records/ve763abe0a98c932f.jsonl",
           "sha256": "210b54a9d8a48962fff5d4618948d9de179b919388aa1d7f6ff4e9baf1221d38"
         },
         {
-          "path": "vectors-ai-agent-action/statements/ve763abe0a98c932f.json",
+          "path": "corpora/vectors-ai-agent-action/statements/ve763abe0a98c932f.json",
           "sha256": "1d17d8223a1e2671ee5a1680b85b1751eac5f500072d49b317840df435a09a31"
         }
       ],
@@ -2023,7 +2023,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/ve78d80f4d7221cd9.json",
+          "path": "corpora/vectors-ai-agent-action/statements/ve78d80f4d7221cd9.json",
           "sha256": "e78d80f4d7221cd9769345b57162b28377c195b19dc160288ce5f5ba5793d01b"
         }
       ],
@@ -2032,7 +2032,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/ve82a71e39c20e5a7.json",
+          "path": "corpora/vectors-ai-agent-action/statements/ve82a71e39c20e5a7.json",
           "sha256": "e82a71e39c20e5a79297d0205144213e3dde5ac96df929dff22e3b280e169c90"
         }
       ],
@@ -2041,11 +2041,11 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/records/ve8b9155afcbd8224.jsonl",
+          "path": "corpora/vectors-ai-agent-action/records/ve8b9155afcbd8224.jsonl",
           "sha256": "542d0ea25416dd5fbf627f520b6f5b3ae8228eed2f1fdd498ba78d193cfaf0bd"
         },
         {
-          "path": "vectors-ai-agent-action/statements/ve8b9155afcbd8224.json",
+          "path": "corpora/vectors-ai-agent-action/statements/ve8b9155afcbd8224.json",
           "sha256": "bb2e78a6ed2ea386b63bcd27ccc58093b0b495dc02f1dde5d5e28d11b9891ff7"
         }
       ],
@@ -2054,7 +2054,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/vf1492a40d7a7c2c9.json",
+          "path": "corpora/vectors-ai-agent-action/statements/vf1492a40d7a7c2c9.json",
           "sha256": "f1492a40d7a7c2c9941356a76df2a292d8a768fcb2638f727e4123e8233f7638"
         }
       ],
@@ -2063,7 +2063,7 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/statements/vf2f6991c55096b1a.json",
+          "path": "corpora/vectors-ai-agent-action/statements/vf2f6991c55096b1a.json",
           "sha256": "f2f6991c55096b1a878c13485d80db9ff9ae8b65a001ef2610c213722a4a35cd"
         }
       ],
@@ -2072,11 +2072,11 @@
     {
       "files": [
         {
-          "path": "vectors-ai-agent-action/records/vf89ec86066d8cf9b.jsonl",
+          "path": "corpora/vectors-ai-agent-action/records/vf89ec86066d8cf9b.jsonl",
           "sha256": "fe6c87483fcfaf29cee4fdf6cf3842d767516c03f28b6620a63a762bce90bbac"
         },
         {
-          "path": "vectors-ai-agent-action/statements/vf89ec86066d8cf9b.json",
+          "path": "corpora/vectors-ai-agent-action/statements/vf89ec86066d8cf9b.json",
           "sha256": "6f5c08acb6552fc8d04a5db42f89be3d269c020472b42026c5ce7eee813bf377"
         }
       ],
@@ -2117,7 +2117,7 @@
       "reference": {
         "path": "release/intake/native/vectors-ai-agent-action.json",
         "serialization": "bytes",
-        "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
       }
     },
     {
@@ -2416,11 +2416,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
       },
       {
         "process": "run-2",
-        "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        "sha256": "8f87f6340100fe1cfd8ed6ce264f35f918004ed8dc117335f3597071de693b54"
       }
     ],
     "seed": null,

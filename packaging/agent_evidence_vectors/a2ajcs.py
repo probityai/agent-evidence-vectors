@@ -1,7 +1,7 @@
 """Judge the a2a Agent Card canonicalization corpus, vendored from a2a-tck.
 
 The corpus is a2aproject/a2a-tck ``conformance-vectors/a2a-jcs-v01``, carried
-byte for byte under ``vectors-a2a-jcs-v01/`` and pinned by commit and corpus
+byte for byte under ``corpora/vectors-a2a-jcs-v01/`` and pinned by commit and corpus
 digest in that directory's ``source-lock.json``. Its MANIFEST names two
 functions, and each vector is scored against the functions that own it:
 
@@ -79,7 +79,7 @@ _HERE = Path(__file__).resolve().parent
 ROOT = (
     _HERE / "corpora" / CORPUS_DIR
     if (_HERE / "corpora").exists()
-    else _HERE.parents[1] / CORPUS_DIR
+    else _HERE.parents[1] / "corpora" / CORPUS_DIR
 )
 
 

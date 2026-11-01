@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Both readers of vectors-a2a-jcs-v01/ agree, and the in-process API catches a wrong canonicalizer.
+"""Both readers of the a2a-jcs corpus agree; the in-process API catches a wrong canonicalizer.
 
 Two halves.
 
-Parity. ``aee-verify <dir>`` judges the corpus through corpora/a2ajcs.go and
+Parity. ``aee-verify <dir>`` judges the corpus through corpusreaders/a2ajcs.go and
 ``packaging/run_vectors.py --vectors <dir>`` through
 packaging/agent_evidence_vectors/a2ajcs.py. The two canonicalizers share no
 code. The committed corpus and a set of mutated copies are judged by both, and
@@ -197,10 +197,12 @@ def py_failing(output: str) -> set[str]:
 
 def check_parity(work: Path, binary: Path) -> list[str]:
     failures: list[str] = []
-    committed = (REPO / CORPUS / "MANIFEST.json").read_bytes()
+    committed = (REPO / "corpora" / CORPUS / "MANIFEST.json").read_bytes()
     for name, mutate, expected in PARITY:
         corpus = work / name
-        shutil.copytree(REPO / CORPUS, corpus, ignore=shutil.ignore_patterns("*.py", "tests"))
+        shutil.copytree(
+            REPO / "corpora" / CORPUS, corpus, ignore=shutil.ignore_patterns("*.py", "tests")
+        )
         if mutate is not None:
             mutate(corpus)
         if name == "resealed-unchanged" and (corpus / "MANIFEST.json").read_bytes() != committed:
@@ -299,7 +301,7 @@ def check_wrong_canonicalizers() -> list[str]:
 def check_iteration() -> list[str]:
     """vectors() and params() yield what each target owns, in manifest order."""
     failures: list[str] = []
-    declared = manifest_of(REPO / CORPUS)["targets"]
+    declared = manifest_of(REPO / "corpora" / CORPUS)["targets"]
     for target in a2ajcs.TARGETS:
         owned = list(a2ajcs.vectors(target))
         want = declared[target]["vectors"]
@@ -316,7 +318,9 @@ def check_refusals(work: Path) -> list[str]:
     """A corpus that fails its manifest, or a target it does not name, is refused."""
     failures: list[str] = []
     broken = work / "api-edited"
-    shutil.copytree(REPO / CORPUS, broken, ignore=shutil.ignore_patterns("*.py", "tests"))
+    shutil.copytree(
+        REPO / "corpora" / CORPUS, broken, ignore=shutil.ignore_patterns("*.py", "tests")
+    )
     edited_case_file(broken)
     try:
         a2ajcs.check(a2ajcs.canonicalize, root=broken)

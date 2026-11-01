@@ -1,7 +1,7 @@
 """RFC 8785 canonicalization, in the one form this contract signs over.
 
 The repository already carries three JCS serializers in
-``vectors-ai-agent-action/gen_vectors.py``: a fast one that is correct for
+``corpora/vectors-ai-agent-action/gen_vectors.py``: a fast one that is correct for
 BMP-only member names and safe integers, one that sorts member names by UTF-16
 code unit as the RFC actually says, and one that also writes numbers per
 ECMA-262 rather than per Python. Only the third is unconditionally correct, and

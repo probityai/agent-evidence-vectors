@@ -65,7 +65,7 @@ carrying the number that makes it real and the command that starts it.
   both readers, `N1` settled as `valid`, `DRAFT` set to
   `draft-gilda-audit-agent-audit-record-00`, `draftDocument` dropped. The
   members are the 99 Appendix B rows and 7 Section 5.4 members. The id map across
-  v0.18.1, v0.25.0 and v0.26.0 is `vectors-agent-audit-record/ID-MAP.json`.
+  v0.18.1, v0.25.0 and v0.26.0 is `corpora/vectors-agent-audit-record/ID-MAP.json`.
   Reported by Lars Kersten Kroehl (MolTrust) on the AUDIT list,
   <https://mailarchive.ietf.org/arch/msg/audit/Wdv-fOIodjvF3z9OUFNfXLGP0ts>.
 
@@ -98,7 +98,7 @@ the row identifier -01 prints, and rerun the three commands of the row above.
   `FR16` on main are now `FR16`, `FR17a` to `FR17c` and `FR18`, mapped in
   `ID-MAP.json`. Source: Mikhail Sergeev, technical comments on -00, 20 October
   2026, point 1; issue #249. Quoted -01 sentences are pinned by hash in
-  `vectors-agent-audit-record/REVISION-01-PIN.json`.
+  `corpora/vectors-agent-audit-record/REVISION-01-PIN.json`.
 - [x] **Coverage clause: `scopeComplete` of true beside a gap inside `pathScope`
   (Mikhail Sergeev).** Done for v0.26.0 as `TI6` (authoritative, `false`, gaps
   only outside the scope: malformed under -01, accepted by -00), `V4` and `V5`

@@ -64,7 +64,7 @@ CHECKS = (
 )
 _HERE = Path(__file__).resolve().parent
 ROOT = (_HERE / "corpora" / "vectors-anchored-chain" if
-        (_HERE / "corpora").exists() else _HERE.parents[1] / "vectors-anchored-chain")
+        (_HERE / "corpora").exists() else _HERE.parents[1] / "corpora" / "vectors-anchored-chain")
 _RAIL_NAMES = ("agent_evidence_vectors.run_vectors", "run_vectors", "__main__")
 _RAIL_PRIMITIVES = ("ed25519_verify", "jcs_dumps")
 

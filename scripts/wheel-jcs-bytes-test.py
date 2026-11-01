@@ -13,7 +13,7 @@ are true of the wheel, and this test builds one and checks each:
    consumer never hard-codes a site-packages layout.
 3. ``agent-evidence-vectors --jcs-byte-vectors`` prints the same path, for a
    consumer whose CI step is a shell line rather than Python.
-4. Every corpus in the repository (``vectors`` or ``vectors-*`` with a
+4. Every corpus in the repository (``vectors`` or ``corpora/vectors-*`` with a
    MANIFEST.json) is in the wheel, with every one of its ``cases/*.json``
    files, and listed by the installed ``--list-corpora``. The wheel is built
    the way the release builds it (sdist first, wheel from the sdist). The
@@ -146,10 +146,14 @@ def check_locator(wheel: Path, scratch: Path) -> list[str]:
     return failures
 
 
+def corpus_dir(name: str) -> Path:
+    return ROOT / name if name == "vectors" else ROOT / "corpora" / name
+
+
 def repository_corpora() -> list[str]:
     return sorted(
         d.name
-        for d in ROOT.iterdir()
+        for d in [ROOT / "vectors", *(ROOT / "corpora").iterdir()]
         if (d.name == "vectors" or d.name.startswith("vectors-"))
         and (d / "MANIFEST.json").is_file()
     )
@@ -163,7 +167,7 @@ def check_corpora(wheel: Path, scratch: Path) -> list[str]:
     for name in repository_corpora():
         if f"agent_evidence_vectors/corpora/{name}/MANIFEST.json" not in names:
             failures.append(f"{name} is a corpus in the repository and is not in the wheel")
-        for case in sorted((ROOT / name / "cases").glob("*.json")):
+        for case in sorted((corpus_dir(name) / "cases").glob("*.json")):
             if f"agent_evidence_vectors/corpora/{name}/cases/{case.name}" not in names:
                 failures.append(f"{name}/cases/{case.name} is in the repository, not the wheel")
         if name not in listed:

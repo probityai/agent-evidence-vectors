@@ -14,8 +14,8 @@
       "path": "release/CORPUS-DIGESTS.txt",
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
-    "routine": "corpus_digest in vectors-delegator-right/gen_vectors.py",
-    "routine-file": "vectors-delegator-right/gen_vectors.py",
+    "routine": "corpus_digest in corpora/vectors-delegator-right/gen_vectors.py",
+    "routine-file": "corpora/vectors-delegator-right/gen_vectors.py",
     "serialization": "corpus-routine",
     "sha256": "57dbef274d278c7ffafb4214ff10079dd0ef4467e1135d22cd69b540045c76aa",
     "verdicts": {
@@ -29,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "f0bac7178177253f2e48ce76e5f7422e237e32c403dcc517eedb1a9a77ca9866"
+          "sha256": "1ce287cabaa9f93a65b8ae150142ed1961f7371df878dd09e34cf8cafc1e392b"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,12 +38,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "f0bac7178177253f2e48ce76e5f7422e237e32c403dcc517eedb1a9a77ca9866"
+          "sha256": "1ce287cabaa9f93a65b8ae150142ed1961f7371df878dd09e34cf8cafc1e392b"
         },
-        "swapped-in": "b76a6826390e19ef6469eb90347fc2469d98590b7ebdba9c7c7b82ce41d39233",
+        "swapped-in": "0edad64cad90e96a122b59bd196afd450778f0d3d5cd86e8f98cad7b8c7903f7",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-delegator-right/README.md",
+      "path": "corpora/vectors-delegator-right/README.md",
       "serialization": "bytes",
       "sha256": "d91b8ed96a15e0a96df6166333d503394bdcb9180351203a571e0d4a92757a0f"
     },
@@ -52,7 +52,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "f0bac7178177253f2e48ce76e5f7422e237e32c403dcc517eedb1a9a77ca9866"
+          "sha256": "1ce287cabaa9f93a65b8ae150142ed1961f7371df878dd09e34cf8cafc1e392b"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,21 +61,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "f0bac7178177253f2e48ce76e5f7422e237e32c403dcc517eedb1a9a77ca9866"
+          "sha256": "1ce287cabaa9f93a65b8ae150142ed1961f7371df878dd09e34cf8cafc1e392b"
         },
-        "swapped-in": "ae4488fbda1b664785017baab3330c1a9e1f2a682b45d20159150c756586c65d",
+        "swapped-in": "69b08c502d01cbe7f686f31f14a77cb2418148df295bfd442db49d3e215b72db",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-delegator-right/check_vectors.py",
+      "path": "corpora/vectors-delegator-right/check_vectors.py",
       "serialization": "bytes",
-      "sha256": "a1797d9ddae2af133266dd413ebc68388bb3d4fef5938ddbbd914fb12e7adfbe"
+      "sha256": "6e7b1ce50239119826abf7da66364b8a072b63b096364bc8983ed9ce6a1c1b3c"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "f0bac7178177253f2e48ce76e5f7422e237e32c403dcc517eedb1a9a77ca9866"
+          "sha256": "1ce287cabaa9f93a65b8ae150142ed1961f7371df878dd09e34cf8cafc1e392b"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,21 +84,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "f0bac7178177253f2e48ce76e5f7422e237e32c403dcc517eedb1a9a77ca9866"
+          "sha256": "1ce287cabaa9f93a65b8ae150142ed1961f7371df878dd09e34cf8cafc1e392b"
         },
-        "swapped-in": "2ddde9e4af9da83508acf5eb7ef7345fca0178b547927cc366c44c81d3f06942",
+        "swapped-in": "66c582167e6e103798efa07c8b36d073fdf30d577c3f74211963d7062d3cdfee",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-delegator-right/gen_vectors.py",
+      "path": "corpora/vectors-delegator-right/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "fa40855c3009a1db40adebeb2612afb3e2ee24b07773853b3ec7be3df5d60b49"
+      "sha256": "2dd8ddccb0c596c55002201f77063d90c059c5067ba5138e5fc3a6ec61f8720f"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "f0bac7178177253f2e48ce76e5f7422e237e32c403dcc517eedb1a9a77ca9866"
+          "sha256": "1ce287cabaa9f93a65b8ae150142ed1961f7371df878dd09e34cf8cafc1e392b"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,14 +107,14 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "f0bac7178177253f2e48ce76e5f7422e237e32c403dcc517eedb1a9a77ca9866"
+          "sha256": "1ce287cabaa9f93a65b8ae150142ed1961f7371df878dd09e34cf8cafc1e392b"
         },
-        "swapped-in": "1eeb37ab227b94c13a1548fa83c93afafcdb5ccae41f26b850d23fd8b39f182c",
+        "swapped-in": "7323d50f27530278c8cc32d1a473ef0c12ce6415f46d2c91d2e6278e2467161e",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-delegator-right/tests/test_corpus.py",
+      "path": "corpora/vectors-delegator-right/tests/test_corpus.py",
       "serialization": "bytes",
-      "sha256": "d0b860dcbae17cec2a781d4d2195f2dce0ace120fcc8b1026619ad39626f4058"
+      "sha256": "91ae380f8f3c712514d330c95dd69378fbab9ad8433500c03240c40377a7d72d"
     }
   ],
   "boundary": {
@@ -126,7 +126,7 @@
         "suffix": ""
       }
     ],
-    "root": "vectors-delegator-right"
+    "root": "corpora/vectors-delegator-right"
   },
   "byte-identity": {
     "pins": 26,
@@ -138,9 +138,9 @@
   "checker": {
     "commands": [
       "go build -o aee-verify ./cmd/aee-verify",
-      "aee-verify -json vectors-delegator-right",
-      "aee-verify -json vectors-delegator-right",
-      "aee-verify vectors-delegator-right"
+      "aee-verify -json corpora/vectors-delegator-right",
+      "aee-verify -json corpora/vectors-delegator-right",
+      "aee-verify corpora/vectors-delegator-right"
     ],
     "dependencies": [
       {
@@ -162,11 +162,11 @@
       "paths": [
         "aee",
         "cmd/aee-verify",
-        "corpora",
+        "corpusreaders",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "712a1932ef34c3166fdc0517647e0008db691ea8963f36e1331517673e968c64"
+      "sha256": "2417e926ca98a6022a518e36af066f6072afc9f6cb2009a276f1d6fbb0775bf7"
     },
     "runtime": {
       "name": "go",
@@ -175,7 +175,7 @@
     "shared-verification-code": [
       "aee",
       "cmd/aee-verify",
-      "corpora",
+      "corpusreaders",
       "go.mod"
     ]
   },
@@ -391,7 +391,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "ad47007b692f57d4771cdb33b3acc85e9a2f5bad647fcf830fba4c33caf503be"
+    "sha256": "4d469189cbdeff2474d3d667289a02f03a81cb425a521cd6b8e720528d6856c7"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -428,14 +428,14 @@
       "contract-id-missing",
       "contract-id-unknown"
     ],
-    "path": "vectors-delegator-right/MANIFEST.json",
+    "path": "corpora/vectors-delegator-right/MANIFEST.json",
     "sha256": "88adacd44e1ca2aa3f81d7607c4f3726e645a6afb9b7baf1ae685c1e10149c30"
   },
   "members": [
     {
       "files": [
         {
-          "path": "vectors-delegator-right/cases/allow-root-direct/record.json",
+          "path": "corpora/vectors-delegator-right/cases/allow-root-direct/record.json",
           "sha256": "3c75bc7dead70b20776b9a000ad2d0048eb6f3233c58c3b6889f58c4aa1bf589"
         }
       ],
@@ -444,7 +444,7 @@
     {
       "files": [
         {
-          "path": "vectors-delegator-right/cases/allow-entitled-delegator/record.json",
+          "path": "corpora/vectors-delegator-right/cases/allow-entitled-delegator/record.json",
           "sha256": "6449442dd62599283430cac82998692746264f235437278a81182639c80eef6e"
         }
       ],
@@ -453,7 +453,7 @@
     {
       "files": [
         {
-          "path": "vectors-delegator-right/cases/allow-entitlement-ended-within-limit/record.json",
+          "path": "corpora/vectors-delegator-right/cases/allow-entitlement-ended-within-limit/record.json",
           "sha256": "114ba2278d7b1604288158bca0bb326196fdd50056d31c3db542bbeda2282abb"
         }
       ],
@@ -462,7 +462,7 @@
     {
       "files": [
         {
-          "path": "vectors-delegator-right/cases/allow-entitlement-ends-after-decision/record.json",
+          "path": "corpora/vectors-delegator-right/cases/allow-entitlement-ends-after-decision/record.json",
           "sha256": "3a1c964445b7f99bb43bd2b0dd72367a67b445f29d44d0087bf037855ac5353f"
         }
       ],
@@ -471,7 +471,7 @@
     {
       "files": [
         {
-          "path": "vectors-delegator-right/cases/allow-ancestor-narrowed-within-limit/record.json",
+          "path": "corpora/vectors-delegator-right/cases/allow-ancestor-narrowed-within-limit/record.json",
           "sha256": "711217bab83dd4814af61cdd5c1ad458a9848ad3cca8beb3141ad1ca7ce8faa6"
         }
       ],
@@ -480,7 +480,7 @@
     {
       "files": [
         {
-          "path": "vectors-delegator-right/cases/allow-ancestor-narrowed-other-operation/record.json",
+          "path": "corpora/vectors-delegator-right/cases/allow-ancestor-narrowed-other-operation/record.json",
           "sha256": "2ea54cad023ad23b40f491c72eb32352dfc16060393dcb276a2c134001dc48fd"
         }
       ],
@@ -489,7 +489,7 @@
     {
       "files": [
         {
-          "path": "vectors-delegator-right/cases/allow-entitled-delegator-other-operation-too/record.json",
+          "path": "corpora/vectors-delegator-right/cases/allow-entitled-delegator-other-operation-too/record.json",
           "sha256": "e483d8caf3fd5cb617052ddfc3697f3ba4746a3347aad5bb048034849bd54041"
         }
       ],
@@ -498,7 +498,7 @@
     {
       "files": [
         {
-          "path": "vectors-delegator-right/cases/delegator-never-entitled/record.json",
+          "path": "corpora/vectors-delegator-right/cases/delegator-never-entitled/record.json",
           "sha256": "c1601ee790aadba2cc315e991d3d79b742cc6830e3f3df3172709da3cf32a483"
         }
       ],
@@ -507,7 +507,7 @@
     {
       "files": [
         {
-          "path": "vectors-delegator-right/cases/delegator-entitled-other-operation-only/record.json",
+          "path": "corpora/vectors-delegator-right/cases/delegator-entitled-other-operation-only/record.json",
           "sha256": "90002163e265c84461252e5a3baff8ce53876670b835c3dd6442baeb6b2e13cf"
         }
       ],
@@ -516,7 +516,7 @@
     {
       "files": [
         {
-          "path": "vectors-delegator-right/cases/delegator-entitlement-began-after-issue/record.json",
+          "path": "corpora/vectors-delegator-right/cases/delegator-entitlement-began-after-issue/record.json",
           "sha256": "39b12bfc679d5a1bb7051d94545621f5b29434d5e2dae8ec67c214ba2ceb2427"
         }
       ],
@@ -525,7 +525,7 @@
     {
       "files": [
         {
-          "path": "vectors-delegator-right/cases/delegator-entitlement-ended-before-issue/record.json",
+          "path": "corpora/vectors-delegator-right/cases/delegator-entitlement-ended-before-issue/record.json",
           "sha256": "e75a3901215af4916a55cd6ecc41c3497e013233b35f803c97318d374c14134c"
         }
       ],
@@ -534,7 +534,7 @@
     {
       "files": [
         {
-          "path": "vectors-delegator-right/cases/entitlement-another-principal/record.json",
+          "path": "corpora/vectors-delegator-right/cases/entitlement-another-principal/record.json",
           "sha256": "7a2f0d7bd942922c5932554c8296e35f3d33672d93d230445fcd3ab2158b8804"
         }
       ],
@@ -543,7 +543,7 @@
     {
       "files": [
         {
-          "path": "vectors-delegator-right/cases/entitlement-removed-at-deadline/record.json",
+          "path": "corpora/vectors-delegator-right/cases/entitlement-removed-at-deadline/record.json",
           "sha256": "8311c35008eeea7a60c6bee356ddc26f2609bcd27e37d77c8a35fc5cebf7ce36"
         }
       ],
@@ -552,7 +552,7 @@
     {
       "files": [
         {
-          "path": "vectors-delegator-right/cases/entitlement-removed-long-before/record.json",
+          "path": "corpora/vectors-delegator-right/cases/entitlement-removed-long-before/record.json",
           "sha256": "585ffcc6c1013e330b949a28d95a903b85cf1ae3efa2d4ac8ebd66c93f246edf"
         }
       ],
@@ -561,7 +561,7 @@
     {
       "files": [
         {
-          "path": "vectors-delegator-right/cases/ancestor-scope-removed-at-deadline/record.json",
+          "path": "corpora/vectors-delegator-right/cases/ancestor-scope-removed-at-deadline/record.json",
           "sha256": "d8e67c6abd0123a90f46d02c32e7cdeeafacad72fa887483b31b04b2596cb687"
         }
       ],
@@ -570,7 +570,7 @@
     {
       "files": [
         {
-          "path": "vectors-delegator-right/cases/ancestor-scope-removed-in-last-grant/record.json",
+          "path": "corpora/vectors-delegator-right/cases/ancestor-scope-removed-in-last-grant/record.json",
           "sha256": "1ac4a0ffba1685b0e4de0bc02e3e2c53a0b3fdc9e9d277f1ef2737b00136e649"
         }
       ],
@@ -579,7 +579,7 @@
     {
       "files": [
         {
-          "path": "vectors-delegator-right/cases/delegate-scope-exceeds-delegator/record.json",
+          "path": "corpora/vectors-delegator-right/cases/delegate-scope-exceeds-delegator/record.json",
           "sha256": "6448c504154bbf292d0f1741a61a042274a9f7126a57d22ec51eb9e8669484d0"
         }
       ],
@@ -588,7 +588,7 @@
     {
       "files": [
         {
-          "path": "vectors-delegator-right/cases/request-outside-granted-scope/record.json",
+          "path": "corpora/vectors-delegator-right/cases/request-outside-granted-scope/record.json",
           "sha256": "26778a215c90ea4f344769553fef85f9fdbb5014c6986e55f8085f542b1d807b"
         }
       ],
@@ -597,7 +597,7 @@
     {
       "files": [
         {
-          "path": "vectors-delegator-right/cases/malformed-rights-field-missing/record.json",
+          "path": "corpora/vectors-delegator-right/cases/malformed-rights-field-missing/record.json",
           "sha256": "4de708533db8ba3b9d4822abc9381b40b10352286e8cd4bedafcf4cd38184487"
         }
       ],
@@ -606,7 +606,7 @@
     {
       "files": [
         {
-          "path": "vectors-delegator-right/cases/malformed-limit-negative/record.json",
+          "path": "corpora/vectors-delegator-right/cases/malformed-limit-negative/record.json",
           "sha256": "0e4c6bca8d69b084575fda8db21217891862836a948ea1386dcc30dd12689fdf"
         }
       ],
@@ -615,7 +615,7 @@
     {
       "files": [
         {
-          "path": "vectors-delegator-right/cases/malformed-limit-not-integer/record.json",
+          "path": "corpora/vectors-delegator-right/cases/malformed-limit-not-integer/record.json",
           "sha256": "b1d3de6eb5f65f74687cdddf55e228dd946bc2d90bf205ee4f239390984bf78b"
         }
       ],
@@ -624,7 +624,7 @@
     {
       "files": [
         {
-          "path": "vectors-delegator-right/cases/malformed-decision-time/record.json",
+          "path": "corpora/vectors-delegator-right/cases/malformed-decision-time/record.json",
           "sha256": "6c7c094523c74bf3313031f0f4dabb4b1f99eb3537b3f5050bd7eb9b01026758"
         }
       ],
@@ -633,7 +633,7 @@
     {
       "files": [
         {
-          "path": "vectors-delegator-right/cases/malformed-scope-not-list/record.json",
+          "path": "corpora/vectors-delegator-right/cases/malformed-scope-not-list/record.json",
           "sha256": "4805388ef35e975631e7672cb07ca932a9d533cf9710fadf76f21cef5fa63381"
         }
       ],
@@ -642,7 +642,7 @@
     {
       "files": [
         {
-          "path": "vectors-delegator-right/cases/malformed-chain-empty/record.json",
+          "path": "corpora/vectors-delegator-right/cases/malformed-chain-empty/record.json",
           "sha256": "74eb4846f623cd489de70703542059f6ebee068a0e00c15a434b6ee7b808d334"
         }
       ],
@@ -651,7 +651,7 @@
     {
       "files": [
         {
-          "path": "vectors-delegator-right/cases/contract-id-missing/record.json",
+          "path": "corpora/vectors-delegator-right/cases/contract-id-missing/record.json",
           "sha256": "bd5f2315b2a8d2ed107ca76cb1a8c011c1db4ad26c3588fcdc2a2bba064a79c8"
         }
       ],
@@ -660,7 +660,7 @@
     {
       "files": [
         {
-          "path": "vectors-delegator-right/cases/contract-id-unknown/record.json",
+          "path": "corpora/vectors-delegator-right/cases/contract-id-unknown/record.json",
           "sha256": "cf7af025492a270db61fa3fc9d2a642d332ab2fbec31819b7a0d3b8f31998ef4"
         }
       ],
@@ -683,7 +683,7 @@
       "reference": {
         "path": "release/intake/native/vectors-delegator-right.json",
         "serialization": "bytes",
-        "sha256": "f0bac7178177253f2e48ce76e5f7422e237e32c403dcc517eedb1a9a77ca9866"
+        "sha256": "1ce287cabaa9f93a65b8ae150142ed1961f7371df878dd09e34cf8cafc1e392b"
       }
     },
     {
@@ -717,11 +717,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "f0bac7178177253f2e48ce76e5f7422e237e32c403dcc517eedb1a9a77ca9866"
+        "sha256": "1ce287cabaa9f93a65b8ae150142ed1961f7371df878dd09e34cf8cafc1e392b"
       },
       {
         "process": "run-2",
-        "sha256": "f0bac7178177253f2e48ce76e5f7422e237e32c403dcc517eedb1a9a77ca9866"
+        "sha256": "1ce287cabaa9f93a65b8ae150142ed1961f7371df878dd09e34cf8cafc1e392b"
       }
     ],
     "seed": null,

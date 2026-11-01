@@ -14,8 +14,8 @@
       "path": "release/CORPUS-DIGESTS.txt",
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
-    "routine": "corpus_digest in vectors-mcp-record-contract/gen_vectors.py",
-    "routine-file": "vectors-mcp-record-contract/gen_vectors.py",
+    "routine": "corpus_digest in corpora/vectors-mcp-record-contract/gen_vectors.py",
+    "routine-file": "corpora/vectors-mcp-record-contract/gen_vectors.py",
     "serialization": "corpus-routine",
     "sha256": "90ba5e8cc42aca0383fe76608b1648406a5824ed303c178dd40a22f1d8e36f26",
     "verdicts": {
@@ -29,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+          "sha256": "fa86dd3c768ad97a947e2b52556e113ca249552fa512c839ddd9862e810d7078"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,12 +38,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+          "sha256": "fa86dd3c768ad97a947e2b52556e113ca249552fa512c839ddd9862e810d7078"
         },
-        "swapped-in": "8b07ccb890bac86bbff1a811a76a59f19971f0619e35113b7d194857c5d755fa",
+        "swapped-in": "0a742d965d801f9aedd7d39084f1e08499031f9684c6ec8ae9393c0e6a837a4e",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-record-contract/INDEX.md",
+      "path": "corpora/vectors-mcp-record-contract/INDEX.md",
       "serialization": "bytes",
       "sha256": "62c3dc07c6c9900879b6f3a3474d8bebbfdad7a0aba0725b0ac158091a78029f"
     },
@@ -52,7 +52,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+          "sha256": "fa86dd3c768ad97a947e2b52556e113ca249552fa512c839ddd9862e810d7078"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,12 +61,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+          "sha256": "fa86dd3c768ad97a947e2b52556e113ca249552fa512c839ddd9862e810d7078"
         },
-        "swapped-in": "0aa784a85529e7e7807646b88b4dbeb5fe487467f3193fb6e8f52b3b8148015f",
+        "swapped-in": "750f4b6bb2cd91dfe88a3c95561841921b6e4899245d05029120fc3c6e83ca54",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-record-contract/README.md",
+      "path": "corpora/vectors-mcp-record-contract/README.md",
       "serialization": "bytes",
       "sha256": "dcf5c75637ccc0e5662d67d6a4c4e69a1225a89e3e8455d33bcd5558bda5036b"
     },
@@ -75,7 +75,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+          "sha256": "fa86dd3c768ad97a947e2b52556e113ca249552fa512c839ddd9862e810d7078"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,12 +84,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+          "sha256": "fa86dd3c768ad97a947e2b52556e113ca249552fa512c839ddd9862e810d7078"
         },
-        "swapped-in": "828ae533f351dba232679a11ef2e98b238706357ace5a592a2039940a35f4558",
+        "swapped-in": "3b31388c41772986192754bcfa808444ae43cae97d8b7273c2935f125291e24e",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-record-contract/check_run_record.py",
+      "path": "corpora/vectors-mcp-record-contract/check_run_record.py",
       "serialization": "bytes",
       "sha256": "b004fd88c83408616fda00dea40401221b50fb2f6b71d6f86b175b88b06f571e"
     },
@@ -98,7 +98,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+          "sha256": "fa86dd3c768ad97a947e2b52556e113ca249552fa512c839ddd9862e810d7078"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,12 +107,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+          "sha256": "fa86dd3c768ad97a947e2b52556e113ca249552fa512c839ddd9862e810d7078"
         },
-        "swapped-in": "b3dea3ffbeec844e69eab333942aa976363222a50b51d38f7278fd5cdec259f7",
+        "swapped-in": "10b101ae65b12eb23d18b07489876ebe13021f198009ba73bf8ef9e00861d5c4",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-record-contract/gen_vectors.py",
+      "path": "corpora/vectors-mcp-record-contract/gen_vectors.py",
       "serialization": "bytes",
       "sha256": "72ba72c287c7d1f72c14d4a1df49ce89a82669d3950fbf6090a38e65335df14f"
     }
@@ -126,7 +126,7 @@
         "suffix": ".json"
       }
     ],
-    "root": "vectors-mcp-record-contract"
+    "root": "corpora/vectors-mcp-record-contract"
   },
   "byte-identity": {
     "pins": 15,
@@ -138,9 +138,9 @@
   "checker": {
     "commands": [
       "go build -o aee-verify ./cmd/aee-verify",
-      "aee-verify -json vectors-mcp-record-contract",
-      "aee-verify -json vectors-mcp-record-contract",
-      "aee-verify vectors-mcp-record-contract"
+      "aee-verify -json corpora/vectors-mcp-record-contract",
+      "aee-verify -json corpora/vectors-mcp-record-contract",
+      "aee-verify corpora/vectors-mcp-record-contract"
     ],
     "dependencies": [
       {
@@ -162,11 +162,11 @@
       "paths": [
         "aee",
         "cmd/aee-verify",
-        "corpora",
+        "corpusreaders",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "712a1932ef34c3166fdc0517647e0008db691ea8963f36e1331517673e968c64"
+      "sha256": "2417e926ca98a6022a518e36af066f6072afc9f6cb2009a276f1d6fbb0775bf7"
     },
     "runtime": {
       "name": "go",
@@ -175,7 +175,7 @@
     "shared-verification-code": [
       "aee",
       "cmd/aee-verify",
-      "corpora",
+      "corpusreaders",
       "go.mod"
     ]
   },
@@ -303,7 +303,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "9c2871bc648b0b1ab466f24305e4b3c4f24a03069c46dfbbd899c7e277d11b1b"
+    "sha256": "35b28f01320ddc8af1a3aba82c80bc80b0d52716b2cdb0beb57c661d643b59fb"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -329,14 +329,14 @@
       "va45cc5fefb1fe725",
       "ve5eb95730b9c0acc"
     ],
-    "path": "vectors-mcp-record-contract/MANIFEST.json",
+    "path": "corpora/vectors-mcp-record-contract/MANIFEST.json",
     "sha256": "762eb5cb908136574756a0d22fb26b35844bc36dc8943220c913d4828fc7b6d7"
   },
   "members": [
     {
       "files": [
         {
-          "path": "vectors-mcp-record-contract/records/v14d745599996345e.json",
+          "path": "corpora/vectors-mcp-record-contract/records/v14d745599996345e.json",
           "sha256": "1c067c6935a9f6795d95c50a46d9ec042c64d3f6a75a076bd6e65601b58d4f41"
         }
       ],
@@ -345,7 +345,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-record-contract/records/v1a24e046d96b0499.json",
+          "path": "corpora/vectors-mcp-record-contract/records/v1a24e046d96b0499.json",
           "sha256": "a2463addbdd6b35f2746e3f40288509728ac61a84eb0cc859a70c7a1bc173388"
         }
       ],
@@ -354,7 +354,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-record-contract/records/v2dc4d0dbfd880265.json",
+          "path": "corpora/vectors-mcp-record-contract/records/v2dc4d0dbfd880265.json",
           "sha256": "b17eae3bca582fa1e891dbf5c172a6ad8a597c554475afcc72f9fdc5860a676a"
         }
       ],
@@ -363,7 +363,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-record-contract/records/v4ec0532db09c7a54.json",
+          "path": "corpora/vectors-mcp-record-contract/records/v4ec0532db09c7a54.json",
           "sha256": "95353266a1f94793278f4891d386e9c385722067c90916369d98af680e71a10f"
         }
       ],
@@ -372,7 +372,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-record-contract/records/v50e907fcb9b806f8.json",
+          "path": "corpora/vectors-mcp-record-contract/records/v50e907fcb9b806f8.json",
           "sha256": "e4f7f4ed47886f212fb724e64d0a4df890412171d37e04b0965fd24d8593d6b8"
         }
       ],
@@ -381,7 +381,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-record-contract/records/v58de6293c9625b14.json",
+          "path": "corpora/vectors-mcp-record-contract/records/v58de6293c9625b14.json",
           "sha256": "e12654a4daa3bfd297cfe294ba158e95b6d19210fc703bb184a28c1d83d7c5fb"
         }
       ],
@@ -390,7 +390,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-record-contract/records/v711b6687a6425d47.json",
+          "path": "corpora/vectors-mcp-record-contract/records/v711b6687a6425d47.json",
           "sha256": "46c90519014ac60df5db30f8b5dc9a8699b9d522117fcbd0e81b0a38b348cc78"
         }
       ],
@@ -399,7 +399,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-record-contract/records/v714a7eb9aca0469c.json",
+          "path": "corpora/vectors-mcp-record-contract/records/v714a7eb9aca0469c.json",
           "sha256": "e5eee171051c7c20ffaff41159897bb4a57e2a8df0df1ea37a361c6b336d0c2d"
         }
       ],
@@ -408,7 +408,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-record-contract/records/v740658c91965f801.json",
+          "path": "corpora/vectors-mcp-record-contract/records/v740658c91965f801.json",
           "sha256": "c225095d5612e63dae4124642881b77528459e503ac768c75687a9307bdc3559"
         }
       ],
@@ -417,7 +417,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-record-contract/records/v744318c472f31dab.json",
+          "path": "corpora/vectors-mcp-record-contract/records/v744318c472f31dab.json",
           "sha256": "f51f203d342ef4f4d529b3b8bb913428816a29822e8d9c81b627bd91b3e638a9"
         }
       ],
@@ -426,7 +426,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-record-contract/records/v74b9938f39ca94e2.json",
+          "path": "corpora/vectors-mcp-record-contract/records/v74b9938f39ca94e2.json",
           "sha256": "340060c66040d6bc4e49fc77dfca92f043b735995e57b736999099a21cbf0a45"
         }
       ],
@@ -435,7 +435,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-record-contract/records/v8ddcb96b3a0892c3.json",
+          "path": "corpora/vectors-mcp-record-contract/records/v8ddcb96b3a0892c3.json",
           "sha256": "51d254fa97cd15ec112323db9b5b1f8f089e99be3e19b79a476618108f4df69c"
         }
       ],
@@ -444,7 +444,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-record-contract/records/v95396ec402906fb0.json",
+          "path": "corpora/vectors-mcp-record-contract/records/v95396ec402906fb0.json",
           "sha256": "d17f07136f02685bd09c0f06466b65832dd52ae9f25a76a47257bf3de3fd2b41"
         }
       ],
@@ -453,7 +453,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-record-contract/records/va45cc5fefb1fe725.json",
+          "path": "corpora/vectors-mcp-record-contract/records/va45cc5fefb1fe725.json",
           "sha256": "6f1c88d170aa74ed7685a79b39f507482f42dfbed43e0d479ba2f37990adeed4"
         }
       ],
@@ -462,7 +462,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-record-contract/records/ve5eb95730b9c0acc.json",
+          "path": "corpora/vectors-mcp-record-contract/records/ve5eb95730b9c0acc.json",
           "sha256": "648ebdb13838587025e98efe3f8ec150a4336b80059f40204fd2158bf7637d83"
         }
       ],
@@ -503,7 +503,7 @@
       "reference": {
         "path": "release/intake/native/vectors-mcp-record-contract.json",
         "serialization": "bytes",
-        "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+        "sha256": "fa86dd3c768ad97a947e2b52556e113ca249552fa512c839ddd9862e810d7078"
       }
     },
     {
@@ -602,11 +602,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+        "sha256": "fa86dd3c768ad97a947e2b52556e113ca249552fa512c839ddd9862e810d7078"
       },
       {
         "process": "run-2",
-        "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+        "sha256": "fa86dd3c768ad97a947e2b52556e113ca249552fa512c839ddd9862e810d7078"
       }
     ],
     "seed": null,

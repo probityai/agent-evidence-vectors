@@ -153,7 +153,7 @@ def repository(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
     for relative in (
         "spec/predicates/REGISTRY.md",
         "spec/predicates/observed-effect.md",
-        "vectors-uncertain-effect/README.md",
+        "corpora/vectors-uncertain-effect/README.md",
         "spec/predicates/evaluation-claim.md",
         "spec/self-reported-record/v1.md",
         "spec/predicates/peer-verification.md",

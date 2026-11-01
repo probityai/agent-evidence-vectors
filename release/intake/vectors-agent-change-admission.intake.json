@@ -16,8 +16,8 @@
       "path": "release/CORPUS-DIGESTS.txt",
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
-    "routine": "corpus_digest in vectors-agent-change-admission/digest.py",
-    "routine-file": "vectors-agent-change-admission/digest.py",
+    "routine": "corpus_digest in corpora/vectors-agent-change-admission/digest.py",
+    "routine-file": "corpora/vectors-agent-change-admission/digest.py",
     "serialization": "corpus-routine",
     "sha256": "27623d6a4a10f4cd0aedc1145182c276456e619c3ae771ec646746ef823f5ec4",
     "verdicts": {
@@ -31,7 +31,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+          "sha256": "32d1dd2a6a43360ea294f5dcbdeb6cf42a13e36962bb60346686ad0738ccddec"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -40,12 +40,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+          "sha256": "32d1dd2a6a43360ea294f5dcbdeb6cf42a13e36962bb60346686ad0738ccddec"
         },
-        "swapped-in": "f09d48a4151b66eccf32c78d54a2abaf8096b582b66fdf23692c18971fbb8123",
+        "swapped-in": "8fef49b7addad521106e52c4a97262f815efb8a1e4c7cc34f4a620f1d4fa938b",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-agent-change-admission/INDEX.md",
+      "path": "corpora/vectors-agent-change-admission/INDEX.md",
       "serialization": "bytes",
       "sha256": "58f625e881c3dff27fbda8e2466c918f3d43382e6a0ec61338ecdd2fefc51e35"
     },
@@ -54,7 +54,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+          "sha256": "32d1dd2a6a43360ea294f5dcbdeb6cf42a13e36962bb60346686ad0738ccddec"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -63,12 +63,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+          "sha256": "32d1dd2a6a43360ea294f5dcbdeb6cf42a13e36962bb60346686ad0738ccddec"
         },
-        "swapped-in": "586d57430d98878586a3c6df37b24d6787215a1004e68c34ce9227a637a876b3",
+        "swapped-in": "e54eb5316a8db69ced9e66d3da21883d292913df90e7c0af28da2835111abe80",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-agent-change-admission/README.md",
+      "path": "corpora/vectors-agent-change-admission/README.md",
       "serialization": "bytes",
       "sha256": "90ed0bdccd3ed5e2382497af33326c17ecb1a9a918319e76f8a6942d6cc8a8a1"
     },
@@ -77,7 +77,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+          "sha256": "32d1dd2a6a43360ea294f5dcbdeb6cf42a13e36962bb60346686ad0738ccddec"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -86,21 +86,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+          "sha256": "32d1dd2a6a43360ea294f5dcbdeb6cf42a13e36962bb60346686ad0738ccddec"
         },
-        "swapped-in": "60238c44666534d36e2a7f0065b5bec820db6a70dfc750f3a01ffcbb95bd6f16",
+        "swapped-in": "8176825ed094e6741ff4c91ae2eb4d301b2ed9de1269a0b886d09c5a1c41345d",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-agent-change-admission/check_vectors.py",
+      "path": "corpora/vectors-agent-change-admission/check_vectors.py",
       "serialization": "bytes",
-      "sha256": "ae565382ccee4e30a8ebbad4d3f851afa7702a9c0afcb8fcd393bd85cc00d55a"
+      "sha256": "38fb8e92ef0f29de00399940d077affbf774d1b76e6a421157b5080d577a2bbf"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+          "sha256": "32d1dd2a6a43360ea294f5dcbdeb6cf42a13e36962bb60346686ad0738ccddec"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -109,12 +109,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+          "sha256": "32d1dd2a6a43360ea294f5dcbdeb6cf42a13e36962bb60346686ad0738ccddec"
         },
-        "swapped-in": "7c07459f7171dfbaad4bcfaad9700aeec322a8eda8be9b84a72e9fe35846b604",
+        "swapped-in": "4acdad67f913252735d4fabeea112377feeac024ccf28b37053edaa61f42dbb2",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-agent-change-admission/digest.py",
+      "path": "corpora/vectors-agent-change-admission/digest.py",
       "serialization": "bytes",
       "sha256": "17d16a0e944334659a158c58ccdcd08156744577742322b77f3cc313f2922364"
     },
@@ -123,7 +123,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+          "sha256": "32d1dd2a6a43360ea294f5dcbdeb6cf42a13e36962bb60346686ad0738ccddec"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -132,12 +132,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+          "sha256": "32d1dd2a6a43360ea294f5dcbdeb6cf42a13e36962bb60346686ad0738ccddec"
         },
-        "swapped-in": "cc3104dd628905107563a8b020ee0719da4f7a0b76e679bdb4c2c5d205d6b133",
+        "swapped-in": "e8c6c88f5f1bdf8123a591445094f58ce27979b4fb64ab9e02002fb75f564b52",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-agent-change-admission/gen_vectors.py",
+      "path": "corpora/vectors-agent-change-admission/gen_vectors.py",
       "serialization": "bytes",
       "sha256": "f94c1e8c11735060a6d68069b296aa68cd0b54705c8236d9d372e211e5692408"
     },
@@ -146,7 +146,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+          "sha256": "32d1dd2a6a43360ea294f5dcbdeb6cf42a13e36962bb60346686ad0738ccddec"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -155,21 +155,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+          "sha256": "32d1dd2a6a43360ea294f5dcbdeb6cf42a13e36962bb60346686ad0738ccddec"
         },
-        "swapped-in": "3c6658d9899a22da5f999619c728fd6974d9c50a429b7b0014d8b05d85558e8c",
+        "swapped-in": "1264314370339944516815eeff5734bdee7a3d617b7f6d2dba6ea9fa3e246637",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-agent-change-admission/mutation_check.py",
+      "path": "corpora/vectors-agent-change-admission/mutation_check.py",
       "serialization": "bytes",
-      "sha256": "8db6aa48e3c16f5cdfaf97d88417a7cd4b7aba0a24a66445e698ce21fc53ac77"
+      "sha256": "5b27d01c20c348611f71bf84f8278a9fb9ccae5e5c66f252d6a69186fe725020"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+          "sha256": "32d1dd2a6a43360ea294f5dcbdeb6cf42a13e36962bb60346686ad0738ccddec"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -178,14 +178,14 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+          "sha256": "32d1dd2a6a43360ea294f5dcbdeb6cf42a13e36962bb60346686ad0738ccddec"
         },
-        "swapped-in": "6d98702a08740503234a78cc5a51aa2629ba53314b45a9d46e8ff896885d6966",
+        "swapped-in": "86a89f98ec0cfd8a638da209f7545e518c0265de473697ecccbe4bddb8685e66",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-agent-change-admission/tests/test_corpus.py",
+      "path": "corpora/vectors-agent-change-admission/tests/test_corpus.py",
       "serialization": "bytes",
-      "sha256": "ed34563bb1f3a3f3d9dbde39b1cc8bbd0cb9d17b8f780878bcff10820a242ce3"
+      "sha256": "d7cb0f061fda90df9fbaa38a373b1948b2813920a5caaea091db6f2878464b7c"
     }
   ],
   "boundary": {
@@ -197,7 +197,7 @@
         "suffix": ""
       }
     ],
-    "root": "vectors-agent-change-admission"
+    "root": "corpora/vectors-agent-change-admission"
   },
   "byte-identity": {
     "pins": 138,
@@ -209,9 +209,9 @@
   "checker": {
     "commands": [
       "go build -o aee-verify ./cmd/aee-verify",
-      "aee-verify -json vectors-agent-change-admission",
-      "aee-verify -json vectors-agent-change-admission",
-      "aee-verify vectors-agent-change-admission"
+      "aee-verify -json corpora/vectors-agent-change-admission",
+      "aee-verify -json corpora/vectors-agent-change-admission",
+      "aee-verify corpora/vectors-agent-change-admission"
     ],
     "dependencies": [
       {
@@ -233,11 +233,11 @@
       "paths": [
         "aee",
         "cmd/aee-verify",
-        "corpora",
+        "corpusreaders",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "712a1932ef34c3166fdc0517647e0008db691ea8963f36e1331517673e968c64"
+      "sha256": "2417e926ca98a6022a518e36af066f6072afc9f6cb2009a276f1d6fbb0775bf7"
     },
     "runtime": {
       "name": "go",
@@ -246,7 +246,7 @@
     "shared-verification-code": [
       "aee",
       "cmd/aee-verify",
-      "corpora",
+      "corpusreaders",
       "go.mod"
     ]
   },
@@ -534,7 +534,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "f39f2a769f9744ecd42b7c84ab303e145680977751bcbaf59307220eee575c82"
+    "sha256": "df57866ddc32789416e10cf8eba0395fe3ad71cf23137a316e2133322c121442"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -580,26 +580,26 @@
       "intoto-statement-type",
       "intoto-tampered-payload"
     ],
-    "path": "vectors-agent-change-admission/MANIFEST.json",
+    "path": "corpora/vectors-agent-change-admission/MANIFEST.json",
     "sha256": "c8f06e9801d3b1eb4b7abbc7e786e165f921df67000219e95e8658218c90d022"
   },
   "members": [
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/admitted/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/admitted/case.json",
           "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
         },
         {
-          "path": "vectors-agent-change-admission/cases/admitted/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/admitted/envelope.json",
           "sha256": "e143a38b1867267dbb30f857d0cf212add47a7eb91ae18ee793722f61d265056"
         },
         {
-          "path": "vectors-agent-change-admission/cases/admitted/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/admitted/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/admitted/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/admitted/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -608,19 +608,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/rejected/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/rejected/case.json",
           "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
         },
         {
-          "path": "vectors-agent-change-admission/cases/rejected/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/rejected/envelope.json",
           "sha256": "0fe30f67407cc81f084bb72c904ebf21bad0e0cf6cf38c7188e2608c7bd580a0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/rejected/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/rejected/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/rejected/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/rejected/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -629,11 +629,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/admitted-reports-not-supplied/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/admitted-reports-not-supplied/case.json",
           "sha256": "49e36f58ccd8d1c851d020bba9ad7e26ebaa500db0e5468191fda444930a605a"
         },
         {
-          "path": "vectors-agent-change-admission/cases/admitted-reports-not-supplied/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/admitted-reports-not-supplied/envelope.json",
           "sha256": "e143a38b1867267dbb30f857d0cf212add47a7eb91ae18ee793722f61d265056"
         }
       ],
@@ -642,19 +642,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/admitted-unpinned-cosigner/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/admitted-unpinned-cosigner/case.json",
           "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
         },
         {
-          "path": "vectors-agent-change-admission/cases/admitted-unpinned-cosigner/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/admitted-unpinned-cosigner/envelope.json",
           "sha256": "717772d0baf1131db0e18f21f424c81e5b903b0183bbaebaf173dafd5a7e57ce"
         },
         {
-          "path": "vectors-agent-change-admission/cases/admitted-unpinned-cosigner/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/admitted-unpinned-cosigner/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/admitted-unpinned-cosigner/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/admitted-unpinned-cosigner/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -663,19 +663,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/admitted-informational-check-failed/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/admitted-informational-check-failed/case.json",
           "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
         },
         {
-          "path": "vectors-agent-change-admission/cases/admitted-informational-check-failed/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/admitted-informational-check-failed/envelope.json",
           "sha256": "1d2fee04c9eeb40638ba6f7cd6fbafbdcc58727f7cdcf325b356115cccdc9d2b"
         },
         {
-          "path": "vectors-agent-change-admission/cases/admitted-informational-check-failed/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/admitted-informational-check-failed/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/admitted-informational-check-failed/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/admitted-informational-check-failed/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -684,19 +684,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/tampered-payload/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/tampered-payload/case.json",
           "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
         },
         {
-          "path": "vectors-agent-change-admission/cases/tampered-payload/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/tampered-payload/envelope.json",
           "sha256": "48576728a5b5d5fca252d33aa0af41cb5a996fc836629614721d31bee223b4c7"
         },
         {
-          "path": "vectors-agent-change-admission/cases/tampered-payload/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/tampered-payload/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/tampered-payload/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/tampered-payload/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -705,19 +705,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/tampered-signature/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/tampered-signature/case.json",
           "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
         },
         {
-          "path": "vectors-agent-change-admission/cases/tampered-signature/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/tampered-signature/envelope.json",
           "sha256": "cd00b89ddb172c70ded56290eef933a840bf27afa457df359f330781d9550afc"
         },
         {
-          "path": "vectors-agent-change-admission/cases/tampered-signature/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/tampered-signature/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/tampered-signature/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/tampered-signature/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -726,19 +726,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/wrong-key/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/wrong-key/case.json",
           "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
         },
         {
-          "path": "vectors-agent-change-admission/cases/wrong-key/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/wrong-key/envelope.json",
           "sha256": "1fc7d942a11517dd933d81c4c3de13c25afd65780729164054e8d8468fef1304"
         },
         {
-          "path": "vectors-agent-change-admission/cases/wrong-key/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/wrong-key/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/wrong-key/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/wrong-key/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -747,19 +747,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/wrong-key-claims-pinned-keyid/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/wrong-key-claims-pinned-keyid/case.json",
           "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
         },
         {
-          "path": "vectors-agent-change-admission/cases/wrong-key-claims-pinned-keyid/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/wrong-key-claims-pinned-keyid/envelope.json",
           "sha256": "5af647e7d403bb7fb98fa4e831cb66029a1a3e8c23fe08011974ff9074c1e97b"
         },
         {
-          "path": "vectors-agent-change-admission/cases/wrong-key-claims-pinned-keyid/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/wrong-key-claims-pinned-keyid/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/wrong-key-claims-pinned-keyid/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/wrong-key-claims-pinned-keyid/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -768,19 +768,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/wrong-payload-type/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/wrong-payload-type/case.json",
           "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
         },
         {
-          "path": "vectors-agent-change-admission/cases/wrong-payload-type/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/wrong-payload-type/envelope.json",
           "sha256": "e14455b9b35b765c8b05f1a5c85e75d93a9f8b277d8e8900d3e55ea15042e6ad"
         },
         {
-          "path": "vectors-agent-change-admission/cases/wrong-payload-type/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/wrong-payload-type/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/wrong-payload-type/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/wrong-payload-type/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -789,19 +789,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/payload-not-object/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/payload-not-object/case.json",
           "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
         },
         {
-          "path": "vectors-agent-change-admission/cases/payload-not-object/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/payload-not-object/envelope.json",
           "sha256": "d8cee3355d99457d0ec948253047993c1ee40ba4dfad1ad28f129d3ac5866f9b"
         },
         {
-          "path": "vectors-agent-change-admission/cases/payload-not-object/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/payload-not-object/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/payload-not-object/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/payload-not-object/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -810,19 +810,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/wrong-predicate/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/wrong-predicate/case.json",
           "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
         },
         {
-          "path": "vectors-agent-change-admission/cases/wrong-predicate/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/wrong-predicate/envelope.json",
           "sha256": "98ce84752bef1716f679b9bef3b314fd7e5faf527594b470cf4fb98938c862e7"
         },
         {
-          "path": "vectors-agent-change-admission/cases/wrong-predicate/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/wrong-predicate/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/wrong-predicate/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/wrong-predicate/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -831,19 +831,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/missing-predicate/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/missing-predicate/case.json",
           "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
         },
         {
-          "path": "vectors-agent-change-admission/cases/missing-predicate/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/missing-predicate/envelope.json",
           "sha256": "65a664a744079da23f10cbfc86ba1561844c3dbc2397396048620515e8e1bcbd"
         },
         {
-          "path": "vectors-agent-change-admission/cases/missing-predicate/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/missing-predicate/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/missing-predicate/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/missing-predicate/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -852,19 +852,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/field-parent-empty/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-parent-empty/case.json",
           "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-parent-empty/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-parent-empty/envelope.json",
           "sha256": "c25b004c35815fa6c8af6714de8021282deb574ab657c932743985dbb73333c6"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-parent-empty/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-parent-empty/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-parent-empty/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-parent-empty/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -873,19 +873,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/field-candidate-missing/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-candidate-missing/case.json",
           "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-candidate-missing/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-candidate-missing/envelope.json",
           "sha256": "aca1ae209f3b03bbc55cdf77461235ba0f0e57e3155523e19a6873280544b9f8"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-candidate-missing/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-candidate-missing/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-candidate-missing/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-candidate-missing/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -894,19 +894,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/field-candidate-digest-uppercase/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-candidate-digest-uppercase/case.json",
           "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-candidate-digest-uppercase/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-candidate-digest-uppercase/envelope.json",
           "sha256": "06c9dcdfc28635cbcc49425ea56ed0cbff152cb482b677985a25765ded78ab7f"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-candidate-digest-uppercase/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-candidate-digest-uppercase/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-candidate-digest-uppercase/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-candidate-digest-uppercase/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -915,19 +915,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/field-evaluator-no-version/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-evaluator-no-version/case.json",
           "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-evaluator-no-version/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-evaluator-no-version/envelope.json",
           "sha256": "ae611288e8adcc10cfd346fa59dab953a1451f7a529a63e87479a7d6703633e5"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-evaluator-no-version/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-evaluator-no-version/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-evaluator-no-version/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-evaluator-no-version/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -936,19 +936,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/field-suite-file-short/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-suite-file-short/case.json",
           "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-suite-file-short/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-suite-file-short/envelope.json",
           "sha256": "efdc2472402d17de11bb5f9ab8614715b0e7a801bfa050ace421337624c56504"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-suite-file-short/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-suite-file-short/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-suite-file-short/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-suite-file-short/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -957,19 +957,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/field-exceptions-object/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-exceptions-object/case.json",
           "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-exceptions-object/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-exceptions-object/envelope.json",
           "sha256": "3d397137ce2f985ea1fc7b252b680506ff0563363e9e29bbed9a5e1a85eead57"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-exceptions-object/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-exceptions-object/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-exceptions-object/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-exceptions-object/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -978,19 +978,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/field-admitted-string/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-admitted-string/case.json",
           "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-admitted-string/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-admitted-string/envelope.json",
           "sha256": "276890563fddb55ce3eb217a4282d4f23179eb1f14fb54419785a9c57fafff19"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-admitted-string/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-admitted-string/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-admitted-string/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-admitted-string/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -999,19 +999,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/field-check-passed-string/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-check-passed-string/case.json",
           "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-check-passed-string/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-check-passed-string/envelope.json",
           "sha256": "fac8ee675ff388944c25554ee31695da0587944c0875957d03d7319684772a65"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-check-passed-string/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-check-passed-string/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-check-passed-string/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-check-passed-string/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -1020,19 +1020,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/field-corpus-digest-not-hex/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-corpus-digest-not-hex/case.json",
           "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-corpus-digest-not-hex/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-corpus-digest-not-hex/envelope.json",
           "sha256": "b90c2e92cb43a398bae7e538f899bd95ed9bc2f8121309270c012e8370dcbede"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-corpus-digest-not-hex/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-corpus-digest-not-hex/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-corpus-digest-not-hex/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-corpus-digest-not-hex/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -1041,19 +1041,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/field-report-digests-empty/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-report-digests-empty/case.json",
           "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-report-digests-empty/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-report-digests-empty/envelope.json",
           "sha256": "3066b28ca40c64e8a1731c782cb9219adfbe98c5c7930ae647e8072be588186b"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-report-digests-empty/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-report-digests-empty/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/field-report-digests-empty/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/field-report-digests-empty/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -1062,19 +1062,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/gate-missing/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/gate-missing/case.json",
           "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
         },
         {
-          "path": "vectors-agent-change-admission/cases/gate-missing/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/gate-missing/envelope.json",
           "sha256": "48362ac25d0b4cc365fa85da67618c3c2f1c4c02bd257d3549ac9b2d9c21645c"
         },
         {
-          "path": "vectors-agent-change-admission/cases/gate-missing/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/gate-missing/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/gate-missing/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/gate-missing/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -1083,19 +1083,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/admitted-with-failed-gate/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/admitted-with-failed-gate/case.json",
           "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
         },
         {
-          "path": "vectors-agent-change-admission/cases/admitted-with-failed-gate/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/admitted-with-failed-gate/envelope.json",
           "sha256": "b82ef927184623428a448a9cd3e1098e5e88830fe1ece031f7700f147a885ea5"
         },
         {
-          "path": "vectors-agent-change-admission/cases/admitted-with-failed-gate/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/admitted-with-failed-gate/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/admitted-with-failed-gate/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/admitted-with-failed-gate/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -1104,19 +1104,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/rejected-with-all-gates-passed/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/rejected-with-all-gates-passed/case.json",
           "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
         },
         {
-          "path": "vectors-agent-change-admission/cases/rejected-with-all-gates-passed/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/rejected-with-all-gates-passed/envelope.json",
           "sha256": "435015e8d25d8241fa14d64a35f23dcf72b70e10fa3034c76c3f02217b746224"
         },
         {
-          "path": "vectors-agent-change-admission/cases/rejected-with-all-gates-passed/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/rejected-with-all-gates-passed/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/rejected-with-all-gates-passed/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/rejected-with-all-gates-passed/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -1125,19 +1125,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/report-digest-mismatch/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/report-digest-mismatch/case.json",
           "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
         },
         {
-          "path": "vectors-agent-change-admission/cases/report-digest-mismatch/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/report-digest-mismatch/envelope.json",
           "sha256": "e143a38b1867267dbb30f857d0cf212add47a7eb91ae18ee793722f61d265056"
         },
         {
-          "path": "vectors-agent-change-admission/cases/report-digest-mismatch/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/report-digest-mismatch/report-heldout.json",
           "sha256": "1cd55649391dd0020ba7d89cfbde85bf0e8035fd4e3bb2e4926f006cd757ebe6"
         },
         {
-          "path": "vectors-agent-change-admission/cases/report-digest-mismatch/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/report-digest-mismatch/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -1146,23 +1146,23 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/report-not-named/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/report-not-named/case.json",
           "sha256": "bd6ff4f65a19844c0f41f1f0be2926ca050b1f499dc73dc71c7ad204726956d3"
         },
         {
-          "path": "vectors-agent-change-admission/cases/report-not-named/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/report-not-named/envelope.json",
           "sha256": "e143a38b1867267dbb30f857d0cf212add47a7eb91ae18ee793722f61d265056"
         },
         {
-          "path": "vectors-agent-change-admission/cases/report-not-named/report-audit-cohort.json",
+          "path": "corpora/vectors-agent-change-admission/cases/report-not-named/report-audit-cohort.json",
           "sha256": "a1f15ee0d71ec975235406b5c56f7aea1753dd6ed3f4170af79557011dfb59bb"
         },
         {
-          "path": "vectors-agent-change-admission/cases/report-not-named/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/report-not-named/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/report-not-named/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/report-not-named/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -1171,15 +1171,15 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/report-not-supplied/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/report-not-supplied/case.json",
           "sha256": "69e504f100df3046a92ca75aaa33ab3b0fed7886c50ccb5ba9c1c7ef67b23cc5"
         },
         {
-          "path": "vectors-agent-change-admission/cases/report-not-supplied/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/report-not-supplied/envelope.json",
           "sha256": "e143a38b1867267dbb30f857d0cf212add47a7eb91ae18ee793722f61d265056"
         },
         {
-          "path": "vectors-agent-change-admission/cases/report-not-supplied/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/report-not-supplied/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         }
       ],
@@ -1188,19 +1188,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/malformed-not-json/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/malformed-not-json/case.json",
           "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
         },
         {
-          "path": "vectors-agent-change-admission/cases/malformed-not-json/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/malformed-not-json/envelope.json",
           "sha256": "6c929b2d8f11bcc71ba080473377db524d77301b51de17e0f4fecdd1c0f8f65f"
         },
         {
-          "path": "vectors-agent-change-admission/cases/malformed-not-json/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/malformed-not-json/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/malformed-not-json/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/malformed-not-json/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -1209,19 +1209,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/malformed-signature-not-base64/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/malformed-signature-not-base64/case.json",
           "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
         },
         {
-          "path": "vectors-agent-change-admission/cases/malformed-signature-not-base64/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/malformed-signature-not-base64/envelope.json",
           "sha256": "2bd1fec4effeaa9fc0bb6de2e51f6544e279bcebbda41cbce73d44504949d9de"
         },
         {
-          "path": "vectors-agent-change-admission/cases/malformed-signature-not-base64/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/malformed-signature-not-base64/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/malformed-signature-not-base64/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/malformed-signature-not-base64/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -1230,19 +1230,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/intoto-admitted/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/intoto-admitted/case.json",
           "sha256": "9fbd7748df9a9844949318985adaffc33b3b3eeed63fb41561b55527c2eb4f05"
         },
         {
-          "path": "vectors-agent-change-admission/cases/intoto-admitted/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/intoto-admitted/envelope.json",
           "sha256": "cb0da4208bdc1e6b907f308a8877ff6915eeae8ae76340383d8e892ddf1494f3"
         },
         {
-          "path": "vectors-agent-change-admission/cases/intoto-admitted/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/intoto-admitted/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/intoto-admitted/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/intoto-admitted/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -1251,19 +1251,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/intoto-subject-mismatch/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/intoto-subject-mismatch/case.json",
           "sha256": "9fbd7748df9a9844949318985adaffc33b3b3eeed63fb41561b55527c2eb4f05"
         },
         {
-          "path": "vectors-agent-change-admission/cases/intoto-subject-mismatch/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/intoto-subject-mismatch/envelope.json",
           "sha256": "af2c39c9c13625b949695476512728050160916c0c666168513a4a0884966151"
         },
         {
-          "path": "vectors-agent-change-admission/cases/intoto-subject-mismatch/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/intoto-subject-mismatch/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/intoto-subject-mismatch/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/intoto-subject-mismatch/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -1272,19 +1272,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/intoto-statement-type/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/intoto-statement-type/case.json",
           "sha256": "9fbd7748df9a9844949318985adaffc33b3b3eeed63fb41561b55527c2eb4f05"
         },
         {
-          "path": "vectors-agent-change-admission/cases/intoto-statement-type/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/intoto-statement-type/envelope.json",
           "sha256": "ef3701eff2fe12574513c4fc2b9e4b67869eda316af1579a2e267ad4a4cc5fe7"
         },
         {
-          "path": "vectors-agent-change-admission/cases/intoto-statement-type/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/intoto-statement-type/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/intoto-statement-type/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/intoto-statement-type/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -1293,19 +1293,19 @@
     {
       "files": [
         {
-          "path": "vectors-agent-change-admission/cases/intoto-tampered-payload/case.json",
+          "path": "corpora/vectors-agent-change-admission/cases/intoto-tampered-payload/case.json",
           "sha256": "9fbd7748df9a9844949318985adaffc33b3b3eeed63fb41561b55527c2eb4f05"
         },
         {
-          "path": "vectors-agent-change-admission/cases/intoto-tampered-payload/envelope.json",
+          "path": "corpora/vectors-agent-change-admission/cases/intoto-tampered-payload/envelope.json",
           "sha256": "1e141cd38d0730f914136eb2049442e2386af1eee37be4c645c531221cd35986"
         },
         {
-          "path": "vectors-agent-change-admission/cases/intoto-tampered-payload/report-heldout.json",
+          "path": "corpora/vectors-agent-change-admission/cases/intoto-tampered-payload/report-heldout.json",
           "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
         },
         {
-          "path": "vectors-agent-change-admission/cases/intoto-tampered-payload/report-replay.json",
+          "path": "corpora/vectors-agent-change-admission/cases/intoto-tampered-payload/report-replay.json",
           "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
         }
       ],
@@ -1328,7 +1328,7 @@
       "reference": {
         "path": "release/intake/native/vectors-agent-change-admission.json",
         "serialization": "bytes",
-        "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+        "sha256": "32d1dd2a6a43360ea294f5dcbdeb6cf42a13e36962bb60346686ad0738ccddec"
       }
     },
     {
@@ -1443,11 +1443,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+        "sha256": "32d1dd2a6a43360ea294f5dcbdeb6cf42a13e36962bb60346686ad0738ccddec"
       },
       {
         "process": "run-2",
-        "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+        "sha256": "32d1dd2a6a43360ea294f5dcbdeb6cf42a13e36962bb60346686ad0738ccddec"
       }
     ],
     "seed": null,

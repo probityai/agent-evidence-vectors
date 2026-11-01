@@ -16,8 +16,8 @@
       "path": "release/CORPUS-DIGESTS.txt",
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
-    "routine": "corpus_digest in vectors-receipt-signature/digest.py",
-    "routine-file": "vectors-receipt-signature/digest.py",
+    "routine": "corpus_digest in corpora/vectors-receipt-signature/digest.py",
+    "routine-file": "corpora/vectors-receipt-signature/digest.py",
     "serialization": "corpus-routine",
     "sha256": "cb490284f25c5eebc0a91c7776e6f195ae571c4f7dce029ae437128fce03a6ae",
     "verdicts": {
@@ -31,7 +31,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+          "sha256": "c81566e383f4c7f2ee1232ac8ccd5100e40c1948031bd89b8202ca7817f12a7d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -40,12 +40,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+          "sha256": "c81566e383f4c7f2ee1232ac8ccd5100e40c1948031bd89b8202ca7817f12a7d"
         },
-        "swapped-in": "801d1addb7aa2febd1dadadeb4d8f99090edd8187d34955681b70948dec8cafd",
+        "swapped-in": "1363090ea9226cb4d049a483e81694b173834107e078f80c4d99401ba0eaaf2b",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-receipt-signature/INDEX.md",
+      "path": "corpora/vectors-receipt-signature/INDEX.md",
       "serialization": "bytes",
       "sha256": "2ba2bc5895387a5b4a8d86398f5fd4311d2f12a1077c5bd60fab1eb535998d99"
     },
@@ -54,7 +54,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+          "sha256": "c81566e383f4c7f2ee1232ac8ccd5100e40c1948031bd89b8202ca7817f12a7d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -63,12 +63,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+          "sha256": "c81566e383f4c7f2ee1232ac8ccd5100e40c1948031bd89b8202ca7817f12a7d"
         },
-        "swapped-in": "cd51179b538cc5abfa1a59009270ed25f4b19bc3baa82a48428367c3fceed59a",
+        "swapped-in": "98590f108691a5754e290d816ab20025d119ec1827699b88216694ee9c463516",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-receipt-signature/README.md",
+      "path": "corpora/vectors-receipt-signature/README.md",
       "serialization": "bytes",
       "sha256": "302dd1c7ecf6bcb4ea12fc998b5dca5c5f80c87c7c96c58c728de1ed749baada"
     },
@@ -77,7 +77,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+          "sha256": "c81566e383f4c7f2ee1232ac8ccd5100e40c1948031bd89b8202ca7817f12a7d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -86,12 +86,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+          "sha256": "c81566e383f4c7f2ee1232ac8ccd5100e40c1948031bd89b8202ca7817f12a7d"
         },
-        "swapped-in": "ef84bd2fca3f0a5013ea9d411dd7045dc0a3db4ff582922e30a058aeed5277db",
+        "swapped-in": "3d3ccd2a2d66d15a645fd90ad87a0621ae7db9d3db64062b9f0adcc5b44da07a",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-receipt-signature/digest.py",
+      "path": "corpora/vectors-receipt-signature/digest.py",
       "serialization": "bytes",
       "sha256": "e25e8e246981898682cd89c6efe095fdbed2469fac99e13decbe40e718fa5d21"
     },
@@ -100,7 +100,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+          "sha256": "c81566e383f4c7f2ee1232ac8ccd5100e40c1948031bd89b8202ca7817f12a7d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -109,12 +109,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+          "sha256": "c81566e383f4c7f2ee1232ac8ccd5100e40c1948031bd89b8202ca7817f12a7d"
         },
-        "swapped-in": "1c3722e7699385f844f2c4c7feb799ce5ba79760a87dc2f4f2403bcadc0ca9c8",
+        "swapped-in": "cfb27c14929d1a1a94457c2efc7c25f511ff7ab324040cbf214f775eed59c369",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-receipt-signature/gen_vectors.py",
+      "path": "corpora/vectors-receipt-signature/gen_vectors.py",
       "serialization": "bytes",
       "sha256": "c4870334ee18bfabb4b97da689c8a1e251f4b0788fbf44b334997740b3cd98f4"
     },
@@ -123,20 +123,20 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+          "sha256": "c81566e383f4c7f2ee1232ac8ccd5100e40c1948031bd89b8202ca7817f12a7d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
-          "vectors-receipt-signature/MANIFEST.json"
+          "corpora/vectors-receipt-signature/MANIFEST.json"
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "ea0ac8300426b8ec4384b8a394c7e229d07fae3226e1ad435816a991e0a44626"
+          "sha256": "643eef72bbe48d0e75303cd07abb1a1a60c4315c2b6b5ac576ff1d11db7ff81d"
         },
-        "swapped-in": "2cb7c756f774a391401e31af58c4813a97d74473aa17553007661c4db53af5e6",
+        "swapped-in": "d9779196886a4bd1e0fd383ee39c5370a33376404207b4f3713a28943f934bdb",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-receipt-signature/keys/jwks-no-window.json",
+      "path": "corpora/vectors-receipt-signature/keys/jwks-no-window.json",
       "serialization": "bytes",
       "sha256": "12943aab1abb1f3cc85c058bc2a2caf5245714cf516bbab171ae622fbcce8cd7"
     },
@@ -145,20 +145,20 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+          "sha256": "c81566e383f4c7f2ee1232ac8ccd5100e40c1948031bd89b8202ca7817f12a7d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
-          "vectors-receipt-signature/MANIFEST.json"
+          "corpora/vectors-receipt-signature/MANIFEST.json"
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "1c1fb616167a1da6651c268b61ab03ba94ac09307c0970d371f1fe8cabbd5669"
+          "sha256": "ca6a1a7549ebe592cc6f65e11890079b862fdea29078d124645a46f0dadf8ece"
         },
-        "swapped-in": "298cdfe4d5944b06a8c3a6eab6970e5147ba37c545a31607e5b788473b0b13e6",
+        "swapped-in": "1aeab573499ba040f805b71b4a613d2badc26cd706c4679829925e1bad371a1e",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-receipt-signature/keys/jwks.json",
+      "path": "corpora/vectors-receipt-signature/keys/jwks.json",
       "serialization": "bytes",
       "sha256": "5f48f37dea8f6cc4197b97ccbb2d39e5ac12a789d054d3b6dd8edf4e642de441"
     },
@@ -167,20 +167,20 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+          "sha256": "c81566e383f4c7f2ee1232ac8ccd5100e40c1948031bd89b8202ca7817f12a7d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
-          "vectors-receipt-signature/MANIFEST.json"
+          "corpora/vectors-receipt-signature/MANIFEST.json"
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "d0716d3b27a0924727cfaa7a2debad08a964fd11016df6ae875a864f3db4acce"
+          "sha256": "59bc2917d800b71e162a33e4ccd272dc358068b86738a98d5b3063894dd32c02"
         },
-        "swapped-in": "c299cb28f37e7a44b3967dcd8dbbc8f22552e6fc0074c162fe7609b32b17efe3",
+        "swapped-in": "420f547451c11c2f1e78ad00f066a1d279d10783e8428ea93ff34481b643a711",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-receipt-signature/spec-vendored/draft-farley-acta-signed-receipts-03.txt",
+      "path": "corpora/vectors-receipt-signature/spec-vendored/draft-farley-acta-signed-receipts-03.txt",
       "serialization": "bytes",
       "sha256": "bcde71799a621305254ea8b442fc829ac6d65fcff039f365e8a2349d8e902f19"
     },
@@ -189,7 +189,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+          "sha256": "c81566e383f4c7f2ee1232ac8ccd5100e40c1948031bd89b8202ca7817f12a7d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -198,12 +198,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+          "sha256": "c81566e383f4c7f2ee1232ac8ccd5100e40c1948031bd89b8202ca7817f12a7d"
         },
-        "swapped-in": "376f4a5975a2dfe1b04249c56c4e3e6f2dce4201648e8884f383ce82f7b19b20",
+        "swapped-in": "ac43a847f5d9da53c52608e3de98949a0d1baceb182168c85db7484df552d958",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-receipt-signature/tools/veritasacta-verify.py",
+      "path": "corpora/vectors-receipt-signature/tools/veritasacta-verify.py",
       "serialization": "bytes",
       "sha256": "97160a53bf23ee4ad319ffd3054cc9302138986f7730ec3a25f98a77b1c51c34"
     }
@@ -222,7 +222,7 @@
         "suffix": ".json"
       }
     ],
-    "root": "vectors-receipt-signature"
+    "root": "corpora/vectors-receipt-signature"
   },
   "byte-identity": {
     "pins": 31,
@@ -234,9 +234,9 @@
   "checker": {
     "commands": [
       "go build -o aee-verify ./cmd/aee-verify",
-      "aee-verify -json vectors-receipt-signature",
-      "aee-verify -json vectors-receipt-signature",
-      "aee-verify vectors-receipt-signature"
+      "aee-verify -json corpora/vectors-receipt-signature",
+      "aee-verify -json corpora/vectors-receipt-signature",
+      "aee-verify corpora/vectors-receipt-signature"
     ],
     "dependencies": [
       {
@@ -258,11 +258,11 @@
       "paths": [
         "aee",
         "cmd/aee-verify",
-        "corpora",
+        "corpusreaders",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "712a1932ef34c3166fdc0517647e0008db691ea8963f36e1331517673e968c64"
+      "sha256": "2417e926ca98a6022a518e36af066f6072afc9f6cb2009a276f1d6fbb0775bf7"
     },
     "runtime": {
       "name": "go",
@@ -271,7 +271,7 @@
     "shared-verification-code": [
       "aee",
       "cmd/aee-verify",
-      "corpora",
+      "corpusreaders",
       "go.mod"
     ]
   },
@@ -479,7 +479,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "3772d38685897198ec9eaa38c38c13c47decf3e379d6cc103dd778235a0e294d"
+    "sha256": "998268ae81d9ae3352a12a1e326b93e721ff517c85a378d4426c6e811ce127a9"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -515,14 +515,14 @@
       "ve24bce7210cacee9",
       "vea8370fb85e1b4b1"
     ],
-    "path": "vectors-receipt-signature/MANIFEST.json",
+    "path": "corpora/vectors-receipt-signature/MANIFEST.json",
     "sha256": "df880762ac312d4754fa3ac85c21a1356552d4d442503b194324449bfc79c50c"
   },
   "members": [
     {
       "files": [
         {
-          "path": "vectors-receipt-signature/receipts/v0142580fad54af78.json",
+          "path": "corpora/vectors-receipt-signature/receipts/v0142580fad54af78.json",
           "sha256": "0142580fad54af78b8aa87581c5db0d56862662e1832f0cb417c812a5a93e3cd"
         }
       ],
@@ -531,7 +531,7 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-signature/receipts/v03377fbbac6d12f8.json",
+          "path": "corpora/vectors-receipt-signature/receipts/v03377fbbac6d12f8.json",
           "sha256": "03377fbbac6d12f86c446b06194dcc0b92b8e5fc2ff3a5976b67c6abcd1feb76"
         }
       ],
@@ -540,7 +540,7 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-signature/receipts/v0340fed8ef07e072.json",
+          "path": "corpora/vectors-receipt-signature/receipts/v0340fed8ef07e072.json",
           "sha256": "0340fed8ef07e072f51848c5ee47f241bbca4d43f1f62821fedb9ea043ba7375"
         }
       ],
@@ -549,7 +549,7 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-signature/receipts/v1adc0db0267a742b.json",
+          "path": "corpora/vectors-receipt-signature/receipts/v1adc0db0267a742b.json",
           "sha256": "1adc0db0267a742b05ff4cadd613b64b78237dffa3511a88fdc2994aceb1e152"
         }
       ],
@@ -558,7 +558,7 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-signature/receipts/v2c8c0aabb75e8aa0.json",
+          "path": "corpora/vectors-receipt-signature/receipts/v2c8c0aabb75e8aa0.json",
           "sha256": "2c8c0aabb75e8aa05a9be71a864489b748ae0de97fb7b7f6afb09e4505533972"
         }
       ],
@@ -567,7 +567,7 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-signature/receipts/v2e98d2f14251c8d6.json",
+          "path": "corpora/vectors-receipt-signature/receipts/v2e98d2f14251c8d6.json",
           "sha256": "2e98d2f14251c8d650db34990ce3e2c7ff35932ae6f33d98f17f1ab5ac08b255"
         }
       ],
@@ -576,7 +576,7 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-signature/receipts/v2f0a83c1364e52bc.json",
+          "path": "corpora/vectors-receipt-signature/receipts/v2f0a83c1364e52bc.json",
           "sha256": "2f0a83c1364e52bc3e43f56bffa3e2c802855d1f033dff1f3434b0f6a6ac0b37"
         }
       ],
@@ -585,7 +585,7 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-signature/receipts/v3bb98f09b3068de5.json",
+          "path": "corpora/vectors-receipt-signature/receipts/v3bb98f09b3068de5.json",
           "sha256": "3bb98f09b3068de56b076c70040d7f0d7283b107f15f62afe03b54e8bff86c95"
         }
       ],
@@ -594,7 +594,7 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-signature/receipts/v4ec9fa36ae77ce07.json",
+          "path": "corpora/vectors-receipt-signature/receipts/v4ec9fa36ae77ce07.json",
           "sha256": "4ec9fa36ae77ce072a739608d965f7e68cc963c6a443d6bc586100348dd4df66"
         }
       ],
@@ -603,7 +603,7 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-signature/receipts/v4f9fe96e52a39bfb.json",
+          "path": "corpora/vectors-receipt-signature/receipts/v4f9fe96e52a39bfb.json",
           "sha256": "4f9fe96e52a39bfb332e405381beeca347a3283a491cf81aaa51717ab84ec440"
         }
       ],
@@ -612,7 +612,7 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-signature/receipts/v5397adb77c3e6754.json",
+          "path": "corpora/vectors-receipt-signature/receipts/v5397adb77c3e6754.json",
           "sha256": "5397adb77c3e675409401cf7ec3f3553833f27ffed13f053d326939d3aa63327"
         }
       ],
@@ -621,15 +621,15 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-signature/context/ce0cdbb366659fa7c.json",
+          "path": "corpora/vectors-receipt-signature/context/ce0cdbb366659fa7c.json",
           "sha256": "e0cdbb366659fa7cc657742bca35ee4423308ac46da01d7d1b90bff1292219cd"
         },
         {
-          "path": "vectors-receipt-signature/receipts/v0142580fad54af78.json",
+          "path": "corpora/vectors-receipt-signature/receipts/v0142580fad54af78.json",
           "sha256": "0142580fad54af78b8aa87581c5db0d56862662e1832f0cb417c812a5a93e3cd"
         },
         {
-          "path": "vectors-receipt-signature/receipts/v814de39bf68212fc.json",
+          "path": "corpora/vectors-receipt-signature/receipts/v814de39bf68212fc.json",
           "sha256": "814de39bf68212fcac67e73f7a68f1440b429c50e00dd7e8c6580b69dc6260b2"
         }
       ],
@@ -638,15 +638,15 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-signature/context/ce0cdbb366659fa7c.json",
+          "path": "corpora/vectors-receipt-signature/context/ce0cdbb366659fa7c.json",
           "sha256": "e0cdbb366659fa7cc657742bca35ee4423308ac46da01d7d1b90bff1292219cd"
         },
         {
-          "path": "vectors-receipt-signature/receipts/v0142580fad54af78.json",
+          "path": "corpora/vectors-receipt-signature/receipts/v0142580fad54af78.json",
           "sha256": "0142580fad54af78b8aa87581c5db0d56862662e1832f0cb417c812a5a93e3cd"
         },
         {
-          "path": "vectors-receipt-signature/receipts/v814de39bf68212fc.json",
+          "path": "corpora/vectors-receipt-signature/receipts/v814de39bf68212fc.json",
           "sha256": "814de39bf68212fcac67e73f7a68f1440b429c50e00dd7e8c6580b69dc6260b2"
         }
       ],
@@ -655,7 +655,7 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-signature/receipts/v814de39bf68212fc.json",
+          "path": "corpora/vectors-receipt-signature/receipts/v814de39bf68212fc.json",
           "sha256": "814de39bf68212fcac67e73f7a68f1440b429c50e00dd7e8c6580b69dc6260b2"
         }
       ],
@@ -664,7 +664,7 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-signature/receipts/v9f2a63a5186a2fa8.json",
+          "path": "corpora/vectors-receipt-signature/receipts/v9f2a63a5186a2fa8.json",
           "sha256": "9f2a63a5186a2fa87a36a93c1b0236f605b90e11fd99b60139ae3d04df8be4a7"
         }
       ],
@@ -673,7 +673,7 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-signature/receipts/vaafe541bbd74c320.json",
+          "path": "corpora/vectors-receipt-signature/receipts/vaafe541bbd74c320.json",
           "sha256": "aafe541bbd74c320be319674f4a82d035dd5f9701d47ca5b52d8329f57f25f6c"
         }
       ],
@@ -682,11 +682,11 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-signature/receipts/v0142580fad54af78.json",
+          "path": "corpora/vectors-receipt-signature/receipts/v0142580fad54af78.json",
           "sha256": "0142580fad54af78b8aa87581c5db0d56862662e1832f0cb417c812a5a93e3cd"
         },
         {
-          "path": "vectors-receipt-signature/receipts/v814de39bf68212fc.json",
+          "path": "corpora/vectors-receipt-signature/receipts/v814de39bf68212fc.json",
           "sha256": "814de39bf68212fcac67e73f7a68f1440b429c50e00dd7e8c6580b69dc6260b2"
         }
       ],
@@ -695,7 +695,7 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-signature/receipts/vad088133176d7114.json",
+          "path": "corpora/vectors-receipt-signature/receipts/vad088133176d7114.json",
           "sha256": "ad088133176d7114b49a30e860bd28570fba5d5931d5a7fb8c8c75d838559a30"
         }
       ],
@@ -704,7 +704,7 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-signature/receipts/vb19450def8dcc5cd.json",
+          "path": "corpora/vectors-receipt-signature/receipts/vb19450def8dcc5cd.json",
           "sha256": "b19450def8dcc5cddff22635c4e4d887e9842f8aa748475ed4f93408360378c4"
         }
       ],
@@ -713,7 +713,7 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-signature/receipts/vbc25ef71da0567f9.json",
+          "path": "corpora/vectors-receipt-signature/receipts/vbc25ef71da0567f9.json",
           "sha256": "bc25ef71da0567f94063ce568e9020dca167c6213d38f7710b7b2f6122f4c478"
         }
       ],
@@ -722,7 +722,7 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-signature/receipts/vc4b43c5739979581.json",
+          "path": "corpora/vectors-receipt-signature/receipts/vc4b43c5739979581.json",
           "sha256": "c4b43c5739979581d7ccac7275c2caf78754f53188ca22ac23ac32d3abaa5508"
         }
       ],
@@ -731,7 +731,7 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-signature/receipts/vcc3cdb871ff27027.json",
+          "path": "corpora/vectors-receipt-signature/receipts/vcc3cdb871ff27027.json",
           "sha256": "cc3cdb871ff270270354e67eceda3a2855ccdd941b151e6fb3919350edb8d7a4"
         }
       ],
@@ -740,7 +740,7 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-signature/receipts/ve116653dd041dda0.json",
+          "path": "corpora/vectors-receipt-signature/receipts/ve116653dd041dda0.json",
           "sha256": "e116653dd041dda0d00164fae31d899a27baffc5c8ee8f5d649fbd7d95313c06"
         }
       ],
@@ -749,11 +749,11 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-signature/receipts/v2f0a83c1364e52bc.json",
+          "path": "corpora/vectors-receipt-signature/receipts/v2f0a83c1364e52bc.json",
           "sha256": "2f0a83c1364e52bc3e43f56bffa3e2c802855d1f033dff1f3434b0f6a6ac0b37"
         },
         {
-          "path": "vectors-receipt-signature/receipts/v814de39bf68212fc.json",
+          "path": "corpora/vectors-receipt-signature/receipts/v814de39bf68212fc.json",
           "sha256": "814de39bf68212fcac67e73f7a68f1440b429c50e00dd7e8c6580b69dc6260b2"
         }
       ],
@@ -762,7 +762,7 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-signature/receipts/vea8370fb85e1b4b1.json",
+          "path": "corpora/vectors-receipt-signature/receipts/vea8370fb85e1b4b1.json",
           "sha256": "ea8370fb85e1b4b143d88e349fb38581f30a37a86b1d8bdc7539f2cae77cb1ee"
         }
       ],
@@ -803,7 +803,7 @@
       "reference": {
         "path": "release/intake/native/vectors-receipt-signature.json",
         "serialization": "bytes",
-        "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+        "sha256": "c81566e383f4c7f2ee1232ac8ccd5100e40c1948031bd89b8202ca7817f12a7d"
       }
     },
     {
@@ -902,11 +902,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+        "sha256": "c81566e383f4c7f2ee1232ac8ccd5100e40c1948031bd89b8202ca7817f12a7d"
       },
       {
         "process": "run-2",
-        "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+        "sha256": "c81566e383f4c7f2ee1232ac8ccd5100e40c1948031bd89b8202ca7817f12a7d"
       }
     ],
     "seed": null,

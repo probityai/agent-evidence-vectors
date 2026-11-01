@@ -17,7 +17,7 @@ does not recompute.
 
 These corpora have no external-verifier contract: a named verifier is refused.
 probity-verify, the implementation the rules come from, is replayed over every member
-by ``vectors-done-receipt/crosscheck_probity_verify.py``.
+by ``corpora/vectors-done-receipt/crosscheck_probity_verify.py``.
 """
 
 from __future__ import annotations
@@ -205,7 +205,7 @@ def check(suite: str, root: Path | None = None) -> tuple[int, list[str]]:
 def _default_root(suite: str) -> Path:
     name = "vectors-" + suite.split("/")[0]
     packaged = ROOT_PARENT / "corpora" / name
-    return packaged if packaged.exists() else ROOT_PARENT.parents[1] / name
+    return packaged if packaged.exists() else ROOT_PARENT.parents[1] / "corpora" / name
 
 
 def run(suite: str, root: str, verifier: list[str] | None, report_path: str,

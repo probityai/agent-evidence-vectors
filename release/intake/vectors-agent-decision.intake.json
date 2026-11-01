@@ -14,8 +14,8 @@
       "path": "release/CORPUS-DIGESTS.txt",
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
-    "routine": "corpus_digest in vectors-agent-decision/digest.py",
-    "routine-file": "vectors-agent-decision/digest.py",
+    "routine": "corpus_digest in corpora/vectors-agent-decision/digest.py",
+    "routine-file": "corpora/vectors-agent-decision/digest.py",
     "serialization": "corpus-routine",
     "sha256": "a2674abfcf5b0edfaa8fe0f68be393066d962aee95c24362e00ea45ddbed1efc",
     "verdicts": {
@@ -29,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+          "sha256": "43e80883f64452f48ad9e26262e34e8256d43094cd2066d0fdcce6ff45c4343e"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,12 +38,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+          "sha256": "43e80883f64452f48ad9e26262e34e8256d43094cd2066d0fdcce6ff45c4343e"
         },
-        "swapped-in": "fd3c58ae64270382ebf17bb96d82ab295b970cf0544a821127e5cf8d390e05b3",
+        "swapped-in": "5c6c2f725d95af114738e9377d039ca1ad42e174f301fd5b4518f042fcb0d329",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-agent-decision/INDEX.md",
+      "path": "corpora/vectors-agent-decision/INDEX.md",
       "serialization": "bytes",
       "sha256": "909ce1a0607f9d960fe6aa8cf9d6f528f14ddb23d4d8ec96b5d7a907b9d9bf53"
     },
@@ -52,7 +52,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+          "sha256": "43e80883f64452f48ad9e26262e34e8256d43094cd2066d0fdcce6ff45c4343e"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,12 +61,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+          "sha256": "43e80883f64452f48ad9e26262e34e8256d43094cd2066d0fdcce6ff45c4343e"
         },
-        "swapped-in": "decee1bb4d5a5626f4a7b9c90fc7a49b847cb65ec5e2dc60d466e7f95e01ef64",
+        "swapped-in": "51a9e623bb1fc29de83615f7ddf3402938deaea8a0a1cf915d1bc051834d0486",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-agent-decision/README.md",
+      "path": "corpora/vectors-agent-decision/README.md",
       "serialization": "bytes",
       "sha256": "1b6366ef0f8b35332d0b7ccc81b9bd81d182433a8042baf1a1c05a4ee626e240"
     },
@@ -75,7 +75,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+          "sha256": "43e80883f64452f48ad9e26262e34e8256d43094cd2066d0fdcce6ff45c4343e"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,12 +84,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+          "sha256": "43e80883f64452f48ad9e26262e34e8256d43094cd2066d0fdcce6ff45c4343e"
         },
-        "swapped-in": "fd302a9ad4f7f8935462a0bf14bbd6f3b52fad36b782d454f1e7fe31a2c52158",
+        "swapped-in": "63d34c41765a960f7c71280b4eb411b43cad348337582b97aeb533c722e1b11a",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-agent-decision/canonical.py",
+      "path": "corpora/vectors-agent-decision/canonical.py",
       "serialization": "bytes",
       "sha256": "4eddda11fcd55ba7286f2e0164a09b8207f707bd32b3eda756488241bd6380eb"
     },
@@ -98,7 +98,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+          "sha256": "43e80883f64452f48ad9e26262e34e8256d43094cd2066d0fdcce6ff45c4343e"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,21 +107,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+          "sha256": "43e80883f64452f48ad9e26262e34e8256d43094cd2066d0fdcce6ff45c4343e"
         },
-        "swapped-in": "ae8f0cfea2e7f82b2b37c0cdeffa531bc9add1dfac1e860aa5717600ee518626",
+        "swapped-in": "ad39f44ee4f44c34d91207142c0caabd12793c51d8311074385e9bec7aaabf48",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-agent-decision/check_vectors.py",
+      "path": "corpora/vectors-agent-decision/check_vectors.py",
       "serialization": "bytes",
-      "sha256": "9f78d1864d6c8ce4357f36ed3c60c1e225b8a3dd567cfad54533df4800f5d285"
+      "sha256": "a29a41651d824f416f4b63032d3bd0172f8f1d100fe72f0f325560d4a9f2cf77"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+          "sha256": "43e80883f64452f48ad9e26262e34e8256d43094cd2066d0fdcce6ff45c4343e"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -130,12 +130,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+          "sha256": "43e80883f64452f48ad9e26262e34e8256d43094cd2066d0fdcce6ff45c4343e"
         },
-        "swapped-in": "d1280cdc9bab6dd49a9138567e58bb1733d39f62c5853a4045c46d720072d5e6",
+        "swapped-in": "6cc9888cc770511d7ddd84f747af99f47fee14afade57d77b1db5c825b476fb5",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-agent-decision/digest.py",
+      "path": "corpora/vectors-agent-decision/digest.py",
       "serialization": "bytes",
       "sha256": "538179eeb7b45b62da35f31020b349d4eb5b7e3d817028d85591fe2a50730635"
     },
@@ -144,7 +144,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+          "sha256": "43e80883f64452f48ad9e26262e34e8256d43094cd2066d0fdcce6ff45c4343e"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -153,12 +153,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+          "sha256": "43e80883f64452f48ad9e26262e34e8256d43094cd2066d0fdcce6ff45c4343e"
         },
-        "swapped-in": "4a94bea46a18683a526769f3888f17cf8e5ddadc14cb296d1e4650378fe61a43",
+        "swapped-in": "a5d10fed4611fcfc218d09656bda8e2188ff3d7e504c816e4a54e53b68b3b685",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-agent-decision/gen_vectors.py",
+      "path": "corpora/vectors-agent-decision/gen_vectors.py",
       "serialization": "bytes",
       "sha256": "890060453e159e61512bc2312c81030b14f40027b6c5d7686dcc956fa4fe03cc"
     }
@@ -177,7 +177,7 @@
         "suffix": ".json"
       }
     ],
-    "root": "vectors-agent-decision"
+    "root": "corpora/vectors-agent-decision"
   },
   "byte-identity": {
     "pins": 74,
@@ -189,9 +189,9 @@
   "checker": {
     "commands": [
       "go build -o aee-verify ./cmd/aee-verify",
-      "aee-verify -json vectors-agent-decision",
-      "aee-verify -json vectors-agent-decision",
-      "aee-verify vectors-agent-decision"
+      "aee-verify -json corpora/vectors-agent-decision",
+      "aee-verify -json corpora/vectors-agent-decision",
+      "aee-verify corpora/vectors-agent-decision"
     ],
     "dependencies": [
       {
@@ -213,11 +213,11 @@
       "paths": [
         "aee",
         "cmd/aee-verify",
-        "corpora",
+        "corpusreaders",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "712a1932ef34c3166fdc0517647e0008db691ea8963f36e1331517673e968c64"
+      "sha256": "2417e926ca98a6022a518e36af066f6072afc9f6cb2009a276f1d6fbb0775bf7"
     },
     "runtime": {
       "name": "go",
@@ -226,7 +226,7 @@
     "shared-verification-code": [
       "aee",
       "cmd/aee-verify",
-      "corpora",
+      "corpusreaders",
       "go.mod"
     ]
   },
@@ -562,7 +562,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "7c831cea49b617c849e45192b6d9293308d6ef32baede4652d27d1314a7a255d"
+    "sha256": "d5579288d300f8d18c954c9be855dd52dd11443f5eecba7b820bc961c28fdda5"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -614,18 +614,18 @@
       "veca390969b070fe0",
       "vf15b2cf59647c11e"
     ],
-    "path": "vectors-agent-decision/MANIFEST.json",
+    "path": "corpora/vectors-agent-decision/MANIFEST.json",
     "sha256": "fe3d90da3108411ee49b6db7486dcafd06cdab7aaaef3638bde088108f28e11a"
   },
   "members": [
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/v06a8c6ac559daa15.json",
+          "path": "corpora/vectors-agent-decision/arguments/v06a8c6ac559daa15.json",
           "sha256": "224787d4c472b86ba9edd5f32c8b49461d0e8dc2ea13264102e9f474e825344b"
         },
         {
-          "path": "vectors-agent-decision/statements/v06a8c6ac559daa15.json",
+          "path": "corpora/vectors-agent-decision/statements/v06a8c6ac559daa15.json",
           "sha256": "f086a01380f35cfb6ab9431670b27ef6ce34bf0d1b972f274afa57b152d536cd"
         }
       ],
@@ -634,11 +634,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/v12af945ff61fba34.json",
+          "path": "corpora/vectors-agent-decision/arguments/v12af945ff61fba34.json",
           "sha256": "47cf5dec16a0fe8250e1bd42f9d725813a7181259e941ae5c2286ba8863c4a28"
         },
         {
-          "path": "vectors-agent-decision/statements/v12af945ff61fba34.json",
+          "path": "corpora/vectors-agent-decision/statements/v12af945ff61fba34.json",
           "sha256": "ed65bd567f87ca9f9181d929525193fcf45049a95737b07a32f414608eb88519"
         }
       ],
@@ -647,11 +647,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/v15e3eb6b1879db28.json",
+          "path": "corpora/vectors-agent-decision/arguments/v15e3eb6b1879db28.json",
           "sha256": "45b27bbdd9301823b445892f8249700ca3cb607003ba03e799184dd416906c15"
         },
         {
-          "path": "vectors-agent-decision/statements/v15e3eb6b1879db28.json",
+          "path": "corpora/vectors-agent-decision/statements/v15e3eb6b1879db28.json",
           "sha256": "65d76a0f6a4371476bef96ab42b5486676d8957fd1caab900f637096a7e7d82d"
         }
       ],
@@ -660,11 +660,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/v1e0f8f6020f36e17.json",
+          "path": "corpora/vectors-agent-decision/arguments/v1e0f8f6020f36e17.json",
           "sha256": "c7108a8ece3fa4553c720290fb8e6daf15724d7e11c18e991588d4e8a8f51f24"
         },
         {
-          "path": "vectors-agent-decision/statements/v1e0f8f6020f36e17.json",
+          "path": "corpora/vectors-agent-decision/statements/v1e0f8f6020f36e17.json",
           "sha256": "e8c09ddae250951fb3f2d970031d345ba1f13aa03a892ecd829aa30daedb8df8"
         }
       ],
@@ -673,11 +673,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/v2014ef47ee7cee4e.json",
+          "path": "corpora/vectors-agent-decision/arguments/v2014ef47ee7cee4e.json",
           "sha256": "c7108a8ece3fa4553c720290fb8e6daf15724d7e11c18e991588d4e8a8f51f24"
         },
         {
-          "path": "vectors-agent-decision/statements/v2014ef47ee7cee4e.json",
+          "path": "corpora/vectors-agent-decision/statements/v2014ef47ee7cee4e.json",
           "sha256": "51b3c88b83ae72c82d0a76e3222349c760424ba6e37bf3c32ed93c67c8178f36"
         }
       ],
@@ -686,11 +686,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/v2284940a27344c18.json",
+          "path": "corpora/vectors-agent-decision/arguments/v2284940a27344c18.json",
           "sha256": "6a9ef05986bbd224edf29a6b5fc519dd948cd664dc01eb2d3f5f9cf9a4f6733a"
         },
         {
-          "path": "vectors-agent-decision/statements/v2284940a27344c18.json",
+          "path": "corpora/vectors-agent-decision/statements/v2284940a27344c18.json",
           "sha256": "045c35b339a5fb9ecae75beb922037f24f79a333852f4b026a15bbd47c4da67e"
         }
       ],
@@ -699,7 +699,7 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/statements/v23495c55a6546e67.json",
+          "path": "corpora/vectors-agent-decision/statements/v23495c55a6546e67.json",
           "sha256": "23495c55a6546e6701dfb5df4d4cdac15efdc9fe16b9a351f599ebdff805fa50"
         }
       ],
@@ -708,7 +708,7 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/statements/v29a3a6bc8748b8dc.json",
+          "path": "corpora/vectors-agent-decision/statements/v29a3a6bc8748b8dc.json",
           "sha256": "29a3a6bc8748b8dcfb1a20a316463108ce0bd3389805363de6f9243b97920c0e"
         }
       ],
@@ -717,7 +717,7 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/statements/v2a767498599c917d.json",
+          "path": "corpora/vectors-agent-decision/statements/v2a767498599c917d.json",
           "sha256": "2a767498599c917dd0757edf5fb7179be720a180d1551947122d111151fcde14"
         }
       ],
@@ -726,11 +726,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/v339183abc44352b6.json",
+          "path": "corpora/vectors-agent-decision/arguments/v339183abc44352b6.json",
           "sha256": "6b1b6fbfe8726312ace9e4e31376f5ff16fbabd5a2b1d7b01950ee532fcba3af"
         },
         {
-          "path": "vectors-agent-decision/statements/v339183abc44352b6.json",
+          "path": "corpora/vectors-agent-decision/statements/v339183abc44352b6.json",
           "sha256": "b3d29f41f09dc5ade12a761aa6be06a086144e63cbebab6935e147c676ce6a10"
         }
       ],
@@ -739,11 +739,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/v3fff2fc0450878c2.json",
+          "path": "corpora/vectors-agent-decision/arguments/v3fff2fc0450878c2.json",
           "sha256": "c7108a8ece3fa4553c720290fb8e6daf15724d7e11c18e991588d4e8a8f51f24"
         },
         {
-          "path": "vectors-agent-decision/statements/v3fff2fc0450878c2.json",
+          "path": "corpora/vectors-agent-decision/statements/v3fff2fc0450878c2.json",
           "sha256": "6c94ce06bb2f186a559d24d24d8352856ab44998b081b33871fe595087c694fc"
         }
       ],
@@ -752,11 +752,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/v415f4c2e87fb8bcf.json",
+          "path": "corpora/vectors-agent-decision/arguments/v415f4c2e87fb8bcf.json",
           "sha256": "ae8025e4833ae9c0aecdbd73b4b60b6a74d6221000f21abc34d23bd4297f7298"
         },
         {
-          "path": "vectors-agent-decision/statements/v415f4c2e87fb8bcf.json",
+          "path": "corpora/vectors-agent-decision/statements/v415f4c2e87fb8bcf.json",
           "sha256": "c52aa97ccdb61774a12d710c6264f8875bb3ceabd2ddfa316dc670965d43edbe"
         }
       ],
@@ -765,11 +765,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/v4894d0a7d91c3fc7.json",
+          "path": "corpora/vectors-agent-decision/arguments/v4894d0a7d91c3fc7.json",
           "sha256": "341a67a90b4c4ed9ffa3d2b0eefc2345857f031b86543e35349a5c8136b0ad4a"
         },
         {
-          "path": "vectors-agent-decision/statements/v4894d0a7d91c3fc7.json",
+          "path": "corpora/vectors-agent-decision/statements/v4894d0a7d91c3fc7.json",
           "sha256": "b9c0f0e9d818a31626b495983f96a14d548adc1a1469e6e64bba58eb12738bf3"
         }
       ],
@@ -778,11 +778,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/v495ecfd0aeb47262.json",
+          "path": "corpora/vectors-agent-decision/arguments/v495ecfd0aeb47262.json",
           "sha256": "c7108a8ece3fa4553c720290fb8e6daf15724d7e11c18e991588d4e8a8f51f24"
         },
         {
-          "path": "vectors-agent-decision/statements/v495ecfd0aeb47262.json",
+          "path": "corpora/vectors-agent-decision/statements/v495ecfd0aeb47262.json",
           "sha256": "5210cda248893729cd3567c6e10b7843ea4eb1156ce52eb199ce6f9fa1f906c6"
         }
       ],
@@ -791,7 +791,7 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/statements/v4ce5d82405dae406.json",
+          "path": "corpora/vectors-agent-decision/statements/v4ce5d82405dae406.json",
           "sha256": "4ce5d82405dae4069ebb81ba95667537fda139f3891cf46cfc404cc15ea77a44"
         }
       ],
@@ -800,11 +800,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/v4e1507f009cbc80d.json",
+          "path": "corpora/vectors-agent-decision/arguments/v4e1507f009cbc80d.json",
           "sha256": "c7108a8ece3fa4553c720290fb8e6daf15724d7e11c18e991588d4e8a8f51f24"
         },
         {
-          "path": "vectors-agent-decision/statements/v4e1507f009cbc80d.json",
+          "path": "corpora/vectors-agent-decision/statements/v4e1507f009cbc80d.json",
           "sha256": "9535ba52d33b2e199d5506c18b02d3383a8ac4d884198c1d122376bcc9c02999"
         }
       ],
@@ -813,11 +813,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/v56d4b6480ce48273.json",
+          "path": "corpora/vectors-agent-decision/arguments/v56d4b6480ce48273.json",
           "sha256": "c7108a8ece3fa4553c720290fb8e6daf15724d7e11c18e991588d4e8a8f51f24"
         },
         {
-          "path": "vectors-agent-decision/statements/v56d4b6480ce48273.json",
+          "path": "corpora/vectors-agent-decision/statements/v56d4b6480ce48273.json",
           "sha256": "0b4cd24c9ac484df1059240d718228b2870f704fb5c2be17be193753d729e921"
         }
       ],
@@ -826,7 +826,7 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/statements/v69fbd962dcd3778c.json",
+          "path": "corpora/vectors-agent-decision/statements/v69fbd962dcd3778c.json",
           "sha256": "69fbd962dcd3778c20a2138e6935fcf872c19b8cdeb0a37aa08211e80cbc724d"
         }
       ],
@@ -835,11 +835,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/v6e2e4e1f955a996f.json",
+          "path": "corpora/vectors-agent-decision/arguments/v6e2e4e1f955a996f.json",
           "sha256": "c7108a8ece3fa4553c720290fb8e6daf15724d7e11c18e991588d4e8a8f51f24"
         },
         {
-          "path": "vectors-agent-decision/statements/v6e2e4e1f955a996f.json",
+          "path": "corpora/vectors-agent-decision/statements/v6e2e4e1f955a996f.json",
           "sha256": "19e93de820871f8aee452878963aa67d3418c8130b6d1273d26a7c0f7b17edff"
         }
       ],
@@ -848,11 +848,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/v6f68087a6f2ac0d0.json",
+          "path": "corpora/vectors-agent-decision/arguments/v6f68087a6f2ac0d0.json",
           "sha256": "30b651298b7fdf2d48f62fa15fa94614f87d1e6d034d88815d0a624716bd1754"
         },
         {
-          "path": "vectors-agent-decision/statements/v6f68087a6f2ac0d0.json",
+          "path": "corpora/vectors-agent-decision/statements/v6f68087a6f2ac0d0.json",
           "sha256": "413fa89b91b91e3ef53ca4698f35d553f77d6d579e6f7f74f1a9416bb8def040"
         }
       ],
@@ -861,11 +861,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/v70c03756e24bf80d.json",
+          "path": "corpora/vectors-agent-decision/arguments/v70c03756e24bf80d.json",
           "sha256": "6a9ef05986bbd224edf29a6b5fc519dd948cd664dc01eb2d3f5f9cf9a4f6733a"
         },
         {
-          "path": "vectors-agent-decision/statements/v70c03756e24bf80d.json",
+          "path": "corpora/vectors-agent-decision/statements/v70c03756e24bf80d.json",
           "sha256": "86851bb104a01f3a78c6f03d31bea0509319aa8e00327a24d60662ab14e6cc7a"
         }
       ],
@@ -874,11 +874,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/v7448329eed2ae36f.json",
+          "path": "corpora/vectors-agent-decision/arguments/v7448329eed2ae36f.json",
           "sha256": "d5d530d420a13934e86a4d23cd1a420661ec03437aaaf1b80038e649b5a7264d"
         },
         {
-          "path": "vectors-agent-decision/statements/v7448329eed2ae36f.json",
+          "path": "corpora/vectors-agent-decision/statements/v7448329eed2ae36f.json",
           "sha256": "7f6a32b4ded9e491aa1d2762b8cd4ca6a4bdfee6ec2b21ade0ec6c6021d952a0"
         }
       ],
@@ -887,11 +887,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/v8a3aa5fbe538fc11.json",
+          "path": "corpora/vectors-agent-decision/arguments/v8a3aa5fbe538fc11.json",
           "sha256": "4b5a272fe04a5cb7b39b8c075ff23ce482a2dd54f5e9117b0372a32661f26aa8"
         },
         {
-          "path": "vectors-agent-decision/statements/v8a3aa5fbe538fc11.json",
+          "path": "corpora/vectors-agent-decision/statements/v8a3aa5fbe538fc11.json",
           "sha256": "e48c41c034d65fceae880efe2f8a09f1842fb776a2a45f2b55b4275b3ef3d6f0"
         }
       ],
@@ -900,7 +900,7 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/statements/v9bf8cf8798d17bd4.json",
+          "path": "corpora/vectors-agent-decision/statements/v9bf8cf8798d17bd4.json",
           "sha256": "9bf8cf8798d17bd44312174cda0865e78d2e915bd5724980c1aec747b2880400"
         }
       ],
@@ -909,7 +909,7 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/statements/va212e7ca11bb10d3.json",
+          "path": "corpora/vectors-agent-decision/statements/va212e7ca11bb10d3.json",
           "sha256": "a212e7ca11bb10d3e7f489461eb155b20223f6bd1d753e36ad1343c5827766e2"
         }
       ],
@@ -918,11 +918,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/va49cc7eba1306281.json",
+          "path": "corpora/vectors-agent-decision/arguments/va49cc7eba1306281.json",
           "sha256": "382141c64697d040cd4f410464640adbe822951c48f6231364cbe8dbf6c497aa"
         },
         {
-          "path": "vectors-agent-decision/statements/va49cc7eba1306281.json",
+          "path": "corpora/vectors-agent-decision/statements/va49cc7eba1306281.json",
           "sha256": "0355bfd9cc5aa96ad54e41a2de4e9edd0d3a316fa17923f1e05c6d06b9e7124c"
         }
       ],
@@ -931,11 +931,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/va8e8df4271c4ab93.json",
+          "path": "corpora/vectors-agent-decision/arguments/va8e8df4271c4ab93.json",
           "sha256": "106f625f75e9328783c9ec1d5e64457783e360821bf84b396a766afe8a041dc6"
         },
         {
-          "path": "vectors-agent-decision/statements/va8e8df4271c4ab93.json",
+          "path": "corpora/vectors-agent-decision/statements/va8e8df4271c4ab93.json",
           "sha256": "6a0d2c49904dd7436e143220a4eb52a3b3a089feb8bdbb077983fa41a9c88d65"
         }
       ],
@@ -944,11 +944,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/vaa3f6d878cefece5.json",
+          "path": "corpora/vectors-agent-decision/arguments/vaa3f6d878cefece5.json",
           "sha256": "b3a59344c6731fa7b0d468718af828001dccdca2ca2c37645c95ba3eef1b40d2"
         },
         {
-          "path": "vectors-agent-decision/statements/vaa3f6d878cefece5.json",
+          "path": "corpora/vectors-agent-decision/statements/vaa3f6d878cefece5.json",
           "sha256": "bbab7b2856ce36274eea1613599be950c48d45aaee0373243b89957ce4b7120e"
         }
       ],
@@ -957,11 +957,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/vab9485aaa1cc16c6.json",
+          "path": "corpora/vectors-agent-decision/arguments/vab9485aaa1cc16c6.json",
           "sha256": "c7108a8ece3fa4553c720290fb8e6daf15724d7e11c18e991588d4e8a8f51f24"
         },
         {
-          "path": "vectors-agent-decision/statements/vab9485aaa1cc16c6.json",
+          "path": "corpora/vectors-agent-decision/statements/vab9485aaa1cc16c6.json",
           "sha256": "483bb4019dc6d91e5648e2ab05e4e117cd2e6010e74df1db3e301e253eb5ea9a"
         }
       ],
@@ -970,11 +970,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/vaccea9396f8bdb6b.json",
+          "path": "corpora/vectors-agent-decision/arguments/vaccea9396f8bdb6b.json",
           "sha256": "45b27bbdd9301823b445892f8249700ca3cb607003ba03e799184dd416906c15"
         },
         {
-          "path": "vectors-agent-decision/statements/vaccea9396f8bdb6b.json",
+          "path": "corpora/vectors-agent-decision/statements/vaccea9396f8bdb6b.json",
           "sha256": "7f6a32b4ded9e491aa1d2762b8cd4ca6a4bdfee6ec2b21ade0ec6c6021d952a0"
         }
       ],
@@ -983,11 +983,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/vb131ab1e6d75fc35.json",
+          "path": "corpora/vectors-agent-decision/arguments/vb131ab1e6d75fc35.json",
           "sha256": "ae8025e4833ae9c0aecdbd73b4b60b6a74d6221000f21abc34d23bd4297f7298"
         },
         {
-          "path": "vectors-agent-decision/statements/vb131ab1e6d75fc35.json",
+          "path": "corpora/vectors-agent-decision/statements/vb131ab1e6d75fc35.json",
           "sha256": "ad22dd1767163a122fb7ffcd1a2db633b53831a0d5f67418e54342e39dd879ab"
         }
       ],
@@ -996,11 +996,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/vbb1394c46dace5ff.json",
+          "path": "corpora/vectors-agent-decision/arguments/vbb1394c46dace5ff.json",
           "sha256": "03c27cec0bb7623bca3747beb83211aa025a2796d048dd3b9278a5ff2231dc39"
         },
         {
-          "path": "vectors-agent-decision/statements/vbb1394c46dace5ff.json",
+          "path": "corpora/vectors-agent-decision/statements/vbb1394c46dace5ff.json",
           "sha256": "bbab7b2856ce36274eea1613599be950c48d45aaee0373243b89957ce4b7120e"
         }
       ],
@@ -1009,7 +1009,7 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/statements/vcbe83ce9abf4720f.json",
+          "path": "corpora/vectors-agent-decision/statements/vcbe83ce9abf4720f.json",
           "sha256": "cbe83ce9abf4720f0dfac6eccecc768e1ee9a98eb9d978883af465aaeed04fc4"
         }
       ],
@@ -1018,11 +1018,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/vcd4ff5dd804aa429.json",
+          "path": "corpora/vectors-agent-decision/arguments/vcd4ff5dd804aa429.json",
           "sha256": "6b1b6fbfe8726312ace9e4e31376f5ff16fbabd5a2b1d7b01950ee532fcba3af"
         },
         {
-          "path": "vectors-agent-decision/statements/vcd4ff5dd804aa429.json",
+          "path": "corpora/vectors-agent-decision/statements/vcd4ff5dd804aa429.json",
           "sha256": "e34b5c406e8fef70699ddbd3983c47ce72d1d69322718bd9b788632b8d9271fc"
         }
       ],
@@ -1031,11 +1031,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/vd24ab9accf98f4d1.json",
+          "path": "corpora/vectors-agent-decision/arguments/vd24ab9accf98f4d1.json",
           "sha256": "30b651298b7fdf2d48f62fa15fa94614f87d1e6d034d88815d0a624716bd1754"
         },
         {
-          "path": "vectors-agent-decision/statements/vd24ab9accf98f4d1.json",
+          "path": "corpora/vectors-agent-decision/statements/vd24ab9accf98f4d1.json",
           "sha256": "35e22bae2342db4ff2fce85eed1413efbf40bf7c0dd9d9712ebd266a4f623f4f"
         }
       ],
@@ -1044,11 +1044,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/vd5e7c5e20ab405df.json",
+          "path": "corpora/vectors-agent-decision/arguments/vd5e7c5e20ab405df.json",
           "sha256": "382141c64697d040cd4f410464640adbe822951c48f6231364cbe8dbf6c497aa"
         },
         {
-          "path": "vectors-agent-decision/statements/vd5e7c5e20ab405df.json",
+          "path": "corpora/vectors-agent-decision/statements/vd5e7c5e20ab405df.json",
           "sha256": "61437c3e31c6166c43972d818eb26f105a1f0abce073ee6ff38f85d04869a015"
         }
       ],
@@ -1057,11 +1057,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/vd71376868c0a727b.json",
+          "path": "corpora/vectors-agent-decision/arguments/vd71376868c0a727b.json",
           "sha256": "7e7db47dce9d2fe94e394dd692bdd9090acbc68ea9422affe9486fe888cd077b"
         },
         {
-          "path": "vectors-agent-decision/statements/vd71376868c0a727b.json",
+          "path": "corpora/vectors-agent-decision/statements/vd71376868c0a727b.json",
           "sha256": "108efab3ee2b6d2f2d45a796e587a2246d5ce89010389daa5bd66de06fc36776"
         }
       ],
@@ -1070,11 +1070,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/ve0417c625a28533c.json",
+          "path": "corpora/vectors-agent-decision/arguments/ve0417c625a28533c.json",
           "sha256": "531d14ab1fc0ac6f19d2676d9d13946a98da353991141790635537096a8546e6"
         },
         {
-          "path": "vectors-agent-decision/statements/ve0417c625a28533c.json",
+          "path": "corpora/vectors-agent-decision/statements/ve0417c625a28533c.json",
           "sha256": "08a549ee2ba6103424f7c2df18496f13772c477a6b8e4d82c6f78e524bb1d7b7"
         }
       ],
@@ -1083,11 +1083,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/ve8baaedbb81ba750.json",
+          "path": "corpora/vectors-agent-decision/arguments/ve8baaedbb81ba750.json",
           "sha256": "f42ac82341c4ca1e6cc44582ae14a4453390e15eca541416b0e166de2b11f5f9"
         },
         {
-          "path": "vectors-agent-decision/statements/ve8baaedbb81ba750.json",
+          "path": "corpora/vectors-agent-decision/statements/ve8baaedbb81ba750.json",
           "sha256": "3c22fe0acd6fc8e6aa9dd9f4bea37e37fea66c91cf2bb9e17497358608f338c6"
         }
       ],
@@ -1096,11 +1096,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/veca390969b070fe0.json",
+          "path": "corpora/vectors-agent-decision/arguments/veca390969b070fe0.json",
           "sha256": "a89b08b2c63a7d31e51534186e0b6c7fb7bc8613d949169f72c03bffa176d55d"
         },
         {
-          "path": "vectors-agent-decision/statements/veca390969b070fe0.json",
+          "path": "corpora/vectors-agent-decision/statements/veca390969b070fe0.json",
           "sha256": "bbab7b2856ce36274eea1613599be950c48d45aaee0373243b89957ce4b7120e"
         }
       ],
@@ -1109,11 +1109,11 @@
     {
       "files": [
         {
-          "path": "vectors-agent-decision/arguments/vf15b2cf59647c11e.json",
+          "path": "corpora/vectors-agent-decision/arguments/vf15b2cf59647c11e.json",
           "sha256": "224787d4c472b86ba9edd5f32c8b49461d0e8dc2ea13264102e9f474e825344b"
         },
         {
-          "path": "vectors-agent-decision/statements/vf15b2cf59647c11e.json",
+          "path": "corpora/vectors-agent-decision/statements/vf15b2cf59647c11e.json",
           "sha256": "e040317f2ee09b42887b0316efafabf1821f0da7f927d6d978f75a6277962f11"
         }
       ],
@@ -1136,7 +1136,7 @@
       "reference": {
         "path": "release/intake/native/vectors-agent-decision.json",
         "serialization": "bytes",
-        "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+        "sha256": "43e80883f64452f48ad9e26262e34e8256d43094cd2066d0fdcce6ff45c4343e"
       }
     },
     {
@@ -1371,11 +1371,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+        "sha256": "43e80883f64452f48ad9e26262e34e8256d43094cd2066d0fdcce6ff45c4343e"
       },
       {
         "process": "run-2",
-        "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+        "sha256": "43e80883f64452f48ad9e26262e34e8256d43094cd2066d0fdcce6ff45c4343e"
       }
     ],
     "seed": null,

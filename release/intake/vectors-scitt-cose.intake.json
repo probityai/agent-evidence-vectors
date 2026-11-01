@@ -15,8 +15,8 @@
       "path": "release/CORPUS-DIGESTS.txt",
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
-    "routine": "corpus_digest in vectors-scitt-cose/digest.py",
-    "routine-file": "vectors-scitt-cose/digest.py",
+    "routine": "corpus_digest in corpora/vectors-scitt-cose/digest.py",
+    "routine-file": "corpora/vectors-scitt-cose/digest.py",
     "serialization": "corpus-routine",
     "sha256": "79d651d3e127ce9bb68d4bf782f86b4e79391962ddda37f131fba641ca0c20da",
     "verdicts": {
@@ -41,10 +41,10 @@
           "exit-code": 0,
           "sha256": "5d4fdbde32d0ab56ed6cb5804961bbced68c7dd849a0df1d366b0e0a31ef28cd"
         },
-        "swapped-in": "534d8aae83e4f4b20a648f1bf01604a1717720b9d5ed3b55dbea8d96d4aed332",
+        "swapped-in": "f157faa8aab71fdf751f63d35e7c4eb0440950b88fbd9c45875bd79b6cbcf589",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-scitt-cose/INDEX.md",
+      "path": "corpora/vectors-scitt-cose/INDEX.md",
       "serialization": "bytes",
       "sha256": "4fbdfa95483c206ee7c2adc6eb66a787ae65e532c42297ad75e5abf0f4f91da4"
     },
@@ -64,10 +64,10 @@
           "exit-code": 0,
           "sha256": "5d4fdbde32d0ab56ed6cb5804961bbced68c7dd849a0df1d366b0e0a31ef28cd"
         },
-        "swapped-in": "de826b24857fea95c3f65532841fcae790b207fd99c9ed3a21c684444501df38",
+        "swapped-in": "17673886b63a2677bf6a29f717c700610bd23d7a26e26c7b2e6db7082ed153ce",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-scitt-cose/README.md",
+      "path": "corpora/vectors-scitt-cose/README.md",
       "serialization": "bytes",
       "sha256": "0ab35910cda087684efca6443f6a0da83a299fe0f256faf83248620bd9b598d4"
     },
@@ -84,10 +84,10 @@
           "exit-code": 1,
           "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
         },
-        "swapped-in": "56e6ae92bf87ea8b582b2d411bd321938295aef1f4e2d910c211cea86fe80c5c",
+        "swapped-in": "02fa6ce318f0a2890d01b0d13b1352203253bde42d00ad283a23bbd0d7940e32",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-scitt-cose/check_vectors.py",
+      "path": "corpora/vectors-scitt-cose/check_vectors.py",
       "serialization": "bytes",
       "sha256": "250e08b840b638fcb035fb9c97da58c53432cbaa39fd85ddcf6c4436eebb9487"
     },
@@ -107,10 +107,10 @@
           "exit-code": 0,
           "sha256": "5d4fdbde32d0ab56ed6cb5804961bbced68c7dd849a0df1d366b0e0a31ef28cd"
         },
-        "swapped-in": "dd09f76ad70584f6b5a746e34841ac9948a35e28185d0e3a70b22fb174b083db",
+        "swapped-in": "148ccf4396882de6bf635412f14803202e0e574b0f63ffe8b0bc036ea427b37f",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-scitt-cose/digest.py",
+      "path": "corpora/vectors-scitt-cose/digest.py",
       "serialization": "bytes",
       "sha256": "cadf433459d43919b993bd8939e6f10009d98ed526929a315d4c936c20c423c3"
     },
@@ -130,12 +130,12 @@
           "exit-code": 0,
           "sha256": "5d4fdbde32d0ab56ed6cb5804961bbced68c7dd849a0df1d366b0e0a31ef28cd"
         },
-        "swapped-in": "d45ffdafe8b6157d204cec59cdb47261049472dd6b078a286d99ce8700e74a30",
+        "swapped-in": "ff3be246032efdae724317f12cb456e4e40a44417702c4e0b224dc011c0500e5",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-scitt-cose/gen_vectors.py",
+      "path": "corpora/vectors-scitt-cose/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "73767058115da67589975bc8c05b45b0bb3e578f5e02cccddc5c394f2484d8d6"
+      "sha256": "37624579d7b190a25bc908c01c5fc246c67c679b8f880bf7fddb5d0c97af95c2"
     }
   ],
   "boundary": {
@@ -147,7 +147,7 @@
         "suffix": ".json"
       }
     ],
-    "root": "vectors-scitt-cose"
+    "root": "corpora/vectors-scitt-cose"
   },
   "byte-identity": {
     "pins": 27,
@@ -159,15 +159,15 @@
   "checker": {
     "commands": [
       "uv sync --locked --extra generators",
-      "PYTHONHASHSEED=0 python vectors-scitt-cose/check_vectors.py --json",
-      "PYTHONHASHSEED=0 python vectors-scitt-cose/check_vectors.py --json",
-      "PYTHONHASHSEED=0 python vectors-scitt-cose/check_vectors.py"
+      "PYTHONHASHSEED=0 python corpora/vectors-scitt-cose/check_vectors.py --json",
+      "PYTHONHASHSEED=0 python corpora/vectors-scitt-cose/check_vectors.py --json",
+      "PYTHONHASHSEED=0 python corpora/vectors-scitt-cose/check_vectors.py"
     ],
     "dependencies": [
       {
         "path": "pyproject.toml",
         "serialization": "bytes",
-        "sha256": "1b7fcd4cb0066ae310f30026ddb58421680b7110c3550bacea2582fc951ab6cc"
+        "sha256": "57caf7ee001f2a24122e928288c9c4b4586bdbde611ae2f1ea062a78987c44f2"
       },
       {
         "path": "uv.lock",
@@ -176,22 +176,22 @@
       }
     ],
     "helpers": [],
-    "name": "vectors-scitt-cose/check_vectors.py",
+    "name": "corpora/vectors-scitt-cose/check_vectors.py",
     "relationship": "same-implementation",
     "revision": {
       "kind": "source-listing",
       "paths": [
-        "vectors-scitt-cose/check_vectors.py"
+        "corpora/vectors-scitt-cose/check_vectors.py"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "41b8e872d5242404a3e1f1bec6888b5486c0f59a62ff21c0eef518d0904a1ca7"
+      "sha256": "8fe9778a8f6c82fe988921c9ea55ee8b087391dea632c140d3c5241acc535cdd"
     },
     "runtime": {
       "name": "cpython",
       "version": "3.13"
     },
     "shared-verification-code": [
-      "vectors-scitt-cose/check_vectors.py"
+      "corpora/vectors-scitt-cose/check_vectors.py"
     ]
   },
   "checks": [
@@ -414,7 +414,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "9fb51ff9998206b926fb84e67ff8851d3a40131e884a04b17f428f2d7e2356a9"
+    "sha256": "0afd3a16f914b41a9c9110528895ca381c384bd12614648a3dcee863f1c1ecd9"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -452,14 +452,14 @@
       "vf9463fb9663b49d5",
       "vfd2e3344cb6eefa6"
     ],
-    "path": "vectors-scitt-cose/MANIFEST.json",
+    "path": "corpora/vectors-scitt-cose/MANIFEST.json",
     "sha256": "86a22a1118aaf041d01fb0b3c99d4d307827d3b0803dc4d56e0face04bc770bb"
   },
   "members": [
     {
       "files": [
         {
-          "path": "vectors-scitt-cose/statements/v0636cd5206c6a98c.json",
+          "path": "corpora/vectors-scitt-cose/statements/v0636cd5206c6a98c.json",
           "sha256": "0636cd5206c6a98c8216e64a165cb9dae65fb5d094ae361f6b4bd2c4d4a6ce66"
         }
       ],
@@ -468,7 +468,7 @@
     {
       "files": [
         {
-          "path": "vectors-scitt-cose/statements/v0fa72e24c8012749.json",
+          "path": "corpora/vectors-scitt-cose/statements/v0fa72e24c8012749.json",
           "sha256": "0fa72e24c801274977798e312839f018824582c5f9ee42e3b0bebb6a52792c53"
         }
       ],
@@ -477,7 +477,7 @@
     {
       "files": [
         {
-          "path": "vectors-scitt-cose/statements/v11816a7dc863a687.json",
+          "path": "corpora/vectors-scitt-cose/statements/v11816a7dc863a687.json",
           "sha256": "11816a7dc863a6874c298011fc8513cad9daf3562a30144c039d780a5835e2b5"
         }
       ],
@@ -486,7 +486,7 @@
     {
       "files": [
         {
-          "path": "vectors-scitt-cose/statements/v13df07bd26f63dae.json",
+          "path": "corpora/vectors-scitt-cose/statements/v13df07bd26f63dae.json",
           "sha256": "13df07bd26f63dae80d8d174c1e1f87717552e87eb2a2db9a01c952d96ea3e1c"
         }
       ],
@@ -495,7 +495,7 @@
     {
       "files": [
         {
-          "path": "vectors-scitt-cose/statements/v1c44afeeeec6013c.json",
+          "path": "corpora/vectors-scitt-cose/statements/v1c44afeeeec6013c.json",
           "sha256": "1c44afeeeec6013ca9050026cab0d18b2712382743a58001286c15e477c1d5b7"
         }
       ],
@@ -504,7 +504,7 @@
     {
       "files": [
         {
-          "path": "vectors-scitt-cose/statements/v2c7975eac1701b6c.json",
+          "path": "corpora/vectors-scitt-cose/statements/v2c7975eac1701b6c.json",
           "sha256": "2c7975eac1701b6cdda844d32e97a01008040e8d897f7f4b0918d6e02eb50c14"
         }
       ],
@@ -513,7 +513,7 @@
     {
       "files": [
         {
-          "path": "vectors-scitt-cose/statements/v2cade3228c1da11a.json",
+          "path": "corpora/vectors-scitt-cose/statements/v2cade3228c1da11a.json",
           "sha256": "2cade3228c1da11a148842c627e72b25f21fc5759f27de575d685f2020db183f"
         }
       ],
@@ -522,7 +522,7 @@
     {
       "files": [
         {
-          "path": "vectors-scitt-cose/statements/v3283077e1d1b5d8c.json",
+          "path": "corpora/vectors-scitt-cose/statements/v3283077e1d1b5d8c.json",
           "sha256": "3283077e1d1b5d8c77987e13320102f2624794d9b03e053a1b043de4ea7ca880"
         }
       ],
@@ -531,7 +531,7 @@
     {
       "files": [
         {
-          "path": "vectors-scitt-cose/statements/v38bad1bbcbdbdf3d.json",
+          "path": "corpora/vectors-scitt-cose/statements/v38bad1bbcbdbdf3d.json",
           "sha256": "38bad1bbcbdbdf3d8789b650f8bb78cbe4bf7c50f9ffe63d4a69912c7fe9869a"
         }
       ],
@@ -540,7 +540,7 @@
     {
       "files": [
         {
-          "path": "vectors-scitt-cose/statements/v41d9bfda6adac0af.json",
+          "path": "corpora/vectors-scitt-cose/statements/v41d9bfda6adac0af.json",
           "sha256": "41d9bfda6adac0af5e331c7cd16c7d2461585f9c3af8940fd6deaa069d34e1e6"
         }
       ],
@@ -549,7 +549,7 @@
     {
       "files": [
         {
-          "path": "vectors-scitt-cose/statements/v4b65541710f581c3.json",
+          "path": "corpora/vectors-scitt-cose/statements/v4b65541710f581c3.json",
           "sha256": "4b65541710f581c34a1ef4f05e67aa4af7eb34135607dcbeba4a343bdb54f873"
         }
       ],
@@ -558,7 +558,7 @@
     {
       "files": [
         {
-          "path": "vectors-scitt-cose/statements/v5d470e62bc419824.json",
+          "path": "corpora/vectors-scitt-cose/statements/v5d470e62bc419824.json",
           "sha256": "5d470e62bc4198240e3cbd8ac0cf531090b98097d110521c3fdb88843fd39de4"
         }
       ],
@@ -567,7 +567,7 @@
     {
       "files": [
         {
-          "path": "vectors-scitt-cose/statements/v71d601cc7c6464a1.json",
+          "path": "corpora/vectors-scitt-cose/statements/v71d601cc7c6464a1.json",
           "sha256": "71d601cc7c6464a18078292387817d937ab3bfed30a62cc0a6f6c40598993e3a"
         }
       ],
@@ -576,7 +576,7 @@
     {
       "files": [
         {
-          "path": "vectors-scitt-cose/statements/v7ee2786688bfdb79.json",
+          "path": "corpora/vectors-scitt-cose/statements/v7ee2786688bfdb79.json",
           "sha256": "7ee2786688bfdb79c11245d84f8578fc63bfdb3cddf1b5eba66f9c3318df97a9"
         }
       ],
@@ -585,7 +585,7 @@
     {
       "files": [
         {
-          "path": "vectors-scitt-cose/statements/v8819ae608ecb37ff.json",
+          "path": "corpora/vectors-scitt-cose/statements/v8819ae608ecb37ff.json",
           "sha256": "8819ae608ecb37ff8f46d55070c4fa95b054309aba3873186303f1814aef25db"
         }
       ],
@@ -594,7 +594,7 @@
     {
       "files": [
         {
-          "path": "vectors-scitt-cose/statements/v8de7afebda214319.json",
+          "path": "corpora/vectors-scitt-cose/statements/v8de7afebda214319.json",
           "sha256": "8de7afebda214319eb783a38f083f596021f761e0093d11a630c8eed51e94fe6"
         }
       ],
@@ -603,7 +603,7 @@
     {
       "files": [
         {
-          "path": "vectors-scitt-cose/statements/va145ee9bd51df5f8.json",
+          "path": "corpora/vectors-scitt-cose/statements/va145ee9bd51df5f8.json",
           "sha256": "a145ee9bd51df5f8b16d62856b3113a511b0c62b14e5edc5d329b55c2de6ac3f"
         }
       ],
@@ -612,7 +612,7 @@
     {
       "files": [
         {
-          "path": "vectors-scitt-cose/statements/va6a19109d269c858.json",
+          "path": "corpora/vectors-scitt-cose/statements/va6a19109d269c858.json",
           "sha256": "a6a19109d269c8584b919e2451980940497fe751822245308b7efeb6bf9b6c93"
         }
       ],
@@ -621,7 +621,7 @@
     {
       "files": [
         {
-          "path": "vectors-scitt-cose/statements/vacced92411f5ac61.json",
+          "path": "corpora/vectors-scitt-cose/statements/vacced92411f5ac61.json",
           "sha256": "acced92411f5ac61be20d03875657db10a43a8945c7987017037655937d9f6d3"
         }
       ],
@@ -630,7 +630,7 @@
     {
       "files": [
         {
-          "path": "vectors-scitt-cose/statements/vad7cde281e84a54b.json",
+          "path": "corpora/vectors-scitt-cose/statements/vad7cde281e84a54b.json",
           "sha256": "ad7cde281e84a54ba61e38edf45e9ad21f20c020fbcd86183f4d45ff7bdfcae7"
         }
       ],
@@ -639,7 +639,7 @@
     {
       "files": [
         {
-          "path": "vectors-scitt-cose/statements/vb93d431e43fe61e2.json",
+          "path": "corpora/vectors-scitt-cose/statements/vb93d431e43fe61e2.json",
           "sha256": "b93d431e43fe61e2a0b706d839bec0f9114718ec51efa5b77dc4fbf14e5ed953"
         }
       ],
@@ -648,7 +648,7 @@
     {
       "files": [
         {
-          "path": "vectors-scitt-cose/statements/vc1d2e16ca13eaeb3.json",
+          "path": "corpora/vectors-scitt-cose/statements/vc1d2e16ca13eaeb3.json",
           "sha256": "c1d2e16ca13eaeb331751de95f8320510600b051f6259954286ea91ef16b5d2b"
         }
       ],
@@ -657,7 +657,7 @@
     {
       "files": [
         {
-          "path": "vectors-scitt-cose/statements/vc73a5ea351b6a6af.json",
+          "path": "corpora/vectors-scitt-cose/statements/vc73a5ea351b6a6af.json",
           "sha256": "c73a5ea351b6a6af6e3658c46b095e5ad3c36669dd0b41848757cdc52a8e03ea"
         }
       ],
@@ -666,7 +666,7 @@
     {
       "files": [
         {
-          "path": "vectors-scitt-cose/statements/vc8520277aa73cf0a.json",
+          "path": "corpora/vectors-scitt-cose/statements/vc8520277aa73cf0a.json",
           "sha256": "c8520277aa73cf0a8c1121f9350d2e8c9e8f879f5c8569bee960ef04a5612646"
         }
       ],
@@ -675,7 +675,7 @@
     {
       "files": [
         {
-          "path": "vectors-scitt-cose/statements/vecb11244fd522443.json",
+          "path": "corpora/vectors-scitt-cose/statements/vecb11244fd522443.json",
           "sha256": "ecb11244fd522443b23c32f0b9d7b571033b5f7187ed78f3d3aaff0773fd3900"
         }
       ],
@@ -684,7 +684,7 @@
     {
       "files": [
         {
-          "path": "vectors-scitt-cose/statements/vf9463fb9663b49d5.json",
+          "path": "corpora/vectors-scitt-cose/statements/vf9463fb9663b49d5.json",
           "sha256": "f9463fb9663b49d58c79c1e312e560180f01fa1675e70ebf9835a790ba6a71b9"
         }
       ],
@@ -693,7 +693,7 @@
     {
       "files": [
         {
-          "path": "vectors-scitt-cose/statements/vfd2e3344cb6eefa6.json",
+          "path": "corpora/vectors-scitt-cose/statements/vfd2e3344cb6eefa6.json",
           "sha256": "fd2e3344cb6eefa6d9843931b74ca010d119cb708ded7ab8e07016302ea244a8"
         }
       ],
@@ -923,7 +923,7 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "vectors-scitt-cose/check_vectors.py, at the source listing named here, judges each of the 27 pinned members of scitt-cose-carriage-conformance as its manifest declares"
+      "corpora/vectors-scitt-cose/check_vectors.py, at the source listing named here, judges each of the 27 pinned members of scitt-cose-carriage-conformance as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",

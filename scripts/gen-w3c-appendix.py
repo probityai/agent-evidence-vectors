@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render docs/W3C-V01-CONFORMANCE-APPENDIX.md from vectors-w3c-report/MANIFEST.json.
+"""Render docs/W3C-V01-CONFORMANCE-APPENDIX.md from corpora/vectors-w3c-report/MANIFEST.json.
 
     python3 scripts/gen-w3c-appendix.py            # write the appendix
     python3 scripts/gen-w3c-appendix.py --check    # refuse when the file on disk differs
@@ -27,7 +27,7 @@ from pathlib import Path
 from typing import Any
 
 REPO = Path(__file__).resolve().parent.parent
-MANIFEST = REPO / "vectors-w3c-report" / "MANIFEST.json"
+MANIFEST = REPO / "corpora" / "vectors-w3c-report" / "MANIFEST.json"
 TARGET = REPO / "docs" / "W3C-V01-CONFORMANCE-APPENDIX.md"
 
 ROW = {n: f"W3C-R-{n:03d}" for n in range(1, 34)}
@@ -64,7 +64,7 @@ RATIONALE = {
 
 INTRO = """# Conformance appendix for v0.1 of the reporting format
 
-This is the conformance set for v0.1 of the per-check reporting format of the W3C public-agent-conformance community group, written so that an editor can reference it by row and an implementer can run it without reading the thread. Every row of the rejection table is backed by two members of the corpus `vectors-w3c-report/` in the `agent-evidence-vectors` repository: one report that a conforming validator must reject under that row and no other, and one report, as close to it as one change allows, that the validator must accept. The corpus judges itself with two independent readers, one in Go and one in Python, and a test holds their output identical over the committed members and over deliberately broken copies. An implementation conforms to v0.1 when it rejects every reject member under the row the member names and accepts every accept member; that is the whole test, and it is runnable with nothing installed.
+This is the conformance set for v0.1 of the per-check reporting format of the W3C public-agent-conformance community group, written so that an editor can reference it by row and an implementer can run it without reading the thread. Every row of the rejection table is backed by two members of the corpus `corpora/vectors-w3c-report/` in the `agent-evidence-vectors` repository: one report that a conforming validator must reject under that row and no other, and one report, as close to it as one change allows, that the validator must accept. The corpus judges itself with two independent readers, one in Go and one in Python, and a test holds their output identical over the committed members and over deliberately broken copies. An implementation conforms to v0.1 when it rejects every reject member under the row the member names and accepts every accept member; that is the whole test, and it is runnable with nothing installed.
 
 The rows are the group's, as the v0.1 text states them (`0087`, the list archive copy the text names as canonical). Rows 1 to 14 are the table of section 4, which keeps the numbers of rows 1 to 12, numbers rows 13 and 14, and classes all fourteen. The other rules the corpus carries are the ones v0.1 states outside the table, in sections 1, 2, 3, 3.1 and 5, each under its own identifier with no row number and anchored to the section that states it. A row's identifier is minted by the corpus and bound to a sentence of the vendored text by digest, because the text carries no identifiers and a section number names a position rather than a sentence. A reword of the sentence stops the corpus from building, which is the property that makes the identifier citable.
 
@@ -153,9 +153,9 @@ def emitter_runs(manifest: dict[str, Any]) -> str:
         counts = run["counts"]
         states = ", ".join(f"{counts[k]} {k}" for k in ("fail", "pass", "inconclusive", "not-exercised", "void") if counts[k])
         lines.append(
-            f"- `vectors-w3c-report/{run['path']}`, sha256 `{run['sha256']}`, written by `{run['command']}` "
+            f"- `corpora/vectors-w3c-report/{run['path']}`, sha256 `{run['sha256']}`, written by `{run['command']}` "
             f"({run['emittedBy']}, tag `{run['tag']}`, commit `{run['commit']}`) from the harness report "
-            f"`vectors-w3c-report/{run['conformanceReport']['path']}`, with the record of the run at `vectors-w3c-report/{run['run']['path']}`. "
+            f"`corpora/vectors-w3c-report/{run['conformanceReport']['path']}`, with the record of the run at `corpora/vectors-w3c-report/{run['run']['path']}`. "
             f"It holds one record per member of the AEE corpus at tag `{run['tag']}` ({states}), "
             f"with no shape error and no row firing, and runs made at "
             + " and ".join(f"`{at}`" for at in run["reproducedAt"])

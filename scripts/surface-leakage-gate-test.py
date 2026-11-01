@@ -64,6 +64,8 @@ from typing import Any
 REPO_ROOT = Path(__file__).resolve().parent.parent
 GATE = REPO_ROOT / "scripts" / "surface-leakage-gate.py"
 BASELINE_REL = "docs/SURFACE-LEAKAGE-BASELINE.json"
+
+
 #: The corpora the fixture must carry, DERIVED from the gate rather than
 #: restated. They were two separate lists and they drifted: the gate gained
 #: vectors-scitt-cose and this list did not, so every case staged a tree with
@@ -76,7 +78,10 @@ def _staged() -> tuple[str, ...]:
         raise SystemExit(f"test setup: {GATE} could not be loaded to read CORPORA")
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
-    return tuple(f"{corpus}/" for corpus in module.CORPORA) + (BASELINE_REL,)
+    return tuple(
+        f"{corpus}/" if corpus == "vectors" else f"corpora/{corpus}/"
+        for corpus in module.CORPORA
+    ) + (BASELINE_REL,)
 
 
 STAGED = _staged()
@@ -152,23 +157,25 @@ def run(root: Path) -> tuple[int, str]:
     return proc.returncode, proc.stdout + proc.stderr
 
 
+def corpus_dir(root: Path, corpus: str) -> Path:
+    return root / corpus if corpus == "vectors" else root / "corpora" / corpus
+
+
 def manifest(root: Path, corpus: str) -> dict[str, Any]:
     loaded: dict[str, Any] = json.loads(
-        (root / corpus / "MANIFEST.json").read_text(encoding="utf-8")
+        (corpus_dir(root, corpus) / "MANIFEST.json").read_text(encoding="utf-8")
     )
     return loaded
 
 
 def write_manifest(root: Path, corpus: str, data: dict[str, Any]) -> None:
-    (root / corpus / "MANIFEST.json").write_text(
+    (corpus_dir(root, corpus) / "MANIFEST.json").write_text(
         json.dumps(data, indent=2) + "\n", encoding="utf-8"
     )
 
 
 def baseline(root: Path) -> dict[str, Any]:
-    loaded: dict[str, Any] = json.loads(
-        (root / BASELINE_REL).read_text(encoding="utf-8")
-    )
+    loaded: dict[str, Any] = json.loads((root / BASELINE_REL).read_text(encoding="utf-8"))
     return loaded
 
 
@@ -211,7 +218,7 @@ def giveaway_member(root: Path) -> None:
     for entry in rows_of(root, corpus):
         if require(entry, "kind", f"{corpus} manifest row") != "reject":
             continue
-        path = root / corpus / str(require(entry, "file", f"{corpus} manifest row"))
+        path = corpus_dir(root, corpus) / str(require(entry, "file", f"{corpus} manifest row"))
         try:
             statement = json.loads(path.read_text(encoding="utf-8"))
         except (UnicodeDecodeError, ValueError):
@@ -239,7 +246,7 @@ def giveaway_depth(root: Path) -> None:
     for entry in rows_of(root, corpus):
         if require(entry, "kind", f"{corpus} manifest row") != "reject":
             continue
-        path = root / corpus / str(require(entry, "file", f"{corpus} manifest row"))
+        path = corpus_dir(root, corpus) / str(require(entry, "file", f"{corpus} manifest row"))
         try:
             statement = json.loads(path.read_text(encoding="utf-8"))
         except (UnicodeDecodeError, ValueError):
@@ -276,12 +283,14 @@ def relabel_identifiers(root: Path) -> None:
         data = manifest(root, corpus)
         for index, entry in enumerate(vector_rows(data, corpus)):
             kind = str(require(entry, "kind", f"{corpus} manifest row"))
-            source = root / corpus / str(require(entry, "file", f"{corpus} manifest row"))
+            source = corpus_dir(root, corpus) / str(
+                require(entry, "file", f"{corpus} manifest row")
+            )
             if not source.is_file() or kind not in ("accept", "reject"):
                 continue
             prefix = "ok" if kind == "accept" else "bad"
             new_rel = f"{kind}/{prefix}-{index:04d}-restored-old-name.json"
-            target = root / corpus / new_rel
+            target = corpus_dir(root, corpus) / new_rel
             target.parent.mkdir(parents=True, exist_ok=True)
             source.rename(target)
             entry["file"] = new_rel
@@ -321,8 +330,9 @@ def one_more_reject_vector(root: Path) -> None:
         )
     parent = parents[0]
     statement = json.loads(
-        (root / corpus / str(require(parent, "file", f"{corpus} manifest row")))
-        .read_text(encoding="utf-8")
+        (
+            corpus_dir(root, corpus) / str(require(parent, "file", f"{corpus} manifest row"))
+        ).read_text(encoding="utf-8")
     )
     predicate = require(statement, "predicate", f"{corpus} accept statement")
     require(predicate, "result", f"{corpus} accept statement's predicate")
@@ -330,8 +340,8 @@ def one_more_reject_vector(root: Path) -> None:
     raw = (json.dumps(statement, indent=2, sort_keys=True) + "\n").encode("utf-8")
     identifier = "v" + hashlib.sha256(raw).hexdigest()[:16]
     rel = f"statements/{identifier}.json"
-    (root / corpus / rel).parent.mkdir(parents=True, exist_ok=True)
-    (root / corpus / rel).write_bytes(raw)
+    (corpus_dir(root, corpus) / rel).parent.mkdir(parents=True, exist_ok=True)
+    (corpus_dir(root, corpus) / rel).write_bytes(raw)
     data["vectors"].append(
         {
             "id": identifier,
@@ -356,17 +366,19 @@ def one_more_pair(root: Path) -> None:
     corpus = "vectors"
     data = manifest(root, corpus)
     parent = next(
-        e for e in vector_rows(data, corpus)
+        e
+        for e in vector_rows(data, corpus)
         if require(e, "kind", f"{corpus} manifest row") == "accept"
     )
     statement = json.loads(
-        (root / corpus / str(require(parent, "file", f"{corpus} manifest row")))
-        .read_text(encoding="utf-8")
+        (
+            corpus_dir(root, corpus) / str(require(parent, "file", f"{corpus} manifest row"))
+        ).read_text(encoding="utf-8")
     )
     raw = (json.dumps(statement, indent=1, sort_keys=True) + "\n").encode("utf-8")
     identifier = "v" + hashlib.sha256(raw).hexdigest()[:16]
     rel = f"statements/{identifier}.json"
-    (root / corpus / rel).write_bytes(raw)
+    (corpus_dir(root, corpus) / rel).write_bytes(raw)
     data["vectors"].append(
         {
             "id": identifier,
@@ -397,7 +409,7 @@ def row_of(data: dict[str, Any], corpus: str, surface: str) -> dict[str, Any]:
 
 
 # A case once dropped the `blockedBy` declaration off a surface that was really
-# outside its null, pinned to vectors-ai-agent-action/paths. That leak closed
+# outside its null, pinned to corpora/vectors-ai-agent-action/paths. That leak closed
 # when the Appendix B family gained its reject twins and the ratchet removed the
 # last declaration in the baseline, so no row is left to construct it from. The
 # refusal it checked -- a surface outside its null with nothing named for it --
@@ -536,12 +548,11 @@ def a_small_leak_over_the_figure(root: Path) -> None:
     gate = _gate_module()
     recorded = float(row_of(baseline(root), "vectors", "lexicon")["separability"])
     rejects = [
-        e for e in rows_of(root, "vectors")
+        e
+        for e in rows_of(root, "vectors")
         if require(e, "kind", "vectors manifest row") == "reject"
     ]
-    originals = {
-        str(e["file"]): (root / "vectors" / str(e["file"])).read_bytes() for e in rejects
-    }
+    originals = {str(e["file"]): (root / "vectors" / str(e["file"])).read_bytes() for e in rejects}
     for share in range(1, 21):
         tagged = 0
         for index, entry in enumerate(rejects):

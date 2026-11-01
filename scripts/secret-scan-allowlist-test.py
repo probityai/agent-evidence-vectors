@@ -58,8 +58,8 @@ def _scan(tmp_path: Path, relpath: str, text: str) -> int:
     return subprocess.run(argv, capture_output=True, check=False).returncode
 
 
-CTX = "vectors-agent-card-receipt/cases/accept-x/context.json"
-STMT = "vectors-credential-release/cases/credential-carries-secret/statement.json"
+CTX = "corpora/vectors-agent-card-receipt/cases/accept-x/context.json"
+STMT = "corpora/vectors-credential-release/cases/credential-carries-secret/statement.json"
 
 
 @pytest.mark.parametrize(
@@ -68,10 +68,11 @@ STMT = "vectors-credential-release/cases/credential-carries-secret/statement.jso
         (CTX, f'{{\n  "issuerKey": "{PUBLIC_KEY}",\n  "now": "2026-10-27T12:00:00Z"\n}}\n'),
         (STMT, f'{{\n  "credential": {{\n    "token": "{EMPTY_JWT}"\n  }}\n}}\n'),
         (
-            "vectors-credential-release/cases/credential-carries-token-hash/statement.json",
+            "corpora/vectors-credential-release/cases/credential-carries-token-hash/statement.json",
             f'{{\n  "credential": {{\n    "tokenSha256": "{DIGEST}"\n  }}\n}}\n',
         ),
-        ("vectors-credential-release/gen_vectors.py", f'cred = dict(token="{EMPTY_JWT}")\n'),
+        ("corpora/vectors-credential-release/gen_vectors.py",
+         f'cred = dict(token="{EMPTY_JWT}")\n'),
     ],
 )
 def test_the_fixture_shapes_scan_clean(tmp_path: Path, relpath: str, text: str) -> None:

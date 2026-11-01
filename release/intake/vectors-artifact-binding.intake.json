@@ -15,8 +15,8 @@
       "path": "release/CORPUS-DIGESTS.txt",
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
-    "routine": "corpus_digest in vectors-artifact-binding/digest.py",
-    "routine-file": "vectors-artifact-binding/digest.py",
+    "routine": "corpus_digest in corpora/vectors-artifact-binding/digest.py",
+    "routine-file": "corpora/vectors-artifact-binding/digest.py",
     "serialization": "corpus-routine",
     "sha256": "e26e5a50267f4f09052f3349388f703d0a332a41cf325a4d248e21414070cbef",
     "verdicts": {
@@ -30,7 +30,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+          "sha256": "a253571d3ba9c97d60fac1d5815ef3af61fa10e1b29b78a658a506d7f635fbab"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -39,12 +39,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+          "sha256": "a253571d3ba9c97d60fac1d5815ef3af61fa10e1b29b78a658a506d7f635fbab"
         },
-        "swapped-in": "888c4ac3602789fa8b41799ea328790d72abd52a2e845274e4c30c32eb41f01c",
+        "swapped-in": "2b7516d9c3fdb7a1172763c15c06517c3dfc7f830b3157b70b506eb4423fb543",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-artifact-binding/INDEX.md",
+      "path": "corpora/vectors-artifact-binding/INDEX.md",
       "serialization": "bytes",
       "sha256": "9c070de1ccbf948d2d2c0dd113ab8229faf7dd8caa158a6ec65cfa8e6de195b3"
     },
@@ -53,7 +53,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+          "sha256": "a253571d3ba9c97d60fac1d5815ef3af61fa10e1b29b78a658a506d7f635fbab"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -62,12 +62,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+          "sha256": "a253571d3ba9c97d60fac1d5815ef3af61fa10e1b29b78a658a506d7f635fbab"
         },
-        "swapped-in": "78a5c6bc83496afc8caa82b9e33832a4b0436819531850b39da3837a20645e46",
+        "swapped-in": "3ca64e3b49e4a75923c0cdf8f4b2f8421c5cb5cce274b6e489fc4970ba5da982",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-artifact-binding/README.md",
+      "path": "corpora/vectors-artifact-binding/README.md",
       "serialization": "bytes",
       "sha256": "b2c71ab535ae63d9e22547f6def3db622ae807d2d81e0e19b93d66cde1f38284"
     },
@@ -76,7 +76,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+          "sha256": "a253571d3ba9c97d60fac1d5815ef3af61fa10e1b29b78a658a506d7f635fbab"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -85,21 +85,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+          "sha256": "a253571d3ba9c97d60fac1d5815ef3af61fa10e1b29b78a658a506d7f635fbab"
         },
-        "swapped-in": "4272f492f391698fb5ec01b154dd6b114409e60c094ebf656a0cfcf6e82cfa22",
+        "swapped-in": "b41dfbdc52c572937936e5d2f1e454457ea11eef15a2378307341d3408a514b1",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-artifact-binding/check_vectors.py",
+      "path": "corpora/vectors-artifact-binding/check_vectors.py",
       "serialization": "bytes",
-      "sha256": "905b35da03de06117202f11bc9351aa0bafd05a7166eb2b44daeab932709e33d"
+      "sha256": "59bf9e00e90479502c26a6b8cb70e3f46f9c6a322fa0d006b835b32fb578cf23"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+          "sha256": "a253571d3ba9c97d60fac1d5815ef3af61fa10e1b29b78a658a506d7f635fbab"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -108,21 +108,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+          "sha256": "a253571d3ba9c97d60fac1d5815ef3af61fa10e1b29b78a658a506d7f635fbab"
         },
-        "swapped-in": "0b0bc3191bf1aea68035253fc621b774e6ff97cc38d33939f407d2b95b782387",
+        "swapped-in": "5c80124237584975223c69a2b4cc58ae8cde728ea013a929c541d31bd4021d8a",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-artifact-binding/digest.py",
+      "path": "corpora/vectors-artifact-binding/digest.py",
       "serialization": "bytes",
-      "sha256": "66413cc57869988b2ed9d2921c152d4ed90db7d8e6494def82a1b009f8f0600e"
+      "sha256": "1ee090f04e41a9c6d53261801cec64e5f0c92a5bbd028c21620351205e37e0c2"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+          "sha256": "a253571d3ba9c97d60fac1d5815ef3af61fa10e1b29b78a658a506d7f635fbab"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -131,21 +131,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+          "sha256": "a253571d3ba9c97d60fac1d5815ef3af61fa10e1b29b78a658a506d7f635fbab"
         },
-        "swapped-in": "2164734fc216795eadb85ed5a6d47b4a735dbfd88f46eee92acdfac9fdc2fb79",
+        "swapped-in": "a812abddae0cba49533f0e3e6cb3d7b251fddcd15ff0b25ef21cf5c359e27b80",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-artifact-binding/gen_vectors.py",
+      "path": "corpora/vectors-artifact-binding/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "bdda9cb013047af55cd013cc358b8680dec943e86f5332cdf7d1fa6ec30a7dae"
+      "sha256": "4c8e6137ea3fc1d227d5fe728d4c94b6a08f3fbc02a7c719a045ddc5cb04b04a"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+          "sha256": "a253571d3ba9c97d60fac1d5815ef3af61fa10e1b29b78a658a506d7f635fbab"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -154,12 +154,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+          "sha256": "a253571d3ba9c97d60fac1d5815ef3af61fa10e1b29b78a658a506d7f635fbab"
         },
-        "swapped-in": "797bef62d376b9baa9ab961ecad584fac7fc0dbb2f5dc1e02b3b79cd9119af5d",
+        "swapped-in": "0cbc74b042b0576f6f681abe1c9ea4a3371b73ec8d376f17d9c47a95e005357e",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-artifact-binding/public.key",
+      "path": "corpora/vectors-artifact-binding/public.key",
       "serialization": "bytes",
       "sha256": "4ebbe859de728e527bf2c053d3d7dabc7745b6c0c95cdf9dd7952317c3000b1f"
     }
@@ -173,7 +173,7 @@
         "suffix": ""
       }
     ],
-    "root": "vectors-artifact-binding"
+    "root": "corpora/vectors-artifact-binding"
   },
   "byte-identity": {
     "pins": 107,
@@ -185,9 +185,9 @@
   "checker": {
     "commands": [
       "go build -o aee-verify ./cmd/aee-verify",
-      "aee-verify -json vectors-artifact-binding",
-      "aee-verify -json vectors-artifact-binding",
-      "aee-verify vectors-artifact-binding"
+      "aee-verify -json corpora/vectors-artifact-binding",
+      "aee-verify -json corpora/vectors-artifact-binding",
+      "aee-verify corpora/vectors-artifact-binding"
     ],
     "dependencies": [
       {
@@ -209,11 +209,11 @@
       "paths": [
         "aee",
         "cmd/aee-verify",
-        "corpora",
+        "corpusreaders",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "712a1932ef34c3166fdc0517647e0008db691ea8963f36e1331517673e968c64"
+      "sha256": "2417e926ca98a6022a518e36af066f6072afc9f6cb2009a276f1d6fbb0775bf7"
     },
     "runtime": {
       "name": "go",
@@ -222,7 +222,7 @@
     "shared-verification-code": [
       "aee",
       "cmd/aee-verify",
-      "corpora",
+      "corpusreaders",
       "go.mod"
     ]
   },
@@ -294,7 +294,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "296b4879a6ed8e0426c25da670db3a93b38b0e3c8a2d141a085956b5e71e5f09"
+    "sha256": "ae1c790df9d4e390d746eeaec0929fa9c1d73af7e1d2b19c3ab1730ddf715083"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -313,58 +313,58 @@
       "vee1d041fe793404e",
       "vfa81facc1464c1d6"
     ],
-    "path": "vectors-artifact-binding/MANIFEST.json",
+    "path": "corpora/vectors-artifact-binding/MANIFEST.json",
     "sha256": "5ff4a5bf5ebdccb48a0e508a70c48ff3bfd255359be11a3ebf6d56768d5f1a2d"
   },
   "members": [
     {
       "files": [
         {
-          "path": "vectors-artifact-binding/cases/atif-pointer-mismatch/trial/agent/trajectory.json",
+          "path": "corpora/vectors-artifact-binding/cases/atif-pointer-mismatch/trial/agent/trajectory.json",
           "sha256": "9793ca8848b76110b02953aa29be522bd04fddedd94722054db7b95e4f3d44eb"
         },
         {
-          "path": "vectors-artifact-binding/cases/atif-pointer-mismatch/trial/artifacts/logs/artifacts/answer.txt",
+          "path": "corpora/vectors-artifact-binding/cases/atif-pointer-mismatch/trial/artifacts/logs/artifacts/answer.txt",
           "sha256": "1e319f074c3b5ed45cad07d9c416d3d07ad3c556878d4b84c94278f9f9e2536a"
         },
         {
-          "path": "vectors-artifact-binding/cases/atif-pointer-mismatch/trial/artifacts/manifest.json",
+          "path": "corpora/vectors-artifact-binding/cases/atif-pointer-mismatch/trial/artifacts/manifest.json",
           "sha256": "410ae7cc2fcb1cf23750970ad33becd2d96986618bb442e48b543503233a8396"
         },
         {
-          "path": "vectors-artifact-binding/cases/atif-pointer-mismatch/trial/binding/grading-inputs/test.sh",
+          "path": "corpora/vectors-artifact-binding/cases/atif-pointer-mismatch/trial/binding/grading-inputs/test.sh",
           "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
         },
         {
-          "path": "vectors-artifact-binding/cases/atif-pointer-mismatch/trial/binding/manifest.json",
+          "path": "corpora/vectors-artifact-binding/cases/atif-pointer-mismatch/trial/binding/manifest.json",
           "sha256": "7f5e8ca5dd19e86e2b496250d31d99af86106c0c755ad93acd2ca9ca774918ef"
         },
         {
-          "path": "vectors-artifact-binding/cases/atif-pointer-mismatch/trial/binding/manifest.sig",
+          "path": "corpora/vectors-artifact-binding/cases/atif-pointer-mismatch/trial/binding/manifest.sig",
           "sha256": "1318a830f4812aa0add26b0fede910dd74c003f301c90731b866f19ef4e422c1"
         },
         {
-          "path": "vectors-artifact-binding/cases/atif-pointer-mismatch/trial/lock.json",
+          "path": "corpora/vectors-artifact-binding/cases/atif-pointer-mismatch/trial/lock.json",
           "sha256": "a3913da3241fac0b3318e26b82018898b2ea8fc820c07826f7b27e2d8d1c4595"
         },
         {
-          "path": "vectors-artifact-binding/cases/atif-pointer-mismatch/trial/result.json",
+          "path": "corpora/vectors-artifact-binding/cases/atif-pointer-mismatch/trial/result.json",
           "sha256": "71c5942aacc011759c3d23dab1d4cf51b8f02fabb16f68dafb4f227543f102d8"
         },
         {
-          "path": "vectors-artifact-binding/cases/atif-pointer-mismatch/trial/verifier/reward.txt",
+          "path": "corpora/vectors-artifact-binding/cases/atif-pointer-mismatch/trial/verifier/reward.txt",
           "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
         },
         {
-          "path": "vectors-artifact-binding/cases/atif-pointer-mismatch/trial/verifier/test-stderr.txt",
+          "path": "corpora/vectors-artifact-binding/cases/atif-pointer-mismatch/trial/verifier/test-stderr.txt",
           "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
         },
         {
-          "path": "vectors-artifact-binding/cases/atif-pointer-mismatch/trial/verifier/test-stdout.txt",
+          "path": "corpora/vectors-artifact-binding/cases/atif-pointer-mismatch/trial/verifier/test-stdout.txt",
           "sha256": "45b466528330af5f62cb298b09dbab7aa6aeed0c80e356539ff1cc08dfcea324"
         },
         {
-          "path": "vectors-artifact-binding/cases/atif-pointer-mismatch/verifier/test.sh",
+          "path": "corpora/vectors-artifact-binding/cases/atif-pointer-mismatch/verifier/test.sh",
           "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
         }
       ],
@@ -373,47 +373,47 @@
     {
       "files": [
         {
-          "path": "vectors-artifact-binding/cases/required-role-absent/trial/agent/trajectory.json",
+          "path": "corpora/vectors-artifact-binding/cases/required-role-absent/trial/agent/trajectory.json",
           "sha256": "9793ca8848b76110b02953aa29be522bd04fddedd94722054db7b95e4f3d44eb"
         },
         {
-          "path": "vectors-artifact-binding/cases/required-role-absent/trial/artifacts/logs/artifacts/answer.txt",
+          "path": "corpora/vectors-artifact-binding/cases/required-role-absent/trial/artifacts/logs/artifacts/answer.txt",
           "sha256": "1e319f074c3b5ed45cad07d9c416d3d07ad3c556878d4b84c94278f9f9e2536a"
         },
         {
-          "path": "vectors-artifact-binding/cases/required-role-absent/trial/artifacts/manifest.json",
+          "path": "corpora/vectors-artifact-binding/cases/required-role-absent/trial/artifacts/manifest.json",
           "sha256": "410ae7cc2fcb1cf23750970ad33becd2d96986618bb442e48b543503233a8396"
         },
         {
-          "path": "vectors-artifact-binding/cases/required-role-absent/trial/binding/grading-inputs/test.sh",
+          "path": "corpora/vectors-artifact-binding/cases/required-role-absent/trial/binding/grading-inputs/test.sh",
           "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
         },
         {
-          "path": "vectors-artifact-binding/cases/required-role-absent/trial/binding/manifest.json",
+          "path": "corpora/vectors-artifact-binding/cases/required-role-absent/trial/binding/manifest.json",
           "sha256": "37ff774ee7479c855f9f444898e331d886b640ac2cee5f88e842413f2890292a"
         },
         {
-          "path": "vectors-artifact-binding/cases/required-role-absent/trial/binding/manifest.sig",
+          "path": "corpora/vectors-artifact-binding/cases/required-role-absent/trial/binding/manifest.sig",
           "sha256": "781d4ac39931304a9c119c3efd1c84ed79e029c1afdbbca53fed329005ac65f5"
         },
         {
-          "path": "vectors-artifact-binding/cases/required-role-absent/trial/lock.json",
+          "path": "corpora/vectors-artifact-binding/cases/required-role-absent/trial/lock.json",
           "sha256": "a3913da3241fac0b3318e26b82018898b2ea8fc820c07826f7b27e2d8d1c4595"
         },
         {
-          "path": "vectors-artifact-binding/cases/required-role-absent/trial/result.json",
+          "path": "corpora/vectors-artifact-binding/cases/required-role-absent/trial/result.json",
           "sha256": "71c5942aacc011759c3d23dab1d4cf51b8f02fabb16f68dafb4f227543f102d8"
         },
         {
-          "path": "vectors-artifact-binding/cases/required-role-absent/trial/verifier/test-stderr.txt",
+          "path": "corpora/vectors-artifact-binding/cases/required-role-absent/trial/verifier/test-stderr.txt",
           "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
         },
         {
-          "path": "vectors-artifact-binding/cases/required-role-absent/trial/verifier/test-stdout.txt",
+          "path": "corpora/vectors-artifact-binding/cases/required-role-absent/trial/verifier/test-stdout.txt",
           "sha256": "45b466528330af5f62cb298b09dbab7aa6aeed0c80e356539ff1cc08dfcea324"
         },
         {
-          "path": "vectors-artifact-binding/cases/required-role-absent/verifier/test.sh",
+          "path": "corpora/vectors-artifact-binding/cases/required-role-absent/verifier/test.sh",
           "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
         }
       ],
@@ -422,51 +422,51 @@
     {
       "files": [
         {
-          "path": "vectors-artifact-binding/cases/non-canonical-encoding/trial/agent/trajectory.json",
+          "path": "corpora/vectors-artifact-binding/cases/non-canonical-encoding/trial/agent/trajectory.json",
           "sha256": "9793ca8848b76110b02953aa29be522bd04fddedd94722054db7b95e4f3d44eb"
         },
         {
-          "path": "vectors-artifact-binding/cases/non-canonical-encoding/trial/artifacts/logs/artifacts/answer.txt",
+          "path": "corpora/vectors-artifact-binding/cases/non-canonical-encoding/trial/artifacts/logs/artifacts/answer.txt",
           "sha256": "1e319f074c3b5ed45cad07d9c416d3d07ad3c556878d4b84c94278f9f9e2536a"
         },
         {
-          "path": "vectors-artifact-binding/cases/non-canonical-encoding/trial/artifacts/manifest.json",
+          "path": "corpora/vectors-artifact-binding/cases/non-canonical-encoding/trial/artifacts/manifest.json",
           "sha256": "410ae7cc2fcb1cf23750970ad33becd2d96986618bb442e48b543503233a8396"
         },
         {
-          "path": "vectors-artifact-binding/cases/non-canonical-encoding/trial/binding/grading-inputs/test.sh",
+          "path": "corpora/vectors-artifact-binding/cases/non-canonical-encoding/trial/binding/grading-inputs/test.sh",
           "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
         },
         {
-          "path": "vectors-artifact-binding/cases/non-canonical-encoding/trial/binding/manifest.json",
+          "path": "corpora/vectors-artifact-binding/cases/non-canonical-encoding/trial/binding/manifest.json",
           "sha256": "62da31605edc7e2b383426c196b971c73349f7128382b7e3c1e07eda819145e5"
         },
         {
-          "path": "vectors-artifact-binding/cases/non-canonical-encoding/trial/binding/manifest.sig",
+          "path": "corpora/vectors-artifact-binding/cases/non-canonical-encoding/trial/binding/manifest.sig",
           "sha256": "110b094735c359ebf99e21aae045d864c4942ee254b7bac0e47316c630479a8c"
         },
         {
-          "path": "vectors-artifact-binding/cases/non-canonical-encoding/trial/lock.json",
+          "path": "corpora/vectors-artifact-binding/cases/non-canonical-encoding/trial/lock.json",
           "sha256": "a3913da3241fac0b3318e26b82018898b2ea8fc820c07826f7b27e2d8d1c4595"
         },
         {
-          "path": "vectors-artifact-binding/cases/non-canonical-encoding/trial/result.json",
+          "path": "corpora/vectors-artifact-binding/cases/non-canonical-encoding/trial/result.json",
           "sha256": "71c5942aacc011759c3d23dab1d4cf51b8f02fabb16f68dafb4f227543f102d8"
         },
         {
-          "path": "vectors-artifact-binding/cases/non-canonical-encoding/trial/verifier/reward.txt",
+          "path": "corpora/vectors-artifact-binding/cases/non-canonical-encoding/trial/verifier/reward.txt",
           "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
         },
         {
-          "path": "vectors-artifact-binding/cases/non-canonical-encoding/trial/verifier/test-stderr.txt",
+          "path": "corpora/vectors-artifact-binding/cases/non-canonical-encoding/trial/verifier/test-stderr.txt",
           "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
         },
         {
-          "path": "vectors-artifact-binding/cases/non-canonical-encoding/trial/verifier/test-stdout.txt",
+          "path": "corpora/vectors-artifact-binding/cases/non-canonical-encoding/trial/verifier/test-stdout.txt",
           "sha256": "45b466528330af5f62cb298b09dbab7aa6aeed0c80e356539ff1cc08dfcea324"
         },
         {
-          "path": "vectors-artifact-binding/cases/non-canonical-encoding/verifier/test.sh",
+          "path": "corpora/vectors-artifact-binding/cases/non-canonical-encoding/verifier/test.sh",
           "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
         }
       ],
@@ -475,99 +475,99 @@
     {
       "files": [
         {
-          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/source/agent/trajectory.json",
+          "path": "corpora/vectors-artifact-binding/cases/regrade-changed-verifier/source/agent/trajectory.json",
           "sha256": "9793ca8848b76110b02953aa29be522bd04fddedd94722054db7b95e4f3d44eb"
         },
         {
-          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/source/artifacts/logs/artifacts/answer.txt",
+          "path": "corpora/vectors-artifact-binding/cases/regrade-changed-verifier/source/artifacts/logs/artifacts/answer.txt",
           "sha256": "1e319f074c3b5ed45cad07d9c416d3d07ad3c556878d4b84c94278f9f9e2536a"
         },
         {
-          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/source/artifacts/manifest.json",
+          "path": "corpora/vectors-artifact-binding/cases/regrade-changed-verifier/source/artifacts/manifest.json",
           "sha256": "410ae7cc2fcb1cf23750970ad33becd2d96986618bb442e48b543503233a8396"
         },
         {
-          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/source/binding/grading-inputs/test.sh",
+          "path": "corpora/vectors-artifact-binding/cases/regrade-changed-verifier/source/binding/grading-inputs/test.sh",
           "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
         },
         {
-          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/source/binding/manifest.json",
+          "path": "corpora/vectors-artifact-binding/cases/regrade-changed-verifier/source/binding/manifest.json",
           "sha256": "37ff774ee7479c855f9f444898e331d886b640ac2cee5f88e842413f2890292a"
         },
         {
-          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/source/binding/manifest.sig",
+          "path": "corpora/vectors-artifact-binding/cases/regrade-changed-verifier/source/binding/manifest.sig",
           "sha256": "781d4ac39931304a9c119c3efd1c84ed79e029c1afdbbca53fed329005ac65f5"
         },
         {
-          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/source/lock.json",
+          "path": "corpora/vectors-artifact-binding/cases/regrade-changed-verifier/source/lock.json",
           "sha256": "a3913da3241fac0b3318e26b82018898b2ea8fc820c07826f7b27e2d8d1c4595"
         },
         {
-          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/source/result.json",
+          "path": "corpora/vectors-artifact-binding/cases/regrade-changed-verifier/source/result.json",
           "sha256": "71c5942aacc011759c3d23dab1d4cf51b8f02fabb16f68dafb4f227543f102d8"
         },
         {
-          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/source/verifier/reward.txt",
+          "path": "corpora/vectors-artifact-binding/cases/regrade-changed-verifier/source/verifier/reward.txt",
           "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
         },
         {
-          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/source/verifier/test-stderr.txt",
+          "path": "corpora/vectors-artifact-binding/cases/regrade-changed-verifier/source/verifier/test-stderr.txt",
           "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
         },
         {
-          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/source/verifier/test-stdout.txt",
+          "path": "corpora/vectors-artifact-binding/cases/regrade-changed-verifier/source/verifier/test-stdout.txt",
           "sha256": "45b466528330af5f62cb298b09dbab7aa6aeed0c80e356539ff1cc08dfcea324"
         },
         {
-          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/trial/agent/trajectory.json",
+          "path": "corpora/vectors-artifact-binding/cases/regrade-changed-verifier/trial/agent/trajectory.json",
           "sha256": "9793ca8848b76110b02953aa29be522bd04fddedd94722054db7b95e4f3d44eb"
         },
         {
-          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/trial/artifacts/logs/artifacts/answer.txt",
+          "path": "corpora/vectors-artifact-binding/cases/regrade-changed-verifier/trial/artifacts/logs/artifacts/answer.txt",
           "sha256": "1e319f074c3b5ed45cad07d9c416d3d07ad3c556878d4b84c94278f9f9e2536a"
         },
         {
-          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/trial/artifacts/manifest.json",
+          "path": "corpora/vectors-artifact-binding/cases/regrade-changed-verifier/trial/artifacts/manifest.json",
           "sha256": "410ae7cc2fcb1cf23750970ad33becd2d96986618bb442e48b543503233a8396"
         },
         {
-          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/trial/binding/grading-inputs/test.sh",
+          "path": "corpora/vectors-artifact-binding/cases/regrade-changed-verifier/trial/binding/grading-inputs/test.sh",
           "sha256": "e5fd6b36184fdf8566a46937bf21d1ec460ac66aebc333c74886b8877ff27cdd"
         },
         {
-          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/trial/binding/manifest.json",
+          "path": "corpora/vectors-artifact-binding/cases/regrade-changed-verifier/trial/binding/manifest.json",
           "sha256": "b5178d5dcda6390d60fb8397132fc53f24b609bec51693034c5d022719c31f5e"
         },
         {
-          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/trial/binding/manifest.sig",
+          "path": "corpora/vectors-artifact-binding/cases/regrade-changed-verifier/trial/binding/manifest.sig",
           "sha256": "86b49cc72c704d8925385c3f5e1df5323f48b2339ad14aa859994d8c1b8e2ed0"
         },
         {
-          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/trial/lock.json",
+          "path": "corpora/vectors-artifact-binding/cases/regrade-changed-verifier/trial/lock.json",
           "sha256": "a3913da3241fac0b3318e26b82018898b2ea8fc820c07826f7b27e2d8d1c4595"
         },
         {
-          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/trial/result.json",
+          "path": "corpora/vectors-artifact-binding/cases/regrade-changed-verifier/trial/result.json",
           "sha256": "71c5942aacc011759c3d23dab1d4cf51b8f02fabb16f68dafb4f227543f102d8"
         },
         {
-          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/trial/verifier/reward.txt",
+          "path": "corpora/vectors-artifact-binding/cases/regrade-changed-verifier/trial/verifier/reward.txt",
           "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
         },
         {
-          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/trial/verifier/test-stderr.txt",
+          "path": "corpora/vectors-artifact-binding/cases/regrade-changed-verifier/trial/verifier/test-stderr.txt",
           "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
         },
         {
-          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/trial/verifier/test-stdout.txt",
+          "path": "corpora/vectors-artifact-binding/cases/regrade-changed-verifier/trial/verifier/test-stdout.txt",
           "sha256": "f8866b8dd9611a6c8fd6590f896366900ec4ce8295f4980077d73bf4684681df"
         },
         {
-          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/verifier-changed/test.sh",
+          "path": "corpora/vectors-artifact-binding/cases/regrade-changed-verifier/verifier-changed/test.sh",
           "sha256": "e5fd6b36184fdf8566a46937bf21d1ec460ac66aebc333c74886b8877ff27cdd"
         },
         {
-          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/verifier/test.sh",
+          "path": "corpora/vectors-artifact-binding/cases/regrade-changed-verifier/verifier/test.sh",
           "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
         }
       ],
@@ -576,51 +576,51 @@
     {
       "files": [
         {
-          "path": "vectors-artifact-binding/cases/covered-byte-changed/trial/agent/trajectory.json",
+          "path": "corpora/vectors-artifact-binding/cases/covered-byte-changed/trial/agent/trajectory.json",
           "sha256": "9793ca8848b76110b02953aa29be522bd04fddedd94722054db7b95e4f3d44eb"
         },
         {
-          "path": "vectors-artifact-binding/cases/covered-byte-changed/trial/artifacts/logs/artifacts/answer.txt",
+          "path": "corpora/vectors-artifact-binding/cases/covered-byte-changed/trial/artifacts/logs/artifacts/answer.txt",
           "sha256": "9dfb9d9309aa4e7e102547add980225ce057893476b97844e687b122149e6b2d"
         },
         {
-          "path": "vectors-artifact-binding/cases/covered-byte-changed/trial/artifacts/manifest.json",
+          "path": "corpora/vectors-artifact-binding/cases/covered-byte-changed/trial/artifacts/manifest.json",
           "sha256": "410ae7cc2fcb1cf23750970ad33becd2d96986618bb442e48b543503233a8396"
         },
         {
-          "path": "vectors-artifact-binding/cases/covered-byte-changed/trial/binding/grading-inputs/test.sh",
+          "path": "corpora/vectors-artifact-binding/cases/covered-byte-changed/trial/binding/grading-inputs/test.sh",
           "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
         },
         {
-          "path": "vectors-artifact-binding/cases/covered-byte-changed/trial/binding/manifest.json",
+          "path": "corpora/vectors-artifact-binding/cases/covered-byte-changed/trial/binding/manifest.json",
           "sha256": "37ff774ee7479c855f9f444898e331d886b640ac2cee5f88e842413f2890292a"
         },
         {
-          "path": "vectors-artifact-binding/cases/covered-byte-changed/trial/binding/manifest.sig",
+          "path": "corpora/vectors-artifact-binding/cases/covered-byte-changed/trial/binding/manifest.sig",
           "sha256": "781d4ac39931304a9c119c3efd1c84ed79e029c1afdbbca53fed329005ac65f5"
         },
         {
-          "path": "vectors-artifact-binding/cases/covered-byte-changed/trial/lock.json",
+          "path": "corpora/vectors-artifact-binding/cases/covered-byte-changed/trial/lock.json",
           "sha256": "a3913da3241fac0b3318e26b82018898b2ea8fc820c07826f7b27e2d8d1c4595"
         },
         {
-          "path": "vectors-artifact-binding/cases/covered-byte-changed/trial/result.json",
+          "path": "corpora/vectors-artifact-binding/cases/covered-byte-changed/trial/result.json",
           "sha256": "71c5942aacc011759c3d23dab1d4cf51b8f02fabb16f68dafb4f227543f102d8"
         },
         {
-          "path": "vectors-artifact-binding/cases/covered-byte-changed/trial/verifier/reward.txt",
+          "path": "corpora/vectors-artifact-binding/cases/covered-byte-changed/trial/verifier/reward.txt",
           "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
         },
         {
-          "path": "vectors-artifact-binding/cases/covered-byte-changed/trial/verifier/test-stderr.txt",
+          "path": "corpora/vectors-artifact-binding/cases/covered-byte-changed/trial/verifier/test-stderr.txt",
           "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
         },
         {
-          "path": "vectors-artifact-binding/cases/covered-byte-changed/trial/verifier/test-stdout.txt",
+          "path": "corpora/vectors-artifact-binding/cases/covered-byte-changed/trial/verifier/test-stdout.txt",
           "sha256": "45b466528330af5f62cb298b09dbab7aa6aeed0c80e356539ff1cc08dfcea324"
         },
         {
-          "path": "vectors-artifact-binding/cases/covered-byte-changed/verifier/test.sh",
+          "path": "corpora/vectors-artifact-binding/cases/covered-byte-changed/verifier/test.sh",
           "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
         }
       ],
@@ -629,51 +629,51 @@
     {
       "files": [
         {
-          "path": "vectors-artifact-binding/cases/intact-execute/trial/agent/trajectory.json",
+          "path": "corpora/vectors-artifact-binding/cases/intact-execute/trial/agent/trajectory.json",
           "sha256": "9793ca8848b76110b02953aa29be522bd04fddedd94722054db7b95e4f3d44eb"
         },
         {
-          "path": "vectors-artifact-binding/cases/intact-execute/trial/artifacts/logs/artifacts/answer.txt",
+          "path": "corpora/vectors-artifact-binding/cases/intact-execute/trial/artifacts/logs/artifacts/answer.txt",
           "sha256": "1e319f074c3b5ed45cad07d9c416d3d07ad3c556878d4b84c94278f9f9e2536a"
         },
         {
-          "path": "vectors-artifact-binding/cases/intact-execute/trial/artifacts/manifest.json",
+          "path": "corpora/vectors-artifact-binding/cases/intact-execute/trial/artifacts/manifest.json",
           "sha256": "410ae7cc2fcb1cf23750970ad33becd2d96986618bb442e48b543503233a8396"
         },
         {
-          "path": "vectors-artifact-binding/cases/intact-execute/trial/binding/grading-inputs/test.sh",
+          "path": "corpora/vectors-artifact-binding/cases/intact-execute/trial/binding/grading-inputs/test.sh",
           "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
         },
         {
-          "path": "vectors-artifact-binding/cases/intact-execute/trial/binding/manifest.json",
+          "path": "corpora/vectors-artifact-binding/cases/intact-execute/trial/binding/manifest.json",
           "sha256": "37ff774ee7479c855f9f444898e331d886b640ac2cee5f88e842413f2890292a"
         },
         {
-          "path": "vectors-artifact-binding/cases/intact-execute/trial/binding/manifest.sig",
+          "path": "corpora/vectors-artifact-binding/cases/intact-execute/trial/binding/manifest.sig",
           "sha256": "781d4ac39931304a9c119c3efd1c84ed79e029c1afdbbca53fed329005ac65f5"
         },
         {
-          "path": "vectors-artifact-binding/cases/intact-execute/trial/lock.json",
+          "path": "corpora/vectors-artifact-binding/cases/intact-execute/trial/lock.json",
           "sha256": "a3913da3241fac0b3318e26b82018898b2ea8fc820c07826f7b27e2d8d1c4595"
         },
         {
-          "path": "vectors-artifact-binding/cases/intact-execute/trial/result.json",
+          "path": "corpora/vectors-artifact-binding/cases/intact-execute/trial/result.json",
           "sha256": "71c5942aacc011759c3d23dab1d4cf51b8f02fabb16f68dafb4f227543f102d8"
         },
         {
-          "path": "vectors-artifact-binding/cases/intact-execute/trial/verifier/reward.txt",
+          "path": "corpora/vectors-artifact-binding/cases/intact-execute/trial/verifier/reward.txt",
           "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
         },
         {
-          "path": "vectors-artifact-binding/cases/intact-execute/trial/verifier/test-stderr.txt",
+          "path": "corpora/vectors-artifact-binding/cases/intact-execute/trial/verifier/test-stderr.txt",
           "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
         },
         {
-          "path": "vectors-artifact-binding/cases/intact-execute/trial/verifier/test-stdout.txt",
+          "path": "corpora/vectors-artifact-binding/cases/intact-execute/trial/verifier/test-stdout.txt",
           "sha256": "45b466528330af5f62cb298b09dbab7aa6aeed0c80e356539ff1cc08dfcea324"
         },
         {
-          "path": "vectors-artifact-binding/cases/intact-execute/verifier/test.sh",
+          "path": "corpora/vectors-artifact-binding/cases/intact-execute/verifier/test.sh",
           "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
         }
       ],
@@ -682,51 +682,51 @@
     {
       "files": [
         {
-          "path": "vectors-artifact-binding/cases/wrong-signer/trial/agent/trajectory.json",
+          "path": "corpora/vectors-artifact-binding/cases/wrong-signer/trial/agent/trajectory.json",
           "sha256": "9793ca8848b76110b02953aa29be522bd04fddedd94722054db7b95e4f3d44eb"
         },
         {
-          "path": "vectors-artifact-binding/cases/wrong-signer/trial/artifacts/logs/artifacts/answer.txt",
+          "path": "corpora/vectors-artifact-binding/cases/wrong-signer/trial/artifacts/logs/artifacts/answer.txt",
           "sha256": "1e319f074c3b5ed45cad07d9c416d3d07ad3c556878d4b84c94278f9f9e2536a"
         },
         {
-          "path": "vectors-artifact-binding/cases/wrong-signer/trial/artifacts/manifest.json",
+          "path": "corpora/vectors-artifact-binding/cases/wrong-signer/trial/artifacts/manifest.json",
           "sha256": "410ae7cc2fcb1cf23750970ad33becd2d96986618bb442e48b543503233a8396"
         },
         {
-          "path": "vectors-artifact-binding/cases/wrong-signer/trial/binding/grading-inputs/test.sh",
+          "path": "corpora/vectors-artifact-binding/cases/wrong-signer/trial/binding/grading-inputs/test.sh",
           "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
         },
         {
-          "path": "vectors-artifact-binding/cases/wrong-signer/trial/binding/manifest.json",
+          "path": "corpora/vectors-artifact-binding/cases/wrong-signer/trial/binding/manifest.json",
           "sha256": "b77a8f3203778204319592137ffed918c8d3db3408f5d57033a1963eb2f09d13"
         },
         {
-          "path": "vectors-artifact-binding/cases/wrong-signer/trial/binding/manifest.sig",
+          "path": "corpora/vectors-artifact-binding/cases/wrong-signer/trial/binding/manifest.sig",
           "sha256": "79afccf3009e6b80cf1b0098f43e31d8874e819e6e4f243aff5d15059da907ff"
         },
         {
-          "path": "vectors-artifact-binding/cases/wrong-signer/trial/lock.json",
+          "path": "corpora/vectors-artifact-binding/cases/wrong-signer/trial/lock.json",
           "sha256": "a3913da3241fac0b3318e26b82018898b2ea8fc820c07826f7b27e2d8d1c4595"
         },
         {
-          "path": "vectors-artifact-binding/cases/wrong-signer/trial/result.json",
+          "path": "corpora/vectors-artifact-binding/cases/wrong-signer/trial/result.json",
           "sha256": "71c5942aacc011759c3d23dab1d4cf51b8f02fabb16f68dafb4f227543f102d8"
         },
         {
-          "path": "vectors-artifact-binding/cases/wrong-signer/trial/verifier/reward.txt",
+          "path": "corpora/vectors-artifact-binding/cases/wrong-signer/trial/verifier/reward.txt",
           "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
         },
         {
-          "path": "vectors-artifact-binding/cases/wrong-signer/trial/verifier/test-stderr.txt",
+          "path": "corpora/vectors-artifact-binding/cases/wrong-signer/trial/verifier/test-stderr.txt",
           "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
         },
         {
-          "path": "vectors-artifact-binding/cases/wrong-signer/trial/verifier/test-stdout.txt",
+          "path": "corpora/vectors-artifact-binding/cases/wrong-signer/trial/verifier/test-stdout.txt",
           "sha256": "45b466528330af5f62cb298b09dbab7aa6aeed0c80e356539ff1cc08dfcea324"
         },
         {
-          "path": "vectors-artifact-binding/cases/wrong-signer/verifier/test.sh",
+          "path": "corpora/vectors-artifact-binding/cases/wrong-signer/verifier/test.sh",
           "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
         }
       ],
@@ -735,51 +735,51 @@
     {
       "files": [
         {
-          "path": "vectors-artifact-binding/cases/dependency-incomplete/trial/agent/trajectory.json",
+          "path": "corpora/vectors-artifact-binding/cases/dependency-incomplete/trial/agent/trajectory.json",
           "sha256": "d1a5c6a25f6a0f331175b481c0ca279d72e92473593b66f14d015b88c9bd5189"
         },
         {
-          "path": "vectors-artifact-binding/cases/dependency-incomplete/trial/artifacts/logs/artifacts/answer.txt",
+          "path": "corpora/vectors-artifact-binding/cases/dependency-incomplete/trial/artifacts/logs/artifacts/answer.txt",
           "sha256": "1e319f074c3b5ed45cad07d9c416d3d07ad3c556878d4b84c94278f9f9e2536a"
         },
         {
-          "path": "vectors-artifact-binding/cases/dependency-incomplete/trial/artifacts/manifest.json",
+          "path": "corpora/vectors-artifact-binding/cases/dependency-incomplete/trial/artifacts/manifest.json",
           "sha256": "410ae7cc2fcb1cf23750970ad33becd2d96986618bb442e48b543503233a8396"
         },
         {
-          "path": "vectors-artifact-binding/cases/dependency-incomplete/trial/binding/grading-inputs/test.sh",
+          "path": "corpora/vectors-artifact-binding/cases/dependency-incomplete/trial/binding/grading-inputs/test.sh",
           "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
         },
         {
-          "path": "vectors-artifact-binding/cases/dependency-incomplete/trial/binding/manifest.json",
+          "path": "corpora/vectors-artifact-binding/cases/dependency-incomplete/trial/binding/manifest.json",
           "sha256": "f90ca279a1d91bc166c6fcb5cf960d0560872c8dfdb8feb1c76c6cad0b8d4929"
         },
         {
-          "path": "vectors-artifact-binding/cases/dependency-incomplete/trial/binding/manifest.sig",
+          "path": "corpora/vectors-artifact-binding/cases/dependency-incomplete/trial/binding/manifest.sig",
           "sha256": "96dfa6c1bbf388d1c2ff05942dcddd4df8fbccb2febca5a1ec4b1c488f99e618"
         },
         {
-          "path": "vectors-artifact-binding/cases/dependency-incomplete/trial/lock.json",
+          "path": "corpora/vectors-artifact-binding/cases/dependency-incomplete/trial/lock.json",
           "sha256": "a3913da3241fac0b3318e26b82018898b2ea8fc820c07826f7b27e2d8d1c4595"
         },
         {
-          "path": "vectors-artifact-binding/cases/dependency-incomplete/trial/result.json",
+          "path": "corpora/vectors-artifact-binding/cases/dependency-incomplete/trial/result.json",
           "sha256": "71c5942aacc011759c3d23dab1d4cf51b8f02fabb16f68dafb4f227543f102d8"
         },
         {
-          "path": "vectors-artifact-binding/cases/dependency-incomplete/trial/verifier/reward.txt",
+          "path": "corpora/vectors-artifact-binding/cases/dependency-incomplete/trial/verifier/reward.txt",
           "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
         },
         {
-          "path": "vectors-artifact-binding/cases/dependency-incomplete/trial/verifier/test-stderr.txt",
+          "path": "corpora/vectors-artifact-binding/cases/dependency-incomplete/trial/verifier/test-stderr.txt",
           "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
         },
         {
-          "path": "vectors-artifact-binding/cases/dependency-incomplete/trial/verifier/test-stdout.txt",
+          "path": "corpora/vectors-artifact-binding/cases/dependency-incomplete/trial/verifier/test-stdout.txt",
           "sha256": "45b466528330af5f62cb298b09dbab7aa6aeed0c80e356539ff1cc08dfcea324"
         },
         {
-          "path": "vectors-artifact-binding/cases/dependency-incomplete/verifier/test.sh",
+          "path": "corpora/vectors-artifact-binding/cases/dependency-incomplete/verifier/test.sh",
           "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
         }
       ],
@@ -820,7 +820,7 @@
       "reference": {
         "path": "release/intake/native/vectors-artifact-binding.json",
         "serialization": "bytes",
-        "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+        "sha256": "a253571d3ba9c97d60fac1d5815ef3af61fa10e1b29b78a658a506d7f635fbab"
       }
     },
     {
@@ -887,11 +887,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+        "sha256": "a253571d3ba9c97d60fac1d5815ef3af61fa10e1b29b78a658a506d7f635fbab"
       },
       {
         "process": "run-2",
-        "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+        "sha256": "a253571d3ba9c97d60fac1d5815ef3af61fa10e1b29b78a658a506d7f635fbab"
       }
     ],
     "seed": null,

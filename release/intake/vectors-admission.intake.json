@@ -14,8 +14,8 @@
       "path": "release/CORPUS-DIGESTS.txt",
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
-    "routine": "corpus_digest in vectors-admission/digest.py",
-    "routine-file": "vectors-admission/digest.py",
+    "routine": "corpus_digest in corpora/vectors-admission/digest.py",
+    "routine-file": "corpora/vectors-admission/digest.py",
     "serialization": "corpus-routine",
     "sha256": "17caeb3817557d779266de29ba9a65ebf553f7503925de7e7b5a01126ede5446",
     "verdicts": {
@@ -29,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "8b30bc4152ad648e460fd1f1e804f75722154ad63947eb64727b45104ef789c8"
+          "sha256": "d2a81011f4bade75bf9948ddd7b7e381f0d531cc6e133fc1414bf247cff59f19"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,12 +38,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "8b30bc4152ad648e460fd1f1e804f75722154ad63947eb64727b45104ef789c8"
+          "sha256": "d2a81011f4bade75bf9948ddd7b7e381f0d531cc6e133fc1414bf247cff59f19"
         },
-        "swapped-in": "bcfdafec2d7915757be21f7f7771261973f5ca118d21c3b958162a0c234ec3f6",
+        "swapped-in": "725da264d0bdfe4d2b4c1f1cda974eac355fea2665434b96fec8fb16a972da6d",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-admission/INDEX.md",
+      "path": "corpora/vectors-admission/INDEX.md",
       "serialization": "bytes",
       "sha256": "4f10fabbd7628e32ee29fc1878e88b6b0a9f6ab7f6708efaa8509476eb939038"
     },
@@ -52,7 +52,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "8b30bc4152ad648e460fd1f1e804f75722154ad63947eb64727b45104ef789c8"
+          "sha256": "d2a81011f4bade75bf9948ddd7b7e381f0d531cc6e133fc1414bf247cff59f19"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,12 +61,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "8b30bc4152ad648e460fd1f1e804f75722154ad63947eb64727b45104ef789c8"
+          "sha256": "d2a81011f4bade75bf9948ddd7b7e381f0d531cc6e133fc1414bf247cff59f19"
         },
-        "swapped-in": "5771aa9a3aab0421373d3dc3a2dd5da59744e75a225db49bdeb1f91a644f1a02",
+        "swapped-in": "c85d4c0a571c080193988472ce903b92fd9867675a5898d296f97d7b89103393",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-admission/README.md",
+      "path": "corpora/vectors-admission/README.md",
       "serialization": "bytes",
       "sha256": "ce91ef39b4dd9bd6d6209e3bd8761c48e5ef575a426d123d6155032f760d77e3"
     },
@@ -75,7 +75,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "8b30bc4152ad648e460fd1f1e804f75722154ad63947eb64727b45104ef789c8"
+          "sha256": "d2a81011f4bade75bf9948ddd7b7e381f0d531cc6e133fc1414bf247cff59f19"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,12 +84,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "8b30bc4152ad648e460fd1f1e804f75722154ad63947eb64727b45104ef789c8"
+          "sha256": "d2a81011f4bade75bf9948ddd7b7e381f0d531cc6e133fc1414bf247cff59f19"
         },
-        "swapped-in": "e78fcb2cc2b833f94b670534ab674c48357fd5ff8532b48578886a505d27390a",
+        "swapped-in": "74216fdd1d6d5459478c173278d3d79dad0ce1afd39170290e0bd2f3030ecac9",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-admission/digest.py",
+      "path": "corpora/vectors-admission/digest.py",
       "serialization": "bytes",
       "sha256": "7fd051f47d6125169077cb260cfb183e40914f7139220efd2e246cb0a3503f93"
     },
@@ -98,7 +98,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "8b30bc4152ad648e460fd1f1e804f75722154ad63947eb64727b45104ef789c8"
+          "sha256": "d2a81011f4bade75bf9948ddd7b7e381f0d531cc6e133fc1414bf247cff59f19"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,14 +107,14 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "8b30bc4152ad648e460fd1f1e804f75722154ad63947eb64727b45104ef789c8"
+          "sha256": "d2a81011f4bade75bf9948ddd7b7e381f0d531cc6e133fc1414bf247cff59f19"
         },
-        "swapped-in": "ef33f32c5355360e576ff05a010a44b50a9fd2b4daf623bf8d6842fd6605c75b",
+        "swapped-in": "c3ff76be8a772eecfc58b78e158de2dd2fd55842b971fff9560cdf103d7900f3",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-admission/gen_vectors.py",
+      "path": "corpora/vectors-admission/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "a9ade410f4e97631221d137428630d7002d013743bc458e2f2f1a6d0dcab4a1b"
+      "sha256": "5c394f077d50415f44e8c6ca19526be1a68e9f01ec8f352d44067f67410e1708"
     }
   ],
   "boundary": {
@@ -131,7 +131,7 @@
         "suffix": ".json"
       }
     ],
-    "root": "vectors-admission"
+    "root": "corpora/vectors-admission"
   },
   "byte-identity": {
     "pins": 44,
@@ -143,9 +143,9 @@
   "checker": {
     "commands": [
       "go build -o aee-verify ./cmd/aee-verify",
-      "aee-verify -json vectors-admission",
-      "aee-verify -json vectors-admission",
-      "aee-verify vectors-admission"
+      "aee-verify -json corpora/vectors-admission",
+      "aee-verify -json corpora/vectors-admission",
+      "aee-verify corpora/vectors-admission"
     ],
     "dependencies": [
       {
@@ -167,11 +167,11 @@
       "paths": [
         "aee",
         "cmd/aee-verify",
-        "corpora",
+        "corpusreaders",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "712a1932ef34c3166fdc0517647e0008db691ea8963f36e1331517673e968c64"
+      "sha256": "2417e926ca98a6022a518e36af066f6072afc9f6cb2009a276f1d6fbb0775bf7"
     },
     "runtime": {
       "name": "go",
@@ -180,7 +180,7 @@
     "shared-verification-code": [
       "aee",
       "cmd/aee-verify",
-      "corpora",
+      "corpusreaders",
       "go.mod"
     ]
   },
@@ -364,7 +364,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "5a5e3c165fcab6c84dcc779091f6bd6e91713231067d26805d7a47506e0f282a"
+    "sha256": "27e23b2b6c9f63730205af931fe7c01a97bb2dc8cbc212d81195fcef1689f1fe"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -397,18 +397,18 @@
       "vfa6e85fc58dfcc19",
       "vffe497f243510a8f"
     ],
-    "path": "vectors-admission/MANIFEST.json",
+    "path": "corpora/vectors-admission/MANIFEST.json",
     "sha256": "fb634ef060f6526184176d2e4dd93eafe6e4cc29ee5cfeb32e4b854fd010a4e5"
   },
   "members": [
     {
       "files": [
         {
-          "path": "vectors-admission/policies/v52d8eb97a1cb99d8.json",
+          "path": "corpora/vectors-admission/policies/v52d8eb97a1cb99d8.json",
           "sha256": "52d8eb97a1cb99d8c295910a5e86587575be2c45b662553bae367399556607fd"
         },
         {
-          "path": "vectors-admission/statements/vc2782e6c3cbdb9b7.json",
+          "path": "corpora/vectors-admission/statements/vc2782e6c3cbdb9b7.json",
           "sha256": "c2782e6c3cbdb9b713bfab793d4c7c5b31a3a4c795e6820b96f8bcfb74644b4f"
         }
       ],
@@ -417,11 +417,11 @@
     {
       "files": [
         {
-          "path": "vectors-admission/policies/v789252c10f3c18d0.json",
+          "path": "corpora/vectors-admission/policies/v789252c10f3c18d0.json",
           "sha256": "789252c10f3c18d07c30d015e2d6263dd285bbca666eb5628aa43ceec76f3a77"
         },
         {
-          "path": "vectors-admission/statements/vcc938c6038536dcb.json",
+          "path": "corpora/vectors-admission/statements/vcc938c6038536dcb.json",
           "sha256": "cc938c6038536dcb0d63269dd96cd64bed2d8d575fe212b72593c7f2ca92399b"
         }
       ],
@@ -430,11 +430,11 @@
     {
       "files": [
         {
-          "path": "vectors-admission/policies/v88ff4be3342ed02d.json",
+          "path": "corpora/vectors-admission/policies/v88ff4be3342ed02d.json",
           "sha256": "88ff4be3342ed02da7e252563af51338794c1d159c6e1b8bcc232a99cea5d86d"
         },
         {
-          "path": "vectors-admission/statements/vcc938c6038536dcb.json",
+          "path": "corpora/vectors-admission/statements/vcc938c6038536dcb.json",
           "sha256": "cc938c6038536dcb0d63269dd96cd64bed2d8d575fe212b72593c7f2ca92399b"
         }
       ],
@@ -443,11 +443,11 @@
     {
       "files": [
         {
-          "path": "vectors-admission/policies/v33595247824dc4f6.json",
+          "path": "corpora/vectors-admission/policies/v33595247824dc4f6.json",
           "sha256": "33595247824dc4f60f05e6a215077e037a5c34390a6c4cda972cdca3e393adf6"
         },
         {
-          "path": "vectors-admission/statements/vcc938c6038536dcb.json",
+          "path": "corpora/vectors-admission/statements/vcc938c6038536dcb.json",
           "sha256": "cc938c6038536dcb0d63269dd96cd64bed2d8d575fe212b72593c7f2ca92399b"
         }
       ],
@@ -456,11 +456,11 @@
     {
       "files": [
         {
-          "path": "vectors-admission/policies/ve1999bcde0c49043.json",
+          "path": "corpora/vectors-admission/policies/ve1999bcde0c49043.json",
           "sha256": "e1999bcde0c490436b18a536ac2711fc17c805d50108ef34d5ea60a162e98204"
         },
         {
-          "path": "vectors-admission/statements/vc2782e6c3cbdb9b7.json",
+          "path": "corpora/vectors-admission/statements/vc2782e6c3cbdb9b7.json",
           "sha256": "c2782e6c3cbdb9b713bfab793d4c7c5b31a3a4c795e6820b96f8bcfb74644b4f"
         }
       ],
@@ -469,11 +469,11 @@
     {
       "files": [
         {
-          "path": "vectors-admission/policies/ve1999bcde0c49043.json",
+          "path": "corpora/vectors-admission/policies/ve1999bcde0c49043.json",
           "sha256": "e1999bcde0c490436b18a536ac2711fc17c805d50108ef34d5ea60a162e98204"
         },
         {
-          "path": "vectors-admission/statements/vf1780aaab3d2cdf3.json",
+          "path": "corpora/vectors-admission/statements/vf1780aaab3d2cdf3.json",
           "sha256": "f1780aaab3d2cdf3fca781de4a4f9aa4b33d1914fb26fc84b46416d290563554"
         }
       ],
@@ -482,11 +482,11 @@
     {
       "files": [
         {
-          "path": "vectors-admission/policies/v5f0654acf82c50ed.json",
+          "path": "corpora/vectors-admission/policies/v5f0654acf82c50ed.json",
           "sha256": "5f0654acf82c50ed082d2345da69a3c6e889db0f1240581026e7e6224ba0d66f"
         },
         {
-          "path": "vectors-admission/statements/vcc938c6038536dcb.json",
+          "path": "corpora/vectors-admission/statements/vcc938c6038536dcb.json",
           "sha256": "cc938c6038536dcb0d63269dd96cd64bed2d8d575fe212b72593c7f2ca92399b"
         }
       ],
@@ -495,11 +495,11 @@
     {
       "files": [
         {
-          "path": "vectors-admission/policies/v0a3785bcdf0f014f.json",
+          "path": "corpora/vectors-admission/policies/v0a3785bcdf0f014f.json",
           "sha256": "0a3785bcdf0f014fd3eb9e202ac6e19145be62cafe51f2f4c9efb35ecabdb290"
         },
         {
-          "path": "vectors-admission/statements/v96d442af53d71bf4.json",
+          "path": "corpora/vectors-admission/statements/v96d442af53d71bf4.json",
           "sha256": "96d442af53d71bf468cbef7c59e73112c2b4376edce5f7611318d8a073edeb22"
         }
       ],
@@ -508,11 +508,11 @@
     {
       "files": [
         {
-          "path": "vectors-admission/policies/vac5e7e3f482283de.json",
+          "path": "corpora/vectors-admission/policies/vac5e7e3f482283de.json",
           "sha256": "ac5e7e3f482283de403aa29fd597b364660c6bb6eb424d135b169b654c5ac2ae"
         },
         {
-          "path": "vectors-admission/statements/vcf20eae7df4f1f1b.json",
+          "path": "corpora/vectors-admission/statements/vcf20eae7df4f1f1b.json",
           "sha256": "cf20eae7df4f1f1bd464314535d46a08f7b6dbe8b43828b10acb817569f2ef06"
         }
       ],
@@ -521,11 +521,11 @@
     {
       "files": [
         {
-          "path": "vectors-admission/policies/ve1999bcde0c49043.json",
+          "path": "corpora/vectors-admission/policies/ve1999bcde0c49043.json",
           "sha256": "e1999bcde0c490436b18a536ac2711fc17c805d50108ef34d5ea60a162e98204"
         },
         {
-          "path": "vectors-admission/statements/v550c91df0d36a218.json",
+          "path": "corpora/vectors-admission/statements/v550c91df0d36a218.json",
           "sha256": "550c91df0d36a2181008d46dba5654f5506961a4e2e1d6bbf0b9ed7b4ec2e56c"
         }
       ],
@@ -534,11 +534,11 @@
     {
       "files": [
         {
-          "path": "vectors-admission/policies/vdc364e12119d732d.json",
+          "path": "corpora/vectors-admission/policies/vdc364e12119d732d.json",
           "sha256": "dc364e12119d732d6a9ac9adcd683dc3858df361266e4254bd3e034893d86617"
         },
         {
-          "path": "vectors-admission/statements/vcc938c6038536dcb.json",
+          "path": "corpora/vectors-admission/statements/vcc938c6038536dcb.json",
           "sha256": "cc938c6038536dcb0d63269dd96cd64bed2d8d575fe212b72593c7f2ca92399b"
         }
       ],
@@ -547,11 +547,11 @@
     {
       "files": [
         {
-          "path": "vectors-admission/policies/v16ee5ffd396c91b8.json",
+          "path": "corpora/vectors-admission/policies/v16ee5ffd396c91b8.json",
           "sha256": "16ee5ffd396c91b8769ef3bce8d44fc2ebff8448e395f6bb555cabb82d6df7cc"
         },
         {
-          "path": "vectors-admission/statements/vc2782e6c3cbdb9b7.json",
+          "path": "corpora/vectors-admission/statements/vc2782e6c3cbdb9b7.json",
           "sha256": "c2782e6c3cbdb9b713bfab793d4c7c5b31a3a4c795e6820b96f8bcfb74644b4f"
         }
       ],
@@ -560,11 +560,11 @@
     {
       "files": [
         {
-          "path": "vectors-admission/policies/ve1999bcde0c49043.json",
+          "path": "corpora/vectors-admission/policies/ve1999bcde0c49043.json",
           "sha256": "e1999bcde0c490436b18a536ac2711fc17c805d50108ef34d5ea60a162e98204"
         },
         {
-          "path": "vectors-admission/statements/vcf20eae7df4f1f1b.json",
+          "path": "corpora/vectors-admission/statements/vcf20eae7df4f1f1b.json",
           "sha256": "cf20eae7df4f1f1bd464314535d46a08f7b6dbe8b43828b10acb817569f2ef06"
         }
       ],
@@ -573,11 +573,11 @@
     {
       "files": [
         {
-          "path": "vectors-admission/policies/ve1999bcde0c49043.json",
+          "path": "corpora/vectors-admission/policies/ve1999bcde0c49043.json",
           "sha256": "e1999bcde0c490436b18a536ac2711fc17c805d50108ef34d5ea60a162e98204"
         },
         {
-          "path": "vectors-admission/statements/vcc938c6038536dcb.json",
+          "path": "corpora/vectors-admission/statements/vcc938c6038536dcb.json",
           "sha256": "cc938c6038536dcb0d63269dd96cd64bed2d8d575fe212b72593c7f2ca92399b"
         }
       ],
@@ -586,11 +586,11 @@
     {
       "files": [
         {
-          "path": "vectors-admission/policies/vde110f77006b66e1.json",
+          "path": "corpora/vectors-admission/policies/vde110f77006b66e1.json",
           "sha256": "de110f77006b66e185f61586a136018294f7cabf6b430c572d987dccbed82d8b"
         },
         {
-          "path": "vectors-admission/statements/vcc938c6038536dcb.json",
+          "path": "corpora/vectors-admission/statements/vcc938c6038536dcb.json",
           "sha256": "cc938c6038536dcb0d63269dd96cd64bed2d8d575fe212b72593c7f2ca92399b"
         }
       ],
@@ -599,11 +599,11 @@
     {
       "files": [
         {
-          "path": "vectors-admission/policies/vac5e7e3f482283de.json",
+          "path": "corpora/vectors-admission/policies/vac5e7e3f482283de.json",
           "sha256": "ac5e7e3f482283de403aa29fd597b364660c6bb6eb424d135b169b654c5ac2ae"
         },
         {
-          "path": "vectors-admission/statements/v96d442af53d71bf4.json",
+          "path": "corpora/vectors-admission/statements/v96d442af53d71bf4.json",
           "sha256": "96d442af53d71bf468cbef7c59e73112c2b4376edce5f7611318d8a073edeb22"
         }
       ],
@@ -612,11 +612,11 @@
     {
       "files": [
         {
-          "path": "vectors-admission/policies/v7724763d095b7caf.json",
+          "path": "corpora/vectors-admission/policies/v7724763d095b7caf.json",
           "sha256": "7724763d095b7caff4e420e4028cf5b3c61070ac859fd15d5508d3aa82357bfb"
         },
         {
-          "path": "vectors-admission/statements/vc2782e6c3cbdb9b7.json",
+          "path": "corpora/vectors-admission/statements/vc2782e6c3cbdb9b7.json",
           "sha256": "c2782e6c3cbdb9b713bfab793d4c7c5b31a3a4c795e6820b96f8bcfb74644b4f"
         }
       ],
@@ -625,11 +625,11 @@
     {
       "files": [
         {
-          "path": "vectors-admission/policies/vdbad11566f0c5c71.json",
+          "path": "corpora/vectors-admission/policies/vdbad11566f0c5c71.json",
           "sha256": "dbad11566f0c5c715da79402e01364af213179a93a5f547d87d3d4f12c205d56"
         },
         {
-          "path": "vectors-admission/statements/vcc938c6038536dcb.json",
+          "path": "corpora/vectors-admission/statements/vcc938c6038536dcb.json",
           "sha256": "cc938c6038536dcb0d63269dd96cd64bed2d8d575fe212b72593c7f2ca92399b"
         }
       ],
@@ -638,11 +638,11 @@
     {
       "files": [
         {
-          "path": "vectors-admission/policies/vac5e7e3f482283de.json",
+          "path": "corpora/vectors-admission/policies/vac5e7e3f482283de.json",
           "sha256": "ac5e7e3f482283de403aa29fd597b364660c6bb6eb424d135b169b654c5ac2ae"
         },
         {
-          "path": "vectors-admission/statements/vcc938c6038536dcb.json",
+          "path": "corpora/vectors-admission/statements/vcc938c6038536dcb.json",
           "sha256": "cc938c6038536dcb0d63269dd96cd64bed2d8d575fe212b72593c7f2ca92399b"
         }
       ],
@@ -651,11 +651,11 @@
     {
       "files": [
         {
-          "path": "vectors-admission/policies/vca3d163bab055381.json",
+          "path": "corpora/vectors-admission/policies/vca3d163bab055381.json",
           "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
         },
         {
-          "path": "vectors-admission/statements/vcc938c6038536dcb.json",
+          "path": "corpora/vectors-admission/statements/vcc938c6038536dcb.json",
           "sha256": "cc938c6038536dcb0d63269dd96cd64bed2d8d575fe212b72593c7f2ca92399b"
         }
       ],
@@ -664,11 +664,11 @@
     {
       "files": [
         {
-          "path": "vectors-admission/policies/vddb9f227a8794a84.json",
+          "path": "corpora/vectors-admission/policies/vddb9f227a8794a84.json",
           "sha256": "ddb9f227a8794a84d24fc0bdce5d58da348295d8fad3925c77f4a24f0354d471"
         },
         {
-          "path": "vectors-admission/statements/vcc938c6038536dcb.json",
+          "path": "corpora/vectors-admission/statements/vcc938c6038536dcb.json",
           "sha256": "cc938c6038536dcb0d63269dd96cd64bed2d8d575fe212b72593c7f2ca92399b"
         }
       ],
@@ -677,11 +677,11 @@
     {
       "files": [
         {
-          "path": "vectors-admission/policies/ve1999bcde0c49043.json",
+          "path": "corpora/vectors-admission/policies/ve1999bcde0c49043.json",
           "sha256": "e1999bcde0c490436b18a536ac2711fc17c805d50108ef34d5ea60a162e98204"
         },
         {
-          "path": "vectors-admission/statements/v96d442af53d71bf4.json",
+          "path": "corpora/vectors-admission/statements/v96d442af53d71bf4.json",
           "sha256": "96d442af53d71bf468cbef7c59e73112c2b4376edce5f7611318d8a073edeb22"
         }
       ],
@@ -704,7 +704,7 @@
       "reference": {
         "path": "release/intake/native/vectors-admission.json",
         "serialization": "bytes",
-        "sha256": "8b30bc4152ad648e460fd1f1e804f75722154ad63947eb64727b45104ef789c8"
+        "sha256": "d2a81011f4bade75bf9948ddd7b7e381f0d531cc6e133fc1414bf247cff59f19"
       }
     },
     {
@@ -875,11 +875,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "8b30bc4152ad648e460fd1f1e804f75722154ad63947eb64727b45104ef789c8"
+        "sha256": "d2a81011f4bade75bf9948ddd7b7e381f0d531cc6e133fc1414bf247cff59f19"
       },
       {
         "process": "run-2",
-        "sha256": "8b30bc4152ad648e460fd1f1e804f75722154ad63947eb64727b45104ef789c8"
+        "sha256": "d2a81011f4bade75bf9948ddd7b7e381f0d531cc6e133fc1414bf247cff59f19"
       }
     ],
     "seed": null,

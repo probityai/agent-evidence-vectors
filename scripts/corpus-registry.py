@@ -64,7 +64,7 @@ def load(repo: Path) -> dict:
 def corpus_dirs_on_disk(repo: Path) -> dict[str, str]:
     """Every directory holding a corpus, by id, with its repository-relative path.
 
-    A corpus is a directory named ``vectors`` or ``vectors-*`` that carries a
+    A corpus is a directory named ``vectors`` or ``corpora/vectors-*`` that carries a
     MANIFEST.json, at the repository root or directly under ``corpora/``.
     """
     found: dict[str, str] = {}

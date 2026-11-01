@@ -16,7 +16,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "packaging"))
 from agent_evidence_vectors import recorded
 
-ROOT = Path(__file__).resolve().parents[1] / "vectors-recorded"
+ROOT = Path(__file__).resolve().parents[1] / "corpora" / "vectors-recorded"
 
 
 def _member(name: str) -> dict:

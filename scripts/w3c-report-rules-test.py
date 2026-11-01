@@ -6,7 +6,7 @@ It cannot prove what the reader does with an input no member carries, and two
 of the rules here are about exactly that: a tree shape outside the closed set
 must be refused rather than hashed as some other shape, and each registered
 shape must be hashed by the construction its name denotes. The corpus members
-of the same rules live in vectors-w3c-report/; these are the checks below them.
+of the same rules live in corpora/vectors-w3c-report/; these are the checks below them.
 
 Usage: python3 scripts/w3c-report-rules-test.py
 Exit 0 when every case holds; 1 otherwise, naming each case that did not.
@@ -31,7 +31,7 @@ sys.path.insert(0, str(REPO / "packaging"))
 
 from agent_evidence_vectors import contextdiscovery, runmetrics, w3creport  # noqa: E402
 
-CORPUS = REPO / "vectors-w3c-report"
+CORPUS = REPO / "corpora" / "vectors-w3c-report"
 
 CHECKS: list[dict[str, Any]] = [
     {"check": "c-pass", "state": "pass"},
@@ -258,7 +258,7 @@ def test_a_malformed_snapshot_is_judged_not_crashed() -> None:
         if e["subjectType"] == "llm-context-discovery" and e["kind"] == "accept"
     )
     with tempfile.TemporaryDirectory(prefix="w3c-rules-") as tmp:
-        corpus = Path(tmp) / "vectors-w3c-report"
+        corpus = Path(tmp) / "corpora" / "vectors-w3c-report"
         shutil.copytree(CORPUS, corpus)
         path = corpus / entry["file"]
         member = json.loads(path.read_text(encoding="utf-8"))

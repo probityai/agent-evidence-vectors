@@ -2,7 +2,7 @@
 
 The CRA and AI Act table in [orcwg/cra-hub#364](https://github.com/orcwg/cra-hub/pull/364) has a row for open-weight models exempt under Article 53(2) where nobody can check the provider's claim. The exemption is a claim about a release: a licence, weights, architecture and usage information that are public, and a model that is not classed as having systemic risk. A claim about public bytes can be tested against a record of those bytes.
 
-This corpus gives that row a checker that runs today: [`vectors-open-weight-art53`](../../vectors-open-weight-art53/README.md). It is a check of what a release record carries. It is not legal advice, and it reaches no conclusion about any real model.
+This corpus gives that row a checker that runs today: [`vectors-open-weight-art53`](../../corpora/vectors-open-weight-art53/README.md). It is a check of what a release record carries. It is not legal advice, and it reaches no conclusion about any real model.
 
 ## What the Article says
 
@@ -33,7 +33,7 @@ agent-evidence-vectors --corpus vectors-open-weight-art53
 python3 -m agent_evidence_vectors.openweight release.json --require-exempt
 ```
 
-The first command runs the packaged cases through the reference reader. The second judges your own record and exits 1 unless it is `exempt`, so it works as a CI step in the repository that publishes the model. A record looks like `vectors-open-weight-art53/cases/exempt-open-release/release.json`. To judge another checker: `agent-evidence-vectors --corpus vectors-open-weight-art53 --verifier './verifier'`.
+The first command runs the packaged cases through the reference reader. The second judges your own record and exits 1 unless it is `exempt`, so it works as a CI step in the repository that publishes the model. A record looks like `corpora/vectors-open-weight-art53/cases/exempt-open-release/release.json`. To judge another checker: `agent-evidence-vectors --corpus vectors-open-weight-art53 --verifier './verifier'`.
 
 ## What it does not check
 

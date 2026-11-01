@@ -4,7 +4,7 @@
 
 **Verdict record.** The Section 6.2 record of draft-kroehl-agentic-trust-aae-02: exactly `{"core": ..., "core_digest": ...}`, where `core` carries exactly the eight Section 2.5.3 members and `core_digest = "sha256:" + LOWERHEX(SHA-256("aae:enforce-core:v1" || 0x00 || JCS(core)))`. Any other shape is refused (exit 2). The runner never trusts `core_digest`; it recomputes it.
 
-**Evidence record.** An in-toto Statement with `predicateType` `https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect` ([spec](../../spec/predicates/observed-effect.md)) in a DSSE envelope. Validity is decided by this repository's observed-effect reference verifier, `vectors-observed-effect/check_vectors.py`, under the pinned observer key. This adapter reads two members itself: `predicate.authorityDigest` and `predicate.mutation`.
+**Evidence record.** An in-toto Statement with `predicateType` `https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect` ([spec](../../spec/predicates/observed-effect.md)) in a DSSE envelope. Validity is decided by this repository's observed-effect reference verifier, `corpora/vectors-observed-effect/check_vectors.py`, under the pinned observer key. This adapter reads two members itself: `predicate.authorityDigest` and `predicate.mutation`.
 
 ## The binding field: no new member
 

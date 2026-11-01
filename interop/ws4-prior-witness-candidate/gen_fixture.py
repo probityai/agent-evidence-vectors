@@ -11,7 +11,7 @@ import run_vectors
 from prior_witness import DOMAIN, GENESIS, canonical, digest
 
 ROOT = Path(__file__).resolve().parent
-RECORD = ROOT.parent.parent / "vectors-observed-effect/statements/v162352770f2f6c1c.json"
+RECORD = ROOT.parent.parent / "corpora/vectors-observed-effect/statements/v162352770f2f6c1c.json"
 SEED = hashlib.sha256(b"probity-ws4-prior-witness-public-test-key-v0").digest()
 NONCE = hashlib.sha256(b"probity-ws4-prior-witness-public-test-invocation-v0").hexdigest()[:32]
 OBSERVER_KEY = "4f2a59edc8367deb40047ce83ee7f5ce711a57d93abbda9d1ce8588c56a3ce88"

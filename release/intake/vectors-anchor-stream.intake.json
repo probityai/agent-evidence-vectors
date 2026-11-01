@@ -14,8 +14,8 @@
       "path": "release/CORPUS-DIGESTS.txt",
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
-    "routine": "corpus_digest in vectors-anchor-stream/gen_vectors.py",
-    "routine-file": "vectors-anchor-stream/gen_vectors.py",
+    "routine": "corpus_digest in corpora/vectors-anchor-stream/gen_vectors.py",
+    "routine-file": "corpora/vectors-anchor-stream/gen_vectors.py",
     "serialization": "corpus-routine",
     "sha256": "b63cd1c26fc05365276fe950b6e6a3dbd0b48db8dc10337b56bb446c759110b5",
     "verdicts": {
@@ -29,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "aba25f0a1de5d0494b3dd2ec8a7e9f9980e53fa64cdadc2e1b96843111794608"
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,12 +38,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "aba25f0a1de5d0494b3dd2ec8a7e9f9980e53fa64cdadc2e1b96843111794608"
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
         },
-        "swapped-in": "71c0c83b477904ff8e55dd114c9c5f68728a474db2dee8d2965b0604b2a56ce7",
+        "swapped-in": "7cb87b2e9fe6aaa69d576e625453c83a6893b63235f819c05f012f6271c5beca",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-anchor-stream/INDEX.md",
+      "path": "corpora/vectors-anchor-stream/INDEX.md",
       "serialization": "bytes",
       "sha256": "152ce5a60d948a82c63f5e5bea120e7dfa8a8154f94cf5e40f0192ed07956f9e"
     },
@@ -52,7 +52,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "aba25f0a1de5d0494b3dd2ec8a7e9f9980e53fa64cdadc2e1b96843111794608"
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,12 +61,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "aba25f0a1de5d0494b3dd2ec8a7e9f9980e53fa64cdadc2e1b96843111794608"
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
         },
-        "swapped-in": "6e654a7a6a42b68ef478914f135f189d8d7900d3010bb19c9f37fcc4f413405a",
+        "swapped-in": "6f3b297621a492aaa59cbbc81e17af44a61200baf69c0f33c1ef80f3d3cf810b",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-anchor-stream/README.md",
+      "path": "corpora/vectors-anchor-stream/README.md",
       "serialization": "bytes",
       "sha256": "995149c9b2d2a94ee88a87710d3ea03d460cdb91ce66e2057a44ed7649572929"
     },
@@ -75,20 +75,20 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "aba25f0a1de5d0494b3dd2ec8a7e9f9980e53fa64cdadc2e1b96843111794608"
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
-          "vectors-anchor-stream/MANIFEST.json"
+          "corpora/vectors-anchor-stream/MANIFEST.json"
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "f7d180e5396e7d4de88ea027159cad92ec89de4f6721cb1a8efa8d9b7f5698ac"
+          "sha256": "90f2f575fc934eb29fd350c5d6d4077562e3391114fb81078a5040c5f5ed9a69"
         },
-        "swapped-in": "c28d4318cc0385326aec6bacb8cfd95968e90c2fdcc2b8e8e32fe5c501296871",
+        "swapped-in": "61f2589c58142e25c952d4e988baeb090715a2429df7484979842fae7b51b60a",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-anchor-stream/baseline/ANCHORS.jsonl",
+      "path": "corpora/vectors-anchor-stream/baseline/ANCHORS.jsonl",
       "serialization": "bytes",
       "sha256": "d0a5857384624babbbac8d2d2b08fc6f35d61a0fd0d46b0471f163e0475e7c97"
     },
@@ -97,7 +97,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "aba25f0a1de5d0494b3dd2ec8a7e9f9980e53fa64cdadc2e1b96843111794608"
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -106,12 +106,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "aba25f0a1de5d0494b3dd2ec8a7e9f9980e53fa64cdadc2e1b96843111794608"
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
         },
-        "swapped-in": "7616abadcb56d5f4a684dfe4f9673697a7adaff5ca56c4a958718b5c3120c3f5",
+        "swapped-in": "873d0e5197d74f59cc17bee4530eec8a69f11f1745a2a54796b1b9e3cf8d03c9",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-anchor-stream/baseline/ANCHORS.jsonl.digests.json",
+      "path": "corpora/vectors-anchor-stream/baseline/ANCHORS.jsonl.digests.json",
       "serialization": "bytes",
       "sha256": "4b19ce1f95f4a5e019af9c31da1e6dab3b4f60d4fb742307455dfd4ceff94ee1"
     },
@@ -120,7 +120,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "aba25f0a1de5d0494b3dd2ec8a7e9f9980e53fa64cdadc2e1b96843111794608"
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -129,12 +129,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "aba25f0a1de5d0494b3dd2ec8a7e9f9980e53fa64cdadc2e1b96843111794608"
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
         },
-        "swapped-in": "d9f0f26caa0a9955885d2faaa0e2237667b1f30aa67d413ddc717b5020032662",
+        "swapped-in": "604d4dee3b5f6f7557247e47b6434e57238d2db1830c340a205e0e095b3f5a00",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-anchor-stream/baseline/external-unterminated-final-line/PROVENANCE.md",
+      "path": "corpora/vectors-anchor-stream/baseline/external-unterminated-final-line/PROVENANCE.md",
       "serialization": "bytes",
       "sha256": "26b8bcdb90f9cdec1a6bfa9e9be02288ba028e1c41c5d84b2e637b7639fb9b8e"
     },
@@ -143,23 +143,23 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "aba25f0a1de5d0494b3dd2ec8a7e9f9980e53fa64cdadc2e1b96843111794608"
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
-          "vectors-anchor-stream/baseline/external-unterminated-final-line/PROVENANCE.md"
+          "corpora/vectors-anchor-stream/baseline/external-unterminated-final-line/PROVENANCE.md"
         ],
         "refused-by": [
           "W3C-I-002"
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "aba25f0a1de5d0494b3dd2ec8a7e9f9980e53fa64cdadc2e1b96843111794608"
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
         },
-        "swapped-in": "52f97290c1d7090b66e7cfa7dc0623ffa45cd81cd6cd27bf6d06503f12870362",
+        "swapped-in": "a097714c8de173a282d653a6b1f0bbe6438fd61b4d99c6af8523192c7b92b8b6",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-anchor-stream/baseline/external-unterminated-final-line/sidecar.json",
+      "path": "corpora/vectors-anchor-stream/baseline/external-unterminated-final-line/sidecar.json",
       "serialization": "bytes",
       "sha256": "7c6a3023efe4271a91aecf0bbfffddadddab2688ea27e26d407c8d480ccaa165"
     },
@@ -168,22 +168,22 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "aba25f0a1de5d0494b3dd2ec8a7e9f9980e53fa64cdadc2e1b96843111794608"
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
         },
         "corpus-digest": "recomputed",
         "pins-moved": [
-          "vectors-anchor-stream/MANIFEST.json",
-          "vectors-anchor-stream/streams/v30bb2edf2b9f23ba.jsonl",
-          "vectors-anchor-stream/streams/vba949c40114507b1.jsonl"
+          "corpora/vectors-anchor-stream/MANIFEST.json",
+          "corpora/vectors-anchor-stream/streams/v30bb2edf2b9f23ba.jsonl",
+          "corpora/vectors-anchor-stream/streams/vba949c40114507b1.jsonl"
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "93bf74f200e89b4a59cc94a4345b5b9f6c14aff88bdb5a18419e2d6f223bd3b4"
+          "sha256": "f2f6e319d4f115e0eb24e9f582cabf670ae12664a3ff4904a9ec8886a855ae72"
         },
-        "swapped-in": "94ef991fc7dc6592910b82ed028729f8f539eefce6294f8132c7b61227773af6",
+        "swapped-in": "44a87fac7493ff1112d076d1dff1d99f28100e8dd67f864f142d39893a4ee166",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-anchor-stream/baseline/witness-0eb69bf.jsonl",
+      "path": "corpora/vectors-anchor-stream/baseline/witness-0eb69bf.jsonl",
       "serialization": "bytes",
       "sha256": "796e43037b5a5fc3c9c021722d3ea0cc0ca9d84de36ad48906f883fa5d59615a"
     },
@@ -192,50 +192,50 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "aba25f0a1de5d0494b3dd2ec8a7e9f9980e53fa64cdadc2e1b96843111794608"
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
         },
         "corpus-digest": "recomputed",
         "pins-moved": [
-          "vectors-anchor-stream/MANIFEST.json",
-          "vectors-anchor-stream/baseline/ANCHORS.jsonl",
-          "vectors-anchor-stream/baseline/external-unterminated-final-line/terminated.jsonl",
-          "vectors-anchor-stream/streams/v0e6e29013cfcb97c.jsonl",
-          "vectors-anchor-stream/streams/v0e89189941e44d8e.jsonl",
-          "vectors-anchor-stream/streams/v0ef2243ce9ba64f6.jsonl",
-          "vectors-anchor-stream/streams/v1247b05a03902477.jsonl",
-          "vectors-anchor-stream/streams/v1b748575d8a7ee95.jsonl",
-          "vectors-anchor-stream/streams/v25a148d9df730b88.jsonl",
-          "vectors-anchor-stream/streams/v27ec0ed3abec3bed.jsonl",
-          "vectors-anchor-stream/streams/v3c142a4f8828f505.jsonl",
-          "vectors-anchor-stream/streams/v3e2e8c8036db8c91.jsonl",
-          "vectors-anchor-stream/streams/v415ba6da9df54f96.jsonl",
-          "vectors-anchor-stream/streams/v4598881bb94db9a9.jsonl",
-          "vectors-anchor-stream/streams/v4f206ff8ed18be87.jsonl",
-          "vectors-anchor-stream/streams/v570c22575790427c.jsonl",
-          "vectors-anchor-stream/streams/v7199fe21ece3c6b2.jsonl",
-          "vectors-anchor-stream/streams/v8c0edba09c428917.jsonl",
-          "vectors-anchor-stream/streams/v8cfc723dce226033.jsonl",
-          "vectors-anchor-stream/streams/vb519de5288c2a572.jsonl",
-          "vectors-anchor-stream/streams/vbc642e97495a754d.jsonl",
-          "vectors-anchor-stream/streams/vbf8a4048eba3d662.jsonl",
-          "vectors-anchor-stream/streams/vca6a55637cd0742d.jsonl",
-          "vectors-anchor-stream/streams/vcec4ba461275d0b4.jsonl",
-          "vectors-anchor-stream/streams/vd6eecc03efb27ebd.jsonl",
-          "vectors-anchor-stream/streams/ve28432cb7adcdc6b.jsonl",
-          "vectors-anchor-stream/streams/vf4bccf922ed33749.jsonl",
-          "vectors-anchor-stream/streams/vf8ef32f6294cea06.jsonl",
-          "vectors-anchor-stream/streams/vf9c8df1aeafd69f7.jsonl",
-          "vectors-anchor-stream/streams/vfc54e61742cea5f5.jsonl",
-          "vectors-anchor-stream/streams/vfccf46c02cc12618.jsonl"
+          "corpora/vectors-anchor-stream/MANIFEST.json",
+          "corpora/vectors-anchor-stream/baseline/ANCHORS.jsonl",
+          "corpora/vectors-anchor-stream/baseline/external-unterminated-final-line/terminated.jsonl",
+          "corpora/vectors-anchor-stream/streams/v0e6e29013cfcb97c.jsonl",
+          "corpora/vectors-anchor-stream/streams/v0e89189941e44d8e.jsonl",
+          "corpora/vectors-anchor-stream/streams/v0ef2243ce9ba64f6.jsonl",
+          "corpora/vectors-anchor-stream/streams/v1247b05a03902477.jsonl",
+          "corpora/vectors-anchor-stream/streams/v1b748575d8a7ee95.jsonl",
+          "corpora/vectors-anchor-stream/streams/v25a148d9df730b88.jsonl",
+          "corpora/vectors-anchor-stream/streams/v27ec0ed3abec3bed.jsonl",
+          "corpora/vectors-anchor-stream/streams/v3c142a4f8828f505.jsonl",
+          "corpora/vectors-anchor-stream/streams/v3e2e8c8036db8c91.jsonl",
+          "corpora/vectors-anchor-stream/streams/v415ba6da9df54f96.jsonl",
+          "corpora/vectors-anchor-stream/streams/v4598881bb94db9a9.jsonl",
+          "corpora/vectors-anchor-stream/streams/v4f206ff8ed18be87.jsonl",
+          "corpora/vectors-anchor-stream/streams/v570c22575790427c.jsonl",
+          "corpora/vectors-anchor-stream/streams/v7199fe21ece3c6b2.jsonl",
+          "corpora/vectors-anchor-stream/streams/v8c0edba09c428917.jsonl",
+          "corpora/vectors-anchor-stream/streams/v8cfc723dce226033.jsonl",
+          "corpora/vectors-anchor-stream/streams/vb519de5288c2a572.jsonl",
+          "corpora/vectors-anchor-stream/streams/vbc642e97495a754d.jsonl",
+          "corpora/vectors-anchor-stream/streams/vbf8a4048eba3d662.jsonl",
+          "corpora/vectors-anchor-stream/streams/vca6a55637cd0742d.jsonl",
+          "corpora/vectors-anchor-stream/streams/vcec4ba461275d0b4.jsonl",
+          "corpora/vectors-anchor-stream/streams/vd6eecc03efb27ebd.jsonl",
+          "corpora/vectors-anchor-stream/streams/ve28432cb7adcdc6b.jsonl",
+          "corpora/vectors-anchor-stream/streams/vf4bccf922ed33749.jsonl",
+          "corpora/vectors-anchor-stream/streams/vf8ef32f6294cea06.jsonl",
+          "corpora/vectors-anchor-stream/streams/vf9c8df1aeafd69f7.jsonl",
+          "corpora/vectors-anchor-stream/streams/vfc54e61742cea5f5.jsonl",
+          "corpora/vectors-anchor-stream/streams/vfccf46c02cc12618.jsonl"
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "2d2d84a1e477344ceaf97e3f4357fbd294b59af23679432e6b5f8ebade2087e7"
+          "sha256": "26f03968929118c481357c1394cbe8ba4ce2580a6e1674af1234e4049ae4292f"
         },
-        "swapped-in": "a22f86b08c2b444eb84a1940386d31cbc845618ef0c2d2602d2ee3f2ca0805c7",
+        "swapped-in": "c09ff2f22c87cb41f9c85acf0227db2f51516d60778105fc6f0e8ab8f2773f46",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-anchor-stream/baseline/witness-e000814.jsonl",
+      "path": "corpora/vectors-anchor-stream/baseline/witness-e000814.jsonl",
       "serialization": "bytes",
       "sha256": "3a0afe1347a9099b51b681b93986120c0aac7302e2440733860de677154968ab"
     },
@@ -244,7 +244,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "aba25f0a1de5d0494b3dd2ec8a7e9f9980e53fa64cdadc2e1b96843111794608"
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -253,12 +253,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "aba25f0a1de5d0494b3dd2ec8a7e9f9980e53fa64cdadc2e1b96843111794608"
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
         },
-        "swapped-in": "b19c11ad61fdde67032f2cb51306bf97c4371ec5159471278a1d8b85c49a2df4",
+        "swapped-in": "0d2c43149cc8deb7953a7eb583ea49a435e75d55bd6357a936f3ae6899fef525",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-anchor-stream/gen_vectors.py",
+      "path": "corpora/vectors-anchor-stream/gen_vectors.py",
       "serialization": "bytes",
       "sha256": "c4180fe93a4276d491b29df868afa92be56e895d16bbbceacc13bbc1ae912fea"
     },
@@ -267,7 +267,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "aba25f0a1de5d0494b3dd2ec8a7e9f9980e53fa64cdadc2e1b96843111794608"
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -276,12 +276,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "aba25f0a1de5d0494b3dd2ec8a7e9f9980e53fa64cdadc2e1b96843111794608"
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
         },
-        "swapped-in": "cdd8fd37b3e0b6c60f3215bc505d8b2c6f37b6c4470f65e363b3db2271e739bd",
+        "swapped-in": "e4a5e6cf7a5e9cfe0142cec212627dfd972e215030eb846a8bbe49e5672cd5e7",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-anchor-stream/reason-map/aos-anchors-verify.json",
+      "path": "corpora/vectors-anchor-stream/reason-map/aos-anchors-verify.json",
       "serialization": "bytes",
       "sha256": "88d5274ecf0ee1fb639e511c0718668157960ea3697ddf4e97602c99c8990c19"
     },
@@ -290,7 +290,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "aba25f0a1de5d0494b3dd2ec8a7e9f9980e53fa64cdadc2e1b96843111794608"
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -299,12 +299,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "aba25f0a1de5d0494b3dd2ec8a7e9f9980e53fa64cdadc2e1b96843111794608"
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
         },
-        "swapped-in": "c32a41d8273667a3bab852c39b812234de31dbb485b1c3d9e0b0e9991a2fab2e",
+        "swapped-in": "c7d761a44c08a86ece10265687acb8975cd1f1cded35b913aa5d0078602ab040",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-anchor-stream/recordings/anchors-verify-v0.10.json",
+      "path": "corpora/vectors-anchor-stream/recordings/anchors-verify-v0.10.json",
       "serialization": "bytes",
       "sha256": "e42aac892f92380acf3040c9e735a0cc45950d043d5bcb41e455ddcccd923a28"
     },
@@ -313,7 +313,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "aba25f0a1de5d0494b3dd2ec8a7e9f9980e53fa64cdadc2e1b96843111794608"
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -322,12 +322,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "aba25f0a1de5d0494b3dd2ec8a7e9f9980e53fa64cdadc2e1b96843111794608"
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
         },
-        "swapped-in": "3d2417efb85472fb28ed2698c73afc5477e7abdc5d2a90a58e5132eec32dced7",
+        "swapped-in": "464f3dd8223fbafbf89d8645f30c17c620a7e1e1ea86aad6aee4072ec10351ae",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-anchor-stream/run_verifier.py",
+      "path": "corpora/vectors-anchor-stream/run_verifier.py",
       "serialization": "bytes",
       "sha256": "4d39790185cf20d10a163d35479ac44c8b65b44fabe3cf5d2b5a4de48bbb2449"
     },
@@ -336,23 +336,23 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "aba25f0a1de5d0494b3dd2ec8a7e9f9980e53fa64cdadc2e1b96843111794608"
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
-          "vectors-anchor-stream/MANIFEST.json"
+          "corpora/vectors-anchor-stream/MANIFEST.json"
         ],
         "refused-by": [
           "W3C-I-002"
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "aba25f0a1de5d0494b3dd2ec8a7e9f9980e53fa64cdadc2e1b96843111794608"
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
         },
-        "swapped-in": "bfad8cf3c7b91b4fff957574bc1a18a643c67668af055ad09b0546824dd03fea",
+        "swapped-in": "083f0902d3b5dd5ad66a952dac6304fdecacc54f1a1a9045959a4cead9572827",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-anchor-stream/spec-vendored/anchors-verify-44c40ba.md",
+      "path": "corpora/vectors-anchor-stream/spec-vendored/anchors-verify-44c40ba.md",
       "serialization": "bytes",
       "sha256": "bf7245d229c20603205b4b81df5b0cd376e80b094aba48168ddb0c374b4f94ff"
     }
@@ -381,7 +381,7 @@
         "suffix": ".json"
       }
     ],
-    "root": "vectors-anchor-stream"
+    "root": "corpora/vectors-anchor-stream"
   },
   "byte-identity": {
     "pins": 104,
@@ -393,9 +393,9 @@
   "checker": {
     "commands": [
       "go build -o aee-verify ./cmd/aee-verify",
-      "aee-verify -json vectors-anchor-stream",
-      "aee-verify -json vectors-anchor-stream",
-      "aee-verify vectors-anchor-stream"
+      "aee-verify -json corpora/vectors-anchor-stream",
+      "aee-verify -json corpora/vectors-anchor-stream",
+      "aee-verify corpora/vectors-anchor-stream"
     ],
     "dependencies": [
       {
@@ -417,11 +417,11 @@
       "paths": [
         "aee",
         "cmd/aee-verify",
-        "corpora",
+        "corpusreaders",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "712a1932ef34c3166fdc0517647e0008db691ea8963f36e1331517673e968c64"
+      "sha256": "2417e926ca98a6022a518e36af066f6072afc9f6cb2009a276f1d6fbb0775bf7"
     },
     "runtime": {
       "name": "go",
@@ -430,7 +430,7 @@
     "shared-verification-code": [
       "aee",
       "cmd/aee-verify",
-      "corpora",
+      "corpusreaders",
       "go.mod"
     ]
   },
@@ -710,7 +710,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "1cede8ac4951a6be7915660553218e39f64dc7532a86df157093dfb01cedad62"
+    "sha256": "2cb66ec378c26edffa382728546a7866a878d02cafcfdd39cd0abc2d1a4faf4b"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -755,22 +755,22 @@
       "vfccf46c02cc12618",
       "vffcb99f9cab7c8a9"
     ],
-    "path": "vectors-anchor-stream/MANIFEST.json",
+    "path": "corpora/vectors-anchor-stream/MANIFEST.json",
     "sha256": "75bd1b3cc2f85abacdc003e15fa7b91c989c0e656a732655267d1cab9959127f"
   },
   "members": [
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/v0e6e29013cfcb97c.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/v0e6e29013cfcb97c.json",
           "sha256": "4b19ce1f95f4a5e019af9c31da1e6dab3b4f60d4fb742307455dfd4ceff94ee1"
         },
         {
-          "path": "vectors-anchor-stream/streams/v0e6e29013cfcb97c.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/v0e6e29013cfcb97c.jsonl",
           "sha256": "44fab4814f747f71919dc7718252c70c2e6ea1a387cac834c489ad62113db4f0"
         },
         {
-          "path": "vectors-anchor-stream/witness/v0e6e29013cfcb97c.json",
+          "path": "corpora/vectors-anchor-stream/witness/v0e6e29013cfcb97c.json",
           "sha256": "6323ad9352c87cae1bc49f34fdd1458d00f796b7765acadb918c9cdc5cf9f3ac"
         }
       ],
@@ -779,15 +779,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/v0e89189941e44d8e.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/v0e89189941e44d8e.json",
           "sha256": "331cc18e267516530b6872a5d036df5f91d94b01ee0e68426ade18be79223530"
         },
         {
-          "path": "vectors-anchor-stream/streams/v0e89189941e44d8e.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/v0e89189941e44d8e.jsonl",
           "sha256": "7cfe361abc342c8a13fa2ad9f58e5199d10cb30616dbdae7e74b2cc7f4b25859"
         },
         {
-          "path": "vectors-anchor-stream/witness/v0e89189941e44d8e.json",
+          "path": "corpora/vectors-anchor-stream/witness/v0e89189941e44d8e.json",
           "sha256": "a0291b6e87f5c07c8ef5f8516e14c415df23e0a9caf26e260c0f26c68bf0d2d9"
         }
       ],
@@ -796,15 +796,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/v0ef2243ce9ba64f6.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/v0ef2243ce9ba64f6.json",
           "sha256": "4b19ce1f95f4a5e019af9c31da1e6dab3b4f60d4fb742307455dfd4ceff94ee1"
         },
         {
-          "path": "vectors-anchor-stream/streams/v0ef2243ce9ba64f6.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/v0ef2243ce9ba64f6.jsonl",
           "sha256": "5b3cdc4dbc1a654834a2476014837e50567fa537b715c6545dea9e92398c029a"
         },
         {
-          "path": "vectors-anchor-stream/witness/v0ef2243ce9ba64f6.json",
+          "path": "corpora/vectors-anchor-stream/witness/v0ef2243ce9ba64f6.json",
           "sha256": "1005ecc776e144bc7ca9b1da44c4178589b23cb429f2ce138529167cdb23b2cd"
         }
       ],
@@ -813,15 +813,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/v1247b05a03902477.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/v1247b05a03902477.json",
           "sha256": "f506a976b875417e0a6f9612cf025af2cb06cc367d03bba5745ec8e2b7582df8"
         },
         {
-          "path": "vectors-anchor-stream/streams/v1247b05a03902477.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/v1247b05a03902477.jsonl",
           "sha256": "1f810caec9097fc5a2e12457988529b7c020a035c3121720b2bcdae83b63f343"
         },
         {
-          "path": "vectors-anchor-stream/witness/v1247b05a03902477.json",
+          "path": "corpora/vectors-anchor-stream/witness/v1247b05a03902477.json",
           "sha256": "2f909179dd29f31e00a00a254fd7dfffdb561664e54a926c2f989c24d724de39"
         }
       ],
@@ -830,15 +830,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/v128381d395659cb6.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/v128381d395659cb6.json",
           "sha256": "f9ea2e5aa624fb00aada7b0e03a9defdf9f7b9e60384b7f130c176ea270a5282"
         },
         {
-          "path": "vectors-anchor-stream/streams/v128381d395659cb6.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/v128381d395659cb6.jsonl",
           "sha256": "cf4ceacf7e7f40c427e488be9e2f9848a1ea8a460218cac2523952347749dde3"
         },
         {
-          "path": "vectors-anchor-stream/witness/v128381d395659cb6.json",
+          "path": "corpora/vectors-anchor-stream/witness/v128381d395659cb6.json",
           "sha256": "f931316c02f5de74428be77f2ffad31fdb43a611ede3a03d7a73e1eee7245eb2"
         }
       ],
@@ -847,15 +847,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/v1b748575d8a7ee95.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/v1b748575d8a7ee95.json",
           "sha256": "f401ca20a01f76258869a04ade5685bac1372310116c630415a82f360461f282"
         },
         {
-          "path": "vectors-anchor-stream/streams/v1b748575d8a7ee95.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/v1b748575d8a7ee95.jsonl",
           "sha256": "0862f9857a3bc26002de7a93df3a32163c8e5d46d5abb344f8fdca47d0bfb2c3"
         },
         {
-          "path": "vectors-anchor-stream/witness/v1b748575d8a7ee95.json",
+          "path": "corpora/vectors-anchor-stream/witness/v1b748575d8a7ee95.json",
           "sha256": "262ed8d36c302cf6dca6f10f7f6aeb7d23dc42cc115b3c0e6dafa92085375685"
         }
       ],
@@ -864,19 +864,19 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/baseline/external-unterminated-final-line/terminated.jsonl",
+          "path": "corpora/vectors-anchor-stream/baseline/external-unterminated-final-line/terminated.jsonl",
           "sha256": "7817d72fe446dacc3659ddaca29ce79877aca5ccf497cfc3e0b2c406467f9723"
         },
         {
-          "path": "vectors-anchor-stream/sidecars/v25a148d9df730b88.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/v25a148d9df730b88.json",
           "sha256": "7c6a3023efe4271a91aecf0bbfffddadddab2688ea27e26d407c8d480ccaa165"
         },
         {
-          "path": "vectors-anchor-stream/streams/v25a148d9df730b88.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/v25a148d9df730b88.jsonl",
           "sha256": "433d51d6f76086fa4d420fb94725851763a8c6b4da9d13db1149f2fdf730f82b"
         },
         {
-          "path": "vectors-anchor-stream/witness/v25a148d9df730b88.json",
+          "path": "corpora/vectors-anchor-stream/witness/v25a148d9df730b88.json",
           "sha256": "d0b887449fd2d4cc7f66ec607596529d03176426b6dd26227bdb23f30028c769"
         }
       ],
@@ -885,15 +885,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/v27ec0ed3abec3bed.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/v27ec0ed3abec3bed.json",
           "sha256": "4b19ce1f95f4a5e019af9c31da1e6dab3b4f60d4fb742307455dfd4ceff94ee1"
         },
         {
-          "path": "vectors-anchor-stream/streams/v27ec0ed3abec3bed.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/v27ec0ed3abec3bed.jsonl",
           "sha256": "8796772d770676deb2b5709b9e483fdfeeb68ee41adb1fdb8c95e619cc1bb9d8"
         },
         {
-          "path": "vectors-anchor-stream/witness/v27ec0ed3abec3bed.json",
+          "path": "corpora/vectors-anchor-stream/witness/v27ec0ed3abec3bed.json",
           "sha256": "8222a87ae3d9d2b09ecbde4e100841e75c017c7c1da1bf6e84f4e90c9f888954"
         }
       ],
@@ -902,15 +902,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/v30bb2edf2b9f23ba.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/v30bb2edf2b9f23ba.json",
           "sha256": "74f6593f797a42345ec8d0f291dbe3a9d78a283d1947b5c86026ef4ada78a00e"
         },
         {
-          "path": "vectors-anchor-stream/streams/v30bb2edf2b9f23ba.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/v30bb2edf2b9f23ba.jsonl",
           "sha256": "4a98ec954cb713be849fde61fa5f04c2f676ad70d85cdd16028a326afe6e7384"
         },
         {
-          "path": "vectors-anchor-stream/witness/v30bb2edf2b9f23ba.json",
+          "path": "corpora/vectors-anchor-stream/witness/v30bb2edf2b9f23ba.json",
           "sha256": "e4df95a2a35dc9f233586457551d7261ea9625faa2134974f8e97724438ce900"
         }
       ],
@@ -919,19 +919,19 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/baseline/external-unterminated-final-line/terminated.jsonl",
+          "path": "corpora/vectors-anchor-stream/baseline/external-unterminated-final-line/terminated.jsonl",
           "sha256": "7817d72fe446dacc3659ddaca29ce79877aca5ccf497cfc3e0b2c406467f9723"
         },
         {
-          "path": "vectors-anchor-stream/sidecars/v3c142a4f8828f505.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/v3c142a4f8828f505.json",
           "sha256": "7c6a3023efe4271a91aecf0bbfffddadddab2688ea27e26d407c8d480ccaa165"
         },
         {
-          "path": "vectors-anchor-stream/streams/v3c142a4f8828f505.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/v3c142a4f8828f505.jsonl",
           "sha256": "7817d72fe446dacc3659ddaca29ce79877aca5ccf497cfc3e0b2c406467f9723"
         },
         {
-          "path": "vectors-anchor-stream/witness/v3c142a4f8828f505.json",
+          "path": "corpora/vectors-anchor-stream/witness/v3c142a4f8828f505.json",
           "sha256": "d68b5c76d359b10ad84de2c07321ff1e990991c1eaf692c55633bb6b361e5887"
         }
       ],
@@ -940,15 +940,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/v3e2e8c8036db8c91.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/v3e2e8c8036db8c91.json",
           "sha256": "155b00d009b271ef3861b27a48de08b324756dfbab9f282456b923a892e7cb00"
         },
         {
-          "path": "vectors-anchor-stream/streams/v3e2e8c8036db8c91.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/v3e2e8c8036db8c91.jsonl",
           "sha256": "c4d43ecb76994033b5e5968f9db8ce46891b48949c2f6224143eee8b781abec8"
         },
         {
-          "path": "vectors-anchor-stream/witness/v3e2e8c8036db8c91.json",
+          "path": "corpora/vectors-anchor-stream/witness/v3e2e8c8036db8c91.json",
           "sha256": "8b92e2fec19f69d69309a1092fd8c0c1a50d6fdb89bc5bc49087ad7273d98c2f"
         }
       ],
@@ -957,15 +957,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/v415ba6da9df54f96.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/v415ba6da9df54f96.json",
           "sha256": "df4a095cfe652aded0be891733c87c840a6de9796b393090fa9b2ca159a483d7"
         },
         {
-          "path": "vectors-anchor-stream/streams/v415ba6da9df54f96.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/v415ba6da9df54f96.jsonl",
           "sha256": "641f45cd18abb9ad63e3551914bc2d8fa311f280e228160ff56ef7e6de2a0c86"
         },
         {
-          "path": "vectors-anchor-stream/witness/v415ba6da9df54f96.json",
+          "path": "corpora/vectors-anchor-stream/witness/v415ba6da9df54f96.json",
           "sha256": "ed4c338b40968502f93aeb8e63e996d4c448f6aa7b952b11fe72f7e252d9b687"
         }
       ],
@@ -974,15 +974,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/v4598881bb94db9a9.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/v4598881bb94db9a9.json",
           "sha256": "4b19ce1f95f4a5e019af9c31da1e6dab3b4f60d4fb742307455dfd4ceff94ee1"
         },
         {
-          "path": "vectors-anchor-stream/streams/v4598881bb94db9a9.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/v4598881bb94db9a9.jsonl",
           "sha256": "c3c80b8a0b725331c4f54ff3c86e38c8ec1248fbe33c7c4da1a5d222c2fc9671"
         },
         {
-          "path": "vectors-anchor-stream/witness/v4598881bb94db9a9.json",
+          "path": "corpora/vectors-anchor-stream/witness/v4598881bb94db9a9.json",
           "sha256": "dcdd552f342e2ff8bfbdc6e43426e67c1186dcec76d10fa3a1fddc7346fdd48b"
         }
       ],
@@ -991,15 +991,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/v4f206ff8ed18be87.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/v4f206ff8ed18be87.json",
           "sha256": "6e899e9ae18b699fbac575d3cc0b1dcbacae03ffa41cee3a536a00175e2460bf"
         },
         {
-          "path": "vectors-anchor-stream/streams/v4f206ff8ed18be87.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/v4f206ff8ed18be87.jsonl",
           "sha256": "4dc8827445e2ee9f58890a73741354cd7c219fb39e3d020df4332c19181b2b9d"
         },
         {
-          "path": "vectors-anchor-stream/witness/v4f206ff8ed18be87.json",
+          "path": "corpora/vectors-anchor-stream/witness/v4f206ff8ed18be87.json",
           "sha256": "02c961fbab4d6203f588429b023850f0d6c4bd49b10f580d569bf0f7d3d36961"
         }
       ],
@@ -1008,15 +1008,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/v570c22575790427c.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/v570c22575790427c.json",
           "sha256": "4b19ce1f95f4a5e019af9c31da1e6dab3b4f60d4fb742307455dfd4ceff94ee1"
         },
         {
-          "path": "vectors-anchor-stream/streams/v570c22575790427c.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/v570c22575790427c.jsonl",
           "sha256": "0c4787439f168b19f194eec158e6467ee4de6eb14b5edc2564362fd8c4d9a54f"
         },
         {
-          "path": "vectors-anchor-stream/witness/v570c22575790427c.json",
+          "path": "corpora/vectors-anchor-stream/witness/v570c22575790427c.json",
           "sha256": "596ccf545cdffbc68d965eee765389f0bc00ccb83fb794cf1c76d9bb866379f3"
         }
       ],
@@ -1025,15 +1025,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/v7199fe21ece3c6b2.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/v7199fe21ece3c6b2.json",
           "sha256": "81ca3aee6a47614cf23954ca8490b1a4cd5cc4af2af40c563920da6c0b7d1786"
         },
         {
-          "path": "vectors-anchor-stream/streams/v7199fe21ece3c6b2.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/v7199fe21ece3c6b2.jsonl",
           "sha256": "4bef613606bf25933829052c2301c1c5e05550936024cb5c0c28df3abfeac41d"
         },
         {
-          "path": "vectors-anchor-stream/witness/v7199fe21ece3c6b2.json",
+          "path": "corpora/vectors-anchor-stream/witness/v7199fe21ece3c6b2.json",
           "sha256": "4a800b522491c9bdb79e5b4b58c267634975f1a07fde46580b2444b0b4d22d09"
         }
       ],
@@ -1042,15 +1042,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/v8c0edba09c428917.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/v8c0edba09c428917.json",
           "sha256": "8cd7e39cd22ede57033f695c15326635e3fa46699f15035002a52e62695bcf83"
         },
         {
-          "path": "vectors-anchor-stream/streams/v8c0edba09c428917.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/v8c0edba09c428917.jsonl",
           "sha256": "cb2c0208d0cd6d404c77e7a476e7cfd32a97c33f080fceb7ab9f8b93588dc498"
         },
         {
-          "path": "vectors-anchor-stream/witness/v8c0edba09c428917.json",
+          "path": "corpora/vectors-anchor-stream/witness/v8c0edba09c428917.json",
           "sha256": "e0ec898e09212ae2c5ab0f73611aeb9486ef7f63ee40cc47b6743a95b7bc0335"
         }
       ],
@@ -1059,15 +1059,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/v8cfc723dce226033.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/v8cfc723dce226033.json",
           "sha256": "4b19ce1f95f4a5e019af9c31da1e6dab3b4f60d4fb742307455dfd4ceff94ee1"
         },
         {
-          "path": "vectors-anchor-stream/streams/v8cfc723dce226033.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/v8cfc723dce226033.jsonl",
           "sha256": "cb61b10c1dc0ddf719a9c518f93647f0989830126efea8b79d18abf90c1e1bbd"
         },
         {
-          "path": "vectors-anchor-stream/witness/v8cfc723dce226033.json",
+          "path": "corpora/vectors-anchor-stream/witness/v8cfc723dce226033.json",
           "sha256": "af2506383f99fc169dbe0eed0e0966c2976a6323b5d7210a69dc6cb84e42a7e4"
         }
       ],
@@ -1076,15 +1076,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/vb519de5288c2a572.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/vb519de5288c2a572.json",
           "sha256": "f63afaa9262352bce4db5612417265963617b1b75f6a599f83b821c93290d4c3"
         },
         {
-          "path": "vectors-anchor-stream/streams/vb519de5288c2a572.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/vb519de5288c2a572.jsonl",
           "sha256": "d0a5857384624babbbac8d2d2b08fc6f35d61a0fd0d46b0471f163e0475e7c97"
         },
         {
-          "path": "vectors-anchor-stream/witness/vb519de5288c2a572.json",
+          "path": "corpora/vectors-anchor-stream/witness/vb519de5288c2a572.json",
           "sha256": "aafe2615a8a28afd02774d19c922c13b4140aa4b1d02cc0cf180bc465df7c58e"
         }
       ],
@@ -1093,15 +1093,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/vba949c40114507b1.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/vba949c40114507b1.json",
           "sha256": "994440fb054d9cda0d41870196153b5b1629909338d1e9b622d4e7c5851588f3"
         },
         {
-          "path": "vectors-anchor-stream/streams/vba949c40114507b1.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/vba949c40114507b1.jsonl",
           "sha256": "a81ea26986c5ef4245c97549db83f96ce649d1476d4b4358942f1088b46abef1"
         },
         {
-          "path": "vectors-anchor-stream/witness/vba949c40114507b1.json",
+          "path": "corpora/vectors-anchor-stream/witness/vba949c40114507b1.json",
           "sha256": "4029180e2dab2d19627f8cbe7502bd0599ea8c26f72393be7a220d87cba1a4fb"
         }
       ],
@@ -1110,15 +1110,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/vbc642e97495a754d.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/vbc642e97495a754d.json",
           "sha256": "a972fb7c4021b28638f8a35acf0764e213abf356801dda17325b5fe34c11a70b"
         },
         {
-          "path": "vectors-anchor-stream/streams/vbc642e97495a754d.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/vbc642e97495a754d.jsonl",
           "sha256": "3dee08fc421ce7a0fb0f761a10f705e20169e5cd3aae2f58dda349887325ce99"
         },
         {
-          "path": "vectors-anchor-stream/witness/vbc642e97495a754d.json",
+          "path": "corpora/vectors-anchor-stream/witness/vbc642e97495a754d.json",
           "sha256": "2112b12642555384e0b65a1be6567a21f37a5d126da5b6e7c116fbb6620f298b"
         }
       ],
@@ -1127,15 +1127,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/vbf8a4048eba3d662.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/vbf8a4048eba3d662.json",
           "sha256": "4b19ce1f95f4a5e019af9c31da1e6dab3b4f60d4fb742307455dfd4ceff94ee1"
         },
         {
-          "path": "vectors-anchor-stream/streams/vbf8a4048eba3d662.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/vbf8a4048eba3d662.jsonl",
           "sha256": "42b097cc97aacab5387bcb8d3f2a21daf6d7bc53876ea17c9d7da9dd012ca322"
         },
         {
-          "path": "vectors-anchor-stream/witness/vbf8a4048eba3d662.json",
+          "path": "corpora/vectors-anchor-stream/witness/vbf8a4048eba3d662.json",
           "sha256": "54f1a1f94a6400393ef9dee9f0f852969795a75fdb8dd956cfb435be0f665045"
         }
       ],
@@ -1144,15 +1144,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/vca6a55637cd0742d.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/vca6a55637cd0742d.json",
           "sha256": "15926e9fb857002601988695f16719e059b5fba04317d348d44af73747a5b7f5"
         },
         {
-          "path": "vectors-anchor-stream/streams/vca6a55637cd0742d.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/vca6a55637cd0742d.jsonl",
           "sha256": "f03817858a39c9df3b7492c147641dc6e8a103ef7cdd15a7e585fdad3ebd918a"
         },
         {
-          "path": "vectors-anchor-stream/witness/vca6a55637cd0742d.json",
+          "path": "corpora/vectors-anchor-stream/witness/vca6a55637cd0742d.json",
           "sha256": "6aae5a6f8fa1f7ed42c5155cdce935b59a0e07b1ff5a9c479af73bd790363032"
         }
       ],
@@ -1161,15 +1161,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/vcdb22e90c0812237.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/vcdb22e90c0812237.json",
           "sha256": "a9c3fb61c0c25029341e1fbfd2d8279e2248b4818e60d2afec3a5d45e34735c7"
         },
         {
-          "path": "vectors-anchor-stream/streams/vcdb22e90c0812237.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/vcdb22e90c0812237.jsonl",
           "sha256": "d999953cbc5e09c82291b94ab4f974394f0441de5e740db6fd4cc7dfc983bc2b"
         },
         {
-          "path": "vectors-anchor-stream/witness/vcdb22e90c0812237.json",
+          "path": "corpora/vectors-anchor-stream/witness/vcdb22e90c0812237.json",
           "sha256": "01a2f7523a64f792090655e4e7dda7ee25e54eaa8ec6d902678a69fe54dcc4d0"
         }
       ],
@@ -1178,15 +1178,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/vcec4ba461275d0b4.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/vcec4ba461275d0b4.json",
           "sha256": "4b19ce1f95f4a5e019af9c31da1e6dab3b4f60d4fb742307455dfd4ceff94ee1"
         },
         {
-          "path": "vectors-anchor-stream/streams/vcec4ba461275d0b4.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/vcec4ba461275d0b4.jsonl",
           "sha256": "f86c24ad57feecff62b90476af63b808c45b2782b60c207ccab780d346a46ee8"
         },
         {
-          "path": "vectors-anchor-stream/witness/vcec4ba461275d0b4.json",
+          "path": "corpora/vectors-anchor-stream/witness/vcec4ba461275d0b4.json",
           "sha256": "2e33cfaf91a202c32da0ca10d99cc398596164ee261947a6c9c72e1eb96e4b2d"
         }
       ],
@@ -1195,15 +1195,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/vd6eecc03efb27ebd.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/vd6eecc03efb27ebd.json",
           "sha256": "8cd7e39cd22ede57033f695c15326635e3fa46699f15035002a52e62695bcf83"
         },
         {
-          "path": "vectors-anchor-stream/streams/vd6eecc03efb27ebd.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/vd6eecc03efb27ebd.jsonl",
           "sha256": "d0a5857384624babbbac8d2d2b08fc6f35d61a0fd0d46b0471f163e0475e7c97"
         },
         {
-          "path": "vectors-anchor-stream/witness/vd6eecc03efb27ebd.json",
+          "path": "corpora/vectors-anchor-stream/witness/vd6eecc03efb27ebd.json",
           "sha256": "aafe2615a8a28afd02774d19c922c13b4140aa4b1d02cc0cf180bc465df7c58e"
         }
       ],
@@ -1212,15 +1212,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/vd7195c86129b959f.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/vd7195c86129b959f.json",
           "sha256": "48bf9afb8ed49531aa5334f273035b15d750e23ab5a1203b30bfa54fe44d5129"
         },
         {
-          "path": "vectors-anchor-stream/streams/vd7195c86129b959f.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/vd7195c86129b959f.jsonl",
           "sha256": "89dd8680b6c7ab76e349fb429254996e57aa95efe8c12401511e80672f311387"
         },
         {
-          "path": "vectors-anchor-stream/witness/vd7195c86129b959f.json",
+          "path": "corpora/vectors-anchor-stream/witness/vd7195c86129b959f.json",
           "sha256": "91f7da77e2aca2f16c7d2a4237c9f3ced92bc8dc83229b37b77ca3f6b15e2c4b"
         }
       ],
@@ -1229,15 +1229,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/ve28432cb7adcdc6b.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/ve28432cb7adcdc6b.json",
           "sha256": "3d671f8ee722ed5b9c4ec6cfdfcda0635560e1d2e48a4620b56ff41afdf71f7f"
         },
         {
-          "path": "vectors-anchor-stream/streams/ve28432cb7adcdc6b.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/ve28432cb7adcdc6b.jsonl",
           "sha256": "b8dd28d85ac3d777e2bb22629eaa73c4ff69c8f106abbe8a9d554c29c5e37568"
         },
         {
-          "path": "vectors-anchor-stream/witness/ve28432cb7adcdc6b.json",
+          "path": "corpora/vectors-anchor-stream/witness/ve28432cb7adcdc6b.json",
           "sha256": "bcbde6c920a58c73d9d5e9b460bb3daa82c355ef67aad61e47035a8055c91f74"
         }
       ],
@@ -1246,15 +1246,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/vf4bccf922ed33749.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/vf4bccf922ed33749.json",
           "sha256": "4b19ce1f95f4a5e019af9c31da1e6dab3b4f60d4fb742307455dfd4ceff94ee1"
         },
         {
-          "path": "vectors-anchor-stream/streams/vf4bccf922ed33749.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/vf4bccf922ed33749.jsonl",
           "sha256": "52ae76a7eb3338e8cd3f78c898c882235cb5f89e321fc4651ba8771afef07754"
         },
         {
-          "path": "vectors-anchor-stream/witness/vf4bccf922ed33749.json",
+          "path": "corpora/vectors-anchor-stream/witness/vf4bccf922ed33749.json",
           "sha256": "944b7dbca3ce19d24131fea74033bd68d10169991f125d7261b76f735cd29792"
         }
       ],
@@ -1263,15 +1263,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/vf8ef32f6294cea06.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/vf8ef32f6294cea06.json",
           "sha256": "4b19ce1f95f4a5e019af9c31da1e6dab3b4f60d4fb742307455dfd4ceff94ee1"
         },
         {
-          "path": "vectors-anchor-stream/streams/vf8ef32f6294cea06.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/vf8ef32f6294cea06.jsonl",
           "sha256": "014e8cf73c7740377150d39808698de7a81a832f38f7089cba529d2c22b2feaf"
         },
         {
-          "path": "vectors-anchor-stream/witness/vf8ef32f6294cea06.json",
+          "path": "corpora/vectors-anchor-stream/witness/vf8ef32f6294cea06.json",
           "sha256": "0ed9561fca2e1030b5dddff840daec6301ae8138521367ee0404d38498f47de4"
         }
       ],
@@ -1280,15 +1280,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/vf9c8df1aeafd69f7.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/vf9c8df1aeafd69f7.json",
           "sha256": "d7e41aee4d0d8c114fd2beadbf513ee666ed4aa7a25615305f5e1f0a4eed0838"
         },
         {
-          "path": "vectors-anchor-stream/streams/vf9c8df1aeafd69f7.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/vf9c8df1aeafd69f7.jsonl",
           "sha256": "9824f9b8fc4f82c18d4495d30649369366bf7d4712a2317b792f9384a4f791c6"
         },
         {
-          "path": "vectors-anchor-stream/witness/vf9c8df1aeafd69f7.json",
+          "path": "corpora/vectors-anchor-stream/witness/vf9c8df1aeafd69f7.json",
           "sha256": "03c1e3d0129b2aa4556697d4ab63c0ab8fd8049c9f7b2f79f11d45eea5b2fd88"
         }
       ],
@@ -1297,15 +1297,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/vfc54e61742cea5f5.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/vfc54e61742cea5f5.json",
           "sha256": "f63afaa9262352bce4db5612417265963617b1b75f6a599f83b821c93290d4c3"
         },
         {
-          "path": "vectors-anchor-stream/streams/vfc54e61742cea5f5.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/vfc54e61742cea5f5.jsonl",
           "sha256": "d0a5857384624babbbac8d2d2b08fc6f35d61a0fd0d46b0471f163e0475e7c97"
         },
         {
-          "path": "vectors-anchor-stream/witness/vfc54e61742cea5f5.json",
+          "path": "corpora/vectors-anchor-stream/witness/vfc54e61742cea5f5.json",
           "sha256": "f931316c02f5de74428be77f2ffad31fdb43a611ede3a03d7a73e1eee7245eb2"
         }
       ],
@@ -1314,15 +1314,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/vfccf46c02cc12618.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/vfccf46c02cc12618.json",
           "sha256": "0f6f8a41e4fa01f7f6d8c89f75291b4f53af119e51d62a299d2e7540b9c7f5c4"
         },
         {
-          "path": "vectors-anchor-stream/streams/vfccf46c02cc12618.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/vfccf46c02cc12618.jsonl",
           "sha256": "fd95645e3db810d0b54097540d4f8d6e582fc77cc03ada5cc9ddbeb2e42564be"
         },
         {
-          "path": "vectors-anchor-stream/witness/vfccf46c02cc12618.json",
+          "path": "corpora/vectors-anchor-stream/witness/vfccf46c02cc12618.json",
           "sha256": "f3b9aac30499a6a9be63efd21355750c7fbd9d056a7be6c82109b8497f126c0b"
         }
       ],
@@ -1331,15 +1331,15 @@
     {
       "files": [
         {
-          "path": "vectors-anchor-stream/sidecars/vffcb99f9cab7c8a9.json",
+          "path": "corpora/vectors-anchor-stream/sidecars/vffcb99f9cab7c8a9.json",
           "sha256": "9460b3f3137b8ecbb001bc7c19b1993b309c83a61ffc7096281c16ec05967494"
         },
         {
-          "path": "vectors-anchor-stream/streams/vffcb99f9cab7c8a9.jsonl",
+          "path": "corpora/vectors-anchor-stream/streams/vffcb99f9cab7c8a9.jsonl",
           "sha256": "ad23a26fc3abd4343af9a2620f7d4b69f550e386cb460763e439262620f8d32c"
         },
         {
-          "path": "vectors-anchor-stream/witness/vffcb99f9cab7c8a9.json",
+          "path": "corpora/vectors-anchor-stream/witness/vffcb99f9cab7c8a9.json",
           "sha256": "d9ed6ac6373100d45420f675e4bc0718ee0c7cc25e41242399e8d30c41e686f0"
         }
       ],
@@ -1380,7 +1380,7 @@
       "reference": {
         "path": "release/intake/native/vectors-anchor-stream.json",
         "serialization": "bytes",
-        "sha256": "aba25f0a1de5d0494b3dd2ec8a7e9f9980e53fa64cdadc2e1b96843111794608"
+        "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
       }
     },
     {
@@ -1583,11 +1583,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "aba25f0a1de5d0494b3dd2ec8a7e9f9980e53fa64cdadc2e1b96843111794608"
+        "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
       },
       {
         "process": "run-2",
-        "sha256": "aba25f0a1de5d0494b3dd2ec8a7e9f9980e53fa64cdadc2e1b96843111794608"
+        "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
       }
     ],
     "seed": null,

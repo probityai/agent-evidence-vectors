@@ -17,7 +17,7 @@ artifacts must not hide a real second effect: `earlier_turn_artifacts_replayed` 
 
 The cases follow the resume paths that google/adk-python#7605 (paused `single_turn`
 routing) and #7604 (resumed-task artifacts) change, and sit beside the delegation
-lifecycle recovery cases in `corpora/delegationlifecycle.go`. Artifact parts are
+lifecycle recovery cases in `corpusreaders/delegationlifecycle.go`. Artifact parts are
 `sha256` digests of their content, so a producer maps its own parts onto them.
 
 ## Run it

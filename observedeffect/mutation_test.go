@@ -15,7 +15,7 @@ import (
 // The corpus this rail is measured against. Relative because the module is the
 // unit that ships; an absolute path would be one machine's answer.
 const (
-	corpusDir = "../vectors-observed-effect"
+	corpusDir = "../corpora/vectors-observed-effect"
 	specPath  = "../spec/predicates/observed-effect.md"
 )
 

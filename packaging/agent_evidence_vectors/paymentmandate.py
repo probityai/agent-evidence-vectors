@@ -38,7 +38,7 @@ _HERE = Path(__file__).resolve().parent
 ROOT = (
     _HERE / "corpora" / "vectors-agent-payment-mandate"
     if (_HERE / "corpora").exists()
-    else _HERE.parents[1] / "vectors-agent-payment-mandate"
+    else _HERE.parents[1] / "corpora" / "vectors-agent-payment-mandate"
 )
 
 

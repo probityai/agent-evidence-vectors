@@ -35,7 +35,7 @@
 // spelling: it runs each vector twice through the same argv, once with the
 // variable set and once with it absent, and compares the two tier columns. The
 // flags below set single pins and must agree with a document that sets the
-// same pin. vectors-admission/README.md tables what each pin's absence means.
+// same pin. corpora/vectors-admission/README.md tables what each pin's absence means.
 //
 // In -json mode the whole report is written as ONE line, because the harness
 // reads the last line of stdout and parses that line alone. A pretty-printed

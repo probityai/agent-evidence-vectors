@@ -14,8 +14,8 @@
       "path": "release/CORPUS-DIGESTS.txt",
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
-    "routine": "corpus_digest in vectors-agent-payment-mandate/gen_vectors.py",
-    "routine-file": "vectors-agent-payment-mandate/gen_vectors.py",
+    "routine": "corpus_digest in corpora/vectors-agent-payment-mandate/gen_vectors.py",
+    "routine-file": "corpora/vectors-agent-payment-mandate/gen_vectors.py",
     "serialization": "corpus-routine",
     "sha256": "535cf77805d4720714fbe5f39a65a64f72ef6f69edfbf118a39fa8c8fdff77db",
     "verdicts": {
@@ -29,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+          "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,12 +38,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+          "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
         },
-        "swapped-in": "575ac6a2d97678a33ebb77695bb5202ca5e1d9b36ac4542b6f6f03778e2bf8ff",
+        "swapped-in": "784cc13c5b1cf03ff179729014dae7363c7765eccfd7023c1b84166084ecb93c",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-agent-payment-mandate/INDEX.md",
+      "path": "corpora/vectors-agent-payment-mandate/INDEX.md",
       "serialization": "bytes",
       "sha256": "40e76a3b418c8afa9fcc401d233089c4915ad776062ead8c2f77b5c631fc939f"
     },
@@ -52,7 +52,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+          "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,12 +61,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+          "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
         },
-        "swapped-in": "2f58ff4ee5cb9dfb7898134cbebc018ead8c2c085de5e86a0a4d2b06728c3d1f",
+        "swapped-in": "32092ac19bdd15f81d268c839456cac589b25ddb4f68fc85e02e896b48921569",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-agent-payment-mandate/README.md",
+      "path": "corpora/vectors-agent-payment-mandate/README.md",
       "serialization": "bytes",
       "sha256": "25d6d5cea3b7d8730266d71f9d6d1d27daac1331e7222c340d24726cabeeaecb"
     },
@@ -75,7 +75,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+          "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,21 +84,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+          "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
         },
-        "swapped-in": "8f785c79c21e914a808ecb94101e8da9b4cca041b15c2ca0ac60096bbbdfc9bb",
+        "swapped-in": "9efbc0808239d470b72910b825fb77777f26a773b3f936e39be65054d79460ff",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-agent-payment-mandate/check_vectors.py",
+      "path": "corpora/vectors-agent-payment-mandate/check_vectors.py",
       "serialization": "bytes",
-      "sha256": "3254366d96da1bd68ea5cd3152bfeb4044fac836e38637ce7759930b46012c11"
+      "sha256": "493f40338353ec238c0f9f6efffa0930ee8ddb766dbc823268fcc76ad487e232"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+          "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,12 +107,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+          "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
         },
-        "swapped-in": "87ba297f4eb13209523a133d06d5b2f055cbc5831455d7a6570cb674f49a8e54",
+        "swapped-in": "deb8643d61fafbeed4be3f23b11c2cb5a80d3ca16c2cd32062d3dc8bc9ea9efd",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-agent-payment-mandate/gen_vectors.py",
+      "path": "corpora/vectors-agent-payment-mandate/gen_vectors.py",
       "serialization": "bytes",
       "sha256": "1a6153fc3d0baa1eb8eae882b19442d3ab98fde6abd5af45d25b5d016573e6e0"
     },
@@ -121,7 +121,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+          "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -130,21 +130,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+          "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
         },
-        "swapped-in": "f09b0886294d9a3f8eb53166000cc3c17f5c99ca574cd6937fb5c6310a4411ac",
+        "swapped-in": "8b89d7235d3d3928184f32783a1a2ee4ba2e7d05b951a1a419771201476602c7",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-agent-payment-mandate/mutation_check.py",
+      "path": "corpora/vectors-agent-payment-mandate/mutation_check.py",
       "serialization": "bytes",
-      "sha256": "0ec8dc8aaee445dcd8f4a6c273e44baaf17745eb96a331d6980cf6b3de33fd93"
+      "sha256": "98b77e0a55b6bfcd8e68680c171930782e5ed8f0c5797cb22414170ee055b737"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+          "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -153,12 +153,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+          "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
         },
-        "swapped-in": "83e9f5ad0d7d934fc62e04c855452a50263f1d8b5e5c51bf2f14a612227078bf",
+        "swapped-in": "8d13fd813b35f386447d17bb5554eaca35164bf52681f631c388591ef95aede9",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-agent-payment-mandate/profile.json",
+      "path": "corpora/vectors-agent-payment-mandate/profile.json",
       "serialization": "bytes",
       "sha256": "0ae146e3aa0ac9878722ed6cffeea614f1abf9ce54eb4a3b994b83e3d11fd9a3"
     },
@@ -167,7 +167,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+          "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -176,14 +176,14 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+          "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
         },
-        "swapped-in": "60a997c6b735c06bde5fc173c5826ed4fda0baeb17ecdfc1f42dc3580dcb62d2",
+        "swapped-in": "89535d6c845db66d0ba66b9d1a05195a6ff868bffcddfa325c59a96de755eb80",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-agent-payment-mandate/tests/test_corpus.py",
+      "path": "corpora/vectors-agent-payment-mandate/tests/test_corpus.py",
       "serialization": "bytes",
-      "sha256": "e64d3f656677c52f6e5329dae466037d37e0b855702e48d099089fee44f65f92"
+      "sha256": "3ffd1387313a0daf0c82ad9aa4e013a509f96868660a5e071e7e44947c11e60b"
     }
   ],
   "boundary": {
@@ -195,7 +195,7 @@
         "suffix": ""
       }
     ],
-    "root": "vectors-agent-payment-mandate"
+    "root": "corpora/vectors-agent-payment-mandate"
   },
   "byte-identity": {
     "pins": 15,
@@ -207,9 +207,9 @@
   "checker": {
     "commands": [
       "go build -o aee-verify ./cmd/aee-verify",
-      "aee-verify -json vectors-agent-payment-mandate",
-      "aee-verify -json vectors-agent-payment-mandate",
-      "aee-verify vectors-agent-payment-mandate"
+      "aee-verify -json corpora/vectors-agent-payment-mandate",
+      "aee-verify -json corpora/vectors-agent-payment-mandate",
+      "aee-verify corpora/vectors-agent-payment-mandate"
     ],
     "dependencies": [
       {
@@ -231,11 +231,11 @@
       "paths": [
         "aee",
         "cmd/aee-verify",
-        "corpora",
+        "corpusreaders",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "712a1932ef34c3166fdc0517647e0008db691ea8963f36e1331517673e968c64"
+      "sha256": "2417e926ca98a6022a518e36af066f6072afc9f6cb2009a276f1d6fbb0775bf7"
     },
     "runtime": {
       "name": "go",
@@ -244,7 +244,7 @@
     "shared-verification-code": [
       "aee",
       "cmd/aee-verify",
-      "corpora",
+      "corpusreaders",
       "go.mod"
     ]
   },
@@ -372,7 +372,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "5e4da456a5bc83896cc3443df635b65e8879e2b2242eb153581191e0e4a5d3f9"
+    "sha256": "b48e7d7fa03cb488f391468f99a4e7759bcc41310eb29c45040255118f74fbb9"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -398,14 +398,14 @@
       "receipt-not-over-execution",
       "post-checkout-fulfilment-missing"
     ],
-    "path": "vectors-agent-payment-mandate/MANIFEST.json",
+    "path": "corpora/vectors-agent-payment-mandate/MANIFEST.json",
     "sha256": "972d83e2aa97dbe90bc4643d6652d7c5838a9414880a803a7abae33a5432309e"
   },
   "members": [
     {
       "files": [
         {
-          "path": "vectors-agent-payment-mandate/cases/authorized-ap2-cart/case.json",
+          "path": "corpora/vectors-agent-payment-mandate/cases/authorized-ap2-cart/case.json",
           "sha256": "20581823a510475871a9418cf0d71767f03da4dee4e16fed94500f90847c7482"
         }
       ],
@@ -414,7 +414,7 @@
     {
       "files": [
         {
-          "path": "vectors-agent-payment-mandate/cases/authorized-vi-credential/case.json",
+          "path": "corpora/vectors-agent-payment-mandate/cases/authorized-vi-credential/case.json",
           "sha256": "3fe2fd5cc47f3b816f8715b075810892a107800e31a5a71cbea37d4ac1117d51"
         }
       ],
@@ -423,7 +423,7 @@
     {
       "files": [
         {
-          "path": "vectors-agent-payment-mandate/cases/authorized-spt-seller-bound/case.json",
+          "path": "corpora/vectors-agent-payment-mandate/cases/authorized-spt-seller-bound/case.json",
           "sha256": "6949200739b32a37c09d1a4e1c789119b2571514acc704646092006aefe87f1c"
         }
       ],
@@ -432,7 +432,7 @@
     {
       "files": [
         {
-          "path": "vectors-agent-payment-mandate/cases/authorized-at-exact-limit/case.json",
+          "path": "corpora/vectors-agent-payment-mandate/cases/authorized-at-exact-limit/case.json",
           "sha256": "588a61d0828ac4f9f3fa3cf81a94ddb49ce5886f0a80580ca4a4d4cf8454522a"
         }
       ],
@@ -441,7 +441,7 @@
     {
       "files": [
         {
-          "path": "vectors-agent-payment-mandate/cases/mandate-unsigned/case.json",
+          "path": "corpora/vectors-agent-payment-mandate/cases/mandate-unsigned/case.json",
           "sha256": "59135887a56743b6d4339af1945e0faff56302319f90c99cc1bd6aa69db9ca9a"
         }
       ],
@@ -450,7 +450,7 @@
     {
       "files": [
         {
-          "path": "vectors-agent-payment-mandate/cases/mandate-terms-edited/case.json",
+          "path": "corpora/vectors-agent-payment-mandate/cases/mandate-terms-edited/case.json",
           "sha256": "1aa1e864dcd8ad9f19b6bacca3d7f55f6853756a7612b1bf6f30d2d152094537"
         }
       ],
@@ -459,7 +459,7 @@
     {
       "files": [
         {
-          "path": "vectors-agent-payment-mandate/cases/credential-bound-to-another-mandate/case.json",
+          "path": "corpora/vectors-agent-payment-mandate/cases/credential-bound-to-another-mandate/case.json",
           "sha256": "b2254bdd4721f4b173e97583ee3d49155c9621e2d8ac6358f545ade9d13b0280"
         }
       ],
@@ -468,7 +468,7 @@
     {
       "files": [
         {
-          "path": "vectors-agent-payment-mandate/cases/charge-after-expiry/case.json",
+          "path": "corpora/vectors-agent-payment-mandate/cases/charge-after-expiry/case.json",
           "sha256": "42b849e2d9ee89043c33f329ec9b8bd93a339a9f68cda2f236d3df540e483964"
         }
       ],
@@ -477,7 +477,7 @@
     {
       "files": [
         {
-          "path": "vectors-agent-payment-mandate/cases/charge-over-limit/case.json",
+          "path": "corpora/vectors-agent-payment-mandate/cases/charge-over-limit/case.json",
           "sha256": "6780c6f6273cd2705901a436d9f95cc40cf5a38edd6c5b08f8117151e3773c62"
         }
       ],
@@ -486,7 +486,7 @@
     {
       "files": [
         {
-          "path": "vectors-agent-payment-mandate/cases/charge-in-other-currency/case.json",
+          "path": "corpora/vectors-agent-payment-mandate/cases/charge-in-other-currency/case.json",
           "sha256": "3c41f4bf6fdda75d07f2f391c33a91a8b9b389372d91651085a5dcc2d04f03d2"
         }
       ],
@@ -495,7 +495,7 @@
     {
       "files": [
         {
-          "path": "vectors-agent-payment-mandate/cases/charge-at-other-merchant/case.json",
+          "path": "corpora/vectors-agent-payment-mandate/cases/charge-at-other-merchant/case.json",
           "sha256": "ff63061410771b6371199f22ae51af8025edabee9d6a7911dd8b78ffdef92a09"
         }
       ],
@@ -504,7 +504,7 @@
     {
       "files": [
         {
-          "path": "vectors-agent-payment-mandate/cases/executed-token-differs/case.json",
+          "path": "corpora/vectors-agent-payment-mandate/cases/executed-token-differs/case.json",
           "sha256": "bdb8f4c586829b6ffcc889a893a9561f397db658382e74f7c6c5b176575017b6"
         }
       ],
@@ -513,7 +513,7 @@
     {
       "files": [
         {
-          "path": "vectors-agent-payment-mandate/cases/single-use-token-replayed/case.json",
+          "path": "corpora/vectors-agent-payment-mandate/cases/single-use-token-replayed/case.json",
           "sha256": "fb046300ad875e11f259feaa94ec6852ffeab2a360358ed22514a0d9c421f15e"
         }
       ],
@@ -522,7 +522,7 @@
     {
       "files": [
         {
-          "path": "vectors-agent-payment-mandate/cases/receipt-not-over-execution/case.json",
+          "path": "corpora/vectors-agent-payment-mandate/cases/receipt-not-over-execution/case.json",
           "sha256": "4cd399fab6988c65964575c7e35e6b68f66a32a8b868c2e2433634ee69965aff"
         }
       ],
@@ -531,7 +531,7 @@
     {
       "files": [
         {
-          "path": "vectors-agent-payment-mandate/cases/post-checkout-fulfilment-missing/case.json",
+          "path": "corpora/vectors-agent-payment-mandate/cases/post-checkout-fulfilment-missing/case.json",
           "sha256": "10a1a31d3ce284323f36b0c69e0c964196494edefc64f936c2126ed0d886226d"
         }
       ],
@@ -554,7 +554,7 @@
       "reference": {
         "path": "release/intake/native/vectors-agent-payment-mandate.json",
         "serialization": "bytes",
-        "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+        "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
       }
     },
     {
@@ -677,11 +677,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+        "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
       },
       {
         "process": "run-2",
-        "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+        "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
       }
     ],
     "seed": null,

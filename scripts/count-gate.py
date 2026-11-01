@@ -194,7 +194,7 @@ MANIFEST_REL = "vectors/MANIFEST.json"
 #: manifest the gate knew, and understating a repository that ships two corpora --
 #: while every check passed. The count was never wrong; the SCOPE was, which is
 #: the same shape as a citation that resolves to the wrong line.
-AGENT_ACTION_MANIFEST_REL = "vectors-ai-agent-action/MANIFEST.json"
+AGENT_ACTION_MANIFEST_REL = "corpora/vectors-ai-agent-action/MANIFEST.json"
 #: The third corpus, for the artifact-binding contract beside the predicate. It
 #: is modelled here from the day it lands rather than after a count in the README
 #: goes stale, which is the sequence the note above records for the second one.
@@ -203,7 +203,7 @@ AGENT_ACTION_MANIFEST_REL = "vectors-ai-agent-action/MANIFEST.json"
 #: one -- the not-established bucket, which is the only one it exists to test.
 #: That verdict keying is why it stays wired by hand instead of joining
 #: EXTRA_CORPORA below, whose readers model two buckets.
-BINDING_MANIFEST_REL = "vectors-artifact-binding/MANIFEST.json"
+BINDING_MANIFEST_REL = "corpora/vectors-artifact-binding/MANIFEST.json"
 #: Every further corpus, one line each, naming its directory. A directory listed
 #: here has its three counts read from its own MANIFEST.json and admitted as
 #: derived quantities, and the one sentence its INDEX.md publishes them in is
@@ -213,17 +213,17 @@ BINDING_MANIFEST_REL = "vectors-artifact-binding/MANIFEST.json"
 #: corpus owes in exchange is that sentence, in the shape claims_for_corpus below
 #: expects, which is a small price for a count nobody can restate unchecked.
 EXTRA_CORPORA: tuple[str, ...] = (
-    "vectors-anchor-stream",
-    "vectors-acs-core",
-    "vectors-mcp-record-contract",
-    "vectors-mcp-response-phase",
-    "vectors-w3c-report",
-    "vectors-observed-effect",
-    "vectors-ai-generation",
-    "vectors-receipt-signature",
-    "vectors-agent-audit-record",
-    "vectors-admission",
-    "vectors-restart-records",
+    "corpora/vectors-anchor-stream",
+    "corpora/vectors-acs-core",
+    "corpora/vectors-mcp-record-contract",
+    "corpora/vectors-mcp-response-phase",
+    "corpora/vectors-w3c-report",
+    "corpora/vectors-observed-effect",
+    "corpora/vectors-ai-generation",
+    "corpora/vectors-receipt-signature",
+    "corpora/vectors-agent-audit-record",
+    "corpora/vectors-admission",
+    "corpora/vectors-restart-records",
 )
 CHANGES_REL = "vectors/CHANGES.md"
 BASELINE_REL = "docs/FORCING-BASELINE.json"
@@ -783,7 +783,7 @@ def head_row_failures(src: Sources) -> list[str]:
 # --------------------------------------------------------------------------
 
 
-RECORDING = "vectors-anchor-stream/recordings/anchors-verify-v0.10.json"
+RECORDING = "corpora/vectors-anchor-stream/recordings/anchors-verify-v0.10.json"
 
 #: Every site in the catalog drafts and their generated bodies that publishes a count
 #: descending from the recording: (file, name, prefix, suffix, which figure).
@@ -841,7 +841,7 @@ def reply_claims(src: Sources) -> tuple[Claim, ...]:
     )
 
 
-W3C_REPORT_DIR = "vectors-w3c-report"
+W3C_REPORT_DIR = "corpora/vectors-w3c-report"
 
 
 def w3c_selection_claims() -> tuple[Claim, ...]:
@@ -899,14 +899,15 @@ def scitt_cose_counts() -> dict[str, int]:
     manifest's entries, checked against the counts it declares, rather than from
     the declared field alone.
     """
-    payload = json.loads(source("vectors-scitt-cose/MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = source("corpora/vectors-scitt-cose/MANIFEST.json")
+    payload = json.loads(manifest.read_text(encoding="utf-8"))
     entries = payload["vectors"]
     tally = {kind: 0 for kind in ("accept", "reject", "indeterminate")}
     for position, entry in enumerate(entries, start=1):
         kind = entry.get("kind") if isinstance(entry, dict) else None
         if not isinstance(kind, str) or kind not in tally:
             raise SystemExit(
-                f"FAIL: vectors-scitt-cose/MANIFEST.json member {position} has "
+                f"FAIL: corpora/vectors-scitt-cose/MANIFEST.json member {position} has "
                 f"unsupported kind {kind!r}; every member must be accept, reject "
                 "or indeterminate before its count can be claimed."
             )
@@ -916,12 +917,12 @@ def scitt_cose_counts() -> dict[str, int]:
         isinstance(declared.get(kind), bool) for kind in tally
     ):
         raise SystemExit(
-            "FAIL: vectors-scitt-cose/MANIFEST.json counts must be an object of "
+            "FAIL: corpora/vectors-scitt-cose/MANIFEST.json counts must be an object of "
             "numeric counts; boolean values are not counts."
         )
     if any(declared.get(kind) != tally[kind] for kind in tally):
         raise SystemExit(
-            f"FAIL: vectors-scitt-cose/MANIFEST.json declares {declared} and carries "
+            f"FAIL: corpora/vectors-scitt-cose/MANIFEST.json declares {declared} and carries "
             f"{tally}. The counts this gate claims for that corpus descend from this "
             "field, so it may not disagree with the entries it counts."
         )
@@ -949,16 +950,16 @@ def declared_claims(src: Sources) -> tuple[Claim, ...]:
         # EXTRA_CORPORA, so its size is claimed here against its manifest: once
         # in the Go reader's comment and once, with the breakdown, in the profile.
         Claim(
-            "corpora/scittcose.go",
+            "corpusreaders/scittcose.go",
             "the SCITT/COSE corpus size the Go reader's comment states",
-            "vectors-scitt-cose/ carries ",
+            "corpora/vectors-scitt-cose/ carries ",
             " members and a",
             str(scitt["total"]),
         ),
         Claim(
             "profiles/scitt-cose.md",
             "the SCITT/COSE corpus size the profile states",
-            "`vectors-scitt-cose/` carries ",
+            "The corpus in `vectors-scitt-cose/` carries ",
             " members, ",
             str(scitt["total"]),
         ),
@@ -1131,19 +1132,19 @@ DELEGATED: tuple[Delegated, ...] = (
     # the manifest's own count. It was reported only when the ACS-Core total
     # walked onto its accept count.
     Delegated(
-        "vectors-w3c-report/INDEX.md",
+        "corpora/vectors-w3c-report/INDEX.md",
         "the section 10 selection's reject and accept counts",
         r"reject and \d+ to accept",
-        "vectors-w3c-report/gen_vectors.py",
+        "corpora/vectors-w3c-report/gen_vectors.py",
     ),
     # The same index's count of members excluded under a proposed rule, rendered
     # from that manifest by the same generator. It was reported only when the
     # audit record corpus's accept count, at -00 regeneration, walked onto it.
     Delegated(
-        "vectors-w3c-report/INDEX.md",
+        "corpora/vectors-w3c-report/INDEX.md",
         "the members counted apart as excluded under a proposed rule",
         r"excluded-under-proposed-rule, \d+ members",
-        "vectors-w3c-report/gen_vectors.py",
+        "corpora/vectors-w3c-report/gen_vectors.py",
     ),
     # The AAE v1.4.0 binding package. Its integers are vector identifiers
     # (aae-enforce-vector-25 and its file prefixes), the size of the pinned
@@ -1225,7 +1226,7 @@ DELEGATED: tuple[Delegated, ...] = (
     # by that corpus's generator and held byte-identical by the regenerability
     # gate, so every figure in its table belongs to that ledger, not this one.
     Delegated(
-        "vectors-w3c-report/MUTATION-SWEEP.md",
+        "corpora/vectors-w3c-report/MUTATION-SWEEP.md",
         "the per-requirement mutation tally rows",
         r"\| `W3C-R-\d+` \| \d+ \| \d+ \| \d+ \|",
         "scripts/regenerability-gate.py",
@@ -1454,7 +1455,7 @@ FROZEN: tuple[Frozen, ...] = (
         'total of 128 by coincidence.',
     ),
     Frozen(
-        'vectors-spoofed-tool-output/gen_vectors.py',
+        'corpora/vectors-spoofed-tool-output/gen_vectors.py',
         'the shell exit status of a process killed by a signal',
         'the run was killed by a signal (128 plus',
         'A protocol constant, not a count of any corpus: the I-JSON nesting depth bound, '
@@ -1664,14 +1665,14 @@ FROZEN: tuple[Frozen, ...] = (
         ' coincidence: a byte length in a verifier error message quoted verbatim.',
     ),
     Frozen(
-        'vectors-receipt-signature/gen_vectors.py',
+        'corpora/vectors-receipt-signature/gen_vectors.py',
         'the zero-byte length of the upstream key-seed recipe',
         "suite's recipe: 31 zero bytes and",
         'An integer that counts something other than this corpus and equals one of its figures by'
         ' coincidence: a byte length fixed by an upstream test-vector recipe.',
     ),
     Frozen(
-        'vectors-receipt-signature/gen_vectors.py',
+        'corpora/vectors-receipt-signature/gen_vectors.py',
         'the zero-byte length of the upstream key seeds',
         '"31 zero bytes and',
         'An integer that counts something other than this corpus and equals one of its figures by'
@@ -1781,7 +1782,7 @@ FROZEN: tuple[Frozen, ...] = (
         "published records on a stated date. It is not a size of this corpus.",
     ),
     Frozen(
-        "vectors-agent-audit-record/gen_vectors.py",
+        "corpora/vectors-agent-audit-record/gen_vectors.py",
         "the last byte of the agent test key",
         '"00" * 31 + "44"',
         "The final byte of a fixed Ed25519 test key in the audit-record "
@@ -1804,7 +1805,7 @@ FROZEN: tuple[Frozen, ...] = (
     # manifest at corpusDigest f00d4443... says, and it must not follow the
     # current split, which the claim in w3c_selection_claims checks.
     Frozen(
-        "vectors-w3c-report/README.md",
+        "corpora/vectors-w3c-report/README.md",
         "the section 10 split before v0.18.0",
         "but 83 to reject and 82 to accept, at corpusDigest",
         "The split at an earlier corpusDigest, named in the sentence, and the "
@@ -1816,14 +1817,14 @@ FROZEN: tuple[Frozen, ...] = (
     # corpusDigest f9e58e62... says, and like the split above it must not follow
     # the current one.
     Frozen(
-        "vectors-w3c-report/README.md",
+        "corpora/vectors-w3c-report/README.md",
         "the section 10 split at v0.18.1 and v0.18.2",
         "the selection was 165 members, 41 to reject and 124 to",
         "The split at an earlier corpusDigest, named in the sentence. A published "
         "digest is never mutated, so its split must not track the current manifest.",
     ),
     Frozen(
-        "vectors-agent-audit-record/README.md",
+        "corpora/vectors-agent-audit-record/README.md",
         "the first outside reader's posted score on the revision 01 corpus",
         "It agreed on 47 of 47 members of v0.16.0, the revision 01",
         "Mayur Agnihotri's run of his own reader against release v0.16.0, as he "
@@ -2201,7 +2202,7 @@ FROZEN: tuple[Frozen, ...] = (
         "performed one, which is the whole point of quoting an outside run.",
     ),
     Frozen(
-        "vectors-aci/FINDINGS.md",
+        "corpora/vectors-aci/FINDINGS.md",
         "the compliance score the ACI specification asks a reference implementation for",
         "Pass ACI Validator checks with a score of 100/100",
         "A figure inside a verbatim quotation of another specification's own "
@@ -2211,7 +2212,7 @@ FROZEN: tuple[Frozen, ...] = (
         "from anything here would make their unstated arithmetic look like ours.",
     ),
     Frozen(
-        "vectors-aci/FINDINGS.md",
+        "corpora/vectors-aci/FINDINGS.md",
         "the line range where the ACI validator's undocumented arithmetic lives",
         "238-258 for a manifest and 304-311 for the deployment",
         "A line-range citation into another project's source file, not a count. "
@@ -2220,7 +2221,7 @@ FROZEN: tuple[Frozen, ...] = (
         "and tracks their file rather than any quantity of ours.",
     ),
     Frozen(
-        "vectors-aci/FINDINGS.md",
+        "corpora/vectors-aci/FINDINGS.md",
         "the ACI example manifests a strict date reading rejects",
         "rejects 18 of 18",
         "A measurement of another repository's example files, taken on the day "
@@ -2854,7 +2855,7 @@ FROZEN: tuple[Frozen, ...] = (
         ' track this corpus.',
     ),
     Frozen(
-        'vectors-w3c-intake/INDEX.md',
+        'corpora/vectors-w3c-intake/INDEX.md',
         "the fixture's own wording of a two-member selection",
         'so 2 of 2 printed as a clean run',
         'The description of a rejected fixture: a selection of two members, '
@@ -2862,7 +2863,7 @@ FROZEN: tuple[Frozen, ...] = (
         ' the corpus.',
     ),
     Frozen(
-        'vectors-w3c-intake/gen_vectors.py',
+        'corpora/vectors-w3c-intake/gen_vectors.py',
         "the fixture's own wording of a two-member selection",
         'the result never returned it, so 2 of 2',
         'The description of a rejected fixture: a selection of two members, '
@@ -2968,7 +2969,7 @@ MASKS = tuple(
         #     git grep -ohE '\bsrr-c-[0-9]+\b' | sort -u
         r"\bsrr-c-\d+\b",
         # Draft OWASP MCP requirement and threat identifiers, MCPVS-N and MCPTM-N,
-        # minted once in vectors-mcp-owasp/REGISTRY.json. They are named, never
+        # minted once in corpora/vectors-mcp-owasp/REGISTRY.json. They are named, never
         # counted: `MCPVS-4` sits in a threat page a few characters from words
         # the small-value vocabulary reads as nouns, and 4 and 5 equal counts the
         # forcing sources publish, so unmasked the gate reported identifiers as
@@ -3405,7 +3406,7 @@ EXEMPT_PREFIXES: dict[str, str] = {
         "file name is the digest of its bytes, so an edit changes the name, and the "
         "integers inside are the source's dated measurements and citations"
     ),
-    "vectors-ai-agent-action/spec-vendored/": (
+    "corpora/vectors-ai-agent-action/spec-vendored/": (
         "vendored upstream bytes; the manifest's specDigest owns them, "
         "aee-verify refuses a copy whose bytes moved, "
         "and every integer inside belongs to the upstream document rather than to "

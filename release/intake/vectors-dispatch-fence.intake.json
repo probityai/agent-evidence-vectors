@@ -14,8 +14,8 @@
       "path": "release/CORPUS-DIGESTS.txt",
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
-    "routine": "corpus_digest in vectors-dispatch-fence/gen_vectors.py",
-    "routine-file": "vectors-dispatch-fence/gen_vectors.py",
+    "routine": "corpus_digest in corpora/vectors-dispatch-fence/gen_vectors.py",
+    "routine-file": "corpora/vectors-dispatch-fence/gen_vectors.py",
     "serialization": "corpus-routine",
     "sha256": "958421c39dcd872edd0f877572a9c60fcf98442b8800e7e3aa7b048b92c794b5",
     "verdicts": {
@@ -29,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "16f2b5da8cf06a7e3180b80f40e2cefaf0a0fba826119082e85668118bfdb3a5"
+          "sha256": "1d9bbb3986b801b57494ea132f24c4ac4257ccb10d8ec98baa1c57b6f23c9c1e"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,12 +38,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "16f2b5da8cf06a7e3180b80f40e2cefaf0a0fba826119082e85668118bfdb3a5"
+          "sha256": "1d9bbb3986b801b57494ea132f24c4ac4257ccb10d8ec98baa1c57b6f23c9c1e"
         },
-        "swapped-in": "2f3f03a6ab49b29085005ba331b5aa197bc1cca43fdb19c1236365e9d054b1ea",
+        "swapped-in": "c9a00223bf268854ee0d0540bdc7345be9de1f631ff3079f0947dafe9d54287c",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-dispatch-fence/README.md",
+      "path": "corpora/vectors-dispatch-fence/README.md",
       "serialization": "bytes",
       "sha256": "e513ab8a142200af53eb3805fba844a2bc359839241af3f1b1cb1d8107a6481f"
     },
@@ -52,7 +52,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "16f2b5da8cf06a7e3180b80f40e2cefaf0a0fba826119082e85668118bfdb3a5"
+          "sha256": "1d9bbb3986b801b57494ea132f24c4ac4257ccb10d8ec98baa1c57b6f23c9c1e"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,21 +61,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "16f2b5da8cf06a7e3180b80f40e2cefaf0a0fba826119082e85668118bfdb3a5"
+          "sha256": "1d9bbb3986b801b57494ea132f24c4ac4257ccb10d8ec98baa1c57b6f23c9c1e"
         },
-        "swapped-in": "277ebfc9bd46edec295b6c8850095fdc1dd1cf531fa6a240de42e86ce151fde9",
+        "swapped-in": "57c8674dcf022b9e75f1d086040901aaabb06ac374627b0ad2145265e3f458f8",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-dispatch-fence/check_vectors.py",
+      "path": "corpora/vectors-dispatch-fence/check_vectors.py",
       "serialization": "bytes",
-      "sha256": "e97df83d3123e547bf1b8119d2557aaf84d1f4a8244d95ee0ff20cb5fead35d3"
+      "sha256": "bf0af03219623519e00d2eea14398fb8b6c4d623165d05447e377cac6e22623d"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "16f2b5da8cf06a7e3180b80f40e2cefaf0a0fba826119082e85668118bfdb3a5"
+          "sha256": "1d9bbb3986b801b57494ea132f24c4ac4257ccb10d8ec98baa1c57b6f23c9c1e"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,21 +84,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "16f2b5da8cf06a7e3180b80f40e2cefaf0a0fba826119082e85668118bfdb3a5"
+          "sha256": "1d9bbb3986b801b57494ea132f24c4ac4257ccb10d8ec98baa1c57b6f23c9c1e"
         },
-        "swapped-in": "32be6bbed1ddda4a32370984c123303a41c167b85b6be7359a7dec9abe424449",
+        "swapped-in": "0350722daa71cb7950d6d83938440f5f163c19aa2ab65687209bdbd7c3596578",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-dispatch-fence/gen_vectors.py",
+      "path": "corpora/vectors-dispatch-fence/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "8af9fe66c567d6229833214f40f74400c4073a3b0afd2569d5d88e350f5875d7"
+      "sha256": "5096839d419270877d331a98eb6c8eca5c8e884f2933b87c44567c8c5c378bf7"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "16f2b5da8cf06a7e3180b80f40e2cefaf0a0fba826119082e85668118bfdb3a5"
+          "sha256": "1d9bbb3986b801b57494ea132f24c4ac4257ccb10d8ec98baa1c57b6f23c9c1e"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,14 +107,14 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "16f2b5da8cf06a7e3180b80f40e2cefaf0a0fba826119082e85668118bfdb3a5"
+          "sha256": "1d9bbb3986b801b57494ea132f24c4ac4257ccb10d8ec98baa1c57b6f23c9c1e"
         },
-        "swapped-in": "ec4c72c55594d52a8ca6e03331296e6c572b8f0492447d7b7035f3dda565b053",
+        "swapped-in": "186a445127b234aa0d4057c099e761bbbad9039687c2dd6673774f778e7a6400",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-dispatch-fence/tests/test_corpus.py",
+      "path": "corpora/vectors-dispatch-fence/tests/test_corpus.py",
       "serialization": "bytes",
-      "sha256": "58f81f2207e6d58cee8799196cbb5988ab8b1944ed1e48f56dde61d1ed5c6e0b"
+      "sha256": "76891d4e666f5ab1535b6c313de042ed32c17e4781403dc06dea53732a04c26e"
     }
   ],
   "boundary": {
@@ -126,7 +126,7 @@
         "suffix": ""
       }
     ],
-    "root": "vectors-dispatch-fence"
+    "root": "corpora/vectors-dispatch-fence"
   },
   "byte-identity": {
     "pins": 13,
@@ -138,9 +138,9 @@
   "checker": {
     "commands": [
       "go build -o aee-verify ./cmd/aee-verify",
-      "aee-verify -json vectors-dispatch-fence",
-      "aee-verify -json vectors-dispatch-fence",
-      "aee-verify vectors-dispatch-fence"
+      "aee-verify -json corpora/vectors-dispatch-fence",
+      "aee-verify -json corpora/vectors-dispatch-fence",
+      "aee-verify corpora/vectors-dispatch-fence"
     ],
     "dependencies": [
       {
@@ -162,11 +162,11 @@
       "paths": [
         "aee",
         "cmd/aee-verify",
-        "corpora",
+        "corpusreaders",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "712a1932ef34c3166fdc0517647e0008db691ea8963f36e1331517673e968c64"
+      "sha256": "2417e926ca98a6022a518e36af066f6072afc9f6cb2009a276f1d6fbb0775bf7"
     },
     "runtime": {
       "name": "go",
@@ -175,7 +175,7 @@
     "shared-verification-code": [
       "aee",
       "cmd/aee-verify",
-      "corpora",
+      "corpusreaders",
       "go.mod"
     ]
   },
@@ -287,7 +287,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "4e6f2459e82a69f4afef4a31829e13e7dc337f4d9b7dabfbadcb0f1754e4aa27"
+    "sha256": "e60fec7a51f119fbae0d99493490bc7fcc22fe4f89e89ec3020e7b45c97358fd"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -311,14 +311,14 @@
       "second-dispatch-after-expiry",
       "commit-after-own-hold-expired"
     ],
-    "path": "vectors-dispatch-fence/MANIFEST.json",
+    "path": "corpora/vectors-dispatch-fence/MANIFEST.json",
     "sha256": "13698fd68ba0bf85ce675cb29c89538ddc7f8807c979e45454cce10ebb003d7d"
   },
   "members": [
     {
       "files": [
         {
-          "path": "vectors-dispatch-fence/cases/allow-single-read/record.json",
+          "path": "corpora/vectors-dispatch-fence/cases/allow-single-read/record.json",
           "sha256": "796ddc1f74ec9e1c95531a13873150e91683bf1004b1a9c0e25c69c9216a9bfc"
         }
       ],
@@ -327,7 +327,7 @@
     {
       "files": [
         {
-          "path": "vectors-dispatch-fence/cases/allow-state-event-after-fence/record.json",
+          "path": "corpora/vectors-dispatch-fence/cases/allow-state-event-after-fence/record.json",
           "sha256": "f8cc987fa6b1528a84146d86f177c567dda671c041aef6b1c65c8249f67af880"
         }
       ],
@@ -336,7 +336,7 @@
     {
       "files": [
         {
-          "path": "vectors-dispatch-fence/cases/allow-renewed-hold-covers-effect/record.json",
+          "path": "corpora/vectors-dispatch-fence/cases/allow-renewed-hold-covers-effect/record.json",
           "sha256": "3fe57cb420824949df927498d82e2f050f46c723874ff2d33509cc687adc5a5e"
         }
       ],
@@ -345,7 +345,7 @@
     {
       "files": [
         {
-          "path": "vectors-dispatch-fence/cases/allow-same-proposal-second-hop/record.json",
+          "path": "corpora/vectors-dispatch-fence/cases/allow-same-proposal-second-hop/record.json",
           "sha256": "f8588ca289dfa0a75d469b80921cbd7627ba89850bc30000e8979c2f2e283438"
         }
       ],
@@ -354,7 +354,7 @@
     {
       "files": [
         {
-          "path": "vectors-dispatch-fence/cases/allow-effect-ends-at-expiry/record.json",
+          "path": "corpora/vectors-dispatch-fence/cases/allow-effect-ends-at-expiry/record.json",
           "sha256": "5e350727a0b2a59db2967e8816b1310d58dfadfbd90c456c8f61ab120c031722"
         }
       ],
@@ -363,7 +363,7 @@
     {
       "files": [
         {
-          "path": "vectors-dispatch-fence/cases/contract-id-missing/record.json",
+          "path": "corpora/vectors-dispatch-fence/cases/contract-id-missing/record.json",
           "sha256": "79e365faf1fbf7bced6f4f7c05167ed43b94f18add5fce86de366c59fab91ac9"
         }
       ],
@@ -372,7 +372,7 @@
     {
       "files": [
         {
-          "path": "vectors-dispatch-fence/cases/contract-id-unknown/record.json",
+          "path": "corpora/vectors-dispatch-fence/cases/contract-id-unknown/record.json",
           "sha256": "3eacb9b4a475c87f0e896a376ab4b4365fa77499ff8c8c42b2ae739bf40348c6"
         }
       ],
@@ -381,7 +381,7 @@
     {
       "files": [
         {
-          "path": "vectors-dispatch-fence/cases/fence-rereads-state/record.json",
+          "path": "corpora/vectors-dispatch-fence/cases/fence-rereads-state/record.json",
           "sha256": "627e4aaecd8f022cd7bb5d594b463b61b54d957e16a76ecd64ce3892657babed"
         }
       ],
@@ -390,7 +390,7 @@
     {
       "files": [
         {
-          "path": "vectors-dispatch-fence/cases/label-raised-between-check-and-fence/record.json",
+          "path": "corpora/vectors-dispatch-fence/cases/label-raised-between-check-and-fence/record.json",
           "sha256": "4e20dad784c0c73eaba268b233360e4bd9ec833ed549c06f36620778a83f6819"
         }
       ],
@@ -399,7 +399,7 @@
     {
       "files": [
         {
-          "path": "vectors-dispatch-fence/cases/declared-runtime-exceeds-ttl/record.json",
+          "path": "corpora/vectors-dispatch-fence/cases/declared-runtime-exceeds-ttl/record.json",
           "sha256": "d5f14ce9331c17871e998a8f2bce8dacbe9164f99385e636e0703a2edc09392e"
         }
       ],
@@ -408,7 +408,7 @@
     {
       "files": [
         {
-          "path": "vectors-dispatch-fence/cases/tool-outlives-hold/record.json",
+          "path": "corpora/vectors-dispatch-fence/cases/tool-outlives-hold/record.json",
           "sha256": "07913e9589c719bdcc227e38488623a4b2bd58472f5eeeff6687c762e344c68b"
         }
       ],
@@ -417,7 +417,7 @@
     {
       "files": [
         {
-          "path": "vectors-dispatch-fence/cases/second-dispatch-after-expiry/record.json",
+          "path": "corpora/vectors-dispatch-fence/cases/second-dispatch-after-expiry/record.json",
           "sha256": "4c05594a3d4115d77797750c157286c295e5e3ecd914116ed1c250d80280709d"
         }
       ],
@@ -426,7 +426,7 @@
     {
       "files": [
         {
-          "path": "vectors-dispatch-fence/cases/commit-after-own-hold-expired/record.json",
+          "path": "corpora/vectors-dispatch-fence/cases/commit-after-own-hold-expired/record.json",
           "sha256": "9dd254e67030009148a372a9c8ccd75345601d4aeabdf9d8aeb5bea5b45043c6"
         }
       ],
@@ -449,7 +449,7 @@
       "reference": {
         "path": "release/intake/native/vectors-dispatch-fence.json",
         "serialization": "bytes",
-        "sha256": "16f2b5da8cf06a7e3180b80f40e2cefaf0a0fba826119082e85668118bfdb3a5"
+        "sha256": "1d9bbb3986b801b57494ea132f24c4ac4257ccb10d8ec98baa1c57b6f23c9c1e"
       }
     },
     {
@@ -483,11 +483,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "16f2b5da8cf06a7e3180b80f40e2cefaf0a0fba826119082e85668118bfdb3a5"
+        "sha256": "1d9bbb3986b801b57494ea132f24c4ac4257ccb10d8ec98baa1c57b6f23c9c1e"
       },
       {
         "process": "run-2",
-        "sha256": "16f2b5da8cf06a7e3180b80f40e2cefaf0a0fba826119082e85668118bfdb3a5"
+        "sha256": "1d9bbb3986b801b57494ea132f24c4ac4257ccb10d8ec98baa1c57b6f23c9c1e"
       }
     ],
     "seed": null,

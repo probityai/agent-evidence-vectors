@@ -14,8 +14,8 @@
       "path": "release/CORPUS-DIGESTS.txt",
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
-    "routine": "corpus_digest in vectors-approval-binding/gen_vectors.py",
-    "routine-file": "vectors-approval-binding/gen_vectors.py",
+    "routine": "corpus_digest in corpora/vectors-approval-binding/gen_vectors.py",
+    "routine-file": "corpora/vectors-approval-binding/gen_vectors.py",
     "serialization": "corpus-routine",
     "sha256": "54ad08f0dd40429440393a706ef7fed361e00c12ce3033d18b353231a9a266a5",
     "verdicts": {
@@ -29,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "2409211ac917546447b1ca270ff2f1c293724481d0aced8276d409ff2391921b"
+          "sha256": "87ef4f47693bc3ca5ac89ab20e2446bf8199d94baec371b18b9991fcf37c35a5"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,12 +38,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "2409211ac917546447b1ca270ff2f1c293724481d0aced8276d409ff2391921b"
+          "sha256": "87ef4f47693bc3ca5ac89ab20e2446bf8199d94baec371b18b9991fcf37c35a5"
         },
-        "swapped-in": "a8d8561496fb9f726058d23f37d7c4774eb5e8a74696ca383057498ac2334ff7",
+        "swapped-in": "f5e3e5fb409be7c98f93da7aa1f8543eac6e361ec78d5fa0b33ac9fcdca896ef",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-approval-binding/README.md",
+      "path": "corpora/vectors-approval-binding/README.md",
       "serialization": "bytes",
       "sha256": "d9bedd268fb90cc440e173d45fb28e3b874b083ea944bb7217e01484f4b0d30d"
     },
@@ -52,7 +52,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "2409211ac917546447b1ca270ff2f1c293724481d0aced8276d409ff2391921b"
+          "sha256": "87ef4f47693bc3ca5ac89ab20e2446bf8199d94baec371b18b9991fcf37c35a5"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,21 +61,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "2409211ac917546447b1ca270ff2f1c293724481d0aced8276d409ff2391921b"
+          "sha256": "87ef4f47693bc3ca5ac89ab20e2446bf8199d94baec371b18b9991fcf37c35a5"
         },
-        "swapped-in": "4fa8893eae25654b03ca4a8407a2520edaccc6ffb21033f2b2d38386a9f047b6",
+        "swapped-in": "e41edf67bb137d1889243aa149faea9ed338c2cecca2b0d80fe206f7d18b7bbc",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-approval-binding/check_vectors.py",
+      "path": "corpora/vectors-approval-binding/check_vectors.py",
       "serialization": "bytes",
-      "sha256": "d4ac412477d8248ca6295502f7d624848cc468aaf04b956fcacc6cee18701066"
+      "sha256": "db06580c49050f0e60af52e0dc042e539ed591812e604d787f79083b936c6923"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "2409211ac917546447b1ca270ff2f1c293724481d0aced8276d409ff2391921b"
+          "sha256": "87ef4f47693bc3ca5ac89ab20e2446bf8199d94baec371b18b9991fcf37c35a5"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,21 +84,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "2409211ac917546447b1ca270ff2f1c293724481d0aced8276d409ff2391921b"
+          "sha256": "87ef4f47693bc3ca5ac89ab20e2446bf8199d94baec371b18b9991fcf37c35a5"
         },
-        "swapped-in": "686696929a891b8fdc916e1ccad4edb384a9c3b65a81a0df011e808770c73aaf",
+        "swapped-in": "a3cc191f47ab115d21810921e5eaa4fb2c00794310ed3b9938991b492efb767f",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-approval-binding/gen_vectors.py",
+      "path": "corpora/vectors-approval-binding/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "d747054d8f581e797adfa6ef8d8e9a4154c7422c8bd3a2306562bf8eb015a9e0"
+      "sha256": "11cf6646eaac8ca42d056a88efa38dce59f70d06bde32494312dac55d9623e25"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "2409211ac917546447b1ca270ff2f1c293724481d0aced8276d409ff2391921b"
+          "sha256": "87ef4f47693bc3ca5ac89ab20e2446bf8199d94baec371b18b9991fcf37c35a5"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,14 +107,14 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "2409211ac917546447b1ca270ff2f1c293724481d0aced8276d409ff2391921b"
+          "sha256": "87ef4f47693bc3ca5ac89ab20e2446bf8199d94baec371b18b9991fcf37c35a5"
         },
-        "swapped-in": "625e805d3c4d76702c6fd3cc983d9a84f42d57a6c304ebbc973b2696d63999b4",
+        "swapped-in": "e413c0febb31f6ccd4fa3703b1447ecde6fd478dcd86936e325b0b278d72fc02",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-approval-binding/tests/test_corpus.py",
+      "path": "corpora/vectors-approval-binding/tests/test_corpus.py",
       "serialization": "bytes",
-      "sha256": "2118db61653ad63160be724e7c84f2df2a54b61d83e38c507c9e9c8030fae57e"
+      "sha256": "4a895cf5d70eab8a4e60cecd4a3d14bac38116b8802998fa814706746b8fa7b7"
     }
   ],
   "boundary": {
@@ -126,7 +126,7 @@
         "suffix": ""
       }
     ],
-    "root": "vectors-approval-binding"
+    "root": "corpora/vectors-approval-binding"
   },
   "byte-identity": {
     "pins": 72,
@@ -138,9 +138,9 @@
   "checker": {
     "commands": [
       "go build -o aee-verify ./cmd/aee-verify",
-      "aee-verify -json vectors-approval-binding",
-      "aee-verify -json vectors-approval-binding",
-      "aee-verify vectors-approval-binding"
+      "aee-verify -json corpora/vectors-approval-binding",
+      "aee-verify -json corpora/vectors-approval-binding",
+      "aee-verify corpora/vectors-approval-binding"
     ],
     "dependencies": [
       {
@@ -162,11 +162,11 @@
       "paths": [
         "aee",
         "cmd/aee-verify",
-        "corpora",
+        "corpusreaders",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "712a1932ef34c3166fdc0517647e0008db691ea8963f36e1331517673e968c64"
+      "sha256": "2417e926ca98a6022a518e36af066f6072afc9f6cb2009a276f1d6fbb0775bf7"
     },
     "runtime": {
       "name": "go",
@@ -175,7 +175,7 @@
     "shared-verification-code": [
       "aee",
       "cmd/aee-verify",
-      "corpora",
+      "corpusreaders",
       "go.mod"
     ]
   },
@@ -471,7 +471,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "cad6b37d0143d35cda7bfa566eb40fb29b495261043fbdf140d238bf38dc441e"
+    "sha256": "f454c387c95c7cfafb203d009e72066c951532a5d1e82d9935aec0a49c2fab1d"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -518,18 +518,18 @@
       "contract-id-missing",
       "contract-id-unknown"
     ],
-    "path": "vectors-approval-binding/MANIFEST.json",
+    "path": "corpora/vectors-approval-binding/MANIFEST.json",
     "sha256": "b06f2ecb9e6a315867d01ea413c8d2c4492e79703fb01cdf200cdc7f82472893"
   },
   "members": [
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/allow-bound/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/allow-bound/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/allow-bound/record.json",
+          "path": "corpora/vectors-approval-binding/cases/allow-bound/record.json",
           "sha256": "edf9debc8dd96359f8865324d47ac9ae8bc400cfadfc4ce524d33efae9bf11f8"
         }
       ],
@@ -538,11 +538,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/allow-other-approval-distinct-id/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/allow-other-approval-distinct-id/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/allow-other-approval-distinct-id/record.json",
+          "path": "corpora/vectors-approval-binding/cases/allow-other-approval-distinct-id/record.json",
           "sha256": "8ce3f0bb478fbab4c0d721a98d3d984c7b284133a05150ab03a3df9560ece89b"
         }
       ],
@@ -551,11 +551,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/allow-same-approval-presented-twice/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/allow-same-approval-presented-twice/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/allow-same-approval-presented-twice/record.json",
+          "path": "corpora/vectors-approval-binding/cases/allow-same-approval-presented-twice/record.json",
           "sha256": "f880c025f69d18f6ad94672aad225140864c31bb8880faddacef3e739858f88a"
         }
       ],
@@ -564,11 +564,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/allow-last-second-of-validity/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/allow-last-second-of-validity/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/allow-last-second-of-validity/record.json",
+          "path": "corpora/vectors-approval-binding/cases/allow-last-second-of-validity/record.json",
           "sha256": "6c6b802f33c5f1141f9e63b57a7489d9b1e20111081c080d275abb412a4cc571"
         }
       ],
@@ -577,11 +577,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/allow-release-first-served-at-decision/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/allow-release-first-served-at-decision/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/allow-release-first-served-at-decision/record.json",
+          "path": "corpora/vectors-approval-binding/cases/allow-release-first-served-at-decision/record.json",
           "sha256": "c197d50c8981e6c5fa123fde78d82e0aa98062879ef122ac97c5e13ee928120d"
         }
       ],
@@ -590,11 +590,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/allow-release-within-grace/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/allow-release-within-grace/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/allow-release-within-grace/record.json",
+          "path": "corpora/vectors-approval-binding/cases/allow-release-within-grace/record.json",
           "sha256": "08d97163571e9546240f851a20d40c570a34901ee81512a2b76332f274d47041"
         }
       ],
@@ -603,11 +603,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/approval-id-reused-different-content/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/approval-id-reused-different-content/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/approval-id-reused-different-content/record.json",
+          "path": "corpora/vectors-approval-binding/cases/approval-id-reused-different-content/record.json",
           "sha256": "fec2b26108064fc47d2248ed9da48ba83330d48864b26072d1b5ebe217e953ec"
         }
       ],
@@ -616,11 +616,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/approval-already-consumed/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/approval-already-consumed/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/approval-already-consumed/record.json",
+          "path": "corpora/vectors-approval-binding/cases/approval-already-consumed/record.json",
           "sha256": "9f14975c6032d782a096fc15388ab26d9d42574b206098627ba4675e12c23bd6"
         }
       ],
@@ -629,11 +629,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/approval-key-not-approvers/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/approval-key-not-approvers/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/approval-key-not-approvers/record.json",
+          "path": "corpora/vectors-approval-binding/cases/approval-key-not-approvers/record.json",
           "sha256": "665970a9b652781b4f15943c8edb4d441894a7b237e672a038531005eac5d0ee"
         }
       ],
@@ -642,11 +642,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/approval-asserted-in-tool-arguments/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/approval-asserted-in-tool-arguments/payload.bin",
           "sha256": "26a4191e4ca2147daba8b7818c64f3b81b09c154b0a09df540a5fd8f30b78bbd"
         },
         {
-          "path": "vectors-approval-binding/cases/approval-asserted-in-tool-arguments/record.json",
+          "path": "corpora/vectors-approval-binding/cases/approval-asserted-in-tool-arguments/record.json",
           "sha256": "8a020f1c579d2f145192f7fd5a1dbc6f5f64601558e4ceff09740c712f615f50"
         }
       ],
@@ -655,11 +655,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/same-client-other-user/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/same-client-other-user/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/same-client-other-user/record.json",
+          "path": "corpora/vectors-approval-binding/cases/same-client-other-user/record.json",
           "sha256": "42a42cb55f2c703c56d2209fe5f75ac74eb5bb9bed05995e299aa8c20265c6c8"
         }
       ],
@@ -668,11 +668,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/event-differs/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/event-differs/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/event-differs/record.json",
+          "path": "corpora/vectors-approval-binding/cases/event-differs/record.json",
           "sha256": "c2d0dd631b1268dcf5dfa386ee6fe00e1a5703872f68f2126db1dbda2dc4ff15"
         }
       ],
@@ -681,11 +681,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/phase-differs/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/phase-differs/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/phase-differs/record.json",
+          "path": "corpora/vectors-approval-binding/cases/phase-differs/record.json",
           "sha256": "35114786ae8db2b0fcce8fb460a00017cb48c79fbdee49d18d5aadc8dc5275e4"
         }
       ],
@@ -694,11 +694,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/payload-mutated-after-approval/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/payload-mutated-after-approval/payload.bin",
           "sha256": "74d7e13244f046cded734b90116df2f8cf2da84584b90b287d5be4645e2285b6"
         },
         {
-          "path": "vectors-approval-binding/cases/payload-mutated-after-approval/record.json",
+          "path": "corpora/vectors-approval-binding/cases/payload-mutated-after-approval/record.json",
           "sha256": "edf9debc8dd96359f8865324d47ac9ae8bc400cfadfc4ce524d33efae9bf11f8"
         }
       ],
@@ -707,11 +707,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/target-differs/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/target-differs/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/target-differs/record.json",
+          "path": "corpora/vectors-approval-binding/cases/target-differs/record.json",
           "sha256": "e16f87cb4acf949b18d55d1fef28d3d97f1523f1a7f010954a0add10dadfe627"
         }
       ],
@@ -720,11 +720,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/tool-differs/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/tool-differs/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/tool-differs/record.json",
+          "path": "corpora/vectors-approval-binding/cases/tool-differs/record.json",
           "sha256": "7bb485796225cb81b196642ce0dc9f0d4d97f0a6306efd383e530882de1a768a"
         }
       ],
@@ -733,11 +733,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/used-at-expiry/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/used-at-expiry/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/used-at-expiry/record.json",
+          "path": "corpora/vectors-approval-binding/cases/used-at-expiry/record.json",
           "sha256": "ea427a1c7801f9e51867008eaac46961cf2e265c7894d1ad67617c81e14645f4"
         }
       ],
@@ -746,11 +746,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/used-before-issued/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/used-before-issued/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/used-before-issued/record.json",
+          "path": "corpora/vectors-approval-binding/cases/used-before-issued/record.json",
           "sha256": "01eb0cd45b528b40bb967bbd8d10b34727ab33d3974fdd50abc2029745cac21e"
         }
       ],
@@ -759,11 +759,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/release-lookup-unavailable/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/release-lookup-unavailable/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/release-lookup-unavailable/record.json",
+          "path": "corpora/vectors-approval-binding/cases/release-lookup-unavailable/record.json",
           "sha256": "625b38933dc985baddb029d9a3b7534fa92a02ba74b65295c9a249a24811e541"
         }
       ],
@@ -772,11 +772,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/release-first-served-after-decision/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/release-first-served-after-decision/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/release-first-served-after-decision/record.json",
+          "path": "corpora/vectors-approval-binding/cases/release-first-served-after-decision/record.json",
           "sha256": "8fc045ff6f04975dac1cd139b015005c6d4510169b27ebea5978150760d254da"
         }
       ],
@@ -785,11 +785,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/release-retired-beyond-grace/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/release-retired-beyond-grace/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/release-retired-beyond-grace/record.json",
+          "path": "corpora/vectors-approval-binding/cases/release-retired-beyond-grace/record.json",
           "sha256": "fd26b20cae6249708759fde4785041d9f40dfa8c9d6acc539016c693ba5c18bb"
         }
       ],
@@ -798,11 +798,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/approval-renewed-same-bounds/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/approval-renewed-same-bounds/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/approval-renewed-same-bounds/record.json",
+          "path": "corpora/vectors-approval-binding/cases/approval-renewed-same-bounds/record.json",
           "sha256": "c7ec8bc00499d2fd8a9d16628e9e8c73a1bd423dabab3a6d788078e0ad0e9ed4"
         }
       ],
@@ -811,11 +811,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/allow-predecessor-before-replacement/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/allow-predecessor-before-replacement/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/allow-predecessor-before-replacement/record.json",
+          "path": "corpora/vectors-approval-binding/cases/allow-predecessor-before-replacement/record.json",
           "sha256": "016ee8e55e727989cfc64c523e6b4ff9828d087800db1e2016e1748b6894fc26"
         }
       ],
@@ -824,11 +824,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/approval-reused-after-renewal/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/approval-reused-after-renewal/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/approval-reused-after-renewal/record.json",
+          "path": "corpora/vectors-approval-binding/cases/approval-reused-after-renewal/record.json",
           "sha256": "b125d6a32d27e5c9a0db8a25b717ba7602608a8d0fd58b149c6e1def7bb8ce13"
         }
       ],
@@ -837,11 +837,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/approval-renewal-transition-not-accepted/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/approval-renewal-transition-not-accepted/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/approval-renewal-transition-not-accepted/record.json",
+          "path": "corpora/vectors-approval-binding/cases/approval-renewal-transition-not-accepted/record.json",
           "sha256": "304adc4bcc48267f001cdfa958c94be9b7690498bab2472876b8b74d2f2262a8"
         }
       ],
@@ -850,11 +850,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/approval-renewal-decision-not-distinct/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/approval-renewal-decision-not-distinct/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/approval-renewal-decision-not-distinct/record.json",
+          "path": "corpora/vectors-approval-binding/cases/approval-renewal-decision-not-distinct/record.json",
           "sha256": "ec4ddd6e3fcb685e8dfc3bcb60ac8202cff661fdc2e43c45bbb06a7e62f838b7"
         }
       ],
@@ -863,11 +863,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/approval-renewal-predecessor-decision-not-cited/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/approval-renewal-predecessor-decision-not-cited/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/approval-renewal-predecessor-decision-not-cited/record.json",
+          "path": "corpora/vectors-approval-binding/cases/approval-renewal-predecessor-decision-not-cited/record.json",
           "sha256": "ec140fae23e67342f8888349a9352032a45ed37a08beb7b57d8cea03ec6bc5f2"
         }
       ],
@@ -876,11 +876,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/approval-renewal-bounds-differ/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/approval-renewal-bounds-differ/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/approval-renewal-bounds-differ/record.json",
+          "path": "corpora/vectors-approval-binding/cases/approval-renewal-bounds-differ/record.json",
           "sha256": "03fc945c3c2ef7082f8e82a746394d8c33ccb1baff24aba9e10b7889f1d03766"
         }
       ],
@@ -889,11 +889,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/approval-renewal-reopens-consumed-effect/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/approval-renewal-reopens-consumed-effect/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/approval-renewal-reopens-consumed-effect/record.json",
+          "path": "corpora/vectors-approval-binding/cases/approval-renewal-reopens-consumed-effect/record.json",
           "sha256": "478c2ec8560ce78e6472e26d8c53d77016c1293f6f99e7d8c3b19d4eddcb84a0"
         }
       ],
@@ -902,11 +902,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/approval-renewal-reopens-uncertain-effect/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/approval-renewal-reopens-uncertain-effect/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/approval-renewal-reopens-uncertain-effect/record.json",
+          "path": "corpora/vectors-approval-binding/cases/approval-renewal-reopens-uncertain-effect/record.json",
           "sha256": "6f2f2a76d7afb905cd4dcbb350aabc15c4b746fb79509855b41ac35a228acc0a"
         }
       ],
@@ -915,11 +915,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/approval-renewal-accepted-after-use/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/approval-renewal-accepted-after-use/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/approval-renewal-accepted-after-use/record.json",
+          "path": "corpora/vectors-approval-binding/cases/approval-renewal-accepted-after-use/record.json",
           "sha256": "d50d78106a0cfde01b9da90aa312c02bca0f40b18da2e31901c36a465be5d124"
         }
       ],
@@ -928,11 +928,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/approval-renewal-predecessor-ambiguous/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/approval-renewal-predecessor-ambiguous/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/approval-renewal-predecessor-ambiguous/record.json",
+          "path": "corpora/vectors-approval-binding/cases/approval-renewal-predecessor-ambiguous/record.json",
           "sha256": "dc1c784a740a8a6993dd57fdfb4d3a087430369882bd1bf2781b93d448b05ef8"
         }
       ],
@@ -941,11 +941,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/approval-use-cites-predecessor/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/approval-use-cites-predecessor/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/approval-use-cites-predecessor/record.json",
+          "path": "corpora/vectors-approval-binding/cases/approval-use-cites-predecessor/record.json",
           "sha256": "cb9ed1b72054bc95f3b11b926dd98f25c11a10f2f3a5ff01e0c64d5fe36ff19a"
         }
       ],
@@ -954,11 +954,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/approval-use-cites-no-approval/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/approval-use-cites-no-approval/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/approval-use-cites-no-approval/record.json",
+          "path": "corpora/vectors-approval-binding/cases/approval-use-cites-no-approval/record.json",
           "sha256": "32074b20e247674999d534f5a19fff8e8365decd60f648145024d42853adef55"
         }
       ],
@@ -967,11 +967,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/contract-id-missing/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/contract-id-missing/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/contract-id-missing/record.json",
+          "path": "corpora/vectors-approval-binding/cases/contract-id-missing/record.json",
           "sha256": "3399a0016bf1f5ca2404dc685efcc5cfa14a5af23b0e447c0c82b649815534ea"
         }
       ],
@@ -980,11 +980,11 @@
     {
       "files": [
         {
-          "path": "vectors-approval-binding/cases/contract-id-unknown/payload.bin",
+          "path": "corpora/vectors-approval-binding/cases/contract-id-unknown/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
         {
-          "path": "vectors-approval-binding/cases/contract-id-unknown/record.json",
+          "path": "corpora/vectors-approval-binding/cases/contract-id-unknown/record.json",
           "sha256": "604609ab6d15646bfcb2e0198533a3619fe1436abd4dcdb2436fefd6d045c87c"
         }
       ],
@@ -1007,7 +1007,7 @@
       "reference": {
         "path": "release/intake/native/vectors-approval-binding.json",
         "serialization": "bytes",
-        "sha256": "2409211ac917546447b1ca270ff2f1c293724481d0aced8276d409ff2391921b"
+        "sha256": "87ef4f47693bc3ca5ac89ab20e2446bf8199d94baec371b18b9991fcf37c35a5"
       }
     },
     {
@@ -1041,11 +1041,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "2409211ac917546447b1ca270ff2f1c293724481d0aced8276d409ff2391921b"
+        "sha256": "87ef4f47693bc3ca5ac89ab20e2446bf8199d94baec371b18b9991fcf37c35a5"
       },
       {
         "process": "run-2",
-        "sha256": "2409211ac917546447b1ca270ff2f1c293724481d0aced8276d409ff2391921b"
+        "sha256": "87ef4f47693bc3ca5ac89ab20e2446bf8199d94baec371b18b9991fcf37c35a5"
       }
     ],
     "seed": null,

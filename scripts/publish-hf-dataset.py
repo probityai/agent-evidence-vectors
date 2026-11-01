@@ -9,7 +9,7 @@ requires the same bytes.
 
 What the dataset holds, all taken from the tag and nothing from a branch:
 
-  * every file of every top-level directory named `vectors` or `vectors-*`
+  * every file of every top-level directory named `vectors` or `corpora/vectors-*`
     that has a MANIFEST.json directly inside it, at the same paths;
   * `release/`, the maintainer-signed digest list with its timestamps;
   * `LICENSE` and `CITATION.cff`;
@@ -87,7 +87,7 @@ REGULAR_MODES = frozenset({"100644", "100755"})
 
 # Patterns for the files an upload replaces. The dataset's own .gitattributes is
 # created by the Hub and is not ours, so it is not named here.
-DELETE_PATTERNS = ["data/*", "release/*", "vectors/*", "vectors-*/*"]
+DELETE_PATTERNS = ["data/*", "release/*", "vectors/*", "corpora/vectors-*/*"]
 
 
 class PublishError(Exception):
@@ -156,7 +156,7 @@ def read_blobs(repo: Path, blobs: list[str]) -> Iterator[bytes]:
 
 
 def corpus_dirs(paths: list[str]) -> list[str]:
-    """Top-level directories named vectors or vectors-* with a MANIFEST.json."""
+    """Top-level directories named vectors or corpora/vectors-* with a MANIFEST.json."""
     present = set(paths)
     tops = {p.split("/", 1)[0] for p in paths if "/" in p}
     named = (t for t in tops if CORPUS_DIR_RE.fullmatch(t))
@@ -326,7 +326,7 @@ def derive_corpus(corpus: str, manifest: dict[str, Any]) -> dict[str, Any]:
 def derive_rows(root: Path) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     """(cases, corpora) from the manifests of the corpus directories under root.
 
-    Corpora are ordered by manifest path (so `vectors/` comes after `vectors-*`,
+    Corpora are ordered by manifest path (so `vectors/` comes after `corpora/vectors-*`,
     as in the first copy) and cases keep each manifest's own order.
     """
     names = sorted(

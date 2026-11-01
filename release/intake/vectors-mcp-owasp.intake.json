@@ -14,8 +14,8 @@
       "path": "release/CORPUS-DIGESTS.txt",
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
-    "routine": "corpus_digest in vectors-mcp-owasp/gen_vectors.py",
-    "routine-file": "vectors-mcp-owasp/gen_vectors.py",
+    "routine": "corpus_digest in corpora/vectors-mcp-owasp/gen_vectors.py",
+    "routine-file": "corpora/vectors-mcp-owasp/gen_vectors.py",
     "serialization": "corpus-routine",
     "sha256": "774d37545d7c6b51525fd555ece2e0baa6c94887fe4b52118c44ab2bb6e52a92",
     "verdicts": {
@@ -29,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,12 +38,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
-        "swapped-in": "5188d88fb2acfbc931aef3e189dbcbe0abc435bc23006684a45bddb1b1ad1cf5",
+        "swapped-in": "9307c1a99e8d0c426d08587032db8503a9ae773d3457f0bd679baaae43b21eca",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-owasp/INDEX.md",
+      "path": "corpora/vectors-mcp-owasp/INDEX.md",
       "serialization": "bytes",
       "sha256": "5cd8773cd9c8ce2690354b6cd92c33658227d2bd6a6b04bbc2e7cef36547aed6"
     },
@@ -52,7 +52,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -60,10 +60,10 @@
           "exit-code": 2,
           "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
         },
-        "swapped-in": "2e0ba36efa5dd64acd7d13bd2fa88f55eae6276574d46376c1f344d92101e0e7",
+        "swapped-in": "eafc09ca9b5c47024d3f1a49fec919f48455835bab0e67f39d56ea5efff4a22e",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-owasp/REGISTRY.json",
+      "path": "corpora/vectors-mcp-owasp/REGISTRY.json",
       "serialization": "bytes",
       "sha256": "53fb9ec27dddaa84c3ec6ecbe68dce2b0d9ab3544273e67776569468b3653325"
     },
@@ -72,7 +72,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -81,12 +81,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
-        "swapped-in": "952713971f4908d9b8f7e54a80bbd7ca702e196de8f8688016d57f71ccd5c48b",
+        "swapped-in": "d9b7dd78bd530257e0d4a1cd66e3acca73992dd8d2e2a5a44e0f8ea066008fc9",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-owasp/drafts/MCPTM-1.md",
+      "path": "corpora/vectors-mcp-owasp/drafts/MCPTM-1.md",
       "serialization": "bytes",
       "sha256": "3eb088695c04aabd92a42f4412b837c78a5b07b647577e36c8f8b23607da3351"
     },
@@ -95,7 +95,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -104,12 +104,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
-        "swapped-in": "e2193181ebe04b8c72d9c84bcf799f4d1cf11edaad2b5a0e379e5adbd43ec6d4",
+        "swapped-in": "bedf88d1cf66c3a03b979879096ae6101e5c13195ed5d3b132150d63bfa51ea4",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-owasp/drafts/MCPTM-10.md",
+      "path": "corpora/vectors-mcp-owasp/drafts/MCPTM-10.md",
       "serialization": "bytes",
       "sha256": "617c58b4a3c7868d258ee12d87c1e978073e9cbf082e6e0156321e67d271a8fc"
     },
@@ -118,7 +118,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -127,12 +127,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
-        "swapped-in": "8dff946a7af1a8cf7c369c73cf155e208818cda1179aa8b83a3ca425d05cfe07",
+        "swapped-in": "69bb4499608eae9404cebf4c919115bf47c22db86885f57aca255d27df7f51d9",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-owasp/drafts/MCPTM-2.md",
+      "path": "corpora/vectors-mcp-owasp/drafts/MCPTM-2.md",
       "serialization": "bytes",
       "sha256": "cfcb62a4e504e25b8908960a3ff44f96395938e0b0010b5e6e7f91c5b8b0c825"
     },
@@ -141,7 +141,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -150,12 +150,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
-        "swapped-in": "142a6382977b0dfa6a8b00a700000d015c46fe482678e84e92cbe34af3712738",
+        "swapped-in": "8e426987b2704d8c387ec85281abb97a2f28719ad71e39166e0bd2ee4b8a4a05",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-owasp/drafts/MCPTM-3.md",
+      "path": "corpora/vectors-mcp-owasp/drafts/MCPTM-3.md",
       "serialization": "bytes",
       "sha256": "fc7b2e1e48d5cef054f31b79254dace9b4100f210f867bd5acd3890f2594e67c"
     },
@@ -164,7 +164,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -173,12 +173,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
-        "swapped-in": "0d364b9e5a3b5e768bcb0bb209fe4b015e9f9cc56064ea9e5a4ff006b56c9ffa",
+        "swapped-in": "f2f2221388e56f2449c54017a1d0dde116ba1a69cae48a63b8622a9ebf476689",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-owasp/drafts/MCPTM-4.md",
+      "path": "corpora/vectors-mcp-owasp/drafts/MCPTM-4.md",
       "serialization": "bytes",
       "sha256": "2e718871601a81dd7c94ba588a395f0bc8d603ce84627adb4986b38c6a1cc9e2"
     },
@@ -187,7 +187,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -196,12 +196,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
-        "swapped-in": "5ee87ea4e7eb5888101bd7696bdfdf471e73abd92d7601a108029be1d46bbd55",
+        "swapped-in": "16dcb4fb996c57e103ee41e4d8c1f9f1c8b2b23e19920a299b62f4f22c673230",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-owasp/drafts/MCPTM-5.md",
+      "path": "corpora/vectors-mcp-owasp/drafts/MCPTM-5.md",
       "serialization": "bytes",
       "sha256": "c4f37739e57a328dc4ad80639c73f8514cec5f68ebb6a1ec34e7e5ec8c376fca"
     },
@@ -210,7 +210,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -219,12 +219,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
-        "swapped-in": "366ea4525cdd256736e87978067aac7376d3b3353358ab663cf239cf03a66f2e",
+        "swapped-in": "be78bcee800563bef2807eb7b096508535c52eeb15fc901145185bc9f805a1aa",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-owasp/drafts/MCPTM-6.md",
+      "path": "corpora/vectors-mcp-owasp/drafts/MCPTM-6.md",
       "serialization": "bytes",
       "sha256": "efce82090cb8d03e315f39e100ac5f1e25f7d96d2c3a8a7132eb5ce6918053f1"
     },
@@ -233,7 +233,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -242,12 +242,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
-        "swapped-in": "2909786a8e8419d9e369e80bff7a9a9d342024c91eb05662acf86bbfefe148eb",
+        "swapped-in": "e3162cac97f475ce8f4f38fc0605e94a643b7b5441cd472b2320f0f1da58ac00",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-owasp/drafts/MCPTM-7.md",
+      "path": "corpora/vectors-mcp-owasp/drafts/MCPTM-7.md",
       "serialization": "bytes",
       "sha256": "6b5dd48321d202c43afb2a756cdefcef1a815f2573012ccb0e9982edae3a4344"
     },
@@ -256,7 +256,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -265,12 +265,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
-        "swapped-in": "d3a1a70fb9ffdddc48e039a289edfe0e246b14e12cf962ae7ab19f68546fa2e4",
+        "swapped-in": "ed19768bc7326d04d7352590f5ec1a2494b1c466896e5039267c322f43ef0f32",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-owasp/drafts/MCPTM-8.md",
+      "path": "corpora/vectors-mcp-owasp/drafts/MCPTM-8.md",
       "serialization": "bytes",
       "sha256": "9f9512aaa265872242a003ad06a1f0c1b93364c6f46c1367e112e2191936415d"
     },
@@ -279,7 +279,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -288,12 +288,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
-        "swapped-in": "cec25bcf9faadf5c7733959799322db557d66297a6b1717ef73910693e1d29a1",
+        "swapped-in": "ebecd241782e662204a909ff430f324accc2ae5c76da743e13f68ebcd0b12ec0",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-owasp/drafts/MCPTM-9.md",
+      "path": "corpora/vectors-mcp-owasp/drafts/MCPTM-9.md",
       "serialization": "bytes",
       "sha256": "c3c1a7b3504281f1a41f3166ac344fd0883762c13a044000cf5ead64fdc6aa82"
     },
@@ -302,7 +302,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -311,12 +311,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
-        "swapped-in": "d6a3ea4b9ca8cf93db8cba7a7a4c7d1777fa4f509cd3b5841694955357661f0c",
+        "swapped-in": "c74b733802961d9b58d0a38003a82637a703ab9827309244f6e6ff56fac79d4a",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-owasp/drafts/MCPVS-1.md",
+      "path": "corpora/vectors-mcp-owasp/drafts/MCPVS-1.md",
       "serialization": "bytes",
       "sha256": "666168fcd6a809432d0987fafaf72ab85a422f99053fafd68fdb2e4e9d574a56"
     },
@@ -325,7 +325,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -334,12 +334,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
-        "swapped-in": "d45b1a888ca5e8ae76884976b1368ddd393bc8d88671ac758e07b20d90c3a971",
+        "swapped-in": "28038f3920a1c7daed9eee506dfdf3d0d66f5c3f8dd96f072af34db49ffcd73d",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-owasp/drafts/MCPVS-10.md",
+      "path": "corpora/vectors-mcp-owasp/drafts/MCPVS-10.md",
       "serialization": "bytes",
       "sha256": "5f70300d461c74b61634224b783f76ae187f60bd574f31b79361243e8ba2eda8"
     },
@@ -348,7 +348,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -357,12 +357,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
-        "swapped-in": "99996d3305e5d2736ce120e41f4f6a6988a28c66819abc3a7d625a3fac7a686d",
+        "swapped-in": "d05192b521916328e40703d5e11aea21ec35c98f191ca8aba3a33506f592952d",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-owasp/drafts/MCPVS-11.md",
+      "path": "corpora/vectors-mcp-owasp/drafts/MCPVS-11.md",
       "serialization": "bytes",
       "sha256": "0e3d85a31ac994805e9635595b03ae6e39ae64289b6f38478a7714eeb1e37389"
     },
@@ -371,7 +371,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -380,12 +380,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
-        "swapped-in": "4180a470d81d3aa7823d3747b99a4f5349c80f98fa2e8bada2e259b2319438c8",
+        "swapped-in": "3327da6c2840b1223df362223386f75de3f725836dc5fab027d184a34d8b4edd",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-owasp/drafts/MCPVS-12.md",
+      "path": "corpora/vectors-mcp-owasp/drafts/MCPVS-12.md",
       "serialization": "bytes",
       "sha256": "76f0402c8f980211cda81810f38c67f95c267d7774ea71e0dd42f537d8f1092c"
     },
@@ -394,7 +394,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -403,12 +403,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
-        "swapped-in": "99b6a3eaedc9b9aedbfe94b9a84dad0b87df33fa5b14a4d005f181cb6a404793",
+        "swapped-in": "af132ea7892a655419aff7c351b149fbca8caa948fbea6e2a0372c7daf1b378f",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-owasp/drafts/MCPVS-2.md",
+      "path": "corpora/vectors-mcp-owasp/drafts/MCPVS-2.md",
       "serialization": "bytes",
       "sha256": "d37377c9f7ce325c941f826814872535ced587c7e4815d1c4d94d5a66f3c9bb0"
     },
@@ -417,7 +417,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -426,12 +426,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
-        "swapped-in": "d755210210d94bf6336946f5d56d0a87d30fe6aeda8124542cb0e07c7a11d8e1",
+        "swapped-in": "68a83cf468a3a8153bfe7fe4edd8da191e2002538fac40cf79a9476bbebde48b",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-owasp/drafts/MCPVS-3.md",
+      "path": "corpora/vectors-mcp-owasp/drafts/MCPVS-3.md",
       "serialization": "bytes",
       "sha256": "50191ca8b18daf1d97ee8e56831e4657648dab1f9acd2fc72e5a97090006365f"
     },
@@ -440,7 +440,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -449,12 +449,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
-        "swapped-in": "a9182dc4acafd2465243b5a6c5322b0118b0dfd246409b12918d3b3f3c763fad",
+        "swapped-in": "b2e975c958d8fee7d4a5c27899b8f390b3c93421c4514f83bf0a740825bd2dd5",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-owasp/drafts/MCPVS-4.md",
+      "path": "corpora/vectors-mcp-owasp/drafts/MCPVS-4.md",
       "serialization": "bytes",
       "sha256": "4f85bc2ea9d106f5fb0eb96dc8deae2f1ebb6221931cbf22e7e581b85705f2ae"
     },
@@ -463,7 +463,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -472,12 +472,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
-        "swapped-in": "a4a32ac364fd9f565587e91cab9eb98262df13a15f4e1601d95ad62469dce3bf",
+        "swapped-in": "255ba999c2ba23c38e82c92b3a9186579c9ac8edfbf602e74f8069daec89c905",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-owasp/drafts/MCPVS-5.md",
+      "path": "corpora/vectors-mcp-owasp/drafts/MCPVS-5.md",
       "serialization": "bytes",
       "sha256": "b9d634e4955ea45afe574157c2597da9a3b8efc7620cf19f31b15a768cabe1ba"
     },
@@ -486,7 +486,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -495,12 +495,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
-        "swapped-in": "2c478bfa330a260097365acd33f4ee50dc64421ee74aad739d2c2d7ea6d4979d",
+        "swapped-in": "b7bb30985fe59a0c33c21106600aca06d7c5d81e5a5beda61d27ba21e03a52b3",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-owasp/drafts/MCPVS-6.md",
+      "path": "corpora/vectors-mcp-owasp/drafts/MCPVS-6.md",
       "serialization": "bytes",
       "sha256": "d5c7b7ab70b3216fd33aadf8d455b6d6a04fc8ec7e28db434b31048d6574e5db"
     },
@@ -509,7 +509,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -518,12 +518,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
-        "swapped-in": "1edb5d903cbd4ae22b804437d3f51c34edbae60afbe2d8f45a0ca5fa64f51447",
+        "swapped-in": "50ad8542133416509686e893d65610db8bc5c7f178e11845ff6346bd772b1aca",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-owasp/drafts/MCPVS-7.md",
+      "path": "corpora/vectors-mcp-owasp/drafts/MCPVS-7.md",
       "serialization": "bytes",
       "sha256": "fc10a46532e42e79b8ebe7cb2fe25bf1f951725c51bdf3631a4d2cb4e3a31f61"
     },
@@ -532,7 +532,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -541,12 +541,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
-        "swapped-in": "4c8de2100b5d5c202dc6b78669fa9187ed8bbb0d8b37429534782766181a19bf",
+        "swapped-in": "ad414697e29b0a44b5d7354f47e2a0b3ede7329df20b31c57a08d557a0e785a2",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-owasp/drafts/MCPVS-8.md",
+      "path": "corpora/vectors-mcp-owasp/drafts/MCPVS-8.md",
       "serialization": "bytes",
       "sha256": "04106900d7105bb2d78e7b46b782bd9d237582970fa2386ab8e58b62113f8e4f"
     },
@@ -555,7 +555,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -564,12 +564,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
-        "swapped-in": "e93ca36408a46c88b136e89dc002fb3bdad685f83910c8478600186af0eb9e80",
+        "swapped-in": "df201c697f8d88dd02ecbc0f622870d3d31dd64ad5908c4919e26ed9c0ce4c42",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-owasp/drafts/MCPVS-9.md",
+      "path": "corpora/vectors-mcp-owasp/drafts/MCPVS-9.md",
       "serialization": "bytes",
       "sha256": "84106a0f520a8dc9a60ded611be6a6ef2c172ad67b835338c8322fdaea5eff87"
     },
@@ -578,7 +578,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -587,12 +587,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+          "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
         },
-        "swapped-in": "739dd99940a6448e13d71f649a9a1f74d4365b28234e45fbb7bea5c3ab450a09",
+        "swapped-in": "70555292487c92b2bafecb35fe55becb8340c6c5882957858b6b78635023ab85",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-owasp/gen_vectors.py",
+      "path": "corpora/vectors-mcp-owasp/gen_vectors.py",
       "serialization": "bytes",
       "sha256": "a2ac59d723deb272793e9ff16f55ebae3d54215c53a42cfa7ce0cee21418286b"
     }
@@ -606,7 +606,7 @@
         "suffix": ".json"
       }
     ],
-    "root": "vectors-mcp-owasp"
+    "root": "corpora/vectors-mcp-owasp"
   },
   "byte-identity": {
     "pins": 24,
@@ -618,9 +618,9 @@
   "checker": {
     "commands": [
       "go build -o aee-verify ./cmd/aee-verify",
-      "aee-verify -json vectors-mcp-owasp",
-      "aee-verify -json vectors-mcp-owasp",
-      "aee-verify vectors-mcp-owasp"
+      "aee-verify -json corpora/vectors-mcp-owasp",
+      "aee-verify -json corpora/vectors-mcp-owasp",
+      "aee-verify corpora/vectors-mcp-owasp"
     ],
     "dependencies": [
       {
@@ -642,11 +642,11 @@
       "paths": [
         "aee",
         "cmd/aee-verify",
-        "corpora",
+        "corpusreaders",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "712a1932ef34c3166fdc0517647e0008db691ea8963f36e1331517673e968c64"
+      "sha256": "2417e926ca98a6022a518e36af066f6072afc9f6cb2009a276f1d6fbb0775bf7"
     },
     "runtime": {
       "name": "go",
@@ -655,7 +655,7 @@
     "shared-verification-code": [
       "aee",
       "cmd/aee-verify",
-      "corpora",
+      "corpusreaders",
       "go.mod"
     ]
   },
@@ -855,7 +855,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "0bebd3912dc9761403eb9f440853e0821884b82d5e1c1a83718806df912a7fd8"
+    "sha256": "e6d29c464649d4c61e73d282e15618233a9a43057e596107630aef199522e675"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -890,14 +890,14 @@
       "vf00978eedfd523dd",
       "vfd42ff5ffbca5a6a"
     ],
-    "path": "vectors-mcp-owasp/MANIFEST.json",
+    "path": "corpora/vectors-mcp-owasp/MANIFEST.json",
     "sha256": "cc6e993e183e7f4f32aaa0c286c437bc14cf8c0b2dbd83359ad569e0a7351ea1"
   },
   "members": [
     {
       "files": [
         {
-          "path": "vectors-mcp-owasp/records/v0485d4e3a7045da5.json",
+          "path": "corpora/vectors-mcp-owasp/records/v0485d4e3a7045da5.json",
           "sha256": "f31c7c20670cce4fe788d2d5fe6eed606da76fbbb9528739c32d7089526fe89a"
         }
       ],
@@ -906,7 +906,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-owasp/records/v0750d702c6997c76.json",
+          "path": "corpora/vectors-mcp-owasp/records/v0750d702c6997c76.json",
           "sha256": "dd064d79951ab7fa470b488a272d3a159dcb84821ae6d881c3bd732bc8d3294e"
         }
       ],
@@ -915,7 +915,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-owasp/records/v0b97895d220dbdff.json",
+          "path": "corpora/vectors-mcp-owasp/records/v0b97895d220dbdff.json",
           "sha256": "b01009ea6484b145ff3f93f045eb804cb70c0060beeefdef1e41bdeeea47de3a"
         }
       ],
@@ -924,7 +924,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-owasp/records/v15437a45ff8f20a0.json",
+          "path": "corpora/vectors-mcp-owasp/records/v15437a45ff8f20a0.json",
           "sha256": "ba637c195fb0773b409fdecd5add1d0b31f6b0dea4d274c81672ed88b4edccde"
         }
       ],
@@ -933,7 +933,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-owasp/records/v1ec276d80064b4c1.json",
+          "path": "corpora/vectors-mcp-owasp/records/v1ec276d80064b4c1.json",
           "sha256": "85894a9f04c06d9a7916e0954c181eb06308cfd336e47aa5a574872998a544b0"
         }
       ],
@@ -942,7 +942,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-owasp/records/v3011201523b79420.json",
+          "path": "corpora/vectors-mcp-owasp/records/v3011201523b79420.json",
           "sha256": "7cccec2f28f61f474a83dac87b0bb5182a6cc3cb0e4b89bb289ff4b6de926709"
         }
       ],
@@ -951,7 +951,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-owasp/records/v419a6804dbbe1516.json",
+          "path": "corpora/vectors-mcp-owasp/records/v419a6804dbbe1516.json",
           "sha256": "5df4551e18613a8bf4956b2417ee013c98ae9429551a28e7c2302cc6375b0d2b"
         }
       ],
@@ -960,7 +960,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-owasp/records/v59ca88c60d352d00.json",
+          "path": "corpora/vectors-mcp-owasp/records/v59ca88c60d352d00.json",
           "sha256": "0933ce7c49d3a3a0accc768d1725e4306195f4b9aed5836acdf7e178bd8adb73"
         }
       ],
@@ -969,7 +969,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-owasp/records/v61dfbac4f433a42f.json",
+          "path": "corpora/vectors-mcp-owasp/records/v61dfbac4f433a42f.json",
           "sha256": "0225adc906e412d8e7b5fb8983531ce295bc603e426f89c5b91b8f10c38483f3"
         }
       ],
@@ -978,7 +978,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-owasp/records/v7ca58f31d62f0078.json",
+          "path": "corpora/vectors-mcp-owasp/records/v7ca58f31d62f0078.json",
           "sha256": "e4a6ce8f327e97bc22bda7e315392fcd7f9deb8ef189fc1e94a2ae2f231d541e"
         }
       ],
@@ -987,7 +987,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-owasp/records/v8b1275f9de9f3277.json",
+          "path": "corpora/vectors-mcp-owasp/records/v8b1275f9de9f3277.json",
           "sha256": "cf95c13893a9dc49d614b0a7d2b28a2c5e9eb2f6e68efcfcb14769264382622c"
         }
       ],
@@ -996,7 +996,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-owasp/records/v8f46708e1d7c1425.json",
+          "path": "corpora/vectors-mcp-owasp/records/v8f46708e1d7c1425.json",
           "sha256": "32711cf5f2f3a8134aae1ce59a558e86ae1a3ffa3a11d641397635cd347b39f3"
         }
       ],
@@ -1005,7 +1005,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-owasp/records/v953b5b4255073fce.json",
+          "path": "corpora/vectors-mcp-owasp/records/v953b5b4255073fce.json",
           "sha256": "046f98b8be768da2ec0b849eff7a180ebec10b2a07bce3c92a96f6977ec08869"
         }
       ],
@@ -1014,7 +1014,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-owasp/records/vae1302b80de94a36.json",
+          "path": "corpora/vectors-mcp-owasp/records/vae1302b80de94a36.json",
           "sha256": "33ba14cd37364f14f8166446ad435c08e530b3a74458d20bb5f645d889b2caae"
         }
       ],
@@ -1023,7 +1023,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-owasp/records/vb9f53652f0a483a5.json",
+          "path": "corpora/vectors-mcp-owasp/records/vb9f53652f0a483a5.json",
           "sha256": "45a468325ce751f69b32fb32931bc41834eab751b9ed718d74467b0bcc6303a8"
         }
       ],
@@ -1032,7 +1032,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-owasp/records/vc29b5143f9111082.json",
+          "path": "corpora/vectors-mcp-owasp/records/vc29b5143f9111082.json",
           "sha256": "ddd95a7c425f491328c5462d575bb2dc3c991134cd97a9668f77f7c7feebd65f"
         }
       ],
@@ -1041,7 +1041,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-owasp/records/vc3b1d076622b1896.json",
+          "path": "corpora/vectors-mcp-owasp/records/vc3b1d076622b1896.json",
           "sha256": "fdd8049f08fc6cd7587cb8a2aef4078103f34f631e8955609eb29b3d2197b273"
         }
       ],
@@ -1050,7 +1050,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-owasp/records/vc579e08ed0c177c7.json",
+          "path": "corpora/vectors-mcp-owasp/records/vc579e08ed0c177c7.json",
           "sha256": "b359f72b83ad00c54c34f0a24ee984a4ff8f9858bbd7868a9dfd2e0e0dd2400c"
         }
       ],
@@ -1059,7 +1059,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-owasp/records/vcd379fd2f74f1fa0.json",
+          "path": "corpora/vectors-mcp-owasp/records/vcd379fd2f74f1fa0.json",
           "sha256": "903fd77554cecaeca650396893c12ca89aa9f36f6cac6c5c689699b12bfdcf87"
         }
       ],
@@ -1068,7 +1068,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-owasp/records/vd0ad172254fcddd8.json",
+          "path": "corpora/vectors-mcp-owasp/records/vd0ad172254fcddd8.json",
           "sha256": "50e90aeca708db23f4fb3f4ba8eb9aa1e8ce4bc8c7414b4ebc476d91eeaa8322"
         }
       ],
@@ -1077,7 +1077,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-owasp/records/vd6e9e91c00bb2d3f.json",
+          "path": "corpora/vectors-mcp-owasp/records/vd6e9e91c00bb2d3f.json",
           "sha256": "15be058695046b8f2dd45ee476e3fcd2449a1d4e66f961bb69c3da913520353e"
         }
       ],
@@ -1086,7 +1086,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-owasp/records/vef59b78d5a811466.json",
+          "path": "corpora/vectors-mcp-owasp/records/vef59b78d5a811466.json",
           "sha256": "1e463382ab4ec070663f42489133755146c56dfd0c4913efea53bbe72de4bb52"
         }
       ],
@@ -1095,7 +1095,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-owasp/records/vf00978eedfd523dd.json",
+          "path": "corpora/vectors-mcp-owasp/records/vf00978eedfd523dd.json",
           "sha256": "c2684292a0b877361b1147007cd857a4a7e741c31296f159bbc65b91c93dcdc9"
         }
       ],
@@ -1104,7 +1104,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-owasp/records/vfd42ff5ffbca5a6a.json",
+          "path": "corpora/vectors-mcp-owasp/records/vfd42ff5ffbca5a6a.json",
           "sha256": "a7fe35fe46b4183319774249a292e284e930a7bcf082f6b43f31829de31f4521"
         }
       ],
@@ -1127,7 +1127,7 @@
       "reference": {
         "path": "release/intake/native/vectors-mcp-owasp.json",
         "serialization": "bytes",
-        "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
       }
     },
     {
@@ -1258,11 +1258,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
       },
       {
         "process": "run-2",
-        "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        "sha256": "3b320c9294eea5ee129e6d4d257f865db446f2f28466e0f3d9406327b3fd2a28"
       }
     ],
     "seed": null,

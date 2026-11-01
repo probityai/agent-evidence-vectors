@@ -14,10 +14,10 @@ a relying party runs it with nothing installed.
    the predicate states is one function, registered in ``RULES`` in the order it
    runs, under the same name the Go rail's ``RuleNames()`` gives it.
 2. A JUDGE for the corpus: ``judge(directory)`` reads
-   ``vectors-observed-effect/MANIFEST.json`` and says of every member whether this
+   ``corpora/vectors-observed-effect/MANIFEST.json`` and says of every member whether this
    rail reaches the verdict and the code the manifest declares, plus the claims
    that belong to no single member. Its printed form is the lines
-   ``aee-verify <dir>`` prints from ``corpora/observedeffect.go``, so the two can
+   ``aee-verify <dir>`` prints from ``corpusreaders/observedeffect.go``, so the two can
    be diffed.
 
 Before this module the corpus was judged by nothing the harness runs: the rail
@@ -28,7 +28,7 @@ cannot judge and a corpus a harness finds clean are one exit status apart, which
 is the shape of report this repository exists to stop shipping.
 
 This is the third statement of these rules, after
-``vectors-observed-effect/check_vectors.py`` and ``observedeffect/rules.go``.
+``corpora/vectors-observed-effect/check_vectors.py`` and ``observedeffect/rules.go``.
 Neither is imported here, so the three can be diffed member by member and a
 defect in one does not travel; what this file does NOT claim is to have been
 written blind, because it was written with both of them open, and the rule set
@@ -1308,6 +1308,21 @@ class Judged:
         return counts
 
 
+def _spec_beside(directory: str, spec: str) -> str:
+    """The predicate specification a corpus names, read from beside the corpus.
+
+    In the wheel the specification sits beside the corpus, under
+    ``corpora/spec/``. In a checkout the corpus sits one level deeper, under
+    ``corpora/<id>/``, with the specification at the repository root, so the
+    grandparent is tried when the parent does not carry it.
+    """
+    near = os.path.join(directory, os.pardir, spec)
+    if os.path.isfile(near):
+        return near
+    far = os.path.join(directory, os.pardir, os.pardir, spec)
+    return far if os.path.isfile(far) else near
+
+
 def _policy(directory: str, manifest: dict[str, Any]) -> tuple[Policy, list[str], list[str]]:
     """What a consumer brings, and what could not be established about it.
 
@@ -1330,7 +1345,7 @@ def _policy(directory: str, manifest: dict[str, Any]) -> tuple[Policy, list[str]
         )
     else:
         try:
-            resolved = predicate_type_from_spec(os.path.join(directory, os.pardir, spec))
+            resolved = predicate_type_from_spec(_spec_beside(directory, spec))
         except OSError:
             notes.append(
                 f"{spec} is not beside this corpus, so the manifest's own predicateType is "
@@ -1631,7 +1646,7 @@ def render(judged: Judged, suite: str) -> str:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="observedeffect",
-        description="judge vectors-observed-effect/ with the reference rail for the "
+        description="judge corpora/vectors-observed-effect/ with the reference rail for the "
         "Observed Effect predicate",
     )
     parser.add_argument("directory", help="a corpus directory carrying MANIFEST.json")

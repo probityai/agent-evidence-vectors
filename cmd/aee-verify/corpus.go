@@ -6,7 +6,7 @@ import (
 	"io"
 	"sort"
 
-	"github.com/probityai/agent-evidence-vectors/corpora"
+	"github.com/probityai/agent-evidence-vectors/corpusreaders"
 )
 
 // runCorpus judges one corpus directory and returns the process exit code:
@@ -18,7 +18,7 @@ import (
 // in the message and never exits 0, because a skipped corpus and a clean corpus
 // otherwise print the same nothing.
 func runCorpus(dir string, jsonOut bool, stdout, stderr io.Writer) int {
-	result, err := corpora.Judge(dir)
+	result, err := corpusreaders.Judge(dir)
 	if err != nil {
 		fmt.Fprintf(stderr, "aee-verify: %v\n", err)
 		return 2
@@ -42,7 +42,7 @@ func runCorpus(dir string, jsonOut bool, stdout, stderr io.Writer) int {
 	return 1
 }
 
-func printCorpus(w io.Writer, r *corpora.Result) {
+func printCorpus(w io.Writer, r *corpusreaders.Result) {
 	fmt.Fprintf(w, "suite: %s\n", r.Suite)
 	fmt.Fprintf(w, "members: %d\n", len(r.Members))
 	counts := r.CountsByVerdict()

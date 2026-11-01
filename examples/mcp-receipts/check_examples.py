@@ -26,7 +26,7 @@ import sys
 from typing import Any
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-CORPUS = os.path.join(os.path.dirname(os.path.dirname(HERE)), "vectors-observed-effect")
+CORPUS = os.path.join(os.path.dirname(os.path.dirname(HERE)), "corpora", "vectors-observed-effect")
 sys.path.insert(0, CORPUS)
 
 import check_vectors as cv  # noqa: E402

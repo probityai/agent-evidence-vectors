@@ -14,7 +14,7 @@ from typing import Any
 SUITE = "source-text-coverage/v1"
 _HERE = Path(__file__).resolve().parent
 ROOT = (_HERE / "corpora" / "vectors-source-coverage" if
-        (_HERE / "corpora").exists() else _HERE.parents[1] / "vectors-source-coverage")
+        (_HERE / "corpora").exists() else _HERE.parents[1] / "corpora" / "vectors-source-coverage")
 
 
 def _digest(data: bytes) -> str:

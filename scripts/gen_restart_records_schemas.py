@@ -6,7 +6,7 @@
 Each schema checks the shape and the closed values of one decoded in-toto
 Statement. The cross-member rules in each predicate document (a claim wider
 than its partition, a result that contradicts its counts) are not expressible
-here and belong to the checker in ``vectors-restart-records/``.
+here and belong to the checker in ``corpora/vectors-restart-records/``.
 """
 
 from __future__ import annotations

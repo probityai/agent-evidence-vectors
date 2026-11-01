@@ -75,7 +75,8 @@ REMAINING = (("copyright_policy", "Article 53(1)(c)"),
              ("training_summary", "Article 53(1)(d)"))
 _HERE = Path(__file__).resolve().parent
 ROOT = (_HERE / "corpora" / "vectors-open-weight-art53" if
-        (_HERE / "corpora").exists() else _HERE.parents[1] / "vectors-open-weight-art53")
+        (_HERE / "corpora").exists()
+        else _HERE.parents[1] / "corpora" / "vectors-open-weight-art53")
 
 
 def _sha(data: bytes) -> str:

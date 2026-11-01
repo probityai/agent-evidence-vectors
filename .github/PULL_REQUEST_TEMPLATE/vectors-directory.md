@@ -1,4 +1,4 @@
-# A new `vectors-*` corpus
+# A new `corpora/vectors-*` corpus
 
 Use this template only for a pull request that adds a new sibling corpus
 directory. A change to an existing corpus is an ordinary pull request and
@@ -18,7 +18,7 @@ who trusts neither of us to fetch the bytes and recompute the answer.
 ## Checklist
 
 - [ ] **A manifest** at `vectors-<name>/MANIFEST.json` carrying, at minimum,
-      the fields `vectors-ai-agent-action/MANIFEST.json` carries: the suite name,
+      the fields `corpora/vectors-ai-agent-action/MANIFEST.json` carries: the suite name,
       the predicate type, the outcome counts, the specification digest and
       provenance, the comparison surface, and a `corpusDigest`.
 - [ ] **The digest is derived, never typed.** It is produced by regenerating the

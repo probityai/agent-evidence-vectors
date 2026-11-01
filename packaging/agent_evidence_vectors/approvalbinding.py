@@ -123,7 +123,7 @@ REPLACEMENT = "exclusive-replacement"
 CLOSED_EFFECT_STATES = ("CONSUMED", "UNCERTAIN_CLOSE")
 _HERE = Path(__file__).resolve().parent
 ROOT = (_HERE / "corpora" / "vectors-approval-binding" if
-        (_HERE / "corpora").exists() else _HERE.parents[1] / "vectors-approval-binding")
+        (_HERE / "corpora").exists() else _HERE.parents[1] / "corpora" / "vectors-approval-binding")
 
 
 def _sha(data: bytes) -> str:

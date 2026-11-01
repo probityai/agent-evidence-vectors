@@ -205,8 +205,14 @@ RECOMPUTERS: dict[str, Callable[[Path, dict[str, Any]], str]] = {
 }
 
 
-def tracked_manifests(root: Path) -> list[str]:
-    """Every tracked `<dir>/MANIFEST.json`, in path order."""
+def tracked_manifests(root: Path) -> list[tuple[str, str]]:
+    """Every tracked corpus manifest as (listed path, repository path), in listed order.
+
+    A corpus sits at the root (`vectors/`) or under `corpora/<id>/`. The list
+    names each one `<id>/MANIFEST.json` whichever it is, because outside checks
+    parse that column and join it into the wheel path
+    `agent_evidence_vectors/corpora/<id>/MANIFEST.json`.
+    """
     listed = subprocess.run(
         ["git", "-C", str(root), "ls-files", "-z", "*/MANIFEST.json"],
         env=git_environment(root),
@@ -214,11 +220,15 @@ def tracked_manifests(root: Path) -> list[str]:
         text=True,
         check=True,
     )
-    return sorted(
-        rel
-        for rel in listed.stdout.split("\0")
-        if rel.count("/") == 1 and rel.endswith("/MANIFEST.json")
-    )
+    found = []
+    for rel in listed.stdout.split("\0"):
+        if not rel.endswith("/MANIFEST.json"):
+            continue
+        if rel.count("/") == 1:
+            found.append((rel, rel))
+        elif rel.count("/") == 2 and rel.startswith("corpora/"):
+            found.append((rel.removeprefix("corpora/"), rel))
+    return sorted(found)
 
 
 def suite_revision(directory: Path) -> str:
@@ -235,7 +245,7 @@ def suite_revision(directory: Path) -> str:
     return NO_REVISION
 
 
-def line_for(root: Path, rel: str) -> str:
+def line_for(root: Path, listed: str, rel: str) -> str:
     """One corpus, recomputed and checked against what it declares."""
     directory = root / Path(rel).parent
     name = directory.name
@@ -261,7 +271,7 @@ def line_for(root: Path, rel: str) -> str:
     if not suite:
         raise CorpusError(f"{rel} names no suite, so its line would not say what it is")
     count = len(manifest["vectors"])
-    return f"{recomputed}  {rel}  {suite}  vectors={count}  {suite_revision(directory)}"
+    return f"{recomputed}  {listed}  {suite}  vectors={count}  {suite_revision(directory)}"
 
 
 def render(root: Path) -> str:
@@ -272,7 +282,7 @@ def render(root: Path) -> str:
             "no tracked */MANIFEST.json was found, so this would sign an empty list. "
             "An empty subject set passes every check while covering nothing."
         )
-    return HEADER + "".join(f"{line_for(root, rel)}\n" for rel in manifests)
+    return HEADER + "".join(f"{line_for(root, listed, rel)}\n" for listed, rel in manifests)
 
 
 def main() -> int:

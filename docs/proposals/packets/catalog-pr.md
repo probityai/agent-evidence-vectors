@@ -23,7 +23,7 @@ inline_code_spans_are: conformance/anchor-stream/
 | Their CI is one workflow, path-filtered to `census/**` | `verified_fact`, direct | `.github/workflows/census-diff.yml` in the clone at HEAD `71ad495`; it is the only file in `.github/workflows/` |
 | That workflow already uses `actions/setup-python@v5` at 3.12 on ubuntu-latest | `verified_fact`, direct | same file |
 | The two vendored scripts are stdlib-only Python 3 | `verified_fact`, direct | `run_verifier.py` and `gen_vectors.py` import only `argparse`, `base64`, `copy`, `hashlib`, `importlib`, `inspect`, `json`, `os`, `re`, `sys`, `unicodedata` |
-| The corpus's own integrity check is the Go verifier | `verified_fact`, direct | `go build -o aee-verify ./cmd/aee-verify && ./aee-verify vectors-anchor-stream/` exits 0 and prints `members: 32`, `accept: 12`, `reject: 20` |
+| The corpus's own integrity check is the Go verifier | `verified_fact`, direct | `go build -o aee-verify ./cmd/aee-verify && ./aee-verify corpora/vectors-anchor-stream/` exits 0 and prints `members: 32`, `accept: 12`, `reject: 20` |
 | The ratchet is green on the build it recorded and names 16 broken members against an older one | `verified_fact`, direct | `python3 run_verifier.py --verifier <v0.10> --expect recordings/anchors-verify-v0.10.json` exits 0; the same against v0.4 exits 1 with 16 `BROKE` lines |
 | 27 of 32 members agree with `anchors-verify-v0.10` | `verified_fact`, direct | `recordings/anchors-verify-v0.10.json`, 32 members, 27 true |
 | The vendored digest pins what was reviewed | `proposal` | this file |
@@ -109,7 +109,7 @@ I checked that it discriminates before proposing it. Pointed at the build it rec
 
 Two commands, stdlib only, no network at run time, no install step. gen_vectors.py --check asserts the vendored copy is byte-identical to what the generator emits, so a local edit to any vector cannot pass unnoticed.
 
-Whether the corpus does what its manifest claims is answered in my repository rather than yours, by a Go verifier that reads every corpus by its manifest and needs nothing from your CI: go build -o aee-verify ./cmd/aee-verify && ./aee-verify vectors-anchor-stream/ exits 0 over 32 members, 12 accept and 20 reject, and exit 1 names the member whose bytes moved.
+Whether the corpus does what its manifest claims is answered in my repository rather than yours, by a Go verifier that reads every corpus by its manifest and needs nothing from your CI: go build -o aee-verify ./cmd/aee-verify && ./aee-verify corpora/vectors-anchor-stream/ exits 0 over 32 members, 12 accept and 20 reject, and exit 1 names the member whose bytes moved.
 
 The second command is the ratchet described above. The job borrows the actions/setup-python@v5 at 3.12 that census-diff.yml already uses. Its path filter keeps it off every other push.
 

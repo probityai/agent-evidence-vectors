@@ -14,8 +14,8 @@
       "path": "release/CORPUS-DIGESTS.txt",
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
-    "routine": "corpus_digest in vectors-identity-binding/gen_vectors.py",
-    "routine-file": "vectors-identity-binding/gen_vectors.py",
+    "routine": "corpus_digest in corpora/vectors-identity-binding/gen_vectors.py",
+    "routine-file": "corpora/vectors-identity-binding/gen_vectors.py",
     "serialization": "corpus-routine",
     "sha256": "48ada7df04b9770699ba6e22239f189b35ae6ce096970d2f0688cd08ef7fa90c",
     "verdicts": {
@@ -29,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "7afcc0171aa20aed1251b8fe811747775948b59cd61df6037050bfe8359981c7"
+          "sha256": "c476b8f544f92d118ec35ca7ba8da9f0057edd729dc869c883ed1a00cda3b604"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,12 +38,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "7afcc0171aa20aed1251b8fe811747775948b59cd61df6037050bfe8359981c7"
+          "sha256": "c476b8f544f92d118ec35ca7ba8da9f0057edd729dc869c883ed1a00cda3b604"
         },
-        "swapped-in": "a77e4654fb81055880f41528a1cf25814d10caefe3f109065d2f8557f484df4c",
+        "swapped-in": "1c48468473b3d9377eb0d166baeb7bd9f0354d587a2f5432a2a875155e186704",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-identity-binding/README.md",
+      "path": "corpora/vectors-identity-binding/README.md",
       "serialization": "bytes",
       "sha256": "792b3ff47e708923d81e049dbcdbaf46da100745c83628ba31d22faf7f020787"
     },
@@ -52,7 +52,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "7afcc0171aa20aed1251b8fe811747775948b59cd61df6037050bfe8359981c7"
+          "sha256": "c476b8f544f92d118ec35ca7ba8da9f0057edd729dc869c883ed1a00cda3b604"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,21 +61,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "7afcc0171aa20aed1251b8fe811747775948b59cd61df6037050bfe8359981c7"
+          "sha256": "c476b8f544f92d118ec35ca7ba8da9f0057edd729dc869c883ed1a00cda3b604"
         },
-        "swapped-in": "547454809c01bda95a18c0b8f9117fdab0a826ea6daa4e86e348c6a6f09eda85",
+        "swapped-in": "7eb157326a4e2720e35b05992c145adca8357f6c89441a59c84427c7ae7fc842",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-identity-binding/check_vectors.py",
+      "path": "corpora/vectors-identity-binding/check_vectors.py",
       "serialization": "bytes",
-      "sha256": "9f90c8fca2a0792bea25d98bd80bca8aac4117fc5cf2a378378d4bd6004c4c96"
+      "sha256": "449a7650a75a98faad47f5441615a820b906bdb0d6cc58a876c09f245f8cdf47"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "7afcc0171aa20aed1251b8fe811747775948b59cd61df6037050bfe8359981c7"
+          "sha256": "c476b8f544f92d118ec35ca7ba8da9f0057edd729dc869c883ed1a00cda3b604"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,21 +84,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "7afcc0171aa20aed1251b8fe811747775948b59cd61df6037050bfe8359981c7"
+          "sha256": "c476b8f544f92d118ec35ca7ba8da9f0057edd729dc869c883ed1a00cda3b604"
         },
-        "swapped-in": "72297020b0d6cc93ab2d7a0123e10e9e09c61dc9213f0b33ee072501fa809d32",
+        "swapped-in": "7cfca09dca343e21c4e82576b4171d5865f3541a66027cfecbcabd61b236bc3c",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-identity-binding/gen_vectors.py",
+      "path": "corpora/vectors-identity-binding/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "a4dff0052d802d21e73c9ced77454425089e3cc947c50d2b6296623e561033a1"
+      "sha256": "1b2801c302208affbd8909f3afd72922257cbc9be7a6b8f97890209164dff45e"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "7afcc0171aa20aed1251b8fe811747775948b59cd61df6037050bfe8359981c7"
+          "sha256": "c476b8f544f92d118ec35ca7ba8da9f0057edd729dc869c883ed1a00cda3b604"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,14 +107,14 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "7afcc0171aa20aed1251b8fe811747775948b59cd61df6037050bfe8359981c7"
+          "sha256": "c476b8f544f92d118ec35ca7ba8da9f0057edd729dc869c883ed1a00cda3b604"
         },
-        "swapped-in": "ffeacb6de0b6428c318d830ceb152570d7835feeee94dff4da2a11560f1a2111",
+        "swapped-in": "656ed885147e730824c3c9122930af96f17a6f57619ebc0ab02f5bd6b547fbad",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-identity-binding/tests/test_corpus.py",
+      "path": "corpora/vectors-identity-binding/tests/test_corpus.py",
       "serialization": "bytes",
-      "sha256": "7ab0ba82b097e84f4325de03fe8b56d4172b4d0f61d93f5ab6de946ba14492a8"
+      "sha256": "b1591a1312690854ee1ac9e5c36bfcc533e575b646fe3d8c586d9d7958cf7f58"
     }
   ],
   "boundary": {
@@ -126,7 +126,7 @@
         "suffix": ""
       }
     ],
-    "root": "vectors-identity-binding"
+    "root": "corpora/vectors-identity-binding"
   },
   "byte-identity": {
     "pins": 35,
@@ -138,9 +138,9 @@
   "checker": {
     "commands": [
       "go build -o aee-verify ./cmd/aee-verify",
-      "aee-verify -json vectors-identity-binding",
-      "aee-verify -json vectors-identity-binding",
-      "aee-verify vectors-identity-binding"
+      "aee-verify -json corpora/vectors-identity-binding",
+      "aee-verify -json corpora/vectors-identity-binding",
+      "aee-verify corpora/vectors-identity-binding"
     ],
     "dependencies": [
       {
@@ -162,11 +162,11 @@
       "paths": [
         "aee",
         "cmd/aee-verify",
-        "corpora",
+        "corpusreaders",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "712a1932ef34c3166fdc0517647e0008db691ea8963f36e1331517673e968c64"
+      "sha256": "2417e926ca98a6022a518e36af066f6072afc9f6cb2009a276f1d6fbb0775bf7"
     },
     "runtime": {
       "name": "go",
@@ -175,7 +175,7 @@
     "shared-verification-code": [
       "aee",
       "cmd/aee-verify",
-      "corpora",
+      "corpusreaders",
       "go.mod"
     ]
   },
@@ -279,7 +279,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "d6b6330437740b57359966b432b556e9bd53ef3f8a647ac1bbfa29f543270258"
+    "sha256": "b87c86fec061c1fcb6320bfecd0e0dfd5a945e2fecdd2b048df03a78638b30f3"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -302,22 +302,22 @@
       "wba-fingerprint-mismatch",
       "payload-altered"
     ],
-    "path": "vectors-identity-binding/MANIFEST.json",
+    "path": "corpora/vectors-identity-binding/MANIFEST.json",
     "sha256": "42c8e9ce54c2a0586c37e665a50c21720fbada23c7e3a138a170f81573642f4c"
   },
   "members": [
     {
       "files": [
         {
-          "path": "vectors-identity-binding/cases/web-verified/case.json",
+          "path": "corpora/vectors-identity-binding/cases/web-verified/case.json",
           "sha256": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195"
         },
         {
-          "path": "vectors-identity-binding/cases/web-verified/did-alice.json",
+          "path": "corpora/vectors-identity-binding/cases/web-verified/did-alice.json",
           "sha256": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6"
         },
         {
-          "path": "vectors-identity-binding/cases/web-verified/envelope.json",
+          "path": "corpora/vectors-identity-binding/cases/web-verified/envelope.json",
           "sha256": "a7455e4be92a5ef90d52025a2c3fd9e536a504a6b6b3e717383c1689873df6e7"
         }
       ],
@@ -326,15 +326,15 @@
     {
       "files": [
         {
-          "path": "vectors-identity-binding/cases/wba-verified/case.json",
+          "path": "corpora/vectors-identity-binding/cases/wba-verified/case.json",
           "sha256": "a910b1848ad979b5cef48084bf34a22a56171451b9cf026bb922d8a2ea9a60ae"
         },
         {
-          "path": "vectors-identity-binding/cases/wba-verified/did-alice.json",
+          "path": "corpora/vectors-identity-binding/cases/wba-verified/did-alice.json",
           "sha256": "9f5065ef7922589c462ae6e5c38c2bd5781fd92c310016ac4beb5d7d612fca2e"
         },
         {
-          "path": "vectors-identity-binding/cases/wba-verified/envelope.json",
+          "path": "corpora/vectors-identity-binding/cases/wba-verified/envelope.json",
           "sha256": "587512d4c051e940ee96f53fb0745a0207c2629950e101d925c7a4f996868590"
         }
       ],
@@ -343,15 +343,15 @@
     {
       "files": [
         {
-          "path": "vectors-identity-binding/cases/web-signed-before-rotation/case.json",
+          "path": "corpora/vectors-identity-binding/cases/web-signed-before-rotation/case.json",
           "sha256": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195"
         },
         {
-          "path": "vectors-identity-binding/cases/web-signed-before-rotation/did-alice.json",
+          "path": "corpora/vectors-identity-binding/cases/web-signed-before-rotation/did-alice.json",
           "sha256": "138d263eb75a1a8203aa024d592e2309e85207465d6235d7c12d0d25dbc8514b"
         },
         {
-          "path": "vectors-identity-binding/cases/web-signed-before-rotation/envelope.json",
+          "path": "corpora/vectors-identity-binding/cases/web-signed-before-rotation/envelope.json",
           "sha256": "a7455e4be92a5ef90d52025a2c3fd9e536a504a6b6b3e717383c1689873df6e7"
         }
       ],
@@ -360,15 +360,15 @@
     {
       "files": [
         {
-          "path": "vectors-identity-binding/cases/key-not-in-authentication/case.json",
+          "path": "corpora/vectors-identity-binding/cases/key-not-in-authentication/case.json",
           "sha256": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195"
         },
         {
-          "path": "vectors-identity-binding/cases/key-not-in-authentication/did-alice.json",
+          "path": "corpora/vectors-identity-binding/cases/key-not-in-authentication/did-alice.json",
           "sha256": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6"
         },
         {
-          "path": "vectors-identity-binding/cases/key-not-in-authentication/envelope.json",
+          "path": "corpora/vectors-identity-binding/cases/key-not-in-authentication/envelope.json",
           "sha256": "a855c7c59695f50d1d6b358a6945dd89699b718ae97f658cd42ca70d25ba2c93"
         }
       ],
@@ -377,15 +377,15 @@
     {
       "files": [
         {
-          "path": "vectors-identity-binding/cases/key-absent-from-document/case.json",
+          "path": "corpora/vectors-identity-binding/cases/key-absent-from-document/case.json",
           "sha256": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195"
         },
         {
-          "path": "vectors-identity-binding/cases/key-absent-from-document/did-alice.json",
+          "path": "corpora/vectors-identity-binding/cases/key-absent-from-document/did-alice.json",
           "sha256": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6"
         },
         {
-          "path": "vectors-identity-binding/cases/key-absent-from-document/envelope.json",
+          "path": "corpora/vectors-identity-binding/cases/key-absent-from-document/envelope.json",
           "sha256": "e5ebf1040cda1c280953819052c41217fa8905c6cfd6de7bdee2592c8d6aecff"
         }
       ],
@@ -394,11 +394,11 @@
     {
       "files": [
         {
-          "path": "vectors-identity-binding/cases/did-unresolvable/case.json",
+          "path": "corpora/vectors-identity-binding/cases/did-unresolvable/case.json",
           "sha256": "470436ecd8edcbab5296d6d80b8c69b7e459bcdfd9f42f47b349a7c9752a79bb"
         },
         {
-          "path": "vectors-identity-binding/cases/did-unresolvable/envelope.json",
+          "path": "corpora/vectors-identity-binding/cases/did-unresolvable/envelope.json",
           "sha256": "b4d105f8851a95530d7e77be5f1e6a87a7cdd410e0a3c259289667d1c6dbf1b0"
         }
       ],
@@ -407,15 +407,15 @@
     {
       "files": [
         {
-          "path": "vectors-identity-binding/cases/web-key-rotated-out/case.json",
+          "path": "corpora/vectors-identity-binding/cases/web-key-rotated-out/case.json",
           "sha256": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195"
         },
         {
-          "path": "vectors-identity-binding/cases/web-key-rotated-out/did-alice.json",
+          "path": "corpora/vectors-identity-binding/cases/web-key-rotated-out/did-alice.json",
           "sha256": "138d263eb75a1a8203aa024d592e2309e85207465d6235d7c12d0d25dbc8514b"
         },
         {
-          "path": "vectors-identity-binding/cases/web-key-rotated-out/envelope.json",
+          "path": "corpora/vectors-identity-binding/cases/web-key-rotated-out/envelope.json",
           "sha256": "64ac8c874900a6e0c825fc0c7193d7f038939abb531c8589eb40cd64433aaba3"
         }
       ],
@@ -424,15 +424,15 @@
     {
       "files": [
         {
-          "path": "vectors-identity-binding/cases/wba-deactivated-before-signing/case.json",
+          "path": "corpora/vectors-identity-binding/cases/wba-deactivated-before-signing/case.json",
           "sha256": "a910b1848ad979b5cef48084bf34a22a56171451b9cf026bb922d8a2ea9a60ae"
         },
         {
-          "path": "vectors-identity-binding/cases/wba-deactivated-before-signing/did-alice.json",
+          "path": "corpora/vectors-identity-binding/cases/wba-deactivated-before-signing/did-alice.json",
           "sha256": "fd95ba8641e445cffeb8da17aef1302651f23a4e7b974ad4e17554e6a80db2e5"
         },
         {
-          "path": "vectors-identity-binding/cases/wba-deactivated-before-signing/envelope.json",
+          "path": "corpora/vectors-identity-binding/cases/wba-deactivated-before-signing/envelope.json",
           "sha256": "587512d4c051e940ee96f53fb0745a0207c2629950e101d925c7a4f996868590"
         }
       ],
@@ -441,19 +441,19 @@
     {
       "files": [
         {
-          "path": "vectors-identity-binding/cases/subject-swap/case.json",
+          "path": "corpora/vectors-identity-binding/cases/subject-swap/case.json",
           "sha256": "57846833b430b0cf19dbb6a0e5eebec6d1558934bcf382c96e9ddb062945c4b2"
         },
         {
-          "path": "vectors-identity-binding/cases/subject-swap/did-alice.json",
+          "path": "corpora/vectors-identity-binding/cases/subject-swap/did-alice.json",
           "sha256": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6"
         },
         {
-          "path": "vectors-identity-binding/cases/subject-swap/did-bob.json",
+          "path": "corpora/vectors-identity-binding/cases/subject-swap/did-bob.json",
           "sha256": "8e989d1f9c74290deed9407603c7c12a989fd2e188055d399e702431c92498d4"
         },
         {
-          "path": "vectors-identity-binding/cases/subject-swap/envelope.json",
+          "path": "corpora/vectors-identity-binding/cases/subject-swap/envelope.json",
           "sha256": "c2bb5f9a4b5c4576a57fe66d04fceb038f324eea68ccedf2cc80cd4c6e0f8f31"
         }
       ],
@@ -462,11 +462,11 @@
     {
       "files": [
         {
-          "path": "vectors-identity-binding/cases/did-malformed/case.json",
+          "path": "corpora/vectors-identity-binding/cases/did-malformed/case.json",
           "sha256": "470436ecd8edcbab5296d6d80b8c69b7e459bcdfd9f42f47b349a7c9752a79bb"
         },
         {
-          "path": "vectors-identity-binding/cases/did-malformed/envelope.json",
+          "path": "corpora/vectors-identity-binding/cases/did-malformed/envelope.json",
           "sha256": "cd2393b47a006b9074a8d8cff1c00c4db24b667b2f03cfa4585037843689b1d1"
         }
       ],
@@ -475,15 +475,15 @@
     {
       "files": [
         {
-          "path": "vectors-identity-binding/cases/wba-fingerprint-mismatch/case.json",
+          "path": "corpora/vectors-identity-binding/cases/wba-fingerprint-mismatch/case.json",
           "sha256": "a910b1848ad979b5cef48084bf34a22a56171451b9cf026bb922d8a2ea9a60ae"
         },
         {
-          "path": "vectors-identity-binding/cases/wba-fingerprint-mismatch/did-alice.json",
+          "path": "corpora/vectors-identity-binding/cases/wba-fingerprint-mismatch/did-alice.json",
           "sha256": "4c336327832dc99b403ef646675ae07ebb99686cca4dc523cec153200f43bd74"
         },
         {
-          "path": "vectors-identity-binding/cases/wba-fingerprint-mismatch/envelope.json",
+          "path": "corpora/vectors-identity-binding/cases/wba-fingerprint-mismatch/envelope.json",
           "sha256": "358008d0387fb8085a10174529d526530b6cc896a5984f12617e736b8a67c84a"
         }
       ],
@@ -492,15 +492,15 @@
     {
       "files": [
         {
-          "path": "vectors-identity-binding/cases/payload-altered/case.json",
+          "path": "corpora/vectors-identity-binding/cases/payload-altered/case.json",
           "sha256": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195"
         },
         {
-          "path": "vectors-identity-binding/cases/payload-altered/did-alice.json",
+          "path": "corpora/vectors-identity-binding/cases/payload-altered/did-alice.json",
           "sha256": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6"
         },
         {
-          "path": "vectors-identity-binding/cases/payload-altered/envelope.json",
+          "path": "corpora/vectors-identity-binding/cases/payload-altered/envelope.json",
           "sha256": "02073615284bd3029da448b5921e7ae4e2229165d98ef2971f7f77f2f42e8057"
         }
       ],
@@ -523,7 +523,7 @@
       "reference": {
         "path": "release/intake/native/vectors-identity-binding.json",
         "serialization": "bytes",
-        "sha256": "7afcc0171aa20aed1251b8fe811747775948b59cd61df6037050bfe8359981c7"
+        "sha256": "c476b8f544f92d118ec35ca7ba8da9f0057edd729dc869c883ed1a00cda3b604"
       }
     },
     {
@@ -630,11 +630,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "7afcc0171aa20aed1251b8fe811747775948b59cd61df6037050bfe8359981c7"
+        "sha256": "c476b8f544f92d118ec35ca7ba8da9f0057edd729dc869c883ed1a00cda3b604"
       },
       {
         "process": "run-2",
-        "sha256": "7afcc0171aa20aed1251b8fe811747775948b59cd61df6037050bfe8359981c7"
+        "sha256": "c476b8f544f92d118ec35ca7ba8da9f0057edd729dc869c883ed1a00cda3b604"
       }
     ],
     "seed": null,

@@ -10,7 +10,7 @@ validator can read off one document are carried: the HTTP binding, the
 privacy and security guidance, and the Collector-side behaviours are not
 properties of a Report and are not rows.
 
-``corpora/runmetrics.go`` is the same statement in Go and the parity test diffs
+``corpusreaders/runmetrics.go`` is the same statement in Go and the parity test diffs
 the two.
 """
 

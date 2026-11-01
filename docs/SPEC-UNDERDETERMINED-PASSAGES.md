@@ -120,7 +120,7 @@ refuses. The corpus now carries it as `vd3ead02f7ed16d0a`, beside
 `vd5e0b3f3d1fabb05` (`1E2`), `v97c6888cf7e88f42` (`1.0e2`) and
 `v13ede3e42645eb1a` (`-0e0`). The other two number edges a third-party rail
 named, `1e-7` and the decode-boundary literal `1234567890123456789`, are covered
-in `vectors-ai-agent-action/`; the last section of this file says where.
+in `corpora/vectors-ai-agent-action/`; the last section of this file says where.
 
 ---
 
@@ -587,7 +587,7 @@ safe-integer boundary already covered exited zero with four files. Both edges
 were genuinely absent. Both are now covered.
 
 **The decode-boundary case.** `v1a09354386e0ed57`, a reject vector in
-`vectors-ai-agent-action/` under `aia-c-14`, carrying the literal in a signed
+`corpora/vectors-ai-agent-action/` under `aia-c-14`, carrying the literal in a signed
 field and expecting the unsafe-integer refusal. Its expectation declares both
 renderings -- the literal as carried and the rendering a lossy parse produces --
 so a reader can compare a rail's own report against them. What it does **not** do
@@ -598,7 +598,7 @@ one and three above, and the vector's own description says so rather than
 implying more.
 
 **`1e-7`.** An accept, `vf1492a40d7a7c2c9`, and its reject twin,
-`v031c8b3d46725200`, in `vectors-ai-agent-action/` under `aia-c-16`, landed in
+`v031c8b3d46725200`, in `corpora/vectors-ai-agent-action/` under `aia-c-16`, landed in
 `8f81e37` (2026-10-04). The accept carries the double `3e7ad7f29abcaf48` as
 `1e-7`, the only text RFC 8785 produces for it; the twin carries the same double
 as `0.0000001`, the spelling a serializer without the 1e-6 exponent switch

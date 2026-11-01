@@ -306,9 +306,7 @@ def features(rel_path: str, raw: bytes) -> dict[str, set[str]]:
         f"shape.names={bucket(len(seen.names))}",
     }
     groups["paths"] = {f"path={p}" for p in seen.paths}
-    groups["lexicon"] = {f"name={n}" for n in seen.names} | {
-        f"str={s}" for s in seen.strings
-    }
+    groups["lexicon"] = {f"name={n}" for n in seen.names} | {f"str={s}" for s in seen.strings}
     return groups
 
 
@@ -406,10 +404,7 @@ def _separability_of(matrix: Any, labels: Any) -> Any:
     total = np.zeros(labels.shape[1], dtype=np.float64)
     for seed in FOLD_SEEDS:
         folds = np.stack(
-            [
-                _folds(labels[:, col], seed)
-                for col in range(labels.shape[1])
-            ],
+            [_folds(labels[:, col], seed) for col in range(labels.shape[1])],
             axis=1,
         )
         total += _cross_validated_auc(matrix, labels, folds)
@@ -452,8 +447,13 @@ def separability(rows: list[tuple[int, frozenset[str]]]) -> float:
 # --- corpus ----------------------------------------------------------------
 
 
+def corpus_dir(tree: Path, corpus: str) -> Path:
+    """The default corpus sits at the top level; every other one under corpora/."""
+    return tree / corpus if corpus == "vectors" else tree / "corpora" / corpus
+
+
 def load(tree: Path, corpus: str) -> list[tuple[int, dict[str, set[str]]]]:
-    base = tree / corpus
+    base = corpus_dir(tree, corpus)
     manifest = json.loads((base / "MANIFEST.json").read_text(encoding="utf-8"))
     rows: list[tuple[int, dict[str, set[str]]]] = []
     for entry in manifest["vectors"]:
@@ -470,10 +470,7 @@ def prepare(
     rows: list[tuple[int, dict[str, set[str]]]], surface: str
 ) -> list[tuple[int, frozenset[str]]]:
     selected = [s for s in SURFACES if s != "all"] if surface == "all" else [surface]
-    return [
-        (label, frozenset().union(*(groups[s] for s in selected)))
-        for label, groups in rows
-    ]
+    return [(label, frozenset().union(*(groups[s] for s in selected))) for label, groups in rows]
 
 
 def fingerprint(rows: list[tuple[int, dict[str, set[str]]]]) -> dict[str, int]:
@@ -581,9 +578,7 @@ def null_in_force(found: dict[str, Any], recorded: dict[str, Any], surface: str)
     return float(cell["null"])
 
 
-def _judge_surfaces(
-    corpus: str, found: dict[str, Any], recorded: dict[str, Any]
-) -> list[str]:
+def _judge_surfaces(corpus: str, found: dict[str, Any], recorded: dict[str, Any]) -> list[str]:
     problems: list[str] = []
     rows = recorded.get("surfaces", {})
     for surface in SURFACES:
@@ -643,9 +638,7 @@ def render(measured: dict[str, dict[str, Any]], baseline: dict[str, Any]) -> str
             )
             flag = "  OUTSIDE NULL" if null and value > null else ""
             note = f"  blocked by {row['blockedBy']}" if row.get("blockedBy") else ""
-            lines.append(
-                f"    {surface:12s} {value:.4f}  null {null:.4f}{flag}{note}"
-            )
+            lines.append(f"    {surface:12s} {value:.4f}  null {null:.4f}{flag}{note}")
     return "\n".join(lines)
 
 
@@ -711,9 +704,7 @@ def main() -> int:
     if args.sync:
         refused = sync(args.root, measured)
         if refused:
-            print(
-                f"FAIL: --sync will not record {len(refused)} rise(s):", file=sys.stderr
-            )
+            print(f"FAIL: --sync will not record {len(refused)} rise(s):", file=sys.stderr)
             for problem in refused:
                 print(f"  - {problem}", file=sys.stderr)
             return 1
@@ -735,8 +726,7 @@ def main() -> int:
 
     problems = judge(measured, baseline)
     if problems:
-        print(f"FAIL: the corpus is scoreable from its surface ({len(problems)}):",
-              file=sys.stderr)
+        print(f"FAIL: the corpus is scoreable from its surface ({len(problems)}):", file=sys.stderr)
         for problem in problems:
             print(f"  - {problem}", file=sys.stderr)
         print(render(measured, baseline), file=sys.stderr)

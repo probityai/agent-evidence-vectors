@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """The two admission rails agree, on the corpus and off it.
 
-``corpora/admission.go`` (driven here through ``aee-verify`` and the corpus's
+``corpusreaders/admission.go`` (driven here through ``aee-verify`` and the corpus's
 external contract) and ``packaging/agent_evidence_vectors/admission.py`` compute
 the admission conjunction independently. This test holds them to one answer:
 
-1. on every member of ``vectors-admission/``, both give the answer and the
+1. on every member of ``corpora/vectors-admission/``, both give the answer and the
    policy codes the manifest declares;
 2. on every statement in the corpus crossed with a policy perturbed one knob at
    a time, both give the SAME answer and codes as each other, whatever it is. A
@@ -26,7 +26,7 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
-CORPUS = ROOT / "vectors-admission"
+CORPUS = ROOT / "corpora" / "vectors-admission"
 sys.path.insert(0, str(ROOT / "packaging"))
 
 from agent_evidence_vectors import admission  # noqa: E402

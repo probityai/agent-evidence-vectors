@@ -36,8 +36,8 @@ jobs:
         run: python -m pytest interop/observed-code-digest-candidate/test_code_digest.py -q
       - name: Original reader and every mutation rule
         run: |
-          python vectors-observed-effect/check_vectors.py
-          python vectors-observed-effect/mutation_check.py
+          python corpora/vectors-observed-effect/check_vectors.py
+          python corpora/vectors-observed-effect/mutation_check.py
       - name: Go reader and candidate mutation controls
         env:
           GOWORK: 'off'

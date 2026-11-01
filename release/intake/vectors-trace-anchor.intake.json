@@ -14,8 +14,8 @@
       "path": "release/CORPUS-DIGESTS.txt",
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
-    "routine": "corpus_digest in vectors-trace-anchor/gen_vectors.py",
-    "routine-file": "vectors-trace-anchor/gen_vectors.py",
+    "routine": "corpus_digest in corpora/vectors-trace-anchor/gen_vectors.py",
+    "routine-file": "corpora/vectors-trace-anchor/gen_vectors.py",
     "serialization": "corpus-routine",
     "sha256": "bda9952cc553d78d4315e6119e745bb15bb0078fe70c2de29d196679d0582144",
     "verdicts": {
@@ -29,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "00edcb83ac681c00924ba4cc9693e3198474118e5de803af215f8f207aff9b25"
+          "sha256": "8b33a88c179e407075b1ba4cfafaae8a2a001fe421b9acfecd4915d88aaa3226"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,12 +38,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "00edcb83ac681c00924ba4cc9693e3198474118e5de803af215f8f207aff9b25"
+          "sha256": "8b33a88c179e407075b1ba4cfafaae8a2a001fe421b9acfecd4915d88aaa3226"
         },
-        "swapped-in": "f472609a3335b7b48d94852482801d42029eedce958e7f4d137bc74af39b8fc2",
+        "swapped-in": "637e509d6d69dcf7f1e873abf6264819f5d18810d44ef4cd0bbc4e9c0b54cc0b",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-trace-anchor/README.md",
+      "path": "corpora/vectors-trace-anchor/README.md",
       "serialization": "bytes",
       "sha256": "3fc7e47c78d61e864e8e0d46eb5a73fcfb32006831a688385749a2af57a3f9ef"
     },
@@ -52,7 +52,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "00edcb83ac681c00924ba4cc9693e3198474118e5de803af215f8f207aff9b25"
+          "sha256": "8b33a88c179e407075b1ba4cfafaae8a2a001fe421b9acfecd4915d88aaa3226"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,21 +61,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "00edcb83ac681c00924ba4cc9693e3198474118e5de803af215f8f207aff9b25"
+          "sha256": "8b33a88c179e407075b1ba4cfafaae8a2a001fe421b9acfecd4915d88aaa3226"
         },
-        "swapped-in": "81e851d9ac4d2ae02b80942f0650c55ccbacc688b6fbefc6f11c1b0083347396",
+        "swapped-in": "61740842bbe5d101cd547f0c68a2ef888805cc530c37521e4c888a73a0dbcf6f",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-trace-anchor/check_vectors.py",
+      "path": "corpora/vectors-trace-anchor/check_vectors.py",
       "serialization": "bytes",
-      "sha256": "c6c58b030199efa324200e3ccf69e6ca2bea53c2afa104021753d79caa04c601"
+      "sha256": "94624e026041e292a6642e9b9bee674320b8f71ba28a94674d3287d3379d5400"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "00edcb83ac681c00924ba4cc9693e3198474118e5de803af215f8f207aff9b25"
+          "sha256": "8b33a88c179e407075b1ba4cfafaae8a2a001fe421b9acfecd4915d88aaa3226"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,12 +84,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "00edcb83ac681c00924ba4cc9693e3198474118e5de803af215f8f207aff9b25"
+          "sha256": "8b33a88c179e407075b1ba4cfafaae8a2a001fe421b9acfecd4915d88aaa3226"
         },
-        "swapped-in": "179498300b2dac0dbe06b6f9ef422a001ca1cf901c828970239851572af74ffb",
+        "swapped-in": "31df2627c5f7aabdc5acd6358406d0569dccefa2dc02d571f5b311a278eaf814",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-trace-anchor/gen_vectors.py",
+      "path": "corpora/vectors-trace-anchor/gen_vectors.py",
       "serialization": "bytes",
       "sha256": "262e0ebedd6deb2ddfe9d7b28613e9b31345e072ca0705c104014c0bd7aa55c4"
     },
@@ -98,7 +98,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "00edcb83ac681c00924ba4cc9693e3198474118e5de803af215f8f207aff9b25"
+          "sha256": "8b33a88c179e407075b1ba4cfafaae8a2a001fe421b9acfecd4915d88aaa3226"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,14 +107,14 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "00edcb83ac681c00924ba4cc9693e3198474118e5de803af215f8f207aff9b25"
+          "sha256": "8b33a88c179e407075b1ba4cfafaae8a2a001fe421b9acfecd4915d88aaa3226"
         },
-        "swapped-in": "6b29b85c5818e78196da5012b8bb8c5927b9ca5d2495768e3483c3d1d86d3942",
+        "swapped-in": "1e9c76b24bbb7b18cfbaa25852f247e652afc24a72629a2efd3504d25d7f9a91",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-trace-anchor/tests/test_corpus.py",
+      "path": "corpora/vectors-trace-anchor/tests/test_corpus.py",
       "serialization": "bytes",
-      "sha256": "f19a081590129c0d57aa3224800a487e66946b3977e5c66b22b412c825725c32"
+      "sha256": "875cf1424c08656f4e4522db44f84cc12f3e1698b88dd10355a821928903b2aa"
     }
   ],
   "boundary": {
@@ -126,7 +126,7 @@
         "suffix": ""
       }
     ],
-    "root": "vectors-trace-anchor"
+    "root": "corpora/vectors-trace-anchor"
   },
   "byte-identity": {
     "pins": 27,
@@ -138,9 +138,9 @@
   "checker": {
     "commands": [
       "go build -o aee-verify ./cmd/aee-verify",
-      "aee-verify -json vectors-trace-anchor",
-      "aee-verify -json vectors-trace-anchor",
-      "aee-verify vectors-trace-anchor"
+      "aee-verify -json corpora/vectors-trace-anchor",
+      "aee-verify -json corpora/vectors-trace-anchor",
+      "aee-verify corpora/vectors-trace-anchor"
     ],
     "dependencies": [
       {
@@ -162,11 +162,11 @@
       "paths": [
         "aee",
         "cmd/aee-verify",
-        "corpora",
+        "corpusreaders",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "712a1932ef34c3166fdc0517647e0008db691ea8963f36e1331517673e968c64"
+      "sha256": "2417e926ca98a6022a518e36af066f6072afc9f6cb2009a276f1d6fbb0775bf7"
     },
     "runtime": {
       "name": "go",
@@ -175,7 +175,7 @@
     "shared-verification-code": [
       "aee",
       "cmd/aee-verify",
-      "corpora",
+      "corpusreaders",
       "go.mod"
     ]
   },
@@ -399,7 +399,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "1454d7c008f9f7d00fa73b9e665ac38556663486ab3dec0daa5130ac3f6daaf6"
+    "sha256": "542742443b0fba5dcc613a25bc21a4237983ea0098d40aa570cea071343c4a35"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -437,14 +437,14 @@
       "truncated-path",
       "proof-only-receipt-other-batch"
     ],
-    "path": "vectors-trace-anchor/MANIFEST.json",
+    "path": "corpora/vectors-trace-anchor/MANIFEST.json",
     "sha256": "445d0ddc90bb4f5aa5d281d2933c08a24034d17201a3885508040a3b4ea67c60"
   },
   "members": [
     {
       "files": [
         {
-          "path": "vectors-trace-anchor/cases/anchored-one-leaf/case.json",
+          "path": "corpora/vectors-trace-anchor/cases/anchored-one-leaf/case.json",
           "sha256": "2cd8ffdc759a9806b298ffaecb069d77617567ee70d486c440e4b71aa673bcc1"
         }
       ],
@@ -453,7 +453,7 @@
     {
       "files": [
         {
-          "path": "vectors-trace-anchor/cases/anchored-five-leaves-right-edge/case.json",
+          "path": "corpora/vectors-trace-anchor/cases/anchored-five-leaves-right-edge/case.json",
           "sha256": "7e85abbd1a53a94733ced5bc930500bb82bede0eba8632f0dce9d0ea17b55dfd"
         }
       ],
@@ -462,7 +462,7 @@
     {
       "files": [
         {
-          "path": "vectors-trace-anchor/cases/anchored-eight-leaves-interior/case.json",
+          "path": "corpora/vectors-trace-anchor/cases/anchored-eight-leaves-interior/case.json",
           "sha256": "f589012df00b62da2e4b20e1c0ca4383f6499bc0d93d97b6675a463054952ea7"
         }
       ],
@@ -471,7 +471,7 @@
     {
       "files": [
         {
-          "path": "vectors-trace-anchor/cases/anchored-proof-only-receipt/case.json",
+          "path": "corpora/vectors-trace-anchor/cases/anchored-proof-only-receipt/case.json",
           "sha256": "a74ab43c4292c917ccfff640a0d326a3947bf9d3ac82d9c967ce24e93ced30c3"
         }
       ],
@@ -480,7 +480,7 @@
     {
       "files": [
         {
-          "path": "vectors-trace-anchor/cases/anchored-non-ascii-signed-record/case.json",
+          "path": "corpora/vectors-trace-anchor/cases/anchored-non-ascii-signed-record/case.json",
           "sha256": "58a51e919006cbee388a992ebd40849e015aae3dfe85cd7c0f3698496c2a7460"
         }
       ],
@@ -489,7 +489,7 @@
     {
       "files": [
         {
-          "path": "vectors-trace-anchor/cases/anchored-max-safe-integer/case.json",
+          "path": "corpora/vectors-trace-anchor/cases/anchored-max-safe-integer/case.json",
           "sha256": "e428bd5f60d46a1b14a363599457c240728bcfa73808dfecf15970e0029381fd"
         }
       ],
@@ -498,7 +498,7 @@
     {
       "files": [
         {
-          "path": "vectors-trace-anchor/cases/anchored-transparency-names-other-batch/case.json",
+          "path": "corpora/vectors-trace-anchor/cases/anchored-transparency-names-other-batch/case.json",
           "sha256": "682c7e8e36381523a20659aa27421af178f1353dfc0b75b4985e25de3ef49410"
         }
       ],
@@ -507,7 +507,7 @@
     {
       "files": [
         {
-          "path": "vectors-trace-anchor/cases/receipt-absent/case.json",
+          "path": "corpora/vectors-trace-anchor/cases/receipt-absent/case.json",
           "sha256": "220ecea6055fea538b59cb3674f64deff824a36031dcfcf4be0c99576c792842"
         }
       ],
@@ -516,7 +516,7 @@
     {
       "files": [
         {
-          "path": "vectors-trace-anchor/cases/receipt-path-uppercase-hex/case.json",
+          "path": "corpora/vectors-trace-anchor/cases/receipt-path-uppercase-hex/case.json",
           "sha256": "f70e75915703b56ae8166efc9b4ad96503e65bd6d2b4f35ad7794cb31a09ea86"
         }
       ],
@@ -525,7 +525,7 @@
     {
       "files": [
         {
-          "path": "vectors-trace-anchor/cases/receipt-index-boolean/case.json",
+          "path": "corpora/vectors-trace-anchor/cases/receipt-index-boolean/case.json",
           "sha256": "8bfe9b07ec40845a49e59edb8bb9eed71d82b6d4e315a7c4227f32c6ffb2fad5"
         }
       ],
@@ -534,7 +534,7 @@
     {
       "files": [
         {
-          "path": "vectors-trace-anchor/cases/receipt-root-unprefixed/case.json",
+          "path": "corpora/vectors-trace-anchor/cases/receipt-root-unprefixed/case.json",
           "sha256": "5c37c79f92a01c3f64f327bab358287fa7e88da7ac7af9fe8d49266567785950"
         }
       ],
@@ -543,7 +543,7 @@
     {
       "files": [
         {
-          "path": "vectors-trace-anchor/cases/entry-absent/case.json",
+          "path": "corpora/vectors-trace-anchor/cases/entry-absent/case.json",
           "sha256": "d6a3ee77d0e860d128ea09cd610335e18f1ad65f0b98a8afca951e537ef9b76b"
         }
       ],
@@ -552,7 +552,7 @@
     {
       "files": [
         {
-          "path": "vectors-trace-anchor/cases/self-anchored-no-entry/case.json",
+          "path": "corpora/vectors-trace-anchor/cases/self-anchored-no-entry/case.json",
           "sha256": "9863c5ac84f8729fac09f30db778d877c33602fc7fea24d185a2093c947ea2ec"
         }
       ],
@@ -561,7 +561,7 @@
     {
       "files": [
         {
-          "path": "vectors-trace-anchor/cases/entry-leaf-count-boolean/case.json",
+          "path": "corpora/vectors-trace-anchor/cases/entry-leaf-count-boolean/case.json",
           "sha256": "582e58b10d1374344592149555a692260ab1505ee347c8e1f123e5fba178cadf"
         }
       ],
@@ -570,7 +570,7 @@
     {
       "files": [
         {
-          "path": "vectors-trace-anchor/cases/entry-producer-empty/case.json",
+          "path": "corpora/vectors-trace-anchor/cases/entry-producer-empty/case.json",
           "sha256": "6dbd5d3f9b68390387e70fb3b4f416192589a0efe22ba29fc94bc18db3e77a9f"
         }
       ],
@@ -579,7 +579,7 @@
     {
       "files": [
         {
-          "path": "vectors-trace-anchor/cases/entry-missing-ts/case.json",
+          "path": "corpora/vectors-trace-anchor/cases/entry-missing-ts/case.json",
           "sha256": "61ea8b09f8ed14d362667ff19eccebaa4386cfd5422100cdf8bec1ea16e15abd"
         }
       ],
@@ -588,7 +588,7 @@
     {
       "files": [
         {
-          "path": "vectors-trace-anchor/cases/self-anchored-with-real-entry/case.json",
+          "path": "corpora/vectors-trace-anchor/cases/self-anchored-with-real-entry/case.json",
           "sha256": "fb15911babbe5149cc162153cea5c553941b7156423cc6d92e677d8206310b49"
         }
       ],
@@ -597,7 +597,7 @@
     {
       "files": [
         {
-          "path": "vectors-trace-anchor/cases/receipt-root-lies/case.json",
+          "path": "corpora/vectors-trace-anchor/cases/receipt-root-lies/case.json",
           "sha256": "a7b851f745d1684206114515cca8a438e430e4ad88480ef44732e5b30efd469c"
         }
       ],
@@ -606,7 +606,7 @@
     {
       "files": [
         {
-          "path": "vectors-trace-anchor/cases/receipt-subtree-root/case.json",
+          "path": "corpora/vectors-trace-anchor/cases/receipt-subtree-root/case.json",
           "sha256": "b383fd4650e65b47d76eb03c94b1699d1dde64ef02e7476d274416efad5f38ad"
         }
       ],
@@ -615,7 +615,7 @@
     {
       "files": [
         {
-          "path": "vectors-trace-anchor/cases/receipt-count-lies/case.json",
+          "path": "corpora/vectors-trace-anchor/cases/receipt-count-lies/case.json",
           "sha256": "71cd8f933f6eb3b91baf6f8051777aecbae3d3708f4eec104b796ae494f09674"
         }
       ],
@@ -624,7 +624,7 @@
     {
       "files": [
         {
-          "path": "vectors-trace-anchor/cases/index-equals-count/case.json",
+          "path": "corpora/vectors-trace-anchor/cases/index-equals-count/case.json",
           "sha256": "7317f96127329c9b598efffb80a390e33a6b8fef195b077b6539ec0cc31e5a80"
         }
       ],
@@ -633,7 +633,7 @@
     {
       "files": [
         {
-          "path": "vectors-trace-anchor/cases/index-negative/case.json",
+          "path": "corpora/vectors-trace-anchor/cases/index-negative/case.json",
           "sha256": "b3aa46f6c660300305ca191038f7ffecf51971acff2796f4b6595240aa15a8dc"
         }
       ],
@@ -642,7 +642,7 @@
     {
       "files": [
         {
-          "path": "vectors-trace-anchor/cases/claim-float/case.json",
+          "path": "corpora/vectors-trace-anchor/cases/claim-float/case.json",
           "sha256": "a3aaf43b035dd69509ef5e01ff1ad0277d292bc393b997d802def2e7bbe3e6d2"
         }
       ],
@@ -651,7 +651,7 @@
     {
       "files": [
         {
-          "path": "vectors-trace-anchor/cases/claim-integer-2-53/case.json",
+          "path": "corpora/vectors-trace-anchor/cases/claim-integer-2-53/case.json",
           "sha256": "50e2a26cbfba10ae1700005d057bead6e89e37c237b036a699f73df675bb89b2"
         }
       ],
@@ -660,7 +660,7 @@
     {
       "files": [
         {
-          "path": "vectors-trace-anchor/cases/pre-signature-anchored/case.json",
+          "path": "corpora/vectors-trace-anchor/cases/pre-signature-anchored/case.json",
           "sha256": "97cca953735d52022e3242326df7ca5f02a987580e2ca3396a2a7d33e7684488"
         }
       ],
@@ -669,7 +669,7 @@
     {
       "files": [
         {
-          "path": "vectors-trace-anchor/cases/truncated-path/case.json",
+          "path": "corpora/vectors-trace-anchor/cases/truncated-path/case.json",
           "sha256": "30ec8d611c0a9bf9b0ea63ae47f7951b81994d4f153ae4186055b40b916d8fa5"
         }
       ],
@@ -678,7 +678,7 @@
     {
       "files": [
         {
-          "path": "vectors-trace-anchor/cases/proof-only-receipt-other-batch/case.json",
+          "path": "corpora/vectors-trace-anchor/cases/proof-only-receipt-other-batch/case.json",
           "sha256": "4263ab628c70e8f64a9ad8b4c47b569e22ba5fadda2e80e34480efcaac448aa4"
         }
       ],
@@ -701,7 +701,7 @@
       "reference": {
         "path": "release/intake/native/vectors-trace-anchor.json",
         "serialization": "bytes",
-        "sha256": "00edcb83ac681c00924ba4cc9693e3198474118e5de803af215f8f207aff9b25"
+        "sha256": "8b33a88c179e407075b1ba4cfafaae8a2a001fe421b9acfecd4915d88aaa3226"
       }
     },
     {
@@ -735,11 +735,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "00edcb83ac681c00924ba4cc9693e3198474118e5de803af215f8f207aff9b25"
+        "sha256": "8b33a88c179e407075b1ba4cfafaae8a2a001fe421b9acfecd4915d88aaa3226"
       },
       {
         "process": "run-2",
-        "sha256": "00edcb83ac681c00924ba4cc9693e3198474118e5de803af215f8f207aff9b25"
+        "sha256": "8b33a88c179e407075b1ba4cfafaae8a2a001fe421b9acfecd4915d88aaa3226"
       }
     ],
     "seed": null,

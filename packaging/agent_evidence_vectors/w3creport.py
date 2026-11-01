@@ -6,13 +6,13 @@ nothing installed.
 
 1. A VALIDATOR for a v0.1 report: ``rejections(report)`` returns the sorted
    requirement identifiers the report is rejected under, an empty list for a
-   report that conforms. Each identifier is minted by ``vectors-w3c-report/``
+   report that conforms. Each identifier is minted by ``corpora/vectors-w3c-report/``
    and bound by digest to a sentence of the list messages that fixed v0.1.
 2. A JUDGE for the corpus that holds the conformance set: ``judge(directory)``
-   reads ``vectors-w3c-report/MANIFEST.json`` and says of every member whether
+   reads ``corpora/vectors-w3c-report/MANIFEST.json`` and says of every member whether
    the validator rejects it under exactly the row the manifest expects. Its
    printed form is byte-identical to what ``aee-verify <dir>`` prints from the
-   Go reader in ``corpora/w3creport.go``, and ``scripts/w3c-rails-parity-test.py``
+   Go reader in ``corpusreaders/w3creport.go``, and ``scripts/w3c-rails-parity-test.py``
    holds the two together over the committed corpus and over mutated copies.
 3. An EMITTER: ``emit(conformance_report)`` turns the report the AEE harness
    writes into a v0.1 report, one per-check record per replayed vector, with
@@ -105,7 +105,7 @@ CHANGED = ("input artifact", "checker rule", "constraint")
 SLOTS = ("verdict", "fired-rule list", "error list")
 
 #: Requirement identifiers, minted by the corpus. The sentence each binds to
-#: is in vectors-w3c-report/MANIFEST.json and the corpus's INDEX.md.
+#: is in corpora/vectors-w3c-report/MANIFEST.json and the corpus's INDEX.md.
 R = {n: f"W3C-R-{n:03d}" for n in (*range(1, 30), 33)}
 
 
@@ -113,8 +113,8 @@ R = {n: f"W3C-R-{n:03d}" for n in (*range(1, 30), 33)}
 # Digests over a JSON value. The v0.1 text does not say which bytes enter one,
 # and the list proposed RFC 8785 under the identifier jcs-sha256 (2026Oct/0038)
 # with a numeric profile (0040, 0041). This module implements it, and so do the
-# Go reader (corpora/w3cjcs.go) and the Rust reader (readers/w3c-report-rs);
-# corpora/testdata/json-encodings.json holds the three to the same bytes.
+# Go reader (corpusreaders/w3cjcs.go) and the Rust reader (readers/w3c-report-rs);
+# corpusreaders/testdata/json-encodings.json holds the three to the same bytes.
 #
 #   jcs-sha256  a report's own digests over JSON values, each check-set leaf:
 #               the RFC 8785 canonical form, every number an integer of
@@ -1149,7 +1149,7 @@ def subject_rejections(
 
 
 # --------------------------------------------------------------------------
-# The judge: vectors-w3c-report/ against this validator.
+# The judge: corpora/vectors-w3c-report/ against this validator.
 # --------------------------------------------------------------------------
 
 #: The member fields the identifier digests. ``resolves`` is what the member
@@ -1628,7 +1628,7 @@ def exclusions(manifest: dict[str, Any]) -> list[dict[str, Any]]:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        prog="w3creport", description="judge vectors-w3c-report/ or emit a v0.1 report"
+        prog="w3creport", description="judge corpora/vectors-w3c-report/ or emit a v0.1 report"
     )
     sub = parser.add_subparsers(dest="command", required=True)
     judge_cmd = sub.add_parser("judge", help="judge a corpus directory against the validator")

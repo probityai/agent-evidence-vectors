@@ -9,7 +9,7 @@ from typing import Any
 from prior_witness import RECORD_DIGEST, digest, evaluate
 
 ROOT = Path(__file__).resolve().parent
-RECORD = ROOT.parent.parent / "vectors-observed-effect/statements/v162352770f2f6c1c.json"
+RECORD = ROOT.parent.parent / "corpora/vectors-observed-effect/statements/v162352770f2f6c1c.json"
 
 
 def read_pinned() -> tuple[bytes, dict[str, bytes]]:
