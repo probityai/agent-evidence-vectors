@@ -112,6 +112,55 @@ func recordedPointer(subject []byte, pointer string) (int64, bool) {
 }
 
 // recordedAnchorCodes is what an opentimestamps-bitcoin-header binding adds.
+// recordedAnchorMatched reports whether the proof carries a Bitcoin attestation
+// for the pinned block; ok is false when the proof cannot be read.
+func recordedAnchorMatched(b recordedBinding, proof, subject, header []byte) (matched, ok bool) {
+	digest := sha256.Sum256(subject)
+	attestations, err := arOTSAttestations(proof, digest[:])
+	if err != nil {
+		return false, false
+	}
+	for _, a := range attestations {
+		if !bytes.Equal(a.tag, arOTSBitcoin) {
+			continue
+		}
+		pr := &arTLS{data: a.payload}
+		height, err := pr.varuint()
+		if err != nil || pr.at != len(a.payload) {
+			return false, false
+		}
+		if height == *b.Block.Height && bytes.Equal(a.message, header[36:68]) {
+			matched = true
+		}
+	}
+	return matched, true
+}
+
+// recordedTimeCodes returns the ordering codes for the declared "after" and
+// "statedTime" pointers; ok is false when a pointer does not resolve.
+func recordedTimeCodes(b recordedBinding, subject, header []byte) (codes []string, ok bool) {
+	if b.After != nil {
+		seen, found := recordedPointer(subject, *b.After)
+		if !found {
+			return nil, false
+		}
+		if seen >= 0 && uint64(seen) >= *b.Block.Height {
+			codes = append(codes, "anchor-not-after-seen")
+		}
+	}
+	if b.StatedTime != nil {
+		stated, found := recordedPointer(subject, *b.StatedTime)
+		if !found {
+			return nil, false
+		}
+		seconds := int64(header[68]) | int64(header[69])<<8 | int64(header[70])<<16 | int64(header[71])<<24
+		if stated > seconds+recordedOTSTolerance {
+			codes = append(codes, "stated-after-anchor")
+		}
+	}
+	return codes, true
+}
+
 func recordedAnchorCodes(b recordedBinding, proof, subject []byte) []string {
 	if b.Block == nil || b.Block.Height == nil {
 		return []string{"binding-malformed"}
@@ -120,49 +169,19 @@ func recordedAnchorCodes(b recordedBinding, proof, subject []byte) []string {
 	if err != nil || len(header) != 80 || recordedBlockID(header) != b.Block.ID {
 		return []string{"binding-malformed"}
 	}
-	digest := sha256.Sum256(subject)
-	attestations, err := arOTSAttestations(proof, digest[:])
-	if err != nil {
+	matched, ok := recordedAnchorMatched(b, proof, subject, header)
+	if !ok {
 		return []string{"binding-malformed"}
-	}
-	matched := false
-	for _, a := range attestations {
-		if !bytes.Equal(a.tag, arOTSBitcoin) {
-			continue
-		}
-		pr := &arTLS{data: a.payload}
-		height, err := pr.varuint()
-		if err != nil || pr.at != len(a.payload) {
-			return []string{"binding-malformed"}
-		}
-		if height == *b.Block.Height && bytes.Equal(a.message, header[36:68]) {
-			matched = true
-		}
 	}
 	var codes []string
 	if !matched {
 		codes = append(codes, "anchor-mismatch")
 	}
-	if b.After != nil {
-		seen, ok := recordedPointer(subject, *b.After)
-		if !ok {
-			return []string{"binding-malformed"}
-		}
-		if seen >= 0 && uint64(seen) >= *b.Block.Height {
-			codes = append(codes, "anchor-not-after-seen")
-		}
+	later, ok := recordedTimeCodes(b, subject, header)
+	if !ok {
+		return []string{"binding-malformed"}
 	}
-	if b.StatedTime != nil {
-		stated, ok := recordedPointer(subject, *b.StatedTime)
-		if !ok {
-			return []string{"binding-malformed"}
-		}
-		seconds := int64(header[68]) | int64(header[69])<<8 | int64(header[70])<<16 | int64(header[71])<<24
-		if stated > seconds+recordedOTSTolerance {
-			codes = append(codes, "stated-after-anchor")
-		}
-	}
-	return codes
+	return append(codes, later...)
 }
 
 type recordedEntry struct {
