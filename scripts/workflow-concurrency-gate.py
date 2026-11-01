@@ -57,7 +57,9 @@ RUN_EVENTS = {"push", "pull_request", "pull_request_target"}
 
 
 def triggers(doc: dict[str, Any]) -> dict[str, Any]:
-    on = doc.get(True, doc.get("on"))
+    # YAML 1.1 parses the bare key "on" as boolean True.
+    raw: dict[Any, Any] = dict(doc)
+    on = raw.get(True, raw.get("on"))
     if isinstance(on, str):
         return {on: None}
     if isinstance(on, list):
