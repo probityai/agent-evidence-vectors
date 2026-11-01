@@ -13,7 +13,7 @@ from typing import Any
 
 _SPEC = importlib.util.spec_from_file_location(
     "agent_card_receipt_digest",
-    Path(__file__).resolve().parent.parent / "vectors-agent-card-receipt" / "digest.py",
+    Path(__file__).resolve().parents[1] / "vectors-agent-card-receipt" / "digest.py",
 )
 assert _SPEC and _SPEC.loader
 _BASE = importlib.util.module_from_spec(_SPEC)

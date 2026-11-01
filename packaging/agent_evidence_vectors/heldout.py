@@ -87,7 +87,12 @@ def load_suite(name_or_path: str) -> dict[str, Any]:
     if suite.get("schema") != SUITE_SCHEMA:
         raise RunnerError(f"{path} is not a {SUITE_SCHEMA} descriptor")
     corpus = suite["corpus"]
-    suite["_dir"] = corpus if os.path.isabs(corpus) else os.path.join(corpora_root(), corpus)
+    if os.path.isabs(corpus):
+        suite["_dir"] = corpus
+    else:
+        # A checkout keeps the corpora under corpora/<id>/; the wheel at <id>/.
+        nested = os.path.join(corpora_root(), "corpora", corpus)
+        suite["_dir"] = nested if os.path.isdir(nested) else os.path.join(corpora_root(), corpus)
     suite["_digest"] = _sha(raw)
     return suite
 

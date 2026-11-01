@@ -47,7 +47,7 @@ OWN = {"README.md", "source-lock.json", "upstream.py", "digest.py", "tests"}
 
 def _reader() -> ModuleType:
     """The packaged reader, which owns the corpus-digest preimage."""
-    path = HERE.parent / "packaging" / "agent_evidence_vectors" / "a2ajcs.py"
+    path = HERE.parents[1] / "packaging" / "agent_evidence_vectors" / "a2ajcs.py"
     spec = importlib.util.spec_from_file_location("a2ajcs", path)
     if spec is None or spec.loader is None:
         raise SystemExit(f"{path} could not be loaded")

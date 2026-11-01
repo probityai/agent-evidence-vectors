@@ -23,7 +23,7 @@ one signed presentation, with the policy that judges them. Three sets:
 Every record is a DSSE v1 envelope signed with Ed25519 by the published test
 keys below, so every byte in the corpus is a function of this file alone. The
 expected outcome of each case is written here by hand, in ``CASES``; the Go
-reader in ``corpora/delegationlifecycle.go`` derives its own and the two must
+reader in ``corpusreaders/delegationlifecycle.go`` derives its own and the two must
 agree.
 
 TEST KEYS ONLY. Each seed is the SHA-256 of a public label, so anyone can

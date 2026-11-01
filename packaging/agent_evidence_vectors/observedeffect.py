@@ -1308,6 +1308,21 @@ class Judged:
         return counts
 
 
+def _spec_beside(directory: str, spec: str) -> str:
+    """The predicate specification a corpus names, read from beside the corpus.
+
+    In the wheel the specification sits beside the corpus, under
+    ``corpora/spec/``. In a checkout the corpus sits one level deeper, under
+    ``corpora/<id>/``, with the specification at the repository root, so the
+    grandparent is tried when the parent does not carry it.
+    """
+    near = os.path.join(directory, os.pardir, spec)
+    if os.path.isfile(near):
+        return near
+    far = os.path.join(directory, os.pardir, os.pardir, spec)
+    return far if os.path.isfile(far) else near
+
+
 def _policy(directory: str, manifest: dict[str, Any]) -> tuple[Policy, list[str], list[str]]:
     """What a consumer brings, and what could not be established about it.
 
@@ -1330,7 +1345,7 @@ def _policy(directory: str, manifest: dict[str, Any]) -> tuple[Policy, list[str]
         )
     else:
         try:
-            resolved = predicate_type_from_spec(os.path.join(directory, os.pardir, spec))
+            resolved = predicate_type_from_spec(_spec_beside(directory, spec))
         except OSError:
             notes.append(
                 f"{spec} is not beside this corpus, so the manifest's own predicateType is "

@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT.parent / "packaging"))
+sys.path.insert(0, str(ROOT.parents[1] / "packaging"))
 
 import run_vectors  # noqa: E402, F401  (the reader borrows its Ed25519)
 from agent_evidence_vectors import agenticprocess  # noqa: E402

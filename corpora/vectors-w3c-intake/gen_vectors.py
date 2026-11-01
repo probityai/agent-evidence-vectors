@@ -39,7 +39,7 @@ from collections.abc import Callable
 from typing import Any
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.join(os.path.dirname(HERE), "packaging"))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(HERE)), "packaging"))
 
 from agent_evidence_vectors import w3cintake  # noqa: E402
 from agent_evidence_vectors.w3cintake import G  # noqa: E402

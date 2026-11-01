@@ -116,5 +116,5 @@ labels in `gen_vectors.py`. Anyone can re-derive them. They are test keys only.
   raw Ed25519 public key).
 - `mutation_check.py` switches off each rule in turn and fails unless some
   member changes its answer.
-- The Go reader in `corpora/agenticprocess.go` applies the same rules, so
+- The Go reader in `corpusreaders/agenticprocess.go` applies the same rules, so
   `aee-verify vectors-agentic-process-evidence` judges the corpus independently.

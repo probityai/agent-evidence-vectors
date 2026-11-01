@@ -1,6 +1,6 @@
 """The argv and path cases the Go done reader is held to, computed by the Python reader.
 
-``corpora/doneargv.go`` restates ``doneargv.py`` and the four ``posixpath`` functions it
+``corpusreaders/doneargv.go`` restates ``doneargv.py`` and the four ``posixpath`` functions it
 uses, because Go's path package normalizes differently. The corpora reach only a few
 spellings of a command, so this file lists the spellings that decide each rule, computes
 what Python answers for each, and keeps the answers in ``corpora/testdata/done-argv.json``.

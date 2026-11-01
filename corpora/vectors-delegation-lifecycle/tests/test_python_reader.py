@@ -15,7 +15,7 @@ from typing import Any
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT.parent / "packaging"))
+sys.path.insert(0, str(ROOT.parents[1] / "packaging"))
 
 import run_vectors  # noqa: E402, F401  (the reader borrows its Ed25519)
 from agent_evidence_vectors import delegationlifecycle as reader  # noqa: E402
@@ -61,7 +61,7 @@ def test_corpus_judges_clean_and_prints_the_lines_aee_verify_prints() -> None:
 
 def test_the_harness_routes_the_corpus_to_this_reader() -> None:
     run = subprocess.run(
-        [sys.executable, str(ROOT.parent / "packaging" / "run_vectors.py"),
+        [sys.executable, str(ROOT.parents[1] / "packaging" / "run_vectors.py"),
          "--vectors", str(ROOT)], capture_output=True, text=True, check=False)
     assert run.returncode == 0, run.stdout + run.stderr
     assert run.stdout == reader.render(reader.judge(ROOT))
@@ -69,7 +69,7 @@ def test_the_harness_routes_the_corpus_to_this_reader() -> None:
 
 def test_a_named_verifier_is_refused_not_scored() -> None:
     run = subprocess.run(
-        [sys.executable, str(ROOT.parent / "packaging" / "run_vectors.py"),
+        [sys.executable, str(ROOT.parents[1] / "packaging" / "run_vectors.py"),
          "--vectors", str(ROOT), "--verifier", "true"], capture_output=True, text=True,
         check=False)
     assert run.returncode == 2
@@ -177,7 +177,7 @@ def test_every_rule_changes_some_case() -> None:
 
 
 def test_the_rule_list_matches_the_go_reader() -> None:
-    go = (ROOT.parent / "corpora" / "delegationlifecycle.go").read_text()
+    go = (ROOT.parents[1] / "corpusreaders" / "delegationlifecycle.go").read_text()
     block = go[go.index("var dlRules"):go.index("func (delegationLifecycle) Judge")]
     names = tuple(part.strip().strip('",') for part in block.split("{", 1)[1].split("}")[0]
                   .replace("\n", " ").split(",") if part.strip())

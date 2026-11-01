@@ -33,7 +33,7 @@ import sys
 from typing import Any
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-ROOT = os.path.dirname(HERE)
+ROOT = os.path.dirname(os.path.dirname(HERE))
 SOURCE = os.path.join(ROOT, "vectors")
 SPEC = "spec/predicates/adversarial-execution-evidence.md"
 PROFILE = "spec/v1/statement.md"

@@ -17,7 +17,7 @@ import importlib.util
 from pathlib import Path
 from typing import Any
 
-_BINDING_DIGEST = Path(__file__).resolve().parent.parent / "vectors-artifact-binding" / "digest.py"
+_BINDING_DIGEST = Path(__file__).resolve().parents[1] / "vectors-artifact-binding" / "digest.py"
 
 
 def _binding_corpus_digest() -> Any:

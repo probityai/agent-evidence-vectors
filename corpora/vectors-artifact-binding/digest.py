@@ -24,7 +24,7 @@ import sys
 from typing import Any
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.join(os.path.dirname(HERE), "tools", "artifact-binding"))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(HERE)), "tools", "artifact-binding"))
 
 import jcs  # noqa: E402  (the path above is what makes this importable)
 

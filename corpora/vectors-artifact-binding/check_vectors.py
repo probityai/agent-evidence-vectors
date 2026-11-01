@@ -31,7 +31,7 @@ import sys
 from pathlib import Path
 
 HERE = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else Path(__file__).resolve().parent
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools" / "artifact-binding"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools" / "artifact-binding"))
 
 import jcs  # noqa: E402
 import manifest as manifest_mod  # noqa: E402

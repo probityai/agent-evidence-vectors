@@ -68,7 +68,7 @@ from pycose.keys.okp import OKPKey
 from pycose.messages.sign1message import Sign1Message
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-REPO = os.path.dirname(HERE)
+REPO = os.path.dirname(os.path.dirname(HERE))
 
 SUITE = "scitt-cose-carriage-conformance"
 PROFILE = "aee-scitt-cose/v0.1"

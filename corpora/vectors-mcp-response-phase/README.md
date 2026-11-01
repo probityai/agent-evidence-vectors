@@ -50,7 +50,7 @@ into an error's `message` and `data` — rather than any real exfiltration.
 
 ## The criterion is measured, not asserted
 
-`corpora/mcpresponsephase.go` (run by `aee-verify`) computes what a conformant
+`corpusreaders/mcpresponsephase.go` (run by `aee-verify`) computes what a conformant
 response phase must produce for each member's operation — the policy is invoked,
 and its decision decides the caller's completion — and compares it with what the
 member declares. An accept member must declare the conformant outcome; a reject

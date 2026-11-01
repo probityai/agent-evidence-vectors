@@ -33,7 +33,7 @@ from pathlib import Path
 from typing import Any, cast
 
 HERE = Path(__file__).resolve().parent
-TOOLS = HERE.parent / "tools" / "artifact-binding"
+TOOLS = HERE.parents[1] / "tools" / "artifact-binding"
 sys.path.insert(0, str(TOOLS))
 
 import fixture  # noqa: E402

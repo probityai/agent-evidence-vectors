@@ -34,7 +34,7 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
-REPO = ROOT.parent
+REPO = ROOT.parents[1]
 FIXTURE = REPO / "corpora" / "testdata" / "restart-records.json.gz"
 
 

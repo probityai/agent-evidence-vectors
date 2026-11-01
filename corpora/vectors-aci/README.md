@@ -40,7 +40,7 @@ another. Writing the reachability cases is what surfaced that split.
 
 ## The checks
 
-`MANIFEST.json` carries the table and `corpora/aci.go` carries its own copy; the
+`MANIFEST.json` carries the table and `corpusreaders/aci.go` carries its own copy; the
 reader asserts the two agree in both directions, because a check in one and not
 the other is a requirement nothing forces. A corpus-level check also refuses when
 any code is declared and no member forces it: without it, nineteen checks and one

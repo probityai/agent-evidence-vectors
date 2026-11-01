@@ -23,7 +23,7 @@ trip EXACTLY ONE rule, and every accept member exactly none. A member failing
 two rules cannot tell a reader which one its code refers to, which is the
 property the whole code column exists for.
 
-The Go rail in `corpora/selfreported.go` restates the same six rules and is run
+The Go rail in `corpusreaders/selfreported.go` restates the same six rules and is run
 by `aee-verify vectors-self-reported-record/`. Two rails over one corpus is the
 point: a rule both of them get wrong the same way is a rule neither of them
 checks, and the only way to find that is to write it twice.
@@ -46,7 +46,7 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 from digest import corpus_digest
 
 HERE = Path(__file__).resolve().parent
-REPO = HERE.parent
+REPO = HERE.parents[1]
 
 STATEMENT_TYPE = "https://in-toto.io/Statement/v1"
 PREDICATE_TYPE = (

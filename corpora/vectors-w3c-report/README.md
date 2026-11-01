@@ -61,7 +61,7 @@ is part of the member's identity, so a changed store is a changed member.
 ## Three readers, held identical
 
 `aee-verify vectors-w3c-report/` judges the corpus through
-`corpora/w3creport.go`, `python3 packaging/run_vectors.py --corpus
+`corpusreaders/w3creport.go`, `python3 packaging/run_vectors.py --corpus
 vectors-w3c-report` judges it through
 `packaging/agent_evidence_vectors/w3creport.py`, and `readers/w3c-report-rs`
 is a Rust reader written from the v0.1 text and the corpus alone

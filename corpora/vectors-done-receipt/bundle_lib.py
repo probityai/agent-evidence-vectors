@@ -26,7 +26,7 @@ from pathlib import Path
 from typing import Any
 
 HERE = Path(__file__).resolve().parent
-sys.path.insert(0, str(HERE.parent / "packaging"))
+sys.path.insert(0, str(HERE.parents[1] / "packaging"))
 
 from agent_evidence_vectors import donechecks as checks  # noqa: E402
 from agent_evidence_vectors import donerecords as rec  # noqa: E402

@@ -248,7 +248,7 @@ labels in `gen_vectors.py`. Anyone can re-derive them. They are test keys only.
 
 - `gen_vectors.py` writes every case, `MANIFEST.json` and `INDEX.md`
   deterministically, with each expected outcome written by hand.
-- `corpora/delegationlifecycle.go` is the verifier `aee-verify` runs. Its tests
+- `corpusreaders/delegationlifecycle.go` is the verifier `aee-verify` runs. Its tests
   swap each refused case with its accepted twin and require the derived outcome
   to move, and switch off each rule in turn and require some case to change.
 - `packaging/agent_evidence_vectors/delegationlifecycle.py` is the Python reader

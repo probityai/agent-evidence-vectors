@@ -149,10 +149,10 @@ one member frees for each. The sibling observed-effect corpus ran this same
 harness first and it found four inert rules and one dead clause in the predicate
 itself on the first run; this corpus was built with that result in hand.
 
-`corpora/selfreported.go` is the second rail, run by `aee-verify`. Its six rules
+`corpusreaders/selfreported.go` is the second rail, run by `aee-verify`. Its six rules
 are the Python verifier restated rather than imported: two independent spellings
 of one rule set is the only arrangement that finds a rule both implementations get
-wrong the same way. `corpora/readers_test.go` runs both halves over this corpus —
+wrong the same way. `corpusreaders/readers_test.go` runs both halves over this corpus —
 the committed corpus judged clean, and one byte flipped in one member judged dirty
 with the member NAMED.
 
@@ -210,7 +210,7 @@ zero on the member that distinguishes them rather than passing by accident.
 
 ## What this corpus is wired into, and what it is not
 
-Wired: `aee-verify` through a registered reader; `corpora/readers_test.go` on both
+Wired: `aee-verify` through a registered reader; `corpusreaders/readers_test.go` on both
 halves; `scripts/regenerability-gate.py` as a generator with its owned files
 declared; `scripts/vector-distinctness-gate.py`, which holds that no two
 identifiers here address one statement; `scripts/release-digests.py`, which

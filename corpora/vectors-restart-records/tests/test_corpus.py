@@ -15,7 +15,7 @@ import pytest
 from jsonschema import Draft202012Validator
 
 ROOT = Path(__file__).resolve().parents[1]
-REPO = ROOT.parent
+REPO = ROOT.parents[1]
 
 
 def _load(name: str, path: Path) -> Any:

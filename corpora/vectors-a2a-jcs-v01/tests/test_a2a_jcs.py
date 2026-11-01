@@ -19,7 +19,7 @@ import pytest
 
 HERE = Path(__file__).resolve().parent
 CORPUS = HERE.parent
-ROOT = CORPUS.parent
+ROOT = CORPUS.parents[1]
 RAIL = ROOT / "packaging" / "run_vectors.py"
 NAME = "vectors-a2a-jcs-v01"
 GOOD = [sys.executable, "-m", "agent_evidence_vectors.a2ajcs"]

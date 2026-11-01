@@ -107,6 +107,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import tomllib
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
@@ -5368,14 +5369,41 @@ def corpora_root() -> str:
     Installed from the wheel, this module sits at
     ``agent_evidence_vectors/run_vectors.py`` and the corpora are packaged
     beside it under ``corpora/``. In a checkout it sits at
-    ``packaging/run_vectors.py`` and the corpora are siblings of ``packaging/``.
-    The installed layout is checked first because a checkout never carries a
-    ``corpora/`` directory, so the two cannot be confused.
+    ``packaging/run_vectors.py`` and this returns the repository root; the
+    corpora sit where the registry's ``path`` says (see :func:`corpus_dir`).
+    The installed layout is detected by ``corpora/`` beside this file, which a
+    checkout's ``packaging/`` never carries, so the two cannot be confused.
     """
     here = os.path.dirname(os.path.abspath(__file__))
     if installed_layout():
         return os.path.join(here, "corpora")
     return os.path.normpath(os.path.join(here, os.pardir))
+
+
+def _registry_paths() -> dict[str, str]:
+    """Corpus id to repository-relative path, read from ``corpora/REGISTRY.toml``.
+
+    Only a checkout has the registry; the wheel places every corpus at
+    ``corpora/<id>/`` by its id, so it needs none.
+    """
+    path = os.path.join(corpora_root(), "corpora", "REGISTRY.toml")
+    with open(path, "rb") as handle:
+        rows = tomllib.load(handle).get("corpus", [])
+    return {str(row["id"]): str(row["path"]) for row in rows}
+
+
+def corpus_dir(name: str) -> str:
+    """The directory of the corpus published as ``name``, in either layout.
+
+    The wheel keeps every corpus at ``corpora/<id>/``. A checkout keeps each
+    one where the registry's ``path`` says, which is ``corpora/<id>/`` for all
+    but the root ``vectors/`` corpus. A name the registry does not carry is
+    joined as given, so the refusal names the path that was looked for.
+    """
+    root = corpora_root()
+    if installed_layout():
+        return os.path.join(root, name)
+    return os.path.join(root, _registry_paths().get(name, name))
 
 
 def shipped_corpora() -> list[str]:
@@ -5386,6 +5414,11 @@ def shipped_corpora() -> list[str]:
     offered the moment it goes.
     """
     root = corpora_root()
+    if not installed_layout():
+        return sorted(
+            name for name, rel in _registry_paths().items()
+            if os.path.isfile(os.path.join(root, rel, "MANIFEST.json"))
+        )
     found = []
     for name in os.listdir(root):
         if name == "vectors" or name.startswith("vectors-"):
@@ -5458,7 +5491,7 @@ def runtime_main(argv: list[str]) -> int:
     parser.add_argument("--runtime", required=True, help="adapter command line")
     parser.add_argument("--report", default="conformance-report.json")
     args = parser.parse_args(argv)
-    root = args.vectors or os.path.join(corpora_root(), args.corpus)
+    root = args.vectors or corpus_dir(args.corpus)
     manifest = _read_manifest_suite(root)
     if manifest != uncertaineffect.SUITE:
         print(
@@ -5551,7 +5584,7 @@ def rail_main() -> int:
     if args.self_test:
         return self_test()
     if args.vectors is None:
-        args.vectors = os.path.join(corpora_root(), args.corpus)
+        args.vectors = corpus_dir(args.corpus)
     if args.report is None and installed_layout():
         # Beside this file is site-packages when the wheel is installed, and a
         # report written there is one nobody finds. The working directory is

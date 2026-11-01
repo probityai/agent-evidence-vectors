@@ -4,7 +4,7 @@ of the reference reader load-bearing?
 
     uv run --extra generators python vectors-agent-decision/check_vectors.py
 
-This file is the Python rail's reader for the corpus; `corpora/agentdecision.go`
+This file is the Python rail's reader for the corpus; `corpusreaders/agentdecision.go`
 is the Go rail's, written to the same README rules, and the two must agree on
 every member. Three checks, each able to fail on its own:
 
@@ -38,7 +38,7 @@ from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-REPO = os.path.dirname(HERE)
+REPO = os.path.dirname(os.path.dirname(HERE))
 sys.path.insert(0, HERE)
 
 from canonical import (  # noqa: E402

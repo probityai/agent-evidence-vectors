@@ -40,7 +40,7 @@ from pathlib import Path
 from typing import Any
 
 HERE = Path(__file__).resolve().parent
-TOOLS = HERE.parent / "tools" / "artifact-binding"
+TOOLS = HERE.parents[1] / "tools" / "artifact-binding"
 sys.path.insert(0, str(TOOLS))
 
 import manifest as manifest_mod  # noqa: E402
