@@ -11,7 +11,9 @@ import unittest
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-_spec = importlib.util.spec_from_file_location("action_download_budget", HERE / "action-download-budget.py")
+_spec = importlib.util.spec_from_file_location(
+    "action_download_budget", HERE / "action-download-budget.py"
+)
 assert _spec and _spec.loader
 gate = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(gate)

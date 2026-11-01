@@ -24,9 +24,12 @@ BUDGET_BYTES = 15_000_000
 
 
 def archive_size(ref: str) -> int:
-    proc = subprocess.run(["git", "archive", "--format=tar.gz", ref], capture_output=True, check=False)
+    proc = subprocess.run(
+        ["git", "archive", "--format=tar.gz", ref], capture_output=True, check=False
+    )
     if proc.returncode != 0:
-        raise SystemExit(f"action-download-budget: git archive {ref} failed: {proc.stderr.decode(errors='replace')}")
+        err = proc.stderr.decode(errors="replace")
+        raise SystemExit(f"action-download-budget: git archive {ref} failed: {err}")
     return len(proc.stdout)
 
 
