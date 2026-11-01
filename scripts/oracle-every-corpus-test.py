@@ -90,7 +90,6 @@ REFUSES_A_VERIFIER = (
     "vectors-test-tampering",
     "vectors-grader-isolation",
     "vectors-done-probes",
-
     "vectors-ietf-agent-record-drafts",
     "vectors-mcp-owasp",
     "vectors-mcp-record-contract",

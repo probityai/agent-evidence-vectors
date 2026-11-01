@@ -64,6 +64,8 @@ from typing import Any
 REPO_ROOT = Path(__file__).resolve().parent.parent
 GATE = REPO_ROOT / "scripts" / "surface-leakage-gate.py"
 BASELINE_REL = "docs/SURFACE-LEAKAGE-BASELINE.json"
+
+
 #: The corpora the fixture must carry, DERIVED from the gate rather than
 #: restated. They were two separate lists and they drifted: the gate gained
 #: vectors-scitt-cose and this list did not, so every case staged a tree with
@@ -170,9 +172,7 @@ def write_manifest(root: Path, corpus: str, data: dict[str, Any]) -> None:
 
 
 def baseline(root: Path) -> dict[str, Any]:
-    loaded: dict[str, Any] = json.loads(
-        (root / BASELINE_REL).read_text(encoding="utf-8")
-    )
+    loaded: dict[str, Any] = json.loads((root / BASELINE_REL).read_text(encoding="utf-8"))
     return loaded
 
 
@@ -280,7 +280,9 @@ def relabel_identifiers(root: Path) -> None:
         data = manifest(root, corpus)
         for index, entry in enumerate(vector_rows(data, corpus)):
             kind = str(require(entry, "kind", f"{corpus} manifest row"))
-            source = corpus_dir(root, corpus) / str(require(entry, "file", f"{corpus} manifest row"))
+            source = corpus_dir(root, corpus) / str(
+                require(entry, "file", f"{corpus} manifest row")
+            )
             if not source.is_file() or kind not in ("accept", "reject"):
                 continue
             prefix = "ok" if kind == "accept" else "bad"
@@ -325,8 +327,9 @@ def one_more_reject_vector(root: Path) -> None:
         )
     parent = parents[0]
     statement = json.loads(
-        (corpus_dir(root, corpus) / str(require(parent, "file", f"{corpus} manifest row")))
-        .read_text(encoding="utf-8")
+        (
+            corpus_dir(root, corpus) / str(require(parent, "file", f"{corpus} manifest row"))
+        ).read_text(encoding="utf-8")
     )
     predicate = require(statement, "predicate", f"{corpus} accept statement")
     require(predicate, "result", f"{corpus} accept statement's predicate")
@@ -360,12 +363,14 @@ def one_more_pair(root: Path) -> None:
     corpus = "vectors"
     data = manifest(root, corpus)
     parent = next(
-        e for e in vector_rows(data, corpus)
+        e
+        for e in vector_rows(data, corpus)
         if require(e, "kind", f"{corpus} manifest row") == "accept"
     )
     statement = json.loads(
-        (corpus_dir(root, corpus) / str(require(parent, "file", f"{corpus} manifest row")))
-        .read_text(encoding="utf-8")
+        (
+            corpus_dir(root, corpus) / str(require(parent, "file", f"{corpus} manifest row"))
+        ).read_text(encoding="utf-8")
     )
     raw = (json.dumps(statement, indent=1, sort_keys=True) + "\n").encode("utf-8")
     identifier = "v" + hashlib.sha256(raw).hexdigest()[:16]
@@ -540,12 +545,11 @@ def a_small_leak_over_the_figure(root: Path) -> None:
     gate = _gate_module()
     recorded = float(row_of(baseline(root), "vectors", "lexicon")["separability"])
     rejects = [
-        e for e in rows_of(root, "vectors")
+        e
+        for e in rows_of(root, "vectors")
         if require(e, "kind", "vectors manifest row") == "reject"
     ]
-    originals = {
-        str(e["file"]): (root / "vectors" / str(e["file"])).read_bytes() for e in rejects
-    }
+    originals = {str(e["file"]): (root / "vectors" / str(e["file"])).read_bytes() for e in rejects}
     for share in range(1, 21):
         tagged = 0
         for index, entry in enumerate(rejects):

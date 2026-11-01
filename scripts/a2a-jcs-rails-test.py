@@ -200,7 +200,9 @@ def check_parity(work: Path, binary: Path) -> list[str]:
     committed = (REPO / "corpora" / CORPUS / "MANIFEST.json").read_bytes()
     for name, mutate, expected in PARITY:
         corpus = work / name
-        shutil.copytree(REPO / "corpora" / CORPUS, corpus, ignore=shutil.ignore_patterns("*.py", "tests"))
+        shutil.copytree(
+            REPO / "corpora" / CORPUS, corpus, ignore=shutil.ignore_patterns("*.py", "tests")
+        )
         if mutate is not None:
             mutate(corpus)
         if name == "resealed-unchanged" and (corpus / "MANIFEST.json").read_bytes() != committed:
@@ -316,7 +318,9 @@ def check_refusals(work: Path) -> list[str]:
     """A corpus that fails its manifest, or a target it does not name, is refused."""
     failures: list[str] = []
     broken = work / "api-edited"
-    shutil.copytree(REPO / "corpora" / CORPUS, broken, ignore=shutil.ignore_patterns("*.py", "tests"))
+    shutil.copytree(
+        REPO / "corpora" / CORPUS, broken, ignore=shutil.ignore_patterns("*.py", "tests")
+    )
     edited_case_file(broken)
     try:
         a2ajcs.check(a2ajcs.canonicalize, root=broken)
