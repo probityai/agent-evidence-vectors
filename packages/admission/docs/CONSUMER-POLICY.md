@@ -12,10 +12,12 @@ defaults for those nine answers a question it was never told the answer to, and 
 answers it in the admitting direction. So the rego rail takes them from a data document
 mounted at `data.consumer`, and an unpinned deployment is DENIED rather than admitted.
 
+The digest in this example is the corpus digest of `agent-evidence-vectors==0.30.0`, the version `requirements-vectors.txt` pins; `scripts/vectors-pin-gate.py` holds it equal to the pin.
+
 ```bash
 cat > consumer-pins.json <<'JSON'
 {"consumer": {
-  "expected_corpus_digest":    "8b035678def9e5ac00ba761b8c640e4412c57163134afb9d2c1a90f49d573a52",
+  "expected_corpus_digest":    "bf3e5befd71640757ff1b3f0af63507364b823b5e3f9059678f72f64a46e11c1",
   "expected_substrate_digest": "<the substrate digest this deployment trusts>",
   "demanded_classes":          ["<the corpus classes a run must have assessed>"],
   "accepted_results":          ["pass"],
