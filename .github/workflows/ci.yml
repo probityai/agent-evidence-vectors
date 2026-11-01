@@ -1311,6 +1311,14 @@ jobs:
       # other on the committed corpus and on mutated copies of its members.
       - name: the two self-reported-record rails agree
         run: uv run --locked --extra generators python scripts/self-reported-record-rails-test.py
+      # The corpus README presents check_vectors.py as the reference verifier and
+      # mutation_check.py as the proof that every rule is load-bearing. Neither
+      # ran in CI, so a regression in either, or in the members they judge,
+      # could not turn a build red.
+      - name: the self-reported-record reference verifier and its mutation check pass
+        run: |
+          uv run --locked --extra generators python vectors-self-reported-record/check_vectors.py
+          uv run --locked --extra generators python vectors-self-reported-record/mutation_check.py
       # A predicate type URI sits inside bytes a third party signs, and a 404
       # on one reads as a withdrawn type. predicate/v1/self-reported-record was
       # named in every signed member of its corpus and 404ed, because nothing
