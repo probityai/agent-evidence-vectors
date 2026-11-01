@@ -220,7 +220,7 @@ def link(row: dict) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser = argparse.ArgumentParser(description="Check the corpus registry and write the files derived from it.")
     parser.add_argument("--check", action="store_true", help="refuse a stale file or an invalid registry")
     parser.add_argument("--repo", type=Path, default=REPO, help=argparse.SUPPRESS)
     args = parser.parse_args()
