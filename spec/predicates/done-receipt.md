@@ -343,13 +343,13 @@ The corpora in this repository exercise the receipt and the checks it rests on:
 
 | corpus | what its members show |
 | --- | --- |
-| `corpora/vectors-done-receipt/` | whole runs in each corner of the two verdicts and the receipts for them, honest and forged, with a defect for every receipt and record rule |
-| `corpora/vectors-spoofed-tool-output/` | fabricated, stale and shadowed tool output and completion claims against the observer's record |
-| `corpora/vectors-test-tampering/` | edits of protected paths, the ones an observer sees and the ones it loses |
-| `corpora/vectors-grader-isolation/` | reaching what grades the run: its output files, its interpreter, its sealed execution surface, its tree, and the rules a pass must still meet |
-| `corpora/vectors-done-probes/` | the probes beside the acceptance commands: the import probe on its own failure, the in-process twin of the visible test, and the detectors, each with its honest divergence |
+| `vectors-done-receipt/` | whole runs in each corner of the two verdicts and the receipts for them, honest and forged, with a defect for every receipt and record rule |
+| `vectors-spoofed-tool-output/` | fabricated, stale and shadowed tool output and completion claims against the observer's record |
+| `vectors-test-tampering/` | edits of protected paths, the ones an observer sees and the ones it loses |
+| `vectors-grader-isolation/` | reaching what grades the run: its output files, its interpreter, its sealed execution surface, its tree, and the rules a pass must still meet |
+| `vectors-done-probes/` | the probes beside the acceptance commands: the import probe on its own failure, the in-process twin of the visible test, and the detectors, each with its honest divergence |
 
 A member declares each check's verdict and, when it declares all five, the two verdicts and
 `accepted`. A reader conforms when it reaches every declared decision, reason, vantage, scope
-and class. `corpora/vectors-done-receipt/crosscheck_probity_verify.py` replays every member through
+and class. `vectors-done-receipt/crosscheck_probity_verify.py` replays every member through
 probity-verify, pinned in this repository's `crosscheck` dependency group, and CI runs it.

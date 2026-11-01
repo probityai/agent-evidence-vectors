@@ -29,7 +29,7 @@ Each entry says which of two kinds it is, and the distinction is the point:
 ### `predicate/v1/observed-effect`
 
 - Document: `spec/predicates/observed-effect.md`
-- Corpus: `corpora/vectors-observed-effect/`, suite `observed-effect-conformance`
+- Corpus: `vectors-observed-effect/`, suite `observed-effect-conformance`
 - Rails: `corpora/observedeffect.go` and `observedeffect/` in this repository
 
 The predicate carries an observed effect of an execution, separately from the
@@ -38,8 +38,8 @@ carried bytes instead of accepting an asserted one.
 
 ### `predicate/v1/uncertain-effect`
 
-- Document: `corpora/vectors-uncertain-effect/README.md`
-- Corpus: `corpora/vectors-uncertain-effect/`, suite `uncertain-effect/v1`
+- Document: `vectors-uncertain-effect/README.md`
+- Corpus: `vectors-uncertain-effect/`, suite `uncertain-effect/v1`
 - Rails: `corpora/uncertaineffect.go`, `packaging/agent_evidence_vectors/uncertaineffect.py`
   and the runtime contract in `packaging/agent_evidence_vectors/uncertaineffect_runtime.py`
 
@@ -64,7 +64,7 @@ acceptance rule authorises, so that a case nobody ran is never read as a pass.
 ### `predicate/v1/self-reported-record`
 
 - Document: `spec/self-reported-record/v1.md`
-- Corpus: `corpora/vectors-self-reported-record/`, suite `self-reported-record-conformance`
+- Corpus: `vectors-self-reported-record/`, suite `self-reported-record-conformance`
 - Rails: `corpora/selfreported.go` in this repository
 
 The predicate carries an agent's own record of a session, with each field
@@ -87,7 +87,7 @@ cannot write one.
 
 - Document: `spec/predicates/incident-action-authorization.md`
 - Profile: `profiles/restoration-evidence.md` (`restoration-evidence/v1`)
-- Corpus: `corpora/vectors-restart-records/` (released with the checker)
+- Corpus: `vectors-restart-records/` (released with the checker)
 
 Record R1 of the restoration evidence profile: who authorized one incident response action, the role each named party held, the kind of grant the authorizer acted on, and whether the authority was committed before the action ran.
 
@@ -95,7 +95,7 @@ Record R1 of the restoration evidence profile: who authorized one incident respo
 
 - Document: `spec/predicates/revocation-sweep.md`
 - Profile: `profiles/restoration-evidence.md` (`restoration-evidence/v1`)
-- Corpus: `corpora/vectors-restart-records/` (released with the checker)
+- Corpus: `vectors-restart-records/` (released with the checker)
 
 Record R2 of the restoration evidence profile: the credential population a revocation sweep ran over, its partition into revoked, retained and unassessed, and the coverage the producer claims, so that a claim wider than the partition is visible from the record alone.
 
@@ -103,7 +103,7 @@ Record R2 of the restoration evidence profile: the credential population a revoc
 
 - Document: `spec/predicates/re-enable-decision.md`
 - Profile: `profiles/restoration-evidence.md` (`restoration-evidence/v1`)
-- Corpus: `corpora/vectors-restart-records/` (released with the checker)
+- Corpus: `vectors-restart-records/` (released with the checker)
 
 Record R3 of the restoration evidence profile: one decision to resume, stage or keep restricting a stopped agent system, its approvers, and for every evidence slot either a digest or an explicit statement that it was not addressed.
 
@@ -111,7 +111,7 @@ Record R3 of the restoration evidence profile: one decision to resume, stage or 
 
 - Document: `spec/predicates/joint-authority.md`
 - Profile: `profiles/restoration-evidence.md` (`restoration-evidence/v1`)
-- Corpus: `corpora/vectors-restart-records/` (released with the checker)
+- Corpus: `vectors-restart-records/` (released with the checker)
 
 Record R4 of the restoration evidence profile: which party may act on which asset when an incident spans organisations, under what kind of grant, and which indicators they share.
 
@@ -119,7 +119,7 @@ Record R4 of the restoration evidence profile: which party may act on which asse
 
 - Document: `spec/predicates/revocation-boundary.md`
 - Profile: `profiles/restoration-evidence.md` (`restoration-evidence/v1`)
-- Corpus: `corpora/vectors-restart-records/` (released with the checker)
+- Corpus: `vectors-restart-records/` (released with the checker)
 
 For one declared sink and test window, whether an effect from a task in flight committed after a credential revocation took effect, with the counts a reader needs to judge it. It names no mechanism.
 
@@ -160,7 +160,7 @@ For one declared sink and test window, whether an effect from a task in flight c
   `oversight` member, so a revision 01 record is malformed under revision 02;
   revision 00 of the replacing draft requires `evaluation.inputs`, so a revision
   02 record is malformed under it.
-- Corpus: `corpora/vectors-agent-audit-record/`, suite `agent-audit-record-conformance`,
+- Corpus: `vectors-agent-audit-record/`, suite `agent-audit-record-conformance`,
   one member per row of Appendix B of draft-gilda-audit-agent-audit-record-00,
   each carrying its Appendix B identifier, then members for sentences of
   Section 5.4 that Appendix B has no row for, each naming its section in
@@ -185,7 +185,7 @@ For one declared sink and test window, whether an effect from a task in flight c
   carrying that input is malformed under the `v1` URI; every other rule is the
   same under both.
 - Corpus: rows `PS1` and `PS2` of Appendix B of revision 03, marked there for
-  the next release of `corpora/vectors-agent-audit-record/`; no released member carries
+  the next release of `vectors-agent-audit-record/`; no released member carries
   this URI yet.
 - Status: current. The URI will not move, because a record carries it inside
   the bytes its producer signed.
@@ -280,13 +280,13 @@ the organisation Pages site serves those pages at the targets of the w3id.org
 rules, and `scripts/check_uris_resolve.py --network` requests every one of them
 each day. Each document is the authority for its type.
 
-- `done-contract`: `spec/predicates/done-contract.md`, corpus `corpora/vectors-done-contract/`.
-- `done-receipt`: `spec/predicates/done-receipt.md`, corpora `corpora/vectors-done-receipt/`,
-  `corpora/vectors-spoofed-tool-output/`, `corpora/vectors-test-tampering/`,
-  `corpora/vectors-grader-isolation/` and `corpora/vectors-done-probes/`.
+- `done-contract`: `spec/predicates/done-contract.md`, corpus `vectors-done-contract/`.
+- `done-receipt`: `spec/predicates/done-receipt.md`, corpora `vectors-done-receipt/`,
+  `vectors-spoofed-tool-output/`, `vectors-test-tampering/`,
+  `vectors-grader-isolation/` and `vectors-done-probes/`.
 - `agent-card-receipt`: `spec/predicates/agent-card-receipt.md`, corpus
-  `corpora/vectors-agent-card-receipt/`.
+  `vectors-agent-card-receipt/`.
 - `credential-release`: `spec/predicates/credential-release.md`, corpus
-  `corpora/vectors-credential-release/`.
+  `vectors-credential-release/`.
 
 `spec/predicates/done-records.md` defines the records both read and no type URI.

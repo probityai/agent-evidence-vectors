@@ -20,7 +20,7 @@ Predicate Name: Observed Effect
 > `predicateType` is an identifier rather than a retrieval address and the in-toto
 > guidelines require no dereference, so nothing depends on it resolving. The URI
 > itself is stable and will not move: every vector in
-> `corpora/vectors-observed-effect/` carries it inside signed bytes, so changing it
+> `vectors-observed-effect/` carries it inside signed bytes, so changing it
 > re-signs the corpus and changes every member identifier.
 
 ## Purpose
@@ -258,7 +258,7 @@ would not be recomputable.
 **`mutation` binds the carried evidence to the claim.** The recompute over
 `writes` MUST reproduce `afterRoot`, and a statement whose own carried rows
 contradict its own claim is malformed rather than merely weak. This is the
-rule the self-refutation vector in `corpora/vectors-observed-effect/` exists to hold: a
+rule the self-refutation vector in `vectors-observed-effect/` exists to hold: a
 verifier that reads the claim and not the evidence accepts a record that refutes
 itself, and this predicate makes that acceptance a conformance failure.
 
@@ -447,7 +447,7 @@ hold, and is `voluntary` otherwise.
 5.  `coverage.unobservedIntervals` is absent or empty.
 
 There are five clauses, and seven were drafted. Both removals were forced by the
-mutation sweep in `corpora/vectors-observed-effect/mutation_check.py`, which disables one
+mutation sweep in `vectors-observed-effect/mutation_check.py`, which disables one
 rule at a time and requires some member to stop being refused, and both removed
 clauses were **unreachable**.
 
@@ -560,7 +560,7 @@ permitted, because an attempted read that returns nothing is exactly what an emp
 tree yields. The rule matters more than its size suggests: "there was nothing
 before" is the one claim about the past that no later state contradicts, which
 makes it the claim most worth dressing a populated tree in. An accept member of
-`corpora/vectors-observed-effect/` carried this shape, 64 bytes read at an empty-tree root,
+`vectors-observed-effect/` carried this shape, 64 bytes read at an empty-tree root,
 and while it did a conforming verifier was REQUIRED to accept it.
 
 `openedAt` and `sealedAt` are [RFC 3339] timestamps in UTC with the `Z`
@@ -1186,12 +1186,12 @@ from both. Its own carried evidence refutes its own claim, and a verifier that
 reads the claim without recomputing over the evidence accepts it. Closed by the
 `mutation` coherence rule: the write chain MUST reproduce `afterRoot`, and a
 `mutation: none` record with a non-empty `writes` is malformed. The
-corresponding accept and reject twins are in `corpora/vectors-observed-effect/`, which
+corresponding accept and reject twins are in `vectors-observed-effect/`, which
 is the first corpus in this repository to carry that shape.
 
 ## Example
 
-See `corpora/vectors-observed-effect/statements/`. Every member of that corpus is a
+See `vectors-observed-effect/statements/`. Every member of that corpus is a
 complete statement under this predicate, and `MANIFEST.json` carries what a
 verifier is supposed to decide about each one, never the file itself, so a
 member cannot be scored without being read.
@@ -1271,7 +1271,7 @@ document fixed the word by stage only in its reference verifiers: many of its
 MUST-refuse sentences named no word, and its list of stage-one gates included the
 `tier` recompute and the `inScope` label, whose refusals every verifier and every
 corpus member already called `invalid`. A reader written from the sentences alone
-said `refused` on 22 reject members of `corpora/vectors-observed-effect/` at `e6f1784f`
+said `refused` on 22 reject members of `vectors-observed-effect/` at `e6f1784f`
 that the manifest calls `malformed` or `invalid` (#29). The stage lists now match the verifiers
 and a rule under [Parsing Rules] maps each stage to its word, so that reader
 reaches the manifest's word from the text.
@@ -1328,7 +1328,7 @@ addition and two spellings to fix: every record now carries `origin`, and a
 producer that spelled a key identifier in uppercase, or a timestamp with an
 offset, has to spell it the one way. Attacks A20 through A30 in the section
 above are the records that forced each one, and each is a pinned member of
-`corpora/vectors-observed-effect/`.
+`vectors-observed-effect/`.
 
 0.1.0 is the first published version. A member is born when a normative reader
 consumes it: a future version that makes a currently unchecked property

@@ -13,7 +13,7 @@ Predicate Name: Done Contract
 > `https://probityai.github.io/agent-evidence/predicate/v1/done-contract/`. The URI will
 > not move once a signed statement carries it, and no signed statement carries it before
 > that page is live. The conformance corpus in this repository,
-> `corpora/vectors-done-contract/`, carries it in unsigned statements.
+> `vectors-done-contract/`, carries it in unsigned statements.
 
 ## Purpose
 
@@ -115,7 +115,7 @@ a statement that is not signed proves nothing about its origin.
 
 ## Conformance
 
-`corpora/vectors-done-contract/` (suite `done-contract/v2`) holds the members, a valid case for every
+`vectors-done-contract/` (suite `done-contract/v2`) holds the members, a valid case for every
 optional member and one invalid case for every rule above and every rule of the record, with
 the code each is refused under. A reader conforms
 when it reaches the declared verdict and code for every member. `aee-verify` and the packaged
