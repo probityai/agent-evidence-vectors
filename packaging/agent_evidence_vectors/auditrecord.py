@@ -943,7 +943,8 @@ def _consumption_shape(consumption: Any) -> dict[str, Any]:
         raise Malformed("consumption-malformed")
     for item in held:
         _held_shape(item)
-    return consumption
+    shaped: dict[str, Any] = consumption
+    return shaped
 
 
 def _rule_consumption(state: _State) -> None:
