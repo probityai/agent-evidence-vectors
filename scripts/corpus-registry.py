@@ -70,7 +70,9 @@ def corpus_dirs_on_disk(repo: Path) -> dict[str, str]:
             continue
         for child in sorted(parent.iterdir()):
             name = child.name
-            if (name == "vectors" or name.startswith("vectors-")) and (child / "MANIFEST.json").is_file():
+            if (name == "vectors" or name.startswith("vectors-")) and (
+                child / "MANIFEST.json"
+            ).is_file():
                 rel = child.relative_to(repo).as_posix()
                 if name in found:
                     found[name] = found[name] + " and " + rel
@@ -88,7 +90,9 @@ def schema_errors(registry: dict, repo: Path) -> list[str]:
     validator = jsonschema.Draft202012Validator(schema)
     return [
         "{}: {}".format("/".join(str(p) for p in error.absolute_path) or "(root)", error.message)
-        for error in sorted(validator.iter_errors(registry), key=lambda e: list(map(str, e.absolute_path)))
+        for error in sorted(
+            validator.iter_errors(registry), key=lambda e: list(map(str, e.absolute_path))
+        )
     ]
 
 
@@ -108,7 +112,9 @@ def registry_errors(registry: dict, repo: Path) -> list[str]:
         if not (path / "MANIFEST.json").is_file():
             errors.append(f"{row['id']}: {row['path']}/MANIFEST.json does not exist")
         if row["wheel"] and not row["sdist"]:
-            errors.append(f"{row['id']}: shipped in the wheel but not in the sdist the wheel is built from")
+            errors.append(
+                f"{row['id']}: shipped in the wheel but not in the sdist the wheel is built from"
+            )
     ids = [row["id"] for row in rows]
     if ids != sorted(ids, key=lambda i: (i != "vectors", i)):
         errors.append("rows are not sorted by id with `vectors` first")
@@ -120,7 +126,9 @@ def registry_errors(registry: dict, repo: Path) -> list[str]:
             errors.append(f"{name}: corpus directory {rel} has no row in {REGISTRY}")
     for row in rows:
         if row["id"] in on_disk and on_disk[row["id"]] != row["path"]:
-            errors.append(f"{row['id']}: row says {row['path']}, the corpus is at {on_disk[row['id']]}")
+            errors.append(
+                f"{row['id']}: row says {row['path']}, the corpus is at {on_disk[row['id']]}"
+            )
     for entry in registry["data"]:
         if not (repo / entry["src"]).is_file():
             errors.append(f"data {entry['src']}: file does not exist")
@@ -152,12 +160,16 @@ def pyproject_block(registry: dict) -> str:
     lines += ["", "[tool.hatch.build.targets.wheel.sources]"]
     lines.append(f"{toml_string(package_src)} = {toml_string(package_dest)}")
     for row in wheel_rows:
-        lines.append(f"{toml_string(row['path'])} = {toml_string(package_dest + '/corpora/' + row['id'])}")
+        lines.append(
+            f"{toml_string(row['path'])} = {toml_string(package_dest + '/corpora/' + row['id'])}"
+        )
     lines += ["", "[tool.hatch.build.targets.wheel.force-include]"]
     for entry in registry["data"]:
         for note in entry["purpose"].splitlines():
             lines.append(f"# {note}".rstrip())
-        lines.append(f"{toml_string(entry['src'])} = {toml_string(package_dest + '/' + entry['wheel'])}")
+        lines.append(
+            f"{toml_string(entry['src'])} = {toml_string(package_dest + '/' + entry['wheel'])}"
+        )
     lines += ["", "[tool.hatch.build.targets.sdist]"]
     sdist = toml_list(
         build["sdist_extra"]
@@ -220,8 +232,12 @@ def link(row: dict) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Check the corpus registry and write the files derived from it.")
-    parser.add_argument("--check", action="store_true", help="refuse a stale file or an invalid registry")
+    parser = argparse.ArgumentParser(
+        description="Check the corpus registry and write the files derived from it."
+    )
+    parser.add_argument(
+        "--check", action="store_true", help="refuse a stale file or an invalid registry"
+    )
     parser.add_argument("--repo", type=Path, default=REPO, help=argparse.SUPPRESS)
     args = parser.parse_args()
     repo = args.repo
@@ -248,9 +264,14 @@ def main() -> int:
                 print(f"wrote {path}")
     if stale:
         for path in stale:
-            print(f"FAIL: {path} is not what corpora/REGISTRY.toml writes; run python3 scripts/corpus-registry.py", file=sys.stderr)
+            print(
+                f"FAIL: {path} is not what corpora/REGISTRY.toml writes; run python3 scripts/corpus-registry.py",
+                file=sys.stderr,
+            )
         return 1
-    print(f"corpus registry: {len(registry['corpus'])} corpora, {len(registry['data'])} data files; derived files current")
+    print(
+        f"corpus registry: {len(registry['corpus'])} corpora, {len(registry['data'])} data files; derived files current"
+    )
     return 0
 
 
