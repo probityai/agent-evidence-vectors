@@ -178,6 +178,35 @@ and he fixed both before posting. He also reported a finding against the draft:
 the write-chain replay that sections 4.4, 4.6 and 5.3 require is not defined in
 the body and had to be recovered from the accept members.
 
+### Laurent-Lemonnier, `Laurent-Lemonnier/dps-scitt-decision-layer`, the agent audit record corpus
+
+The second run of `vectors-agent-audit-record` by a reader this repository did
+not write, and the first written from revision -02 of the draft.
+
+| | |
+| --- | --- |
+| Reporter | `Laurent-Lemonnier` |
+| Implementation | [`interop/gilda/gilda_verify_independent.py`](https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/tree/f72f092/interop/gilda) at `Laurent-Lemonnier/dps-scitt-decision-layer@f72f092`, Python, standard library and `cryptography` for Ed25519, written from `draft-gilda-audit-agent-audit-record-02` Sections 4 and 5 |
+| Posted at | [#335](https://github.com/probityai/agent-evidence-vectors/issues/335), opened 2026-10-30, with the per-member report [`judge-20261029.json`](https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/blob/f72f092/interop/gilda/judge-20261029.json) |
+| Corpus | `vectors-agent-audit-record` at release 0.28.0 (tag `v0.28.0`, commit `3a3c5b0`), 141 members: 59 accept, 81 reject, 1 indeterminate |
+| Result | 141 of 141 agree with `MANIFEST.json` on the verdict, the refusal codes, the derived tier, `withinLimit` and the set checks; the first refusal code agrees on 81 of 81 reject members |
+| Label, by its author | an outside run, replayed by the reader's own CI on every change and weekly |
+
+What the run is evidence of, in his words:
+
+> It imports nothing from this package and shares no code with the reference
+> rail; the only inputs taken from the corpus are the members and the test keys
+> published in `MANIFEST.json`.
+
+What it did not attempt, also his: anchor validation of retained records
+(Section 4.7.2). The bracket checks that need an anchor time, R3, R7 and R11,
+are reported as not attempted, never as passed. He also reported what the reading
+needed from outside the text of -02: the empty-tree constant and the 300-second
+skew tolerance, taken from `MANIFEST.json`, and the reading of CS7 and CS17 on
+when a held permit was issued. Revision -03 states all three.
+
+The figure was not reproduced here before this row was written.
+
 ## Runs of this repository's code on another operator's host
 
 The rows above are runs of implementations this repository did not write. The

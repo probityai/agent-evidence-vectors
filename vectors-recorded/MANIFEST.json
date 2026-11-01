@@ -8,13 +8,16 @@
     "file-unlisted",
     "sums-unpinned",
     "binding-malformed",
-    "binding-mismatch"
+    "binding-mismatch",
+    "anchor-mismatch",
+    "anchor-not-after-seen",
+    "stated-after-anchor"
   ],
   "contract": "vectors-recorded/README.md",
-  "corpusDigest": "07d57f56f50a6ea9cf3f3bfd444c07d2bd37d7f0b8594d5e2a1c14947e5529a9",
+  "corpusDigest": "27a6cbefafbf1edd8f834e4d1958ff19f82c82c7c4b85ab14271b5c84bf24f55",
   "counts": {
-    "failed": 10,
-    "verified": 2
+    "failed": 14,
+    "verified": 4
   },
   "suite": "recorded-set-conformance/v1",
   "vectors": [
@@ -24,6 +27,28 @@
           "proof": "log/checkpoint.stamp.ots",
           "subject": "log/checkpoint.json",
           "type": "opentimestamps-file-digest"
+        },
+        {
+          "block": {
+            "header": "00c05c31d7c6f3537113c51e5fe3368699a09e84536dd564e13801000000000000000000830a724f00903e5bd448a5a57aeeecae43979e8fa5fea527bbcf5179e8ca2f2be567d96a9300021768753e78",
+            "height": 972551,
+            "id": "000000000000000000018b01af33d28370bdf9912718cc5eba62bdbe608c8f69"
+          },
+          "proof": "log/checkpoint.stamp.ots",
+          "statedTime": "/as_of",
+          "subject": "log/checkpoint.stamp",
+          "type": "opentimestamps-bitcoin-header"
+        },
+        {
+          "block": {
+            "header": "00200121698f8c60bebd62ba5ecc182791f9bd7083d233af018b01000000000000000000822db8e2e0916731da72166749c741a299b1c352eb4a400dfee276f4753cce496969d96a93000217e2adfb22",
+            "height": 972552,
+            "id": "00000000000000000001d93656f68863db9a58b17943210346db60a59c842cb1"
+          },
+          "proof": "log/checkpoint.stamp.ots",
+          "statedTime": "/as_of",
+          "subject": "log/checkpoint.stamp",
+          "type": "opentimestamps-bitcoin-header"
         }
       ],
       "dir": "sets/hs51-set2/bytes",
@@ -46,6 +71,206 @@
       },
       "sourceFile": "sets/hs51-set2/SOURCE.json",
       "sumsSha256": "53b4ddb5b6a9c9908ef02e9d0d47717d7bc779171bb2611b664bc21ac1b93fdd"
+    },
+    {
+      "bindings": [
+        {
+          "after": "/seen_block/height",
+          "block": {
+            "header": "00e03a270d52218ae2b73de4084eeaae2026e1fbd393319063cc010000000000000000008f6a2c08b483fb92d1c41b5cb7fc8ae422c74deba1ad7f727b915e7662b88114e01cd86a93000217906bc947",
+            "height": 972403,
+            "id": "00000000000000000001e4ad3f1629063b40a0c998efc1c96abd33bbb0d31775"
+          },
+          "proof": "astrogilda/ack_budget.jcs.ots",
+          "subject": "astrogilda/ack_budget.jcs",
+          "type": "opentimestamps-bitcoin-header"
+        },
+        {
+          "after": "/seen_block/height",
+          "block": {
+            "header": "0000983937722645b5cbe7edb724f230d1fce4184795dd5025fa000000000000000000007d78043396c1789c4ab2515666a3e4682767efc586ba3a0d1ee9746c7fcd22251120d86a930002173aaf6202",
+            "height": 972405,
+            "id": "000000000000000000019d7aed94e4fa6c15a673ff4671a0ac97cb6a3a611ebe"
+          },
+          "proof": "astrogilda/ack_budget.jcs.ots",
+          "subject": "astrogilda/ack_budget.jcs",
+          "type": "opentimestamps-bitcoin-header"
+        },
+        {
+          "after": "/seen_block/height",
+          "block": {
+            "header": "00e03a270d52218ae2b73de4084eeaae2026e1fbd393319063cc010000000000000000008f6a2c08b483fb92d1c41b5cb7fc8ae422c74deba1ad7f727b915e7662b88114e01cd86a93000217906bc947",
+            "height": 972403,
+            "id": "00000000000000000001e4ad3f1629063b40a0c998efc1c96abd33bbb0d31775"
+          },
+          "proof": "astrogilda/ack_criteria_A.jcs.ots",
+          "subject": "astrogilda/ack_criteria_A.jcs",
+          "type": "opentimestamps-bitcoin-header"
+        },
+        {
+          "after": "/seen_block/height",
+          "block": {
+            "header": "0000983937722645b5cbe7edb724f230d1fce4184795dd5025fa000000000000000000007d78043396c1789c4ab2515666a3e4682767efc586ba3a0d1ee9746c7fcd22251120d86a930002173aaf6202",
+            "height": 972405,
+            "id": "000000000000000000019d7aed94e4fa6c15a673ff4671a0ac97cb6a3a611ebe"
+          },
+          "proof": "astrogilda/ack_criteria_A.jcs.ots",
+          "subject": "astrogilda/ack_criteria_A.jcs",
+          "type": "opentimestamps-bitcoin-header"
+        },
+        {
+          "after": "/seen_block/height",
+          "block": {
+            "header": "00e03a270d52218ae2b73de4084eeaae2026e1fbd393319063cc010000000000000000008f6a2c08b483fb92d1c41b5cb7fc8ae422c74deba1ad7f727b915e7662b88114e01cd86a93000217906bc947",
+            "height": 972403,
+            "id": "00000000000000000001e4ad3f1629063b40a0c998efc1c96abd33bbb0d31775"
+          },
+          "proof": "astrogilda/ack_criteria_B.jcs.ots",
+          "subject": "astrogilda/ack_criteria_B.jcs",
+          "type": "opentimestamps-bitcoin-header"
+        },
+        {
+          "after": "/seen_block/height",
+          "block": {
+            "header": "0000983937722645b5cbe7edb724f230d1fce4184795dd5025fa000000000000000000007d78043396c1789c4ab2515666a3e4682767efc586ba3a0d1ee9746c7fcd22251120d86a930002173aaf6202",
+            "height": 972405,
+            "id": "000000000000000000019d7aed94e4fa6c15a673ff4671a0ac97cb6a3a611ebe"
+          },
+          "proof": "astrogilda/ack_criteria_B.jcs.ots",
+          "subject": "astrogilda/ack_criteria_B.jcs",
+          "type": "opentimestamps-bitcoin-header"
+        },
+        {
+          "after": "/seen_block/height",
+          "block": {
+            "header": "00e03a270d52218ae2b73de4084eeaae2026e1fbd393319063cc010000000000000000008f6a2c08b483fb92d1c41b5cb7fc8ae422c74deba1ad7f727b915e7662b88114e01cd86a93000217906bc947",
+            "height": 972403,
+            "id": "00000000000000000001e4ad3f1629063b40a0c998efc1c96abd33bbb0d31775"
+          },
+          "proof": "astrogilda/ack_criteria_C.jcs.ots",
+          "subject": "astrogilda/ack_criteria_C.jcs",
+          "type": "opentimestamps-bitcoin-header"
+        },
+        {
+          "after": "/seen_block/height",
+          "block": {
+            "header": "0000983937722645b5cbe7edb724f230d1fce4184795dd5025fa000000000000000000007d78043396c1789c4ab2515666a3e4682767efc586ba3a0d1ee9746c7fcd22251120d86a930002173aaf6202",
+            "height": 972405,
+            "id": "000000000000000000019d7aed94e4fa6c15a673ff4671a0ac97cb6a3a611ebe"
+          },
+          "proof": "astrogilda/ack_criteria_C.jcs.ots",
+          "subject": "astrogilda/ack_criteria_C.jcs",
+          "type": "opentimestamps-bitcoin-header"
+        },
+        {
+          "after": "/seen_block/height",
+          "block": {
+            "header": "0000ff3feea4772388eb4496dc25fae0eec05932068b32666153010000000000000000005bb72f100d326aea684c0a4175b88ec24c1994cb338db62fbcea57b12d06eaf9b851d86a93000217b1122143",
+            "height": 972423,
+            "id": "000000000000000000008f882c3853528d7ea49971745391bad7876e31299c83"
+          },
+          "proof": "Poke-nushi/ack_budget.jcs.ots",
+          "subject": "Poke-nushi/ack_budget.jcs",
+          "type": "opentimestamps-bitcoin-header"
+        },
+        {
+          "after": "/seen_block/height",
+          "block": {
+            "header": "00201820ad3852d84e98864e75f9536016cf4f8298420ac71b160100000000000000000011df255d47509ce4c4b96b8cfcc4cb05080dbfa6d530694bbd1baa54596173c4db52d86a93000217223526d7",
+            "height": 972425,
+            "id": "00000000000000000001023bc8776b74cba37edef524691b4adc120a3e33c596"
+          },
+          "proof": "Poke-nushi/ack_budget.jcs.ots",
+          "subject": "Poke-nushi/ack_budget.jcs",
+          "type": "opentimestamps-bitcoin-header"
+        },
+        {
+          "after": "/seen_block/height",
+          "block": {
+            "header": "0000ff3feea4772388eb4496dc25fae0eec05932068b32666153010000000000000000005bb72f100d326aea684c0a4175b88ec24c1994cb338db62fbcea57b12d06eaf9b851d86a93000217b1122143",
+            "height": 972423,
+            "id": "000000000000000000008f882c3853528d7ea49971745391bad7876e31299c83"
+          },
+          "proof": "Poke-nushi/ack_criteria_A.jcs.ots",
+          "subject": "Poke-nushi/ack_criteria_A.jcs",
+          "type": "opentimestamps-bitcoin-header"
+        },
+        {
+          "after": "/seen_block/height",
+          "block": {
+            "header": "00201820ad3852d84e98864e75f9536016cf4f8298420ac71b160100000000000000000011df255d47509ce4c4b96b8cfcc4cb05080dbfa6d530694bbd1baa54596173c4db52d86a93000217223526d7",
+            "height": 972425,
+            "id": "00000000000000000001023bc8776b74cba37edef524691b4adc120a3e33c596"
+          },
+          "proof": "Poke-nushi/ack_criteria_A.jcs.ots",
+          "subject": "Poke-nushi/ack_criteria_A.jcs",
+          "type": "opentimestamps-bitcoin-header"
+        },
+        {
+          "after": "/seen_block/height",
+          "block": {
+            "header": "0000ff3feea4772388eb4496dc25fae0eec05932068b32666153010000000000000000005bb72f100d326aea684c0a4175b88ec24c1994cb338db62fbcea57b12d06eaf9b851d86a93000217b1122143",
+            "height": 972423,
+            "id": "000000000000000000008f882c3853528d7ea49971745391bad7876e31299c83"
+          },
+          "proof": "Poke-nushi/ack_criteria_B.jcs.ots",
+          "subject": "Poke-nushi/ack_criteria_B.jcs",
+          "type": "opentimestamps-bitcoin-header"
+        },
+        {
+          "after": "/seen_block/height",
+          "block": {
+            "header": "00201820ad3852d84e98864e75f9536016cf4f8298420ac71b160100000000000000000011df255d47509ce4c4b96b8cfcc4cb05080dbfa6d530694bbd1baa54596173c4db52d86a93000217223526d7",
+            "height": 972425,
+            "id": "00000000000000000001023bc8776b74cba37edef524691b4adc120a3e33c596"
+          },
+          "proof": "Poke-nushi/ack_criteria_B.jcs.ots",
+          "subject": "Poke-nushi/ack_criteria_B.jcs",
+          "type": "opentimestamps-bitcoin-header"
+        },
+        {
+          "after": "/seen_block/height",
+          "block": {
+            "header": "0000ff3feea4772388eb4496dc25fae0eec05932068b32666153010000000000000000005bb72f100d326aea684c0a4175b88ec24c1994cb338db62fbcea57b12d06eaf9b851d86a93000217b1122143",
+            "height": 972423,
+            "id": "000000000000000000008f882c3853528d7ea49971745391bad7876e31299c83"
+          },
+          "proof": "Poke-nushi/ack_criteria_C.jcs.ots",
+          "subject": "Poke-nushi/ack_criteria_C.jcs",
+          "type": "opentimestamps-bitcoin-header"
+        },
+        {
+          "after": "/seen_block/height",
+          "block": {
+            "header": "00201820ad3852d84e98864e75f9536016cf4f8298420ac71b160100000000000000000011df255d47509ce4c4b96b8cfcc4cb05080dbfa6d530694bbd1baa54596173c4db52d86a93000217223526d7",
+            "height": 972425,
+            "id": "00000000000000000001023bc8776b74cba37edef524691b4adc120a3e33c596"
+          },
+          "proof": "Poke-nushi/ack_criteria_C.jcs.ots",
+          "subject": "Poke-nushi/ack_criteria_C.jcs",
+          "type": "opentimestamps-bitcoin-header"
+        }
+      ],
+      "dir": "sets/hs51-set2-acks/bytes",
+      "expected": {
+        "codes": [],
+        "verdict": "verified"
+      },
+      "file": "sets/hs51-set2-acks/bytes/SHA256SUMS",
+      "id": "v3ad2af6e0f662995",
+      "kind": "recorded",
+      "licenceFile": "sets/hs51-set2-acks/LICENSE",
+      "name": "hs51-set2-acks",
+      "source": {
+        "commit": "e4ea84f5",
+        "contributor": "ogasurfproject-jpg (HORIZON SHIELD, The HORIZONs Co., Ltd.)",
+        "licence": "MIT, copyright notice in LICENSE beside bytes/",
+        "path": "workers/hs-ledger/nenrin/musubi-v0/ca2a-companion-v0/pilot51/witness-acks-set2",
+        "publishedIn": "https://github.com/probityai/agent-evidence-vectors/issues/247#issuecomment-6524698622",
+        "repository": "https://github.com/ogasurfproject-jpg/horizon-shield"
+      },
+      "sourceFile": "sets/hs51-set2-acks/SOURCE.json",
+      "sumsSha256": "7096f9499742f488ac95b0f97e17e96cff6f851c78baec2071de1dbe21f53a5a"
     },
     {
       "bindings": [
@@ -286,6 +511,149 @@
       "kind": "synthetic",
       "name": "binding-malformed",
       "sumsSha256": "ae37644c0e0d043975c26114b48b11ef5efa6d78bdeddd522158d227700cbfe2"
+    },
+    {
+      "bindings": [
+        {
+          "after": "/seen_block/height",
+          "block": {
+            "header": "000000200000000000000000000000000000000000000000000000000000000000000000a4f3e730f004264895ad799db18e0dad6e6a674959dda96bf259e9ea66aaa5c87a38d96affff001d00000000",
+            "height": 900100,
+            "id": "e02c0432ab79000ccbb39053ff5c02b552844615c80bc28c7504fd4ce4fd8061"
+          },
+          "proof": "log/checkpoint.stamp.ots",
+          "statedTime": "/as_of",
+          "subject": "log/checkpoint.json",
+          "type": "opentimestamps-bitcoin-header"
+        }
+      ],
+      "breaks": "nothing: the anchored twin, its stated time exactly the allowance after its header time",
+      "dir": "cases/vcefcbe8172cd6ec4/bytes",
+      "expected": {
+        "codes": [],
+        "verdict": "verified"
+      },
+      "file": "cases/vcefcbe8172cd6ec4/bytes/SHA256SUMS",
+      "id": "vcefcbe8172cd6ec4",
+      "kind": "synthetic",
+      "name": "anchor-intact",
+      "sumsSha256": "89b2d0c724317e0df079bfc0763fd6ca20402fe1f645f769f5218160f001b295"
+    },
+    {
+      "bindings": [
+        {
+          "after": "/seen_block/height",
+          "block": {
+            "header": "000000200000000000000000000000000000000000000000000000000000000000000000c07b46be035c59657383d22309755533584a37b262dfcf980daea41c0cb794e87a38d96affff001d00000000",
+            "height": 900100,
+            "id": "dfdbd42a6524a58b89b517950033ac15f95c51ad285426ecc9c716e08b92651d"
+          },
+          "proof": "log/checkpoint.stamp.ots",
+          "statedTime": "/as_of",
+          "subject": "log/checkpoint.json",
+          "type": "opentimestamps-bitcoin-header"
+        }
+      ],
+      "breaks": "the stated time one second past the allowance",
+      "dir": "cases/v6469c6e70e0297f1/bytes",
+      "expected": {
+        "codes": [
+          "stated-after-anchor"
+        ],
+        "verdict": "failed"
+      },
+      "file": "cases/v6469c6e70e0297f1/bytes/SHA256SUMS",
+      "id": "v6469c6e70e0297f1",
+      "kind": "synthetic",
+      "name": "stated-after-anchor",
+      "sumsSha256": "8de4701b58d8d20d82699589b078cb11e962f5c9c066a1733a47436e202885a4"
+    },
+    {
+      "bindings": [
+        {
+          "after": "/seen_block/height",
+          "block": {
+            "header": "000000200000000000000000000000000000000000000000000000000000000000000000cadb0e79f078f56eda0781318a603c7fdfde02d9417b40701d40ab14b91fdc4a7a38d96affff001d00000000",
+            "height": 900100,
+            "id": "691247c278330bb85c08179b1688a5c54eab8cf7fc5b4668936f5ed46fb0ead2"
+          },
+          "proof": "log/checkpoint.stamp.ots",
+          "statedTime": "/as_of",
+          "subject": "log/checkpoint.json",
+          "type": "opentimestamps-bitcoin-header"
+        }
+      ],
+      "breaks": "the block the subject saw is the anchoring block",
+      "dir": "cases/vb3081dcb9e3c2a7e/bytes",
+      "expected": {
+        "codes": [
+          "anchor-not-after-seen"
+        ],
+        "verdict": "failed"
+      },
+      "file": "cases/vb3081dcb9e3c2a7e/bytes/SHA256SUMS",
+      "id": "vb3081dcb9e3c2a7e",
+      "kind": "synthetic",
+      "name": "anchor-not-after-seen",
+      "sumsSha256": "cda7ad2b660dd2990db39a7e6aafb5b5c37c340ec3708151eb69ca0d7b3f3372"
+    },
+    {
+      "bindings": [
+        {
+          "after": "/seen_block/height",
+          "block": {
+            "header": "000000200000000000000000000000000000000000000000000000000000000000000000a4f3e730f004264895ad799db18e0dad6e6a674959dda96bf259e9ea66aaa5c87a38d96affff001d00000000",
+            "height": 900100,
+            "id": "e02c0432ab79000ccbb39053ff5c02b552844615c80bc28c7504fd4ce4fd8061"
+          },
+          "proof": "log/checkpoint.stamp.ots",
+          "statedTime": "/as_of",
+          "subject": "log/checkpoint.json",
+          "type": "opentimestamps-bitcoin-header"
+        }
+      ],
+      "breaks": "the proof's path changed, the held header left alone",
+      "dir": "cases/vc38bdf501557905b/bytes",
+      "expected": {
+        "codes": [
+          "anchor-mismatch"
+        ],
+        "verdict": "failed"
+      },
+      "file": "cases/vc38bdf501557905b/bytes/SHA256SUMS",
+      "id": "vc38bdf501557905b",
+      "kind": "synthetic",
+      "name": "anchor-mismatch",
+      "sumsSha256": "d801b3ff49a4dcde362bb7113d1f08b721d4b5af47612e4ea826fb311952a6c2"
+    },
+    {
+      "bindings": [
+        {
+          "after": "/seen_block/height",
+          "block": {
+            "header": "000000200000000000000000000000000000000000000000000000000000000000000000a4f3e730f004264895ad799db18e0dad6e6a674959dda96bf259e9ea66aaa5c87a38d96affff001d00000000",
+            "height": 900100,
+            "id": "e02c0432ab79000ccbb39053ff5c02b552844615c80bc28c7504fd4ce4fd8061"
+          },
+          "proof": "log/checkpoint.stamp.ots",
+          "statedTime": "/as_of",
+          "subject": "log/checkpoint.json",
+          "type": "opentimestamps-bitcoin-header"
+        }
+      ],
+      "breaks": "the Bitcoin attestation replaced by a pending one",
+      "dir": "cases/v71d56db94fd4657c/bytes",
+      "expected": {
+        "codes": [
+          "anchor-mismatch"
+        ],
+        "verdict": "failed"
+      },
+      "file": "cases/v71d56db94fd4657c/bytes/SHA256SUMS",
+      "id": "v71d56db94fd4657c",
+      "kind": "synthetic",
+      "name": "anchor-pending",
+      "sumsSha256": "3d8bf2326c601bcee1aa84e88687dcfe2adc1095a2f4315a2f019b4ebe1e2509"
     }
   ]
 }

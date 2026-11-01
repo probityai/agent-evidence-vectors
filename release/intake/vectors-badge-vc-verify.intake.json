@@ -1,0 +1,1072 @@
+{
+  "aggregate": {
+    "counts": {
+      "allow": 7,
+      "deny": 33
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 40
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-badge-vc-verify/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-badge-vc-verify/digest.py",
+    "routine-file": "vectors-badge-vc-verify/digest.py",
+    "serialization": "corpus-routine",
+    "sha256": "e089c0eab6732d3e87dedacdfb1862f27b080425b8cd433c6549145efbacf92e",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "265dbc94d0570d211c9703a7a5d3d01d4f841dd0286cfab86088733865d96892"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "265dbc94d0570d211c9703a7a5d3d01d4f841dd0286cfab86088733865d96892"
+        },
+        "swapped-in": "5914857b839310f3aca592c319be162ac323918bafaab34f5f6da6fc991cf9a3",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-badge-vc-verify/README.md",
+      "serialization": "bytes",
+      "sha256": "7b18d7721f4232ae63c0bf07c6083ad00d3ff5d0030dfaf45d3e83824ad09ed7"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "265dbc94d0570d211c9703a7a5d3d01d4f841dd0286cfab86088733865d96892"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "265dbc94d0570d211c9703a7a5d3d01d4f841dd0286cfab86088733865d96892"
+        },
+        "swapped-in": "af1de65f8010d9471152bcf70ee21bab234de1129cc256bdec0a893c0cd13220",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-badge-vc-verify/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "3b7130ca9806b5b82b7837e7fdf52257fb9734f5c6885bb5ddfd05ebc8364c48"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "265dbc94d0570d211c9703a7a5d3d01d4f841dd0286cfab86088733865d96892"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "265dbc94d0570d211c9703a7a5d3d01d4f841dd0286cfab86088733865d96892"
+        },
+        "swapped-in": "daedac1d3ff50cc4da3c45c0f43ac1b0fd036c74624e5a7603b6da7f7126bfeb",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-badge-vc-verify/digest.py",
+      "serialization": "bytes",
+      "sha256": "687b2b603799d9eaf40930b16ceedaa7e12e73b4349a054e3ff3f6f55505e6de"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "265dbc94d0570d211c9703a7a5d3d01d4f841dd0286cfab86088733865d96892"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "265dbc94d0570d211c9703a7a5d3d01d4f841dd0286cfab86088733865d96892"
+        },
+        "swapped-in": "fb3f0461e2b10717168bcae4b6777057e82a42199d78e976f8152adb44605da2",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-badge-vc-verify/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "339dc997422ffeb23dec16c8148f26e7214357d83545836b4d36e77ae926ac63"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "265dbc94d0570d211c9703a7a5d3d01d4f841dd0286cfab86088733865d96892"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "265dbc94d0570d211c9703a7a5d3d01d4f841dd0286cfab86088733865d96892"
+        },
+        "swapped-in": "20be53fb85d4aba34ef426b75039023b395cd61f19c578b450a092f739e5223d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-badge-vc-verify/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "890744e97b219152d3b4d28271727277bfc2c10e85d0b49121e2bde5bf608a00"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "vectors-badge-vc-verify"
+  },
+  "byte-identity": {
+    "pins": 40,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-badge-vc-verify",
+      "aee-verify -json vectors-badge-vc-verify",
+      "aee-verify vectors-badge-vc-verify"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "a545067c2adb8d8dff265086dff2f1a23bd74e60003835fd26e776e81ce7d47e"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "allow-plain",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-expiration-in-future",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-second-key-of-issuer",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-revoked-list-names-another",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-expiration-one-second-after",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-issuance-equals-verification-time",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-offset-timestamps",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "revoked-in-issuer-store",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "expired-years-ago",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "expiration-equals-verification-time",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "expired-by-offset",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "not-yet-valid",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "not-yet-valid-by-one-second",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "issuer-claim-differs-from-kid",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "kid-fragment-not-an-issuer-key",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "kid-did-unknown-to-verifier",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "signed-by-stranger-key",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "payload-altered-after-signing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "signature-truncated",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "kid-names-other-issuer-key",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "issuer-untrusted",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "trusted-issuers-empty",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "jws-alg-none",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "jws-alg-hs256",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "jws-two-parts",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "jws-four-parts",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "jws-header-not-json",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "jws-kid-without-fragment",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "jws-kid-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "jws-padded-base64",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "credential-type-lacks-verifiable-credential",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "credential-subject-id-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "credential-issuance-unparseable",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "credential-expiration-unparseable",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "case-status-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "case-revoked-not-a-list",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "case-issuer-key-not-32-bytes",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "case-verification-time-unparseable",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "contract-id-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "contract-id-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "aebff5bdeea26c6f6780cfd4abffea8da67580339cf654eda2175734cab7e500"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "allow-plain",
+      "allow-expiration-in-future",
+      "allow-second-key-of-issuer",
+      "allow-revoked-list-names-another",
+      "allow-expiration-one-second-after",
+      "allow-issuance-equals-verification-time",
+      "allow-offset-timestamps",
+      "revoked-in-issuer-store",
+      "expired-years-ago",
+      "expiration-equals-verification-time",
+      "expired-by-offset",
+      "not-yet-valid",
+      "not-yet-valid-by-one-second",
+      "issuer-claim-differs-from-kid",
+      "kid-fragment-not-an-issuer-key",
+      "kid-did-unknown-to-verifier",
+      "signed-by-stranger-key",
+      "payload-altered-after-signing",
+      "signature-truncated",
+      "kid-names-other-issuer-key",
+      "issuer-untrusted",
+      "trusted-issuers-empty",
+      "jws-alg-none",
+      "jws-alg-hs256",
+      "jws-two-parts",
+      "jws-four-parts",
+      "jws-header-not-json",
+      "jws-kid-without-fragment",
+      "jws-kid-missing",
+      "jws-padded-base64",
+      "credential-type-lacks-verifiable-credential",
+      "credential-subject-id-missing",
+      "credential-issuance-unparseable",
+      "credential-expiration-unparseable",
+      "case-status-missing",
+      "case-revoked-not-a-list",
+      "case-issuer-key-not-32-bytes",
+      "case-verification-time-unparseable",
+      "contract-id-missing",
+      "contract-id-unknown"
+    ],
+    "path": "vectors-badge-vc-verify/MANIFEST.json",
+    "sha256": "53561ca3b2ae192fc8f7e07c0fb823e4071c00c2ad268158370ffba7d48fae8f"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/allow-plain/case.json",
+          "sha256": "46e579dea9470a8f8beabd38c35d7705b1bd04490a5f8c5625e01fb12391e308"
+        }
+      ],
+      "id": "allow-plain"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/allow-expiration-in-future/case.json",
+          "sha256": "baa22672138b2a173ee3df0c9cacb12b022dbd89b703dcdf413ca926411a93ac"
+        }
+      ],
+      "id": "allow-expiration-in-future"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/allow-second-key-of-issuer/case.json",
+          "sha256": "b56c6533e0dfc840a4e8f001027cd28646f3f2af3b3aa7be7f169ce5cf236336"
+        }
+      ],
+      "id": "allow-second-key-of-issuer"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/allow-revoked-list-names-another/case.json",
+          "sha256": "61be58128c7bc7db6b9eadcbd97bc2885dec1bb8acb2519c51a89b2b2375314b"
+        }
+      ],
+      "id": "allow-revoked-list-names-another"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/allow-expiration-one-second-after/case.json",
+          "sha256": "a675949017ab870bf66c91f80a70ffa59ce4be0c614b17cf07f855e16b6dcab6"
+        }
+      ],
+      "id": "allow-expiration-one-second-after"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/allow-issuance-equals-verification-time/case.json",
+          "sha256": "b2c3012e0736b1c19b42b29d8da042d4c80acd69f2342042178fed2c29140764"
+        }
+      ],
+      "id": "allow-issuance-equals-verification-time"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/allow-offset-timestamps/case.json",
+          "sha256": "59e9afcf0bbc5e220bfa59b60b693e7ed587305724392ad904be90dcbae2bdc3"
+        }
+      ],
+      "id": "allow-offset-timestamps"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/revoked-in-issuer-store/case.json",
+          "sha256": "c60818657e481b21729fed23482bfcac456cc28c78b25769fb862fc01f45a979"
+        }
+      ],
+      "id": "revoked-in-issuer-store"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/expired-years-ago/case.json",
+          "sha256": "86a3067b5a480d846fd3542727e0d4760c77a13e59dd85c5bd5c8e0eb5e8a7ec"
+        }
+      ],
+      "id": "expired-years-ago"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/expiration-equals-verification-time/case.json",
+          "sha256": "6355a3567ffc1caa67fb3ec46cd9db1b7b56bc4adfe6cab2be5aa61085fb3450"
+        }
+      ],
+      "id": "expiration-equals-verification-time"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/expired-by-offset/case.json",
+          "sha256": "34bbb2c2b6b3fd5752259368da9aa9616253f541c9733e3166e2cad9ec97befb"
+        }
+      ],
+      "id": "expired-by-offset"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/not-yet-valid/case.json",
+          "sha256": "c3a604c5353666769a45bf3b59bd127db9902a182eadf5ea0dd0a044b4ed4528"
+        }
+      ],
+      "id": "not-yet-valid"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/not-yet-valid-by-one-second/case.json",
+          "sha256": "9b3acb423fa3f4b82ed5b93b96e3c51f8d2afad271f7c995aa7096a2ed8a48f9"
+        }
+      ],
+      "id": "not-yet-valid-by-one-second"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/issuer-claim-differs-from-kid/case.json",
+          "sha256": "d54059379d5ee12dd0ab60ef98aab94f378ade56a73c2ead7dfd9b7452ecc359"
+        }
+      ],
+      "id": "issuer-claim-differs-from-kid"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/kid-fragment-not-an-issuer-key/case.json",
+          "sha256": "3c1d0fdae1132f270070ea1e9c10b13e590d7528340e360c5eb3568fb18de323"
+        }
+      ],
+      "id": "kid-fragment-not-an-issuer-key"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/kid-did-unknown-to-verifier/case.json",
+          "sha256": "2e7107abc8bd40288ff4f8112d8a7c6066f95c868b372094215011a44ebeaf40"
+        }
+      ],
+      "id": "kid-did-unknown-to-verifier"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/signed-by-stranger-key/case.json",
+          "sha256": "0d3ff507769bf2e6baf4dd89ad19c830fa78be796716c603fee54ce7a0b8c627"
+        }
+      ],
+      "id": "signed-by-stranger-key"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/payload-altered-after-signing/case.json",
+          "sha256": "ac9a1d1a8c5e39fcd7d5df8e23b6e2cd51cf79af5251cba464021d072818ace4"
+        }
+      ],
+      "id": "payload-altered-after-signing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/signature-truncated/case.json",
+          "sha256": "7805251986b804d86095a7f0baaa2a3632aee8be7ae664f43a7bc1ea28f77ba8"
+        }
+      ],
+      "id": "signature-truncated"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/kid-names-other-issuer-key/case.json",
+          "sha256": "77bb1e60cc230c4a5218cac9eafcf004b61ea3679fce6c078c33587bf3859004"
+        }
+      ],
+      "id": "kid-names-other-issuer-key"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/issuer-untrusted/case.json",
+          "sha256": "456facc82b754d47de9c73dd22d59174edd2a093bd6157c449445ef74b3f776b"
+        }
+      ],
+      "id": "issuer-untrusted"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/trusted-issuers-empty/case.json",
+          "sha256": "9f774708ffa9f03e6eb3efa36c86a0dc3c9c137ac12111551606d8d231c05497"
+        }
+      ],
+      "id": "trusted-issuers-empty"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/jws-alg-none/case.json",
+          "sha256": "b4d7dec075ac65089777092a0d162bf01330e7513bdd00418c7610fdbfa2d985"
+        }
+      ],
+      "id": "jws-alg-none"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/jws-alg-hs256/case.json",
+          "sha256": "68a516c04071634d61847a33d04d5e04e7d9bb8c09638c95b82092817bc1bf86"
+        }
+      ],
+      "id": "jws-alg-hs256"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/jws-two-parts/case.json",
+          "sha256": "3a4525e90ecb7ab7036d6e087ed3a8cff51526f85d6bec2918bccd298be6d805"
+        }
+      ],
+      "id": "jws-two-parts"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/jws-four-parts/case.json",
+          "sha256": "694960d5a4db3533c6f8e12683eab4d93ee09fb6063782b0b40dd26a28dfaab9"
+        }
+      ],
+      "id": "jws-four-parts"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/jws-header-not-json/case.json",
+          "sha256": "12c16bd9e6d62c5b45cbc8f1056ea212aa274f933d29823b5c46f2d29061e33d"
+        }
+      ],
+      "id": "jws-header-not-json"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/jws-kid-without-fragment/case.json",
+          "sha256": "55670a58397e91dceeeb5881bece8c8fd2aa9d1456d20bce3cabdcecaf2e06c4"
+        }
+      ],
+      "id": "jws-kid-without-fragment"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/jws-kid-missing/case.json",
+          "sha256": "d3c53fbcb32027c0acaaa18a06b285bfd200ba30adcd1f3e35b4fd2ed3a16b32"
+        }
+      ],
+      "id": "jws-kid-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/jws-padded-base64/case.json",
+          "sha256": "22f6b88c4889ffc69a81d3072b6b2207a04fdc1270ff4375b23b037e25074f71"
+        }
+      ],
+      "id": "jws-padded-base64"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/credential-type-lacks-verifiable-credential/case.json",
+          "sha256": "d60d87874f8b7129fbf0a23172eea8937fba500b626c74d55437dbaf23003460"
+        }
+      ],
+      "id": "credential-type-lacks-verifiable-credential"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/credential-subject-id-missing/case.json",
+          "sha256": "f6ec5edc89eaabf16d82d53d8e2675c43fc000644a2190ec7b2876d61996cc72"
+        }
+      ],
+      "id": "credential-subject-id-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/credential-issuance-unparseable/case.json",
+          "sha256": "7bc3b18d5d41cbef33f7273f9120013a8db0e5f2ce4a2dd92dee4664847e5a6a"
+        }
+      ],
+      "id": "credential-issuance-unparseable"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/credential-expiration-unparseable/case.json",
+          "sha256": "97d6d4d51c108fa9a02e45ff1fbfc0793962915238773980edaea9a6ac7d9ee5"
+        }
+      ],
+      "id": "credential-expiration-unparseable"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/case-status-missing/case.json",
+          "sha256": "a7c8c3a78a9ffb6609546ba649075a3f7ae6603e96702cf36d8068f7f490afa4"
+        }
+      ],
+      "id": "case-status-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/case-revoked-not-a-list/case.json",
+          "sha256": "46eded52ee1027573ec028da80bcf4438b73c7c979e5f9ba0ec5ea3a022f7e79"
+        }
+      ],
+      "id": "case-revoked-not-a-list"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/case-issuer-key-not-32-bytes/case.json",
+          "sha256": "43ab6ad84bc1b94cd322879c953fcc06b08abb6f7870cad5ea2999775771ac33"
+        }
+      ],
+      "id": "case-issuer-key-not-32-bytes"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/case-verification-time-unparseable/case.json",
+          "sha256": "1240cbc1dfd110ba363f3f0c32a8155f66a0da84e8bfdff8a0e990d59ea1aa29"
+        }
+      ],
+      "id": "case-verification-time-unparseable"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/contract-id-missing/case.json",
+          "sha256": "2b2d9b0f0b8091b1bc4952cbd6530e84298a1f4bc50983576ac7c0d4cabe8d0e"
+        }
+      ],
+      "id": "contract-id-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-badge-vc-verify/cases/contract-id-unknown/case.json",
+          "sha256": "7ab30f4899be782cddd44e59ab5a52e5010a873b962b57f605ecce4181dd2950"
+        }
+      ],
+      "id": "contract-id-unknown"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-badge-vc-verify.json",
+        "serialization": "bytes",
+        "sha256": "265dbc94d0570d211c9703a7a5d3d01d4f841dd0286cfab86088733865d96892"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-badge-vc-verify.txt",
+        "serialization": "bytes",
+        "sha256": "3317ae2d207baf61aa223da850298b69b8dbcb64fbec3eed0db247a008c9c03a"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "265dbc94d0570d211c9703a7a5d3d01d4f841dd0286cfab86088733865d96892"
+      },
+      {
+        "process": "run-2",
+        "sha256": "265dbc94d0570d211c9703a7a5d3d01d4f841dd0286cfab86088733865d96892"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 40 pinned members of badge-vc-verify/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 40,
+    "require": "at-least-one",
+    "selected": [
+      "allow-plain",
+      "allow-expiration-in-future",
+      "allow-second-key-of-issuer",
+      "allow-revoked-list-names-another",
+      "allow-expiration-one-second-after",
+      "allow-issuance-equals-verification-time",
+      "allow-offset-timestamps",
+      "revoked-in-issuer-store",
+      "expired-years-ago",
+      "expiration-equals-verification-time",
+      "expired-by-offset",
+      "not-yet-valid",
+      "not-yet-valid-by-one-second",
+      "issuer-claim-differs-from-kid",
+      "kid-fragment-not-an-issuer-key",
+      "kid-did-unknown-to-verifier",
+      "signed-by-stranger-key",
+      "payload-altered-after-signing",
+      "signature-truncated",
+      "kid-names-other-issuer-key",
+      "issuer-untrusted",
+      "trusted-issuers-empty",
+      "jws-alg-none",
+      "jws-alg-hs256",
+      "jws-two-parts",
+      "jws-four-parts",
+      "jws-header-not-json",
+      "jws-kid-without-fragment",
+      "jws-kid-missing",
+      "jws-padded-base64",
+      "credential-type-lacks-verifiable-credential",
+      "credential-subject-id-missing",
+      "credential-issuance-unparseable",
+      "credential-expiration-unparseable",
+      "case-status-missing",
+      "case-revoked-not-a-list",
+      "case-issuer-key-not-32-bytes",
+      "case-verification-time-unparseable",
+      "contract-id-missing",
+      "contract-id-unknown"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "badge-vc-verify/v1"
+}
