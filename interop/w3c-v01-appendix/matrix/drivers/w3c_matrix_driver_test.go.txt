@@ -1,0 +1,77 @@
+package corpora
+
+// Copied into corpora/ of a checkout, as w3c_matrix_driver_test.go, by
+// interop/w3c-v01-appendix/matrix/matrix.py and removed after the run. It is
+// kept here with a .txt suffix so the module's own `go test ./...` never
+// compiles it. It reads each listed report the way the Go reader reads an
+// emitted report (w3cEmittedReportFindings in corpora/w3creport.go):
+// decodeJSONNumbers, then w3cShapeErrors, then w3cRejections, and writes one
+// JSON line per file.
+
+import (
+	"encoding/json"
+	"fmt"
+	"os"
+	"sort"
+	"strings"
+	"testing"
+)
+
+func w3cMatrixRead(path string) (line map[string]any) {
+	line = map[string]any{"file": path, "cited": []string{}, "note": ""}
+	defer func() {
+		if r := recover(); r != nil {
+			line["outcome"], line["cited"] = "cannot-read", []string{}
+			line["note"] = fmt.Sprintf("reader panicked: %v", r)
+		}
+	}()
+	body, err := os.ReadFile(path)
+	if err != nil {
+		line["outcome"], line["note"] = "cannot-read", err.Error()
+		return line
+	}
+	document, err := decodeJSONNumbers(body)
+	if err != nil {
+		line["outcome"], line["note"] = "cannot-read", err.Error()
+		return line
+	}
+	if shape := w3cShapeErrors(document); len(shape) > 0 {
+		line["outcome"], line["cited"], line["note"] = "rejected", []string{"shape"}, strings.Join(shape, "; ")
+		return line
+	}
+	report, ok := document.(map[string]any)
+	if !ok {
+		line["outcome"], line["note"] = "cannot-read", "not a JSON object"
+		return line
+	}
+	rejected := w3cRejections(report, nil)
+	sort.Strings(rejected)
+	if len(rejected) == 0 {
+		line["outcome"] = "conforms"
+	} else {
+		line["outcome"], line["cited"] = "rejected", rejected
+	}
+	return line
+}
+
+func TestW3CMatrixDriver(t *testing.T) {
+	listing := os.Getenv("W3C_MATRIX_LIST")
+	if listing == "" {
+		t.Skip("W3C_MATRIX_LIST is not set")
+	}
+	raw, err := os.ReadFile(listing)
+	if err != nil {
+		t.Fatal(err)
+	}
+	out, err := os.Create(os.Getenv("W3C_MATRIX_OUT"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer out.Close()
+	encoder := json.NewEncoder(out)
+	for _, path := range strings.Split(strings.TrimSpace(string(raw)), "\n") {
+		if err := encoder.Encode(w3cMatrixRead(path)); err != nil {
+			t.Fatal(err)
+		}
+	}
+}
