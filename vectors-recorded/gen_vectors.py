@@ -16,7 +16,6 @@ stop matching its list. The manifest and index are functions of both.
 from __future__ import annotations
 
 import hashlib
-import importlib.util
 import json
 import shutil
 import sys
@@ -24,12 +23,9 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parent
-READER_PATH = ROOT.parent / "packaging" / "agent_evidence_vectors" / "recorded.py"
-_spec = importlib.util.spec_from_file_location("recorded_reader", READER_PATH)
-assert _spec is not None and _spec.loader is not None
-reader = importlib.util.module_from_spec(_spec)
-sys.modules["recorded_reader"] = reader
-_spec.loader.exec_module(reader)
+sys.path.insert(0, str(ROOT.parent / "packaging"))
+from agent_evidence_vectors import auditrecord  # noqa: E402
+from agent_evidence_vectors import recorded as reader  # noqa: E402
 
 SUITE = reader.SUITE
 
@@ -59,6 +55,92 @@ BASE = {
 }
 BINDINGS = [{"type": reader.BINDING_OTS, "proof": "log/checkpoint.stamp.ots",
              "subject": "log/checkpoint.json"}]
+
+
+# The anchored twin: a subject stating a time and a block it saw, an
+# OpenTimestamps proof that runs to a Bitcoin attestation, and a synthetic
+# header holding the commitment as its Merkle root. Its header time sits exactly
+# the OpenTimestamps allowance before the stated time, so the twin is inside the
+# allowance (the audit-record draft's R10) and one second more is outside it (R11).
+STATED = 1792627866
+HEIGHT = 900100
+ALLOWANCE = reader.OTS_TOLERANCE_SECONDS
+
+
+def _subject(stated: int, seen: int) -> bytes:
+    return json.dumps({"as_of": stated, "seen_block": {"height": seen}},
+                      sort_keys=True, separators=(",", ":")).encode()
+
+
+def _anchored_proof(subject: bytes, nonce: bytes, pending: bool = False) -> tuple[bytes, bytes]:
+    """A proof over ``subject`` (append a nonce, SHA-256, attest) and its commitment."""
+    digest = hashlib.sha256(subject).digest()
+    commitment = hashlib.sha256(digest + nonce).digest()
+    if pending:
+        tag, payload = auditrecord.OTS_PENDING, b"https://calendar.invalid"
+    else:
+        tag, payload = auditrecord.OTS_BITCOIN, _varuint(HEIGHT)
+    body = (b"\xf0" + bytes([len(nonce)]) + nonce + b"\x08" + b"\x00" + tag
+            + bytes([len(payload)]) + payload)
+    magic: bytes = reader.OTS_MAGIC
+    return magic + bytes([reader.OTS_VERSION, reader.OTS_SHA256]) + digest + body, commitment
+
+
+def _varuint(value: int) -> bytes:
+    out = bytearray()
+    while True:
+        byte, value = value & 0x7F, value >> 7
+        out.append(byte | (0x80 if value else 0))
+        if not value:
+            return bytes(out)
+
+
+def _header(merkle_root: bytes, time: int) -> dict[str, Any]:
+    header = ((0x20000000).to_bytes(4, "little") + bytes(32) + merkle_root
+              + time.to_bytes(4, "little") + (0x1D00FFFF).to_bytes(4, "little") + bytes(4))
+    return {"height": HEIGHT, "header": header.hex(), "id": reader.block_id(header)}
+
+
+def _anchored(stated: int, seen: int, nonce: bytes, pending: bool = False
+              ) -> tuple[dict[str, bytes], bytes]:
+    subject = _subject(stated, seen)
+    proof, commitment = _anchored_proof(subject, nonce, pending)
+    return {"log/checkpoint.json": subject, "log/checkpoint.stamp.ots": proof}, commitment
+
+
+def _anchor_binding(block: dict[str, Any]) -> list[dict[str, Any]]:
+    return [{"type": reader.BINDING_BTC, "proof": "log/checkpoint.stamp.ots",
+             "subject": "log/checkpoint.json", "block": block,
+             "after": "/seen_block/height", "statedTime": "/as_of"}]
+
+
+def _anchored_cases() -> list[tuple[str, str, dict[str, bytes], str, list[dict[str, Any]]]]:
+    """(slug, what it breaks, files, pin, bindings) for the anchored twin and its cases."""
+    nonce = bytes.fromhex(_sha(b"anchored twin nonce"))[:8]
+    files, commitment = _anchored(STATED, HEIGHT - 1, nonce)
+    held = _header(commitment, STATED - ALLOWANCE)
+    cases = [("anchor-intact", "nothing: the anchored twin, its stated time exactly the "
+              "allowance after its header time", files, held)]
+    late, late_root = _anchored(STATED + 1, HEIGHT - 1, nonce)
+    cases.append(("stated-after-anchor", "the stated time one second past the allowance",
+                  late, _header(late_root, STATED - ALLOWANCE)))
+    seen, seen_root = _anchored(STATED, HEIGHT, nonce)
+    cases.append(("anchor-not-after-seen", "the block the subject saw is the anchoring block",
+                  seen, _header(seen_root, STATED - ALLOWANCE)))
+    other, _ = _anchored(STATED, HEIGHT - 1, bytes.fromhex(_sha(b"other nonce"))[:8])
+    cases.append(("anchor-mismatch", "the proof's path changed, the held header left alone",
+                  other, held))
+    pending, _ = _anchored(STATED, HEIGHT - 1, nonce, pending=True)
+    cases.append(("anchor-pending", "the Bitcoin attestation replaced by a pending one",
+                  pending, held))
+    out = []
+    for slug, what, body, block in cases:
+        sums = _sums(body)
+        out.append((slug, what, _set(body, sums), _sha(sums), _anchor_binding(block)))
+    return out
+
+
+ANCHORED_CODES = {"anchor-intact": [], "anchor-pending": ["anchor-mismatch"]}
 
 
 def _set(files: dict[str, bytes], sums: bytes | None) -> dict[str, bytes]:
@@ -118,6 +200,36 @@ def _write(directory: Path, files: dict[str, bytes]) -> None:
         target.write_bytes(body)
 
 
+def _header_view(view: dict[str, Any]) -> dict[int, dict[str, Any]]:
+    """The held headers by height, refused unless each links to the one before."""
+    path = ROOT / "sets" / view["member"] / "bytes" / view["file"]
+    rows = reader._pointer(json.loads(path.read_bytes()), view["pointer"])
+    held: dict[int, dict[str, Any]] = {}
+    previous = None
+    for row in rows:
+        header = bytes.fromhex(row["hex"])
+        if len(header) != 80 or (previous is not None and header[4:36][::-1].hex() != previous):
+            raise SystemExit(f"{path}: the header view does not link at height {row['height']}")
+        previous = reader.block_id(header)
+        held[row["height"]] = {"height": row["height"], "header": row["hex"], "id": previous}
+    return held
+
+
+def _bindings(source: dict[str, Any]) -> list[dict[str, Any]]:
+    """The declared bindings, each anchor given the header the view holds for it."""
+    out = []
+    view = _header_view(source["headerView"]) if "headerView" in source else {}
+    for declared in source["bindings"]:
+        binding = dict(declared)
+        if binding["type"] == reader.BINDING_BTC:
+            height = binding.pop("height")
+            if height not in view:
+                raise SystemExit(f"no header held for block {height}")
+            binding["block"] = view[height]
+        out.append(binding)
+    return out
+
+
 def _recorded_entries() -> list[dict[str, Any]]:
     entries = []
     for source_path in sorted((ROOT / "sets").glob("*/SOURCE.json")):
@@ -130,7 +242,8 @@ def _recorded_entries() -> list[dict[str, Any]]:
         for path, digest in source["publishedDigests"].items():
             if _sha((directory / path).read_bytes()) != digest:
                 raise SystemExit(f"{rel}/{path} no longer has the digest its publisher stated")
-        codes = reader.check_set(directory, source["sumsSha256"], source["bindings"])
+        bindings = _bindings(source)
+        codes = reader.check_set(directory, source["sumsSha256"], bindings)
         if codes:
             raise SystemExit(f"{rel} does not verify against its own list: {codes}")
         entries.append({
@@ -138,7 +251,7 @@ def _recorded_entries() -> list[dict[str, Any]]:
             "kind": "recorded", "dir": rel, "file": f"{rel}/{reader.SUMS}",
             "sourceFile": source_path.relative_to(ROOT).as_posix(),
             "licenceFile": (source_path.parent / "LICENSE").relative_to(ROOT).as_posix(),
-            "sumsSha256": source["sumsSha256"], "bindings": source["bindings"],
+            "sumsSha256": source["sumsSha256"], "bindings": bindings,
             "expected": {"verdict": reader.VERIFIED, "codes": []},
             "source": {k: source[k] for k in ("repository", "commit", "path", "publishedIn",
                                               "contributor", "licence")},
@@ -149,13 +262,14 @@ def _recorded_entries() -> list[dict[str, Any]]:
 def _synthetic_entries() -> list[dict[str, Any]]:
     shutil.rmtree(ROOT / "cases", ignore_errors=True)
     entries = []
-    for slug, what, files, pin in _cases():
+    plain = [(slug, what, files, pin, BINDINGS) for slug, what, files, pin in _cases()]
+    for slug, what, files, pin, bindings in plain + _anchored_cases():
         member_id = _tree_id(files)
         directory = ROOT / "cases" / member_id / "bytes"
         _write(directory, files)
-        codes = reader.check_set(directory, pin, BINDINGS)
-        expected_codes = [] if slug == "intact" else [
-            "sums-malformed" if slug == "sums-unterminated" else slug]
+        codes = reader.check_set(directory, pin, bindings)
+        expected_codes = ANCHORED_CODES.get(slug, [] if slug == "intact" else [
+            "sums-malformed" if slug == "sums-unterminated" else slug])
         if codes != expected_codes:
             raise SystemExit(f"{slug}: the reader answers {codes}, not {expected_codes}")
         rel = directory.relative_to(ROOT).as_posix()
@@ -163,7 +277,7 @@ def _synthetic_entries() -> list[dict[str, Any]]:
         sums_file = f"{rel}/{named}"
         entries.append({
             "id": member_id, "name": slug, "kind": "synthetic", "dir": rel, "file": sums_file,
-            "sumsSha256": pin, "bindings": BINDINGS, "breaks": what,
+            "sumsSha256": pin, "bindings": bindings, "breaks": what,
             "expected": {"verdict": reader.VERIFIED if not codes else reader.FAILED,
                          "codes": codes},
         })
