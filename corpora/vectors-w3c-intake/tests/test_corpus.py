@@ -17,8 +17,8 @@ from typing import Any
 
 import pytest
 
-REPO = Path(__file__).resolve().parents[2]
-CORPUS = REPO / "vectors-w3c-intake"
+REPO = Path(__file__).resolve().parents[3]
+CORPUS = REPO / "corpora" / "vectors-w3c-intake"
 MODULE = REPO / "packaging" / "agent_evidence_vectors" / "w3cintake.py"
 sys.path.insert(0, str(REPO / "packaging"))
 

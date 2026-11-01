@@ -32,7 +32,7 @@ from pathlib import Path
 from typing import Any
 
 REPO = Path(__file__).resolve().parent.parent
-CORPUS = "vectors-w3c-intake"
+CORPUS = "corpora/vectors-w3c-intake"
 REPLACEMENTS: tuple[Any, ...] = (None, "x", 7, [], {})
 
 
