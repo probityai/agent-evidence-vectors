@@ -670,6 +670,19 @@
       "immutableRelease": null,
       "date": "2026-10-01",
       "pin": "8d6295fb5db3e57c52df09f2fbeeb758b09f5c7d"
+    },
+    {
+      "runner": "Laurent-Lemonnier",
+      "implementation": "Laurent-Lemonnier/dps-scitt-decision-layer (interop/gilda/gilda_verify_independent.py)",
+      "corpus": "vectors-agent-audit-record",
+      "label": "independent",
+      "evidence": "an outside run at release 0.28.0 from draft-gilda-audit-agent-audit-record-02 Sections 4 and 5, importing nothing from this package, 141 of 141 members agree with MANIFEST.json, anchor validation of retained records (Section 4.7.2) not attempted, replayed by the reader's own CI on every change and weekly",
+      "posting": "https://github.com/probityai/agent-evidence-vectors/issues/335",
+      "consentThread": "https://github.com/probityai/agent-evidence-vectors/issues/335",
+      "consent": "posted-publicly",
+      "immutableRelease": "https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/tree/f72f092/interop/gilda",
+      "date": "2026-10-30",
+      "pin": "f72f092"
     }
   ]
 }
