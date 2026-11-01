@@ -165,7 +165,8 @@ For one declared sink and test window, whether an effect from a task in flight c
   each carrying its Appendix B identifier, then members for sentences of
   Section 5.4 that Appendix B has no row for, each naming its section in
   `draftSection`, then rows of revision 01 (`CS1` to `CS40`) that bind
-  consumption state to the agent's operation key; `CS7`, `CS8`, `CS17`, `CS18` to `CS22` and `CS25` to `CS33` and `CS38` to `CS40` are
+  consumption state to the agent's operation key, and rows written for revision
+  04 (`CS41` to `CS49`) that add a paid call's payee and settled terms; `CS7`, `CS8`, `CS17`, `CS18` to `CS22`, `CS25` to `CS33`, `CS38` to `CS40`, `CS48` and `CS49` are
   files of several records judged as a set. Rows R1 to R9 are retained records
   judged by the dating check of Section 4.7. Judged by `packaging/agent_evidence_vectors/auditrecord.py`.
   Releases up to v0.25.0 test revision 02 of the earlier draft.
