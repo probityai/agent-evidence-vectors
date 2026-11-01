@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"encoding/json"
@@ -11,7 +11,7 @@ import (
 
 func init() { register(approvalBinding{}) }
 
-// approvalBinding judges vectors-approval-binding/. Each member is one record
+// approvalBinding judges corpora/vectors-approval-binding/. Each member is one record
 // of an approval presented for a use and the payload bytes of the use. The
 // reader derives each member's decision with the checks the Python reader
 // applies, in the same order, and names the first one that fails:

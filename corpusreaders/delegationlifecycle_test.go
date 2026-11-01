@@ -1,4 +1,4 @@
-package corpora_test
+package corpusreaders_test
 
 // The delegation lifecycle reader decides every member from its signed records
 // and its policy. The cases below give each refused member the whole case of its
@@ -13,7 +13,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/probityai/agent-evidence-vectors/corpora"
+	"github.com/probityai/agent-evidence-vectors/corpusreaders"
 )
 
 const dlDir = "vectors-delegation-lifecycle"
@@ -54,7 +54,7 @@ func dlStageWithCase(t *testing.T, member, caseFrom string) string {
 
 func dlFindings(t *testing.T, dir, id string) []string {
 	t.Helper()
-	result, err := corpora.Judge(dir)
+	result, err := corpusreaders.Judge(dir)
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}
@@ -68,7 +68,7 @@ func dlFindings(t *testing.T, dir, id string) []string {
 }
 
 func TestDelegationLifecycleCommittedCorpusIsClean(t *testing.T) {
-	result, err := corpora.Judge(corpusPath(dlDir))
+	result, err := corpusreaders.Judge(corpusPath(dlDir))
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}
@@ -137,7 +137,7 @@ func TestDelegationLifecycleRefusedMemberNeedsAnAcceptedTwin(t *testing.T) {
 	if err := os.WriteFile(path, []byte(edited), 0o600); err != nil {
 		t.Fatal(err)
 	}
-	result, err := corpora.Judge(copied)
+	result, err := corpusreaders.Judge(copied)
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}

@@ -1,8 +1,8 @@
-package corpora
+package corpusreaders
 
 // The Go done reader compares runs by the argv model of doneargv.py and Python's posixpath.
 // testdata/done-argv.json holds what Python answers on the spellings that decide each rule
-// (written by vectors-done-receipt/tests/test_done_argv_cases.py, which also checks it), and
+// (written by corpora/vectors-done-receipt/tests/test_done_argv_cases.py, which also checks it), and
 // this test requires the same answer from Go on every one.
 
 import (

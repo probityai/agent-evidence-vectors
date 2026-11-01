@@ -1,4 +1,4 @@
-package corpora_test
+package corpusreaders_test
 
 // A corpus names its vendored contract or criterion relative to the directory
 // it sits in. The directory is whatever the caller typed, so these readers must
@@ -12,7 +12,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/probityai/agent-evidence-vectors/corpora"
+	"github.com/probityai/agent-evidence-vectors/corpusreaders"
 )
 
 func TestContractResolvesAgainstTheParentWhateverTheSpelling(t *testing.T) {
@@ -33,7 +33,7 @@ func TestContractResolvesAgainstTheParentWhateverTheSpelling(t *testing.T) {
 			"dot segments":   filepath.Join("..", "corpora", "..", corpus),
 		}
 		for name, dir := range spellings {
-			result, err := corpora.Judge(dir)
+			result, err := corpusreaders.Judge(dir)
 			if err != nil {
 				t.Fatalf("%s, %s: %v", corpus, name, err)
 			}
@@ -57,7 +57,7 @@ func TestContractResolvesFromInsideTheCorpus(t *testing.T) {
 		t.Fatal(err)
 	}
 	t.Cleanup(func() { _ = os.Chdir(previous) })
-	result, err := corpora.Judge(".")
+	result, err := corpusreaders.Judge(".")
 	if err != nil {
 		t.Fatal(err)
 	}

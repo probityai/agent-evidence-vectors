@@ -1,4 +1,4 @@
-package corpora_test
+package corpusreaders_test
 
 // The anchored-chain reader derives every decision from the stored bytes. The
 // committed corpus reaches each check once; the cases below swap one member's
@@ -12,7 +12,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/probityai/agent-evidence-vectors/corpora"
+	"github.com/probityai/agent-evidence-vectors/corpusreaders"
 )
 
 const acDir = "vectors-anchored-chain"
@@ -32,7 +32,7 @@ func acStageWithStore(t *testing.T, member, storeFrom string) string {
 }
 
 func TestAnchoredChainCommittedCorpusIsClean(t *testing.T) {
-	result, err := corpora.Judge(corpusPath(acDir))
+	result, err := corpusreaders.Judge(corpusPath(acDir))
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}

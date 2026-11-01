@@ -82,7 +82,7 @@ LEAF_PREFIX, NODE_PREFIX = b"\x00", b"\x01"
 _HASH = re.compile(r"sha256:[0-9a-f]{64}")
 _HERE = Path(__file__).resolve().parent
 ROOT = (_HERE / "corpora" / "vectors-trace-anchor" if
-        (_HERE / "corpora").exists() else _HERE.parents[1] / "vectors-trace-anchor")
+        (_HERE / "corpora").exists() else _HERE.parents[1] / "corpora" / "vectors-trace-anchor")
 
 
 def _sha(data: bytes) -> str:

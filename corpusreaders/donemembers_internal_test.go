@@ -1,9 +1,9 @@
-package corpora
+package corpusreaders
 
 // The Go done checks are held to the Python reader's verdicts on runs the corpora do not
 // hold. testdata/done-members.json.gz names corpus members and, for each, one change to one
 // record and the verdicts the Python reader derives once the consumer's pins move to the
-// changed bytes (written by vectors-done-receipt/tests/test_done_member_cases.py, which
+// changed bytes (written by corpora/vectors-done-receipt/tests/test_done_member_cases.py, which
 // also checks it). This test makes the same change, moves the pins the same way and
 // requires the same verdicts.
 

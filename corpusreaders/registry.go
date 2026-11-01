@@ -12,7 +12,7 @@
 // members and returns one Result. A directory whose suite names no reader is
 // REFUSED BY NAME. It is never skipped, because a skipped corpus and a passing
 // corpus print the same zero.
-package corpora
+package corpusreaders
 
 import (
 	"encoding/json"

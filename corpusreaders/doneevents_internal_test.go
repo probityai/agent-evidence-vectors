@@ -1,8 +1,8 @@
-package corpora
+package corpusreaders
 
 // The Go done reader's tool-shadow rules are held to the Python reader's answers.
 // testdata/done-events.json holds exec, loader, write and link cases with what the Python
-// reader answers for each (written by vectors-done-receipt/tests/test_done_event_cases.py,
+// reader answers for each (written by corpora/vectors-done-receipt/tests/test_done_event_cases.py,
 // which also checks it). This test calls the Go function of each section and requires the
 // same answer.
 

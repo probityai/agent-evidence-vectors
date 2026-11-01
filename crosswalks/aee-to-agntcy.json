@@ -163,7 +163,7 @@
     {
      "corpus": "vectors-a2a-jcs-v01",
      "availability": "on_main",
-     "path": "vectors-a2a-jcs-v01/MANIFEST.json",
+     "path": "corpora/vectors-a2a-jcs-v01/MANIFEST.json",
      "select": {
       "groups": [
        "a2-signatures-exclusion",
@@ -178,7 +178,7 @@
     {
      "corpus": "vectors-agent-card-receipt",
      "availability": "on_main",
-     "path": "vectors-agent-card-receipt/MANIFEST.json",
+     "path": "corpora/vectors-agent-card-receipt/MANIFEST.json",
      "select": {
       "reasons": [
        "card_digest_mismatch",
@@ -239,7 +239,7 @@
     {
      "corpus": "vectors-a2a-jcs-v01",
      "availability": "on_main",
-     "path": "vectors-a2a-jcs-v01/MANIFEST.json",
+     "path": "corpora/vectors-a2a-jcs-v01/MANIFEST.json",
      "select": {
       "groups": [
        "a3-object-key-ordering",
@@ -320,7 +320,7 @@
     {
      "corpus": "vectors-admission",
      "availability": "on_main",
-     "path": "vectors-admission/MANIFEST.json",
+     "path": "corpora/vectors-admission/MANIFEST.json",
      "note": "admission of a statement under the relying party's own policy"
     }
    ],
@@ -345,7 +345,7 @@
     {
      "corpus": "vectors-receipt-signature",
      "availability": "on_main",
-     "path": "vectors-receipt-signature/MANIFEST.json",
+     "path": "corpora/vectors-receipt-signature/MANIFEST.json",
      "note": "signature verification over signed input, key validity windows and superseded keys, for DSSE-shaped receipts"
     }
    ],
@@ -378,7 +378,7 @@
     {
      "corpus": "vectors-identity-binding",
      "availability": "on_main",
-     "path": "vectors-identity-binding/MANIFEST.json",
+     "path": "corpora/vectors-identity-binding/MANIFEST.json",
      "select": {
       "reasons": [
        "key_not_authorized",
@@ -398,7 +398,7 @@
     {
      "corpus": "vectors-badge-vc-verify",
      "availability": "next_minor_release",
-     "path": "vectors-badge-vc-verify/MANIFEST.json",
+     "path": "corpora/vectors-badge-vc-verify/MANIFEST.json",
      "select": {
       "reasons": [
        "not_yet_valid",
@@ -440,7 +440,7 @@
     {
      "corpus": "vectors-admission",
      "availability": "on_main",
-     "path": "vectors-admission/MANIFEST.json",
+     "path": "corpora/vectors-admission/MANIFEST.json",
      "note": "whether a statement is admitted under a relying party's own policy, with the policy codes that refused it"
     }
    ],
@@ -490,7 +490,7 @@
     {
      "corpus": "vectors-a2a-jcs-v01",
      "availability": "on_main",
-     "path": "vectors-a2a-jcs-v01/MANIFEST.json",
+     "path": "corpora/vectors-a2a-jcs-v01/MANIFEST.json",
      "select": {
       "groups": [
        "a3-object-key-ordering",
@@ -504,7 +504,7 @@
     {
      "corpus": "vectors-receipt-signature",
      "availability": "on_main",
-     "path": "vectors-receipt-signature/MANIFEST.json",
+     "path": "corpora/vectors-receipt-signature/MANIFEST.json",
      "note": "signed-input construction rules"
     }
    ],
@@ -537,7 +537,7 @@
     {
      "corpus": "vectors-badge-vc-verify",
      "availability": "next_minor_release",
-     "path": "vectors-badge-vc-verify/MANIFEST.json",
+     "path": "corpora/vectors-badge-vc-verify/MANIFEST.json",
      "select": {
       "reason": "issuer_not_trusted"
      },
@@ -575,7 +575,7 @@
     {
      "corpus": "vectors-badge-vc-verify",
      "availability": "next_minor_release",
-     "path": "vectors-badge-vc-verify/MANIFEST.json",
+     "path": "corpora/vectors-badge-vc-verify/MANIFEST.json",
      "select": {
       "reason": "issuer_key_binding"
      },
@@ -587,7 +587,7 @@
     {
      "corpus": "vectors-identity-binding",
      "availability": "on_main",
-     "path": "vectors-identity-binding/MANIFEST.json",
+     "path": "corpora/vectors-identity-binding/MANIFEST.json",
      "select": {
       "reasons": [
        "key_not_authorized",
@@ -628,7 +628,7 @@
     {
      "corpus": "vectors-badge-vc-verify",
      "availability": "next_minor_release",
-     "path": "vectors-badge-vc-verify/MANIFEST.json",
+     "path": "corpora/vectors-badge-vc-verify/MANIFEST.json",
      "select": {
       "reasons": [
        "jws_malformed",
@@ -670,7 +670,7 @@
     {
      "corpus": "vectors-badge-vc-verify",
      "availability": "next_minor_release",
-     "path": "vectors-badge-vc-verify/MANIFEST.json",
+     "path": "corpora/vectors-badge-vc-verify/MANIFEST.json",
      "select": {
       "reasons": [
        "not_yet_valid",
@@ -707,7 +707,7 @@
     {
      "corpus": "vectors-badge-vc-verify",
      "availability": "next_minor_release",
-     "path": "vectors-badge-vc-verify/MANIFEST.json",
+     "path": "corpora/vectors-badge-vc-verify/MANIFEST.json",
      "select": {
       "reason": "revoked"
      },
@@ -719,7 +719,7 @@
     {
      "corpus": "vectors-delegation-lifecycle",
      "availability": "on_main",
-     "path": "vectors-delegation-lifecycle/MANIFEST.json",
+     "path": "corpora/vectors-delegation-lifecycle/MANIFEST.json",
      "select": {
       "reasons": [
        "grant_revoked",
@@ -773,7 +773,7 @@
     {
      "corpus": "vectors-agent-card-receipt",
      "availability": "on_main",
-     "path": "vectors-agent-card-receipt/MANIFEST.json",
+     "path": "corpora/vectors-agent-card-receipt/MANIFEST.json",
      "select": {
       "reasons": [
        "card_digest_mismatch",
@@ -820,7 +820,7 @@
     {
      "corpus": "vectors-delegation-lifecycle",
      "availability": "on_main",
-     "path": "vectors-delegation-lifecycle/MANIFEST.json",
+     "path": "corpora/vectors-delegation-lifecycle/MANIFEST.json",
      "select": {
       "reasons": [
        "authority_valid",

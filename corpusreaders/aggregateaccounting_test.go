@@ -1,4 +1,4 @@
-package corpora_test
+package corpusreaders_test
 
 // The aggregate-accounting reader derives every decision from the record alone.
 // Swapping one member's record for another's must move the derived decision,
@@ -10,7 +10,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/probityai/agent-evidence-vectors/corpora"
+	"github.com/probityai/agent-evidence-vectors/corpusreaders"
 )
 
 const aaDir = "vectors-aggregate-accounting"
@@ -35,7 +35,7 @@ func aaRead(t *testing.T, member string) string {
 }
 
 func TestAggregateAccountingCommittedCorpusIsClean(t *testing.T) {
-	result, err := corpora.Judge(corpusPath(aaDir))
+	result, err := corpusreaders.Judge(corpusPath(aaDir))
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}
@@ -86,7 +86,7 @@ func TestAggregateAccountingUnreadableInputsAreFindings(t *testing.T) {
 func TestAggregateAccountingDamagedManifestIsAFinding(t *testing.T) {
 	copied := filepath.Join(t.TempDir(), aaDir)
 	copyTree(t, corpusPath(aaDir), copied)
-	path := filepath.Join(copied, corpora.ManifestName)
+	path := filepath.Join(copied, corpusreaders.ManifestName)
 	raw, err := os.ReadFile(path) // #nosec G304 -- a test reading its own copy
 	if err != nil {
 		t.Fatal(err)
@@ -95,7 +95,7 @@ func TestAggregateAccountingDamagedManifestIsAFinding(t *testing.T) {
 	if err := os.WriteFile(path, []byte(damaged), 0o600); err != nil {
 		t.Fatal(err)
 	}
-	result, err := corpora.Judge(copied)
+	result, err := corpusreaders.Judge(copied)
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}
@@ -105,7 +105,7 @@ func TestAggregateAccountingDamagedManifestIsAFinding(t *testing.T) {
 	if err := os.WriteFile(path, []byte(`{"suite":"aggregate-accounting/v1","vectors":7}`), 0o600); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := corpora.Judge(copied); err == nil {
+	if _, err := corpusreaders.Judge(copied); err == nil {
 		t.Fatal("a manifest whose rows are not a list must be an error")
 	}
 }

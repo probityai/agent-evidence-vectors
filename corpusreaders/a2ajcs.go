@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"bytes"
@@ -19,7 +19,7 @@ import (
 
 func init() { register(a2aJCS{}) }
 
-// a2aJCS judges vectors-a2a-jcs-v01/, the a2a Agent Card canonicalization
+// a2aJCS judges corpora/vectors-a2a-jcs-v01/, the a2a Agent Card canonicalization
 // corpus vendored byte for byte from a2aproject/a2a-tck. Its expected bytes
 // came from two RFC 8785 oracles upstream; this reader is a third, written
 // here from the RFC text. It checks the corpus digest and every member's

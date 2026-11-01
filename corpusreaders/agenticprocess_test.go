@@ -1,4 +1,4 @@
-package corpora_test
+package corpusreaders_test
 
 // The agentic-process reader decides every member from its signed envelope
 // and its policy. The cases below give each refused member
@@ -14,7 +14,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/probityai/agent-evidence-vectors/corpora"
+	"github.com/probityai/agent-evidence-vectors/corpusreaders"
 )
 
 const apDir = "vectors-agentic-process-evidence"
@@ -56,7 +56,7 @@ func apStageWithCase(t *testing.T, member, caseFrom string) string {
 }
 
 func TestAgenticProcessCommittedCorpusIsClean(t *testing.T) {
-	result, err := corpora.Judge(corpusPath(apDir))
+	result, err := corpusreaders.Judge(corpusPath(apDir))
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}
@@ -81,7 +81,7 @@ func TestAgenticProcessReaderDecidesRatherThanEchoes(t *testing.T) {
 		for _, pair := range pairs {
 			member, from := pair[0], pair[1]
 			t.Run(member+"<-"+from, func(t *testing.T) {
-				result, err := corpora.Judge(apStageWithCase(t, member, from))
+				result, err := corpusreaders.Judge(apStageWithCase(t, member, from))
 				if err != nil {
 					t.Fatalf("judge: %v", err)
 				}

@@ -1,4 +1,4 @@
-package corpora_test
+package corpusreaders_test
 
 // A head signed by a party other than the Guardian is two different cases in
 // the two profiles, and the corpus has to say so with two different shapes.

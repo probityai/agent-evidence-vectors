@@ -1,4 +1,4 @@
-"""Judge the delegation lifecycle corpus (vectors-delegation-lifecycle/).
+"""Judge the delegation lifecycle corpus (corpora/vectors-delegation-lifecycle/).
 
 A member is one question a relying party asks about an AI agent: does this
 presenter hold this delegated authority at the time the relying party observed
@@ -50,7 +50,7 @@ that the presenter is a new agent. A record whose signature does not verify
 counts as absent. The corpus README states each rule and which of them are
 proposals.
 
-The rules are restated in Go in ``corpora/delegationlifecycle.go``. The two are
+The rules are restated in Go in ``corpusreaders/delegationlifecycle.go``. The two are
 kept apart on purpose, and ``render`` prints the lines ``aee-verify`` prints, so
 the two rails can be diffed.
 
@@ -79,7 +79,7 @@ ACCEPT, REJECT, NO_VERDICT = "accept", "reject", "no_verdict"
 MAX_ENVELOPE_BYTES = 4 * 1024 * 1024
 _HERE = Path(__file__).resolve().parent
 ROOT = (_HERE / "corpora" / "vectors-delegation-lifecycle" if
-        (_HERE / "corpora").exists() else _HERE.parents[1] / "vectors-delegation-lifecycle")
+        (_HERE / "corpora").exists() else _HERE.parents[1] / "corpora" / "vectors-delegation-lifecycle")
 _RAIL_NAMES = ("agent_evidence_vectors.run_vectors", "run_vectors", "__main__")
 _RAIL_PRIMITIVES = ("ed25519_verify",)
 
@@ -923,7 +923,7 @@ def render(judged: Judged, suite: str = SUITE) -> str:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="delegationlifecycle",
-        description="judge vectors-delegation-lifecycle/ with the reference reader")
+        description="judge corpora/vectors-delegation-lifecycle/ with the reference reader")
     parser.add_argument("directory", nargs="?", default=str(ROOT),
                         help="a corpus directory carrying MANIFEST.json")
     args = parser.parse_args(argv)

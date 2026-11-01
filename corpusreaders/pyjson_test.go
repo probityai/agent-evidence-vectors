@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 // The CPython-compatible encoder, against the spelling it has to match.
 //

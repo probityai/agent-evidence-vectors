@@ -126,7 +126,7 @@ def scoring_failures() -> list[str]:
     """conforming_verdicts scores a second reader on N2 by its readings, and on
     N1, which -00 settles, by its one verdict."""
     manifest = json.loads(
-        (REPO_ROOT / "vectors-agent-audit-record" / "MANIFEST.json").read_text(encoding="utf-8")
+        (REPO_ROOT / "corpora" / "vectors-agent-audit-record" / "MANIFEST.json").read_text(encoding="utf-8")
     )
     out: list[str] = []
     for entry in manifest["vectors"]:

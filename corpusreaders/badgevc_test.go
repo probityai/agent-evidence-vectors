@@ -1,4 +1,4 @@
-package corpora_test
+package corpusreaders_test
 
 // The badge credential reader derives every decision from the case alone.
 // Swapping one member's case into another must move the derived decision, and
@@ -10,7 +10,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/probityai/agent-evidence-vectors/corpora"
+	"github.com/probityai/agent-evidence-vectors/corpusreaders"
 )
 
 const bvDir = "vectors-badge-vc-verify"
@@ -30,7 +30,7 @@ func bvStage(t *testing.T, member, from string) string {
 }
 
 func TestBadgeVcCommittedCorpusIsClean(t *testing.T) {
-	result, err := corpora.Judge(corpusPath(bvDir))
+	result, err := corpusreaders.Judge(corpusPath(bvDir))
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}

@@ -1,9 +1,9 @@
 """The admission corpus: its Python reader and its external-verifier contract.
 
-``vectors-admission/`` pairs an Adversarial Execution Evidence statement with a
+``corpora/vectors-admission/`` pairs an Adversarial Execution Evidence statement with a
 consumer policy and requires the ADMISSION answer: whether the consumer may act
 on the statement under the pins it supplied. This module is the second rail
-beside the Go reader in ``corpora/admission.go``. It derives validity, the
+beside the Go reader in ``corpusreaders/admission.go``. It derives validity, the
 result and the tier column from this package's reference rail, under the
 policy's own keys, and computes the admission conjunction itself, so the two
 rails share no code below the statement.

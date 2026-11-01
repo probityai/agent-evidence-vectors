@@ -94,7 +94,7 @@ _RAIL_NAMES = ("agent_evidence_vectors.run_vectors", "run_vectors", "__main__")
 _RAIL_PRIMITIVES = ("ed25519_verify",)
 _HERE = Path(__file__).resolve().parent
 ROOT = (_HERE / "corpora" / "vectors-badge-vc-verify" if
-        (_HERE / "corpora").exists() else _HERE.parents[1] / "vectors-badge-vc-verify")
+        (_HERE / "corpora").exists() else _HERE.parents[1] / "corpora" / "vectors-badge-vc-verify")
 
 
 class Malformed(ValueError):

@@ -1,4 +1,4 @@
-package corpora_test
+package corpusreaders_test
 
 // The open-weight reader derives every decision from the release record. The
 // committed corpus reaches each condition; the cases below put one member's
@@ -11,7 +11,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/probityai/agent-evidence-vectors/corpora"
+	"github.com/probityai/agent-evidence-vectors/corpusreaders"
 )
 
 const owDir = "vectors-open-weight-art53"
@@ -31,7 +31,7 @@ func owStageWithRelease(t *testing.T, member, releaseFrom string) string {
 }
 
 func TestOpenWeightCommittedCorpusIsClean(t *testing.T) {
-	result, err := corpora.Judge(corpusPath(owDir))
+	result, err := corpusreaders.Judge(corpusPath(owDir))
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}

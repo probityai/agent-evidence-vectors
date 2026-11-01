@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"encoding/json"
@@ -9,7 +9,7 @@ import (
 
 func init() { register(acsCore{}) }
 
-// acsCore judges vectors-acs-core/. It is the Go statement of that corpus's
+// acsCore judges corpora/vectors-acs-core/. It is the Go statement of that corpus's
 // check_vectors.py: nothing in it has been run against an implementation, so
 // the internal checks are the only thing standing between the corpus and a set
 // of files that merely look like one.

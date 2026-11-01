@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import "regexp"
 
@@ -23,7 +23,7 @@ func csPermitted(r any) bool {
 
 func csPerformed(r any) bool { return rlGet(r, "outcome.result") == "performed" }
 
-// connectorScope judges vectors-connector-scope/: one action against the scope a
+// connectorScope judges corpora/vectors-connector-scope/: one action against the scope a
 // health-system connector was granted. The rules and their order are those of
 // packaging/agent_evidence_vectors/connectorscope.py.
 func connectorScope() ruleCorpus {

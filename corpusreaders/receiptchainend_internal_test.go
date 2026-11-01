@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 // Internal checks of the receipt-chain-end reader's JSON layer. A receipt's hash
 // and signature are over the bytes CPython's

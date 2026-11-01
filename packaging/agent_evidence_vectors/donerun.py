@@ -17,7 +17,7 @@ does not recompute.
 
 These corpora have no external-verifier contract: a named verifier is refused.
 probity-verify, the implementation the rules come from, is replayed over every member
-by ``vectors-done-receipt/crosscheck_probity_verify.py``.
+by ``corpora/vectors-done-receipt/crosscheck_probity_verify.py``.
 """
 
 from __future__ import annotations

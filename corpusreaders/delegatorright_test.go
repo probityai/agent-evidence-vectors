@@ -1,4 +1,4 @@
-package corpora_test
+package corpusreaders_test
 
 // The delegator-right reader derives every decision from the record. Swapping
 // one member's record into another must move the derived decision, and the
@@ -10,7 +10,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/probityai/agent-evidence-vectors/corpora"
+	"github.com/probityai/agent-evidence-vectors/corpusreaders"
 )
 
 const drDir = "vectors-delegator-right"
@@ -35,7 +35,7 @@ func drRead(t *testing.T, member string) []byte {
 }
 
 func TestDelegatorRightCommittedCorpusIsClean(t *testing.T) {
-	result, err := corpora.Judge(corpusPath(drDir))
+	result, err := corpusreaders.Judge(corpusPath(drDir))
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}

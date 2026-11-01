@@ -223,7 +223,7 @@ The signed payload bytes are this object as canonical JSON: keys sorted, no
 whitespace, UTF-8. The envelope, 2445 bytes, has SHA-256
 `e143a38b1867267dbb30f857d0cf212add47a7eb91ae18ee793722f61d265056` and is
 committed byte for byte as
-[cases/admitted/envelope.json](https://github.com/probityai/agent-evidence-vectors/blob/main/vectors-agent-change-admission/cases/admitted/envelope.json).
+[cases/admitted/envelope.json](https://github.com/probityai/agent-evidence-vectors/blob/main/corpora/vectors-agent-change-admission/cases/admitted/envelope.json).
 Its one signature is:
 
 ```json

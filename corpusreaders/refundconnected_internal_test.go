@@ -1,9 +1,9 @@
-package corpora
+package corpusreaders
 
 // The Go refund-connected reader is held to the Python reader on mutated runs.
 // testdata/refundconnected-differential.json holds, for each mutation of a retained
 // run, the edits that make it and the verdicts the Python reader derives from it
-// (written by vectors-refund-connected/tests/test_differential.py, which also checks
+// (written by corpora/vectors-refund-connected/tests/test_differential.py, which also checks
 // it). A mutation the Python reader stops on with an exception it does not catch is
 // recorded as a fault, and the Go reader must stop on it too. Some mutations are judged
 // with a signature check that accepts any signature of the right size, so that edits to
@@ -45,8 +45,8 @@ type rcDiffFixture struct {
 
 // rcDiffRuns are the retained runs the mutations start from.
 var rcDiffRuns = map[string]string{
-	"r1": "../vectors-refund-connected/source/j01-connected-20261028-r1",
-	"r2": "../vectors-refund-connected/source/j01-connected-20261028-r2",
+	"r1": "../corpora/vectors-refund-connected/source/j01-connected-20261028-r1",
+	"r2": "../corpora/vectors-refund-connected/source/j01-connected-20261028-r2",
 }
 
 // rcDiffSkipExempt lists rules that no mutation of the retained runs can show missing,

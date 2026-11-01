@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"bytes"
@@ -14,7 +14,7 @@ import (
 
 func init() { register(convertedArgs{}) }
 
-// convertedArgs judges vectors-converted-argument-binding/. Each member is one
+// convertedArgs judges corpora/vectors-converted-argument-binding/. Each member is one
 // approved tool call: the arguments the model gave, the arguments as converted
 // and shown to the approver, the rebuild of the approved arguments, the
 // arguments the tool ran with, and the digests that bind the approval. The

@@ -8,7 +8,7 @@
 // observed execution is.
 //
 // This package is the second independent statement of those rules. The first is
-// vectors-observed-effect/check_vectors.py, the reference verifier that shipped
+// corpora/vectors-observed-effect/check_vectors.py, the reference verifier that shipped
 // with the corpus, and the corpus was judged by nothing else: the repository's Go
 // binary refused the directory by name, exit 2, because no reader answered for its
 // suite. Two implementations in two languages that agree member by member is the

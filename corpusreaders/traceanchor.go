@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"bytes"
@@ -14,7 +14,7 @@ import (
 
 func init() { register(traceAnchor{}) }
 
-// traceAnchor judges vectors-trace-anchor/: TRACE Registry Anchor Format v1 as
+// traceAnchor judges corpora/vectors-trace-anchor/: TRACE Registry Anchor Format v1 as
 // amended by trace-spec#533, where a Level 2 verdict rests on the registry
 // entry itself and a merkle_root or leaf_count the receipt carries is a claim
 // checked against that entry. Each member's case.json holds the three inputs

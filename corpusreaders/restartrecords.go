@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"bytes"
@@ -16,13 +16,13 @@ import (
 
 func init() { register(restartRecords{}) }
 
-// restartRecords judges vectors-restart-records/. Each member is one decoded
+// restartRecords judges corpora/vectors-restart-records/. Each member is one decoded
 // in-toto Statement v1 of a restoration-evidence/v1 predicate, or a bundle of
 // them in one directory. The rules, their order and the reason codes are those
-// of the Python checker beside the corpus (vectors-restart-records/check_vectors.py):
+// of the Python checker beside the corpus (corpora/vectors-restart-records/check_vectors.py):
 // every rule of the five predicate documents in table order, then the bundle
 // rules B1 to B7 of profiles/restoration-evidence.md, the first failing rule
-// being the reason. corpora/testdata/restart-records.json.gz holds what the
+// being the reason. corpusreaders/testdata/restart-records.json.gz holds what the
 // Python checker answers on tens of thousands of variants, and the tests hold
 // this reader to it.
 type restartRecords struct{}

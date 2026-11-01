@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"crypto/ed25519"
@@ -17,7 +17,7 @@ import (
 
 func init() { register(receiptSignature{}) }
 
-// receiptSignature judges vectors-receipt-signature/: signed decision receipts
+// receiptSignature judges corpora/vectors-receipt-signature/: signed decision receipts
 // in the envelope shape of draft-farley-acta-signed-receipts-03.
 //
 // It runs every member through a reference verification twice, once against the

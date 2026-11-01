@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 // Every rule the delegation lifecycle reader applies is load-bearing: switching
 // any one off must change the answer of at least one committed member. A rule

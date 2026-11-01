@@ -1,6 +1,6 @@
 //go:build race
 
-package corpora
+package corpusreaders
 
 // rcDiffStride is how many mutations apart the differential replays under the race
 // detector, which makes the readers about forty times slower; the run without it

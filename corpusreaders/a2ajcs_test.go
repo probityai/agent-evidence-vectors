@@ -1,4 +1,4 @@
-package corpora_test
+package corpusreaders_test
 
 // The a2a canonicalization reader answers every vector itself, so a member
 // whose expected bytes are edited, or a manifest whose digest no longer covers
@@ -10,13 +10,13 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/probityai/agent-evidence-vectors/corpora"
+	"github.com/probityai/agent-evidence-vectors/corpusreaders"
 )
 
 const a2aDir = "vectors-a2a-jcs-v01"
 
 func TestA2AJCSCorpusIsClean(t *testing.T) {
-	result, err := corpora.Judge(corpusPath(a2aDir))
+	result, err := corpusreaders.Judge(corpusPath(a2aDir))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -57,7 +57,7 @@ func TestA2AJCSRecomputesTheExpectedBytes(t *testing.T) {
 	// 1e-06 a2a-python wrote: the reader's own answer must disagree.
 	a2aRewrite(t, filepath.Join(dir, "a5-number-serialization", "A5-001.json"),
 		"302e3030303030317d", "31652d30367d")
-	result, err := corpora.Judge(dir)
+	result, err := corpusreaders.Judge(dir)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -75,7 +75,7 @@ func TestA2AJCSRecomputesTheExpectedBytes(t *testing.T) {
 func TestA2AJCSRefusesADigestThatDoesNotCoverTheManifest(t *testing.T) {
 	dir := a2aStage(t)
 	a2aRewrite(t, filepath.Join(dir, "MANIFEST.json"), `"layer": "canonicalization"`, `"layer": "canonicalisation"`)
-	result, err := corpora.Judge(dir)
+	result, err := corpusreaders.Judge(dir)
 	if err != nil {
 		t.Fatal(err)
 	}

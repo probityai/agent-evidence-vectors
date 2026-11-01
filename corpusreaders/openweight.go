@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"encoding/json"
@@ -9,7 +9,7 @@ import (
 
 func init() { register(openWeight{}) }
 
-// openWeight judges vectors-open-weight-art53/. Each member is a model release
+// openWeight judges corpora/vectors-open-weight-art53/. Each member is a model release
 // record and the decision a checker must reach on whether the record evidences
 // the conditions of Article 53(2) of the EU AI Act. The reader
 // applies the six checks the Python reader applies, in the same order: licence,

@@ -13,7 +13,7 @@ are true of the wheel, and this test builds one and checks each:
    consumer never hard-codes a site-packages layout.
 3. ``agent-evidence-vectors --jcs-byte-vectors`` prints the same path, for a
    consumer whose CI step is a shell line rather than Python.
-4. Every corpus in the repository (``vectors`` or ``vectors-*`` with a
+4. Every corpus in the repository (``vectors`` or ``corpora/vectors-*`` with a
    MANIFEST.json) is in the wheel, with every one of its ``cases/*.json``
    files, and listed by the installed ``--list-corpora``. The wheel is built
    the way the release builds it (sdist first, wheel from the sdist). The

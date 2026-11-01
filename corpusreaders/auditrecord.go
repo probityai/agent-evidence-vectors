@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"bytes"
@@ -21,7 +21,7 @@ import (
 
 func init() { register(auditRecord{}) }
 
-// auditRecord judges vectors-agent-audit-record/, the conformance corpus of
+// auditRecord judges corpora/vectors-agent-audit-record/, the conformance corpus of
 // Appendix B of draft-gilda-audit-agent-audit-record-00, which replaces
 // draft-gilda-wimse-agent-audit-record-02: every evaluation carries inputs,
 // each entry's age runs from lastResult to decision.reportedAt, and the

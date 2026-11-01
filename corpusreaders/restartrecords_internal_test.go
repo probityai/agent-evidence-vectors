@@ -1,10 +1,10 @@
-package corpora
+package corpusreaders
 
 // The Go restart-records reader is held to the Python checker's answers.
 // testdata/restart-records.json.gz holds every accepting record of the corpus with
 // tens of thousands of edits of it, byte-level variants, and edits of the accepting
 // bundles, each with the verdict and reason the Python checker gives (written by
-// vectors-restart-records/tests/test_go_parity.py, which also checks it). This test
+// corpora/vectors-restart-records/tests/test_go_parity.py, which also checks it). This test
 // replays every one and requires the same answer, then switches each rule off in
 // turn and requires some case or member to notice.
 

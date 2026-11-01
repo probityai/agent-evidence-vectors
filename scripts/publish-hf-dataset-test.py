@@ -319,7 +319,7 @@ class UploadPlan(unittest.TestCase):
             "data/cases.jsonl",
             "release/cosign.pub",
             "vectors/a.json",
-            "vectors-aci/b/c.json",
+            "corpora/vectors-aci/b/c.json",
         ):
             self.assertTrue(any(_glob(path, p) for p in pub.DELETE_PATTERNS), path)
         self.assertFalse(any(_glob(".gitattributes", p) for p in pub.DELETE_PATTERNS))

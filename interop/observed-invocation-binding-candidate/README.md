@@ -7,7 +7,7 @@ from the JSON-RPC request, with the request's `id` and `jsonrpc` excluded. The
 value is the same binding the `invocation_axes` corpus pins, written as bare hex.
 
 Every case is built from the released baseline member
-`vectors-observed-effect/statements/v1c6fdd82db5229e4.json` and the pinned request
+`corpora/vectors-observed-effect/statements/v1c6fdd82db5229e4.json` and the pinned request
 `packaging/agent_evidence_vectors/invocation_axes/corpus/invocation.json`, signed
 with the corpus's published test key. No released member changes.
 

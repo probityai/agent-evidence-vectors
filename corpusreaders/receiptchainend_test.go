@@ -1,4 +1,4 @@
-package corpora_test
+package corpusreaders_test
 
 // The receipt-chain-end reader derives every decision from the receipt bytes.
 // The committed corpus reaches each check; the cases below copy one file of
@@ -13,7 +13,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/probityai/agent-evidence-vectors/corpora"
+	"github.com/probityai/agent-evidence-vectors/corpusreaders"
 )
 
 const rceDir = "vectors-receipt-chain-end"
@@ -33,7 +33,7 @@ func rceStageWithFile(t *testing.T, member, name, from string) string {
 }
 
 func TestReceiptChainEndCommittedCorpusIsClean(t *testing.T) {
-	result, err := corpora.Judge(corpusPath(rceDir))
+	result, err := corpusreaders.Judge(corpusPath(rceDir))
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}

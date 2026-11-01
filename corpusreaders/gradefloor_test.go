@@ -1,4 +1,4 @@
-package corpora_test
+package corpusreaders_test
 
 // The grade-floor reader derives every grade from the record. The committed
 // corpus reaches each refusal code once; the cases below give each rejected
@@ -14,7 +14,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/probityai/agent-evidence-vectors/corpora"
+	"github.com/probityai/agent-evidence-vectors/corpusreaders"
 )
 
 const gfDir = "vectors-grade-floor"
@@ -58,7 +58,7 @@ func gfStageWithCase(t *testing.T, member, caseFrom string) string {
 }
 
 func TestGradeFloorCommittedCorpusIsClean(t *testing.T) {
-	result, err := corpora.Judge(corpusPath(gfDir))
+	result, err := corpusreaders.Judge(corpusPath(gfDir))
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}
@@ -76,7 +76,7 @@ func TestGradeFloorReaderDerivesRatherThanEchoes(t *testing.T) {
 		for _, pair := range [][2]string{{rejected, accepted}, {accepted, rejected}} {
 			member, from := pair[0], pair[1]
 			t.Run(member+"<-"+from, func(t *testing.T) {
-				result, err := corpora.Judge(gfStageWithCase(t, member, from))
+				result, err := corpusreaders.Judge(gfStageWithCase(t, member, from))
 				if err != nil {
 					t.Fatalf("judge: %v", err)
 				}

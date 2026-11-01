@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"bytes"
@@ -16,7 +16,7 @@ import (
 
 func init() { register(identityBinding{}) }
 
-// identityBinding judges vectors-identity-binding/. Each member is a DSSE
+// identityBinding judges corpora/vectors-identity-binding/. Each member is a DSSE
 // envelope over an agent record whose subject is a did:web or did:wba DID, and
 // the resolution fixtures (version histories of DID documents) for the DIDs it
 // names. The reader derives each member's decision with the checks the Python

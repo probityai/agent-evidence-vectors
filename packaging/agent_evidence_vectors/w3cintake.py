@@ -5,7 +5,7 @@ The criteria are the group's: version 2 as posted to the list on 2026-10-13
 the 48-hour objection window that followed it (2026Oct/0070 deltas 1 to 4,
 2026Oct/0075 delta 5) and the explicit field 2026Oct/0073 announced for the
 consolidated v2.1 text. Every rejection ground below is a sentence of those
-messages; ``vectors-w3c-intake/MANIFEST.json`` binds each identifier to its
+messages; ``corpora/vectors-w3c-intake/MANIFEST.json`` binds each identifier to its
 sentence by sha256, and the corpus holds at least one record that must pass
 and one a careless intake reader would admit and that must be refused, for
 every ground.
@@ -21,10 +21,10 @@ relying party runs it with nothing installed.
    ``root`` names the directory the record's paths are relative to;
    ``ROOT_GROUNDS`` lists them and the command line says which ran.
 2. A JUDGE for the corpus: ``judge(directory)`` reads
-   ``vectors-w3c-intake/MANIFEST.json`` and says of every member whether the
+   ``corpora/vectors-w3c-intake/MANIFEST.json`` and says of every member whether the
    checker refuses it under exactly the ground the manifest expects. Its
    printed form is byte-identical to what ``aee-verify <dir>`` prints from the
-   Go reader in ``corpora/w3cintake.go``.
+   Go reader in ``corpusreaders/w3cintake.go``.
 3. A COMMAND LINE: ``python -m agent_evidence_vectors.w3cintake record.json
    [--root DIR]``, exit 0 admitted, 1 refused, 2 unreadable.
 
@@ -121,7 +121,7 @@ SUITE = "w3c-intake-v2-conformance"
 FORMAT = "public-agent-conformance/intake-record/v2"
 
 #: Ground identifiers, minted by the corpus. The sentence each binds to is in
-#: vectors-w3c-intake/MANIFEST.json and the corpus's INDEX.md.
+#: corpora/vectors-w3c-intake/MANIFEST.json and the corpus's INDEX.md.
 G = {n: f"W3C-I-{n:03d}" for n in range(1, 49)}
 
 #: The grounds that read bytes on disk and run only under a root.
@@ -302,7 +302,7 @@ def source_listing(root: str, paths: list[str]) -> str | None:
 # --------------------------------------------------------------------------
 # Ed25519 (RFC 8032), verification only, so a signed anchor is checked with
 # nothing installed. Decoding follows Go's crypto/ed25519, which the twin
-# reader in corpora/w3cintake.go calls: the public key's y is taken modulo p,
+# reader in corpusreaders/w3cintake.go calls: the public key's y is taken modulo p,
 # and the signature's R is compared as bytes against the recomputed point, so
 # both readers accept and refuse the same signatures.
 # --------------------------------------------------------------------------
@@ -1334,7 +1334,7 @@ def rejections(
 
 
 # --------------------------------------------------------------------------
-# The judge, over vectors-w3c-intake/.
+# The judge, over corpora/vectors-w3c-intake/.
 # --------------------------------------------------------------------------
 
 ID_FIELDS = ("kind", "family", "requirements", "root", "tree", "record", "expected")
@@ -1654,7 +1654,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="w3cintake",
         description="check an intake record for a submitted conformance result, "
-        "or judge vectors-w3c-intake/",
+        "or judge corpora/vectors-w3c-intake/",
     )
     parser.add_argument("record", help="an intake record, or with --judge a corpus directory")
     parser.add_argument("--root", help="the directory the record's paths are relative to")

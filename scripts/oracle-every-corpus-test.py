@@ -182,7 +182,7 @@ def check_refusals(work: Path) -> list[str]:
 def check_controls(work: Path) -> list[str]:
     failures: list[str] = []
     aia = work / "aia"
-    shutil.copytree(ROOT / "vectors-ai-agent-action", aia)
+    shutil.copytree(ROOT / "corpora" / "vectors-ai-agent-action", aia)
 
     silent = work / "silent.sh"
     silent.write_text("#!/bin/sh\necho '{\"codes\":[]}'\nexit 0\n", encoding="utf-8")

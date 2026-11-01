@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Both readers of vectors-receipt-signature/ agree, and the contract scores a
+"""Both readers of corpora/vectors-receipt-signature/ agree, and the contract scores a
 named verifier the way the corpus README says.
 
 Two halves.
 
 Parity. ``aee-verify <dir>`` judges the corpus through
-corpora/receiptsignature.go and ``packaging/run_vectors.py --vectors <dir>``
+corpusreaders/receiptsignature.go and ``packaging/run_vectors.py --vectors <dir>``
 through packaging/agent_evidence_vectors/receiptsignature.py. The committed
 corpus and a set of mutated copies are judged by both and every line of output
 is compared. Each mutation must also turn both rails red, so a case that stopped

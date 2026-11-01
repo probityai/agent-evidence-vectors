@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"bytes"
@@ -12,7 +12,7 @@ import (
 
 func init() { register(refundConnected{}) }
 
-// refundConnected judges vectors-refund-connected/. Each member is one case of a
+// refundConnected judges corpora/vectors-refund-connected/. Each member is one case of a
 // retained connected refund run: the inputs and trust files of the case, the
 // admission state, the signed handoffs and resolutions, the executor's four
 // streams and the payment simulator's own record. The reader re-derives the six

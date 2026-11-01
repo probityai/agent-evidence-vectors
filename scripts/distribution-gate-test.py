@@ -369,7 +369,7 @@ def case_unoffered_corpus(root: Path) -> str:
     _edit(
         root,
         FORM_REL,
-        lambda text: text.replace('        - "vectors-aci/"\n', "", 1),
+        lambda text: text.replace('        - "corpora/vectors-aci/"\n', "", 1),
     )
     return "does not offer it"
 
@@ -380,8 +380,8 @@ def case_phantom_option(root: Path) -> str:
         root,
         FORM_REL,
         lambda text: text.replace(
-            '        - "vectors-aci/"\n',
-            '        - "vectors-aci/"\n        - "vectors-withdrawn/"\n',
+            '        - "corpora/vectors-aci/"\n',
+            '        - "corpora/vectors-aci/"\n        - "vectors-withdrawn/"\n',
             1,
         ),
     )
@@ -404,9 +404,9 @@ def case_phantom_row(root: Path) -> str:
         root,
         PAGE_REL,
         lambda text: text.replace(
-            "| `vectors-aci/` |",
+            "| `corpora/vectors-aci/` |",
             "| `vectors-withdrawn/` | `withdrawn-conformance` | nothing that ships |\n"
-            "| `vectors-aci/` |",
+            "| `corpora/vectors-aci/` |",
             1,
         ),
     )
@@ -415,7 +415,7 @@ def case_phantom_row(root: Path) -> str:
 
 def case_suite_renamed(root: Path) -> str:
     """A corpus renames its suite and the table keeps the old name."""
-    manifest = root / "vectors-aci" / "MANIFEST.json"
+    manifest = root / "corpora" / "vectors-aci" / "MANIFEST.json"
     loaded = json.loads(manifest.read_text(encoding="utf-8"))
     loaded["suite"] = "aci-renamed"
     _edit(

@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 // The Go encoders against one shared table of documents.
 //

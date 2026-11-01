@@ -1,4 +1,4 @@
-package corpora_test
+package corpusreaders_test
 
 // The identity-binding reader derives every decision from the envelope and the
 // resolution fixtures. The cases below swap one member's file for another's, or
@@ -11,7 +11,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/probityai/agent-evidence-vectors/corpora"
+	"github.com/probityai/agent-evidence-vectors/corpusreaders"
 )
 
 const ibDir = "vectors-identity-binding"
@@ -37,7 +37,7 @@ func ibRead(t *testing.T, member, name string) []byte {
 }
 
 func TestIdentityBindingCommittedCorpusIsClean(t *testing.T) {
-	result, err := corpora.Judge(corpusPath(ibDir))
+	result, err := corpusreaders.Judge(corpusPath(ibDir))
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}
@@ -118,7 +118,7 @@ func TestIdentityBindingMissingResolutionFileIsUnresolvable(t *testing.T) {
 func TestIdentityBindingDamagedManifestIsAFinding(t *testing.T) {
 	copied := filepath.Join(t.TempDir(), ibDir)
 	copyTree(t, corpusPath(ibDir), copied)
-	path := filepath.Join(copied, corpora.ManifestName)
+	path := filepath.Join(copied, corpusreaders.ManifestName)
 	raw, err := os.ReadFile(path) // #nosec G304 -- a test reading its own copy
 	if err != nil {
 		t.Fatal(err)
@@ -127,7 +127,7 @@ func TestIdentityBindingDamagedManifestIsAFinding(t *testing.T) {
 	if err := os.WriteFile(path, []byte(damaged), 0o600); err != nil {
 		t.Fatal(err)
 	}
-	result, err := corpora.Judge(copied)
+	result, err := corpusreaders.Judge(copied)
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}
@@ -137,7 +137,7 @@ func TestIdentityBindingDamagedManifestIsAFinding(t *testing.T) {
 	if err := os.WriteFile(path, []byte("{"), 0o600); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := corpora.Judge(copied); err == nil {
+	if _, err := corpusreaders.Judge(copied); err == nil {
 		t.Fatal("an unparseable manifest must be an error")
 	}
 }

@@ -2,7 +2,7 @@
 
 register: edelman
 
-Status: proposal, and a checker. The rule below is implemented in `vectors-mcp-record-contract/check_run_record.py` and measured against vectors-mcp-record-contract/, so it is not a rule anyone has to take on trust.
+Status: proposal, and a checker. The rule below is implemented in `corpora/vectors-mcp-record-contract/check_run_record.py` and measured against corpora/vectors-mcp-record-contract/, so it is not a rule anyone has to take on trust.
 
 ## The rule
 

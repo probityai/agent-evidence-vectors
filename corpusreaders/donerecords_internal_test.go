@@ -1,9 +1,9 @@
-package corpora
+package corpusreaders
 
 // The Go done reader's record rules are held to the Python reader's answers.
 // testdata/done-records.json holds base records from the done corpora and thousands of
 // variants of them, each with the code the Python reader refuses it under, or "ok"
-// (written by vectors-done-receipt/tests/test_done_record_cases.py, which also checks it).
+// (written by corpora/vectors-done-receipt/tests/test_done_record_cases.py, which also checks it).
 // This test applies each edit, parses the record with the Go reader and requires the
 // same answer.
 

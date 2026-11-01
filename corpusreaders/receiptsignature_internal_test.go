@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 // The reference verification of the receipt-signature reader, one outcome per
 // case. The corpus reaches the outcomes its members encode; these reach the

@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"encoding/json"
@@ -10,7 +10,7 @@ import (
 
 func init() { register(authorityDispatch{}) }
 
-// authorityDispatch judges vectors-authority-at-dispatch/. Each member is one
+// authorityDispatch judges corpora/vectors-authority-at-dispatch/. Each member is one
 // record of an attempted dispatch and the bytes dispatched. The reader derives
 // each member's decision with the checks the Python reader applies, in the
 // same order, and names the first one that fails:

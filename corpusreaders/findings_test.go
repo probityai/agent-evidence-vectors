@@ -1,4 +1,4 @@
-package corpora_test
+package corpusreaders_test
 
 // Every finding a reader can report, provoked.
 //
@@ -26,7 +26,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/probityai/agent-evidence-vectors/corpora"
+	"github.com/probityai/agent-evidence-vectors/corpusreaders"
 )
 
 // findingCase is one mutation and the sentence the reader owes for it.
@@ -56,7 +56,7 @@ func stage(t *testing.T, dir string) string {
 // level alike, as one slice a case can search.
 func allFindings(t *testing.T, dir string) []string {
 	t.Helper()
-	result, err := corpora.Judge(dir)
+	result, err := corpusreaders.Judge(dir)
 	if err != nil {
 		return []string{"JUDGE ERROR: " + err.Error()}
 	}
@@ -76,7 +76,7 @@ func allFindings(t *testing.T, dir string) []string {
 // own bytes.
 func editManifest(t *testing.T, dir string, edit func(m map[string]any)) {
 	t.Helper()
-	path := filepath.Join(dir, corpora.ManifestName)
+	path := filepath.Join(dir, corpusreaders.ManifestName)
 	raw, err := os.ReadFile(path) // #nosec G304 -- a test editing its own copy
 	if err != nil {
 		t.Fatal(err)
@@ -1125,7 +1125,7 @@ func aciFindings() []findingCase {
 			})
 		}, "and the member does not declare it"},
 		{"aci/member-not-a-deployment", dir, func(t *testing.T, d string) {
-			body, err := os.ReadFile(filepath.Join(d, corpora.ManifestName))
+			body, err := os.ReadFile(filepath.Join(d, corpusreaders.ManifestName))
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -1356,7 +1356,7 @@ func observedEffectFindings() []findingCase {
 // oeMemberFile is the file of the first member the picker chooses.
 func oeMemberFile(t *testing.T, dir string, pick func(map[string]any) bool) string {
 	t.Helper()
-	raw, err := os.ReadFile(filepath.Join(dir, corpora.ManifestName)) // #nosec G304 -- a test reading its own copy
+	raw, err := os.ReadFile(filepath.Join(dir, corpusreaders.ManifestName)) // #nosec G304 -- a test reading its own copy
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1433,7 +1433,7 @@ func oeStripConditionFromAccepts(t *testing.T, m map[string]any) {
 // one, because the check asks whether ANY payload names it.
 func oeUnnameTheBlob(t *testing.T, d string) {
 	t.Helper()
-	raw, err := os.ReadFile(filepath.Join(d, corpora.ManifestName)) // #nosec G304 -- a test reading its own copy
+	raw, err := os.ReadFile(filepath.Join(d, corpusreaders.ManifestName)) // #nosec G304 -- a test reading its own copy
 	if err != nil {
 		t.Fatal(err)
 	}

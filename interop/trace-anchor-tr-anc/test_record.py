@@ -17,7 +17,7 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-CORPUS = HERE.parents[1] / "vectors-trace-anchor" / "MANIFEST.json"
+CORPUS = HERE.parents[1] / "corpora" / "vectors-trace-anchor" / "MANIFEST.json"
 ROW = re.compile(r"^\| (?P<label>[^|]+?) \| `(?P<commit>[0-9a-f]+)` \| "
                  r"(?P<agree>\d+) of (?P<total>\d+) \| (?P<disagree>\d+) \|$")
 

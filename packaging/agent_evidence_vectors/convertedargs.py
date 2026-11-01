@@ -78,7 +78,7 @@ _SAFE_INTEGER = 1 << 53  # exclusive: an I-JSON integer has magnitude below 2^53
 _HERE = Path(__file__).resolve().parent
 ROOT = (_HERE / "corpora" / "vectors-converted-argument-binding" if
         (_HERE / "corpora").exists()
-        else _HERE.parents[1] / "vectors-converted-argument-binding")
+        else _HERE.parents[1] / "corpora" / "vectors-converted-argument-binding")
 
 
 def _sha(data: bytes) -> str:

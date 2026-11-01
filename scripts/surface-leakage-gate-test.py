@@ -397,7 +397,7 @@ def row_of(data: dict[str, Any], corpus: str, surface: str) -> dict[str, Any]:
 
 
 # A case once dropped the `blockedBy` declaration off a surface that was really
-# outside its null, pinned to vectors-ai-agent-action/paths. That leak closed
+# outside its null, pinned to corpora/vectors-ai-agent-action/paths. That leak closed
 # when the Appendix B family gained its reject twins and the ratchet removed the
 # last declaration in the baseline, so no row is left to construct it from. The
 # refusal it checked -- a surface outside its null with nothing named for it --

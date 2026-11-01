@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"crypto/sha256"

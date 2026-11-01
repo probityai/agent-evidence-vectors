@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"bytes"
@@ -22,7 +22,7 @@ import (
 
 func init() { register(receiptChainEnd{}) }
 
-// receiptChainEnd judges vectors-receipt-chain-end/. Each member is a chain of
+// receiptChainEnd judges corpora/vectors-receipt-chain-end/. Each member is a chain of
 // signed receipts in the ActionReceipt v1 wire format, the consumer's trust inputs and,
 // for some members, a head the consumer retained or a rotation endorsement. The
 // reader applies the Python reader's eight checks in the same order and names

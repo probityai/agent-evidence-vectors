@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"crypto/ed25519"
@@ -17,7 +17,7 @@ func init() {
 	register(cardReceipt{suite: crReleaseSuite})
 }
 
-// cardReceipt judges vectors-agent-card-receipt/ and vectors-credential-release/.
+// cardReceipt judges corpora/vectors-agent-card-receipt/ and corpora/vectors-credential-release/.
 // The two suites share one reader because a credential release is judged against
 // the receipt it names. The checks, their order and their codes are the ones the
 // Python reader applies (packaging/agent_evidence_vectors/cardreceipt.py); the

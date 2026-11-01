@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 // Steps 5 and 6 of the refund-connected reader and the judgement of a case and of
 // a whole run: the executor's streams, the provider's record, the report cutoff,

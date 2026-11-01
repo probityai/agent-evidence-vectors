@@ -13,7 +13,7 @@ Predicate Name: Credential Release
 > `https://probityai.github.io/agent-evidence/predicate/v1/credential-release/`. The URI
 > will not move once a signed statement carries it, and no signed statement carries it
 > before that page is live. The conformance corpus in this repository,
-> `vectors-credential-release/`, carries it in unsigned statements.
+> `corpora/vectors-credential-release/`, carries it in unsigned statements.
 
 ## Purpose
 
@@ -135,7 +135,7 @@ was a good evaluation: the receipt's own limits are in
 
 ## Conformance
 
-`vectors-credential-release/` (suite `credential-release/v1`) holds the members: a release
+`corpora/vectors-credential-release/` (suite `credential-release/v1`) holds the members: a release
 statement, the receipt statement it names, the revocation list it consulted and a context
 naming the signer's key. Every rule above is the first failure of at least one member, and
 the accepting members are the controls: a minimum of `pass_indirect`, a release at the

@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"encoding/json"
@@ -8,7 +8,7 @@ import (
 
 func init() { register(mcpResponsePhase{}) }
 
-// mcpResponsePhase judges vectors-mcp-response-phase/. Two jobs, and the second
+// mcpResponsePhase judges corpora/vectors-mcp-response-phase/. Two jobs, and the second
 // is the one that matters: the ordinary corpus check, and then the criterion RUN
 // against every member. The criterion is what a conformant response-phase policy
 // must produce for a member's operation -- the policy is invoked on the

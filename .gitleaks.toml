@@ -100,7 +100,7 @@ description = "The unsigned empty JWT used as the credential placeholder in the 
 # JWT with any other header, payload or signature is still reported.
 targetRules = ["generic-api-key"]
 condition = "AND"
-paths = ['''^vectors-credential-release/(gen_vectors\.py|cases/[^/]+/statement\.json)$''']
+paths = ['''^corpora/vectors-credential-release/(gen_vectors\.py|cases/[^/]+/statement\.json)$''']
 regexTarget = "match"
 regexes = ['''token"?\s*[:=]\s*"eyJhbGciOiJub25lIn0\.e30\."''']
 
@@ -122,7 +122,7 @@ description = "Base64url Ed25519 public keys in a badge-vc-verify case's issuers
 # a 43-character base64url value in a "key-N" member.
 targetRules = ["generic-api-key"]
 condition = "AND"
-paths = ['''^vectors-badge-vc-verify/cases/[^/]+/case\.json$''']
+paths = ['''^corpora/vectors-badge-vc-verify/cases/[^/]+/case\.json$''']
 regexTarget = "match"
 regexes = ['''key-[0-9]+"\s*:\s*"[A-Za-z0-9_-]{43}"''']
 
@@ -133,6 +133,6 @@ description = "Test credentials in a badge-vc-verify case, signed with a public 
 # the "credential" member of a badge-vc-verify case file.
 targetRules = ["jwt", "generic-api-key"]
 condition = "AND"
-paths = ['''^vectors-badge-vc-verify/cases/[^/]+/case\.json$''']
+paths = ['''^corpora/vectors-badge-vc-verify/cases/[^/]+/case\.json$''']
 regexTarget = "match"
 regexes = ['''eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]*''']

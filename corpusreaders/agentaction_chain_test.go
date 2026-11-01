@@ -1,4 +1,4 @@
-package corpora_test
+package corpusreaders_test
 
 // Findings the AI Agent Action reader owes for the chain-break members, the
 // deployment profiles and the per-member basis. Each case makes one change to a

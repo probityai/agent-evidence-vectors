@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"encoding/base64"
@@ -11,7 +11,7 @@ import (
 
 func init() { register(anchorStream{}) }
 
-// anchorStream judges vectors-anchor-stream/. It is the Go statement of what
+// anchorStream judges corpora/vectors-anchor-stream/. It is the Go statement of what
 // that corpus's check_vectors.py asserted: every property a member declares
 // about its own bytes is recomputed from those bytes, so a generator bug fails
 // here instead of shipping a corpus that measures nothing.

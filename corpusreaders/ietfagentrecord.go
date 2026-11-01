@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"bytes"
@@ -18,7 +18,7 @@ import (
 
 func init() { register(ietfAgentRecord{}) }
 
-// ietfAgentRecord judges vectors-ietf-agent-record-drafts/, the cases for three
+// ietfAgentRecord judges corpora/vectors-ietf-agent-record-drafts/, the cases for three
 // SCITT-wave Internet-Drafts: the AgentInteractionRecord chain of
 // draft-emirdag-scitt-ai-agent-execution-01, checkpoint registration in
 // draft-mih-scitt-checkpointed-local-log-02, and statement references in

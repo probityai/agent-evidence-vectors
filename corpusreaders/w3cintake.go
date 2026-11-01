@@ -1,10 +1,10 @@
-package corpora
+package corpusreaders
 
 // The intake criteria for a submitted conformance result, judged in Go.
 //
 // packaging/agent_evidence_vectors/w3cintake.py is the reader this one is held
 // to: the same 48 grounds, the same record shape, the same judge over
-// vectors-w3c-intake/, and the same lines printed by aee-verify.
+// corpora/vectors-w3c-intake/, and the same lines printed by aee-verify.
 // scripts/w3c-intake-parity-test.py diffs the two over the committed corpus and
 // over copies with one byte flipped in one member. The rules are the W3C
 // public-agent-conformance group's (intake criteria v2, 2026Oct/0067, with the

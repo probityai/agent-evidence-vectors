@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"crypto/sha256"
@@ -16,7 +16,7 @@ import (
 
 func init() { register(admission{}) }
 
-// admission judges vectors-admission/: the admission answer a verifier reports
+// admission judges corpora/vectors-admission/: the admission answer a verifier reports
 // for an Adversarial Execution Evidence statement under a consumer's policy.
 //
 // Every member is a statement and a policy. The reader runs the pair through

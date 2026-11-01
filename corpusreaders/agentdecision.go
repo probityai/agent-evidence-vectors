@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"bytes"
@@ -22,7 +22,7 @@ import (
 
 func init() { register(agentDecision{}) }
 
-// agentDecision judges vectors-agent-decision/, the corpus for the args_hash
+// agentDecision judges corpora/vectors-agent-decision/, the corpus for the args_hash
 // rule of the agent-decision/v0.1 predicate proposed on in-toto/attestation#554.
 //
 // It is the Go rail over that corpus. The Python rail is the corpus's own

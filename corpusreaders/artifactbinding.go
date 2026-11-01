@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"crypto/ed25519"
@@ -15,7 +15,7 @@ import (
 
 func init() { register(artifactBinding{}) }
 
-// artifactBinding judges vectors-artifact-binding/. It asks a different
+// artifactBinding judges corpora/vectors-artifact-binding/. It asks a different
 // question from the regenerability gate: that gate asks whether the committed
 // bytes are the bytes the generator emits, and this asks whether those bytes
 // BEHAVE as declared.

@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"encoding/json"
@@ -11,7 +11,7 @@ import (
 
 func init() { register(aciCorpus{}) }
 
-// aciCorpus judges vectors-aci/. It carries nineteen checks, one per normative
+// aciCorpus judges corpora/vectors-aci/. It carries nineteen checks, one per normative
 // sentence of ACI Draft Specification v0.9, and each corpus member is one ACI
 // deployment declaring the codes those checks must emit against it.
 //

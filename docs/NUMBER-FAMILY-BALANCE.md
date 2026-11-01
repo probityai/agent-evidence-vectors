@@ -31,7 +31,7 @@ carries no fractional numbers. So every value the AEE corpus admits has a
 canonical spelling in plain digits, and the accept side of the notation axis does
 not exist there to be written.
 
-**It exists in `vectors-ai-agent-action/`**, where the RFC 8785 Appendix B family
+**It exists in `corpora/vectors-ai-agent-action/`**, where the RFC 8785 Appendix B family
 (`aia-c-16`) carries the numbers in a content payload rather than in a
 chain-hash-covered field, precisely so that floats are admissible. The family
 holds the 24 rows of Appendix B as accepts, whose canonical renderings include
@@ -73,5 +73,5 @@ the three declarations were removed, and the gate refuses any declaration that
 outlives its subject. The current figures are the `vectors-ai-agent-action` entry
 of the baseline file; this page does not copy them, so it cannot drift from them.
 
-Run `aee-verify vectors-ai-agent-action/` from the repository root to judge every
+Run `aee-verify corpora/vectors-ai-agent-action/` from the repository root to judge every
 member, and `python3 scripts/surface-leakage-gate.py` to re-measure the surfaces.

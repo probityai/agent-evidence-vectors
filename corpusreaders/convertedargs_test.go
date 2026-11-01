@@ -1,4 +1,4 @@
-package corpora_test
+package corpusreaders_test
 
 // The converted-argument-binding reader derives every decision from the case's
 // files. Swapping one member's file for another's must move the derived
@@ -12,7 +12,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/probityai/agent-evidence-vectors/corpora"
+	"github.com/probityai/agent-evidence-vectors/corpusreaders"
 )
 
 const cabDir = "vectors-converted-argument-binding"
@@ -59,7 +59,7 @@ func cabRead(t *testing.T, member, name string) []byte {
 }
 
 func TestConvertedArgsCommittedCorpusIsClean(t *testing.T) {
-	result, err := corpora.Judge(corpusPath(cabDir))
+	result, err := corpusreaders.Judge(corpusPath(cabDir))
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}
@@ -118,7 +118,7 @@ func TestConvertedArgsEachCheckMovesTheVerdict(t *testing.T) {
 
 func cabDerived(t *testing.T, dir, id string) string {
 	t.Helper()
-	result, err := corpora.Judge(dir)
+	result, err := corpusreaders.Judge(dir)
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}
@@ -166,7 +166,7 @@ func TestConvertedArgsUnreadableInputsAreFindings(t *testing.T) {
 func TestConvertedArgsDamagedManifestIsAFinding(t *testing.T) {
 	copied := filepath.Join(t.TempDir(), cabDir)
 	copyTree(t, corpusPath(cabDir), copied)
-	path := filepath.Join(copied, corpora.ManifestName)
+	path := filepath.Join(copied, corpusreaders.ManifestName)
 	raw, err := os.ReadFile(path) // #nosec G304 -- a test reading its own copy
 	if err != nil {
 		t.Fatal(err)
@@ -175,7 +175,7 @@ func TestConvertedArgsDamagedManifestIsAFinding(t *testing.T) {
 	if err := os.WriteFile(path, []byte(damaged), 0o600); err != nil {
 		t.Fatal(err)
 	}
-	result, err := corpora.Judge(copied)
+	result, err := corpusreaders.Judge(copied)
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}
@@ -185,7 +185,7 @@ func TestConvertedArgsDamagedManifestIsAFinding(t *testing.T) {
 	if err := os.WriteFile(path, []byte(`{"suite":"converted-argument-binding/v1","vectors":7}`), 0o600); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := corpora.Judge(copied); err == nil {
+	if _, err := corpusreaders.Judge(copied); err == nil {
 		t.Fatal("a manifest whose rows are not a list must be an error")
 	}
 }

@@ -1,4 +1,4 @@
-package corpora_test
+package corpusreaders_test
 
 // The approval-binding reader derives every decision from the record and the
 // used bytes. Swapping one member's record or bytes into the conformant member
@@ -11,7 +11,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/probityai/agent-evidence-vectors/corpora"
+	"github.com/probityai/agent-evidence-vectors/corpusreaders"
 )
 
 const abDir = "vectors-approval-binding"
@@ -36,7 +36,7 @@ func abRead(t *testing.T, member, name string) []byte {
 }
 
 func TestApprovalBindingCommittedCorpusIsClean(t *testing.T) {
-	result, err := corpora.Judge(corpusPath(abDir))
+	result, err := corpusreaders.Judge(corpusPath(abDir))
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}

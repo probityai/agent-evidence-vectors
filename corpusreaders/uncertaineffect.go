@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"encoding/json"
@@ -11,7 +11,7 @@ import (
 
 func init() { register(uncertainEffect{}) }
 
-// uncertainEffect judges vectors-uncertain-effect/. Each member is one
+// uncertainEffect judges corpora/vectors-uncertain-effect/. Each member is one
 // runtime's trail for one intended effect whose reply may have been lost: the
 // operation and its idempotency key, each dispatch attempt, the leases the
 // dispatching workers held, the effect owner's reconciliation answers, the

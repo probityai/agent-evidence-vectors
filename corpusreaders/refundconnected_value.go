@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 // The value layer of the refund-connected reader.
 //

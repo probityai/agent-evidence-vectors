@@ -6,22 +6,22 @@
 
 Two readers of one corpus must write the same bytes for the same JSON value, or
 two digests over one report differ by which reader took them. That held in
-code nobody compared across languages: the Go encoder in corpora/pyjson.go
+code nobody compared across languages: the Go encoder in corpusreaders/pyjson.go
 copied the integer token -0 where CPython writes 0, and the split was found by
 a list participant measuring both readers, not by a test. This is the test.
 
-The table is corpora/testdata/json-encodings.json. Each case is a document and,
+The table is corpusreaders/testdata/json-encodings.json. Each case is a document and,
 for each encoding, the bytes it writes (hex) or the reason it refuses. This
 script computes every Python column from the Python implementation that owns
 it and refuses a table that differs, so the file cannot be edited by hand
 into agreement. The Go encoders are held to the same file by
-corpora/pyjson_table_test.go; a column a Go encoder writes differently fails
+corpusreaders/pyjson_table_test.go; a column a Go encoder writes differently fails
 there, which makes the pair a differential test over one table rather than two
 lists of expectations that only claim to agree.
 
 Columns:
   cpython-ascii   json.dumps(value, sort_keys=True, separators=(",", ":")) in
-                  CPython, the encoding corpora/pyjson.go reproduces with
+                  CPython, the encoding corpusreaders/pyjson.go reproduces with
                   EnsureASCII; a number token with a fraction or an exponent
                   is refused, as the Go encoder refuses it
   cpython-raw     the same with ensure_ascii=False (pyEncodeOpts{})
@@ -29,7 +29,7 @@ Columns:
                   (pyEncodeOpts{UTF16Order: true})
   jcs-sha256      the W3C report readers' digest over a JSON value: RFC 8785
                   under the integer profile, a refusal written as its cause
-                  code (the Go reader in corpora/w3cjcs.go and the Rust reader
+                  code (the Go reader in corpusreaders/w3cjcs.go and the Rust reader
                   in readers/w3c-report-rs are held to it)
   rfc8785         the W3C report readers' member identifier: RFC 8785 as
                   written, numbers as IEEE 754 doubles
@@ -38,7 +38,7 @@ The repository's Python twins of the Go encoder (TWINS) must reproduce their
 column through the parse their reader uses.
 
 And one section beside the columns, number-truth: number tokens and whether CPython
-reads each as a false value, which corpora/pyjson.go's jsonNumberIsZero must
+reads each as a false value, which corpusreaders/pyjson.go's jsonNumberIsZero must
 match.
 
 Exit 0 when the table holds; 1 when it differs, naming each cell.
@@ -108,7 +108,7 @@ CASES: tuple[tuple[str, str], ...] = (
 
 #: Number tokens, for the truth CPython gives the value it parses each into. A
 #: Python reader tests a parsed value's truth; a Go reader holds the token, and
-#: corpora/pyjson.go's jsonNumberIsZero must answer as CPython does: the Go
+#: corpusreaders/pyjson.go's jsonNumberIsZero must answer as CPython does: the Go
 #: readers once compared the token's text with "0" and read -0 and 0.0 as true.
 NUMBER_TOKENS: tuple[str, ...] = (
     "0", "-0", "0.0", "-0.0", "0e5", "0E-5", "1e-400", "-1e-400", "2e-324",
@@ -198,7 +198,7 @@ def build() -> dict[str, Any]:
             "encoding, the bytes that encoding writes for it (hex) or the reason it refuses. "
             "Written by scripts/json-encoding-differential-test.py --write from the Python "
             "implementations, held to them by the same script, held to the Go encoders by "
-            "corpora/pyjson_table_test.go and corpora/w3cjcs_test.go, and held to the Rust "
+            "corpusreaders/pyjson_table_test.go and corpusreaders/w3cjcs_test.go, and held to the Rust "
             "W3C reader by a unit test in readers/w3c-report-rs/src/json.rs. Never edit by hand."
         ),
         "columns": list(ENCODINGS),

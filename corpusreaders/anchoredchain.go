@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"bytes"
@@ -14,7 +14,7 @@ import (
 
 func init() { register(anchoredChain{}) }
 
-// anchoredChain judges vectors-anchored-chain/. Each member is a stored history
+// anchoredChain judges corpora/vectors-anchored-chain/. Each member is a stored history
 // of signed memory records, an anchor over that history signed by a key the
 // store does not hold, and the consumer's trust inputs. The reader derives each
 // member's decision with the checks the Python reader applies, in the same

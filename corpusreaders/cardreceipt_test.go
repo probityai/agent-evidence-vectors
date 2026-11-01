@@ -1,4 +1,4 @@
-package corpora_test
+package corpusreaders_test
 
 // The agent-card-receipt and credential-release reader derives every decision
 // from the member's own files. Moving one member's files into another must move
@@ -12,7 +12,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/probityai/agent-evidence-vectors/corpora"
+	"github.com/probityai/agent-evidence-vectors/corpusreaders"
 )
 
 const (
@@ -33,7 +33,7 @@ type crRow struct {
 
 func crRows(t *testing.T, dir string) []crRow {
 	t.Helper()
-	raw, err := os.ReadFile(filepath.Join(corpusPath(dir), corpora.ManifestName)) // #nosec G304 -- a test reading its own corpus
+	raw, err := os.ReadFile(filepath.Join(corpusPath(dir), corpusreaders.ManifestName)) // #nosec G304 -- a test reading its own corpus
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -86,7 +86,7 @@ func crTransplant(t *testing.T, dir, into, from string) string {
 
 func TestCardReceiptCommittedCorporaAreClean(t *testing.T) {
 	for _, dir := range []string{crReceiptDir, crReleaseDir} {
-		result, err := corpora.Judge(corpusPath(dir))
+		result, err := corpusreaders.Judge(corpusPath(dir))
 		if err != nil {
 			t.Fatalf("%s: judge: %v", dir, err)
 		}
@@ -191,7 +191,7 @@ func TestCardReceiptUnreadableInputsMoveTheVerdict(t *testing.T) {
 func TestCardReceiptDamagedManifestIsAFinding(t *testing.T) {
 	for _, dir := range []string{crReceiptDir, crReleaseDir} {
 		copied := crStage(t, dir)
-		path := filepath.Join(copied, corpora.ManifestName)
+		path := filepath.Join(copied, corpusreaders.ManifestName)
 		raw, err := os.ReadFile(path) // #nosec G304 -- a test reading its own copy
 		if err != nil {
 			t.Fatal(err)
@@ -202,7 +202,7 @@ func TestCardReceiptDamagedManifestIsAFinding(t *testing.T) {
 		if err := os.WriteFile(path, []byte(damaged), 0o600); err != nil {
 			t.Fatal(err)
 		}
-		result, err := corpora.Judge(copied)
+		result, err := corpusreaders.Judge(copied)
 		if err != nil {
 			t.Fatalf("judge: %v", err)
 		}
@@ -212,7 +212,7 @@ func TestCardReceiptDamagedManifestIsAFinding(t *testing.T) {
 		if err := os.WriteFile(path, []byte(`{"suite":"`+result.Suite+`","vectors":7}`), 0o600); err != nil {
 			t.Fatal(err)
 		}
-		if _, err := corpora.Judge(copied); err == nil {
+		if _, err := corpusreaders.Judge(copied); err == nil {
 			t.Fatalf("%s: a manifest whose rows are not a list must be an error", dir)
 		}
 	}

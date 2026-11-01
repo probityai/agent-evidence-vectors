@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"encoding/json"
@@ -9,7 +9,7 @@ import (
 
 func init() { register(mcpRecordContract{}) }
 
-// mcpRecordContract judges vectors-mcp-record-contract/. Two jobs, and the
+// mcpRecordContract judges corpora/vectors-mcp-record-contract/. Two jobs, and the
 // second is the one that matters: the ordinary corpus check, and then the
 // criterion RUN against every member, so the rule is measured against the
 // corpus rather than asserted beside it.
@@ -271,7 +271,7 @@ func checkRunRecordIdentity(body []byte, v mcpVector, out *Member) {
 
 // ---------------------------------------------------------------------------
 // The interoperability-evidence criterion, restated in Go from
-// vectors-mcp-record-contract/check_run_record.py.
+// corpora/vectors-mcp-record-contract/check_run_record.py.
 //
 // A cross-run claim is evidence when a third party can obtain the same result
 // from what is published and compare it byte for byte. That reduces to four

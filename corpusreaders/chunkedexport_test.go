@@ -1,4 +1,4 @@
-package corpora_test
+package corpusreaders_test
 
 // The chunked-export reader derives every decision from the record and the
 // chunk payloads. Swapping one member's record for another's must move the
@@ -10,7 +10,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/probityai/agent-evidence-vectors/corpora"
+	"github.com/probityai/agent-evidence-vectors/corpusreaders"
 )
 
 const ceDir = "vectors-chunked-export"
@@ -35,7 +35,7 @@ func ceRead(t *testing.T, member, name string) []byte {
 }
 
 func TestChunkedExportCommittedCorpusIsClean(t *testing.T) {
-	result, err := corpora.Judge(corpusPath(ceDir))
+	result, err := corpusreaders.Judge(corpusPath(ceDir))
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}
@@ -122,7 +122,7 @@ func TestChunkedExportUnreadableInputsAreFindings(t *testing.T) {
 func TestChunkedExportDamagedManifestIsAFinding(t *testing.T) {
 	copied := filepath.Join(t.TempDir(), ceDir)
 	copyTree(t, corpusPath(ceDir), copied)
-	path := filepath.Join(copied, corpora.ManifestName)
+	path := filepath.Join(copied, corpusreaders.ManifestName)
 	raw, err := os.ReadFile(path) // #nosec G304 -- a test reading its own copy
 	if err != nil {
 		t.Fatal(err)
@@ -131,7 +131,7 @@ func TestChunkedExportDamagedManifestIsAFinding(t *testing.T) {
 	if err := os.WriteFile(path, []byte(damaged), 0o600); err != nil {
 		t.Fatal(err)
 	}
-	result, err := corpora.Judge(copied)
+	result, err := corpusreaders.Judge(copied)
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}
@@ -141,7 +141,7 @@ func TestChunkedExportDamagedManifestIsAFinding(t *testing.T) {
 	if err := os.WriteFile(path, []byte(`{"suite":"chunked-export/v1","vectors":7}`), 0o600); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := corpora.Judge(copied); err == nil {
+	if _, err := corpusreaders.Judge(copied); err == nil {
 		t.Fatal("a manifest whose rows are not a list must be an error")
 	}
 }

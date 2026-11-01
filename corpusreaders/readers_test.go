@@ -1,4 +1,4 @@
-package corpora_test
+package corpusreaders_test
 
 // One harness, every corpus. Two assertions per reader, and the second is the
 // one that matters:
@@ -22,7 +22,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/probityai/agent-evidence-vectors/corpora"
+	"github.com/probityai/agent-evidence-vectors/corpusreaders"
 )
 
 // corpusCase is one registered reader, the directory it judges, and the member
@@ -108,7 +108,7 @@ func TestEveryCommittedCorpusIsClean(t *testing.T) {
 				t.Fatalf("%s is not in this worktree: %v. A corpus that cannot be read is "+
 					"never a corpus that passed", tc.dir, err)
 			}
-			result, err := corpora.Judge(corpusPath(tc.dir))
+			result, err := corpusreaders.Judge(corpusPath(tc.dir))
 			if err != nil {
 				t.Fatalf("judge: %v", err)
 			}
@@ -149,7 +149,7 @@ func TestAFlippedByteNamesItsMember(t *testing.T) {
 			id, rel := firstMember(t, copied, tc.memberFileKey)
 			flipOneByte(t, filepath.Join(copied, rel))
 
-			result, err := corpora.Judge(copied)
+			result, err := corpusreaders.Judge(copied)
 			if err != nil {
 				t.Fatalf("judge: %v", err)
 			}
@@ -177,14 +177,14 @@ func TestAFlippedByteNamesItsMember(t *testing.T) {
 func TestUnknownSuiteIsRefusedByName(t *testing.T) {
 	dir := t.TempDir()
 	manifest := `{"suite":"a-suite-nobody-here-judges","vectors":[]}`
-	if err := os.WriteFile(filepath.Join(dir, corpora.ManifestName), []byte(manifest), 0o600); err != nil {
+	if err := os.WriteFile(filepath.Join(dir, corpusreaders.ManifestName), []byte(manifest), 0o600); err != nil {
 		t.Fatal(err)
 	}
-	result, err := corpora.Judge(dir)
+	result, err := corpusreaders.Judge(dir)
 	if result != nil {
 		t.Fatal("an unjudgeable corpus returned a result, which a caller would read as a pass")
 	}
-	var unknown *corpora.UnknownSuiteError
+	var unknown *corpusreaders.UnknownSuiteError
 	if !errors.As(err, &unknown) {
 		t.Fatalf("want an UnknownSuiteError, got %v", err)
 	}
@@ -201,10 +201,10 @@ func TestUnknownSuiteIsRefusedByName(t *testing.T) {
 func TestRegisteredButUnimplementedSuiteRefuses(t *testing.T) {
 	dir := t.TempDir()
 	manifest := `{"suite":"scitt-cose-carriage-conformance","vectors":[]}`
-	if err := os.WriteFile(filepath.Join(dir, corpora.ManifestName), []byte(manifest), 0o600); err != nil {
+	if err := os.WriteFile(filepath.Join(dir, corpusreaders.ManifestName), []byte(manifest), 0o600); err != nil {
 		t.Fatal(err)
 	}
-	result, err := corpora.Judge(dir)
+	result, err := corpusreaders.Judge(dir)
 	if result != nil || err == nil {
 		t.Fatal("a suite with no reader behind it returned a result")
 	}
@@ -224,7 +224,7 @@ func TestEverySuiteInTheTreeHasAReader(t *testing.T) {
 		t.Fatal(err)
 	}
 	known := map[string]bool{}
-	for _, suite := range corpora.Suites() {
+	for _, suite := range corpusreaders.Suites() {
 		known[suite] = true
 	}
 	found := 0
@@ -232,7 +232,7 @@ func TestEverySuiteInTheTreeHasAReader(t *testing.T) {
 		if !entry.IsDir() || !strings.HasPrefix(entry.Name(), "vectors") {
 			continue
 		}
-		raw, err := os.ReadFile(filepath.Join("..", entry.Name(), corpora.ManifestName))
+		raw, err := os.ReadFile(filepath.Join("..", entry.Name(), corpusreaders.ManifestName))
 		if err != nil {
 			continue
 		}
@@ -284,7 +284,7 @@ func copyTree(t *testing.T, from, to string) {
 // row, which is the row the red test mutates.
 func firstMember(t *testing.T, dir, fileKey string) (string, string) {
 	t.Helper()
-	raw, err := os.ReadFile(filepath.Join(dir, corpora.ManifestName)) // #nosec G304 -- a test reading its own copy
+	raw, err := os.ReadFile(filepath.Join(dir, corpusreaders.ManifestName)) // #nosec G304 -- a test reading its own copy
 	if err != nil {
 		t.Fatal(err)
 	}

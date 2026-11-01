@@ -1,8 +1,8 @@
-package corpora
+package corpusreaders
 
 func init() { register(paymentMandate()) }
 
-// paymentMandate judges vectors-agent-payment-mandate/: a dispute evidence pack
+// paymentMandate judges corpora/vectors-agent-payment-mandate/: a dispute evidence pack
 // for an agent-initiated payment, refused when the mandate is unsigned or its
 // digest does not cover its terms, when the credential is not bound to it, when
 // the charge leaves it in time, amount, currency, merchant or token, when a

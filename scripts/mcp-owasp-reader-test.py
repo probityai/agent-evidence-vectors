@@ -22,7 +22,7 @@ sys.path.insert(0, str(REPO / "packaging"))
 
 from agent_evidence_vectors import mcpowasp  # noqa: E402
 
-CORPUS = REPO / "vectors-mcp-owasp"
+CORPUS = REPO / "corpora" / "vectors-mcp-owasp"
 
 
 def failing(judged: mcpowasp.Judged) -> list[str]:
@@ -30,7 +30,7 @@ def failing(judged: mcpowasp.Judged) -> list[str]:
 
 
 def copy_corpus() -> Path:
-    target = Path(tempfile.mkdtemp()) / "vectors-mcp-owasp"
+    target = Path(tempfile.mkdtemp()) / "corpora" / "vectors-mcp-owasp"
     shutil.copytree(CORPUS, target)
     return target
 
@@ -96,7 +96,7 @@ def main() -> int:
 def float_cases(manifest: dict[str, Any]) -> list[str]:
     """A float inside a digested record is refused, as the Go reader refuses it.
 
-    The Go reader digests through corpora/pyjson.go, which refuses a number token
+    The Go reader digests through corpusreaders/pyjson.go, which refuses a number token
     with a fraction or an exponent. This reader used to digest the float with
     repr, so the two parted on any record that carried one. Here a float in a
     record must cost it its identifier, and a float inside a stream the

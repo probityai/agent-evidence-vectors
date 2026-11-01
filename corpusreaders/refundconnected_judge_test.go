@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 // The refund-connected Judge is held to the corpus it reads: intact, it is clean; with a
 // file of a run changed, the manifest edited, or a run it cannot read, it names the

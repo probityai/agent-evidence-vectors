@@ -12,7 +12,7 @@ Denied cases are selected by reason code, not listed one by one. Each reason nam
 
 ## Two members arrive in the next minor release
 
-Two of the members below are not on `main` yet. `vectors-oasf-record` and `vectors-badge-vc-verify` are built and tested on their own branches and ship in the next minor release; their rows point at the directories `vectors-oasf-record/` and `vectors-badge-vc-verify/` at the repository root, and each directory carries a `MANIFEST.json` with the case ids the rows cite. Rows that cite them are marked `(next release)`. Every other member is on `main` now.
+Two of the members below are not on `main` yet. `vectors-oasf-record` and `vectors-badge-vc-verify` are built and tested on their own branches and ship in the next minor release; their rows point at the directories `vectors-oasf-record/` and `corpora/vectors-badge-vc-verify/` at the repository root, and each directory carries a `MANIFEST.json` with the case ids the rows cite. Rows that cite them are marked `(next release)`. Every other member is on `main` now.
 
 ## How to read the rows
 

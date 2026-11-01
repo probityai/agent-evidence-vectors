@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Both readers of vectors-a2a-jcs-v01/ agree, and the in-process API catches a wrong canonicalizer.
+"""Both readers of corpora/vectors-a2a-jcs-v01/ agree, and the in-process API catches a wrong canonicalizer.
 
 Two halves.
 
-Parity. ``aee-verify <dir>`` judges the corpus through corpora/a2ajcs.go and
+Parity. ``aee-verify <dir>`` judges the corpus through corpusreaders/a2ajcs.go and
 ``packaging/run_vectors.py --vectors <dir>`` through
 packaging/agent_evidence_vectors/a2ajcs.py. The two canonicalizers share no
 code. The committed corpus and a set of mutated copies are judged by both, and

@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"encoding/binary"
@@ -12,7 +12,7 @@ import (
 
 func init() { register(agentAction{}) }
 
-// agentAction judges vectors-ai-agent-action/. It is the mutation check that
+// agentAction judges corpora/vectors-ai-agent-action/. It is the mutation check that
 // corpus needs to be worth anything: a vector claiming a chain-hash divergence
 // has to actually diverge, and a vector claiming conformance has to actually
 // recompute. Without it a generator bug produces a corpus that passes every

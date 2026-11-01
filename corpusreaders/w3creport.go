@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"crypto/sha256"
@@ -13,7 +13,7 @@ import (
 
 func init() { register(w3cReport{}) }
 
-// w3cReport judges vectors-w3c-report/. It is the Go statement of the
+// w3cReport judges corpora/vectors-w3c-report/. It is the Go statement of the
 // validator in packaging/agent_evidence_vectors/w3creport.py: every rule here
 // has the same shape there, every finding is spelled the same, and a test
 // diffs what the two print over the committed corpus and over a mutated one.

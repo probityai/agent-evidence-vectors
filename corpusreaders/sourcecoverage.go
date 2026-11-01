@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"bytes"
@@ -13,7 +13,7 @@ import (
 
 func init() { register(sourceCoverage{}) }
 
-// sourceCoverage judges vectors-source-coverage/. Each member is a directory
+// sourceCoverage judges corpora/vectors-source-coverage/. Each member is a directory
 // holding a case (the bound artifacts), a consumer policy (the source witness,
 // the time window and the passages that must be carried) and the artifact
 // bytes. The reader re-derives each member's decision from those bytes with the

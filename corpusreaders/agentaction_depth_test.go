@@ -1,4 +1,4 @@
-package corpora_test
+package corpusreaders_test
 
 // The depth pair under aia-c-12 must agree with the parser that enforces the
 // bound, not only with the reader's own depth measure. The accepting member

@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 // Step 2 of the refund-connected reader: the APS intent and approval receipts,
 // the decision components, the action and payload references, the single use of

@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 // The first four steps of the refund-connected reader: the PIC proposal, the APS
 // receipts, the committed admission record and the signed handoff or resolution.

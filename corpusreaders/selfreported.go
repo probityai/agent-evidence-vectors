@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"bytes"
@@ -16,7 +16,7 @@ import (
 
 func init() { register(selfReportedRecord{}) }
 
-// selfReportedRecord judges vectors-self-reported-record/, the corpus for the
+// selfReportedRecord judges corpora/vectors-self-reported-record/, the corpus for the
 // contract at spec/self-reported-record/v1.md.
 //
 // It is the Go RAIL over that corpus. The corpus ships its own reference

@@ -14,10 +14,10 @@ a relying party runs it with nothing installed.
    the predicate states is one function, registered in ``RULES`` in the order it
    runs, under the same name the Go rail's ``RuleNames()`` gives it.
 2. A JUDGE for the corpus: ``judge(directory)`` reads
-   ``vectors-observed-effect/MANIFEST.json`` and says of every member whether this
+   ``corpora/vectors-observed-effect/MANIFEST.json`` and says of every member whether this
    rail reaches the verdict and the code the manifest declares, plus the claims
    that belong to no single member. Its printed form is the lines
-   ``aee-verify <dir>`` prints from ``corpora/observedeffect.go``, so the two can
+   ``aee-verify <dir>`` prints from ``corpusreaders/observedeffect.go``, so the two can
    be diffed.
 
 Before this module the corpus was judged by nothing the harness runs: the rail
@@ -28,7 +28,7 @@ cannot judge and a corpus a harness finds clean are one exit status apart, which
 is the shape of report this repository exists to stop shipping.
 
 This is the third statement of these rules, after
-``vectors-observed-effect/check_vectors.py`` and ``observedeffect/rules.go``.
+``corpora/vectors-observed-effect/check_vectors.py`` and ``observedeffect/rules.go``.
 Neither is imported here, so the three can be diffed member by member and a
 defect in one does not travel; what this file does NOT claim is to have been
 written blind, because it was written with both of them open, and the rule set
@@ -1631,7 +1631,7 @@ def render(judged: Judged, suite: str) -> str:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="observedeffect",
-        description="judge vectors-observed-effect/ with the reference rail for the "
+        description="judge corpora/vectors-observed-effect/ with the reference rail for the "
         "Observed Effect predicate",
     )
     parser.add_argument("directory", help="a corpus directory carrying MANIFEST.json")

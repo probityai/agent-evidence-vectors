@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""The two readers of vectors-w3c-intake/ print the same bytes, intact and mutated.
+"""The two readers of corpora/vectors-w3c-intake/ print the same bytes, intact and mutated.
 
-``aee-verify vectors-w3c-intake`` judges the corpus through corpora/w3cintake.go
+``aee-verify vectors-w3c-intake`` judges the corpus through corpusreaders/w3cintake.go
 and ``python -m agent_evidence_vectors.w3cintake --judge vectors-w3c-intake``
 through packaging/agent_evidence_vectors/w3cintake.py, whose judge this test
 calls in process (the command line prints exactly ``render(judge(dir))``). Both state the 45

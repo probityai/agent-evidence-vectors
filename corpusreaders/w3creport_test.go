@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 // The tree-shape rules of the v0.1 report reader that the corpus alone cannot
 // pin. A corpus member shows how a report is judged; it cannot show what the

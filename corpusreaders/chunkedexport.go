@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"encoding/json"
@@ -9,7 +9,7 @@ import (
 
 func init() { register(chunkedExport{}) }
 
-// chunkedExport judges vectors-chunked-export/. Each member is an export
+// chunkedExport judges corpora/vectors-chunked-export/. Each member is an export
 // gate's view when one chunk of a flagged dataset is presented: the chunks
 // already exported, the reconstruction rule the issuer committed to, and the
 // class the seal declares. The reader derives the composed class from the

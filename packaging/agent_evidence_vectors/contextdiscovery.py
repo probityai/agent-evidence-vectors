@@ -14,7 +14,7 @@ robots.txt carries, and what one consumer then did. The publisher-side rows
 read the mechanisms and the consumer-side rows read the consumer's record
 against them, so one document can answer for either side.
 
-``corpora/contextdiscovery.go`` is the same statement in Go and the parity
+``corpusreaders/contextdiscovery.go`` is the same statement in Go and the parity
 test diffs the two.
 """
 

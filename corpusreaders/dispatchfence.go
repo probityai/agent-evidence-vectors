@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"encoding/json"
@@ -9,7 +9,7 @@ import (
 
 func init() { register(dispatchFence{}) }
 
-// dispatchFence judges vectors-dispatch-fence/. Each member is one record of an
+// dispatchFence judges corpora/vectors-dispatch-fence/. Each member is one record of an
 // exclusive dispatch: a policy check, the fence taken to dispatch, the effect
 // and the commit. The reader derives each member's decision with the checks the
 // Python reader applies, in the same order, and names the first one that fails:

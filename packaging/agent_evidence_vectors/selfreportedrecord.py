@@ -1,4 +1,4 @@
-"""Judge vectors-self-reported-record/, the corpus for spec/self-reported-record/v1.md.
+"""Judge corpora/vectors-self-reported-record/, the corpus for spec/self-reported-record/v1.md.
 
 Each member is one in-toto statement carrying a record an agent runtime keeps
 about itself. The reader applies the contract's six rules to every member and
@@ -20,7 +20,7 @@ Well-formedness is stage one and byte-pure; the five rules after it read members
 for meaning and run only once it passes. Every rule that refuses a record is
 reported, not only the first, so a reject member that trips two rules is named.
 
-This is the Python rail for the reader in ``corpora/selfreported.go`` and prints
+This is the Python rail for the reader in ``corpusreaders/selfreported.go`` and prints
 the lines ``aee-verify`` prints, so the two rails can be diffed. The rules are
 restated here rather than imported from the corpus's own ``check_vectors.py``:
 that file is a repository tool that needs ``cryptography``, and this module runs
@@ -60,7 +60,7 @@ _HERE = Path(__file__).resolve().parent
 ROOT = (
     _HERE / "corpora" / "vectors-self-reported-record"
     if (_HERE / "corpora").exists()
-    else _HERE.parents[1] / "vectors-self-reported-record"
+    else _HERE.parents[1] / "corpora" / "vectors-self-reported-record"
 )
 
 # Go's regexp ``$`` matches only at the end of the text, where Python's also

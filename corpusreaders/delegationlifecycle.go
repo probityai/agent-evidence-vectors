@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"crypto/ed25519"
@@ -11,7 +11,7 @@ import (
 
 func init() { register(delegationLifecycle{}) }
 
-// delegationLifecycle judges vectors-delegation-lifecycle/. A member is one
+// delegationLifecycle judges corpora/vectors-delegation-lifecycle/. A member is one
 // question a relying party asks about an AI agent: does this presenter hold this
 // delegated authority at the time the relying party observed the presentation?
 // The member is a set of signed records (identifier registrations, grants,

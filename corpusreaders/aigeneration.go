@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"bytes"
@@ -17,7 +17,7 @@ import (
 
 func init() { register(aiGeneration{}) }
 
-// aiGeneration judges vectors-ai-generation/, the conformance corpus for the
+// aiGeneration judges corpora/vectors-ai-generation/, the conformance corpus for the
 // generation predicate at specification revision 0.1.5 in its default
 // attest-only mode.
 //

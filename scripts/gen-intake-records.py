@@ -19,7 +19,7 @@ What each record declares, and why it is true:
 
 - The checker is ``aee-verify`` for every corpus but SCITT/COSE, which no Go
   reader here judges (it needs a CBOR decoder), so its record names
-  ``vectors-scitt-cose/check_vectors.py``. The revision is a source listing
+  ``corpora/vectors-scitt-cose/check_vectors.py``. The revision is a source listing
   over the checker's files, which any reader recomputes from the bytes; a
   change to any of them makes ``--check`` fail until the records are
   regenerated, because a record names the code that ran.
@@ -492,7 +492,7 @@ def listing(paths: list[str]) -> str:
 def checker(directory: str, runs: tuple[Run, Run, Run]) -> dict[str, Any]:
     if directory == SCITT:
         source, deps = SCITT_SOURCE, PYTHON_DEPENDENCIES
-        name, runtime = "vectors-scitt-cose/check_vectors.py", {
+        name, runtime = "corpora/vectors-scitt-cose/check_vectors.py", {
             "name": "cpython", "version": ".".join(map(str, PYTHON_RUNTIME)),
         }
         build = "uv sync --locked --extra generators"
@@ -645,7 +645,7 @@ def record(
     member_paths = [(f["path"], f["sha256"]) for m in pop["members"] for f in m["files"]]
     manifest_sha = sha(read(manifest_path))
     is_scitt = directory == SCITT
-    name = "vectors-scitt-cose/check_vectors.py" if is_scitt else "aee-verify"
+    name = "corpora/vectors-scitt-cose/check_vectors.py" if is_scitt else "aee-verify"
     nonauthor = non_author_runs(directory, digest)
     covered = any(r["covers-these-bytes"] for r in nonauthor)
     observations: list[dict[str, Any]] = [

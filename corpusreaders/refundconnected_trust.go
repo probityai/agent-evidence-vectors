@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 // Steps 3 and 4 of the refund-connected reader: the committed admission record
 // against every retained input, and the signed handoff or resolution against

@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 // The W3C report reader's two RFC 8785 encodings against the shared table.
 //

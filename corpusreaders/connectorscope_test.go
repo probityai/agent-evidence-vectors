@@ -1,4 +1,4 @@
-package corpora_test
+package corpusreaders_test
 
 import "testing"
 

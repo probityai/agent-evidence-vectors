@@ -13,7 +13,7 @@ Predicate Name: Agent Card Receipt
 > `https://probityai.github.io/agent-evidence/predicate/v1/agent-card-receipt/`. The URI
 > will not move once a signed statement carries it, and no signed statement carries it
 > before that page is live. The conformance corpus in this repository,
-> `vectors-agent-card-receipt/`, carries it in unsigned statements.
+> `corpora/vectors-agent-card-receipt/`, carries it in unsigned statements.
 
 ## Purpose
 
@@ -180,7 +180,7 @@ it says nothing after `validUntil` or after the revocation list names it.
 
 ## Conformance
 
-`vectors-agent-card-receipt/` (suite `agent-card-receipt/v1`) holds the members: a card, an
+`corpora/vectors-agent-card-receipt/` (suite `agent-card-receipt/v1`) holds the members: a card, an
 unsigned statement, a signed revocation list and a context naming the check time and the
 signer's key. Every rule above is the first failure of at least one member, and the
 accepting members are the controls: a card with and without signatures, a check at

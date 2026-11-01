@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"bytes"
@@ -17,7 +17,7 @@ import (
 
 func init() { register(badgeVC{}) }
 
-// badgeVC judges vectors-badge-vc-verify/. Each member is one case.json: an
+// badgeVC judges corpora/vectors-badge-vc-verify/. Each member is one case.json: an
 // agent badge issued as a W3C Verifiable Credential in a compact JWS signed
 // with EdDSA, the verification time, the key material resolved for each issuer
 // DID, the issuers the verifier trusts, and the issuer's own revocation store.

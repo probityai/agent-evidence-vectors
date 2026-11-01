@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"encoding/json"
@@ -12,7 +12,7 @@ import (
 
 func init() { register(mcpOWASP{}) }
 
-// mcpOWASP judges vectors-mcp-owasp/. Each member is the observation one
+// mcpOWASP judges corpora/vectors-mcp-owasp/. Each member is the observation one
 // acceptance test of a draft MCP verification requirement (MCPVS-1 to
 // MCPVS-12) produced. The requirement the record names selects a rule, and the
 // rule decides whether the observed behaviour passes that acceptance test.

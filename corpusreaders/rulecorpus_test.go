@@ -1,4 +1,4 @@
-package corpora_test
+package corpusreaders_test
 
 // A rule corpus reader derives every answer from the record. The committed
 // corpus reaches each refusal code at least once; the cases below give each
@@ -14,7 +14,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/probityai/agent-evidence-vectors/corpora"
+	"github.com/probityai/agent-evidence-vectors/corpusreaders"
 )
 
 func rlTwins(t *testing.T, dir string) map[string]string {
@@ -57,7 +57,7 @@ func rlStageWithCase(t *testing.T, dir, member, caseFrom string) string {
 
 func rlCommittedCorpusIsClean(t *testing.T, dir string, accepted, rejected int) {
 	t.Helper()
-	result, err := corpora.Judge(corpusPath(dir))
+	result, err := corpusreaders.Judge(corpusPath(dir))
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}
@@ -76,7 +76,7 @@ func rlReaderDerivesRatherThanEchoes(t *testing.T, dir string) {
 		for _, pair := range [][2]string{{rejected, accepted}, {accepted, rejected}} {
 			member, from := pair[0], pair[1]
 			t.Run(member+"<-"+from, func(t *testing.T) {
-				result, err := corpora.Judge(rlStageWithCase(t, dir, member, from))
+				result, err := corpusreaders.Judge(rlStageWithCase(t, dir, member, from))
 				if err != nil {
 					t.Fatalf("judge: %v", err)
 				}

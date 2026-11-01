@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"encoding/json"
@@ -9,7 +9,7 @@ import (
 
 func init() { register(gradeFloor{}) }
 
-// gradeFloor judges vectors-grade-floor/. Each member is one record for the
+// gradeFloor judges corpora/vectors-grade-floor/. Each member is one record for the
 // E0-E4 evidence ladder in AAIF Observability WG issue #37
 // (https://github.com/aaif/wg-observability-and-traceability/issues/37). The
 // reader derives the grade from the record's observations, enforcement,

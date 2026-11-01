@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"bytes"
@@ -13,7 +13,7 @@ import (
 
 func init() { register(observedEffect{}) }
 
-// observedEffect judges vectors-observed-effect/ by replaying every member through
+// observedEffect judges corpora/vectors-observed-effect/ by replaying every member through
 // the Go rail in observedeffect.
 //
 // Before this reader the corpus was judged by nothing this binary runs: aee-verify

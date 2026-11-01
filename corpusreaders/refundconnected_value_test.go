@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 // Direct tests of the value layer of the refund-connected reader: the parser
 // escapes, canonical bytes, comparisons, iteration and the decoders. The

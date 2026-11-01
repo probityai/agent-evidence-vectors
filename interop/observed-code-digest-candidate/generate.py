@@ -18,7 +18,7 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-BASELINE = ROOT / "vectors-observed-effect/statements/v1c6fdd82db5229e4.json"
+BASELINE = ROOT / "corpora/vectors-observed-effect/statements/v1c6fdd82db5229e4.json"
 SEED = bytes.fromhex("00" * 31 + "11")
 KEY = Ed25519PrivateKey.from_private_bytes(SEED)
 CODE = b'print("observed-code-digest synthetic candidate")\n'
@@ -166,7 +166,7 @@ def main() -> None:
         "status": "candidate",
         "classification": "same-author synthetic conformance cases; published test keys",
         "baseCommit": "beb47f330793c6be19e75d78098abb3ec2f12a1d",
-        "baseStatement": "vectors-observed-effect/statements/v1c6fdd82db5229e4.json",
+        "baseStatement": "corpora/vectors-observed-effect/statements/v1c6fdd82db5229e4.json",
         "baseStatementSha256": hashlib.sha256(BASELINE.read_bytes()).hexdigest(),
         "codeSha256": DIGEST,
         "vectors": rows,

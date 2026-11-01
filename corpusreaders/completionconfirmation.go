@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"encoding/json"
@@ -10,7 +10,7 @@ import (
 
 func init() { register(completionConfirmation{}) }
 
-// completionConfirmation judges vectors-completion-confirmation/. Each member
+// completionConfirmation judges corpora/vectors-completion-confirmation/. Each member
 // is one record of a task, the authorization decision for it, the agent's claim
 // about its outcome and the confirmation the claim rests on (or none). The
 // reader derives each member's decision with the checks the Python reader

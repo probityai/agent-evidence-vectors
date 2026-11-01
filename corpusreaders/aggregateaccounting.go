@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"encoding/json"
@@ -10,7 +10,7 @@ import (
 
 func init() { register(aggregateAccounting{}) }
 
-// aggregateAccounting judges vectors-aggregate-accounting/. Each member is the
+// aggregateAccounting judges corpora/vectors-aggregate-accounting/. Each member is the
 // decision log of an accounting authority for one budget shared by a principal
 // and its delegation subtrees. The reader derives each member's decision with
 // the checks the Python reader applies, in the same order, and names the first

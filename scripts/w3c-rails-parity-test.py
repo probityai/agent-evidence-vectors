@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""The three rails that judge vectors-w3c-report/ print the same bytes.
+"""The three rails that judge corpora/vectors-w3c-report/ print the same bytes.
 
-``aee-verify <dir>`` judges the corpus through corpora/w3creport.go,
+``aee-verify <dir>`` judges the corpus through corpusreaders/w3creport.go,
 ``packaging/run_vectors.py --corpus vectors-w3c-report`` judges it through
 packaging/agent_evidence_vectors/w3creport.py, and ``w3c-report-rs <dir>``
 judges it through readers/w3c-report-rs, a Rust reader written from the v0.1

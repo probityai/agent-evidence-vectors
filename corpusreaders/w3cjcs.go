@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 // Digests over a JSON value for the W3C report reader.
 //

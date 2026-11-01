@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"crypto/ed25519"
@@ -12,7 +12,7 @@ import (
 
 func init() { register(agenticProcess{}) }
 
-// agenticProcess judges vectors-agentic-process-evidence/. Each member is one
+// agenticProcess judges corpora/vectors-agentic-process-evidence/. Each member is one
 // DSSE v1 envelope over an in-toto Statement v1 carrying the Agentic Process
 // Evidence predicate, version 0.1, proposed in in-toto/attestation#609
 // (https://github.com/in-toto/attestation/pull/609) and specified in

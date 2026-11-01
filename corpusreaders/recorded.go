@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"bytes"
@@ -17,7 +17,7 @@ import (
 
 func init() { register(recordedSets{}) }
 
-// recordedSets judges vectors-recorded/. A member is a directory of files kept
+// recordedSets judges corpora/vectors-recorded/. A member is a directory of files kept
 // byte for byte beside the SHA256SUMS list its publisher wrote. Recorded
 // members come from live runs and are not generated; synthetic members are one
 // mutation away from an intact synthetic set. The codes, their meaning and the

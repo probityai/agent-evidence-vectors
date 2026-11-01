@@ -40,7 +40,7 @@ fn every_committed_member_behaves_as_declared() {
 
 #[test]
 fn the_published_emitter_run_validates_and_rewrites_byte_for_byte() {
-    let path = repo().join("vectors-w3c-report/observed/aee-v0.12.0/report.json");
+    let path = repo().join("corpora/vectors-w3c-report/observed/aee-v0.12.0/report.json");
     let (status, text) = run(&["--report", path.to_str().unwrap_or_default()]);
     assert_eq!(status, 0, "{text}");
     assert!(

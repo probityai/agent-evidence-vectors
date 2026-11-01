@@ -4,7 +4,7 @@
 scripts/w3c-rails-parity-test.py holds the three readers byte-identical on the
 committed corpus and on twelve chosen mutations. This asks the wider question
 the parity test cannot: on inputs nobody chose, do the readers reach the same
-decision? Each round copies vectors-w3c-report/, applies one random mutation
+decision? Each round copies corpora/vectors-w3c-report/, applies one random mutation
 to the subject of every member (delete a member, nudge an integer, or set a
 value from a mixed pool of vocabulary and junk), runs all three readers over
 the copy, and compares what each prints about each member.

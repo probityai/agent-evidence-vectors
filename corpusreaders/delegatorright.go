@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"encoding/json"
@@ -11,7 +11,7 @@ import (
 
 func init() { register(delegatorRight{}) }
 
-// delegatorRight judges vectors-delegator-right/. Each member is one record of
+// delegatorRight judges corpora/vectors-delegator-right/. Each member is one record of
 // a delegated request with the grant chain behind it, the entitlements the
 // delegating principals held, and the scope removals that took effect at the
 // source. The reader derives each member's decision with the checks the Python

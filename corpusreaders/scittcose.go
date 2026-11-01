@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import "fmt"
 
@@ -7,7 +7,7 @@ func init() { register(scittCose{}) }
 // scittCose is registered and NOT implemented, which is a deliberate third
 // state between "judged" and "unknown".
 //
-// The suite exists: vectors-scitt-cose/ carries 27 members and a
+// The suite exists: corpora/vectors-scitt-cose/ carries 27 members and a
 // check_vectors.py that judges them. What that checker needs, and what no
 // reader here yet supplies, is a CBOR reader: RFC 8949 decoding with the
 // deterministic map-order test of Section 4.2.1, COSE_Sign1 decoding per

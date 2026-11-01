@@ -1,4 +1,4 @@
-package corpora_test
+package corpusreaders_test
 
 // The change-admission reader decides every member from its signed envelope,
 // its policy and its supplied reports. The cases below give each refused member
@@ -14,7 +14,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/probityai/agent-evidence-vectors/corpora"
+	"github.com/probityai/agent-evidence-vectors/corpusreaders"
 )
 
 const caDir = "vectors-agent-change-admission"
@@ -56,7 +56,7 @@ func caStageWithCase(t *testing.T, member, caseFrom string) string {
 }
 
 func TestChangeAdmissionCommittedCorpusIsClean(t *testing.T) {
-	result, err := corpora.Judge(corpusPath(caDir))
+	result, err := corpusreaders.Judge(corpusPath(caDir))
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}
@@ -81,7 +81,7 @@ func TestChangeAdmissionReaderDecidesRatherThanEchoes(t *testing.T) {
 		for _, pair := range pairs {
 			member, from := pair[0], pair[1]
 			t.Run(member+"<-"+from, func(t *testing.T) {
-				result, err := corpora.Judge(caStageWithCase(t, member, from))
+				result, err := corpusreaders.Judge(caStageWithCase(t, member, from))
 				if err != nil {
 					t.Fatalf("judge: %v", err)
 				}

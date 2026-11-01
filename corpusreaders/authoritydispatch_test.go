@@ -1,4 +1,4 @@
-package corpora_test
+package corpusreaders_test
 
 // The authority-at-dispatch reader derives every decision from the record and
 // the dispatched bytes. Swapping one member's record or bytes for another's
@@ -10,7 +10,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/probityai/agent-evidence-vectors/corpora"
+	"github.com/probityai/agent-evidence-vectors/corpusreaders"
 )
 
 const atdDir = "vectors-authority-at-dispatch"
@@ -35,7 +35,7 @@ func atdRead(t *testing.T, member, name string) []byte {
 }
 
 func TestAuthorityDispatchCommittedCorpusIsClean(t *testing.T) {
-	result, err := corpora.Judge(corpusPath(atdDir))
+	result, err := corpusreaders.Judge(corpusPath(atdDir))
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}
@@ -99,7 +99,7 @@ func TestAuthorityDispatchUnreadableInputsAreFindings(t *testing.T) {
 func TestAuthorityDispatchDamagedManifestIsAFinding(t *testing.T) {
 	copied := filepath.Join(t.TempDir(), atdDir)
 	copyTree(t, corpusPath(atdDir), copied)
-	path := filepath.Join(copied, corpora.ManifestName)
+	path := filepath.Join(copied, corpusreaders.ManifestName)
 	raw, err := os.ReadFile(path) // #nosec G304 -- a test reading its own copy
 	if err != nil {
 		t.Fatal(err)
@@ -108,7 +108,7 @@ func TestAuthorityDispatchDamagedManifestIsAFinding(t *testing.T) {
 	if err := os.WriteFile(path, []byte(damaged), 0o600); err != nil {
 		t.Fatal(err)
 	}
-	result, err := corpora.Judge(copied)
+	result, err := corpusreaders.Judge(copied)
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}
@@ -118,7 +118,7 @@ func TestAuthorityDispatchDamagedManifestIsAFinding(t *testing.T) {
 	if err := os.WriteFile(path, []byte(`{"suite":"authority-at-dispatch/v1","vectors":7}`), 0o600); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := corpora.Judge(copied); err == nil {
+	if _, err := corpusreaders.Judge(copied); err == nil {
 		t.Fatal("a manifest whose rows are not a list must be an error")
 	}
 }

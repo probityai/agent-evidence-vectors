@@ -22,7 +22,7 @@ from pathlib import Path
 from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-CORPUS = REPO_ROOT / "vectors-agent-audit-record"
+CORPUS = REPO_ROOT / "corpora" / "vectors-agent-audit-record"
 sys.path.insert(0, str(REPO_ROOT / "packaging"))
 
 import run_vectors  # noqa: E402,F401  (the reader resolves the rail's Ed25519 through it)

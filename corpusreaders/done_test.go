@@ -1,4 +1,4 @@
-package corpora_test
+package corpusreaders_test
 
 // The done readers derive every member's verdict from its records. Swapping a
 // record for another run's, or breaking one rule in it, must move the derived
@@ -10,7 +10,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/probityai/agent-evidence-vectors/corpora"
+	"github.com/probityai/agent-evidence-vectors/corpusreaders"
 )
 
 var doneCorpora = []string{
@@ -40,7 +40,7 @@ func doneRead(t *testing.T, dir, member, name string) []byte {
 func TestDoneCorporaAreClean(t *testing.T) {
 	for _, dir := range doneCorpora {
 		t.Run(dir, func(t *testing.T) {
-			result, err := corpora.Judge(corpusPath(dir))
+			result, err := corpusreaders.Judge(corpusPath(dir))
 			if err != nil {
 				t.Fatalf("judge: %v", err)
 			}
@@ -75,7 +75,7 @@ func TestDoneRecordsMoveTheDerivedVerdict(t *testing.T) {
 		}
 	})
 	t.Run("a forged receipt is caught by rederiving its verdicts", func(t *testing.T) {
-		verdict, err := corpora.DoneCheck("done_receipt/v2", filepath.Join(corpusPath(dir), "cases", "forged-receipt"))
+		verdict, err := corpusreaders.DoneCheck("done_receipt/v2", filepath.Join(corpusPath(dir), "cases", "forged-receipt"))
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -99,7 +99,7 @@ func TestDoneDamagedManifestIsAFinding(t *testing.T) {
 		t.Run(dir, func(t *testing.T) {
 			copied := filepath.Join(t.TempDir(), dir)
 			copyTree(t, corpusPath(dir), copied)
-			path := filepath.Join(copied, corpora.ManifestName)
+			path := filepath.Join(copied, corpusreaders.ManifestName)
 			raw, err := os.ReadFile(path) // #nosec G304 -- a test reading its own copy
 			if err != nil {
 				t.Fatal(err)
@@ -108,7 +108,7 @@ func TestDoneDamagedManifestIsAFinding(t *testing.T) {
 			if err := os.WriteFile(path, []byte(damaged), 0o600); err != nil {
 				t.Fatal(err)
 			}
-			result, err := corpora.Judge(copied)
+			result, err := corpusreaders.Judge(copied)
 			if err != nil {
 				t.Fatalf("judge: %v", err)
 			}

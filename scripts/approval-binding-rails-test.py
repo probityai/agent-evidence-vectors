@@ -3,9 +3,9 @@
 
 The corpus has three ways in: the packaged reader
 (``packaging/agent_evidence_vectors/approvalbinding.py``, called in process),
-the corpus's own command (``vectors-approval-binding/check_vectors.py
+the corpus's own command (``corpora/vectors-approval-binding/check_vectors.py
 <record> --json``, the external-verifier contract) and the Go reader
-(``corpora/approvalbinding.go``, run through ``aee-verify``). This test holds
+(``corpusreaders/approvalbinding.go``, run through ``aee-verify``). This test holds
 them to one decision and one reason:
 
 1. on every committed member, all three give the decision and reason
@@ -40,7 +40,7 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
-CORPUS = ROOT / "vectors-approval-binding"
+CORPUS = ROOT / "corpora" / "vectors-approval-binding"
 sys.path.insert(0, str(ROOT / "packaging"))
 
 from agent_evidence_vectors import approvalbinding as reader  # noqa: E402

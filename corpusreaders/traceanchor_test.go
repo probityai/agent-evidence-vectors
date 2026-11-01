@@ -1,4 +1,4 @@
-package corpora_test
+package corpusreaders_test
 
 // The trace-anchor reader derives every decision from case.json. The committed
 // corpus reaches each of the nine checks; the cases below change one field of a
@@ -14,7 +14,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/probityai/agent-evidence-vectors/corpora"
+	"github.com/probityai/agent-evidence-vectors/corpusreaders"
 )
 
 const taDir = "vectors-trace-anchor"
@@ -52,7 +52,7 @@ func taPart(c map[string]any, key string) map[string]any {
 }
 
 func TestTraceAnchorCommittedCorpusIsClean(t *testing.T) {
-	result, err := corpora.Judge(corpusPath(taDir))
+	result, err := corpusreaders.Judge(corpusPath(taDir))
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}

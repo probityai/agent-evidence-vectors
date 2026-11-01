@@ -1,4 +1,4 @@
-package corpora_test
+package corpusreaders_test
 
 // The source coverage reader applies five rules in order. The committed corpus
 // shows each rule reached once; the cases below mutate one committed member so
@@ -15,7 +15,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/probityai/agent-evidence-vectors/corpora"
+	"github.com/probityai/agent-evidence-vectors/corpusreaders"
 )
 
 const scDir = "vectors-source-coverage"
@@ -72,7 +72,7 @@ func scSetSpan(text string) func(map[string]any) {
 // scDerived judges the staged corpus and returns the findings of one member.
 func scDerived(t *testing.T, dir, id string) string {
 	t.Helper()
-	result, err := corpora.Judge(dir)
+	result, err := corpusreaders.Judge(dir)
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}
@@ -203,10 +203,10 @@ func TestSourceCoverageUnreadableCasesAreFindings(t *testing.T) {
 func TestSourceCoverageCorpusLevelFindings(t *testing.T) {
 	t.Run("a changed corpus digest is refused", func(t *testing.T) {
 		dir := scStage(t)
-		scEdit(t, filepath.Join(dir, corpora.ManifestName), func(doc map[string]any) {
+		scEdit(t, filepath.Join(dir, corpusreaders.ManifestName), func(doc map[string]any) {
 			doc["corpusDigest"] = strings.Repeat("0", 64)
 		})
-		result, err := corpora.Judge(dir)
+		result, err := corpusreaders.Judge(dir)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -227,10 +227,10 @@ func TestSourceCoverageCorpusLevelFindings(t *testing.T) {
 	t.Run("a manifest that does not parse is an error", func(t *testing.T) {
 		dir := t.TempDir()
 		manifest := []byte(`{"suite":"source-text-coverage/v1","vectors":{}}`)
-		if err := os.WriteFile(filepath.Join(dir, corpora.ManifestName), manifest, 0o600); err != nil {
+		if err := os.WriteFile(filepath.Join(dir, corpusreaders.ManifestName), manifest, 0o600); err != nil {
 			t.Fatal(err)
 		}
-		if _, err := corpora.Judge(dir); err == nil {
+		if _, err := corpusreaders.Judge(dir); err == nil {
 			t.Error("a manifest whose vectors are not a list was judged")
 		}
 	})

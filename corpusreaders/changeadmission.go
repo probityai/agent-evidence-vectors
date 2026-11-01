@@ -1,4 +1,4 @@
-package corpora
+package corpusreaders
 
 import (
 	"crypto/ed25519"
@@ -13,7 +13,7 @@ import (
 
 func init() { register(changeAdmission{}) }
 
-// changeAdmission judges vectors-agent-change-admission/. Each member is one
+// changeAdmission judges corpora/vectors-agent-change-admission/. Each member is one
 // signed decision about whether a proposed change to an AI agent's harness was
 // admitted, under the agent-change-admission predicate, version 1
 // (https://github.com/probityai/agent-evidence-vocabulary/blob/main/docs/predicates/agent-change-admission-v1.md),
