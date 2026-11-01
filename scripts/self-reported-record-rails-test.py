@@ -24,6 +24,7 @@ from __future__ import annotations
 import base64
 import copy
 import hashlib
+import importlib.util
 import json
 import os
 import re
@@ -40,9 +41,18 @@ CORPUS = ROOT / "vectors-self-reported-record"
 sys.path.insert(0, str(ROOT / "packaging"))
 sys.path.insert(0, str(CORPUS))
 
-import check_vectors  # noqa: E402  the corpus's reference verifier, the third rail
 import run_vectors  # noqa: E402
 from agent_evidence_vectors import selfreportedrecord as srr  # noqa: E402
+
+# The corpus's reference verifier, the third rail. Loaded by path under its own
+# module name: another corpus also ships a check_vectors.py, and a plain import
+# would take whichever the interpreter found first.
+_REFERENCE_SPEC = importlib.util.spec_from_file_location(
+    "srr_reference_check_vectors", CORPUS / "check_vectors.py"
+)
+assert _REFERENCE_SPEC is not None and _REFERENCE_SPEC.loader is not None
+check_vectors: Any = importlib.util.module_from_spec(_REFERENCE_SPEC)
+_REFERENCE_SPEC.loader.exec_module(check_vectors)
 
 Statement = dict[str, Any]
 
@@ -960,19 +970,29 @@ def differential_stub_failures(binary: str, work: Path) -> list[str]:
     """Move the Python rail off the Go rail in two small ways; the differential must see both."""
     problems = []
     original = (srr._HEX64, srr._utf16_key)
-    reference = (check_vectors.HEX64, check_vectors.decode_strict, check_vectors._signature_spelled)
+    reference = (
+        check_vectors.HEX64,
+        check_vectors.decode_strict,
+        check_vectors._signature_spelled,
+    )
     try:
         check_vectors.HEX64 = re.compile(r"[0-9a-fA-F]{64}")
         if not differential(binary, work / "ref-upper-hex")[0]:
-            problems.append("the differential did not notice a reference verifier with uppercase hex")
+            problems.append(
+                "the differential did not notice a reference verifier with uppercase hex"
+            )
         check_vectors.HEX64 = reference[0]
         check_vectors._signature_spelled = lambda signature: True
         if not differential(binary, work / "ref-spelling")[0]:
-            problems.append("the differential did not notice a reference verifier that skips signature spelling")
+            problems.append(
+                "the differential did not notice a reference verifier that skips signature spelling"
+            )
         check_vectors._signature_spelled = reference[2]
         check_vectors.decode_strict = lambda raw: json.loads(raw.decode("utf-8", errors="replace"))
         if not differential(binary, work / "ref-decode")[0]:
-            problems.append("the differential did not notice a reference verifier with a lenient decoder")
+            problems.append(
+                "the differential did not notice a reference verifier with a lenient decoder"
+            )
         check_vectors.decode_strict = reference[1]
         srr._HEX64 = re.compile(r"[0-9a-fA-F]{64}")
         if not differential(binary, work / "upper-hex")[0]:
@@ -983,7 +1003,9 @@ def differential_stub_failures(binary: str, work: Path) -> list[str]:
             problems.append("the differential did not notice member names sorted by code point")
     finally:
         srr._HEX64, srr._utf16_key = original
-        check_vectors.HEX64, check_vectors.decode_strict, check_vectors._signature_spelled = reference
+        check_vectors.HEX64 = reference[0]
+        check_vectors.decode_strict = reference[1]
+        check_vectors._signature_spelled = reference[2]
     return problems
 
 
