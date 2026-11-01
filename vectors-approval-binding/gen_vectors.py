@@ -75,6 +75,21 @@ def renewal(*, successor: dict[str, Any] | None = None,
              **(use or {})})
 
 
+def without_use_key(body: dict[str, Any], key: str) -> dict[str, Any]:
+    """``body`` with ``key`` removed from its use."""
+    body["use"].pop(key)
+    return body
+
+
+def renewal_with_conflicting_predecessor() -> dict[str, Any]:
+    """The positive renewal with a second presented A: same identifier, another
+    decision. The matching A comes first, the order in which a reader that takes
+    the first match allows."""
+    body = renewal()
+    body["presentedApprovals"].insert(1, approval(decisionId="dec-0099"))
+    return body
+
+
 def _sha(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
@@ -238,6 +253,21 @@ def cases() -> list[Case]:
          APPROVED, "deny", "effect_already_closed",
          "the replacement is valid, but the effect closed with an uncertain outcome that a "
          "new grant must not turn into nothing happened"),
+        ("approval-renewal-accepted-after-use",
+         renewal(moved={"acceptedAt": "2026-10-21T12:00:01Z"}), APPROVED, "deny",
+         "renewal_transition_missing",
+         "the only transition into B was accepted one second after the use, so no renewal "
+         "was in effect when B was used"),
+        ("approval-renewal-predecessor-ambiguous", renewal_with_conflicting_predecessor(),
+         APPROVED, "deny", "renewal_binding_invalid",
+         "two presented records carry A's identifier with different decisions, so the "
+         "transition's predecessor does not resolve to one approval"),
+        ("approval-use-cites-predecessor", renewal(use={"approvalId": "appr-0001"}),
+         APPROVED, "deny", "approval_not_cited",
+         "B is checked, but the use names A as the approval it relies on"),
+        ("approval-use-cites-no-approval", without_use_key(record(), "approvalId"), APPROVED,
+         "deny", "approval_not_cited",
+         "the use names no approval, so it does not rely on the one being checked"),
         ("contract-id-missing", record(contract=None), APPROVED, "deny",
          "contract_id_missing", "the record names no contract"),
         ("contract-id-unknown", record(contract=reader.CONTRACT_ID.replace("/v1", "/v0")),
