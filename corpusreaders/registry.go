@@ -1,4 +1,4 @@
-// Package corpora judges every conformance corpus in this repository with one
+// Package corpusreaders judges every conformance corpus in this repository with one
 // binary.
 //
 // A corpus used to ship with its own Python runner beside it, so the command a
