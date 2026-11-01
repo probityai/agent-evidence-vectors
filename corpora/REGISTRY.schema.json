@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Corpus registry",
+  "description": "corpora/REGISTRY.toml, read as JSON: one row per corpus, the data files the wheel carries beside the corpora, and the package layout. Checked by scripts/corpus-registry.py.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["registry_version", "build", "data", "corpus"],
+  "properties": {
+    "registry_version": {"const": 1},
+    "build": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["package", "exclude", "sdist_extra"],
+      "properties": {
+        "package": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["src", "wheel"],
+          "properties": {
+            "src": {"$ref": "#/$defs/relpath"},
+            "wheel": {"const": "agent_evidence_vectors"}
+          }
+        },
+        "exclude": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "sdist_extra": {"type": "array", "items": {"$ref": "#/$defs/relpath"}, "uniqueItems": true}
+      }
+    },
+    "data": {
+      "description": "Files the wheel carries under agent_evidence_vectors/, outside any corpus directory, because a packaged reader or an outside consumer reads them at that path.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["src", "wheel", "purpose"],
+        "properties": {
+          "src": {"$ref": "#/$defs/relpath"},
+          "wheel": {"$ref": "#/$defs/relpath"},
+          "purpose": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "corpus": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "path", "wheel", "sdist", "title", "summary", "record_class", "domains", "standards", "shapes"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^vectors(-[a-z0-9]+)*$"},
+          "path": {"$ref": "#/$defs/relpath"},
+          "wheel": {"type": "boolean"},
+          "sdist": {"type": "boolean"},
+          "title": {"type": "string", "minLength": 3, "maxLength": 60, "pattern": "^[ -~]+$"},
+          "summary": {"type": "string", "minLength": 10, "maxLength": 240, "pattern": "^[ -~]+$"},
+          "record_class": {"enum": ["execution-evidence", "receipt", "record", "report", "chain", "credential", "contract", "policy", "canonicalization"]},
+          "domains": {
+            "type": "array", "minItems": 1, "maxItems": 3, "uniqueItems": true,
+            "items": {"enum": ["authority", "delegation", "payments", "effects", "completion", "identity", "provenance", "transparency", "canonicalization", "grading", "model-governance", "agent-protocols", "export", "approval"]}
+          },
+          "standards": {
+            "type": "array", "maxItems": 3, "uniqueItems": true,
+            "items": {"enum": ["in-toto", "scitt-cose", "w3c", "ietf-draft", "mcp", "a2a", "owasp", "eu-ai-act", "nist", "did", "rfc8785", "oasf", "open-badges", "ap2"]}
+          },
+          "shapes": {
+            "type": "array", "minItems": 1, "maxItems": 3, "uniqueItems": true,
+            "items": {"enum": ["forged-signature", "broken-chain", "scope-overreach", "replay", "stale-authority", "missing-binding", "self-report", "tampering", "uncertainty", "malformed-input", "coverage-gap", "wrong-grade", "ordering", "race-condition"]}
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "relpath": {"type": "string", "pattern": "^[A-Za-z0-9_.][A-Za-z0-9_./-]*$", "not": {"pattern": "(^|/)\\.\\.(/|$)"}}
+  }
+}
