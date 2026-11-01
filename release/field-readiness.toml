@@ -1,0 +1,25 @@
+# The fields scripts/field-readiness.py reads. A field is a set of predicate
+# types, the corpus that exercises them, and the outside workflows recorded as
+# running that corpus. The script derives every status from the live services and
+# from the release tag; nothing in this file is a status.
+#
+# outside_ci: one entry per workflow in a repository this organisation does not
+# own that runs this repository's Action or package against the field's corpus.
+# An entry is added when the workflow is merged on that repository's default
+# branch, never before, and the script still checks the file and its last run.
+
+host = "https://probityai.github.io/agent-evidence-vectors"
+repository = "probityai/agent-evidence-vectors"
+excluded_owners = ["probityai", "astrogilda", "astrogilda-forks"]
+
+[fields.restart]
+profile = "profiles/restoration-evidence.md"
+corpus = "vectors-restart-records"
+predicates = [
+    "incident-action-authorization",
+    "revocation-sweep",
+    "re-enable-decision",
+    "joint-authority",
+    "revocation-boundary",
+]
+outside_ci = []
