@@ -420,7 +420,7 @@ def _registered_figure() -> tuple[str, str, int]:
     sys.modules[spec.name] = gate
     spec.loader.exec_module(gate)
     bound = gate.load_sources().noun_bound()
-    for directory in ("vectors-observed-effect", *gate.EXTRA_CORPORA):
+    for directory in ("corpora/vectors-observed-effect", *gate.EXTRA_CORPORA):
         counts = json.loads((REPO_ROOT / directory / "MANIFEST.json").read_text(encoding="utf-8"))[
             "counts"
         ]

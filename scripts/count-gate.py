@@ -213,17 +213,17 @@ BINDING_MANIFEST_REL = "corpora/vectors-artifact-binding/MANIFEST.json"
 #: corpus owes in exchange is that sentence, in the shape claims_for_corpus below
 #: expects, which is a small price for a count nobody can restate unchecked.
 EXTRA_CORPORA: tuple[str, ...] = (
-    "vectors-anchor-stream",
-    "vectors-acs-core",
-    "vectors-mcp-record-contract",
-    "vectors-mcp-response-phase",
-    "vectors-w3c-report",
-    "vectors-observed-effect",
-    "vectors-ai-generation",
-    "vectors-receipt-signature",
-    "vectors-agent-audit-record",
-    "vectors-admission",
-    "vectors-restart-records",
+    "corpora/vectors-anchor-stream",
+    "corpora/vectors-acs-core",
+    "corpora/vectors-mcp-record-contract",
+    "corpora/vectors-mcp-response-phase",
+    "corpora/vectors-w3c-report",
+    "corpora/vectors-observed-effect",
+    "corpora/vectors-ai-generation",
+    "corpora/vectors-receipt-signature",
+    "corpora/vectors-agent-audit-record",
+    "corpora/vectors-admission",
+    "corpora/vectors-restart-records",
 )
 CHANGES_REL = "vectors/CHANGES.md"
 BASELINE_REL = "docs/FORCING-BASELINE.json"
@@ -841,7 +841,7 @@ def reply_claims(src: Sources) -> tuple[Claim, ...]:
     )
 
 
-W3C_REPORT_DIR = "vectors-w3c-report"
+W3C_REPORT_DIR = "corpora/vectors-w3c-report"
 
 
 def w3c_selection_claims() -> tuple[Claim, ...]:
