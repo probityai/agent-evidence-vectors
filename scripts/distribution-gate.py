@@ -446,7 +446,7 @@ def tabled_corpora(page: str) -> dict[str, str]:
         cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
         if len(cells) < 2:
             continue
-        directory = cells[0].strip("`").rstrip("/")
+        directory = cells[0].strip("`").rstrip("/").removeprefix("corpora/")
         suite = cells[1].strip("`")
         if directory == "vectors" or directory.startswith("vectors-"):
             if directory in rows:
@@ -469,7 +469,7 @@ def offered_corpora(form: str) -> set[str]:
     """
     offered = {
         match.group(1).rstrip("/")
-        for match in re.finditer(r'^\s*-\s*"(vectors[^"]*)"\s*$', form, re.MULTILINE)
+        for match in re.finditer(r'^\s*-\s*"(?:corpora/)?(vectors[^"]*)"\s*$', form, re.MULTILINE)
     }
     if not offered:
         raise GateError(
