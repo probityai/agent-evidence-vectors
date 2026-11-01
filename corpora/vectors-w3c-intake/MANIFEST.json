@@ -82,10 +82,10 @@
       "void"
     ]
   },
-  "corpusDigest": "08161d39e0de8b8933612e0cbac1c0336fbff031ffcecada579b5588ee1ca3d1",
+  "corpusDigest": "4adf466724c9188ad6833ac30249c75c3e7000a8dabf70e175fe59a7abd06b85",
   "counts": {
-    "accept": 53,
-    "reject": 84
+    "accept": 55,
+    "reject": 87
   },
   "families": {
     "w3c-i-f-001": "rejection ground W3C-I-001, criterion 1",
@@ -1678,6 +1678,22 @@
       "specVersion": "2"
     },
     {
+      "cites": "the list names the manifest suite/MANIFEST.json and the record holds it at corpora/suite/MANIFEST.json, a trailing path of the record's",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-022",
+      "file": "vectors/v72cd7ca225cf4d8a.json",
+      "id": "v72cd7ca225cf4d8a",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-022"
+      ],
+      "root": "trees/nested-suite",
+      "specVersion": "2"
+    },
+    {
       "cites": "a signed digest list naming its signature, its pinned key and the scheme it is verified under",
       "expected": {
         "rejects": [],
@@ -1691,6 +1707,42 @@
         "W3C-I-022"
       ],
       "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the anchor names a manifest the record does not hold",
+      "expected": {
+        "rejects": [
+          "W3C-I-022"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-022",
+      "file": "vectors/v0f85b685ac363d5b.json",
+      "id": "v0f85b685ac363d5b",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-022"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the listed name ite/MANIFEST.json matches the record's corpora/suite/MANIFEST.json only inside a component, so it names no directory of the record's",
+      "expected": {
+        "rejects": [
+          "W3C-I-022"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-022",
+      "file": "vectors/v5452d3d4601924fc.json",
+      "id": "v5452d3d4601924fc",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-022"
+      ],
+      "root": "trees/anchor-inside-name",
       "specVersion": "2"
     },
     {
@@ -1816,6 +1868,22 @@
       "specVersion": "2"
     },
     {
+      "cites": "the manifest moved one directory down; the signed list and its signature, byte for byte the base's, still bind it",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-024",
+      "file": "vectors/va47add900d6015a6.json",
+      "id": "va47add900d6015a6",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-024"
+      ],
+      "root": "trees/nested-suite",
+      "specVersion": "2"
+    },
+    {
       "cites": "the signature over the digest list verifies under the pinned key",
       "expected": {
         "rejects": [],
@@ -1899,6 +1967,24 @@
         "W3C-I-024"
       ],
       "root": "trees/member-dropped-repinned",
+      "specVersion": "2"
+    },
+    {
+      "cites": "the anchor names the manifest by the record's path corpora/suite/MANIFEST.json and the list carries no such line",
+      "expected": {
+        "rejects": [
+          "W3C-I-024"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-024",
+      "file": "vectors/vc2b423aba1b85d54.json",
+      "id": "vc2b423aba1b85d54",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-024"
+      ],
+      "root": "trees/nested-suite",
       "specVersion": "2"
     },
     {

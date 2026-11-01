@@ -911,7 +911,68 @@ def build_anchor(m: Members) -> None:
     m.add(24, "accept", "the anchor resolves and binds the manifest's own digest", root=base)
     m.add(24, "reject", "the anchor resolves and binds another digest: an integrity failure",
           root=m.tree("anchor-other", other_line))
+    build_listed_name(m)
     build_signed_anchor(m)
+
+
+def nested_tree(files: dict[str, bytes]) -> None:
+    """The fixture package one directory down; the anchor files byte for byte the base's."""
+    for key in [k for k in files if k.startswith("suite/")]:
+        files["corpora/" + key] = files.pop(key)
+
+
+def move_suite(r: dict[str, Any]) -> None:
+    """The record re-rooted to corpora/suite; the anchor still names suite/MANIFEST.json."""
+    def moved(path: str) -> str:
+        return "corpora/" + path if path == "suite" or path.startswith("suite/") else path
+    for member in r["members"]:
+        for item in member["files"]:
+            item["path"] = moved(item["path"])
+    r["manifest"]["path"] = moved(r["manifest"]["path"])
+    r["boundary"]["root"] = moved(r["boundary"]["root"])
+    for item in r["artifacts"]:
+        item["path"] = moved(item["path"])
+    commands = r["checker"]["commands"]
+    r["checker"]["commands"] = [c.replace(" suite/", " corpora/suite/") for c in commands]
+    reseal(r)
+
+
+def build_listed_name(m: Members) -> None:
+    """The list names the manifest relative to its own base; the record names it from its root."""
+    nested = m.tree("nested-suite", nested_tree)
+
+    def other_manifest(r: dict[str, Any]) -> None:
+        r["anchor"]["manifest"] = "other/MANIFEST.json"
+
+    def inside_name(r: dict[str, Any]) -> None:
+        move_suite(r)
+        r["anchor"]["manifest"] = "ite/MANIFEST.json"
+
+    def inside_line(files: dict[str, bytes]) -> None:
+        nested_tree(files)
+        files["anchor/DIGESTS.txt"] = files["anchor/DIGESTS.txt"].replace(
+            b"suite/MANIFEST.json", b"ite/MANIFEST.json")
+
+    def by_record_path(r: dict[str, Any]) -> None:
+        move_suite(r)
+        r["anchor"]["manifest"] = "corpora/suite/MANIFEST.json"
+
+    def nested_signed(r: dict[str, Any]) -> None:
+        move_suite(r)
+        signed(r)
+
+    m.add(22, "accept", "the list names the manifest suite/MANIFEST.json and the record holds "
+          "it at corpora/suite/MANIFEST.json, a trailing path of the record's", move_suite,
+          root=nested)
+    m.add(22, "reject", "the anchor names a manifest the record does not hold", other_manifest)
+    m.add(22, "reject", "the listed name ite/MANIFEST.json matches the record's "
+          "corpora/suite/MANIFEST.json only inside a component, so it names no directory of the "
+          "record's", inside_name, root=m.tree("anchor-inside-name", inside_line))
+    m.add(24, "accept", "the manifest moved one directory down; the signed list and its signature, "
+          "byte for byte the base's, still bind it", nested_signed, root=nested)
+    m.add(24, "reject", "the anchor names the manifest by the record's path "
+          "corpora/suite/MANIFEST.json and the list carries no such line", by_record_path,
+          root=nested)
 
 
 def signed(r: dict[str, Any]) -> None:
