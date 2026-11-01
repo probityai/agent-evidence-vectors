@@ -204,5 +204,6 @@ def test_the_go_member_cases_are_what_python_answers() -> None:
         context = contexts.get(json.dumps(key, sort_keys=True))
         assert context is not None, f"{key} is no longer a change this file makes"
         assert answer(item, context) == item["want"], (
-            f"{key}: the Python reader no longer answers as corpusreaders/testdata/done-members.json.gz "
-            "says; regenerate it with AEV_WRITE_DONE_MEMBERS=1")
+            f"{key}: the Python reader no longer answers as "
+            "corpusreaders/testdata/done-members.json.gz says; "
+            "regenerate it with AEV_WRITE_DONE_MEMBERS=1")

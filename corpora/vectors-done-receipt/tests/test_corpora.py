@@ -63,14 +63,15 @@ def manifest(corpus: str) -> dict:  # type: ignore[type-arg]
 @pytest.mark.parametrize("suite", list(CORPORA))
 def test_corpus_regenerates_byte_identically(suite: str, tmp_path: Path) -> None:
     corpus = CORPORA[suite]
-    generator = load(f"gen_{corpus}", ROOT / "corpora" / corpus / "gen_vectors.py")
+    corpus_dir = ROOT / "corpora" / corpus
+    generator = load(f"gen_{corpus}", corpus_dir / "gen_vectors.py")
     generator.generate(tmp_path)
-    committed = sorted(p.relative_to(ROOT / "corpora" / corpus) for p in (ROOT / "corpora" / corpus / "cases").rglob("*")
+    committed = sorted(p.relative_to(corpus_dir) for p in (corpus_dir / "cases").rglob("*")
                        if p.is_file())
     fresh = sorted(p.relative_to(tmp_path) for p in (tmp_path / "cases").rglob("*") if p.is_file())
     assert fresh == committed
     for relative in [*fresh, Path("MANIFEST.json")]:
-        assert (tmp_path / relative).read_bytes() == (ROOT / "corpora" / corpus / relative).read_bytes()
+        assert (tmp_path / relative).read_bytes() == (corpus_dir / relative).read_bytes()
 
 
 @pytest.mark.parametrize("suite", list(CORPORA))
