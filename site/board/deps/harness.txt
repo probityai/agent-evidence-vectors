@@ -1,4 +1,0 @@
-# The corpus harness: the published agent-evidence-vectors wheel, hash-locked. It has no runtime dependencies.
-# Regenerate with: uv pip compile --generate-hashes board/deps/harness.in -o board/deps/harness.txt
-agent-evidence-vectors==0.29.3 \
-    --hash=sha256:a36a65b5dc080611144eda430cf060e69b27682266e8f2e10113fc6546816622
