@@ -15,7 +15,8 @@ the names and paths those pinned jobs read, measured from their own files:
   P4  release/cosign.pub at its path, with the digest an adopter pins it by
   P5  the release digest list's line format, which an adopter parses:
       <digest> <id>/MANIFEST.json <suite> vectors=<n> ...
-  P6  the release asset names an adopter downloads from releases/download/<tag>/
+  P6  the files attached to each release under the names an adopter downloads
+      from releases/download/<tag>/
   P7  the Go module path, the `go install` path cmd/aee-verify, and the Go
       packages aee and observedeffect
   P8  the distribution name, the console script and its flags
@@ -146,8 +147,9 @@ def release_failures(repo: Path) -> list[str]:
             continue
         listed.add(match.group(1))
     fail += [f"P5 digest list has no line for {cid}/MANIFEST.json" for cid in PINNED_CORPORA if cid not in listed]
-    release_yml = (repo / ".github/workflows/release.yml").read_text(encoding="utf-8")
-    fail += [f"P6 release.yml no longer names the release asset {a}" for a in RELEASE_ASSETS if a not in release_yml]
+    # The release assets are these files, attached to the GitHub release under the same names.
+    fail += [f"P6 release/{a}, attached to each release as the asset {a}, is missing" for a in RELEASE_ASSETS
+             if not (repo / "release" / a).is_file()]
     return fail
 
 

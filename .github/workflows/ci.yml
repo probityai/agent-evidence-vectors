@@ -68,6 +68,15 @@ jobs:
           go build -o "$RUNNER_TEMP/aee-verify-installed" ./cmd/aee-verify
       - name: the wheel runs from outside the checkout and replays every corpus
         run: scripts/installed-wheel-replay.sh "$(ls "$PWD"/dist/agent_evidence_vectors-*.whl)" "$RUNNER_TEMP/aee-verify-installed"
+      # corpora/REGISTRY.toml declares every corpus; the packaging block of
+      # pyproject.toml and corpora/README.md are written from it.
+      - name: the corpus registry is valid and its derived files are current
+        run: uv run --locked --extra dev python scripts/corpus-registry.py --check
+      # Outside CI pins the Action's names, corpus ids, wheel paths, the signing
+      # key, the digest list's line format and the Go install path. A layout
+      # change that moves any of them fails here, before a release ships it.
+      - name: every name and path an adopter pins still resolves, in the tree and the wheel
+        run: python3 scripts/adopter-pins-test.py --wheel "$(ls "$PWD"/dist/agent_evidence_vectors-*.whl)"
 
   go:
     runs-on: ubuntu-latest
