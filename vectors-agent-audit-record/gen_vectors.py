@@ -1515,6 +1515,7 @@ def define() -> None:
     define_revision_01()
     define_consumption()
     define_consumption_carryover()
+    define_settlement()
     define_audit_next()
     define_reject_paths()
     rank = {draft_id: i for i, draft_id in enumerate(ORDER)}
@@ -1788,6 +1789,7 @@ def define_freshness() -> None:
 
 REVISION_01 = "draft-gilda-audit-agent-audit-record-01"
 REVISION_03 = "draft-gilda-audit-agent-audit-record-03"
+REVISION_04 = "draft-gilda-audit-agent-audit-record-04"
 
 #: The two values of standing-source a deny judging two delegation paths
 #: depended on, as the producer held them, and decision.reportedAt of A2.
@@ -2923,6 +2925,240 @@ def define_consumption_carryover() -> None:
 
 
 # ---------------------------------------------------------------------------
+# CS41 to CS49: a paid tool call settled in a stablecoin, from vendrell46's case
+# on probityai/agent-evidence-vectors#307, written against the messages x402
+# sends over MCP. The approved terms are the ones the signed payment carries:
+# requested, asset and payee. A retry of a held permit pays the held entry's
+# payee (CS41), so a payment signed again to another payee inside one call is
+# not a retry (CS42). consumption.settled carries the terms read from the chain
+# through the transaction the server returned: an x402 upto settlement below
+# the authorized maximum is valid (CS43), above it is not (CS44), and another
+# asset or payee at settlement is not (CS45, CS46). The terms come from the
+# chain and never from the signed payload (CS47). A later record of the ledger
+# counts the settled amount, not the held one (CS48, CS49).
+# ---------------------------------------------------------------------------
+
+#: USDC on Base Sepolia, the asset of the x402 MCP transport's example, and the
+#: two accounts the case pays: P, the example's payTo, and Q, another account.
+USDC_BASE_SEPOLIA = "eip155:84532/erc20:0x036CbD53842c5426634e7929541eC2318f3dCF7e"
+PAYEE_P_ACCOUNT = "eip155:84532:0x209693Bc6afc0C5328bA36FaF03C514EF312287C"
+PAYEE_Q_ACCOUNT = "eip155:84532:0x000000000000000000000000000000000000dEaD"
+
+
+def payee_digest(account: str) -> str:
+    """The digest of a payee: SHA-256 of its CAIP-10 account id's UTF-8 bytes,
+    the address written as its namespace profile produces it (EIP-55 case)."""
+    return hashlib.sha256(account.encode()).hexdigest()
+
+
+PAYEE_P = payee_digest(PAYEE_P_ACCOUNT)
+PAYEE_Q = payee_digest(PAYEE_Q_ACCOUNT)
+#: The authorized maximum of the upto permit, and what settled (micro-USDC).
+UPTO_MAX = 12_000_000
+UPTO_SETTLED = 7_000_000
+SETTLEMENT_TX = "0x" + h("transaction/the-upto-settlement-on-base-sepolia")
+
+
+def _paid_in_sepolia(pred: dict[str, Any]) -> None:
+    """The call paid in USDC on Base Sepolia to payee P: 50 USDC limit, 30
+    consumed, the authorized maximum 12 requested, and any held entry the
+    same call's payment to P."""
+    _in_asset(pred, USDC_BASE_SEPOLIA)
+    state = _consumption(pred)
+    state["requested"] = UPTO_MAX
+    state["payee"] = PAYEE_P
+    for item in state["held"]:
+        item["amount"] = UPTO_MAX
+        item["payee"] = PAYEE_P
+    state["reserved"] = sum(item["amount"] for item in state["held"])
+
+
+def _cs41(pred: dict[str, Any]) -> None:
+    _cs4(pred)
+    _paid_in_sepolia(pred)
+
+
+def _settled(pred: dict[str, Any]) -> None:
+    """The record of the paid call carries what settled, read from the chain
+    through the transaction the server returned in x402/payment-response."""
+    _paid_in_sepolia(pred)
+    _consumption(pred)["settled"] = {
+        "amount": UPTO_SETTLED,
+        "asset": {"id": USDC_BASE_SEPOLIA, "decimals": 6},
+        "payee": PAYEE_P,
+        "source": "chain",
+        "transaction": SETTLEMENT_TX,
+    }
+
+
+def _settled_edit(name: str, value: Any) -> Callable[[dict[str, Any]], None]:
+    def change(pred: dict[str, Any]) -> None:
+        _consumption(pred)["settled"][name] = value
+
+    return change
+
+
+def _counted_after_settlement(consumed: int) -> Callable[[], list[dict[str, Any]]]:
+    """CS48 and CS49: the settled call of CS43, then a new operation under the
+    same limit document that reads a later revision, holds nothing and counts
+    the settled call in consumed."""
+
+    def records() -> list[dict[str, Any]]:
+        settled = from_pred("CS43")
+        later = _second_operation(
+            key=OP_R2,
+            revision=43,
+            same_request=False,
+            requested=5_000_000,
+            record="settled-later",
+        )
+        _in_asset(later, USDC_BASE_SEPOLIA)
+        state = _consumption(later)
+        state["consumed"], state["requested"], state["payee"] = consumed, 5_000_000, PAYEE_P
+        seal_commitment(later)
+        return [_named(settled, "settled-call"), _named(later, "settled-later")]
+
+    return records
+
+
+def define_settlement() -> None:
+    p_short, q_short = PAYEE_P_ACCOUNT.rsplit(":", 1)[1], PAYEE_Q_ACCOUNT.rsplit(":", 1)[1]
+    singles: list[ConsumptionRow] = [
+        (
+            "CS41",
+            "cs41-retry-same-payee",
+            None,
+            f"CS4 paid in USDC on Base Sepolia ({USDC_BASE_SEPOLIA}, decimals 6): the retry "
+            f"of a held call whose payment is signed again to the same payee P ({p_short}); "
+            "the held entry and the request carry P's payee digest, so it is the held "
+            "operation and is not counted twice",
+            cs_from("CS4", "CS41", _cs41),
+            "valid",
+            [],
+            True,
+        ),
+        (
+            "CS42",
+            "cs42-retry-payee-differs",
+            "CS41",
+            f"CS41 where the payment is signed again inside the same call to payee Q "
+            f"({q_short}): the operation key, request digest and amount are the held "
+            "entry's, the payee is not, so it is not a retry of the held permit",
+            mutate("CS41", lambda p: _consumption(p).update(payee=PAYEE_Q)),
+            "malformed",
+            ["consumption-key-reused"],
+            None,
+        ),
+        (
+            "CS43",
+            "cs43-upto-settled-below-the-hold",
+            None,
+            "CS1 paid in USDC on Base Sepolia to payee P under an x402 upto permit of 12 "
+            "USDC: the call settled 7 USDC, and settled carries the amount, asset and payee "
+            "read from the chain through the transaction beside the approved terms",
+            cs_from("CS1", "CS43", _settled),
+            "valid",
+            [],
+            True,
+        ),
+        (
+            "CS44",
+            "cs44-settled-above-the-authorized-maximum",
+            "CS43",
+            "CS43 settled at 13 USDC, above the 12 USDC the permit authorized",
+            mutate("CS43", _settled_edit("amount", UPTO_MAX + 1_000_000)),
+            "malformed",
+            ["consumption-settled-exceeds"],
+            None,
+        ),
+        (
+            "CS45",
+            "cs45-settled-asset-differs",
+            "CS43",
+            f"CS43 settled in USDC on Base ({USDC_BASE}), not the asset approved",
+            mutate("CS43", _settled_edit("asset", {"id": USDC_BASE, "decimals": 6})),
+            "malformed",
+            ["consumption-settled-differs"],
+            None,
+        ),
+        (
+            "CS46",
+            "cs46-settled-payee-differs",
+            "CS43",
+            f"CS43 settled to payee Q ({q_short}), not the payee P approved",
+            mutate("CS43", _settled_edit("payee", PAYEE_Q)),
+            "malformed",
+            ["consumption-settled-differs"],
+            None,
+        ),
+        (
+            "CS47",
+            "cs47-settled-read-from-the-signed-payload",
+            "CS43",
+            "CS43 with settled.source signed-payload: the signed payment shows what was "
+            "approved, and only the chain shows what moved",
+            mutate("CS43", _settled_edit("source", "signed-payload")),
+            "malformed",
+            ["consumption-value-invalid"],
+            None,
+        ),
+    ]
+    for draft_id, slug, parent, row, build, verdict, codes, within in singles:
+        member(
+            draft_id,
+            slug,
+            parent,
+            row,
+            build,
+            verdict,
+            codes,
+            tier="authoritative" if verdict == "valid" else None,
+            section="5.9",
+            revision=REVISION_04,
+            within=within,
+        )
+    sets = [
+        (
+            "CS48",
+            "cs48-set-later-record-counts-the-settled-amount",
+            "CS43, then a new operation under the same limit document that reads a later "
+            "revision and counts the call at the 7 USDC it settled (consumed 37 USDC), not "
+            "the 12 USDC it held: each record valid, the set valid",
+            UPTO_SETTLED,
+            "valid",
+            None,
+        ),
+        (
+            "CS49",
+            "cs49-set-later-record-counts-less-than-settled",
+            "CS48 where the later record counts 35 USDC consumed, less than the 30 USDC "
+            "already committed plus the 7 USDC that settled: each record valid, the set "
+            "malformed",
+            UPTO_SETTLED - 2_000_000,
+            "malformed",
+            "consumption-set-settled-uncounted",
+        ),
+    ]
+    for draft_id, slug, row, settled_amount, verdict, joint_code in sets:
+        member(
+            draft_id,
+            slug,
+            None,
+            row,
+            _ledger_set(draft_id, _counted_after_settlement(30_000_000 + settled_amount)),
+            "valid",
+            tier="authoritative",
+            section="5.9",
+            revision=REVISION_04,
+            joint={
+                "verdict": verdict,
+                "codes": [joint_code] if joint_code else [],
+                "withinLimit": [True, True],
+            },
+        )
+
+
+# ---------------------------------------------------------------------------
 # Rows of revision 01 that follow the consumption rows: A21 (Section 5.2,
 # agent.authentication of api-key) and SQ1 to SQ5 (the sequence member).
 # ---------------------------------------------------------------------------
@@ -3927,6 +4163,7 @@ ORDER = (
     "CS1 CS2 CS3 CS4 CS5 CS6 CS7 CS8 CS9 CS10 CS11 CS12 CS13 CS14 CS15 CS16 CS17 "
     "CS18 CS19 CS20 CS21 CS22 CS23 CS24 CS25 "
     "CS26 CS27 CS28 CS29 CS30 CS31 CS32 CS33 CS34 CS35 CS36 CS37 CS38 CS39 CS40 "
+    "CS41 CS42 CS43 CS44 CS45 CS46 CS47 CS48 CS49 "
     "A21 SQ1 SQ2 SQ3 SQ4 SQ5 "
     "R10 R11 R12 R13 R14 R15 R16 "
     "IS1 IS2 "

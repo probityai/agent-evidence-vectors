@@ -18,26 +18,28 @@ func init() { register(approvalBinding{}) }
 //
 //  1. the record carries contractId: contract_id_missing;
 //  2. contractId is the approval-binding contract: contract_id_unknown;
-//  3. no other presented approval shares the identifier with different
+//  3. the use's approvalId is the identifier of the approval being checked:
+//     approval_not_cited;
+//  4. no other presented approval shares the identifier with different
 //     content: approval_id_ambiguous;
-//  4. the identifier was not consumed already: approval_replayed;
-//  5. no replacement accepted at or before the use has taken the approval's
+//  5. the identifier was not consumed already: approval_replayed;
+//  6. no replacement accepted at or before the use has taken the approval's
 //     place: approval_superseded;
-//  6. a use that claims authorityForm renewed has an accepted transition into
-//     this approval: renewal_transition_missing;
-//  7. that transition cites the predecessor's recorded decision, the
-//     successor's decision is distinct, and the bounds are equal:
-//     renewal_binding_invalid;
-//  8. the approval's keyId is the approver's trusted key: key_not_bound;
-//  9. the use's principal is the approval's principal: principal_mismatch;
-//  10. the use's event and phase are the approved ones: event_phase_mismatch;
-//  11. the used tool, target and bytes are the approved ones: payload_mismatch;
-//  12. usedAt is inside the approval's validity window:
+//  7. a use that claims authorityForm renewed has a transition into this
+//     approval accepted at or before the use: renewal_transition_missing;
+//  8. that transition resolves exactly one presented predecessor, cites its
+//     recorded decision, the successor's decision is distinct, and the bounds
+//     are equal: renewal_binding_invalid;
+//  9. the approval's keyId is the approver's trusted key: key_not_bound;
+//  10. the use's principal is the approval's principal: principal_mismatch;
+//  11. the use's event and phase are the approved ones: event_phase_mismatch;
+//  12. the used tool, target and bytes are the approved ones: payload_mismatch;
+//  13. usedAt is inside the approval's validity window:
 //     approval_outside_validity;
-//  13. the effect the use names is not CONSUMED or UNCERTAIN_CLOSE:
+//  14. the effect the use names is not CONSUMED or UNCERTAIN_CLOSE:
 //     effect_already_closed;
-//  14. the policy release lookup answered: comparison_unavailable;
-//  15. the release was served at the decision time, allowing the grace period:
+//  15. the policy release lookup answered: comparison_unavailable;
+//  16. the release was served at the decision time, allowing the grace period:
 //     release_not_served_at_decision.
 type approvalBinding struct{}
 
@@ -160,10 +162,14 @@ func abSuperseded(r abRecord, clock *atdClock) bool {
 	})
 }
 
-func abAcceptedInto(r abRecord) []abTransition {
+// abAcceptedInto lists the transitions into the approval that had been
+// accepted by the time of the use.
+func abAcceptedInto(r abRecord, clock *atdClock) []abTransition {
+	usedAt := clock.at(r.Use["usedAt"])
 	var into []abTransition
 	for _, t := range r.Transitions {
-		if t.Status == "accepted" && t.SuccessorApproval == abField(r, "approvalId") {
+		if t.Status == "accepted" && t.SuccessorApproval == abField(r, "approvalId") &&
+			!clock.at(t.AcceptedAt).After(usedAt) {
 			into = append(into, t)
 		}
 	}
@@ -173,24 +179,31 @@ func abAcceptedInto(r abRecord) []abTransition {
 func abRenewed(r abRecord) bool { return r.Use["authorityForm"] == "renewed" }
 
 // abBinds is whether one accepted transition binds the approval to a presented
-// predecessor with a cited, distinct decision and equal bounds.
+// predecessor with a cited, distinct decision and equal bounds. Identical
+// copies of the predecessor are one record; differing records under its
+// identifier resolve to none, so the order of the list never picks one.
 func abBinds(r abRecord, t abTransition) bool {
-	i := slices.IndexFunc(r.Presented, func(a map[string]any) bool {
-		return a["approvalId"] == t.PredecessorApproval
-	})
+	var candidates []map[string]any
+	for _, a := range r.Presented {
+		if a["approvalId"] == t.PredecessorApproval && !slices.ContainsFunc(candidates, func(c map[string]any) bool {
+			return reflect.DeepEqual(c, a)
+		}) {
+			candidates = append(candidates, a)
+		}
+	}
 	decision, has := r.Approval["decisionId"].(string)
-	if i < 0 || t.Mode != "exclusive-replacement" || !has {
+	if len(candidates) != 1 || t.Mode != "exclusive-replacement" || !has {
 		return false
 	}
-	prior := r.Presented[i]
+	prior := candidates[0]
 	if t.SuccessorDecision != decision || t.PredecessorDecision != prior["decisionId"] || decision == prior["decisionId"] {
 		return false
 	}
 	return !slices.ContainsFunc(abBoundFields, func(f string) bool { return prior[f] != r.Approval[f] })
 }
 
-func abRenewalInvalid(r abRecord) bool {
-	into := abAcceptedInto(r)
+func abRenewalInvalid(r abRecord, clock *atdClock) bool {
+	into := abAcceptedInto(r, clock)
 	return abRenewed(r) && len(into) > 0 && !slices.ContainsFunc(into, func(t abTransition) bool { return abBinds(r, t) })
 }
 
@@ -214,11 +227,12 @@ func abDecide(r abRecord, matches bool) (scDecision, error) {
 	}{
 		{"contract_id_missing", r.ContractID == nil},
 		{"contract_id_unknown", r.ContractID != nil && *r.ContractID != abContractID},
+		{"approval_not_cited", r.Use["approvalId"] != abField(r, "approvalId")},
 		{"approval_id_ambiguous", abAmbiguous(r)},
 		{"approval_replayed", slices.Contains(r.Consumed, abField(r, "approvalId"))},
 		{"approval_superseded", abSuperseded(r, &clock)},
-		{"renewal_transition_missing", abRenewed(r) && len(abAcceptedInto(r)) == 0},
-		{"renewal_binding_invalid", abRenewalInvalid(r)},
+		{"renewal_transition_missing", abRenewed(r) && len(abAcceptedInto(r, &clock)) == 0},
+		{"renewal_binding_invalid", abRenewalInvalid(r, &clock)},
 		{"key_not_bound", !known || key != abField(r, "keyId")},
 		{"principal_mismatch", r.Use["principal"] != abField(r, "principal")},
 		{"event_phase_mismatch", r.Use["event"] != abField(r, "event") || r.Use["phase"] != abField(r, "phase")},

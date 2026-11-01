@@ -75,11 +75,11 @@
       }
     ]
   },
-  "corpusDigest": "5c584eb9e9594d7a0265ab7afb302da0803ee8811ca6b4be0a6fca2b08ddd509",
+  "corpusDigest": "47fab839747e0ab798fdeb7c028dbe31a5d0ce381934fc4f7a630c99a19a8654",
   "counts": {
-    "accept": 81,
+    "accept": 85,
     "indeterminate": 1,
-    "reject": 102
+    "reject": 107
   },
   "draft": "draft-gilda-audit-agent-audit-record-00",
   "emptyTree": {
@@ -2701,6 +2701,176 @@
       "kind": "accept",
       "row": "CS38 where the second operation is under another limit document that names no supersedes: two ledgers, each counting one asset, the set valid",
       "slug": "cs40-set-two-assets-two-ledgers"
+    },
+    {
+      "draftId": "CS41",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid",
+        "withinLimit": true
+      },
+      "file": "statements/vc4129376086b1771.json",
+      "id": "vc4129376086b1771",
+      "kind": "accept",
+      "row": "CS4 paid in USDC on Base Sepolia (eip155:84532/erc20:0x036CbD53842c5426634e7929541eC2318f3dCF7e, decimals 6): the retry of a held call whose payment is signed again to the same payee P (0x209693Bc6afc0C5328bA36FaF03C514EF312287C); the held entry and the request carry P's payee digest, so it is the held operation and is not counted twice",
+      "slug": "cs41-retry-same-payee"
+    },
+    {
+      "draftId": "CS42",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [
+          "consumption-key-reused"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v39082a228cbf2c32.json",
+      "id": "v39082a228cbf2c32",
+      "kind": "reject",
+      "parent": "vc4129376086b1771",
+      "parentDraftId": "CS41",
+      "row": "CS41 where the payment is signed again inside the same call to payee Q (0x000000000000000000000000000000000000dEaD): the operation key, request digest and amount are the held entry's, the payee is not, so it is not a retry of the held permit",
+      "slug": "cs42-retry-payee-differs"
+    },
+    {
+      "draftId": "CS43",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid",
+        "withinLimit": true
+      },
+      "file": "statements/v1f427d459a92a6db.json",
+      "id": "v1f427d459a92a6db",
+      "kind": "accept",
+      "row": "CS1 paid in USDC on Base Sepolia to payee P under an x402 upto permit of 12 USDC: the call settled 7 USDC, and settled carries the amount, asset and payee read from the chain through the transaction beside the approved terms",
+      "slug": "cs43-upto-settled-below-the-hold"
+    },
+    {
+      "draftId": "CS44",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [
+          "consumption-settled-exceeds"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v906dd39fe5dd0ed7.json",
+      "id": "v906dd39fe5dd0ed7",
+      "kind": "reject",
+      "parent": "v1f427d459a92a6db",
+      "parentDraftId": "CS43",
+      "row": "CS43 settled at 13 USDC, above the 12 USDC the permit authorized",
+      "slug": "cs44-settled-above-the-authorized-maximum"
+    },
+    {
+      "draftId": "CS45",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [
+          "consumption-settled-differs"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/ve332b7a9eb477ad5.json",
+      "id": "ve332b7a9eb477ad5",
+      "kind": "reject",
+      "parent": "v1f427d459a92a6db",
+      "parentDraftId": "CS43",
+      "row": "CS43 settled in USDC on Base (eip155:8453/erc20:0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913), not the asset approved",
+      "slug": "cs45-settled-asset-differs"
+    },
+    {
+      "draftId": "CS46",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [
+          "consumption-settled-differs"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/va3507e84a41f4de5.json",
+      "id": "va3507e84a41f4de5",
+      "kind": "reject",
+      "parent": "v1f427d459a92a6db",
+      "parentDraftId": "CS43",
+      "row": "CS43 settled to payee Q (0x000000000000000000000000000000000000dEaD), not the payee P approved",
+      "slug": "cs46-settled-payee-differs"
+    },
+    {
+      "draftId": "CS47",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [
+          "consumption-value-invalid"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vc4f77810767e7130.json",
+      "id": "vc4f77810767e7130",
+      "kind": "reject",
+      "parent": "v1f427d459a92a6db",
+      "parentDraftId": "CS43",
+      "row": "CS43 with settled.source signed-payload: the signed payment shows what was approved, and only the chain shows what moved",
+      "slug": "cs47-settled-read-from-the-signed-payload"
+    },
+    {
+      "draftId": "CS48",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "set": {
+          "codes": [],
+          "verdict": "valid",
+          "withinLimit": [
+            true,
+            true
+          ]
+        },
+        "verdict": "valid"
+      },
+      "file": "sets/v685ca6e0fe677df5.json",
+      "id": "v685ca6e0fe677df5",
+      "kind": "accept",
+      "row": "CS43, then a new operation under the same limit document that reads a later revision and counts the call at the 7 USDC it settled (consumed 37 USDC), not the 12 USDC it held: each record valid, the set valid",
+      "slug": "cs48-set-later-record-counts-the-settled-amount"
+    },
+    {
+      "draftId": "CS49",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "set": {
+          "codes": [
+            "consumption-set-settled-uncounted"
+          ],
+          "verdict": "malformed",
+          "withinLimit": [
+            true,
+            true
+          ]
+        },
+        "verdict": "valid"
+      },
+      "file": "sets/veba2beabdf39da6b.json",
+      "id": "veba2beabdf39da6b",
+      "kind": "accept",
+      "row": "CS48 where the later record counts 35 USDC consumed, less than the 30 USDC already committed plus the 7 USDC that settled: each record valid, the set malformed",
+      "slug": "cs49-set-later-record-counts-less-than-settled"
     },
     {
       "draftId": "A21",

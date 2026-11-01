@@ -1,9 +1,9 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/approval-binding/v1",
-  "corpusDigest": "3ee24e73759f13cb2e7ce1fc849859f32e2457d9d1990189e9f7c7c0db89960b",
+  "corpusDigest": "54ad08f0dd40429440393a706ef7fed361e00c12ce3033d18b353231a9a266a5",
   "counts": {
     "allow": 8,
-    "deny": 24
+    "deny": 28
   },
   "suite": "approval-binding/v1",
   "vectors": [
@@ -425,6 +425,62 @@
       },
       "id": "approval-renewal-reopens-uncertain-effect",
       "path": "cases/approval-renewal-reopens-uncertain-effect",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "the only transition into B was accepted one second after the use, so no renewal was in effect when B was used",
+      "expected": {
+        "decision": "deny",
+        "reason": "renewal_transition_missing"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "d50d78106a0cfde01b9da90aa312c02bca0f40b18da2e31901c36a465be5d124"
+      },
+      "id": "approval-renewal-accepted-after-use",
+      "path": "cases/approval-renewal-accepted-after-use",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "two presented records carry A's identifier with different decisions, so the transition's predecessor does not resolve to one approval",
+      "expected": {
+        "decision": "deny",
+        "reason": "renewal_binding_invalid"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "dc1c784a740a8a6993dd57fdfb4d3a087430369882bd1bf2781b93d448b05ef8"
+      },
+      "id": "approval-renewal-predecessor-ambiguous",
+      "path": "cases/approval-renewal-predecessor-ambiguous",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "B is checked, but the use names A as the approval it relies on",
+      "expected": {
+        "decision": "deny",
+        "reason": "approval_not_cited"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "cb9ed1b72054bc95f3b11b926dd98f25c11a10f2f3a5ff01e0c64d5fe36ff19a"
+      },
+      "id": "approval-use-cites-predecessor",
+      "path": "cases/approval-use-cites-predecessor",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "the use names no approval, so it does not rely on the one being checked",
+      "expected": {
+        "decision": "deny",
+        "reason": "approval_not_cited"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "32074b20e247674999d534f5a19fff8e8365decd60f648145024d42853adef55"
+      },
+      "id": "approval-use-cites-no-approval",
+      "path": "cases/approval-use-cites-no-approval",
       "useMatchesApproval": true
     },
     {
