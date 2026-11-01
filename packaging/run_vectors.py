@@ -5492,6 +5492,13 @@ def rail_main() -> int:
         help="print the shipped corpus names, one per line, and exit",
     )
     parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="with --list-corpora: text prints one name per line; json prints one "
+        "JSON array of names, for a CI matrix (fromJSON)",
+    )
+    parser.add_argument(
         "--jcs-byte-vectors",
         action="store_true",
         help="print the absolute path of the shipped RFC 8785 byte cases "
@@ -5524,8 +5531,11 @@ def rail_main() -> int:
     )
     args = parser.parse_args()
     if args.list_corpora:
-        for name in shipped_corpora():
-            print(name)
+        if args.format == "json":
+            print(json.dumps(shipped_corpora()))
+        else:
+            for name in shipped_corpora():
+                print(name)
         return 0
     if args.jcs_byte_vectors:
         print(jcs_byte_vectors_path())
