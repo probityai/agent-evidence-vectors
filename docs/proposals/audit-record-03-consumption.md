@@ -69,9 +69,12 @@ Add after the two existing checks:
 Add rows `CS18` to `CS40` as `MANIFEST.json` of `vectors-agent-audit-record`
 states them (`row` and `expected`).
 
-## 4. Not yet proposed
+## 4. The payee and the settled terms
 
-The payee and the settled terms of #307 (the payee digest on `requested` and
-each held entry, and the terms the server set at settlement beside the
-approved terms) wait for the use-case prose on the FSIG repository, per the
-order of work in #307.
+The payee digest on `requested` and on each held entry, and the settled terms
+beside the approved ones, are proposed for revision 04 and tested by `CS41` to
+`CS49`. Carlos (vendrell46) wrote the case on #307 against the messages x402
+sends over MCP; the text and the members follow it, with two corrections he
+made: an x402 `upto` settlement at or below the authorized maximum is valid,
+and the settled terms say where they were read. The text is in the corpus
+README, section "Consumption state and the operation key".

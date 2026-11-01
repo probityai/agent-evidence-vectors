@@ -117,7 +117,16 @@ var (
 		"requested", "held", "stateRevision"}
 	arConsumptionCounts   = []string{"limit", "consumed", "reserved", "requested", "stateRevision"}
 	arHeldMembers         = []string{"operationKey", "requestDigest", "amount"}
-	arConsumptionOptional = []string{"supersedes", "asset"}
+	arConsumptionOptional = []string{"supersedes", "asset", "payee", "settled"}
+	// arHeldOptional is the one member a held entry may carry beside them: the
+	// payee digest of that permit's payment (CS41, CS42).
+	arHeldOptional = []string{"payee"}
+	// arSettledMembers are the members of settled, each required: the amount,
+	// asset and payee a paid call settled on, where they were read, and the
+	// transaction read (CS43 to CS47). arSettledSources is the one source: the
+	// chain, never the signed payment, which shows only what was approved.
+	arSettledMembers = []string{"amount", "asset", "payee", "source", "transaction"}
+	arSettledSources = []string{"chain"}
 	// arAssetMembers are the members of asset, the exact asset a consumption
 	// counts in when no ISO 4217 code names it: a CAIP-19 asset id and the
 	// decimals of its smallest subunit. A record carries unit or asset, never both
@@ -144,7 +153,13 @@ var arConsumptionChecks = map[string]bool{
 	"counts": true, "state-revision": true, "key-reuse": true,
 	"supersedes-digest": true, "supersedes-self": true,
 	"asset-id": true, "asset-decimals": true, "asset-exclusive": true,
+	"retry-payee": true, "settled-amount": true, "settled-terms": true, "settled-source": true,
 }
+
+// arSettledReadingHeld reads the held amount, not the settled one, as what a
+// later record of the ledger counts for a call that carries settled. A test
+// sets it; the draft reads the settled amount (CS48).
+var arSettledReadingHeld = false
 
 // arRetryOf says whether a held entry is the one this call retries. Retry
 // identity is the agent's operation key and nothing else: a request digest is

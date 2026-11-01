@@ -93,6 +93,11 @@ func TestAuditRecordConsumptionSentencesAreLoadBearing(t *testing.T) {
 		"asset-id":        "CS35",
 		"asset-decimals":  "CS36",
 		"asset-exclusive": "CS37",
+
+		"retry-payee":    "CS42",
+		"settled-amount": "CS44",
+		"settled-terms":  "CS45,CS46",
+		"settled-source": "CS47",
 	} {
 		if got := arWeakened(t, arDropCheck(name)); got != want {
 			t.Errorf("without the %s sentence: failing %q, want %q", name, got, want)
@@ -115,10 +120,11 @@ func TestAuditRecordConsumptionSentencesAreLoadBearing(t *testing.T) {
 // fails CS17, the control that proves the check keys on the operation key.
 func TestAuditRecordSetRulesAreLoadBearing(t *testing.T) {
 	for _, c := range []struct{ drop, want string }{
-		{"", "CS7,CS8,CS17,CS20,CS21,CS30,CS31,CS32,CS38,CS39"},
+		{"", "CS7,CS8,CS17,CS20,CS21,CS30,CS31,CS32,CS38,CS39,CS49"},
 		{"stale-revision", "CS7,CS17,CS21"},
 		{"release-unshown", "CS8,CS20,CS30"},
 		{"asset-mismatch", "CS38,CS39"},
+		{"settled-uncounted", "CS49"},
 	} {
 		if got := arWeakened(t, arDropSetRule(c.drop)); got != c.want {
 			t.Errorf("dropping set check %q: failing %q, want %q", c.drop, got, c.want)
@@ -320,5 +326,18 @@ func TestAuditRecordSetRefusals(t *testing.T) {
 	}
 	if arWithinLimit(map[string]any{}) != nil {
 		t.Error("a predicate with no consumption derives no withinLimit")
+	}
+}
+
+// TestAuditRecordSettledReadingIsLoadBearing: a later record that counts the
+// held amount of an upto permit, not the amount it settled, refuses CS48 and
+// nothing else, so the corpus reads consumed as taking the settled amount.
+func TestAuditRecordSettledReadingIsLoadBearing(t *testing.T) {
+	held := func() func() {
+		arSettledReadingHeld = true
+		return func() { arSettledReadingHeld = false }
+	}
+	if got := arWeakened(t, held); got != "CS48" {
+		t.Errorf("consumed taking the held amount: failing %q, want CS48", got)
 	}
 }
