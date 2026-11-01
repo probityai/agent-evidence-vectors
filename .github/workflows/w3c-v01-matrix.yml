@@ -1,0 +1,86 @@
+name: W3C v0.1 reader matrix
+
+# Reruns the appendix rows that write a v0.1 report, writes single-field
+# mutants of each, and reads every report and mutant with every reader in
+# interop/w3c-v01-appendix/matrix/matrix.py. Fails when a cell or an input
+# digest differs from the committed matrix.json, on any of three platforms.
+# The weekly run catches a pin or a reader that stops behaving as committed.
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '50 5 * * 1'
+  push:
+    branches: [main]
+    paths:
+      - 'interop/w3c-v01-appendix/matrix/**'
+      - '.github/workflows/w3c-v01-matrix.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'interop/w3c-v01-appendix/matrix/**'
+      - '.github/workflows/w3c-v01-matrix.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || (github.ref == 'refs/heads/main' && github.sha) || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  tables:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
+        with:
+          python-version: '3.13'
+      - name: Mutants change what they say, and the tables agree with matrix.json
+        working-directory: interop/w3c-v01-appendix/matrix
+        run: uv run --no-project --with pytest==9.1.1 python -m pytest -q tests
+
+  matrix:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, ubuntu-24.04-arm, macos-15]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: '22'
+          package-manager-cache: false
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: '1.26'
+          cache: false
+      - name: Install the Rust toolchain the Rust reader builds with
+        run: |
+          rustup toolchain install 1.90.0 --profile minimal
+          echo "RUSTUP_TOOLCHAIN=1.90.0" >> "$GITHUB_ENV"
+      - name: Rerun the reports, write the mutants, read them all
+        run: uv run --no-project python interop/w3c-v01-appendix/matrix/matrix.py run --work "$RUNNER_TEMP/m" --observed observed.json
+      - name: Every cell as committed
+        run: uv run --no-project python interop/w3c-v01-appendix/matrix/matrix.py check observed.json
+      - name: Retain the run
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: w3c-v01-matrix-${{ matrix.os }}
+          path: |
+            observed.json
+            ${{ runner.temp }}/m/matrix-log.txt
+            ${{ runner.temp }}/m/results/
+          if-no-files-found: error
+          retention-days: 90

@@ -30,9 +30,13 @@ SAMPLE: dict[str, Any] = {
                   "domain": "d"}, "compared": ["verdict", "fired-rule list"], "moved": ["verdict"],
                   "delta": {"changes": [{"field": "x"}]},
                   "observations": [{"carried": {"verdict": "pass", "rules": []}},
+                                   {"carried": {"verdict": "fail", "rules": []}}]},
+                 {"id": "e2", "changed": "input artifact", "fixed": {"domain": "d"},
+                  "compared": ["verdict"], "moved": ["verdict"],
+                  "observations": [{"reference": {"sha256": "00" * 32, "vector": "x"}},
                                    {"carried": {"verdict": "fail", "rules": []}}]}],
     "roll-up": {"declared": 5, "exercised": 4, "pass": 2, "fail": 1, "inconclusive": 1,
-                "not-exercised": 1, "void": 0, "carried": 2, "referenced": 0,
+                "not-exercised": 1, "void": 0, "carried": 3, "referenced": 1,
                 "negative-capable": {"kind": "shown-by-run"},
                 "completeness": {"accounting": {"population": 5, "claim": "satisfied"}}},
     "check-set": {"sha256": "ab" * 32, "leaf-count": 5, "tree-shape": "flat"},
@@ -40,9 +44,12 @@ SAMPLE: dict[str, Any] = {
 
 
 def leaves(value: Any, prefix: tuple[Any, ...] = ()) -> dict[tuple[Any, ...], Any]:
-    """Every member path of a JSON value, objects and arrays included, with its value."""
-    out: dict[tuple[Any, ...], Any] = {prefix: value if not isinstance(value, (dict, list)) else type(value).__name__}
-    items = value.items() if isinstance(value, dict) else enumerate(value) if isinstance(value, list) else []
+    """Every member path of a JSON value with its value; a list of scalars is one member."""
+    scalars = isinstance(value, list) and not any(isinstance(v, (dict, list)) for v in value)
+    if scalars or not isinstance(value, (dict, list)):
+        return {prefix: json.dumps(value)}
+    out: dict[tuple[Any, ...], Any] = {prefix: type(value).__name__}
+    items = value.items() if isinstance(value, dict) else enumerate(value)
     for key, child in items:
         out.update(leaves(child, prefix + (key,)))
     return out
