@@ -1,13 +1,45 @@
 name: observed invocation binding candidate
 
 on:
+  # Not a required check, so a workflow-level path filter is safe. The paths are
+  # everything the generator, the test, the original reader and the Go reader open.
   pull_request:
+    paths:
+      - interop/observed-invocation-binding-candidate/**
+      - vectors-observed-effect/**
+      - observedeffect/**
+      - packaging/**
+      - spec/**
+      - go.mod
+      - go.work
+      - go.work.sum
+      - pyproject.toml
+      - uv.lock
+      - .github/workflows/observed-invocation-binding.yml
   push:
     branches: [main]
+    paths:
+      - interop/observed-invocation-binding-candidate/**
+      - vectors-observed-effect/**
+      - observedeffect/**
+      - packaging/**
+      - spec/**
+      - go.mod
+      - go.work
+      - go.work.sum
+      - pyproject.toml
+      - uv.lock
+      - .github/workflows/observed-invocation-binding.yml
   workflow_dispatch:
 
 permissions:
   contents: read
+
+concurrency:
+  # A newer push to the same pull request or branch supersedes the older run.
+  # Main and tags never cancel: each main push keeps its own group by sha.
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || (github.ref == 'refs/heads/main' && github.sha) || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' || github.event_name == 'pull_request_target' || (github.event_name == 'push' && github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/tags/')) }}
 
 jobs:
   invocation-binding:

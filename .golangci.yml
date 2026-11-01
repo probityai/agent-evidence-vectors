@@ -41,9 +41,10 @@ linters:
       # Test files read fixed vector/manifest paths under this repo, never
       # attacker-controlled input, so gosec's file-inclusion rules (G304 file
       # inclusion via variable, G703 path traversal via taint) are categorical
-      # false positives there. The verification-path readers in non-test code
-      # stay covered.
+      # false positives there. G101 (hardcoded credentials) reads the case names
+      # in a test table ("credential-malformed") as credentials. The
+      # verification-path readers in non-test code stay covered.
       - path: _test\.go
         linters:
           - gosec
-        text: G304|G703
+        text: G304|G703|G101

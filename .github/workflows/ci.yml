@@ -18,6 +18,12 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  # A newer push to the same pull request or branch supersedes the older run.
+  # Main and tags never cancel: each main push keeps its own group by sha.
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || (github.ref == 'refs/heads/main' && github.sha) || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' || github.event_name == 'pull_request_target' || (github.event_name == 'push' && github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/tags/')) }}
+
 jobs:
   release-integrity:
     runs-on: ubuntu-latest
@@ -858,6 +864,12 @@ jobs:
         run: .venv/bin/python -B scripts/workflow-steps-gate-test.py
       - name: an unreadable account is inconclusive, not a refused runner label
         run: .venv/bin/python -B scripts/runner-labels-gate-test.py
+      # A push must supersede its older runs, and a required check must report on
+      # every pull request. The table of required checks lives in the gate.
+      - name: every workflow cancels superseded runs and every required check can report
+        run: |
+          .venv/bin/python -B scripts/workflow-concurrency-gate.py
+          .venv/bin/python -B scripts/workflow-concurrency-gate-test.py
       # The release procedure runs the leak tier locally and leaves the proof to
       # this workflow. A procedure that asks for the full local mirror of these
       # jobs ran about 15 hours on one box and held v0.30.0 back.
@@ -1032,6 +1044,8 @@ jobs:
         run: uv run --extra dev pytest vectors-converted-argument-binding/tests -q
       - name: delegator-right cases regenerate and force every check
         run: uv run --extra dev pytest vectors-delegator-right/tests -q
+      - name: badge-vc-verify cases regenerate and force every check
+        run: uv run --extra dev pytest vectors-badge-vc-verify/tests -q
       - name: completion-confirmation cases regenerate and force every check
         run: uv run --extra dev pytest vectors-completion-confirmation/tests -q
       - name: chunked-export cases regenerate and force every check
@@ -1297,6 +1311,14 @@ jobs:
       # other on the committed corpus and on mutated copies of its members.
       - name: the two self-reported-record rails agree
         run: uv run --locked --extra generators python scripts/self-reported-record-rails-test.py
+      # The corpus README presents check_vectors.py as the reference verifier and
+      # mutation_check.py as the proof that every rule is load-bearing. Neither
+      # ran in CI, so a regression in either, or in the members they judge,
+      # could not turn a build red.
+      - name: the self-reported-record reference verifier and its mutation check pass
+        run: |
+          uv run --locked --extra generators python vectors-self-reported-record/check_vectors.py
+          uv run --locked --extra generators python vectors-self-reported-record/mutation_check.py
       # A predicate type URI sits inside bytes a third party signs, and a 404
       # on one reads as a withdrawn type. predicate/v1/self-reported-record was
       # named in every signed member of its corpus and 404ed, because nothing
