@@ -75,7 +75,9 @@ def check_file(name: str, doc: dict[str, Any]) -> list[str]:
         found.append(f"{name}: no concurrency group, so superseded runs keep running")
     if isinstance(conc, dict) and "push" in on and name not in CANCEL_ON_PUSH_ALLOWED:
         if str(conc.get("cancel-in-progress", False)).strip().lower() == "true":
-            found.append(f"{name}: cancel-in-progress is unconditionally true and the workflow runs on push")
+            found.append(
+                f"{name}: cancel-in-progress is unconditionally true and the workflow runs on push"
+            )
     return found
 
 
@@ -95,7 +97,9 @@ def check_required(docs: dict[str, dict[str, Any]]) -> list[str]:
         elif isinstance(on["pull_request"], dict) and (
             "paths" in on["pull_request"] or "paths-ignore" in on["pull_request"]
         ):
-            found.append(f"required check {context!r}: {wf} path-filters pull_request, so it can stay pending")
+            found.append(
+                f"required check {context!r}: {wf} path-filters pull_request, so it can pend"
+            )
     return found
 
 

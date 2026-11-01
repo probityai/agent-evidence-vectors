@@ -36,8 +36,12 @@ def fixture(files: dict[str, str]) -> subprocess.CompletedProcess[str]:
     with tempfile.TemporaryDirectory(prefix="wf-conc-") as d:
         for name, text in files.items():
             (Path(d) / name).write_text(text, encoding="utf-8")
-        return subprocess.run([sys.executable, str(GATE), "--workflows", d],
-                              capture_output=True, text=True, check=False)
+        return subprocess.run(
+            [sys.executable, str(GATE), "--workflows", d],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
 
 
 def base() -> dict[str, str]:
@@ -54,12 +58,15 @@ def main() -> int:
     real = subprocess.run([sys.executable, str(GATE)], capture_output=True, text=True, check=False)
     assert real.returncode == 0, real.stdout + real.stderr
     assert fixture(base()).returncode == 0
-    r = fixture({**base(), "extra.yml": "name: e\non: [push]\njobs:\n  a:\n    runs-on: x\n    steps: []\n"})
+    extra = "name: e\non: [push]\njobs:\n  a:\n    runs-on: x\n    steps: []\n"
+    r = fixture({**base(), "extra.yml": extra})
     assert r.returncode == 1 and "extra.yml: no concurrency" in r.stdout, r.stdout
     cancel = GOOD.replace("${{ github.event_name == 'pull_request' }}", "true")
     r = fixture({**base(), "extra.yml": cancel})
     assert r.returncode == 1 and "unconditionally true" in r.stdout, r.stdout
-    filtered = jobs("dispositions").replace("  pull_request:\n", "  pull_request:\n    paths: ['a']\n")
+    filtered = jobs("dispositions").replace(
+        "  pull_request:\n", "  pull_request:\n    paths: ['a']\n"
+    )
     r = fixture({**base(), "governance.yml": filtered})
     assert r.returncode == 1 and "path-filters pull_request" in r.stdout, r.stdout
     r = fixture({**base(), "governance.yml": jobs("other")})
