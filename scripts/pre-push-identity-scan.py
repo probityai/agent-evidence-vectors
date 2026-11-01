@@ -324,7 +324,10 @@ class Sidecar:
         seen: set[bytes] = set()
         for haystack, lengths in ((line.lower(), self.nocase), (line, self.cased)):
             for width in lengths:
-                for window in _windows(haystack, width):
+                # Distinct windows only: a long run of one repeated character
+                # (the filler of a size-limit vector) has a handful of them, and
+                # hashing each of a million equal windows answered nothing new.
+                for window in dict.fromkeys(_windows(haystack, width)):
                     digest = hashlib.sha256(self._salt_bytes + window).digest()
                     label = self._raw.get(digest)
                     if label is not None and digest not in seen:
