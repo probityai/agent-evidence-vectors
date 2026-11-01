@@ -265,7 +265,9 @@ def row_r3(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str, Any
 def row_r3_v01(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
     """Run the posted converter over the records the R3 rerun wrote, and compare."""
     p = row["pins"]
-    records = w.parent / "R3" / "out" / "records"
+    out3 = w.parent / "R3" / "out"
+    # The same rule row_r3 applies: the emitter writes records/ or the records themselves.
+    records = out3 / "records" if (out3 / "records").is_dir() else out3
     if not (records / "SHA256SUMS").is_file():
         raise Refused("R3-v01 reads the R3 rerun's records: run R3 first")
     data = attachment(p["converter"], w.parent / "_attachments")
@@ -433,11 +435,12 @@ def r8_figures(text: str) -> dict[str, Any]:
     found = R8_FIGURES.search(text)
     if not found:
         raise Refused("r8_compare.py printed no figures")
-    g = [int(x) if x.isdigit() else x for x in found.groups()]
+    groups: tuple[str, ...] = found.groups()
+    g = [int(x) for x in groups[:4] + groups[5:]]
     return {"judged": g[0], "selected": g[1], "numbered": g[2], "agree": g[3],
-            "differs": sorted(re.findall(r"differs (\S+)", g[4])),
-            "unnumbered": {"total": g[5], "accept": g[6], "reject": g[7], "cannot-tell": g[8],
-                           "cannot-tell under W3C-R-016": g[9]}}
+            "differs": sorted(re.findall(r"differs (\S+)", groups[4])),
+            "unnumbered": {"total": g[4], "accept": g[5], "reject": g[6], "cannot-tell": g[7],
+                           "cannot-tell under W3C-R-016": g[8]}}
 
 
 def section10_selection(manifest: dict[str, Any]) -> set[str]:
