@@ -1,0 +1,972 @@
+{
+  "corpusDigest": "8d0e9cd95eb3bbf9f428582caf558ecc8d92431492b16683a242ba3b664d27df",
+  "counts": {
+    "accepted": 20,
+    "refused": 45
+  },
+  "specification": {
+    "base": "agentskills/agentskills docs/specification.mdx at 27a9f0c075e876ad632fc2e88b8866c5dc8ca15c",
+    "file": "SPEC.md",
+    "kind": "proposal",
+    "sha256": "18498fd2044c817e531e3ad56ff4edfdbbfb7535c90c720316f20d5c3b2c54be"
+  },
+  "suite": "skill-frontmatter-parse/v1",
+  "vectors": [
+    {
+      "description": "two required keys, body follows",
+      "expected": {
+        "body": "Body\n",
+        "keys": [
+          "name",
+          "description"
+        ],
+        "outcome": "ok"
+      },
+      "files": {
+        "SKILL.md": "d9473c78dc3890389f17a6937f58adae1f95459ec58f633353fd4b10ca68eae9"
+      },
+      "id": "minimal",
+      "path": "cases/minimal",
+      "step": "all"
+    },
+    {
+      "description": "closing delimiter is the last line, no terminator",
+      "expected": {
+        "body": "",
+        "keys": [
+          "name"
+        ],
+        "outcome": "ok"
+      },
+      "files": {
+        "SKILL.md": "d03003e5d1a3252bf915226c4ded337e88c60cd841907253d5ff820619d33e4a"
+      },
+      "id": "no-body",
+      "path": "cases/no-body",
+      "step": "6"
+    },
+    {
+      "description": "CRLF line endings accepted, body bytes untouched",
+      "expected": {
+        "body": "B\r\nC\r\n",
+        "keys": [
+          "name",
+          "description"
+        ],
+        "outcome": "ok"
+      },
+      "files": {
+        "SKILL.md": "f7796aa3ddf2dc949dacd1897cd1c95925af6babce8ecc9f7b45ac84161ce6d8"
+      },
+      "id": "crlf",
+      "path": "cases/crlf",
+      "step": "2"
+    },
+    {
+      "description": "lone CR is a line terminator",
+      "expected": {
+        "body": "B",
+        "keys": [
+          "name"
+        ],
+        "outcome": "ok"
+      },
+      "files": {
+        "SKILL.md": "1ec1e0efaf9a40010a9b3641c03da0ee4c385561e7830c9bb1090de239256591"
+      },
+      "id": "cr-only",
+      "path": "cases/cr-only",
+      "step": "2"
+    },
+    {
+      "description": "LF, CRLF and CR mixed in one file",
+      "expected": {
+        "body": "B",
+        "keys": [
+          "name",
+          "description"
+        ],
+        "outcome": "ok"
+      },
+      "files": {
+        "SKILL.md": "04f9ea55bdc4bffa86aa66addd7ed7b7de9b6cd0eece1e09844bce67162ec39e"
+      },
+      "id": "mixed-terminators",
+      "path": "cases/mixed-terminators",
+      "step": "2"
+    },
+    {
+      "description": "delimiter lines tolerate trailing space and tab",
+      "expected": {
+        "body": "B",
+        "keys": [
+          "name"
+        ],
+        "outcome": "ok"
+      },
+      "files": {
+        "SKILL.md": "80185a949b7d86e6ca83374a7dc7f1221db7ee07d1476f3d6713b8f183fd4838"
+      },
+      "id": "trailing-space-on-delimiters",
+      "path": "cases/trailing-space-on-delimiters",
+      "step": "3"
+    },
+    {
+      "description": "U+2028 is not a line terminator",
+      "expected": {
+        "body": "",
+        "keys": [
+          "name"
+        ],
+        "outcome": "ok"
+      },
+      "files": {
+        "SKILL.md": "9e25b06c64163704faaecc6a8c7f1b27da9d2142ceff29255d2f2d2ead9a448b"
+      },
+      "id": "unicode-line-separator-is-content",
+      "path": "cases/unicode-line-separator-is-content",
+      "step": "2"
+    },
+    {
+      "description": "--- inside a value does not close the block",
+      "expected": {
+        "body": "B",
+        "keys": [
+          "name",
+          "description"
+        ],
+        "outcome": "ok"
+      },
+      "files": {
+        "SKILL.md": "59e9c7cc283d4528f2dadcadc8c199b029b358daa9d1f3b9454de9edb1a91255"
+      },
+      "id": "dashes-inside-value",
+      "path": "cases/dashes-inside-value",
+      "step": "6"
+    },
+    {
+      "description": "a later --- line in the body is body text",
+      "expected": {
+        "body": "x\n---\ny\n",
+        "keys": [
+          "name"
+        ],
+        "outcome": "ok"
+      },
+      "files": {
+        "SKILL.md": "fc7a29d65af1004089e01e353958bf81d56e6cb9cd0e48dd3dbd65b99e85cb5e"
+      },
+      "id": "dashes-inside-body",
+      "path": "cases/dashes-inside-body",
+      "step": "6"
+    },
+    {
+      "description": "blank and comment lines in the block are ignored",
+      "expected": {
+        "body": "",
+        "keys": [
+          "name"
+        ],
+        "outcome": "ok"
+      },
+      "files": {
+        "SKILL.md": "ada41012a34269507300107659ecdad2d0d97c89abfb14eb070885e0bd682327"
+      },
+      "id": "comment-lines",
+      "path": "cases/comment-lines",
+      "step": "9"
+    },
+    {
+      "description": "indented lines belong to the preceding key",
+      "expected": {
+        "body": "",
+        "keys": [
+          "name",
+          "metadata"
+        ],
+        "outcome": "ok"
+      },
+      "files": {
+        "SKILL.md": "c2dde8afb85380bc9940a907c3434010879d4616eb331dbc3d555e954bf71fe9"
+      },
+      "id": "nested-mapping",
+      "path": "cases/nested-mapping",
+      "step": "9"
+    },
+    {
+      "description": "a key repeated only at depth is not a top-level repeat",
+      "expected": {
+        "body": "",
+        "keys": [
+          "name",
+          "metadata"
+        ],
+        "outcome": "ok"
+      },
+      "files": {
+        "SKILL.md": "9a32fe82c2dba536f5e5bb164ffa43cdef78f5bc36ce63586fcee5ca3a3c77fb"
+      },
+      "id": "same-key-nested-not-duplicate",
+      "path": "cases/same-key-nested-not-duplicate",
+      "step": "10"
+    },
+    {
+      "description": "block scalar lines are not entries",
+      "expected": {
+        "body": "",
+        "keys": [
+          "name",
+          "description"
+        ],
+        "outcome": "ok"
+      },
+      "files": {
+        "SKILL.md": "043b8bf115cb858dffc1b12863d2f6182528c74f9bd052e7ff49eaf7f105de3d"
+      },
+      "id": "block-scalar-contents",
+      "path": "cases/block-scalar-contents",
+      "step": "9"
+    },
+    {
+      "description": "a column-0 sequence continues the preceding empty-valued key",
+      "expected": {
+        "body": "",
+        "keys": [
+          "name",
+          "tags",
+          "license"
+        ],
+        "outcome": "ok"
+      },
+      "files": {
+        "SKILL.md": "d62fa5057d54bab6a23fab0165617e0723e3ef65f1f3d1d1ec9277ef61d8b7ae"
+      },
+      "id": "sequence-at-key-indent",
+      "path": "cases/sequence-at-key-indent",
+      "step": "9"
+    },
+    {
+      "description": "quoted keys are keys",
+      "expected": {
+        "body": "",
+        "keys": [
+          "name",
+          "description"
+        ],
+        "outcome": "ok"
+      },
+      "files": {
+        "SKILL.md": "4de0dc71411f32c24fa56cd9a2481778741c44e7083272bdc3b48dc5fa65b453"
+      },
+      "id": "quoted-keys",
+      "path": "cases/quoted-keys",
+      "step": "10"
+    },
+    {
+      "description": "a ... line in the body is body text",
+      "expected": {
+        "body": "...\nx\n",
+        "keys": [
+          "name"
+        ],
+        "outcome": "ok"
+      },
+      "files": {
+        "SKILL.md": "e35b08840514960cd2d8cf1b9b5fc514159ee8d6a0123291b7d782727f5fad8e"
+      },
+      "id": "document-end-in-body",
+      "path": "cases/document-end-in-body",
+      "step": "4"
+    },
+    {
+      "description": "a key may begin with a hyphen when no space follows",
+      "expected": {
+        "body": "",
+        "keys": [
+          "-x"
+        ],
+        "outcome": "ok"
+      },
+      "files": {
+        "SKILL.md": "eb015e2411f69cb15c109e2075aedc5b1218605acf81941df979a511256d1f49"
+      },
+      "id": "hyphen-key",
+      "path": "cases/hyphen-key",
+      "step": "10"
+    },
+    {
+      "description": "a U+FEFF after the frontmatter is body text",
+      "expected": {
+        "body": "\ufeffB",
+        "keys": [
+          "name"
+        ],
+        "outcome": "ok"
+      },
+      "files": {
+        "SKILL.md": "c3ff0647d230cb390346758d25e4fc523d81e879d67f3d6999c2c31d645581de"
+      },
+      "id": "body-keeps-bom-after-frontmatter",
+      "path": "cases/body-keeps-bom-after-frontmatter",
+      "step": "2"
+    },
+    {
+      "description": "an empty file has no opening delimiter",
+      "expected": {
+        "code": "no-opening-delimiter",
+        "line": 1,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "id": "empty-file",
+      "path": "cases/empty-file",
+      "step": "3"
+    },
+    {
+      "description": "plain markdown declares nothing and is refused",
+      "expected": {
+        "code": "no-opening-delimiter",
+        "line": 1,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "d58d548bdb9b18792c6f5a4b1538f79fffd01f37466065452c137eabc7f3ee37"
+      },
+      "id": "no-delimiter",
+      "path": "cases/no-delimiter",
+      "step": "3"
+    },
+    {
+      "description": "opening delimiter must be line 1",
+      "expected": {
+        "code": "no-opening-delimiter",
+        "line": 1,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "1dd5ea078c46746ab563b46b7d332cd4e0d5e4c3d6f14e6bfcaf0f1eb2bfb6fc"
+      },
+      "id": "blank-line-before-opening",
+      "path": "cases/blank-line-before-opening",
+      "step": "3"
+    },
+    {
+      "description": "a comment before the delimiter is refused",
+      "expected": {
+        "code": "no-opening-delimiter",
+        "line": 1,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "f7490fead56422a96af5f0f85672e88787b13facb40b998ba6bd059a5a6e82d0"
+      },
+      "id": "html-comment-before-opening",
+      "path": "cases/html-comment-before-opening",
+      "step": "3"
+    },
+    {
+      "description": "a fenced frontmatter is refused",
+      "expected": {
+        "code": "no-opening-delimiter",
+        "line": 1,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "33bc80aea5843e5d7ebd5950bfec1b4bf768984821b46adacbcb01aa8ef0b108"
+      },
+      "id": "code-fence-wrapped",
+      "path": "cases/code-fence-wrapped",
+      "step": "3"
+    },
+    {
+      "description": "four hyphens do not open",
+      "expected": {
+        "code": "no-opening-delimiter",
+        "line": 1,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "032b5f6a7da0fdea4b3cf89baa9d437911e3cac9a6f372255beedd764fd24a47"
+      },
+      "id": "four-dash-opening",
+      "path": "cases/four-dash-opening",
+      "step": "3"
+    },
+    {
+      "description": "an indented opening does not open",
+      "expected": {
+        "code": "no-opening-delimiter",
+        "line": 1,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "1ef69b096a35ba88a92ac8198b69a816e1bd740e263a7695c4489f161f3cc153"
+      },
+      "id": "leading-space-opening",
+      "path": "cases/leading-space-opening",
+      "step": "3"
+    },
+    {
+      "description": "a leading BOM is refused by name, not read as no frontmatter",
+      "expected": {
+        "code": "byte-order-mark",
+        "line": 1,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "7c5b5527c410ce2e42e00a5f9dba7e299cd7f9bce7bf9e0e51ad71a4a22b930d"
+      },
+      "id": "bom",
+      "path": "cases/bom",
+      "step": "2"
+    },
+    {
+      "description": "invalid UTF-8 octets",
+      "expected": {
+        "code": "invalid-utf8",
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "40b114f642711dd4aef66b220b7051953247ac788fd8eddfc6c329e72ba56372"
+      },
+      "id": "invalid-utf8",
+      "path": "cases/invalid-utf8",
+      "step": "2"
+    },
+    {
+      "description": "overlong encoding is invalid UTF-8",
+      "expected": {
+        "code": "invalid-utf8",
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "2bd7b839fae2eec30469b1adbba9c6d5649adb6e676563f537793931fb4b0717"
+      },
+      "id": "overlong-utf8",
+      "path": "cases/overlong-utf8",
+      "step": "2"
+    },
+    {
+      "description": "no closing delimiter: refused, never the rest of the file",
+      "expected": {
+        "code": "unterminated-frontmatter",
+        "line": 1,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "71c85ec0cc62a22343c11e5c70eb47305f5a2ab3a1df76f67db12044b3242f6b"
+      },
+      "id": "unterminated",
+      "path": "cases/unterminated",
+      "step": "6"
+    },
+    {
+      "description": "four hyphens do not close",
+      "expected": {
+        "code": "unterminated-frontmatter",
+        "line": 1,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "3ca20e76d13c4c6699a0b851e6e2b986a493cf518a532f376e9562163eba35ee"
+      },
+      "id": "four-dash-closing",
+      "path": "cases/four-dash-closing",
+      "step": "6"
+    },
+    {
+      "description": "an indented --- does not close",
+      "expected": {
+        "code": "unterminated-frontmatter",
+        "line": 1,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "081e6e8bda0b0e1521a205c8ebf2a4d632ad9c4ff0d68e78d548044286702856"
+      },
+      "id": "indented-closing",
+      "path": "cases/indented-closing",
+      "step": "6"
+    },
+    {
+      "description": "--- followed by text is not a closing line",
+      "expected": {
+        "code": "unterminated-frontmatter",
+        "line": 1,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "2c8302d07825af14b9e59c5d7936d904a72ffaa228219ad4bde9f635c03ed36c"
+      },
+      "id": "closing-with-text",
+      "path": "cases/closing-with-text",
+      "step": "6"
+    },
+    {
+      "description": "a file that is only the opening delimiter",
+      "expected": {
+        "code": "unterminated-frontmatter",
+        "line": 1,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "f52d711103d50a437830c6fbcd04fb4bab49a0f82f6d26d1c791c6e8488dd090"
+      },
+      "id": "opening-only",
+      "path": "cases/opening-only",
+      "step": "3"
+    },
+    {
+      "description": "two adjacent delimiters declare nothing",
+      "expected": {
+        "code": "frontmatter-empty",
+        "line": 2,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "995dc8a454cbdff00e4581c3145ddd2831d6c71f3cc72c59823ca7ea63b8e833"
+      },
+      "id": "empty-frontmatter",
+      "path": "cases/empty-frontmatter",
+      "step": "8"
+    },
+    {
+      "description": "comments alone declare nothing",
+      "expected": {
+        "code": "frontmatter-empty",
+        "line": 2,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "dd33f2f8eaec6f5cc5512ee1d665e33cc069baad6132fdcecac71fdf8f285fb6"
+      },
+      "id": "comment-only-frontmatter",
+      "path": "cases/comment-only-frontmatter",
+      "step": "8"
+    },
+    {
+      "description": "a ... line is a document-end marker",
+      "expected": {
+        "code": "document-end-marker",
+        "line": 3,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "143b545dc113b2bbf1b25487e469be17a7a3102d444a8332d5a74054bdde4b8f"
+      },
+      "id": "document-end",
+      "path": "cases/document-end",
+      "step": "7"
+    },
+    {
+      "description": "... followed by a comment is still the marker",
+      "expected": {
+        "code": "document-end-marker",
+        "line": 3,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "6c60c9c1278bb58689ce4a44392fb28aa61d0006825a63b34cf43f6663c92f30"
+      },
+      "id": "document-end-with-comment",
+      "path": "cases/document-end-with-comment",
+      "step": "7"
+    },
+    {
+      "description": "a marker is reported ahead of structural faults",
+      "expected": {
+        "code": "document-end-marker",
+        "line": 3,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "4e138d2a1c074e3017d085df37fb3f945fc5684011e68b23999de8a47b2b541f"
+      },
+      "id": "document-end-first",
+      "path": "cases/document-end-first",
+      "step": "7"
+    },
+    {
+      "description": "--- followed by content starts a second document",
+      "expected": {
+        "code": "document-start-marker",
+        "line": 3,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "5f4a71245a147cde6a4b6e39bd684710047eb170937463fcc6edc70328ddb1bf"
+      },
+      "id": "document-start-with-content",
+      "path": "cases/document-start-with-content",
+      "step": "7"
+    },
+    {
+      "description": "a repeated key is refused even when the values agree",
+      "expected": {
+        "code": "duplicate-key",
+        "line": 3,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "f289a889eef680cc0306dc593ee3de684fa0d1fa03353f519f3999f29e41c052"
+      },
+      "id": "duplicate-same-value",
+      "path": "cases/duplicate-same-value",
+      "step": "10"
+    },
+    {
+      "description": "a repeated key is refused when the values differ",
+      "expected": {
+        "code": "duplicate-key",
+        "line": 4,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "aae73abbc141b04283966f59d66f9ea64a672d5529fe404935d389535ae7a5d3"
+      },
+      "id": "duplicate-different-value",
+      "path": "cases/duplicate-different-value",
+      "step": "10"
+    },
+    {
+      "description": "the rule covers keys the parser does not read",
+      "expected": {
+        "code": "duplicate-key",
+        "line": 4,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "ce2bd358064a1a13b6281a6cd0e5cc987695a613f5e22412d40255ded5efa636"
+      },
+      "id": "duplicate-unknown-key",
+      "path": "cases/duplicate-unknown-key",
+      "step": "10"
+    },
+    {
+      "description": "a quoted key and a plain key are the same key",
+      "expected": {
+        "code": "duplicate-key",
+        "line": 3,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "a380613341433a2b7a6420b0ae6d2df4ae80ae381041d0a9de297be744d2a1ac"
+      },
+      "id": "duplicate-quoted-and-plain",
+      "path": "cases/duplicate-quoted-and-plain",
+      "step": "10"
+    },
+    {
+      "description": "an escaped quoted key is compared decoded",
+      "expected": {
+        "code": "duplicate-key",
+        "line": 4,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "88e88e221c1ca6b3f134b60d05ae7082d5f6454f4f3655a1ca8e201e9d95ff5a"
+      },
+      "id": "duplicate-escaped",
+      "path": "cases/duplicate-escaped",
+      "step": "10"
+    },
+    {
+      "description": "a bare scalar is not a mapping",
+      "expected": {
+        "code": "root-not-block-mapping",
+        "line": 2,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "0c9053ac9600455b302446378f212621cdd4badb1d5acb475955d4ae8a5d1b37"
+      },
+      "id": "scalar-root",
+      "path": "cases/scalar-root",
+      "step": "9"
+    },
+    {
+      "description": "a sequence is not a mapping",
+      "expected": {
+        "code": "root-not-block-mapping",
+        "line": 2,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "d7961887aa1219e1c8afd5b3e488ab870a5fdb3877f9eec270520d8d2061aadb"
+      },
+      "id": "sequence-root",
+      "path": "cases/sequence-root",
+      "step": "9"
+    },
+    {
+      "description": "a flow mapping root is not a block mapping",
+      "expected": {
+        "code": "root-not-block-mapping",
+        "line": 2,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "fb4d369716ab3ab7628f74fd42b617bbab38d5e23cda800b73887d296d533fab"
+      },
+      "id": "flow-mapping-root",
+      "path": "cases/flow-mapping-root",
+      "step": "9"
+    },
+    {
+      "description": "a flow sequence root is not a mapping",
+      "expected": {
+        "code": "root-not-block-mapping",
+        "line": 2,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "54e276f9fe91856285c32db75c6e3404ed0fe5f6f0c84a9a829f6ef91e0e9bae"
+      },
+      "id": "flow-sequence-root",
+      "path": "cases/flow-sequence-root",
+      "step": "9"
+    },
+    {
+      "description": "entries must start at column 0",
+      "expected": {
+        "code": "root-not-block-mapping",
+        "line": 2,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "ad26e0b3311cf9c2b65fe97ea1cb485ce0173af8e94af4edbd00a5bfe6121be3"
+      },
+      "id": "indented-root",
+      "path": "cases/indented-root",
+      "step": "9"
+    },
+    {
+      "description": "a tab is not indentation",
+      "expected": {
+        "code": "root-not-block-mapping",
+        "line": 2,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "b3b4745eeaaadb2d59b017909e7450b8c7a38b600e04ba4ebfb431e249f0819e"
+      },
+      "id": "tab-root",
+      "path": "cases/tab-root",
+      "step": "9"
+    },
+    {
+      "description": "a block scalar root is not a mapping",
+      "expected": {
+        "code": "root-not-block-mapping",
+        "line": 2,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "36ed8b24acf3a171b9cacfdadb9bb1ad02bf7c120e1a6c06d8a092e16222c647"
+      },
+      "id": "block-scalar-root",
+      "path": "cases/block-scalar-root",
+      "step": "9"
+    },
+    {
+      "description": "a % directive is not an entry",
+      "expected": {
+        "code": "root-not-block-mapping",
+        "line": 2,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "52b9b2b284797ae78655d78a9bac22ac68395ad61570c38872bc5d425efe51de"
+      },
+      "id": "directive-line",
+      "path": "cases/directive-line",
+      "step": "10"
+    },
+    {
+      "description": "a column-0 line that is no entry",
+      "expected": {
+        "code": "invalid-entry",
+        "line": 3,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "75209109a1f0e64179ec3723424dce2edf3bd6f90e05c516bd1b97333002705c"
+      },
+      "id": "stray-scalar-after-entry",
+      "path": "cases/stray-scalar-after-entry",
+      "step": "10"
+    },
+    {
+      "description": "a column-0 sequence entry after a valued key",
+      "expected": {
+        "code": "invalid-entry",
+        "line": 3,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "36d463b9c1550649034163d309d0cd71328e37c6cb6661321a7c7f7dc0c95b9f"
+      },
+      "id": "sequence-after-valued-key",
+      "path": "cases/sequence-after-valued-key",
+      "step": "10"
+    },
+    {
+      "description": "a column-0 sequence entry after indented content",
+      "expected": {
+        "code": "invalid-entry",
+        "line": 4,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "1c1f7e280dbf1a13a8f752e7db5ef71ef153f0d0262bf6e58e440496d964e866"
+      },
+      "id": "sequence-after-nested-content",
+      "path": "cases/sequence-after-nested-content",
+      "step": "10"
+    },
+    {
+      "description": "name:value is a scalar, not an entry",
+      "expected": {
+        "code": "invalid-entry",
+        "line": 3,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "caffd8f3dd8506f2d9896aaf48c2b18313d452891444fa502aede1f6b46a6e8b"
+      },
+      "id": "key-without-space",
+      "path": "cases/key-without-space",
+      "step": "10"
+    },
+    {
+      "description": "an implicit key is on one line",
+      "expected": {
+        "code": "invalid-entry",
+        "line": 3,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "f10b33def8b43adbc388f6421c12a8a019e82d7edff28308c84e816577d717bb"
+      },
+      "id": "multiline-quoted-key",
+      "path": "cases/multiline-quoted-key",
+      "step": "10"
+    },
+    {
+      "description": "NUL in the block",
+      "expected": {
+        "code": "control-character",
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "5a5d173f780dc841b2a61d976f26df92a6d1773f976c867d9e1d7f16104d3753"
+      },
+      "id": "nul-in-block",
+      "path": "cases/nul-in-block",
+      "step": "8"
+    },
+    {
+      "description": "ESC in the block",
+      "expected": {
+        "code": "control-character",
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "575a0e5f93cd3ee6bd618e26603f6d3efe67460a86b54fd5f5537cd6a5a10441"
+      },
+      "id": "escape-in-block",
+      "path": "cases/escape-in-block",
+      "step": "8"
+    },
+    {
+      "description": "a block over 65536 octets",
+      "expected": {
+        "code": "frontmatter-too-large",
+        "line": 2,
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "94149e4c483791b2cd02f5cacd3f128573fbcaef2b4f99dfddb716bd168bf173"
+      },
+      "id": "frontmatter-too-large",
+      "path": "cases/frontmatter-too-large",
+      "step": "5"
+    },
+    {
+      "description": "a block of exactly 65536 octets is accepted",
+      "expected": {
+        "keys": [
+          "name",
+          "description"
+        ],
+        "outcome": "ok"
+      },
+      "files": {
+        "SKILL.md": "32ac5130e83593f47ee4edbd50724233508aa660be17b9a2f209fd9fdeaa1d37"
+      },
+      "id": "frontmatter-at-limit",
+      "path": "cases/frontmatter-at-limit",
+      "step": "5"
+    },
+    {
+      "description": "a file over 1048576 octets",
+      "expected": {
+        "code": "file-too-large",
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "4bdbb3d3b28382c0a119b9f113ad8605ef0d0e7f50785cc7d26dfa20f647a55b"
+      },
+      "id": "file-too-large",
+      "path": "cases/file-too-large",
+      "step": "1"
+    },
+    {
+      "description": "a file of exactly 1048576 octets is accepted",
+      "expected": {
+        "keys": [
+          "name",
+          "description"
+        ],
+        "outcome": "ok"
+      },
+      "files": {
+        "SKILL.md": "2dd4d85f993c0460dd4ae9d27e65bac656e3a9aeb31e1d50af3582f72a9b7cae"
+      },
+      "id": "file-at-limit",
+      "path": "cases/file-at-limit",
+      "step": "1"
+    },
+    {
+      "description": "a structurally valid block the YAML processor refuses",
+      "expected": {
+        "code": "yaml-syntax-error",
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "c4e6e912d70243df245958b0605ef2127db729f776395bfa6b7e5ab6e0911d70"
+      },
+      "id": "yaml-syntax-error",
+      "needsYaml": true,
+      "path": "cases/yaml-syntax-error",
+      "step": "11"
+    },
+    {
+      "description": "inconsistent indentation under a key",
+      "expected": {
+        "code": "yaml-syntax-error",
+        "outcome": "error"
+      },
+      "files": {
+        "SKILL.md": "304ad0ef3884555383da3a68eabb29a927dace5d8bb9ff4df74c78b116f248a5"
+      },
+      "id": "yaml-bad-indent",
+      "needsYaml": true,
+      "path": "cases/yaml-bad-indent",
+      "step": "11"
+    }
+  ],
+  "verifierContract": "verifier SKILL.md --json"
+}
