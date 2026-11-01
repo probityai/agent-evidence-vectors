@@ -133,10 +133,14 @@ def totals(report: Path) -> dict[str, int]:
     return dict(data.get("totals") or {})
 
 
+def corpus_path(name: str) -> Path:
+    return ROOT / name if name == "vectors" else ROOT / "corpora" / name
+
+
 def check_every_corpus_is_classified() -> list[str]:
     on_disk = sorted(
         p.name
-        for p in ROOT.iterdir()
+        for p in [*ROOT.iterdir(), *(ROOT / "corpora").iterdir()]
         if p.is_dir()
         and (p.name == "vectors" or p.name.startswith("vectors-"))
         and (p / "MANIFEST.json").is_file()
@@ -152,7 +156,7 @@ def check_perfect_runs(work: Path) -> list[str]:
     for name in RUNS_A_VERIFIER:
         for reading in READINGS:
             report = work / f"{name}-{reading}.json"
-            code, out = harness(ROOT / name, ORACLE, report, reading)
+            code, out = harness(corpus_path(name), ORACLE, report, reading)
             if code != 0:
                 failures.append(f"{name} ({reading}): exit {code}, want 0\n{out[-1500:]}")
                 continue
@@ -168,7 +172,7 @@ def check_refusals(work: Path) -> list[str]:
     failures: list[str] = []
     for name in REFUSES_A_VERIFIER:
         report = work / f"{name}.json"
-        code, out = harness(ROOT / name, ORACLE, report, "condition")
+        code, out = harness(corpus_path(name), ORACLE, report, "condition")
         if code != 2 or "did NOT run" not in out or report.exists():
             failures.append(
                 f"{name}: exit {code}, report written {report.exists()}; want exit 2, "

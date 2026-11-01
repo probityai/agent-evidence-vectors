@@ -152,15 +152,19 @@ def run(root: Path) -> tuple[int, str]:
     return proc.returncode, proc.stdout + proc.stderr
 
 
+def corpus_dir(root: Path, corpus: str) -> Path:
+    return root / corpus if corpus == "vectors" else root / "corpora" / corpus
+
+
 def manifest(root: Path, corpus: str) -> dict[str, Any]:
     loaded: dict[str, Any] = json.loads(
-        (root / corpus / "MANIFEST.json").read_text(encoding="utf-8")
+        (corpus_dir(root, corpus) / "MANIFEST.json").read_text(encoding="utf-8")
     )
     return loaded
 
 
 def write_manifest(root: Path, corpus: str, data: dict[str, Any]) -> None:
-    (root / corpus / "MANIFEST.json").write_text(
+    (corpus_dir(root, corpus) / "MANIFEST.json").write_text(
         json.dumps(data, indent=2) + "\n", encoding="utf-8"
     )
 
@@ -211,7 +215,7 @@ def giveaway_member(root: Path) -> None:
     for entry in rows_of(root, corpus):
         if require(entry, "kind", f"{corpus} manifest row") != "reject":
             continue
-        path = root / corpus / str(require(entry, "file", f"{corpus} manifest row"))
+        path = corpus_dir(root, corpus) / str(require(entry, "file", f"{corpus} manifest row"))
         try:
             statement = json.loads(path.read_text(encoding="utf-8"))
         except (UnicodeDecodeError, ValueError):
@@ -239,7 +243,7 @@ def giveaway_depth(root: Path) -> None:
     for entry in rows_of(root, corpus):
         if require(entry, "kind", f"{corpus} manifest row") != "reject":
             continue
-        path = root / corpus / str(require(entry, "file", f"{corpus} manifest row"))
+        path = corpus_dir(root, corpus) / str(require(entry, "file", f"{corpus} manifest row"))
         try:
             statement = json.loads(path.read_text(encoding="utf-8"))
         except (UnicodeDecodeError, ValueError):
@@ -276,12 +280,12 @@ def relabel_identifiers(root: Path) -> None:
         data = manifest(root, corpus)
         for index, entry in enumerate(vector_rows(data, corpus)):
             kind = str(require(entry, "kind", f"{corpus} manifest row"))
-            source = root / corpus / str(require(entry, "file", f"{corpus} manifest row"))
+            source = corpus_dir(root, corpus) / str(require(entry, "file", f"{corpus} manifest row"))
             if not source.is_file() or kind not in ("accept", "reject"):
                 continue
             prefix = "ok" if kind == "accept" else "bad"
             new_rel = f"{kind}/{prefix}-{index:04d}-restored-old-name.json"
-            target = root / corpus / new_rel
+            target = corpus_dir(root, corpus) / new_rel
             target.parent.mkdir(parents=True, exist_ok=True)
             source.rename(target)
             entry["file"] = new_rel
@@ -321,7 +325,7 @@ def one_more_reject_vector(root: Path) -> None:
         )
     parent = parents[0]
     statement = json.loads(
-        (root / corpus / str(require(parent, "file", f"{corpus} manifest row")))
+        (corpus_dir(root, corpus) / str(require(parent, "file", f"{corpus} manifest row")))
         .read_text(encoding="utf-8")
     )
     predicate = require(statement, "predicate", f"{corpus} accept statement")
@@ -330,8 +334,8 @@ def one_more_reject_vector(root: Path) -> None:
     raw = (json.dumps(statement, indent=2, sort_keys=True) + "\n").encode("utf-8")
     identifier = "v" + hashlib.sha256(raw).hexdigest()[:16]
     rel = f"statements/{identifier}.json"
-    (root / corpus / rel).parent.mkdir(parents=True, exist_ok=True)
-    (root / corpus / rel).write_bytes(raw)
+    (corpus_dir(root, corpus) / rel).parent.mkdir(parents=True, exist_ok=True)
+    (corpus_dir(root, corpus) / rel).write_bytes(raw)
     data["vectors"].append(
         {
             "id": identifier,
@@ -360,13 +364,13 @@ def one_more_pair(root: Path) -> None:
         if require(e, "kind", f"{corpus} manifest row") == "accept"
     )
     statement = json.loads(
-        (root / corpus / str(require(parent, "file", f"{corpus} manifest row")))
+        (corpus_dir(root, corpus) / str(require(parent, "file", f"{corpus} manifest row")))
         .read_text(encoding="utf-8")
     )
     raw = (json.dumps(statement, indent=1, sort_keys=True) + "\n").encode("utf-8")
     identifier = "v" + hashlib.sha256(raw).hexdigest()[:16]
     rel = f"statements/{identifier}.json"
-    (root / corpus / rel).write_bytes(raw)
+    (corpus_dir(root, corpus) / rel).write_bytes(raw)
     data["vectors"].append(
         {
             "id": identifier,

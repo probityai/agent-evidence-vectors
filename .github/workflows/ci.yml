@@ -239,7 +239,7 @@ jobs:
           binary="$RUNNER_TEMP/aee-verify"
           go build -o "$binary" ./cmd/aee-verify
           status=0
-          for dir in vectors*/; do
+          for dir in vectors*/ corpora/vectors*/; do
             [ -f "${dir}MANIFEST.json" ] || continue
             echo "== ${dir%/}"
             rc=0

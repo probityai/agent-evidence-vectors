@@ -239,7 +239,7 @@ def _run_stage(
     env = {
         **os.environ,
         "REPORT": str(report),
-        "CORPUS_DIR": str(REPO_ROOT / corpus),
+        "CORPUS_DIR": str(REPO_ROOT / corpus if corpus == "vectors" else REPO_ROOT / "corpora" / corpus),
         "GITHUB_STEP_SUMMARY": str(work / "summary.md"),
         "GITHUB_OUTPUT": str(work / "output.txt"),
     }
@@ -251,7 +251,7 @@ def _run_stage(
 
 def case_a_covered_corpus_is_reference_checked(work: Path) -> None:
     corpus = "vectors-done-receipt"
-    total = len(json.loads((REPO_ROOT / corpus / "MANIFEST.json").read_text())["vectors"])
+    total = len(json.loads((REPO_ROOT / "corpora" / corpus / "MANIFEST.json").read_text())["vectors"])
     proc, report = _run_stage(work, corpus, total)
     assert proc.returncode == 0, proc.stdout + proc.stderr
     first = proc.stdout.splitlines()[0]

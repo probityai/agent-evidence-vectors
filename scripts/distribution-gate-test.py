@@ -112,8 +112,10 @@ def _staged_copy(tmp: Path) -> Path:
     ):
         (root / rel.parent).mkdir(parents=True, exist_ok=True)
         shutil.copy2(REPO_ROOT / rel, root / rel)
-    for manifest in sorted(REPO_ROOT.glob("vectors*/MANIFEST.json")):
-        target = root / manifest.parent.name / "MANIFEST.json"
+    for manifest in sorted(
+        [*REPO_ROOT.glob("vectors*/MANIFEST.json"), *REPO_ROOT.glob("corpora/vectors*/MANIFEST.json")]
+    ):
+        target = root / manifest.relative_to(REPO_ROOT)
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(manifest, target)
     _repair_install_path(root)

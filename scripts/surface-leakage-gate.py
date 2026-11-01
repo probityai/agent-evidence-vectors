@@ -452,8 +452,13 @@ def separability(rows: list[tuple[int, frozenset[str]]]) -> float:
 # --- corpus ----------------------------------------------------------------
 
 
+def corpus_dir(tree: Path, corpus: str) -> Path:
+    """The default corpus sits at the top level; every other one under corpora/."""
+    return tree / corpus if corpus == "vectors" else tree / "corpora" / corpus
+
+
 def load(tree: Path, corpus: str) -> list[tuple[int, dict[str, set[str]]]]:
-    base = tree / corpus
+    base = corpus_dir(tree, corpus)
     manifest = json.loads((base / "MANIFEST.json").read_text(encoding="utf-8"))
     rows: list[tuple[int, dict[str, set[str]]]] = []
     for entry in manifest["vectors"]:
