@@ -140,60 +140,60 @@ dev = ["packaging==26.3", "pytest==9.2.0", "ruff==0.17.3"]
 only-include = [
     "packaging/agent_evidence_vectors",
     "vectors",
-    "vectors-a2a-jcs-v01",
-    "vectors-aci",
-    "vectors-acs-core",
-    "vectors-admission",
-    "vectors-agent-audit-record",
-    "vectors-agent-card-receipt",
-    "vectors-agent-change-admission",
-    "vectors-agent-decision",
-    "vectors-agent-payment-mandate",
-    "vectors-agentic-process-evidence",
-    "vectors-aggregate-accounting",
-    "vectors-ai-agent-action",
-    "vectors-ai-generation",
-    "vectors-anchor-stream",
-    "vectors-anchored-chain",
-    "vectors-approval-binding",
-    "vectors-artifact-binding",
-    "vectors-authority-at-dispatch",
-    "vectors-badge-vc-verify",
-    "vectors-chunked-export",
-    "vectors-completion-confirmation",
-    "vectors-connector-scope",
-    "vectors-converted-argument-binding",
-    "vectors-credential-release",
-    "vectors-delegation-lifecycle",
-    "vectors-delegator-right",
-    "vectors-dependency-selection",
-    "vectors-dispatch-fence",
-    "vectors-done-contract",
-    "vectors-done-probes",
-    "vectors-done-receipt",
-    "vectors-grade-floor",
-    "vectors-grader-isolation",
-    "vectors-identity-binding",
-    "vectors-ietf-agent-record-drafts",
-    "vectors-mcp-owasp",
-    "vectors-mcp-record-contract",
-    "vectors-mcp-response-phase",
-    "vectors-observed-effect",
-    "vectors-open-weight-art53",
-    "vectors-receipt-chain-end",
-    "vectors-receipt-signature",
-    "vectors-recorded",
-    "vectors-refund-connected",
-    "vectors-restart-records",
-    "vectors-scitt-cose",
-    "vectors-self-reported-record",
-    "vectors-source-coverage",
-    "vectors-spoofed-tool-output",
-    "vectors-test-tampering",
-    "vectors-trace-anchor",
-    "vectors-uncertain-effect",
-    "vectors-w3c-intake",
-    "vectors-w3c-report",
+    "corpora/vectors-a2a-jcs-v01",
+    "corpora/vectors-aci",
+    "corpora/vectors-acs-core",
+    "corpora/vectors-admission",
+    "corpora/vectors-agent-audit-record",
+    "corpora/vectors-agent-card-receipt",
+    "corpora/vectors-agent-change-admission",
+    "corpora/vectors-agent-decision",
+    "corpora/vectors-agent-payment-mandate",
+    "corpora/vectors-agentic-process-evidence",
+    "corpora/vectors-aggregate-accounting",
+    "corpora/vectors-ai-agent-action",
+    "corpora/vectors-ai-generation",
+    "corpora/vectors-anchor-stream",
+    "corpora/vectors-anchored-chain",
+    "corpora/vectors-approval-binding",
+    "corpora/vectors-artifact-binding",
+    "corpora/vectors-authority-at-dispatch",
+    "corpora/vectors-badge-vc-verify",
+    "corpora/vectors-chunked-export",
+    "corpora/vectors-completion-confirmation",
+    "corpora/vectors-connector-scope",
+    "corpora/vectors-converted-argument-binding",
+    "corpora/vectors-credential-release",
+    "corpora/vectors-delegation-lifecycle",
+    "corpora/vectors-delegator-right",
+    "corpora/vectors-dependency-selection",
+    "corpora/vectors-dispatch-fence",
+    "corpora/vectors-done-contract",
+    "corpora/vectors-done-probes",
+    "corpora/vectors-done-receipt",
+    "corpora/vectors-grade-floor",
+    "corpora/vectors-grader-isolation",
+    "corpora/vectors-identity-binding",
+    "corpora/vectors-ietf-agent-record-drafts",
+    "corpora/vectors-mcp-owasp",
+    "corpora/vectors-mcp-record-contract",
+    "corpora/vectors-mcp-response-phase",
+    "corpora/vectors-observed-effect",
+    "corpora/vectors-open-weight-art53",
+    "corpora/vectors-receipt-chain-end",
+    "corpora/vectors-receipt-signature",
+    "corpora/vectors-recorded",
+    "corpora/vectors-refund-connected",
+    "corpora/vectors-restart-records",
+    "corpora/vectors-scitt-cose",
+    "corpora/vectors-self-reported-record",
+    "corpora/vectors-source-coverage",
+    "corpora/vectors-spoofed-tool-output",
+    "corpora/vectors-test-tampering",
+    "corpora/vectors-trace-anchor",
+    "corpora/vectors-uncertain-effect",
+    "corpora/vectors-w3c-intake",
+    "corpora/vectors-w3c-report",
 ]
 exclude = [
     "**/__pycache__",
@@ -259,60 +259,60 @@ exclude = [
 [tool.hatch.build.targets.wheel.sources]
 "packaging/agent_evidence_vectors" = "agent_evidence_vectors"
 "vectors" = "agent_evidence_vectors/corpora/vectors"
-"vectors-a2a-jcs-v01" = "agent_evidence_vectors/corpora/vectors-a2a-jcs-v01"
-"vectors-aci" = "agent_evidence_vectors/corpora/vectors-aci"
-"vectors-acs-core" = "agent_evidence_vectors/corpora/vectors-acs-core"
-"vectors-admission" = "agent_evidence_vectors/corpora/vectors-admission"
-"vectors-agent-audit-record" = "agent_evidence_vectors/corpora/vectors-agent-audit-record"
-"vectors-agent-card-receipt" = "agent_evidence_vectors/corpora/vectors-agent-card-receipt"
-"vectors-agent-change-admission" = "agent_evidence_vectors/corpora/vectors-agent-change-admission"
-"vectors-agent-decision" = "agent_evidence_vectors/corpora/vectors-agent-decision"
-"vectors-agent-payment-mandate" = "agent_evidence_vectors/corpora/vectors-agent-payment-mandate"
-"vectors-agentic-process-evidence" = "agent_evidence_vectors/corpora/vectors-agentic-process-evidence"
-"vectors-aggregate-accounting" = "agent_evidence_vectors/corpora/vectors-aggregate-accounting"
-"vectors-ai-agent-action" = "agent_evidence_vectors/corpora/vectors-ai-agent-action"
-"vectors-ai-generation" = "agent_evidence_vectors/corpora/vectors-ai-generation"
-"vectors-anchor-stream" = "agent_evidence_vectors/corpora/vectors-anchor-stream"
-"vectors-anchored-chain" = "agent_evidence_vectors/corpora/vectors-anchored-chain"
-"vectors-approval-binding" = "agent_evidence_vectors/corpora/vectors-approval-binding"
-"vectors-artifact-binding" = "agent_evidence_vectors/corpora/vectors-artifact-binding"
-"vectors-authority-at-dispatch" = "agent_evidence_vectors/corpora/vectors-authority-at-dispatch"
-"vectors-badge-vc-verify" = "agent_evidence_vectors/corpora/vectors-badge-vc-verify"
-"vectors-chunked-export" = "agent_evidence_vectors/corpora/vectors-chunked-export"
-"vectors-completion-confirmation" = "agent_evidence_vectors/corpora/vectors-completion-confirmation"
-"vectors-connector-scope" = "agent_evidence_vectors/corpora/vectors-connector-scope"
-"vectors-converted-argument-binding" = "agent_evidence_vectors/corpora/vectors-converted-argument-binding"
-"vectors-credential-release" = "agent_evidence_vectors/corpora/vectors-credential-release"
-"vectors-delegation-lifecycle" = "agent_evidence_vectors/corpora/vectors-delegation-lifecycle"
-"vectors-delegator-right" = "agent_evidence_vectors/corpora/vectors-delegator-right"
-"vectors-dependency-selection" = "agent_evidence_vectors/corpora/vectors-dependency-selection"
-"vectors-dispatch-fence" = "agent_evidence_vectors/corpora/vectors-dispatch-fence"
-"vectors-done-contract" = "agent_evidence_vectors/corpora/vectors-done-contract"
-"vectors-done-probes" = "agent_evidence_vectors/corpora/vectors-done-probes"
-"vectors-done-receipt" = "agent_evidence_vectors/corpora/vectors-done-receipt"
-"vectors-grade-floor" = "agent_evidence_vectors/corpora/vectors-grade-floor"
-"vectors-grader-isolation" = "agent_evidence_vectors/corpora/vectors-grader-isolation"
-"vectors-identity-binding" = "agent_evidence_vectors/corpora/vectors-identity-binding"
-"vectors-ietf-agent-record-drafts" = "agent_evidence_vectors/corpora/vectors-ietf-agent-record-drafts"
-"vectors-mcp-owasp" = "agent_evidence_vectors/corpora/vectors-mcp-owasp"
-"vectors-mcp-record-contract" = "agent_evidence_vectors/corpora/vectors-mcp-record-contract"
-"vectors-mcp-response-phase" = "agent_evidence_vectors/corpora/vectors-mcp-response-phase"
-"vectors-observed-effect" = "agent_evidence_vectors/corpora/vectors-observed-effect"
-"vectors-open-weight-art53" = "agent_evidence_vectors/corpora/vectors-open-weight-art53"
-"vectors-receipt-chain-end" = "agent_evidence_vectors/corpora/vectors-receipt-chain-end"
-"vectors-receipt-signature" = "agent_evidence_vectors/corpora/vectors-receipt-signature"
-"vectors-recorded" = "agent_evidence_vectors/corpora/vectors-recorded"
-"vectors-refund-connected" = "agent_evidence_vectors/corpora/vectors-refund-connected"
-"vectors-restart-records" = "agent_evidence_vectors/corpora/vectors-restart-records"
-"vectors-scitt-cose" = "agent_evidence_vectors/corpora/vectors-scitt-cose"
-"vectors-self-reported-record" = "agent_evidence_vectors/corpora/vectors-self-reported-record"
-"vectors-source-coverage" = "agent_evidence_vectors/corpora/vectors-source-coverage"
-"vectors-spoofed-tool-output" = "agent_evidence_vectors/corpora/vectors-spoofed-tool-output"
-"vectors-test-tampering" = "agent_evidence_vectors/corpora/vectors-test-tampering"
-"vectors-trace-anchor" = "agent_evidence_vectors/corpora/vectors-trace-anchor"
-"vectors-uncertain-effect" = "agent_evidence_vectors/corpora/vectors-uncertain-effect"
-"vectors-w3c-intake" = "agent_evidence_vectors/corpora/vectors-w3c-intake"
-"vectors-w3c-report" = "agent_evidence_vectors/corpora/vectors-w3c-report"
+"corpora/vectors-a2a-jcs-v01" = "agent_evidence_vectors/corpora/vectors-a2a-jcs-v01"
+"corpora/vectors-aci" = "agent_evidence_vectors/corpora/vectors-aci"
+"corpora/vectors-acs-core" = "agent_evidence_vectors/corpora/vectors-acs-core"
+"corpora/vectors-admission" = "agent_evidence_vectors/corpora/vectors-admission"
+"corpora/vectors-agent-audit-record" = "agent_evidence_vectors/corpora/vectors-agent-audit-record"
+"corpora/vectors-agent-card-receipt" = "agent_evidence_vectors/corpora/vectors-agent-card-receipt"
+"corpora/vectors-agent-change-admission" = "agent_evidence_vectors/corpora/vectors-agent-change-admission"
+"corpora/vectors-agent-decision" = "agent_evidence_vectors/corpora/vectors-agent-decision"
+"corpora/vectors-agent-payment-mandate" = "agent_evidence_vectors/corpora/vectors-agent-payment-mandate"
+"corpora/vectors-agentic-process-evidence" = "agent_evidence_vectors/corpora/vectors-agentic-process-evidence"
+"corpora/vectors-aggregate-accounting" = "agent_evidence_vectors/corpora/vectors-aggregate-accounting"
+"corpora/vectors-ai-agent-action" = "agent_evidence_vectors/corpora/vectors-ai-agent-action"
+"corpora/vectors-ai-generation" = "agent_evidence_vectors/corpora/vectors-ai-generation"
+"corpora/vectors-anchor-stream" = "agent_evidence_vectors/corpora/vectors-anchor-stream"
+"corpora/vectors-anchored-chain" = "agent_evidence_vectors/corpora/vectors-anchored-chain"
+"corpora/vectors-approval-binding" = "agent_evidence_vectors/corpora/vectors-approval-binding"
+"corpora/vectors-artifact-binding" = "agent_evidence_vectors/corpora/vectors-artifact-binding"
+"corpora/vectors-authority-at-dispatch" = "agent_evidence_vectors/corpora/vectors-authority-at-dispatch"
+"corpora/vectors-badge-vc-verify" = "agent_evidence_vectors/corpora/vectors-badge-vc-verify"
+"corpora/vectors-chunked-export" = "agent_evidence_vectors/corpora/vectors-chunked-export"
+"corpora/vectors-completion-confirmation" = "agent_evidence_vectors/corpora/vectors-completion-confirmation"
+"corpora/vectors-connector-scope" = "agent_evidence_vectors/corpora/vectors-connector-scope"
+"corpora/vectors-converted-argument-binding" = "agent_evidence_vectors/corpora/vectors-converted-argument-binding"
+"corpora/vectors-credential-release" = "agent_evidence_vectors/corpora/vectors-credential-release"
+"corpora/vectors-delegation-lifecycle" = "agent_evidence_vectors/corpora/vectors-delegation-lifecycle"
+"corpora/vectors-delegator-right" = "agent_evidence_vectors/corpora/vectors-delegator-right"
+"corpora/vectors-dependency-selection" = "agent_evidence_vectors/corpora/vectors-dependency-selection"
+"corpora/vectors-dispatch-fence" = "agent_evidence_vectors/corpora/vectors-dispatch-fence"
+"corpora/vectors-done-contract" = "agent_evidence_vectors/corpora/vectors-done-contract"
+"corpora/vectors-done-probes" = "agent_evidence_vectors/corpora/vectors-done-probes"
+"corpora/vectors-done-receipt" = "agent_evidence_vectors/corpora/vectors-done-receipt"
+"corpora/vectors-grade-floor" = "agent_evidence_vectors/corpora/vectors-grade-floor"
+"corpora/vectors-grader-isolation" = "agent_evidence_vectors/corpora/vectors-grader-isolation"
+"corpora/vectors-identity-binding" = "agent_evidence_vectors/corpora/vectors-identity-binding"
+"corpora/vectors-ietf-agent-record-drafts" = "agent_evidence_vectors/corpora/vectors-ietf-agent-record-drafts"
+"corpora/vectors-mcp-owasp" = "agent_evidence_vectors/corpora/vectors-mcp-owasp"
+"corpora/vectors-mcp-record-contract" = "agent_evidence_vectors/corpora/vectors-mcp-record-contract"
+"corpora/vectors-mcp-response-phase" = "agent_evidence_vectors/corpora/vectors-mcp-response-phase"
+"corpora/vectors-observed-effect" = "agent_evidence_vectors/corpora/vectors-observed-effect"
+"corpora/vectors-open-weight-art53" = "agent_evidence_vectors/corpora/vectors-open-weight-art53"
+"corpora/vectors-receipt-chain-end" = "agent_evidence_vectors/corpora/vectors-receipt-chain-end"
+"corpora/vectors-receipt-signature" = "agent_evidence_vectors/corpora/vectors-receipt-signature"
+"corpora/vectors-recorded" = "agent_evidence_vectors/corpora/vectors-recorded"
+"corpora/vectors-refund-connected" = "agent_evidence_vectors/corpora/vectors-refund-connected"
+"corpora/vectors-restart-records" = "agent_evidence_vectors/corpora/vectors-restart-records"
+"corpora/vectors-scitt-cose" = "agent_evidence_vectors/corpora/vectors-scitt-cose"
+"corpora/vectors-self-reported-record" = "agent_evidence_vectors/corpora/vectors-self-reported-record"
+"corpora/vectors-source-coverage" = "agent_evidence_vectors/corpora/vectors-source-coverage"
+"corpora/vectors-spoofed-tool-output" = "agent_evidence_vectors/corpora/vectors-spoofed-tool-output"
+"corpora/vectors-test-tampering" = "agent_evidence_vectors/corpora/vectors-test-tampering"
+"corpora/vectors-trace-anchor" = "agent_evidence_vectors/corpora/vectors-trace-anchor"
+"corpora/vectors-uncertain-effect" = "agent_evidence_vectors/corpora/vectors-uncertain-effect"
+"corpora/vectors-w3c-intake" = "agent_evidence_vectors/corpora/vectors-w3c-intake"
+"corpora/vectors-w3c-report" = "agent_evidence_vectors/corpora/vectors-w3c-report"
 
 [tool.hatch.build.targets.wheel.force-include]
 # The rail, a single stdlib-only module. `sources` rewrites directory prefixes
@@ -393,60 +393,60 @@ only-include = [
     "spec/predicates/revocation-boundary.md",
     "spec/predicates/revocation-sweep.md",
     "vectors",
-    "vectors-a2a-jcs-v01",
-    "vectors-aci",
-    "vectors-acs-core",
-    "vectors-admission",
-    "vectors-agent-audit-record",
-    "vectors-agent-card-receipt",
-    "vectors-agent-change-admission",
-    "vectors-agent-decision",
-    "vectors-agent-payment-mandate",
-    "vectors-agentic-process-evidence",
-    "vectors-aggregate-accounting",
-    "vectors-ai-agent-action",
-    "vectors-ai-generation",
-    "vectors-anchor-stream",
-    "vectors-anchored-chain",
-    "vectors-approval-binding",
-    "vectors-artifact-binding",
-    "vectors-authority-at-dispatch",
-    "vectors-badge-vc-verify",
-    "vectors-chunked-export",
-    "vectors-completion-confirmation",
-    "vectors-connector-scope",
-    "vectors-converted-argument-binding",
-    "vectors-credential-release",
-    "vectors-delegation-lifecycle",
-    "vectors-delegator-right",
-    "vectors-dependency-selection",
-    "vectors-dispatch-fence",
-    "vectors-done-contract",
-    "vectors-done-probes",
-    "vectors-done-receipt",
-    "vectors-grade-floor",
-    "vectors-grader-isolation",
-    "vectors-identity-binding",
-    "vectors-ietf-agent-record-drafts",
-    "vectors-mcp-owasp",
-    "vectors-mcp-record-contract",
-    "vectors-mcp-response-phase",
-    "vectors-observed-effect",
-    "vectors-open-weight-art53",
-    "vectors-receipt-chain-end",
-    "vectors-receipt-signature",
-    "vectors-recorded",
-    "vectors-refund-connected",
-    "vectors-restart-records",
-    "vectors-scitt-cose",
-    "vectors-self-reported-record",
-    "vectors-source-coverage",
-    "vectors-spoofed-tool-output",
-    "vectors-test-tampering",
-    "vectors-trace-anchor",
-    "vectors-uncertain-effect",
-    "vectors-w3c-intake",
-    "vectors-w3c-report",
+    "corpora/vectors-a2a-jcs-v01",
+    "corpora/vectors-aci",
+    "corpora/vectors-acs-core",
+    "corpora/vectors-admission",
+    "corpora/vectors-agent-audit-record",
+    "corpora/vectors-agent-card-receipt",
+    "corpora/vectors-agent-change-admission",
+    "corpora/vectors-agent-decision",
+    "corpora/vectors-agent-payment-mandate",
+    "corpora/vectors-agentic-process-evidence",
+    "corpora/vectors-aggregate-accounting",
+    "corpora/vectors-ai-agent-action",
+    "corpora/vectors-ai-generation",
+    "corpora/vectors-anchor-stream",
+    "corpora/vectors-anchored-chain",
+    "corpora/vectors-approval-binding",
+    "corpora/vectors-artifact-binding",
+    "corpora/vectors-authority-at-dispatch",
+    "corpora/vectors-badge-vc-verify",
+    "corpora/vectors-chunked-export",
+    "corpora/vectors-completion-confirmation",
+    "corpora/vectors-connector-scope",
+    "corpora/vectors-converted-argument-binding",
+    "corpora/vectors-credential-release",
+    "corpora/vectors-delegation-lifecycle",
+    "corpora/vectors-delegator-right",
+    "corpora/vectors-dependency-selection",
+    "corpora/vectors-dispatch-fence",
+    "corpora/vectors-done-contract",
+    "corpora/vectors-done-probes",
+    "corpora/vectors-done-receipt",
+    "corpora/vectors-grade-floor",
+    "corpora/vectors-grader-isolation",
+    "corpora/vectors-identity-binding",
+    "corpora/vectors-ietf-agent-record-drafts",
+    "corpora/vectors-mcp-owasp",
+    "corpora/vectors-mcp-record-contract",
+    "corpora/vectors-mcp-response-phase",
+    "corpora/vectors-observed-effect",
+    "corpora/vectors-open-weight-art53",
+    "corpora/vectors-receipt-chain-end",
+    "corpora/vectors-receipt-signature",
+    "corpora/vectors-recorded",
+    "corpora/vectors-refund-connected",
+    "corpora/vectors-restart-records",
+    "corpora/vectors-scitt-cose",
+    "corpora/vectors-self-reported-record",
+    "corpora/vectors-source-coverage",
+    "corpora/vectors-spoofed-tool-output",
+    "corpora/vectors-test-tampering",
+    "corpora/vectors-trace-anchor",
+    "corpora/vectors-uncertain-effect",
+    "corpora/vectors-w3c-intake",
+    "corpora/vectors-w3c-report",
 ]
 exclude = [
     "**/__pycache__",
