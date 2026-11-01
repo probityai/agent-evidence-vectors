@@ -14,7 +14,8 @@ It writes one JSON result per row and exits 0 only when every row it ran
 reproduced. A row that does not reproduce is reported with the observed
 digests beside the posted ones; nothing is adjusted to make it match.
 
-Needs git, uv and, for R3 and R4, Node. Standard library only.
+Needs git, uv and, for R3 and R4, Node. Standard library only. R3-v01 reads the
+records R3 wrote, and R14 the reports of R1, R2, R3-v01, R4 and R5.
 """
 
 from __future__ import annotations
@@ -36,7 +37,8 @@ from typing import Any, Callable
 
 HERE = Path(__file__).resolve().parent
 ROWS = json.loads((HERE / "rows.json").read_text(encoding="utf-8"))
-ARCHIVE = "https://lists.w3.org/Archives/Public/public-agent-conformance/2026Oct/"
+ARCHIVE = ROWS["archive"]
+DEFAULT_MONTH = "2026Oct/"
 REPRODUCED, DIFFERS, ERROR, RECORDED = "reproduced", "differs", "error", "recorded"
 
 
@@ -109,6 +111,11 @@ def aev_tree(tag: str, dest: Path, log: Path, paths: list[str]) -> Path:
     return fetch_commit(ROWS["aev_repository"], ROWS["aev_tags"][tag], dest, log, paths)
 
 
+def attachment_url(name: str) -> str:
+    """Names like "att-0039/x" are in October; others carry their month, "2026Nov/att-0000/x"."""
+    return ARCHIVE + (name if re.match(r"^\d{4}[A-Z][a-z]{2}/", name) else DEFAULT_MONTH + name)
+
+
 def attachment(name: str, cache: Path) -> bytes:
     """A list attachment, checked against the digest its message posted.
 
@@ -119,7 +126,7 @@ def attachment(name: str, cache: Path) -> bytes:
     path = cache / name
     if not path.exists():
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_bytes(fetch_url(ARCHIVE + name))
+        path.write_bytes(fetch_url(attachment_url(name)))
     data = path.read_bytes()
     if pin["text"] and data.endswith(b"\n\n"):
         data = data[:-1]
@@ -253,6 +260,31 @@ def row_r3(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str, Any
                            row.get("outside_record_set"))
     detail["SHA256SUMS"] = expect_files(records, row["expect"])
     return detail["ok"], detail
+
+
+def row_r3_v01(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
+    """Run the posted converter over the records the R3 rerun wrote, and compare."""
+    p = row["pins"]
+    out3 = w.parent / "R3" / "out"
+    # The same rule row_r3 applies: the emitter writes records/ or the records themselves.
+    records = out3 / "records" if (out3 / "records").is_dir() else out3
+    if not (records / "SHA256SUMS").is_file():
+        raise Refused("R3-v01 reads the R3 rerun's records: run R3 first")
+    data = attachment(p["converter"], w.parent / "_attachments")
+    script = w / p["script"]
+    with zipfile.ZipFile(io.BytesIO(data)) as archive:
+        script.write_bytes(archive.read(p["script"]))
+        posted_bytes = archive.read(p["posted_report"])
+    name = next(iter(row["expect"]))
+    out = w / "out"
+    out.mkdir()
+    py = venv(w, "r3v01", p["python"], [], log)
+    must(run([str(py), "-I", str(script), str(records), "--out", str(out / name)], w, log),
+         "reencode_v01.py")
+    detail = expect_files(out, row["expect"])
+    detail["posted file in the zip"] = sha256(posted_bytes)
+    ok = detail["ok"] and sha256(posted_bytes) == row["expect"][name]
+    return ok, detail
 
 
 def row_r4(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
@@ -393,6 +425,66 @@ def row_r8(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str, Any
     return detail["ok"], detail
 
 
+R8_FIGURES = re.compile(
+    r"judged (\d+) \| selected (\d+).*?numbered (\d+) \| agree (\d+)(.*?)unnumbered (\d+) \| "
+    r"accept (\d+) \| reject (\d+) \| cannot-tell (\d+) \| of which name W3C-R-016 (\d+)", re.S)
+
+
+def r8_figures(text: str) -> dict[str, Any]:
+    """The figures r8_compare.py prints, read back from its own output."""
+    found = R8_FIGURES.search(text)
+    if not found:
+        raise Refused("r8_compare.py printed no figures")
+    groups: tuple[str, ...] = found.groups()
+    g = [int(x) for x in groups[:4] + groups[5:]]
+    return {"judged": g[0], "selected": g[1], "numbered": g[2], "agree": g[3],
+            "differs": sorted(re.findall(r"differs (\S+)", groups[4])),
+            "unnumbered": {"total": g[4], "accept": g[5], "reject": g[6], "cannot-tell": g[7],
+                           "cannot-tell under W3C-R-016": g[8]}}
+
+
+def section10_selection(manifest: dict[str, Any]) -> set[str]:
+    """Members whose subjectType is report and whose requirements are all agreed (0022)."""
+    status = {r["id"]: r.get("status") for r in manifest["requirements"]}
+    return {v["id"] for v in manifest["vectors"] if v["subjectType"] == "report"
+            and all(status.get(r) == "agreed" for r in v["requirements"])}
+
+
+def row_r8_compare(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
+    p, expect = row["pins"], row["expect"]
+    script = w / "r8_compare.py"
+    script.write_bytes(attachment(p["script"], w.parent / "_attachments"))
+    with tarfile.open(fileobj=io.BytesIO(attachment(p["reader"], w.parent / "_attachments"))) as archive:
+        archive.extractall(w / "reader", filter="data")
+    verdicts = w / "reader" / p["verdicts"]
+    corpus = aev_tree(p["corpus_tag"], w / "aev", log, ["/vectors-w3c-report/MANIFEST.json"])
+    manifest_path = corpus / "vectors-w3c-report" / "MANIFEST.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    family = {v["id"]: v["family"] for v in manifest["vectors"]}
+    judged = [line.split("\t", 1)[0] for line in verdicts.read_text(encoding="utf-8").splitlines() if line]
+    chosen = section10_selection(manifest)
+    outside = sorted({family[k] for k in judged if k not in chosen})
+    py = venv(w, "r8c", p["python"], [], log)
+    runs: dict[str, Any] = {}
+    for label, families in (("0022 selection", outside), ("w3c-f-29 excluded, as in 0188", ["w3c-f-29"])):
+        printed = w / f"compare-{len(runs)}.txt"
+        args = [a for f in families for a in ("--exclude-family", f)]
+        must(run([str(py), "-I", str(script), str(manifest_path), str(verdicts), *args], w, log,
+                 stdout=printed), "r8_compare.py")
+        runs[label] = {"excluded": families, **r8_figures(printed.read_text(encoding="utf-8"))}
+    observed = runs["0022 selection"]
+    want = {k: expect[k] for k in ("judged", "selected", "numbered", "agree", "differs", "unnumbered")}
+    detail = {"verdicts.tsv": {"posted": expect["verdicts.tsv"], "observed": sha256_file(verdicts)},
+              "selection_by_rule": len(chosen & set(judged)),
+              "outside_selection_families": {"posted": expect["outside_selection_families"],
+                                             "observed": outside},
+              "runs": runs}
+    ok = (detail["verdicts.tsv"]["posted"] == detail["verdicts.tsv"]["observed"]
+          and outside == expect["outside_selection_families"]
+          and {k: observed[k] for k in want} == want)
+    return ok, detail
+
+
 def row_script(script: str) -> Callable[[Path, Path, dict[str, Any]], tuple[bool, dict[str, Any]]]:
     def handler(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
         result = w / "script-result.json"
@@ -496,6 +588,7 @@ for path in sys.argv[1:]:
 R14_REPORTS = {
     "R1": ("R1/out", ["report.json"]),
     "R2": ("R2/out", ["run-residue-v0.2.json", "run-residue-v0.3.json", "run-residue-v0.4.json"]),
+    "R3": ("R3-v01/out", ["run-report-v01.json"]),
     "R4": ("R4/out/reports", ["heldfast-profiles.json", "native-verify-mjs.json",
                               "probity-map-reader.json"]),
     "R5": ("R5/out", ["finality-threshold-report.level1.json"]),
@@ -548,8 +641,8 @@ def row_r15(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str, An
 
 
 HANDLERS: dict[str, Callable[[Path, Path, dict[str, Any]], tuple[bool, dict[str, Any]]]] = {
-    "R1": row_r1, "R2": row_r2, "R3": row_r3, "R4": row_r4, "R4-driver": row_r4_driver,
-    "R5": row_r5, "R6": row_r6, "R7": row_r7, "R8": row_r8,
+    "R1": row_r1, "R2": row_r2, "R3": row_r3, "R3-v01": row_r3_v01, "R4": row_r4, "R4-driver": row_r4_driver,
+    "R5": row_r5, "R6": row_r6, "R7": row_r7, "R8": row_r8, "R8-compare": row_r8_compare,
     "R9": row_script("r9_corpus_history.py"), "R10": row_script("r10_minus_zero.py"),
     "R11": row_r11, "R12": row_r12, "R13": row_r13, "R14": row_r14, "R15": row_r15,
 }

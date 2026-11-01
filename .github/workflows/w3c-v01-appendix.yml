@@ -50,23 +50,25 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # R14 reads the reports R1, R2, R4 and R5 write, so its job reruns those too.
+        # R3-v01 reads the records R3 writes, and R14 reads the reports R1, R2,
+        # R3-v01, R4 and R5 write, so those jobs rerun their inputs too.
         rows:
           - 'R1'
           - 'R2'
-          - 'R3'
+          - 'R3 R3-v01'
           - 'R4'
           - 'R4-driver'
           - 'R5'
           - 'R6'
           - 'R7'
           - 'R8'
+          - 'R8-compare'
           - 'R9'
           - 'R10'
           - 'R11'
           - 'R12'
           - 'R13'
-          - 'R1 R2 R4 R5 R14'
+          - 'R1 R2 R3 R3-v01 R4 R5 R14'
           - 'R15'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1

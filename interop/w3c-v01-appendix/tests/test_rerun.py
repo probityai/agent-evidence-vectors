@@ -107,3 +107,46 @@ def test_unittest_summary_counts_runs_and_skips() -> None:
     assert rerun.unittest_summary("Ran 6 tests in 0.1s\n\nOK (skipped=2)\n")["skipped"] == 2
     assert not rerun.unittest_summary("Ran 6 tests in 0.1s\n\nFAILED (failures=1)\n")["ok"]
     assert rerun.unittest_summary("no tests here")["ran"] is None
+
+
+def test_attachment_url_keeps_october_default_and_reads_a_named_month() -> None:
+    base = rerun.ROWS["archive"]
+    assert rerun.attachment_url("att-0039/x.tar.gz") == base + "2026Oct/att-0039/x.tar.gz"
+    assert rerun.attachment_url("2026Nov/att-0000/y.zip") == base + "2026Nov/att-0000/y.zip"
+
+
+R8_PRINTED = """judged 169 | selected 165 {'accept': 82, 'reject': 83} | excluded families ['w3c-f-22']
+numbered 96 | agree 92
+  differs vb expected reject ['W3C-R-006'] reader ['accept', '-']
+  differs va expected accept [] reader ['cannot-tell', '-']
+unnumbered 69 | accept 23 | reject 2 | cannot-tell 44 | of which name W3C-R-016 43
+"""
+
+
+def test_r8_figures_reads_every_count_the_script_prints() -> None:
+    got = rerun.r8_figures(R8_PRINTED)
+    assert got == {"judged": 169, "selected": 165, "numbered": 96, "agree": 92,
+                   "differs": ["va", "vb"],
+                   "unnumbered": {"total": 69, "accept": 23, "reject": 2, "cannot-tell": 44,
+                                  "cannot-tell under W3C-R-016": 43}}
+
+
+def test_r8_figures_refuses_output_without_figures() -> None:
+    with pytest.raises(rerun.Refused, match="no figures"):
+        rerun.r8_figures("Traceback (most recent call last):\n")
+
+
+def test_section10_selection_needs_report_subject_and_every_requirement_agreed() -> None:
+    manifest = {"requirements": [{"id": "A", "status": "agreed"}, {"id": "P", "status": "proposed"}],
+                "vectors": [{"id": "in", "subjectType": "report", "requirements": ["A"]},
+                            {"id": "proposed", "subjectType": "report", "requirements": ["A", "P"]},
+                            {"id": "not-report", "subjectType": "check", "requirements": ["A"]},
+                            {"id": "unknown", "subjectType": "report", "requirements": ["Z"]}]}
+    assert rerun.section10_selection(manifest) == {"in"}
+
+
+def test_r3_v01_refuses_without_the_r3_rerun(tmp_path: Path) -> None:
+    w = tmp_path / "R3-v01"
+    w.mkdir()
+    with pytest.raises(rerun.Refused, match="run R3 first"):
+        rerun.row_r3_v01(w, w / "log.txt", rerun.ROWS["rows"]["R3-v01"])
