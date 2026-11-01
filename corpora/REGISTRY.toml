@@ -1,0 +1,793 @@
+# The corpus registry. One row per corpus; scripts/corpus-registry.py checks it
+# against corpora/REGISTRY.schema.json and the tree, and writes from it the
+# packaging block of pyproject.toml and the index in corpora/README.md.
+#
+# `id` is the published name: the command line's --corpus, the Action's
+# `corpus:` input, the wheel path agent_evidence_vectors/corpora/<id>/ and the
+# release digest list all carry it, so it never changes. `path` is where the
+# corpus lives in this repository and may move.
+
+registry_version = 1
+
+[build]
+package = { src = "packaging/agent_evidence_vectors", wheel = "agent_evidence_vectors" }
+exclude = ["**/__pycache__", "**/.build", "**/*.pyc"]
+# Source files the sdist carries besides the package, the data files and the corpora.
+sdist_extra = [
+    ".gitignore",
+    "interop/observed-code-digest-candidate",
+    "interop/observed-invocation-binding-candidate",
+    "README.md",
+    "docs/guides",
+    "docs/reference",
+    "DISTRIBUTION.md",
+    "LICENSE",
+    "CITATION.cff",
+]
+
+[[data]]
+src = "packaging/run_vectors.py"
+wheel = "run_vectors.py"
+purpose = "The rail, a single stdlib-only module. `sources` rewrites directory prefixes\nand leaves a single file where it is, so the rail is placed by name."
+
+[[data]]
+src = "spec/predicates/observed-effect.md"
+wheel = "corpora/spec/predicates/observed-effect.md"
+purpose = "The observed-effect predicate is normative for its corpus: the packaged reader\ncross-checks the manifest's predicateType against the Type URI line at\n<corpus>/../spec/predicates/."
+
+[[data]]
+src = "spec/schemas/observed-effect-code-digest-v0.5.schema.json"
+wheel = "corpora/spec/schemas/observed-effect-code-digest-v0.5.schema.json"
+purpose = "Read by the observed-effect reader beside its predicate."
+
+[[data]]
+src = "spec/schemas/observed-effect-invocation-binding-v0.9.schema.json"
+wheel = "corpora/spec/schemas/observed-effect-invocation-binding-v0.9.schema.json"
+purpose = "Read by the observed-effect reader beside its predicate."
+
+[[data]]
+src = "spec/self-reported-record/v1.md"
+wheel = "corpora/spec/self-reported-record/v1.md"
+purpose = "The self-reported-record reader checks its corpus against this vendored contract."
+
+[[data]]
+src = "docs/proposals/ai-generation-v01-findings.md"
+wheel = "corpora/docs/proposals/ai-generation-v01-findings.md"
+purpose = "The directory readers check each corpus's recorded criteria against these\nsource documents, at their repository-relative paths beside the corpora."
+
+[[data]]
+src = "docs/INTEROP-EVIDENCE.md"
+wheel = "corpora/docs/INTEROP-EVIDENCE.md"
+purpose = "A source document a directory reader checks recorded criteria against."
+
+[[data]]
+src = "docs/mcp-response-phase.md"
+wheel = "corpora/docs/mcp-response-phase.md"
+purpose = "A source document a directory reader checks recorded criteria against."
+
+[[data]]
+src = "corpora/jcs-byte-vectors/cases.json"
+wheel = "corpora/corpora/jcs-byte-vectors/cases.json"
+purpose = "The RFC 8785 byte cases an SDK's CI reads after `pip install\nagent-evidence-vectors==X`, at this exact wheel path, which\nrun_vectors.jcs_byte_vectors_path() resolves. The path is a published pin."
+
+[[data]]
+src = "corpora/jcs-byte-vectors/README.md"
+wheel = "corpora/corpora/jcs-byte-vectors/README.md"
+purpose = "The README beside the RFC 8785 byte cases, at the same pinned wheel path."
+
+[[data]]
+src = "spec/predicates/adversarial-execution-evidence.md"
+wheel = "corpora/spec/predicates/adversarial-execution-evidence.md"
+purpose = "The admission corpus's conditions each quote the sentence they rest on, and\nboth readers refuse a quotation the cited file no longer carries."
+
+[[data]]
+src = "spec/v1/statement.md"
+wheel = "corpora/spec/v1/statement.md"
+purpose = "Quoted by the admission corpus's conditions."
+
+[[data]]
+src = "spec/predicates/adversarial-execution-evidence/verification.md"
+wheel = "corpora/spec/predicates/adversarial-execution-evidence/verification.md"
+purpose = "Quoted by the admission corpus's conditions."
+
+[[data]]
+src = "profiles/restoration-evidence.md"
+wheel = "corpora/profiles/restoration-evidence.md"
+purpose = "The restart-records reader checks its corpus against these vendored documents."
+
+[[data]]
+src = "spec/predicates/incident-action-authorization.md"
+wheel = "corpora/spec/predicates/incident-action-authorization.md"
+purpose = "Vendored for the restart-records reader."
+
+[[data]]
+src = "spec/predicates/joint-authority.md"
+wheel = "corpora/spec/predicates/joint-authority.md"
+purpose = "Vendored for the restart-records reader."
+
+[[data]]
+src = "spec/predicates/re-enable-decision.md"
+wheel = "corpora/spec/predicates/re-enable-decision.md"
+purpose = "Vendored for the restart-records reader."
+
+[[data]]
+src = "spec/predicates/revocation-boundary.md"
+wheel = "corpora/spec/predicates/revocation-boundary.md"
+purpose = "Vendored for the restart-records reader."
+
+[[data]]
+src = "spec/predicates/revocation-sweep.md"
+wheel = "corpora/spec/predicates/revocation-sweep.md"
+purpose = "Vendored for the restart-records reader."
+
+[[corpus]]
+id = "vectors"
+path = "vectors"
+wheel = true
+sdist = true
+title = "Execution evidence statements"
+summary = "A verifier must accept valid adversarial execution evidence statements, refuse tampered, forged or mis-bound ones, and report the right result and evidence tier."
+record_class = "execution-evidence"
+domains = ["effects", "provenance"]
+standards = ["in-toto"]
+shapes = ["tampering", "forged-signature", "missing-binding"]
+
+[[corpus]]
+id = "vectors-a2a-jcs-v01"
+path = "vectors-a2a-jcs-v01"
+wheel = true
+sdist = true
+title = "Agent Card canonicalization"
+summary = "A canonicalizer must emit the exact RFC 8785 bytes of an A2A Agent Card with signatures excluded, and refuse inputs that cannot be canonicalized."
+record_class = "canonicalization"
+domains = ["canonicalization", "agent-protocols"]
+standards = ["a2a", "rfc8785"]
+shapes = ["malformed-input", "ordering"]
+
+[[corpus]]
+id = "vectors-aci"
+path = "vectors-aci"
+wheel = true
+sdist = true
+title = "Agent deployment manifests"
+summary = "A verifier must accept a deployment whose published manifests, discovery chain and trust fields meet ACI v0.9, and refuse one that breaks a MUST."
+record_class = "record"
+domains = ["agent-protocols", "identity"]
+standards = []
+shapes = ["missing-binding", "malformed-input", "coverage-gap"]
+
+[[corpus]]
+id = "vectors-acs-core"
+path = "vectors-acs-core"
+wheel = true
+sdist = true
+title = "Agent control standard core"
+summary = "An implementation must refuse correctly signed but out-of-mandate, replayed, expired or unapproved agent actions and accept their lawful twins."
+record_class = "policy"
+domains = ["authority", "approval", "agent-protocols"]
+standards = ["owasp"]
+shapes = ["scope-overreach", "replay", "stale-authority"]
+
+[[corpus]]
+id = "vectors-admission"
+path = "vectors-admission"
+wheel = true
+sdist = true
+title = "Admission under consumer policy"
+summary = "A verifier must report success for an execution evidence statement only when the consumer's pinned policy admits it, never on a bare pass."
+record_class = "policy"
+domains = ["provenance", "authority"]
+standards = ["in-toto"]
+shapes = ["missing-binding", "self-report"]
+
+[[corpus]]
+id = "vectors-agent-audit-record"
+path = "vectors-agent-audit-record"
+wheel = true
+sdist = true
+title = "Agent audit records"
+summary = "A verifier must accept audit records that follow the draft's rules and refuse forged, reordered, replayed or wrongly anchored ones."
+record_class = "record"
+domains = ["provenance", "transparency", "delegation"]
+standards = ["ietf-draft", "in-toto", "rfc8785"]
+shapes = ["broken-chain", "forged-signature", "replay"]
+
+[[corpus]]
+id = "vectors-agent-card-receipt"
+path = "vectors-agent-card-receipt"
+wheel = true
+sdist = true
+title = "Agent Card receipts"
+summary = "A verifier must accept a receipt only when it names the card by its RFC 8785 digest, is inside its window and is not revoked."
+record_class = "receipt"
+domains = ["identity", "provenance"]
+standards = ["a2a", "rfc8785"]
+shapes = ["missing-binding", "stale-authority"]
+
+[[corpus]]
+id = "vectors-agent-change-admission"
+path = "vectors-agent-change-admission"
+wheel = true
+sdist = true
+title = "Agent harness change admission"
+summary = "A verifier must refuse a signed decision admitting a harness change when its evaluator, reports, gates or exceptions do not check out."
+record_class = "record"
+domains = ["approval", "provenance"]
+standards = ["in-toto"]
+shapes = ["missing-binding", "forged-signature", "coverage-gap"]
+
+[[corpus]]
+id = "vectors-agent-decision"
+path = "vectors-agent-decision"
+wheel = true
+sdist = true
+title = "Tool-call argument hashes"
+summary = "A verifier must compute args_hash over RFC 8785 bytes and keep recorded, redacted, unavailable and unrecorded argument states distinct."
+record_class = "record"
+domains = ["canonicalization", "provenance"]
+standards = ["in-toto", "rfc8785"]
+shapes = ["malformed-input", "tampering"]
+
+[[corpus]]
+id = "vectors-agent-payment-mandate"
+path = "vectors-agent-payment-mandate"
+wheel = true
+sdist = true
+title = "Agent payment dispute packs"
+summary = "A reader must accept an agent-initiated payment only when the signed mandate, presented credential, charge and receipt recompute to the same digests."
+record_class = "record"
+domains = ["payments", "authority"]
+standards = ["ap2"]
+shapes = ["missing-binding", "tampering", "scope-overreach"]
+
+[[corpus]]
+id = "vectors-agentic-process-evidence"
+path = "vectors-agentic-process-evidence"
+wheel = true
+sdist = true
+title = "Agentic process evidence"
+summary = "A verifier must accept a signed record of an agentic process only after envelope, key, statement and field checks pass, naming the first failure."
+record_class = "record"
+domains = ["provenance", "identity"]
+standards = ["in-toto"]
+shapes = ["forged-signature", "malformed-input"]
+
+[[corpus]]
+id = "vectors-aggregate-accounting"
+path = "vectors-aggregate-accounting"
+wheel = true
+sdist = true
+title = "Shared budget accounting"
+summary = "An accounting authority must admit requests atomically against one budget shared by a principal and its delegation subtrees, keeping unknown outcomes charged."
+record_class = "record"
+domains = ["delegation", "authority"]
+standards = []
+shapes = ["scope-overreach", "uncertainty", "race-condition"]
+
+[[corpus]]
+id = "vectors-ai-agent-action"
+path = "vectors-ai-agent-action"
+wheel = true
+sdist = true
+title = "AI agent action records"
+summary = "A verifier must accept AI Agent Action statements that follow the proposed predicate text and refuse chain breaks and canonicalization faults."
+record_class = "record"
+domains = ["provenance", "effects", "canonicalization"]
+standards = ["in-toto", "rfc8785"]
+shapes = ["broken-chain", "malformed-input", "tampering"]
+
+[[corpus]]
+id = "vectors-ai-generation"
+path = "vectors-ai-generation"
+wheel = true
+sdist = true
+title = "AI generation attestations"
+summary = "A verifier must recompute artifact digests and signatures and read AI or human attribution from the predicate, refusing tampered or mismatched statements."
+record_class = "record"
+domains = ["provenance", "model-governance"]
+standards = ["in-toto"]
+shapes = ["tampering", "forged-signature", "missing-binding"]
+
+[[corpus]]
+id = "vectors-anchor-stream"
+path = "vectors-anchor-stream"
+wheel = true
+sdist = true
+title = "Anchor stream verification"
+summary = "A verifier must accept an append-only anchor stream and its digest sidecar only when each line digest covers the stored bytes."
+record_class = "chain"
+domains = ["transparency", "provenance"]
+standards = []
+shapes = ["tampering", "broken-chain", "ordering"]
+
+[[corpus]]
+id = "vectors-anchored-chain"
+path = "vectors-anchored-chain"
+wheel = true
+sdist = true
+title = "Anchored memory record chains"
+summary = "A verifier must refuse deleted, reordered, replayed or rolled-back signed memory records even when every signature verifies, using chain links and the outside anchor."
+record_class = "chain"
+domains = ["provenance", "transparency"]
+standards = ["ietf-draft"]
+shapes = ["broken-chain", "replay", "tampering"]
+
+[[corpus]]
+id = "vectors-approval-binding"
+path = "vectors-approval-binding"
+wheel = true
+sdist = true
+title = "Approval binding"
+summary = "A verifier must allow an approval only for the exact use it covers, refusing reused identifiers, changed payloads, wrong principals and consumed or expired approvals."
+record_class = "record"
+domains = ["approval", "authority"]
+standards = []
+shapes = ["missing-binding", "replay", "stale-authority"]
+
+[[corpus]]
+id = "vectors-artifact-binding"
+path = "vectors-artifact-binding"
+wheel = true
+sdist = true
+title = "Evaluation artifact binding"
+summary = "A verifier must answer verified, failed or not-established for a signed binding of an evaluation to saved inputs, never reading missing material as a pass."
+record_class = "record"
+domains = ["provenance", "grading"]
+standards = []
+shapes = ["missing-binding", "tampering", "coverage-gap"]
+
+[[corpus]]
+id = "vectors-authority-at-dispatch"
+path = "vectors-authority-at-dispatch"
+wheel = true
+sdist = true
+title = "Authority at dispatch"
+summary = "A verifier must deny a dispatch when the delegated authority behind it was revoked, stale or out of scope, even for the approved bytes."
+record_class = "record"
+domains = ["authority", "delegation"]
+standards = []
+shapes = ["stale-authority", "scope-overreach", "missing-binding"]
+
+[[corpus]]
+id = "vectors-badge-vc-verify"
+path = "vectors-badge-vc-verify"
+wheel = true
+sdist = true
+title = "Agent badge credentials"
+summary = "A verifier must accept an agent badge issued as a W3C Verifiable Credential only for a trusted issuer, bound key, valid window and unrevoked status."
+record_class = "credential"
+domains = ["identity", "authority"]
+standards = ["w3c"]
+shapes = ["forged-signature", "stale-authority"]
+
+[[corpus]]
+id = "vectors-chunked-export"
+path = "vectors-chunked-export"
+wheel = true
+sdist = true
+title = "Chunked export gating"
+summary = "An export gate must deny a chunk that lets the recipient reconstruct a flagged dataset, though each chunk is reversible on its own."
+record_class = "record"
+domains = ["effects", "export"]
+standards = []
+shapes = ["scope-overreach", "coverage-gap"]
+
+[[corpus]]
+id = "vectors-completion-confirmation"
+path = "vectors-completion-confirmation"
+wheel = true
+sdist = true
+title = "Completion confirmation"
+summary = "A verifier must accept a completion claim only when an independent, unused confirmation bound to the task and arguments shows a committed outcome."
+record_class = "record"
+domains = ["completion", "effects"]
+standards = ["owasp"]
+shapes = ["self-report", "missing-binding", "replay"]
+
+[[corpus]]
+id = "vectors-connector-scope"
+path = "vectors-connector-scope"
+wheel = true
+sdist = true
+title = "Connector scope records"
+summary = "A verifier must accept connector scope records only when reads and changes stay inside the granted scope, and refuse out-of-scope or malformed ones."
+record_class = "record"
+domains = ["authority", "effects"]
+standards = []
+shapes = ["scope-overreach", "malformed-input"]
+
+[[corpus]]
+id = "vectors-converted-argument-binding"
+path = "vectors-converted-argument-binding"
+wheel = true
+sdist = true
+title = "Converted argument binding"
+summary = "A verifier must allow a tool call only when the arguments shown to the approver, approved, rebuilt and executed are identical under RFC 8785."
+record_class = "record"
+domains = ["approval", "canonicalization", "effects"]
+standards = ["rfc8785"]
+shapes = ["missing-binding", "tampering"]
+
+[[corpus]]
+id = "vectors-credential-release"
+path = "vectors-credential-release"
+wheel = true
+sdist = true
+title = "Credential release"
+summary = "A verifier must accept a credential release only against a current passing agent-card receipt, with audience, scope and lifetime inside the receipt."
+record_class = "record"
+domains = ["authority", "identity"]
+standards = ["a2a"]
+shapes = ["stale-authority", "scope-overreach", "missing-binding"]
+
+[[corpus]]
+id = "vectors-delegation-lifecycle"
+path = "vectors-delegation-lifecycle"
+wheel = true
+sdist = true
+title = "Delegation lifecycle"
+summary = "A verifier must decide whether a presenter still holds delegated authority after revocation, dispute, re-registration, key recovery or a parent agent's end."
+record_class = "record"
+domains = ["delegation", "identity", "authority"]
+standards = []
+shapes = ["stale-authority", "broken-chain", "uncertainty"]
+
+[[corpus]]
+id = "vectors-delegator-right"
+path = "vectors-delegator-right"
+wheel = true
+sdist = true
+title = "Delegator rights"
+summary = "A verifier must deny a delegated request that exceeds the rights its delegators held, including entitlements removed at the source or ancestor grants narrowed."
+record_class = "record"
+domains = ["delegation", "authority"]
+standards = ["owasp"]
+shapes = ["scope-overreach", "stale-authority"]
+
+[[corpus]]
+id = "vectors-dependency-selection"
+path = "vectors-dependency-selection"
+wheel = true
+sdist = true
+title = "AI-assisted dependency changes"
+summary = "A verifier must accept a signed record of an AI-assisted dependency change only when it covers the required roles, refusing missing or altered material."
+record_class = "record"
+domains = ["provenance", "effects"]
+standards = []
+shapes = ["missing-binding", "tampering", "coverage-gap"]
+
+[[corpus]]
+id = "vectors-dispatch-fence"
+path = "vectors-dispatch-fence"
+wheel = true
+sdist = true
+title = "Exclusive dispatch fence"
+summary = "A verifier must deny an exclusive dispatch whose check and fence read different state, or whose hold lapses before the tool run finishes."
+record_class = "record"
+domains = ["effects", "authority"]
+standards = []
+shapes = ["race-condition", "stale-authority", "missing-binding"]
+
+[[corpus]]
+id = "vectors-done-contract"
+path = "vectors-done-contract"
+wheel = true
+sdist = true
+title = "Done contracts"
+summary = "A verifier must accept a sealed contract for a coding agent's task and refuse an invalid one for each rule of the record and statement."
+record_class = "contract"
+domains = ["completion", "grading"]
+standards = ["in-toto"]
+shapes = ["malformed-input", "tampering"]
+
+[[corpus]]
+id = "vectors-done-probes"
+path = "vectors-done-probes"
+wheel = true
+sdist = true
+title = "Grader probes and detectors"
+summary = "A grader's import probe, in-process twin and visible-test detectors must yield the declared outcome and integrity verdicts, including honest divergences."
+record_class = "report"
+domains = ["grading", "completion"]
+standards = []
+shapes = ["wrong-grade", "tampering"]
+
+[[corpus]]
+id = "vectors-done-receipt"
+path = "vectors-done-receipt"
+wheel = true
+sdist = true
+title = "Done receipts"
+summary = "A verifier must derive two verdicts for a coding agent's run, task outcome and run integrity, and refuse forged receipts and broken records."
+record_class = "receipt"
+domains = ["completion", "grading"]
+standards = []
+shapes = ["wrong-grade", "forged-signature", "self-report"]
+
+[[corpus]]
+id = "vectors-grade-floor"
+path = "vectors-grade-floor"
+wheel = true
+sdist = true
+title = "Evidence grade floor"
+summary = "A reader must derive the E0 to E4 evidence grade from what the record shows, never raising it on producer-declared grades or integrity flags."
+record_class = "report"
+domains = ["grading", "provenance"]
+standards = []
+shapes = ["wrong-grade", "self-report"]
+
+[[corpus]]
+id = "vectors-grader-isolation"
+path = "vectors-grader-isolation"
+wheel = true
+sdist = true
+title = "Grader isolation"
+summary = "A verifier must refuse grades when the agent planted result files or interpreter hooks, edited the sealed surface, or graded another tree or contract."
+record_class = "receipt"
+domains = ["grading", "completion"]
+standards = []
+shapes = ["tampering", "wrong-grade", "missing-binding"]
+
+[[corpus]]
+id = "vectors-identity-binding"
+path = "vectors-identity-binding"
+wheel = true
+sdist = true
+title = "DID identity binding"
+summary = "A verifier must accept an agent record only when its signing key is bound to the did:web or did:wba subject by the resolved DID document."
+record_class = "record"
+domains = ["identity", "provenance"]
+standards = ["did"]
+shapes = ["missing-binding", "forged-signature"]
+
+[[corpus]]
+id = "vectors-ietf-agent-record-drafts"
+path = "vectors-ietf-agent-record-drafts"
+wheel = true
+sdist = true
+title = "SCITT agent record drafts"
+summary = "A verifier must apply three SCITT-wave drafts: an agent interaction hash chain, checkpoint registration, and stable statement identification across equivalent encodings."
+record_class = "chain"
+domains = ["transparency", "provenance"]
+standards = ["ietf-draft", "scitt-cose"]
+shapes = ["broken-chain", "forged-signature", "malformed-input"]
+
+[[corpus]]
+id = "vectors-mcp-owasp"
+path = "vectors-mcp-owasp"
+wheel = true
+sdist = true
+title = "MCP verification requirements"
+summary = "Each draft MCP verification requirement has an accepting and a rejecting observation, so a verifier cannot pass by refusing everything."
+record_class = "report"
+domains = ["agent-protocols", "authority", "provenance"]
+standards = ["mcp", "owasp"]
+shapes = ["tampering", "scope-overreach", "missing-binding"]
+
+[[corpus]]
+id = "vectors-mcp-record-contract"
+path = "vectors-mcp-record-contract"
+wheel = true
+sdist = true
+title = "Cross-run record contract"
+summary = "A checker must tell whether a cross-implementation run record is recheckable, whether its headline matches its counting rule, and how independent it is."
+record_class = "record"
+domains = ["provenance", "grading"]
+standards = ["mcp"]
+shapes = ["self-report", "missing-binding"]
+
+[[corpus]]
+id = "vectors-mcp-response-phase"
+path = "vectors-mcp-response-phase"
+wheel = true
+sdist = true
+title = "MCP response-phase interception"
+summary = "A gateway must run its response-phase policy on an MCP operation's completion and let the decision govern what the caller receives."
+record_class = "policy"
+domains = ["agent-protocols", "effects"]
+standards = ["mcp"]
+shapes = ["coverage-gap", "ordering"]
+
+[[corpus]]
+id = "vectors-oasf-record"
+path = "vectors-oasf-record"
+wheel = true
+sdist = true
+title = "OASF records"
+summary = "A verifier must accept an OASF record only when its digest is the RFC 8785 digest of the record and the signature comes from the signer the consumer's policy names."
+record_class = "record"
+domains = ["provenance", "identity", "canonicalization"]
+standards = ["rfc8785"]
+shapes = ["tampering", "missing-binding"]
+
+[[corpus]]
+id = "vectors-observed-effect"
+path = "vectors-observed-effect"
+wheel = true
+sdist = true
+title = "Observed effects"
+summary = "A verifier must accept a signed observation of a system change only when observer, prior commitment and carried values agree, refusing mutations and forgeries."
+record_class = "execution-evidence"
+domains = ["effects", "provenance"]
+standards = ["in-toto"]
+shapes = ["forged-signature", "tampering", "missing-binding"]
+
+[[corpus]]
+id = "vectors-open-weight-art53"
+path = "vectors-open-weight-art53"
+wheel = true
+sdist = true
+title = "Open-weight release exemption"
+summary = "A checker must decide whether a model release record evidences the Article 53(2) open-source conditions: exempt, not exempt or not established."
+record_class = "record"
+domains = ["model-governance"]
+standards = ["eu-ai-act"]
+shapes = ["coverage-gap", "uncertainty"]
+
+[[corpus]]
+id = "vectors-receipt-chain-end"
+path = "vectors-receipt-chain-end"
+wheel = true
+sdist = true
+title = "Receipt chain end"
+summary = "A verifier must tell a complete signed receipt chain from a valid prefix or a truncated one, using session close, rotation endorsement and retained heads."
+record_class = "chain"
+domains = ["provenance", "transparency"]
+standards = []
+shapes = ["broken-chain", "coverage-gap"]
+
+[[corpus]]
+id = "vectors-receipt-signature"
+path = "vectors-receipt-signature"
+wheel = true
+sdist = true
+title = "Receipt signatures"
+summary = "A verifier holding an external key set must reject decision receipts whose signature, JCS signing input or key validity window does not check out."
+record_class = "receipt"
+domains = ["provenance", "canonicalization"]
+standards = ["ietf-draft", "rfc8785"]
+shapes = ["forged-signature", "stale-authority"]
+
+[[corpus]]
+id = "vectors-recorded"
+path = "vectors-recorded"
+wheel = true
+sdist = true
+title = "Recorded byte sets"
+summary = "A checker must verify that bytes recorded from a live run still match the digest list their publisher released, naming every failing code."
+record_class = "record"
+domains = ["provenance"]
+standards = []
+shapes = ["tampering", "malformed-input", "coverage-gap"]
+
+[[corpus]]
+id = "vectors-refund-connected"
+path = "vectors-refund-connected"
+wheel = true
+sdist = true
+title = "Connected refund pilot runs"
+summary = "A reader must re-derive six verdicts per case from retained refund runs without opening the recorded results, and judge the observed effect."
+record_class = "execution-evidence"
+domains = ["payments", "effects", "approval"]
+standards = []
+shapes = ["self-report", "missing-binding"]
+
+[[corpus]]
+id = "vectors-restart-records"
+path = "vectors-restart-records"
+wheel = true
+sdist = true
+title = "Restart and restoration records"
+summary = "A checker must apply every rule of the restoration evidence profile to records of who stopped an agent system, revoked credentials and approved restart."
+record_class = "record"
+domains = ["authority", "approval"]
+standards = ["in-toto"]
+shapes = ["missing-binding", "malformed-input", "stale-authority"]
+
+[[corpus]]
+id = "vectors-scitt-cose"
+path = "vectors-scitt-cose"
+wheel = true
+sdist = true
+title = "SCITT COSE carriage"
+summary = "A verifier must check the COSE_Sign1 statement, its CWT claims and the RFC 9942 receipt offline, refusing any that do not hold together."
+record_class = "receipt"
+domains = ["transparency", "provenance"]
+standards = ["scitt-cose", "in-toto"]
+shapes = ["forged-signature", "malformed-input", "missing-binding"]
+
+[[corpus]]
+id = "vectors-self-reported-record"
+path = "vectors-self-reported-record"
+wheel = true
+sdist = true
+title = "Self-reported agent records"
+summary = "A verifier must refuse a record an agent runtime keeps about itself unless the attesting key and substrate coverage sit outside the runtime's reach."
+record_class = "record"
+domains = ["provenance", "identity"]
+standards = []
+shapes = ["self-report", "forged-signature", "coverage-gap"]
+
+[[corpus]]
+id = "vectors-source-coverage"
+path = "vectors-source-coverage"
+wheel = true
+sdist = true
+title = "Source passage coverage"
+summary = "A verifier must support a report's selected source passages only when the bound source capture and report contain them within the consumer's window."
+record_class = "report"
+domains = ["provenance", "grading"]
+standards = []
+shapes = ["tampering", "coverage-gap"]
+
+[[corpus]]
+id = "vectors-spoofed-tool-output"
+path = "vectors-spoofed-tool-output"
+wheel = true
+sdist = true
+title = "Spoofed tool output"
+summary = "A verifier must compare an agent's claimed tool runs and completion against the observer's record, catching output printed without the run."
+record_class = "execution-evidence"
+domains = ["effects", "completion", "grading"]
+standards = []
+shapes = ["self-report", "tampering"]
+
+[[corpus]]
+id = "vectors-test-tampering"
+path = "vectors-test-tampering"
+wheel = true
+sdist = true
+title = "Test tampering"
+summary = "A verifier must detect edits to files an agent is judged by, including edit-and-restore, links in the final tree and changes visible only there."
+record_class = "execution-evidence"
+domains = ["grading", "completion"]
+standards = []
+shapes = ["tampering", "coverage-gap"]
+
+[[corpus]]
+id = "vectors-trace-anchor"
+path = "vectors-trace-anchor"
+wheel = true
+sdist = true
+title = "TRACE registry anchors"
+summary = "A Level 2 verifier must judge a receipt against its registry entry, refusing entry-binding failures, self-anchored receipts and lying receipt fields."
+record_class = "receipt"
+domains = ["transparency", "provenance"]
+standards = []
+shapes = ["missing-binding", "self-report", "tampering"]
+
+[[corpus]]
+id = "vectors-uncertain-effect"
+path = "vectors-uncertain-effect"
+wheel = true
+sdist = true
+title = "Uncertain effects"
+summary = "A runtime must treat an operation with a lost reply as unknown, never repeating it or releasing held capacity until the effect owner settles it."
+record_class = "record"
+domains = ["effects", "completion"]
+standards = []
+shapes = ["uncertainty", "replay"]
+
+[[corpus]]
+id = "vectors-w3c-intake"
+path = "vectors-w3c-intake"
+wheel = true
+sdist = true
+title = "W3C intake criteria"
+summary = "A reader must admit a submitted conformance result only when it meets each pinned intake criterion, refusing each rejection ground and accepting its twin."
+record_class = "record"
+domains = ["grading", "provenance"]
+standards = ["w3c", "rfc8785"]
+shapes = ["missing-binding", "coverage-gap"]
+
+[[corpus]]
+id = "vectors-w3c-report"
+path = "vectors-w3c-report"
+wheel = true
+sdist = true
+title = "W3C per-check reports"
+summary = "A validator must reject conformance reports that break the v0.1 per-check format: states without causes, bad evidence objects, or disagreeing digests and roll-ups."
+record_class = "report"
+domains = ["grading", "provenance"]
+standards = ["w3c", "ietf-draft", "rfc8785"]
+shapes = ["malformed-input", "wrong-grade"]

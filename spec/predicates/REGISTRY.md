@@ -173,6 +173,23 @@ For one declared sink and test window, whether an effect from a task in flight c
 - Status: current. The URI will not move, because a record carries it inside
   the bytes its producer signed.
 
+### `predicate/v2/agent-audit-record`
+
+- Document: Section 8 of the Internet-Draft
+  `draft-gilda-audit-agent-audit-record-03`,
+  <https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/03/>,
+  which publishes this URI as the `v1` URI read as `v2`. It is not vendored here.
+- Envelope: as `predicate/v1/agent-audit-record`.
+- Predicate body: the members of Section 5 of revision 03, with the closed set
+  of Section 5.4 extended by the input `principal-standing-source`. A record
+  carrying that input is malformed under the `v1` URI; every other rule is the
+  same under both.
+- Corpus: rows `PS1` and `PS2` of Appendix B of revision 03, marked there for
+  the next release of `vectors-agent-audit-record/`; no released member carries
+  this URI yet.
+- Status: current. The URI will not move, because a record carries it inside
+  the bytes its producer signed.
+
 ### `predicate/v1/govops-trace-record`
 
 - Predicate body: one GovOps TRACE record (`eat_profile`
@@ -258,8 +275,10 @@ Types defined in this directory with a URI under
 `https://w3id.org/agent-evidence/predicate/v1/` are served from a persistent identifier
 namespace that is not this repository. The site build here publishes no page for
 them, and the scan in `scripts/predicate-uri-gate.py` does not cover that host.
-Each document is the authority for its type until the human-readable pages are
-live, and no signed statement carries any of these URIs before then.
+`scripts/build_predicate_pages.py` writes their pages under `pages/predicate/v1/`,
+the organisation Pages site serves those pages at the targets of the w3id.org
+rules, and `scripts/check_uris_resolve.py --network` requests every one of them
+each day. Each document is the authority for its type.
 
 - `done-contract`: `spec/predicates/done-contract.md`, corpus `vectors-done-contract/`.
 - `done-receipt`: `spec/predicates/done-receipt.md`, corpora `vectors-done-receipt/`,

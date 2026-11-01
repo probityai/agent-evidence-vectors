@@ -25,7 +25,15 @@ PAGES = ROOT / "pages"
 TYPE_BASE = "https://w3id.org/agent-evidence/predicate/v1/"
 SPEC_REPO = "https://github.com/probityai/agent-evidence-vectors"
 # The predicates this site defines, by URI name, and the specification file of each.
-PREDICATES = {"done-contract": "done-contract.md", "done-receipt": "done-receipt.md"}
+PREDICATES = {"agent-card-receipt": "agent-card-receipt.md", "credential-release": "credential-release.md",
+              "done-contract": "done-contract.md", "done-receipt": "done-receipt.md"}
+# The record format every page cites: the in-toto Statement in a DSSE envelope of Section 4.
+AUDIT_RECORD = "https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/03/"
+AUDIT_RECORD_CITE = (f'Record format: <a href="{AUDIT_RECORD}">draft-gilda-audit-agent-audit-record-03</a>, '
+                     "Section 4 (an in-toto Statement carried in a DSSE envelope).")
+# Types whose URI is under the agent-evidence-vectors host, read from its registry.
+VECTORS_TYPES = "https://probityai.github.io/agent-evidence-vectors/predicate/"
+REGISTRY_HEADING = re.compile(r"^### `predicate/(v\d+)/([a-z0-9-]+)`$", re.MULTILINE)
 STYLE = """:root{color-scheme:light dark;--page:#f6f8fb;--surface:#fff;--ink:#14202e;--body:#33404f;\
 --link:#1f4fd1;--rule:#cfd8e3;font-family:system-ui,sans-serif;color:var(--ink);background:var(--page)}
 @media (prefers-color-scheme:dark){:root{--page:#10151b;--surface:#18202a;--ink:#e8edf3;--body:#c3ccd6;\
@@ -89,7 +97,7 @@ def build(spec_dir: Path, commit: str) -> dict[str, str]:
         source_sha = hashlib.sha256(source.encode("utf-8")).hexdigest()
         footer = (f'Built from <a href="{source_url}">spec/predicates/{filename}</a> '
                   f"(SHA-256 <code>{source_sha}</code>). The type URI is <code>{uri}</code>; it does "
-                  "not change once a signed statement carries it.")
+                  f"not change once a signed statement carries it. {AUDIT_RECORD_CITE}")
         page = _page(title, uri, f"Type URI, schema and rules of the {title.split(': ')[-1]} in-toto "
                      "predicate.", _render(source, commit), footer)
         out = PAGES / "predicate" / "v1" / name / "index.html"
@@ -97,11 +105,21 @@ def build(spec_dir: Path, commit: str) -> dict[str, str]:
         out.write_text(page, encoding="utf-8")
         digests[name] = hashlib.sha256(page.encode("utf-8")).hexdigest()
         rows.append(f'<li><a href="{name}/"><code>{uri}</code></a>: {html.escape(title)}</li>')
+    registry = (spec_dir / "REGISTRY.md").read_text(encoding="utf-8")
+    hosted = [f'<li><a href="{VECTORS_TYPES}{v}/{n}"><code>{VECTORS_TYPES}{v}/{n}</code></a></li>'
+              for v, n in REGISTRY_HEADING.findall(registry)]
+    if not hosted:
+        raise SystemExit("REGISTRY.md registers no type URI under the agent-evidence-vectors host")
     listing = ("<h1>Predicate types, version 1</h1>\n<p>Each type URI below is a persistent identifier "
-               "that redirects to its page here.</p>\n<ul>\n" + "\n".join(rows) + "\n</ul>")
+               "that redirects to its page here.</p>\n<ul>\n" + "\n".join(rows) + "\n</ul>\n"
+               "<h2>Types under the agent-evidence-vectors host</h2>\n<p>These type URIs were minted "
+               "under the host that serves them and are never rewritten to this namespace; each answers "
+               f'with its own page. The list is <a href="{SPEC_REPO}/blob/{commit}/spec/predicates/REGISTRY.md">'
+               "spec/predicates/REGISTRY.md</a>.</p>\n<ul>\n" + "\n".join(hosted) + "\n</ul>\n"
+               f"<p>{AUDIT_RECORD_CITE}</p>")
     (PAGES / "predicate" / "v1" / "index.html").write_text(
         _page("Agent Evidence predicate types", TYPE_BASE, "The in-toto predicate types of Agent Evidence.",
-              listing, "Agent Evidence predicate types."), encoding="utf-8")
+              listing, f"Agent Evidence predicate types. {AUDIT_RECORD_CITE}"), encoding="utf-8")
     (PAGES / "index.html").write_text(
         _page("Agent Evidence", "https://w3id.org/agent-evidence/", "Persistent identifiers of Agent Evidence.",
               '<h1>Agent Evidence</h1>\n<p>The pages behind the persistent identifiers under '

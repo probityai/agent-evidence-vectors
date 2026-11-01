@@ -111,3 +111,31 @@ def test_the_builder_refuses_to_drop_an_issued_term(monkeypatch: pytest.MonkeyPa
     monkeypatch.setattr(vocab_pages, "OUT", pages / "vocab" / "v1")
     assert vocab_pages.main([]) == 1
     assert (pages / "vocab" / "v1" / "retired_term" / "index.html").is_file()
+
+
+def test_every_vectors_host_type_uri_is_read_from_the_registry() -> None:
+    registry = (_ROOT / "spec" / "predicates" / "REGISTRY.md").read_text(encoding="utf-8")
+    found = uris.vectors_type_uris(registry)
+    assert "https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect" in found
+    assert "https://probityai.github.io/agent-evidence-vectors/predicate/v2/agent-audit-record" in found
+    assert len(found) == len(set(found)) == registry.count("\n### `predicate/")
+
+
+def test_a_target_maps_to_its_local_page() -> None:
+    base = uris.PAGES_BASE
+    assert uris.local_page(Path("p"), base + "predicate/v1/") == Path("p/predicate/v1/index.html")
+    name = "vocab/v1/registry/sha256-" + "0" * 64 + ".yaml"
+    assert uris.local_page(Path("p"), base + name) == Path("p") / name
+
+
+def test_a_down_control_stops_the_network_check(monkeypatch) -> None:
+    monkeypatch.setattr(uris, "control_answers", lambda: False)
+    monkeypatch.setattr(uris, "check_network", lambda *a, **k: pytest.fail("ran without a control"))
+    assert uris.main(["--network"]) == uris.INCONCLUSIVE
+
+
+def test_the_control_fails_on_any_non_200(monkeypatch) -> None:
+    monkeypatch.setattr(uris, "_get", lambda url: (404, b"") if "pages" in url else (200, b"x"))
+    assert uris.control_answers() is False
+    monkeypatch.setattr(uris, "_get", lambda url: (200, b"x"))
+    assert uris.control_answers() is True

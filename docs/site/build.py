@@ -408,6 +408,15 @@ PREDICATE_REGISTRY = REPO_ROOT / "spec" / "predicates" / "REGISTRY.md"
 # be the place that silently disagreed.
 PREDICATE_PATH_RE = re.compile(r"^### `predicate/(v\d+)/([a-z0-9-]+)`$", re.MULTILINE)
 
+PREDICATE_HOST = "https://probityai.github.io/agent-evidence-vectors/predicate/"
+
+# Every predicate page names the record format its types are carried in.
+AUDIT_RECORD_CITE = (
+    '<p class="record-format">Record format: <a href="https://datatracker.ietf.org/doc/'
+    'draft-gilda-audit-agent-audit-record/03/">draft-gilda-audit-agent-audit-record-03</a>, '
+    "Section 4 (an in-toto Statement carried in a DSSE envelope).</p>\n"
+)
+
 
 def predicate_uris() -> list[tuple[str, str]]:
     """The (version, name) pair of every registered type URI, in registry order."""
@@ -476,6 +485,20 @@ def predicate_pages(tag: str, routes: Mapping[Path, Path] | None = None) -> dict
     uris = predicate_uris()
     defined = defined_documents()
     pages: dict[Path, str] = {prefix: page("Predicate types", registry, tag, prefix)}
+    for version in sorted({v for v, _ in uris}):
+        listing = Path("predicate") / version / "index.html"
+        items = "\n".join(
+            f'<li><a href="{name}"><code>{PREDICATE_HOST}{version}/{name}</code></a></li>'
+            for v, name in uris
+            if v == version
+        )
+        body = (
+            f"<h1>Predicate types, {version}</h1>\n<p>Every type URI under "
+            f"<code>{PREDICATE_HOST}{version}/</code>, read from "
+            f'<a href="{relative_route(prefix, listing)}">the registry</a>.</p>\n'
+            f"<ul>\n{items}\n</ul>\n{AUDIT_RECORD_CITE}"
+        )
+        pages[listing] = page(f"Predicate types, {version}", body, tag, listing)
     for version, name in uris:
         document = defined.get((version, name))
         if document is not None:
@@ -488,7 +511,7 @@ def predicate_pages(tag: str, routes: Mapping[Path, Path] | None = None) -> dict
             Path("predicate") / version / f"{name}.html",
             Path("predicate") / version / name / "index.html",
         ):
-            body = render_markdown(source, relative, selected)
+            body = render_markdown(source, relative, selected) + AUDIT_RECORD_CITE
             pages[relative] = page(title, body, tag, relative)
     return pages
 
@@ -538,7 +561,11 @@ def canonical_route(path: Path) -> str | None:
         return path.as_posix()
     if path.name != "index.html":
         return path.with_suffix("").as_posix()
-    return "predicate/" if len(path.parts) == 2 else None
+    if len(path.parts) == 2:
+        return "predicate/"
+    if len(path.parts) == 3:
+        return f"predicate/{path.parts[1]}/"
+    return None
 
 
 def sitemap(paths: Iterable[Path]) -> bytes:

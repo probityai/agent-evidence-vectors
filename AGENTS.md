@@ -5,6 +5,9 @@ most often breaks here.
 
 - The pre-push hook runs only the push-time checks, and remote CI is the proof. To run every CI
   shell step locally first: `uv run --with pyyaml python scripts/workflow-steps-gate.py`.
+- A new or moved corpus is a row in `corpora/REGISTRY.toml`. Never edit the packaging block of
+  `pyproject.toml` or `corpora/README.md`; run `python3 scripts/corpus-registry.py`, which
+  writes both. A corpus id is a published name and never changes.
 - Never write or edit a vector file by hand. Change the generator in the corpus directory, then
   regenerate; `scripts/regenerability-gate.py` refuses a file no generator produces.
 - Never type a count into prose. Every published count is derived from a manifest, and
