@@ -1063,8 +1063,8 @@ func intakeAnchor(record map[string]any, f intakeFound) {
 	reference, refObj := iObj(iField(anchor, "reference"))
 	verdicts, verdictsObj := iObj(iField(anchor, "verdicts"))
 	ok := isObj && iIn(anchor["kind"], intakeAnchorKinds) && refObj && iStr(reference["uri"]) &&
-		intakeSafePath(reference["path"]) && iHex(anchor["sha256"], hex64) && iStr(anchor["manifest"]) &&
-		jsonEqual(anchor["manifest"], iField(record["manifest"], "path")) && verdictsObj
+		intakeSafePath(reference["path"]) && iHex(anchor["sha256"], hex64) &&
+		intakeNamesManifest(anchor["manifest"], iField(record["manifest"], "path")) && verdictsObj
 	for _, k := range intakeAnchorFailures {
 		if !iIn(verdicts[k], intakeAnchorVerdicts) {
 			ok = false
@@ -1075,6 +1075,16 @@ func intakeAnchor(record map[string]any, f intakeFound) {
 	} else if iEq(anchor["kind"], "signed-digest-list") && !intakeSignatureDeclared(anchor) {
 		f.add(22)
 	}
+}
+
+// intakeNamesManifest: the anchor names the manifest as the list does, the
+// record's path or a trailing path of it cut at a component boundary. A list
+// names files relative to its own base and a record relative to its root; a
+// name that matches only inside a component names no directory of the record's.
+func intakeNamesManifest(listed, path any) bool {
+	l, lok := listed.(string)
+	p, pok := path.(string)
+	return lok && pok && intakeSafePath(l) && (l == p || strings.HasSuffix(p, "/"+l))
 }
 
 func intakeBinds(line string, digest, manifest any) bool {
@@ -1112,9 +1122,10 @@ func intakeAnchorOnDisk(record map[string]any, root string, f intakeFound) {
 		f.add(24)
 		return
 	}
+	// The line names the manifest the list's way; the bytes are at the record's path.
 	var declared any
-	if iStr(manifest) {
-		if pinned, ok := intakeRead(root, manifest); ok {
+	if manifestPath := iField(record["manifest"], "path"); iStr(manifestPath) {
+		if pinned, ok := intakeRead(root, manifestPath); ok {
 			if document, err := intakeDecodeStrict(pinned); err == nil {
 				declared = iField(document, "corpusDigest")
 			}

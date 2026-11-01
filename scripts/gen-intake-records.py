@@ -627,12 +627,19 @@ def list_is_signed() -> bool:
         key, read(DIGESTS), signature)
 
 
-def anchor(directory: str, manifest_path: str, digest: str) -> dict[str, Any]:
+def anchor(directory: str, digest: str) -> dict[str, Any]:
+    """The digest-list line for this corpus, named the way the list names it.
+
+    The list's column is ``<id>/MANIFEST.json`` whatever directory the corpus
+    sits in (scripts/release-digests.py, pin P5), so the anchor carries that
+    name; the record's ``manifest.path`` carries the directory, and the intake
+    checker ties the two (W3C-I-022) and reads the bytes at the path.
+    """
     routine = owner(directory)
     out: dict[str, Any] = {
         "kind": "digest-list-line",
         "reference": {"uri": f"{REPOSITORY}/blob/main/{DIGESTS}", "path": DIGESTS},
-        "manifest": manifest_path,
+        "manifest": f"{directory}/MANIFEST.json",
         "sha256": digest,
         "serialization": "corpus-routine",
         "routine": f"corpus_digest in {routine}",
@@ -728,7 +735,7 @@ def record(
                    "process-status": {"exit-code": first.code}},
         "observations": observations,
         "artifacts": artifacts,
-        "anchor": anchor(directory, manifest_path, digest),
+        "anchor": anchor(directory, digest),
         "checker": checker(directory, runs),
         "specification-readers": specification_readers(directory),
         "non-author-runs": nonauthor,

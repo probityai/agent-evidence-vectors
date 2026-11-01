@@ -73,8 +73,14 @@ fields below are ours, each carrying a rule the group stated without a field:
   pin stays (``refused-by``). An artifact is consumed exactly when the two
   native results differ, so opening a file is not consuming it.
 - ``anchor.kind`` = ``digest-list-line`` (criterion 7): a line of a digest
-  list naming the corpus digest and the manifest path, the form
-  ``release/CORPUS-DIGESTS.txt`` takes. ``signed-digest-list`` is the same
+  list naming the corpus digest and the manifest, the form
+  ``release/CORPUS-DIGESTS.txt`` takes. ``anchor.manifest`` is the name the
+  list carries for the manifest: the record's ``manifest.path``, or a trailing
+  path of it cut at a component boundary, because a list names files relative
+  to its own base and a record relative to its root (``<id>/MANIFEST.json`` in
+  the list, ``corpora/<id>/MANIFEST.json`` in the record). The line is located
+  by that name and the manifest's bytes are read at ``manifest.path``.
+  ``signed-digest-list`` is the same
   line in a list that carries a detached signature: ``signature`` names the
   signature file, the public key file and its sha256, and the scheme
   (``ed25519``, RFC 8032 over the list's exact bytes, the signature base64 in
@@ -962,8 +968,7 @@ def _anchor(record: dict[str, Any], f: Findings) -> None:
         and _str(reference.get("uri"))
         and safe_path(reference.get("path"))
         and _hex(anchor.get("sha256"))
-        and _str(anchor.get("manifest"))
-        and anchor.get("manifest") == manifest_path
+        and _names_manifest(anchor.get("manifest"), manifest_path)
         and _obj(verdicts)
         and all(verdicts.get(k) in ANCHOR_VERDICTS for k in ANCHOR_FAILURES)
     )
@@ -983,6 +988,22 @@ def _signature_declared(anchor: dict[str, Any]) -> bool:
         and safe_path(signature.get("key"))
         and _hex(signature.get("key-sha256"))
         and signature.get("scheme") in SIGNATURE_SCHEMES
+    )
+
+
+def _names_manifest(listed: Any, path: Any) -> bool:
+    """The anchor names the manifest as the list does: the record's path, or a trailing path of it.
+
+    A digest list names files relative to its own base directory and a record
+    names them relative to its root, so the listed name is the record's path or
+    that path minus a leading directory, cut at a component boundary: a name
+    that matches only inside a component (``ite/MANIFEST.json`` against
+    ``corpora/suite/MANIFEST.json``) names no directory of the record's.
+    """
+    return (
+        safe_path(listed)
+        and isinstance(path, str)
+        and (listed == path or path.endswith("/" + listed))
     )
 
 
@@ -1012,7 +1033,9 @@ def _anchor_on_disk(record: dict[str, Any], root: str, f: Findings) -> None:
         f.add(G[24], f"integrity-failure: {path} resolves and carries no line binding "
                      f"{want} to {manifest}")
         return
-    pinned = _read(root, manifest) if _str(manifest) else None
+    # The line names the manifest the list's way; the bytes are at the record's path.
+    manifest_path = _field(record.get("manifest"), "path")
+    pinned = _read(root, manifest_path) if _str(manifest_path) else None
     declared: Any = None
     if pinned is not None:
         try:
