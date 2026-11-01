@@ -85,7 +85,8 @@ def _utf16_key(name: str) -> bytes:
     return name.encode("utf-16-be", errors="surrogatepass")
 
 
-def _spell(value: Any) -> str:
+def _spell_scalar(value: Any) -> str | None:
+    """The spelling of a JSON scalar, or None when *value* is not one."""
     if value is None:
         return "null"
     if value is True:
@@ -107,6 +108,13 @@ def _spell(value: Any) -> str:
         )
     if isinstance(value, str):
         return json.dumps(value, ensure_ascii=False)
+    return None
+
+
+def _spell(value: Any) -> str:
+    scalar = _spell_scalar(value)
+    if scalar is not None:
+        return scalar
     if isinstance(value, list):
         return "[" + ",".join(_spell(item) for item in value) + "]"
     if isinstance(value, dict):
