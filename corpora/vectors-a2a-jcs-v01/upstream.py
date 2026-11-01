@@ -8,17 +8,17 @@ their expected bytes come from two independent RFC 8785 oracles that run in
 the upstream repository, so the only honest local operations are to copy them
 and to check that the copy has not drifted.
 
-    python3 vectors-a2a-jcs-v01/upstream.py check
+    python3 corpora/vectors-a2a-jcs-v01/upstream.py check
         Every locked file is on disk with its locked SHA-256, nothing else sits
         in the vector directories, the MANIFEST's corpusDigest recomputes to the
         locked digest, and the lock's commit and digest are the ones RUNS.md
         records. Exit 0 clean, 1 on any drift.
 
-    python3 vectors-a2a-jcs-v01/upstream.py check --upstream <a2a-tck clone>
+    python3 corpora/vectors-a2a-jcs-v01/upstream.py check --upstream <a2a-tck clone>
         Also reads every locked file from the clone at the locked commit with
         ``git show`` and requires the same bytes.
 
-    python3 vectors-a2a-jcs-v01/upstream.py vendor --upstream <a2a-tck clone> --commit <sha>
+    python3 corpora/vectors-a2a-jcs-v01/upstream.py vendor --upstream <a2a-tck clone> --commit <sha>
         Copy the corpus at that commit and rewrite source-lock.json. The vector
         README and the upstream generators and runners are not copied: the
         generators need both oracles installed and the runners are replaced here
@@ -74,7 +74,7 @@ def vendored_files(root: Path) -> list[str]:
 
 def runs_md_pins(root: Path) -> tuple[str, str] | None:
     """The commit and corpus digest RUNS.md records for this corpus, if it records them."""
-    runs = root.parent / "RUNS.md"
+    runs = root.parents[1] / "RUNS.md"
     if not runs.is_file():
         return None
     for line in runs.read_text(encoding="utf-8").splitlines():
