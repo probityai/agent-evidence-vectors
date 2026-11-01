@@ -5,7 +5,7 @@ reader are judged by one input each. This file takes every accepting record of t
 corpus and both accepting bundles, changes each value in them in the ways that
 decide a rule (removed, null, of another type, empty, every closed value of the
 documents, earlier and later times, boundary counts), and keeps what the Python
-checker answers for every variant in ``corpora/testdata/restart-records.json.gz``.
+checker answers for every variant in ``corpusreaders/testdata/restart-records.json.gz``.
 It adds byte-level variants (duplicate members, NaN, a BOM, a lone surrogate, an
 integer past CPython's digit limit) and bundles whose digests are assigned, so that
 a predecessor cycle can be built at all. The Go test
@@ -35,7 +35,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 REPO = ROOT.parents[1]
-FIXTURE = REPO / "corpora" / "testdata" / "restart-records.json.gz"
+FIXTURE = REPO / "corpusreaders" / "testdata" / "restart-records.json.gz"
 
 
 def _load(name: str, path: Path) -> Any:
@@ -400,7 +400,7 @@ def test_the_go_cases_are_what_python_answers() -> None:
         FIXTURE.write_bytes(encoded())
     stored = json.loads(gzip.decompress(FIXTURE.read_bytes()))
     assert stored == fixture(), (
-        "corpora/testdata/restart-records.json.gz is not what the Python checker answers; "
+        "corpusreaders/testdata/restart-records.json.gz is not what the Python checker answers; "
         "regenerate it with AEV_WRITE_RESTART_RECORDS=1")
 
 

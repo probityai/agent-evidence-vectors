@@ -4,7 +4,7 @@ Each mutation is a short list of byte edits to a retained run, kept as data. Thi
 builds the mutations (a token of every file changed in turn, files deleted and cut, the
 lines of every stream dropped and doubled, and edits aimed at single rules), judges each
 mutated run with the Python reader and keeps the verdicts in
-``corpora/testdata/refundconnected-differential.json``. The Go test
+``corpusreaders/testdata/refundconnected-differential.json``. The Go test
 ``TestRefundConnectedAgreesWithPython`` applies the same edits and requires the same
 verdicts, or the same stop where the Python reader raises an exception it does not catch.
 Regenerate with:
@@ -32,7 +32,7 @@ sys.path.insert(0, str(REPO / "packaging"))
 
 from agent_evidence_vectors import refundconnected as reader  # noqa: E402
 
-FIXTURE = REPO / "corpora" / "testdata" / "refundconnected-differential.json"
+FIXTURE = REPO / "corpusreaders" / "testdata" / "refundconnected-differential.json"
 RUNS = {
     "r1": ROOT / "source" / "j01-connected-20261028-r1",
     "r2": ROOT / "source" / "j01-connected-20261028-r2",
