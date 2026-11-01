@@ -673,7 +673,7 @@ def main() -> None:
     for entry in entries:
         counts[entry["kind"]] += 1
 
-    contract = (HERE.parent / CONTRACT_REL).read_bytes()
+    contract = (HERE.parent.parent / CONTRACT_REL).read_bytes()
     manifest: dict[str, Any] = {
         "suite": SUITE,
         "contract": CONTRACT_REL,
