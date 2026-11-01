@@ -14,8 +14,8 @@
       "path": "release/CORPUS-DIGESTS.txt",
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
-    "routine": "corpus_digest in vectors-mcp-response-phase/gen_vectors.py",
-    "routine-file": "vectors-mcp-response-phase/gen_vectors.py",
+    "routine": "corpus_digest in corpora/vectors-mcp-response-phase/gen_vectors.py",
+    "routine-file": "corpora/vectors-mcp-response-phase/gen_vectors.py",
     "serialization": "corpus-routine",
     "sha256": "caa09e57af6e6ee85feff1fa5117095fa424c11a57a7518ca127d19676bfd5bc",
     "verdicts": {
@@ -29,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "09e918dfdb6c3c1070a5ec9395937e247e83cf1c52ec9852771f08cb81a28ae4"
+          "sha256": "e4463d1ca150d4ab2fe1d2f7ae98246e9e08fb10e31bdacb4e0b94513e18c22d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,12 +38,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "09e918dfdb6c3c1070a5ec9395937e247e83cf1c52ec9852771f08cb81a28ae4"
+          "sha256": "e4463d1ca150d4ab2fe1d2f7ae98246e9e08fb10e31bdacb4e0b94513e18c22d"
         },
-        "swapped-in": "0a0466fa56e1226651da066877111b6571b0d7dfbc7a7feff24ff7abd6dd4cdf",
+        "swapped-in": "b69532738d427bd82dd6538c62249bc9e467df468f73d31a95cade4449809fd5",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-response-phase/INDEX.md",
+      "path": "corpora/vectors-mcp-response-phase/INDEX.md",
       "serialization": "bytes",
       "sha256": "607d3701602c9db3f004c7fd12e173313086b80b0e2cf9d54ffcc2a264359a66"
     },
@@ -52,7 +52,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "09e918dfdb6c3c1070a5ec9395937e247e83cf1c52ec9852771f08cb81a28ae4"
+          "sha256": "e4463d1ca150d4ab2fe1d2f7ae98246e9e08fb10e31bdacb4e0b94513e18c22d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,21 +61,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "09e918dfdb6c3c1070a5ec9395937e247e83cf1c52ec9852771f08cb81a28ae4"
+          "sha256": "e4463d1ca150d4ab2fe1d2f7ae98246e9e08fb10e31bdacb4e0b94513e18c22d"
         },
-        "swapped-in": "f22ce880d1753b893d9086036a8c6991f8cc338e3d4eee28051f9b38a137a08c",
+        "swapped-in": "f8d1df9052a0e31a7b00081b0b45cfeaa4c8ac07aa9d6bd4b6f3279b0ae481e2",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-response-phase/README.md",
+      "path": "corpora/vectors-mcp-response-phase/README.md",
       "serialization": "bytes",
-      "sha256": "6ec9936a8bc92e3cd1cd00415fb79c7319e8c262e140da75cec90b8ea23a6e22"
+      "sha256": "4bc64ed71f04e34d1aaca78753aad3e6dc958b1834175d0d1a8808b9821b10d3"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "09e918dfdb6c3c1070a5ec9395937e247e83cf1c52ec9852771f08cb81a28ae4"
+          "sha256": "e4463d1ca150d4ab2fe1d2f7ae98246e9e08fb10e31bdacb4e0b94513e18c22d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,12 +84,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "09e918dfdb6c3c1070a5ec9395937e247e83cf1c52ec9852771f08cb81a28ae4"
+          "sha256": "e4463d1ca150d4ab2fe1d2f7ae98246e9e08fb10e31bdacb4e0b94513e18c22d"
         },
-        "swapped-in": "ee61d6a3e78979f1e234d5898c81baad930c2270e6419551c210fe1ba28ca296",
+        "swapped-in": "56a0881e761128ea9b5b40d2b7b34373e17a69c105f6476b3be9aa3ae64ec064",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-response-phase/gen_vectors.py",
+      "path": "corpora/vectors-mcp-response-phase/gen_vectors.py",
       "serialization": "bytes",
       "sha256": "09b651550adf57b5e3fe5427faf760cfbe829cc3d82c70b310a56f06a27cf268"
     },
@@ -98,23 +98,23 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "09e918dfdb6c3c1070a5ec9395937e247e83cf1c52ec9852771f08cb81a28ae4"
+          "sha256": "e4463d1ca150d4ab2fe1d2f7ae98246e9e08fb10e31bdacb4e0b94513e18c22d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
-          "vectors-mcp-response-phase/MANIFEST.json"
+          "corpora/vectors-mcp-response-phase/MANIFEST.json"
         ],
         "refused-by": [
           "W3C-I-002"
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "09e918dfdb6c3c1070a5ec9395937e247e83cf1c52ec9852771f08cb81a28ae4"
+          "sha256": "e4463d1ca150d4ab2fe1d2f7ae98246e9e08fb10e31bdacb4e0b94513e18c22d"
         },
-        "swapped-in": "bf30340d2f6d0d7373f57ec162843db61de5c6c8c972d13c52436d18433ea361",
+        "swapped-in": "44b09cd793fa26d5e7025f13e1c4537b338c1d40e584663a1c9351e994ef6618",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-mcp-response-phase/spec-vendored/interceptors-sep-b604598.md",
+      "path": "corpora/vectors-mcp-response-phase/spec-vendored/interceptors-sep-b604598.md",
       "serialization": "bytes",
       "sha256": "1ccbb25046161f10e631ff4fce20742a816dd5fa018e466a7551cb8675200a35"
     }
@@ -128,7 +128,7 @@
         "suffix": ".json"
       }
     ],
-    "root": "vectors-mcp-response-phase"
+    "root": "corpora/vectors-mcp-response-phase"
   },
   "byte-identity": {
     "pins": 8,
@@ -140,9 +140,9 @@
   "checker": {
     "commands": [
       "go build -o aee-verify ./cmd/aee-verify",
-      "aee-verify -json vectors-mcp-response-phase",
-      "aee-verify -json vectors-mcp-response-phase",
-      "aee-verify vectors-mcp-response-phase"
+      "aee-verify -json corpora/vectors-mcp-response-phase",
+      "aee-verify -json corpora/vectors-mcp-response-phase",
+      "aee-verify corpora/vectors-mcp-response-phase"
     ],
     "dependencies": [
       {
@@ -164,11 +164,11 @@
       "paths": [
         "aee",
         "cmd/aee-verify",
-        "corpora",
+        "corpusreaders",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "712a1932ef34c3166fdc0517647e0008db691ea8963f36e1331517673e968c64"
+      "sha256": "8be27026bb884f3436173b62f655f4cec4d85bfcff584e8903dc554272f441cc"
     },
     "runtime": {
       "name": "go",
@@ -177,7 +177,7 @@
     "shared-verification-code": [
       "aee",
       "cmd/aee-verify",
-      "corpora",
+      "corpusreaders",
       "go.mod"
     ]
   },
@@ -249,7 +249,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "77246b0322ea60428927bf979a348d9536efca0b1d0807ebf712efff5662dba2"
+    "sha256": "4f83f414b3ab66e2e354e4d04df4ba3b3d0fd36ca90a8003644216e7ac227148"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -268,14 +268,14 @@
       "vaf35412b6f540235",
       "vd84f78b45154a02c"
     ],
-    "path": "vectors-mcp-response-phase/MANIFEST.json",
+    "path": "corpora/vectors-mcp-response-phase/MANIFEST.json",
     "sha256": "19eed059e241504bfaeec9a951ed21387186e3e6cefef49050e5cb43c19f29fc"
   },
   "members": [
     {
       "files": [
         {
-          "path": "vectors-mcp-response-phase/vectors/v13e9774048310556.json",
+          "path": "corpora/vectors-mcp-response-phase/vectors/v13e9774048310556.json",
           "sha256": "2a9cbbb69c8470588e9ef63b822ad5e32152f01355a9f1bd561958b6a6819038"
         }
       ],
@@ -284,7 +284,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-response-phase/vectors/v18929427f9be0de5.json",
+          "path": "corpora/vectors-mcp-response-phase/vectors/v18929427f9be0de5.json",
           "sha256": "5394d6d275dd48ce53f1c0396e8160f9e44772facfb80575597aa7bd8a9a760f"
         }
       ],
@@ -293,7 +293,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-response-phase/vectors/v253d3fc574b2a7f1.json",
+          "path": "corpora/vectors-mcp-response-phase/vectors/v253d3fc574b2a7f1.json",
           "sha256": "619f667dbc9f91d503b0bb5d408819fb303e2ca559a61b55698daed93827f132"
         }
       ],
@@ -302,7 +302,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-response-phase/vectors/v57fd254b5473aa54.json",
+          "path": "corpora/vectors-mcp-response-phase/vectors/v57fd254b5473aa54.json",
           "sha256": "89db937e435a6e605801e51a78521a21ae50c9bba566f785c32c89a18160823d"
         }
       ],
@@ -311,7 +311,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-response-phase/vectors/v7cbb52a86b0ff370.json",
+          "path": "corpora/vectors-mcp-response-phase/vectors/v7cbb52a86b0ff370.json",
           "sha256": "89db937e435a6e605801e51a78521a21ae50c9bba566f785c32c89a18160823d"
         }
       ],
@@ -320,7 +320,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-response-phase/vectors/v88dd3633e073e5d3.json",
+          "path": "corpora/vectors-mcp-response-phase/vectors/v88dd3633e073e5d3.json",
           "sha256": "619f667dbc9f91d503b0bb5d408819fb303e2ca559a61b55698daed93827f132"
         }
       ],
@@ -329,7 +329,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-response-phase/vectors/vaf35412b6f540235.json",
+          "path": "corpora/vectors-mcp-response-phase/vectors/vaf35412b6f540235.json",
           "sha256": "31d065c1fe068bff715f79cd9a32630f0e321e292c114b2cd59ec1e919154ee8"
         }
       ],
@@ -338,7 +338,7 @@
     {
       "files": [
         {
-          "path": "vectors-mcp-response-phase/vectors/vd84f78b45154a02c.json",
+          "path": "corpora/vectors-mcp-response-phase/vectors/vd84f78b45154a02c.json",
           "sha256": "5394d6d275dd48ce53f1c0396e8160f9e44772facfb80575597aa7bd8a9a760f"
         }
       ],
@@ -379,7 +379,7 @@
       "reference": {
         "path": "release/intake/native/vectors-mcp-response-phase.json",
         "serialization": "bytes",
-        "sha256": "09e918dfdb6c3c1070a5ec9395937e247e83cf1c52ec9852771f08cb81a28ae4"
+        "sha256": "e4463d1ca150d4ab2fe1d2f7ae98246e9e08fb10e31bdacb4e0b94513e18c22d"
       }
     },
     {
@@ -438,11 +438,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "09e918dfdb6c3c1070a5ec9395937e247e83cf1c52ec9852771f08cb81a28ae4"
+        "sha256": "e4463d1ca150d4ab2fe1d2f7ae98246e9e08fb10e31bdacb4e0b94513e18c22d"
       },
       {
         "process": "run-2",
-        "sha256": "09e918dfdb6c3c1070a5ec9395937e247e83cf1c52ec9852771f08cb81a28ae4"
+        "sha256": "e4463d1ca150d4ab2fe1d2f7ae98246e9e08fb10e31bdacb4e0b94513e18c22d"
       }
     ],
     "seed": null,

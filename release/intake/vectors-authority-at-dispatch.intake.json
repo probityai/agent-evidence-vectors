@@ -14,8 +14,8 @@
       "path": "release/CORPUS-DIGESTS.txt",
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
-    "routine": "corpus_digest in vectors-authority-at-dispatch/gen_vectors.py",
-    "routine-file": "vectors-authority-at-dispatch/gen_vectors.py",
+    "routine": "corpus_digest in corpora/vectors-authority-at-dispatch/gen_vectors.py",
+    "routine-file": "corpora/vectors-authority-at-dispatch/gen_vectors.py",
     "serialization": "corpus-routine",
     "sha256": "6ca7ba7ec5a425f4b9e4c4b4a03be5fcfb4354760339e9f0b37be53b3b6f2dff",
     "verdicts": {
@@ -29,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "3b3a8422418e13fa283c932ad77650ed230d791c9ef88cd25d8afc76e7fa84bc"
+          "sha256": "eda14ac6ce7d3120cb65c2f7497138b3927894cf8ba49105b8e6e124f11a259d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,12 +38,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "3b3a8422418e13fa283c932ad77650ed230d791c9ef88cd25d8afc76e7fa84bc"
+          "sha256": "eda14ac6ce7d3120cb65c2f7497138b3927894cf8ba49105b8e6e124f11a259d"
         },
-        "swapped-in": "ef38fa00dff46efa9ecc6e2acd60baf9e7bb652e1138b2f726553eb9c4a243b2",
+        "swapped-in": "d4c8d0942931eb5a5285d48f8d65587f49d8a444986bd2f415ea790a4e5fdae1",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-authority-at-dispatch/README.md",
+      "path": "corpora/vectors-authority-at-dispatch/README.md",
       "serialization": "bytes",
       "sha256": "38990e57d5762365a8f3c7aaa7a14d3617c2b3263b2ace9d619cbe3adb1152a9"
     },
@@ -52,7 +52,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "3b3a8422418e13fa283c932ad77650ed230d791c9ef88cd25d8afc76e7fa84bc"
+          "sha256": "eda14ac6ce7d3120cb65c2f7497138b3927894cf8ba49105b8e6e124f11a259d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,12 +61,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "3b3a8422418e13fa283c932ad77650ed230d791c9ef88cd25d8afc76e7fa84bc"
+          "sha256": "eda14ac6ce7d3120cb65c2f7497138b3927894cf8ba49105b8e6e124f11a259d"
         },
-        "swapped-in": "0942f9b07a22624ef9f68ed9ef250b9b19017a8b7d09c44897ec6cc44f9f771a",
+        "swapped-in": "52ee9660aa0ee9228c34d0c3d887f6fa85142ca13cfecbe5a3a85c4d09cc1ac6",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-authority-at-dispatch/check_vectors.py",
+      "path": "corpora/vectors-authority-at-dispatch/check_vectors.py",
       "serialization": "bytes",
       "sha256": "00964204d1c547ecb859941eb8ef4bbf0b1701417e7bfe7e6a1a2d45b55d11fc"
     },
@@ -75,7 +75,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "3b3a8422418e13fa283c932ad77650ed230d791c9ef88cd25d8afc76e7fa84bc"
+          "sha256": "eda14ac6ce7d3120cb65c2f7497138b3927894cf8ba49105b8e6e124f11a259d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,21 +84,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "3b3a8422418e13fa283c932ad77650ed230d791c9ef88cd25d8afc76e7fa84bc"
+          "sha256": "eda14ac6ce7d3120cb65c2f7497138b3927894cf8ba49105b8e6e124f11a259d"
         },
-        "swapped-in": "e593dc5698058f11ea09d042f0a567be498af9622dff52f610d7cf876b17c694",
+        "swapped-in": "08a202c21501f59eee6bb4cad4a30dbf504817e5e7a1263e146c5d9017d4f8b0",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-authority-at-dispatch/gen_vectors.py",
+      "path": "corpora/vectors-authority-at-dispatch/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "a8401b37bd08efed4e8f3ad28f66ccd2e8cf295d21707ab4ee3e04a857c9160b"
+      "sha256": "44ee7bd57c453dffecf14f063e98918145d8044585c6e9355af12ad27f5c56e6"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "3b3a8422418e13fa283c932ad77650ed230d791c9ef88cd25d8afc76e7fa84bc"
+          "sha256": "eda14ac6ce7d3120cb65c2f7497138b3927894cf8ba49105b8e6e124f11a259d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,12 +107,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "3b3a8422418e13fa283c932ad77650ed230d791c9ef88cd25d8afc76e7fa84bc"
+          "sha256": "eda14ac6ce7d3120cb65c2f7497138b3927894cf8ba49105b8e6e124f11a259d"
         },
-        "swapped-in": "a68c26d9f4d4c11df15b25ddbfd8ef425e4765cd2a68d68a8b5325e91dfa0863",
+        "swapped-in": "b3ecccb4dffa6d748ecac3bce4fd7795c090dead28bb43c15972c5580ce9c1a3",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-authority-at-dispatch/tests/test_corpus.py",
+      "path": "corpora/vectors-authority-at-dispatch/tests/test_corpus.py",
       "serialization": "bytes",
       "sha256": "f5a54b0a47164ed2b04fd85712298f1378d96def681b8041519f54626a933413"
     }
@@ -126,7 +126,7 @@
         "suffix": ""
       }
     ],
-    "root": "vectors-authority-at-dispatch"
+    "root": "corpora/vectors-authority-at-dispatch"
   },
   "byte-identity": {
     "pins": 28,
@@ -138,9 +138,9 @@
   "checker": {
     "commands": [
       "go build -o aee-verify ./cmd/aee-verify",
-      "aee-verify -json vectors-authority-at-dispatch",
-      "aee-verify -json vectors-authority-at-dispatch",
-      "aee-verify vectors-authority-at-dispatch"
+      "aee-verify -json corpora/vectors-authority-at-dispatch",
+      "aee-verify -json corpora/vectors-authority-at-dispatch",
+      "aee-verify corpora/vectors-authority-at-dispatch"
     ],
     "dependencies": [
       {
@@ -162,11 +162,11 @@
       "paths": [
         "aee",
         "cmd/aee-verify",
-        "corpora",
+        "corpusreaders",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "712a1932ef34c3166fdc0517647e0008db691ea8963f36e1331517673e968c64"
+      "sha256": "8be27026bb884f3436173b62f655f4cec4d85bfcff584e8903dc554272f441cc"
     },
     "runtime": {
       "name": "go",
@@ -175,7 +175,7 @@
     "shared-verification-code": [
       "aee",
       "cmd/aee-verify",
-      "corpora",
+      "corpusreaders",
       "go.mod"
     ]
   },
@@ -295,7 +295,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "29fc8e05f529e4e657d4b12d203758f1d874cc15c29e18cf917dd5a33b9276d1"
+    "sha256": "7214ccce8fdcec0b1a266285f05990f3866acbfaf5bbd3aef1161048275748ff"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -320,18 +320,18 @@
       "contract-id-unknown",
       "evidence-age-inconsistent"
     ],
-    "path": "vectors-authority-at-dispatch/MANIFEST.json",
+    "path": "corpora/vectors-authority-at-dispatch/MANIFEST.json",
     "sha256": "069e97c9e4cbcd3fe25ded335bc69188a425878e0317ca27f9b6d41d21ac5a72"
   },
   "members": [
     {
       "files": [
         {
-          "path": "vectors-authority-at-dispatch/cases/allow-direct/dispatched.bin",
+          "path": "corpora/vectors-authority-at-dispatch/cases/allow-direct/dispatched.bin",
           "sha256": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e"
         },
         {
-          "path": "vectors-authority-at-dispatch/cases/allow-direct/record.json",
+          "path": "corpora/vectors-authority-at-dispatch/cases/allow-direct/record.json",
           "sha256": "bd7fe7859e1139513d5d9bf3bd4a93492f077b157790ab40b5b0dee1aeaadfcb"
         }
       ],
@@ -340,11 +340,11 @@
     {
       "files": [
         {
-          "path": "vectors-authority-at-dispatch/cases/allow-two-hop-narrowing/dispatched.bin",
+          "path": "corpora/vectors-authority-at-dispatch/cases/allow-two-hop-narrowing/dispatched.bin",
           "sha256": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e"
         },
         {
-          "path": "vectors-authority-at-dispatch/cases/allow-two-hop-narrowing/record.json",
+          "path": "corpora/vectors-authority-at-dispatch/cases/allow-two-hop-narrowing/record.json",
           "sha256": "f1066afa2390793212dce39be39edcc00a8ad59f29f58fde73a171bb5e00ff95"
         }
       ],
@@ -353,11 +353,11 @@
     {
       "files": [
         {
-          "path": "vectors-authority-at-dispatch/cases/allow-revoked-after-dispatch/dispatched.bin",
+          "path": "corpora/vectors-authority-at-dispatch/cases/allow-revoked-after-dispatch/dispatched.bin",
           "sha256": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e"
         },
         {
-          "path": "vectors-authority-at-dispatch/cases/allow-revoked-after-dispatch/record.json",
+          "path": "corpora/vectors-authority-at-dispatch/cases/allow-revoked-after-dispatch/record.json",
           "sha256": "dbb77f3c8f1f1503a108517a677b4360af21eb08fe172b4c1706b91a64c0dcca"
         }
       ],
@@ -366,11 +366,11 @@
     {
       "files": [
         {
-          "path": "vectors-authority-at-dispatch/cases/allow-evidence-age-at-limit/dispatched.bin",
+          "path": "corpora/vectors-authority-at-dispatch/cases/allow-evidence-age-at-limit/dispatched.bin",
           "sha256": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e"
         },
         {
-          "path": "vectors-authority-at-dispatch/cases/allow-evidence-age-at-limit/record.json",
+          "path": "corpora/vectors-authority-at-dispatch/cases/allow-evidence-age-at-limit/record.json",
           "sha256": "7b3d5de81fd60024c1478c8043f3de0ffd04c9a0e03992bf2b1c90fe23c3808b"
         }
       ],
@@ -379,11 +379,11 @@
     {
       "files": [
         {
-          "path": "vectors-authority-at-dispatch/cases/revoked-before-dispatch/dispatched.bin",
+          "path": "corpora/vectors-authority-at-dispatch/cases/revoked-before-dispatch/dispatched.bin",
           "sha256": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e"
         },
         {
-          "path": "vectors-authority-at-dispatch/cases/revoked-before-dispatch/record.json",
+          "path": "corpora/vectors-authority-at-dispatch/cases/revoked-before-dispatch/record.json",
           "sha256": "d793ba2e7b1ba7f889b55d905c584be7639f0255760d8f8a3fa5874917765513"
         }
       ],
@@ -392,11 +392,11 @@
     {
       "files": [
         {
-          "path": "vectors-authority-at-dispatch/cases/dispatched-bytes-differ/dispatched.bin",
+          "path": "corpora/vectors-authority-at-dispatch/cases/dispatched-bytes-differ/dispatched.bin",
           "sha256": "787cddd4109177a231ab97b0f4a171a9823e113a9da06d9c88604467944abbb2"
         },
         {
-          "path": "vectors-authority-at-dispatch/cases/dispatched-bytes-differ/record.json",
+          "path": "corpora/vectors-authority-at-dispatch/cases/dispatched-bytes-differ/record.json",
           "sha256": "2ebb9ebde5a266c15caba7504b3578176988324beb8573e201129bac7e042a2f"
         }
       ],
@@ -405,11 +405,11 @@
     {
       "files": [
         {
-          "path": "vectors-authority-at-dispatch/cases/dispatched-object-differs/dispatched.bin",
+          "path": "corpora/vectors-authority-at-dispatch/cases/dispatched-object-differs/dispatched.bin",
           "sha256": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e"
         },
         {
-          "path": "vectors-authority-at-dispatch/cases/dispatched-object-differs/record.json",
+          "path": "corpora/vectors-authority-at-dispatch/cases/dispatched-object-differs/record.json",
           "sha256": "78532e9478e2d9c938b63f33e5408af5276c524f1026f7524a415e51d1bf85b8"
         }
       ],
@@ -418,11 +418,11 @@
     {
       "files": [
         {
-          "path": "vectors-authority-at-dispatch/cases/dispatched-action-differs/dispatched.bin",
+          "path": "corpora/vectors-authority-at-dispatch/cases/dispatched-action-differs/dispatched.bin",
           "sha256": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e"
         },
         {
-          "path": "vectors-authority-at-dispatch/cases/dispatched-action-differs/record.json",
+          "path": "corpora/vectors-authority-at-dispatch/cases/dispatched-action-differs/record.json",
           "sha256": "35e4939a08ac569e510842e67d0c5011fbd9000d28b8776a0783a2e8ecedc4dc"
         }
       ],
@@ -431,11 +431,11 @@
     {
       "files": [
         {
-          "path": "vectors-authority-at-dispatch/cases/stale-authority-evidence/dispatched.bin",
+          "path": "corpora/vectors-authority-at-dispatch/cases/stale-authority-evidence/dispatched.bin",
           "sha256": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e"
         },
         {
-          "path": "vectors-authority-at-dispatch/cases/stale-authority-evidence/record.json",
+          "path": "corpora/vectors-authority-at-dispatch/cases/stale-authority-evidence/record.json",
           "sha256": "642cd12a5fa96e220eeedf5cf9a5959638240d82d48757adb3559e2124e20e50"
         }
       ],
@@ -444,11 +444,11 @@
     {
       "files": [
         {
-          "path": "vectors-authority-at-dispatch/cases/scope-amplified-across-hops/dispatched.bin",
+          "path": "corpora/vectors-authority-at-dispatch/cases/scope-amplified-across-hops/dispatched.bin",
           "sha256": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e"
         },
         {
-          "path": "vectors-authority-at-dispatch/cases/scope-amplified-across-hops/record.json",
+          "path": "corpora/vectors-authority-at-dispatch/cases/scope-amplified-across-hops/record.json",
           "sha256": "2b42854a597afb8c98c2c97c9d556ab4d742226fa7d99ab03741bbac4c21614f"
         }
       ],
@@ -457,11 +457,11 @@
     {
       "files": [
         {
-          "path": "vectors-authority-at-dispatch/cases/grant-expired/dispatched.bin",
+          "path": "corpora/vectors-authority-at-dispatch/cases/grant-expired/dispatched.bin",
           "sha256": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e"
         },
         {
-          "path": "vectors-authority-at-dispatch/cases/grant-expired/record.json",
+          "path": "corpora/vectors-authority-at-dispatch/cases/grant-expired/record.json",
           "sha256": "d5f21f918b3fb7cfac12e364f5ebfebd9746920c9c7201febc93f6f0e4427bc6"
         }
       ],
@@ -470,11 +470,11 @@
     {
       "files": [
         {
-          "path": "vectors-authority-at-dispatch/cases/contract-id-missing/dispatched.bin",
+          "path": "corpora/vectors-authority-at-dispatch/cases/contract-id-missing/dispatched.bin",
           "sha256": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e"
         },
         {
-          "path": "vectors-authority-at-dispatch/cases/contract-id-missing/record.json",
+          "path": "corpora/vectors-authority-at-dispatch/cases/contract-id-missing/record.json",
           "sha256": "bfa8dede09005b79d1de1ae58226fc34a80084ba05a6f2179d02f64afe454a43"
         }
       ],
@@ -483,11 +483,11 @@
     {
       "files": [
         {
-          "path": "vectors-authority-at-dispatch/cases/contract-id-unknown/dispatched.bin",
+          "path": "corpora/vectors-authority-at-dispatch/cases/contract-id-unknown/dispatched.bin",
           "sha256": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e"
         },
         {
-          "path": "vectors-authority-at-dispatch/cases/contract-id-unknown/record.json",
+          "path": "corpora/vectors-authority-at-dispatch/cases/contract-id-unknown/record.json",
           "sha256": "bad3b480c0d1c23325ca6c2f9b64995d2b9f978d8e1c70dae18d837b8ef85678"
         }
       ],
@@ -496,11 +496,11 @@
     {
       "files": [
         {
-          "path": "vectors-authority-at-dispatch/cases/evidence-age-inconsistent/dispatched.bin",
+          "path": "corpora/vectors-authority-at-dispatch/cases/evidence-age-inconsistent/dispatched.bin",
           "sha256": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e"
         },
         {
-          "path": "vectors-authority-at-dispatch/cases/evidence-age-inconsistent/record.json",
+          "path": "corpora/vectors-authority-at-dispatch/cases/evidence-age-inconsistent/record.json",
           "sha256": "58b2f7ab6436cd1fda6822bc45d68582ef886c58f1e3dc1c83587c5e4f52bfe3"
         }
       ],
@@ -523,7 +523,7 @@
       "reference": {
         "path": "release/intake/native/vectors-authority-at-dispatch.json",
         "serialization": "bytes",
-        "sha256": "3b3a8422418e13fa283c932ad77650ed230d791c9ef88cd25d8afc76e7fa84bc"
+        "sha256": "eda14ac6ce7d3120cb65c2f7497138b3927894cf8ba49105b8e6e124f11a259d"
       }
     },
     {
@@ -557,11 +557,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "3b3a8422418e13fa283c932ad77650ed230d791c9ef88cd25d8afc76e7fa84bc"
+        "sha256": "eda14ac6ce7d3120cb65c2f7497138b3927894cf8ba49105b8e6e124f11a259d"
       },
       {
         "process": "run-2",
-        "sha256": "3b3a8422418e13fa283c932ad77650ed230d791c9ef88cd25d8afc76e7fa84bc"
+        "sha256": "eda14ac6ce7d3120cb65c2f7497138b3927894cf8ba49105b8e6e124f11a259d"
       }
     ],
     "seed": null,

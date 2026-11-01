@@ -15,8 +15,8 @@
       "path": "release/CORPUS-DIGESTS.txt",
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
-    "routine": "corpus_digest in vectors-source-coverage/gen_vectors.py",
-    "routine-file": "vectors-source-coverage/gen_vectors.py",
+    "routine": "corpus_digest in corpora/vectors-source-coverage/gen_vectors.py",
+    "routine-file": "corpora/vectors-source-coverage/gen_vectors.py",
     "serialization": "corpus-routine",
     "sha256": "ca7f06472d102f88983ab14f93e4856b1d62b9a05dad21f9f2fcdbc1b2df28e1",
     "verdicts": {
@@ -30,7 +30,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "bef96e16192a6b8f5fe26e946d67433ab04e92f211a9d86eca55c5ef390de667"
+          "sha256": "e9a31cbc7d64c0d1a06cf488a645ea6b09b98abbd245b6a6f7078c463dce2db5"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -39,12 +39,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "bef96e16192a6b8f5fe26e946d67433ab04e92f211a9d86eca55c5ef390de667"
+          "sha256": "e9a31cbc7d64c0d1a06cf488a645ea6b09b98abbd245b6a6f7078c463dce2db5"
         },
-        "swapped-in": "ae5ab4efcffb772845ed2e4db43d89ca615c2a093b1ed69f63dc08e79c591eba",
+        "swapped-in": "f5137f4f06389867ef1b26150f9bd660c0e904f3e10a7a378dc6d2d3c16ef6c5",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-source-coverage/README.md",
+      "path": "corpora/vectors-source-coverage/README.md",
       "serialization": "bytes",
       "sha256": "60007b7150a9ffc313e8736c4946df1443238fb4cf70d99ae5a31d416a7bb6bf"
     },
@@ -53,7 +53,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "bef96e16192a6b8f5fe26e946d67433ab04e92f211a9d86eca55c5ef390de667"
+          "sha256": "e9a31cbc7d64c0d1a06cf488a645ea6b09b98abbd245b6a6f7078c463dce2db5"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -62,12 +62,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "bef96e16192a6b8f5fe26e946d67433ab04e92f211a9d86eca55c5ef390de667"
+          "sha256": "e9a31cbc7d64c0d1a06cf488a645ea6b09b98abbd245b6a6f7078c463dce2db5"
         },
-        "swapped-in": "5a66e99473c896083c374e7fdf9322c631309ff60d7553b6e326cf995b0eddd6",
+        "swapped-in": "9551151d1eb857b86b696405bb56cb98229fe766033a6811039da25e2e701b46",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-source-coverage/check_vectors.py",
+      "path": "corpora/vectors-source-coverage/check_vectors.py",
       "serialization": "bytes",
       "sha256": "eda5cfad3603d1b591f0d9dd5360424d483d78b4381b147f6bbe7c7158ff0488"
     },
@@ -76,7 +76,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "bef96e16192a6b8f5fe26e946d67433ab04e92f211a9d86eca55c5ef390de667"
+          "sha256": "e9a31cbc7d64c0d1a06cf488a645ea6b09b98abbd245b6a6f7078c463dce2db5"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -85,12 +85,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "bef96e16192a6b8f5fe26e946d67433ab04e92f211a9d86eca55c5ef390de667"
+          "sha256": "e9a31cbc7d64c0d1a06cf488a645ea6b09b98abbd245b6a6f7078c463dce2db5"
         },
-        "swapped-in": "54d516c686aa04cb45ff1534b4157e92ffeec39a87dd4cd932a86701d1cf3598",
+        "swapped-in": "3cbc4193a98596990320dca3dd53d109607988efc4fb046ed5e4969e12158d39",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-source-coverage/gen_vectors.py",
+      "path": "corpora/vectors-source-coverage/gen_vectors.py",
       "serialization": "bytes",
       "sha256": "c1c8b219cb473afc7594cca1e1658fb52ab68978f99e404ff83831b587e67317"
     },
@@ -99,7 +99,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "bef96e16192a6b8f5fe26e946d67433ab04e92f211a9d86eca55c5ef390de667"
+          "sha256": "e9a31cbc7d64c0d1a06cf488a645ea6b09b98abbd245b6a6f7078c463dce2db5"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -108,12 +108,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "bef96e16192a6b8f5fe26e946d67433ab04e92f211a9d86eca55c5ef390de667"
+          "sha256": "e9a31cbc7d64c0d1a06cf488a645ea6b09b98abbd245b6a6f7078c463dce2db5"
         },
-        "swapped-in": "33dd0790392f08f006db817a6484729e9421e4e02b5c3adead7d638e4d5af321",
+        "swapped-in": "96d9f95d4d69cc46b3693cf07d3c449e0b0ec41094530d65659cdb0f22429054",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-source-coverage/tests/test_corpus.py",
+      "path": "corpora/vectors-source-coverage/tests/test_corpus.py",
       "serialization": "bytes",
       "sha256": "edece72d10ced73f8566bd26432b73d059489be3881fbc4a93802687ffc18f95"
     }
@@ -127,7 +127,7 @@
         "suffix": ""
       }
     ],
-    "root": "vectors-source-coverage"
+    "root": "corpora/vectors-source-coverage"
   },
   "byte-identity": {
     "pins": 31,
@@ -139,9 +139,9 @@
   "checker": {
     "commands": [
       "go build -o aee-verify ./cmd/aee-verify",
-      "aee-verify -json vectors-source-coverage",
-      "aee-verify -json vectors-source-coverage",
-      "aee-verify vectors-source-coverage"
+      "aee-verify -json corpora/vectors-source-coverage",
+      "aee-verify -json corpora/vectors-source-coverage",
+      "aee-verify corpora/vectors-source-coverage"
     ],
     "dependencies": [
       {
@@ -163,11 +163,11 @@
       "paths": [
         "aee",
         "cmd/aee-verify",
-        "corpora",
+        "corpusreaders",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "712a1932ef34c3166fdc0517647e0008db691ea8963f36e1331517673e968c64"
+      "sha256": "8be27026bb884f3436173b62f655f4cec4d85bfcff584e8903dc554272f441cc"
     },
     "runtime": {
       "name": "go",
@@ -176,7 +176,7 @@
     "shared-verification-code": [
       "aee",
       "cmd/aee-verify",
-      "corpora",
+      "corpusreaders",
       "go.mod"
     ]
   },
@@ -248,7 +248,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "9461a9492b6f01a6ae0a0fbd2aa5f91f5b7fcc57eb86416febe1f4d08a9726bb"
+    "sha256": "85991aad09e63e94cb63d314d74e2c705ce8fa372132d5c41614e0355adb0fa2"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -267,26 +267,26 @@
       "scanner-truncation-reported-clean",
       "scanner-complete-scan"
     ],
-    "path": "vectors-source-coverage/MANIFEST.json",
+    "path": "corpora/vectors-source-coverage/MANIFEST.json",
     "sha256": "87fa7872c7d4c3b3f549416cb2b0f07a1a58fe314e12de7734c7245d3e76cb42"
   },
   "members": [
     {
       "files": [
         {
-          "path": "vectors-source-coverage/cases/complete/case.json",
+          "path": "corpora/vectors-source-coverage/cases/complete/case.json",
           "sha256": "842f9ff619d0bb94d8c8423ad9406e763faadd31d728ff2d8a3006a7c7a7bcd9"
         },
         {
-          "path": "vectors-source-coverage/cases/complete/policy.json",
+          "path": "corpora/vectors-source-coverage/cases/complete/policy.json",
           "sha256": "8076fbceeac28317fe82454473ff6cd785a4c34a97b2b3662cc79b626181a4d5"
         },
         {
-          "path": "vectors-source-coverage/cases/complete/report.txt",
+          "path": "corpora/vectors-source-coverage/cases/complete/report.txt",
           "sha256": "150d71bef972e934e9d40547c18740855d92168e52a16eaac6efbcfe779cc6e3"
         },
         {
-          "path": "vectors-source-coverage/cases/complete/source.html",
+          "path": "corpora/vectors-source-coverage/cases/complete/source.html",
           "sha256": "b497e65589d2f1d1bc13564cfae7742169239e0159f1fbc26061db7362d4d176"
         }
       ],
@@ -295,19 +295,19 @@
     {
       "files": [
         {
-          "path": "vectors-source-coverage/cases/self-hashed-truncation/case.json",
+          "path": "corpora/vectors-source-coverage/cases/self-hashed-truncation/case.json",
           "sha256": "40a0e443f3b697e36c1c726122540c8c919ac5fce798588292cf5a3a95ba7353"
         },
         {
-          "path": "vectors-source-coverage/cases/self-hashed-truncation/policy.json",
+          "path": "corpora/vectors-source-coverage/cases/self-hashed-truncation/policy.json",
           "sha256": "dc80d79a6ace042f32a45cfe69d6170752609e4c9964652088652be6351e15f2"
         },
         {
-          "path": "vectors-source-coverage/cases/self-hashed-truncation/report.txt",
+          "path": "corpora/vectors-source-coverage/cases/self-hashed-truncation/report.txt",
           "sha256": "26631e03a9b3343b7d8457d855da2b12434afc6e7a6ca461850d5b55fa7bd485"
         },
         {
-          "path": "vectors-source-coverage/cases/self-hashed-truncation/source.html",
+          "path": "corpora/vectors-source-coverage/cases/self-hashed-truncation/source.html",
           "sha256": "b497e65589d2f1d1bc13564cfae7742169239e0159f1fbc26061db7362d4d176"
         }
       ],
@@ -316,19 +316,19 @@
     {
       "files": [
         {
-          "path": "vectors-source-coverage/cases/middle-omission/case.json",
+          "path": "corpora/vectors-source-coverage/cases/middle-omission/case.json",
           "sha256": "f2be486251f3be7c0630b99a4d2dd1ce5141650f85ef4e7a8014fb6e60939ac2"
         },
         {
-          "path": "vectors-source-coverage/cases/middle-omission/policy.json",
+          "path": "corpora/vectors-source-coverage/cases/middle-omission/policy.json",
           "sha256": "edcdb9e6eac7ca9487269850d4e6dbdc6fcc11b74f2bdc4c8b266535280c48c1"
         },
         {
-          "path": "vectors-source-coverage/cases/middle-omission/report.txt",
+          "path": "corpora/vectors-source-coverage/cases/middle-omission/report.txt",
           "sha256": "a60769377a67cb0f462c362f4eb7f0059539fa1fe09d0f8927f530c4cb3a44b6"
         },
         {
-          "path": "vectors-source-coverage/cases/middle-omission/source.html",
+          "path": "corpora/vectors-source-coverage/cases/middle-omission/source.html",
           "sha256": "b497e65589d2f1d1bc13564cfae7742169239e0159f1fbc26061db7362d4d176"
         }
       ],
@@ -337,19 +337,19 @@
     {
       "files": [
         {
-          "path": "vectors-source-coverage/cases/returned-after-requested-window/case.json",
+          "path": "corpora/vectors-source-coverage/cases/returned-after-requested-window/case.json",
           "sha256": "e3e831b5da492bf837292254de777ba1a498035d69d5521bcf4fbc8c5520d353"
         },
         {
-          "path": "vectors-source-coverage/cases/returned-after-requested-window/policy.json",
+          "path": "corpora/vectors-source-coverage/cases/returned-after-requested-window/policy.json",
           "sha256": "2912ddfbd50ff61ecadc2e43390993b5971c69ef55953f31d6a19f20877aebbc"
         },
         {
-          "path": "vectors-source-coverage/cases/returned-after-requested-window/report.txt",
+          "path": "corpora/vectors-source-coverage/cases/returned-after-requested-window/report.txt",
           "sha256": "150d71bef972e934e9d40547c18740855d92168e52a16eaac6efbcfe779cc6e3"
         },
         {
-          "path": "vectors-source-coverage/cases/returned-after-requested-window/source.html",
+          "path": "corpora/vectors-source-coverage/cases/returned-after-requested-window/source.html",
           "sha256": "b497e65589d2f1d1bc13564cfae7742169239e0159f1fbc26061db7362d4d176"
         }
       ],
@@ -358,15 +358,15 @@
     {
       "files": [
         {
-          "path": "vectors-source-coverage/cases/capture-absent/case.json",
+          "path": "corpora/vectors-source-coverage/cases/capture-absent/case.json",
           "sha256": "1f4f52629c3907a5c378b0066c2f2c5a73d355c962500dba583814a966119bb7"
         },
         {
-          "path": "vectors-source-coverage/cases/capture-absent/policy.json",
+          "path": "corpora/vectors-source-coverage/cases/capture-absent/policy.json",
           "sha256": "f1186743a3925b14115999d6b12910469f762d33bb99902ff01699ec9f842a13"
         },
         {
-          "path": "vectors-source-coverage/cases/capture-absent/report.txt",
+          "path": "corpora/vectors-source-coverage/cases/capture-absent/report.txt",
           "sha256": "150d71bef972e934e9d40547c18740855d92168e52a16eaac6efbcfe779cc6e3"
         }
       ],
@@ -375,19 +375,19 @@
     {
       "files": [
         {
-          "path": "vectors-source-coverage/cases/hidden-script-only/case.json",
+          "path": "corpora/vectors-source-coverage/cases/hidden-script-only/case.json",
           "sha256": "003e16e25c05eb6cc3ad4486e52efecf2a651a6de614a8e9bb2bdb30e6aa273b"
         },
         {
-          "path": "vectors-source-coverage/cases/hidden-script-only/policy.json",
+          "path": "corpora/vectors-source-coverage/cases/hidden-script-only/policy.json",
           "sha256": "e331c09b970bff6ca329816b15007b10cf6ff207692df7a45e9ca4d728190166"
         },
         {
-          "path": "vectors-source-coverage/cases/hidden-script-only/report.txt",
+          "path": "corpora/vectors-source-coverage/cases/hidden-script-only/report.txt",
           "sha256": "150d71bef972e934e9d40547c18740855d92168e52a16eaac6efbcfe779cc6e3"
         },
         {
-          "path": "vectors-source-coverage/cases/hidden-script-only/source.html",
+          "path": "corpora/vectors-source-coverage/cases/hidden-script-only/source.html",
           "sha256": "b497e65589d2f1d1bc13564cfae7742169239e0159f1fbc26061db7362d4d176"
         }
       ],
@@ -396,19 +396,19 @@
     {
       "files": [
         {
-          "path": "vectors-source-coverage/cases/scanner-truncation-reported-clean/case.json",
+          "path": "corpora/vectors-source-coverage/cases/scanner-truncation-reported-clean/case.json",
           "sha256": "1af4c5d672f83b3a3597139680929c8c65cecd0b43723f7dae8cd87b3af527cd"
         },
         {
-          "path": "vectors-source-coverage/cases/scanner-truncation-reported-clean/policy.json",
+          "path": "corpora/vectors-source-coverage/cases/scanner-truncation-reported-clean/policy.json",
           "sha256": "0beca976646c0fd9a55c94dce31df7c518caae2f0f1d14805ad0cd41fcfa957a"
         },
         {
-          "path": "vectors-source-coverage/cases/scanner-truncation-reported-clean/report.txt",
+          "path": "corpora/vectors-source-coverage/cases/scanner-truncation-reported-clean/report.txt",
           "sha256": "914a8f9fb44a08531745ebca2a5a6abbf4a46c4e9be2323b2302dcd798350120"
         },
         {
-          "path": "vectors-source-coverage/cases/scanner-truncation-reported-clean/source.html",
+          "path": "corpora/vectors-source-coverage/cases/scanner-truncation-reported-clean/source.html",
           "sha256": "0aa3f113116cbfdd7ce67ccf5360f35275ebe9d868ddba9132e6a684ba908c97"
         }
       ],
@@ -417,19 +417,19 @@
     {
       "files": [
         {
-          "path": "vectors-source-coverage/cases/scanner-complete-scan/case.json",
+          "path": "corpora/vectors-source-coverage/cases/scanner-complete-scan/case.json",
           "sha256": "7fc4dec483fb89d58f882467b2cc6b770a9d2a1bd339759dc2bf26d88ee9cb00"
         },
         {
-          "path": "vectors-source-coverage/cases/scanner-complete-scan/policy.json",
+          "path": "corpora/vectors-source-coverage/cases/scanner-complete-scan/policy.json",
           "sha256": "c949b08ecb508f1fc01288236355e84bdd52809a4f6af0b9088e73eaf983774d"
         },
         {
-          "path": "vectors-source-coverage/cases/scanner-complete-scan/report.txt",
+          "path": "corpora/vectors-source-coverage/cases/scanner-complete-scan/report.txt",
           "sha256": "e14e6d5b686d7b61b4a7c849d88444bdc1be67f75316dfbdd97cb0309db6bd4f"
         },
         {
-          "path": "vectors-source-coverage/cases/scanner-complete-scan/source.html",
+          "path": "corpora/vectors-source-coverage/cases/scanner-complete-scan/source.html",
           "sha256": "0aa3f113116cbfdd7ce67ccf5360f35275ebe9d868ddba9132e6a684ba908c97"
         }
       ],
@@ -470,7 +470,7 @@
       "reference": {
         "path": "release/intake/native/vectors-source-coverage.json",
         "serialization": "bytes",
-        "sha256": "bef96e16192a6b8f5fe26e946d67433ab04e92f211a9d86eca55c5ef390de667"
+        "sha256": "e9a31cbc7d64c0d1a06cf488a645ea6b09b98abbd245b6a6f7078c463dce2db5"
       }
     },
     {
@@ -529,11 +529,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "bef96e16192a6b8f5fe26e946d67433ab04e92f211a9d86eca55c5ef390de667"
+        "sha256": "e9a31cbc7d64c0d1a06cf488a645ea6b09b98abbd245b6a6f7078c463dce2db5"
       },
       {
         "process": "run-2",
-        "sha256": "bef96e16192a6b8f5fe26e946d67433ab04e92f211a9d86eca55c5ef390de667"
+        "sha256": "e9a31cbc7d64c0d1a06cf488a645ea6b09b98abbd245b6a6f7078c463dce2db5"
       }
     ],
     "seed": null,

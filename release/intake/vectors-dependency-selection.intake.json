@@ -15,8 +15,8 @@
       "path": "release/CORPUS-DIGESTS.txt",
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
-    "routine": "corpus_digest in vectors-dependency-selection/digest.py",
-    "routine-file": "vectors-dependency-selection/digest.py",
+    "routine": "corpus_digest in corpora/vectors-dependency-selection/digest.py",
+    "routine-file": "corpora/vectors-dependency-selection/digest.py",
     "serialization": "corpus-routine",
     "sha256": "211da5f3010d6e38a9b119cd02250865cdd4196ec56816bc0edf78d7d96eac06",
     "verdicts": {
@@ -30,7 +30,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "d2839fa43e0cb5f1059a96c116a4dac43f27f921a4faf49266d986b4a2bce393"
+          "sha256": "a4a51d0bab9ce1e626c01b0259c5d72bd696db2f649a695ec1d5eafca991551d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -39,12 +39,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "d2839fa43e0cb5f1059a96c116a4dac43f27f921a4faf49266d986b4a2bce393"
+          "sha256": "a4a51d0bab9ce1e626c01b0259c5d72bd696db2f649a695ec1d5eafca991551d"
         },
-        "swapped-in": "91f72cbdba009fb080bcda6a063a3b3b8cb3f4466c1bfe4d7ab5642ae5ed0876",
+        "swapped-in": "1d75114447c401f735776bb2abdcd9a4d6652bb1b99692a233dc2c3c8a1c7d53",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-dependency-selection/INDEX.md",
+      "path": "corpora/vectors-dependency-selection/INDEX.md",
       "serialization": "bytes",
       "sha256": "654d6347cce285fd5fa9f0147f75da09240d6c62616622d8f141dd45abe52d38"
     },
@@ -53,7 +53,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "d2839fa43e0cb5f1059a96c116a4dac43f27f921a4faf49266d986b4a2bce393"
+          "sha256": "a4a51d0bab9ce1e626c01b0259c5d72bd696db2f649a695ec1d5eafca991551d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -62,12 +62,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "d2839fa43e0cb5f1059a96c116a4dac43f27f921a4faf49266d986b4a2bce393"
+          "sha256": "a4a51d0bab9ce1e626c01b0259c5d72bd696db2f649a695ec1d5eafca991551d"
         },
-        "swapped-in": "3cbd0f48dcc9ed81f99706fa60ed425e0fe7abc26f206ef9a8e277e8ae6a4ca4",
+        "swapped-in": "462a311670fc902cc2ae461df737b2bbed424d600f7ba11e5e2f395c225ba797",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-dependency-selection/README.md",
+      "path": "corpora/vectors-dependency-selection/README.md",
       "serialization": "bytes",
       "sha256": "ff4c98c01e4f0fa4714bbb211fe598e235b5bd0fd433a979d315868e3a22cfa8"
     },
@@ -76,7 +76,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "d2839fa43e0cb5f1059a96c116a4dac43f27f921a4faf49266d986b4a2bce393"
+          "sha256": "a4a51d0bab9ce1e626c01b0259c5d72bd696db2f649a695ec1d5eafca991551d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -85,21 +85,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "d2839fa43e0cb5f1059a96c116a4dac43f27f921a4faf49266d986b4a2bce393"
+          "sha256": "a4a51d0bab9ce1e626c01b0259c5d72bd696db2f649a695ec1d5eafca991551d"
         },
-        "swapped-in": "bb4093dc59830a503f2b7b99eb6ef71fc11be64afa9cfd0fc05ba04b7c8465f5",
+        "swapped-in": "bb15f3408abe37d28d5fd32f24df2883c38604239e7e5528d0f932640ad8f589",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-dependency-selection/digest.py",
+      "path": "corpora/vectors-dependency-selection/digest.py",
       "serialization": "bytes",
-      "sha256": "44785a95ed1c1c6f819b61735f6cc9e88bc3e4c903780031bece14cd12b90919"
+      "sha256": "025250ac27d795d05ee354f7e35758a2d674ccbecf0de58d4e47d0f1eb668bc5"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "d2839fa43e0cb5f1059a96c116a4dac43f27f921a4faf49266d986b4a2bce393"
+          "sha256": "a4a51d0bab9ce1e626c01b0259c5d72bd696db2f649a695ec1d5eafca991551d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -108,21 +108,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "d2839fa43e0cb5f1059a96c116a4dac43f27f921a4faf49266d986b4a2bce393"
+          "sha256": "a4a51d0bab9ce1e626c01b0259c5d72bd696db2f649a695ec1d5eafca991551d"
         },
-        "swapped-in": "7803f2dc9767c5809cef395c505c6ddc16718805f77609cbd7080b31be3d239c",
+        "swapped-in": "fd69bee1415929d8582ab6201d57b8a4c30b29bbb7bf9a64072f6b779d082c96",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-dependency-selection/gen_vectors.py",
+      "path": "corpora/vectors-dependency-selection/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "e8c8c7cf3e31f09c8046a94db1dfd5ebfb54cca72f898676cfa928fc058237f1"
+      "sha256": "20dd4228d53f333e6cadd4a46dc42bfaf47873f1bb64b1db31e12fdc654095f8"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "d2839fa43e0cb5f1059a96c116a4dac43f27f921a4faf49266d986b4a2bce393"
+          "sha256": "a4a51d0bab9ce1e626c01b0259c5d72bd696db2f649a695ec1d5eafca991551d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -131,12 +131,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "d2839fa43e0cb5f1059a96c116a4dac43f27f921a4faf49266d986b4a2bce393"
+          "sha256": "a4a51d0bab9ce1e626c01b0259c5d72bd696db2f649a695ec1d5eafca991551d"
         },
-        "swapped-in": "ddbdd90f17999783e601c2238466d8a5a5fd6739dd423f6505b3e91eda7f9015",
+        "swapped-in": "7deb447fcdb21423d1dc601b321b3b517bab2c2fae61465479c9650fa23a270c",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-dependency-selection/public.key",
+      "path": "corpora/vectors-dependency-selection/public.key",
       "serialization": "bytes",
       "sha256": "4ebbe859de728e527bf2c053d3d7dabc7745b6c0c95cdf9dd7952317c3000b1f"
     }
@@ -150,7 +150,7 @@
         "suffix": ""
       }
     ],
-    "root": "vectors-dependency-selection"
+    "root": "corpora/vectors-dependency-selection"
   },
   "byte-identity": {
     "pins": 52,
@@ -162,9 +162,9 @@
   "checker": {
     "commands": [
       "go build -o aee-verify ./cmd/aee-verify",
-      "aee-verify -json vectors-dependency-selection",
-      "aee-verify -json vectors-dependency-selection",
-      "aee-verify vectors-dependency-selection"
+      "aee-verify -json corpora/vectors-dependency-selection",
+      "aee-verify -json corpora/vectors-dependency-selection",
+      "aee-verify corpora/vectors-dependency-selection"
     ],
     "dependencies": [
       {
@@ -186,11 +186,11 @@
       "paths": [
         "aee",
         "cmd/aee-verify",
-        "corpora",
+        "corpusreaders",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "712a1932ef34c3166fdc0517647e0008db691ea8963f36e1331517673e968c64"
+      "sha256": "8be27026bb884f3436173b62f655f4cec4d85bfcff584e8903dc554272f441cc"
     },
     "runtime": {
       "name": "go",
@@ -199,7 +199,7 @@
     "shared-verification-code": [
       "aee",
       "cmd/aee-verify",
-      "corpora",
+      "corpusreaders",
       "go.mod"
     ]
   },
@@ -255,7 +255,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "70d35720d05f7527ddaf3c680e3e544d785084de0174976a12aa6abdf3a17ff2"
+    "sha256": "13f5f534b6e108537faa56689e1f913a1623b9ba7597876417c2d9f53929cf81"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -272,42 +272,42 @@
       "v6ab1d5a5b703b65f",
       "va281d192c2f57e92"
     ],
-    "path": "vectors-dependency-selection/MANIFEST.json",
+    "path": "corpora/vectors-dependency-selection/MANIFEST.json",
     "sha256": "686e89135fbbf3f08507bc197cc3fb3c7c7fdcb42f9a4ec1a3d9fe9d71012340"
   },
   "members": [
     {
       "files": [
         {
-          "path": "vectors-dependency-selection/cases/approval-absent/trial/agent/skills/dependency-selection.md",
+          "path": "corpora/vectors-dependency-selection/cases/approval-absent/trial/agent/skills/dependency-selection.md",
           "sha256": "8122c9dab14d6fd5e67595d666c997f984e741a7944d622bbe3d3fcde982abeb"
         },
         {
-          "path": "vectors-dependency-selection/cases/approval-absent/trial/binding/grading-inputs/checks.txt",
+          "path": "corpora/vectors-dependency-selection/cases/approval-absent/trial/binding/grading-inputs/checks.txt",
           "sha256": "b741ef78fd408ccf1baf10b4b2e188c79011ea43251b83a0c6976b34a3730657"
         },
         {
-          "path": "vectors-dependency-selection/cases/approval-absent/trial/binding/manifest.json",
+          "path": "corpora/vectors-dependency-selection/cases/approval-absent/trial/binding/manifest.json",
           "sha256": "2991ea7b80981cf822dc0289e74f1cddce664f0094d057b756ad659f12c1d799"
         },
         {
-          "path": "vectors-dependency-selection/cases/approval-absent/trial/binding/manifest.sig",
+          "path": "corpora/vectors-dependency-selection/cases/approval-absent/trial/binding/manifest.sig",
           "sha256": "b76623f02817155b060952934aeb56f5174e94fa97d9bfdce56569634f29f44f"
         },
         {
-          "path": "vectors-dependency-selection/cases/approval-absent/trial/checks/provenance-check.log",
+          "path": "corpora/vectors-dependency-selection/cases/approval-absent/trial/checks/provenance-check.log",
           "sha256": "c365c12d07f49a93756b0ed36718db284bdb4119b23913449f9a49b74d5843e6"
         },
         {
-          "path": "vectors-dependency-selection/cases/approval-absent/trial/checks/vulnerability-scan.log",
+          "path": "corpora/vectors-dependency-selection/cases/approval-absent/trial/checks/vulnerability-scan.log",
           "sha256": "b477abe52c2045ba799a0e00ba8bbe5ecb00e6f32ede1215052aaa35519ce317"
         },
         {
-          "path": "vectors-dependency-selection/cases/approval-absent/trial/lock/after/requirements.lock",
+          "path": "corpora/vectors-dependency-selection/cases/approval-absent/trial/lock/after/requirements.lock",
           "sha256": "e62076cb187e0e9fa1c7b6d083abedc993a89092cd37bfd8976ebe93bd08b8cd"
         },
         {
-          "path": "vectors-dependency-selection/cases/approval-absent/trial/lock/before/requirements.lock",
+          "path": "corpora/vectors-dependency-selection/cases/approval-absent/trial/lock/before/requirements.lock",
           "sha256": "713fb3bafe2ed7be146fc10374903d94547d40b595b2d343ed3556a423ecd8de"
         }
       ],
@@ -316,35 +316,35 @@
     {
       "files": [
         {
-          "path": "vectors-dependency-selection/cases/vulnerability-scan-absent/trial/agent/skills/dependency-selection.md",
+          "path": "corpora/vectors-dependency-selection/cases/vulnerability-scan-absent/trial/agent/skills/dependency-selection.md",
           "sha256": "8122c9dab14d6fd5e67595d666c997f984e741a7944d622bbe3d3fcde982abeb"
         },
         {
-          "path": "vectors-dependency-selection/cases/vulnerability-scan-absent/trial/approval/approval.json",
+          "path": "corpora/vectors-dependency-selection/cases/vulnerability-scan-absent/trial/approval/approval.json",
           "sha256": "fef4bf5bb8e622734bb2ff783919f006dc468adc1eeb028a86b57e5e0f9052ed"
         },
         {
-          "path": "vectors-dependency-selection/cases/vulnerability-scan-absent/trial/binding/grading-inputs/checks.txt",
+          "path": "corpora/vectors-dependency-selection/cases/vulnerability-scan-absent/trial/binding/grading-inputs/checks.txt",
           "sha256": "b741ef78fd408ccf1baf10b4b2e188c79011ea43251b83a0c6976b34a3730657"
         },
         {
-          "path": "vectors-dependency-selection/cases/vulnerability-scan-absent/trial/binding/manifest.json",
+          "path": "corpora/vectors-dependency-selection/cases/vulnerability-scan-absent/trial/binding/manifest.json",
           "sha256": "01383515cd52c99ad0d2b89a8e9255f1457f7aeb6d73b9b49d78e8d483f1babe"
         },
         {
-          "path": "vectors-dependency-selection/cases/vulnerability-scan-absent/trial/binding/manifest.sig",
+          "path": "corpora/vectors-dependency-selection/cases/vulnerability-scan-absent/trial/binding/manifest.sig",
           "sha256": "d1c2551d355c15cc9bfc17128d00a38425e8b0d676015a081094a60b33336614"
         },
         {
-          "path": "vectors-dependency-selection/cases/vulnerability-scan-absent/trial/checks/provenance-check.log",
+          "path": "corpora/vectors-dependency-selection/cases/vulnerability-scan-absent/trial/checks/provenance-check.log",
           "sha256": "c365c12d07f49a93756b0ed36718db284bdb4119b23913449f9a49b74d5843e6"
         },
         {
-          "path": "vectors-dependency-selection/cases/vulnerability-scan-absent/trial/lock/after/requirements.lock",
+          "path": "corpora/vectors-dependency-selection/cases/vulnerability-scan-absent/trial/lock/after/requirements.lock",
           "sha256": "e62076cb187e0e9fa1c7b6d083abedc993a89092cd37bfd8976ebe93bd08b8cd"
         },
         {
-          "path": "vectors-dependency-selection/cases/vulnerability-scan-absent/trial/lock/before/requirements.lock",
+          "path": "corpora/vectors-dependency-selection/cases/vulnerability-scan-absent/trial/lock/before/requirements.lock",
           "sha256": "713fb3bafe2ed7be146fc10374903d94547d40b595b2d343ed3556a423ecd8de"
         }
       ],
@@ -353,39 +353,39 @@
     {
       "files": [
         {
-          "path": "vectors-dependency-selection/cases/wrong-signer/trial/agent/skills/dependency-selection.md",
+          "path": "corpora/vectors-dependency-selection/cases/wrong-signer/trial/agent/skills/dependency-selection.md",
           "sha256": "8122c9dab14d6fd5e67595d666c997f984e741a7944d622bbe3d3fcde982abeb"
         },
         {
-          "path": "vectors-dependency-selection/cases/wrong-signer/trial/approval/approval.json",
+          "path": "corpora/vectors-dependency-selection/cases/wrong-signer/trial/approval/approval.json",
           "sha256": "fef4bf5bb8e622734bb2ff783919f006dc468adc1eeb028a86b57e5e0f9052ed"
         },
         {
-          "path": "vectors-dependency-selection/cases/wrong-signer/trial/binding/grading-inputs/checks.txt",
+          "path": "corpora/vectors-dependency-selection/cases/wrong-signer/trial/binding/grading-inputs/checks.txt",
           "sha256": "b741ef78fd408ccf1baf10b4b2e188c79011ea43251b83a0c6976b34a3730657"
         },
         {
-          "path": "vectors-dependency-selection/cases/wrong-signer/trial/binding/manifest.json",
+          "path": "corpora/vectors-dependency-selection/cases/wrong-signer/trial/binding/manifest.json",
           "sha256": "93c8c195b6ae75e60972f6f3c0a6a13351769731f391d5d61251fbabe1d52db8"
         },
         {
-          "path": "vectors-dependency-selection/cases/wrong-signer/trial/binding/manifest.sig",
+          "path": "corpora/vectors-dependency-selection/cases/wrong-signer/trial/binding/manifest.sig",
           "sha256": "43111f957c8466f03a804599a1d5ab608eaa4d55908a2bd36bbd62755d5ae09c"
         },
         {
-          "path": "vectors-dependency-selection/cases/wrong-signer/trial/checks/provenance-check.log",
+          "path": "corpora/vectors-dependency-selection/cases/wrong-signer/trial/checks/provenance-check.log",
           "sha256": "c365c12d07f49a93756b0ed36718db284bdb4119b23913449f9a49b74d5843e6"
         },
         {
-          "path": "vectors-dependency-selection/cases/wrong-signer/trial/checks/vulnerability-scan.log",
+          "path": "corpora/vectors-dependency-selection/cases/wrong-signer/trial/checks/vulnerability-scan.log",
           "sha256": "b477abe52c2045ba799a0e00ba8bbe5ecb00e6f32ede1215052aaa35519ce317"
         },
         {
-          "path": "vectors-dependency-selection/cases/wrong-signer/trial/lock/after/requirements.lock",
+          "path": "corpora/vectors-dependency-selection/cases/wrong-signer/trial/lock/after/requirements.lock",
           "sha256": "e62076cb187e0e9fa1c7b6d083abedc993a89092cd37bfd8976ebe93bd08b8cd"
         },
         {
-          "path": "vectors-dependency-selection/cases/wrong-signer/trial/lock/before/requirements.lock",
+          "path": "corpora/vectors-dependency-selection/cases/wrong-signer/trial/lock/before/requirements.lock",
           "sha256": "713fb3bafe2ed7be146fc10374903d94547d40b595b2d343ed3556a423ecd8de"
         }
       ],
@@ -394,39 +394,39 @@
     {
       "files": [
         {
-          "path": "vectors-dependency-selection/cases/skill-not-in-force/trial/agent/skills/dependency-selection.md",
+          "path": "corpora/vectors-dependency-selection/cases/skill-not-in-force/trial/agent/skills/dependency-selection.md",
           "sha256": "f2ad5c6c4557a3c224cda1c2f3986cb44f73939af4e0fd5b64314a407f6115ab"
         },
         {
-          "path": "vectors-dependency-selection/cases/skill-not-in-force/trial/approval/approval.json",
+          "path": "corpora/vectors-dependency-selection/cases/skill-not-in-force/trial/approval/approval.json",
           "sha256": "fef4bf5bb8e622734bb2ff783919f006dc468adc1eeb028a86b57e5e0f9052ed"
         },
         {
-          "path": "vectors-dependency-selection/cases/skill-not-in-force/trial/binding/grading-inputs/checks.txt",
+          "path": "corpora/vectors-dependency-selection/cases/skill-not-in-force/trial/binding/grading-inputs/checks.txt",
           "sha256": "b741ef78fd408ccf1baf10b4b2e188c79011ea43251b83a0c6976b34a3730657"
         },
         {
-          "path": "vectors-dependency-selection/cases/skill-not-in-force/trial/binding/manifest.json",
+          "path": "corpora/vectors-dependency-selection/cases/skill-not-in-force/trial/binding/manifest.json",
           "sha256": "7b6dd468bde7f65bdfa28da2fa52b54d05df5dad937705f95b57f1dc4d0e4ea5"
         },
         {
-          "path": "vectors-dependency-selection/cases/skill-not-in-force/trial/binding/manifest.sig",
+          "path": "corpora/vectors-dependency-selection/cases/skill-not-in-force/trial/binding/manifest.sig",
           "sha256": "96b725da73f410ad06c6190476d4b8c2e6b7985b8094f7d89145ce519a1fdb02"
         },
         {
-          "path": "vectors-dependency-selection/cases/skill-not-in-force/trial/checks/provenance-check.log",
+          "path": "corpora/vectors-dependency-selection/cases/skill-not-in-force/trial/checks/provenance-check.log",
           "sha256": "c365c12d07f49a93756b0ed36718db284bdb4119b23913449f9a49b74d5843e6"
         },
         {
-          "path": "vectors-dependency-selection/cases/skill-not-in-force/trial/checks/vulnerability-scan.log",
+          "path": "corpora/vectors-dependency-selection/cases/skill-not-in-force/trial/checks/vulnerability-scan.log",
           "sha256": "b477abe52c2045ba799a0e00ba8bbe5ecb00e6f32ede1215052aaa35519ce317"
         },
         {
-          "path": "vectors-dependency-selection/cases/skill-not-in-force/trial/lock/after/requirements.lock",
+          "path": "corpora/vectors-dependency-selection/cases/skill-not-in-force/trial/lock/after/requirements.lock",
           "sha256": "e62076cb187e0e9fa1c7b6d083abedc993a89092cd37bfd8976ebe93bd08b8cd"
         },
         {
-          "path": "vectors-dependency-selection/cases/skill-not-in-force/trial/lock/before/requirements.lock",
+          "path": "corpora/vectors-dependency-selection/cases/skill-not-in-force/trial/lock/before/requirements.lock",
           "sha256": "713fb3bafe2ed7be146fc10374903d94547d40b595b2d343ed3556a423ecd8de"
         }
       ],
@@ -435,39 +435,39 @@
     {
       "files": [
         {
-          "path": "vectors-dependency-selection/cases/intact-selection/trial/agent/skills/dependency-selection.md",
+          "path": "corpora/vectors-dependency-selection/cases/intact-selection/trial/agent/skills/dependency-selection.md",
           "sha256": "8122c9dab14d6fd5e67595d666c997f984e741a7944d622bbe3d3fcde982abeb"
         },
         {
-          "path": "vectors-dependency-selection/cases/intact-selection/trial/approval/approval.json",
+          "path": "corpora/vectors-dependency-selection/cases/intact-selection/trial/approval/approval.json",
           "sha256": "fef4bf5bb8e622734bb2ff783919f006dc468adc1eeb028a86b57e5e0f9052ed"
         },
         {
-          "path": "vectors-dependency-selection/cases/intact-selection/trial/binding/grading-inputs/checks.txt",
+          "path": "corpora/vectors-dependency-selection/cases/intact-selection/trial/binding/grading-inputs/checks.txt",
           "sha256": "b741ef78fd408ccf1baf10b4b2e188c79011ea43251b83a0c6976b34a3730657"
         },
         {
-          "path": "vectors-dependency-selection/cases/intact-selection/trial/binding/manifest.json",
+          "path": "corpora/vectors-dependency-selection/cases/intact-selection/trial/binding/manifest.json",
           "sha256": "e7fb81365ddaa9f5ac4fc553b4f2e36c2bd1f83d76da874f59f0e44d29713285"
         },
         {
-          "path": "vectors-dependency-selection/cases/intact-selection/trial/binding/manifest.sig",
+          "path": "corpora/vectors-dependency-selection/cases/intact-selection/trial/binding/manifest.sig",
           "sha256": "27d4d386f54cd832f57bf953e0214f5e9f35cbcee9ce818e399ff31191133883"
         },
         {
-          "path": "vectors-dependency-selection/cases/intact-selection/trial/checks/provenance-check.log",
+          "path": "corpora/vectors-dependency-selection/cases/intact-selection/trial/checks/provenance-check.log",
           "sha256": "c365c12d07f49a93756b0ed36718db284bdb4119b23913449f9a49b74d5843e6"
         },
         {
-          "path": "vectors-dependency-selection/cases/intact-selection/trial/checks/vulnerability-scan.log",
+          "path": "corpora/vectors-dependency-selection/cases/intact-selection/trial/checks/vulnerability-scan.log",
           "sha256": "b477abe52c2045ba799a0e00ba8bbe5ecb00e6f32ede1215052aaa35519ce317"
         },
         {
-          "path": "vectors-dependency-selection/cases/intact-selection/trial/lock/after/requirements.lock",
+          "path": "corpora/vectors-dependency-selection/cases/intact-selection/trial/lock/after/requirements.lock",
           "sha256": "e62076cb187e0e9fa1c7b6d083abedc993a89092cd37bfd8976ebe93bd08b8cd"
         },
         {
-          "path": "vectors-dependency-selection/cases/intact-selection/trial/lock/before/requirements.lock",
+          "path": "corpora/vectors-dependency-selection/cases/intact-selection/trial/lock/before/requirements.lock",
           "sha256": "713fb3bafe2ed7be146fc10374903d94547d40b595b2d343ed3556a423ecd8de"
         }
       ],
@@ -476,39 +476,39 @@
     {
       "files": [
         {
-          "path": "vectors-dependency-selection/cases/lockfile-after-changed/trial/agent/skills/dependency-selection.md",
+          "path": "corpora/vectors-dependency-selection/cases/lockfile-after-changed/trial/agent/skills/dependency-selection.md",
           "sha256": "8122c9dab14d6fd5e67595d666c997f984e741a7944d622bbe3d3fcde982abeb"
         },
         {
-          "path": "vectors-dependency-selection/cases/lockfile-after-changed/trial/approval/approval.json",
+          "path": "corpora/vectors-dependency-selection/cases/lockfile-after-changed/trial/approval/approval.json",
           "sha256": "fef4bf5bb8e622734bb2ff783919f006dc468adc1eeb028a86b57e5e0f9052ed"
         },
         {
-          "path": "vectors-dependency-selection/cases/lockfile-after-changed/trial/binding/grading-inputs/checks.txt",
+          "path": "corpora/vectors-dependency-selection/cases/lockfile-after-changed/trial/binding/grading-inputs/checks.txt",
           "sha256": "b741ef78fd408ccf1baf10b4b2e188c79011ea43251b83a0c6976b34a3730657"
         },
         {
-          "path": "vectors-dependency-selection/cases/lockfile-after-changed/trial/binding/manifest.json",
+          "path": "corpora/vectors-dependency-selection/cases/lockfile-after-changed/trial/binding/manifest.json",
           "sha256": "e7fb81365ddaa9f5ac4fc553b4f2e36c2bd1f83d76da874f59f0e44d29713285"
         },
         {
-          "path": "vectors-dependency-selection/cases/lockfile-after-changed/trial/binding/manifest.sig",
+          "path": "corpora/vectors-dependency-selection/cases/lockfile-after-changed/trial/binding/manifest.sig",
           "sha256": "27d4d386f54cd832f57bf953e0214f5e9f35cbcee9ce818e399ff31191133883"
         },
         {
-          "path": "vectors-dependency-selection/cases/lockfile-after-changed/trial/checks/provenance-check.log",
+          "path": "corpora/vectors-dependency-selection/cases/lockfile-after-changed/trial/checks/provenance-check.log",
           "sha256": "c365c12d07f49a93756b0ed36718db284bdb4119b23913449f9a49b74d5843e6"
         },
         {
-          "path": "vectors-dependency-selection/cases/lockfile-after-changed/trial/checks/vulnerability-scan.log",
+          "path": "corpora/vectors-dependency-selection/cases/lockfile-after-changed/trial/checks/vulnerability-scan.log",
           "sha256": "b477abe52c2045ba799a0e00ba8bbe5ecb00e6f32ede1215052aaa35519ce317"
         },
         {
-          "path": "vectors-dependency-selection/cases/lockfile-after-changed/trial/lock/after/requirements.lock",
+          "path": "corpora/vectors-dependency-selection/cases/lockfile-after-changed/trial/lock/after/requirements.lock",
           "sha256": "2ca429f9b8f1dc0d2beadeffb5568b8403cf07bc24d68d2da8e6f57cf46421dd"
         },
         {
-          "path": "vectors-dependency-selection/cases/lockfile-after-changed/trial/lock/before/requirements.lock",
+          "path": "corpora/vectors-dependency-selection/cases/lockfile-after-changed/trial/lock/before/requirements.lock",
           "sha256": "713fb3bafe2ed7be146fc10374903d94547d40b595b2d343ed3556a423ecd8de"
         }
       ],
@@ -531,7 +531,7 @@
       "reference": {
         "path": "release/intake/native/vectors-dependency-selection.json",
         "serialization": "bytes",
-        "sha256": "d2839fa43e0cb5f1059a96c116a4dac43f27f921a4faf49266d986b4a2bce393"
+        "sha256": "a4a51d0bab9ce1e626c01b0259c5d72bd696db2f649a695ec1d5eafca991551d"
       }
     },
     {
@@ -590,11 +590,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "d2839fa43e0cb5f1059a96c116a4dac43f27f921a4faf49266d986b4a2bce393"
+        "sha256": "a4a51d0bab9ce1e626c01b0259c5d72bd696db2f649a695ec1d5eafca991551d"
       },
       {
         "process": "run-2",
-        "sha256": "d2839fa43e0cb5f1059a96c116a4dac43f27f921a4faf49266d986b4a2bce393"
+        "sha256": "a4a51d0bab9ce1e626c01b0259c5d72bd696db2f649a695ec1d5eafca991551d"
       }
     ],
     "seed": null,

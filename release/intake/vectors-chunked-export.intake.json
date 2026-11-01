@@ -14,8 +14,8 @@
       "path": "release/CORPUS-DIGESTS.txt",
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
-    "routine": "corpus_digest in vectors-chunked-export/gen_vectors.py",
-    "routine-file": "vectors-chunked-export/gen_vectors.py",
+    "routine": "corpus_digest in corpora/vectors-chunked-export/gen_vectors.py",
+    "routine-file": "corpora/vectors-chunked-export/gen_vectors.py",
     "serialization": "corpus-routine",
     "sha256": "8d9e15ebf4e6a6b76960491fff189ccdad8521479fff71de1da8ddc43f22b12a",
     "verdicts": {
@@ -29,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "43fd52e90b81afd63eac1934670c2f081fe1e8c828d112954d8d3be24bcc0c74"
+          "sha256": "63f34fbdc6d6f87405792cb586fea123e22348b45856ffe4482b942463415a26"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,12 +38,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "43fd52e90b81afd63eac1934670c2f081fe1e8c828d112954d8d3be24bcc0c74"
+          "sha256": "63f34fbdc6d6f87405792cb586fea123e22348b45856ffe4482b942463415a26"
         },
-        "swapped-in": "77d3e73b137facc71da002d4de54f1073a4f124731c14440f8dc8f2c85446fcf",
+        "swapped-in": "1f8f5d7e2a5c67e9ce122158ed53b75485feef939ea3aa526d4130cedc173d82",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-chunked-export/README.md",
+      "path": "corpora/vectors-chunked-export/README.md",
       "serialization": "bytes",
       "sha256": "c0a0d7130abbe7f32f84808035ba0936cc0a0bc06bfa3be51d81cfcbbff11560"
     },
@@ -52,7 +52,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "43fd52e90b81afd63eac1934670c2f081fe1e8c828d112954d8d3be24bcc0c74"
+          "sha256": "63f34fbdc6d6f87405792cb586fea123e22348b45856ffe4482b942463415a26"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,12 +61,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "43fd52e90b81afd63eac1934670c2f081fe1e8c828d112954d8d3be24bcc0c74"
+          "sha256": "63f34fbdc6d6f87405792cb586fea123e22348b45856ffe4482b942463415a26"
         },
-        "swapped-in": "38df25826bd473ae5fe8b3d9b3521d6c58a8966e361c4c94c04856a5d2ac3af2",
+        "swapped-in": "9abfeaee44a103d5e64970f62cba45f86c5eedb7e698a4ac6eecd8b39c6924ef",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-chunked-export/check_vectors.py",
+      "path": "corpora/vectors-chunked-export/check_vectors.py",
       "serialization": "bytes",
       "sha256": "75c22713ebf97ed210feb42db56327aacc5059a4ea2ab338297fc56731a2fcf2"
     },
@@ -75,7 +75,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "43fd52e90b81afd63eac1934670c2f081fe1e8c828d112954d8d3be24bcc0c74"
+          "sha256": "63f34fbdc6d6f87405792cb586fea123e22348b45856ffe4482b942463415a26"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,21 +84,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "43fd52e90b81afd63eac1934670c2f081fe1e8c828d112954d8d3be24bcc0c74"
+          "sha256": "63f34fbdc6d6f87405792cb586fea123e22348b45856ffe4482b942463415a26"
         },
-        "swapped-in": "438edf2a6fbd57cef82fb2dd830703b668774300f4714755f310e1d3a835b6c4",
+        "swapped-in": "000791af2e5b0f059b8ff7ff5a798bfe0a4ef676e22af5c7f500caec8452b7ab",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-chunked-export/gen_vectors.py",
+      "path": "corpora/vectors-chunked-export/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "c2938a1e9b634dda8906f553da3a6bb1b505194d4347d9d84fd15e7e9657f3ff"
+      "sha256": "a729261729fdd738b8ba728fd9614b870ede640b25a132a1e0b68347b4530b52"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "43fd52e90b81afd63eac1934670c2f081fe1e8c828d112954d8d3be24bcc0c74"
+          "sha256": "63f34fbdc6d6f87405792cb586fea123e22348b45856ffe4482b942463415a26"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,12 +107,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "43fd52e90b81afd63eac1934670c2f081fe1e8c828d112954d8d3be24bcc0c74"
+          "sha256": "63f34fbdc6d6f87405792cb586fea123e22348b45856ffe4482b942463415a26"
         },
-        "swapped-in": "a8b9e3fa894aacbff7813f8419fb7d9884c1d86753c6268e9e03547ea7ec42c1",
+        "swapped-in": "4d68b75737a84028f50332eb63203b87cabf1c792f6f8394aa347fd1de20b1fa",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-chunked-export/tests/test_corpus.py",
+      "path": "corpora/vectors-chunked-export/tests/test_corpus.py",
       "serialization": "bytes",
       "sha256": "0aef688c6f66075c5483d402980719dcc0fc41c6f9888cf7090170004fc5f91d"
     }
@@ -126,7 +126,7 @@
         "suffix": ""
       }
     ],
-    "root": "vectors-chunked-export"
+    "root": "corpora/vectors-chunked-export"
   },
   "byte-identity": {
     "pins": 40,
@@ -138,9 +138,9 @@
   "checker": {
     "commands": [
       "go build -o aee-verify ./cmd/aee-verify",
-      "aee-verify -json vectors-chunked-export",
-      "aee-verify -json vectors-chunked-export",
-      "aee-verify vectors-chunked-export"
+      "aee-verify -json corpora/vectors-chunked-export",
+      "aee-verify -json corpora/vectors-chunked-export",
+      "aee-verify corpora/vectors-chunked-export"
     ],
     "dependencies": [
       {
@@ -162,11 +162,11 @@
       "paths": [
         "aee",
         "cmd/aee-verify",
-        "corpora",
+        "corpusreaders",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "712a1932ef34c3166fdc0517647e0008db691ea8963f36e1331517673e968c64"
+      "sha256": "8be27026bb884f3436173b62f655f4cec4d85bfcff584e8903dc554272f441cc"
     },
     "runtime": {
       "name": "go",
@@ -175,7 +175,7 @@
     "shared-verification-code": [
       "aee",
       "cmd/aee-verify",
-      "corpora",
+      "corpusreaders",
       "go.mod"
     ]
   },
@@ -279,7 +279,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "ce0eeab6764f756d2f5d48e0aa470bf163b21923d92f9210b5e38ecfe1d47ee9"
+    "sha256": "4fc8169b180b64228d7e95a111b90382d634f6b9974f4317af97651224a1a5e8"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -302,22 +302,22 @@
       "contract-id-missing",
       "contract-id-unknown"
     ],
-    "path": "vectors-chunked-export/MANIFEST.json",
+    "path": "corpora/vectors-chunked-export/MANIFEST.json",
     "sha256": "04c22c098bd6d6d5824514b1bf14c7ff3b414e54e325371f154199dc5b34c70e"
   },
   "members": [
     {
       "files": [
         {
-          "path": "vectors-chunked-export/cases/variant-a-below-threshold/chunk-0.bin",
+          "path": "corpora/vectors-chunked-export/cases/variant-a-below-threshold/chunk-0.bin",
           "sha256": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3"
         },
         {
-          "path": "vectors-chunked-export/cases/variant-a-below-threshold/chunk-1.bin",
+          "path": "corpora/vectors-chunked-export/cases/variant-a-below-threshold/chunk-1.bin",
           "sha256": "1e48d40e9b903ff2ebc3d5b61300a875eed8afcb90dd8959591d4ef757f291ff"
         },
         {
-          "path": "vectors-chunked-export/cases/variant-a-below-threshold/record.json",
+          "path": "corpora/vectors-chunked-export/cases/variant-a-below-threshold/record.json",
           "sha256": "f280cc36bbe267178e78cdebed94e3b79efbb762f2f36b8ef175011758268a73"
         }
       ],
@@ -326,19 +326,19 @@
     {
       "files": [
         {
-          "path": "vectors-chunked-export/cases/variant-a-at-crossing/chunk-0.bin",
+          "path": "corpora/vectors-chunked-export/cases/variant-a-at-crossing/chunk-0.bin",
           "sha256": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3"
         },
         {
-          "path": "vectors-chunked-export/cases/variant-a-at-crossing/chunk-1.bin",
+          "path": "corpora/vectors-chunked-export/cases/variant-a-at-crossing/chunk-1.bin",
           "sha256": "1e48d40e9b903ff2ebc3d5b61300a875eed8afcb90dd8959591d4ef757f291ff"
         },
         {
-          "path": "vectors-chunked-export/cases/variant-a-at-crossing/chunk-2.bin",
+          "path": "corpora/vectors-chunked-export/cases/variant-a-at-crossing/chunk-2.bin",
           "sha256": "ac6f75b475702c64bbd38840e26512ae157426b197b4cdf212ff5bc2e1130aa3"
         },
         {
-          "path": "vectors-chunked-export/cases/variant-a-at-crossing/record.json",
+          "path": "corpora/vectors-chunked-export/cases/variant-a-at-crossing/record.json",
           "sha256": "a94fe4b48e14474c8418736a0c87c5ef73ef59281e7511559daf2d079c615da7"
         }
       ],
@@ -347,27 +347,27 @@
     {
       "files": [
         {
-          "path": "vectors-chunked-export/cases/variant-a-final-chunk/chunk-0.bin",
+          "path": "corpora/vectors-chunked-export/cases/variant-a-final-chunk/chunk-0.bin",
           "sha256": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3"
         },
         {
-          "path": "vectors-chunked-export/cases/variant-a-final-chunk/chunk-1.bin",
+          "path": "corpora/vectors-chunked-export/cases/variant-a-final-chunk/chunk-1.bin",
           "sha256": "1e48d40e9b903ff2ebc3d5b61300a875eed8afcb90dd8959591d4ef757f291ff"
         },
         {
-          "path": "vectors-chunked-export/cases/variant-a-final-chunk/chunk-2.bin",
+          "path": "corpora/vectors-chunked-export/cases/variant-a-final-chunk/chunk-2.bin",
           "sha256": "ac6f75b475702c64bbd38840e26512ae157426b197b4cdf212ff5bc2e1130aa3"
         },
         {
-          "path": "vectors-chunked-export/cases/variant-a-final-chunk/chunk-3.bin",
+          "path": "corpora/vectors-chunked-export/cases/variant-a-final-chunk/chunk-3.bin",
           "sha256": "e581b45b81619197c92ea6a4bb9dd09fbc48ac6449b7b3ff78c86137878bd6c4"
         },
         {
-          "path": "vectors-chunked-export/cases/variant-a-final-chunk/chunk-4.bin",
+          "path": "corpora/vectors-chunked-export/cases/variant-a-final-chunk/chunk-4.bin",
           "sha256": "2ff85d4b76fce467be8e8aedfe8b189d32cef58edba7919a40b9e0a6251d9190"
         },
         {
-          "path": "vectors-chunked-export/cases/variant-a-final-chunk/record.json",
+          "path": "corpora/vectors-chunked-export/cases/variant-a-final-chunk/record.json",
           "sha256": "70b901ff6fa66addd788a3c9621477b3ba81585d38aa8338d33675bea57e94e2"
         }
       ],
@@ -376,19 +376,19 @@
     {
       "files": [
         {
-          "path": "vectors-chunked-export/cases/variant-a-max-of-labels-seal/chunk-0.bin",
+          "path": "corpora/vectors-chunked-export/cases/variant-a-max-of-labels-seal/chunk-0.bin",
           "sha256": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3"
         },
         {
-          "path": "vectors-chunked-export/cases/variant-a-max-of-labels-seal/chunk-1.bin",
+          "path": "corpora/vectors-chunked-export/cases/variant-a-max-of-labels-seal/chunk-1.bin",
           "sha256": "1e48d40e9b903ff2ebc3d5b61300a875eed8afcb90dd8959591d4ef757f291ff"
         },
         {
-          "path": "vectors-chunked-export/cases/variant-a-max-of-labels-seal/chunk-2.bin",
+          "path": "corpora/vectors-chunked-export/cases/variant-a-max-of-labels-seal/chunk-2.bin",
           "sha256": "ac6f75b475702c64bbd38840e26512ae157426b197b4cdf212ff5bc2e1130aa3"
         },
         {
-          "path": "vectors-chunked-export/cases/variant-a-max-of-labels-seal/record.json",
+          "path": "corpora/vectors-chunked-export/cases/variant-a-max-of-labels-seal/record.json",
           "sha256": "e87f253f0dce964622082ef2516851b32e508342eebc0d02f6865c42c408e035"
         }
       ],
@@ -397,15 +397,15 @@
     {
       "files": [
         {
-          "path": "vectors-chunked-export/cases/threshold-committed-after-first-chunk/chunk-0.bin",
+          "path": "corpora/vectors-chunked-export/cases/threshold-committed-after-first-chunk/chunk-0.bin",
           "sha256": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3"
         },
         {
-          "path": "vectors-chunked-export/cases/threshold-committed-after-first-chunk/chunk-1.bin",
+          "path": "corpora/vectors-chunked-export/cases/threshold-committed-after-first-chunk/chunk-1.bin",
           "sha256": "1e48d40e9b903ff2ebc3d5b61300a875eed8afcb90dd8959591d4ef757f291ff"
         },
         {
-          "path": "vectors-chunked-export/cases/threshold-committed-after-first-chunk/record.json",
+          "path": "corpora/vectors-chunked-export/cases/threshold-committed-after-first-chunk/record.json",
           "sha256": "a0eb70681083c83868b8db5ebbcc839c493c825f28b6c5a4bd9b8521e612f95a"
         }
       ],
@@ -414,19 +414,19 @@
     {
       "files": [
         {
-          "path": "vectors-chunked-export/cases/sets-three-chunks-no-reconstructing-set/chunk-0.bin",
+          "path": "corpora/vectors-chunked-export/cases/sets-three-chunks-no-reconstructing-set/chunk-0.bin",
           "sha256": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3"
         },
         {
-          "path": "vectors-chunked-export/cases/sets-three-chunks-no-reconstructing-set/chunk-1.bin",
+          "path": "corpora/vectors-chunked-export/cases/sets-three-chunks-no-reconstructing-set/chunk-1.bin",
           "sha256": "1e48d40e9b903ff2ebc3d5b61300a875eed8afcb90dd8959591d4ef757f291ff"
         },
         {
-          "path": "vectors-chunked-export/cases/sets-three-chunks-no-reconstructing-set/chunk-4.bin",
+          "path": "corpora/vectors-chunked-export/cases/sets-three-chunks-no-reconstructing-set/chunk-4.bin",
           "sha256": "2ff85d4b76fce467be8e8aedfe8b189d32cef58edba7919a40b9e0a6251d9190"
         },
         {
-          "path": "vectors-chunked-export/cases/sets-three-chunks-no-reconstructing-set/record.json",
+          "path": "corpora/vectors-chunked-export/cases/sets-three-chunks-no-reconstructing-set/record.json",
           "sha256": "b955a6cfc0f6f4f7d1df723f31e2cd6427a78341ef07561aae28f61ebf35d718"
         }
       ],
@@ -435,11 +435,11 @@
     {
       "files": [
         {
-          "path": "vectors-chunked-export/cases/sets-key-field-chunk-alone/chunk-3.bin",
+          "path": "corpora/vectors-chunked-export/cases/sets-key-field-chunk-alone/chunk-3.bin",
           "sha256": "e581b45b81619197c92ea6a4bb9dd09fbc48ac6449b7b3ff78c86137878bd6c4"
         },
         {
-          "path": "vectors-chunked-export/cases/sets-key-field-chunk-alone/record.json",
+          "path": "corpora/vectors-chunked-export/cases/sets-key-field-chunk-alone/record.json",
           "sha256": "03569eba1949e93725e339518cc98d5593462a14a3cda99d180b9f5de3367af7"
         }
       ],
@@ -448,19 +448,19 @@
     {
       "files": [
         {
-          "path": "vectors-chunked-export/cases/count-same-three-chunks/chunk-0.bin",
+          "path": "corpora/vectors-chunked-export/cases/count-same-three-chunks/chunk-0.bin",
           "sha256": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3"
         },
         {
-          "path": "vectors-chunked-export/cases/count-same-three-chunks/chunk-1.bin",
+          "path": "corpora/vectors-chunked-export/cases/count-same-three-chunks/chunk-1.bin",
           "sha256": "1e48d40e9b903ff2ebc3d5b61300a875eed8afcb90dd8959591d4ef757f291ff"
         },
         {
-          "path": "vectors-chunked-export/cases/count-same-three-chunks/chunk-4.bin",
+          "path": "corpora/vectors-chunked-export/cases/count-same-three-chunks/chunk-4.bin",
           "sha256": "2ff85d4b76fce467be8e8aedfe8b189d32cef58edba7919a40b9e0a6251d9190"
         },
         {
-          "path": "vectors-chunked-export/cases/count-same-three-chunks/record.json",
+          "path": "corpora/vectors-chunked-export/cases/count-same-three-chunks/record.json",
           "sha256": "5046db6d915dd7c37e0232a4e05d8dee7b6ac216d84ad21fa32958874efabecb"
         }
       ],
@@ -469,11 +469,11 @@
     {
       "files": [
         {
-          "path": "vectors-chunked-export/cases/sets-key-field-max-of-labels-seal/chunk-3.bin",
+          "path": "corpora/vectors-chunked-export/cases/sets-key-field-max-of-labels-seal/chunk-3.bin",
           "sha256": "e581b45b81619197c92ea6a4bb9dd09fbc48ac6449b7b3ff78c86137878bd6c4"
         },
         {
-          "path": "vectors-chunked-export/cases/sets-key-field-max-of-labels-seal/record.json",
+          "path": "corpora/vectors-chunked-export/cases/sets-key-field-max-of-labels-seal/record.json",
           "sha256": "5d731ebf261b6007682419247305e7f52d330ce40ffafd7a094a8e0838db98c7"
         }
       ],
@@ -482,11 +482,11 @@
     {
       "files": [
         {
-          "path": "vectors-chunked-export/cases/step-class-irreversible/chunk-0.bin",
+          "path": "corpora/vectors-chunked-export/cases/step-class-irreversible/chunk-0.bin",
           "sha256": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3"
         },
         {
-          "path": "vectors-chunked-export/cases/step-class-irreversible/record.json",
+          "path": "corpora/vectors-chunked-export/cases/step-class-irreversible/record.json",
           "sha256": "89ebf401105beee5554301d3e55167ed76c660f882b55d03ae2c6df43ed2e978"
         }
       ],
@@ -495,15 +495,15 @@
     {
       "files": [
         {
-          "path": "vectors-chunked-export/cases/contract-id-missing/chunk-0.bin",
+          "path": "corpora/vectors-chunked-export/cases/contract-id-missing/chunk-0.bin",
           "sha256": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3"
         },
         {
-          "path": "vectors-chunked-export/cases/contract-id-missing/chunk-1.bin",
+          "path": "corpora/vectors-chunked-export/cases/contract-id-missing/chunk-1.bin",
           "sha256": "1e48d40e9b903ff2ebc3d5b61300a875eed8afcb90dd8959591d4ef757f291ff"
         },
         {
-          "path": "vectors-chunked-export/cases/contract-id-missing/record.json",
+          "path": "corpora/vectors-chunked-export/cases/contract-id-missing/record.json",
           "sha256": "515ec57d420cd8cf1290959f343936041df830c7bdcd0bb30d709e092d86efa5"
         }
       ],
@@ -512,15 +512,15 @@
     {
       "files": [
         {
-          "path": "vectors-chunked-export/cases/contract-id-unknown/chunk-0.bin",
+          "path": "corpora/vectors-chunked-export/cases/contract-id-unknown/chunk-0.bin",
           "sha256": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3"
         },
         {
-          "path": "vectors-chunked-export/cases/contract-id-unknown/chunk-1.bin",
+          "path": "corpora/vectors-chunked-export/cases/contract-id-unknown/chunk-1.bin",
           "sha256": "1e48d40e9b903ff2ebc3d5b61300a875eed8afcb90dd8959591d4ef757f291ff"
         },
         {
-          "path": "vectors-chunked-export/cases/contract-id-unknown/record.json",
+          "path": "corpora/vectors-chunked-export/cases/contract-id-unknown/record.json",
           "sha256": "64d6a571608bc267ca54b2cabb5b23ab993fcb960212e83061701f27f83da508"
         }
       ],
@@ -543,7 +543,7 @@
       "reference": {
         "path": "release/intake/native/vectors-chunked-export.json",
         "serialization": "bytes",
-        "sha256": "43fd52e90b81afd63eac1934670c2f081fe1e8c828d112954d8d3be24bcc0c74"
+        "sha256": "63f34fbdc6d6f87405792cb586fea123e22348b45856ffe4482b942463415a26"
       }
     },
     {
@@ -577,11 +577,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "43fd52e90b81afd63eac1934670c2f081fe1e8c828d112954d8d3be24bcc0c74"
+        "sha256": "63f34fbdc6d6f87405792cb586fea123e22348b45856ffe4482b942463415a26"
       },
       {
         "process": "run-2",
-        "sha256": "43fd52e90b81afd63eac1934670c2f081fe1e8c828d112954d8d3be24bcc0c74"
+        "sha256": "63f34fbdc6d6f87405792cb586fea123e22348b45856ffe4482b942463415a26"
       }
     ],
     "seed": null,

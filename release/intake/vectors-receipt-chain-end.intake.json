@@ -15,8 +15,8 @@
       "path": "release/CORPUS-DIGESTS.txt",
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
-    "routine": "corpus_digest in vectors-receipt-chain-end/gen_vectors.py",
-    "routine-file": "vectors-receipt-chain-end/gen_vectors.py",
+    "routine": "corpus_digest in corpora/vectors-receipt-chain-end/gen_vectors.py",
+    "routine-file": "corpora/vectors-receipt-chain-end/gen_vectors.py",
     "serialization": "corpus-routine",
     "sha256": "73babeef6e8be17cd20cc65de636f1c36a1b92946fe5fe880d2b6a9ff29241bf",
     "verdicts": {
@@ -30,7 +30,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "0db810c6cde6f79e6983b0a97447aa79ab2974121ee7c83a8e173a87ef4aa2e3"
+          "sha256": "68e1e794c6ea9c594709b3a47817249c3838d28c78f1c075cb822d3a2bb05984"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -39,12 +39,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "0db810c6cde6f79e6983b0a97447aa79ab2974121ee7c83a8e173a87ef4aa2e3"
+          "sha256": "68e1e794c6ea9c594709b3a47817249c3838d28c78f1c075cb822d3a2bb05984"
         },
-        "swapped-in": "2d7a0c562c60068132cc787ce0934bbd0d06e49aa73a71f7f8ba2b765ae86723",
+        "swapped-in": "15773aa801db11928a72229bb458936489fd94bb667a86237c8ee1f0e58503a2",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-receipt-chain-end/README.md",
+      "path": "corpora/vectors-receipt-chain-end/README.md",
       "serialization": "bytes",
       "sha256": "a9e6a7bb22409c6594faa7d4caa7e6888de9c864a749e14a2a4db07070f70618"
     },
@@ -53,7 +53,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "0db810c6cde6f79e6983b0a97447aa79ab2974121ee7c83a8e173a87ef4aa2e3"
+          "sha256": "68e1e794c6ea9c594709b3a47817249c3838d28c78f1c075cb822d3a2bb05984"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -62,12 +62,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "0db810c6cde6f79e6983b0a97447aa79ab2974121ee7c83a8e173a87ef4aa2e3"
+          "sha256": "68e1e794c6ea9c594709b3a47817249c3838d28c78f1c075cb822d3a2bb05984"
         },
-        "swapped-in": "f4e9234a7c3affbcc538533f514c4b2e6003db3597e818059d5202ef11092b40",
+        "swapped-in": "99c077b5de7927432d0005daef6daf3dee4df0b741d2c63dd10da364384d50be",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-receipt-chain-end/check_vectors.py",
+      "path": "corpora/vectors-receipt-chain-end/check_vectors.py",
       "serialization": "bytes",
       "sha256": "ccd348a64110c8db34baf56226491e949cf957de54e62d1f3c9d38f2fb155d1f"
     },
@@ -76,7 +76,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "0db810c6cde6f79e6983b0a97447aa79ab2974121ee7c83a8e173a87ef4aa2e3"
+          "sha256": "68e1e794c6ea9c594709b3a47817249c3838d28c78f1c075cb822d3a2bb05984"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -85,21 +85,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "0db810c6cde6f79e6983b0a97447aa79ab2974121ee7c83a8e173a87ef4aa2e3"
+          "sha256": "68e1e794c6ea9c594709b3a47817249c3838d28c78f1c075cb822d3a2bb05984"
         },
-        "swapped-in": "a0050f721bc0398dfa0b06dc195f0605fc4b364ba0e559396ca9db9e01145dea",
+        "swapped-in": "f2e0a39a92e8abe91f51a1b143a223f398f79ff2d28f08c6849641f2083e1968",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-receipt-chain-end/gen_vectors.py",
+      "path": "corpora/vectors-receipt-chain-end/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "adc253ee68b60b162a44baa15f4dbb9331e18e90b8e771ec2adc0e58b9cbe990"
+      "sha256": "248b2290d3dd1fd38014b3e290ba68baca476dc20f51c9fcb12fc855dbd98e73"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "0db810c6cde6f79e6983b0a97447aa79ab2974121ee7c83a8e173a87ef4aa2e3"
+          "sha256": "68e1e794c6ea9c594709b3a47817249c3838d28c78f1c075cb822d3a2bb05984"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -108,12 +108,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "0db810c6cde6f79e6983b0a97447aa79ab2974121ee7c83a8e173a87ef4aa2e3"
+          "sha256": "68e1e794c6ea9c594709b3a47817249c3838d28c78f1c075cb822d3a2bb05984"
         },
-        "swapped-in": "85bf37010d78b7712a3ad6ee8fa1ca18e254fed4d8862b1bed0761fbfb8d157b",
+        "swapped-in": "df5507dbc78c49a638b42b1ef56d163552cfc019d2058de2ca710c6a492065b1",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-receipt-chain-end/tests/test_corpus.py",
+      "path": "corpora/vectors-receipt-chain-end/tests/test_corpus.py",
       "serialization": "bytes",
       "sha256": "65c7eac69a305802614efe41f6442f5a06cc64b9c1a6000dab5d925465462ae8"
     }
@@ -127,7 +127,7 @@
         "suffix": ""
       }
     ],
-    "root": "vectors-receipt-chain-end"
+    "root": "corpora/vectors-receipt-chain-end"
   },
   "byte-identity": {
     "pins": 62,
@@ -139,9 +139,9 @@
   "checker": {
     "commands": [
       "go build -o aee-verify ./cmd/aee-verify",
-      "aee-verify -json vectors-receipt-chain-end",
-      "aee-verify -json vectors-receipt-chain-end",
-      "aee-verify vectors-receipt-chain-end"
+      "aee-verify -json corpora/vectors-receipt-chain-end",
+      "aee-verify -json corpora/vectors-receipt-chain-end",
+      "aee-verify corpora/vectors-receipt-chain-end"
     ],
     "dependencies": [
       {
@@ -163,11 +163,11 @@
       "paths": [
         "aee",
         "cmd/aee-verify",
-        "corpora",
+        "corpusreaders",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "712a1932ef34c3166fdc0517647e0008db691ea8963f36e1331517673e968c64"
+      "sha256": "8be27026bb884f3436173b62f655f4cec4d85bfcff584e8903dc554272f441cc"
     },
     "runtime": {
       "name": "go",
@@ -176,7 +176,7 @@
     "shared-verification-code": [
       "aee",
       "cmd/aee-verify",
-      "corpora",
+      "corpusreaders",
       "go.mod"
     ]
   },
@@ -376,7 +376,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "cf4d3a0ec2d6f1ea85865f61ba4447a585b628d00de244ff16d8979e2016363a"
+    "sha256": "d669dd32e7fe4d8ff1a198cceb103d0ef1d7a17993d08829f3bf3738be0d6b9d"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -411,18 +411,18 @@
       "final-head-not-at-end",
       "seq-reset-control-endorsed"
     ],
-    "path": "vectors-receipt-chain-end/MANIFEST.json",
+    "path": "corpora/vectors-receipt-chain-end/MANIFEST.json",
     "sha256": "87f34cd85a99848a433cc59ba53d0ec6125bef33155d1ae4f2810891739c9618"
   },
   "members": [
     {
       "files": [
         {
-          "path": "vectors-receipt-chain-end/cases/control-closed-run/case.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/control-closed-run/case.json",
           "sha256": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/control-closed-run/chain.jsonl",
+          "path": "corpora/vectors-receipt-chain-end/cases/control-closed-run/chain.jsonl",
           "sha256": "7c757f8c528d5cd33f35430102be79f5de0bdb6920d4a20e04c4398766f88b9d"
         }
       ],
@@ -431,15 +431,15 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-chain-end/cases/control-closed-run-retained-head/case.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/control-closed-run-retained-head/case.json",
           "sha256": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/control-closed-run-retained-head/chain.jsonl",
+          "path": "corpora/vectors-receipt-chain-end/cases/control-closed-run-retained-head/chain.jsonl",
           "sha256": "7c757f8c528d5cd33f35430102be79f5de0bdb6920d4a20e04c4398766f88b9d"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/control-closed-run-retained-head/head.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/control-closed-run-retained-head/head.json",
           "sha256": "50c663a3d7eec0a2f8a9ab72ce1ef4f22b044f934ce5a86423801469a962d2d2"
         }
       ],
@@ -448,11 +448,11 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-chain-end/cases/control-open-prefix/case.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/control-open-prefix/case.json",
           "sha256": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/control-open-prefix/chain.jsonl",
+          "path": "corpora/vectors-receipt-chain-end/cases/control-open-prefix/chain.jsonl",
           "sha256": "82c365a1281b6c89e4f72523f14fc5265c33bb5874cf12a95d1691f6e299641e"
         }
       ],
@@ -461,15 +461,15 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-chain-end/cases/control-open-run-final-head/case.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/control-open-run-final-head/case.json",
           "sha256": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/control-open-run-final-head/chain.jsonl",
+          "path": "corpora/vectors-receipt-chain-end/cases/control-open-run-final-head/chain.jsonl",
           "sha256": "82c365a1281b6c89e4f72523f14fc5265c33bb5874cf12a95d1691f6e299641e"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/control-open-run-final-head/head.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/control-open-run-final-head/head.json",
           "sha256": "fc0303b6b40066f465bda064343d606da99d680e9258ae03728b6775ae4ac459"
         }
       ],
@@ -478,15 +478,15 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-chain-end/cases/control-rotation-endorsed/case.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/control-rotation-endorsed/case.json",
           "sha256": "0207735838b1a84e6ae777b751d9c4fdf4b53d3989874bbdc882d98beb9b8bcd"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/control-rotation-endorsed/chain.jsonl",
+          "path": "corpora/vectors-receipt-chain-end/cases/control-rotation-endorsed/chain.jsonl",
           "sha256": "15ae5ca65690094e64953f144ebc9a67b26c5d595cfd76535d9ae062ac5a9a68"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/control-rotation-endorsed/endorsement.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/control-rotation-endorsed/endorsement.json",
           "sha256": "69dec0a7ec48563c581a3502c39a3fe32d02d4a890c064776d95ad372979517d"
         }
       ],
@@ -495,11 +495,11 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-chain-end/cases/control-timestamp-tie/case.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/control-timestamp-tie/case.json",
           "sha256": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/control-timestamp-tie/chain.jsonl",
+          "path": "corpora/vectors-receipt-chain-end/cases/control-timestamp-tie/chain.jsonl",
           "sha256": "33824768f0f364817436f787f3bc736da239d4a16d9f9e32462796b74a4b48e2"
         }
       ],
@@ -508,11 +508,11 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-chain-end/cases/tail-truncation/case.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/tail-truncation/case.json",
           "sha256": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/tail-truncation/chain.jsonl",
+          "path": "corpora/vectors-receipt-chain-end/cases/tail-truncation/chain.jsonl",
           "sha256": "f22b133b686c89472fd343ffa1b99729eeda559c9f37a54c48725506e30e03d0"
         }
       ],
@@ -521,15 +521,15 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-chain-end/cases/tail-truncation-retained-head/case.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/tail-truncation-retained-head/case.json",
           "sha256": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/tail-truncation-retained-head/chain.jsonl",
+          "path": "corpora/vectors-receipt-chain-end/cases/tail-truncation-retained-head/chain.jsonl",
           "sha256": "f22b133b686c89472fd343ffa1b99729eeda559c9f37a54c48725506e30e03d0"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/tail-truncation-retained-head/head.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/tail-truncation-retained-head/head.json",
           "sha256": "50c663a3d7eec0a2f8a9ab72ce1ef4f22b044f934ce5a86423801469a962d2d2"
         }
       ],
@@ -538,11 +538,11 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-chain-end/cases/prefix-replay-shared-session-close/case.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/prefix-replay-shared-session-close/case.json",
           "sha256": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/prefix-replay-shared-session-close/chain.jsonl",
+          "path": "corpora/vectors-receipt-chain-end/cases/prefix-replay-shared-session-close/chain.jsonl",
           "sha256": "17d472c9feb87a10ce0693cc9012fefd2e65d29c252e9369beb0a7df5e7ee798"
         }
       ],
@@ -551,15 +551,15 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-chain-end/cases/prefix-replay-other-run/case.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/prefix-replay-other-run/case.json",
           "sha256": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/prefix-replay-other-run/chain.jsonl",
+          "path": "corpora/vectors-receipt-chain-end/cases/prefix-replay-other-run/chain.jsonl",
           "sha256": "41da9bdcad854f2022e7b15b356c799a2e931c4dd2eaa95843ebedf5e022ed88"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/prefix-replay-other-run/head.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/prefix-replay-other-run/head.json",
           "sha256": "50c663a3d7eec0a2f8a9ab72ce1ef4f22b044f934ce5a86423801469a962d2d2"
         }
       ],
@@ -568,15 +568,15 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-chain-end/cases/fork-branch-against-retained-head/case.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/fork-branch-against-retained-head/case.json",
           "sha256": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/fork-branch-against-retained-head/chain.jsonl",
+          "path": "corpora/vectors-receipt-chain-end/cases/fork-branch-against-retained-head/chain.jsonl",
           "sha256": "e2e989fb0146feee49fff64a899f3d288996601109664551135e7991615c82ba"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/fork-branch-against-retained-head/head.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/fork-branch-against-retained-head/head.json",
           "sha256": "ab1ba9e882f294cbeb548d02bb4d62a4642ccc3b33d6f180c83919298baee094"
         }
       ],
@@ -585,15 +585,15 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-chain-end/cases/fork-branch-against-retained-seq/case.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/fork-branch-against-retained-seq/case.json",
           "sha256": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/fork-branch-against-retained-seq/chain.jsonl",
+          "path": "corpora/vectors-receipt-chain-end/cases/fork-branch-against-retained-seq/chain.jsonl",
           "sha256": "e2e989fb0146feee49fff64a899f3d288996601109664551135e7991615c82ba"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/fork-branch-against-retained-seq/head.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/fork-branch-against-retained-seq/head.json",
           "sha256": "efa557c026eb0c030bd6beb32300cdca8f0162fb3052b183fbc69cb523fba395"
         }
       ],
@@ -602,11 +602,11 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-chain-end/cases/fork-both-branches/case.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/fork-both-branches/case.json",
           "sha256": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/fork-both-branches/chain.jsonl",
+          "path": "corpora/vectors-receipt-chain-end/cases/fork-both-branches/chain.jsonl",
           "sha256": "713be7260da5bf17cbf453d64c48bef303b0812b19884abc7d46e5709d8e48c9"
         }
       ],
@@ -615,11 +615,11 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-chain-end/cases/rotation-resigned-tail-keys-pinned/case.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/rotation-resigned-tail-keys-pinned/case.json",
           "sha256": "e49caefb86c6c6da18298d6bcc8c2b667c2dd37e4fe34c94d2b11bcb7e56a699"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/rotation-resigned-tail-keys-pinned/chain.jsonl",
+          "path": "corpora/vectors-receipt-chain-end/cases/rotation-resigned-tail-keys-pinned/chain.jsonl",
           "sha256": "4c2ac23944e07bc8ad90bfc747be4338f1b27417f3725520dcb9b9dbbaeb9778"
         }
       ],
@@ -628,15 +628,15 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-chain-end/cases/rotation-resigned-tail-endorsement/case.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/rotation-resigned-tail-endorsement/case.json",
           "sha256": "0207735838b1a84e6ae777b751d9c4fdf4b53d3989874bbdc882d98beb9b8bcd"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/rotation-resigned-tail-endorsement/chain.jsonl",
+          "path": "corpora/vectors-receipt-chain-end/cases/rotation-resigned-tail-endorsement/chain.jsonl",
           "sha256": "4c2ac23944e07bc8ad90bfc747be4338f1b27417f3725520dcb9b9dbbaeb9778"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/rotation-resigned-tail-endorsement/endorsement.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/rotation-resigned-tail-endorsement/endorsement.json",
           "sha256": "69dec0a7ec48563c581a3502c39a3fe32d02d4a890c064776d95ad372979517d"
         }
       ],
@@ -645,15 +645,15 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-chain-end/cases/stale-head-honest-extension/case.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/stale-head-honest-extension/case.json",
           "sha256": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/stale-head-honest-extension/chain.jsonl",
+          "path": "corpora/vectors-receipt-chain-end/cases/stale-head-honest-extension/chain.jsonl",
           "sha256": "7c757f8c528d5cd33f35430102be79f5de0bdb6920d4a20e04c4398766f88b9d"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/stale-head-honest-extension/head.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/stale-head-honest-extension/head.json",
           "sha256": "bbf1ef6d60b36be68d732f0143afb456f23dfa247ec406506656d74aca51dacf"
         }
       ],
@@ -662,15 +662,15 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-chain-end/cases/stale-head-truncated-to-it/case.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/stale-head-truncated-to-it/case.json",
           "sha256": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/stale-head-truncated-to-it/chain.jsonl",
+          "path": "corpora/vectors-receipt-chain-end/cases/stale-head-truncated-to-it/chain.jsonl",
           "sha256": "0aff850fcc321fe106fe67388ef6cf72ce35c812d5ea6808ca885d869e917894"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/stale-head-truncated-to-it/head.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/stale-head-truncated-to-it/head.json",
           "sha256": "bbf1ef6d60b36be68d732f0143afb456f23dfa247ec406506656d74aca51dacf"
         }
       ],
@@ -679,15 +679,15 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-chain-end/cases/seq-reset-hides-gap/case.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/seq-reset-hides-gap/case.json",
           "sha256": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/seq-reset-hides-gap/chain.jsonl",
+          "path": "corpora/vectors-receipt-chain-end/cases/seq-reset-hides-gap/chain.jsonl",
           "sha256": "f22b133b686c89472fd343ffa1b99729eeda559c9f37a54c48725506e30e03d0"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/seq-reset-hides-gap/head.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/seq-reset-hides-gap/head.json",
           "sha256": "c103df91a7d4775f304254ff854795f81068747e6a0cdd223aa2eb18c8578f8c"
         }
       ],
@@ -696,11 +696,11 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-chain-end/cases/reorder-timestamp-tie/case.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/reorder-timestamp-tie/case.json",
           "sha256": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/reorder-timestamp-tie/chain.jsonl",
+          "path": "corpora/vectors-receipt-chain-end/cases/reorder-timestamp-tie/chain.jsonl",
           "sha256": "2c36c4a99fa0a5561302b7e4aba99d222b910fd977b05c36dd17b3bfdae9c6ac"
         }
       ],
@@ -709,11 +709,11 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-chain-end/cases/signature-tamper/case.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/signature-tamper/case.json",
           "sha256": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/signature-tamper/chain.jsonl",
+          "path": "corpora/vectors-receipt-chain-end/cases/signature-tamper/chain.jsonl",
           "sha256": "83f57bce563def2fa88ecbadfa7a89c240e449af18cc44e49a5c9651edfa2a3e"
         }
       ],
@@ -722,11 +722,11 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-chain-end/cases/untrusted-genesis-key/case.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/untrusted-genesis-key/case.json",
           "sha256": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/untrusted-genesis-key/chain.jsonl",
+          "path": "corpora/vectors-receipt-chain-end/cases/untrusted-genesis-key/chain.jsonl",
           "sha256": "6794059ab0875b3db021b1a77fed44ad4a2c213e59d34d2ed8c4e8d29e8de3f0"
         }
       ],
@@ -735,11 +735,11 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-chain-end/cases/close-count-forged/case.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/close-count-forged/case.json",
           "sha256": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/close-count-forged/chain.jsonl",
+          "path": "corpora/vectors-receipt-chain-end/cases/close-count-forged/chain.jsonl",
           "sha256": "21487983ee70c85d75f5e24b0b9b69575ec20f50c014f847c090434fa77f3ad3"
         }
       ],
@@ -748,15 +748,15 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-chain-end/cases/final-head-not-at-end/case.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/final-head-not-at-end/case.json",
           "sha256": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/final-head-not-at-end/chain.jsonl",
+          "path": "corpora/vectors-receipt-chain-end/cases/final-head-not-at-end/chain.jsonl",
           "sha256": "82c365a1281b6c89e4f72523f14fc5265c33bb5874cf12a95d1691f6e299641e"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/final-head-not-at-end/head.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/final-head-not-at-end/head.json",
           "sha256": "07d6705b01d46c40263df08d849bf720dd5341a5a8859fc4d31a6a1b5d235158"
         }
       ],
@@ -765,19 +765,19 @@
     {
       "files": [
         {
-          "path": "vectors-receipt-chain-end/cases/seq-reset-control-endorsed/case.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/seq-reset-control-endorsed/case.json",
           "sha256": "8a0fa162db74784cb3d64dc9925eb488d40439fc1020f7d3ed27ab93c5dded05"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/seq-reset-control-endorsed/chain.jsonl",
+          "path": "corpora/vectors-receipt-chain-end/cases/seq-reset-control-endorsed/chain.jsonl",
           "sha256": "773e6ddb63b9eb89e53e946cb04f90e3164c65bd22ee42a95daa7feacb175483"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/seq-reset-control-endorsed/endorsement.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/seq-reset-control-endorsed/endorsement.json",
           "sha256": "0a9314b22b009b191e16016fbd3e41a366caea81f49ef31d93421cfe8d38b87c"
         },
         {
-          "path": "vectors-receipt-chain-end/cases/seq-reset-control-endorsed/head.json",
+          "path": "corpora/vectors-receipt-chain-end/cases/seq-reset-control-endorsed/head.json",
           "sha256": "c103df91a7d4775f304254ff854795f81068747e6a0cdd223aa2eb18c8578f8c"
         }
       ],
@@ -800,7 +800,7 @@
       "reference": {
         "path": "release/intake/native/vectors-receipt-chain-end.json",
         "serialization": "bytes",
-        "sha256": "0db810c6cde6f79e6983b0a97447aa79ab2974121ee7c83a8e173a87ef4aa2e3"
+        "sha256": "68e1e794c6ea9c594709b3a47817249c3838d28c78f1c075cb822d3a2bb05984"
       }
     },
     {
@@ -931,11 +931,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "0db810c6cde6f79e6983b0a97447aa79ab2974121ee7c83a8e173a87ef4aa2e3"
+        "sha256": "68e1e794c6ea9c594709b3a47817249c3838d28c78f1c075cb822d3a2bb05984"
       },
       {
         "process": "run-2",
-        "sha256": "0db810c6cde6f79e6983b0a97447aa79ab2974121ee7c83a8e173a87ef4aa2e3"
+        "sha256": "68e1e794c6ea9c594709b3a47817249c3838d28c78f1c075cb822d3a2bb05984"
       }
     ],
     "seed": null,
