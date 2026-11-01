@@ -2510,3 +2510,22 @@ test_corpus_denylist_justified if {
 		_bind_and_sound(v.statement)
 	}
 }
+
+# A refusal always says why. Every corpus reject this module refuses carries a
+# non-empty `errors` under the corpus consumer, so a soundness rule added later
+# cannot refuse a statement without a matching `errors` rule. Before this test six
+# rejects (observed-attack-uncaught, assessed-set-exceeds-declaration,
+# arming-covers-nothing, attribution-pinned-recordless) were refused with an empty
+# set, and a caller that reports `errors` showed a denial with no reason.
+test_corpus_rejects_all_explained if {
+	every v in data.corpus_vectors.reject {
+		_reject_is_explained(v.statement)
+	}
+}
+
+_reject_is_explained(s) if {
+	not isCompliant with input as s
+		with data.consumer as _corpus_consumer
+	count(errors) > 0 with input as s
+		with data.consumer as _corpus_consumer
+}
