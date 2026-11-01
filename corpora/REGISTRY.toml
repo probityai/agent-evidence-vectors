@@ -134,7 +134,7 @@ shapes = ["tampering", "forged-signature", "missing-binding"]
 
 [[corpus]]
 id = "vectors-a2a-jcs-v01"
-path = "vectors-a2a-jcs-v01"
+path = "corpora/vectors-a2a-jcs-v01"
 wheel = true
 sdist = true
 title = "Agent Card canonicalization"
@@ -146,7 +146,7 @@ shapes = ["malformed-input", "ordering"]
 
 [[corpus]]
 id = "vectors-aci"
-path = "vectors-aci"
+path = "corpora/vectors-aci"
 wheel = true
 sdist = true
 title = "Agent deployment manifests"
@@ -158,7 +158,7 @@ shapes = ["missing-binding", "malformed-input", "coverage-gap"]
 
 [[corpus]]
 id = "vectors-acs-core"
-path = "vectors-acs-core"
+path = "corpora/vectors-acs-core"
 wheel = true
 sdist = true
 title = "Agent control standard core"
@@ -170,7 +170,7 @@ shapes = ["scope-overreach", "replay", "stale-authority"]
 
 [[corpus]]
 id = "vectors-admission"
-path = "vectors-admission"
+path = "corpora/vectors-admission"
 wheel = true
 sdist = true
 title = "Admission under consumer policy"
@@ -182,7 +182,7 @@ shapes = ["missing-binding", "self-report"]
 
 [[corpus]]
 id = "vectors-agent-audit-record"
-path = "vectors-agent-audit-record"
+path = "corpora/vectors-agent-audit-record"
 wheel = true
 sdist = true
 title = "Agent audit records"
@@ -194,7 +194,7 @@ shapes = ["broken-chain", "forged-signature", "replay"]
 
 [[corpus]]
 id = "vectors-agent-card-receipt"
-path = "vectors-agent-card-receipt"
+path = "corpora/vectors-agent-card-receipt"
 wheel = true
 sdist = true
 title = "Agent Card receipts"
@@ -206,7 +206,7 @@ shapes = ["missing-binding", "stale-authority"]
 
 [[corpus]]
 id = "vectors-agent-change-admission"
-path = "vectors-agent-change-admission"
+path = "corpora/vectors-agent-change-admission"
 wheel = true
 sdist = true
 title = "Agent harness change admission"
@@ -218,7 +218,7 @@ shapes = ["missing-binding", "forged-signature", "coverage-gap"]
 
 [[corpus]]
 id = "vectors-agent-decision"
-path = "vectors-agent-decision"
+path = "corpora/vectors-agent-decision"
 wheel = true
 sdist = true
 title = "Tool-call argument hashes"
@@ -230,7 +230,7 @@ shapes = ["malformed-input", "tampering"]
 
 [[corpus]]
 id = "vectors-agent-payment-mandate"
-path = "vectors-agent-payment-mandate"
+path = "corpora/vectors-agent-payment-mandate"
 wheel = true
 sdist = true
 title = "Agent payment dispute packs"
@@ -242,7 +242,7 @@ shapes = ["missing-binding", "tampering", "scope-overreach"]
 
 [[corpus]]
 id = "vectors-agentic-process-evidence"
-path = "vectors-agentic-process-evidence"
+path = "corpora/vectors-agentic-process-evidence"
 wheel = true
 sdist = true
 title = "Agentic process evidence"
@@ -254,7 +254,7 @@ shapes = ["forged-signature", "malformed-input"]
 
 [[corpus]]
 id = "vectors-aggregate-accounting"
-path = "vectors-aggregate-accounting"
+path = "corpora/vectors-aggregate-accounting"
 wheel = true
 sdist = true
 title = "Shared budget accounting"
@@ -266,7 +266,7 @@ shapes = ["scope-overreach", "uncertainty", "race-condition"]
 
 [[corpus]]
 id = "vectors-ai-agent-action"
-path = "vectors-ai-agent-action"
+path = "corpora/vectors-ai-agent-action"
 wheel = true
 sdist = true
 title = "AI agent action records"
@@ -278,7 +278,7 @@ shapes = ["broken-chain", "malformed-input", "tampering"]
 
 [[corpus]]
 id = "vectors-ai-generation"
-path = "vectors-ai-generation"
+path = "corpora/vectors-ai-generation"
 wheel = true
 sdist = true
 title = "AI generation attestations"
@@ -290,7 +290,7 @@ shapes = ["tampering", "forged-signature", "missing-binding"]
 
 [[corpus]]
 id = "vectors-anchor-stream"
-path = "vectors-anchor-stream"
+path = "corpora/vectors-anchor-stream"
 wheel = true
 sdist = true
 title = "Anchor stream verification"
@@ -302,7 +302,7 @@ shapes = ["tampering", "broken-chain", "ordering"]
 
 [[corpus]]
 id = "vectors-anchored-chain"
-path = "vectors-anchored-chain"
+path = "corpora/vectors-anchored-chain"
 wheel = true
 sdist = true
 title = "Anchored memory record chains"
@@ -314,7 +314,7 @@ shapes = ["broken-chain", "replay", "tampering"]
 
 [[corpus]]
 id = "vectors-approval-binding"
-path = "vectors-approval-binding"
+path = "corpora/vectors-approval-binding"
 wheel = true
 sdist = true
 title = "Approval binding"
@@ -326,7 +326,7 @@ shapes = ["missing-binding", "replay", "stale-authority"]
 
 [[corpus]]
 id = "vectors-artifact-binding"
-path = "vectors-artifact-binding"
+path = "corpora/vectors-artifact-binding"
 wheel = true
 sdist = true
 title = "Evaluation artifact binding"
@@ -338,7 +338,7 @@ shapes = ["missing-binding", "tampering", "coverage-gap"]
 
 [[corpus]]
 id = "vectors-authority-at-dispatch"
-path = "vectors-authority-at-dispatch"
+path = "corpora/vectors-authority-at-dispatch"
 wheel = true
 sdist = true
 title = "Authority at dispatch"
@@ -350,7 +350,7 @@ shapes = ["stale-authority", "scope-overreach", "missing-binding"]
 
 [[corpus]]
 id = "vectors-badge-vc-verify"
-path = "vectors-badge-vc-verify"
+path = "corpora/vectors-badge-vc-verify"
 wheel = true
 sdist = true
 title = "Agent badge credentials"
@@ -362,7 +362,7 @@ shapes = ["forged-signature", "stale-authority"]
 
 [[corpus]]
 id = "vectors-chunked-export"
-path = "vectors-chunked-export"
+path = "corpora/vectors-chunked-export"
 wheel = true
 sdist = true
 title = "Chunked export gating"
@@ -374,7 +374,7 @@ shapes = ["scope-overreach", "coverage-gap"]
 
 [[corpus]]
 id = "vectors-completion-confirmation"
-path = "vectors-completion-confirmation"
+path = "corpora/vectors-completion-confirmation"
 wheel = true
 sdist = true
 title = "Completion confirmation"
@@ -386,7 +386,7 @@ shapes = ["self-report", "missing-binding", "replay"]
 
 [[corpus]]
 id = "vectors-connector-scope"
-path = "vectors-connector-scope"
+path = "corpora/vectors-connector-scope"
 wheel = true
 sdist = true
 title = "Connector scope records"
@@ -398,7 +398,7 @@ shapes = ["scope-overreach", "malformed-input"]
 
 [[corpus]]
 id = "vectors-converted-argument-binding"
-path = "vectors-converted-argument-binding"
+path = "corpora/vectors-converted-argument-binding"
 wheel = true
 sdist = true
 title = "Converted argument binding"
@@ -410,7 +410,7 @@ shapes = ["missing-binding", "tampering"]
 
 [[corpus]]
 id = "vectors-credential-release"
-path = "vectors-credential-release"
+path = "corpora/vectors-credential-release"
 wheel = true
 sdist = true
 title = "Credential release"
@@ -422,7 +422,7 @@ shapes = ["stale-authority", "scope-overreach", "missing-binding"]
 
 [[corpus]]
 id = "vectors-delegation-lifecycle"
-path = "vectors-delegation-lifecycle"
+path = "corpora/vectors-delegation-lifecycle"
 wheel = true
 sdist = true
 title = "Delegation lifecycle"
@@ -434,7 +434,7 @@ shapes = ["stale-authority", "broken-chain", "uncertainty"]
 
 [[corpus]]
 id = "vectors-delegator-right"
-path = "vectors-delegator-right"
+path = "corpora/vectors-delegator-right"
 wheel = true
 sdist = true
 title = "Delegator rights"
@@ -446,7 +446,7 @@ shapes = ["scope-overreach", "stale-authority"]
 
 [[corpus]]
 id = "vectors-dependency-selection"
-path = "vectors-dependency-selection"
+path = "corpora/vectors-dependency-selection"
 wheel = true
 sdist = true
 title = "AI-assisted dependency changes"
@@ -458,7 +458,7 @@ shapes = ["missing-binding", "tampering", "coverage-gap"]
 
 [[corpus]]
 id = "vectors-dispatch-fence"
-path = "vectors-dispatch-fence"
+path = "corpora/vectors-dispatch-fence"
 wheel = true
 sdist = true
 title = "Exclusive dispatch fence"
@@ -470,7 +470,7 @@ shapes = ["race-condition", "stale-authority", "missing-binding"]
 
 [[corpus]]
 id = "vectors-done-contract"
-path = "vectors-done-contract"
+path = "corpora/vectors-done-contract"
 wheel = true
 sdist = true
 title = "Done contracts"
@@ -482,7 +482,7 @@ shapes = ["malformed-input", "tampering"]
 
 [[corpus]]
 id = "vectors-done-probes"
-path = "vectors-done-probes"
+path = "corpora/vectors-done-probes"
 wheel = true
 sdist = true
 title = "Grader probes and detectors"
@@ -494,7 +494,7 @@ shapes = ["wrong-grade", "tampering"]
 
 [[corpus]]
 id = "vectors-done-receipt"
-path = "vectors-done-receipt"
+path = "corpora/vectors-done-receipt"
 wheel = true
 sdist = true
 title = "Done receipts"
@@ -506,7 +506,7 @@ shapes = ["wrong-grade", "forged-signature", "self-report"]
 
 [[corpus]]
 id = "vectors-grade-floor"
-path = "vectors-grade-floor"
+path = "corpora/vectors-grade-floor"
 wheel = true
 sdist = true
 title = "Evidence grade floor"
@@ -518,7 +518,7 @@ shapes = ["wrong-grade", "self-report"]
 
 [[corpus]]
 id = "vectors-grader-isolation"
-path = "vectors-grader-isolation"
+path = "corpora/vectors-grader-isolation"
 wheel = true
 sdist = true
 title = "Grader isolation"
@@ -530,7 +530,7 @@ shapes = ["tampering", "wrong-grade", "missing-binding"]
 
 [[corpus]]
 id = "vectors-identity-binding"
-path = "vectors-identity-binding"
+path = "corpora/vectors-identity-binding"
 wheel = true
 sdist = true
 title = "DID identity binding"
@@ -542,7 +542,7 @@ shapes = ["missing-binding", "forged-signature"]
 
 [[corpus]]
 id = "vectors-ietf-agent-record-drafts"
-path = "vectors-ietf-agent-record-drafts"
+path = "corpora/vectors-ietf-agent-record-drafts"
 wheel = true
 sdist = true
 title = "SCITT agent record drafts"
@@ -554,7 +554,7 @@ shapes = ["broken-chain", "forged-signature", "malformed-input"]
 
 [[corpus]]
 id = "vectors-mcp-owasp"
-path = "vectors-mcp-owasp"
+path = "corpora/vectors-mcp-owasp"
 wheel = true
 sdist = true
 title = "MCP verification requirements"
@@ -566,7 +566,7 @@ shapes = ["tampering", "scope-overreach", "missing-binding"]
 
 [[corpus]]
 id = "vectors-mcp-record-contract"
-path = "vectors-mcp-record-contract"
+path = "corpora/vectors-mcp-record-contract"
 wheel = true
 sdist = true
 title = "Cross-run record contract"
@@ -578,7 +578,7 @@ shapes = ["self-report", "missing-binding"]
 
 [[corpus]]
 id = "vectors-mcp-response-phase"
-path = "vectors-mcp-response-phase"
+path = "corpora/vectors-mcp-response-phase"
 wheel = true
 sdist = true
 title = "MCP response-phase interception"
@@ -590,7 +590,7 @@ shapes = ["coverage-gap", "ordering"]
 
 [[corpus]]
 id = "vectors-observed-effect"
-path = "vectors-observed-effect"
+path = "corpora/vectors-observed-effect"
 wheel = true
 sdist = true
 title = "Observed effects"
@@ -602,7 +602,7 @@ shapes = ["forged-signature", "tampering", "missing-binding"]
 
 [[corpus]]
 id = "vectors-open-weight-art53"
-path = "vectors-open-weight-art53"
+path = "corpora/vectors-open-weight-art53"
 wheel = true
 sdist = true
 title = "Open-weight release exemption"
@@ -614,7 +614,7 @@ shapes = ["coverage-gap", "uncertainty"]
 
 [[corpus]]
 id = "vectors-receipt-chain-end"
-path = "vectors-receipt-chain-end"
+path = "corpora/vectors-receipt-chain-end"
 wheel = true
 sdist = true
 title = "Receipt chain end"
@@ -626,7 +626,7 @@ shapes = ["broken-chain", "coverage-gap"]
 
 [[corpus]]
 id = "vectors-receipt-signature"
-path = "vectors-receipt-signature"
+path = "corpora/vectors-receipt-signature"
 wheel = true
 sdist = true
 title = "Receipt signatures"
@@ -638,7 +638,7 @@ shapes = ["forged-signature", "stale-authority"]
 
 [[corpus]]
 id = "vectors-recorded"
-path = "vectors-recorded"
+path = "corpora/vectors-recorded"
 wheel = true
 sdist = true
 title = "Recorded byte sets"
@@ -650,7 +650,7 @@ shapes = ["tampering", "malformed-input", "coverage-gap"]
 
 [[corpus]]
 id = "vectors-refund-connected"
-path = "vectors-refund-connected"
+path = "corpora/vectors-refund-connected"
 wheel = true
 sdist = true
 title = "Connected refund pilot runs"
@@ -662,7 +662,7 @@ shapes = ["self-report", "missing-binding"]
 
 [[corpus]]
 id = "vectors-restart-records"
-path = "vectors-restart-records"
+path = "corpora/vectors-restart-records"
 wheel = true
 sdist = true
 title = "Restart and restoration records"
@@ -674,7 +674,7 @@ shapes = ["missing-binding", "malformed-input", "stale-authority"]
 
 [[corpus]]
 id = "vectors-scitt-cose"
-path = "vectors-scitt-cose"
+path = "corpora/vectors-scitt-cose"
 wheel = true
 sdist = true
 title = "SCITT COSE carriage"
@@ -686,7 +686,7 @@ shapes = ["forged-signature", "malformed-input", "missing-binding"]
 
 [[corpus]]
 id = "vectors-self-reported-record"
-path = "vectors-self-reported-record"
+path = "corpora/vectors-self-reported-record"
 wheel = true
 sdist = true
 title = "Self-reported agent records"
@@ -698,7 +698,7 @@ shapes = ["self-report", "forged-signature", "coverage-gap"]
 
 [[corpus]]
 id = "vectors-source-coverage"
-path = "vectors-source-coverage"
+path = "corpora/vectors-source-coverage"
 wheel = true
 sdist = true
 title = "Source passage coverage"
@@ -710,7 +710,7 @@ shapes = ["tampering", "coverage-gap"]
 
 [[corpus]]
 id = "vectors-spoofed-tool-output"
-path = "vectors-spoofed-tool-output"
+path = "corpora/vectors-spoofed-tool-output"
 wheel = true
 sdist = true
 title = "Spoofed tool output"
@@ -722,7 +722,7 @@ shapes = ["self-report", "tampering"]
 
 [[corpus]]
 id = "vectors-test-tampering"
-path = "vectors-test-tampering"
+path = "corpora/vectors-test-tampering"
 wheel = true
 sdist = true
 title = "Test tampering"
@@ -734,7 +734,7 @@ shapes = ["tampering", "coverage-gap"]
 
 [[corpus]]
 id = "vectors-trace-anchor"
-path = "vectors-trace-anchor"
+path = "corpora/vectors-trace-anchor"
 wheel = true
 sdist = true
 title = "TRACE registry anchors"
@@ -746,7 +746,7 @@ shapes = ["missing-binding", "self-report", "tampering"]
 
 [[corpus]]
 id = "vectors-uncertain-effect"
-path = "vectors-uncertain-effect"
+path = "corpora/vectors-uncertain-effect"
 wheel = true
 sdist = true
 title = "Uncertain effects"
@@ -758,7 +758,7 @@ shapes = ["uncertainty", "replay"]
 
 [[corpus]]
 id = "vectors-w3c-intake"
-path = "vectors-w3c-intake"
+path = "corpora/vectors-w3c-intake"
 wheel = true
 sdist = true
 title = "W3C intake criteria"
@@ -770,7 +770,7 @@ shapes = ["missing-binding", "coverage-gap"]
 
 [[corpus]]
 id = "vectors-w3c-report"
-path = "vectors-w3c-report"
+path = "corpora/vectors-w3c-report"
 wheel = true
 sdist = true
 title = "W3C per-check reports"
