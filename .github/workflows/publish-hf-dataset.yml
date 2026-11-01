@@ -46,8 +46,8 @@ permissions:
 
 # One publication at a time; a second release waits for the first.
 concurrency:
-  group: publish-hf-dataset
-  cancel-in-progress: false
+  group: publish-hf-dataset-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   test:

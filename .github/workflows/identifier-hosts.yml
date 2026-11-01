@@ -8,8 +8,9 @@ name: identifier-hosts
 # URI resolves only through GitHub's 301. Creating any repository at
 # probityai/agent-evidence-vocabulary would end the redirect, and the URI would
 # then name whatever that new repository holds. The same holds for
-# probityai/agent-evidence, which stays at its own name, archived, so its links
-# keep resolving. This job fails when either is no longer true.
+# probityai/agent-evidence, which was archived by transfer to probityai-archive,
+# so its links resolve only through the same 301. This job fails when either
+# redirect is gone.
 
 on:
   schedule:
@@ -20,6 +21,12 @@ on:
 
 permissions:
   contents: read
+
+concurrency:
+  # A newer push to the same pull request or branch supersedes the older run.
+  # Main and tags never cancel: each main push keeps its own group by sha.
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || (github.ref == 'refs/heads/main' && github.sha) || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' || github.event_name == 'pull_request_target' || (github.event_name == 'push' && github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/tags/')) }}
 
 jobs:
   hosts:
@@ -53,12 +60,12 @@ jobs:
             exit 1
           fi
           echo "$uri answers $code to $location, then 200"
-      - name: agent-evidence stays at its own name
+      - name: agent-evidence is still the archived one behind the redirect
         run: |
           set -euo pipefail
           name="$(gh api repos/probityai/agent-evidence --jq .full_name)"
-          if [ "$name" != "probityai/agent-evidence" ]; then
-            echo "::error::probityai/agent-evidence resolves to '$name'; it must stay at its own name"
+          if [ "$name" != "probityai-archive/agent-evidence" ]; then
+            echo "::error::probityai/agent-evidence resolves to '$name'; a repository at that path ends the redirect that keeps every old link to the archived repository working"
             exit 1
           fi
-          echo "probityai/agent-evidence is at its own name"
+          echo "probityai/agent-evidence redirects to $name"
