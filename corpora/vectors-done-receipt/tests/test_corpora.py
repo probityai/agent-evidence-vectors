@@ -16,9 +16,9 @@ from types import ModuleType
 
 import pytest
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "packaging"))
-sys.path.insert(0, str(ROOT / "vectors-done-receipt"))
+sys.path.insert(0, str(ROOT / "corpora" / "vectors-done-receipt"))
 
 import bundle_lib as lib  # noqa: E402
 from agent_evidence_vectors import donechecks, donerun  # noqa: E402
@@ -57,25 +57,25 @@ def load(name: str, path: Path) -> ModuleType:
 
 
 def manifest(corpus: str) -> dict:  # type: ignore[type-arg]
-    return json.loads((ROOT / corpus / "MANIFEST.json").read_text(encoding="utf-8"))
+    return json.loads((ROOT / "corpora" / corpus / "MANIFEST.json").read_text(encoding="utf-8"))
 
 
 @pytest.mark.parametrize("suite", list(CORPORA))
 def test_corpus_regenerates_byte_identically(suite: str, tmp_path: Path) -> None:
     corpus = CORPORA[suite]
-    generator = load(f"gen_{corpus}", ROOT / corpus / "gen_vectors.py")
+    generator = load(f"gen_{corpus}", ROOT / "corpora" / corpus / "gen_vectors.py")
     generator.generate(tmp_path)
-    committed = sorted(p.relative_to(ROOT / corpus) for p in (ROOT / corpus / "cases").rglob("*")
+    committed = sorted(p.relative_to(ROOT / "corpora" / corpus) for p in (ROOT / "corpora" / corpus / "cases").rglob("*")
                        if p.is_file())
     fresh = sorted(p.relative_to(tmp_path) for p in (tmp_path / "cases").rglob("*") if p.is_file())
     assert fresh == committed
     for relative in [*fresh, Path("MANIFEST.json")]:
-        assert (tmp_path / relative).read_bytes() == (ROOT / corpus / relative).read_bytes()
+        assert (tmp_path / relative).read_bytes() == (ROOT / "corpora" / corpus / relative).read_bytes()
 
 
 @pytest.mark.parametrize("suite", list(CORPORA))
 def test_reader_judges_the_committed_corpus_clean(suite: str) -> None:
-    answered, errors = donerun.check(suite, ROOT / CORPORA[suite])
+    answered, errors = donerun.check(suite, ROOT / "corpora" / CORPORA[suite])
     assert errors == []
     assert answered == len(manifest(CORPORA[suite])["vectors"]) > 0
 
@@ -84,7 +84,7 @@ def test_reader_judges_the_committed_corpus_clean(suite: str) -> None:
 def test_each_corpus_check_script_judges_its_corpus_clean(
         suite: str, capsys: pytest.CaptureFixture[str]) -> None:
     # The README tells a reader to run this script, so it must name the suite the corpus is.
-    path = ROOT / CORPORA[suite] / "check_vectors.py"
+    path = ROOT / "corpora" / CORPORA[suite] / "check_vectors.py"
     with pytest.raises(SystemExit) as stopped:
         exec(compile(path.read_text(encoding="utf-8"), str(path), "exec"),  # noqa: S102
              {"__name__": "__main__", "__file__": str(path)})
@@ -100,14 +100,14 @@ def test_corpus_holds_more_than_one_verdict(suite: str) -> None:
 
 def copy_member(corpus: str, member: str, tmp_path: Path) -> Path:
     target = tmp_path / member
-    shutil.copytree(ROOT / corpus / "cases" / member, target)
+    shutil.copytree(ROOT / "corpora" / corpus / "cases" / member, target)
     return target
 
 
 def test_changed_records_move_the_verdict(tmp_path: Path) -> None:
     corpus = "vectors-done-receipt"
     honest = copy_member(corpus, "honest", tmp_path)
-    adversary = ROOT / corpus / "cases" / "planted-adversary"
+    adversary = ROOT / "corpora" / corpus / "cases" / "planted-adversary"
     declared = donerun.judge_member(donerun.RECEIPT_SUITE, honest, list(donerun.DECLARABLE))
     assert declared["accepted"] is True
     for name in ("observation.json", "grade.json", "tree.json"):
@@ -118,7 +118,7 @@ def test_changed_records_move_the_verdict(tmp_path: Path) -> None:
 
 def test_a_forged_receipt_is_caught_by_the_receipt_check_alone() -> None:
     """The forged receipt's records are the adversary's; only rederiving shows the lie."""
-    member = ROOT / "vectors-done-receipt" / "cases" / "forged-receipt"
+    member = ROOT / "corpora" / "vectors-done-receipt" / "cases" / "forged-receipt"
     statement = json.loads((member / "receipt.json").read_text(encoding="utf-8"))
     assert statement["predicate"]["accepted"] is True
     verdict = donechecks.run_check(donechecks.RECEIPT, member)

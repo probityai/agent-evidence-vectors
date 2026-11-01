@@ -1077,8 +1077,8 @@ jobs:
           git clone --quiet --filter=blob:none --no-checkout https://github.com/probityai/probity "$probity"
           git -C "$probity" checkout --quiet "$rev" -- packages/probity-verify/examples/done-receipt
           uv run --locked --extra dev --group crosscheck python corpora/vectors-done-receipt/crosscheck_probity_verify.py \
-            vectors-done-contract vectors-done-receipt vectors-spoofed-tool-output \
-            vectors-test-tampering vectors-grader-isolation vectors-done-probes \
+            corpora/vectors-done-contract corpora/vectors-done-receipt corpora/vectors-spoofed-tool-output \
+            corpora/vectors-test-tampering corpora/vectors-grader-isolation corpora/vectors-done-probes \
             --examples "$probity/packages/probity-verify/examples/done-receipt"
       - name: TRACE registry anchor cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-trace-anchor/tests -q

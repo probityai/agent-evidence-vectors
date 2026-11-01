@@ -6,12 +6,12 @@ member of one record in a way that keeps the record valid (a value removed, a st
 replaced by another string the run already uses, a number moved by one, a flag flipped, a
 list shortened or given a duplicate), moves the consumer's pins to the changed bytes, and
 keeps the verdicts the Python reader derives for every variant in
-``corpora/testdata/done-members.json.gz`` (one change per member, record and distinct
+``corpusreaders/testdata/done-members.json.gz`` (one change per member, record and distinct
 answer). The Go test ``TestDoneMembersAgreeWithPython``
 rebuilds each variant, pins it the same way and requires the same verdicts. Regenerate:
 
     AEV_WRITE_DONE_MEMBERS=1 uv run --extra dev pytest \\
-        vectors-done-receipt/tests/test_done_member_cases.py
+        corpora/vectors-done-receipt/tests/test_done_member_cases.py
 """
 
 from __future__ import annotations
@@ -26,14 +26,14 @@ from collections.abc import Iterator
 from pathlib import Path
 from typing import Any
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "packaging"))
-sys.path.insert(0, str(ROOT / "vectors-done-receipt"))
+sys.path.insert(0, str(ROOT / "corpora" / "vectors-done-receipt"))
 
 import bundle_lib as lib  # noqa: E402
 from agent_evidence_vectors import donerun  # noqa: E402
 
-FIXTURE = ROOT / "corpora" / "testdata" / "done-members.json.gz"
+FIXTURE = ROOT / "corpusreaders" / "testdata" / "done-members.json.gz"
 CORPORA = {"vectors-done-receipt": donerun.RECEIPT_SUITE,
            "vectors-spoofed-tool-output": donerun.SPOOFED_SUITE,
            "vectors-test-tampering": donerun.TAMPERING_SUITE,
@@ -114,7 +114,7 @@ def signature(entry: dict[str, Any]) -> str:
 def bases() -> list[tuple[str, dict[str, Any]]]:
     chosen: list[tuple[str, dict[str, Any]]] = []
     for corpus in CORPORA:
-        manifest = json.loads((ROOT / corpus / "MANIFEST.json").read_bytes())
+        manifest = json.loads((ROOT / "corpora" / corpus / "MANIFEST.json").read_bytes())
         taken: dict[str, int] = {}
         for entry in manifest["vectors"]:
             if any("refused" in check for check in entry["expected"].get("checks", {}).values()):
@@ -129,7 +129,7 @@ def bases() -> list[tuple[str, dict[str, Any]]]:
 def variants() -> Iterator[tuple[dict[str, Any], Any]]:
     """Every change this file makes, with its member's files and declared checks."""
     for corpus, entry in bases():
-        directory = ROOT / corpus / entry["path"]
+        directory = ROOT / "corpora" / corpus / entry["path"]
         files = {path.name: path.read_bytes() for path in sorted(directory.iterdir())}
         for role in ROLES:
             name = f"{role}.json"
@@ -204,5 +204,5 @@ def test_the_go_member_cases_are_what_python_answers() -> None:
         context = contexts.get(json.dumps(key, sort_keys=True))
         assert context is not None, f"{key} is no longer a change this file makes"
         assert answer(item, context) == item["want"], (
-            f"{key}: the Python reader no longer answers as corpora/testdata/done-members.json.gz "
+            f"{key}: the Python reader no longer answers as corpusreaders/testdata/done-members.json.gz "
             "says; regenerate it with AEV_WRITE_DONE_MEMBERS=1")

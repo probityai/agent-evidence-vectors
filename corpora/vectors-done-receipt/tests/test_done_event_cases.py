@@ -6,11 +6,11 @@ may make. The corpora reach each of them with a handful of spellings. This file 
 spellings that decide each rule (interpreter flags in clusters, with values and with the
 `--` stop, loader variables with colons and spaces, writes under and beside a cache,
 links, exempt and own events) and keeps what the Python reader answers for every one in
-``corpora/testdata/done-events.json``. The Go test ``TestDoneEventsAgreeWithPython`` calls
+``corpusreaders/testdata/done-events.json``. The Go test ``TestDoneEventsAgreeWithPython`` calls
 the Go function of each section and requires the same answer. Regenerate with:
 
     AEV_WRITE_DONE_EVENTS=1 uv run --extra dev pytest \\
-        vectors-done-receipt/tests/test_done_event_cases.py
+        corpora/vectors-done-receipt/tests/test_done_event_cases.py
 """
 
 from __future__ import annotations
@@ -23,12 +23,12 @@ from collections.abc import Iterator
 from pathlib import Path
 from typing import Any
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "packaging"))
 
 from agent_evidence_vectors import donechecks as chk  # noqa: E402
 
-FIXTURE = ROOT / "corpora" / "testdata" / "done-events.json"
+FIXTURE = ROOT / "corpusreaders" / "testdata" / "done-events.json"
 CWD = "/work/space"
 EXES = ("/usr/bin/python3", "python", "/opt/pypy3.10", "/bin/sh", "/usr/bin/env", "xpython", "")
 FIRST = ("python3", "pypy", "sh", "/usr/bin/python3.12", "env", "")
@@ -210,7 +210,7 @@ def test_the_go_event_cases_are_what_python_answers() -> None:
     if os.environ.get("AEV_WRITE_DONE_EVENTS") == "1":
         FIXTURE.write_bytes(encoded())
     assert FIXTURE.read_bytes() == encoded(), (
-        "corpora/testdata/done-events.json is not what the Python reader answers; "
+        "corpusreaders/testdata/done-events.json is not what the Python reader answers; "
         "regenerate it with AEV_WRITE_DONE_EVENTS=1")
 
 

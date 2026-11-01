@@ -5,12 +5,12 @@ record checks were judged by one input each. This file takes, for each record ki
 valid records of the done corpora that between them carry the most members, breaks
 each member of them in the ways that decide a rule (removed, null, of another type,
 empty, or a value of the right type that a rule refuses), and keeps what the Python
-reader answers for every variant in ``corpora/testdata/done-records.json``: the record
+reader answers for every variant in ``corpusreaders/testdata/done-records.json``: the record
 admitted, or the code of the rule it breaks. The Go test ``TestDoneRecordsAgreeWithPython``
 parses every variant and requires the same answer. Regenerate with:
 
     AEV_WRITE_DONE_RECORDS=1 uv run --extra dev pytest \\
-        vectors-done-receipt/tests/test_done_record_cases.py
+        corpora/vectors-done-receipt/tests/test_done_record_cases.py
 """
 
 from __future__ import annotations
@@ -23,12 +23,12 @@ from collections.abc import Callable, Iterator
 from pathlib import Path
 from typing import Any
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "packaging"))
 
 from agent_evidence_vectors import donerecords as rec  # noqa: E402
 
-FIXTURE = ROOT / "corpora" / "testdata" / "done-records.json"
+FIXTURE = ROOT / "corpusreaders" / "testdata" / "done-records.json"
 CORPORA = ("vectors-done-contract", "vectors-done-receipt", "vectors-spoofed-tool-output",
            "vectors-test-tampering", "vectors-grader-isolation", "vectors-done-probes")
 PARSERS: dict[str, Callable[[bytes], Any]] = {
@@ -108,7 +108,7 @@ def bases() -> dict[str, list[Any]]:
     """For each kind, the valid records that between them reach the most members."""
     found: dict[str, dict[bytes, Any]] = {kind: {} for kind in PARSERS}
     for corpus in CORPORA:
-        for path in sorted((ROOT / corpus / "cases").glob("*/*.json")):
+        for path in sorted((ROOT / "corpora" / corpus / "cases").glob("*/*.json")):
             kind = path.stem
             if kind not in PARSERS or verdict(kind, path.read_bytes()) != "ok":
                 continue
@@ -168,7 +168,7 @@ def test_the_go_record_cases_are_what_python_answers() -> None:
     if os.environ.get("AEV_WRITE_DONE_RECORDS") == "1":
         FIXTURE.write_bytes(encoded())
     assert FIXTURE.read_bytes() == encoded(), (
-        "corpora/testdata/done-records.json is not what the Python reader answers; "
+        "corpusreaders/testdata/done-records.json is not what the Python reader answers; "
         "regenerate it with AEV_WRITE_DONE_RECORDS=1")
 
 

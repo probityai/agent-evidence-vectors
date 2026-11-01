@@ -3,12 +3,12 @@
 ``corpusreaders/doneargv.go`` restates ``doneargv.py`` and the four ``posixpath`` functions it
 uses, because Go's path package normalizes differently. The corpora reach only a few
 spellings of a command, so this file lists the spellings that decide each rule, computes
-what Python answers for each, and keeps the answers in ``corpora/testdata/done-argv.json``.
+what Python answers for each, and keeps the answers in ``corpusreaders/testdata/done-argv.json``.
 The Go test ``TestDoneArgvAgreesWithPython`` reads the same file, so the two readers are
 compared on every case and the file cannot drift from Python:
 
     AEV_WRITE_DONE_ARGV=1 uv run --extra dev pytest \
-        vectors-done-receipt/tests/test_done_argv_cases.py
+        corpora/vectors-done-receipt/tests/test_done_argv_cases.py
 """
 
 from __future__ import annotations
@@ -21,12 +21,12 @@ import sys
 from pathlib import Path
 from typing import Any
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "packaging"))
 
 from agent_evidence_vectors import doneargv  # noqa: E402
 
-FIXTURE = ROOT / "corpora" / "testdata" / "done-argv.json"
+FIXTURE = ROOT / "corpusreaders" / "testdata" / "done-argv.json"
 PYTEST = ["python", "-m", "pytest"]
 
 INVOCATIONS: list[tuple[list[str], str | None]] = [
@@ -125,7 +125,7 @@ def test_the_go_argv_cases_are_what_python_answers() -> None:
     if os.environ.get("AEV_WRITE_DONE_ARGV") == "1":
         FIXTURE.write_bytes(encoded())
     assert FIXTURE.read_bytes() == encoded(), (
-        "corpora/testdata/done-argv.json is not what the Python reader answers; "
+        "corpusreaders/testdata/done-argv.json is not what the Python reader answers; "
         "regenerate it with AEV_WRITE_DONE_ARGV=1")
 
 
