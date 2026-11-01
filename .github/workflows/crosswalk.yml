@@ -51,6 +51,12 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  # A newer push to the same pull request or branch supersedes the older run.
+  # Main and tags never cancel: each main push keeps its own group by sha.
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || (github.ref == 'refs/heads/main' && github.sha) || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' || github.event_name == 'pull_request_target' || (github.event_name == 'push' && github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/tags/')) }}
+
 jobs:
   check-local:
     # Not on the schedule: this half is about the commit being pushed, and
@@ -58,7 +64,7 @@ jobs:
     if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: the crosswalk publishes this corpus as it stands
         run: python3 scripts/crosswalk-gen.py --check-local
 
@@ -69,7 +75,7 @@ jobs:
       contents: read
       issues: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       # A shallow clone is enough: the generator reads HEAD and the records, and
       # refuses a dirty or unrecognised checkout rather than trusting either. The
       # working directory is used instead of $RUNNER_TEMP so the same command

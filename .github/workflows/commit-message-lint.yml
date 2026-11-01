@@ -8,12 +8,21 @@ name: commit-message-lint
 # is configured to do.
 
 on:
+  # A pull request's own run covers its branch; a branch push would repeat it.
   push:
+    branches: [main]
+    tags: ['**']
   pull_request:
     types: [opened, synchronize, reopened, edited]
 
 permissions:
   contents: read
+
+concurrency:
+  # A newer push to the same pull request or branch supersedes the older run.
+  # Main and tags never cancel: each main push keeps its own group by sha.
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || (github.ref == 'refs/heads/main' && github.sha) || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' || github.event_name == 'pull_request_target' || (github.event_name == 'push' && github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/tags/')) }}
 
 jobs:
   commit-message-lint:
@@ -26,7 +35,7 @@ jobs:
       # before named a commit on the v6 line and commented it `# v4`, so the
       # comment described neither the SHA nor the major -- a mislabelled pin is
       # worse than a floating ref, because it reads as the discipline it is not.
-      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
 

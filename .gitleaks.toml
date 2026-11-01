@@ -113,3 +113,26 @@ description = "SHA-256 digest of a retained keys file, keyed by its file name (v
 targetRules = ["generic-api-key"]
 regexTarget = "match"
 regexes = ['''keys\.json"\s*:\s*"[0-9a-f]{64}"''']
+
+[[allowlists]]
+description = "Base64url Ed25519 public keys in a badge-vc-verify case's issuers map"
+# The suite hands the reader each issuer's public key under issuers.<did>.keys.
+# The signing seeds are SHA-256 of public labels (gen_vectors.py), so the keys
+# are public by construction. AND: only the badge-vc-verify case file, and only
+# a 43-character base64url value in a "key-N" member.
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^vectors-badge-vc-verify/cases/[^/]+/case\.json$''']
+regexTarget = "match"
+regexes = ['''key-[0-9]+"\s*:\s*"[A-Za-z0-9_-]{43}"''']
+
+[[allowlists]]
+description = "Test credentials in a badge-vc-verify case, signed with a public test key"
+# Each credential is a compact JWS over a fictional example.com credential,
+# signed with a test key whose seed is the SHA-256 of a public label. AND: only
+# the "credential" member of a badge-vc-verify case file.
+targetRules = ["jwt", "generic-api-key"]
+condition = "AND"
+paths = ['''^vectors-badge-vc-verify/cases/[^/]+/case\.json$''']
+regexTarget = "match"
+regexes = ['''eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]*''']
