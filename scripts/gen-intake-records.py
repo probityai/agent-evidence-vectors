@@ -70,6 +70,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import tomllib
 from pathlib import Path
 from typing import Any
 
@@ -90,10 +91,9 @@ PYTHON_RUNTIME = (3, 13)
 #: The Go checker's source: the binary's package, every package it imports from
 #: this module, and the module file. The module is stdlib-only, so there is no
 #: go.sum; go.work decides which modules a build in this tree resolves.
-GO_SOURCE = ["aee", "cmd/aee-verify", "corpora", "go.mod"]
+GO_SOURCE = ["aee", "cmd/aee-verify", "corpusreaders", "go.mod"]
 GO_DEPENDENCIES = ["go.mod", "go.work"]
 SCITT = "vectors-scitt-cose"
-SCITT_SOURCE = [SCITT + "/check_vectors.py"]
 PYTHON_DEPENDENCIES = ["pyproject.toml", "uv.lock"]
 
 REFUSAL_VERDICTS = ["contradicted", "failed", "must-reject", "reject", "rejected"]
@@ -150,6 +150,32 @@ def read(rel: str) -> bytes:
     return (REPO / rel).read_bytes()
 
 
+@functools.cache
+def registry_paths() -> dict[str, str]:
+    """Corpus id to its directory in this repository, from corpora/REGISTRY.toml."""
+    with open(REPO / "corpora/REGISTRY.toml", "rb") as source:
+        rows = tomllib.load(source)["corpus"]
+    return {str(row["id"]): str(row["path"]) for row in rows}
+
+
+def where(corpus: str) -> str:
+    """The repository-relative directory of a corpus, named by its published id.
+
+    The digest list, the record file names and the native outputs carry the id;
+    every path a record names, and every argument a checker is run with, is the
+    corpus's registry path, because that is where its bytes are.
+    """
+    try:
+        return registry_paths()[corpus]
+    except KeyError:
+        raise SystemExit(f"FAIL: {corpus} is in {DIGESTS} but not in corpora/REGISTRY.toml") \
+            from None
+
+
+def scitt_script() -> str:
+    return where(SCITT) + "/check_vectors.py"
+
+
 def corpora() -> list[tuple[str, str, str]]:
     """(corpus directory, suite, published digest) for every line of the digest list."""
     out = []
@@ -168,12 +194,13 @@ def owner(directory: str) -> str:
     as its anchor's routine, so a name that resolves to nothing is a refusal
     here rather than a routine the record claims and nobody can run.
     """
+    base = where(directory)
     if directory == "vectors":
-        rel = "vectors/gen_manifest.py"
-    elif (REPO / directory / "digest.py").is_file():
-        rel = directory + "/digest.py"
+        rel = base + "/gen_manifest.py"
+    elif (REPO / base / "digest.py").is_file():
+        rel = base + "/digest.py"
     else:
-        rel = directory + "/gen_vectors.py"
+        rel = base + "/gen_vectors.py"
     if not (REPO / rel).is_file():
         raise SystemExit(f"FAIL: {directory} has no digest routine: {rel} is not here")
     return rel
@@ -196,8 +223,8 @@ def corpus_digest_of(directory: str, root: Path, manifest: dict[str, Any]) -> st
     """The digest the corpus's own routine computes over the files under root."""
     module = corpus_routine(directory)
     if directory == "vectors":
-        return str(module.corpus_digest(str(root / directory)))
-    return str(module.corpus_digest(manifest, str(root / directory)))
+        return str(module.corpus_digest(str(root / where(directory))))
+    return str(module.corpus_digest(manifest, str(root / where(directory))))
 
 
 # --------------------------------------------------------------------------
@@ -228,11 +255,11 @@ def member_files(directory: str, entry: dict[str, Any]) -> tuple[list[str], list
     files: list[str] = []
     locations: list[dict[str, Any]] = []
     for rel in paths_in(entry):
-        full = REPO / directory / rel
+        full = REPO / where(directory) / rel
         parent = str(Path(rel).parent) if "/" in rel else ""
         parent = "" if parent == "." else parent
         if full.is_file():
-            files.append(f"{directory}/{rel}")
+            files.append(f"{where(directory)}/{rel}")
             locations.append({"dir": parent, "suffix": full.suffix, "recursive": False})
         elif full.is_dir():
             for path in sorted(full.rglob("*")):
@@ -289,15 +316,16 @@ class Run:
 
 
 def go_runs(binary: str, directory: str) -> tuple[Run, Run, Run]:
-    first = Run(f"aee-verify -json {directory}", [binary, "-json", directory])
-    second = Run(f"aee-verify -json {directory}", [binary, "-json", directory])
-    text = Run(f"aee-verify {directory}", [binary, directory])
+    base = where(directory)
+    first = Run(f"aee-verify -json {base}", [binary, "-json", base])
+    second = Run(f"aee-verify -json {base}", [binary, "-json", base])
+    text = Run(f"aee-verify {base}", [binary, base])
     return first, second, text
 
 
 def scitt_runs() -> tuple[Run, Run, Run]:
     env = dict(os.environ, PYTHONHASHSEED="0")
-    script = SCITT + "/check_vectors.py"
+    script = scitt_script()
     shown = f"PYTHONHASHSEED=0 python {script}"
     first = Run(shown + " --json", [sys.executable, script, "--json"], env)
     second = Run(shown + " --json", [sys.executable, script, "--json"], env)
@@ -315,14 +343,14 @@ def scitt_runs() -> tuple[Run, Run, Run]:
 
 def tracked(directory: str) -> list[str]:
     """The files git tracks under a corpus directory, which is what a tag publishes."""
-    listed = subprocess.run(["git", "-C", str(REPO), "ls-files", "-z", directory + "/"],
+    listed = subprocess.run(["git", "-C", str(REPO), "ls-files", "-z", where(directory) + "/"],
                             capture_output=True, check=True)
     return sorted(p for p in listed.stdout.decode("utf-8").split("\0") if p)
 
 
 def artifact_paths(directory: str, pop: dict[str, Any]) -> list[str]:
     members = {f["path"] for m in pop["members"] for f in m["files"]}
-    manifest = f"{directory}/MANIFEST.json"
+    manifest = f"{where(directory)}/MANIFEST.json"
     return [p for p in tracked(directory) if p not in members and p != manifest]
 
 
@@ -343,18 +371,34 @@ class Farm:
     def __init__(self, directory: str, natives: dict[str, bytes]) -> None:
         self.directory = directory
         self.root = Path(tempfile.mkdtemp(prefix="intake-consumption-"))
-        for entry in REPO.iterdir():
-            if entry.name not in (directory, "release"):
-                (self.root / entry.name).symlink_to(entry)
-        shutil.copytree(REPO / directory, self.root / directory, symlinks=True)
-        (self.root / "release").mkdir()
-        for entry in (REPO / "release").iterdir():
-            if entry.name != "intake":
-                (self.root / "release" / entry.name).symlink_to(entry)
+        base = where(directory)
+        self.link_beside(Path(base), copy=True)
+        self.link_beside(Path(OUT), copy=False)
         for rel, body in natives.items():
             target = self.root / rel
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_bytes(body)
+
+    def link_beside(self, rel: Path, copy: bool) -> None:
+        """Link everything on the way to rel, and copy rel itself or leave it out.
+
+        Each directory above rel is a real directory in the farm whose other
+        entries are links into the repository, so writing under rel never
+        reaches through a link into the repository's own files.
+        """
+        source, target = REPO, self.root
+        for depth, part in enumerate(rel.parts):
+            for entry in source.iterdir():
+                dest = target / entry.name
+                if entry.name != part and not dest.exists() and not dest.is_symlink():
+                    dest.symlink_to(entry)
+            source, target = source / part, target / part
+            if target.is_symlink():
+                target.unlink()
+            if depth < len(rel.parts) - 1:
+                target.mkdir(exist_ok=True)
+        if copy:
+            shutil.copytree(source, target, symlinks=True)
 
     def write(self, rel: str, body: bytes) -> None:
         (self.root / rel).write_bytes(body)
@@ -374,9 +418,9 @@ def native_result(run: Run) -> dict[str, Any]:
 def checker_run(directory: str, binary: str, cwd: Path) -> Run:
     if directory == SCITT:
         env = dict(os.environ, PYTHONHASHSEED="0")
-        argv = [sys.executable, SCITT + "/check_vectors.py", "--json"]
+        argv = [sys.executable, scitt_script(), "--json"]
         return Run("", argv, env, cwd)
-    return Run("", [binary, "-json", directory], None, cwd)
+    return Run("", [binary, "-json", where(directory)], None, cwd)
 
 
 def repin(farm: Farm, rel: str, old: bytes, new: bytes) -> tuple[list[str], str]:
@@ -396,7 +440,7 @@ def repin(farm: Farm, rel: str, old: bytes, new: bytes) -> tuple[list[str], str]
         if moved != body:
             farm.write(other, moved)
             changed.append(other)
-    manifest_rel = f"{directory}/MANIFEST.json"
+    manifest_rel = f"{where(directory)}/MANIFEST.json"
     manifest_body = (farm.root / manifest_rel).read_bytes()
     manifest = json.loads(manifest_body)
     declared = str(manifest.get("corpusDigest", ""))
@@ -491,8 +535,8 @@ def listing(paths: list[str]) -> str:
 
 def checker(directory: str, runs: tuple[Run, Run, Run]) -> dict[str, Any]:
     if directory == SCITT:
-        source, deps = SCITT_SOURCE, PYTHON_DEPENDENCIES
-        name, runtime = "corpora/vectors-scitt-cose/check_vectors.py", {
+        source, deps = [scitt_script()], PYTHON_DEPENDENCIES
+        name, runtime = scitt_script(), {
             "name": "cpython", "version": ".".join(map(str, PYTHON_RUNTIME)),
         }
         build = "uv sync --locked --extra generators"
@@ -612,7 +656,7 @@ def record(
         if run.stderr:
             raise SystemExit(f"FAIL: {run.shown} wrote to stderr: {run.stderr[:200]!r}")
     native = json.loads(first.stdout)
-    manifest_path = f"{directory}/MANIFEST.json"
+    manifest_path = f"{where(directory)}/MANIFEST.json"
     manifest = json.loads(read(manifest_path))
     if manifest.get("corpusDigest") != digest:
         raise SystemExit(f"FAIL: {manifest_path} declares a digest {DIGESTS} does not list")
@@ -645,7 +689,7 @@ def record(
     member_paths = [(f["path"], f["sha256"]) for m in pop["members"] for f in m["files"]]
     manifest_sha = sha(read(manifest_path))
     is_scitt = directory == SCITT
-    name = "corpora/vectors-scitt-cose/check_vectors.py" if is_scitt else "aee-verify"
+    name = scitt_script() if is_scitt else "aee-verify"
     nonauthor = non_author_runs(directory, digest)
     covered = any(r["covers-these-bytes"] for r in nonauthor)
     observations: list[dict[str, Any]] = [
@@ -659,7 +703,8 @@ def record(
     result: dict[str, Any] = {
         "format": w3cintake.FORMAT,
         "suite": suite,
-        "boundary": {"root": directory, "complete": True, "member-locations": pop["locations"]},
+        "boundary": {"root": where(directory), "complete": True,
+                     "member-locations": pop["locations"]},
         "manifest": {"closed": True, "path": manifest_path, "sha256": manifest_sha, "ids": ids},
         "members": pop["members"],
         "pin-serialization": "bytes",
@@ -723,7 +768,7 @@ def build() -> dict[str, bytes]:
         out: dict[str, bytes] = {}
         for directory, suite, digest in corpora():
             runs = scitt_runs() if directory == SCITT else go_runs(binary, directory)
-            manifest = json.loads(read(f"{directory}/MANIFEST.json"))
+            manifest = json.loads(read(f"{where(directory)}/MANIFEST.json"))
             paths = artifact_paths(directory, population(directory, manifest))
             natives = {f"{NATIVE}/{directory}.json": runs[0].stdout,
                        f"{NATIVE}/{directory}.txt": runs[2].stdout}
