@@ -8,6 +8,9 @@ nothing installed.
    requirement identifiers the report is rejected under, an empty list for a
    report that conforms. Each identifier is minted by ``vectors-w3c-report/``
    and bound by digest to a sentence of the list messages that fixed v0.1.
+   ``read(path)`` is its command line for one report file: it prints
+   ``conforms`` or one line per finding naming the row, and is what
+   ``agent-evidence-vectors --read-w3c-report <file>`` runs.
 2. A JUDGE for the corpus that holds the conformance set: ``judge(directory)``
    reads ``vectors-w3c-report/MANIFEST.json`` and says of every member whether
    the validator rejects it under exactly the row the manifest expects. Its
@@ -1625,10 +1628,117 @@ def exclusions(manifest: dict[str, Any]) -> list[dict[str, Any]]:
 # Command line.
 # --------------------------------------------------------------------------
 
+#: Where each requirement sits in the v0.1 text: its rejection-table row, or the
+#: section a rule outside the table comes from, and whether the list agreed it.
+#: Copied from vectors-w3c-report/MANIFEST.json so a reader of one report needs
+#: no corpus on disk; scripts/w3c-report-rules-test.py holds the two equal.
+ROWS: dict[str, tuple[str, str]] = {
+    "W3C-R-001": ("1", "agreed"),
+    "W3C-R-002": ("2", "agreed"),
+    "W3C-R-003": ("3", "agreed"),
+    "W3C-R-004": ("4", "agreed"),
+    "W3C-R-005": ("5", "agreed"),
+    "W3C-R-006": ("6", "agreed"),
+    "W3C-R-007": ("7", "agreed"),
+    "W3C-R-008": ("8", "agreed"),
+    "W3C-R-009": ("9", "agreed"),
+    "W3C-R-010": ("10", "agreed"),
+    "W3C-R-011": ("11", "agreed"),
+    "W3C-R-012": ("12", "agreed"),
+    "W3C-R-013": ("5.4 roll-up", "agreed"),
+    "W3C-R-014": ("5.4 prior run", "agreed"),
+    "W3C-R-015": ("3.1 set binding", "agreed"),
+    "W3C-R-016": ("2 recomputed moved contained", "agreed"),
+    "W3C-R-017": ("5.1 denominator", "agreed"),
+    "W3C-R-018": ("5.3 counter", "agreed"),
+    "W3C-R-019": ("1.2 closed vocabulary", "agreed"),
+    "W3C-R-020": ("3 reference mismatch", "agreed"),
+    "W3C-R-021": ("2 recomputed moved", "agreed"),
+    "W3C-R-022": ("coverage block", "proposed"),
+    "W3C-R-023": ("5.2 population", "agreed"),
+    "W3C-R-024": ("1.3 delta-related pair", "agreed"),
+    "W3C-R-025": ("13", "agreed"),
+    "W3C-R-026": ("14", "agreed"),
+    "W3C-R-027": ("2 arity recomputed", "agreed"),
+    "W3C-R-028": ("2 domain once", "agreed"),
+    "W3C-R-029": ("5.4 control binding", "agreed"),
+    "W3C-R-030": ("3.1 digest encoding", "proposed"),
+    "W3C-R-031": ("3.1 numeric profile", "proposed"),
+    "W3C-R-032": ("3.1 declared encoding", "proposed"),
+    "W3C-R-033": ("5.4 prior-run binding", "agreed"),
+}
+
+#: The exits of ``read``: the report conforms, it does not, or no verdict was
+#: reached because the file could not be read as JSON or could not be judged.
+READ_CONFORMS, READ_DOES_NOT_CONFORM, READ_NO_VERDICT = 0, 1, 2
+
+
+def row_label(rid: str) -> str:
+    """Where a requirement sits in v0.1, in the words a reader can look up."""
+    row, status = ROWS.get(rid, ("", ""))
+    if not row:
+        return "no row in the v0.1 text"
+    if status != "agreed":
+        return f"proposed, not in v0.1: {row}"
+    if row.isdigit():
+        return f"v0.1 rejection-table row {row}"
+    return f"v0.1 section {row}"
+
+
+def verdict_lines(report: Any) -> list[str]:
+    """The verdict on one report: ``conforms``, or one line per finding.
+
+    Shape errors come first and, when there are any, alone, because the rows
+    read fields a report without its shape does not have. Otherwise each
+    identifier ``rejections`` returns gets a line naming its row; the one the
+    check-set binding fired also names its cause.
+    """
+    shape = shape_errors(report)
+    if shape:
+        return [f"shape: {error}" for error in shape]
+    found = rejections(report)
+    if not found:
+        return ["conforms"]
+    finding = _check_set_finding(report, report["checks"], NO_WEAKENING)
+    lines = []
+    for rid in found:
+        line = f"{rid}: {row_label(rid)}"
+        if finding is not None and finding[0] == rid:
+            cause, token = finding[1], finding[2]
+            detail = "" if cause is None else f": {cause}" + ("" if token is None else f" {token}")
+            line += f" (check set{detail})"
+        lines.append(line)
+    return lines
+
+
+def read(path: str) -> int:
+    """Print the verdict on the v0.1 report at ``path`` and return its exit code.
+
+    The file is parsed as the corpus judge parses a member, every number kept
+    as the token it was written as, so a non-integer number is refused under
+    the digest rule rather than rounded. Exit 0 conforms, 1 does not conform,
+    2 no verdict: the file cannot be read as JSON, or the reader failed on it.
+    """
+    try:
+        with open(path, "rb") as handle:
+            raw = handle.read()
+        report = load_json(raw)
+    except (OSError, ValueError, RecursionError) as exc:
+        print(f"no verdict: {path} cannot be read as JSON: {exc}", file=sys.stderr)
+        return READ_NO_VERDICT
+    try:
+        lines = verdict_lines(report)
+    except Exception as exc:  # noqa: BLE001 - a crash is no verdict, never a rejection
+        print(f"no verdict: the reader failed on {path}: {exc!r}", file=sys.stderr)
+        return READ_NO_VERDICT
+    sys.stdout.write("\n".join(lines) + "\n")
+    return READ_CONFORMS if lines == ["conforms"] else READ_DOES_NOT_CONFORM
+
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        prog="w3creport", description="judge vectors-w3c-report/ or emit a v0.1 report"
+        prog="w3creport",
+        description="judge vectors-w3c-report/, emit a v0.1 report, or read one",
     )
     sub = parser.add_subparsers(dest="command", required=True)
     judge_cmd = sub.add_parser("judge", help="judge a corpus directory against the validator")
@@ -1636,7 +1746,15 @@ def main(argv: list[str] | None = None) -> int:
     emit_cmd = sub.add_parser("emit", help="emit a v0.1 report from a conformance-report.json")
     emit_cmd.add_argument("conformance_report")
     emit_cmd.add_argument("--tree-shape", choices=TREE_SHAPES, default="flat")
+    read_cmd = sub.add_parser(
+        "read",
+        help="print 'conforms' or each finding with its v0.1 row; "
+        "exit 0 conforms, 1 does not conform, 2 no verdict",
+    )
+    read_cmd.add_argument("report")
     args = parser.parse_args(argv)
+    if args.command == "read":
+        return read(args.report)
     if args.command == "judge":
         judged = judge(args.directory)
         sys.stdout.write(render(judged, SUITE))
