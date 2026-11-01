@@ -58,7 +58,7 @@ sys.path.insert(0, str(REPO / "packaging"))
 
 from agent_evidence_vectors import mcpowasp, w3creport  # noqa: E402
 
-TABLE = REPO / "corpora" / "testdata" / "json-encodings.json"
+TABLE = REPO / "corpusreaders" / "testdata" / "json-encodings.json"
 
 #: The documents: the measured boundary cases of the v0.1 digest encoding
 #: (list messages 2026Oct/0026, 0031, 0038, 0041) and the structure every
