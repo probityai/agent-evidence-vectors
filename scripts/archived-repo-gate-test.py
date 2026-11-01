@@ -49,10 +49,10 @@ CASES = [
         False,
     ),
     (
-        "a workflow that was not imported",
+        "a site workflow, imported here with the Atlas tree",
         "gen.py",
         f"{OLD}/blob/main/.github/workflows/site-board.yml",
-        False,
+        True,
     ),
     (
         "the vectors repository",

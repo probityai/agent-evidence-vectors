@@ -1,0 +1,141 @@
+name: site-board
+
+# Scores each outside implementation in site/data/board.toml against the pinned
+# agent-evidence-vectors corpus, at its pinned commit and at the head of its default
+# branch, on free runners. The harness is the hash-locked published wheel and the
+# anchor-stream runner comes from the vectors repository at the release tag.
+
+on:
+  schedule:
+    - cron: '17 5 * * 1'
+  workflow_dispatch:
+  pull_request:
+    paths: ['site/data/board.toml', 'site/board/**', 'site/tools/run_board.py', 'site/tools/gen_board.py', '.github/workflows/site-board.yml']
+
+permissions:
+  contents: read
+
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - id: plan
+        working-directory: site
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json, subprocess, tomllib
+          board = tomllib.load(open("data/board.toml", "rb"))
+          rows = []
+          for item in board["implementation"]:
+              if item["status"] != "scored":
+                  continue
+              rows.append({"id": item["id"], "repo": item["repo"], "slot": "pinned", "ref": item["pin"]})
+              head = subprocess.run(["git", "ls-remote", f"https://github.com/{item['repo']}", "HEAD"],
+                                    capture_output=True, text=True, check=True).stdout.split()[0]
+              rows.append({"id": item["id"], "repo": item["repo"], "slot": "head", "ref": head})
+          print("matrix=" + json.dumps({"include": rows}))
+          PY
+
+  score:
+    needs: plan
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Check out the implementation at its ref, with its tags
+        run: |
+          git clone --quiet "https://github.com/${{ matrix.repo }}" "$RUNNER_TEMP/impl"
+          git -C "$RUNNER_TEMP/impl" -c advice.detachedHead=false checkout --quiet "${{ matrix.ref }}"
+      - name: Check out the corpus repository at the release tag
+        run: |
+          expected=$(python3 -c "import tomllib;print(tomllib.load(open('site/data/board.toml','rb'))['meta']['vectors_tag_commit'])")
+          git clone --quiet --depth 1 --branch "$(python3 -c "import tomllib;print(tomllib.load(open('site/data/board.toml','rb'))['meta']['vectors_tag'])")" \
+            https://github.com/probityai/agent-evidence-vectors "$RUNNER_TEMP/vectors"
+          test "$(git -C "$RUNNER_TEMP/vectors" rev-parse HEAD)" = "$expected"
+      - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa # v10.3.1
+        with:
+          version: "0.12.24"
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22.14.0
+      - name: Install the hash-locked harness, the runner and the implementation's dependencies
+        working-directory: site
+        run: |
+          uv venv --python 3.12 "$RUNNER_TEMP/harness"
+          uv pip install --python "$RUNNER_TEMP/harness/bin/python" --require-hashes --only-binary=:all: -r board/deps/harness.txt
+          uv venv --python 3.12 "$RUNNER_TEMP/impl-env"
+          deps=$(python3 tools/run_board.py --id "${{ matrix.id }}" --src "$RUNNER_TEMP/impl" --print-deps)
+          if [ -n "$deps" ]; then
+            uv pip install --python "$RUNNER_TEMP/impl-env/bin/python" --require-hashes --only-binary=:all: -r "$deps"
+          fi
+          (cd board/node && npm ci --no-audit --no-fund)
+      - name: Score
+        working-directory: site
+        env:
+          BOARD_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python3 tools/run_board.py --id "${{ matrix.id }}" --slot "${{ matrix.slot }}" --src "$RUNNER_TEMP/impl" \
+            --out "$RUNNER_TEMP/out/${{ matrix.id }}-${{ matrix.slot }}.json" \
+            --harness "$RUNNER_TEMP/harness/bin/agent-evidence-vectors" --harness-python "$RUNNER_TEMP/harness/bin/python" \
+            --python "$RUNNER_TEMP/impl-env/bin/python" --node-runner "$GITHUB_WORKSPACE/site/board/node/node_modules/.bin/tsx" \
+            --vectors-src "$RUNNER_TEMP/vectors"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: board-${{ matrix.id }}-${{ matrix.slot }}
+          path: ${{ runner.temp }}/out/*.json
+          if-no-files-found: error
+
+  aggregate:
+    needs: score
+    if: always() && needs.score.result != 'skipped'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: ${{ github.event_name != 'pull_request' }}
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: board-*
+          path: ${{ runner.temp }}/results
+          merge-multiple: true
+      - name: Aggregate and render
+        working-directory: site
+        run: |
+          python3 tools/run_board.py --aggregate "$RUNNER_TEMP/results" --out data/board-results.json
+          python3 tools/gen_board.py
+          cp data/board-results.json "$RUNNER_TEMP/board-results.json"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: board-results
+          path: ${{ runner.temp }}/board-results.json
+          if-no-files-found: error
+      - name: Push the refreshed results to a branch
+        if: github.event_name != 'pull_request'
+        run: |
+          git config user.name "board-bot"
+          git config user.email "board-bot@users.noreply.github.com"
+          git checkout -B board/results
+          git add site/data/board-results.json site/src/board.md
+          if git diff --cached --quiet; then echo "results unchanged"; exit 0; fi
+          git commit -s -m "chore(board): refresh the conformance board results"
+          git push --force origin board/results
+          echo "Refreshed results are on branch board/results: ${{ github.server_url }}/${{ github.repository }}/compare/main...board/results" >> "$GITHUB_STEP_SUMMARY"

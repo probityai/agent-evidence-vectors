@@ -142,6 +142,7 @@ from agent_evidence_vectors import (
     completionconfirmation,
     connectorscope,
     convertedargs,
+    delegationlifecycle,
     delegatorright,
     dispatchfence,
     donerun,
@@ -3910,6 +3911,7 @@ def _run_non_reference_suite(
         convertedargs.SUITE,
         delegatorright.SUITE,
         badgevc.SUITE,
+        delegationlifecycle.SUITE,
         completionconfirmation.SUITE,
         chunkedexport.SUITE,
         *donerun.SUITES,
@@ -4003,6 +4005,7 @@ def _run_non_reference_suite(
         mcpowasp.SUITE: mcpowasp,
         admission.SUITE: admission,
         selfreportedrecord.SUITE: selfreportedrecord,
+        delegationlifecycle.SUITE: delegationlifecycle,
     }.get(suite, observedeffect)
     try:
         judged = reader.judge(suite_dir)

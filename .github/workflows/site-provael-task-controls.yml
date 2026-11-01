@@ -1,0 +1,60 @@
+# Moved from site/.github/workflows/provael-task-controls.yml when the package was imported;
+# its steps run from site.
+name: provael-task-controls
+
+on:
+  push:
+    paths: ['site/**', '.github/workflows/site-provael-task-controls.yml']
+    branches: [main]
+  pull_request:
+    paths: ['site/**', '.github/workflows/site-provael-task-controls.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: site
+
+jobs:
+  publisher-control-reader:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: provael/provael
+          ref: f1dbc5352bfa7774c0a5599eff20407125914c78
+          path: site/.provael-source
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12.14"
+      - name: Install the pinned test runtime
+        run: python -m pip install pytest==9.1.1 hypothesis==6.168.3
+      - name: Test exact task draws, native pairing, source changes and missing provenance
+        env:
+          PROVAEL_SOURCE_ROOT: .provael-source
+        run: python -m pytest -q tests/test_provael_controls.py
+      - name: Read the publisher reports and retain every complete bound source file
+        run: |
+          python tools/check_provael_controls.py \
+            --source-root .provael-source \
+            --expect examples/provael-task-controls/report.json \
+            --output provael-control-report.json \
+            --retain-source-zip provael-required-source.zip
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: provael-publisher-control-reader
+          path: |
+            site/provael-control-report.json
+            site/provael-required-source.zip
+            site/tools/check_provael_controls.py
+            site/examples/provael-task-controls/contract.json
+            site/examples/provael-task-controls/source-record.json
+            site/examples/provael-task-controls/PROVAEL-LICENSE
+            site/examples/provael-task-controls/PROVAEL-NOTICE

@@ -10,7 +10,8 @@ The Python reader comes from PyPI at the release's version, the Go reader from
 the tagged commit, called from a test file added to a scratch copy. Also
 counts -0 number tokens in the vectors-w3c-report files at v0.17.4.
 
-Exits 0 only when every hex string equals the value posted in 0038 and 0079.
+Exits 0 only when both readers succeed at each release, every hex string equals
+the value posted in 0038 and 0079, and the token count matches.
 """
 
 from __future__ import annotations
@@ -87,7 +88,8 @@ def main() -> int:
             "go": {"posted": posted["go"], "observed": go_hex[0] if go_hex else None,
                    "exit": code_go, "function": GO_FUNCTION[tag]},
         }
-        ok = (ok and release["python"]["observed"] == posted["python"]
+        ok = (ok and code_py == 0 and code_go == 0
+              and release["python"]["observed"] == posted["python"]
               and release["go"]["observed"] == posted["go"])
         if "minus_zero_tokens" in posted:
             files = [p for p in sorted((tree / "vectors-w3c-report").rglob("*")) if p.is_file()]
