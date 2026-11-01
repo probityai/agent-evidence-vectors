@@ -79,7 +79,8 @@ ACCEPT, REJECT, NO_VERDICT = "accept", "reject", "no_verdict"
 MAX_ENVELOPE_BYTES = 4 * 1024 * 1024
 _HERE = Path(__file__).resolve().parent
 ROOT = (_HERE / "corpora" / "vectors-delegation-lifecycle" if
-        (_HERE / "corpora").exists() else _HERE.parents[1] / "corpora" / "vectors-delegation-lifecycle")
+        (_HERE / "corpora").exists()
+        else _HERE.parents[1] / "corpora" / "vectors-delegation-lifecycle")
 _RAIL_NAMES = ("agent_evidence_vectors.run_vectors", "run_vectors", "__main__")
 _RAIL_PRIMITIVES = ("ed25519_verify",)
 

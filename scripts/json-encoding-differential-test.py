@@ -198,7 +198,8 @@ def build() -> dict[str, Any]:
             "encoding, the bytes that encoding writes for it (hex) or the reason it refuses. "
             "Written by scripts/json-encoding-differential-test.py --write from the Python "
             "implementations, held to them by the same script, held to the Go encoders by "
-            "corpusreaders/pyjson_table_test.go and corpusreaders/w3cjcs_test.go, and held to the Rust "
+            "corpusreaders/pyjson_table_test.go and corpusreaders/w3cjcs_test.go, and held to the "
+            "Rust "
             "W3C reader by a unit test in readers/w3c-report-rs/src/json.rs. Never edit by hand."
         ),
         "columns": list(ENCODINGS),

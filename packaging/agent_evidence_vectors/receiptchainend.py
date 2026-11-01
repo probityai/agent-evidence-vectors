@@ -77,7 +77,8 @@ CHECKS = (
 )
 _HERE = Path(__file__).resolve().parent
 ROOT = (_HERE / "corpora" / "vectors-receipt-chain-end" if
-        (_HERE / "corpora").exists() else _HERE.parents[1] / "corpora" / "vectors-receipt-chain-end")
+        (_HERE / "corpora").exists()
+        else _HERE.parents[1] / "corpora" / "vectors-receipt-chain-end")
 _RAIL_NAMES = ("agent_evidence_vectors.run_vectors", "run_vectors", "__main__")
 _RAIL_PRIMITIVES = ("ed25519_verify",)
 

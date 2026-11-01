@@ -384,7 +384,7 @@ jobs:
       # that still fails is named under [tool.ruff] extend-exclude in
       # pyproject.toml, which only shrinks.
       - name: ruff
-        run: uv run ruff check packaging vectors corpora/vectors-* scripts interop/*
+        run: uv run ruff check packaging vectors corpora/vectors-* scripts interop/*/
       - name: timestamp candidate custody and refusal controls
         run: python3 scripts/retain-timestamp-candidate-test.py
       - name: E2 compatibility tests in the shared development environment

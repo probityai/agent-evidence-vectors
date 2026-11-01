@@ -63,7 +63,8 @@ CHECKS = (
 )
 _HERE = Path(__file__).resolve().parent
 ROOT = (_HERE / "corpora" / "vectors-authority-at-dispatch" if
-        (_HERE / "corpora").exists() else _HERE.parents[1] / "corpora" / "vectors-authority-at-dispatch")
+        (_HERE / "corpora").exists()
+        else _HERE.parents[1] / "corpora" / "vectors-authority-at-dispatch")
 
 
 def _sha(data: bytes) -> str:

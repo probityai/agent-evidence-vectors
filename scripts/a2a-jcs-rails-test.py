@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Both readers of corpora/vectors-a2a-jcs-v01/ agree, and the in-process API catches a wrong canonicalizer.
+"""Both readers of the a2a-jcs corpus agree; the in-process API catches a wrong canonicalizer.
 
 Two halves.
 

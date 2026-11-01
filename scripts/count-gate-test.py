@@ -954,7 +954,7 @@ CENSUS_CASES.append(
 # reached 64 members, so the cases below plant whatever that total is today.
 AUDIT_RECORD_TOTAL = len(
     json.loads(
-        (REPO_ROOT / "corpora" / "vectors-agent-audit-record" / "MANIFEST.json").read_text(encoding="utf-8")
+        (REPO_ROOT / "corpora/vectors-agent-audit-record/MANIFEST.json").read_text(encoding="utf-8")
     )["vectors"]
 )
 

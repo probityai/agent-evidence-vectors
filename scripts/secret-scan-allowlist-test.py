@@ -71,7 +71,8 @@ STMT = "corpora/vectors-credential-release/cases/credential-carries-secret/state
             "corpora/vectors-credential-release/cases/credential-carries-token-hash/statement.json",
             f'{{\n  "credential": {{\n    "tokenSha256": "{DIGEST}"\n  }}\n}}\n',
         ),
-        ("corpora/vectors-credential-release/gen_vectors.py", f'cred = dict(token="{EMPTY_JWT}")\n'),
+        ("corpora/vectors-credential-release/gen_vectors.py",
+         f'cred = dict(token="{EMPTY_JWT}")\n'),
     ],
 )
 def test_the_fixture_shapes_scan_clean(tmp_path: Path, relpath: str, text: str) -> None:

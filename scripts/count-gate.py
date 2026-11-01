@@ -899,7 +899,8 @@ def scitt_cose_counts() -> dict[str, int]:
     manifest's entries, checked against the counts it declares, rather than from
     the declared field alone.
     """
-    payload = json.loads(source("corpora/vectors-scitt-cose/MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = source("corpora/vectors-scitt-cose/MANIFEST.json")
+    payload = json.loads(manifest.read_text(encoding="utf-8"))
     entries = payload["vectors"]
     tally = {kind: 0 for kind in ("accept", "reject", "indeterminate")}
     for position, entry in enumerate(entries, start=1):

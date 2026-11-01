@@ -78,7 +78,7 @@ def vector_edited(root: Path) -> None:
 
 def agent_action_edited(root: Path) -> None:
     """The second corpus is covered too, and by its own preimage."""
-    statements = sorted((root / "corpora" / "vectors-ai-agent-action" / "statements").glob("*.json"))
+    statements = sorted((root / "corpora/vectors-ai-agent-action/statements").glob("*.json"))
     first = statements[0]
     first.write_text(first.read_text(encoding="utf-8").replace("{", "{ ", 1), encoding="utf-8")
 

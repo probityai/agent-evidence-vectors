@@ -58,7 +58,8 @@ def reading_verdicts(entry: dict[str, Any]) -> list[str] | None:
 def refusals(root: Path) -> tuple[list[str], int]:
     out: list[str] = []
     read = 0
-    for manifest_path in sorted([*root.glob("*/MANIFEST.json"), *root.glob("corpora/*/MANIFEST.json")]):
+    manifests = [*root.glob("*/MANIFEST.json"), *root.glob("corpora/*/MANIFEST.json")]
+    for manifest_path in sorted(manifests):
         rel = manifest_path.relative_to(root).as_posix()
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
         entries = manifest.get("vectors") if isinstance(manifest, dict) else None

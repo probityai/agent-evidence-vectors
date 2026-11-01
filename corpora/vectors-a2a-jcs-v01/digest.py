@@ -14,7 +14,9 @@ import sys
 from typing import Any
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-READER = os.path.join(HERE, os.pardir, os.pardir, "packaging", "agent_evidence_vectors", "a2ajcs.py")
+READER = os.path.join(
+    HERE, os.pardir, os.pardir, "packaging", "agent_evidence_vectors", "a2ajcs.py"
+)
 
 
 def corpus_digest(manifest: dict[str, Any], root: str) -> str:
