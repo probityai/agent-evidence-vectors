@@ -105,7 +105,7 @@ build-backend = "hatchling.build"
 package = false
 
 # probity-verify is the implementation the done corpora's rules come from. The
-# cross-check (vectors-done-receipt/crosscheck_probity_verify.py) replays every done
+# cross-check (corpora/vectors-done-receipt/crosscheck_probity_verify.py) replays every done
 # member through it, pinned to the commit the readers were ported against. A
 # dependency group, so it never reaches the published package's metadata.
 [tool.uv.sources]
@@ -458,7 +458,7 @@ exclude = [
 [project.optional-dependencies]
 # Build-time only: the generators sign vectors with real Ed25519 test keys.
 #
-# pycose builds every COSE_Sign1 in vectors-scitt-cose/, so that corpus is
+# pycose builds every COSE_Sign1 in corpora/vectors-scitt-cose/, so that corpus is
 # produced by a COSE library and not by bytes written out here. cbor2 is pinned
 # BELOW 6 because pycose 1.1.0 reads a decoded CBOR tag's value as a list and
 # cbor2 6.0.0 returns a tuple, which surfaces as "Bytes cannot be decoded as
