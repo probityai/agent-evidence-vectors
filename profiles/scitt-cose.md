@@ -4,7 +4,7 @@ register: edelman
 
 # Carrying adversarial execution evidence as a SCITT Signed Statement
 
-Profile identifier: `aee-scitt-cose/v0.1`. Conformance vectors: `corpora/vectors-scitt-cose/`.
+Profile identifier: `aee-scitt-cose/v0.1`. Conformance vectors: `vectors-scitt-cose/`.
 
 RFC 9943 Section 6 states the requirement this profile answers: "Signed Statements
 produced by Issuers must be COSE_Sign1 messages, as defined by [STD96]. Profiles and
@@ -22,7 +22,7 @@ This profile fixes the protected header, the subject
 binding, the leaf definition and the consumer obligations for one payload type, an in-toto
 Statement whose predicate type is the adversarial execution evidence predicate.
 
-The corpus in `corpora/vectors-scitt-cose/` carries 27 members, 6 accept, 17 reject and 4
+The corpus in `vectors-scitt-cose/` carries 27 members, 6 accept, 17 reject and 4
 indeterminate, and each one cites the section below that decides it. Every requirement below therefore has a
 vector, meaning a frozen input plus the verdict a conforming verifier owes it, and a reader
 who disagrees with a requirement can run its vector against their own implementation and
@@ -290,13 +290,13 @@ revision does not specify it.
 
 ## 9. Conformance
 
-The corpus in `corpora/vectors-scitt-cose/` is the executable form of this document. Every reject
+The corpus in `vectors-scitt-cose/` is the executable form of this document. Every reject
 member declares the accept member it is 1 mutation from, so a verifier that refuses every
 input scores 0 rather than full marks. Every indeterminate member declares the readings a
 conforming verifier could take, because the documents cited above do not choose between
 them. A corpus that chose would publish a rule the standards do not carry.
 
-The checker at `corpora/vectors-scitt-cose/check_vectors.py` re-derives every claim from the
+The checker at `vectors-scitt-cose/check_vectors.py` re-derives every claim from the
 bytes on disk, and it states RFC 9162 Section 2.1.3.2 a second time rather than importing
 the generator's tree code. A fault in that code then produces a corpus together with a
 refusal, where an imported checker would produce a corpus and its own agreement with it.

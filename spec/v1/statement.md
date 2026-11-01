@@ -162,7 +162,7 @@ this rule exists to prevent.
 
 ### Where it is tested
 
-The admission corpus, [`../../corpora/vectors-admission/`](../../corpora/vectors-admission/),
+The admission corpus, [`../../vectors-admission/`](../../vectors-admission/),
 under condition `adm-c-4`: a statement whose subject was renamed and redated
 after the run is refused when the consumer pins the digest of the artifact it
 is deploying, and admitted when the consumer pins the digest the observer

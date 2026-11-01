@@ -286,28 +286,28 @@ th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-
 </thead>
 <tbody>
 <tr>
-<td><code>corpora/vectors-done-receipt/</code></td>
+<td><code>vectors-done-receipt/</code></td>
 <td>whole runs in each corner of the two verdicts and the receipts for them, honest and forged, with a defect for every receipt and record rule</td>
 </tr>
 <tr>
-<td><code>corpora/vectors-spoofed-tool-output/</code></td>
+<td><code>vectors-spoofed-tool-output/</code></td>
 <td>fabricated, stale and shadowed tool output and completion claims against the observer's record</td>
 </tr>
 <tr>
-<td><code>corpora/vectors-test-tampering/</code></td>
+<td><code>vectors-test-tampering/</code></td>
 <td>edits of protected paths, the ones an observer sees and the ones it loses</td>
 </tr>
 <tr>
-<td><code>corpora/vectors-grader-isolation/</code></td>
+<td><code>vectors-grader-isolation/</code></td>
 <td>reaching what grades the run: its output files, its interpreter, its sealed execution surface, its tree, and the rules a pass must still meet</td>
 </tr>
 <tr>
-<td><code>corpora/vectors-done-probes/</code></td>
+<td><code>vectors-done-probes/</code></td>
 <td>the probes beside the acceptance commands: the import probe on its own failure, the in-process twin of the visible test, and the detectors, each with its honest divergence</td>
 </tr>
 </tbody>
 </table>
-<p>A member declares each check's verdict and, when it declares all five, the two verdicts and <code>accepted</code>. A reader conforms when it reaches every declared decision, reason, vantage, scope and class. <code>corpora/vectors-done-receipt/crosscheck_probity_verify.py</code> replays every member through probity-verify, pinned in this repository's <code>crosscheck</code> dependency group, and CI runs it.</p>
+<p>A member declares each check's verdict and, when it declares all five, the two verdicts and <code>accepted</code>. A reader conforms when it reaches every declared decision, reason, vantage, scope and class. <code>vectors-done-receipt/crosscheck_probity_verify.py</code> replays every member through probity-verify, pinned in this repository's <code>crosscheck</code> dependency group, and CI runs it.</p>
 
 </main>
 <footer><div class="shell">Built from <a href="https://github.com/probityai/agent-evidence-vectors/blob/c588c8a23b3027eef33c42458ebac2bdb4cc758b/spec/predicates/done-receipt.md">spec/predicates/done-receipt.md</a> (SHA-256 <code>33a6a4d1b00b8acdbe324cf8645cdb4f72a27402f895816be5db3f67b7f043d5</code>). The type URI is <code>https://w3id.org/agent-evidence/predicate/v1/done-receipt</code>; it does not change once a signed statement carries it. Record format: <a href="https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/03/">draft-gilda-audit-agent-audit-record-03</a>, Section 4 (an in-toto Statement carried in a DSSE envelope).</div></footer>

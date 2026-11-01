@@ -200,60 +200,60 @@ exclude = [
     "**/.build",
     "**/*.pyc",
     "vectors/**/*.py",
-    "vectors-a2a-jcs-v01/**/*.py",
-    "vectors-aci/**/*.py",
-    "vectors-acs-core/**/*.py",
-    "vectors-admission/**/*.py",
-    "vectors-agent-audit-record/**/*.py",
-    "vectors-agent-card-receipt/**/*.py",
-    "vectors-agent-change-admission/**/*.py",
-    "vectors-agent-decision/**/*.py",
-    "vectors-agent-payment-mandate/**/*.py",
-    "vectors-agentic-process-evidence/**/*.py",
-    "vectors-aggregate-accounting/**/*.py",
-    "vectors-ai-agent-action/**/*.py",
-    "vectors-ai-generation/**/*.py",
-    "vectors-anchor-stream/**/*.py",
-    "vectors-anchored-chain/**/*.py",
-    "vectors-approval-binding/**/*.py",
-    "vectors-artifact-binding/**/*.py",
-    "vectors-authority-at-dispatch/**/*.py",
-    "vectors-badge-vc-verify/**/*.py",
-    "vectors-chunked-export/**/*.py",
-    "vectors-completion-confirmation/**/*.py",
-    "vectors-connector-scope/**/*.py",
-    "vectors-converted-argument-binding/**/*.py",
-    "vectors-credential-release/**/*.py",
-    "vectors-delegation-lifecycle/**/*.py",
-    "vectors-delegator-right/**/*.py",
-    "vectors-dependency-selection/**/*.py",
-    "vectors-dispatch-fence/**/*.py",
-    "vectors-done-contract/**/*.py",
-    "vectors-done-probes/**/*.py",
-    "vectors-done-receipt/**/*.py",
-    "vectors-grade-floor/**/*.py",
-    "vectors-grader-isolation/**/*.py",
-    "vectors-identity-binding/**/*.py",
-    "vectors-ietf-agent-record-drafts/**/*.py",
-    "vectors-mcp-owasp/**/*.py",
-    "vectors-mcp-record-contract/**/*.py",
-    "vectors-mcp-response-phase/**/*.py",
-    "vectors-observed-effect/**/*.py",
-    "vectors-open-weight-art53/**/*.py",
-    "vectors-receipt-chain-end/**/*.py",
-    "vectors-receipt-signature/**/*.py",
-    "vectors-recorded/**/*.py",
-    "vectors-refund-connected/**/*.py",
-    "vectors-restart-records/**/*.py",
-    "vectors-scitt-cose/**/*.py",
-    "vectors-self-reported-record/**/*.py",
-    "vectors-source-coverage/**/*.py",
-    "vectors-spoofed-tool-output/**/*.py",
-    "vectors-test-tampering/**/*.py",
-    "vectors-trace-anchor/**/*.py",
-    "vectors-uncertain-effect/**/*.py",
-    "vectors-w3c-intake/**/*.py",
-    "vectors-w3c-report/**/*.py",
+    "corpora/vectors-a2a-jcs-v01/**/*.py",
+    "corpora/vectors-aci/**/*.py",
+    "corpora/vectors-acs-core/**/*.py",
+    "corpora/vectors-admission/**/*.py",
+    "corpora/vectors-agent-audit-record/**/*.py",
+    "corpora/vectors-agent-card-receipt/**/*.py",
+    "corpora/vectors-agent-change-admission/**/*.py",
+    "corpora/vectors-agent-decision/**/*.py",
+    "corpora/vectors-agent-payment-mandate/**/*.py",
+    "corpora/vectors-agentic-process-evidence/**/*.py",
+    "corpora/vectors-aggregate-accounting/**/*.py",
+    "corpora/vectors-ai-agent-action/**/*.py",
+    "corpora/vectors-ai-generation/**/*.py",
+    "corpora/vectors-anchor-stream/**/*.py",
+    "corpora/vectors-anchored-chain/**/*.py",
+    "corpora/vectors-approval-binding/**/*.py",
+    "corpora/vectors-artifact-binding/**/*.py",
+    "corpora/vectors-authority-at-dispatch/**/*.py",
+    "corpora/vectors-badge-vc-verify/**/*.py",
+    "corpora/vectors-chunked-export/**/*.py",
+    "corpora/vectors-completion-confirmation/**/*.py",
+    "corpora/vectors-connector-scope/**/*.py",
+    "corpora/vectors-converted-argument-binding/**/*.py",
+    "corpora/vectors-credential-release/**/*.py",
+    "corpora/vectors-delegation-lifecycle/**/*.py",
+    "corpora/vectors-delegator-right/**/*.py",
+    "corpora/vectors-dependency-selection/**/*.py",
+    "corpora/vectors-dispatch-fence/**/*.py",
+    "corpora/vectors-done-contract/**/*.py",
+    "corpora/vectors-done-probes/**/*.py",
+    "corpora/vectors-done-receipt/**/*.py",
+    "corpora/vectors-grade-floor/**/*.py",
+    "corpora/vectors-grader-isolation/**/*.py",
+    "corpora/vectors-identity-binding/**/*.py",
+    "corpora/vectors-ietf-agent-record-drafts/**/*.py",
+    "corpora/vectors-mcp-owasp/**/*.py",
+    "corpora/vectors-mcp-record-contract/**/*.py",
+    "corpora/vectors-mcp-response-phase/**/*.py",
+    "corpora/vectors-observed-effect/**/*.py",
+    "corpora/vectors-open-weight-art53/**/*.py",
+    "corpora/vectors-receipt-chain-end/**/*.py",
+    "corpora/vectors-receipt-signature/**/*.py",
+    "corpora/vectors-recorded/**/*.py",
+    "corpora/vectors-refund-connected/**/*.py",
+    "corpora/vectors-restart-records/**/*.py",
+    "corpora/vectors-scitt-cose/**/*.py",
+    "corpora/vectors-self-reported-record/**/*.py",
+    "corpora/vectors-source-coverage/**/*.py",
+    "corpora/vectors-spoofed-tool-output/**/*.py",
+    "corpora/vectors-test-tampering/**/*.py",
+    "corpora/vectors-trace-anchor/**/*.py",
+    "corpora/vectors-uncertain-effect/**/*.py",
+    "corpora/vectors-w3c-intake/**/*.py",
+    "corpora/vectors-w3c-report/**/*.py",
 ]
 
 [tool.hatch.build.targets.wheel.sources]
@@ -531,17 +531,7 @@ held-elsewhere = ["actions", "crates", "packages", "tests"]
 # Directories cannot forget. A file added to any of these is checked because it
 # is there, not because it was announced, and scripts/typecheck-gate.py refuses
 # to pass if a Python file exists outside them.
-include = ["crates/jcs-admit", "docs/paper", "docs/proposals", "docs/site", "examples/mcp-receipts", "interop", "packaging", "scripts", "tools", "vectors",
-           "vectors-admission",
-           "vectors-a2a-jcs-v01", "vectors-agent-audit-record", "vectors-agent-decision", "vectors-ietf-agent-record-drafts", "vectors-anchored-chain", "vectors-trace-anchor", "vectors-grade-floor", "vectors-agent-payment-mandate", "vectors-agent-change-admission", "vectors-agentic-process-evidence", "vectors-delegation-lifecycle", "vectors-restart-records", "vectors-recorded", "vectors-aci", "vectors-acs-core", "vectors-ai-agent-action", "vectors-ai-generation",
-           "vectors-anchor-stream", "vectors-artifact-binding", "vectors-dependency-selection",
-           "vectors-mcp-owasp", "vectors-mcp-record-contract", "vectors-mcp-response-phase",
-           "vectors-observed-effect", "vectors-receipt-chain-end", "vectors-receipt-signature",
-           "vectors-identity-binding", "vectors-authority-at-dispatch", "vectors-approval-binding", "vectors-delegator-right", "vectors-badge-vc-verify", "vectors-completion-confirmation", "vectors-dispatch-fence", "vectors-refund-connected", "vectors-aggregate-accounting", "vectors-uncertain-effect", "vectors-agent-card-receipt", "vectors-credential-release",
-           "vectors-converted-argument-binding", "vectors-chunked-export",
-           "vectors-done-contract", "vectors-done-receipt", "vectors-spoofed-tool-output", "vectors-test-tampering", "vectors-grader-isolation",
-           "vectors-done-probes", "vectors-scitt-cose", "vectors-source-coverage", "vectors-open-weight-art53", "vectors-self-reported-record",
-           "vectors-w3c-intake", "vectors-w3c-report", "vectors-poc-evidence", "vectors-connector-scope"]
+include = ["corpora", "crates/jcs-admit", "docs/paper", "docs/proposals", "docs/site", "examples/mcp-receipts", "interop", "packaging", "scripts", "tools", "vectors", "vectors-poc-evidence"]
 
 # The reference rail is imported by the gates that drive it, and it lives in
 # packaging/ rather than on the default path, so the checker needs the same
@@ -554,7 +544,7 @@ include = ["crates/jcs-admit", "docs/paper", "docs/proposals", "docs/site", "exa
 # a checker that cannot see the same path reports a configuration error for an
 # import that resolves fine when it runs.
 extraPaths = ["packaging", "vectors", "tools/artifact-binding",
-              "vectors-artifact-binding", "vectors-observed-effect",
+              "corpora/vectors-artifact-binding", "corpora/vectors-observed-effect",
               "interop/a2a-s3-retain-2026-10-01", "crates/jcs-admit/python/pysrc"]
 
 # "standard" rather than "strict", chosen rather than defaulted into. Standard
@@ -578,45 +568,45 @@ root = "vectors-poc-evidence"
 extraPaths = ["vectors-poc-evidence/package", "vectors-poc-evidence/build/spec-93d0e28/impl", "vectors-poc-evidence/build/spec-93d0e28/schema"]
 
 [[tool.pyright.executionEnvironments]]
-root = "vectors-done-receipt"
+root = "corpora/vectors-done-receipt"
 
 [[tool.pyright.executionEnvironments]]
-root = "vectors-done-contract"
-extraPaths = ["vectors-done-receipt"]
+root = "corpora/vectors-done-contract"
+extraPaths = ["corpora/vectors-done-receipt"]
 
 [[tool.pyright.executionEnvironments]]
-root = "vectors-spoofed-tool-output"
-extraPaths = ["vectors-done-receipt"]
+root = "corpora/vectors-spoofed-tool-output"
+extraPaths = ["corpora/vectors-done-receipt"]
 
 [[tool.pyright.executionEnvironments]]
-root = "vectors-test-tampering"
-extraPaths = ["vectors-done-receipt"]
+root = "corpora/vectors-test-tampering"
+extraPaths = ["corpora/vectors-done-receipt"]
 
 [[tool.pyright.executionEnvironments]]
-root = "vectors-grader-isolation"
-extraPaths = ["vectors-done-receipt"]
+root = "corpora/vectors-grader-isolation"
+extraPaths = ["corpora/vectors-done-receipt"]
 
 [[tool.pyright.executionEnvironments]]
-root = "vectors-done-probes"
-extraPaths = ["vectors-done-receipt"]
+root = "corpora/vectors-done-probes"
+extraPaths = ["corpora/vectors-done-receipt"]
 
 [[tool.pyright.executionEnvironments]]
-root = "vectors-self-reported-record"
+root = "corpora/vectors-self-reported-record"
 
 # The MCP receipt examples import the observed-effect corpus's gen_vectors and
 # check_vectors. `vectors` comes first on the global extraPaths and carries
 # modules of the same names, so this root searches only the corpus it uses.
 [[tool.pyright.executionEnvironments]]
 root = "examples/mcp-receipts"
-extraPaths = ["vectors-observed-effect"]
+extraPaths = ["corpora/vectors-observed-effect"]
 
 # The agent-decision corpus carries a third `canonical` module, for the same reason.
 [[tool.pyright.executionEnvironments]]
-root = "vectors-agent-decision"
+root = "corpora/vectors-agent-decision"
 
 # The IETF agent-record drafts corpus carries its own `digest` module, for the same reason.
 [[tool.pyright.executionEnvironments]]
-root = "vectors-ietf-agent-record-drafts"
+root = "corpora/vectors-ietf-agent-record-drafts"
 
 # The retained generator imports its own historical check_vectors module.
 [[tool.pyright.executionEnvironments]]
@@ -657,10 +647,10 @@ extend-exclude = [
   # Trees that fail the rules above today. CI lints every vectors-* and interop/*
   # directory by glob (force-exclude makes a named path win); this list is the
   # burn-down and only shrinks. A new directory is linted from its first commit.
-  "vectors-acs-core/gen_vectors.py",
-  "vectors-w3c-report/gen_vectors.py",
-  "vectors-artifact-binding/gen_vectors.py",
-  "vectors-scitt-cose/gen_vectors.py",
+  "corpora/vectors-acs-core/gen_vectors.py",
+  "corpora/vectors-w3c-report/gen_vectors.py",
+  "corpora/vectors-artifact-binding/gen_vectors.py",
+  "corpora/vectors-scitt-cose/gen_vectors.py",
   "vectors-poc-evidence/build",
   "vectors-poc-evidence/package",
   "vectors-poc-evidence/tests",

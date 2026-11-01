@@ -88,6 +88,6 @@ the decision.
 ## Conformance
 
 The checker and the labelled synthetic members ship in this repository as
-`corpora/vectors-restart-records/`. Until that corpus is released, a reader can conform to the
+`vectors-restart-records/`. Until that corpus is released, a reader can conform to the
 record shapes only through the JSON Schemas in `spec/schemas/`, which check shape and closed
 values and none of the cross-member rules above.
