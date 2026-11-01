@@ -42,7 +42,7 @@ from probity_verify.common import (  # pyright: ignore[reportMissingImports]
 )
 from probity_verify.json_input import parse_json  # pyright: ignore[reportMissingImports]
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "packaging"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "packaging"))
 
 from agent_evidence_vectors import donechecks, donerecords  # noqa: E402
 

@@ -31,7 +31,7 @@ def _stub(tmp_path: Path, skip: tuple[str, ...]) -> str:
     script = tmp_path / "stub.py"
     script.write_text(
         "import json, sys\n"
-        f"sys.path.insert(0, {str(ROOT.parent / 'packaging')!r})\n"
+        f"sys.path.insert(0, {str(ROOT.parents[1] / 'packaging')!r})\n"
         "import run_vectors\n"
         "from pathlib import Path\n"
         "from agent_evidence_vectors import receiptchainend as m\n"
@@ -116,7 +116,7 @@ class TestReceiptChainEndCorpus:
             script = tmp_path / "prefix-is-end.py"
             script.write_text(
                 "import json, sys\n"
-                f"sys.path.insert(0, {str(ROOT.parent / 'packaging')!r})\n"
+                f"sys.path.insert(0, {str(ROOT.parents[1] / 'packaging')!r})\n"
                 "import run_vectors\n"
                 "from pathlib import Path\n"
                 "from agent_evidence_vectors import receiptchainend as m\n"

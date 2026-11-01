@@ -5,7 +5,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "packaging"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "packaging"))
 
 import run_vectors  # noqa: E402, F401  (the reader borrows its Ed25519 and DSSE PAE)
 from agent_evidence_vectors.identitybinding import check, main  # noqa: E402, F401

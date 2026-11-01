@@ -37,7 +37,7 @@ def _stub(tmp_path: Path, body: str) -> str:
     script = tmp_path / "stub.py"
     script.write_text(
         "import json, sys\n"
-        f"sys.path.insert(0, {str(ROOT.parent / 'packaging')!r})\n"
+        f"sys.path.insert(0, {str(ROOT.parents[1] / 'packaging')!r})\n"
         "from pathlib import Path\n"
         "from agent_evidence_vectors import traceanchor as m\n"
         "case = json.loads(Path(sys.argv[1]).read_text(encoding='utf-8'))\n"

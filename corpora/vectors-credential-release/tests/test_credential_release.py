@@ -80,7 +80,7 @@ def test_each_rejected_case_passes_every_earlier_check(name: str) -> None:
 def test_reference_reader_through_the_external_contract(tmp_path: Path) -> None:
     command = _stub(tmp_path, (
         "import json, sys\n"
-        f"sys.path.insert(0, {str(ROOT.parent / 'packaging')!r})\n"
+        f"sys.path.insert(0, {str(ROOT.parents[1] / 'packaging')!r})\n"
         "from pathlib import Path\n"
         "from agent_evidence_vectors import cardreceipt as m\n"
         "answer = m.verify(sys.argv[1], Path(sys.argv[2]))\n"
