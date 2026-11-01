@@ -56,7 +56,7 @@ and the classes you demand, and the policy admits the same statement:
 ```bash
 cat > pins.json <<'JSON'
 {"consumer": {
-  "expected_corpus_digest": "cc1bdef2ffca96d86a636e5a9fb27a4a111836773e0dd1368d8de94f413979be",
+  "expected_corpus_digest": "bf3e5befd71640757ff1b3f0af63507364b823b5e3f9059678f72f64a46e11c1",
   "expected_substrate_digest": "018bbaf3710e526b0653abafbd3bd3c3356150d747db166021f1e107446c85bb",
   "demanded_classes": ["XA"]
 }}
