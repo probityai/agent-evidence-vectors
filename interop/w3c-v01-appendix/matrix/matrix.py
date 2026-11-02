@@ -373,7 +373,8 @@ def read_kroehl(reader: dict[str, Any], files: Path, work: Path, log: Path) -> d
             outcome = {"accept": "conforms", "reject": "rejected", "cannot-tell": "cannot-tell"}[item["verdict"]]
             cited = sorted({str(m.group(1)) for g in item.get("grounds", []) if (m := GROUND.match(g))})
             note = item.get("ground", "") if outcome != "cannot-tell" else ", ".join(item.get("open", []))
-            result[ids.get(item["id"], item["id"])] = {"outcome": outcome, "cited": cited, "note": note[:300]}
+            member_id = str(item["id"])
+            result[ids.get(member_id, member_id)] = {"outcome": outcome, "cited": cited, "note": note[:300]}
     return result
 
 
