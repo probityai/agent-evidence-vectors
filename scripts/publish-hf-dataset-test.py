@@ -255,6 +255,46 @@ class BuildRefuses(unittest.TestCase):
             sorted(paths), ["CITATION.cff", "LICENSE", "release/x", "vectors/MANIFEST.json"]
         )
 
+    def test_corpora_under_corpora_are_published_at_the_flat_dataset_path(self) -> None:
+        tree = {
+            "LICENSE": ("100644", "a"),
+            "CITATION.cff": ("100644", "b"),
+            "release/x": ("100644", "c"),
+            "vectors/MANIFEST.json": ("100644", "d"),
+            "vectors/v1.json": ("100644", "d1"),
+            "corpora/vectors-aci/MANIFEST.json": ("100644", "e"),
+            "corpora/vectors-aci/cases/c.json": ("100644", "e1"),
+            "corpora/jcs-byte-vectors/MANIFEST.json": ("100644", "f"),
+            "corpora/README.md": ("100644", "g"),
+            "vectors-poc-evidence/README.md": ("100644", "h"),
+            "vectors-old/MANIFEST.json": ("100644", "i"),
+        }
+        corpora, paths = pub.select_files(tree)
+        self.assertEqual(corpora, ["vectors", "vectors-aci", "vectors-old"])
+        self.assertEqual(
+            [pub.dataset_path(p) for p in paths],
+            [
+                "CITATION.cff",
+                "LICENSE",
+                "release/x",
+                "vectors/MANIFEST.json",
+                "vectors/v1.json",
+                "vectors-aci/MANIFEST.json",
+                "vectors-aci/cases/c.json",
+                "vectors-old/MANIFEST.json",
+            ],
+        )
+
+    def test_one_corpus_at_the_root_and_under_corpora_is_refused(self) -> None:
+        tree = {
+            "LICENSE": ("100644", "a"),
+            "CITATION.cff": ("100644", "b"),
+            "vectors-aci/MANIFEST.json": ("100644", "c"),
+            "corpora/vectors-aci/MANIFEST.json": ("100644", "d"),
+        }
+        with self.assertRaises(pub.PublishError):
+            pub.select_files(tree)
+
     def test_missing_cosign_fails_the_build(self) -> None:
         saved = os.environ["PATH"]
         os.environ["PATH"] = ""
@@ -300,6 +340,56 @@ class BuildRefuses(unittest.TestCase):
         self.assertIn("cosign verify-blob", str(caught.exception))
 
 
+def newest_release_tag() -> str:
+    """The highest vMAJOR.MINOR.PATCH tag in the object store."""
+    tags = pub.git(pub.REPO, "tag", "--list", "v*").decode().split()
+    found = [t for t in tags if pub.TAG_RE.fullmatch(t)]
+    if not found:
+        raise AssertionError("no corpus release tag in the object store; fetch the tags")
+    return max(found, key=pub.version_key)
+
+
+class BuildsTheRealTree(unittest.TestCase):
+    """The build, run on this repository's own corpora, agrees with the signed list.
+
+    The v0.25.0 rebuild above cannot see a layout change made after that tag. These
+    run on the checkout's HEAD tree and on the newest release tag.
+    """
+
+    def test_every_corpus_directory_of_the_head_tree_is_selected(self) -> None:
+        tree = pub.list_tree(pub.REPO, "HEAD")
+        manifests = {
+            p.rsplit("/", 1)[0]
+            for p in tree
+            if p.endswith("/MANIFEST.json")
+            and pub.CORPUS_DIR_RE.fullmatch(p.rsplit("/", 2)[-2])
+            and p.count("/") in (1, 2)
+            and (p.count("/") == 1 or p.startswith("corpora/"))
+        }
+        corpora, paths = pub.select_files(tree)
+        self.assertGreater(len(corpora), 50)
+        self.assertEqual({pub.corpus_dirs(list(tree))[c] for c in corpora}, manifests)
+        for corpus in corpora:
+            self.assertIn(f"{corpus}/MANIFEST.json", {pub.dataset_path(p) for p in paths})
+
+    def test_the_newest_release_tag_builds_and_its_signed_list_names_the_selected_corpora(
+        self,
+    ) -> None:
+        tag = newest_release_tag()
+        with tempfile.TemporaryDirectory(prefix="aev-hf-latest-") as tmp:
+            out = Path(tmp) / "dataset"
+            problems = pub.build(pub.REPO, tag, out, "python3", None)
+            self.assertEqual(problems, [], tag)
+            signed = pub.signed_digests((out / pub.DIGESTS).read_text(encoding="utf-8"))
+            published = {
+                p.parent.name
+                for p in out.glob("*/MANIFEST.json")
+                if pub.CORPUS_DIR_RE.fullmatch(p.parent.name)
+            }
+            self.assertEqual({k.split("/")[0] for k in signed}, published, tag)
+            self.assertFalse((out / "corpora").exists(), tag)
+
+
 class Rollback(unittest.TestCase):
     def test_an_older_release_is_refused(self) -> None:
         with self.assertRaises(pub.PublishError):
@@ -319,7 +409,7 @@ class UploadPlan(unittest.TestCase):
             "data/cases.jsonl",
             "release/cosign.pub",
             "vectors/a.json",
-            "corpora/vectors-aci/b/c.json",
+            "vectors-aci/b/c.json",
         ):
             self.assertTrue(any(_glob(path, p) for p in pub.DELETE_PATTERNS), path)
         self.assertFalse(any(_glob(".gitattributes", p) for p in pub.DELETE_PATTERNS))
