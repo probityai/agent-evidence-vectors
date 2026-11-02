@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.util
 import subprocess
 import sys
 import tarfile
@@ -32,6 +33,17 @@ from pathlib import Path
 
 PREFIX = "agent_evidence_vectors/corpora/"
 DIGESTS = "release/CORPUS-DIGESTS.txt"
+TREE_PREFIX = "corpora/"
+
+
+def _tracked_manifests():
+    """The one place that knows where a corpus sits: release-digests.py."""
+    path = Path(__file__).resolve().parent / "release-digests.py"
+    spec = importlib.util.spec_from_file_location("release_digests", path)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules.setdefault("release_digests", module)
+    spec.loader.exec_module(module)
+    return module.tracked_manifests
 
 
 class Unreadable(Exception):
@@ -49,10 +61,28 @@ def listed_corpora(root: Path) -> list[str]:
     return sorted(row[1].split("/")[0] for row in rows)
 
 
+def corpus_directory(root: Path, corpus: str) -> str:
+    """The repository directory of a listed corpus, at the root or under corpora/."""
+    try:
+        manifests = _tracked_manifests()(root)
+    except (OSError, subprocess.CalledProcessError) as exc:
+        raise Unreadable(f"git ls-files */MANIFEST.json: {exc}") from exc
+    for listed, repo_path in manifests:
+        if listed.split("/")[0] == corpus:
+            return repo_path.rsplit("/", 1)[0]
+    return corpus
+
+
+def wheel_key(rel: str) -> str:
+    """The path inside agent_evidence_vectors/corpora/ for a tracked file."""
+    return rel.removeprefix(TREE_PREFIX)
+
+
 def tracked_files(root: Path, corpus: str) -> list[str]:
+    directory = corpus_directory(root, corpus)
     try:
         out = subprocess.run(
-            ["git", "ls-files", "--", corpus],
+            ["git", "ls-files", "--", directory],
             cwd=root, capture_output=True, text=True, check=True,
         ).stdout
     except (OSError, subprocess.CalledProcessError) as exc:
@@ -97,7 +127,7 @@ def check(root: Path, wheel: Path, sdist: Path) -> list[str]:
         for rel in files:
             want = hashlib.sha256((root / rel).read_bytes()).hexdigest()
             for label, shipped in (("wheel", in_wheel), ("sdist", in_sdist)):
-                got = shipped.get(rel)
+                got = shipped.get(wheel_key(rel) if label == "wheel" else rel)
                 if got is None:
                     failures.append(f"{corpus}: {rel} is not in the {label}")
                 elif got != want:
