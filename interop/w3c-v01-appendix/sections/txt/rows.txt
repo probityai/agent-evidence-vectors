@@ -1,0 +1,33 @@
+ROWS AND THEIR VERIFICATION
+
+Each row starts with its result line as posted, credited to whoever posted it: the owner's final line where one has been sent (Nov/0001 asks for them by 4 November), otherwise the line in Roel Schuurkes's table (Oct/0162). The second sentence is the appendix's verification cell. Where the appendix adds something, it is offered to the row's owner to take or leave.
+
+- R1 (Sankalp Gilda). "Reference emitter: 272 records, 239 fail, 31 pass, 2 inconclusive; the roll-up reads negative-capable shown-by-run" (Oct/0162). Verification: uvx agent-evidence-vectors==0.12.0 --emit-w3c-report report.json gives the posted bytes, and uvx agent-evidence-vectors==0.31.1 --read-w3c-report report.json prints conforms.
+
+- R2 (Nicolas Rocchia). "disensor: three reports, 72, 168 and 750 checks, all pass; 5.4 control, 61 fixture records (proposed 5.5 records)" (Oct/0162). Verification: python rerun.py R2; all three reports conform under every reader in the matrix. Offered: the three reports' single-field copies under every reader.
+
+- R3 (Anton Sokolov). "EATF-MultiRoot: 48 checks over three accepting seeds, all pass; 5.4 control, 44 of 192 mutants as fixture records (proposed 5.5 records)" (Oct/0162). Verification: python rerun.py R3, then python rerun.py R3-v01, which rebuilds run-report-v01.json (sha256 0e608637..., Nov/0000) with the posted converter. Offered: that file under all eleven readers in the matrix, where it conforms under each.
+
+- R4 (Kenne Ives). "tool-manifest-digest v1: three reports, 76, 67 and 16 checks, all pass; 5.4 control, 3, 3 and 2 single-change copies" (Nov/0003). The records the paper cites were produced through the producer's glue and stay the row. Verification: python rerun.py R4; the three reports conform from v0.18.1 and are rejected under W3C-R-020 before v0.18. Beside them, python rerun.py R4-driver runs the vector file without the glue, the second update of Nov/0003.
+
+- R5 (Michael Blake). "PayHELM: 150,006 checks, 93,731 pass, 56,269 fail, 6 not-exercised; 5.4 shown by run" (Oct/0162). Verification: python rerun.py R5; the report conforms under every reader, and a copy with one state flipped and the root unchanged is rejected by every reference reader.
+
+- R6 (Roel Schuurkes). "Assay approval handler: 4 checks, all pass; 5.4 nothing" (Oct/0162). Verification: python rerun.py R6. Offered: the four baseline approval tests, which the row records as not rerun, now run at 0e59b404 and 8a385471 on the three platforms and pass; the September mutation is not rerun, as Oct/0024 says it cannot be.
+
+- R7 (posted by Nicholas Templeman, Oct/0081). "Control-2 packet: 21 selected outcomes, 7 pass, 13 fail, 1 inconclusive" (Oct/0162). Verification: python rerun.py R7. The packet is a native (state, reason) packet, not a v0.1 report, so it has no reader cell.
+
+- R8 (Rouiada Abbas). "Text-only reader, frozen run at v0.17.4: of 96 members expected to be accepted or rejected under rows 1 to 14, 92 agree" (Oct/0162). Verification: python rerun.py R8 gives verdicts.tsv and not-selected.tsv as posted. Michael Blake's repeat of the comparison (Oct/0188) stays the row's comparison; python rerun.py R8-compare repeats it with the selection rule of Oct/0022, as Rouiada Abbas set out in Nov/0002, and prints the same figures: 92 of 96, and 23, 2 and 44 of 69.
+
+- R9 (Sankalp Gilda). "W3C-R-016 at v0.18.0: 42 rejections withdrawn and one family re-cut; the section 10 selection stays at 165 members and goes from 83 reject and 82 accept to 41 and 124" (Oct/0162). Verification: python rerun.py R9 recomputes both corpus digests and the selection counts at each tag, and runs the Python and Go readers at v0.17.4 and all three from v0.18.0, where the Rust reader first ships. The row's checker line names the Rust reader before v0.18.0; that is offered as a correction.
+
+- R10 (Roel Schuurkes's row; Rouiada Abbas, Lars Kersten Kroehl, Guigui Wang, Kenne Ives). "Integer -0: at v0.17.4 the Python reader wrote 0 and the Go reader -0; a third reading wrote 0, RFC 8785's answer" (Oct/0162). Posted measurement, "no single command". Offered: python rerun.py R10, which writes the value with both readers at v0.17.4 and v0.18.1 and compares the bytes with Oct/0038.
+
+- R11 (Lars Kersten Kroehl). "Text-only reader at v0.18.1: over the 165 section 10 members, 102 agree (77 accept, 25 reject), 55 cannot-tell, 8 differ" (Oct/0162). Verification: python rerun.py R11 gives the posted output digest.
+
+- R12 (Lars Kersten Kroehl). "Proposed JCS digest members (W3C-R-030 to R-032): on 33 members, each of three scoring paths agrees with the expected verdict on 28" (Oct/0162). Verification: python rerun.py R12. The row's own CI is in its author's repository (PR 836).
+
+- R13 (Raphael La Touche). "Prior-run route: five synthetic cases at 98366047, 5 of 5 expected outcomes, 23 tests, 15 hashes" (Oct/0162). Verification: python rerun.py R13; every listed file OK.
+
+- R14 (Roel Schuurkes's summary). "Reader verdicts posted on the list" (Oct/0162). Offered: the reader matrix, every report under every reader with one command, which agrees with every posted verdict and adds R3-v01.
+
+- R15 (posted by Nicholas Templeman, Sep/0080). "Census: 3 of 592 published artifacts record a control whose observed verdict was negative" (Oct/0162). Posted count, no rerun; the appendix tallies the census file's own state fields only.
