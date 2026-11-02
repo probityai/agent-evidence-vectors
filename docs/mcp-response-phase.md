@@ -1,13 +1,13 @@
 # The response phase sees every completion
 
 Status: proposal, with a conformance corpus. The two rules below are measured
-by `vectors-mcp-response-phase/`, so they are not rules anyone has to take on
+by `corpora/vectors-mcp-response-phase/`, so they are not rules anyone has to take on
 trust.
 
 ## The gap
 
 The MCP interceptors proposal (`modelcontextprotocol/experimental-ext-interceptors`,
-`docs/sep.md`, vendored at `vectors-mcp-response-phase/spec-vendored/`) defines a
+`docs/sep.md`, vendored at `corpora/vectors-mcp-response-phase/spec-vendored/`) defines a
 Lifecycle Event as "a specific moment when a context operation is initiated
 (request phase) or completed (response phase)", and an interceptor hooked on
 `phase: "response"` is invoked at that moment. It does not say what the
@@ -56,7 +56,7 @@ of the caller's operation and are not covered here.
 
 ## How a gateway is tested
 
-The adapter contract is in `vectors-mcp-response-phase/README.md`. A gateway's
+The adapter contract is in `corpora/vectors-mcp-response-phase/README.md`. A gateway's
 CI supplies one executable that stands the gateway up with a response-phase
 policy, answers the member's request from a stub upstream with the member's
 completion, and prints one line of JSON saying whether the policy was invoked

@@ -8,7 +8,7 @@ I checked that it discriminates before proposing it. Pointed at the build it rec
 
 Two commands, stdlib only, no network at run time, no install step. gen_vectors.py --check asserts the vendored copy is byte-identical to what the generator emits, so a local edit to any vector cannot pass unnoticed.
 
-Whether the corpus does what its manifest claims is answered in my repository rather than yours, by a Go verifier that reads every corpus by its manifest and needs nothing from your CI: go build -o aee-verify ./cmd/aee-verify && ./aee-verify vectors-anchor-stream/ exits 0 over 32 members, 12 accept and 20 reject, and exit 1 names the member whose bytes moved.
+Whether the corpus does what its manifest claims is answered in my repository rather than yours, by a Go verifier that reads every corpus by its manifest and needs nothing from your CI: go build -o aee-verify ./cmd/aee-verify && ./aee-verify corpora/vectors-anchor-stream/ exits 0 over 32 members, 12 accept and 20 reject, and exit 1 names the member whose bytes moved.
 
 The second command is the ratchet described above. The job borrows the actions/setup-python@v5 at 3.12 that census-diff.yml already uses. Its path filter keeps it off every other push.
 

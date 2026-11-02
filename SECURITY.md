@@ -86,7 +86,7 @@ passed" without checking `result` itself.
 **The fix.** The exit status now answers one question, admission, and a policy
 that pins nothing admits nothing and names every missing pin. `-validity-only`
 asks the narrower question by name and says so in its report.
-`vectors-admission/` holds the cases, and both rails here pass it.
+`corpora/vectors-admission/` holds the cases, and both rails here pass it.
 
 ### A renamed, redated subject was admitted (fixed after 0.18.2)
 
@@ -124,7 +124,7 @@ derived from a seed published in this repository, and read exit 0 as assurance.
 seed, as `observation-key-published`, unless the consumer declines that refusal
 by name with `allowPublishedTestKeys` or `-allow-published-test-keys`. The tier
 column is unchanged, because the tier is about signatures. Both admission rails
-implement it and `vectors-admission/` carries the member refused for it.
+implement it and `corpora/vectors-admission/` carries the member refused for it.
 
 ### A perfect verifier failed corpora in the harness (fixed after 0.18.2)
 

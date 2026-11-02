@@ -113,7 +113,7 @@ position binding at line 19: witness prefix byte length 164 does not equal attes
 
 Right answer, and the type check it appears to be enforcing never ran. v0.9 stops at invalid byte_length. A run scoring the verdict column alone reports both tags as passes and cannot tell you which one closed anything.
 
-All of this is a corpus rather than a list, and it is at https://github.com/probityai/agent-evidence-vectors under vectors-anchor-stream/. It runs against any tag with one command and no install, because it is stdlib Python for the same reason your verifier is a single file:
+All of this is a corpus rather than a list, and it is at https://github.com/probityai/agent-evidence-vectors under corpora/vectors-anchor-stream/. It runs against any tag with one command and no install, because it is stdlib Python for the same reason your verifier is a single file:
 
 ```
 python3 run_verifier.py --verifier /path/to/anchors_verify.py --label v0.10

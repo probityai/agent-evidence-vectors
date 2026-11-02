@@ -1,4 +1,4 @@
-"""Judge the OWASP MCP verification corpus (vectors-mcp-owasp/).
+"""Judge the OWASP MCP verification corpus (corpora/vectors-mcp-owasp/).
 
 Each member is the observation one acceptance test of a draft MCP verification
 requirement (MCPVS-1 to MCPVS-12) produced. The requirement it tests selects a
@@ -12,7 +12,7 @@ The threat identifiers (MCPTM-1 to MCPTM-10) are tested through the
 requirements their registry row names, so every threat row reaches an accept
 and a reject member through those requirements.
 
-The rules are restated in Go in corpora/mcpowasp.go. The two are kept apart on
+The rules are restated in Go in corpusreaders/mcpowasp.go. The two are kept apart on
 purpose: one rule written once and run by both rails would agree with itself.
 
 Standard library only, so the installed package judges the corpus offline.
@@ -35,7 +35,7 @@ _HERE = Path(__file__).resolve().parent
 ROOT = (
     _HERE / "corpora" / "vectors-mcp-owasp"
     if (_HERE / "corpora").exists()
-    else _HERE.parents[1] / "vectors-mcp-owasp"
+    else _HERE.parents[1] / "corpora" / "vectors-mcp-owasp"
 )
 
 _ID = re.compile(r"^(MCPVS|MCPTM)-([1-9][0-9]*)$")
@@ -48,7 +48,7 @@ def sha(data: bytes) -> str:
 class FloatRefused(ValueError):
     """A float inside a digested record, refused in the Go reader's words.
 
-    corpora/mcpowasp.go digests through pythonCompactJSON, which refuses a
+    corpusreaders/mcpowasp.go digests through pythonCompactJSON, which refuses a
     number token with a fraction or an exponent rather than guess whether
     CPython's repr and Go's strconv agree on it. This reader used to digest the
     float with repr, so the two readers parted on any record that carried one:

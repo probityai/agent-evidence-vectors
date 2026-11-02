@@ -35,7 +35,7 @@ const (
 //
 // The knobs, their absent-input defaults and the codes they raise are the ones
 // agent-evidence-admission's rails take in their consumer data document; see
-// admission.go for the conjunction and vectors-admission/README.md for the
+// admission.go for the conjunction and corpora/vectors-admission/README.md for the
 // table.
 type ConsumerPolicy struct {
 	// SubstrateObservationKeys names the keys a basis: substrate row's

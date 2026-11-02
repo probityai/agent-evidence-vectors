@@ -74,7 +74,7 @@ RULES = (
 )
 _HERE = Path(__file__).resolve().parent
 ROOT = (_HERE / "corpora" / "vectors-grade-floor" if
-        (_HERE / "corpora").exists() else _HERE.parents[1] / "vectors-grade-floor")
+        (_HERE / "corpora").exists() else _HERE.parents[1] / "corpora" / "vectors-grade-floor")
 
 
 def _sha(data: bytes) -> str:

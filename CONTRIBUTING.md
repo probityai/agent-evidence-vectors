@@ -242,7 +242,7 @@ because an outside reader answered differently and was right.
 ## Adding a corpus of your own
 
 A corpus against a different specification lands here as a sibling
-`vectors-<name>/` directory, on the pattern `vectors-ai-agent-action/` already
+`vectors-<name>/` directory, on the pattern `corpora/vectors-ai-agent-action/` already
 sets, rather than as a new repository. The contract is in
 [`.github/PULL_REQUEST_TEMPLATE/vectors-directory.md`](.github/PULL_REQUEST_TEMPLATE/vectors-directory.md):
 a manifest with a derived digest, a generator that reproduces every byte, the

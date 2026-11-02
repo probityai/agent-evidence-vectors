@@ -54,7 +54,7 @@ STAGED: list[Path] = []
 def staged(corpus: str, change: Callable[[dict[str, Any]], None] | None) -> Path:
     root = Path(tempfile.mkdtemp())
     STAGED.append(root)
-    shutil.copytree(REPO_ROOT / corpus, root / corpus)
+    shutil.copytree(REPO_ROOT / "corpora" / corpus, root / corpus)
     if change is not None:
         path = root / corpus / "MANIFEST.json"
         loaded: dict[str, Any] = json.loads(path.read_text(encoding="utf-8"))
@@ -96,7 +96,8 @@ def _drop(position: int) -> Callable[[dict[str, Any]], None]:
 
 def reader_failures(corpus: str, reader: ModuleType) -> list[str]:
     """The tracked corpus is clean; a pinned verdict and a deleted reading are not."""
-    manifest = json.loads((REPO_ROOT / corpus / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest_path = REPO_ROOT / "corpora" / corpus / "MANIFEST.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     members = indeterminate(manifest)
     if not members:
         return [f"{corpus}: no indeterminate member, so these cases test nothing"]
@@ -126,7 +127,7 @@ def scoring_failures() -> list[str]:
     """conforming_verdicts scores a second reader on N2 by its readings, and on
     N1, which -00 settles, by its one verdict."""
     manifest = json.loads(
-        (REPO_ROOT / "vectors-agent-audit-record" / "MANIFEST.json").read_text(encoding="utf-8")
+        (REPO_ROOT / "corpora/vectors-agent-audit-record/MANIFEST.json").read_text(encoding="utf-8")
     )
     out: list[str] = []
     for entry in manifest["vectors"]:

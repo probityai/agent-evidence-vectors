@@ -1,6 +1,6 @@
 name: ACS-Core wire probes
 
-# Runs vectors-acs-core/wire-probes against the AGT reference Guardian at pinned
+# Runs corpora/vectors-acs-core/wire-probes against the AGT reference Guardian at pinned
 # refs of the specification's repository: the integration tip before pull
 # request 229 (every D1 to D10 probe fails there, which proves each one can),
 # the pull request head the probes were first written against (where the D11
@@ -13,7 +13,7 @@ name: ACS-Core wire probes
 on:
   pull_request:
     paths:
-      - vectors-acs-core/wire-probes/**
+      - corpora/vectors-acs-core/wire-probes/**
       - .github/workflows/acs-wire-probes.yml
 
 permissions:
@@ -78,8 +78,8 @@ jobs:
           # Heads before section 10 fixed key_id as a label read it as the session_id.
           ACS_PROBE_KEY_ID_MODE: ${{ matrix.key_id_mode }}
         run: >-
-          bash vectors-acs-core/wire-probes/run_against_agt.sh source/acs out
-          vectors-acs-core/wire-probes/expected/${{ matrix.expect }}
+          bash corpora/vectors-acs-core/wire-probes/run_against_agt.sh source/acs out
+          corpora/vectors-acs-core/wire-probes/expected/${{ matrix.expect }}
 
       - name: Keep the wire captures
         if: always()

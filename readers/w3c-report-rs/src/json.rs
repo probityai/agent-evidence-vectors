@@ -309,7 +309,7 @@ mod tests {
 
     /// The two W3C columns of the shared table: written from the Python reader
     /// by scripts/json-encoding-differential-test.py and held to the Go reader by
-    /// corpora/w3cjcs_test.go. This reader must write the same bytes, or refuse
+    /// corpusreaders/w3cjcs_test.go. This reader must write the same bytes, or refuse
     /// with the same cause and token, for every document. Each document is
     /// parsed without this reader's admission step, which refuses a number with
     /// no finite double before either encoder is reached. A refusal is compared
@@ -318,7 +318,7 @@ mod tests {
     fn the_shared_encoding_table_holds() {
         let path = concat!(
             env!("CARGO_MANIFEST_DIR"),
-            "/../../corpora/testdata/json-encodings.json"
+            "/../../corpusreaders/testdata/json-encodings.json"
         );
         let raw = std::fs::read(path).unwrap_or_default();
         let table: Value = serde_json::from_slice(&raw).unwrap_or(Value::Null);

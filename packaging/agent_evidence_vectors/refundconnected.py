@@ -58,7 +58,7 @@ _HERE = Path(__file__).resolve().parent
 ROOT = (
     _HERE / "corpora" / "vectors-refund-connected"
     if (_HERE / "corpora").exists()
-    else _HERE.parents[1] / "vectors-refund-connected"
+    else _HERE.parents[1] / "corpora" / "vectors-refund-connected"
 )
 _RAIL_NAMES = ("agent_evidence_vectors.run_vectors", "run_vectors", "__main__")
 _RAIL_PRIMITIVES = ("ed25519_verify", "jcs_dumps")

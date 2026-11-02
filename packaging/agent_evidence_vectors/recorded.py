@@ -90,7 +90,7 @@ _LINE = re.compile(rb"^([0-9a-f]{64}) [ *](.+)$")
 
 _HERE = Path(__file__).resolve().parent
 ROOT = (_HERE / "corpora" / "vectors-recorded" if
-        (_HERE / "corpora").exists() else _HERE.parents[1] / "vectors-recorded")
+        (_HERE / "corpora").exists() else _HERE.parents[1] / "corpora" / "vectors-recorded")
 
 
 def sha256(data: bytes) -> str:

@@ -7,9 +7,9 @@ scripts/pre-push-identity-scan.py  # history: why imported commits are exempt fr
 .github/workflows/identifier-hosts.yml  # watches on purpose that the archived repository keeps its name
 crates/dsse/CHANGELOG.md  # history: a released entry that recorded the repository field of its day
 crates/jcs-admit/CHANGELOG.md  # history: a released entry that recorded the repository field of its day
-vectors-anchor-stream/baseline/external-unterminated-final-line/PROVENANCE.md  # corpus member pinned by sha256 in its intake record
-vectors-chunked-export/MANIFEST.json  # corpus manifest bound by the release corpus digests
-vectors-chunked-export/gen_vectors.py  # writes the manifest above; changing it changes the corpus
+corpora/vectors-anchor-stream/baseline/external-unterminated-final-line/PROVENANCE.md  # corpus member pinned by sha256 in its intake record
+corpora/vectors-chunked-export/MANIFEST.json  # corpus manifest bound by the release corpus digests
+corpora/vectors-chunked-export/gen_vectors.py  # writes the manifest above; changing it changes the corpus
 w3id/agent-evidence.htaccess  # must equal the live w3id.org rules byte for byte
 scripts/archived-repo-gate.py  # the gate itself
 scripts/archived-repo-gate-test.py  # the gate's tests

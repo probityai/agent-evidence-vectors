@@ -65,7 +65,7 @@ Use the [GitHub Action](action.yml) to run the same check in your build and reta
 
 Replace VERIFIER_COMMAND with the command that runs your verifier.
 
-A runtime that retries tool calls can run the [uncertain-effect scenarios](vectors-uncertain-effect/README.md): a write that commits and then loses its reply must not run twice.
+A runtime that retries tool calls can run the [uncertain-effect scenarios](corpora/vectors-uncertain-effect/README.md): a write that commits and then loses its reply must not run twice.
 
 ```yaml
 - uses: probityai/agent-evidence-vectors@v0.30.0

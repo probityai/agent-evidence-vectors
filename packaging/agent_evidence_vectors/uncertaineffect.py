@@ -82,7 +82,7 @@ CHECKS = (
 )
 _HERE = Path(__file__).resolve().parent
 ROOT = (_HERE / "corpora" / "vectors-uncertain-effect" if
-        (_HERE / "corpora").exists() else _HERE.parents[1] / "vectors-uncertain-effect")
+        (_HERE / "corpora").exists() else _HERE.parents[1] / "corpora" / "vectors-uncertain-effect")
 
 Record = dict[str, Any]
 

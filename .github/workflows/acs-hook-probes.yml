@@ -1,6 +1,6 @@
 name: ACS-Core hook probes
 
-# Runs vectors-acs-core/hook-probes against the Claude Code shim of the AGT
+# Runs corpora/vectors-acs-core/hook-probes against the Claude Code shim of the AGT
 # reference implementation at pinned refs of the specification's repository,
 # with that checkout's own Guardian started and stopped around the probes. Five
 # rows: the integration head under the Bun version the repository's own
@@ -17,7 +17,7 @@ name: ACS-Core hook probes
 on:
   pull_request:
     paths:
-      - vectors-acs-core/hook-probes/**
+      - corpora/vectors-acs-core/hook-probes/**
       - .github/workflows/acs-hook-probes.yml
 
 permissions:
@@ -83,13 +83,13 @@ jobs:
 
       - name: The probes fail a shim that answers nothing
         run: >-
-          python3 -I vectors-acs-core/hook-probes/acs_hook_probes.py --acs source/acs
+          python3 -I corpora/vectors-acs-core/hook-probes/acs_hook_probes.py --acs source/acs
           --out out --selftest
 
       - name: Run the probes against the recorded expectation
         run: >-
-          bash vectors-acs-core/hook-probes/run_against_agt.sh source/acs out
-          vectors-acs-core/hook-probes/expected/${{ matrix.expect }}
+          bash corpora/vectors-acs-core/hook-probes/run_against_agt.sh source/acs out
+          corpora/vectors-acs-core/hook-probes/expected/${{ matrix.expect }}
 
       - name: Keep the hook captures
         if: always()

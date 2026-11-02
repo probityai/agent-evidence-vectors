@@ -71,7 +71,7 @@ func TestCorpusModeJSONIsOneLine(t *testing.T) {
 func TestCorpusModeNamesTheMemberAndExitsOne(t *testing.T) {
 	dir := t.TempDir()
 	corpus := filepath.Join(dir, "vectors-anchor-stream")
-	copyForCLI(t, "../../vectors-anchor-stream", corpus)
+	copyForCLI(t, "../../corpora/vectors-anchor-stream", corpus)
 
 	raw, err := os.ReadFile(filepath.Join(corpus, "MANIFEST.json")) // #nosec G304 -- the test's own copy
 	if err != nil {
