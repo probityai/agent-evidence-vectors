@@ -9,6 +9,7 @@ import json
 import sys
 from pathlib import Path
 
+import jsonschema
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -95,6 +96,15 @@ def test_registry_digest_names_the_committed_snapshot() -> None:
     snapshot = (REPO / "pages" / "vocab" / "v1" / "registry"
                 / f"sha256-{reader.REGISTRY_DIGEST}.yaml")
     assert hashlib.sha256(snapshot.read_bytes()).hexdigest() == reader.REGISTRY_DIGEST
+
+
+def test_published_schema_agrees_with_every_case() -> None:
+    schema = json.loads((REPO / "spec" / "schemas" / "incident-evidence-cell-v1.schema.json")
+                        .read_text(encoding="utf-8"))
+    jsonschema.Draft202012Validator.check_schema(schema)
+    validator = jsonschema.Draft202012Validator(schema)
+    verdicts = {name: validator.is_valid(record) for name, record in _records().items()}
+    assert verdicts == {name: name in ALLOWED for name in verdicts}
 
 
 def test_verifier_that_accepts_an_empty_cell_labelled_supported_is_refused() -> None:
