@@ -1,0 +1,631 @@
+{
+  "aggregate": {
+    "counts": {
+      "allow": 7,
+      "deny": 11
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 18
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-monitor-coverage/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in corpora/vectors-monitor-coverage/gen_vectors.py",
+    "routine-file": "corpora/vectors-monitor-coverage/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "64bbaff09b43b8b83b51a5c4d5ab4f1f3863103cac3deecaf59077faecbd8d8e",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "61d5223ca7ad1afdb966a3f8d9d63f27f880f906c6df74bd234e5e2eb45dfa22"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "61d5223ca7ad1afdb966a3f8d9d63f27f880f906c6df74bd234e5e2eb45dfa22"
+        },
+        "swapped-in": "c1e70d635bf76e5c83602cb4b535613445310499da1f0156ade85ff0c06cb414",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-monitor-coverage/README.md",
+      "serialization": "bytes",
+      "sha256": "15059a0235b1b651cbd215232f5183271ce69ed807077fb19450c3310fdc1a27"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "61d5223ca7ad1afdb966a3f8d9d63f27f880f906c6df74bd234e5e2eb45dfa22"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "61d5223ca7ad1afdb966a3f8d9d63f27f880f906c6df74bd234e5e2eb45dfa22"
+        },
+        "swapped-in": "2681bd97da46210696094d82297181e8049a40ae13c671c2d55be9cabbd1f515",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-monitor-coverage/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "dab678329d67360f104ea20dcc01924e24a7eccee29b95a87622be81e9cfad8b"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "61d5223ca7ad1afdb966a3f8d9d63f27f880f906c6df74bd234e5e2eb45dfa22"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "61d5223ca7ad1afdb966a3f8d9d63f27f880f906c6df74bd234e5e2eb45dfa22"
+        },
+        "swapped-in": "db8eb8141f2e91ce5225ee623b405ad57a301163c60b61055b098d3cb536ab57",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-monitor-coverage/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "d762d3a03929a1e5bf3bcade67aa588fbf053538a10063d84d2f4082dd7a1024"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "61d5223ca7ad1afdb966a3f8d9d63f27f880f906c6df74bd234e5e2eb45dfa22"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "61d5223ca7ad1afdb966a3f8d9d63f27f880f906c6df74bd234e5e2eb45dfa22"
+        },
+        "swapped-in": "a89fb4b2c2466b88798f772284ce4891dcdb51a2f5efbf391816609ba59cbc4a",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-monitor-coverage/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "6d4f44817e1dc64a84722ce2f583177432e7bd683dc88e7c5fd327f41d08504f"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "corpora/vectors-monitor-coverage"
+  },
+  "byte-identity": {
+    "pins": 18,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json corpora/vectors-monitor-coverage",
+      "aee-verify -json corpora/vectors-monitor-coverage",
+      "aee-verify corpora/vectors-monitor-coverage"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpusreaders",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "96071a6011c83614c4803a34a07691b694301b4aee1b278d7ab3040c29cb84c7"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpusreaders",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "allow-clean-complete-coverage",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-not-established-incomplete",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-flagged-partial-coverage",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-not-established-outside-vantage",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-clean-effect-outside-window",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-defence-effect-with-actions",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-defence-zero-actions-no-claim",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-contract-id-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-contract-id-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-window-ends-before-start",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-collected-exceeds-expected",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-actions-exceed-decisions",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-clean-on-producer-count",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-clean-with-dropped-events",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-clean-with-uncollected-events",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-clean-outside-vantage",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-clean-contradicts-observed-effect",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-defence-effect-with-zero-effective-actions",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "d80b4bc036c3edd753b01ab13581e665744b6992f7eb5d698389e9352ed68627"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "allow-clean-complete-coverage",
+      "allow-not-established-incomplete",
+      "allow-flagged-partial-coverage",
+      "allow-not-established-outside-vantage",
+      "allow-clean-effect-outside-window",
+      "allow-defence-effect-with-actions",
+      "allow-defence-zero-actions-no-claim",
+      "reject-contract-id-missing",
+      "reject-contract-id-unknown",
+      "reject-window-ends-before-start",
+      "reject-collected-exceeds-expected",
+      "reject-actions-exceed-decisions",
+      "reject-clean-on-producer-count",
+      "reject-clean-with-dropped-events",
+      "reject-clean-with-uncollected-events",
+      "reject-clean-outside-vantage",
+      "reject-clean-contradicts-observed-effect",
+      "reject-defence-effect-with-zero-effective-actions"
+    ],
+    "path": "corpora/vectors-monitor-coverage/MANIFEST.json",
+    "sha256": "b1b7844b5ad1d3c1fa650f9a2b5a4a847a1bef4fcd7d910e948c2a0f0d6ad0ae"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-monitor-coverage/cases/allow-clean-complete-coverage/record.json",
+          "sha256": "a27bee081ce03457eb43a7af66b6231cf3e839fe88936601543e2bd7683d2e0a"
+        }
+      ],
+      "id": "allow-clean-complete-coverage"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-monitor-coverage/cases/allow-not-established-incomplete/record.json",
+          "sha256": "301391546d7996524d28d60f65832fc64987744b15036fcce2b97774f51cf779"
+        }
+      ],
+      "id": "allow-not-established-incomplete"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-monitor-coverage/cases/allow-flagged-partial-coverage/record.json",
+          "sha256": "a412707d8f6fe3f684b75a57cc7fc20c45f91ce3bf092be62d378f49e19c2c59"
+        }
+      ],
+      "id": "allow-flagged-partial-coverage"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-monitor-coverage/cases/allow-not-established-outside-vantage/record.json",
+          "sha256": "3a213cc6e564fe243627f4ce08ca445d160c5afefa43f0f8d8804f4c51d56d05"
+        }
+      ],
+      "id": "allow-not-established-outside-vantage"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-monitor-coverage/cases/allow-clean-effect-outside-window/record.json",
+          "sha256": "a1a4c9c901540d80ff46ac814f8ec380d7e6463d931fed688c5ec87e56f1ba6f"
+        }
+      ],
+      "id": "allow-clean-effect-outside-window"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-monitor-coverage/cases/allow-defence-effect-with-actions/record.json",
+          "sha256": "98f3ec7ad6b2a7a2eb09f4d5b296e03641167f4bfd9f5f0c520fb5eec8da3508"
+        }
+      ],
+      "id": "allow-defence-effect-with-actions"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-monitor-coverage/cases/allow-defence-zero-actions-no-claim/record.json",
+          "sha256": "a98020a933424dacb923e39b8dcf419d7828db3fbeecb4564e4de3f2dcc3bdcf"
+        }
+      ],
+      "id": "allow-defence-zero-actions-no-claim"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-monitor-coverage/cases/reject-contract-id-missing/record.json",
+          "sha256": "8f32aa0f99e3b4774e4826a5ec5892bdefd0fd413d2763a9899624139c268997"
+        }
+      ],
+      "id": "reject-contract-id-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-monitor-coverage/cases/reject-contract-id-unknown/record.json",
+          "sha256": "6ca2aa715cac092d633fbd3e3557ab007ef1e63f1bc6a62781b33bc7c2d4f5a2"
+        }
+      ],
+      "id": "reject-contract-id-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-monitor-coverage/cases/reject-window-ends-before-start/record.json",
+          "sha256": "7b331317e9c34c8a3ccf434d3f45bb097bae6ab5d17282f3cea97d16385c3a85"
+        }
+      ],
+      "id": "reject-window-ends-before-start"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-monitor-coverage/cases/reject-collected-exceeds-expected/record.json",
+          "sha256": "175d6b0a5ef7eca171812398b5abf1a2d17c0f4e855cd2a09db4234f54e8c8ac"
+        }
+      ],
+      "id": "reject-collected-exceeds-expected"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-monitor-coverage/cases/reject-actions-exceed-decisions/record.json",
+          "sha256": "61147572f19eeb3de165344a53fff2f177e5ce625eed4bd2d37146630df151ca"
+        }
+      ],
+      "id": "reject-actions-exceed-decisions"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-monitor-coverage/cases/reject-clean-on-producer-count/record.json",
+          "sha256": "fa9dd4ad3c62330b6b35116ad7c5a6a2077b7b6e86af1331306f64b48411bc4b"
+        }
+      ],
+      "id": "reject-clean-on-producer-count"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-monitor-coverage/cases/reject-clean-with-dropped-events/record.json",
+          "sha256": "479565ec38062a36df63962ac1fa5dacd6f273aabfbcf72962ca7210230b529b"
+        }
+      ],
+      "id": "reject-clean-with-dropped-events"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-monitor-coverage/cases/reject-clean-with-uncollected-events/record.json",
+          "sha256": "30c70f020ff1694480ff3212d636675b1bb0df6289b71c8e6d08237c7d4a413e"
+        }
+      ],
+      "id": "reject-clean-with-uncollected-events"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-monitor-coverage/cases/reject-clean-outside-vantage/record.json",
+          "sha256": "dc15c628861270b01b6de5f757d0995bc46e6e1e88391289f0dc34ab0383b499"
+        }
+      ],
+      "id": "reject-clean-outside-vantage"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-monitor-coverage/cases/reject-clean-contradicts-observed-effect/record.json",
+          "sha256": "d3f8f87016cedec87faf7ee6ea5da4448200e06586dc2e24872ac7f5e65532ae"
+        }
+      ],
+      "id": "reject-clean-contradicts-observed-effect"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-monitor-coverage/cases/reject-defence-effect-with-zero-effective-actions/record.json",
+          "sha256": "47e1591b946af77e37b3b3fc5165103b1a49c21ed1d4efd9c65edc57db5d2007"
+        }
+      ],
+      "id": "reject-defence-effect-with-zero-effective-actions"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-monitor-coverage.json",
+        "serialization": "bytes",
+        "sha256": "61d5223ca7ad1afdb966a3f8d9d63f27f880f906c6df74bd234e5e2eb45dfa22"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-monitor-coverage.txt",
+        "serialization": "bytes",
+        "sha256": "1bb8abd0a90ed664551b774a1f53300fd22d583a04f9734f9219d1abbaa71d4a"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "61d5223ca7ad1afdb966a3f8d9d63f27f880f906c6df74bd234e5e2eb45dfa22"
+      },
+      {
+        "process": "run-2",
+        "sha256": "61d5223ca7ad1afdb966a3f8d9d63f27f880f906c6df74bd234e5e2eb45dfa22"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 18 pinned members of monitor-coverage/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 18,
+    "require": "at-least-one",
+    "selected": [
+      "allow-clean-complete-coverage",
+      "allow-not-established-incomplete",
+      "allow-flagged-partial-coverage",
+      "allow-not-established-outside-vantage",
+      "allow-clean-effect-outside-window",
+      "allow-defence-effect-with-actions",
+      "allow-defence-zero-actions-no-claim",
+      "reject-contract-id-missing",
+      "reject-contract-id-unknown",
+      "reject-window-ends-before-start",
+      "reject-collected-exceeds-expected",
+      "reject-actions-exceed-decisions",
+      "reject-clean-on-producer-count",
+      "reject-clean-with-dropped-events",
+      "reject-clean-with-uncollected-events",
+      "reject-clean-outside-vantage",
+      "reject-clean-contradicts-observed-effect",
+      "reject-defence-effect-with-zero-effective-actions"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "monitor-coverage/v1"
+}

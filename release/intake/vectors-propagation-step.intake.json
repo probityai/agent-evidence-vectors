@@ -1,0 +1,517 @@
+{
+  "aggregate": {
+    "counts": {
+      "allow": 3,
+      "deny": 9
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 12
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-propagation-step/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in corpora/vectors-propagation-step/gen_vectors.py",
+    "routine-file": "corpora/vectors-propagation-step/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "f915bb42e8f77b0d8cd0a775d500318bbc87f600635fd5bb9e3ec2d389f73efd",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "d28ffdafa7c13f637870e9d89eb7ca222ea229df5d8d151c14ce86996f5faa04"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "d28ffdafa7c13f637870e9d89eb7ca222ea229df5d8d151c14ce86996f5faa04"
+        },
+        "swapped-in": "462eaee85171d327c28a93466aa3364f613bd2fdb4c0f7ae4b4039b1964c9cda",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-propagation-step/README.md",
+      "serialization": "bytes",
+      "sha256": "3a388b2e9a0f783e43eca3ce1530d405f055e3116b65dc8f913ebaa057ec4763"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "d28ffdafa7c13f637870e9d89eb7ca222ea229df5d8d151c14ce86996f5faa04"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "d28ffdafa7c13f637870e9d89eb7ca222ea229df5d8d151c14ce86996f5faa04"
+        },
+        "swapped-in": "53b9b8f18fa1ba06f1405dd71bc0da849cfca4594bfb378693c124cdf881ad07",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-propagation-step/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "db6ea1059bf1af096fe4da06c2ef571ae2f5f2feed064aecc5bd1195ad2b03af"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "d28ffdafa7c13f637870e9d89eb7ca222ea229df5d8d151c14ce86996f5faa04"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "d28ffdafa7c13f637870e9d89eb7ca222ea229df5d8d151c14ce86996f5faa04"
+        },
+        "swapped-in": "f2d3551545a51db159adf344164361c68bb9faad47af06c758d2ad091b62a195",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-propagation-step/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "8704e8ff4f7035a16d1c9117d4dfcfe61558b21c85624d4111316b4837c1a093"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "d28ffdafa7c13f637870e9d89eb7ca222ea229df5d8d151c14ce86996f5faa04"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "d28ffdafa7c13f637870e9d89eb7ca222ea229df5d8d151c14ce86996f5faa04"
+        },
+        "swapped-in": "c5d23c41fd3d31be4214cc01904e2ba4fe28cfc1836d5cedeb532f47f43b9761",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-propagation-step/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "43c7bb493fe3d27582b92e3adaf0b25c02065bf813460b6775b5ad5c789c5baf"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "corpora/vectors-propagation-step"
+  },
+  "byte-identity": {
+    "pins": 12,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json corpora/vectors-propagation-step",
+      "aee-verify -json corpora/vectors-propagation-step",
+      "aee-verify corpora/vectors-propagation-step"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpusreaders",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "96071a6011c83614c4803a34a07691b694301b4aee1b278d7ab3040c29cb84c7"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpusreaders",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "allow-propagation-by-digest-chain",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-common-cause-shared-source",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-not-established-both",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-contract-id-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-contract-id-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-hop-to-itself",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-chain-digest-mismatch",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-chain-gap",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-edge-after-effect",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-common-cause-attributed-as-propagation",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-common-cause-without-shared-source",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-common-cause-exposure-after-effect",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "e37e9f863caf76b4d63030eb099666fbf753e0681b0705898cf91bf9b54bac1e"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "allow-propagation-by-digest-chain",
+      "allow-common-cause-shared-source",
+      "allow-not-established-both",
+      "reject-contract-id-missing",
+      "reject-contract-id-unknown",
+      "reject-hop-to-itself",
+      "reject-chain-digest-mismatch",
+      "reject-chain-gap",
+      "reject-edge-after-effect",
+      "reject-common-cause-attributed-as-propagation",
+      "reject-common-cause-without-shared-source",
+      "reject-common-cause-exposure-after-effect"
+    ],
+    "path": "corpora/vectors-propagation-step/MANIFEST.json",
+    "sha256": "760393311619bed049308f91dd87699945c2c53b761db7a8abf39fcee0f7c5e0"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-propagation-step/cases/allow-propagation-by-digest-chain/record.json",
+          "sha256": "0981bedb21bf4784e5dcea12bf24e441ef4942073d438a1569e266e9366eab67"
+        }
+      ],
+      "id": "allow-propagation-by-digest-chain"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-propagation-step/cases/allow-common-cause-shared-source/record.json",
+          "sha256": "816ddb6a81c84002d8c5a48b8f9da3e32cdbe075bb99d3ba559ff02b0ee95c2e"
+        }
+      ],
+      "id": "allow-common-cause-shared-source"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-propagation-step/cases/allow-not-established-both/record.json",
+          "sha256": "0c861480b42c31a7f54183b6ed128509e945ea831f6ed20a03f2a38b10fd808f"
+        }
+      ],
+      "id": "allow-not-established-both"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-propagation-step/cases/reject-contract-id-missing/record.json",
+          "sha256": "db6a1df78616fcf57e9dbd15cfb3d8b1c3b8081c2d975d5d8bd60553e74af9c1"
+        }
+      ],
+      "id": "reject-contract-id-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-propagation-step/cases/reject-contract-id-unknown/record.json",
+          "sha256": "4fff602e3754f51cf46606785a294056fb79cbec09b869e8e5b329eb9ab6a6c2"
+        }
+      ],
+      "id": "reject-contract-id-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-propagation-step/cases/reject-hop-to-itself/record.json",
+          "sha256": "161a3276582de3d942df4174c2e98e86581e4c8ef96d4ef24963bf2d0fec06b2"
+        }
+      ],
+      "id": "reject-hop-to-itself"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-propagation-step/cases/reject-chain-digest-mismatch/record.json",
+          "sha256": "42ee615fa57957e50667271f3a03f67ce04cf6e1120c408e852b2ab7b24d4488"
+        }
+      ],
+      "id": "reject-chain-digest-mismatch"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-propagation-step/cases/reject-chain-gap/record.json",
+          "sha256": "bee64ddcd10fda407222b9e3d957d366b970ebf0d44d4619a32ceda0ffe23251"
+        }
+      ],
+      "id": "reject-chain-gap"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-propagation-step/cases/reject-edge-after-effect/record.json",
+          "sha256": "03e7fc743cc6449a6d1ceb70e36d4fdf35394ca85fd16e8babda2beccaad0a93"
+        }
+      ],
+      "id": "reject-edge-after-effect"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-propagation-step/cases/reject-common-cause-attributed-as-propagation/record.json",
+          "sha256": "e0d6eeb4a7cceb3c799fe52678aefaf0d3c2f89f989bf4b50b53c901e187498e"
+        }
+      ],
+      "id": "reject-common-cause-attributed-as-propagation"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-propagation-step/cases/reject-common-cause-without-shared-source/record.json",
+          "sha256": "deeb5bacfa2dc559891ab9a391865c7439fd2081c3e2ebeabf53a3cd349b469d"
+        }
+      ],
+      "id": "reject-common-cause-without-shared-source"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-propagation-step/cases/reject-common-cause-exposure-after-effect/record.json",
+          "sha256": "ec0af047197d63b382def3135b035762afc649f6e9e3c50abc391dc299e78138"
+        }
+      ],
+      "id": "reject-common-cause-exposure-after-effect"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-propagation-step.json",
+        "serialization": "bytes",
+        "sha256": "d28ffdafa7c13f637870e9d89eb7ca222ea229df5d8d151c14ce86996f5faa04"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-propagation-step.txt",
+        "serialization": "bytes",
+        "sha256": "d7bbef979e0973666db75b22379420b798eb70831a7e5b92ce0694079a68b17d"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "d28ffdafa7c13f637870e9d89eb7ca222ea229df5d8d151c14ce86996f5faa04"
+      },
+      {
+        "process": "run-2",
+        "sha256": "d28ffdafa7c13f637870e9d89eb7ca222ea229df5d8d151c14ce86996f5faa04"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 12 pinned members of propagation-step/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 12,
+    "require": "at-least-one",
+    "selected": [
+      "allow-propagation-by-digest-chain",
+      "allow-common-cause-shared-source",
+      "allow-not-established-both",
+      "reject-contract-id-missing",
+      "reject-contract-id-unknown",
+      "reject-hop-to-itself",
+      "reject-chain-digest-mismatch",
+      "reject-chain-gap",
+      "reject-edge-after-effect",
+      "reject-common-cause-attributed-as-propagation",
+      "reject-common-cause-without-shared-source",
+      "reject-common-cause-exposure-after-effect"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "propagation-step/v1"
+}
