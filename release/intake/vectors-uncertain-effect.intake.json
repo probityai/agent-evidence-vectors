@@ -1,14 +1,14 @@
 {
   "aggregate": {
     "counts": {
-      "allow": 10,
-      "deny": 17
+      "allow": 13,
+      "deny": 23
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 27
+    "total": 36
   },
   "anchor": {
-    "kind": "digest-list-line",
+    "kind": "signed-digest-list",
     "manifest": "vectors-uncertain-effect/MANIFEST.json",
     "reference": {
       "path": "release/CORPUS-DIGESTS.txt",
@@ -17,7 +17,14 @@
     "routine": "corpus_digest in corpora/vectors-uncertain-effect/gen_vectors.py",
     "routine-file": "corpora/vectors-uncertain-effect/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "5e662ed999ebd931b07a9c593167b20700a74d45a5129e550d27ec85057282e5",
+    "sha256": "e94026b486929f4b8874d480d589fe04e56731318e9aace75f3006af2af52774",
+    "signature": {
+      "key": "release/cosign.pub",
+      "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
+      "path": "release/CORPUS-DIGESTS.txt.sig",
+      "scheme": "ed25519",
+      "serialization": "bytes"
+    },
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -29,7 +36,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "d4e3e4abd2c1609d502bc8abf9a399f2189a8ac00848abfb7c3f5d1b14d14bde"
+          "sha256": "8e2ba002f50bcdbd541107fbc5d2a397be2fefded54e7c4002bd4e10940de5ba"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,7 +45,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "d4e3e4abd2c1609d502bc8abf9a399f2189a8ac00848abfb7c3f5d1b14d14bde"
+          "sha256": "8e2ba002f50bcdbd541107fbc5d2a397be2fefded54e7c4002bd4e10940de5ba"
         },
         "swapped-in": "afeb971d6b32e6d17328e428795e46a8ae04c03545babde2bf460ba909bbb7ca",
         "test": "swap-and-re-pin"
@@ -52,7 +59,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "d4e3e4abd2c1609d502bc8abf9a399f2189a8ac00848abfb7c3f5d1b14d14bde"
+          "sha256": "8e2ba002f50bcdbd541107fbc5d2a397be2fefded54e7c4002bd4e10940de5ba"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,7 +68,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "d4e3e4abd2c1609d502bc8abf9a399f2189a8ac00848abfb7c3f5d1b14d14bde"
+          "sha256": "8e2ba002f50bcdbd541107fbc5d2a397be2fefded54e7c4002bd4e10940de5ba"
         },
         "swapped-in": "a84babf6cf82a6e28bbc02ed41e232db05b2471f00c7eb64eb10e6a1a4070420",
         "test": "swap-and-re-pin"
@@ -75,7 +82,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "d4e3e4abd2c1609d502bc8abf9a399f2189a8ac00848abfb7c3f5d1b14d14bde"
+          "sha256": "8e2ba002f50bcdbd541107fbc5d2a397be2fefded54e7c4002bd4e10940de5ba"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,21 +91,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "d4e3e4abd2c1609d502bc8abf9a399f2189a8ac00848abfb7c3f5d1b14d14bde"
+          "sha256": "8e2ba002f50bcdbd541107fbc5d2a397be2fefded54e7c4002bd4e10940de5ba"
         },
         "swapped-in": "8404ce13ca5a660e8dce71a6a51248cdecca9b4bacc6e2cec1655c2c6b79e7e8",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-uncertain-effect/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "a43d09d6c59666358c4881d009d6a8ff6ff78c37e484bbc2727aa2336ca0431a"
+      "sha256": "0047c30d96807e5871cd0f4e8b25dbdc3fdf57dd6494873f081716a591864f54"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "d4e3e4abd2c1609d502bc8abf9a399f2189a8ac00848abfb7c3f5d1b14d14bde"
+          "sha256": "8e2ba002f50bcdbd541107fbc5d2a397be2fefded54e7c4002bd4e10940de5ba"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,7 +114,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "d4e3e4abd2c1609d502bc8abf9a399f2189a8ac00848abfb7c3f5d1b14d14bde"
+          "sha256": "8e2ba002f50bcdbd541107fbc5d2a397be2fefded54e7c4002bd4e10940de5ba"
         },
         "swapped-in": "58b2d248fedcfabbf41314a6241300d5d9a34bdb892d36ea01b946c4f538a1b9",
         "test": "swap-and-re-pin"
@@ -121,7 +128,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "d4e3e4abd2c1609d502bc8abf9a399f2189a8ac00848abfb7c3f5d1b14d14bde"
+          "sha256": "8e2ba002f50bcdbd541107fbc5d2a397be2fefded54e7c4002bd4e10940de5ba"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -130,7 +137,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "d4e3e4abd2c1609d502bc8abf9a399f2189a8ac00848abfb7c3f5d1b14d14bde"
+          "sha256": "8e2ba002f50bcdbd541107fbc5d2a397be2fefded54e7c4002bd4e10940de5ba"
         },
         "swapped-in": "ae1359d9cb0e0ed0982e6bea934ec9203de6b3fab094dc44aeb1bed739da6b7a",
         "test": "swap-and-re-pin"
@@ -152,7 +159,7 @@
     "root": "corpora/vectors-uncertain-effect"
   },
   "byte-identity": {
-    "pins": 27,
+    "pins": 36,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -189,7 +196,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "2417e926ca98a6022a518e36af066f6072afc9f6cb2009a276f1d6fbb0775bf7"
+      "sha256": "96071a6011c83614c4803a34a07691b694301b4aee1b278d7ab3040c29cb84c7"
     },
     "runtime": {
       "name": "go",
@@ -418,11 +425,83 @@
         "verdict": "deny"
       },
       "state": "pass"
+    },
+    {
+      "check": "allow-cancel-clean-stop",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-cancel-commit-after-ack-reported",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-cancel-straddle-not-established",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "cancel-authority-accepted-after-revocation",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "cancel-commit-after-ack-reported-quiescent",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "cancel-straddle-reported-quiescent",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "cancel-straddle-reported-after-stop",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "cancel-reported-not-run-owner-committed",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "cancel-resume-replays-same-key",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
     }
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "fced8138566885af978322c606df654d3f5673814ea66ddcaf0fae550bae67ca"
+    "sha256": "3950ab81aa964b0a8dec59a2ed30b24c8b93c29269e0c8148d3ab13a105e10d0"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -458,10 +537,19 @@
       "timeout-reported-not-run",
       "timeout-reported-committed",
       "reconciled-absent-reported-committed",
-      "reconciled-present-still-unknown"
+      "reconciled-present-still-unknown",
+      "allow-cancel-clean-stop",
+      "allow-cancel-commit-after-ack-reported",
+      "allow-cancel-straddle-not-established",
+      "cancel-authority-accepted-after-revocation",
+      "cancel-commit-after-ack-reported-quiescent",
+      "cancel-straddle-reported-quiescent",
+      "cancel-straddle-reported-after-stop",
+      "cancel-reported-not-run-owner-committed",
+      "cancel-resume-replays-same-key"
     ],
     "path": "corpora/vectors-uncertain-effect/MANIFEST.json",
-    "sha256": "231f34d327c6f67e2df0117a63a012d082ee68c289bf1dedfa8018f6136fc921"
+    "sha256": "2e932e47ead400319c472580311a9a6dbf2f5e3a2f9c3126e2949efdfde715c0"
   },
   "members": [
     {
@@ -706,6 +794,87 @@
         }
       ],
       "id": "reconciled-present-still-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/allow-cancel-clean-stop/record.json",
+          "sha256": "c2807cccd2ebdc57b386370ba80135d793c66e7ba0cf81f5830bc671eb4a0081"
+        }
+      ],
+      "id": "allow-cancel-clean-stop"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/allow-cancel-commit-after-ack-reported/record.json",
+          "sha256": "f5e376aad0f12db2cccb2c094aeaac8b81cd7470e9fc2e4bd96a0f1f875a79e4"
+        }
+      ],
+      "id": "allow-cancel-commit-after-ack-reported"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/allow-cancel-straddle-not-established/record.json",
+          "sha256": "c3da4b2961fda6755b7d4b6c777e6c7a07d4914212e99c07a02d520391195d99"
+        }
+      ],
+      "id": "allow-cancel-straddle-not-established"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/cancel-authority-accepted-after-revocation/record.json",
+          "sha256": "fbf577012a7d131a60fa7db5138b644d7e98e79f5467930b8d3a8bf960f84dba"
+        }
+      ],
+      "id": "cancel-authority-accepted-after-revocation"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/cancel-commit-after-ack-reported-quiescent/record.json",
+          "sha256": "72b357da8aef6b8e2800f9529057a093495c2dc12be20ce5e032ade1e8d56487"
+        }
+      ],
+      "id": "cancel-commit-after-ack-reported-quiescent"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/cancel-straddle-reported-quiescent/record.json",
+          "sha256": "b3b5bdd7ad47a1851dfc057faa95edd130dd2117c236b106277012d5734d56ce"
+        }
+      ],
+      "id": "cancel-straddle-reported-quiescent"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/cancel-straddle-reported-after-stop/record.json",
+          "sha256": "e846aeadaa2ec15a55270356a2886ac1f159eb680ef0ff224711d43c98156e74"
+        }
+      ],
+      "id": "cancel-straddle-reported-after-stop"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/cancel-reported-not-run-owner-committed/record.json",
+          "sha256": "3b72362bf5f8de081d3d325dee27c2abda04198aa730208c1f4f62772a92ba97"
+        }
+      ],
+      "id": "cancel-reported-not-run-owner-committed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/cancel-resume-replays-same-key/record.json",
+          "sha256": "7f90277e72275a8ee77dd3b6d83317de47aacdad667aa37ccf52519f69bd5365"
+        }
+      ],
+      "id": "cancel-resume-replays-same-key"
     }
   ],
   "native": {
@@ -724,7 +893,7 @@
       "reference": {
         "path": "release/intake/native/vectors-uncertain-effect.json",
         "serialization": "bytes",
-        "sha256": "d4e3e4abd2c1609d502bc8abf9a399f2189a8ac00848abfb7c3f5d1b14d14bde"
+        "sha256": "8e2ba002f50bcdbd541107fbc5d2a397be2fefded54e7c4002bd4e10940de5ba"
       }
     },
     {
@@ -733,7 +902,7 @@
       "reference": {
         "path": "release/intake/native/vectors-uncertain-effect.txt",
         "serialization": "bytes",
-        "sha256": "40eadb2dd0d0a879ee2414bf6ec645a50a94492e905f2e5f4a0ff99a0771d12f"
+        "sha256": "10ccb75add6465568597860ba89b072e72dc1566d057e14be6238170fe034153"
       }
     },
     {
@@ -758,11 +927,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "d4e3e4abd2c1609d502bc8abf9a399f2189a8ac00848abfb7c3f5d1b14d14bde"
+        "sha256": "8e2ba002f50bcdbd541107fbc5d2a397be2fefded54e7c4002bd4e10940de5ba"
       },
       {
         "process": "run-2",
-        "sha256": "d4e3e4abd2c1609d502bc8abf9a399f2189a8ac00848abfb7c3f5d1b14d14bde"
+        "sha256": "8e2ba002f50bcdbd541107fbc5d2a397be2fefded54e7c4002bd4e10940de5ba"
       }
     ],
     "seed": null,
@@ -776,18 +945,17 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 27 pinned members of uncertain-effect/v1 as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 36 pinned members of uncertain-effect/v1 as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
-      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
       "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
     ]
   },
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 27,
+    "matched": 36,
     "require": "at-least-one",
     "selected": [
       "allow-confirmed-first-attempt",
@@ -816,7 +984,16 @@
       "timeout-reported-not-run",
       "timeout-reported-committed",
       "reconciled-absent-reported-committed",
-      "reconciled-present-still-unknown"
+      "reconciled-present-still-unknown",
+      "allow-cancel-clean-stop",
+      "allow-cancel-commit-after-ack-reported",
+      "allow-cancel-straddle-not-established",
+      "cancel-authority-accepted-after-revocation",
+      "cancel-commit-after-ack-reported-quiescent",
+      "cancel-straddle-reported-quiescent",
+      "cancel-straddle-reported-after-stop",
+      "cancel-reported-not-run-owner-committed",
+      "cancel-resume-replays-same-key"
     ]
   },
   "specification-readers": [],

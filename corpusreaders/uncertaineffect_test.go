@@ -55,7 +55,10 @@ func TestUncertainEffectEachCheckMovesTheVerdict(t *testing.T) {
 		"retry-after-lookup-not-final", "retry-after-key-retention-expired",
 		"duplicate-effect-despite-deduplication", "unknown-released-at-expiry",
 		"timeout-reported-committed", "timeout-reported-not-run",
-		"reconciled-absent-reported-committed", "reconciled-present-still-unknown"}
+		"reconciled-absent-reported-committed", "reconciled-present-still-unknown",
+		"cancel-authority-accepted-after-revocation", "cancel-commit-after-ack-reported-quiescent",
+		"cancel-straddle-reported-quiescent", "cancel-straddle-reported-after-stop",
+		"cancel-reported-not-run-owner-committed", "cancel-resume-replays-same-key"}
 	for _, from := range denied {
 		t.Run("allow-confirmed-first-attempt with the record of "+from, func(t *testing.T) {
 			dir := ueStage(t, "allow-confirmed-first-attempt", ueRead(t, from))

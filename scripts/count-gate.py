@@ -1126,6 +1126,16 @@ def declared_claims(src: Sources) -> tuple[Claim, ...]:
 
 
 DELEGATED: tuple[Delegated, ...] = (
+    # The corpus index's count of registered corpora. The index is rendered from
+    # REGISTRY.toml by corpus-registry.py, whose --check refuses an index the
+    # registry would not write. It was reported only when the registered total
+    # (57) walked onto the restart-record corpus's member total.
+    Delegated(
+        "corpora/README.md",
+        "the corpus index's count of registered corpora",
+        r"(?m)^\d+ corpora\. Each is named",
+        "scripts/corpus-registry.py",
+    ),
     # The W3C v0.1 reader matrix. matrix.md is rendered from matrix.json by
     # render.py, and the matrix tests fail when the committed table differs from
     # what render.py would write, so each reader row's tallies are matrix.json's.

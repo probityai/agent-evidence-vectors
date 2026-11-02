@@ -1,0 +1,5 @@
+suite: monitor-coverage/v1
+members: 18
+  allow: 7
+  deny: 11
+verdict: every member behaves as MANIFEST.json declares

@@ -8,7 +8,7 @@
 
 [project]
 name = "agent-evidence-vectors"
-version = "0.31.2"
+version = "0.32.0"
 description = "Conformance corpora and reference verifiers for agent evidence records"
 requires-python = ">=3.11"
 license = { text = "Apache-2.0" }
@@ -178,8 +178,10 @@ only-include = [
     "corpora/vectors-mcp-owasp",
     "corpora/vectors-mcp-record-contract",
     "corpora/vectors-mcp-response-phase",
+    "corpora/vectors-monitor-coverage",
     "corpora/vectors-observed-effect",
     "corpora/vectors-open-weight-art53",
+    "corpora/vectors-propagation-step",
     "corpora/vectors-receipt-chain-end",
     "corpora/vectors-receipt-signature",
     "corpora/vectors-recorded",
@@ -238,8 +240,10 @@ exclude = [
     "corpora/vectors-mcp-owasp/**/*.py",
     "corpora/vectors-mcp-record-contract/**/*.py",
     "corpora/vectors-mcp-response-phase/**/*.py",
+    "corpora/vectors-monitor-coverage/**/*.py",
     "corpora/vectors-observed-effect/**/*.py",
     "corpora/vectors-open-weight-art53/**/*.py",
+    "corpora/vectors-propagation-step/**/*.py",
     "corpora/vectors-receipt-chain-end/**/*.py",
     "corpora/vectors-receipt-signature/**/*.py",
     "corpora/vectors-recorded/**/*.py",
@@ -297,8 +301,10 @@ exclude = [
 "corpora/vectors-mcp-owasp" = "agent_evidence_vectors/corpora/vectors-mcp-owasp"
 "corpora/vectors-mcp-record-contract" = "agent_evidence_vectors/corpora/vectors-mcp-record-contract"
 "corpora/vectors-mcp-response-phase" = "agent_evidence_vectors/corpora/vectors-mcp-response-phase"
+"corpora/vectors-monitor-coverage" = "agent_evidence_vectors/corpora/vectors-monitor-coverage"
 "corpora/vectors-observed-effect" = "agent_evidence_vectors/corpora/vectors-observed-effect"
 "corpora/vectors-open-weight-art53" = "agent_evidence_vectors/corpora/vectors-open-weight-art53"
+"corpora/vectors-propagation-step" = "agent_evidence_vectors/corpora/vectors-propagation-step"
 "corpora/vectors-receipt-chain-end" = "agent_evidence_vectors/corpora/vectors-receipt-chain-end"
 "corpora/vectors-receipt-signature" = "agent_evidence_vectors/corpora/vectors-receipt-signature"
 "corpora/vectors-recorded" = "agent_evidence_vectors/corpora/vectors-recorded"
@@ -431,8 +437,10 @@ only-include = [
     "corpora/vectors-mcp-owasp",
     "corpora/vectors-mcp-record-contract",
     "corpora/vectors-mcp-response-phase",
+    "corpora/vectors-monitor-coverage",
     "corpora/vectors-observed-effect",
     "corpora/vectors-open-weight-art53",
+    "corpora/vectors-propagation-step",
     "corpora/vectors-receipt-chain-end",
     "corpora/vectors-receipt-signature",
     "corpora/vectors-recorded",
