@@ -8,7 +8,7 @@
     "total": 18
   },
   "anchor": {
-    "kind": "digest-list-line",
+    "kind": "signed-digest-list",
     "manifest": "vectors-monitor-coverage/MANIFEST.json",
     "reference": {
       "path": "release/CORPUS-DIGESTS.txt",
@@ -17,7 +17,14 @@
     "routine": "corpus_digest in corpora/vectors-monitor-coverage/gen_vectors.py",
     "routine-file": "corpora/vectors-monitor-coverage/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "64bbaff09b43b8b83b51a5c4d5ab4f1f3863103cac3deecaf59077faecbd8d8e",
+    "sha256": "e1a00bfbe68b7b629303d2a4dcbdfae4c90368f4d358010b32e2d15b64b08e51",
+    "signature": {
+      "key": "release/cosign.pub",
+      "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
+      "path": "release/CORPUS-DIGESTS.txt.sig",
+      "scheme": "ed25519",
+      "serialization": "bytes"
+    },
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -45,7 +52,7 @@
       },
       "path": "corpora/vectors-monitor-coverage/README.md",
       "serialization": "bytes",
-      "sha256": "15059a0235b1b651cbd215232f5183271ce69ed807077fb19450c3310fdc1a27"
+      "sha256": "3f723342341d2834272089f9afb86e4dbc59746bbd059f342786be49d7138b1c"
     },
     {
       "consumed": "unconsumed",
@@ -91,7 +98,7 @@
       },
       "path": "corpora/vectors-monitor-coverage/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "d762d3a03929a1e5bf3bcade67aa588fbf053538a10063d84d2f4082dd7a1024"
+      "sha256": "835dc1dd3d95001950c1fe1e109af8182eb3160b4823565b4ef0cd4d7e43d443"
     },
     {
       "consumed": "unconsumed",
@@ -327,7 +334,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "d80b4bc036c3edd753b01ab13581e665744b6992f7eb5d698389e9352ed68627"
+    "sha256": "d433a60e1f9e4796f49690f08514f8ae734d4436ebad74190096783b08a933f2"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -357,7 +364,7 @@
       "reject-defence-effect-with-zero-effective-actions"
     ],
     "path": "corpora/vectors-monitor-coverage/MANIFEST.json",
-    "sha256": "b1b7844b5ad1d3c1fa650f9a2b5a4a847a1bef4fcd7d910e948c2a0f0d6ad0ae"
+    "sha256": "ee8f7ee5002bc64e3c3743fe2377440548da464ba21618f48271dd5c27c310d1"
   },
   "members": [
     {
@@ -517,7 +524,7 @@
       "files": [
         {
           "path": "corpora/vectors-monitor-coverage/cases/reject-defence-effect-with-zero-effective-actions/record.json",
-          "sha256": "47e1591b946af77e37b3b3fc5165103b1a49c21ed1d4efd9c65edc57db5d2007"
+          "sha256": "86120be4d532fb0c767ec5bef9f89805ac74f508b02aa49157259e207f9a05f3"
         }
       ],
       "id": "reject-defence-effect-with-zero-effective-actions"
@@ -595,7 +602,6 @@
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
-      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
       "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
     ]
   },
