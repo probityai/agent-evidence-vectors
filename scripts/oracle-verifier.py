@@ -217,7 +217,7 @@ def canonical_bytes(target: str, vector_path: str) -> int:
     """
     stem = os.path.basename(vector_path).split(".", 1)[0]
     vector: dict[str, Any] | None = None
-    for corpus in sorted(glob.glob(os.path.join(ROOT, "vectors-a2a-jcs-*"))):
+    for corpus in sorted(glob.glob(os.path.join(ROOT, "corpora", "vectors-a2a-jcs-*"))):
         for candidate in glob.glob(os.path.join(corpus, "*", f"{stem}.json")):
             with open(candidate, encoding="utf-8") as f:
                 vector = json.load(f)

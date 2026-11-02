@@ -348,12 +348,19 @@ def _corpus_findings(directory: str, manifest: dict[str, Any]) -> list[str]:
                 findings.append(f"member {v['id']} cites undefined condition {c}")
     if counts != manifest.get("counts"):
         findings.append(f"counts {manifest.get('counts')} disagree with the members {counts}")
-    root = os.path.dirname(os.path.abspath(directory))
+    # The cited spec files sit beside the corpus in the wheel
+    # (agent_evidence_vectors/corpora/spec) and at the repository root in a
+    # source checkout, one level above corpora/<id>.
+    parent = os.path.dirname(os.path.abspath(directory))
+    roots = (parent, os.path.dirname(parent))
     for name, cond in sorted((manifest.get("conditions") or {}).items()):
         if kinds.get(name, set()) != {"accept", "reject"}:
             findings.append(
                 f"condition {name} is not carried by both an admitted and a refused member"
             )
+        root = next(
+            (r for r in roots if os.path.isfile(os.path.join(r, cond["file"]))), parent
+        )
         try:
             with open(os.path.join(root, cond["file"]), encoding="utf-8") as fh:
                 text = re.sub(r"\s+", " ", fh.read())
