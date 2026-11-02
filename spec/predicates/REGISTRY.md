@@ -36,6 +36,17 @@ The predicate carries an observed effect of an execution, separately from the
 claim an executor makes about it, so that a consumer recomputes the effect from
 carried bytes instead of accepting an asserted one.
 
+### `predicate/v1/evidence-state`
+
+- Document: `corpora/vectors-evidence-state/README.md`
+- Corpus: `corpora/vectors-evidence-state/`, suite `evidence-state/v1`
+- Rails: `packaging/agent_evidence_vectors/evidencestate.py`
+
+The predicate carries one system's declared evidence state, a code of the vocabulary term
+`evidence_state` (`ES0` to `ES8`), beside the observations that ground it. The state is
+the highest code whose entry condition the observations meet; a declared code that
+differs is refused, and a silence is declared clean (`ES1`) only over measured coverage.
+
 ### `predicate/v1/monitor-coverage`
 
 - Document: `corpora/vectors-monitor-coverage/README.md`
