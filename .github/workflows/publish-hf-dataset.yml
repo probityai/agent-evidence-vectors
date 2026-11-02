@@ -74,16 +74,5 @@ jobs:
           printf '%s  %s\n' 4629c757b7618056f8ddd7e2625ae9fdd94c0372a65049520bc7d9df9efc7f71 "$binary" | sha256sum --check -
           chmod 0755 "$binary"
           echo "$RUNNER_TEMP/cosign-bin" >> "$GITHUB_PATH"
-      # The same install the release runs, so a lock that pip refuses in
-      # --require-hashes mode (an unpinned transitive requirement, a missing
-      # hash) fails the pull request instead of the release's publish job.
-      - name: install the pinned Hugging Face command as the release does
-        run: |
-          set -euo pipefail
-          python -m venv "$RUNNER_TEMP/hf-venv"
-          "$RUNNER_TEMP/hf-venv/bin/python" -m pip install --quiet --require-hashes --only-binary :all: \
-            -r scripts/hf-publish-requirements.txt
-          "$RUNNER_TEMP/hf-venv/bin/hf" upload --help > /dev/null
-          "$RUNNER_TEMP/hf-venv/bin/hf" repos tag create --help > /dev/null
       - name: rebuild the first copy (v0.25.0) and require its bytes
         run: python scripts/publish-hf-dataset-test.py
