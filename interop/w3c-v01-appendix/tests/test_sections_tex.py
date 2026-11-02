@@ -12,8 +12,8 @@ from pathlib import Path
 import pytest
 
 SECTIONS_DIR = Path(__file__).resolve().parent.parent / "sections"
-sys.path.insert(0, str(SECTIONS_DIR))
-import build  # noqa: E402
+sys.path.insert(0, str(SECTIONS_DIR.parent))
+from sections import build  # noqa: E402
 
 MESSAGES = json.loads((SECTIONS_DIR / "messages.json").read_text(encoding="utf-8"))
 
