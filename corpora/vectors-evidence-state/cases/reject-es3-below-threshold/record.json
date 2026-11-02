@@ -1,0 +1,19 @@
+{
+  "assessedAt": "2026-11-02T09:00:00Z",
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evidence-state",
+  "evidenceState": "ES3",
+  "observations": {
+    "anomaliesRecorded": 4,
+    "changeThreshold": 5,
+    "containmentRecorded": false,
+    "containmentVerified": false,
+    "coverageMeasured": true,
+    "externalEffectsConfirmed": false,
+    "pathwayIdentified": false,
+    "propagationObserved": false,
+    "restartRequested": false,
+    "scopeBounded": false
+  },
+  "recordId": "record-reject-es3-below-threshold",
+  "system": "agent-system-1"
+}

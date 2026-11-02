@@ -137,7 +137,7 @@ def derive(seen: dict[str, Any]) -> str:
 
 
 def _rank(code: str) -> int:
-    return STATES.index(code)
+    return STATES.index(code) if code in STATES else -1
 
 
 def retained(record: Record) -> dict[str, Any]:
