@@ -38,7 +38,13 @@ func init() { register(uncertainEffect{}) }
 //  9. the runtime did not report an unknown outcome as committed or not run:
 //     outcome_settled_without_authority;
 //  10. the runtime reported the outcome the owner's answers settle:
-//     outcome_disagrees_with_authority.
+//     outcome_disagrees_with_authority;
+//  11. when the record carries a stop, no authority check at or after the
+//     revocation was accepted: authority_used_after_revocation;
+//  12. an effect the owner committed wholly after the stop was acknowledged
+//     is not reported as a quiescent stop: effect_after_stop_reported_quiescent;
+//  13. an effect whose commit interval contains the acknowledgement is
+//     reported as not established: stop_straddle_reported_settled.
 //
 // The reader also recomputes each member's retained attempts, idempotency key,
 // operation, settled outcome, owner effects and unknown attempts.
@@ -108,6 +114,22 @@ type ueRecord struct {
 	Reported struct {
 		Outcome string `json:"outcome"`
 	} `json:"reported"`
+	Stop *ueStop `json:"stop"`
+}
+
+type ueStop struct {
+	AcknowledgedAt  string `json:"acknowledgedAt"`
+	RequestedAt     string `json:"requestedAt"`
+	RevokedAt       string `json:"revokedAt"`
+	AuthorityChecks []struct {
+		At     string `json:"at"`
+		Result string `json:"result"`
+	} `json:"authorityChecks"`
+	OwnerCommit *struct {
+		NotBefore string `json:"notBefore"`
+		NotAfter  string `json:"notAfter"`
+	} `json:"ownerCommit"`
+	Reported string `json:"reported"`
 }
 
 func (uncertainEffect) Judge(dir string, raw []byte) (*Result, error) {
@@ -164,6 +186,15 @@ func ueValidateTimes(r ueRecord) error {
 	}
 	for _, l := range r.Leases {
 		stamps = append(stamps, l.AcquiredAt, l.ExpiresAt)
+	}
+	if st := r.Stop; st != nil {
+		stamps = append(stamps, st.AcknowledgedAt, st.RequestedAt, st.RevokedAt)
+		for _, c := range st.AuthorityChecks {
+			stamps = append(stamps, c.At)
+		}
+		if st.OwnerCommit != nil {
+			stamps = append(stamps, st.OwnerCommit.NotBefore, st.OwnerCommit.NotAfter)
+		}
 	}
 	for _, stamp := range stamps {
 		if _, err := time.Parse(time.RFC3339, stamp); err != nil {
@@ -245,6 +276,11 @@ func ueDecide(r ueRecord) scDecision {
 		{"outcome_settled_without_authority", settled == "unknown" &&
 			(r.Reported.Outcome == "committed" || r.Reported.Outcome == "not_run")},
 		{"outcome_disagrees_with_authority", settled != "unknown" && r.Reported.Outcome != settled},
+		{"authority_used_after_revocation", ueAuthorityAfterRevocation(r)},
+		{"effect_after_stop_reported_quiescent", r.Stop != nil && ueCommitSide(r.Stop) == 1 &&
+			r.Stop.Reported == "quiescent"},
+		{"stop_straddle_reported_settled", r.Stop != nil && ueCommitSide(r.Stop) == 0 &&
+			r.Stop.Reported != "not_established"},
 	}
 	for _, check := range checks {
 		if check.fails {
@@ -335,4 +371,34 @@ func ueUnprotectedRetry(r ueRecord) bool {
 		}
 	}
 	return false
+}
+
+func ueAuthorityAfterRevocation(r ueRecord) bool {
+	if r.Stop == nil {
+		return false
+	}
+	revoked := ueAt(r.Stop.RevokedAt)
+	for _, c := range r.Stop.AuthorityChecks {
+		if c.Result == "accepted" && !ueAt(c.At).Before(revoked) {
+			return true
+		}
+	}
+	return false
+}
+
+// ueCommitSide is 1 when the owner's commit lies wholly after the
+// acknowledgement, -1 when wholly at or before it (or not recorded), and 0
+// when its interval contains the acknowledgement.
+func ueCommitSide(st *ueStop) int {
+	if st.OwnerCommit == nil {
+		return -1
+	}
+	ack := ueAt(st.AcknowledgedAt)
+	if ueAt(st.OwnerCommit.NotBefore).After(ack) {
+		return 1
+	}
+	if !ueAt(st.OwnerCommit.NotAfter).After(ack) {
+		return -1
+	}
+	return 0
 }

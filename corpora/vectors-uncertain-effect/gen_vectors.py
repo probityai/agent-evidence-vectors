@@ -331,9 +331,88 @@ def _outcome_cases() -> list[Case]:
     ]
 
 
+def stop(ack: float, commit: tuple[float, float] | None, reported: str, *,
+         checks: list[tuple[float, str]] | None = None, revoked: float = 12) -> dict[str, Any]:
+    """A stop of the run: request, acknowledgement, revocation, later authority checks,
+    the owner's own commit interval for the effect, and how the runtime reported the stop."""
+    out: dict[str, Any] = {
+        "acknowledgedAt": ts(ack), "requestedAt": ts(ack - 1), "revokedAt": ts(revoked),
+        "authorityChecks": [{"at": ts(at), "result": result}
+                            for at, result in (checks or [(20, "refused")])],
+        "reported": reported,
+    }
+    if commit is not None:
+        out["ownerCommit"] = {"notAfter": ts(commit[1]), "notBefore": ts(commit[0])}
+    return out
+
+
+def _cancel_cases() -> list[Case]:
+    """A cancel is reported and the effect lands after it (the cancel race)."""
+    ok = reader.ALLOWED_REASON
+    lost = attempt(1, 1, "connection_lost")
+    found = [lookup(40, "present")]
+    return [
+        ("allow-cancel-clean-stop",
+         build("allow-cancel-clean-stop", [attempt(1, 1, "confirmed")], "committed", 1,
+               stop=stop(10, (2, 3), "quiescent")),
+         "allow", ok, "confirmed",
+         "control: the effect commits before the stop is acknowledged, the revoked "
+         "credential is refused afterwards, and the stop is reported quiescent"),
+        ("allow-cancel-commit-after-ack-reported",
+         build("allow-cancel-commit-after-ack-reported", [lost], "committed", 1,
+               lookups=found, stop=stop(10, (15, 16), "effect_after_stop")),
+         "allow", ok, "late-commit-after-missed-lookup",
+         "control: the effect lands five seconds after the acknowledgement and the runtime "
+         "reports it as an effect after the stop"),
+        ("allow-cancel-straddle-not-established",
+         build("allow-cancel-straddle-not-established", [lost], "committed", 1,
+               lookups=found, stop=stop(10, (8, 12), "not_established")),
+         "allow", ok, "late-commit-after-missed-lookup",
+         "control: the owner's commit interval contains the acknowledgement and the runtime "
+         "leaves the stop not established"),
+        ("cancel-authority-accepted-after-revocation",
+         build("cancel-authority-accepted-after-revocation", [attempt(1, 1, "confirmed")],
+               "committed", 1,
+               stop=stop(10, (2, 3), "quiescent", checks=[(14, "accepted"), (20, "refused")])),
+         "deny", "authority_used_after_revocation", "confirmed",
+         "a credential check two seconds after the revocation committed is still accepted"),
+        ("cancel-commit-after-ack-reported-quiescent",
+         build("cancel-commit-after-ack-reported-quiescent", [lost], "committed", 1,
+               lookups=found, stop=stop(10, (15, 16), "quiescent")),
+         "deny", "effect_after_stop_reported_quiescent", "late-commit-after-missed-lookup",
+         "the stop is acknowledged at 10 seconds, the owner commits the effect at 15, and "
+         "the runtime reports the stop quiescent"),
+        ("cancel-straddle-reported-quiescent",
+         build("cancel-straddle-reported-quiescent", [lost], "committed", 1,
+               lookups=found, stop=stop(10, (8, 12), "quiescent")),
+         "deny", "stop_straddle_reported_settled", "late-commit-after-missed-lookup",
+         "the owner's commit interval contains the acknowledgement and the runtime reports "
+         "the stop quiescent"),
+        ("cancel-straddle-reported-after-stop",
+         build("cancel-straddle-reported-after-stop", [lost], "committed", 1,
+               lookups=found, stop=stop(10, (8, 12), "effect_after_stop")),
+         "deny", "stop_straddle_reported_settled", "late-commit-after-missed-lookup",
+         "the owner's commit interval contains the acknowledgement and the runtime settles "
+         "it as after the stop"),
+        ("cancel-reported-not-run-owner-committed",
+         build("cancel-reported-not-run-owner-committed", [lost], "not_run", 1,
+               stop=stop(10, (15, 16), "effect_after_stop")),
+         "deny", "outcome_settled_without_authority", "owner-unreachable-after-lost-reply",
+         "the runtime's record says the cancelled step did not run while the owner "
+         "committed it after the stop"),
+        ("cancel-resume-replays-same-key",
+         build("cancel-resume-replays-same-key", [lost, attempt(2, 120, "confirmed")],
+               "committed", 2, stop=stop(10, (15, 16), "effect_after_stop")),
+         "deny", "retry_after_unknown", "commit-then-lost-reply",
+         "the run resumes at 120 seconds and sends the cancelled step again under the same "
+         "key to an owner that does not deduplicate, which holds two effects"),
+    ]
+
+
 def cases() -> list[Case]:
     """Every case: id, record, decision, reason, runtime scenario id, and what it shows."""
-    return [*_controls(), *_identity_cases(), *_dispatch_cases(), *_outcome_cases()]
+    return [*_controls(), *_identity_cases(), *_dispatch_cases(), *_outcome_cases(),
+            *_cancel_cases()]
 
 
 def corpus_digest(manifest: dict[str, Any], root: str) -> str:

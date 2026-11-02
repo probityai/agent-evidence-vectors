@@ -31,14 +31,30 @@ order and names the first check that fails:
 9. the runtime did not report an unknown outcome as committed or not run
    (``outcome_settled_without_authority``);
 10. the runtime reported the outcome the owner's answers settle
-    (``outcome_disagrees_with_authority``).
+    (``outcome_disagrees_with_authority``);
+11. when the record carries a ``stop``, no authority check made at or after the
+    revocation committed was accepted (``authority_used_after_revocation``);
+12. an effect the owner committed wholly after the stop was acknowledged is
+    not reported as a quiescent stop (``effect_after_stop_reported_quiescent``);
+13. an effect whose commit interval contains the acknowledgement is reported
+    as not established, never as quiescent or as after the stop
+    (``stop_straddle_reported_settled``).
+
+Checks 11 to 13 read the optional ``stop`` block: when the stop was requested
+and acknowledged, when the authority was revoked, each authority check made
+after the request with its result, the owner's own interval for the effect's
+commit (``ownerCommit``, not before and not after), and how the runtime
+reported the stop (``quiescent``, ``effect_after_stop`` or
+``not_established``). An acknowledgement is not quiescence: an effect can land
+after it, and a cancel reported as clean then hides an orphan. A record with no
+``stop`` block passes them.
 
 The outcome the owner's answers settle is ``committed`` when an attempt was
 confirmed or a reconciliation found the effect; ``not_run`` when no attempt has
 an unknown reply, or a final reconciliation after the last unknown attempt
 found it absent; and ``unknown`` otherwise. A reconciliation that is not final
 (a lookup that can still miss a late commit) settles nothing. A record that
-passes all ten is ``allow`` with reason ``effect_held``.
+passes all thirteen is ``allow`` with reason ``effect_held``.
 
 The external-verifier contract: ``<verifier> <case-dir>/record.json --json``
 prints one JSON object carrying ``decision`` and ``reason``, and exits 0 for
@@ -79,7 +95,11 @@ CHECKS = (
     "unknown_released",
     "outcome_settled_without_authority",
     "outcome_disagrees_with_authority",
+    "authority_used_after_revocation",
+    "effect_after_stop_reported_quiescent",
+    "stop_straddle_reported_settled",
 )
+STOP_REPORTS = ("quiescent", "effect_after_stop", "not_established")
 _HERE = Path(__file__).resolve().parent
 ROOT = (_HERE / "corpora" / "vectors-uncertain-effect" if
         (_HERE / "corpora").exists() else _HERE.parents[1] / "corpora" / "vectors-uncertain-effect")
@@ -201,6 +221,40 @@ def _disagrees(record: Record) -> bool:
     return settled != "unknown" and record["reported"]["outcome"] != settled
 
 
+def _authority_after_revocation(record: Record) -> bool:
+    stop = record.get("stop")
+    if not stop:
+        return False
+    revoked = _at(stop["revokedAt"])
+    return any(item["result"] == "accepted" and _at(item["at"]) >= revoked
+               for item in stop.get("authorityChecks", []))
+
+
+def _commit_after_ack(stop: dict[str, Any]) -> bool | None:
+    """True when the owner's commit lies wholly after the acknowledgement, False when
+    wholly at or before it, and None when its interval contains the acknowledgement."""
+    commit = stop.get("ownerCommit")
+    if not commit:
+        return False
+    ack = _at(stop["acknowledgedAt"])
+    if _at(commit["notBefore"]) > ack:
+        return True
+    if _at(commit["notAfter"]) <= ack:
+        return False
+    return None
+
+
+def _orphan_reported_quiescent(record: Record) -> bool:
+    stop = record.get("stop")
+    return bool(stop) and _commit_after_ack(stop) is True and stop["reported"] == "quiescent"
+
+
+def _straddle_settled(record: Record) -> bool:
+    stop = record.get("stop")
+    return (bool(stop) and _commit_after_ack(stop) is None
+            and stop["reported"] != "not_established")
+
+
 def _load(record_path: Path) -> Record:
     loaded: Record = json.loads(record_path.read_text(encoding="utf-8"))
     return loaded
@@ -223,6 +277,9 @@ def _first_failure(record: Record, skip: frozenset[str]) -> str | None:
         "unknown_released": lambda: _unknown_released(record),
         "outcome_settled_without_authority": lambda: _settled_without_authority(record),
         "outcome_disagrees_with_authority": lambda: _disagrees(record),
+        "authority_used_after_revocation": lambda: _authority_after_revocation(record),
+        "effect_after_stop_reported_quiescent": lambda: _orphan_reported_quiescent(record),
+        "stop_straddle_reported_settled": lambda: _straddle_settled(record),
     }
     for name in CHECKS:
         if name not in skip and failures[name]():

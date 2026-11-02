@@ -1,9 +1,9 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/uncertain-effect",
-  "corpusDigest": "5e662ed999ebd931b07a9c593167b20700a74d45a5129e550d27ec85057282e5",
+  "corpusDigest": "e94026b486929f4b8874d480d589fe04e56731318e9aace75f3006af2af52774",
   "counts": {
-    "allow": 10,
-    "deny": 17
+    "allow": 13,
+    "deny": 23
   },
   "runtimeContract": "runtime scenario.json, AEV_EFFECT_OWNER; see uncertaineffect_runtime",
   "suite": "uncertain-effect/v1",
@@ -1369,6 +1369,456 @@
       },
       "runtime": {
         "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "commit-then-lost-reply",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_drop"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "final"
+            ]
+          },
+          "summary": "the first call commits and its reply is lost; the owner does not deduplicate, and its lookups are final, so the runtime must ask before it sends again"
+        }
+      }
+    },
+    {
+      "edit": "control: the effect commits before the stop is acknowledged, the revoked credential is refused afterwards, and the stop is reported quiescent",
+      "expected": {
+        "decision": "allow",
+        "reason": "effect_held"
+      },
+      "files": {
+        "record.json": "c2807cccd2ebdc57b386370ba80135d793c66e7ba0cf81f5830bc671eb4a0081"
+      },
+      "id": "allow-cancel-clean-stop",
+      "path": "cases/allow-cancel-clean-stop",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 1,
+        "unknownAttempts": 0
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "confirmed",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "final"
+            ]
+          },
+          "summary": "the first call commits and its reply arrives"
+        }
+      }
+    },
+    {
+      "edit": "control: the effect lands five seconds after the acknowledgement and the runtime reports it as an effect after the stop",
+      "expected": {
+        "decision": "allow",
+        "reason": "effect_held"
+      },
+      "files": {
+        "record.json": "f5e376aad0f12db2cccb2c094aeaac8b81cd7470e9fc2e4bd96a0f1f875a79e4"
+      },
+      "id": "allow-cancel-commit-after-ack-reported",
+      "path": "cases/allow-cancel-commit-after-ack-reported",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 1,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "late-commit-after-missed-lookup",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "late_commit"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "non_final"
+            ]
+          },
+          "summary": "the first call's reply is lost and it commits late: the first lookup misses it and is not final, the next one finds it"
+        }
+      }
+    },
+    {
+      "edit": "control: the owner's commit interval contains the acknowledgement and the runtime leaves the stop not established",
+      "expected": {
+        "decision": "allow",
+        "reason": "effect_held"
+      },
+      "files": {
+        "record.json": "c3da4b2961fda6755b7d4b6c777e6c7a07d4914212e99c07a02d520391195d99"
+      },
+      "id": "allow-cancel-straddle-not-established",
+      "path": "cases/allow-cancel-straddle-not-established",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 1,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "late-commit-after-missed-lookup",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "late_commit"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "non_final"
+            ]
+          },
+          "summary": "the first call's reply is lost and it commits late: the first lookup misses it and is not final, the next one finds it"
+        }
+      }
+    },
+    {
+      "edit": "a credential check two seconds after the revocation committed is still accepted",
+      "expected": {
+        "decision": "deny",
+        "reason": "authority_used_after_revocation"
+      },
+      "files": {
+        "record.json": "fbf577012a7d131a60fa7db5138b644d7e98e79f5467930b8d3a8bf960f84dba"
+      },
+      "id": "cancel-authority-accepted-after-revocation",
+      "path": "cases/cancel-authority-accepted-after-revocation",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 1,
+        "unknownAttempts": 0
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "confirmed",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "final"
+            ]
+          },
+          "summary": "the first call commits and its reply arrives"
+        }
+      }
+    },
+    {
+      "edit": "the stop is acknowledged at 10 seconds, the owner commits the effect at 15, and the runtime reports the stop quiescent",
+      "expected": {
+        "decision": "deny",
+        "reason": "effect_after_stop_reported_quiescent"
+      },
+      "files": {
+        "record.json": "72b357da8aef6b8e2800f9529057a093495c2dc12be20ce5e032ade1e8d56487"
+      },
+      "id": "cancel-commit-after-ack-reported-quiescent",
+      "path": "cases/cancel-commit-after-ack-reported-quiescent",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 1,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "late-commit-after-missed-lookup",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "late_commit"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "non_final"
+            ]
+          },
+          "summary": "the first call's reply is lost and it commits late: the first lookup misses it and is not final, the next one finds it"
+        }
+      }
+    },
+    {
+      "edit": "the owner's commit interval contains the acknowledgement and the runtime reports the stop quiescent",
+      "expected": {
+        "decision": "deny",
+        "reason": "stop_straddle_reported_settled"
+      },
+      "files": {
+        "record.json": "b3b5bdd7ad47a1851dfc057faa95edd130dd2117c236b106277012d5734d56ce"
+      },
+      "id": "cancel-straddle-reported-quiescent",
+      "path": "cases/cancel-straddle-reported-quiescent",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 1,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "late-commit-after-missed-lookup",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "late_commit"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "non_final"
+            ]
+          },
+          "summary": "the first call's reply is lost and it commits late: the first lookup misses it and is not final, the next one finds it"
+        }
+      }
+    },
+    {
+      "edit": "the owner's commit interval contains the acknowledgement and the runtime settles it as after the stop",
+      "expected": {
+        "decision": "deny",
+        "reason": "stop_straddle_reported_settled"
+      },
+      "files": {
+        "record.json": "e846aeadaa2ec15a55270356a2886ac1f159eb680ef0ff224711d43c98156e74"
+      },
+      "id": "cancel-straddle-reported-after-stop",
+      "path": "cases/cancel-straddle-reported-after-stop",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 1,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "late-commit-after-missed-lookup",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "late_commit"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "non_final"
+            ]
+          },
+          "summary": "the first call's reply is lost and it commits late: the first lookup misses it and is not final, the next one finds it"
+        }
+      }
+    },
+    {
+      "edit": "the runtime's record says the cancelled step did not run while the owner committed it after the stop",
+      "expected": {
+        "decision": "deny",
+        "reason": "outcome_settled_without_authority"
+      },
+      "files": {
+        "record.json": "3b72362bf5f8de081d3d325dee27c2abda04198aa730208c1f4f62772a92ba97"
+      },
+      "id": "cancel-reported-not-run-owner-committed",
+      "path": "cases/cancel-reported-not-run-owner-committed",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "unknown",
+        "ownerEffects": 1,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "unknown"
+            }
+          ],
+          "id": "owner-unreachable-after-lost-reply",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_drop"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "unavailable"
+            ]
+          },
+          "summary": "the first call commits and its reply is lost, and the owner cannot answer lookups; the outcome stays unknown and nothing is sent again"
+        }
+      }
+    },
+    {
+      "edit": "the run resumes at 120 seconds and sends the cancelled step again under the same key to an owner that does not deduplicate, which holds two effects",
+      "expected": {
+        "decision": "deny",
+        "reason": "retry_after_unknown"
+      },
+      "files": {
+        "record.json": "7f90277e72275a8ee77dd3b6d83317de47aacdad667aa37ccf52519f69bd5365"
+      },
+      "id": "cancel-resume-replays-same-key",
+      "path": "cases/cancel-resume-replays-same-key",
+      "retained": {
+        "attempts": 2,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 2,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 2,
         "scenario": {
           "accepted": [
             {
