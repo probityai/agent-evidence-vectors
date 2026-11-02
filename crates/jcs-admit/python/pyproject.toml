@@ -4,7 +4,7 @@ build-backend = "maturin"
 
 [project]
 name = "jcs-admit"
-version = "0.1.0"
+version = "0.1.1"
 description = "Admission control and RFC 8785 canonicalization for JSON about to be signed, plus DSSE signing, from the jcs-admit and dsse Rust crates"
 readme = "README.md"
 license = "MIT OR Apache-2.0"
