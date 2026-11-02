@@ -40,6 +40,8 @@ def _tracked_manifests():
     """The one place that knows where a corpus sits: release-digests.py."""
     path = Path(__file__).resolve().parent / "release-digests.py"
     spec = importlib.util.spec_from_file_location("release_digests", path)
+    if spec is None or spec.loader is None:
+        raise ImportError(f"cannot load {path}")
     module = importlib.util.module_from_spec(spec)
     sys.modules.setdefault("release_digests", module)
     spec.loader.exec_module(module)
