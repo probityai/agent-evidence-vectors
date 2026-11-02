@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Hold the registry, the validator and the guide to the incident_response section.
 
-The section's eleven terms each carry a `check`, the rule a verifier applies to decide
+The section's fourteen terms each carry a `check`, the rule a verifier applies to decide
 the term. This checks that every term starts proposed with no issuer, carries a
 criticality, a review date, a definition and a promotion trigger, that a term declaring
 closed values defines each of them, that every term has a non-empty check, that the guide
@@ -15,6 +15,7 @@ Exit 0 every case behaves, 1 at least one does not, 2 the check could not run.
 from __future__ import annotations
 
 import importlib.util
+import json
 import os
 import sys
 import tempfile
@@ -25,6 +26,8 @@ import yaml
 _ROOT = Path(__file__).resolve().parent.parent
 _VALIDATOR = _ROOT / "scripts" / "validate_crosswalks.py"
 _VOCAB = _ROOT / "vocabulary.yaml"
+_REGISTRY = _ROOT / "registry.py"
+_INDEX = _ROOT / "registry.json"
 _PAGE = _ROOT / "docs" / "incident-response.md"
 _FILINGS = (
     "nist-sp-800-61r3.yaml", "nist-key-practices-si.yaml", "aws-agentic-ai-lens.yaml",
@@ -34,6 +37,7 @@ _EXPECTED_TERMS = {
     "response_decision", "response_function", "enforcement_vantage", "control_failure_posture",
     "revocation_state", "containment_scope", "pause_hold", "escalation_outcome",
     "restoration_decision", "restoration_gate", "incident_identifier",
+    "decision_role", "authority_basis", "revocation_coverage",
 }
 _REQUIRED_KEYS = ("criticality", "review_by", "definition", "promotion_trigger", "source_path")
 
@@ -45,6 +49,37 @@ def _load_validator():
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
+
+
+def _load_registry():
+    spec = importlib.util.spec_from_file_location("vocabulary_registry", _REGISTRY)
+    if spec is None or spec.loader is None:
+        return None
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+def _check_closed_values(registry, index: dict, section: dict) -> list[str]:
+    """Every registered value of every closed term is accepted; an unregistered one is refused."""
+    failures = []
+    for name, term in section.items():
+        values = term.get("values")
+        if values is None:
+            continue
+        try:
+            for value in values:
+                judged = registry.check_value(index, name, value, None)
+                if judged.outcome != registry.OK:
+                    failures.append(f"{name}: registered value {value!r} was judged {judged.outcome}")
+            refused = registry.check_value(index, name, "not-a-registered-value", None)
+        except KeyError:
+            failures.append(f"{name}: the registry index declares no values for a term that lists them")
+            continue
+        if refused.outcome != registry.MALFORMED:
+            failures.append(f"{name}: an unregistered value was judged {refused.outcome}, not malformed")
+    return failures
 
 
 def _crosswalk(section: str) -> dict:
@@ -71,7 +106,7 @@ def _run(validator, data: dict) -> list[str]:
 def _check_terms(section: dict, page: str) -> list[str]:
     failures = []
     if set(section) != _EXPECTED_TERMS:
-        failures.append(f"terms {sorted(set(section) ^ _EXPECTED_TERMS)} differ from the eleven the section carries")
+        failures.append(f"terms {sorted(set(section) ^ _EXPECTED_TERMS)} differ from the fourteen the section carries")
     for name, term in section.items():
         if term.get("status") != "proposed":
             failures.append(f"{name}: status must start proposed")
@@ -103,11 +138,13 @@ def main() -> int:
         vocab = yaml.safe_load(_VOCAB.read_text())
         page = _PAGE.read_text(encoding="utf-8")
         validator = _load_validator()
-    except (OSError, yaml.YAMLError) as exc:
+        registry = _load_registry()
+        index = json.loads(_INDEX.read_text(encoding="utf-8"))
+    except (OSError, yaml.YAMLError, ValueError) as exc:
         print(f"test_incident_response: could not run: {exc}", file=sys.stderr)
         return 2
-    if validator is None:
-        print("test_incident_response: could not load the validator", file=sys.stderr)
+    if validator is None or registry is None:
+        print("test_incident_response: could not load the validator or the registry", file=sys.stderr)
         return 2
 
     section = vocab.get("incident_response")
@@ -115,6 +152,7 @@ def main() -> int:
         print("FAIL: vocabulary.yaml has no incident_response section")
         return 1
     failures = _check_terms(section, page)
+    failures.extend(_check_closed_values(registry, index, section))
     ok = _run(validator, _crosswalk("incident_response"))
     if ok:
         failures.append(f"a valid mapping was refused: {ok}")
@@ -128,7 +166,7 @@ def main() -> int:
             continue
         data = yaml.safe_load(path.read_text())
         if set(data.get("incident_response", {})) != _EXPECTED_TERMS:
-            failures.append(f"crosswalk/{name} does not answer all eleven terms, with no_mapping where nothing maps")
+            failures.append(f"crosswalk/{name} does not answer all fourteen terms, with no_mapping where nothing maps")
         if data.get("maintainer", {}).get("third_party_authored") is not True:
             failures.append(f"crosswalk/{name} must declare third_party_authored: true")
         errors: list[str] = []
@@ -141,7 +179,7 @@ def main() -> int:
     if failures:
         return 1
     print(f"test_incident_response: {len(section)} terms, {len(_FILINGS)} crosswalks and the guide agree; "
-          "both validator cases behave")
+          "closed values accept and refuse as registered, both validator cases behave")
     return 0
 
 

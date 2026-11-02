@@ -71,3 +71,25 @@ incident_response:
   incident_identifier:
     match: no_mapping
     notes: The source describes nothing that maps onto this term.
+  decision_role:
+    match: no_mapping
+    notes: Practice 2.6 asks that activity resume only if senior leadership is satisfied with the risk
+      levels; no role per party per decision is asked for.
+  authority_basis:
+    match: partial
+    evidence: asserted
+    source_path: https://www.nist.gov/system/files/documents/2026/10/16/Key_Practices_for_Incident_Readiness_and_Response_in_Super_Intelligence%20_Training_and_Evaluation.pdf
+    divergences:
+    - Practice 1.6 asks for a control policy laying out intended responses to defined scenarios and infrastructure
+      for automated enforcement, which is the policy_preauthorized basis stated as a requirement; no record
+      says which kind of grant a given action rested on.
+    notes: Practice 1.6, pdf p4.
+  revocation_coverage:
+    match: partial
+    evidence: asserted
+    source_path: https://www.nist.gov/system/files/documents/2026/10/16/Key_Practices_for_Incident_Readiness_and_Response_in_Super_Intelligence%20_Training_and_Evaluation.pdf
+    divergences:
+    - Practice 6.4 asks to revoke credentials under the organization's control that were accessed during
+      the incident; the population is the credentials found accessed, with no manifest and no statement
+      of how many were reached.
+    notes: Practice 6.4.
