@@ -1645,9 +1645,10 @@ incident_response:
     status: proposed
     criticality: critical
     review_by: "2027-04-30"
-    values: [monitoring_increase, restriction, isolation, pause, remediation, restoration]
+    values: [monitoring_increase, notification, restriction, isolation, pause, remediation, restoration]
     value_definitions:
       monitoring_increase: "Observation of the subject was widened or deepened."
+      notification: "The incident was reported to a party outside the responding team: an affected party, a regulator, law enforcement or another organisation."
       restriction: "A credential, permission or tool was withdrawn or narrowed."
       isolation: "Channels the subject could use were cut."
       pause: "The subject was halted, wholly or in part."
@@ -1657,7 +1658,11 @@ incident_response:
       The function an incident action served. One action MAY carry several
       values (a rebuild is remediation and also stops activity). restoration is
       never combined with another value, because resuming is a separate decision
-      from any action that contained or repaired. Closed and fail-closed: an
+      from any action that contained or repaired. notification changes nothing
+      about the subject: it records that the incident was reported, and a
+      record that lists only notification says nothing was contained. Added in
+      0.9.0; a record that names an earlier registry by its registryDigest is
+      read against that registry's six values. Closed and fail-closed: an
       absent or unregistered value makes the statement malformed.
     check: >
       A verifier refuses an action that lists restoration together with another
@@ -1669,7 +1674,9 @@ incident_response:
       Guidance names the same act under different words (eradication in NIST SP
       800-61r3 RS.MI-02, shutdown and mitigation in the NIST Key Practices,
       Full Disable in AIIR); a closed list lets
-      two parties count the same thing.
+      two parties count the same thing. NIST SP 800-61r3 RS.CO-02 asks that
+      internal and external stakeholders be notified of incidents, and an
+      incident table that has a notification column needs a value to code it.
 
   enforcement_vantage:
     status: proposed

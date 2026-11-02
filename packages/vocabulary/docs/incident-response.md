@@ -33,7 +33,7 @@ Did anyone decide not to act? A `response_decision` of `continue` is a signed re
 | term | values |
 |---|---|
 | `response_decision` | `act`, `continue`, `escalate` |
-| `response_function` | `monitoring_increase`, `restriction`, `isolation`, `pause`, `remediation`, `restoration` |
+| `response_function` | `monitoring_increase`, `notification`, `restriction`, `isolation`, `pause`, `remediation`, `restoration` |
 | `enforcement_vantage` | `subject_self`, `co_located_runtime`, `substrate`, `relying_party` |
 | `control_failure_posture` | `fail_closed`, `fail_open`, `unguarded_start`, `late_decision` |
 | `revocation_state` | `issued`, `enforced_observed`, `use_after_revocation`, `not_established` |
