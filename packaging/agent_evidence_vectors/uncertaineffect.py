@@ -246,13 +246,16 @@ def _commit_after_ack(stop: dict[str, Any]) -> bool | None:
 
 def _orphan_reported_quiescent(record: Record) -> bool:
     stop = record.get("stop")
-    return bool(stop) and _commit_after_ack(stop) is True and stop["reported"] == "quiescent"
+    if not isinstance(stop, dict) or not stop:
+        return False
+    return _commit_after_ack(stop) is True and stop["reported"] == "quiescent"
 
 
 def _straddle_settled(record: Record) -> bool:
     stop = record.get("stop")
-    return (bool(stop) and _commit_after_ack(stop) is None
-            and stop["reported"] != "not_established")
+    if not isinstance(stop, dict) or not stop:
+        return False
+    return _commit_after_ack(stop) is None and stop["reported"] != "not_established"
 
 
 def _load(record_path: Path) -> Record:

@@ -92,7 +92,7 @@ def _at(stamp: str) -> datetime:
 
 def _complete(record: Record) -> bool:
     coverage = record["coverage"]
-    return coverage["collected"] == coverage["expected"] and coverage["dropped"] == 0
+    return bool(coverage["collected"] == coverage["expected"] and coverage["dropped"] == 0)
 
 
 def _clean(record: Record) -> bool:
