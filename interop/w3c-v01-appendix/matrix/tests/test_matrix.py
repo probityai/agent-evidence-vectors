@@ -119,6 +119,6 @@ def test_every_row_that_yields_a_report_has_one_and_reruns() -> None:
 
 def test_a_report_with_records_in_place_of_checks_still_gets_its_mutants() -> None:
     posted = {"format": "Agent Conformance Reporting Format v0.1", "records": [{"id": "r1"}]}
-    made, skipped = M.mutants(posted, lambda value: "0" * 64)
+    made, skipped = M.mutants(posted, lambda value: b"0" * 64)
     assert made and skipped
     assert all(s["why"] for s in skipped)
