@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import importlib.util
 import json
 import sys
 from pathlib import Path
@@ -10,8 +11,10 @@ import pytest
 
 HERE = Path(__file__).resolve().parent.parent / "R6-v01"
 sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "packaging"))
-sys.path.insert(0, str(HERE))
-import reencode_r6  # noqa: E402
+_SPEC = importlib.util.spec_from_file_location("reencode_r6", HERE / "reencode_r6.py")
+assert _SPEC is not None and _SPEC.loader is not None
+reencode_r6 = importlib.util.module_from_spec(_SPEC)
+_SPEC.loader.exec_module(reencode_r6)
 from agent_evidence_vectors import w3creport  # noqa: E402
 
 

@@ -113,7 +113,7 @@ def reencode(raw: bytes) -> dict[str, Any]:
 
 
 def main(argv: list[str] | None = None) -> int:
-    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap = argparse.ArgumentParser(description="Re-encode R6's posted report into the v0.1 shape.")
     ap.add_argument("posted", type=Path)
     ap.add_argument("--out", type=Path, required=True)
     args = ap.parse_args(argv)
