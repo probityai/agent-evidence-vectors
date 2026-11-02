@@ -53,6 +53,8 @@ RUNS_A_VERIFIER = (
     "vectors-authority-at-dispatch",
     "vectors-aggregate-accounting",
     "vectors-uncertain-effect",
+    "vectors-monitor-coverage",
+    "vectors-propagation-step",
     "vectors-agent-card-receipt",
     "vectors-credential-release",
     "vectors-chunked-export",

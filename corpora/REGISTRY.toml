@@ -757,6 +757,30 @@ standards = []
 shapes = ["uncertainty", "replay"]
 
 [[corpus]]
+id = "vectors-monitor-coverage"
+path = "corpora/vectors-monitor-coverage"
+wheel = true
+sdist = true
+title = "Monitor coverage"
+summary = "A verifier must refuse a clean monitor verdict over a window the collector did not fully see or a channel outside the monitor's vantage, and a claim that a defence reduced harm when it took no effective action."
+record_class = "record"
+domains = ["effects", "provenance"]
+standards = []
+shapes = ["coverage-gap", "self-report"]
+
+[[corpus]]
+id = "vectors-propagation-step"
+path = "corpora/vectors-propagation-step"
+wheel = true
+sdist = true
+title = "Propagation steps"
+summary = "A verifier must accept a hop between agents attributed as propagation only through a message digest chain that reaches the receiver before it acted, and refuse a common-cause exposure attributed as propagation."
+record_class = "record"
+domains = ["effects", "provenance"]
+standards = []
+shapes = ["missing-binding", "broken-chain"]
+
+[[corpus]]
 id = "vectors-w3c-intake"
 path = "corpora/vectors-w3c-intake"
 wheel = true

@@ -36,6 +36,29 @@ The predicate carries an observed effect of an execution, separately from the
 claim an executor makes about it, so that a consumer recomputes the effect from
 carried bytes instead of accepting an asserted one.
 
+### `predicate/v1/monitor-coverage`
+
+- Document: `vectors-monitor-coverage/README.md`
+- Corpus: `vectors-monitor-coverage/`, suite `monitor-coverage/v1`
+- Rails: `corpusreaders/monitorcoverage.go`, `packaging/agent_evidence_vectors/monitorcoverage.py`
+
+The predicate carries one monitor's verdict over one window: the monitor's vantage and
+the channels it reads, the collector-side coverage count, an effect another source
+observed, and the verdict with its decision and effective-action counts. A clean verdict
+stands only on complete collector coverage of the channel the effect used, and a claim
+that a defence reduced harm needs at least one effective action.
+
+### `predicate/v1/propagation-step`
+
+- Document: `vectors-propagation-step/README.md`
+- Corpus: `vectors-propagation-step/`, suite `propagation-step/v1`
+- Rails: `corpusreaders/propagationstep.go`, `packaging/agent_evidence_vectors/propagationstep.py`
+
+The predicate carries one hop's attribution between two agents: the message log, the
+digest chain the attribution cites, each agent's exposures to outside sources and when
+the receiver acted. Propagation needs a connected chain that reaches the receiver before
+it acted; a shared exposure with no edge is a common cause, never propagation.
+
 ### `predicate/v1/uncertain-effect`
 
 - Document: `corpora/vectors-uncertain-effect/README.md`
