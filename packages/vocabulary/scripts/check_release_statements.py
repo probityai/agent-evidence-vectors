@@ -201,8 +201,9 @@ def self_test() -> list[str]:
             return [f"self-test: the unmodified copy was refused: {errors}"]
         version = _authority(root)[0]["pyproject.toml version"]
         digest = next(v for r, v in _statements(root, []) if r.kind == "digest")
-        other = next(p.stem[len("sha256-"):] for p in (pages / "vocab" / "v1" / "registry").glob("sha256-*.yaml")
-                     if p.stem != f"sha256-{digest}")
+        other = next(p.stem[len("sha256-"):] for p in sorted((pages / "vocab" / "v1" / "registry").glob("sha256-*.yaml"))
+                     if p.stem != f"sha256-{digest}"
+                     and str(yaml.safe_load(p.read_bytes())["meta"]["version"]) != version)
         flipped = digest[:-1] + ("0" if digest[-1] != "0" else "1")
         cases = [
             ("a stale install pin", "README.md", f"agent-evidence-vocabulary=={version}",
