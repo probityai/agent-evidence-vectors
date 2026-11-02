@@ -43,6 +43,8 @@ COMPANIONS = (
 PREDICATES = (
     ("v1", "observed-effect"),
     ("v1", "uncertain-effect"),
+    ("v1", "monitor-coverage"),
+    ("v1", "propagation-step"),
     ("v1", "evaluation-claim"),
     ("v1", "self-reported-record"),
     ("v1", "kernel-substrate"),
@@ -154,6 +156,8 @@ def repository(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
         "spec/predicates/REGISTRY.md",
         "spec/predicates/observed-effect.md",
         "corpora/vectors-uncertain-effect/README.md",
+        "corpora/vectors-monitor-coverage/README.md",
+        "corpora/vectors-propagation-step/README.md",
         "spec/predicates/evaluation-claim.md",
         "spec/self-reported-record/v1.md",
         "spec/predicates/peer-verification.md",

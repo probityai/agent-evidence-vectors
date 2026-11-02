@@ -38,8 +38,8 @@ carried bytes instead of accepting an asserted one.
 
 ### `predicate/v1/monitor-coverage`
 
-- Document: `vectors-monitor-coverage/README.md`
-- Corpus: `vectors-monitor-coverage/`, suite `monitor-coverage/v1`
+- Document: `corpora/vectors-monitor-coverage/README.md`
+- Corpus: `corpora/vectors-monitor-coverage/`, suite `monitor-coverage/v1`
 - Rails: `corpusreaders/monitorcoverage.go`, `packaging/agent_evidence_vectors/monitorcoverage.py`
 
 The predicate carries one monitor's verdict over one window: the monitor's vantage and
@@ -50,8 +50,8 @@ that a defence reduced harm needs at least one effective action.
 
 ### `predicate/v1/propagation-step`
 
-- Document: `vectors-propagation-step/README.md`
-- Corpus: `vectors-propagation-step/`, suite `propagation-step/v1`
+- Document: `corpora/vectors-propagation-step/README.md`
+- Corpus: `corpora/vectors-propagation-step/`, suite `propagation-step/v1`
 - Rails: `corpusreaders/propagationstep.go`, `packaging/agent_evidence_vectors/propagationstep.py`
 
 The predicate carries one hop's attribution between two agents: the message log, the
