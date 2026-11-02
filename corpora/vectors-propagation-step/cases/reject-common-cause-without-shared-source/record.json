@@ -1,0 +1,56 @@
+{
+  "chain": [],
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/propagation-step",
+  "effect": {
+    "agent": "agent-b",
+    "at": "2026-11-02T09:02:00Z"
+  },
+  "exposures": [
+    {
+      "agent": "agent-a",
+      "at": "2026-11-02T09:00:10Z",
+      "source": "doc-poisoned"
+    },
+    {
+      "agent": "agent-b",
+      "at": "2026-11-02T09:00:20Z",
+      "source": "doc-clean"
+    }
+  ],
+  "hop": {
+    "attributedAs": "common_cause",
+    "from": "agent-a",
+    "to": "agent-b"
+  },
+  "messages": [
+    {
+      "digest": "sha256:a904f3b53ff41a897d49eadddaa4c856650c20abadb8f4626054b6b7dc097798",
+      "from": "agent-a",
+      "id": "m1",
+      "sentAt": "2026-11-02T09:01:00Z",
+      "to": "agent-c"
+    },
+    {
+      "digest": "sha256:84038f62eff8f933bc58d6c09b645db928bf21e2fbe2606b4b96a01cc42b2525",
+      "from": "agent-c",
+      "id": "m2",
+      "sentAt": "2026-11-02T09:01:30Z",
+      "to": "agent-b"
+    },
+    {
+      "digest": "sha256:05c1ff8026c05587a68130b0976dbb7f4a7dc7f0599aa5e8224c483898d17206",
+      "from": "agent-b",
+      "id": "m3",
+      "sentAt": "2026-11-02T09:02:30Z",
+      "to": "agent-a"
+    },
+    {
+      "digest": "sha256:1b2a6007ec51fdfd47d922c5f02f5d674857d5aff9a14996006e839eb7e3fcdc",
+      "from": "agent-a",
+      "id": "m4",
+      "sentAt": "2026-11-02T09:06:40Z",
+      "to": "agent-b"
+    }
+  ],
+  "recordId": "record-reject-common-cause-without-shared-source"
+}
