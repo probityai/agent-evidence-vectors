@@ -1,6 +1,6 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/monitor-coverage",
-  "corpusDigest": "64bbaff09b43b8b83b51a5c4d5ab4f1f3863103cac3deecaf59077faecbd8d8e",
+  "corpusDigest": "e1a00bfbe68b7b629303d2a4dcbdfae4c90368f4d358010b32e2d15b64b08e51",
   "counts": {
     "allow": 7,
     "deny": 11
@@ -332,19 +332,19 @@
       }
     },
     {
-      "edit": "a defence is credited with reducing harm after 2,592 decisions in which it took no effective action",
+      "edit": "a defence is credited with reducing harm after 2,000 decisions in which it took no effective action",
       "expected": {
         "decision": "deny",
         "reason": "defence_effect_without_effective_actions"
       },
       "files": {
-        "record.json": "47e1591b946af77e37b3b3fc5165103b1a49c21ed1d4efd9c65edc57db5d2007"
+        "record.json": "86120be4d532fb0c767ec5bef9f89805ac74f508b02aa49157259e207f9a05f3"
       },
       "id": "reject-defence-effect-with-zero-effective-actions",
       "path": "cases/reject-defence-effect-with-zero-effective-actions",
       "retained": {
         "complete": true,
-        "decisions": 2592,
+        "decisions": 2000,
         "effectiveActions": 0,
         "monitor": "monitor-defence",
         "result": "flagged"

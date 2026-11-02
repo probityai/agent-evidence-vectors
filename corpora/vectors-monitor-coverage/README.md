@@ -32,7 +32,7 @@ and that a defence with no effective action is fine as long as nobody credits it
 effect. Counts are in `MANIFEST.json`.
 
 The case `reject-defence-effect-with-zero-effective-actions` is the shape of a defence
-evaluated over 2,592 decisions in which it took no action: an evaluation has to count
+evaluated over 2,000 decisions in which it took no action: an evaluation has to count
 the control's effective actions before it credits the control with an outcome.
 
 ## Synthetic, and labelled so

@@ -144,9 +144,9 @@ def _denied() -> list[Case]:
          "call inside the window, and the monitor that read every tool call says clean"),
         ("reject-defence-effect-with-zero-effective-actions",
          build("reject-defence-effect-with-zero-effective-actions", kind="defence",
-               result="flagged", decisions=2592, claim="defence_reduced_harm"),
+               result="flagged", decisions=2000, claim="defence_reduced_harm"),
          "deny", "defence_effect_without_effective_actions", "a defence is credited with "
-         "reducing harm after 2,592 decisions in which it took no effective action"),
+         "reducing harm after 2,000 decisions in which it took no effective action"),
     ]
 
 
