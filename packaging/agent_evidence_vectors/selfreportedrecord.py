@@ -718,9 +718,12 @@ def _counts_disagree(declared: dict[str, int], measured: dict[str, int]) -> bool
 
 
 def _vendored_finding(directory: str, rel: str, pinned: str) -> str | None:
-    """The contract sits above the corpus directory, so it resolves against the parent."""
+    """The contract sits above the corpus directory: beside it in the wheel, and one
+    level higher in the source tree, where corpora live under corpora/<id>."""
     parent = os.path.dirname(os.path.abspath(directory))
-    full = os.path.normpath(os.path.join(parent, "." + os.sep + rel))
+    candidates = [os.path.normpath(os.path.join(base, "." + os.sep + rel))
+                  for base in (parent, os.path.dirname(parent))]
+    full = next((path for path in candidates if os.path.isfile(path)), candidates[0])
     if not os.path.isfile(full):
         return (
             f"the vendored contract {rel} is missing, so nothing records what this "
