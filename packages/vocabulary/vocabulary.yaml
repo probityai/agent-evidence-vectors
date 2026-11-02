@@ -138,8 +138,10 @@ meta:
     registry it used, and a resolvable URI for each term. No published
     identifier moved, and a record that names our own registry, or none, is
     checked exactly as before.
-    Unreleased after 0.8.0: the incident_response section adds fourteen terms, all
-    proposed, none listing an issuer. Three of them, decision_role,
+    Unreleased after 0.8.0: the incident_response section adds fifteen terms, all
+    proposed, none listing an issuer. evidence_state orders what responders
+    can observe about one system into nine codes, ES0 to ES8, from silence to
+    a requested restart, each defined by an observable entry condition. Three of them, decision_role,
     authority_basis and revocation_coverage, name who held which role in a
     decision, what kind of grant let the authorizer act, and how much of an
     issuance population a revocation reached. Each carries a check, the rule a verifier
@@ -2055,6 +2057,52 @@ incident_response:
       revocation_state records the outcome at one relying party and
       containment_scope the channels of a contained subject; neither records
       the part of the issuance population that was revoked.
+
+  evidence_state:
+    status: proposed
+    criticality: critical
+    review_by: "2027-04-30"
+    values: [ES0, ES1, ES2, ES3, ES4, ES5, ES6, ES7, ES8]
+    value_definitions:
+      ES0: "No anomaly is recorded and the coverage of the monitors that would have recorded one was not measured."
+      ES1: "No anomaly is recorded and the coverage of the monitors that would have recorded one was measured."
+      ES2: "At least one anomaly is recorded and no declared change-detection threshold has been crossed."
+      ES3: "The recorded anomalies have crossed a declared change-detection threshold."
+      ES4: "Propagation from one component or agent to another is observed and its pathway is not identified."
+      ES5: "The propagation pathway is identified and the scope is not yet bounded with containment verified."
+      ES6: "The scope is bounded and containment is verified."
+      ES7: "Effects outside the organisation are confirmed."
+      ES8: "Containment is recorded and a restart is requested."
+    definition: >
+      The state of the evidence about one system at one time, as nine codes
+      ordered from silence to a requested restart. Each code is defined only by
+      what a responder can observe: whether an anomaly is recorded, whether the
+      coverage of the monitors was measured, whether a change-detection
+      threshold was crossed, whether propagation and its pathway were observed,
+      whether the scope is bounded and containment verified, whether effects
+      outside the organisation are confirmed, and whether containment is
+      recorded and a restart requested. A record's state is the highest code
+      whose entry condition its observations meet. The code says what was
+      observed; it does not say what response is right, and it does not decide
+      whether a restart is admitted. Closed and fail-closed: an absent or
+      unregistered value where a record requires one makes the statement
+      malformed.
+    check: >
+      A verifier derives the state from the record's own observations as the
+      highest code whose entry condition holds and refuses a declared code
+      that differs. ES1 is never accepted without measured coverage, so a
+      missing observation is not read as a clean one, and a declared code
+      lower than the observations support is refused as understated.
+    source_path: "predicate.evidenceState"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained system that is not us emits an evidence state with the observations that ground it and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      Incident guidance asks responders to judge how much is known before they
+      act and before they restore (NIST SP 800-61r3 DE.AE and RC.RP; NIST Key
+      Practices 7.3 to 7.5), and no shared term records that judgment in a form
+      a third party can recompute. A recurring gap in published incident
+      records is a silence read as clean: a report that nothing was seen, with
+      no measure of what the monitors could see. ES0 and ES1 separate the two.
 
 # system_attributes: four things a FILER declares about their own system, all
 # four together. This block carries no status and no review-by date, and it is

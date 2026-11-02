@@ -2,11 +2,11 @@
 
 Name the parts of an incident response so that what was decided, what was done, what held and what was restored can be told apart. The [README](../README.md) is the short version of the repository; this page covers the `incident_response` section, proposed after 0.8.0 and not yet in a release.
 
-When something goes wrong in an agent system, the people responding take decisions, take actions, and later end them. Their own logs say what they chose to record. A third party who was not there needs records that separate the decision from the action, the action from its effect, and a restart from the decision that was supposed to precede it. These fourteen terms name the parts, and each carries a `check`: the rule a verifier applies to decide it. All eleven are `proposed`, none lists an issuer, each has `criticality: critical` and a `review_by` date, and none is canonical.
+When something goes wrong in an agent system, the people responding take decisions, take actions, and later end them. Their own logs say what they chose to record. A third party who was not there needs records that separate the decision from the action, the action from its effect, and a restart from the decision that was supposed to precede it. These fifteen terms name the parts, and each carries a `check`: the rule a verifier applies to decide it. All fifteen are `proposed`, none lists an issuer, each has `criticality: critical` and a `review_by` date, and none is canonical.
 
 ## One question, answered in terms
 
-Did anyone decide not to act? A `response_decision` of `continue` is a signed record with the deciding authority and a reason, so a non-action is not an absence. What did an action serve? Its `response_function` values. Was it enforced beneath the subject, or only honoured by it? That is `enforcement_vantage`. What happened when the decision service gave no answer? A `control_failure_posture`. Was a revocation only issued, or refused when used? A `revocation_state`. Which channels were cut, and which were never assessed? A `containment_scope`. Did a pause stop the subject, or does its earlier work remain? A `pause_hold`. How long from the alert to someone able to act? An `escalation_outcome`. Who approved the restart, and did it follow a decision? A `restoration_decision`, and a `restoration_gate` for whether the restart that happened was preceded by one. Which two organisations' records are the same incident? An `incident_identifier`.
+Did anyone decide not to act? A `response_decision` of `continue` is a signed record with the deciding authority and a reason, so a non-action is not an absence. What did an action serve? Its `response_function` values. Was it enforced beneath the subject, or only honoured by it? That is `enforcement_vantage`. What happened when the decision service gave no answer? A `control_failure_posture`. Was a revocation only issued, or refused when used? A `revocation_state`. Which channels were cut, and which were never assessed? A `containment_scope`. Did a pause stop the subject, or does its earlier work remain? A `pause_hold`. How long from the alert to someone able to act? An `escalation_outcome`. Who approved the restart, and did it follow a decision? A `restoration_decision`, and a `restoration_gate` for whether the restart that happened was preceded by one. Which two organisations' records are the same incident? An `incident_identifier`. How much did the responders know when they acted, and was a silence measured or only unheard? An `evidence_state`, from `ES0` to `ES8`.
 
 ## The terms
 
@@ -26,6 +26,7 @@ Did anyone decide not to act? A `response_decision` of `continue` is a signed re
 | `decision_role` | the role one party held in one decision | at least one party holds `authorized`; a named authorizer whose only role is `advised` is malformed |
 | `authority_basis` | what kind of grant let the authorizer act | an absent member is malformed and is never read as `role_grant`; `unknown` is well formed and establishes nothing |
 | `revocation_coverage` | how much of the issuance population a revocation reached | cites a `coverage_denominator`; `complete_verified` only when every key of the manifest is in the revoked set |
+| `evidence_state` | what responders could observe about one system at one time, from silence (`ES0`) to a requested restart (`ES8`) | the highest code whose entry condition the record's observations meet; `ES1` never without measured coverage |
 
 ## The values
 
@@ -38,6 +39,7 @@ Did anyone decide not to act? A `response_decision` of `continue` is a signed re
 | `revocation_state` | `issued`, `enforced_observed`, `use_after_revocation`, `not_established` |
 | `pause_hold` | `held`, `in_flight_unknown`, `effect_after_pause`, `residual_state_remains`, `not_established` |
 | `escalation_outcome` | `paged`, `paged_late`, `not_paged`, `not_established` |
+| `evidence_state` | `ES0`, `ES1`, `ES2`, `ES3`, `ES4`, `ES5`, `ES6`, `ES7`, `ES8` |
 | `restoration_decision` | `resume_full`, `resume_staged`, `remain_restricted`, `not_established` |
 | `restoration_gate` | `gated`, `ungated`, `gate_unmet`, `not_established` |
 | `decision_role` | `advised`, `authorized`, `executed`, `accountable` |

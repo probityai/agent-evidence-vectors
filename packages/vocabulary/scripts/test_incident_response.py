@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Hold the registry, the validator and the guide to the incident_response section.
 
-The section's fourteen terms each carry a `check`, the rule a verifier applies to decide
+The section's fifteen terms each carry a `check`, the rule a verifier applies to decide
 the term. This checks that every term starts proposed with no issuer, carries a
 criticality, a review date, a definition and a promotion trigger, that a term declaring
 closed values defines each of them, that every term has a non-empty check, that the guide
@@ -37,7 +37,7 @@ _EXPECTED_TERMS = {
     "response_decision", "response_function", "enforcement_vantage", "control_failure_posture",
     "revocation_state", "containment_scope", "pause_hold", "escalation_outcome",
     "restoration_decision", "restoration_gate", "incident_identifier",
-    "decision_role", "authority_basis", "revocation_coverage",
+    "decision_role", "authority_basis", "revocation_coverage", "evidence_state",
 }
 _REQUIRED_KEYS = ("criticality", "review_by", "definition", "promotion_trigger", "source_path")
 
@@ -106,7 +106,7 @@ def _run(validator, data: dict) -> list[str]:
 def _check_terms(section: dict, page: str) -> list[str]:
     failures = []
     if set(section) != _EXPECTED_TERMS:
-        failures.append(f"terms {sorted(set(section) ^ _EXPECTED_TERMS)} differ from the fourteen the section carries")
+        failures.append(f"terms {sorted(set(section) ^ _EXPECTED_TERMS)} differ from the fifteen the section carries")
     for name, term in section.items():
         if term.get("status") != "proposed":
             failures.append(f"{name}: status must start proposed")
@@ -166,7 +166,7 @@ def main() -> int:
             continue
         data = yaml.safe_load(path.read_text())
         if set(data.get("incident_response", {})) != _EXPECTED_TERMS:
-            failures.append(f"crosswalk/{name} does not answer all fourteen terms, with no_mapping where nothing maps")
+            failures.append(f"crosswalk/{name} does not answer all fifteen terms, with no_mapping where nothing maps")
         if data.get("maintainer", {}).get("third_party_authored") is not True:
             failures.append(f"crosswalk/{name} must declare third_party_authored: true")
         errors: list[str] = []

@@ -1,6 +1,6 @@
 {
   "source": "vocabulary.yaml",
-  "source_sha256": "97677d9122dc269c81f50439b2ed7b7fb67148919110c4d04855d98f421a51b6",
+  "source_sha256": "e4b06c0113c4a5f8fcf07eae692f31e4f2e10633a7f3603b90ab83f3677c19c2",
   "term_uri_base": "https://w3id.org/agent-evidence/vocab/v1/",
   "terms": {
     "acceptance_observed": {
@@ -313,6 +313,34 @@
         "database_or_it_system",
         "interview",
         "test"
+      ]
+    },
+    "evidence_state": {
+      "criticality": "critical",
+      "definition": "The state of the evidence about one system at one time, as nine codes ordered from silence to a requested restart. Each code is defined only by what a responder can observe: whether an anomaly is recorded, whether the coverage of the monitors was measured, whether a change-detection threshold was crossed, whether propagation and its pathway were observed, whether the scope is bounded and containment verified, whether effects outside the organisation are confirmed, and whether containment is recorded and a restart requested. A record's state is the highest code whose entry condition its observations meet. The code says what was observed; it does not say what response is right, and it does not decide whether a restart is admitted. Closed and fail-closed: an absent or unregistered value where a record requires one makes the statement malformed.",
+      "section": "incident_response",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/evidence_state",
+      "value_definitions": {
+        "ES0": "No anomaly is recorded and the coverage of the monitors that would have recorded one was not measured.",
+        "ES1": "No anomaly is recorded and the coverage of the monitors that would have recorded one was measured.",
+        "ES2": "At least one anomaly is recorded and no declared change-detection threshold has been crossed.",
+        "ES3": "The recorded anomalies have crossed a declared change-detection threshold.",
+        "ES4": "Propagation from one component or agent to another is observed and its pathway is not identified.",
+        "ES5": "The propagation pathway is identified and the scope is not yet bounded with containment verified.",
+        "ES6": "The scope is bounded and containment is verified.",
+        "ES7": "Effects outside the organisation are confirmed.",
+        "ES8": "Containment is recorded and a restart is requested."
+      },
+      "values": [
+        "ES0",
+        "ES1",
+        "ES2",
+        "ES3",
+        "ES4",
+        "ES5",
+        "ES6",
+        "ES7",
+        "ES8"
       ]
     },
     "field_evidence_partition": {
