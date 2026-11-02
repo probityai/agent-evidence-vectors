@@ -5542,7 +5542,18 @@ def rail_main() -> int:
         help="after the replay, also write the v0.1 per-check report of the W3C "
         "public-agent-conformance group, crosswalked from conformance-report.json",
     )
+    parser.add_argument(
+        "--read-w3c-report",
+        default=None,
+        metavar="PATH",
+        help="read one v0.1 per-check report and exit, replaying nothing: print "
+        "'conforms', or each shape error and rejection on its own line with its "
+        "v0.1 row; exit 0 conforms, 1 does not conform, 2 no verdict (the file "
+        "cannot be read as JSON, or the reader failed on it)",
+    )
     args = parser.parse_args()
+    if args.read_w3c_report is not None:
+        return w3creport.read(args.read_w3c_report)
     if args.list_corpora:
         return print_corpora(args.format)
     if args.jcs_byte_vectors:
