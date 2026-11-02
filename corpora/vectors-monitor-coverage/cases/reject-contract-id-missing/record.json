@@ -1,0 +1,28 @@
+{
+  "coverage": {
+    "basis": "collector_count",
+    "collected": 400,
+    "collector": "collector-1",
+    "dropped": 0,
+    "expected": 400
+  },
+  "monitor": {
+    "channels": [
+      "message",
+      "tool_call"
+    ],
+    "id": "monitor-detector",
+    "kind": "detector",
+    "vantage": "collector_side"
+  },
+  "recordId": "record-reject-contract-id-missing",
+  "verdict": {
+    "decisions": 12,
+    "effectiveActions": 0,
+    "result": "clean"
+  },
+  "window": {
+    "end": "2026-11-02T10:00:00Z",
+    "start": "2026-11-02T09:00:00Z"
+  }
+}
