@@ -1,0 +1,859 @@
+{
+  "aggregate": {
+    "counts": {
+      "allow": 9,
+      "deny": 21
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 30
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-incident-evidence-cell/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in corpora/vectors-incident-evidence-cell/gen_vectors.py",
+    "routine-file": "corpora/vectors-incident-evidence-cell/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "429dc57888268d76e7adeab219d1a22973b2f855db9698640586a018d9942f99",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4f1234639f1f4d41a1f140a05d478d334b06b6b1a176dd4fe40c96ae27539c88"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4f1234639f1f4d41a1f140a05d478d334b06b6b1a176dd4fe40c96ae27539c88"
+        },
+        "swapped-in": "264e082f2ef66cff78442a4b416249198fd79803a0a31db4715d8efbdb323c7e",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-incident-evidence-cell/README.md",
+      "serialization": "bytes",
+      "sha256": "ede1acc3e194bd47b1198c8074c2ba99aa87ef422df2bc0d8f10fad49eec2a34"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4f1234639f1f4d41a1f140a05d478d334b06b6b1a176dd4fe40c96ae27539c88"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4f1234639f1f4d41a1f140a05d478d334b06b6b1a176dd4fe40c96ae27539c88"
+        },
+        "swapped-in": "c202d3e5f822b2c07b9b985031c83d2e30256fc85679e7b65f3760efc98cf9a5",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-incident-evidence-cell/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "2e6ba14f97ad14f79eca6d87e3ec8d40017b634fd8a68d3a4236d9f6d0a3bd8e"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4f1234639f1f4d41a1f140a05d478d334b06b6b1a176dd4fe40c96ae27539c88"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4f1234639f1f4d41a1f140a05d478d334b06b6b1a176dd4fe40c96ae27539c88"
+        },
+        "swapped-in": "4130b5840813a8d80426df1931cd251c116d8caaf6fe5e4e83cde18b88efe35f",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-incident-evidence-cell/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "cd33c9c6e141df3eeeed22b21f1cb6c97b149c3474c2adb02fc77a23c98dc3a7"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4f1234639f1f4d41a1f140a05d478d334b06b6b1a176dd4fe40c96ae27539c88"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4f1234639f1f4d41a1f140a05d478d334b06b6b1a176dd4fe40c96ae27539c88"
+        },
+        "swapped-in": "986596ba2366bad909b667e53c73746091ef6cb203411b4e92cb276adb3f248f",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-incident-evidence-cell/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "c95cb5bc78ae107ff27e17c46484c10057e1c19ea287df9c25220fadb9b46920"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "corpora/vectors-incident-evidence-cell"
+  },
+  "byte-identity": {
+    "pins": 30,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json corpora/vectors-incident-evidence-cell",
+      "aee-verify -json corpora/vectors-incident-evidence-cell",
+      "aee-verify corpora/vectors-incident-evidence-cell"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpusreaders",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "1b448be5e16f103ff88e0b75efe0082293922696d5b475269200798ad1a4ca5c"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpusreaders",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "allow-investigation-supported",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-notification-unsupported",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-restriction-supported",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-isolation-supported",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-pause-unknown-value",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-remediation-empty-es6",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-restoration-es8",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-empty-investigation-es0",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-two-source-documents",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-statement-type-old",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-subject-empty",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-subject-digest-uppercase",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-predicate-type-other",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-predicate-not-object",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-value-and-not-addressed",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-neither-value-nor-not-addressed",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-value-empty-string",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-producer-http",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-issued-at-offset",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-registry-digest-short",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-extra-member",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-does-not-assert-empty",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-state-slash-form",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-state-es9",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-response-investigation",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-support-label-partial",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-empty-cell-supported",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-empty-cell-unsupported",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-disclaimer-paraphrased",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-disclaimer-absent",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "1aad64183d463a59bd5c91e60f10f880d78b9839e9d3cba9d7aa3f8c5a8a03fd"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "allow-investigation-supported",
+      "allow-notification-unsupported",
+      "allow-restriction-supported",
+      "allow-isolation-supported",
+      "allow-pause-unknown-value",
+      "allow-remediation-empty-es6",
+      "allow-restoration-es8",
+      "allow-empty-investigation-es0",
+      "allow-two-source-documents",
+      "reject-statement-type-old",
+      "reject-subject-empty",
+      "reject-subject-digest-uppercase",
+      "reject-predicate-type-other",
+      "reject-predicate-not-object",
+      "reject-value-and-not-addressed",
+      "reject-neither-value-nor-not-addressed",
+      "reject-value-empty-string",
+      "reject-producer-http",
+      "reject-issued-at-offset",
+      "reject-registry-digest-short",
+      "reject-extra-member",
+      "reject-does-not-assert-empty",
+      "reject-state-slash-form",
+      "reject-state-es9",
+      "reject-response-investigation",
+      "reject-support-label-partial",
+      "reject-empty-cell-supported",
+      "reject-empty-cell-unsupported",
+      "reject-disclaimer-paraphrased",
+      "reject-disclaimer-absent"
+    ],
+    "path": "corpora/vectors-incident-evidence-cell/MANIFEST.json",
+    "sha256": "3ef881d4f027e94477d2a6b59fe090bba1aac9dbef625dc2c6173e43bf65ee9f"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/allow-investigation-supported/record.json",
+          "sha256": "b4d8cab6ee24158866be7c51eaf728a2cf30abb0b40b47a5283ec96c79ca79c3"
+        }
+      ],
+      "id": "allow-investigation-supported"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/allow-notification-unsupported/record.json",
+          "sha256": "9925ffd6c102e618cba3f7d9879c28e76face6f793f14cc20af98d3b6460ff48"
+        }
+      ],
+      "id": "allow-notification-unsupported"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/allow-restriction-supported/record.json",
+          "sha256": "995333fe181856163643b5d20fe780166002c9da86832f2cf12ff6540bca1f28"
+        }
+      ],
+      "id": "allow-restriction-supported"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/allow-isolation-supported/record.json",
+          "sha256": "2a97ac77ad31806b73fef672749e762344b58f6271173fb6855118b27e1d1305"
+        }
+      ],
+      "id": "allow-isolation-supported"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/allow-pause-unknown-value/record.json",
+          "sha256": "1cea8db5b6a8f48ecaaaa03237308e880b52e5aba64e8790241e649ea231730e"
+        }
+      ],
+      "id": "allow-pause-unknown-value"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/allow-remediation-empty-es6/record.json",
+          "sha256": "2cc47cb7c556e2025c588277b904cc0cb0f881076357b3287f3b2fae3f34315c"
+        }
+      ],
+      "id": "allow-remediation-empty-es6"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/allow-restoration-es8/record.json",
+          "sha256": "f15db91151691cf7b705c940445a9ecd98b61a0ee9416e1438a4eebef3f97cd1"
+        }
+      ],
+      "id": "allow-restoration-es8"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/allow-empty-investigation-es0/record.json",
+          "sha256": "fecfbbf800a1b375557d6a3b502daf92ec97ad42ec601bf1557e164e0a465d9d"
+        }
+      ],
+      "id": "allow-empty-investigation-es0"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/allow-two-source-documents/record.json",
+          "sha256": "df52e1cc6a758e03107d8a021801c40cc1ac4a2dfa03a1aebb17ab9cf6a170bf"
+        }
+      ],
+      "id": "allow-two-source-documents"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/reject-statement-type-old/record.json",
+          "sha256": "ebabc64d97dab79108ac7736b726f92525647ec0aaae96b97108cc0ebabc0d30"
+        }
+      ],
+      "id": "reject-statement-type-old"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/reject-subject-empty/record.json",
+          "sha256": "ed5fc0870a0d88c0539fe04e6c8ce78dfd1ae3305a979cd69dd6f531f71c1de7"
+        }
+      ],
+      "id": "reject-subject-empty"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/reject-subject-digest-uppercase/record.json",
+          "sha256": "146d898faf6ca92ca058b4ea1fabeee50f7691aa619d510e4220af62913911b4"
+        }
+      ],
+      "id": "reject-subject-digest-uppercase"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/reject-predicate-type-other/record.json",
+          "sha256": "de16d84a8837f7d207a56b23d5cbfacb278527ce29ebc0fbdf1abb3c3f4370ed"
+        }
+      ],
+      "id": "reject-predicate-type-other"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/reject-predicate-not-object/record.json",
+          "sha256": "8810aa7c67b0bb87b2d66c1a99a62cbfc1338571de470b9e341e163ea60c15c0"
+        }
+      ],
+      "id": "reject-predicate-not-object"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/reject-value-and-not-addressed/record.json",
+          "sha256": "5ca5c76ec3cfa8fdfdd926e7af528a859bdfcfb1ce274607cdf4aa921b0f9453"
+        }
+      ],
+      "id": "reject-value-and-not-addressed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/reject-neither-value-nor-not-addressed/record.json",
+          "sha256": "69fd319ca4e1c8014895e02bea9a3d431775ffa7c01f57a5fa2067c9d6c8f77a"
+        }
+      ],
+      "id": "reject-neither-value-nor-not-addressed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/reject-value-empty-string/record.json",
+          "sha256": "a3aaea6fed4e6c1e2e16f61b4d9fab596d17f9912c4200b1f870a71eda5f8a32"
+        }
+      ],
+      "id": "reject-value-empty-string"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/reject-producer-http/record.json",
+          "sha256": "339cdb0134857caca4f8c6717a230a14bdf0021624b1615cf0228d12ffeab2d4"
+        }
+      ],
+      "id": "reject-producer-http"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/reject-issued-at-offset/record.json",
+          "sha256": "00e84cf727d7a6e0862c4f18bea7387bff8915e3910d6534e3d524a1507d0d58"
+        }
+      ],
+      "id": "reject-issued-at-offset"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/reject-registry-digest-short/record.json",
+          "sha256": "f24f941f59ab6025583a0b5334deaac2b58804bd715fd981d33515d03db4b942"
+        }
+      ],
+      "id": "reject-registry-digest-short"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/reject-extra-member/record.json",
+          "sha256": "0d10cf1303ab8d2c1f531fb782c446868edf5b1a09e37968381825817ec821c8"
+        }
+      ],
+      "id": "reject-extra-member"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/reject-does-not-assert-empty/record.json",
+          "sha256": "0ffb61553de347c58fb6fa57ca80f01c56099cd3989203de4312ba46c1ff149d"
+        }
+      ],
+      "id": "reject-does-not-assert-empty"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/reject-state-slash-form/record.json",
+          "sha256": "f8999b70281313ef41df26288376a216fe5d8246d255a435cee16886c7ed6b54"
+        }
+      ],
+      "id": "reject-state-slash-form"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/reject-state-es9/record.json",
+          "sha256": "349370f0e85f3e88ca842b60a8d6c82f010d5599fce3b4a31aed563ccd880291"
+        }
+      ],
+      "id": "reject-state-es9"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/reject-response-investigation/record.json",
+          "sha256": "f48d912797d9411de6a7785e8fd9e01c37eb8b2c9bcfa784616efeddf36b999d"
+        }
+      ],
+      "id": "reject-response-investigation"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/reject-support-label-partial/record.json",
+          "sha256": "3df928145d5df4937105922e8d5dc3c9f30486488ebdd9a45f25ac2113471625"
+        }
+      ],
+      "id": "reject-support-label-partial"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/reject-empty-cell-supported/record.json",
+          "sha256": "80bc6389c945b810728a1844d26fabd87784299cb63edc3ab5e27e6c0ed244d7"
+        }
+      ],
+      "id": "reject-empty-cell-supported"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/reject-empty-cell-unsupported/record.json",
+          "sha256": "44820096203d9132836dbadda68802523a754f579f86b03ed0d88a2185f356e7"
+        }
+      ],
+      "id": "reject-empty-cell-unsupported"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/reject-disclaimer-paraphrased/record.json",
+          "sha256": "07cd1b0de1842b8d41ac7933e0959daff24b109ff368f0f9434eebb82dabcf7a"
+        }
+      ],
+      "id": "reject-disclaimer-paraphrased"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/reject-disclaimer-absent/record.json",
+          "sha256": "9d1c118fee3d6f837a3ea831a865249e96f9caca20304f00371cb485e1791ca1"
+        }
+      ],
+      "id": "reject-disclaimer-absent"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-incident-evidence-cell.json",
+        "serialization": "bytes",
+        "sha256": "4f1234639f1f4d41a1f140a05d478d334b06b6b1a176dd4fe40c96ae27539c88"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-incident-evidence-cell.txt",
+        "serialization": "bytes",
+        "sha256": "56aced1f145170ef6a3f42846e6a68c97e605cf6a3e56aa5767894ee38a7025f"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "4f1234639f1f4d41a1f140a05d478d334b06b6b1a176dd4fe40c96ae27539c88"
+      },
+      {
+        "process": "run-2",
+        "sha256": "4f1234639f1f4d41a1f140a05d478d334b06b6b1a176dd4fe40c96ae27539c88"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 30 pinned members of incident-evidence-cell/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 30,
+    "require": "at-least-one",
+    "selected": [
+      "allow-investigation-supported",
+      "allow-notification-unsupported",
+      "allow-restriction-supported",
+      "allow-isolation-supported",
+      "allow-pause-unknown-value",
+      "allow-remediation-empty-es6",
+      "allow-restoration-es8",
+      "allow-empty-investigation-es0",
+      "allow-two-source-documents",
+      "reject-statement-type-old",
+      "reject-subject-empty",
+      "reject-subject-digest-uppercase",
+      "reject-predicate-type-other",
+      "reject-predicate-not-object",
+      "reject-value-and-not-addressed",
+      "reject-neither-value-nor-not-addressed",
+      "reject-value-empty-string",
+      "reject-producer-http",
+      "reject-issued-at-offset",
+      "reject-registry-digest-short",
+      "reject-extra-member",
+      "reject-does-not-assert-empty",
+      "reject-state-slash-form",
+      "reject-state-es9",
+      "reject-response-investigation",
+      "reject-support-label-partial",
+      "reject-empty-cell-supported",
+      "reject-empty-cell-unsupported",
+      "reject-disclaimer-paraphrased",
+      "reject-disclaimer-absent"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "incident-evidence-cell/v1"
+}
