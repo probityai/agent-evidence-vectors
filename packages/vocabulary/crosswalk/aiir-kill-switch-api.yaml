@@ -92,7 +92,7 @@ incident_response:
     source_path: https://aiir.jacobideji.com/schemas/kill-switch-api.html
     divergences:
     - Step-down from M3 or higher to M0 requires an approver attribution at least as senior as the Incident
-      Commander, which is one authorised role; the specification records no advised, executed or accountable
+      Commander, which is one authorized role; the specification records no advised, executed or accountable
       party for the decision.
     notes: Step-down, section on approvals.
   authority_basis:

@@ -23,8 +23,8 @@ Did anyone decide not to act? A `response_decision` of `continue` is a signed re
 | `restoration_decision` | the decision that ends a recorded containment | bound to the containment, with an approver different from the activator |
 | `restoration_gate` | whether an observed restart passed the gate the decision sets | the restart time comes from the substrate; no bound decision before it gives `ungated` |
 | `incident_identifier` | one identifier, scoped by its issuer, for one incident | joins only on equal issuer and id, or a `related` entry; never on timing or names |
-| `decision_role` | the role one party held in one decision | at least one party holds `authorised`; a named authoriser whose only role is `advised` is malformed |
-| `authority_basis` | what kind of grant let the authoriser act | an absent member is malformed and is never read as `role_grant`; `unknown` is well formed and establishes nothing |
+| `decision_role` | the role one party held in one decision | at least one party holds `authorized`; a named authorizer whose only role is `advised` is malformed |
+| `authority_basis` | what kind of grant let the authorizer act | an absent member is malformed and is never read as `role_grant`; `unknown` is well formed and establishes nothing |
 | `revocation_coverage` | how much of the issuance population a revocation reached | cites a `coverage_denominator`; `complete_verified` only when every key of the manifest is in the revoked set |
 
 ## The values
@@ -40,8 +40,8 @@ Did anyone decide not to act? A `response_decision` of `continue` is a signed re
 | `escalation_outcome` | `paged`, `paged_late`, `not_paged`, `not_established` |
 | `restoration_decision` | `resume_full`, `resume_staged`, `remain_restricted`, `not_established` |
 | `restoration_gate` | `gated`, `ungated`, `gate_unmet`, `not_established` |
-| `decision_role` | `advised`, `authorised`, `executed`, `accountable` |
-| `authority_basis` | `role_grant`, `policy_preauthorised`, `contract_third_party`, `executive_approval`, `unknown` |
+| `decision_role` | `advised`, `authorized`, `executed`, `accountable` |
+| `authority_basis` | `role_grant`, `policy_preauthorized`, `contract_third_party`, `executive_approval`, `unknown` |
 | `revocation_coverage` | `complete_verified`, `issued_after_only`, `partial`, `unknown` |
 
 `containment_scope` and `incident_identifier` list no values: the first is a digest-committed partition, the second an issuer and an id. Every list is closed and fail-closed, so an absent or unregistered value makes the statement malformed. Each value is defined in `vocabulary.yaml` under `value_definitions`. Source paths beginning `predicate.` name fields of a predicate that is not yet specified; they fix nothing until a predicate specification does.

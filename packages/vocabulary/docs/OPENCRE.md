@@ -85,7 +85,7 @@ requirement found and what it does not ask for.
 | `incident_response.restoration_gate` | no requirement asks whether an observed restart was preceded by a decision that met the stated requirements, with the restart time taken from the substrate |
 | `incident_response.incident_identifier` | no requirement asks for an identifier, scoped by its issuer, that lets two organisations' signed records of one incident be joined |
 | `incident_response.decision_role` | the role-assignment requirements found (ISO 27001 5.2, NIST SSDF PO.2.1, PCI DSS roles and responsibilities) assign roles in advance; none records the role a named party held in one decision, or separates advice from authority |
-| `incident_response.authority_basis` | no requirement names the kind of grant (a role, a standing policy, a contract, an executive approval) that let an authoriser act, as a value a record carries |
+| `incident_response.authority_basis` | no requirement names the kind of grant (a role, a standing policy, a contract, an executive approval) that let an authorizer act, as a value a record carries |
 | `incident_response.revocation_coverage` | the user-credential and password items found cover issuing and rotating credentials; none states how much of an issuance population a revocation reached against a manifest the revoker does not control |
 
 ## History

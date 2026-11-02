@@ -141,7 +141,7 @@ meta:
     Unreleased after 0.8.0: the incident_response section adds fourteen terms, all
     proposed, none listing an issuer. Three of them, decision_role,
     authority_basis and revocation_coverage, name who held which role in a
-    decision, what kind of grant let the authoriser act, and how much of an
+    decision, what kind of grant let the authorizer act, and how much of an
     issuance population a revocation reached. Each carries a check, the rule a verifier
     applies to decide the term, and criticality critical, because a misread
     makes a record read as enforced when it was not. Their source paths name
@@ -1932,28 +1932,27 @@ incident_response:
     status: proposed
     criticality: critical
     review_by: "2027-04-30"
-    values: [advised, authorised, executed, accountable]
+    values: [advised, authorized, executed, accountable]
     value_definitions:
       advised: "The party gave advice on the decision and did not hold the right to decide it."
-      authorised: "The party held the right to decide, and the decision was taken under that right."
+      authorized: "The party held the right to decide, and the decision was taken under that right."
       executed: "The party carried the decision out."
       accountable: "The party answers for the outcome of the decision."
     definition: >
-      The role one named party held in one decision. A party may hold several
-      roles in the same decision and then appears once per role, so the record
-      is a list of party and role pairs and never a single role field per
-      party. Advice is not authority: a party whose only role in a decision is
-      advised did not authorise it. Closed and fail-closed: an absent or
-      unregistered value makes the statement malformed.
+      The roles one named party held in one decision. A record names each party
+      once with the sorted list of every role it held, so a party that both
+      authorized and executed an action carries both values. Advice is not
+      authority: a party whose only role in a decision is advised did not
+      authorize it. Closed and fail-closed: an absent or unregistered value
+      makes the statement malformed.
     check: >
-      A verifier groups the pairs by decision and requires at least one party
-      holding authorised. A record that names a party as the authoriser of a
-      decision, in any member, while that party's only pair for the decision is
-      advised, is malformed. A decision with no party holding accountable is
-      reported as having no accountable party and is never counted as owned.
-    source_path: "predicate.parties[].decisionRole"
+      A verifier requires at least one party holding authorized and at least
+      one holding accountable. A decision with no party holding authorized is
+      reported as having no authorizer, and one with no party holding
+      accountable as having no accountable party; neither is counted as owned.
+    source_path: "predicate.parties[].roles[]"
     issuers_in_production: []
-    promotion_trigger: "An independently maintained system that is not us emits one party and role pair per role held in a response decision and files a crosswalk with evidence: emitted."
+    promotion_trigger: "An independently maintained system that is not us emits the roles each party held in a response decision and files a crosswalk with evidence: emitted."
     why_this_registry: >
       Incident reports name the people who were involved and rarely the role
       each held in a given decision. The OpenAI report says that on 27 June the
@@ -1975,15 +1974,15 @@ incident_response:
     status: proposed
     criticality: critical
     review_by: "2027-04-30"
-    values: [role_grant, policy_preauthorised, contract_third_party, executive_approval, unknown]
+    values: [role_grant, policy_preauthorized, contract_third_party, executive_approval, unknown]
     value_definitions:
-      role_grant: "The authoriser acted under authority attached to a role that a named person held when the decision was taken."
-      policy_preauthorised: "The action was taken under a policy that authorised it in advance for stated trigger conditions, and no person decided it at the time."
+      role_grant: "The authorizer acted under authority attached to a role that a named person held when the decision was taken."
+      policy_preauthorized: "The action was taken under a policy that authorized it in advance for stated trigger conditions, and no person decided it at the time."
       contract_third_party: "A third party acted under authority a contract gives it to act on the organisation's behalf."
       executive_approval: "A named executive approved this specific action, outside the authority their role carries by default."
       unknown: "The record states that the basis of the authority is not known."
     definition: >
-      What kind of grant let the authoriser of a decision act. unknown is a
+      What kind of grant let the authorizer of a decision act. unknown is a
       value and an absent member is not unknown: a verifier MUST NOT read an
       absent authorityBasis as role_grant or as any other registered value.
       The term names the kind of grant and does not say the grant was valid;
@@ -1991,12 +1990,10 @@ incident_response:
       fail-closed: an absent or unregistered value makes the statement
       malformed.
     check: >
-      A verifier requires the member on every record that names an authoriser.
+      A verifier requires the member on every party that holds authorized.
       An absent member and an unregistered value are each malformed. unknown is
-      accepted as well formed and is never counted as an established basis. A
-      policy_preauthorised record must carry the digest of the policy it acted
-      under, and a record without one is read as unknown.
-    source_path: "predicate.authorityBasis"
+      accepted as well formed and is never counted as an established basis.
+    source_path: "predicate.parties[].authorityBasis"
     issuers_in_production: []
     promotion_trigger: "An independently maintained system that is not us emits the basis of the authority on a response decision and files a crosswalk with evidence: emitted."
     why_this_registry: >
@@ -2011,7 +2008,7 @@ incident_response:
       Practices ask to implement a control policy laying out intended
       responses to defined scenarios and infrastructure for automated
       enforcement (practice 1.6, pdf p4). None says how a record names the
-      kind of grant, so an authorisation that rested on a standing policy
+      kind of grant, so an authorization that rested on a standing policy
       reads the same as one a person gave that hour.
 
   revocation_coverage:
@@ -2042,7 +2039,7 @@ incident_response:
       after the stated time, and reads a declared complete_verified whose
       denominator leaves a credential outside the revoked set as exceeding its
       proof. A record with no coverage_denominator is read as unknown.
-    source_path: "predicate.coverage.revocation"
+    source_path: "predicate.coverage.claim"
     issuers_in_production: []
     promotion_trigger: "An independently maintained system that is not us emits the coverage of a revocation against an issuance manifest and files a crosswalk with evidence: emitted."
     why_this_registry: >
