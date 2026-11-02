@@ -44,12 +44,14 @@ report, and why the others do not, is the first table of `matrix.md`, from
   `shape_errors` then `rejections`, at 0.12.0, 0.13.0, 0.17.4 and 0.18.1 (the
   releases the table names) and at 0.31.0 (the newest on PyPI on 2026-11-01),
   each installed by uv at that exact version ([`drivers/py_reader.py`](drivers/py_reader.py)).
-- The Go reader in `corpora/w3creport.go` at v0.18.1 and at the checked-out
-  commit. Its command line reads a whole corpus; its own path for one emitted
+- The Go reader in `corpora/w3creport.go` at v0.18.1 and in
+  `corpusreaders/w3creport.go` at the checked-out commit. Its command line
+  reads a whole corpus; its own path for one emitted
   report is `w3cEmittedReportFindings`, which calls `decodeJSONNumbers`,
   `w3cShapeErrors` and `w3cRejections`. The driver
   [`drivers/w3c_matrix_driver_test.go.txt`](drivers/w3c_matrix_driver_test.go.txt)
-  is copied into `corpora/` for the run, calls those three, and is removed.
+  is copied into the reader's directory (`corpora/` at v0.18.1, `corpusreaders/`
+  where the corpora were moved) for the run, calls those three, and is removed.
 - The Rust reader in `readers/w3c-report-rs` at v0.18.1 and at the checked-out
   commit, `--report <file>`. The matrix reads its `rows:` line; the
   layout and leaf-count lines it also prints are kept in the cell's note.
