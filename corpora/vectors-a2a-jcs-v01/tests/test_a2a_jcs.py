@@ -66,12 +66,12 @@ def test_the_lock_matches_the_vendored_bytes() -> None:
 
 def _copy(tmp_path: Path) -> Path:
     root = tmp_path / "repo"
-    shutil.copytree(CORPUS, root / NAME, ignore=shutil.ignore_patterns("__pycache__"))
+    shutil.copytree(CORPUS, root / "corpora" / NAME, ignore=shutil.ignore_patterns("__pycache__"))
     shutil.copytree(
         ROOT / "packaging", root / "packaging", ignore=shutil.ignore_patterns("__pycache__")
     )
     shutil.copy(ROOT / "RUNS.md", root / "RUNS.md")
-    return root / NAME
+    return root / "corpora" / NAME
 
 
 def test_a_changed_vector_byte_is_drift(tmp_path: Path) -> None:
@@ -92,7 +92,7 @@ def test_an_added_vector_is_drift(tmp_path: Path) -> None:
 
 def test_a_lock_runs_md_disagrees_with_is_drift(tmp_path: Path) -> None:
     copy = _copy(tmp_path)
-    runs = copy.parent / "RUNS.md"
+    runs = copy.parents[1] / "RUNS.md"
     runs.write_text(runs.read_text().replace("29b3f2c5a9c2e6b07dc7", "00b3f2c5a9c2e6b07dc7"))
     assert any("RUNS.md pins" in f for f in upstream.check(copy, None))
 
