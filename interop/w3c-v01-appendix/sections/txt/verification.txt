@@ -22,7 +22,7 @@ R9 | python rerun.py R9 | 83/82 at v0.17.4; 41/124 at v0.18.0 and v0.18.1 | memb
 R10 | python rerun.py R10 (added) | bytes as posted | values | 1 | posted measurement (Oct/0038, Oct/0046)
 R11 | python rerun.py R11 | output digest as posted | members | 165 | a reader written from the text
 R12 | python rerun.py R12 | per-member verdicts as posted | members x paths | 33 x 3 | proposed
-R13 | python rerun.py R13 | every listed file OK | synthetic cases | 5 | reproduction in O8's sense (Oct/0178); proposed
+R13 | python rerun.py R13 | every listed file OK | synthetic cases | 5 | reproduction in O8's sense (Oct/0179); proposed
 R14 | python matrix/matrix.py run | see the matrix below | verdicts | reports x readers | a comparison
 R15 | none posted | tally only: 3 of 592 | artifacts | 592 | the producer's own count (Oct/0162)
 

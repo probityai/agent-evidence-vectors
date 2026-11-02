@@ -28,6 +28,6 @@ R8 | Nicolas Rocchia | the same two files, Linux x86_64 | Oct/0105
 R8 | Michael Blake | the 92-of-96 comparison repeated from the frozen output (a comparison, not a rerun of the reader) | Oct/0188
 R12 | Roel Schuurkes | the per-member verdicts, Linux arm64 | Oct/0141
 R13 | Nicolas Rocchia | the first three cases at 69819ec | Oct/0123
-R13 | Yasha Khandelwal | the five cases at 98366047, byte comparison against the committed results.json passed | Oct/0178
+R13 | Yasha Khandelwal | the five cases at 98366047, byte comparison against the committed results.json passed | Oct/0179
 
 R12 is also rerun in the scorer repository's own CI, which belongs to its author, Lars Kersten Kroehl (15 jobs, PR 836, Oct/0162).

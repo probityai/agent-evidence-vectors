@@ -72,5 +72,8 @@ values.
 
 Limits that belong to the rows rather than to the harness are in each row's
 `limits` field in `rows.json`, and in the limitations text of 0163. A rerun
-here is a reproduction in O8's sense: the producer's own implementation, run
-by another operator, with the posted outputs visible.
+here is an automated rerun from the pins, operated by this appendix's author
+with the posted outputs visible. It is not a reproduction in O8's sense, which
+is the producer's implementation run by another operator (0163): for R1 and R9
+this appendix's author is the producer. The reproductions in O8's sense are the
+reruns posted on the list; the workflow repeats them weekly.
