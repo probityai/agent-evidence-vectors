@@ -506,6 +506,130 @@ def test_the_readme_commands_run_as_printed() -> None:
             )
 
 
+READ_DATA = REPO / "scripts" / "testdata" / "w3c-read"
+#: Anton Sokolov's EATF-MultiRoot run report as sent in the list's 2026Oct/0060
+#: records, and the same run re-encoded into the v0.1 shape, as attached to
+#: 2026Nov/0000. Nothing was re-run between them.
+SOKOLOV_BEFORE = ("eatf-multiroot-0060-run-report.json",
+                  "75a7f806f9865e358d64b09754471aa58b5e809527cfdc585f4aab5d897d8131")
+SOKOLOV_AFTER = ("eatf-multiroot-run-report-v01.json",
+                 "0e6086375846a8fc682e264eb9eb64f6f1629d7a514954a3c6d8b39eaf3f7041")
+
+
+def _read_cli(path: Path) -> list[tuple[int, str, str]]:
+    """Both spellings of the reader, as subprocesses: harness flag and module subcommand."""
+    runs = []
+    for argv in (
+        [sys.executable, str(REPO / "packaging" / "run_vectors.py"),
+         "--read-w3c-report", str(path)],
+        [sys.executable, str(REPO / "packaging" / "agent_evidence_vectors" / "w3creport.py"),
+         "read", str(path)],
+    ):
+        proc = subprocess.run(argv, capture_output=True, text=True, check=False, cwd=REPO)
+        runs.append((proc.returncode, proc.stdout, proc.stderr))
+    return runs
+
+
+def _fixture(name: str, digest: str) -> Path:
+    path = READ_DATA / name
+    got = hashlib.sha256(path.read_bytes()).hexdigest()
+    if got != digest:
+        raise AssertionError(f"{name} has sha256 {got}, not the bytes sent to the list")
+    return path
+
+
+def test_read_rows_table_is_the_manifest() -> None:
+    manifest = json.loads((CORPUS / "MANIFEST.json").read_text(encoding="utf-8"))
+    want = {r["id"]: (r["row"], r["status"]) for r in manifest["requirements"]
+            if r["id"].startswith("W3C-")}
+    if w3creport.ROWS != want:
+        raise AssertionError("w3creport.ROWS differs from the manifest's requirements")
+    if w3creport.row_label("W3C-R-007") != "v0.1 rejection-table row 7":
+        raise AssertionError(w3creport.row_label("W3C-R-007"))
+    if w3creport.row_label("W3C-R-025") != "v0.1 rejection-table row 13":
+        raise AssertionError(w3creport.row_label("W3C-R-025"))
+
+
+def test_read_before_reencoding_fails_the_shape_check() -> None:
+    want = (
+        "shape: the report does not declare format 'public-agent-conformance/report/v0.1'\n"
+        "shape: checks is not a list\n"
+        "shape: the report declares no domain object with a string id\n"
+    )
+    for code, out, err in _read_cli(_fixture(*SOKOLOV_BEFORE)):
+        if (code, out, err) != (1, want, ""):
+            raise AssertionError(f"exit {code}, stdout {out!r}, stderr {err!r}")
+
+
+def test_read_after_reencoding_conforms() -> None:
+    for code, out, err in _read_cli(_fixture(*SOKOLOV_AFTER)):
+        if (code, out, err) != (0, "conforms\n", ""):
+            raise AssertionError(f"exit {code}, stdout {out!r}, stderr {err!r}")
+
+
+def test_read_names_the_row_and_the_check_set_cause() -> None:
+    report = json.loads(_fixture(*SOKOLOV_AFTER).read_text(encoding="utf-8"))
+    report["checks"][0]["state"] = "pass"
+    report["checks"][0]["cause"] = {"code": "failed"}
+    want = (
+        "W3C-R-007: v0.1 rejection-table row 7\n"
+        "W3C-R-020: v0.1 section 3 reference mismatch (check set: digests-differ)\n"
+    )
+    with tempfile.TemporaryDirectory() as tmp:
+        path = Path(tmp) / "mutated.json"
+        path.write_text(json.dumps(report), encoding="utf-8")
+        for code, out, err in _read_cli(path):
+            if (code, out, err) != (1, want, ""):
+                raise AssertionError(f"exit {code}, stdout {out!r}, stderr {err!r}")
+
+
+def test_read_gives_no_verdict_on_an_unreadable_file() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        cases = {
+            "missing.json": None,
+            "not-json.json": b"not json\n",
+            "not-utf8.json": b'{"format": "\xff"}',
+            "nan.json": b'{"format": NaN}',
+            "truncated.json": b'{"checks": [',
+        }
+        for name, body in cases.items():
+            path = Path(tmp) / name
+            if body is not None:
+                path.write_bytes(body)
+            for code, out, err in _read_cli(path):
+                if code != 2 or out or not err.startswith("no verdict: "):
+                    raise AssertionError(f"{name}: exit {code}, stdout {out!r}, stderr {err!r}")
+
+
+def test_read_agrees_with_the_library_on_every_report_member() -> None:
+    """The verdict is shape_errors, then rejections, on the reader's own parse."""
+    manifest = json.loads((CORPUS / "MANIFEST.json").read_text(encoding="utf-8"))
+    exits = set()
+    for entry in manifest["vectors"]:
+        if entry.get("subjectType") != "report":
+            continue
+        subject = w3creport.load_json((CORPUS / entry["file"]).read_bytes())["subject"]
+        shape = w3creport.shape_errors(subject)
+        rows = [] if shape else w3creport.rejections(subject)
+        lines = w3creport.verdict_lines(subject)
+        if shape:
+            want = [f"shape: {e}" for e in shape]
+        elif not rows:
+            want = ["conforms"]
+        else:
+            want = [line.split(":")[0] for line in lines]
+            if want != rows:
+                raise AssertionError(f"{entry['id']}: lines name {want}, library says {rows}")
+            want = lines
+        if lines != want:
+            raise AssertionError(f"{entry['id']}: {lines} != {want}")
+        if any(rid not in w3creport.ROWS for rid in rows):
+            raise AssertionError(f"{entry['id']}: a row with no place in the table: {rows}")
+        exits.add(lines == ["conforms"])
+    if exits != {True, False}:
+        raise AssertionError("the corpus did not exercise both a conforming and a rejected report")
+
+
 def run(cases: list[Callable[[], None]]) -> int:
     failures = 0
     for case in cases:
@@ -535,4 +659,10 @@ if __name__ == "__main__":
         test_ledger_tokens_that_are_not_counts_break_the_sum,
         test_delta_changes_type_is_read,
         test_a_malformed_snapshot_is_judged_not_crashed,
+        test_read_rows_table_is_the_manifest,
+        test_read_before_reencoding_fails_the_shape_check,
+        test_read_after_reencoding_conforms,
+        test_read_names_the_row_and_the_check_set_cause,
+        test_read_gives_no_verdict_on_an_unreadable_file,
+        test_read_agrees_with_the_library_on_every_report_member,
     ]))
