@@ -1125,6 +1125,15 @@ def declared_claims(src: Sources) -> tuple[Claim, ...]:
 
 
 DELEGATED: tuple[Delegated, ...] = (
+    # The W3C v0.1 reader matrix. matrix.md is rendered from matrix.json by
+    # render.py, and the matrix tests fail when the committed table differs from
+    # what render.py would write, so each reader row's tallies are matrix.json's.
+    Delegated(
+        "interop/w3c-v01-appendix/matrix/matrix.md",
+        "the reader matrix's per-reader mutant tallies",
+        r"(?m)^\| [^|\n]+ \| \d+ \| \d+ \| \d+ \| \d+ \| \d+ \| \d+ of \d+ \|",
+        "interop/w3c-v01-appendix/matrix/tests/test_matrix.py",
+    ),
     # The W3C report corpus's section 10 selection. Its index is rendered from
     # the corpus manifest by the generator, and the regenerability gate refuses
     # an index the generator would not write, so each figure in this sentence is

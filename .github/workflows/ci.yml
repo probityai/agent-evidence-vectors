@@ -53,6 +53,17 @@ jobs:
         run: |
           .venv/bin/python -B scripts/release-digests-test.py
           .venv/bin/python -B scripts/release-gate-test.py
+      # The install release.yml's publish job runs, on every pull request, so a
+      # lock pip refuses in --require-hashes mode (an unpinned transitive
+      # requirement, a missing hash) fails here and never at a release.
+      - name: the pinned Hugging Face command installs from its hash-locked file
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/hf-venv"
+          "$RUNNER_TEMP/hf-venv/bin/python" -m pip install --quiet --require-hashes --only-binary :all: \
+            -r scripts/hf-publish-requirements.txt
+          "$RUNNER_TEMP/hf-venv/bin/hf" upload --help > /dev/null
+          "$RUNNER_TEMP/hf-venv/bin/hf" repos tag create --help > /dev/null
 
   installed-wheel:
     # The publish job's wheel replay, run before a tag can exist. Until v0.17.8
