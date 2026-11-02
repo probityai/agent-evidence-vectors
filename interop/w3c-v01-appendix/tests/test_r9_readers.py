@@ -8,8 +8,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(HERE))
-sys.path.insert(0, str(HERE / "rows"))
-import r9_corpus_history as r9  # noqa: E402
+from rows import r9_corpus_history as r9  # noqa: E402
 
 
 def test_probe_expects_every_member_rejected_under_a_row_nobody_cites(tmp_path: Path) -> None:
