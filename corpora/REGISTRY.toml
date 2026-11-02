@@ -589,6 +589,18 @@ standards = ["mcp"]
 shapes = ["coverage-gap", "ordering"]
 
 [[corpus]]
+id = "vectors-oasf-record"
+path = "vectors-oasf-record"
+wheel = true
+sdist = true
+title = "OASF records"
+summary = "A verifier must accept an OASF record only when its digest is the RFC 8785 digest of the record and the signature comes from the signer the consumer's policy names."
+record_class = "record"
+domains = ["provenance", "identity", "canonicalization"]
+standards = ["rfc8785"]
+shapes = ["tampering", "missing-binding"]
+
+[[corpus]]
 id = "vectors-observed-effect"
 path = "vectors-observed-effect"
 wheel = true
