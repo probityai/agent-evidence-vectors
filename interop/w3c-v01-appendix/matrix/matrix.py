@@ -486,7 +486,9 @@ def cmd_run(args: argparse.Namespace) -> int:
         "verify_commands": verify_commands(inputs),
     }
     for e in inputs:
-        if not e.get("mutant") and "checks" in e:
+        # A row counted in checks takes each report's check count; R6 counts tests, and its
+        # report carries records, so it keeps the denominator rows.json states.
+        if not e.get("mutant") and "checks" in e and ROW_META[e["row"]]["unit"] == "checks":
             observed["rows"][e["row"]].setdefault("denominators", {})[e["id"]] = e["checks"]
     args.observed.write_text(json.dumps(observed, indent=1, ensure_ascii=True, sort_keys=True) + "\n",
                              encoding="utf-8")
