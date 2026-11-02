@@ -1,6 +1,6 @@
 {
   "source": "vocabulary.yaml",
-  "source_sha256": "e4b06c0113c4a5f8fcf07eae692f31e4f2e10633a7f3603b90ab83f3677c19c2",
+  "source_sha256": "30c09d25c54a9e13f415f5bf2d61e527e9a099cda0150fe6e2a8d5f3b7455f0f",
   "term_uri_base": "https://w3id.org/agent-evidence/vocab/v1/",
   "terms": {
     "acceptance_observed": {
@@ -317,7 +317,7 @@
     },
     "evidence_state": {
       "criticality": "critical",
-      "definition": "The state of the evidence about one system at one time, as nine codes ordered from silence to a requested restart. Each code is defined only by what a responder can observe: whether an anomaly is recorded, whether the coverage of the monitors was measured, whether a change-detection threshold was crossed, whether propagation and its pathway were observed, whether the scope is bounded and containment verified, whether effects outside the organisation are confirmed, and whether containment is recorded and a restart requested. A record's state is the highest code whose entry condition its observations meet. The code says what was observed; it does not say what response is right, and it does not decide whether a restart is admitted. Closed and fail-closed: an absent or unregistered value where a record requires one makes the statement malformed.",
+      "definition": "The state of the evidence about one system at one time, as nine codes ordered from silence to a requested restart. Each code is defined only by what a responder can observe: whether an anomaly is recorded, whether the coverage of the monitors was measured, whether a change-detection threshold was crossed, whether propagation and its pathway were observed, whether the scope is bounded and containment verified, whether effects outside the organisation are confirmed, and whether containment is recorded and a restart requested. A record's state is the highest code whose entry condition its observations meet. The code says what was observed; it does not say what response is right, and it does not decide whether a restart is admitted. It is not crosswalk_evidence_states, which classes how a crosswalk filing supports a mapping (emitted, inferred, asserted, recomputed); evidence_state classes what is known about an incident. A code is cited as the term URI with the code as its fragment, for example https://w3id.org/agent-evidence/vocab/v1/evidence_state#ES1. Closed and fail-closed: an absent or unregistered value where a record requires one makes the statement malformed.",
       "section": "incident_response",
       "uri": "https://w3id.org/agent-evidence/vocab/v1/evidence_state",
       "value_definitions": {

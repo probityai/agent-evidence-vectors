@@ -2084,9 +2084,14 @@ incident_response:
       recorded and a restart requested. A record's state is the highest code
       whose entry condition its observations meet. The code says what was
       observed; it does not say what response is right, and it does not decide
-      whether a restart is admitted. Closed and fail-closed: an absent or
-      unregistered value where a record requires one makes the statement
-      malformed.
+      whether a restart is admitted. It is not crosswalk_evidence_states,
+      which classes how a crosswalk filing supports a mapping (emitted,
+      inferred, asserted, recomputed); evidence_state classes what is known
+      about an incident. A code is cited as the term URI with the code as its
+      fragment, for example
+      https://w3id.org/agent-evidence/vocab/v1/evidence_state#ES1. Closed and
+      fail-closed: an absent or unregistered value where a record requires one
+      makes the statement malformed.
     check: >
       A verifier derives the state from the record's own observations as the
       highest code whose entry condition holds and refuses a declared code
