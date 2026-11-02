@@ -34,7 +34,7 @@ def short(rule: str) -> str:
 def cell_text(cell: dict[str, Any]) -> str:
     if cell["outcome"] == "rejected":
         return "rejected " + ",".join(short(c) for c in cell["cited"])
-    return OUTCOME.get(cell["outcome"], cell["outcome"])
+    return str(OUTCOME.get(cell["outcome"], cell["outcome"]))
 
 
 def md(doc: dict[str, Any]) -> str:
