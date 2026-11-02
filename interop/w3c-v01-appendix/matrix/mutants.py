@@ -426,9 +426,13 @@ def _non_ascii(r: Report, leaf: Callable[[Any], bytes]) -> tuple[str, Report] | 
     cs = r.get("check-set")
     if not (isinstance(cs, dict) and cs.get("tree-shape") in ROOTS):
         return "no check-set under a known tree shape"
-    i = _first(r, lambda c: isinstance(c.get("check"), str))
+    # A check named nowhere else in the report (a control or a prior run lists
+    # identities), so renaming it changes the check and its leaf and nothing else.
+    text = json.dumps(r, ensure_ascii=False)
+    i = _first(r, lambda c: isinstance(c.get("check"), str)
+               and text.count(json.dumps(c["check"], ensure_ascii=False)) == 1)
     if i is None:
-        return "no check identity"
+        return "no check identity that the report names only once"
     out = _set(r, ["checks", i, "check"], r["checks"][i]["check"] + "-é")
     out["check-set"]["sha256"] = ROOTS[cs["tree-shape"]]([leaf(c) for c in out["checks"]])
     return f"checks[{i}].check, check-set.sha256", out

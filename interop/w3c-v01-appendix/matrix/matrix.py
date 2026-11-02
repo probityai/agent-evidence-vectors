@@ -401,8 +401,9 @@ def target_cited(reader: dict[str, Any], entry: dict[str, Any], cell: dict[str, 
 def controls(readers: list[dict[str, Any]], inputs: list[dict[str, Any]],
              cells: dict[str, dict[str, Any]]) -> dict[str, Any]:
     table: dict[str, Any] = {}
-    negative = [e for e in inputs if e.get("mutant") and "file" in e and e["target"] != M.POSITIVE]
-    positive = [e for e in inputs if e.get("mutant") and "file" in e and e["target"] == M.POSITIVE]
+    made = [e for e in inputs if e.get("mutant") and e["id"] in cells]
+    negative = [e for e in made if e["target"] != M.POSITIVE]
+    positive = [e for e in made if e["target"] == M.POSITIVE]
     for reader in readers:
         counts = {"mutants": len(negative), "rejected": 0, "conforms": 0, "cannot-tell": 0,
                   "cannot-read": 0, "not-run": 0, "target_cited": 0, "target_comparable": 0}
@@ -518,6 +519,7 @@ def cmd_check(args: argparse.Namespace) -> int:
 
 def cmd_adopt(args: argparse.Namespace) -> int:
     observed = json.loads(args.observed.read_text(encoding="utf-8"))
+    observed["controls"] = controls(observed["readers"], observed["inputs"], observed["cells"])
     MATRIX.write_text(json.dumps(observed, indent=1, ensure_ascii=True, sort_keys=True) + "\n",
                       encoding="utf-8")
     import render  # noqa: PLC0415

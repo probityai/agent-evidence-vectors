@@ -7,8 +7,6 @@ import sys
 from pathlib import Path
 from typing import Any
 
-import pytest
-
 HERE = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parent))
@@ -98,12 +96,10 @@ def test_numbered_rows_map_to_the_table() -> None:
     assert M.table_row("W3C-R-020") is None
 
 
-@pytest.mark.skipif(not render.MATRIX.is_file(), reason="matrix.json is written from a run")
 def test_generated_files_agree_with_matrix_json() -> None:
     assert render.stale() == []
 
 
-@pytest.mark.skipif(not render.MATRIX.is_file(), reason="matrix.json is written from a run")
 def test_controls_are_recounted_from_the_cells() -> None:
     sys.path.insert(0, str(HERE))
     import matrix  # noqa: PLC0415

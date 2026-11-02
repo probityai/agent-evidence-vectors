@@ -25,7 +25,7 @@ def short(rule: str) -> str:
     if rule in TABLE_ROW:
         return str(TABLE_ROW[rule])
     if rule.startswith("W3C-R-"):
-        return "R" + rule[6:].lstrip("0")
+        return "R-" + rule[6:]
     if rule.startswith("row "):
         return rule[4:]
     return rule
@@ -50,7 +50,7 @@ def md(doc: dict[str, Any]) -> str:
            "A cell is `conforms`, `rejected` with the rows the reader cited, `cannot tell` "
            "(a verdict the two spec-text readers can give) or `cannot read`. A numbered row of the "
            "v0.1 rejection table is written by its number (W3C-R-025 is 13, W3C-R-026 is 14); an "
-           "unnumbered rule as R and its identifier's number; `shape` is a report that is not "
+           "unnumbered rule as R- and its identifier's number (R-020); `shape` is a report that is not "
            "v0.1-shaped; `line N` is the spec line the Kroehl reader cites for an unnumbered rule; "
            "`U-N` is a 0039 label.", "",
            "## Rows of the results table", "",
@@ -140,7 +140,7 @@ def tex(doc: dict[str, Any]) -> str:
     out += [r"\hline", r"\end{tabular}",
             r"\caption{Each report rerun from its pins, read by each reader. C conforms; R rejected, "
             r"with the rows cited (a numbered row of the rejection table by its number, an unnumbered "
-            r"rule as R and its identifier's number); T cannot tell; N cannot read. R7 has no column: "
+            r"rule as R- and its identifier's number); T cannot tell; N cannot read. R7 has no column: "
             r"its packet is not a v0.1 report.}", r"\label{tab:w3c-matrix}", r"\end{table}", "",
             r"\begin{table}[t]", r"\centering", r"\scriptsize", r"\begin{tabular}{lrrrrrr}", r"\hline",
             r"Reader & Mutants & Rejected & Conforms & Cannot tell & Cannot read & Target cited \\", r"\hline"]
