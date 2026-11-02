@@ -241,7 +241,7 @@ def build(header: dict[str, str], rows: Rows, source: dict[str, str]) -> dict[st
     fixed = {"checker": header["checker"], "constraint-set": header["constraint_set"]}
     counts = {"declared": len(checks), "exercised": sum(c["state"] != "not-exercised" for c in checks)}
     counts.update({s: sum(c["state"] == s for c in checks) for s in w3creport.STATES})
-    rollup = dict(counts, carried=0, referenced=0)
+    rollup: dict[str, Any] = dict(counts, carried=0, referenced=0)
     rollup["negative-capable"] = negative_capable(checks, failed_controls, fixed)
     return {
         "format": w3creport.FORMAT,
