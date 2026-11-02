@@ -255,7 +255,7 @@ class BuildRefuses(unittest.TestCase):
             sorted(paths), ["CITATION.cff", "LICENSE", "release/x", "vectors/MANIFEST.json"]
         )
 
-    def test_corpora_under_corpora_are_selected_and_published_at_the_flat_dataset_path(self) -> None:
+    def test_corpora_under_corpora_are_published_at_the_flat_dataset_path(self) -> None:
         tree = {
             "LICENSE": ("100644", "a"),
             "CITATION.cff": ("100644", "b"),
