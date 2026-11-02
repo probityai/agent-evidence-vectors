@@ -55,6 +55,7 @@ RUNS_A_VERIFIER = (
     "vectors-uncertain-effect",
     "vectors-monitor-coverage",
     "vectors-evidence-state",
+    "vectors-incident-evidence-cell",
     "vectors-propagation-step",
     "vectors-agent-card-receipt",
     "vectors-credential-release",

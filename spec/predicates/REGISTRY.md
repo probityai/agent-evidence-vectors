@@ -40,12 +40,27 @@ carried bytes instead of accepting an asserted one.
 
 - Document: `corpora/vectors-evidence-state/README.md`
 - Corpus: `corpora/vectors-evidence-state/`, suite `evidence-state/v1`
-- Rails: `packaging/agent_evidence_vectors/evidencestate.py`
+- Rails: `corpusreaders/evidencestate.go`, `packaging/agent_evidence_vectors/evidencestate.py`
 
 The predicate carries one system's declared evidence state, a code of the vocabulary term
 `evidence_state` (`ES0` to `ES8`), beside the observations that ground it. The state is
 the highest code whose entry condition the observations meet; a declared code that
 differs is refused, and a silence is declared clean (`ES1`) only over measured coverage.
+
+### `predicate/v1/incident-evidence-cell`
+
+- Document: `corpora/vectors-incident-evidence-cell/README.md`
+- Corpus: `corpora/vectors-incident-evidence-cell/`, suite `incident-evidence-cell/v1`
+- Schema: `spec/schemas/incident-evidence-cell-v1.schema.json`
+- Rails: `corpusreaders/evidencecell.go`, `packaging/agent_evidence_vectors/evidencecell.py`
+
+The predicate carries one coded cell of an incident decision table inside an in-toto
+Statement v1 whose subjects are the source documents the cell was coded from. The cell
+names its table, row and column, an `evidence_state` code URI, a `response_function`
+value, a support label, and either the value it records or an empty marker; an empty
+cell is labelled `unknown`. The producer signs the Statement in a DSSE envelope with its
+own key, and the record's `doesNotAssert` says the signature shows who coded the cell,
+not that the cell is true.
 
 ### `predicate/v1/monitor-coverage`
 
