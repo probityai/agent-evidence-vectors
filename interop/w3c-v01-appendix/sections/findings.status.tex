@@ -1,0 +1,58 @@
+% What the runs turned up: one row per finding, each credited to whoever
+% posted it on public-agent-conformance. No interpretive prose: the narrative
+% is Guigui Wang's reader-side text (2026Oct/0148).
+% Drop-in for the CG's v0.1 paper; compiles on its own through build.py.
+\providecommand{\aevmsg}[2]{\href{https://lists.w3.org/Archives/Public/public-agent-conformance/2026#1/#2.html}{#1/#2}}
+\providecommand{\aevreadrelease}{0.31.1}
+
+\section{What the runs turned up}
+\label{sec:w3c-findings}
+
+{\footnotesize
+\begin{longtable}{@{}p{0.25\linewidth}p{0.08\linewidth}p{0.29\linewidth}p{0.24\linewidth}p{0.08\linewidth}@{}}
+\caption{Findings from running and rerunning the v0.1 reports and readers. Each is
+credited to whoever posted it, in the order of the message chain. The narrative
+of the first two is Guigui Wang's (\aevmsg{Oct}{0148}).}
+\label{tab:w3c-findings}\\
+\toprule
+Finding & Where & Who, message chain & What changed & Release \\
+\midrule
+\endfirsthead
+\toprule
+Finding & Where & Who, message chain & What changed & Release \\
+\midrule
+\endhead
+At v0.17.4 the Python reference reader wrote the integer \texttt{-0} as 0 and the Go reader as \texttt{-0} & R10 &
+Rouiada Abbas raised it, read in source (\aevmsg{Oct}{0026}); Lars Kersten Kroehl measured it (\aevmsg{Oct}{0038});
+Kenne Ives proposed the rule (\aevmsg{Oct}{0040}); Guigui Wang's third reading gave RFC 8785's answer, 0 (\aevmsg{Oct}{0046}) &
+Both readers write 0 & v0.18.0 (\aevmsg{Oct}{0079}) \\
+43 members rejected under W3C-R-016 at v0.17.4 on which the reader of \aevmsg{Oct}{0039} answered cannot-tell & R8, R9 &
+Rouiada Abbas (\aevmsg{Oct}{0039}); Nicol\'as Rocchia read section 2 as moved recomputed (\aevmsg{Oct}{0048});
+Lars Kersten Kroehl showed the reference reader checks the declared moved (\aevmsg{Oct}{0054});
+the 43rd member, vd4eb88d206b3abdd, Rouiada Abbas (\aevmsg{Oct}{0103}) and Nicol\'as Rocchia (\aevmsg{Oct}{0123}) &
+42 members moved to accept and one family re-cut; the section 10 selection went from 83 reject and 82 accept to 41 and 124 &
+v0.18.0 (\aevmsg{Oct}{0079}) \\
+Readers before v0.18 reject R4's three reports under W3C-R-020: they compute the check-set root over \texttt{json.dumps} with non-ASCII escaped & R4, R14 &
+Kenne Ives (\aevmsg{Oct}{0121}, \aevmsg{Oct}{0150}) &
+v0.18.1 accepts all three & v0.18 \\
+R3's run report was not v0.1-shaped: no format string, checks under \texttt{records}, no run-level domain & R3 &
+Michael Blake found it with the v0.18.1 reader; Anton Sokolov re-encoded the same run (\aevmsg{Nov}{0000}) &
+\texttt{run-report-v01.json} (sha256 0e608637\ldots), which the v0.18.1 reader reads as conforms (\aevmsg{Nov}{0001}) & none \\
+The 92-of-96 comparison depends on which four judged members are left out: w3c-f-29 (inferred) or w3c-f-22 & R8 &
+Michael Blake repeated the comparison, inferred the rule and asked (\aevmsg{Oct}{0188}); Rouiada Abbas named the written rule of \aevmsg{Oct}{0022} and the four w3c-f-22 members (\aevmsg{Nov}{0002}) &
+None to the figures: either exclusion gives 92 of 96, and 23, 2 and 44 of 69 & none \\
+The harness tally (272 of 272) and the report's roll-up (239 fail, 31 pass, 2 inconclusive) count different things & R1 &
+Prasanna Bableshwar raised it (\aevmsg{Oct}{0170}); Nicol\'as Rocchia settled it (\aevmsg{Oct}{0171}) &
+R1 reads the roll-up & none \\
+\texttt{run.json} labelled all three R4 runs independent & R4 &
+Nicol\'as Rocchia found it (\aevmsg{Oct}{0101}); Kenne Ives fixed it (\aevmsg{Nov}{0003}) &
+A rerun of the native verifier by someone else is labelled a reproduction & AgentAvow a88394f \\
+R9's checker line names the Rust reader before v0.18.0, where it does not yet exist & R9 &
+the appendix's rerun of R9 at v0.17.4, offered to Roel Schuurkes as a correction to the row &
+Python and Go readers at v0.17.4; all three from v0.18.0 & none \\
+The \texttt{python -c} command of \aevmsg{Nov}{0000}, which parses with \texttt{json.load}, raises \texttt{TypeError} on 8 corpus members carrying numbers the digest rule refuses or must compare & corpus &
+the appendix's author, measured over \texttt{vectors-w3c-report} at 4cb988e8 &
+\texttt{--read-w3c-report} parses with the reader's own loader and gives each of the 8 its expected verdict: 6 rejected under W3C-R-020, 2 accepted & \aevreadrelease \\
+\bottomrule
+\end{longtable}
+}
