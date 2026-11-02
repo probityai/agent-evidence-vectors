@@ -413,11 +413,17 @@ def row_r6_rust(w: Path, log: Path, src: Path, commit: str, rust: dict[str, Any]
                 "--", "--test-threads=1"], src, log,
                env={"CARGO_TARGET_DIR": str(w / f"target-{commit[:8]}"), "CARGO_TERM_COLOR": "never"},
                stdout=out, merge=True)
-    summary = cargo_test_summary(out.read_text(encoding="utf-8", errors="replace"))
+    text = out.read_text(encoding="utf-8", errors="replace")
+    summary = cargo_test_summary(text)
     ok = (code == 0 and summary["tests"] == rust["tests"] and summary["outcomes"] == ["ok"]
           and summary["passed"] == len(rust["tests"]) and not summary["failed"]
           and not summary["ignored"] and summary["result_lines"] == 1)
-    return {"toolchain": channel, "rustc": version, "exit": code, "summary": summary, "ok": ok}
+    result: dict[str, Any] = {"toolchain": channel, "rustc": version, "exit": code, "summary": summary,
+                              "ok": ok}
+    if not ok:
+        # The work directory is not uploaded, so a failed build keeps cargo's last lines here.
+        result["output_tail"] = text.splitlines()[-60:]
+    return result
 
 
 def row_r6(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
