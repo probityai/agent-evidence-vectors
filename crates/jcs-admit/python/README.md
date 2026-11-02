@@ -6,7 +6,7 @@ admits a JSON document on its raw bytes and returns its RFC 8785 canonical form,
 threshold over distinct keys.
 
 ```sh
-pip install jcs-admit==0.1.0
+pip install jcs-admit==0.1.1
 ```
 
 ```python
