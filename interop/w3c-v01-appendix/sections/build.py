@@ -109,7 +109,7 @@ def _inline(t: str) -> str:
     t = _macro(t, "href", 2, lambda u, s: f"{s} <{u}>")
     for name in ("url", "nolinkurl", "texttt", "emph", "textit", "textbf", "path"):
         t = _macro(t, name, 1, lambda s: s)
-    t = t.replace("\\aevreadrelease{}", "0.31.1").replace("\\aevreadrelease", "0.31.1")
+    t = t.replace("\\aevreadrelease{}", "0.31.2").replace("\\aevreadrelease", "0.31.2")
     t = t.replace("\\ldots", "...").replace("\\'a", "a").replace("\\'e", "e")
     t = t.replace("``", '"').replace("''", '"')
     t = re.sub(r"\\([%&_#$])", r"\1", t).replace("~", " ").replace("\\textbackslash{}", "\\")

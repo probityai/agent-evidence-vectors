@@ -2,7 +2,7 @@ ROWS AND THEIR VERIFICATION
 
 Each row starts with its result line as posted, credited to whoever posted it: the owner's final line where one has been sent (Nov/0001 asks for them by 4 November), otherwise the line in Roel Schuurkes's table (Oct/0162). The second sentence is the appendix's verification cell. Where the appendix adds something, it is offered to the row's owner to take or leave.
 
-- R1 (Sankalp Gilda). "Reference emitter: 272 records, 239 fail, 31 pass, 2 inconclusive; the roll-up reads negative-capable shown-by-run" (Oct/0162). Verification: uvx agent-evidence-vectors==0.12.0 --emit-w3c-report report.json gives the posted bytes, and uvx agent-evidence-vectors==0.31.1 --read-w3c-report report.json prints conforms.
+- R1 (Sankalp Gilda). "Reference emitter: 272 records, 239 fail, 31 pass, 2 inconclusive; the roll-up reads negative-capable shown-by-run" (Oct/0162). Verification: uvx agent-evidence-vectors==0.12.0 --emit-w3c-report report.json gives the posted bytes, and uvx agent-evidence-vectors==0.31.2 --read-w3c-report report.json prints conforms.
 
 - R2 (Nicolas Rocchia). "disensor: three reports, 72, 168 and 750 checks, all pass; 5.4 control, 61 fixture records (proposed 5.5 records)" (Oct/0162). Verification: python rerun.py R2; all three reports conform under every reader in the matrix. Offered: the three reports' single-field copies under every reader.
 
