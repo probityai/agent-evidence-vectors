@@ -11,6 +11,8 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 spec = importlib.util.spec_from_file_location("removed_paths_gate", HERE / "removed-paths-gate.py")
+if spec is None or spec.loader is None:
+    raise SystemExit("cannot load scripts/removed-paths-gate.py")
 gate = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(gate)
 
