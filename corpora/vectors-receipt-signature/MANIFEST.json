@@ -137,6 +137,8 @@
     "key_outside_validity_window": "issued_at is before the key's valid_from or at or after its valid_until",
     "signature_in_signing_input": "the canonicalized object carries a signature member (Section 6.6)",
     "chain_link_mismatch": "previousReceiptHash is not \"sha256:\" and the hex of SHA-256(JCS(r)), where r is the receipt before it in the chain presented (Section 6.7)",
+    "malformed_chain_link": "previousReceiptHash is present and is not \"sha256:\" followed by 64 lowercase hex digits (Section 6.7), whether or not the receipt before it is presented",
+    "window_not_applicable": "the key's validity window cannot be applied: issued_at, or a bound of the window, is not an RFC 3339 date-time that writes its UTC offset out",
     "key_revoked": "issued_at is at or after the key's revoked_at (RS-G-001, proposed)",
     "issued_at_precedes_excluding_commitment": "issued_at is before the time a commitment that excludes the receipt's chain position was recorded (RS-G-002, proposed)"
   },
@@ -261,15 +263,33 @@
       "gaps": [
         "RS-G-002"
       ]
+    },
+    "rs-c-10": {
+      "requires": "A previousReceiptHash that is not \"sha256:\" and 64 lowercase hex digits is refused, whether or not the receipt before it is presented. A signature that verifies does not make the link well formed.",
+      "requirements": [
+        "RS-R-006"
+      ]
+    },
+    "rs-c-11": {
+      "requires": "The link covers the whole signed receipt before it, signature included. A link over that receipt's payload alone names a different preimage and is refused at its chain position, even though it is a well formed digest.",
+      "requirements": [
+        "RS-R-006"
+      ]
+    },
+    "rs-c-12": {
+      "requires": "A receipt whose issued_at carries no time-zone designator cannot be placed against a key's validity window. A verifier that applies the window answers undecidable; it does not read the time in its own zone, because the verdict would then depend on the machine that ran it.",
+      "requirements": [
+        "RS-R-002"
+      ]
     }
   },
   "counts": {
-    "accept": 12,
+    "accept": 13,
     "gap": 2,
-    "indeterminate": 3,
-    "reject": 8
+    "indeterminate": 4,
+    "reject": 10
   },
-  "corpusDigest": "cb490284f25c5eebc0a91c7776e6f195ae571c4f7dce029ae437128fce03a6ae",
+  "corpusDigest": "54c2d588c2bcb52c2056f5d6faab6c48d059517301e87c84c4115e866d88e330",
   "vectors": [
     {
       "id": "v0142580fad54af78",
@@ -405,6 +425,25 @@
       "cites": "issued inside the key's window and before its revoked_at. Every verifier accepts it."
     },
     {
+      "id": "v390b5e86d1184069",
+      "kind": "accept",
+      "file": "receipts/v390b5e86d1184069.json",
+      "conditions": [
+        "rs-c-12"
+      ],
+      "keyId": "sb:issuer:6XRv8ZfPuxt1",
+      "expected": {
+        "verdict": "valid",
+        "code": null
+      },
+      "expectedWithoutWindows": {
+        "verdict": "valid",
+        "code": null
+      },
+      "signedInputHex": "7b226465636973696f6e223a22616c6c6f77222c226973737565645f6174223a22323032362d30362d30315430313a30303a30302b30323a3030222c226973737565725f6964223a2273623a6973737565723a36585276385a665075787431222c22706f6c6963795f646967657374223a227368613235363a38636139326637646661616636663466656538386633383932636437313232616234383931326330663936363666373064663739623239373336323762383838222c22746f6f6c5f6e616d65223a227061796d656e74732e7472616e73666572222c2274797065223a2270726f746563746d63703a6465636973696f6e227d",
+      "cites": "the twin of the member above: the same digits with the designator +02:00 written out, which is 2026-05-31T23:00:00Z, inside key A's window."
+    },
+    {
       "id": "v3bb98f09b3068de5",
       "kind": "reject",
       "file": "receipts/v3bb98f09b3068de5.json",
@@ -422,6 +461,29 @@
       },
       "signedInputHex": "7b226465636973696f6e223a22616c6c6f77222c226973737565645f6174223a22323032362d30372d31355431323a30303a30305a222c226973737565725f6964223a22746573743a7369676e696e672d696e7075743a65643235353139222c22706f6c6963795f646967657374223a227368613235363a38636139326637646661616636663466656538386633383932636437313232616234383931326330663936363666373064663739623239373336323762383838222c227369676e6174757265223a226e6f7420746865207369676e6174757265222c22746f6f6c5f6e616d65223a227265636f7264732e7368617265222c2274797065223a2270726f746563746d63703a6465636973696f6e227d",
       "cites": "the payload carries a signature member holding a string: any value is refused."
+    },
+    {
+      "id": "v429ea40212de7b5d",
+      "kind": "indeterminate",
+      "file": "receipts/v429ea40212de7b5d.json",
+      "conditions": [
+        "rs-c-12"
+      ],
+      "keyId": "sb:issuer:6XRv8ZfPuxt1",
+      "expected": {
+        "verdict": "undecidable",
+        "code": "window_not_applicable"
+      },
+      "expectedWithoutWindows": {
+        "verdict": "valid",
+        "code": null
+      },
+      "expectedIfNotHonoured": {
+        "verdict": "valid",
+        "code": null
+      },
+      "signedInputHex": "7b226465636973696f6e223a22616c6c6f77222c226973737565645f6174223a22323032362d30362d30315430313a30303a3030222c226973737565725f6964223a2273623a6973737565723a36585276385a665075787431222c22706f6c6963795f646967657374223a227368613235363a38636139326637646661616636663466656538386633383932636437313232616234383931326330663936363666373064663739623239373336323762383838222c22746f6f6c5f6e616d65223a227061796d656e74732e7472616e73666572222c2274797065223a2270726f746563746d63703a6465636973696f6e227d",
+      "cites": "issued_at \"2026-06-01T01:00:00\" has no time-zone designator, which Section 2.2 requires, and key A's window ends at 2026-06-01T00:00:00Z. Read as UTC it is outside the window; read in a zone two hours ahead of UTC it is inside. A verifier that picks its own zone answers invalid or valid by where it runs. Honouring Section 9.2 here is undecidable."
     },
     {
       "id": "v4ec9fa36ae77ce07",
@@ -550,7 +612,8 @@
       "kind": "accept",
       "file": "receipts/v814de39bf68212fc.json",
       "conditions": [
-        "rs-c-9"
+        "rs-c-9",
+        "rs-c-10"
       ],
       "keyId": "test:chained:ed25519",
       "expected": {
@@ -563,6 +626,30 @@
       },
       "signedInputHex": "7b226465636973696f6e223a22616c6c6f77222c226973737565645f6174223a22323032362d30322d31355430303a30303a30305a222c226973737565725f6964223a22746573743a636861696e65643a65643235353139222c22706f6c6963795f646967657374223a227368613235363a38636139326637646661616636663466656538386633383932636437313232616234383931326330663936363666373064663739623239373336323762383838222c2270726576696f75735265636569707448617368223a227368613235363a36633162313966353661666463336531663236303062663439383439333737393165366638373538613166383561363332393532323335653562396461643134222c22746f6f6c5f6e616d65223a227061796d656e74732e7472616e73666572222c2274797065223a2270726f746563746d63703a6465636973696f6e227d",
       "cites": "the receipt alone. Its signature verifies, and its issued_at is the signer's word with nothing bounding it."
+    },
+    {
+      "id": "v967bcffede491026",
+      "kind": "reject",
+      "file": "receipts/v7864e47cab65b18a.json",
+      "context": {
+        "chain": [
+          "receipts/v0142580fad54af78.json"
+        ]
+      },
+      "conditions": [
+        "rs-c-11"
+      ],
+      "keyId": "test:chained:ed25519",
+      "expected": {
+        "verdict": "invalid",
+        "code": "chain_link_mismatch"
+      },
+      "expectedWithoutWindows": {
+        "verdict": "invalid",
+        "code": "chain_link_mismatch"
+      },
+      "signedInputHex": "7b226465636973696f6e223a22616c6c6f77222c226973737565645f6174223a22323032362d30322d31355430303a30303a30305a222c226973737565725f6964223a22746573743a636861696e65643a65643235353139222c22706f6c6963795f646967657374223a227368613235363a38636139326637646661616636663466656538386633383932636437313232616234383931326330663936363666373064663739623239373336323762383838222c2270726576696f75735265636569707448617368223a227368613235363a36356265623330363461373661303036373865313433616263363634323830386330313236323330326535323765623139326238336335393565663936396364222c22746f6f6c5f6e616d65223a227061796d656e74732e7472616e73666572222c2274797065223a2270726f746563746d63703a6465636973696f6e227d",
+      "cites": "chain position 2 after the genesis receipt, with a link that is \"sha256:\" and the hex of SHA-256(JCS(payload)) of that receipt: a well formed digest of the wrong preimage. The twin is the timeliness receipt at position 2, whose link covers the whole receipt."
     },
     {
       "id": "v9f2a63a5186a2fa8",
@@ -620,7 +707,8 @@
         ]
       },
       "conditions": [
-        "rs-c-8"
+        "rs-c-8",
+        "rs-c-11"
       ],
       "keyId": "test:chained:ed25519",
       "expected": {
@@ -671,6 +759,25 @@
       },
       "signedInputHex": "7b226465636973696f6e223a22616c6c6f77222c226973737565645f6174223a22323032362d30312d30315430303a30303a30305a222c226973737565725f6964223a2273623a6973737565723a36585276385a665075787431222c22706f6c6963795f646967657374223a227368613235363a38636139326637646661616636663466656538386633383932636437313232616234383931326330663936363666373064663739623239373336323762383838222c22746f6f6c5f6e616d65223a227061796d656e74732e7472616e73666572222c2274797065223a2270726f746563746d63703a6465636973696f6e227d",
       "cites": "issued_at exactly at key A's valid_from, the start of the window, which is inside it as with nbf in RFC 7519 Section 4.1.5."
+    },
+    {
+      "id": "vb27b15aa51e9da9b",
+      "kind": "reject",
+      "file": "receipts/vb27b15aa51e9da9b.json",
+      "conditions": [
+        "rs-c-10"
+      ],
+      "keyId": "test:chained:ed25519",
+      "expected": {
+        "verdict": "invalid",
+        "code": "malformed_chain_link"
+      },
+      "expectedWithoutWindows": {
+        "verdict": "invalid",
+        "code": "malformed_chain_link"
+      },
+      "signedInputHex": "7b226465636973696f6e223a22616c6c6f77222c226973737565645f6174223a22323032362d30322d31355430303a30303a30305a222c226973737565725f6964223a22746573743a636861696e65643a65643235353139222c22706f6c6963795f646967657374223a227368613235363a38636139326637646661616636663466656538386633383932636437313232616234383931326330663936363666373064663739623239373336323762383838222c2270726576696f75735265636569707448617368223a227368613235363a6e6f742d612d646967657374222c22746f6f6c5f6e616d65223a227061796d656e74732e7472616e73666572222c2274797065223a2270726f746563746d63703a6465636973696f6e227d",
+      "cites": "the receipt alone, with previousReceiptHash \"sha256:not-a-digest\". The signature verifies over JCS(payload), and nothing but the link's form refuses it. The twin is the timeliness receipt alone, which differs in carrying a well formed link."
     },
     {
       "id": "vbc25ef71da0567f9",

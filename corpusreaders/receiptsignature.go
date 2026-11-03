@@ -547,8 +547,8 @@ func rsCheckIndeterminate(v rsVector, levels map[string]bool) []string {
 	if v.ExpectedIfNotHonoured == nil {
 		return append(findings, "is an indeterminate member with no expectedIfNotHonoured")
 	}
-	if v.Expected.Verdict != rsInvalid || v.ExpectedIfNotHonoured.Verdict != rsValid {
-		findings = append(findings, "is an indeterminate member whose two outcomes are not invalid when honoured and valid when not")
+	if (v.Expected.Verdict != rsInvalid && v.Expected.Verdict != rsUndecidable) || v.ExpectedIfNotHonoured.Verdict != rsValid {
+		findings = append(findings, "is an indeterminate member whose two outcomes are not invalid or undecidable when honoured and valid when not")
 	}
 	if v.ExpectedWithoutWindows.Verdict != rsValid {
 		findings = append(findings, "is an indeterminate member expected invalid without the windows, which no rule it cites decides")
@@ -785,11 +785,38 @@ func rsVerify(body []byte, keys map[string]rsJWK, gapClosed bool) rsOutcome {
 	if !ed25519.Verify(pub, canonical, env.sig) {
 		return rsResult(rsInvalid, "signature_invalid")
 	}
+	if out := rsLinkSyntax(env); out != nil {
+		return *out
+	}
 	window := rsWindow(env, key)
 	if window.Verdict != rsValid || !gapClosed {
 		return window
 	}
 	return rsRevocation(env, key)
+}
+
+// rsLinkForm is the previousReceiptHash of Section 6.7: "sha256:" and 64
+// lowercase hex digits. The bare digest of earlier revisions may be accepted.
+var (
+	rsLinkForm     = regexp.MustCompile(`^sha256:[0-9a-f]{64}$`)
+	rsBareLinkForm = regexp.MustCompile(`^[0-9a-f]{64}$`)
+)
+
+// rsLinkSyntax refuses a previousReceiptHash that is not a string of one of
+// those two forms. It reads the member alone, so it holds with no predecessor
+// presented. A null member is left to the chain check. This reader does not
+// separate a prefix naming another algorithm from a malformed value.
+func rsLinkSyntax(env *rsEnvelope) *rsOutcome {
+	raw, present := env.fields["previousReceiptHash"]
+	if !present || string(raw) == "null" {
+		return nil
+	}
+	var value string
+	if err := json.Unmarshal(raw, &value); err != nil || (!rsLinkForm.MatchString(value) && !rsBareLinkForm.MatchString(value)) {
+		out := rsResult(rsInvalid, "malformed_chain_link")
+		return &out
+	}
+	return nil
 }
 
 // rsRevocation is the closing rule of RS-G-001: a receipt issued at or after its
@@ -949,6 +976,9 @@ func rsPrecheck(env *rsEnvelope) *rsOutcome {
 // rsWindow applies the key's validity window: valid_from included, valid_until
 // excluded. A key with no window leaves the receipt valid.
 func rsWindow(env *rsEnvelope, key rsJWK) rsOutcome {
+	if key.ValidFrom == nil && key.ValidUntil == nil {
+		return rsOutcome{Verdict: rsValid}
+	}
 	at, ok := rsInstant(env.fields["issued_at"])
 	if !ok {
 		return rsResult(rsUndecidable, "window_not_applicable")

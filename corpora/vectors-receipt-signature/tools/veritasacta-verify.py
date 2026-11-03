@@ -7,7 +7,8 @@ Runs `npx --yes @veritasacta/verify@<version> <receipt> --jwks <key set> --mode
 receipt --json` and answers as the contract in ../README.md requires: the same
 exit status (0 valid, 1 invalid, 2 undecidable), and one JSON line on stdout
 carrying the verdict and the code. The package's own codes pass through except
-`invalid_signature`, which is this corpus's `signature_invalid`.
+`invalid_signature` and `key_window_unverifiable`, which are this corpus's
+`signature_invalid` and `window_not_applicable`.
 
 When the contract hands a context (AEV_RECEIPT_CONTEXT) and the receipt is
 valid, the chain it names and the receipt are written as JSONL and given to the
@@ -30,7 +31,10 @@ from typing import Any
 
 DEFAULT_VERSION = "0.10.21"
 VERDICTS = {0: "valid", 1: "invalid", 2: "undecidable"}
-CODES = {"invalid_signature": "signature_invalid"}
+CODES = {
+    "invalid_signature": "signature_invalid",
+    "key_window_unverifiable": "window_not_applicable",
+}
 
 
 def answer(verdict: str, code: str | None) -> int:
