@@ -433,7 +433,7 @@ def test_the_rail_runs_over_a_shipped_corpus_and_the_dry_run_matches_it(capsys):
 
 
 def test_a_bundle_directory_goes_through_the_same_rail(capsys):
-    bundle = ROOT / "vectors-test-tampering"
+    bundle = ROOT / "corpora" / "vectors-test-tampering"
     code = runner.main(["push", "--vectors", str(bundle), "--run-timestamp", STAMP])
     out = capsys.readouterr().out
     assert code == 0, out

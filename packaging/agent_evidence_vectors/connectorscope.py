@@ -38,7 +38,7 @@ _HERE = Path(__file__).resolve().parent
 ROOT = (
     _HERE / "corpora" / "vectors-connector-scope"
     if (_HERE / "corpora").exists()
-    else _HERE.parents[1] / "vectors-connector-scope"
+    else _HERE.parents[1] / "corpora" / "vectors-connector-scope"
 )
 
 

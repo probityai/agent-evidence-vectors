@@ -112,8 +112,13 @@ def _staged_copy(tmp: Path) -> Path:
     ):
         (root / rel.parent).mkdir(parents=True, exist_ok=True)
         shutil.copy2(REPO_ROOT / rel, root / rel)
-    for manifest in sorted(REPO_ROOT.glob("vectors*/MANIFEST.json")):
-        target = root / manifest.parent.name / "MANIFEST.json"
+    for manifest in sorted(
+        [
+            *REPO_ROOT.glob("vectors*/MANIFEST.json"),
+            *REPO_ROOT.glob("corpora/vectors*/MANIFEST.json"),
+        ]
+    ):
+        target = root / manifest.relative_to(REPO_ROOT)
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(manifest, target)
     _repair_install_path(root)
@@ -281,9 +286,7 @@ def released_version(root: Path) -> str:
 
 def publication_mutation(pattern: str, replacement: str, phrase: str) -> Callable[[Path], str]:
     def mutate(root: Path) -> str:
-        _edit(
-            root, CITATION_REL, lambda text: _sub(pattern, replacement, text, flags=re.MULTILINE)
-        )
+        _edit(root, CITATION_REL, lambda text: _sub(pattern, replacement, text, flags=re.MULTILINE))
         return phrase
 
     return mutate
@@ -369,7 +372,7 @@ def case_unoffered_corpus(root: Path) -> str:
     _edit(
         root,
         FORM_REL,
-        lambda text: text.replace('        - "vectors-aci/"\n', "", 1),
+        lambda text: text.replace('        - "corpora/vectors-aci/"\n', "", 1),
     )
     return "does not offer it"
 
@@ -380,8 +383,8 @@ def case_phantom_option(root: Path) -> str:
         root,
         FORM_REL,
         lambda text: text.replace(
-            '        - "vectors-aci/"\n',
-            '        - "vectors-aci/"\n        - "vectors-withdrawn/"\n',
+            '        - "corpora/vectors-aci/"\n',
+            '        - "corpora/vectors-aci/"\n        - "vectors-withdrawn/"\n',
             1,
         ),
     )
@@ -404,9 +407,9 @@ def case_phantom_row(root: Path) -> str:
         root,
         PAGE_REL,
         lambda text: text.replace(
-            "| `vectors-aci/` |",
+            "| `corpora/vectors-aci/` |",
             "| `vectors-withdrawn/` | `withdrawn-conformance` | nothing that ships |\n"
-            "| `vectors-aci/` |",
+            "| `corpora/vectors-aci/` |",
             1,
         ),
     )
@@ -415,12 +418,12 @@ def case_phantom_row(root: Path) -> str:
 
 def case_suite_renamed(root: Path) -> str:
     """A corpus renames its suite and the table keeps the old name."""
-    manifest = root / "vectors-aci" / "MANIFEST.json"
+    manifest = root / "corpora" / "vectors-aci" / "MANIFEST.json"
     loaded = json.loads(manifest.read_text(encoding="utf-8"))
     loaded["suite"] = "aci-renamed"
     _edit(
         root,
-        Path("vectors-aci") / "MANIFEST.json",
+        Path("corpora/vectors-aci") / "MANIFEST.json",
         lambda _: json.dumps(loaded, indent=2),
     )
     return "tables it as"
@@ -658,17 +661,27 @@ def wrong_source_entry_point(root: Path) -> str:
 
 def stale_tag_check_command(root: Path) -> str:
     """The page tells a reader to confirm a tag the release does not carry."""
-    _edit(root, PAGE_REL, lambda text: _sub(
-        r"(python3 scripts/verify-release-tag\.py )v\S+", r"\g<1>v99.0.0", text))
+    _edit(
+        root,
+        PAGE_REL,
+        lambda text: _sub(r"(python3 scripts/verify-release-tag\.py )v\S+", r"\g<1>v99.0.0", text),
+    )
     return "the `verify-release-tag.py v99.0.0` command names v99.0.0"
 
 
 def tag_check_pin(flag: str) -> Callable[[Path], str]:
     """A tag check pinned to bytes the named tag does not hold, as a copied-forward pin is."""
+
     def mutate(root: Path) -> str:
-        _edit(root, PAGE_REL, lambda text: _sub(
-            TAG_CHECK, rf"\g<1> \\\n  {flag} {'0' * 40}", text, flags=re.MULTILINE))
+        _edit(
+            root,
+            PAGE_REL,
+            lambda text: _sub(
+                TAG_CHECK, rf"\g<1> \\\n  {flag} {'0' * 40}", text, flags=re.MULTILINE
+            ),
+        )
         return f"{flag} {'0' * 40}` names bytes"
+
     return mutate
 
 
@@ -773,8 +786,10 @@ CASES: tuple[tuple[str, Callable[[Path], str]], ...] = (
     ("both recipe copies retain a stale release pin", case_recipe_pin_stale),
     ("the tag check names a tag the release does not carry", stale_tag_check_command),
     ("the tag check pins a commit the tag does not hold", tag_check_pin("--expected-commit")),
-    ("the tag check pins a tag object the tag does not hold",
-     tag_check_pin("--expected-tag-object")),
+    (
+        "the tag check pins a tag object the tag does not hold",
+        tag_check_pin("--expected-tag-object"),
+    ),
 )
 
 
@@ -807,14 +822,22 @@ def tag_pin_control_failures() -> list[str]:
     with tempfile.TemporaryDirectory() as raw:
         root = _staged_copy(Path(raw))
         tag = _install_of(root)[1]
-        held = {flag: subprocess.check_output(
-            ["git", "-C", str(root), "rev-parse", ref], text=True).strip()
-            for flag, ref in (("--expected-commit", f"refs/tags/{tag}^{{commit}}"),
-                              ("--expected-tag-object", f"refs/tags/{tag}"))}
+        held = {
+            flag: subprocess.check_output(
+                ["git", "-C", str(root), "rev-parse", ref], text=True
+            ).strip()
+            for flag, ref in (
+                ("--expected-commit", f"refs/tags/{tag}^{{commit}}"),
+                ("--expected-tag-object", f"refs/tags/{tag}"),
+            )
+        }
         pins = "".join(f" \\\n  {flag} {sha}" for flag, sha in held.items())
         literal = pins.replace("\\", "\\\\")
-        _edit(root, PAGE_REL, lambda text: _sub(TAG_CHECK, rf"\g<1>{literal}", text,
-                                                 flags=re.MULTILINE))
+        _edit(
+            root,
+            PAGE_REL,
+            lambda text: _sub(TAG_CHECK, rf"\g<1>{literal}", text, flags=re.MULTILINE),
+        )
         code, output = _run_gate(root)
         if code != 0:
             return [f"the pinned tag-check control failed:\n{output}"]

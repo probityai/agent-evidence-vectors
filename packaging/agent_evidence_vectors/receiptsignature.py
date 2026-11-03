@@ -1,6 +1,6 @@
-"""Judge vectors-receipt-signature/, and run a named verifier over it.
+"""Judge corpora/vectors-receipt-signature/, and run a named verifier over it.
 
-Two jobs, in the words the Go reader in ``corpora/receiptsignature.go`` prints,
+Two jobs, in the words the Go reader in ``corpusreaders/receiptsignature.go`` prints,
 so the two rails can be diffed:
 
 ``judge``
@@ -992,7 +992,7 @@ def run_external(directory: str, cmd: list[str], report_path: str, rail_note: st
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="receiptsignature",
-        description="judge vectors-receipt-signature/, or run a named verifier over it",
+        description="judge corpora/vectors-receipt-signature/, or run a named verifier over it",
     )
     parser.add_argument("directory", help="a corpus directory carrying MANIFEST.json")
     parser.add_argument("--verifier", help="the verifier command, run through the contract")

@@ -409,9 +409,14 @@ def tracked_corpora(root: Path) -> dict[str, str]:
     )
     corpora: dict[str, str] = {}
     for rel in sorted(listed.stdout.split()):
-        if rel.count("/") != 1 or not rel.endswith("/MANIFEST.json"):
+        if not rel.endswith("/MANIFEST.json"):
             continue
-        directory = rel.split("/")[0]
+        parts = rel.split("/")
+        if len(parts) == 3 and parts[0] == "corpora":
+            parts = parts[1:]
+        if len(parts) != 2:
+            continue
+        directory = parts[0]
         if not (directory == "vectors" or directory.startswith("vectors-")):
             continue
         path = root / rel
@@ -441,7 +446,7 @@ def tabled_corpora(page: str) -> dict[str, str]:
         cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
         if len(cells) < 2:
             continue
-        directory = cells[0].strip("`").rstrip("/")
+        directory = cells[0].strip("`").rstrip("/").removeprefix("corpora/")
         suite = cells[1].strip("`")
         if directory == "vectors" or directory.startswith("vectors-"):
             if directory in rows:
@@ -464,7 +469,7 @@ def offered_corpora(form: str) -> set[str]:
     """
     offered = {
         match.group(1).rstrip("/")
-        for match in re.finditer(r'^\s*-\s*"(vectors[^"]*)"\s*$', form, re.MULTILINE)
+        for match in re.finditer(r'^\s*-\s*"(?:corpora/)?(vectors[^"]*)"\s*$', form, re.MULTILINE)
     }
     if not offered:
         raise GateError(

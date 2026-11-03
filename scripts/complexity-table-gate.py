@@ -95,7 +95,7 @@ PYPROJECT = REPO_ROOT / "pyproject.toml"
 # purely syntactic, so the second module needs no separate invocation. aeetest/
 # is included deliberately -- its files are not `_test.go`, so they are ordinary
 # compiled source, and `Build` sits at 17, one step below the threshold.
-GO_SCOPE = ("aee", "aeetest", "cmd", "corpora", "witnessattestor")
+GO_SCOPE = ("aee", "aeetest", "cmd", "corpusreaders", "witnessattestor")
 GO_THRESHOLD = 18
 
 # The three trees the CI ruff step lints, so the gate's scope and the linter's

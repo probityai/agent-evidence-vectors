@@ -6,16 +6,16 @@ on:
     branches: [main]
     paths:
       - 'interop/aae-verdict-binding-v1/**'
-      - 'vectors-observed-effect/check_vectors.py'
-      - 'vectors-observed-effect/gen_vectors.py'
+      - 'corpora/vectors-observed-effect/check_vectors.py'
+      - 'corpora/vectors-observed-effect/gen_vectors.py'
       - '.github/workflows/aae-verdict-binding.yml'
       - 'uv.lock'
   pull_request:
     branches: [main]
     paths:
       - 'interop/aae-verdict-binding-v1/**'
-      - 'vectors-observed-effect/check_vectors.py'
-      - 'vectors-observed-effect/gen_vectors.py'
+      - 'corpora/vectors-observed-effect/check_vectors.py'
+      - 'corpora/vectors-observed-effect/gen_vectors.py'
       - '.github/workflows/aae-verdict-binding.yml'
       - 'uv.lock'
 

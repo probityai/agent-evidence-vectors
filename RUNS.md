@@ -94,7 +94,7 @@ This corpus is the A2A Agent Card canonicalisation set,
 `conformance-vectors/a2a-jcs-v01` in
 [`a2aproject/a2a-tck`](https://github.com/a2aproject/a2a-tck), written by this
 repository's maintainer. It is carried here byte for byte as
-[`vectors-a2a-jcs-v01/`](vectors-a2a-jcs-v01/README.md), locked to the commit and
+[`corpora/vectors-a2a-jcs-v01/`](corpora/vectors-a2a-jcs-v01/README.md), locked to the commit and
 digest below, so it replays through the harness and the GitHub Action with
 `--corpus vectors-a2a-jcs-v01`. It has no suiteRevision; the row pins it by commit and
 corpus digest instead, and it is not a row of the ledger below, which counts AEE

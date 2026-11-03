@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Both readers of vectors-delegation-lifecycle/ derive the same outcome for every case.
+"""Both readers of corpora/vectors-delegation-lifecycle/ derive the same outcome for every case.
 
-``aee-verify <dir>`` judges the corpus through corpora/delegationlifecycle.go and
+``aee-verify <dir>`` judges the corpus through corpusreaders/delegationlifecycle.go and
 ``packaging/run_vectors.py --vectors <dir>`` through
 packaging/agent_evidence_vectors/delegationlifecycle.py. Three checks hold the two
 rails together.
@@ -37,7 +37,7 @@ from pathlib import Path
 from typing import Any
 
 REPO = Path(__file__).resolve().parent.parent
-CORPUS = "vectors-delegation-lifecycle"
+CORPUS = "corpora/vectors-delegation-lifecycle"
 DERIVED = re.compile(r"^FAIL (\S+): derived (\S+)/(\S+), the manifest declares ", re.M)
 UNDECLARED = {"decision": "accept", "reason": "undeclared"}
 

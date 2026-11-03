@@ -24,7 +24,7 @@ import pins
 
 HERE = Path(__file__).resolve().parent
 VECTORS = HERE / "fixtures" / "aae-v1.4.0"
-GENERATOR = bind.REPOSITORY / "vectors-observed-effect" / "gen_vectors.py"
+GENERATOR = bind.REPOSITORY / "corpora" / "vectors-observed-effect" / "gen_vectors.py"
 
 FULL = "CLAIMED_BY_BOUND_RECORD"
 

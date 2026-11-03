@@ -9,8 +9,12 @@ requires the same bytes.
 
 What the dataset holds, all taken from the tag and nothing from a branch:
 
-  * every file of every top-level directory named `vectors` or `vectors-*`
-    that has a MANIFEST.json directly inside it, at the same paths;
+  * every file of every corpus directory that has a MANIFEST.json directly inside
+    it: `vectors/` at the root of the tag, and `corpora/vectors-*` since the corpora
+    moved under `corpora/` (older tags keep them at the root). The dataset keeps
+    one flat layout, `vectors/` and `vectors-*/` at its top, so the paths the Hub
+    has always served, the rows of data/ and the names in the signed digest list
+    stay the same across releases;
   * `release/`, the maintainer-signed digest list with its timestamps;
   * `LICENSE` and `CITATION.cff`;
   * `data/cases.jsonl`, one row per manifest entry, and `data/corpora.jsonl`,
@@ -65,6 +69,7 @@ HF_RAW = "https://huggingface.co/datasets/"
 
 TAG_RE = re.compile(r"v\d+\.\d+\.\d+")
 CORPUS_DIR_RE = re.compile(r"vectors(-[^/]+)?")
+CORPORA_ROOT = "corpora"
 ROOT_FILES = ("LICENSE", "CITATION.cff")
 RELEASE_DIR = "release"
 DIGESTS = "release/CORPUS-DIGESTS.txt"
@@ -155,29 +160,58 @@ def read_blobs(repo: Path, blobs: list[str]) -> Iterator[bytes]:
 # ------------------------------------------------------------ file selection
 
 
-def corpus_dirs(paths: list[str]) -> list[str]:
-    """Top-level directories named vectors or vectors-* with a MANIFEST.json."""
-    present = set(paths)
-    tops = {p.split("/", 1)[0] for p in paths if "/" in p}
-    named = (t for t in tops if CORPUS_DIR_RE.fullmatch(t))
-    return sorted(t for t in named if f"{t}/{MANIFEST}" in present)
+def corpus_dirs(paths: list[str]) -> dict[str, str]:
+    """Corpus name -> repository directory, for each corpus with a MANIFEST.json.
+
+    A corpus is `vectors` or `vectors-*`, either at the root of the tree or under
+    `corpora/`. Its name is the directory's own name, which is how the signed
+    digest list and the dataset both spell it.
+    """
+    found: dict[str, str] = {}
+    for path in paths:
+        parts = path.split("/")
+        if parts[-1] != MANIFEST or len(parts) not in (2, 3):
+            continue
+        if len(parts) == 3 and parts[0] != CORPORA_ROOT:
+            continue
+        name = parts[-2]
+        if not CORPUS_DIR_RE.fullmatch(name):
+            continue
+        directory = "/".join(parts[:-1])
+        if name in found:
+            raise PublishError(f"corpus {name} is at both {found[name]} and {directory}")
+        found[name] = directory
+    return dict(sorted(found.items()))
+
+
+def dataset_path(path: str) -> str:
+    """Where a file of the tag sits in the dataset: `corpora/` is not part of it."""
+    parts = path.split("/")
+    if len(parts) > 2 and parts[0] == CORPORA_ROOT and CORPUS_DIR_RE.fullmatch(parts[1]):
+        return "/".join(parts[1:])
+    return path
 
 
 def select_files(tree: dict[str, tuple[str, str]]) -> tuple[list[str], list[str]]:
-    """The corpus directories and the paths the dataset takes, in publication order."""
-    corpora = corpus_dirs(list(tree))
-    prefixes = tuple(f"{c}/" for c in corpora) + (f"{RELEASE_DIR}/",)
+    """The corpus names and the repository paths the dataset takes, in publication order."""
+    directories = corpus_dirs(list(tree))
+    corpora = list(directories)
+    prefixes = tuple(f"{d}/" for d in directories.values()) + (f"{RELEASE_DIR}/",)
     picked = [p for p in tree if p.startswith(prefixes) or p in ROOT_FILES]
     missing = [f for f in ROOT_FILES if f not in tree]
     if missing:
         raise PublishError(f"the tag has no {', '.join(missing)}")
-    stray = [p for p in picked if p.split("/", 1)[0] not in {*corpora, RELEASE_DIR, *ROOT_FILES}]
+    allowed = {*corpora, RELEASE_DIR, *ROOT_FILES}
+    stray = [p for p in picked if dataset_path(p).split("/", 1)[0] not in allowed]
     if stray:
         raise PublishError(f"paths outside the release surface were selected: {stray[:3]}")
+    destinations = [dataset_path(p) for p in picked]
+    if len(set(destinations)) != len(destinations):
+        raise PublishError("two files of the tag map to one path in the dataset")
     for path in picked:
         if tree[path][0] not in REGULAR_MODES:
             raise PublishError(f"{path} has mode {tree[path][0]}; only regular files are published")
-    return corpora, sorted(picked, key=lambda p: tuple(p.split("/")))
+    return corpora, sorted(picked, key=lambda p: tuple(dataset_path(p).split("/")))
 
 
 def signed_digests(text: str) -> dict[str, str]:
@@ -437,9 +471,9 @@ def write_file(out: Path, rel: str, data: bytes) -> None:
 
 
 def materialize(repo: Path, tree: dict[str, tuple[str, str]], paths: list[str], out: Path) -> None:
-    """Write the selected blobs under `out`, byte for byte."""
+    """Write the selected blobs under `out` at their dataset paths, byte for byte."""
     for path, data in zip(paths, read_blobs(repo, [tree[p][1] for p in paths]), strict=True):
-        write_file(out, path, data)
+        write_file(out, dataset_path(path), data)
 
 
 def check_signed_list(out: Path, corpora: list[str]) -> None:

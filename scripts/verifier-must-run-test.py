@@ -313,7 +313,7 @@ REFERENCE_SCOPE_MUTANT = "    if False:\n        print(\n"
 
 def shipped_corpora() -> list[str]:
     return sorted(
-        d.name for d in REPO_ROOT.iterdir()
+        d.name for d in [*REPO_ROOT.iterdir(), *(REPO_ROOT / "corpora").iterdir()]
         if (d.name == "vectors" or d.name.startswith("vectors-"))
         and (d / "MANIFEST.json").is_file()
     )

@@ -1,0 +1,762 @@
+{
+  "about": "Each case is a JSON document as a producer writes it and, for each digest encoding, the bytes that encoding writes for it (hex) or the reason it refuses. Written by scripts/json-encoding-differential-test.py --write from the Python implementations, held to them by the same script, held to the Go encoders by corpusreaders/pyjson_table_test.go and corpusreaders/w3cjcs_test.go, and held to the Rust W3C reader by a unit test in readers/w3c-report-rs/src/json.rs. Never edit by hand.",
+  "columns": [
+    "cpython-ascii",
+    "cpython-raw",
+    "cpython-utf16",
+    "jcs-sha256",
+    "rfc8785"
+  ],
+  "cases": [
+    {
+      "name": "negative zero",
+      "doc": "{\"v\": -0}",
+      "cpython-ascii": {
+        "hex": "7b2276223a307d"
+      },
+      "cpython-raw": {
+        "hex": "7b2276223a307d"
+      },
+      "cpython-utf16": {
+        "hex": "7b2276223a307d"
+      },
+      "jcs-sha256": {
+        "hex": "7b2276223a307d"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a307d"
+      }
+    },
+    {
+      "name": "zero",
+      "doc": "{\"v\": 0}",
+      "cpython-ascii": {
+        "hex": "7b2276223a307d"
+      },
+      "cpython-raw": {
+        "hex": "7b2276223a307d"
+      },
+      "cpython-utf16": {
+        "hex": "7b2276223a307d"
+      },
+      "jcs-sha256": {
+        "hex": "7b2276223a307d"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a307d"
+      }
+    },
+    {
+      "name": "minus one",
+      "doc": "{\"v\": -1}",
+      "cpython-ascii": {
+        "hex": "7b2276223a2d317d"
+      },
+      "cpython-raw": {
+        "hex": "7b2276223a2d317d"
+      },
+      "cpython-utf16": {
+        "hex": "7b2276223a2d317d"
+      },
+      "jcs-sha256": {
+        "hex": "7b2276223a2d317d"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a2d317d"
+      }
+    },
+    {
+      "name": "2^53-2",
+      "doc": "{\"v\": 9007199254740990}",
+      "cpython-ascii": {
+        "hex": "7b2276223a393030373139393235343734303939307d"
+      },
+      "cpython-raw": {
+        "hex": "7b2276223a393030373139393235343734303939307d"
+      },
+      "cpython-utf16": {
+        "hex": "7b2276223a393030373139393235343734303939307d"
+      },
+      "jcs-sha256": {
+        "hex": "7b2276223a393030373139393235343734303939307d"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a393030373139393235343734303939307d"
+      }
+    },
+    {
+      "name": "2^53-1",
+      "doc": "{\"v\": 9007199254740991}",
+      "cpython-ascii": {
+        "hex": "7b2276223a393030373139393235343734303939317d"
+      },
+      "cpython-raw": {
+        "hex": "7b2276223a393030373139393235343734303939317d"
+      },
+      "cpython-utf16": {
+        "hex": "7b2276223a393030373139393235343734303939317d"
+      },
+      "jcs-sha256": {
+        "hex": "7b2276223a393030373139393235343734303939317d"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a393030373139393235343734303939317d"
+      }
+    },
+    {
+      "name": "2^53",
+      "doc": "{\"v\": 9007199254740992}",
+      "cpython-ascii": {
+        "hex": "7b2276223a393030373139393235343734303939327d"
+      },
+      "cpython-raw": {
+        "hex": "7b2276223a393030373139393235343734303939327d"
+      },
+      "cpython-utf16": {
+        "hex": "7b2276223a393030373139393235343734303939327d"
+      },
+      "jcs-sha256": {
+        "refused": "integer-outside-safe-range"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a393030373139393235343734303939327d"
+      }
+    },
+    {
+      "name": "2^53+1",
+      "doc": "{\"v\": 9007199254740993}",
+      "cpython-ascii": {
+        "hex": "7b2276223a393030373139393235343734303939337d"
+      },
+      "cpython-raw": {
+        "hex": "7b2276223a393030373139393235343734303939337d"
+      },
+      "cpython-utf16": {
+        "hex": "7b2276223a393030373139393235343734303939337d"
+      },
+      "jcs-sha256": {
+        "refused": "integer-outside-safe-range"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a393030373139393235343734303939327d"
+      }
+    },
+    {
+      "name": "-(2^53-2)",
+      "doc": "{\"v\": -9007199254740990}",
+      "cpython-ascii": {
+        "hex": "7b2276223a2d393030373139393235343734303939307d"
+      },
+      "cpython-raw": {
+        "hex": "7b2276223a2d393030373139393235343734303939307d"
+      },
+      "cpython-utf16": {
+        "hex": "7b2276223a2d393030373139393235343734303939307d"
+      },
+      "jcs-sha256": {
+        "hex": "7b2276223a2d393030373139393235343734303939307d"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a2d393030373139393235343734303939307d"
+      }
+    },
+    {
+      "name": "-(2^53-1)",
+      "doc": "{\"v\": -9007199254740991}",
+      "cpython-ascii": {
+        "hex": "7b2276223a2d393030373139393235343734303939317d"
+      },
+      "cpython-raw": {
+        "hex": "7b2276223a2d393030373139393235343734303939317d"
+      },
+      "cpython-utf16": {
+        "hex": "7b2276223a2d393030373139393235343734303939317d"
+      },
+      "jcs-sha256": {
+        "hex": "7b2276223a2d393030373139393235343734303939317d"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a2d393030373139393235343734303939317d"
+      }
+    },
+    {
+      "name": "-2^53",
+      "doc": "{\"v\": -9007199254740992}",
+      "cpython-ascii": {
+        "hex": "7b2276223a2d393030373139393235343734303939327d"
+      },
+      "cpython-raw": {
+        "hex": "7b2276223a2d393030373139393235343734303939327d"
+      },
+      "cpython-utf16": {
+        "hex": "7b2276223a2d393030373139393235343734303939327d"
+      },
+      "jcs-sha256": {
+        "refused": "integer-outside-safe-range"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a2d393030373139393235343734303939327d"
+      }
+    },
+    {
+      "name": "-(2^53+1)",
+      "doc": "{\"v\": -9007199254740993}",
+      "cpython-ascii": {
+        "hex": "7b2276223a2d393030373139393235343734303939337d"
+      },
+      "cpython-raw": {
+        "hex": "7b2276223a2d393030373139393235343734303939337d"
+      },
+      "cpython-utf16": {
+        "hex": "7b2276223a2d393030373139393235343734303939337d"
+      },
+      "jcs-sha256": {
+        "refused": "integer-outside-safe-range"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a2d393030373139393235343734303939327d"
+      }
+    },
+    {
+      "name": "1e21 in digits",
+      "doc": "{\"v\": 1000000000000000000000}",
+      "cpython-ascii": {
+        "hex": "7b2276223a313030303030303030303030303030303030303030307d"
+      },
+      "cpython-raw": {
+        "hex": "7b2276223a313030303030303030303030303030303030303030307d"
+      },
+      "cpython-utf16": {
+        "hex": "7b2276223a313030303030303030303030303030303030303030307d"
+      },
+      "jcs-sha256": {
+        "refused": "integer-outside-safe-range"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a31652b32317d"
+      }
+    },
+    {
+      "name": "1e21 in digits plus one",
+      "doc": "{\"v\": 1000000000000000000001}",
+      "cpython-ascii": {
+        "hex": "7b2276223a313030303030303030303030303030303030303030317d"
+      },
+      "cpython-raw": {
+        "hex": "7b2276223a313030303030303030303030303030303030303030317d"
+      },
+      "cpython-utf16": {
+        "hex": "7b2276223a313030303030303030303030303030303030303030317d"
+      },
+      "jcs-sha256": {
+        "refused": "integer-outside-safe-range"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a31652b32317d"
+      }
+    },
+    {
+      "name": "1e21 as an exponent",
+      "doc": "{\"v\": 1e21}",
+      "cpython-ascii": {
+        "refused": "float"
+      },
+      "cpython-raw": {
+        "refused": "float"
+      },
+      "cpython-utf16": {
+        "refused": "float"
+      },
+      "jcs-sha256": {
+        "refused": "integer-outside-safe-range"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a31652b32317d"
+      }
+    },
+    {
+      "name": "1e+21 as an exponent",
+      "doc": "{\"v\": 1e+21}",
+      "cpython-ascii": {
+        "refused": "float"
+      },
+      "cpython-raw": {
+        "refused": "float"
+      },
+      "cpython-utf16": {
+        "refused": "float"
+      },
+      "jcs-sha256": {
+        "refused": "integer-outside-safe-range"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a31652b32317d"
+      }
+    },
+    {
+      "name": "one with a fraction",
+      "doc": "{\"v\": 1.0}",
+      "cpython-ascii": {
+        "refused": "float"
+      },
+      "cpython-raw": {
+        "refused": "float"
+      },
+      "cpython-utf16": {
+        "refused": "float"
+      },
+      "jcs-sha256": {
+        "hex": "7b2276223a317d"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a317d"
+      }
+    },
+    {
+      "name": "one half",
+      "doc": "{\"v\": 0.5}",
+      "cpython-ascii": {
+        "refused": "float"
+      },
+      "cpython-raw": {
+        "refused": "float"
+      },
+      "cpython-utf16": {
+        "refused": "float"
+      },
+      "jcs-sha256": {
+        "refused": "non-integer-number"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a302e357d"
+      }
+    },
+    {
+      "name": "negative zero with a fraction",
+      "doc": "{\"v\": -0.0}",
+      "cpython-ascii": {
+        "refused": "float"
+      },
+      "cpython-raw": {
+        "refused": "float"
+      },
+      "cpython-utf16": {
+        "refused": "float"
+      },
+      "jcs-sha256": {
+        "hex": "7b2276223a307d"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a307d"
+      }
+    },
+    {
+      "name": "1e16 as an exponent",
+      "doc": "{\"v\": 1e16}",
+      "cpython-ascii": {
+        "refused": "float"
+      },
+      "cpython-raw": {
+        "refused": "float"
+      },
+      "cpython-utf16": {
+        "refused": "float"
+      },
+      "jcs-sha256": {
+        "refused": "integer-outside-safe-range"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a31303030303030303030303030303030307d"
+      }
+    },
+    {
+      "name": "1e2 as an exponent",
+      "doc": "{\"v\": 1e2}",
+      "cpython-ascii": {
+        "refused": "float"
+      },
+      "cpython-raw": {
+        "refused": "float"
+      },
+      "cpython-utf16": {
+        "refused": "float"
+      },
+      "jcs-sha256": {
+        "hex": "7b2276223a3130307d"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a3130307d"
+      }
+    },
+    {
+      "name": "1e-7",
+      "doc": "{\"v\": 1e-7}",
+      "cpython-ascii": {
+        "refused": "float"
+      },
+      "cpython-raw": {
+        "refused": "float"
+      },
+      "cpython-utf16": {
+        "refused": "float"
+      },
+      "jcs-sha256": {
+        "refused": "non-integer-number"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a31652d377d"
+      }
+    },
+    {
+      "name": "seventeen nines after the point",
+      "doc": "{\"v\": 0.99999999999999999}",
+      "cpython-ascii": {
+        "refused": "float"
+      },
+      "cpython-raw": {
+        "refused": "float"
+      },
+      "cpython-utf16": {
+        "refused": "float"
+      },
+      "jcs-sha256": {
+        "refused": "non-integer-number"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a317d"
+      }
+    },
+    {
+      "name": "1e400, past the largest double",
+      "doc": "{\"v\": 1e400}",
+      "cpython-ascii": {
+        "refused": "float"
+      },
+      "cpython-raw": {
+        "refused": "float"
+      },
+      "cpython-utf16": {
+        "refused": "float"
+      },
+      "jcs-sha256": {
+        "refused": "integer-outside-safe-range"
+      },
+      "rfc8785": {
+        "refused": "number-not-finite"
+      }
+    },
+    {
+      "name": "U+007F",
+      "doc": "{\"v\": \"\\u007f\"}",
+      "cpython-ascii": {
+        "hex": "7b2276223a225c7530303766227d"
+      },
+      "cpython-raw": {
+        "hex": "7b2276223a227f227d"
+      },
+      "cpython-utf16": {
+        "hex": "7b2276223a227f227d"
+      },
+      "jcs-sha256": {
+        "hex": "7b2276223a227f227d"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a227f227d"
+      }
+    },
+    {
+      "name": "U+001F",
+      "doc": "{\"v\": \"\\u001f\"}",
+      "cpython-ascii": {
+        "hex": "7b2276223a225c7530303166227d"
+      },
+      "cpython-raw": {
+        "hex": "7b2276223a225c7530303166227d"
+      },
+      "cpython-utf16": {
+        "hex": "7b2276223a225c7530303166227d"
+      },
+      "jcs-sha256": {
+        "hex": "7b2276223a225c7530303166227d"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a225c7530303166227d"
+      }
+    },
+    {
+      "name": "U+00E9",
+      "doc": "{\"v\": \"\\u00e9\"}",
+      "cpython-ascii": {
+        "hex": "7b2276223a225c7530306539227d"
+      },
+      "cpython-raw": {
+        "hex": "7b2276223a22c3a9227d"
+      },
+      "cpython-utf16": {
+        "hex": "7b2276223a22c3a9227d"
+      },
+      "jcs-sha256": {
+        "hex": "7b2276223a22c3a9227d"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a22c3a9227d"
+      }
+    },
+    {
+      "name": "U+20AC",
+      "doc": "{\"v\": \"\\u20ac\"}",
+      "cpython-ascii": {
+        "hex": "7b2276223a225c7532306163227d"
+      },
+      "cpython-raw": {
+        "hex": "7b2276223a22e282ac227d"
+      },
+      "cpython-utf16": {
+        "hex": "7b2276223a22e282ac227d"
+      },
+      "jcs-sha256": {
+        "hex": "7b2276223a22e282ac227d"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a22e282ac227d"
+      }
+    },
+    {
+      "name": "U+2028",
+      "doc": "{\"v\": \"\\u2028\"}",
+      "cpython-ascii": {
+        "hex": "7b2276223a225c7532303238227d"
+      },
+      "cpython-raw": {
+        "hex": "7b2276223a22e280a8227d"
+      },
+      "cpython-utf16": {
+        "hex": "7b2276223a22e280a8227d"
+      },
+      "jcs-sha256": {
+        "hex": "7b2276223a22e280a8227d"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a22e280a8227d"
+      }
+    },
+    {
+      "name": "U+1F600",
+      "doc": "{\"v\": \"\\ud83d\\ude00\"}",
+      "cpython-ascii": {
+        "hex": "7b2276223a225c75643833645c7564653030227d"
+      },
+      "cpython-raw": {
+        "hex": "7b2276223a22f09f9880227d"
+      },
+      "cpython-utf16": {
+        "hex": "7b2276223a22f09f9880227d"
+      },
+      "jcs-sha256": {
+        "hex": "7b2276223a22f09f9880227d"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a22f09f9880227d"
+      }
+    },
+    {
+      "name": "member names U+FB33 and U+1F600",
+      "doc": "{\"\\ufb33\": \"U+FB33\", \"\\ud83d\\ude00\": \"U+1F600\"}",
+      "cpython-ascii": {
+        "hex": "7b225c7566623333223a22552b46423333222c225c75643833645c7564653030223a22552b3146363030227d"
+      },
+      "cpython-raw": {
+        "hex": "7b22efacb3223a22552b46423333222c22f09f9880223a22552b3146363030227d"
+      },
+      "cpython-utf16": {
+        "hex": "7b22f09f9880223a22552b3146363030222c22efacb3223a22552b46423333227d"
+      },
+      "jcs-sha256": {
+        "hex": "7b22f09f9880223a22552b3146363030222c22efacb3223a22552b46423333227d"
+      },
+      "rfc8785": {
+        "hex": "7b22f09f9880223a22552b3146363030222c22efacb3223a22552b46423333227d"
+      }
+    },
+    {
+      "name": "member names U+E000 and U+10000",
+      "doc": "{\"\\ue000\": 1, \"\\ud800\\udc00\": 2}",
+      "cpython-ascii": {
+        "hex": "7b225c7565303030223a312c225c75643830305c7564633030223a327d"
+      },
+      "cpython-raw": {
+        "hex": "7b22ee8080223a312c22f0908080223a327d"
+      },
+      "cpython-utf16": {
+        "hex": "7b22f0908080223a322c22ee8080223a317d"
+      },
+      "jcs-sha256": {
+        "hex": "7b22f0908080223a322c22ee8080223a317d"
+      },
+      "rfc8785": {
+        "hex": "7b22f0908080223a322c22ee8080223a317d"
+      }
+    },
+    {
+      "name": "numeric strings",
+      "doc": "{\"a\": \"9007199254740993\", \"b\": \"1e+21\", \"c\": \"-0\", \"d\": \"0.5\"}",
+      "cpython-ascii": {
+        "hex": "7b2261223a2239303037313939323534373430393933222c2262223a2231652b3231222c2263223a222d30222c2264223a22302e35227d"
+      },
+      "cpython-raw": {
+        "hex": "7b2261223a2239303037313939323534373430393933222c2262223a2231652b3231222c2263223a222d30222c2264223a22302e35227d"
+      },
+      "cpython-utf16": {
+        "hex": "7b2261223a2239303037313939323534373430393933222c2262223a2231652b3231222c2263223a222d30222c2264223a22302e35227d"
+      },
+      "jcs-sha256": {
+        "hex": "7b2261223a2239303037313939323534373430393933222c2262223a2231652b3231222c2263223a222d30222c2264223a22302e35227d"
+      },
+      "rfc8785": {
+        "hex": "7b2261223a2239303037313939323534373430393933222c2262223a2231652b3231222c2263223a222d30222c2264223a22302e35227d"
+      }
+    },
+    {
+      "name": "escapes",
+      "doc": "{\"v\": \"quote \\\" backslash \\\\ newline \\n tab \\t\"}",
+      "cpython-ascii": {
+        "hex": "7b2276223a2271756f7465205c22206261636b736c617368205c5c206e65776c696e65205c6e20746162205c74227d"
+      },
+      "cpython-raw": {
+        "hex": "7b2276223a2271756f7465205c22206261636b736c617368205c5c206e65776c696e65205c6e20746162205c74227d"
+      },
+      "cpython-utf16": {
+        "hex": "7b2276223a2271756f7465205c22206261636b736c617368205c5c206e65776c696e65205c6e20746162205c74227d"
+      },
+      "jcs-sha256": {
+        "hex": "7b2276223a2271756f7465205c22206261636b736c617368205c5c206e65776c696e65205c6e20746162205c74227d"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a2271756f7465205c22206261636b736c617368205c5c206e65776c696e65205c6e20746162205c74227d"
+      }
+    },
+    {
+      "name": "characters Go escapes and CPython does not",
+      "doc": "{\"v\": \"<&>\"}",
+      "cpython-ascii": {
+        "hex": "7b2276223a223c263e227d"
+      },
+      "cpython-raw": {
+        "hex": "7b2276223a223c263e227d"
+      },
+      "cpython-utf16": {
+        "hex": "7b2276223a223c263e227d"
+      },
+      "jcs-sha256": {
+        "hex": "7b2276223a223c263e227d"
+      },
+      "rfc8785": {
+        "hex": "7b2276223a223c263e227d"
+      }
+    },
+    {
+      "name": "nesting and empty containers",
+      "doc": "{\"b\": [], \"a\": {\"d\": {}, \"c\": [null, true, false]}}",
+      "cpython-ascii": {
+        "hex": "7b2261223a7b2263223a5b6e756c6c2c747275652c66616c73655d2c2264223a7b7d7d2c2262223a5b5d7d"
+      },
+      "cpython-raw": {
+        "hex": "7b2261223a7b2263223a5b6e756c6c2c747275652c66616c73655d2c2264223a7b7d7d2c2262223a5b5d7d"
+      },
+      "cpython-utf16": {
+        "hex": "7b2261223a7b2263223a5b6e756c6c2c747275652c66616c73655d2c2264223a7b7d7d2c2262223a5b5d7d"
+      },
+      "jcs-sha256": {
+        "hex": "7b2261223a7b2263223a5b6e756c6c2c747275652c66616c73655d2c2264223a7b7d7d2c2262223a5b5d7d"
+      },
+      "rfc8785": {
+        "hex": "7b2261223a7b2263223a5b6e756c6c2c747275652c66616c73655d2c2264223a7b7d7d2c2262223a5b5d7d"
+      }
+    },
+    {
+      "name": "all five cases of 2026Oct/0031 in one object",
+      "doc": "{\"\\ufb33\": \"\\u20ac\", \"z\": 1000000000000000000000, \"\\ud83d\\ude00\": \"\\u007f\", \"a\": -0}",
+      "cpython-ascii": {
+        "hex": "7b2261223a302c227a223a313030303030303030303030303030303030303030302c225c7566623333223a225c7532306163222c225c75643833645c7564653030223a225c7530303766227d"
+      },
+      "cpython-raw": {
+        "hex": "7b2261223a302c227a223a313030303030303030303030303030303030303030302c22efacb3223a22e282ac222c22f09f9880223a227f227d"
+      },
+      "cpython-utf16": {
+        "hex": "7b2261223a302c227a223a313030303030303030303030303030303030303030302c22f09f9880223a227f222c22efacb3223a22e282ac227d"
+      },
+      "jcs-sha256": {
+        "refused": "integer-outside-safe-range"
+      },
+      "rfc8785": {
+        "hex": "7b2261223a302c227a223a31652b32312c22f09f9880223a227f222c22efacb3223a22e282ac227d"
+      }
+    }
+  ],
+  "number-truth": [
+    {
+      "token": "0",
+      "cpython-falsy": true
+    },
+    {
+      "token": "-0",
+      "cpython-falsy": true
+    },
+    {
+      "token": "0.0",
+      "cpython-falsy": true
+    },
+    {
+      "token": "-0.0",
+      "cpython-falsy": true
+    },
+    {
+      "token": "0e5",
+      "cpython-falsy": true
+    },
+    {
+      "token": "0E-5",
+      "cpython-falsy": true
+    },
+    {
+      "token": "1e-400",
+      "cpython-falsy": true
+    },
+    {
+      "token": "-1e-400",
+      "cpython-falsy": true
+    },
+    {
+      "token": "2e-324",
+      "cpython-falsy": true
+    },
+    {
+      "token": "5e-324",
+      "cpython-falsy": false
+    },
+    {
+      "token": "1",
+      "cpython-falsy": false
+    },
+    {
+      "token": "-1",
+      "cpython-falsy": false
+    },
+    {
+      "token": "0.5",
+      "cpython-falsy": false
+    },
+    {
+      "token": "1e400",
+      "cpython-falsy": false
+    },
+    {
+      "token": "-1e400",
+      "cpython-falsy": false
+    },
+    {
+      "token": "9007199254740993",
+      "cpython-falsy": false
+    }
+  ]
+}

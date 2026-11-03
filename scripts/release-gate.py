@@ -65,7 +65,7 @@ ED25519_SPKI_PREFIX = bytes.fromhex("302a300506032b6570")
 #: The release surface. A change to any of these between signing and tagging
 #: invalidates the signature, and each one is here because it is covered by the
 #: signature or is the thing that verifies it.
-RELEASE_SURFACE = ("release", "vectors", "vectors-ai-agent-action", ROOTS_REL)
+RELEASE_SURFACE = ("release", "vectors", "corpora/vectors-ai-agent-action", ROOTS_REL)
 
 
 def run(command: list[str], root: Path) -> subprocess.CompletedProcess[str]:

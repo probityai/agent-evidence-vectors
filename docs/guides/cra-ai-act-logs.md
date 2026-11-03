@@ -2,7 +2,7 @@
 
 The CRA and AI Act table in [orcwg/cra-hub#364](https://github.com/orcwg/cra-hub/pull/364) has a row, "Recording what the system did", where nobody can check the logs independently. AI Act Articles 19(1) and 21(2) both say "to the extent such logs are under their control", and neither asks the holder to show that control. A faithful log and a revised one reach the authority looking the same.
 
-This corpus gives that row a checker that runs today: [`vectors-anchored-chain`](../../vectors-anchored-chain/README.md).
+This corpus gives that row a checker that runs today: [`vectors-anchored-chain`](../../corpora/vectors-anchored-chain/README.md).
 
 ## What it checks
 
@@ -15,7 +15,7 @@ pip install agent-evidence-vectors
 agent-evidence-vectors --corpus vectors-anchored-chain
 ```
 
-To judge your own verifier: `python3 vectors-anchored-chain/check_vectors.py --verifier './verifier'`. CI runs the corpus on every push (`vectors-anchored-chain/tests`).
+To judge your own verifier: `python3 corpora/vectors-anchored-chain/check_vectors.py --verifier './verifier'`. CI runs the corpus on every push (`corpora/vectors-anchored-chain/tests`).
 
 ## What it does not check
 

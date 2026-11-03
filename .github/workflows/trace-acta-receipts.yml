@@ -7,7 +7,7 @@ on:
   push:
     branches: [main]
     paths:
-      - vectors-receipt-signature/**
+      - corpora/vectors-receipt-signature/**
       - packaging/**
       - interop/trace-acta-receipts/**
       - pyproject.toml
@@ -15,7 +15,7 @@ on:
       - .github/workflows/trace-acta-receipts.yml
   pull_request:
     paths:
-      - vectors-receipt-signature/**
+      - corpora/vectors-receipt-signature/**
       - packaging/**
       - interop/trace-acta-receipts/**
       - pyproject.toml

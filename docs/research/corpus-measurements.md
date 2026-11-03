@@ -26,7 +26,7 @@ unmeasurable.** The four outcomes retain their own meanings:
 | Unforced | The weakening survives the tested population |
 | Unmeasurable | This campaign cannot produce a usable measurement |
 
-Most of the unforced rows added with the admission conjunction in `aee/admission.go` are unforced by design: this corpus judges validity and the tier column, and [vectors-admission](../../vectors-admission/README.md) is the corpus that judges admission.
+Most of the unforced rows added with the admission conjunction in `aee/admission.go` are unforced by design: this corpus judges validity and the tier column, and [vectors-admission](../../corpora/vectors-admission/README.md) is the corpus that judges admission.
 
 The baseline annotates four sites as equivalent behavior (three) or masked by an earlier check (one). An annotated site that is ever killed fails the gate.
 
