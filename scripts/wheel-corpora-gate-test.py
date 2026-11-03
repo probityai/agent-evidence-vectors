@@ -35,9 +35,9 @@ FILES = {
     "vectors-alpha/MANIFEST.json": b'{"a":1}',
     "vectors-alpha/cases/c1.json": b'{"case":1}',
     "vectors-alpha/gen_vectors.py": b"print('generator')",
-    "vectors-ietf-demo/MANIFEST.json": b'{"i":1}',
-    "vectors-ietf-demo/cases/c1.json": b'{"case":2}',
-    "vectors-ietf-demo/upstream/u.json": b'{"u":1}',
+    "corpora/vectors-ietf-demo/MANIFEST.json": b'{"i":1}',
+    "corpora/vectors-ietf-demo/cases/c1.json": b'{"case":2}',
+    "corpora/vectors-ietf-demo/upstream/u.json": b'{"u":1}',
 }
 DIGEST_LINES = "".join(
     f"{'0' * 64}  {c}/MANIFEST.json  suite  vectors=1  no-suiteRevision\n" for c in CORPORA
@@ -60,7 +60,7 @@ def artifacts(root: Path, shipped: dict[str, bytes]) -> tuple[Path, Path]:
     with zipfile.ZipFile(wheel, "w") as z:
         for rel, data in shipped.items():
             if not rel.endswith(".py"):
-                z.writestr(gate.PREFIX + rel, data)
+                z.writestr(gate.PREFIX + gate.wheel_key(rel), data)
     with tarfile.open(sdist, "w:gz") as t:
         for rel, data in shipped.items():
             info = tarfile.TarInfo("pkg-1.0/" + rel)
@@ -74,12 +74,12 @@ def whole(shipped: dict[str, bytes]) -> None:
 
 
 def drop_corpus(shipped: dict[str, bytes]) -> None:
-    for rel in [r for r in shipped if r.startswith("vectors-ietf-demo/")]:
+    for rel in [r for r in shipped if r.startswith("corpora/vectors-ietf-demo/")]:
         del shipped[rel]
 
 
 def drop_one_file(shipped: dict[str, bytes]) -> None:
-    del shipped["vectors-ietf-demo/upstream/u.json"]
+    del shipped["corpora/vectors-ietf-demo/upstream/u.json"]
 
 
 def alter_a_byte(shipped: dict[str, bytes]) -> None:

@@ -21,7 +21,7 @@ inline_code_spans_are: verify_from_bytes
 | claim | status | locator |
 |---|---|---|
 | The rule quoted from his 2026-08-20 comment | `verified_fact`, direct | comment `5363036990`, `_raw/github/aos-catalog-issue-1-comments.json` |
-| "Hashes cover the full stored line including the trailing newline byte" | `verified_fact`, direct | ANCHORS_VERIFY.md at `anchors-verify-v0.4`, vendored at `vectors-anchor-stream/spec-vendored/anchors-verify-44c40ba.md`, sha256 `bf7245d229c20603205b4b81df5b0cd376e80b094aba48168ddb0c374b4f94ff` |
+| "Hashes cover the full stored line including the trailing newline byte" | `verified_fact`, direct | ANCHORS_VERIFY.md at `anchors-verify-v0.4`, vendored at `corpora/vectors-anchor-stream/spec-vendored/anchors-verify-44c40ba.md`, sha256 `bf7245d229c20603205b4b81df5b0cd376e80b094aba48168ddb0c374b4f94ff` |
 | "The bundled files come from the same tag as the verifier. You can reproduce without referencing main." | `verified_fact`, direct | same vendored file |
 | "If you have a construction for either, I will take it." | `verified_fact`, direct | comment `5276678379`, 2026-08-13 |
 | The documented command exits 1 on all 7 published tags | `verified_fact`, direct | run 2026-09-09 against `anchors-verify-v0.4` through v0.10, exit codes captured per tag, not read through a pipe |
@@ -167,7 +167,7 @@ position binding at line 19: witness prefix byte length 164 does not equal attes
 
 Right answer, and the type check it appears to be enforcing never ran. v0.9 stops at invalid byte_length. A run scoring the verdict column alone reports both tags as passes and cannot tell you which one closed anything.
 
-All of this is a corpus rather than a list, and it is at https://github.com/probityai/agent-evidence-vectors under vectors-anchor-stream/. It runs against any tag with one command and no install, because it is stdlib Python for the same reason your verifier is a single file:
+All of this is a corpus rather than a list, and it is at https://github.com/probityai/agent-evidence-vectors under corpora/vectors-anchor-stream/. It runs against any tag with one command and no install, because it is stdlib Python for the same reason your verifier is a single file:
 
 ```
 python3 run_verifier.py --verifier /path/to/anchors_verify.py --label v0.10

@@ -5,7 +5,7 @@ This is the body of the "Check against the reference verifier" step of
 `action.yml`. It runs after the candidate verifier's replay and cannot be
 switched off. It reads the corpus the report names, hands every member that the
 reference verifier (probity-verify) can judge to the same comparison the
-repository's cross-check uses (`vectors-done-receipt/crosscheck_probity_verify.py`),
+repository's cross-check uses (`corpora/vectors-done-receipt/crosscheck_probity_verify.py`),
 or, for the Adversarial Execution Evidence corpus (`vectors`, the default), to the
 reference verifier's `adversarial_execution_evidence/v1` claim type, and prints
 one line:
@@ -43,7 +43,7 @@ from pathlib import Path
 from typing import Any
 
 HERE = Path(__file__).resolve().parent
-CROSSCHECK = HERE.parent / "vectors-done-receipt" / "crosscheck_probity_verify.py"
+CROSSCHECK = HERE.parent / "corpora" / "vectors-done-receipt" / "crosscheck_probity_verify.py"
 MAX_ROWS = 20
 
 # A member's check: how many verdicts were compared and which disagreed.

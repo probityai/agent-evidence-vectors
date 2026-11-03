@@ -190,7 +190,7 @@ def agent_action_figure(root: Path, key: str) -> int:
     wrong one must fail to compile rather than quietly assert about the other.
     """
     loaded = json.loads(
-        (root / "vectors-ai-agent-action" / "MANIFEST.json").read_text(encoding="utf-8")
+        (root / "corpora" / "vectors-ai-agent-action" / "MANIFEST.json").read_text(encoding="utf-8")
     )
     return len(loaded["vectors"]) if key == "total" else int(loaded["counts"][key])
 
@@ -295,7 +295,7 @@ def scitt_unclassified_member(root: Path, kind: object) -> None:
     counts match the partial tally. Otherwise the total counts a member none
     of the claimed categories covers.
     """
-    path = root / "vectors-scitt-cose/MANIFEST.json"
+    path = root / "corpora/vectors-scitt-cose/MANIFEST.json"
     manifest = json.loads(path.read_text(encoding="utf-8"))
     entry = next(row for row in manifest["vectors"] if row["kind"] == "reject")
     if kind is None:
@@ -314,7 +314,7 @@ def scitt_unclassified_member(root: Path, kind: object) -> None:
 
 def scitt_float_count(root: Path) -> None:
     """Change the count's JSON type without changing its numeric value."""
-    path = root / "vectors-scitt-cose/MANIFEST.json"
+    path = root / "corpora/vectors-scitt-cose/MANIFEST.json"
     manifest = json.loads(path.read_text(encoding="utf-8"))
     manifest["counts"]["accept"] = float(manifest["counts"]["accept"])
     path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
@@ -322,7 +322,7 @@ def scitt_float_count(root: Path) -> None:
 
 def scitt_boolean_count(root: Path) -> None:
     """Use one real accepting member so True can masquerade as its count."""
-    path = root / "vectors-scitt-cose/MANIFEST.json"
+    path = root / "corpora/vectors-scitt-cose/MANIFEST.json"
     manifest = json.loads(path.read_text(encoding="utf-8"))
     accepts = [row for row in manifest["vectors"] if row["kind"] == "accept"]
     for entry in accepts[1:]:
@@ -363,7 +363,7 @@ def flip_w3c_selected_accept(root: Path) -> None:
     size and its split moves. The README sentence has to fail when the manifest
     moves under it, not only when somebody retypes the sentence.
     """
-    rel = "vectors-w3c-report/MANIFEST.json"
+    rel = "corpora/vectors-w3c-report/MANIFEST.json"
 
     def flip(text: str) -> str:
         manifest = json.loads(text)
@@ -420,7 +420,7 @@ def _registered_figure() -> tuple[str, str, int]:
     sys.modules[spec.name] = gate
     spec.loader.exec_module(gate)
     bound = gate.load_sources().noun_bound()
-    for directory in ("vectors-observed-effect", *gate.EXTRA_CORPORA):
+    for directory in ("corpora/vectors-observed-effect", *gate.EXTRA_CORPORA):
         counts = json.loads((REPO_ROOT / directory / "MANIFEST.json").read_text(encoding="utf-8"))[
             "counts"
         ]
@@ -466,7 +466,7 @@ CLAIM_CASES: list[Case] = [
         "the w3c-report README's section 10 reject figure is retyped",
         lambda root: retype(
             root,
-            "vectors-w3c-report/README.md",
+            "corpora/vectors-w3c-report/README.md",
             r"The section 10 selection is \d+ members, (\d+) to reject",
         ),
         ("the section 10 selection and its split says",),
@@ -480,7 +480,7 @@ CLAIM_CASES: list[Case] = [
         "the w3c-report README says the split stays when it moved",
         lambda root: reword(
             root,
-            "vectors-w3c-report/README.md",
+            "corpora/vectors-w3c-report/README.md",
             r"The section 10 selection is \d+ members,",
             "The section 10 selection stays the same size,",
         ),
@@ -490,7 +490,7 @@ CLAIM_CASES: list[Case] = [
         "the w3c-report split before v0.18.0 is made to track the manifest",
         lambda root: retype(
             root,
-            "vectors-w3c-report/README.md",
+            "corpora/vectors-w3c-report/README.md",
             r"but (\d+) to reject and \d+ to accept, at",
         ),
         ("the section 10 split before v0.18.0",),
@@ -954,7 +954,7 @@ CENSUS_CASES.append(
 # reached 64 members, so the cases below plant whatever that total is today.
 AUDIT_RECORD_TOTAL = len(
     json.loads(
-        (REPO_ROOT / "vectors-agent-audit-record" / "MANIFEST.json").read_text(encoding="utf-8")
+        (REPO_ROOT / "corpora/vectors-agent-audit-record/MANIFEST.json").read_text(encoding="utf-8")
     )["vectors"]
 )
 

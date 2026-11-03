@@ -1,6 +1,6 @@
 {
   "source": "vocabulary.yaml",
-  "source_sha256": "1c5ff80bd97237a603afc402db692ffe5abe15e4a7f9eca13f20068ada347fdc",
+  "source_sha256": "97677d9122dc269c81f50439b2ed7b7fb67148919110c4d04855d98f421a51b6",
   "term_uri_base": "https://w3id.org/agent-evidence/vocab/v1/",
   "terms": {
     "acceptance_observed": {
@@ -73,6 +73,26 @@
       "values": [
         "voluntary",
         "authoritative"
+      ]
+    },
+    "authority_basis": {
+      "criticality": "critical",
+      "definition": "What kind of grant let the authorizer of a decision act. unknown is a value and an absent member is not unknown: a verifier MUST NOT read an absent authorityBasis as role_grant or as any other registered value. The term names the kind of grant and does not say the grant was valid; the grant itself is carried and checked elsewhere. Closed and fail-closed: an absent or unregistered value makes the statement malformed.",
+      "section": "incident_response",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/authority_basis",
+      "value_definitions": {
+        "contract_third_party": "A third party acted under authority a contract gives it to act on the organisation's behalf.",
+        "executive_approval": "A named executive approved this specific action, outside the authority their role carries by default.",
+        "policy_preauthorized": "The action was taken under a policy that authorized it in advance for stated trigger conditions, and no person decided it at the time.",
+        "role_grant": "The authorizer acted under authority attached to a role that a named person held when the decision was taken.",
+        "unknown": "The record states that the basis of the authority is not known."
+      },
+      "values": [
+        "role_grant",
+        "policy_preauthorized",
+        "contract_third_party",
+        "executive_approval",
+        "unknown"
       ]
     },
     "authority_change": {
@@ -187,6 +207,24 @@
       "uri": "https://w3id.org/agent-evidence/vocab/v1/coverage_denominator",
       "value_definitions": {},
       "values": null
+    },
+    "decision_role": {
+      "criticality": "critical",
+      "definition": "The roles one named party held in one decision. A record names each party once with the sorted list of every role it held, so a party that both authorized and executed an action carries both values. Advice is not authority: a party whose only role in a decision is advised did not authorize it. Closed and fail-closed: an absent or unregistered value makes the statement malformed.",
+      "section": "incident_response",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/decision_role",
+      "value_definitions": {
+        "accountable": "The party answers for the outcome of the decision.",
+        "advised": "The party gave advice on the decision and did not hold the right to decide it.",
+        "authorized": "The party held the right to decide, and the decision was taken under that right.",
+        "executed": "The party carried the decision out."
+      },
+      "values": [
+        "advised",
+        "authorized",
+        "executed",
+        "accountable"
+      ]
     },
     "does_not_assert": {
       "criticality": "critical",
@@ -553,6 +591,24 @@
         "declaration_corrected",
         "vocabulary_member_added",
         "derivation_rule_changed"
+      ]
+    },
+    "revocation_coverage": {
+      "criticality": "critical",
+      "definition": "What share of the issuance population a revocation reached. The population is the set of credentials, tokens, sessions and delegations issued to the subject, and the record MUST cite a coverage_denominator that partitions it against a manifest the revoker does not control. This is a fact about the population and not about enforcement: revocation_state says, for one relying party, whether a revoked credential was refused, and this says how much of the population the revocation covered. Closed and fail-closed: an absent or unregistered value makes the statement malformed.",
+      "section": "incident_response",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/revocation_coverage",
+      "value_definitions": {
+        "complete_verified": "The revocation reached every credential in the issuance population, and the record carries a revocation for each one the manifest names.",
+        "issued_after_only": "The revocation reached only credentials issued at or after a stated time; credentials issued earlier were not revoked.",
+        "partial": "The revocation reached a named subset of the issuance population, and the record names the subset.",
+        "unknown": "The record does not establish which part of the issuance population the revocation reached."
+      },
+      "values": [
+        "complete_verified",
+        "issued_after_only",
+        "partial",
+        "unknown"
       ]
     },
     "revocation_state": {

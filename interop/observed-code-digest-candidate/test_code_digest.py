@@ -25,13 +25,13 @@ import generate  # noqa: E402
 from agent_evidence_vectors import observedeffect as rail  # noqa: E402
 
 SPEC = importlib.util.spec_from_file_location(
-    "code_join_reference", ROOT / "vectors-observed-effect/check_vectors.py"
+    "code_join_reference", ROOT / "corpora/vectors-observed-effect/check_vectors.py"
 )
 assert SPEC is not None and SPEC.loader is not None
 REFERENCE = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(REFERENCE)
 MANIFEST = json.loads((HERE / "MANIFEST.json").read_text())
-RELEASED = json.loads((ROOT / "vectors-observed-effect/MANIFEST.json").read_text())
+RELEASED = json.loads((ROOT / "corpora/vectors-observed-effect/MANIFEST.json").read_text())
 KEY = RELEASED["keys"]["observer"]["publicKey"]
 SCHEMA = json.loads(
     (ROOT / "spec/schemas/observed-effect-code-digest-v0.5.schema.json").read_text()
@@ -95,7 +95,7 @@ class TestCodeDigest:
         @pytest.mark.parametrize("row", RELEASED["vectors"], ids=lambda row: row["id"])
         def test_released_verdicts_remain_unchanged(self, row: dict[str, Any]) -> None:
             """Absent optional fields preserve the published accept/reject/readings."""
-            raw = (ROOT / "vectors-observed-effect" / row["file"]).read_bytes()
+            raw = (ROOT / "corpora" / "vectors-observed-effect" / row["file"]).read_bytes()
             allowed = {r["verdict"] for r in row.get("readings", [])}
             if not allowed:
                 allowed = {row["expected"]["verdict"]}

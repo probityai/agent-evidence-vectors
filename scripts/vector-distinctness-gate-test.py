@@ -191,7 +191,7 @@ def two_rejects_decode_alike(root: Path) -> None:
 
 def collide_the_second_corpus(root: Path) -> None:
     """The narrowing, reintroduced. Only the AI Agent Action corpus is touched."""
-    corpus = "vectors-ai-agent-action"
+    corpus = "corpora/vectors-ai-agent-action"
     accept = path_of(root, corpus, first_of(root, corpus, "accept"))
     reject = path_of(root, corpus, first_of(root, corpus, "reject"))
     shutil.copyfile(accept, reject)

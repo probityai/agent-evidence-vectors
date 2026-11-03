@@ -7,7 +7,7 @@ canonicalization and bounds text in in-toto/attestation#570, which fought the sa
 question out over several rounds and settled it.
 
 The conformance members that exercise every rule below live in
-`vectors-ai-agent-action/`, and `aee-verify` refuses to pass a corpus in which
+`corpora/vectors-ai-agent-action/`, and `aee-verify` refuses to pass a corpus in which
 any rejecting member lacks an accepting twin.
 
 What changed in adapting #570's text to #588:
@@ -102,7 +102,7 @@ member, the preimage beside it is the envelope, and the digest matches the
 preimage rather than the caption.
 
 Recomputing against the specification text at `639ec56` (vendored beside this
-suite at `vectors-ai-agent-action/spec-vendored/ai-agent-action-639ec56.md`,
+suite at `corpora/vectors-ai-agent-action/spec-vendored/ai-agent-action-639ec56.md`,
 sha256 `1eaecff711591ea6e56e5798abc110a077c49194900513bab736d137496b84ba`) gives:
 
 | preimage | sha256 |

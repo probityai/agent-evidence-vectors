@@ -608,7 +608,7 @@ def test_the_cli_reports_a_broken_lineage(tmp_path: Path) -> None:
 # bytes, and a corpus checker nobody executes is the shape of dead gate this
 # repository keeps finding.
 
-CORPUS = TOOLS.parents[1] / "vectors-artifact-binding"
+CORPUS = TOOLS.parents[1] / "corpora" / "vectors-artifact-binding"
 if str(CORPUS) not in sys.path:
     sys.path.insert(0, str(CORPUS))
 
@@ -631,7 +631,7 @@ def test_the_generator_reproduces_the_committed_manifest() -> None:
 # Section 6.2: the consumer names the profile and the in-force digests; neither
 # is read from the record.
 
-DEPSEL = TOOLS.parents[1] / "vectors-dependency-selection"
+DEPSEL = TOOLS.parents[1] / "corpora" / "vectors-dependency-selection"
 
 
 def _depsel_generator() -> Any:

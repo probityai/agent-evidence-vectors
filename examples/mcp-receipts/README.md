@@ -5,7 +5,7 @@ predicate applied to MCP tool calls: one signed record per call, sealed by an
 observer below the call, with its commitment to the authority and the starting
 state signed before the call opens. Each record verifies offline, from its own
 bytes, with the reference verifier in
-[`vectors-observed-effect/check_vectors.py`](../../vectors-observed-effect/check_vectors.py).
+[`corpora/vectors-observed-effect/check_vectors.py`](../../corpora/vectors-observed-effect/check_vectors.py).
 
 ```sh
 uv run --extra generators python examples/mcp-receipts/gen_examples.py    # rebuild, byte-identical

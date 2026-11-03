@@ -105,3 +105,20 @@ def test_controls_are_recounted_from_the_cells() -> None:
     import matrix  # noqa: PLC0415
     doc = json.loads(render.MATRIX.read_text(encoding="utf-8"))
     assert matrix.controls(doc["readers"], doc["inputs"], doc["cells"]) == doc["controls"]
+
+
+def test_every_row_that_yields_a_report_has_one_and_reruns() -> None:
+    sys.path.insert(0, str(HERE))
+    import matrix  # noqa: PLC0415
+    yielding = {row for row, meta in matrix.ROW_META.items() if meta["yields"]}
+    listed = {row for _, row, _ in matrix.REPORTS}
+    assert yielding == listed
+    assert listed <= set(matrix.PRODUCING)
+    assert len(matrix.REPORTS) == 10
+
+
+def test_a_report_with_records_in_place_of_checks_still_gets_its_mutants() -> None:
+    posted = {"format": "Agent Conformance Reporting Format v0.1", "records": [{"id": "r1"}]}
+    made, skipped = M.mutants(posted, lambda value: b"0" * 64)
+    assert made and skipped
+    assert all(s["why"] for s in skipped)

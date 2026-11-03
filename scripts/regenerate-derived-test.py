@@ -63,7 +63,7 @@ class Layout(unittest.TestCase):
         step = re.search(r"- name: ruff\n\s+run: (uv run ruff check [^\n]*)", ci_text())
         assert step, "the ruff step is missing"
         self.assertNotRegex(step.group(1), r"vectors-[a-z]", "a corpus is listed by name")
-        self.assertIn("vectors-*", step.group(1))
+        self.assertIn("corpora/vectors-*", step.group(1))
 
     def test_ruff_excludes_name_existing_paths(self) -> None:
         text = (REPO / "pyproject.toml").read_text(encoding="utf-8")

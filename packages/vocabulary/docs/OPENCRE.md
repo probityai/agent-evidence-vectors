@@ -33,11 +33,14 @@ No link here is `exact`.
 Each was checked against all 522 CREs that OpenCRE's REST API returned on
 2026-10-13, reading every candidate's linked standards. The seven
 `done_verification` terms below were searched on 2026-10-17 in the names
-and linked standards of the same 522 CREs. The eleven `incident_response` terms
+and linked standards of the same 522 CREs. The fourteen `incident_response` terms
 were searched on 2026-10-30 by text in the OpenCRE REST API for incident
-response, containment, revoke, restoration, recovery, escalation and separation
-of duties. The results were plans, training, user-credential and password
-items; that search did not read every CRE, so each row names the nearest
+response, containment, revoke, restoration, recovery, escalation, separation
+of duties, roles and responsibilities, and accountability. The results were
+plans, training, user-credential and password items, and role-assignment items
+(ISO 27001 5.2, NIST SSDF PO.2.1, PCI DSS role requirements); searches for
+revoke access, revocation of credentials and delegated authority returned no
+result. That search did not read every CRE, so each row names the nearest
 requirement found and what it does not ask for.
 
 | term | why no CRE fits |
@@ -81,6 +84,9 @@ requirement found and what it does not ask for.
 | `incident_response.restoration_decision` | change management (112-648) governs changes to a system; the decision that ends a recorded containment, bound to it by digest with an approver different from the activator, is a different requirement |
 | `incident_response.restoration_gate` | no requirement asks whether an observed restart was preceded by a decision that met the stated requirements, with the restart time taken from the substrate |
 | `incident_response.incident_identifier` | no requirement asks for an identifier, scoped by its issuer, that lets two organisations' signed records of one incident be joined |
+| `incident_response.decision_role` | the role-assignment requirements found (ISO 27001 5.2, NIST SSDF PO.2.1, PCI DSS roles and responsibilities) assign roles in advance; none records the role a named party held in one decision, or separates advice from authority |
+| `incident_response.authority_basis` | no requirement names the kind of grant (a role, a standing policy, a contract, an executive approval) that let an authorizer act, as a value a record carries |
+| `incident_response.revocation_coverage` | the user-credential and password items found cover issuing and rotating credentials; none states how much of an issuance population a revocation reached against a manifest the revoker does not control |
 
 ## History
 

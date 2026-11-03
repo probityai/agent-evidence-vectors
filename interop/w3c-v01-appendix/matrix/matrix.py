@@ -43,9 +43,11 @@ TEX = HERE / "verification.tex"
 FORMAT = "public-agent-conformance/report/v0.1"
 
 #: The appendix rows whose reruns write the reports, in the order they run.
-PRODUCING = ["R1", "R2", "R3", "R3-v01", "R4", "R5"]
+PRODUCING = ["R1", "R2", "R3", "R3-v01", "R4", "R5", "R6"]
 #: (report id, row, file under the rerun work directory). The rerun of 2026-11-01
-#: wrote no other file declaring the v0.1 format under R1 to R5, R7 or R13.
+#: wrote no other file declaring the v0.1 format under R1 to R5, R7 or R13. R6's
+#: report is the one its producer posted in the pinned tree, byte-identical at
+#: both pins; the rerun fetches it and does not write it.
 REPORTS = [
     ("R1", "R1", "R1/out/report.json"),
     ("R2-v0.2", "R2", "R2/out/run-residue-v0.2.json"),
@@ -56,6 +58,8 @@ REPORTS = [
     ("R4-native", "R4", "R4/out/reports/native-verify-mjs.json"),
     ("R4-map", "R4", "R4/out/reports/probity-map-reader.json"),
     ("R5", "R5", "R5/out/finality-threshold-report.level1.json"),
+    ("R6", "R6", "R6/src-0e59b404/docs/experiments/approval-freshness-discrimination-2026-09/"
+                 "w3c-v0.1/records.v0.1.json"),
 ]
 #: R5's report carries 150,006 checks: it gets the one control the paper names
 #: for it, a flipped state under an unchanged root, rather than the full set.
@@ -95,8 +99,9 @@ ROW_META: dict[str, dict[str, Any]] = {
                   "why": "this repository's driver writes a comparison report, not a v0.1 report"},
     "R5": {"yields": True, "unit": "checks", "class": "O8 reproduction",
            "why": "one v0.1 report"},
-    "R6": {"yields": False, "unit": "tests", "class": "O8 reproduction",
-           "why": "the commands print a check line and test results; no report file is written"},
+    "R6": {"yields": True, "unit": "tests", "class": "O8 reproduction",
+           "why": "the commands pass six unittest cases and four Rust approval tests at both pins; "
+                  "the posted report beside them, records.v0.1.json, names the format in prose"},
     "R7": {"yields": False, "unit": "outcomes", "class": "O8 reproduction",
            "why": "a native (state, reason) packet, not a v0.1 report (footnote, no cell)"},
     "R8": {"yields": False, "unit": "members", "class": "text-only reader",
@@ -243,14 +248,21 @@ def read_python(reader: dict[str, Any], files: Path, work: Path, log: Path) -> d
     return _jsonl(out) if out.is_file() else {}
 
 
+def go_package(root: Path) -> str:
+    """The directory of the Go readers: corpusreaders/ since the corpora were moved, corpora/ before."""
+    return "corpusreaders" if (root / "corpusreaders").is_dir() else "corpora"
+
+
 def read_go(reader: dict[str, Any], files: Path, work: Path, log: Path) -> dict[str, Any]:
     root, commit = checkout(reader["ref"], work, log)
     reader["commit"] = commit
-    driver = root / "corpora" / "w3c_matrix_driver_test.go"
-    driver.write_bytes((HERE / "drivers" / "w3c_matrix_driver_test.go.txt").read_bytes())
+    package = go_package(root)
+    driver = root / package / "w3c_matrix_driver_test.go"
+    source = (HERE / "drivers" / "w3c_matrix_driver_test.go.txt").read_text(encoding="utf-8")
+    driver.write_text(source.replace("package corpora\n", f"package {package}\n", 1), encoding="utf-8")
     out = work / f"{reader['id']}.jsonl"
     try:
-        code = _run(["go", "test", "./corpora", "-run", "^TestW3CMatrixDriver$", "-count=1"], root, log,
+        code = _run(["go", "test", f"./{package}", "-run", "^TestW3CMatrixDriver$", "-count=1"], root, log,
                     env={"W3C_MATRIX_LIST": str(files), "W3C_MATRIX_OUT": str(out)})
     finally:
         driver.unlink()
@@ -481,7 +493,9 @@ def cmd_run(args: argparse.Namespace) -> int:
         "verify_commands": verify_commands(inputs),
     }
     for e in inputs:
-        if not e.get("mutant") and "checks" in e:
+        # A row counted in checks takes each report's check count; R6 counts tests, and its
+        # report carries records, so it keeps the denominator rows.json states.
+        if not e.get("mutant") and "checks" in e and ROW_META[e["row"]]["unit"] == "checks":
             observed["rows"][e["row"]].setdefault("denominators", {})[e["id"]] = e["checks"]
     args.observed.write_text(json.dumps(observed, indent=1, ensure_ascii=True, sort_keys=True) + "\n",
                              encoding="utf-8")

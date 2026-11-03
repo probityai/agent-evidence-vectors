@@ -2,7 +2,7 @@
 
 Name the parts of an incident response so that what was decided, what was done, what held and what was restored can be told apart. The [README](../README.md) is the short version of the repository; this page covers the `incident_response` section, proposed after 0.8.0 and not yet in a release.
 
-When something goes wrong in an agent system, the people responding take decisions, take actions, and later end them. Their own logs say what they chose to record. A third party who was not there needs records that separate the decision from the action, the action from its effect, and a restart from the decision that was supposed to precede it. These eleven terms name the parts, and each carries a `check`: the rule a verifier applies to decide it. All eleven are `proposed`, none lists an issuer, each has `criticality: critical` and a `review_by` date, and none is canonical.
+When something goes wrong in an agent system, the people responding take decisions, take actions, and later end them. Their own logs say what they chose to record. A third party who was not there needs records that separate the decision from the action, the action from its effect, and a restart from the decision that was supposed to precede it. These fourteen terms name the parts, and each carries a `check`: the rule a verifier applies to decide it. All eleven are `proposed`, none lists an issuer, each has `criticality: critical` and a `review_by` date, and none is canonical.
 
 ## One question, answered in terms
 
@@ -23,6 +23,9 @@ Did anyone decide not to act? A `response_decision` of `continue` is a signed re
 | `restoration_decision` | the decision that ends a recorded containment | bound to the containment, with an approver different from the activator |
 | `restoration_gate` | whether an observed restart passed the gate the decision sets | the restart time comes from the substrate; no bound decision before it gives `ungated` |
 | `incident_identifier` | one identifier, scoped by its issuer, for one incident | joins only on equal issuer and id, or a `related` entry; never on timing or names |
+| `decision_role` | the role one party held in one decision | at least one party holds `authorized`; a named authorizer whose only role is `advised` is malformed |
+| `authority_basis` | what kind of grant let the authorizer act | an absent member is malformed and is never read as `role_grant`; `unknown` is well formed and establishes nothing |
+| `revocation_coverage` | how much of the issuance population a revocation reached | cites a `coverage_denominator`; `complete_verified` only when every key of the manifest is in the revoked set |
 
 ## The values
 
@@ -37,6 +40,9 @@ Did anyone decide not to act? A `response_decision` of `continue` is a signed re
 | `escalation_outcome` | `paged`, `paged_late`, `not_paged`, `not_established` |
 | `restoration_decision` | `resume_full`, `resume_staged`, `remain_restricted`, `not_established` |
 | `restoration_gate` | `gated`, `ungated`, `gate_unmet`, `not_established` |
+| `decision_role` | `advised`, `authorized`, `executed`, `accountable` |
+| `authority_basis` | `role_grant`, `policy_preauthorized`, `contract_third_party`, `executive_approval`, `unknown` |
+| `revocation_coverage` | `complete_verified`, `issued_after_only`, `partial`, `unknown` |
 
 `containment_scope` and `incident_identifier` list no values: the first is a digest-committed partition, the second an issuer and an id. Every list is closed and fail-closed, so an absent or unregistered value makes the statement malformed. Each value is defined in `vocabulary.yaml` under `value_definitions`. Source paths beginning `predicate.` name fields of a predicate that is not yet specified; they fix nothing until a predicate specification does.
 
@@ -45,6 +51,8 @@ Did anyone decide not to act? A `response_decision` of `continue` is a signed re
 `pause_hold` separates an effect by the paused subject (`effect_after_pause`) from state the subject left behind before the pause (`residual_state_remains`). Only the first shows the pause failed to stop the subject; the second shows what remains to be remediated. When several apply, the record carries the first of `effect_after_pause`, `in_flight_unknown`, `residual_state_remains`, `held`.
 
 `restoration_decision` records the decision, and `restoration_gate` records whether the restart that actually happened was preceded by a decision that met its requirements. A decision not to resume is `remain_restricted` and is recorded the same way as a resumption.
+
+`revocation_state` and `revocation_coverage` answer different questions. `revocation_state` says, for one relying party, whether a revoked credential was refused. `revocation_coverage` says how much of the issuance population the revocation reached, against a manifest the revoker does not control, so a revocation of the credentials issued after a time reads as `issued_after_only` and not as complete. `decision_role` lets a record show that a party advised and did not decide, and `authority_basis` lets it show that an action rested on a standing policy or a contract and not on a person's decision that hour.
 
 ## Crosswalks
 

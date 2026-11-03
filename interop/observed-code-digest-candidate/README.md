@@ -10,7 +10,7 @@ The field is optional. When present it must contain exactly one lowercase
 selected expected digest through consumer policy. Requiring that join rejects
 missing and mismatching fields. A caller that does not request the join gets the
 same verdicts for every member in the
-[existing observed-effect corpus](../../vectors-observed-effect/MANIFEST.json).
+[existing observed-effect corpus](../../corpora/vectors-observed-effect/MANIFEST.json).
 
 The field is a signed producer declaration. Matching it to a capability subject
 does not measure executed code, authenticate the capability, prove that its
@@ -25,8 +25,8 @@ Older readers may ignore the extension; a required join needs a 0.5-aware reader
 python -m pip install -r interop/observed-code-digest-candidate/requirements-test.txt
 python -m pytest interop/observed-code-digest-candidate/test_code_digest.py -q
 GOWORK=off go test ./observedeffect -count=1
-python vectors-observed-effect/check_vectors.py
-python vectors-observed-effect/mutation_check.py
+python corpora/vectors-observed-effect/check_vectors.py
+python corpora/vectors-observed-effect/mutation_check.py
 ```
 
 [The candidate manifest](MANIFEST.json) pins the signed synthetic cases and the
