@@ -186,6 +186,9 @@ GENERATORS = (
     # manifest and index emitted from both.
     "corpora/vectors-admission/gen_vectors.py",
     "scripts/gen-w3c-appendix.py",
+    # The jcsvectors Go module's byte copies of two corpora. It reads the
+    # committed corpora and writes nothing they depend on, so it runs last.
+    "scripts/gen-jcsvectors-data.py",
 )
 
 # Every file a generator above is responsible for, as a directory and a glob.
@@ -416,6 +419,9 @@ OWNED = (
     ("corpora/vectors-ietf-agent-record-drafts/cases", "v*.json"),
     ("corpora/vectors-ietf-agent-record-drafts", "MANIFEST.json"),
     ("corpora/vectors-ietf-agent-record-drafts", "INDEX.md"),
+    # The Go module embeds copies, because go:embed cannot reach corpora/.
+    ("jcsvectors/vectors-a2a-jcs-v01", "**/*.json"),
+    ("jcsvectors/jcs-byte-vectors", "*.json"),
 )
 
 # Deliberately NOT owned above, for the two reasons the header already gives.

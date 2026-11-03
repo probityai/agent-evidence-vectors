@@ -1,0 +1,57 @@
+name: jcsvectors Go module
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - jcsvectors/**
+      - corpora/vectors-a2a-jcs-v01/**
+      - corpora/jcs-byte-vectors/**
+      - scripts/gen-jcsvectors-data.py
+      - .github/workflows/jcsvectors.yml
+  pull_request:
+    paths:
+      - jcsvectors/**
+      - corpora/vectors-a2a-jcs-v01/**
+      - corpora/jcs-byte-vectors/**
+      - scripts/gen-jcsvectors-data.py
+      - .github/workflows/jcsvectors.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || (github.ref == 'refs/heads/main' && github.sha) || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  jcsvectors:
+    name: jcsvectors (Go ${{ matrix.go }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        # The module's go directive, and the toolchain the rest of the repository builds with.
+        go: ['1.24', '1.26']
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: ${{ matrix.go }}
+          cache: false
+      - name: The embedded copies match the corpora
+        run: |
+          python3 scripts/gen-jcsvectors-data.py
+          git status --porcelain -- jcsvectors
+          test -z "$(git status --porcelain -- jcsvectors)"
+      - name: Vet and test the module on its own, as a consumer builds it
+        working-directory: jcsvectors
+        env:
+          GOWORK: 'off'
+        run: |
+          go vet ./...
+          go test -count=1 ./...

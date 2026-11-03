@@ -306,3 +306,21 @@ alter an earlier revision fails before it can publish a later one.
 - Read the count you publish off the tagged tree, by counting members in the
   manifests. Never quote it from a README: that is the defect that put a wrong
   vector count in front of a user who installed the release and counted.
+
+## The jcsvectors Go module
+
+`jcsvectors/` is its own Go module, `github.com/probityai/agent-evidence-vectors/jcsvectors`,
+so a Go project can pin the RFC 8785 vectors in its `go.mod` and test against them offline.
+Its version is independent of the corpus release. Release it with a signed annotated tag on a
+commit that `main` carries, in the form Go requires for a module in a subdirectory:
+
+```sh
+git tag -s -u 494767A5F0B0494C3A8878F320D2E0E72DF45D39 -m jcsvectors/vX.Y.Z jcsvectors/vX.Y.Z
+git push origin refs/tags/jcsvectors/vX.Y.Z
+GOPROXY=https://proxy.golang.org GOFLAGS=-mod=mod go list -m github.com/probityai/agent-evidence-vectors/jcsvectors@vX.Y.Z
+```
+
+The tag triggers no workflow and publishes nothing; the last command asks the module proxy to
+fetch it, which also records its hash in the public checksum database. The embedded files are
+copies written by `scripts/gen-jcsvectors-data.py`, so a corpus change reaches the module only
+through a new tag. Bump the minor for a removed vector or a changed verdict, the patch otherwise.
