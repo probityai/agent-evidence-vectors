@@ -1064,6 +1064,8 @@ jobs:
         run: uv run --extra dev pytest corpora/vectors-uncertain-effect/tests -q
       - name: monitor-coverage cases regenerate, force every check and refuse an inert defence
         run: uv run --extra dev pytest corpora/vectors-monitor-coverage/tests -q
+      - name: signature-coverage cases regenerate, force every check and fail each naive signer
+        run: uv run --extra dev pytest corpora/vectors-signature-coverage/tests -q
       - name: propagation-step cases regenerate, force every check and refuse a common cause read as propagation
         run: uv run --extra dev pytest corpora/vectors-propagation-step/tests -q
       - name: agent-card-receipt cases regenerate and force every check

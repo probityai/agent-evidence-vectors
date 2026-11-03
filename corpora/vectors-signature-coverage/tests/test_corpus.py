@@ -263,6 +263,15 @@ def test_external_signer_contract(tmp_path: Path) -> None:
     assert reader.main(["--signer", f"{sys.executable} {script}"]) == 0
 
 
+def test_the_packaged_attribute_reader_refuses_a_repeat() -> None:
+    from agent_evidence_vectors.acs_outage import reader as otlp
+
+    attribute = {"key": "decision", "value": {"stringValue": "deny"}}
+    assert otlp._attrs([attribute]) == {"decision": "deny"}
+    with pytest.raises(otlp.Refusal):
+        otlp._attrs([attribute, attribute])
+
+
 def test_public_key_is_the_published_test_key() -> None:
     expected = base64.b64encode(generator.rail.ed25519_public_key(generator.SEED)).decode()
     assert {r["envelope"]["publicKey"] for r in _records().values()} == {expected}

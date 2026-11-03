@@ -721,6 +721,18 @@ standards = []
 shapes = ["self-report", "forged-signature", "coverage-gap"]
 
 [[corpus]]
+id = "vectors-signature-coverage"
+path = "corpora/vectors-signature-coverage"
+wheel = true
+sdist = true
+title = "Signature coverage"
+summary = "A verifier must refuse a record whose signature verifies while a reader sees something it never covered, and a signer may not give two records a reader tells apart one signature input."
+record_class = "record"
+domains = ["canonicalization", "provenance"]
+standards = ["rfc8785"]
+shapes = ["coverage-gap", "tampering"]
+
+[[corpus]]
 id = "vectors-source-coverage"
 path = "corpora/vectors-source-coverage"
 wheel = true
