@@ -17,7 +17,7 @@
   {
    "@id": "https://w3id.org/agent-evidence/vocab/v1/response_function",
    "@type": "skos:Concept",
-   "skos:definition": "The function an incident action served. One action MAY carry several values (a rebuild is remediation and also stops activity). restoration is never combined with another value, because resuming is a separate decision from any action that contained or repaired. Closed and fail-closed: an absent or unregistered value makes the statement malformed.",
+   "skos:definition": "The function an incident action served. One action MAY carry several values (a rebuild is remediation and also stops activity). restoration is never combined with another value, because resuming is a separate decision from any action that contained or repaired. notification changes nothing about the subject: it records that the incident was reported, and a record that lists only notification says nothing was contained. Added in 0.9.0; a record that names an earlier registry by its registryDigest is read against that registry's six values. Closed and fail-closed: an absent or unregistered value makes the statement malformed.",
    "skos:inScheme": {
     "@id": "https://w3id.org/agent-evidence/vocab/v1/"
    },
@@ -38,6 +38,18 @@
     "@id": "https://w3id.org/agent-evidence/vocab/v1/"
    },
    "skos:notation": "monitoring_increase"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/response_function#notification",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/response_function"
+   },
+   "skos:definition": "The incident was reported to a party outside the responding team: an affected party, a regulator, law enforcement or another organisation.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "notification"
   },
   {
    "@id": "https://w3id.org/agent-evidence/vocab/v1/response_function#restriction",
@@ -123,10 +135,11 @@ th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-
 <h1><code>response_function</code></h1>
 <p>Term URI: <a href="https://w3id.org/agent-evidence/vocab/v1/response_function">https://w3id.org/agent-evidence/vocab/v1/response_function</a></p>
 <p>Section: <code>incident_response</code>. Criticality: <code>critical</code>.</p>
-<p>The function an incident action served. One action MAY carry several values (a rebuild is remediation and also stops activity). restoration is never combined with another value, because resuming is a separate decision from any action that contained or repaired. Closed and fail-closed: an absent or unregistered value makes the statement malformed.</p>
+<p>The function an incident action served. One action MAY carry several values (a rebuild is remediation and also stops activity). restoration is never combined with another value, because resuming is a separate decision from any action that contained or repaired. notification changes nothing about the subject: it records that the incident was reported, and a record that lists only notification says nothing was contained. Added in 0.9.0; a record that names an earlier registry by its registryDigest is read against that registry&#x27;s six values. Closed and fail-closed: an absent or unregistered value makes the statement malformed.</p>
 <h2>Registered values</h2>
 <ul>
 <li id="monitoring_increase"><code>https://w3id.org/agent-evidence/vocab/v1/response_function#monitoring_increase</code>: Observation of the subject was widened or deepened.</li>
+<li id="notification"><code>https://w3id.org/agent-evidence/vocab/v1/response_function#notification</code>: The incident was reported to a party outside the responding team: an affected party, a regulator, law enforcement or another organisation.</li>
 <li id="restriction"><code>https://w3id.org/agent-evidence/vocab/v1/response_function#restriction</code>: A credential, permission or tool was withdrawn or narrowed.</li>
 <li id="isolation"><code>https://w3id.org/agent-evidence/vocab/v1/response_function#isolation</code>: Channels the subject could use were cut.</li>
 <li id="pause"><code>https://w3id.org/agent-evidence/vocab/v1/response_function#pause</code>: The subject was halted, wholly or in part.</li>

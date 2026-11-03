@@ -93,3 +93,7 @@ incident_response:
       the incident; the population is the credentials found accessed, with no manifest and no statement
       of how many were reached.
     notes: Practice 6.4.
+  evidence_state:
+    match: no_mapping
+    notes: No mapping filed. This filing names no passage that records the state of the evidence about
+      a system as a closed value, so the term maps to nothing here until such a passage is cited.

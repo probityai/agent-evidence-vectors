@@ -171,10 +171,12 @@ only-include = [
     "corpora/vectors-done-contract",
     "corpora/vectors-done-probes",
     "corpora/vectors-done-receipt",
+    "corpora/vectors-evidence-state",
     "corpora/vectors-grade-floor",
     "corpora/vectors-grader-isolation",
     "corpora/vectors-identity-binding",
     "corpora/vectors-ietf-agent-record-drafts",
+    "corpora/vectors-incident-evidence-cell",
     "corpora/vectors-mcp-owasp",
     "corpora/vectors-mcp-record-contract",
     "corpora/vectors-mcp-response-phase",
@@ -233,10 +235,12 @@ exclude = [
     "corpora/vectors-done-contract/**/*.py",
     "corpora/vectors-done-probes/**/*.py",
     "corpora/vectors-done-receipt/**/*.py",
+    "corpora/vectors-evidence-state/**/*.py",
     "corpora/vectors-grade-floor/**/*.py",
     "corpora/vectors-grader-isolation/**/*.py",
     "corpora/vectors-identity-binding/**/*.py",
     "corpora/vectors-ietf-agent-record-drafts/**/*.py",
+    "corpora/vectors-incident-evidence-cell/**/*.py",
     "corpora/vectors-mcp-owasp/**/*.py",
     "corpora/vectors-mcp-record-contract/**/*.py",
     "corpora/vectors-mcp-response-phase/**/*.py",
@@ -294,10 +298,12 @@ exclude = [
 "corpora/vectors-done-contract" = "agent_evidence_vectors/corpora/vectors-done-contract"
 "corpora/vectors-done-probes" = "agent_evidence_vectors/corpora/vectors-done-probes"
 "corpora/vectors-done-receipt" = "agent_evidence_vectors/corpora/vectors-done-receipt"
+"corpora/vectors-evidence-state" = "agent_evidence_vectors/corpora/vectors-evidence-state"
 "corpora/vectors-grade-floor" = "agent_evidence_vectors/corpora/vectors-grade-floor"
 "corpora/vectors-grader-isolation" = "agent_evidence_vectors/corpora/vectors-grader-isolation"
 "corpora/vectors-identity-binding" = "agent_evidence_vectors/corpora/vectors-identity-binding"
 "corpora/vectors-ietf-agent-record-drafts" = "agent_evidence_vectors/corpora/vectors-ietf-agent-record-drafts"
+"corpora/vectors-incident-evidence-cell" = "agent_evidence_vectors/corpora/vectors-incident-evidence-cell"
 "corpora/vectors-mcp-owasp" = "agent_evidence_vectors/corpora/vectors-mcp-owasp"
 "corpora/vectors-mcp-record-contract" = "agent_evidence_vectors/corpora/vectors-mcp-record-contract"
 "corpora/vectors-mcp-response-phase" = "agent_evidence_vectors/corpora/vectors-mcp-response-phase"
@@ -430,10 +436,12 @@ only-include = [
     "corpora/vectors-done-contract",
     "corpora/vectors-done-probes",
     "corpora/vectors-done-receipt",
+    "corpora/vectors-evidence-state",
     "corpora/vectors-grade-floor",
     "corpora/vectors-grader-isolation",
     "corpora/vectors-identity-binding",
     "corpora/vectors-ietf-agent-record-drafts",
+    "corpora/vectors-incident-evidence-cell",
     "corpora/vectors-mcp-owasp",
     "corpora/vectors-mcp-record-contract",
     "corpora/vectors-mcp-response-phase",

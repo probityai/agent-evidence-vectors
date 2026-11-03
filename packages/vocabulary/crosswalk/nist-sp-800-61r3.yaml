@@ -26,7 +26,9 @@ incident_response:
     - The publication names containment (RS.MI-01), eradication (RS.MI-02) and recovery (RC.RP) as outcomes,
       with no closed list of the function an action served and no separate pause or isolation.
     notes: RS.MI-01 N1 says containment prevents the expansion of an incident; RS.MI-02 N1 lists deleting
-      malware and disabling breached user accounts as eradication.
+      malware and disabling breached user accounts as eradication. RS.CO-02 (internal and external
+      stakeholders are notified of incidents; R4 and R5 name affected third parties, law enforcement and
+      regulators) is the outcome the notification value records.
   enforcement_vantage:
     match: no_mapping
     notes: The source describes nothing that maps onto this term.
@@ -92,3 +94,7 @@ incident_response:
     match: no_mapping
     notes: RS.MI-02 R1 asks to identify all affected hosts and services and N1 lists disabling breached
       user accounts; neither asks what share of a credential population a revocation reached.
+  evidence_state:
+    match: no_mapping
+    notes: No mapping filed. This filing names no passage that records the state of the evidence about
+      a system as a closed value, so the term maps to nothing here until such a passage is cited.
