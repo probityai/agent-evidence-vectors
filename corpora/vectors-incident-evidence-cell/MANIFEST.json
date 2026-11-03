@@ -1,8 +1,8 @@
 {
-  "corpusDigest": "429dc57888268d76e7adeab219d1a22973b2f855db9698640586a018d9942f99",
+  "corpusDigest": "35a592df509057ddc6bc6d896fb66089c4b022f512913bddb01e34b38f085a51",
   "counts": {
     "allow": 9,
-    "deny": 21
+    "deny": 22
   },
   "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/incident-evidence-cell",
   "registryDigest": "161bd780e265a99f27365c81bee12f5006ebb4e785a9563608ae98c52878a523",
@@ -226,16 +226,34 @@
       }
     },
     {
-      "edit": "a predicate type this host does not define",
+      "edit": "the type of another predicate this host defines",
       "expected": {
         "decision": "deny",
         "reason": "statement_malformed"
       },
       "files": {
-        "record.json": "de16d84a8837f7d207a56b23d5cbfacb278527ce29ebc0fbdf1abb3c3f4370ed"
+        "record.json": "671cf03d532b4b00b27196e60deea9d3ceb0ab5e38416b3b361f1046814d2e61"
       },
       "id": "reject-predicate-type-other",
       "path": "cases/reject-predicate-type-other",
+      "retained": {
+        "column": "investigation",
+        "empty": false,
+        "subjects": 1,
+        "supportLabel": "supported"
+      }
+    },
+    {
+      "edit": "this type's path on a host that does not define it",
+      "expected": {
+        "decision": "deny",
+        "reason": "statement_malformed"
+      },
+      "files": {
+        "record.json": "c00159105cd7187443f08d4cbcca7de3f6bf7e05459e388b43d64bd2ade78d6d"
+      },
+      "id": "reject-predicate-type-foreign-host",
+      "path": "cases/reject-predicate-type-foreign-host",
       "retained": {
         "column": "investigation",
         "empty": false,

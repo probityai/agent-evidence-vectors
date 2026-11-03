@@ -126,7 +126,8 @@ def _controls() -> list[Case]:
 
 
 def _statement_cases(base: dict[str, Any]) -> list[Case]:
-    other = reader.PREDICATE_TYPE.replace("/predicate/v1/", "/predicate/v2/")
+    sibling = reader.PREDICATE_TYPE.replace("incident-evidence-cell", "evidence-state")
+    foreign = reader.PREDICATE_TYPE.replace("probityai.github.io", "example.invalid")
     upper = restate(base, subject=[{**_source(1), "digest": {
         "sha256": _sha(b"synthetic source document 1\n").upper()}}])
     reason = "statement_malformed"
@@ -137,8 +138,10 @@ def _statement_cases(base: dict[str, Any]) -> list[Case]:
          "deny", reason, "a cell that names no source document"),
         ("reject-subject-digest-uppercase", upper,
          "deny", reason, "a source digest written in upper-case hex"),
-        ("reject-predicate-type-other", restate(base, predicateType=other),
-         "deny", reason, "a predicate type this host does not define"),
+        ("reject-predicate-type-other", restate(base, predicateType=sibling),
+         "deny", reason, "the type of another predicate this host defines"),
+        ("reject-predicate-type-foreign-host", restate(base, predicateType=foreign),
+         "deny", reason, "this type's path on a host that does not define it"),
         ("reject-predicate-not-object", restate(base, predicate=[base["predicate"]]),
          "deny", reason, "a predicate that is a list, not an object"),
     ]

@@ -51,7 +51,7 @@ func TestEvidenceCellCommittedCorpusIsClean(t *testing.T) {
 func TestEvidenceCellEachCheckMovesTheVerdict(t *testing.T) {
 	denied := []string{"reject-statement-type-old", "reject-subject-empty",
 		"reject-subject-digest-uppercase", "reject-predicate-type-other",
-		"reject-predicate-not-object", "reject-value-and-not-addressed",
+		"reject-predicate-type-foreign-host", "reject-predicate-not-object", "reject-value-and-not-addressed",
 		"reject-neither-value-nor-not-addressed", "reject-value-empty-string",
 		"reject-producer-http", "reject-issued-at-offset", "reject-registry-digest-short",
 		"reject-extra-member", "reject-does-not-assert-empty", "reject-state-slash-form",
