@@ -4,7 +4,7 @@
 Agent Conformance CG, then runs the package's reference reader on it.
 
 ```sh
-uv run --no-project --with agent-evidence-vectors==0.31.1 python \
+uv run --no-project --with agent-evidence-vectors==0.32.1 python \
   interop/w3c-v01-appendix/second-producer/from_log.py \
   interop/w3c-v01-appendix/second-producer/sample-run.jsonl -o report.json
 ```
