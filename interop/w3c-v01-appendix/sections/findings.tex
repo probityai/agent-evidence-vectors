@@ -3,7 +3,7 @@
 % is Guigui Wang's reader-side text (2026Oct/0148).
 % Drop-in for the CG's v0.1 paper; compiles on its own through build.py.
 \providecommand{\aevmsg}[2]{\href{https://lists.w3.org/Archives/Public/public-agent-conformance/2026#1/#2.html}{#1/#2}}
-\providecommand{\aevreadrelease}{0.31.2}
+\providecommand{\aevreadrelease}{0.32.1}
 
 \section{What the runs turned up}
 \label{sec:w3c-findings}
@@ -38,8 +38,10 @@ v0.18.1 accepts all three & v0.18 \\
 R3's run report was not v0.1-shaped: no format string, checks under \texttt{records}, no run-level domain & R3 &
 Michael Blake found it with the v0.18.1 reader; Anton Sokolov re-encoded the same run (\aevmsg{Nov}{0000}) &
 \texttt{run-report-v01.json} (sha256 0e608637\ldots), which the v0.18.1 reader reads as conforms (\aevmsg{Nov}{0001}) & none \\
+R6's report stopped at the same shape check: the format named in words, \texttt{records}, the domain under run & R6 &
+Michael Blake raised it first; Roel Schuurkes re-encoded the report, no test re-run (\aevmsg{Nov}{0006}) & \texttt{run-report-v01.json} (sha256 \texttt{699a52b3...}), which the v0.18.1 reader reads as conforms; a result about form, not about the tests (\aevmsg{Nov}{0006}) & none \\
 The 92-of-96 comparison depends on which four judged members are left out: w3c-f-29 (inferred) or w3c-f-22 & R8 &
-Michael Blake repeated the comparison, inferred the rule and asked (\aevmsg{Oct}{0188}); Rouiada Abbas named the written rule of \aevmsg{Oct}{0022} and the four w3c-f-22 members (\aevmsg{Nov}{0002}) &
+Michael Blake repeated the comparison, inferred the rule and asked (\aevmsg{Oct}{0188}); Roel Schuurkes spotted the selection error in a recount (\aevmsg{Nov}{0004}); Rouiada Abbas named the written rule of \aevmsg{Oct}{0022} and the four w3c-f-22 members (\aevmsg{Nov}{0002}); Michael Blake confirmed the run (\aevmsg{Nov}{0004}) &
 None to the figures: either exclusion gives 92 of 96, and 23, 2 and 44 of 69 & none \\
 The harness tally (272 of 272) and the report's roll-up (239 fail, 31 pass, 2 inconclusive) count different things & R1 &
 Prasanna Bableshwar raised it (\aevmsg{Oct}{0170}); Nicol\'as Rocchia settled it (\aevmsg{Oct}{0171}) &

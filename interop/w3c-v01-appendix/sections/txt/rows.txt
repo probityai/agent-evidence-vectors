@@ -2,17 +2,17 @@ ROWS AND THEIR VERIFICATION
 
 Each row starts with its result line as posted, credited to whoever posted it: the owner's final line where one has been sent (Nov/0001 asks for them by 4 November), otherwise the line in Roel Schuurkes's table (Oct/0162). The second sentence is the appendix's verification cell. Where the appendix adds something, it is offered to the row's owner to take or leave.
 
-- R1 (Sankalp Gilda). "Reference emitter: 272 records, 239 fail, 31 pass, 2 inconclusive; the roll-up reads negative-capable shown-by-run" (Oct/0162). Verification: uvx agent-evidence-vectors==0.12.0 --emit-w3c-report report.json gives the posted bytes, and uvx agent-evidence-vectors==0.31.2 --read-w3c-report report.json prints conforms.
+- R1 (Sankalp Gilda). "Reference emitter: 272 records, 239 fail, 31 pass, 2 inconclusive; the roll-up reads negative-capable shown-by-run" (Oct/0162). Verification: uvx agent-evidence-vectors==0.12.0 --emit-w3c-report report.json gives the posted bytes, and uvx agent-evidence-vectors==0.32.1 --read-w3c-report report.json prints conforms.
 
-- R2 (Nicolas Rocchia). "disensor: three reports, 72, 168 and 750 checks, all pass; 5.4 control, 61 fixture records (proposed 5.5 records)" (Oct/0162). Verification: python rerun.py R2; all three reports conform under every reader in the matrix. Offered: the three reports' single-field copies under every reader.
+- R2 (Nicolas Rocchia). "disensor: three reports, 72, 168 and 750 checks, all pass; 5.4 control, 61 fixture records (proposed 5.5 records)" (Oct/0162, final in Nov/0007). Verification: python rerun.py R2; all three reports conform under every reader in the matrix. Offered: the three reports' single-field copies under every reader.
 
 - R3 (Anton Sokolov). "EATF-MultiRoot: 48 checks over three accepting seeds, all pass; 5.4 control, 44 of 192 mutants as fixture records (proposed 5.5 records)" (Oct/0162). Verification: python rerun.py R3, then python rerun.py R3-v01, which rebuilds run-report-v01.json (sha256 0e608637..., Nov/0000) with the posted converter. Offered: that file under all eleven readers in the matrix, where it conforms under each.
 
 - R4 (Kenne Ives). "tool-manifest-digest v1: three reports, 76, 67 and 16 checks, all pass; 5.4 control, 3, 3 and 2 single-change copies" (Nov/0003). The records the paper cites were produced through the producer's glue and stay the row. Verification: python rerun.py R4; the three reports conform from v0.18.1 and are rejected under W3C-R-020 before v0.18. Beside them, python rerun.py R4-driver runs the vector file without the glue, the second update of Nov/0003.
 
-- R5 (Michael Blake). "PayHELM: 150,006 checks, 93,731 pass, 56,269 fail, 6 not-exercised; 5.4 shown by run" (Oct/0162). Verification: python rerun.py R5; the report conforms under every reader, and a copy with one state flipped and the root unchanged is rejected by every reference reader.
+- R5 (Michael Blake). "PayHELM: 150,006 checks, 93,731 pass, 56,269 fail, 6 not-exercised; 5.4 shown by run" (Oct/0162, final in Nov/0004, which adds to the inputs that the mock draws are calibrated from first-party test-network runs made before the method was frozen and externally anchored). Verification: python rerun.py R5; the report conforms under every reader, and a copy with one state flipped and the root unchanged is rejected by every reference reader.
 
-- R6 (Roel Schuurkes). "Assay approval handler: 4 checks, all pass; 5.4 nothing" (Oct/0162). Verification: python rerun.py R6. Offered: the four baseline approval tests, which the row records as not rerun, now run at 0e59b404 and 8a385471 on the three platforms and pass; the September mutation is not rerun, as Oct/0024 says it cannot be.
+- R6 (Roel Schuurkes). "Assay approval handler: 4 checks, all pass; 5.4 nothing" (Nov/0006). Verification: python rerun.py R6, and uvx agent-evidence-vectors==0.32.1 --read-w3c-report run-report-v01.json on the report re-encoded in Nov/0006, which prints conforms. Offered: the four baseline approval tests, which the row records as not rerun, now run at 0e59b404 and 8a385471 on the three platforms and pass; the September mutation is not rerun, as Oct/0024 says it cannot be.
 
 - R7 (posted by Nicholas Templeman, Oct/0081). "Control-2 packet: 21 selected outcomes, 7 pass, 13 fail, 1 inconclusive" (Oct/0162). Verification: python rerun.py R7. The packet is a native (state, reason) packet, not a v0.1 report, so it has no reader cell.
 
@@ -28,6 +28,6 @@ Each row starts with its result line as posted, credited to whoever posted it: t
 
 - R13 (Raphael La Touche). "Prior-run route: five synthetic cases at 98366047, 5 of 5 expected outcomes, 23 tests, 15 hashes" (Oct/0162). Verification: python rerun.py R13; every listed file OK.
 
-- R14 (Roel Schuurkes's summary). "Reader verdicts posted on the list" (Oct/0162). Offered: the reader matrix, every report under every reader with one command, which agrees with every posted verdict and adds R3-v01.
+- R14 (Roel Schuurkes's summary). "Reader verdicts posted on the list" (Oct/0162, final in Nov/0006). Offered: the reader matrix, every report under every reader with one command, which agrees with every posted verdict and adds R3-v01.
 
 - R15 (posted by Nicholas Templeman, Sep/0080). "Census: 3 of 592 published artifacts record a control whose observed verdict was negative" (Oct/0162). Posted count, no rerun; the appendix tallies the census file's own state fields only.

@@ -21,11 +21,13 @@ R4 | Nicolas Rocchia | 76/76, 67/67 and 16/16 checks; 11 of 13 files identical, 
 R5 | Roel Schuurkes | the emitter rebuilds the published bytes | Oct/0083
 R5 | Nicolas Rocchia | the published bytes, and the root recomputed with his own code | Oct/0084
 R6 | Nicolas Rocchia | 28 controls rejected as stated; the 6 test_claim_boundary tests pass | Oct/0018
+R6 | Roel Schuurkes | the report re-encoded and read: conforms; no approval test re-run, his own run on one machine | Nov/0006
 R7 | Roel Schuurkes | all 21 selected outcomes | Oct/0085
 R7 | Guigui Wang | 18 of 18 tests, 21 of 21 outcomes, both file digests, in a different environment | Oct/0088, Oct/0184
 R8 | Roel Schuurkes | verdicts.tsv and not-selected.tsv, Linux arm64 | Oct/0104
 R8 | Nicolas Rocchia | the same two files, Linux x86_64 | Oct/0105
 R8 | Michael Blake | the 92-of-96 comparison repeated from the frozen output (a comparison, not a rerun of the reader) | Oct/0188
+R8 | Michael Blake | the same comparison with --exclude-family w3c-f-22: the same figures | Nov/0004
 R12 | Roel Schuurkes | the per-member verdicts, Linux arm64 | Oct/0141
 R13 | Nicolas Rocchia | the first three cases at 69819ec | Oct/0123
 R13 | Yasha Khandelwal | the five cases at 98366047, byte comparison against the committed results.json passed | Oct/0179

@@ -109,7 +109,7 @@ def _inline(t: str) -> str:
     t = _macro(t, "href", 2, lambda u, s: f"{s} <{u}>")
     for name in ("url", "nolinkurl", "texttt", "emph", "textit", "textbf", "path"):
         t = _macro(t, name, 1, lambda s: s)
-    t = t.replace("\\aevreadrelease{}", "0.31.2").replace("\\aevreadrelease", "0.31.2")
+    t = t.replace("\\aevreadrelease{}", "0.32.1").replace("\\aevreadrelease", "0.32.1")
     t = t.replace("\\ldots", "...").replace("\\'a", "a").replace("\\'e", "e")
     t = t.replace("``", '"').replace("''", '"')
     t = re.sub(r"\\([%&_#$])", r"\1", t).replace("~", " ").replace("\\textbackslash{}", "\\")
@@ -159,7 +159,11 @@ def _included(path: str) -> str:
     p = (HERE / (path + ("" if path.endswith(".tex") else ".tex"))).resolve()
     if not p.exists():
         p = (APPENDIX / path.replace("\\aevappendixdir/", "")).with_suffix(".tex")
-    return p.read_text(encoding="utf-8") if p.exists() else ""
+    if not p.exists():
+        return ""
+    lines = p.read_text(encoding="utf-8").splitlines()
+    kept = [l for l in lines if not l.lstrip().startswith("%") and not l.startswith("\\providecommand")]
+    return "\n".join(kept)
 
 
 def _prose(tex: str) -> list[str]:

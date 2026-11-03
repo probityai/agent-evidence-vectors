@@ -2,7 +2,7 @@
 % identifier, the package releases, the list attachments, and the reserved
 % Zenodo DOI. Drop-in for the CG's v0.1 paper; compiles on its own through build.py.
 \providecommand{\aevmsg}[2]{\href{https://lists.w3.org/Archives/Public/public-agent-conformance/2026#1/#2.html}{#1/#2}}
-\providecommand{\aevreadrelease}{0.31.2}
+\providecommand{\aevreadrelease}{0.32.1}
 
 \section{Artifact availability}
 \label{sec:w3c-availability}
@@ -40,7 +40,7 @@ LaToucheai/prior-run-evidence-v01 & R13 & swh:1:rev:98366047dd322b9fe0ea3ef822cf
 \end{longtable}
 }
 
-\paragraph{Package releases.} The reference emitter and readers are the \texttt{agent-evidence-vectors} package on PyPI, installed at an exact version: 0.12.0 (R1), 0.13.0, 0.17.4 and 0.18.1 (the readers R14 names), 0.31.0 (the newest release on 1 November 2026, in the reader matrix), and \aevreadrelease, which adds the one-line reader command \texttt{--read-w3c-report} used in the verification section. R3 also has its own archive, Zenodo 10.5281/zenodo.21874026 (\aevmsg{Oct}{0162}).
+\paragraph{Package releases.} The reference emitter and readers are the \texttt{agent-evidence-vectors} package on PyPI, installed at an exact version: 0.12.0 (R1), 0.13.0, 0.17.4 and 0.18.1 (the readers R14 names), 0.31.0 (the newest release on 1 November 2026, in the reader matrix), and \aevreadrelease, the newest on 2 November 2026, for the one-line reader command \texttt{--read-w3c-report} the verification section uses. That flag first shipped on PyPI in 0.31.2. R3 also has its own archive, Zenodo 10.5281/zenodo.21874026 (\aevmsg{Oct}{0162}).
 
 \paragraph{List attachments.} R2, R3, R3-v01, R8, R8-compare and R11 run on files attached to list messages (\aevmsg{Oct}{0063}, \aevmsg{Oct}{0060}, \aevmsg{Nov}{0000}, \aevmsg{Oct}{0039}, \aevmsg{Oct}{0188}, \aevmsg{Oct}{0139}). The harness fetches each from the archive and checks it against the sha256 posted in its message.
 
