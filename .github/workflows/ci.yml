@@ -863,6 +863,10 @@ jobs:
         run: |
           python3 scripts/manifest-counts-gate.py
           python3 scripts/manifest-counts-gate-test.py
+      - name: no path that left this repository is tracked again
+        run: |
+          heavy-queue heavy-run --name removed-paths-gate --timeout 3600 -- python3 scripts/removed-paths-gate.py
+          python3 scripts/removed-paths-gate-test.py
       # Keep the release recipe, corpus list and form aligned with their sources.
       - name: check distribution metadata and release recipe
         run: |
