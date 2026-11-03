@@ -134,7 +134,7 @@ with the signed claim. Such a recomputation adds to these steps and never
 replaces one.
 
 The conformance corpus for these steps is
-[vectors-agent-change-admission](https://github.com/probityai/agent-evidence-vectors/tree/main/vectors-agent-change-admission):
+[vectors-agent-change-admission](https://github.com/probityai/agent-evidence-vectors/tree/main/corpora/vectors-agent-change-admission):
 one supported and one or more refused members per step, each refused member one
 scripted mutation away from a supported twin.
 

@@ -22,22 +22,29 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parent
-SCRIPT = Path(os.environ.get("VERSION_PINS_SCRIPT") or REPO.parent / ".github" / "scripts" / "version-pins.py")
+SCRIPT = Path(
+    os.environ.get("VERSION_PINS_SCRIPT") or REPO.parent / ".github" / "scripts" / "version-pins.py"
+)
 STALE = "pip install agent-evidence-vectors==0.12.0"
 CURRENT_MANIFEST = '[project]\nname = "agent-evidence-vectors"\nversion = "0.32.1"\n'
 
 # (path, text) for every page the config declares historical, with one stale pin inside.
 HISTORICAL = [
-    ("interop/x-2026-10-01/source-lock.json", '{"note": "%s"}\n' % STALE),
-    ("interop/w3c-v01-appendix/main.tex", "\\providecommand{\\aevreadrelease}{%s}\n" % STALE),
-    ("interop/x-2026-10-01/README.md", "Tested with `%s`.\n" % STALE),
-    ("docs/paper/w3c-v01/README.md", "| Producer | `%s` |\n" % STALE),
+    ("interop/x-2026-10-01/source-lock.json", f'{{"note": "{STALE}"}}\n'),
+    ("interop/w3c-v01-appendix/main.tex", f"\\providecommand{{\\aevreadrelease}}{{{STALE}}}\n"),
+    ("interop/x-2026-10-01/README.md", f"Tested with `{STALE}`.\n"),
+    ("docs/paper/w3c-v01/README.md", f"| Producer | `{STALE}` |\n"),
     ("docs/USED-BY.md", "| adopter | Pins `agent-evidence-vectors==0.20.0` |\n"),
-    ("docs/W3C-V01-CONFORMANCE-APPENDIX.md", "written by `uvx agent-evidence-vectors==0.12.0 --emit`\n"),
+    ("packages/admission/README.md", "Installed as `agent-evidence-vectors==0.30.0`.\n"),
+    ("packages/vocabulary/docs/aimm-levels.md", "pip install agent-evidence-vectors==0.20.0\n"),
+    (
+        "docs/W3C-V01-CONFORMANCE-APPENDIX.md",
+        "written by `uvx agent-evidence-vectors==0.12.0 --emit`\n",
+    ),
 ]
 LIVE = [
-    ("README.md", "Install with `%s`.\n" % STALE),
-    ("docs/guides/install.md", "Install with `%s`.\n" % STALE),
+    ("README.md", f"Install with `{STALE}`.\n"),
+    ("docs/guides/install.md", f"Install with `{STALE}`.\n"),
 ]
 
 

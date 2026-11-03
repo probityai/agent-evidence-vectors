@@ -149,7 +149,7 @@ owner's answers support.
 ## Running it
 
 ```sh
-pip install agent-evidence-vectors==0.30.0
+pip install agent-evidence-vectors==0.32.1
 agent-evidence-vectors --corpus vectors-uncertain-effect
 agent-evidence-vectors --corpus vectors-uncertain-effect --verifier './verifier'
 agent-evidence-vectors runtime --corpus vectors-uncertain-effect --runtime './adapter'

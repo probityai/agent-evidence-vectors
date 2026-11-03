@@ -34,4 +34,12 @@ historical = [
   "docs/W3C-V01-CONFORMANCE-APPENDIX.md",
   "docs/USED-BY.md",
   "docs/VERIFIERS.md",
+  # the admission rails install the vectors release that packages/admission/requirements-vectors.txt
+  # pins by wheel digest; scripts/vectors-pin-gate.py holds these pages equal to that pin
+  "packages/admission/README.md",
+  "packages/admission/PROVENANCE.md",
+  "packages/admission/docs/CONSUMER-POLICY.md",
+  "packages/admission/docs/DESIGN.md",
+  # the vocabulary's level definitions name the release their worked example was measured at
+  "packages/vocabulary/docs/aimm-levels.md",
 ]
