@@ -42,7 +42,7 @@ The first command runs the packaged cases through the reference reader. The seco
 - It does not decide that a model is a general-purpose model or that it has systemic risk. That is the Commission's. The checker reads the compute the provider states and the Commission decisions the provider records.
 - A gated download is reported `not-established`: whether a sign-in wall is "publicly available" is for the authority.
 - It does not decide who the provider is, or whether CRA steward duties or the AI Act Article 2(12) exclusion apply. Those turn on the actor and the product.
-- The text of the Article above was compared with the [Official Journal text of Regulation (EU) 2024/1689](https://eur-lex.europa.eu/eli/reg/2024/1689/oj) on 2 November 2026.
+- The text of the Article above was compared with the [Official Journal text of the AI Act](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32024R1689) on 2 November 2026.
 
 ## Recording activity
 
