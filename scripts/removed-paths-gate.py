@@ -21,7 +21,8 @@ LIST = "release/removed-paths.txt"
 
 
 def entries(text: str) -> list[str]:
-    return [line.split("#", 1)[0].strip() for line in text.splitlines() if line.split("#", 1)[0].strip()]
+    kept = (line.split("#", 1)[0].strip() for line in text.splitlines())
+    return [entry for entry in kept if entry]
 
 
 def matches(tracked: list[str], removed: list[str]) -> list[tuple[str, str]]:
@@ -34,7 +35,9 @@ def matches(tracked: list[str], removed: list[str]) -> list[tuple[str, str]]:
 
 
 def main(argv: list[str]) -> int:
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     ap.add_argument("--root", type=Path, default=Path(__file__).resolve().parent.parent)
     args = ap.parse_args(argv)
     try:

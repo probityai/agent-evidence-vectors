@@ -19,7 +19,8 @@ spec.loader.exec_module(gate)
 
 def check() -> None:
     assert gate.entries("# c\n a/ \n\nb.py # why\n") == ["a/", "b.py"]
-    assert gate.matches(["a/x.py", "ab/x.py", "b.py", "c/b.py"], ["a/", "b.py"]) == [("a/x.py", "a/"), ("b.py", "b.py")]
+    found = gate.matches(["a/x.py", "ab/x.py", "b.py", "c/b.py"], ["a/", "b.py"])
+    assert found == [("a/x.py", "a/"), ("b.py", "b.py")]
     assert gate.main(["--root", str(HERE.parent)]) == 0
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
@@ -29,7 +30,8 @@ def check() -> None:
         (root / "gone/x.py").write_text("x = 1\n")
         subprocess.run(["git", "init", "-q"], cwd=root, check=True)
         assert gate.main(["--root", str(root)]) == 0
-        subprocess.run(["git", "add", "gone/x.py", "release/removed-paths.txt"], cwd=root, check=True)
+        tracked = ["gone/x.py", "release/removed-paths.txt"]
+        subprocess.run(["git", "add", *tracked], cwd=root, check=True)
         assert gate.main(["--root", str(root)]) == 1
         (root / "release/removed-paths.txt").write_text("# nothing\n")
         assert gate.main(["--root", str(root)]) == 2
