@@ -2,7 +2,7 @@
 
 ## Verify a release without trusting us
 
-Check the corpus bytes, the maintainer's signature and the two timestamp proofs at the release you intend to cite. The commands below select the published [v0.33.0 release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.26.0).
+Check the corpus bytes, the maintainer's signature and the two timestamp proofs at the release you intend to cite. The commands below select the published [v0.33.0 release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.33.0).
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors && cd agent-evidence-vectors

@@ -1,0 +1,49 @@
+# Where each version the repository's pages name is decided. The package built here is
+# read from its manifest; the pin-refresh workflow moves the live pages hourly. Pages that
+# record a past release as a fact are listed under [scan] historical and are never moved;
+# scripts/version-pins-config-test.py holds each of those exclusions to a planted pin.
+repository = "probityai/agent-evidence-vectors"
+
+[[own]]
+key = "pypi:agent-evidence-vectors"
+manifest = "pyproject.toml"
+publisher = "probityai/agent-evidence-vectors"
+
+[scan]
+include = [
+  "README.md",
+  "docs/**/*.md",
+  "packages/**/*.md",
+  "corpora/**/*.md",
+  "interop/**/*.md",
+  "interop/**/*.tex",
+  "interop/**/source-lock.json",
+]
+# Dated records of what a past release did or what a past run installed.
+historical = [
+  # source digest locks, not version pins
+  "interop/**/source-lock.json",
+  # a deliberate paper pin (\providecommand{\aevreadrelease}{...}); only the paper lane bumps it
+  "interop/w3c-v01-appendix/**",
+  # dated interop write-ups and measured runs
+  "interop/**",
+  "docs/paper/**",
+  "RUNS.md",
+  "DISPOSITIONS.md",
+  # release history tables and third-party adopters' own pins
+  "docs/W3C-V01-CONFORMANCE-APPENDIX.md",
+  "docs/USED-BY.md",
+  "docs/VERIFIERS.md",
+  # the admission rails install the vectors release that packages/admission/requirements-vectors.txt
+  # pins by wheel digest; scripts/vectors-pin-gate.py holds these pages equal to that pin
+  "packages/admission/README.md",
+  "packages/admission/PROVENANCE.md",
+  "packages/admission/docs/CONSUMER-POLICY.md",
+  "packages/admission/docs/DESIGN.md",
+  # a corpus README is hashed into the intake record of its published revision; editing it
+  # would mutate that revision, so the install line keeps the release the corpus shipped in
+  "corpora/vectors-agent-audit-record/README.md",
+  "corpora/vectors-uncertain-effect/README.md",
+  # the vocabulary's level definitions name the release their worked example was measured at
+  "packages/vocabulary/docs/aimm-levels.md",
+]

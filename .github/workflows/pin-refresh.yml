@@ -1,0 +1,44 @@
+name: pin-refresh
+
+# Moves the family lock in version-pins.toml and the pages it holds to the newest
+# releases as a pull request, and runs the workflows that support a manual run on it.
+# A finished release run triggers it at once. main-protection also requires dco,
+# governance, no-internal-drafts and identity-scan, which run only on pull_request
+# events that a token-created pull request does not raise, so the bump waits for
+# a person to merge until those four accept workflow_dispatch; there is no hourly
+# run here for that reason (it would fail every hour on the merge).
+
+on:
+  workflow_run:
+    workflows: [release]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "why it runs now"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+
+concurrency:
+  group: pin-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+      - uses: probityai/.github/actions/pin-refresh@ca2ba06de3bc0fb385e81a338873cbf26a3eaaf5 # main
+        with:
+          ci: |
+            ci.yml
+            observed-code-digest.yml
+          token: ${{ github.token }}
