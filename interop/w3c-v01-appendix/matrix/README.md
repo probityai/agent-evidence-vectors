@@ -23,16 +23,19 @@ the committed table.
 ## Inputs
 
 `matrix.py` imports [`../rerun.py`](../rerun.py) and reruns R1, R2, R3, R3-v01,
-R4 and R5 from their pins, then keeps every file those reruns write that
-declares the v0.1 format. A scan of the rerun trees of R1 to R5, R7 and R13 on
-2026-11-01 found exactly the nine reports `REPORTS` lists. Which rows yield a
-report, and why the others do not, is the first table of `matrix.md`, from
-`ROW_META` in `matrix.py`:
+R4, R5 and R6 from their pins, then keeps every file those reruns write that
+declares the v0.1 format, and the one report R6's producer posted in its pinned
+tree. A scan of the rerun trees of R1 to R5, R7 and R13 on 2026-11-01 found
+exactly the nine reports `REPORTS` lists for those rows; R6's
+`records.v0.1.json` is the tenth. Which rows yield a report, and why the others
+do not, is the first table of `matrix.md`, from `ROW_META` in `matrix.py`:
 
-- R1, R2, R3-v01, R4 and R5 yield v0.1 reports.
+- R1, R2, R3-v01, R4, R5 and R6 yield v0.1 reports.
 - R3 writes records in the producer's own encoding; R3-v01 re-encodes them.
 - R4-driver writes this repository's comparison report, not a v0.1 report.
-- R6 prints a check line and test results and writes no report.
+- R6's report names the format in prose, "Agent Conformance Reporting Format
+  v0.1", not by the `public-agent-conformance/report/v0.1` string, and carries
+  `records` in place of `checks`; the matrix reads it as posted.
 - R7 is a native (state, reason) packet, not a v0.1 report: a footnote, no cell.
 - R8 and R11 are readers' verdicts over corpus members; R8-compare, R9, R10,
   R12 and R14 compare verdicts or bytes; R13 writes case files, none in the
@@ -44,12 +47,14 @@ report, and why the others do not, is the first table of `matrix.md`, from
   `shape_errors` then `rejections`, at 0.12.0, 0.13.0, 0.17.4 and 0.18.1 (the
   releases the table names) and at 0.31.0 (the newest on PyPI on 2026-11-01),
   each installed by uv at that exact version ([`drivers/py_reader.py`](drivers/py_reader.py)).
-- The Go reader in `corpora/w3creport.go` at v0.18.1 and at the checked-out
-  commit. Its command line reads a whole corpus; its own path for one emitted
+- The Go reader in `corpora/w3creport.go` at v0.18.1 and in
+  `corpusreaders/w3creport.go` at the checked-out commit. Its command line
+  reads a whole corpus; its own path for one emitted
   report is `w3cEmittedReportFindings`, which calls `decodeJSONNumbers`,
   `w3cShapeErrors` and `w3cRejections`. The driver
   [`drivers/w3c_matrix_driver_test.go.txt`](drivers/w3c_matrix_driver_test.go.txt)
-  is copied into `corpora/` for the run, calls those three, and is removed.
+  is copied into the reader's directory (`corpora/` at v0.18.1, `corpusreaders/`
+  where the corpora were moved) for the run, calls those three, and is removed.
 - The Rust reader in `readers/w3c-report-rs` at v0.18.1 and at the checked-out
   commit, `--report <file>`. The matrix reads its `rows:` line; the
   layout and leaf-count lines it also prints are kept in the cell's note.
