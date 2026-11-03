@@ -3,21 +3,21 @@
 \begin{table}[t]
 \centering
 \scriptsize
-\begin{tabular}{lllllllllll}
+\begin{tabular}{llllllllllll}
 \hline
-Reader & R1 & R2-v0.2 & R2-v0.3 & R2-v0.4 & R3-v01 & R4-heldfast & R4-native & R4-map & R5 & R6 \\
+Reader & R1 & R2-v0.2 & R2-v0.3 & R2-v0.4 & R3-v01 & R4-heldfast & R4-native & R4-map & R5 & R6 & R6-v01 \\
 \hline
-Python 0.12.0 & C & C & C & C & C & R R-020 & R R-020 & R R-020 & C & R shape \\
-Python 0.13.0 & C & C & C & C & C & R R-020 & R R-020 & R R-020 & C & R shape \\
-Python 0.17.4 & C & C & C & C & C & R R-020 & R R-020 & R R-020 & C & R shape \\
-Python 0.18.1 & C & C & C & C & C & C & C & C & C & R shape \\
-Python 0.31.0 & C & C & C & C & C & C & C & C & C & R shape \\
-Go v0.18.1 & C & C & C & C & C & C & C & C & C & R shape \\
-Go main & C & C & C & C & C & C & C & C & C & R shape \\
-Rust v0.18.1 & C & C & C & C & C & C & C & C & C & R shape \\
-Rust main & C & C & C & C & C & C & C & C & C & R shape \\
-0039 reader & C & C & C & C & C & C & C & C & C & N \\
-Kroehl 6d8ee54b & C & C & C & C & C & C & C & C & C & T \\
+Python 0.12.0 & C & C & C & C & C & R R-020 & R R-020 & R R-020 & C & R shape & C \\
+Python 0.13.0 & C & C & C & C & C & R R-020 & R R-020 & R R-020 & C & R shape & C \\
+Python 0.17.4 & C & C & C & C & C & R R-020 & R R-020 & R R-020 & C & R shape & C \\
+Python 0.18.1 & C & C & C & C & C & C & C & C & C & R shape & C \\
+Python 0.31.0 & C & C & C & C & C & C & C & C & C & R shape & C \\
+Go v0.18.1 & C & C & C & C & C & C & C & C & C & R shape & C \\
+Go main & C & C & C & C & C & C & C & C & C & R shape & C \\
+Rust v0.18.1 & C & C & C & C & C & C & C & C & C & R shape & C \\
+Rust main & C & C & C & C & C & C & C & C & C & R shape & C \\
+0039 reader & C & C & C & C & C & C & C & C & C & N & C \\
+Kroehl 6d8ee54b & C & C & C & C & C & C & C & C & C & T & C \\
 \hline
 \end{tabular}
 \caption{Each report rerun from its pins, read by each reader. C conforms; R rejected, with the rows cited (a numbered row of the rejection table by its number, an unnumbered rule as R- and its identifier's number); T cannot tell; N cannot read. R7 has no column: its packet is not a v0.1 report.}
@@ -31,17 +31,17 @@ Kroehl 6d8ee54b & C & C & C & C & C & C & C & C & C & T \\
 \hline
 Reader & Mutants & Rejected & Conforms & Cannot tell & Cannot read & Target cited \\
 \hline
-Python 0.12.0 & 154 & 147 & 7 & 0 & 0 & 146/154 \\
-Python 0.13.0 & 154 & 147 & 7 & 0 & 0 & 147/154 \\
-Python 0.17.4 & 154 & 147 & 7 & 0 & 0 & 147/154 \\
-Python 0.18.1 & 154 & 154 & 0 & 0 & 0 & 154/154 \\
-Python 0.31.0 & 154 & 154 & 0 & 0 & 0 & 154/154 \\
-Go v0.18.1 & 154 & 154 & 0 & 0 & 0 & 154/154 \\
-Go main & 154 & 154 & 0 & 0 & 0 & 154/154 \\
-Rust v0.18.1 & 154 & 154 & 0 & 0 & 0 & 146/154 \\
-Rust main & 154 & 154 & 0 & 0 & 0 & 146/154 \\
-0039 reader & 154 & 58 & 79 & 16 & 1 & 55/56 \\
-Kroehl 6d8ee54b & 154 & 75 & 34 & 45 & 0 & 55/56 \\
+Python 0.12.0 & 168 & 161 & 7 & 0 & 0 & 160/168 \\
+Python 0.13.0 & 168 & 161 & 7 & 0 & 0 & 161/168 \\
+Python 0.17.4 & 168 & 161 & 7 & 0 & 0 & 161/168 \\
+Python 0.18.1 & 168 & 168 & 0 & 0 & 0 & 168/168 \\
+Python 0.31.0 & 168 & 168 & 0 & 0 & 0 & 168/168 \\
+Go v0.18.1 & 168 & 168 & 0 & 0 & 0 & 168/168 \\
+Go main & 168 & 168 & 0 & 0 & 0 & 168/168 \\
+Rust v0.18.1 & 168 & 168 & 0 & 0 & 0 & 159/168 \\
+Rust main & 168 & 168 & 0 & 0 & 0 & 159/168 \\
+0039 reader & 168 & 61 & 88 & 18 & 1 & 58/59 \\
+Kroehl 6d8ee54b & 168 & 82 & 37 & 49 & 0 & 58/59 \\
 \hline
 \end{tabular}
 \caption{Single-field negative controls: every reader on every mutant. Target cited counts mutants whose target row the reader named, over those whose target its labels can name.}
@@ -59,4 +59,5 @@ Kroehl 6d8ee54b & 154 & 75 & 34 & 45 & 0 & 55/56 \\
 \item R4-map: \texttt{uvx agent-evidence-vectors==\aevreadrelease{} --read-w3c-report} \nolinkurl{probity-map-reader.json}
 \item R5: \texttt{uvx agent-evidence-vectors==\aevreadrelease{} --read-w3c-report} \nolinkurl{finality-threshold-report.level1.json}
 \item R6: \texttt{uvx agent-evidence-vectors==\aevreadrelease{} --read-w3c-report} \nolinkurl{records.v0.1.json}
+\item R6-v01: \texttt{uvx agent-evidence-vectors==\aevreadrelease{} --read-w3c-report} \nolinkurl{run-report-v01.json}
 \end{itemize}
