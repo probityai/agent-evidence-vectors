@@ -40,6 +40,14 @@
     "2026Nov/att-0000/eatf-multiroot-run-report-v01.zip": {
       "sha256": "7878f24e231c2d7e7c9b4bbb0cbe72aa88696fb63ae5dbf053e0818066dfadb9",
       "text": false
+    },
+    "2026Nov/att-0006/reencode_r6.py": {
+      "sha256": "285405b2af16cbd325893e73b1214db73c07c4f9630976e2f1b5cee5366d3c60",
+      "text": true
+    },
+    "2026Nov/att-0006/run-report-v01.json": {
+      "sha256": "699a52b329ff12832cf73d4904b553c83a165803e0303a858c050fa8d811ff36",
+      "text": true
     }
   },
   "rows": {
@@ -237,6 +245,24 @@
         "passed": 4
       },
       "limits": "No published output digest. The Rust tests are the four of the experiment's own recompute.sh, built with the toolchain each commit pins in rust-toolchain.toml; their expected result is the four names passing, as in observations/baseline.txt of that experiment, and the count of tests filtered out is recorded but not compared, since it moves with the commit."
+    },
+    "R6-v01": {
+      "result": "R6's posted report re-encoded into the v0.1 report shape, no test re-run",
+      "messages": [
+        "2026Nov/0006"
+      ],
+      "kind": "rerun",
+      "command": "python3 -I reencode_r6.py <R6 rerun records.v0.1.json> --out run-report-v01.json",
+      "pins": {
+        "script": "2026Nov/att-0006/reencode_r6.py",
+        "posted_report": "2026Nov/att-0006/run-report-v01.json",
+        "records": "src-0e59b404/docs/experiments/approval-freshness-discrimination-2026-09/w3c-v0.1/records.v0.1.json",
+        "python": "3.13"
+      },
+      "expect": {
+        "run-report-v01.json": "699a52b329ff12832cf73d4904b553c83a165803e0303a858c050fa8d811ff36"
+      },
+      "limits": "Re-encodes the posted report; the four approval tests are not re-run here beyond R6 itself, and a conforms verdict is a result about form."
     },
     "R7": {
       "result": "Control-2 packet: 21 selected outcomes over 15 baseline and relaxation pairs",

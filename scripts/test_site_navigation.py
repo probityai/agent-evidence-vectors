@@ -44,6 +44,7 @@ PREDICATES = (
     ("v1", "observed-effect"),
     ("v1", "uncertain-effect"),
     ("v1", "monitor-coverage"),
+    ("v1", "signature-coverage"),
     ("v1", "evidence-state"),
     ("v1", "incident-evidence-cell"),
     ("v1", "propagation-step"),
@@ -159,6 +160,7 @@ def repository(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
         "spec/predicates/observed-effect.md",
         "corpora/vectors-uncertain-effect/README.md",
         "corpora/vectors-monitor-coverage/README.md",
+        "corpora/vectors-signature-coverage/README.md",
         "corpora/vectors-evidence-state/README.md",
         "corpora/vectors-incident-evidence-cell/README.md",
         "corpora/vectors-propagation-step/README.md",
@@ -422,7 +424,7 @@ class TestSiteNavigation:
             root = fromstring((built_site / "sitemap.xml").read_bytes())
             namespace = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
             urls = [node.text for node in root.findall("s:url/s:loc", namespace)]
-            assert len(urls) == len(set(urls)) == 53
+            assert len(urls) == len(set(urls)) == 54
             assert root.find("s:url/s:lastmod", namespace) is None
 
         def test_local_image_loads_repository_bytes(self, repository: Path) -> None:

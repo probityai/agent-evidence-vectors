@@ -129,6 +129,8 @@ def _attrs(items: Any) -> dict[str, Any]:
             continue
         key, value = item.get("key"), item.get("value")
         if isinstance(key, str) and isinstance(value, dict):
+            if key in out:
+                raise Refusal(NOT_ESTABLISHED, "audit_attribute_repeated")
             out[key] = next(iter(value.values()), None)
     return out
 

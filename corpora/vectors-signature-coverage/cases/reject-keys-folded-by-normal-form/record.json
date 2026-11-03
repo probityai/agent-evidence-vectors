@@ -1,0 +1,28 @@
+{
+  "consumerReads": [
+    [
+      "r\u00e9sum\u00e9"
+    ]
+  ],
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/signature-coverage",
+  "envelope": {
+    "algorithm": "ed25519",
+    "excluded": [],
+    "payload": "eyJyw6lzdW3DqSI6Mn0=",
+    "publicKey": "J6/1zpiNhpabfiNlvRqqe5B5/g3uWJ9bJCDod+ReLEc=",
+    "signature": "Btmpp2p/aRwDAgPTwsnj9XMgCMyFyjZwA+d4Mbllk+fCa9MZ8l8/nLWee4K2+Q8l9BQBRdYxdNEDSV4zeySUCw=="
+  },
+  "recordId": "record-reject-keys-folded-by-normal-form",
+  "source": {
+    "entries": [
+      [
+        "r\u00e9sum\u00e9",
+        1
+      ],
+      [
+        "re\u0301sume\u0301",
+        2
+      ]
+    ]
+  }
+}

@@ -114,7 +114,7 @@ def test_every_row_that_yields_a_report_has_one_and_reruns() -> None:
     listed = {row for _, row, _ in matrix.REPORTS}
     assert yielding == listed
     assert listed <= set(matrix.PRODUCING)
-    assert len(matrix.REPORTS) == 10
+    assert len(matrix.REPORTS) == 11
 
 
 def test_a_report_with_records_in_place_of_checks_still_gets_its_mutants() -> None:

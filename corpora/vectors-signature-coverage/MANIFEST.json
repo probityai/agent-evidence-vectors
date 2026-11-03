@@ -1,0 +1,1013 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/signature-coverage",
+  "corpusDigest": "9675d858355f9ceaf071380551de090ddec20ea5cbf6605241601712e882523d",
+  "counts": {
+    "allow": 9,
+    "deny": 28
+  },
+  "signerContract": "signer source.json --json; {\"refused\": true} or {\"signatureInput\": \"<base64>\"}",
+  "signerPairs": 12,
+  "signerPairsSha256": "704c64412fcd5d8d0070c1702edd9d6120be1c7c38ce96df5fc9e6d8793e5f40",
+  "suite": "signature-coverage/v1",
+  "synthetic": true,
+  "vectors": [
+    {
+      "edit": "control: the signed payload and the source hold one entry each",
+      "expected": {
+        "decision": "allow",
+        "reason": "signature_covers_reading"
+      },
+      "files": {
+        "record.json": "67fa80123ab120fa8dfba136b3813add5b4a413b38fc4541725afb29319a23df"
+      },
+      "id": "allow-one-entry-for-the-key",
+      "path": "cases/allow-one-entry-for-the-key",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "770b2a84b43b0d7b59ecaa4f3596d0f2287cd330fdd77b72b6ee81403fc8e356",
+        "sourceEntries": 1
+      },
+      "sharedSignature": [
+        "allow-declared-exclusion-not-read",
+        "allow-one-entry-for-the-key",
+        "reject-consumer-reads-excluded-key",
+        "reject-consumer-reads-under-excluded-key",
+        "reject-contract-id-missing",
+        "reject-contract-id-unknown",
+        "reject-keys-folded-by-case",
+        "reject-member-added-after-signing",
+        "reject-member-missing-from-source",
+        "reject-null-member-dropped",
+        "reject-repeat-identical-values",
+        "reject-repeat-kept-first",
+        "reject-repeat-kept-last",
+        "reject-repeat-three-times",
+        "reject-repeat-under-excluded-key",
+        "reject-repeat-with-entry-between",
+        "reject-value-changed-after-signing"
+      ]
+    },
+    {
+      "edit": "control: nothing to read and nothing signed",
+      "expected": {
+        "decision": "allow",
+        "reason": "signature_covers_reading"
+      },
+      "files": {
+        "record.json": "8b6fd49e2352f185bff7190e7a549a807266050c66ea4ea3e5c1e8febb548faa"
+      },
+      "id": "allow-empty-source",
+      "path": "cases/allow-empty-source",
+      "retained": {
+        "consumerReads": 0,
+        "excluded": 0,
+        "payloadSha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "sourceEntries": 0
+      }
+    },
+    {
+      "edit": "control: one key name in two sibling maps is not a repeat",
+      "expected": {
+        "decision": "allow",
+        "reason": "signature_covers_reading"
+      },
+      "files": {
+        "record.json": "688d7dc6b40cf2842133504ca63fcdb149b598862aadd12961b96875833cf4bf"
+      },
+      "id": "allow-key-repeated-in-sibling-maps",
+      "path": "cases/allow-key-repeated-in-sibling-maps",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "dd07c9b8bdcf634ec37df08b90182111234084f3731a2c11061b41fc4a2c3dcb",
+        "sourceEntries": 4
+      }
+    },
+    {
+      "edit": "control: one key name in two list elements is not a repeat",
+      "expected": {
+        "decision": "allow",
+        "reason": "signature_covers_reading"
+      },
+      "files": {
+        "record.json": "a7cb62ee9b4b36f82b577d6ddd6cde4a22e6860efc344c83b0029404590a5bde"
+      },
+      "id": "allow-key-repeated-across-list-elements",
+      "path": "cases/allow-key-repeated-across-list-elements",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "98f3f8b7022e8995eeadbb146ca43085d06115fdd1d8843840437f08795111c1",
+        "sourceEntries": 3
+      }
+    },
+    {
+      "edit": "control: keys that differ in case are two keys and both are signed",
+      "expected": {
+        "decision": "allow",
+        "reason": "signature_covers_reading"
+      },
+      "files": {
+        "record.json": "88cf32568a080e25a32d71dcb1d9e41e9a8ec4d4a02b852ffe3e63e2fa4dd9a9"
+      },
+      "id": "allow-keys-differing-in-case",
+      "path": "cases/allow-keys-differing-in-case",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "c9cb94571d0e3ba201bb5d3ee8161bfe5082e4edb3535877f22593c196b9dc5b",
+        "sourceEntries": 2
+      }
+    },
+    {
+      "edit": "control: keys that differ in Unicode normal form are two keys and both are signed",
+      "expected": {
+        "decision": "allow",
+        "reason": "signature_covers_reading"
+      },
+      "files": {
+        "record.json": "95c38027a83748adbda1f61e1c4856ead851a631ca4bacfadafc4ae527cd004b"
+      },
+      "id": "allow-keys-differing-in-normal-form",
+      "path": "cases/allow-keys-differing-in-normal-form",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "5f78f6b1be6d4c436d7f1d5fcfde807817ba2eadcac0eb8e39e4ed3f9ae17dce",
+        "sourceEntries": 2
+      }
+    },
+    {
+      "edit": "control: a key declared outside the signature that no consumer reads",
+      "expected": {
+        "decision": "allow",
+        "reason": "signature_covers_reading"
+      },
+      "files": {
+        "record.json": "e1e39b50493389f5aaff0ba80a8a44edc5778fab76d4839353421452bcda1490"
+      },
+      "id": "allow-declared-exclusion-not-read",
+      "path": "cases/allow-declared-exclusion-not-read",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 1,
+        "payloadSha256": "770b2a84b43b0d7b59ecaa4f3596d0f2287cd330fdd77b72b6ee81403fc8e356",
+        "sourceEntries": 2
+      },
+      "sharedSignature": [
+        "allow-declared-exclusion-not-read",
+        "allow-one-entry-for-the-key",
+        "reject-consumer-reads-excluded-key",
+        "reject-consumer-reads-under-excluded-key",
+        "reject-contract-id-missing",
+        "reject-contract-id-unknown",
+        "reject-keys-folded-by-case",
+        "reject-member-added-after-signing",
+        "reject-member-missing-from-source",
+        "reject-null-member-dropped",
+        "reject-repeat-identical-values",
+        "reject-repeat-kept-first",
+        "reject-repeat-kept-last",
+        "reject-repeat-three-times",
+        "reject-repeat-under-excluded-key",
+        "reject-repeat-with-entry-between",
+        "reject-value-changed-after-signing"
+      ]
+    },
+    {
+      "edit": "control: the largest integer every JSON parser reads exactly",
+      "expected": {
+        "decision": "allow",
+        "reason": "signature_covers_reading"
+      },
+      "files": {
+        "record.json": "b9f8e27bed08f733ad4e9cde4516cf74eff92a5511baa760a29edf378b77f7dd"
+      },
+      "id": "allow-largest-exact-integer",
+      "path": "cases/allow-largest-exact-integer",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "e1da48c6a6089f06ecb4e0a2259e658e3786b2420f52baccdf929ec6460d7b41",
+        "sourceEntries": 1
+      }
+    },
+    {
+      "edit": "control: 1.0 and 1 are one JSON number, so a byte comparison is the wrong check",
+      "expected": {
+        "decision": "allow",
+        "reason": "signature_covers_reading"
+      },
+      "files": {
+        "record.json": "81badb83fe9aa9269fe00081cee2a70522ce04d33bec4a9a09dd57fa102e5594"
+      },
+      "id": "allow-number-spelled-another-way",
+      "path": "cases/allow-number-spelled-another-way",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "2bfd14f43d17fc7cea24e0917a8879b4b2f880b8baeec1b9d90fbaad655e71bd",
+        "sourceEntries": 1
+      },
+      "sharedSignature": [
+        "allow-number-spelled-another-way",
+        "reject-source-integer-past-exact-range"
+      ]
+    },
+    {
+      "edit": "the record names no contract",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_missing"
+      },
+      "files": {
+        "record.json": "7c2f8d1fe204fdf618965496e99e18a67f461641158d204822fb9cfc8c33018c"
+      },
+      "id": "reject-contract-id-missing",
+      "path": "cases/reject-contract-id-missing",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "770b2a84b43b0d7b59ecaa4f3596d0f2287cd330fdd77b72b6ee81403fc8e356",
+        "sourceEntries": 1
+      },
+      "sharedSignature": [
+        "allow-declared-exclusion-not-read",
+        "allow-one-entry-for-the-key",
+        "reject-consumer-reads-excluded-key",
+        "reject-consumer-reads-under-excluded-key",
+        "reject-contract-id-missing",
+        "reject-contract-id-unknown",
+        "reject-keys-folded-by-case",
+        "reject-member-added-after-signing",
+        "reject-member-missing-from-source",
+        "reject-null-member-dropped",
+        "reject-repeat-identical-values",
+        "reject-repeat-kept-first",
+        "reject-repeat-kept-last",
+        "reject-repeat-three-times",
+        "reject-repeat-under-excluded-key",
+        "reject-repeat-with-entry-between",
+        "reject-value-changed-after-signing"
+      ]
+    },
+    {
+      "edit": "the record names a contract that does not exist",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_unknown"
+      },
+      "files": {
+        "record.json": "64889a67850aaff329bff202a9366b2d816f7f729d27ff27a651563c11205dcf"
+      },
+      "id": "reject-contract-id-unknown",
+      "path": "cases/reject-contract-id-unknown",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "770b2a84b43b0d7b59ecaa4f3596d0f2287cd330fdd77b72b6ee81403fc8e356",
+        "sourceEntries": 1
+      },
+      "sharedSignature": [
+        "allow-declared-exclusion-not-read",
+        "allow-one-entry-for-the-key",
+        "reject-consumer-reads-excluded-key",
+        "reject-consumer-reads-under-excluded-key",
+        "reject-contract-id-missing",
+        "reject-contract-id-unknown",
+        "reject-keys-folded-by-case",
+        "reject-member-added-after-signing",
+        "reject-member-missing-from-source",
+        "reject-null-member-dropped",
+        "reject-repeat-identical-values",
+        "reject-repeat-kept-first",
+        "reject-repeat-kept-last",
+        "reject-repeat-three-times",
+        "reject-repeat-under-excluded-key",
+        "reject-repeat-with-entry-between",
+        "reject-value-changed-after-signing"
+      ]
+    },
+    {
+      "edit": "the signature comes from a key other than the one the envelope names",
+      "expected": {
+        "decision": "deny",
+        "reason": "signature_invalid"
+      },
+      "files": {
+        "record.json": "698e6028e69db9b0cd6258d05d7a17e07bb3b81a5a7cfffd48dba30fa67d8628"
+      },
+      "id": "reject-signature-by-another-key",
+      "path": "cases/reject-signature-by-another-key",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "770b2a84b43b0d7b59ecaa4f3596d0f2287cd330fdd77b72b6ee81403fc8e356",
+        "sourceEntries": 1
+      }
+    },
+    {
+      "edit": "the payload changed after signing",
+      "expected": {
+        "decision": "deny",
+        "reason": "signature_invalid"
+      },
+      "files": {
+        "record.json": "551ec85c4e0172a0943e2faeaeb74f89de018603a2f90eaa68b2b65fea934fda"
+      },
+      "id": "reject-signature-over-other-bytes",
+      "path": "cases/reject-signature-over-other-bytes",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "6b838faadcc5ae20ac196a2be7bdcf932f9589a14d7ecbcd9d61e5b94c80d03a",
+        "sourceEntries": 1
+      }
+    },
+    {
+      "edit": "the signed bytes hold both values: one parser reads allow, another deny",
+      "expected": {
+        "decision": "deny",
+        "reason": "payload_repeated_member"
+      },
+      "files": {
+        "record.json": "0f6c382ac48ea142512d67971cdad6590137f3edf4969465cd4bccb1024f1f1f"
+      },
+      "id": "reject-payload-repeats-member",
+      "path": "cases/reject-payload-repeats-member",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "3e130064bd3ebddb45d1e4c11bd4a19d38f3732a0c99dedba33364badf202863",
+        "sourceEntries": 1
+      }
+    },
+    {
+      "edit": "the signed bytes repeat a member one level down",
+      "expected": {
+        "decision": "deny",
+        "reason": "payload_repeated_member"
+      },
+      "files": {
+        "record.json": "b72db0cbc572eb6b9ed039a331978a420952be68986f22517f869a9850f31be6"
+      },
+      "id": "reject-payload-repeats-nested-member",
+      "path": "cases/reject-payload-repeats-nested-member",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "8f48f95ab8acd8d13dd34822f4ec1cc028bb1025752c386e8d244c6e199f9770",
+        "sourceEntries": 2
+      }
+    },
+    {
+      "edit": "the second name is an escape of the first, so a byte comparison misses it",
+      "expected": {
+        "decision": "deny",
+        "reason": "payload_repeated_member"
+      },
+      "files": {
+        "record.json": "142170f885f8b2dde310555dd1445d9714efe10bf51a816cc082d218d0ea3b01"
+      },
+      "id": "reject-payload-repeats-member-by-escape",
+      "path": "cases/reject-payload-repeats-member-by-escape",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "79ff8fa8f5086e705e4ca210b1b4305c6ba9676b2de7d6e3ac722d91917c6b4c",
+        "sourceEntries": 1
+      }
+    },
+    {
+      "edit": "a parser holding doubles reads the signed integer as a neighbouring value",
+      "expected": {
+        "decision": "deny",
+        "reason": "number_not_interoperable"
+      },
+      "files": {
+        "record.json": "363df5e0427cc742cecec05e407030e0c0e2c9656b923876becd3173a0168c6f"
+      },
+      "id": "reject-payload-integer-past-exact-range",
+      "path": "cases/reject-payload-integer-past-exact-range",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "4ac8309cc76123ef6c5325ef925fc873e9b5856ec4f844ef1462f9303960378a",
+        "sourceEntries": 1
+      }
+    },
+    {
+      "edit": "the source holds an integer past the exact range while the payload holds a small one",
+      "expected": {
+        "decision": "deny",
+        "reason": "number_not_interoperable"
+      },
+      "files": {
+        "record.json": "c9fec76f0c10ba8166ec3e47dc87a7322e24d66f1091c1da60c9b334ee2e4aab"
+      },
+      "id": "reject-source-integer-past-exact-range",
+      "path": "cases/reject-source-integer-past-exact-range",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "2bfd14f43d17fc7cea24e0917a8879b4b2f880b8baeec1b9d90fbaad655e71bd",
+        "sourceEntries": 1
+      },
+      "sharedSignature": [
+        "allow-number-spelled-another-way",
+        "reject-source-integer-past-exact-range"
+      ]
+    },
+    {
+      "edit": "first-entry readers read allow; the signer kept the last entry and signed deny",
+      "expected": {
+        "decision": "deny",
+        "reason": "source_repeated_key"
+      },
+      "files": {
+        "record.json": "1fed097ffb799ac139dd64a940a4b0eadffdf46329a63549e3a7dd896d129dc6"
+      },
+      "id": "reject-repeat-kept-last",
+      "path": "cases/reject-repeat-kept-last",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "770b2a84b43b0d7b59ecaa4f3596d0f2287cd330fdd77b72b6ee81403fc8e356",
+        "sourceEntries": 2
+      },
+      "sharedSignature": [
+        "allow-declared-exclusion-not-read",
+        "allow-one-entry-for-the-key",
+        "reject-consumer-reads-excluded-key",
+        "reject-consumer-reads-under-excluded-key",
+        "reject-contract-id-missing",
+        "reject-contract-id-unknown",
+        "reject-keys-folded-by-case",
+        "reject-member-added-after-signing",
+        "reject-member-missing-from-source",
+        "reject-null-member-dropped",
+        "reject-repeat-identical-values",
+        "reject-repeat-kept-first",
+        "reject-repeat-kept-last",
+        "reject-repeat-three-times",
+        "reject-repeat-under-excluded-key",
+        "reject-repeat-with-entry-between",
+        "reject-value-changed-after-signing"
+      ]
+    },
+    {
+      "edit": "last-entry readers read allow; the signer kept the first entry and signed deny",
+      "expected": {
+        "decision": "deny",
+        "reason": "source_repeated_key"
+      },
+      "files": {
+        "record.json": "6e5cfd3d67261b97eb9f8871e4083162853dada7cfe5b1b615d1cda8ac45a2e3"
+      },
+      "id": "reject-repeat-kept-first",
+      "path": "cases/reject-repeat-kept-first",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "770b2a84b43b0d7b59ecaa4f3596d0f2287cd330fdd77b72b6ee81403fc8e356",
+        "sourceEntries": 2
+      },
+      "sharedSignature": [
+        "allow-declared-exclusion-not-read",
+        "allow-one-entry-for-the-key",
+        "reject-consumer-reads-excluded-key",
+        "reject-consumer-reads-under-excluded-key",
+        "reject-contract-id-missing",
+        "reject-contract-id-unknown",
+        "reject-keys-folded-by-case",
+        "reject-member-added-after-signing",
+        "reject-member-missing-from-source",
+        "reject-null-member-dropped",
+        "reject-repeat-identical-values",
+        "reject-repeat-kept-first",
+        "reject-repeat-kept-last",
+        "reject-repeat-three-times",
+        "reject-repeat-under-excluded-key",
+        "reject-repeat-with-entry-between",
+        "reject-value-changed-after-signing"
+      ]
+    },
+    {
+      "edit": "both entries agree today, and the signature would stay valid if either changed",
+      "expected": {
+        "decision": "deny",
+        "reason": "source_repeated_key"
+      },
+      "files": {
+        "record.json": "9a7f0e232024e8397c64dad9f8731058b831b19ef359432b76ea9d6581208038"
+      },
+      "id": "reject-repeat-identical-values",
+      "path": "cases/reject-repeat-identical-values",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "770b2a84b43b0d7b59ecaa4f3596d0f2287cd330fdd77b72b6ee81403fc8e356",
+        "sourceEntries": 2
+      },
+      "sharedSignature": [
+        "allow-declared-exclusion-not-read",
+        "allow-one-entry-for-the-key",
+        "reject-consumer-reads-excluded-key",
+        "reject-consumer-reads-under-excluded-key",
+        "reject-contract-id-missing",
+        "reject-contract-id-unknown",
+        "reject-keys-folded-by-case",
+        "reject-member-added-after-signing",
+        "reject-member-missing-from-source",
+        "reject-null-member-dropped",
+        "reject-repeat-identical-values",
+        "reject-repeat-kept-first",
+        "reject-repeat-kept-last",
+        "reject-repeat-three-times",
+        "reject-repeat-under-excluded-key",
+        "reject-repeat-with-entry-between",
+        "reject-value-changed-after-signing"
+      ]
+    },
+    {
+      "edit": "the repeat is not adjacent, so a check of neighbouring entries misses it",
+      "expected": {
+        "decision": "deny",
+        "reason": "source_repeated_key"
+      },
+      "files": {
+        "record.json": "0e6f450479ffabbbb5482791f58c5f6e89438fbc53898e8b763d94176bb680e5"
+      },
+      "id": "reject-repeat-with-entry-between",
+      "path": "cases/reject-repeat-with-entry-between",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "770b2a84b43b0d7b59ecaa4f3596d0f2287cd330fdd77b72b6ee81403fc8e356",
+        "sourceEntries": 3
+      },
+      "sharedSignature": [
+        "allow-declared-exclusion-not-read",
+        "allow-one-entry-for-the-key",
+        "reject-consumer-reads-excluded-key",
+        "reject-consumer-reads-under-excluded-key",
+        "reject-contract-id-missing",
+        "reject-contract-id-unknown",
+        "reject-keys-folded-by-case",
+        "reject-member-added-after-signing",
+        "reject-member-missing-from-source",
+        "reject-null-member-dropped",
+        "reject-repeat-identical-values",
+        "reject-repeat-kept-first",
+        "reject-repeat-kept-last",
+        "reject-repeat-three-times",
+        "reject-repeat-under-excluded-key",
+        "reject-repeat-with-entry-between",
+        "reject-value-changed-after-signing"
+      ]
+    },
+    {
+      "edit": "first and last agree and the middle entry reads allow",
+      "expected": {
+        "decision": "deny",
+        "reason": "source_repeated_key"
+      },
+      "files": {
+        "record.json": "0ad2b62755ce6f1dedb3e04c4b340c649e4a961f4fbca5f7f641f8c3aeff006c"
+      },
+      "id": "reject-repeat-three-times",
+      "path": "cases/reject-repeat-three-times",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "770b2a84b43b0d7b59ecaa4f3596d0f2287cd330fdd77b72b6ee81403fc8e356",
+        "sourceEntries": 3
+      },
+      "sharedSignature": [
+        "allow-declared-exclusion-not-read",
+        "allow-one-entry-for-the-key",
+        "reject-consumer-reads-excluded-key",
+        "reject-consumer-reads-under-excluded-key",
+        "reject-contract-id-missing",
+        "reject-contract-id-unknown",
+        "reject-keys-folded-by-case",
+        "reject-member-added-after-signing",
+        "reject-member-missing-from-source",
+        "reject-null-member-dropped",
+        "reject-repeat-identical-values",
+        "reject-repeat-kept-first",
+        "reject-repeat-kept-last",
+        "reject-repeat-three-times",
+        "reject-repeat-under-excluded-key",
+        "reject-repeat-with-entry-between",
+        "reject-value-changed-after-signing"
+      ]
+    },
+    {
+      "edit": "the empty string is a key and repeats like any other",
+      "expected": {
+        "decision": "deny",
+        "reason": "source_repeated_key"
+      },
+      "files": {
+        "record.json": "88f62c27b5004bb8b06ae5c2c6107d3e498d600dd1aeb7aabd74dc7787bdb03e"
+      },
+      "id": "reject-repeat-empty-key",
+      "path": "cases/reject-repeat-empty-key",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "04b1974871363f356fe781f020d7591e965c5f8ec392ac1cb49080186c7b1b9b",
+        "sourceEntries": 2
+      }
+    },
+    {
+      "edit": "the repeat sits one map down, under a key that appears once",
+      "expected": {
+        "decision": "deny",
+        "reason": "source_repeated_key"
+      },
+      "files": {
+        "record.json": "2d5e2c2d9f123d2ed94960932e35170d2af5ac4da19e2a87bd99a062b8eabf20"
+      },
+      "id": "reject-repeat-in-nested-map",
+      "path": "cases/reject-repeat-in-nested-map",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "5fa64c192dba0d97852f0449d31bd5755b6ebba72de761869d0401c09b804ec0",
+        "sourceEntries": 3
+      }
+    },
+    {
+      "edit": "the repeat sits in a map inside a list",
+      "expected": {
+        "decision": "deny",
+        "reason": "source_repeated_key"
+      },
+      "files": {
+        "record.json": "ec54097a0bf6eee9dcf39a447ee4d51ac3adf7bfdec75b956242bd4e3eea0f0c"
+      },
+      "id": "reject-repeat-in-list-element",
+      "path": "cases/reject-repeat-in-list-element",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "24e43a032406a50e32357371096fe5f41657f5aa6a07d119c8dac6dd11ae802a",
+        "sourceEntries": 4
+      }
+    },
+    {
+      "edit": "a key declared outside the signature repeats, so the record is still malformed",
+      "expected": {
+        "decision": "deny",
+        "reason": "source_repeated_key"
+      },
+      "files": {
+        "record.json": "d5c6be2391fa33131eb27ee3aa4f260f61d7406d32ce542153c0172f0f05f4ca"
+      },
+      "id": "reject-repeat-under-excluded-key",
+      "path": "cases/reject-repeat-under-excluded-key",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 1,
+        "payloadSha256": "770b2a84b43b0d7b59ecaa4f3596d0f2287cd330fdd77b72b6ee81403fc8e356",
+        "sourceEntries": 3
+      },
+      "sharedSignature": [
+        "allow-declared-exclusion-not-read",
+        "allow-one-entry-for-the-key",
+        "reject-consumer-reads-excluded-key",
+        "reject-consumer-reads-under-excluded-key",
+        "reject-contract-id-missing",
+        "reject-contract-id-unknown",
+        "reject-keys-folded-by-case",
+        "reject-member-added-after-signing",
+        "reject-member-missing-from-source",
+        "reject-null-member-dropped",
+        "reject-repeat-identical-values",
+        "reject-repeat-kept-first",
+        "reject-repeat-kept-last",
+        "reject-repeat-three-times",
+        "reject-repeat-under-excluded-key",
+        "reject-repeat-with-entry-between",
+        "reject-value-changed-after-signing"
+      ]
+    },
+    {
+      "edit": "no repeat at all: the source holds another value than the payload",
+      "expected": {
+        "decision": "deny",
+        "reason": "reading_differs_from_signed"
+      },
+      "files": {
+        "record.json": "80106421b9821957a2df3ca9d0e371af830f9032b02d5b13b57c45724ec9db71"
+      },
+      "id": "reject-value-changed-after-signing",
+      "path": "cases/reject-value-changed-after-signing",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "770b2a84b43b0d7b59ecaa4f3596d0f2287cd330fdd77b72b6ee81403fc8e356",
+        "sourceEntries": 1
+      },
+      "sharedSignature": [
+        "allow-declared-exclusion-not-read",
+        "allow-one-entry-for-the-key",
+        "reject-consumer-reads-excluded-key",
+        "reject-consumer-reads-under-excluded-key",
+        "reject-contract-id-missing",
+        "reject-contract-id-unknown",
+        "reject-keys-folded-by-case",
+        "reject-member-added-after-signing",
+        "reject-member-missing-from-source",
+        "reject-null-member-dropped",
+        "reject-repeat-identical-values",
+        "reject-repeat-kept-first",
+        "reject-repeat-kept-last",
+        "reject-repeat-three-times",
+        "reject-repeat-under-excluded-key",
+        "reject-repeat-with-entry-between",
+        "reject-value-changed-after-signing"
+      ]
+    },
+    {
+      "edit": "a member the signature does not cover and nothing declares outside it",
+      "expected": {
+        "decision": "deny",
+        "reason": "reading_differs_from_signed"
+      },
+      "files": {
+        "record.json": "96cb1a7c0159fbbb07e014dabfac3030b26b9974e9cd6db7a87c2678e81c77de"
+      },
+      "id": "reject-member-added-after-signing",
+      "path": "cases/reject-member-added-after-signing",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "770b2a84b43b0d7b59ecaa4f3596d0f2287cd330fdd77b72b6ee81403fc8e356",
+        "sourceEntries": 2
+      },
+      "sharedSignature": [
+        "allow-declared-exclusion-not-read",
+        "allow-one-entry-for-the-key",
+        "reject-consumer-reads-excluded-key",
+        "reject-consumer-reads-under-excluded-key",
+        "reject-contract-id-missing",
+        "reject-contract-id-unknown",
+        "reject-keys-folded-by-case",
+        "reject-member-added-after-signing",
+        "reject-member-missing-from-source",
+        "reject-null-member-dropped",
+        "reject-repeat-identical-values",
+        "reject-repeat-kept-first",
+        "reject-repeat-kept-last",
+        "reject-repeat-three-times",
+        "reject-repeat-under-excluded-key",
+        "reject-repeat-with-entry-between",
+        "reject-value-changed-after-signing"
+      ]
+    },
+    {
+      "edit": "the payload holds a member the source does not",
+      "expected": {
+        "decision": "deny",
+        "reason": "reading_differs_from_signed"
+      },
+      "files": {
+        "record.json": "d8c85c6b4fd1d86d26629ed81be0f479ded6d9648c0e92eb7ce07edc04ea8274"
+      },
+      "id": "reject-member-missing-from-source",
+      "path": "cases/reject-member-missing-from-source",
+      "retained": {
+        "consumerReads": 0,
+        "excluded": 0,
+        "payloadSha256": "770b2a84b43b0d7b59ecaa4f3596d0f2287cd330fdd77b72b6ee81403fc8e356",
+        "sourceEntries": 0
+      },
+      "sharedSignature": [
+        "allow-declared-exclusion-not-read",
+        "allow-one-entry-for-the-key",
+        "reject-consumer-reads-excluded-key",
+        "reject-consumer-reads-under-excluded-key",
+        "reject-contract-id-missing",
+        "reject-contract-id-unknown",
+        "reject-keys-folded-by-case",
+        "reject-member-added-after-signing",
+        "reject-member-missing-from-source",
+        "reject-null-member-dropped",
+        "reject-repeat-identical-values",
+        "reject-repeat-kept-first",
+        "reject-repeat-kept-last",
+        "reject-repeat-three-times",
+        "reject-repeat-under-excluded-key",
+        "reject-repeat-with-entry-between",
+        "reject-value-changed-after-signing"
+      ]
+    },
+    {
+      "edit": "the flatten folded case and two keys became one",
+      "expected": {
+        "decision": "deny",
+        "reason": "reading_differs_from_signed"
+      },
+      "files": {
+        "record.json": "440f4399c223e7e8d49bada7c4a9d73553e0337ed9d988215a425bc6934b433a"
+      },
+      "id": "reject-keys-folded-by-case",
+      "path": "cases/reject-keys-folded-by-case",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "770b2a84b43b0d7b59ecaa4f3596d0f2287cd330fdd77b72b6ee81403fc8e356",
+        "sourceEntries": 2
+      },
+      "sharedSignature": [
+        "allow-declared-exclusion-not-read",
+        "allow-one-entry-for-the-key",
+        "reject-consumer-reads-excluded-key",
+        "reject-consumer-reads-under-excluded-key",
+        "reject-contract-id-missing",
+        "reject-contract-id-unknown",
+        "reject-keys-folded-by-case",
+        "reject-member-added-after-signing",
+        "reject-member-missing-from-source",
+        "reject-null-member-dropped",
+        "reject-repeat-identical-values",
+        "reject-repeat-kept-first",
+        "reject-repeat-kept-last",
+        "reject-repeat-three-times",
+        "reject-repeat-under-excluded-key",
+        "reject-repeat-with-entry-between",
+        "reject-value-changed-after-signing"
+      ]
+    },
+    {
+      "edit": "the flatten normalised Unicode and two keys became one",
+      "expected": {
+        "decision": "deny",
+        "reason": "reading_differs_from_signed"
+      },
+      "files": {
+        "record.json": "d09fb4a99e7dad2b44d7f094ecd1481683ac2e82e743d9fa4c8d49718e57236c"
+      },
+      "id": "reject-keys-folded-by-normal-form",
+      "path": "cases/reject-keys-folded-by-normal-form",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "38a1e1a4e8091ad9dad0ce53c53ea48e7e7dff1175ad2dae60fa6b638d6c1a86",
+        "sourceEntries": 2
+      }
+    },
+    {
+      "edit": "a member with a null value is still a member a reader can see",
+      "expected": {
+        "decision": "deny",
+        "reason": "reading_differs_from_signed"
+      },
+      "files": {
+        "record.json": "ed39003308e4d2574cd84d9c102be5a661c29489fdeff371de3124d6e592a5ad"
+      },
+      "id": "reject-null-member-dropped",
+      "path": "cases/reject-null-member-dropped",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "770b2a84b43b0d7b59ecaa4f3596d0f2287cd330fdd77b72b6ee81403fc8e356",
+        "sourceEntries": 2
+      },
+      "sharedSignature": [
+        "allow-declared-exclusion-not-read",
+        "allow-one-entry-for-the-key",
+        "reject-consumer-reads-excluded-key",
+        "reject-consumer-reads-under-excluded-key",
+        "reject-contract-id-missing",
+        "reject-contract-id-unknown",
+        "reject-keys-folded-by-case",
+        "reject-member-added-after-signing",
+        "reject-member-missing-from-source",
+        "reject-null-member-dropped",
+        "reject-repeat-identical-values",
+        "reject-repeat-kept-first",
+        "reject-repeat-kept-last",
+        "reject-repeat-three-times",
+        "reject-repeat-under-excluded-key",
+        "reject-repeat-with-entry-between",
+        "reject-value-changed-after-signing"
+      ]
+    },
+    {
+      "edit": "the flatten turned a number into a string",
+      "expected": {
+        "decision": "deny",
+        "reason": "reading_differs_from_signed"
+      },
+      "files": {
+        "record.json": "41caa2a2c2de54c8a36894beb913f0a0494b35210e733750412fe6f98fa04e7c"
+      },
+      "id": "reject-number-signed-as-string",
+      "path": "cases/reject-number-signed-as-string",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "1a2613ec93fa82b8b76d7decf6f493cff9bdf9999208caa30deb11440c1f8b43",
+        "sourceEntries": 1
+      }
+    },
+    {
+      "edit": "a boolean is never the number one",
+      "expected": {
+        "decision": "deny",
+        "reason": "reading_differs_from_signed"
+      },
+      "files": {
+        "record.json": "62cb0c0bb26cd85982c4af416647659185874301a6bf732952c028c054007bbd"
+      },
+      "id": "reject-boolean-signed-as-number",
+      "path": "cases/reject-boolean-signed-as-number",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 0,
+        "payloadSha256": "39f94024cbcf740958d8bb6e25095e33ee260776744698ff4e0d43a4454bf72f",
+        "sourceEntries": 1
+      }
+    },
+    {
+      "edit": "the consumer relies on a key the signer declares outside the signature",
+      "expected": {
+        "decision": "deny",
+        "reason": "consumer_reads_unsigned"
+      },
+      "files": {
+        "record.json": "27ccf26924f5e2552aec3ba27be972e2d441c0ae0ce90158c944d31c01059c25"
+      },
+      "id": "reject-consumer-reads-excluded-key",
+      "path": "cases/reject-consumer-reads-excluded-key",
+      "retained": {
+        "consumerReads": 1,
+        "excluded": 1,
+        "payloadSha256": "770b2a84b43b0d7b59ecaa4f3596d0f2287cd330fdd77b72b6ee81403fc8e356",
+        "sourceEntries": 2
+      },
+      "sharedSignature": [
+        "allow-declared-exclusion-not-read",
+        "allow-one-entry-for-the-key",
+        "reject-consumer-reads-excluded-key",
+        "reject-consumer-reads-under-excluded-key",
+        "reject-contract-id-missing",
+        "reject-contract-id-unknown",
+        "reject-keys-folded-by-case",
+        "reject-member-added-after-signing",
+        "reject-member-missing-from-source",
+        "reject-null-member-dropped",
+        "reject-repeat-identical-values",
+        "reject-repeat-kept-first",
+        "reject-repeat-kept-last",
+        "reject-repeat-three-times",
+        "reject-repeat-under-excluded-key",
+        "reject-repeat-with-entry-between",
+        "reject-value-changed-after-signing"
+      ]
+    },
+    {
+      "edit": "the consumer reads below a key declared outside the signature",
+      "expected": {
+        "decision": "deny",
+        "reason": "consumer_reads_unsigned"
+      },
+      "files": {
+        "record.json": "0b98e6d3db00df7cd6ecec46935d8bf45e5c8c76a82923a60f13486796e71926"
+      },
+      "id": "reject-consumer-reads-under-excluded-key",
+      "path": "cases/reject-consumer-reads-under-excluded-key",
+      "retained": {
+        "consumerReads": 2,
+        "excluded": 1,
+        "payloadSha256": "770b2a84b43b0d7b59ecaa4f3596d0f2287cd330fdd77b72b6ee81403fc8e356",
+        "sourceEntries": 3
+      },
+      "sharedSignature": [
+        "allow-declared-exclusion-not-read",
+        "allow-one-entry-for-the-key",
+        "reject-consumer-reads-excluded-key",
+        "reject-consumer-reads-under-excluded-key",
+        "reject-contract-id-missing",
+        "reject-contract-id-unknown",
+        "reject-keys-folded-by-case",
+        "reject-member-added-after-signing",
+        "reject-member-missing-from-source",
+        "reject-null-member-dropped",
+        "reject-repeat-identical-values",
+        "reject-repeat-kept-first",
+        "reject-repeat-kept-last",
+        "reject-repeat-three-times",
+        "reject-repeat-under-excluded-key",
+        "reject-repeat-with-entry-between",
+        "reject-value-changed-after-signing"
+      ]
+    }
+  ],
+  "verifierContract": "verifier record.json --json; exit 0 allow, 1 deny"
+}

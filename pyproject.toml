@@ -8,7 +8,7 @@
 
 [project]
 name = "agent-evidence-vectors"
-version = "0.32.1"
+version = "0.33.0"
 description = "Conformance corpora and reference verifiers for agent evidence records"
 requires-python = ">=3.11"
 license = { text = "Apache-2.0" }
@@ -191,6 +191,7 @@ only-include = [
     "corpora/vectors-restart-records",
     "corpora/vectors-scitt-cose",
     "corpora/vectors-self-reported-record",
+    "corpora/vectors-signature-coverage",
     "corpora/vectors-source-coverage",
     "corpora/vectors-spoofed-tool-output",
     "corpora/vectors-test-tampering",
@@ -255,6 +256,7 @@ exclude = [
     "corpora/vectors-restart-records/**/*.py",
     "corpora/vectors-scitt-cose/**/*.py",
     "corpora/vectors-self-reported-record/**/*.py",
+    "corpora/vectors-signature-coverage/**/*.py",
     "corpora/vectors-source-coverage/**/*.py",
     "corpora/vectors-spoofed-tool-output/**/*.py",
     "corpora/vectors-test-tampering/**/*.py",
@@ -318,6 +320,7 @@ exclude = [
 "corpora/vectors-restart-records" = "agent_evidence_vectors/corpora/vectors-restart-records"
 "corpora/vectors-scitt-cose" = "agent_evidence_vectors/corpora/vectors-scitt-cose"
 "corpora/vectors-self-reported-record" = "agent_evidence_vectors/corpora/vectors-self-reported-record"
+"corpora/vectors-signature-coverage" = "agent_evidence_vectors/corpora/vectors-signature-coverage"
 "corpora/vectors-source-coverage" = "agent_evidence_vectors/corpora/vectors-source-coverage"
 "corpora/vectors-spoofed-tool-output" = "agent_evidence_vectors/corpora/vectors-spoofed-tool-output"
 "corpora/vectors-test-tampering" = "agent_evidence_vectors/corpora/vectors-test-tampering"
@@ -456,6 +459,7 @@ only-include = [
     "corpora/vectors-restart-records",
     "corpora/vectors-scitt-cose",
     "corpora/vectors-self-reported-record",
+    "corpora/vectors-signature-coverage",
     "corpora/vectors-source-coverage",
     "corpora/vectors-spoofed-tool-output",
     "corpora/vectors-test-tampering",

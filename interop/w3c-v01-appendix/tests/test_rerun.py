@@ -150,3 +150,10 @@ def test_r3_v01_refuses_without_the_r3_rerun(tmp_path: Path) -> None:
     w.mkdir()
     with pytest.raises(rerun.Refused, match="run R3 first"):
         rerun.row_r3_v01(w, w / "log.txt", rerun.ROWS["rows"]["R3-v01"])
+
+
+def test_r6_v01_refuses_without_the_r6_rerun(tmp_path: Path) -> None:
+    w = tmp_path / "R6-v01"
+    w.mkdir()
+    with pytest.raises(rerun.Refused, match="run R6 first"):
+        rerun.row_r6_v01(w, w / "log.txt", rerun.ROWS["rows"]["R6-v01"])

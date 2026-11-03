@@ -13838,6 +13838,1207 @@
     "outcome": "rejected"
    }
   },
+  "R6-v01": {
+   "abbas-0039": {
+    "cited": [],
+    "note": "-",
+    "outcome": "conforms"
+   },
+   "go-main": {
+    "cited": [],
+    "note": "",
+    "outcome": "conforms"
+   },
+   "go-v0.18.1": {
+    "cited": [],
+    "note": "",
+    "outcome": "conforms"
+   },
+   "kroehl-6d8ee54b": {
+    "cited": [],
+    "note": "",
+    "outcome": "conforms"
+   },
+   "py-0.12.0": {
+    "cited": [],
+    "note": "",
+    "outcome": "conforms"
+   },
+   "py-0.13.0": {
+    "cited": [],
+    "note": "",
+    "outcome": "conforms"
+   },
+   "py-0.17.4": {
+    "cited": [],
+    "note": "",
+    "outcome": "conforms"
+   },
+   "py-0.18.1": {
+    "cited": [],
+    "note": "",
+    "outcome": "conforms"
+   },
+   "py-0.31.0": {
+    "cited": [],
+    "note": "",
+    "outcome": "conforms"
+   },
+   "rs-main": {
+    "cited": [],
+    "note": "verdict: every check holds",
+    "outcome": "conforms"
+   },
+   "rs-v0.18.1": {
+    "cited": [],
+    "note": "verdict: every check holds",
+    "outcome": "conforms"
+   }
+  },
+  "R6-v01.carried-counter-off": {
+   "abbas-0039": {
+    "cited": [],
+    "note": "F-4:carried",
+    "outcome": "conforms"
+   },
+   "go-main": {
+    "cited": [
+     "W3C-R-018"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "go-v0.18.1": {
+    "cited": [
+     "W3C-R-018"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "kroehl-6d8ee54b": {
+    "cited": [],
+    "note": "",
+    "outcome": "conforms"
+   },
+   "py-0.12.0": {
+    "cited": [
+     "W3C-R-018"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.13.0": {
+    "cited": [
+     "W3C-R-018"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.17.4": {
+    "cited": [
+     "W3C-R-018"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.18.1": {
+    "cited": [
+     "W3C-R-018"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.31.0": {
+    "cited": [
+     "W3C-R-018"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "rs-main": {
+    "cited": [
+     "W3C-R-018"
+    ],
+    "note": "rejected under [W3C-R-018]",
+    "outcome": "rejected"
+   },
+   "rs-v0.18.1": {
+    "cited": [
+     "W3C-R-018"
+    ],
+    "note": "rejected under [W3C-R-018]",
+    "outcome": "rejected"
+   }
+  },
+  "R6-v01.check-state-dropped": {
+   "abbas-0039": {
+    "cited": [],
+    "note": "record:S-12,F-2:pass,F-3:evidence-population",
+    "outcome": "cannot-tell"
+   },
+   "go-main": {
+    "cited": [
+     "shape"
+    ],
+    "note": "checks[0] carries no string state",
+    "outcome": "rejected"
+   },
+   "go-v0.18.1": {
+    "cited": [
+     "shape"
+    ],
+    "note": "checks[0] carries no string state",
+    "outcome": "rejected"
+   },
+   "kroehl-6d8ee54b": {
+    "cited": [
+     "line 327"
+    ],
+    "note": "line 327: \"a report asserting a completeness claim without the count of the population it quantifies over\" - the evidence claim counts 4, its population (verdict records) is 3",
+    "outcome": "rejected"
+   },
+   "py-0.12.0": {
+    "cited": [
+     "shape"
+    ],
+    "note": "checks[0] carries no string state",
+    "outcome": "rejected"
+   },
+   "py-0.13.0": {
+    "cited": [
+     "shape"
+    ],
+    "note": "checks[0] carries no string state",
+    "outcome": "rejected"
+   },
+   "py-0.17.4": {
+    "cited": [
+     "shape"
+    ],
+    "note": "checks[0] carries no string state",
+    "outcome": "rejected"
+   },
+   "py-0.18.1": {
+    "cited": [
+     "shape"
+    ],
+    "note": "checks[0] carries no string state",
+    "outcome": "rejected"
+   },
+   "py-0.31.0": {
+    "cited": [
+     "shape"
+    ],
+    "note": "checks[0] carries no string state",
+    "outcome": "rejected"
+   },
+   "rs-main": {
+    "cited": [
+     "shape"
+    ],
+    "note": "not a v0.1 report: checks[0] carries no state member",
+    "outcome": "rejected"
+   },
+   "rs-v0.18.1": {
+    "cited": [
+     "shape"
+    ],
+    "note": "not a v0.1 report: checks[0] carries no state member",
+    "outcome": "rejected"
+   }
+  },
+  "R6-v01.format-dropped": {
+   "abbas-0039": {
+    "cited": [],
+    "note": "-",
+    "outcome": "conforms"
+   },
+   "go-main": {
+    "cited": [
+     "shape"
+    ],
+    "note": "the report does not declare format 'public-agent-conformance/report/v0.1'",
+    "outcome": "rejected"
+   },
+   "go-v0.18.1": {
+    "cited": [
+     "shape"
+    ],
+    "note": "the report does not declare format 'public-agent-conformance/report/v0.1'",
+    "outcome": "rejected"
+   },
+   "kroehl-6d8ee54b": {
+    "cited": [],
+    "note": "",
+    "outcome": "conforms"
+   },
+   "py-0.12.0": {
+    "cited": [
+     "shape"
+    ],
+    "note": "the report does not declare format 'public-agent-conformance/report/v0.1'",
+    "outcome": "rejected"
+   },
+   "py-0.13.0": {
+    "cited": [
+     "shape"
+    ],
+    "note": "the report does not declare format 'public-agent-conformance/report/v0.1'",
+    "outcome": "rejected"
+   },
+   "py-0.17.4": {
+    "cited": [
+     "shape"
+    ],
+    "note": "the report does not declare format 'public-agent-conformance/report/v0.1'",
+    "outcome": "rejected"
+   },
+   "py-0.18.1": {
+    "cited": [
+     "shape"
+    ],
+    "note": "the report does not declare format 'public-agent-conformance/report/v0.1'",
+    "outcome": "rejected"
+   },
+   "py-0.31.0": {
+    "cited": [
+     "shape"
+    ],
+    "note": "the report does not declare format 'public-agent-conformance/report/v0.1'",
+    "outcome": "rejected"
+   },
+   "rs-main": {
+    "cited": [
+     "shape"
+    ],
+    "note": "not a v0.1 report: the report does not name the format public-agent-conformance/report/v0.1",
+    "outcome": "rejected"
+   },
+   "rs-v0.18.1": {
+    "cited": [
+     "shape"
+    ],
+    "note": "not a v0.1 report: the report does not name the format public-agent-conformance/report/v0.1",
+    "outcome": "rejected"
+   }
+  },
+  "R6-v01.leaf-count-off": {
+   "abbas-0039": {
+    "cited": [],
+    "note": "-",
+    "outcome": "conforms"
+   },
+   "go-main": {
+    "cited": [
+     "W3C-R-015"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "go-v0.18.1": {
+    "cited": [
+     "W3C-R-015"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "kroehl-6d8ee54b": {
+    "cited": [],
+    "note": "R16",
+    "outcome": "cannot-tell"
+   },
+   "py-0.12.0": {
+    "cited": [
+     "W3C-R-015"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.13.0": {
+    "cited": [
+     "W3C-R-015"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.17.4": {
+    "cited": [
+     "W3C-R-015"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.18.1": {
+    "cited": [
+     "W3C-R-015"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.31.0": {
+    "cited": [
+     "W3C-R-015"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "rs-main": {
+    "cited": [
+     "W3C-R-015"
+    ],
+    "note": "rejected under [W3C-R-015]",
+    "outcome": "rejected"
+   },
+   "rs-v0.18.1": {
+    "cited": [
+     "W3C-R-015"
+    ],
+    "note": "rejected under [W3C-R-015]",
+    "outcome": "rejected"
+   }
+  },
+  "R6-v01.negative-capable-dropped": {
+   "abbas-0039": {
+    "cited": [],
+    "note": "F-5:silence",
+    "outcome": "conforms"
+   },
+   "go-main": {
+    "cited": [
+     "W3C-R-013"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "go-v0.18.1": {
+    "cited": [
+     "W3C-R-013"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "kroehl-6d8ee54b": {
+    "cited": [
+     "line 421"
+    ],
+    "note": "line 421: \"\"Nothing\" is a permitted answer. Silence in that field is not\" - the roll-up does not say whether its checks could produce a negative verdict",
+    "outcome": "rejected"
+   },
+   "py-0.12.0": {
+    "cited": [
+     "W3C-R-013"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.13.0": {
+    "cited": [
+     "W3C-R-013"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.17.4": {
+    "cited": [
+     "W3C-R-013"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.18.1": {
+    "cited": [
+     "W3C-R-013"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.31.0": {
+    "cited": [
+     "W3C-R-013"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "rs-main": {
+    "cited": [
+     "W3C-R-013"
+    ],
+    "note": "rejected under [W3C-R-013]",
+    "outcome": "rejected"
+   },
+   "rs-v0.18.1": {
+    "cited": [
+     "W3C-R-013"
+    ],
+    "note": "rejected under [W3C-R-013]",
+    "outcome": "rejected"
+   }
+  },
+  "R6-v01.population-off": {
+   "abbas-0039": {
+    "cited": [],
+    "note": "F-3:accounting-population",
+    "outcome": "conforms"
+   },
+   "go-main": {
+    "cited": [
+     "W3C-R-023"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "go-v0.18.1": {
+    "cited": [
+     "W3C-R-023"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "kroehl-6d8ee54b": {
+    "cited": [
+     "line 327"
+    ],
+    "note": "line 327: \"a report asserting a completeness claim without the count of the population it quantifies over\" - the accounting claim counts 5, its population (declared checks) is 4",
+    "outcome": "rejected"
+   },
+   "py-0.12.0": {
+    "cited": [
+     "W3C-R-023"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.13.0": {
+    "cited": [
+     "W3C-R-023"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.17.4": {
+    "cited": [
+     "W3C-R-023"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.18.1": {
+    "cited": [
+     "W3C-R-023"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.31.0": {
+    "cited": [
+     "W3C-R-023"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "rs-main": {
+    "cited": [
+     "W3C-R-023"
+    ],
+    "note": "rejected under [W3C-R-023]",
+    "outcome": "rejected"
+   },
+   "rs-v0.18.1": {
+    "cited": [
+     "W3C-R-023"
+    ],
+    "note": "rejected under [W3C-R-023]",
+    "outcome": "rejected"
+   }
+  },
+  "R6-v01.rollup-count-off": {
+   "abbas-0039": {
+    "cited": [],
+    "note": "F-2:pass",
+    "outcome": "conforms"
+   },
+   "go-main": {
+    "cited": [
+     "W3C-R-017"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "go-v0.18.1": {
+    "cited": [
+     "W3C-R-017"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "kroehl-6d8ee54b": {
+    "cited": [],
+    "note": "R24",
+    "outcome": "cannot-tell"
+   },
+   "py-0.12.0": {
+    "cited": [
+     "W3C-R-017"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.13.0": {
+    "cited": [
+     "W3C-R-017"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.17.4": {
+    "cited": [
+     "W3C-R-017"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.18.1": {
+    "cited": [
+     "W3C-R-017"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.31.0": {
+    "cited": [
+     "W3C-R-017"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "rs-main": {
+    "cited": [
+     "W3C-R-017"
+    ],
+    "note": "rejected under [W3C-R-017]",
+    "outcome": "rejected"
+   },
+   "rs-v0.18.1": {
+    "cited": [
+     "W3C-R-017"
+    ],
+    "note": "rejected under [W3C-R-017]",
+    "outcome": "rejected"
+   }
+  },
+  "R6-v01.rollup-dropped": {
+   "abbas-0039": {
+    "cited": [],
+    "note": "F-2:no-roll-up",
+    "outcome": "conforms"
+   },
+   "go-main": {
+    "cited": [
+     "W3C-R-017"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "go-v0.18.1": {
+    "cited": [
+     "W3C-R-017"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "kroehl-6d8ee54b": {
+    "cited": [],
+    "note": "R24",
+    "outcome": "cannot-tell"
+   },
+   "py-0.12.0": {
+    "cited": [
+     "W3C-R-017"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.13.0": {
+    "cited": [
+     "W3C-R-017"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.17.4": {
+    "cited": [
+     "W3C-R-017"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.18.1": {
+    "cited": [
+     "W3C-R-017"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.31.0": {
+    "cited": [
+     "W3C-R-017"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "rs-main": {
+    "cited": [
+     "shape"
+    ],
+    "note": "not a v0.1 report: the subject carries no roll-up member",
+    "outcome": "rejected"
+   },
+   "rs-v0.18.1": {
+    "cited": [
+     "shape"
+    ],
+    "note": "not a v0.1 report: the subject carries no roll-up member",
+    "outcome": "rejected"
+   }
+  },
+  "R6-v01.root-digest-altered": {
+   "abbas-0039": {
+    "cited": [],
+    "note": "-",
+    "outcome": "conforms"
+   },
+   "go-main": {
+    "cited": [
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "go-v0.18.1": {
+    "cited": [
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "kroehl-6d8ee54b": {
+    "cited": [],
+    "note": "",
+    "outcome": "conforms"
+   },
+   "py-0.12.0": {
+    "cited": [
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.13.0": {
+    "cited": [
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.17.4": {
+    "cited": [
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.18.1": {
+    "cited": [
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.31.0": {
+    "cited": [
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "rs-main": {
+    "cited": [
+     "W3C-R-020"
+    ],
+    "note": "rejected under [W3C-R-020], cause digests-differ",
+    "outcome": "rejected"
+   },
+   "rs-v0.18.1": {
+    "cited": [
+     "W3C-R-020"
+    ],
+    "note": "rejected under [W3C-R-020], cause digests-differ",
+    "outcome": "rejected"
+   }
+  },
+  "R6-v01.row05-exclusion-exercised": {
+   "abbas-0039": {
+    "cited": [
+     "row 5"
+    ],
+    "note": "-",
+    "outcome": "rejected"
+   },
+   "go-main": {
+    "cited": [
+     "W3C-R-005",
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "go-v0.18.1": {
+    "cited": [
+     "W3C-R-005",
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "kroehl-6d8ee54b": {
+    "cited": [
+     "row 5"
+    ],
+    "note": "row 5 (line 276): \"a declared exclusion with any state but not-exercised\" - mcp::tool_call_handler::tests::approval::approval_required_missing_denies is a declared exclusion in state pass",
+    "outcome": "rejected"
+   },
+   "py-0.12.0": {
+    "cited": [
+     "W3C-R-005",
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.13.0": {
+    "cited": [
+     "W3C-R-005",
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.17.4": {
+    "cited": [
+     "W3C-R-005",
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.18.1": {
+    "cited": [
+     "W3C-R-005",
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.31.0": {
+    "cited": [
+     "W3C-R-005",
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "rs-main": {
+    "cited": [
+     "W3C-R-005",
+     "W3C-R-020"
+    ],
+    "note": "rejected under [W3C-R-005, W3C-R-020], cause digests-differ",
+    "outcome": "rejected"
+   },
+   "rs-v0.18.1": {
+    "cited": [
+     "W3C-R-005",
+     "W3C-R-020"
+    ],
+    "note": "rejected under [W3C-R-005, W3C-R-020], cause digests-differ",
+    "outcome": "rejected"
+   }
+  },
+  "R6-v01.row07-cause-on-verdict": {
+   "abbas-0039": {
+    "cited": [
+     "row 7"
+    ],
+    "note": "alt:S-4",
+    "outcome": "rejected"
+   },
+   "go-main": {
+    "cited": [
+     "W3C-R-007",
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "go-v0.18.1": {
+    "cited": [
+     "W3C-R-007",
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "kroehl-6d8ee54b": {
+    "cited": [
+     "row 7"
+    ],
+    "note": "row 7 (line 279): \"a verdict state carrying a cause\" - mcp::tool_call_handler::tests::approval::approval_required_missing_denies is pass and carries a cause",
+    "outcome": "rejected"
+   },
+   "py-0.12.0": {
+    "cited": [
+     "W3C-R-007",
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.13.0": {
+    "cited": [
+     "W3C-R-007",
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.17.4": {
+    "cited": [
+     "W3C-R-007",
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.18.1": {
+    "cited": [
+     "W3C-R-007",
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.31.0": {
+    "cited": [
+     "W3C-R-007",
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "rs-main": {
+    "cited": [
+     "W3C-R-007",
+     "W3C-R-020"
+    ],
+    "note": "rejected under [W3C-R-007, W3C-R-020], cause digests-differ",
+    "outcome": "rejected"
+   },
+   "rs-v0.18.1": {
+    "cited": [
+     "W3C-R-007",
+     "W3C-R-020"
+    ],
+    "note": "rejected under [W3C-R-007, W3C-R-020], cause digests-differ",
+    "outcome": "rejected"
+   }
+  },
+  "R6-v01.row10-foreclosed-no-constraint": {
+   "abbas-0039": {
+    "cited": [
+     "row 10",
+     "row 11"
+    ],
+    "note": "-",
+    "outcome": "rejected"
+   },
+   "go-main": {
+    "cited": [
+     "W3C-R-010",
+     "W3C-R-011",
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "go-v0.18.1": {
+    "cited": [
+     "W3C-R-010",
+     "W3C-R-011",
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "kroehl-6d8ee54b": {
+    "cited": [
+     "row 10",
+     "row 11"
+    ],
+    "note": "row 10 (line 284): \"foreclosed without a constraint set and a domain\" - mcp::tool_call_handler::tests::approval::approval_required_missing_denies: foreclosed without constraint-set and domain",
+    "outcome": "rejected"
+   },
+   "py-0.12.0": {
+    "cited": [
+     "W3C-R-010",
+     "W3C-R-011",
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.13.0": {
+    "cited": [
+     "W3C-R-010",
+     "W3C-R-011",
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.17.4": {
+    "cited": [
+     "W3C-R-010",
+     "W3C-R-011",
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.18.1": {
+    "cited": [
+     "W3C-R-010",
+     "W3C-R-011",
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.31.0": {
+    "cited": [
+     "W3C-R-010",
+     "W3C-R-011",
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "rs-main": {
+    "cited": [
+     "W3C-R-010",
+     "W3C-R-011",
+     "W3C-R-020"
+    ],
+    "note": "rejected under [W3C-R-010, W3C-R-011, W3C-R-020], cause digests-differ",
+    "outcome": "rejected"
+   },
+   "rs-v0.18.1": {
+    "cited": [
+     "W3C-R-010",
+     "W3C-R-011",
+     "W3C-R-020"
+    ],
+    "note": "rejected under [W3C-R-010, W3C-R-011, W3C-R-020], cause digests-differ",
+    "outcome": "rejected"
+   }
+  },
+  "R6-v01.state-flipped-root-kept": {
+   "abbas-0039": {
+    "cited": [],
+    "note": "F-2:fail,F-2:pass",
+    "outcome": "conforms"
+   },
+   "go-main": {
+    "cited": [
+     "W3C-R-017",
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "go-v0.18.1": {
+    "cited": [
+     "W3C-R-017",
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "kroehl-6d8ee54b": {
+    "cited": [],
+    "note": "R24",
+    "outcome": "cannot-tell"
+   },
+   "py-0.12.0": {
+    "cited": [
+     "W3C-R-017",
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.13.0": {
+    "cited": [
+     "W3C-R-017",
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.17.4": {
+    "cited": [
+     "W3C-R-017",
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.18.1": {
+    "cited": [
+     "W3C-R-017",
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.31.0": {
+    "cited": [
+     "W3C-R-017",
+     "W3C-R-020"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "rs-main": {
+    "cited": [
+     "W3C-R-017",
+     "W3C-R-020"
+    ],
+    "note": "rejected under [W3C-R-017, W3C-R-020], cause digests-differ",
+    "outcome": "rejected"
+   },
+   "rs-v0.18.1": {
+    "cited": [
+     "W3C-R-017",
+     "W3C-R-020"
+    ],
+    "note": "rejected under [W3C-R-017, W3C-R-020], cause digests-differ",
+    "outcome": "rejected"
+   }
+  },
+  "R6-v01.state-outside-enum": {
+   "abbas-0039": {
+    "cited": [],
+    "note": "record:S-12,F-2:pass,F-3:evidence-population",
+    "outcome": "cannot-tell"
+   },
+   "go-main": {
+    "cited": [
+     "W3C-R-017",
+     "W3C-R-019",
+     "W3C-R-020",
+     "W3C-R-023"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "go-v0.18.1": {
+    "cited": [
+     "W3C-R-017",
+     "W3C-R-019",
+     "W3C-R-020",
+     "W3C-R-023"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "kroehl-6d8ee54b": {
+    "cited": [
+     "line 327"
+    ],
+    "note": "line 327: \"a report asserting a completeness claim without the count of the population it quantifies over\" - the evidence claim counts 4, its population (verdict records) is 3",
+    "outcome": "rejected"
+   },
+   "py-0.12.0": {
+    "cited": [
+     "W3C-R-017",
+     "W3C-R-019",
+     "W3C-R-020",
+     "W3C-R-023"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.13.0": {
+    "cited": [
+     "W3C-R-017",
+     "W3C-R-019",
+     "W3C-R-020",
+     "W3C-R-023"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.17.4": {
+    "cited": [
+     "W3C-R-017",
+     "W3C-R-019",
+     "W3C-R-020",
+     "W3C-R-023"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.18.1": {
+    "cited": [
+     "W3C-R-017",
+     "W3C-R-019",
+     "W3C-R-020",
+     "W3C-R-023"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "py-0.31.0": {
+    "cited": [
+     "W3C-R-017",
+     "W3C-R-019",
+     "W3C-R-020",
+     "W3C-R-023"
+    ],
+    "note": "",
+    "outcome": "rejected"
+   },
+   "rs-main": {
+    "cited": [
+     "W3C-R-017",
+     "W3C-R-019",
+     "W3C-R-020",
+     "W3C-R-023"
+    ],
+    "note": "rejected under [W3C-R-017, W3C-R-019, W3C-R-020, W3C-R-023], cause digests-differ",
+    "outcome": "rejected"
+   },
+   "rs-v0.18.1": {
+    "cited": [
+     "W3C-R-017",
+     "W3C-R-019",
+     "W3C-R-020",
+     "W3C-R-023"
+    ],
+    "note": "rejected under [W3C-R-017, W3C-R-019, W3C-R-020, W3C-R-023], cause digests-differ",
+    "outcome": "rejected"
+   }
+  },
   "R6.format-dropped": {
    "abbas-0039": {
     "cited": [],
@@ -13995,12 +15196,21 @@
     "R4-map.negative-capable-dropped",
     "R4-map.format-dropped",
     "R4-map.non-ascii-root-escaped",
-    "R5.state-flipped-root-kept"
+    "R5.state-flipped-root-kept",
+    "R6-v01.root-digest-altered",
+    "R6-v01.state-flipped-root-kept",
+    "R6-v01.leaf-count-off",
+    "R6-v01.rollup-count-off",
+    "R6-v01.rollup-dropped",
+    "R6-v01.carried-counter-off",
+    "R6-v01.population-off",
+    "R6-v01.negative-capable-dropped",
+    "R6-v01.format-dropped"
    ],
    "cannot-read": 1,
-   "cannot-tell": 16,
-   "conforms": 79,
-   "mutants": 154,
+   "cannot-tell": 18,
+   "conforms": 88,
+   "mutants": 168,
    "not-run": 0,
    "positive_controls": {
     "R1.non-ascii-root-utf8": "conforms",
@@ -14011,29 +15221,29 @@
     "R4-map.non-ascii-root-utf8": "conforms",
     "R4-native.non-ascii-root-utf8": "conforms"
    },
-   "rejected": 58,
+   "rejected": 61,
    "rows_cited": {
     "U-2": 3,
     "row 1": 7,
-    "row 10": 11,
-    "row 11": 19,
+    "row 10": 12,
+    "row 11": 20,
     "row 12": 3,
     "row 13": 3,
     "row 4": 1,
-    "row 5": 8,
-    "row 7": 8,
+    "row 5": 9,
+    "row 7": 9,
     "row 8": 6,
     "row 9": 7
    },
-   "target_cited": 55,
-   "target_comparable": 56
+   "target_cited": 58,
+   "target_comparable": 59
   },
   "go-main": {
    "accepted": [],
    "cannot-read": 0,
    "cannot-tell": 0,
    "conforms": 0,
-   "mutants": 154,
+   "mutants": 168,
    "not-run": 0,
    "positive_controls": {
     "R1.non-ascii-root-utf8": "conforms",
@@ -14044,39 +15254,39 @@
     "R4-map.non-ascii-root-utf8": "conforms",
     "R4-native.non-ascii-root-utf8": "conforms"
    },
-   "rejected": 154,
+   "rejected": 168,
    "rows_cited": {
     "W3C-R-001": 7,
     "W3C-R-004": 1,
-    "W3C-R-005": 8,
+    "W3C-R-005": 9,
     "W3C-R-006": 1,
-    "W3C-R-007": 8,
+    "W3C-R-007": 9,
     "W3C-R-008": 6,
     "W3C-R-009": 7,
-    "W3C-R-010": 11,
-    "W3C-R-011": 19,
+    "W3C-R-010": 12,
+    "W3C-R-011": 20,
     "W3C-R-012": 3,
-    "W3C-R-013": 8,
-    "W3C-R-015": 8,
+    "W3C-R-013": 9,
+    "W3C-R-015": 9,
     "W3C-R-016": 3,
-    "W3C-R-017": 39,
-    "W3C-R-018": 8,
-    "W3C-R-019": 8,
-    "W3C-R-020": 82,
+    "W3C-R-017": 43,
+    "W3C-R-018": 9,
+    "W3C-R-019": 9,
+    "W3C-R-020": 88,
     "W3C-R-021": 6,
-    "W3C-R-023": 9,
+    "W3C-R-023": 11,
     "W3C-R-025": 3,
-    "shape": 17
+    "shape": 19
    },
-   "target_cited": 154,
-   "target_comparable": 154
+   "target_cited": 168,
+   "target_comparable": 168
   },
   "go-v0.18.1": {
    "accepted": [],
    "cannot-read": 0,
    "cannot-tell": 0,
    "conforms": 0,
-   "mutants": 154,
+   "mutants": 168,
    "not-run": 0,
    "positive_controls": {
     "R1.non-ascii-root-utf8": "conforms",
@@ -14087,32 +15297,32 @@
     "R4-map.non-ascii-root-utf8": "conforms",
     "R4-native.non-ascii-root-utf8": "conforms"
    },
-   "rejected": 154,
+   "rejected": 168,
    "rows_cited": {
     "W3C-R-001": 7,
     "W3C-R-004": 1,
-    "W3C-R-005": 8,
+    "W3C-R-005": 9,
     "W3C-R-006": 1,
-    "W3C-R-007": 8,
+    "W3C-R-007": 9,
     "W3C-R-008": 6,
     "W3C-R-009": 7,
-    "W3C-R-010": 11,
-    "W3C-R-011": 19,
+    "W3C-R-010": 12,
+    "W3C-R-011": 20,
     "W3C-R-012": 3,
-    "W3C-R-013": 8,
-    "W3C-R-015": 8,
+    "W3C-R-013": 9,
+    "W3C-R-015": 9,
     "W3C-R-016": 3,
-    "W3C-R-017": 39,
-    "W3C-R-018": 8,
-    "W3C-R-019": 8,
-    "W3C-R-020": 82,
+    "W3C-R-017": 43,
+    "W3C-R-018": 9,
+    "W3C-R-019": 9,
+    "W3C-R-020": 88,
     "W3C-R-021": 6,
-    "W3C-R-023": 9,
+    "W3C-R-023": 11,
     "W3C-R-025": 3,
-    "shape": 17
+    "shape": 19
    },
-   "target_cited": 154,
-   "target_comparable": 154
+   "target_cited": 168,
+   "target_comparable": 168
   },
   "kroehl-6d8ee54b": {
    "accepted": [
@@ -14149,12 +15359,15 @@
     "R4-map.root-digest-altered",
     "R4-map.carried-counter-off",
     "R4-map.format-dropped",
-    "R4-map.non-ascii-root-escaped"
+    "R4-map.non-ascii-root-escaped",
+    "R6-v01.root-digest-altered",
+    "R6-v01.carried-counter-off",
+    "R6-v01.format-dropped"
    ],
    "cannot-read": 0,
-   "cannot-tell": 45,
-   "conforms": 34,
-   "mutants": 154,
+   "cannot-tell": 49,
+   "conforms": 37,
+   "mutants": 168,
    "not-run": 0,
    "positive_controls": {
     "R1.non-ascii-root-utf8": "conforms",
@@ -14165,24 +15378,24 @@
     "R4-map.non-ascii-root-utf8": "conforms",
     "R4-native.non-ascii-root-utf8": "conforms"
    },
-   "rejected": 75,
+   "rejected": 82,
    "rows_cited": {
     "line 164": 3,
-    "line 327": 12,
-    "line 421": 8,
+    "line 327": 15,
+    "line 421": 9,
     "row 1": 7,
-    "row 10": 11,
-    "row 11": 19,
+    "row 10": 12,
+    "row 11": 20,
     "row 12": 3,
     "row 13": 3,
     "row 4": 1,
-    "row 5": 8,
-    "row 7": 8,
+    "row 5": 9,
+    "row 7": 9,
     "row 8": 6,
     "row 9": 7
    },
-   "target_cited": 55,
-   "target_comparable": 56
+   "target_cited": 58,
+   "target_comparable": 59
   },
   "py-0.12.0": {
    "accepted": [
@@ -14197,7 +15410,7 @@
    "cannot-read": 0,
    "cannot-tell": 0,
    "conforms": 7,
-   "mutants": 154,
+   "mutants": 168,
    "not-run": 0,
    "positive_controls": {
     "R1.non-ascii-root-utf8": "rejected",
@@ -14208,31 +15421,31 @@
     "R4-map.non-ascii-root-utf8": "rejected",
     "R4-native.non-ascii-root-utf8": "rejected"
    },
-   "rejected": 147,
+   "rejected": 161,
    "rows_cited": {
     "W3C-R-001": 7,
-    "W3C-R-005": 8,
+    "W3C-R-005": 9,
     "W3C-R-006": 1,
-    "W3C-R-007": 8,
+    "W3C-R-007": 9,
     "W3C-R-008": 6,
     "W3C-R-009": 7,
-    "W3C-R-010": 11,
-    "W3C-R-011": 19,
+    "W3C-R-010": 12,
+    "W3C-R-011": 20,
     "W3C-R-012": 3,
-    "W3C-R-013": 8,
-    "W3C-R-015": 8,
+    "W3C-R-013": 9,
+    "W3C-R-015": 9,
     "W3C-R-016": 3,
-    "W3C-R-017": 39,
-    "W3C-R-018": 8,
-    "W3C-R-019": 9,
-    "W3C-R-020": 102,
+    "W3C-R-017": 43,
+    "W3C-R-018": 9,
+    "W3C-R-019": 10,
+    "W3C-R-020": 108,
     "W3C-R-021": 6,
-    "W3C-R-023": 9,
+    "W3C-R-023": 11,
     "W3C-R-025": 3,
-    "shape": 17
+    "shape": 19
    },
-   "target_cited": 146,
-   "target_comparable": 154
+   "target_cited": 160,
+   "target_comparable": 168
   },
   "py-0.13.0": {
    "accepted": [
@@ -14247,7 +15460,7 @@
    "cannot-read": 0,
    "cannot-tell": 0,
    "conforms": 7,
-   "mutants": 154,
+   "mutants": 168,
    "not-run": 0,
    "positive_controls": {
     "R1.non-ascii-root-utf8": "rejected",
@@ -14258,32 +15471,32 @@
     "R4-map.non-ascii-root-utf8": "rejected",
     "R4-native.non-ascii-root-utf8": "rejected"
    },
-   "rejected": 147,
+   "rejected": 161,
    "rows_cited": {
     "W3C-R-001": 7,
     "W3C-R-004": 1,
-    "W3C-R-005": 8,
+    "W3C-R-005": 9,
     "W3C-R-006": 1,
-    "W3C-R-007": 8,
+    "W3C-R-007": 9,
     "W3C-R-008": 6,
     "W3C-R-009": 7,
-    "W3C-R-010": 11,
-    "W3C-R-011": 19,
+    "W3C-R-010": 12,
+    "W3C-R-011": 20,
     "W3C-R-012": 3,
-    "W3C-R-013": 8,
-    "W3C-R-015": 8,
+    "W3C-R-013": 9,
+    "W3C-R-015": 9,
     "W3C-R-016": 3,
-    "W3C-R-017": 39,
-    "W3C-R-018": 8,
-    "W3C-R-019": 8,
-    "W3C-R-020": 102,
+    "W3C-R-017": 43,
+    "W3C-R-018": 9,
+    "W3C-R-019": 9,
+    "W3C-R-020": 108,
     "W3C-R-021": 6,
-    "W3C-R-023": 9,
+    "W3C-R-023": 11,
     "W3C-R-025": 3,
-    "shape": 17
+    "shape": 19
    },
-   "target_cited": 147,
-   "target_comparable": 154
+   "target_cited": 161,
+   "target_comparable": 168
   },
   "py-0.17.4": {
    "accepted": [
@@ -14298,7 +15511,7 @@
    "cannot-read": 0,
    "cannot-tell": 0,
    "conforms": 7,
-   "mutants": 154,
+   "mutants": 168,
    "not-run": 0,
    "positive_controls": {
     "R1.non-ascii-root-utf8": "rejected",
@@ -14309,39 +15522,39 @@
     "R4-map.non-ascii-root-utf8": "rejected",
     "R4-native.non-ascii-root-utf8": "rejected"
    },
-   "rejected": 147,
+   "rejected": 161,
    "rows_cited": {
     "W3C-R-001": 7,
     "W3C-R-004": 1,
-    "W3C-R-005": 8,
+    "W3C-R-005": 9,
     "W3C-R-006": 1,
-    "W3C-R-007": 8,
+    "W3C-R-007": 9,
     "W3C-R-008": 6,
     "W3C-R-009": 7,
-    "W3C-R-010": 11,
-    "W3C-R-011": 19,
+    "W3C-R-010": 12,
+    "W3C-R-011": 20,
     "W3C-R-012": 3,
-    "W3C-R-013": 8,
-    "W3C-R-015": 8,
+    "W3C-R-013": 9,
+    "W3C-R-015": 9,
     "W3C-R-016": 3,
-    "W3C-R-017": 39,
-    "W3C-R-018": 8,
-    "W3C-R-019": 8,
-    "W3C-R-020": 102,
+    "W3C-R-017": 43,
+    "W3C-R-018": 9,
+    "W3C-R-019": 9,
+    "W3C-R-020": 108,
     "W3C-R-021": 6,
-    "W3C-R-023": 9,
+    "W3C-R-023": 11,
     "W3C-R-025": 3,
-    "shape": 17
+    "shape": 19
    },
-   "target_cited": 147,
-   "target_comparable": 154
+   "target_cited": 161,
+   "target_comparable": 168
   },
   "py-0.18.1": {
    "accepted": [],
    "cannot-read": 0,
    "cannot-tell": 0,
    "conforms": 0,
-   "mutants": 154,
+   "mutants": 168,
    "not-run": 0,
    "positive_controls": {
     "R1.non-ascii-root-utf8": "conforms",
@@ -14352,39 +15565,39 @@
     "R4-map.non-ascii-root-utf8": "conforms",
     "R4-native.non-ascii-root-utf8": "conforms"
    },
-   "rejected": 154,
+   "rejected": 168,
    "rows_cited": {
     "W3C-R-001": 7,
     "W3C-R-004": 1,
-    "W3C-R-005": 8,
+    "W3C-R-005": 9,
     "W3C-R-006": 1,
-    "W3C-R-007": 8,
+    "W3C-R-007": 9,
     "W3C-R-008": 6,
     "W3C-R-009": 7,
-    "W3C-R-010": 11,
-    "W3C-R-011": 19,
+    "W3C-R-010": 12,
+    "W3C-R-011": 20,
     "W3C-R-012": 3,
-    "W3C-R-013": 8,
-    "W3C-R-015": 8,
+    "W3C-R-013": 9,
+    "W3C-R-015": 9,
     "W3C-R-016": 3,
-    "W3C-R-017": 39,
-    "W3C-R-018": 8,
-    "W3C-R-019": 8,
-    "W3C-R-020": 82,
+    "W3C-R-017": 43,
+    "W3C-R-018": 9,
+    "W3C-R-019": 9,
+    "W3C-R-020": 88,
     "W3C-R-021": 6,
-    "W3C-R-023": 9,
+    "W3C-R-023": 11,
     "W3C-R-025": 3,
-    "shape": 17
+    "shape": 19
    },
-   "target_cited": 154,
-   "target_comparable": 154
+   "target_cited": 168,
+   "target_comparable": 168
   },
   "py-0.31.0": {
    "accepted": [],
    "cannot-read": 0,
    "cannot-tell": 0,
    "conforms": 0,
-   "mutants": 154,
+   "mutants": 168,
    "not-run": 0,
    "positive_controls": {
     "R1.non-ascii-root-utf8": "conforms",
@@ -14395,39 +15608,39 @@
     "R4-map.non-ascii-root-utf8": "conforms",
     "R4-native.non-ascii-root-utf8": "conforms"
    },
-   "rejected": 154,
+   "rejected": 168,
    "rows_cited": {
     "W3C-R-001": 7,
     "W3C-R-004": 1,
-    "W3C-R-005": 8,
+    "W3C-R-005": 9,
     "W3C-R-006": 1,
-    "W3C-R-007": 8,
+    "W3C-R-007": 9,
     "W3C-R-008": 6,
     "W3C-R-009": 7,
-    "W3C-R-010": 11,
-    "W3C-R-011": 19,
+    "W3C-R-010": 12,
+    "W3C-R-011": 20,
     "W3C-R-012": 3,
-    "W3C-R-013": 8,
-    "W3C-R-015": 8,
+    "W3C-R-013": 9,
+    "W3C-R-015": 9,
     "W3C-R-016": 3,
-    "W3C-R-017": 39,
-    "W3C-R-018": 8,
-    "W3C-R-019": 8,
-    "W3C-R-020": 82,
+    "W3C-R-017": 43,
+    "W3C-R-018": 9,
+    "W3C-R-019": 9,
+    "W3C-R-020": 88,
     "W3C-R-021": 6,
-    "W3C-R-023": 9,
+    "W3C-R-023": 11,
     "W3C-R-025": 3,
-    "shape": 17
+    "shape": 19
    },
-   "target_cited": 154,
-   "target_comparable": 154
+   "target_cited": 168,
+   "target_comparable": 168
   },
   "rs-main": {
    "accepted": [],
    "cannot-read": 0,
    "cannot-tell": 0,
    "conforms": 0,
-   "mutants": 154,
+   "mutants": 168,
    "not-run": 0,
    "positive_controls": {
     "R1.non-ascii-root-utf8": "conforms",
@@ -14438,39 +15651,39 @@
     "R4-map.non-ascii-root-utf8": "conforms",
     "R4-native.non-ascii-root-utf8": "conforms"
    },
-   "rejected": 154,
+   "rejected": 168,
    "rows_cited": {
     "W3C-R-001": 7,
     "W3C-R-004": 1,
-    "W3C-R-005": 8,
+    "W3C-R-005": 9,
     "W3C-R-006": 1,
-    "W3C-R-007": 8,
+    "W3C-R-007": 9,
     "W3C-R-008": 6,
     "W3C-R-009": 7,
-    "W3C-R-010": 11,
-    "W3C-R-011": 19,
+    "W3C-R-010": 12,
+    "W3C-R-011": 20,
     "W3C-R-012": 3,
-    "W3C-R-013": 8,
-    "W3C-R-015": 8,
+    "W3C-R-013": 9,
+    "W3C-R-015": 9,
     "W3C-R-016": 3,
-    "W3C-R-017": 31,
-    "W3C-R-018": 8,
-    "W3C-R-019": 8,
-    "W3C-R-020": 82,
+    "W3C-R-017": 34,
+    "W3C-R-018": 9,
+    "W3C-R-019": 9,
+    "W3C-R-020": 88,
     "W3C-R-021": 6,
-    "W3C-R-023": 9,
+    "W3C-R-023": 11,
     "W3C-R-025": 3,
-    "shape": 25
+    "shape": 28
    },
-   "target_cited": 146,
-   "target_comparable": 154
+   "target_cited": 159,
+   "target_comparable": 168
   },
   "rs-v0.18.1": {
    "accepted": [],
    "cannot-read": 0,
    "cannot-tell": 0,
    "conforms": 0,
-   "mutants": 154,
+   "mutants": 168,
    "not-run": 0,
    "positive_controls": {
     "R1.non-ascii-root-utf8": "conforms",
@@ -14481,32 +15694,32 @@
     "R4-map.non-ascii-root-utf8": "conforms",
     "R4-native.non-ascii-root-utf8": "conforms"
    },
-   "rejected": 154,
+   "rejected": 168,
    "rows_cited": {
     "W3C-R-001": 7,
     "W3C-R-004": 1,
-    "W3C-R-005": 8,
+    "W3C-R-005": 9,
     "W3C-R-006": 1,
-    "W3C-R-007": 8,
+    "W3C-R-007": 9,
     "W3C-R-008": 6,
     "W3C-R-009": 7,
-    "W3C-R-010": 11,
-    "W3C-R-011": 19,
+    "W3C-R-010": 12,
+    "W3C-R-011": 20,
     "W3C-R-012": 3,
-    "W3C-R-013": 8,
-    "W3C-R-015": 8,
+    "W3C-R-013": 9,
+    "W3C-R-015": 9,
     "W3C-R-016": 3,
-    "W3C-R-017": 31,
-    "W3C-R-018": 8,
-    "W3C-R-019": 8,
-    "W3C-R-020": 82,
+    "W3C-R-017": 34,
+    "W3C-R-018": 9,
+    "W3C-R-019": 9,
+    "W3C-R-020": 88,
     "W3C-R-021": 6,
-    "W3C-R-023": 9,
+    "W3C-R-023": 11,
     "W3C-R-025": 3,
-    "shape": 25
+    "shape": 28
    },
-   "target_cited": 146,
-   "target_comparable": 154
+   "target_cited": 159,
+   "target_comparable": 168
   }
  },
  "current_pypi_release": "0.31.0",
@@ -17713,6 +18926,348 @@
    "source": "records.v0.1.json",
    "table_row": null,
    "target": "W3C-R-020"
+  },
+  {
+   "checks": 4,
+   "format": "public-agent-conformance/report/v0.1",
+   "id": "R6-v01",
+   "mutant": null,
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "sha256": "699a52b329ff12832cf73d4904b553c83a165803e0303a858c050fa8d811ff36",
+   "source": "run-report-v01.json"
+  },
+  {
+   "fields_changed": 1,
+   "id": "R6-v01.row05-exclusion-exercised",
+   "mutant": "row05-exclusion-exercised",
+   "path": "checks[0].declared-exclusion",
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "sha256": "37330af9f8f55a8f8b46bc259ffa79c6002685b168d002c621cf5c06626c28d7",
+   "source": "run-report-v01.json",
+   "table_row": 5,
+   "target": "W3C-R-005",
+   "what": "a declared exclusion on an exercised check"
+  },
+  {
+   "fields_changed": 1,
+   "id": "R6-v01.row07-cause-on-verdict",
+   "mutant": "row07-cause-on-verdict",
+   "path": "checks[0].cause",
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "sha256": "c7574112946790719400b3c02ce11fa392dd951f2ca230aee17937c88ca50ab7",
+   "source": "run-report-v01.json",
+   "table_row": 7,
+   "target": "W3C-R-007",
+   "what": "a cause on a verdict check"
+  },
+  {
+   "fields_changed": 1,
+   "id": "R6-v01.row10-foreclosed-no-constraint",
+   "mutant": "row10-foreclosed-no-constraint",
+   "path": "checks[0].other-verdict.value",
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "sha256": "332e48819e79949bfad14bf9ba84fdff8f0c53ac94749f876a248457a4b8d7e1",
+   "source": "run-report-v01.json",
+   "table_row": 10,
+   "target": "W3C-R-010",
+   "what": "other-verdict set to foreclosed with no constraint set"
+  },
+  {
+   "fields_changed": 1,
+   "id": "R6-v01.state-outside-enum",
+   "mutant": "state-outside-enum",
+   "path": "checks[0].state",
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "sha256": "94ad0189c5d21d88817f11722126bda901eb51b8d1c8d642929e12eda783cad0",
+   "source": "run-report-v01.json",
+   "table_row": null,
+   "target": "W3C-R-019",
+   "what": "a state outside the five-value enumeration"
+  },
+  {
+   "fields_changed": 1,
+   "id": "R6-v01.root-digest-altered",
+   "mutant": "root-digest-altered",
+   "path": "check-set.sha256",
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "sha256": "f9ae465848da1de874ad8e538c112ecbcff94aea584cbb762d6eff6a61f6449d",
+   "source": "run-report-v01.json",
+   "table_row": null,
+   "target": "W3C-R-020",
+   "what": "the check-set root no longer the root of its leaves"
+  },
+  {
+   "fields_changed": 1,
+   "id": "R6-v01.state-flipped-root-kept",
+   "mutant": "state-flipped-root-kept",
+   "path": "checks[0].state",
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "sha256": "e0925e1b6029d1d9819c5d8556a0224678054a4dac14b1a155176d89407b55e0",
+   "source": "run-report-v01.json",
+   "table_row": null,
+   "target": "W3C-R-020",
+   "what": "one check's state flipped, the check-set root left as it was"
+  },
+  {
+   "fields_changed": 1,
+   "id": "R6-v01.leaf-count-off",
+   "mutant": "leaf-count-off",
+   "path": "check-set.leaf-count",
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "sha256": "f3e444fc0b7902474c1da4446a95ca103b9f42c5643d97bd0ac3c61092d117e7",
+   "source": "run-report-v01.json",
+   "table_row": null,
+   "target": "W3C-R-015",
+   "what": "the declared leaf count one more than the checks"
+  },
+  {
+   "fields_changed": 1,
+   "id": "R6-v01.rollup-count-off",
+   "mutant": "rollup-count-off",
+   "path": "roll-up.pass",
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "sha256": "6700592e8149fc0d44ba7e9bd67d6d927c3bd89eb122f06bcfaa301512859021",
+   "source": "run-report-v01.json",
+   "table_row": null,
+   "target": "W3C-R-017",
+   "what": "a roll-up count that disagrees with the checks"
+  },
+  {
+   "fields_changed": 1,
+   "id": "R6-v01.rollup-dropped",
+   "mutant": "rollup-dropped",
+   "path": "roll-up",
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "sha256": "26925eb4c6c822603f8ded8c0b9da372317cf06f7d2e527f2f4d6612836ceb39",
+   "source": "run-report-v01.json",
+   "table_row": null,
+   "target": "W3C-R-017",
+   "what": "the roll-up, a required member, removed"
+  },
+  {
+   "fields_changed": 1,
+   "id": "R6-v01.carried-counter-off",
+   "mutant": "carried-counter-off",
+   "path": "roll-up.carried",
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "sha256": "eba3287cb9d6429c296d635de2abb7c254cca55f1ed129c695029638451344dd",
+   "source": "run-report-v01.json",
+   "table_row": null,
+   "target": "W3C-R-018",
+   "what": "the carried counter overstated by one"
+  },
+  {
+   "fields_changed": 1,
+   "id": "R6-v01.population-off",
+   "mutant": "population-off",
+   "path": "roll-up.completeness.accounting.population",
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "sha256": "3940866e93518147cd9d594a2e23ccaab6c48564be4a5cdb576454f4a0b30570",
+   "source": "run-report-v01.json",
+   "table_row": null,
+   "target": "W3C-R-023",
+   "what": "a completeness claim's population that is not the declared count"
+  },
+  {
+   "fields_changed": 1,
+   "id": "R6-v01.negative-capable-dropped",
+   "mutant": "negative-capable-dropped",
+   "path": "roll-up.negative-capable",
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "sha256": "7113f2946d5e8d055a1cfb267d6f2738796a300f4b91705036ad84cbbd43b310",
+   "source": "run-report-v01.json",
+   "table_row": null,
+   "target": "W3C-R-013",
+   "what": "the negative-capability statement removed from the roll-up"
+  },
+  {
+   "fields_changed": 1,
+   "id": "R6-v01.format-dropped",
+   "mutant": "format-dropped",
+   "path": "format",
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "sha256": "06e5e5aab9c5b7348550c6115a3b8ae5c5e1ce9893a4aef296e1b873654e0f78",
+   "source": "run-report-v01.json",
+   "table_row": null,
+   "target": "shape",
+   "what": "the format declaration, a required member, removed"
+  },
+  {
+   "fields_changed": 1,
+   "id": "R6-v01.check-state-dropped",
+   "mutant": "check-state-dropped",
+   "path": "checks[0].state",
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "sha256": "9b69233f23540117a4daf5683618e965ef8a450b4ba722e4149fad7d14a6c23b",
+   "source": "run-report-v01.json",
+   "table_row": null,
+   "target": "shape",
+   "what": "a check's state, a required member, removed"
+  },
+  {
+   "id": "R6-v01.row01-no-cause",
+   "mutant": "row01-no-cause",
+   "not_applicable": "no non-verdict check with a cause and no bare pass check",
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "source": "run-report-v01.json",
+   "table_row": 1,
+   "target": "W3C-R-001"
+  },
+  {
+   "id": "R6-v01.row02-void-never-examined",
+   "mutant": "row02-void-never-examined",
+   "not_applicable": "no void check and no non-verdict check with a never-examined cause",
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "source": "run-report-v01.json",
+   "table_row": 2,
+   "target": "W3C-R-002"
+  },
+  {
+   "id": "R6-v01.row03-not-exercised-integrity",
+   "mutant": "row03-not-exercised-integrity",
+   "not_applicable": "no not-exercised check and no non-verdict check citing integrity-failure",
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "source": "run-report-v01.json",
+   "table_row": 3,
+   "target": "W3C-R-003"
+  },
+  {
+   "id": "R6-v01.row04-confinement-not-void",
+   "mutant": "row04-confinement-not-void",
+   "not_applicable": "no non-void check carrying a cause",
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "source": "run-report-v01.json",
+   "table_row": 4,
+   "target": "W3C-R-004"
+  },
+  {
+   "id": "R6-v01.row06-qualifier-non-verdict",
+   "mutant": "row06-qualifier-non-verdict",
+   "not_applicable": "no non-verdict check without a qualifier",
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "source": "run-report-v01.json",
+   "table_row": 6,
+   "target": "W3C-R-006"
+  },
+  {
+   "id": "R6-v01.row08-foreclosed-demonstrated",
+   "mutant": "row08-foreclosed-demonstrated",
+   "not_applicable": "no check carrying foreclosed or demonstrated discrimination with an other-verdict",
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "source": "run-report-v01.json",
+   "table_row": 8,
+   "target": "W3C-R-008"
+  },
+  {
+   "id": "R6-v01.row09-demonstrated-unknown",
+   "mutant": "row09-demonstrated-unknown",
+   "not_applicable": "no verdict check whose other-verdict is unknown and that has no discrimination",
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "source": "run-report-v01.json",
+   "table_row": 9,
+   "target": "W3C-R-009"
+  },
+  {
+   "id": "R6-v01.row11-no-evidence-ref",
+   "mutant": "row11-no-evidence-ref",
+   "not_applicable": "no asserted qualifier and no verdict check without an other-verdict",
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "source": "run-report-v01.json",
+   "table_row": 11,
+   "target": "W3C-R-011"
+  },
+  {
+   "id": "R6-v01.row12-checker-changed",
+   "mutant": "row12-checker-changed",
+   "not_applicable": "no demonstrated discrimination citing an evidence object",
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "source": "run-report-v01.json",
+   "table_row": 12,
+   "target": "W3C-R-012"
+  },
+  {
+   "id": "R6-v01.row13-moved-without-verdict",
+   "mutant": "row13-moved-without-verdict",
+   "not_applicable": "no demonstrated other-verdict citing two carried observations whose verdict moved",
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "source": "run-report-v01.json",
+   "table_row": 13,
+   "target": "W3C-R-025"
+  },
+  {
+   "id": "R6-v01.row14-moved-unbound",
+   "mutant": "row14-moved-unbound",
+   "not_applicable": "no evidence object asserting moved over a referenced observation",
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "source": "run-report-v01.json",
+   "table_row": 14,
+   "target": "W3C-R-026"
+  },
+  {
+   "id": "R6-v01.moved-outside-compared",
+   "mutant": "moved-outside-compared",
+   "not_applicable": "no evidence object with two carried observations whose outcome moved",
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "source": "run-report-v01.json",
+   "table_row": null,
+   "target": "W3C-R-016"
+  },
+  {
+   "id": "R6-v01.moved-declared-not-recomputed",
+   "mutant": "moved-declared-not-recomputed",
+   "not_applicable": "no evidence object with two carried observations to recompute moved from",
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "source": "run-report-v01.json",
+   "table_row": null,
+   "target": "W3C-R-021"
+  },
+  {
+   "id": "R6-v01.non-ascii-root-utf8",
+   "mutant": "non-ascii-root-utf8",
+   "not_applicable": "no check identity that the report names only once",
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "source": "run-report-v01.json",
+   "table_row": null,
+   "target": "none (positive control)"
+  },
+  {
+   "id": "R6-v01.non-ascii-root-escaped",
+   "mutant": "non-ascii-root-escaped",
+   "not_applicable": "no check identity that the report names only once",
+   "report": "R6-v01",
+   "row": "R6-v01",
+   "source": "run-report-v01.json",
+   "table_row": null,
+   "target": "W3C-R-020"
   }
  ],
  "matrix": "W3C v0.1 reader conformance matrix",
@@ -17724,7 +19279,8 @@
   "R3-v01": "reproduced",
   "R4": "reproduced",
   "R5": "reproduced",
-  "R6": "reproduced"
+  "R6": "reproduced",
+  "R6-v01": "reproduced"
  },
  "readers": [
   {
@@ -17771,7 +19327,7 @@
    "ref": "v0.18.1"
   },
   {
-   "commit": "4ae2dfc3d7a093b83b680a356d5a8a0a780bbb47",
+   "commit": "1bcac53e84d391cca8e414debd3cb59543e71bed",
    "exit": 0,
    "id": "go-main",
    "kind": "go",
@@ -17787,7 +19343,7 @@
    "ref": "v0.18.1"
   },
   {
-   "commit": "4ae2dfc3d7a093b83b680a356d5a8a0a780bbb47",
+   "commit": "1bcac53e84d391cca8e414debd3cb59543e71bed",
    "exit": 0,
    "id": "rs-main",
    "kind": "rust",
@@ -17927,6 +19483,16 @@
    "why": "the commands pass six unittest cases and four Rust approval tests at both pins; the posted report beside them, records.v0.1.json, names the format in prose",
    "yields": true
   },
+  "R6-v01": {
+   "class": "producer glue",
+   "denominator": null,
+   "denominators": {
+    "R6-v01": 4
+   },
+   "unit": "checks",
+   "why": "the posted converter writes one v0.1 report from R6's posted report",
+   "yields": true
+  },
   "R7": {
    "class": "O8 reproduction",
    "denominator": 21,
@@ -18006,6 +19572,11 @@
    "command": "uvx agent-evidence-vectors=={release} --read-w3c-report records.v0.1.json",
    "report": "R6",
    "row": "R6"
+  },
+  {
+   "command": "uvx agent-evidence-vectors=={release} --read-w3c-report run-report-v01.json",
+   "report": "R6-v01",
+   "row": "R6-v01"
   }
  ]
 }
