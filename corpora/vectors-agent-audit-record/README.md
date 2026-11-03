@@ -52,7 +52,7 @@ a member cannot be scored without being read.
 ```sh
 # The reference reader, from the published package. Prints one line per
 # failing member and exits 0 when every member behaves as the manifest says.
-uvx agent-evidence-vectors==0.32.1 --corpus vectors-agent-audit-record
+uvx agent-evidence-vectors==0.28.0 --corpus vectors-agent-audit-record
 
 # From a checkout: rebuild every member (byte-identical on every machine),
 # then judge the committed bytes, verify every signature with a second

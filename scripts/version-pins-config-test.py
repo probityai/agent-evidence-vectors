@@ -36,6 +36,7 @@ HISTORICAL = [
     ("docs/paper/w3c-v01/README.md", f"| Producer | `{STALE}` |\n"),
     ("docs/USED-BY.md", "| adopter | Pins `agent-evidence-vectors==0.20.0` |\n"),
     ("packages/admission/README.md", "Installed as `agent-evidence-vectors==0.30.0`.\n"),
+    ("corpora/vectors-uncertain-effect/README.md", "pip install agent-evidence-vectors==0.30.0\n"),
     ("packages/vocabulary/docs/aimm-levels.md", "pip install agent-evidence-vectors==0.20.0\n"),
     (
         "docs/W3C-V01-CONFORMANCE-APPENDIX.md",
@@ -58,8 +59,12 @@ def check(files: dict[str, str]) -> subprocess.CompletedProcess[str]:
             (root / rel).write_text(text, encoding="utf-8")
         subprocess.run(["git", "-C", str(root), "init", "-q"], check=True)
         subprocess.run(["git", "-C", str(root), "add", "-A"], check=True)
-        return subprocess.run([sys.executable, "-B", str(SCRIPT), "check", "--root", str(root)],
-                              capture_output=True, text=True, check=False)
+        return subprocess.run(
+            [sys.executable, "-B", str(SCRIPT), "check", "--root", str(root)],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
     finally:
         shutil.rmtree(root)
 

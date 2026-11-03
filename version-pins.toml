@@ -40,6 +40,10 @@ historical = [
   "packages/admission/PROVENANCE.md",
   "packages/admission/docs/CONSUMER-POLICY.md",
   "packages/admission/docs/DESIGN.md",
+  # a corpus README is hashed into the intake record of its published revision; editing it
+  # would mutate that revision, so the install line keeps the release the corpus shipped in
+  "corpora/vectors-agent-audit-record/README.md",
+  "corpora/vectors-uncertain-effect/README.md",
   # the vocabulary's level definitions name the release their worked example was measured at
   "packages/vocabulary/docs/aimm-levels.md",
 ]
