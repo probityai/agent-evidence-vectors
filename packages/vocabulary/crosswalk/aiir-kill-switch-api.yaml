@@ -102,3 +102,7 @@ incident_response:
   revocation_coverage:
     match: no_mapping
     notes: The credential event records one revocation with empty new_scopes and no population or coverage.
+  evidence_state:
+    match: no_mapping
+    notes: No mapping filed. This filing names no passage that records the state of the evidence about
+      a system as a closed value, so the term maps to nothing here until such a passage is cited.
