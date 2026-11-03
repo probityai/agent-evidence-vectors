@@ -452,6 +452,28 @@ def row_r6(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str, Any
     return ok, detail
 
 
+def row_r6_v01(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
+    """Run the posted converter over the report the R6 rerun fetched, and compare."""
+    p = row["pins"]
+    source = w.parent / "R6" / p["records"]
+    if not source.is_file():
+        raise Refused("R6-v01 reads the report the R6 rerun fetches: run R6 first")
+    cache = w.parent / "_attachments"
+    script = w / "reencode_r6.py"
+    script.write_bytes(attachment(p["script"], cache))
+    posted_bytes = attachment(p["posted_report"], cache)
+    name = next(iter(row["expect"]))
+    out = w / "out"
+    out.mkdir()
+    py = venv(w, "r6v01", p["python"], [], log)
+    must(run([str(py), "-I", str(script), str(source), "--out", str(out / name)], w, log),
+         "reencode_r6.py")
+    detail = expect_files(out, row["expect"])
+    detail["posted file"] = sha256(posted_bytes)
+    ok = detail["ok"] and sha256(posted_bytes) == row["expect"][name]
+    return ok, detail
+
+
 def row_r7(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
     p = row["pins"]
     src = fetch_commit(p["repository"], p["commit"], w / "src", log, [f"/{p['directory']}/"])
@@ -722,7 +744,7 @@ def row_r15(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str, An
 
 HANDLERS: dict[str, Callable[[Path, Path, dict[str, Any]], tuple[bool, dict[str, Any]]]] = {
     "R1": row_r1, "R2": row_r2, "R3": row_r3, "R3-v01": row_r3_v01, "R4": row_r4, "R4-driver": row_r4_driver,
-    "R5": row_r5, "R6": row_r6, "R7": row_r7, "R8": row_r8, "R8-compare": row_r8_compare,
+    "R5": row_r5, "R6": row_r6, "R6-v01": row_r6_v01, "R7": row_r7, "R8": row_r8, "R8-compare": row_r8_compare,
     "R9": row_script("r9_corpus_history.py"), "R10": row_script("r10_minus_zero.py"),
     "R11": row_r11, "R12": row_r12, "R13": row_r13, "R14": row_r14, "R15": row_r15,
 }

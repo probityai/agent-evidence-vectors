@@ -43,7 +43,7 @@ TEX = HERE / "verification.tex"
 FORMAT = "public-agent-conformance/report/v0.1"
 
 #: The appendix rows whose reruns write the reports, in the order they run.
-PRODUCING = ["R1", "R2", "R3", "R3-v01", "R4", "R5", "R6"]
+PRODUCING = ["R1", "R2", "R3", "R3-v01", "R4", "R5", "R6", "R6-v01"]
 #: (report id, row, file under the rerun work directory). The rerun of 2026-11-01
 #: wrote no other file declaring the v0.1 format under R1 to R5, R7 or R13. R6's
 #: report is the one its producer posted in the pinned tree, byte-identical at
@@ -60,6 +60,7 @@ REPORTS = [
     ("R5", "R5", "R5/out/finality-threshold-report.level1.json"),
     ("R6", "R6", "R6/src-0e59b404/docs/experiments/approval-freshness-discrimination-2026-09/"
                  "w3c-v0.1/records.v0.1.json"),
+    ("R6-v01", "R6-v01", "R6-v01/out/run-report-v01.json"),
 ]
 #: R5's report carries 150,006 checks: it gets the one control the paper names
 #: for it, a flipped state under an unchanged root, rather than the full set.
@@ -99,6 +100,8 @@ ROW_META: dict[str, dict[str, Any]] = {
                   "why": "this repository's driver writes a comparison report, not a v0.1 report"},
     "R5": {"yields": True, "unit": "checks", "class": "O8 reproduction",
            "why": "one v0.1 report"},
+    "R6-v01": {"yields": True, "unit": "checks", "class": "producer glue",
+               "why": "the posted converter writes one v0.1 report from R6's posted report"},
     "R6": {"yields": True, "unit": "tests", "class": "O8 reproduction",
            "why": "the commands pass six unittest cases and four Rust approval tests at both pins; "
                   "the posted report beside them, records.v0.1.json, names the format in prose"},

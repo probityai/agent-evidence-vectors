@@ -22,12 +22,13 @@ the committed table.
 
 ## Inputs
 
-`matrix.py` imports [`../rerun.py`](../rerun.py) and reruns R1, R2, R3, R3-v01,
-R4, R5 and R6 from their pins, then keeps every file those reruns write that
-declares the v0.1 format, and the one report R6's producer posted in its pinned
-tree. A scan of the rerun trees of R1 to R5, R7 and R13 on 2026-11-01 found
+`matrix.py``matrix.py` imports [`../rerun.py`](../rerun.py) and reruns R1, R2, R3, R3-v01,
+R4, R5, R6 and R6-v01 from their pins, then keeps every file those reruns write
+that declares the v0.1 format, and the one report R6's producer posted in its
+pinned tree. A scan of the rerun trees of R1 to R5, R7 and R13 on 2026-11-01 found
 exactly the nine reports `REPORTS` lists for those rows; R6's
-`records.v0.1.json` is the tenth. Which rows yield a report, and why the others
+`records.v0.1.json` is the tenth, and R6-v01, the re-encoding Roel Schuurkes
+posted in 2026Nov/0006, the eleventh. Which rows yield a report, and why the others
 do not, is the first table of `matrix.md`, from `ROW_META` in `matrix.py`:
 
 - R1, R2, R3-v01, R4, R5 and R6 yield v0.1 reports.
