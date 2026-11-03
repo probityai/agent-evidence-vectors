@@ -126,6 +126,32 @@ def tex_cell(cell: dict[str, Any]) -> str:
     return {"cannot-tell": "T", "cannot-read": "N", "not-run": "--"}.get(o, tex_escape(o))
 
 
+def tex_breakdown(doc: dict[str, Any]) -> str:
+    """Render target populations from retained cells, excluding absent mutants."""
+    groups: dict[str, list[str]] = {k: [] for k in
+        ("Numbered rows", "Unnumbered rules", "Shape", "Positive controls")}
+    for entry in doc["inputs"]:
+        if not entry.get("mutant") or "sha256" not in entry:
+            continue
+        target = entry["target"]
+        group = ("Positive controls" if target.startswith("none") else
+                 "Numbered rows" if target in TABLE_ROW else
+                 "Shape" if target == "shape" else "Unnumbered rules")
+        groups[group].append(entry["id"])
+    end = " " + chr(92) * 2
+    out = [r"\begin{longtable}{llrl}",
+           r"\caption{Retained controls by target population. Outcomes are rejected / conforms / cannot tell / cannot read / not run. Positive controls are separate from negative-control totals.}" + end,
+           "Reader & Population & Inputs & Outcomes" + end, r"\hline", r"\endhead"]
+    outcomes = ("rejected", "conforms", "cannot-tell", "cannot-read", "not-run")
+    for reader in doc["readers"]:
+        for group, ids in groups.items():
+            counts = "/".join(str(sum(doc["cells"][i][reader["id"]]["outcome"] == o
+                                     for i in ids)) for o in outcomes)
+            out.append(f"{tex_escape(reader['label'])} & {group} & {len(ids)} & {counts}" + end)
+    out.append(r"\end{longtable}")
+    return "\n".join(out)
+
+
 def tex(doc: dict[str, Any]) -> str:
     readers = doc["readers"]
     base = [e for e in doc["inputs"] if not e.get("mutant")]
@@ -160,6 +186,7 @@ def tex(doc: dict[str, Any]) -> str:
         out.append(r"\item " + tex_escape(v["report"]) + r": \texttt{" + tex_escape(cmd).replace("@@", r"\aevreadrelease{}")
                    + r"} \nolinkurl{" + path + "}")
     out.append(r"\end{itemize}")
+    out.append(tex_breakdown(doc))
     return "\n".join(out) + "\n"
 
 
