@@ -111,7 +111,10 @@ def case_every_signed_corpus_matches(work: Path) -> None:
     lines = signed_lines()
     assert lines, "the signed digest list is empty, so this case would check nothing"
     for manifest_rel, digest in lines.items():
-        suite = REPO_ROOT / Path(manifest_rel).parent
+        listed = Path(manifest_rel).parent
+        suite = REPO_ROOT / listed
+        if not suite.is_dir():
+            suite = REPO_ROOT / "corpora" / listed
         got = module.corpus_provenance(str(suite))["corpusDigest"]
         assert got == digest, f"{manifest_rel}: report would say {got}, signed list says {digest}"
 

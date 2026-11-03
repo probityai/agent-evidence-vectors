@@ -114,9 +114,9 @@ _HERE = Path(__file__).resolve().parent
 _IN_WHEEL = (_HERE / "corpora").exists()
 ROOTS = {
     RECEIPT_SUITE: (_HERE / "corpora" / "vectors-agent-card-receipt" if _IN_WHEEL
-                    else _HERE.parents[1] / "vectors-agent-card-receipt"),
+                    else _HERE.parents[1] / "corpora" / "vectors-agent-card-receipt"),
     RELEASE_SUITE: (_HERE / "corpora" / "vectors-credential-release" if _IN_WHEEL
-                    else _HERE.parents[1] / "vectors-credential-release"),
+                    else _HERE.parents[1] / "corpora" / "vectors-credential-release"),
 }
 _RAIL_NAMES = ("agent_evidence_vectors.run_vectors", "run_vectors", "__main__")
 _RAIL_PRIMITIVES = ("ed25519_verify", "pae")

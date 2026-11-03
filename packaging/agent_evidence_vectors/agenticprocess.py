@@ -115,7 +115,8 @@ RULES = (
 )
 _HERE = Path(__file__).resolve().parent
 ROOT = (_HERE / "corpora" / "vectors-agentic-process-evidence" if
-        (_HERE / "corpora").exists() else _HERE.parents[1] / "vectors-agentic-process-evidence")
+        (_HERE / "corpora").exists()
+        else _HERE.parents[1] / "corpora" / "vectors-agentic-process-evidence")
 _RAIL_NAMES = ("agent_evidence_vectors.run_vectors", "run_vectors", "__main__")
 _RAIL_PRIMITIVES = ("ed25519_verify",)
 

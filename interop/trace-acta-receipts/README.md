@@ -14,7 +14,7 @@ Each run retains the original reader bytes, HTTP headers, source check, Python
 version, harness output and per-member report. The job runs on relevant changes,
 weekly and on manual request. It does not update the upstream verifier pin.
 
-The [corpus contract](../../vectors-receipt-signature/README.md) states the
+The [corpus contract](../../corpora/vectors-receipt-signature/README.md) states the
 draft-03 rules and the limits of these synthetic cases. These checks establish
 results for the selected source and inputs. They do not establish an upstream
 merge, standards decision, independent operator or customer deployment.

@@ -1,6 +1,6 @@
 # TRACE registry anchor comparison
 
-This repository runs its [registry anchor corpus](../../vectors-trace-anchor/README.md)
+This repository runs its [registry anchor corpus](../../corpora/vectors-trace-anchor/README.md)
 against TRACE's own Level 2 anchor check, TR-ANC-002 in the TRACE conformance
 suite. The comparison runs here, so TRACE does not need our package in its CI.
 

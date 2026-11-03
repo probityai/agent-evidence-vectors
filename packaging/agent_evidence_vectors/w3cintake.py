@@ -5,7 +5,7 @@ The criteria are the group's: version 2 as posted to the list on 2026-10-13
 the 48-hour objection window that followed it (2026Oct/0070 deltas 1 to 4,
 2026Oct/0075 delta 5) and the explicit field 2026Oct/0073 announced for the
 consolidated v2.1 text. Every rejection ground below is a sentence of those
-messages; ``vectors-w3c-intake/MANIFEST.json`` binds each identifier to its
+messages; ``corpora/vectors-w3c-intake/MANIFEST.json`` binds each identifier to its
 sentence by sha256, and the corpus holds at least one record that must pass
 and one a careless intake reader would admit and that must be refused, for
 every ground.
@@ -21,10 +21,10 @@ relying party runs it with nothing installed.
    ``root`` names the directory the record's paths are relative to;
    ``ROOT_GROUNDS`` lists them and the command line says which ran.
 2. A JUDGE for the corpus: ``judge(directory)`` reads
-   ``vectors-w3c-intake/MANIFEST.json`` and says of every member whether the
+   ``corpora/vectors-w3c-intake/MANIFEST.json`` and says of every member whether the
    checker refuses it under exactly the ground the manifest expects. Its
    printed form is byte-identical to what ``aee-verify <dir>`` prints from the
-   Go reader in ``corpora/w3cintake.go``.
+   Go reader in ``corpusreaders/w3cintake.go``.
 3. A COMMAND LINE: ``python -m agent_evidence_vectors.w3cintake record.json
    [--root DIR]``, exit 0 admitted, 1 refused, 2 unreadable.
 
@@ -73,8 +73,14 @@ fields below are ours, each carrying a rule the group stated without a field:
   pin stays (``refused-by``). An artifact is consumed exactly when the two
   native results differ, so opening a file is not consuming it.
 - ``anchor.kind`` = ``digest-list-line`` (criterion 7): a line of a digest
-  list naming the corpus digest and the manifest path, the form
-  ``release/CORPUS-DIGESTS.txt`` takes. ``signed-digest-list`` is the same
+  list naming the corpus digest and the manifest, the form
+  ``release/CORPUS-DIGESTS.txt`` takes. ``anchor.manifest`` is the name the
+  list carries for the manifest: the record's ``manifest.path``, or a trailing
+  path of it cut at a component boundary, because a list names files relative
+  to its own base and a record relative to its root (``<id>/MANIFEST.json`` in
+  the list, ``corpora/<id>/MANIFEST.json`` in the record). The line is located
+  by that name and the manifest's bytes are read at ``manifest.path``.
+  ``signed-digest-list`` is the same
   line in a list that carries a detached signature: ``signature`` names the
   signature file, the public key file and its sha256, and the scheme
   (``ed25519``, RFC 8032 over the list's exact bytes, the signature base64 in
@@ -121,7 +127,7 @@ SUITE = "w3c-intake-v2-conformance"
 FORMAT = "public-agent-conformance/intake-record/v2"
 
 #: Ground identifiers, minted by the corpus. The sentence each binds to is in
-#: vectors-w3c-intake/MANIFEST.json and the corpus's INDEX.md.
+#: corpora/vectors-w3c-intake/MANIFEST.json and the corpus's INDEX.md.
 G = {n: f"W3C-I-{n:03d}" for n in range(1, 49)}
 
 #: The grounds that read bytes on disk and run only under a root.
@@ -302,7 +308,7 @@ def source_listing(root: str, paths: list[str]) -> str | None:
 # --------------------------------------------------------------------------
 # Ed25519 (RFC 8032), verification only, so a signed anchor is checked with
 # nothing installed. Decoding follows Go's crypto/ed25519, which the twin
-# reader in corpora/w3cintake.go calls: the public key's y is taken modulo p,
+# reader in corpusreaders/w3cintake.go calls: the public key's y is taken modulo p,
 # and the signature's R is compared as bytes against the recomputed point, so
 # both readers accept and refuse the same signatures.
 # --------------------------------------------------------------------------
@@ -962,8 +968,7 @@ def _anchor(record: dict[str, Any], f: Findings) -> None:
         and _str(reference.get("uri"))
         and safe_path(reference.get("path"))
         and _hex(anchor.get("sha256"))
-        and _str(anchor.get("manifest"))
-        and anchor.get("manifest") == manifest_path
+        and _names_manifest(anchor.get("manifest"), manifest_path)
         and _obj(verdicts)
         and all(verdicts.get(k) in ANCHOR_VERDICTS for k in ANCHOR_FAILURES)
     )
@@ -983,6 +988,22 @@ def _signature_declared(anchor: dict[str, Any]) -> bool:
         and safe_path(signature.get("key"))
         and _hex(signature.get("key-sha256"))
         and signature.get("scheme") in SIGNATURE_SCHEMES
+    )
+
+
+def _names_manifest(listed: Any, path: Any) -> bool:
+    """The anchor names the manifest as the list does: the record's path, or a trailing path of it.
+
+    A digest list names files relative to its own base directory and a record
+    names them relative to its root, so the listed name is the record's path or
+    that path minus a leading directory, cut at a component boundary: a name
+    that matches only inside a component (``ite/MANIFEST.json`` against
+    ``corpora/suite/MANIFEST.json``) names no directory of the record's.
+    """
+    return (
+        safe_path(listed)
+        and isinstance(path, str)
+        and (listed == path or path.endswith("/" + listed))
     )
 
 
@@ -1012,7 +1033,9 @@ def _anchor_on_disk(record: dict[str, Any], root: str, f: Findings) -> None:
         f.add(G[24], f"integrity-failure: {path} resolves and carries no line binding "
                      f"{want} to {manifest}")
         return
-    pinned = _read(root, manifest) if _str(manifest) else None
+    # The line names the manifest the list's way; the bytes are at the record's path.
+    manifest_path = _field(record.get("manifest"), "path")
+    pinned = _read(root, manifest_path) if _str(manifest_path) else None
     declared: Any = None
     if pinned is not None:
         try:
@@ -1334,7 +1357,7 @@ def rejections(
 
 
 # --------------------------------------------------------------------------
-# The judge, over vectors-w3c-intake/.
+# The judge, over corpora/vectors-w3c-intake/.
 # --------------------------------------------------------------------------
 
 ID_FIELDS = ("kind", "family", "requirements", "root", "tree", "record", "expected")
@@ -1654,7 +1677,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="w3cintake",
         description="check an intake record for a submitted conformance result, "
-        "or judge vectors-w3c-intake/",
+        "or judge corpora/vectors-w3c-intake/",
     )
     parser.add_argument("record", help="an intake record, or with --judge a corpus directory")
     parser.add_argument("--root", help="the directory the record's paths are relative to")

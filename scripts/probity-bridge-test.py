@@ -8,7 +8,7 @@ install. This test holds each copy to `BRIDGE` in scripts/action-summary.py:
 1. A passing run's summary carries the line once, after the result table.
 2. A failing run's summary, with or without a report, carries the offline
    verifier line (`OFFLINE`) and not the "Checked with Probity" statement.
-3. Every vectors-*/README.md, spec/README.md and the main README carry BADGE
+3. Every corpora/vectors-*/README.md, spec/README.md and the main README carry BADGE
    once and no text line beside it.
 4. Removing the line from the summary script turns check 1 red, so the check
    cannot pass while the summary has lost the line.
@@ -89,7 +89,7 @@ def summary_errors(script: Path, work: Path) -> list[str]:
 
 
 def readme_errors() -> list[str]:
-    paths = sorted(REPO_ROOT.glob("vectors-*/README.md"))
+    paths = sorted(REPO_ROOT.glob("corpora/vectors-*/README.md"))
     paths += [REPO_ROOT / "spec" / "README.md", REPO_ROOT / "README.md"]
     errors = []
     for p in paths:

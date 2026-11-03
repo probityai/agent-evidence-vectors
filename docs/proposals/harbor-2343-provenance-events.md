@@ -13,7 +13,7 @@ evidence_status:
   - "trajectory_id is required on embedded subagents, optional on standalone trajectories": verified_fact, rfcs/0001-trajectory-format.md:92
   - "session_id is run-scoped, may collide across siblings, informational only on a ref": verified_fact, rfcs/0001-trajectory-format.md:91 and :362
   - "the 4 arms reach the outcomes the contract states": verified_fact, demo/four-arms.sh exits 0
-  - "8 corpus cases with expected verdicts": verified_fact, `go build -o aee-verify ./cmd/aee-verify && ./aee-verify vectors-artifact-binding/` reports 8 members, 2 verified, 4 failed, 2 not-established; exit 1 names a member whose bytes moved
+  - "8 corpus cases with expected verdicts": verified_fact, `go build -o aee-verify ./cmd/aee-verify && ./aee-verify corpora/vectors-artifact-binding/` reports 8 members, 2 verified, 4 failed, 2 not-established; exit 1 names a member whose bytes moved
 push_plan:
   - the operator posts it as an issue comment, from his own account, as a private individual
   - re-read the thread first. It has 3 substantive human comments and a 4th would land on a converged invariant, so a comment that ignores that convergence reads as inattention

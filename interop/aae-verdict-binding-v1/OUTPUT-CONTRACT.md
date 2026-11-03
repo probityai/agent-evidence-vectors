@@ -46,7 +46,7 @@ Key rule: a ratification is evaluated only when every authority key its mandate 
 |---|---|
 | `profile` | `aev.aae-verdict-binding.v1` |
 | `source`, `input_sha256`, `trust_keys`, `evidence_keys` | Copied from the checked pins. |
-| `code_sha256` | SHA-256 of each package module and of `vectors-observed-effect/check_vectors.py`. |
+| `code_sha256` | SHA-256 of each package module and of `corpora/vectors-observed-effect/check_vectors.py`. |
 | `vectors_total`, `vectors_reproduced`, `vectors[]` | Per vector: `file`, `id`, `kernel` and a `checks` map of booleans (`verdict` or `status`, `core_digest`, `grant_index`, `ratifies`, `authority`, `trace`, `kernel_version`, `domain_tags`, `key_order_independent`, or `caller_error` for vectors 24 and 25), and `reproduced`. |
 | `cases_total`, `cases_as_declared`, `cases[]` | Per case: `name`, `role` (`case` or `control`), `declared`, `produced`, `matches_declaration` and the full `result`. |
 | `not_established` | `execution`, `outcome`, `completeness_of_the_decision_set`, `freshness_at_presentation`, `production_identity_of_any_key`, `revocation_state`, `independent_custody`. |

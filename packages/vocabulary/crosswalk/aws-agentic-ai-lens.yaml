@@ -60,3 +60,14 @@ incident_response:
   incident_identifier:
     match: no_mapping
     notes: The source describes nothing that maps onto this term.
+  decision_role:
+    match: no_mapping
+    notes: The page asks for multi-person authorization for restoration and names no role per person.
+  authority_basis:
+    match: no_mapping
+    notes: The page describes automated containment on anomaly detection and a manual runbook, and names
+      no kind of grant.
+  revocation_coverage:
+    match: no_mapping
+    notes: The page describes automated credential revocation as an action and states no coverage of a
+      credential population.

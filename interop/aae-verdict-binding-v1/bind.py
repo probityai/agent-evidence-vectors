@@ -35,7 +35,7 @@ from strict_json import load_json, refuse
 
 HERE = Path(__file__).resolve().parent
 REPOSITORY = HERE.parent.parent
-EVIDENCE_VERIFIER = REPOSITORY / "vectors-observed-effect" / "check_vectors.py"
+EVIDENCE_VERIFIER = REPOSITORY / "corpora" / "vectors-observed-effect" / "check_vectors.py"
 OBSERVED_EFFECT_TYPE = (
     "https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect"
 )

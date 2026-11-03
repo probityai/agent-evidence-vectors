@@ -324,13 +324,13 @@ under suiteRevision 17.
   faster; a shorter window is still a window.
 
 - [ ] **`messagesDigest` pins one implementation's message prose, and the property it
-  stands for does not** — `vectors-artifact-binding/MANIFEST.json` gives every member a
+  stands for does not** — `corpora/vectors-artifact-binding/MANIFEST.json` gives every member a
   digest over the reference verifier's own sorted message list, and
-  `vectors-artifact-binding/check_vectors.py` recomputes it. It exists for a real hole,
+  `corpora/vectors-artifact-binding/check_vectors.py` recomputes it. It exists for a real hole,
   measured: a member already expected to fail absorbs a second fault of the same class
   in silence, because both faults raise the same code and the member identifier covers
   the record rather than the files the record names. What it hashes, though, is English.
-  Porting the check into `corpora/artifactbinding.go` verbatim failed two of eight
+  Porting the check into `corpusreaders/artifactbinding.go` verbatim failed two of eight
   unmutated members, because the Go reader words its findings differently, so the digest
   as specified cannot be satisfied by a second implementation without copying the first
   one's wording. That is why this corpus keeps a Python checker after the other five were

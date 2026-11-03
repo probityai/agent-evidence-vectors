@@ -5,7 +5,7 @@
       the 272-record report emitted by agent-evidence-vectors 0.12.0 and the
       conformance report written beside it (both published at tag v0.13.0)
   python3 -I recount.py selection MANIFEST.json
-      vectors-w3c-report/MANIFEST.json at tag v0.17.4: its 235 members and the
+      corpora/vectors-w3c-report/MANIFEST.json at tag v0.17.4: its 235 members and the
       165-member selection of section 10 (subjectType report, every
       requirement agreed)
 

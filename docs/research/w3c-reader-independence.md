@@ -8,7 +8,7 @@ reading that only the first two readers share can now be told apart.
 
 ## Why it exists
 
-Two readers judge `vectors-w3c-report/`: `corpora/w3creport.go` (via
+Two readers judge `corpora/vectors-w3c-report/`: `corpusreaders/w3creport.go` (via
 `aee-verify <dir>`) and `packaging/agent_evidence_vectors/w3creport.py` (via
 `packaging/run_vectors.py`). A reviewer on the list called them "the same code
 run by a second party, not an independent implementation". The measurement
@@ -26,22 +26,22 @@ text, with no line of the other two in view.
 
 | source | what was taken from it |
 |---|---|
-| `vectors-w3c-report/spec-vendored/0087-arsentev-2026-09-30-v01.txt` | every report rule: states, causes, qualifiers, rows 1 to 14, the evidence object, carry or reference, section 3.1, the roll-up |
-| `vectors-w3c-report/spec-vendored/0001-ives-2026-09-01-coverage-block.txt` | the coverage block fields (`W3C-R-022`, proposed) |
-| `vectors-w3c-report/spec-vendored/draft-arsentev-agent-run-metrics-00.txt` | the Run object rows `ARM-R-001` to `ARM-R-022` (sections 3.1 to 3.7 and 3.12, plus section 5 and its subsection 5.1) |
-| `vectors-w3c-report/spec-vendored/draft-arsentev-llm-context-discovery-00.txt` | the snapshot rows `LCD-R-001` to `LCD-R-011` (sections 3.1 to 3.3, 4.1, 4.3, 4.4, 7.2, 7.4) |
+| `corpora/vectors-w3c-report/spec-vendored/0087-arsentev-2026-09-30-v01.txt` | every report rule: states, causes, qualifiers, rows 1 to 14, the evidence object, carry or reference, section 3.1, the roll-up |
+| `corpora/vectors-w3c-report/spec-vendored/0001-ives-2026-09-01-coverage-block.txt` | the coverage block fields (`W3C-R-022`, proposed) |
+| `corpora/vectors-w3c-report/spec-vendored/draft-arsentev-agent-run-metrics-00.txt` | the Run object rows `ARM-R-001` to `ARM-R-022` (sections 3.1 to 3.7 and 3.12, plus section 5 and its subsection 5.1) |
+| `corpora/vectors-w3c-report/spec-vendored/draft-arsentev-llm-context-discovery-00.txt` | the snapshot rows `LCD-R-001` to `LCD-R-011` (sections 3.1 to 3.3, 4.1, 4.3, 4.4, 7.2, 7.4) |
 | `docs/W3C-V01-CONFORMANCE-APPENDIX.md` | which sentence each row identifier is bound to, and the closed tree-shape set |
-| `vectors-w3c-report/MANIFEST.json`, `INDEX.md`, `README.md`, the member files | field names and object shapes, each member's kind, expected rejects and cited rows |
-| `vectors-w3c-report/observed/aee-v0.12.0/report.json` and `RUN.json` | the shape of an emitted report |
+| `corpora/vectors-w3c-report/MANIFEST.json`, `INDEX.md`, `README.md`, the member files | field names and object shapes, each member's kind, expected rejects and cited rows |
+| `corpora/vectors-w3c-report/observed/aee-v0.12.0/report.json` and `RUN.json` | the shape of an emitted report |
 | `scripts/w3c-rails-parity-test.py` | the mutation cases, so the third column runs the same ones |
 | the source of `jcs-admit` 0.1.1 (crates.io) | its public API |
 
 ### Not opened
 
-`corpora/w3creport.go`, `packaging/agent_evidence_vectors/w3creport.py`,
+`corpusreaders/w3creport.go`, `packaging/agent_evidence_vectors/w3creport.py`,
 `packaging/agent_evidence_vectors/runmetrics.py`,
 `packaging/agent_evidence_vectors/contextdiscovery.py`, the emitter code in
-`packaging/run_vectors.py`, and `vectors-w3c-report/gen_vectors.py`.
+`packaging/run_vectors.py`, and `corpora/vectors-w3c-report/gen_vectors.py`.
 
 One exposure is recorded rather than left out. The differential run below
 crashed the Python reader, and its traceback printed four lines of
@@ -216,7 +216,7 @@ why the parity test, by construction, could not find them.
 ```
 cargo build --release --locked --manifest-path readers/w3c-report-rs/Cargo.toml
 readers/w3c-report-rs/target/release/w3c-report-rs vectors-w3c-report
-readers/w3c-report-rs/target/release/w3c-report-rs --report vectors-w3c-report/observed/aee-v0.12.0/report.json
+readers/w3c-report-rs/target/release/w3c-report-rs --report corpora/vectors-w3c-report/observed/aee-v0.12.0/report.json
 python3 scripts/w3c-rails-parity-test.py
 python3 scripts/w3c-reader-differential.py --rounds 8 --seed 23
 ```

@@ -154,8 +154,11 @@ def tex(doc: dict[str, Any]) -> str:
             r"\label{tab:w3c-controls}", r"\end{table}", "",
             r"\begin{itemize}"]
     for v in doc["verify_commands"]:
-        cmd = v["command"].replace("{release}", "@@")
-        out.append(r"\item " + tex_escape(v["report"]) + r": \texttt{" + tex_escape(cmd).replace("@@", r"\aevreadrelease{}") + "}")
+        cmd, _, path = v["command"].replace("{release}", "@@").rpartition(" ")
+        # The file name goes in \nolinkurl so a long one can break; an unbreakable
+        # \texttt line ran past the margin in the verification section.
+        out.append(r"\item " + tex_escape(v["report"]) + r": \texttt{" + tex_escape(cmd).replace("@@", r"\aevreadrelease{}")
+                   + r"} \nolinkurl{" + path + "}")
     out.append(r"\end{itemize}")
     return "\n".join(out) + "\n"
 

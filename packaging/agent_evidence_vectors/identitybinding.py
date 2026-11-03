@@ -69,7 +69,7 @@ AUTHORISING = ("authentication", "assertionMethod")
 MULTIKEY_ED25519 = b"\xed\x01"
 _HERE = Path(__file__).resolve().parent
 ROOT = (_HERE / "corpora" / "vectors-identity-binding" if
-        (_HERE / "corpora").exists() else _HERE.parents[1] / "vectors-identity-binding")
+        (_HERE / "corpora").exists() else _HERE.parents[1] / "corpora" / "vectors-identity-binding")
 _RAIL_NAMES = ("agent_evidence_vectors.run_vectors", "run_vectors", "__main__")
 _RAIL_PRIMITIVES = ("ed25519_verify", "pae")
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """The two self-reported-record rails agree, on the corpus and off it.
 
-``corpora/selfreported.go`` (run through ``aee-verify``) and
+``corpusreaders/selfreported.go`` (run through ``aee-verify``) and
 ``packaging/agent_evidence_vectors/selfreportedrecord.py`` restate one rule set
 independently. This test holds them to one answer:
 
@@ -37,7 +37,7 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
-CORPUS = ROOT / "vectors-self-reported-record"
+CORPUS = ROOT / "corpora" / "vectors-self-reported-record"
 sys.path.insert(0, str(ROOT / "packaging"))
 sys.path.insert(0, str(CORPUS))
 
@@ -130,7 +130,7 @@ def write_corpus(dest: Path, entries: list[dict[str, Any]]) -> Path:
     so what a rail reports is the judgement and not a stale pin.
     """
     base = load_manifest()
-    corpus = dest / "vectors-self-reported-record"
+    corpus = dest / "corpora" / "vectors-self-reported-record"
     (corpus / "statements").mkdir(parents=True)
     (dest / "spec" / "self-reported-record").mkdir(parents=True)
     shutil.copy(ROOT / base["contract"], dest / base["contract"])

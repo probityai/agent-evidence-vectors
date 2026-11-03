@@ -33,11 +33,13 @@ ENTRY_KEYS = ("vectors", "cases", "entries")
 def tracked_manifests(root: Path) -> list[Path]:
     """Every tracked `vectors*/MANIFEST.json`, from git, never from a directory walk."""
     out = subprocess.run(
-        ["git", "-C", str(root), "ls-files", "-z", "--", "vectors*/MANIFEST.json"],
+        ["git", "-C", str(root), "ls-files", "-z", "--", "vectors*/MANIFEST.json",
+         "corpora/vectors*/MANIFEST.json"],
         capture_output=True,
         check=True,
     ).stdout.decode()
-    return [root / rel for rel in out.split("\0") if rel and rel.count("/") == 1]
+    return [root / rel for rel in out.split("\0")
+            if rel and rel.count("/") == (2 if rel.startswith("corpora/") else 1)]
 
 
 def entry_count(manifest: dict[str, object]) -> int | None:

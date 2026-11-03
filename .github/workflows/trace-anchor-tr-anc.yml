@@ -7,13 +7,13 @@ on:
   push:
     branches: [main]
     paths:
-      - vectors-trace-anchor/**
+      - corpora/vectors-trace-anchor/**
       - packaging/agent_evidence_vectors/traceanchor.py
       - interop/trace-anchor-tr-anc/**
       - .github/workflows/trace-anchor-tr-anc.yml
   pull_request:
     paths:
-      - vectors-trace-anchor/**
+      - corpora/vectors-trace-anchor/**
       - packaging/agent_evidence_vectors/traceanchor.py
       - interop/trace-anchor-tr-anc/**
       - .github/workflows/trace-anchor-tr-anc.yml

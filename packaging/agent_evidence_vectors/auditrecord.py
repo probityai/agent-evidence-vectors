@@ -6,7 +6,7 @@ The record format is defined by the Internet-Draft
 envelope, seventeen required predicate members and one optional one carrying the
 seven minimum audit fields of Section 11 of ``draft-ietf-wimse-aims``, and the
 recomputes that make those fields checkable. Appendix B of the draft lists the
-conformance corpus, and ``vectors-agent-audit-record/`` publishes it member for
+conformance corpus, and ``corpora/vectors-agent-audit-record/`` publishes it member for
 member: each manifest entry carries the Appendix B identifier in ``draftId``.
 The members after the last row test sentences of Section 5.4 that Appendix B
 has no row for, and name the section in ``draftSection``. Members carrying
@@ -2375,7 +2375,7 @@ def render(judged: Judged, suite: str) -> str:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="auditrecord",
-        description="judge vectors-agent-audit-record/ with the reference reader for "
+        description="judge corpora/vectors-agent-audit-record/ with the reference reader for "
         "draft-gilda-audit-agent-audit-record-00 and the five rows of revision 01 "
         "(TI6, V4, V5, FR14, FR15)",
     )

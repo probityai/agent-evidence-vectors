@@ -27,7 +27,7 @@ from agent_evidence_vectors.invocation_axes.reader import (  # noqa: E402
     parse_strict,
 )
 
-BASELINE = ROOT / "vectors-observed-effect/statements/v1c6fdd82db5229e4.json"
+BASELINE = ROOT / "corpora/vectors-observed-effect/statements/v1c6fdd82db5229e4.json"
 INVOCATION = ROOT / "packaging/agent_evidence_vectors/invocation_axes/corpus/invocation.json"
 SEED = bytes.fromhex("00" * 31 + "11")
 KEY = Ed25519PrivateKey.from_private_bytes(SEED)
@@ -199,7 +199,7 @@ def main() -> None:
         "profile": "observed-invocation-binding-candidate-v1",
         "status": "candidate",
         "classification": "same-author synthetic conformance cases; published test keys",
-        "baseStatement": "vectors-observed-effect/statements/v1c6fdd82db5229e4.json",
+        "baseStatement": "corpora/vectors-observed-effect/statements/v1c6fdd82db5229e4.json",
         "baseStatementSha256": hashlib.sha256(BASELINE.read_bytes()).hexdigest(),
         "request": "packaging/agent_evidence_vectors/invocation_axes/corpus/invocation.json",
         "requestSha256": hashlib.sha256(INVOCATION.read_bytes()).hexdigest(),

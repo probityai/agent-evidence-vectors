@@ -1,11 +1,11 @@
 {
   "aggregate": {
     "counts": {
-      "allow": 10,
-      "deny": 17
+      "allow": 13,
+      "deny": 23
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 27
+    "total": 36
   },
   "anchor": {
     "kind": "signed-digest-list",
@@ -14,10 +14,10 @@
       "path": "release/CORPUS-DIGESTS.txt",
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
-    "routine": "corpus_digest in vectors-uncertain-effect/gen_vectors.py",
-    "routine-file": "vectors-uncertain-effect/gen_vectors.py",
+    "routine": "corpus_digest in corpora/vectors-uncertain-effect/gen_vectors.py",
+    "routine-file": "corpora/vectors-uncertain-effect/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "5e662ed999ebd931b07a9c593167b20700a74d45a5129e550d27ec85057282e5",
+    "sha256": "e94026b486929f4b8874d480d589fe04e56731318e9aace75f3006af2af52774",
     "signature": {
       "key": "release/cosign.pub",
       "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
@@ -36,7 +36,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "0b6628acaf48e9b621dcd65adf360c51f1bae7871a4b7b797976bf43f2ecec81"
+          "sha256": "8e2ba002f50bcdbd541107fbc5d2a397be2fefded54e7c4002bd4e10940de5ba"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -45,12 +45,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "0b6628acaf48e9b621dcd65adf360c51f1bae7871a4b7b797976bf43f2ecec81"
+          "sha256": "8e2ba002f50bcdbd541107fbc5d2a397be2fefded54e7c4002bd4e10940de5ba"
         },
-        "swapped-in": "96fba6d8661a40ad5abf18620000915417a5e60872c3a51931d88ca4a747306f",
+        "swapped-in": "afeb971d6b32e6d17328e428795e46a8ae04c03545babde2bf460ba909bbb7ca",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-uncertain-effect/README.md",
+      "path": "corpora/vectors-uncertain-effect/README.md",
       "serialization": "bytes",
       "sha256": "1d02020bc150ef4de74bd5c7f46b9dc636b35c2a9fa8d0880ba5c81bccf776ed"
     },
@@ -59,7 +59,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "0b6628acaf48e9b621dcd65adf360c51f1bae7871a4b7b797976bf43f2ecec81"
+          "sha256": "8e2ba002f50bcdbd541107fbc5d2a397be2fefded54e7c4002bd4e10940de5ba"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -68,21 +68,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "0b6628acaf48e9b621dcd65adf360c51f1bae7871a4b7b797976bf43f2ecec81"
+          "sha256": "8e2ba002f50bcdbd541107fbc5d2a397be2fefded54e7c4002bd4e10940de5ba"
         },
-        "swapped-in": "84c85f8fafae5547545ca73330677aaeac2ab8d8aafac548c467bef08594bc4d",
+        "swapped-in": "a84babf6cf82a6e28bbc02ed41e232db05b2471f00c7eb64eb10e6a1a4070420",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-uncertain-effect/check_vectors.py",
+      "path": "corpora/vectors-uncertain-effect/check_vectors.py",
       "serialization": "bytes",
-      "sha256": "5cf1a6e5e2228cfe876e8e657ed35816e9ba2f69748b4f134aab4472ac5ff208"
+      "sha256": "493d540f4bf25d824ad2e6979bd3d6889d09033593903887130167e02ee71212"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "0b6628acaf48e9b621dcd65adf360c51f1bae7871a4b7b797976bf43f2ecec81"
+          "sha256": "8e2ba002f50bcdbd541107fbc5d2a397be2fefded54e7c4002bd4e10940de5ba"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -91,21 +91,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "0b6628acaf48e9b621dcd65adf360c51f1bae7871a4b7b797976bf43f2ecec81"
+          "sha256": "8e2ba002f50bcdbd541107fbc5d2a397be2fefded54e7c4002bd4e10940de5ba"
         },
-        "swapped-in": "4774c33d0cfc160779a20dd680f9a86cd21e01652f4ce84a92f315c78bce3361",
+        "swapped-in": "8404ce13ca5a660e8dce71a6a51248cdecca9b4bacc6e2cec1655c2c6b79e7e8",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-uncertain-effect/gen_vectors.py",
+      "path": "corpora/vectors-uncertain-effect/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "1e8fcafe516e27e8794420435885d46408f421559c8667858840001cd49a269d"
+      "sha256": "0047c30d96807e5871cd0f4e8b25dbdc3fdf57dd6494873f081716a591864f54"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "0b6628acaf48e9b621dcd65adf360c51f1bae7871a4b7b797976bf43f2ecec81"
+          "sha256": "8e2ba002f50bcdbd541107fbc5d2a397be2fefded54e7c4002bd4e10940de5ba"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -114,12 +114,12 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "0b6628acaf48e9b621dcd65adf360c51f1bae7871a4b7b797976bf43f2ecec81"
+          "sha256": "8e2ba002f50bcdbd541107fbc5d2a397be2fefded54e7c4002bd4e10940de5ba"
         },
-        "swapped-in": "ca4c15a14452143a2391b66c12e820609781c41294cc6524d72d86e20c297bdb",
+        "swapped-in": "58b2d248fedcfabbf41314a6241300d5d9a34bdb892d36ea01b946c4f538a1b9",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-uncertain-effect/tests/runtime_adapter.py",
+      "path": "corpora/vectors-uncertain-effect/tests/runtime_adapter.py",
       "serialization": "bytes",
       "sha256": "4b1eb5a09d0e3349ddef5bd584383f59667c02fa179bdd25c4c4181ab2a2a784"
     },
@@ -128,7 +128,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "0b6628acaf48e9b621dcd65adf360c51f1bae7871a4b7b797976bf43f2ecec81"
+          "sha256": "8e2ba002f50bcdbd541107fbc5d2a397be2fefded54e7c4002bd4e10940de5ba"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -137,14 +137,14 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "0b6628acaf48e9b621dcd65adf360c51f1bae7871a4b7b797976bf43f2ecec81"
+          "sha256": "8e2ba002f50bcdbd541107fbc5d2a397be2fefded54e7c4002bd4e10940de5ba"
         },
-        "swapped-in": "82c8eb1567c4aa225ac9549425239a6d3af4988c4ec9dba452a64b84e6b6310a",
+        "swapped-in": "ae1359d9cb0e0ed0982e6bea934ec9203de6b3fab094dc44aeb1bed739da6b7a",
         "test": "swap-and-re-pin"
       },
-      "path": "vectors-uncertain-effect/tests/test_corpus.py",
+      "path": "corpora/vectors-uncertain-effect/tests/test_corpus.py",
       "serialization": "bytes",
-      "sha256": "d345d28c9437989822a2573815f11eb5d3b564e98db5a3534ba3fd5bc022a854"
+      "sha256": "b5e164f7553a44fa429d6b67da95c77fac236a47dec0ebfb8f50ea3154aea182"
     }
   ],
   "boundary": {
@@ -156,10 +156,10 @@
         "suffix": ""
       }
     ],
-    "root": "vectors-uncertain-effect"
+    "root": "corpora/vectors-uncertain-effect"
   },
   "byte-identity": {
-    "pins": 27,
+    "pins": 36,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -168,9 +168,9 @@
   "checker": {
     "commands": [
       "go build -o aee-verify ./cmd/aee-verify",
-      "aee-verify -json vectors-uncertain-effect",
-      "aee-verify -json vectors-uncertain-effect",
-      "aee-verify vectors-uncertain-effect"
+      "aee-verify -json corpora/vectors-uncertain-effect",
+      "aee-verify -json corpora/vectors-uncertain-effect",
+      "aee-verify corpora/vectors-uncertain-effect"
     ],
     "dependencies": [
       {
@@ -192,11 +192,11 @@
       "paths": [
         "aee",
         "cmd/aee-verify",
-        "corpora",
+        "corpusreaders",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "712a1932ef34c3166fdc0517647e0008db691ea8963f36e1331517673e968c64"
+      "sha256": "96071a6011c83614c4803a34a07691b694301b4aee1b278d7ab3040c29cb84c7"
     },
     "runtime": {
       "name": "go",
@@ -205,7 +205,7 @@
     "shared-verification-code": [
       "aee",
       "cmd/aee-verify",
-      "corpora",
+      "corpusreaders",
       "go.mod"
     ]
   },
@@ -425,11 +425,83 @@
         "verdict": "deny"
       },
       "state": "pass"
+    },
+    {
+      "check": "allow-cancel-clean-stop",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-cancel-commit-after-ack-reported",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-cancel-straddle-not-established",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "cancel-authority-accepted-after-revocation",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "cancel-commit-after-ack-reported-quiescent",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "cancel-straddle-reported-quiescent",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "cancel-straddle-reported-after-stop",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "cancel-reported-not-run-owner-committed",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "cancel-resume-replays-same-key",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
     }
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "1200e250c50f915a36d7d9b7063d2fb0fb3ee5edc53467e2ce36b2963487ab0c"
+    "sha256": "3950ab81aa964b0a8dec59a2ed30b24c8b93c29269e0c8148d3ab13a105e10d0"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -465,16 +537,25 @@
       "timeout-reported-not-run",
       "timeout-reported-committed",
       "reconciled-absent-reported-committed",
-      "reconciled-present-still-unknown"
+      "reconciled-present-still-unknown",
+      "allow-cancel-clean-stop",
+      "allow-cancel-commit-after-ack-reported",
+      "allow-cancel-straddle-not-established",
+      "cancel-authority-accepted-after-revocation",
+      "cancel-commit-after-ack-reported-quiescent",
+      "cancel-straddle-reported-quiescent",
+      "cancel-straddle-reported-after-stop",
+      "cancel-reported-not-run-owner-committed",
+      "cancel-resume-replays-same-key"
     ],
-    "path": "vectors-uncertain-effect/MANIFEST.json",
-    "sha256": "231f34d327c6f67e2df0117a63a012d082ee68c289bf1dedfa8018f6136fc921"
+    "path": "corpora/vectors-uncertain-effect/MANIFEST.json",
+    "sha256": "2e932e47ead400319c472580311a9a6dbf2f5e3a2f9c3126e2949efdfde715c0"
   },
   "members": [
     {
       "files": [
         {
-          "path": "vectors-uncertain-effect/cases/allow-confirmed-first-attempt/record.json",
+          "path": "corpora/vectors-uncertain-effect/cases/allow-confirmed-first-attempt/record.json",
           "sha256": "8ff4e87d4a8555b45904fcb604babb6d9ddb7350578b44bf8c6e3e2faa716617"
         }
       ],
@@ -483,7 +564,7 @@
     {
       "files": [
         {
-          "path": "vectors-uncertain-effect/cases/allow-commit-timeout-reconciled-present/record.json",
+          "path": "corpora/vectors-uncertain-effect/cases/allow-commit-timeout-reconciled-present/record.json",
           "sha256": "29cf64027fe24e088d508cb80f4bba853a0170b659f387728ce085c3e821ffdc"
         }
       ],
@@ -492,7 +573,7 @@
     {
       "files": [
         {
-          "path": "vectors-uncertain-effect/cases/allow-commit-timeout-held-unknown/record.json",
+          "path": "corpora/vectors-uncertain-effect/cases/allow-commit-timeout-held-unknown/record.json",
           "sha256": "b5d76c160285101e6ee88bd4e174b46f17b3be6dc23c12dead4bfce1f6551a77"
         }
       ],
@@ -501,7 +582,7 @@
     {
       "files": [
         {
-          "path": "vectors-uncertain-effect/cases/allow-unknown-charged-past-expiry/record.json",
+          "path": "corpora/vectors-uncertain-effect/cases/allow-unknown-charged-past-expiry/record.json",
           "sha256": "5ad238aae73e2984a1030b45b1cc1c5dd935f99a9b4230292fde95a5d4273fb9"
         }
       ],
@@ -510,7 +591,7 @@
     {
       "files": [
         {
-          "path": "vectors-uncertain-effect/cases/allow-timeout-reconciled-absent-not-run/record.json",
+          "path": "corpora/vectors-uncertain-effect/cases/allow-timeout-reconciled-absent-not-run/record.json",
           "sha256": "58685455dbb7bc7abcaa34c1838d8a3277abc849a9da66574e1b68346f75ac3c"
         }
       ],
@@ -519,7 +600,7 @@
     {
       "files": [
         {
-          "path": "vectors-uncertain-effect/cases/allow-retry-after-final-absent/record.json",
+          "path": "corpora/vectors-uncertain-effect/cases/allow-retry-after-final-absent/record.json",
           "sha256": "244c4ee23644f04815db126ce5781be5e196960d1eaa288afcf41d44a45368a3"
         }
       ],
@@ -528,7 +609,7 @@
     {
       "files": [
         {
-          "path": "vectors-uncertain-effect/cases/allow-retry-same-key-owner-deduplicates/record.json",
+          "path": "corpora/vectors-uncertain-effect/cases/allow-retry-same-key-owner-deduplicates/record.json",
           "sha256": "6a721294aeb25400fb42aa0f5e598c841e30afa5e4c23a2d995e129d113911a2"
         }
       ],
@@ -537,7 +618,7 @@
     {
       "files": [
         {
-          "path": "vectors-uncertain-effect/cases/allow-definite-no-effect-then-retry/record.json",
+          "path": "corpora/vectors-uncertain-effect/cases/allow-definite-no-effect-then-retry/record.json",
           "sha256": "5a67a3bbf669639b330a404a4961625ac91295967f2650488cdc2c6ba56f6e67"
         }
       ],
@@ -546,7 +627,7 @@
     {
       "files": [
         {
-          "path": "vectors-uncertain-effect/cases/allow-lease-taken-over-reconciled/record.json",
+          "path": "corpora/vectors-uncertain-effect/cases/allow-lease-taken-over-reconciled/record.json",
           "sha256": "1cf9b043795827959b2a1f65e9a82aee788cbbfb528d854c3f9df09e7a443533"
         }
       ],
@@ -555,7 +636,7 @@
     {
       "files": [
         {
-          "path": "vectors-uncertain-effect/cases/allow-late-commit-awaited/record.json",
+          "path": "corpora/vectors-uncertain-effect/cases/allow-late-commit-awaited/record.json",
           "sha256": "60db3ebfe73fd52a84e624da53b16ab8f3ce5c8447d682846112f1d3f8a8f685"
         }
       ],
@@ -564,7 +645,7 @@
     {
       "files": [
         {
-          "path": "vectors-uncertain-effect/cases/contract-id-missing/record.json",
+          "path": "corpora/vectors-uncertain-effect/cases/contract-id-missing/record.json",
           "sha256": "d9e257a16a3e8123fe93e19fe0cdf2e5fa53fef50513cd7343b2823156cef8fa"
         }
       ],
@@ -573,7 +654,7 @@
     {
       "files": [
         {
-          "path": "vectors-uncertain-effect/cases/contract-id-unknown/record.json",
+          "path": "corpora/vectors-uncertain-effect/cases/contract-id-unknown/record.json",
           "sha256": "b078882b6c690ed40119e23b4a440d9f1694cf1e562267b04bb4606e96d7963f"
         }
       ],
@@ -582,7 +663,7 @@
     {
       "files": [
         {
-          "path": "vectors-uncertain-effect/cases/identity-missing-key/record.json",
+          "path": "corpora/vectors-uncertain-effect/cases/identity-missing-key/record.json",
           "sha256": "8cd6862783774886557e8ce75ddf130e420306b1d810ab7ab8dc588e3e19fbc9"
         }
       ],
@@ -591,7 +672,7 @@
     {
       "files": [
         {
-          "path": "vectors-uncertain-effect/cases/identity-missing-args-digest/record.json",
+          "path": "corpora/vectors-uncertain-effect/cases/identity-missing-args-digest/record.json",
           "sha256": "2a8b696901f541dab0812a0617b77bbbd552b3f57bf0a43add8368c06053fa30"
         }
       ],
@@ -600,7 +681,7 @@
     {
       "files": [
         {
-          "path": "vectors-uncertain-effect/cases/key-reused-args-changed/record.json",
+          "path": "corpora/vectors-uncertain-effect/cases/key-reused-args-changed/record.json",
           "sha256": "b2065b6b4d1702c578718f9e43eece89bcb4ae0c74cc833d3c0c7ca8b67687e3"
         }
       ],
@@ -609,7 +690,7 @@
     {
       "files": [
         {
-          "path": "vectors-uncertain-effect/cases/dispatch-after-lease-expired/record.json",
+          "path": "corpora/vectors-uncertain-effect/cases/dispatch-after-lease-expired/record.json",
           "sha256": "ce8a2a4f6c2a0ee5d2d10a4f1e149db0a3fb3bed09a158fb6cc3eb7b411b0049"
         }
       ],
@@ -618,7 +699,7 @@
     {
       "files": [
         {
-          "path": "vectors-uncertain-effect/cases/dispatch-with-superseded-token/record.json",
+          "path": "corpora/vectors-uncertain-effect/cases/dispatch-with-superseded-token/record.json",
           "sha256": "5657d1e85d5a7ae808f4191a6220dff51bef3fa1ffd0845d01e274f8aa2dcf82"
         }
       ],
@@ -627,7 +708,7 @@
     {
       "files": [
         {
-          "path": "vectors-uncertain-effect/cases/retry-after-commit-timeout/record.json",
+          "path": "corpora/vectors-uncertain-effect/cases/retry-after-commit-timeout/record.json",
           "sha256": "8367be054c8a8bab881cf8efef7770807efcdcd63bb7e27be599a0d59fa14090"
         }
       ],
@@ -636,7 +717,7 @@
     {
       "files": [
         {
-          "path": "vectors-uncertain-effect/cases/retry-after-lookup-not-final/record.json",
+          "path": "corpora/vectors-uncertain-effect/cases/retry-after-lookup-not-final/record.json",
           "sha256": "41355ba28b7d5862f3199c280f5755da15609ec1d0cd3e09efbd7c0160f46ffa"
         }
       ],
@@ -645,7 +726,7 @@
     {
       "files": [
         {
-          "path": "vectors-uncertain-effect/cases/retry-under-new-key/record.json",
+          "path": "corpora/vectors-uncertain-effect/cases/retry-under-new-key/record.json",
           "sha256": "a9d0e5d74795eed00a7fc7c7ad18b129336062c3363bb6adbf999a20405270cb"
         }
       ],
@@ -654,7 +735,7 @@
     {
       "files": [
         {
-          "path": "vectors-uncertain-effect/cases/retry-after-key-retention-expired/record.json",
+          "path": "corpora/vectors-uncertain-effect/cases/retry-after-key-retention-expired/record.json",
           "sha256": "a21669031855eb32a669b0ba1605289a46be04c7966d2267bb5fce6306f17a1c"
         }
       ],
@@ -663,7 +744,7 @@
     {
       "files": [
         {
-          "path": "vectors-uncertain-effect/cases/duplicate-effect-despite-deduplication/record.json",
+          "path": "corpora/vectors-uncertain-effect/cases/duplicate-effect-despite-deduplication/record.json",
           "sha256": "c14d9456c88b9faa3e4c16b3e57c9864b9f14d16e583aeefc0fb25a45bc0a81e"
         }
       ],
@@ -672,7 +753,7 @@
     {
       "files": [
         {
-          "path": "vectors-uncertain-effect/cases/unknown-released-at-expiry/record.json",
+          "path": "corpora/vectors-uncertain-effect/cases/unknown-released-at-expiry/record.json",
           "sha256": "aa8a7bc40a6c1fd6e345e3ba9454538f0d5e69abaceafe875e6275a2a6aa0395"
         }
       ],
@@ -681,7 +762,7 @@
     {
       "files": [
         {
-          "path": "vectors-uncertain-effect/cases/timeout-reported-not-run/record.json",
+          "path": "corpora/vectors-uncertain-effect/cases/timeout-reported-not-run/record.json",
           "sha256": "3705a272f996b7600d7aacc7d21b7254c30d649bdbfe467f05b407805f7a0375"
         }
       ],
@@ -690,7 +771,7 @@
     {
       "files": [
         {
-          "path": "vectors-uncertain-effect/cases/timeout-reported-committed/record.json",
+          "path": "corpora/vectors-uncertain-effect/cases/timeout-reported-committed/record.json",
           "sha256": "7c41caf4133fd10e7a8f82f9ef2232682289ed6e4b71689b29684f0d1f2eb6f5"
         }
       ],
@@ -699,7 +780,7 @@
     {
       "files": [
         {
-          "path": "vectors-uncertain-effect/cases/reconciled-absent-reported-committed/record.json",
+          "path": "corpora/vectors-uncertain-effect/cases/reconciled-absent-reported-committed/record.json",
           "sha256": "729859118456b6b6758f42edcce38a90f383e139869cc3b30dd800d83697fc68"
         }
       ],
@@ -708,11 +789,92 @@
     {
       "files": [
         {
-          "path": "vectors-uncertain-effect/cases/reconciled-present-still-unknown/record.json",
+          "path": "corpora/vectors-uncertain-effect/cases/reconciled-present-still-unknown/record.json",
           "sha256": "023d0e73f784681173c5b0d5a3e85a013ee5a37ad8e5c2522d2d4a4b1a290229"
         }
       ],
       "id": "reconciled-present-still-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/allow-cancel-clean-stop/record.json",
+          "sha256": "c2807cccd2ebdc57b386370ba80135d793c66e7ba0cf81f5830bc671eb4a0081"
+        }
+      ],
+      "id": "allow-cancel-clean-stop"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/allow-cancel-commit-after-ack-reported/record.json",
+          "sha256": "f5e376aad0f12db2cccb2c094aeaac8b81cd7470e9fc2e4bd96a0f1f875a79e4"
+        }
+      ],
+      "id": "allow-cancel-commit-after-ack-reported"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/allow-cancel-straddle-not-established/record.json",
+          "sha256": "c3da4b2961fda6755b7d4b6c777e6c7a07d4914212e99c07a02d520391195d99"
+        }
+      ],
+      "id": "allow-cancel-straddle-not-established"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/cancel-authority-accepted-after-revocation/record.json",
+          "sha256": "fbf577012a7d131a60fa7db5138b644d7e98e79f5467930b8d3a8bf960f84dba"
+        }
+      ],
+      "id": "cancel-authority-accepted-after-revocation"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/cancel-commit-after-ack-reported-quiescent/record.json",
+          "sha256": "72b357da8aef6b8e2800f9529057a093495c2dc12be20ce5e032ade1e8d56487"
+        }
+      ],
+      "id": "cancel-commit-after-ack-reported-quiescent"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/cancel-straddle-reported-quiescent/record.json",
+          "sha256": "b3b5bdd7ad47a1851dfc057faa95edd130dd2117c236b106277012d5734d56ce"
+        }
+      ],
+      "id": "cancel-straddle-reported-quiescent"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/cancel-straddle-reported-after-stop/record.json",
+          "sha256": "e846aeadaa2ec15a55270356a2886ac1f159eb680ef0ff224711d43c98156e74"
+        }
+      ],
+      "id": "cancel-straddle-reported-after-stop"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/cancel-reported-not-run-owner-committed/record.json",
+          "sha256": "3b72362bf5f8de081d3d325dee27c2abda04198aa730208c1f4f62772a92ba97"
+        }
+      ],
+      "id": "cancel-reported-not-run-owner-committed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/cancel-resume-replays-same-key/record.json",
+          "sha256": "7f90277e72275a8ee77dd3b6d83317de47aacdad667aa37ccf52519f69bd5365"
+        }
+      ],
+      "id": "cancel-resume-replays-same-key"
     }
   ],
   "native": {
@@ -731,7 +893,7 @@
       "reference": {
         "path": "release/intake/native/vectors-uncertain-effect.json",
         "serialization": "bytes",
-        "sha256": "0b6628acaf48e9b621dcd65adf360c51f1bae7871a4b7b797976bf43f2ecec81"
+        "sha256": "8e2ba002f50bcdbd541107fbc5d2a397be2fefded54e7c4002bd4e10940de5ba"
       }
     },
     {
@@ -740,7 +902,7 @@
       "reference": {
         "path": "release/intake/native/vectors-uncertain-effect.txt",
         "serialization": "bytes",
-        "sha256": "40eadb2dd0d0a879ee2414bf6ec645a50a94492e905f2e5f4a0ff99a0771d12f"
+        "sha256": "10ccb75add6465568597860ba89b072e72dc1566d057e14be6238170fe034153"
       }
     },
     {
@@ -765,11 +927,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "0b6628acaf48e9b621dcd65adf360c51f1bae7871a4b7b797976bf43f2ecec81"
+        "sha256": "8e2ba002f50bcdbd541107fbc5d2a397be2fefded54e7c4002bd4e10940de5ba"
       },
       {
         "process": "run-2",
-        "sha256": "0b6628acaf48e9b621dcd65adf360c51f1bae7871a4b7b797976bf43f2ecec81"
+        "sha256": "8e2ba002f50bcdbd541107fbc5d2a397be2fefded54e7c4002bd4e10940de5ba"
       }
     ],
     "seed": null,
@@ -783,7 +945,7 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 27 pinned members of uncertain-effect/v1 as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 36 pinned members of uncertain-effect/v1 as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
@@ -793,7 +955,7 @@
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 27,
+    "matched": 36,
     "require": "at-least-one",
     "selected": [
       "allow-confirmed-first-attempt",
@@ -822,7 +984,16 @@
       "timeout-reported-not-run",
       "timeout-reported-committed",
       "reconciled-absent-reported-committed",
-      "reconciled-present-still-unknown"
+      "reconciled-present-still-unknown",
+      "allow-cancel-clean-stop",
+      "allow-cancel-commit-after-ack-reported",
+      "allow-cancel-straddle-not-established",
+      "cancel-authority-accepted-after-revocation",
+      "cancel-commit-after-ack-reported-quiescent",
+      "cancel-straddle-reported-quiescent",
+      "cancel-straddle-reported-after-stop",
+      "cancel-reported-not-run-owner-committed",
+      "cancel-resume-replays-same-key"
     ]
   },
   "specification-readers": [],

@@ -1,0 +1,5 @@
+suite: propagation-step/v1
+members: 12
+  allow: 3
+  deny: 9
+verdict: every member behaves as MANIFEST.json declares
