@@ -2,13 +2,13 @@
   "aggregate": {
     "counts": {
       "allow": 9,
-      "deny": 21
+      "deny": 22
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 30
+    "total": 31
   },
   "anchor": {
-    "kind": "digest-list-line",
+    "kind": "signed-digest-list",
     "manifest": "vectors-incident-evidence-cell/MANIFEST.json",
     "reference": {
       "path": "release/CORPUS-DIGESTS.txt",
@@ -17,7 +17,14 @@
     "routine": "corpus_digest in corpora/vectors-incident-evidence-cell/gen_vectors.py",
     "routine-file": "corpora/vectors-incident-evidence-cell/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "429dc57888268d76e7adeab219d1a22973b2f855db9698640586a018d9942f99",
+    "sha256": "35a592df509057ddc6bc6d896fb66089c4b022f512913bddb01e34b38f085a51",
+    "signature": {
+      "key": "release/cosign.pub",
+      "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
+      "path": "release/CORPUS-DIGESTS.txt.sig",
+      "scheme": "ed25519",
+      "serialization": "bytes"
+    },
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -29,7 +36,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4f1234639f1f4d41a1f140a05d478d334b06b6b1a176dd4fe40c96ae27539c88"
+          "sha256": "593b720105a271f4ede93443698dd0726ea2bbe7970b91ca56cabed93de47738"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,7 +45,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4f1234639f1f4d41a1f140a05d478d334b06b6b1a176dd4fe40c96ae27539c88"
+          "sha256": "593b720105a271f4ede93443698dd0726ea2bbe7970b91ca56cabed93de47738"
         },
         "swapped-in": "264e082f2ef66cff78442a4b416249198fd79803a0a31db4715d8efbdb323c7e",
         "test": "swap-and-re-pin"
@@ -52,7 +59,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4f1234639f1f4d41a1f140a05d478d334b06b6b1a176dd4fe40c96ae27539c88"
+          "sha256": "593b720105a271f4ede93443698dd0726ea2bbe7970b91ca56cabed93de47738"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,7 +68,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4f1234639f1f4d41a1f140a05d478d334b06b6b1a176dd4fe40c96ae27539c88"
+          "sha256": "593b720105a271f4ede93443698dd0726ea2bbe7970b91ca56cabed93de47738"
         },
         "swapped-in": "c202d3e5f822b2c07b9b985031c83d2e30256fc85679e7b65f3760efc98cf9a5",
         "test": "swap-and-re-pin"
@@ -75,7 +82,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4f1234639f1f4d41a1f140a05d478d334b06b6b1a176dd4fe40c96ae27539c88"
+          "sha256": "593b720105a271f4ede93443698dd0726ea2bbe7970b91ca56cabed93de47738"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,21 +91,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4f1234639f1f4d41a1f140a05d478d334b06b6b1a176dd4fe40c96ae27539c88"
+          "sha256": "593b720105a271f4ede93443698dd0726ea2bbe7970b91ca56cabed93de47738"
         },
         "swapped-in": "4130b5840813a8d80426df1931cd251c116d8caaf6fe5e4e83cde18b88efe35f",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-incident-evidence-cell/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "cd33c9c6e141df3eeeed22b21f1cb6c97b149c3474c2adb02fc77a23c98dc3a7"
+      "sha256": "4ccedf5746e9f6c8e03174f427c335e520f44275567adcc481fd9b0866fe7d5b"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4f1234639f1f4d41a1f140a05d478d334b06b6b1a176dd4fe40c96ae27539c88"
+          "sha256": "593b720105a271f4ede93443698dd0726ea2bbe7970b91ca56cabed93de47738"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,7 +114,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4f1234639f1f4d41a1f140a05d478d334b06b6b1a176dd4fe40c96ae27539c88"
+          "sha256": "593b720105a271f4ede93443698dd0726ea2bbe7970b91ca56cabed93de47738"
         },
         "swapped-in": "986596ba2366bad909b667e53c73746091ef6cb203411b4e92cb276adb3f248f",
         "test": "swap-and-re-pin"
@@ -129,7 +136,7 @@
     "root": "corpora/vectors-incident-evidence-cell"
   },
   "byte-identity": {
-    "pins": 30,
+    "pins": 31,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -166,7 +173,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "1b448be5e16f103ff88e0b75efe0082293922696d5b475269200798ad1a4ca5c"
+      "sha256": "3a5fe6cb60fca35365f626f8842c806e174b052ca4db9f8d882613aa241ff356"
     },
     "runtime": {
       "name": "go",
@@ -278,6 +285,14 @@
     },
     {
       "check": "reject-predicate-type-other",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-predicate-type-foreign-host",
       "native": {
         "reasons": [],
         "verdict": "deny"
@@ -423,7 +438,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "d1407d30191beac9b6be53d60242e2184b1fce256f9ef670dce30a6282aabc63"
+    "sha256": "474ac871732622a8b8f2435bb3b3ba0cf228b1806530a8fa5ab9bc3ee5492073"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -446,6 +461,7 @@
       "reject-subject-empty",
       "reject-subject-digest-uppercase",
       "reject-predicate-type-other",
+      "reject-predicate-type-foreign-host",
       "reject-predicate-not-object",
       "reject-value-and-not-addressed",
       "reject-neither-value-nor-not-addressed",
@@ -465,7 +481,7 @@
       "reject-disclaimer-absent"
     ],
     "path": "corpora/vectors-incident-evidence-cell/MANIFEST.json",
-    "sha256": "3ef881d4f027e94477d2a6b59fe090bba1aac9dbef625dc2c6173e43bf65ee9f"
+    "sha256": "73866d247798b6fdc198f92a985c5ce9dbd18fd36d4deff8b8754d4668795acf"
   },
   "members": [
     {
@@ -580,10 +596,19 @@
       "files": [
         {
           "path": "corpora/vectors-incident-evidence-cell/cases/reject-predicate-type-other/record.json",
-          "sha256": "de16d84a8837f7d207a56b23d5cbfacb278527ce29ebc0fbdf1abb3c3f4370ed"
+          "sha256": "671cf03d532b4b00b27196e60deea9d3ceb0ab5e38416b3b361f1046814d2e61"
         }
       ],
       "id": "reject-predicate-type-other"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-incident-evidence-cell/cases/reject-predicate-type-foreign-host/record.json",
+          "sha256": "c00159105cd7187443f08d4cbcca7de3f6bf7e05459e388b43d64bd2ade78d6d"
+        }
+      ],
+      "id": "reject-predicate-type-foreign-host"
     },
     {
       "files": [
@@ -755,7 +780,7 @@
       "reference": {
         "path": "release/intake/native/vectors-incident-evidence-cell.json",
         "serialization": "bytes",
-        "sha256": "4f1234639f1f4d41a1f140a05d478d334b06b6b1a176dd4fe40c96ae27539c88"
+        "sha256": "593b720105a271f4ede93443698dd0726ea2bbe7970b91ca56cabed93de47738"
       }
     },
     {
@@ -764,7 +789,7 @@
       "reference": {
         "path": "release/intake/native/vectors-incident-evidence-cell.txt",
         "serialization": "bytes",
-        "sha256": "56aced1f145170ef6a3f42846e6a68c97e605cf6a3e56aa5767894ee38a7025f"
+        "sha256": "bb6cdffdea4a30e02c2a25f7c27d3152d82e8f6bdd6f726745e7bc38dab6fb22"
       }
     },
     {
@@ -789,11 +814,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "4f1234639f1f4d41a1f140a05d478d334b06b6b1a176dd4fe40c96ae27539c88"
+        "sha256": "593b720105a271f4ede93443698dd0726ea2bbe7970b91ca56cabed93de47738"
       },
       {
         "process": "run-2",
-        "sha256": "4f1234639f1f4d41a1f140a05d478d334b06b6b1a176dd4fe40c96ae27539c88"
+        "sha256": "593b720105a271f4ede93443698dd0726ea2bbe7970b91ca56cabed93de47738"
       }
     ],
     "seed": null,
@@ -807,18 +832,17 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 30 pinned members of incident-evidence-cell/v1 as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 31 pinned members of incident-evidence-cell/v1 as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
-      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
       "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
     ]
   },
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 30,
+    "matched": 31,
     "require": "at-least-one",
     "selected": [
       "allow-investigation-supported",
@@ -834,6 +858,7 @@
       "reject-subject-empty",
       "reject-subject-digest-uppercase",
       "reject-predicate-type-other",
+      "reject-predicate-type-foreign-host",
       "reject-predicate-not-object",
       "reject-value-and-not-addressed",
       "reject-neither-value-nor-not-addressed",
