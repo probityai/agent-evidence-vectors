@@ -106,30 +106,30 @@ def _unique(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
     return result
 
 
-def _is_map(value: object) -> bool:
+def _is_map(value: Any) -> bool:
     return isinstance(value, dict) and set(value) == {"entries"}
 
 
-def _children(value: object) -> list[Any]:
+def _children(value: Any) -> list[Any]:
     if _is_map(value):
-        return [item for _, item in value["entries"]]  # type: ignore[index]
+        return [item for _, item in value["entries"]]
     return list(value) if isinstance(value, list) else []
 
 
-def repeats(value: object) -> bool:
+def repeats(value: Any) -> bool:
     """Whether a source repeats a key in any map at any depth."""
     if _is_map(value):
-        keys = [key for key, _ in value["entries"]]  # type: ignore[index]
+        keys = [key for key, _ in value["entries"]]
         if len(keys) != len(set(keys)):
             return True
     return any(repeats(child) for child in _children(value))
 
 
-def flatten(value: object, *, keep_first: bool = False) -> object:
+def flatten(value: Any, *, keep_first: bool = False) -> Any:
     """A source as a reader sees it: plain JSON, one entry kept for each key."""
     if _is_map(value):
         out: dict[str, Any] = {}
-        for key, item in value["entries"]:  # type: ignore[index]
+        for key, item in value["entries"]:
             if not (keep_first and key in out):
                 out[key] = flatten(item, keep_first=keep_first)
         return out
@@ -138,7 +138,7 @@ def flatten(value: object, *, keep_first: bool = False) -> object:
     return value
 
 
-def signature_input(source: object) -> bytes | None:
+def signature_input(source: Any) -> bytes | None:
     """The reference signer: refuse a repeated key, else sign sorted compact JSON."""
     if repeats(source):
         return None
@@ -149,8 +149,8 @@ def _canonical(value: object) -> bytes:
     return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
 
 
-def _entry_count(value: object) -> int:
-    own = len(value["entries"]) if _is_map(value) else 0  # type: ignore[index]
+def _entry_count(value: Any) -> int:
+    own = len(value["entries"]) if _is_map(value) else 0
     return own + sum(_entry_count(child) for child in _children(value))
 
 
@@ -163,21 +163,21 @@ def _has_inexact_integer(value: object) -> bool:
         abs(value) > MAX_EXACT_INTEGER)
 
 
-def _same(left: object, right: object) -> bool:
+def _same(left: Any, right: Any) -> bool:
     """Equal as JSON values: numbers by value, and a boolean is never a number."""
     if isinstance(left, bool) or isinstance(right, bool):
         return left is right
     if isinstance(left, (int, float)) and isinstance(right, (int, float)):
-        return left == right
+        return bool(left == right)
     if type(left) is not type(right):
         return False
     if isinstance(left, dict):
-        return left.keys() == right.keys() and all(  # type: ignore[attr-defined]
-            _same(item, right[key]) for key, item in left.items())  # type: ignore[index]
+        return left.keys() == right.keys() and all(
+            _same(item, right[key]) for key, item in left.items())
     if isinstance(left, list):
-        return len(left) == len(right) and all(  # type: ignore[arg-type]
-            _same(a, b) for a, b in zip(left, right))  # type: ignore[arg-type]
-    return left == right
+        return len(left) == len(right) and all(
+            _same(a, b) for a, b in zip(left, right, strict=True))
+    return bool(left == right)
 
 
 def _payload(record: Record) -> bytes:

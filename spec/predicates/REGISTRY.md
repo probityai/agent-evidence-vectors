@@ -38,8 +38,8 @@ carried bytes instead of accepting an asserted one.
 
 ### `predicate/v1/signature-coverage`
 
-- Document: `vectors-signature-coverage/README.md`
-- Corpus: `vectors-signature-coverage/`, suite `signature-coverage/v1`
+- Document: `corpora/vectors-signature-coverage/README.md`
+- Corpus: `corpora/vectors-signature-coverage/`, suite `signature-coverage/v1`
 - Rails: `corpusreaders/signaturecoverage.go`, `packaging/agent_evidence_vectors/signaturecoverage.py`
 
 The predicate carries one signed structure: the source as readers see it with repeats

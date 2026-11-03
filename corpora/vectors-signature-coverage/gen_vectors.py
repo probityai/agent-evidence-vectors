@@ -53,7 +53,7 @@ def build(name: str, source: dict[str, Any], payload: bytes | None = None,
     """One signed structure; the payload defaults to the flattened source."""
     if payload is None:
         plain = reader.flatten(source)
-        payload = reader._canonical({key: item for key, item in plain.items()  # type: ignore[union-attr]
+        payload = reader._canonical({key: item for key, item in plain.items()
                                      if key not in (excluded or [])})
     record: dict[str, Any] = {
         "consumerReads": READS if reads is None else reads,
