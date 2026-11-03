@@ -1,8 +1,8 @@
 # Checking an AI Act log after the fact
 
-The CRA and AI Act table in [orcwg/cra-hub#364](https://github.com/orcwg/cra-hub/pull/364) has a row, "Recording what the system did", where nobody can check the logs independently. AI Act Articles 19(1) and 21(2) both say "to the extent such logs are under their control", and neither asks the holder to show that control. A faithful log and a revised one reach the authority looking the same.
+The proposed CRA and AI Act table in [orcwg/cra-hub#364](https://github.com/orcwg/cra-hub/pull/364) has a meeting point, "Recording activity". AI Act Articles 19(1), 21(2) and 26(6) all apply "to the extent such logs are under their control", and they do not prescribe how a holder shows that logs are complete and unaltered. An outside check is possible where a reference to the logs was kept somewhere the holder does not control, such as a hash recorded with a third party. Those provisions do not require one.
 
-This corpus gives that row a checker that runs today: [`vectors-anchored-chain`](../../corpora/vectors-anchored-chain/README.md).
+This corpus tests one such construction today: [`vectors-anchored-chain`](../../corpora/vectors-anchored-chain/README.md). Other constructions can do the same job. Passing it is not compliance with either act.
 
 ## What it checks
 
@@ -20,9 +20,9 @@ To judge your own verifier: `python3 corpora/vectors-anchored-chain/check_vector
 ## What it does not check
 
 - Records written after the last anchor are not protected. A store cut back to before the first uncovered record looks like an honest store anchored at its head, and the corpus expects `verified` for it.
-- It says the history was not revised against the anchor. It does not say the log was complete when it was written; that needs an observer outside the logged system.
-- The anchor key has to be held by someone other than the log holder. If the holder keeps both, the check proves nothing.
+- It says the history was not revised against the anchor. It does not say the log was complete when it was written, that a logged event happened, or that it came before an external effect. A signature over a later export establishes none of those by itself. They need an observation from outside the logged system.
+- The anchor key has to be held by someone other than the log holder. If the holder keeps both, a match does not show that the holder left the history unrevised.
 
-## The other row
+## Open-weight models
 
-The row for open-weight models exempt under Article 53(2) has its own guide and checker: [Checking an open-weight model release](cra-ai-act-open-weight.md).
+The table's open-source meeting point covers open-weight models under Article 53(2). That has its own guide and checker: [Checking an open-weight model release](cra-ai-act-open-weight.md).
