@@ -1,14 +1,14 @@
 # Checking an open-weight model release against AI Act Article 53(2)
 
-The CRA and AI Act table in [orcwg/cra-hub#364](https://github.com/orcwg/cra-hub/pull/364) has a row for open-weight models exempt under Article 53(2) where nobody can check the provider's claim. The exemption is a claim about a release: a licence, weights, architecture and usage information that are public, and a model that is not classed as having systemic risk. A claim about public bytes can be tested against a record of those bytes.
+The proposed CRA and AI Act table in [orcwg/cra-hub#364](https://github.com/orcwg/cra-hub/pull/364) has an open-source meeting point. For a provider of an open-weight general-purpose AI model, Article 53(2) lifts Article 53(1)(a) and (b) but not (c) and (d), and it does not reach models with systemic risks. Whether a release qualifies depends on what was released: a free and open-source licence, public weights, public architecture and usage information, and a model that does not have systemic risks. A claim about public bytes can be tested against a record of those bytes.
 
-This corpus gives that row a checker that runs today: [`vectors-open-weight-art53`](../../corpora/vectors-open-weight-art53/README.md). It is a check of what a release record carries. It is not legal advice, and it reaches no conclusion about any real model.
+This corpus tests such a record today: [`vectors-open-weight-art53`](../../corpora/vectors-open-weight-art53/README.md). It is a check of what a release record carries. It is not legal advice, and it reaches no conclusion about any real model.
 
 ## What the Article says
 
 EU AI Act, Article 53(2): "The obligations set out in paragraph 1, points (a) and (b), shall not apply to providers of AI models that are released under a free and open-source licence that allows for the access, usage, modification, and distribution of the model, and whose parameters, including the weights, the information on the model architecture, and the information on model usage, are made publicly available. This exception shall not apply to general-purpose AI models with systemic risks."
 
-Points (a) and (b) are the technical documentation for the AI Office and the information for downstream providers. Points (c) and (d), the copyright policy and the public training-content summary, are not exempted. Two other texts bound the exemption: Article 51(2) presumes high impact capabilities above 10^25 floating point operations of training compute, and Recital 103 withholds the exceptions from a release monetised through conditions such as personal data collected for reasons other than security, compatibility or interoperability.
+Points (a) and (b) are the technical documentation for the AI Office and the information for downstream providers. Points (c) and (d), the copyright policy and the public training-content summary, are not exempted. Two other texts bound the exemption: Article 51(2) presumes high impact capabilities above 10^25 floating point operations of training compute, and Recital 103 withholds the exceptions from AI components provided against a price or otherwise monetised, including through personal data used for reasons other than exclusively improving security, compatibility or interoperability, with an exception for transactions between microenterprises.
 
 ## What it checks
 
@@ -41,8 +41,9 @@ The first command runs the packaged cases through the reference reader. The seco
 - It does not decide that a licence is free and open-source in law. It compares an identifier with a pinned list, and the list is a parameter a consumer replaces with its own.
 - It does not decide that a model is a general-purpose model or that it has systemic risk. That is the Commission's. The checker reads the compute the provider states and the Commission decisions the provider records.
 - A gated download is reported `not-established`: whether a sign-in wall is "publicly available" is for the authority.
-- The text of the Article above was read from a reproduction of the Official Journal text; confirm it against EUR-Lex before quoting it in a filing.
+- It does not decide who the provider is, or whether CRA steward duties or the AI Act Article 2(12) exclusion apply. Those turn on the actor and the product.
+- The text of the Article above was compared with the [Official Journal text of the AI Act](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32024R1689) on 2 November 2026.
 
-## The other row
+## Recording activity
 
-The logs row of the same table has its own guide: [Checking an AI Act log after the fact](cra-ai-act-logs.md).
+The table's recording meeting point has its own guide: [Checking an AI Act log after the fact](cra-ai-act-logs.md).

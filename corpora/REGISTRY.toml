@@ -505,6 +505,18 @@ standards = []
 shapes = ["wrong-grade", "forged-signature", "self-report"]
 
 [[corpus]]
+id = "vectors-evidence-state"
+path = "corpora/vectors-evidence-state"
+wheel = true
+sdist = true
+title = "Evidence states"
+summary = "A verifier must derive an evidence state, ES0 to ES8, from a record's own observations and refuse a declared state that differs, including a silence declared clean over monitors whose coverage was never measured."
+record_class = "record"
+domains = ["effects", "provenance"]
+standards = []
+shapes = ["coverage-gap", "self-report"]
+
+[[corpus]]
 id = "vectors-grade-floor"
 path = "corpora/vectors-grade-floor"
 wheel = true
@@ -551,6 +563,18 @@ record_class = "chain"
 domains = ["transparency", "provenance"]
 standards = ["ietf-draft", "scitt-cose"]
 shapes = ["broken-chain", "forged-signature", "malformed-input"]
+
+[[corpus]]
+id = "vectors-incident-evidence-cell"
+path = "corpora/vectors-incident-evidence-cell"
+wheel = true
+sdist = true
+title = "Incident evidence cells"
+summary = "A verifier must read one coded decision-table cell against closed state, response and support codes, refuse an empty cell not labelled unknown, and require the sentence that a signature shows who coded the cell, not that it is true."
+record_class = "record"
+domains = ["effects", "provenance"]
+standards = ["in-toto"]
+shapes = ["self-report", "wrong-grade"]
 
 [[corpus]]
 id = "vectors-mcp-owasp"

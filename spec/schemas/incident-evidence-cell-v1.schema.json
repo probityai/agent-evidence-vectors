@@ -1,0 +1,207 @@
+{
+  "$defs": {
+    "nonEmptyText": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "sha256": {
+      "additionalProperties": false,
+      "properties": {
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sha256"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://probityai.github.io/agent-evidence-vectors/schema/incident-evidence-cell/v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Shape and closed values of an in-toto Statement v1 carrying https://probityai.github.io/agent-evidence-vectors/predicate/v1/incident-evidence-cell: one coded cell of an incident decision table. The producer signs the Statement in a DSSE envelope with its own key; a signature shows who coded the cell, never that the cell is true. issuedAt must also be a real calendar time, which the reader checks.",
+  "properties": {
+    "_type": {
+      "const": "https://in-toto.io/Statement/v1"
+    },
+    "predicate": {
+      "additionalProperties": false,
+      "if": {
+        "required": [
+          "notAddressed"
+        ]
+      },
+      "oneOf": [
+        {
+          "not": {
+            "required": [
+              "notAddressed"
+            ]
+          },
+          "required": [
+            "value"
+          ]
+        },
+        {
+          "not": {
+            "required": [
+              "value"
+            ]
+          },
+          "required": [
+            "notAddressed"
+          ]
+        }
+      ],
+      "properties": {
+        "cell": {
+          "additionalProperties": false,
+          "properties": {
+            "column": {
+              "$ref": "#/$defs/nonEmptyText"
+            },
+            "row": {
+              "$ref": "#/$defs/nonEmptyText"
+            },
+            "table": {
+              "$ref": "#/$defs/nonEmptyText"
+            }
+          },
+          "required": [
+            "column",
+            "row",
+            "table"
+          ],
+          "type": "object"
+        },
+        "doesNotAssert": {
+          "contains": {
+            "const": "The signature shows who coded this cell, not that the cell is true."
+          },
+          "items": {
+            "$ref": "#/$defs/nonEmptyText"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "issuedAt": {
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]+)?Z$",
+          "type": "string"
+        },
+        "notAddressed": {
+          "additionalProperties": false,
+          "properties": {
+            "reason": {
+              "$ref": "#/$defs/nonEmptyText"
+            }
+          },
+          "required": [
+            "reason"
+          ],
+          "type": "object"
+        },
+        "producer": {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "pattern": "^https://[A-Za-z0-9.-]+(:[0-9]+)?(/[\\x21-\\x7e]*)?$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "type": "object"
+        },
+        "registryDigest": {
+          "$ref": "#/$defs/sha256"
+        },
+        "response": {
+          "enum": [
+            "monitoring_increase",
+            "notification",
+            "restriction",
+            "isolation",
+            "pause",
+            "remediation",
+            "restoration"
+          ]
+        },
+        "state": {
+          "enum": [
+            "https://w3id.org/agent-evidence/vocab/v1/evidence_state#ES0",
+            "https://w3id.org/agent-evidence/vocab/v1/evidence_state#ES1",
+            "https://w3id.org/agent-evidence/vocab/v1/evidence_state#ES2",
+            "https://w3id.org/agent-evidence/vocab/v1/evidence_state#ES3",
+            "https://w3id.org/agent-evidence/vocab/v1/evidence_state#ES4",
+            "https://w3id.org/agent-evidence/vocab/v1/evidence_state#ES5",
+            "https://w3id.org/agent-evidence/vocab/v1/evidence_state#ES6",
+            "https://w3id.org/agent-evidence/vocab/v1/evidence_state#ES7",
+            "https://w3id.org/agent-evidence/vocab/v1/evidence_state#ES8"
+          ]
+        },
+        "supportLabel": {
+          "enum": [
+            "supported",
+            "unsupported",
+            "unknown"
+          ]
+        },
+        "value": {
+          "$ref": "#/$defs/nonEmptyText"
+        }
+      },
+      "required": [
+        "cell",
+        "doesNotAssert",
+        "issuedAt",
+        "producer",
+        "registryDigest",
+        "response",
+        "state",
+        "supportLabel"
+      ],
+      "then": {
+        "properties": {
+          "supportLabel": {
+            "const": "unknown"
+          }
+        }
+      },
+      "type": "object"
+    },
+    "predicateType": {
+      "const": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/incident-evidence-cell"
+    },
+    "subject": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "digest": {
+            "$ref": "#/$defs/sha256"
+          },
+          "name": {
+            "$ref": "#/$defs/nonEmptyText"
+          }
+        },
+        "required": [
+          "digest",
+          "name"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    }
+  },
+  "required": [
+    "_type",
+    "predicate",
+    "predicateType",
+    "subject"
+  ],
+  "title": "incident-evidence-cell v1",
+  "type": "object"
+}
