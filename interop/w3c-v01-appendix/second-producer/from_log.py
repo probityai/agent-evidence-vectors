@@ -23,7 +23,7 @@ from typing import Any
 try:
     from agent_evidence_vectors import w3creport
 except ImportError:  # pragma: no cover - the message is the behaviour
-    sys.exit("needs agent-evidence-vectors>=0.31.1 (run it with `uv run --no-project --with ...`)")
+    sys.exit("needs agent-evidence-vectors>=0.31.2 (run it with `uv run --no-project --with ...`)")
 
 # Outcome in the log -> v0.1 state. ``error`` and ``timeout`` are harness words
 # for a check that started and reached no conclusion, which is v0.1 inconclusive.
