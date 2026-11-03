@@ -1,0 +1,6 @@
+# Paths that left this repository and may not return. scripts/removed-paths-gate.py fails CI when a
+# tracked file matches one. An entry ending in `/` names a directory; any other entry names one file.
+packaging/agent_evidence_vectors/vanta_connector/
+scripts/vanta-connector-test.py
+.github/workflows/vanta-connector.yml
+docs/guides/vanta.md
