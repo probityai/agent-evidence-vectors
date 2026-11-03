@@ -1,0 +1,35 @@
+REPRODUCIBILITY
+
+The provenance appendix of the 16 October draft (Oct/0120) holds Roel Schuurkes's results-to-inputs table, placed there by him (Oct/0162) and corrected in Oct/0163. This section gives each row's rerun command, the platforms it is rerun on, and the reruns people posted by hand.
+
+One command per row.. Every row with a command reruns from its pins with python rerun.py <row>, and all of them with python rerun.py --all, in https://github.com/probityai/agent-evidence-vectors/tree/main/interop/w3c-v01-appendix. The harness fetches each commit by its full SHA and compares the checkout with the pin, fetches each list attachment and compares its sha256 with the posted digest, installs the interpreter and package versions the producer named, runs the posted command, and compares what comes out with the digests posted on the list. Nothing is adjusted to make a row match. Two rows have no posted command, in their owner's words: R10 is "the measurements in 0038 and 0046; no single command" and R15's checker is "not stated in Sep/0080" (Oct/0162). For R10 the appendix adds rows/r10_minus_zero.py, which writes the one value with the Python and Go readers at v0.17.4 and v0.18.1 and compares the bytes with those posted in Oct/0038; it is offered for the row, not substituted for the posted measurement. For R15 the appendix only tallies the census file's own state fields; the classifier behind them is not rerun.
+
+Platforms and schedule.. A workflow in the same repository reruns every row with a command on each change to the appendix, on demand, and weekly (Mondays, 05:35 UTC), on three runners: Linux x86_64 (ubuntu-24.04), Linux arm64 (ubuntu-24.04-arm) and macOS arm64 (macos-15). Each result file names the platform it ran on, and a pin that stops resolving upstream turns the run red.
+
+What "reproduced" means here.. A row reproduces when every posted digest comes out of the rerun: byte-identical files, except files the producer said carry the runner or the environment, which are listed with that reason and still reported with both digests. These runs are an automated rerun from the pins, operated by the appendix's author. They are not reproductions in O8's sense, which in the group's use is "the producer's implementation, run by another operator" (Oct/0163): for R1 and R9 the appendix's author is the producer, and for every row the expected outputs are in view. The reproductions in O8's sense are the reruns people posted, listed below and cited by message; the workflow repeats them on a schedule and does not replace them.
+
+Reruns posted by hand.. Each is credited to whoever ran it, with what they reported matching.
+
+Table: Reruns posted on the list, by row.
+Row | Who | What they reported | Message
+R1 | Nicolas Rocchia | report.json and conformance-report.json byte-identical | Oct/0171
+R1 | Prasanna Bableshwar | report.json sha256 37288d8d..., in a clean directory | Oct/0170
+R2 | Roel Schuurkes | all 89 vectors and 70 declarations; reports, fixtures and isolation file byte-identical | Oct/0064
+R3 | Roel Schuurkes | 51 of 52 files | Oct/0061
+R3 | Nicolas Rocchia | 52 of 52 files; the 44 controls recounted from the raw traces with his own code | Oct/0062
+R4 | Nicolas Rocchia | 76/76, 67/67 and 16/16 checks; 11 of 13 files identical, the other two carry the runner | Oct/0101
+R5 | Roel Schuurkes | the emitter rebuilds the published bytes | Oct/0083
+R5 | Nicolas Rocchia | the published bytes, and the root recomputed with his own code | Oct/0084
+R6 | Nicolas Rocchia | 28 controls rejected as stated; the 6 test_claim_boundary tests pass | Oct/0018
+R6 | Roel Schuurkes | the report re-encoded and read: conforms; no approval test re-run, his own run on one machine | Nov/0006
+R7 | Roel Schuurkes | all 21 selected outcomes | Oct/0085
+R7 | Guigui Wang | 18 of 18 tests, 21 of 21 outcomes, both file digests, in a different environment | Oct/0088, Oct/0184
+R8 | Roel Schuurkes | verdicts.tsv and not-selected.tsv, Linux arm64 | Oct/0104
+R8 | Nicolas Rocchia | the same two files, Linux x86_64 | Oct/0105
+R8 | Michael Blake | the 92-of-96 comparison repeated from the frozen output (a comparison, not a rerun of the reader) | Oct/0188
+R8 | Michael Blake | the same comparison with --exclude-family w3c-f-22: the same figures | Nov/0004
+R12 | Roel Schuurkes | the per-member verdicts, Linux arm64 | Oct/0141
+R13 | Nicolas Rocchia | the first three cases at 69819ec | Oct/0123
+R13 | Yasha Khandelwal | the five cases at 98366047, byte comparison against the committed results.json passed | Oct/0179
+
+R12 is also rerun in the scorer repository's own CI, which belongs to its author, Lars Kersten Kroehl (15 jobs, PR 836, Oct/0162).

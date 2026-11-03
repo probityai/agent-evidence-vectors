@@ -1,0 +1,96 @@
+VERIFICATION
+
+Each v0.1 report in the table can be checked with one command, from an empty directory,
+
+uvx agent-evidence-vectors==0.32.1 --read-w3c-report <file>
+
+which prints conforms, or one line per shape error or rejection row, and exits 0 when the report conforms, 1 when it does not, and 2 when the reader reached no verdict. Rows that are not reports (readers' verdicts, comparisons, census counts) are checked by their rerun command instead. The evidence classes are their authors' words: "reproduction in O8's sense" (Oct/0163), "a reader written from the 0087 text alone" and "proposed" (Oct/0162), "the closest this paper comes to an independent record" (Oct/0150). The class of every cell this appendix runs is "automated rerun from the pins, operated by the appendix's author". Following Oct/0163, units differ by row and no column is summed.
+
+Table: The verification column. Commands run in the appendix directory unless they start with uvx.
+Row | Command | Verdict | Unit | Denominator | Evidence class
+R1 | --read-w3c-report report.json | conforms | checks | 272 | reproduction in O8's sense (Oct/0170, Oct/0171)
+R2 | --read-w3c-report on each of the three reports | conforms | checks | 72, 168, 750 | reproduction in O8's sense (Oct/0064)
+R3-v01 | --read-w3c-report run-report-v01.json | conforms | checks | 48 | producer's converter (Nov/0000)
+R4 | --read-w3c-report on each of the three reports | conforms from v0.18.1; rejected under W3C-R-020 before v0.18 | checks | 76, 67, 16 | the closest to an independent record, through the producer's glue (Oct/0150)
+R4-driver | python rerun.py R4-driver | equal to the recorded run | cases | as recorded | without the glue (Nov/0003)
+R5 | --read-w3c-report finality-threshold-report.level1.json | conforms | draws against thresholds | 150,006 | reproduction in O8's sense (Oct/0083, Oct/0084)
+R6 | python rerun.py R6 | reproduced; no report file | tests | 4 baseline, 6 claim-boundary | reproduction in O8's sense (Oct/0018)
+R6, re-encoded | --read-w3c-report run-report-v01.json | conforms | checks | 4 | producer's converter (Nov/0006)
+R7 | python rerun.py R7 | reproduced; a native packet, not a v0.1 report | outcomes | 21 | reproduction in O8's sense (Oct/0085, Oct/0184)
+R8 | python rerun.py R8 | reproduced | members | 169 judged | a reader written from the 0087 text alone
+R8-compare | python rerun.py R8-compare | 92 of 96; 23, 2, 44 of 69 | members | 96 and 69 | a comparison (Oct/0188, Nov/0002)
+R9 | python rerun.py R9 | 83/82 at v0.17.4; 41/124 at v0.18.0 and v0.18.1 | members | 165 | a comparison across releases
+R10 | python rerun.py R10 (added) | bytes as posted | values | 1 | posted measurement (Oct/0038, Oct/0046)
+R11 | python rerun.py R11 | output digest as posted | members | 165 | a reader written from the text
+R12 | python rerun.py R12 | per-member verdicts as posted | members x paths | 33 x 3 | proposed
+R13 | python rerun.py R13 | every listed file OK | synthetic cases | 5 | reproduction in O8's sense (Oct/0179); proposed
+R14 | python matrix/matrix.py run | see the matrix below | verdicts | reports x readers | a comparison
+R15 | none posted | tally only: 3 of 592 | artifacts | 592 | the producer's own count (Oct/0162)
+
+Every report under every reader.. The reader matrix reruns R1, R2, R3, R3-v01, R4, R5 and R6 from their pins, keeps the nine files those reruns write that declare the v0.1 format and the report R6's producer posted beside its commands, ten in all, and reads each with eleven readers: the Python reference reader at 0.12.0, 0.13.0, 0.17.4, 0.18.1 and 0.31.0; the Go and Rust readers at v0.18.1 and at the current commit; and the two readers written from the text, Rouiada Abbas's of Oct/0039 and Lars Kersten Kroehl's at 6d8ee54b. Those two read corpus members, so each report is wrapped as a member with an adapter that writes \{"id": <input>, "subject": <report>\} and nothing else. Every report conforms under every reader except R4's three, which the Python readers of 0.12.0 to 0.17.4 reject under W3C-R-020, and R6's, which names the format in prose and carries records in place of checks: every Python, Go and Rust reader rejects it on shape, Rouiada Abbas's reader cannot read it and Lars Kersten Kroehl's cannot tell. No cell contradicts a verdict posted on the list (R14). Roel Schuurkes's re-encoded R6 (Nov/0006, sha256 699a52b3...) came after this run and is not in the table yet; the Python reader at 0.32.1 prints conforms on it, as v0.18.1 does in his run.
+
+\centering
+\scriptsize
+
+Reader | R1 | R2-v0.2 | R2-v0.3 | R2-v0.4 | R3-v01 | R4-heldfast | R4-native | R4-map | R5 | R6
+Python 0.12.0 | C | C | C | C | C | R R-020 | R R-020 | R R-020 | C | R shape
+Python 0.13.0 | C | C | C | C | C | R R-020 | R R-020 | R R-020 | C | R shape
+Python 0.17.4 | C | C | C | C | C | R R-020 | R R-020 | R R-020 | C | R shape
+Python 0.18.1 | C | C | C | C | C | C | C | C | C | R shape
+Python 0.31.0 | C | C | C | C | C | C | C | C | C | R shape
+Go v0.18.1 | C | C | C | C | C | C | C | C | C | R shape
+Go main | C | C | C | C | C | C | C | C | C | R shape
+Rust v0.18.1 | C | C | C | C | C | C | C | C | C | R shape
+Rust main | C | C | C | C | C | C | C | C | C | R shape
+0039 reader | C | C | C | C | C | C | C | C | C | N
+Kroehl 6d8ee54b | C | C | C | C | C | C | C | C | C | T
+
+\centering
+\scriptsize
+
+Reader | Mutants | Rejected | Conforms | Cannot tell | Cannot read | Target cited
+Python 0.12.0 | 154 | 147 | 7 | 0 | 0 | 146/154
+Python 0.13.0 | 154 | 147 | 7 | 0 | 0 | 147/154
+Python 0.17.4 | 154 | 147 | 7 | 0 | 0 | 147/154
+Python 0.18.1 | 154 | 154 | 0 | 0 | 0 | 154/154
+Python 0.31.0 | 154 | 154 | 0 | 0 | 0 | 154/154
+Go v0.18.1 | 154 | 154 | 0 | 0 | 0 | 154/154
+Go main | 154 | 154 | 0 | 0 | 0 | 154/154
+Rust v0.18.1 | 154 | 154 | 0 | 0 | 0 | 146/154
+Rust main | 154 | 154 | 0 | 0 | 0 | 146/154
+0039 reader | 154 | 58 | 79 | 16 | 1 | 55/56
+Kroehl 6d8ee54b | 154 | 75 | 34 | 45 | 0 | 55/56
+
+- R1: uvx agent-evidence-vectors==0.32.1 --read-w3c-report report.json
+
+- R2-v0.2: uvx agent-evidence-vectors==0.32.1 --read-w3c-report run-residue-v0.2.json
+
+- R2-v0.3: uvx agent-evidence-vectors==0.32.1 --read-w3c-report run-residue-v0.3.json
+
+- R2-v0.4: uvx agent-evidence-vectors==0.32.1 --read-w3c-report run-residue-v0.4.json
+
+- R3-v01: uvx agent-evidence-vectors==0.32.1 --read-w3c-report run-report-v01.json
+
+- R4-heldfast: uvx agent-evidence-vectors==0.32.1 --read-w3c-report heldfast-profiles.json
+
+- R4-native: uvx agent-evidence-vectors==0.32.1 --read-w3c-report native-verify-mjs.json
+
+- R4-map: uvx agent-evidence-vectors==0.32.1 --read-w3c-report probity-map-reader.json
+
+- R5: uvx agent-evidence-vectors==0.32.1 --read-w3c-report finality-threshold-report.level1.json
+
+- R6: uvx agent-evidence-vectors==0.32.1 --read-w3c-report records.v0.1.json
+
+Negative controls for the readers.. A reader that accepted everything would pass R14, so each reader also reads single-field copies of the reports, each aimed at one rejection row: 154 copies per reader, plus 7 positive controls whose check identity is non-ASCII and whose root is recomputed over the RFC 8785 form. The Python reader from 0.18.1 on and the Go and Rust readers reject 154 of 154 and accept the 7 positive controls. The Python readers of 0.12.0 to 0.17.4 reject 147; they accept the 7 copies whose root is computed over the ASCII-escaped form and reject the 7 positive controls, the cause Kenne Ives gave for R4 (Oct/0150). A declared moved that disagrees with the recomputed value is aimed at W3C-R-021; a recomputed moved outside compared is W3C-R-016.
+
+The readers written from the text answer cannot-tell where the text leaves the reading open, as the reader of 0039 was built to (Oct/0039), so their results are split by what the copy is aimed at. These are findings for their authors, not faults, and go to them first.
+
+Table: The two readers written from the text, on the 154 copies and 7 positive controls, by target: rejected / conforms / cannot tell.
+Copies aimed at | Rouiada Abbas's reader (Oct/0039) | Lars Kersten Kroehl's reader (6d8ee54b)
+Copies aimed at | Rouiada Abbas's reader | Lars Kersten Kroehl's reader
+Rows 1 to 14 (56 copies) | 55 / 1 / 0 | 55 / 0 / 1
+Unnumbered requirements (81 copies) | 3 / 70 / 8 | 17 / 26 / 38
+Not v0.1-shaped (17 copies) | 0 / 8 / 8, 1 cannot read | 3 / 8 / 6
+Positive controls (7) | 0 / 7 / 0 | 0 / 7 / 0
+
+On rows 1 to 14 the one copy neither reader rejects is the same: R1 with a qualifier on a non-verdict check, aimed at row 6.

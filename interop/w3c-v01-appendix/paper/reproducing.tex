@@ -8,8 +8,10 @@ SHA-256, installs the interpreter and package versions the producer named, runs 
 command and compares what comes out with the digest posted on the list; nothing is adjusted
 to make a row match. \texttt{python rerun.py <row>} reruns one row and
 \texttt{python rerun.py --all} every row. A scheduled workflow reruns every row weekly and
-fails on any digest change. A rerun there is a reproduction in O8's sense: the producer's
-implementation run by another operator with the posted outputs visible.
+fails on any digest change. A rerun there is an automated rerun from the pins, operated by
+this appendix's author with the posted outputs visible. It is not a reproduction in O8's sense,
+which is the producer's implementation run by another operator: for R1 and R9 this appendix's
+author is the producer. The reproductions in O8's sense are the reruns posted on the list.
 
 \begin{longtable}{@{}p{0.09\linewidth}p{0.45\linewidth}p{0.4\linewidth}@{}}
 \toprule

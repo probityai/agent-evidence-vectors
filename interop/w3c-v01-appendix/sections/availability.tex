@@ -1,0 +1,47 @@
+% Artifact availability: every pinned commit with its Software Heritage
+% identifier, the package releases, the list attachments, and the reserved
+% Zenodo DOI. Drop-in for the CG's v0.1 paper; compiles on its own through build.py.
+\providecommand{\aevmsg}[2]{\href{https://lists.w3.org/Archives/Public/public-agent-conformance/2026#1/#2.html}{#1/#2}}
+\providecommand{\aevreadrelease}{0.32.1}
+
+\section{Artifact availability}
+\label{sec:w3c-availability}
+
+Every input the table rests on is public: the producers' repositories at pinned commits, package releases on PyPI, and attachments in the public-agent-conformance archive, each with the digest posted for it. Each commit is also archived by Software Heritage. On 2 November 2026 each revision below resolved at \url{https://archive.softwareheritage.org/api/1/revision/<commit>/}, so its persistent identifier is \texttt{swh:1:rev:<commit>}.
+
+{\footnotesize
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.27\linewidth}>{\raggedright\arraybackslash}p{0.12\linewidth}>{\raggedright\arraybackslash}p{0.5\linewidth}@{}}
+\caption{Pinned commits and their Software Heritage identifiers.}\label{tab:w3c-swhids}\\
+\toprule
+Repository & Rows & Identifier \\
+\midrule
+\endfirsthead
+\toprule
+Repository & Rows & Identifier \\
+\midrule
+\endhead
+probityai/agent-evidence-vectors (release 0.12.0) & R1 & swh:1:rev:2f3aee40a454df6de0f571d119f057d7dbb8dd67 \\
+probityai/agent-evidence-vectors (v0.17.4) & R8, R9, R10 & swh:1:rev:99b47c56b5e81760e1eadfc874949d56bca8d522 \\
+probityai/agent-evidence-vectors (v0.18.0) & R9 & swh:1:rev:3492eaa4d46cf1de49d27b43dd2f705b40fa5bdd \\
+probityai/agent-evidence-vectors (v0.18.1) & R9 to R12 & swh:1:rev:33d545104ff2f8c124cff465c96c013eeb809156 \\
+probityai/agent-evidence-vectors (driver) & R4-driver & swh:1:rev:82b8bb672648b2dfb44a75f3b2d75aff91344934 \\
+NicolasRocchia/disensor & R2 & swh:1:rev:dbdb65183b324c2d80ab8c6845bcb22afa5d257a \\
+tyche-institute/eatf-multiroot-softwarex & R3 & swh:1:rev:c421dadc1aacf77342f66aca15247994f0d10fb6 \\
+AgentAvow/AgentAvow & R4 & swh:1:rev:fbbbd4ac71bcdf5353957629d5a9320c49af204d \\
+AgentAvow/AgentAvow (driver's producer) & R4-driver & swh:1:rev:b7c5cd2fee080cfdd387683a9bcb3e0db20f8ee5 \\
+agentic-paybench/payhelm & R5 & swh:1:rev:c221b47883af4add4ce56d96e8a731938bed341f \\
+Rul1an/assay & R6 & swh:1:rev:0e59b404cef6df315aac377b65ae619b4c5e4890 \\
+Rul1an/assay (limits added) & R6 & swh:1:rev:8a38547143d42f152c3a46d76b2c026b601ae354 \\
+CSOAI-ORG/councilof-ai & R7 & swh:1:rev:d0cbe773e8f2fe130feaf4dc0c11c1e4ccb84c15 \\
+MoltyCel/reporting-format-v01-reader & R11 & swh:1:rev:6d8ee54b01d20a819869ceb9fcea096d59251f8c \\
+MoltyCel/moltrust-api & R12 & swh:1:rev:fbc5e288f19834687f1a3543cffe6341ba13271c \\
+LaToucheai/prior-run-evidence-v01 & R13 & swh:1:rev:98366047dd322b9fe0ea3ef822cf0c410283fe9f \\
+\bottomrule
+\end{longtable}
+}
+
+\paragraph{Package releases.} The reference emitter and readers are the \texttt{agent-evidence-vectors} package on PyPI, installed at an exact version: 0.12.0 (R1), 0.13.0, 0.17.4 and 0.18.1 (the readers R14 names), 0.31.0 (the newest release on 1 November 2026, in the reader matrix), and \aevreadrelease, the newest on 2 November 2026, for the one-line reader command \texttt{--read-w3c-report} the verification section uses. That flag first shipped on PyPI in 0.31.2. R3 also has its own archive, Zenodo 10.5281/zenodo.21874026 (\aevmsg{Oct}{0162}).
+
+\paragraph{List attachments.} R2, R3, R3-v01, R8, R8-compare and R11 run on files attached to list messages (\aevmsg{Oct}{0063}, \aevmsg{Oct}{0060}, \aevmsg{Nov}{0000}, \aevmsg{Oct}{0039}, \aevmsg{Oct}{0188}, \aevmsg{Oct}{0139}). The harness fetches each from the archive and checks it against the sha256 posted in its message.
+
+\paragraph{The bundle.} A Zenodo DOI, 10.5281/zenodo.23873877, is reserved for one deposit of the appendix, its pinned inputs and its run records. It is not published. Its creators follow the paper's final author list, and it is published only on the authors' approval, as with the paper itself (\aevmsg{Nov}{0001}).
