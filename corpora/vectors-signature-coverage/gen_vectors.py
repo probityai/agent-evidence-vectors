@@ -162,7 +162,7 @@ def _denied_payload() -> list[Case]:
 
 def _denied_repeats() -> list[Case]:
     role_pair = entries(("role", "user"), ("role", "admin"))
-    repeats: list[tuple[str, dict[str, Any], str, str]] = [
+    repeats: list[tuple[str, dict[str, Any], str | None, str]] = [
         ("reject-repeat-kept-last", entries(("decision", "allow"), ("decision", "deny")), "deny",
          "first-entry readers read allow; the signer kept the last entry and signed deny"),
         ("reject-repeat-kept-first", entries(("decision", "deny"), ("decision", "allow")), "deny",
