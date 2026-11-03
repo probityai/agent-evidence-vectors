@@ -248,14 +248,21 @@ def read_python(reader: dict[str, Any], files: Path, work: Path, log: Path) -> d
     return _jsonl(out) if out.is_file() else {}
 
 
+def go_package(root: Path) -> str:
+    """The directory of the Go readers: corpusreaders/ since the corpora were moved, corpora/ before."""
+    return "corpusreaders" if (root / "corpusreaders").is_dir() else "corpora"
+
+
 def read_go(reader: dict[str, Any], files: Path, work: Path, log: Path) -> dict[str, Any]:
     root, commit = checkout(reader["ref"], work, log)
     reader["commit"] = commit
-    driver = root / "corpora" / "w3c_matrix_driver_test.go"
-    driver.write_bytes((HERE / "drivers" / "w3c_matrix_driver_test.go.txt").read_bytes())
+    package = go_package(root)
+    driver = root / package / "w3c_matrix_driver_test.go"
+    source = (HERE / "drivers" / "w3c_matrix_driver_test.go.txt").read_text(encoding="utf-8")
+    driver.write_text(source.replace("package corpora\n", f"package {package}\n", 1), encoding="utf-8")
     out = work / f"{reader['id']}.jsonl"
     try:
-        code = _run(["go", "test", "./corpora", "-run", "^TestW3CMatrixDriver$", "-count=1"], root, log,
+        code = _run(["go", "test", f"./{package}", "-run", "^TestW3CMatrixDriver$", "-count=1"], root, log,
                     env={"W3C_MATRIX_LIST": str(files), "W3C_MATRIX_OUT": str(out)})
     finally:
         driver.unlink()
