@@ -1,7 +1,7 @@
 # Where each version the repository's pages name is decided. The package built here is
-# read from its manifest; the pin-refresh workflow moves the family locks and rewrites
-# the live pages hourly. Pages that record a past release as a fact are listed under
-# [scan] historical and are never moved.
+# read from its manifest; the pin-refresh workflow moves the live pages hourly. Pages that
+# record a past release as a fact are listed under [scan] historical and are never moved;
+# scripts/version-pins-config-test.py holds each of those exclusions to a planted pin.
 repository = "probityai/agent-evidence-vectors"
 
 [[own]]
@@ -10,12 +10,28 @@ manifest = "pyproject.toml"
 publisher = "probityai/agent-evidence-vectors"
 
 [scan]
-include = ["README.md", "docs/**/*.md", "packages/**/*.md"]
+include = [
+  "README.md",
+  "docs/**/*.md",
+  "packages/**/*.md",
+  "corpora/**/*.md",
+  "interop/**/*.md",
+  "interop/**/*.tex",
+  "interop/**/source-lock.json",
+]
 # Dated records of what a past release did or what a past run installed.
 historical = [
+  # source digest locks, not version pins
+  "interop/**/source-lock.json",
+  # a deliberate paper pin (\providecommand{\aevreadrelease}{...}); only the paper lane bumps it
+  "interop/w3c-v01-appendix/**",
+  # dated interop write-ups and measured runs
   "interop/**",
   "docs/paper/**",
-  "**/source-lock.json",
   "RUNS.md",
   "DISPOSITIONS.md",
+  # release history tables and third-party adopters' own pins
+  "docs/W3C-V01-CONFORMANCE-APPENDIX.md",
+  "docs/USED-BY.md",
+  "docs/VERIFIERS.md",
 ]

@@ -1,0 +1,48 @@
+name: version-pins
+
+# Holds every live page to the version its owner decides (pyproject.toml here), and
+# holds each historical exclusion in version-pins.toml to a planted stale pin.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - version-pins.toml
+      - "**/*.md"
+      - pyproject.toml
+      - scripts/version-pins-config-test.py
+      - .github/workflows/version-pins.yml
+  pull_request:
+    paths:
+      - version-pins.toml
+      - "**/*.md"
+      - pyproject.toml
+      - scripts/version-pins-config-test.py
+      - .github/workflows/version-pins.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pins:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: live pages agree with their owner
+        uses: probityai/.github/actions/version-pins@27c2b8a1dc13ce58e47b020c7300c9196d6a6dd7 # main
+        with:
+          command: check
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: probityai/.github
+          ref: 27c2b8a1dc13ce58e47b020c7300c9196d6a6dd7
+          path: pins-checker
+          persist-credentials: false
+      - name: historical exclusions hold
+        env:
+          VERSION_PINS_SCRIPT: ${{ github.workspace }}/pins-checker/scripts/version-pins.py
+        run: python3 -B scripts/version-pins-config-test.py
