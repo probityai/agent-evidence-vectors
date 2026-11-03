@@ -47,10 +47,10 @@ func TestSignatureCoverageAgreesWithEveryMember(t *testing.T) {
 
 func TestSignatureCoverageRepeatIsFoundAtEveryDepth(t *testing.T) {
 	cases := map[string]bool{
-		`{"entries":[["a",1],["a",2]]}`:                                  true,
-		`{"entries":[["x",{"entries":[["a",1],["a",2]]}]]}`:              true,
-		`{"entries":[["x",[{"entries":[["a",1],["b",2],["a",3]]}]]]}`:    true,
-		`{"entries":[["a",1],["A",2]]}`:                                  false,
+		`{"entries":[["a",1],["a",2]]}`:                                         true,
+		`{"entries":[["x",{"entries":[["a",1],["a",2]]}]]}`:                     true,
+		`{"entries":[["x",[{"entries":[["a",1],["b",2],["a",3]]}]]]}`:           true,
+		`{"entries":[["a",1],["A",2]]}`:                                         false,
 		`{"entries":[["x",{"entries":[["a",1]]}],["y",{"entries":[["a",2]]}]]}`: false,
 	}
 	for text, want := range cases {
