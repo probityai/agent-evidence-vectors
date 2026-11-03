@@ -54,11 +54,11 @@ jobs:
           echo "TRACE_CAPTURE_DIR=$capture" >> "$GITHUB_ENV"
           curl --fail --location --proto '=https' --max-time 60 \
             --dump-header "$capture/source-http-headers.txt" \
-            'https://raw.githubusercontent.com/agentrust-io/trace-spec/9cac83a86a54b869ab891ea7e76006342785c15c/tools/acta_receipt_verifier.py' \
+            'https://raw.githubusercontent.com/agentrust-io/trace-spec/b938790f7f46d3a943c76a5360d2de60bb72112c/tools/acta_receipt_verifier.py' \
             --output "$capture/acta_receipt_verifier.py" \
             2> "$capture/source-fetch.stderr"
           printf '%s  %s\n' \
-            c71069425ca6b7aedbf75d3b04fb0b40320d3abc493fb93daaba0920665b7973 \
+            44fd005825432c1179d4722f7439f1225b45fde6f36e827e911aa64f88bc5349 \
             "$capture/acta_receipt_verifier.py" > "$capture/source.sha256"
           sha256sum --check "$capture/source.sha256" | tee "$capture/source-check.txt"
       - name: Run the repository corpus against the upstream reader

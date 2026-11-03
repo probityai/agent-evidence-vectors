@@ -29,7 +29,7 @@ import sys
 import tempfile
 from typing import Any
 
-DEFAULT_VERSION = "0.10.21"
+DEFAULT_VERSION = "0.11.1"
 VERDICTS = {0: "valid", 1: "invalid", 2: "undecidable"}
 CODES = {
     "invalid_signature": "signature_invalid",
