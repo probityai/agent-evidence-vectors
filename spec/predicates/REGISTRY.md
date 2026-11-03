@@ -36,6 +36,16 @@ The predicate carries an observed effect of an execution, separately from the
 claim an executor makes about it, so that a consumer recomputes the effect from
 carried bytes instead of accepting an asserted one.
 
+### `predicate/v1/signature-coverage`
+
+- Document: `corpora/vectors-signature-coverage/README.md`
+- Corpus: `corpora/vectors-signature-coverage/`, suite `signature-coverage/v1`
+- Rails: `corpusreaders/signaturecoverage.go`, `packaging/agent_evidence_vectors/signaturecoverage.py`
+
+The predicate carries one signed structure: the source as readers see it with repeats
+kept, the signed payload with its signature, the keys declared outside the signature, and
+the paths a consumer reads. The signature input must determine everything a reader can
+read: two records that read differently may not share one.
 ### `predicate/v1/evidence-state`
 
 - Document: `corpora/vectors-evidence-state/README.md`

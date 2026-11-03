@@ -1,0 +1,324 @@
+[
+  {
+    "first": {
+      "entries": [
+        [
+          "decision",
+          "allow"
+        ],
+        [
+          "decision",
+          "deny"
+        ]
+      ]
+    },
+    "id": "repeat-against-the-entry-kept-last",
+    "second": {
+      "entries": [
+        [
+          "decision",
+          "deny"
+        ]
+      ]
+    }
+  },
+  {
+    "first": {
+      "entries": [
+        [
+          "decision",
+          "deny"
+        ],
+        [
+          "decision",
+          "allow"
+        ]
+      ]
+    },
+    "id": "repeat-against-the-entry-kept-first",
+    "second": {
+      "entries": [
+        [
+          "decision",
+          "deny"
+        ]
+      ]
+    }
+  },
+  {
+    "first": {
+      "entries": [
+        [
+          "decision",
+          "allow"
+        ],
+        [
+          "decision",
+          "deny"
+        ]
+      ]
+    },
+    "id": "repeat-with-shadowed-value-changed",
+    "second": {
+      "entries": [
+        [
+          "decision",
+          "deny"
+        ],
+        [
+          "decision",
+          "deny"
+        ]
+      ]
+    }
+  },
+  {
+    "first": {
+      "entries": [
+        [
+          "decision",
+          "deny"
+        ],
+        [
+          "decision",
+          "allow"
+        ]
+      ]
+    },
+    "id": "repeat-with-kept-value-changed",
+    "second": {
+      "entries": [
+        [
+          "decision",
+          "deny"
+        ],
+        [
+          "decision",
+          "deny"
+        ]
+      ]
+    }
+  },
+  {
+    "first": {
+      "entries": [
+        [
+          "ctx",
+          {
+            "entries": [
+              [
+                "role",
+                "user"
+              ],
+              [
+                "role",
+                "admin"
+              ]
+            ]
+          }
+        ]
+      ]
+    },
+    "id": "repeat-nested",
+    "second": {
+      "entries": [
+        [
+          "ctx",
+          {
+            "entries": [
+              [
+                "role",
+                "admin"
+              ]
+            ]
+          }
+        ]
+      ]
+    }
+  },
+  {
+    "first": {
+      "entries": [
+        [
+          "ctx",
+          {
+            "entries": [
+              [
+                "role",
+                "admin"
+              ],
+              [
+                "role",
+                "user"
+              ]
+            ]
+          }
+        ]
+      ]
+    },
+    "id": "repeat-nested-first",
+    "second": {
+      "entries": [
+        [
+          "ctx",
+          {
+            "entries": [
+              [
+                "role",
+                "admin"
+              ]
+            ]
+          }
+        ]
+      ]
+    }
+  },
+  {
+    "first": {
+      "entries": [
+        [
+          "items",
+          [
+            {
+              "entries": [
+                [
+                  "role",
+                  "user"
+                ],
+                [
+                  "role",
+                  "admin"
+                ]
+              ]
+            }
+          ]
+        ]
+      ]
+    },
+    "id": "repeat-in-list-element",
+    "second": {
+      "entries": [
+        [
+          "items",
+          [
+            {
+              "entries": [
+                [
+                  "role",
+                  "admin"
+                ]
+              ]
+            }
+          ]
+        ]
+      ]
+    }
+  },
+  {
+    "first": {
+      "entries": [
+        [
+          "Decision",
+          "allow"
+        ],
+        [
+          "decision",
+          "deny"
+        ]
+      ]
+    },
+    "id": "keys-differing-in-case",
+    "second": {
+      "entries": [
+        [
+          "decision",
+          "deny"
+        ]
+      ]
+    }
+  },
+  {
+    "first": {
+      "entries": [
+        [
+          "r\u00e9sum\u00e9",
+          1
+        ],
+        [
+          "re\u0301sume\u0301",
+          2
+        ]
+      ]
+    },
+    "id": "keys-differing-in-normal-form",
+    "second": {
+      "entries": [
+        [
+          "r\u00e9sum\u00e9",
+          2
+        ]
+      ]
+    }
+  },
+  {
+    "first": {
+      "entries": [
+        [
+          "decision",
+          "deny"
+        ],
+        [
+          "limit",
+          null
+        ]
+      ]
+    },
+    "id": "null-member-against-absent",
+    "second": {
+      "entries": [
+        [
+          "decision",
+          "deny"
+        ]
+      ]
+    }
+  },
+  {
+    "first": {
+      "entries": [
+        [
+          "n",
+          1
+        ]
+      ]
+    },
+    "id": "number-against-string",
+    "second": {
+      "entries": [
+        [
+          "n",
+          "1"
+        ]
+      ]
+    }
+  },
+  {
+    "first": {
+      "entries": [
+        [
+          "ok",
+          true
+        ]
+      ]
+    },
+    "id": "boolean-against-number",
+    "second": {
+      "entries": [
+        [
+          "ok",
+          1
+        ]
+      ]
+    }
+  }
+]
