@@ -32,34 +32,34 @@ Every report under every reader.. The reader matrix reruns R1, R2, R3, R3-v01, R
 \centering
 \scriptsize
 
-Reader | R1 | R2-v0.2 | R2-v0.3 | R2-v0.4 | R3-v01 | R4-heldfast | R4-native | R4-map | R5 | R6
-Python 0.12.0 | C | C | C | C | C | R R-020 | R R-020 | R R-020 | C | R shape
-Python 0.13.0 | C | C | C | C | C | R R-020 | R R-020 | R R-020 | C | R shape
-Python 0.17.4 | C | C | C | C | C | R R-020 | R R-020 | R R-020 | C | R shape
-Python 0.18.1 | C | C | C | C | C | C | C | C | C | R shape
-Python 0.31.0 | C | C | C | C | C | C | C | C | C | R shape
-Go v0.18.1 | C | C | C | C | C | C | C | C | C | R shape
-Go main | C | C | C | C | C | C | C | C | C | R shape
-Rust v0.18.1 | C | C | C | C | C | C | C | C | C | R shape
-Rust main | C | C | C | C | C | C | C | C | C | R shape
-0039 reader | C | C | C | C | C | C | C | C | C | N
-Kroehl 6d8ee54b | C | C | C | C | C | C | C | C | C | T
+Reader | R1 | R2-v0.2 | R2-v0.3 | R2-v0.4 | R3-v01 | R4-heldfast | R4-native | R4-map | R5 | R6 | R6-v01
+Python 0.12.0 | C | C | C | C | C | R R-020 | R R-020 | R R-020 | C | R shape | C
+Python 0.13.0 | C | C | C | C | C | R R-020 | R R-020 | R R-020 | C | R shape | C
+Python 0.17.4 | C | C | C | C | C | R R-020 | R R-020 | R R-020 | C | R shape | C
+Python 0.18.1 | C | C | C | C | C | C | C | C | C | R shape | C
+Python 0.31.0 | C | C | C | C | C | C | C | C | C | R shape | C
+Go v0.18.1 | C | C | C | C | C | C | C | C | C | R shape | C
+Go main | C | C | C | C | C | C | C | C | C | R shape | C
+Rust v0.18.1 | C | C | C | C | C | C | C | C | C | R shape | C
+Rust main | C | C | C | C | C | C | C | C | C | R shape | C
+0039 reader | C | C | C | C | C | C | C | C | C | N | C
+Kroehl 6d8ee54b | C | C | C | C | C | C | C | C | C | T | C
 
 \centering
 \scriptsize
 
 Reader | Mutants | Rejected | Conforms | Cannot tell | Cannot read | Target cited
-Python 0.12.0 | 154 | 147 | 7 | 0 | 0 | 146/154
-Python 0.13.0 | 154 | 147 | 7 | 0 | 0 | 147/154
-Python 0.17.4 | 154 | 147 | 7 | 0 | 0 | 147/154
-Python 0.18.1 | 154 | 154 | 0 | 0 | 0 | 154/154
-Python 0.31.0 | 154 | 154 | 0 | 0 | 0 | 154/154
-Go v0.18.1 | 154 | 154 | 0 | 0 | 0 | 154/154
-Go main | 154 | 154 | 0 | 0 | 0 | 154/154
-Rust v0.18.1 | 154 | 154 | 0 | 0 | 0 | 146/154
-Rust main | 154 | 154 | 0 | 0 | 0 | 146/154
-0039 reader | 154 | 58 | 79 | 16 | 1 | 55/56
-Kroehl 6d8ee54b | 154 | 75 | 34 | 45 | 0 | 55/56
+Python 0.12.0 | 168 | 161 | 7 | 0 | 0 | 160/168
+Python 0.13.0 | 168 | 161 | 7 | 0 | 0 | 161/168
+Python 0.17.4 | 168 | 161 | 7 | 0 | 0 | 161/168
+Python 0.18.1 | 168 | 168 | 0 | 0 | 0 | 168/168
+Python 0.31.0 | 168 | 168 | 0 | 0 | 0 | 168/168
+Go v0.18.1 | 168 | 168 | 0 | 0 | 0 | 168/168
+Go main | 168 | 168 | 0 | 0 | 0 | 168/168
+Rust v0.18.1 | 168 | 168 | 0 | 0 | 0 | 159/168
+Rust main | 168 | 168 | 0 | 0 | 0 | 159/168
+0039 reader | 168 | 61 | 88 | 18 | 1 | 58/59
+Kroehl 6d8ee54b | 168 | 82 | 37 | 49 | 0 | 58/59
 
 - R1: uvx agent-evidence-vectors==0.32.1 --read-w3c-report report.json
 
@@ -80,6 +80,8 @@ Kroehl 6d8ee54b | 154 | 75 | 34 | 45 | 0 | 55/56
 - R5: uvx agent-evidence-vectors==0.32.1 --read-w3c-report finality-threshold-report.level1.json
 
 - R6: uvx agent-evidence-vectors==0.32.1 --read-w3c-report records.v0.1.json
+
+- R6-v01: uvx agent-evidence-vectors==0.32.1 --read-w3c-report run-report-v01.json
 
 Negative controls for the readers.. A reader that accepted everything would pass R14, so each reader also reads single-field copies of the reports, each aimed at one rejection row: 154 copies per reader, plus 7 positive controls whose check identity is non-ASCII and whose root is recomputed over the RFC 8785 form. The Python reader from 0.18.1 on and the Go and Rust readers reject 154 of 154 and accept the 7 positive controls. The Python readers of 0.12.0 to 0.17.4 reject 147; they accept the 7 copies whose root is computed over the ASCII-escaped form and reject the 7 positive controls, the cause Kenne Ives gave for R4 (Oct/0150). A declared moved that disagrees with the recomputed value is aimed at W3C-R-021; a recomputed moved outside compared is W3C-R-016.
 
