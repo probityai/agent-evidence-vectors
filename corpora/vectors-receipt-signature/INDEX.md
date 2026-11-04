@@ -4,8 +4,8 @@ Every member of this suite in one table. The subject under test is a verifier of
 signed decision receipts in the envelope shape of `draft-farley-acta-signed-receipts-03`, vendored at
 `spec-vendored/draft-farley-acta-signed-receipts-03.txt` and pinned by digest in the manifest.
 
-This corpus is 25 vectors, of which 12 a conformant verifier must not
-fail closed on and 8 it must reject. 3 test a SHOULD
+This corpus is 29 vectors, of which 13 a conformant verifier must not
+fail closed on and 10 it must reject. 4 test a SHOULD
 and 2 test a question the draft does not decide; both are graded as the README
 describes.
 
@@ -44,6 +44,9 @@ revision, and a verifier that applies it is reported by name, never failed.
 | id | what it requires | requirements and gaps |
 |---|---|---|
 | `rs-c-1` | The signature is computed over JCS(payload), and a verifier recomputes that byte string rather than trusting the bytes the payload arrived in. | RS-R-001 |
+| `rs-c-10` | A previousReceiptHash that is not "sha256:" and 64 lowercase hex digits is refused, whether or not the receipt before it is presented. A signature that verifies does not make the link well formed. | RS-R-006 |
+| `rs-c-11` | The link covers the whole signed receipt before it, signature included. A link over that receipt's payload alone names a different preimage and is refused at its chain position, even though it is a well formed digest. | RS-R-006 |
+| `rs-c-12` | A receipt whose issued_at carries no time-zone designator cannot be placed against a key's validity window. A verifier that applies the window answers undecidable; it does not read the time in its own zone, because the verdict would then depend on the machine that ran it. | RS-R-002 |
 | `rs-c-2` | A receipt whose issued_at falls outside its key's validity window, as the external key set publishes it, is not reported valid by a verifier that applies the window. | RS-R-002 |
 | `rs-c-3` | The window includes valid_from and excludes valid_until, as RFC 7519 treats nbf and exp. Section 9.2 of the vendored text does not fix the boundary. | RS-R-002 |
 | `rs-c-4` | The canonical bytes are the message given to Ed25519, with no intermediate hash, so a signature over their SHA-256 digest does not verify. | RS-R-001, RS-R-003 |
@@ -64,18 +67,22 @@ revision, and a verifier that applies it is reported by name, never failed.
 | `v2c8c0aabb75e8aa0` | reject | rs-c-6 |  | invalid `signature_in_signing_input` | invalid `signature_in_signing_input` |  |  |
 | `v2e98d2f14251c8d6` | reject | rs-c-6 |  | invalid `signature_in_signing_input` | invalid `signature_in_signing_input` |  |  |
 | `v2f0a83c1364e52bc` | accept | rs-c-7 |  | valid | valid |  |  |
+| `v390b5e86d1184069` | accept | rs-c-12 |  | valid | valid |  |  |
 | `v3bb98f09b3068de5` | reject | rs-c-6 |  | invalid `signature_in_signing_input` | invalid `signature_in_signing_input` |  |  |
+| `v429ea40212de7b5d` | indeterminate | rs-c-12 |  | undecidable `window_not_applicable` | valid | valid |  |
 | `v4ec9fa36ae77ce07` | indeterminate | rs-c-2 |  | invalid `key_outside_validity_window` | valid | valid |  |
 | `v4f9fe96e52a39bfb` | accept | rs-c-1 |  | valid | valid |  |  |
 | `v5397adb77c3e6754` | reject | rs-c-6 |  | invalid `signature_in_signing_input` | invalid `signature_in_signing_input` |  |  |
 | `v6d872b14889dc9e2` | gap | rs-c-9 | after `v0142580fad54af78`; commitment logged 2026-03-01T00:00:00Z | valid | valid |  | invalid `issued_at_precedes_excluding_commitment` / invalid `issued_at_precedes_excluding_commitment` |
 | `v75158ebfd05a56e5` | accept | rs-c-8, rs-c-9 | after `v0142580fad54af78`; commitment logged 2026-02-01T00:00:00Z | valid | valid |  |  |
-| `v814de39bf68212fc` | accept | rs-c-9 |  | valid | valid |  |  |
+| `v814de39bf68212fc` | accept | rs-c-9, rs-c-10 |  | valid | valid |  |  |
+| `v967bcffede491026` | reject | rs-c-11 | after `v0142580fad54af78` | invalid `chain_link_mismatch` | invalid `chain_link_mismatch` |  |  |
 | `v9f2a63a5186a2fa8` | gap | rs-c-7 |  | valid | valid |  | invalid `key_revoked` / valid |
 | `vaafe541bbd74c320` | accept | rs-c-5 |  | valid | valid |  |  |
-| `vab0c4dde2038340e` | accept | rs-c-8 | after `v0142580fad54af78` | valid | valid |  |  |
+| `vab0c4dde2038340e` | accept | rs-c-8, rs-c-11 | after `v0142580fad54af78` | valid | valid |  |  |
 | `vad088133176d7114` | accept | rs-c-4 |  | valid | valid |  |  |
 | `vb19450def8dcc5cd` | accept | rs-c-3 |  | valid | valid |  |  |
+| `vb27b15aa51e9da9b` | reject | rs-c-10 |  | invalid `malformed_chain_link` | invalid `malformed_chain_link` |  |  |
 | `vbc25ef71da0567f9` | indeterminate | rs-c-3 |  | invalid `key_outside_validity_window` | valid | valid |  |
 | `vc4b43c5739979581` | indeterminate | rs-c-2 |  | invalid `key_outside_validity_window` | valid | valid |  |
 | `vcc3cdb871ff27027` | accept | rs-c-6 |  | valid | valid |  |  |

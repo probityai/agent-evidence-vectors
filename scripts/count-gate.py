@@ -2905,6 +2905,28 @@ FROZEN: tuple[Frozen, ...] = (
         'on the date it ran, with the run linked in the same row. It records that '
         'run and does not track the corpus.',
     ),
+    Frozen(
+        'docs/research/independence.md',
+        "the historical suiteRevision label 29 in the independence revision table",
+        '| 29 | Added three rejects for absent, null and empty predicates',
+        'A suiteRevision number of the adversarial-execution-evidence suite, not a count of '
+        'the receipt-signature corpus. It met that corpus total of 29 by coincidence.',
+    ),
+    Frozen(
+        'interop/ccs-draft10-reader/README.md',
+        "the member count of the CCS corpus the draft-10 reader signs",
+        'the corpus signs 29 members and encodes',
+        'A tally over the pinned CCS v1.4.0 corpus, not this repository\'s receipt-signature '
+        'corpus. It met that corpus total of 29 by coincidence.',
+    ),
+    Frozen(
+        'interop/ccs-draft10-reader/README.md',
+        "the reader's disagreements with the CCS corpus under Reading B",
+        'Of the 29 disagreements, recounted from',
+        'A tally over the pinned CCS v1.4.0 corpus, recounted from results/cases.jsonl, not a '
+        'count of this repository\'s receipt-signature corpus. It met that corpus total of 29 '
+        'by coincidence.',
+    ),
 )
 
 
