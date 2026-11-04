@@ -50,7 +50,7 @@ def read_live(url: str) -> dict[str, str | None]:
 
 
 def main(argv: list[str]) -> int:
-    parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
+    parser = argparse.ArgumentParser(description=(__doc__ or "").split("\n\n")[0])
     parser.add_argument("--built", type=Path, required=True)
     parser.add_argument("--live", required=True)
     parser.add_argument("--out", type=Path, required=True)

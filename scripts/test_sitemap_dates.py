@@ -101,10 +101,10 @@ def test_sitemap_carries_lastmod_only_where_a_date_exists() -> None:
         Path("predicate/v1/x/index.html"): "2026-10-08",
     }
     root = fromstring(site.sitemap(paths, dates))
-    got = {
-        u.find("s:loc", NS).text.rsplit("/", 1)[-1]: getattr(u.find("s:lastmod", NS), "text", None)
-        for u in root.findall("s:url", NS)
-    }
+    got = {}
+    for entry in root.findall("s:url", NS):
+        loc = entry.findtext("s:loc", namespaces=NS) or ""
+        got[loc.rsplit("/", 1)[-1]] = entry.findtext("s:lastmod", namespaces=NS)
     assert got == {"start.html": "2026-10-02", "codes.html": None, "x": "2026-10-09"}
 
 

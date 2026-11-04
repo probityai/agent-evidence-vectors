@@ -75,6 +75,7 @@ def submit(host: str, key: str, urls: list[str], post=http, sleep=time.sleep) ->
         body = json.dumps(
             {"host": host, "key": key, "keyLocation": f"https://{host}/{key}.txt", "urlList": batch}
         ).encode()
+        status = 0
         for attempt in range(3):
             status, _ = post(ENDPOINT, body, {"Content-Type": "application/json; charset=utf-8"})
             if status != 429:
@@ -85,7 +86,7 @@ def submit(host: str, key: str, urls: list[str], post=http, sleep=time.sleep) ->
 
 
 def main(argv: list[str]) -> int:
-    parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
+    parser = argparse.ArgumentParser(description=(__doc__ or "").split("\n\n")[0])
     parser.add_argument("--host", default=HOST)
     parser.add_argument("--key", required=True)
     parser.add_argument("--urls-file", type=pathlib.Path)
