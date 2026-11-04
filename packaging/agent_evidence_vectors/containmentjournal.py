@@ -27,8 +27,10 @@ every such event is an entry of one hash-chained journal:
   call was refused (with its reason) and the digest of the grant chain it ran
   under;
 - ``refusal`` (revision 1.1): the router refused one message over an edge in
-  force for a budget or purpose-scope reason, named by a neutral code; it is
-  not a delivery, so it is not a drop over a present edge;
+  force, named by a neutral registered code (``budget_exhausted``,
+  ``purpose_out_of_scope``, ``permit_revoked``, ``authority_chain_violation``);
+  the verdict is the same for every registered code, and only an unknown code
+  is denied; it is not a delivery, so it is not a drop over a present edge;
 - ``retrieval`` (revision 1.1): an agent asked for a document, whether it was
   admitted, and the Merkle inclusion path from the document's digest to the
   run's ``snapshotRoot``.
@@ -131,7 +133,8 @@ CLOSED = {
     "witness": ("SELF", "EXTERNAL"),
     "decision": ("act", "continue", "escalate"),
     "side": ("left", "right"),
-    "reasonCode": ("budget_exhausted", "purpose_out_of_scope"),
+    "reasonCode": ("budget_exhausted", "purpose_out_of_scope", "permit_revoked",
+                   "authority_chain_violation"),
 }
 # The members each event carries, past seq, prev, at and event.
 EVENT_MEMBERS = {

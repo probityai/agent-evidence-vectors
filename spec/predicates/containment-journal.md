@@ -68,7 +68,7 @@ with `from` different from `to`.
 | `restoration` | `agent`, `admitted`, `threshold`, `evidence` (entry digests), `ruleDigest` |
 | `response` | `decision`, `alertAt`, `authority`, `reason`; `act` adds `actedAt` |
 | `tool_call` | `agent`, `tool`; optional (1.1) `refused` (boolean), `refusalReason` (present exactly when `refused` is true), `grantChainDigest` |
-| `refusal` (1.1) | `sender`, `receiver`, `bodyDigest`, `reasonCode` (`budget_exhausted` or `purpose_out_of_scope`) |
+| `refusal` (1.1) | `sender`, `receiver`, `bodyDigest`, `reasonCode` (one of the registered codes, below) |
 | `retrieval` (1.1) | `agent`, `documentDigest`, `admitted` (boolean), `proof` (at most 64 steps, each `["left" or "right", digest]`) |
 
 Closed vocabularies: `enforcement`, `event`, `basis` (`detector_online_label`,
@@ -76,13 +76,30 @@ Closed vocabularies: `enforcement`, `event`, `basis` (`detector_online_label`,
 `evidence_gate`), `responseFunction` (`restriction`, `isolation`, `restoration`),
 `failurePosture` (`fail_open`, `fail_closed`), `availability` (`scored`, `no_output`,
 `judge_missing`), `witness` (`SELF`, `EXTERNAL`), response `decision` (`act`, `continue`,
-`escalate`), a refusal's `reasonCode` (`budget_exhausted`, `purpose_out_of_scope`) and a
-proof step's side (`left`, `right`).
+`escalate`), a refusal's `reasonCode` (`budget_exhausted`, `purpose_out_of_scope`, `permit_revoked`,
+`authority_chain_violation`) and a proof step's side (`left`, `right`).
 
-A refusal records one message the router refused over an edge in force, for a budget or a
-purpose-scope reason, under a neutral code that carries no detail of the policy. It is not a
-delivery, so it is not a drop over a present edge; a delivery marked dropped over an edge in
-force is still refused with `drop_over_present_edge`.
+A refusal records one message the router refused over an edge in force, under a neutral code
+that carries no detail of the policy. It is not a delivery, so it is not a drop over a present
+edge; a delivery marked dropped over an edge in force is still refused with
+`drop_over_present_edge`.
+
+The registered `reasonCode` values are:
+
+| code | meaning |
+|---|---|
+| `budget_exhausted` | the sender's budget is spent |
+| `purpose_out_of_scope` | the message falls outside the purpose the sender was granted |
+| `permit_revoked` | the sender's permit is no longer valid: a revocation floor after a compromise epoch, or an agent on probation that holds a narrower permit class |
+| `authority_chain_violation` | the delivery's grant chain crosses a data role, for example retrieved text or tool output acting as an instruction |
+
+The verdict does not depend on which registered code appears: any registered code gives the
+same result on the same journal, and a code the reader does not know is the only one it
+denies (`closed_vocabulary_violation`). A minor release may add codes to this registry, so a
+reader denies only the codes it does not know and never infers a verdict from the meaning of
+a known one. `authority_chain_violation` is for deliveries only; a refused `tool_call`
+carries its reason in `refusalReason`, as free text. A refusal of a write belongs to the
+write event of the next major revision of this predicate and is not recorded by this event.
 
 ### The inclusion path
 
