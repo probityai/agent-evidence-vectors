@@ -231,6 +231,27 @@ def _revocation(issued: Any, key: dict[str, Any]) -> str:
     return outcome_text(INVALID, "key_revoked") if at >= revoked else VALID
 
 
+def _signature_stop(payload: dict[str, Any], signature: dict[str, Any], public: Any) -> str | None:
+    """The signature's encoding, the payload's canonical form, then the signature
+    itself; None when all three hold."""
+    try:
+        sig = bytes.fromhex(signature["sig"])
+    except ValueError:
+        sig = b""
+    if len(sig) != 64:
+        return outcome_text(INVALID, "bad_signature_encoding")
+    rail = _rail()
+    try:
+        if _repeats(payload):
+            raise ValueError("a repeated member name")
+        canonical = rail.jcs_dumps(payload)
+    except ValueError:
+        return outcome_text(UNDECIDABLE, "payload_not_canonicalizable")
+    if not rail.ed25519_verify(public, canonical, sig):
+        return outcome_text(INVALID, "signature_invalid")
+    return None
+
+
 def verify(body: bytes, keys: dict[str, dict[str, Any]], gap_closed: bool = False) -> str:
     """Sections 2.1, 2.2, 5.2, 6.6 and 9.2 of draft-03, the key resolved only from
     the external key set (Section 9.5), in the order the Go reader checks them.
@@ -248,21 +269,9 @@ def verify(body: bytes, keys: dict[str, dict[str, Any]], gap_closed: bool = Fals
     public = _public_key(key)
     if public is None:
         return outcome_text(UNDECIDABLE, "bad_key")
-    try:
-        sig = bytes.fromhex(signature["sig"])
-    except ValueError:
-        sig = b""
-    if len(sig) != 64:
-        return outcome_text(INVALID, "bad_signature_encoding")
-    rail = _rail()
-    try:
-        if _repeats(payload):
-            raise ValueError("a repeated member name")
-        canonical = rail.jcs_dumps(payload)
-    except ValueError:
-        return outcome_text(UNDECIDABLE, "payload_not_canonicalizable")
-    if not rail.ed25519_verify(public, canonical, sig):
-        return outcome_text(INVALID, "signature_invalid")
+    stop = _signature_stop(payload, signature, public)
+    if stop is not None:
+        return stop
     stop = _link_syntax(payload)
     if stop is not None:
         return stop
