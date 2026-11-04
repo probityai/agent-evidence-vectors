@@ -27,6 +27,12 @@ regexTarget = "match"
 regexes = ['''derived_key_hex"\s*:\s*"[0-9a-f]{128}"''']
 
 [[allowlists]]
+description = "The IndexNow key: public by protocol, served as a text file at the site root so engines can fetch it"
+targetRules = ["generic-api-key"]
+regexTarget = "match"
+regexes = ['''INDEXNOW_KEY:\s*[0-9a-f]{32}''']
+
+[[allowlists]]
 description = "did:key identifiers (multibase public keys)"
 targetRules = ["generic-api-key"]
 regexTarget = "match"

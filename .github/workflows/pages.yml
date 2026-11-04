@@ -25,7 +25,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      # Full history: each sitemap date is the date of the newest commit touching a page's sources,
+      # and a shallow clone would answer with the tip's date for every page.
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
       - uses: astral-sh/setup-uv@v7
       # The same toolchain the type-checking job syncs, and the same one
       # declaration of the markdown version. A version pinned a second time in
@@ -41,7 +45,7 @@ jobs:
       - name: every imported predicate page matches its pin
         run: python3 scripts/check_predicate_pages.py
       - name: build the site from tracked files
-        run: uv run python docs/site/build.py --out _site
+        run: uv run python docs/site/build.py --out _site --require-lastmod
       - name: the built pages load nothing from another host
         run: |
           # A hermetic page names no external script or stylesheet. Links to the
@@ -51,6 +55,15 @@ jobs:
             exit 1
           fi
           echo "no script or external stylesheet in the built pages"
+      - name: list the pages that are new or carry a newer lastmod than the live sitemap
+        run: |
+          mkdir -p changed
+          python3 scripts/sitemap_changed.py --built _site/sitemap.xml \
+            --live https://probityai.github.io/agent-evidence-vectors/sitemap.xml --out changed/urls.txt
+      - uses: actions/upload-artifact@v7
+        with:
+          name: indexnow-changed
+          path: changed/urls.txt
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:
@@ -78,3 +91,24 @@ jobs:
       - uses: actions/checkout@v7
       - name: every predicate type URI answers 200 from the published host
         run: python3 scripts/predicate-uri-gate.py --live
+
+  # Tells IndexNow engines which pages are new or carry a newer lastmod than the sitemap that was
+  # live before this deploy (the build job diffed them and kept the list). The key file lives at the
+  # host root (https://probityai.github.io/<key>.txt, published by the organisation site), and the
+  # script proves it serves the key before it sends anything.
+  indexnow:
+    needs: [build, deploy]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
+        with:
+          name: indexnow-changed
+          path: changed
+      - name: submit the pages whose lastmod moved
+        env:
+          INDEXNOW_KEY: 847739edee69b30609e04164f4cd9877
+        run: |
+          set -euo pipefail
+          python3 scripts/indexnow.py --key "${INDEXNOW_KEY}" --urls-file changed/urls.txt | tee -a "${GITHUB_STEP_SUMMARY}"
