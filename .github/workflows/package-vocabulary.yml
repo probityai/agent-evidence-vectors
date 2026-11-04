@@ -116,6 +116,14 @@ jobs:
           # section validate. Offline.
           python3 scripts/test_incident_response.py
 
+      - name: Hold the registry, the validator and the guide to multi_agent_run
+        run: |
+          # Each multi_agent_run term starts proposed with no issuer and
+          # carries the check a verifier applies, every registered value is
+          # accepted and an unregistered one refused through the registry, and
+          # the guide names every term and every value. Offline.
+          python3 scripts/test_multi_agent_run.py
+
       - name: Hold the validator to reading every file in crosswalk/
         run: |
           # Every file in crosswalk/ is a crosswalk, a sidecar of one, or the
