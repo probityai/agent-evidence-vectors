@@ -62,7 +62,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
-from collections.abc import Iterator
+from collections.abc import Callable, Iterator
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -324,7 +324,7 @@ def _chain_broken(entries: list[Record]) -> bool:
 
 def _chain_failure(entries: list[Record], skip: frozenset[str]) -> str | None:
     """The first chain rule the entries fail, passing over any rule a test switched off."""
-    rules = (
+    rules: tuple[tuple[str, Callable[[], bool]], ...] = (
         ("chain_seq_gap",
          lambda: any(entry["seq"] != index for index, entry in enumerate(entries))),
         ("chain_broken", lambda: _chain_broken(entries)),
@@ -432,17 +432,24 @@ class _Walk:
         if entry["availability"] == "scored" and entry["score"] is None:
             self.fail("score_missing_unflagged")
 
-    def _restoration(self, index: int, entry: Record) -> None:
-        if not entry["admitted"]:
-            return
-        if not entry["evidence"]:
-            self.fail("restoration_without_evidence")
+    def _cited(self, index: int, entry: Record) -> list[Record]:
+        """The entries a restoration cites, each of which must come before it."""
         cited = []
         for item in entry["evidence"]:
             at = self.by_digest.get(item)
             if at is None or at >= index:
                 self.fail("restoration_evidence_unresolved")
+            if at is None:
+                raise KeyError(item)  # reached only when a test switched the rule off
             cited.append(self.entries[at])
+        return cited
+
+    def _restoration(self, index: int, entry: Record) -> None:
+        if not entry["admitted"]:
+            return
+        if not entry["evidence"]:
+            self.fail("restoration_without_evidence")
+        cited = self._cited(index, entry)
         agent = entry["agent"]
         if not any(c["event"] == "restart" and c["agent"] == agent for c in cited):
             self.fail("restoration_without_restart")
