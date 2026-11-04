@@ -682,7 +682,7 @@ var cjClosed = map[string][]string{
 	"availability":     {"scored", "no_output", "judge_missing"},
 	"witness":          {"SELF", "EXTERNAL"},
 	"decision":         {"act", "continue", "escalate"},
-	"reasonCode":       {"budget_exhausted", "purpose_out_of_scope", "permit_revoked",
+	"reasonCode": {"budget_exhausted", "purpose_out_of_scope", "permit_revoked",
 		"authority_chain_violation"},
 }
 
