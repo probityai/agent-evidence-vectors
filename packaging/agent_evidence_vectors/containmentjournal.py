@@ -204,43 +204,66 @@ def _at(stamp: str) -> datetime:
     return datetime.fromisoformat(stamp.replace("Z", "+00:00"))
 
 
+def _is_time(value: Any) -> bool:
+    """A time in the record's one spelling that names a real instant (no 30 February)."""
+    if not isinstance(value, str) or _TIME.fullmatch(value) is None:
+        return False
+    try:
+        _at(value)
+    except ValueError:
+        return False
+    return True
+
+
 def _sorted_unique(items: list[Any]) -> bool:
     return all(a < b for a, b in zip(items, items[1:], strict=False))
 
 
+def _integer(value: Any, low: int, high: int | None = None) -> bool:
+    return (isinstance(value, int) and not isinstance(value, bool) and value >= low
+            and (high is None or value <= high))
+
+
+def _listing(kind: str, value: Any, agents: set[str]) -> bool:
+    """A sorted list without repeats, every item of the item kind."""
+    return (isinstance(value, list) and all(_shape_ok(kind, v, agents) for v in value)
+            and _sorted_unique(value))
+
+
+def _edge(value: Any, agents: set[str]) -> bool:
+    return (isinstance(value, list) and len(value) == 2 and value[0] != value[1]
+            and all(_shape_ok("agent", end, agents) for end in value))
+
+
+def _estimates(value: Any, agents: set[str]) -> bool:
+    return (isinstance(value, dict) and set(value) == agents
+            and all(isinstance(v, str) and _DECIMAL.fullmatch(v) for v in value.values()))
+
+
+# Each member kind, as a predicate over the value and the run's agents.
+_SHAPES: dict[str, Any] = {
+    "bool": lambda v, _: isinstance(v, bool),
+    "word": lambda v, _: isinstance(v, str),
+    "text": lambda v, _: isinstance(v, str) and len(v) <= 300,
+    "count": lambda v, _: _integer(v, 0),
+    "score": lambda v, _: v is None or _integer(v, 0, 10),
+    "score10": lambda v, _: _integer(v, 0, 10),
+    "agent": lambda v, agents: isinstance(v, str) and v in agents,
+    "digest": lambda v, _: isinstance(v, str) and _DIGEST.fullmatch(v) is not None,
+    "time": lambda v, _: _is_time(v),
+    "digests": lambda v, agents: isinstance(v, list)
+    and all(_shape_ok("digest", item, agents) for item in v),
+    "agents": lambda v, agents: _listing("agent", v, agents),
+    "words": lambda v, agents: _listing("word", v, agents),
+    "edges": lambda v, agents: isinstance(v, list)
+    and all(_edge(item, agents) for item in v) and _sorted_unique(v),
+    "estimates": _estimates,
+}
+
+
 def _shape_ok(kind: str, value: Any, agents: set[str]) -> bool:
     """Whether one member has the shape its kind names (closed words checked later)."""
-    if kind == "bool":
-        return isinstance(value, bool)
-    if kind in ("word", "text"):
-        return isinstance(value, str) and (kind == "word" or len(value) <= 300)
-    if kind == "count":
-        return isinstance(value, int) and not isinstance(value, bool) and value >= 0
-    if kind in ("score", "score10"):
-        if value is None and kind == "score":
-            return True
-        return isinstance(value, int) and not isinstance(value, bool) and 0 <= value <= 10
-    if kind == "agent":
-        return isinstance(value, str) and value in agents
-    if kind == "digest":
-        return isinstance(value, str) and _DIGEST.fullmatch(value) is not None
-    if kind == "time":
-        return isinstance(value, str) and _TIME.fullmatch(value) is not None
-    if kind == "digests":
-        return isinstance(value, list) and all(_shape_ok("digest", v, agents) for v in value)
-    if kind in ("agents", "words"):
-        return (isinstance(value, list)
-                and all(_shape_ok("agent" if kind == "agents" else "word", v, agents)
-                        for v in value) and _sorted_unique(value))
-    if kind == "edges":
-        return (isinstance(value, list)
-                and all(isinstance(e, list) and len(e) == 2 and e[0] != e[1]
-                        and all(_shape_ok("agent", end, agents) for end in e) for e in value)
-                and _sorted_unique(value))
-    if kind == "estimates":
-        return (isinstance(value, dict) and set(value) == agents
-                and all(isinstance(v, str) and _DECIMAL.fullmatch(v) for v in value.values()))
-    return False
+    return bool(_SHAPES[kind](value, agents))
 
 
 def _entry_malformed(entry: Any, agents: set[str]) -> bool:
@@ -290,20 +313,29 @@ def _closed_violation(record: Record) -> bool:
     return False
 
 
-def _chain_failure(entries: list[Record]) -> str | None:
-    if any(entry["seq"] != index for index, entry in enumerate(entries)):
-        return "chain_seq_gap"
+def _chain_broken(entries: list[Record]) -> bool:
     expected = ZERO
     for entry in entries:
         if entry["prev"] != expected:
-            return "chain_broken"
+            return True
         expected = digest(entry)
-    times = [_at(entry["at"]) for entry in entries]
-    if times != sorted(times):
-        return "chain_time_reversed"
-    if entries[0]["event"] != "topology" or any(e["event"] == "topology" for e in entries[1:]):
-        return "topology_missing"
-    return None
+    return False
+
+
+def _chain_failure(entries: list[Record], skip: frozenset[str]) -> str | None:
+    """The first chain rule the entries fail, passing over any rule a test switched off."""
+    rules = (
+        ("chain_seq_gap",
+         lambda: any(entry["seq"] != index for index, entry in enumerate(entries))),
+        ("chain_broken", lambda: _chain_broken(entries)),
+        ("chain_time_reversed",
+         lambda: any(_at(b["at"]) < _at(a["at"]) for a, b in zip(entries, entries[1:],
+                                                                 strict=False))),
+        ("topology_missing",
+         lambda: entries[0]["event"] != "topology"
+         or any(e["event"] == "topology" for e in entries[1:])),
+    )
+    return next((name for name, failed in rules if name not in skip and failed()), None)
 
 
 def _edges(value: list[list[str]]) -> set[tuple[str, str]]:
@@ -471,8 +503,8 @@ def judge_journal(record: Any, not_canonical: bool,
     for name, failed in early:
         if name not in skip and failed():
             return name
-    failure = _chain_failure(record["entries"])
-    if failure and failure not in skip:
+    failure = _chain_failure(record["entries"], skip)
+    if failure:
         return failure
     try:
         _Walk(record, skip).run()
@@ -515,27 +547,33 @@ def _receipt_malformed(receipt: Record, record: Record) -> bool:
             or not _shape_ok("count", reached["toolCalls"], agents))
 
 
-def judge_receipt(receipt: Any, not_canonical: bool, record: Record) -> str | None:
-    """The first rule the receipt fails against an allowed journal, or None."""
-    if not isinstance(receipt, dict) or "contractId" not in receipt:
-        return "receipt_contract_id_missing"
-    if receipt["contractId"] != RECEIPT_CONTRACT_ID:
-        return "receipt_contract_id_unknown"
-    if not_canonical or _receipt_malformed(receipt, record):
-        return "receipt_malformed"
-    entries = record["entries"]
-    if receipt["journal"] != {"runId": record["runId"], "head": digest(entries[-1]),
-                              "entries": len(entries)}:
-        return "receipt_journal_mismatch"
-    found = reach(record, receipt["subject"], receipt["fromSeq"])
-    claimed = receipt["reached"]
-    if (not set(found["agents"]) <= set(claimed["agents"])
+def _understated(found: dict[str, Any], claimed: dict[str, Any]) -> bool:
+    return (not set(found["agents"]) <= set(claimed["agents"])
             or claimed["deliveries"] < found["deliveries"]
-            or claimed["toolCalls"] < found["toolCalls"]):
-        return "blast_radius_understated"
-    if claimed != found:
-        return "blast_radius_overstated"
-    return None
+            or claimed["toolCalls"] < found["toolCalls"])
+
+
+def judge_receipt(receipt: Any, not_canonical: bool, record: Record,
+                  skip: frozenset[str] = frozenset()) -> str | None:
+    """The first rule the receipt fails against an allowed journal, or None."""
+    entries = record["entries"]
+
+    def found() -> dict[str, Any]:
+        return reach(record, receipt["subject"], receipt["fromSeq"])
+
+    rules = (
+        ("receipt_contract_id_missing",
+         lambda: not isinstance(receipt, dict) or "contractId" not in receipt),
+        ("receipt_contract_id_unknown",
+         lambda: receipt.get("contractId") != RECEIPT_CONTRACT_ID),
+        ("receipt_malformed", lambda: not_canonical or _receipt_malformed(receipt, record)),
+        ("receipt_journal_mismatch",
+         lambda: receipt["journal"] != {"runId": record["runId"], "head": digest(entries[-1]),
+                                        "entries": len(entries)}),
+        ("blast_radius_understated", lambda: _understated(found(), receipt["reached"])),
+        ("blast_radius_overstated", lambda: receipt["reached"] != found()),
+    )
+    return next((name for name, failed in rules if name not in skip and failed()), None)
 
 
 def _answer(reason: str | None, allowed: str) -> dict[str, str]:
@@ -544,12 +582,15 @@ def _answer(reason: str | None, allowed: str) -> dict[str, str]:
     return {"decision": DENY, "reason": reason}
 
 
+_SKIPPED_PAST = (KeyError, TypeError, AttributeError, ValueError, IndexError)
+
+
 def verify(record_path: Path, skip: frozenset[str] = frozenset()) -> dict[str, str]:
     """The reference reader's decision and reason for one journal and its receipt."""
     record, not_canonical = _strict_load(record_path)
     try:
         reason = judge_journal(record, not_canonical, skip)
-    except (KeyError, TypeError, AttributeError, ValueError, IndexError):
+    except _SKIPPED_PAST:
         if not skip:
             raise
         reason = None  # a structural rule a test switched off let a malformed record through
@@ -557,7 +598,13 @@ def verify(record_path: Path, skip: frozenset[str] = frozenset()) -> dict[str, s
     if reason is not None or not receipt_path.is_file():
         return _answer(reason, ALLOWED_REASON)
     receipt, receipt_bad = _strict_load(receipt_path)
-    return _answer(judge_receipt(receipt, receipt_bad, record), RECEIPT_REASON)
+    try:
+        reason = judge_receipt(receipt, receipt_bad, record, skip)
+    except _SKIPPED_PAST:
+        if not skip:
+            raise
+        reason = None  # as above, for a receipt rule a test switched off
+    return _answer(reason, RECEIPT_REASON)
 
 
 def retained(record: Record) -> dict[str, Any]:
