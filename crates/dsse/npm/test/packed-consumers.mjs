@@ -78,7 +78,7 @@ try {
   result.typescript = { version: tsManifest.version, nativeExit: 0 };
 
   const browserEntry = "/node_modules/@probityai/dsse/" + manifest.exports["./browser"].default.replace(/^\.\//, "");
-  await writeFile(path.join(consumer, "index.html"), `<!doctype html><html lang="en"><meta charset="utf-8"><link rel="icon" href="data:,"><title>DSSE packed browser consumer</title><script type="importmap">${JSON.stringify({ imports: { "dsse/browser": browserEntry } })}</script><body>Packed artifact test</body></html>`);
+  await writeFile(path.join(consumer, "index.html"), `<!doctype html><html lang="en"><meta charset="utf-8"><link rel="icon" href="data:,"><title>DSSE packed browser consumer</title><script type="importmap">${JSON.stringify({ imports: { "@probityai/dsse/browser": browserEntry } })}</script><body>Packed artifact test</body></html>`);
   server = createServer(async (request, response) => {
     try {
       const url = new URL(request.url, "http://127.0.0.1");
