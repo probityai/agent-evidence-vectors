@@ -4,7 +4,6 @@ import json
 import sys
 from pathlib import Path
 
-
 # The one member where the pinned reader answers the corpus's verdict under its own code:
 # for an issued_at with no time-zone designator it answers undecidable and names the code
 # "malformed", where the corpus names window_not_applicable. Any other failure, and any
