@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>topology_decision_basis: Agent Evidence vocabulary</title>
+<meta name="description" content="The topology_decision_basis term of the Agent Evidence vocabulary.">
+<link rel="canonical" href="https://w3id.org/agent-evidence/vocab/v1/topology_decision_basis">
+<script type="application/ld+json">
+{
+ "@context": {
+  "owl": "http://www.w3.org/2002/07/owl#",
+  "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+  "skos": "http://www.w3.org/2004/02/skos/core#"
+ },
+ "@graph": [
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/topology_decision_basis",
+   "@type": "skos:Concept",
+   "skos:definition": "What label or input steered one topology decision. A decision whose basis begins detector_ carries a decimal risk estimate for every agent and the list of message fields the detector read. Closed and fail-closed: an absent or unregistered basis makes the decision malformed.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "topology_decision_basis",
+   "skos:prefLabel": "topology_decision_basis",
+   "skos:topConceptOf": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   }
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/topology_decision_basis#detector_online_label",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/topology_decision_basis"
+   },
+   "skos:definition": "A detector updated during the run on a label computed with knowledge of the attack's goal steered the decision.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "detector_online_label"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/topology_decision_basis#detector_no_label",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/topology_decision_basis"
+   },
+   "skos:definition": "A detector with no update during the run steered the decision.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "detector_no_label"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/topology_decision_basis#random_rate_matched",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/topology_decision_basis"
+   },
+   "skos:definition": "Edges or agents were chosen at random at a rate matched to another arm.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "random_rate_matched"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/topology_decision_basis#ground_truth_oracle",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/topology_decision_basis"
+   },
+   "skos:definition": "The decision used which agents were compromised, a fact no deployed defence holds.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "ground_truth_oracle"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/topology_decision_basis#fixed_schedule",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/topology_decision_basis"
+   },
+   "skos:definition": "The decision followed a timer or a fixed step count.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "fixed_schedule"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/topology_decision_basis#evidence_gate",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/topology_decision_basis"
+   },
+   "skos:definition": "The decision followed a recorded rule over earlier journal entries, such as an admitted restoration.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "evidence_gate"
+  }
+ ]
+}
+</script>
+<style>
+:root{color-scheme:light dark;--page:#f6f8fb;--surface:#fff;--ink:#14202e;--body:#33404f;--link:#1f4fd1;--rule:#cfd8e3;font-family:system-ui,sans-serif;color:var(--ink);background:var(--page)}
+@media (prefers-color-scheme:dark){:root{--page:#10151b;--surface:#18202a;--ink:#e8edf3;--body:#c3ccd6;--link:#8fb0ff;--rule:#2c3846}}
+*{box-sizing:border-box}body{margin:0;font:400 1rem/1.6 system-ui,sans-serif;background:var(--page)}
+.shell{max-width:52rem;margin-inline:auto;padding-inline:16px}
+header,footer{padding-block:1.25rem}header a{font-weight:700;color:var(--ink);text-decoration:none}
+footer{border-top:1px solid var(--rule);color:var(--body);font-size:.9375rem;margin-top:3rem}
+a{color:var(--link)}p,li,td{color:var(--body)}h1{line-height:1.2}
+code,pre{font-family:ui-monospace,Consolas,monospace;font-size:.875em}code{overflow-wrap:anywhere}
+pre{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:1rem;overflow-x:auto}
+blockquote{margin:1rem 0;padding:.25rem 1rem;border-left:4px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;display:block;overflow-x:auto}
+th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-align:top}
+</style>
+</head>
+<body>
+<header class="shell"><a href="https://github.com/probityai/agent-evidence-vectors">Agent Evidence</a></header>
+<main class="shell">
+<h1><code>topology_decision_basis</code></h1>
+<p>Term URI: <a href="https://w3id.org/agent-evidence/vocab/v1/topology_decision_basis">https://w3id.org/agent-evidence/vocab/v1/topology_decision_basis</a></p>
+<p>Section: <code>multi_agent_run</code>. Criticality: <code>critical</code>.</p>
+<p>What label or input steered one topology decision. A decision whose basis begins detector_ carries a decimal risk estimate for every agent and the list of message fields the detector read. Closed and fail-closed: an absent or unregistered basis makes the decision malformed.</p>
+<h2>Registered values</h2>
+<ul>
+<li id="detector_online_label"><code>https://w3id.org/agent-evidence/vocab/v1/topology_decision_basis#detector_online_label</code>: A detector updated during the run on a label computed with knowledge of the attack&#x27;s goal steered the decision.</li>
+<li id="detector_no_label"><code>https://w3id.org/agent-evidence/vocab/v1/topology_decision_basis#detector_no_label</code>: A detector with no update during the run steered the decision.</li>
+<li id="random_rate_matched"><code>https://w3id.org/agent-evidence/vocab/v1/topology_decision_basis#random_rate_matched</code>: Edges or agents were chosen at random at a rate matched to another arm.</li>
+<li id="ground_truth_oracle"><code>https://w3id.org/agent-evidence/vocab/v1/topology_decision_basis#ground_truth_oracle</code>: The decision used which agents were compromised, a fact no deployed defence holds.</li>
+<li id="fixed_schedule"><code>https://w3id.org/agent-evidence/vocab/v1/topology_decision_basis#fixed_schedule</code>: The decision followed a timer or a fixed step count.</li>
+<li id="evidence_gate"><code>https://w3id.org/agent-evidence/vocab/v1/topology_decision_basis#evidence_gate</code>: The decision followed a recorded rule over earlier journal entries, such as an admitted restoration.</li>
+</ul>
+</main>
+<footer><div class="shell">Generated from <a href="https://github.com/probityai/agent-evidence-vectors/blob/main/packages/vocabulary/vocabulary.yaml">vocabulary.yaml</a>. This page describes the current registry. A record is read against the registry its registryDigest names, named on <a href="https://probityai.github.io/agent-evidence/vocab/v1/">the term listing</a>. The term URI does not change once a signed record carries it.</div></footer>
+</body>
+</html>

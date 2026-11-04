@@ -17,7 +17,7 @@
  "@type": "skos:ConceptScheme",
  "owl:versionInfo": "0.8.0",
  "rdfs:seeAlso": {
-  "@id": "https://probityai.github.io/agent-evidence/vocab/v1/registry/sha256-161bd780e265a99f27365c81bee12f5006ebb4e785a9563608ae98c52878a523.yaml"
+  "@id": "https://probityai.github.io/agent-evidence/vocab/v1/registry/sha256-736ef748b4d9395d5b78bd05f9675fb2a7080c8e5fe50a477d9e24d7a50771bc.yaml"
  },
  "skos:hasTopConcept": [
   {
@@ -31,6 +31,9 @@
   },
   {
    "@id": "https://w3id.org/agent-evidence/vocab/v1/anchor_time_rule"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/assessment_availability"
   },
   {
    "@id": "https://w3id.org/agent-evidence/vocab/v1/attestation_tier"
@@ -99,6 +102,9 @@
    "@id": "https://w3id.org/agent-evidence/vocab/v1/field_evidence_partition"
   },
   {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/generation_outcome"
+  },
+  {
    "@id": "https://w3id.org/agent-evidence/vocab/v1/incident_identifier"
   },
   {
@@ -115,6 +121,9 @@
   },
   {
    "@id": "https://w3id.org/agent-evidence/vocab/v1/material_change_trigger"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/message_delivery_disposition"
   },
   {
    "@id": "https://w3id.org/agent-evidence/vocab/v1/observation_directness"
@@ -150,7 +159,13 @@
    "@id": "https://w3id.org/agent-evidence/vocab/v1/response_function"
   },
   {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/restart_scope"
+  },
+  {
    "@id": "https://w3id.org/agent-evidence/vocab/v1/restoration_decision"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/restoration_evidence_binding"
   },
   {
    "@id": "https://w3id.org/agent-evidence/vocab/v1/restoration_gate"
@@ -172,6 +187,12 @@
   },
   {
    "@id": "https://w3id.org/agent-evidence/vocab/v1/stop_decision"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/topology_decision_basis"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/topology_enforcement"
   },
   {
    "@id": "https://w3id.org/agent-evidence/vocab/v1/witness_scope"
@@ -199,12 +220,13 @@ th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-
 <header class="shell"><a href="https://github.com/probityai/agent-evidence-vectors">Agent Evidence</a></header>
 <main class="shell">
 <h1>Vocabulary terms, version 1</h1>
-<p>Registry version 0.8.0, registryDigest <a href="registry/sha256-161bd780e265a99f27365c81bee12f5006ebb4e785a9563608ae98c52878a523.yaml"><code>161bd780e265a99f27365c81bee12f5006ebb4e785a9563608ae98c52878a523</code></a>.</p>
+<p>Registry version 0.8.0, registryDigest <a href="registry/sha256-736ef748b4d9395d5b78bd05f9675fb2a7080c8e5fe50a477d9e24d7a50771bc.yaml"><code>736ef748b4d9395d5b78bd05f9675fb2a7080c8e5fe50a477d9e24d7a50771bc</code></a>.</p>
 <ul>
 <li><a href="acceptance_observed/"><code>https://w3id.org/agent-evidence/vocab/v1/acceptance_observed</code></a> (critical)</li>
 <li><a href="admission_decision/"><code>https://w3id.org/agent-evidence/vocab/v1/admission_decision</code></a> (critical)</li>
 <li><a href="admission_gate/"><code>https://w3id.org/agent-evidence/vocab/v1/admission_gate</code></a> (critical)</li>
 <li><a href="anchor_time_rule/"><code>https://w3id.org/agent-evidence/vocab/v1/anchor_time_rule</code></a> (critical)</li>
+<li><a href="assessment_availability/"><code>https://w3id.org/agent-evidence/vocab/v1/assessment_availability</code></a> (critical)</li>
 <li><a href="attestation_tier/"><code>https://w3id.org/agent-evidence/vocab/v1/attestation_tier</code></a> (critical)</li>
 <li><a href="authority_basis/"><code>https://w3id.org/agent-evidence/vocab/v1/authority_basis</code></a> (critical)</li>
 <li><a href="authority_change/"><code>https://w3id.org/agent-evidence/vocab/v1/authority_change</code></a> (critical)</li>
@@ -227,12 +249,14 @@ th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-
 <li><a href="evidence_origin_class/"><code>https://w3id.org/agent-evidence/vocab/v1/evidence_origin_class</code></a> (critical)</li>
 <li><a href="evidence_state/"><code>https://w3id.org/agent-evidence/vocab/v1/evidence_state</code></a> (critical)</li>
 <li><a href="field_evidence_partition/"><code>https://w3id.org/agent-evidence/vocab/v1/field_evidence_partition</code></a> (critical)</li>
+<li><a href="generation_outcome/"><code>https://w3id.org/agent-evidence/vocab/v1/generation_outcome</code></a> (critical)</li>
 <li><a href="incident_identifier/"><code>https://w3id.org/agent-evidence/vocab/v1/incident_identifier</code></a> (critical)</li>
 <li><a href="inconclusive_verdict/"><code>https://w3id.org/agent-evidence/vocab/v1/inconclusive_verdict</code></a> (critical)</li>
 <li><a href="independence_basis/"><code>https://w3id.org/agent-evidence/vocab/v1/independence_basis</code></a> (critical)</li>
 <li><a href="intent_binding/"><code>https://w3id.org/agent-evidence/vocab/v1/intent_binding</code></a> (critical)</li>
 <li><a href="issuance_time_basis/"><code>https://w3id.org/agent-evidence/vocab/v1/issuance_time_basis</code></a> (critical)</li>
 <li><a href="material_change_trigger/"><code>https://w3id.org/agent-evidence/vocab/v1/material_change_trigger</code></a> (critical)</li>
+<li><a href="message_delivery_disposition/"><code>https://w3id.org/agent-evidence/vocab/v1/message_delivery_disposition</code></a> (critical)</li>
 <li><a href="observation_directness/"><code>https://w3id.org/agent-evidence/vocab/v1/observation_directness</code></a> (critical)</li>
 <li><a href="observation_vantage/"><code>https://w3id.org/agent-evidence/vocab/v1/observation_vantage</code></a> (critical)</li>
 <li><a href="observed_tool_output/"><code>https://w3id.org/agent-evidence/vocab/v1/observed_tool_output</code></a> (critical)</li>
@@ -244,7 +268,9 @@ th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-
 <li><a href="replay_snapshot/"><code>https://w3id.org/agent-evidence/vocab/v1/replay_snapshot</code></a> (critical)</li>
 <li><a href="response_decision/"><code>https://w3id.org/agent-evidence/vocab/v1/response_decision</code></a> (critical)</li>
 <li><a href="response_function/"><code>https://w3id.org/agent-evidence/vocab/v1/response_function</code></a> (critical)</li>
+<li><a href="restart_scope/"><code>https://w3id.org/agent-evidence/vocab/v1/restart_scope</code></a> (critical)</li>
 <li><a href="restoration_decision/"><code>https://w3id.org/agent-evidence/vocab/v1/restoration_decision</code></a> (critical)</li>
+<li><a href="restoration_evidence_binding/"><code>https://w3id.org/agent-evidence/vocab/v1/restoration_evidence_binding</code></a> (critical)</li>
 <li><a href="restoration_gate/"><code>https://w3id.org/agent-evidence/vocab/v1/restoration_gate</code></a> (critical)</li>
 <li><a href="result/"><code>https://w3id.org/agent-evidence/vocab/v1/result</code></a> (critical)</li>
 <li><a href="revision_reason/"><code>https://w3id.org/agent-evidence/vocab/v1/revision_reason</code></a> (informational)</li>
@@ -252,6 +278,8 @@ th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-
 <li><a href="revocation_state/"><code>https://w3id.org/agent-evidence/vocab/v1/revocation_state</code></a> (critical)</li>
 <li><a href="set_sufficiency/"><code>https://w3id.org/agent-evidence/vocab/v1/set_sufficiency</code></a> (critical)</li>
 <li><a href="stop_decision/"><code>https://w3id.org/agent-evidence/vocab/v1/stop_decision</code></a> (critical)</li>
+<li><a href="topology_decision_basis/"><code>https://w3id.org/agent-evidence/vocab/v1/topology_decision_basis</code></a> (critical)</li>
+<li><a href="topology_enforcement/"><code>https://w3id.org/agent-evidence/vocab/v1/topology_enforcement</code></a> (critical)</li>
 <li><a href="witness_scope/"><code>https://w3id.org/agent-evidence/vocab/v1/witness_scope</code></a> (critical)</li>
 </ul>
 </main>

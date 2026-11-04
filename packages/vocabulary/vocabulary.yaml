@@ -152,8 +152,16 @@ meta:
     predicate defines yet. The crosswalks filed for the section map published guidance onto
     the terms; each is marked third_party_authored: true and declares
     evidence: asserted or no_mapping, so none promotes a term and none is
-    offered as promoting one. The version number moves in the release commit,
-    which rewrites this paragraph to name the version that carries the section.
+    offered as promoting one. Also unreleased: the multi_agent_run section,
+    whose terms name what a multi-agent defence did to its agents'
+    communication graph during one run. All are proposed and none lists an
+    issuer. Their source paths name members of the containment-journal
+    predicate in agent-evidence-vectors, except generation_outcome, which names
+    a member no published predicate carries yet. The section reuses
+    response_function, control_failure_posture, response_decision and
+    witness_scope and does not redefine them. The version number moves in the
+    release commit, which rewrites this paragraph to name the version that
+    carries both sections.
   opencre_links: >
     A term whose definition states a requirement that one of OpenCRE's Common
     Requirements organizes carries an opencre list. Each item names the CRE by
@@ -2115,6 +2123,223 @@ incident_response:
       a third party can recompute. A recurring gap in published incident
       records is a silence read as clean: a report that nothing was seen, with
       no measure of what the monitors could see. ES0 and ES1 separate the two.
+
+# multi_agent_run: how a party that does not trust a multi-agent defence checks
+# what the defence did to the agents' communication graph during one run, and
+# what it rested a re-enable on. A defence that rewrites the graph (for
+# example Huang et al. 2026, Findings of ACL 2026,
+# doi 10.18653/v1/2026.findings-acl.426) is checked against the deliveries that
+# follow each decision, so the record is one hash-chained journal of typed
+# entries. Source paths begin `predicate.` and name members of the
+# containment-journal predicate, whose conformance corpus is
+# vectors-containment-journal in agent-evidence-vectors. A term the verifier computes, and does not read,
+# names the members it is computed from. The section reuses and does not redefine
+# terms of other sections: a decision's responseFunction is an
+# incident_response.response_function value (restriction, isolation or
+# restoration), a fallback's failurePosture is an
+# incident_response.control_failure_posture value, a response entry's decision
+# is an incident_response.response_decision, and an assessment's witness is an
+# evidence_dimensions.witness_scope value.
+multi_agent_run:
+
+  message_delivery_disposition:
+    status: proposed
+    criticality: critical
+    review_by: "2027-04-30"
+    values: [delivered_in_topology, delivered_over_absent_edge, dropped_over_absent_edge]
+    value_definitions:
+      delivered_in_topology: "The message was delivered over an edge present in the topology in force."
+      delivered_over_absent_edge: "The message was delivered over an edge absent from the topology in force."
+      dropped_over_absent_edge: "The router refused the message because its edge was absent from the topology in force."
+    definition: >
+      How the router handled one agent-to-agent message relative to the
+      topology in force when it was sent. The verifier computes the value from
+      the delivery's sender, receiver and dropped flag and from the topology it
+      rebuilds out of the journal's earlier topology, decision and fallback
+      entries; it never takes the value from the producer. A message dropped
+      over an edge that is present is not a value: the journal is refused.
+      Closed and fail-closed.
+    check: >
+      A verifier refuses a delivery whose edgeInForce flag differs from the
+      recomputed edge, refuses a drop over a present edge, and refuses a
+      delivery over an absent edge when the run is enforced. A relying party
+      MUST NOT read an edge removed by a decision as a closed channel while
+      any delivery over an absent edge is recorded or while the run is
+      advisory.
+    source_path: "predicate.entries[].{sender,receiver,edgeInForce,dropped}"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained multi-agent system that is not us emits delivery entries in a signed journal and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      A defence that removes an edge reports the removal; whether a message
+      still crossed that edge is a separate fact that only the router saw.
+      Naming the three outcomes lets a reader count messages over cut edges,
+      so the removal is not taken on trust.
+
+  topology_enforcement:
+    status: proposed
+    criticality: critical
+    review_by: "2027-04-30"
+    values: [advisory, enforced]
+    value_definitions:
+      advisory: "The topology is only stated to the agents; nothing refuses a message over an absent edge."
+      enforced: "The router refuses every message over an edge absent from the topology in force."
+    definition: >
+      Whether the router of a run enforces the declared topology or only states
+      it to the agents. Required on every journal; an absent member is
+      malformed and is never read as enforced. Closed and fail-closed.
+    check: >
+      For an advisory run a verifier MUST NOT return supported for a claim that
+      a channel was closed, whatever the delivery entries show, and refuses a
+      journal whose claims say channels were closed. For an enforced run the
+      claim is decided by message_delivery_disposition.
+    source_path: "predicate.enforcement"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained multi-agent system that is not us emits the enforcement member in a signed journal and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      A topology written into each agent's prompt is honoured only by the
+      agents it restricts, and its logs read exactly like a router that
+      refuses. The value keeps an instruction from being counted as a control.
+
+  topology_decision_basis:
+    status: proposed
+    criticality: critical
+    review_by: "2027-04-30"
+    values: [detector_online_label, detector_no_label, random_rate_matched, ground_truth_oracle, fixed_schedule, evidence_gate]
+    value_definitions:
+      detector_online_label: "A detector updated during the run on a label computed with knowledge of the attack's goal steered the decision."
+      detector_no_label: "A detector with no update during the run steered the decision."
+      random_rate_matched: "Edges or agents were chosen at random at a rate matched to another arm."
+      ground_truth_oracle: "The decision used which agents were compromised, a fact no deployed defence holds."
+      fixed_schedule: "The decision followed a timer or a fixed step count."
+      evidence_gate: "The decision followed a recorded rule over earlier journal entries, such as an admitted restoration."
+    definition: >
+      What label or input steered one topology decision. A decision whose basis
+      begins detector_ carries a decimal risk estimate for every agent and the
+      list of message fields the detector read. Closed and fail-closed: an
+      absent or unregistered basis makes the decision malformed.
+    check: >
+      A verifier reports the basis next to any effect claim and MUST NOT read a
+      ground_truth_oracle or detector_online_label decision as an oracle-free
+      result. For a detector_ basis it refuses a decision whose detector read a
+      field the router never writes, and refuses one that cut an edge or
+      isolated an agent while every agent carried the same risk estimate.
+    source_path: "predicate.entries[].basis"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained multi-agent system that is not us emits the basis on decision entries in a signed journal and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      Two decisions that cut the same edges are not the same evidence when one
+      was steered by a detector and the other by knowing the answer. Without
+      the basis a result measured with an oracle reads as a defence that works
+      unaided.
+
+  restart_scope:
+    status: proposed
+    criticality: critical
+    review_by: "2027-04-30"
+    values: [memory_only, memory_and_cause_removed]
+    value_definitions:
+      memory_only: "The agent's memory was cleared and its configuration digest is unchanged, so the cause it carried remains."
+      memory_and_cause_removed: "The agent's memory was cleared and its configuration digest changed, recording the removal of the cause."
+    definition: >
+      What a restart of one agent removed. The verifier computes the value from
+      the restart entry: memory_and_cause_removed when the configuration digest
+      before differs from the digest after, memory_only when they are equal. A
+      restart that did not clear memory has no value: the journal is refused.
+      Closed and fail-closed.
+    check: >
+      A verifier refuses a restart whose remediated flag differs from whether
+      the two configuration digests differ, and refuses a restart that did not
+      clear memory. A relying party MUST NOT read memory_only as a clean state.
+    source_path: "predicate.entries[].{remediated,memoryCleared,configBefore,configAfter}"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained multi-agent system that is not us emits restart entries with both configuration digests in a signed journal and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      A restart that clears an agent's memory and leaves the configuration
+      that made it hostile resumes the same agent. Its log says "restarted"
+      either way; the digests are what tell the two apart.
+
+  restoration_evidence_binding:
+    status: proposed
+    criticality: critical
+    review_by: "2027-04-30"
+    values: null
+    definition: >
+      One evaluation of a rule that admits or refuses re-enabling a contained
+      agent, bound by entry digest to the earlier journal entries it rests on
+      (the agent's restart and an assessment of its output) and to the rule by
+      its digest, so a party holding only the journal re-derives whether the
+      admission held. It is the evidence side of restoration_decision and does
+      not replace that term's approver requirement. A structured record with
+      no closed values.
+    check: >
+      For an admitted restoration a verifier refuses an empty evidence list, a
+      cited digest that is not the digest of an earlier entry, evidence that
+      cites no restart of the agent, evidence that cites no assessment of the
+      agent, and a latest cited assessment that is unscored, self-witnessed or
+      at or above the threshold. Where the run claims its restorations were
+      gated, a decision that gives a previously isolated agent an outgoing
+      edge without an earlier admitted restoration for it is refused.
+    source_path: "predicate.entries[].{evidence,threshold,ruleDigest,admitted}"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained multi-agent system that is not us emits restoration entries with cited evidence in a signed journal and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      A defence that re-enables an agent after a timer, or on the agent's own
+      account of itself, writes the same "restored" line as one that checked
+      independent evidence. Binding the admission to the cited entries by
+      digest is what lets a reader tell them apart.
+
+  assessment_availability:
+    status: proposed
+    criticality: critical
+    review_by: "2027-04-30"
+    values: [scored, no_output, judge_missing]
+    value_definitions:
+      scored: "The assessment returned an integer score."
+      no_output: "The agent produced nothing to assess in the window."
+      judge_missing: "The judge returned no usable score."
+    definition: >
+      Whether an assessment of an agent's output exists as a number and, when
+      it does not, why. A missing score is carried as a value, never as a
+      number. Closed and fail-closed.
+    check: >
+      A verifier refuses a score recorded with no_output or judge_missing,
+      refuses a scored assessment with no score, MUST NOT replace a missing
+      score by zero, and MUST NOT count no_output or judge_missing as evidence
+      for an admission. An aggregate excludes the missing scores and reports
+      how many it excluded.
+    source_path: "predicate.entries[].availability"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained multi-agent system that is not us emits availability on assessment entries in a signed journal and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      A judge call that fails and is recorded as a score of zero reads as the
+      cleanest possible agent. Giving the failure its own value keeps a
+      missing observation from being read as a clean one.
+
+  generation_outcome:
+    status: proposed
+    criticality: critical
+    review_by: "2027-04-30"
+    values: [produced, errored, empty_reply]
+    value_definitions:
+      produced: "The agent's call to its model returned a reply."
+      errored: "The call raised an error, recorded with its text."
+      empty_reply: "The call returned an empty reply."
+    definition: >
+      The result of one call of an agent to its model. No published predicate
+      carries this field yet; the source path names the member a journal
+      entry would carry. Closed and fail-closed.
+    check: >
+      A verifier reports a run with any errored call together with its count,
+      and MUST NOT read the assessment of an agent whose call errored as an
+      observation of a healthy agent. A run that records calls but no outcome
+      for them is not_established for a claim of no generation failures.
+    source_path: "predicate.entries[].generationOutcome"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained multi-agent system that is not us emits generation outcomes in a signed journal and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      An agent framework that swallows a model error and returns an empty
+      reply makes a failed call look like an agent that chose to say nothing.
+      The value keeps the two apart.
 
 # system_attributes: four things a FILER declares about their own system, all
 # four together. This block carries no status and no review-by date, and it is
