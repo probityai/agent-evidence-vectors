@@ -19,11 +19,11 @@
 #
 # Precedent for this shape: IANA JWT claim registry, JSON-LD @context registries.
 #
-# version: "0.8.0"
+# version: "0.9.0"
 # status: "draft - open for review"
 
 meta:
-  version: "0.8.0"
+  version: "0.9.0"
   status: "draft - open for review"
   spec_anchor: "spec/predicates/adversarial-execution-evidence.md"
   spec_anchor_repo: "https://github.com/probityai/agent-evidence-vectors"
@@ -39,7 +39,7 @@ meta:
     docs/predicates/ carries. Since 0.6.0 it names how a claim that an agent's
     work is done is decided from outside the agent, in the done_verification
     section.
-    An unreleased addition after 0.8.0 names how a party that does not trust the
+    Since 0.9.0 it also names how a party that does not trust the
     responder checks that a response to an incident happened and held, in the
     incident_response section.
     It does not define identity, reputation, wallet, or reasoning-integrity
@@ -138,7 +138,7 @@ meta:
     registry it used, and a resolvable URI for each term. No published
     identifier moved, and a record that names our own registry, or none, is
     checked exactly as before.
-    Unreleased after 0.8.0: the incident_response section adds fifteen terms, all
+    Version 0.9.0 adds the incident_response section: fifteen terms, all
     proposed, none listing an issuer. evidence_state orders what responders
     can observe about one system into nine codes, ES0 to ES8, from silence to
     a requested restart, each defined by an observable entry condition. Three of them, decision_role,
@@ -152,16 +152,15 @@ meta:
     predicate defines yet. The crosswalks filed for the section map published guidance onto
     the terms; each is marked third_party_authored: true and declares
     evidence: asserted or no_mapping, so none promotes a term and none is
-    offered as promoting one. Also unreleased: the multi_agent_run section,
+    offered as promoting one. Version 0.9.0 also adds the multi_agent_run section,
     whose terms name what a multi-agent defence did to its agents'
     communication graph during one run. All are proposed and none lists an
     issuer. Their source paths name members of the containment-journal
     predicate in agent-evidence-vectors, except generation_outcome, which names
     a member no published predicate carries yet. The section reuses
     response_function, control_failure_posture, response_decision and
-    witness_scope and does not redefine them. The version number moves in the
-    release commit, which rewrites this paragraph to name the version that
-    carries both sections.
+    witness_scope and does not redefine them. The incident_response section also
+    adds the notification value to response_function.
   opencre_links: >
     A term whose definition states a requirement that one of OpenCRE's Common
     Requirements organizes carries an opencre list. Each item names the CRE by

@@ -1,6 +1,6 @@
 # Multi-agent run terms
 
-Name what a multi-agent defence did to its agents' communication graph during one run, so that a party who does not trust the defence can check it. The [README](../README.md) is the short version of the repository; this page covers the `multi_agent_run` section, proposed after 0.8.0.
+Name what a multi-agent defence did to its agents' communication graph during one run, so that a party who does not trust the defence can check it. The [README](../README.md) is the short version of the repository; this page covers the `multi_agent_run` section, added in 0.9.0.
 
 A defence that watches a group of agents can cut an edge between two of them, isolate one, restart it and later let it talk again. Its own log says each of those things happened. A reader who was not there needs a record that separates a cut edge from a closed channel, a restart from a clean agent, and a re-enable from the evidence that justified it. The record is one hash-chained journal of typed entries: the containment-journal predicate, whose conformance corpus is `vectors-containment-journal` in this repository. These seven terms name the parts of that journal a verifier decides, and each carries a `check`: the rule a verifier applies to decide it. All seven are `proposed`, none lists an issuer, each has `criticality: critical` and a `review_by` date, and none is canonical.
 

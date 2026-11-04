@@ -1,6 +1,6 @@
 # Incident response terms
 
-Name the parts of an incident response so that what was decided, what was done, what held and what was restored can be told apart. The [README](../README.md) is the short version of the repository; this page covers the `incident_response` section, proposed after 0.8.0 and not yet in a release.
+Name the parts of an incident response so that what was decided, what was done, what held and what was restored can be told apart. The [README](../README.md) is the short version of the repository; this page covers the `incident_response` section, added in 0.9.0.
 
 When something goes wrong in an agent system, the people responding take decisions, take actions, and later end them. Their own logs say what they chose to record. A third party who was not there needs records that separate the decision from the action, the action from its effect, and a restart from the decision that was supposed to precede it. These fifteen terms name the parts, and each carries a `check`: the rule a verifier applies to decide it. All fifteen are `proposed`, none lists an issuer, each has `criticality: critical` and a `review_by` date, and none is canonical.
 

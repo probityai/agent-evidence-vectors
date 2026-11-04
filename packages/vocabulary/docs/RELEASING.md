@@ -23,31 +23,36 @@ once it is pushed.
    pin, the tags, the dates and the sha256 the files above state, and CI runs it.
 3. Open the pull request, wait for every check to pass, and squash-merge it
    with an explicit conventional subject.
-4. Tag the merge commit and push the tag:
+4. Tag the merge commit and push the tag. The tag is `agent-evidence-vocabulary-vX.Y.Z`,
+   the prefix `release.toml` names for this unit:
 
    ```bash
-   git tag -s vX.Y.Z -m "vX.Y.Z" -m "<what the release adds>" <merge-commit>
-   git tag -v vX.Y.Z
-   git push origin vX.Y.Z
+   git tag -s agent-evidence-vocabulary-vX.Y.Z -m "agent-evidence-vocabulary-vX.Y.Z" -m "<what the release adds>" <merge-commit>
+   git tag -v agent-evidence-vocabulary-vX.Y.Z
+   git push origin agent-evidence-vocabulary-vX.Y.Z
    ```
 
    `git tag -v` must show a key whose only identity is the maintainer's name and
-   address.
-5. Publish the GitHub release from the tag, then confirm the digest a reader
-   checks:
+   address. A pushed tag alone publishes nothing.
+5. Publish the GitHub release from the tag. `release.yml` resolves the unit from
+   `release.toml`, checks that `packages/vocabulary/pyproject.toml` carries the
+   tag's version and that the tagged commit is on main, builds the package and
+   publishes it to PyPI by trusted publishing under the environment `pypi`. Approve
+   the pending deployment, then confirm the digest a reader checks:
 
    ```bash
-   gh release create vX.Y.Z --verify-tag --title vX.Y.Z --notes "<what the release adds>"
+   gh release create agent-evidence-vocabulary-vX.Y.Z --verify-tag --title agent-evidence-vocabulary-vX.Y.Z --notes "<what the release adds>"
    curl -fsSL https://raw.githubusercontent.com/probityai/agent-evidence-vectors/agent-evidence-vocabulary-vX.Y.Z/packages/vocabulary/vocabulary.yaml | sha256sum
    ```
 
-   The digest must equal the one in the README's quick start.
+   The digest must equal the one in the README's quick start. Read the version back
+   from `https://pypi.org/pypi/agent-evidence-vocabulary/X.Y.Z/json`.
 
 ## Python data distribution
 
-The Python package is `agent-evidence-vocabulary` 0.8.0. It contains the exact
-`vocabulary.yaml` bytes from data release `v0.8.0`, with SHA-256
-`76233ba8924cebdf053f0449ce023186805156aedca4121b9b156bd747a411b4`.
+The Python package is `agent-evidence-vocabulary` 0.9.0. It contains the exact
+`vocabulary.yaml` bytes from data release `v0.9.0`, with SHA-256
+`58dd59e46e6f5e0925bb4c801a2f61c5e18e24e6c246059b16975b3e40c27365`.
 The repository keeps one copy of the YAML. The package maps that file directly
 into `agent_evidence_vocabulary`; no generated copy can drift from it.
 
@@ -56,7 +61,7 @@ After building the checked wheel, install it with a selected YAML parser:
 ```sh
 uv venv vocabulary-env --python 3.12
 uv pip install --python vocabulary-env/bin/python \
-  dist/agent_evidence_vocabulary-0.8.0-py3-none-any.whl PyYAML==6.0.3
+  dist/agent_evidence_vocabulary-0.9.0-py3-none-any.whl PyYAML==6.0.3
 vocabulary-env/bin/python - <<'PY'
 from importlib.resources import files
 import yaml
@@ -94,24 +99,21 @@ its original files. Verify each distribution with
 binding the repository, workflow and exact source commit. A GitHub build
 attestation is separate from a PyPI Publish attestation and registry publication.
 
-The existing `v0.5.0` data tag stays immutable. The first Python packaging
-release uses `python-v0.5.0`, which identifies the packaging source while its
-package version still matches the contained registry. The separate tag names
-identify two different artifacts. A later data release updates `pyproject.toml`
-and the digest checks in `scripts/check-artifacts.py` and
-`scripts/check-installed.py` with the other versioned files above.
+The existing `v0.5.0` data tag stays immutable, and its Python package was published
+under `agent-evidence-vocabulary-python-v0.5.0`, the prefix `release.toml` keeps for
+a data release whose own tag already exists. A later data release updates
+`pyproject.toml` with the other versioned files above; the digest checks in
+`scripts/check-artifacts.py` and `scripts/check-installed.py` read the digest from
+the generated index, so they need no edit.
 
-A data release with a `vX.Y.Z` tag does not start the `Python distribution`
-workflow's release path; only a `python-vX.Y.Z` release does.
-
-Only a non-prerelease GitHub release with the matching `python-vX.Y.Z` tag on
-main can reach the publish job. Configure an [existing or pending PyPI trusted publisher](https://docs.pypi.org/trusted-publishers/)
-with owner `probityai`, repository `agent-evidence-vocabulary`, workflow
-`python-distribution.yml`, and environment `pypi`. The separate publisher
-job receives `contents: read` and `id-token: write`. The pinned PyPA action uploads
+Publication runs only from a published, non-prerelease GitHub release whose tag
+is `agent-evidence-vocabulary-vX.Y.Z`, on a commit that is on main. Configure an
+[existing or pending PyPI trusted publisher](https://docs.pypi.org/trusted-publishers/)
+with owner `probityai`, repository `agent-evidence-vectors`, workflow
+`release.yml`, and environment `pypi`. The publisher job receives `contents: read`
+and `id-token: write`. The pinned PyPA action uploads
 [PyPI attestations](https://docs.pypi.org/attestations/producing-attestations/)
-without an account-token or password fallback. A prepared workflow does not
-prove the account binding exists or that publication ran.
+without an account-token or password fallback.
 
 After publication, read the registry metadata, download both artifacts, compare
 their hashes and check the installed data again. Confirm provenance through

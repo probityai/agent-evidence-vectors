@@ -10,7 +10,7 @@ and how much of a population the claim covers.
 It's for anyone who writes a predicate, a verifier or an evidence format for agents and needs each
 term to mean one thing across vendors, including teams who want to map their own fields onto it.
 
-Install the Python package: `pip install agent-evidence-vocabulary==0.8.0`.
+Install the Python package: `pip install agent-evidence-vocabulary==0.9.0`.
 
 agent-evidence is the open record format. The `probityai` command checks and grades records against it: `pip install probityai==0.1.0`.
 
@@ -19,8 +19,8 @@ agent-evidence is the open record format. The `probityai` command checks and gra
 Pin the registry at a release and check its digest:
 
 ```bash
-curl -fsSLO https://raw.githubusercontent.com/probityai/agent-evidence-vectors/agent-evidence-vocabulary-v0.8.0/packages/vocabulary/vocabulary.yaml
-echo "76233ba8924cebdf053f0449ce023186805156aedca4121b9b156bd747a411b4  vocabulary.yaml" | sha256sum -c
+curl -fsSLO https://raw.githubusercontent.com/probityai/agent-evidence-vectors/agent-evidence-vocabulary-v0.9.0/packages/vocabulary/vocabulary.yaml
+echo "58dd59e46e6f5e0925bb4c801a2f61c5e18e24e6c246059b16975b3e40c27365  vocabulary.yaml" | sha256sum -c
 ```
 
 Then read a term:
@@ -39,7 +39,7 @@ and run `python3 scripts/validate_crosswalks.py` before opening a pull request.
 
 ## Status
 
-Release v0.8.0, tagged October 26, 2026. It adds open verdict classes, a criticality for each term, the `registryDigest` a record carries, and a resolvable URI for each term. The registry file is CC0-1.0, and the rest of the
+Release v0.9.0, tagged November 3, 2026. It adds the `incident_response` and `multi_agent_run` sections, twenty-two proposed terms in all, and the `notification` value of `response_function`. The registry file is CC0-1.0, and the rest of the
 repository is Apache-2.0. Every term starts as proposed and is promoted only when an independent
 system emits it; the rules are in
 [GOVERNANCE.md](https://github.com/probityai/agent-evidence-vectors/blob/main/packages/vocabulary/GOVERNANCE.md).
