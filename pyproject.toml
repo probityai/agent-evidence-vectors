@@ -159,6 +159,7 @@ only-include = [
     "corpora/vectors-chunked-export",
     "corpora/vectors-completion-confirmation",
     "corpora/vectors-connector-scope",
+    "corpora/vectors-containment-journal",
     "corpora/vectors-converted-argument-binding",
     "corpora/vectors-credential-release",
     "corpora/vectors-delegation-lifecycle",
@@ -224,6 +225,7 @@ exclude = [
     "corpora/vectors-chunked-export/**/*.py",
     "corpora/vectors-completion-confirmation/**/*.py",
     "corpora/vectors-connector-scope/**/*.py",
+    "corpora/vectors-containment-journal/**/*.py",
     "corpora/vectors-converted-argument-binding/**/*.py",
     "corpora/vectors-credential-release/**/*.py",
     "corpora/vectors-delegation-lifecycle/**/*.py",
@@ -288,6 +290,7 @@ exclude = [
 "corpora/vectors-chunked-export" = "agent_evidence_vectors/corpora/vectors-chunked-export"
 "corpora/vectors-completion-confirmation" = "agent_evidence_vectors/corpora/vectors-completion-confirmation"
 "corpora/vectors-connector-scope" = "agent_evidence_vectors/corpora/vectors-connector-scope"
+"corpora/vectors-containment-journal" = "agent_evidence_vectors/corpora/vectors-containment-journal"
 "corpora/vectors-converted-argument-binding" = "agent_evidence_vectors/corpora/vectors-converted-argument-binding"
 "corpora/vectors-credential-release" = "agent_evidence_vectors/corpora/vectors-credential-release"
 "corpora/vectors-delegation-lifecycle" = "agent_evidence_vectors/corpora/vectors-delegation-lifecycle"
@@ -427,6 +430,7 @@ only-include = [
     "corpora/vectors-chunked-export",
     "corpora/vectors-completion-confirmation",
     "corpora/vectors-connector-scope",
+    "corpora/vectors-containment-journal",
     "corpora/vectors-converted-argument-binding",
     "corpora/vectors-credential-release",
     "corpora/vectors-delegation-lifecycle",
