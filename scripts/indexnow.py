@@ -7,7 +7,7 @@ means the submission was accepted; HTTP 202 means accepted with key validation p
 reported as PENDING, never as accepted. Any other status fails the run. A receipt is printed per
 batch, and written as JSON when --receipt is given.
 
-    python3 scripts/indexnow.py --key <key> --urls-file <file> [--sitemap <url> ...] [--receipt <file>]
+    python3 scripts/indexnow.py --key <key> --urls-file <file> [--sitemap <url> ...]
     python3 scripts/indexnow.py --key <key> --sitemap https://probityai.github.io/sitemap.xml
 """
 
@@ -29,9 +29,13 @@ KEY_SHAPE = re.compile(r"^[A-Za-z0-9-]{8,128}$")
 LOC = re.compile(r"<loc>\s*([^<\s]+)\s*</loc>")
 
 
-def http(url: str, data: bytes | None = None, headers: dict[str, str] | None = None) -> tuple[int, bytes]:
+def http(
+    url: str, data: bytes | None = None, headers: dict[str, str] | None = None
+) -> tuple[int, bytes]:
     """(status, body); an HTTP error status is returned, a missing answer is status 0."""
-    req = urllib.request.Request(url, data=data, headers={"User-Agent": "probityai-indexnow", **(headers or {})})
+    req = urllib.request.Request(
+        url, data=data, headers={"User-Agent": "probityai-indexnow", **(headers or {})}
+    )
     try:
         with urllib.request.urlopen(req, timeout=60) as resp:
             return resp.status, resp.read()
@@ -53,7 +57,9 @@ def prove_key(host: str, key: str) -> None:
     """Fail unless the key file is served at the host root with the key as its body."""
     status, body = http(f"https://{host}/{key}.txt")
     if status != 200 or body.decode("utf-8", errors="replace").strip() != key:
-        raise SystemExit(f"FAIL https://{host}/{key}.txt answered {status or 'nothing'}; no URL was sent")
+        raise SystemExit(
+            f"FAIL https://{host}/{key}.txt answered {status or 'nothing'}; no URL was sent"
+        )
 
 
 def verdict(status: int) -> str:
@@ -83,7 +89,9 @@ def main(argv: list[str]) -> int:
     parser.add_argument("--host", default=HOST)
     parser.add_argument("--key", required=True)
     parser.add_argument("--urls-file", type=pathlib.Path)
-    parser.add_argument("--sitemap", action="append", default=[], help="a live sitemap whose URLs are sent")
+    parser.add_argument(
+        "--sitemap", action="append", default=[], help="a live sitemap whose URLs are sent"
+    )
     parser.add_argument("--receipt", type=pathlib.Path)
     args = parser.parse_args(argv)
     if not KEY_SHAPE.match(args.key):
@@ -91,7 +99,11 @@ def main(argv: list[str]) -> int:
         return 1
     urls: list[str] = []
     if args.urls_file is not None:
-        urls += [line.strip() for line in args.urls_file.read_text(encoding="utf-8").splitlines() if line.strip()]
+        urls += [
+            line.strip()
+            for line in args.urls_file.read_text(encoding="utf-8").splitlines()
+            if line.strip()
+        ]
     for sitemap in args.sitemap:
         urls.append(sitemap)
         urls += sitemap_urls(sitemap)
@@ -108,7 +120,9 @@ def main(argv: list[str]) -> int:
     for r in receipts:
         print(f"{r['verdict']} HTTP {r['status']} for {r['urls']} URLs")
     if args.receipt is not None:
-        args.receipt.write_text(json.dumps({"host": args.host, "receipts": receipts}, indent=1) + "\n")
+        args.receipt.write_text(
+            json.dumps({"host": args.host, "receipts": receipts}, indent=1) + "\n"
+        )
     return 1 if any(r["verdict"] == "FAILED" for r in receipts) else 0
 
 

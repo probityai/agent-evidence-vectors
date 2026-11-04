@@ -14,8 +14,8 @@ import posixpath
 import re
 import subprocess
 import sys
-from datetime import datetime, timezone
 from collections.abc import Iterable, Mapping
+from datetime import UTC, datetime
 from pathlib import Path
 from urllib.parse import quote, unquote, urlsplit, urlunsplit
 from xml.etree.ElementTree import Element, SubElement, tostring
@@ -621,7 +621,7 @@ def git_dates(sources: Mapping[Path, tuple[Path, ...]]) -> dict[Path, str]:
         relative = [str(f.relative_to(REPO_ROOT)) for f in files]
         stamp = git("log", "-1", "--format=%cI", "--", *relative)
         if stamp:
-            when = datetime.fromisoformat(stamp).astimezone(timezone.utc)
+            when = datetime.fromisoformat(stamp).astimezone(UTC)
             dates[route] = when.strftime("%Y-%m-%d")
     return dates
 
