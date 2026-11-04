@@ -57,24 +57,30 @@ def _load_registry():
     return module
 
 
+def _check_one_closed_term(registry, index: dict, name: str, values: list) -> list[str]:
+    """Each registered value of one closed term is accepted; an unregistered one is refused."""
+    failures = []
+    try:
+        for value in values:
+            judged = registry.check_value(index, name, value, None)
+            if judged.outcome != registry.OK:
+                failures.append(f"{name}: registered value {value!r} was judged {judged.outcome}")
+        refused = registry.check_value(index, name, "not-a-registered-value", None)
+    except KeyError:
+        return [f"{name}: the registry index declares no values for a term that lists them"]
+    if refused.outcome != registry.MALFORMED:
+        failures.append(f"{name}: an unregistered value was judged {refused.outcome}, "
+                        "not malformed")
+    return failures
+
+
 def _check_closed_values(registry, index: dict, section: dict) -> list[str]:
-    """Every registered value of every closed term is accepted; an unregistered one is refused."""
+    """Run the closed-value check for every term that lists values."""
     failures = []
     for name, term in section.items():
         values = term.get("values")
-        if values is None:
-            continue
-        try:
-            for value in values:
-                judged = registry.check_value(index, name, value, None)
-                if judged.outcome != registry.OK:
-                    failures.append(f"{name}: registered value {value!r} was judged {judged.outcome}")
-            refused = registry.check_value(index, name, "not-a-registered-value", None)
-        except KeyError:
-            failures.append(f"{name}: the registry index declares no values for a term that lists them")
-            continue
-        if refused.outcome != registry.MALFORMED:
-            failures.append(f"{name}: an unregistered value was judged {refused.outcome}, not malformed")
+        if values is not None:
+            failures.extend(_check_one_closed_term(registry, index, name, values))
     return failures
 
 
@@ -95,36 +101,55 @@ def _run(validator, data: dict) -> list[str]:
     with tempfile.TemporaryDirectory() as tmp:
         path = Path(tmp) / "multi-agent-run-test.yaml"
         path.write_text(yaml.safe_dump(data))
-        validator.validate_crosswalk_file(path, known, match_types, evidence_states, errors, warnings)
+        validator.validate_crosswalk_file(
+            path, known, match_types, evidence_states, errors, warnings)
     return errors
+
+
+def _check_fields(name: str, term: dict) -> list[str]:
+    """The status, issuer list, check and required keys of one term."""
+    failures = []
+    if term.get("status") != "proposed":
+        failures.append(f"{name}: status must start proposed")
+    if term.get("issuers_in_production") != []:
+        failures.append(f"{name}: issuers_in_production must be empty")
+    for key in ("check", *_REQUIRED_KEYS):
+        if not str(term.get(key, "")).strip():
+            failures.append(f"{name}: no {key}")
+    return failures
+
+
+def _check_definitions(name: str, term: dict) -> list[str]:
+    """A term that lists values defines each of them and nothing else."""
+    values = term.get("values")
+    if values is None:
+        return []
+    defined = term.get("value_definitions") or {}
+    missing = [v for v in values if not str(defined.get(v, "")).strip()]
+    extra = sorted(set(defined) - set(values))
+    if missing or extra:
+        return [f"{name}: undefined values {missing}, stray definitions {extra}"]
+    return []
+
+
+def _check_guide(name: str, term: dict, page: str) -> list[str]:
+    """The guide names the term and every value it lists."""
+    failures = [] if f"`{name}`" in page else [f"{name}: the guide never names it"]
+    for value in term.get("values") or []:
+        if f"`{value}`" not in page:
+            failures.append(f"{name}: the guide never names the value `{value}`")
+    return failures
 
 
 def _check_terms(section: dict, page: str) -> list[str]:
     failures = []
     if set(section) != _EXPECTED_TERMS:
-        failures.append(f"terms {sorted(set(section) ^ _EXPECTED_TERMS)} differ from the seven the section carries")
+        differ = sorted(set(section) ^ _EXPECTED_TERMS)
+        failures.append(f"terms {differ} differ from the seven the section carries")
     for name, term in section.items():
-        if term.get("status") != "proposed":
-            failures.append(f"{name}: status must start proposed")
-        if term.get("issuers_in_production") != []:
-            failures.append(f"{name}: issuers_in_production must be empty")
-        if not str(term.get("check", "")).strip():
-            failures.append(f"{name}: no check")
-        for key in _REQUIRED_KEYS:
-            if not str(term.get(key, "")).strip():
-                failures.append(f"{name}: no {key}")
-        values = term.get("values")
-        defined = term.get("value_definitions")
-        if defined is not None:
-            missing = [v for v in values or [] if not str(defined.get(v, "")).strip()]
-            extra = sorted(set(defined) - set(values or []))
-            if missing or extra:
-                failures.append(f"{name}: undefined values {missing}, stray definitions {extra}")
-        if f"`{name}`" not in page:
-            failures.append(f"{name}: the guide never names it")
-        for value in values or []:
-            if f"`{value}`" not in page:
-                failures.append(f"{name}: the guide never names the value `{value}`")
+        failures.extend(_check_fields(name, term))
+        failures.extend(_check_definitions(name, term))
+        failures.extend(_check_guide(name, term, page))
     return failures
 
 
