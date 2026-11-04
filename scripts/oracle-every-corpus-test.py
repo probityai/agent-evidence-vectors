@@ -58,6 +58,7 @@ RUNS_A_VERIFIER = (
     "vectors-evidence-state",
     "vectors-incident-evidence-cell",
     "vectors-propagation-step",
+    "vectors-containment-journal",
     "vectors-agent-card-receipt",
     "vectors-credential-release",
     "vectors-chunked-export",

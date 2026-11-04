@@ -1,0 +1,176 @@
+{
+  "agents": [
+    "agent-a",
+    "agent-b",
+    "agent-c",
+    "agent-d"
+  ],
+  "claims": {
+    "restorationGated": true
+  },
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/containment-journal",
+  "enforcement": "enforced",
+  "entries": [
+    {
+      "at": "2026-11-03T09:00:00Z",
+      "edges": [
+        [
+          "agent-a",
+          "agent-b"
+        ],
+        [
+          "agent-a",
+          "agent-c"
+        ],
+        [
+          "agent-a",
+          "agent-d"
+        ],
+        [
+          "agent-b",
+          "agent-a"
+        ],
+        [
+          "agent-b",
+          "agent-c"
+        ],
+        [
+          "agent-b",
+          "agent-d"
+        ],
+        [
+          "agent-c",
+          "agent-a"
+        ],
+        [
+          "agent-c",
+          "agent-b"
+        ],
+        [
+          "agent-c",
+          "agent-d"
+        ],
+        [
+          "agent-d",
+          "agent-a"
+        ],
+        [
+          "agent-d",
+          "agent-b"
+        ],
+        [
+          "agent-d",
+          "agent-c"
+        ]
+      ],
+      "event": "topology",
+      "prev": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "seq": 0
+    },
+    {
+      "added": [],
+      "at": "2026-11-03T09:00:10Z",
+      "basis": "ground_truth_oracle",
+      "edges": [
+        [
+          "agent-a",
+          "agent-b"
+        ],
+        [
+          "agent-a",
+          "agent-d"
+        ],
+        [
+          "agent-b",
+          "agent-a"
+        ],
+        [
+          "agent-b",
+          "agent-d"
+        ],
+        [
+          "agent-d",
+          "agent-a"
+        ],
+        [
+          "agent-d",
+          "agent-b"
+        ]
+      ],
+      "event": "decision",
+      "isolated": [
+        "agent-c"
+      ],
+      "prev": "sha256:4fd72b86d7bd13f6013f15f96fd47d7cd33420f09f4cd83aa71d3a93011a2232",
+      "removed": [
+        [
+          "agent-a",
+          "agent-c"
+        ],
+        [
+          "agent-b",
+          "agent-c"
+        ],
+        [
+          "agent-c",
+          "agent-a"
+        ],
+        [
+          "agent-c",
+          "agent-b"
+        ],
+        [
+          "agent-c",
+          "agent-d"
+        ],
+        [
+          "agent-d",
+          "agent-c"
+        ]
+      ],
+      "responseFunction": "isolation",
+      "seq": 1
+    },
+    {
+      "agent": "agent-c",
+      "at": "2026-11-03T09:00:20Z",
+      "configAfter": "sha256:062247505eed32e98b7ca867e5c318b49ea895b2a4402e3d813ac69fa3936834",
+      "configBefore": "sha256:8fe7148f543ad9d412a7bdda9b9b0788bbac4aa2a88a186cef72b56ce7038b8b",
+      "event": "restart",
+      "memoryCleared": true,
+      "prev": "sha256:d1c89b79761c77cc4b1592b4b9bba788c58c784e259065ef16ce03e2d161cab2",
+      "remediated": true,
+      "seq": 2
+    },
+    {
+      "agent": "agent-c",
+      "at": "2026-11-03T09:00:30Z",
+      "availability": "scored",
+      "event": "assessment",
+      "prev": "sha256:a19c0940134338970ffc76be633568fcc4a1d5a5e634b78d68db4d810b9413ba",
+      "score": 7,
+      "seq": 3,
+      "witness": "EXTERNAL"
+    },
+    {
+      "admitted": true,
+      "agent": "agent-c",
+      "at": "2026-11-03T09:00:40Z",
+      "event": "restoration",
+      "evidence": [
+        "sha256:a19c0940134338970ffc76be633568fcc4a1d5a5e634b78d68db4d810b9413ba",
+        "sha256:269eb5615461bf22893e6f27143dd863b20ac8c7acea4958d164d46e016b92f3"
+      ],
+      "prev": "sha256:269eb5615461bf22893e6f27143dd863b20ac8c7acea4958d164d46e016b92f3",
+      "ruleDigest": "sha256:a7d5420585a2f5011ba9b939962c3ba30c0862242f43f058c9831d72862b83ed",
+      "seq": 4,
+      "threshold": 5
+    }
+  ],
+  "messageFields": [
+    "body",
+    "receiver",
+    "sender"
+  ],
+  "runId": "run-restore"
+}

@@ -1,0 +1,1248 @@
+{
+  "aggregate": {
+    "counts": {
+      "allow": 7,
+      "deny": 42
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 49
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-containment-journal/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in corpora/vectors-containment-journal/gen_vectors.py",
+    "routine-file": "corpora/vectors-containment-journal/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "9f7014a96e030bec94e25635ff99e92f3b37a579277fe82cb0f488476cb7aa31",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "9610e109ecba4359694bb8e8b048effb3b45a76f5d95b46ace4dfde4ae50476c"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "9610e109ecba4359694bb8e8b048effb3b45a76f5d95b46ace4dfde4ae50476c"
+        },
+        "swapped-in": "88bf8f1c3d0e02b5234fc5dccf9ef3476fb40e81ec05ef3310291dc6523a3ea9",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-containment-journal/README.md",
+      "serialization": "bytes",
+      "sha256": "8edbf698d8ce0567350985c95c9958f9bf78e2b4fc640d42c66d0a1e68b2d17b"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "9610e109ecba4359694bb8e8b048effb3b45a76f5d95b46ace4dfde4ae50476c"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "9610e109ecba4359694bb8e8b048effb3b45a76f5d95b46ace4dfde4ae50476c"
+        },
+        "swapped-in": "f4a56290b215b8459f90cd09a684d5d00344192110e53f4501ddd61290792213",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-containment-journal/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "b8832735ac22ebc5f6da323b5e268fb2342972dc434885d94a094f9e2dd91398"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "9610e109ecba4359694bb8e8b048effb3b45a76f5d95b46ace4dfde4ae50476c"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "9610e109ecba4359694bb8e8b048effb3b45a76f5d95b46ace4dfde4ae50476c"
+        },
+        "swapped-in": "21cb077c47daeae7f8b38293b83a19175d7f63ea1f402ac95d16ae8e052b1664",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-containment-journal/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "d89224c58484cfe025fc945f3645670c56e5433a107d2713a24d3b8fa60e5d14"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "9610e109ecba4359694bb8e8b048effb3b45a76f5d95b46ace4dfde4ae50476c"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "9610e109ecba4359694bb8e8b048effb3b45a76f5d95b46ace4dfde4ae50476c"
+        },
+        "swapped-in": "9d588bd5f509578d68b8491c352c28f814ed023227552c27f829be820caecb6d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-containment-journal/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "1e8f2cf4af602ef053d8aac93e610b48b3f463469b9cc94149087cd5cdae41b5"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "corpora/vectors-containment-journal"
+  },
+  "byte-identity": {
+    "pins": 56,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json corpora/vectors-containment-journal",
+      "aee-verify -json corpora/vectors-containment-journal",
+      "aee-verify corpora/vectors-containment-journal"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpusreaders",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "8e53a5884e8dfd180aa41c75acdc66bab687091f946507f161abbf1073d82493"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpusreaders",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "allow-enforced-drop-over-removed-edge",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-advisory-run-no-closure-claim",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-restoration-gated-on-external-score",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-fallback-declared-fail-open",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-continue-with-authority",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-act-within-bound",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-blast-radius-receipt-recomputes",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-contract-id-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-contract-id-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-record-not-canonical",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-record-malformed",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-closed-vocabulary-violation",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-chain-seq-gap",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-chain-broken",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-chain-time-reversed",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-topology-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-edge-flag-mismatch",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-drop-over-present-edge",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-delivered-over-absent-edge",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-edge-delta-mismatch",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-isolated-set-mismatch",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-topology-expansion-not-restriction",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-detector-inputs-absent",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-decision-not-supported-by-estimates",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-detector-output-uninformative",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-reenable-without-restoration",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-posture-contradicted",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-defended-claim-after-fail-open",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-remediation-not-evidenced",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-restart-memory-not-cleared",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-missing-score-coerced",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-score-missing-unflagged",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-restoration-without-evidence",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-restoration-evidence-unresolved",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-restoration-without-restart",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-restoration-without-assessment",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-restoration-evidence-not-scored",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-restoration-evidence-self-witnessed",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-restoration-evidence-above-threshold",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-decision-without-authority",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-response-time-inverted",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-response-bound-exceeded",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-advisory-claimed-as-enforced",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-receipt-contract-id-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-receipt-contract-id-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-receipt-malformed",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-receipt-journal-mismatch",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-blast-radius-understated",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-blast-radius-overstated",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "b199df12f24e243d1226d7c06d86032eb65faf866fdd63545887cd97704e41e9"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "allow-enforced-drop-over-removed-edge",
+      "allow-advisory-run-no-closure-claim",
+      "allow-restoration-gated-on-external-score",
+      "allow-fallback-declared-fail-open",
+      "allow-continue-with-authority",
+      "allow-act-within-bound",
+      "allow-blast-radius-receipt-recomputes",
+      "reject-contract-id-missing",
+      "reject-contract-id-unknown",
+      "reject-record-not-canonical",
+      "reject-record-malformed",
+      "reject-closed-vocabulary-violation",
+      "reject-chain-seq-gap",
+      "reject-chain-broken",
+      "reject-chain-time-reversed",
+      "reject-topology-missing",
+      "reject-edge-flag-mismatch",
+      "reject-drop-over-present-edge",
+      "reject-delivered-over-absent-edge",
+      "reject-edge-delta-mismatch",
+      "reject-isolated-set-mismatch",
+      "reject-topology-expansion-not-restriction",
+      "reject-detector-inputs-absent",
+      "reject-decision-not-supported-by-estimates",
+      "reject-detector-output-uninformative",
+      "reject-reenable-without-restoration",
+      "reject-posture-contradicted",
+      "reject-defended-claim-after-fail-open",
+      "reject-remediation-not-evidenced",
+      "reject-restart-memory-not-cleared",
+      "reject-missing-score-coerced",
+      "reject-score-missing-unflagged",
+      "reject-restoration-without-evidence",
+      "reject-restoration-evidence-unresolved",
+      "reject-restoration-without-restart",
+      "reject-restoration-without-assessment",
+      "reject-restoration-evidence-not-scored",
+      "reject-restoration-evidence-self-witnessed",
+      "reject-restoration-evidence-above-threshold",
+      "reject-decision-without-authority",
+      "reject-response-time-inverted",
+      "reject-response-bound-exceeded",
+      "reject-advisory-claimed-as-enforced",
+      "reject-receipt-contract-id-missing",
+      "reject-receipt-contract-id-unknown",
+      "reject-receipt-malformed",
+      "reject-receipt-journal-mismatch",
+      "reject-blast-radius-understated",
+      "reject-blast-radius-overstated"
+    ],
+    "path": "corpora/vectors-containment-journal/MANIFEST.json",
+    "sha256": "eeb25e9f92bdcdd83b78235cd4779963e5d907c8a4412c167ec408647b6cfd3f"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/allow-enforced-drop-over-removed-edge/record.json",
+          "sha256": "ed4d296ccfafdb03572f71a8e928725a27f698e92adbd43d964e1eb1939d33ea"
+        }
+      ],
+      "id": "allow-enforced-drop-over-removed-edge"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/allow-advisory-run-no-closure-claim/record.json",
+          "sha256": "bd537b658d2ca011a89ef0f191a96e808eb0b7024aa4d636005e500386859908"
+        }
+      ],
+      "id": "allow-advisory-run-no-closure-claim"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/allow-restoration-gated-on-external-score/record.json",
+          "sha256": "1d6e98f46b298bd1c3a7ee96c6bbad7c4988a66c7ebfd582c6e5b292c153a22a"
+        }
+      ],
+      "id": "allow-restoration-gated-on-external-score"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/allow-fallback-declared-fail-open/record.json",
+          "sha256": "beb24f37074aca583f4a3be1379d297a83cdf94b200027c4bef947e59ec318b9"
+        }
+      ],
+      "id": "allow-fallback-declared-fail-open"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/allow-continue-with-authority/record.json",
+          "sha256": "cbede04cdb3d2de013a4a499839c8ae9df3cb85cda450998c6764c5fa10e6bfe"
+        }
+      ],
+      "id": "allow-continue-with-authority"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/allow-act-within-bound/record.json",
+          "sha256": "deac881fe0cc60a4d970ffa96937b0c2e7ddb059e5abfec4651464ae309f4426"
+        }
+      ],
+      "id": "allow-act-within-bound"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/allow-blast-radius-receipt-recomputes/receipt.json",
+          "sha256": "365a140232249cf5d8677bcde21a352c6d632c48b623cb46a6c65f39865e96e6"
+        },
+        {
+          "path": "corpora/vectors-containment-journal/cases/allow-blast-radius-receipt-recomputes/record.json",
+          "sha256": "c0de70b10db03286ce056fc210e14a71d98ab309a9b682813f57edbce28f099e"
+        }
+      ],
+      "id": "allow-blast-radius-receipt-recomputes"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-contract-id-missing/record.json",
+          "sha256": "5667457b90a618bc46f9df9d5640b2f2784cc20049be4fc473dd7798d26a4cfe"
+        }
+      ],
+      "id": "reject-contract-id-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-contract-id-unknown/record.json",
+          "sha256": "3d279cbfbf2ed12af275695db0d31ddb76ced5e363eb426b4232e673a0874352"
+        }
+      ],
+      "id": "reject-contract-id-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-record-not-canonical/record.json",
+          "sha256": "27cbb00faeaf1bf4bf1f5304bd303f1809d5913b1055a10786711896d4e1d50f"
+        }
+      ],
+      "id": "reject-record-not-canonical"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-record-malformed/record.json",
+          "sha256": "522d711357d84d1dffefee3b2cd3f7044567561c2d8a6c14bfc5ad835ab4911e"
+        }
+      ],
+      "id": "reject-record-malformed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-closed-vocabulary-violation/record.json",
+          "sha256": "ae926a41bb36cdb83b2587a1a89b83508e140d4094cac4791fb51030557cbfb4"
+        }
+      ],
+      "id": "reject-closed-vocabulary-violation"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-chain-seq-gap/record.json",
+          "sha256": "f63abe71b2da9ecd8e4606c74a5aaf6123ef437be4528da0d0620fb7b0faaf4a"
+        }
+      ],
+      "id": "reject-chain-seq-gap"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-chain-broken/record.json",
+          "sha256": "99f6bd23ac5d409d7faa9af2938bade934c4dbe536ddfc42ce0b04431d2217f7"
+        }
+      ],
+      "id": "reject-chain-broken"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-chain-time-reversed/record.json",
+          "sha256": "ede8141444c76ace19a6f0b47ee01ca3e7aaefdeb45d61a97a4eafb57cb8f7fc"
+        }
+      ],
+      "id": "reject-chain-time-reversed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-topology-missing/record.json",
+          "sha256": "ae4b947e3d578884ac2313738e30064ce30508b744e84220ca787062ae65627e"
+        }
+      ],
+      "id": "reject-topology-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-edge-flag-mismatch/record.json",
+          "sha256": "04e6cb0bbada4fe5a40c7b404fb109ff3f9adbff80115247286184a266ce3b53"
+        }
+      ],
+      "id": "reject-edge-flag-mismatch"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-drop-over-present-edge/record.json",
+          "sha256": "faf66d9590b780fd2dbda759b6e29f8c967bcf0940cbe2fedac5971787561bbf"
+        }
+      ],
+      "id": "reject-drop-over-present-edge"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-delivered-over-absent-edge/record.json",
+          "sha256": "1aeb8959ba60ec7b2226c4803f7ceca89e37c71063d5f79e51ad9d030bf6701d"
+        }
+      ],
+      "id": "reject-delivered-over-absent-edge"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-edge-delta-mismatch/record.json",
+          "sha256": "eeb265356bc0fdf7865a1c4166675cf35c7186fccf5d4ae3bbcb1ab7c732528d"
+        }
+      ],
+      "id": "reject-edge-delta-mismatch"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-isolated-set-mismatch/record.json",
+          "sha256": "83b0e15f9fa5f5426909e41881c4c7cbeb73e4a124f56d599443ad9293f8fd30"
+        }
+      ],
+      "id": "reject-isolated-set-mismatch"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-topology-expansion-not-restriction/record.json",
+          "sha256": "199d35bb02883fcb11ce6b24e85fc62495d0d2ad43913f4f4a6d99f99d527814"
+        }
+      ],
+      "id": "reject-topology-expansion-not-restriction"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-detector-inputs-absent/record.json",
+          "sha256": "97b00bda316cab7e6f3a5dc8085b444ab9b0a8cfc5451fb12189e8cdbcdd1db3"
+        }
+      ],
+      "id": "reject-detector-inputs-absent"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-decision-not-supported-by-estimates/record.json",
+          "sha256": "91c66cf3034311637c7f978f10183ef743050e4ce216190884116aa9a115a85f"
+        }
+      ],
+      "id": "reject-decision-not-supported-by-estimates"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-detector-output-uninformative/record.json",
+          "sha256": "f655457b4f164446dfd01b28956e0dcaf1370016174f299493fb6397dd59a766"
+        }
+      ],
+      "id": "reject-detector-output-uninformative"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-reenable-without-restoration/record.json",
+          "sha256": "ceae1b6c38ea2dec0e13cc4dfd76ce892c91b418592c43d5b602ac831adc8935"
+        }
+      ],
+      "id": "reject-reenable-without-restoration"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-posture-contradicted/record.json",
+          "sha256": "146aace8d73b2d577e653192abe220784622e9cd1714f6aa6bc280f89a7185bf"
+        }
+      ],
+      "id": "reject-posture-contradicted"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-defended-claim-after-fail-open/record.json",
+          "sha256": "410e400f750913655458a3265ead5ef61c7f7e3a1c7c3b4eb2fbc0fcc04ce731"
+        }
+      ],
+      "id": "reject-defended-claim-after-fail-open"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-remediation-not-evidenced/record.json",
+          "sha256": "699b04c9bb37c80d3635ef051f1f69fd3c44fb5f4e9d2fa559bf951e118d52c3"
+        }
+      ],
+      "id": "reject-remediation-not-evidenced"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-restart-memory-not-cleared/record.json",
+          "sha256": "9fc857e1fc8c906d7f762b01c2b9086f661357a4c16242ce7a717dab0589f678"
+        }
+      ],
+      "id": "reject-restart-memory-not-cleared"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-missing-score-coerced/record.json",
+          "sha256": "0965f7fce56addc8f0eb9989739039fa62f672be7fc7a68f9f55746731252f00"
+        }
+      ],
+      "id": "reject-missing-score-coerced"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-score-missing-unflagged/record.json",
+          "sha256": "4d7f5d9e44a07bdd8df6a61e5b9336b70bbf41b75a611294f9b1f1b5c780cd5a"
+        }
+      ],
+      "id": "reject-score-missing-unflagged"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-restoration-without-evidence/record.json",
+          "sha256": "f799b4ed5709e0cee1d696d6bd7702b194dc26ae43f1d25bd7aebfd9dfc160e7"
+        }
+      ],
+      "id": "reject-restoration-without-evidence"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-restoration-evidence-unresolved/record.json",
+          "sha256": "30d329d2c1f90ec51eecc8fbbeaed070efdbd389cdcff7b92c100b8e026f382d"
+        }
+      ],
+      "id": "reject-restoration-evidence-unresolved"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-restoration-without-restart/record.json",
+          "sha256": "e5efe110b55f0901c7b0c617652a50bb536fff81eba3f9eacc575c41e88d0a86"
+        }
+      ],
+      "id": "reject-restoration-without-restart"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-restoration-without-assessment/record.json",
+          "sha256": "88872288a335995713dc9b97aae4da3c8b07ed6a8228f35364d783d1096bbe85"
+        }
+      ],
+      "id": "reject-restoration-without-assessment"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-restoration-evidence-not-scored/record.json",
+          "sha256": "cfca1336464d9ba20d7514648ab941dad28014b40036ef08bab5bd42805dca0c"
+        }
+      ],
+      "id": "reject-restoration-evidence-not-scored"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-restoration-evidence-self-witnessed/record.json",
+          "sha256": "316bce3da483477e10a2a45658a8df40ecb3a88882d50c6bd20b4a8d1bea4966"
+        }
+      ],
+      "id": "reject-restoration-evidence-self-witnessed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-restoration-evidence-above-threshold/record.json",
+          "sha256": "8cfc34de4cdd6ee8414bcea354fda56b03737f41a424e9e3ba8560849b517153"
+        }
+      ],
+      "id": "reject-restoration-evidence-above-threshold"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-decision-without-authority/record.json",
+          "sha256": "4b96d2cba3176f914b0f2163f976174840d14d031f8017d103b76e6efb51d144"
+        }
+      ],
+      "id": "reject-decision-without-authority"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-response-time-inverted/record.json",
+          "sha256": "b1c5ece2b0938dddaca60e7192ba5da8f7bc707b75ca60e0a2d5f6efb08dc684"
+        }
+      ],
+      "id": "reject-response-time-inverted"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-response-bound-exceeded/record.json",
+          "sha256": "d3cc253e3a37c83a1b1970ed5553ab063a0f338136b6da028056a8bdab8beef0"
+        }
+      ],
+      "id": "reject-response-bound-exceeded"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-advisory-claimed-as-enforced/record.json",
+          "sha256": "cc29ca470f23f713993b3e0c977839ca4f42cf8c3281f03d084a47399f541da2"
+        }
+      ],
+      "id": "reject-advisory-claimed-as-enforced"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-receipt-contract-id-missing/receipt.json",
+          "sha256": "d6ac2ce66ee0cd4402a7ca62e9c779d92e217dc6c14b414811059424f053b2c9"
+        },
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-receipt-contract-id-missing/record.json",
+          "sha256": "c0de70b10db03286ce056fc210e14a71d98ab309a9b682813f57edbce28f099e"
+        }
+      ],
+      "id": "reject-receipt-contract-id-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-receipt-contract-id-unknown/receipt.json",
+          "sha256": "f134a7192d7626ad77d4c19453b4e95a72d8cbd5e2207cfdbb16f962555dad93"
+        },
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-receipt-contract-id-unknown/record.json",
+          "sha256": "c0de70b10db03286ce056fc210e14a71d98ab309a9b682813f57edbce28f099e"
+        }
+      ],
+      "id": "reject-receipt-contract-id-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-receipt-malformed/receipt.json",
+          "sha256": "5aa216cdc6e3cda2a3dd36d6457fd8c50454bedf723afcb0e8faa4a63ff59cd6"
+        },
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-receipt-malformed/record.json",
+          "sha256": "c0de70b10db03286ce056fc210e14a71d98ab309a9b682813f57edbce28f099e"
+        }
+      ],
+      "id": "reject-receipt-malformed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-receipt-journal-mismatch/receipt.json",
+          "sha256": "f6187760e13aaaaa507b2e678dac6a7b28b67223698f44459e4dcfca1cccbd60"
+        },
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-receipt-journal-mismatch/record.json",
+          "sha256": "c0de70b10db03286ce056fc210e14a71d98ab309a9b682813f57edbce28f099e"
+        }
+      ],
+      "id": "reject-receipt-journal-mismatch"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-blast-radius-understated/receipt.json",
+          "sha256": "698dbd647dbf4ffe503c1e2b0ecffa7b58e056c255e7d86d575104165aa64c45"
+        },
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-blast-radius-understated/record.json",
+          "sha256": "c0de70b10db03286ce056fc210e14a71d98ab309a9b682813f57edbce28f099e"
+        }
+      ],
+      "id": "reject-blast-radius-understated"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-blast-radius-overstated/receipt.json",
+          "sha256": "818ffa63e214a0d1daf2f194a92671ffe688034d03eb88853a750e126924e96c"
+        },
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-blast-radius-overstated/record.json",
+          "sha256": "c0de70b10db03286ce056fc210e14a71d98ab309a9b682813f57edbce28f099e"
+        }
+      ],
+      "id": "reject-blast-radius-overstated"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-containment-journal.json",
+        "serialization": "bytes",
+        "sha256": "9610e109ecba4359694bb8e8b048effb3b45a76f5d95b46ace4dfde4ae50476c"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-containment-journal.txt",
+        "serialization": "bytes",
+        "sha256": "10399695b7bf50e804d037330b4ac8a6b1c83e51b37c33261b42a2b1321bc388"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "9610e109ecba4359694bb8e8b048effb3b45a76f5d95b46ace4dfde4ae50476c"
+      },
+      {
+        "process": "run-2",
+        "sha256": "9610e109ecba4359694bb8e8b048effb3b45a76f5d95b46ace4dfde4ae50476c"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 49 pinned members of containment-journal/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 49,
+    "require": "at-least-one",
+    "selected": [
+      "allow-enforced-drop-over-removed-edge",
+      "allow-advisory-run-no-closure-claim",
+      "allow-restoration-gated-on-external-score",
+      "allow-fallback-declared-fail-open",
+      "allow-continue-with-authority",
+      "allow-act-within-bound",
+      "allow-blast-radius-receipt-recomputes",
+      "reject-contract-id-missing",
+      "reject-contract-id-unknown",
+      "reject-record-not-canonical",
+      "reject-record-malformed",
+      "reject-closed-vocabulary-violation",
+      "reject-chain-seq-gap",
+      "reject-chain-broken",
+      "reject-chain-time-reversed",
+      "reject-topology-missing",
+      "reject-edge-flag-mismatch",
+      "reject-drop-over-present-edge",
+      "reject-delivered-over-absent-edge",
+      "reject-edge-delta-mismatch",
+      "reject-isolated-set-mismatch",
+      "reject-topology-expansion-not-restriction",
+      "reject-detector-inputs-absent",
+      "reject-decision-not-supported-by-estimates",
+      "reject-detector-output-uninformative",
+      "reject-reenable-without-restoration",
+      "reject-posture-contradicted",
+      "reject-defended-claim-after-fail-open",
+      "reject-remediation-not-evidenced",
+      "reject-restart-memory-not-cleared",
+      "reject-missing-score-coerced",
+      "reject-score-missing-unflagged",
+      "reject-restoration-without-evidence",
+      "reject-restoration-evidence-unresolved",
+      "reject-restoration-without-restart",
+      "reject-restoration-without-assessment",
+      "reject-restoration-evidence-not-scored",
+      "reject-restoration-evidence-self-witnessed",
+      "reject-restoration-evidence-above-threshold",
+      "reject-decision-without-authority",
+      "reject-response-time-inverted",
+      "reject-response-bound-exceeded",
+      "reject-advisory-claimed-as-enforced",
+      "reject-receipt-contract-id-missing",
+      "reject-receipt-contract-id-unknown",
+      "reject-receipt-malformed",
+      "reject-receipt-journal-mismatch",
+      "reject-blast-radius-understated",
+      "reject-blast-radius-overstated"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "containment-journal/v1"
+}

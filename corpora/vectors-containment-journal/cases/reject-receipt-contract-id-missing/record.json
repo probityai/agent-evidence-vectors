@@ -1,0 +1,124 @@
+{
+  "agents": [
+    "agent-a",
+    "agent-b",
+    "agent-c",
+    "agent-d"
+  ],
+  "claims": {},
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/containment-journal",
+  "enforcement": "enforced",
+  "entries": [
+    {
+      "at": "2026-11-03T09:00:00Z",
+      "edges": [
+        [
+          "agent-a",
+          "agent-b"
+        ],
+        [
+          "agent-a",
+          "agent-c"
+        ],
+        [
+          "agent-a",
+          "agent-d"
+        ],
+        [
+          "agent-b",
+          "agent-a"
+        ],
+        [
+          "agent-b",
+          "agent-c"
+        ],
+        [
+          "agent-b",
+          "agent-d"
+        ],
+        [
+          "agent-c",
+          "agent-a"
+        ],
+        [
+          "agent-c",
+          "agent-b"
+        ],
+        [
+          "agent-c",
+          "agent-d"
+        ],
+        [
+          "agent-d",
+          "agent-a"
+        ],
+        [
+          "agent-d",
+          "agent-b"
+        ],
+        [
+          "agent-d",
+          "agent-c"
+        ]
+      ],
+      "event": "topology",
+      "prev": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "seq": 0
+    },
+    {
+      "at": "2026-11-03T09:00:10Z",
+      "bodyDigest": "sha256:6ba6910cbbe4c6fdd6feb05cbb8ecccc5ff47738a3c0f4fe84df27196cf4aadd",
+      "dropped": false,
+      "edgeInForce": true,
+      "event": "delivery",
+      "prev": "sha256:4fd72b86d7bd13f6013f15f96fd47d7cd33420f09f4cd83aa71d3a93011a2232",
+      "receiver": "agent-a",
+      "sender": "agent-c",
+      "seq": 1
+    },
+    {
+      "at": "2026-11-03T09:00:20Z",
+      "bodyDigest": "sha256:7765f1a0a955995d2db47db768a771c7bd5c96a4232e71078206a001a87cd901",
+      "dropped": false,
+      "edgeInForce": true,
+      "event": "delivery",
+      "prev": "sha256:6bca40bce94914ae63cb19826129caa72b56593165608bb59ba07f14c10895d7",
+      "receiver": "agent-b",
+      "sender": "agent-a",
+      "seq": 2
+    },
+    {
+      "agent": "agent-b",
+      "at": "2026-11-03T09:00:30Z",
+      "event": "tool_call",
+      "prev": "sha256:f369b5d537887b2b5cb10b3cd77ff6da47312cb57db2c995627fe27ccee79815",
+      "seq": 3,
+      "tool": "search"
+    },
+    {
+      "at": "2026-11-03T09:00:40Z",
+      "bodyDigest": "sha256:6b9b20b92be7b58b52f1a9526fad83b910806378f3fab17de7b0a789e2fb2c26",
+      "dropped": false,
+      "edgeInForce": true,
+      "event": "delivery",
+      "prev": "sha256:f1014084d699ee85c0ba40de4f62cca5a63823d91f6a3fc4b08d4629228b2d45",
+      "receiver": "agent-c",
+      "sender": "agent-d",
+      "seq": 4
+    },
+    {
+      "agent": "agent-d",
+      "at": "2026-11-03T09:00:50Z",
+      "event": "tool_call",
+      "prev": "sha256:03672188b6076c5ffcab97baba581de4d5c2b3e84e5fe1c6ae44bb8e3bf07566",
+      "seq": 5,
+      "tool": "fetch"
+    }
+  ],
+  "messageFields": [
+    "body",
+    "receiver",
+    "sender"
+  ],
+  "runId": "run-reach"
+}

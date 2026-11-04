@@ -1076,6 +1076,8 @@ jobs:
         run: uv run --extra dev pytest corpora/vectors-incident-evidence-cell/tests -q
       - name: propagation-step cases regenerate, force every check and refuse a common cause read as propagation
         run: uv run --extra dev pytest corpora/vectors-propagation-step/tests -q
+      - name: containment-journal cases regenerate, force every check and refuse a cut edge that still delivers
+        run: uv run --extra dev pytest corpora/vectors-containment-journal/tests -q
       - name: agent-card-receipt cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-agent-card-receipt/tests -q
       - name: credential-release cases regenerate and force every check

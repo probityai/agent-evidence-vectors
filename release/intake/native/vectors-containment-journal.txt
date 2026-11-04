@@ -1,0 +1,5 @@
+suite: containment-journal/v1
+members: 49
+  allow: 7
+  deny: 42
+verdict: every member behaves as MANIFEST.json declares

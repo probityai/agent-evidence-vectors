@@ -84,6 +84,32 @@ observed, and the verdict with its decision and effective-action counts. A clean
 stands only on complete collector coverage of the channel the effect used, and a claim
 that a defence reduced harm needs at least one effective action.
 
+### `predicate/v1/containment-journal`
+
+- Document: `corpora/vectors-containment-journal/README.md`
+- Corpus: `corpora/vectors-containment-journal/`, suite `containment-journal/v1`
+- Rails: `corpusreaders/containmentjournal.go`, `packaging/agent_evidence_vectors/containmentjournal.py`
+
+The predicate carries one multi-agent run as a hash-chained journal: the starting
+communication graph, each delivery between agents, each containment decision with the
+edges it removed and added, each fallback with its declared failure posture, and each
+restart, assessment, restoration and response, beside the defence's claims about the run.
+Every claim is recomputed from the entries: a cut edge that still delivers under an
+enforcing router, a return without an external score below its threshold, or a closure
+claimed over an advisory topology is refused.
+
+### `predicate/v1/blast-radius-receipt`
+
+- Document: `corpora/vectors-containment-journal/README.md`
+- Corpus: `corpora/vectors-containment-journal/`, suite `containment-journal/v1`
+- Rails: `corpusreaders/containmentjournal.go`, `packaging/agent_evidence_vectors/containmentjournal.py`
+
+The predicate carries the reach of one agent through a containment journal it names by
+run, head digest and entry count: the agents it reached from one entry on through
+deliveries the router did not drop, and the deliveries and tool calls that reach
+involved. It is judged only beside an allowed journal, and a reach that leaves an agent
+out or adds one is refused.
+
 ### `predicate/v1/propagation-step`
 
 - Document: `corpora/vectors-propagation-step/README.md`

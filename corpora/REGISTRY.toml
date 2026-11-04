@@ -397,6 +397,18 @@ standards = []
 shapes = ["scope-overreach", "malformed-input"]
 
 [[corpus]]
+id = "vectors-containment-journal"
+path = "corpora/vectors-containment-journal"
+wheel = true
+sdist = true
+title = "Containment journals"
+summary = "A verifier must recompute a multi-agent defence's containment claims from its hash-chained journal, refusing a cut edge that still delivers or a return without external evidence, and a blast-radius receipt that misstates reach."
+record_class = "record"
+domains = ["effects", "provenance", "authority"]
+standards = []
+shapes = ["broken-chain", "coverage-gap", "self-report"]
+
+[[corpus]]
 id = "vectors-converted-argument-binding"
 path = "corpora/vectors-converted-argument-binding"
 wheel = true
