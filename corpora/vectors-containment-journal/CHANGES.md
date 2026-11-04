@@ -6,7 +6,8 @@ a case added bumps the revision, and the generator rewrites the cases byte-ident
 ## suiteRevision 2 (predicate revision 1.1: retrievals, refusals, refused tool calls, grant chains)
 
 - Release note: the blast-radius reach rule is stated and forced clause by clause; a neutral
-  `refusal` event records a budget or purpose-scope refusal over an edge in force; and
+  `refusal` event records a refusal over an edge in force under one of four registered codes
+  (`budget_exhausted`, `purpose_out_of_scope`, `permit_revoked`, `authority_chain_violation`); and
   `tool_call_by_isolated_agent` refuses a tool call that ran for an isolated agent.
 - Blast-radius reach, exactly: the subject is tainted from the start; from `fromSeq` on, a
   delivery the router did not drop counts when its sender is tainted and taints the receiver,
@@ -17,7 +18,11 @@ a case added bumps the revision, and the generator rewrites the cases byte-ident
   `grantChainDigest`, and the claims `retrievalAttested` and `authorityChainChecked`.
 - New rules: `refusal_over_absent_edge`, `retrieval_admitted_outside_snapshot`,
   `tool_call_by_isolated_agent` and `tool_call_authority_unbound`.
-- Cases added: `allow-refusal-over-present-edge`, `reject-refusal-over-absent-edge`,
+- A minor release may add refusal codes; a reader denies only a code it does not know, and the
+  verdict is the same for every registered code. Refusals of writes belong to the next major
+  revision's write event.
+- Cases added: `allow-refusal-over-present-edge`, `allow-refusal-permit-revoked`,
+  `allow-refusal-authority-chain-violation`, `reject-refusal-over-absent-edge`,
   `allow-blast-radius-counts-delivery-to-tainted-receiver`,
   `allow-blast-radius-skips-dropped-delivery`, `allow-blast-radius-from-later-entry`,
   `allow-isolated-agents-tool-call-refused` (with a receipt),

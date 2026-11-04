@@ -1,8 +1,8 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/containment-journal",
-  "corpusDigest": "8261c628db814c3762a8e5e6ec03227cdab80340a80772dcf937f8e5a97ec96b",
+  "corpusDigest": "1e076286f8302bf63bf7e067920ba3dc5b8eed9484ba9c8f6f8aeecd47ffbe3c",
   "counts": {
-    "allow": 13,
+    "allow": 15,
     "deny": 46
   },
   "receiptContractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/blast-radius-receipt",
@@ -50,6 +50,46 @@
         "events": {
           "delivery": 1,
           "refusal": 2,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "control: the router refuses a message over an edge in force because the sender's permit is revoked, and the verdict is the one every registered code gives",
+      "expected": {
+        "decision": "allow",
+        "reason": "containment_consistent"
+      },
+      "files": {
+        "record.json": "4f743b56a17d96ac727b099214a654fb40c839bc1d76ab5272708281dd0a0623"
+      },
+      "id": "allow-refusal-permit-revoked",
+      "path": "cases/allow-refusal-permit-revoked",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "refusal": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "control: the router refuses a delivery whose grant chain crosses a data role, and the verdict is the one every registered code gives",
+      "expected": {
+        "decision": "allow",
+        "reason": "containment_consistent"
+      },
+      "files": {
+        "record.json": "857f51a9649c2c2f894784d7c1f9654899d9bf4315fffee74575ca3a9f372f05"
+      },
+      "id": "allow-refusal-authority-chain-violation",
+      "path": "cases/allow-refusal-authority-chain-violation",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "refusal": 1,
           "topology": 1
         }
       }

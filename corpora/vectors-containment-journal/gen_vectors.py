@@ -307,6 +307,16 @@ def _allowed() -> list[Case]:
          .refuse("agent-b", "agent-c", "purpose_out_of_scope").build("refusal"), None, "allow",
          ok, "control: the router refuses two messages over edges in force, one for its budget "
          "and one for its purpose scope, and records each as a refusal, not a drop"),
+        ("allow-refusal-permit-revoked",
+         Journal(channelsClosed=True).refuse("agent-a", "agent-b", "permit_revoked")
+         .build("permit-revoked"), None, "allow", ok,
+         "control: the router refuses a message over an edge in force because the sender's "
+         "permit is revoked, and the verdict is the one every registered code gives"),
+        ("allow-refusal-authority-chain-violation",
+         Journal(channelsClosed=True).refuse("agent-a", "agent-b", "authority_chain_violation")
+         .build("chain-violation"), None, "allow", ok,
+         "control: the router refuses a delivery whose grant chain crosses a data role, and "
+         "the verdict is the one every registered code gives"),
         *_reach_cases(),
         ("allow-retrieval-inside-snapshot", attested.build("attested",
                                                            snapshotRoot=SNAPSHOT_ROOT), None,

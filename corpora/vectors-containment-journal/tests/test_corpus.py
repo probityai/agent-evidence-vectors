@@ -303,6 +303,22 @@ def test_a_drop_over_a_present_edge_is_still_denied_beside_a_refusal(tmp_path: P
         "decision": "deny", "reason": "closed_vocabulary_violation"}
 
 
+@pytest.mark.parametrize("code", reader.CLOSED["reasonCode"])
+def test_every_registered_refusal_code_gives_the_same_verdict(tmp_path: Path, code: str) -> None:
+    def set_code(record: dict[str, Any]) -> None:
+        for entry in record["entries"]:
+            if entry["event"] == "refusal":
+                entry["reasonCode"] = code
+
+    assert _edited_verdict(tmp_path, "allow-refusal-over-present-edge", set_code) == {
+        "decision": "allow", "reason": "containment_consistent"}
+
+
+def test_the_registered_refusal_codes_are_the_four_the_spec_lists() -> None:
+    assert reader.CLOSED["reasonCode"] == (
+        "budget_exhausted", "purpose_out_of_scope", "permit_revoked", "authority_chain_violation")
+
+
 def test_the_inclusion_path_reaches_the_root_for_every_snapshot_document() -> None:
     for document in generator.DOCUMENTS:
         assert reader.merkle_root(document, generator.inclusion(document)) == \
