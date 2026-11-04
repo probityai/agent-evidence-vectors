@@ -4,7 +4,7 @@ Outline for a working-group paper, proposed to the OpenSSF Global Cyber Policy w
 
 **Audience.** Procurement and compliance staff, open source program offices, stewards and maintainers who receive SBOMs, provenance, attestations and review records and have to decide whether to rely on them.
 
-**Method.** Every check in the paper is stated in terms of the public standards (in-toto attestations, SLSA provenance, DSSE, Sigstore) and can be run against the shared test records in [agent-evidence-vectors](https://github.com/probityai/agent-evidence-vectors), which ship with expected verdicts and negative cases. The pinned install line is `pip install agent-evidence-vectors==0.34.1`.
+**Method.** Every check in the paper is stated in terms of the public standards (in-toto attestations, SLSA provenance, DSSE, Sigstore) and can be run against the shared test records in [agent-evidence-vectors](https://github.com/probityai/agent-evidence-vectors), which ship with expected verdicts and negative cases. The pinned install line is `pip install agent-evidence-vectors==0.34.2`.
 
 ## Sections
 
