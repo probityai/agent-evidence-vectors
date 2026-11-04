@@ -1,9 +1,9 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/containment-journal",
-  "corpusDigest": "1e8776fe4cdbe75b9b9b73f37185d029e522b9ee882e7fe163a05d0e6119d9e9",
+  "corpusDigest": "8261c628db814c3762a8e5e6ec03227cdab80340a80772dcf937f8e5a97ec96b",
   "counts": {
-    "allow": 9,
-    "deny": 45
+    "allow": 13,
+    "deny": 46
   },
   "receiptContractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/blast-radius-receipt",
   "suite": "containment-journal/v1",
@@ -11,13 +11,13 @@
   "synthetic": true,
   "vectors": [
     {
-      "edit": "control: agent-c is isolated and its tool call is refused, agent-a's call names its grant chain, and the receipt counts no refused call",
+      "edit": "control: agent-c is isolated and its tool call is refused, agent-a's call names its grant chain, and the receipt counts agent-c's attempt",
       "expected": {
         "decision": "allow",
         "reason": "blast_radius_consistent"
       },
       "files": {
-        "receipt.json": "d56b7ff9ec64cc3f13e46e64e0d647bd9e953c1a07f6f23272d73c428e5a2006",
+        "receipt.json": "7d044da5dddbe7a2c015e9ef48dfc16606d4bd4898151862c44787852cba7073",
         "record.json": "ab57b544114ca6d044b8256a6e89f47f1f33fb61ba4c74ce928cb1d27b3690db"
       },
       "id": "allow-isolated-agents-tool-call-refused",
@@ -29,6 +29,92 @@
           "decision": 1,
           "delivery": 1,
           "tool_call": 2,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "control: the router refuses two messages over edges in force, one for its budget and one for its purpose scope, and records each as a refusal, not a drop",
+      "expected": {
+        "decision": "allow",
+        "reason": "containment_consistent"
+      },
+      "files": {
+        "record.json": "1cc93df08290f1505fff30adcbaf92fefa576b0b1a98bbc03c5b040bb7101c36"
+      },
+      "id": "allow-refusal-over-present-edge",
+      "path": "cases/allow-refusal-over-present-edge",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 4,
+        "events": {
+          "delivery": 1,
+          "refusal": 2,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "control: agent-a's reply to agent-c counts though agent-c is already tainted",
+      "expected": {
+        "decision": "allow",
+        "reason": "blast_radius_consistent"
+      },
+      "files": {
+        "receipt.json": "cadf5e819288538537305ffb7110fd7eaa162f5e237b9b36f8fed819266f7354",
+        "record.json": "229736563cd1a47ecd3d74099b8550b29a219411d913776bc01e11c5df7a6996"
+      },
+      "id": "allow-blast-radius-counts-delivery-to-tainted-receiver",
+      "path": "cases/allow-blast-radius-counts-delivery-to-tainted-receiver",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 3,
+        "events": {
+          "delivery": 2,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "control: the router dropped agent-c's message, so agent-a is not reached and its later delivery does not count",
+      "expected": {
+        "decision": "allow",
+        "reason": "blast_radius_consistent"
+      },
+      "files": {
+        "receipt.json": "e81aaac6a723728a58be0a7a5937f7fee065b41b4c77560fbadf76bc6e754d19",
+        "record.json": "a0e7f55c2aef795b8516b13d9c224a26db270c1f476c13a680028998fd430d45"
+      },
+      "id": "allow-blast-radius-skips-dropped-delivery",
+      "path": "cases/allow-blast-radius-skips-dropped-delivery",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 4,
+        "events": {
+          "decision": 1,
+          "delivery": 2,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "control: from entry 2 on, agent-a was never reached, and the subject's own tool call counts",
+      "expected": {
+        "decision": "allow",
+        "reason": "blast_radius_consistent"
+      },
+      "files": {
+        "receipt.json": "fb89e67ef727abfb101976f88f31333968b9dd69273a2ccf4f30aa0d9fd5fca1",
+        "record.json": "3466eb339fd9e2812bd923b9c165bf053176f7449fac8d6350a507274538da84"
+      },
+      "id": "allow-blast-radius-from-later-entry",
+      "path": "cases/allow-blast-radius-from-later-entry",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 4,
+        "events": {
+          "delivery": 2,
+          "tool_call": 1,
           "topology": 1
         }
       }
@@ -954,6 +1040,27 @@
         "entries": 2,
         "events": {
           "decision": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the router records a budget refusal over an edge the decision already removed",
+      "expected": {
+        "decision": "deny",
+        "reason": "refusal_over_absent_edge"
+      },
+      "files": {
+        "record.json": "b5ec04993b190a770e71ad1b3ea6286ed65a50db4a48e18a732c1c12c7c96616"
+      },
+      "id": "reject-refusal-over-absent-edge",
+      "path": "cases/reject-refusal-over-absent-edge",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 3,
+        "events": {
+          "decision": 1,
+          "refusal": 1,
           "topology": 1
         }
       }

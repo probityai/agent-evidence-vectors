@@ -125,6 +125,11 @@ class Journal:
     def tool(self, agent: str, tool: str, **extra: Any) -> Journal:
         return self.add({"event": "tool_call", "agent": agent, "tool": tool, **extra})
 
+    def refuse(self, sender: str, receiver: str, code: str = "budget_exhausted") -> Journal:
+        return self.add({"event": "refusal", "sender": sender, "receiver": receiver,
+                         "bodyDigest": label(f"message {len(self.entries)} {sender} {receiver}"),
+                         "reasonCode": code})
+
     def retrieve(self, agent: str, document: str, admitted: bool = True) -> Journal:
         return self.add({"event": "retrieval", "agent": agent, "documentDigest": document,
                          "admitted": admitted, "proof": inclusion(document)})
@@ -262,6 +267,28 @@ def reach_run() -> Record:
 Case = tuple[str, Record, Record | None, str, str, str]
 
 
+def _reach_cases() -> list[Case]:
+    """One control per clause of the reach rule, each with the receipt that recomputes."""
+    again = Journal().deliver("agent-c", "agent-a").deliver("agent-a", "agent-c")
+    again = again.build("again")
+    dropped = isolate_c(Journal()).deliver("agent-c", "agent-a").deliver("agent-a", "agent-b")
+    dropped = dropped.build("dropped")
+    later = Journal().deliver("agent-c", "agent-a").deliver("agent-a", "agent-b")
+    later = later.tool("agent-c", "search").build("later")
+    ok = reader.RECEIPT_REASON
+    return [
+        ("allow-blast-radius-counts-delivery-to-tainted-receiver", again, receipt(again),
+         "allow", ok, "control: agent-a's reply to agent-c counts though agent-c is already "
+         "tainted"),
+        ("allow-blast-radius-skips-dropped-delivery", dropped, receipt(dropped), "allow", ok,
+         "control: the router dropped agent-c's message, so agent-a is not reached and its "
+         "later delivery does not count"),
+        ("allow-blast-radius-from-later-entry", later, receipt(later, from_seq=2), "allow", ok,
+         "control: from entry 2 on, agent-a was never reached, and the subject's own tool call "
+         "counts"),
+    ]
+
+
 def _allowed() -> list[Case]:
     ok = reader.ALLOWED_REASON
     drop = isolate_c(Journal(channelsClosed=True)).deliver("agent-c", "agent-a")
@@ -275,7 +302,13 @@ def _allowed() -> list[Case]:
     return [
         ("allow-isolated-agents-tool-call-refused", refused, receipt(refused), "allow",
          reader.RECEIPT_REASON, "control: agent-c is isolated and its tool call is refused, "
-         "agent-a's call names its grant chain, and the receipt counts no refused call"),
+         "agent-a's call names its grant chain, and the receipt counts agent-c's attempt"),
+        ("allow-refusal-over-present-edge",
+         Journal(channelsClosed=True).refuse("agent-a", "agent-b").deliver("agent-b", "agent-a")
+         .refuse("agent-b", "agent-c", "purpose_out_of_scope").build("refusal"), None, "allow",
+         ok, "control: the router refuses two messages over edges in force, one for its budget "
+         "and one for its purpose scope, and records each as a refusal, not a drop"),
+        *_reach_cases(),
         ("allow-retrieval-inside-snapshot", attested.build("attested",
                                                            snapshotRoot=SNAPSHOT_ROOT), None,
          "allow", ok, "control: the admitted document's inclusion path leads to the snapshot "
@@ -496,7 +529,11 @@ def _response_cases() -> list[Case]:
 
 def _v11_cases() -> list[Case]:
     outside = Journal(retrievalAttested=True).retrieve("agent-a", OUTSIDE)
+    absent = isolate_c(Journal()).refuse("agent-c", "agent-a")
     return [
+        ("reject-refusal-over-absent-edge", absent.build("refusal-absent"), None, "deny",
+         "refusal_over_absent_edge", "the router records a budget refusal over an edge the "
+         "decision already removed"),
         ("reject-retrieval-admitted-outside-snapshot",
          outside.build("outside", snapshotRoot=SNAPSHOT_ROOT), None, "deny",
          "retrieval_admitted_outside_snapshot", "a document outside the snapshot is admitted, "

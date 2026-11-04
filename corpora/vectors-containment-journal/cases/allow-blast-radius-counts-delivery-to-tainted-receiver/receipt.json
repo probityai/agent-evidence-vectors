@@ -1,0 +1,17 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/blast-radius-receipt",
+  "fromSeq": 0,
+  "journal": {
+    "entries": 3,
+    "head": "sha256:090f14316030319efe3d7efc44b71bd53343a75ddc9f6ee8fdd3d75723a9cc99",
+    "runId": "run-again"
+  },
+  "reached": {
+    "agents": [
+      "agent-a"
+    ],
+    "deliveries": 2,
+    "toolCalls": 0
+  },
+  "subject": "agent-c"
+}

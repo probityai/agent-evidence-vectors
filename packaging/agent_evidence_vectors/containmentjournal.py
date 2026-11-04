@@ -26,6 +26,9 @@ every such event is an entry of one hash-chained journal:
 - ``tool_call``: an agent called a tool, and, from revision 1.1, whether the
   call was refused (with its reason) and the digest of the grant chain it ran
   under;
+- ``refusal`` (revision 1.1): the router refused one message over an edge in
+  force for a budget or purpose-scope reason, named by a neutral code; it is
+  not a delivery, so it is not a drop over a present edge;
 - ``retrieval`` (revision 1.1): an agent asked for a document, whether it was
   admitted, and the Merkle inclusion path from the document's digest to the
   run's ``snapshotRoot``.
@@ -56,8 +59,7 @@ output for integer-only, ASCII-only values; that is why the rule exists.
 
 When ``receipt.json`` sits beside the journal, it is a blast-radius receipt:
 the agents a subject agent reached from one entry on, through deliveries the
-router did not drop, and the deliveries and the tool calls that reach involved
-(a refused call never ran, so it does not count). The
+router did not drop, and the deliveries and tool calls that reach involved. The
 receipt is checked only when the journal is allowed, and the reader recomputes
 the reach from the journal alone. A matching receipt is ``allow`` with reason
 ``blast_radius_consistent``.
@@ -99,7 +101,7 @@ CHECKS = (
     "contract_id_missing", "contract_id_unknown", "record_not_canonical", "record_malformed",
     "closed_vocabulary_violation", "chain_seq_gap", "chain_broken", "chain_time_reversed",
     "topology_missing", "edge_flag_mismatch", "drop_over_present_edge",
-    "delivered_over_absent_edge", "edge_delta_mismatch", "isolated_set_mismatch",
+    "delivered_over_absent_edge", "refusal_over_absent_edge", "edge_delta_mismatch", "isolated_set_mismatch",
     "topology_expansion_not_restriction", "detector_inputs_absent",
     "decision_not_supported_by_estimates", "reenable_without_restoration",
     "posture_contradicted", "remediation_not_evidenced", "restart_memory_not_cleared",
@@ -119,7 +121,7 @@ RECEIPT_CHECKS = (
 CLOSED = {
     "enforcement": ("advisory", "enforced"),
     "event": ("topology", "delivery", "decision", "fallback", "restart", "assessment",
-              "restoration", "response", "tool_call", "retrieval"),
+              "restoration", "response", "tool_call", "retrieval", "refusal"),
     "basis": ("detector_online_label", "detector_no_label", "random_rate_matched",
               "ground_truth_oracle", "fixed_schedule", "evidence_gate"),
     "responseFunction": ("restriction", "isolation", "restoration"),
@@ -128,6 +130,7 @@ CLOSED = {
     "witness": ("SELF", "EXTERNAL"),
     "decision": ("act", "continue", "escalate"),
     "side": ("left", "right"),
+    "reasonCode": ("budget_exhausted", "purpose_out_of_scope"),
 }
 # The members each event carries, past seq, prev, at and event.
 EVENT_MEMBERS = {
@@ -148,6 +151,8 @@ EVENT_MEMBERS = {
     "tool_call": {"agent": "agent", "tool": "text"},
     "retrieval": {"agent": "agent", "documentDigest": "digest", "admitted": "bool",
                   "proof": "proof"},
+    "refusal": {"sender": "agent", "receiver": "agent", "bodyDigest": "digest",
+                "reasonCode": "word"},
 }
 # Revision 1.1 members a tool call may carry; refusalReason exactly when refused is true.
 TOOL_CALL_OPTIONAL = {"refused": "bool", "refusalReason": "text", "grantChainDigest": "digest"}
@@ -337,7 +342,7 @@ def _closed_violation(record: Record) -> bool:
         return True
     for entry in record["entries"]:
         for member in ("event", "basis", "responseFunction", "failurePosture", "availability",
-                       "witness", "decision"):
+                       "witness", "decision", "reasonCode"):
             if member in entry and entry[member] not in CLOSED[member]:
                 return True
         if any(step[0] not in CLOSED["side"] for step in entry.get("proof", [])):
@@ -419,6 +424,10 @@ class _Walk:
             self.fail("drop_over_present_edge")
         if not entry["dropped"] and not in_force and self.record["enforcement"] == "enforced":
             self.fail("delivered_over_absent_edge")
+
+    def _refusal(self, _: int, entry: Record) -> None:
+        if (entry["sender"], entry["receiver"]) not in self.graph:
+            self.fail("refusal_over_absent_edge")
 
     def _decision(self, index: int, entry: Record) -> None:
         new = _edges(entry["edges"])
@@ -584,8 +593,7 @@ def reach(record: Record, subject: str, from_seq: int) -> dict[str, Any]:
         if entry["event"] == "delivery" and not entry["dropped"] and entry["sender"] in tainted:
             tainted.add(entry["receiver"])
             deliveries += 1
-        elif (entry["event"] == "tool_call" and entry["agent"] in tainted
-              and entry.get("refused") is not True):
+        elif entry["event"] == "tool_call" and entry["agent"] in tainted:
             tools += 1
     return {"agents": sorted(tainted - {subject}), "deliveries": deliveries, "toolCalls": tools}
 
