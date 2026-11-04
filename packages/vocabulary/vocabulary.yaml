@@ -152,8 +152,16 @@ meta:
     predicate defines yet. The crosswalks filed for the section map published guidance onto
     the terms; each is marked third_party_authored: true and declares
     evidence: asserted or no_mapping, so none promotes a term and none is
-    offered as promoting one. The version number moves in the release commit,
-    which rewrites this paragraph to name the version that carries the section.
+    offered as promoting one. Also unreleased: the multi_agent_run section,
+    whose terms name what a multi-agent defence did to its agents'
+    communication graph during one run. All are proposed and none lists an
+    issuer. Their source paths name members of the containment-journal
+    predicate in agent-evidence-vectors, except generation_outcome, which names
+    a member no published predicate carries yet. The section reuses
+    response_function, control_failure_posture, response_decision and
+    witness_scope and does not redefine them. The version number moves in the
+    release commit, which rewrites this paragraph to name the version that
+    carries both sections.
   opencre_links: >
     A term whose definition states a requirement that one of OpenCRE's Common
     Requirements organizes carries an opencre list. Each item names the CRE by

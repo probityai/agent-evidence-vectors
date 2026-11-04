@@ -1,6 +1,6 @@
 {
   "source": "vocabulary.yaml",
-  "source_sha256": "161bd780e265a99f27365c81bee12f5006ebb4e785a9563608ae98c52878a523",
+  "source_sha256": "33162831b8bd4b78fe378ed15968083ac165391517d37de571dd43c723e700ef",
   "term_uri_base": "https://w3id.org/agent-evidence/vocab/v1/",
   "terms": {
     "acceptance_observed": {
@@ -62,6 +62,22 @@
         "header_time_plus_tolerance",
         "later_median",
         "height"
+      ]
+    },
+    "assessment_availability": {
+      "criticality": "critical",
+      "definition": "Whether an assessment of an agent's output exists as a number and, when it does not, why. A missing score is carried as a value, never as a number. Closed and fail-closed.",
+      "section": "multi_agent_run",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/assessment_availability",
+      "value_definitions": {
+        "judge_missing": "The judge returned no usable score.",
+        "no_output": "The agent produced nothing to assess in the window.",
+        "scored": "The assessment returned an integer score."
+      },
+      "values": [
+        "scored",
+        "no_output",
+        "judge_missing"
       ]
     },
     "attestation_tier": {
@@ -354,6 +370,22 @@
         "producer_asserted"
       ]
     },
+    "generation_outcome": {
+      "criticality": "critical",
+      "definition": "The result of one call of an agent to its model. No published predicate carries this field yet; the source path names the member a journal entry would carry. Closed and fail-closed.",
+      "section": "multi_agent_run",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/generation_outcome",
+      "value_definitions": {
+        "empty_reply": "The call returned an empty reply.",
+        "errored": "The call raised an error, recorded with its text.",
+        "produced": "The agent's call to its model returned a reply."
+      },
+      "values": [
+        "produced",
+        "errored",
+        "empty_reply"
+      ]
+    },
     "incident_identifier": {
       "criticality": "critical",
       "definition": "An identifier for one incident, carried in the records that each party signs, so that two organisations' records of the same incident can be joined. The first party to open the incident mints it as an issuer and an id. A party that learns of the incident from another adopts the identifier by listing it in a related array and keeps its own id; nobody rewrites a signed record to change an identifier. Two records concern one incident when they carry the same issuer and id, or when one lists the other's in related, and the join is the transitive closure of that relation.",
@@ -411,6 +443,22 @@
       "uri": "https://w3id.org/agent-evidence/vocab/v1/material_change_trigger",
       "value_definitions": {},
       "values": null
+    },
+    "message_delivery_disposition": {
+      "criticality": "critical",
+      "definition": "How the router handled one agent-to-agent message relative to the topology in force when it was sent. The verifier computes the value from the delivery's sender, receiver and dropped flag and from the topology it rebuilds out of the journal's earlier topology, decision and fallback entries; it never takes the value from the producer. A message dropped over an edge that is present is not a value: the journal is refused. Closed and fail-closed.",
+      "section": "multi_agent_run",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/message_delivery_disposition",
+      "value_definitions": {
+        "delivered_in_topology": "The message was delivered over an edge present in the topology in force.",
+        "delivered_over_absent_edge": "The message was delivered over an edge absent from the topology in force.",
+        "dropped_over_absent_edge": "The router refused the message because its edge was absent from the topology in force."
+      },
+      "values": [
+        "delivered_in_topology",
+        "delivered_over_absent_edge",
+        "dropped_over_absent_edge"
+      ]
     },
     "observation_directness": {
       "criticality": "critical",
@@ -556,6 +604,20 @@
         "restoration"
       ]
     },
+    "restart_scope": {
+      "criticality": "critical",
+      "definition": "What a restart of one agent removed. The verifier computes the value from the restart entry: memory_and_cause_removed when the configuration digest before differs from the digest after, memory_only when they are equal. A restart that did not clear memory has no value: the journal is refused. Closed and fail-closed.",
+      "section": "multi_agent_run",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/restart_scope",
+      "value_definitions": {
+        "memory_and_cause_removed": "The agent's memory was cleared and its configuration digest changed, recording the removal of the cause.",
+        "memory_only": "The agent's memory was cleared and its configuration digest is unchanged, so the cause it carried remains."
+      },
+      "values": [
+        "memory_only",
+        "memory_and_cause_removed"
+      ]
+    },
     "restoration_decision": {
       "criticality": "critical",
       "definition": "The decision that ends a recorded containment, bound to it by digest, with an approver identity different from the actor who activated the containment. A missing element makes the verdict not_established. A decision not to resume is remain_restricted, and it is recorded the same way as a resumption.",
@@ -573,6 +635,14 @@
         "remain_restricted",
         "not_established"
       ]
+    },
+    "restoration_evidence_binding": {
+      "criticality": "critical",
+      "definition": "One evaluation of a rule that admits or refuses re-enabling a contained agent, bound by entry digest to the earlier journal entries it rests on (the agent's restart and an assessment of its output) and to the rule by its digest, so a party holding only the journal re-derives whether the admission held. It is the evidence side of restoration_decision and does not replace that term's approver requirement. A structured record with no closed values.",
+      "section": "multi_agent_run",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/restoration_evidence_binding",
+      "value_definitions": {},
+      "values": null
     },
     "restoration_gate": {
       "criticality": "critical",
@@ -687,6 +757,42 @@
         "replan",
         "escalate",
         "stop"
+      ]
+    },
+    "topology_decision_basis": {
+      "criticality": "critical",
+      "definition": "What label or input steered one topology decision. A decision whose basis begins detector_ carries a decimal risk estimate for every agent and the list of message fields the detector read. Closed and fail-closed: an absent or unregistered basis makes the decision malformed.",
+      "section": "multi_agent_run",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/topology_decision_basis",
+      "value_definitions": {
+        "detector_no_label": "A detector with no update during the run steered the decision.",
+        "detector_online_label": "A detector updated during the run on a label computed with knowledge of the attack's goal steered the decision.",
+        "evidence_gate": "The decision followed a recorded rule over earlier journal entries, such as an admitted restoration.",
+        "fixed_schedule": "The decision followed a timer or a fixed step count.",
+        "ground_truth_oracle": "The decision used which agents were compromised, a fact no deployed defence holds.",
+        "random_rate_matched": "Edges or agents were chosen at random at a rate matched to another arm."
+      },
+      "values": [
+        "detector_online_label",
+        "detector_no_label",
+        "random_rate_matched",
+        "ground_truth_oracle",
+        "fixed_schedule",
+        "evidence_gate"
+      ]
+    },
+    "topology_enforcement": {
+      "criticality": "critical",
+      "definition": "Whether the router of a run enforces the declared topology or only states it to the agents. Required on every journal; an absent member is malformed and is never read as enforced. Closed and fail-closed.",
+      "section": "multi_agent_run",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/topology_enforcement",
+      "value_definitions": {
+        "advisory": "The topology is only stated to the agents; nothing refuses a message over an absent edge.",
+        "enforced": "The router refuses every message over an edge absent from the topology in force."
+      },
+      "values": [
+        "advisory",
+        "enforced"
       ]
     },
     "witness_scope": {
