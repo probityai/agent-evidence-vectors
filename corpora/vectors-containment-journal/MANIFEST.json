@@ -1,14 +1,58 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/containment-journal",
-  "corpusDigest": "9f7014a96e030bec94e25635ff99e92f3b37a579277fe82cb0f488476cb7aa31",
+  "corpusDigest": "1e8776fe4cdbe75b9b9b73f37185d029e522b9ee882e7fe163a05d0e6119d9e9",
   "counts": {
-    "allow": 7,
-    "deny": 42
+    "allow": 9,
+    "deny": 45
   },
   "receiptContractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/blast-radius-receipt",
+  "revision": "1.1",
   "suite": "containment-journal/v1",
   "synthetic": true,
   "vectors": [
+    {
+      "edit": "control: agent-c is isolated and its tool call is refused, agent-a's call names its grant chain, and the receipt counts no refused call",
+      "expected": {
+        "decision": "allow",
+        "reason": "blast_radius_consistent"
+      },
+      "files": {
+        "receipt.json": "d56b7ff9ec64cc3f13e46e64e0d647bd9e953c1a07f6f23272d73c428e5a2006",
+        "record.json": "ab57b544114ca6d044b8256a6e89f47f1f33fb61ba4c74ce928cb1d27b3690db"
+      },
+      "id": "allow-isolated-agents-tool-call-refused",
+      "path": "cases/allow-isolated-agents-tool-call-refused",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 5,
+        "events": {
+          "decision": 1,
+          "delivery": 1,
+          "tool_call": 2,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "control: the admitted document's inclusion path leads to the snapshot root, and the document outside it is refused",
+      "expected": {
+        "decision": "allow",
+        "reason": "containment_consistent"
+      },
+      "files": {
+        "record.json": "2bab200ec37b9ed65a56fef263d8b0d65b94248f9fc73d0b5932d7fdcc22f694"
+      },
+      "id": "allow-retrieval-inside-snapshot",
+      "path": "cases/allow-retrieval-inside-snapshot",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 3,
+        "events": {
+          "retrieval": 2,
+          "topology": 1
+        }
+      }
+    },
     {
       "edit": "control: agent-c is isolated and its next message is dropped by the router",
       "expected": {
@@ -910,6 +954,70 @@
         "entries": 2,
         "events": {
           "decision": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "a document outside the snapshot is admitted, and its inclusion path does not lead to the root",
+      "expected": {
+        "decision": "deny",
+        "reason": "retrieval_admitted_outside_snapshot"
+      },
+      "files": {
+        "record.json": "101b03efefbfddec56be69ce9787c4ddd046c748f9f36add178f11cb5293f03c"
+      },
+      "id": "reject-retrieval-admitted-outside-snapshot",
+      "path": "cases/reject-retrieval-admitted-outside-snapshot",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "retrieval": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "agent-c is isolated by the detector in an advisory run, and its tool call still runs",
+      "expected": {
+        "decision": "deny",
+        "reason": "tool_call_by_isolated_agent"
+      },
+      "files": {
+        "record.json": "2b1b02a58a3caeb80958e76836f7c77d13527ba64edc046d813f4b39a717dcf4"
+      },
+      "id": "reject-tool-call-by-isolated-agent",
+      "path": "cases/reject-tool-call-by-isolated-agent",
+      "retained": {
+        "enforcement": "advisory",
+        "entries": 5,
+        "events": {
+          "decision": 1,
+          "delivery": 1,
+          "tool_call": 2,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the run claims every tool call's authority chain was checked, and agent-a's call names no grant chain",
+      "expected": {
+        "decision": "deny",
+        "reason": "tool_call_authority_unbound"
+      },
+      "files": {
+        "record.json": "6af2c06a503b9f2852719764959a7af7786635ccf32d8e114e4968651a8855d7"
+      },
+      "id": "reject-tool-call-authority-unbound",
+      "path": "cases/reject-tool-call-authority-unbound",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 5,
+        "events": {
+          "decision": 1,
+          "delivery": 1,
+          "tool_call": 2,
           "topology": 1
         }
       }

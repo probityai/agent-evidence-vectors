@@ -23,11 +23,20 @@ every such event is an entry of one hash-chained journal:
   assessed, and the decision to let it back, citing the earlier entries it
   rests on by digest;
 - ``response``: a decision to act, continue or escalate after an alert;
-- ``tool_call``: an agent called a tool.
+- ``tool_call``: an agent called a tool, and, from revision 1.1, whether the
+  call was refused (with its reason) and the digest of the grant chain it ran
+  under;
+- ``retrieval`` (revision 1.1): an agent asked for a document, whether it was
+  admitted, and the Merkle inclusion path from the document's digest to the
+  run's ``snapshotRoot``.
 
 The journal also states the defence's claims (``channelsClosed``,
 ``restorationGated``, ``defendedThroughout``, ``detectorDriven``,
-``responseBoundSeconds``). The reader checks the rules below in order and names
+``responseBoundSeconds``; from revision 1.1 ``retrievalAttested`` and
+``authorityChainChecked``), and, from revision 1.1, may name the attested
+corpus (``snapshotRoot``) and the component profile it ran under
+(``componentProfileDigest``). Every revision 1.1 member is optional, so a
+revision 1.0 journal keeps its shape. The reader checks the rules below in order and names
 the first that fails; a journal that passes every rule is ``allow`` with reason
 ``containment_consistent``. The checks, in order: the contract identifier; the
 canonical form (integers only, printable ASCII strings, no repeated member);
@@ -36,8 +45,9 @@ the shape; the closed vocabularies; the chain (``seq`` contiguous, each
 topology; the walk over the entries (each delivery against the graph in force,
 each decision's deltas and estimates, each fallback's posture, each restart's
 configuration digests, each assessment's availability, each admitted
-restoration's cited evidence, each response's authority and timing); and the
-run-level claims. The reason codes are the tuple ``CHECKS``.
+restoration's cited evidence, each response's authority and timing, each
+admitted retrieval's inclusion in the snapshot, each tool call against the
+graph in force); and the run-level claims. The reason codes are the tuple ``CHECKS``.
 
 An entry's digest is ``sha256:`` and the hex SHA-256 of the entry's canonical
 bytes. Under the canonical-form rule those bytes are
@@ -77,6 +87,7 @@ from agent_evidence_vectors.monitorcoverage import (
 )
 
 SUITE = "containment-journal/v1"
+REVISION = "1.1"
 _BASE = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/"
 CONTRACT_ID = _BASE + "containment-journal"
 RECEIPT_CONTRACT_ID = _BASE + "blast-radius-receipt"
@@ -96,8 +107,9 @@ CHECKS = (
     "restoration_without_assessment", "restoration_evidence_not_scored",
     "restoration_evidence_self_witnessed", "restoration_evidence_above_threshold",
     "decision_without_authority", "response_time_inverted", "response_bound_exceeded",
+    "retrieval_admitted_outside_snapshot", "tool_call_by_isolated_agent",
     "advisory_claimed_as_enforced", "defended_claim_after_fail_open",
-    "detector_output_uninformative",
+    "detector_output_uninformative", "tool_call_authority_unbound",
 )
 RECEIPT_CHECKS = (
     "receipt_contract_id_missing", "receipt_contract_id_unknown", "receipt_malformed",
@@ -106,7 +118,7 @@ RECEIPT_CHECKS = (
 CLOSED = {
     "enforcement": ("advisory", "enforced"),
     "event": ("topology", "delivery", "decision", "fallback", "restart", "assessment",
-              "restoration", "response", "tool_call"),
+              "restoration", "response", "tool_call", "retrieval"),
     "basis": ("detector_online_label", "detector_no_label", "random_rate_matched",
               "ground_truth_oracle", "fixed_schedule", "evidence_gate"),
     "responseFunction": ("restriction", "isolation", "restoration"),
@@ -114,6 +126,7 @@ CLOSED = {
     "availability": ("scored", "no_output", "judge_missing"),
     "witness": ("SELF", "EXTERNAL"),
     "decision": ("act", "continue", "escalate"),
+    "side": ("left", "right"),
 }
 # The members each event carries, past seq, prev, at and event.
 EVENT_MEMBERS = {
@@ -132,15 +145,22 @@ EVENT_MEMBERS = {
     "response": {"decision": "word", "alertAt": "time", "authority": "text",
                  "reason": "text"},
     "tool_call": {"agent": "agent", "tool": "text"},
+    "retrieval": {"agent": "agent", "documentDigest": "digest", "admitted": "bool",
+                  "proof": "proof"},
 }
+# Revision 1.1 members a tool call may carry; refusalReason exactly when refused is true.
+TOOL_CALL_OPTIONAL = {"refused": "bool", "refusalReason": "text", "grantChainDigest": "digest"}
 DETECTOR_MEMBERS = {"riskEstimates": "estimates", "detectorInputs": "words"}
 CLAIM_KINDS = {"channelsClosed": "bool", "restorationGated": "bool",
                "defendedThroughout": "bool", "detectorDriven": "bool",
-               "responseBoundSeconds": "count"}
+               "responseBoundSeconds": "count", "retrievalAttested": "bool",
+               "authorityChainChecked": "bool"}
 TOP_MEMBERS = {"contractId", "runId", "agents", "enforcement", "messageFields", "claims",
                "entries"}
+TOP_OPTIONAL = {"snapshotRoot": "digest", "componentProfileDigest": "digest"}
+PROOF_DEPTH = 64
 __all__ = ["ALLOW", "CONTRACT_ID", "DENY", "EXIT_FOR", "RECEIPT_CONTRACT_ID", "SUITE",
-           "check", "digest", "main", "verify"]
+           "check", "digest", "main", "merkle_root", "verify"]
 _HERE = Path(__file__).resolve().parent
 ROOT = (_HERE / "corpora" / "vectors-containment-journal" if (_HERE / "corpora").exists()
         else _HERE.parents[1] / "corpora" / "vectors-containment-journal")
@@ -258,6 +278,9 @@ _SHAPES: dict[str, Any] = {
     "edges": lambda v, agents: isinstance(v, list)
     and all(_edge(item, agents) for item in v) and _sorted_unique(v),
     "estimates": _estimates,
+    "proof": lambda v, _: isinstance(v, list) and len(v) <= PROOF_DEPTH
+    and all(isinstance(step, list) and len(step) == 2 and isinstance(step[0], str)
+            and _shape_ok("digest", step[1], set()) for step in v),
 }
 
 
@@ -278,13 +301,19 @@ def _entry_malformed(entry: Any, agents: set[str]) -> bool:
         members.update(DETECTOR_MEMBERS)
     if entry["event"] == "response" and entry.get("decision") == "act":
         members["actedAt"] = "time"
+    if entry["event"] == "tool_call":
+        members.update({k: v for k, v in TOOL_CALL_OPTIONAL.items() if k in entry})
+        if ("refusalReason" in entry) != (entry.get("refused") is True):
+            return True
     if entry["event"] in EVENT_MEMBERS and set(entry) != set(base) | set(members):
         return True
     return any(not _shape_ok(kind, entry[name], agents) for name, kind in members.items())
 
 
 def _malformed(record: Record) -> bool:
-    if set(record) != TOP_MEMBERS:
+    if not TOP_MEMBERS <= set(record) <= TOP_MEMBERS | set(TOP_OPTIONAL) or any(
+            not _shape_ok(kind, record[name], set()) for name, kind in TOP_OPTIONAL.items()
+            if name in record):
         return True
     agents = record["agents"]
     if (not isinstance(agents, list) or len(agents) < 2
@@ -310,6 +339,8 @@ def _closed_violation(record: Record) -> bool:
                        "witness", "decision"):
             if member in entry and entry[member] not in CLOSED[member]:
                 return True
+        if any(step[0] not in CLOSED["side"] for step in entry.get("proof", [])):
+            return True
     return False
 
 
@@ -477,8 +508,30 @@ class _Walk:
         if bound is not None and delay > bound:
             self.fail("response_bound_exceeded")
 
-    def _tool_call(self, _: int, __: Record) -> None:
-        return
+    def _retrieval(self, _: int, entry: Record) -> None:
+        root = self.record.get("snapshotRoot")
+        bound = root is not None or bool(self.claims.get("retrievalAttested"))
+        if entry["admitted"] and bound and merkle_root(entry["documentDigest"],
+                                                       entry["proof"]) != root:
+            self.fail("retrieval_admitted_outside_snapshot")
+
+    def _tool_call(self, _: int, entry: Record) -> None:
+        if entry.get("refused") is not True and entry["agent"] not in {s for s, _ in self.graph}:
+            self.fail("tool_call_by_isolated_agent")
+
+
+def merkle_root(document: str, proof: list[list[str]]) -> str:
+    """The root an inclusion path leads to, hashed as RFC 9162 section 2.1 does.
+
+    The leaf is SHA-256 over 0x00 and the document digest's 32 bytes; each step
+    hashes 0x01 with the sibling on the side the step names and the node so far.
+    """
+    node = hashlib.sha256(b"\x00" + bytes.fromhex(document[7:])).digest()
+    for side, sibling in proof:
+        other = bytes.fromhex(sibling[7:])
+        pair = other + node if side == "left" else node + other
+        node = hashlib.sha256(b"\x01" + pair).digest()
+    return "sha256:" + node.hex()
 
 
 def _claims_failure(record: Record, skip: frozenset[str]) -> str | None:
@@ -492,6 +545,9 @@ def _claims_failure(record: Record, skip: frozenset[str]) -> str | None:
             e["event"] == "fallback" and e["failurePosture"] == "fail_open" for e in entries),
         "detector_output_uninformative": bool(claims.get("detectorDriven")) and not any(
             len(set(e["riskEstimates"].values())) > 1 for e in detector),
+        "tool_call_authority_unbound": bool(claims.get("authorityChainChecked")) and any(
+            e["event"] == "tool_call" and e.get("refused") is not True
+            and "grantChainDigest" not in e for e in entries),
     }
     return next((name for name, failed in failures.items() if failed and name not in skip),
                 None)
@@ -527,7 +583,8 @@ def reach(record: Record, subject: str, from_seq: int) -> dict[str, Any]:
         if entry["event"] == "delivery" and not entry["dropped"] and entry["sender"] in tainted:
             tainted.add(entry["receiver"])
             deliveries += 1
-        elif entry["event"] == "tool_call" and entry["agent"] in tainted:
+        elif (entry["event"] == "tool_call" and entry["agent"] in tainted
+              and entry.get("refused") is not True):
             tools += 1
     return {"agents": sorted(tainted - {subject}), "deliveries": deliveries, "toolCalls": tools}
 

@@ -122,8 +122,12 @@ class Journal:
             entry["actedAt"] = ts(acted)
         return self.add(entry)
 
-    def tool(self, agent: str, tool: str) -> Journal:
-        return self.add({"event": "tool_call", "agent": agent, "tool": tool})
+    def tool(self, agent: str, tool: str, **extra: Any) -> Journal:
+        return self.add({"event": "tool_call", "agent": agent, "tool": tool, **extra})
+
+    def retrieve(self, agent: str, document: str, admitted: bool = True) -> Journal:
+        return self.add({"event": "retrieval", "agent": agent, "documentDigest": document,
+                         "admitted": admitted, "proof": inclusion(document)})
 
     def build(self, run_id: str, edit: Callable[[list[Entry]], None] | None = None,
               **top: Any) -> Record:
@@ -206,6 +210,48 @@ def receipt(record: Record, subject: str = "agent-c", from_seq: int = 0,
     return {key: value for key, value in body.items() if value is not None}
 
 
+# The attested corpus: four labelled documents, hashed into a Merkle tree as RFC 9162 does.
+DOCUMENTS = [label(f"snapshot document {n}") for n in range(4)]
+OUTSIDE = label("a document the snapshot does not hold")
+
+
+def _leaf(document: str) -> bytes:
+    return hashlib.sha256(b"\x00" + bytes.fromhex(document[7:])).digest()
+
+
+def _node(left: bytes, right: bytes) -> bytes:
+    return hashlib.sha256(b"\x01" + left + right).digest()
+
+
+LEAVES = [_leaf(d) for d in DOCUMENTS]
+PAIRS = [_node(LEAVES[0], LEAVES[1]), _node(LEAVES[2], LEAVES[3])]
+SNAPSHOT_ROOT = "sha256:" + _node(*PAIRS).hex()
+PROFILE = label("component profile: router, broker, receiver, journal")
+
+
+def inclusion(document: str) -> list[list[str]]:
+    """The path from a snapshot document to the root; any other document gets document 0's."""
+    index = DOCUMENTS.index(document) if document in DOCUMENTS else 0
+    sibling = LEAVES[index ^ 1]
+    side = "left" if index % 2 else "right"
+    other = "left" if index >= 2 else "right"
+    return [[side, "sha256:" + sibling.hex()], [other, "sha256:" + PAIRS[1 - index // 2].hex()]]
+
+
+def tool_run(enforcement: str = "enforced", refused: bool = True, bound: bool = True,
+             **claims: Any) -> Journal:
+    """agent-c isolated by a detector, then agent-a and agent-c each call a tool."""
+    journal = isolate_c(Journal(enforcement, **claims), basis="detector_online_label",
+                        **detector(PEAKED))
+    journal.deliver("agent-c", "agent-a", dropped=enforcement == "enforced")
+    grant = {"grantChainDigest": label("grant chain task to agent-a")} if bound else {}
+    journal.tool("agent-a", "search", **grant)
+    if refused:
+        return journal.tool("agent-c", "search", refused=True,
+                            refusalReason="no permit for an isolated agent")
+    return journal.tool("agent-c", "search")
+
+
 def reach_run() -> Record:
     journal = Journal()
     journal.deliver("agent-c", "agent-a").deliver("agent-a", "agent-b").tool("agent-b", "search")
@@ -222,7 +268,18 @@ def _allowed() -> list[Case]:
     advisory = isolate_c(Journal("advisory")).deliver("agent-c", "agent-a", dropped=False)
     fail_open = isolate_c(Journal()).fallback(COMPLETE, "fail_open", "detector raised an error")
     reach = reach_run()
+    refused = tool_run(authorityChainChecked=True).build("refused",
+                                                         componentProfileDigest=PROFILE)
+    attested = Journal(retrievalAttested=True).retrieve("agent-a", DOCUMENTS[2])
+    attested.retrieve("agent-b", OUTSIDE, admitted=False)
     return [
+        ("allow-isolated-agents-tool-call-refused", refused, receipt(refused), "allow",
+         reader.RECEIPT_REASON, "control: agent-c is isolated and its tool call is refused, "
+         "agent-a's call names its grant chain, and the receipt counts no refused call"),
+        ("allow-retrieval-inside-snapshot", attested.build("attested",
+                                                           snapshotRoot=SNAPSHOT_ROOT), None,
+         "allow", ok, "control: the admitted document's inclusion path leads to the snapshot "
+         "root, and the document outside it is refused"),
         ("allow-enforced-drop-over-removed-edge", drop.build("drop"), None, "allow", ok,
          "control: agent-c is isolated and its next message is dropped by the router"),
         ("allow-advisory-run-no-closure-claim", advisory.build("advisory"), None, "allow", ok,
@@ -437,6 +494,24 @@ def _response_cases() -> list[Case]:
     ]
 
 
+def _v11_cases() -> list[Case]:
+    outside = Journal(retrievalAttested=True).retrieve("agent-a", OUTSIDE)
+    return [
+        ("reject-retrieval-admitted-outside-snapshot",
+         outside.build("outside", snapshotRoot=SNAPSHOT_ROOT), None, "deny",
+         "retrieval_admitted_outside_snapshot", "a document outside the snapshot is admitted, "
+         "and its inclusion path does not lead to the root"),
+        ("reject-tool-call-by-isolated-agent",
+         tool_run("advisory", refused=False, bound=False, detectorDriven=True).build("isolated"),
+         None, "deny", "tool_call_by_isolated_agent", "agent-c is isolated by the detector in "
+         "an advisory run, and its tool call still runs"),
+        ("reject-tool-call-authority-unbound",
+         tool_run(bound=False, authorityChainChecked=True).build("unbound"), None, "deny",
+         "tool_call_authority_unbound", "the run claims every tool call's authority chain was "
+         "checked, and agent-a's call names no grant chain"),
+    ]
+
+
 def _receipt_cases() -> list[Case]:
     reach = reach_run()
     stale = receipt(reach)
@@ -465,7 +540,8 @@ def _receipt_cases() -> list[Case]:
 def cases() -> list[Case]:
     """Every case: id, journal, receipt or None, decision, reason, and what it shows."""
     return (_allowed() + _malformed_cases() + _delivery_cases() + _decision_cases()
-            + _recovery_cases() + _restoration_cases() + _response_cases() + _receipt_cases())
+            + _recovery_cases() + _restoration_cases() + _response_cases() + _v11_cases()
+            + _receipt_cases())
 
 
 def generate(root: Path = ROOT) -> dict[str, Any]:
@@ -494,6 +570,7 @@ def generate(root: Path = ROOT) -> dict[str, Any]:
         "corpusDigest": _sha(_json(entries)),
         "counts": {word: words.count(word) for word in sorted(set(words))},
         "receiptContractId": reader.RECEIPT_CONTRACT_ID,
+        "revision": reader.REVISION,
         "suite": SUITE,
         "synthetic": True,
         "verifierContract": ("verifier record.json --json, judging receipt.json beside it when "
