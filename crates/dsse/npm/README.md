@@ -1,4 +1,4 @@
-# dsse for JavaScript
+# @probityai/dsse for JavaScript
 
 Raw-byte DSSE Ed25519 threshold verification through the
 [public Rust implementation](https://github.com/probityai/agent-evidence-vectors/tree/main/crates/dsse).
@@ -6,16 +6,16 @@ Verification returns the payload bytes that the native verifier checked.
 
 ## Install
 
-The npm package is `dsse` version `0.1.0`, built from the public Rust verifier.
+The npm package is `@probityai/dsse` version `0.1.0`, built from the public Rust verifier.
 To install a locally built tarball with Node 22.14 or later:
 
 ```bash
-npm install ./dsse-0.1.0.tgz
+npm install ./probityai-dsse-0.1.0.tgz
 ```
 
 ```js
 import { readFile } from "node:fs/promises";
-import { verify } from "dsse";
+import { verify } from "@probityai/dsse";
 
 const envelope = new Uint8Array(await readFile("envelope.json"));
 const public_key = new Uint8Array(await readFile("ed25519-public-key.bin"));

@@ -89,7 +89,7 @@ def validate_consumer_report(report, build, manifest, expected):
         location = node.get('installedPackage')
         need(node.get('synthetic') is not True and node.get('inputContract') is True and node.get('crossRealm') is True
              and isinstance(location, str) and location.startswith('file:///')
-             and location.endswith('/node_modules/dsse/lib/node.mjs'),
+             and location.endswith('/node_modules/@probityai/dsse/lib/node.mjs'),
              'Installed Node byte-input or realm proof is missing.')
         need(counts(node.get('counts')) == common, 'Node consumer results disagree.')
     typescript = report.get('typescript')

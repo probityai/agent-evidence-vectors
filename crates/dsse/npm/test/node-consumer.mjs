@@ -1,4 +1,4 @@
-import * as api from "dsse";
+import * as api from "@probityai/dsse";
 import { readFile } from "node:fs/promises";
 import { runInNewContext } from "node:vm";
 import { assert, checkCase, checkInputContract, checkedPayload, keyInputs, same } from "./check.mjs";
@@ -16,4 +16,4 @@ const foreignPayload = runInNewContext("new Uint8Array([0,255,128,65])");
 same([...api.pae("t", foreignPayload)], [...api.pae("t", new Uint8Array([0, 255, 128, 65]))], "Cross-realm PAE payload");
 const counts = { accepted: 0, refused: 0 };
 for (const answer of data.expected) counts[checkCase(api, data.cases[answer.caseIndex], answer)] += 1;
-console.log(JSON.stringify({ runtime: process.version, counts, inputContract: true, crossRealm: true, controls, installedPackage: import.meta.resolve("dsse") }));
+console.log(JSON.stringify({ runtime: process.version, counts, inputContract: true, crossRealm: true, controls, installedPackage: import.meta.resolve("@probityai/dsse") }));

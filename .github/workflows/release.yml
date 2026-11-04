@@ -478,7 +478,7 @@ jobs:
       DSSE_FORBIDDEN_SHA256: ${{ secrets.DSSE_FORBIDDEN_SHA256 }}
 
   # Publishes the exact tarball the qualification job tested, with npm
-  # provenance, and attests it as pkg:npm/dsse@<version>. Ported from
+  # provenance, and attests it as pkg:npm/@probityai/dsse@<version>. Ported from
   # probityai/dsse npm-release.yml and the provenance job of its npm.yml.
   publish-dsse-npm:
     needs: [resolve, qualify-dsse-npm]
@@ -487,7 +487,7 @@ jobs:
     timeout-minutes: 10
     environment:
       name: npm
-      url: https://www.npmjs.com/package/dsse
+      url: https://www.npmjs.com/package/@probityai/dsse
     permissions:
       contents: read
       id-token: write
@@ -520,7 +520,7 @@ jobs:
           from pathlib import Path
           verified = json.loads(Path(os.environ['VERIFIED_NPM']).read_text())
           manifest = json.loads(Path('npm/package.json').read_text())
-          assert manifest['name'] == 'dsse'
+          assert manifest['name'] == '@probityai/dsse'
           tarball = Path(verified['tarball']).read_bytes()
           assert hashlib.sha256(tarball).hexdigest() == verified['sha256']
           with open(os.environ['GITHUB_OUTPUT'], 'a') as output:

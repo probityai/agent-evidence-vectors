@@ -1,5 +1,5 @@
-import { verify, pae, DsseError, type TrustedKey, type VerifiedPayload } from "dsse";
-import initialize, { verify as browserVerify, pae as browserPae } from "dsse/browser";
+import { verify, pae, DsseError, type TrustedKey, type VerifiedPayload } from "@probityai/dsse";
+import initialize, { verify as browserVerify, pae as browserPae } from "@probityai/dsse/browser";
 
 const envelope = new Uint8Array([123, 125]);
 const keys: readonly TrustedKey[] = [{ public_key: new Uint8Array(32), key_id: "key-a" }];

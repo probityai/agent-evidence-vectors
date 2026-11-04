@@ -53,10 +53,10 @@ try {
   result.tarball = { filename: packageRows[0].filename, bytes: rawTarball.length, sha256: createHash("sha256").update(rawTarball).digest("hex"), integrity: packageRows[0].integrity };
   await writeFile(path.join(consumer, "package.json"), JSON.stringify({ private: true, type: "module" }));
   await checked("consumer-install", "npm", ["install", "--ignore-scripts", "--no-audit", "--no-fund", packed], { cwd: consumer });
-  const installed = path.join(consumer, "node_modules/dsse");
+  const installed = path.join(consumer, "node_modules/@probityai/dsse");
   const manifest = JSON.parse(await readFile(path.join(installed, "package.json"), "utf8"));
   const build = JSON.parse(await readFile(path.join(installed, "BUILD.json"), "utf8"));
-  assert(manifest.name === "dsse" && manifest.version === "0.1.0" && !manifest.scripts && !Object.keys(manifest.dependencies || {}).length, "Installed package has an unexpected identity or runtime dependency");
+  assert(manifest.name === "@probityai/dsse" && manifest.version === "0.1.0" && !manifest.scripts && !Object.keys(manifest.dependencies || {}).length, "Installed package has an unexpected identity or runtime dependency");
   for (const [relative, digest] of Object.entries(build.artifact_files)) {
     assert(!relative.includes("\\") && !path.posix.isAbsolute(relative) && path.posix.normalize(relative) === relative && !relative.split("/").includes(".."), "Packed source member name is not canonical");
     assert(createHash("sha256").update(await readFile(path.join(installed, relative))).digest("hex") === digest, `Packed artifact differs: ${relative}`);
@@ -77,7 +77,7 @@ try {
   await checked("typescript-consumer", path.resolve(npmRoot, "node_modules/typescript", tsManifest.bin.tsc), ["--project", path.join(consumer, "tsconfig.json")], { cwd: consumer });
   result.typescript = { version: tsManifest.version, nativeExit: 0 };
 
-  const browserEntry = "/node_modules/dsse/" + manifest.exports["./browser"].default.replace(/^\.\//, "");
+  const browserEntry = "/node_modules/@probityai/dsse/" + manifest.exports["./browser"].default.replace(/^\.\//, "");
   await writeFile(path.join(consumer, "index.html"), `<!doctype html><html lang="en"><meta charset="utf-8"><link rel="icon" href="data:,"><title>DSSE packed browser consumer</title><script type="importmap">${JSON.stringify({ imports: { "dsse/browser": browserEntry } })}</script><body>Packed artifact test</body></html>`);
   server = createServer(async (request, response) => {
     try {
@@ -97,7 +97,7 @@ try {
   page.on("pageerror", (error) => pageErrors.push(error.message));
   await page.goto(`http://127.0.0.1:${server.address().port}/`);
   const browserResult = await page.evaluate(async () => {
-    const api = await import("dsse/browser");
+    const api = await import("@probityai/dsse/browser");
     const { assert, checkCase, checkInputContract, checkedPayload, same } = await import("./check.mjs");
     await api.default();
     const data = await (await fetch("./cases.json")).json();
