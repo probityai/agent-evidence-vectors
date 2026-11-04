@@ -41,7 +41,17 @@ plans, training, user-credential and password items, and role-assignment items
 (ISO 27001 5.2, NIST SSDF PO.2.1, PCI DSS role requirements); searches for
 revoke access, revocation of credentials and delegated authority returned no
 result. That search did not read every CRE, so each row names the nearest
-requirement found and what it does not ask for.
+requirement found and what it does not ask for. The `multi_agent_run` terms
+were searched on 2026-11-03 the same way, for multi-agent, agent communication,
+inter-agent, message routing, topology, network segmentation, segregation,
+isolation, sandbox, restart, restore, recovery, configuration integrity,
+assessment, evaluation, detection, anomaly, model output, error handling and
+fail securely. Multi-agent, agent communication, inter-agent, message routing,
+restart and configuration integrity returned no result; the rest returned
+network segregation and isolation items (515-021, 273-600, 708-355), recovery
+and incident items (240-464, 463-577), detection and monitoring items (058-083,
+843-475), and error-handling items (842-876, 513-183, 141-555). Each row names
+the nearest of these and what it does not ask for.
 
 | term | why no CRE fits |
 | --- | --- |
@@ -73,6 +83,13 @@ requirement found and what it does not ask for.
 | `done_verification.stop_decision` | no requirement keys the continuation of an automated loop to a published table of verdicts |
 | `done_verification.inconclusive_verdict` | no requirement gives the unknown outcome of a check its own value apart from pass and fail |
 | `change_admission.replay_snapshot` | archiving build data for a release (461-680) is the nearest, and pinning the evaluation input of one decision is a different requirement |
+| `multi_agent_run.message_delivery_disposition` | segregation of networks (515-021) and of components of differing trust levels (273-600) ask that channels be separated; none asks that each message be classed, against the topology rebuilt from a run's own record, as delivered over a present edge, delivered over a removed one, or dropped |
+| `multi_agent_run.topology_enforcement` | the isolation items found (515-021, 708-355 with NIST SC-3 and SC-39) require that separation be enforced; none asks a record to say whether a declared topology was enforced by a router or only stated to the agents it restricts |
+| `multi_agent_run.topology_decision_basis` | the detection items found (058-083 monitoring, 843-475 with NIST AI 100-2 detection techniques) ask that attacks be detected; none asks what label or input steered one containment decision, or separates a detector from knowledge of which agents were compromised |
+| `multi_agent_run.restart_scope` | system recovery and reconstitution (240-464 with NIST CP-10) asks that a system be restored to a known state; none separates a restart that cleared an agent's memory from one that also changed the configuration that caused the fault, shown by two configuration digests |
+| `multi_agent_run.restoration_evidence_binding` | assessment and decision on information security events (463-577 with ISO 27001 5.25) and recovery (240-464) ask for a decision before recovery; none binds the decision to re-enable one agent to the earlier record entries it rests on by digest, so a third party re-derives it |
+| `multi_agent_run.assessment_availability` | the error-handling items found (842-876, 513-183) govern how a system reports its own errors; none asks that a missing assessment score carry its cause as a value and never be read as a score of zero |
+| `multi_agent_run.generation_outcome` | error handling (842-876 with NIST SI-11) and fail securely (141-555) govern how an application handles its errors; none asks that the result of one agent's call to its model be recorded as produced, errored or empty, apart from the agent choosing to say nothing |
 | `incident_response.response_decision` | no requirement makes a decision not to act a signed record of its own; the incident-response and plan items found read as procedures to maintain, not as a record of one choice at one decision point |
 | `incident_response.response_function` | no requirement names the functions an incident action serves (monitoring, notification, restriction, isolation, pause, remediation, restoration) as a closed list a record carries |
 | `incident_response.evidence_state` | the incident and monitoring items found ask for detection and logging to exist; none orders what responders have observed about one system, from an unmeasured silence to a requested restart, into codes with observable entry conditions a third party re-derives |
