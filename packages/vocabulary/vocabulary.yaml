@@ -2134,8 +2134,8 @@ incident_response:
 # containment-journal predicate,
 # https://probityai.github.io/agent-evidence-vectors/predicate/v1/containment-journal,
 # whose conformance corpus is vectors-containment-journal in
-# agent-evidence-vectors. A term the verifier computes rather than reads names
-# the members it is computed from. The section reuses and does not redefine
+# agent-evidence-vectors. A term the verifier computes, and does not read,
+# names the members it is computed from. The section reuses and does not redefine
 # terms of other sections: a decision's responseFunction is an
 # incident_response.response_function value (restriction, isolation or
 # restoration), a fallback's failurePosture is an
@@ -2174,8 +2174,8 @@ multi_agent_run:
     why_this_registry: >
       A defence that removes an edge reports the removal; whether a message
       still crossed that edge is a separate fact that only the router saw.
-      Naming the three outcomes lets a reader count messages over cut edges
-      instead of trusting the removal.
+      Naming the three outcomes lets a reader count messages over cut edges,
+      so the removal is not taken on trust.
 
   topology_enforcement:
     status: proposed
