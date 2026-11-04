@@ -269,12 +269,11 @@ Case = tuple[str, Record, Record | None, str, str, str]
 
 def _reach_cases() -> list[Case]:
     """One control per clause of the reach rule, each with the receipt that recomputes."""
-    again = Journal().deliver("agent-c", "agent-a").deliver("agent-a", "agent-c")
-    again = again.build("again")
-    dropped = isolate_c(Journal()).deliver("agent-c", "agent-a").deliver("agent-a", "agent-b")
-    dropped = dropped.build("dropped")
-    later = Journal().deliver("agent-c", "agent-a").deliver("agent-a", "agent-b")
-    later = later.tool("agent-c", "search").build("later")
+    again = Journal().deliver("agent-c", "agent-a").deliver("agent-a", "agent-c").build("again")
+    dropped = isolate_c(Journal()).deliver("agent-c", "agent-a").deliver(
+        "agent-a", "agent-b").build("dropped")
+    later = Journal().deliver("agent-c", "agent-a").deliver("agent-a", "agent-b").tool(
+        "agent-c", "search").build("later")
     ok = reader.RECEIPT_REASON
     return [
         ("allow-blast-radius-counts-delivery-to-tainted-receiver", again, receipt(again),

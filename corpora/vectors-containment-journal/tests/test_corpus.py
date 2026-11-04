@@ -270,12 +270,37 @@ def test_a_run_that_names_no_snapshot_and_claims_none_is_judged_on_the_rest(
         "decision": "allow", "reason": reader.ALLOWED_REASON}
 
 
-def test_a_refused_call_does_not_count_toward_the_blast_radius() -> None:
-    record = _record(REFUSED)
-    assert reader.reach(record, "agent-c", 0)["toolCalls"] == 0
-    unrefused = json.loads(json.dumps(record))
-    _unrefuse(unrefused)
-    assert reader.reach(unrefused, "agent-c", 0)["toolCalls"] == 1
+def test_the_reach_rule_counts_every_tool_call_by_a_tainted_agent() -> None:
+    # The subject is tainted from the start; from fromSeq on, a delivery the router did
+    # not drop counts when its sender is tainted and taints the receiver, even one already
+    # tainted; a tool call counts when its agent is tainted, refused or not.
+    assert reader.reach(_record(REFUSED), "agent-c", 0) == {
+        "agents": [], "deliveries": 0, "toolCalls": 1}
+    again = _record("allow-blast-radius-counts-delivery-to-tainted-receiver")
+    assert reader.reach(again, "agent-c", 0) == {
+        "agents": ["agent-a"], "deliveries": 2, "toolCalls": 0}
+
+
+def _drop_after_refusal(record: dict[str, Any]) -> None:
+    refusal = record["entries"][1]
+    record["entries"].insert(2, {"event": "delivery", "sender": refusal["sender"],
+                                 "receiver": refusal["receiver"],
+                                 "bodyDigest": refusal["bodyDigest"], "edgeInForce": True,
+                                 "dropped": True, "prev": "", "at": refusal["at"]})
+    for index, entry in enumerate(record["entries"]):
+        entry["seq"] = index
+
+
+def _unknown_refusal_code(record: dict[str, Any]) -> None:
+    record["entries"][1]["reasonCode"] = "private_policy_rule_7"
+
+
+def test_a_drop_over_a_present_edge_is_still_denied_beside_a_refusal(tmp_path: Path) -> None:
+    name = "allow-refusal-over-present-edge"
+    assert _edited_verdict(tmp_path / "drop", name, _drop_after_refusal) == {
+        "decision": "deny", "reason": "drop_over_present_edge"}
+    assert _edited_verdict(tmp_path / "code", name, _unknown_refusal_code) == {
+        "decision": "deny", "reason": "closed_vocabulary_violation"}
 
 
 def test_the_inclusion_path_reaches_the_root_for_every_snapshot_document() -> None:

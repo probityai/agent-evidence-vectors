@@ -541,6 +541,8 @@ var cjEventMembers = map[string][]cjMember{
 	"tool_call": {{"agent", "agent"}, {"tool", "text"}},
 	"retrieval": {{"agent", "agent"}, {"documentDigest", "digest"}, {"admitted", "bool"},
 		{"proof", "proof"}},
+	"refusal": {{"sender", "agent"}, {"receiver", "agent"}, {"bodyDigest", "digest"},
+		{"reasonCode", "word"}},
 }
 
 // cjToolCallOptional are the revision 1.1 members a tool call may carry;
@@ -672,7 +674,7 @@ func cjMalformed(record cjObject) bool {
 
 var cjClosed = map[string][]string{
 	"event": {"topology", "delivery", "decision", "fallback", "restart", "assessment",
-		"restoration", "response", "tool_call", "retrieval"},
+		"restoration", "response", "tool_call", "retrieval", "refusal"},
 	"basis": {"detector_online_label", "detector_no_label", "random_rate_matched",
 		"ground_truth_oracle", "fixed_schedule", "evidence_gate"},
 	"responseFunction": {"restriction", "isolation", "restoration"},
@@ -680,10 +682,11 @@ var cjClosed = map[string][]string{
 	"availability":     {"scored", "no_output", "judge_missing"},
 	"witness":          {"SELF", "EXTERNAL"},
 	"decision":         {"act", "continue", "escalate"},
+	"reasonCode":       {"budget_exhausted", "purpose_out_of_scope"},
 }
 
 var cjClosedOrder = []string{"event", "basis", "responseFunction", "failurePosture",
-	"availability", "witness", "decision"}
+	"availability", "witness", "decision", "reasonCode"}
 
 func cjIn(value any, words []string) bool {
 	s, ok := value.(string)
@@ -855,6 +858,8 @@ func (w *cjWalk) run() string {
 			failure = w.restoration(index, entry)
 		case "response":
 			failure = w.response(entry)
+		case "refusal":
+			failure = w.refusal(entry)
 		case "retrieval":
 			failure = w.retrieval(entry)
 		case "tool_call":
@@ -1086,6 +1091,15 @@ func (w *cjWalk) response(entry cjObject) string {
 	return ""
 }
 
+// refusal refuses a refusal recorded over an edge not in force: that message
+// had no edge to cross, so the record misstates a drop as a policy refusal.
+func (w *cjWalk) refusal(entry cjObject) string {
+	if !w.graph[cjEdge{cjStr(entry, "sender"), cjStr(entry, "receiver")}] {
+		return "refusal_over_absent_edge"
+	}
+	return ""
+}
+
 // retrieval refuses an admitted document whose inclusion path does not lead to
 // the run's snapshotRoot, once the run names a root or claims attestation.
 func (w *cjWalk) retrieval(entry cjObject) string {
@@ -1189,7 +1203,7 @@ func cjReachFrom(entries []cjObject, subject string, fromSeq int64) cjReach {
 				found.deliveries++
 			}
 		case "tool_call":
-			if tainted[cjStr(entry, "agent")] && cjUnrefused(entry) {
+			if tainted[cjStr(entry, "agent")] {
 				found.toolCalls++
 			}
 		}

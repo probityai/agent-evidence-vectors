@@ -9,7 +9,7 @@ Version: 1.1 (corpus suite `containment-journal/v1`, `suiteRevision` 2)
 > Status: DRAFT, issued under a self-hosted `predicateType` URI. The URIs will not move once
 > a signed statement carries them. Revision 1.1 adds optional members only: a journal written
 > to revision 1.0 keeps its shape, and its verdict changes only where it records a tool call by
-> an agent that was isolated at the time (rule 9, `tool_call_by_isolated_agent`).
+> an agent that was isolated at the time (`tool_call_by_isolated_agent`).
 
 ## Purpose
 
@@ -68,6 +68,7 @@ with `from` different from `to`.
 | `restoration` | `agent`, `admitted`, `threshold`, `evidence` (entry digests), `ruleDigest` |
 | `response` | `decision`, `alertAt`, `authority`, `reason`; `act` adds `actedAt` |
 | `tool_call` | `agent`, `tool`; optional (1.1) `refused` (boolean), `refusalReason` (present exactly when `refused` is true), `grantChainDigest` |
+| `refusal` (1.1) | `sender`, `receiver`, `bodyDigest`, `reasonCode` (`budget_exhausted` or `purpose_out_of_scope`) |
 | `retrieval` (1.1) | `agent`, `documentDigest`, `admitted` (boolean), `proof` (at most 64 steps, each `["left" or "right", digest]`) |
 
 Closed vocabularies: `enforcement`, `event`, `basis` (`detector_online_label`,
@@ -75,7 +76,13 @@ Closed vocabularies: `enforcement`, `event`, `basis` (`detector_online_label`,
 `evidence_gate`), `responseFunction` (`restriction`, `isolation`, `restoration`),
 `failurePosture` (`fail_open`, `fail_closed`), `availability` (`scored`, `no_output`,
 `judge_missing`), `witness` (`SELF`, `EXTERNAL`), response `decision` (`act`, `continue`,
-`escalate`) and a proof step's side (`left`, `right`).
+`escalate`), a refusal's `reasonCode` (`budget_exhausted`, `purpose_out_of_scope`) and a
+proof step's side (`left`, `right`).
+
+A refusal records one message the router refused over an edge in force, for a budget or a
+purpose-scope reason, under a neutral code that carries no detail of the policy. It is not a
+delivery, so it is not a drop over a present edge; a delivery marked dropped over an edge in
+force is still refused with `drop_over_present_edge`.
 
 ### The inclusion path
 
@@ -102,6 +109,8 @@ reason `containment_consistent`.
    it) and the agents with no outgoing edge in it (isolated). Per entry:
    - delivery: `edge_flag_mismatch`, `drop_over_present_edge`, `delivered_over_absent_edge`
      (enforced runs only);
+   - refusal (1.1): `refusal_over_absent_edge` when the edge is not in force (that message
+     had no edge to cross, so it is a drop, not a policy refusal);
    - decision: `edge_delta_mismatch`, `isolated_set_mismatch`,
      `topology_expansion_not_restriction`, `detector_inputs_absent`,
      `decision_not_supported_by_estimates`, `reenable_without_restoration` (when
@@ -134,7 +143,8 @@ last entry, `entries`: the count), `subject` (a listed agent), `fromSeq` (0 up t
 less one) and `reached` (`agents`: sorted unique, subject excluded; `deliveries`;
 `toolCalls`). It is judged only beside an allowed journal. The reader recomputes the reach:
 from `fromSeq` on, a delivery not dropped whose sender is tainted taints the receiver and
-counts once, and a tool call by a tainted agent counts once unless it was refused (1.1). Rules
+counts once, even when the receiver is already tainted, and a tool call by a tainted agent
+counts once, refused or not (a refusal entry is not a delivery and never counts). Rules
 in order: `receipt_contract_id_missing`, `receipt_contract_id_unknown`, `receipt_malformed`,
 `receipt_journal_mismatch`, `blast_radius_understated`, `blast_radius_overstated`; all pass is
 `allow`, `blast_radius_consistent`.

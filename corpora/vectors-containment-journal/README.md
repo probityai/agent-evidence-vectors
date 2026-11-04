@@ -29,7 +29,7 @@ prints `{"decision": ..., "reason": ...}` and exits 0 for `allow`, 1 for `deny`.
 ## The journal
 
 Entries are `topology`, `delivery`, `decision`, `fallback`, `restart`, `assessment`,
-`restoration`, `response`, `tool_call` and `retrieval`, each chained to the one before by
+`restoration`, `response`, `tool_call`, `retrieval` and `refusal`, each chained to the one before by
 digest. The journal also states the defence's claims (`channelsClosed`,
 `restorationGated`, `defendedThroughout`, `detectorDriven`, `responseBoundSeconds`,
 `retrievalAttested`, `authorityChainChecked`).
