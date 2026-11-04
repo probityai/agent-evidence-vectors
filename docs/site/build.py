@@ -12,7 +12,9 @@ import html
 import json
 import posixpath
 import re
+import subprocess
 import sys
+from datetime import datetime, timezone
 from collections.abc import Iterable, Mapping
 from pathlib import Path
 from urllib.parse import quote, unquote, urlsplit, urlunsplit
@@ -568,29 +570,99 @@ def canonical_route(path: Path) -> str | None:
     return None
 
 
-def sitemap(paths: Iterable[Path]) -> bytes:
+def page_sources(routes: Mapping[Path, Path]) -> dict[Path, tuple[Path, ...]]:
+    """The tracked files each published page is rendered from, keyed by output route.
+
+    A page's modification date is the date of the newest commit that touched one of
+    these files. Shared chrome (the header tag, the stylesheet) is left out on
+    purpose: a release would otherwise move every page to one date, which is
+    the uniform stamp a sitemap date exists to avoid.
+    """
+    sources: dict[Path, tuple[Path, ...]] = {
+        Path("index.html"): (*(d / MANIFEST_NAME for d in corpus_dirs()), CITATION),
+        Path("codes.html"): (CODES_GO,),
+    }
+    for source, output in routes.items():
+        sources[output] = (REPO_ROOT / source,)
+    registry = (PREDICATE_REGISTRY,)
+    defined = defined_documents()
+    sources[Path("predicate/index.html")] = registry
+    uris = predicate_uris()
+    for version in sorted({v for v, _ in uris}):
+        sources[Path("predicate") / version / "index.html"] = registry
+    for version, name in uris:
+        document = defined.get((version, name))
+        origin = (document,) if document is not None else registry
+        sources[Path("predicate") / version / f"{name}.html"] = origin
+        sources[Path("predicate") / version / name / "index.html"] = origin
+    return sources
+
+
+def git_dates(sources: Mapping[Path, tuple[Path, ...]]) -> dict[Path, str]:
+    """UTC date (YYYY-MM-DD) of the newest commit touching each page's sources.
+
+    Returns an empty mapping, and says so on stderr, when the checkout is shallow or is not a
+    git work tree: a shallow clone walks a truncated history and would answer with the tip's
+    date for every page, a plausible-looking stamp that is wrong. A page with no commit of its
+    own gets no date.
+    """
+
+    def git(*args: str) -> str | None:
+        done = subprocess.run(
+            ["git", "-C", str(REPO_ROOT), *args], capture_output=True, text=True, check=False
+        )
+        return done.stdout.strip() if done.returncode == 0 else None
+
+    if git("rev-parse", "--is-shallow-repository") != "false":
+        print("note: history is shallow or absent; the sitemap carries no lastmod", file=sys.stderr)
+        return {}
+    dates: dict[Path, str] = {}
+    for route, files in sources.items():
+        relative = [str(f.relative_to(REPO_ROOT)) for f in files]
+        stamp = git("log", "-1", "--format=%cI", "--", *relative)
+        if stamp:
+            when = datetime.fromisoformat(stamp).astimezone(timezone.utc)
+            dates[route] = when.strftime("%Y-%m-%d")
+    return dates
+
+
+def sitemap(paths: Iterable[Path], dates: Mapping[Path, str] | None = None) -> bytes:
     """Build a deterministic sitemap without duplicate predicate aliases.
 
     Parameters
     ----------
     paths : iterable of pathlib.Path
         All HTML output routes produced by the site build.
+    dates : mapping of pathlib.Path to str, optional
+        Output route to the UTC date of the newest commit that touched its sources (see
+        :func:`git_dates`). A route without a date carries no ``lastmod``; there is no
+        build clock and no fallback date.
 
     Returns
     -------
     bytes
-        UTF-8 XML containing sorted canonical URLs. No build clock or derived
-        modification date is added.
+        UTF-8 XML containing sorted canonical URLs.
     """
-    routes = {canonical_route(path) for path in paths} - {None}
+    dated = dates or {}
+    chosen: dict[str, str | None] = {}
+    for path in paths:
+        route = canonical_route(path)
+        if route is None:
+            continue
+        stamp = dated.get(path)
+        chosen[route] = max(filter(None, (chosen.get(route), stamp)), default=None)
     root = Element("urlset", xmlns="http://www.sitemaps.org/schemas/sitemap/0.9")
-    for route in sorted(str(route) for route in routes):
+    for route in sorted(chosen):
         entry = SubElement(root, "url")
         SubElement(entry, "loc").text = f"{SITE_URL}/{quote(route, safe='/')}"
+        if chosen[route]:
+            SubElement(entry, "lastmod").text = chosen[route]
     return bytes(tostring(root, encoding="utf-8", xml_declaration=True))
 
 
-def write_discovery(out: Path, paths: Iterable[Path]) -> None:
+def write_discovery(
+    out: Path, paths: Iterable[Path], dates: Mapping[Path, str] | None = None
+) -> None:
     """Serve the reviewed agent guide unchanged and list canonical pages.
 
     Parameters
@@ -599,6 +671,8 @@ def write_discovery(out: Path, paths: Iterable[Path]) -> None:
         The site output directory.
     paths : iterable of pathlib.Path
         Published HTML routes passed to :func:`sitemap`.
+    dates : mapping of pathlib.Path to str, optional
+        Page dates passed to :func:`sitemap`.
 
     Raises
     ------
@@ -611,12 +685,17 @@ def write_discovery(out: Path, paths: Iterable[Path]) -> None:
     except UnicodeDecodeError as error:
         raise ValueError("llms.txt must contain ASCII text") from error
     (out / "llms.txt").write_bytes(guide)
-    (out / "sitemap.xml").write_bytes(sitemap(paths))
+    (out / "sitemap.xml").write_bytes(sitemap(paths, dates))
 
 
 def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(description=SUMMARY)
     parser.add_argument("--out", required=True, type=Path)
+    parser.add_argument(
+        "--require-lastmod",
+        action="store_true",
+        help="fail unless every sitemap URL carries a lastmod (needs full git history)",
+    )
     args = parser.parse_args(argv)
     tag = release_tag()
     out: Path = args.out
@@ -632,7 +711,13 @@ def main(argv: list[str]) -> int:
         target = out / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(rendered, encoding="utf-8")
-    write_discovery(out, pages)
+    dates = git_dates(page_sources(routes))
+    write_discovery(out, pages, dates)
+    if args.require_lastmod:
+        bare = sorted(str(r) for r in pages if canonical_route(r) and r not in dates)
+        if bare:
+            print(f"FAIL: {len(bare)} pages have no lastmod, first: {bare[0]}", file=sys.stderr)
+            return 1
     (out / ".nojekyll").write_text("", encoding="utf-8")
     print(f"wrote {len(pages)} pages to {out}")
     return 0
