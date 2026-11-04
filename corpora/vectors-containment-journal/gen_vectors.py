@@ -504,5 +504,21 @@ def generate(root: Path = ROOT) -> dict[str, Any]:
     return manifest
 
 
+def corpus_digest(manifest: dict[str, Any], root: str) -> str:
+    """Recompute the digest from the committed files, not their declared hashes."""
+    base_dir = Path(root)
+    entries = []
+    for entry in manifest["vectors"]:
+        directory = base_dir / entry["path"]
+        declared = entry["files"]
+        if {p.name for p in directory.iterdir() if p.is_file()} != set(declared):
+            raise ValueError(f"{entry['id']}: file set changed")
+        files = {name: _sha((directory / name).read_bytes()) for name in declared}
+        if files != declared:
+            raise ValueError(f"{entry['id']}: file digest mismatch")
+        entries.append({**entry, "files": files})
+    return _sha(_json(entries))
+
+
 if __name__ == "__main__":
     generate()
