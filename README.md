@@ -8,7 +8,10 @@
 
 <p>
 <a href="https://pepy.tech/projects/agent-evidence-vocabulary"><img alt="agent-evidence-vocabulary total downloads" src="https://static.pepy.tech/personalized-badge/agent-evidence-vocabulary?period=total&amp;units=international_system&amp;left_color=grey&amp;right_color=blue&amp;left_text=vocabulary%20downloads"></a>
-<a href="https://www.npmjs.com/package/jcs-admit"><img alt="jcs-admit npm total downloads" src="https://img.shields.io/npm/dt/jcs-admit?label=jcs-admit%20npm"></a>
+<a href="https://pepy.tech/projects/agent-evidence-admission"><img alt="agent-evidence-admission total downloads" src="https://static.pepy.tech/personalized-badge/agent-evidence-admission?period=total&amp;units=international_system&amp;left_color=grey&amp;right_color=blue&amp;left_text=admission%20downloads"></a>
+<a href="https://pepy.tech/projects/jcs-admit"><img alt="jcs-admit total downloads" src="https://static.pepy.tech/personalized-badge/jcs-admit?period=total&amp;units=international_system&amp;left_color=grey&amp;right_color=blue&amp;left_text=jcs-admit%20py%20downloads"></a>
+<a href="https://www.npmjs.com/package/jcs-admit"><img alt="jcs-admit npm total downloads" src="https://img.shields.io/npm/d18m/jcs-admit?label=jcs-admit%20npm"></a>
+<a href="https://www.npmjs.com/package/@probityai/dsse"><img alt="@probityai/dsse npm total downloads" src="https://img.shields.io/npm/d18m/@probityai/dsse?label=dsse%20npm"></a>
 <a href="https://crates.io/crates/jcs-admit"><img alt="jcs-admit crate downloads" src="https://img.shields.io/crates/d/jcs-admit?label=jcs-admit%20crate"></a>
 <a href="https://crates.io/crates/dsse"><img alt="dsse crate downloads" src="https://img.shields.io/crates/d/dsse?label=dsse%20crate"></a>
 </p>
