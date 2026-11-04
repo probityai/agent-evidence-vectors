@@ -2128,10 +2128,12 @@ incident_response:
 # whose conformance corpus is vectors-containment-journal in
 # agent-evidence-vectors. A term the verifier computes rather than reads names
 # the members it is computed from. The section reuses and does not redefine
-# incident_response terms: a decision's responseFunction is a response_function
-# value (restriction, isolation or restoration), a fallback's failurePosture is
-# a control_failure_posture value, a response entry's decision is a
-# response_decision, and an assessment's witness is a witness_scope value.
+# terms of other sections: a decision's responseFunction is an
+# incident_response.response_function value (restriction, isolation or
+# restoration), a fallback's failurePosture is an
+# incident_response.control_failure_posture value, a response entry's decision
+# is an incident_response.response_decision, and an assessment's witness is an
+# evidence_dimensions.witness_scope value.
 multi_agent_run:
 
   message_delivery_disposition:
