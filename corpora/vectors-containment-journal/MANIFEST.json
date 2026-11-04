@@ -1,0 +1,1007 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/containment-journal",
+  "corpusDigest": "2b65e615c9d2a13f10248ea280c12dea332b038d11565e2a39aba3d0b805c5e0",
+  "counts": {
+    "allow": 7,
+    "deny": 40
+  },
+  "receiptContractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/blast-radius-receipt",
+  "suite": "containment-journal/v1",
+  "synthetic": true,
+  "vectors": [
+    {
+      "edit": "control: agent-c is isolated and its next message is dropped by the router",
+      "expected": {
+        "decision": "allow",
+        "reason": "containment_consistent"
+      },
+      "files": {
+        "record.json": "ed4d296ccfafdb03572f71a8e928725a27f698e92adbd43d964e1eb1939d33ea"
+      },
+      "id": "allow-enforced-drop-over-removed-edge",
+      "path": "cases/allow-enforced-drop-over-removed-edge",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 3,
+        "events": {
+          "decision": 1,
+          "delivery": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "control: the cut is only an instruction, a message crosses it, and the run claims no closed channel",
+      "expected": {
+        "decision": "allow",
+        "reason": "containment_consistent"
+      },
+      "files": {
+        "record.json": "bd537b658d2ca011a89ef0f191a96e808eb0b7024aa4d636005e500386859908"
+      },
+      "id": "allow-advisory-run-no-closure-claim",
+      "path": "cases/allow-advisory-run-no-closure-claim",
+      "retained": {
+        "enforcement": "advisory",
+        "entries": 3,
+        "events": {
+          "decision": 1,
+          "delivery": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "control: agent-c returns only after a remediating restart and an outside score below the threshold, both cited by digest",
+      "expected": {
+        "decision": "allow",
+        "reason": "containment_consistent"
+      },
+      "files": {
+        "record.json": "1d6e98f46b298bd1c3a7ee96c6bbad7c4988a66c7ebfd582c6e5b292c153a22a"
+      },
+      "id": "allow-restoration-gated-on-external-score",
+      "path": "cases/allow-restoration-gated-on-external-score",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 7,
+        "events": {
+          "assessment": 1,
+          "decision": 2,
+          "delivery": 1,
+          "restart": 1,
+          "restoration": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "control: the defence failed, restored every channel and named that fail_open",
+      "expected": {
+        "decision": "allow",
+        "reason": "containment_consistent"
+      },
+      "files": {
+        "record.json": "beb24f37074aca583f4a3be1379d297a83cdf94b200027c4bef947e59ec318b9"
+      },
+      "id": "allow-fallback-declared-fail-open",
+      "path": "cases/allow-fallback-declared-fail-open",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 3,
+        "events": {
+          "decision": 1,
+          "fallback": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "control: a decision not to act names who decided and why",
+      "expected": {
+        "decision": "allow",
+        "reason": "containment_consistent"
+      },
+      "files": {
+        "record.json": "cbede04cdb3d2de013a4a499839c8ae9df3cb85cda450998c6764c5fa10e6bfe"
+      },
+      "id": "allow-continue-with-authority",
+      "path": "cases/allow-continue-with-authority",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "response": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "control: the action came inside the declared bound after the alert",
+      "expected": {
+        "decision": "allow",
+        "reason": "containment_consistent"
+      },
+      "files": {
+        "record.json": "deac881fe0cc60a4d970ffa96937b0c2e7ddb059e5abfec4651464ae309f4426"
+      },
+      "id": "allow-act-within-bound",
+      "path": "cases/allow-act-within-bound",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "response": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "control: the receipt names exactly the agents, deliveries and tool calls agent-c reached",
+      "expected": {
+        "decision": "allow",
+        "reason": "blast_radius_consistent"
+      },
+      "files": {
+        "receipt.json": "365a140232249cf5d8677bcde21a352c6d632c48b623cb46a6c65f39865e96e6",
+        "record.json": "c0de70b10db03286ce056fc210e14a71d98ab309a9b682813f57edbce28f099e"
+      },
+      "id": "allow-blast-radius-receipt-recomputes",
+      "path": "cases/allow-blast-radius-receipt-recomputes",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 6,
+        "events": {
+          "delivery": 3,
+          "tool_call": 2,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the journal names no contract",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_missing"
+      },
+      "files": {
+        "record.json": "5667457b90a618bc46f9df9d5640b2f2784cc20049be4fc473dd7798d26a4cfe"
+      },
+      "id": "reject-contract-id-missing",
+      "path": "cases/reject-contract-id-missing",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 3,
+        "events": {
+          "decision": 1,
+          "delivery": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the journal names a contract version that does not exist",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_unknown"
+      },
+      "files": {
+        "record.json": "3d279cbfbf2ed12af275695db0d31ddb76ced5e363eb426b4232e673a0874352"
+      },
+      "id": "reject-contract-id-unknown",
+      "path": "cases/reject-contract-id-unknown",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 3,
+        "events": {
+          "decision": 1,
+          "delivery": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "a fallback error carries a character outside printable ASCII",
+      "expected": {
+        "decision": "deny",
+        "reason": "record_not_canonical"
+      },
+      "files": {
+        "record.json": "27cbb00faeaf1bf4bf1f5304bd303f1809d5913b1055a10786711896d4e1d50f"
+      },
+      "id": "reject-record-not-canonical",
+      "path": "cases/reject-record-not-canonical",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 3,
+        "events": {
+          "decision": 1,
+          "fallback": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "a delivery leaves out whether it was dropped",
+      "expected": {
+        "decision": "deny",
+        "reason": "record_malformed"
+      },
+      "files": {
+        "record.json": "522d711357d84d1dffefee3b2cd3f7044567561c2d8a6c14bfc5ad835ab4911e"
+      },
+      "id": "reject-record-malformed",
+      "path": "cases/reject-record-malformed",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 3,
+        "events": {
+          "decision": 1,
+          "delivery": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "a decision names a response function outside the list",
+      "expected": {
+        "decision": "deny",
+        "reason": "closed_vocabulary_violation"
+      },
+      "files": {
+        "record.json": "ae926a41bb36cdb83b2587a1a89b83508e140d4094cac4791fb51030557cbfb4"
+      },
+      "id": "reject-closed-vocabulary-violation",
+      "path": "cases/reject-closed-vocabulary-violation",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 3,
+        "events": {
+          "decision": 1,
+          "delivery": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "an entry's sequence number skips one",
+      "expected": {
+        "decision": "deny",
+        "reason": "chain_seq_gap"
+      },
+      "files": {
+        "record.json": "f63abe71b2da9ecd8e4606c74a5aaf6123ef437be4528da0d0620fb7b0faaf4a"
+      },
+      "id": "reject-chain-seq-gap",
+      "path": "cases/reject-chain-seq-gap",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 3,
+        "events": {
+          "decision": 1,
+          "delivery": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "an entry's prev is not the digest of the entry before it",
+      "expected": {
+        "decision": "deny",
+        "reason": "chain_broken"
+      },
+      "files": {
+        "record.json": "99f6bd23ac5d409d7faa9af2938bade934c4dbe536ddfc42ce0b04431d2217f7"
+      },
+      "id": "reject-chain-broken",
+      "path": "cases/reject-chain-broken",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 3,
+        "events": {
+          "decision": 1,
+          "delivery": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "an entry is timed before the one it follows",
+      "expected": {
+        "decision": "deny",
+        "reason": "chain_time_reversed"
+      },
+      "files": {
+        "record.json": "ede8141444c76ace19a6f0b47ee01ca3e7aaefdeb45d61a97a4eafb57cb8f7fc"
+      },
+      "id": "reject-chain-time-reversed",
+      "path": "cases/reject-chain-time-reversed",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 3,
+        "events": {
+          "decision": 1,
+          "delivery": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "a second starting topology appears after a decision",
+      "expected": {
+        "decision": "deny",
+        "reason": "topology_missing"
+      },
+      "files": {
+        "record.json": "ae4b947e3d578884ac2313738e30064ce30508b744e84220ca787062ae65627e"
+      },
+      "id": "reject-topology-missing",
+      "path": "cases/reject-topology-missing",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 3,
+        "events": {
+          "decision": 1,
+          "topology": 2
+        }
+      }
+    },
+    {
+      "edit": "a delivery says its edge was in force after the decision that cut it",
+      "expected": {
+        "decision": "deny",
+        "reason": "edge_flag_mismatch"
+      },
+      "files": {
+        "record.json": "04e6cb0bbada4fe5a40c7b404fb109ff3f9adbff80115247286184a266ce3b53"
+      },
+      "id": "reject-edge-flag-mismatch",
+      "path": "cases/reject-edge-flag-mismatch",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 3,
+        "events": {
+          "decision": 1,
+          "delivery": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the router drops a message over an edge still in force",
+      "expected": {
+        "decision": "deny",
+        "reason": "drop_over_present_edge"
+      },
+      "files": {
+        "record.json": "faf66d9590b780fd2dbda759b6e29f8c967bcf0940cbe2fedac5971787561bbf"
+      },
+      "id": "reject-drop-over-present-edge",
+      "path": "cases/reject-drop-over-present-edge",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "delivery": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "an enforced run delivers agent-c's message over an edge the decision removed",
+      "expected": {
+        "decision": "deny",
+        "reason": "delivered_over_absent_edge"
+      },
+      "files": {
+        "record.json": "1aeb8959ba60ec7b2226c4803f7ceca89e37c71063d5f79e51ad9d030bf6701d"
+      },
+      "id": "reject-delivered-over-absent-edge",
+      "path": "cases/reject-delivered-over-absent-edge",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 3,
+        "events": {
+          "decision": 1,
+          "delivery": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the decision lists fewer removed edges than its new graph removes",
+      "expected": {
+        "decision": "deny",
+        "reason": "edge_delta_mismatch"
+      },
+      "files": {
+        "record.json": "eeb265356bc0fdf7865a1c4166675cf35c7186fccf5d4ae3bbcb1ab7c732528d"
+      },
+      "id": "reject-edge-delta-mismatch",
+      "path": "cases/reject-edge-delta-mismatch",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "decision": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the decision says it isolated no agent while agent-c is left with no outgoing edge",
+      "expected": {
+        "decision": "deny",
+        "reason": "isolated_set_mismatch"
+      },
+      "files": {
+        "record.json": "83b0e15f9fa5f5426909e41881c4c7cbeb73e4a124f56d599443ad9293f8fd30"
+      },
+      "id": "reject-isolated-set-mismatch",
+      "path": "cases/reject-isolated-set-mismatch",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "decision": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "a decision tagged restriction adds agent-d's edges, which the starting graph did not have",
+      "expected": {
+        "decision": "deny",
+        "reason": "topology_expansion_not_restriction"
+      },
+      "files": {
+        "record.json": "199d35bb02883fcb11ce6b24e85fc62495d0d2ad43913f4f4a6d99f99d527814"
+      },
+      "id": "reject-topology-expansion-not-restriction",
+      "path": "cases/reject-topology-expansion-not-restriction",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "decision": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the detector reads message fields the router never writes",
+      "expected": {
+        "decision": "deny",
+        "reason": "detector_inputs_absent"
+      },
+      "files": {
+        "record.json": "97b00bda316cab7e6f3a5dc8085b444ab9b0a8cfc5451fb12189e8cdbcdd1db3"
+      },
+      "id": "reject-detector-inputs-absent",
+      "path": "cases/reject-detector-inputs-absent",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "decision": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the detector gives every agent the same risk, and the decision isolates one of them",
+      "expected": {
+        "decision": "deny",
+        "reason": "decision_not_supported_by_estimates"
+      },
+      "files": {
+        "record.json": "91c66cf3034311637c7f978f10183ef743050e4ce216190884116aa9a115a85f"
+      },
+      "id": "reject-decision-not-supported-by-estimates",
+      "path": "cases/reject-decision-not-supported-by-estimates",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "decision": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the run claims detector-driven containment, and the detector's only decision gives every agent the same risk and cuts nothing",
+      "expected": {
+        "decision": "deny",
+        "reason": "detector_output_uninformative"
+      },
+      "files": {
+        "record.json": "f655457b4f164446dfd01b28956e0dcaf1370016174f299493fb6397dd59a766"
+      },
+      "id": "reject-detector-output-uninformative",
+      "path": "cases/reject-detector-output-uninformative",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "decision": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "agent-c gets its edges back on a timer after a restart, with no admitted restoration, in a run that claims gated restoration",
+      "expected": {
+        "decision": "deny",
+        "reason": "reenable_without_restoration"
+      },
+      "files": {
+        "record.json": "ceae1b6c38ea2dec0e13cc4dfd76ce892c91b418592c43d5b602ac831adc8935"
+      },
+      "id": "reject-reenable-without-restoration",
+      "path": "cases/reject-reenable-without-restoration",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 4,
+        "events": {
+          "decision": 2,
+          "restart": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "a fallback restores every channel and calls that fail_closed",
+      "expected": {
+        "decision": "deny",
+        "reason": "posture_contradicted"
+      },
+      "files": {
+        "record.json": "146aace8d73b2d577e653192abe220784622e9cd1714f6aa6bc280f89a7185bf"
+      },
+      "id": "reject-posture-contradicted",
+      "path": "cases/reject-posture-contradicted",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 3,
+        "events": {
+          "decision": 1,
+          "fallback": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the run claims it was defended throughout and its defence failed open",
+      "expected": {
+        "decision": "deny",
+        "reason": "defended_claim_after_fail_open"
+      },
+      "files": {
+        "record.json": "410e400f750913655458a3265ead5ef61c7f7e3a1c7c3b4eb2fbc0fcc04ce731"
+      },
+      "id": "reject-defended-claim-after-fail-open",
+      "path": "cases/reject-defended-claim-after-fail-open",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 3,
+        "events": {
+          "decision": 1,
+          "fallback": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "a restart says it removed the cause and the configuration digest did not change",
+      "expected": {
+        "decision": "deny",
+        "reason": "remediation_not_evidenced"
+      },
+      "files": {
+        "record.json": "699b04c9bb37c80d3635ef051f1f69fd3c44fb5f4e9d2fa559bf951e118d52c3"
+      },
+      "id": "reject-remediation-not-evidenced",
+      "path": "cases/reject-remediation-not-evidenced",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 3,
+        "events": {
+          "decision": 1,
+          "restart": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "a restart leaves the agent's memory in place",
+      "expected": {
+        "decision": "deny",
+        "reason": "restart_memory_not_cleared"
+      },
+      "files": {
+        "record.json": "9fc857e1fc8c906d7f762b01c2b9086f661357a4c16242ce7a717dab0589f678"
+      },
+      "id": "reject-restart-memory-not-cleared",
+      "path": "cases/reject-restart-memory-not-cleared",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 3,
+        "events": {
+          "decision": 1,
+          "restart": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the judge returned nothing and the record carries a score of 0",
+      "expected": {
+        "decision": "deny",
+        "reason": "missing_score_coerced"
+      },
+      "files": {
+        "record.json": "0965f7fce56addc8f0eb9989739039fa62f672be7fc7a68f9f55746731252f00"
+      },
+      "id": "reject-missing-score-coerced",
+      "path": "cases/reject-missing-score-coerced",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 3,
+        "events": {
+          "assessment": 1,
+          "decision": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "an assessment says it was scored and carries no score",
+      "expected": {
+        "decision": "deny",
+        "reason": "score_missing_unflagged"
+      },
+      "files": {
+        "record.json": "4d7f5d9e44a07bdd8df6a61e5b9336b70bbf41b75a611294f9b1f1b5c780cd5a"
+      },
+      "id": "reject-score-missing-unflagged",
+      "path": "cases/reject-score-missing-unflagged",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 3,
+        "events": {
+          "assessment": 1,
+          "decision": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "agent-c is admitted back citing no evidence",
+      "expected": {
+        "decision": "deny",
+        "reason": "restoration_without_evidence"
+      },
+      "files": {
+        "record.json": "f799b4ed5709e0cee1d696d6bd7702b194dc26ae43f1d25bd7aebfd9dfc160e7"
+      },
+      "id": "reject-restoration-without-evidence",
+      "path": "cases/reject-restoration-without-evidence",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 5,
+        "events": {
+          "assessment": 1,
+          "decision": 1,
+          "restart": 1,
+          "restoration": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the admission cites an entry the journal does not carry before it",
+      "expected": {
+        "decision": "deny",
+        "reason": "restoration_evidence_unresolved"
+      },
+      "files": {
+        "record.json": "30d329d2c1f90ec51eecc8fbbeaed070efdbd389cdcff7b92c100b8e026f382d"
+      },
+      "id": "reject-restoration-evidence-unresolved",
+      "path": "cases/reject-restoration-evidence-unresolved",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 5,
+        "events": {
+          "assessment": 1,
+          "decision": 1,
+          "restart": 1,
+          "restoration": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the admission cites a score and no restart",
+      "expected": {
+        "decision": "deny",
+        "reason": "restoration_without_restart"
+      },
+      "files": {
+        "record.json": "e5efe110b55f0901c7b0c617652a50bb536fff81eba3f9eacc575c41e88d0a86"
+      },
+      "id": "reject-restoration-without-restart",
+      "path": "cases/reject-restoration-without-restart",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 4,
+        "events": {
+          "assessment": 1,
+          "decision": 1,
+          "restoration": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the admission cites a restart and no assessment",
+      "expected": {
+        "decision": "deny",
+        "reason": "restoration_without_assessment"
+      },
+      "files": {
+        "record.json": "88872288a335995713dc9b97aae4da3c8b07ed6a8228f35364d783d1096bbe85"
+      },
+      "id": "reject-restoration-without-assessment",
+      "path": "cases/reject-restoration-without-assessment",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 4,
+        "events": {
+          "decision": 1,
+          "restart": 1,
+          "restoration": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the cited assessment has no score because the judge returned nothing",
+      "expected": {
+        "decision": "deny",
+        "reason": "restoration_evidence_not_scored"
+      },
+      "files": {
+        "record.json": "cfca1336464d9ba20d7514648ab941dad28014b40036ef08bab5bd42805dca0c"
+      },
+      "id": "reject-restoration-evidence-not-scored",
+      "path": "cases/reject-restoration-evidence-not-scored",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 5,
+        "events": {
+          "assessment": 1,
+          "decision": 1,
+          "restart": 1,
+          "restoration": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the cited score is the agent's own",
+      "expected": {
+        "decision": "deny",
+        "reason": "restoration_evidence_self_witnessed"
+      },
+      "files": {
+        "record.json": "316bce3da483477e10a2a45658a8df40ecb3a88882d50c6bd20b4a8d1bea4966"
+      },
+      "id": "reject-restoration-evidence-self-witnessed",
+      "path": "cases/reject-restoration-evidence-self-witnessed",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 5,
+        "events": {
+          "assessment": 1,
+          "decision": 1,
+          "restart": 1,
+          "restoration": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the cited score is above the rule's threshold",
+      "expected": {
+        "decision": "deny",
+        "reason": "restoration_evidence_above_threshold"
+      },
+      "files": {
+        "record.json": "8cfc34de4cdd6ee8414bcea354fda56b03737f41a424e9e3ba8560849b517153"
+      },
+      "id": "reject-restoration-evidence-above-threshold",
+      "path": "cases/reject-restoration-evidence-above-threshold",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 5,
+        "events": {
+          "assessment": 1,
+          "decision": 1,
+          "restart": 1,
+          "restoration": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "a decision not to act names nobody who decided it and no reason",
+      "expected": {
+        "decision": "deny",
+        "reason": "decision_without_authority"
+      },
+      "files": {
+        "record.json": "4b96d2cba3176f914b0f2163f976174840d14d031f8017d103b76e6efb51d144"
+      },
+      "id": "reject-decision-without-authority",
+      "path": "cases/reject-decision-without-authority",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "response": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the action is timed before the alert it answers",
+      "expected": {
+        "decision": "deny",
+        "reason": "response_time_inverted"
+      },
+      "files": {
+        "record.json": "b1c5ece2b0938dddaca60e7192ba5da8f7bc707b75ca60e0a2d5f6efb08dc684"
+      },
+      "id": "reject-response-time-inverted",
+      "path": "cases/reject-response-time-inverted",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "response": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the action came hours after the alert, past the declared bound",
+      "expected": {
+        "decision": "deny",
+        "reason": "response_bound_exceeded"
+      },
+      "files": {
+        "record.json": "d3cc253e3a37c83a1b1970ed5553ab063a0f338136b6da028056a8bdab8beef0"
+      },
+      "id": "reject-response-bound-exceeded",
+      "path": "cases/reject-response-bound-exceeded",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "response": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the cut is only an instruction to the agents and the run claims the channels were closed",
+      "expected": {
+        "decision": "deny",
+        "reason": "advisory_claimed_as_enforced"
+      },
+      "files": {
+        "record.json": "cc29ca470f23f713993b3e0c977839ca4f42cf8c3281f03d084a47399f541da2"
+      },
+      "id": "reject-advisory-claimed-as-enforced",
+      "path": "cases/reject-advisory-claimed-as-enforced",
+      "retained": {
+        "enforcement": "advisory",
+        "entries": 2,
+        "events": {
+          "decision": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the receipt names no contract",
+      "expected": {
+        "decision": "deny",
+        "reason": "receipt_contract_id_missing"
+      },
+      "files": {
+        "receipt.json": "d6ac2ce66ee0cd4402a7ca62e9c779d92e217dc6c14b414811059424f053b2c9",
+        "record.json": "c0de70b10db03286ce056fc210e14a71d98ab309a9b682813f57edbce28f099e"
+      },
+      "id": "reject-receipt-contract-id-missing",
+      "path": "cases/reject-receipt-contract-id-missing",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 6,
+        "events": {
+          "delivery": 3,
+          "tool_call": 2,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the receipt counts one entry fewer than the journal carries",
+      "expected": {
+        "decision": "deny",
+        "reason": "receipt_journal_mismatch"
+      },
+      "files": {
+        "receipt.json": "f6187760e13aaaaa507b2e678dac6a7b28b67223698f44459e4dcfca1cccbd60",
+        "record.json": "c0de70b10db03286ce056fc210e14a71d98ab309a9b682813f57edbce28f099e"
+      },
+      "id": "reject-receipt-journal-mismatch",
+      "path": "cases/reject-receipt-journal-mismatch",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 6,
+        "events": {
+          "delivery": 3,
+          "tool_call": 2,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the receipt leaves out agent-b, which agent-c reached through agent-a",
+      "expected": {
+        "decision": "deny",
+        "reason": "blast_radius_understated"
+      },
+      "files": {
+        "receipt.json": "698dbd647dbf4ffe503c1e2b0ecffa7b58e056c255e7d86d575104165aa64c45",
+        "record.json": "c0de70b10db03286ce056fc210e14a71d98ab309a9b682813f57edbce28f099e"
+      },
+      "id": "reject-blast-radius-understated",
+      "path": "cases/reject-blast-radius-understated",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 6,
+        "events": {
+          "delivery": 3,
+          "tool_call": 2,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the receipt names agent-d, which sent to agent-c and was never reached by it",
+      "expected": {
+        "decision": "deny",
+        "reason": "blast_radius_overstated"
+      },
+      "files": {
+        "receipt.json": "818ffa63e214a0d1daf2f194a92671ffe688034d03eb88853a750e126924e96c",
+        "record.json": "c0de70b10db03286ce056fc210e14a71d98ab309a9b682813f57edbce28f099e"
+      },
+      "id": "reject-blast-radius-overstated",
+      "path": "cases/reject-blast-radius-overstated",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 6,
+        "events": {
+          "delivery": 3,
+          "tool_call": 2,
+          "topology": 1
+        }
+      }
+    }
+  ],
+  "verifierContract": "verifier record.json --json, judging receipt.json beside it when present; exit 0 allow, 1 deny"
+}
