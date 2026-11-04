@@ -2,15 +2,13 @@
 
 [![CI](https://img.shields.io/github/actions/workflow/status/probityai/agent-evidence-vectors/ci.yml?label=CI)](https://github.com/probityai/agent-evidence-vectors/actions/workflows/ci.yml)
 [![PyPI](https://img.shields.io/pypi/v/agent-evidence-vectors)](https://pypi.org/project/agent-evidence-vectors/)
-[![Monthly](https://static.pepy.tech/badge/agent-evidence-vectors/month)](https://pepy.tech/projects/agent-evidence-vectors)
 [![Total](https://static.pepy.tech/badge/agent-evidence-vectors)](https://pepy.tech/projects/agent-evidence-vectors)
 [![Licence](https://img.shields.io/github/license/probityai/agent-evidence-vectors)](LICENSE)
 [![Stars](https://img.shields.io/github/stars/probityai/agent-evidence-vectors?style=flat)](https://github.com/probityai/agent-evidence-vectors/stargazers)
 
 <p>
 <a href="https://pepy.tech/projects/agent-evidence-vocabulary"><img alt="agent-evidence-vocabulary total downloads" src="https://static.pepy.tech/personalized-badge/agent-evidence-vocabulary?period=total&amp;units=international_system&amp;left_color=grey&amp;right_color=blue&amp;left_text=vocabulary%20downloads"></a>
-<a href="https://pepy.tech/projects/agent-evidence-vocabulary"><img alt="agent-evidence-vocabulary downloads per month" src="https://static.pepy.tech/personalized-badge/agent-evidence-vocabulary?period=month&amp;units=international_system&amp;left_color=grey&amp;right_color=blue&amp;left_text=vocabulary%20downloads/month"></a>
-<a href="https://www.npmjs.com/package/jcs-admit"><img alt="jcs-admit npm downloads per month" src="https://img.shields.io/npm/dm/jcs-admit?label=jcs-admit%20npm"></a>
+<a href="https://www.npmjs.com/package/jcs-admit"><img alt="jcs-admit npm total downloads" src="https://img.shields.io/npm/dt/jcs-admit?label=jcs-admit%20npm"></a>
 <a href="https://crates.io/crates/jcs-admit"><img alt="jcs-admit crate downloads" src="https://img.shields.io/crates/d/jcs-admit?label=jcs-admit%20crate"></a>
 <a href="https://crates.io/crates/dsse"><img alt="dsse crate downloads" src="https://img.shields.io/crates/d/dsse?label=dsse%20crate"></a>
 </p>
