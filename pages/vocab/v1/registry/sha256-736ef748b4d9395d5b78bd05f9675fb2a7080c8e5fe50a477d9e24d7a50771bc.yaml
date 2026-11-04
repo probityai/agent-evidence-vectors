@@ -2131,10 +2131,8 @@ incident_response:
 # doi 10.18653/v1/2026.findings-acl.426) is checked against the deliveries that
 # follow each decision, so the record is one hash-chained journal of typed
 # entries. Source paths begin `predicate.` and name members of the
-# containment-journal predicate,
-# https://probityai.github.io/agent-evidence-vectors/predicate/v1/containment-journal,
-# whose conformance corpus is vectors-containment-journal in
-# agent-evidence-vectors. A term the verifier computes, and does not read,
+# containment-journal predicate, whose conformance corpus is
+# vectors-containment-journal in agent-evidence-vectors. A term the verifier computes, and does not read,
 # names the members it is computed from. The section reuses and does not redefine
 # terms of other sections: a decision's responseFunction is an
 # incident_response.response_function value (restriction, isolation or
