@@ -2,6 +2,8 @@ package corpusreaders
 
 import (
 	"bytes"
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -35,7 +37,8 @@ func init() { register(containmentJournal{}) }
 //     topology_missing;
 //  6. the walk over the entries with the graph in force: each delivery, each
 //     decision's deltas and detector estimates, each fallback's posture, each
-//     restart, assessment and admitted restoration, and each response;
+//     restart, assessment and admitted restoration, each response, each
+//     admitted retrieval's inclusion in the snapshot and each tool call;
 //  7. the run-level claims.
 //
 // A receipt is judged only when the journal is allowed, and the reach it
@@ -468,6 +471,25 @@ func cjDigestsShape(v any, agents cjAgents) bool {
 	return true
 }
 
+const cjProofDepth = 64
+
+func cjProofShape(v any, _ cjAgents) bool {
+	list, ok := v.([]any)
+	if !ok || len(list) > cjProofDepth {
+		return false
+	}
+	for _, item := range list {
+		step, sok := item.([]any)
+		if !sok || len(step) != 2 {
+			return false
+		}
+		if _, word := step[0].(string); !word || !cjShape("digest", step[1], nil) {
+			return false
+		}
+	}
+	return true
+}
+
 var cjShapes map[string]func(any, cjAgents) bool
 
 func init() {
@@ -493,6 +515,7 @@ func init() {
 		"words":     func(v any, agents cjAgents) bool { return cjListing("word", v, agents) },
 		"edges":     cjEdgesShape,
 		"estimates": cjEstimatesShape,
+		"proof":     cjProofShape,
 	}
 }
 
@@ -516,12 +539,24 @@ var cjEventMembers = map[string][]cjMember{
 	"response": {{"decision", "word"}, {"alertAt", "time"}, {"authority", "text"},
 		{"reason", "text"}},
 	"tool_call": {{"agent", "agent"}, {"tool", "text"}},
+	"retrieval": {{"agent", "agent"}, {"documentDigest", "digest"}, {"admitted", "bool"},
+		{"proof", "proof"}},
+	"refusal": {{"sender", "agent"}, {"receiver", "agent"}, {"bodyDigest", "digest"},
+		{"reasonCode", "word"}},
 }
+
+// cjToolCallOptional are the revision 1.1 members a tool call may carry;
+// refusalReason is present exactly when refused is true.
+var cjToolCallOptional = []cjMember{{"refused", "bool"}, {"refusalReason", "text"},
+	{"grantChainDigest", "digest"}}
+
+var cjTopOptional = []cjMember{{"componentProfileDigest", "digest"}, {"snapshotRoot", "digest"}}
 
 var cjBaseMembers = []cjMember{{"seq", "count"}, {"prev", "digest"}, {"at", "time"}, {"event", "word"}}
 
 var cjClaimKinds = map[string]string{"channelsClosed": "bool", "restorationGated": "bool",
-	"defendedThroughout": "bool", "detectorDriven": "bool", "responseBoundSeconds": "count"}
+	"defendedThroughout": "bool", "detectorDriven": "bool", "responseBoundSeconds": "count",
+	"retrievalAttested": "bool", "authorityChainChecked": "bool"}
 
 var cjTopMembers = []string{"agents", "claims", "contractId", "enforcement", "entries",
 	"messageFields", "runId"}
@@ -562,14 +597,47 @@ func cjEntryMalformed(v any, agents cjAgents) bool {
 	if event == "response" && cjStr(entry, "decision") == "act" {
 		members = append(members, cjMember{"actedAt", "time"})
 	}
+	if event == "tool_call" {
+		for _, m := range cjToolCallOptional {
+			if _, present := entry[m.name]; present {
+				members = append(members, m)
+			}
+		}
+		_, reason := entry["refusalReason"]
+		if refused, _ := entry["refused"].(bool); reason != refused {
+			return true
+		}
+	}
 	if len(entry) != len(cjBaseMembers)+len(members) {
 		return true
 	}
 	return !cjMembersOK(entry, members, agents)
 }
 
+func cjTopMalformed(record cjObject) bool {
+	allowed := map[string]bool{}
+	for _, name := range cjTopMembers {
+		if _, present := record[name]; !present {
+			return true
+		}
+		allowed[name] = true
+	}
+	for _, m := range cjTopOptional {
+		if value, present := record[m.name]; present && !cjShape(m.kind, value, nil) {
+			return true
+		}
+		allowed[m.name] = true
+	}
+	for name := range record {
+		if !allowed[name] {
+			return true
+		}
+	}
+	return false
+}
+
 func cjMalformed(record cjObject) bool {
-	if !cjSameStrings(cjKeys(record), cjTopMembers) {
+	if cjTopMalformed(record) {
 		return true
 	}
 	list, ok := record["agents"].([]any)
@@ -606,7 +674,7 @@ func cjMalformed(record cjObject) bool {
 
 var cjClosed = map[string][]string{
 	"event": {"topology", "delivery", "decision", "fallback", "restart", "assessment",
-		"restoration", "response", "tool_call"},
+		"restoration", "response", "tool_call", "retrieval", "refusal"},
 	"basis": {"detector_online_label", "detector_no_label", "random_rate_matched",
 		"ground_truth_oracle", "fixed_schedule", "evidence_gate"},
 	"responseFunction": {"restriction", "isolation", "restoration"},
@@ -614,10 +682,12 @@ var cjClosed = map[string][]string{
 	"availability":     {"scored", "no_output", "judge_missing"},
 	"witness":          {"SELF", "EXTERNAL"},
 	"decision":         {"act", "continue", "escalate"},
+	"reasonCode": {"budget_exhausted", "purpose_out_of_scope", "permit_revoked",
+		"authority_chain_violation"},
 }
 
 var cjClosedOrder = []string{"event", "basis", "responseFunction", "failurePosture",
-	"availability", "witness", "decision"}
+	"availability", "witness", "decision", "reasonCode"}
 
 func cjIn(value any, words []string) bool {
 	s, ok := value.(string)
@@ -641,6 +711,19 @@ func cjClosedViolation(record cjObject, entries []cjObject) bool {
 			if value, present := entry[member]; present && !cjIn(value, cjClosed[member]) {
 				return true
 			}
+		}
+		if cjProofSideViolation(entry["proof"]) {
+			return true
+		}
+	}
+	return false
+}
+
+func cjProofSideViolation(v any) bool {
+	proof, _ := v.([]any)
+	for _, item := range proof {
+		if step := cjStrings(item); !cjIn(step[0], []string{"left", "right"}) {
+			return true
 		}
 	}
 	return false
@@ -776,6 +859,12 @@ func (w *cjWalk) run() string {
 			failure = w.restoration(index, entry)
 		case "response":
 			failure = w.response(entry)
+		case "refusal":
+			failure = w.refusal(entry)
+		case "retrieval":
+			failure = w.retrieval(entry)
+		case "tool_call":
+			failure = w.toolCall(entry)
 		}
 		if failure != "" {
 			return failure
@@ -1003,6 +1092,69 @@ func (w *cjWalk) response(entry cjObject) string {
 	return ""
 }
 
+// refusal refuses a refusal recorded over an edge not in force: that message
+// had no edge to cross, so the record misstates a drop as a policy refusal.
+func (w *cjWalk) refusal(entry cjObject) string {
+	if !w.graph[cjEdge{cjStr(entry, "sender"), cjStr(entry, "receiver")}] {
+		return "refusal_over_absent_edge"
+	}
+	return ""
+}
+
+// retrieval refuses an admitted document whose inclusion path does not lead to
+// the run's snapshotRoot, once the run names a root or claims attestation.
+func (w *cjWalk) retrieval(entry cjObject) string {
+	root, named := w.record["snapshotRoot"].(string)
+	if !cjBool(entry, "admitted") || (!named && !cjBool(w.claims, "retrievalAttested")) {
+		return ""
+	}
+	if !named || cjMerkleRoot(cjStr(entry, "documentDigest"), entry["proof"]) != root {
+		return "retrieval_admitted_outside_snapshot"
+	}
+	return ""
+}
+
+// cjMerkleRoot hashes an inclusion path as RFC 9162 section 2.1 does: the leaf
+// is SHA-256 over 0x00 and the document digest's 32 bytes, and each step hashes
+// 0x01 with the sibling on the side the step names and the node so far.
+func cjMerkleRoot(document string, proof any) string {
+	leaf, _ := hex.DecodeString(strings.TrimPrefix(document, "sha256:"))
+	sum := sha256.Sum256(append([]byte{0}, leaf...))
+	node := sum[:]
+	steps, _ := proof.([]any)
+	for _, item := range steps {
+		step := cjStrings(item)
+		other, _ := hex.DecodeString(strings.TrimPrefix(step[1], "sha256:"))
+		pair := append(append([]byte{1}, node...), other...)
+		if step[0] == "left" {
+			pair = append(append([]byte{1}, other...), node...)
+		}
+		next := sha256.Sum256(pair)
+		node = next[:]
+	}
+	return "sha256:" + hex.EncodeToString(node)
+}
+
+// toolCall refuses a tool call that ran for an agent with no outgoing edge in
+// the graph in force.
+func (w *cjWalk) toolCall(entry cjObject) string {
+	if !cjUnrefused(entry) {
+		return ""
+	}
+	agent := cjStr(entry, "agent")
+	for edge := range w.graph {
+		if edge[0] == agent {
+			return ""
+		}
+	}
+	return "tool_call_by_isolated_agent"
+}
+
+func cjUnrefused(entry cjObject) bool {
+	refused, _ := entry["refused"].(bool)
+	return cjStr(entry, "event") == "tool_call" && !refused
+}
+
 func cjClaimsFailure(record cjObject, entries []cjObject) string {
 	claims, _ := record["claims"].(cjObject)
 	if cjBool(claims, "channelsClosed") && cjStr(record, "enforcement") == "advisory" {
@@ -1022,6 +1174,13 @@ func cjClaimsFailure(record cjObject, entries []cjObject) string {
 	}
 	if cjBool(claims, "detectorDriven") && !informative {
 		return "detector_output_uninformative"
+	}
+	if cjBool(claims, "authorityChainChecked") {
+		for _, entry := range entries {
+			if _, bound := entry["grantChainDigest"]; cjUnrefused(entry) && !bound {
+				return "tool_call_authority_unbound"
+			}
+		}
 	}
 	return ""
 }

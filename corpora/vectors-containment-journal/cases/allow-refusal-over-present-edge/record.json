@@ -1,0 +1,108 @@
+{
+  "agents": [
+    "agent-a",
+    "agent-b",
+    "agent-c",
+    "agent-d"
+  ],
+  "claims": {
+    "channelsClosed": true
+  },
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/containment-journal",
+  "enforcement": "enforced",
+  "entries": [
+    {
+      "at": "2026-11-03T09:00:00Z",
+      "edges": [
+        [
+          "agent-a",
+          "agent-b"
+        ],
+        [
+          "agent-a",
+          "agent-c"
+        ],
+        [
+          "agent-a",
+          "agent-d"
+        ],
+        [
+          "agent-b",
+          "agent-a"
+        ],
+        [
+          "agent-b",
+          "agent-c"
+        ],
+        [
+          "agent-b",
+          "agent-d"
+        ],
+        [
+          "agent-c",
+          "agent-a"
+        ],
+        [
+          "agent-c",
+          "agent-b"
+        ],
+        [
+          "agent-c",
+          "agent-d"
+        ],
+        [
+          "agent-d",
+          "agent-a"
+        ],
+        [
+          "agent-d",
+          "agent-b"
+        ],
+        [
+          "agent-d",
+          "agent-c"
+        ]
+      ],
+      "event": "topology",
+      "prev": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "seq": 0
+    },
+    {
+      "at": "2026-11-03T09:00:10Z",
+      "bodyDigest": "sha256:654f153fdf31a4ef057c0e84b551fd8b44c052f16a82551c07a8e6c9f6f13fe9",
+      "event": "refusal",
+      "prev": "sha256:4fd72b86d7bd13f6013f15f96fd47d7cd33420f09f4cd83aa71d3a93011a2232",
+      "reasonCode": "budget_exhausted",
+      "receiver": "agent-b",
+      "sender": "agent-a",
+      "seq": 1
+    },
+    {
+      "at": "2026-11-03T09:00:20Z",
+      "bodyDigest": "sha256:995d6614e07c99f032ae96cee7b5a981c4be8aadce4e9cad6be97ba3dd7a97d6",
+      "dropped": false,
+      "edgeInForce": true,
+      "event": "delivery",
+      "prev": "sha256:5386a708c1eb2e5687bc075a24fbca9128cc60833145f28399d3ca1368a11ccc",
+      "receiver": "agent-a",
+      "sender": "agent-b",
+      "seq": 2
+    },
+    {
+      "at": "2026-11-03T09:00:30Z",
+      "bodyDigest": "sha256:e43c89c92a41ff804e8df3dd08484225bbd0139a2415d4a21487f2decff16d95",
+      "event": "refusal",
+      "prev": "sha256:4d362b80fec773cd387f3c0d7895fc73508524f975a3907b12024211974a28c9",
+      "reasonCode": "purpose_out_of_scope",
+      "receiver": "agent-c",
+      "sender": "agent-b",
+      "seq": 3
+    }
+  ],
+  "messageFields": [
+    "body",
+    "receiver",
+    "sender"
+  ],
+  "runId": "run-refusal"
+}

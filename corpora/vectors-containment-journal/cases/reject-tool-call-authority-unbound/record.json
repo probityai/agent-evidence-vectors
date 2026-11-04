@@ -1,0 +1,180 @@
+{
+  "agents": [
+    "agent-a",
+    "agent-b",
+    "agent-c",
+    "agent-d"
+  ],
+  "claims": {
+    "authorityChainChecked": true
+  },
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/containment-journal",
+  "enforcement": "enforced",
+  "entries": [
+    {
+      "at": "2026-11-03T09:00:00Z",
+      "edges": [
+        [
+          "agent-a",
+          "agent-b"
+        ],
+        [
+          "agent-a",
+          "agent-c"
+        ],
+        [
+          "agent-a",
+          "agent-d"
+        ],
+        [
+          "agent-b",
+          "agent-a"
+        ],
+        [
+          "agent-b",
+          "agent-c"
+        ],
+        [
+          "agent-b",
+          "agent-d"
+        ],
+        [
+          "agent-c",
+          "agent-a"
+        ],
+        [
+          "agent-c",
+          "agent-b"
+        ],
+        [
+          "agent-c",
+          "agent-d"
+        ],
+        [
+          "agent-d",
+          "agent-a"
+        ],
+        [
+          "agent-d",
+          "agent-b"
+        ],
+        [
+          "agent-d",
+          "agent-c"
+        ]
+      ],
+      "event": "topology",
+      "prev": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "seq": 0
+    },
+    {
+      "added": [],
+      "at": "2026-11-03T09:00:10Z",
+      "basis": "detector_online_label",
+      "detectorInputs": [
+        "body",
+        "sender"
+      ],
+      "edges": [
+        [
+          "agent-a",
+          "agent-b"
+        ],
+        [
+          "agent-a",
+          "agent-d"
+        ],
+        [
+          "agent-b",
+          "agent-a"
+        ],
+        [
+          "agent-b",
+          "agent-d"
+        ],
+        [
+          "agent-d",
+          "agent-a"
+        ],
+        [
+          "agent-d",
+          "agent-b"
+        ]
+      ],
+      "event": "decision",
+      "isolated": [
+        "agent-c"
+      ],
+      "prev": "sha256:4fd72b86d7bd13f6013f15f96fd47d7cd33420f09f4cd83aa71d3a93011a2232",
+      "removed": [
+        [
+          "agent-a",
+          "agent-c"
+        ],
+        [
+          "agent-b",
+          "agent-c"
+        ],
+        [
+          "agent-c",
+          "agent-a"
+        ],
+        [
+          "agent-c",
+          "agent-b"
+        ],
+        [
+          "agent-c",
+          "agent-d"
+        ],
+        [
+          "agent-d",
+          "agent-c"
+        ]
+      ],
+      "responseFunction": "isolation",
+      "riskEstimates": {
+        "agent-a": "0.100000",
+        "agent-b": "0.200000",
+        "agent-c": "0.900000",
+        "agent-d": "0.150000"
+      },
+      "seq": 1
+    },
+    {
+      "at": "2026-11-03T09:00:20Z",
+      "bodyDigest": "sha256:9b78c88d90760a4c62d3d6447cd220d349ecba8cd1840fc1d23702cdc63b162c",
+      "dropped": true,
+      "edgeInForce": false,
+      "event": "delivery",
+      "prev": "sha256:3efedea30cbfee2a74b8eb77840a99f2584c8d1e48b8fb0218436ceb8e890539",
+      "receiver": "agent-a",
+      "sender": "agent-c",
+      "seq": 2
+    },
+    {
+      "agent": "agent-a",
+      "at": "2026-11-03T09:00:30Z",
+      "event": "tool_call",
+      "prev": "sha256:58af6724af21c30a13d256a546e6508bb29f548ba134a04470ff067284f2b366",
+      "seq": 3,
+      "tool": "search"
+    },
+    {
+      "agent": "agent-c",
+      "at": "2026-11-03T09:00:40Z",
+      "event": "tool_call",
+      "prev": "sha256:82c69e60eea9805302d7f9cac88325c486c41de2ffbb9d0ee2da7a9ea50ff3b8",
+      "refusalReason": "no permit for an isolated agent",
+      "refused": true,
+      "seq": 4,
+      "tool": "search"
+    }
+  ],
+  "messageFields": [
+    "body",
+    "receiver",
+    "sender"
+  ],
+  "runId": "run-unbound"
+}

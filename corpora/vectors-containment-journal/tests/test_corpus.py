@@ -180,3 +180,155 @@ def test_flipping_a_byte_in_the_receipt_moves_the_verdict(tmp_path: Path) -> Non
         mutated[position] ^= 0x01
         (staged / "receipt.json").write_bytes(bytes(mutated))
         assert reader.verify(staged / "record.json")["decision"] == "deny", member
+
+
+REFUSED = "allow-isolated-agents-tool-call-refused"
+ATTESTED = "allow-retrieval-inside-snapshot"
+
+
+def _edited_verdict(tmp_path: Path, name: str, change: Any) -> dict[str, str]:
+    """Apply a change to a control's journal, re-chain it, and judge it."""
+    record = _record(name)
+    change(record)
+    generator.rechain(record["entries"])
+    staged = _staged(tmp_path, name)
+    _write(staged / "record.json", record)
+    return reader.verify(staged / "record.json")
+
+
+def _unrefuse(record: dict[str, Any]) -> None:
+    call = record["entries"][-1]
+    del call["refused"], call["refusalReason"]
+
+
+def _refused_false(record: dict[str, Any]) -> None:
+    call = record["entries"][-1]
+    call["refused"] = False
+    del call["refusalReason"]
+
+
+def _reason_only(record: dict[str, Any]) -> None:
+    del record["entries"][-1]["refused"]
+
+
+def _no_root(record: dict[str, Any]) -> None:
+    del record["snapshotRoot"]
+
+
+def _no_root_no_claim(record: dict[str, Any]) -> None:
+    del record["snapshotRoot"]
+    record["claims"] = {}
+
+
+def _outside(record: dict[str, Any]) -> None:
+    record["entries"][1]["documentDigest"] = generator.OUTSIDE
+
+
+def _sibling_swapped(record: dict[str, Any]) -> None:
+    record["entries"][1]["proof"][0][0] = "left"
+
+
+def _too_deep(record: dict[str, Any]) -> None:
+    record["entries"][1]["proof"] = record["entries"][1]["proof"] * 33
+
+
+def _unbound(record: dict[str, Any]) -> None:
+    del record["entries"][3]["grantChainDigest"]
+
+
+def _bad_profile(record: dict[str, Any]) -> None:
+    record["componentProfileDigest"] = "sha256:00"
+
+
+# Each attempt to get an isolated agent's call, an unattested document or an unbound
+# call past the 1.1 rules, and the reason the reader must give.
+BYPASSES = [
+    (REFUSED, _unrefuse, "tool_call_by_isolated_agent"),
+    (REFUSED, _refused_false, "tool_call_by_isolated_agent"),
+    (REFUSED, _reason_only, "record_malformed"),
+    (REFUSED, _unbound, "tool_call_authority_unbound"),
+    (REFUSED, _bad_profile, "record_malformed"),
+    (ATTESTED, _no_root, "retrieval_admitted_outside_snapshot"),
+    (ATTESTED, _outside, "retrieval_admitted_outside_snapshot"),
+    (ATTESTED, _sibling_swapped, "retrieval_admitted_outside_snapshot"),
+    (ATTESTED, _too_deep, "record_malformed"),
+]
+
+
+@pytest.mark.parametrize(("name", "change", "reason"), BYPASSES,
+                         ids=[change.__name__ for _, change, _ in BYPASSES])
+def test_each_bypass_attempt_is_refused(tmp_path: Path, name: str, change: Any,
+                                        reason: str) -> None:
+    assert _edited_verdict(tmp_path, name, change) == {"decision": "deny", "reason": reason}
+
+
+def test_a_run_that_names_no_snapshot_and_claims_none_is_judged_on_the_rest(
+        tmp_path: Path) -> None:
+    # No root and no claim: the journal says nothing about attestation, so a consumer
+    # that relies on attested retrieval requires the retrievalAttested claim.
+    assert _edited_verdict(tmp_path, ATTESTED, _no_root_no_claim) == {
+        "decision": "allow", "reason": reader.ALLOWED_REASON}
+
+
+def test_the_reach_rule_counts_every_tool_call_by_a_tainted_agent() -> None:
+    # The subject is tainted from the start; from fromSeq on, a delivery the router did
+    # not drop counts when its sender is tainted and taints the receiver, even one already
+    # tainted; a tool call counts when its agent is tainted, refused or not.
+    assert reader.reach(_record(REFUSED), "agent-c", 0) == {
+        "agents": [], "deliveries": 0, "toolCalls": 1}
+    again = _record("allow-blast-radius-counts-delivery-to-tainted-receiver")
+    assert reader.reach(again, "agent-c", 0) == {
+        "agents": ["agent-a"], "deliveries": 2, "toolCalls": 0}
+
+
+def _drop_after_refusal(record: dict[str, Any]) -> None:
+    refusal = record["entries"][1]
+    record["entries"].insert(2, {"event": "delivery", "sender": refusal["sender"],
+                                 "receiver": refusal["receiver"],
+                                 "bodyDigest": refusal["bodyDigest"], "edgeInForce": True,
+                                 "dropped": True, "prev": "", "at": refusal["at"]})
+    for index, entry in enumerate(record["entries"]):
+        entry["seq"] = index
+
+
+def _unknown_refusal_code(record: dict[str, Any]) -> None:
+    record["entries"][1]["reasonCode"] = "private_policy_rule_7"
+
+
+def test_a_drop_over_a_present_edge_is_still_denied_beside_a_refusal(tmp_path: Path) -> None:
+    name = "allow-refusal-over-present-edge"
+    assert _edited_verdict(tmp_path / "drop", name, _drop_after_refusal) == {
+        "decision": "deny", "reason": "drop_over_present_edge"}
+    assert _edited_verdict(tmp_path / "code", name, _unknown_refusal_code) == {
+        "decision": "deny", "reason": "closed_vocabulary_violation"}
+
+
+@pytest.mark.parametrize("code", reader.CLOSED["reasonCode"])
+def test_every_registered_refusal_code_gives_the_same_verdict(tmp_path: Path, code: str) -> None:
+    def set_code(record: dict[str, Any]) -> None:
+        for entry in record["entries"]:
+            if entry["event"] == "refusal":
+                entry["reasonCode"] = code
+
+    assert _edited_verdict(tmp_path, "allow-refusal-over-present-edge", set_code) == {
+        "decision": "allow", "reason": "containment_consistent"}
+
+
+def test_the_registered_refusal_codes_are_the_four_the_spec_lists() -> None:
+    assert reader.CLOSED["reasonCode"] == (
+        "budget_exhausted", "purpose_out_of_scope", "permit_revoked", "authority_chain_violation")
+
+
+def test_the_inclusion_path_reaches_the_root_for_every_snapshot_document() -> None:
+    for document in generator.DOCUMENTS:
+        assert reader.merkle_root(document, generator.inclusion(document)) == \
+            generator.SNAPSHOT_ROOT
+    assert reader.merkle_root(generator.OUTSIDE, generator.inclusion(generator.OUTSIDE)) != \
+        generator.SNAPSHOT_ROOT
+
+
+def test_the_manifest_revision_is_the_changelogs_newest() -> None:
+    manifest = json.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))
+    heading = next(line for line in (ROOT / "CHANGES.md").read_text(encoding="utf-8").splitlines()
+                   if line.startswith("## suiteRevision "))
+    assert manifest["suiteRevision"] == int(heading.split()[2])
