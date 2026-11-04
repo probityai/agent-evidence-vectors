@@ -36,6 +36,10 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: main
+          # The action pushes with its own GH_TOKEN header; a persisted checkout
+          # credential adds a second Authorization header and GitHub refuses the push
+          # with HTTP 400 ("Duplicate header"), which left the family lock stale.
+          persist-credentials: false
       - uses: probityai/.github/actions/pin-refresh@ca2ba06de3bc0fb385e81a338873cbf26a3eaaf5 # main
         with:
           ci: |

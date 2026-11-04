@@ -9,6 +9,10 @@ key = "pypi:agent-evidence-vectors"
 manifest = "pyproject.toml"
 publisher = "probityai/agent-evidence-vectors"
 
+[family]
+"pypi:probityai" = "0.1.1"
+"action:agent-evidence-vectors" = "0.35.0"
+
 [scan]
 include = [
   "README.md",
