@@ -2,7 +2,7 @@ cff-version: 1.2.0
 title: >-
   agent-evidence-vectors: conformance vectors for agent execution evidence
 message: >-
-  This checkout prepares source version 0.34.2 and is not a published release.
+  This checkout prepares source version 0.35.0 and is not a published release.
   Cite its full source commit and corpus digest for a checkout run. The preferred
   citation names the published release and its exact source identity.
   This is software. It implements and tests the adversarial-execution-evidence
@@ -55,7 +55,7 @@ keywords:
   - agentic systems
   - evidence
 license: Apache-2.0
-version: 0.34.2
+version: 0.35.0
 date-released: "2026-11-04"
 preferred-citation:
   type: software
@@ -67,10 +67,10 @@ preferred-citation:
       email: sankalp.gilda@gmail.com
       orcid: 'https://orcid.org/0000-0002-3645-4501'
   repository-code: https://github.com/probityai/agent-evidence-vectors
-  url: https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.34.2
-  version: 0.34.2
-  commit: 369f48a371447e958a261fbf461f71265035e7d7
+  url: https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.35.0
+  version: 0.35.0
+  commit: ab72f6d69e9a544aebcae1f0ea47b7672558a908
   date-released: "2026-11-04"
   identifiers:
     - type: url
-      value: https://api.github.com/repos/probityai/agent-evidence-vectors/git/tags/5cfdda4c1247baded20c3df4a91ada889f9be4ac
+      value: https://api.github.com/repos/probityai/agent-evidence-vectors/git/tags/35b2afb4974e2d987c33b5506fcb3fb733593c77
