@@ -441,9 +441,15 @@ def _receipt_cases() -> list[Case]:
     reach = reach_run()
     stale = receipt(reach)
     stale["journal"]["entries"] = len(reach["entries"]) - 1
+    unknown = reader.RECEIPT_CONTRACT_ID.replace("/predicate/v1/", "/contract/v0/")
     return [
         ("reject-receipt-contract-id-missing", reach, receipt(reach, contractId=None), "deny",
          "receipt_contract_id_missing", "the receipt names no contract"),
+        ("reject-receipt-contract-id-unknown", reach, receipt(reach, contractId=unknown),
+         "deny", "receipt_contract_id_unknown", "the receipt names a contract version that does "
+         "not exist"),
+        ("reject-receipt-malformed", reach, receipt(reach, subject="agent-e"), "deny",
+         "receipt_malformed", "the receipt's subject is an agent the journal does not list"),
         ("reject-receipt-journal-mismatch", reach, stale, "deny", "receipt_journal_mismatch",
          "the receipt counts one entry fewer than the journal carries"),
         ("reject-blast-radius-understated", reach,

@@ -1,9 +1,9 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/containment-journal",
-  "corpusDigest": "2b65e615c9d2a13f10248ea280c12dea332b038d11565e2a39aba3d0b805c5e0",
+  "corpusDigest": "9f7014a96e030bec94e25635ff99e92f3b37a579277fe82cb0f488476cb7aa31",
   "counts": {
     "allow": 7,
-    "deny": 40
+    "deny": 42
   },
   "receiptContractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/blast-radius-receipt",
   "suite": "containment-journal/v1",
@@ -926,6 +926,50 @@
       },
       "id": "reject-receipt-contract-id-missing",
       "path": "cases/reject-receipt-contract-id-missing",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 6,
+        "events": {
+          "delivery": 3,
+          "tool_call": 2,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the receipt names a contract version that does not exist",
+      "expected": {
+        "decision": "deny",
+        "reason": "receipt_contract_id_unknown"
+      },
+      "files": {
+        "receipt.json": "f134a7192d7626ad77d4c19453b4e95a72d8cbd5e2207cfdbb16f962555dad93",
+        "record.json": "c0de70b10db03286ce056fc210e14a71d98ab309a9b682813f57edbce28f099e"
+      },
+      "id": "reject-receipt-contract-id-unknown",
+      "path": "cases/reject-receipt-contract-id-unknown",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 6,
+        "events": {
+          "delivery": 3,
+          "tool_call": 2,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the receipt's subject is an agent the journal does not list",
+      "expected": {
+        "decision": "deny",
+        "reason": "receipt_malformed"
+      },
+      "files": {
+        "receipt.json": "5aa216cdc6e3cda2a3dd36d6457fd8c50454bedf723afcb0e8faa4a63ff59cd6",
+        "record.json": "c0de70b10db03286ce056fc210e14a71d98ab309a9b682813f57edbce28f099e"
+      },
+      "id": "reject-receipt-malformed",
+      "path": "cases/reject-receipt-malformed",
       "retained": {
         "enforcement": "enforced",
         "entries": 6,
