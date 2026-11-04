@@ -196,7 +196,7 @@ func rsDeclarationFindings(dir string, edit rsEdit) []findingCase {
 		}), "with no expectedIfNotHonoured"},
 		{"rs/indeterminate-outcomes", dir, edit(func(t *testing.T, _ string, m map[string]any) {
 			setDeep(t, rsRow(t, m, "indeterminate"), "invalid", "expectedIfNotHonoured", "verdict")
-		}), "two outcomes are not invalid when honoured and valid when not"},
+		}), "two outcomes are not invalid or undecidable when honoured and valid when not"},
 		{"rs/indeterminate-invalid-bare", dir, edit(func(t *testing.T, _ string, m map[string]any) {
 			setDeep(t, rsRow(t, m, "indeterminate"), "invalid", "expectedWithoutWindows", "verdict")
 		}), "expected invalid without the windows"},

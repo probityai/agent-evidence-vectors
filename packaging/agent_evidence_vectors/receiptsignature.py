@@ -204,7 +204,10 @@ def _precheck(payload: dict[str, Any], signature: dict[str, str]) -> str | None:
 
 
 def _window(issued: Any, key: dict[str, Any]) -> str:
-    """valid_from included, valid_until excluded; an absent bound is open."""
+    """valid_from included, valid_until excluded; an absent bound is open, and a key
+    with no bound has no window to apply, so issued_at is not read."""
+    if "valid_from" not in key and "valid_until" not in key:
+        return VALID
     at = _instant(issued)
     if at is None:
         return outcome_text(UNDECIDABLE, "window_not_applicable")
@@ -228,6 +231,27 @@ def _revocation(issued: Any, key: dict[str, Any]) -> str:
     return outcome_text(INVALID, "key_revoked") if at >= revoked else VALID
 
 
+def _signature_stop(payload: dict[str, Any], signature: dict[str, Any], public: Any) -> str | None:
+    """The signature's encoding, the payload's canonical form, then the signature
+    itself; None when all three hold."""
+    try:
+        sig = bytes.fromhex(signature["sig"])
+    except ValueError:
+        sig = b""
+    if len(sig) != 64:
+        return outcome_text(INVALID, "bad_signature_encoding")
+    rail = _rail()
+    try:
+        if _repeats(payload):
+            raise ValueError("a repeated member name")
+        canonical = rail.jcs_dumps(payload)
+    except ValueError:
+        return outcome_text(UNDECIDABLE, "payload_not_canonicalizable")
+    if not rail.ed25519_verify(public, canonical, sig):
+        return outcome_text(INVALID, "signature_invalid")
+    return None
+
+
 def verify(body: bytes, keys: dict[str, dict[str, Any]], gap_closed: bool = False) -> str:
     """Sections 2.1, 2.2, 5.2, 6.6 and 9.2 of draft-03, the key resolved only from
     the external key set (Section 9.5), in the order the Go reader checks them.
@@ -245,22 +269,30 @@ def verify(body: bytes, keys: dict[str, dict[str, Any]], gap_closed: bool = Fals
     public = _public_key(key)
     if public is None:
         return outcome_text(UNDECIDABLE, "bad_key")
-    try:
-        sig = bytes.fromhex(signature["sig"])
-    except ValueError:
-        sig = b""
-    if len(sig) != 64:
-        return outcome_text(INVALID, "bad_signature_encoding")
-    rail = _rail()
-    try:
-        if _repeats(payload):
-            raise ValueError("a repeated member name")
-        canonical = rail.jcs_dumps(payload)
-    except ValueError:
-        return outcome_text(UNDECIDABLE, "payload_not_canonicalizable")
-    if not rail.ed25519_verify(public, canonical, sig):
-        return outcome_text(INVALID, "signature_invalid")
+    stop = _signature_stop(payload, signature, public)
+    if stop is not None:
+        return stop
+    stop = _link_syntax(payload)
+    if stop is not None:
+        return stop
     return _lifecycle(payload["issued_at"], key, gap_closed)
+
+
+_LINK_FORMS = re.compile(r"sha256:[0-9a-f]{64}|[0-9a-f]{64}")
+
+
+def _link_syntax(payload: dict[str, Any]) -> str | None:
+    """Section 6.7: a previousReceiptHash is "sha256:" and 64 lowercase hex digits
+    (the bare digest of earlier revisions may be accepted). It reads the member
+    alone, so it holds with no predecessor presented. A null member is left to
+    the chain check. This reader does not separate a prefix naming another
+    algorithm from a malformed value."""
+    if payload.get("previousReceiptHash", None) is None:
+        return None
+    value = payload["previousReceiptHash"]
+    if not isinstance(value, str) or _LINK_FORMS.fullmatch(value) is None:
+        return outcome_text(INVALID, "malformed_chain_link")
+    return None
 
 
 def _lifecycle(issued: Any, key: dict[str, Any], gap_closed: bool) -> str:
@@ -735,12 +767,12 @@ def _check_indeterminate(v: dict[str, Any], levels: set[str]) -> list[str]:
     if v.get("expectedIfNotHonoured") is None:
         return [*findings, "is an indeterminate member with no expectedIfNotHonoured"]
     if (
-        _verdict(v.get("expected")) != INVALID
+        _verdict(v.get("expected")) not in (INVALID, UNDECIDABLE)
         or _verdict(v.get("expectedIfNotHonoured")) != VALID
     ):
         findings.append(
-            "is an indeterminate member whose two outcomes are not invalid when honoured and "
-            "valid when not"
+            "is an indeterminate member whose two outcomes are not invalid or undecidable when "
+            "honoured and valid when not"
         )
     if _verdict(v.get("expectedWithoutWindows")) != VALID:
         findings.append(

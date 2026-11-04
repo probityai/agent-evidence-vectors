@@ -1,0 +1,16 @@
+{
+  "payload": {
+    "type": "protectmcp:decision",
+    "tool_name": "payments.transfer",
+    "decision": "allow",
+    "issued_at": "2026-02-15T00:00:00Z",
+    "issuer_id": "test:chained:ed25519",
+    "policy_digest": "sha256:8ca92f7dfaaf6f4fee88f3892cd7122ab48912c0f9666f70df79b2973627b888",
+    "previousReceiptHash": "sha256:not-a-digest"
+  },
+  "signature": {
+    "alg": "EdDSA",
+    "kid": "test:chained:ed25519",
+    "sig": "e19e409272ccb5e05786b9975d76f5c22348f74fdcfea4f1b915bf50cf46cee3dab0fe518a170bfa5a22769a9e6d9f11a8f12ccb0adbb59c39fbaf953588a40a"
+  }
+}

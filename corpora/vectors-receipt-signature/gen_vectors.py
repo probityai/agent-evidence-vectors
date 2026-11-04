@@ -353,6 +353,31 @@ CONDITIONS: dict[str, dict[str, Any]] = {
         "requirements": [],
         "gaps": ["RS-G-002"],
     },
+    "rs-c-10": {
+        "requires": (
+            "A previousReceiptHash that is not \"sha256:\" and 64 lowercase hex digits is "
+            "refused, whether or not the receipt before it is presented. A signature that "
+            "verifies does not make the link well formed."
+        ),
+        "requirements": ["RS-R-006"],
+    },
+    "rs-c-11": {
+        "requires": (
+            "The link covers the whole signed receipt before it, signature included. A link "
+            "over that receipt's payload alone names a different preimage and is refused at "
+            "its chain position, even though it is a well formed digest."
+        ),
+        "requirements": ["RS-R-006"],
+    },
+    "rs-c-12": {
+        "requires": (
+            "A receipt whose issued_at carries no time-zone designator cannot be placed "
+            "against a key's validity window. A verifier that applies the window answers "
+            "undecidable; it does not read the time in its own zone, because the verdict "
+            "would then depend on the machine that ran it."
+        ),
+        "requirements": ["RS-R-002"],
+    },
 }
 
 CODE_REGISTRY = {
@@ -369,6 +394,14 @@ CODE_REGISTRY = {
     "chain_link_mismatch": (
         "previousReceiptHash is not \"sha256:\" and the hex of SHA-256(JCS(r)), where r is "
         "the receipt before it in the chain presented (Section 6.7)"
+    ),
+    "malformed_chain_link": (
+        "previousReceiptHash is present and is not \"sha256:\" followed by 64 lowercase hex "
+        "digits (Section 6.7), whether or not the receipt before it is presented"
+    ),
+    "window_not_applicable": (
+        "the key's validity window cannot be applied: issued_at, or a bound of the window, "
+        "is not an RFC 3339 date-time that writes its UTC offset out"
     ),
     "key_revoked": "issued_at is at or after the key's revoked_at (RS-G-001, proposed)",
     "issued_at_precedes_excluding_commitment": (
@@ -560,6 +593,10 @@ VALID = {"verdict": "valid", "code": None}
 
 def invalid(code: str) -> dict[str, Any]:
     return {"verdict": "invalid", "code": code}
+
+
+def undecidable(code: str) -> dict[str, Any]:
+    return {"verdict": "undecidable", "code": code}
 
 
 def member(
@@ -819,14 +856,14 @@ def timeliness_members(before_revocation: dict[str, Any]) -> list[dict[str, Any]
             cites="the first receipt of the chain, which carries no link.",
         ),
         member(
-            kind="accept", conditions=["rs-c-9"], key=KEY_CHAINED, body=body,
+            kind="accept", conditions=["rs-c-9", "rs-c-10"], key=KEY_CHAINED, body=body,
             signed_input=jcs(body), expected=VALID, without_windows=VALID,
             upstream=("timeliness", "receipt.json"),
             cites="the receipt alone. Its signature verifies, and its issued_at is the "
                   "signer's word with nothing bounding it.",
         ),
         at_two(
-            "accept", ["rs-c-8"], genesis, expected=VALID, without_windows=VALID,
+            "accept", ["rs-c-8", "rs-c-11"], genesis, expected=VALID, without_windows=VALID,
             cites="the same receipt at chain position 2 after the receipt its link names.",
         ),
         at_two(
@@ -856,10 +893,70 @@ def timeliness_members(before_revocation: dict[str, Any]) -> list[dict[str, Any]
     ]
 
 
+def verifier_fix_members() -> list[dict[str, Any]]:
+    """Three cases a verifier can only get right after the fix that named each.
+
+    Each is a receipt whose signature verifies, so a verifier that stops at the
+    signature accepts it. They are the cases behind three releases of
+    @veritasacta/verify: a link that is not a digest (0.10.22), a link over the
+    previous receipt's payload alone (0.10.25), and an issued_at the key's
+    window cannot be applied to (0.10.26). Each differs from a member above only
+    in the one thing it tests."""
+    genesis = signed(decision(KEY_CHAINED, "read_file", "2026-01-10T00:00:00Z"), KEY_CHAINED)
+
+    def at(link_value: str) -> dict[str, Any]:
+        return {**decision(KEY_CHAINED, "payments.transfer", "2026-02-15T00:00:00Z"),
+                "previousReceiptHash": link_value}
+
+    malformed = at("sha256:not-a-digest")
+    payload_only = at("sha256:" + sha(jcs(genesis["payload"])))
+    no_designator = payload(KEY_A, "2026-06-01T01:00:00")
+    designated = payload(KEY_A, "2026-06-01T01:00:00+02:00")
+    return [
+        member(
+            kind="reject", conditions=["rs-c-10"], key=KEY_CHAINED, body=malformed,
+            signed_input=jcs(malformed), expected=invalid("malformed_chain_link"),
+            without_windows=invalid("malformed_chain_link"),
+            cites="the receipt alone, with previousReceiptHash \"sha256:not-a-digest\". The "
+                  "signature verifies over JCS(payload), and nothing but the link's form "
+                  "refuses it. The twin is the timeliness receipt alone, which differs in "
+                  "carrying a well formed link.",
+        ),
+        member(
+            kind="reject", conditions=["rs-c-11"], key=KEY_CHAINED, body=payload_only,
+            signed_input=jcs(payload_only), expected=invalid("chain_link_mismatch"),
+            without_windows=invalid("chain_link_mismatch"),
+            context={"chain": [genesis]},
+            cites="chain position 2 after the genesis receipt, with a link that is "
+                  "\"sha256:\" and the hex of SHA-256(JCS(payload)) of that receipt: a well "
+                  "formed digest of the wrong preimage. The twin is the timeliness receipt at "
+                  "position 2, whose link covers the whole receipt.",
+        ),
+        member(
+            kind="indeterminate", conditions=["rs-c-12"], key=KEY_A, body=no_designator,
+            signed_input=jcs(no_designator),
+            expected=undecidable("window_not_applicable"), without_windows=VALID,
+            if_not_honoured=VALID,
+            cites="issued_at \"2026-06-01T01:00:00\" has no time-zone designator, which "
+                  "Section 2.2 requires, and key A's window ends at 2026-06-01T00:00:00Z. Read "
+                  "as UTC it is outside the window; read in a zone two hours ahead of UTC it is "
+                  "inside. A verifier that picks its own zone answers invalid or valid by "
+                  "where it runs. Honouring Section 9.2 here is undecidable.",
+        ),
+        member(
+            kind="accept", conditions=["rs-c-12"], key=KEY_A, body=designated,
+            signed_input=jcs(designated), expected=VALID, without_windows=VALID,
+            cites="the twin of the member above: the same digits with the designator "
+                  "+02:00 written out, which is 2026-05-31T23:00:00Z, inside key A's window.",
+        ),
+    ]
+
+
 def testvectors_members() -> list[dict[str, Any]]:
     signing = signing_input_members()
     revocation = revocation_members()
-    return [*signing, *revocation, *timeliness_members(revocation[0]["receipt"])]
+    return [*signing, *revocation, *timeliness_members(revocation[0]["receipt"]),
+            *verifier_fix_members()]
 
 
 def file_bytes(value: Any) -> bytes:

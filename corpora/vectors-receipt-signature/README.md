@@ -39,7 +39,11 @@ validity window, three further rules of Section 6.6 (no pre-hash before signing,
 the envelope rule applied to an envelope, no signature member in the signed
 object, not even as null), and the Section 6.7 link of a receipt presented at a
 chain position: the timeliness receipt after the receipt its link names, and
-after one it does not.
+after one it does not. Three members are the cases behind three fixes to
+`@veritasacta/verify`, each a validly signed receipt that a verifier stopping at
+the signature accepts: a `previousReceiptHash` that is not a digest (0.10.22), a
+link over the previous receipt's payload alone (0.10.25), and an `issued_at` with
+no time-zone designator against a key that has a window (0.10.26).
 
 ## Two key sets, two passes
 
@@ -80,6 +84,13 @@ inside the window and `valid_until` outside it (Section 5.5 of
 `draft-farley-acta-signed-receipts-04`, open as VeritasActa/drafts#3). It is not
 on the datatracker yet. When it is, these members become reject members and the
 not-honouring line becomes a failure.
+
+A member whose window cannot be applied has an honoured outcome that is
+`undecidable` rather than `invalid`: `issued_at` without a time-zone designator
+(Section 2.2 requires one) cannot be placed against `valid_until`, and a verifier
+that reads it in its own zone answers by where it runs. The honoured and
+not-honoured outcomes are graded as above. A verifier that guesses a zone and
+answers `invalid` fails the member.
 
 ## How a gap is graded
 
