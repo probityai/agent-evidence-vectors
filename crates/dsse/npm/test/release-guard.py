@@ -170,7 +170,7 @@ def main():
         files['BUILD.json'] = json.dumps(record).encode()
         with tempfile.TemporaryDirectory(prefix='dsse-release-control-') as temporary:
             directory = Path(temporary)
-            artifact = directory/'dsse-0.1.0.tgz'
+            artifact = directory/'probityai-dsse-0.1.0.tgz'
             with tarfile.open(artifact, 'w:gz') as archive:
                 for name, data in sorted(files.items()):
                     member = 'package/'+name

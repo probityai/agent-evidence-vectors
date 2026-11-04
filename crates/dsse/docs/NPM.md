@@ -8,7 +8,7 @@ separate consumers.
 
 ## Distribution identity
 
-The npm package is `dsse` version `0.1.0`. The additive Rust source version
+The npm package is `@probityai/dsse` version `0.1.0`. The additive Rust source version
 `0.1.3` supplies error serialization. The existing Rust `0.1.2` install pin and
 its historical results remain unchanged. Registry metadata, artifact hashes
 and provenance identify a published package; source versions alone do not
@@ -18,7 +18,7 @@ The package manifest declares Node 22.14 or later. Install a locally prepared
 tarball in a consumer directory:
 
 ```bash
-npm install ./dsse-0.1.0.tgz
+npm install ./probityai-dsse-0.1.0.tgz
 ```
 
 This command selects the local file. A registry install instead needs the exact
@@ -62,7 +62,7 @@ is public. This demonstrates verification of a synthetic empty body.
 
 ```js
 import assert from "node:assert/strict";
-import { verify } from "dsse";
+import { verify } from "@probityai/dsse";
 
 const key_id = "6a0b3c3b3cec7193b931661a269a55410ffdacc86b5c1d40fd3f107d4e9c6158";
 const public_key = new Uint8Array(Buffer.from(
@@ -92,7 +92,7 @@ parse/serialize step as an input-admission check.
 The browser entry needs initialization before its synchronous verification API:
 
 ```js
-import initialize, { verify, pae, DsseError } from "dsse/browser";
+import initialize, { verify, pae, DsseError } from "@probityai/dsse/browser";
 
 await initialize();
 // Now call verify with envelope/key Uint8Array values, as above.
