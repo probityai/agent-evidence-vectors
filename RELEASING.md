@@ -142,7 +142,10 @@ scripts/release-timestamps.sh stamp
 #     and the intake checker then verifies that signature; before step 2 the
 #     list on disk was unsigned and the records said so. CI's
 #     `gen-intake-records.py --check` fails a release commit that skips this.
-uv run --locked --extra generators python scripts/gen-intake-records.py
+#     The script runs under CPython 3.13 only and refuses any other interpreter
+#     ("run under CPython 3.13"), so name the interpreter, and clear a
+#     VIRTUAL_ENV left over from another project so uv does not reuse it.
+env -u VIRTUAL_ENV uv run --locked --python 3.13 --extra generators python scripts/gen-intake-records.py
 
 # 4. Commit the release artifacts together with the version bump. They are one
 #    unit: a digest list without its signature, a signature without its stamps,
