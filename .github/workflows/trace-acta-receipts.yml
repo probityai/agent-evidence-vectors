@@ -65,11 +65,15 @@ jobs:
         run: |
           set -euo pipefail
           uv run --locked --extra dev python --version > "$TRACE_CAPTURE_DIR/python-version.txt"
+          status=0
           uv run --locked --extra dev python packaging/run_vectors.py \
             --corpus vectors-receipt-signature \
             --verifier "python3 $TRACE_CAPTURE_DIR/acta_receipt_verifier.py" \
             --report "$TRACE_CAPTURE_DIR/report.json" \
-            > "$TRACE_CAPTURE_DIR/harness.stdout" 2> "$TRACE_CAPTURE_DIR/harness.stderr"
+            > "$TRACE_CAPTURE_DIR/harness.stdout" 2> "$TRACE_CAPTURE_DIR/harness.stderr" || status=$?
+          # Exit 1 means the harness judged at least one member as failing, which is the
+          # recorded answer below; any other status means it did not run the comparison.
+          test "$status" -le 1
           uv run --locked --extra dev python interop/trace-acta-receipts/check_report.py \
             "$TRACE_CAPTURE_DIR/report.json"
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
