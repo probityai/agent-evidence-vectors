@@ -29,51 +29,22 @@ prints `{"decision": ..., "reason": ...}` and exits 0 for `allow`, 1 for `deny`.
 ## The journal
 
 Entries are `topology`, `delivery`, `decision`, `fallback`, `restart`, `assessment`,
-`restoration`, `response`, `tool_call` and `retrieval`. The full rules are in
-[the predicate document](../../spec/predicates/containment-journal.md). Each carries `seq`, `prev` (the digest of the
-entry before) and `at`. An entry's digest is `sha256:` and the hex SHA-256 of
-`json.dumps(entry, sort_keys=True, separators=(",", ":"))`, which is RFC 8785 output
-because the record carries integers only and printable ASCII strings only. The journal
-also states the defence's claims: `channelsClosed`, `restorationGated`,
-`defendedThroughout`, `detectorDriven` and `responseBoundSeconds`.
+`restoration`, `response`, `tool_call` and `retrieval`, each chained to the one before by
+digest. The journal also states the defence's claims (`channelsClosed`,
+`restorationGated`, `defendedThroughout`, `detectorDriven`, `responseBoundSeconds`,
+`retrievalAttested`, `authorityChainChecked`).
 
 ## What the cases force
 
-The reader names the first rule that fails, in this order:
-
-1. `contract_id_missing`, `contract_id_unknown`.
-2. `record_not_canonical` (a float, a non-ASCII character, a repeated member).
-3. `record_malformed`, then `closed_vocabulary_violation`.
-4. The chain: `chain_seq_gap`, `chain_broken`, `chain_time_reversed`, then
-   `topology_missing` (the run does not open with its graph).
-5. The walk, holding the graph in force. Deliveries: `edge_flag_mismatch`,
-   `drop_over_present_edge`, `delivered_over_absent_edge` (an enforced router let a
-   message through a cut edge). Decisions: `edge_delta_mismatch`,
-   `isolated_set_mismatch`, `topology_expansion_not_restriction`,
-   `detector_inputs_absent` (the detector reads fields the router never writes),
-   `decision_not_supported_by_estimates` (equal risk for every agent, yet one is cut),
-   `reenable_without_restoration`. Fallbacks: `posture_contradicted`. Restarts:
-   `remediation_not_evidenced`, `restart_memory_not_cleared`. Assessments:
-   `missing_score_coerced`, `score_missing_unflagged`. Admitted restorations:
-   `restoration_without_evidence`, `restoration_evidence_unresolved`,
-   `restoration_without_restart`, `restoration_without_assessment`,
-   `restoration_evidence_not_scored`, `restoration_evidence_self_witnessed`,
-   `restoration_evidence_above_threshold`. Responses: `decision_without_authority`,
-   `response_time_inverted`, `response_bound_exceeded`. Revision 1.1: an admitted
-   retrieval whose inclusion path misses `snapshotRoot`
-   (`retrieval_admitted_outside_snapshot`), and a tool call that ran for an isolated
-   agent (`tool_call_by_isolated_agent`).
-6. The claims: `advisory_claimed_as_enforced`, `defended_claim_after_fail_open`,
-   `detector_output_uninformative`, `tool_call_authority_unbound` (a call with no grant
-   chain under `authorityChainChecked`).
-
-A journal that passes is `allow`, `containment_consistent`. A receipt is judged only
-beside an allowed journal: `receipt_contract_id_missing`, `receipt_contract_id_unknown`,
-`receipt_malformed`, `receipt_journal_mismatch`, `blast_radius_understated`,
-`blast_radius_overstated`. The reader recomputes the reach from the journal: from
-`fromSeq` on, every delivery the router did not drop carries taint from sender to
-receiver, and every tool call by a tainted agent counts unless it was refused. A matching receipt is `allow`,
-`blast_radius_consistent`. Counts are in `MANIFEST.json`.
+The reader names the first rule that fails. One denied case forces each rule: the
+canonical form and shape, the chain, each delivery against the graph in force, each
+decision's deltas and detector estimates, each fallback's posture, each restart,
+assessment and admitted restoration, each response's authority and timing, an admitted
+retrieval outside the snapshot, a tool call that ran for an isolated agent, and the
+run-level claims. A blast-radius receipt is judged beside an allowed journal, and the reach
+is recomputed from the journal. Every member, the inclusion-path hashing and every reason
+code in order are in [the predicate document](../../spec/predicates/containment-journal.md);
+the revisions are in [CHANGES.md](CHANGES.md); counts are in `MANIFEST.json`.
 
 ## Synthetic, and labelled so
 
