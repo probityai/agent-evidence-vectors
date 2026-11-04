@@ -29,7 +29,8 @@ prints `{"decision": ..., "reason": ...}` and exits 0 for `allow`, 1 for `deny`.
 ## The journal
 
 Entries are `topology`, `delivery`, `decision`, `fallback`, `restart`, `assessment`,
-`restoration`, `response` and `tool_call`. Each carries `seq`, `prev` (the digest of the
+`restoration`, `response`, `tool_call` and `retrieval`. The full rules are in
+[the predicate document](../../spec/predicates/containment-journal.md). Each carries `seq`, `prev` (the digest of the
 entry before) and `at`. An entry's digest is `sha256:` and the hex SHA-256 of
 `json.dumps(entry, sort_keys=True, separators=(",", ":"))`, which is RFC 8785 output
 because the record carries integers only and printable ASCII strings only. The journal
@@ -58,16 +59,20 @@ The reader names the first rule that fails, in this order:
    `restoration_without_restart`, `restoration_without_assessment`,
    `restoration_evidence_not_scored`, `restoration_evidence_self_witnessed`,
    `restoration_evidence_above_threshold`. Responses: `decision_without_authority`,
-   `response_time_inverted`, `response_bound_exceeded`.
+   `response_time_inverted`, `response_bound_exceeded`. Revision 1.1: an admitted
+   retrieval whose inclusion path misses `snapshotRoot`
+   (`retrieval_admitted_outside_snapshot`), and a tool call that ran for an isolated
+   agent (`tool_call_by_isolated_agent`).
 6. The claims: `advisory_claimed_as_enforced`, `defended_claim_after_fail_open`,
-   `detector_output_uninformative`.
+   `detector_output_uninformative`, `tool_call_authority_unbound` (a call with no grant
+   chain under `authorityChainChecked`).
 
 A journal that passes is `allow`, `containment_consistent`. A receipt is judged only
 beside an allowed journal: `receipt_contract_id_missing`, `receipt_contract_id_unknown`,
 `receipt_malformed`, `receipt_journal_mismatch`, `blast_radius_understated`,
 `blast_radius_overstated`. The reader recomputes the reach from the journal: from
 `fromSeq` on, every delivery the router did not drop carries taint from sender to
-receiver, and every tool call by a tainted agent counts. A matching receipt is `allow`,
+receiver, and every tool call by a tainted agent counts unless it was refused. A matching receipt is `allow`,
 `blast_radius_consistent`. Counts are in `MANIFEST.json`.
 
 ## Synthetic, and labelled so

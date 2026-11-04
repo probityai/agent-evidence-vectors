@@ -81,7 +81,7 @@ class Journal:
         old = {tuple(e) for e in self.graph}
         new = {tuple(e) for e in edges}
         senders = {e[0] for e in new}
-        entry = {"event": "decision", "basis": basis, "responseFunction": function,
+        entry: Entry = {"event": "decision", "basis": basis, "responseFunction": function,
                  "edges": sorted(list(e) for e in new),
                  "removed": sorted(list(e) for e in old - new),
                  "added": sorted(list(e) for e in new - old),
@@ -548,7 +548,7 @@ def generate(root: Path = ROOT) -> dict[str, Any]:
     """Write every case and the manifest, and return the manifest."""
     if (root / "cases").exists():
         shutil.rmtree(root / "cases")
-    entries = []
+    entries: list[dict[str, Any]] = []
     for name, journal, bound, decision, reason, edit in cases():
         directory = root / "cases" / name
         directory.mkdir(parents=True)
@@ -570,7 +570,7 @@ def generate(root: Path = ROOT) -> dict[str, Any]:
         "corpusDigest": _sha(_json(entries)),
         "counts": {word: words.count(word) for word in sorted(set(words))},
         "receiptContractId": reader.RECEIPT_CONTRACT_ID,
-        "revision": reader.REVISION,
+        "suiteRevision": reader.SUITE_REVISION,
         "suite": SUITE,
         "synthetic": True,
         "verifierContract": ("verifier record.json --json, judging receipt.json beside it when "
@@ -584,7 +584,7 @@ def generate(root: Path = ROOT) -> dict[str, Any]:
 def corpus_digest(manifest: dict[str, Any], root: str) -> str:
     """Recompute the digest from the committed files, not their declared hashes."""
     base_dir = Path(root)
-    entries = []
+    entries: list[dict[str, Any]] = []
     for entry in manifest["vectors"]:
         directory = base_dir / entry["path"]
         declared = entry["files"]

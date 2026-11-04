@@ -284,3 +284,10 @@ def test_the_inclusion_path_reaches_the_root_for_every_snapshot_document() -> No
             generator.SNAPSHOT_ROOT
     assert reader.merkle_root(generator.OUTSIDE, generator.inclusion(generator.OUTSIDE)) != \
         generator.SNAPSHOT_ROOT
+
+
+def test_the_manifest_revision_is_the_changelogs_newest() -> None:
+    manifest = json.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))
+    heading = next(line for line in (ROOT / "CHANGES.md").read_text(encoding="utf-8").splitlines()
+                   if line.startswith("## suiteRevision "))
+    assert manifest["suiteRevision"] == int(heading.split()[2])

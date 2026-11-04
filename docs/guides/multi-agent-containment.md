@@ -18,7 +18,8 @@ The journal is one hash-chained list of typed entries, written as the run happen
 | `assessment` | An agent's output was scored. Record the score, whether one was produced, and whether the witness was the agent itself or an external judge. |
 | `restoration` | An agent is let back. Cite, by entry digest, the restart and assessment the decision rests on. |
 | `response` | Someone acted, continued or escalated after an alert. Record the authority and the reason. |
-| `tool_call` | An agent called a tool. |
+| `tool_call` | An agent called a tool. From revision 1.1 it may say the call was refused and why, and name the grant chain it ran under; a call that ran for an isolated agent is refused by the reader. |
+| `retrieval` | Revision 1.1: an agent asked for a document, whether it was admitted, and the inclusion path from the document's digest to the run's `snapshotRoot`; an admitted document outside the snapshot is refused. |
 
 Each entry carries `seq`, `prev` (the digest of the entry before it) and `at`. Keep the record to integers and printable ASCII strings; an entry's digest is then the SHA-256 of its RFC 8785 bytes, which any language can recompute.
 

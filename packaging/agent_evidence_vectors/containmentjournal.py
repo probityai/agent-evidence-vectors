@@ -56,7 +56,8 @@ output for integer-only, ASCII-only values; that is why the rule exists.
 
 When ``receipt.json`` sits beside the journal, it is a blast-radius receipt:
 the agents a subject agent reached from one entry on, through deliveries the
-router did not drop, and the deliveries and tool calls that reach involved. The
+router did not drop, and the deliveries and the tool calls that reach involved
+(a refused call never ran, so it does not count). The
 receipt is checked only when the journal is allowed, and the reader recomputes
 the reach from the journal alone. A matching receipt is ``allow`` with reason
 ``blast_radius_consistent``.
@@ -87,7 +88,7 @@ from agent_evidence_vectors.monitorcoverage import (
 )
 
 SUITE = "containment-journal/v1"
-REVISION = "1.1"
+SUITE_REVISION = 2  # revision 1.1 of the predicate; CHANGES.md carries the ledger
 _BASE = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/"
 CONTRACT_ID = _BASE + "containment-journal"
 RECEIPT_CONTRACT_ID = _BASE + "blast-radius-receipt"
