@@ -71,7 +71,7 @@ RULES = (
     Rule("README.md", "version", rf"/agent-evidence-vocabulary-v{_VERSION}/", "the curl tag"),
     Rule("README.md", "digest", rf"{_DIGEST}\s+vocabulary\.yaml", "the quick-start sha256"),
     Rule("README.md", "date", rf"Release v{_VERSION}, tagged {_DATE}", "the Status date"),
-    Rule("llms.txt", "version", rf"Release tag: `v{_VERSION}`", "the release tag"),
+    Rule("llms.txt", "version", rf"Release tag: `agent-evidence-vocabulary-v{_VERSION}`", "the release tag"),
     Rule("docs/ABOUT.md", "version", rf"^Version {_VERSION}, tagged", "the Status version"),
     Rule("docs/ABOUT.md", "date", rf"^Version {_VERSION}, tagged {_DATE}", "the Status date"),
     Rule("docs/RELEASING.md", "version", rf"`agent-evidence-vocabulary` {_VERSION}\.", "the python package"),
@@ -201,6 +201,7 @@ def self_test() -> list[str]:
             return [f"self-test: the unmodified copy was refused: {errors}"]
         version = _authority(root)[0]["pyproject.toml version"]
         digest = next(v for r, v in _statements(root, []) if r.kind == "digest")
+        stated_date = next(v for r, v in _statements(root, []) if r.kind == "date" and r.file == "README.md")
         other = next(p.stem[len("sha256-"):] for p in sorted((pages / "vocab" / "v1" / "registry").glob("sha256-*.yaml"))
                      if p.stem != f"sha256-{digest}"
                      and str(yaml.safe_load(p.read_bytes())["meta"]["version"]) != version)
@@ -212,14 +213,14 @@ def self_test() -> list[str]:
              "the curl tag says 0.4.0"),
             ("a stale Status release", "README.md", f"Release v{version},", "Release v0.4.0,",
              "the Status release says 0.4.0"),
-            ("a stale release tag in llms.txt", "llms.txt", f"`v{version}`", "`v0.4.0`", "the release tag says 0.4.0"),
+            ("a stale release tag in llms.txt", "llms.txt", f"`agent-evidence-vocabulary-v{version}`", "`agent-evidence-vocabulary-v0.4.0`", "the release tag says 0.4.0"),
             ("a stale ABOUT status", "docs/ABOUT.md", f"Version {version}, tagged", "Version 0.4.0, tagged",
              "the Status version says 0.4.0"),
             ("a stale wheel name", "docs/RELEASING.md", f"agent_evidence_vocabulary-{version}-py3",
              "agent_evidence_vocabulary-0.4.0-py3", "the wheel name says 0.4.0"),
             ("a stale citation version", "CITATION.cff", f"version: {version}", "version: 0.4.0",
              "the citation version says 0.4.0"),
-            ("a stale date", "README.md", "tagged October 26, 2026", "tagged October 20, 2026", "the Status date says"),
+            ("a stale date", "README.md", f"tagged {stated_date}", "tagged October 20, 2026", "the Status date says"),
             ("a digest nothing published", "README.md", digest, flipped, "names no published registry copy"),
             ("a digest of another release", "README.md", digest, other, "is the registry of"),
             ("two digests that disagree", "docs/RELEASING.md", digest, other, "sha256 values disagree"),
