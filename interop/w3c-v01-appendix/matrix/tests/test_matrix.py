@@ -122,3 +122,29 @@ def test_a_report_with_records_in_place_of_checks_still_gets_its_mutants() -> No
     made, skipped = M.mutants(posted, lambda value: b"0" * 64)
     assert made and skipped
     assert all(s["why"] for s in skipped)
+
+
+def test_paper_breakdown_keeps_control_populations_and_outcomes_separate() -> None:
+    doc = {
+        'readers': [{'id': 'r', 'label': 'Reader'}],
+        'inputs': [
+            {'id': 'base', 'mutant': None},
+            {'id': 'n', 'mutant': 'n', 'sha256': 'a', 'target': 'W3C-R-001'},
+            {'id': 'u', 'mutant': 'u', 'sha256': 'b', 'target': 'W3C-R-020'},
+            {'id': 's', 'mutant': 's', 'sha256': 'c', 'target': 'shape'},
+            {'id': 'p', 'mutant': 'p', 'sha256': 'd', 'target': 'none (positive control)'},
+            {'id': 'skip', 'mutant': 'skip', 'not_applicable': 'no field', 'target': 'W3C-R-001'},
+        ],
+        'cells': {key: {'r': {'outcome': value}} for key, value in
+                  [('n', 'rejected'), ('u', 'cannot-tell'), ('s', 'cannot-read'), ('p', 'conforms')]},
+    }
+    table = render.tex_breakdown(doc)
+    rows = [line.split(" & ") for line in table.splitlines() if line.startswith("Reader & ")]
+    observed = {row[1]: (int(row[2]), tuple(map(int, row[3].split()[0].split("/"))))
+                for row in rows if row[1] != "Population"}
+    assert observed == {
+        "Numbered rows": (1, (1, 0, 0, 0, 0)),
+        "Unnumbered rules": (1, (0, 0, 1, 0, 0)),
+        "Shape": (1, (0, 0, 0, 1, 0)),
+        "Positive controls": (1, (0, 1, 0, 0, 0)),
+    }

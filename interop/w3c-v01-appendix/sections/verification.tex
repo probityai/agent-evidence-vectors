@@ -48,31 +48,12 @@ R15 & none posted & tally only: 3 of 592 & artifacts & 592 & the producer's own 
 \end{longtable}
 }
 
-\paragraph{Every report under every reader.} The reader matrix reruns R1, R2, R3, R3-v01, R4, R5 and R6 from their pins, keeps the nine files those reruns write that declare the v0.1 format and the report R6's producer posted beside its commands, ten in all, and reads each with eleven readers: the Python reference reader at 0.12.0, 0.13.0, 0.17.4, 0.18.1 and 0.31.0; the Go and Rust readers at v0.18.1 and at the current commit; and the two readers written from the text, Rouiada Abbas's of \aevmsg{Oct}{0039} and Lars Kersten Kroehl's at 6d8ee54b. Those two read corpus members, so each report is wrapped as a member with an adapter that writes \texttt{\{"id": <input>, "subject": <report>\}} and nothing else. Every report conforms under every reader except R4's three, which the Python readers of 0.12.0 to 0.17.4 reject under W3C-R-020, and R6's, which names the format in prose and carries records in place of checks: every Python, Go and Rust reader rejects it on shape, Rouiada Abbas's reader cannot read it and Lars Kersten Kroehl's cannot tell. No cell contradicts a verdict posted on the list (R14). Roel Schuurkes's re-encoded R6 (\aevmsg{Nov}{0006}, sha256 \texttt{699a52b3...}) came after this run and is not in the table yet; the Python reader at \aevreadrelease{} prints conforms on it, as v0.18.1 does in his run.
+\paragraph{Every report under every reader.} The committed reader matrix retains the original R6 report and the separately re-encoded R6-v01 report (\aevmsg{Nov}{0006}) as different inputs. The generated table below lists the report and reader inventory, their stored verdicts and the per-reader negative-control totals directly from \texttt{matrix.json}. R6-v01 conforms in every stored reader cell; that does not change the original R6 outcomes: Python, Go and Rust reject, Rouiada Abbas's reader cannot read, and Lars Kersten Kroehl's reader cannot tell. The Python CLI result at \aevreadrelease{} reported in \aevmsg{Nov}{0010} is a separate observation, not another reader column in this matrix. R4's reports are rejected under W3C-R-020 by the older Python readers. The readers written from the text receive each report wrapped as a corpus member, through an adapter that writes \texttt{\{"id": <input>, "subject": <report>\}} and nothing else. R14 is a comparison of reader verdicts, not an independent reproduction of producer checks.
 
-\IfFileExists{matrix/verification.tex}{\input{matrix/verification}}{}
+\paragraph{Reader availability in R9.} The release comparison uses Python and Go at v0.17.4; Rust is available from v0.18.0. It does not establish a Rust result at v0.17.4 (\aevmsg{Nov}{0010}).
 
-\paragraph{Negative controls for the readers.} A reader that accepted everything would pass R14, so each reader also reads single-field copies of the reports, each aimed at one rejection row: 154 copies per reader, plus 7 positive controls whose check identity is non-ASCII and whose root is recomputed over the RFC 8785 form. The Python reader from 0.18.1 on and the Go and Rust readers reject 154 of 154 and accept the 7 positive controls. The Python readers of 0.12.0 to 0.17.4 reject 147; they accept the 7 copies whose root is computed over the ASCII-escaped form and reject the 7 positive controls, the cause Kenne Ives gave for R4 (\aevmsg{Oct}{0150}). A declared moved that disagrees with the recomputed value is aimed at W3C-R-021; a recomputed moved outside compared is W3C-R-016.
+\input{matrix/verification}
 
-The readers written from the text answer cannot-tell where the text leaves the reading open, as the reader of 0039 was built to (\aevmsg{Oct}{0039}), so their results are split by what the copy is aimed at. These are findings for their authors, not faults, and go to them first.
+\paragraph{Negative controls for the readers.} A reader that accepted everything could match the conforming base reports, so the matrix also records single-field negative controls. The generated controls table gives the denominator, outcomes and target-citation counts for each reader. Positive controls and targets marked not applicable are separate populations; neither belongs in that negative-control denominator. The positive controls use a non-ASCII check identity and a root recomputed over the RFC 8785 form. Their ASCII-escaped twins target W3C-R-020, the cause Kenne Ives gave for R4 (\aevmsg{Oct}{0150}). A declared moved that disagrees with the recomputed value targets W3C-R-021; a recomputed moved outside compared targets W3C-R-016.
 
-{\footnotesize
-\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.34\linewidth}>{\raggedright\arraybackslash}p{0.27\linewidth}>{\raggedright\arraybackslash}p{0.27\linewidth}@{}}
-\caption{The two readers written from the text, on the 154 copies and 7 positive controls, by target: rejected / conforms / cannot tell.}\label{tab:w3c-text-readers}\\
-\toprule
-Copies aimed at & Rouiada Abbas's reader (\aevmsg{Oct}{0039}) & Lars Kersten Kroehl's reader (6d8ee54b) \\
-\midrule
-\endfirsthead
-\toprule
-Copies aimed at & Rouiada Abbas's reader & Lars Kersten Kroehl's reader \\
-\midrule
-\endhead
-Rows 1 to 14 (56 copies) & 55 / 1 / 0 & 55 / 0 / 1 \\
-Unnumbered requirements (81 copies) & 3 / 70 / 8 & 17 / 26 / 38 \\
-Not v0.1-shaped (17 copies) & 0 / 8 / 8, 1 cannot read & 3 / 8 / 6 \\
-Positive controls (7) & 0 / 7 / 0 & 0 / 7 / 0 \\
-\bottomrule
-\end{longtable}
-}
-
-On rows 1 to 14 the one copy neither reader rejects is the same: R1 with a qualifier on a non-verdict check, aimed at row 6.
+The readers written from the text answer cannot-tell where the text leaves the reading open, as the reader of 0039 was built to (\aevmsg{Oct}{0039}). The generated target-population table retains the separate outcome classes, including positive controls. The older Python readers accept the ASCII-escaped W3C-R-020 twins and reject their RFC 8785 positive controls. For the text-derived readers, the shared numbered-row control not rejected is R1 with a qualifier on a non-verdict check, targeting row 6. Detailed cells are retained in the generated \texttt{matrix/matrix.md}. The command list gives ways to check the reports; it is not an additional set of recorded reader cells. Target cited counts whether the named target was cited, not merely whether a mutant was rejected. These are findings for their authors, not faults.
