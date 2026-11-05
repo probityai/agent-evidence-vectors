@@ -58,7 +58,7 @@ Use the [GitHub Action](action.yml) to run the same check in your build and reta
     verifier: VERIFIER_COMMAND --json
 ```
 
-Replace VERIFIER_COMMAND with the command that runs your verifier.
+Replace VERIFIER_COMMAND with your verifier's command.
 
 A runtime that retries tool calls can run the [uncertain-effect scenarios](corpora/vectors-uncertain-effect/README.md): a write that commits and then loses its reply must not run twice.
 
@@ -110,14 +110,14 @@ Source maps: [layout](docs/reference/layout.md), [readers](docs/reference/corpus
 
 | package | registry | version | downloads |
 | --- | --- | :---: | :---: |
-| [agent-evidence-vectors](https://pypi.org/project/agent-evidence-vectors/) | PyPI | <a href="https://pypi.org/project/agent-evidence-vectors/"><img alt="agent-evidence-vectors version" src="https://img.shields.io/pypi/v/agent-evidence-vectors?style=flat-square&color=blue&label="></a> | <a href="https://pepy.tech/projects/agent-evidence-vectors"><img alt="agent-evidence-vectors downloads" src="https://img.shields.io/pepy/dt/agent-evidence-vectors?style=flat-square&color=blue&label="></a> |
-| [agent-evidence-vocabulary](packages/vocabulary/README.md) | PyPI | <a href="https://pypi.org/project/agent-evidence-vocabulary/"><img alt="agent-evidence-vocabulary version" src="https://img.shields.io/pypi/v/agent-evidence-vocabulary?style=flat-square&color=blue&label="></a> | <a href="https://pepy.tech/projects/agent-evidence-vocabulary"><img alt="agent-evidence-vocabulary downloads" src="https://img.shields.io/pepy/dt/agent-evidence-vocabulary?style=flat-square&color=blue&label="></a> |
-| [agent-evidence-admission](packages/admission/README.md) | PyPI | <a href="https://pypi.org/project/agent-evidence-admission/"><img alt="agent-evidence-admission version" src="https://img.shields.io/pypi/v/agent-evidence-admission?style=flat-square&color=blue&label="></a> | <a href="https://pepy.tech/projects/agent-evidence-admission"><img alt="agent-evidence-admission downloads" src="https://img.shields.io/pepy/dt/agent-evidence-admission?style=flat-square&color=blue&label="></a> |
-| [jcs-admit](crates/jcs-admit/README.md) | PyPI | <a href="https://pypi.org/project/jcs-admit/"><img alt="jcs-admit version" src="https://img.shields.io/pypi/v/jcs-admit?style=flat-square&color=blue&label="></a> | <a href="https://pepy.tech/projects/jcs-admit"><img alt="jcs-admit downloads" src="https://img.shields.io/pepy/dt/jcs-admit?style=flat-square&color=blue&label="></a> |
-|  | npm | <a href="https://www.npmjs.com/package/jcs-admit"><img alt="jcs-admit version" src="https://img.shields.io/npm/v/jcs-admit?style=flat-square&color=blue&label="></a> | - |
-|  | crates.io | <a href="https://crates.io/crates/jcs-admit"><img alt="jcs-admit version" src="https://img.shields.io/crates/v/jcs-admit?style=flat-square&color=blue&label="></a> | <a href="https://crates.io/crates/jcs-admit"><img alt="jcs-admit downloads" src="https://img.shields.io/crates/d/jcs-admit?style=flat-square&color=blue&label="></a> |
-| [dsse](crates/dsse/README.md) | crates.io | <a href="https://crates.io/crates/dsse"><img alt="dsse version" src="https://img.shields.io/crates/v/dsse?style=flat-square&color=blue&label="></a> | <a href="https://crates.io/crates/dsse"><img alt="dsse downloads" src="https://img.shields.io/crates/d/dsse?style=flat-square&color=blue&label="></a> |
-|  | npm, as `@probityai/dsse` | <a href="https://www.npmjs.com/package/@probityai/dsse"><img alt="@probityai/dsse version" src="https://img.shields.io/npm/v/@probityai/dsse?style=flat-square&color=blue&label="></a> | - |
+| [agent-evidence-vectors](https://pypi.org/project/agent-evidence-vectors/) | PyPI | **0.35.0** | <a href="https://pepy.tech/projects/agent-evidence-vectors"><img alt="agent-evidence-vectors downloads" src="https://img.shields.io/pepy/dt/agent-evidence-vectors?style=flat-square&color=blue&label="></a> |
+| [agent-evidence-vocabulary](packages/vocabulary/README.md) | PyPI | **0.9.0** | <a href="https://pepy.tech/projects/agent-evidence-vocabulary"><img alt="agent-evidence-vocabulary downloads" src="https://img.shields.io/pepy/dt/agent-evidence-vocabulary?style=flat-square&color=blue&label="></a> |
+| [agent-evidence-admission](packages/admission/README.md) | PyPI | **0.2.0** | <a href="https://pepy.tech/projects/agent-evidence-admission"><img alt="agent-evidence-admission downloads" src="https://img.shields.io/pepy/dt/agent-evidence-admission?style=flat-square&color=blue&label="></a> |
+| [jcs-admit](crates/jcs-admit/README.md) | PyPI | **0.1.1** | <a href="https://pepy.tech/projects/jcs-admit"><img alt="jcs-admit downloads" src="https://img.shields.io/pepy/dt/jcs-admit?style=flat-square&color=blue&label="></a> |
+| jcs-admit | npm | **0.1.0** | - |
+| jcs-admit | crates.io | **0.1.3** | <a href="https://crates.io/crates/jcs-admit"><img alt="jcs-admit downloads" src="https://img.shields.io/crates/d/jcs-admit?style=flat-square&color=blue&label="></a> |
+| [dsse](crates/dsse/README.md) | crates.io | **0.1.6** | <a href="https://crates.io/crates/dsse"><img alt="dsse downloads" src="https://img.shields.io/crates/d/dsse?style=flat-square&color=blue&label="></a> |
+| @probityai/dsse | npm | **0.1.0** | - |
 
 <a name="how-this-suite-is-maintained"></a>
 <a name="arriving-from-somewhere-else"></a>
