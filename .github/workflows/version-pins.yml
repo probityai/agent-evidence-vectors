@@ -42,13 +42,13 @@ jobs:
         with:
           persist-credentials: false
       - name: live pages agree with their owner
-        uses: probityai/.github/actions/version-pins@27c2b8a1dc13ce58e47b020c7300c9196d6a6dd7 # main
+        uses: probityai/.github/actions/version-pins@bfaca9ac2695e0bb5c669adaf19c7caad19761d3 # main
         with:
           command: check
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: probityai/.github
-          ref: 27c2b8a1dc13ce58e47b020c7300c9196d6a6dd7
+          ref: bfaca9ac2695e0bb5c669adaf19c7caad19761d3
           path: pins-checker
           persist-credentials: false
       - name: historical exclusions hold
@@ -65,6 +65,6 @@ jobs:
         with:
           persist-credentials: false
       - name: manifests, tags, registries and the family lock agree
-        uses: probityai/.github/actions/version-pins@27c2b8a1dc13ce58e47b020c7300c9196d6a6dd7 # main
+        uses: probityai/.github/actions/version-pins@bfaca9ac2695e0bb5c669adaf19c7caad19761d3 # main
         with:
           command: registry
