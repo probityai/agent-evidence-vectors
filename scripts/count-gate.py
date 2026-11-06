@@ -1675,7 +1675,10 @@ FROZEN: tuple[Frozen, ...] = (
     Frozen(
         'docs/runs/vantage-grid-0.35.0.md',
         'the SCITT/COSE named-verifier totals of release 0.35.0',
-        'totals: 27 vectors, 0 pass, 27 fail, 4 suite-level refusal(s); 17 of 27 conform, 17 reason-parity mismatch(es)',
+        (
+            'totals: 27 vectors, 0 pass, 27 fail, 4 suite-level refusal(s); 17 of 27 conform, '
+            '17 reason-parity mismatch(es)'
+        ),
         'The run output of release 0.35.0, copied verbatim into the run record. It records '
         'that run and must not track this corpus.',
     ),
