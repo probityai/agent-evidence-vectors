@@ -624,7 +624,7 @@ def contract_pages(tag: str, routes: Mapping[Path, Path] | None = None) -> dict[
             head = (
                 f"<h1>Contract <code>{html.escape(name)}</code></h1>\n"
                 f"<p>Contract identifier: <code>{html.escape(contract_id)}</code></p>\n"
-                f"<p>Corpus: <a href=\"{html.escape(repository_url(corpus))}\">"
+                f'<p>Corpus: <a href="{html.escape(repository_url(corpus))}">'
                 f"<code>{html.escape(corpus.as_posix())}</code></a>. "
                 f"Carried in release <code>{html.escape(tag)}</code>.</p>\n<hr>\n"
             )
