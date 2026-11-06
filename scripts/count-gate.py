@@ -1540,6 +1540,12 @@ _DRAFT_1105_SPANS = (
         '8. **7.2, R12.** The scorer scores 34 members where the row says 33. Agreement is '
         "28 on each path either way; the row's owner decides which count it carries."
     ),
+    (
+        'Run over the 0060 records (archive `9e1dc860`) and `run-report-v01.json` '
+        '(`0e608637`), it prints his three lines exactly: `48 44 34 14 True`, `True True`, '
+        "and `{'action.algorithm': 4, 'action.material': 2, 'package.eatf-verify': 8}`."
+    ),
+    'So correction 3\'s "the 34 reproduce" names a check that counts them.',
 )
 
 FROZEN: tuple[Frozen, ...] = (

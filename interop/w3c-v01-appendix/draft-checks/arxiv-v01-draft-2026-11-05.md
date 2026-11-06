@@ -75,6 +75,8 @@ rerun.
 8. **7.2, R12.** The scorer scores 34 members where the row says 33. Agreement is 28 on each path either way; the row's owner decides which count it carries.
 9. **7.4, reader pin.** 0.32.1 is verified as written. The newest release is 0.35.0 (4 November): `uvx agent-evidence-vectors==0.35.0 --read-w3c-report <file>` prints conforms, exit 0, on R1, the three R2 reports, R3-v01, the three R4 reports and R5, and the original R3 report still stops at the shape check. Either pin works; 0.35.0 makes the line name the newest release, as it says.
 
+Added 6 November. Anton Sokolov posted a recount in [Nov/0023](https://lists.w3.org/Archives/Public/public-agent-conformance/2026Nov/0023.html) and asked whether it would do as the pinned row. It does. Run over the 0060 records (archive `9e1dc860`) and `run-report-v01.json` (`0e608637`), it prints his three lines exactly: `48 44 34 14 True`, `True True`, and `{'action.algorithm': 4, 'action.material': 2, 'package.eatf-verify': 8}`. Row R3-v01 now runs it after the converter, over the records the R3 rerun writes, and the row fails unless all three lines match. The program is [`../rows/r3_v01_recount.py`](../rows/r3_v01_recount.py), pinned by its sha256 in `rows.json`. So correction 3's "the 34 reproduce" names a check that counts them.
+
 Three figures have no appendix row yet: the 169-member R8 variant, the eight
 members of 7.3 item 10, and the five non-ASCII checks per report in 4.1. Rows
 for all three are being added so the next draft can cite them as rerun.
