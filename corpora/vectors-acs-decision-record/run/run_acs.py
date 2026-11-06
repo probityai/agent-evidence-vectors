@@ -15,6 +15,10 @@ run writes different context bytes and the same verdicts. The committed file is 
 record of one run; ``gen_vectors.py`` reads it and never imports the runtime.
 """
 
+# The imports below resolve only in this directory's own pinned environment (pyproject.toml
+# and uv.lock here), which the repository's type-check environment deliberately does not install.
+# pyright: reportMissingImports=false
+
 from __future__ import annotations
 
 import json

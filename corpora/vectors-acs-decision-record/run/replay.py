@@ -8,6 +8,10 @@ were edited (the input and policy digest rejects) are expected to replay differe
     uv run python replay.py
 """
 
+# The imports below resolve only in this directory's own pinned environment (pyproject.toml
+# and uv.lock here), which the repository's type-check environment deliberately does not install.
+# pyright: reportMissingImports=false
+
 from __future__ import annotations
 
 import json
