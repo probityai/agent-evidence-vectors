@@ -75,11 +75,11 @@
       }
     ]
   },
-  "corpusDigest": "47fab839747e0ab798fdeb7c028dbe31a5d0ce381934fc4f7a630c99a19a8654",
+  "corpusDigest": "42ea72536efef1045d378225ec2715a4dd202aaef30d9a024b672609b8acc2e8",
   "counts": {
-    "accept": 85,
+    "accept": 88,
     "indeterminate": 1,
-    "reject": 107
+    "reject": 115
   },
   "draft": "draft-gilda-audit-agent-audit-record-00",
   "emptyTree": {
@@ -3191,6 +3191,190 @@
       "parentDraftId": "A1",
       "row": "issuedAt one day earlier than effect.interval.sealedAt, on a day before the interval opened",
       "slug": "is2-issued-one-day-before-sealed"
+    },
+    {
+      "draftId": "PR1",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v25048425b3cf4235.json",
+      "id": "v25048425b3cf4235",
+      "kind": "accept",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "A1 with a principal: an RFC 9068 access token from an https issuer for the user the delegation names, the agent's credential digest equal to the token digest, the issuer key a P-256 JWK whose RFC 7638 thumbprint is recorded, and a tenant",
+      "slug": "pr1-principal-user-access-token"
+    },
+    {
+      "draftId": "PR2",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v717e1bb82abc81e9.json",
+      "id": "v717e1bb82abc81e9",
+      "kind": "accept",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "a client-credentials principal: delegation.subjectKind of system, the principal's subject the client itself, two audiences, client_secret_basic, no tenant",
+      "slug": "pr2-principal-system-client-credentials"
+    },
+    {
+      "draftId": "PR3",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v49c8e37c7b5b0a06.json",
+      "id": "v49c8e37c7b5b0a06",
+      "kind": "accept",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "row": "PR1 established from an OpenID Connect ID token signed with the issuer's Ed25519 key, the client authenticated by tls_client_auth",
+      "slug": "pr3-principal-id-token-ed25519"
+    },
+    {
+      "draftId": "PR4",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "principal-thumbprint-mismatch"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v1a2a14e3c671f2c7.json",
+      "id": "v1a2a14e3c671f2c7",
+      "kind": "reject",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "row": "keyThumbprint is the RFC 7638 thumbprint of the issuer's Ed25519 key while key is its P-256 key",
+      "slug": "pr4-principal-thumbprint-mismatch"
+    },
+    {
+      "draftId": "PR5",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "principal-expired"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/va10144e3bbdce77d.json",
+      "id": "va10144e3bbdce77d",
+      "kind": "reject",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "row": "the assertion expired at 10:00:00, an hour before decision.reportedAt",
+      "slug": "pr5-principal-expired-assertion"
+    },
+    {
+      "draftId": "PR6",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "principal-credential-unbound"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v84cecdd82e8e9656.json",
+      "id": "v84cecdd82e8e9656",
+      "kind": "reject",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "row": "tokenDigest is the digest of another token than the credential agent.credentialDigest names: the key-hash binding is broken",
+      "slug": "pr6-principal-credential-unbound"
+    },
+    {
+      "draftId": "PR7",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "principal-member-missing"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v147d091f7b537b8c.json",
+      "id": "v147d091f7b537b8c",
+      "kind": "reject",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "row": "principal without issuer",
+      "slug": "pr7-principal-issuer-missing"
+    },
+    {
+      "draftId": "PR8",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "principal-subject-mismatch"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v2e761c4d4f358c4b.json",
+      "id": "v2e761c4d4f358c4b",
+      "kind": "reject",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "row": "the principal's subject is another user than the delegation's user subject",
+      "slug": "pr8-principal-subject-mismatch"
+    },
+    {
+      "draftId": "PR9",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "principal-kid-mismatch"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v92a15ff9860863bd.json",
+      "id": "v92a15ff9860863bd",
+      "kind": "reject",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "row": "kid names a key of the snapshot other than the key carried",
+      "slug": "pr9-principal-kid-mismatch"
+    },
+    {
+      "draftId": "PR10",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "principal-not-yet-valid"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vd5d17c5df6a3ba94.json",
+      "id": "vd5d17c5df6a3ba94",
+      "kind": "reject",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "row": "the assertion was issued at 11:30:00, after decision.reportedAt",
+      "slug": "pr10-principal-issued-after-decision"
+    },
+    {
+      "draftId": "PR11",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "principal-member-unknown"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v9a3eb534e69f04b4.json",
+      "id": "v9a3eb534e69f04b4",
+      "kind": "reject",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "row": "principal carrying the raw token in a member this document does not define",
+      "slug": "pr11-principal-member-unknown"
     },
     {
       "draftId": "X1",

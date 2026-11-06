@@ -8,7 +8,7 @@
     "total": 12
   },
   "anchor": {
-    "kind": "signed-digest-list",
+    "kind": "digest-list-line",
     "manifest": "vectors-chunked-export/MANIFEST.json",
     "reference": {
       "path": "release/CORPUS-DIGESTS.txt",
@@ -18,13 +18,6 @@
     "routine-file": "corpora/vectors-chunked-export/gen_vectors.py",
     "serialization": "corpus-routine",
     "sha256": "8d9e15ebf4e6a6b76960491fff189ccdad8521479fff71de1da8ddc43f22b12a",
-    "signature": {
-      "key": "release/cosign.pub",
-      "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
-      "path": "release/CORPUS-DIGESTS.txt.sig",
-      "scheme": "ed25519",
-      "serialization": "bytes"
-    },
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -52,7 +45,7 @@
       },
       "path": "corpora/vectors-chunked-export/README.md",
       "serialization": "bytes",
-      "sha256": "c0a0d7130abbe7f32f84808035ba0936cc0a0bc06bfa3be51d81cfcbbff11560"
+      "sha256": "a4104e0f6c52b002c09f15e7d2e22b93b7da71a11857af8e726f74b245f74f69"
     },
     {
       "consumed": "unconsumed",
@@ -173,7 +166,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "2639449226f35b4a744c6688aa4f76bf6aa6bc92093985f96874ed3b07aba3fe"
+      "sha256": "ddffcf6f3cbe144db176e32bdbcdda7c81cb26121692621fc797f0250ededf2c"
     },
     "runtime": {
       "name": "go",
@@ -286,7 +279,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "758636f27657b81d7a7ce0befe7a4ee243194235055c80736ff3d5ba5114e5d9"
+    "sha256": "78d441c03ffbdbd06e76e9754ad26618e7ec8f1493f33f0f82efbce5b5353b45"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -606,6 +599,7 @@
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
       "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
     ]
   },

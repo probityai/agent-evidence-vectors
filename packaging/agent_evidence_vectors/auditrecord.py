@@ -1021,6 +1021,155 @@ def _rule_delegation(state: _State) -> None:
         raise Malformed("delegation-subject-inconsistent")
 
 
+# --------------------------------------------------------------------------
+# The authenticated principal (revision 04, rows PR1 to PR11).
+# --------------------------------------------------------------------------
+
+#: The members ``principal`` carries, each required, and the one it may carry
+#: beside them. Any other member is refused, so a producer cannot add a claim a
+#: verifier would read past.
+PRINCIPAL_MEMBERS = (
+    "issuer",
+    "subject",
+    "clientId",
+    "audience",
+    "authMethod",
+    "source",
+    "tokenDigest",
+    "issuedAt",
+    "expiresAt",
+    "kid",
+    "key",
+    "keyThumbprint",
+    "jwksDigest",
+)
+PRINCIPAL_OPTIONAL = ("tenant",)
+#: How the client authenticated to the issuer: the IANA registry "OAuth Token
+#: Endpoint Authentication Methods" as RFC 7591 and RFC 8705 populate it.
+PRINCIPAL_AUTH_METHODS = frozenset(
+    {
+        "none",
+        "client_secret_post",
+        "client_secret_basic",
+        "client_secret_jwt",
+        "private_key_jwt",
+        "tls_client_auth",
+        "self_signed_tls_client_auth",
+    }
+)
+#: What the decision point validated to establish the principal: an RFC 9068
+#: access token, an OpenID Connect ID token, or an RFC 7523 assertion. Each is a
+#: JWS whose header ``kid`` names a key of the issuer's JWKS.
+PRINCIPAL_SOURCES = frozenset({"jwt-access-token", "id-token", "jwt-assertion"})
+#: The members RFC 7638 Section 3.2 hashes, by key type (RSA and EC from RFC
+#: 7638, OKP from RFC 8037 Section 2).
+THUMBPRINT_MEMBERS: dict[str, tuple[str, ...]] = {
+    "RSA": ("e", "kty", "n"),
+    "EC": ("crv", "kty", "x", "y"),
+    "OKP": ("crv", "kty", "x"),
+}
+#: Members that make a JWK a private key; ``key`` is the issuer's public key.
+JWK_PRIVATE_MEMBERS = frozenset({"d", "p", "q", "dp", "dq", "qi", "oth", "k"})
+
+
+def jwk_thumbprint(key: dict[str, Any]) -> str:
+    """The RFC 7638 SHA-256 thumbprint of a public JWK, base64url without padding:
+    the RFC 8785 bytes of the required members only."""
+    required = THUMBPRINT_MEMBERS[key["kty"]]
+    body = {name: key[name] for name in required}
+    digest_bytes = hashlib.sha256(canonical_bytes(body)).digest()
+    return base64.urlsafe_b64encode(digest_bytes).rstrip(b"=").decode("ascii")
+
+
+def _text(value: Any) -> bool:
+    return isinstance(value, str) and value != ""
+
+
+def _principal_key_shape(key: Any) -> None:
+    """A public JWK of a type RFC 7638 defines, every hashed member a string."""
+    if not isinstance(key, dict) or key.get("kty") not in THUMBPRINT_MEMBERS:
+        raise Malformed("principal-malformed")
+    if set(key) & JWK_PRIVATE_MEMBERS:
+        raise Malformed("principal-malformed")
+    if not all(_text(key.get(name)) for name in THUMBPRINT_MEMBERS[key["kty"]]):
+        raise Malformed("principal-malformed")
+
+
+def _principal_issuer_audience(principal: dict[str, Any]) -> None:
+    """An https issuer, and an audience of distinct non-empty strings."""
+    issuer = principal["issuer"]
+    if not isinstance(issuer, str) or not issuer.startswith("https://") or len(issuer) == 8:
+        raise Malformed("principal-malformed")
+    audience = principal["audience"]
+    if (
+        not isinstance(audience, list)
+        or not audience
+        or not all(_text(item) for item in audience)
+        or len(set(audience)) != len(audience)
+    ):
+        raise Malformed("principal-malformed")
+
+
+def _principal_shape(principal: Any) -> None:
+    if not isinstance(principal, dict):
+        raise Malformed("principal-malformed")
+    if any(name not in principal for name in PRINCIPAL_MEMBERS):
+        raise Malformed("principal-member-missing")
+    if set(principal) - set(PRINCIPAL_MEMBERS) - set(PRINCIPAL_OPTIONAL):
+        raise Malformed("principal-member-unknown")
+    texts = ("subject", "clientId", "kid", "keyThumbprint")
+    if not all(_text(principal[name]) for name in texts):
+        raise Malformed("principal-malformed")
+    _principal_issuer_audience(principal)
+    if principal["authMethod"] not in PRINCIPAL_AUTH_METHODS:
+        raise Malformed("principal-malformed")
+    if principal["source"] not in PRINCIPAL_SOURCES:
+        raise Malformed("principal-malformed")
+    if not _is_digest(principal["tokenDigest"]) or not _is_digest(principal["jwksDigest"]):
+        raise Malformed("principal-malformed")
+    if "tenant" in principal and not _text(principal["tenant"]):
+        raise Malformed("principal-malformed")
+    _principal_key_shape(principal["key"])
+
+
+def _principal_lifetime(principal: dict[str, Any], reported_at: Any) -> None:
+    """Issued no later than the decision and not expired at it, both within the
+    skew tolerance; a lifetime that ends before it starts is malformed."""
+    try:
+        issued = _instant(principal["issuedAt"])
+        expires = _instant(principal["expiresAt"])
+    except Malformed as exc:
+        raise Malformed("principal-malformed") from exc
+    if expires <= issued:
+        raise Malformed("principal-malformed")
+    decided = _instant(reported_at)
+    if issued - decided > SKEW_TOLERANCE:
+        raise Malformed("principal-not-yet-valid")
+    if decided - expires > SKEW_TOLERANCE:
+        raise Malformed("principal-expired")
+
+
+def _rule_principal(state: _State) -> None:
+    """The optional principal member: the IdP-authenticated principal the
+    decision point established, bound to the agent's credential by its digest
+    and to the issuer's key by its RFC 7638 thumbprint (PR1 to PR11)."""
+    pred = state.predicate
+    if "principal" not in pred:
+        return
+    principal = pred["principal"]
+    _principal_shape(principal)
+    delegation = pred["delegation"]
+    if delegation["subjectKind"] == "user" and principal["subject"] != delegation["subject"]:
+        raise Malformed("principal-subject-mismatch")
+    if principal["tokenDigest"] != pred["agent"]["credentialDigest"]:
+        raise Malformed("principal-credential-unbound")
+    _principal_lifetime(principal, pred["decision"]["reportedAt"])
+    if principal["key"].get("kid") != principal["kid"]:
+        raise Malformed("principal-kid-mismatch")
+    if principal["keyThumbprint"] != jwk_thumbprint(principal["key"]):
+        raise Malformed("principal-thumbprint-mismatch")
+
+
 def _rule_binding(state: _State) -> None:
     """digest-bound carries argumentsDigest; not-bindable carries it in no
     spelling, null and the empty string included (F3, F3b, F3c)."""
@@ -1190,6 +1339,7 @@ RULES: list[tuple[str, Callable[[_State], None]]] = [
     ("sequence", _rule_sequence),
     ("consumption", _rule_consumption),
     ("delegation", _rule_delegation),
+    ("principal", _rule_principal),
     ("binding", _rule_binding),
     ("request-digest", _rule_request_digest),
     ("subject-after-root", _rule_subject_after_root),

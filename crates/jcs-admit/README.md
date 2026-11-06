@@ -1,10 +1,10 @@
 # jcs-admit
 
+[![CI](https://github.com/probityai/agent-evidence-vectors/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/probityai/agent-evidence-vectors/actions/workflows/ci.yml)
 [![crates.io](https://img.shields.io/crates/v/jcs-admit.svg)](https://crates.io/crates/jcs-admit)
 [![Downloads](https://img.shields.io/crates/d/jcs-admit.svg)](https://crates.io/crates/jcs-admit)
-[![docs.rs](https://img.shields.io/docsrs/jcs-admit)](https://docs.rs/jcs-admit)
 [![license](https://img.shields.io/crates/l/jcs-admit.svg)](https://github.com/probityai/agent-evidence-vectors/tree/main/crates/jcs-admit#license)
-[![CI](https://github.com/probityai/agent-evidence-vectors/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/probityai/agent-evidence-vectors/actions/workflows/ci.yml)
+[![docs.rs](https://img.shields.io/docsrs/jcs-admit)](https://docs.rs/jcs-admit)
 
 Admission control for JSON that is about to be signed or verified. It checks the raw bytes before
 any parser sees them, refuses documents that two parsers could read differently, and then writes

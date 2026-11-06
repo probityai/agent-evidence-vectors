@@ -9,7 +9,7 @@
     "total": 8
   },
   "anchor": {
-    "kind": "signed-digest-list",
+    "kind": "digest-list-line",
     "manifest": "vectors-artifact-binding/MANIFEST.json",
     "reference": {
       "path": "release/CORPUS-DIGESTS.txt",
@@ -19,13 +19,6 @@
     "routine-file": "corpora/vectors-artifact-binding/digest.py",
     "serialization": "corpus-routine",
     "sha256": "e26e5a50267f4f09052f3349388f703d0a332a41cf325a4d248e21414070cbef",
-    "signature": {
-      "key": "release/cosign.pub",
-      "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
-      "path": "release/CORPUS-DIGESTS.txt.sig",
-      "scheme": "ed25519",
-      "serialization": "bytes"
-    },
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -76,7 +69,7 @@
       },
       "path": "corpora/vectors-artifact-binding/README.md",
       "serialization": "bytes",
-      "sha256": "b2c71ab535ae63d9e22547f6def3db622ae807d2d81e0e19b93d66cde1f38284"
+      "sha256": "b02a1736b3e0e7fce05832a0adabbf2e14cbdc08b1f39608e2d38790acb68ffd"
     },
     {
       "consumed": "unconsumed",
@@ -220,7 +213,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "2639449226f35b4a744c6688aa4f76bf6aa6bc92093985f96874ed3b07aba3fe"
+      "sha256": "ddffcf6f3cbe144db176e32bdbcdda7c81cb26121692621fc797f0250ededf2c"
     },
     "runtime": {
       "name": "go",
@@ -301,7 +294,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "ae1c790df9d4e390d746eeaec0929fa9c1d73af7e1d2b19c3ab1730ddf715083"
+    "sha256": "439c1675f038c3bdd2b0e206813e74f99ff5cb39120cb2de1ba970d1660c2ccb"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -915,7 +908,8 @@
       "aee-verify, at the source listing named here, judges each of the 8 pinned members of artifact-binding-conformance as its manifest declares"
     ],
     "leaves-open": [
-      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts"
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one"
     ]
   },
   "selector": {

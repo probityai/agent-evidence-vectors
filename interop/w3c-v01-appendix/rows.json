@@ -122,13 +122,14 @@
       }
     },
     "R3-v01": {
-      "result": "R3's run report re-encoded into the v0.1 report shape, no check re-run",
+      "result": "R3's run report re-encoded into the v0.1 report shape, no check re-run; the checks the controls fail, recounted from the records, are the report's two lists",
       "messages": [
         "2026Nov/0000",
-        "2026Nov/0001"
+        "2026Nov/0001",
+        "2026Nov/0023"
       ],
       "kind": "rerun",
-      "command": "python3 reencode_v01.py <R3 rerun records/> --out run-report-v01.json",
+      "command": "python3 reencode_v01.py <R3 rerun records/> --out run-report-v01.json, then python3 -I rows/r3_v01_recount.py <R3 rerun records/> run-report-v01.json",
       "pins": {
         "converter": "2026Nov/att-0000/eatf-multiroot-run-report-v01.zip",
         "script": "reencode_v01.py",
@@ -139,7 +140,17 @@
       "expect": {
         "run-report-v01.json": "0e6086375846a8fc682e264eb9eb64f6f1629d7a514954a3c6d8b39eaf3f7041"
       },
-      "limits": "Re-encodes the 0060 records; the 48 checks and 44 controls are not re-run here beyond R3 itself."
+      "limits": "Re-encodes the 0060 records; the 48 checks and 44 controls are not re-run here beyond R3 itself. The recount (Nov/0023) reads the records and the re-encoded report and judges no check.",
+      "recount": {
+        "script": "rows/r3_v01_recount.py",
+        "sha256": "418d2cdb6a8ecb381cca755a9480ff0450ac6dd7af7dcbd1d5f13b1188d32ae5",
+        "source": "Anton Sokolov's recount command (2026Nov/0023), run over the R3 rerun's records/ and the re-encoded report",
+        "prints": [
+          "48 44 34 14 True",
+          "True True",
+          "{'action.algorithm': 4, 'action.material': 2, 'package.eatf-verify': 8}"
+        ]
+      }
     },
     "R4": {
       "result": "tool-manifest-digest v1: three reports (76, 67 and 16 checks), each with single-change controls",
