@@ -1,5 +1,5 @@
 {
-  "cites": "a request signed under \"2026-09\" during a rotation, and a Guardian response signed under \"2026-10\". The Observed Agent holds both secrets, so the response verifies under the label it names. The rule is that the response uses the secret and the key_id the request named, so a Guardian that answers every request with its newest key breaks the rotation for any peer that has not loaded it yet. No registry code names this, so none is asserted.",
+  "cites": "the same exchange with the response signed under \"2026-09\", the label the request named. The member turns on the label alone.",
   "coverage": "effective",
   "doesNotAssert": "the decision itself; the verdict here is about which key signed the response, and the pull request's author flagged this sentence as his addition for review",
   "evidenceBasis": "substrate",
@@ -7,11 +7,11 @@
     "code": null,
     "codeValue": null,
     "unmeasurableBecause": null,
-    "verdict": "deny"
+    "verdict": "allow"
   },
   "family": "acs-f-13",
-  "id": "vb3c19387fb98e20f",
-  "kind": "reject",
+  "id": "v911a0022574698eb",
+  "kind": "accept",
   "payload": {
     "observed_agent": {
       "configured_key_ids": [
@@ -62,8 +62,8 @@
         "request_id": "56a78506-aa4a-489d-8171-8833ef83f7bd",
         "signature": {
           "algorithm": "HMAC-SHA256",
-          "key_id": "2026-10",
-          "value": "87nCZ3NwNP/A+Jui0AB8Ji56TrU4UpHZlB9wSM1qDkM="
+          "key_id": "2026-09",
+          "value": "6Avy7TLtaLnIJ1JlEFrXji/ZNikaIQW95ZIy5/b1n1c="
         },
         "type": "final"
       }
@@ -80,10 +80,21 @@
       "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
       "upstreamStatus": "proposal",
       "vendored": "spec-vendored/specification-f2304bf.md"
+    },
+    {
+      "id": "ACS-R-073",
+      "line": 354,
+      "sentence": "A Guardian that signs its response with `HMAC-SHA256` uses the secret, and the `key_id`, that the request named.",
+      "upstreamCommit": "61993cbfc44f858cf46e047c3c4915b3b0bbf387",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-61993cb.md"
     }
   ],
   "requirements": [
-    "ACS-R-031"
+    "ACS-R-031",
+    "ACS-R-073"
   ],
   "specVersion": "0.1.0",
   "suite": "acs-core-negative-conformance",
