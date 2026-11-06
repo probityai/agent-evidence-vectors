@@ -54,6 +54,13 @@ PR278_COMMIT = "7d9b7ffa3e07786607d34187659683503673256a"
 #: substituted. An issue body has no commit, so the vendored bytes are pinned by
 #: their sha256 alone and the ref names the edit time they were read at.
 ISSUE264_UPDATED_AT = "2026-10-12T13:15:57Z"
+#: The merge of pull request 273 into `integration`, which closes issue 37. It
+#: rewords the section 6.4 sentence ACS-R-005 quotes, so a fail-closed decision
+#: failure now needs an audit record too, and adds the per-class
+#: `summary.decision_failures` count at `sessionEnd`. Its specification file is
+#: byte-identical to `main` at 5db28a9, where the change had reached `main`.
+PR273_MERGE_COMMIT = "61993cbfc44f858cf46e047c3c4915b3b0bbf387"
+PR273_MAIN_COMMIT = "5db28a91728ea7678c85fb93a909f92dffe1a540"
 
 #: Every vendored file, with the upstream commit and path its bytes came from and
 #: whether those bytes are upstream's or a proposal. A requirement names one of
@@ -145,6 +152,16 @@ SOURCES = {
         "status": "proposal",
         "ref": "pull request 278 head, open against integration",
     },
+    "specification-pr273": {
+        "path": "spec-vendored/specification-61993cb.md",
+        "commit": PR273_MERGE_COMMIT,
+        "upstreamPath": "docs/spec/instrument/specification.md",
+        "status": "upstream",
+        "ref": (
+            "integration, the merge of pull request 273; the same bytes as main at "
+            f"{PR273_MAIN_COMMIT[:7]}"
+        ),
+    },
     "issue-264": {
         "path": "spec-vendored/issue-264-body.md",
         "commit": None,
@@ -225,9 +242,11 @@ AWAITING_TEXT = {
         "the pinned text has no sentence requiring a party other than the "
         "Observed Agent to record that a session began, so a begun session with "
         "no seal leaves nothing a member could cite. Wording is proposed on "
-        "GenAI-Security-Project/agent-control-standard#37. Once it lands, the "
-        "member expects a counted decision failure, never unmeasurable, because "
-        "a begun and unsealed session is countable"
+        "GenAI-Security-Project/agent-control-standard#37, which pull request "
+        "273 closed with a count at sessionEnd and no sentence for a session "
+        "that never reaches it. Once one lands, the member expects a counted "
+        "decision failure, never unmeasurable, because a begun and unsealed "
+        "session is countable"
     ),
     "an argument textually inside a scoped mandate that resolves outside it": (
         "a dot-dot segment, a symlink, an encoded traversal or an unnormalised "
@@ -273,6 +292,7 @@ FAMILIES = {
     "acs-f-17": "an OCSF decision event whose fields disagree with the verdict or with each other",
     "acs-f-18": "an OCSF allow decision recorded under a class, or with fields, the allow rule does not give it",
     "acs-f-19": "a substituted verdict whose Trace record a reader cannot count, or counts as applied",
+    "acs-f-20": "a fail-closed decision failure with no audit record, and a session end with no failure count read as clean",
 }
 
 #: One row per requirement. Each carries the verbatim normative sentence, which
@@ -323,6 +343,11 @@ REQUIREMENTS: tuple[dict, ...] = (
             "Every step that proceeds without a decision MUST be recorded as an "
             "audit event"
         ),
+        # Pull request 273 reworded this sentence. The identifier stays bound to
+        # the 9d4a9da text it quotes and is never rebound; the requirement the
+        # reworded text states is ACS-R-070, and every member citing this one
+        # cites that one too.
+        "supersededBy": "ACS-R-070",
     },
     {
         "id": "ACS-R-006",
@@ -457,6 +482,8 @@ REQUIREMENTS: tuple[dict, ...] = (
             "Non-repudiation, proving to a third party that a specific Guardian "
             "issued a specific head, requires the asymmetric ACS-Crypto profile"
         ),
+        # Reworded upstream to cover a decision as well as a head; see ACS-R-072.
+        "supersededBy": "ACS-R-072",
     },
     {
         "id": "ACS-R-022",
@@ -544,6 +571,8 @@ REQUIREMENTS: tuple[dict, ...] = (
             "A Guardian signs its response with the secret, and the `key_id`, that "
             "the request named."
         ),
+        # Reworded when pull request 272 merged; see ACS-R-073.
+        "supersededBy": "ACS-R-073",
     },
     {
         "id": "ACS-R-032",
@@ -896,6 +925,46 @@ REQUIREMENTS: tuple[dict, ...] = (
         "sentence": (
             "A reader MUST NOT count a `modify` verdict as applied when this event "
             "shares its session and request id."
+        ),
+    },
+    # Section 6.4 after pull request 273.
+    {
+        "id": "ACS-R-070",
+        "role": "agent",
+        "file": "specification-pr273",
+        "sentence": (
+            "Every decision failure MUST be recorded as an audit event, under "
+            "either posture."
+        ),
+    },
+    {
+        "id": "ACS-R-071",
+        "role": "reader",
+        "file": "specification-pr273",
+        "sentence": (
+            "A reader treats a session that ends without that count as "
+            "unmeasurable."
+        ),
+    },
+    # Sentences other cited requirements quote, as reworded by the time of the
+    # pull request 273 pin.
+    {
+        "id": "ACS-R-072",
+        "role": "verifier",
+        "file": "specification-pr273",
+        "sentence": (
+            "Non-repudiation, proving to a third party that a specific Guardian "
+            "issued a specific head or decision, requires the asymmetric ACS-Crypto "
+            "profile"
+        ),
+    },
+    {
+        "id": "ACS-R-073",
+        "role": "guardian",
+        "file": "specification-pr273",
+        "sentence": (
+            "A Guardian that signs its response with `HMAC-SHA256` uses the secret, "
+            "and the `key_id`, that the request named."
         ),
     },
 )
@@ -1380,7 +1449,7 @@ def build() -> list[dict]:
     add(
         kind="reject",
         family="acs-f-5",
-        requirements=["ACS-R-005"],
+        requirements=["ACS-R-005", "ACS-R-070"],
         payload={
             "request": tool_call(),
             "guardian_response": None,
@@ -1403,7 +1472,7 @@ def build() -> list[dict]:
     add(
         kind="accept",
         family="acs-f-5",
-        requirements=["ACS-R-005"],
+        requirements=["ACS-R-005", "ACS-R-070"],
         payload={
             "request": tool_call(),
             "guardian_response": None,
@@ -1436,7 +1505,7 @@ def build() -> list[dict]:
     add(
         kind="reject",
         family="acs-f-5",
-        requirements=["ACS-R-014", "ACS-R-005"],
+        requirements=["ACS-R-014", "ACS-R-005", "ACS-R-070"],
         payload={
             "action": {"kind": "shell", "command": "ls -la"},
             "host_event": "PreToolUse",
@@ -1572,7 +1641,7 @@ def build() -> list[dict]:
     add(
         kind="reject",
         family="acs-f-6",
-        requirements=["ACS-R-006", "ACS-R-021"],
+        requirements=["ACS-R-006", "ACS-R-021", "ACS-R-072"],
         payload=sealed_session("ACS-Core", "HMAC-SHA256", "2" * 64),
         verdict="deny",
         code="CHAIN_MISMATCH",
@@ -1593,7 +1662,7 @@ def build() -> list[dict]:
     add(
         kind="accept",
         family="acs-f-6",
-        requirements=["ACS-R-006", "ACS-R-021"],
+        requirements=["ACS-R-006", "ACS-R-021", "ACS-R-072"],
         payload=sealed_session("ACS-Core", "HMAC-SHA256", "3" * 64),
         verdict="allow",
         code=None,
@@ -1608,7 +1677,7 @@ def build() -> list[dict]:
     add(
         kind="reject",
         family="acs-f-6",
-        requirements=["ACS-R-006", "ACS-R-021"],
+        requirements=["ACS-R-006", "ACS-R-021", "ACS-R-072"],
         payload=sealed_session("ACS-Crypto", "ML-DSA-65", "2" * 64),
         verdict="deny",
         code="CHAIN_MISMATCH",
@@ -1626,7 +1695,7 @@ def build() -> list[dict]:
     add(
         kind="accept",
         family="acs-f-6",
-        requirements=["ACS-R-006", "ACS-R-021"],
+        requirements=["ACS-R-006", "ACS-R-021", "ACS-R-072"],
         payload=sealed_session("ACS-Crypto", "ML-DSA-65", "3" * 64),
         verdict="allow",
         code=None,
@@ -2019,7 +2088,7 @@ def build() -> list[dict]:
     add(
         kind="reject",
         family="acs-f-10",
-        requirements=["ACS-R-022", "ACS-R-021"],
+        requirements=["ACS-R-022", "ACS-R-021", "ACS-R-072"],
         payload=attributed_head(
             "ACS-Crypto", "ML-DSA-65", "guardian-k1", "asymmetric",
             ["guardian"], "observed_agent", "agent-k2",
@@ -2042,7 +2111,7 @@ def build() -> list[dict]:
     add(
         kind="accept",
         family="acs-f-10",
-        requirements=["ACS-R-022", "ACS-R-021"],
+        requirements=["ACS-R-022", "ACS-R-021", "ACS-R-072"],
         payload=attributed_head(
             "ACS-Crypto", "ML-DSA-65", "guardian-k1", "asymmetric",
             ["guardian"], "guardian", "guardian-k1",
@@ -2061,7 +2130,7 @@ def build() -> list[dict]:
     add(
         kind="indeterminate",
         family="acs-f-10",
-        requirements=["ACS-R-022", "ACS-R-021"],
+        requirements=["ACS-R-022", "ACS-R-021", "ACS-R-072"],
         payload=attributed_head(
             "ACS-Core", "HMAC-SHA256", "session-k1", "symmetric",
             ["guardian", "observed_agent"], "observed_agent", "session-k1",
@@ -2111,7 +2180,7 @@ def build() -> list[dict]:
     add(
         kind="reject",
         family="acs-f-10",
-        requirements=["ACS-R-021"],
+        requirements=["ACS-R-021", "ACS-R-072"],
         payload=claimed_external,
         verdict="deny",
         code=None,
@@ -2148,7 +2217,7 @@ def build() -> list[dict]:
     add(
         kind="accept",
         family="acs-f-10",
-        requirements=["ACS-R-021"],
+        requirements=["ACS-R-021", "ACS-R-072"],
         payload=claimed_peer,
         verdict="allow",
         code=None,
@@ -2297,6 +2366,7 @@ def build() -> list[dict]:
     build_acs_f_17(add)
     build_acs_f_18(add)
     build_acs_f_19(add)
+    build_acs_f_20(add)
 
     # A member minted from the October text says what its record does not
     # assert. Without it a reader takes an accepting member as evidence of more
@@ -2760,7 +2830,7 @@ def build_acs_f_13(add) -> None:
         add(
             kind=kind,
             family="acs-f-13",
-            requirements=["ACS-R-031"],
+            requirements=["ACS-R-031", "ACS-R-073"],
             payload={
                 "request": request_2026_09,
                 "response": response,
@@ -4136,6 +4206,85 @@ def build_acs_f_19(add) -> None:
         )
 
 
+
+def build_acs_f_20(add) -> None:
+    """Section 6.4 after pull request 273: the record under either posture, and the count."""
+    add(
+        kind="reject", family="acs-f-20", requirements=["ACS-R-070"],
+        payload={
+            "request": tool_call(),
+            "guardian_response": None,
+            "on_decision_failure": "deny",
+            "step_outcome": "blocked",
+            "audit_events": [],
+        },
+        verdict="deny", code=None, evidence_basis="substrate", witness_scope="SELF", coverage="observed",
+        cites=(
+            "a step blocked under the fail-closed posture after the Guardian went "
+            "silent, with no audit event. Before pull request 273 only a step that "
+            "proceeded needed a record, so this member passed at 9d4a9da and fails "
+            "now: the block is conformant and the silence about why is not"
+        ),
+        does_not_assert="that the deny posture was the right choice for the deployment",
+    )
+    add(
+        kind="accept", family="acs-f-20", requirements=["ACS-R-070"],
+        payload={
+            "request": tool_call(),
+            "guardian_response": None,
+            "on_decision_failure": "deny",
+            "step_outcome": "blocked",
+            "audit_events": [
+                {
+                    "event": "acs.decision.failure",
+                    "failure_class": "timeout",
+                    "elapsed_ms": 60000,
+                    "posture": "deny",
+                }
+            ],
+        },
+        verdict="allow", code=None, evidence_basis="substrate", witness_scope="SELF", coverage="observed",
+        cites=(
+            "the same blocked step with the failure recorded. An Observed Agent "
+            "that records only fail-open failures fails the member above and "
+            "passes this one only by luck of posture"
+        ),
+        does_not_assert="the shape of the record beyond its presence; the specification does not fix it",
+    )
+    session_end = envelope(
+        "hooks/sessionEnd",
+        params={"reason": "completed", "summary": {"outcome": "completed", "step_count": 3, "errors": []}},
+    )
+    add(
+        kind="reject", family="acs-f-20", requirements=["ACS-R-071"],
+        payload={
+            "record": {"session_end": session_end},
+            "reader_report": {"session_id": "s-0001", "decision_failures": {}, "measured": True},
+        },
+        verdict="deny", code=None, evidence_basis="artifact", witness_scope="EXTERNAL", coverage="observed",
+        cites=(
+            "a sessionEnd whose summary has no decision_failures, and a reader "
+            "report that scores the session as measured with no failures. An "
+            "absent count is not a zero, and a reader that reads it as one "
+            "certifies a session nobody counted"
+        ),
+        does_not_assert="that the session had a decision failure",
+    )
+    add(
+        kind="accept", family="acs-f-20", requirements=["ACS-R-071"],
+        payload={
+            "record": {"session_end": session_end},
+            "reader_report": {"session_id": "s-0001", "measured": False, "reason": "no decision_failures count"},
+        },
+        verdict="allow", code=None, evidence_basis="artifact", witness_scope="EXTERNAL", coverage="observed",
+        cites=(
+            "the same sessionEnd, and a report that calls the session "
+            "unmeasurable. It is what the reader rule requires and the only "
+            "answer that does not guess"
+        ),
+        does_not_assert="anything about a session that carries the count",
+    )
+
 def code_cell(expected: dict) -> str:
     """The INDEX cell for a member's code: named, forbidden, or left unasserted."""
     if expected["code"]:
@@ -4253,7 +4402,12 @@ the upstream commit it was read at. The first pin is `{TARGET_COMMIT[:7]}` on
 `main`. The second is the head of the release/0.1.4 pull request,
 `{RELEASE_014_COMMIT[:7]}`. The third is the head of pull request 272,
 `{PR272_COMMIT[:7]}`, which was open and unmerged when it was read, so the
-members citing it test a proposal and say so.
+members citing it test a proposal and say so. The specification is also read
+at `{PR273_MERGE_COMMIT[:7]}`, the merge of pull request 273, whose text is
+byte-identical to `main` at `{PR273_MAIN_COMMIT[:7]}`. A requirement whose
+sentence was reworded by then keeps its identifier and its old quotation, names
+its successor in `supersededBy`, and every member citing it cites the
+successor too.
 
 | vendored file | upstream path | commit | status | ref |
 |---|---|---|---|---|
@@ -4366,7 +4520,15 @@ def build_manifest() -> tuple[dict, dict[str, bytes]]:
                 "upstreamStatus": source["status"],
             }
         )
+        # Present only on a requirement whose sentence was reworded upstream,
+        # so every other row keeps its bytes.
+        if "supersededBy" in row:
+            requirements[-1]["supersededBy"] = row["supersededBy"]
     known = {row["id"] for row in requirements}
+    for row in requirements:
+        successor = row.get("supersededBy")
+        if successor is not None and successor not in known:
+            raise SystemExit(f"FAIL: {row['id']} is superseded by {successor}, which does not exist")
     by_id = {row["id"]: row for row in requirements}
 
     members = build()
@@ -4381,6 +4543,15 @@ def build_manifest() -> tuple[dict, dict[str, bytes]]:
         missing = [r for r in member["requirements"] if r not in known]
         if missing:
             raise SystemExit(f"FAIL: {vid} cites requirements that do not exist: {missing}")
+        stale = [
+            r
+            for r in member["requirements"]
+            if "supersededBy" in by_id[r] and by_id[r]["supersededBy"] not in member["requirements"]
+        ]
+        if stale:
+            raise SystemExit(
+                f"FAIL: {vid} cites {stale}, reworded upstream, without the requirement that supersedes it"
+            )
         rel = f"vectors/{vid}.json"
         # The normative text each member turns on, quoted beside it, so the case
         # file alone says what rule it forces and where that rule was read.
