@@ -60,7 +60,7 @@ def test_threats_quote_coauthors_verbatim(quoted: str, heading: str) -> None:
     section = tex.split(heading, 1)[1]
     quote = section.split("\\begin{quote}", 1)[1].split("\\end{quote}", 1)[0]
     posted = (SECTIONS_DIR / "quoted" / f"{quoted}.txt").read_text(encoding="utf-8")
-    body = posted.split("\n", 1)[1]  # the title line is the subsection heading
+    body = posted.split("\n\n", 1)[1]  # the title, which may wrap, is the subsection heading
     assert _words(build._inline(quote)) == _words(body)
 
 
