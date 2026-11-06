@@ -57,7 +57,9 @@ def canonical(value: Any) -> bytes:
     outside the domain raises ValueError instead of being serialized some other way.
     """
     _check_domain(value)
-    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode(
+        "utf-8"
+    )
 
 
 def _check_domain(value: Any) -> None:
@@ -160,7 +162,10 @@ def judge(
     except (KeyError, AttributeError, ValueError) as exc:
         raise Refusal("input-digest-mismatch") from exc
     subject_digest = statement["subject"][0].get("digest", {}).get("sha256")
-    if predicate["input"].get("digest") != context_digest or "sha256:" + str(subject_digest) != context_digest:
+    if (
+        predicate["input"].get("digest") != context_digest
+        or "sha256:" + str(subject_digest) != context_digest
+    ):
         raise Refusal("input-digest-mismatch")
     if digest(manifest_bytes) != manifest_digest or digest(bundle_bytes) != bundle_digest:
         raise Refusal("policy-digest-mismatch")

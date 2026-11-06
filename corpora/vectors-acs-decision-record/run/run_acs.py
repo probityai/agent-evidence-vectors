@@ -100,7 +100,9 @@ def main(out: Path) -> int:
         "policyBundle": BUNDLE,
         "cases": cases,
     }
-    out.write_text(json.dumps(run, indent=2, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
+    out.write_text(
+        json.dumps(run, indent=2, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
     for case in cases:
         print(f"{case['name']}: {case['verdict']}")
     return 0

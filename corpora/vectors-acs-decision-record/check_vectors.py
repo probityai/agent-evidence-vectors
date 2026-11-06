@@ -13,7 +13,7 @@ import json
 import sys
 from pathlib import Path
 
-from gen_vectors import corpus_digest
+from digest import corpus_digest
 from record import ACCEPTED, RULES, Refusal, judge
 
 HERE = Path(__file__).resolve().parent
@@ -26,7 +26,10 @@ def main() -> int:
     for entry in manifest["vectors"]:
         member = json.loads((HERE / entry["path"]).read_text(encoding="utf-8"))
         try:
-            got, code = judge(member["envelope"], member["disclosed"], key, member["replayedVerdict"]), None
+            got, code = (
+                judge(member["envelope"], member["disclosed"], key, member["replayedVerdict"]),
+                None,
+            )
         except Refusal as refusal:
             got, code = "refused", refusal.code
         want = entry["expected"]
