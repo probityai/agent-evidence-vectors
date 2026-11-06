@@ -342,8 +342,8 @@ func TestAuditRecordSettledReadingIsLoadBearing(t *testing.T) {
 		arSettledReadingHeld = true
 		return func() { arSettledReadingHeld = false }
 	}
-	if got := arWeakened(t, held); got != "CS48" {
-		t.Errorf("consumed taking the held amount: failing %q, want CS48", got)
+	if got := arWeakened(t, held); got != "CS48,CS53,CS54" {
+		t.Errorf("consumed taking the held amount: failing %q, want CS48,CS53,CS54", got)
 	}
 }
 

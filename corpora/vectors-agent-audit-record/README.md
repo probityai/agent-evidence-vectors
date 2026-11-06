@@ -395,7 +395,7 @@ the claim by the limit document fails `CS32` alone, reading it without its scope
 fails `CS33`, letting `none` not end a claim fails `CS28`, and matching an asset
 by its id alone fails `CS39`, dropping each payee and settled check fails `CS42`,
 `CS44`, `CS45` and `CS46`, `CS47` and `CS49` in turn, counting the held
-amount rather than the settled one fails `CS48`, refusing an empty transaction at
+amount rather than the settled one fails `CS48`, `CS53` and `CS54`, refusing an empty transaction at
 an amount of 0 fails `CS50`, `CS53` and `CS54`, accepting one at any other amount
 fails `CS51`, not requiring the deadline fails `CS52`, dropping the hold's set
 check fails `CS53` alone, and ending the hold only after the deadline, not at it,
