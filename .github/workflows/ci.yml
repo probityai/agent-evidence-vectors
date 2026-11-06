@@ -923,6 +923,10 @@ jobs:
         run: |
           .venv/bin/python -B scripts/readme-lint.py README.md
           .venv/bin/python -B scripts/readme-lint-test.py
+      - name: the vantage grid keeps a link in every cell and every link resolves
+        run: |
+          heavy-queue heavy-run --name vantage-grid-gate --timeout 3600 -- python3 scripts/vantage-grid-gate.py
+          python3 scripts/vantage-grid-gate-test.py
       - name: the archive every Action job downloads stays under its budget
         run: |
           python3 scripts/action-download-budget.py
