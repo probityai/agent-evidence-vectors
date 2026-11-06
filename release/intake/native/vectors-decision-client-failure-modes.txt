@@ -1,0 +1,5 @@
+suite: decision-client-failure-modes/v1
+members: 35
+  allow: 18
+  deny: 17
+verdict: every member behaves as MANIFEST.json declares

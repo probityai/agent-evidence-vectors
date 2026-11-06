@@ -29,12 +29,14 @@ inputs:
   runtime:
     description: >-
       Command line of a runtime adapter, for a corpus that defines a runtime
-      contract (today `vectors-uncertain-effect`). The adapter is run as
-      `<runtime> <scenario.json>` against a counting effect owner whose URL is in
-      `AEV_EFFECT_OWNER`, performs the scenario's operation through the runtime's
-      own execution and retry path, and prints its outcome; the job fails when
-      the owner ends up holding an effect count, or the runtime reports an
-      outcome, that the scenario does not accept. The contract is in the corpus
+      contract (today `vectors-uncertain-effect` and
+      `vectors-decision-client-failure-modes`). The adapter is run as
+      `<runtime> <scenario.json>` against a counting endpoint whose URL the
+      corpus names (`AEV_EFFECT_OWNER` for uncertain effects; `AEV_DECISION_POINT`
+      and `AEV_EFFECT_SINK` for decision clients), performs the scenario through
+      the runtime's own path, and prints its outcome; the job fails when the
+      endpoint ends up holding an effect count, or the runtime reports an
+      outcome, that the scenario does not accept. Each contract is in its corpus
       README. When it is set, `verifier` is not used.
     required: false
     default: ""

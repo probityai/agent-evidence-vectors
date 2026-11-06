@@ -137,6 +137,20 @@ owner's reconciliation answers and ledger count, the reservation held for it and
 outcome the runtime reported, so a consumer can tell a settled effect from an
 unknown one and a safe resend from a duplicate.
 
+### `predicate/v1/decision-client-failure-modes`
+
+- Document: `corpora/vectors-decision-client-failure-modes/README.md`
+- Corpus: `corpora/vectors-decision-client-failure-modes/`, suite `decision-client-failure-modes/v1`
+- Rails: `corpusreaders/decisionclient.go`, `packaging/agent_evidence_vectors/decisionclient.py`
+  and the runtime contract in `packaging/agent_evidence_vectors/decisionclient_runtime.py`
+
+The predicate carries one decision a client took when it asked a decision point
+whether an action may run: the request, the client's mode and timeout, the facts of
+the exchange (reached, timed out, HTTP status, whether the body parsed and the
+verdict it carried), the condition, outcome and basis the client recorded, and
+whether the action was performed, so a consumer can tell a policy decision from a
+fallback and an allow from a fault read as one.
+
 ### `predicate/v1/evaluation-claim`
 
 - Document: `spec/predicates/evaluation-claim.md`
