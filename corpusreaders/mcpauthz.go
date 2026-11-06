@@ -46,14 +46,14 @@ func (r mcpAuthz) Judge(dir string, raw []byte) (*Result, error) {
 	}
 	result := &Result{}
 	seen := map[string]bool{}
-	measured := map[string]int{"accept": 0, "reject": 0}
+	measured := map[string]int{}
 	for _, e := range m.Vectors {
 		member := Member{ID: e.ID, Kind: e.Kind}
 		if seen[e.ID] {
 			member.Findings = append(member.Findings, "duplicate id")
 		}
 		seen[e.ID] = true
-		if _, known := measured[e.Kind]; known {
+		if e.Kind == "accept" || e.Kind == "reject" {
 			measured[e.Kind]++
 		}
 		r.judgeMember(dir, e, &member)

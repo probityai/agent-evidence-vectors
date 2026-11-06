@@ -273,7 +273,7 @@ def generate(root: Path = ROOT) -> dict[str, Any]:
     manifest = {
         "suite": SUITE,
         "counts": {
-            kind: sum(e["kind"] == kind for e in entries) for kind in ("accept", "reject")
+            kind: n for kind in ("accept", "reject") if (n := sum(e["kind"] == kind for e in entries))
         },
         "vectors": entries,
         "specification": SPECIFICATION,
