@@ -214,15 +214,18 @@ MEMBERS: tuple[Member, ...] = CORE_MEMBERS
 
 
 def corpus_digest(manifest: dict[str, Any], root: str | Path = ROOT) -> str:
-    """Recompute the digest from the committed files, not their declared hashes."""
+    """SHA-256 over the member files in identifier order, read from disk.
+
+    The declared per-file hashes are checked against the bytes, not trusted.
+    """
     base = Path(root)
-    entries = []
-    for entry in manifest["vectors"]:
+    body = b""
+    for entry in sorted(manifest["vectors"], key=lambda e: e["id"]):
         data = (base / entry["file"]).read_bytes()
         if _sha(data) != entry["sha256"]:
             raise ValueError(f"{entry['id']}: file digest mismatch")
-        entries.append(entry)
-    return _sha(_json(entries))
+        body += data
+    return _sha(body)
 
 
 def _index(entries: list[dict[str, Any]], digest: str) -> bytes:
@@ -266,7 +269,7 @@ def generate(root: Path = ROOT) -> dict[str, Any]:
                 "expected": {"verdict": "invalid" if codes else "valid", "codes": codes},
             }
         )
-    digest = _sha(_json(entries))
+    digest = corpus_digest({"vectors": entries}, root)
     manifest = {
         "suite": SUITE,
         "counts": {
