@@ -154,7 +154,7 @@ def _verdict_not_followed(record: Record) -> bool:
     decision = record["decision"]
     if decision["condition"] != "ok":
         return False
-    wanted = ALLOW if record["exchange"]["verdict"] == "allow" else DENY
+    wanted = ALLOW if record["exchange"].get("verdict") == "allow" else DENY
     return decision["outcome"] != wanted or decision["basis"] != "policy"
 
 
