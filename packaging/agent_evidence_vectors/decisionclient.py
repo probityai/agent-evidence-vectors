@@ -120,6 +120,15 @@ def derived_condition(exchange: dict[str, Any]) -> str:
     return "ok"
 
 
+def _integer(value: object) -> bool:
+    """A JSON integer; ``true`` and ``false`` are not numbers here, as in JSON."""
+    return isinstance(value, int) and not isinstance(value, bool)
+
+
+def _number(value: object) -> bool:
+    return _integer(value) or isinstance(value, float)
+
+
 def _malformed(record: Record) -> bool:
     """Whether a required member is absent or holds a value outside its vocabulary."""
     try:
@@ -129,10 +138,10 @@ def _malformed(record: Record) -> bool:
             isinstance(request["action"], str) and bool(request["action"]),
             isinstance(request["argsDigest"], str) and request["argsDigest"].startswith("sha256:"),
             client["mode"] in MODES,
-            isinstance(client["timeoutSeconds"], int | float) and client["timeoutSeconds"] > 0,
+            _number(client["timeoutSeconds"]) and client["timeoutSeconds"] > 0,
             isinstance(exchange["reached"], bool),
             isinstance(exchange["timedOut"], bool),
-            exchange["httpStatus"] is None or isinstance(exchange["httpStatus"], int),
+            exchange["httpStatus"] is None or _integer(exchange["httpStatus"]),
             isinstance(exchange["bodyIsJsonObject"], bool),
             "verdict" not in exchange or isinstance(exchange["verdict"], str),
             decision["outcome"] in OUTCOMES,
