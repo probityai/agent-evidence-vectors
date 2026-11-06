@@ -1241,6 +1241,15 @@ ACCEPT_CASES: list[Case] = [
         ("are accounted for",),
     ),
     (
+        "a pull request number written as words is an identifier, not a count",
+        lambda root: append(
+            root,
+            "BUILD-NOTES.md",
+            f"\nUpstream pull request {REGISTERED_COUNT} reworded the sentence.\n",
+        ),
+        ("are accounted for",),
+    ),
+    (
         "a publication identifier is a document name, not a count",
         lambda root: append(
             root,
