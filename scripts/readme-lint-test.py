@@ -97,17 +97,29 @@ class ReadmeLintTest(unittest.TestCase):
         self.assertEqual(self.run_lint(GOOD + ok), 0)
 
     def _row(self, *alts: str) -> str:
-        badges = "\n".join(f'<a href="https://example.org"><img alt="{a}" src="https://example.org/{a}.svg"></a>' for a in alts)
+        badges = "\n".join(
+            f'<a href="https://example.org"><img alt="{a}" src="https://example.org/{a}.svg"></a>'
+            for a in alts
+        )
         return "# thing\n\n<p>\n" + badges + "\n</p>\n" + GOOD.split("\n", 1)[1]
 
     def test_badge_row_in_order_passes(self) -> None:
-        self.assertEqual(self.run_lint(self._row("CI", "Version", "Downloads", "License", "Stars")), 0)
-        self.assertEqual(self.run_lint(self._row("CI", "Version", "Downloads", "License", "Stars", "Checked with Probity")), 0)
+        self.assertEqual(
+            self.run_lint(self._row("CI", "Version", "Downloads", "License", "Stars")), 0
+        )
+        self.assertEqual(
+            self.run_lint(
+                self._row("CI", "Version", "Downloads", "License", "Stars", "Checked with Probity")
+            ),
+            0,
+        )
         self.assertEqual(self.run_lint(self._row("CI", "License")), 0)
         self.assertEqual(self.run_lint(self._row("PyPI", "Downloads (PePy)")), 0)
 
     def test_badge_row_out_of_order_fails(self) -> None:
-        self.assertEqual(self.run_lint(self._row("CI", "License", "Version", "Downloads", "Stars")), 1)
+        self.assertEqual(
+            self.run_lint(self._row("CI", "License", "Version", "Downloads", "Stars")), 1
+        )
         self.assertEqual(self.run_lint(self._row("Stars", "CI")), 1)
         self.assertEqual(self.run_lint(self._row("CI", "Checked with Probity", "Stars")), 1)
 

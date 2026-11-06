@@ -46,7 +46,9 @@ SRC_OR_HREF = re.compile(r"""\b(?:src|href)=["']([^"']+)["']""")
 REF_DEF = re.compile(r"^\s*\[[^\]]+\]:\s*(\S+)", re.MULTILINE)
 GITHUB_API_BADGE = re.compile(r"https?://img\.shields\.io/github/[^\s)\"'>]*", re.IGNORECASE)
 BADGE_ORDER = ("ci", "version", "downloads", "license", "stars")
-BADGE_ALT = re.compile(r"!\[([^\]]*)\]\([^)]*\)|<img\b[^>]*?\balt=[\"']([^\"']*)[\"']", re.IGNORECASE)
+BADGE_ALT = re.compile(
+    r"!\[([^\]]*)\]\([^)]*\)|<img\b[^>]*?\balt=[\"']([^\"']*)[\"']", re.IGNORECASE
+)
 EXTERNAL = re.compile(r"^(?:[a-z][a-z0-9+.-]*:|#|//)", re.IGNORECASE)
 
 
