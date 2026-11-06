@@ -89,7 +89,7 @@ def grid_rows(text: str) -> list[list[str]]:
     start, end = text.find(BEGIN), text.find(END)
     if start < 0 or end < start:
         raise ValueError("grid markers missing or out of order")
-    lines = [ln for ln in text[start + len(BEGIN):end].splitlines() if ln.strip()]
+    lines = [ln for ln in text[start + len(BEGIN) : end].splitlines() if ln.strip()]
     return [[c.strip() for c in ln.strip().strip("|").split("|")] for ln in lines]
 
 
@@ -137,7 +137,7 @@ def check(page: Path) -> tuple[list[str], list[str]]:
             continue
         if row[-1] not in VERDICTS:
             failures.append(f"{row[0]}: last cell {row[-1]!r} is not Yes or No")
-        for column, cell in zip(COLUMNS[1:-1], row[1:-1]):
+        for column, cell in zip(COLUMNS[1:-1], row[1:-1], strict=True):
             targets = LINK.findall(cell)
             if not targets:
                 failures.append(f"{row[0]} / {column}: cell carries no link")
@@ -171,7 +171,10 @@ def main(argv: list[str] | None = None) -> int:
         return INCONCLUSIVE
     if args.network:
         if answers(CONTROL) != 200:
-            print(f"vantage-grid-gate: control {CONTROL} did not answer 200; nothing judged", file=sys.stderr)
+            print(
+                f"vantage-grid-gate: control {CONTROL} did not answer 200; nothing judged",
+                file=sys.stderr,
+            )
             return INCONCLUSIVE
         for url in dict.fromkeys(external):
             status = answers(url)
@@ -180,8 +183,10 @@ def main(argv: list[str] | None = None) -> int:
                 failures.append(f"{url}: answered {status}")
     for failure in failures:
         print(f"FAIL {failure}")
-    print(f"vantage-grid-gate: {len(ROWS)} rows, {len(external)} external links, "
-          f"{len(failures)} failures{' (network checked)' if args.network else ''}")
+    print(
+        f"vantage-grid-gate: {len(ROWS)} rows, {len(external)} external links, "
+        f"{len(failures)} failures{' (network checked)' if args.network else ''}"
+    )
     return 1 if failures else 0
 
 
