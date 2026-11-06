@@ -7,6 +7,9 @@ pin-refresh run (see .github/workflows/pin-refresh.yml) with scripts/make-badge.
 committed, and served from the repository, so no table badge calls a third party when
 the README is viewed. A source that cannot be read leaves the committed file unchanged.
 
+The packages are the ones the README names as assets/badges/dl-pypi-NAME.svg or
+assets/badges/dl-crates-NAME.svg.
+
 usage: refresh-badges.py [--out DIR]
 """
 
@@ -16,12 +19,12 @@ import argparse
 import importlib.util
 import json
 import os
+import re
 import sys
 import urllib.request
 from pathlib import Path
 
-PYPI = ["agent-evidence-vectors", "agent-evidence-vocabulary", "agent-evidence-admission", "jcs-admit"]
-CRATES = ["jcs-admit", "dsse"]
+REF = re.compile(r"assets/badges/dl-(pypi|crates)-([A-Za-z0-9._-]+)\.svg")
 UA = "probityai-badge-refresh"
 
 
@@ -66,14 +69,26 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--out", type=Path, default=default)
     args = ap.parse_args(argv)
     build = load_make_badge().build
-    jobs = [("pypi", n, pypi_total) for n in PYPI] + [("crates", n, crate_total) for n in CRATES]
+    readme = args.out.parent.parent / "README.md"
+    getters = {"pypi": pypi_total, "crates": crate_total}
+    found = sorted(set(REF.findall(readme.read_text(encoding="utf-8"))))
+    jobs = [(kind, name, getters[kind]) for kind, name in found]
+    if not jobs:
+        print(f"FAILED: {readme} names no assets/badges/dl-*.svg file")
+        return 1
     failed = 0
     args.out.mkdir(parents=True, exist_ok=True)
     for kind, name, getter in jobs:
         try:
             total = getter(name)
         except Exception as exc:  # a registry answer that did not arrive changes nothing
-            print(f"FAILED {kind}/{name}: {type(exc).__name__}: {exc}; file left unchanged")
+            target = args.out / f"dl-{kind}-{name}.svg"
+            note = "file left unchanged"
+            if not target.exists():  # a README must never point at a missing image
+                grey = build("n/a", "↓", "#9f9f9f", None, f"{name} downloads")
+                target.write_text(grey, encoding="utf-8")
+                note = "no earlier file, wrote an n/a badge"
+            print(f"FAILED {kind}/{name}: {type(exc).__name__}: {exc}; {note}")
             failed += 1
             continue
         svg = build(human(total), "↓", "#007ec6", None, f"{name} downloads")
