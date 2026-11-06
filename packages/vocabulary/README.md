@@ -12,7 +12,7 @@ term to mean one thing across vendors, including teams who want to map their own
 
 Install the Python package: `pip install agent-evidence-vocabulary==0.9.0`.
 
-agent-evidence is the open record format. The `probityai` command checks and grades records against it: `pip install probityai==0.1.0`.
+agent-evidence is the open record format. The `probityai` command checks and grades records against it: `pip install probityai==0.1.1`.
 
 ## Quick start
 

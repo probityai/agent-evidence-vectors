@@ -17,6 +17,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import tomllib
 import unittest
 from pathlib import Path
 
@@ -26,7 +27,6 @@ SCRIPT = Path(
     os.environ.get("VERSION_PINS_SCRIPT") or REPO.parent / ".github" / "scripts" / "version-pins.py"
 )
 STALE = "pip install agent-evidence-vectors==0.12.0"
-CURRENT_MANIFEST = '[project]\nname = "agent-evidence-vectors"\nversion = "0.32.1"\n'
 
 # (path, text) for every page the config declares historical, with one stale pin inside.
 HISTORICAL = [
@@ -53,7 +53,11 @@ def check(files: dict[str, str]) -> subprocess.CompletedProcess[str]:
     root = Path(tempfile.mkdtemp(prefix="vectors-pins-"))
     try:
         shutil.copy(REPO / "version-pins.toml", root / "version-pins.toml")
-        files = {"pyproject.toml": CURRENT_MANIFEST, **files}
+        # Every package the config owns reads its version from a manifest of this repository.
+        config = tomllib.loads((REPO / "version-pins.toml").read_text(encoding="utf-8"))
+        for item in config.get("own", []):
+            (root / item["manifest"]).parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy(REPO / item["manifest"], root / item["manifest"])
         for rel, text in files.items():
             (root / rel).parent.mkdir(parents=True, exist_ok=True)
             (root / rel).write_text(text, encoding="utf-8")
