@@ -340,8 +340,29 @@ def row_r3_v01(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str,
          "reencode_v01.py")
     detail = expect_files(out, row["expect"])
     detail["posted file in the zip"] = sha256(posted_bytes)
-    ok = detail["ok"] and sha256(posted_bytes) == row["expect"][name]
+    detail["recount"] = r3_v01_recount(py, records, out / name, w, log, row["recount"])
+    ok = (detail["ok"] and sha256(posted_bytes) == row["expect"][name]
+          and detail["recount"]["ok"])
     return ok, detail
+
+
+def r3_v01_recount(py: Path, records: Path, report: Path, w: Path, log: Path,
+                   pin: dict[str, Any]) -> dict[str, Any]:
+    """Run the recount posted in Nov/0023 over the rerun's records and re-encoded report.
+
+    It counts the checks the controls fail from the records and compares them with
+    the control roll-up of the re-encoded report; the three lines it prints must
+    equal the three lines posted.
+    """
+    script = HERE / pin["script"]
+    if sha256_file(script) != pin["sha256"]:
+        raise Refused(f"{pin['script']} is not the pinned recount program")
+    stdout = w / "recount.out"
+    code = run([str(py), "-I", str(script), str(records), str(report)], w, log,
+               stdout=stdout, merge=True)
+    lines = stdout.read_text(encoding="utf-8").splitlines()
+    return {"posted": pin["prints"], "observed": lines, "exit": code,
+            "ok": code == 0 and lines == pin["prints"]}
 
 
 def row_r4(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
