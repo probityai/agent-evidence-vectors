@@ -94,10 +94,14 @@ def _shape_errors(registry: dict[str, Any]) -> list[str]:
     names = [entry.get("code") for entry in registry.get("codes", [])]
     errors = []
     if sorted(names) != sorted(VERDICT_CODES):
-        errors.append(f"verdict codes are {sorted(map(str, names))}, expected exactly {sorted(VERDICT_CODES)}")
+        errors.append(
+            f"verdict codes are {sorted(map(str, names))}, expected exactly {sorted(VERDICT_CODES)}"
+        )
     for entry in registry.get("codes", []):
         if entry.get("kind") not in KINDS:
-            errors.append(f"{entry.get('code')}: kind {entry.get('kind')!r} is neither failure nor limit")
+            errors.append(
+                f"{entry.get('code')}: kind {entry.get('kind')!r} is neither failure nor limit"
+            )
         if (entry.get("kind") == "limit") != bool(entry.get("tier")):
             errors.append(f"{entry.get('code')}: a limit carries a tier and a failure carries none")
     vectors = [entry.get("vector") for entry in registry.get("codes", [])]
@@ -113,7 +117,10 @@ def _closure_errors(registry: dict[str, Any], validity: set[str], policy: set[st
         for field, universe in (("validity_codes", validity), ("consumer_policy_codes", policy)):
             for code in entry[field]:
                 if code not in universe:
-                    errors.append(f"{entry['code']}.{field} names {code!r}, which aee/codes.go does not define there")
+                    errors.append(
+                        f"{entry['code']}.{field} names {code!r}, "
+                        "which aee/codes.go does not define there"
+                    )
                 if code in seen:
                     errors.append(f"{code!r} is mapped by both {seen[code]} and {entry['code']}")
                 seen[code] = entry["code"]
@@ -123,7 +130,9 @@ def _closure_errors(registry: dict[str, Any], validity: set[str], policy: set[st
     for code in sorted(outside - policy):
         errors.append(f"outside_receipt_axis names {code!r}, which is not a consumer-policy code")
     for code in sorted((validity | policy) - set(seen) - outside):
-        errors.append(f"{code!r} is classified by no verdict code and is not outside the receipt axis")
+        errors.append(
+            f"{code!r} is classified by no verdict code and is not outside the receipt axis"
+        )
     return errors
 
 
@@ -137,19 +146,30 @@ def _vector_errors(registry: dict[str, Any], manifest: dict[str, Any]) -> list[s
             continue
         expected = vector.get("expected") or {}
         if vector["kind"] != KINDS[entry["kind"]]:
-            errors.append(f"{entry['code']}: vector {entry['vector']} is a {vector['kind']}, expected {KINDS[entry['kind']]}")
+            errors.append(
+                f"{entry['code']}: vector {entry['vector']} is a {vector['kind']}, "
+                f"expected {KINDS[entry['kind']]}"
+            )
         elif entry["kind"] == "failure":
             stray = [c for c in expected.get("codes", []) if c not in entry["validity_codes"]]
             if stray or not expected.get("codes"):
-                errors.append(f"{entry['code']}: vector {entry['vector']} declares codes {stray or 'none'} outside this verdict code")
+                errors.append(
+                    f"{entry['code']}: vector {entry['vector']} declares codes "
+                    f"{stray or 'none'} outside this verdict code"
+                )
         else:
             for column in ("tierWithoutKey", "tierWithPinnedKey"):
                 if entry["tier"] not in expected.get(column, []):
-                    errors.append(f"{entry['code']}: vector {entry['vector']} {column} lacks tier {entry['tier']}")
+                    errors.append(
+                        f"{entry['code']}: vector {entry['vector']} {column} "
+                        f"lacks tier {entry['tier']}"
+                    )
     return errors
 
 
-def check(registry: dict[str, Any], validity: set[str], policy: set[str], manifest: dict[str, Any]) -> list[str]:
+def check(
+    registry: dict[str, Any], validity: set[str], policy: set[str], manifest: dict[str, Any]
+) -> list[str]:
     """Every disagreement between the registry and its two sources."""
     errors = _shape_errors(registry)
     if errors:

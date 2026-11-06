@@ -7,8 +7,9 @@ import copy
 import importlib.util
 import json
 import sys
+from collections.abc import Callable
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 HERE = Path(__file__).resolve().parent
 spec = importlib.util.spec_from_file_location("gate", HERE / "receipt-verdict-codes-gate.py")
