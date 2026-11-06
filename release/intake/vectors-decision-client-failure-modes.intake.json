@@ -17,7 +17,7 @@
     "routine": "corpus_digest in corpora/vectors-decision-client-failure-modes/gen_vectors.py",
     "routine-file": "corpora/vectors-decision-client-failure-modes/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "1b69a8fa2f9da62f29bef8bee3330fa83ca62b3fff3dbfe46e7543e9cf2d4421",
+    "sha256": "dbadd1d78f0615878edf5b3c71fc054c35c62afecf7d23e0b28670c4ba7c6aad",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -91,7 +91,7 @@
       },
       "path": "corpora/vectors-decision-client-failure-modes/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "5a530c5c2593775530bfb09f9c4893bbee4cab1333afabddf71d1496af4966d0"
+      "sha256": "90e469640a779af64978f7c6200704bb08d2de981e18c00f68e2b71c81f75a2c"
     },
     {
       "consumed": "unconsumed",
@@ -486,7 +486,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "678020a086fdc0c837514aa554632ce08f30ef2857f087e0ae8241cc36759674"
+    "sha256": "51995a90084fb1d5bfaeb35ba26601d6c715806ae6797dcb344a1e34ce10b167"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -533,7 +533,7 @@
       "reject-effect-on-deny"
     ],
     "path": "corpora/vectors-decision-client-failure-modes/MANIFEST.json",
-    "sha256": "f07cefbdaa2c423a81f1e5512b10ef7d204138d66b69aabd827bb1989286282c"
+    "sha256": "321b7f8e56e5c01f07a200e104bb496811a8738dd89a2c635525cb4e54e6ed56"
   },
   "members": [
     {
@@ -711,7 +711,7 @@
       "files": [
         {
           "path": "corpora/vectors-decision-client-failure-modes/cases/reject-contract-id-unknown/record.json",
-          "sha256": "a2af5c2948420214a312d5a2242e4b582ed0a8924120bfd4f97f4b04111119e9"
+          "sha256": "c529305a3b4302bf8dddf30b4bc49a8880ab39e7574a8da67d3bc2956bbdead9"
         }
       ],
       "id": "reject-contract-id-unknown"

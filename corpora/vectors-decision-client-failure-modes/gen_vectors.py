@@ -310,9 +310,7 @@ def _rejects() -> list[Case]:
     missing = build("control-allow", "reject-contract-id-missing")
     del missing["contractId"]
     unknown_contract = build("control-allow", "reject-contract-id-unknown")
-    unknown_contract["contractId"] = (
-        "https://probityai.github.io/agent-evidence-vectors/predicate/v1/agent-decision"
-    )
+    unknown_contract["contractId"] = "https://example.org/contracts/decision-client/v9"
     malformed = build("control-block", "reject-basis-outside-vocabulary", basis="server")
     status_without_reply = build("timeout--strict", "reject-status-without-reply")
     status_without_reply["exchange"]["httpStatus"] = 200
