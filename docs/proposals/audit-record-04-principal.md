@@ -1,6 +1,6 @@
 # Proposed text for draft-gilda-audit-agent-audit-record-04: the authenticated principal
 
-Change text for the next revision of Section 5. Each paragraph names the members of
+Change text for the next revision of the members section. Each paragraph names the members of
 `vectors-agent-audit-record` that test it. The predicate URI does not change: `principal` is an
 optional member, so a record without it is judged exactly as under revision 03.
 
@@ -39,7 +39,7 @@ Add to Section 5, after `delegation`:
 >   presented (vector `PR6`).
 > * `issuedAt` and `expiresAt`, the token's `iat` and `exp` as RFC 3339 times, `expiresAt` later
 >   than `issuedAt`. At `decision.reportedAt` the token MUST have been issued and MUST NOT have
->   expired, each within the skew tolerance of Section 4 (vectors `PR10`, `PR5`).
+>   expired, each within the skew tolerance of the draft (vectors `PR10`, `PR5`).
 > * `kid`, the `kid` of the token's JWS header.
 > * `key`, the public JWK of the issuer's JWKS that `kid` selects, of key type `RSA`, `EC` or
 >   `OKP`, carrying no private member. Its `kid` MUST equal `kid` (vector `PR9`).
