@@ -3,7 +3,7 @@
 <p>
 <a href="https://github.com/probityai/agent-evidence-vectors/actions/workflows/ci.yml"><img height="16" alt="CI" src="https://github.com/probityai/agent-evidence-vectors/actions/workflows/ci.yml/badge.svg"></a>
 <a href="https://pypi.org/project/agent-evidence-vectors/"><img height="16" alt="Version" src="https://img.shields.io/pypi/v/agent-evidence-vectors?style=flat-square&color=blue&label=&logo=pypi&logoColor=white&cacheSeconds=86400"></a>
-<a href="https://pepy.tech/projects/agent-evidence-vectors"><img height="16" alt="Downloads" src="https://img.shields.io/pepy/dt/agent-evidence-vectors?style=flat-square&color=blue&label=%E2%86%93&cacheSeconds=86400"></a>
+<a href="https://pepy.tech/projects/agent-evidence-vectors"><img height="16" alt="Downloads" src="assets/badges/dl-pypi-agent-evidence-vectors.svg"></a>
 <a href="https://github.com/probityai/agent-evidence-vectors/blob/main/LICENSE"><img height="16" alt="License" src="assets/badges/license.svg"></a>
 <a href="https://github.com/probityai/agent-evidence-vectors/stargazers"><img height="16" alt="Stars" src="assets/badges/stars.svg"></a>
 <a href="https://github.com/probityai/probity"><img height="16" alt="Checked with Probity" src="assets/badges/checked-with-probity.svg"></a>
@@ -113,13 +113,13 @@ Source maps: [layout](docs/reference/layout.md), [readers](docs/reference/corpus
 
 | package | registry | version | downloads |
 | --- | --- | :---: | :---: |
-| [agent-evidence-vectors](https://pypi.org/project/agent-evidence-vectors/) | PyPI | **0.35.0** | <a href="https://pepy.tech/projects/agent-evidence-vectors"><img alt="agent-evidence-vectors downloads" src="https://img.shields.io/pepy/dt/agent-evidence-vectors?style=flat-square&color=blue&label="></a> |
-| [agent-evidence-vocabulary](packages/vocabulary/README.md) | PyPI | **0.9.0** | <a href="https://pepy.tech/projects/agent-evidence-vocabulary"><img alt="agent-evidence-vocabulary downloads" src="https://img.shields.io/pepy/dt/agent-evidence-vocabulary?style=flat-square&color=blue&label="></a> |
-| [agent-evidence-admission](packages/admission/README.md) | PyPI | **0.2.0** | <a href="https://pepy.tech/projects/agent-evidence-admission"><img alt="agent-evidence-admission downloads" src="https://img.shields.io/pepy/dt/agent-evidence-admission?style=flat-square&color=blue&label="></a> |
-| [jcs-admit](crates/jcs-admit/README.md) | PyPI | **0.1.1** | <a href="https://pepy.tech/projects/jcs-admit"><img alt="jcs-admit downloads" src="https://img.shields.io/pepy/dt/jcs-admit?style=flat-square&color=blue&label="></a> |
+| [agent-evidence-vectors](https://pypi.org/project/agent-evidence-vectors/) | PyPI | **0.35.0** | <a href="https://pepy.tech/projects/agent-evidence-vectors"><img alt="agent-evidence-vectors downloads" src="assets/badges/dl-pypi-agent-evidence-vectors.svg"></a> |
+| [agent-evidence-vocabulary](packages/vocabulary/README.md) | PyPI | **0.9.0** | <a href="https://pepy.tech/projects/agent-evidence-vocabulary"><img alt="agent-evidence-vocabulary downloads" src="assets/badges/dl-pypi-agent-evidence-vocabulary.svg"></a> |
+| [agent-evidence-admission](packages/admission/README.md) | PyPI | **0.2.0** | <a href="https://pepy.tech/projects/agent-evidence-admission"><img alt="agent-evidence-admission downloads" src="assets/badges/dl-pypi-agent-evidence-admission.svg"></a> |
+| [jcs-admit](crates/jcs-admit/README.md) | PyPI | **0.1.1** | <a href="https://pepy.tech/projects/jcs-admit"><img alt="jcs-admit downloads" src="assets/badges/dl-pypi-jcs-admit.svg"></a> |
 | jcs-admit | npm | **0.1.0** | - |
-| jcs-admit | crates.io | **0.1.3** | <a href="https://crates.io/crates/jcs-admit"><img alt="jcs-admit downloads" src="https://img.shields.io/crates/d/jcs-admit?style=flat-square&color=blue&label="></a> |
-| [dsse](crates/dsse/README.md) | crates.io | **0.1.6** | <a href="https://crates.io/crates/dsse"><img alt="dsse downloads" src="https://img.shields.io/crates/d/dsse?style=flat-square&color=blue&label="></a> |
+| jcs-admit | crates.io | **0.1.3** | <a href="https://crates.io/crates/jcs-admit"><img alt="jcs-admit downloads" src="assets/badges/dl-crates-jcs-admit.svg"></a> |
+| [dsse](crates/dsse/README.md) | crates.io | **0.1.6** | <a href="https://crates.io/crates/dsse"><img alt="dsse downloads" src="assets/badges/dl-crates-dsse.svg"></a> |
 | @probityai/dsse | npm | **0.1.0** | - |
 
 <a name="how-this-suite-is-maintained"></a>
