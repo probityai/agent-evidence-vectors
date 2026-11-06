@@ -113,4 +113,5 @@ agent-evidence-vectors --corpus vectors-decision-client-failure-modes --verifier
 agent-evidence-vectors runtime --corpus vectors-decision-client-failure-modes --runtime './adapter'
 ```
 
+`aee-verify vectors-decision-client-failure-modes` judges the same cases with the Go reader.
 Regenerate the cases with `python3 corpora/vectors-decision-client-failure-modes/gen_vectors.py`.
