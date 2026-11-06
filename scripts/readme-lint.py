@@ -17,7 +17,7 @@ to that shape with three rules:
 3. Every relative link and image in the README resolves to a file in the
    repository, so text moved into docs/ cannot leave a dead pointer behind.
 
-4. No badge image comes from a shields.io endpoint that calls the GitHub API
+And: no badge image comes from a shields.io endpoint that calls the GitHub API
    (img.shields.io/github/...: actions, stars, license, v, issues and the rest).
    Those answer intermittently and GitHub's image proxy caches the failure, so
    the badge shows as a broken image for everyone. Use GitHub's own workflow
