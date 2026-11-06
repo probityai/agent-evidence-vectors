@@ -1,0 +1,31 @@
+{
+  "client": {
+    "mode": "default",
+    "timeoutSeconds": 1.0
+  },
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/decision-client-failure-modes",
+  "decidedAt": "2026-11-06T12:00:00Z",
+  "decision": {
+    "basis": "fallback",
+    "condition": "unknown-verdict",
+    "halted": false,
+    "outcome": "deny"
+  },
+  "effect": {
+    "performed": false
+  },
+  "exchange": {
+    "bodyIsJsonObject": true,
+    "httpStatus": 200,
+    "reached": true,
+    "timedOut": false,
+    "verdict": "suspend"
+  },
+  "recordId": "record-accept-unknown-verdict--default",
+  "request": {
+    "action": "transfer_funds",
+    "argsDigest": "sha256:c2f2499c7bf25bd3635f69f9d75caad7861c1fd6dec99b8900243411253b329f",
+    "consequential": true
+  },
+  "scenario": "unknown-verdict--default"
+}
