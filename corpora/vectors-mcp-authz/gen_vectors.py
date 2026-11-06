@@ -46,13 +46,17 @@ SPECIFICATION = {
         "What an MCP server publishes about its OAuth protection, read from outside: Protected Resource "
         "Metadata (RFC 9728), Authorization Server metadata (RFC 8414), the Bearer challenge on a request "
         "with no token (RFC 6750 section 3), the server's authorization settings, and whether a request "
-        "with no token, or with a token that lacks a required scope, is refused. JWTs are carried "
-        "decoded; signatures are outside this corpus. All fixtures are synthetic."
+        "with no token, or with a token that lacks a required scope, is refused. It also covers four "
+        "extension surfaces: a DPoP proof and its binding to the token, a workload identity token "
+        "exchanged for scopes, an OAuth Client ID Metadata Document, and an identity assertion "
+        "authorization grant. JWTs are carried decoded; signatures are outside this corpus. All "
+        "fixtures are synthetic."
     ),
     "sources": [
         "RFC 9728 OAuth 2.0 Protected Resource Metadata",
         "RFC 8414 OAuth 2.0 Authorization Server Metadata",
         "RFC 6750 Bearer Token Usage, section 3",
+        "RFC 9449 OAuth 2.0 Demonstrating Proof of Possession (DPoP)",
         "MCP specification, Authorization",
     ],
     "verifierContract": (
@@ -210,7 +214,202 @@ CORE_MEMBERS: tuple[Member, ...] = (
     ),
 )
 
-MEMBERS: tuple[Member, ...] = CORE_MEMBERS
+# EXTENSION-BEGIN
+def _b64url(data: bytes) -> str:
+    import base64
+
+    return base64.urlsafe_b64encode(data).rstrip(b"=").decode()
+
+
+def _thumbprint(jwk: dict[str, Any]) -> str:
+    canonical = json.dumps({k: jwk[k] for k in ("crv", "kty", "x", "y")}, sort_keys=True, separators=(",", ":"))
+    return _b64url(hashlib.sha256(canonical.encode()).digest())
+
+
+def _with_extensions() -> Obs:
+    """The baseline plus the four extension surfaces, each internally consistent."""
+    obs = _baseline()
+    jwk = {
+        "kty": "EC",
+        "crv": "P-256",
+        "x": _b64url(hashlib.sha256(b"synthetic-x").digest()),
+        "y": _b64url(hashlib.sha256(b"synthetic-y").digest()),
+    }
+    token = "synthetic-access-token-0001"
+    obs["observed"].update(
+        {
+            "dpop": {
+                "request_method": "POST",
+                "request_url": RESOURCE,
+                "access_token": token,
+                "seen_jtis": [],
+                "proof": {
+                    "header": {"typ": "dpop+jwt", "alg": "ES256", "jwk": jwk},
+                    "claims": {
+                        "htm": "POST",
+                        "htu": RESOURCE,
+                        "iat": NOW,
+                        "jti": "dpop-jti-0001",
+                        "ath": _b64url(hashlib.sha256(token.encode()).digest()),
+                    },
+                },
+                "token_claims": {"cnf": {"jkt": _thumbprint(jwk)}},
+            },
+            "workload_federation": {
+                "trusted_issuers": ["https://workload-idp.example.test"],
+                "expected_audience": ISSUER,
+                "bindings": {"system:serviceaccount:agents:runner": ["mcp:read"]},
+                "granted_scopes": ["mcp:read"],
+                "subject_token": {
+                    "claims": {
+                        "iss": "https://workload-idp.example.test",
+                        "aud": ISSUER,
+                        "sub": "system:serviceaccount:agents:runner",
+                        "exp": NOW + 3600,
+                    }
+                },
+            },
+            "client_metadata": {
+                "client_id": "https://client.example.test/oauth/client.json",
+                "redirect_uri": "https://client.example.test/callback",
+                "document": {
+                    "client_id": "https://client.example.test/oauth/client.json",
+                    "client_name": "Synthetic Agent Client",
+                    "redirect_uris": ["https://client.example.test/callback"],
+                    "token_endpoint_auth_method": "none",
+                },
+                "as_metadata": {"client_id_metadata_document_supported": True},
+            },
+            "id_jag": {
+                "resource_as_issuer": ISSUER,
+                "requesting_client_id": "client-0001",
+                "assertion": {
+                    "header": {"typ": "oauth-id-jag+jwt", "alg": "ES256"},
+                    "claims": {
+                        "iss": "https://idp.example.test",
+                        "sub": "user-synthetic-0001",
+                        "aud": ISSUER,
+                        "client_id": "client-0001",
+                        "jti": "id-jag-jti-0001",
+                        "iat": NOW,
+                        "exp": NOW + 300,
+                        "resource": RESOURCE,
+                        "scope": "mcp:read",
+                    },
+                },
+            },
+        }
+    )
+    return obs
+
+
+def _dpop_proof_malformed(o: Obs) -> None:
+    proof = o["observed"]["dpop"]["proof"]
+    proof["header"]["typ"] = "JWT"
+    proof["header"]["alg"] = "HS256"
+    proof["header"]["jwk"]["d"] = _b64url(hashlib.sha256(b"synthetic-private").digest())
+
+
+def _dpop_binding_broken(o: Obs) -> None:
+    dpop = o["observed"]["dpop"]
+    dpop["proof"]["claims"]["htu"] = "https://mcp.example.test/other"
+    dpop["proof"]["claims"]["htm"] = "GET"
+    dpop["proof"]["claims"]["ath"] = _b64url(hashlib.sha256(b"another-token").digest())
+    dpop["token_claims"]["cnf"]["jkt"] = _b64url(hashlib.sha256(b"another-key").digest())
+    dpop["seen_jtis"] = [dpop["proof"]["claims"]["jti"]]
+
+
+def _wif_defective(o: Obs) -> None:
+    w = o["observed"]["workload_federation"]
+    w["subject_token"]["claims"].update(
+        {
+            "iss": "https://other-idp.example.test",
+            "aud": "https://elsewhere.example.test",
+            "exp": NOW - 60,
+            "sub": "system:serviceaccount:other:runner",
+        }
+    )
+    w["granted_scopes"] = ["mcp:read", "mcp:write"]
+
+
+def _cimd_defective(o: Obs) -> None:
+    c = o["observed"]["client_metadata"]
+    c["client_id"] = "http://client.example.test/a/../client.json#frag"
+    c["document"]["client_id"] = "https://client.example.test/oauth/other.json"
+    c["redirect_uri"] = "https://client.example.test/elsewhere"
+    c["document"]["token_endpoint_auth_method"] = "client_secret_basic"
+    c["document"]["client_secret"] = "synthetic-not-a-secret"
+    c["as_metadata"]["client_id_metadata_document_supported"] = False
+
+
+def _jag_defective(o: Obs) -> None:
+    j = o["observed"]["id_jag"]
+    j["assertion"]["header"]["typ"] = "JWT"
+    j["assertion"]["claims"]["aud"] = "https://elsewhere.example.test"
+    j["assertion"]["claims"]["client_id"] = "client-9999"
+    j["assertion"]["claims"]["exp"] = NOW - 1
+    del j["assertion"]["claims"]["jti"]
+
+
+EXTENSION_MEMBERS: tuple[Member, ...] = (
+    (
+        "conformant-baseline",
+        _with_extensions,
+        None,
+        [],
+        "a server whose every published surface agrees, with a bound DPoP proof, a trusted workload token, a clean client document and a valid identity assertion",
+    ),
+    (
+        "dpop-proof-malformed",
+        _with_extensions,
+        _dpop_proof_malformed,
+        ["dpop-proof-alg-not-asymmetric", "dpop-proof-key-private", "dpop-proof-typ-invalid"],
+        "a DPoP proof with the wrong type, a symmetric algorithm and a private key in its header",
+    ),
+    (
+        "dpop-binding-broken",
+        _with_extensions,
+        _dpop_binding_broken,
+        [
+            "dpop-ath-mismatch",
+            "dpop-htm-mismatch",
+            "dpop-htu-mismatch",
+            "dpop-key-binding-mismatch",
+            "dpop-proof-replayed",
+        ],
+        "a DPoP proof for another method, URL and token, signed by a key the token is not bound to, and replayed",
+    ),
+    (
+        "workload-federation-defective",
+        _with_extensions,
+        _wif_defective,
+        ["wif-audience-mismatch", "wif-issuer-untrusted", "wif-scope-widened", "wif-subject-unbound", "wif-token-expired"],
+        "a workload token from an untrusted issuer, for another audience, expired and unbound, exchanged for wider scopes",
+    ),
+    (
+        "client-metadata-defective",
+        _with_extensions,
+        _cimd_defective,
+        [
+            "cimd-client-id-not-a-clean-https-url",
+            "cimd-document-client-id-mismatch",
+            "cimd-redirect-uri-unregistered",
+            "cimd-support-not-advertised",
+            "cimd-symmetric-authentication",
+        ],
+        "a client identifier that is not a clean https URL, whose document names another client, an unregistered redirect and a shared secret",
+    ),
+    (
+        "id-jag-defective",
+        _with_extensions,
+        _jag_defective,
+        ["id-jag-audience-mismatch", "id-jag-client-mismatch", "id-jag-expired", "id-jag-jti-missing", "id-jag-typ-invalid"],
+        "an identity assertion grant of the wrong type, for another audience and client, expired and with no identifier",
+    ),
+)
+# EXTENSION-END
+
+MEMBERS: tuple[Member, ...] = (*CORE_MEMBERS, *EXTENSION_MEMBERS)  # EXTENSION-LINE
 
 
 def corpus_digest(manifest: dict[str, Any], root: str | Path = ROOT) -> str:

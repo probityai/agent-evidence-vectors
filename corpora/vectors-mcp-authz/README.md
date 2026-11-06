@@ -13,7 +13,7 @@ The harness runs `my_verifier.py <observation file>` once per member. The verifi
 
 ## What the observations cover
 
-Protected Resource Metadata (RFC 9728), Authorization Server metadata (RFC 8414), the Bearer challenge on a request with no token (RFC 6750 section 3), the server's authorization settings, and whether a request with no token, or without a required scope, is refused. JWTs are carried decoded and signatures are outside this corpus.
+Protected Resource Metadata (RFC 9728), Authorization Server metadata (RFC 8414), the Bearer challenge on a request with no token (RFC 6750 section 3), the server's authorization settings, and whether a request with no token, or without a required scope, is refused. Four extension surfaces follow: a DPoP proof and its binding to the token (RFC 9449), a workload identity token exchanged for scopes, an OAuth Client ID Metadata Document and an identity assertion authorization grant. JWTs are carried decoded and signatures are outside this corpus.
 
 `MANIFEST.json` lists every member with its answer. `INDEX.md` is the same table for a reader. `gen_vectors.py` writes the observations, the manifest and the index; do not edit them by hand.
 
