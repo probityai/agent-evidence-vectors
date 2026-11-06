@@ -2,7 +2,8 @@
 """Write a flat-square badge as a self-contained SVG, so a README badge is a file in the
 repository and cannot fail to load from a third-party service.
 
-usage: make-badge.py OUT.svg MESSAGE [--label LABEL] [--color HEX] [--logo-png FILE]
+usage: make-badge.py OUT.svg MESSAGE [--label LABEL] [--color HEX] [--logo-png FILE] [--title TEXT]
+(an empty MESSAGE with a logo and a title writes an icon-only badge)
 """
 from __future__ import annotations
 
@@ -21,7 +22,16 @@ def text_width(text: str) -> int:
     return round(len(text) * CHAR)
 
 
-def build(message: str, label: str, color: str, logo: bytes | None) -> str:
+def build(message: str, label: str, color: str, logo: bytes | None, title: str = "") -> str:
+    if logo and not message and not label:
+        data = base64.b64encode(logo).decode()
+        name = escape(title or "badge")
+        return (
+            f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" '
+            f'width="{LOGO + 10}" height="20" role="img" aria-label="{name}"><title>{name}</title>'
+            f'<rect width="{LOGO + 10}" height="20" fill="{color}"/>'
+            f'<image x="5" y="3" width="{LOGO}" height="{LOGO}" xlink:href="data:image/png;base64,{data}"/></svg>'
+        )
     logo_w = LOGO + 4 if logo else 0
     label_w = (text_width(label) + PAD + logo_w) if label else (logo_w + (4 if logo else 0))
     msg_w = text_width(message) + PAD
@@ -63,10 +73,11 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--label", default="")
     ap.add_argument("--color", default="#007ec6")
     ap.add_argument("--logo-png", type=Path)
+    ap.add_argument("--title", default="")
     args = ap.parse_args(argv)
     logo = args.logo_png.read_bytes() if args.logo_png else None
     args.out.parent.mkdir(parents=True, exist_ok=True)
-    args.out.write_text(build(args.message, args.label, args.color, logo), encoding="utf-8")
+    args.out.write_text(build(args.message, args.label, args.color, logo, args.title), encoding="utf-8")
     return 0
 
 

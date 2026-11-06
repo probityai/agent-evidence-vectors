@@ -3,7 +3,7 @@
 <p>
 <a href="https://github.com/probityai/agent-evidence-vectors/actions/workflows/ci.yml"><img height="16" alt="CI" src="https://github.com/probityai/agent-evidence-vectors/actions/workflows/ci.yml/badge.svg"></a>
 <a href="https://pypi.org/project/agent-evidence-vectors/"><img height="16" alt="Version" src="https://img.shields.io/pypi/v/agent-evidence-vectors?style=flat-square&color=blue&label=&logo=pypi&logoColor=white&cacheSeconds=86400"></a>
-<a href="https://pepy.tech/projects/agent-evidence-vectors"><img height="16" alt="Downloads" src="https://img.shields.io/pepy/dt/agent-evidence-vectors?style=flat-square&color=blue&label=downloads&cacheSeconds=86400"></a>
+<a href="https://pepy.tech/projects/agent-evidence-vectors"><img height="16" alt="Downloads" src="https://img.shields.io/pepy/dt/agent-evidence-vectors?style=flat-square&color=blue&label=%E2%86%93&cacheSeconds=86400"></a>
 <a href="https://github.com/probityai/agent-evidence-vectors/blob/main/LICENSE"><img height="16" alt="License" src="assets/badges/license.svg"></a>
 <a href="https://github.com/probityai/agent-evidence-vectors/stargazers"><img height="16" alt="Stars" src="assets/badges/stars.svg"></a>
 <a href="https://github.com/probityai/probity"><img height="16" alt="Checked with Probity" src="assets/badges/checked-with-probity.svg"></a>
