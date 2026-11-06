@@ -1,0 +1,102 @@
+{
+  "corpusDigest": "7bc3c6d2b0ef483c97e19855d2b78e45abe182a674f5da355892ed3b9ad45cef",
+  "counts": {
+    "accept": 0,
+    "reject": 5
+  },
+  "specification": {
+    "scope": "What an MCP server publishes about its OAuth protection, read from outside: Protected Resource Metadata (RFC 9728), Authorization Server metadata (RFC 8414), the Bearer challenge on a request with no token (RFC 6750 section 3), the server's authorization settings, and whether a request with no token, or with a token that lacks a required scope, is refused. JWTs are carried decoded; signatures are outside this corpus. All fixtures are synthetic.",
+    "sources": [
+      "RFC 9728 OAuth 2.0 Protected Resource Metadata",
+      "RFC 8414 OAuth 2.0 Authorization Server Metadata",
+      "RFC 6750 Bearer Token Usage, section 3",
+      "MCP specification, Authorization"
+    ],
+    "status": "proposal of this repository, not a vendored upstream text",
+    "verifierContract": "verifier <observation file>: the last stdout line is one JSON object with `verdict` (valid or invalid) and `codes` (the finding codes, a set); exit 0 for valid, 1 for invalid."
+  },
+  "suite": "mcp-authz-observation/v1",
+  "vectors": [
+    {
+      "description": "resource metadata names a different resource, no authorization server, no header method and offline_access, and the 401 carries no challenge",
+      "expected": {
+        "codes": [
+          "challenge-missing",
+          "prm-authorization-servers-missing",
+          "prm-bearer-header-missing",
+          "prm-resource-not-identical",
+          "prm-scope-offline-access"
+        ],
+        "verdict": "invalid"
+      },
+      "file": "observations/resource-metadata-defective.json",
+      "id": "resource-metadata-defective",
+      "kind": "reject",
+      "sha256": "9592ccdad00d705dc9fe7bfb0bc82954c2b48f8feb999961744f20595141e5f0"
+    },
+    {
+      "description": "authorization server metadata without S256, the code response type, a token endpoint or a registration endpoint, under another issuer",
+      "expected": {
+        "codes": [
+          "as-issuer-mismatch",
+          "as-issuer-not-in-prm",
+          "as-pkce-s256-missing",
+          "as-registration-endpoint-missing",
+          "as-required-field-missing",
+          "as-response-type-code-missing"
+        ],
+        "verdict": "invalid"
+      },
+      "file": "observations/authorization-server-metadata-defective.json",
+      "id": "authorization-server-metadata-defective",
+      "kind": "reject",
+      "sha256": "0a175e9218500df35e737b1c997a3ee8b14c10117d6d8be12eeaa132eebe8b03"
+    },
+    {
+      "description": "the 401 challenge asks for offline_access and points to no resource metadata, and an under-scoped token is answered 401",
+      "expected": {
+        "codes": [
+          "challenge-insufficient-scope-not-403",
+          "challenge-resource-metadata-missing",
+          "challenge-scope-offline-access"
+        ],
+        "verdict": "invalid"
+      },
+      "file": "observations/challenge-defective.json",
+      "id": "challenge-defective",
+      "kind": "reject",
+      "sha256": "dce262973bb1216c5130f64305fb992059c7db50288d255bf77ad58f16dffc1b"
+    },
+    {
+      "description": "no resource identifier, a required scope a registered client cannot obtain, non-JSON server metadata and a Basic challenge",
+      "expected": {
+        "codes": [
+          "as-metadata-not-json",
+          "challenge-scheme-not-bearer",
+          "config-resource-url-missing",
+          "config-scopes-not-obtainable"
+        ],
+        "verdict": "invalid"
+      },
+      "file": "observations/settings-inconsistent.json",
+      "id": "settings-inconsistent",
+      "kind": "reject",
+      "sha256": "5d22a4cbd545aae25ca9cd4e5cbac7caa894b4f3a16a7d526f02c96bd426341b"
+    },
+    {
+      "description": "a request with no token and a token without the required scope are both served, and the metadata endpoint is missing",
+      "expected": {
+        "codes": [
+          "prm-not-served",
+          "required-scope-not-enforced",
+          "unauthenticated-request-accepted"
+        ],
+        "verdict": "invalid"
+      },
+      "file": "observations/unauthenticated-request-served.json",
+      "id": "unauthenticated-request-served",
+      "kind": "reject",
+      "sha256": "fa98706ef6112b5aeecf4f1806a44aa68ed33e5d640074761d6e425edc6defb2"
+    }
+  ]
+}

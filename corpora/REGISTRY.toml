@@ -589,6 +589,18 @@ standards = ["in-toto"]
 shapes = ["self-report", "wrong-grade"]
 
 [[corpus]]
+id = "vectors-mcp-authz"
+path = "corpora/vectors-mcp-authz"
+wheel = true
+sdist = true
+title = "MCP authorization observations"
+summary = "A verifier must report the defects in what an MCP server publishes about its OAuth protection: resource and server metadata, the Bearer challenge and the settings behind them."
+record_class = "report"
+domains = ["authority", "agent-protocols", "identity"]
+standards = ["mcp", "ietf-draft"]
+shapes = ["malformed-input", "missing-binding", "scope-overreach"]
+
+[[corpus]]
 id = "vectors-mcp-owasp"
 path = "corpora/vectors-mcp-owasp"
 wheel = true

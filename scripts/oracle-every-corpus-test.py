@@ -74,6 +74,7 @@ RUNS_A_VERIFIER = (
     "vectors-source-coverage",
     "vectors-open-weight-art53",
     "vectors-trace-anchor",
+    "vectors-mcp-authz",
 )
 
 #: Corpora judged only by a reader of their own (``aee-verify <dir>`` or this
