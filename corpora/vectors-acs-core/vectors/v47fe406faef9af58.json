@@ -1,0 +1,65 @@
+{
+  "cites": "the same sessionEnd, and a report that calls the session unmeasurable. It is what the reader rule requires and the only answer that does not guess",
+  "coverage": "observed",
+  "doesNotAssert": "anything about a session that carries the count",
+  "evidenceBasis": "artifact",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "allow"
+  },
+  "family": "acs-f-20",
+  "id": "v47fe406faef9af58",
+  "kind": "accept",
+  "payload": {
+    "reader_report": {
+      "measured": false,
+      "reason": "no decision_failures count",
+      "session_id": "s-0001"
+    },
+    "record": {
+      "session_end": {
+        "acs": "0.1",
+        "metadata": {
+          "session_id": "s-0001",
+          "turn_id": "t-0001"
+        },
+        "method": "hooks/sessionEnd",
+        "params": {
+          "reason": "completed",
+          "summary": {
+            "errors": [],
+            "outcome": "completed",
+            "step_count": 3
+          }
+        },
+        "request_id": "11111111-1111-4111-8111-111111111111",
+        "signature": {
+          "algorithm": "HMAC-SHA256",
+          "key_id": "k1",
+          "value": "AAAA"
+        },
+        "timestamp": "2026-09-09T12:00:00Z"
+      }
+    }
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-071",
+      "line": 202,
+      "sentence": "A reader treats a session that ends without that count as unmeasurable.",
+      "upstreamCommit": "61993cbfc44f858cf46e047c3c4915b3b0bbf387",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-61993cb.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-071"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "EXTERNAL"
+}

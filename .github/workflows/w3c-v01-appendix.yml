@@ -47,7 +47,7 @@ jobs:
           python-version: '3.13'
       - name: Refusal paths
         working-directory: interop/w3c-v01-appendix
-        run: uv run --no-project --with pytest==9.1.1 python -m pytest -q tests
+        run: uv run --no-project --with pytest==9.1.1 python -m pytest -q tests second-producer
 
   rerun:
     runs-on: ${{ matrix.os }}
