@@ -54,7 +54,7 @@ PAGES = (
 )
 
 PIN_LINE = re.compile(
-    r"^agent-evidence-vectors==(\d+\.\d+\.\d+) --hash=sha256:([0-9a-f]{64})$"
+    r"^agent-evidence-vectors==(\d+\.\d+\.\d+) --hash=sha256:([0-9a-f]{64})(?: --hash=sha256:[0-9a-f]{64})*$"
 )
 DIGEST_ENV = re.compile(
     r"^\s*VECTORS_CORPUS_DIGEST:\s*([0-9a-f]{64})\s*$", re.MULTILINE
@@ -208,6 +208,11 @@ def selftest() -> int:
             True,
         ),
         ("an unhashed pin is refused", f"agent-evidence-vectors=={v}\n", False),
+        (
+            "a wheel and an sdist hash parse",
+            f"agent-evidence-vectors=={v} --hash=sha256:{d} --hash=sha256:{d}\n",
+            True,
+        ),
         (
             "two pins are refused",
             f"agent-evidence-vectors=={v} --hash=sha256:{d}\n" * 2,
