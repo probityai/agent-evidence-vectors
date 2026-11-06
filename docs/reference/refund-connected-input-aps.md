@@ -77,6 +77,8 @@ decision   : "APS-DECISION-REF-V1", "APS-DECISION-AUTHORITY-V1", "APS-DECISION-P
              "APS-DECISION-CONTEXT-V1", "APS-DECISION-OUTPUT-V1"
 ```
 
+`unsigned` is the receipt with its `signatures` member removed and every other member, `receipt_id` included, kept. The receipt id is the lowercase hex SHA-256 of the receipt-id preimage above.
+
 A receipt is well-formed when it is an object with `profile == "aps-receipt-v1"`, the
 expected `receipt_type`, the expected `issuer`, and a non-empty `signatures` list;
 when `receipt_id` equals the receipt-id form over its body (every member except
@@ -105,7 +107,7 @@ is the only verdict kind this layer produces.
 | 4 | `decision` has exactly `authority_state`, `policy_input`, `decision_context`, `decision_output` | `DECISION_COMPONENTS` |
 | 5 | `approval.issuer` is the boundary | `APPROVAL_ISSUER` |
 | 6 | the approval receipt is well-formed and verifies, with revocation **not** checked at issuance | `APPROVAL_NOT_VALID` |
-| 7 | `tag_ref("APS-DECISION-REF-V1", components) == approval.decision_ref`, where `components` is `profile: "aps-decision-ref-v1"`, `action_ref: approval.action_ref`, and the four tag refs of the decision's four members under their own separators; and `JCS(decision.decision_output) == JCS(approval.result)` | `DECISION_NOT_BOUND` |
+| 7 | `tag_ref("APS-DECISION-REF-V1", components) == approval.decision_ref`, where `components` is `profile: "aps-decision-ref-v1"`, `action_ref: approval.action_ref`, and the four tag refs of the decision's four members under their own separators, under the keys `authority_state_ref`, `policy_ref`, `context_ref` and `decision_output_ref`; and `JCS(decision.decision_output) == JCS(approval.result)` | `DECISION_NOT_BOUND` |
 | 8 | `approval.prev == intent.receipt_id` | `APPROVAL_PREV` |
 | 9 | `approval.action_ref == intent.action_ref` and `approval.subject_agent == intent.subject_agent` | `APPROVAL_INTENT_ACTION` |
 | 10 | `intent.issued_at <= approval.issued_at` | `APPROVAL_BEFORE_INTENT` |
@@ -180,9 +182,9 @@ nothing downstream may be claimed from this case.
 - It does not make the corpus scoreable by itself: an independent verifier still needs
   the caller-supplied values from the earlier layers, and a verdict for one layer is not
   a verdict for the run.
-- It does not change `MANIFEST.json`. `verifierContract` stays `null` for this corpus
-  until the maintainers decide that this text, or something like it, is the interface
-  they want to publish; this document is an offer, not a claim on the manifest.
+- It does not judge the run. The manifest's `verifierContract` declares this document as the
+  interface for the `input_aps` layer only; a verdict from it says nothing about the other
+  layers.
 - It does not cover `input_pic`, `admission`, `signature_trust`, `execution` or
   `observed_effect`. Each of those would need its own document, and the two layers that
   the corpus exercises least — `execution` and `observed_effect` — would be the least
