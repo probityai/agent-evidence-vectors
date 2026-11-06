@@ -6,6 +6,7 @@
 <a href="https://pepy.tech/projects/agent-evidence-vectors"><img height="16" alt="Downloads" src="assets/badges/dl-pypi-agent-evidence-vectors.svg"></a>
 <a href="https://github.com/probityai/agent-evidence-vectors/blob/main/LICENSE"><img height="16" alt="License" src="assets/badges/license.svg"></a>
 <a href="https://github.com/probityai/agent-evidence-vectors/stargazers"><img height="16" alt="Stars" src="assets/badges/stars.svg"></a>
+<a href="https://pepy.tech/projects/agent-evidence-admission"><img height="16" alt="Admission downloads" src="assets/badges/dl-pypi-agent-evidence-admission.svg"></a>
 <a href="https://github.com/probityai/probity"><img height="16" alt="Checked with Probity" src="assets/badges/checked-with-probity.svg"></a>
 </p>
 
