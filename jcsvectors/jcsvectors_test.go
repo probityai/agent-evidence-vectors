@@ -98,3 +98,89 @@ func TestDigestMismatchIsRefused(t *testing.T) {
 		t.Fatal(err)
 	}
 }
+
+// TestDriftIsWhatGoPrints holds the Go-sourced drift cases to a real run of
+// encoding/json: it must print exactly the presented bytes, and those must
+// differ from the canonical ones. A case whose claimed source did not behave
+// that way would blame Go for output it does not produce.
+func TestDriftIsWhatGoPrints(t *testing.T) {
+	drifts, err := Drifts()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(drifts) == 0 {
+		t.Fatal("no drift vectors")
+	}
+	goCases := 0
+	families := map[string]bool{}
+	for _, d := range drifts {
+		families[d.Family] = true
+		if string(d.Presented) == string(d.Canonical) {
+			t.Errorf("%s: the presented bytes are the canonical bytes", d.ID)
+		}
+		if d.Source != SourceGo {
+			continue
+		}
+		goCases++
+		var value any
+		if err := json.Unmarshal(d.Input, &value); err != nil {
+			t.Fatalf("%s: %v", d.ID, err)
+		}
+		got, err := json.Marshal(value)
+		if err != nil {
+			t.Fatalf("%s: %v", d.ID, err)
+		}
+		if string(got) != string(d.Presented) {
+			t.Errorf("%s: encoding/json printed %q, the case presents %q", d.ID, got, d.Presented)
+		}
+	}
+	if goCases == 0 {
+		t.Fatal("no drift vector is sourced from encoding/json")
+	}
+	for _, family := range []string{"html-escape", "non-ascii-escape", "number-format"} {
+		if !families[family] {
+			t.Errorf("no drift vector in the %s family", family)
+		}
+	}
+}
+
+func TestDepthCasesStraddleTheCap(t *testing.T) {
+	reject, err := TooDeep()
+	if err != nil {
+		t.Fatal(err)
+	}
+	admitted, err := DepthAdmitted()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(reject) != 8 || len(admitted) != 2 {
+		t.Fatalf("got %d too deep and %d admitted, want 8 and 2", len(reject), len(admitted))
+	}
+	for _, v := range reject {
+		if got := nesting(v.Input); got <= DepthCap {
+			t.Errorf("%s: nested %d deep, not past the cap of %d", v.ID, got, DepthCap)
+		}
+	}
+	for _, v := range admitted {
+		if got := nesting(v.Input); got != DepthCap {
+			t.Errorf("%s: nested %d deep, want exactly %d", v.ID, got, DepthCap)
+		}
+		if string(v.Input) != string(v.Canonical) {
+			t.Errorf("%s: an already canonical nest must canonicalize to itself", v.ID)
+		}
+	}
+}
+
+func nesting(text []byte) int {
+	depth, deepest := 0, 0
+	for _, b := range text {
+		switch b {
+		case '[', '{':
+			depth++
+			deepest = max(deepest, depth)
+		case ']', '}':
+			depth--
+		}
+	}
+	return deepest
+}
