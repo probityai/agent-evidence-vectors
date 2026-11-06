@@ -75,11 +75,11 @@
       }
     ]
   },
-  "corpusDigest": "5b9bb2b81188cb594dbe1031f04e40db6d3a6bea3033b0e4ea78d8d81d3ed8d6",
+  "corpusDigest": "0f401a2996bbf2a2a14d35b726d46f753ac8abfcdab80371d0ddf94dc30ed8f4",
   "counts": {
-    "accept": 89,
+    "accept": 92,
     "indeterminate": 2,
-    "reject": 116
+    "reject": 118
   },
   "draft": "draft-gilda-audit-agent-audit-record-00",
   "emptyTree": {
@@ -2871,6 +2871,108 @@
       "kind": "accept",
       "row": "CS48 where the later record counts 35 USDC consumed, less than the 30 USDC already committed plus the 7 USDC that settled: each record valid, the set malformed",
       "slug": "cs49-set-later-record-counts-less-than-settled"
+    },
+    {
+      "draftId": "CS50",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid",
+        "withinLimit": true
+      },
+      "file": "statements/vc5944d012d8f4ad0.json",
+      "id": "vc5944d012d8f4ad0",
+      "kind": "accept",
+      "parent": "vc4129376086b1771",
+      "parentDraftId": "CS41",
+      "row": "CS41 where the facilitator settled the upto permit at 0: settled carries amount 0, source chain and an empty transaction, since a zero settlement sends none, and the held entry keeps the operation key, its 12 USDC and the permit's deadline",
+      "slug": "cs50-upto-settled-at-zero"
+    },
+    {
+      "draftId": "CS51",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [
+          "consumption-value-invalid"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v8168d7d02f8610fb.json",
+      "id": "v8168d7d02f8610fb",
+      "kind": "reject",
+      "parent": "vc5944d012d8f4ad0",
+      "parentDraftId": "CS50",
+      "row": "CS50 where settled carries 7 USDC and still an empty transaction: a settlement that moved funds names the transaction that moved them",
+      "slug": "cs51-empty-transaction-at-a-non-zero-amount"
+    },
+    {
+      "draftId": "CS52",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [
+          "consumption-value-invalid"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v4614faef7282aaee.json",
+      "id": "v4614faef7282aaee",
+      "kind": "reject",
+      "parent": "vc5944d012d8f4ad0",
+      "parentDraftId": "CS50",
+      "row": "CS50 where the held entry carries no deadline: nothing says how long the permit can still settle",
+      "slug": "cs52-zero-settlement-held-entry-has-no-deadline"
+    },
+    {
+      "draftId": "CS53",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "set": {
+          "codes": [
+            "consumption-set-release-unshown"
+          ],
+          "verdict": "malformed",
+          "withinLimit": [
+            true,
+            true
+          ]
+        },
+        "verdict": "valid"
+      },
+      "file": "sets/v880edfa1a482f230.json",
+      "id": "v880edfa1a482f230",
+      "kind": "accept",
+      "row": "CS50, then a new operation under the same limit document that reads a later revision, is dated 24 minutes before the permit's deadline and no longer holds the call, which the first record shows as none: each record valid, the set malformed because the permit can still settle",
+      "slug": "cs53-set-zero-settlement-released-before-the-deadline"
+    },
+    {
+      "draftId": "CS54",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "set": {
+          "codes": [],
+          "verdict": "valid",
+          "withinLimit": [
+            true,
+            true
+          ]
+        },
+        "verdict": "valid"
+      },
+      "file": "sets/v8843c34616ac75eb.json",
+      "id": "v8843c34616ac75eb",
+      "kind": "accept",
+      "row": "CS53 where the later record is dated at the permit's deadline: each record valid, the set valid",
+      "slug": "cs54-set-zero-settlement-released-at-the-deadline"
     },
     {
       "draftId": "A21",
