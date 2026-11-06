@@ -24,18 +24,24 @@ from typing import Any
 POINT = os.environ["AEV_DECISION_POINT"]
 SINK = os.environ["AEV_EFFECT_SINK"]
 RECORD = os.environ.get("AEV_DECISION_RECORD")
-CONTRACT = ("https://probityai.github.io/agent-evidence-vectors/predicate/v1/"
-            "decision-client-failure-modes")
+CONTRACT = (
+    "https://probityai.github.io/agent-evidence-vectors/predicate/v1/decision-client-failure-modes"
+)
 VERDICTS = ("allow", "block", "halt")
 
 
 def ask(request: dict[str, Any], timeout: float) -> dict[str, Any]:
     """The exchange facts of one decision request."""
-    facts: dict[str, Any] = {"bodyIsJsonObject": False, "httpStatus": None, "reached": True,
-                             "timedOut": False}
+    facts: dict[str, Any] = {
+        "bodyIsJsonObject": False,
+        "httpStatus": None,
+        "reached": True,
+        "timedOut": False,
+    }
     data = json.dumps(request).encode()
-    call = urllib.request.Request(POINT + "/decide", data=data,
-                                  headers={"Content-Type": "application/json"})
+    call = urllib.request.Request(
+        POINT + "/decide", data=data, headers={"Content-Type": "application/json"}
+    )
     try:
         with urllib.request.urlopen(call, timeout=timeout) as reply:
             status, body = reply.status, reply.read()
@@ -47,7 +53,7 @@ def ask(request: dict[str, Any], timeout: float) -> dict[str, Any]:
         else:
             facts["reached"] = False
         return facts
-    except (TimeoutError, socket.timeout):
+    except TimeoutError:
         facts["timedOut"] = True
         return facts
     except (http.client.HTTPException, OSError):
@@ -88,18 +94,28 @@ def decide(policy: str, mode: str, facts: dict[str, Any]) -> dict[str, Any]:
     if policy == "open" and found in ("unknown-verdict", "missing-verdict"):
         return {"basis": "policy", "condition": "ok", "halted": False, "outcome": "allow"}
     if found == "ok":
-        return {"basis": "policy", "condition": "ok", "halted": verdict == "halt",
-                "outcome": "allow" if verdict == "allow" else "deny"}
+        return {
+            "basis": "policy",
+            "condition": "ok",
+            "halted": verdict == "halt",
+            "outcome": "allow" if verdict == "allow" else "deny",
+        }
     transport = found in ("unreachable", "timeout", "http-error", "unparseable-body")
     opened = policy == "open" and mode == "default" and transport
-    return {"basis": "fallback", "condition": found, "halted": False,
-            "outcome": "allow" if opened else "deny"}
+    return {
+        "basis": "fallback",
+        "condition": found,
+        "halted": False,
+        "outcome": "allow" if opened else "deny",
+    }
 
 
 def perform(action: str, args: dict[str, Any]) -> None:
-    call = urllib.request.Request(SINK + "/effects",
-                                  data=json.dumps({"action": action, "args": args}).encode(),
-                                  headers={"Content-Type": "application/json"})
+    call = urllib.request.Request(
+        SINK + "/effects",
+        data=json.dumps({"action": action, "args": args}).encode(),
+        headers={"Content-Type": "application/json"},
+    )
     with urllib.request.urlopen(call, timeout=10) as reply:
         reply.read()
 
@@ -121,11 +137,15 @@ def main() -> int:
         canonical = json.dumps(request["args"], sort_keys=True, separators=(",", ":"))
         record = {
             "client": {"mode": scenario["mode"], "timeoutMillis": scenario["timeoutMillis"]},
-            "contractId": CONTRACT, "decision": decision,
-            "effect": {"performed": decision["outcome"] == "allow"}, "exchange": facts,
-            "request": {"action": request["action"],
-                        "argsDigest": "sha256:" + hashlib.sha256(canonical.encode()).hexdigest(),
-                        "consequential": request["consequential"]},
+            "contractId": CONTRACT,
+            "decision": decision,
+            "effect": {"performed": decision["outcome"] == "allow"},
+            "exchange": facts,
+            "request": {
+                "action": request["action"],
+                "argsDigest": "sha256:" + hashlib.sha256(canonical.encode()).hexdigest(),
+                "consequential": request["consequential"],
+            },
         }
         with open(RECORD, "w", encoding="utf-8") as handle:
             json.dump(record, handle, sort_keys=True)

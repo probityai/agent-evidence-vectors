@@ -60,8 +60,9 @@ from pathlib import Path
 from typing import Any
 
 SUITE = "decision-client-failure-modes/v1"
-CONTRACT_ID = ("https://probityai.github.io/agent-evidence-vectors/predicate/v1/"
-               "decision-client-failure-modes")
+CONTRACT_ID = (
+    "https://probityai.github.io/agent-evidence-vectors/predicate/v1/decision-client-failure-modes"
+)
 ALLOW, DENY = "allow", "deny"
 ALLOWED_REASON = "decision_sound"
 EXIT_FOR = {ALLOW: 0, DENY: 1}
@@ -69,8 +70,15 @@ VERDICTS = ("allow", "block", "halt")
 OUTCOMES = (ALLOW, DENY)
 BASES = ("policy", "fallback")
 MODES = ("default", "strict")
-FAULTS = ("unreachable", "timeout", "unauthorized", "http-error", "unparseable-body",
-          "missing-verdict", "unknown-verdict")
+FAULTS = (
+    "unreachable",
+    "timeout",
+    "unauthorized",
+    "http-error",
+    "unparseable-body",
+    "missing-verdict",
+    "unknown-verdict",
+)
 CONDITIONS = ("ok", *FAULTS)
 # The order is the contract: a reader names the first check that fails.
 CHECKS = (
@@ -85,9 +93,11 @@ CHECKS = (
     "effect_on_deny",
 )
 _HERE = Path(__file__).resolve().parent
-ROOT = (_HERE / "corpora" / "vectors-decision-client-failure-modes" if
-        (_HERE / "corpora").exists()
-        else _HERE.parents[1] / "corpora" / "vectors-decision-client-failure-modes")
+ROOT = (
+    _HERE / "corpora" / "vectors-decision-client-failure-modes"
+    if (_HERE / "corpora").exists()
+    else _HERE.parents[1] / "corpora" / "vectors-decision-client-failure-modes"
+)
 
 Record = dict[str, Any]
 
@@ -203,15 +213,16 @@ def _first_failure(record: Record, skip: frozenset[str]) -> str | None:
         "contract_id_missing": lambda: "contractId" not in record,
         "contract_id_unknown": lambda: record.get("contractId", CONTRACT_ID) != CONTRACT_ID,
         "record_malformed": lambda: _malformed(record),
-        "condition_misclassified":
-            lambda: decision["condition"] != derived_condition(record["exchange"]),
-        "fault_recorded_as_policy":
-            lambda: decision["condition"] != "ok" and decision["basis"] != "fallback",
+        "condition_misclassified": lambda: (
+            decision["condition"] != derived_condition(record["exchange"])
+        ),
+        "fault_recorded_as_policy": lambda: (
+            decision["condition"] != "ok" and decision["basis"] != "fallback"
+        ),
         "fault_allowed": lambda: decision["condition"] != "ok" and decision["outcome"] != DENY,
         "verdict_not_followed": lambda: _verdict_not_followed(record),
         "halt_not_honoured": lambda: _halt_not_honoured(record),
-        "effect_on_deny":
-            lambda: decision["outcome"] == DENY and record["effect"]["performed"],
+        "effect_on_deny": lambda: decision["outcome"] == DENY and record["effect"]["performed"],
     }
     for name in CHECKS:
         if name in skip:
@@ -282,8 +293,9 @@ def _validated_entries(root: Path) -> tuple[list[dict[str, Any]], str | None]:
 
 def _external_answer(command: list[str], path: Path) -> tuple[bool, dict[str, Any] | str]:
     try:
-        result = subprocess.run([*command, str(path), "--json"], capture_output=True,
-                                text=True, timeout=90, check=False)
+        result = subprocess.run(
+            [*command, str(path), "--json"], capture_output=True, text=True, timeout=90, check=False
+        )
     except (OSError, subprocess.TimeoutExpired) as exc:
         return False, f"verifier did not run: {exc}"
     try:
@@ -296,8 +308,16 @@ def _external_answer(command: list[str], path: Path) -> tuple[bool, dict[str, An
     return True, observed
 
 
+def _retained_holds(record_path: Path, entry: dict[str, Any]) -> bool:
+    try:
+        return bool(retained(_load(record_path)) == entry["retained"])
+    except (KeyError, TypeError, ValueError):
+        return False
+
+
 def check(
-    verifier: str | list[str] | None = None, root: Path = ROOT,
+    verifier: str | list[str] | None = None,
+    root: Path = ROOT,
     skip: frozenset[str] = frozenset(),
 ) -> tuple[int, list[str]]:
     """Check every record, through the named verifier or the reference reader.
@@ -324,11 +344,7 @@ def check(
             errors.append(f"{name}: {fixture_error}")
             continue
         record_path = directory / "record.json"
-        try:
-            kept = retained(_load(record_path))
-        except (KeyError, TypeError, ValueError):
-            kept = None
-        if kept != entry["retained"]:
+        if not _retained_holds(record_path, entry):
             errors.append(f"{name}: declared retained fields do not hold")
         observed: dict[str, Any] | str
         if command is None:
@@ -360,29 +376,37 @@ def run(root: str, verifier: list[str] | None, report_path: str, rail_note: str)
         print("no report written: no case was answered")
         return 2
     report = {
-        "suite": SUITE, "rail": "own-reader" if verifier is None else "external",
+        "suite": SUITE,
+        "rail": "own-reader" if verifier is None else "external",
         "verifier": {"command": verifier, "vectorsExecuted": answered, "note": rail_note},
         "corpusDigest": manifest["corpusDigest"],
-        "totals": {"vectors": total, "conform": total - len(errors), "fail": len(errors),
-                   "suiteRefusals": 0},
+        "totals": {
+            "vectors": total,
+            "conform": total - len(errors),
+            "fail": len(errors),
+            "suiteRefusals": 0,
+        },
         "failures": errors,
     }
-    Path(report_path).write_text(json.dumps(report, indent=2, sort_keys=True) + "\n",
-                                 encoding="utf-8")
+    Path(report_path).write_text(
+        json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
     return 1 if errors or answered != total else 0
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=(__doc__ or SUITE).splitlines()[0])
-    parser.add_argument("record", nargs="?",
-                        help="judge one record.json with the reference reader")
+    parser.add_argument("record", nargs="?", help="judge one record.json with the reference reader")
     parser.add_argument("--json", action="store_true", help="print the decision as JSON")
     parser.add_argument("--verifier", help="run every record through this verifier instead")
     args = parser.parse_args(argv)
     if args.record:
         answer = verify(Path(args.record))
-        print(json.dumps(answer, sort_keys=True) if args.json else
-              f"{answer['decision']} {answer['reason']}")
+        print(
+            json.dumps(answer, sort_keys=True)
+            if args.json
+            else f"{answer['decision']} {answer['reason']}"
+        )
         return EXIT_FOR[answer["decision"]]
     answered, errors = check(args.verifier)
     for error in errors:

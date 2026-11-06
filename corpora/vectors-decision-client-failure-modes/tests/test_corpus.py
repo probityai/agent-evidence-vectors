@@ -13,8 +13,9 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 ADAPTER = ROOT / "tests" / "client_adapter.py"
-CONTRACT_ID = ("https://probityai.github.io/agent-evidence-vectors/predicate/v1/"
-               "decision-client-failure-modes")
+CONTRACT_ID = (
+    "https://probityai.github.io/agent-evidence-vectors/predicate/v1/decision-client-failure-modes"
+)
 
 
 def _load(name: str, path: Path):  # type: ignore[no-untyped-def]
@@ -33,8 +34,15 @@ from agent_evidence_vectors import decisionclient_runtime as runtime  # noqa: E4
 CHECKS = reader.CHECKS
 DENIED = {case[0]: case[3] for case in generator.cases() if case[2] == "deny"}
 ALLOWED = [case[0] for case in generator.cases() if case[2] == "allow"]
-CONDITIONS = ("unreachable", "http-500", "http-503", "unparseable-body", "timeout",
-              "unknown-verdict", "missing-verdict")
+CONDITIONS = (
+    "unreachable",
+    "http-500",
+    "http-503",
+    "unparseable-body",
+    "timeout",
+    "unknown-verdict",
+    "missing-verdict",
+)
 CONTROLS = ("control-block", "control-halt", "control-allow", "control-401")
 
 
@@ -58,8 +66,10 @@ def _failed(errors: list[str]) -> set[str]:
 
 
 def _records() -> dict[str, dict]:  # type: ignore[type-arg]
-    return {p.parent.name: json.loads(p.read_text(encoding="utf-8"))
-            for p in (ROOT / "cases").glob("*/record.json")}
+    return {
+        p.parent.name: json.loads(p.read_text(encoding="utf-8"))
+        for p in (ROOT / "cases").glob("*/record.json")
+    }
 
 
 def _first(record: dict, skip: frozenset[str] = frozenset()) -> str | None:  # type: ignore[type-arg]
@@ -74,11 +84,14 @@ class TestDecisionClientCorpus:
     class TestPassingCases:
         def test_regeneration_is_byte_identical(self, tmp_path: Path) -> None:
             generator.generate(tmp_path)
-            committed = {p.relative_to(ROOT): p.read_bytes()
-                         for p in [ROOT / "MANIFEST.json", *(ROOT / "cases").rglob("*")]
-                         if p.is_file()}
-            regenerated = {p.relative_to(tmp_path): p.read_bytes()
-                           for p in tmp_path.rglob("*") if p.is_file()}
+            committed = {
+                p.relative_to(ROOT): p.read_bytes()
+                for p in [ROOT / "MANIFEST.json", *(ROOT / "cases").rglob("*")]
+                if p.is_file()
+            }
+            regenerated = {
+                p.relative_to(tmp_path): p.read_bytes() for p in tmp_path.rglob("*") if p.is_file()
+            }
             assert regenerated == committed
 
         def test_reference_reader_agrees_with_every_case(self) -> None:
@@ -95,8 +108,11 @@ class TestDecisionClientCorpus:
             records = _records()
             assert "contractId" not in records["reject-contract-id-missing"]
             assert records["reject-contract-id-unknown"]["contractId"] != CONTRACT_ID
-            others = {k: v for k, v in records.items()
-                      if k not in {"reject-contract-id-missing", "reject-contract-id-unknown"}}
+            others = {
+                k: v
+                for k, v in records.items()
+                if k not in {"reject-contract-id-missing", "reject-contract-id-unknown"}
+            }
             assert others and all(r["contractId"] == CONTRACT_ID for r in others.values())
             assert reader.CONTRACT_ID == CONTRACT_ID
 
@@ -109,7 +125,7 @@ class TestDecisionClientCorpus:
             record = _records()[name]
             reason = DENIED[name]
             assert _first(record) == reason
-            assert _first(record, frozenset(CHECKS[CHECKS.index(reason):])) is None
+            assert _first(record, frozenset(CHECKS[CHECKS.index(reason) :])) is None
 
         @pytest.mark.parametrize("name", sorted(DENIED))
         def test_switching_off_the_named_check_moves_the_verdict(self, name: str) -> None:
@@ -123,21 +139,26 @@ class TestDecisionClientCorpus:
 
         def test_verifier_that_reads_an_unknown_verdict_as_known_is_refused(self) -> None:
             _, errors = corpus.check(skip=frozenset({"condition_misclassified"}))
-            assert {"reject-unknown-verdict-read-as-allow",
-                    "reject-missing-verdict-read-as-allow"} <= _failed(errors)
+            assert {
+                "reject-unknown-verdict-read-as-allow",
+                "reject-missing-verdict-read-as-allow",
+            } <= _failed(errors)
 
         def test_verifier_that_accepts_a_fallback_allow_is_refused(self) -> None:
             _, errors = corpus.check(skip=frozenset({"fault_allowed"}))
-            assert {"reject-unreachable-allowed", "reject-timeout-allowed",
-                    "reject-unauthorized-allowed"} <= _failed(errors)
+            assert {
+                "reject-unreachable-allowed",
+                "reject-timeout-allowed",
+                "reject-unauthorized-allowed",
+            } <= _failed(errors)
 
-        def test_verifier_that_denies_everything_fails_the_controls(
-            self, tmp_path: Path
-        ) -> None:
+        def test_verifier_that_denies_everything_fails_the_controls(self, tmp_path: Path) -> None:
             script = tmp_path / "deny.py"
-            script.write_text('import json, sys\nprint(json.dumps({"decision": "deny", '
-                              '"reason": "contract_id_missing"}))\nsys.exit(1)\n',
-                              encoding="ascii")
+            script.write_text(
+                'import json, sys\nprint(json.dumps({"decision": "deny", '
+                '"reason": "contract_id_missing"}))\nsys.exit(1)\n',
+                encoding="ascii",
+            )
             _, errors = corpus.check(f"{sys.executable} {script}")
             assert set(ALLOWED) <= _failed(errors)
 
@@ -161,25 +182,45 @@ class TestDecisionClientCorpus:
             shutil.copytree(ROOT, copied, ignore=shutil.ignore_patterns("tests", "__pycache__"))
             path = copied / "MANIFEST.json"
             manifest = json.loads(path.read_text(encoding="utf-8"))
-            manifest["vectors"][0]["retained"]["performed"] = not \
-                manifest["vectors"][0]["retained"]["performed"]
+            manifest["vectors"][0]["retained"]["performed"] = not manifest["vectors"][0][
+                "retained"
+            ]["performed"]
             manifest["corpusDigest"] = reader._sha(reader._json(manifest["vectors"]))
             path.write_bytes(reader._json(manifest))
             _, errors = corpus.check(root=copied)
             assert any("declared retained fields do not hold" in e for e in errors)
 
     class TestBoundaries:
-        @pytest.mark.parametrize("status,condition", [
-            (199, "http-error"), (200, "ok"), (299, "ok"), (300, "http-error"),
-            (401, "unauthorized"), (403, "unauthorized"), (404, "http-error")])
+        @pytest.mark.parametrize(
+            "status,condition",
+            [
+                (199, "http-error"),
+                (200, "ok"),
+                (299, "ok"),
+                (300, "http-error"),
+                (401, "unauthorized"),
+                (403, "unauthorized"),
+                (404, "http-error"),
+            ],
+        )
         def test_the_status_boundaries(self, status: int, condition: str) -> None:
-            exchange = {"bodyIsJsonObject": True, "httpStatus": status, "reached": True,
-                        "timedOut": False, "verdict": "allow"}
+            exchange = {
+                "bodyIsJsonObject": True,
+                "httpStatus": status,
+                "reached": True,
+                "timedOut": False,
+                "verdict": "allow",
+            }
             assert reader.derived_condition(exchange) == condition
 
         def test_an_empty_verdict_string_is_unknown(self) -> None:
-            exchange = {"bodyIsJsonObject": True, "httpStatus": 200, "reached": True,
-                        "timedOut": False, "verdict": ""}
+            exchange = {
+                "bodyIsJsonObject": True,
+                "httpStatus": 200,
+                "reached": True,
+                "timedOut": False,
+                "verdict": "",
+            }
             assert reader.derived_condition(exchange) == "unknown-verdict"
 
         def test_a_reply_that_arrived_carries_a_status(self) -> None:
@@ -197,8 +238,12 @@ class TestDecisionClientCorpus:
             for scenario in reader.scenarios(_manifest()["vectors"]):
                 if scenario["id"] in ("control-block", "control-halt", "control-allow"):
                     continue
-                assert scenario["accepted"] == {"basis": "fallback", "effects": 0,
-                                                "halted": False, "outcome": "deny"}
+                assert scenario["accepted"] == {
+                    "basis": "fallback",
+                    "effects": 0,
+                    "halted": False,
+                    "outcome": "deny",
+                }
 
         def test_a_client_that_fails_closed_passes_every_scenario(self) -> None:
             report = runtime.check_runtime([sys.executable, str(ADAPTER)], ROOT)
@@ -208,17 +253,20 @@ class TestDecisionClientCorpus:
             assert all(row["observed"]["recordWritten"] for row in report["vectors"])
 
         def test_a_client_that_fails_open_is_refused(self) -> None:
-            report = runtime.check_runtime(
-                [sys.executable, str(ADAPTER), "--policy", "open"], ROOT)
+            report = runtime.check_runtime([sys.executable, str(ADAPTER), "--policy", "open"], ROOT)
             failed = {row["id"] for row in report["vectors"] if row["status"] == "FAIL"}
             transport = ("unreachable", "http-500", "http-503", "unparseable-body", "timeout")
-            assert failed == ({f"{c}--default" for c in transport}
-                              | {f"{c}--{m}" for c in ("unknown-verdict", "missing-verdict")
-                                 for m in reader.MODES})
+            assert failed == (
+                {f"{c}--default" for c in transport}
+                | {
+                    f"{c}--{m}"
+                    for c in ("unknown-verdict", "missing-verdict")
+                    for m in reader.MODES
+                }
+            )
 
         def test_a_client_without_a_record_is_judged_on_what_it_did(self) -> None:
-            report = runtime.check_runtime(
-                [sys.executable, str(ADAPTER), "--no-record"], ROOT)
+            report = runtime.check_runtime([sys.executable, str(ADAPTER), "--no-record"], ROOT)
             assert report["failures"] == []
             assert not any(row["observed"]["recordWritten"] for row in report["vectors"])
 
@@ -233,5 +281,6 @@ class TestDecisionClientCorpus:
             assert code == 0
             assert json.loads(path.read_text(encoding="utf-8"))["rail"] == "external"
             code = runtime.run_runtime(
-                [sys.executable, str(ADAPTER), "--policy", "open"], str(path), ROOT)
+                [sys.executable, str(ADAPTER), "--policy", "open"], str(path), ROOT
+            )
             assert code == 1
