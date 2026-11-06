@@ -30,14 +30,16 @@ UA = "probityai-badge-refresh"
 
 def fetch(url: str, headers: dict[str, str] | None = None) -> dict:
     req = urllib.request.Request(url, headers={"User-Agent": UA, **(headers or {})})
-    with urllib.request.urlopen(req, timeout=30) as resp:  # noqa: S310 - fixed https URLs
+    with urllib.request.urlopen(req, timeout=30) as resp:
         return json.load(resp)
 
 
 def pypi_total(name: str) -> int:
     key = os.environ.get("PEPY_API_KEY")
     if key:
-        data = fetch(f"https://api.pepy.tech/api/v2/projects/{name}", {"X-API-Key": key})
+        data = fetch(
+            f"https://api.pepy.tech/api/v2/projects/{name}", {"X-API-Key": key}
+        )
         return int(data["total_downloads"])
     data = fetch(f"https://pypistats.org/api/packages/{name}/overall")
     return sum(r["downloads"] for r in data["data"] if r["category"] == "with_mirrors")
@@ -58,6 +60,8 @@ def human(n: int) -> str:
 def load_make_badge():
     path = Path(__file__).with_name("make-badge.py")
     spec = importlib.util.spec_from_file_location("make_badge", path)
+    if spec is None or spec.loader is None:
+        raise ImportError(f"cannot load {path}")
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     return mod
@@ -81,7 +85,12 @@ def main(argv: list[str] | None = None) -> int:
     for kind, name, getter in jobs:
         try:
             total = getter(name)
-        except Exception as exc:  # a registry answer that did not arrive changes nothing
+        except (
+            OSError,
+            ValueError,
+            KeyError,
+            TypeError,
+        ) as exc:  # no registry answer changes nothing
             target = args.out / f"dl-{kind}-{name}.svg"
             note = "file left unchanged"
             if not target.exists():  # a README must never point at a missing image
