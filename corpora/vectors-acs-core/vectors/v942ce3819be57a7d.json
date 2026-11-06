@@ -1,6 +1,7 @@
 {
-  "cites": "a step that proceeded under the fail-open posture with no audit event recorded. The posture is conformant and the silence is not, and a zero in a failure count is indistinguishable from an event nobody emitted, which is why the member asserts the event rather than the count.",
+  "cites": "a step blocked under the fail-closed posture after the Guardian went silent, with no audit event. Before pull request 273 only a step that proceeded needed a record, so this member passed at 9d4a9da and fails now: the block is conformant and the silence about why is not",
   "coverage": "observed",
+  "doesNotAssert": "that the deny posture was the right choice for the deployment",
   "evidenceBasis": "substrate",
   "expected": {
     "code": null,
@@ -8,13 +9,13 @@
     "unmeasurableBecause": null,
     "verdict": "deny"
   },
-  "family": "acs-f-5",
-  "id": "vfdd68340c2094962",
+  "family": "acs-f-20",
+  "id": "v942ce3819be57a7d",
   "kind": "reject",
   "payload": {
     "audit_events": [],
     "guardian_response": null,
-    "on_decision_failure": "proceed",
+    "on_decision_failure": "deny",
     "request": {
       "acs": "0.1",
       "metadata": {
@@ -37,22 +38,23 @@
         "value": "AAAA"
       },
       "timestamp": "2026-09-09T12:00:00Z"
-    }
+    },
+    "step_outcome": "blocked"
   },
   "requirementText": [
     {
-      "id": "ACS-R-005",
-      "line": 161,
-      "sentence": "Every step that proceeds without a decision MUST be recorded as an audit event",
-      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "id": "ACS-R-070",
+      "line": 202,
+      "sentence": "Every decision failure MUST be recorded as an audit event, under either posture.",
+      "upstreamCommit": "61993cbfc44f858cf46e047c3c4915b3b0bbf387",
       "upstreamPath": "docs/spec/instrument/specification.md",
       "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
       "upstreamStatus": "upstream",
-      "vendored": "spec-vendored/specification-9d4a9da.md"
+      "vendored": "spec-vendored/specification-61993cb.md"
     }
   ],
   "requirements": [
-    "ACS-R-005"
+    "ACS-R-070"
   ],
   "specVersion": "0.1.0",
   "suite": "acs-core-negative-conformance",

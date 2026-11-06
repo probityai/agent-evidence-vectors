@@ -858,7 +858,7 @@ func arLimitsText(values []*bool) string {
 // arSetFindings: each record of a set member reaches the member's verdict, tier
 // and withinLimit, and the records together reach expected.set.
 func arSetFindings(label string, manifest *arManifest, v arVector, body []byte) []string {
-	result := arVerifySet(body, manifest.PredicateType, manifest.Keys.Observer.PublicKey, "")
+	result := arVerifySet(body, manifest.typeFor(v), manifest.Keys.Observer.PublicKey, "")
 	var findings []string
 	for index, report := range result.reports {
 		for _, found := range arDeclaredFindings(label, v, report) {

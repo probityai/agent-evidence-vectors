@@ -3262,6 +3262,14 @@ MASKS = tuple(
         # cell or a docstring. It surfaced when the audit-record corpus total reached
         # the number of the upstream issue that the ACS-Core wire probes cite.
         r"\bissues?\s+\d+\b",
+        # And `pull request 273`, the same identifier for a pull request. It
+        # surfaced when the ACS-Core corpus cited an upstream pull request whose
+        # number equals the W3C report corpus total.
+        r"\b[Pp]ull\s+requests?\s+\d+\b",
+        # A numbered article of a law, `Article 53(2)`, names a provision and
+        # counts nothing. It surfaced when the ACS-Core accept count reached the
+        # article number in the title of the open-weight release corpus.
+        r"\bArt(?:icle|\.)\s+\d+",
         # A PEP 508 version bound in a quoted requirement string. `"cryptography>=43"`
         # names a release of a dependency and counts nothing; the version-string
         # mask below needs a dot and this form has none. It stayed invisible only
