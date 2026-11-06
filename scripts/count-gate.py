@@ -2211,7 +2211,9 @@ FROZEN: tuple[Frozen, ...] = (
         "the agent audit record outside run score at release 0.31.0",
         "184 of 184 members agree with `MANIFEST.json`",
         (
-            "The score Laurent-Lemonnier posted on agent-evidence-vectors#335 on 2026-10-31 for vectors-agent-audit-record at release 0.31.0, from his own verifier at dps-scitt-decision-layer@3961a36."
+            "The score Laurent-Lemonnier posted on agent-evidence-vectors#335 on 2026-10-31"
+            " for vectors-agent-audit-record at release 0.31.0"
+            ", from his own verifier at dps-scitt-decision-layer@3961a36."
             " It records one past run of one release and does not track the "
             "corpus as it grows."
         ),
@@ -2221,7 +2223,9 @@ FROZEN: tuple[Frozen, ...] = (
         "the agent audit record outside run reject-member score at release 0.31.0",
         "agrees on 101 of 101 reject members",
         (
-            "The score Laurent-Lemonnier posted on agent-evidence-vectors#335 on 2026-10-31 for vectors-agent-audit-record at release 0.31.0, from his own verifier at dps-scitt-decision-layer@3961a36."
+            "The score Laurent-Lemonnier posted on agent-evidence-vectors#335 on 2026-10-31"
+            " for vectors-agent-audit-record at release 0.31.0"
+            ", from his own verifier at dps-scitt-decision-layer@3961a36."
             " It records one past run of one release and does not track the "
             "corpus as it grows."
         ),
@@ -2231,7 +2235,9 @@ FROZEN: tuple[Frozen, ...] = (
         "the approval binding outside run score",
         "23 of 23 cases agree with `MANIFEST.json`",
         (
-            "The score Laurent-Lemonnier posted on agent-evidence-vectors#401 on 2026-11-01 for vectors-approval-binding at releases 0.31.0 and 0.28.0, from his own verifier at dps-scitt-decision-layer@fdc5f63."
+            "The score Laurent-Lemonnier posted on agent-evidence-vectors#401 on 2026-11-01"
+            " for vectors-approval-binding at releases 0.31.0 and 0.28.0"
+            ", from his own verifier at dps-scitt-decision-layer@fdc5f63."
             " It records one past run of one release and does not track the "
             "corpus as it grows."
         ),
