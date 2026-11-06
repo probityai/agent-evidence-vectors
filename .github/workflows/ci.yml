@@ -125,6 +125,10 @@ jobs:
           node-version: '22'
       - name: check canonical JSON transcript bytes
         run: node corpora/jcs-byte-vectors/check.mjs
+      - name: the JCS drift and depth families are generated and agree with the Python reference
+        run: |
+          python3 scripts/gen-jcs-drift-vectors.py --check
+          python3 scripts/jcs-drift-vectors-test.py
       # These readers use the package's supported Python runtime. The
       # obligation proof also loads the reject generator to re-sign a record,
       # so this job needs its declared dependencies. The separate Python
