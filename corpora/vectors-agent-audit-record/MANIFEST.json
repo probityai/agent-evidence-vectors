@@ -75,11 +75,11 @@
       }
     ]
   },
-  "corpusDigest": "42ea72536efef1045d378225ec2715a4dd202aaef30d9a024b672609b8acc2e8",
+  "corpusDigest": "5b9bb2b81188cb594dbe1031f04e40db6d3a6bea3033b0e4ea78d8d81d3ed8d6",
   "counts": {
-    "accept": 88,
-    "indeterminate": 1,
-    "reject": 115
+    "accept": 89,
+    "indeterminate": 2,
+    "reject": 116
   },
   "draft": "draft-gilda-audit-agent-audit-record-00",
   "emptyTree": {
@@ -97,7 +97,7 @@
       "publicKey": "60b9ca613738a46a9350086999c93389e65c342482bbf65c6589d43116de5e7a"
     }
   },
-  "note": "One member per row of Appendix B of the draft, in the row's order; draftId is the row's identifier and parentDraftId its from column. The members after the last row carry draftSection: each tests a rule of that section that Appendix B carries no row for, and continues the identifier series of the rows beside it. A member carrying draftRevision is a row of that later revision's Appendix B, under the identifier it prints, and tests a rule that revision changes, so a reader conforming only to the draft named above may fail it. A member carrying aggregation lists the values of one input the decision depended on, as the producer held them: a producer's aggregation over those values must yield the entry the record carries. R1 to R9 are retained records: the file carries the envelope beside its retention entry, expected.verdict is the envelope's verdict, and expected.dating is the result of the dating check of Section 4.7.1, reported beside it and never folded into it. An accept or reject member is scored on expected.verdict. An indeterminate member is a row the draft leaves open: it carries no expected.verdict, and a verifier conforms on it by reaching any verdict its readings list. expected.codes are the reference reader's names for its first refusal, published so two implementations can compare where they stopped; the draft does not define them.",
+  "note": "One member per row of Appendix B of the draft, in the row's order; draftId is the row's identifier and parentDraftId its from column. The members after the last row carry draftSection: each tests a rule of that section that Appendix B carries no row for, and continues the identifier series of the rows beside it. A member carrying draftRevision is a row of that later revision's Appendix B, under the identifier it prints, and tests a rule that revision changes, so a reader conforming only to the draft named above may fail it. A member carrying aggregation lists the values of one input the decision depended on, as the producer held them: a producer's aggregation over those values must yield the entry the record carries. A member carrying predicateType is judged by a verifier configured to accept that predicate type URI in place of the one above. R1 to R9 are retained records: the file carries the envelope beside its retention entry, expected.verdict is the envelope's verdict, and expected.dating is the result of the dating check of Section 4.7.1, reported beside it and never folded into it. An accept or reject member is scored on expected.verdict. An indeterminate member is a row the draft leaves open: it carries no expected.verdict, and a verifier conforms on it by reaching any verdict its readings list. expected.codes are the reference reader's names for its first refusal, published so two implementations can compare where they stopped; the draft does not define them.",
   "payloadType": "application/vnd.in-toto+json",
   "predicateDocument": "https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/00/",
   "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/agent-audit-record",
@@ -3191,6 +3191,67 @@
       "parentDraftId": "A1",
       "row": "issuedAt one day earlier than effect.interval.sealedAt, on a day before the interval opened",
       "slug": "is2-issued-one-day-before-sealed"
+    },
+    {
+      "draftId": "PS1",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-03",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vd96413ec87814d0b.json",
+      "id": "vd96413ec87814d0b",
+      "kind": "accept",
+      "parent": "v446171dd39c66656",
+      "parentDraftId": "A10",
+      "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v2/agent-audit-record",
+      "row": "under the v2 predicate type URI, not-evaluated with unavailableInput of principal-standing-source and the matching entry",
+      "slug": "ps1-principal-standing-unavailable-v2"
+    },
+    {
+      "draftId": "PS2",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-03",
+      "expected": {
+        "codes": [
+          "value-outside-vocabulary"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v77a2500154f96cb4.json",
+      "id": "v77a2500154f96cb4",
+      "kind": "reject",
+      "parent": "vd96413ec87814d0b",
+      "parentDraftId": "PS1",
+      "row": "the same record under the v1 predicate type URI",
+      "slug": "ps2-principal-standing-under-v1"
+    },
+    {
+      "draftId": "PS1b",
+      "draftSection": "5.4",
+      "expected": {
+        "codes": [
+          "evaluation-inconsistent"
+        ]
+      },
+      "file": "statements/v12896bcb35edd1b1.json",
+      "id": "v12896bcb35edd1b1",
+      "kind": "indeterminate",
+      "parent": "vd96413ec87814d0b",
+      "parentDraftId": "PS1",
+      "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v2/agent-audit-record",
+      "readings": [
+        {
+          "rationale": "draft-jackson-wimse-evaluation-05 Section 3: a verifier must not use an input at or past its horizon, its as-of time plus the pinned maximum age, so at an age equal to maxAge the input is unavailable and not-evaluated naming it is the record required. The reading if this draft adopts that boundary (an input is fresh when its age is less than maxAge, and FR2 becomes malformed)",
+          "verdict": "valid"
+        },
+        {
+          "rationale": "Section 5.4 of draft-gilda-audit-agent-audit-record-03 as filed: an age equal to maxAge is fresh (FR2), so the derived unavailable set is empty and a not-evaluated record naming the input fails the recompute of Section 4.6. The reading if draft-jackson-wimse-evaluation adopts this draft's boundary (past its horizon, in place of at or past)",
+          "verdict": "malformed"
+        }
+      ],
+      "row": "principal-standing-source exactly at maxAge (age 3600 under 3600) and not answering, still not-evaluated naming it: open between draft-jackson-wimse-evaluation-05 Section 3 and this section",
+      "slug": "ps1b-principal-standing-age-equal-to-max-age"
     },
     {
       "draftId": "PR1",
