@@ -181,6 +181,11 @@ jobs:
       - name: every Verified by Probity grant still meets the evidence rule
         run: python3 scripts/badge-grants-gate.py
 
+      # The conformance workflow's signer, held to its nine refusals. A
+      # release whose signer accepts a forged or inflated grant is not cut.
+      - name: the conformance signer refuses every forged or inflated grant
+        run: python3 scripts/conformance-receipt-test.py
+
       - name: what a citer will verify
         run: |
           cat release/CORPUS-DIGESTS.txt

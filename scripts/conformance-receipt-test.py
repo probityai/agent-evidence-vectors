@@ -31,7 +31,9 @@ from typing import Any
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
-_spec = importlib.util.spec_from_file_location("conformance_receipt", HERE / "conformance_receipt.py")
+_spec = importlib.util.spec_from_file_location(
+    "conformance_receipt", HERE / "conformance_receipt.py"
+)
 assert _spec and _spec.loader
 cr = importlib.util.module_from_spec(_spec)
 sys.modules["conformance_receipt"] = cr
@@ -59,18 +61,24 @@ def claims() -> dict[str, Any]:
         "run_id": str(RUN_ID),
         "run_attempt": str(ATTEMPT),
         "event_name": "push",
-        "workflow_ref": f"example/impl/.github/workflows/ci.yml@refs/heads/main",
+        "workflow_ref": "example/impl/.github/workflows/ci.yml@refs/heads/main",
         "job_workflow_ref": f"{cr.WORKFLOW}@{WF_SHA}",
         "job_workflow_sha": WF_SHA,
         "runner_environment": "github-hosted",
     }
 
 
-def report(n: int | None = None, executed: int | None = None, conform: int | None = None) -> dict[str, Any]:
+def report(
+    n: int | None = None, executed: int | None = None, conform: int | None = None
+) -> dict[str, Any]:
     want = PINNED["vectors"] if n is None else n
     return {
         "corpus": {"corpusDigest": PINNED["corpusDigest"]},
-        "totals": {"vectors": want, "conform": want if conform is None else conform, "suiteRefusals": 0},
+        "totals": {
+            "vectors": want,
+            "conform": want if conform is None else conform,
+            "suiteRefusals": 0,
+        },
         "verifier": {"vectorsExecuted": want if executed is None else executed},
     }
 
@@ -86,7 +94,12 @@ ZIP = zipped()
 
 
 def artifact(zip_bytes: bytes = ZIP, run: int = RUN_ID) -> dict[str, Any]:
-    return {"id": 555, "workflow_run": {"id": run}, "digest": cr.sha256_bytes(zip_bytes), "expired": False}
+    return {
+        "id": 555,
+        "workflow_run": {"id": run},
+        "digest": cr.sha256_bytes(zip_bytes),
+        "expired": False,
+    }
 
 
 def signing_request(**over: Any) -> dict[str, Any]:
@@ -147,20 +160,46 @@ def _replay_without_one_answer() -> tuple[dict[str, Any], int]:
     harness = ROOT / "packaging" / "run_vectors.py"
     with tempfile.TemporaryDirectory() as tmp:
         t = Path(tmp) / "t.json"
-        rec = f"{sys.executable} {script} record --transcript {t} -- {sys.executable} {oracle} --aev-harness-args"
+        rec = (
+            f"{sys.executable} {script} record --transcript {t} -- "
+            f"{sys.executable} {oracle} --aev-harness-args"
+        )
         subprocess.run(
-            [sys.executable, str(harness), "--corpus", CORPUS, "--verifier", rec, "--report", f"{tmp}/e.json"],
-            capture_output=True, check=True, cwd=tmp,
-        )  # fmt: skip
+            [
+                sys.executable,
+                str(harness),
+                "--corpus",
+                CORPUS,
+                "--verifier",
+                rec,
+                "--report",
+                f"{tmp}/e.json",
+            ],
+            capture_output=True,
+            check=True,
+            cwd=tmp,
+        )
         data = json.loads(t.read_text(encoding="utf-8"))
-        assert len(data["records"]) == PINNED["vectors"], "the perfect candidate was not recorded whole"
+        assert len(data["records"]) == PINNED["vectors"], (
+            "the perfect candidate was not recorded whole"
+        )
         data["records"].pop()
         t.write_text(json.dumps(data), encoding="utf-8")
         proc = subprocess.run(
-            [sys.executable, str(harness), "--corpus", CORPUS, "--verifier",
-             f"{sys.executable} {script} replay --transcript {t}", "--report", f"{tmp}/r.json"],
-            capture_output=True, check=False, cwd=tmp,
-        )  # fmt: skip
+            [
+                sys.executable,
+                str(harness),
+                "--corpus",
+                CORPUS,
+                "--verifier",
+                f"{sys.executable} {script} replay --transcript {t}",
+                "--report",
+                f"{tmp}/r.json",
+            ],
+            capture_output=True,
+            check=False,
+            cwd=tmp,
+        )
         return json.loads(Path(f"{tmp}/r.json").read_text(encoding="utf-8")), proc.returncode
 
 
@@ -176,48 +215,119 @@ def main() -> int:
     other_run = claims() | {"run_id": "9099"}
     altered_report, altered_status = _replay_without_one_answer()
     attempts: list[tuple[str, Callable[[], Any], str]] = [
-        ("1 substituted artifact", sign(artifact_zip=zipped(b"{}")),
-         "not the artifact the execution job uploaded"),
-        ("2 altered case set (one pinned member left unanswered)",
-         sign(report=altered_report, status=altered_status), "conformed on 56"),
-        ("3 results injected from the execution job",
-         sign(artifact_zip=zipped(TRANSCRIPT[:-1] + b',"result":"pass"}'),
-              artifact=artifact(zipped(TRANSCRIPT[:-1] + b',"result":"pass"}'))),
-         "never a result"),
-        ("4 unauthorized signing request (caller's own workflow signed)",
-         verify(receipt, build_signer_uri="https://github.com/example/impl/.github/workflows/ci.yml@refs/heads/main"),
-         "not the conformance workflow"),
-        ("5 wrong repository or commit",
-         verify(receipt, source_digest="c" * 40), "sha is not the one"),
-        ("6 zero-count report", sign(report=report(n=0, executed=0, conform=0)),
-         "holds no members"),
+        (
+            "1 substituted artifact",
+            sign(artifact_zip=zipped(b"{}")),
+            "not the artifact the execution job uploaded",
+        ),
+        (
+            "2 altered case set (one pinned member left unanswered)",
+            sign(report=altered_report, status=altered_status),
+            "conformed on 56",
+        ),
+        (
+            "3 results injected from the execution job",
+            sign(
+                artifact_zip=zipped(TRANSCRIPT[:-1] + b',"result":"pass"}'),
+                artifact=artifact(zipped(TRANSCRIPT[:-1] + b',"result":"pass"}')),
+            ),
+            "never a result",
+        ),
+        (
+            "4 unauthorized signing request (caller's own workflow signed)",
+            verify(
+                receipt,
+                build_signer_uri="https://github.com/example/impl/.github/workflows/ci.yml@refs/heads/main",
+            ),
+            "not the conformance workflow",
+        ),
+        (
+            "5 wrong repository or commit",
+            verify(receipt, source_digest="c" * 40),
+            "sha is not the one",
+        ),
+        (
+            "6 zero-count report",
+            sign(report=report(n=0, executed=0, conform=0)),
+            "holds no members",
+        ),
         ("7 stale-run replay", sign(claims=other_run), "not uploaded by this workflow run"),
         ("8 unpinned profile", sign(corpus="vectors-my-own-cases"), "not pinned"),
         ("9 wrong ref (workflow called at a tag)", sign(claims=tagged), "full commit SHA"),
-    ]  # fmt: skip
+    ]
     # Siblings of the nine, each a second door into the same refusal.
     siblings: list[tuple[str, Callable[[], Any], str]] = [
-        ("1c archive with a second file", sign(artifact_zip=zipped(name="report.json"),
-                                               artifact=artifact(zipped(name="report.json"))), "exactly transcript.json"),
-        ("1b artifact from another run", sign(artifact=artifact(run=1)), "not uploaded by this workflow run"),
-        ("3b exec-side pass with failing answers", sign(report=report(conform=56)), "conformed on 56"),
-        ("4b signer SHA not on the allowlist",
-         verify(receipt | {"verifier": {"id": "x", "sha": "d" * 40}},
-                build_signer_uri=f"https://github.com/{cr.WORKFLOW}@{'d' * 40}"), "not on the allowlist"),
-        ("5b other repository", verify(receipt, source_repository_uri="https://github.com/evil/impl"),
-         "repository is not the one"),
-        ("7b receipt replayed under another run's certificate",
-         verify(receipt, run_invocation_uri="https://github.com/example/impl/actions/runs/1/attempts/1"),
-         "run is not the one"),
-        ("8b corpus digest that is not the release digest",
-         sign(report={**report(), "corpus": {"corpusDigest": "0" * 64}}), "not the pinned release digest"),
-        ("8c runtime corpus", sign(corpus="vectors-uncertain-effect",
-                                   digests_text=DIGESTS + "\n" + "1" * 64 + "  vectors-uncertain-effect/MANIFEST.json  s  vectors=3\n"),
-         "runtime contract"),
-        ("9b non-default branch", sign(claims=claims() | {"ref": "refs/heads/feature"}), "not the default branch"),
-        ("9c pull_request_target", sign(claims=claims() | {"event_name": "pull_request_target"}), "may not request"),
-        ("9d self-hosted runner", sign(claims=claims() | {"runner_environment": "self-hosted"}), "GitHub-hosted"),
-    ]  # fmt: skip
+        (
+            "1c archive with a second file",
+            sign(
+                artifact_zip=zipped(name="report.json"),
+                artifact=artifact(zipped(name="report.json")),
+            ),
+            "exactly transcript.json",
+        ),
+        (
+            "1b artifact from another run",
+            sign(artifact=artifact(run=1)),
+            "not uploaded by this workflow run",
+        ),
+        (
+            "3b exec-side pass with failing answers",
+            sign(report=report(conform=56)),
+            "conformed on 56",
+        ),
+        (
+            "4b signer SHA not on the allowlist",
+            verify(
+                receipt | {"verifier": {"id": "x", "sha": "d" * 40}},
+                build_signer_uri=f"https://github.com/{cr.WORKFLOW}@{'d' * 40}",
+            ),
+            "not on the allowlist",
+        ),
+        (
+            "5b other repository",
+            verify(receipt, source_repository_uri="https://github.com/evil/impl"),
+            "repository is not the one",
+        ),
+        (
+            "7b receipt replayed under another run's certificate",
+            verify(
+                receipt,
+                run_invocation_uri="https://github.com/example/impl/actions/runs/1/attempts/1",
+            ),
+            "run is not the one",
+        ),
+        (
+            "8b corpus digest that is not the release digest",
+            sign(report={**report(), "corpus": {"corpusDigest": "0" * 64}}),
+            "not the pinned release digest",
+        ),
+        (
+            "8c runtime corpus",
+            sign(
+                corpus="vectors-uncertain-effect",
+                digests_text=DIGESTS
+                + "\n"
+                + "1" * 64
+                + "  vectors-uncertain-effect/MANIFEST.json  s  vectors=3\n",
+            ),
+            "runtime contract",
+        ),
+        (
+            "9b non-default branch",
+            sign(claims=claims() | {"ref": "refs/heads/feature"}),
+            "not the default branch",
+        ),
+        (
+            "9c pull_request_target",
+            sign(claims=claims() | {"event_name": "pull_request_target"}),
+            "may not request",
+        ),
+        (
+            "9d self-hosted runner",
+            sign(claims=claims() | {"runner_environment": "self-hosted"}),
+            "GitHub-hosted",
+        ),
+    ]
     for name, action, needle in attempts + siblings:
         problem = refused(action, needle)
         if problem:
@@ -233,8 +343,10 @@ def main() -> int:
         print(f"conformance-receipt-test: FAIL {failure}", file=sys.stderr)
     if failures:
         return 1
-    print(f"conformance-receipt-test: the genuine run is accepted and all {len(attempts)} "
-          f"refusals (plus {len(siblings) + 1} siblings) refuse")  # fmt: skip
+    print(
+        f"conformance-receipt-test: the genuine run is accepted and all {len(attempts)} "
+        f"refusals (plus {len(siblings) + 1} siblings) refuse"
+    )
     return 0
 
 

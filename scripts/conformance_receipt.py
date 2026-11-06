@@ -243,7 +243,9 @@ def _result_errors(report: dict[str, Any], pinned: dict[str, Any], status: int) 
         return ["the profile holds no members, so there is nothing to grant"]
     errors = []
     if totals.get("vectors") != want:
-        errors.append(f"the replay judged {totals.get('vectors')} members, the profile holds {want}")
+        errors.append(
+            f"the replay judged {totals.get('vectors')} members, the profile holds {want}"
+        )
     if totals.get("executed") != want:
         errors.append(f"the candidate answered {totals.get('executed')} of {want} members")
     if totals.get("conform") != want:
@@ -273,7 +275,9 @@ def open_artifact(zip_bytes: bytes) -> bytes:
         raise Refused([f"the artifact is not a zip archive: {exc}"]) from exc
 
 
-def _artifact_errors(artifact: dict[str, Any], claims: dict[str, Any], zip_bytes: bytes) -> list[str]:
+def _artifact_errors(
+    artifact: dict[str, Any], claims: dict[str, Any], zip_bytes: bytes
+) -> list[str]:
     errors = []
     run = (artifact.get("workflow_run") or {}).get("id")
     if run != int(claims.get("run_id", 0) or 0):
@@ -313,10 +317,19 @@ def build_receipt(
     if errors:
         raise Refused(errors)
     run_keys = (
-        "repository", "repository_id", "repository_owner_id", "ref", "sha", "run_id",
-        "run_attempt", "event_name", "workflow_ref", "job_workflow_ref", "job_workflow_sha",
+        "repository",
+        "repository_id",
+        "repository_owner_id",
+        "ref",
+        "sha",
+        "run_id",
+        "run_attempt",
+        "event_name",
+        "workflow_ref",
+        "job_workflow_ref",
+        "job_workflow_sha",
         "runner_environment",
-    )  # fmt: skip
+    )
     return {
         "schema": RECEIPT_SCHEMA,
         "basis": "applicant-originated",
@@ -341,7 +354,9 @@ def build_receipt(
     }
 
 
-def _signer_errors(receipt: dict[str, Any], cert: dict[str, Any], ledger: dict[str, Any]) -> list[str]:
+def _signer_errors(
+    receipt: dict[str, Any], cert: dict[str, Any], ledger: dict[str, Any]
+) -> list[str]:
     signer = str(cert.get("build_signer_uri", ""))
     prefix = f"https://github.com/{WORKFLOW}@"
     sha = signer[len(prefix) :] if signer.startswith(prefix) else ""
@@ -360,7 +375,11 @@ def _signer_errors(receipt: dict[str, Any], cert: dict[str, Any], ledger: dict[s
 def _binding_errors(receipt: dict[str, Any], cert: dict[str, Any]) -> list[str]:
     run = receipt.get("run") or {}
     pairs = (
-        ("repository", f"https://github.com/{run.get('repository')}", cert.get("source_repository_uri")),
+        (
+            "repository",
+            f"https://github.com/{run.get('repository')}",
+            cert.get("source_repository_uri"),
+        ),
         ("repository_id", str(run.get("repository_id")), str(cert.get("source_repository_id"))),
         ("sha", run.get("sha"), cert.get("source_digest")),
         ("ref", run.get("ref"), cert.get("source_ref")),
@@ -395,8 +414,10 @@ def verify_receipt(
         errors.append("the receipt's corpus digest is not the pinned release digest")
     result = receipt.get("result") or {}
     members = profile.get("members")
-    if not members or result.get("verdict") != "pass" or not all(
-        result.get(k) == members for k in ("vectors", "executed", "conform")
+    if (
+        not members
+        or result.get("verdict") != "pass"
+        or not all(result.get(k) == members for k in ("vectors", "executed", "conform"))
     ):
         errors.append("the receipt does not record every pinned member answered and conformant")
     if errors:
@@ -405,9 +426,15 @@ def verify_receipt(
 
 # The Fulcio certificate extensions this verifier reads (OID 1.3.6.1.4.1.57264.1.N).
 FULCIO_EXTENSIONS = {
-    8: "issuer", 9: "build_signer_uri", 12: "source_repository_uri", 13: "source_digest",
-    14: "source_ref", 15: "source_repository_id", 20: "build_trigger", 21: "run_invocation_uri",
-}  # fmt: skip
+    8: "issuer",
+    9: "build_signer_uri",
+    12: "source_repository_uri",
+    13: "source_digest",
+    14: "source_ref",
+    15: "source_repository_id",
+    20: "build_trigger",
+    21: "run_invocation_uri",
+}
 
 
 def cert_claims(bundle: dict[str, Any]) -> dict[str, Any]:
@@ -415,8 +442,9 @@ def cert_claims(bundle: dict[str, Any]) -> dict[str, Any]:
     from cryptography import x509  # imported here: only the verify path needs it
 
     material = bundle["verificationMaterial"]
-    raw = material.get("certificate", {}).get("rawBytes") or (
-        material["x509CertificateChain"]["certificates"][0]["rawBytes"]
+    raw = (
+        material.get("certificate", {}).get("rawBytes")
+        or (material["x509CertificateChain"]["certificates"][0]["rawBytes"])
     )
     cert = x509.load_der_x509_certificate(base64.b64decode(raw))
     out: dict[str, Any] = {}
@@ -425,7 +453,7 @@ def cert_claims(bundle: dict[str, Any]) -> dict[str, Any]:
         if oid.startswith("1.3.6.1.4.1.57264.1."):
             name = FULCIO_EXTENSIONS.get(int(oid.rsplit(".", 1)[1]))
             if name:
-                value = ext.value.value  # type: ignore[attr-defined]
+                value = ext.value.value
                 out[name] = value[2:].decode() if value[:1] == b"\x0c" else value.decode()
     return out
 
@@ -433,10 +461,21 @@ def cert_claims(bundle: dict[str, Any]) -> dict[str, Any]:
 def _cosign_verify(receipt_path: Path, bundle_path: Path) -> None:
     pattern = "^https://github\\.com/" + re.escape(WORKFLOW) + "@[0-9a-f]{40}$"
     proc = subprocess.run(
-        ["cosign", "verify-blob", str(receipt_path), "--bundle", str(bundle_path),
-         "--certificate-identity-regexp", pattern, "--certificate-oidc-issuer", ISSUER],
-        capture_output=True, text=True, check=False,
-    )  # fmt: skip
+        [
+            "cosign",
+            "verify-blob",
+            str(receipt_path),
+            "--bundle",
+            str(bundle_path),
+            "--certificate-identity-regexp",
+            pattern,
+            "--certificate-oidc-issuer",
+            ISSUER,
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
     if proc.returncode != 0:
         raise Refused([f"cosign refused the signature: {proc.stderr.strip()}"])
 
@@ -454,9 +493,13 @@ def _cmd_sign_check(args: argparse.Namespace) -> int:
         corpus=args.corpus,
         default_branch=args.default_branch,
     )
-    Path(args.out).write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    print(f"conformance-receipt: {receipt['profile']['corpus']} {receipt['result']['conform']}/"
-          f"{receipt['profile']['members']} conformant; receipt ready to sign")  # fmt: skip
+    Path(args.out).write_text(
+        json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    print(
+        f"conformance-receipt: {receipt['profile']['corpus']} {receipt['result']['conform']}/"
+        f"{receipt['profile']['members']} conformant; receipt ready to sign"
+    )
     return 0
 
 
@@ -466,7 +509,9 @@ def _cmd_verify(args: argparse.Namespace) -> int:
     receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
     bundle = json.loads(bundle_path.read_text(encoding="utf-8"))
     ledger = json.loads(Path(args.ledger).read_text(encoding="utf-8"))
-    verify_receipt(receipt, cert_claims(bundle), ledger, Path(args.digests).read_text(encoding="utf-8"))
+    verify_receipt(
+        receipt, cert_claims(bundle), ledger, Path(args.digests).read_text(encoding="utf-8")
+    )
     print("conformance-receipt: the receipt stands behind a grant")
     return 0
 
@@ -481,7 +526,16 @@ def _parser() -> argparse.ArgumentParser:
     rep.add_argument("--transcript", required=True)
     rep.add_argument("rest", nargs=argparse.REMAINDER)
     sc = sub.add_parser("sign-check")
-    for name in ("claims", "report", "artifact-zip", "artifact", "digests", "corpus", "default-branch", "out"):
+    for name in (
+        "claims",
+        "report",
+        "artifact-zip",
+        "artifact",
+        "digests",
+        "corpus",
+        "default-branch",
+        "out",
+    ):
         sc.add_argument(f"--{name}", required=True)
     sc.add_argument("--status", type=int, required=True)
     ver = sub.add_parser("verify")
