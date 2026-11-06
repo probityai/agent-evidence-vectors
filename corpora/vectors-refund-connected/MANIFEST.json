@@ -467,5 +467,6 @@
       "path": "source/j01-connected-20261028-r2",
       "run": "r2"
     }
-  ]
+  ],
+  "verifierContract": "verifier <suite> <case-dir> --json, input_aps layer only; exit 0 established, 1 refused"
 }
