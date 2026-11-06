@@ -180,6 +180,7 @@ def unavailable_inputs(predicate_type: str) -> frozenset[str]:
         return UNAVAILABLE_INPUTS | V2_INPUTS
     return UNAVAILABLE_INPUTS
 
+
 #: The three members an evaluation entry carries, each required, and no other.
 ENTRY_MEMBERS = frozenset({"input", "lastResult", "maxAge"})
 #: The one member an entry may carry beside them, and only on a consumption-state
