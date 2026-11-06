@@ -1,7 +1,7 @@
 {
   "client": {
     "mode": "default",
-    "timeoutSeconds": 1.0
+    "timeoutMillis": 1000
   },
   "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/agent-decision",
   "decidedAt": "2026-11-06T12:00:00Z",

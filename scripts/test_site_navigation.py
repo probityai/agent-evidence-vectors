@@ -160,6 +160,8 @@ def repository(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
         target.write_text(text, encoding="ascii")
     for relative in (
         "spec/predicates/REGISTRY.md",
+        "docs/proposals/audit-record-04-principal.md",
+        "spec/predicates/containment-journal.md",
         "spec/predicates/observed-effect.md",
         "corpora/vectors-uncertain-effect/README.md",
         "corpora/vectors-decision-client-failure-modes/README.md",

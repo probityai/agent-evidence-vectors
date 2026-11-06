@@ -192,7 +192,7 @@ func dcMalformed(r map[string]any) bool {
 	condition, okCondition := dcString(decision, "condition")
 	_, okHalted := dcBool(decision, "halted")
 	_, okPerformed := dcBool(effect, "performed")
-	timeout, hasTimeout := client["timeoutSeconds"]
+	timeout, hasTimeout := client["timeoutMillis"]
 	checks := []bool{
 		okAction && action != "",
 		okDigest && strings.HasPrefix(digest, "sha256:"),

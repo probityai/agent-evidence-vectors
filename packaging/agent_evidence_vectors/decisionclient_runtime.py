@@ -15,7 +15,7 @@ The client contract, for an adapter in any language:
 - it builds the client in the scenario's ``mode``: ``default`` is the client as it
   ships, with no error-handling option set, and ``strict`` is the client's own
   strictest fail-closed setting; it sets the client's timeout to the scenario's
-  ``timeoutSeconds``;
+  ``timeoutMillis``;
 - it asks the decision point about the scenario's ``request`` with one POST on
   whatever path the client uses: the point answers every POST, on any path, with
   the scenario's response;
@@ -106,8 +106,8 @@ def _point_handler(scenario: dict[str, Any], counts: Counts) -> type[BaseHTTPReq
             with counts.lock:
                 counts.decisions += 1
                 counts.paths.append(self.path)
-            if response["delaySeconds"]:
-                time.sleep(response["delaySeconds"])
+            if response["delayMillis"]:
+                time.sleep(response["delayMillis"] / 1000)
             try:
                 self._send(response["status"], response["body"].encode("utf-8"))
             except OSError:

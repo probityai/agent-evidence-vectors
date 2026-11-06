@@ -1,6 +1,6 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/decision-client-failure-modes",
-  "corpusDigest": "00ca620b15783797c8495125fd13d3068f805783cefa244731836b6cc413c2ab",
+  "corpusDigest": "1b69a8fa2f9da62f29bef8bee3330fa83ca62b3fff3dbfe46e7543e9cf2d4421",
   "counts": {
     "allow": 18,
     "deny": 17
@@ -15,7 +15,7 @@
         "reason": "decision_sound"
       },
       "files": {
-        "record.json": "40b9e1bf067be51202c395a664c4c35f7bdc8f28c597509161dea27eb3116615"
+        "record.json": "ef7e3d43a69035840f4658471bf7e9b1868f75aca797e8479813874dbd1ed679"
       },
       "id": "accept-unreachable--default",
       "path": "cases/accept-unreachable--default",
@@ -37,7 +37,7 @@
           "condition": "unreachable",
           "decisionPoint": {
             "body": "",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": false,
             "status": 0
           },
@@ -53,7 +53,7 @@
             "consequential": true
           },
           "summary": "nothing listens at the decision point's address",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -64,7 +64,7 @@
         "reason": "decision_sound"
       },
       "files": {
-        "record.json": "8d867b72dfff366b3c4fd8920a0afe0657a705fbc7534e9e363ede27d7f20f34"
+        "record.json": "7804ad399777a380b709b057b14a72357d94420a10c6f9aff334bfdc915c6b94"
       },
       "id": "accept-unreachable--strict",
       "path": "cases/accept-unreachable--strict",
@@ -86,7 +86,7 @@
           "condition": "unreachable",
           "decisionPoint": {
             "body": "",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": false,
             "status": 0
           },
@@ -102,7 +102,7 @@
             "consequential": true
           },
           "summary": "nothing listens at the decision point's address",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -113,7 +113,7 @@
         "reason": "decision_sound"
       },
       "files": {
-        "record.json": "8af9d4e6b875f90e2e19768c8f242d24d3355626d1503dc55a1aa6143f365a90"
+        "record.json": "f0755197cba222d315f459fd4d38bcee6a566cd4a2bbf60afc360ff086d866d5"
       },
       "id": "accept-http-500--default",
       "path": "cases/accept-http-500--default",
@@ -135,7 +135,7 @@
           "condition": "http-500",
           "decisionPoint": {
             "body": "{\"error\":\"down\"}",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": true,
             "status": 500
           },
@@ -151,7 +151,7 @@
             "consequential": true
           },
           "summary": "the decision point answers HTTP 500",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -162,7 +162,7 @@
         "reason": "decision_sound"
       },
       "files": {
-        "record.json": "359fe251ac4ac4e519ea75f385e204c29ef8b5530e60cb46eacfcea4d2c346d2"
+        "record.json": "661b94e26c7421e48d227ba4ac808aa8c9d5db1debb6007106dde49f9105c460"
       },
       "id": "accept-http-500--strict",
       "path": "cases/accept-http-500--strict",
@@ -184,7 +184,7 @@
           "condition": "http-500",
           "decisionPoint": {
             "body": "{\"error\":\"down\"}",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": true,
             "status": 500
           },
@@ -200,7 +200,7 @@
             "consequential": true
           },
           "summary": "the decision point answers HTTP 500",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -211,7 +211,7 @@
         "reason": "decision_sound"
       },
       "files": {
-        "record.json": "495800a359bb44dc2d62a6c235857c47a12a79fd783956ea56c0f4cd7c395f6b"
+        "record.json": "f59819e5cb01efdc40989206edef2b7fe828e808f70fd7e3d64f6617e60d4066"
       },
       "id": "accept-http-503--default",
       "path": "cases/accept-http-503--default",
@@ -233,7 +233,7 @@
           "condition": "http-503",
           "decisionPoint": {
             "body": "",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": true,
             "status": 503
           },
@@ -249,7 +249,7 @@
             "consequential": true
           },
           "summary": "the decision point answers HTTP 503 with an empty body",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -260,7 +260,7 @@
         "reason": "decision_sound"
       },
       "files": {
-        "record.json": "4ab48fa7e006fdd071d123b97efe341b048ebeeeb7297a9b51ab4ec5b257a907"
+        "record.json": "824e4a6f3c5051a3df942ff9c3d866c30cbbbd42e248422e7f83815656cfdb17"
       },
       "id": "accept-http-503--strict",
       "path": "cases/accept-http-503--strict",
@@ -282,7 +282,7 @@
           "condition": "http-503",
           "decisionPoint": {
             "body": "",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": true,
             "status": 503
           },
@@ -298,7 +298,7 @@
             "consequential": true
           },
           "summary": "the decision point answers HTTP 503 with an empty body",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -309,7 +309,7 @@
         "reason": "decision_sound"
       },
       "files": {
-        "record.json": "949ad4f88a3ca095e32c137c70b8e479b1549a59a36c5724a6fb7e9a89265747"
+        "record.json": "c1fe493df232626f7338ff736a50f14db80acf7748c59e555ece17e26ecd104a"
       },
       "id": "accept-unparseable-body--default",
       "path": "cases/accept-unparseable-body--default",
@@ -331,7 +331,7 @@
           "condition": "unparseable-body",
           "decisionPoint": {
             "body": "<html>gateway</html>",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": true,
             "status": 200
           },
@@ -347,7 +347,7 @@
             "consequential": true
           },
           "summary": "the decision point answers HTTP 200 with a body that is not JSON",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -358,7 +358,7 @@
         "reason": "decision_sound"
       },
       "files": {
-        "record.json": "008ff98adcd0a158aa507914a3b90e8e89d24500b730d0313ba33956adbe5f6e"
+        "record.json": "54d99c1403d05837fa7b71f91f2995c618e0f5f1ce9f1a8981c68604408afb09"
       },
       "id": "accept-unparseable-body--strict",
       "path": "cases/accept-unparseable-body--strict",
@@ -380,7 +380,7 @@
           "condition": "unparseable-body",
           "decisionPoint": {
             "body": "<html>gateway</html>",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": true,
             "status": 200
           },
@@ -396,7 +396,7 @@
             "consequential": true
           },
           "summary": "the decision point answers HTTP 200 with a body that is not JSON",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -407,7 +407,7 @@
         "reason": "decision_sound"
       },
       "files": {
-        "record.json": "1cefd442102e620bd17fdf6ccfb31d09746950d1d9210f634d78c3b672397800"
+        "record.json": "993d8d801209de59e2deef2f75c3274d200225d03329f70b2fab15c9d41f0b65"
       },
       "id": "accept-timeout--default",
       "path": "cases/accept-timeout--default",
@@ -429,7 +429,7 @@
           "condition": "timeout",
           "decisionPoint": {
             "body": "{\"verdict\":\"block\"}",
-            "delaySeconds": 2.5,
+            "delayMillis": 2500,
             "listen": true,
             "status": 200
           },
@@ -445,7 +445,7 @@
             "consequential": true
           },
           "summary": "the decision point's block arrives 2.5 seconds after a 1 second timeout",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -456,7 +456,7 @@
         "reason": "decision_sound"
       },
       "files": {
-        "record.json": "727a220ce85bc9ab37de1b9caeabc35321d58477ea3f9681fd04c1b1c3ff9160"
+        "record.json": "dc4e937d0fd86695c6f64f286236ad48688897302540212d039f29e99fb8ac49"
       },
       "id": "accept-timeout--strict",
       "path": "cases/accept-timeout--strict",
@@ -478,7 +478,7 @@
           "condition": "timeout",
           "decisionPoint": {
             "body": "{\"verdict\":\"block\"}",
-            "delaySeconds": 2.5,
+            "delayMillis": 2500,
             "listen": true,
             "status": 200
           },
@@ -494,7 +494,7 @@
             "consequential": true
           },
           "summary": "the decision point's block arrives 2.5 seconds after a 1 second timeout",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -505,7 +505,7 @@
         "reason": "decision_sound"
       },
       "files": {
-        "record.json": "198f0d38d2cccb05e76011f566aa70a12049e1b49c0e2cdbe1400725ff4ff487"
+        "record.json": "1522d1768001352968475ea7971b1a95193b532dbcceebf3ff50b7f14521f5d2"
       },
       "id": "accept-unknown-verdict--default",
       "path": "cases/accept-unknown-verdict--default",
@@ -527,7 +527,7 @@
           "condition": "unknown-verdict",
           "decisionPoint": {
             "body": "{\"reason\": \"policy says no\", \"verdict\": \"suspend\"}",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": true,
             "status": 200
           },
@@ -543,7 +543,7 @@
             "consequential": true
           },
           "summary": "HTTP 200 whose verdict 'suspend' is outside allow, block, halt",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -554,7 +554,7 @@
         "reason": "decision_sound"
       },
       "files": {
-        "record.json": "e2df655c6c0f53f36853bf6a1bffc57fb89b479eda0def003016cde32fa3d277"
+        "record.json": "5024c7b3a1d00d737e17594277b16624ccb5ce0758e23a8dfe8285788349582c"
       },
       "id": "accept-unknown-verdict--strict",
       "path": "cases/accept-unknown-verdict--strict",
@@ -576,7 +576,7 @@
           "condition": "unknown-verdict",
           "decisionPoint": {
             "body": "{\"reason\": \"policy says no\", \"verdict\": \"suspend\"}",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": true,
             "status": 200
           },
@@ -592,7 +592,7 @@
             "consequential": true
           },
           "summary": "HTTP 200 whose verdict 'suspend' is outside allow, block, halt",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -603,7 +603,7 @@
         "reason": "decision_sound"
       },
       "files": {
-        "record.json": "9247e9c386c919cbb3729d376eb7e035ae4966700687267b0e58848c72dad0b2"
+        "record.json": "65dfc1ba132d54d40f9bac279a4e174510d8eaebba3f26a40ca6464c97aac534"
       },
       "id": "accept-missing-verdict--default",
       "path": "cases/accept-missing-verdict--default",
@@ -625,7 +625,7 @@
           "condition": "missing-verdict",
           "decisionPoint": {
             "body": "{\"reason\":\"no verdict field\"}",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": true,
             "status": 200
           },
@@ -641,7 +641,7 @@
             "consequential": true
           },
           "summary": "HTTP 200 with no verdict member",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -652,7 +652,7 @@
         "reason": "decision_sound"
       },
       "files": {
-        "record.json": "a8ea9be8bfd70331744aa669c2d3376b7d4782a8b4b7e0279df4ba43efdef8ed"
+        "record.json": "e1cf447aeb84015bd30acf6e5083e9d46c68c0e889e45be59fbadc502266e14f"
       },
       "id": "accept-missing-verdict--strict",
       "path": "cases/accept-missing-verdict--strict",
@@ -674,7 +674,7 @@
           "condition": "missing-verdict",
           "decisionPoint": {
             "body": "{\"reason\":\"no verdict field\"}",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": true,
             "status": 200
           },
@@ -690,7 +690,7 @@
             "consequential": true
           },
           "summary": "HTTP 200 with no verdict member",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -701,7 +701,7 @@
         "reason": "decision_sound"
       },
       "files": {
-        "record.json": "07c8e6cf25f985dd220fefd32cdab37f6d6266d0cc5bfdca29d9fcf0edc408b4"
+        "record.json": "ec3af13fff232035355aeacb7f99e39f667a8e7066f36b7b744ca11ee1885504"
       },
       "id": "accept-control-block",
       "path": "cases/accept-control-block",
@@ -723,7 +723,7 @@
           "condition": "control-block",
           "decisionPoint": {
             "body": "{\"reason\":\"blocked\",\"verdict\":\"block\"}",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": true,
             "status": 200
           },
@@ -739,7 +739,7 @@
             "consequential": true
           },
           "summary": "the decision point blocks the action",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -750,7 +750,7 @@
         "reason": "decision_sound"
       },
       "files": {
-        "record.json": "2fdff5828b804e29a80174cd06efc407faaee39c8e65883a524a5772dfd43e1d"
+        "record.json": "cb03513b1bdc953fdec0b95119e64235cc987fbab2130d1e5890b85fd6f7f74e"
       },
       "id": "accept-control-halt",
       "path": "cases/accept-control-halt",
@@ -772,7 +772,7 @@
           "condition": "control-halt",
           "decisionPoint": {
             "body": "{\"verdict\":\"halt\"}",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": true,
             "status": 200
           },
@@ -788,7 +788,7 @@
             "consequential": true
           },
           "summary": "the decision point halts the run",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -799,7 +799,7 @@
         "reason": "decision_sound"
       },
       "files": {
-        "record.json": "681004319c04070cca51980af91ba7aa63eae34b251902fa9679895bf7c27125"
+        "record.json": "3f8860ae752379b9405b3e642d1bd83621a920d695d472bf7fbf22edd3cc7f3c"
       },
       "id": "accept-control-allow",
       "path": "cases/accept-control-allow",
@@ -821,7 +821,7 @@
           "condition": "control-allow",
           "decisionPoint": {
             "body": "{\"reason\":\"within limits\",\"verdict\":\"allow\"}",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": true,
             "status": 200
           },
@@ -837,7 +837,7 @@
             "consequential": true
           },
           "summary": "the decision point allows the action, which runs once",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -848,7 +848,7 @@
         "reason": "decision_sound"
       },
       "files": {
-        "record.json": "cf4a7b12e4989ee5f458808a4970b9dae2e98ca5be9b64c932317d4e682de5fd"
+        "record.json": "d994f631b3cb722be37b30da477b5d00b28521024da765e3b42cef7f9de86a63"
       },
       "id": "accept-control-401",
       "path": "cases/accept-control-401",
@@ -870,7 +870,7 @@
           "condition": "control-401",
           "decisionPoint": {
             "body": "{\"detail\":\"bad key\"}",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": true,
             "status": 401
           },
@@ -886,7 +886,7 @@
             "consequential": true
           },
           "summary": "the decision point refuses the client's credential",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -897,7 +897,7 @@
         "reason": "contract_id_missing"
       },
       "files": {
-        "record.json": "313bda3c8efe0a51aa392d735498f8e914fd983215d01127e3a0c0fa77cd56aa"
+        "record.json": "1e8e8e9e65d0d484d0321dca8da26f9c95b36ef63bec0e313467f291d67370e7"
       },
       "id": "reject-contract-id-missing",
       "path": "cases/reject-contract-id-missing",
@@ -919,7 +919,7 @@
           "condition": "control-allow",
           "decisionPoint": {
             "body": "{\"reason\":\"within limits\",\"verdict\":\"allow\"}",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": true,
             "status": 200
           },
@@ -935,7 +935,7 @@
             "consequential": true
           },
           "summary": "the decision point allows the action, which runs once",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -946,7 +946,7 @@
         "reason": "contract_id_unknown"
       },
       "files": {
-        "record.json": "efcf5f1fd31f6010cb0cb204de1e1518e53586067f6fde1b184c78fa7858ba38"
+        "record.json": "a2af5c2948420214a312d5a2242e4b582ed0a8924120bfd4f97f4b04111119e9"
       },
       "id": "reject-contract-id-unknown",
       "path": "cases/reject-contract-id-unknown",
@@ -968,7 +968,7 @@
           "condition": "control-allow",
           "decisionPoint": {
             "body": "{\"reason\":\"within limits\",\"verdict\":\"allow\"}",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": true,
             "status": 200
           },
@@ -984,7 +984,7 @@
             "consequential": true
           },
           "summary": "the decision point allows the action, which runs once",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -995,7 +995,7 @@
         "reason": "record_malformed"
       },
       "files": {
-        "record.json": "04beae2e5cb0cc68bfb85a106fe0a16cf6e66a74b6300c8c8bef3310c38b1a2e"
+        "record.json": "c05d49f863daecb9f99f2a7b669108cb69d928225dc8ef2f5052aef08c268529"
       },
       "id": "reject-basis-outside-vocabulary",
       "path": "cases/reject-basis-outside-vocabulary",
@@ -1017,7 +1017,7 @@
           "condition": "control-block",
           "decisionPoint": {
             "body": "{\"reason\":\"blocked\",\"verdict\":\"block\"}",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": true,
             "status": 200
           },
@@ -1033,7 +1033,7 @@
             "consequential": true
           },
           "summary": "the decision point blocks the action",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -1044,7 +1044,7 @@
         "reason": "record_malformed"
       },
       "files": {
-        "record.json": "684126fc34106b89ff4963035421ff63347101e56d4a919615bc471232547fe2"
+        "record.json": "277a2f1a5682368502707249af41b22dc4926481531ed8b57d640510d489cf9f"
       },
       "id": "reject-status-without-reply",
       "path": "cases/reject-status-without-reply",
@@ -1066,7 +1066,7 @@
           "condition": "timeout",
           "decisionPoint": {
             "body": "{\"verdict\":\"block\"}",
-            "delaySeconds": 2.5,
+            "delayMillis": 2500,
             "listen": true,
             "status": 200
           },
@@ -1082,7 +1082,7 @@
             "consequential": true
           },
           "summary": "the decision point's block arrives 2.5 seconds after a 1 second timeout",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -1093,7 +1093,7 @@
         "reason": "condition_misclassified"
       },
       "files": {
-        "record.json": "c9909cd31fc3d4297451643ea9b8ea6d36cd4ce548a33b95e66a89c3b474453f"
+        "record.json": "2a274355ba0f0dd7549c9c183779836acc0992610d1be2e0834a8be6dcf3d1fa"
       },
       "id": "reject-unknown-verdict-read-as-allow",
       "path": "cases/reject-unknown-verdict-read-as-allow",
@@ -1115,7 +1115,7 @@
           "condition": "unknown-verdict",
           "decisionPoint": {
             "body": "{\"reason\": \"policy says no\", \"verdict\": \"suspend\"}",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": true,
             "status": 200
           },
@@ -1131,7 +1131,7 @@
             "consequential": true
           },
           "summary": "HTTP 200 whose verdict 'suspend' is outside allow, block, halt",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -1142,7 +1142,7 @@
         "reason": "condition_misclassified"
       },
       "files": {
-        "record.json": "085e1483e431fe922455bdafcb87ef29128f2b84812b80342331fd3277eb2c5d"
+        "record.json": "03370b2bc4ffd5ba123c9ba0e6b68a271d289815d2a075426e564209141464db"
       },
       "id": "reject-unknown-verdict-read-as-allow-strict",
       "path": "cases/reject-unknown-verdict-read-as-allow-strict",
@@ -1164,7 +1164,7 @@
           "condition": "unknown-verdict",
           "decisionPoint": {
             "body": "{\"reason\": \"policy says no\", \"verdict\": \"suspend\"}",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": true,
             "status": 200
           },
@@ -1180,7 +1180,7 @@
             "consequential": true
           },
           "summary": "HTTP 200 whose verdict 'suspend' is outside allow, block, halt",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -1191,7 +1191,7 @@
         "reason": "condition_misclassified"
       },
       "files": {
-        "record.json": "539b4ddbc0eebeed57e55283d22b98cb5c69196dcc0da9ecbd281cb1d84485cd"
+        "record.json": "59325530354010ea80bfa7ac681f169bdde43ff82e83a227ce750efd69636dac"
       },
       "id": "reject-missing-verdict-read-as-allow",
       "path": "cases/reject-missing-verdict-read-as-allow",
@@ -1213,7 +1213,7 @@
           "condition": "missing-verdict",
           "decisionPoint": {
             "body": "{\"reason\":\"no verdict field\"}",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": true,
             "status": 200
           },
@@ -1229,7 +1229,7 @@
             "consequential": true
           },
           "summary": "HTTP 200 with no verdict member",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -1240,7 +1240,7 @@
         "reason": "fault_recorded_as_policy"
       },
       "files": {
-        "record.json": "3911c70df89450f1677519956d59b589734b1b52ba322fd72bf0ab7e352e0167"
+        "record.json": "292cf83ab1ee7e78ab36bb8dfb2b7b65302c5902f3ba57623fa98981be915524"
       },
       "id": "reject-fault-recorded-as-policy",
       "path": "cases/reject-fault-recorded-as-policy",
@@ -1262,7 +1262,7 @@
           "condition": "http-500",
           "decisionPoint": {
             "body": "{\"error\":\"down\"}",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": true,
             "status": 500
           },
@@ -1278,7 +1278,7 @@
             "consequential": true
           },
           "summary": "the decision point answers HTTP 500",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -1289,7 +1289,7 @@
         "reason": "fault_allowed"
       },
       "files": {
-        "record.json": "3ed0be57aaa0535498b1d22b9e5921f0d0e2e868f5d5486a00efac3311acc6cf"
+        "record.json": "033dc4d86ab41f727590f2c53965173cdcca45b1d8bdc81d11ae1de033463efb"
       },
       "id": "reject-unreachable-allowed",
       "path": "cases/reject-unreachable-allowed",
@@ -1311,7 +1311,7 @@
           "condition": "unreachable",
           "decisionPoint": {
             "body": "",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": false,
             "status": 0
           },
@@ -1327,7 +1327,7 @@
             "consequential": true
           },
           "summary": "nothing listens at the decision point's address",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -1338,7 +1338,7 @@
         "reason": "fault_allowed"
       },
       "files": {
-        "record.json": "140e22e6365182c226575b00317f32d56b6ae030b4ba6d39966831e74c841f41"
+        "record.json": "d3a4873e09dae5dc1a3a2e6df5a7b2e1261126656ec9c8838cb87c4e6f370bc2"
       },
       "id": "reject-timeout-allowed",
       "path": "cases/reject-timeout-allowed",
@@ -1360,7 +1360,7 @@
           "condition": "timeout",
           "decisionPoint": {
             "body": "{\"verdict\":\"block\"}",
-            "delaySeconds": 2.5,
+            "delayMillis": 2500,
             "listen": true,
             "status": 200
           },
@@ -1376,7 +1376,7 @@
             "consequential": true
           },
           "summary": "the decision point's block arrives 2.5 seconds after a 1 second timeout",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -1387,7 +1387,7 @@
         "reason": "fault_allowed"
       },
       "files": {
-        "record.json": "808f1f3b5487a80972b13a4ee8643996cfde9f7fd6d5567d94f4e1555a081b40"
+        "record.json": "46952845a67d47b0cdc47900506f85903068356f05d15889e9c35df2954c5489"
       },
       "id": "reject-unparseable-allowed",
       "path": "cases/reject-unparseable-allowed",
@@ -1409,7 +1409,7 @@
           "condition": "unparseable-body",
           "decisionPoint": {
             "body": "<html>gateway</html>",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": true,
             "status": 200
           },
@@ -1425,7 +1425,7 @@
             "consequential": true
           },
           "summary": "the decision point answers HTTP 200 with a body that is not JSON",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -1436,7 +1436,7 @@
         "reason": "fault_allowed"
       },
       "files": {
-        "record.json": "861d315de4c03476944289b729e7a75d8b55fa75b597ee1b4b11d99d8771b2c4"
+        "record.json": "2f7dfc723aaefb6cc3a6785a2234e610e27d82e1d39f2d8cc78b629704b914f4"
       },
       "id": "reject-unauthorized-allowed",
       "path": "cases/reject-unauthorized-allowed",
@@ -1458,7 +1458,7 @@
           "condition": "control-401",
           "decisionPoint": {
             "body": "{\"detail\":\"bad key\"}",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": true,
             "status": 401
           },
@@ -1474,7 +1474,7 @@
             "consequential": true
           },
           "summary": "the decision point refuses the client's credential",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -1485,7 +1485,7 @@
         "reason": "verdict_not_followed"
       },
       "files": {
-        "record.json": "0e5a380d039a490672a90a33c0af73238e261a044aa62b420a9de678e747c5d2"
+        "record.json": "c1138c874d99d42d88809493ec83b76ad5705b40952ac85d12b430f6e9e84f86"
       },
       "id": "reject-block-not-followed",
       "path": "cases/reject-block-not-followed",
@@ -1507,7 +1507,7 @@
           "condition": "control-block",
           "decisionPoint": {
             "body": "{\"reason\":\"blocked\",\"verdict\":\"block\"}",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": true,
             "status": 200
           },
@@ -1523,7 +1523,7 @@
             "consequential": true
           },
           "summary": "the decision point blocks the action",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -1534,7 +1534,7 @@
         "reason": "verdict_not_followed"
       },
       "files": {
-        "record.json": "a0fa8622530dd5706abe0d8f3f1d705f9191a9670f986a3368ab72939dd0a80b"
+        "record.json": "931906a4ab635ec49421c98f439dde54640b9c3d15780dfccc7265746faec56a"
       },
       "id": "reject-allow-recorded-as-fallback",
       "path": "cases/reject-allow-recorded-as-fallback",
@@ -1556,7 +1556,7 @@
           "condition": "control-allow",
           "decisionPoint": {
             "body": "{\"reason\":\"within limits\",\"verdict\":\"allow\"}",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": true,
             "status": 200
           },
@@ -1572,7 +1572,7 @@
             "consequential": true
           },
           "summary": "the decision point allows the action, which runs once",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -1583,7 +1583,7 @@
         "reason": "halt_not_honoured"
       },
       "files": {
-        "record.json": "77f33edfc1caa495222f30a784593aeaf7e2a33c1e676dc014113ea6f7248ce9"
+        "record.json": "bd8ce0d51cc43db6a9bff1d9a2ee3e86adb901f0bfe0c093e79a66e3d4db33a1"
       },
       "id": "reject-halt-not-honoured",
       "path": "cases/reject-halt-not-honoured",
@@ -1605,7 +1605,7 @@
           "condition": "control-halt",
           "decisionPoint": {
             "body": "{\"verdict\":\"halt\"}",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": true,
             "status": 200
           },
@@ -1621,7 +1621,7 @@
             "consequential": true
           },
           "summary": "the decision point halts the run",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -1632,7 +1632,7 @@
         "reason": "halt_not_honoured"
       },
       "files": {
-        "record.json": "5aa28bb62c6efe9e9518b72e32081c16f1d32f644dbf1898c2d5a392a6af8b6f"
+        "record.json": "25bb4c9f943df3fd5c8d25db11312bda384da177279347b57842b16704687321"
       },
       "id": "reject-halt-claimed-on-block",
       "path": "cases/reject-halt-claimed-on-block",
@@ -1654,7 +1654,7 @@
           "condition": "control-block",
           "decisionPoint": {
             "body": "{\"reason\":\"blocked\",\"verdict\":\"block\"}",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": true,
             "status": 200
           },
@@ -1670,7 +1670,7 @@
             "consequential": true
           },
           "summary": "the decision point blocks the action",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     },
@@ -1681,7 +1681,7 @@
         "reason": "effect_on_deny"
       },
       "files": {
-        "record.json": "6f09a2a67b5cd184236edf88c736782d3a135b633ad492d0a66b5be47887f8d9"
+        "record.json": "ae456784eae3be277ff7cc02aa0d269b7b5765fd57b853de073cb8e13b1fab9f"
       },
       "id": "reject-effect-on-deny",
       "path": "cases/reject-effect-on-deny",
@@ -1703,7 +1703,7 @@
           "condition": "http-503",
           "decisionPoint": {
             "body": "",
-            "delaySeconds": 0,
+            "delayMillis": 0,
             "listen": true,
             "status": 503
           },
@@ -1719,7 +1719,7 @@
             "consequential": true
           },
           "summary": "the decision point answers HTTP 503 with an empty body",
-          "timeoutSeconds": 1.0
+          "timeoutMillis": 1000
         }
       }
     }

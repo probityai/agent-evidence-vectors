@@ -138,7 +138,7 @@ def _malformed(record: Record) -> bool:
             isinstance(request["action"], str) and bool(request["action"]),
             isinstance(request["argsDigest"], str) and request["argsDigest"].startswith("sha256:"),
             client["mode"] in MODES,
-            _number(client["timeoutSeconds"]) and client["timeoutSeconds"] > 0,
+            _number(client["timeoutMillis"]) and client["timeoutMillis"] > 0,
             isinstance(exchange["reached"], bool),
             isinstance(exchange["timedOut"], bool),
             exchange["httpStatus"] is None or _integer(exchange["httpStatus"]),

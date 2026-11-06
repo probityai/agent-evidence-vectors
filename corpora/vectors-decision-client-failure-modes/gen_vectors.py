@@ -28,7 +28,7 @@ from agent_evidence_vectors import decisionclient as reader  # noqa: E402
 
 SUITE = reader.SUITE
 DECIDED_AT = "2026-11-06T12:00:00Z"
-TIMEOUT = 1.0
+TIMEOUT = 1000
 ACTION = "transfer_funds"
 ARGS = {"amount": 1000000, "currency": "USD", "to": "acct-0001"}
 # A verdict no decision vocabulary this corpus knows of uses.
@@ -54,28 +54,28 @@ def digest(args: dict[str, Any]) -> str:
 # and the condition those facts give.
 CONDITIONS: dict[str, dict[str, Any]] = {
     "unreachable": {
-        "point": {"body": "", "delaySeconds": 0, "listen": False, "status": 0},
+        "point": {"body": "", "delayMillis": 0, "listen": False, "status": 0},
         "exchange": {"bodyIsJsonObject": False, "httpStatus": None, "reached": False,
                      "timedOut": False},
         "condition": "unreachable",
         "summary": "nothing listens at the decision point's address",
     },
     "http-500": {
-        "point": {"body": '{"error":"down"}', "delaySeconds": 0, "listen": True, "status": 500},
+        "point": {"body": '{"error":"down"}', "delayMillis": 0, "listen": True, "status": 500},
         "exchange": {"bodyIsJsonObject": True, "httpStatus": 500, "reached": True,
                      "timedOut": False},
         "condition": "http-error",
         "summary": "the decision point answers HTTP 500",
     },
     "http-503": {
-        "point": {"body": "", "delaySeconds": 0, "listen": True, "status": 503},
+        "point": {"body": "", "delayMillis": 0, "listen": True, "status": 503},
         "exchange": {"bodyIsJsonObject": False, "httpStatus": 503, "reached": True,
                      "timedOut": False},
         "condition": "http-error",
         "summary": "the decision point answers HTTP 503 with an empty body",
     },
     "unparseable-body": {
-        "point": {"body": "<html>gateway</html>", "delaySeconds": 0, "listen": True,
+        "point": {"body": "<html>gateway</html>", "delayMillis": 0, "listen": True,
                   "status": 200},
         "exchange": {"bodyIsJsonObject": False, "httpStatus": 200, "reached": True,
                      "timedOut": False},
@@ -83,7 +83,7 @@ CONDITIONS: dict[str, dict[str, Any]] = {
         "summary": "the decision point answers HTTP 200 with a body that is not JSON",
     },
     "timeout": {
-        "point": {"body": '{"verdict":"block"}', "delaySeconds": 2.5, "listen": True,
+        "point": {"body": '{"verdict":"block"}', "delayMillis": 2500, "listen": True,
                   "status": 200},
         "exchange": {"bodyIsJsonObject": False, "httpStatus": None, "reached": True,
                      "timedOut": True},
@@ -92,14 +92,14 @@ CONDITIONS: dict[str, dict[str, Any]] = {
     },
     "unknown-verdict": {
         "point": {"body": json.dumps({"reason": "policy says no", "verdict": UNKNOWN_VERDICT}),
-                  "delaySeconds": 0, "listen": True, "status": 200},
+                  "delayMillis": 0, "listen": True, "status": 200},
         "exchange": {"bodyIsJsonObject": True, "httpStatus": 200, "reached": True,
                      "timedOut": False, "verdict": UNKNOWN_VERDICT},
         "condition": "unknown-verdict",
         "summary": f"HTTP 200 whose verdict {UNKNOWN_VERDICT!r} is outside allow, block, halt",
     },
     "missing-verdict": {
-        "point": {"body": '{"reason":"no verdict field"}', "delaySeconds": 0, "listen": True,
+        "point": {"body": '{"reason":"no verdict field"}', "delayMillis": 0, "listen": True,
                   "status": 200},
         "exchange": {"bodyIsJsonObject": True, "httpStatus": 200, "reached": True,
                      "timedOut": False},
@@ -110,7 +110,7 @@ CONDITIONS: dict[str, dict[str, Any]] = {
 
 CONTROLS: dict[str, dict[str, Any]] = {
     "control-block": {
-        "point": {"body": '{"reason":"blocked","verdict":"block"}', "delaySeconds": 0,
+        "point": {"body": '{"reason":"blocked","verdict":"block"}', "delayMillis": 0,
                   "listen": True, "status": 200},
         "exchange": {"bodyIsJsonObject": True, "httpStatus": 200, "reached": True,
                      "timedOut": False, "verdict": "block"},
@@ -118,7 +118,7 @@ CONTROLS: dict[str, dict[str, Any]] = {
         "summary": "the decision point blocks the action",
     },
     "control-halt": {
-        "point": {"body": '{"verdict":"halt"}', "delaySeconds": 0, "listen": True,
+        "point": {"body": '{"verdict":"halt"}', "delayMillis": 0, "listen": True,
                   "status": 200},
         "exchange": {"bodyIsJsonObject": True, "httpStatus": 200, "reached": True,
                      "timedOut": False, "verdict": "halt"},
@@ -126,7 +126,7 @@ CONTROLS: dict[str, dict[str, Any]] = {
         "summary": "the decision point halts the run",
     },
     "control-allow": {
-        "point": {"body": '{"reason":"within limits","verdict":"allow"}', "delaySeconds": 0,
+        "point": {"body": '{"reason":"within limits","verdict":"allow"}', "delayMillis": 0,
                   "listen": True, "status": 200},
         "exchange": {"bodyIsJsonObject": True, "httpStatus": 200, "reached": True,
                      "timedOut": False, "verdict": "allow"},
@@ -134,7 +134,7 @@ CONTROLS: dict[str, dict[str, Any]] = {
         "summary": "the decision point allows the action, which runs once",
     },
     "control-401": {
-        "point": {"body": '{"detail":"bad key"}', "delaySeconds": 0, "listen": True,
+        "point": {"body": '{"detail":"bad key"}', "delayMillis": 0, "listen": True,
                   "status": 401},
         "exchange": {"bodyIsJsonObject": True, "httpStatus": 401, "reached": True,
                      "timedOut": False},
@@ -149,7 +149,7 @@ def _scenario(sid: str, mode: str, spec: dict[str, Any], accepted: dict[str, Any
         "accepted": accepted, "condition": sid.split("--")[0], "decisionPoint": spec["point"],
         "id": sid, "mode": mode,
         "request": {"action": ACTION, "args": ARGS, "consequential": True},
-        "summary": spec["summary"], "timeoutSeconds": TIMEOUT,
+        "summary": spec["summary"], "timeoutMillis": TIMEOUT,
     }
 
 
@@ -180,7 +180,7 @@ def build(sid: str, name: str, **decision: Any) -> dict[str, Any]:
     scenario, spec = SCENARIOS[sid], _spec(sid)
     accepted = scenario["accepted"]
     record: dict[str, Any] = {
-        "client": {"mode": scenario["mode"], "timeoutSeconds": TIMEOUT},
+        "client": {"mode": scenario["mode"], "timeoutMillis": TIMEOUT},
         "contractId": reader.CONTRACT_ID,
         "decidedAt": DECIDED_AT,
         "decision": {"basis": accepted["basis"], "condition": spec["condition"],

@@ -113,14 +113,14 @@ def main() -> int:
     with open(args.scenario, encoding="utf-8") as handle:
         scenario = json.load(handle)
     request = scenario["request"]
-    facts = ask(request, scenario["timeoutSeconds"])
+    facts = ask(request, scenario["timeoutMillis"] / 1000)
     decision = decide(args.policy, scenario["mode"], facts)
     if decision["outcome"] == "allow":
         perform(request["action"], request["args"])
     if RECORD and not args.no_record:
         canonical = json.dumps(request["args"], sort_keys=True, separators=(",", ":"))
         record = {
-            "client": {"mode": scenario["mode"], "timeoutSeconds": scenario["timeoutSeconds"]},
+            "client": {"mode": scenario["mode"], "timeoutMillis": scenario["timeoutMillis"]},
             "contractId": CONTRACT, "decision": decision,
             "effect": {"performed": decision["outcome"] == "allow"}, "exchange": facts,
             "request": {"action": request["action"],

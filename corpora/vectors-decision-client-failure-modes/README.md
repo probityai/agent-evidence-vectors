@@ -48,7 +48,7 @@ fails nine scenarios.
   the decision point's base URL, `AEV_EFFECT_SINK` set to the sink's base URL and
   `AEV_DECISION_RECORD` set to a path it may write its record to. It must finish
   within a minute.
-- It builds the client in the scenario's `mode` with the scenario's `timeoutSeconds`
+- It builds the client in the scenario's `mode` with the scenario's `timeoutMillis`
   and asks about the scenario's `request` with one POST. The decision point answers
   every POST, on any path, with the scenario's response.
 - Only when the client allows the action, it performs it once with
@@ -65,7 +65,7 @@ agrees with the printed decision.
 `contractId` carries
 `https://probityai.github.io/agent-evidence-vectors/predicate/v1/decision-client-failure-modes`.
 The other members: `request` (`action`, `argsDigest`, `consequential`), `client`
-(`mode`, `timeoutSeconds`), `exchange` (`reached`, `timedOut`, `httpStatus`,
+(`mode`, `timeoutMillis`), `exchange` (`reached`, `timedOut`, `httpStatus`,
 `bodyIsJsonObject` and, when the body carried one, `verdict`), `decision`
 (`outcome`, `basis`, `condition`, `halted`) and `effect.performed`.
 

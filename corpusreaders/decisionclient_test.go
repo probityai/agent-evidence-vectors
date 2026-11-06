@@ -93,7 +93,7 @@ func TestDecisionClientEachCheckMovesTheVerdict(t *testing.T) {
 func TestDecisionClientBooleansAreNotNumbers(t *testing.T) {
 	cases := map[string][2]string{
 		"httpStatus true":     {"accept-control-block", `"httpStatus": 200`},
-		"timeoutSeconds true": {"accept-control-block", `"timeoutSeconds": 1.0`},
+		"timeoutMillis true": {"accept-control-block", `"timeoutMillis": 1000`},
 	}
 	for name, edit := range cases {
 		t.Run(name, func(t *testing.T) {
