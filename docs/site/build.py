@@ -557,8 +557,10 @@ def canonical_route(path: Path) -> str | None:
     -------
     str or None
         An HTML route, the predicate prefix, or the registered extensionless
-        predicate URI. A predicate's directory alias returns ``None``.
+        predicate or contract URI. A directory alias returns ``None``.
     """
+    if path.parts[0] == "contract":
+        return None if path.name == "index.html" else path.with_suffix("").as_posix()
     if path.parts[0] != "predicate":
         return path.as_posix()
     if path.name != "index.html":
@@ -568,6 +570,67 @@ def canonical_route(path: Path) -> str | None:
     if len(path.parts) == 3:
         return f"predicate/{path.parts[1]}/"
     return None
+
+
+CONTRACT_HOST = f"{SITE_URL}/contract/"
+
+
+def contract_ids() -> list[tuple[str, str, Path]]:
+    """Every contract identifier this host must serve, read from the corpus manifests.
+
+    Returns
+    -------
+    list of tuple
+        ``(contractId, path under contract/, corpus directory)`` for each manifest whose
+        ``contractId`` sits under ``CONTRACT_HOST``, sorted by identifier. Identifiers on
+        other hosts are not this site's to serve and are skipped.
+    """
+    found = []
+    for manifest in sorted((REPO_ROOT / "corpora").glob(f"*/{MANIFEST_NAME}")):
+        with manifest.open(encoding="utf-8") as handle:
+            loaded = json.load(handle)
+        contract_id = loaded.get("contractId") if isinstance(loaded, dict) else None
+        if isinstance(contract_id, str) and contract_id.startswith(CONTRACT_HOST):
+            found.append((contract_id, contract_id.removeprefix(CONTRACT_HOST), manifest.parent))
+    return sorted(found)
+
+
+def contract_source(directory: Path) -> Path:
+    """The document a contract page renders: the corpus's input contract, else its README."""
+    for name in ("INPUT-CONTRACT.md", "README.md"):
+        if (directory / name).is_file():
+            return directory / name
+    raise SystemExit(f"FAIL: {directory.name} carries neither INPUT-CONTRACT.md nor README.md")
+
+
+def contract_routes(name: str) -> tuple[Path, Path]:
+    """The two files that serve ``contract/<name>``: a sibling ``.html`` and a directory index."""
+    base = Path("contract") / name
+    return base.with_suffix(".html"), base / "index.html"
+
+
+def contract_pages(tag: str, routes: Mapping[Path, Path] | None = None) -> dict[Path, str]:
+    """One page per contract identifier under this host, each served at its exact URL.
+
+    The sibling ``<name>.html`` answers the extensionless identifier directly and the
+    ``<name>/index.html`` answers the trailing-slash form, as the predicate pages do.
+    """
+    selected = published_routes() if routes is None else routes
+    pages: dict[Path, str] = {}
+    for contract_id, name, directory in contract_ids():
+        source = contract_source(directory)
+        corpus = directory.relative_to(REPO_ROOT)
+        for relative in contract_routes(name):
+            head = (
+                f"<h1>Contract <code>{html.escape(name)}</code></h1>\n"
+                f"<p>Contract identifier: <code>{html.escape(contract_id)}</code></p>\n"
+                f"<p>Corpus: <a href=\"{html.escape(repository_url(corpus))}\">"
+                f"<code>{html.escape(corpus.as_posix())}</code></a>. "
+                f"Carried in release <code>{html.escape(tag)}</code>.</p>\n<hr>\n"
+            )
+            body = head + render_markdown(source, relative, selected)
+            pages[relative] = page(f"Contract {name}", body, tag, relative)
+    return pages
 
 
 def page_sources(routes: Mapping[Path, Path]) -> dict[Path, tuple[Path, ...]]:
@@ -595,6 +658,9 @@ def page_sources(routes: Mapping[Path, Path]) -> dict[Path, tuple[Path, ...]]:
         origin = (document,) if document is not None else registry
         sources[Path("predicate") / version / f"{name}.html"] = origin
         sources[Path("predicate") / version / name / "index.html"] = origin
+    for _, name, directory in contract_ids():
+        for relative in contract_routes(name):
+            sources[relative] = (directory / MANIFEST_NAME, contract_source(directory))
     return sources
 
 
@@ -707,6 +773,7 @@ def main(argv: list[str]) -> int:
     }
     pages.update(markdown_pages(tag, routes))
     pages.update(predicate_pages(tag, routes))
+    pages.update(contract_pages(tag, routes))
     for relative, rendered in pages.items():
         target = out / relative
         target.parent.mkdir(parents=True, exist_ok=True)
