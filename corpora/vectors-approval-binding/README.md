@@ -53,9 +53,12 @@ A verifier names the first check that fails.
 3. The use's `approvalId` is the approval's `approvalId`
    (`approval_not_cited`). A use that names another approval, or none, is not
    judged against the approval presented, in a renewal or not.
-4. No other entry in `presentedApprovals` has the approval's `approvalId` with
-   different content (`approval_id_ambiguous`). The same approval presented
-   twice is not ambiguous.
+4. No other entry in `presentedApprovals` has the approval's `approvalId` and
+   differs from the approval in any member (`approval_id_ambiguous`). Entries
+   are compared as parsed JSON values over the whole object, including members
+   the contract does not otherwise read, so a duplicate whose only difference
+   is an extra annotation member is ambiguous. The same approval presented
+   twice, with equal values, is not ambiguous.
 5. `approvalId` is not in `consumedApprovalIds` (`approval_replayed`).
 6. No replacement accepted at or before `usedAt` has taken the approval's
    place (`approval_superseded`).
