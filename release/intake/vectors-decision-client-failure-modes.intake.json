@@ -1,0 +1,977 @@
+{
+  "aggregate": {
+    "counts": {
+      "allow": 18,
+      "deny": 17
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 35
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-decision-client-failure-modes/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in corpora/vectors-decision-client-failure-modes/gen_vectors.py",
+    "routine-file": "corpora/vectors-decision-client-failure-modes/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "1b69a8fa2f9da62f29bef8bee3330fa83ca62b3fff3dbfe46e7543e9cf2d4421",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "74ffef189f54aded49f7282ee93f130b1dd9a648e927794c4ca9a16fd99f0d58"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "74ffef189f54aded49f7282ee93f130b1dd9a648e927794c4ca9a16fd99f0d58"
+        },
+        "swapped-in": "141e7110321f5a3c36a9861791589124808061d2c577a2d62270447474b0bb6e",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-decision-client-failure-modes/README.md",
+      "serialization": "bytes",
+      "sha256": "a0e26ea89079dd5d3fbc60abb069ba5226de5c7eb7d9a939cb7ffb1b95040343"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "74ffef189f54aded49f7282ee93f130b1dd9a648e927794c4ca9a16fd99f0d58"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "74ffef189f54aded49f7282ee93f130b1dd9a648e927794c4ca9a16fd99f0d58"
+        },
+        "swapped-in": "0368f7104fec955e5a00eb82e88642408ff77acf54b83deeaa64d07d42d9d562",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-decision-client-failure-modes/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "f1cd76221d2d3fae15c64d73f55b03bf0cf9e6a34deaabf72c43a5d87b006ecb"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "74ffef189f54aded49f7282ee93f130b1dd9a648e927794c4ca9a16fd99f0d58"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "74ffef189f54aded49f7282ee93f130b1dd9a648e927794c4ca9a16fd99f0d58"
+        },
+        "swapped-in": "7be0b012b9354e89a694a4c8fdea9cad87a47fee282f0388d5e326c21851a571",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-decision-client-failure-modes/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "5a530c5c2593775530bfb09f9c4893bbee4cab1333afabddf71d1496af4966d0"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "74ffef189f54aded49f7282ee93f130b1dd9a648e927794c4ca9a16fd99f0d58"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "74ffef189f54aded49f7282ee93f130b1dd9a648e927794c4ca9a16fd99f0d58"
+        },
+        "swapped-in": "4e87e8f23105311b1f9a5c36bf50c8e7ce18ab6dce0ebbb92cc132b2247cf2e7",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-decision-client-failure-modes/tests/client_adapter.py",
+      "serialization": "bytes",
+      "sha256": "1d43e73cc2d95e4f20cd87ee61d5fc80090809c681fd980c6d8863cd06295af1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "74ffef189f54aded49f7282ee93f130b1dd9a648e927794c4ca9a16fd99f0d58"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "74ffef189f54aded49f7282ee93f130b1dd9a648e927794c4ca9a16fd99f0d58"
+        },
+        "swapped-in": "f8479716faa8bbb3d501f57da79ead2f8dabbc5983461921599a147e83544428",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-decision-client-failure-modes/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "c449960919d97e643f2fa41ef407dfc169d21f36f12d6cd8212a2586a5e74764"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "corpora/vectors-decision-client-failure-modes"
+  },
+  "byte-identity": {
+    "pins": 35,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json corpora/vectors-decision-client-failure-modes",
+      "aee-verify -json corpora/vectors-decision-client-failure-modes",
+      "aee-verify corpora/vectors-decision-client-failure-modes"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpusreaders",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "9e4e597e6cb131ac92bc90c0ba1a6786d6488cc9842558d47ea1bf5a177b36f4"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpusreaders",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "accept-unreachable--default",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-unreachable--strict",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-http-500--default",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-http-500--strict",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-http-503--default",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-http-503--strict",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-unparseable-body--default",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-unparseable-body--strict",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-timeout--default",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-timeout--strict",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-unknown-verdict--default",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-unknown-verdict--strict",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-missing-verdict--default",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-missing-verdict--strict",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-control-block",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-control-halt",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-control-allow",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-control-401",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-contract-id-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-contract-id-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-basis-outside-vocabulary",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-status-without-reply",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-unknown-verdict-read-as-allow",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-unknown-verdict-read-as-allow-strict",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-missing-verdict-read-as-allow",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-fault-recorded-as-policy",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-unreachable-allowed",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-timeout-allowed",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-unparseable-allowed",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-unauthorized-allowed",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-block-not-followed",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-allow-recorded-as-fallback",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-halt-not-honoured",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-halt-claimed-on-block",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-effect-on-deny",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "fb27457c2515c6f3404565c4a0e04018c116808171acedb5ac00b62c7247c630"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "accept-unreachable--default",
+      "accept-unreachable--strict",
+      "accept-http-500--default",
+      "accept-http-500--strict",
+      "accept-http-503--default",
+      "accept-http-503--strict",
+      "accept-unparseable-body--default",
+      "accept-unparseable-body--strict",
+      "accept-timeout--default",
+      "accept-timeout--strict",
+      "accept-unknown-verdict--default",
+      "accept-unknown-verdict--strict",
+      "accept-missing-verdict--default",
+      "accept-missing-verdict--strict",
+      "accept-control-block",
+      "accept-control-halt",
+      "accept-control-allow",
+      "accept-control-401",
+      "reject-contract-id-missing",
+      "reject-contract-id-unknown",
+      "reject-basis-outside-vocabulary",
+      "reject-status-without-reply",
+      "reject-unknown-verdict-read-as-allow",
+      "reject-unknown-verdict-read-as-allow-strict",
+      "reject-missing-verdict-read-as-allow",
+      "reject-fault-recorded-as-policy",
+      "reject-unreachable-allowed",
+      "reject-timeout-allowed",
+      "reject-unparseable-allowed",
+      "reject-unauthorized-allowed",
+      "reject-block-not-followed",
+      "reject-allow-recorded-as-fallback",
+      "reject-halt-not-honoured",
+      "reject-halt-claimed-on-block",
+      "reject-effect-on-deny"
+    ],
+    "path": "corpora/vectors-decision-client-failure-modes/MANIFEST.json",
+    "sha256": "f07cefbdaa2c423a81f1e5512b10ef7d204138d66b69aabd827bb1989286282c"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/accept-unreachable--default/record.json",
+          "sha256": "ef7e3d43a69035840f4658471bf7e9b1868f75aca797e8479813874dbd1ed679"
+        }
+      ],
+      "id": "accept-unreachable--default"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/accept-unreachable--strict/record.json",
+          "sha256": "7804ad399777a380b709b057b14a72357d94420a10c6f9aff334bfdc915c6b94"
+        }
+      ],
+      "id": "accept-unreachable--strict"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/accept-http-500--default/record.json",
+          "sha256": "f0755197cba222d315f459fd4d38bcee6a566cd4a2bbf60afc360ff086d866d5"
+        }
+      ],
+      "id": "accept-http-500--default"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/accept-http-500--strict/record.json",
+          "sha256": "661b94e26c7421e48d227ba4ac808aa8c9d5db1debb6007106dde49f9105c460"
+        }
+      ],
+      "id": "accept-http-500--strict"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/accept-http-503--default/record.json",
+          "sha256": "f59819e5cb01efdc40989206edef2b7fe828e808f70fd7e3d64f6617e60d4066"
+        }
+      ],
+      "id": "accept-http-503--default"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/accept-http-503--strict/record.json",
+          "sha256": "824e4a6f3c5051a3df942ff9c3d866c30cbbbd42e248422e7f83815656cfdb17"
+        }
+      ],
+      "id": "accept-http-503--strict"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/accept-unparseable-body--default/record.json",
+          "sha256": "c1fe493df232626f7338ff736a50f14db80acf7748c59e555ece17e26ecd104a"
+        }
+      ],
+      "id": "accept-unparseable-body--default"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/accept-unparseable-body--strict/record.json",
+          "sha256": "54d99c1403d05837fa7b71f91f2995c618e0f5f1ce9f1a8981c68604408afb09"
+        }
+      ],
+      "id": "accept-unparseable-body--strict"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/accept-timeout--default/record.json",
+          "sha256": "993d8d801209de59e2deef2f75c3274d200225d03329f70b2fab15c9d41f0b65"
+        }
+      ],
+      "id": "accept-timeout--default"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/accept-timeout--strict/record.json",
+          "sha256": "dc4e937d0fd86695c6f64f286236ad48688897302540212d039f29e99fb8ac49"
+        }
+      ],
+      "id": "accept-timeout--strict"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/accept-unknown-verdict--default/record.json",
+          "sha256": "1522d1768001352968475ea7971b1a95193b532dbcceebf3ff50b7f14521f5d2"
+        }
+      ],
+      "id": "accept-unknown-verdict--default"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/accept-unknown-verdict--strict/record.json",
+          "sha256": "5024c7b3a1d00d737e17594277b16624ccb5ce0758e23a8dfe8285788349582c"
+        }
+      ],
+      "id": "accept-unknown-verdict--strict"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/accept-missing-verdict--default/record.json",
+          "sha256": "65dfc1ba132d54d40f9bac279a4e174510d8eaebba3f26a40ca6464c97aac534"
+        }
+      ],
+      "id": "accept-missing-verdict--default"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/accept-missing-verdict--strict/record.json",
+          "sha256": "e1cf447aeb84015bd30acf6e5083e9d46c68c0e889e45be59fbadc502266e14f"
+        }
+      ],
+      "id": "accept-missing-verdict--strict"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/accept-control-block/record.json",
+          "sha256": "ec3af13fff232035355aeacb7f99e39f667a8e7066f36b7b744ca11ee1885504"
+        }
+      ],
+      "id": "accept-control-block"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/accept-control-halt/record.json",
+          "sha256": "cb03513b1bdc953fdec0b95119e64235cc987fbab2130d1e5890b85fd6f7f74e"
+        }
+      ],
+      "id": "accept-control-halt"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/accept-control-allow/record.json",
+          "sha256": "3f8860ae752379b9405b3e642d1bd83621a920d695d472bf7fbf22edd3cc7f3c"
+        }
+      ],
+      "id": "accept-control-allow"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/accept-control-401/record.json",
+          "sha256": "d994f631b3cb722be37b30da477b5d00b28521024da765e3b42cef7f9de86a63"
+        }
+      ],
+      "id": "accept-control-401"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/reject-contract-id-missing/record.json",
+          "sha256": "1e8e8e9e65d0d484d0321dca8da26f9c95b36ef63bec0e313467f291d67370e7"
+        }
+      ],
+      "id": "reject-contract-id-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/reject-contract-id-unknown/record.json",
+          "sha256": "a2af5c2948420214a312d5a2242e4b582ed0a8924120bfd4f97f4b04111119e9"
+        }
+      ],
+      "id": "reject-contract-id-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/reject-basis-outside-vocabulary/record.json",
+          "sha256": "c05d49f863daecb9f99f2a7b669108cb69d928225dc8ef2f5052aef08c268529"
+        }
+      ],
+      "id": "reject-basis-outside-vocabulary"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/reject-status-without-reply/record.json",
+          "sha256": "277a2f1a5682368502707249af41b22dc4926481531ed8b57d640510d489cf9f"
+        }
+      ],
+      "id": "reject-status-without-reply"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/reject-unknown-verdict-read-as-allow/record.json",
+          "sha256": "2a274355ba0f0dd7549c9c183779836acc0992610d1be2e0834a8be6dcf3d1fa"
+        }
+      ],
+      "id": "reject-unknown-verdict-read-as-allow"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/reject-unknown-verdict-read-as-allow-strict/record.json",
+          "sha256": "03370b2bc4ffd5ba123c9ba0e6b68a271d289815d2a075426e564209141464db"
+        }
+      ],
+      "id": "reject-unknown-verdict-read-as-allow-strict"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/reject-missing-verdict-read-as-allow/record.json",
+          "sha256": "59325530354010ea80bfa7ac681f169bdde43ff82e83a227ce750efd69636dac"
+        }
+      ],
+      "id": "reject-missing-verdict-read-as-allow"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/reject-fault-recorded-as-policy/record.json",
+          "sha256": "292cf83ab1ee7e78ab36bb8dfb2b7b65302c5902f3ba57623fa98981be915524"
+        }
+      ],
+      "id": "reject-fault-recorded-as-policy"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/reject-unreachable-allowed/record.json",
+          "sha256": "033dc4d86ab41f727590f2c53965173cdcca45b1d8bdc81d11ae1de033463efb"
+        }
+      ],
+      "id": "reject-unreachable-allowed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/reject-timeout-allowed/record.json",
+          "sha256": "d3a4873e09dae5dc1a3a2e6df5a7b2e1261126656ec9c8838cb87c4e6f370bc2"
+        }
+      ],
+      "id": "reject-timeout-allowed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/reject-unparseable-allowed/record.json",
+          "sha256": "46952845a67d47b0cdc47900506f85903068356f05d15889e9c35df2954c5489"
+        }
+      ],
+      "id": "reject-unparseable-allowed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/reject-unauthorized-allowed/record.json",
+          "sha256": "2f7dfc723aaefb6cc3a6785a2234e610e27d82e1d39f2d8cc78b629704b914f4"
+        }
+      ],
+      "id": "reject-unauthorized-allowed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/reject-block-not-followed/record.json",
+          "sha256": "c1138c874d99d42d88809493ec83b76ad5705b40952ac85d12b430f6e9e84f86"
+        }
+      ],
+      "id": "reject-block-not-followed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/reject-allow-recorded-as-fallback/record.json",
+          "sha256": "931906a4ab635ec49421c98f439dde54640b9c3d15780dfccc7265746faec56a"
+        }
+      ],
+      "id": "reject-allow-recorded-as-fallback"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/reject-halt-not-honoured/record.json",
+          "sha256": "bd8ce0d51cc43db6a9bff1d9a2ee3e86adb901f0bfe0c093e79a66e3d4db33a1"
+        }
+      ],
+      "id": "reject-halt-not-honoured"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/reject-halt-claimed-on-block/record.json",
+          "sha256": "25bb4c9f943df3fd5c8d25db11312bda384da177279347b57842b16704687321"
+        }
+      ],
+      "id": "reject-halt-claimed-on-block"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-client-failure-modes/cases/reject-effect-on-deny/record.json",
+          "sha256": "ae456784eae3be277ff7cc02aa0d269b7b5765fd57b853de073cb8e13b1fab9f"
+        }
+      ],
+      "id": "reject-effect-on-deny"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-decision-client-failure-modes.json",
+        "serialization": "bytes",
+        "sha256": "74ffef189f54aded49f7282ee93f130b1dd9a648e927794c4ca9a16fd99f0d58"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-decision-client-failure-modes.txt",
+        "serialization": "bytes",
+        "sha256": "fc0f121016bdd393ba3833559a8bba18ce5debeb5c330914dd435f5eaa21267e"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "74ffef189f54aded49f7282ee93f130b1dd9a648e927794c4ca9a16fd99f0d58"
+      },
+      {
+        "process": "run-2",
+        "sha256": "74ffef189f54aded49f7282ee93f130b1dd9a648e927794c4ca9a16fd99f0d58"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 35 pinned members of decision-client-failure-modes/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 35,
+    "require": "at-least-one",
+    "selected": [
+      "accept-unreachable--default",
+      "accept-unreachable--strict",
+      "accept-http-500--default",
+      "accept-http-500--strict",
+      "accept-http-503--default",
+      "accept-http-503--strict",
+      "accept-unparseable-body--default",
+      "accept-unparseable-body--strict",
+      "accept-timeout--default",
+      "accept-timeout--strict",
+      "accept-unknown-verdict--default",
+      "accept-unknown-verdict--strict",
+      "accept-missing-verdict--default",
+      "accept-missing-verdict--strict",
+      "accept-control-block",
+      "accept-control-halt",
+      "accept-control-allow",
+      "accept-control-401",
+      "reject-contract-id-missing",
+      "reject-contract-id-unknown",
+      "reject-basis-outside-vocabulary",
+      "reject-status-without-reply",
+      "reject-unknown-verdict-read-as-allow",
+      "reject-unknown-verdict-read-as-allow-strict",
+      "reject-missing-verdict-read-as-allow",
+      "reject-fault-recorded-as-policy",
+      "reject-unreachable-allowed",
+      "reject-timeout-allowed",
+      "reject-unparseable-allowed",
+      "reject-unauthorized-allowed",
+      "reject-block-not-followed",
+      "reject-allow-recorded-as-fallback",
+      "reject-halt-not-honoured",
+      "reject-halt-claimed-on-block",
+      "reject-effect-on-deny"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "decision-client-failure-modes/v1"
+}
