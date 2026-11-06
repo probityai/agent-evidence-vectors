@@ -164,13 +164,13 @@ def _verdict_not_followed(record: Record) -> bool:
     if decision["condition"] != "ok":
         return False
     wanted = ALLOW if record["exchange"].get("verdict") == "allow" else DENY
-    return decision["outcome"] != wanted or decision["basis"] != "policy"
+    return bool(decision["outcome"] != wanted or decision["basis"] != "policy")
 
 
 def _halt_not_honoured(record: Record) -> bool:
     exchange, decision = record["exchange"], record["decision"]
     halt = decision["condition"] == "ok" and exchange.get("verdict") == "halt"
-    return decision["halted"] != halt
+    return bool(decision["halted"] != halt)
 
 
 def retained(record: Record) -> dict[str, Any]:

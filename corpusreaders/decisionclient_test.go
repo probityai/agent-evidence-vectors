@@ -92,7 +92,7 @@ func TestDecisionClientEachCheckMovesTheVerdict(t *testing.T) {
 // malformed record, as the Python reader reads it.
 func TestDecisionClientBooleansAreNotNumbers(t *testing.T) {
 	cases := map[string][2]string{
-		"httpStatus true":     {"accept-control-block", `"httpStatus": 200`},
+		"httpStatus true":    {"accept-control-block", `"httpStatus": 200`},
 		"timeoutMillis true": {"accept-control-block", `"timeoutMillis": 1000`},
 	}
 	for name, edit := range cases {
