@@ -39,6 +39,10 @@ For the paper, [`paper/reproducing.tex`](paper/reproducing.tex) is a
 "Reproducing every result" section with this table, generated from `rows.json`
 by `python paper/make_tex.py`; a test fails when the two disagree.
 
+The check of each paper draft against these rows is in
+[`draft-checks/`](draft-checks/): one file per draft, with every number the draft
+states, the value the rerun gives, and the text to paste where they differ.
+
 ## What the harness checks
 
 - A commit is fetched by its full SHA and the checkout's `HEAD` is compared
