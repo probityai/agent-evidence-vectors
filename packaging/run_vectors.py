@@ -5500,7 +5500,11 @@ def runtime_main(argv: list[str]) -> int:
     """Run a runtime adapter through the scenarios of a corpus with a runtime contract."""
     from pathlib import Path
 
-    from agent_evidence_vectors import decisionclient, decisionclient_runtime, uncertaineffect_runtime
+    from agent_evidence_vectors import (
+        decisionclient,
+        decisionclient_runtime,
+        uncertaineffect_runtime,
+    )
 
     runners = {
         uncertaineffect.SUITE: uncertaineffect_runtime.run_runtime,
