@@ -433,6 +433,18 @@ standards = ["a2a"]
 shapes = ["stale-authority", "scope-overreach", "missing-binding"]
 
 [[corpus]]
+id = "vectors-decision-client-failure-modes"
+path = "corpora/vectors-decision-client-failure-modes"
+wheel = true
+sdist = true
+title = "Decision-client failure modes"
+summary = "A decision client must withhold an action and record a fallback, never a policy decision, when its decision point is unreachable, slow, erroring or answers without a verdict it knows."
+record_class = "record"
+domains = ["authority", "effects"]
+standards = []
+shapes = ["uncertainty", "malformed-input", "self-report"]
+
+[[corpus]]
 id = "vectors-delegation-lifecycle"
 path = "corpora/vectors-delegation-lifecycle"
 wheel = true

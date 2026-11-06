@@ -1090,6 +1090,8 @@ jobs:
         run: uv run --extra dev pytest corpora/vectors-propagation-step/tests -q
       - name: containment-journal cases regenerate, force every check and refuse a cut edge that still delivers
         run: uv run --extra dev pytest corpora/vectors-containment-journal/tests -q
+      - name: decision-client cases regenerate, force every check and fail a client that reads a fault as an allow
+        run: uv run --extra dev pytest corpora/vectors-decision-client-failure-modes/tests -q
       - name: agent-card-receipt cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-agent-card-receipt/tests -q
       - name: credential-release cases regenerate and force every check
@@ -1595,6 +1597,45 @@ jobs:
         env:
           OUTCOME: ${{ steps.runtimebad.outcome }}
           RESULT: ${{ steps.runtimebad.outputs.result }}
+        run: |
+          echo "outcome=$OUTCOME result=$RESULT"
+          test "$OUTCOME" = failure
+          test "$RESULT" = fail
+      # A decision client through the same runtime input: the closed reference
+      # client withholds the action on every fault and must pass every scenario;
+      # the open client reads a fault or an unknown verdict as an allow and must
+      # fail the job.
+      - name: the action drives a decision client through the failure-mode matrix
+        id: decisionclient
+        uses: ./
+        with:
+          corpus: vectors-decision-client-failure-modes
+          runtime: python3 corpora/vectors-decision-client-failure-modes/tests/client_adapter.py --policy closed
+          artifact-name: agent-evidence-vectors-results-decision-client
+          report-path: decision-client-report.json
+      - name: every decision-client scenario ran and passed
+        env:
+          RESULT: ${{ steps.decisionclient.outputs.result }}
+          VECTORS: ${{ steps.decisionclient.outputs.vectors }}
+          EXECUTED: ${{ steps.decisionclient.outputs.executed }}
+        run: |
+          echo "result=$RESULT scenarios=$VECTORS executed=$EXECUTED"
+          test "$RESULT" = pass
+          test "$VECTORS" -gt 0
+          test "$EXECUTED" = "$VECTORS"
+      - name: the action fails a decision client that fails open
+        id: decisionclientbad
+        continue-on-error: true
+        uses: ./
+        with:
+          corpus: vectors-decision-client-failure-modes
+          runtime: python3 corpora/vectors-decision-client-failure-modes/tests/client_adapter.py --policy open
+          artifact-name: agent-evidence-vectors-results-decision-client-bad
+          report-path: decision-client-bad-report.json
+      - name: and that decision-client job would have failed
+        env:
+          OUTCOME: ${{ steps.decisionclientbad.outcome }}
+          RESULT: ${{ steps.decisionclientbad.outputs.result }}
         run: |
           echo "outcome=$OUTCOME result=$RESULT"
           test "$OUTCOME" = failure
