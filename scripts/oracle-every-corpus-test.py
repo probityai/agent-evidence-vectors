@@ -84,6 +84,7 @@ REFUSES_A_VERIFIER = (
     "vectors-acs-core",
     "vectors-agent-audit-record",
     "vectors-agent-decision",
+    "vectors-acs-decision-record",
     "vectors-ai-generation",
     "vectors-anchor-stream",
     "vectors-artifact-binding",

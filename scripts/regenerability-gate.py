@@ -109,6 +109,10 @@ GENERATORS = (
     # over disclosed argument bytes, so a hand-placed member is one whose hash and
     # signature nobody recomputed. It builds its own manifest and index.
     "corpora/vectors-agent-decision/gen_vectors.py",
+    # The control-decision corpus. Every member is signed over digests of its
+    # disclosed context and policy, read from the recorded ACS run; it builds its
+    # own manifest and index.
+    "corpora/vectors-acs-decision-record/gen_vectors.py",
     # The W3C intake-criteria corpus. Every member is an intake record whose
     # digests are taken over fixture trees the generator writes beside it, and
     # the generator refuses a member the checker does not answer as claimed.
@@ -412,6 +416,9 @@ OWNED = (
     ("corpora/vectors-agent-decision/arguments", "v*.json"),
     ("corpora/vectors-agent-decision", "MANIFEST.json"),
     ("corpora/vectors-agent-decision", "INDEX.md"),
+    ("corpora/vectors-acs-decision-record/members", "*.json"),
+    ("corpora/vectors-acs-decision-record", "MANIFEST.json"),
+    ("corpora/vectors-acs-decision-record", "INDEX.md"),
     ("corpora/vectors-w3c-intake/vectors", "v*.json"),
     # Every fixture file carries an extension and no fixture directory does, so
     # this names the files under trees/ and never a directory the gate would
