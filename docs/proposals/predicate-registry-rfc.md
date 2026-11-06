@@ -40,7 +40,7 @@ request so the history of the entry stays public:
 - the entry adds no claim about a product beyond the shape of its records.
 
 A pull request template that pre-fills the skeleton (entry, page, example, compatibility block, `confirmed_at`) is
-planned for release 0.36.0, so filing becomes a review of filled fields.
+planned for release 0.37.0, so filing becomes a review of filled fields.
 
 ## Families and how each becomes registered
 

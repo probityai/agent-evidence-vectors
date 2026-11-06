@@ -18,13 +18,13 @@ registered predicate type carries that URI ([predicate-registry-rfc.md](predicat
 
 | Suite | Source | Planned release |
 | --- | --- | --- |
-| request/effect join | a reader written from one contract document alone matched all ten cases on #352 | 0.36.0 |
-| refund-connected contract | #432 (merged) | 0.36.0 |
-| billing finality is not effect authority | #435 | 0.37.0 |
-| tool-manifest effect replay | #346 | 0.37.0 |
-| a changed call versus a later changed file | #350 | 0.37.0 |
-| physical completion evidence | #80, built here from draft-noa-scitt-ai-agent-receipt-01 sections 8.1 to 8.3 and 1.5 | 0.37.0 |
-| RTTP refusal vocabulary | #453, the five-value refusal vocabulary with its fixed priority and the lease-instant boundary | 0.37.0 |
+| request/effect join | a reader written from one contract document alone matched all ten cases on #352 | 0.37.0 |
+| refund-connected contract | #432 (merged) | 0.37.0 |
+| billing finality is not effect authority | #435 | 0.38.0 |
+| tool-manifest effect replay | #346 | 0.38.0 |
+| a changed call versus a later changed file | #350 | 0.38.0 |
+| physical completion evidence | #80, built here from draft-noa-scitt-ai-agent-receipt-01 sections 8.1 to 8.3 and 1.5 | 0.38.0 |
+| RTTP refusal vocabulary | #453, the five-value refusal vocabulary with its fixed priority and the lease-instant boundary | 0.38.0 |
 | payment effect under EIP-3009 | #347 | after its slot is filed |
 | paid-audit records | #247 | after its slot is filed |
 

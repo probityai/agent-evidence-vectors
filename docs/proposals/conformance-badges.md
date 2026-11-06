@@ -19,7 +19,7 @@ through the released reusable workflow, and independent replay qualification, wh
 this repository runs re-executes the implementation. The words, the bases and the grant ledger do not change here.
 What this proposal adds is the release that makes the first basis usable.
 
-Release 0.36.0 is planned to ship the reusable conformance workflow in two jobs:
+Release 0.37.0 is planned to ship the reusable conformance workflow (pull request #477) in two jobs:
 
 - an execution job that runs the candidate and holds no signing capability: no key, no `id-token: write`;
 - a signer on a clean runner, with no candidate checkout, no shared writable workspace and no candidate-controlled
@@ -59,7 +59,7 @@ repository owner who controls the runner controls the line, which is why the shi
 
 ## Scoring: no aggregate threshold
 
-A board POLICY.md, planned for 0.36.0, fixes how a figure is counted:
+A board POLICY.md, planned for 0.37.0, fixes how a figure is counted:
 
 - every mandatory case of a profile passes, or the profile does not pass; there is no percentage tier;
 - an expected rejection on a negative case is a pass;
@@ -99,7 +99,7 @@ from `main`, sits beside it.
 ## Dates
 
 - 9 Nov: the reference stage pin moves and per-corpus coverage is published.
-- 13 Nov: release 0.36.0 with the reusable workflow, the release-blocking tests, POLICY.md, the shield endpoint and
+- 13 Nov: release 0.37.0 with the reusable workflow, the release-blocking tests, POLICY.md, the shield endpoint and
   `results.json`.
 - 6 Dec: the target is at least three "Verified by Probity" grants under either basis.
 
