@@ -19,10 +19,12 @@ from __future__ import annotations
 
 import copy
 import importlib.util
+import io
 import json
 import subprocess
 import sys
 import tempfile
+import zipfile
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
@@ -73,8 +75,18 @@ def report(n: int | None = None, executed: int | None = None, conform: int | Non
     }
 
 
-def artifact(transcript: bytes = TRANSCRIPT, run: int = RUN_ID) -> dict[str, Any]:
-    return {"id": 555, "workflow_run": {"id": run}, "digest": cr.sha256_bytes(transcript), "expired": False}
+def zipped(transcript: bytes = TRANSCRIPT, name: str = "transcript.json") -> bytes:
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as archive:
+        archive.writestr(name, transcript)
+    return buf.getvalue()
+
+
+ZIP = zipped()
+
+
+def artifact(zip_bytes: bytes = ZIP, run: int = RUN_ID) -> dict[str, Any]:
+    return {"id": 555, "workflow_run": {"id": run}, "digest": cr.sha256_bytes(zip_bytes), "expired": False}
 
 
 def signing_request(**over: Any) -> dict[str, Any]:
@@ -82,7 +94,7 @@ def signing_request(**over: Any) -> dict[str, Any]:
         "claims": claims(),
         "report": report(),
         "status": 0,
-        "transcript_bytes": TRANSCRIPT,
+        "artifact_zip": ZIP,
         "artifact": artifact(),
         "digests_text": DIGESTS,
         "corpus": CORPUS,
@@ -164,13 +176,13 @@ def main() -> int:
     other_run = claims() | {"run_id": "9099"}
     altered_report, altered_status = _replay_without_one_answer()
     attempts: list[tuple[str, Callable[[], Any], str]] = [
-        ("1 substituted artifact", sign(artifact=artifact(transcript=b"{}")),
+        ("1 substituted artifact", sign(artifact_zip=zipped(b"{}")),
          "not the artifact the execution job uploaded"),
         ("2 altered case set (one pinned member left unanswered)",
          sign(report=altered_report, status=altered_status), "conformed on 56"),
         ("3 results injected from the execution job",
-         sign(transcript_bytes=TRANSCRIPT[:-1] + b',"result":"pass"}',
-              artifact=artifact(TRANSCRIPT[:-1] + b',"result":"pass"}')),
+         sign(artifact_zip=zipped(TRANSCRIPT[:-1] + b',"result":"pass"}'),
+              artifact=artifact(zipped(TRANSCRIPT[:-1] + b',"result":"pass"}'))),
          "never a result"),
         ("4 unauthorized signing request (caller's own workflow signed)",
          verify(receipt, build_signer_uri="https://github.com/example/impl/.github/workflows/ci.yml@refs/heads/main"),
@@ -185,6 +197,8 @@ def main() -> int:
     ]  # fmt: skip
     # Siblings of the nine, each a second door into the same refusal.
     siblings: list[tuple[str, Callable[[], Any], str]] = [
+        ("1c archive with a second file", sign(artifact_zip=zipped(name="report.json"),
+                                               artifact=artifact(zipped(name="report.json"))), "exactly transcript.json"),
         ("1b artifact from another run", sign(artifact=artifact(run=1)), "not uploaded by this workflow run"),
         ("3b exec-side pass with failing answers", sign(report=report(conform=56)), "conformed on 56"),
         ("4b signer SHA not on the allowlist",

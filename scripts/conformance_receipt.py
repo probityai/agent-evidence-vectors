@@ -24,7 +24,7 @@ in its Fulcio certificate and the workflow allowlist in docs/badge-grants.json.
 Usage:
   conformance_receipt.py record --transcript T -- <candidate command...> <args from the harness>
   conformance_receipt.py replay --transcript T <args from the harness>
-  conformance_receipt.py sign-check --claims C --report R --transcript T --artifact A
+  conformance_receipt.py sign-check --claims C --report R --artifact-zip Z --artifact A
       --digests release/CORPUS-DIGESTS.txt --corpus ID --default-branch B --out receipt.json
   conformance_receipt.py verify --receipt R --bundle B [--ledger docs/badge-grants.json]
 
@@ -37,11 +37,13 @@ from __future__ import annotations
 import argparse
 import base64
 import hashlib
+import io
 import json
 import os
 import re
 import subprocess
 import sys
+import zipfile
 from pathlib import Path
 from typing import Any
 
@@ -253,15 +255,31 @@ def _result_errors(report: dict[str, Any], pinned: dict[str, Any], status: int) 
     return errors
 
 
-def _artifact_errors(
-    artifact: dict[str, Any], claims: dict[str, Any], transcript_digest: str
-) -> list[str]:
+TRANSCRIPT_MEMBER = "transcript.json"
+MAX_TRANSCRIPT = 64 << 20
+
+
+def open_artifact(zip_bytes: bytes) -> bytes:
+    """The one transcript inside the downloaded artifact archive, or Refused."""
+    try:
+        with zipfile.ZipFile(io.BytesIO(zip_bytes)) as archive:
+            infos = archive.infolist()
+            if [i.filename for i in infos] != [TRANSCRIPT_MEMBER]:
+                raise Refused([f"the artifact must hold exactly {TRANSCRIPT_MEMBER}"])
+            if infos[0].file_size > MAX_TRANSCRIPT:
+                raise Refused(["the transcript is larger than the signer reads"])
+            return archive.read(TRANSCRIPT_MEMBER)
+    except zipfile.BadZipFile as exc:
+        raise Refused([f"the artifact is not a zip archive: {exc}"]) from exc
+
+
+def _artifact_errors(artifact: dict[str, Any], claims: dict[str, Any], zip_bytes: bytes) -> list[str]:
     errors = []
     run = (artifact.get("workflow_run") or {}).get("id")
     if run != int(claims.get("run_id", 0) or 0):
         errors.append("the transcript artifact was not uploaded by this workflow run")
-    if artifact.get("digest") != transcript_digest:
-        errors.append("the transcript bytes are not the artifact the execution job uploaded")
+    if artifact.get("digest") != sha256_bytes(zip_bytes):
+        errors.append("the downloaded bytes are not the artifact the execution job uploaded")
     if artifact.get("expired"):
         errors.append("the transcript artifact has expired")
     return errors
@@ -272,25 +290,26 @@ def build_receipt(
     claims: dict[str, Any],
     report: dict[str, Any],
     status: int,
-    transcript_bytes: bytes,
+    artifact_zip: bytes,
     artifact: dict[str, Any],
     digests_text: str,
     corpus: str,
     default_branch: str,
 ) -> dict[str, Any]:
     """The receipt to sign, or Refused with every reason it may not be signed."""
+    errors = _artifact_errors(artifact, claims, artifact_zip)
+    transcript_bytes = open_artifact(artifact_zip)
     transcript_digest = sha256_bytes(transcript_bytes)
     try:
         transcript = json.loads(transcript_bytes)
     except ValueError:
         transcript = None
-    errors = transcript_errors(transcript)
+    errors += transcript_errors(transcript)
     errors += _run_errors(claims, default_branch)
     profile_errors, pinned = _profile_errors(corpus, read_digests(digests_text), report)
     errors += profile_errors
     if pinned:
         errors += _result_errors(report, pinned, status)
-    errors += _artifact_errors(artifact, claims, transcript_digest)
     if errors:
         raise Refused(errors)
     run_keys = (
@@ -311,6 +330,7 @@ def build_receipt(
         "run": {key: claims.get(key) for key in run_keys},
         "execution": {
             "artifactId": artifact.get("id"),
+            "artifactDigest": sha256_bytes(artifact_zip),
             "transcriptDigest": transcript_digest,
             "commandDigest": sha256_bytes(str(transcript["command"]).encode()),
         },
@@ -428,7 +448,7 @@ def _cmd_sign_check(args: argparse.Namespace) -> int:
         claims=claims,
         report=report,
         status=args.status,
-        transcript_bytes=Path(args.transcript).read_bytes(),
+        artifact_zip=Path(args.artifact_zip).read_bytes(),
         artifact=json.loads(Path(args.artifact).read_text(encoding="utf-8")),
         digests_text=Path(args.digests).read_text(encoding="utf-8"),
         corpus=args.corpus,
@@ -461,7 +481,7 @@ def _parser() -> argparse.ArgumentParser:
     rep.add_argument("--transcript", required=True)
     rep.add_argument("rest", nargs=argparse.REMAINDER)
     sc = sub.add_parser("sign-check")
-    for name in ("claims", "report", "transcript", "artifact", "digests", "corpus", "default-branch", "out"):
+    for name in ("claims", "report", "artifact-zip", "artifact", "digests", "corpus", "default-branch", "out"):
         sc.add_argument(f"--{name}", required=True)
     sc.add_argument("--status", type=int, required=True)
     ver = sub.add_parser("verify")
