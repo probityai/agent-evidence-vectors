@@ -85,6 +85,40 @@ class ReadmeLintTest(unittest.TestCase):
     def test_links_inside_code_are_ignored(self) -> None:
         self.assertEqual(self.run_lint(GOOD + "\n```\n[x](docs/GONE.md)\n```\n"), 0)
 
+    def test_github_api_badge_fails(self) -> None:
+        bad = "# thing\n\n[![CI](https://img.shields.io/github/actions/workflow/status/o/r/ci.yml)](https://example.org)\n"
+        self.assertEqual(self.run_lint(bad + GOOD.split("\n", 1)[1]), 1)
+        for kind in ("stars/o/r", "license/o/r", "v/release/o/r", "issues/o/r"):
+            url = f'<img alt="x" src="https://img.shields.io/github/{kind}">'
+            self.assertEqual(self.run_lint(GOOD + "\n" + url + "\n"), 1, kind)
+
+    def test_other_shields_badges_pass(self) -> None:
+        ok = '\n<img alt="v" src="https://img.shields.io/pypi/v/thing">\n'
+        self.assertEqual(self.run_lint(GOOD + ok), 0)
+
+    def _row(self, *alts: str) -> str:
+        badges = "\n".join(f'<a href="https://example.org"><img alt="{a}" src="https://example.org/{a}.svg"></a>' for a in alts)
+        return "# thing\n\n<p>\n" + badges + "\n</p>\n" + GOOD.split("\n", 1)[1]
+
+    def test_badge_row_in_order_passes(self) -> None:
+        self.assertEqual(self.run_lint(self._row("CI", "Version", "Downloads", "License", "Stars")), 0)
+        self.assertEqual(self.run_lint(self._row("CI", "Version", "Downloads", "License", "Stars", "Checked with Probity")), 0)
+        self.assertEqual(self.run_lint(self._row("CI", "License")), 0)
+        self.assertEqual(self.run_lint(self._row("PyPI", "Downloads (PePy)")), 0)
+
+    def test_badge_row_out_of_order_fails(self) -> None:
+        self.assertEqual(self.run_lint(self._row("CI", "License", "Version", "Downloads", "Stars")), 1)
+        self.assertEqual(self.run_lint(self._row("Stars", "CI")), 1)
+        self.assertEqual(self.run_lint(self._row("CI", "Checked with Probity", "Stars")), 1)
+
+    def test_markdown_badge_row_is_read_too(self) -> None:
+        md = "# thing\n\n[![License](https://example.org/l.svg)](https://example.org)\n[![CI](https://example.org/c.svg)](https://example.org)\n"
+        self.assertEqual(self.run_lint(md + GOOD.split("\n", 1)[1]), 1)
+
+    def test_prose_paragraph_is_not_a_badge_row(self) -> None:
+        self.assertEqual(self.run_lint(GOOD), 0)
+        self.assertEqual(lint.top_badge_row(GOOD), [])
+
     def test_unreadable_readme_exits_two(self) -> None:
         self.assertEqual(lint.main([str(self.root / "MISSING.md")]), 2)
 

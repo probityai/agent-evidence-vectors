@@ -17,6 +17,15 @@ to that shape with three rules:
 3. Every relative link and image in the README resolves to a file in the
    repository, so text moved into docs/ cannot leave a dead pointer behind.
 
+4. No badge image comes from a shields.io endpoint that calls the GitHub API
+   (img.shields.io/github/...: actions, stars, license, v, issues and the rest).
+   Those answer intermittently and GitHub's image proxy caches the failure, so
+   the badge shows as a broken image for everyone. Use GitHub's own workflow
+   badge for CI and a static badge for the rest.
+5. A top badge row (the first paragraph after the title that holds only badge
+   images) lists its badges in the fixed order CI, version, downloads, license,
+   stars, and any other badge after them.
+
 Exit 0 when the README passes, 1 when a rule fails, 2 when it cannot be read.
 Standard library only, so any repository can run it without installing anything.
 """
@@ -35,6 +44,9 @@ FENCE = re.compile(r"^\s*(```|~~~)")
 LINK_TARGET = re.compile(r"\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")
 SRC_OR_HREF = re.compile(r"""\b(?:src|href)=["']([^"']+)["']""")
 REF_DEF = re.compile(r"^\s*\[[^\]]+\]:\s*(\S+)", re.MULTILINE)
+GITHUB_API_BADGE = re.compile(r"https?://img\.shields\.io/github/[^\s)\"'>]*", re.IGNORECASE)
+BADGE_ORDER = ("ci", "version", "downloads", "license", "stars")
+BADGE_ALT = re.compile(r"!\[([^\]]*)\]\([^)]*\)|<img\b[^>]*?\balt=[\"']([^\"']*)[\"']", re.IGNORECASE)
 EXTERNAL = re.compile(r"^(?:[a-z][a-z0-9+.-]*:|#|//)", re.IGNORECASE)
 
 
@@ -75,6 +87,42 @@ def relative_targets(text: str) -> list[str]:
     return [t for t in found if not EXTERNAL.match(t)]
 
 
+def github_api_badges(text: str) -> list[str]:
+    """Badge URLs that depend on the GitHub API through shields.io."""
+    return GITHUB_API_BADGE.findall(text)
+
+
+def top_badge_row(text: str) -> list[str]:
+    """Alt texts of the badges in the first paragraph after the title.
+
+    Empty when that paragraph is not made only of badge images."""
+    lines = text.splitlines()
+    start = next((i for i, line in enumerate(lines) if line.startswith("# ")), None)
+    if start is None:
+        return []
+    paragraph: list[str] = []
+    for line in lines[start + 1 :]:
+        if not line.strip():
+            if paragraph:
+                break
+            continue
+        paragraph.append(line)
+    block = "\n".join(paragraph)
+    alts = [a or b for a, b in BADGE_ALT.findall(block)]
+    leftover = re.sub(r"<[^>]+>|\[!\[[^\]]*\]\([^)]*\)\]\([^)]*\)|\s+", "", block)
+    return alts if alts and not leftover else []
+
+
+def badge_rank(alt: str) -> int:
+    name = alt.strip().lower()
+    if name in ("pypi", "npm", "crates.io", "crates"):
+        name = "version"
+    for rank, word in enumerate(BADGE_ORDER):
+        if name == word or name.startswith(word + " "):
+            return rank
+    return len(BADGE_ORDER)
+
+
 def check(readme: Path, max_words: int, first_screen: int) -> list[str]:
     text = readme.read_text(encoding="utf-8")
     failures: list[str] = []
@@ -95,6 +143,17 @@ def check(readme: Path, max_words: int, first_screen: int) -> list[str]:
         failures.append(
             f"{readme}: {where}; the install line or example must open within the first "
             f"{first_screen} lines."
+        )
+    for url in github_api_badges(text):
+        failures.append(
+            f"{readme}: badge {url[:90]} calls the GitHub API through shields.io and fails "
+            "intermittently; use GitHub's own workflow badge or a static badge."
+        )
+    ranks = [badge_rank(alt) for alt in top_badge_row(text)]
+    if ranks != sorted(ranks):
+        failures.append(
+            f"{readme}: the top badge row is out of order; the fixed order is CI, version, "
+            "downloads, license, stars, then any other badge."
         )
     root = readme.resolve().parent
     for target in relative_targets(text):
