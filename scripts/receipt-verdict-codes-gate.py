@@ -158,7 +158,7 @@ def check(registry: dict[str, Any], validity: set[str], policy: set[str], manife
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser = argparse.ArgumentParser(description=(__doc__ or "").splitlines()[0])
     parser.add_argument("--registry", type=Path, default=REGISTRY)
     parser.add_argument("--codes", type=Path, default=CODES_GO)
     parser.add_argument("--manifest", type=Path, default=MANIFEST)
