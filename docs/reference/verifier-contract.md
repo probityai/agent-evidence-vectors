@@ -74,6 +74,24 @@ Published spellings and their conditions stay stable. Codes remain available whi
 
 Only named precedence pins are contractual. Message text is not part of the contract. The signature-array-before-payload ordering is a declared rail reading, handled through indeterminate cases where the specification leaves sequencing open.
 
+## Receipt verdict codes
+
+A report that is not clean carries one of a closed set of receipt verdict codes, so a reader holding only the document learns what kind of refusal or limit it is without reading the failure-code registry. [receipt-verdict-codes.json](receipt-verdict-codes.json) is the registry; [receipt-verdict-codes-gate.py](../../scripts/receipt-verdict-codes-gate.py) holds it to [aee/codes.go](../../aee/codes.go) and the manifest in both directions. `probity-verify` reports the code beside `codes` as `verdict_code`.
+
+| Verdict code | Kind | Meaning | Produced by | Vector |
+| --- | --- | --- | --- | --- |
+| `MALFORMED` | failure | Unreadable, a broken shape rule, or a signed root that commits to records the document does not carry, which is what a removed call looks like | `statement-malformed`, `batch-root-orphaned` and the other well-formedness codes | `v577011f7dd9a08fe` |
+| `LEAF_HASH_MISMATCH` | failure | Carried bytes do not hash to the digest stated for them or pinned by the consumer; the document was edited | `corpus-digest-mismatch`, `run-binding-mismatch`, `observed-set-mismatch`, the anchor mismatches | `v02fd1bc1d7916002` |
+| `PROOF_BROKEN` | failure | A record's hash does not reach the signed batch root | `batch-root-mismatch`, `batch-root-missing`, `duplicate-record` | `v28b0cf874ea02de1` |
+| `CLAIM_NOT_BOUND` | failure | A readable claim disagrees with the sealed record behind it, or cites none that can carry it | `caught-row-uncovered`, `ref-out-of-range`, `sealed-record-absent` and the other coverage codes | `v131478f1be775746` |
+| `SUMMARY_MISMATCH` | failure | The summary disagrees with the receipt's own rows | `result-recompute-mismatch`, `coverage-incomplete` | `vcb23d2c4509c9daf` |
+| `NOT_PUBLICLY_VERIFIABLE` | limit | Well formed, but a substrate row is unattested under the consumer's keys or rests on a published test key; the document alone cannot show who observed it | tier `unattested`; `substrate-row-unattested`, `observation-key-published` | `v550c91df0d36a218` |
+| `NOT_RECONSTRUCTIBLE` | limit | Well formed, but the rows rest on no sealed observation record, so claims cannot be tied back to hashes; only membership of the signed result is shown | tier `declared` | `v9cc570167acf4ae8` |
+
+A failure takes the code of the report's primary code, the first one detected. A valid report takes the code of its worst row tier, `unattested` before `declared`, and an all-`attested` report carries none. A limit is not a pass: it says what the document cannot show, and a consumer that needs more refuses it. A removed record is `PROOF_BROKEN` when some records remain, because the suite's statements carry a batch root and no record count; `MALFORMED` names the case where every record is gone and the root remains.
+
+The remaining consumer-policy codes (unpinned anchors, issuance lag, evidence age, accepted results) describe a consumer's rules, not the receipt, and map to no verdict code. A code the registry does not classify is refused: a consumer reading a code from a newer verifier treats it as a failure, never as a pass. Adding a verdict code or moving a code between verdict codes can turn a passing consumer red, so it ships as a minor release.
+
 ## Indeterminate families
 
 An indeterminate member has a determined verdict and named possible readings for its condition. [vectors/indeterminate/INDEX.md](../../vectors/indeterminate/INDEX.md) records the families and deliberately excluded questions; [interpretation-decisions-open.md](../interpretation-decisions-open.md) records the arguments.

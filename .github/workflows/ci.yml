@@ -366,7 +366,7 @@ jobs:
       - name: Install checkout wheel for distribution imports
         run: uv pip install --no-deps .
       - name: mypy --strict
-        run: uv run mypy packaging/run_vectors.py packaging/agent_evidence_vectors/w3creport.py packaging/agent_evidence_vectors/observedeffect.py packaging/agent_evidence_vectors/auditrecord.py packaging/agent_evidence_vectors/runmetrics.py packaging/agent_evidence_vectors/contextdiscovery.py corpora/vectors-w3c-report/gen_vectors.py corpora/vectors-w3c-report/origin/derive_pairs.py scripts/w3c-rails-parity-test.py scripts/w3c-reader-differential.py scripts/w3c-report-rules-test.py scripts/json-encoding-differential-test.py packaging/agent_evidence_vectors/receiptsignature.py packaging/agent_evidence_vectors/a2ajcs.py scripts/a2a-jcs-rails-test.py packaging/agent_evidence_vectors/changeadmission.py packaging/agent_evidence_vectors/agenticprocess.py scripts/receipt-signature-rails-test.py packaging/agent_evidence_vectors/delegationlifecycle.py scripts/delegation-lifecycle-rails-test.py corpora/vectors-delegation-lifecycle/mutate.py corpora/vectors-receipt-signature/digest.py corpora/vectors-receipt-signature/tools/veritasacta-verify.py scripts/gen-w3c-appendix.py vectors/reject/gen_invalid_vectors.py vectors/accept/gen_valid_vectors.py vectors/gen_manifest.py scripts/spec-drift-gate.py scripts/interpretation-registry-gate.py scripts/interpretation-registry-gate-test.py scripts/coverage-matrix-gate.py scripts/complexity-table-gate.py scripts/specpins.py scripts/spec-anchor-gate.py scripts/spec-anchor-gate-test.py scripts/code-contract-gate.py scripts/code-contract-gate-test.py scripts/consumer-lag-gate.py scripts/consumer-lag-gate-test.py scripts/independent-runs-gate.py scripts/suite-commit-gate.py scripts/suite-commit-gate-test.py scripts/condition-registry-gate.py scripts/condition-registry-gate-test.py scripts/condition-forcing-gate.py scripts/condition-forcing-gate-test.py scripts/condition-forcing-crosscheck.py scripts/condition-forcing-crosscheck-test.py scripts/external-rail-gate.py scripts/predicate-state-gate.py scripts/forcing-gate.py scripts/forcing-gate-test.py scripts/countcensus.py scripts/countcensus-sparse-test.py scripts/count-gate.py scripts/count-gate-test.py scripts/distribution-gate.py scripts/distribution-gate-test.py scripts/test_doc_gate_migration.py scripts/test_site_navigation.py docs/site/build.py scripts/regenerability-gate.py scripts/mutationdiff.py scripts/accept-anchor-gate.py scripts/accept-anchor-gate-test.py scripts/liveness-probe.py scripts/liveness-probe-test.py scripts/citation-metadata-gate.py scripts/citation-metadata-gate-test.py scripts/expectation-slack-gate.py scripts/expectation-slack-gate-test.py scripts/observed-code-closure-gate.py scripts/observed-code-closure-gate-test.py scripts/uncited-crosscheck-gate.py scripts/reading-differential.py scripts/reading-differential-test.py scripts/vendor-remap-test.py scripts/vector-distinctness-gate.py scripts/vector-distinctness-gate-test.py scripts/surface-leakage-gate.py scripts/surface-leakage-gate-test.py scripts/harness-output-contract-test.py scripts/stage-column-test.py scripts/starhint-test.py packaging/agent_evidence_vectors/starhint.py scripts/verifier-must-run-test.py scripts/report-provenance-test.py scripts/action-retention-test.py scripts/action-build-pin-test.py scripts/verify-release-tag.py scripts/verify-release-tag-test.py scripts/workflow-steps-gate.py scripts/workflow-steps-gate-test.py scripts/readme-lint.py scripts/readme-lint-test.py scripts/action-download-budget.py scripts/action-download-budget-test.py scripts/runner-labels-gate.py scripts/runner-labels-gate-test.py scripts/_go_selector.py scripts/go-selector-test.py scripts/_lockfile.py scripts/_lockfile-test.py scripts/manifest-revision-test.py scripts/statement-layer-test.py scripts/independent-runs-gate-test.py scripts/indeterminate-readers-test.py scripts/write-chain-replay-test.py scripts/audit-record-dating-rows-test.py scripts/indeterminate-scoring-gate.py scripts/indeterminate-scoring-gate-test.py interop/action-tuple-framed-v1/reader.py packaging/agent_evidence_vectors/heldout.py scripts/heldout-runner-test.py scripts/predicate-uri-gate.py scripts/predicate-uri-gate-test.py scripts/oracle-verifier.py scripts/oracle-every-corpus-test.py packaging/agent_evidence_vectors/admission.py scripts/admission-rails-test.py packaging/agent_evidence_vectors/w3cintake.py scripts/w3c-intake-parity-test.py scripts/gen-intake-records.py scripts/badge-grants-gate.py scripts/badge-grants-gate-test.py packaging/agent_evidence_vectors/selfreportedrecord.py scripts/self-reported-record-rails-test.py packaging/agent_evidence_vectors/approvalbinding.py scripts/approval-binding-rails-test.py
+        run: uv run mypy packaging/run_vectors.py packaging/agent_evidence_vectors/w3creport.py packaging/agent_evidence_vectors/observedeffect.py packaging/agent_evidence_vectors/auditrecord.py packaging/agent_evidence_vectors/runmetrics.py packaging/agent_evidence_vectors/contextdiscovery.py corpora/vectors-w3c-report/gen_vectors.py corpora/vectors-w3c-report/origin/derive_pairs.py scripts/w3c-rails-parity-test.py scripts/w3c-reader-differential.py scripts/w3c-report-rules-test.py scripts/json-encoding-differential-test.py packaging/agent_evidence_vectors/receiptsignature.py packaging/agent_evidence_vectors/a2ajcs.py scripts/a2a-jcs-rails-test.py packaging/agent_evidence_vectors/changeadmission.py packaging/agent_evidence_vectors/agenticprocess.py scripts/receipt-signature-rails-test.py packaging/agent_evidence_vectors/delegationlifecycle.py scripts/delegation-lifecycle-rails-test.py corpora/vectors-delegation-lifecycle/mutate.py corpora/vectors-receipt-signature/digest.py corpora/vectors-receipt-signature/tools/veritasacta-verify.py scripts/gen-w3c-appendix.py vectors/reject/gen_invalid_vectors.py vectors/accept/gen_valid_vectors.py vectors/gen_manifest.py scripts/spec-drift-gate.py scripts/interpretation-registry-gate.py scripts/interpretation-registry-gate-test.py scripts/coverage-matrix-gate.py scripts/complexity-table-gate.py scripts/specpins.py scripts/spec-anchor-gate.py scripts/spec-anchor-gate-test.py scripts/code-contract-gate.py scripts/code-contract-gate-test.py scripts/receipt-verdict-codes-gate.py scripts/receipt-verdict-codes-gate-test.py scripts/consumer-lag-gate.py scripts/consumer-lag-gate-test.py scripts/independent-runs-gate.py scripts/suite-commit-gate.py scripts/suite-commit-gate-test.py scripts/condition-registry-gate.py scripts/condition-registry-gate-test.py scripts/condition-forcing-gate.py scripts/condition-forcing-gate-test.py scripts/condition-forcing-crosscheck.py scripts/condition-forcing-crosscheck-test.py scripts/external-rail-gate.py scripts/predicate-state-gate.py scripts/forcing-gate.py scripts/forcing-gate-test.py scripts/countcensus.py scripts/countcensus-sparse-test.py scripts/count-gate.py scripts/count-gate-test.py scripts/distribution-gate.py scripts/distribution-gate-test.py scripts/test_doc_gate_migration.py scripts/test_site_navigation.py docs/site/build.py scripts/regenerability-gate.py scripts/mutationdiff.py scripts/accept-anchor-gate.py scripts/accept-anchor-gate-test.py scripts/liveness-probe.py scripts/liveness-probe-test.py scripts/citation-metadata-gate.py scripts/citation-metadata-gate-test.py scripts/expectation-slack-gate.py scripts/expectation-slack-gate-test.py scripts/observed-code-closure-gate.py scripts/observed-code-closure-gate-test.py scripts/uncited-crosscheck-gate.py scripts/reading-differential.py scripts/reading-differential-test.py scripts/vendor-remap-test.py scripts/vector-distinctness-gate.py scripts/vector-distinctness-gate-test.py scripts/surface-leakage-gate.py scripts/surface-leakage-gate-test.py scripts/harness-output-contract-test.py scripts/stage-column-test.py scripts/starhint-test.py packaging/agent_evidence_vectors/starhint.py scripts/verifier-must-run-test.py scripts/report-provenance-test.py scripts/action-retention-test.py scripts/action-build-pin-test.py scripts/verify-release-tag.py scripts/verify-release-tag-test.py scripts/workflow-steps-gate.py scripts/workflow-steps-gate-test.py scripts/readme-lint.py scripts/readme-lint-test.py scripts/action-download-budget.py scripts/action-download-budget-test.py scripts/runner-labels-gate.py scripts/runner-labels-gate-test.py scripts/_go_selector.py scripts/go-selector-test.py scripts/_lockfile.py scripts/_lockfile-test.py scripts/manifest-revision-test.py scripts/statement-layer-test.py scripts/independent-runs-gate-test.py scripts/indeterminate-readers-test.py scripts/write-chain-replay-test.py scripts/audit-record-dating-rows-test.py scripts/indeterminate-scoring-gate.py scripts/indeterminate-scoring-gate-test.py interop/action-tuple-framed-v1/reader.py packaging/agent_evidence_vectors/heldout.py scripts/heldout-runner-test.py scripts/predicate-uri-gate.py scripts/predicate-uri-gate-test.py scripts/oracle-verifier.py scripts/oracle-every-corpus-test.py packaging/agent_evidence_vectors/admission.py scripts/admission-rails-test.py packaging/agent_evidence_vectors/w3cintake.py scripts/w3c-intake-parity-test.py scripts/gen-intake-records.py scripts/badge-grants-gate.py scripts/badge-grants-gate-test.py packaging/agent_evidence_vectors/selfreportedrecord.py scripts/self-reported-record-rails-test.py packaging/agent_evidence_vectors/approvalbinding.py scripts/approval-binding-rails-test.py
       # Type-checks by DIRECTORY, which is why it sits beside the pass above
       # rather than replacing it. That one is driven from the list of files
       # written out on the line above, and a list is only accurate on the day it
@@ -550,6 +550,14 @@ jobs:
         run: |
           python3 scripts/code-contract-gate.py
           python3 scripts/code-contract-gate-test.py
+      # The seven receipt verdict codes classify the failure codes above. The
+      # registry is held to aee/codes.go and the manifest in both directions, so a
+      # new failure code cannot land without a verdict code and a code the registry
+      # does not name is refused, never defaulted.
+      - name: receipt verdict-code gate
+        run: |
+          python3 scripts/receipt-verdict-codes-gate.py
+          python3 scripts/receipt-verdict-codes-gate-test.py
       # A reject vector is graded by intersecting the codes a rail emits with
       # the codes it declares, so a cell naming both conditions a statement
       # deliberately carries is satisfied by either one of them and forces
@@ -1082,6 +1090,8 @@ jobs:
         run: uv run --extra dev pytest corpora/vectors-propagation-step/tests -q
       - name: containment-journal cases regenerate, force every check and refuse a cut edge that still delivers
         run: uv run --extra dev pytest corpora/vectors-containment-journal/tests -q
+      - name: decision-client cases regenerate, force every check and fail a client that reads a fault as an allow
+        run: uv run --extra dev pytest corpora/vectors-decision-client-failure-modes/tests -q
       - name: agent-card-receipt cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-agent-card-receipt/tests -q
       - name: credential-release cases regenerate and force every check
@@ -1587,6 +1597,45 @@ jobs:
         env:
           OUTCOME: ${{ steps.runtimebad.outcome }}
           RESULT: ${{ steps.runtimebad.outputs.result }}
+        run: |
+          echo "outcome=$OUTCOME result=$RESULT"
+          test "$OUTCOME" = failure
+          test "$RESULT" = fail
+      # A decision client through the same runtime input: the closed reference
+      # client withholds the action on every fault and must pass every scenario;
+      # the open client reads a fault or an unknown verdict as an allow and must
+      # fail the job.
+      - name: the action drives a decision client through the failure-mode matrix
+        id: decisionclient
+        uses: ./
+        with:
+          corpus: vectors-decision-client-failure-modes
+          runtime: python3 corpora/vectors-decision-client-failure-modes/tests/client_adapter.py --policy closed
+          artifact-name: agent-evidence-vectors-results-decision-client
+          report-path: decision-client-report.json
+      - name: every decision-client scenario ran and passed
+        env:
+          RESULT: ${{ steps.decisionclient.outputs.result }}
+          VECTORS: ${{ steps.decisionclient.outputs.vectors }}
+          EXECUTED: ${{ steps.decisionclient.outputs.executed }}
+        run: |
+          echo "result=$RESULT scenarios=$VECTORS executed=$EXECUTED"
+          test "$RESULT" = pass
+          test "$VECTORS" -gt 0
+          test "$EXECUTED" = "$VECTORS"
+      - name: the action fails a decision client that fails open
+        id: decisionclientbad
+        continue-on-error: true
+        uses: ./
+        with:
+          corpus: vectors-decision-client-failure-modes
+          runtime: python3 corpora/vectors-decision-client-failure-modes/tests/client_adapter.py --policy open
+          artifact-name: agent-evidence-vectors-results-decision-client-bad
+          report-path: decision-client-bad-report.json
+      - name: and that decision-client job would have failed
+        env:
+          OUTCOME: ${{ steps.decisionclientbad.outcome }}
+          RESULT: ${{ steps.decisionclientbad.outputs.result }}
         run: |
           echo "outcome=$OUTCOME result=$RESULT"
           test "$OUTCOME" = failure

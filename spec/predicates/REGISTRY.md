@@ -137,6 +137,20 @@ owner's reconciliation answers and ledger count, the reservation held for it and
 outcome the runtime reported, so a consumer can tell a settled effect from an
 unknown one and a safe resend from a duplicate.
 
+### `predicate/v1/decision-client-failure-modes`
+
+- Document: `corpora/vectors-decision-client-failure-modes/README.md`
+- Corpus: `corpora/vectors-decision-client-failure-modes/`, suite `decision-client-failure-modes/v1`
+- Rails: `corpusreaders/decisionclient.go`, `packaging/agent_evidence_vectors/decisionclient.py`
+  and the runtime contract in `packaging/agent_evidence_vectors/decisionclient_runtime.py`
+
+The predicate carries one decision a client took when it asked a decision point
+whether an action may run: the request, the client's mode and timeout, the facts of
+the exchange (reached, timed out, HTTP status, whether the body parsed and the
+verdict it carried), the condition, outcome and basis the client recorded, and
+whether the action was performed, so a consumer can tell a policy decision from a
+fallback and an allow from a fault read as one.
+
 ### `predicate/v1/evaluation-claim`
 
 - Document: `spec/predicates/evaluation-claim.md`
@@ -256,7 +270,11 @@ For one declared sink and test window, whether an effect from a task in flight c
   consumption state to the agent's operation key, and rows written for revision
   04 (`CS41` to `CS49`) that add a paid call's payee and settled terms; `CS7`, `CS8`, `CS17`, `CS18` to `CS22`, `CS25` to `CS33`, `CS38` to `CS40`, `CS48` and `CS49` are
   files of several records judged as a set. Rows R1 to R9 are retained records
-  judged by the dating check of Section 4.7. Judged by `packaging/agent_evidence_vectors/auditrecord.py`.
+  judged by the dating check of Section 4.7. Rows `PR1` to `PR11`, written for revision 04, test
+  the optional `principal` member, the authenticated principal bound to the agent's credential
+  digest and to the issuer key's RFC 7638 thumbprint
+  ([proposed text](../../docs/proposals/audit-record-04-principal.md)).
+  Judged by `packaging/agent_evidence_vectors/auditrecord.py`.
   Releases up to v0.25.0 test revision 02 of the earlier draft.
 - Status: current. The URI will not move, because a record carries it inside
   the bytes its producer signed.

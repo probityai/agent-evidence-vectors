@@ -1,0 +1,159 @@
+{
+  "schema": "receipt-verdict-codes/v1",
+  "classification": "A report that is not clean takes the verdict code of its primary code, the first code detected. A valid report takes the code of its worst row tier: unattested, then declared. A report whose primary code is in no list here is refused, never defaulted.",
+  "codes": [
+    {
+      "code": "MALFORMED",
+      "kind": "failure",
+      "meaning": "The document is unreadable, or breaks a shape rule, or its signed root commits to records the document does not carry, which is what a removed call looks like.",
+      "validity_codes": [
+        "statement-malformed",
+        "statement-type-unsupported",
+        "predicate-type-unsupported",
+        "member-spelling",
+        "result-vocabulary",
+        "environment-incomplete",
+        "posture-vocabulary",
+        "vocabulary-missing",
+        "vocabulary-not-canonical",
+        "vocabulary-caught-not-subset",
+        "manifest-duplicate-attack",
+        "corpus-manifest-no-attacks",
+        "manifest-expected-payloads-malformed",
+        "coverage-missing",
+        "row-attack-unknown",
+        "malformed-missing-actual-layer",
+        "clean-row-layer-not-none",
+        "subject-cardinality",
+        "subject-sha256-missing",
+        "digest-not-canonical",
+        "run-entropy-missing",
+        "issued-at-missing",
+        "issued-at-malformed",
+        "record-undecodable",
+        "record-signatures-empty",
+        "ref-malformed",
+        "payload-not-ijson",
+        "payload-not-canonical",
+        "payload-media-type",
+        "payload-missing-reserved",
+        "payload-commitment-malformed",
+        "batch-root-orphaned"
+      ],
+      "consumer_policy_codes": [],
+      "tier": null,
+      "vector": "v577011f7dd9a08fe"
+    },
+    {
+      "code": "LEAF_HASH_MISMATCH",
+      "kind": "failure",
+      "meaning": "Carried bytes do not hash to the digest stated for them, or to the digest the consumer pinned. The document was edited.",
+      "validity_codes": [
+        "corpus-digest-mismatch",
+        "vocabulary-digest-mismatch",
+        "run-binding-mismatch",
+        "observed-set-mismatch",
+        "attribution-pin-unmatched"
+      ],
+      "consumer_policy_codes": [
+        "corpus-anchor-mismatch",
+        "subject-anchor-mismatch",
+        "substrate-anchor-mismatch"
+      ],
+      "tier": null,
+      "vector": "v02fd1bc1d7916002"
+    },
+    {
+      "code": "PROOF_BROKEN",
+      "kind": "failure",
+      "meaning": "A record's hash does not reach the signed batch root, or the root cannot be recomputed from the records carried.",
+      "validity_codes": [
+        "batch-root-mismatch",
+        "batch-root-missing",
+        "duplicate-record"
+      ],
+      "consumer_policy_codes": [],
+      "tier": null,
+      "vector": "v28b0cf874ea02de1"
+    },
+    {
+      "code": "CLAIM_NOT_BOUND",
+      "kind": "failure",
+      "meaning": "A readable claim disagrees with the sealed record behind it, or cites no record that can carry it.",
+      "validity_codes": [
+        "refs-empty",
+        "caught-row-uncovered",
+        "reconstructed-row-uncovered",
+        "clean-row-uncovered",
+        "arming-covers-nothing",
+        "sealed-covers-nothing",
+        "examination-covers-nothing",
+        "record-kind-unknown-covers-nothing",
+        "moat-drop-covers-nothing",
+        "uncommitted-observation-covers-nothing",
+        "ref-out-of-range",
+        "records-absent",
+        "fail-closed-substrate-row",
+        "method-cap-exceeded",
+        "clean-row-contradicted",
+        "interception-record-orphaned",
+        "sealed-record-absent",
+        "observed-attack-uncaught",
+        "assessed-set-exceeds-declaration",
+        "attribution-pinned-recordless",
+        "attribution-unpinnable"
+      ],
+      "consumer_policy_codes": [],
+      "tier": null,
+      "vector": "v131478f1be775746"
+    },
+    {
+      "code": "SUMMARY_MISMATCH",
+      "kind": "failure",
+      "meaning": "The summary disagrees with the receipt's own rows.",
+      "validity_codes": [
+        "coverage-incomplete",
+        "result-recompute-mismatch"
+      ],
+      "consumer_policy_codes": [],
+      "tier": null,
+      "vector": "vcb23d2c4509c9daf"
+    },
+    {
+      "code": "NOT_PUBLICLY_VERIFIABLE",
+      "kind": "limit",
+      "meaning": "The statement is well formed, but a substrate row is not attested under a key the consumer pinned, or rests on a published test key. Nobody holding only the document can check who observed it.",
+      "validity_codes": [],
+      "consumer_policy_codes": [
+        "observation-key-published",
+        "substrate-row-unattested"
+      ],
+      "tier": "unattested",
+      "vector": "v550c91df0d36a218"
+    },
+    {
+      "code": "NOT_RECONSTRUCTIBLE",
+      "kind": "limit",
+      "meaning": "The statement is well formed, but its rows rest on no sealed observation record, so their claims cannot be tied back to hashes. Membership of the signed result is all it shows.",
+      "validity_codes": [],
+      "consumer_policy_codes": [],
+      "tier": "declared",
+      "vector": "v9cc570167acf4ae8"
+    }
+  ],
+  "outside_receipt_axis": [
+    "accepted-results-malformed",
+    "clean-row-unintercepted",
+    "corpus-anchor-unpinned",
+    "demanded-class-unassessed",
+    "evidence-age-exceeded",
+    "issuance-lag-exceeded",
+    "observed-instant-absent",
+    "result-not-accepted",
+    "row-gate-decline-unreachable",
+    "row-gate-undeclared",
+    "scope-unpinned",
+    "subject-anchor-unpinned",
+    "substrate-anchor-unpinned"
+  ]
+}

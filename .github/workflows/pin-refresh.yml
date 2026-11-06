@@ -36,7 +36,15 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: main
-      - uses: probityai/.github/actions/pin-refresh@ca2ba06de3bc0fb385e81a338873cbf26a3eaaf5 # main
+          # The action pushes with its own GH_TOKEN header; a persisted checkout
+          # credential adds a second Authorization header and GitHub refuses the push
+          # with HTTP 400 ("Duplicate header"), which left the family lock stale.
+          persist-credentials: false
+      - name: write the table download badges as static files
+        run: python3 scripts/refresh-badges.py || true
+        env:
+          PEPY_API_KEY: ${{ secrets.PEPY_API_KEY }}
+      - uses: probityai/.github/actions/pin-refresh@bfaca9ac2695e0bb5c669adaf19c7caad19761d3 # main
         with:
           ci: |
             ci.yml

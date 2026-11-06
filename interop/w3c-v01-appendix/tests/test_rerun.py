@@ -157,3 +157,44 @@ def test_r6_v01_refuses_without_the_r6_rerun(tmp_path: Path) -> None:
     w.mkdir()
     with pytest.raises(rerun.Refused, match="run R6 first"):
         rerun.row_r6_v01(w, w / "log.txt", rerun.ROWS["rows"]["R6-v01"])
+
+
+
+def _recount_inputs(tmp_path: Path) -> tuple[Path, Path]:
+    """Two declared checks of one seed, one of them failed by a control."""
+    records = tmp_path / "records"
+    records.mkdir()
+    checks = [{"case": "C1", "site": "s", "check_id": "action.scope"},
+              {"case": "C1", "site": "s", "check_id": "action.algorithm"}]
+    (records / "run-report.json").write_text(json.dumps({"records": checks}))
+    (records / "control-results.json").write_text(
+        json.dumps([{"seed_record": {"case": "C1"}, "site": "s", "check_id": "action.scope"}]))
+    report = tmp_path / "run-report-v01.json"
+    report.write_text(json.dumps({"roll-up": {"negative-capable": {"control": {
+        "checks": ["C1/s/action.scope"], "not-covered": ["C1/s/action.algorithm"]}}}}))
+    return records, report
+
+
+def test_r3_v01_recount_matches_the_posted_lines(tmp_path: Path) -> None:
+    records, report = _recount_inputs(tmp_path)
+    pin = dict(rerun.ROWS["rows"]["R3-v01"]["recount"],
+               prints=["2 1 1 1 True", "True True", "{'action.algorithm': 1}"])
+    detail = rerun.r3_v01_recount(Path(sys.executable), records, report, tmp_path,
+                                  tmp_path / "log.txt", pin)
+    assert detail["ok"], detail
+
+
+def test_r3_v01_recount_fails_when_a_line_differs(tmp_path: Path) -> None:
+    records, report = _recount_inputs(tmp_path)
+    detail = rerun.r3_v01_recount(Path(sys.executable), records, report, tmp_path,
+                                  tmp_path / "log.txt", rerun.ROWS["rows"]["R3-v01"]["recount"])
+    assert not detail["ok"]
+    assert detail["observed"][0] == "2 1 1 1 True"
+
+
+def test_r3_v01_recount_refuses_an_edited_program(tmp_path: Path) -> None:
+    records, report = _recount_inputs(tmp_path)
+    pin = dict(rerun.ROWS["rows"]["R3-v01"]["recount"], sha256="0" * 64)
+    with pytest.raises(rerun.Refused, match="not the pinned recount program"):
+        rerun.r3_v01_recount(Path(sys.executable), records, report, tmp_path,
+                             tmp_path / "log.txt", pin)

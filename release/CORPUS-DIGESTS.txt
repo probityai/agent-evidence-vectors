@@ -5,7 +5,7 @@
 aa8deffa934df48d43f228e48e299be2a136aef32ff5a55d18a2ef99e0286740  vectors-aci/MANIFEST.json  aci  vectors=26  no-suiteRevision
 b9151ff03291101b4074258cef91ee31206fbc4cf6e61c16e4038348d2b221bb  vectors-acs-core/MANIFEST.json  acs-core-negative-conformance  vectors=140  no-suiteRevision
 17caeb3817557d779266de29ba9a65ebf553f7503925de7e7b5a01126ede5446  vectors-admission/MANIFEST.json  adversarial-execution-evidence-admission  vectors=22  no-suiteRevision
-47fab839747e0ab798fdeb7c028dbe31a5d0ce381934fc4f7a630c99a19a8654  vectors-agent-audit-record/MANIFEST.json  agent-audit-record-conformance  vectors=193  no-suiteRevision
+42ea72536efef1045d378225ec2715a4dd202aaef30d9a024b672609b8acc2e8  vectors-agent-audit-record/MANIFEST.json  agent-audit-record-conformance  vectors=204  no-suiteRevision
 99c46fa19029691a1bdfb9f78f80c457639d9df985bf05e9609255006f07dd6e  vectors-agent-card-receipt/MANIFEST.json  agent-card-receipt/v1  vectors=44  no-suiteRevision
 27623d6a4a10f4cd0aedc1145182c276456e619c3ae771ec646746ef823f5ec4  vectors-agent-change-admission/MANIFEST.json  agent-change-admission/v1  vectors=35  no-suiteRevision
 a2674abfcf5b0edfaa8fe0f68be393066d962aee95c24362e00ea45ddbed1efc  vectors-agent-decision/MANIFEST.json  agent-decision-conformance  vectors=41  no-suiteRevision
@@ -26,6 +26,7 @@ e089c0eab6732d3e87dedacdfb1862f27b080425b8cd433c6549145efbacf92e  vectors-badge-
 1e076286f8302bf63bf7e067920ba3dc5b8eed9484ba9c8f6f8aeecd47ffbe3c  vectors-containment-journal/MANIFEST.json  containment-journal/v1  vectors=61  suiteRevision=2
 cc90a6895c3a3514cc81a5b201361a0935bdcf39eeb5a65fd35f70d1b060772a  vectors-converted-argument-binding/MANIFEST.json  converted-argument-binding/v1  vectors=17  no-suiteRevision
 585eb6e3fabced309e7d27e1240f49574e4c2cdeb42bb5d05f2fb6e1f83a6ef2  vectors-credential-release/MANIFEST.json  credential-release/v1  vectors=30  no-suiteRevision
+dbadd1d78f0615878edf5b3c71fc054c35c62afecf7d23e0b28670c4ba7c6aad  vectors-decision-client-failure-modes/MANIFEST.json  decision-client-failure-modes/v1  vectors=35  no-suiteRevision
 84ba70d6a54bfc1badf80a54655814c089bd220e9d81637d2262ac84e2a63442  vectors-delegation-lifecycle/MANIFEST.json  delegation-lifecycle/v1  vectors=54  no-suiteRevision
 57dbef274d278c7ffafb4214ff10079dd0ef4467e1135d22cd69b540045c76aa  vectors-delegator-right/MANIFEST.json  delegator-right/v1  vectors=26  no-suiteRevision
 211da5f3010d6e38a9b119cd02250865cdd4196ec56816bc0edf78d7d96eac06  vectors-dependency-selection/MANIFEST.json  artifact-binding-conformance  vectors=6  no-suiteRevision

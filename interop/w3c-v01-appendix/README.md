@@ -39,6 +39,10 @@ For the paper, [`paper/reproducing.tex`](paper/reproducing.tex) is a
 "Reproducing every result" section with this table, generated from `rows.json`
 by `python paper/make_tex.py`; a test fails when the two disagree.
 
+The check of each paper draft against these rows is in
+[`draft-checks/`](draft-checks/): one file per draft, with every number the draft
+states, the value the rerun gives, and the text to paste where they differ.
+
 ## What the harness checks
 
 - A commit is fetched by its full SHA and the checkout's `HEAD` is compared
@@ -63,7 +67,7 @@ values.
 | R1 | `uvx agent-evidence-vectors==0.12.0 --emit-w3c-report report.json` | release 0.12.0, commit `2f3aee40` | `report.json` `37288d8d`, `conformance-report.json` `ee349e66` (Sep/0089) |
 | R2 | `python3 -P tools/emitir-55.py --runner "<runner>" <out>` | `NicolasRocchia/disensor` `dbdb6518`, CPython 3.14.2, jsonschema 4.26.0, zip from 0063 | every file of the zip; `SHA256SUMS` `3714de64` (0063) |
 | R3 | `python3 emit_w3c_v01.py --artifact papers/dependable-multiroot-agent-evidence/artifact --out <out> --runner "<runner>"` | `tyche-institute/eatf-multiroot-softwarex` `c421dadc`, script from the 0060 zip | every file of `records/`; `SHA256SUMS` `8e52d99a` (0060, 0062) |
-| R3-v01 | `python3 reencode_v01.py <R3 records/> --out run-report-v01.json` | converter from Nov/0000 (`7878f24e`), records from the R3 rerun | `run-report-v01.json` `0e608637` (Nov/0000) |
+| R3-v01 | `python3 reencode_v01.py <R3 records/> --out run-report-v01.json`, then the recount `python3 -I rows/r3_v01_recount.py <R3 records/> run-report-v01.json` | converter from Nov/0000 (`7878f24e`), records from the R3 rerun, recount program from Nov/0023 | `run-report-v01.json` `0e608637` (Nov/0000); the recount prints the three lines posted in Nov/0023 |
 | R4 | `python emit.py --runner "<name>" --runner-wrote none --out <out>` | `AgentAvow/AgentAvow` `fbbbd4ac`, cryptography 50.0.2, rfc8785 0.1.4 | every committed record except `run.json`; committed `SHA256SUMS` `c720c68a` (0099) |
 | R4-driver | `python fetch_fixture.py --output vectors.json` then `python run_agentavow.py --fixture vectors.json` | this repository at `82b8bb67`, producer `b7c5cd2f` | report equal to `recorded-run.json` (lock moved in #236) |
 | R5 | `python3 -m paybench.w3c_report.emit --out <file> --verify` | `agentic-paybench/payhelm` `c221b478` | `7eb4e434` (0080, 0083, 0084) |

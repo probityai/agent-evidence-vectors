@@ -144,6 +144,7 @@ from agent_evidence_vectors import (
     connectorscope,
     containmentjournal,
     convertedargs,
+    decisionclient,
     delegationlifecycle,
     delegatorright,
     dispatchfence,
@@ -3920,6 +3921,7 @@ def _run_non_reference_suite(
         evidencecell.SUITE,
         propagationstep.SUITE,
         containmentjournal.SUITE,
+        decisionclient.SUITE,
         *cardreceipt.SUITES,
         convertedargs.SUITE,
         delegatorright.SUITE,
@@ -3968,6 +3970,7 @@ def _run_non_reference_suite(
         evidencecell.SUITE: evidencecell.run,
         propagationstep.SUITE: propagationstep.run,
         containmentjournal.SUITE: containmentjournal.run,
+        decisionclient.SUITE: decisionclient.run,
         **{suite: cardreceipt.runner(suite) for suite in cardreceipt.SUITES},
         convertedargs.SUITE: convertedargs.run,
         delegatorright.SUITE: delegatorright.run,
@@ -5497,12 +5500,20 @@ def runtime_main(argv: list[str]) -> int:
     """Run a runtime adapter through the scenarios of a corpus with a runtime contract."""
     from pathlib import Path
 
-    from agent_evidence_vectors import uncertaineffect_runtime
+    from agent_evidence_vectors import (
+        decisionclient,
+        decisionclient_runtime,
+        uncertaineffect_runtime,
+    )
 
+    runners = {
+        uncertaineffect.SUITE: uncertaineffect_runtime.run_runtime,
+        decisionclient.SUITE: decisionclient_runtime.run_runtime,
+    }
     parser = argparse.ArgumentParser(
         prog="agent-evidence-vectors runtime",
         description="drive a runtime adapter, run as <runtime> <scenario.json>, through a "
-        "corpus's runtime scenarios against a counting effect owner",
+        "corpus's runtime scenarios against the stub services that corpus defines",
     )
     parser.add_argument("--corpus", default="vectors-uncertain-effect")
     parser.add_argument("--vectors", default=None, help="corpus directory (overrides --corpus)")
@@ -5511,15 +5522,15 @@ def runtime_main(argv: list[str]) -> int:
     args = parser.parse_args(argv)
     root = args.vectors or corpus_dir(args.corpus)
     manifest = _read_manifest_suite(root)
-    if manifest != uncertaineffect.SUITE:
+    runner = runners.get(manifest or "")
+    if runner is None:
         print(
             f"the runtime {args.runtime!r} {DID_NOT_RUN}: the corpus at {root} "
-            f"({manifest!r}) defines no runtime contract; only "
-            f"{uncertaineffect.SUITE!r} does",
+            f"({manifest!r}) defines no runtime contract; only {sorted(runners)!r} do",
             file=sys.stderr,
         )
         return 2
-    return uncertaineffect_runtime.run_runtime(args.runtime, args.report, Path(root))
+    return runner(args.runtime, args.report, Path(root))
 
 
 def _read_manifest_suite(root: str) -> str | None:

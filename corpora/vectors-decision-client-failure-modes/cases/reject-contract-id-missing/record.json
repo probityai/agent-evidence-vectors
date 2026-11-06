@@ -1,0 +1,30 @@
+{
+  "client": {
+    "mode": "default",
+    "timeoutMillis": 1000
+  },
+  "decidedAt": "2026-11-06T12:00:00Z",
+  "decision": {
+    "basis": "policy",
+    "condition": "ok",
+    "halted": false,
+    "outcome": "allow"
+  },
+  "effect": {
+    "performed": true
+  },
+  "exchange": {
+    "bodyIsJsonObject": true,
+    "httpStatus": 200,
+    "reached": true,
+    "timedOut": false,
+    "verdict": "allow"
+  },
+  "recordId": "record-reject-contract-id-missing",
+  "request": {
+    "action": "transfer_funds",
+    "argsDigest": "sha256:c2f2499c7bf25bd3635f69f9d75caad7861c1fd6dec99b8900243411253b329f",
+    "consequential": true
+  },
+  "scenario": "control-allow"
+}

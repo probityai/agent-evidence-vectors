@@ -1,10 +1,10 @@
 # dsse
 
+[![CI](https://github.com/probityai/agent-evidence-vectors/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/probityai/agent-evidence-vectors/actions/workflows/ci.yml)
 [![crates.io](https://img.shields.io/crates/v/dsse.svg)](https://crates.io/crates/dsse)
 [![Downloads](https://img.shields.io/crates/d/dsse.svg)](https://crates.io/crates/dsse)
-[![docs.rs](https://img.shields.io/docsrs/dsse)](https://docs.rs/dsse)
 [![license](https://img.shields.io/crates/l/dsse.svg)](https://github.com/probityai/agent-evidence-vectors/tree/main/crates/dsse#license)
-[![CI](https://github.com/probityai/agent-evidence-vectors/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/probityai/agent-evidence-vectors/actions/workflows/ci.yml)
+[![docs.rs](https://img.shields.io/docsrs/dsse)](https://docs.rs/dsse)
 
 DSSE, the Dead Simple Signing Envelope that in-toto and Sigstore sign inside, as a Rust crate on
 its own: no in-toto dependency and no Sigstore dependency.
