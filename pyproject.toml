@@ -140,6 +140,7 @@ only-include = [
     "corpora/vectors-a2a-jcs-v01",
     "corpora/vectors-aci",
     "corpora/vectors-acs-core",
+    "corpora/vectors-acs-decision-record",
     "corpora/vectors-admission",
     "corpora/vectors-agent-audit-record",
     "corpora/vectors-agent-card-receipt",
@@ -206,6 +207,7 @@ exclude = [
     "corpora/vectors-a2a-jcs-v01/**/*.py",
     "corpora/vectors-aci/**/*.py",
     "corpora/vectors-acs-core/**/*.py",
+    "corpora/vectors-acs-decision-record/**/*.py",
     "corpora/vectors-admission/**/*.py",
     "corpora/vectors-agent-audit-record/**/*.py",
     "corpora/vectors-agent-card-receipt/**/*.py",
@@ -271,6 +273,7 @@ exclude = [
 "corpora/vectors-a2a-jcs-v01" = "agent_evidence_vectors/corpora/vectors-a2a-jcs-v01"
 "corpora/vectors-aci" = "agent_evidence_vectors/corpora/vectors-aci"
 "corpora/vectors-acs-core" = "agent_evidence_vectors/corpora/vectors-acs-core"
+"corpora/vectors-acs-decision-record" = "agent_evidence_vectors/corpora/vectors-acs-decision-record"
 "corpora/vectors-admission" = "agent_evidence_vectors/corpora/vectors-admission"
 "corpora/vectors-agent-audit-record" = "agent_evidence_vectors/corpora/vectors-agent-audit-record"
 "corpora/vectors-agent-card-receipt" = "agent_evidence_vectors/corpora/vectors-agent-card-receipt"
@@ -411,6 +414,7 @@ only-include = [
     "corpora/vectors-a2a-jcs-v01",
     "corpora/vectors-aci",
     "corpora/vectors-acs-core",
+    "corpora/vectors-acs-decision-record",
     "corpora/vectors-admission",
     "corpora/vectors-agent-audit-record",
     "corpora/vectors-agent-card-receipt",

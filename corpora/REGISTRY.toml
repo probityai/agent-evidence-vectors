@@ -169,18 +169,6 @@ standards = ["owasp"]
 shapes = ["scope-overreach", "replay", "stale-authority"]
 
 [[corpus]]
-id = "vectors-admission"
-path = "corpora/vectors-admission"
-wheel = true
-sdist = true
-title = "Admission under consumer policy"
-summary = "A verifier must report success for an execution evidence statement only when the consumer's pinned policy admits it, never on a bare pass."
-record_class = "policy"
-domains = ["provenance", "authority"]
-standards = ["in-toto"]
-shapes = ["missing-binding", "self-report"]
-
-[[corpus]]
 id = "vectors-acs-decision-record"
 path = "corpora/vectors-acs-decision-record"
 wheel = true
@@ -191,6 +179,18 @@ record_class = "record"
 domains = ["authority", "provenance"]
 standards = ["in-toto", "rfc8785"]
 shapes = ["missing-binding", "tampering", "forged-signature"]
+
+[[corpus]]
+id = "vectors-admission"
+path = "corpora/vectors-admission"
+wheel = true
+sdist = true
+title = "Admission under consumer policy"
+summary = "A verifier must report success for an execution evidence statement only when the consumer's pinned policy admits it, never on a bare pass."
+record_class = "policy"
+domains = ["provenance", "authority"]
+standards = ["in-toto"]
+shapes = ["missing-binding", "self-report"]
 
 [[corpus]]
 id = "vectors-agent-audit-record"
