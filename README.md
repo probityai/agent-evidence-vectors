@@ -2,11 +2,11 @@
 
 <p>
 <a href="https://github.com/probityai/agent-evidence-vectors/actions/workflows/ci.yml"><img height="16" alt="CI" src="https://github.com/probityai/agent-evidence-vectors/actions/workflows/ci.yml/badge.svg"></a>
-<a href="https://pypi.org/project/agent-evidence-vectors/"><img height="16" alt="Version" src="https://img.shields.io/pypi/v/agent-evidence-vectors?style=flat-square&color=blue&label=&logo=pypi&logoColor=white"></a>
-<a href="https://pepy.tech/projects/agent-evidence-vectors"><img height="16" alt="Downloads" src="https://static.pepy.tech/personalized-badge/agent-evidence-vectors?period=total&units=international_system&left_color=%23555&right_color=%23007ec6&left_text=downloads"></a>
-<a href="https://github.com/probityai/agent-evidence-vectors/blob/main/LICENSE"><img height="16" alt="License" src="https://img.shields.io/badge/Apache--2.0-blue?style=flat-square"></a>
-<a href="https://github.com/probityai/agent-evidence-vectors/stargazers"><img height="16" alt="Stars" src="https://img.shields.io/badge/%E2%98%85-star-blue?style=flat-square"></a>
-<a href="https://github.com/probityai/probity"><img height="16" alt="Checked with Probity" src="https://img.shields.io/badge/-Probity-blue?style=flat-square&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAkFBMVEX8%2B%2Bzr5NPgyrfKyLnSq5Wzo4tWltqRkZI2kPU1kvk1j%2FMwkPgzjfI2jO80jO40jO3MdWOZc1SLblN1aFxxXFJzVDY2i%2B40i%2B00i%2Bw0i%2Bs0ius1iOZAapwugNYtdbUqaq0qV4tkRzJXOB47Oz43JRkjNEYiHBwlFxIfFxMcEg0XEQ0WEAwXDAUWCAEOCQcJAgCa503RAAAB3klEQVR42rWT2ZacIBCGceHYoN240SK2Crig4vL%2BbxfszJyZTmaSm6S4rI9a%2FwK3vxj41wDj5E9AwS%2Foxjn7DmARqgVHCBHyJcBxJeZtEG2Nv4hAGEPXYVumddvWAbFfgJJECDfDukxa63ldmw%2FiCTCEK%2BteFzNbQI%2BbQPwzwKJGjNO2LMacxNqK1wgcNfO2mqfbHMs8NEkeXT8AjurRTKfbMlqOa5vFyc8cZclu4PSvWptlPlOMeb4PsQu78MoYQWFIwKUet0nPZl%2FMki1H3x%2FKd1PVhhdkS2tDgM7m9bR3XX8EXtYde59SSVVXNx2NMwuIbbGl74HUu%2BcFXrArSpXqlVSpGz8sUG%2FjoCej1RHA6ZAgl1SmUvVUQjduEGDIdt0MxuwjCHYNAZSwT1IbhaZ%2BFt7BrUAXbguxnx3gZ9AJVJLal0hKaYv4OShGbu249Z4F4jhQ1PcpTUYLDBF5WxZB9dBB14O%2Bm6eu48QQpjBXIizf113iS9sF0LYxZMD1PODbVvtznu96sGOrWyFEiwQEwHNcC8gaF58UxfG1qiqMqzx2AACJ0i0qXyRXEIwjwnD1SBOYdKJ%2B7vxF1eRUaxGF9ePRVgiX3xxOccdhiK5v6v%2Fysgp2Z%2BR%2F3ebv9gP5RU8tSdZhDwAAAABJRU5ErkJggg%3D%3D"></a>
+<a href="https://pypi.org/project/agent-evidence-vectors/"><img height="16" alt="Version" src="https://img.shields.io/pypi/v/agent-evidence-vectors?style=flat-square&color=blue&label=&logo=pypi&logoColor=white&cacheSeconds=86400"></a>
+<a href="https://pepy.tech/projects/agent-evidence-vectors"><img height="16" alt="Downloads" src="https://img.shields.io/pepy/dt/agent-evidence-vectors?style=flat-square&color=blue&label=downloads&cacheSeconds=86400"></a>
+<a href="https://github.com/probityai/agent-evidence-vectors/blob/main/LICENSE"><img height="16" alt="License" src="assets/badges/license.svg"></a>
+<a href="https://github.com/probityai/agent-evidence-vectors/stargazers"><img height="16" alt="Stars" src="assets/badges/stars.svg"></a>
+<a href="https://github.com/probityai/probity"><img height="16" alt="Checked with Probity" src="assets/badges/checked-with-probity.svg"></a>
 </p>
 
 Test an agent-evidence verifier against saved records with known outcomes. The corpora cover valid records, altered bytes, missing evidence and open specification interpretations.
