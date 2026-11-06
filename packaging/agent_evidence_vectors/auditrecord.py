@@ -2183,8 +2183,8 @@ SET_RULES: list[tuple[str, str, Callable[[list[dict[str, Any]]], bool]]] = [
     ("stale-revision", "consumption-set-stale-revision", _set_stale_revision),
     ("release-unshown", "consumption-set-release-unshown", _set_release_unshown),
     ("asset-mismatch", "consumption-set-asset-mismatch", _set_asset_mismatch),
-    ("settled-uncounted", "consumption-set-settled-uncounted", _set_settled_uncounted),
     ("unexpired-hold", "consumption-set-release-unshown", _set_unexpired_hold),
+    ("settled-uncounted", "consumption-set-settled-uncounted", _set_settled_uncounted),
 ]
 
 

@@ -3055,6 +3055,8 @@ def _zero_settled_later(reported_at: str) -> Callable[[], list[dict[str, Any]]]:
         _in_asset(later, USDC_BASE_SEPOLIA)
         _consumption(later)["payee"] = PAYEE_P
         later["decision"]["reportedAt"] = reported_at
+        issued = datetime.datetime.fromisoformat(reported_at.replace("Z", "+00:00"))
+        later["issuedAt"] = (issued + datetime.timedelta(seconds=9)).strftime("%Y-%m-%dT%H:%M:%SZ")
         read_at = datetime.datetime.fromisoformat(reported_at.replace("Z", "+00:00"))
         _read_state_at(later, (read_at - datetime.timedelta(seconds=2)).strftime("%Y-%m-%dT%H:%M:%SZ"))
         seal_commitment(later)

@@ -481,8 +481,8 @@ var arSetRules = []arSetRule{
 	{"stale-revision", "consumption-set-stale-revision", arSetStaleRevision},
 	{"release-unshown", "consumption-set-release-unshown", arSetReleaseUnshown},
 	{"asset-mismatch", "consumption-set-asset-mismatch", arSetAssetMismatch},
-	{"settled-uncounted", "consumption-set-settled-uncounted", arSetSettledUncounted},
 	{"unexpired-hold", "consumption-set-release-unshown", arSetUnexpiredHold},
+	{"settled-uncounted", "consumption-set-settled-uncounted", arSetSettledUncounted},
 }
 
 // arSetUnexpiredHold: the hold of an operation that settled 0 ends only when a

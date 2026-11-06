@@ -896,7 +896,7 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
     (
         "consumed taking the held amount of an upto permit, not the settled amount",
         lambda: _reading(auditrecord.SETTLED_READING, "amount", "held"),
-        "CS48,CS53,CS54",
+        "CS48,CS54",
     ),
     (
         "every record of a set grouped into one ledger whatever its limitDigest",
