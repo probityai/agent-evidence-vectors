@@ -1,0 +1,556 @@
+{
+  "aggregate": {
+    "counts": {
+      "accept": 1,
+      "reject": 10
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 11
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-mcp-authz/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in corpora/vectors-mcp-authz/gen_vectors.py",
+    "routine-file": "corpora/vectors-mcp-authz/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "102cc531fa1b870d4004ada53ec35dc4bff5ce741b5cb7806358637094eac594",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "3fd78da5f041c2a0cfb4df33a7944b32d8a0c65da7657ecbbd7cd894a93db883"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "3fd78da5f041c2a0cfb4df33a7944b32d8a0c65da7657ecbbd7cd894a93db883"
+        },
+        "swapped-in": "bb00e5f5943e23fdb074f2f882ee5f80e23499f72668adbb13334ea1ecbb4db2",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-mcp-authz/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "310ce1de55453918386566af60db3f8f606c2c0155698b983f5c9c5b0fd5c298"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "3fd78da5f041c2a0cfb4df33a7944b32d8a0c65da7657ecbbd7cd894a93db883"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "3fd78da5f041c2a0cfb4df33a7944b32d8a0c65da7657ecbbd7cd894a93db883"
+        },
+        "swapped-in": "67be604a0b7a244a36c6b9bb2bf24313612158bb6aa908aaef6ccc7862d7e3da",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-mcp-authz/README.md",
+      "serialization": "bytes",
+      "sha256": "6045c1004ca39280b51b1e23ea6a1403b7953d722dd27fbc4735cac05e71181e"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "3fd78da5f041c2a0cfb4df33a7944b32d8a0c65da7657ecbbd7cd894a93db883"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "3fd78da5f041c2a0cfb4df33a7944b32d8a0c65da7657ecbbd7cd894a93db883"
+        },
+        "swapped-in": "4773d9bc4d2bea481f160cefab7483fa18dcc2f7a7f6ae7827264ca738015611",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-mcp-authz/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "b6712e21c7b95a452a8fff59dd2c49ae8f26c70a0ef63fbc2e91ce8e873ee3f8"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "observations",
+        "recursive": false,
+        "suffix": ".json"
+      }
+    ],
+    "root": "corpora/vectors-mcp-authz"
+  },
+  "byte-identity": {
+    "pins": 11,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json corpora/vectors-mcp-authz",
+      "aee-verify -json corpora/vectors-mcp-authz",
+      "aee-verify corpora/vectors-mcp-authz"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpusreaders",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "5314c6f4bc4ce9704c679b9be9a996e5f4f0f4868dee4abeb5dedf78a472e48a"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpusreaders",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "authorization-server-metadata-defective",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "challenge-defective",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "client-metadata-defective",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-baseline",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "dpop-binding-broken",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "dpop-proof-malformed",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "id-jag-defective",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "resource-metadata-defective",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "settings-inconsistent",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "unauthenticated-request-served",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "workload-federation-defective",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "ca2e4d49e2c47e4b7a4c0b6ba927e0d5732624e5cf974b50c4afe0594d0387d7"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "resource-metadata-defective",
+      "authorization-server-metadata-defective",
+      "challenge-defective",
+      "settings-inconsistent",
+      "unauthenticated-request-served",
+      "conformant-baseline",
+      "dpop-proof-malformed",
+      "dpop-binding-broken",
+      "workload-federation-defective",
+      "client-metadata-defective",
+      "id-jag-defective"
+    ],
+    "path": "corpora/vectors-mcp-authz/MANIFEST.json",
+    "sha256": "ce6ca66e5b92de56158ecbfaf29fa7f98fc9514679390a1cb9a1555481a593f0"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-mcp-authz/observations/resource-metadata-defective.json",
+          "sha256": "9592ccdad00d705dc9fe7bfb0bc82954c2b48f8feb999961744f20595141e5f0"
+        }
+      ],
+      "id": "resource-metadata-defective"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-mcp-authz/observations/authorization-server-metadata-defective.json",
+          "sha256": "0a175e9218500df35e737b1c997a3ee8b14c10117d6d8be12eeaa132eebe8b03"
+        }
+      ],
+      "id": "authorization-server-metadata-defective"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-mcp-authz/observations/challenge-defective.json",
+          "sha256": "dce262973bb1216c5130f64305fb992059c7db50288d255bf77ad58f16dffc1b"
+        }
+      ],
+      "id": "challenge-defective"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-mcp-authz/observations/settings-inconsistent.json",
+          "sha256": "5d22a4cbd545aae25ca9cd4e5cbac7caa894b4f3a16a7d526f02c96bd426341b"
+        }
+      ],
+      "id": "settings-inconsistent"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-mcp-authz/observations/unauthenticated-request-served.json",
+          "sha256": "fa98706ef6112b5aeecf4f1806a44aa68ed33e5d640074761d6e425edc6defb2"
+        }
+      ],
+      "id": "unauthenticated-request-served"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-mcp-authz/observations/conformant-baseline.json",
+          "sha256": "1d0bc9ece710b046a48c4674ca8a88942c2f97f81cbc979cef1d3c8fe149d40d"
+        }
+      ],
+      "id": "conformant-baseline"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-mcp-authz/observations/dpop-proof-malformed.json",
+          "sha256": "21e049698262540b34141989269d577208dd3bf4c9a672bda519b81cec30ea0a"
+        }
+      ],
+      "id": "dpop-proof-malformed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-mcp-authz/observations/dpop-binding-broken.json",
+          "sha256": "cc24415685d50b6bc45ebc2c8ea3385dd1498b243e0349902a06b48622252f8b"
+        }
+      ],
+      "id": "dpop-binding-broken"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-mcp-authz/observations/workload-federation-defective.json",
+          "sha256": "d2930e174b4e515840496cf7cb05cf30da21eae0b7ac36ed825c5bf56a85e773"
+        }
+      ],
+      "id": "workload-federation-defective"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-mcp-authz/observations/client-metadata-defective.json",
+          "sha256": "73e71bfee40ef87771324f7ba04275707a77977a4c11d04a4f46515f58f76617"
+        }
+      ],
+      "id": "client-metadata-defective"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-mcp-authz/observations/id-jag-defective.json",
+          "sha256": "6af7a5af42dc5e58a0f42860ff104d86ae90e1556cb0f4f43af65e117fcd3a69"
+        }
+      ],
+      "id": "id-jag-defective"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-mcp-authz.json",
+        "serialization": "bytes",
+        "sha256": "3fd78da5f041c2a0cfb4df33a7944b32d8a0c65da7657ecbbd7cd894a93db883"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-mcp-authz.txt",
+        "serialization": "bytes",
+        "sha256": "da10c6966f211ae95076e96f794772e7770c9e7a96b6a1a0bff123497533a3c8"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "authorization-server-metadata-defective",
+      "inputs": [
+        "member:authorization-server-metadata-defective",
+        "check:authorization-server-metadata-defective"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"as-issuer-mismatch\",\"as-issuer-not-in-prm\",\"as-pkce-s256-missing\",\"as-registration-endpoint-missing\",\"as-required-field-missing\",\"as-response-type-code-missing\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "challenge-defective",
+      "inputs": [
+        "member:challenge-defective",
+        "check:challenge-defective"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"challenge-insufficient-scope-not-403\",\"challenge-resource-metadata-missing\",\"challenge-scope-offline-access\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "client-metadata-defective",
+      "inputs": [
+        "member:client-metadata-defective",
+        "check:client-metadata-defective"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"cimd-client-id-not-a-clean-https-url\",\"cimd-document-client-id-mismatch\",\"cimd-redirect-uri-unregistered\",\"cimd-support-not-advertised\",\"cimd-symmetric-authentication\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "dpop-binding-broken",
+      "inputs": [
+        "member:dpop-binding-broken",
+        "check:dpop-binding-broken"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"dpop-ath-mismatch\",\"dpop-htm-mismatch\",\"dpop-htu-mismatch\",\"dpop-key-binding-mismatch\",\"dpop-proof-replayed\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "dpop-proof-malformed",
+      "inputs": [
+        "member:dpop-proof-malformed",
+        "check:dpop-proof-malformed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"dpop-proof-alg-not-asymmetric\",\"dpop-proof-key-private\",\"dpop-proof-typ-invalid\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "id-jag-defective",
+      "inputs": [
+        "member:id-jag-defective",
+        "check:id-jag-defective"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"id-jag-audience-mismatch\",\"id-jag-client-mismatch\",\"id-jag-expired\",\"id-jag-jti-missing\",\"id-jag-typ-invalid\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "resource-metadata-defective",
+      "inputs": [
+        "member:resource-metadata-defective",
+        "check:resource-metadata-defective"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"challenge-missing\",\"prm-authorization-servers-missing\",\"prm-bearer-header-missing\",\"prm-resource-not-identical\",\"prm-scope-offline-access\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "settings-inconsistent",
+      "inputs": [
+        "member:settings-inconsistent",
+        "check:settings-inconsistent"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"as-metadata-not-json\",\"challenge-scheme-not-bearer\",\"config-resource-url-missing\",\"config-scopes-not-obtainable\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "unauthenticated-request-served",
+      "inputs": [
+        "member:unauthenticated-request-served",
+        "check:unauthenticated-request-served"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"prm-not-served\",\"required-scope-not-enforced\",\"unauthenticated-request-accepted\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "workload-federation-defective",
+      "inputs": [
+        "member:workload-federation-defective",
+        "check:workload-federation-defective"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"wif-audience-mismatch\",\"wif-issuer-untrusted\",\"wif-scope-widened\",\"wif-subject-unbound\",\"wif-token-expired\"],\"verdict\":\"invalid\"}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "3fd78da5f041c2a0cfb4df33a7944b32d8a0c65da7657ecbbd7cd894a93db883"
+      },
+      {
+        "process": "run-2",
+        "sha256": "3fd78da5f041c2a0cfb4df33a7944b32d8a0c65da7657ecbbd7cd894a93db883"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 11 pinned members of mcp-authz-observation/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 11,
+    "require": "at-least-one",
+    "selected": [
+      "resource-metadata-defective",
+      "authorization-server-metadata-defective",
+      "challenge-defective",
+      "settings-inconsistent",
+      "unauthenticated-request-served",
+      "conformant-baseline",
+      "dpop-proof-malformed",
+      "dpop-binding-broken",
+      "workload-federation-defective",
+      "client-metadata-defective",
+      "id-jag-defective"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "mcp-authz-observation/v1"
+}
