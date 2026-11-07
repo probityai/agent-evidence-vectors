@@ -1104,19 +1104,37 @@ jobs:
         run: uv run --extra dev pytest corpora/vectors-chunked-export/tests -q
       - name: done corpora regenerate, are judged clean and force every rule
         run: uv run --extra dev pytest corpora/vectors-done-receipt/tests -q
-      # probity-verify is the implementation the done rules come from, pinned in
+      # agent-evidence-verify is the implementation the done rules come from, pinned in
       # pyproject.toml's crosscheck group. Every done member goes through it, and so
-      # do its own example runs, fetched at the same commit and read by our reader.
-      - name: the done readers agree with probity-verify on every member
+      # do its own example runs, read from the same release's sdist (checked against
+      # the sha256 locked in uv.lock) and read by our reader.
+      - name: the done readers agree with agent-evidence-verify on every member
         run: |
-          rev=$(python3 -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['tool']['uv']['sources']['probity-verify']['rev'])")
-          probity="${RUNNER_TEMP:-$(mktemp -d)}/probity-at-pin"
-          git clone --quiet --filter=blob:none --no-checkout https://github.com/probityai/probity "$probity"
-          git -C "$probity" checkout --quiet "$rev" -- packages/probity-verify/examples/done-receipt
+          set -euo pipefail
+          verify="${RUNNER_TEMP:-$(mktemp -d)}/verify-sdist"
+          mkdir -p "$verify"
+          examples=$(python3 - "$verify" <<'PY'
+          import hashlib, sys, tarfile, tomllib, urllib.request
+          from pathlib import Path
+
+          out = Path(sys.argv[1])
+          pkg = next(p for p in tomllib.load(open("uv.lock", "rb"))["package"]
+                     if p["name"] == "agent-evidence-verify")
+          data = urllib.request.urlopen(pkg["sdist"]["url"], timeout=120).read()
+          if "sha256:" + hashlib.sha256(data).hexdigest() != pkg["sdist"]["hash"]:
+              sys.exit("the sdist does not match the hash locked in uv.lock")
+          archive = out / "sdist.tar.gz"
+          archive.write_bytes(data)
+          root = f"agent_evidence_verify-{pkg['version']}/examples/done-receipt"
+          with tarfile.open(archive) as tar:
+              tar.extractall(out, members=[m for m in tar.getmembers() if m.name.startswith(root)], filter="data")
+          print(out / root)
+          PY
+          )
           uv run --locked --extra dev --group crosscheck python corpora/vectors-done-receipt/crosscheck_probity_verify.py \
             corpora/vectors-done-contract corpora/vectors-done-receipt corpora/vectors-spoofed-tool-output \
             corpora/vectors-test-tampering corpora/vectors-grader-isolation corpora/vectors-done-probes \
-            --examples "$probity/packages/probity-verify/examples/done-receipt"
+            --examples "$examples"
       - name: TRACE registry anchor cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-trace-anchor/tests -q
       - name: vectors-agent-payment-mandate cases regenerate, agree and every rule is load-bearing
