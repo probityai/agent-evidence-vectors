@@ -175,7 +175,10 @@ def _open_question(record: Record) -> str | None:
 def retained(record: Record) -> dict[str, Any]:
     """The reason emitted and the values the draft licenses, as a verifier keeps them."""
     response = record["response"]
-    emitted = "absent" if "reason" not in response else str(response["reason"])
+    if "reason" not in response:
+        emitted = "absent"
+    else:
+        emitted = "null" if response["reason"] is None else str(response["reason"])
     owed = sorted("null" if value is None else value for value in owed_values(record["facts"]))
     return {"emitted": emitted, "owed": "|".join(owed)}
 

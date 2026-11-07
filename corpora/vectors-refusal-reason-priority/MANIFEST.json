@@ -1,6 +1,6 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/refusal-reason-priority",
-  "corpusDigest": "448d8b1414e5404ffeb987564ed07c5b436cedf72cd2c791a8f92e2f66244ee9",
+  "corpusDigest": "372fe137c3ce46096ffa0f8d1348d907219189900669a5badee4578e0040ad65",
   "counts": {
     "ambiguous": 3,
     "conformant": 15,
@@ -408,7 +408,7 @@
       "id": "conformant-observation-fresh",
       "path": "cases/conformant-observation-fresh",
       "retained": {
-        "emitted": "None",
+        "emitted": "null",
         "owed": "null"
       },
       "rule": "R-NULLOBS",
@@ -433,7 +433,7 @@
       "id": "conformant-observation-absent-null",
       "path": "cases/conformant-observation-absent-null",
       "retained": {
-        "emitted": "None",
+        "emitted": "null",
         "owed": "null"
       },
       "rule": "R-NULLOBS",
@@ -484,7 +484,7 @@
       "id": "nonconformant-permit-over-diagnostic-read",
       "path": "cases/nonconformant-permit-over-diagnostic-read",
       "retained": {
-        "emitted": "None",
+        "emitted": "null",
         "owed": "authority_not_determined"
       },
       "rule": "R-NOTDET",
@@ -559,7 +559,7 @@
       "id": "conformant-null-is-the-only-permit",
       "path": "cases/conformant-null-is-the-only-permit",
       "retained": {
-        "emitted": "None",
+        "emitted": "null",
         "owed": "null"
       },
       "rule": "R-CLOSED",
@@ -659,7 +659,7 @@
       "id": "conformant-inclusive-permit-at-instant",
       "path": "cases/conformant-inclusive-permit-at-instant",
       "retained": {
-        "emitted": "None",
+        "emitted": "null",
         "owed": "evidence_expired|null"
       },
       "rule": "R-DECLARED",
@@ -745,7 +745,7 @@
         "conformant: the clause says implementations SHOULD declare and attaches no consequence to a declaration that contradicts use, and the answer sits inside a licensed convention"
       ],
       "retained": {
-        "emitted": "None",
+        "emitted": "null",
         "owed": "evidence_expired|null"
       },
       "rule": "R-DECLARED",
@@ -775,7 +775,7 @@
         "exclusive: the lease instant counts as expired, so the answer is evidence_expired"
       ],
       "retained": {
-        "emitted": "None",
+        "emitted": "null",
         "owed": "evidence_expired|null"
       },
       "rule": "R-DECLARED",
@@ -851,7 +851,7 @@
       "id": "nonconformant-contract-id-missing",
       "path": "cases/nonconformant-contract-id-missing",
       "retained": {
-        "emitted": "None",
+        "emitted": "null",
         "owed": "null"
       },
       "rule": "envelope",
@@ -876,7 +876,7 @@
       "id": "nonconformant-contract-id-unknown",
       "path": "cases/nonconformant-contract-id-unknown",
       "retained": {
-        "emitted": "None",
+        "emitted": "null",
         "owed": "null"
       },
       "rule": "envelope",
