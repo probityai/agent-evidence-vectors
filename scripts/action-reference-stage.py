@@ -4,7 +4,7 @@
 This is the body of the "Check against the reference verifier" step of
 `action.yml`. It runs after the candidate verifier's replay and cannot be
 switched off. It reads the corpus the report names, hands every member that the
-reference verifier (probity-verify) can judge to the same comparison the
+reference verifier (agent-evidence-verify) can judge to the same comparison the
 repository's cross-check uses (`corpora/vectors-done-receipt/crosscheck_probity_verify.py`),
 or, for the Adversarial Execution Evidence corpus (`vectors`, the default), to the
 reference verifier's `adversarial_execution_evidence/v1` claim type, and prints
@@ -103,7 +103,7 @@ def aee_test_key(role: str = "substrate-observation-test") -> str:
 
 def aee_decide(entry: dict[str, Any], root: Path, keys: list[str]) -> dict[str, Any]:
     """The reference verifier's own judgment of one member, read from its bytes only."""
-    from probity_verify import adjudicate  # pyright: ignore[reportMissingImports]
+    from agent_evidence_verify import adjudicate  # pyright: ignore[reportMissingImports]
 
     data = (root / entry["file"]).read_bytes()
     case = {"schema_version": "probity-case/v1", "case_id": entry["id"],
@@ -210,7 +210,7 @@ def full_release(checked: int, total: int) -> bool:
 
 
 def reference_id() -> str:
-    from probity_verify.core import REFERENCE_VERIFIER_ID  # pyright: ignore[reportMissingImports]
+    from agent_evidence_verify.core import REFERENCE_VERIFIER_ID  # pyright: ignore[reportMissingImports]
 
     return str(REFERENCE_VERIFIER_ID)
 
