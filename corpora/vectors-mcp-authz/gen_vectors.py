@@ -43,10 +43,14 @@ def _json(value: object) -> bytes:
 SPECIFICATION = {
     "status": "proposal of this repository, not a vendored upstream text",
     "scope": (
-        "What an MCP server publishes about its OAuth protection, read from outside: Protected Resource "
-        "Metadata (RFC 9728), Authorization Server metadata (RFC 8414), the Bearer challenge on a request "
-        "with no token (RFC 6750 section 3), the server's authorization settings, and whether a request "
-        "with no token, or with a token that lacks a required scope, is refused. It also covers four "
+        "What an MCP server publishes about its OAuth protection, read from outside: Protected "
+        "Resource "
+        "Metadata (RFC 9728), Authorization Server metadata (RFC 8414), the Bearer challenge on "
+        "a request "
+        "with no token (RFC 6750 section 3), the server's authorization settings, and whether a "
+        "request "
+        "with no token, or with a token that lacks a required scope, is refused. It also covers "
+        "four "
         "extension surfaces: a DPoP proof and its binding to the token, a workload identity token "
         "exchanged for scopes, an OAuth Client ID Metadata Document, and an identity assertion "
         "authorization grant. JWTs are carried decoded; signatures are outside this corpus. All "
@@ -61,7 +65,8 @@ SPECIFICATION = {
     ],
     "verifierContract": (
         "verifier <observation file>: the last stdout line is one JSON object with `verdict` "
-        "(valid or invalid) and `codes` (the finding codes, a set); exit 0 for valid, 1 for invalid."
+        "(valid or invalid) and `codes` (the finding codes, a set); exit 0 for valid, 1 for "
+        "invalid."
     ),
 }
 
@@ -109,7 +114,8 @@ def _baseline() -> Obs:
             "under_scoped": {
                 "status": 403,
                 "www_authenticate": (
-                    f'Bearer error="insufficient_scope", scope="mcp:read mcp:write", resource_metadata="{PRM_URL}"'
+                    f'Bearer error="insufficient_scope", scope="mcp:read mcp:write", '
+                    f'resource_metadata="{PRM_URL}"'
                 ),
             },
         },
@@ -135,8 +141,14 @@ def _as_defective(o: Obs) -> None:
 
 
 def _challenge_defective(o: Obs) -> None:
-    o["observed"]["unauthenticated"] = {"status": 401, "www_authenticate": 'Bearer scope="mcp:read offline_access"'}
-    o["observed"]["under_scoped"] = {"status": 401, "www_authenticate": 'Bearer error="invalid_token"'}
+    o["observed"]["unauthenticated"] = {
+        "status": 401,
+        "www_authenticate": 'Bearer scope="mcp:read offline_access"',
+    }
+    o["observed"]["under_scoped"] = {
+        "status": 401,
+        "www_authenticate": 'Bearer error="invalid_token"',
+    }
 
 
 def _config_defective(o: Obs) -> None:
@@ -166,7 +178,8 @@ CORE_MEMBERS: tuple[Member, ...] = (
             "prm-resource-not-identical",
             "prm-scope-offline-access",
         ],
-        "resource metadata names a different resource, no authorization server, no header method and offline_access, and the 401 carries no challenge",
+        "resource metadata names a different resource, no authorization server, no header "
+        "method and offline_access, and the 401 carries no challenge",
     ),
     (
         "authorization-server-metadata-defective",
@@ -180,7 +193,8 @@ CORE_MEMBERS: tuple[Member, ...] = (
             "as-required-field-missing",
             "as-response-type-code-missing",
         ],
-        "authorization server metadata without S256, the code response type, a token endpoint or a registration endpoint, under another issuer",
+        "authorization server metadata without S256, the code response type, a token endpoint "
+        "or a registration endpoint, under another issuer",
     ),
     (
         "challenge-defective",
@@ -191,7 +205,8 @@ CORE_MEMBERS: tuple[Member, ...] = (
             "challenge-resource-metadata-missing",
             "challenge-scope-offline-access",
         ],
-        "the 401 challenge asks for offline_access and points to no resource metadata, and an under-scoped token is answered 401",
+        "the 401 challenge asks for offline_access and points to no resource metadata, and an "
+        "under-scoped token is answered 401",
     ),
     (
         "settings-inconsistent",
@@ -203,16 +218,19 @@ CORE_MEMBERS: tuple[Member, ...] = (
             "config-resource-url-missing",
             "config-scopes-not-obtainable",
         ],
-        "no resource identifier, a required scope a registered client cannot obtain, non-JSON server metadata and a Basic challenge",
+        "no resource identifier, a required scope a registered client cannot obtain, non-JSON "
+        "server metadata and a Basic challenge",
     ),
     (
         "unauthenticated-request-served",
         _baseline,
         _unauthenticated_served,
         ["prm-not-served", "required-scope-not-enforced", "unauthenticated-request-accepted"],
-        "a request with no token and a token without the required scope are both served, and the metadata endpoint is missing",
+        "a request with no token and a token without the required scope are both served, and "
+        "the metadata endpoint is missing",
     ),
 )
+
 
 # EXTENSION-BEGIN
 def _b64url(data: bytes) -> str:
@@ -222,7 +240,9 @@ def _b64url(data: bytes) -> str:
 
 
 def _thumbprint(jwk: dict[str, Any]) -> str:
-    canonical = json.dumps({k: jwk[k] for k in ("crv", "kty", "x", "y")}, sort_keys=True, separators=(",", ":"))
+    canonical = json.dumps(
+        {k: jwk[k] for k in ("crv", "kty", "x", "y")}, sort_keys=True, separators=(",", ":")
+    )
     return _b64url(hashlib.sha256(canonical.encode()).digest())
 
 
@@ -357,7 +377,8 @@ EXTENSION_MEMBERS: tuple[Member, ...] = (
         _with_extensions,
         None,
         [],
-        "a server whose every published surface agrees, with a bound DPoP proof, a trusted workload token, a clean client document and a valid identity assertion",
+        "a server whose every published surface agrees, with a bound DPoP proof, a trusted "
+        "workload token, a clean client document and a valid identity assertion",
     ),
     (
         "dpop-proof-malformed",
@@ -377,14 +398,22 @@ EXTENSION_MEMBERS: tuple[Member, ...] = (
             "dpop-key-binding-mismatch",
             "dpop-proof-replayed",
         ],
-        "a DPoP proof for another method, URL and token, signed by a key the token is not bound to, and replayed",
+        "a DPoP proof for another method, URL and token, signed by a key the token is not bound "
+        "to, and replayed",
     ),
     (
         "workload-federation-defective",
         _with_extensions,
         _wif_defective,
-        ["wif-audience-mismatch", "wif-issuer-untrusted", "wif-scope-widened", "wif-subject-unbound", "wif-token-expired"],
-        "a workload token from an untrusted issuer, for another audience, expired and unbound, exchanged for wider scopes",
+        [
+            "wif-audience-mismatch",
+            "wif-issuer-untrusted",
+            "wif-scope-widened",
+            "wif-subject-unbound",
+            "wif-token-expired",
+        ],
+        "a workload token from an untrusted issuer, for another audience, expired and unbound, "
+        "exchanged for wider scopes",
     ),
     (
         "client-metadata-defective",
@@ -397,14 +426,22 @@ EXTENSION_MEMBERS: tuple[Member, ...] = (
             "cimd-support-not-advertised",
             "cimd-symmetric-authentication",
         ],
-        "a client identifier that is not a clean https URL, whose document names another client, an unregistered redirect and a shared secret",
+        "a client identifier that is not a clean https URL, whose document names another "
+        "client, an unregistered redirect and a shared secret",
     ),
     (
         "id-jag-defective",
         _with_extensions,
         _jag_defective,
-        ["id-jag-audience-mismatch", "id-jag-client-mismatch", "id-jag-expired", "id-jag-jti-missing", "id-jag-typ-invalid"],
-        "an identity assertion grant of the wrong type, for another audience and client, expired and with no identifier",
+        [
+            "id-jag-audience-mismatch",
+            "id-jag-client-mismatch",
+            "id-jag-expired",
+            "id-jag-jti-missing",
+            "id-jag-typ-invalid",
+        ],
+        "an identity assertion grant of the wrong type, for another audience and client, "
+        "expired and with no identifier",
     ),
 )
 # EXTENSION-END
@@ -443,7 +480,9 @@ def _index(entries: list[dict[str, Any]], digest: str) -> bytes:
     for e in entries:
         x = e["expected"]
         codes = ", ".join(f"`{c}`" for c in x["codes"]) or "none"
-        lines.append(f"| `{e['id']}` | {e['kind']} | {x['verdict']} | {codes} | {e['description']} |")
+        lines.append(
+            f"| `{e['id']}` | {e['kind']} | {x['verdict']} | {codes} | {e['description']} |"
+        )
     return ("\n".join(lines) + "\n").encode()
 
 
@@ -472,7 +511,9 @@ def generate(root: Path = ROOT) -> dict[str, Any]:
     manifest = {
         "suite": SUITE,
         "counts": {
-            kind: n for kind in ("accept", "reject") if (n := sum(e["kind"] == kind for e in entries))
+            kind: n
+            for kind in ("accept", "reject")
+            if (n := sum(e["kind"] == kind for e in entries))
         },
         "vectors": entries,
         "specification": SPECIFICATION,
