@@ -1088,6 +1088,8 @@ jobs:
         run: uv run --extra dev pytest corpora/vectors-containment-journal/tests -q
       - name: decision-client cases regenerate, force every check and fail a client that reads a fault as an allow
         run: uv run --extra dev pytest corpora/vectors-decision-client-failure-modes/tests -q
+      - name: refusal-reason-priority cases regenerate, force every check and refuse a checker that scores any applicable value
+        run: uv run --extra dev pytest corpora/vectors-refusal-reason-priority/tests -q
       - name: agent-card-receipt cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-agent-card-receipt/tests -q
       - name: credential-release cases regenerate and force every check

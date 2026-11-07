@@ -151,6 +151,20 @@ verdict it carried), the condition, outcome and basis the client recorded, and
 whether the action was performed, so a consumer can tell a policy decision from a
 fallback and an allow from a fault read as one.
 
+### `predicate/v1/refusal-reason-priority`
+
+- Document: `corpora/vectors-refusal-reason-priority/README.md`
+- Corpus: `corpora/vectors-refusal-reason-priority/`, suite `refusal-reason-priority/v1`
+- Rails: `corpusreaders/refusalreason.go`, `packaging/agent_evidence_vectors/refusalreason.py`
+
+The predicate carries one attestation response and the facts it answered over: which
+conditions of the closed refusal vocabulary applied, the observation the answer relied
+on, any diagnostic read, and at the lease instant the boundary the deployment declared.
+The reason must be the first applicable value of the list, none when no condition
+applies, with null as the only permit; the observation member stays null when the relied-on
+observation is absent or not fresh, and a diagnostic read neither authorizes nor renews.
+Records are from draft-li-rttp-iqa-addressing-02 sections 6.1, 7.2, 8.1 and 8.2.
+
 ### `predicate/v1/evaluation-claim`
 
 - Document: `spec/predicates/evaluation-claim.md`

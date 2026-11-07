@@ -733,6 +733,18 @@ standards = []
 shapes = ["self-report", "missing-binding"]
 
 [[corpus]]
+id = "vectors-refusal-reason-priority"
+path = "corpora/vectors-refusal-reason-priority"
+wheel = true
+sdist = true
+title = "Refusal reason priority"
+summary = "An attestation answer must give the first applicable refusal value, no reason when no condition applies, null as the only permit, and a diagnostic read must not authorize; the lease instant is a declared convention."
+record_class = "record"
+domains = ["authority", "provenance"]
+standards = ["ietf-draft"]
+shapes = ["ordering", "stale-authority", "self-report"]
+
+[[corpus]]
 id = "vectors-restart-records"
 path = "corpora/vectors-restart-records"
 wheel = true
