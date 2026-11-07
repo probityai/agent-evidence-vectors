@@ -41,7 +41,7 @@ stale run.
 
 The shield is computed, never self-declared, and it reads, for example:
 
-`self-reported · <profile>@<digest>: 42/42 mandatory passed · 3d ago`
+`self-reported · <profile>@<digest>: <passed>/<mandatory> mandatory passed · 3d ago`
 
 It reads "incomplete" when coverage is short and "not evaluated" when no case applies. Age is counted from the time
 the run executed. A later failing run supersedes an earlier pass at once, and a new corpus digest never inherits a
