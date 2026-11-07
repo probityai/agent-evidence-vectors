@@ -42,12 +42,12 @@ Step 0 covers these eleven files and no others: the three above plus the eight i
 | `JCS(v)` | RFC 8785 canonical JSON of `v` as UTF-8 bytes |
 | `sha_hex(b)` | lowercase hex SHA-256 of the bytes `b`, with **no** `sha256:` prefix |
 | `file_ref(b)` | `"sha256:" + sha_hex(b)`, over the raw file bytes exactly as stored |
-| strict parse | UTF-8; duplicate member names refused; floats refused; `NaN`/`Infinity` refused |
+| strict parse | UTF-8; duplicate member names refused at every depth; any number with a fraction or exponent part refused (integers of any size are accepted); `NaN`/`Infinity` refused |
 | equality | same JSON type and same value; `true` is not `1`; list order is significant |
 | hex64 | a string of exactly 64 characters from `0-9a-f` |
 | printable ASCII id | a non-empty string whose every character is in `0x20`..`0x7E` |
 | base64 | RFC 4648 section 4 standard alphabet with `=` padding; a character outside the alphabet, or wrong padding, is a decode failure |
-| Ed25519 | RFC 8032 verification of the 64-byte signature over `message` with the 32-byte public key |
+| Ed25519 | RFC 8032 section 5.1.7 verification of the 64-byte signature over `message` with the 32-byte public key; a signature of any other length fails |
 
 Two digests are taken over JSON values (`JCS`), and one over a plain string's UTF-8 bytes.
 Keep them apart:
@@ -102,7 +102,8 @@ If every step holds the layer is `ESTABLISHED`.
 Steps 0b to 13 refuse. One rule rewrites a refusal after the fact: when a step from 0b to
 13 refuses with code `X`, and `inputs/pic-verification.json` strict-parsed to an object
 whose `result` member is the string `"allow"`, the verdict is
-`CONTRADICTED:runner-allowed-X` instead of `REFUSED:X`. The proposal is bad, and the
+`CONTRADICTED:runner-allowed-X` instead of `REFUSED:X` (for example
+`CONTRADICTED:runner-allowed-PIC_ARGS_DIGEST`). The proposal is bad, and the
 runner's own record says it let the proposal through; that is a contradiction between two
 parties' bytes, not a clean refusal. When the runner's result says `block`, or is missing,
 or did not parse, the refusal stands. The rule does not apply to `input-files-missing`,
