@@ -28,6 +28,29 @@ _TAG = re.compile(r"(?P<prefix>[a-z0-9][a-z0-9-]*?)-v(?P<version>\d+\.\d+\.\d+)\
 # own tag-push path, so a GitHub release published for it resolves to no registry.
 _BARE_TAG = re.compile(r"v(?P<version>\d+\.\d+\.\d+)\Z")
 _TOP_AREAS = ("actions", "vectors", "pages")
+# A workflow file is checked by what it runs, not by every area. The reusable workflows that
+# parts.yml calls belong to one area each. parts.yml, release.yml and the workflows only release.yml
+# calls stay shared, because no pull request job exercises them. Every other workflow has its own
+# pull_request trigger and path filter, so editing it selects no area here.
+_WORKFLOW_AREAS = (
+    (re.compile(r"\.github/workflows/crate-dsse(-npm)?\.yml\Z"), "crates/dsse"),
+    (re.compile(r"\.github/workflows/(crate-jcs-admit(-npm)?|jcs-admit-python-build)\.yml\Z"), "crates/jcs-admit"),
+    (re.compile(r"\.github/workflows/package-admission\.yml\Z"), "packages/admission"),
+    (re.compile(r"\.github/workflows/actions-admission\.yml\Z"), "actions"),
+    (re.compile(r"\.github/workflows/package-vocabulary\.yml\Z"), "packages/vocabulary"),
+)
+_WORKFLOW_SHARED = re.compile(
+    r"\.github/workflows/(parts|release|family-pin-guard|python-build)\.yml\Z")
+_WORKFLOW = re.compile(r"\.github/workflows/[^/]+\.yml\Z")
+
+
+def _workflow_areas(path: str) -> list[str] | None:
+    """Return the areas a workflow file selects, or None when it is not a workflow file."""
+    if not _WORKFLOW.match(path):
+        return None
+    if _WORKFLOW_SHARED.match(path):
+        return None
+    return [area for pattern, area in _WORKFLOW_AREAS if pattern.match(path)]
 
 
 def areas(root: Path = ROOT) -> list[str]:
@@ -43,7 +66,12 @@ def changed(paths: list[str], root: Path = ROOT) -> dict[str, bool]:
     """Return, for each area, whether these changed paths require its checks."""
     table = areas(root)
     owner = {p: [a for a in table if PurePosixPath(p).is_relative_to(a)] for p in paths}
-    shared = any(not owner[p] and not _DOCS.match(p) for p in paths)
+    for p in paths:
+        flows = _workflow_areas(p)
+        if flows is not None:
+            owner[p] = [a for a in flows if a in table]
+    independent = {p for p in paths if _workflow_areas(p) is not None}
+    shared = any(not owner[p] and not _DOCS.match(p) and p not in independent for p in paths)
     return {a: shared or any(a in owner[p] for p in paths) for a in table}
 
 
