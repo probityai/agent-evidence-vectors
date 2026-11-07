@@ -525,7 +525,7 @@ func arSetUnexpiredHold(group []map[string]any) bool {
 			if err != nil {
 				continue
 			}
-			if !moment.After(deadline) && !(arDeadlineInclusive && moment.Equal(deadline)) {
+			if !moment.After(deadline) && (!arDeadlineInclusive || !moment.Equal(deadline)) {
 				return true
 			}
 		}
