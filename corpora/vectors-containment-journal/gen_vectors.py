@@ -420,6 +420,9 @@ def _decision_cases() -> list[Case]:
     inert = Journal(detectorDriven=True).decide(COMPLETE, function="restriction",
                                                 basis="detector_online_label",
                                                 **detector(UNIFORM))
+    restated = isolate_c(Journal(), basis="evidence_gate")
+    restated.decide(restated.graph, function="restriction", basis="detector_online_label",
+                    **detector(UNIFORM))
     reenable = isolate_c(Journal(restorationGated=True)).restart("agent-c")
     reenable.decide(COMPLETE, function="restoration", basis="fixed_schedule")
     return [
@@ -438,6 +441,10 @@ def _decision_cases() -> list[Case]:
         ("reject-decision-not-supported-by-estimates", uniform.build("uniform"), None, "deny",
          "decision_not_supported_by_estimates", "the detector gives every agent the same risk, "
          "and the decision isolates one of them"),
+        ("allow-detector-restates-earlier-cut", restated.build("restated"), None, "allow",
+         "containment_consistent", "an evidence gate isolates agent-c, then the detector gives "
+         "every agent the same risk and restates the same graph: it removes nothing, so agent-c "
+         "listed as isolated is state the detector did not cause"),
         ("reject-detector-output-uninformative", inert.build("inert"), None, "deny",
          "detector_output_uninformative", "the run claims detector-driven containment, and the "
          "detector's only decision gives every agent the same risk and cuts nothing"),
