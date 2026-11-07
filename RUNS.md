@@ -207,6 +207,76 @@ when a held permit was issued. Revision -03 states all three.
 
 The figure was not reproduced here before this row was written.
 
+### Laurent-Lemonnier, `Laurent-Lemonnier/dps-scitt-decision-layer`, the agent audit record corpus, rerun at release 0.31.0
+
+The same reader as the row above, rerun against revision -03 of the draft and release 0.31.0 of the corpus.
+
+| | |
+| --- | --- |
+| Reporter | `Laurent-Lemonnier` |
+| Implementation | [`interop/gilda/gilda_verify_independent.py`](https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/tree/3961a3642263a08ba921d7266ef2edcc9d9472de/interop/gilda) at `Laurent-Lemonnier/dps-scitt-decision-layer@3961a36`, Python |
+| Posted at | [#335, comment of 2026-10-31](https://github.com/probityai/agent-evidence-vectors/issues/335#issuecomment-6549594533), with the log [`run-20261031.txt`](https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/blob/3961a3642263a08ba921d7266ef2edcc9d9472de/interop/gilda/run-20261031.txt) and the per-member report [`judge-20261031-0.31.0.json`](https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/blob/3961a3642263a08ba921d7266ef2edcc9d9472de/interop/gilda/judge-20261031-0.31.0.json) |
+| Corpus | `vectors-agent-audit-record` at release 0.31.0, read against draft -03 |
+| Result | 184 of 184 members agree with `MANIFEST.json` on the verdict, the refusal codes, the derived tier, `withinLimit` and the set checks, and for the 22 retained members on the dating block; the first refusal code agrees on 101 of 101 reject members |
+| Not attempted | 0 anchors; `rfc3161` is the only anchor kind the verifier does not validate, and the corpus carries none |
+| Label, by its author | an outside run |
+
+His three stated limits: the rules CS18 to CS40 and the X codes were implemented from the corpus README and not from the text of -03 ("text plus README"); the empty-tree constant is a question he raised; and anchors are read over the recomputed digest (X12).
+
+The figure was not reproduced here before this row was written.
+
+### Laurent-Lemonnier, `Laurent-Lemonnier/dps-scitt-decision-layer`, the approval binding corpus
+
+The first outside run of `vectors-approval-binding`, by a reader this repository did not write.
+
+| | |
+| --- | --- |
+| Reporter | `Laurent-Lemonnier` |
+| Implementation | [`interop/gilda/approval_binding_verify_independent.py`](https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/tree/fdc5f6352795fc713309cd25ac2669d22840e0cc/interop/gilda) at `Laurent-Lemonnier/dps-scitt-decision-layer@fdc5f63`, Python, written from the checks in the corpus README, importing nothing from the package |
+| Posted at | [#401](https://github.com/probityai/agent-evidence-vectors/issues/401), opened 2026-11-01, with the logs and per-case reports beside the verifier |
+| Corpus | `vectors-approval-binding` at releases 0.31.0 and 0.28.0, 23 cases, the same corpus digest `49f077e5` at both |
+| Result | 23 of 23 cases agree with `MANIFEST.json` on decision and reason, by his judge and by the corpus's own harness driving the verifier through its command-line contract |
+| Label, by its author | an outside run |
+
+The readings the text left to the verifier are stated in the docstring of the verifier. One of them, that the ambiguity check compares every member of the two objects, is the reading the corpus now states in check 4 and pins with the case `approval-id-reused-unread-member`.
+
+The figure was not reproduced here before this row was written.
+
+### telleroutlook, `telleroutlook/agent-evidence-cold-readers`, the refund-connected corpus, `input_aps` layer
+
+The first run of `vectors-refund-connected` by a reader this repository did not
+write, and it covers one layer of six: `input_aps`, the layer
+[`docs/reference/refund-connected-input-aps.md`](docs/reference/refund-connected-input-aps.md)
+states as a contract. It says nothing about `input_pic`, `admission`,
+`signature_trust`, `execution` or `observed_effect`, and it is not a run of the
+complete refund flow. Like the rows above it is not a row of the ledger below.
+
+| | |
+| --- | --- |
+| Reporter | `telleroutlook` |
+| Implementation | [`telleroutlook/agent-evidence-cold-readers`](https://github.com/telleroutlook/agent-evidence-cold-readers/tree/e979326a05608d1fa67ed1925f26daa8bed49d71/refund-connected-input-aps) at commit `e979326a05608d1fa67ed1925f26daa8bed49d71`, path `refund-connected-input-aps/`, Python with the standard library only, including its own RFC 8032 Ed25519 verifier |
+| Posted at | [#352, comment of 2026-11-07](https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6699728316) |
+| Corpus | `vectors-refund-connected` at `0a4fef2c7fec16fb3f27e537d5c248c042fe6bde`, `input_aps` expectation of each vector in `MANIFEST.json`, corpus digest `1588224056bb6f7f5971386164b4a737c422ec6b16bcdea3ca8dc559adb5f9a5` |
+| Result | All ten scored vectors match: `j01`, `n3-reissue` and `n4-lost-ack` `ESTABLISHED`, `n1b-aps-payload` `REFUSED:PAYLOAD_REF`, `n3b-old-pic` `REFUSED:APPROVAL_AFTER_CONSUMPTION`, in both runs `r1` and `r2`. The two `n1a-pic-args` vectors are `NOT_REACHED` in the manifest and are not scored |
+| Label, by its author | blind pass |
+
+What the run is evidence of, in his words:
+
+> Written from `docs/reference/refund-connected-input-aps.md` alone (steps 0–26) — no code imported from the packaged reader.
+
+On `n1a-pic-args` his reader returns `REFUSED:PIC_ARGS_NOT_PAYLOAD` (step 26,
+`pic_args.amount_minor` 4100 against `payload.amount_minor` 4000), because it
+implements only this layer and is asked about that input. The manifest's
+`NOT_REACHED` is the verdict a caller assigns when an earlier layer
+(`input_pic`, `REFUSED:PIC_ARGS_DIGEST`) has already refused, which the
+contract says in so many words, so the two do not conflict. He chose not to make
+the reader emit `NOT_REACHED`, and that choice is the contract's.
+
+The figure was reproduced here before this row was written: his reader at that
+commit, run over the corpus at `0a4fef2c7` with `--admission-state` set to each
+run's `admission/state.json`, returned the same ten verdicts and
+`REFUSED:PIC_ARGS_NOT_PAYLOAD` for both `n1a-pic-args` vectors.
+
 ## Runs of this repository's code on another operator's host
 
 The rows above are runs of implementations this repository did not write. The

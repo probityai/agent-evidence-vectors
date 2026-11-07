@@ -96,6 +96,26 @@ var arEvaluationInputs = []string{"standing-source", "key-source", "consumption-
 // narrow one without the other.
 var arUnavailableInputs = []string{"standing-source", "key-source", "consumption-state", "policy-source"}
 
+// arPredicateTypeV2 is the second URI revision 03 publishes (Section 8) for the
+// input set extended by arV2Inputs. A closed set grows only under a new URI, so
+// a verifier configured for the v1 URI never meets a value it must refuse there
+// (rows PS1 and PS2).
+const arPredicateTypeV2 = "https://probityai.github.io/agent-evidence-vectors/predicate/v2/agent-audit-record"
+
+// arV2Inputs is what the v2 URI adds to both input sets, and only under that
+// URI: the source the principal's standing is established from.
+var arV2Inputs = []string{"principal-standing-source"}
+
+// arInputsUnder is base under the v1 URI and base with arV2Inputs under the v2
+// URI, the one the verifier was configured to accept. It reads the sets at call
+// time, so a test that narrows one narrows this too.
+func arInputsUnder(predicateType string, base []string) []string {
+	if predicateType != arPredicateTypeV2 {
+		return base
+	}
+	return append(append([]string{}, base...), arV2Inputs...)
+}
+
 // arEntryMembers are the three members an evaluation entry carries, each
 // required, and no other.
 var arEntryMembers = []string{"input", "lastResult", "maxAge"}
@@ -118,9 +138,10 @@ var (
 	arConsumptionCounts   = []string{"limit", "consumed", "reserved", "requested", "stateRevision"}
 	arHeldMembers         = []string{"operationKey", "requestDigest", "amount"}
 	arConsumptionOptional = []string{"supersedes", "asset", "payee", "settled"}
-	// arHeldOptional is the one member a held entry may carry beside them: the
-	// payee digest of that permit's payment (CS41, CS42).
-	arHeldOptional = []string{"payee"}
+	// arHeldOptional are the members a held entry may carry beside them: the
+	// payee digest of that permit's payment (CS41, CS42) and its deadline, an
+	// instant, which a zero settlement keeps (CS50 to CS54).
+	arHeldOptional = []string{"payee", "deadline"}
 	// arSettledMembers are the members of settled, each required: the amount,
 	// asset and payee a paid call settled on, where they were read, and the
 	// transaction read (CS43 to CS47). arSettledSources is the one source: the
@@ -154,7 +175,13 @@ var arConsumptionChecks = map[string]bool{
 	"supersedes-digest": true, "supersedes-self": true,
 	"asset-id": true, "asset-decimals": true, "asset-exclusive": true,
 	"retry-payee": true, "settled-amount": true, "settled-terms": true, "settled-source": true,
+	"zero-settled-transaction": true, "empty-transaction-nonzero": true, "zero-settled-deadline": true,
 }
+
+// arDeadlineInclusive says whether a record dated exactly at a zero
+// settlement's deadline ends its hold (CS54): the hold ends at or after it. A
+// test sets it false.
+var arDeadlineInclusive = true
 
 // arSettledReadingHeld reads the held amount, not the settled one, as what a
 // later record of the ledger counts for a call that carries settled. A test
@@ -232,9 +259,10 @@ func (e errMalformed) Error() string { return e.code }
 func arRefuse(code string) error { return errMalformed{code} }
 
 type arState struct {
-	statement map[string]any
-	pred      map[string]any
-	tier      string
+	statement     map[string]any
+	pred          map[string]any
+	tier          string
+	predicateType string
 }
 
 // arAt walks a dotted path through nested objects. A missing or mistyped step
@@ -435,7 +463,7 @@ func arVerify(raw []byte, predicateType, observerKey, disabled string) arReport 
 	if _, isList := statement["subject"].([]any); !ok || !isList {
 		return arReport{verdict: "malformed", code: "statement-shape"}
 	}
-	state := &arState{statement: statement, pred: pred}
+	state := &arState{statement: statement, pred: pred, predicateType: predicateType}
 	for _, rule := range arRules(predicateType) {
 		if rule.name == disabled {
 			continue
@@ -505,6 +533,7 @@ func arRules(predicateType string) []arRule {
 			return nil
 		}},
 		{"principal", arRulePrincipal},
+		{"data-subject", arRuleDataSubject},
 		{"binding", arRuleBinding},
 		{"request-digest", arRuleRequestDigest},
 		{"subject-after-root", func(s *arState) error {
@@ -683,8 +712,9 @@ func arEntryUnavailable(entry map[string]any, maxAge int64, reportedAt time.Time
 }
 
 // arDeriveUnavailable holds every evaluation entry to its shape and returns
-// the inputs that are stale or were never established, in entry order.
-func arDeriveUnavailable(pred map[string]any) ([]string, error) {
+// the inputs that are stale or were never established, in entry order. An
+// entry's input is held to allowed.
+func arDeriveUnavailable(pred map[string]any, allowed []string) ([]string, error) {
 	entries, ok := arAt(pred, "evaluation.inputs")
 	list, isList := entries.([]any)
 	if !ok || !isList {
@@ -710,7 +740,7 @@ func arDeriveUnavailable(pred map[string]any) ([]string, error) {
 			}
 		}
 		name, _ := entry["input"].(string)
-		if !arContains(arEvaluationInputs, name) {
+		if !arContains(allowed, name) {
 			return nil, arRefuse("value-outside-vocabulary")
 		}
 		maxAge, valid := arMaxAge(entry["maxAge"])
@@ -744,7 +774,7 @@ func arRuleEvaluation(s *arState) error {
 			return arRefuse("evaluation-malformed")
 		}
 	}
-	derived, err := arDeriveUnavailable(s.pred)
+	derived, err := arDeriveUnavailable(s.pred, arInputsUnder(s.predicateType, arEvaluationInputs))
 	if err != nil {
 		return err
 	}
@@ -761,9 +791,10 @@ func arRuleEvaluation(s *arState) error {
 		return arRefuse("evaluation-inconsistent")
 	}
 	seen := map[string]bool{}
+	allowed := arInputsUnder(s.predicateType, arUnavailableInputs)
 	for _, item := range inputs {
 		text, _ := item.(string)
-		if !arContains(arUnavailableInputs, text) {
+		if !arContains(allowed, text) {
 			return arRefuse("value-outside-vocabulary")
 		}
 		if seen[text] {
@@ -1125,13 +1156,24 @@ type arManifest struct {
 	Vectors []arVector `json:"vectors"`
 }
 
+// typeFor is the URI a member is judged under: its own predicateType where it
+// carries one (PS1 is judged by a verifier configured for the v2 URI), else the
+// manifest's.
+func (m *arManifest) typeFor(v arVector) string {
+	if v.PredicateType != "" {
+		return v.PredicateType
+	}
+	return m.PredicateType
+}
+
 type arVector struct {
-	ID       string `json:"id"`
-	DraftID  string `json:"draftId"`
-	Kind     string `json:"kind"`
-	File     string `json:"file"`
-	Parent   string `json:"parent"`
-	Expected struct {
+	ID            string `json:"id"`
+	DraftID       string `json:"draftId"`
+	Kind          string `json:"kind"`
+	File          string `json:"file"`
+	Parent        string `json:"parent"`
+	PredicateType string `json:"predicateType"`
+	Expected      struct {
 		// A pointer, because an indeterminate member must carry no verdict at
 		// all and an absent field has to be told apart from an empty one.
 		Verdict     *string   `json:"verdict"`
@@ -1192,7 +1234,7 @@ func arJudgeMember(dir string, manifest *arManifest, v arVector, byID map[string
 		findings = append(findings, label+": identifier does not recompute from the member's own bytes")
 	}
 	if v.Expected.Dating != nil {
-		report, dated := arVerifyRetained(body, manifest.PredicateType, manifest.Keys.Observer.PublicKey,
+		report, dated := arVerifyRetained(body, manifest.typeFor(v), manifest.Keys.Observer.PublicKey,
 			arHeads(manifest), "")
 		findings = append(findings, arDeclaredFindings(label, v, report)...)
 		if !dated.equal(*v.Expected.Dating) {
@@ -1203,7 +1245,7 @@ func arJudgeMember(dir string, manifest *arManifest, v arVector, byID map[string
 	if v.Expected.Set != nil {
 		return append(findings, arSetFindings(label, manifest, v, body)...)
 	}
-	report := arVerify(body, manifest.PredicateType, manifest.Keys.Observer.PublicKey, "")
+	report := arVerify(body, manifest.typeFor(v), manifest.Keys.Observer.PublicKey, "")
 	switch v.Kind {
 	case "accept", "reject":
 		findings = append(findings, arDeclaredFindings(label, v, report)...)

@@ -1,0 +1,57 @@
+{
+  "bindings": [
+    {
+      "after": "/seen_block/height",
+      "height": 972311,
+      "proof": "ack_budget.jcs.ots",
+      "subject": "ack_budget.jcs",
+      "type": "opentimestamps-bitcoin-header"
+    },
+    {
+      "after": "/seen_block/height",
+      "height": 972311,
+      "proof": "ack_criteria_A.jcs.ots",
+      "subject": "ack_criteria_A.jcs",
+      "type": "opentimestamps-bitcoin-header"
+    },
+    {
+      "after": "/seen_block/height",
+      "height": 972311,
+      "proof": "ack_criteria_B.jcs.ots",
+      "subject": "ack_criteria_B.jcs",
+      "type": "opentimestamps-bitcoin-header"
+    },
+    {
+      "after": "/seen_block/height",
+      "height": 972311,
+      "proof": "ack_criteria_C.jcs.ots",
+      "subject": "ack_criteria_C.jcs",
+      "type": "opentimestamps-bitcoin-header"
+    }
+  ],
+  "commit": "878d68b7",
+  "contributor": "ogasurfproject-jpg (HORIZON SHIELD, The HORIZONs Co., Ltd.)",
+  "headerView": {
+    "file": "bundle.json",
+    "member": "hs51-set2",
+    "pointer": "/view/headers"
+  },
+  "licence": "MIT, copyright notice in LICENSE beside bytes/",
+  "path": "workers/hs-ledger/nenrin/musubi-v0/ca2a-companion-v0/pilot51/witness-giskard09",
+  "publishedDigests": {
+    "README.md": "6b0f38b034feee11ec9deb91867547b8d41c8363df5e9206965cfea6b9503d95",
+    "ack_budget.jcs": "e4026d721866b91165a4039f3059b5eded64ea2f134511baaa98b62e0b6db641",
+    "ack_budget.jcs.ots": "d634228f0b7be18aef6647c7bbdef03418b38e7fa4672ad1cf2085292d386e81",
+    "ack_criteria_A.jcs": "b857f63e73c252e96e1bd31ae672f24c056521bf1a569dcc89f5d74234434711",
+    "ack_criteria_A.jcs.ots": "7abe9670ed40a759a4a96ac069b989142a18ffa099355fe8343abb743d387e13",
+    "ack_criteria_B.jcs": "a711715494c4672c30b0f3fced820edca8ff4dddb4a9f8609aa8f1e4a2474234",
+    "ack_criteria_B.jcs.ots": "6ce8bd820ff0cc5cf1d8e511e57e072efca8d345280d2823fc5edbbe4730c7d4",
+    "ack_criteria_C.jcs": "4a00d5d67e90ba89dda717f2f91a07e4c686044e3bfc1c62ea24bfb9c5d260c3",
+    "ack_criteria_C.jcs.ots": "fbb463620b12e650791175db5eada53ed69d660e3a6d819ab5e84c012bbec18a"
+  },
+  "publishedIn": "https://github.com/probityai/agent-evidence-vectors/issues/247#issuecomment-6559587775",
+  "related": "hs51-set2-acks",
+  "repository": "https://github.com/ogasurfproject-jpg/horizon-shield",
+  "scope": "The check says the retained bytes match the digests their publisher listed, and that each acknowledgement's OpenTimestamps proof reaches a Bitcoin attestation committing to the Merkle root of the header held for block 972311, above the block the acknowledgement says it saw. The headers are the ones in the header view of hs51-set2; proof of work and chain position are not checked. These are optional acknowledgements by giskard09 under a key outside the trust configuration d132fe72, so they are not counted toward its threshold and do not change when call A may start. It says nothing about whether the witness checked what it acknowledged.",
+  "sumsSha256": "686972edf81aabc89e786b80b7339f94dbabea57a0e3a2331c3d7c56a85b50de"
+}

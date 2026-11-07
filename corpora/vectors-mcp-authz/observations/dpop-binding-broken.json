@@ -1,0 +1,164 @@
+{
+  "case_id": "vectors-mcp-authz-dpop-binding-broken",
+  "evaluated_at": 1790000000,
+  "fixture": {
+    "synthetic": true
+  },
+  "observed": {
+    "as_metadata": {
+      "body": {
+        "authorization_endpoint": "https://auth.example.test/authorize",
+        "code_challenge_methods_supported": [
+          "S256"
+        ],
+        "grant_types_supported": [
+          "authorization_code",
+          "refresh_token"
+        ],
+        "issuer": "https://auth.example.test",
+        "registration_endpoint": "https://auth.example.test/register",
+        "response_types_supported": [
+          "code"
+        ],
+        "scopes_supported": [
+          "mcp:read",
+          "mcp:write"
+        ],
+        "token_endpoint": "https://auth.example.test/token",
+        "token_endpoint_auth_methods_supported": [
+          "none"
+        ]
+      },
+      "status": 200
+    },
+    "client_metadata": {
+      "as_metadata": {
+        "client_id_metadata_document_supported": true
+      },
+      "client_id": "https://client.example.test/oauth/client.json",
+      "document": {
+        "client_id": "https://client.example.test/oauth/client.json",
+        "client_name": "Synthetic Agent Client",
+        "redirect_uris": [
+          "https://client.example.test/callback"
+        ],
+        "token_endpoint_auth_method": "none"
+      },
+      "redirect_uri": "https://client.example.test/callback"
+    },
+    "dpop": {
+      "access_token": "synthetic-access-token-0001",
+      "proof": {
+        "claims": {
+          "ath": "nni8uUCRt1EJ_WdzUk_I1qT4pt-z2uOanCbFABh5vPM",
+          "htm": "GET",
+          "htu": "https://mcp.example.test/other",
+          "iat": 1790000000,
+          "jti": "dpop-jti-0001"
+        },
+        "header": {
+          "alg": "ES256",
+          "jwk": {
+            "crv": "P-256",
+            "kty": "EC",
+            "x": "AwEIw1KDhgTFLBE1lUsNcL46dZAlTS-NfIC9-hsZql0",
+            "y": "0VEP7XvqI-zI0xNSTg_t4auqOn7Ft209JL_zwK72yno"
+          },
+          "typ": "dpop+jwt"
+        }
+      },
+      "request_method": "POST",
+      "request_url": "https://mcp.example.test/mcp",
+      "seen_jtis": [
+        "dpop-jti-0001"
+      ],
+      "token_claims": {
+        "cnf": {
+          "jkt": "38QrUWkmSwYUqXPzRgqQolXnLTvwg87Wk3drIaOCFpA"
+        }
+      }
+    },
+    "id_jag": {
+      "assertion": {
+        "claims": {
+          "aud": "https://auth.example.test",
+          "client_id": "client-0001",
+          "exp": 1790000300,
+          "iat": 1790000000,
+          "iss": "https://idp.example.test",
+          "jti": "id-jag-jti-0001",
+          "resource": "https://mcp.example.test/mcp",
+          "scope": "mcp:read",
+          "sub": "user-synthetic-0001"
+        },
+        "header": {
+          "alg": "ES256",
+          "typ": "oauth-id-jag+jwt"
+        }
+      },
+      "requesting_client_id": "client-0001",
+      "resource_as_issuer": "https://auth.example.test"
+    },
+    "prm": {
+      "body": {
+        "authorization_servers": [
+          "https://auth.example.test"
+        ],
+        "bearer_methods_supported": [
+          "header"
+        ],
+        "resource": "https://mcp.example.test/mcp",
+        "scopes_supported": [
+          "mcp:read",
+          "mcp:write"
+        ]
+      },
+      "status": 200
+    },
+    "unauthenticated": {
+      "status": 401,
+      "www_authenticate": "Bearer resource_metadata=\"https://mcp.example.test/.well-known/oauth-protected-resource/mcp\", scope=\"mcp:read\""
+    },
+    "under_scoped": {
+      "status": 403,
+      "www_authenticate": "Bearer error=\"insufficient_scope\", scope=\"mcp:read mcp:write\", resource_metadata=\"https://mcp.example.test/.well-known/oauth-protected-resource/mcp\""
+    },
+    "workload_federation": {
+      "bindings": {
+        "system:serviceaccount:agents:runner": [
+          "mcp:read"
+        ]
+      },
+      "expected_audience": "https://auth.example.test",
+      "granted_scopes": [
+        "mcp:read"
+      ],
+      "subject_token": {
+        "claims": {
+          "aud": "https://auth.example.test",
+          "exp": 1790003600,
+          "iss": "https://workload-idp.example.test",
+          "sub": "system:serviceaccount:agents:runner"
+        }
+      },
+      "trusted_issuers": [
+        "https://workload-idp.example.test"
+      ]
+    }
+  },
+  "schema": "mcp-authz-observation/v1",
+  "server": {
+    "issuer": "https://auth.example.test",
+    "registration": {
+      "enabled": true,
+      "valid_scopes": [
+        "mcp:read",
+        "mcp:write"
+      ]
+    },
+    "required_scopes": [
+      "mcp:read"
+    ],
+    "resource": "https://mcp.example.test/mcp"
+  }
+}

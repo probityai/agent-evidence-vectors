@@ -55,6 +55,13 @@ SUITE = "agent-audit-record-conformance"
 PREDICATE_TYPE = (
     "https://probityai.github.io/agent-evidence-vectors/predicate/v1/agent-audit-record"
 )
+#: The second URI revision 03 publishes (Section 8), for the input set extended
+#: by principal-standing-source. A member carrying predicateType is judged by a
+#: verifier configured for it; every other member, by one configured for the
+#: URI above.
+PREDICATE_TYPE_V2 = (
+    "https://probityai.github.io/agent-evidence-vectors/predicate/v2/agent-audit-record"
+)
 PREDICATE_DOCUMENT = "https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/00/"
 DRAFT = "draft-gilda-audit-agent-audit-record-00"
 #: The revision every earlier release of this corpus tested. Its records carry
@@ -349,6 +356,7 @@ def member(
     aggregation: dict[str, Any] | None = None,
     within: bool | None = None,
     joint: dict[str, Any] | None = None,
+    predicate_type: str | None = None,
 ) -> None:
     if (verdict is None) == (readings is None):
         raise SystemExit(
@@ -377,6 +385,7 @@ def member(
             "aggregation": aggregation,
             "within": within,
             "joint": joint,
+            "predicateType": predicate_type,
         }
     )
 
@@ -1519,6 +1528,7 @@ def define() -> None:
     define_settlement()
     define_audit_next()
     define_principal()
+    define_data_subject()
     define_reject_paths()
     rank = {draft_id: i for i, draft_id in enumerate(ORDER)}
     missing = [m["draftId"] for m in MEMBERS if m["draftId"] not in rank]
@@ -2938,6 +2948,14 @@ def define_consumption_carryover() -> None:
 # asset or payee at settlement is not (CS45, CS46). The terms come from the
 # chain and never from the signed payload (CS47). A later record of the ledger
 # counts the settled amount, not the held one (CS48, CS49).
+#
+# CS50 to CS54: the same case at a settlement of 0 (vendrell46, #307). An x402
+# EVM upto permit that settles 0 sends no transaction, so settled.transaction
+# is the empty string, valid only at amount 0 (CS50, CS51). The authorization
+# is not spent, so the facilitator can still settle it up to the maximum until
+# its deadline: the held entry keeps the operation key and carries the deadline
+# (CS52), and a later record of the ledger releases it only at or after that
+# deadline (CS53, CS54).
 # ---------------------------------------------------------------------------
 
 #: USDC on Base Sepolia, the asset of the x402 MCP transport's example, and the
@@ -2991,6 +3009,62 @@ def _settled(pred: dict[str, Any]) -> None:
         "source": "chain",
         "transaction": SETTLEMENT_TX,
     }
+
+
+#: The deadline of the upto permit, as the record shape writes instants.
+UPTO_DEADLINE = "2026-09-19T11:34:02Z"
+
+
+def _zero_settled(pred: dict[str, Any]) -> None:
+    """CS41's held permit, which the facilitator settled at 0: no transaction, the
+    operation key still held with its amount and the permit's deadline, and no
+    effect observed."""
+    _consumption(pred)["settled"] = {
+        "amount": 0,
+        "asset": {"id": USDC_BASE_SEPOLIA, "decimals": 6},
+        "payee": PAYEE_P,
+        "source": "chain",
+        "transaction": "",
+    }
+    _consumption(pred)["held"][0]["deadline"] = UPTO_DEADLINE
+    pred["effect"]["observed"] = "none"
+    pred["effect"]["writes"] = []
+    pred["effect"]["interval"]["afterRoot"] = BEFORE
+    pred["agreement"] = "not-exercised"
+
+
+def _read_state_at(pred: dict[str, Any], stamp: str) -> None:
+    """Move the consumption-state entry's lastResult, which maxAge holds within a
+    minute of reportedAt."""
+    pred["evaluation"]["inputs"][CONSUMPTION_ENTRY]["lastResult"] = stamp
+
+
+def _zero_settled_later(reported_at: str) -> Callable[[], list[dict[str, Any]]]:
+    """CS53 and CS54: the zero settlement of CS50, then a new operation under the
+    same limit document, dated reported_at, that reads a later revision, holds
+    nothing and counts what CS50 read as consumed."""
+
+    def records() -> list[dict[str, Any]]:
+        settling = from_pred("CS50")
+        later = _second_operation(
+            key=OP_R2,
+            revision=43,
+            same_request=False,
+            requested=5_000_000,
+            record="zero-settled-later",
+        )
+        _in_asset(later, USDC_BASE_SEPOLIA)
+        _consumption(later)["payee"] = PAYEE_P
+        later["decision"]["reportedAt"] = reported_at
+        issued = datetime.datetime.fromisoformat(reported_at.replace("Z", "+00:00"))
+        later["issuedAt"] = (issued + datetime.timedelta(seconds=9)).strftime("%Y-%m-%dT%H:%M:%SZ")
+        read_at = datetime.datetime.fromisoformat(reported_at.replace("Z", "+00:00"))
+        read_before = read_at - datetime.timedelta(seconds=2)
+        _read_state_at(later, read_before.strftime("%Y-%m-%dT%H:%M:%SZ"))
+        seal_commitment(later)
+        return [_named(settling, "zero-settled-call"), _named(later, "zero-settled-later")]
+
+    return records
 
 
 def _settled_edit(name: str, value: Any) -> Callable[[dict[str, Any]], None]:
@@ -3104,6 +3178,40 @@ def define_settlement() -> None:
             ["consumption-value-invalid"],
             None,
         ),
+        (
+            "CS50",
+            "cs50-upto-settled-at-zero",
+            "CS41",
+            "CS41 where the facilitator settled the upto permit at 0: settled carries amount "
+            "0, source chain and an empty transaction, since a zero settlement sends none, and "
+            "the held entry keeps the operation key, its 12 USDC and the permit's deadline",
+            cs_from("CS41", "CS50", _zero_settled),
+            "valid",
+            [],
+            True,
+        ),
+        (
+            "CS51",
+            "cs51-empty-transaction-at-a-non-zero-amount",
+            "CS50",
+            "CS50 where settled carries 7 USDC and still an empty transaction: a settlement "
+            "that moved funds names the transaction that moved them",
+            mutate("CS50", _settled_edit("amount", UPTO_SETTLED)),
+            "malformed",
+            ["consumption-value-invalid"],
+            None,
+        ),
+        (
+            "CS52",
+            "cs52-zero-settlement-held-entry-has-no-deadline",
+            "CS50",
+            "CS50 where the held entry carries no deadline: nothing says how long the permit "
+            "can still settle",
+            mutate("CS50", lambda p: _consumption(p)["held"][0].pop("deadline")),
+            "malformed",
+            ["consumption-value-invalid"],
+            None,
+        ),
     ]
     for draft_id, slug, parent, row, build, verdict, codes, within in singles:
         member(
@@ -3148,6 +3256,45 @@ def define_settlement() -> None:
             None,
             row,
             _ledger_set(draft_id, _counted_after_settlement(30_000_000 + settled_amount)),
+            "valid",
+            tier="authoritative",
+            section="5.9",
+            revision=REVISION_04,
+            joint={
+                "verdict": verdict,
+                "codes": [joint_code] if joint_code else [],
+                "withinLimit": [True, True],
+            },
+        )
+    zero_sets = [
+        (
+            "CS53",
+            "cs53-set-zero-settlement-released-before-the-deadline",
+            "CS50, then a new operation under the same limit document that reads a later "
+            "revision, is dated 24 minutes before the permit's deadline and no longer holds the "
+            "call, which the first record shows as none: each record valid, the set malformed "
+            "because the permit can still settle",
+            "2026-09-19T11:10:02Z",
+            "malformed",
+            "consumption-set-release-unshown",
+        ),
+        (
+            "CS54",
+            "cs54-set-zero-settlement-released-at-the-deadline",
+            "CS53 where the later record is dated at the permit's deadline: each record "
+            "valid, the set valid",
+            UPTO_DEADLINE,
+            "valid",
+            None,
+        ),
+    ]
+    for draft_id, slug, row, reported_at, verdict, joint_code in zero_sets:
+        member(
+            draft_id,
+            slug,
+            None,
+            row,
+            _ledger_set(draft_id, _zero_settled_later(reported_at)),
             "valid",
             tier="authoritative",
             section="5.9",
@@ -3289,6 +3436,103 @@ def define_audit_next() -> None:
         "malformed",
         ["issued-before-sealed"],
         revision=REVISION_03,
+    )
+    define_principal_standing()
+
+
+# ---------------------------------------------------------------------------
+# Principal standing under the v2 URI (revision 03, rows PS1 and PS2), and the
+# open boundary beside them (PS1b). Contributed by Wes Jackson in
+# probityai/agent-evidence-vectors#412, built as written there; the boundary
+# case is Girish Konda's.
+#
+# Revision 03 adds principal-standing-source to the closed input set, and
+# because a closed set grows only under a new URI, publishes the extended set
+# under the v2 URI. PS1 is A10 under that URI: issuer standing fresh, principal
+# standing unavailable, recorded not-evaluated. PS2 is the same record under the
+# v1 URI, where the value is outside the set. PS1b puts principal standing
+# exactly at maxAge, where draft-jackson-wimse-evaluation-05 Section 3 forbids
+# using the input ("at or past its horizon") and Section 5.4 of revision 03
+# calls it fresh ("an age equal to maxAge is fresh"). No record satisfies both,
+# so the member is open until the two drafts carry one boundary.
+# ---------------------------------------------------------------------------
+
+#: The principal-standing value of PS1b: exactly 3600 seconds before reportedAt.
+AT_HORIZON = "2026-09-19T10:04:02Z"
+
+
+def build_ps1(principal_last_result: str = STALE, predicate_type: str = PREDICATE_TYPE_V2) -> Built:
+    pred = from_pred("A10")
+    pred["evaluation"] = {
+        "status": "not-evaluated",
+        "inputs": [
+            entry("policy-source", "2026-09-19T10:00:00Z", DAY),
+            entry("standing-source", "2026-09-19T11:00:00Z", HOUR),
+            entry("principal-standing-source", principal_last_result, HOUR),
+        ],
+        "unavailableInput": ["principal-standing-source"],
+    }
+    stmt = statement(pred)
+    stmt["predicateType"] = predicate_type
+    return {"payload": canonical_bytes(stmt)}
+
+
+TWO_READINGS_PS1B = [
+    {
+        "verdict": "valid",
+        "rationale": "draft-jackson-wimse-evaluation-05 Section 3: a verifier must not use "
+        "an input at or past its horizon, its as-of time plus the pinned maximum age, so at "
+        "an age equal to maxAge the input is unavailable and not-evaluated naming it is the "
+        "record required. The reading if this draft adopts that boundary (an input is fresh "
+        "when its age is less than maxAge, and FR2 becomes malformed)",
+    },
+    {
+        "verdict": "malformed",
+        "rationale": "Section 5.4 of draft-gilda-audit-agent-audit-record-03 as filed: an "
+        "age equal to maxAge is fresh (FR2), so the derived unavailable set is empty and a "
+        "not-evaluated record naming the input fails the recompute of Section 4.6. The "
+        "reading if draft-jackson-wimse-evaluation adopts this draft's boundary (past its "
+        "horizon, in place of at or past)",
+    },
+]
+
+
+def define_principal_standing() -> None:
+    member(
+        "PS1",
+        "ps1-principal-standing-unavailable-v2",
+        "A10",
+        "under the v2 predicate type URI, not-evaluated with unavailableInput of "
+        "principal-standing-source and the matching entry",
+        build_ps1,
+        "valid",
+        tier="authoritative",
+        revision=REVISION_03,
+        predicate_type=PREDICATE_TYPE_V2,
+    )
+    member(
+        "PS2",
+        "ps2-principal-standing-under-v1",
+        "PS1",
+        "the same record under the v1 predicate type URI",
+        lambda: build_ps1(predicate_type=PREDICATE_TYPE),
+        "malformed",
+        ["value-outside-vocabulary"],
+        revision=REVISION_03,
+    )
+    member(
+        "PS1b",
+        "ps1b-principal-standing-age-equal-to-max-age",
+        "PS1",
+        "principal-standing-source exactly at maxAge (age 3600 under 3600) and not "
+        "answering, still not-evaluated naming it: open between "
+        "draft-jackson-wimse-evaluation-05 Section 3 and this section",
+        lambda: build_ps1(AT_HORIZON),
+        None,
+        ["evaluation-inconsistent"],
+        readings=TWO_READINGS_PS1B,
+        section="5.4",
+        predicate_type=PREDICATE_TYPE_V2,
     )
 
 
@@ -3539,6 +3783,204 @@ def define_principal() -> None:
 def _expired(pred: dict[str, Any]) -> None:
     pred["principal"]["issuedAt"] = "2026-09-19T09:00:00Z"
     pred["principal"]["expiresAt"] = "2026-09-19T10:00:00Z"
+
+
+# ---------------------------------------------------------------------------
+# Whose data a call touched, and why (revision 04, rows DS1 to DS10).
+#
+# A server that answers a data subject's access request must say who consulted
+# the subject's data and for what purpose. The delegated subject is the person
+# the agent acts for; the person whose data was read is usually another. The
+# optional `dataSubject` member carries a keyed reference to the data subject (a
+# SHA-256 digest of the RFC 8785 bytes of a secret salt and the subject's
+# identifier, which the server recomputes for a request and which exposes no raw
+# identifier to the holders of the record), the relation between that subject
+# and the delegated subject, and the purpose, taken from a list the server
+# declares and carries with the digest of that list. DS1 to DS3 are accepted;
+# each reject member changes one value of an accepted member and reaches one
+# refusal.
+# ---------------------------------------------------------------------------
+
+#: The server's secret salt (base64url) and the name by which it is kept.
+DATA_SUBJECT_SALT = _b64url(hashlib.sha256(b"agent-audit-record/data-subject-salt").digest())
+DATA_SUBJECT_SALT_ID = "ds-salt-2026-09"
+DATA_SUBJECT_SCHEME = "salted-sha256-jcs"
+CUSTOMER_ID = "customer:C-1048213"
+DELEGATE_ID = "user:alice@example.org"
+PURPOSES = ["account-servicing", "fraud-review", "regulatory-reporting"]
+SYSTEM_PURPOSES = ["batch-reconciliation", "regulatory-reporting"]
+
+
+def data_subject_reference(subject_id: str) -> str:
+    """What the server recomputes from its salt and an identifier."""
+    return digest({"salt": DATA_SUBJECT_SALT, "subject": subject_id})
+
+
+def data_subject_of(**changes: Any) -> dict[str, Any]:
+    member_: dict[str, Any] = {
+        "scheme": DATA_SUBJECT_SCHEME,
+        "saltId": DATA_SUBJECT_SALT_ID,
+        "reference": data_subject_reference(CUSTOMER_ID),
+        "relation": "other",
+        "delegateReference": data_subject_reference(DELEGATE_ID),
+        "purpose": "account-servicing",
+        "purposes": PURPOSES,
+        "purposesDigest": digest(PURPOSES),
+    }
+    member_.update(changes)
+    return member_
+
+
+def _with_data_subject(value: dict[str, Any]) -> Callable[[dict[str, Any]], None]:
+    def change(pred: dict[str, Any]) -> None:
+        pred["dataSubject"] = value
+
+    return change
+
+
+def _system_data_subject(pred: dict[str, Any]) -> None:
+    pred["delegation"]["subject"] = "system:nightly-reconcile"
+    pred["delegation"]["subjectKind"] = "system"
+    value = data_subject_of(
+        purpose="batch-reconciliation",
+        purposes=SYSTEM_PURPOSES,
+        purposesDigest=digest(SYSTEM_PURPOSES),
+    )
+    del value["delegateReference"]
+    pred["dataSubject"] = value
+    seal_commitment(pred)
+
+
+def _data_subject_edit(name: str, value: Any) -> Callable[[dict[str, Any]], None]:
+    def change(pred: dict[str, Any]) -> None:
+        pred["dataSubject"][name] = value
+
+    return change
+
+
+def define_data_subject() -> None:
+    member(
+        "DS1",
+        "ds1-data-subject-third-party",
+        "A1",
+        "A1 with a dataSubject: the call read customer C's data for the staff member the "
+        "delegation names; the record carries C's keyed reference and the staff member's, "
+        "relation other, and a purpose on the server's declared list",
+        derived("DS1", "A1", _with_data_subject(data_subject_of())),
+        "valid",
+        tier="authoritative",
+        revision=REVISION_04,
+    )
+    member(
+        "DS2",
+        "ds2-data-subject-is-the-delegate",
+        "A1",
+        "the person whose data was read is the user the agent acts for: relation delegate, "
+        "no separate delegate reference",
+        derived("DS2", "A1", _delegate_data_subject),
+        "valid",
+        tier="authoritative",
+        revision=REVISION_04,
+    )
+    member(
+        "DS3",
+        "ds3-data-subject-system-caller",
+        "A1",
+        "a system caller: delegation.subjectKind of system, so the data subject has no delegate "
+        "to be told apart from, and the server's declared list is another",
+        derived("DS3", "A1", _system_data_subject),
+        "valid",
+        tier="authoritative",
+        revision=REVISION_04,
+    )
+    rejects: list[tuple[str, str, str, str, Callable[[dict[str, Any]], None], str]] = [
+        (
+            "DS4",
+            "ds4-data-subject-reference-missing",
+            "DS1",
+            "dataSubject without reference",
+            _data_subject_drop("reference"),
+            "data-subject-member-missing",
+        ),
+        (
+            "DS5",
+            "ds5-data-subject-raw-identifier",
+            "DS1",
+            "dataSubject carrying the raw customer identifier in a member this document does "
+            "not define",
+            _data_subject_edit("customerId", CUSTOMER_ID),
+            "data-subject-member-unknown",
+        ),
+        (
+            "DS6",
+            "ds6-data-subject-reference-not-a-digest",
+            "DS1",
+            "reference the raw customer identifier instead of a keyed digest",
+            _data_subject_edit("reference", CUSTOMER_ID),
+            "data-subject-malformed",
+        ),
+        (
+            "DS7",
+            "ds7-data-subject-merged-with-delegate",
+            "DS1",
+            "relation other while the data subject's reference is the delegate's: the two "
+            "people merged",
+            _data_subject_edit("reference", data_subject_reference(DELEGATE_ID)),
+            "data-subject-merged",
+        ),
+        (
+            "DS8",
+            "ds8-data-subject-relation-delegate-for-system",
+            "DS3",
+            "relation delegate under a system caller, which has no user to be the data subject",
+            _data_subject_edit("relation", "delegate"),
+            "data-subject-relation-mismatch",
+        ),
+        (
+            "DS9",
+            "ds9-data-subject-purpose-undeclared",
+            "DS1",
+            "a purpose that is not on the list the server declared",
+            _data_subject_edit("purpose", "marketing"),
+            "data-subject-purpose-undeclared",
+        ),
+        (
+            "DS10",
+            "ds10-data-subject-purposes-digest-mismatch",
+            "DS1",
+            "purposesDigest is the digest of another list than the one the record carries",
+            _data_subject_edit("purposesDigest", h("purposes/another-list")),
+            "data-subject-purposes-digest-mismatch",
+        ),
+    ]
+    for draft_id, slug, parent, row, change, code in rejects:
+        member(
+            draft_id,
+            slug,
+            parent,
+            row,
+            mutate(parent, change),
+            "malformed",
+            [code],
+            revision=REVISION_04,
+        )
+
+
+def _delegate_data_subject(pred: dict[str, Any]) -> None:
+    value = data_subject_of(
+        reference=data_subject_reference(DELEGATE_ID),
+        relation="delegate",
+        purpose="fraud-review",
+    )
+    del value["delegateReference"]
+    pred["dataSubject"] = value
+
+
+def _data_subject_drop(name: str) -> Callable[[dict[str, Any]], None]:
+    def change(pred: dict[str, Any]) -> None:
+        del pred["dataSubject"][name]
+
+    return change
 
 
 # ---------------------------------------------------------------------------
@@ -4501,11 +4943,12 @@ ORDER = (
     "CS1 CS2 CS3 CS4 CS5 CS6 CS7 CS8 CS9 CS10 CS11 CS12 CS13 CS14 CS15 CS16 CS17 "
     "CS18 CS19 CS20 CS21 CS22 CS23 CS24 CS25 "
     "CS26 CS27 CS28 CS29 CS30 CS31 CS32 CS33 CS34 CS35 CS36 CS37 CS38 CS39 CS40 "
-    "CS41 CS42 CS43 CS44 CS45 CS46 CS47 CS48 CS49 "
+    "CS41 CS42 CS43 CS44 CS45 CS46 CS47 CS48 CS49 CS50 CS51 CS52 CS53 CS54 "
     "A21 SQ1 SQ2 SQ3 SQ4 SQ5 "
     "R10 R11 R12 R13 R14 R15 R16 "
-    "IS1 IS2 "
+    "IS1 IS2 PS1 PS2 PS1b "
     "PR1 PR2 PR3 PR4 PR5 PR6 PR7 PR8 PR9 PR10 PR11 "
+    "DS1 DS2 DS3 DS4 DS5 DS6 DS7 DS8 DS9 DS10 "
     "X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15 X16 X17 X18"
 ).split()
 
@@ -4544,6 +4987,8 @@ def optional_fields(entry: Member, ids: dict[str, str]) -> dict[str, Any]:
         out["draftRevision"] = entry["revision"]
     if entry["aggregation"] is not None:
         out["aggregation"] = entry["aggregation"]
+    if entry["predicateType"] is not None:
+        out["predicateType"] = entry["predicateType"]
     return out
 
 
@@ -4666,6 +5111,8 @@ def emit() -> None:
             "above may fail it. A member carrying aggregation lists the values of one "
             "input the decision depended on, as the producer held them: a producer's "
             "aggregation over those values must yield the entry the record carries. "
+            "A member carrying predicateType is judged by a verifier configured to "
+            "accept that predicate type URI in place of the one above. "
             "R1 to R9 are retained records: the file "
             "carries the envelope beside its retention entry, expected.verdict is the "
             "envelope's verdict, and expected.dating is the result of the dating check "

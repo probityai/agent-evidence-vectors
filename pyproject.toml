@@ -8,7 +8,7 @@
 
 [project]
 name = "agent-evidence-vectors"
-version = "0.35.0"
+version = "0.36.3"
 description = "Conformance corpora and reference verifiers for agent evidence records"
 requires-python = ">=3.11"
 license = { text = "Apache-2.0" }
@@ -101,15 +101,13 @@ build-backend = "hatchling.build"
 [tool.uv]
 package = false
 
-# probity-verify is the implementation the done corpora's rules come from. The
-# cross-check (corpora/vectors-done-receipt/crosscheck_probity_verify.py) replays every done
-# member through it, pinned to the commit the readers were ported against. A
-# dependency group, so it never reaches the published package's metadata.
-[tool.uv.sources]
-probity-verify = { git = "https://github.com/probityai/probity", rev = "932c1e3ecc8f2142cb878cd43bf9689cbcb5f342", subdirectory = "packages/probity-verify" }
-
 [dependency-groups]
-crosscheck = ["probity-verify"]
+# agent-evidence-verify is the implementation the done corpora's rules come from.
+# The cross-check (corpora/vectors-done-receipt/crosscheck_probity_verify.py) replays
+# every done member through the released package, pinned by version and locked with
+# hashes in uv.lock. A dependency group, so it never reaches the published package's
+# metadata.
+crosscheck = ["agent-evidence-verify==0.5.0; python_full_version >= '3.12'"]
 # The repository tools of the imported parts (scripts/workspace.py and the other
 # tests under tests/). The packages under packages/ are standalone projects built
 # by directory (`uv build packages/<name>`); none of them has a runtime dependency. Their ruff run
@@ -140,6 +138,7 @@ only-include = [
     "corpora/vectors-a2a-jcs-v01",
     "corpora/vectors-aci",
     "corpora/vectors-acs-core",
+    "corpora/vectors-acs-decision-record",
     "corpora/vectors-admission",
     "corpora/vectors-agent-audit-record",
     "corpora/vectors-agent-card-receipt",
@@ -176,6 +175,7 @@ only-include = [
     "corpora/vectors-identity-binding",
     "corpora/vectors-ietf-agent-record-drafts",
     "corpora/vectors-incident-evidence-cell",
+    "corpora/vectors-mcp-authz",
     "corpora/vectors-mcp-owasp",
     "corpora/vectors-mcp-record-contract",
     "corpora/vectors-mcp-response-phase",
@@ -187,6 +187,7 @@ only-include = [
     "corpora/vectors-receipt-signature",
     "corpora/vectors-recorded",
     "corpora/vectors-refund-connected",
+    "corpora/vectors-refusal-reason-priority",
     "corpora/vectors-restart-records",
     "corpora/vectors-scitt-cose",
     "corpora/vectors-self-reported-record",
@@ -207,6 +208,7 @@ exclude = [
     "corpora/vectors-a2a-jcs-v01/**/*.py",
     "corpora/vectors-aci/**/*.py",
     "corpora/vectors-acs-core/**/*.py",
+    "corpora/vectors-acs-decision-record/**/*.py",
     "corpora/vectors-admission/**/*.py",
     "corpora/vectors-agent-audit-record/**/*.py",
     "corpora/vectors-agent-card-receipt/**/*.py",
@@ -243,6 +245,7 @@ exclude = [
     "corpora/vectors-identity-binding/**/*.py",
     "corpora/vectors-ietf-agent-record-drafts/**/*.py",
     "corpora/vectors-incident-evidence-cell/**/*.py",
+    "corpora/vectors-mcp-authz/**/*.py",
     "corpora/vectors-mcp-owasp/**/*.py",
     "corpora/vectors-mcp-record-contract/**/*.py",
     "corpora/vectors-mcp-response-phase/**/*.py",
@@ -254,6 +257,7 @@ exclude = [
     "corpora/vectors-receipt-signature/**/*.py",
     "corpora/vectors-recorded/**/*.py",
     "corpora/vectors-refund-connected/**/*.py",
+    "corpora/vectors-refusal-reason-priority/**/*.py",
     "corpora/vectors-restart-records/**/*.py",
     "corpora/vectors-scitt-cose/**/*.py",
     "corpora/vectors-self-reported-record/**/*.py",
@@ -273,6 +277,7 @@ exclude = [
 "corpora/vectors-a2a-jcs-v01" = "agent_evidence_vectors/corpora/vectors-a2a-jcs-v01"
 "corpora/vectors-aci" = "agent_evidence_vectors/corpora/vectors-aci"
 "corpora/vectors-acs-core" = "agent_evidence_vectors/corpora/vectors-acs-core"
+"corpora/vectors-acs-decision-record" = "agent_evidence_vectors/corpora/vectors-acs-decision-record"
 "corpora/vectors-admission" = "agent_evidence_vectors/corpora/vectors-admission"
 "corpora/vectors-agent-audit-record" = "agent_evidence_vectors/corpora/vectors-agent-audit-record"
 "corpora/vectors-agent-card-receipt" = "agent_evidence_vectors/corpora/vectors-agent-card-receipt"
@@ -309,6 +314,7 @@ exclude = [
 "corpora/vectors-identity-binding" = "agent_evidence_vectors/corpora/vectors-identity-binding"
 "corpora/vectors-ietf-agent-record-drafts" = "agent_evidence_vectors/corpora/vectors-ietf-agent-record-drafts"
 "corpora/vectors-incident-evidence-cell" = "agent_evidence_vectors/corpora/vectors-incident-evidence-cell"
+"corpora/vectors-mcp-authz" = "agent_evidence_vectors/corpora/vectors-mcp-authz"
 "corpora/vectors-mcp-owasp" = "agent_evidence_vectors/corpora/vectors-mcp-owasp"
 "corpora/vectors-mcp-record-contract" = "agent_evidence_vectors/corpora/vectors-mcp-record-contract"
 "corpora/vectors-mcp-response-phase" = "agent_evidence_vectors/corpora/vectors-mcp-response-phase"
@@ -320,6 +326,7 @@ exclude = [
 "corpora/vectors-receipt-signature" = "agent_evidence_vectors/corpora/vectors-receipt-signature"
 "corpora/vectors-recorded" = "agent_evidence_vectors/corpora/vectors-recorded"
 "corpora/vectors-refund-connected" = "agent_evidence_vectors/corpora/vectors-refund-connected"
+"corpora/vectors-refusal-reason-priority" = "agent_evidence_vectors/corpora/vectors-refusal-reason-priority"
 "corpora/vectors-restart-records" = "agent_evidence_vectors/corpora/vectors-restart-records"
 "corpora/vectors-scitt-cose" = "agent_evidence_vectors/corpora/vectors-scitt-cose"
 "corpora/vectors-self-reported-record" = "agent_evidence_vectors/corpora/vectors-self-reported-record"
@@ -414,6 +421,7 @@ only-include = [
     "corpora/vectors-a2a-jcs-v01",
     "corpora/vectors-aci",
     "corpora/vectors-acs-core",
+    "corpora/vectors-acs-decision-record",
     "corpora/vectors-admission",
     "corpora/vectors-agent-audit-record",
     "corpora/vectors-agent-card-receipt",
@@ -450,6 +458,7 @@ only-include = [
     "corpora/vectors-identity-binding",
     "corpora/vectors-ietf-agent-record-drafts",
     "corpora/vectors-incident-evidence-cell",
+    "corpora/vectors-mcp-authz",
     "corpora/vectors-mcp-owasp",
     "corpora/vectors-mcp-record-contract",
     "corpora/vectors-mcp-response-phase",
@@ -461,6 +470,7 @@ only-include = [
     "corpora/vectors-receipt-signature",
     "corpora/vectors-recorded",
     "corpora/vectors-refund-connected",
+    "corpora/vectors-refusal-reason-priority",
     "corpora/vectors-restart-records",
     "corpora/vectors-scitt-cose",
     "corpora/vectors-self-reported-record",

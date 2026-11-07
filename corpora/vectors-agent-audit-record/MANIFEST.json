@@ -75,11 +75,11 @@
       }
     ]
   },
-  "corpusDigest": "42ea72536efef1045d378225ec2715a4dd202aaef30d9a024b672609b8acc2e8",
+  "corpusDigest": "012bdcbc30b6a0efcd46d12f1459cbe80bfabfce24c7d66418a729b53caeb446",
   "counts": {
-    "accept": 88,
-    "indeterminate": 1,
-    "reject": 115
+    "accept": 95,
+    "indeterminate": 2,
+    "reject": 125
   },
   "draft": "draft-gilda-audit-agent-audit-record-00",
   "emptyTree": {
@@ -97,7 +97,7 @@
       "publicKey": "60b9ca613738a46a9350086999c93389e65c342482bbf65c6589d43116de5e7a"
     }
   },
-  "note": "One member per row of Appendix B of the draft, in the row's order; draftId is the row's identifier and parentDraftId its from column. The members after the last row carry draftSection: each tests a rule of that section that Appendix B carries no row for, and continues the identifier series of the rows beside it. A member carrying draftRevision is a row of that later revision's Appendix B, under the identifier it prints, and tests a rule that revision changes, so a reader conforming only to the draft named above may fail it. A member carrying aggregation lists the values of one input the decision depended on, as the producer held them: a producer's aggregation over those values must yield the entry the record carries. R1 to R9 are retained records: the file carries the envelope beside its retention entry, expected.verdict is the envelope's verdict, and expected.dating is the result of the dating check of Section 4.7.1, reported beside it and never folded into it. An accept or reject member is scored on expected.verdict. An indeterminate member is a row the draft leaves open: it carries no expected.verdict, and a verifier conforms on it by reaching any verdict its readings list. expected.codes are the reference reader's names for its first refusal, published so two implementations can compare where they stopped; the draft does not define them.",
+  "note": "One member per row of Appendix B of the draft, in the row's order; draftId is the row's identifier and parentDraftId its from column. The members after the last row carry draftSection: each tests a rule of that section that Appendix B carries no row for, and continues the identifier series of the rows beside it. A member carrying draftRevision is a row of that later revision's Appendix B, under the identifier it prints, and tests a rule that revision changes, so a reader conforming only to the draft named above may fail it. A member carrying aggregation lists the values of one input the decision depended on, as the producer held them: a producer's aggregation over those values must yield the entry the record carries. A member carrying predicateType is judged by a verifier configured to accept that predicate type URI in place of the one above. R1 to R9 are retained records: the file carries the envelope beside its retention entry, expected.verdict is the envelope's verdict, and expected.dating is the result of the dating check of Section 4.7.1, reported beside it and never folded into it. An accept or reject member is scored on expected.verdict. An indeterminate member is a row the draft leaves open: it carries no expected.verdict, and a verifier conforms on it by reaching any verdict its readings list. expected.codes are the reference reader's names for its first refusal, published so two implementations can compare where they stopped; the draft does not define them.",
   "payloadType": "application/vnd.in-toto+json",
   "predicateDocument": "https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/00/",
   "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/agent-audit-record",
@@ -2873,6 +2873,108 @@
       "slug": "cs49-set-later-record-counts-less-than-settled"
     },
     {
+      "draftId": "CS50",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid",
+        "withinLimit": true
+      },
+      "file": "statements/vc5944d012d8f4ad0.json",
+      "id": "vc5944d012d8f4ad0",
+      "kind": "accept",
+      "parent": "vc4129376086b1771",
+      "parentDraftId": "CS41",
+      "row": "CS41 where the facilitator settled the upto permit at 0: settled carries amount 0, source chain and an empty transaction, since a zero settlement sends none, and the held entry keeps the operation key, its 12 USDC and the permit's deadline",
+      "slug": "cs50-upto-settled-at-zero"
+    },
+    {
+      "draftId": "CS51",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [
+          "consumption-value-invalid"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v8168d7d02f8610fb.json",
+      "id": "v8168d7d02f8610fb",
+      "kind": "reject",
+      "parent": "vc5944d012d8f4ad0",
+      "parentDraftId": "CS50",
+      "row": "CS50 where settled carries 7 USDC and still an empty transaction: a settlement that moved funds names the transaction that moved them",
+      "slug": "cs51-empty-transaction-at-a-non-zero-amount"
+    },
+    {
+      "draftId": "CS52",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [
+          "consumption-value-invalid"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v4614faef7282aaee.json",
+      "id": "v4614faef7282aaee",
+      "kind": "reject",
+      "parent": "vc5944d012d8f4ad0",
+      "parentDraftId": "CS50",
+      "row": "CS50 where the held entry carries no deadline: nothing says how long the permit can still settle",
+      "slug": "cs52-zero-settlement-held-entry-has-no-deadline"
+    },
+    {
+      "draftId": "CS53",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "set": {
+          "codes": [
+            "consumption-set-release-unshown"
+          ],
+          "verdict": "malformed",
+          "withinLimit": [
+            true,
+            true
+          ]
+        },
+        "verdict": "valid"
+      },
+      "file": "sets/v1e6e19e24a868a89.json",
+      "id": "v1e6e19e24a868a89",
+      "kind": "accept",
+      "row": "CS50, then a new operation under the same limit document that reads a later revision, is dated 24 minutes before the permit's deadline and no longer holds the call, which the first record shows as none: each record valid, the set malformed because the permit can still settle",
+      "slug": "cs53-set-zero-settlement-released-before-the-deadline"
+    },
+    {
+      "draftId": "CS54",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "set": {
+          "codes": [],
+          "verdict": "valid",
+          "withinLimit": [
+            true,
+            true
+          ]
+        },
+        "verdict": "valid"
+      },
+      "file": "sets/v2f0df6d2793c22c8.json",
+      "id": "v2f0df6d2793c22c8",
+      "kind": "accept",
+      "row": "CS53 where the later record is dated at the permit's deadline: each record valid, the set valid",
+      "slug": "cs54-set-zero-settlement-released-at-the-deadline"
+    },
+    {
       "draftId": "A21",
       "draftRevision": "draft-gilda-audit-agent-audit-record-01",
       "expected": {
@@ -3193,6 +3295,67 @@
       "slug": "is2-issued-one-day-before-sealed"
     },
     {
+      "draftId": "PS1",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-03",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vd96413ec87814d0b.json",
+      "id": "vd96413ec87814d0b",
+      "kind": "accept",
+      "parent": "v446171dd39c66656",
+      "parentDraftId": "A10",
+      "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v2/agent-audit-record",
+      "row": "under the v2 predicate type URI, not-evaluated with unavailableInput of principal-standing-source and the matching entry",
+      "slug": "ps1-principal-standing-unavailable-v2"
+    },
+    {
+      "draftId": "PS2",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-03",
+      "expected": {
+        "codes": [
+          "value-outside-vocabulary"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v77a2500154f96cb4.json",
+      "id": "v77a2500154f96cb4",
+      "kind": "reject",
+      "parent": "vd96413ec87814d0b",
+      "parentDraftId": "PS1",
+      "row": "the same record under the v1 predicate type URI",
+      "slug": "ps2-principal-standing-under-v1"
+    },
+    {
+      "draftId": "PS1b",
+      "draftSection": "5.4",
+      "expected": {
+        "codes": [
+          "evaluation-inconsistent"
+        ]
+      },
+      "file": "statements/v12896bcb35edd1b1.json",
+      "id": "v12896bcb35edd1b1",
+      "kind": "indeterminate",
+      "parent": "vd96413ec87814d0b",
+      "parentDraftId": "PS1",
+      "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v2/agent-audit-record",
+      "readings": [
+        {
+          "rationale": "draft-jackson-wimse-evaluation-05 Section 3: a verifier must not use an input at or past its horizon, its as-of time plus the pinned maximum age, so at an age equal to maxAge the input is unavailable and not-evaluated naming it is the record required. The reading if this draft adopts that boundary (an input is fresh when its age is less than maxAge, and FR2 becomes malformed)",
+          "verdict": "valid"
+        },
+        {
+          "rationale": "Section 5.4 of draft-gilda-audit-agent-audit-record-03 as filed: an age equal to maxAge is fresh (FR2), so the derived unavailable set is empty and a not-evaluated record naming the input fails the recompute of Section 4.6. The reading if draft-jackson-wimse-evaluation adopts this draft's boundary (past its horizon, in place of at or past)",
+          "verdict": "malformed"
+        }
+      ],
+      "row": "principal-standing-source exactly at maxAge (age 3600 under 3600) and not answering, still not-evaluated naming it: open between draft-jackson-wimse-evaluation-05 Section 3 and this section",
+      "slug": "ps1b-principal-standing-age-equal-to-max-age"
+    },
+    {
       "draftId": "PR1",
       "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "expected": {
@@ -3375,6 +3538,173 @@
       "parentDraftId": "PR1",
       "row": "principal carrying the raw token in a member this document does not define",
       "slug": "pr11-principal-member-unknown"
+    },
+    {
+      "draftId": "DS1",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v8f2ca677f5df0c0b.json",
+      "id": "v8f2ca677f5df0c0b",
+      "kind": "accept",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "A1 with a dataSubject: the call read customer C's data for the staff member the delegation names; the record carries C's keyed reference and the staff member's, relation other, and a purpose on the server's declared list",
+      "slug": "ds1-data-subject-third-party"
+    },
+    {
+      "draftId": "DS2",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v871494a8dba0a406.json",
+      "id": "v871494a8dba0a406",
+      "kind": "accept",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "the person whose data was read is the user the agent acts for: relation delegate, no separate delegate reference",
+      "slug": "ds2-data-subject-is-the-delegate"
+    },
+    {
+      "draftId": "DS3",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vbe42b7b9275a9fc3.json",
+      "id": "vbe42b7b9275a9fc3",
+      "kind": "accept",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "a system caller: delegation.subjectKind of system, so the data subject has no delegate to be told apart from, and the server's declared list is another",
+      "slug": "ds3-data-subject-system-caller"
+    },
+    {
+      "draftId": "DS4",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "data-subject-member-missing"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v013c59cf51774951.json",
+      "id": "v013c59cf51774951",
+      "kind": "reject",
+      "parent": "v8f2ca677f5df0c0b",
+      "parentDraftId": "DS1",
+      "row": "dataSubject without reference",
+      "slug": "ds4-data-subject-reference-missing"
+    },
+    {
+      "draftId": "DS5",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "data-subject-member-unknown"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v64fb7d2b269d916c.json",
+      "id": "v64fb7d2b269d916c",
+      "kind": "reject",
+      "parent": "v8f2ca677f5df0c0b",
+      "parentDraftId": "DS1",
+      "row": "dataSubject carrying the raw customer identifier in a member this document does not define",
+      "slug": "ds5-data-subject-raw-identifier"
+    },
+    {
+      "draftId": "DS6",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "data-subject-malformed"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v6b83c9a51a68e9d6.json",
+      "id": "v6b83c9a51a68e9d6",
+      "kind": "reject",
+      "parent": "v8f2ca677f5df0c0b",
+      "parentDraftId": "DS1",
+      "row": "reference the raw customer identifier instead of a keyed digest",
+      "slug": "ds6-data-subject-reference-not-a-digest"
+    },
+    {
+      "draftId": "DS7",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "data-subject-merged"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v112d8474d423174f.json",
+      "id": "v112d8474d423174f",
+      "kind": "reject",
+      "parent": "v8f2ca677f5df0c0b",
+      "parentDraftId": "DS1",
+      "row": "relation other while the data subject's reference is the delegate's: the two people merged",
+      "slug": "ds7-data-subject-merged-with-delegate"
+    },
+    {
+      "draftId": "DS8",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "data-subject-relation-mismatch"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/ve8a6caabb2b9be75.json",
+      "id": "ve8a6caabb2b9be75",
+      "kind": "reject",
+      "parent": "vbe42b7b9275a9fc3",
+      "parentDraftId": "DS3",
+      "row": "relation delegate under a system caller, which has no user to be the data subject",
+      "slug": "ds8-data-subject-relation-delegate-for-system"
+    },
+    {
+      "draftId": "DS9",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "data-subject-purpose-undeclared"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vb7249b0ebaf69f97.json",
+      "id": "vb7249b0ebaf69f97",
+      "kind": "reject",
+      "parent": "v8f2ca677f5df0c0b",
+      "parentDraftId": "DS1",
+      "row": "a purpose that is not on the list the server declared",
+      "slug": "ds9-data-subject-purpose-undeclared"
+    },
+    {
+      "draftId": "DS10",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "data-subject-purposes-digest-mismatch"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/ved1e86ff17b0b12b.json",
+      "id": "ved1e86ff17b0b12b",
+      "kind": "reject",
+      "parent": "v8f2ca677f5df0c0b",
+      "parentDraftId": "DS1",
+      "row": "purposesDigest is the digest of another list than the one the record carries",
+      "slug": "ds10-data-subject-purposes-digest-mismatch"
     },
     {
       "draftId": "X1",

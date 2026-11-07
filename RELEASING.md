@@ -180,17 +180,67 @@ python3 scripts/verify-release-tag.py vX.Y.Z
 #    Step 7's push runs the hook; the tag check below is cheap and local.
 python3 scripts/verify-release-tag.py vX.Y.Z
 
-# 7. Publish the owned feature branch and the new tag atomically. The feature
-#    branch's installation pin and signed tag arrive together. The default
-#    branch stays at its reviewed revision until the source pull request lands.
-git push --atomic origin <branch> refs/tags/vX.Y.Z:refs/tags/vX.Y.Z
+# 7. Publish the owned feature branch ALONE. The tag stays local until its
+#    commit is on main (step 9). Pushing the tag now starts release.yml, whose
+#    first job refuses a tag whose commit is not on main; the pre-push hook
+#    refuses the push before it leaves.
+git push origin <branch>
 
 # 8. Open a source pull request from <branch> into main. Review its exact head
-#    and require all hosted checks to pass, including the release tag run.
-#    Merge through the normal protected landing procedure. Read back the
-#    merged source tree, main checks and actual package publication before
-#    reporting the release as delivered.
+#    and require all hosted checks to pass. Merge it with a MERGE COMMIT
+#    (`gh pr merge <n> --merge`), never a squash: a squash writes a new commit
+#    and the tagged commit never reaches main. Do not add commits to the
+#    branch after the tag; a tagged commit that the merged branch does not
+#    contain is the same failure.
+#    This pull request keeps every page pin, CITATION.cff's preferred citation
+#    and version-pins.toml at the PREVIOUS published version. The distribution
+#    and citation gates resolve each pin against a tag that exists, and the new
+#    tag does not exist yet. So the `pins` check is red on this pull request by
+#    design, and it is not a required check. Step 11 moves the pins.
+#    Freeze merges while the release is in flight, so main does not move under
+#    the release branch:
+#    `merge-freeze set probityai/agent-evidence-vectors --reason "vX.Y.Z"`,
+#    then `merge-freeze allow probityai/agent-evidence-vectors <n>`.
+gh pr merge <n> --merge
+
+# 9. Push the tag, alone, once the merge is on main. The tagged commit must be
+#    reachable from origin/main.
+git fetch origin main
+git merge-base --is-ancestor vX.Y.Z origin/main
+git push origin refs/tags/vX.Y.Z:refs/tags/vX.Y.Z
+
+# 10. Watch the release run. verify checks the tag is on main first and prints
+#    the tag, its commit and origin/main when it is not. The publish job then
+#    waits for the public-release environment's approval. Read back the merged
+#    source tree, main checks and actual package publication (PyPI and the
+#    Hugging Face dataset) before reporting the release as delivered.
+
+# 11. Open the publish pull request from a fresh branch on main. It moves the
+#    preferred citation in CITATION.cff (url, version, commit, the tag object
+#    identifier) and puts back the top-level `date-released`, dated to the
+#    tagged commit's committer date (`git show -s --format=%cs vX.Y.Z`); the
+#    cut carries none, because a source candidate must not. It also moves
+#    the install pins in README.md, DISTRIBUTION.md and docs, and
+#    the action entry in version-pins.toml to vX.Y.Z. Run the pins script
+#    (scripts/version-pins.py in probityai/.github, at the commit the
+#    version-pins workflow pins) with `write`, read the result, then `check`,
+#    which must exit 0. The script does not track every reference: grep the
+#    pages for the previous version (a `git checkout vX.Y.Z` line, a link
+#    text such as `[vX.Y.Z release]`) and move what it missed.
+#    Merge it when every check passes, the `pins` check
+#    included, then clear the freeze:
+#    `merge-freeze clear probityai/agent-evidence-vectors`.
+python3 -B path/to/probityai-.github/scripts/version-pins.py write
+python3 -B path/to/probityai-.github/scripts/version-pins.py check
 ```
+
+A tag that missed main is not repaired. `release.yml` fails it in `verify`
+("the tagged commit is on main") with the tag, the commit and `origin/main` in
+the error, before the owner is asked to approve anything. Retain the tag and
+the failed run, and cut the next patch version. This failure used to sit in the
+`publish` job beside the token check and print nothing, which read as a missing
+`HF_TOKEN` for v0.34.0, v0.36.0 and v0.36.1; a real missing token now fails its
+own step, "the dataset token is set".
 
 A tag that precedes its remote run cannot publish a bad release, and that is
 why the order above is safe rather than merely convenient: `release.yml`'s
@@ -242,8 +292,11 @@ withdrawn.
 
 The **publish** job builds the wheel and the sdist, runs the wheel from outside
 the checkout and replays every corpus it carries, asserts the wheel's version is
-the tag's, and uploads to PyPI under the workflow's own OIDC identity. Nobody
-uploads by hand.
+the tag's, and uploads to PyPI under the workflow's own OIDC identity, or with the `PYPI_API_TOKEN`
+secret of the `pypi` environment when that identity is refused, then reads every file's
+sha256 back from PyPI. Nobody uploads by hand. A failed publish is a token upload the
+same turn: set the secret and rerun the failed job, and never hand the registry step to
+a person.
 
 Two properties of the wheel are worth stating because they have been wrong
 before. The wheel carries the corpora as data, so **a corpus absent from the

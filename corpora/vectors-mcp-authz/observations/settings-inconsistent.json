@@ -1,0 +1,36 @@
+{
+  "case_id": "vectors-mcp-authz-settings-inconsistent",
+  "evaluated_at": 1790000000,
+  "fixture": {
+    "synthetic": true
+  },
+  "observed": {
+    "as_metadata": {
+      "status": 200
+    },
+    "prm": null,
+    "unauthenticated": {
+      "status": 401,
+      "www_authenticate": "Basic realm=\"mcp\""
+    },
+    "under_scoped": {
+      "status": 403,
+      "www_authenticate": "Bearer error=\"insufficient_scope\", scope=\"mcp:read mcp:write\", resource_metadata=\"https://mcp.example.test/.well-known/oauth-protected-resource/mcp\""
+    }
+  },
+  "schema": "mcp-authz-observation/v1",
+  "server": {
+    "issuer": "https://auth.example.test",
+    "registration": {
+      "enabled": true,
+      "valid_scopes": [
+        "mcp:read"
+      ]
+    },
+    "required_scopes": [
+      "mcp:read",
+      "mcp:write"
+    ],
+    "resource": null
+  }
+}

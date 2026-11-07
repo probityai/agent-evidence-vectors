@@ -120,6 +120,15 @@ func arHeldShape(item any) error {
 	if !isText || key == "" || !arIsDigest(digest) || !arIsCount(entry["amount"]) {
 		return arRefuse("consumption-value-invalid")
 	}
+	if raw, has := entry["deadline"]; has {
+		text, isString := raw.(string)
+		if !isString {
+			return arRefuse("consumption-value-invalid")
+		}
+		if _, err := arInstant(text); err != nil {
+			return arRefuse("consumption-value-invalid")
+		}
+	}
 	return nil
 }
 
@@ -211,8 +220,9 @@ func arAssetShape(raw any) error {
 
 // arSettledShape: the optional settled terms carry exactly amount, asset,
 // payee, source and transaction; the amount a count, the asset an asset, the
-// payee a digest, the source the chain (CS47) and the transaction a non-empty
-// string.
+// payee a digest, the source the chain (CS47) and the transaction a string,
+// empty only when the amount is 0 (CS50, CS51): an x402 EVM upto permit that
+// settles 0 sends no transaction.
 func arSettledShape(raw any) error {
 	settled, ok := raw.(map[string]any)
 	if !ok {
@@ -237,7 +247,18 @@ func arSettledShape(raw any) error {
 	if arConsumptionChecks["settled-source"] && !arContains(arSettledSources, source) {
 		return arRefuse("consumption-value-invalid")
 	}
-	if transaction, ok := settled["transaction"].(string); !ok || transaction == "" {
+	transaction, ok := settled["transaction"].(string)
+	if !ok {
+		return arRefuse("consumption-value-invalid")
+	}
+	if transaction != "" {
+		return nil
+	}
+	if amount, _ := arInt(settled["amount"]); amount == 0 {
+		if !arConsumptionChecks["zero-settled-transaction"] {
+			return arRefuse("consumption-value-invalid")
+		}
+	} else if arConsumptionChecks["empty-transaction-nonzero"] {
 		return arRefuse("consumption-value-invalid")
 	}
 	return nil
@@ -333,7 +354,31 @@ func arRuleConsumption(s *arState) error {
 	if err := arRetryChecks(consumption, decision); err != nil {
 		return err
 	}
-	return arSettledAgainstApproved(consumption)
+	if err := arSettledAgainstApproved(consumption); err != nil {
+		return err
+	}
+	return arZeroSettlementHeld(consumption, decision)
+}
+
+// arZeroSettlementHeld: a zero settlement keeps the operation in held with a
+// deadline (CS52). The permit's nonce is unspent, so the facilitator can still
+// settle it up to its maximum until the deadline.
+func arZeroSettlementHeld(consumption, decision map[string]any) error {
+	settled, has := consumption["settled"].(map[string]any)
+	if !has || !arConsumptionChecks["zero-settled-deadline"] {
+		return nil
+	}
+	if amount, _ := arInt(settled["amount"]); amount != 0 {
+		return nil
+	}
+	held := arHeldFor(consumption, decision)
+	if held == nil {
+		return arRefuse("consumption-value-invalid")
+	}
+	if _, has := held["deadline"]; !has {
+		return arRefuse("consumption-value-invalid")
+	}
+	return nil
 }
 
 // arRetryChecks: a call whose operation key is held is a retry, and it repeats
@@ -436,7 +481,68 @@ var arSetRules = []arSetRule{
 	{"stale-revision", "consumption-set-stale-revision", arSetStaleRevision},
 	{"release-unshown", "consumption-set-release-unshown", arSetReleaseUnshown},
 	{"asset-mismatch", "consumption-set-asset-mismatch", arSetAssetMismatch},
+	{"unexpired-hold", "consumption-set-release-unshown", arSetUnexpiredHold},
 	{"settled-uncounted", "consumption-set-settled-uncounted", arSetSettledUncounted},
+}
+
+// arSetUnexpiredHold: the hold of an operation that settled 0 ends only when a
+// later record of the ledger is at or after the held entry's deadline, or a
+// record of that operation shows occurred. A record before the deadline that no
+// longer holds the key, whether or not the operation's own record shows none,
+// released a permit the facilitator can still settle (CS53); one at or after
+// the deadline is the control (CS54).
+func arSetUnexpiredHold(group []map[string]any) bool {
+	for i, settling := range group {
+		consumption := arConsumptionOf(settling)
+		settled, has := consumption["settled"].(map[string]any)
+		if !has {
+			continue
+		}
+		if amount, _ := arInt(settled["amount"]); amount != 0 {
+			continue
+		}
+		held := arHeldFor(consumption, arObj(settling, "decision"))
+		if held == nil {
+			continue
+		}
+		text, carried := held["deadline"].(string)
+		if !carried {
+			continue
+		}
+		deadline, err := arInstant(text)
+		if err != nil {
+			continue
+		}
+		key, _ := held["operationKey"].(string)
+		if arShowsOccurred(group, key) {
+			continue
+		}
+		for j, later := range group {
+			if i == j || arRevision(later) <= arRevision(settling) || arHeldKeys(later)[key] {
+				continue
+			}
+			moment, err := arInstant(arStr(later, "decision.reportedAt"))
+			if err != nil {
+				continue
+			}
+			if !moment.After(deadline) && (!arDeadlineInclusive || !moment.Equal(deadline)) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// arShowsOccurred says whether a record of the ledger shows the operation
+// occurred.
+func arShowsOccurred(group []map[string]any, key string) bool {
+	for _, pred := range group {
+		if k, _ := arObj(pred, "decision")["operationKey"].(string); k == key &&
+			arStr(pred, "effect.observed") == "occurred" {
+			return true
+		}
+	}
+	return false
 }
 
 // arSetSettledUncounted: a call whose record carries settled moved its settled
@@ -858,7 +964,7 @@ func arLimitsText(values []*bool) string {
 // arSetFindings: each record of a set member reaches the member's verdict, tier
 // and withinLimit, and the records together reach expected.set.
 func arSetFindings(label string, manifest *arManifest, v arVector, body []byte) []string {
-	result := arVerifySet(body, manifest.PredicateType, manifest.Keys.Observer.PublicKey, "")
+	result := arVerifySet(body, manifest.typeFor(v), manifest.Keys.Observer.PublicKey, "")
 	var findings []string
 	for index, report := range result.reports {
 		for _, found := range arDeclaredFindings(label, v, report) {

@@ -4,7 +4,7 @@ Use this page to choose an installation route or identify the corpus you ran. Fo
 
 ## The tag to cite
 
-`v0.35.0`, the published version named by the preferred citation in [CITATION.cff](CITATION.cff). Cite its signed tag or full source commit and corpus digest when reporting a result.
+`v0.36.3`, the published version named by the preferred citation in [CITATION.cff](CITATION.cff). Cite its signed tag or full source commit and corpus digest when reporting a result.
 
 The installation examples are pinned to the version above. The corpus table
 describes this checkout; a release tag or installed wheel identifies its own
@@ -12,8 +12,8 @@ population.
 
 This checkout prepares an unreleased source version with package metadata and
 criterion-document repairs. Those changes are not part of the published release.
-For a release run, select the matching [GitHub release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.35.0) and
-[PyPI wheel and source archive](https://pypi.org/project/agent-evidence-vectors/0.35.0/).
+For a release run, select the matching [GitHub release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.36.3) and
+[PyPI wheel and source archive](https://pypi.org/project/agent-evidence-vectors/0.36.3/).
 Use the installation route below or build from a reviewed source checkout.
 The [source-wheel recipe](README.md#try-it) builds the verifier and harness
 from a reviewed checkout, then runs the installed harness outside it. Record
@@ -26,15 +26,15 @@ unchanged as historical evidence.
 Install matching published versions:
 
 ```bash
-go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.35.0
-uvx agent-evidence-vectors==0.35.0 --verifier "aee-verify -validity-only -json"
+go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.36.3
+uvx agent-evidence-vectors==0.36.3 --verifier "aee-verify -validity-only -json"
 ```
 
 Run the same harness from the published release checkout:
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors
-cd agent-evidence-vectors && git checkout v0.35.0
+cd agent-evidence-vectors && git checkout v0.36.3
 python3 packaging/run_vectors.py --verifier "aee-verify -validity-only -json"
 ```
 
@@ -48,7 +48,7 @@ Recompute the corpus digests, then check the signature and timestamp proofs:
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors && cd agent-evidence-vectors
-git checkout v0.35.0
+git checkout v0.36.3
 
 # 1. the digest list is what the vector files on disk hash to, recomputed
 python3 scripts/release-digests.py --check
@@ -102,6 +102,7 @@ Choose a corpus for the format your verifier supports. Each has its own manifest
 | `corpora/vectors-trace-anchor/` | `trace-registry-anchor/v1` | the TRACE Level 2 anchor check, Registry Anchor Format v1 with trace-spec#533: a missing or malformed registry entry, a receipt that anchors itself, and receipt fields that lie about the entry, graded against TRACE's own TR-ANC-002 at pinned commits |
 | `corpora/vectors-grade-floor/` | `evidence-grade-floor/v1` | the E0-E4 evidence ladder of AAIF Observability WG issue #37, with the grade derived by the consumer: a producer-declared grade or integrity boolean never raises it, and an operationally-conformant claim needs E3 and no contradiction |
 | `corpora/vectors-connector-scope/` | `connector-scope-record/v1` | A health-system connector's scope record: what it can read, what it can change and what it refused, with synthetic PHI-free fixtures, refusing a change under a read grant, an unlisted action that ran, a permitted action refused as out of scope and a refusal with no recorded reason |
+| `corpora/vectors-mcp-authz/` | `mcp-authz-observation/v1` | what an MCP server publishes about its OAuth protection, read from outside: Protected Resource Metadata, Authorization Server metadata, the Bearer challenge on an unauthenticated request and the settings behind them, each case carrying the verdict and finding codes a verifier must return |
 | `corpora/vectors-agent-payment-mandate/` | `agent-payment-mandate/v1` | An agent-initiated payment judged from its own dispute evidence pack: the mandate the user signed, the credential presented, the charge that ran and the receipt that binds them, refused when the charge leaves the mandate in amount, currency, merchant, time or token or a single-use token is replayed or the post-checkout actions are not all recorded |
 | `corpora/vectors-agent-change-admission/` | `agent-change-admission/v1` | signed decisions that admit or reject a change to an AI agent's harness, in a bare DSSE carriage and an in-toto Statement carriage: pinned keys, the predicate's required fields, the gate record against the admitted flag, and stored reports against the digests the decision names |
 | `corpora/vectors-agentic-process-evidence/` | `agentic-process-evidence/v0.1` | signed in-toto Statements carrying the Agentic Process Evidence predicate proposed in in-toto/attestation#609: provider stacks, result, accountable owner, timestamps, session logs, tools and context artifacts, each field rule taken from the predicate's own specification |
@@ -116,6 +117,7 @@ Choose a corpus for the format your verifier supports. Each has its own manifest
 | `corpora/vectors-signature-coverage/` | `signature-coverage/v1` | a signature and what a reader of the record reads, including a repeated key flattened before signing |
 | `corpora/vectors-propagation-step/` | `propagation-step/v1` | one hop between agents: propagation attributed only through a message digest chain that reaches the receiver before it acted, and a common-cause exposure with no edge refused as propagation |
 | `corpora/vectors-containment-journal/` | `containment-journal/v1` | a multi-agent defence's containment recomputed from its hash-chained journal: a cut edge that still delivers under an enforcing router, a detector that reads fields the router never writes or isolates on uniform risk, a return without an external score below its threshold, a closure claimed over an advisory topology, an isolated agent's tool call that was not refused, an admitted document outside the attested snapshot, and a blast-radius receipt that misstates an agent's reach |
+| `corpora/vectors-refusal-reason-priority/` | `refusal-reason-priority/v1` | an attestation answer's refusal reason against the closed five-value vocabulary of draft-li-rttp-iqa-addressing-02: the first applicable value and not a later one, no reason when no condition applies, null as the only permit, a diagnostic read that does not authorize, and the lease instant as a declared convention, with three questions the draft leaves open scored ambiguous |
 | `corpora/vectors-decision-client-failure-modes/` | `decision-client-failure-modes/v1` | one decision a client took when it asked a decision point whether to act: an unreachable point, a timeout, an HTTP error, an unparseable body, an unknown or a missing verdict each read as an allow or recorded as a policy decision, a verdict not followed and a halt not honoured, each scenario played against a stub decision point and a counting effect sink under the client's default and strict modes |
 | `corpora/vectors-uncertain-effect/` | `uncertain-effect/v1` | one operation whose reply may have been lost: a retry after an unknown outcome, an idempotency key reused with changed arguments, a dispatch beyond the worker's lease, an unknown released at reservation expiry and an outcome reported without the effect owner's answer, each paired with a runtime scenario a counting effect owner plays |
 | `corpora/vectors-aggregate-accounting/` | `aggregate-accounting/v1` | the decisions an accounting authority took against one budget shared by a principal and its delegation subtrees: concurrent requests admitted inside the budget, racing requests that cannot both be admitted, an unknown-outcome reservation that stays charged past its expiry, a request past the latency bound refused or held, and the principal, subtree, budget, action and counts retained |
@@ -142,6 +144,7 @@ Choose a corpus for the format your verifier supports. Each has its own manifest
 | `corpora/vectors-w3c-intake/` | `w3c-intake-v2-conformance` | the W3C public-agent-conformance group's intake criteria for a submitted conformance result, v2 with the accepted v2.1 deltas: every rejection ground bound to its sentence, each with a record that must be refused and one that must be admitted |
 | `corpora/vectors-w3c-report/` | `w3c-report-v01-conformance` | the W3C public-agent-conformance group's v0.1 per-check report: five states, the cause vocabulary, fourteen rejection rows and roll-up claims (including a declared no-void claim), as whole reports |
 | `corpora/vectors-refund-connected/` | `refund-connected/v1` | retained runs of a connected refund pilot judged offline from their bytes: inputs, trust files, admission state, signed handoffs and resolutions, the executor streams and the payment simulator record, refused when any link between them breaks |
+| `corpora/vectors-acs-decision-record/` | `control-decision-conformance` | control decision records: a policy decision bound to the digest of the input it judged and of the policy it ran, with a replay that must reproduce the recorded verdict, and the tampered, unbound and forged records a verifier must refuse |
 
 The distribution gate checks the directory and suite names against the tracked manifests. Read vector counts and digests from those manifests or [release/CORPUS-DIGESTS.txt](release/CORPUS-DIGESTS.txt). The [corpus guide](docs/guides/corpora.md) describes the formats and packaged readers.
 

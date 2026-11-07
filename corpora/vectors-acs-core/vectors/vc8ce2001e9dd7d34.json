@@ -1,0 +1,75 @@
+{
+  "cites": "the same HMAC head presented to the Observed Agent, a key-holder, as integrity evidence, which section 8.6 says the baseline gives. A verifier that refuses every HMAC head scores zero here, so the member above measures the external claim rather than the algorithm.",
+  "coverage": "effective",
+  "evidenceBasis": "artifact",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "allow"
+  },
+  "family": "acs-f-10",
+  "id": "vc8ce2001e9dd7d34",
+  "kind": "accept",
+  "payload": {
+    "context_entry": {
+      "chain_hash": "3333333333333333333333333333333333333333333333333333333333333333",
+      "step_id": "st-0003",
+      "step_type": "hooks/toolCallRequest"
+    },
+    "guardian_response": {
+      "chain_hash": "3333333333333333333333333333333333333333333333333333333333333333",
+      "decision": "allow",
+      "signature": {
+        "algorithm": "HMAC-SHA256",
+        "key_id": "session-k1",
+        "value": "AAAA"
+      }
+    },
+    "key_id_resolves_to": {
+      "class": "symmetric",
+      "key_id": "session-k1",
+      "signing_key_held_by": [
+        "guardian",
+        "observed_agent"
+      ]
+    },
+    "presented_as": {
+      "audience": "key_holder",
+      "claim": "integrity",
+      "witness_scope": "PEER"
+    },
+    "profile": "ACS-Core",
+    "signed_by": "guardian",
+    "signed_with": "session-k1"
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-021",
+      "line": 258,
+      "sentence": "Non-repudiation, proving to a third party that a specific Guardian issued a specific head, requires the asymmetric ACS-Crypto profile",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    },
+    {
+      "id": "ACS-R-072",
+      "line": 313,
+      "sentence": "Non-repudiation, proving to a third party that a specific Guardian issued a specific head or decision, requires the asymmetric ACS-Crypto profile",
+      "upstreamCommit": "61993cbfc44f858cf46e047c3c4915b3b0bbf387",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-61993cb.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-021",
+    "ACS-R-072"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "PEER"
+}
