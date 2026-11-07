@@ -1,0 +1,23 @@
+{
+  "profile": "aps-receipt-v1",
+  "receipt_type": "aps:action-intent:v1",
+  "issuer": "did:example:refund-worker",
+  "subject_agent": "did:example:refund-worker",
+  "action_ref": "572e7652abcb96dc8a99ad6a91150e1984b7cb7f9ef57ca1d2b2e07fa2fcebe9",
+  "delegation_ref": "sha256:b7c699f2492f1640fe1f5d6c2dcf09901c2a9c2e0cd9aed5b562f0e347a3f4c3",
+  "issued_at": "2026-10-28T21:45:45.527Z",
+  "evidence_refs": [],
+  "result": {
+    "profile": "aps-action-intent-result-v1",
+    "status": "submitted"
+  },
+  "receipt_id": "86b91dce0ac9107e67d580053e27e55706a99870d69747ee09f8c2cfb82daae1",
+  "signatures": [
+    {
+      "signer": "did:example:refund-worker",
+      "key_id": "wrk-stage-1",
+      "alg": "Ed25519",
+      "value": "de4a193e1e5ccb4789f7bbd96f5ce5d52a4755e376aa35d5f7b0a272af82e010d52b6ab824590c09d06df4ee0126258cce6a920f2c41e70b4b0c5af21b00d406"
+    }
+  ]
+}

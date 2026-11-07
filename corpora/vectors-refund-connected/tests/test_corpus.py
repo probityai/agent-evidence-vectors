@@ -57,6 +57,32 @@ def test_reader_agrees_with_every_manifest_entry() -> None:
     assert answered == len(json.loads((ROOT / "MANIFEST.json").read_text())["vectors"])
 
 
+def _input_aps_bytes() -> dict[str, bytes]:
+    base = ROOT / generator.INPUT_APS
+    return {p.relative_to(base).as_posix(): p.read_bytes() for p in base.rglob("*") if p.is_file()}
+
+
+def test_input_aps_fixtures_regenerate_byte_identically() -> None:
+    committed = _input_aps_bytes()
+    generator.write_input_aps(ROOT, json.loads((ROOT / "MANIFEST.json").read_text()))
+    assert _input_aps_bytes() == committed
+
+
+def test_input_aps_fixtures_reach_their_checks_and_split_on_the_stage_rule() -> None:
+    order = dict(generator.CHECK_ORDER)
+    fixtures = sorted((ROOT / generator.INPUT_APS / "cases").iterdir())
+    for fixture in fixtures:
+        expected = json.loads((fixture / "expected.json").read_text())
+        got = generator.packaged_input_aps(fixture, expected["consumed_at"])
+        assert got == expected["packaged_reader"]["input_aps"]
+        assert expected["expected"]["input_aps"] == order[expected["check"]]
+        if fixture.name.startswith("s-"):
+            assert got == reader.ESTABLISHED != expected["expected"]["input_aps"]
+        else:
+            assert got == expected["expected"]["input_aps"]
+    assert [f.name for f in fixtures if f.name.startswith("s-")] == ["s-intent-result-status"]
+
+
 def test_r2_passes_and_r1_names_the_failed_steps() -> None:
     assert _ok(ROOT / R2)
     result = reader.judge_run(ROOT / R1)

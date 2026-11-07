@@ -1,0 +1,13 @@
+{
+  "base": "source/j01-connected-20261028-r2/cases/j01",
+  "check": "3l",
+  "consumed_at": "2026-10-28T21:45:47.000Z",
+  "edit": "trust/aps-consumption.json boundary key revoked_at one second before consumed_at",
+  "expected": {
+    "input_aps": "REFUSED:APPROVAL_SIGNER_REVOKED_AT_CONSUMPTION"
+  },
+  "id": "x-boundary-revoked",
+  "packaged_reader": {
+    "input_aps": "REFUSED:APPROVAL_SIGNER_REVOKED_AT_CONSUMPTION"
+  }
+}

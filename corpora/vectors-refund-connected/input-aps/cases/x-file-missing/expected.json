@@ -1,0 +1,13 @@
+{
+  "base": "source/j01-connected-20261028-r2/cases/j01",
+  "check": "0a",
+  "consumed_at": "2026-10-28T21:45:47.000Z",
+  "edit": "inputs/aps-action.json removed",
+  "expected": {
+    "input_aps": "NOT_ESTABLISHED:input-files-missing"
+  },
+  "id": "x-file-missing",
+  "packaged_reader": {
+    "input_aps": "NOT_ESTABLISHED:input-files-missing"
+  }
+}

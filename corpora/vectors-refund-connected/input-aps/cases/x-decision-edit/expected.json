@@ -1,0 +1,13 @@
+{
+  "base": "source/j01-connected-20261028-r2/cases/j01",
+  "check": "3d",
+  "consumed_at": "2026-10-28T21:45:47.000Z",
+  "edit": "inputs/decision-evidence.json decision_context.channel changed",
+  "expected": {
+    "input_aps": "REFUSED:DECISION_NOT_BOUND"
+  },
+  "id": "x-decision-edit",
+  "packaged_reader": {
+    "input_aps": "REFUSED:DECISION_NOT_BOUND"
+  }
+}
