@@ -1,0 +1,21 @@
+{
+  "base": "source/j01-connected-20261028-r2/cases/j01",
+  "check": "2b",
+  "consumed_at": "2026-10-28T21:45:47.000Z",
+  "edit": "inputs/aps-intent.json result.status set to submitted, which the aps:action-intent:v1 stage rule of APS SDK 8.0.1 refuses; intent, approval and PIC attestation re-signed with keys from the seeds sha256(label + role), the trust files and the runner result carrying those keys and digests",
+  "expected": {
+    "input_aps": "REFUSED:INTENT_NOT_VALID"
+  },
+  "id": "s-intent-result-status",
+  "keys": {
+    "label": "agent-evidence-vectors/refund-connected/input-aps/stage/",
+    "roles": [
+      "worker",
+      "boundary",
+      "merchant"
+    ]
+  },
+  "packaged_reader": {
+    "input_aps": "ESTABLISHED"
+  }
+}
