@@ -131,6 +131,18 @@ class ReadmeLintTest(unittest.TestCase):
         self.assertEqual(self.run_lint(GOOD), 0)
         self.assertEqual(lint.top_badge_row(GOOD), [])
 
+    def test_badge_cache_above_an_hour_fails(self) -> None:
+        slow = "![Version](https://img.shields.io/pypi/v/thing?cacheSeconds=86400)"
+        self.assertEqual(self.run_lint(GOOD + "\n" + slow + "\n"), 1)
+        self.assertEqual(self.run_lint(GOOD + "\n" + slow.replace("86400", "3601") + "\n"), 1)
+        self.assertEqual(
+            self.run_lint(GOOD + '\n<img src="https://img.shields.io/pypi/v/thing?cacheSeconds=3600">\n'),
+            0,
+        )
+        self.assertEqual(
+            self.run_lint(GOOD + "\n![Version](https://img.shields.io/pypi/v/thing)\n"), 0
+        )
+
     def test_unreadable_readme_exits_two(self) -> None:
         self.assertEqual(lint.main([str(self.root / "MISSING.md")]), 2)
 
