@@ -273,7 +273,11 @@ For one declared sink and test window, whether an effect from a task in flight c
   judged by the dating check of Section 4.7. Rows `PR1` to `PR11`, written for revision 04, test
   the optional `principal` member, the authenticated principal bound to the agent's credential
   digest and to the issuer key's RFC 7638 thumbprint
-  ([proposed text](../../docs/proposals/audit-record-04-principal.md)).
+  ([proposed text](../../docs/proposals/audit-record-04-principal.md)). Rows `DS1` to `DS10`,
+  written for revision 04, test the optional `dataSubject` member, a keyed reference to the
+  person whose data a call read, kept apart from the delegated subject, and a purpose taken from
+  the server's declared list
+  ([proposed text](../../docs/proposals/audit-record-04-data-subject.md)).
   Judged by `packaging/agent_evidence_vectors/auditrecord.py`.
   Releases up to v0.25.0 test revision 02 of the earlier draft.
 - Status: current. The URI will not move, because a record carries it inside
