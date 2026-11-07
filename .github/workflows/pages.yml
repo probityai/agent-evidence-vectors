@@ -27,7 +27,7 @@ jobs:
     steps:
       # Full history: each sitemap date is the date of the newest commit touching a page's sources,
       # and a shallow clone would answer with the tip's date for every page.
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
       - uses: astral-sh/setup-uv@v7
@@ -88,7 +88,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
       - name: every predicate type URI answers 200 from the published host
         run: python3 scripts/predicate-uri-gate.py --live
 
@@ -101,7 +101,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
       - uses: actions/download-artifact@v8
         with:
           name: indexnow-changed

@@ -52,7 +52,7 @@ jobs:
       # them below, and a shallow clone cannot tell "the objects disagree" from
       # "the objects are not here" -- so that check is run where the history is,
       # rather than run somewhere it would have to be allowed to skip.
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
       - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0

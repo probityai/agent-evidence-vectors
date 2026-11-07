@@ -192,6 +192,15 @@ git push origin <branch>
 #    and the tagged commit never reaches main. Do not add commits to the
 #    branch after the tag; a tagged commit that the merged branch does not
 #    contain is the same failure.
+#    This pull request keeps every page pin, CITATION.cff's preferred citation
+#    and version-pins.toml at the PREVIOUS published version. The distribution
+#    and citation gates resolve each pin against a tag that exists, and the new
+#    tag does not exist yet. So the `pins` check is red on this pull request by
+#    design, and it is not a required check. Step 11 moves the pins.
+#    Freeze merges while the release is in flight, so main does not move under
+#    the release branch:
+#    `merge-freeze set probityai/agent-evidence-vectors --reason "vX.Y.Z"`,
+#    then `merge-freeze allow probityai/agent-evidence-vectors <n>`.
 gh pr merge <n> --merge
 
 # 9. Push the tag, alone, once the merge is on main. The tagged commit must be
@@ -205,6 +214,24 @@ git push origin refs/tags/vX.Y.Z:refs/tags/vX.Y.Z
 #    waits for the public-release environment's approval. Read back the merged
 #    source tree, main checks and actual package publication (PyPI and the
 #    Hugging Face dataset) before reporting the release as delivered.
+
+# 11. Open the publish pull request from a fresh branch on main. It moves the
+#    preferred citation in CITATION.cff (url, version, commit, the tag object
+#    identifier) and puts back the top-level `date-released`, dated to the
+#    tagged commit's committer date (`git show -s --format=%cs vX.Y.Z`); the
+#    cut carries none, because a source candidate must not. It also moves
+#    the install pins in README.md, DISTRIBUTION.md and docs, and
+#    the action entry in version-pins.toml to vX.Y.Z. Run the pins script
+#    (scripts/version-pins.py in probityai/.github, at the commit the
+#    version-pins workflow pins) with `write`, read the result, then `check`,
+#    which must exit 0. The script does not track every reference: grep the
+#    pages for the previous version (a `git checkout vX.Y.Z` line, a link
+#    text such as `[vX.Y.Z release]`) and move what it missed.
+#    Merge it when every check passes, the `pins` check
+#    included, then clear the freeze:
+#    `merge-freeze clear probityai/agent-evidence-vectors`.
+python3 -B path/to/probityai-.github/scripts/version-pins.py write
+python3 -B path/to/probityai-.github/scripts/version-pins.py check
 ```
 
 A tag that missed main is not repaired. `release.yml` fails it in `verify`
@@ -265,8 +292,11 @@ withdrawn.
 
 The **publish** job builds the wheel and the sdist, runs the wheel from outside
 the checkout and replays every corpus it carries, asserts the wheel's version is
-the tag's, and uploads to PyPI under the workflow's own OIDC identity. Nobody
-uploads by hand.
+the tag's, and uploads to PyPI under the workflow's own OIDC identity, or with the `PYPI_API_TOKEN`
+secret of the `pypi` environment when that identity is refused, then reads every file's
+sha256 back from PyPI. Nobody uploads by hand. A failed publish is a token upload the
+same turn: set the secret and rerun the failed job, and never hand the registry step to
+a person.
 
 Two properties of the wheel are worth stating because they have been wrong
 before. The wheel carries the corpora as data, so **a corpus absent from the

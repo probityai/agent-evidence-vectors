@@ -169,6 +169,18 @@ standards = ["owasp"]
 shapes = ["scope-overreach", "replay", "stale-authority"]
 
 [[corpus]]
+id = "vectors-acs-decision-record"
+path = "corpora/vectors-acs-decision-record"
+wheel = true
+sdist = true
+title = "Control decision records"
+summary = "A verifier must bind a policy decision to the digest of the input it judged and of the policy it ran, and refuse a record whose verdict a replay does not reproduce."
+record_class = "record"
+domains = ["authority", "provenance"]
+standards = ["in-toto", "rfc8785"]
+shapes = ["missing-binding", "tampering", "forged-signature"]
+
+[[corpus]]
 id = "vectors-admission"
 path = "corpora/vectors-admission"
 wheel = true
@@ -601,6 +613,18 @@ standards = ["in-toto"]
 shapes = ["self-report", "wrong-grade"]
 
 [[corpus]]
+id = "vectors-mcp-authz"
+path = "corpora/vectors-mcp-authz"
+wheel = true
+sdist = true
+title = "MCP authorization observations"
+summary = "A verifier must report the defects in what an MCP server publishes about its OAuth protection: resource and server metadata, the Bearer challenge and the settings behind them."
+record_class = "report"
+domains = ["authority", "agent-protocols", "identity"]
+standards = ["mcp", "ietf-draft"]
+shapes = ["malformed-input", "missing-binding", "scope-overreach"]
+
+[[corpus]]
 id = "vectors-mcp-owasp"
 path = "corpora/vectors-mcp-owasp"
 wheel = true
@@ -731,6 +755,18 @@ record_class = "execution-evidence"
 domains = ["payments", "effects", "approval"]
 standards = []
 shapes = ["self-report", "missing-binding"]
+
+[[corpus]]
+id = "vectors-refusal-reason-priority"
+path = "corpora/vectors-refusal-reason-priority"
+wheel = true
+sdist = true
+title = "Refusal reason priority"
+summary = "An attestation answer must give the first applicable refusal value, no reason when no condition applies, null as the only permit, and a diagnostic read must not authorize; the lease instant is a declared convention."
+record_class = "record"
+domains = ["authority", "provenance"]
+standards = ["ietf-draft"]
+shapes = ["ordering", "stale-authority", "self-report"]
 
 [[corpus]]
 id = "vectors-restart-records"

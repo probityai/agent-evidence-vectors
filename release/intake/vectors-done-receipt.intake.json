@@ -117,7 +117,7 @@
       },
       "path": "corpora/vectors-done-receipt/crosscheck_probity_verify.py",
       "serialization": "bytes",
-      "sha256": "4aada40c62149d7b47fb1786957b983fd0d3543ce7bb900c9e44d420fd66064a"
+      "sha256": "ff8982c46a16b2978dc68ea1a8b47169e01d79938bb11c6a61786899fe88a15c"
     },
     {
       "consumed": "unconsumed",
@@ -307,7 +307,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "581e27093ecd0f65366406bb1dbcfbf78f6a20d4ffcd10755df14d27bc43f49e"
+      "sha256": "fa4b5417a414b59ec88a1be02b08d251aea927565045be9d692e088b62390524"
     },
     "runtime": {
       "name": "go",
@@ -2140,7 +2140,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "b2760c339f88536133a2fa4b08be57ddb33d222e15fa2a3a526d370023b13fd7"
+    "sha256": "8fc76e3129427c5a06fb2c911e47e68f030621a8258892d9702dbd77e9437a5b"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",

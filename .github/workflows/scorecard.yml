@@ -117,7 +117,7 @@ jobs:
       # workflow token in the git config of a tree an external action then reads
       # is exactly the shape its Token-Permissions check exists to find.
       - name: Check out the repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
