@@ -192,6 +192,15 @@ git push origin <branch>
 #    and the tagged commit never reaches main. Do not add commits to the
 #    branch after the tag; a tagged commit that the merged branch does not
 #    contain is the same failure.
+#    This pull request keeps every page pin, CITATION.cff's preferred citation
+#    and version-pins.toml at the PREVIOUS published version. The distribution
+#    and citation gates resolve each pin against a tag that exists, and the new
+#    tag does not exist yet. So the `pins` check is red on this pull request by
+#    design, and it is not a required check. Step 11 moves the pins.
+#    Freeze merges while the release is in flight, so main does not move under
+#    the release branch:
+#    `merge-freeze set probityai/agent-evidence-vectors --reason "vX.Y.Z"`,
+#    then `merge-freeze allow probityai/agent-evidence-vectors <n>`.
 gh pr merge <n> --merge
 
 # 9. Push the tag, alone, once the merge is on main. The tagged commit must be
@@ -205,6 +214,18 @@ git push origin refs/tags/vX.Y.Z:refs/tags/vX.Y.Z
 #    waits for the public-release environment's approval. Read back the merged
 #    source tree, main checks and actual package publication (PyPI and the
 #    Hugging Face dataset) before reporting the release as delivered.
+
+# 11. Open the publish pull request from a fresh branch on main. It moves the
+#    preferred citation in CITATION.cff (url, version, commit, the tag object
+#    identifier), the install pins in README.md, DISTRIBUTION.md and docs, and
+#    the action entry in version-pins.toml to vX.Y.Z. Run the pins script
+#    (scripts/version-pins.py in probityai/.github, at the commit the
+#    version-pins workflow pins) with `write`, read the result, then `check`,
+#    which must exit 0. Merge it when every check passes, the `pins` check
+#    included, then clear the freeze:
+#    `merge-freeze clear probityai/agent-evidence-vectors`.
+python3 -B path/to/probityai-.github/scripts/version-pins.py write
+python3 -B path/to/probityai-.github/scripts/version-pins.py check
 ```
 
 A tag that missed main is not repaired. `release.yml` fails it in `verify`
