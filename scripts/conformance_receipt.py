@@ -314,8 +314,8 @@ def build_receipt(
     errors += profile_errors
     if pinned:
         errors += _result_errors(report, pinned, status)
-    if errors:
-        raise Refused(errors)
+    if errors or not isinstance(transcript, dict):
+        raise Refused(errors or ["the transcript must be a JSON object"])
     run_keys = (
         "repository",
         "repository_id",
