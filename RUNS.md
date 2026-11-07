@@ -207,6 +207,41 @@ when a held permit was issued. Revision -03 states all three.
 
 The figure was not reproduced here before this row was written.
 
+### telleroutlook, `telleroutlook/agent-evidence-cold-readers`, the refund-connected corpus, `input_aps` layer
+
+The first run of `vectors-refund-connected` by a reader this repository did not
+write, and it covers one layer of six: `input_aps`, the layer
+[`docs/reference/refund-connected-input-aps.md`](docs/reference/refund-connected-input-aps.md)
+states as a contract. It says nothing about `input_pic`, `admission`,
+`signature_trust`, `execution` or `observed_effect`, and it is not a run of the
+complete refund flow. Like the rows above it is not a row of the ledger below.
+
+| | |
+| --- | --- |
+| Reporter | `telleroutlook` |
+| Implementation | [`telleroutlook/agent-evidence-cold-readers`](https://github.com/telleroutlook/agent-evidence-cold-readers/tree/e979326a05608d1fa67ed1925f26daa8bed49d71/refund-connected-input-aps) at commit `e979326a05608d1fa67ed1925f26daa8bed49d71`, path `refund-connected-input-aps/`, Python with the standard library only, including its own RFC 8032 Ed25519 verifier |
+| Posted at | [#352, comment of 2026-11-07](https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6699728316) |
+| Corpus | `vectors-refund-connected` at `0a4fef2c7fec16fb3f27e537d5c248c042fe6bde`, `input_aps` expectation of each vector in `MANIFEST.json`, corpus digest `1588224056bb6f7f5971386164b4a737c422ec6b16bcdea3ca8dc559adb5f9a5` |
+| Result | 10 of 10 scored vectors match: `j01`, `n3-reissue` and `n4-lost-ack` `ESTABLISHED`, `n1b-aps-payload` `REFUSED:PAYLOAD_REF`, `n3b-old-pic` `REFUSED:APPROVAL_AFTER_CONSUMPTION`, in both runs `r1` and `r2`. The two `n1a-pic-args` vectors are `NOT_REACHED` in the manifest and are not scored |
+| Label, by its author | blind pass |
+
+What the run is evidence of, in his words:
+
+> Written from `docs/reference/refund-connected-input-aps.md` alone (steps 0–26) — no code imported from the packaged reader.
+
+On `n1a-pic-args` his reader returns `REFUSED:PIC_ARGS_NOT_PAYLOAD` (step 26,
+`pic_args.amount_minor` 4100 against `payload.amount_minor` 4000), because it
+implements only this layer and is asked about that input. The manifest's
+`NOT_REACHED` is the verdict a caller assigns when an earlier layer
+(`input_pic`, `REFUSED:PIC_ARGS_DIGEST`) has already refused, which the
+contract says in so many words, so the two do not conflict. He chose not to make
+the reader emit `NOT_REACHED`, and that choice is the contract's.
+
+The figure was reproduced here before this row was written: his reader at that
+commit, run over the corpus at `0a4fef2c7` with `--admission-state` set to each
+run's `admission/state.json`, returned the same ten verdicts and
+`REFUSED:PIC_ARGS_NOT_PAYLOAD` for both `n1a-pic-args` vectors.
+
 ## Runs of this repository's code on another operator's host
 
 The rows above are runs of implementations this repository did not write. The
