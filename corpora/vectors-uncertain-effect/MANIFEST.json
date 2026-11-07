@@ -1,9 +1,9 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/uncertain-effect",
-  "corpusDigest": "e94026b486929f4b8874d480d589fe04e56731318e9aace75f3006af2af52774",
+  "corpusDigest": "6b212e324c0a78b1c70a725b07aa939050a8d7344679a2fb6e89a465054d1191",
   "counts": {
-    "allow": 13,
-    "deny": 23
+    "allow": 15,
+    "deny": 25
   },
   "runtimeContract": "runtime scenario.json, AEV_EFFECT_OWNER; see uncertaineffect_runtime",
   "suite": "uncertain-effect/v1",
@@ -475,6 +475,110 @@
             ]
           },
           "summary": "the worker's first call commits and its reply is lost, and its lease passes to another worker; it must not dispatch again under the old fencing token"
+        }
+      }
+    },
+    {
+      "edit": "control: a final invoice arrives after the lost reply, but a final owner lookup also finds the effect absent before the resend, which is confirmed",
+      "expected": {
+        "decision": "allow",
+        "reason": "effect_held"
+      },
+      "files": {
+        "record.json": "8e971c8a94ed46d55ae0da0195fe58b6bad036084911bee1f80d2132aa806617"
+      },
+      "id": "allow-retry-after-final-absent-invoice-noted",
+      "path": "cases/allow-retry-after-final-absent-invoice-noted",
+      "retained": {
+        "attempts": 2,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 1,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 0,
+              "outcome": "not_run"
+            },
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "lost-before-commit",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "drop"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "final"
+            ]
+          },
+          "summary": "the first call is lost before it commits; a final lookup says absent, after which a resend is safe and so is reporting not run"
+        }
+      }
+    },
+    {
+      "edit": "control: a zero invoice arrives after the lost reply, no owner lookup answers, and the runtime reports unknown with the reservation charged",
+      "expected": {
+        "decision": "allow",
+        "reason": "effect_held"
+      },
+      "files": {
+        "record.json": "156d6d30f6c63e1823e7b61d286cc3e665f6aec0b4075fe127608abca7f5b0b9"
+      },
+      "id": "allow-zero-invoice-reported-unknown",
+      "path": "cases/allow-zero-invoice-reported-unknown",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "unknown",
+        "ownerEffects": 1,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "unknown"
+            }
+          ],
+          "id": "owner-unreachable-after-lost-reply",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_drop"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "unavailable"
+            ]
+          },
+          "summary": "the first call commits and its reply is lost, and the owner cannot answer lookups; the outcome stays unknown and nothing is sent again"
         }
       }
     },
@@ -1141,6 +1245,106 @@
             ]
           },
           "summary": "the first call commits and its reply is lost; the owner deduplicates by key, so a resend under the same key and arguments is safe"
+        }
+      }
+    },
+    {
+      "edit": "a final invoice arrives after the lost reply and the runtime resends to an owner that does not deduplicate; an invoice is billing's word, not the owner's lookup",
+      "expected": {
+        "decision": "deny",
+        "reason": "retry_after_unknown"
+      },
+      "files": {
+        "record.json": "75aa4fee51e1aa12e21db415111934f4f695835e527415dc76eb9fd410539d19"
+      },
+      "id": "retry-after-final-invoice",
+      "path": "cases/retry-after-final-invoice",
+      "retained": {
+        "attempts": 2,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 2,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 2,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "commit-then-lost-reply",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_drop"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "final"
+            ]
+          },
+          "summary": "the first call commits and its reply is lost; the owner does not deduplicate, and its lookups are final, so the runtime must ask before it sends again"
+        }
+      }
+    },
+    {
+      "edit": "a zero invoice arrives after the lost reply and the runtime reports not run; no owner lookup answered and the owner holds the effect",
+      "expected": {
+        "decision": "deny",
+        "reason": "outcome_settled_without_authority"
+      },
+      "files": {
+        "record.json": "578ed8f6773a3bc51d2c1887385bb757f2478692031194ca144e261a1d6d41dc"
+      },
+      "id": "zero-invoice-reported-not-run",
+      "path": "cases/zero-invoice-reported-not-run",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "unknown",
+        "ownerEffects": 1,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "unknown"
+            }
+          ],
+          "id": "owner-unreachable-after-lost-reply",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_drop"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "unavailable"
+            ]
+          },
+          "summary": "the first call commits and its reply is lost, and the owner cannot answer lookups; the outcome stays unknown and nothing is sent again"
         }
       }
     },
