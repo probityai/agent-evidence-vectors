@@ -1,0 +1,887 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/refusal-reason-priority",
+  "corpusDigest": "448d8b1414e5404ffeb987564ed07c5b436cedf72cd2c791a8f92e2f66244ee9",
+  "counts": {
+    "ambiguous": 3,
+    "conformant": 15,
+    "nonconformant": 15
+  },
+  "provenance": {
+    "author": "ShaoBao Li (Lee), Aicent Stack",
+    "families": [
+      "https://github.com/Aicent-Stack/conformance/tree/main/candidates/aicent-grant-ref",
+      "https://github.com/Aicent-Stack/conformance/tree/main/candidates/aicent-lease-boundary"
+    ],
+    "issue": "https://github.com/probityai/agent-evidence-vectors/issues/453",
+    "note": "The two families are cited, not copied: each member here was written for this corpus from the facts and the response the family states, and carries the family's case id in source. Where the draft's sentence does not settle the author's expected value the member says so and is marked open.",
+    "source": "Aicent Stack, issue 453"
+  },
+  "spec": {
+    "draft": "draft-li-rttp-iqa-addressing-02",
+    "posted": "2026-11-01",
+    "sections": [
+      "6.1",
+      "7.2",
+      "8.1",
+      "8.2"
+    ],
+    "sha256": "02491c5a59d1e7471be04e8e0d4933dfc22ce19f9b054ead0aa449d6b4485044",
+    "status": "Informational Internet-Draft published for the public record; not the agreed text of any working group, and a later revision can change it.",
+    "url": "https://www.ietf.org/archive/id/draft-li-rttp-iqa-addressing-02.txt"
+  },
+  "suite": "refusal-reason-priority/v1",
+  "synthetic": true,
+  "vectors": [
+    {
+      "anchor": {
+        "quote": "For a refusal, the reason is exactly one value from the following closed set, and it is the first value in the list whose condition applies (the priority order is part of this definition)",
+        "section": "8.1"
+      },
+      "basis": [
+        "8.1"
+      ],
+      "edit": "control: binding mismatch and expiry both apply and the first value in the list is emitted",
+      "expected": {
+        "decision": "conformant",
+        "reason": "response_follows_source"
+      },
+      "files": {
+        "record.json": "5b358a6addd3e1f870044380170a5aabc1b89accbd9373f9ed021a219a7a886d"
+      },
+      "id": "conformant-mismatch-over-expiry",
+      "path": "cases/conformant-mismatch-over-expiry",
+      "retained": {
+        "emitted": "evidence_binding_mismatch",
+        "owed": "evidence_binding_mismatch"
+      },
+      "rule": "R-ORDER",
+      "source": "GR-P01"
+    },
+    {
+      "anchor": {
+        "quote": "For a refusal, the reason is exactly one value from the following closed set, and it is the first value in the list whose condition applies (the priority order is part of this definition)",
+        "section": "8.1"
+      },
+      "basis": [
+        "8.1"
+      ],
+      "edit": "the same facts, answered with the second value in the list",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "later_value_emitted"
+      },
+      "files": {
+        "record.json": "f6d70cb08da7a30c8f9bb292ffb6206690139aa5a08ecff01bf2d48c83665acc"
+      },
+      "id": "nonconformant-expiry-over-mismatch",
+      "path": "cases/nonconformant-expiry-over-mismatch",
+      "retained": {
+        "emitted": "evidence_expired",
+        "owed": "evidence_binding_mismatch"
+      },
+      "rule": "R-ORDER",
+      "source": "GR-P02"
+    },
+    {
+      "anchor": {
+        "quote": "For a refusal, the reason is exactly one value from the following closed set, and it is the first value in the list whose condition applies (the priority order is part of this definition)",
+        "section": "8.1"
+      },
+      "basis": [
+        "8.1"
+      ],
+      "edit": "control: expiry and revocation both apply and evidence_expired, which comes first, is emitted",
+      "expected": {
+        "decision": "conformant",
+        "reason": "response_follows_source"
+      },
+      "files": {
+        "record.json": "8fdf1041bc8b0e8dd9c2b47f03649fc7a0f3b313fda633061af309492e5df54f"
+      },
+      "id": "conformant-expiry-over-revocation",
+      "pair": "expiry-over-revocation",
+      "path": "cases/conformant-expiry-over-revocation",
+      "retained": {
+        "emitted": "evidence_expired",
+        "owed": "evidence_expired"
+      },
+      "rule": "R-ORDER",
+      "source": "GR-P03"
+    },
+    {
+      "anchor": {
+        "quote": "For a refusal, the reason is exactly one value from the following closed set, and it is the first value in the list whose condition applies (the priority order is part of this definition)",
+        "section": "8.1"
+      },
+      "basis": [
+        "8.1"
+      ],
+      "edit": "the same facts, answered with the later value authority_revoked; a checker that accepts any applicable value passes this member and fails only this one of the pair",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "later_value_emitted"
+      },
+      "files": {
+        "record.json": "d78a10e670ee40bd2ad9828062bbd407951a817f6220c66e9b05c9ff5680a3b1"
+      },
+      "id": "nonconformant-revocation-over-expiry",
+      "pair": "expiry-over-revocation",
+      "path": "cases/nonconformant-revocation-over-expiry",
+      "retained": {
+        "emitted": "authority_revoked",
+        "owed": "evidence_expired"
+      },
+      "rule": "R-ORDER",
+      "source": "GR-P04"
+    },
+    {
+      "anchor": {
+        "quote": "For a refusal, the reason is exactly one value from the following closed set, and it is the first value in the list whose condition applies (the priority order is part of this definition)",
+        "section": "8.1"
+      },
+      "basis": [
+        "8.1"
+      ],
+      "edit": "control: mismatch and revocation both apply and the mismatch is emitted",
+      "expected": {
+        "decision": "conformant",
+        "reason": "response_follows_source"
+      },
+      "files": {
+        "record.json": "5c4cce3a47d48bae0734294cf026dc016b9970006de70b64db5cc5bda2037448"
+      },
+      "id": "conformant-mismatch-over-revocation",
+      "path": "cases/conformant-mismatch-over-revocation",
+      "retained": {
+        "emitted": "evidence_binding_mismatch",
+        "owed": "evidence_binding_mismatch"
+      },
+      "rule": "R-ORDER",
+      "source": "GR-P05"
+    },
+    {
+      "anchor": {
+        "quote": "For a refusal, the reason is exactly one value from the following closed set, and it is the first value in the list whose condition applies (the priority order is part of this definition)",
+        "section": "8.1"
+      },
+      "basis": [
+        "8.1"
+      ],
+      "edit": "control: mismatch, expiry and revocation all apply and the first is emitted",
+      "expected": {
+        "decision": "conformant",
+        "reason": "response_follows_source"
+      },
+      "files": {
+        "record.json": "589a2405da645b4cc96a0f528c262dd588f5294eefe4d263fc26800fbd8374e2"
+      },
+      "id": "conformant-mismatch-first-of-three",
+      "path": "cases/conformant-mismatch-first-of-three",
+      "retained": {
+        "emitted": "evidence_binding_mismatch",
+        "owed": "evidence_binding_mismatch"
+      },
+      "rule": "R-ORDER",
+      "source": "GR-P06"
+    },
+    {
+      "anchor": {
+        "quote": "For a refusal, the reason is exactly one value from the following closed set, and it is the first value in the list whose condition applies (the priority order is part of this definition)",
+        "section": "8.1"
+      },
+      "basis": [
+        "8.1"
+      ],
+      "edit": "the three-condition facts answered with the last applicable value instead of the first",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "later_value_emitted"
+      },
+      "files": {
+        "record.json": "169afefec4e65ee83eeb2a2066387306aee5a67dcce16b15f0349f403fb3cf7f"
+      },
+      "id": "nonconformant-revocation-of-three",
+      "path": "cases/nonconformant-revocation-of-three",
+      "retained": {
+        "emitted": "authority_revoked",
+        "owed": "evidence_binding_mismatch"
+      },
+      "rule": "R-ORDER",
+      "source": "derived from GR-P06"
+    },
+    {
+      "anchor": {
+        "quote": "An unreachable source is refused under this value, never read as assent.",
+        "section": "8.1"
+      },
+      "basis": [
+        "8.1"
+      ],
+      "edit": "control: the authority source could not be reached and the refusal is authority_not_determined, never an assent",
+      "expected": {
+        "decision": "conformant",
+        "reason": "response_follows_source"
+      },
+      "files": {
+        "record.json": "e4e1055f6532081b7af657666d749ab98c1a41e1fc9a415810d6233ed0b51dce"
+      },
+      "id": "conformant-not-determined-unreachable",
+      "path": "cases/conformant-not-determined-unreachable",
+      "retained": {
+        "emitted": "authority_not_determined",
+        "owed": "authority_not_determined"
+      },
+      "rule": "R-NOTDET",
+      "source": "GR-P07"
+    },
+    {
+      "anchor": {
+        "quote": "The requested operation is not permitted for this subject or grant, for reasons other than the four above.",
+        "section": "8.1"
+      },
+      "basis": [
+        "8.1"
+      ],
+      "edit": "control: no earlier condition applies and the operation is not permitted",
+      "expected": {
+        "decision": "conformant",
+        "reason": "response_follows_source"
+      },
+      "files": {
+        "record.json": "78bcecf2e575dd7c45d52881d1f6245f5783496e5b6973f2b211c34fe9e3627c"
+      },
+      "id": "conformant-operation-not-permitted-alone",
+      "path": "cases/conformant-operation-not-permitted-alone",
+      "retained": {
+        "emitted": "operation_not_permitted",
+        "owed": "operation_not_permitted"
+      },
+      "rule": "R-ORDER",
+      "source": "GR-P08"
+    },
+    {
+      "anchor": {
+        "quote": "The requested operation is not permitted for this subject or grant, for reasons other than the four above.",
+        "section": "8.1"
+      },
+      "basis": [
+        "8.1"
+      ],
+      "edit": "every condition is absent and the operation is permitted on the face of the record, yet operation_not_permitted is emitted: when no condition applies the reason is null",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "refusal_without_condition"
+      },
+      "files": {
+        "record.json": "d481daadc8d7a1f0e1f5dfc29b84c479dd66a3f1dc894682a58cc108cb9dc0cd"
+      },
+      "id": "nonconformant-refusal-without-condition",
+      "note": "The draft states the no-condition case through the definitions: each value is emitted only where its condition applies, and the condition of operation_not_permitted is that the operation is not permitted. The author expects nonconformant and so does this corpus.",
+      "path": "cases/nonconformant-refusal-without-condition",
+      "retained": {
+        "emitted": "operation_not_permitted",
+        "owed": "null"
+      },
+      "rule": "R-ORDER",
+      "source": "GR-P09"
+    },
+    {
+      "anchor": {
+        "quote": "The requested operation is not permitted for this subject or grant, for reasons other than the four above.",
+        "section": "8.1"
+      },
+      "basis": [
+        "8.1"
+      ],
+      "edit": "control: revocation and a refused operation both apply and authority_revoked, which comes first, is emitted",
+      "expected": {
+        "decision": "conformant",
+        "reason": "response_follows_source"
+      },
+      "files": {
+        "record.json": "780fa4f6db2648c6d040b92493e74878c40ef3cfbd174c8a79275f3acac50c89"
+      },
+      "id": "conformant-revocation-over-operation-not-permitted",
+      "pair": "revocation-over-operation",
+      "path": "cases/conformant-revocation-over-operation-not-permitted",
+      "retained": {
+        "emitted": "authority_revoked",
+        "owed": "authority_revoked"
+      },
+      "rule": "R-ORDER",
+      "source": "derived from GR-P08"
+    },
+    {
+      "anchor": {
+        "quote": "The requested operation is not permitted for this subject or grant, for reasons other than the four above.",
+        "section": "8.1"
+      },
+      "basis": [
+        "8.1"
+      ],
+      "edit": "the same facts answered with the last value of the list, which the draft reserves for reasons other than the four before it",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "later_value_emitted"
+      },
+      "files": {
+        "record.json": "b57eb83d9dfd96baa2af18c11f781f5c3e3a242aca1464f69e893ec566b1bade"
+      },
+      "id": "nonconformant-operation-not-permitted-over-revocation",
+      "pair": "revocation-over-operation",
+      "path": "cases/nonconformant-operation-not-permitted-over-revocation",
+      "retained": {
+        "emitted": "operation_not_permitted",
+        "owed": "authority_revoked"
+      },
+      "rule": "R-ORDER",
+      "source": "derived from GR-P08"
+    },
+    {
+      "anchor": {
+        "quote": "For a refusal, the reason is exactly one value from the following closed set, and it is the first value in the list whose condition applies (the priority order is part of this definition)",
+        "section": "8.1"
+      },
+      "basis": [
+        "8.1"
+      ],
+      "edit": "control: the evidence has expired and the authority source is unreachable, and evidence_expired comes first in the list",
+      "expected": {
+        "decision": "conformant",
+        "reason": "response_follows_source"
+      },
+      "files": {
+        "record.json": "a2a5f4c20325d72063e0367781dd4f6167ddec794a03a18c713cb5fbb490f902"
+      },
+      "id": "conformant-expiry-over-not-determined",
+      "pair": "expiry-over-not-determined",
+      "path": "cases/conformant-expiry-over-not-determined",
+      "retained": {
+        "emitted": "evidence_expired",
+        "owed": "evidence_expired"
+      },
+      "rule": "R-ORDER",
+      "source": "derived from GR-P07"
+    },
+    {
+      "anchor": {
+        "quote": "For a refusal, the reason is exactly one value from the following closed set, and it is the first value in the list whose condition applies (the priority order is part of this definition)",
+        "section": "8.1"
+      },
+      "basis": [
+        "8.1"
+      ],
+      "edit": "the same facts answered with the third value of the list instead of the second",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "later_value_emitted"
+      },
+      "files": {
+        "record.json": "1f6a413ba867d31329e7bda74bc91355332c133b4022a865587549f19fec646b"
+      },
+      "id": "nonconformant-not-determined-over-expiry",
+      "pair": "expiry-over-not-determined",
+      "path": "cases/nonconformant-not-determined-over-expiry",
+      "retained": {
+        "emitted": "authority_not_determined",
+        "owed": "evidence_expired"
+      },
+      "rule": "R-ORDER",
+      "source": "derived from GR-P07"
+    },
+    {
+      "anchor": {
+        "quote": "observation_as_of_ms is null whenever the observation the answer relied on is absent or not fresh, even if a later, successful observation is available at answer time.",
+        "section": "8.2"
+      },
+      "basis": [
+        "8.2"
+      ],
+      "edit": "control: the answer relied on a fresh observation and the member carries its as-of instant",
+      "expected": {
+        "decision": "conformant",
+        "reason": "response_follows_source"
+      },
+      "files": {
+        "record.json": "7b4d67cc3f824ddf3f2e003a03f6105ea1fd89a384eb30432e28e77af385be67"
+      },
+      "id": "conformant-observation-fresh",
+      "path": "cases/conformant-observation-fresh",
+      "retained": {
+        "emitted": "None",
+        "owed": "null"
+      },
+      "rule": "R-NULLOBS",
+      "source": "GR-N01"
+    },
+    {
+      "anchor": {
+        "quote": "observation_as_of_ms is null whenever the observation the answer relied on is absent or not fresh, even if a later, successful observation is available at answer time.",
+        "section": "8.2"
+      },
+      "basis": [
+        "8.2"
+      ],
+      "edit": "control: the relied-on observation is absent and the member is null",
+      "expected": {
+        "decision": "conformant",
+        "reason": "response_follows_source"
+      },
+      "files": {
+        "record.json": "c8c74d7d6dac76082af6e72e23c7549b29f8fcae56e20de5a65aa273417eb535"
+      },
+      "id": "conformant-observation-absent-null",
+      "path": "cases/conformant-observation-absent-null",
+      "retained": {
+        "emitted": "None",
+        "owed": "null"
+      },
+      "rule": "R-NULLOBS",
+      "source": "GR-N02"
+    },
+    {
+      "anchor": {
+        "quote": "A diagnostic or opportunistic read performed after the relied-on evidence expired does not backfill the member: diagnostic reads do not participate in authorisation and do not renew evidence.",
+        "section": "8.2"
+      },
+      "basis": [
+        "8.2"
+      ],
+      "edit": "the relied-on observation is stale and the member is filled from a later diagnostic read",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "observation_backfilled"
+      },
+      "files": {
+        "record.json": "d0eca3be4b9b86457beaabd24a0ff696d9568605b6266e71715b8750c809d5df"
+      },
+      "id": "nonconformant-diagnostic-backfills-observation",
+      "path": "cases/nonconformant-diagnostic-backfills-observation",
+      "retained": {
+        "emitted": "authority_not_determined",
+        "owed": "authority_not_determined"
+      },
+      "rule": "R-NULLOBS",
+      "source": "GR-N03"
+    },
+    {
+      "anchor": {
+        "quote": "A diagnostic or opportunistic read performed after the relied-on evidence expired does not backfill the member: diagnostic reads do not participate in authorisation and do not renew evidence.",
+        "section": "8.2"
+      },
+      "basis": [
+        "8.1",
+        "8.2"
+      ],
+      "edit": "the relied-on evidence was stale and a permit is computed over the later diagnostic read, with its instant 1150 as the observation; a diagnostic read does not participate in authorisation, so the only conformant answer is authority_not_determined with the member null",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "condition_ignored"
+      },
+      "files": {
+        "record.json": "07313b5bf563ecc1db6c4acac9912a1570cbe355782b07017cd9857f55fd5ccb"
+      },
+      "id": "nonconformant-permit-over-diagnostic-read",
+      "path": "cases/nonconformant-permit-over-diagnostic-read",
+      "retained": {
+        "emitted": "None",
+        "owed": "authority_not_determined"
+      },
+      "rule": "R-NOTDET",
+      "source": "GR-N04"
+    },
+    {
+      "anchor": {
+        "quote": "A diagnostic or opportunistic read performed after the relied-on evidence expired does not backfill the member: diagnostic reads do not participate in authorisation and do not renew evidence.",
+        "section": "8.2"
+      },
+      "basis": [
+        "8.2"
+      ],
+      "edit": "control: the stale facts answered correctly: not determined, the member null and the expiry unchanged",
+      "expected": {
+        "decision": "conformant",
+        "reason": "response_follows_source"
+      },
+      "files": {
+        "record.json": "c775a5a49d81b52a225b09a8c147b3b6918595c765b74f1b248701d0c005bcb0"
+      },
+      "id": "conformant-stale-diagnostic-keeps-null",
+      "path": "cases/conformant-stale-diagnostic-keeps-null",
+      "retained": {
+        "emitted": "authority_not_determined",
+        "owed": "authority_not_determined"
+      },
+      "rule": "R-NULLOBS",
+      "source": "GR-N05"
+    },
+    {
+      "anchor": {
+        "quote": "A diagnostic or opportunistic read performed after the relied-on evidence expired does not backfill the member: diagnostic reads do not participate in authorisation and do not renew evidence.",
+        "section": "8.2"
+      },
+      "basis": [
+        "8.2"
+      ],
+      "edit": "the expiry is pushed to the diagnostic instant as if the read had renewed the evidence",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "evidence_renewed_by_diagnostic_read"
+      },
+      "files": {
+        "record.json": "7f1a7df083106671ac21170b06c9593bc4052071792f5a32b1432d68658ce063"
+      },
+      "id": "nonconformant-diagnostic-renews-expiry",
+      "path": "cases/nonconformant-diagnostic-renews-expiry",
+      "retained": {
+        "emitted": "authority_not_determined",
+        "owed": "authority_not_determined"
+      },
+      "rule": "R-NULLOBS",
+      "source": "GR-N06"
+    },
+    {
+      "anchor": {
+        "quote": "A null refusal reason is the only representation of \"permitted\"; there is no affirmative \"granted\" value.",
+        "section": "8.1"
+      },
+      "basis": [
+        "8.1"
+      ],
+      "edit": "control: a permit recorded as a null reason over the closed set, the only representation of permitted",
+      "expected": {
+        "decision": "conformant",
+        "reason": "response_follows_source"
+      },
+      "files": {
+        "record.json": "fd0e3998f9be25ca93b5d7e36ba6c29ae50dcea44dbcec96fbb26f3265b19a33"
+      },
+      "id": "conformant-null-is-the-only-permit",
+      "path": "cases/conformant-null-is-the-only-permit",
+      "retained": {
+        "emitted": "None",
+        "owed": "null"
+      },
+      "rule": "R-CLOSED",
+      "source": "GR-C04"
+    },
+    {
+      "anchor": {
+        "quote": "A null refusal reason is the only representation of \"permitted\"; there is no affirmative \"granted\" value.",
+        "section": "8.1"
+      },
+      "basis": [
+        "8.1"
+      ],
+      "edit": "an affirmative granted value is emitted; there is none in the set",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "reason_outside_closed_set"
+      },
+      "files": {
+        "record.json": "2f72681d60f1fdaba2ff1eaf914d3501def1fec254d640273ed05a90449d8f54"
+      },
+      "id": "nonconformant-granted-value",
+      "path": "cases/nonconformant-granted-value",
+      "retained": {
+        "emitted": "granted",
+        "owed": "null"
+      },
+      "rule": "R-CLOSED",
+      "source": "GR-C01"
+    },
+    {
+      "anchor": {
+        "quote": "A response that reports an outcome without its reason is not conformant: the reason is what makes a refusal auditable.",
+        "section": "8.1"
+      },
+      "basis": [
+        "8.1"
+      ],
+      "edit": "the response reports a refusal and carries no reason member at all",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "reason_member_absent"
+      },
+      "files": {
+        "record.json": "d5068e89f64ee365efb1b6223e1e8b6385001367dec7d9b183e8f88642ac66dd"
+      },
+      "id": "nonconformant-reason-member-absent",
+      "path": "cases/nonconformant-reason-member-absent",
+      "retained": {
+        "emitted": "absent",
+        "owed": "evidence_expired"
+      },
+      "rule": "R-CLOSED",
+      "source": "GR-C02"
+    },
+    {
+      "anchor": {
+        "quote": "The set is closed: implementations MUST NOT emit values outside it, and MUST NOT reinterpret an emitted value to mean something else.",
+        "section": "8.1"
+      },
+      "basis": [
+        "8.1"
+      ],
+      "edit": "a sixth value outside the closed set is emitted",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "reason_outside_closed_set"
+      },
+      "files": {
+        "record.json": "c5d789739cc43867c192884a0cc7cb3db9878f9bdc0d2c1ee4d33387350b3cdb"
+      },
+      "id": "nonconformant-sixth-value",
+      "path": "cases/nonconformant-sixth-value",
+      "retained": {
+        "emitted": "authority_suspended",
+        "owed": "authority_not_determined"
+      },
+      "rule": "R-CLOSED",
+      "source": "GR-C03"
+    },
+    {
+      "anchor": {
+        "quote": "Whether the lease instant itself counts as fresh or as expired is a deployment convention; implementations SHOULD declare which boundary they use, and conformance material MAY test both.",
+        "section": "6.1"
+      },
+      "basis": [
+        "6.1"
+      ],
+      "edit": "control: the read is exactly at the lease instant under a declared inclusive boundary and the answer is a permit",
+      "expected": {
+        "decision": "conformant",
+        "reason": "response_follows_source"
+      },
+      "files": {
+        "record.json": "30f988ea2bc9db6079990b9d97ce104a956cf9565f18cc7966b806b635b0c6e1"
+      },
+      "id": "conformant-inclusive-permit-at-instant",
+      "path": "cases/conformant-inclusive-permit-at-instant",
+      "retained": {
+        "emitted": "None",
+        "owed": "evidence_expired|null"
+      },
+      "rule": "R-DECLARED",
+      "source": "LB-D01"
+    },
+    {
+      "anchor": {
+        "quote": "Whether the lease instant itself counts as fresh or as expired is a deployment convention; implementations SHOULD declare which boundary they use, and conformance material MAY test both.",
+        "section": "6.1"
+      },
+      "basis": [
+        "6.1"
+      ],
+      "edit": "control: the same instant under a declared exclusive boundary and the answer is evidence_expired",
+      "expected": {
+        "decision": "conformant",
+        "reason": "response_follows_source"
+      },
+      "files": {
+        "record.json": "521f41fabecb1345ccd382184c6880204e0d41b84968f4ba89735116107abd0f"
+      },
+      "id": "conformant-exclusive-expired-at-instant",
+      "path": "cases/conformant-exclusive-expired-at-instant",
+      "retained": {
+        "emitted": "evidence_expired",
+        "owed": "evidence_expired|null"
+      },
+      "rule": "R-DECLARED",
+      "source": "LB-D02"
+    },
+    {
+      "anchor": {
+        "quote": "Whether the lease instant itself counts as fresh or as expired is a deployment convention; implementations SHOULD declare which boundary they use, and conformance material MAY test both.",
+        "section": "6.1"
+      },
+      "authorExpected": "nonconformant",
+      "basis": [
+        "6.1"
+      ],
+      "edit": "the deployment declared the inclusive boundary and answers evidence_expired at the instant",
+      "expected": {
+        "decision": "ambiguous",
+        "reason": "declaration_contradicts_use"
+      },
+      "files": {
+        "record.json": "e11d2fb9a31039ebca797bf94ef765751b5376640a2c544ff5a6167bf5d3faa0"
+      },
+      "id": "open-inclusive-declared-expired-at-instant",
+      "note": "The author scores this nonconformant and discloses the reading as strict: the sentence asks for a declaration with SHOULD and states no consequence for a declaration that contradicts use. Open here until a revision says.",
+      "path": "cases/open-inclusive-declared-expired-at-instant",
+      "readings": [
+        "nonconformant (the author's strict reading): a declaration that contradicts use tells the caller the opposite of the behaviour and defeats the function the clause gives declarations",
+        "conformant: the clause says implementations SHOULD declare and attaches no consequence to a declaration that contradicts use, and the answer sits inside a licensed convention"
+      ],
+      "retained": {
+        "emitted": "evidence_expired",
+        "owed": "evidence_expired|null"
+      },
+      "rule": "R-DECLARED",
+      "source": "LB-D03"
+    },
+    {
+      "anchor": {
+        "quote": "Whether the lease instant itself counts as fresh or as expired is a deployment convention; implementations SHOULD declare which boundary they use, and conformance material MAY test both.",
+        "section": "6.1"
+      },
+      "basis": [
+        "6.1"
+      ],
+      "edit": "the mirror of the previous member: the exclusive boundary is declared and the answer at the instant is a permit",
+      "expected": {
+        "decision": "ambiguous",
+        "reason": "declaration_contradicts_use"
+      },
+      "files": {
+        "record.json": "c731b1137aac3c2be7572d551e6b30ea88c4fb000e3caafa27e822656960e5dc"
+      },
+      "id": "open-exclusive-declared-permit-at-instant",
+      "note": "Same open question as the previous member, in the other direction.",
+      "path": "cases/open-exclusive-declared-permit-at-instant",
+      "readings": [
+        "nonconformant (the author's strict reading): a declaration that contradicts use tells the caller the opposite of the behaviour and defeats the function the clause gives declarations",
+        "conformant: the clause says implementations SHOULD declare and attaches no consequence to a declaration that contradicts use, and the answer sits inside a licensed convention"
+      ],
+      "retained": {
+        "emitted": "None",
+        "owed": "evidence_expired|null"
+      },
+      "rule": "R-DECLARED",
+      "source": "derived from LB-D03"
+    },
+    {
+      "anchor": {
+        "quote": "Whether the lease instant itself counts as fresh or as expired is a deployment convention; implementations SHOULD declare which boundary they use, and conformance material MAY test both.",
+        "section": "6.1"
+      },
+      "authorExpected": "ambiguous",
+      "basis": [
+        "6.1"
+      ],
+      "edit": "the read is at the lease instant, no boundary is declared and the answer is a permit; it sits inside one licensed reading and cannot be settled until the implementation declares",
+      "expected": {
+        "decision": "ambiguous",
+        "reason": "boundary_undeclared"
+      },
+      "files": {
+        "record.json": "353a23f49f67c2082a812694f18229f2a4282ebf390fd34b3a9601998af96a57"
+      },
+      "id": "open-boundary-undeclared",
+      "path": "cases/open-boundary-undeclared",
+      "readings": [
+        "inclusive: the lease instant counts as fresh, so the answer is a permit",
+        "exclusive: the lease instant counts as expired, so the answer is evidence_expired"
+      ],
+      "retained": {
+        "emitted": "None",
+        "owed": "evidence_expired|null"
+      },
+      "rule": "R-DECLARED",
+      "source": "LB-D04"
+    },
+    {
+      "anchor": {
+        "quote": "Whether the lease instant itself counts as fresh or as expired is a deployment convention; implementations SHOULD declare which boundary they use, and conformance material MAY test both.",
+        "section": "6.1"
+      },
+      "basis": [
+        "6.1"
+      ],
+      "edit": "no boundary is declared and the answer at the instant is neither a permit nor evidence_expired, so it sits inside neither licensed reading",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "answer_outside_both_boundary_readings"
+      },
+      "files": {
+        "record.json": "f7c5719c173d895bf114a7434bf152d0e21fc5a410197250cf0ee651c459a03d"
+      },
+      "id": "nonconformant-undeclared-answer-outside-both-readings",
+      "path": "cases/nonconformant-undeclared-answer-outside-both-readings",
+      "retained": {
+        "emitted": "authority_revoked",
+        "owed": "evidence_expired|null"
+      },
+      "rule": "R-DECLARED",
+      "source": "derived from LB-D04"
+    },
+    {
+      "anchor": {
+        "quote": "rejects the frame if lease_expiry is earlier than the current time, checked against the receiver's own clock (Section 6.1)",
+        "section": "7.2"
+      },
+      "basis": [
+        "6.1",
+        "7.2"
+      ],
+      "edit": "control: the envelope frame is accepted at the instant, as the verification procedure requires, and the answer is still evidence_expired under the declared exclusive boundary; frame validity and reliance are different layers",
+      "expected": {
+        "decision": "conformant",
+        "reason": "response_follows_source"
+      },
+      "files": {
+        "record.json": "3fe24776bf7f05f6430e09d6f29ae91a32c6b711ad68a58aa08ccbe200a857f0"
+      },
+      "id": "conformant-frame-accepted-reliance-refused",
+      "path": "cases/conformant-frame-accepted-reliance-refused",
+      "retained": {
+        "emitted": "evidence_expired",
+        "owed": "evidence_expired|null"
+      },
+      "rule": "R-DECLARED",
+      "source": "LB-D05"
+    },
+    {
+      "anchor": {
+        "quote": "The record names the contract it is written against, as every record of this repository's decision corpora does.",
+        "section": "n/a"
+      },
+      "basis": [
+        "n/a"
+      ],
+      "edit": "the record names no contract",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "contract_id_missing"
+      },
+      "files": {
+        "record.json": "b0c3f330313600707de0796325122e11f53032b41daa4bd7c8238972b3299429"
+      },
+      "id": "nonconformant-contract-id-missing",
+      "path": "cases/nonconformant-contract-id-missing",
+      "retained": {
+        "emitted": "None",
+        "owed": "null"
+      },
+      "rule": "envelope",
+      "source": "envelope"
+    },
+    {
+      "anchor": {
+        "quote": "The record names the contract it is written against, as every record of this repository's decision corpora does.",
+        "section": "n/a"
+      },
+      "basis": [
+        "n/a"
+      ],
+      "edit": "the record names a contract version that does not exist",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "contract_id_unknown"
+      },
+      "files": {
+        "record.json": "7c2755e3e187acb22eb664f1fc1c6c78bf64424cbb14c7e4a296bb622a24b2fb"
+      },
+      "id": "nonconformant-contract-id-unknown",
+      "path": "cases/nonconformant-contract-id-unknown",
+      "retained": {
+        "emitted": "None",
+        "owed": "null"
+      },
+      "rule": "envelope",
+      "source": "envelope"
+    }
+  ],
+  "verifierContract": "verifier record.json --json; exit 0 conformant, 1 nonconformant, 2 ambiguous"
+}
