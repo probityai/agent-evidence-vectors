@@ -292,8 +292,11 @@ withdrawn.
 
 The **publish** job builds the wheel and the sdist, runs the wheel from outside
 the checkout and replays every corpus it carries, asserts the wheel's version is
-the tag's, and uploads to PyPI under the workflow's own OIDC identity. Nobody
-uploads by hand.
+the tag's, and uploads to PyPI under the workflow's own OIDC identity, or with the `PYPI_API_TOKEN`
+secret of the `pypi` environment when that identity is refused, then reads every file's
+sha256 back from PyPI. Nobody uploads by hand. A failed publish is a token upload the
+same turn: set the secret and rerun the failed job, and never hand the registry step to
+a person.
 
 Two properties of the wheel are worth stating because they have been wrong
 before. The wheel carries the corpora as data, so **a corpus absent from the
