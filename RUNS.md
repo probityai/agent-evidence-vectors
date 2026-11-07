@@ -222,7 +222,7 @@ complete refund flow. Like the rows above it is not a row of the ledger below.
 | Implementation | [`telleroutlook/agent-evidence-cold-readers`](https://github.com/telleroutlook/agent-evidence-cold-readers/tree/e979326a05608d1fa67ed1925f26daa8bed49d71/refund-connected-input-aps) at commit `e979326a05608d1fa67ed1925f26daa8bed49d71`, path `refund-connected-input-aps/`, Python with the standard library only, including its own RFC 8032 Ed25519 verifier |
 | Posted at | [#352, comment of 2026-11-07](https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6699728316) |
 | Corpus | `vectors-refund-connected` at `0a4fef2c7fec16fb3f27e537d5c248c042fe6bde`, `input_aps` expectation of each vector in `MANIFEST.json`, corpus digest `1588224056bb6f7f5971386164b4a737c422ec6b16bcdea3ca8dc559adb5f9a5` |
-| Result | 10 of 10 scored vectors match: `j01`, `n3-reissue` and `n4-lost-ack` `ESTABLISHED`, `n1b-aps-payload` `REFUSED:PAYLOAD_REF`, `n3b-old-pic` `REFUSED:APPROVAL_AFTER_CONSUMPTION`, in both runs `r1` and `r2`. The two `n1a-pic-args` vectors are `NOT_REACHED` in the manifest and are not scored |
+| Result | All ten scored vectors match: `j01`, `n3-reissue` and `n4-lost-ack` `ESTABLISHED`, `n1b-aps-payload` `REFUSED:PAYLOAD_REF`, `n3b-old-pic` `REFUSED:APPROVAL_AFTER_CONSUMPTION`, in both runs `r1` and `r2`. The two `n1a-pic-args` vectors are `NOT_REACHED` in the manifest and are not scored |
 | Label, by its author | blind pass |
 
 What the run is evidence of, in his words:
