@@ -3497,6 +3497,102 @@ TWO_READINGS_PS1B = [
 ]
 
 
+# ---------------------------------------------------------------------------
+# Principal standing from a published commitment (rows PS3 to PS5, written for
+# revision 04), from probityai/agent-evidence-vectors#402.
+#
+# Some deployments establish principal standing without a lookup by
+# identifier: the source publishes a signed standing commitment, the presenter
+# proves standing against it, and the relying party pins the publisher and a
+# maximum age. The principal-standing-source entry then carries, as lastResult,
+# the as-of time of the commitment the decision point held, and as maxAge the
+# maximum age the relying party pins. Each row is built on PS1:
+#
+# * PS3: no commitment held from the publisher. lastResult is none, so the
+#   input was never established and the record is not-evaluated naming
+#   principal-standing-source. A commitment held past its maximum age is PS1,
+#   and one exactly at it is PS1b, which stays open between the two drafts.
+# * PS4: the commitment is current and the proof against it shows the
+#   principal's standing withdrawn. Every input was established, so the record
+#   is evaluated, and the decision is deny.
+# * PS5: the commitment is current and the proof is missing or does not verify
+#   against it. The commitment does not establish standing, and the relying
+#   party cannot tell this from a withdrawal, so the record is PS4's: evaluated
+#   and deny, never not-evaluated, because the input the decision depended on,
+#   the commitment, was current. Its entry carries the same as-of time; the
+#   record is its own (recordId differs, so its commitment is sealed again).
+# ---------------------------------------------------------------------------
+
+#: The as-of time of the current commitment in PS4 and PS5, read when issuer
+#: standing is read and well inside the hour PS1 pins for principal standing.
+COMMITMENT_AS_OF = "2026-09-19T11:00:00Z"
+
+
+def build_ps3() -> Built:
+    return build_ps1(NEVER_HELD)
+
+
+def build_principal_standing_denied(record: str | None = None) -> Built:
+    """PS1 with the principal's commitment current: evaluated, and the deny it
+    already reports is now the decision the evaluation reached."""
+    pred = from_pred("A10")
+    pred["evaluation"] = {
+        "status": "evaluated",
+        "inputs": [
+            entry("policy-source", "2026-09-19T10:00:00Z", DAY),
+            entry("standing-source", "2026-09-19T11:00:00Z", HOUR),
+            entry("principal-standing-source", COMMITMENT_AS_OF, HOUR),
+        ],
+    }
+    if record is not None:
+        pred["recordId"] = f"{RECORD_ID}:{record}"
+        seal_commitment(pred)
+    stmt = statement(pred)
+    stmt["predicateType"] = PREDICATE_TYPE_V2
+    return {"payload": canonical_bytes(stmt)}
+
+
+def define_principal_standing_commitment() -> None:
+    member(
+        "PS3",
+        "ps3-principal-standing-commitment-none-held",
+        "PS1",
+        "principal standing from a published commitment and none held: "
+        "principal-standing-source with lastResult of none, not-evaluated naming it "
+        "(a commitment held past its maxAge is PS1, one exactly at it PS1b)",
+        build_ps3,
+        "valid",
+        tier="authoritative",
+        revision=REVISION_04,
+        predicate_type=PREDICATE_TYPE_V2,
+    )
+    member(
+        "PS4",
+        "ps4-principal-standing-commitment-withdrawn",
+        "PS1",
+        "principal standing from a published commitment that is current and whose "
+        "proof shows the standing withdrawn: evaluated, every entry fresh, decision deny",
+        build_principal_standing_denied,
+        "valid",
+        tier="authoritative",
+        revision=REVISION_04,
+        predicate_type=PREDICATE_TYPE_V2,
+    )
+    member(
+        "PS5",
+        "ps5-principal-standing-commitment-proof-missing",
+        "PS4",
+        "the commitment current and the proof missing or not verifying against it: the "
+        "commitment does not establish standing, and the record is evaluated with deny "
+        "as PS4, never not-evaluated, its entry the commitment's as-of time",
+        lambda: build_principal_standing_denied("proof-not-established"),
+        "valid",
+        tier="authoritative",
+        revision=REVISION_04,
+        predicate_type=PREDICATE_TYPE_V2,
+    )
+
+
 def define_principal_standing() -> None:
     member(
         "PS1",
@@ -3534,6 +3630,7 @@ def define_principal_standing() -> None:
         section="5.4",
         predicate_type=PREDICATE_TYPE_V2,
     )
+    define_principal_standing_commitment()
 
 
 # ---------------------------------------------------------------------------
@@ -4946,7 +5043,7 @@ ORDER = (
     "CS41 CS42 CS43 CS44 CS45 CS46 CS47 CS48 CS49 CS50 CS51 CS52 CS53 CS54 "
     "A21 SQ1 SQ2 SQ3 SQ4 SQ5 "
     "R10 R11 R12 R13 R14 R15 R16 "
-    "IS1 IS2 PS1 PS2 PS1b "
+    "IS1 IS2 PS1 PS2 PS1b PS3 PS4 PS5 "
     "PR1 PR2 PR3 PR4 PR5 PR6 PR7 PR8 PR9 PR10 PR11 "
     "DS1 DS2 DS3 DS4 DS5 DS6 DS7 DS8 DS9 DS10 "
     "X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15 X16 X17 X18"
