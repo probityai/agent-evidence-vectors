@@ -27,6 +27,11 @@ of several records judged one by one and then as a set, under one ledger: the
 ``limitDigest`` values that ``supersedes`` links, so a permit held under a
 limit that was then replaced is still seen.
 
+The input set follows the predicate type URI the verifier is configured to
+accept: under the ``v2`` URI of revision 03 it also holds
+``principal-standing-source``, and under the ``v1`` URI it is unchanged (PS1,
+PS2). A manifest entry carrying ``predicateType`` is judged under that URI.
+
 ``evaluation.inputs`` is required under both statuses, each entry's age runs
 from its ``lastResult`` to ``decision.reportedAt``, and the unavailable inputs
 are derived from the entries, so a record shaped for revision 02 is malformed.
@@ -144,6 +149,38 @@ EVALUATION_INPUTS = frozenset(
 #: What a decision that could not be evaluated names as missing, drawn from the
 #: same table. A separate name so a sweep can narrow one without the other.
 UNAVAILABLE_INPUTS = EVALUATION_INPUTS
+#: The predicate type URI the sets above belong to, and the second URI that
+#: revision 03 publishes for the extended set (Section 8). A closed set grows
+#: only under a new URI, so a verifier configured for the v1 URI never meets a
+#: value it is required to refuse there (rows PS1 and PS2).
+PREDICATE_TYPE_V1 = (
+    "https://probityai.github.io/agent-evidence-vectors/predicate/v1/agent-audit-record"
+)
+PREDICATE_TYPE_V2 = (
+    "https://probityai.github.io/agent-evidence-vectors/predicate/v2/agent-audit-record"
+)
+#: What the v2 URI adds to both input sets, and only under that URI: the source
+#: the principal's standing is established from, kept apart from
+#: ``standing-source``, which names the source of issuer standing.
+V2_INPUTS = frozenset({"principal-standing-source"})
+
+
+def evaluation_inputs(predicate_type: str) -> frozenset[str]:
+    """The inputs an evaluation entry may name under ``predicate_type``, the URI
+    the verifier was configured to accept. Read at call time, so a sweep that
+    narrows ``EVALUATION_INPUTS`` or ``V2_INPUTS`` narrows this too."""
+    if predicate_type == PREDICATE_TYPE_V2:
+        return EVALUATION_INPUTS | V2_INPUTS
+    return EVALUATION_INPUTS
+
+
+def unavailable_inputs(predicate_type: str) -> frozenset[str]:
+    """The inputs ``unavailableInput`` may name under ``predicate_type``."""
+    if predicate_type == PREDICATE_TYPE_V2:
+        return UNAVAILABLE_INPUTS | V2_INPUTS
+    return UNAVAILABLE_INPUTS
+
+
 #: The three members an evaluation entry carries, each required, and no other.
 ENTRY_MEMBERS = frozenset({"input", "lastResult", "maxAge"})
 #: The one member an entry may carry beside them, and only on a consumption-state
@@ -653,16 +690,17 @@ def _entry_unavailable(entry: dict[str, Any], reported_at: datetime.datetime) ->
     return bool(age > entry["maxAge"])
 
 
-def _entry_shape(entry: Any) -> None:
-    """Exactly input, lastResult and maxAge; an input from the closed set; a
-    maxAge that is a non-negative integer."""
+def _entry_shape(entry: Any, inputs: frozenset[str] | None = None) -> None:
+    """Exactly input, lastResult and maxAge; an input from the closed set
+    (``inputs``, the v1 set when not given); a maxAge that is a non-negative
+    integer."""
     if not isinstance(entry, dict):
         raise Malformed("evaluation-entry-malformed")
     if not ENTRY_MEMBERS <= set(entry):
         raise Malformed("member-missing")
     if set(entry) - ENTRY_MEMBERS - ENTRY_OPTIONAL:
         raise Malformed("evaluation-entry-malformed")
-    if entry["input"] not in EVALUATION_INPUTS:
+    if entry["input"] not in (EVALUATION_INPUTS if inputs is None else inputs):
         raise Malformed("value-outside-vocabulary")
     max_age = entry["maxAge"]
     if isinstance(max_age, bool) or not isinstance(max_age, int) or max_age < 0:
@@ -706,9 +744,11 @@ def aggregate_values(values: list[dict[str, Any]]) -> dict[str, Any]:
     return {"lastResult": chosen["lastResult"], "maxAge": chosen["maxAge"]}
 
 
-def derive_unavailable(pred: dict[str, Any]) -> list[str]:
+def derive_unavailable(pred: dict[str, Any], predicate_type: str = PREDICATE_TYPE_V1) -> list[str]:
     """The inputs a verifier derives as unavailable from ``evaluation.inputs``,
-    in entry order, after holding every entry to its shape (FR5, FR6, FR9 to FR13)."""
+    in entry order, after holding every entry to its shape (FR5, FR6, FR9 to FR13)
+    and its input to the set ``predicate_type`` names."""
+    allowed = evaluation_inputs(predicate_type)
     entries = pred["evaluation"]["inputs"]
     if not isinstance(entries, list):
         raise Malformed("evaluation-entry-malformed")
@@ -716,7 +756,7 @@ def derive_unavailable(pred: dict[str, Any]) -> list[str]:
     seen: set[str] = set()
     unavailable: list[str] = []
     for entry in entries:
-        _entry_shape(entry)
+        _entry_shape(entry, allowed)
         if entry["input"] in seen:
             raise Malformed("evaluation-input-repeated")
         seen.add(entry["input"])
@@ -732,7 +772,8 @@ def _rule_evaluation(state: _State) -> None:
     evaluation = state.predicate["evaluation"]
     if set(evaluation) - EVALUATION_MEMBERS:
         raise Malformed("evaluation-malformed")
-    derived = derive_unavailable(state.predicate)
+    predicate_type = state.policy.predicate_type
+    derived = derive_unavailable(state.predicate, predicate_type)
     if evaluation["status"] == "evaluated":
         if "unavailableInput" in evaluation or derived:
             raise Malformed("evaluation-inconsistent")
@@ -740,8 +781,9 @@ def _rule_evaluation(state: _State) -> None:
     inputs = evaluation.get("unavailableInput")
     if not isinstance(inputs, list) or not inputs:
         raise Malformed("evaluation-inconsistent")
+    allowed = unavailable_inputs(predicate_type)
     for value in inputs:
-        if value not in UNAVAILABLE_INPUTS:
+        if value not in allowed:
             raise Malformed("value-outside-vocabulary")
     if len(set(inputs)) != len(inputs) or set(inputs) != set(derived):
         raise Malformed("evaluation-inconsistent")
@@ -2271,9 +2313,13 @@ class Judged:
         return counts
 
 
-def policy_for(manifest: dict[str, Any]) -> Policy:
+def policy_for(manifest: dict[str, Any], entry: dict[str, Any] | None = None) -> Policy:
+    """The policy a member is judged under: the manifest's predicate type URI,
+    or the member's own ``predicateType`` where it carries one (PS1 is judged by
+    a verifier configured for the v2 URI)."""
     key = str(manifest.get("keys", {}).get("observer", {}).get("publicKey", ""))
-    return Policy(str(manifest.get("predicateType", "")), key)
+    configured = (entry or {}).get("predicateType", manifest.get("predicateType", ""))
+    return Policy(str(configured), key)
 
 
 def _declared_findings(entry: dict[str, Any], report: Report) -> list[str]:
@@ -2492,10 +2538,9 @@ def judge(directory: str) -> Judged:
     if not entries:
         judged.findings.append("the manifest carries no vectors, so this run measured nothing")
         return judged
-    policy = policy_for(manifest)
     heads = tree_heads(manifest)
     for entry in entries:
-        judged.members.append(_judge_member(directory, entry, policy, heads))
+        judged.members.append(_judge_member(directory, entry, policy_for(manifest, entry), heads))
     judged.findings.extend(_corpus_findings(directory, manifest))
     return judged
 

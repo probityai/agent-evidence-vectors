@@ -1,0 +1,16 @@
+{
+  "status": "success",
+  "eval": {
+    "task": "arithmetic",
+    "task_version": 1,
+    "task_args": {"limit": 4},
+    "dataset": {"name": "arithmetic-4"},
+    "scorers": [{"name": "match"}]
+  },
+  "samples": [
+    {"id": 1, "epoch": 1, "scores": {"match": {"value": "C", "answer": "4"}}},
+    {"id": 2, "epoch": 1, "scores": {"match": {"value": "I", "answer": "7"}}},
+    {"id": 3, "epoch": 1, "scores": {}, "limit": {"type": "time", "limit": 60}},
+    {"id": 4, "epoch": 1, "scores": {}, "error": {"message": "sandbox exec failed\ntraceback follows"}}
+  ]
+}

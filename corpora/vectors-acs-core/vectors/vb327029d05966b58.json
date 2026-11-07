@@ -9,7 +9,7 @@
     "verdict": "deny"
   },
   "family": "acs-f-5",
-  "id": "v564ff5d8d344bea2",
+  "id": "vb327029d05966b58",
   "kind": "reject",
   "payload": {
     "action": {
@@ -47,11 +47,22 @@
       "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
       "upstreamStatus": "upstream",
       "vendored": "spec-vendored/specification-9d4a9da.md"
+    },
+    {
+      "id": "ACS-R-070",
+      "line": 202,
+      "sentence": "Every decision failure MUST be recorded as an audit event, under either posture.",
+      "upstreamCommit": "61993cbfc44f858cf46e047c3c4915b3b0bbf387",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-61993cb.md"
     }
   ],
   "requirements": [
     "ACS-R-014",
-    "ACS-R-005"
+    "ACS-R-005",
+    "ACS-R-070"
   ],
   "specVersion": "0.1.0",
   "suite": "acs-core-negative-conformance",
