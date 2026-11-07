@@ -94,7 +94,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python: ["3.10", "3.14"]
+        # A pull request runs the newest interpreter; main, tags and releases run both.
+        python: ${{ fromJSON(github.event_name == 'pull_request' && '["3.14"]' || '["3.10","3.14"]') }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -168,7 +169,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        go: ["1.25.5", "1.27.1"]
+        go: ${{ fromJSON(github.event_name == 'pull_request' && '["1.27.1"]' || '["1.25.5","1.27.1"]') }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -229,8 +230,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        go: ["1.25.5", "1.27.1"]
-        python: ["3.11", "3.14"]
+        go: ${{ fromJSON(github.event_name == 'pull_request' && '["1.27.1"]' || '["1.25.5","1.27.1"]') }}
+        python: ${{ fromJSON(github.event_name == 'pull_request' && '["3.14"]' || '["3.11","3.14"]') }}
     env:
       RUSTUP_TOOLCHAIN: stable
     steps:
@@ -287,7 +288,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python: ["3.10", "3.14"]
+        # A pull request runs the newest interpreter; main, tags and releases run both.
+        python: ${{ fromJSON(github.event_name == 'pull_request' && '["3.14"]' || '["3.10","3.14"]') }}
     defaults:
       run:
         working-directory: crates/jcs-admit/python
@@ -336,12 +338,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - { wheel: manylinux-x86_64, runner: ubuntu-latest, python: "3.10" }
-          - { wheel: manylinux-x86_64, runner: ubuntu-latest, python: "3.14" }
-          - { wheel: manylinux-aarch64, runner: ubuntu-24.04-arm, python: "3.14" }
-          - { wheel: macos-aarch64, runner: macos-latest, python: "3.14" }
-          - { wheel: windows-x86_64, runner: windows-latest, python: "3.14" }
+        include: ${{ fromJSON(github.event_name == 'pull_request' && '[{"wheel":"manylinux-x86_64","runner":"ubuntu-latest","python":"3.14"}]' || '[{"wheel":"manylinux-x86_64","runner":"ubuntu-latest","python":"3.10"},{"wheel":"manylinux-x86_64","runner":"ubuntu-latest","python":"3.14"},{"wheel":"manylinux-aarch64","runner":"ubuntu-24.04-arm","python":"3.14"},{"wheel":"macos-aarch64","runner":"macos-latest","python":"3.14"},{"wheel":"windows-x86_64","runner":"windows-latest","python":"3.14"}]') }}
     defaults:
       run:
         shell: bash
@@ -383,6 +380,8 @@ jobs:
           "$py" -m pytest crates/jcs-admit/python/tests -p no:cacheprovider
 
   python-release-check:
+    # Needs all seven wheels; a pull request builds one, and release.yml runs this check on a release.
+    if: github.event_name != 'pull_request'
     needs: python-build
     runs-on: ubuntu-latest
     timeout-minutes: 10
