@@ -14,13 +14,81 @@
     "stated-after-anchor"
   ],
   "contract": "vectors-recorded/README.md",
-  "corpusDigest": "27a6cbefafbf1edd8f834e4d1958ff19f82c82c7c4b85ab14271b5c84bf24f55",
+  "corpusDigest": "a2429f0dabb3e25bc019ccf9eb6eb7d98bd01942900ddfa3baafdeb9cd36f681",
   "counts": {
     "failed": 14,
-    "verified": 4
+    "verified": 5
   },
   "suite": "recorded-set-conformance/v1",
   "vectors": [
+    {
+      "bindings": [
+        {
+          "after": "/seen_block/height",
+          "block": {
+            "header": "00c00820000b7bb2a4e03483276bb78bdaa1055090cb29f85fd10100000000000000000048c25c0c1a6ac3ef2c04ac1bab7fc7778b4ff5f9b24e56b18ec4962a25495666a74fd76a9300021799d98845",
+            "height": 972311,
+            "id": "00000000000000000000d730593a11364a91a283e4677878b3959906a07ae3c0"
+          },
+          "proof": "ack_budget.jcs.ots",
+          "subject": "ack_budget.jcs",
+          "type": "opentimestamps-bitcoin-header"
+        },
+        {
+          "after": "/seen_block/height",
+          "block": {
+            "header": "00c00820000b7bb2a4e03483276bb78bdaa1055090cb29f85fd10100000000000000000048c25c0c1a6ac3ef2c04ac1bab7fc7778b4ff5f9b24e56b18ec4962a25495666a74fd76a9300021799d98845",
+            "height": 972311,
+            "id": "00000000000000000000d730593a11364a91a283e4677878b3959906a07ae3c0"
+          },
+          "proof": "ack_criteria_A.jcs.ots",
+          "subject": "ack_criteria_A.jcs",
+          "type": "opentimestamps-bitcoin-header"
+        },
+        {
+          "after": "/seen_block/height",
+          "block": {
+            "header": "00c00820000b7bb2a4e03483276bb78bdaa1055090cb29f85fd10100000000000000000048c25c0c1a6ac3ef2c04ac1bab7fc7778b4ff5f9b24e56b18ec4962a25495666a74fd76a9300021799d98845",
+            "height": 972311,
+            "id": "00000000000000000000d730593a11364a91a283e4677878b3959906a07ae3c0"
+          },
+          "proof": "ack_criteria_B.jcs.ots",
+          "subject": "ack_criteria_B.jcs",
+          "type": "opentimestamps-bitcoin-header"
+        },
+        {
+          "after": "/seen_block/height",
+          "block": {
+            "header": "00c00820000b7bb2a4e03483276bb78bdaa1055090cb29f85fd10100000000000000000048c25c0c1a6ac3ef2c04ac1bab7fc7778b4ff5f9b24e56b18ec4962a25495666a74fd76a9300021799d98845",
+            "height": 972311,
+            "id": "00000000000000000000d730593a11364a91a283e4677878b3959906a07ae3c0"
+          },
+          "proof": "ack_criteria_C.jcs.ots",
+          "subject": "ack_criteria_C.jcs",
+          "type": "opentimestamps-bitcoin-header"
+        }
+      ],
+      "dir": "sets/hs51-giskard09-acks/bytes",
+      "expected": {
+        "codes": [],
+        "verdict": "verified"
+      },
+      "file": "sets/hs51-giskard09-acks/bytes/SHA256SUMS",
+      "id": "vffe71a23d73cb508",
+      "kind": "recorded",
+      "licenceFile": "sets/hs51-giskard09-acks/LICENSE",
+      "name": "hs51-giskard09-acks",
+      "source": {
+        "commit": "878d68b7",
+        "contributor": "ogasurfproject-jpg (HORIZON SHIELD, The HORIZONs Co., Ltd.)",
+        "licence": "MIT, copyright notice in LICENSE beside bytes/",
+        "path": "workers/hs-ledger/nenrin/musubi-v0/ca2a-companion-v0/pilot51/witness-giskard09",
+        "publishedIn": "https://github.com/probityai/agent-evidence-vectors/issues/247#issuecomment-6559587775",
+        "repository": "https://github.com/ogasurfproject-jpg/horizon-shield"
+      },
+      "sourceFile": "sets/hs51-giskard09-acks/SOURCE.json",
+      "sumsSha256": "686972edf81aabc89e786b80b7339f94dbabea57a0e3a2331c3d7c56a85b50de"
+    },
     {
       "bindings": [
         {
@@ -257,12 +325,12 @@
         "verdict": "verified"
       },
       "file": "sets/hs51-set2-acks/bytes/SHA256SUMS",
-      "id": "v3ad2af6e0f662995",
+      "id": "va39e75242339c787",
       "kind": "recorded",
       "licenceFile": "sets/hs51-set2-acks/LICENSE",
       "name": "hs51-set2-acks",
       "source": {
-        "commit": "e4ea84f5",
+        "commit": "878d68b7",
         "contributor": "ogasurfproject-jpg (HORIZON SHIELD, The HORIZONs Co., Ltd.)",
         "licence": "MIT, copyright notice in LICENSE beside bytes/",
         "path": "workers/hs-ledger/nenrin/musubi-v0/ca2a-companion-v0/pilot51/witness-acks-set2",
@@ -270,7 +338,7 @@
         "repository": "https://github.com/ogasurfproject-jpg/horizon-shield"
       },
       "sourceFile": "sets/hs51-set2-acks/SOURCE.json",
-      "sumsSha256": "7096f9499742f488ac95b0f97e17e96cff6f851c78baec2071de1dbe21f53a5a"
+      "sumsSha256": "a4a4323d9416e32fb3bb600e112740a5564d37982897127feebc961d75f2b978"
     },
     {
       "bindings": [

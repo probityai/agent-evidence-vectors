@@ -117,7 +117,7 @@ func TestAuditRecordDatingRulesAreLoadBearing(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			report, dated := arVerifyRetained(body, manifest.PredicateType, key, heads, name)
+			report, dated := arVerifyRetained(body, manifest.typeFor(v), key, heads, name)
 			want := "valid"
 			if v.Expected.Verdict != nil {
 				want = *v.Expected.Verdict
@@ -146,7 +146,7 @@ func TestAuditRecordRulesAreLoadBearing(t *testing.T) {
 	key := manifest.Keys.Observer.PublicKey
 	full := map[string]arReport{}
 	for _, v := range manifest.Vectors {
-		full[v.ID] = arVerify(bodies[v.ID], manifest.PredicateType, key, "")
+		full[v.ID] = arVerify(bodies[v.ID], manifest.typeFor(v), key, "")
 	}
 	names := []string{"signature"}
 	for _, rule := range arRules(manifest.PredicateType) {
@@ -157,7 +157,7 @@ func TestAuditRecordRulesAreLoadBearing(t *testing.T) {
 	for _, name := range names {
 		moved := false
 		for _, v := range manifest.Vectors {
-			got := arVerify(bodies[v.ID], manifest.PredicateType, key, name)
+			got := arVerify(bodies[v.ID], manifest.typeFor(v), key, name)
 			if v.Kind == "accept" && got.verdict != "valid" {
 				t.Errorf("disabling %s refuses accept member %s", name, v.DraftID)
 			}

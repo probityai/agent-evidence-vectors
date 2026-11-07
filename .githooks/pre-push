@@ -253,6 +253,33 @@ require_guard() {
 }
 
 # ---------------------------------------------------------------------------
+# RELEASE TAGS: a v<major>.<minor>.<patch> tag is pushed only once its commit is
+# on origin/main.
+# ---------------------------------------------------------------------------
+# The tag push starts release.yml, whose first job refuses a tag whose commit is
+# not reachable from main. v0.34.0, v0.36.0 and v0.36.1 were pushed with their
+# branch, before the pull request merged (v0.36.1 also squash-merged, so its
+# tagged commit never reached main at all), and each run failed after the owner
+# approved it. Refused here so the mistake costs a second, not an approval.
+while read -r local_ref local_sha remote_ref _remote_sha; do
+	[ -z "${local_ref:-}" ] && continue
+	case "$remote_ref" in refs/tags/v[0-9]*.[0-9]*.[0-9]*) ;; *) continue ;; esac
+	case "$local_sha" in *[!0]*) ;; *) continue ;; esac
+	if ! git fetch --quiet origin main; then
+		echo "pre-push: ABORT -- could not fetch origin/main to check ${remote_ref#refs/tags/}; nothing was verified." >&2
+		exit 1
+	fi
+	tag_commit="$(git rev-parse "${local_sha}^{commit}")" || exit 1
+	git merge-base --is-ancestor "$tag_commit" origin/main && tag_status=0 || tag_status=$?
+	if [ "$tag_status" -ne 0 ]; then
+		echo "pre-push: REFUSED -- ${remote_ref#refs/tags/} points at $(printf '%.12s' "$tag_commit"), which is not on origin/main." >&2
+		echo "pre-push: merge the release pull request with a MERGE COMMIT (never squash), then push the tag alone: git push origin ${remote_ref}" >&2
+		echo "pre-push: never move or delete a pushed tag; a tag that missed main is replaced by the next patch version." >&2
+		exit 1
+	fi
+done <<< "$push_lines"
+
+# ---------------------------------------------------------------------------
 # FIRST GATE: the history of the push, not its tip.
 # ---------------------------------------------------------------------------
 # Everything below this block materialises the pushed REVISION and gates that

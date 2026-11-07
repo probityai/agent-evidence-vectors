@@ -93,7 +93,7 @@
       },
       "path": "corpora/vectors-refund-connected/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "0b99330bd19c2cca0b90610daa7dcdf2db3a9639104e458645c3f6bd82829caa"
+      "sha256": "b6d809b9364351f289e786d4d3fba4a3d1de402054baa2fb57cd8d9564746a93"
     },
     {
       "consumed": "unconsumed",
@@ -191,7 +191,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "8cb1bb44b59edf9c92f4ec0a29d97dc970e0baa5089ea4607023ba6cbee6bd22"
+      "sha256": "0928670f1380951f6f4d79e4db1873f7df9c62d965ea03e9aff98c1bdfe0e64a"
     },
     "runtime": {
       "name": "go",
@@ -304,7 +304,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "25cf704cb5840db2c5d8a17743986af9cf06ed8026d261c94e327186b99a8a87"
+    "sha256": "bcfa999984aeebb785b177ed86dd29c3ffb2956c16e422c40df15c2037f1dedf"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -328,7 +328,7 @@
       "r2-n4-lost-ack"
     ],
     "path": "corpora/vectors-refund-connected/MANIFEST.json",
-    "sha256": "0a4963a48a74d1a0d617f64d0ea3545e712358b1cc4a0fde0478c485f8f877e9"
+    "sha256": "2ba66ac18eacd06ff8380adbae4b98cd485be6383209e781d222b841d1a78065"
   },
   "members": [
     {

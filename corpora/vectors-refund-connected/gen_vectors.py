@@ -105,6 +105,13 @@ def generate(root: Path = ROOT) -> dict[str, Any]:
         "source": {"commit": SOURCE_COMMIT, "path": SOURCE_PATH},
         "suite": SUITE,
         "vectors": vectors,
+        # The reader below carries all six layers. The external contract is stated for
+        # one of them, input_aps, in docs/reference/refund-connected-input-aps.md; a
+        # verifier built from it answers for that layer and not for the run.
+        "verifierContract": (
+            "verifier <suite> <case-dir> --json, input_aps layer only; "
+            "exit 0 established, 1 refused"
+        ),
     }
     outcomes = [_outcome(entry["expected"]["steps"]) for entry in vectors]
     manifest["counts"] = {word: outcomes.count(word) for word in sorted(set(outcomes))}
