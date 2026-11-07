@@ -3,8 +3,8 @@
 
 agent-evidence-verify (``packages/agent-evidence-verify`` of probityai/probity) is the
 implementation the done rules come from; this repository's readers restate them. A member
-whose every declared verdict agent-evidence-verify reaches too is a member whose verdict does not rest on
-one implementation. For each member and each check it declares, the script runs the
+whose every declared verdict agent-evidence-verify reaches too is a member whose verdict
+does not rest on one implementation. For each member and each check it declares, the script runs the
 member's case and policy through ``agent_evidence_verify.adjudicate`` and compares the check's
 place on an axis (``done_receipt.entry``); for a member that declares the five checks it
 compares the outcome and integrity verdicts ``done_receipt.combine_*`` give; for the
