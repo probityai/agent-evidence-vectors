@@ -330,9 +330,13 @@ def undated_omission(root: Path) -> str:
     _edit(
         root,
         CITATION_REL,
-        lambda text: text
-        if re.search(r"^date-released:", text, re.MULTILINE)
-        else _sub(r"^(type: software\n)", r"\1date-released: 2000-01-01\n", text, flags=re.MULTILINE),
+        lambda text: (
+            text
+            if re.search(r"^date-released:", text, re.MULTILINE)
+            else _sub(
+                r"^(type: software\n)", r"\1date-released: 2000-01-01\n", text, flags=re.MULTILINE
+            )
+        ),
     )
     publication_mutation(r"^date-released:.*\n", "", "")(root)
     return publication_mutation(r"^preferred-citation:[\s\S]*$", "", "has no published citation")(
