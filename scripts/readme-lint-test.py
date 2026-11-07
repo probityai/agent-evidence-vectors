@@ -139,7 +139,9 @@ class ReadmeLintTest(unittest.TestCase):
             self.run_lint(GOOD + '\n<img src="https://img.shields.io/pypi/v/thing?cacheSeconds=3600">\n'),
             0,
         )
-        self.assertEqual(self.run_lint(GOOD + "\n![Version](https://img.shields.io/pypi/v/thing)\n"), 0)
+        self.assertEqual(
+            self.run_lint(GOOD + "\n![Version](https://img.shields.io/pypi/v/thing)\n"), 0
+        )
 
     def test_unreadable_readme_exits_two(self) -> None:
         self.assertEqual(lint.main([str(self.root / "MISSING.md")]), 2)
