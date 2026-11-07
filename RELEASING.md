@@ -147,21 +147,11 @@ scripts/release-timestamps.sh stamp
 #     VIRTUAL_ENV left over from another project so uv does not reuse it.
 env -u VIRTUAL_ENV uv run --locked --python 3.13 --extra generators python scripts/gen-intake-records.py
 
-# 3c. Move every page pin to the new source version. The pins job in CI refuses
-#     a release pull request whose pages still name the previous version. The
-#     script is the one copy in probityai/.github (scripts/version-pins.py),
-#     the same one the pins job runs, so use a checkout at the commit the
-#     version-pins workflow pins. `write` fixes pins and link targets; read the
-#     result, then run `check`, which must exit 0. Action pins follow the family
-#     lock in version-pins.toml and stay at the previous tag by design.
-python3 -B path/to/probityai-.github/scripts/version-pins.py write
-python3 -B path/to/probityai-.github/scripts/version-pins.py check
-
 # 4. Commit the release artifacts together with the version bump. They are one
 #    unit: a digest list without its signature, a signature without its stamps,
 #    or records that still call the signed list unsigned, is a half-published
 #    release.
-git add README.md docs release/CORPUS-DIGESTS.txt release/CORPUS-DIGESTS.txt.sig \
+git add release/CORPUS-DIGESTS.txt release/CORPUS-DIGESTS.txt.sig \
         release/CORPUS-DIGESTS.txt.sig.tsr release/CORPUS-DIGESTS.txt.sig.ots \
         release/intake
 test "$(date -u +%F)" = "$(date -u -d "@$release_epoch" +%F)"
