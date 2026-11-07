@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Replay the done corpora through agent-evidence-verify and compare every verdict.
 
-agent-evidence-verify (``packages/agent-evidence-verify`` of probityai/probity) is the implementation
-the done rules come from; this repository's readers restate them. A member whose every
-declared verdict agent-evidence-verify reaches too is a member whose verdict does not rest on
+agent-evidence-verify (``packages/agent-evidence-verify`` of probityai/probity) is the
+implementation the done rules come from; this repository's readers restate them. A member
+whose every declared verdict agent-evidence-verify reaches too is a member whose verdict does not rest on
 one implementation. For each member and each check it declares, the script runs the
 member's case and policy through ``agent_evidence_verify.adjudicate`` and compares the check's
 place on an axis (``done_receipt.entry``); for a member that declares the five checks it
@@ -95,7 +95,8 @@ def compare_member(entry: dict[str, Any], member: Path) -> tuple[int, list[str]]
         got = verifier_verdict(member, claim_type)
         entries.append({"claim_type": claim_type, **got})
         if not _same(want, got) and (entry["id"], claim_type) not in KNOWN:
-            problems.append(f"{entry['id']} {claim_type}: declared {want}, agent-evidence-verify {got}")
+            problems.append(
+                f"{entry['id']} {claim_type}: declared {want}, agent-evidence-verify {got}")
     if "integrity" in expected:
         compared += 1
         found = {item["claim_type"]: item for item in entries}
@@ -107,7 +108,8 @@ def compare_member(entry: dict[str, Any], member: Path) -> tuple[int, list[str]]
                     "accepted": done_receipt.accepted(outcome, integrity)}
         want_axes = {key: expected[key] for key in ("outcome", "integrity", "accepted")}
         if got_axes != want_axes and entry["id"] not in KNOWN_AXES:
-            problems.append(f"{entry['id']} axes: declared {want_axes}, agent-evidence-verify {got_axes}")
+            problems.append(
+                f"{entry['id']} axes: declared {want_axes}, agent-evidence-verify {got_axes}")
     return compared, problems
 
 
@@ -141,7 +143,7 @@ def compare_corpus(root: Path) -> tuple[int, list[str]]:
 
 
 def compare_examples(root: Path) -> tuple[int, list[str]]:
-    """This repository's reader against agent-evidence-verify on agent-evidence-verify's own examples."""
+    """This repository's reader against agent-evidence-verify on its own examples."""
     compared, problems = 0, []
     for run in sorted(path for path in root.iterdir() if path.is_dir()):
         for claim_type, name in donechecks.FILES.items():

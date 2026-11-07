@@ -181,7 +181,8 @@ def case_reference_is_installed_by_hash_into_its_own_venv(work: Path) -> None:
 def case_lock_pins_the_released_hashes(work: Path) -> None:
     del work
     text = LOCK.read_text(encoding="utf-8")
-    block = re.search(r"^agent-evidence-verify==(\S+) \\\n((?:\s+--hash=sha256:\w+ ?\\?\n)+)", text, re.M)
+    pattern = r"^agent-evidence-verify==(\S+) \\\n((?:\s+--hash=sha256:\w+ ?\\?\n)+)"
+    block = re.search(pattern, text, re.M)
     assert block is not None, "the lock does not pin agent-evidence-verify"
     assert block.group(1) == RELEASE, f"the lock pins agent-evidence-verify {block.group(1)}"
     hashes = set(re.findall(r"sha256:(\w+)", block.group(2)))

@@ -1356,6 +1356,12 @@ jobs:
       # to go red.
       - name: the action's reference stage counts, prints and cannot be switched off
         run: uv run --group crosscheck python scripts/action-reference-stage-test.py
+      # The per-corpus N of M on the status shields (assets/status/reference/) is
+      # recomputed from the reference verifier and must equal the committed files.
+      - name: the reference coverage shields match the reference verifier
+        run: |
+          uv run --group crosscheck python scripts/reference-coverage-test.py
+          uv run --group crosscheck python scripts/reference-coverage.py --check
       # The release tag check accepts only a tag signed by the pinned key. The
       # test builds throwaway keys and ends by deleting the fingerprint pin in
       # a copy of the script and requiring itself to go red.
