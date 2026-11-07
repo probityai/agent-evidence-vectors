@@ -21,8 +21,8 @@ and the identity of a retry (``consumption_findings``, ``within_limit``,
 ``verify_set``). ``consumption.supersedes`` names the limit document a record's
 ``limitDigest`` replaced, ``consumption.payee`` and each held entry's ``payee``
 the account a payment goes to, and ``consumption.settled`` the terms a paid call
-settled on as read from the chain (CS41 to CS49). A set member (CS7, CS8, CS17,
-CS18 to CS22, CS25, CS48, CS49) is a file
+settled on as read from the chain (CS41 to CS54). A set member (CS7, CS8, CS17,
+CS18 to CS22, CS25, CS48, CS49, CS53, CS54) is a file
 of several records judged one by one and then as a set, under one ledger: the
 ``limitDigest`` values that ``supersedes`` links, so a permit held under a
 limit that was then replaced is still seen.
@@ -202,7 +202,7 @@ CONSUMPTION_MEMBERS = (
 #: The members ``consumption`` may carry beside them: the digest of the limit
 #: document this record's ``limitDigest`` replaced (a raise or a cut), the exact
 #: asset, the payee digest of this request's payment, and the terms the call
-#: settled on (CS41 to CS49).
+#: settled on (CS41 to CS54).
 CONSUMPTION_OPTIONAL = ("supersedes", "asset", "payee", "settled")
 #: The members of ``asset``, the optional exact asset a consumption counts in
 #: when no ISO 4217 code names it (a token on one chain): a CAIP-19 asset id and
@@ -220,9 +220,10 @@ CAIP19 = re.compile(
 CONSUMPTION_COUNTS = ("limit", "consumed", "reserved", "requested", "stateRevision")
 #: The members of one ``held`` entry, an earlier permit that has not settled,
 #: and the one it may carry beside them: the payee digest of that permit's
-#: payment (CS41, CS42).
+#: payment (CS41, CS42), and the deadline of that permit, an instant, which a
+#: zero settlement keeps (CS50 to CS54).
 HELD_MEMBERS = ("operationKey", "requestDigest", "amount")
-HELD_OPTIONAL = ("payee",)
+HELD_OPTIONAL = ("payee", "deadline")
 #: The members of ``settled``, each required: the amount, asset and payee the
 #: call settled on, where they were read, and the transaction read. The terms
 #: are read from the chain through the transaction the server returned; the
@@ -258,6 +259,9 @@ CONSUMPTION_CHECKS = frozenset(
         "settled-amount",
         "settled-terms",
         "settled-source",
+        "zero-settled-transaction",
+        "empty-transaction-nonzero",
+        "zero-settled-deadline",
     }
 )
 #: The lastResult of an input the decision point never held a value of.
@@ -893,6 +897,11 @@ def _held_shape(item: Any) -> None:
         raise Malformed("consumption-value-invalid")
     if not _is_count(item["amount"]):
         raise Malformed("consumption-value-invalid")
+    if "deadline" in item:
+        try:
+            _instant(item["deadline"])
+        except Malformed as exc:
+            raise Malformed("consumption-value-invalid") from exc
 
 
 def _supersedes_shape(consumption: dict[str, Any]) -> None:
@@ -931,7 +940,10 @@ def _asset_shape(asset: Any) -> None:
 def _settled_shape(settled: Any) -> None:
     """The optional settled terms: exactly amount, asset, payee, source and
     transaction; the amount a count, the asset an asset, the payee a digest, the
-    source the chain (CS47) and the transaction a non-empty string."""
+    source the chain (CS47) and the transaction a string, empty only when the
+    amount is 0 (CS50): an x402 EVM upto permit that settles 0 sends no
+    transaction, so the empty string is a zero settlement and nothing else
+    (CS51)."""
     if not isinstance(settled, dict):
         raise Malformed("consumption-malformed")
     if any(name not in settled for name in SETTLED_MEMBERS):
@@ -944,7 +956,14 @@ def _settled_shape(settled: Any) -> None:
     if "settled-source" in CONSUMPTION_CHECKS and settled["source"] not in SETTLED_SOURCES:
         raise Malformed("consumption-value-invalid")
     transaction = settled["transaction"]
-    if not isinstance(transaction, str) or not transaction:
+    if not isinstance(transaction, str):
+        raise Malformed("consumption-value-invalid")
+    if transaction:
+        return
+    zero = settled["amount"] == 0
+    if zero and "zero-settled-transaction" not in CONSUMPTION_CHECKS:
+        raise Malformed("consumption-value-invalid")
+    if not zero and "empty-transaction-nonzero" in CONSUMPTION_CHECKS:
         raise Malformed("consumption-value-invalid")
 
 
@@ -1039,6 +1058,21 @@ def _rule_consumption(state: _State) -> None:
     ):
         raise Malformed("consumption-key-reused")
     _settled_against_approved(consumption)
+    _zero_settlement_held(consumption, decision)
+
+
+def _zero_settlement_held(consumption: dict[str, Any], decision: dict[str, Any]) -> None:
+    """A zero settlement keeps the operation in held with a deadline (CS52): the
+    permit's nonce is unspent, so the facilitator can still settle it up to its
+    maximum until the deadline."""
+    settled = consumption.get("settled")
+    if settled is None or settled["amount"] != 0:
+        return
+    if "zero-settled-deadline" not in CONSUMPTION_CHECKS:
+        return
+    held = held_for(consumption, decision)
+    if held is None or "deadline" not in held:
+        raise Malformed("consumption-value-invalid")
 
 
 def _settled_against_approved(consumption: dict[str, Any]) -> None:
@@ -2196,10 +2230,49 @@ def _set_settled_uncounted(group: list[dict[str, Any]]) -> bool:
     return False
 
 
+#: Whether a record dated exactly at the deadline ends a zero settlement's hold
+#: (CS54): the hold ends at or after the deadline.
+DEADLINE_READING = {"inclusive": True}
+
+
+def _hold_ended(later: dict[str, Any], deadline: datetime.datetime) -> bool:
+    moment = _instant(later["decision"]["reportedAt"])
+    return moment >= deadline if DEADLINE_READING["inclusive"] else moment > deadline
+
+
+def _set_unexpired_hold(group: list[dict[str, Any]]) -> bool:
+    """The hold of an operation that settled 0 ends only when a later record of
+    the ledger is at or after the held entry's deadline, or a record of that
+    operation shows occurred. A record before the deadline that no longer holds
+    the key, whether or not the operation's own record shows none, released a
+    permit the facilitator can still settle (CS53); one at or after the
+    deadline is the control (CS54)."""
+    for settling in group:
+        consumption = consumption_of(settling)
+        assert consumption is not None
+        settled = consumption.get("settled")
+        held = held_for(consumption, settling["decision"])
+        if settled is None or settled["amount"] != 0 or held is None or "deadline" not in held:
+            continue
+        key, deadline = held["operationKey"], _instant(held["deadline"])
+        if any(
+            p["decision"].get("operationKey") == key and p["effect"]["observed"] == "occurred"
+            for p in group
+        ):
+            continue
+        for later in group:
+            if later is settling or _revision(later) <= _revision(settling):
+                continue
+            if key not in _held_keys(later) and not _hold_ended(later, deadline):
+                return True
+    return False
+
+
 SET_RULES: list[tuple[str, str, Callable[[list[dict[str, Any]]], bool]]] = [
     ("stale-revision", "consumption-set-stale-revision", _set_stale_revision),
     ("release-unshown", "consumption-set-release-unshown", _set_release_unshown),
     ("asset-mismatch", "consumption-set-asset-mismatch", _set_asset_mismatch),
+    ("unexpired-hold", "consumption-set-release-unshown", _set_unexpired_hold),
     ("settled-uncounted", "consumption-set-settled-uncounted", _set_settled_uncounted),
 ]
 

@@ -2948,6 +2948,14 @@ def define_consumption_carryover() -> None:
 # asset or payee at settlement is not (CS45, CS46). The terms come from the
 # chain and never from the signed payload (CS47). A later record of the ledger
 # counts the settled amount, not the held one (CS48, CS49).
+#
+# CS50 to CS54: the same case at a settlement of 0 (vendrell46, #307). An x402
+# EVM upto permit that settles 0 sends no transaction, so settled.transaction
+# is the empty string, valid only at amount 0 (CS50, CS51). The authorization
+# is not spent, so the facilitator can still settle it up to the maximum until
+# its deadline: the held entry keeps the operation key and carries the deadline
+# (CS52), and a later record of the ledger releases it only at or after that
+# deadline (CS53, CS54).
 # ---------------------------------------------------------------------------
 
 #: USDC on Base Sepolia, the asset of the x402 MCP transport's example, and the
@@ -3001,6 +3009,62 @@ def _settled(pred: dict[str, Any]) -> None:
         "source": "chain",
         "transaction": SETTLEMENT_TX,
     }
+
+
+#: The deadline of the upto permit, as the record shape writes instants.
+UPTO_DEADLINE = "2026-09-19T11:34:02Z"
+
+
+def _zero_settled(pred: dict[str, Any]) -> None:
+    """CS41's held permit, which the facilitator settled at 0: no transaction, the
+    operation key still held with its amount and the permit's deadline, and no
+    effect observed."""
+    _consumption(pred)["settled"] = {
+        "amount": 0,
+        "asset": {"id": USDC_BASE_SEPOLIA, "decimals": 6},
+        "payee": PAYEE_P,
+        "source": "chain",
+        "transaction": "",
+    }
+    _consumption(pred)["held"][0]["deadline"] = UPTO_DEADLINE
+    pred["effect"]["observed"] = "none"
+    pred["effect"]["writes"] = []
+    pred["effect"]["interval"]["afterRoot"] = BEFORE
+    pred["agreement"] = "not-exercised"
+
+
+def _read_state_at(pred: dict[str, Any], stamp: str) -> None:
+    """Move the consumption-state entry's lastResult, which maxAge holds within a
+    minute of reportedAt."""
+    pred["evaluation"]["inputs"][CONSUMPTION_ENTRY]["lastResult"] = stamp
+
+
+def _zero_settled_later(reported_at: str) -> Callable[[], list[dict[str, Any]]]:
+    """CS53 and CS54: the zero settlement of CS50, then a new operation under the
+    same limit document, dated reported_at, that reads a later revision, holds
+    nothing and counts what CS50 read as consumed."""
+
+    def records() -> list[dict[str, Any]]:
+        settling = from_pred("CS50")
+        later = _second_operation(
+            key=OP_R2,
+            revision=43,
+            same_request=False,
+            requested=5_000_000,
+            record="zero-settled-later",
+        )
+        _in_asset(later, USDC_BASE_SEPOLIA)
+        _consumption(later)["payee"] = PAYEE_P
+        later["decision"]["reportedAt"] = reported_at
+        issued = datetime.datetime.fromisoformat(reported_at.replace("Z", "+00:00"))
+        later["issuedAt"] = (issued + datetime.timedelta(seconds=9)).strftime("%Y-%m-%dT%H:%M:%SZ")
+        read_at = datetime.datetime.fromisoformat(reported_at.replace("Z", "+00:00"))
+        read_before = read_at - datetime.timedelta(seconds=2)
+        _read_state_at(later, read_before.strftime("%Y-%m-%dT%H:%M:%SZ"))
+        seal_commitment(later)
+        return [_named(settling, "zero-settled-call"), _named(later, "zero-settled-later")]
+
+    return records
 
 
 def _settled_edit(name: str, value: Any) -> Callable[[dict[str, Any]], None]:
@@ -3114,6 +3178,40 @@ def define_settlement() -> None:
             ["consumption-value-invalid"],
             None,
         ),
+        (
+            "CS50",
+            "cs50-upto-settled-at-zero",
+            "CS41",
+            "CS41 where the facilitator settled the upto permit at 0: settled carries amount "
+            "0, source chain and an empty transaction, since a zero settlement sends none, and "
+            "the held entry keeps the operation key, its 12 USDC and the permit's deadline",
+            cs_from("CS41", "CS50", _zero_settled),
+            "valid",
+            [],
+            True,
+        ),
+        (
+            "CS51",
+            "cs51-empty-transaction-at-a-non-zero-amount",
+            "CS50",
+            "CS50 where settled carries 7 USDC and still an empty transaction: a settlement "
+            "that moved funds names the transaction that moved them",
+            mutate("CS50", _settled_edit("amount", UPTO_SETTLED)),
+            "malformed",
+            ["consumption-value-invalid"],
+            None,
+        ),
+        (
+            "CS52",
+            "cs52-zero-settlement-held-entry-has-no-deadline",
+            "CS50",
+            "CS50 where the held entry carries no deadline: nothing says how long the permit "
+            "can still settle",
+            mutate("CS50", lambda p: _consumption(p)["held"][0].pop("deadline")),
+            "malformed",
+            ["consumption-value-invalid"],
+            None,
+        ),
     ]
     for draft_id, slug, parent, row, build, verdict, codes, within in singles:
         member(
@@ -3158,6 +3256,45 @@ def define_settlement() -> None:
             None,
             row,
             _ledger_set(draft_id, _counted_after_settlement(30_000_000 + settled_amount)),
+            "valid",
+            tier="authoritative",
+            section="5.9",
+            revision=REVISION_04,
+            joint={
+                "verdict": verdict,
+                "codes": [joint_code] if joint_code else [],
+                "withinLimit": [True, True],
+            },
+        )
+    zero_sets = [
+        (
+            "CS53",
+            "cs53-set-zero-settlement-released-before-the-deadline",
+            "CS50, then a new operation under the same limit document that reads a later "
+            "revision, is dated 24 minutes before the permit's deadline and no longer holds the "
+            "call, which the first record shows as none: each record valid, the set malformed "
+            "because the permit can still settle",
+            "2026-09-19T11:10:02Z",
+            "malformed",
+            "consumption-set-release-unshown",
+        ),
+        (
+            "CS54",
+            "cs54-set-zero-settlement-released-at-the-deadline",
+            "CS53 where the later record is dated at the permit's deadline: each record "
+            "valid, the set valid",
+            UPTO_DEADLINE,
+            "valid",
+            None,
+        ),
+    ]
+    for draft_id, slug, row, reported_at, verdict, joint_code in zero_sets:
+        member(
+            draft_id,
+            slug,
+            None,
+            row,
+            _ledger_set(draft_id, _zero_settled_later(reported_at)),
             "valid",
             tier="authoritative",
             section="5.9",
@@ -4806,7 +4943,7 @@ ORDER = (
     "CS1 CS2 CS3 CS4 CS5 CS6 CS7 CS8 CS9 CS10 CS11 CS12 CS13 CS14 CS15 CS16 CS17 "
     "CS18 CS19 CS20 CS21 CS22 CS23 CS24 CS25 "
     "CS26 CS27 CS28 CS29 CS30 CS31 CS32 CS33 CS34 CS35 CS36 CS37 CS38 CS39 CS40 "
-    "CS41 CS42 CS43 CS44 CS45 CS46 CS47 CS48 CS49 "
+    "CS41 CS42 CS43 CS44 CS45 CS46 CS47 CS48 CS49 CS50 CS51 CS52 CS53 CS54 "
     "A21 SQ1 SQ2 SQ3 SQ4 SQ5 "
     "R10 R11 R12 R13 R14 R15 R16 "
     "IS1 IS2 PS1 PS2 PS1b "
