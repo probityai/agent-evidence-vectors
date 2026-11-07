@@ -23,8 +23,8 @@ Whether an agent did what its record says comes down to one test: a party that d
 ## Run it yourself
 
 ```sh
-uvx agent-evidence-vectors==0.37.0 --corpus vectors-observed-effect
-uvx agent-evidence-vectors==0.37.0 --corpus vectors-self-reported-record
+uvx agent-evidence-vectors==0.36.3 --corpus vectors-observed-effect
+uvx agent-evidence-vectors==0.36.3 --corpus vectors-self-reported-record
 ```
 
 Each prints `verdict: every member behaves as MANIFEST.json declares` when the reference reader agrees with the corpus. The [verifier contract](verifier-contract.md) covers scoring your own verifier.
