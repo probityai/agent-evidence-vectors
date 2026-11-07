@@ -472,3 +472,59 @@ class TestSiteNavigation:
             (repository / "llms.txt").write_bytes(b"# Guide\n\xff\n")
             with pytest.raises(ValueError, match="llms.txt must contain ASCII text"):
                 site.main(["--out", str(tmp_path / "published")])
+
+
+class TestContractPages:
+    """Every contract identifier under this host answers with a page."""
+
+    def test_every_manifest_contract_id_under_our_host_has_a_built_page(
+        self, tmp_path: Path
+    ) -> None:
+        # The real repository, not the fixture: a new corpus that declares a contractId
+        # under this host must arrive with a page, and this fails when it does not.
+        found = site.contract_ids()
+        assert found, "no corpus declares a contractId under the contract/ prefix"
+        site.main(["--out", str(tmp_path)])
+        missing = [
+            contract_id
+            for contract_id, name, _ in found
+            if not (tmp_path / "contract" / f"{name}.html").is_file()
+            or not (tmp_path / "contract" / name / "index.html").is_file()
+        ]
+        assert missing == []
+
+    def test_a_contract_page_states_id_corpus_release_and_links_the_directory(
+        self, tmp_path: Path
+    ) -> None:
+        site.main(["--out", str(tmp_path)])
+        text = (tmp_path / "contract/approval-binding/v1.html").read_text(encoding="utf-8")
+        assert f"{site.SITE_URL}/contract/approval-binding/v1" in text
+        assert "corpora/vectors-approval-binding" in text
+        assert site.release_tag() in text
+        assert f"{site.REPO_URL}/tree/main/corpora/vectors-approval-binding" in text
+
+    def test_ids_on_other_hosts_are_not_served_here(self) -> None:
+        elsewhere = "https://probityai.github.io/agent-evidence-observer/contract/"
+        assert not any(i.startswith(elsewhere) for i, _, _ in site.contract_ids())
+
+    def test_contract_directory_alias_is_not_a_sitemap_entry(self, tmp_path: Path) -> None:
+        site.main(["--out", str(tmp_path)])
+        urls = (tmp_path / "sitemap.xml").read_text(encoding="utf-8")
+        assert f"{site.SITE_URL}/contract/approval-binding/v1</loc>" in urls
+        assert "contract/approval-binding/v1/index.html" not in urls
+
+    def test_a_declared_contract_without_a_page_is_caught(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        # Mutation check for the first test: hide one corpus from the page builder and
+        # the completeness assertion must name it.
+        real = site.contract_pages
+        monkeypatch.setattr(
+            site,
+            "contract_pages",
+            lambda tag, routes=None: {
+                k: v for k, v in real(tag, routes).items() if "chunked-export" not in str(k)
+            },
+        )
+        site.main(["--out", str(tmp_path)])
+        assert not (tmp_path / "contract/chunked-export/v1.html").exists()

@@ -207,6 +207,41 @@ when a held permit was issued. Revision -03 states all three.
 
 The figure was not reproduced here before this row was written.
 
+### Laurent-Lemonnier, `Laurent-Lemonnier/dps-scitt-decision-layer`, the agent audit record corpus, rerun at release 0.31.0
+
+The same reader as the row above, rerun against revision -03 of the draft and release 0.31.0 of the corpus.
+
+| | |
+| --- | --- |
+| Reporter | `Laurent-Lemonnier` |
+| Implementation | [`interop/gilda/gilda_verify_independent.py`](https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/tree/3961a3642263a08ba921d7266ef2edcc9d9472de/interop/gilda) at `Laurent-Lemonnier/dps-scitt-decision-layer@3961a36`, Python |
+| Posted at | [#335, comment of 2026-10-31](https://github.com/probityai/agent-evidence-vectors/issues/335#issuecomment-6549594533), with the log [`run-20261031.txt`](https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/blob/3961a3642263a08ba921d7266ef2edcc9d9472de/interop/gilda/run-20261031.txt) and the per-member report [`judge-20261031-0.31.0.json`](https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/blob/3961a3642263a08ba921d7266ef2edcc9d9472de/interop/gilda/judge-20261031-0.31.0.json) |
+| Corpus | `vectors-agent-audit-record` at release 0.31.0, read against draft -03 |
+| Result | 184 of 184 members agree with `MANIFEST.json` on the verdict, the refusal codes, the derived tier, `withinLimit` and the set checks, and for the 22 retained members on the dating block; the first refusal code agrees on 101 of 101 reject members |
+| Not attempted | 0 anchors; `rfc3161` is the only anchor kind the verifier does not validate, and the corpus carries none |
+| Label, by its author | an outside run |
+
+His three stated limits: the rules CS18 to CS40 and the X codes were implemented from the corpus README and not from the text of -03 ("text plus README"); the empty-tree constant is a question he raised; and anchors are read over the recomputed digest (X12).
+
+The figure was not reproduced here before this row was written.
+
+### Laurent-Lemonnier, `Laurent-Lemonnier/dps-scitt-decision-layer`, the approval binding corpus
+
+The first outside run of `vectors-approval-binding`, by a reader this repository did not write.
+
+| | |
+| --- | --- |
+| Reporter | `Laurent-Lemonnier` |
+| Implementation | [`interop/gilda/approval_binding_verify_independent.py`](https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/tree/fdc5f6352795fc713309cd25ac2669d22840e0cc/interop/gilda) at `Laurent-Lemonnier/dps-scitt-decision-layer@fdc5f63`, Python, written from the checks in the corpus README, importing nothing from the package |
+| Posted at | [#401](https://github.com/probityai/agent-evidence-vectors/issues/401), opened 2026-11-01, with the logs and per-case reports beside the verifier |
+| Corpus | `vectors-approval-binding` at releases 0.31.0 and 0.28.0, 23 cases, the same corpus digest `49f077e5` at both |
+| Result | 23 of 23 cases agree with `MANIFEST.json` on decision and reason, by his judge and by the corpus's own harness driving the verifier through its command-line contract |
+| Label, by its author | an outside run |
+
+The readings the text left to the verifier are stated in the docstring of the verifier. One of them, that the ambiguity check compares every member of the two objects, is the reading the corpus now states in check 4 and pins with the case `approval-id-reused-unread-member`.
+
+The figure was not reproduced here before this row was written.
+
 ## Runs of this repository's code on another operator's host
 
 The rows above are runs of implementations this repository did not write. The

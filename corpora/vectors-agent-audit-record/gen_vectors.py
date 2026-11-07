@@ -55,6 +55,13 @@ SUITE = "agent-audit-record-conformance"
 PREDICATE_TYPE = (
     "https://probityai.github.io/agent-evidence-vectors/predicate/v1/agent-audit-record"
 )
+#: The second URI revision 03 publishes (Section 8), for the input set extended
+#: by principal-standing-source. A member carrying predicateType is judged by a
+#: verifier configured for it; every other member, by one configured for the
+#: URI above.
+PREDICATE_TYPE_V2 = (
+    "https://probityai.github.io/agent-evidence-vectors/predicate/v2/agent-audit-record"
+)
 PREDICATE_DOCUMENT = "https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/00/"
 DRAFT = "draft-gilda-audit-agent-audit-record-00"
 #: The revision every earlier release of this corpus tested. Its records carry
@@ -349,6 +356,7 @@ def member(
     aggregation: dict[str, Any] | None = None,
     within: bool | None = None,
     joint: dict[str, Any] | None = None,
+    predicate_type: str | None = None,
 ) -> None:
     if (verdict is None) == (readings is None):
         raise SystemExit(
@@ -377,6 +385,7 @@ def member(
             "aggregation": aggregation,
             "within": within,
             "joint": joint,
+            "predicateType": predicate_type,
         }
     )
 
@@ -3290,6 +3299,103 @@ def define_audit_next() -> None:
         ["issued-before-sealed"],
         revision=REVISION_03,
     )
+    define_principal_standing()
+
+
+# ---------------------------------------------------------------------------
+# Principal standing under the v2 URI (revision 03, rows PS1 and PS2), and the
+# open boundary beside them (PS1b). Contributed by Wes Jackson in
+# probityai/agent-evidence-vectors#412, built as written there; the boundary
+# case is Girish Konda's.
+#
+# Revision 03 adds principal-standing-source to the closed input set, and
+# because a closed set grows only under a new URI, publishes the extended set
+# under the v2 URI. PS1 is A10 under that URI: issuer standing fresh, principal
+# standing unavailable, recorded not-evaluated. PS2 is the same record under the
+# v1 URI, where the value is outside the set. PS1b puts principal standing
+# exactly at maxAge, where draft-jackson-wimse-evaluation-05 Section 3 forbids
+# using the input ("at or past its horizon") and Section 5.4 of revision 03
+# calls it fresh ("an age equal to maxAge is fresh"). No record satisfies both,
+# so the member is open until the two drafts carry one boundary.
+# ---------------------------------------------------------------------------
+
+#: The principal-standing value of PS1b: exactly 3600 seconds before reportedAt.
+AT_HORIZON = "2026-09-19T10:04:02Z"
+
+
+def build_ps1(principal_last_result: str = STALE, predicate_type: str = PREDICATE_TYPE_V2) -> Built:
+    pred = from_pred("A10")
+    pred["evaluation"] = {
+        "status": "not-evaluated",
+        "inputs": [
+            entry("policy-source", "2026-09-19T10:00:00Z", DAY),
+            entry("standing-source", "2026-09-19T11:00:00Z", HOUR),
+            entry("principal-standing-source", principal_last_result, HOUR),
+        ],
+        "unavailableInput": ["principal-standing-source"],
+    }
+    stmt = statement(pred)
+    stmt["predicateType"] = predicate_type
+    return {"payload": canonical_bytes(stmt)}
+
+
+TWO_READINGS_PS1B = [
+    {
+        "verdict": "valid",
+        "rationale": "draft-jackson-wimse-evaluation-05 Section 3: a verifier must not use "
+        "an input at or past its horizon, its as-of time plus the pinned maximum age, so at "
+        "an age equal to maxAge the input is unavailable and not-evaluated naming it is the "
+        "record required. The reading if this draft adopts that boundary (an input is fresh "
+        "when its age is less than maxAge, and FR2 becomes malformed)",
+    },
+    {
+        "verdict": "malformed",
+        "rationale": "Section 5.4 of draft-gilda-audit-agent-audit-record-03 as filed: an "
+        "age equal to maxAge is fresh (FR2), so the derived unavailable set is empty and a "
+        "not-evaluated record naming the input fails the recompute of Section 4.6. The "
+        "reading if draft-jackson-wimse-evaluation adopts this draft's boundary (past its "
+        "horizon, in place of at or past)",
+    },
+]
+
+
+def define_principal_standing() -> None:
+    member(
+        "PS1",
+        "ps1-principal-standing-unavailable-v2",
+        "A10",
+        "under the v2 predicate type URI, not-evaluated with unavailableInput of "
+        "principal-standing-source and the matching entry",
+        build_ps1,
+        "valid",
+        tier="authoritative",
+        revision=REVISION_03,
+        predicate_type=PREDICATE_TYPE_V2,
+    )
+    member(
+        "PS2",
+        "ps2-principal-standing-under-v1",
+        "PS1",
+        "the same record under the v1 predicate type URI",
+        lambda: build_ps1(predicate_type=PREDICATE_TYPE),
+        "malformed",
+        ["value-outside-vocabulary"],
+        revision=REVISION_03,
+    )
+    member(
+        "PS1b",
+        "ps1b-principal-standing-age-equal-to-max-age",
+        "PS1",
+        "principal-standing-source exactly at maxAge (age 3600 under 3600) and not "
+        "answering, still not-evaluated naming it: open between "
+        "draft-jackson-wimse-evaluation-05 Section 3 and this section",
+        lambda: build_ps1(AT_HORIZON),
+        None,
+        ["evaluation-inconsistent"],
+        readings=TWO_READINGS_PS1B,
+        section="5.4",
+        predicate_type=PREDICATE_TYPE_V2,
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -4504,7 +4610,7 @@ ORDER = (
     "CS41 CS42 CS43 CS44 CS45 CS46 CS47 CS48 CS49 "
     "A21 SQ1 SQ2 SQ3 SQ4 SQ5 "
     "R10 R11 R12 R13 R14 R15 R16 "
-    "IS1 IS2 "
+    "IS1 IS2 PS1 PS2 PS1b "
     "PR1 PR2 PR3 PR4 PR5 PR6 PR7 PR8 PR9 PR10 PR11 "
     "X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15 X16 X17 X18"
 ).split()
@@ -4544,6 +4650,8 @@ def optional_fields(entry: Member, ids: dict[str, str]) -> dict[str, Any]:
         out["draftRevision"] = entry["revision"]
     if entry["aggregation"] is not None:
         out["aggregation"] = entry["aggregation"]
+    if entry["predicateType"] is not None:
+        out["predicateType"] = entry["predicateType"]
     return out
 
 
@@ -4666,6 +4774,8 @@ def emit() -> None:
             "above may fail it. A member carrying aggregation lists the values of one "
             "input the decision depended on, as the producer held them: a producer's "
             "aggregation over those values must yield the entry the record carries. "
+            "A member carrying predicateType is judged by a verifier configured to "
+            "accept that predicate type URI in place of the one above. "
             "R1 to R9 are retained records: the file "
             "carries the envelope beside its retention entry, expected.verdict is the "
             "envelope's verdict, and expected.dating is the result of the dating check "

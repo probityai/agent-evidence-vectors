@@ -65,7 +65,11 @@ Its checkpoint proof is checked against the headers of blocks 972551 and 972552
 in its own `bundle.json`. `hs51-set2-acks` holds the trusted witness
 acknowledgements of the same run with their complete OpenTimestamps proofs,
 each checked against the held headers of both blocks it is attested in and
-above the block it says it saw. A set lands as its own member when its
+above the block it says it saw. `hs51-giskard09-acks` holds the four optional
+acknowledgements of the same run by a witness whose key is outside the trust
+configuration `d132fe72`; they sit under the publisher's own `SHA256SUMS` and are
+checked the same way at block 972311, and they are not counted toward that
+configuration's threshold. A set lands as its own member when its
 publisher released it in its own directory with its own `SHA256SUMS`, so a
 check of each directory as its publisher keeps it stays exact.
 

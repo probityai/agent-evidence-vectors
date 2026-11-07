@@ -1,9 +1,9 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/approval-binding/v1",
-  "corpusDigest": "54ad08f0dd40429440393a706ef7fed361e00c12ce3033d18b353231a9a266a5",
+  "corpusDigest": "f6f0fb39e913bdaacdb411903d946243d1b3d6c4703daa563c0277a43be64ccb",
   "counts": {
     "allow": 8,
-    "deny": 28
+    "deny": 29
   },
   "suite": "approval-binding/v1",
   "vectors": [
@@ -103,6 +103,20 @@
       },
       "id": "approval-id-reused-different-content",
       "path": "cases/approval-id-reused-different-content",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "a second approval with the same identifier differs only in a member no check reads, so ambiguity is judged over the whole object",
+      "expected": {
+        "decision": "deny",
+        "reason": "approval_id_ambiguous"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "0400794f05abdcf56fbeac06943e14f168ec780b0941751ae9148d915409a3f7"
+      },
+      "id": "approval-id-reused-unread-member",
+      "path": "cases/approval-id-reused-unread-member",
       "useMatchesApproval": true
     },
     {

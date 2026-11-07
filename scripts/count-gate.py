@@ -2208,6 +2208,42 @@ FROZEN: tuple[Frozen, ...] = (
     ),
     Frozen(
         "RUNS.md",
+        "the agent audit record outside run score at release 0.31.0",
+        "184 of 184 members agree with `MANIFEST.json`",
+        (
+            "The score Laurent-Lemonnier posted on agent-evidence-vectors#335 on 2026-10-31"
+            " for vectors-agent-audit-record at release 0.31.0"
+            ", from his own verifier at dps-scitt-decision-layer@3961a36."
+            " It records one past run of one release and does not track the "
+            "corpus as it grows."
+        ),
+    ),
+    Frozen(
+        "RUNS.md",
+        "the agent audit record outside run reject-member score at release 0.31.0",
+        "agrees on 101 of 101 reject members",
+        (
+            "The score Laurent-Lemonnier posted on agent-evidence-vectors#335 on 2026-10-31"
+            " for vectors-agent-audit-record at release 0.31.0"
+            ", from his own verifier at dps-scitt-decision-layer@3961a36."
+            " It records one past run of one release and does not track the "
+            "corpus as it grows."
+        ),
+    ),
+    Frozen(
+        "RUNS.md",
+        "the approval binding outside run score",
+        "23 of 23 cases agree with `MANIFEST.json`",
+        (
+            "The score Laurent-Lemonnier posted on agent-evidence-vectors#401 on 2026-11-01"
+            " for vectors-approval-binding at releases 0.31.0 and 0.28.0"
+            ", from his own verifier at dps-scitt-decision-layer@fdc5f63."
+            " It records one past run of one release and does not track the "
+            "corpus as it grows."
+        ),
+    ),
+    Frozen(
+        "RUNS.md",
         "the agent audit record corpus size an outside reader ran",
         "at release 0.16.0, 47 members, corpus digest",
         (
@@ -3226,6 +3262,14 @@ MASKS = tuple(
         # cell or a docstring. It surfaced when the audit-record corpus total reached
         # the number of the upstream issue that the ACS-Core wire probes cite.
         r"\bissues?\s+\d+\b",
+        # And `pull request 273`, the same identifier for a pull request. It
+        # surfaced when the ACS-Core corpus cited an upstream pull request whose
+        # number equals the W3C report corpus total.
+        r"\b[Pp]ull\s+requests?\s+\d+\b",
+        # A numbered article of a law, `Article 53(2)`, names a provision and
+        # counts nothing. It surfaced when the ACS-Core accept count reached the
+        # article number in the title of the open-weight release corpus.
+        r"\bArt(?:icle|\.)\s+\d+",
         # A PEP 508 version bound in a quoted requirement string. `"cryptography>=43"`
         # names a release of a dependency and counts nothing; the version-string
         # mask below needs a dot and this form has none. It stayed invisible only
