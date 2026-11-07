@@ -90,7 +90,7 @@ jobs:
       # tag being cut against HEAD. A shallow, tagless checkout would have the
       # gate report that the tag does not resolve, which is a true statement about
       # a tree no consumer will ever see.
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
       - uses: astral-sh/setup-uv@v7
@@ -218,7 +218,7 @@ jobs:
     outputs:
       version: ${{ steps.version.outputs.version }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
       - uses: astral-sh/setup-uv@v7
