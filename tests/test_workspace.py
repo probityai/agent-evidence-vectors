@@ -51,8 +51,24 @@ def test_documentation_outside_areas_selects_nothing(repo: Path) -> None:
 
 
 def test_a_shared_file_selects_every_area(repo: Path) -> None:
-    got = workspace.changed([".github/workflows/ci.yml"], repo)
+    got = workspace.changed(["scripts/anything.py"], repo)
     assert all(got.values())
+
+
+def test_an_independent_workflow_selects_no_area(repo: Path) -> None:
+    got = workspace.changed([".github/workflows/ci.yml", ".github/workflows/conformance.yml"], repo)
+    assert not any(got.values())
+
+
+def test_a_reusable_workflow_selects_only_its_own_area(repo: Path) -> None:
+    got = workspace.changed([".github/workflows/crate-dsse.yml"], repo)
+    assert got == {"actions": False, "crates/dsse": True, "packages/vocab": False, "vectors": False}
+
+
+def test_the_entry_workflows_select_every_area(repo: Path) -> None:
+    for name in ("parts", "release", "family-pin-guard"):
+        got = workspace.changed([f".github/workflows/{name}.yml"], repo)
+        assert all(got.values()), name
 
 
 def test_a_crate_tag_resolves_to_its_unit(repo: Path) -> None:
