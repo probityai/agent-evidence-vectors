@@ -1,0 +1,5 @@
+suite: mcp-authz-observation/v1
+members: 11
+  accept: 1
+  reject: 10
+verdict: every member behaves as MANIFEST.json declares
