@@ -101,15 +101,13 @@ build-backend = "hatchling.build"
 [tool.uv]
 package = false
 
-# probity-verify is the implementation the done corpora's rules come from. The
-# cross-check (corpora/vectors-done-receipt/crosscheck_probity_verify.py) replays every done
-# member through it, pinned to the commit the readers were ported against. A
-# dependency group, so it never reaches the published package's metadata.
-[tool.uv.sources]
-probity-verify = { git = "https://github.com/probityai/probity", rev = "932c1e3ecc8f2142cb878cd43bf9689cbcb5f342", subdirectory = "packages/probity-verify" }
-
 [dependency-groups]
-crosscheck = ["probity-verify"]
+# agent-evidence-verify is the implementation the done corpora's rules come from.
+# The cross-check (corpora/vectors-done-receipt/crosscheck_probity_verify.py) replays
+# every done member through the released package, pinned by version and locked with
+# hashes in uv.lock. A dependency group, so it never reaches the published package's
+# metadata.
+crosscheck = ["agent-evidence-verify==0.5.0; python_full_version >= '3.12'"]
 # The repository tools of the imported parts (scripts/workspace.py and the other
 # tests under tests/). The packages under packages/ are standalone projects built
 # by directory (`uv build packages/<name>`); none of them has a runtime dependency. Their ruff run
