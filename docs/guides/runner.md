@@ -12,8 +12,8 @@ Build a verifier, then pass its command to the harness. After the signed release
 For a shell run before publication, use the [source-wheel recipe](../../README.md#try-it) from a reviewed checkout. After the tag and PyPI wheel are published, install the matching release:
 
 ```sh
-go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.37.0
-uvx agent-evidence-vectors==0.37.0 --verifier "aee-verify -validity-only -json"
+go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.36.3
+uvx agent-evidence-vectors==0.36.3 --verifier "aee-verify -validity-only -json"
 ```
 
 The command invokes your verifier for each vector using the [external-verifier contract](../reference/verifier-contract.md). Reports keep normative conformance and reason-code agreement separate. Both still affect row status and the command's exit status.
