@@ -154,20 +154,22 @@ def _mutation_sweep(manifest: dict[str, object]) -> tuple[list[str], list[str]]:
     refuses the same member, that is printed: the Appendix B row does not isolate
     the rule, which is a property of the draft's corpus and worth knowing.
     """
-    policy = auditrecord.policy_for(manifest)
     entries = manifest["vectors"]
     assert isinstance(entries, list)
     bodies = [
-        (entry, raw, auditrecord.verify(raw, policy))
+        (entry, raw, auditrecord.policy_for(manifest, entry))
         for entry in entries
         for raw in _envelopes(entry)
+    ]
+    bodies_full = [
+        (entry, raw, policy, auditrecord.verify(raw, policy)) for entry, raw, policy in bodies
     ]
     findings: list[str] = []
     notes: list[str] = []
     swept = [n for n in auditrecord.rule_names() if n not in auditrecord.UNREACHED_BY_CORPUS]
     for name in ["signature", *swept]:
         moved, flipped = [], []
-        for entry, raw, full in bodies:
+        for entry, raw, policy, full in bodies_full:
             report = auditrecord.verify(raw, policy, disabled=name)
             if entry["kind"] == "accept" and report.verdict != "valid":
                 findings.append(f"disabling {name} refuses accept member {entry['draftId']}")
@@ -205,11 +207,11 @@ class _Freshness:
     refuse_extra: bool = True
     refuse_repeat: bool = True
 
-    def shape(self, entry: dict[str, Any], seen: set[str]) -> None:
+    def shape(self, entry: dict[str, Any], seen: set[str], predicate_type: str) -> None:
         extra = set(entry) - auditrecord.ENTRY_MEMBERS - auditrecord.ENTRY_OPTIONAL
         if self.refuse_extra and extra:
             raise auditrecord.Malformed("evaluation-entry-malformed")
-        if entry["input"] not in auditrecord.EVALUATION_INPUTS:
+        if entry["input"] not in auditrecord.evaluation_inputs(predicate_type):
             raise auditrecord.Malformed("value-outside-vocabulary")
         if self.refuse_negative and entry["maxAge"] < 0:
             raise auditrecord.Malformed("evaluation-entry-malformed")
@@ -226,7 +228,7 @@ class _Freshness:
         age = (reported_at - produced).total_seconds()
         return age > entry["maxAge"] or (not self.inclusive and age == entry["maxAge"])
 
-    def derive(self, pred: dict[str, Any]) -> list[str]:
+    def derive(self, pred: dict[str, Any], predicate_type: str) -> list[str]:
         moment = (
             pred["issuedAt"] if self.reference == "issuedAt" else pred["decision"]["reportedAt"]
         )
@@ -234,7 +236,7 @@ class _Freshness:
         seen: set[str] = set()
         out: list[str] = []
         for entry in pred["evaluation"]["inputs"]:
-            self.shape(entry, seen)
+            self.shape(entry, seen, predicate_type)
             if self.unavailable(entry, reported_at):
                 out.append(entry["input"])
         return out
@@ -249,7 +251,7 @@ def _evaluation_reading(
     evaluated_by_entries: bool = True,
     match_entries: bool = True,
     closed: bool = True,
-    derive: Callable[[dict[str, Any]], list[str]] | None = None,
+    derive: Callable[[dict[str, Any], str], list[str]] | None = None,
 ) -> Rule:
     """Section 5.4 as a reader might take it, one sentence at a time."""
 
@@ -257,7 +259,8 @@ def _evaluation_reading(
         evaluation = state.predicate["evaluation"]
         if closed and set(evaluation) - auditrecord.EVALUATION_MEMBERS:
             raise auditrecord.Malformed("evaluation-malformed")
-        derived = (derive or auditrecord.derive_unavailable)(state.predicate)
+        predicate_type = state.policy.predicate_type
+        derived = (derive or auditrecord.derive_unavailable)(state.predicate, predicate_type)
         if evaluation["status"] == "evaluated":
             carried = (
                 bool(evaluation.get("unavailableInput"))
@@ -270,19 +273,21 @@ def _evaluation_reading(
         inputs = evaluation.get("unavailableInput")
         if wrap_string and isinstance(inputs, str):
             inputs = [inputs]
-        _not_evaluated(inputs, derived, refuse_empty, refuse_repeat, match_entries)
+        allowed = auditrecord.unavailable_inputs(predicate_type)
+        _not_evaluated(inputs, derived, allowed, (refuse_empty, refuse_repeat, match_entries))
 
     return rule
 
 
 def _not_evaluated(
-    inputs: Any, derived: list[str], refuse_empty: bool, refuse_repeat: bool, match: bool
+    inputs: Any, derived: list[str], allowed: frozenset[str], knobs: tuple[bool, bool, bool]
 ) -> None:
     """The not-evaluated half of Section 5.4 under the readings above."""
+    refuse_empty, refuse_repeat, match = knobs
     if not isinstance(inputs, list) or (refuse_empty and not inputs):
         raise auditrecord.Malformed("evaluation-inconsistent")
     for value in inputs:
-        if value not in auditrecord.UNAVAILABLE_INPUTS:
+        if value not in allowed:
             raise auditrecord.Malformed("value-outside-vocabulary")
     if refuse_repeat and len(set(inputs)) != len(inputs):
         raise auditrecord.Malformed("evaluation-inconsistent")
@@ -544,6 +549,29 @@ def _narrowed_inputs(values: frozenset[str]) -> Iterator[None]:
 
 
 @contextlib.contextmanager
+def _inputs_ignoring_uri() -> Iterator[None]:
+    """A reader that extends the v1 set along with the v2 set."""
+    originals = (auditrecord.EVALUATION_INPUTS, auditrecord.UNAVAILABLE_INPUTS)
+    auditrecord.EVALUATION_INPUTS = originals[0] | auditrecord.V2_INPUTS
+    auditrecord.UNAVAILABLE_INPUTS = originals[1] | auditrecord.V2_INPUTS
+    try:
+        yield
+    finally:
+        auditrecord.EVALUATION_INPUTS, auditrecord.UNAVAILABLE_INPUTS = originals
+
+
+@contextlib.contextmanager
+def _v2_without_extension() -> Iterator[None]:
+    """A reader that accepts the v2 URI and applies the v1 set under it."""
+    original = auditrecord.V2_INPUTS
+    auditrecord.V2_INPUTS = frozenset()
+    try:
+        yield
+    finally:
+        auditrecord.V2_INPUTS = original
+
+
+@contextlib.contextmanager
 def _narrowed_vocabulary(path: str, values: frozenset[str]) -> Iterator[None]:
     original = auditrecord.VOCABULARIES[path]
     auditrecord.VOCABULARIES[path] = values
@@ -559,6 +587,16 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
         "unavailableInput known only as standing-source",
         lambda: _narrowed_inputs(frozenset({"standing-source"})),
         "A12,A13,A14,A18,A19,A20",
+    ),
+    (
+        "principal-standing-source accepted under the v1 URI as well as the v2 URI",
+        _inputs_ignoring_uri,
+        "PS2",
+    ),
+    (
+        "the v2 URI read with the v1 input set",
+        _v2_without_extension,
+        "PS1",
     ),
     (
         "agent.authentication without api-key",
@@ -861,7 +899,6 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
 def _dating_sweep(manifest: dict[str, object]) -> list[str]:
     """Disabling one dating rule must move some retained member's dating result
     and no retained member's record verdict."""
-    policy = auditrecord.policy_for(manifest)
     heads = auditrecord.tree_heads(manifest)
     entries = [e for e in manifest["vectors"] if _retained(e)]  # type: ignore[union-attr]
     if not entries:
@@ -871,6 +908,7 @@ def _dating_sweep(manifest: dict[str, object]) -> list[str]:
     for name in swept:
         moved = []
         for entry in entries:
+            policy = auditrecord.policy_for(manifest, entry)
             report, dated = auditrecord.verify_retained(_raw(entry), policy, heads, disabled=name)
             if report.verdict != entry["expected"]["verdict"]:
                 findings.append(f"disabling dating rule {name} moves {entry['draftId']}'s verdict")
@@ -882,12 +920,11 @@ def _dating_sweep(manifest: dict[str, object]) -> list[str]:
 
 
 def _failing(manifest: dict[str, object]) -> str:
-    policy = auditrecord.policy_for(manifest)
     entries = manifest["vectors"]
     assert isinstance(entries, list)
     failing = []
     for entry in entries:
-        if _fails(entry, policy):
+        if _fails(entry, auditrecord.policy_for(manifest, entry)):
             failing.append(str(entry["draftId"]))
     return ",".join(failing)
 

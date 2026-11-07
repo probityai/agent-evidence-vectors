@@ -9,6 +9,44 @@ key = "pypi:agent-evidence-vectors"
 manifest = "pyproject.toml"
 publisher = "probityai/agent-evidence-vectors"
 
+# The packages and crates in the README table. Each is a unit of release.toml; its tag is the
+# unit's prefix. crates:jcs-admit is a lock because its manifest (0.1.4) is ahead of the
+# release on crates.io, and the table shows what is published.
+[[own]]
+key = "crates:dsse"
+manifest = "crates/dsse/Cargo.toml"
+tag = "dsse-v{version}"
+
+[[own]]
+key = "npm:@probityai/dsse"
+manifest = "crates/dsse/npm/package.json"
+tag = "dsse-npm-v{version}"
+
+[[own]]
+key = "pypi:jcs-admit"
+manifest = "crates/jcs-admit/python/pyproject.toml"
+tag = "jcs-admit-py-v{version}"
+
+[[own]]
+key = "npm:jcs-admit"
+manifest = "crates/jcs-admit/npm/package.json"
+tag = "jcs-admit-npm-v{version}"
+
+[[own]]
+key = "pypi:agent-evidence-admission"
+manifest = "packages/admission/python/pyproject.toml"
+tag = "agent-evidence-admission-v{version}"
+
+[[own]]
+key = "pypi:agent-evidence-vocabulary"
+manifest = "packages/vocabulary/pyproject.toml"
+tag = "agent-evidence-vocabulary-v{version}"
+
+[family]
+"pypi:probityai" = "0.1.1"
+"crates:jcs-admit" = "0.1.3"
+"action:agent-evidence-vectors" = "0.36.1"
+
 [scan]
 include = [
   "README.md",

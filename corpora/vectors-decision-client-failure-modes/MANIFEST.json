@@ -1,0 +1,1728 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/decision-client-failure-modes",
+  "corpusDigest": "dbadd1d78f0615878edf5b3c71fc054c35c62afecf7d23e0b28670c4ba7c6aad",
+  "counts": {
+    "allow": 18,
+    "deny": 17
+  },
+  "runtimeContract": "client scenario.json, AEV_DECISION_POINT, AEV_EFFECT_SINK, AEV_DECISION_RECORD; see decisionclient_runtime",
+  "suite": "decision-client-failure-modes/v1",
+  "vectors": [
+    {
+      "edit": "control: the conforming record for unreachable--default",
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "files": {
+        "record.json": "ef7e3d43a69035840f4658471bf7e9b1868f75aca797e8479813874dbd1ed679"
+      },
+      "id": "accept-unreachable--default",
+      "path": "cases/accept-unreachable--default",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "unreachable",
+        "mode": "default",
+        "outcome": "deny",
+        "performed": false
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "condition": "unreachable",
+          "decisionPoint": {
+            "body": "",
+            "delayMillis": 0,
+            "listen": false,
+            "status": 0
+          },
+          "id": "unreachable--default",
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "nothing listens at the decision point's address",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "control: the conforming record for unreachable--strict",
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "files": {
+        "record.json": "7804ad399777a380b709b057b14a72357d94420a10c6f9aff334bfdc915c6b94"
+      },
+      "id": "accept-unreachable--strict",
+      "path": "cases/accept-unreachable--strict",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "unreachable",
+        "mode": "strict",
+        "outcome": "deny",
+        "performed": false
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "condition": "unreachable",
+          "decisionPoint": {
+            "body": "",
+            "delayMillis": 0,
+            "listen": false,
+            "status": 0
+          },
+          "id": "unreachable--strict",
+          "mode": "strict",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "nothing listens at the decision point's address",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "control: the conforming record for http-500--default",
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "files": {
+        "record.json": "f0755197cba222d315f459fd4d38bcee6a566cd4a2bbf60afc360ff086d866d5"
+      },
+      "id": "accept-http-500--default",
+      "path": "cases/accept-http-500--default",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "http-error",
+        "mode": "default",
+        "outcome": "deny",
+        "performed": false
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "condition": "http-500",
+          "decisionPoint": {
+            "body": "{\"error\":\"down\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 500
+          },
+          "id": "http-500--default",
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point answers HTTP 500",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "control: the conforming record for http-500--strict",
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "files": {
+        "record.json": "661b94e26c7421e48d227ba4ac808aa8c9d5db1debb6007106dde49f9105c460"
+      },
+      "id": "accept-http-500--strict",
+      "path": "cases/accept-http-500--strict",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "http-error",
+        "mode": "strict",
+        "outcome": "deny",
+        "performed": false
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "condition": "http-500",
+          "decisionPoint": {
+            "body": "{\"error\":\"down\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 500
+          },
+          "id": "http-500--strict",
+          "mode": "strict",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point answers HTTP 500",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "control: the conforming record for http-503--default",
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "files": {
+        "record.json": "f59819e5cb01efdc40989206edef2b7fe828e808f70fd7e3d64f6617e60d4066"
+      },
+      "id": "accept-http-503--default",
+      "path": "cases/accept-http-503--default",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "http-error",
+        "mode": "default",
+        "outcome": "deny",
+        "performed": false
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "condition": "http-503",
+          "decisionPoint": {
+            "body": "",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 503
+          },
+          "id": "http-503--default",
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point answers HTTP 503 with an empty body",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "control: the conforming record for http-503--strict",
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "files": {
+        "record.json": "824e4a6f3c5051a3df942ff9c3d866c30cbbbd42e248422e7f83815656cfdb17"
+      },
+      "id": "accept-http-503--strict",
+      "path": "cases/accept-http-503--strict",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "http-error",
+        "mode": "strict",
+        "outcome": "deny",
+        "performed": false
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "condition": "http-503",
+          "decisionPoint": {
+            "body": "",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 503
+          },
+          "id": "http-503--strict",
+          "mode": "strict",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point answers HTTP 503 with an empty body",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "control: the conforming record for unparseable-body--default",
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "files": {
+        "record.json": "c1fe493df232626f7338ff736a50f14db80acf7748c59e555ece17e26ecd104a"
+      },
+      "id": "accept-unparseable-body--default",
+      "path": "cases/accept-unparseable-body--default",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "unparseable-body",
+        "mode": "default",
+        "outcome": "deny",
+        "performed": false
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "condition": "unparseable-body",
+          "decisionPoint": {
+            "body": "<html>gateway</html>",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 200
+          },
+          "id": "unparseable-body--default",
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point answers HTTP 200 with a body that is not JSON",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "control: the conforming record for unparseable-body--strict",
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "files": {
+        "record.json": "54d99c1403d05837fa7b71f91f2995c618e0f5f1ce9f1a8981c68604408afb09"
+      },
+      "id": "accept-unparseable-body--strict",
+      "path": "cases/accept-unparseable-body--strict",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "unparseable-body",
+        "mode": "strict",
+        "outcome": "deny",
+        "performed": false
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "condition": "unparseable-body",
+          "decisionPoint": {
+            "body": "<html>gateway</html>",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 200
+          },
+          "id": "unparseable-body--strict",
+          "mode": "strict",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point answers HTTP 200 with a body that is not JSON",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "control: the conforming record for timeout--default",
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "files": {
+        "record.json": "993d8d801209de59e2deef2f75c3274d200225d03329f70b2fab15c9d41f0b65"
+      },
+      "id": "accept-timeout--default",
+      "path": "cases/accept-timeout--default",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "timeout",
+        "mode": "default",
+        "outcome": "deny",
+        "performed": false
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "condition": "timeout",
+          "decisionPoint": {
+            "body": "{\"verdict\":\"block\"}",
+            "delayMillis": 2500,
+            "listen": true,
+            "status": 200
+          },
+          "id": "timeout--default",
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point's block arrives 2.5 seconds after a 1 second timeout",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "control: the conforming record for timeout--strict",
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "files": {
+        "record.json": "dc4e937d0fd86695c6f64f286236ad48688897302540212d039f29e99fb8ac49"
+      },
+      "id": "accept-timeout--strict",
+      "path": "cases/accept-timeout--strict",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "timeout",
+        "mode": "strict",
+        "outcome": "deny",
+        "performed": false
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "condition": "timeout",
+          "decisionPoint": {
+            "body": "{\"verdict\":\"block\"}",
+            "delayMillis": 2500,
+            "listen": true,
+            "status": 200
+          },
+          "id": "timeout--strict",
+          "mode": "strict",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point's block arrives 2.5 seconds after a 1 second timeout",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "control: the conforming record for unknown-verdict--default",
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "files": {
+        "record.json": "1522d1768001352968475ea7971b1a95193b532dbcceebf3ff50b7f14521f5d2"
+      },
+      "id": "accept-unknown-verdict--default",
+      "path": "cases/accept-unknown-verdict--default",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "unknown-verdict",
+        "mode": "default",
+        "outcome": "deny",
+        "performed": false
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "condition": "unknown-verdict",
+          "decisionPoint": {
+            "body": "{\"reason\": \"policy says no\", \"verdict\": \"suspend\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 200
+          },
+          "id": "unknown-verdict--default",
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "HTTP 200 whose verdict 'suspend' is outside allow, block, halt",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "control: the conforming record for unknown-verdict--strict",
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "files": {
+        "record.json": "5024c7b3a1d00d737e17594277b16624ccb5ce0758e23a8dfe8285788349582c"
+      },
+      "id": "accept-unknown-verdict--strict",
+      "path": "cases/accept-unknown-verdict--strict",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "unknown-verdict",
+        "mode": "strict",
+        "outcome": "deny",
+        "performed": false
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "condition": "unknown-verdict",
+          "decisionPoint": {
+            "body": "{\"reason\": \"policy says no\", \"verdict\": \"suspend\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 200
+          },
+          "id": "unknown-verdict--strict",
+          "mode": "strict",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "HTTP 200 whose verdict 'suspend' is outside allow, block, halt",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "control: the conforming record for missing-verdict--default",
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "files": {
+        "record.json": "65dfc1ba132d54d40f9bac279a4e174510d8eaebba3f26a40ca6464c97aac534"
+      },
+      "id": "accept-missing-verdict--default",
+      "path": "cases/accept-missing-verdict--default",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "missing-verdict",
+        "mode": "default",
+        "outcome": "deny",
+        "performed": false
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "condition": "missing-verdict",
+          "decisionPoint": {
+            "body": "{\"reason\":\"no verdict field\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 200
+          },
+          "id": "missing-verdict--default",
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "HTTP 200 with no verdict member",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "control: the conforming record for missing-verdict--strict",
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "files": {
+        "record.json": "e1cf447aeb84015bd30acf6e5083e9d46c68c0e889e45be59fbadc502266e14f"
+      },
+      "id": "accept-missing-verdict--strict",
+      "path": "cases/accept-missing-verdict--strict",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "missing-verdict",
+        "mode": "strict",
+        "outcome": "deny",
+        "performed": false
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "condition": "missing-verdict",
+          "decisionPoint": {
+            "body": "{\"reason\":\"no verdict field\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 200
+          },
+          "id": "missing-verdict--strict",
+          "mode": "strict",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "HTTP 200 with no verdict member",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "control: the conforming record for control-block",
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "files": {
+        "record.json": "ec3af13fff232035355aeacb7f99e39f667a8e7066f36b7b744ca11ee1885504"
+      },
+      "id": "accept-control-block",
+      "path": "cases/accept-control-block",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "ok",
+        "mode": "default",
+        "outcome": "deny",
+        "performed": false
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "policy",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "condition": "control-block",
+          "decisionPoint": {
+            "body": "{\"reason\":\"blocked\",\"verdict\":\"block\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 200
+          },
+          "id": "control-block",
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point blocks the action",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "control: the conforming record for control-halt",
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "files": {
+        "record.json": "cb03513b1bdc953fdec0b95119e64235cc987fbab2130d1e5890b85fd6f7f74e"
+      },
+      "id": "accept-control-halt",
+      "path": "cases/accept-control-halt",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "ok",
+        "mode": "default",
+        "outcome": "deny",
+        "performed": false
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "policy",
+            "effects": 0,
+            "halted": true,
+            "outcome": "deny"
+          },
+          "condition": "control-halt",
+          "decisionPoint": {
+            "body": "{\"verdict\":\"halt\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 200
+          },
+          "id": "control-halt",
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point halts the run",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "control: the conforming record for control-allow",
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "files": {
+        "record.json": "3f8860ae752379b9405b3e642d1bd83621a920d695d472bf7fbf22edd3cc7f3c"
+      },
+      "id": "accept-control-allow",
+      "path": "cases/accept-control-allow",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "ok",
+        "mode": "default",
+        "outcome": "allow",
+        "performed": true
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "policy",
+            "effects": 1,
+            "halted": false,
+            "outcome": "allow"
+          },
+          "condition": "control-allow",
+          "decisionPoint": {
+            "body": "{\"reason\":\"within limits\",\"verdict\":\"allow\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 200
+          },
+          "id": "control-allow",
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point allows the action, which runs once",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "control: the conforming record for control-401",
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "files": {
+        "record.json": "d994f631b3cb722be37b30da477b5d00b28521024da765e3b42cef7f9de86a63"
+      },
+      "id": "accept-control-401",
+      "path": "cases/accept-control-401",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "unauthorized",
+        "mode": "default",
+        "outcome": "deny",
+        "performed": false
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "condition": "control-401",
+          "decisionPoint": {
+            "body": "{\"detail\":\"bad key\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 401
+          },
+          "id": "control-401",
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point refuses the client's credential",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "the record carries no contractId",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_missing"
+      },
+      "files": {
+        "record.json": "1e8e8e9e65d0d484d0321dca8da26f9c95b36ef63bec0e313467f291d67370e7"
+      },
+      "id": "reject-contract-id-missing",
+      "path": "cases/reject-contract-id-missing",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "ok",
+        "mode": "default",
+        "outcome": "allow",
+        "performed": true
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "policy",
+            "effects": 1,
+            "halted": false,
+            "outcome": "allow"
+          },
+          "condition": "control-allow",
+          "decisionPoint": {
+            "body": "{\"reason\":\"within limits\",\"verdict\":\"allow\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 200
+          },
+          "id": "control-allow",
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point allows the action, which runs once",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "contractId names another contract",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_unknown"
+      },
+      "files": {
+        "record.json": "c529305a3b4302bf8dddf30b4bc49a8880ab39e7574a8da67d3bc2956bbdead9"
+      },
+      "id": "reject-contract-id-unknown",
+      "path": "cases/reject-contract-id-unknown",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "ok",
+        "mode": "default",
+        "outcome": "allow",
+        "performed": true
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "policy",
+            "effects": 1,
+            "halted": false,
+            "outcome": "allow"
+          },
+          "condition": "control-allow",
+          "decisionPoint": {
+            "body": "{\"reason\":\"within limits\",\"verdict\":\"allow\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 200
+          },
+          "id": "control-allow",
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point allows the action, which runs once",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "the basis is 'server', outside policy and fallback",
+      "expected": {
+        "decision": "deny",
+        "reason": "record_malformed"
+      },
+      "files": {
+        "record.json": "c05d49f863daecb9f99f2a7b669108cb69d928225dc8ef2f5052aef08c268529"
+      },
+      "id": "reject-basis-outside-vocabulary",
+      "path": "cases/reject-basis-outside-vocabulary",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "ok",
+        "mode": "default",
+        "outcome": "deny",
+        "performed": false
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "policy",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "condition": "control-block",
+          "decisionPoint": {
+            "body": "{\"reason\":\"blocked\",\"verdict\":\"block\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 200
+          },
+          "id": "control-block",
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point blocks the action",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "a timed-out exchange carries an HTTP status, which only an arrived reply has",
+      "expected": {
+        "decision": "deny",
+        "reason": "record_malformed"
+      },
+      "files": {
+        "record.json": "277a2f1a5682368502707249af41b22dc4926481531ed8b57d640510d489cf9f"
+      },
+      "id": "reject-status-without-reply",
+      "path": "cases/reject-status-without-reply",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "timeout",
+        "mode": "strict",
+        "outcome": "deny",
+        "performed": false
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "condition": "timeout",
+          "decisionPoint": {
+            "body": "{\"verdict\":\"block\"}",
+            "delayMillis": 2500,
+            "listen": true,
+            "status": 200
+          },
+          "id": "timeout--strict",
+          "mode": "strict",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point's block arrives 2.5 seconds after a 1 second timeout",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "the unknown verdict is recorded as ok and the action allowed on a policy basis",
+      "expected": {
+        "decision": "deny",
+        "reason": "condition_misclassified"
+      },
+      "files": {
+        "record.json": "2a274355ba0f0dd7549c9c183779836acc0992610d1be2e0834a8be6dcf3d1fa"
+      },
+      "id": "reject-unknown-verdict-read-as-allow",
+      "path": "cases/reject-unknown-verdict-read-as-allow",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "unknown-verdict",
+        "mode": "default",
+        "outcome": "allow",
+        "performed": true
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "condition": "unknown-verdict",
+          "decisionPoint": {
+            "body": "{\"reason\": \"policy says no\", \"verdict\": \"suspend\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 200
+          },
+          "id": "unknown-verdict--default",
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "HTTP 200 whose verdict 'suspend' is outside allow, block, halt",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "the same reading under the strict mode, which does not close it",
+      "expected": {
+        "decision": "deny",
+        "reason": "condition_misclassified"
+      },
+      "files": {
+        "record.json": "03370b2bc4ffd5ba123c9ba0e6b68a271d289815d2a075426e564209141464db"
+      },
+      "id": "reject-unknown-verdict-read-as-allow-strict",
+      "path": "cases/reject-unknown-verdict-read-as-allow-strict",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "unknown-verdict",
+        "mode": "strict",
+        "outcome": "allow",
+        "performed": true
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "condition": "unknown-verdict",
+          "decisionPoint": {
+            "body": "{\"reason\": \"policy says no\", \"verdict\": \"suspend\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 200
+          },
+          "id": "unknown-verdict--strict",
+          "mode": "strict",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "HTTP 200 whose verdict 'suspend' is outside allow, block, halt",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "a reply with no verdict is recorded as ok and allowed under the strict mode",
+      "expected": {
+        "decision": "deny",
+        "reason": "condition_misclassified"
+      },
+      "files": {
+        "record.json": "59325530354010ea80bfa7ac681f169bdde43ff82e83a227ce750efd69636dac"
+      },
+      "id": "reject-missing-verdict-read-as-allow",
+      "path": "cases/reject-missing-verdict-read-as-allow",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "missing-verdict",
+        "mode": "strict",
+        "outcome": "allow",
+        "performed": true
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "condition": "missing-verdict",
+          "decisionPoint": {
+            "body": "{\"reason\":\"no verdict field\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 200
+          },
+          "id": "missing-verdict--strict",
+          "mode": "strict",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "HTTP 200 with no verdict member",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "an HTTP 500 is denied but recorded as a policy decision",
+      "expected": {
+        "decision": "deny",
+        "reason": "fault_recorded_as_policy"
+      },
+      "files": {
+        "record.json": "292cf83ab1ee7e78ab36bb8dfb2b7b65302c5902f3ba57623fa98981be915524"
+      },
+      "id": "reject-fault-recorded-as-policy",
+      "path": "cases/reject-fault-recorded-as-policy",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "http-error",
+        "mode": "strict",
+        "outcome": "deny",
+        "performed": false
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "condition": "http-500",
+          "decisionPoint": {
+            "body": "{\"error\":\"down\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 500
+          },
+          "id": "http-500--strict",
+          "mode": "strict",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point answers HTTP 500",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "an unreachable decision point leads to a marked fallback allow under the default",
+      "expected": {
+        "decision": "deny",
+        "reason": "fault_allowed"
+      },
+      "files": {
+        "record.json": "033dc4d86ab41f727590f2c53965173cdcca45b1d8bdc81d11ae1de033463efb"
+      },
+      "id": "reject-unreachable-allowed",
+      "path": "cases/reject-unreachable-allowed",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "unreachable",
+        "mode": "default",
+        "outcome": "allow",
+        "performed": true
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "condition": "unreachable",
+          "decisionPoint": {
+            "body": "",
+            "delayMillis": 0,
+            "listen": false,
+            "status": 0
+          },
+          "id": "unreachable--default",
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "nothing listens at the decision point's address",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "a timeout leads to a marked fallback allow under the default",
+      "expected": {
+        "decision": "deny",
+        "reason": "fault_allowed"
+      },
+      "files": {
+        "record.json": "d3a4873e09dae5dc1a3a2e6df5a7b2e1261126656ec9c8838cb87c4e6f370bc2"
+      },
+      "id": "reject-timeout-allowed",
+      "path": "cases/reject-timeout-allowed",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "timeout",
+        "mode": "default",
+        "outcome": "allow",
+        "performed": true
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "condition": "timeout",
+          "decisionPoint": {
+            "body": "{\"verdict\":\"block\"}",
+            "delayMillis": 2500,
+            "listen": true,
+            "status": 200
+          },
+          "id": "timeout--default",
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point's block arrives 2.5 seconds after a 1 second timeout",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "an unparseable body leads to a marked fallback allow under the default",
+      "expected": {
+        "decision": "deny",
+        "reason": "fault_allowed"
+      },
+      "files": {
+        "record.json": "46952845a67d47b0cdc47900506f85903068356f05d15889e9c35df2954c5489"
+      },
+      "id": "reject-unparseable-allowed",
+      "path": "cases/reject-unparseable-allowed",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "unparseable-body",
+        "mode": "default",
+        "outcome": "allow",
+        "performed": true
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "condition": "unparseable-body",
+          "decisionPoint": {
+            "body": "<html>gateway</html>",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 200
+          },
+          "id": "unparseable-body--default",
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point answers HTTP 200 with a body that is not JSON",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "a refused credential leads to a fallback allow",
+      "expected": {
+        "decision": "deny",
+        "reason": "fault_allowed"
+      },
+      "files": {
+        "record.json": "2f7dfc723aaefb6cc3a6785a2234e610e27d82e1d39f2d8cc78b629704b914f4"
+      },
+      "id": "reject-unauthorized-allowed",
+      "path": "cases/reject-unauthorized-allowed",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "unauthorized",
+        "mode": "default",
+        "outcome": "allow",
+        "performed": true
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "condition": "control-401",
+          "decisionPoint": {
+            "body": "{\"detail\":\"bad key\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 401
+          },
+          "id": "control-401",
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point refuses the client's credential",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "a block verdict is recorded and the action allowed",
+      "expected": {
+        "decision": "deny",
+        "reason": "verdict_not_followed"
+      },
+      "files": {
+        "record.json": "c1138c874d99d42d88809493ec83b76ad5705b40952ac85d12b430f6e9e84f86"
+      },
+      "id": "reject-block-not-followed",
+      "path": "cases/reject-block-not-followed",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "ok",
+        "mode": "default",
+        "outcome": "allow",
+        "performed": true
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "policy",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "condition": "control-block",
+          "decisionPoint": {
+            "body": "{\"reason\":\"blocked\",\"verdict\":\"block\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 200
+          },
+          "id": "control-block",
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point blocks the action",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "an allow verdict is followed but recorded on a fallback basis",
+      "expected": {
+        "decision": "deny",
+        "reason": "verdict_not_followed"
+      },
+      "files": {
+        "record.json": "931906a4ab635ec49421c98f439dde54640b9c3d15780dfccc7265746faec56a"
+      },
+      "id": "reject-allow-recorded-as-fallback",
+      "path": "cases/reject-allow-recorded-as-fallback",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "ok",
+        "mode": "default",
+        "outcome": "allow",
+        "performed": true
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "policy",
+            "effects": 1,
+            "halted": false,
+            "outcome": "allow"
+          },
+          "condition": "control-allow",
+          "decisionPoint": {
+            "body": "{\"reason\":\"within limits\",\"verdict\":\"allow\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 200
+          },
+          "id": "control-allow",
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point allows the action, which runs once",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "a halt verdict denies the action but the run is not halted",
+      "expected": {
+        "decision": "deny",
+        "reason": "halt_not_honoured"
+      },
+      "files": {
+        "record.json": "bd8ce0d51cc43db6a9bff1d9a2ee3e86adb901f0bfe0c093e79a66e3d4db33a1"
+      },
+      "id": "reject-halt-not-honoured",
+      "path": "cases/reject-halt-not-honoured",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "ok",
+        "mode": "default",
+        "outcome": "deny",
+        "performed": false
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "policy",
+            "effects": 0,
+            "halted": true,
+            "outcome": "deny"
+          },
+          "condition": "control-halt",
+          "decisionPoint": {
+            "body": "{\"verdict\":\"halt\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 200
+          },
+          "id": "control-halt",
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point halts the run",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "a block verdict is recorded as a halt",
+      "expected": {
+        "decision": "deny",
+        "reason": "halt_not_honoured"
+      },
+      "files": {
+        "record.json": "25bb4c9f943df3fd5c8d25db11312bda384da177279347b57842b16704687321"
+      },
+      "id": "reject-halt-claimed-on-block",
+      "path": "cases/reject-halt-claimed-on-block",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "ok",
+        "mode": "default",
+        "outcome": "deny",
+        "performed": false
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "policy",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "condition": "control-block",
+          "decisionPoint": {
+            "body": "{\"reason\":\"blocked\",\"verdict\":\"block\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 200
+          },
+          "id": "control-block",
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point blocks the action",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "an HTTP 503 is denied as a fallback, and the action is performed anyway",
+      "expected": {
+        "decision": "deny",
+        "reason": "effect_on_deny"
+      },
+      "files": {
+        "record.json": "ae456784eae3be277ff7cc02aa0d269b7b5765fd57b853de073cb8e13b1fab9f"
+      },
+      "id": "reject-effect-on-deny",
+      "path": "cases/reject-effect-on-deny",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "http-error",
+        "mode": "strict",
+        "outcome": "deny",
+        "performed": true
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "condition": "http-503",
+          "decisionPoint": {
+            "body": "",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 503
+          },
+          "id": "http-503--strict",
+          "mode": "strict",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point answers HTTP 503 with an empty body",
+          "timeoutMillis": 1000
+        }
+      }
+    }
+  ],
+  "verifierContract": "verifier record.json --json; exit 0 allow, 1 deny"
+}

@@ -2,16 +2,17 @@
 
 Negative conformance vectors for the mandatory profile of the OWASP Agent
 Control Standard, read from `GenAI-Security-Project/agent-control-standard` at
-four commits and one issue: `9d4a9da` on `main`, the head of the release/0.1.4
+five commits and one issue: `9d4a9da` on `main`, the head of the release/0.1.4
 pull request (`7efa539`), the heads of pull requests 272 (`f2304bf`) and 278
-(`7d9b7ff`), and the body of issue 264. The normative files
+(`7d9b7ff`), the merge of pull request 273 (`61993cb`, the same specification
+bytes as `main` at `5db28a9`), and the body of issue 264. The normative files
 the vectors cite are vendored in `spec-vendored/`, pinned by sha256 in
 `MANIFEST.json`, and each `specVendored` entry names the commit and the
 upstream path its bytes came from and whether they are upstream's or a
 proposal. Every member file quotes the sentences it turns on, with that commit,
 under `requirementText`.
 
-[![Checked with Probity](https://img.shields.io/badge/checked-with_Probity-0969da?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAkFBMVEX8%2B%2Bzr5NPgyrfKyLnSq5Wzo4tWltqRkZI2kPU1kvk1j%2FMwkPgzjfI2jO80jO40jO3MdWOZc1SLblN1aFxxXFJzVDY2i%2B40i%2B00i%2Bw0i%2Bs0ius1iOZAapwugNYtdbUqaq0qV4tkRzJXOB47Oz43JRkjNEYiHBwlFxIfFxMcEg0XEQ0WEAwXDAUWCAEOCQcJAgCa503RAAAB3klEQVR42rWT2ZacIBCGceHYoN240SK2Crig4vL%2BbxfszJyZTmaSm6S4rI9a%2FwK3vxj41wDj5E9AwS%2Foxjn7DmARqgVHCBHyJcBxJeZtEG2Nv4hAGEPXYVumddvWAbFfgJJECDfDukxa63ldmw%2FiCTCEK%2BteFzNbQI%2BbQPwzwKJGjNO2LMacxNqK1wgcNfO2mqfbHMs8NEkeXT8AjurRTKfbMlqOa5vFyc8cZclu4PSvWptlPlOMeb4PsQu78MoYQWFIwKUet0nPZl%2FMki1H3x%2FKd1PVhhdkS2tDgM7m9bR3XX8EXtYde59SSVVXNx2NMwuIbbGl74HUu%2BcFXrArSpXqlVSpGz8sUG%2FjoCej1RHA6ZAgl1SmUvVUQjduEGDIdt0MxuwjCHYNAZSwT1IbhaZ%2BFt7BrUAXbguxnx3gZ9AJVJLal0hKaYv4OShGbu249Z4F4jhQ1PcpTUYLDBF5WxZB9dBB14O%2Bm6eu48QQpjBXIizf113iS9sF0LYxZMD1PODbVvtznu96sGOrWyFEiwQEwHNcC8gaF58UxfG1qiqMqzx2AACJ0i0qXyRXEIwjwnD1SBOYdKJ%2B7vxF1eRUaxGF9ePRVgiX3xxOccdhiK5v6v%2Fysgp2Z%2BR%2F3ebv9gP5RU8tSdZhDwAAAABJRU5ErkJggg%3D%3D)](https://github.com/probityai/probity)
+[![Checked with Probity](https://img.shields.io/badge/checked-with_Probity-blue?style=flat-square&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAkFBMVEX8%2B%2Bzr5NPgyrfKyLnSq5Wzo4tWltqRkZI2kPU1kvk1j%2FMwkPgzjfI2jO80jO40jO3MdWOZc1SLblN1aFxxXFJzVDY2i%2B40i%2B00i%2Bw0i%2Bs0ius1iOZAapwugNYtdbUqaq0qV4tkRzJXOB47Oz43JRkjNEYiHBwlFxIfFxMcEg0XEQ0WEAwXDAUWCAEOCQcJAgCa503RAAAB3klEQVR42rWT2ZacIBCGceHYoN240SK2Crig4vL%2BbxfszJyZTmaSm6S4rI9a%2FwK3vxj41wDj5E9AwS%2Foxjn7DmARqgVHCBHyJcBxJeZtEG2Nv4hAGEPXYVumddvWAbFfgJJECDfDukxa63ldmw%2FiCTCEK%2BteFzNbQI%2BbQPwzwKJGjNO2LMacxNqK1wgcNfO2mqfbHMs8NEkeXT8AjurRTKfbMlqOa5vFyc8cZclu4PSvWptlPlOMeb4PsQu78MoYQWFIwKUet0nPZl%2FMki1H3x%2FKd1PVhhdkS2tDgM7m9bR3XX8EXtYde59SSVVXNx2NMwuIbbGl74HUu%2BcFXrArSpXqlVSpGz8sUG%2FjoCej1RHA6ZAgl1SmUvVUQjduEGDIdt0MxuwjCHYNAZSwT1IbhaZ%2BFt7BrUAXbguxnx3gZ9AJVJLal0hKaYv4OShGbu249Z4F4jhQ1PcpTUYLDBF5WxZB9dBB14O%2Bm6eu48QQpjBXIizf113iS9sF0LYxZMD1PODbVvtznu96sGOrWyFEiwQEwHNcC8gaF58UxfG1qiqMqzx2AACJ0i0qXyRXEIwjwnD1SBOYdKJ%2B7vxF1eRUaxGF9ePRVgiX3xxOccdhiK5v6v%2Fysgp2Z%2BR%2F3ebv9gP5RU8tSdZhDwAAAABJRU5ErkJggg%3D%3D)](https://github.com/probityai/probity)
 
 ## Nothing has been run against this
 
@@ -201,6 +202,26 @@ keeps apart. When the Trace text lands, these members are minted again from it.
 A requirement quoting a sentence that runs on past a section sign is quoted as
 ASCII fragments, because the Go reader hashes only ASCII and a digest it cannot
 reproduce would report an intact corpus as broken.
+
+## Pull request 273, and requirements whose sentence moved
+
+Pull request 273 rewords the section 6.4 sentence `ACS-R-005` quotes. At
+`9d4a9da` only a step that proceeds without a decision needs an audit event;
+after it, every decision failure does, under either posture, and `sessionEnd`
+carries a per-class `summary.decision_failures` count that a reader must treat
+as unmeasurable when it is absent. An identifier names a sentence, so
+`ACS-R-005` is not rebound to the new one. It keeps its `9d4a9da` quotation and
+names `ACS-R-070`, which quotes the new sentence at `61993cb`, in
+`supersededBy`, and every member citing it now cites both. The same holds for
+`ACS-R-021` (`ACS-R-072`) and `ACS-R-031` (`ACS-R-073`), whose sentences were
+reworded at that pin too. The generator refuses a member that cites a
+superseded requirement without its successor.
+
+Family `acs-f-20` holds what the new text adds: a step blocked under
+`on_decision_failure: deny` with no audit event, which passed at `9d4a9da` and
+fails now, beside the same step with the failure recorded; and a `sessionEnd`
+with no count, which a reader that reports it as measured gets wrong and a
+reader that reports it as unmeasurable gets right (`ACS-R-071`).
 
 ## Running it
 

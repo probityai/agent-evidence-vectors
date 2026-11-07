@@ -4,7 +4,7 @@ Use this page to choose an installation route or identify the corpus you ran. Fo
 
 ## The tag to cite
 
-`v0.35.0`, the published version named by the preferred citation in [CITATION.cff](CITATION.cff). Cite its signed tag or full source commit and corpus digest when reporting a result.
+`v0.36.1`, the published version named by the preferred citation in [CITATION.cff](CITATION.cff). Cite its signed tag or full source commit and corpus digest when reporting a result.
 
 The installation examples are pinned to the version above. The corpus table
 describes this checkout; a release tag or installed wheel identifies its own
@@ -12,8 +12,8 @@ population.
 
 This checkout prepares an unreleased source version with package metadata and
 criterion-document repairs. Those changes are not part of the published release.
-For a release run, select the matching [GitHub release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.35.0) and
-[PyPI wheel and source archive](https://pypi.org/project/agent-evidence-vectors/0.35.0/).
+For a release run, select the matching [GitHub release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.36.1) and
+[PyPI wheel and source archive](https://pypi.org/project/agent-evidence-vectors/0.36.1/).
 Use the installation route below or build from a reviewed source checkout.
 The [source-wheel recipe](README.md#try-it) builds the verifier and harness
 from a reviewed checkout, then runs the installed harness outside it. Record
@@ -26,15 +26,15 @@ unchanged as historical evidence.
 Install matching published versions:
 
 ```bash
-go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.35.0
-uvx agent-evidence-vectors==0.35.0 --verifier "aee-verify -validity-only -json"
+go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.36.1
+uvx agent-evidence-vectors==0.36.1 --verifier "aee-verify -validity-only -json"
 ```
 
 Run the same harness from the published release checkout:
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors
-cd agent-evidence-vectors && git checkout v0.35.0
+cd agent-evidence-vectors && git checkout v0.36.1
 python3 packaging/run_vectors.py --verifier "aee-verify -validity-only -json"
 ```
 
@@ -48,7 +48,7 @@ Recompute the corpus digests, then check the signature and timestamp proofs:
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors && cd agent-evidence-vectors
-git checkout v0.35.0
+git checkout v0.36.1
 
 # 1. the digest list is what the vector files on disk hash to, recomputed
 python3 scripts/release-digests.py --check
@@ -117,6 +117,7 @@ Choose a corpus for the format your verifier supports. Each has its own manifest
 | `corpora/vectors-signature-coverage/` | `signature-coverage/v1` | a signature and what a reader of the record reads, including a repeated key flattened before signing |
 | `corpora/vectors-propagation-step/` | `propagation-step/v1` | one hop between agents: propagation attributed only through a message digest chain that reaches the receiver before it acted, and a common-cause exposure with no edge refused as propagation |
 | `corpora/vectors-containment-journal/` | `containment-journal/v1` | a multi-agent defence's containment recomputed from its hash-chained journal: a cut edge that still delivers under an enforcing router, a detector that reads fields the router never writes or isolates on uniform risk, a return without an external score below its threshold, a closure claimed over an advisory topology, an isolated agent's tool call that was not refused, an admitted document outside the attested snapshot, and a blast-radius receipt that misstates an agent's reach |
+| `corpora/vectors-decision-client-failure-modes/` | `decision-client-failure-modes/v1` | one decision a client took when it asked a decision point whether to act: an unreachable point, a timeout, an HTTP error, an unparseable body, an unknown or a missing verdict each read as an allow or recorded as a policy decision, a verdict not followed and a halt not honoured, each scenario played against a stub decision point and a counting effect sink under the client's default and strict modes |
 | `corpora/vectors-uncertain-effect/` | `uncertain-effect/v1` | one operation whose reply may have been lost: a retry after an unknown outcome, an idempotency key reused with changed arguments, a dispatch beyond the worker's lease, an unknown released at reservation expiry and an outcome reported without the effect owner's answer, each paired with a runtime scenario a counting effect owner plays |
 | `corpora/vectors-aggregate-accounting/` | `aggregate-accounting/v1` | the decisions an accounting authority took against one budget shared by a principal and its delegation subtrees: concurrent requests admitted inside the budget, racing requests that cannot both be admitted, an unknown-outcome reservation that stays charged past its expiry, a request past the latency bound refused or held, and the principal, subtree, budget, action and counts retained |
 | `corpora/vectors-agent-card-receipt/` | `agent-card-receipt/v1` | a receipt for an A2A Agent Card judged from the card, the receipt statement, the issuer's signed revocation list and the time of the check: the card digest over RFC 8785 without its signatures, the validity window, a list that is absent, malformed, signed by another key, stale or naming the receipt |
