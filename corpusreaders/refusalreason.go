@@ -203,16 +203,33 @@ func rsnRenewed(r rsnRecord) bool {
 }
 
 func rsnDecide(r rsnRecord) scDecision {
-	var contract string
-	known := len(r.ContractID) > 0 && json.Unmarshal(r.ContractID, &contract) == nil && contract == rsnContractID
 	emitted := rsnEmitted(r)
 	owed := rsnOwed(r)
 	leaseOnly := rsnLeaseOnly(r)
+	for _, check := range rsnChecks(r, emitted, owed, leaseOnly) {
+		if check.fails {
+			return scDecision{"nonconformant", check.reason}
+		}
+	}
+	if leaseOnly {
+		if d, ok := rsnLeaseVerdict(r, emitted); ok {
+			return d
+		}
+	}
+	return scDecision{"conformant", "response_follows_source"}
+}
+
+type rsnCheck struct {
+	reason string
+	fails  bool
+}
+
+// rsnChecks is the ordered refusal table, first failure wins.
+func rsnChecks(r rsnRecord, emitted string, owed []string, leaseOnly bool) []rsnCheck {
+	var contract string
+	known := len(r.ContractID) > 0 && json.Unmarshal(r.ContractID, &contract) == nil && contract == rsnContractID
 	wrong := !leaseOnly && !slices.Contains(owed, emitted)
-	checks := []struct {
-		reason string
-		fails  bool
-	}{
+	return []rsnCheck{
 		{"contract_id_missing", len(r.ContractID) == 0},
 		{"contract_id_unknown", len(r.ContractID) > 0 && !known},
 		{"reason_member_absent", emitted == "absent"},
@@ -224,23 +241,21 @@ func rsnDecide(r rsnRecord) scDecision {
 		{"observation_backfilled", rsnBackfilled(r)},
 		{"evidence_renewed_by_diagnostic_read", rsnRenewed(r)},
 	}
-	for _, check := range checks {
-		if check.fails {
-			return scDecision{"nonconformant", check.reason}
-		}
+}
+
+// rsnLeaseVerdict returns an ambiguous decision when the lease boundary is
+// undeclared or the declaration contradicts the emitted answer.
+func rsnLeaseVerdict(r rsnRecord, emitted string) (scDecision, bool) {
+	declared := r.Facts.LeaseInstant.Declared
+	if declared == nil {
+		return scDecision{"ambiguous", "boundary_undeclared"}, true
 	}
-	if leaseOnly {
-		declared := r.Facts.LeaseInstant.Declared
-		if declared == nil {
-			return scDecision{"ambiguous", "boundary_undeclared"}
-		}
-		owes := "evidence_expired"
-		if *declared == "inclusive" {
-			owes = "null"
-		}
-		if emitted != owes {
-			return scDecision{"ambiguous", "declaration_contradicts_use"}
-		}
+	owes := "evidence_expired"
+	if *declared == "inclusive" {
+		owes = "null"
 	}
-	return scDecision{"conformant", "response_follows_source"}
+	if emitted != owes {
+		return scDecision{"ambiguous", "declaration_contradicts_use"}, true
+	}
+	return scDecision{}, false
 }
