@@ -133,7 +133,10 @@ def disclose_policy(source: str) -> Edit:
 
 
 def wrong_predicate_type(stmt: dict[str, Any], _disc: dict[str, Any]) -> None:
-    stmt["predicateType"] = PREDICATE_TYPE.replace("/v1/", "/v0/")
+    # A type the reader does not accept, on a host nobody can register. A wrong type
+    # under this repository's own /predicate/ prefix would be a type URI written into
+    # signed bytes that no page answers for, which scripts/predicate-uri-gate.py refuses.
+    stmt["predicateType"] = PREDICATE_TYPE.replace("probityai.github.io", "example.invalid")
 
 
 #: slug, case, edit (None for an accept member), code, what the member shows.

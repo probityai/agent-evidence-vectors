@@ -17,7 +17,7 @@
     "routine": "corpus_digest in corpora/vectors-acs-decision-record/digest.py",
     "routine-file": "corpora/vectors-acs-decision-record/digest.py",
     "serialization": "corpus-routine",
-    "sha256": "f3706adc10e043478b94813243786db998be99f8de83f49a2fa495d27b330cc4",
+    "sha256": "3f4bf1ae704a35b247e2292a98d861cdc082ec8fac50d275efc43436bbbe419f",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -137,7 +137,7 @@
       },
       "path": "corpora/vectors-acs-decision-record/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "a99ca6dea219042d6f4bdb1524dc5bb79942919a6e82ed77a12636c181cc1327"
+      "sha256": "e18db4362708f847778e887708b70fc0cc637452bdc427ee2d165df7f54bd9ed"
     },
     {
       "consumed": "unconsumed",
@@ -466,7 +466,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "e87c4a4507422766a4a6aed3f17271b7b301c98b0c615e8025ea902211ada2ed"
+    "sha256": "d8ed025866c208ca3b2e540e5f74e26b162a82794e4b68ea36b31ccacd2d3755"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -493,7 +493,7 @@
       "reject-signature-other-key"
     ],
     "path": "corpora/vectors-acs-decision-record/MANIFEST.json",
-    "sha256": "2ed82e9fcaf4f4fb8ec122799daa72b8278c08f777d02a01d492811c644f0228"
+    "sha256": "7e41a10be2bd6e0558da288a894f0d1809f1dfcdc2b67bd84fd49e5e7af9238f"
   },
   "members": [
     {
@@ -617,7 +617,7 @@
       "files": [
         {
           "path": "corpora/vectors-acs-decision-record/members/reject-predicate-type-wrong.json",
-          "sha256": "0b41c701d79a45f9194e993709977ffd1d246b69a166928adf77c1eeb266d55d"
+          "sha256": "ddc2fe9302df5f824e561f9dec2973953251bea1f98058dbacb2b10844eb6bce"
         }
       ],
       "id": "reject-predicate-type-wrong"

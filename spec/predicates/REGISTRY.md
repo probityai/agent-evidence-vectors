@@ -239,6 +239,18 @@ Record R4 of the restoration evidence profile: which party may act on which asse
 
 For one declared sink and test window, whether an effect from a task in flight committed after a credential revocation took effect, with the counts a reader needs to judge it. It names no mechanism.
 
+### `predicate/v1/control-decision`
+
+- Document: `corpora/vectors-acs-decision-record/README.md`
+- Corpus: `corpora/vectors-acs-decision-record/`, suite `control-decision-conformance`
+- Rails: `corpusreaders/controldecision.go`, `corpora/vectors-acs-decision-record/record.py`
+
+The predicate carries one policy decision as a host records it: the SHA-256 of the RFC 8785
+bytes of the context the decision point judged, the digests of the policy manifest and
+bundle it ran, and the verdict as the runtime returned it. A consumer replays the disclosed
+context and policy itself, and a record whose digests or verdict the replay does not
+reproduce is refused.
+
 ## Registered here
 
 ### `predicate/v1/kernel-substrate`
