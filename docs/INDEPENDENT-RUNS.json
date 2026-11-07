@@ -676,13 +676,26 @@
       "implementation": "Laurent-Lemonnier/dps-scitt-decision-layer (interop/gilda/gilda_verify_independent.py)",
       "corpus": "vectors-agent-audit-record",
       "label": "independent",
-      "evidence": "an outside run at release 0.28.0 from draft-gilda-audit-agent-audit-record-02 Sections 4 and 5, importing nothing from this package, 141 of 141 members agree with MANIFEST.json, anchor validation of retained records (Section 4.7.2) not attempted, replayed by the reader's own CI on every change and weekly",
-      "posting": "https://github.com/probityai/agent-evidence-vectors/issues/335",
+      "evidence": "an outside run at release 0.28.0 from draft-gilda-audit-agent-audit-record-02 Sections 4 and 5, importing nothing from this package, 141 of 141 members agree with MANIFEST.json, anchor validation of retained records (Section 4.7.2) not attempted, replayed by the reader's own CI on every change and weekly; rerun at release 0.31.0 against draft -03: 184 of 184 members agree with MANIFEST.json on verdict, codes, derivedTier, withinLimit, the set checks and, for the 22 retained members, the dating block, first refusal code agrees on 101 of 101 reject members, 0 anchors not attempted (rfc3161 is the only kind not validated and the corpus carries none), CS18 to CS40 and the X codes implemented from the corpus README and not the -03 text",
+      "posting": "https://github.com/probityai/agent-evidence-vectors/issues/335#issuecomment-6549594533",
       "consentThread": "https://github.com/probityai/agent-evidence-vectors/issues/335",
       "consent": "posted-publicly",
-      "immutableRelease": "https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/tree/f72f092/interop/gilda",
-      "date": "2026-10-30",
-      "pin": "f72f092"
+      "immutableRelease": "https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/tree/3961a3642263a08ba921d7266ef2edcc9d9472de/interop/gilda",
+      "date": "2026-10-31",
+      "pin": "3961a3642263a08ba921d7266ef2edcc9d9472de"
+    },
+    {
+      "runner": "Laurent-Lemonnier",
+      "implementation": "Laurent-Lemonnier/dps-scitt-decision-layer (interop/gilda/approval_binding_verify_independent.py)",
+      "corpus": "vectors-approval-binding",
+      "label": "independent",
+      "evidence": "an outside run at releases 0.31.0 and 0.28.0 from the checks in the corpus README, importing nothing from the package, 23 of 23 cases agree with MANIFEST.json on decision and reason by his judge and by the corpus's own harness through its command-line contract",
+      "posting": "https://github.com/probityai/agent-evidence-vectors/issues/401",
+      "consentThread": "https://github.com/probityai/agent-evidence-vectors/issues/401",
+      "consent": "posted-publicly",
+      "immutableRelease": "https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/tree/fdc5f6352795fc713309cd25ac2669d22840e0cc/interop/gilda",
+      "date": "2026-11-01",
+      "pin": "fdc5f6352795fc713309cd25ac2669d22840e0cc"
     }
   ]
 }
