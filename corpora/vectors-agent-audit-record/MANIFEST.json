@@ -75,11 +75,11 @@
       }
     ]
   },
-  "corpusDigest": "5b9bb2b81188cb594dbe1031f04e40db6d3a6bea3033b0e4ea78d8d81d3ed8d6",
+  "corpusDigest": "eee834bdb4c3f1f846f1026524472f89b7ee2b8922440eeca5520e1446a1bb52",
   "counts": {
-    "accept": 89,
+    "accept": 92,
     "indeterminate": 2,
-    "reject": 116
+    "reject": 123
   },
   "draft": "draft-gilda-audit-agent-audit-record-00",
   "emptyTree": {
@@ -3436,6 +3436,173 @@
       "parentDraftId": "PR1",
       "row": "principal carrying the raw token in a member this document does not define",
       "slug": "pr11-principal-member-unknown"
+    },
+    {
+      "draftId": "DS1",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v8f2ca677f5df0c0b.json",
+      "id": "v8f2ca677f5df0c0b",
+      "kind": "accept",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "A1 with a dataSubject: the call read customer C's data for the staff member the delegation names; the record carries C's keyed reference and the staff member's, relation other, and a purpose on the server's declared list",
+      "slug": "ds1-data-subject-third-party"
+    },
+    {
+      "draftId": "DS2",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v871494a8dba0a406.json",
+      "id": "v871494a8dba0a406",
+      "kind": "accept",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "the person whose data was read is the user the agent acts for: relation delegate, no separate delegate reference",
+      "slug": "ds2-data-subject-is-the-delegate"
+    },
+    {
+      "draftId": "DS3",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vbe42b7b9275a9fc3.json",
+      "id": "vbe42b7b9275a9fc3",
+      "kind": "accept",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "a system caller: delegation.subjectKind of system, so the data subject has no delegate to be told apart from, and the server's declared list is another",
+      "slug": "ds3-data-subject-system-caller"
+    },
+    {
+      "draftId": "DS4",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "data-subject-member-missing"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v013c59cf51774951.json",
+      "id": "v013c59cf51774951",
+      "kind": "reject",
+      "parent": "v8f2ca677f5df0c0b",
+      "parentDraftId": "DS1",
+      "row": "dataSubject without reference",
+      "slug": "ds4-data-subject-reference-missing"
+    },
+    {
+      "draftId": "DS5",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "data-subject-member-unknown"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v64fb7d2b269d916c.json",
+      "id": "v64fb7d2b269d916c",
+      "kind": "reject",
+      "parent": "v8f2ca677f5df0c0b",
+      "parentDraftId": "DS1",
+      "row": "dataSubject carrying the raw customer identifier in a member this document does not define",
+      "slug": "ds5-data-subject-raw-identifier"
+    },
+    {
+      "draftId": "DS6",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "data-subject-malformed"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v6b83c9a51a68e9d6.json",
+      "id": "v6b83c9a51a68e9d6",
+      "kind": "reject",
+      "parent": "v8f2ca677f5df0c0b",
+      "parentDraftId": "DS1",
+      "row": "reference the raw customer identifier instead of a keyed digest",
+      "slug": "ds6-data-subject-reference-not-a-digest"
+    },
+    {
+      "draftId": "DS7",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "data-subject-merged"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v112d8474d423174f.json",
+      "id": "v112d8474d423174f",
+      "kind": "reject",
+      "parent": "v8f2ca677f5df0c0b",
+      "parentDraftId": "DS1",
+      "row": "relation other while the data subject's reference is the delegate's: the two people merged",
+      "slug": "ds7-data-subject-merged-with-delegate"
+    },
+    {
+      "draftId": "DS8",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "data-subject-relation-mismatch"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/ve8a6caabb2b9be75.json",
+      "id": "ve8a6caabb2b9be75",
+      "kind": "reject",
+      "parent": "vbe42b7b9275a9fc3",
+      "parentDraftId": "DS3",
+      "row": "relation delegate under a system caller, which has no user to be the data subject",
+      "slug": "ds8-data-subject-relation-delegate-for-system"
+    },
+    {
+      "draftId": "DS9",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "data-subject-purpose-undeclared"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vb7249b0ebaf69f97.json",
+      "id": "vb7249b0ebaf69f97",
+      "kind": "reject",
+      "parent": "v8f2ca677f5df0c0b",
+      "parentDraftId": "DS1",
+      "row": "a purpose that is not on the list the server declared",
+      "slug": "ds9-data-subject-purpose-undeclared"
+    },
+    {
+      "draftId": "DS10",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "data-subject-purposes-digest-mismatch"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/ved1e86ff17b0b12b.json",
+      "id": "ved1e86ff17b0b12b",
+      "kind": "reject",
+      "parent": "v8f2ca677f5df0c0b",
+      "parentDraftId": "DS1",
+      "row": "purposesDigest is the digest of another list than the one the record carries",
+      "slug": "ds10-data-subject-purposes-digest-mismatch"
     },
     {
       "draftId": "X1",
