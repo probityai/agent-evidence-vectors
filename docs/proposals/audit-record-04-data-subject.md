@@ -12,7 +12,7 @@ rows below follow his three checks.
 
 A bank runs a server. An agent acting for a member of staff calls a tool that reads customer C's
 account history. Later C asks who has accessed their data and why. Under GDPR Article 15, as the
-Court of Justice read it in Case C-579/21 (Pankki S), the right of access covers the dates and
+Court of Justice read it in its Pankki S judgment of 22 June 2023, the right of access covers the dates and
 purposes of consultations of a person's data, and PIPEDA Schedule 1 principle 4.9.1 asks for an
 account of the use made of the information. The record already carries the delegated subject, the
 person the agent acts for, which here is the staff member and not C. C's identifier is in the
