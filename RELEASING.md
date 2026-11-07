@@ -180,17 +180,40 @@ python3 scripts/verify-release-tag.py vX.Y.Z
 #    Step 7's push runs the hook; the tag check below is cheap and local.
 python3 scripts/verify-release-tag.py vX.Y.Z
 
-# 7. Publish the owned feature branch and the new tag atomically. The feature
-#    branch's installation pin and signed tag arrive together. The default
-#    branch stays at its reviewed revision until the source pull request lands.
-git push --atomic origin <branch> refs/tags/vX.Y.Z:refs/tags/vX.Y.Z
+# 7. Publish the owned feature branch ALONE. The tag stays local until its
+#    commit is on main (step 9). Pushing the tag now starts release.yml, whose
+#    first job refuses a tag whose commit is not on main; the pre-push hook
+#    refuses the push before it leaves.
+git push origin <branch>
 
 # 8. Open a source pull request from <branch> into main. Review its exact head
-#    and require all hosted checks to pass, including the release tag run.
-#    Merge through the normal protected landing procedure. Read back the
-#    merged source tree, main checks and actual package publication before
-#    reporting the release as delivered.
+#    and require all hosted checks to pass. Merge it with a MERGE COMMIT
+#    (`gh pr merge <n> --merge`), never a squash: a squash writes a new commit
+#    and the tagged commit never reaches main. Do not add commits to the
+#    branch after the tag; a tagged commit that the merged branch does not
+#    contain is the same failure.
+gh pr merge <n> --merge
+
+# 9. Push the tag, alone, once the merge is on main. The tagged commit must be
+#    reachable from origin/main.
+git fetch origin main
+git merge-base --is-ancestor vX.Y.Z origin/main
+git push origin refs/tags/vX.Y.Z:refs/tags/vX.Y.Z
+
+# 10. Watch the release run. verify checks the tag is on main first and prints
+#    the tag, its commit and origin/main when it is not. The publish job then
+#    waits for the public-release environment's approval. Read back the merged
+#    source tree, main checks and actual package publication (PyPI and the
+#    Hugging Face dataset) before reporting the release as delivered.
 ```
+
+A tag that missed main is not repaired. `release.yml` fails it in `verify`
+("the tagged commit is on main") with the tag, the commit and `origin/main` in
+the error, before the owner is asked to approve anything. Retain the tag and
+the failed run, and cut the next patch version. This failure used to sit in the
+`publish` job beside the token check and print nothing, which read as a missing
+`HF_TOKEN` for v0.34.0, v0.36.0 and v0.36.1; a real missing token now fails its
+own step, "the dataset token is set".
 
 A tag that precedes its remote run cannot publish a bad release, and that is
 why the order above is safe rather than merely convenient: `release.yml`'s
