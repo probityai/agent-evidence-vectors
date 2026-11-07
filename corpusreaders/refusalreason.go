@@ -237,7 +237,7 @@ func rsnChecks(r rsnRecord, emitted string, owed []string, leaseOnly bool) []rsn
 		{"answer_outside_both_boundary_readings", leaseOnly && emitted != "null" && emitted != "evidence_expired"},
 		{"refusal_without_condition", wrong && len(owed) == 1 && owed[0] == "null" && emitted != "null"},
 		{"condition_ignored", wrong && emitted == "null"},
-		{"later_value_emitted", wrong && emitted != "null" && !(len(owed) == 1 && owed[0] == "null")},
+		{"later_value_emitted", wrong && emitted != "null" && (len(owed) != 1 || owed[0] != "null")},
 		{"observation_backfilled", rsnBackfilled(r)},
 		{"evidence_renewed_by_diagnostic_read", rsnRenewed(r)},
 	}
