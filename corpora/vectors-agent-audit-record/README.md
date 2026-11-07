@@ -24,7 +24,7 @@ file.
 
 | Release | Draft revision the corpus tests | Members |
 | --- | --- | --- |
-| The release after v0.28.0 | `draft-gilda-audit-agent-audit-record-03`, and rows of `-04` | every member the v0.28.0 row lists, rows `IS1`, `IS2`, `PS1` and `PS2` of -03 and the open member `PS1b` beside them, and rows `CS41` to `CS49` written for -04 |
+| The release after v0.28.0 | `draft-gilda-audit-agent-audit-record-03`, and rows of `-04` | every member the v0.28.0 row lists, rows `IS1`, `IS2`, `PS1` and `PS2` of -03 and the open member `PS1b` beside them, and rows `CS41` to `CS54` written for -04 |
 | v0.28.0 | `draft-gilda-audit-agent-audit-record-02` | the 99 Appendix B rows of -00, 7 Section 5.4 members, 22 rows of -01 and 13 rows of -02 |
 | v0.27.0 | `draft-gilda-audit-agent-audit-record-00`, and 22 rows of `-01` | the 99 Appendix B rows, 7 Section 5.4 members and 22 rows of -01 |
 | v0.26.0 to v0.26.2 | `draft-gilda-audit-agent-audit-record-00`, and five rows of `-01` | the 99 Appendix B rows, 7 Section 5.4 members and 5 rows of -01 |
@@ -256,7 +256,7 @@ by SHA-256 in [`REVISION-01-PIN.json`](REVISION-01-PIN.json).
 coverage clause fails exactly `TI6`, `V4` and `V5`, and restoring independent
 minima in `aggregate_values` fails `FR14`'s aggregation check.
 
-## Consumption state and the operation key: `CS1` to `CS49`
+## Consumption state and the operation key: `CS1` to `CS54`
 
 A cumulative limit, such as a delegated spending limit, makes a permit correct
 only if what is already consumed, plus what is held for earlier permits that
@@ -372,6 +372,20 @@ in [#213](https://github.com/probityai/agent-evidence-vectors/issues/213).
   `consumption-set-settled-uncounted` (`CS49`). It may count more, since other
   calls can settle between the two records.
 
+  An x402 EVM `upto` permit that settles 0 sends no transaction, so
+  `settled.transaction` is the empty string there and nowhere else: valid at
+  `amount` 0 recorded with `source` `chain` (`CS50`), `consumption-value-invalid`
+  at any other amount (`CS51`). The permit's nonce is still unspent, so its
+  facilitator can settle up to the maximum until the permit's `deadline`
+  (vendrell46's zero-settlement case on #307). The record keeps the operation key
+  in `held`, with its amount and a `deadline` written as the record writes
+  instants; without one it is `consumption-value-invalid` (`CS52`). The hold ends
+  only when a later record of the ledger is dated at or after that `deadline`
+  (`CS54`) or a record of the operation shows `occurred`: a later record dated
+  before it that no longer holds the key is `consumption-set-release-unshown`,
+  even though the zero settlement's own record shows `none` (`CS53`). This is
+  the EVM scheme only; SVM `upto` runs on payment channels.
+
 `check_vectors.py` drops each sentence of the rule and each set check in turn and
 requires the corpus to fail on exactly the members that test it; a retry keyed
 on the request digest fails `CS10` and `CS12`, dropping the set checks fails
@@ -380,8 +394,12 @@ reading the set checks per `limitDigest` fails `CS20`, `CS21` and `CS30`, keying
 the claim by the limit document fails `CS32` alone, reading it without its scope
 fails `CS33`, letting `none` not end a claim fails `CS28`, and matching an asset
 by its id alone fails `CS39`, dropping each payee and settled check fails `CS42`,
-`CS44`, `CS45` and `CS46`, `CS47` and `CS49` in turn, and counting the held
-amount rather than the settled one fails `CS48`. The Go rail in `corpora/` runs
+`CS44`, `CS45` and `CS46`, `CS47` and `CS49` in turn, counting the held
+amount rather than the settled one fails `CS48` and `CS54`, refusing an empty transaction at
+an amount of 0 fails `CS50`, `CS53` and `CS54`, accepting one at any other amount
+fails `CS51`, not requiring the deadline fails `CS52`, dropping the hold's set
+check fails `CS53` alone, and ending the hold only after the deadline, not at it,
+fails `CS54`. The Go rail in `corpora/` runs
 the same sweep.
 
 ## Principal standing and the v2 URI: `PS1`, `PS2` and `PS1b`

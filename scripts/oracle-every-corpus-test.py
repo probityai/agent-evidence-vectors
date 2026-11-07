@@ -60,6 +60,7 @@ RUNS_A_VERIFIER = (
     "vectors-propagation-step",
     "vectors-containment-journal",
     "vectors-decision-client-failure-modes",
+    "vectors-refusal-reason-priority",
     "vectors-agent-card-receipt",
     "vectors-credential-release",
     "vectors-chunked-export",
@@ -75,6 +76,7 @@ RUNS_A_VERIFIER = (
     "vectors-source-coverage",
     "vectors-open-weight-art53",
     "vectors-trace-anchor",
+    "vectors-mcp-authz",
 )
 
 #: Corpora judged only by a reader of their own (``aee-verify <dir>`` or this
@@ -85,6 +87,7 @@ REFUSES_A_VERIFIER = (
     "vectors-acs-core",
     "vectors-agent-audit-record",
     "vectors-agent-decision",
+    "vectors-acs-decision-record",
     "vectors-ai-generation",
     "vectors-anchor-stream",
     "vectors-artifact-binding",
