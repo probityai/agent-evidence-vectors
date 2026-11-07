@@ -526,6 +526,7 @@ func arRules(predicateType string) []arRule {
 			return nil
 		}},
 		{"principal", arRulePrincipal},
+		{"data-subject", arRuleDataSubject},
 		{"binding", arRuleBinding},
 		{"request-digest", arRuleRequestDigest},
 		{"subject-after-root", func(s *arState) error {
