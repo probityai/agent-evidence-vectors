@@ -217,7 +217,10 @@ git push origin refs/tags/vX.Y.Z:refs/tags/vX.Y.Z
 
 # 11. Open the publish pull request from a fresh branch on main. It moves the
 #    preferred citation in CITATION.cff (url, version, commit, the tag object
-#    identifier), the install pins in README.md, DISTRIBUTION.md and docs, and
+#    identifier) and puts back the top-level `date-released`, dated to the
+#    tagged commit's committer date (`git show -s --format=%cs vX.Y.Z`); the
+#    cut carries none, because a source candidate must not. It also moves
+#    the install pins in README.md, DISTRIBUTION.md and docs, and
 #    the action entry in version-pins.toml to vX.Y.Z. Run the pins script
 #    (scripts/version-pins.py in probityai/.github, at the commit the
 #    version-pins workflow pins) with `write`, read the result, then `check`,
