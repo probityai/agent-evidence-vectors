@@ -13,7 +13,7 @@ R2 | --read-w3c-report on each of the three reports | conforms | checks | 72, 16
 R3-v01 | --read-w3c-report run-report-v01.json | conforms | checks | 48 | producer's converter (Nov/0000)
 R4 | --read-w3c-report on each of the three reports | conforms from v0.18.1; rejected under W3C-R-020 before v0.18 | checks | 76, 67, 16 | the closest to an independent record, through the producer's glue (Oct/0150)
 R4-driver | python rerun.py R4-driver | equal to the recorded run | cases | as recorded | without the glue (Nov/0003)
-R5 | --read-w3c-report finality-threshold-report.level1.json | conforms | draws against thresholds | 150,006 | reproduction in O8's sense (Oct/0083, Oct/0084)
+R5 | --read-w3c-report finality-threshold-report.level1.json | conforms | checks (six thresholds per generated draw, plus six exclusions) | 150,006 | reproduction in O8's sense (Oct/0083, Oct/0084)
 R6 | python rerun.py R6 | reproduced; no report file | tests | 4 baseline, 6 claim-boundary | reproduction in O8's sense (Oct/0018)
 R6, re-encoded | --read-w3c-report run-report-v01.json | conforms | checks | 4 | producer's converter (Nov/0006)
 R7 | python rerun.py R7 | reproduced; a native packet, not a v0.1 report | outcomes | 21 | reproduction in O8's sense (Oct/0085, Oct/0184)
