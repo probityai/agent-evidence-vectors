@@ -30,3 +30,5 @@ jobs:
           persist-credentials: false
       - name: every identifier resolves on the live services
         run: python3 scripts/check_uris_resolve.py --network
+      - name: every external link in the vantage grid answers
+        run: python3 scripts/vantage-grid-gate.py --network
