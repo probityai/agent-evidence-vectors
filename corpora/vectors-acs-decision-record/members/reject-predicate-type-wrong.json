@@ -1,0 +1,47 @@
+{
+  "disclosed": {
+    "context": {
+      "agent": {
+        "framework": "run_acs",
+        "id": "agent-1"
+      },
+      "interception_point": "pre_tool_call",
+      "sequence": 0,
+      "session": {
+        "id": "session-1"
+      },
+      "spec": "agent-hooks/0.1",
+      "target": {
+        "path": "README.md"
+      },
+      "timestamp": "2026-11-06T02:20:06.541384Z",
+      "tool_call": {
+        "args": {
+          "path": "README.md"
+        },
+        "id": "call-1",
+        "name": "read_file"
+      }
+    },
+    "manifest": "agent_control_specification_version: \"0.4.0-alpha.1\"\nmetadata:\n  name: decision-record-run\npolicies:\n  tool_gate:\n    type: rego\n    bundle: ./policy\n    query: data.tool_gate.verdict\ntools:\n  read_file: {}\n  delete_branch: {}\n  send_payment: {}\nintervention_points:\n  pre_tool_call:\n    policy_target: \"$.tool_call.args\"\n    policy_target_kind: tool_args\n    tool_name_from: \"$.tool_call.name\"\n    policy:\n      id: tool_gate\n",
+    "policyBundle": {
+      "modules": {
+        "tool_gate.rego": "package tool_gate\n\ndefault verdict := {\"decision\": \"allow\", \"reason\": \"tool_permitted\"}\n\nverdict := {\"decision\": \"deny\", \"reason\": \"destructive_tool\"} if {\n  input.snapshot.tool_call.name == \"delete_branch\"\n}\n\nverdict := {\"decision\": \"escalate\", \"reason\": \"payment_needs_approval\"} if {\n  input.snapshot.tool_call.name == \"send_payment\"\n  input.policy_target.value.amount > 100\n}\n"
+      }
+    }
+  },
+  "envelope": {
+    "payload": "eyJfdHlwZSI6Imh0dHBzOi8vaW4tdG90by5pby9TdGF0ZW1lbnQvdjEiLCJwcmVkaWNhdGUiOnsiZGVjaXNpb25Qb2ludCI6eyJyZXBvc2l0b3J5IjoiaHR0cHM6Ly9naXRodWIuY29tL3Jlc3BvbnNpYmxlYWkvYWdlbnQtY29udHJvbC1zcGVjIiwic3BlY2lmaWNhdGlvbiI6ImFnZW50LWNvbnRyb2wtc3BlYyIsInZlcnNpb24iOiIwLjQuMGE0In0sImlucHV0Ijp7ImNhbm9uaWNhbGl6YXRpb24iOiJyZmM4Nzg1IiwiZGlnZXN0Ijoic2hhMjU2OmM0MjdlMTA4YzUxZGJhN2Y4ZTU3ZThjOTQzMjA2NzhiOWM4NjgxOWU5YzA3ZTg3NGJiNjU4ODhkNjVjMmM0MjgifSwiaW50ZXJ2ZW50aW9uUG9pbnQiOiJwcmVfdG9vbF9jYWxsIiwicG9saWN5Ijp7ImJ1bmRsZURpZ2VzdCI6InNoYTI1NjpkM2Q3Mzg1ZmFiNDY3YmNiMDQxYjZiOTc0ODMwMjY0YzRjYTE2NjUwOTYxNTdlZTRlNzVkODhjNzc0OWYzYTIwIiwibWFuaWZlc3REaWdlc3QiOiJzaGEyNTY6OTE3MDZiYzc1MGQ5OWI3OGNiNzk0NTJlYTY3NTIzZDJiNGRiMmY0NWFlNzk3NmU1NTc1NzBkMDFkZjk5ZTk3NSJ9LCJ2ZXJkaWN0Ijp7ImRlY2lzaW9uIjoiYWxsb3ciLCJyZWFzb24iOiJ0b29sX3Blcm1pdHRlZCJ9fSwicHJlZGljYXRlVHlwZSI6Imh0dHBzOi8vcHJvYml0eWFpLmdpdGh1Yi5pby9hZ2VudC1ldmlkZW5jZS12ZWN0b3JzL3ByZWRpY2F0ZS92MC9jb250cm9sLWRlY2lzaW9uIiwic3ViamVjdCI6W3siZGlnZXN0Ijp7InNoYTI1NiI6ImM0MjdlMTA4YzUxZGJhN2Y4ZTU3ZThjOTQzMjA2NzhiOWM4NjgxOWU5YzA3ZTg3NGJiNjU4ODhkNjVjMmM0MjgifSwibmFtZSI6InByZV90b29sX2NhbGw6Y2FsbC0xIn1dfQ==",
+    "payloadType": "application/vnd.in-toto+json",
+    "signatures": [
+      {
+        "keyid": "91c4329a60700f3a29f59c43421b9f2a61a2fe17e3c13b9b9858d671ee8a2540",
+        "sig": "X0uSoGsGOYNy0M9W+jbb8oeZJJKEiIL7ThG7mc3+vOBE0Z/AF18yoZIPNQm0p/rBKPw8kUU5836x/fQ25amcDA=="
+      }
+    ]
+  },
+  "replayedVerdict": {
+    "decision": "allow",
+    "reason": "tool_permitted"
+  }
+}

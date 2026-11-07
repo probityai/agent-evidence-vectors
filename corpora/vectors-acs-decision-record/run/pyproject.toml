@@ -1,0 +1,12 @@
+# The environment that produced observed/run-*.json: the Microsoft Agent Control
+# Specification runtime at the exact release the record profile was written
+# against. It is separate from the repository's own environment because the
+# runtime is a native wheel nobody else in this repository needs.
+[project]
+name = "acs-decision-record-run"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = ["agent-control-spec==0.4.0a4"]
+
+[tool.uv]
+package = false

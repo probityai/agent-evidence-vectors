@@ -1,0 +1,50 @@
+{
+  "disclosed": {
+    "context": {
+      "agent": {
+        "framework": "run_acs",
+        "id": "agent-1"
+      },
+      "interception_point": "pre_tool_call",
+      "sequence": 0,
+      "session": {
+        "id": "session-1"
+      },
+      "spec": "agent-hooks/0.1",
+      "target": {
+        "amount": 250,
+        "currency": "USD"
+      },
+      "timestamp": "2026-11-06T02:20:06.547328Z",
+      "tool_call": {
+        "args": {
+          "amount": 250,
+          "currency": "USD"
+        },
+        "id": "call-3",
+        "name": "send_payment"
+      }
+    },
+    "manifest": "agent_control_specification_version: \"0.4.0-alpha.1\"\nmetadata:\n  name: decision-record-run\npolicies:\n  tool_gate:\n    type: rego\n    bundle: ./policy\n    query: data.tool_gate.verdict\ntools:\n  read_file: {}\n  delete_branch: {}\n  send_payment: {}\nintervention_points:\n  pre_tool_call:\n    policy_target: \"$.tool_call.args\"\n    policy_target_kind: tool_args\n    tool_name_from: \"$.tool_call.name\"\n    policy:\n      id: tool_gate\n",
+    "policyBundle": {
+      "modules": {
+        "tool_gate.rego": "package tool_gate\n\ndefault verdict := {\"decision\": \"allow\", \"reason\": \"tool_permitted\"}\n\nverdict := {\"decision\": \"deny\", \"reason\": \"destructive_tool\"} if {\n  input.snapshot.tool_call.name == \"delete_branch\"\n}\n\nverdict := {\"decision\": \"escalate\", \"reason\": \"payment_needs_approval\"} if {\n  input.snapshot.tool_call.name == \"send_payment\"\n  input.policy_target.value.amount > 100\n}\n"
+      }
+    }
+  },
+  "envelope": {
+    "payload": "eyJfdHlwZSI6Imh0dHBzOi8vaW4tdG90by5pby9TdGF0ZW1lbnQvdjEiLCJwcmVkaWNhdGUiOnsiZGVjaXNpb25Qb2ludCI6eyJyZXBvc2l0b3J5IjoiaHR0cHM6Ly9naXRodWIuY29tL3Jlc3BvbnNpYmxlYWkvYWdlbnQtY29udHJvbC1zcGVjIiwic3BlY2lmaWNhdGlvbiI6ImFnZW50LWNvbnRyb2wtc3BlYyIsInZlcnNpb24iOiIwLjQuMGE0In0sImlucHV0Ijp7ImNhbm9uaWNhbGl6YXRpb24iOiJyZmM4Nzg1IiwiZGlnZXN0Ijoic2hhMjU2OjY2YjZkMWExZTkxOWEyZWVjYWNkYjJmMWJhYWM5YmM5YjYyYWYwNTQ4ODJiOGM5MDRiOTI4OTI2NzQwMWJlNDcifSwiaW50ZXJ2ZW50aW9uUG9pbnQiOiJwcmVfdG9vbF9jYWxsIiwicG9saWN5Ijp7ImJ1bmRsZURpZ2VzdCI6InNoYTI1NjpkM2Q3Mzg1ZmFiNDY3YmNiMDQxYjZiOTc0ODMwMjY0YzRjYTE2NjUwOTYxNTdlZTRlNzVkODhjNzc0OWYzYTIwIiwibWFuaWZlc3REaWdlc3QiOiJzaGEyNTY6OTE3MDZiYzc1MGQ5OWI3OGNiNzk0NTJlYTY3NTIzZDJiNGRiMmY0NWFlNzk3NmU1NTc1NzBkMDFkZjk5ZTk3NSJ9LCJ2ZXJkaWN0Ijp7ImRlY2lzaW9uIjoiZGVueSIsInJlYXNvbiI6InBheW1lbnRfbmVlZHNfYXBwcm92YWwifX0sInByZWRpY2F0ZVR5cGUiOiJodHRwczovL3Byb2JpdHlhaS5naXRodWIuaW8vYWdlbnQtZXZpZGVuY2UtdmVjdG9ycy9wcmVkaWNhdGUvdjEvY29udHJvbC1kZWNpc2lvbiIsInN1YmplY3QiOlt7ImRpZ2VzdCI6eyJzaGEyNTYiOiI2NmI2ZDFhMWU5MTlhMmVlY2FjZGIyZjFiYWFjOWJjOWI2MmFmMDU0ODgyYjhjOTA0YjkyODkyNjc0MDFiZTQ3In0sIm5hbWUiOiJwcmVfdG9vbF9jYWxsOmNhbGwtMyJ9XX0=",
+    "payloadType": "application/vnd.in-toto+json",
+    "signatures": [
+      {
+        "keyid": "91c4329a60700f3a29f59c43421b9f2a61a2fe17e3c13b9b9858d671ee8a2540",
+        "sig": "Cqm5UR5XV6Lym041Wqju5WghesFzWsbmbKziensvDt8CdKRDZ8Tr6M6k3E7utLOxP+Fx7yy9GmFTqWiAz1WqCQ=="
+      }
+    ]
+  },
+  "replayedVerdict": {
+    "approval": {},
+    "decision": "deny",
+    "reason": "payment_needs_approval"
+  }
+}

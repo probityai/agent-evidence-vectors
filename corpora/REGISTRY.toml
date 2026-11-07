@@ -169,6 +169,18 @@ standards = ["owasp"]
 shapes = ["scope-overreach", "replay", "stale-authority"]
 
 [[corpus]]
+id = "vectors-acs-decision-record"
+path = "corpora/vectors-acs-decision-record"
+wheel = true
+sdist = true
+title = "Control decision records"
+summary = "A verifier must bind a policy decision to the digest of the input it judged and of the policy it ran, and refuse a record whose verdict a replay does not reproduce."
+record_class = "record"
+domains = ["authority", "provenance"]
+standards = ["in-toto", "rfc8785"]
+shapes = ["missing-binding", "tampering", "forged-signature"]
+
+[[corpus]]
 id = "vectors-admission"
 path = "corpora/vectors-admission"
 wheel = true
