@@ -118,3 +118,14 @@ block in pyproject.toml (between its BEGIN and END markers) and corpora/README.m
 are derived from it. --check refuses when either differs from what a run writes;
 a bare invocation rewrites both.
 """
+
+[[gate]]
+ident = "jcs-drift-vectors"
+argv = ["python3", "scripts/gen-jcs-drift-vectors.py", "--check"]
+fix = ["python3", "scripts/gen-jcs-drift-vectors.py"]
+why = """
+The driftCases and depthCases keys of corpora/jcs-byte-vectors/cases.json are
+written by the generator, with the canonical bytes pinned by hand in it. A hand
+edit to either key, or a change to the generator, moves the file; the Go
+module's embedded copy follows through scripts/gen-jcsvectors-data.py.
+"""
