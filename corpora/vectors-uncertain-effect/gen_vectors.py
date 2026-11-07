@@ -148,6 +148,11 @@ def build(name: str, attempts: list[dict[str, Any]], reported: str, owner_effect
     return {key: value for key, value in record.items() if value is not None}
 
 
+def invoice(at: float, units: int) -> dict[str, Any]:
+    """A final invoice from the billing party: a notice, not an answer from the effect owner."""
+    return {"at": ts(at), "final": True, "from": "billing", "kind": "invoice", "units": units}
+
+
 def held(charged: bool = True, expires: float = 120) -> dict[str, Any]:
     """The capacity reserved for the operation, and whether it is still charged."""
     return {"charged": charged, "expiresAt": ts(expires), "units": 5}
@@ -217,6 +222,19 @@ def _controls() -> list[Case]:
          "allow", ok, "lease-lost-after-lost-reply",
          "control: worker-a's reply is lost, its lease passes to worker-b, and worker-b "
          "finds the effect instead of sending it again"),
+        ("allow-retry-after-final-absent-invoice-noted",
+         build("allow-retry-after-final-absent-invoice-noted", [lost, attempt(2, 40, "confirmed")],
+               "committed", 1, lookups=[lookup(30, "absent")], reservation=held(),
+               notices=[invoice(20, 5)]),
+         "allow", ok, "lost-before-commit",
+         "control: a final invoice arrives after the lost reply, but a final owner lookup "
+         "also finds the effect absent before the resend, which is confirmed"),
+        ("allow-zero-invoice-reported-unknown",
+         build("allow-zero-invoice-reported-unknown", [lost], "unknown", 1,
+               reservation=held(), as_of=60, notices=[invoice(20, 0)]),
+         "allow", ok, "owner-unreachable-after-lost-reply",
+         "control: a zero invoice arrives after the lost reply, no owner lookup answers, and "
+         "the runtime reports unknown with the reservation charged"),
         ("allow-late-commit-awaited",
          build("allow-late-commit-awaited", [lost], "committed", 1,
                lookups=[lookup(20, "absent", final=False), lookup(60, "present")],
@@ -303,6 +321,18 @@ def _dispatch_cases() -> list[Case]:
 def _outcome_cases() -> list[Case]:
     lost = attempt(1, 1, "timeout")
     return [
+        ("retry-after-final-invoice",
+         build("retry-after-final-invoice", [lost, attempt(2, 40, "confirmed")], "committed", 2,
+               notices=[invoice(20, 5)]),
+         "deny", "retry_after_unknown", "commit-then-lost-reply",
+         "a final invoice arrives after the lost reply and the runtime resends to an owner "
+         "that does not deduplicate; an invoice is billing's word, not the owner's lookup"),
+        ("zero-invoice-reported-not-run",
+         build("zero-invoice-reported-not-run", [lost], "not_run", 1,
+               notices=[invoice(20, 0)]),
+         "deny", "outcome_settled_without_authority", "owner-unreachable-after-lost-reply",
+         "a zero invoice arrives after the lost reply and the runtime reports not run; no "
+         "owner lookup answered and the owner holds the effect"),
         ("unknown-released-at-expiry",
          build("unknown-released-at-expiry", [lost], "unknown", 1,
                reservation=held(charged=False, expires=120), as_of=300),

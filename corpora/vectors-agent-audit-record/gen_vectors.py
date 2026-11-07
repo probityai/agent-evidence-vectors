@@ -1528,6 +1528,7 @@ def define() -> None:
     define_settlement()
     define_audit_next()
     define_principal()
+    define_data_subject()
     define_reject_paths()
     rank = {draft_id: i for i, draft_id in enumerate(ORDER)}
     missing = [m["draftId"] for m in MEMBERS if m["draftId"] not in rank]
@@ -3785,6 +3786,204 @@ def _expired(pred: dict[str, Any]) -> None:
 
 
 # ---------------------------------------------------------------------------
+# Whose data a call touched, and why (revision 04, rows DS1 to DS10).
+#
+# A server that answers a data subject's access request must say who consulted
+# the subject's data and for what purpose. The delegated subject is the person
+# the agent acts for; the person whose data was read is usually another. The
+# optional `dataSubject` member carries a keyed reference to the data subject (a
+# SHA-256 digest of the RFC 8785 bytes of a secret salt and the subject's
+# identifier, which the server recomputes for a request and which exposes no raw
+# identifier to the holders of the record), the relation between that subject
+# and the delegated subject, and the purpose, taken from a list the server
+# declares and carries with the digest of that list. DS1 to DS3 are accepted;
+# each reject member changes one value of an accepted member and reaches one
+# refusal.
+# ---------------------------------------------------------------------------
+
+#: The server's secret salt (base64url) and the name by which it is kept.
+DATA_SUBJECT_SALT = _b64url(hashlib.sha256(b"agent-audit-record/data-subject-salt").digest())
+DATA_SUBJECT_SALT_ID = "ds-salt-2026-09"
+DATA_SUBJECT_SCHEME = "salted-sha256-jcs"
+CUSTOMER_ID = "customer:C-1048213"
+DELEGATE_ID = "user:alice@example.org"
+PURPOSES = ["account-servicing", "fraud-review", "regulatory-reporting"]
+SYSTEM_PURPOSES = ["batch-reconciliation", "regulatory-reporting"]
+
+
+def data_subject_reference(subject_id: str) -> str:
+    """What the server recomputes from its salt and an identifier."""
+    return digest({"salt": DATA_SUBJECT_SALT, "subject": subject_id})
+
+
+def data_subject_of(**changes: Any) -> dict[str, Any]:
+    member_: dict[str, Any] = {
+        "scheme": DATA_SUBJECT_SCHEME,
+        "saltId": DATA_SUBJECT_SALT_ID,
+        "reference": data_subject_reference(CUSTOMER_ID),
+        "relation": "other",
+        "delegateReference": data_subject_reference(DELEGATE_ID),
+        "purpose": "account-servicing",
+        "purposes": PURPOSES,
+        "purposesDigest": digest(PURPOSES),
+    }
+    member_.update(changes)
+    return member_
+
+
+def _with_data_subject(value: dict[str, Any]) -> Callable[[dict[str, Any]], None]:
+    def change(pred: dict[str, Any]) -> None:
+        pred["dataSubject"] = value
+
+    return change
+
+
+def _system_data_subject(pred: dict[str, Any]) -> None:
+    pred["delegation"]["subject"] = "system:nightly-reconcile"
+    pred["delegation"]["subjectKind"] = "system"
+    value = data_subject_of(
+        purpose="batch-reconciliation",
+        purposes=SYSTEM_PURPOSES,
+        purposesDigest=digest(SYSTEM_PURPOSES),
+    )
+    del value["delegateReference"]
+    pred["dataSubject"] = value
+    seal_commitment(pred)
+
+
+def _data_subject_edit(name: str, value: Any) -> Callable[[dict[str, Any]], None]:
+    def change(pred: dict[str, Any]) -> None:
+        pred["dataSubject"][name] = value
+
+    return change
+
+
+def define_data_subject() -> None:
+    member(
+        "DS1",
+        "ds1-data-subject-third-party",
+        "A1",
+        "A1 with a dataSubject: the call read customer C's data for the staff member the "
+        "delegation names; the record carries C's keyed reference and the staff member's, "
+        "relation other, and a purpose on the server's declared list",
+        derived("DS1", "A1", _with_data_subject(data_subject_of())),
+        "valid",
+        tier="authoritative",
+        revision=REVISION_04,
+    )
+    member(
+        "DS2",
+        "ds2-data-subject-is-the-delegate",
+        "A1",
+        "the person whose data was read is the user the agent acts for: relation delegate, "
+        "no separate delegate reference",
+        derived("DS2", "A1", _delegate_data_subject),
+        "valid",
+        tier="authoritative",
+        revision=REVISION_04,
+    )
+    member(
+        "DS3",
+        "ds3-data-subject-system-caller",
+        "A1",
+        "a system caller: delegation.subjectKind of system, so the data subject has no delegate "
+        "to be told apart from, and the server's declared list is another",
+        derived("DS3", "A1", _system_data_subject),
+        "valid",
+        tier="authoritative",
+        revision=REVISION_04,
+    )
+    rejects: list[tuple[str, str, str, str, Callable[[dict[str, Any]], None], str]] = [
+        (
+            "DS4",
+            "ds4-data-subject-reference-missing",
+            "DS1",
+            "dataSubject without reference",
+            _data_subject_drop("reference"),
+            "data-subject-member-missing",
+        ),
+        (
+            "DS5",
+            "ds5-data-subject-raw-identifier",
+            "DS1",
+            "dataSubject carrying the raw customer identifier in a member this document does "
+            "not define",
+            _data_subject_edit("customerId", CUSTOMER_ID),
+            "data-subject-member-unknown",
+        ),
+        (
+            "DS6",
+            "ds6-data-subject-reference-not-a-digest",
+            "DS1",
+            "reference the raw customer identifier instead of a keyed digest",
+            _data_subject_edit("reference", CUSTOMER_ID),
+            "data-subject-malformed",
+        ),
+        (
+            "DS7",
+            "ds7-data-subject-merged-with-delegate",
+            "DS1",
+            "relation other while the data subject's reference is the delegate's: the two "
+            "people merged",
+            _data_subject_edit("reference", data_subject_reference(DELEGATE_ID)),
+            "data-subject-merged",
+        ),
+        (
+            "DS8",
+            "ds8-data-subject-relation-delegate-for-system",
+            "DS3",
+            "relation delegate under a system caller, which has no user to be the data subject",
+            _data_subject_edit("relation", "delegate"),
+            "data-subject-relation-mismatch",
+        ),
+        (
+            "DS9",
+            "ds9-data-subject-purpose-undeclared",
+            "DS1",
+            "a purpose that is not on the list the server declared",
+            _data_subject_edit("purpose", "marketing"),
+            "data-subject-purpose-undeclared",
+        ),
+        (
+            "DS10",
+            "ds10-data-subject-purposes-digest-mismatch",
+            "DS1",
+            "purposesDigest is the digest of another list than the one the record carries",
+            _data_subject_edit("purposesDigest", h("purposes/another-list")),
+            "data-subject-purposes-digest-mismatch",
+        ),
+    ]
+    for draft_id, slug, parent, row, change, code in rejects:
+        member(
+            draft_id,
+            slug,
+            parent,
+            row,
+            mutate(parent, change),
+            "malformed",
+            [code],
+            revision=REVISION_04,
+        )
+
+
+def _delegate_data_subject(pred: dict[str, Any]) -> None:
+    value = data_subject_of(
+        reference=data_subject_reference(DELEGATE_ID),
+        relation="delegate",
+        purpose="fraud-review",
+    )
+    del value["delegateReference"]
+    pred["dataSubject"] = value
+
+
+def _data_subject_drop(name: str) -> Callable[[dict[str, Any]], None]:
+    def change(pred: dict[str, Any]) -> None:
+        del pred["dataSubject"][name]
+
+    return change
+
+
+# ---------------------------------------------------------------------------
 # Retained records (Section 4.7, rows R1 to R9).
 #
 # A retained record is A1's envelope beside the retention entry a retaining
@@ -4749,6 +4948,7 @@ ORDER = (
     "R10 R11 R12 R13 R14 R15 R16 "
     "IS1 IS2 PS1 PS2 PS1b "
     "PR1 PR2 PR3 PR4 PR5 PR6 PR7 PR8 PR9 PR10 PR11 "
+    "DS1 DS2 DS3 DS4 DS5 DS6 DS7 DS8 DS9 DS10 "
     "X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15 X16 X17 X18"
 ).split()
 

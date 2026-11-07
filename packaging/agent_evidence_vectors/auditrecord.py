@@ -1246,6 +1246,92 @@ def _rule_principal(state: _State) -> None:
         raise Malformed("principal-thumbprint-mismatch")
 
 
+# --------------------------------------------------------------------------
+# Whose data a call touched, and why (revision 04, rows DS1 to DS10).
+# --------------------------------------------------------------------------
+
+#: The members ``dataSubject`` carries, each required, and the one it may carry
+#: beside them. Any other member is refused, so a raw identifier cannot ride in
+#: a member a verifier would read past.
+DATA_SUBJECT_MEMBERS = (
+    "scheme",
+    "saltId",
+    "reference",
+    "relation",
+    "purpose",
+    "purposes",
+    "purposesDigest",
+)
+DATA_SUBJECT_OPTIONAL = ("delegateReference",)
+#: The keyed reference scheme: SHA-256, as hex, of the RFC 8785 bytes of
+#: ``{"salt": <base64url salt>, "subject": <identifier>}``.
+DATA_SUBJECT_SCHEME = "salted-sha256-jcs"
+#: ``delegate``: the data subject is the user the agent acts for. ``other``: it
+#: is another person, whose reference differs from the delegate's.
+DATA_SUBJECT_RELATIONS = frozenset({"delegate", "other"})
+
+
+def data_subject_reference(salt: str, subject_id: str) -> str:
+    """The keyed reference to a data subject: what the server recomputes from its
+    salt (base64url) and an identifier when it answers an access request."""
+    body = {"salt": salt, "subject": subject_id}
+    return hashlib.sha256(canonical_bytes(body)).hexdigest()
+
+
+def _data_subject_shape(value: Any) -> None:
+    if not isinstance(value, dict):
+        raise Malformed("data-subject-malformed")
+    if any(name not in value for name in DATA_SUBJECT_MEMBERS):
+        raise Malformed("data-subject-member-missing")
+    if set(value) - set(DATA_SUBJECT_MEMBERS) - set(DATA_SUBJECT_OPTIONAL):
+        raise Malformed("data-subject-member-unknown")
+    purposes = value["purposes"]
+    digests = [value["reference"], value["purposesDigest"]]
+    digests += [value["delegateReference"]] if "delegateReference" in value else []
+    if (
+        value["scheme"] != DATA_SUBJECT_SCHEME
+        or value["relation"] not in DATA_SUBJECT_RELATIONS
+        or not _text(value["saltId"])
+        or not _text(value["purpose"])
+        or not all(_is_digest(item) for item in digests)
+        or not isinstance(purposes, list)
+        or not purposes
+        or not all(_text(item) for item in purposes)
+        or len(set(purposes)) != len(purposes)
+    ):
+        raise Malformed("data-subject-malformed")
+
+
+def _data_subject_relation(value: dict[str, Any], delegation: dict[str, Any]) -> None:
+    """A user caller names its own reference beside the data subject's unless the
+    two are one person; a system caller has no delegate to name."""
+    is_user = delegation["subjectKind"] == "user"
+    has_delegate = "delegateReference" in value
+    if value["relation"] == "delegate":
+        if not is_user or has_delegate:
+            raise Malformed("data-subject-relation-mismatch")
+    elif has_delegate != is_user:
+        raise Malformed("data-subject-relation-mismatch")
+    if has_delegate and value["delegateReference"] == value["reference"]:
+        raise Malformed("data-subject-merged")
+
+
+def _rule_data_subject(state: _State) -> None:
+    """The optional dataSubject member: a keyed reference to the person whose data
+    the call read, kept apart from the delegated subject, and a purpose taken
+    from the list the server declared (DS1 to DS10)."""
+    pred = state.predicate
+    if "dataSubject" not in pred:
+        return
+    value = pred["dataSubject"]
+    _data_subject_shape(value)
+    _data_subject_relation(value, pred["delegation"])
+    if value["purposesDigest"] != hashlib.sha256(canonical_bytes(value["purposes"])).hexdigest():
+        raise Malformed("data-subject-purposes-digest-mismatch")
+    if value["purpose"] not in value["purposes"]:
+        raise Malformed("data-subject-purpose-undeclared")
+
+
 def _rule_binding(state: _State) -> None:
     """digest-bound carries argumentsDigest; not-bindable carries it in no
     spelling, null and the empty string included (F3, F3b, F3c)."""
@@ -1416,6 +1502,7 @@ RULES: list[tuple[str, Callable[[_State], None]]] = [
     ("consumption", _rule_consumption),
     ("delegation", _rule_delegation),
     ("principal", _rule_principal),
+    ("data-subject", _rule_data_subject),
     ("binding", _rule_binding),
     ("request-digest", _rule_request_digest),
     ("subject-after-root", _rule_subject_after_root),

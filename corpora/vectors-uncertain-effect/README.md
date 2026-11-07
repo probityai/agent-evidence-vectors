@@ -95,6 +95,10 @@ in-toto Statement. The other fields:
   (`present` or `absent`) and `final`.
 - `ownerEffects`: the effects the owner's own ledger holds for the operation.
 - `reservation` (optional): `units`, `expiresAt` and `charged`.
+- `notices` (optional): statements by parties other than the effect owner, such as a
+  final invoice from billing, each `at`, `from`, `kind`, `final` and `units`. A notice is
+  not a reconciliation: no check reads it, so an invoice after a lost reply neither
+  permits a resend nor settles the outcome. Only the owner's answers do.
 - `reported.outcome`: what the runtime reported.
 
 A `timeout` or `connection_lost` reply leaves the attempt's outcome unknown. The
