@@ -66,8 +66,11 @@ them coherently, rather than to the maintainer's. The mechanism is described in
 **Whether an implementation passes is decided by the corpus, mechanically.** The
 suite compares verdicts and code sets, ignores message text, ignores evaluation
 order, and reads a rail's answers through a fixed external contract. No pass or
-failure is at anyone's discretion, and there is no recognition list, no
-certificate and nothing to grant. An implementer who disagrees with a verdict can
+failure is at anyone's discretion. The one recognition is the Verified by Probity
+badge: its two bases, its evidence rule and its grant ledger are published in
+[`docs/VERIFIED-BADGE.md`](docs/VERIFIED-BADGE.md), and every release re-checks
+every grant against them. A grant records what the corpus decided under that rule
+and adds no judgement of its own. An implementer who disagrees with a verdict can
 rerun the corpus themselves; the whole suite is offline, dependency-free on the
 consuming side, and runs against any command.
 

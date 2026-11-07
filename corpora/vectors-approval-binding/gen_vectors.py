@@ -171,6 +171,11 @@ def cases() -> list[Case]:
          record(presented=[approval(), approval(principal="user:bob", tool="file.delete")]),
          APPROVED, "deny", "approval_id_ambiguous",
          "a second approval with the same identifier and different content is presented"),
+        ("approval-id-reused-unread-member",
+         record(presented=[approval(), approval(note="re-issued by the client")]),
+         APPROVED, "deny", "approval_id_ambiguous",
+         "a second approval with the same identifier differs only in a member no check "
+         "reads, so ambiguity is judged over the whole object"),
         ("approval-already-consumed", record(consumed=["appr-0000", "appr-0001"]), APPROVED,
          "deny", "approval_replayed", "the approval identifier was already consumed"),
         ("approval-key-not-approvers", record(key="reviewer-1-key-2026-04"), APPROVED,

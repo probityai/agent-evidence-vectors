@@ -17,8 +17,10 @@ The reader checks in a fixed order and names the first check that fails:
 3. the use's ``approvalId`` is the identifier of the approval being checked; a
    use that names another approval, or none, is not judged against this one
    (``approval_not_cited``);
-4. no other presented approval shares the approval's identifier with different
-   content (``approval_id_ambiguous``);
+4. no other presented approval shares the approval's identifier and differs
+   from it in any member, compared as parsed JSON values over the whole object,
+   including members no check reads; the same approval presented twice, with
+   equal values, is not ambiguous (``approval_id_ambiguous``);
 5. the identifier is not among the consumed ones (``approval_replayed``);
 6. no replacement accepted at or before the use has taken the approval's place
    (``approval_superseded``);
