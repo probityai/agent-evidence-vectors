@@ -1,0 +1,13 @@
+{
+  "base": "source/j01-connected-20261028-r2/cases/j01",
+  "check": "3k",
+  "consumed_at": "2026-10-28T22:15:45.527Z",
+  "edit": "consumed_at equal to the approval's valid_until",
+  "expected": {
+    "input_aps": "REFUSED:DECISION_EXPIRED_AT_CONSUMPTION"
+  },
+  "id": "x-consumed-late",
+  "packaged_reader": {
+    "input_aps": "REFUSED:DECISION_EXPIRED_AT_CONSUMPTION"
+  }
+}
