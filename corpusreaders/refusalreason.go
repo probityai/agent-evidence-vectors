@@ -37,33 +37,33 @@ func init() { register(refusalReason{}) }
 // ambiguous: the draft leaves both open.
 type refusalReason struct{}
 
-const rrContractID = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/refusal-reason-priority"
+const rsnContractID = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/refusal-reason-priority"
 
 func (refusalReason) Suite() string { return "refusal-reason-priority/v1" }
 
-type rrRetained struct {
+type rsnRetained struct {
 	Emitted string `json:"emitted"`
 	Owed    string `json:"owed"`
 }
 
-type rrVector struct {
+type rsnVector struct {
 	ID       string            `json:"id"`
 	Path     string            `json:"path"`
 	Files    map[string]string `json:"files"`
 	Expected scDecision        `json:"expected"`
-	Retained rrRetained        `json:"retained"`
+	Retained rsnRetained       `json:"retained"`
 }
 
-type rrRecord struct {
+type rsnRecord struct {
 	ContractID json.RawMessage `json:"contractId"`
 	Facts      struct {
-		Authority         string `json:"authority"`
-		BindingMismatch   bool   `json:"bindingMismatch"`
-		EvidenceExpired   bool   `json:"evidenceExpired"`
-		OperationPermitted *bool `json:"operationPermitted"`
-		GrantExpiresAtMs  int64  `json:"grantExpiresAtMs"`
-		DiagnosticRead    *struct{} `json:"diagnosticRead"`
-		ReliedOn          *struct {
+		Authority          string    `json:"authority"`
+		BindingMismatch    bool      `json:"bindingMismatch"`
+		EvidenceExpired    bool      `json:"evidenceExpired"`
+		OperationPermitted *bool     `json:"operationPermitted"`
+		GrantExpiresAtMs   int64     `json:"grantExpiresAtMs"`
+		DiagnosticRead     *struct{} `json:"diagnosticRead"`
+		ReliedOn           *struct {
 			Fresh   bool `json:"fresh"`
 			Present bool `json:"present"`
 		} `json:"reliedOnObservation"`
@@ -80,7 +80,7 @@ type rrRecord struct {
 	} `json:"response"`
 }
 
-var rrFive = []string{"evidence_binding_mismatch", "evidence_expired", "authority_not_determined",
+var rsnFive = []string{"evidence_binding_mismatch", "evidence_expired", "authority_not_determined",
 	"authority_revoked", "operation_not_permitted"}
 
 func (refusalReason) Judge(dir string, raw []byte) (*Result, error) {
@@ -90,13 +90,13 @@ func (refusalReason) Judge(dir string, raw []byte) (*Result, error) {
 	}
 	result := &Result{}
 	for _, entry := range manifest.Vectors {
-		var v rrVector
+		var v rsnVector
 		if err := json.Unmarshal(entry, &v); err != nil {
 			result.Findings = append(result.Findings, fmt.Sprintf("a manifest row does not parse: %v", err))
 			continue
 		}
 		member := Member{ID: v.ID, Kind: v.Expected.Decision}
-		member.Findings = rrJudgeMember(filepath.Join(dir, v.Path), v)
+		member.Findings = rsnJudgeMember(filepath.Join(dir, v.Path), v)
 		result.Members = append(result.Members, member)
 	}
 	if finding := scCorpusDigest(manifest); finding != "" {
@@ -105,24 +105,24 @@ func (refusalReason) Judge(dir string, raw []byte) (*Result, error) {
 	return result, nil
 }
 
-func rrJudgeMember(caseDir string, v rrVector) []string {
+func rsnJudgeMember(caseDir string, v rsnVector) []string {
 	findings := acFileFindings(caseDir, v.Files)
-	var record rrRecord
+	var record rsnRecord
 	if err := scReadJSON(caseDir, "record.json", &record); err != nil {
 		return append(findings, err.Error())
 	}
-	if kept := rrRetain(record); !reflect.DeepEqual(kept, v.Retained) {
+	if kept := rsnRetain(record); !reflect.DeepEqual(kept, v.Retained) {
 		findings = append(findings, "retained fields: the record gives something other than the manifest declares")
 	}
-	if got := rrDecide(record); got != v.Expected {
+	if got := rsnDecide(record); got != v.Expected {
 		findings = append(findings, fmt.Sprintf("derived %s/%s, the manifest declares %s/%s",
 			got.Decision, got.Reason, v.Expected.Decision, v.Expected.Reason))
 	}
 	return findings
 }
 
-// rrReason reads the reason member: absent, null, or the string it carries.
-func rrReason(r rrRecord) (value string, present, null bool) {
+// rsnReason reads the reason member: absent, null, or the string it carries.
+func rsnReason(r rsnRecord) (value string, present, null bool) {
 	if len(r.Response.Reason) == 0 {
 		return "", false, false
 	}
@@ -136,7 +136,7 @@ func rrReason(r rrRecord) (value string, present, null bool) {
 	return text, true, false
 }
 
-func rrApplicable(r rrRecord) []string {
+func rsnApplicable(r rsnRecord) []string {
 	f := r.Facts
 	var found []string
 	if f.BindingMismatch {
@@ -157,21 +157,21 @@ func rrApplicable(r rrRecord) []string {
 	return found
 }
 
-func rrLeaseOnly(r rrRecord) bool { return r.Facts.LeaseInstant != nil && len(rrApplicable(r)) == 0 }
+func rsnLeaseOnly(r rsnRecord) bool { return r.Facts.LeaseInstant != nil && len(rsnApplicable(r)) == 0 }
 
-// rrOwed lists what the draft licenses as the reason, with "null" for a permit.
-func rrOwed(r rrRecord) []string {
-	if rrLeaseOnly(r) {
+// rsnOwed lists what the draft licenses as the reason, with "null" for a permit.
+func rsnOwed(r rsnRecord) []string {
+	if rsnLeaseOnly(r) {
 		return []string{"evidence_expired", "null"}
 	}
-	if found := rrApplicable(r); len(found) > 0 {
+	if found := rsnApplicable(r); len(found) > 0 {
 		return []string{found[0]}
 	}
 	return []string{"null"}
 }
 
-func rrEmitted(r rrRecord) string {
-	value, present, null := rrReason(r)
+func rsnEmitted(r rsnRecord) string {
+	value, present, null := rsnReason(r)
 	switch {
 	case !present:
 		return "absent"
@@ -181,33 +181,33 @@ func rrEmitted(r rrRecord) string {
 	return value
 }
 
-func rrRetain(r rrRecord) rrRetained {
-	owed := rrOwed(r)
+func rsnRetain(r rsnRecord) rsnRetained {
+	owed := rsnOwed(r)
 	sort.Strings(owed)
-	return rrRetained{Emitted: rrEmitted(r), Owed: strings.Join(owed, "|")}
+	return rsnRetained{Emitted: rsnEmitted(r), Owed: strings.Join(owed, "|")}
 }
 
-func rrRelyFresh(r rrRecord) bool {
+func rsnRelyFresh(r rsnRecord) bool {
 	return r.Facts.ReliedOn != nil && r.Facts.ReliedOn.Present && r.Facts.ReliedOn.Fresh
 }
 
-// rrBackfilled: a stale or absent relied-on observation with a non-null member.
-func rrBackfilled(r rrRecord) bool {
-	return r.Facts.ReliedOn != nil && !rrRelyFresh(r) && r.Response.GrantRef.Observation != nil
+// rsnBackfilled: a stale or absent relied-on observation with a non-null member.
+func rsnBackfilled(r rsnRecord) bool {
+	return r.Facts.ReliedOn != nil && !rsnRelyFresh(r) && r.Response.GrantRef.Observation != nil
 }
 
-// rrRenewed: a diagnostic read after stale evidence with the expiry moved later.
-func rrRenewed(r rrRecord) bool {
-	return r.Facts.DiagnosticRead != nil && !rrRelyFresh(r) &&
+// rsnRenewed: a diagnostic read after stale evidence with the expiry moved later.
+func rsnRenewed(r rsnRecord) bool {
+	return r.Facts.DiagnosticRead != nil && !rsnRelyFresh(r) &&
 		r.Response.GrantRef.ExpiresAtMs != nil && *r.Response.GrantRef.ExpiresAtMs > r.Facts.GrantExpiresAtMs
 }
 
-func rrDecide(r rrRecord) scDecision {
+func rsnDecide(r rsnRecord) scDecision {
 	var contract string
-	known := len(r.ContractID) > 0 && json.Unmarshal(r.ContractID, &contract) == nil && contract == rrContractID
-	emitted := rrEmitted(r)
-	owed := rrOwed(r)
-	leaseOnly := rrLeaseOnly(r)
+	known := len(r.ContractID) > 0 && json.Unmarshal(r.ContractID, &contract) == nil && contract == rsnContractID
+	emitted := rsnEmitted(r)
+	owed := rsnOwed(r)
+	leaseOnly := rsnLeaseOnly(r)
 	wrong := !leaseOnly && !slices.Contains(owed, emitted)
 	checks := []struct {
 		reason string
@@ -216,13 +216,13 @@ func rrDecide(r rrRecord) scDecision {
 		{"contract_id_missing", len(r.ContractID) == 0},
 		{"contract_id_unknown", len(r.ContractID) > 0 && !known},
 		{"reason_member_absent", emitted == "absent"},
-		{"reason_outside_closed_set", emitted != "absent" && emitted != "null" && !slices.Contains(rrFive, emitted)},
+		{"reason_outside_closed_set", emitted != "absent" && emitted != "null" && !slices.Contains(rsnFive, emitted)},
 		{"answer_outside_both_boundary_readings", leaseOnly && emitted != "null" && emitted != "evidence_expired"},
 		{"refusal_without_condition", wrong && len(owed) == 1 && owed[0] == "null" && emitted != "null"},
 		{"condition_ignored", wrong && emitted == "null"},
 		{"later_value_emitted", wrong && emitted != "null" && !(len(owed) == 1 && owed[0] == "null")},
-		{"observation_backfilled", rrBackfilled(r)},
-		{"evidence_renewed_by_diagnostic_read", rrRenewed(r)},
+		{"observation_backfilled", rsnBackfilled(r)},
+		{"evidence_renewed_by_diagnostic_read", rsnRenewed(r)},
 	}
 	for _, check := range checks {
 		if check.fails {

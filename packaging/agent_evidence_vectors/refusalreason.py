@@ -49,6 +49,7 @@ import argparse
 import json
 import shlex
 import subprocess
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
@@ -193,7 +194,7 @@ def _first_failure(record: Record, skip: frozenset[str]) -> str | None:
     def wrong_value() -> bool:
         return not lease_only(facts) and emitted() not in owed_values(facts)
 
-    failures = {
+    failures: dict[str, Callable[[], bool]] = {
         "contract_id_missing": lambda: "contractId" not in record,
         "contract_id_unknown": lambda: record.get("contractId", CONTRACT_ID) != CONTRACT_ID,
         "reason_member_absent": lambda: "reason" not in response,
