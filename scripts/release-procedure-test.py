@@ -70,28 +70,39 @@ def release_workflow_violations(text: str) -> list[str]:
     publish never runs it, and the token check has one condition and its own error.
     """
     jobs = (yaml.safe_load(text) or {}).get("jobs", {})
-    found = []
     verify, publish = jobs.get("verify", {}), jobs.get("publish", {})
+    return _verify_violations(verify) + _publish_violations(publish)
+
+
+def _verify_violations(verify: dict) -> list[str]:
+    found = []
     if "environment" in verify:
-        found.append("release.yml: verify declares an environment, so the ancestry check waits for approval")
+        found.append("release.yml: verify declares an environment; ancestry waits for approval")
     ancestry = [s for s in verify.get("steps", []) if "merge-base --is-ancestor" in _run_text(s)]
     if len(ancestry) != 1:
         found.append(f"release.yml: verify has {len(ancestry)} ancestry steps, want exactly 1")
-    else:
-        run = _run_text(ancestry[0])
-        if "::error::" not in run or "GITHUB_REF_NAME" not in run or "origin/main" not in run:
-            found.append("release.yml: the ancestry step does not print the tag, the sha and origin/main in its error")
-        if "token" in run.lower():
-            found.append("release.yml: the ancestry step mentions a token")
+        return found
+    run = _run_text(ancestry[0])
+    if "::error::" not in run or "GITHUB_REF_NAME" not in run or "origin/main" not in run:
+        found.append("release.yml: the ancestry step does not print tag, sha and origin/main")
+    if "token" in run.lower():
+        found.append("release.yml: the ancestry step mentions a token")
+    return found
+
+
+def _publish_violations(publish: dict) -> list[str]:
+    found = []
+    steps = publish.get("steps", [])
     if "environment" not in publish:
         found.append("release.yml: publish has no environment")
-    for step in publish.get("steps", []):
+    for step in steps:
         run = _run_text(step)
+        name = step.get("name")
         if "merge-base" in run:
-            found.append(f"release.yml: publish step {step.get('name')!r} runs the ancestry check after approval")
+            found.append(f"release.yml: publish step {name!r} runs ancestry after approval")
         if "HF_TOKEN" in run and run.count("if [") != 1:
-            found.append(f"release.yml: publish step {step.get('name')!r} holds more than the one token condition")
-    token = [s for s in publish.get("steps", []) if "::error::" in _run_text(s) and "HF_TOKEN" in _run_text(s)]
+            found.append(f"release.yml: publish step {name!r} holds more than one token condition")
+    token = [s for s in steps if "::error::" in _run_text(s) and "HF_TOKEN" in _run_text(s)]
     if len(token) != 1:
         found.append(f"release.yml: publish has {len(token)} token-check steps, want exactly 1")
     elif " and " in str(token[0].get("name", "")):
@@ -105,7 +116,7 @@ jobs:
     steps:
       - name: the tagged commit is on main
         run: |
-          git merge-base --is-ancestor a origin/main || echo "::error::${GITHUB_REF_NAME} origin/main"
+          git merge-base --is-ancestor a origin/main || echo "::error::${GITHUB_REF_NAME}"
   publish:
     environment: public-release
     steps:
@@ -125,7 +136,9 @@ def main() -> int:
         releasing_violations((ROOT / "RELEASING.md").read_text(encoding="utf-8"))
         + hook_default_violations((ROOT / ".githooks/pre-push").read_text(encoding="utf-8"))
         + go_timeout_violations((ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8"))
-        + release_workflow_violations((ROOT / ".github/workflows/release.yml").read_text(encoding="utf-8"))
+        + release_workflow_violations(
+            (ROOT / ".github/workflows/release.yml").read_text(encoding="utf-8")
+        )
     )
     if release_workflow_violations(GOOD_WORKFLOW):
         print("FAIL: the known-good workflow fixture is refused", file=sys.stderr)
