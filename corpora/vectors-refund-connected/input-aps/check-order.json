@@ -1,0 +1,118 @@
+{
+  "contract": "INPUT-CONTRACT.md",
+  "layer": "input_aps",
+  "order": [
+    {
+      "check": "0a",
+      "verdict": "NOT_ESTABLISHED:input-files-missing"
+    },
+    {
+      "check": "0b",
+      "verdict": "REFUSED:STRICT_PARSE"
+    },
+    {
+      "check": "1",
+      "verdict": "REFUSED:TRUST_SELECTION"
+    },
+    {
+      "check": "2a",
+      "verdict": "REFUSED:INTENT_IDENTITY"
+    },
+    {
+      "check": "2b",
+      "verdict": "REFUSED:INTENT_NOT_VALID"
+    },
+    {
+      "check": "3a",
+      "verdict": "REFUSED:DECISION_COMPONENTS"
+    },
+    {
+      "check": "3b",
+      "verdict": "REFUSED:APPROVAL_ISSUER"
+    },
+    {
+      "check": "3c",
+      "verdict": "REFUSED:APPROVAL_NOT_VALID"
+    },
+    {
+      "check": "3d",
+      "verdict": "REFUSED:DECISION_NOT_BOUND"
+    },
+    {
+      "check": "3e",
+      "verdict": "REFUSED:APPROVAL_PREV"
+    },
+    {
+      "check": "3f",
+      "verdict": "REFUSED:APPROVAL_INTENT_ACTION"
+    },
+    {
+      "check": "3g",
+      "verdict": "REFUSED:APPROVAL_BEFORE_INTENT"
+    },
+    {
+      "check": "3h",
+      "verdict": "REFUSED:VERDICT_NOT_PERMIT"
+    },
+    {
+      "check": "3i",
+      "verdict": "REFUSED:DECISION_CONSTRAINTS"
+    },
+    {
+      "check": "3j",
+      "verdict": "REFUSED:APPROVAL_AFTER_CONSUMPTION"
+    },
+    {
+      "check": "3k",
+      "verdict": "REFUSED:DECISION_EXPIRED_AT_CONSUMPTION"
+    },
+    {
+      "check": "3l",
+      "verdict": "REFUSED:APPROVAL_SIGNER_REVOKED_AT_CONSUMPTION"
+    },
+    {
+      "check": "4a",
+      "verdict": "REFUSED:ACTION_INPUT"
+    },
+    {
+      "check": "4b",
+      "verdict": "REFUSED:TARGET"
+    },
+    {
+      "check": "4c",
+      "verdict": "REFUSED:ACTION_REF"
+    },
+    {
+      "check": "5a",
+      "verdict": "REFUSED:PAYLOAD_SCHEMA"
+    },
+    {
+      "check": "5b",
+      "verdict": "REFUSED:PAYLOAD_REF"
+    },
+    {
+      "check": "5c",
+      "verdict": "REFUSED:TARGET_PAYMENT_ID"
+    },
+    {
+      "check": "6",
+      "verdict": "REFUSED:DECISION_ID"
+    },
+    {
+      "check": "7a",
+      "verdict": "REFUSED:PIC_DECISION_ID"
+    },
+    {
+      "check": "7b",
+      "verdict": "REFUSED:PIC_APPROVAL_REF"
+    },
+    {
+      "check": "7c",
+      "verdict": "REFUSED:PIC_EXPIRED_AT_CONSUMPTION"
+    },
+    {
+      "check": "7d",
+      "verdict": "REFUSED:PIC_ARGS_NOT_PAYLOAD"
+    }
+  ]
+}
