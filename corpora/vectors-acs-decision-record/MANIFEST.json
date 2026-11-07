@@ -1,0 +1,231 @@
+{
+  "suite": "control-decision-conformance",
+  "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/control-decision",
+  "payloadType": "application/vnd.in-toto+json",
+  "rules": [
+    {
+      "rule": "signature",
+      "code": "signature-invalid"
+    },
+    {
+      "rule": "statement",
+      "code": "statement-malformed"
+    },
+    {
+      "rule": "verdict-shape",
+      "code": "verdict-malformed"
+    },
+    {
+      "rule": "policy-digest-present",
+      "code": "policy-digest-missing"
+    },
+    {
+      "rule": "input-digest",
+      "code": "input-digest-mismatch"
+    },
+    {
+      "rule": "policy-digest",
+      "code": "policy-digest-mismatch"
+    },
+    {
+      "rule": "verdict",
+      "code": "verdict-mismatch"
+    }
+  ],
+  "acceptedReason": "decision-bound",
+  "keyRecipe": "sha256(\"agent-evidence-control-decision-test-key/producer/v1\")",
+  "keys": {
+    "producer": {
+      "publicKey": "b69336627e6f7a6cc7ebb2a07851b36e32d30f438114a12d17fddfbeb8f1c2be"
+    }
+  },
+  "keyNote": "PUBLISHED TEST KEY, derived from a fixed seed in gen_vectors.py. It signs every member except the one that shows a foreign key.",
+  "trustInputs": "the consumer supplies the producer key and the verdict it got by replaying the disclosed context, manifest and bundle through the named runtime; neither is read from the record",
+  "observedRuns": [
+    {
+      "ran": "agent-control-spec==0.4.0a4 (agent-hooks-sdk 0.1.0a5), ActivatedPolicy.from_memory, evaluate at pre_tool_call",
+      "against": "the four contexts, the manifest and the Rego bundle in observed/run-acs-0.4.0a4.json",
+      "environment": "run/pyproject.toml with run/uv.lock",
+      "command": "uv run python run_acs.py ../observed/run-acs-0.4.0a4.json",
+      "output": "observed/run-acs-0.4.0a4.json",
+      "outputSha256": "2b450b22831da211ab3b5dfa140ea03ae3a19613e97d6b5e54229a73dad3f038",
+      "verdicts": {
+        "read-allowed": {
+          "decision": "allow",
+          "reason": "tool_permitted"
+        },
+        "delete-denied": {
+          "decision": "deny",
+          "reason": "destructive_tool"
+        },
+        "payment-escalated": {
+          "approval": {},
+          "decision": "deny",
+          "reason": "payment_needs_approval"
+        },
+        "payment-allowed": {
+          "decision": "allow",
+          "reason": "tool_permitted"
+        }
+      },
+      "use": "every accept member is that run's context, policy and verdict; every member's replayedVerdict is that run's verdict for its case"
+    }
+  ],
+  "counts": {
+    "accept": 4,
+    "reject": 11
+  },
+  "vectors": [
+    {
+      "id": "accept-read-allowed",
+      "path": "members/accept-read-allowed.json",
+      "case": "read-allowed",
+      "expected": {
+        "verdict": "accept",
+        "code": null
+      },
+      "shows": "the recorded run's allow verdict, bound to its input and policy"
+    },
+    {
+      "id": "accept-delete-denied",
+      "path": "members/accept-delete-denied.json",
+      "case": "delete-denied",
+      "expected": {
+        "verdict": "accept",
+        "code": null
+      },
+      "shows": "the recorded run's deny verdict, bound to its input and policy"
+    },
+    {
+      "id": "accept-payment-escalated",
+      "path": "members/accept-payment-escalated.json",
+      "case": "payment-escalated",
+      "expected": {
+        "verdict": "accept",
+        "code": null
+      },
+      "shows": "the recorded run's deny verdict, bound to its input and policy"
+    },
+    {
+      "id": "accept-payment-allowed",
+      "path": "members/accept-payment-allowed.json",
+      "case": "payment-allowed",
+      "expected": {
+        "verdict": "accept",
+        "code": null
+      },
+      "shows": "the recorded run's allow verdict, bound to its input and policy"
+    },
+    {
+      "id": "reject-input-args-changed",
+      "path": "members/reject-input-args-changed.json",
+      "case": "delete-denied",
+      "expected": {
+        "verdict": "reject",
+        "code": "input-digest-mismatch"
+      },
+      "shows": "the disclosed tool arguments are not the ones the record's input digest names"
+    },
+    {
+      "id": "reject-input-args-amount-lowered",
+      "path": "members/reject-input-args-amount-lowered.json",
+      "case": "payment-escalated",
+      "expected": {
+        "verdict": "reject",
+        "code": "input-digest-mismatch"
+      },
+      "shows": "a lowered payment amount disclosed under the escalated record"
+    },
+    {
+      "id": "reject-verdict-flipped-to-allow",
+      "path": "members/reject-verdict-flipped-to-allow.json",
+      "case": "delete-denied",
+      "expected": {
+        "verdict": "reject",
+        "code": "verdict-mismatch"
+      },
+      "shows": "the record says allow; replaying the bound input and policy denies"
+    },
+    {
+      "id": "reject-verdict-approval-dropped",
+      "path": "members/reject-verdict-approval-dropped.json",
+      "case": "payment-escalated",
+      "expected": {
+        "verdict": "reject",
+        "code": "verdict-mismatch"
+      },
+      "shows": "the record drops the approval block, so a liftable deny reads as final"
+    },
+    {
+      "id": "reject-verdict-reason-changed",
+      "path": "members/reject-verdict-reason-changed.json",
+      "case": "read-allowed",
+      "expected": {
+        "verdict": "reject",
+        "code": "verdict-mismatch"
+      },
+      "shows": "same decision, a reason the policy never returned"
+    },
+    {
+      "id": "reject-policy-bundle-digest-missing",
+      "path": "members/reject-policy-bundle-digest-missing.json",
+      "case": "read-allowed",
+      "expected": {
+        "verdict": "reject",
+        "code": "policy-digest-missing"
+      },
+      "shows": "the record names no policy bundle digest"
+    },
+    {
+      "id": "reject-policy-manifest-digest-missing",
+      "path": "members/reject-policy-manifest-digest-missing.json",
+      "case": "delete-denied",
+      "expected": {
+        "verdict": "reject",
+        "code": "policy-digest-missing"
+      },
+      "shows": "the record names no manifest digest"
+    },
+    {
+      "id": "reject-policy-bundle-swapped",
+      "path": "members/reject-policy-bundle-swapped.json",
+      "case": "delete-denied",
+      "expected": {
+        "verdict": "reject",
+        "code": "policy-digest-mismatch"
+      },
+      "shows": "the disclosed policy is not the one the record's bundle digest names"
+    },
+    {
+      "id": "reject-verdict-decision-unknown",
+      "path": "members/reject-verdict-decision-unknown.json",
+      "case": "read-allowed",
+      "expected": {
+        "verdict": "reject",
+        "code": "verdict-malformed"
+      },
+      "shows": "a decision outside allow, deny and transform"
+    },
+    {
+      "id": "reject-predicate-type-wrong",
+      "path": "members/reject-predicate-type-wrong.json",
+      "case": "read-allowed",
+      "expected": {
+        "verdict": "reject",
+        "code": "statement-malformed"
+      },
+      "shows": "the Statement names another predicate type"
+    },
+    {
+      "id": "reject-signature-other-key",
+      "path": "members/reject-signature-other-key.json",
+      "case": "read-allowed",
+      "expected": {
+        "verdict": "reject",
+        "code": "signature-invalid"
+      },
+      "shows": "signed by a key the consumer did not name"
+    }
+  ],
+  "corpusDigest": "f3706adc10e043478b94813243786db998be99f8de83f49a2fa495d27b330cc4"
+}
