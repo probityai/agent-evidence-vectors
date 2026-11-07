@@ -3058,7 +3058,8 @@ def _zero_settled_later(reported_at: str) -> Callable[[], list[dict[str, Any]]]:
         issued = datetime.datetime.fromisoformat(reported_at.replace("Z", "+00:00"))
         later["issuedAt"] = (issued + datetime.timedelta(seconds=9)).strftime("%Y-%m-%dT%H:%M:%SZ")
         read_at = datetime.datetime.fromisoformat(reported_at.replace("Z", "+00:00"))
-        _read_state_at(later, (read_at - datetime.timedelta(seconds=2)).strftime("%Y-%m-%dT%H:%M:%SZ"))
+        read_before = read_at - datetime.timedelta(seconds=2)
+        _read_state_at(later, read_before.strftime("%Y-%m-%dT%H:%M:%SZ"))
         seal_commitment(later)
         return [_named(settling, "zero-settled-call"), _named(later, "zero-settled-later")]
 

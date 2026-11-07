@@ -1066,7 +1066,9 @@ def _zero_settlement_held(consumption: dict[str, Any], decision: dict[str, Any])
     permit's nonce is unspent, so the facilitator can still settle it up to its
     maximum until the deadline."""
     settled = consumption.get("settled")
-    if settled is None or settled["amount"] != 0 or "zero-settled-deadline" not in CONSUMPTION_CHECKS:
+    if settled is None or settled["amount"] != 0:
+        return
+    if "zero-settled-deadline" not in CONSUMPTION_CHECKS:
         return
     held = held_for(consumption, decision)
     if held is None or "deadline" not in held:
