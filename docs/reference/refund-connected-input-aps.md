@@ -185,7 +185,9 @@ nothing downstream may be claimed from this case.
 - It does not judge the run. The manifest's `verifierContract` declares this document as the
   interface for the `input_aps` layer only; a verdict from it says nothing about the other
   layers.
-- It does not cover `input_pic`, `admission`, `signature_trust`, `execution` or
-  `observed_effect`. Each of those would need its own document, and the two layers that
+- It does not cover `input_pic`, which has its own document,
+  [refund-connected-input-pic.md](refund-connected-input-pic.md), and which supplies three
+  of the four caller values above. Nor does it cover `admission`, `signature_trust`,
+  `execution` or `observed_effect`. Each of those would need its own document, and the two layers that
   the corpus exercises least — `execution` and `observed_effect` — would be the least
   scoreable ones to start with.
