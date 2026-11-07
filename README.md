@@ -26,7 +26,7 @@ Run every vector in the default corpus through the bundled reference verifier. Y
 uvx agent-evidence-vectors==0.36.1
 ```
 
-At v0.36.1 the default corpus is suiteRevision 32, and the run prints one row per vector and ends with:
+At v0.36.3 the default corpus is suiteRevision 32, and the run prints one row per vector and ends with:
 ```text
 totals: 288 vectors, 288 pass, 0 fail; report written to conformance-report.json
 ```
@@ -57,7 +57,7 @@ The harness calls your executable with a vector-file path. Return a verdict thro
 Use the [GitHub Action](action.yml) to run the same check in your build and retain its report. The [CI guide](docs/guides/runner.md) gives a workflow step and the available inputs.
 
 ```yaml
-- uses: probityai/agent-evidence-vectors@v0.36.1
+- uses: probityai/agent-evidence-vectors@v0.36.3
   with:
     verifier: VERIFIER_COMMAND --json
 ```
@@ -67,7 +67,7 @@ Replace VERIFIER_COMMAND with your verifier's command.
 A runtime that retries tool calls can run the [uncertain-effect scenarios](corpora/vectors-uncertain-effect/README.md): a write that commits and then loses its reply must not run twice.
 
 ```yaml
-- uses: probityai/agent-evidence-vectors@v0.36.1
+- uses: probityai/agent-evidence-vectors@v0.36.3
   with:
     corpus: vectors-uncertain-effect
     runtime: ADAPTER_COMMAND

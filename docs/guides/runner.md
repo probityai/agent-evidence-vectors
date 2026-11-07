@@ -4,7 +4,7 @@ Build a verifier, then pass its command to the harness. After the signed release
 
 ```yaml
 - run: GOWORK=off go build -o aee-verify ./cmd/aee-verify
-- uses: probityai/agent-evidence-vectors@v0.36.1
+- uses: probityai/agent-evidence-vectors@v0.36.3
   with:
     verifier: ./aee-verify -validity-only --json
 ```
