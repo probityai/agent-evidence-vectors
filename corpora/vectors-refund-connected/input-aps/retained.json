@@ -1,0 +1,72 @@
+[
+  {
+    "case": "source/j01-connected-20261028-r1/cases/j01",
+    "consumed_at": "2026-10-28T21:45:36.000Z",
+    "id": "r1-j01",
+    "input_aps": "ESTABLISHED",
+    "instant_from": "admission record"
+  },
+  {
+    "case": "source/j01-connected-20261028-r1/cases/n1b-aps-payload",
+    "consumed_at": "2026-10-28T21:45:38.899Z",
+    "id": "r1-n1b-aps-payload",
+    "input_aps": "REFUSED:PAYLOAD_REF",
+    "instant_from": "pic evaluated_at"
+  },
+  {
+    "case": "source/j01-connected-20261028-r1/cases/n3-reissue",
+    "consumed_at": "2026-10-28T21:45:40.698Z",
+    "id": "r1-n3-reissue",
+    "input_aps": "ESTABLISHED",
+    "instant_from": "pic evaluated_at"
+  },
+  {
+    "case": "source/j01-connected-20261028-r1/cases/n3b-old-pic",
+    "consumed_at": "2026-10-28T21:45:36.000Z",
+    "id": "r1-n3b-old-pic",
+    "input_aps": "REFUSED:APPROVAL_AFTER_CONSUMPTION",
+    "instant_from": "admission record"
+  },
+  {
+    "case": "source/j01-connected-20261028-r1/cases/n4-lost-ack",
+    "consumed_at": "2026-10-28T21:45:44.000Z",
+    "id": "r1-n4-lost-ack",
+    "input_aps": "ESTABLISHED",
+    "instant_from": "admission record"
+  },
+  {
+    "case": "source/j01-connected-20261028-r2/cases/j01",
+    "consumed_at": "2026-10-28T21:45:47.000Z",
+    "id": "r2-j01",
+    "input_aps": "ESTABLISHED",
+    "instant_from": "admission record"
+  },
+  {
+    "case": "source/j01-connected-20261028-r2/cases/n1b-aps-payload",
+    "consumed_at": "2026-10-28T21:45:49.831Z",
+    "id": "r2-n1b-aps-payload",
+    "input_aps": "REFUSED:PAYLOAD_REF",
+    "instant_from": "pic evaluated_at"
+  },
+  {
+    "case": "source/j01-connected-20261028-r2/cases/n3-reissue",
+    "consumed_at": "2026-10-28T21:45:51.883Z",
+    "id": "r2-n3-reissue",
+    "input_aps": "ESTABLISHED",
+    "instant_from": "pic evaluated_at"
+  },
+  {
+    "case": "source/j01-connected-20261028-r2/cases/n3b-old-pic",
+    "consumed_at": "2026-10-28T21:45:47.000Z",
+    "id": "r2-n3b-old-pic",
+    "input_aps": "REFUSED:APPROVAL_AFTER_CONSUMPTION",
+    "instant_from": "admission record"
+  },
+  {
+    "case": "source/j01-connected-20261028-r2/cases/n4-lost-ack",
+    "consumed_at": "2026-10-28T21:45:55.000Z",
+    "id": "r2-n4-lost-ack",
+    "input_aps": "ESTABLISHED",
+    "instant_from": "admission record"
+  }
+]

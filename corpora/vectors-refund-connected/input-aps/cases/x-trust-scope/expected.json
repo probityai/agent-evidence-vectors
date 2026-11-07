@@ -1,0 +1,13 @@
+{
+  "base": "source/j01-connected-20261028-r2/cases/j01",
+  "check": "1",
+  "consumed_at": "2026-10-28T21:45:47.000Z",
+  "edit": "trust/aps-consumption.json scope set to payments:charge",
+  "expected": {
+    "input_aps": "REFUSED:TRUST_SELECTION"
+  },
+  "id": "x-trust-scope",
+  "packaged_reader": {
+    "input_aps": "REFUSED:TRUST_SELECTION"
+  }
+}

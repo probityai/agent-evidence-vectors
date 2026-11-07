@@ -348,6 +348,10 @@ OWNED = (
     ("corpora/vectors-dispatch-fence", "MANIFEST.json"),
     ("corpora/vectors-dispatch-fence/cases", "**/record.json"),
     ("corpora/vectors-refund-connected", "MANIFEST.json"),
+    # The input_aps contract fixtures: the check order, the retained cases with
+    # their frozen instants, and one case directory and expected.json per fixture.
+    ("corpora/vectors-refund-connected/input-aps", "*.json"),
+    ("corpora/vectors-refund-connected/input-aps/cases", "**/*.json"),
     ("corpora/vectors-aggregate-accounting", "MANIFEST.json"),
     ("corpora/vectors-aggregate-accounting/cases", "**/record.json"),
     ("corpora/vectors-uncertain-effect", "MANIFEST.json"),
