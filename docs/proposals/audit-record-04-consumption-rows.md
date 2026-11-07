@@ -21,21 +21,21 @@ sit in the README only as well.
 
 ## What `-04` needs
 
-1. Section 5.9 lists `payee` on `consumption` and on each `held` entry, and
-   `settled` with its five members, and keeps "and no other" over the extended
-   list.
-2. The rules the README states for `CS41` to `CS49` go into the text: a retry
-   pays the held entry's payee; another payee under the same key is
-   `consumption-key-reused`; settled `source` is `chain`; an `upto` permit that
-   settles at or below its maximum is valid; a settled amount above `requested`,
-   or another asset or payee, is refused with its own code; `consumed` takes the
-   settled amount; a later record that counts less is
-   `consumption-set-settled-uncounted`.
-3. The refusal-code table names each code the new rules use.
-4. Appendix B carries `CS18` to `CS49` as `MANIFEST.json` states them.
+- Section 5.9 lists `payee` on `consumption` and on each `held` entry, and
+  `settled` with its five members, and keeps "and no other" over the extended
+  list.
+- The rules the README states for `CS41` to `CS49` go into the text: a retry
+  pays the held entry's payee; another payee under the same key is
+  `consumption-key-reused`; settled `source` is `chain`; an `upto` permit that
+  settles at or below its maximum is valid; a settled amount above `requested`,
+  or another asset or payee, is refused with its own code; `consumed` takes the
+  settled amount; a later record that counts less is
+  `consumption-set-settled-uncounted`.
+- The refusal-code table names each code the new rules use.
+- Appendix B carries `CS18` to `CS49` as `MANIFEST.json` states them.
 
 The staged `-04` (`research/1105-wg-leadership-2026-10-29/outbound/ietf-audit/draft-04`)
-carries none of items 1 to 4 yet. It is the same Section 5.9 as `-03`.
+carries none of the items above yet. It is the same Section 5.9 as `-03`.
 
 ## Not a claim about `-03`
 
