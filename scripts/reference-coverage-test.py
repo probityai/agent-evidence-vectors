@@ -38,20 +38,26 @@ def committed_status() -> dict[str, Any]:
 
 
 def case_a_shield_states_n_of_m_and_a_full_corpus_is_green() -> None:
+    def corpus(ident: str, checked: int, total: int) -> dict:
+        return {"id": ident, "checked": checked, "total": total, "disagreements": 0}
+
+    corpora = [corpus("a", 3, 3), corpus("b", 2, 6)]
     status = {
         "verifier": FROZEN_ID,
-        "checked": 5,
-        "total": 9,
-        "corpora": [
-            {"id": "a", "checked": 3, "total": 3, "disagreements": 0},
-            {"id": "b", "checked": 2, "total": 6, "disagreements": 0},
-        ],
+        "checked": sum(c["checked"] for c in corpora),
+        "total": sum(c["total"] for c in corpora),
+        "corpora": corpora,
     }
     files = COVERAGE.render(status)
-    assert "5 of 9 members" in files[COVERAGE.SHIELD], "the overall shield does not state N of M"
+    def members(checked: int, total: int) -> str:
+        return f"{checked} of {total} members"
+
+    assert members(status["checked"], status["total"]) in files[COVERAGE.SHIELD], (
+        "the overall shield does not state N of M"
+    )
     one, two = (files[COVERAGE.PER_CORPUS / f"{name}.svg"] for name in ("a", "b"))
-    assert "3 of 3 members" in one and "#2ea44f" in one, "a fully covered corpus is not green"
-    assert "2 of 6 members" in two and "#2ea44f" not in two, "a partly covered corpus is green"
+    assert members(3, 3) in one and "#2ea44f" in one, "a fully covered corpus is not green"
+    assert members(2, 6) in two and "#2ea44f" not in two, "a partly covered corpus is green"
 
 
 def case_every_registered_corpus_has_a_row() -> None:
