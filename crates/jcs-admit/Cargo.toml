@@ -17,7 +17,7 @@ repository = "https://github.com/probityai/agent-evidence-vectors"
 # /tools/humanizer_config holds the writing-gate Layer 3 for this crate's own prose: a
 # destination descriptor plus a gitignored capture of other crates' READMEs. It calibrates the
 # documentation and is not part of the library, so it does not ship.
-exclude = ["/scripts", "/tools/humanizer_config", "/interop", "/npm"]
+exclude = ["/scripts", "/tools/humanizer_config", "/interop", "/npm", "/tests/corpus_drift.rs"]
 
 [features]
 default = []

@@ -94,4 +94,39 @@ for (const entry of cases.rejectCases) {
   if (profile === "bounded" || entry.jcsError) runVerifier(entry, null);
 }
 
-console.log(`${cases.canonicalCases.length} JCS byte vectors checked${command ? ` against ${command[0]} (${profile})` : ""}`);
+// Drift cases: bytes presented as canonical that RFC 8785 does not print. The
+// ECMAScript oracle must give the pinned canonical bytes for the value, and the
+// presented bytes must differ from them. A verifier given the presented text as
+// input must return the pinned bytes, never echo what it was given.
+for (const entry of cases.driftCases) {
+  const value = JSON.parse(entry.input);
+  assertScalars(value);
+  const pinned = Buffer.from(entry.canonicalHex, "hex");
+  const presented = Buffer.from(entry.presented, "utf8");
+  if (
+    !Buffer.from(canonical(value), "utf8").equals(pinned) ||
+    !Buffer.from(canonical(JSON.parse(entry.presented)), "utf8").equals(pinned) ||
+    createHash("sha256").update(pinned).digest("hex") !== entry.sha256 ||
+    presented.equals(pinned)
+  ) {
+    throw new Error(`${entry.id}: drift case disagrees with the ECMAScript oracle`);
+  }
+  runVerifier({ id: entry.id, input: entry.presented }, pinned);
+}
+
+// Depth cases: the cap of 128 nested containers is this corpus's admission
+// profile, not RFC 8785, so a verifier is held to it under --profile bounded.
+for (const entry of cases.depthCases) {
+  JSON.parse(entry.input);
+  if (entry.expect === "accept") {
+    const pinned = Buffer.from(entry.canonicalHex, "hex");
+    if (createHash("sha256").update(pinned).digest("hex") !== entry.sha256) {
+      throw new Error(`${entry.id}: pinned digest disagrees with the pinned bytes`);
+    }
+    if (profile === "bounded") runVerifier(entry, pinned);
+  } else if (profile === "bounded") {
+    runVerifier(entry, null);
+  }
+}
+
+console.log(`${cases.canonicalCases.length} JCS byte vectors, ${cases.driftCases.length} drift vectors and ${cases.depthCases.length} depth vectors checked${command ? ` against ${command[0]} (${profile})` : ""}`);

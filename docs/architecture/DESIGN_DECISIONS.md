@@ -84,6 +84,7 @@ gate will not invent one.
 | `corpusreaders/restartrecords.go` `rrPretty` | 18 | Type dispatch over every JSON value kind CPython's `json.dumps(indent=2, sort_keys=True, ensure_ascii=True)` writes, one arm each, with the float refusal shared with the compact writer. |
 | `corpusreaders/restartrecords.go` `rrR3Shape` | 18 | Member-by-member shape check of the R3 restart-record kind, each member with its own presence and type rule, mirroring the Python checker arm for arm. |
 | `corpusreaders/monitorcoverage.go` `mcDecide` | 18 | The ordered rule table of `monitor-coverage/v1`: nine refusal rules checked in specification order, first failure wins. The branch count is the conjunctions inside the rule predicates (clean verdict, vantage, window, coverage completeness), and the Python checker this reader is held to has the same rules in the same order. |
+| `corpusreaders/controldecision.go` `cdDecide` | 26 | The ordered rule table of the `control-decision/v1` record: seven refusal rules checked in specification order (signature, statement, verdict shape, policy digest present, input digest, policy digest, replayed verdict), first failure wins. The branch count is the rule count plus the type assertions each rule makes on decoded JSON, and the Python reader in the corpus this Go rail is held to has the same rules in the same order. |
 
 The Python generators' functions carrying `# noqa: C901` are explained in
 [`docs/complexity-rationales.toml`](../complexity-rationales.toml), and

@@ -72,6 +72,94 @@ func Reject() ([]Vector, error) {
 	return reject, err
 }
 
+// Drift is bytes that a producer printed and presented as the canonical form
+// of a value, which RFC 8785 does not print that way. A check that these bytes
+// are canonical must answer no, and canonicalizing Input must give Canonical.
+type Drift struct {
+	// ID is the case's identifier, such as "drift-html-less-than".
+	ID string
+	// Family is "html-escape", "non-ascii-escape" or "number-format".
+	Family string
+	// Source names the printer the bytes come from, such as "go-encoding-json".
+	Source string
+	// Input is the JSON text of the value.
+	Input []byte
+	// Presented is the drifted output, which is not canonical.
+	Presented []byte
+	// Canonical is the RFC 8785 output for the value.
+	Canonical []byte
+}
+
+// SourceGo marks a [Drift] whose Presented bytes are what Go's encoding/json
+// prints for the value.
+const SourceGo = "go-encoding-json"
+
+// DepthCap is the nesting depth the corpus admits. Input nested one level
+// deeper must be refused.
+const DepthCap = 128
+
+// Drifts returns every drift case, each checked against its SHA-256.
+func Drifts() ([]Drift, error) {
+	var cases byteCases
+	if err := readJSON(byteCorpus+"/cases.json", &cases); err != nil {
+		return nil, err
+	}
+	var out []Drift
+	for _, c := range cases.DriftCases {
+		canonical, err := hex.DecodeString(c.CanonicalHex)
+		if err != nil || len(canonical) == 0 {
+			return nil, fmt.Errorf("%s case %s: no canonical bytes", byteCorpus, c.ID)
+		}
+		if err := checkDigest(byteCorpus+" case "+c.ID, canonical, c.SHA256); err != nil {
+			return nil, err
+		}
+		out = append(out, Drift{
+			ID: c.ID, Family: c.Family, Source: c.Source,
+			Input: []byte(c.Input), Presented: []byte(c.Presented), Canonical: canonical,
+		})
+	}
+	return out, nil
+}
+
+// TooDeep returns the cases nested past [DepthCap], which an admission gate
+// with that cap must refuse. They are not RFC 8785 refusals, so [Reject] does
+// not carry them. A case nested exactly [DepthCap] deep is in [DepthAdmitted].
+func TooDeep() ([]Vector, error) {
+	reject, _, err := depthCases()
+	return reject, err
+}
+
+// DepthAdmitted returns the cases nested exactly [DepthCap] deep, which an
+// admission gate with that cap must accept and canonicalize to Canonical.
+func DepthAdmitted() ([]Vector, error) {
+	_, accept, err := depthCases()
+	return accept, err
+}
+
+func depthCases() (reject, accept []Vector, err error) {
+	var cases byteCases
+	if err := readJSON(byteCorpus+"/cases.json", &cases); err != nil {
+		return nil, nil, err
+	}
+	for _, c := range cases.DepthCases {
+		v := Vector{ID: c.ID, Corpus: byteCorpus, Input: []byte(c.Input)}
+		if c.Expect == "reject" {
+			reject = append(reject, v)
+			continue
+		}
+		canonical, err := hex.DecodeString(c.CanonicalHex)
+		if err != nil || len(canonical) == 0 {
+			return nil, nil, fmt.Errorf("%s case %s: no canonical bytes", byteCorpus, c.ID)
+		}
+		if err := checkDigest(byteCorpus+" case "+c.ID, canonical, c.SHA256); err != nil {
+			return nil, nil, err
+		}
+		v.Canonical = canonical
+		accept = append(accept, v)
+	}
+	return reject, accept, nil
+}
+
 type a2aManifest struct {
 	Vectors []struct {
 		Path   string `json:"path"`
@@ -108,6 +196,22 @@ type byteCases struct {
 		Input    string `json:"input"`
 		JCSError string `json:"jcsError"`
 	} `json:"rejectCases"`
+	DriftCases []struct {
+		ID           string `json:"id"`
+		Family       string `json:"family"`
+		Source       string `json:"source"`
+		Input        string `json:"input"`
+		Presented    string `json:"presented"`
+		CanonicalHex string `json:"canonicalHex"`
+		SHA256       string `json:"sha256"`
+	} `json:"driftCases"`
+	DepthCases []struct {
+		ID           string `json:"id"`
+		Input        string `json:"input"`
+		Expect       string `json:"expect"`
+		CanonicalHex string `json:"canonicalHex"`
+		SHA256       string `json:"sha256"`
+	} `json:"depthCases"`
 }
 
 func load() (accept, reject []Vector, err error) {

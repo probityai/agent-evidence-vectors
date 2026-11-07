@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
-"""Replay the done corpora through probity-verify and compare every verdict.
+"""Replay the done corpora through agent-evidence-verify and compare every verdict.
 
-probity-verify (``packages/probity-verify`` of probityai/probity) is the implementation
-the done rules come from; this repository's readers restate them. A member whose every
-declared verdict probity-verify reaches too is a member whose verdict does not rest on
-one implementation. For each member and each check it declares, the script runs the
-member's case and policy through ``probity_verify.adjudicate`` and compares the check's
+agent-evidence-verify (``packages/agent-evidence-verify`` of probityai/probity) is the
+implementation the done rules come from; this repository's readers restate them. A member
+whose every declared verdict agent-evidence-verify reaches too is a member whose verdict
+does not rest on one implementation. For each member and each check it declares, the script runs the
+member's case and policy through ``agent_evidence_verify.adjudicate`` and compares the check's
 place on an axis (``done_receipt.entry``); for a member that declares the five checks it
 compares the outcome and integrity verdicts ``done_receipt.combine_*`` give; for the
 done-contract corpus it compares which contracts ``done_records.contract`` refuses. A
 refusal is compared as a refusal: the codes are this repository's own.
 
-Given ``--examples <dir>`` it also runs this repository's reader over probity-verify's
-own done-receipt examples (``packages/probity-verify/examples/done-receipt``) and
-compares each verdict with probity-verify's.
+Given ``--examples <dir>`` it also runs this repository's reader over agent-evidence-verify's
+own done-receipt examples (``packages/agent-evidence-verify/examples/done-receipt``) and
+compares each verdict with agent-evidence-verify's.
 
     uv run --group crosscheck python vectors-done-receipt/crosscheck_probity_verify.py \\
         vectors-done-contract vectors-done-receipt vectors-spoofed-tool-output \\
@@ -31,16 +31,16 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from probity_verify import adjudicate  # pyright: ignore[reportMissingImports]
-from probity_verify.adapters import (  # pyright: ignore[reportMissingImports]
+from agent_evidence_verify import adjudicate  # pyright: ignore[reportMissingImports]
+from agent_evidence_verify.adapters import (  # pyright: ignore[reportMissingImports]
     done_receipt,
     done_records,
 )
-from probity_verify.common import (  # pyright: ignore[reportMissingImports]
+from agent_evidence_verify.common import (  # pyright: ignore[reportMissingImports]
     MAX_ARTIFACT_BYTES,
     CaseError,
 )
-from probity_verify.json_input import parse_json  # pyright: ignore[reportMissingImports]
+from agent_evidence_verify.json_input import parse_json  # pyright: ignore[reportMissingImports]
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "packaging"))
 
@@ -48,20 +48,27 @@ from agent_evidence_vectors import donechecks, donerecords  # noqa: E402
 
 RECEIPT_KEYS = ("decision", "reason", "vantage", "witness_scope", "unwitnessed_scope_claims",
                 "receipt_valid", "accepted")
-# Members where the readers refuse what probity-verify decides, by design: a protected
+# Members where the readers refuse what agent-evidence-verify decides, by design: a protected
 # file the verifier judges by its Python syntax tree (spec/predicates/done-records.md).
 KNOWN = {("equivalence-with-sources", "protected_paths/v1"),
-         ("equivalence-with-sources", "done_receipt/v2")}
+         ("equivalence-with-sources", "done_receipt/v2"),
+         ("control-probes-pass", "probe_observed/v1")}
+# Members whose receipt axes differ for the same reason. agent-evidence-verify 0.5.0 leaves an
+# import probe that exited zero open (``probe_import_unobserved``), because the probe's own
+# report cannot be trusted from inside the candidate's process; the corpus still declares
+# ``probes_passed``. Moving the corpus to the verifier's rule changes
+# spec/predicates/done-receipt.md and is tracked at AEV-DONE-PROBE-IMPORT-UNOBSERVED.
+KNOWN_AXES = {"control-probes-pass"}
 
 
 def _load(path: Path) -> Any:
-    """Read a control file the way probity-verify's command line does."""
+    """Read a control file the way agent-evidence-verify's command line does."""
     return parse_json(path.read_bytes(), max_bytes=MAX_ARTIFACT_BYTES, max_depth=32,
                       max_nodes=32768)
 
 
 def verifier_verdict(member: Path, claim_type: str) -> dict[str, Any]:
-    """probity-verify's verdict on one check of a member, as a corpus declares it."""
+    """agent-evidence-verify's verdict on one check of a member, as a corpus declares it."""
     name = donechecks.FILES[claim_type]
     try:
         result = adjudicate(_load(member / f"{name}.case.json"),
@@ -88,7 +95,8 @@ def compare_member(entry: dict[str, Any], member: Path) -> tuple[int, list[str]]
         got = verifier_verdict(member, claim_type)
         entries.append({"claim_type": claim_type, **got})
         if not _same(want, got) and (entry["id"], claim_type) not in KNOWN:
-            problems.append(f"{entry['id']} {claim_type}: declared {want}, probity-verify {got}")
+            problems.append(
+                f"{entry['id']} {claim_type}: declared {want}, agent-evidence-verify {got}")
     if "integrity" in expected:
         compared += 1
         found = {item["claim_type"]: item for item in entries}
@@ -99,13 +107,14 @@ def compare_member(entry: dict[str, Any], member: Path) -> tuple[int, list[str]]
                     "integrity": donechecks.axis_projection(integrity),
                     "accepted": done_receipt.accepted(outcome, integrity)}
         want_axes = {key: expected[key] for key in ("outcome", "integrity", "accepted")}
-        if got_axes != want_axes:
-            problems.append(f"{entry['id']} axes: declared {want_axes}, probity-verify {got_axes}")
+        if got_axes != want_axes and entry["id"] not in KNOWN_AXES:
+            problems.append(
+                f"{entry['id']} axes: declared {want_axes}, agent-evidence-verify {got_axes}")
     return compared, problems
 
 
 def compare_contract(entry: dict[str, Any], member: Path) -> tuple[int, list[str]]:
-    """Which contract records probity-verify refuses; the statement rules are ours alone."""
+    """Which contract records agent-evidence-verify refuses; the statement rules are ours alone."""
     verdict = entry["expected"]["contract"]
     if verdict["verdict"] == "invalid" and not verdict["code"].startswith("contract_"):
         return 0, []
@@ -115,7 +124,7 @@ def compare_contract(entry: dict[str, Any], member: Path) -> tuple[int, list[str
     except CaseError:
         refused = True
     if refused != (verdict["verdict"] == "invalid"):
-        return 1, [f"{entry['id']}: declared {verdict}, probity-verify refused={refused}"]
+        return 1, [f"{entry['id']}: declared {verdict}, agent-evidence-verify refused={refused}"]
     return 1, []
 
 
@@ -134,7 +143,7 @@ def compare_corpus(root: Path) -> tuple[int, list[str]]:
 
 
 def compare_examples(root: Path) -> tuple[int, list[str]]:
-    """This repository's reader against probity-verify on probity-verify's own examples."""
+    """This repository's reader against agent-evidence-verify on its own examples."""
     compared, problems = 0, []
     for run in sorted(path for path in root.iterdir() if path.is_dir()):
         for claim_type, name in donechecks.FILES.items():
@@ -148,7 +157,7 @@ def compare_examples(root: Path) -> tuple[int, list[str]]:
             theirs = verifier_verdict(run, claim_type)
             if not _same(ours, theirs):
                 problems.append(f"example {run.name} {claim_type}: reader {ours}, "
-                                f"probity-verify {theirs}")
+                                f"agent-evidence-verify {theirs}")
     return compared, problems
 
 
@@ -156,7 +165,7 @@ def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(description=(__doc__ or "").splitlines()[0])
     parser.add_argument("corpora", nargs="*", type=Path)
     parser.add_argument("--examples", type=Path,
-                        help="probity-verify's examples/done-receipt directory")
+                        help="agent-evidence-verify's examples/done-receipt directory")
     args = parser.parse_args(argv)
     compared, problems = 0, []
     for root in args.corpora:

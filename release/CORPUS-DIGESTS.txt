@@ -4,8 +4,9 @@
 29b3f2c5a9c2e6b07dc7e925b13c81563e2efd407a62ce05df513fca04e9361c  vectors-a2a-jcs-v01/MANIFEST.json  a2a-agent-card-canonicalization-conformance  vectors=57  no-suiteRevision
 aa8deffa934df48d43f228e48e299be2a136aef32ff5a55d18a2ef99e0286740  vectors-aci/MANIFEST.json  aci  vectors=26  no-suiteRevision
 aa6859a34ffcf42a7600657b86bfbf7b9e8651f58344af33dafaeb493c281d0a  vectors-acs-core/MANIFEST.json  acs-core-negative-conformance  vectors=144  no-suiteRevision
+3f4bf1ae704a35b247e2292a98d861cdc082ec8fac50d275efc43436bbbe419f  vectors-acs-decision-record/MANIFEST.json  control-decision-conformance  vectors=15  no-suiteRevision
 17caeb3817557d779266de29ba9a65ebf553f7503925de7e7b5a01126ede5446  vectors-admission/MANIFEST.json  adversarial-execution-evidence-admission  vectors=22  no-suiteRevision
-eee834bdb4c3f1f846f1026524472f89b7ee2b8922440eeca5520e1446a1bb52  vectors-agent-audit-record/MANIFEST.json  agent-audit-record-conformance  vectors=217  no-suiteRevision
+012bdcbc30b6a0efcd46d12f1459cbe80bfabfce24c7d66418a729b53caeb446  vectors-agent-audit-record/MANIFEST.json  agent-audit-record-conformance  vectors=222  no-suiteRevision
 99c46fa19029691a1bdfb9f78f80c457639d9df985bf05e9609255006f07dd6e  vectors-agent-card-receipt/MANIFEST.json  agent-card-receipt/v1  vectors=44  no-suiteRevision
 27623d6a4a10f4cd0aedc1145182c276456e619c3ae771ec646746ef823f5ec4  vectors-agent-change-admission/MANIFEST.json  agent-change-admission/v1  vectors=35  no-suiteRevision
 a2674abfcf5b0edfaa8fe0f68be393066d962aee95c24362e00ea45ddbed1efc  vectors-agent-decision/MANIFEST.json  agent-decision-conformance  vectors=41  no-suiteRevision
@@ -40,6 +41,7 @@ b19891f16d84810e236f7f5968acdb891c40b7dacbfbec4ec4cb613dc844f1ca  vectors-grade-
 48ada7df04b9770699ba6e22239f189b35ae6ce096970d2f0688cd08ef7fa90c  vectors-identity-binding/MANIFEST.json  agent-did-identity-binding/v1  vectors=12  no-suiteRevision
 b080bfb0df5a6929d83d5b94cd6654fe4c05945f12df37d8dbe03d9253d39468  vectors-ietf-agent-record-drafts/MANIFEST.json  ietf-agent-record-drafts-conformance  vectors=31  no-suiteRevision
 35a592df509057ddc6bc6d896fb66089c4b022f512913bddb01e34b38f085a51  vectors-incident-evidence-cell/MANIFEST.json  incident-evidence-cell/v1  vectors=31  no-suiteRevision
+102cc531fa1b870d4004ada53ec35dc4bff5ce741b5cb7806358637094eac594  vectors-mcp-authz/MANIFEST.json  mcp-authz-observation/v1  vectors=11  no-suiteRevision
 774d37545d7c6b51525fd555ece2e0baa6c94887fe4b52118c44ab2bb6e52a92  vectors-mcp-owasp/MANIFEST.json  owasp-mcp-verification-draft  vectors=24  no-suiteRevision
 90ba5e8cc42aca0383fe76608b1648406a5824ed303c178dd40a22f1d8e36f26  vectors-mcp-record-contract/MANIFEST.json  cross-run-record-contract  vectors=15  no-suiteRevision
 caa09e57af6e6ee85feff1fa5117095fa424c11a57a7518ca127d19676bfd5bc  vectors-mcp-response-phase/MANIFEST.json  mcp-response-phase-interception  vectors=8  no-suiteRevision
@@ -51,6 +53,7 @@ f915bb42e8f77b0d8cd0a775d500318bbc87f600635fd5bb9e3ec2d389f73efd  vectors-propag
 54c2d588c2bcb52c2056f5d6faab6c48d059517301e87c84c4115e866d88e330  vectors-receipt-signature/MANIFEST.json  receipt-signature-conformance  vectors=29  no-suiteRevision
 a2429f0dabb3e25bc019ccf9eb6eb7d98bd01942900ddfa3baafdeb9cd36f681  vectors-recorded/MANIFEST.json  recorded-set-conformance/v1  vectors=19  no-suiteRevision
 1588224056bb6f7f5971386164b4a737c422ec6b16bcdea3ca8dc559adb5f9a5  vectors-refund-connected/MANIFEST.json  refund-connected/v1  vectors=12  no-suiteRevision
+372fe137c3ce46096ffa0f8d1348d907219189900669a5badee4578e0040ad65  vectors-refusal-reason-priority/MANIFEST.json  refusal-reason-priority/v1  vectors=33  no-suiteRevision
 5b7f58c91b517bd7c96dcccdef0d827a4f730fd4a650b4992b362bb9925cae29  vectors-restart-records/MANIFEST.json  restart-records/v1  vectors=57  no-suiteRevision
 79d651d3e127ce9bb68d4bf782f86b4e79391962ddda37f131fba641ca0c20da  vectors-scitt-cose/MANIFEST.json  scitt-cose-carriage-conformance  vectors=27  no-suiteRevision
 75393685568336f1ca2a5b1836f42d7e498b4927930234e7cc11d8f4aa81a064  vectors-self-reported-record/MANIFEST.json  self-reported-record-conformance  vectors=11  no-suiteRevision

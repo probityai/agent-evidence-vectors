@@ -151,6 +151,20 @@ verdict it carried), the condition, outcome and basis the client recorded, and
 whether the action was performed, so a consumer can tell a policy decision from a
 fallback and an allow from a fault read as one.
 
+### `predicate/v1/refusal-reason-priority`
+
+- Document: `corpora/vectors-refusal-reason-priority/README.md`
+- Corpus: `corpora/vectors-refusal-reason-priority/`, suite `refusal-reason-priority/v1`
+- Rails: `corpusreaders/refusalreason.go`, `packaging/agent_evidence_vectors/refusalreason.py`
+
+The predicate carries one attestation response and the facts it answered over: which
+conditions of the closed refusal vocabulary applied, the observation the answer relied
+on, any diagnostic read, and at the lease instant the boundary the deployment declared.
+The reason must be the first applicable value of the list, none when no condition
+applies, with null as the only permit; the observation member stays null when the relied-on
+observation is absent or not fresh, and a diagnostic read neither authorizes nor renews.
+Records are from draft-li-rttp-iqa-addressing-02 sections 6.1, 7.2, 8.1 and 8.2.
+
 ### `predicate/v1/evaluation-claim`
 
 - Document: `spec/predicates/evaluation-claim.md`
@@ -225,6 +239,18 @@ Record R4 of the restoration evidence profile: which party may act on which asse
 
 For one declared sink and test window, whether an effect from a task in flight committed after a credential revocation took effect, with the counts a reader needs to judge it. It names no mechanism.
 
+### `predicate/v1/control-decision`
+
+- Document: `corpora/vectors-acs-decision-record/README.md`
+- Corpus: `corpora/vectors-acs-decision-record/`, suite `control-decision-conformance`
+- Rails: `corpusreaders/controldecision.go`, `corpora/vectors-acs-decision-record/record.py`
+
+The predicate carries one policy decision as a host records it: the SHA-256 of the RFC 8785
+bytes of the context the decision point judged, the digests of the policy manifest and
+bundle it ran, and the verdict as the runtime returned it. A consumer replays the disclosed
+context and policy itself, and a record whose digests or verdict the replay does not
+reproduce is refused.
+
 ## Registered here
 
 ### `predicate/v1/kernel-substrate`
@@ -268,7 +294,7 @@ For one declared sink and test window, whether an effect from a task in flight c
   Section 5.4 that Appendix B has no row for, each naming its section in
   `draftSection`, then rows of revision 01 (`CS1` to `CS40`) that bind
   consumption state to the agent's operation key, and rows written for revision
-  04 (`CS41` to `CS49`) that add a paid call's payee and settled terms; `CS7`, `CS8`, `CS17`, `CS18` to `CS22`, `CS25` to `CS33`, `CS38` to `CS40`, `CS48` and `CS49` are
+  04 (`CS41` to `CS54`) that add a paid call's payee and settled terms; `CS7`, `CS8`, `CS17`, `CS18` to `CS22`, `CS25` to `CS33`, `CS38` to `CS40`, `CS48`, `CS49`, `CS53` and `CS54` are
   files of several records judged as a set. Rows R1 to R9 are retained records
   judged by the dating check of Section 4.7. Rows `PR1` to `PR11`, written for revision 04, test
   the optional `principal` member, the authenticated principal bound to the agent's credential

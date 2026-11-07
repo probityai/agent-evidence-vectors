@@ -1,0 +1,142 @@
+{
+  "cases": [
+    {
+      "context": {
+        "agent": {
+          "framework": "run_acs",
+          "id": "agent-1"
+        },
+        "interception_point": "pre_tool_call",
+        "sequence": 0,
+        "session": {
+          "id": "session-1"
+        },
+        "spec": "agent-hooks/0.1",
+        "target": {
+          "path": "README.md"
+        },
+        "timestamp": "2026-11-06T02:20:06.541384Z",
+        "tool_call": {
+          "args": {
+            "path": "README.md"
+          },
+          "id": "call-1",
+          "name": "read_file"
+        }
+      },
+      "name": "read-allowed",
+      "verdict": {
+        "decision": "allow",
+        "reason": "tool_permitted"
+      }
+    },
+    {
+      "context": {
+        "agent": {
+          "framework": "run_acs",
+          "id": "agent-1"
+        },
+        "interception_point": "pre_tool_call",
+        "sequence": 0,
+        "session": {
+          "id": "session-1"
+        },
+        "spec": "agent-hooks/0.1",
+        "target": {
+          "branch": "main"
+        },
+        "timestamp": "2026-11-06T02:20:06.544632Z",
+        "tool_call": {
+          "args": {
+            "branch": "main"
+          },
+          "id": "call-2",
+          "name": "delete_branch"
+        }
+      },
+      "name": "delete-denied",
+      "verdict": {
+        "decision": "deny",
+        "reason": "destructive_tool"
+      }
+    },
+    {
+      "context": {
+        "agent": {
+          "framework": "run_acs",
+          "id": "agent-1"
+        },
+        "interception_point": "pre_tool_call",
+        "sequence": 0,
+        "session": {
+          "id": "session-1"
+        },
+        "spec": "agent-hooks/0.1",
+        "target": {
+          "amount": 250,
+          "currency": "USD"
+        },
+        "timestamp": "2026-11-06T02:20:06.547328Z",
+        "tool_call": {
+          "args": {
+            "amount": 250,
+            "currency": "USD"
+          },
+          "id": "call-3",
+          "name": "send_payment"
+        }
+      },
+      "name": "payment-escalated",
+      "verdict": {
+        "approval": {},
+        "decision": "deny",
+        "reason": "payment_needs_approval"
+      }
+    },
+    {
+      "context": {
+        "agent": {
+          "framework": "run_acs",
+          "id": "agent-1"
+        },
+        "interception_point": "pre_tool_call",
+        "sequence": 0,
+        "session": {
+          "id": "session-1"
+        },
+        "spec": "agent-hooks/0.1",
+        "target": {
+          "amount": 40,
+          "currency": "USD"
+        },
+        "timestamp": "2026-11-06T02:20:06.549051Z",
+        "tool_call": {
+          "args": {
+            "amount": 40,
+            "currency": "USD"
+          },
+          "id": "call-4",
+          "name": "send_payment"
+        }
+      },
+      "name": "payment-allowed",
+      "verdict": {
+        "decision": "allow",
+        "reason": "tool_permitted"
+      }
+    }
+  ],
+  "interventionPoint": "pre_tool_call",
+  "manifest": "agent_control_specification_version: \"0.4.0-alpha.1\"\nmetadata:\n  name: decision-record-run\npolicies:\n  tool_gate:\n    type: rego\n    bundle: ./policy\n    query: data.tool_gate.verdict\ntools:\n  read_file: {}\n  delete_branch: {}\n  send_payment: {}\nintervention_points:\n  pre_tool_call:\n    policy_target: \"$.tool_call.args\"\n    policy_target_kind: tool_args\n    tool_name_from: \"$.tool_call.name\"\n    policy:\n      id: tool_gate\n",
+  "policyBundle": {
+    "modules": {
+      "tool_gate.rego": "package tool_gate\n\ndefault verdict := {\"decision\": \"allow\", \"reason\": \"tool_permitted\"}\n\nverdict := {\"decision\": \"deny\", \"reason\": \"destructive_tool\"} if {\n  input.snapshot.tool_call.name == \"delete_branch\"\n}\n\nverdict := {\"decision\": \"escalate\", \"reason\": \"payment_needs_approval\"} if {\n  input.snapshot.tool_call.name == \"send_payment\"\n  input.policy_target.value.amount > 100\n}\n"
+    }
+  },
+  "runtime": {
+    "agentHooksSdk": "0.1.0a5",
+    "distribution": "agent-control-spec",
+    "repository": "https://github.com/responsibleai/agent-control-spec",
+    "version": "0.4.0a4"
+  }
+}

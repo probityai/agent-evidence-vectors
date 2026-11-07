@@ -109,6 +109,10 @@ GENERATORS = (
     # over disclosed argument bytes, so a hand-placed member is one whose hash and
     # signature nobody recomputed. It builds its own manifest and index.
     "corpora/vectors-agent-decision/gen_vectors.py",
+    # The control-decision corpus. Every member is signed over digests of its
+    # disclosed context and policy, read from the recorded ACS run; it builds its
+    # own manifest and index.
+    "corpora/vectors-acs-decision-record/gen_vectors.py",
     # The W3C intake-criteria corpus. Every member is an intake record whose
     # digests are taken over fixture trees the generator writes beside it, and
     # the generator refuses a member the checker does not answer as claimed.
@@ -153,6 +157,7 @@ GENERATORS = (
     "corpora/vectors-propagation-step/gen_vectors.py",
     "corpora/vectors-containment-journal/gen_vectors.py",
     "corpora/vectors-decision-client-failure-modes/gen_vectors.py",
+    "corpora/vectors-refusal-reason-priority/gen_vectors.py",
     "corpora/vectors-agent-card-receipt/gen_vectors.py",
     "corpora/vectors-credential-release/gen_vectors.py",
     "corpora/vectors-converted-argument-binding/gen_vectors.py",
@@ -169,6 +174,7 @@ GENERATORS = (
     "corpora/vectors-trace-anchor/gen_vectors.py",
     "corpora/vectors-grade-floor/gen_vectors.py",
     "corpora/vectors-connector-scope/gen_vectors.py",
+    "corpora/vectors-mcp-authz/gen_vectors.py",
     "corpora/vectors-agent-payment-mandate/gen_vectors.py",
     "corpora/vectors-agent-change-admission/gen_vectors.py",
     "corpora/vectors-agentic-process-evidence/gen_vectors.py",
@@ -294,6 +300,9 @@ OWNED = (
     ("corpora/vectors-connector-scope", "INDEX.md"),
     ("corpora/vectors-connector-scope", "profile.json"),
     ("corpora/vectors-connector-scope/cases", "**/case.json"),
+    ("corpora/vectors-mcp-authz", "MANIFEST.json"),
+    ("corpora/vectors-mcp-authz", "INDEX.md"),
+    ("corpora/vectors-mcp-authz/observations", "*.json"),
     ("corpora/vectors-agent-payment-mandate", "MANIFEST.json"),
     ("corpora/vectors-agent-payment-mandate", "INDEX.md"),
     ("corpora/vectors-agent-payment-mandate", "profile.json"),
@@ -358,6 +367,8 @@ OWNED = (
     ("corpora/vectors-containment-journal/cases", "**/*.json"),
     ("corpora/vectors-decision-client-failure-modes", "MANIFEST.json"),
     ("corpora/vectors-decision-client-failure-modes/cases", "**/record.json"),
+    ("corpora/vectors-refusal-reason-priority", "MANIFEST.json"),
+    ("corpora/vectors-refusal-reason-priority/cases", "**/record.json"),
     ("corpora/vectors-agent-card-receipt", "MANIFEST.json"),
     ("corpora/vectors-credential-release", "MANIFEST.json"),
     ("corpora/vectors-agent-card-receipt/cases", "**/card.json"),
@@ -415,6 +426,9 @@ OWNED = (
     ("corpora/vectors-agent-decision/arguments", "v*.json"),
     ("corpora/vectors-agent-decision", "MANIFEST.json"),
     ("corpora/vectors-agent-decision", "INDEX.md"),
+    ("corpora/vectors-acs-decision-record/members", "*.json"),
+    ("corpora/vectors-acs-decision-record", "MANIFEST.json"),
+    ("corpora/vectors-acs-decision-record", "INDEX.md"),
     ("corpora/vectors-w3c-intake/vectors", "v*.json"),
     # Every fixture file carries an extension and no fixture directory does, so
     # this names the files under trees/ and never a directory the gate would

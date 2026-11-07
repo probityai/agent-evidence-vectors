@@ -1,0 +1,25 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/refusal-reason-priority",
+  "facts": {
+    "authority": "determined",
+    "bindingMismatch": false,
+    "evidenceExpired": false,
+    "operationPermitted": true,
+    "reliedOnObservation": {
+      "asOfMs": 1100,
+      "fresh": true,
+      "present": true
+    }
+  },
+  "recordId": "record-conformant-observation-fresh",
+  "response": {
+    "grantRef": {
+      "evidenceId": "ev-0042",
+      "expiresAtMs": 9000,
+      "grant": "grant-7f3a",
+      "issuedAtMs": 1000,
+      "observationAsOfMs": 1100
+    },
+    "reason": null
+  }
+}
