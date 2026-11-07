@@ -325,6 +325,15 @@ def unannotated_publication(root: Path) -> str:
 
 def undated_omission(root: Path) -> str:
     """Drop the preferred citation and the top-level date, leaving an undated source."""
+    # The release stage removes the top-level date from the live source file,
+    # so the fixture supplies its own dated line; the case then removes it.
+    _edit(
+        root,
+        CITATION_REL,
+        lambda text: text
+        if re.search(r"^date-released:", text, re.MULTILINE)
+        else _sub(r"^(type: software\n)", r"\1date-released: 2000-01-01\n", text, flags=re.MULTILINE),
+    )
     publication_mutation(r"^date-released:.*\n", "", "")(root)
     return publication_mutation(r"^preferred-citation:[\s\S]*$", "", "has no published citation")(
         root
