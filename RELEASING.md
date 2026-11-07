@@ -221,7 +221,10 @@ git push origin refs/tags/vX.Y.Z:refs/tags/vX.Y.Z
 #    the action entry in version-pins.toml to vX.Y.Z. Run the pins script
 #    (scripts/version-pins.py in probityai/.github, at the commit the
 #    version-pins workflow pins) with `write`, read the result, then `check`,
-#    which must exit 0. Merge it when every check passes, the `pins` check
+#    which must exit 0. The script does not track every reference: grep the
+#    pages for the previous version (a `git checkout vX.Y.Z` line, a link
+#    text such as `[vX.Y.Z release]`) and move what it missed.
+#    Merge it when every check passes, the `pins` check
 #    included, then clear the freeze:
 #    `merge-freeze clear probityai/agent-evidence-vectors`.
 python3 -B path/to/probityai-.github/scripts/version-pins.py write
