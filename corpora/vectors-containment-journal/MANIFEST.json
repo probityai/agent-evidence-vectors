@@ -1,13 +1,13 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/containment-journal",
-  "corpusDigest": "1e076286f8302bf63bf7e067920ba3dc5b8eed9484ba9c8f6f8aeecd47ffbe3c",
+  "corpusDigest": "bf2608f9751be7f192c08a4356b36454cc538ceb709ca04c15c8c3f35a77d261",
   "counts": {
-    "allow": 15,
+    "allow": 16,
     "deny": 46
   },
   "receiptContractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/blast-radius-receipt",
   "suite": "containment-journal/v1",
-  "suiteRevision": 2,
+  "suiteRevision": 3,
   "synthetic": true,
   "vectors": [
     {
@@ -674,6 +674,26 @@
         "entries": 2,
         "events": {
           "decision": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "an evidence gate isolates agent-c, then the detector gives every agent the same risk and restates the same graph: it removes nothing, so agent-c listed as isolated is state the detector did not cause",
+      "expected": {
+        "decision": "allow",
+        "reason": "containment_consistent"
+      },
+      "files": {
+        "record.json": "2cea3d574b4440211310ca8ff2c669205efa4eddf0c4c542be725cce27cba25b"
+      },
+      "id": "allow-detector-restates-earlier-cut",
+      "path": "cases/allow-detector-restates-earlier-cut",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 3,
+        "events": {
+          "decision": 2,
           "topology": 1
         }
       }
