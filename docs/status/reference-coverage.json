@@ -1,7 +1,7 @@
 {
   "verifier": "https://probityai.github.io/probity/verifiers/agent-evidence-verify",
   "checked": 734,
-  "total": 2949,
+  "total": 3027,
   "corpora": [
     {
       "id": "vectors",
@@ -28,6 +28,12 @@
       "disagreements": 0
     },
     {
+      "id": "vectors-acs-decision-record",
+      "checked": 0,
+      "total": 15,
+      "disagreements": 0
+    },
+    {
       "id": "vectors-admission",
       "checked": 0,
       "total": 22,
@@ -36,7 +42,7 @@
     {
       "id": "vectors-agent-audit-record",
       "checked": 0,
-      "total": 207,
+      "total": 222,
       "disagreements": 0
     },
     {
@@ -244,6 +250,12 @@
       "disagreements": 0
     },
     {
+      "id": "vectors-mcp-authz",
+      "checked": 0,
+      "total": 11,
+      "disagreements": 0
+    },
+    {
       "id": "vectors-mcp-owasp",
       "checked": 0,
       "total": 24,
@@ -310,6 +322,12 @@
       "disagreements": 0
     },
     {
+      "id": "vectors-refusal-reason-priority",
+      "checked": 0,
+      "total": 33,
+      "disagreements": 0
+    },
+    {
       "id": "vectors-restart-records",
       "checked": 0,
       "total": 57,
@@ -360,7 +378,7 @@
     {
       "id": "vectors-uncertain-effect",
       "checked": 0,
-      "total": 36,
+      "total": 40,
       "disagreements": 0
     },
     {
