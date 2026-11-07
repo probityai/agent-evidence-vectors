@@ -5,7 +5,7 @@
 aa8deffa934df48d43f228e48e299be2a136aef32ff5a55d18a2ef99e0286740  vectors-aci/MANIFEST.json  aci  vectors=26  no-suiteRevision
 aa6859a34ffcf42a7600657b86bfbf7b9e8651f58344af33dafaeb493c281d0a  vectors-acs-core/MANIFEST.json  acs-core-negative-conformance  vectors=144  no-suiteRevision
 17caeb3817557d779266de29ba9a65ebf553f7503925de7e7b5a01126ede5446  vectors-admission/MANIFEST.json  adversarial-execution-evidence-admission  vectors=22  no-suiteRevision
-5b9bb2b81188cb594dbe1031f04e40db6d3a6bea3033b0e4ea78d8d81d3ed8d6  vectors-agent-audit-record/MANIFEST.json  agent-audit-record-conformance  vectors=207  no-suiteRevision
+eee834bdb4c3f1f846f1026524472f89b7ee2b8922440eeca5520e1446a1bb52  vectors-agent-audit-record/MANIFEST.json  agent-audit-record-conformance  vectors=217  no-suiteRevision
 99c46fa19029691a1bdfb9f78f80c457639d9df985bf05e9609255006f07dd6e  vectors-agent-card-receipt/MANIFEST.json  agent-card-receipt/v1  vectors=44  no-suiteRevision
 27623d6a4a10f4cd0aedc1145182c276456e619c3ae771ec646746ef823f5ec4  vectors-agent-change-admission/MANIFEST.json  agent-change-admission/v1  vectors=35  no-suiteRevision
 a2674abfcf5b0edfaa8fe0f68be393066d962aee95c24362e00ea45ddbed1efc  vectors-agent-decision/MANIFEST.json  agent-decision-conformance  vectors=41  no-suiteRevision
@@ -59,7 +59,7 @@ ca7f06472d102f88983ab14f93e4856b1d62b9a05dad21f9f2fcdbc1b2df28e1  vectors-source
 b3c47a5974eefa98dace6fe23957eb286d4ba5f57eed46c3c22cc8cc49c754e9  vectors-spoofed-tool-output/MANIFEST.json  spoofed-tool-output/v2  vectors=47  no-suiteRevision
 5134e32c0684bb929503e9487ba35e8b7b256429dfd096e53435be031dfe304d  vectors-test-tampering/MANIFEST.json  test-tampering/v2  vectors=34  no-suiteRevision
 bda9952cc553d78d4315e6119e745bb15bb0078fe70c2de29d196679d0582144  vectors-trace-anchor/MANIFEST.json  trace-registry-anchor/v1  vectors=27  no-suiteRevision
-e94026b486929f4b8874d480d589fe04e56731318e9aace75f3006af2af52774  vectors-uncertain-effect/MANIFEST.json  uncertain-effect/v1  vectors=36  no-suiteRevision
+6b212e324c0a78b1c70a725b07aa939050a8d7344679a2fb6e89a465054d1191  vectors-uncertain-effect/MANIFEST.json  uncertain-effect/v1  vectors=40  no-suiteRevision
 4adf466724c9188ad6833ac30249c75c3e7000a8dabf70e175fe59a7abd06b85  vectors-w3c-intake/MANIFEST.json  w3c-intake-v2-conformance  vectors=142  no-suiteRevision
 c93f7497264bd547a420713f33706243970d06ba00a4c54f2b5a0a72c8ef3a17  vectors-w3c-report/MANIFEST.json  w3c-report-v01-conformance  vectors=273  no-suiteRevision
 bf3e5befd71640757ff1b3f0af63507364b823b5e3f9059678f72f64a46e11c1  vectors/MANIFEST.json  adversarial-execution-evidence-conformance  vectors=288  suiteRevision=32
