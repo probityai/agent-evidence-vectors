@@ -22,7 +22,7 @@ CLAIM = "adversarial_execution_evidence/v1"
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser = argparse.ArgumentParser(description=(__doc__ or "").splitlines()[0])
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--keys", type=Path, help="key set: {substrateObservationKeys: [...]}")
     parser.add_argument("records", type=Path, nargs="+")
