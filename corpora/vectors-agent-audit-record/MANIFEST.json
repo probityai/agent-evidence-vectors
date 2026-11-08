@@ -75,9 +75,9 @@
       }
     ]
   },
-  "corpusDigest": "012bdcbc30b6a0efcd46d12f1459cbe80bfabfce24c7d66418a729b53caeb446",
+  "corpusDigest": "4e23b2657679aab1484add84ef82e6e5c2a8d681a8d93e4fe11981206efb767f",
   "counts": {
-    "accept": 95,
+    "accept": 98,
     "indeterminate": 2,
     "reject": 125
   },
@@ -3354,6 +3354,57 @@
       ],
       "row": "principal-standing-source exactly at maxAge (age 3600 under 3600) and not answering, still not-evaluated naming it: open between draft-jackson-wimse-evaluation-05 Section 3 and this section",
       "slug": "ps1b-principal-standing-age-equal-to-max-age"
+    },
+    {
+      "draftId": "PS3",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v64c9830c3336a68b.json",
+      "id": "v64c9830c3336a68b",
+      "kind": "accept",
+      "parent": "vd96413ec87814d0b",
+      "parentDraftId": "PS1",
+      "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v2/agent-audit-record",
+      "row": "principal standing from a published commitment and none held: principal-standing-source with lastResult of none, not-evaluated naming it (a commitment held past its maxAge is PS1, one exactly at it PS1b)",
+      "slug": "ps3-principal-standing-commitment-none-held"
+    },
+    {
+      "draftId": "PS4",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vce2b9385988cdaa2.json",
+      "id": "vce2b9385988cdaa2",
+      "kind": "accept",
+      "parent": "vd96413ec87814d0b",
+      "parentDraftId": "PS1",
+      "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v2/agent-audit-record",
+      "row": "principal standing from a published commitment that is current and whose proof shows the standing withdrawn: evaluated, every entry fresh, decision deny",
+      "slug": "ps4-principal-standing-commitment-withdrawn"
+    },
+    {
+      "draftId": "PS5",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vb381c43905c8cb8b.json",
+      "id": "vb381c43905c8cb8b",
+      "kind": "accept",
+      "parent": "vce2b9385988cdaa2",
+      "parentDraftId": "PS4",
+      "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v2/agent-audit-record",
+      "row": "the commitment current and the proof missing or not verifying against it: the commitment does not establish standing, and the record is evaluated with deny as PS4, never not-evaluated, its entry the commitment's as-of time",
+      "slug": "ps5-principal-standing-commitment-proof-missing"
     },
     {
       "draftId": "PR1",
