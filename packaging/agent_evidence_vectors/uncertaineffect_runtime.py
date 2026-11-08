@@ -45,9 +45,9 @@ import argparse
 import json
 import os
 import shlex
+import shutil
 import socket
 import subprocess
-import shutil
 import tempfile
 import threading
 import time
