@@ -45,6 +45,3 @@ jobs:
           ci: |
             ci.yml
           token: ${{ github.token }}
-          # A GitHub App token (secret PIN_REFRESH_PR_TOKEN) so the bump pull request starts its
-          # pull_request checks; empty keeps the Actions token, whose pull requests start none.
-          pr-token: ${{ secrets.PIN_REFRESH_PR_TOKEN }}
