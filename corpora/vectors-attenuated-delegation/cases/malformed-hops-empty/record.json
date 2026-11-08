@@ -1,0 +1,17 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/attenuated-delegation/v1",
+  "hops": [],
+  "presentation": {
+    "args": {
+      "account": "acct-7731",
+      "amount": 120,
+      "currency": "USD"
+    },
+    "at": "2026-11-08T12:00:00Z",
+    "presenterKeyId": "key:sub-agent",
+    "tool": "payments.refund"
+  },
+  "trustedRoots": [
+    "key:authority-1"
+  ]
+}
