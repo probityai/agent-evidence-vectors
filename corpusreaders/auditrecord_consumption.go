@@ -486,11 +486,12 @@ var arSetRules = []arSetRule{
 }
 
 // arSetUnexpiredHold: the hold of an operation that settled 0 ends only when a
-// later record of the ledger is at or after the held entry's deadline, or a
-// record of that operation shows occurred. A record before the deadline that no
-// longer holds the key, whether or not the operation's own record shows none,
-// released a permit the facilitator can still settle (CS53); one at or after
-// the deadline is the control (CS54).
+// later record of the ledger is dated after the held entry's deadline, or a
+// record of that operation shows occurred. A record before the deadline (CS53)
+// or at it (CS55) that no longer holds the key, whether or not the operation's
+// own record shows none, released a permit the facilitator can still settle;
+// one after the deadline is the control (CS54). reportedAt is the writer's
+// clock, so even a record after the deadline is a floor, not proof.
 func arSetUnexpiredHold(group []map[string]any) bool {
 	for i, settling := range group {
 		consumption := arConsumptionOf(settling)

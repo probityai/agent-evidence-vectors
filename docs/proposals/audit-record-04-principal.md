@@ -25,7 +25,9 @@ Add to Section 5, after `delegation`:
 >
 > * `issuer`, the `iss` of the token, an `https` URL.
 > * `subject`, the `sub` of the token. When `delegation.subjectKind` is `user`, it MUST equal
->   `delegation.subject` (vector `PR8`). Under `system`, it names the client itself (vector `PR2`).
+>   `delegation.subject` (vector `PR8`). Under `system`, it is the identifier the issuer uses for
+>   the client (RFC 9068, Section 2.2), which need not equal `clientId`; a verifier does not
+>   compare the two (vectors `PR2`, `PR16`).
 > * `clientId`, the OAuth `client_id` of the client the token was issued to.
 > * `audience`, the `aud` of the token: a non-empty array of distinct strings.
 > * `authMethod`, how the client authenticated to the issuer: a value of the IANA registry
@@ -38,8 +40,10 @@ Add to Section 5, after `delegation`:
 >   `agent.credentialDigest`: the principal is bound by hash to the credential the agent
 >   presented (vector `PR6`).
 > * `issuedAt` and `expiresAt`, the token's `iat` and `exp` as RFC 3339 times, `expiresAt` later
->   than `issuedAt`. At `decision.reportedAt` the token MUST have been issued and MUST NOT have
->   expired, each within the skew tolerance of the draft (vectors `PR10`, `PR5`).
+>   than `issuedAt`. The skew tolerance of the draft applies on both sides of that lifetime:
+>   `issuedAt` MUST NOT be later than `decision.reportedAt` by more than the tolerance (vectors
+>   `PR10`, `PR13`, `PR15`), and `decision.reportedAt` MUST NOT be later than `expiresAt` by more
+>   than the tolerance (vectors `PR5`, `PR12`, `PR14`).
 > * `kid`, the `kid` of the token's JWS header.
 > * `key`, the public JWK of the issuer's JWKS that `kid` selects, of key type `RSA`, `EC` or
 >   `OKP`, carrying no private member. Its `kid` MUST equal `kid` (vector `PR9`).
@@ -55,7 +59,8 @@ Add after the delegation check, in this order:
 
 > When `principal` is present, a verifier checks its members (`PR7`, `PR11`), that its subject
 > agrees with the delegation (`PR8`), that `tokenDigest` equals `agent.credentialDigest` (`PR6`),
-> that the token was valid at `decision.reportedAt` (`PR10`, `PR5`), that `key.kid` equals `kid`
+> that the token was valid at `decision.reportedAt` within the tolerance on each side (`PR10`,
+> `PR13`, `PR15`, `PR5`, `PR12`, `PR14`), that `key.kid` equals `kid`
 > (`PR9`), and that `keyThumbprint` recomputes from `key` (`PR4`). A record failing any of these
 > is malformed.
 
@@ -72,5 +77,5 @@ key it used), or that the subject is who the issuer says it is.
 
 ## 5. Appendix B rows
 
-Add rows `PR1` to `PR11` as `MANIFEST.json` of `vectors-agent-audit-record` states them (`row`
+Add rows `PR1` to `PR16` as `MANIFEST.json` of `vectors-agent-audit-record` states them (`row`
 and `expected`).
