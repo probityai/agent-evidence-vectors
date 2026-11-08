@@ -262,7 +262,7 @@ class _Record:
     def thumbprint_mismatch(self) -> bool:
         principal = self.predicate["principal"]
         try:
-            return rsa_thumbprint(principal["jwk"]) != principal["jwkThumbprint"]
+            return bool(rsa_thumbprint(principal["jwk"]) != principal["jwkThumbprint"])
         except (KeyError, TypeError):
             return True
 
@@ -271,14 +271,14 @@ class _Record:
 
     def principal_mismatch(self) -> bool:
         principal = self.predicate["principal"]
-        return (
+        return bool(
             self.claims.get("iss") != principal["issuer"]
             or self.claims.get("sub") != principal["subject"]
         )
 
     def htm_htu_mismatch(self) -> bool:
         request = self.predicate["request"]
-        return (
+        return bool(
             self.claims.get("htm") != request["method"] or self.claims.get("htu") != request["path"]
         )
 
