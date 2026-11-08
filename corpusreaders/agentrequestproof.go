@@ -132,20 +132,10 @@ func arpDecode(raw []byte) arpRecord {
 	if err != nil || json.Unmarshal(payload, &r.stmt) != nil {
 		return r
 	}
-	s := r.stmt
-	if s.Type != arpStatementType || s.PredicateType != arpPredicateType || len(s.Subject) != 1 {
+	if !arpStatementShaped(r.stmt) {
 		return r
 	}
-	if _, has := s.Subject[0].Digest["sha256"]; !has {
-		return r
-	}
-	p := s.Predicate
-	if p == nil || p.Principal == nil || p.Proof == nil || p.Request == nil ||
-		p.Principal.Issuer == nil || p.Principal.Subject == nil || p.Principal.JWK == nil ||
-		p.Principal.JWKThumbprint == nil || p.Proof.JWS == nil || p.Proof.Typ == nil ||
-		p.Request.BodyBase64 == nil || p.Request.Method == nil || p.Request.Path == nil {
-		return r
-	}
+	p := r.stmt.Predicate
 	if r.observed, err = time.Parse(time.RFC3339, p.ObservedAt); err != nil {
 		return r
 	}
@@ -160,18 +150,36 @@ func arpDecode(raw []byte) arpRecord {
 	if err1 != nil || err2 != nil || err3 != nil || err4 != nil {
 		return r
 	}
-	dec := func(b []byte, into *map[string]any) error {
-		d := json.NewDecoder(strings.NewReader(string(b)))
-		d.UseNumber()
-		return d.Decode(into)
-	}
-	if dec(head, &r.header) != nil || dec(claims, &r.claims) != nil ||
+	if arpDecodeJSON(head, &r.header) != nil || arpDecodeJSON(claims, &r.claims) != nil ||
 		len(r.header) == 0 || len(r.claims) == 0 {
 		return r
 	}
 	r.signingInput = []byte(parts[0] + "." + parts[1])
 	r.proofSig, r.body, r.ok = sig, body, true
 	return r
+}
+
+// arpStatementShaped reports whether the statement carries the request-proof
+// types, one sha256 subject, and every predicate member the readers dereference.
+func arpStatementShaped(s arpStatement) bool {
+	if s.Type != arpStatementType || s.PredicateType != arpPredicateType || len(s.Subject) != 1 {
+		return false
+	}
+	if _, has := s.Subject[0].Digest["sha256"]; !has {
+		return false
+	}
+	p := s.Predicate
+	return p != nil && p.Principal != nil && p.Proof != nil && p.Request != nil &&
+		p.Principal.Issuer != nil && p.Principal.Subject != nil && p.Principal.JWK != nil &&
+		p.Principal.JWKThumbprint != nil && p.Proof.JWS != nil && p.Proof.Typ != nil &&
+		p.Request.BodyBase64 != nil && p.Request.Method != nil && p.Request.Path != nil
+}
+
+// arpDecodeJSON decodes one JSON object keeping numbers exact.
+func arpDecodeJSON(b []byte, into *map[string]any) error {
+	d := json.NewDecoder(strings.NewReader(string(b)))
+	d.UseNumber()
+	return d.Decode(into)
 }
 
 func (r arpRecord) recorderSigned(key ed25519.PublicKey) bool {
