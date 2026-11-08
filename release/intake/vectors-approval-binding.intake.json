@@ -4,7 +4,7 @@
       "allow": 10,
       "deny": 35
     },
-    "line": "verdict: 6 member(s) and 0 corpus-level claim(s) do not hold",
+    "line": "verdict: every member behaves as MANIFEST.json declares",
     "total": 45
   },
   "anchor": {
@@ -28,8 +28,8 @@
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
-          "exit-code": 1,
-          "sha256": "699bed975759cdab8653e72513a5dc7d5b1f691430c977ba9ff7ddc64093305b"
+          "exit-code": 0,
+          "sha256": "cb82ec899f9fa31958f594cb199880d3412a6f77636c643cc6945dddd7d2a37c"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -37,8 +37,8 @@
           "W3C-I-002"
         ],
         "swapped": {
-          "exit-code": 1,
-          "sha256": "699bed975759cdab8653e72513a5dc7d5b1f691430c977ba9ff7ddc64093305b"
+          "exit-code": 0,
+          "sha256": "cb82ec899f9fa31958f594cb199880d3412a6f77636c643cc6945dddd7d2a37c"
         },
         "swapped-in": "f5e3e5fb409be7c98f93da7aa1f8543eac6e361ec78d5fa0b33ac9fcdca896ef",
         "test": "swap-and-re-pin"
@@ -51,8 +51,8 @@
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
-          "exit-code": 1,
-          "sha256": "699bed975759cdab8653e72513a5dc7d5b1f691430c977ba9ff7ddc64093305b"
+          "exit-code": 0,
+          "sha256": "cb82ec899f9fa31958f594cb199880d3412a6f77636c643cc6945dddd7d2a37c"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -60,8 +60,8 @@
           "W3C-I-002"
         ],
         "swapped": {
-          "exit-code": 1,
-          "sha256": "699bed975759cdab8653e72513a5dc7d5b1f691430c977ba9ff7ddc64093305b"
+          "exit-code": 0,
+          "sha256": "cb82ec899f9fa31958f594cb199880d3412a6f77636c643cc6945dddd7d2a37c"
         },
         "swapped-in": "e41edf67bb137d1889243aa149faea9ed338c2cecca2b0d80fe206f7d18b7bbc",
         "test": "swap-and-re-pin"
@@ -74,8 +74,8 @@
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
-          "exit-code": 1,
-          "sha256": "699bed975759cdab8653e72513a5dc7d5b1f691430c977ba9ff7ddc64093305b"
+          "exit-code": 0,
+          "sha256": "cb82ec899f9fa31958f594cb199880d3412a6f77636c643cc6945dddd7d2a37c"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -83,22 +83,22 @@
           "W3C-I-002"
         ],
         "swapped": {
-          "exit-code": 1,
-          "sha256": "699bed975759cdab8653e72513a5dc7d5b1f691430c977ba9ff7ddc64093305b"
+          "exit-code": 0,
+          "sha256": "cb82ec899f9fa31958f594cb199880d3412a6f77636c643cc6945dddd7d2a37c"
         },
         "swapped-in": "a3cc191f47ab115d21810921e5eaa4fb2c00794310ed3b9938991b492efb767f",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-approval-binding/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "9d049cf8c3d5f39b076bb1cb1ff12259b9e8c9352e10d7b6234f1abde6a2a659"
+      "sha256": "adc1898eff3dcc8e9a8ac696de4f3722db686e07b68ca372bc70547de9819aba"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
-          "exit-code": 1,
-          "sha256": "699bed975759cdab8653e72513a5dc7d5b1f691430c977ba9ff7ddc64093305b"
+          "exit-code": 0,
+          "sha256": "cb82ec899f9fa31958f594cb199880d3412a6f77636c643cc6945dddd7d2a37c"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -106,8 +106,8 @@
           "W3C-I-002"
         ],
         "swapped": {
-          "exit-code": 1,
-          "sha256": "699bed975759cdab8653e72513a5dc7d5b1f691430c977ba9ff7ddc64093305b"
+          "exit-code": 0,
+          "sha256": "cb82ec899f9fa31958f594cb199880d3412a6f77636c643cc6945dddd7d2a37c"
         },
         "swapped-in": "e413c0febb31f6ccd4fa3703b1447ecde6fd478dcd86936e325b0b278d72fc02",
         "test": "swap-and-re-pin"
@@ -166,7 +166,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "fa0751e529d000d5fb3b3cde26f849fe1e6b5c6e28b0ed4aab55c25e79e5f5c7"
+      "sha256": "f7e37fc1dc004b7e73055b211397d0f75c0cc96f5cf471c426984f0ac3cd7f9a"
     },
     "runtime": {
       "name": "go",
@@ -247,62 +247,50 @@
     {
       "check": "approval-not-issued-by-server",
       "native": {
-        "reasons": [
-          "derived allow/bound, the manifest declares deny/approval_not_issued"
-        ],
+        "reasons": [],
         "verdict": "deny"
       },
-      "state": "fail"
+      "state": "pass"
     },
     {
       "check": "approval-request-completed-twice",
       "native": {
-        "reasons": [
-          "derived allow/bound, the manifest declares deny/approval_request_completed_twice"
-        ],
+        "reasons": [],
         "verdict": "deny"
       },
-      "state": "fail"
+      "state": "pass"
     },
     {
       "check": "approval-denied-observe-mode",
       "native": {
-        "reasons": [
-          "derived allow/bound, the manifest declares deny/approval_not_granted"
-        ],
+        "reasons": [],
         "verdict": "deny"
       },
-      "state": "fail"
+      "state": "pass"
     },
     {
       "check": "approval-gathered-in-observe-mode",
       "native": {
-        "reasons": [
-          "derived allow/bound, the manifest declares deny/approval_not_enforced"
-        ],
+        "reasons": [],
         "verdict": "deny"
       },
-      "state": "fail"
+      "state": "pass"
     },
     {
       "check": "allow-key-rotated-after-issue",
       "native": {
-        "reasons": [
-          "derived deny/key_not_bound, the manifest declares allow/bound"
-        ],
+        "reasons": [],
         "verdict": "allow"
       },
-      "state": "fail"
+      "state": "pass"
     },
     {
       "check": "approval-issued-under-rotated-key",
       "native": {
-        "reasons": [
-          "derived deny/key_not_bound, the manifest declares deny/key_retired"
-        ],
+        "reasons": [],
         "verdict": "deny"
       },
-      "state": "fail"
+      "state": "pass"
     },
     {
       "check": "approval-id-reused-different-content",
@@ -555,9 +543,9 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "a98a383062533eb8e419f745a23febdcda96f1a8eeb9bfd0e9e2632288289c9f"
+    "sha256": "23dce647cec369ad65bb998e87aac89d8e6ea04eadbf34e2563bdc753111d470"
   },
-  "exit-code": 1,
+  "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
   "exposure": "visible",
   "faults": [],
@@ -1205,7 +1193,7 @@
     "cases": "native-json",
     "format": "corpus-result-json-v1",
     "process-status": {
-      "exit-code": 1
+      "exit-code": 0
     },
     "summary": "native-text"
   },
@@ -1217,7 +1205,7 @@
       "reference": {
         "path": "release/intake/native/vectors-approval-binding.json",
         "serialization": "bytes",
-        "sha256": "699bed975759cdab8653e72513a5dc7d5b1f691430c977ba9ff7ddc64093305b"
+        "sha256": "cb82ec899f9fa31958f594cb199880d3412a6f77636c643cc6945dddd7d2a37c"
       }
     },
     {
@@ -1226,7 +1214,7 @@
       "reference": {
         "path": "release/intake/native/vectors-approval-binding.txt",
         "serialization": "bytes",
-        "sha256": "b9fc7579cbc6cb2b280dbcba27b5ba569d488ce5ee1def51cc1191b763bd2849"
+        "sha256": "7f03624df4f502201fb4132d34016ec163f98961c9921ed367bb38b7ffe0d52f"
       }
     },
     {
@@ -1243,56 +1231,7 @@
     "reject",
     "rejected"
   ],
-  "refusals": [
-    {
-      "check": "approval-not-issued-by-server",
-      "inputs": [
-        "member:approval-not-issued-by-server",
-        "check:approval-not-issued-by-server"
-      ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"deny\",\"reason\":\"approval_not_issued\"}}"
-    },
-    {
-      "check": "approval-request-completed-twice",
-      "inputs": [
-        "member:approval-request-completed-twice",
-        "check:approval-request-completed-twice"
-      ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"deny\",\"reason\":\"approval_request_completed_twice\"}}"
-    },
-    {
-      "check": "approval-denied-observe-mode",
-      "inputs": [
-        "member:approval-denied-observe-mode",
-        "check:approval-denied-observe-mode"
-      ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"deny\",\"reason\":\"approval_not_granted\"}}"
-    },
-    {
-      "check": "approval-gathered-in-observe-mode",
-      "inputs": [
-        "member:approval-gathered-in-observe-mode",
-        "check:approval-gathered-in-observe-mode"
-      ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"deny\",\"reason\":\"approval_not_enforced\"}}"
-    },
-    {
-      "check": "allow-key-rotated-after-issue",
-      "inputs": [
-        "member:allow-key-rotated-after-issue",
-        "check:allow-key-rotated-after-issue"
-      ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"allow\",\"reason\":\"bound\"}}"
-    },
-    {
-      "check": "approval-issued-under-rotated-key",
-      "inputs": [
-        "member:approval-issued-under-rotated-key",
-        "check:approval-issued-under-rotated-key"
-      ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"deny\",\"reason\":\"key_retired\"}}"
-    }
-  ],
+  "refusals": [],
   "relaxed-controls": [],
   "replay-stability": {
     "cause": null,
@@ -1300,11 +1239,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "699bed975759cdab8653e72513a5dc7d5b1f691430c977ba9ff7ddc64093305b"
+        "sha256": "cb82ec899f9fa31958f594cb199880d3412a6f77636c643cc6945dddd7d2a37c"
       },
       {
         "process": "run-2",
-        "sha256": "699bed975759cdab8653e72513a5dc7d5b1f691430c977ba9ff7ddc64093305b"
+        "sha256": "cb82ec899f9fa31958f594cb199880d3412a6f77636c643cc6945dddd7d2a37c"
       }
     ],
     "seed": null,
@@ -1380,6 +1319,6 @@
     ]
   },
   "specification-readers": [],
-  "state": "fail",
+  "state": "pass",
   "suite": "approval-binding/v1"
 }

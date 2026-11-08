@@ -2,10 +2,4 @@ suite: approval-binding/v1
 members: 45
   allow: 10
   deny: 35
-FAIL approval-not-issued-by-server: derived allow/bound, the manifest declares deny/approval_not_issued
-FAIL approval-request-completed-twice: derived allow/bound, the manifest declares deny/approval_request_completed_twice
-FAIL approval-denied-observe-mode: derived allow/bound, the manifest declares deny/approval_not_granted
-FAIL approval-gathered-in-observe-mode: derived allow/bound, the manifest declares deny/approval_not_enforced
-FAIL allow-key-rotated-after-issue: derived deny/key_not_bound, the manifest declares allow/bound
-FAIL approval-issued-under-rotated-key: derived deny/key_not_bound, the manifest declares deny/key_retired
-verdict: 6 member(s) and 0 corpus-level claim(s) do not hold
+verdict: every member behaves as MANIFEST.json declares
