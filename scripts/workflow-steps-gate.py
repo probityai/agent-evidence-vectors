@@ -14,7 +14,7 @@ step order, and it is deliberately noisy about the ones it cannot run.
 
     .venv/bin/python -B scripts/workflow-steps-gate.py            # every workflow
     .venv/bin/python -B scripts/workflow-steps-gate.py --list     # show the plan, run nothing
-    .venv/bin/python -B scripts/workflow-steps-gate.py --only no-internal-drafts
+    .venv/bin/python -B scripts/workflow-steps-gate.py --only no_internal_drafts   # one job of ci.yml
 
 Exit 0 only when every runnable step exited 0. Any native step failure, unknown
 action or expression, invalid source binding,
@@ -892,6 +892,10 @@ def include_original(original: list[dict[str, str]], entry: dict[str, str], axes
     return matched
 
 
+# Set by --only when it names a job of ci.yml: steps_of yields only that job's steps.
+ONLY_JOBS: list[str] = []
+
+
 def steps_of(doc: Any, path: pathlib.Path) -> Iterator[Step]:
     """Yield every step, in declaration order, once per matrix combination."""
     jobs = (doc or {}).get("jobs") or {}
@@ -899,6 +903,8 @@ def steps_of(doc: Any, path: pathlib.Path) -> Iterator[Step]:
         sys.exit(f"workflow-steps-gate: {path.name} declares no jobs. Refusing to call it covered.")
     workflow_dir = default_directory(doc)
     for job_name, job in jobs.items():
+        if ONLY_JOBS and not any(job_name == o or job_name.startswith(f"{o}__") for o in ONLY_JOBS):
+            continue
         job_dir = default_directory(job) or workflow_dir
         combos, unexpanded = matrix_combinations(job)
         seen: set[str] = set()
@@ -1351,6 +1357,13 @@ def main() -> int:
         sys.exit(f"workflow-steps-gate: {WORKFLOWS} does not exist.")
 
     files = sorted(p for p in WORKFLOWS.glob("*.yml") if not args.only or p.stem == args.only)
+    if not files and args.only:
+        # A job of ci.yml by its key, or by the prefix of its key, e.g. no_internal_drafts.
+        ci = WORKFLOWS / "ci.yml"
+        jobs = ((load_yaml(ci) or {}).get("jobs") or {}) if ci.is_file() else {}
+        if any(j == args.only or j.startswith(f"{args.only}__") for j in jobs):
+            ONLY_JOBS.append(args.only)
+            files = [ci]
     if not files:
         sys.exit(
             f"workflow-steps-gate: no workflow matched {args.only!r}. "
@@ -1852,6 +1865,22 @@ def execute(
         return execute_into(files, pathlib.Path(scratch), branch_authority)
 
 
+# ci.yml folds the jobs of every pull-request workflow, and two jobs of it exist only to
+# drive that fold from a hosted event: `changes` picks the jobs an event needs, and `ci-ok`
+# reports the picked jobs' results. Both read the event and the other jobs' results, which
+# a local push mirror has none of. This mirror runs every other job of ci.yml, so none of
+# the checks is left out. Printed NOT RUN, never passed.
+CONTROL_JOBS = {
+    "changes": "selects which jobs a hosted event runs; a push mirror runs them all",
+    "ci-ok": "reports the results of the jobs the event ran; a push mirror has none",
+}
+
+
+def control_job_reason(workflow: str, job: str) -> str:
+    """Why a job of ci.yml is not mirrored, or "" for every job that is."""
+    return CONTROL_JOBS.get(job, "") if workflow == "ci.yml" else ""
+
+
 def execute_into(
     files: list[pathlib.Path],
     evidence_dir: pathlib.Path,
@@ -1902,8 +1931,9 @@ def execute_into(
                 excluded = trigger_excludes(doc, selected_tags)
                 grouped: dict[str, list[Step]] = {}
                 for step in steps_of(doc, path):
-                    if excluded:
-                        reason = f"{step.label}  ({excluded})"
+                    skipped_because = excluded or control_job_reason(path.name, step.job)
+                    if skipped_because:
+                        reason = f"{step.label}  ({skipped_because})"
                         not_run.append(reason)
                         skipped = (
                             evidence
@@ -1917,7 +1947,7 @@ def execute_into(
                             {
                                 "label": step.label,
                                 "status": "NOT_RUN",
-                                "reason": excluded,
+                                "reason": skipped_because,
                                 "fault": False,
                             },
                         )
