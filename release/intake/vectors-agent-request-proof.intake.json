@@ -40,6 +40,29 @@
           "exit-code": 0,
           "sha256": "ef450fe94ed821971b011b04dde0388824b2af7125cfe5e6f4547dedcef7f831"
         },
+        "swapped-in": "475b014ae9eac084a958e8ec7b0671fc8b3ec4b707bd9c82d6e9a350fcf49bb1",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-agent-request-proof/README.md",
+      "serialization": "bytes",
+      "sha256": "35899761114e9d76e45ab1a5828e7b9e995d2576e7212a6321e23c89a387e4ac"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "ef450fe94ed821971b011b04dde0388824b2af7125cfe5e6f4547dedcef7f831"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "ef450fe94ed821971b011b04dde0388824b2af7125cfe5e6f4547dedcef7f831"
+        },
         "swapped-in": "d63dc31c67413d1f14bfee825221601ae4a3bd73234a09ffc31925f94942083f",
         "test": "swap-and-re-pin"
       },
@@ -69,6 +92,29 @@
       "path": "corpora/vectors-agent-request-proof/gen_vectors.py",
       "serialization": "bytes",
       "sha256": "5f8c40c6a3c46e219acea004f8151cc8efd70a44003b87b6ebcef7430c418b58"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "ef450fe94ed821971b011b04dde0388824b2af7125cfe5e6f4547dedcef7f831"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "ef450fe94ed821971b011b04dde0388824b2af7125cfe5e6f4547dedcef7f831"
+        },
+        "swapped-in": "3f56c8d8e66e600000a555869ce10c1d1d8cc9eb558b3715dd5bb36a8d9812be",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-agent-request-proof/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "892e05731beb57f981b6196c40517ed5f1faa173097896bcd26b58a7350ad39a"
     }
   ],
   "boundary": {
@@ -265,7 +311,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "d8ef0a2b8968ffb62c8aa9f62211101fb69c15994710c22ae6a6ef26644386c8"
+    "sha256": "b71fc42d2d5b1d144b73dd6479c9f88007f49257c470ce054198e4a9dfd6ff2e"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
