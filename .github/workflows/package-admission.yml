@@ -33,6 +33,7 @@ env:
 
   # Engine versions, each with the SHA-256 of the release asset. An unpinned
   # engine turns a red build into a question about which binary ran.
+  GH_TOKEN: ${{ github.token }}
   OPA_VERSION: v1.18.0
   OPA_SHA256: 65d700b14b99b354982b61031b40bdc8e316ea93dadd61818f066d1d9a69dcce
   KYVERNO_VERSION: v1.18.2
