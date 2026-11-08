@@ -3,7 +3,7 @@
 This repository runs its receipt-signature corpus against TRACE's Acta verifier.
 The comparison runs here, so TRACE does not need our package in its CI.
 
-The maintained [workflow](../../.github/workflows/trace-acta-receipts.yml) retrieves
+The maintained [workflow](../../.github/workflows/ci.yml) (job `trace_acta_receipts`) retrieves
 `tools/acta_receipt_verifier.py` from public TRACE commit
 `b938790f7f46d3a943c76a5360d2de60bb72112c` and checks its exact SHA-256 before
 execution. It uses this repository's locked dependencies and original corpus.

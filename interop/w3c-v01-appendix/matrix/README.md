@@ -15,7 +15,7 @@ python render.py                                                # matrix.json ->
 [`verification.tex`](verification.tex) the same two tables for the paper. Both
 are generated from [`matrix.json`](matrix.json), and `tests/test_matrix.py`
 fails when they disagree with it.
-[`../../../.github/workflows/w3c-v01-matrix.yml`](../../../.github/workflows/w3c-v01-matrix.yml)
+[`../../../.github/workflows/ci.yml`](../../../.github/workflows/ci.yml) (job `w3c_v01_matrix`)
 runs the whole matrix on ubuntu-24.04, ubuntu-24.04-arm and macos-15 on each
 change here and weekly, and fails when a cell or an input digest differs from
 the committed table.

@@ -326,7 +326,7 @@ signature and the time evidence) has passed. It builds the dataset tree from the
 tag with `scripts/publish-hf-dataset.py`, checks it, publishes the PyPI wheel,
 then replaces the dataset in one commit and gives it a tag with the tag's name.
 Package releases such as `jcs-admit-npm-v0.1.0` do not start it.
-`.github/workflows/publish-hf-dataset.yml` only tests the build and holds no
+the `publish_hf_dataset` job in `.github/workflows/ci.yml` only tests the build and holds no
 secret.
 
 One approval covers both destinations. The job runs in the protected environment

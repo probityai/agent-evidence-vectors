@@ -53,7 +53,7 @@ cache="${XDG_CACHE_HOME:-$HOME/.cache}/aev-gitleaks/$version"
 mkdir -p "$cache"
 tgz="$cache/gitleaks.tgz"
 if [ ! -f "$tgz" ] || ! echo "$tgz_sha256  $tgz" | sha256sum -c --status -; then
-	if ! curl -sSfL -o "$tgz.part" "$url"; then
+	if ! curl --retry 5 --retry-delay 5 --retry-all-errors -sSfL -o "$tgz.part" "$url"; then
 		echo "secret-scan: could not download gitleaks $version; nothing was scanned." >&2
 		exit 2
 	fi

@@ -48,5 +48,4 @@ jobs:
         with:
           ci: |
             ci.yml
-            observed-code-digest.yml
           token: ${{ github.token }}

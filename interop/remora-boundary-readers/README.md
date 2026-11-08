@@ -34,7 +34,7 @@ The output path must be new. Malformed input exits with no property verdict.
 Duplicate keys, escaped duplicate names, invalid UTF-8, non-JSON numbers and
 oversized input are refused before evaluation.
 
-The [native workflow](../../.github/workflows/remora-boundary-readers.yml) installs
+The [native workflow](../../.github/workflows/ci.yml) (job `remora_boundary_readers`) installs
 the reader and pinned [Probity Verify](https://github.com/probityai/probity-verify),
 then retains every fixture decision, additional case, source mutation, malformed-input
 control, command, exit status and environment. The source mutations disable signature
