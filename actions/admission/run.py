@@ -149,7 +149,7 @@ def install_opa(dest: Path, platform: str) -> Path:
             try:
                 body = fetch()
                 break
-            except Exception as error:
+            except (SetupError, OSError, ValueError) as error:
                 failures.append(f"{used}: {error}")
                 print(f"opa: {used} download failed ({error})", file=sys.stderr)
         if body is None:
