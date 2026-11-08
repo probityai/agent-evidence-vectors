@@ -1993,7 +1993,39 @@ def local_action_and_provider_inputs_still_fault() -> None:
         assert rc == 1 and "needs.remote.outputs.version" in log and "1 failed" in log, log
 
 
+def only_the_two_control_jobs_of_ci_are_not_mirrored() -> None:
+    """`changes` and `ci-ok` of ci.yml read a hosted event; every other job is mirrored."""
+    reason = GATE.control_job_reason  # type: ignore[attr-defined]
+    assert reason("ci.yml", "changes") and reason("ci.yml", "ci-ok")
+    assert reason("ci.yml", "no_internal_drafts") == ""
+    assert reason("ci.yml", "ci__go") == ""
+    assert reason("parts.yml", "changes") == "", "parts.yml's changes job is a real check"
+    doc = GATE.load_yaml(HERE.parent / ".github/workflows/ci.yml")  # type: ignore[attr-defined]
+    jobs = {s.job.split(" ")[0] for s in GATE.steps_of(doc, pathlib.Path("ci.yml"))}  # type: ignore[attr-defined]
+    assert {"changes", "ci-ok", "no_internal_drafts"} <= jobs, "ci.yml lost a job this test names"
+
+
+def only_selects_a_job_of_ci_by_key_or_prefix() -> None:
+    """`--only no_internal_drafts` and `--only ci` (the former ci.yml) pick jobs of ci.yml."""
+    doc = GATE.load_yaml(HERE.parent / ".github/workflows/ci.yml")  # type: ignore[attr-defined]
+    path = pathlib.Path("ci.yml")
+    try:
+        GATE.ONLY_JOBS[:] = ["no_internal_drafts"]  # type: ignore[attr-defined]
+        one = {s.job for s in GATE.steps_of(doc, path)}  # type: ignore[attr-defined]
+        GATE.ONLY_JOBS[:] = ["ci"]  # type: ignore[attr-defined]
+        family = {s.job.split(" ")[0] for s in GATE.steps_of(doc, path)}  # type: ignore[attr-defined]
+    finally:
+        GATE.ONLY_JOBS[:] = []  # type: ignore[attr-defined]
+    assert one == {"no_internal_drafts"}, one
+    assert family and all(job.startswith("ci__") for job in family), family
+
+
 def main() -> int:
+    check(
+        "only the two control jobs of ci.yml are not mirrored",
+        only_the_two_control_jobs_of_ci_are_not_mirrored,
+    )
+    check("--only selects a job of ci.yml", only_selects_a_job_of_ci_by_key_or_prefix)
     check(
         "remote-only inputs retain classification and raw custody",
         remote_only_inputs_keep_their_reason_and_raw_evidence,
