@@ -14,10 +14,10 @@
     "stated-after-anchor"
   ],
   "contract": "vectors-recorded/README.md",
-  "corpusDigest": "a2429f0dabb3e25bc019ccf9eb6eb7d98bd01942900ddfa3baafdeb9cd36f681",
+  "corpusDigest": "55bf18e34d014ac0e0fd355effe06d3712d577072b47c125ca14e1fd33e9cbb9",
   "counts": {
     "failed": 14,
-    "verified": 5
+    "verified": 6
   },
   "suite": "recorded-set-conformance/v1",
   "vectors": [
@@ -339,6 +339,29 @@
       },
       "sourceFile": "sets/hs51-set2-acks/SOURCE.json",
       "sumsSha256": "a4a4323d9416e32fb3bb600e112740a5564d37982897127feebc961d75f2b978"
+    },
+    {
+      "bindings": [],
+      "dir": "sets/vate-rb-receiving-captures/bytes",
+      "expected": {
+        "codes": [],
+        "verdict": "verified"
+      },
+      "file": "sets/vate-rb-receiving-captures/bytes/SHA256SUMS",
+      "id": "v780fd9ea12578229",
+      "kind": "recorded",
+      "licenceFile": "sets/vate-rb-receiving-captures/LICENSE",
+      "name": "vate-rb-receiving-captures",
+      "source": {
+        "commit": "eaa47be4bd1f640f390ecd8b31111277c0e0e9e0",
+        "contributor": "Takao Sato (VATE maintainer, GitHub Poke-nushi)",
+        "licence": "Apache-2.0, LICENSE of reference/restoration-rb-receiving beside bytes/",
+        "path": "reference/restoration-rb-receiving",
+        "publishedIn": "https://github.com/Poke-nushi/Verifiable-Agent-Trust-Envelope/blob/eaa47be4bd1f640f390ecd8b31111277c0e0e9e0/reference/restoration-rb-receiving/README.md",
+        "repository": "https://github.com/Poke-nushi/Verifiable-Agent-Trust-Envelope"
+      },
+      "sourceFile": "sets/vate-rb-receiving-captures/SOURCE.json",
+      "sumsSha256": "a5e0636895af624b6f3c013e88e95c06eaba3f4bfcfcae35a91d52d43c9704bc"
     },
     {
       "bindings": [

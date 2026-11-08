@@ -1,0 +1,28 @@
+{
+  "bindings": [],
+  "commit": "eaa47be4bd1f640f390ecd8b31111277c0e0e9e0",
+  "contributor": "Takao Sato (VATE maintainer, GitHub Poke-nushi)",
+  "licence": "Apache-2.0, LICENSE of reference/restoration-rb-receiving beside bytes/",
+  "path": "reference/restoration-rb-receiving",
+  "publishedDigests": {
+    "commit_observed/observation.json": "3a784b076715ae6693ad0794d2c9bfe4036fc259adaf6046c13fe7450207a94f",
+    "commit_observed/report.json": "f1c3c87e984b7bf2d79dc846d4f80a679cf696d711314fa44ddb3085f98182f7",
+    "commit_observed/selection.json": "3a1366cebf57b2dfb459c71e3ec26a02feab161a66c173cd9f80a4f54da04a2d",
+    "commit_observed/statement.json": "9b3b4575fa4255de81ffb08854bc1437d33d9c41fdd378abe439f9187d0ee2b7",
+    "commit_observed/test_plan.json": "f2f489c79525b2589926b7d26062b3369d6f5560b107d2dc78953fd94caababf",
+    "no_commit/observation.json": "eb021595547b148c8e1f9aeb9043f4869dd76459455aa354d56f8e0784d7fff5",
+    "no_commit/report.json": "c4b4e7e3e82a56933c8d5227a3ae7dbc016889aff031cb18bcf6e5cd5b9d83bb",
+    "no_commit/selection.json": "fb5516d88d0ed68ed6245e8f54a52066dd47bac7bbd5e6daf40ef7355bacc141",
+    "no_commit/statement.json": "a74115af93c6e21899e00c813a08a01045f7abd7b33b967c7414757aca7bfe45",
+    "no_commit/test_plan.json": "f2f489c79525b2589926b7d26062b3369d6f5560b107d2dc78953fd94caababf",
+    "not_established/observation.json": "83ff7c923283313f40e1db31ee4d40f60f51b4942dac83520396276ac07a21ee",
+    "not_established/report.json": "5fcdfb74bfd17252d2a114c53e586209244585f22c1cdd55311febe82c344901",
+    "not_established/selection.json": "21d8e968baf95402a011e9d71d6aa608fb80f54c79198a0bdc49cb004c2b220e",
+    "not_established/statement.json": "d24d70cfc40ea8a99ffb3e776a165a695295bcea775577b06e0829d9f0601e7a",
+    "not_established/test_plan.json": "f2f489c79525b2589926b7d26062b3369d6f5560b107d2dc78953fd94caababf"
+  },
+  "publishedIn": "https://github.com/Poke-nushi/Verifiable-Agent-Trust-Envelope/blob/eaa47be4bd1f640f390ecd8b31111277c0e0e9e0/reference/restoration-rb-receiving/README.md",
+  "repository": "https://github.com/Poke-nushi/Verifiable-Agent-Trust-Envelope",
+  "scope": "The check says the retained bytes match the digests listed here. Takao Sato's pinned README describes three captures (run_capture.py): revocation before acceptance, revocation after acceptance with a commit observed after revocation, and an incomplete observation whose counts stay unknown. They were produced by running that script at the pinned commit, unmodified, on a Hetzner build box in Python 3.13, with its 46 reader tests and 7 capture tests passing; the disposable test keys were deleted by the script. Each case holds the Restoration Evidence -00 section 5.5 Revocation Boundary Statement, the receiver selection, the test plan, the observation, the reader report, CAPTURE.json and the script's own MANIFEST.json (whose digests are the published digests above). Fixed synthetic clock, not independent time. These bytes are a recorded run, not a result about any producer: they say nothing about signatures, issuer authority, evidence sufficiency or permission to resume, which his reader marks not_assessed.",
+  "sumsSha256": "a5e0636895af624b6f3c013e88e95c06eaba3f4bfcfcae35a91d52d43c9704bc"
+}
