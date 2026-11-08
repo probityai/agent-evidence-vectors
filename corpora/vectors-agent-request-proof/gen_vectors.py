@@ -166,11 +166,14 @@ def proof(
     header: dict[str, Any] | None = None,
     iss: str = ISSUER,
     unsigned: bool = False,
+    aud: str = AUDIENCE,
+    extra: dict[str, Any] | None = None,
 ) -> str:
     """A compact proof JWT, as the agent signs it."""
     head = header or {"alg": "RS256", "kid": "agent-key-0001", "typ": TYP}
     claims = {
-        "aud": AUDIENCE,
+        **(extra or {}),
+        "aud": aud,
         "body_sha256": hashlib.sha256(body).hexdigest(),
         "exp": iat + lifetime,
         "htm": method,
@@ -246,6 +249,12 @@ def envelope(stmt: dict[str, Any], served: dict[str, Any] | None = None) -> byte
     )
 
 
+KID = "agent-key-0001"
+TENANT = {"obx_deployment_id": "deployment-0001", "obx_organization_id": "org-0001"}
+# The relying party's pins for the audience, kid and tenant checks, by case id.
+# They live in case.json, never in the record.
+PINS: dict[str, dict[str, Any]] = {}
+
 POST, PATH = "POST", "/api/v2/governance/evaluate"
 BODY = b'{"event_type":"ActivityStarted","session_id":"session-0001"}'
 OTHER_BODY = b'{"event_type":"ActivityStarted","session_id":"session-0002"}'
@@ -274,6 +283,20 @@ def _upstream() -> dict[str, Any]:
 Case = tuple[str, list[bytes], str, str, str]
 
 
+def _pinned(name: str, **overrides: Any) -> dict[str, Any]:
+    """Register the pins for one case: the audience, kid and tenant its good proof carries."""
+    pins = {"audience": AUDIENCE, "claims": dict(TENANT), "kid": KID, **overrides}
+    PINS[name] = pins
+    return pins
+
+
+def _pinned_good(**claims: Any) -> dict[str, Any]:
+    body = BODY
+    return statement(
+        POST, PATH, body, proof(POST, PATH, body, extra={**TENANT, **claims}), observed=T0 + 5
+    )
+
+
 def cases() -> list[Case]:
     """Every case: id, envelopes in order, expected decision and reason, the edit."""
     wrong_typ = {"alg": "RS256", "kid": "agent-key-0001", "typ": "JWT"}
@@ -281,6 +304,19 @@ def cases() -> list[Case]:
     alg_none = {"alg": "none", "kid": "agent-key-0001", "typ": TYP}
     edited = _good()
     edited["predicate"]["request"]["path"] = "/api/v2/governance/approve"
+    up_claims = json.loads(reader.b64url_decode(UPSTREAM_ASSERTION.split(".")[1]))
+    up_header = json.loads(reader.b64url_decode(UPSTREAM_ASSERTION.split(".")[0]))
+    PINS["upstream-golden-pinned"] = {
+        "audience": up_claims["aud"],
+        "claims": {k: v for k, v in up_claims.items() if k.startswith("obx_")},
+        "kid": up_header["kid"],
+    }
+    _pinned("request-bound-pinned")
+    _pinned("audience-mismatch")
+    _pinned("kid-mismatch")
+    _pinned("tenant-mismatch")
+    _pinned("tenant-claim-absent")
+    wrong_kid = {"alg": "RS256", "kid": "agent-key-0002", "typ": TYP}
     return [
         (
             "request-bound",
@@ -448,6 +484,76 @@ def cases() -> list[Case]:
             "replayed_jti",
             "a second proof reuses the jti of an earlier recorded proof from the same agent",
         ),
+        (
+            "request-bound-pinned",
+            [envelope(_pinned_good())],
+            "verified",
+            "request_bound",
+            "control: the proof carries the pinned audience, kid and tenant claims",
+        ),
+        (
+            "upstream-golden-pinned",
+            [envelope(_upstream())],
+            "verified",
+            "request_bound",
+            "control: the upstream golden fixture under pins taken from its own aud, kid "
+            "and obx_ claims",
+        ),
+        (
+            "audience-mismatch",
+            [
+                envelope(
+                    statement(
+                        POST,
+                        PATH,
+                        BODY,
+                        proof(POST, PATH, BODY, aud="urn:example:other:core", extra=TENANT),
+                    )
+                )
+            ],
+            "rejected",
+            "audience_mismatch",
+            "a valid proof minted for another audience, replayed at this service",
+        ),
+        (
+            "kid-mismatch",
+            [
+                envelope(
+                    statement(
+                        POST,
+                        PATH,
+                        BODY,
+                        proof(POST, PATH, BODY, header=wrong_kid, extra=TENANT),
+                    )
+                )
+            ],
+            "rejected",
+            "kid_mismatch",
+            "the registered key signs a proof whose kid names another credential",
+        ),
+        (
+            "tenant-mismatch",
+            [envelope(_pinned_good(obx_organization_id="org-0002"))],
+            "rejected",
+            "tenant_mismatch",
+            "a valid proof carrying another organisation's tenant claim",
+        ),
+        (
+            "tenant-claim-absent",
+            [
+                envelope(
+                    statement(
+                        POST,
+                        PATH,
+                        BODY,
+                        proof(POST, PATH, BODY, extra={"obx_deployment_id": "deployment-0001"}),
+                    )
+                )
+            ],
+            "rejected",
+            "tenant_mismatch",
+            "a valid proof that omits the pinned organisation claim",
+        ),
     ]
 
 
@@ -481,6 +587,8 @@ def generate(root: Path = ROOT) -> dict[str, Any]:
             "recorderKey": base64.b64encode(bytes(recorder)).decode(),
             "schema_version": "agent-request-proof-case/v1",
         }
+        if name in PINS:
+            case["pins"] = PINS[name]
         files = {"case.json": _json(case), **dict(zip(names, envelopes, strict=True))}
         for filename, data in files.items():
             (directory / filename).write_bytes(data)

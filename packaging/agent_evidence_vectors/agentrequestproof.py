@@ -36,16 +36,26 @@ reader checks in a fixed order and names the first check that fails:
    2048 bits (``proof_signature_invalid``);
 7. the proof's ``iss`` and ``sub`` are the principal's issuer and subject
    (``principal_mismatch``);
-8. ``htm`` and ``htu`` are the recorded method and path
-   (``htm_htu_mismatch``);
-9. ``body_sha256`` and the statement subject are the SHA-256 of the recorded
-   body (``body_digest_mismatch``);
-10. ``iat`` <= observedAt < ``exp`` and ``exp - iat`` is at most the profile's
+8. the proof's ``aud`` is the audience the verifier pins
+   (``audience_mismatch``);
+9. the header's ``kid`` is the key identifier the verifier pins
+   (``kid_mismatch``);
+10. every tenant claim the verifier pins is present in the proof and equal
+    (``tenant_mismatch``);
+11. ``htm`` and ``htu`` are the recorded method and path
+    (``htm_htu_mismatch``);
+12. ``body_sha256`` and the statement subject are the SHA-256 of the recorded
+    body (``body_digest_mismatch``);
+13. ``iat`` <= observedAt < ``exp`` and ``exp - iat`` is at most the profile's
     lifetime (``proof_expired``);
-11. no earlier record from the recorder carries the same issuer and ``jti``
+14. no earlier record from the recorder carries the same issuer and ``jti``
     (``replayed_jti``).
 
-A record that passes all eleven is ``verified`` with reason ``request_bound``.
+Checks 8 to 10 read the pins in ``case.json`` (``pins``: ``audience``, ``kid``,
+``claims``). The pins are the relying party's policy, not part of the record, so
+a profile that pins ``aud``, ``kid`` and the tenant claims adds checks without a
+format change; a pin the case does not name switches its check off. A record
+that passes every check is ``verified`` with reason ``request_bound``.
 
 The external-verifier contract: ``<verifier> <case-dir>/case.json --json``
 prints one JSON object carrying ``decision`` and ``reason``, and exits 0 for
@@ -90,6 +100,9 @@ CHECKS = (
     "thumbprint_mismatch",
     "proof_signature_invalid",
     "principal_mismatch",
+    "audience_mismatch",
+    "kid_mismatch",
+    "tenant_mismatch",
     "htm_htu_mismatch",
     "body_digest_mismatch",
     "proof_expired",
@@ -276,6 +289,18 @@ class _Record:
             or self.claims.get("sub") != principal["subject"]
         )
 
+    def audience_mismatch(self, pins: dict[str, Any]) -> bool:
+        return "audience" in pins and self.claims.get("aud") != pins["audience"]
+
+    def kid_mismatch(self, pins: dict[str, Any]) -> bool:
+        return "kid" in pins and self.header.get("kid") != pins["kid"]
+
+    def tenant_mismatch(self, pins: dict[str, Any]) -> bool:
+        return any(
+            name not in self.claims or self.claims[name] != value
+            for name, value in dict(pins.get("claims", {})).items()
+        )
+
     def htm_htu_mismatch(self) -> bool:
         request = self.predicate["request"]
         return bool(
@@ -302,18 +327,22 @@ class _Record:
         return (str(self.claims.get("iss")), str(self.claims.get("jti")))
 
 
-def _load(case_path: Path) -> tuple[bytes, list[_Record]]:
+def _load(case_path: Path) -> tuple[bytes, list[_Record], dict[str, Any]]:
     case = json.loads(case_path.read_text(encoding="utf-8"))
     recorder = base64.b64decode(str(case["recorderKey"]), validate=True)
     records = [
         _Record(json.loads((case_path.parent / name).read_text(encoding="utf-8")))
         for name in case["envelopes"]
     ]
-    return recorder, records
+    return recorder, records, dict(case.get("pins", {}))
 
 
 def _first_failure(
-    recorder: bytes, record: _Record, seen: set[tuple[str, str]], skip: frozenset[str]
+    recorder: bytes,
+    record: _Record,
+    seen: set[tuple[str, str]],
+    skip: frozenset[str],
+    pins: dict[str, Any],
 ) -> str | None:
     """Name the first check in ``CHECKS`` the record fails, or None.
 
@@ -331,6 +360,9 @@ def _first_failure(
         "thumbprint_mismatch": record.thumbprint_mismatch,
         "proof_signature_invalid": lambda: not record.proof_verifies(),
         "principal_mismatch": record.principal_mismatch,
+        "audience_mismatch": lambda: record.audience_mismatch(pins),
+        "kid_mismatch": lambda: record.kid_mismatch(pins),
+        "tenant_mismatch": lambda: record.tenant_mismatch(pins),
         "htm_htu_mismatch": record.htm_htu_mismatch,
         "body_digest_mismatch": record.body_digest_mismatch,
         "proof_expired": record.expired,
@@ -348,10 +380,10 @@ def verify(case_path: Path, skip: frozenset[str] = frozenset()) -> dict[str, str
     Every earlier record must verify, or the case is rejected with the reason of
     the first earlier record that does not.
     """
-    recorder, records = _load(case_path)
+    recorder, records, pins = _load(case_path)
     seen: set[tuple[str, str]] = set()
     for record in records:
-        failure = _first_failure(recorder, record, seen, skip)
+        failure = _first_failure(recorder, record, seen, skip, pins)
         if failure is not None:
             return {"decision": REJECTED, "reason": failure}
         seen.add(record.replay_key())
@@ -360,7 +392,7 @@ def verify(case_path: Path, skip: frozenset[str] = frozenset()) -> dict[str, str
 
 def proof_signature_verifies(case_path: Path) -> bool:
     """Whether the last record's proof verifies under the JWK the record carries."""
-    _, records = _load(case_path)
+    _, records, _ = _load(case_path)
     last = records[-1]
     return last.well_formed() and last.proof_verifies()
 

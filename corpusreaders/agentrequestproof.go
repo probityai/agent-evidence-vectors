@@ -27,8 +27,13 @@ func init() { register(agentRequestProof{}) }
 //  1. statement_malformed;  2. recorder_signature_invalid;  3. typ_mismatch;
 //  4. alg_not_allowed;  5. thumbprint_mismatch (RFC 7638);
 //  6. proof_signature_invalid (RS256, modulus of at least 2048 bits);
-//  7. principal_mismatch;  8. htm_htu_mismatch;  9. body_digest_mismatch;
-//  10. proof_expired;  11. replayed_jti.
+//  7. principal_mismatch;  8. audience_mismatch;  9. kid_mismatch;
+//  10. tenant_mismatch;  11. htm_htu_mismatch;  12. body_digest_mismatch;
+//  13. proof_expired;  14. replayed_jti.
+//
+// Checks 8 to 10 read the pins in case.json (audience, kid, claims): the
+// relying party's policy, not part of the record. A pin the case does not name
+// switches its check off.
 //
 // The reader also recomputes each member's declared proofSignatureVerifies.
 type agentRequestProof struct{}
@@ -59,9 +64,16 @@ type arpVector struct {
 	ProofSignatureVerifies bool              `json:"proofSignatureVerifies"`
 }
 
+type arpPins struct {
+	Audience *string        `json:"audience"`
+	Kid      *string        `json:"kid"`
+	Claims   map[string]any `json:"claims"`
+}
+
 type arpCaseFile struct {
 	Envelopes   []string `json:"envelopes"`
 	RecorderKey string   `json:"recorderKey"`
+	Pins        arpPins  `json:"pins"`
 }
 
 type arpEnvelope struct {
@@ -239,7 +251,25 @@ func (r arpRecord) replayKey() string {
 	return fmt.Sprint(r.claims["iss"]) + "\x00" + fmt.Sprint(r.claims["jti"])
 }
 
-func (r arpRecord) firstFailure(recorder ed25519.PublicKey, seen map[string]bool) string {
+func (r arpRecord) audienceMismatch(pins arpPins) bool {
+	return pins.Audience != nil && r.claims["aud"] != *pins.Audience
+}
+
+func (r arpRecord) kidMismatch(pins arpPins) bool {
+	return pins.Kid != nil && r.header["kid"] != *pins.Kid
+}
+
+func (r arpRecord) tenantMismatch(pins arpPins) bool {
+	for name, want := range pins.Claims {
+		got, has := r.claims[name]
+		if !has || got != want {
+			return true
+		}
+	}
+	return false
+}
+
+func (r arpRecord) firstFailure(recorder ed25519.PublicKey, seen map[string]bool, pins arpPins) string {
 	if !r.ok {
 		return "statement_malformed"
 	}
@@ -267,6 +297,9 @@ func (r arpRecord) firstFailure(recorder ed25519.PublicKey, seen map[string]bool
 		{"principal_mismatch", func() bool {
 			return r.claims["iss"] != *p.Principal.Issuer || r.claims["sub"] != *p.Principal.Subject
 		}},
+		{"audience_mismatch", func() bool { return r.audienceMismatch(pins) }},
+		{"kid_mismatch", func() bool { return r.kidMismatch(pins) }},
+		{"tenant_mismatch", func() bool { return r.tenantMismatch(pins) }},
 		{"htm_htu_mismatch", func() bool {
 			return r.claims["htm"] != *p.Request.Method || r.claims["htu"] != *p.Request.Path
 		}},
@@ -287,6 +320,7 @@ func (r arpRecord) firstFailure(recorder ed25519.PublicKey, seen map[string]bool
 type arpCase struct {
 	recorder ed25519.PublicKey
 	records  []arpRecord
+	pins     arpPins
 }
 
 func arpLoad(caseDir string) (arpCase, error) {
@@ -303,7 +337,7 @@ func arpLoad(caseDir string) (arpCase, error) {
 	if err != nil || len(key) != ed25519.PublicKeySize {
 		return c, fmt.Errorf("case.json recorderKey is not an Ed25519 public key")
 	}
-	c.recorder = key
+	c.recorder, c.pins = key, cf.Pins
 	for _, name := range cf.Envelopes {
 		body, err := readIn(caseDir, name)
 		if err != nil {
@@ -320,7 +354,7 @@ func arpLoad(caseDir string) (arpCase, error) {
 func (c arpCase) decide() scDecision {
 	seen := map[string]bool{}
 	for _, r := range c.records {
-		if reason := r.firstFailure(c.recorder, seen); reason != "" {
+		if reason := r.firstFailure(c.recorder, seen, c.pins); reason != "" {
 			return scDecision{Decision: "rejected", Reason: reason}
 		}
 		seen[r.replayKey()] = true

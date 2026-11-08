@@ -40,8 +40,19 @@ SIGNED_REJECTS = {
     "expired",
     "excessive-lifetime",
     "replayed-jti",
+    "audience-mismatch",
+    "kid-mismatch",
+    "tenant-mismatch",
+    "tenant-claim-absent",
 }
-CONTROLS = {"request-bound", "upstream-golden", "distinct-jti-sequence"}
+PIN_REJECTS = {"audience-mismatch", "kid-mismatch", "tenant-mismatch", "tenant-claim-absent"}
+CONTROLS = {
+    "request-bound",
+    "upstream-golden",
+    "distinct-jti-sequence",
+    "request-bound-pinned",
+    "upstream-golden-pinned",
+}
 
 
 def _stub(tmp_path: Path, skip: tuple[str, ...]) -> str:
@@ -169,6 +180,20 @@ class TestAgentRequestProofCorpus:
             (copied / "cases" / "request-bound" / "envelope-1.json").write_bytes(b"{}\n")
             _, errors = corpus.check(root=copied)
             assert "request-bound: fixture digest mismatch" in errors
+
+        @pytest.mark.parametrize("name", sorted(PIN_REJECTS))
+        def test_pin_rejects_verify_once_the_pins_are_removed(
+            self, name: str, tmp_path: Path
+        ) -> None:
+            copied = tmp_path / "corpus"
+            shutil.copytree(ROOT, copied, ignore=shutil.ignore_patterns("tests", "__pycache__"))
+            case = copied / "cases" / name / "case.json"
+            body = json.loads(case.read_text(encoding="utf-8"))
+            assert "pins" in body
+            del body["pins"]
+            case.write_text(json.dumps(body), encoding="utf-8")
+            answer = agentrequestproof.verify(case)
+            assert answer == {"decision": "verified", "reason": "request_bound"}
 
         def test_undersized_modulus_is_refused(self) -> None:
             small = {"e": "AQAB", "kty": "RSA", "n": agentrequestproof.b64url(b"\xc1" * 128)}

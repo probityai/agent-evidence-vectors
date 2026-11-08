@@ -162,7 +162,8 @@ proof the agent sent with it: the method, path and body, the compact proof, the
 principal's public JWK with its registered RFC 7638 thumbprint, and the observation
 time. The statement subject is the body digest and the statement is signed by the
 recorder over RFC 8785 bytes. A verifier recomputes every binding the receiving service
-checked (typ, alg, thumbprint, signature, issuer, htm, htu, body digest, lifetime) and
+checked (typ, alg, thumbprint, signature, issuer, htm, htu, body digest, lifetime) and,
+when the verifier pins them, the proof's audience, kid and tenant claims, and
 refuses a jti the recorder already recorded for the same issuer. The principal block
 is a verified principal binding, the field an audit record needs in place of a reported
 authentication method.

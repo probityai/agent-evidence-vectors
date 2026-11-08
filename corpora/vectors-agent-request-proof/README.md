@@ -33,6 +33,8 @@ the binding refuses them.
 | request-bound | yes | verified, `request_bound` |
 | upstream-golden | yes | verified, `request_bound` |
 | distinct-jti-sequence | yes | verified, `request_bound` |
+| request-bound-pinned | yes | verified, `request_bound` |
+| upstream-golden-pinned | yes | verified, `request_bound` |
 | statement-malformed | no | rejected, `statement_malformed` |
 | recorder-signature-invalid | yes | rejected, `recorder_signature_invalid` |
 | wrong-typ | yes | rejected, `typ_mismatch` |
@@ -41,6 +43,10 @@ the binding refuses them.
 | thumbprint-mismatch | yes | rejected, `thumbprint_mismatch` |
 | proof-signature-invalid | no | rejected, `proof_signature_invalid` |
 | principal-mismatch | yes | rejected, `principal_mismatch` |
+| audience-mismatch | yes | rejected, `audience_mismatch` |
+| kid-mismatch | yes | rejected, `kid_mismatch` |
+| tenant-mismatch | yes | rejected, `tenant_mismatch` |
+| tenant-claim-absent | yes | rejected, `tenant_mismatch` |
 | htm-htu-mismatch | yes | rejected, `htm_htu_mismatch` |
 | body-digest-mismatch | yes | rejected, `body_digest_mismatch` |
 | expired | yes | rejected, `proof_expired` |
@@ -51,6 +57,7 @@ the binding refuses them.
 
 - `case.json`: the recorder's Ed25519 public key (`recorderKey`, base64) and the
   envelopes in the order the recorder wrote them.
+  A pinned case adds `pins` (`audience`, `kid`, `claims`), the verifier's policy.
 - `envelope-N.json`: a DSSE envelope, payload type `application/vnd.in-toto+json`,
   signed by the recorder. Every envelope but the last is an earlier record that
   verifies; the decision is the last one's.
@@ -71,13 +78,28 @@ A verifier names the first check that fails. The order is part of the contract.
    (`proof_signature_invalid`).
 7. The proof's `iss` and `sub` are the principal's issuer and subject
    (`principal_mismatch`).
-8. `htm` and `htu` are the recorded method and path (`htm_htu_mismatch`).
-9. `body_sha256` and the statement subject are the SHA-256 of the recorded body
-   (`body_digest_mismatch`).
-10. `iat` <= `observedAt` < `exp`, and `exp - iat` is within the profile's lifetime
+8. The proof's `aud` is the audience the verifier pins (`audience_mismatch`).
+9. The header's `kid` is the key identifier the verifier pins (`kid_mismatch`).
+10. Every tenant claim the verifier pins (for the upstream profile, the `obx_`
+    organisation and deployment claims) is present in the proof and equal
+    (`tenant_mismatch`).
+11. `htm` and `htu` are the recorded method and path
+    (`htm_htu_mismatch`).
+12. `body_sha256` and the statement subject are the SHA-256 of the recorded body
+    (`body_digest_mismatch`).
+13. `iat` <= `observedAt` < `exp`, and `exp - iat` is within the profile's lifetime
     (`proof_expired`).
-11. No earlier record from the recorder carries the same issuer and `jti`
+14. No earlier record from the recorder carries the same issuer and `jti`
     (`replayed_jti`).
+
+Checks 8 to 10 read the relying party's pins from the case's `case.json`
+(`pins`: `audience`, `kid`, `claims`). The pins are policy of the party that
+verifies, not part of the record, so a profile that pins `aud`, `kid` and the
+tenant claims adds checks without a format change. A pin a case does not name
+switches its check off. The pinned rejections carry a proof whose signature
+verifies and whose binding to the request is sound; with the pins removed they
+verify, which the corpus tests prove. `upstream-golden-pinned` pins the upstream
+fixture to its own `aud`, `kid` and `obx_` claims.
 
 A record that passes every check is `verified` with reason `request_bound`.
 

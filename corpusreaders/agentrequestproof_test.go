@@ -96,3 +96,38 @@ func TestAgentRequestProofReplayNeedsTheEarlierRecord(t *testing.T) {
 	}
 	t.Error("without the earlier record the replayed proof must verify on its own")
 }
+
+// The audience, kid and tenant checks read pins from case.json. Without the
+// pins the same valid proof verifies, so a reader that ignored them would
+// match the declared rejection only by echoing it.
+func TestAgentRequestProofPinsDecideTheirCases(t *testing.T) {
+	for _, name := range []string{"audience-mismatch", "kid-mismatch", "tenant-mismatch", "tenant-claim-absent"} {
+		copied := filepath.Join(t.TempDir(), arpDir)
+		copyTree(t, corpusPath(arpDir), copied)
+		caseFile := filepath.Join(copied, "cases", name, "case.json")
+		body, err := os.ReadFile(caseFile) // #nosec G304 -- a test reading its own corpus copy
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !strings.Contains(string(body), "\"pins\"") {
+			t.Fatalf("%s carries no pins", name)
+		}
+		unpinned := strings.Replace(string(body), "\"pins\"", "\"unread\"", 1)
+		if err := os.WriteFile(caseFile, []byte(unpinned), 0o600); err != nil {
+			t.Fatal(err)
+		}
+		result, err := corpusreaders.Judge(copied)
+		if err != nil {
+			t.Fatal(err)
+		}
+		found := false
+		for _, m := range result.Members {
+			if m.ID == name && strings.Contains(strings.Join(m.Findings, " "), "derived verified/request_bound") {
+				found = true
+			}
+		}
+		if !found {
+			t.Errorf("%s: with its pins unread the proof must verify", name)
+		}
+	}
+}
