@@ -1,0 +1,708 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/revocation-epoch/v1",
+  "corpusDigest": "1c2ab49070d01b1261eb98d5e68ccdbd85fe6fd4ac1d3b7906301f37b8de4367",
+  "counts": {
+    "allow": 12,
+    "deny": 46
+  },
+  "suite": "revocation-epoch/v1",
+  "vectors": [
+    {
+      "edit": "control: the list in force revokes a different grant",
+      "expected": {
+        "decision": "allow",
+        "reason": "not_revoked"
+      },
+      "files": {
+        "record.json": "00d77c725168024c20e38aab5892b719a1db58d7dd8a8ec5a879ca423fd55f2f"
+      },
+      "id": "allow-other-grant-revoked",
+      "path": "cases/allow-other-grant-revoked"
+    },
+    {
+      "edit": "control: an empty list at epoch 1 is a stated state, not an absent one",
+      "expected": {
+        "decision": "allow",
+        "reason": "not_revoked"
+      },
+      "files": {
+        "record.json": "d1d7e40c619352575ac243f55d8ed71a10062fa40bb5b4f883886890efabca4c"
+      },
+      "id": "allow-empty-list-epoch-1",
+      "path": "cases/allow-empty-list-epoch-1"
+    },
+    {
+      "edit": "control: the list revoking the grant was witnessed after the effect, so the effect stands",
+      "expected": {
+        "decision": "allow",
+        "reason": "not_revoked"
+      },
+      "files": {
+        "record.json": "9c363fd6d4651c0a0f312684d0d7483a53f13850c37e9065c3c53b473397a983"
+      },
+      "id": "allow-grant-revoked-after-effect",
+      "path": "cases/allow-grant-revoked-after-effect"
+    },
+    {
+      "edit": "control: the holder key was revoked after the effect was witnessed",
+      "expected": {
+        "decision": "allow",
+        "reason": "not_revoked"
+      },
+      "files": {
+        "record.json": "7ad93e0663358b8ff6dba6a87236130deae039e376424646af45a689d9a9b588"
+      },
+      "id": "allow-holder-revoked-after-effect",
+      "path": "cases/allow-holder-revoked-after-effect"
+    },
+    {
+      "edit": "control: the permit was checked against a list one second younger than the limit",
+      "expected": {
+        "decision": "allow",
+        "reason": "not_revoked"
+      },
+      "files": {
+        "record.json": "73f2ea4d3bb75f91c6c21b62ff2a89cb4aa173dfb7c5be6da6cbcd730db9eac0"
+      },
+      "id": "allow-permit-list-one-second-under-limit",
+      "path": "cases/allow-permit-list-one-second-under-limit"
+    },
+    {
+      "edit": "control: the effect landed against a list one second younger than the limit",
+      "expected": {
+        "decision": "allow",
+        "reason": "not_revoked"
+      },
+      "files": {
+        "record.json": "39324f83a80a2eed7e17307c4361613d8029b62b53d5122362ee2c0ac7364275"
+      },
+      "id": "allow-effect-list-one-second-under-limit",
+      "path": "cases/allow-effect-list-one-second-under-limit"
+    },
+    {
+      "edit": "control: three lists with increasing epochs; permit and effect use the newest",
+      "expected": {
+        "decision": "allow",
+        "reason": "not_revoked"
+      },
+      "files": {
+        "record.json": "7fa3063d64da56ef3b885d529c42dee5e43a6503be4a6bd808f622a03995d4e5"
+      },
+      "id": "allow-epochs-increase-across-three-lists",
+      "path": "cases/allow-epochs-increase-across-three-lists"
+    },
+    {
+      "edit": "control: a newer list arrived after the permit; the effect was checked against it",
+      "expected": {
+        "decision": "allow",
+        "reason": "not_revoked"
+      },
+      "files": {
+        "record.json": "6ec296a89252567e042be095a27177156550a14de01d97d940dbab2b478c7805"
+      },
+      "id": "allow-in-flight-rechecked-at-effect",
+      "path": "cases/allow-in-flight-rechecked-at-effect"
+    },
+    {
+      "edit": "control: the revoking list and the effect share an instant; the log puts the effect first",
+      "expected": {
+        "decision": "allow",
+        "reason": "not_revoked"
+      },
+      "files": {
+        "record.json": "3199dd67722003718c7f11a72fda48bcbe646525327e853b6016aa18754702f1"
+      },
+      "id": "allow-race-effect-witnessed-first",
+      "path": "cases/allow-race-effect-witnessed-first"
+    },
+    {
+      "edit": "control: the same list at the same epoch is carried and witnessed twice",
+      "expected": {
+        "decision": "allow",
+        "reason": "not_revoked"
+      },
+      "files": {
+        "record.json": "52d5d643eb981086abe07a544596928f1ddb7670f0ddfd170a7317ccc5b5039c"
+      },
+      "id": "allow-same-list-carried-twice",
+      "path": "cases/allow-same-list-carried-twice"
+    },
+    {
+      "edit": "control: the worker ran a permit minted before the revocation; the enforcement point where the effect lands read the newer list and did not apply it",
+      "expected": {
+        "decision": "allow",
+        "reason": "revocation_enforced_at_effect"
+      },
+      "files": {
+        "record.json": "bed1e875fb073a38a9ca7cbf1bbceef87409aecbf43276ab9ce362ed905bf3df"
+      },
+      "id": "allow-revoked-in-flight-refused-at-effect",
+      "path": "cases/allow-revoked-in-flight-refused-at-effect"
+    },
+    {
+      "edit": "control: as above with the holder key revoked",
+      "expected": {
+        "decision": "allow",
+        "reason": "revocation_enforced_at_effect"
+      },
+      "files": {
+        "record.json": "8af0bd73cd6fa60d13a2be414f9faaa6af758ace813970da229874d8ee0d1a84"
+      },
+      "id": "allow-holder-revoked-in-flight-refused-at-effect",
+      "path": "cases/allow-holder-revoked-in-flight-refused-at-effect"
+    },
+    {
+      "edit": "the record omits the lists it is judged against",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "623c50d4123892bada15077705d37077ec84a850d6cfe0c6417a3e7cc68eafe2"
+      },
+      "id": "malformed-srls-missing",
+      "path": "cases/malformed-srls-missing"
+    },
+    {
+      "edit": "a list's epoch is text",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "03c5cf5ac2cd7d863b01eaf1a2f88630f503b75754bf75fd100ae66177f1675e"
+      },
+      "id": "malformed-epoch-text",
+      "path": "cases/malformed-epoch-text"
+    },
+    {
+      "edit": "a list's epoch is a fraction",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "e6df979ccf670311ae1153c8ad03d7d4b0b88360ae48d5c5cfa7689122bc8721"
+      },
+      "id": "malformed-epoch-not-integer",
+      "path": "cases/malformed-epoch-not-integer"
+    },
+    {
+      "edit": "the permit's srl member is null; a permit that checked no list omits the member",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "6400e83fb33bf1ed47cf3cea80490c9484a393552b42a6455ff3096e1e183a8c"
+      },
+      "id": "malformed-srl-member-null",
+      "path": "cases/malformed-srl-member-null"
+    },
+    {
+      "edit": "the effect's outcome is not applied, not-applied or uncertain",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "e1f57ad36e1f61eb9cdf6fabeee91ccd5180effee96750a2f088d781dd5970c7"
+      },
+      "id": "malformed-outcome-unknown",
+      "path": "cases/malformed-outcome-unknown"
+    },
+    {
+      "edit": "the freshness limit is zero",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "97c91c499ed43b276e9dde579d26cf5931a607dead993d9da6d7e688c2e19b9f"
+      },
+      "id": "malformed-freshness-zero",
+      "path": "cases/malformed-freshness-zero"
+    },
+    {
+      "edit": "a list's issue time is not an RFC 3339 instant",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "39f04c0d887515092cc4db417b643feb094fe0ef019a05f137b5bd255486c78a"
+      },
+      "id": "malformed-issued-at",
+      "path": "cases/malformed-issued-at"
+    },
+    {
+      "edit": "two witness entries carry one sequence number",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "94ead72d1199d88f683f4575f12387e61decd9795667de9557f060ef577e0dd8"
+      },
+      "id": "malformed-witness-seq-repeated",
+      "path": "cases/malformed-witness-seq-repeated"
+    },
+    {
+      "edit": "a witness entry is earlier than the one before it",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "63ba0a9b56c6c20f686b248786748cf1dc2610351b0eed0bd13d5dd1564e5f96"
+      },
+      "id": "malformed-witness-time-goes-back",
+      "path": "cases/malformed-witness-time-goes-back"
+    },
+    {
+      "edit": "the record names no contract",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_missing"
+      },
+      "files": {
+        "record.json": "b919217d826d318732ba7443250702e2cbf044e240013425a3db725a047ea877"
+      },
+      "id": "contract-id-missing",
+      "path": "cases/contract-id-missing"
+    },
+    {
+      "edit": "the record names a contract version that does not exist",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_unknown"
+      },
+      "files": {
+        "record.json": "8def1a8ea1584e17b8b4fc82af9377b31227c0bc964fe0a5a0724108c7dcc956"
+      },
+      "id": "contract-id-unknown",
+      "path": "cases/contract-id-unknown"
+    },
+    {
+      "edit": "the list was issued by a key the record does not trust",
+      "expected": {
+        "decision": "deny",
+        "reason": "srl_issuer_untrusted"
+      },
+      "files": {
+        "record.json": "bc3b3156953a39b74cd41db277956a314378646f4dfb2c863466a87f8fd2b4e5"
+      },
+      "id": "srl-issuer-untrusted",
+      "path": "cases/srl-issuer-untrusted"
+    },
+    {
+      "edit": "the permit names a grant digest that is not the recomputed digest of its grant",
+      "expected": {
+        "decision": "deny",
+        "reason": "grant_binding_mismatch"
+      },
+      "files": {
+        "record.json": "ead234d64a4232b0e388d56b885a0ccb9b4a14687959b8c4a16446da7559f60c"
+      },
+      "id": "grant-binding-permit-names-other-grant",
+      "path": "cases/grant-binding-permit-names-other-grant"
+    },
+    {
+      "edit": "the effect names a different permit",
+      "expected": {
+        "decision": "deny",
+        "reason": "grant_binding_mismatch"
+      },
+      "files": {
+        "record.json": "98e8ca89a0c32fc181e841ba3e3524f9b6bc3a2a8523aef9410131616709ac35"
+      },
+      "id": "grant-binding-effect-names-other-permit",
+      "path": "cases/grant-binding-effect-names-other-permit"
+    },
+    {
+      "edit": "two lists carry epoch 1 with different content",
+      "expected": {
+        "decision": "deny",
+        "reason": "srl_epoch_not_monotonic"
+      },
+      "files": {
+        "record.json": "e4553105caffe4710fc3831ef7211d504cbcfd12e21d0ca2e51286b19299dd8b"
+      },
+      "id": "epoch-reused-with-different-content",
+      "path": "cases/epoch-reused-with-different-content"
+    },
+    {
+      "edit": "the log witnessed epoch 1 after epoch 2: a rollback to an older list",
+      "expected": {
+        "decision": "deny",
+        "reason": "srl_epoch_not_monotonic"
+      },
+      "files": {
+        "record.json": "25c0cb27c27eb87d5151f069f2719c311dacbdeb3a8f1b9958b1d33c5cee2507"
+      },
+      "id": "epoch-rolled-back-in-witness-log",
+      "path": "cases/epoch-rolled-back-in-witness-log"
+    },
+    {
+      "edit": "epoch 2 claims an issue time before epoch 1's",
+      "expected": {
+        "decision": "deny",
+        "reason": "srl_epoch_not_monotonic"
+      },
+      "files": {
+        "record.json": "6bdce58e4c421526b4669e0c638fc450af25c054fb3b79f6056858dc87d59b69"
+      },
+      "id": "epoch-issued-before-predecessor",
+      "path": "cases/epoch-issued-before-predecessor"
+    },
+    {
+      "edit": "the permit records no list: it was minted without a revocation check",
+      "expected": {
+        "decision": "deny",
+        "reason": "srl_absent"
+      },
+      "files": {
+        "record.json": "678a49571c5cb4a9279e0f71bff45f15847d2415b14ca0aea78396943e6bbffb"
+      },
+      "id": "srl-absent-at-permit",
+      "path": "cases/srl-absent-at-permit"
+    },
+    {
+      "edit": "the effect records no list: the enforcement point where it landed checked nothing",
+      "expected": {
+        "decision": "deny",
+        "reason": "srl_absent"
+      },
+      "files": {
+        "record.json": "cb1c4a71b1127c881aa8eda3bef9f8d302005ce8ed20135a6bd8282ca941301b"
+      },
+      "id": "srl-absent-at-effect",
+      "path": "cases/srl-absent-at-effect"
+    },
+    {
+      "edit": "the permit names epoch 1 with the digest of a list the record does not carry",
+      "expected": {
+        "decision": "deny",
+        "reason": "srl_digest_mismatch"
+      },
+      "files": {
+        "record.json": "5d1d9b48d906bdb0a949223193b20490742f4b054ee9b46e2b5f7a8ce5796ade"
+      },
+      "id": "srl-digest-mismatch-at-permit",
+      "path": "cases/srl-digest-mismatch-at-permit"
+    },
+    {
+      "edit": "the permit names epoch 7, which no list has",
+      "expected": {
+        "decision": "deny",
+        "reason": "srl_digest_mismatch"
+      },
+      "files": {
+        "record.json": "fed0e6340b2586dbc288c5b4f1d7176a65c544db73bd14daae5002444cdc4d21"
+      },
+      "id": "srl-epoch-unknown-at-permit",
+      "path": "cases/srl-epoch-unknown-at-permit"
+    },
+    {
+      "edit": "the effect names epoch 1 with the digest of a list the record does not carry",
+      "expected": {
+        "decision": "deny",
+        "reason": "srl_digest_mismatch"
+      },
+      "files": {
+        "record.json": "7c1b2af82c671aa90c03dbf7282bb55ec29e4f47d781f31e052651f7413b87ff"
+      },
+      "id": "srl-digest-mismatch-at-effect",
+      "path": "cases/srl-digest-mismatch-at-effect"
+    },
+    {
+      "edit": "the permit was checked against a list exactly the freshness limit old",
+      "expected": {
+        "decision": "deny",
+        "reason": "srl_stale_at_permit"
+      },
+      "files": {
+        "record.json": "337219ff51ec25f793a9f3e0c74369e4e413a8af672066868cdb3db7f0fb3017"
+      },
+      "id": "srl-stale-at-permit-at-limit",
+      "path": "cases/srl-stale-at-permit-at-limit"
+    },
+    {
+      "edit": "epoch 2 was witnessed before the permit, which was checked against epoch 1",
+      "expected": {
+        "decision": "deny",
+        "reason": "srl_stale_at_permit"
+      },
+      "files": {
+        "record.json": "f6caae33b2f4cc6e129706601c28255fc6adf1d04560610f8de1fb3bbec50d70"
+      },
+      "id": "srl-stale-newer-list-witnessed-before-permit",
+      "path": "cases/srl-stale-newer-list-witnessed-before-permit"
+    },
+    {
+      "edit": "the permit claims issue at 2 s but the log first saw it at 5 s, the limit",
+      "expected": {
+        "decision": "deny",
+        "reason": "srl_stale_at_permit"
+      },
+      "files": {
+        "record.json": "d60c443ae58e9949f7d97a60f84bf65447ef34cac055d93b01a0a976316fd422"
+      },
+      "id": "srl-stale-permit-backdated",
+      "path": "cases/srl-stale-permit-backdated"
+    },
+    {
+      "edit": "the permit names a list issued and witnessed after the permit",
+      "expected": {
+        "decision": "deny",
+        "reason": "srl_stale_at_permit"
+      },
+      "files": {
+        "record.json": "2af10bbd692e1efbb0b34872e571731bb1b5efaa25df547e034eea43bd724e74"
+      },
+      "id": "srl-stale-permit-list-issued-after-permit",
+      "path": "cases/srl-stale-permit-list-issued-after-permit"
+    },
+    {
+      "edit": "the effect landed against a list exactly the freshness limit old",
+      "expected": {
+        "decision": "deny",
+        "reason": "srl_stale_at_effect"
+      },
+      "files": {
+        "record.json": "4f7c2e7bd5ab4bf643e94b9e01a97a5f5b6213c58d041bf83c5a220dd8cc9b72"
+      },
+      "id": "srl-stale-at-effect-at-limit",
+      "path": "cases/srl-stale-at-effect-at-limit"
+    },
+    {
+      "edit": "the effect claims 3 s but the log first saw it at 5 s, the limit",
+      "expected": {
+        "decision": "deny",
+        "reason": "srl_stale_at_effect"
+      },
+      "files": {
+        "record.json": "e388bd9747565faaa9caa06e82715a1a8ea46e99dd9568025cab0d3a44ab6d8e"
+      },
+      "id": "srl-stale-at-effect-backdated",
+      "path": "cases/srl-stale-at-effect-backdated"
+    },
+    {
+      "edit": "the list the permit was checked against revokes its grant",
+      "expected": {
+        "decision": "deny",
+        "reason": "revoked_at_permit"
+      },
+      "files": {
+        "record.json": "3622e0b14ba7a291a5e9f602c7f4729b73340920944005b3e347e0df2c135e03"
+      },
+      "id": "revoked-at-permit-grant",
+      "path": "cases/revoked-at-permit-grant"
+    },
+    {
+      "edit": "the list the permit was checked against revokes the holder key",
+      "expected": {
+        "decision": "deny",
+        "reason": "revoked_at_permit"
+      },
+      "files": {
+        "record.json": "ed0f677b0f21936b2ce7ff949d73de995667872eeb4efe8e05f5b974a3f168c2"
+      },
+      "id": "revoked-at-permit-holder",
+      "path": "cases/revoked-at-permit-holder"
+    },
+    {
+      "edit": "the list revokes the parent grant, which carries the child with it",
+      "expected": {
+        "decision": "deny",
+        "reason": "revoked_at_permit"
+      },
+      "files": {
+        "record.json": "20172a606703007f2add3b6bcfc5b0a7a359b8abb1909bebea82270dececd34c"
+      },
+      "id": "revoked-at-permit-parent-grant",
+      "path": "cases/revoked-at-permit-parent-grant"
+    },
+    {
+      "edit": "the list revokes the key that minted the permit",
+      "expected": {
+        "decision": "deny",
+        "reason": "revoked_at_permit"
+      },
+      "files": {
+        "record.json": "52a0a4f6226637a0c2a0e913c30add88c43552fa48c73fc39b6f598ba4a49a12"
+      },
+      "id": "revoked-at-permit-authority-key",
+      "path": "cases/revoked-at-permit-authority-key"
+    },
+    {
+      "edit": "the permit was minted before the revocation, the revoking list was witnessed, and the in-flight effect was applied anyway",
+      "expected": {
+        "decision": "deny",
+        "reason": "effect_after_revocation"
+      },
+      "files": {
+        "record.json": "817c8fd56eda03710455839e09dd3bdc84127ece7669db42d38b7981860042f6"
+      },
+      "id": "effect-after-revocation-in-flight",
+      "path": "cases/effect-after-revocation-in-flight"
+    },
+    {
+      "edit": "the holder key was revoked while the work was in flight and the effect was applied",
+      "expected": {
+        "decision": "deny",
+        "reason": "effect_after_revocation"
+      },
+      "files": {
+        "record.json": "566710406de64b98a70f537d53eda7462f70916ec4084c0c29b086b040cfcfc3"
+      },
+      "id": "effect-after-revocation-holder-in-flight",
+      "path": "cases/effect-after-revocation-holder-in-flight"
+    },
+    {
+      "edit": "the parent grant was revoked while the work was in flight and the effect was applied",
+      "expected": {
+        "decision": "deny",
+        "reason": "effect_after_revocation"
+      },
+      "files": {
+        "record.json": "6510a1550c40b90aaa7428421a2878ea29539c0700f6ea741b706ee878991c93"
+      },
+      "id": "effect-after-revocation-parent-in-flight",
+      "path": "cases/effect-after-revocation-parent-in-flight"
+    },
+    {
+      "edit": "the effect after the revocation is uncertain, which is not a refusal",
+      "expected": {
+        "decision": "deny",
+        "reason": "effect_after_revocation"
+      },
+      "files": {
+        "record.json": "58afae497f08a21a7e18097779dcb14c7a54873b121a1a76abbc8c3ba80febc2"
+      },
+      "id": "effect-after-revocation-outcome-uncertain",
+      "path": "cases/effect-after-revocation-outcome-uncertain"
+    },
+    {
+      "edit": "the revoking list and the effect share an instant; the log puts the list first and the worker never read it",
+      "expected": {
+        "decision": "deny",
+        "reason": "effect_after_revocation"
+      },
+      "files": {
+        "record.json": "e3cedbf2c017ac72e445a44f554909103a1311e2ee1a0ebec61f4516cf5e4337"
+      },
+      "id": "effect-after-revocation-race-list-first",
+      "path": "cases/effect-after-revocation-race-list-first"
+    },
+    {
+      "edit": "a later list drops the revoked grant; a revocation is never undone",
+      "expected": {
+        "decision": "deny",
+        "reason": "effect_after_revocation"
+      },
+      "files": {
+        "record.json": "ed259399a0965cafaac4cabe972129c95ef8526684bc0b2fe35990f4d44c8886"
+      },
+      "id": "effect-after-revocation-dropped-in-later-list",
+      "path": "cases/effect-after-revocation-dropped-in-later-list"
+    },
+    {
+      "edit": "the revoking list is in the log and the effect is not, so nothing orders them",
+      "expected": {
+        "decision": "deny",
+        "reason": "revocation_order_ambiguous"
+      },
+      "files": {
+        "record.json": "4069380de198f700bd5f5a5f4cc06a477ce39a2afb99709a066bd4e378bc45f2"
+      },
+      "id": "ambiguous-effect-not-witnessed",
+      "path": "cases/ambiguous-effect-not-witnessed"
+    },
+    {
+      "edit": "the record carries a list revoking the grant that the log never witnessed",
+      "expected": {
+        "decision": "deny",
+        "reason": "revocation_order_ambiguous"
+      },
+      "files": {
+        "record.json": "2eef3f0a71695362a8561da3d1807938c6243ba50a87af008a8b6ee347466c02"
+      },
+      "id": "ambiguous-revoking-list-not-witnessed",
+      "path": "cases/ambiguous-revoking-list-not-witnessed"
+    },
+    {
+      "edit": "the log skips a sequence number before the permit; the missing entry could be a revocation",
+      "expected": {
+        "decision": "deny",
+        "reason": "revocation_order_ambiguous"
+      },
+      "files": {
+        "record.json": "3e35ce35c720486833f7d3f91add7d5c5ce0dff3033d3298a691ebdb900c7b37"
+      },
+      "id": "ambiguous-witness-log-gap",
+      "path": "cases/ambiguous-witness-log-gap"
+    },
+    {
+      "edit": "the log witnessed the effect before the permit it ran under",
+      "expected": {
+        "decision": "deny",
+        "reason": "revocation_order_ambiguous"
+      },
+      "files": {
+        "record.json": "0e639035660e18b7fb1f7cb59f77d523eb98f57c15c109062560ca51db46e2a0"
+      },
+      "id": "ambiguous-effect-witnessed-before-permit",
+      "path": "cases/ambiguous-effect-witnessed-before-permit"
+    },
+    {
+      "edit": "the effect names a list the log witnessed only after the effect",
+      "expected": {
+        "decision": "deny",
+        "reason": "revocation_order_ambiguous"
+      },
+      "files": {
+        "record.json": "61e8341f6d0de32916d63dfcede691e7c4d2f97a0631d87474bde4504d47c6b9"
+      },
+      "id": "ambiguous-effect-list-witnessed-after-effect",
+      "path": "cases/ambiguous-effect-list-witnessed-after-effect"
+    },
+    {
+      "edit": "the log witnessed a list the record leaves out",
+      "expected": {
+        "decision": "deny",
+        "reason": "revocation_order_ambiguous"
+      },
+      "files": {
+        "record.json": "0cbedc777d18b4ef1ccbd7d91f703b048dff6b0a192a809e2a3f1609fc465747"
+      },
+      "id": "ambiguous-witnessed-list-not-in-record",
+      "path": "cases/ambiguous-witnessed-list-not-in-record"
+    },
+    {
+      "edit": "the permit is not in the log",
+      "expected": {
+        "decision": "deny",
+        "reason": "revocation_order_ambiguous"
+      },
+      "files": {
+        "record.json": "416dd0b2b8ce08a11432fb62c767bf4247dcfaf8b42624e4b56ebd414d37888f"
+      },
+      "id": "ambiguous-permit-not-witnessed",
+      "path": "cases/ambiguous-permit-not-witnessed"
+    },
+    {
+      "edit": "the effect landed against epoch 1 after epoch 2 had been witnessed",
+      "expected": {
+        "decision": "deny",
+        "reason": "effect_epoch_behind"
+      },
+      "files": {
+        "record.json": "f0286e22f9bc6428d3a8878831a91026542dc6aba2fc90ff06072e4a10d0b8a8"
+      },
+      "id": "effect-epoch-behind",
+      "path": "cases/effect-epoch-behind"
+    }
+  ],
+  "verifierContract": "verifier record.json --json; exit 0 allow, 1 deny"
+}

@@ -1,0 +1,107 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/revocation-epoch/v1",
+  "effect": {
+    "argsDigest": "sha256:ff068db8b2b02fc4ecb10ce2689da9e173bb32a1eea6c443fe1d1c2bdd028442",
+    "callId": "call-1",
+    "effectId": "effect-1",
+    "grantDigest": "sha256:302d8834c99661057af75596b9dc190eabeb140df704e3a5b101de7bfd611ff3",
+    "observedAt": "2026-11-08T12:00:03Z",
+    "observerKeyId": "key:egress-1",
+    "outcome": "applied",
+    "permitId": "permit-2",
+    "runId": "run-1",
+    "srl": {
+      "digest": "sha256:c0e33dc896a07e580b0ac9b1851ee8b0f2bfa1979d636e7ee0f3e3e8874b995d",
+      "epoch": 1
+    },
+    "workflowId": "wf-1"
+  },
+  "freshnessSeconds": 5,
+  "grant": {
+    "caveats": [],
+    "closedWorld": true,
+    "constraints": {
+      "payments.transfer": {
+        "amount": {
+          "range": [
+            1,
+            500
+          ]
+        },
+        "currency": {
+          "exact": "EUR"
+        }
+      }
+    },
+    "depth": 1,
+    "expiresAt": "2026-11-08T13:00:00Z",
+    "grantId": "grant-7",
+    "holder": "key:agent-1",
+    "hopKinds": [
+      "tool-call"
+    ],
+    "issuer": "key:delegator-1",
+    "maxDepth": 2,
+    "maxUses": 1,
+    "notBefore": "2026-11-08T11:00:00Z",
+    "parentDigest": "sha256:d10537dc7ab42fae17ce63e2d1c387ac19c2d83e3726e75bc36fe1e77e784da8",
+    "tools": [
+      "payments.transfer"
+    ]
+  },
+  "permit": {
+    "argsDigest": "sha256:ff068db8b2b02fc4ecb10ce2689da9e173bb32a1eea6c443fe1d1c2bdd028442",
+    "authorityKeyId": "key:authority-1",
+    "callId": "call-1",
+    "expiresAt": "2026-11-08T12:01:02Z",
+    "grantDigest": "sha256:302d8834c99661057af75596b9dc190eabeb140df704e3a5b101de7bfd611ff3",
+    "issuedAt": "2026-11-08T12:00:02Z",
+    "permitId": "permit-1",
+    "runId": "run-1",
+    "srl": {
+      "digest": "sha256:c0e33dc896a07e580b0ac9b1851ee8b0f2bfa1979d636e7ee0f3e3e8874b995d",
+      "epoch": 1
+    },
+    "tool": "payments.transfer",
+    "workflowId": "wf-1"
+  },
+  "srls": [
+    {
+      "epoch": 1,
+      "issuedAt": "2026-11-08T12:00:00Z",
+      "issuerKeyId": "key:srl-issuer-1",
+      "revoked": [
+        "sha256:482a28ed0a0ffde9d9818dda584d0cdf84eb1d86079548f99a36eeb28c45c792"
+      ]
+    }
+  ],
+  "trustedSrlIssuers": [
+    "key:srl-issuer-1"
+  ],
+  "witness": [
+    {
+      "at": "2026-11-08T11:59:00Z",
+      "digest": "sha256:302d8834c99661057af75596b9dc190eabeb140df704e3a5b101de7bfd611ff3",
+      "kind": "grant",
+      "seq": 1
+    },
+    {
+      "at": "2026-11-08T12:00:00Z",
+      "digest": "sha256:c0e33dc896a07e580b0ac9b1851ee8b0f2bfa1979d636e7ee0f3e3e8874b995d",
+      "kind": "srl",
+      "seq": 2
+    },
+    {
+      "at": "2026-11-08T12:00:02Z",
+      "digest": "sha256:bba9f21489a751d7e24611f0d4f99494247300cda44ebb555a4c9952bc1e54e4",
+      "kind": "permit",
+      "seq": 3
+    },
+    {
+      "at": "2026-11-08T12:00:03Z",
+      "digest": "sha256:a347adf756d76cb902858f1cfc03136917bd295fd6738ce68de91f9ebb84e8c1",
+      "kind": "effect",
+      "seq": 4
+    }
+  ]
+}
