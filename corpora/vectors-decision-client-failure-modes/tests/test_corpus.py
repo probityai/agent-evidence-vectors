@@ -1,5 +1,7 @@
-"""The corpus regenerates, forces every check in order, refuses a verifier that reads a
-fault as a decision, and fails a decision client that acts on a fault."""
+"""The corpus regenerates, keeps every case it shipped before the optional members, forces
+every check in order, refuses a verifier that reads a fault as a decision or ignores the
+posture, and fails a decision client that acts on a fault or runs under a posture that
+does not enforce."""
 
 from __future__ import annotations
 
@@ -13,6 +15,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 ADAPTER = ROOT / "tests" / "client_adapter.py"
+BASELINE = ROOT / "tests" / "v1-baseline.json"
 CONTRACT_ID = (
     "https://probityai.github.io/agent-evidence-vectors/predicate/v1/decision-client-failure-modes"
 )
@@ -42,8 +45,26 @@ CONDITIONS = (
     "timeout",
     "unknown-verdict",
     "missing-verdict",
+    "oversize",
+    "outage",
 )
-CONTROLS = ("control-block", "control-halt", "control-allow", "control-401")
+CONTROLS = ("control-block", "control-halt", "control-allow", "control-401", "control-at-limit")
+POSTURE_STATED = {
+    f"accept-posture-stated-{sid}"
+    for sid in ("control-allow", "control-block", "control-halt", "http-500--strict")
+}
+POSTURE_CHECKS = ("monitor_mode", "fail_open_posture", "fail_mode_defaulted")
+SCENARIO_IDS = {f"{c}--{m}" for c in CONDITIONS for m in ("default", "strict")} | set(CONTROLS)
+
+
+def _naive(record: dict) -> dict:  # type: ignore[type-arg]
+    """What a verifier written before the optional members sees of a record."""
+    seen = json.loads(json.dumps(record))
+    seen.pop("posture", None)
+    seen.get("client", {}).pop("maxResponseBytes", None)
+    for member in ("bodyBytes", "circuitOpen"):
+        seen.get("exchange", {}).pop(member, None)
+    return seen
 
 
 def _stub(tmp_path: Path, skip: tuple[str, ...]) -> str:
@@ -117,7 +138,26 @@ class TestDecisionClientCorpus:
             assert reader.CONTRACT_ID == CONTRACT_ID
 
         def test_every_scenario_has_a_conforming_record(self) -> None:
-            assert {f"accept-{sid}" for sid in generator.SCENARIOS} == set(ALLOWED)
+            assert {f"accept-{sid}" for sid in generator.SCENARIOS} | POSTURE_STATED == set(
+                ALLOWED
+            )
+
+        def test_the_cases_shipped_before_the_optional_members_are_unchanged(self) -> None:
+            baseline = json.loads(BASELINE.read_text(encoding="utf-8"))["cases"]
+            regenerated = {case[0]: case for case in generator.cases()}
+            for name, held in baseline.items():
+                case = regenerated[name]
+                assert reader._sha(reader._json(case[1])) == held["recordSha256"], name
+                assert {"decision": case[2], "reason": case[3]} == held["expected"], name
+                assert reader.verify(ROOT / "cases" / name / "record.json") == held["expected"]
+                assert not {"posture"} & set(case[1])
+                assert "maxResponseBytes" not in case[1]["client"]
+
+        def test_every_stated_posture_on_an_allowed_record_enforces(self) -> None:
+            records = _records()
+            for name in ALLOWED:
+                posture = records[name].get("posture")
+                assert posture is None or posture == reader.ENFORCING_POSTURE, name
 
     class TestFailingCases:
         @pytest.mark.parametrize("name", sorted(DENIED))
@@ -151,6 +191,39 @@ class TestDecisionClientCorpus:
                 "reject-timeout-allowed",
                 "reject-unauthorized-allowed",
             } <= _failed(errors)
+
+        def test_verifier_that_ignores_the_posture_is_refused(self) -> None:
+            _, errors = corpus.check(skip=frozenset(POSTURE_CHECKS))
+            assert _failed(errors) == {
+                name for name, reason in DENIED.items() if reason in POSTURE_CHECKS
+            }
+
+        def test_the_naive_verifier_the_field_ships_lets_exactly_these_through(self) -> None:
+            # Blind to posture, response limits and breakers: it judges the exchange
+            # a v1-era record carries and nothing else.
+            records = _records()
+            through = {
+                name
+                for name in DENIED
+                if _first(_naive(records[name])) is None
+            }
+            assert through == {
+                "reject-monitor-allow",
+                "reject-fail-open-posture-ok",
+                "reject-fail-open-posture-fault-denied",
+                "reject-fail-mode-defaulted-closed",
+                "reject-strict-mode-defaulted",
+                "reject-oversize-prefix-parsed",
+                "reject-limit-without-body-size",
+                "reject-body-size-without-reply",
+                "reject-posture-outside-vocabulary",
+                "reject-posture-flag-unstated",
+                "reject-circuit-open-recorded-as-unreachable",
+            }
+            refused_controls = {name for name in ALLOWED if _first(_naive(records[name]))}
+            assert refused_controls == {
+                f"accept-{c}--{m}" for c in ("oversize", "outage") for m in ("default", "strict")
+            }
 
         def test_verifier_that_denies_everything_fails_the_controls(self, tmp_path: Path) -> None:
             script = tmp_path / "deny.py"
@@ -223,20 +296,71 @@ class TestDecisionClientCorpus:
             }
             assert reader.derived_condition(exchange) == "unknown-verdict"
 
+        @pytest.mark.parametrize("size,condition", [(4095, "ok"), (4096, "ok"), (4097, "oversize")])
+        def test_the_response_limit_boundaries(self, size: int, condition: str) -> None:
+            exchange = {
+                "bodyBytes": size,
+                "bodyIsJsonObject": True,
+                "httpStatus": 200,
+                "reached": True,
+                "timedOut": False,
+                "verdict": "allow",
+            }
+            assert reader.derived_condition(exchange, 4096) == condition
+            assert reader.derived_condition(exchange) == "ok"
+
+        def test_an_error_status_outranks_an_oversize_body(self) -> None:
+            exchange = {
+                "bodyBytes": 9999,
+                "bodyIsJsonObject": False,
+                "httpStatus": 500,
+                "reached": True,
+                "timedOut": False,
+            }
+            assert reader.derived_condition(exchange, 4096) == "http-error"
+
+        @pytest.mark.parametrize(
+            "edit",
+            [
+                {"client": {"maxResponseBytes": True}},
+                {"client": {"maxResponseBytes": 0}},
+                {"exchange": {"bodyBytes": -1}},
+                {"exchange": {"circuitOpen": "yes"}},
+                {"posture": "enforce"},
+            ],
+        )
+        def test_optional_members_are_typed(self, edit: dict) -> None:  # type: ignore[type-arg]
+            record = _records()["accept-control-at-limit"]
+            for key, value in edit.items():
+                if isinstance(value, dict):
+                    record[key].update(value)
+                else:
+                    record[key] = value
+            assert _first(record) == "record_malformed"
+
         def test_a_reply_that_arrived_carries_a_status(self) -> None:
             record = _records()["accept-control-allow"]
             record["exchange"]["httpStatus"] = None
             assert _first(record) == "record_malformed"
 
     class TestRuntimeScenarios:
-        def test_the_matrix_is_seven_conditions_by_two_modes_and_four_controls(self) -> None:
+        def test_the_matrix_is_nine_conditions_by_two_modes_and_five_controls(self) -> None:
             ids = [s["id"] for s in reader.scenarios(_manifest()["vectors"])]
-            expected = {f"{c}--{m}" for c in CONDITIONS for m in reader.MODES} | set(CONTROLS)
-            assert len(ids) == len(expected) and set(ids) == expected
+            assert len(ids) == len(SCENARIO_IDS) and set(ids) == SCENARIO_IDS
+
+        def test_the_limit_scenarios_straddle_the_limit(self) -> None:
+            scenarios = {s["id"]: s for s in reader.scenarios(_manifest()["vectors"])}
+            for sid, size in (("control-at-limit", 0), ("oversize--strict", 1)):
+                scenario = scenarios[sid]
+                body = runtime.point_body(scenario["decisionPoint"]).encode()
+                assert len(body) == scenario["maxResponseBytes"] + size
+                assert json.loads(body)["verdict"] == "allow"
 
         def test_every_fault_scenario_accepts_only_a_marked_denial(self) -> None:
             for scenario in reader.scenarios(_manifest()["vectors"]):
-                if scenario["id"] in ("control-block", "control-halt", "control-allow"):
+                if scenario["id"] in (
+                    "control-block", "control-halt", "control-allow", "control-at-limit"
+                ):
                     continue
                 assert scenario["accepted"] == {
                     "basis": "fallback",
@@ -252,18 +376,63 @@ class TestDecisionClientCorpus:
             assert executed == report["totals"]["vectors"] == len(generator.SCENARIOS)
             assert all(row["observed"]["recordWritten"] for row in report["vectors"])
 
-        def test_a_client_that_fails_open_is_refused(self) -> None:
+        def test_a_client_that_states_a_fail_open_posture_fails_every_scenario(self) -> None:
             report = runtime.check_runtime([sys.executable, str(ADAPTER), "--policy", "open"], ROOT)
+            assert {row["id"] for row in report["vectors"] if row["status"] == "FAIL"} == (
+                SCENARIO_IDS
+            )
+            assert all("fail-open" in " ".join(row["reasons"]) for row in report["vectors"])
+
+        def test_a_client_that_fails_open_and_claims_closed_is_refused_by_what_it_did(
+            self,
+        ) -> None:
+            command = [sys.executable, str(ADAPTER), "--policy", "open", "--fail-mode", "closed"]
+            report = runtime.check_runtime(command, ROOT)
             failed = {row["id"] for row in report["vectors"] if row["status"] == "FAIL"}
             transport = ("unreachable", "http-500", "http-503", "unparseable-body", "timeout")
             assert failed == (
-                {f"{c}--default" for c in transport}
+                {f"{c}--default" for c in (*transport, "outage")}
                 | {
                     f"{c}--{m}"
-                    for c in ("unknown-verdict", "missing-verdict")
+                    for c in ("unknown-verdict", "missing-verdict", "oversize")
                     for m in reader.MODES
                 }
             )
+
+        @pytest.mark.parametrize(
+            "flags,word",
+            [(["--enforcement", "monitor"], "monitored"), (["--no-posture"], "unstated")],
+        )
+        def test_a_client_that_does_not_enforce_fails_every_scenario(
+            self, flags: list[str], word: str
+        ) -> None:
+            report = runtime.check_runtime([sys.executable, str(ADAPTER), *flags], ROOT)
+            assert {row["id"] for row in report["vectors"] if row["status"] == "FAIL"} == (
+                SCENARIO_IDS
+            )
+            assert all(word in " ".join(row["reasons"]) for row in report["vectors"])
+
+        def test_a_defaulted_fail_mode_passes_only_the_shipped_default(self) -> None:
+            command = [sys.executable, str(ADAPTER), "--fail-mode-source", "default"]
+            report = runtime.check_runtime(command, ROOT)
+            failed = {row["id"] for row in report["vectors"] if row["status"] == "FAIL"}
+            assert failed == {sid for sid in SCENARIO_IDS if sid.endswith("--strict")}
+
+        def test_every_row_reports_the_posture_the_client_stated(self) -> None:
+            report = runtime.check_runtime([sys.executable, str(ADAPTER)], ROOT)
+            assert all(
+                row["observed"]["posture"] == reader.ENFORCING_POSTURE for row in report["vectors"]
+            )
+
+        def test_a_record_that_omits_the_printed_posture_is_refused(self, tmp_path: Path) -> None:
+            scenario = reader.scenarios(_manifest()["vectors"])[0]
+            record = tmp_path / "record.json"
+            written = dict(_records()[f"accept-{scenario['id']}"])
+            record.write_text(json.dumps(written), encoding="utf-8")
+            reported = {"basis": "fallback", "halted": False, "outcome": "deny",
+                        "posture": reader.ENFORCING_POSTURE}
+            problems = runtime._record_problems(scenario["mode"], record, reported)
+            assert any("states posture None" in problem for problem in problems)
 
         def test_a_client_without_a_record_is_judged_on_what_it_did(self) -> None:
             report = runtime.check_runtime([sys.executable, str(ADAPTER), "--no-record"], ROOT)

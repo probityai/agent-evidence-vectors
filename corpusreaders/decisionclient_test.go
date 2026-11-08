@@ -70,6 +70,24 @@ func TestDecisionClientEachCheckMovesTheVerdict(t *testing.T) {
 		"reject-halt-not-honoured":                    "halt_not_honoured",
 		"reject-halt-claimed-on-block":                "halt_not_honoured",
 		"reject-effect-on-deny":                       "effect_on_deny",
+		"reject-posture-outside-vocabulary":           "record_malformed",
+		"reject-posture-flag-unstated":                "record_malformed",
+		"reject-limit-without-body-size":              "record_malformed",
+		"reject-body-size-without-reply":              "record_malformed",
+		"reject-circuit-open-claims-reached":          "record_malformed",
+		"reject-monitor-block-ran":                    "monitor_mode",
+		"reject-monitor-allow":                        "monitor_mode",
+		"reject-monitor-fault-allowed":                "monitor_mode",
+		"reject-fail-open-posture-ok":                 "fail_open_posture",
+		"reject-fail-open-posture-fault-denied":       "fail_open_posture",
+		"reject-fail-mode-defaulted-open":             "fail_open_posture",
+		"reject-fail-mode-defaulted-closed":           "fail_mode_defaulted",
+		"reject-strict-mode-defaulted":                "fail_mode_defaulted",
+		"reject-oversize-prefix-parsed":               "condition_misclassified",
+		"reject-circuit-open-recorded-as-unreachable": "condition_misclassified",
+		"reject-circuit-open-as-policy":               "fault_recorded_as_policy",
+		"reject-oversize-allowed":                     "fault_allowed",
+		"reject-circuit-open-allowed":                 "fault_allowed",
 	}
 	const control = "accept-control-block"
 	for from, reason := range denied {
@@ -92,8 +110,10 @@ func TestDecisionClientEachCheckMovesTheVerdict(t *testing.T) {
 // malformed record, as the Python reader reads it.
 func TestDecisionClientBooleansAreNotNumbers(t *testing.T) {
 	cases := map[string][2]string{
-		"httpStatus true":    {"accept-control-block", `"httpStatus": 200`},
-		"timeoutMillis true": {"accept-control-block", `"timeoutMillis": 1000`},
+		"httpStatus true":       {"accept-control-block", `"httpStatus": 200`},
+		"timeoutMillis true":    {"accept-control-block", `"timeoutMillis": 1000`},
+		"maxResponseBytes true": {"accept-control-at-limit", `"maxResponseBytes": 4096`},
+		"bodyBytes true":        {"accept-control-at-limit", `"bodyBytes": 4096`},
 	}
 	for name, edit := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -145,5 +165,38 @@ func TestDecisionClientDamagedManifestIsAFinding(t *testing.T) {
 	}
 	if _, err := corpusreaders.Judge(copied); err == nil {
 		t.Fatal("a manifest whose rows are not a list must be an error")
+	}
+}
+
+// The posture checks judge the configuration before the exchange: a record that
+// also allows on a fault is named for its monitor posture, and the same record
+// with the posture removed is named for the fault.
+func TestDecisionClientPostureIsJudgedBeforeTheExchange(t *testing.T) {
+	const member = "reject-monitor-fault-allowed"
+	body := dcRead(t, member)
+	if got := scDerived(t, dcStage(t, "accept-control-block", body), "accept-control-block"); !strings.Contains(got, "derived deny/monitor_mode") {
+		t.Fatalf("want monitor_mode, got %q", got)
+	}
+	start := strings.Index(body, `  "posture": {`)
+	end := strings.Index(body[start:], "},\n")
+	if start < 0 || end < 0 {
+		t.Fatal("the member no longer carries a posture block")
+	}
+	stripped := body[:start] + body[start+end+3:]
+	if got := scDerived(t, dcStage(t, "accept-control-block", stripped), "accept-control-block"); !strings.Contains(got, "derived deny/fault_allowed") {
+		t.Fatalf("want fault_allowed once the posture is gone, got %q", got)
+	}
+}
+
+// A body exactly at the limit is a reply like any other; one byte over it is
+// oversize, whatever the prefix says.
+func TestDecisionClientResponseLimitBoundary(t *testing.T) {
+	body := dcRead(t, "accept-control-at-limit")
+	if !strings.Contains(body, `"bodyBytes": 4096`) {
+		t.Fatal("the at-limit control no longer carries its size")
+	}
+	over := strings.Replace(body, `"bodyBytes": 4096`, `"bodyBytes": 4097`, 1)
+	if got := scDerived(t, dcStage(t, "accept-control-at-limit", over), "accept-control-at-limit"); !strings.Contains(got, "derived deny/condition_misclassified") {
+		t.Fatalf("want condition_misclassified one byte over, got %q", got)
 	}
 }

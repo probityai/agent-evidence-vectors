@@ -36,7 +36,11 @@ inputs:
       and `AEV_EFFECT_SINK` for decision clients), performs the scenario through
       the runtime's own path, and prints its outcome; the job fails when the
       endpoint ends up holding an effect count, or the runtime reports an
-      outcome, that the scenario does not accept. Each contract is in its corpus
+      outcome, that the scenario does not accept. A decision-client adapter also
+      states the posture its client ran under; the job fails, with an error
+      naming each scenario and its posture, when one ran in a monitor mode,
+      configured to fail open, with no posture stated, or in strict mode with
+      the fail mode left to its default. Each contract is in its corpus
       README. When it is set, `verifier` is not used.
     required: false
     default: ""

@@ -1,9 +1,9 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/decision-client-failure-modes",
-  "corpusDigest": "dbadd1d78f0615878edf5b3c71fc054c35c62afecf7d23e0b28670c4ba7c6aad",
+  "corpusDigest": "c1d69032c6082f43cc8912b37d8e1399b18af409eaae2880f080957709c1b7cf",
   "counts": {
-    "allow": 18,
-    "deny": 17
+    "allow": 27,
+    "deny": 35
   },
   "runtimeContract": "client scenario.json, AEV_DECISION_POINT, AEV_EFFECT_SINK, AEV_DECISION_RECORD; see decisionclient_runtime",
   "suite": "decision-client-failure-modes/v1",
@@ -24,7 +24,8 @@
         "condition": "unreachable",
         "mode": "default",
         "outcome": "deny",
-        "performed": false
+        "performed": false,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -34,6 +35,7 @@
             "halted": false,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "unreachable",
           "decisionPoint": {
             "body": "",
@@ -42,6 +44,7 @@
             "status": 0
           },
           "id": "unreachable--default",
+          "maxResponseBytes": 4096,
           "mode": "default",
           "request": {
             "action": "transfer_funds",
@@ -73,7 +76,8 @@
         "condition": "unreachable",
         "mode": "strict",
         "outcome": "deny",
-        "performed": false
+        "performed": false,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -83,6 +87,7 @@
             "halted": false,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "unreachable",
           "decisionPoint": {
             "body": "",
@@ -91,6 +96,7 @@
             "status": 0
           },
           "id": "unreachable--strict",
+          "maxResponseBytes": 4096,
           "mode": "strict",
           "request": {
             "action": "transfer_funds",
@@ -122,7 +128,8 @@
         "condition": "http-error",
         "mode": "default",
         "outcome": "deny",
-        "performed": false
+        "performed": false,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -132,6 +139,7 @@
             "halted": false,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "http-500",
           "decisionPoint": {
             "body": "{\"error\":\"down\"}",
@@ -140,6 +148,7 @@
             "status": 500
           },
           "id": "http-500--default",
+          "maxResponseBytes": 4096,
           "mode": "default",
           "request": {
             "action": "transfer_funds",
@@ -171,7 +180,8 @@
         "condition": "http-error",
         "mode": "strict",
         "outcome": "deny",
-        "performed": false
+        "performed": false,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -181,6 +191,7 @@
             "halted": false,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "http-500",
           "decisionPoint": {
             "body": "{\"error\":\"down\"}",
@@ -189,6 +200,7 @@
             "status": 500
           },
           "id": "http-500--strict",
+          "maxResponseBytes": 4096,
           "mode": "strict",
           "request": {
             "action": "transfer_funds",
@@ -220,7 +232,8 @@
         "condition": "http-error",
         "mode": "default",
         "outcome": "deny",
-        "performed": false
+        "performed": false,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -230,6 +243,7 @@
             "halted": false,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "http-503",
           "decisionPoint": {
             "body": "",
@@ -238,6 +252,7 @@
             "status": 503
           },
           "id": "http-503--default",
+          "maxResponseBytes": 4096,
           "mode": "default",
           "request": {
             "action": "transfer_funds",
@@ -269,7 +284,8 @@
         "condition": "http-error",
         "mode": "strict",
         "outcome": "deny",
-        "performed": false
+        "performed": false,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -279,6 +295,7 @@
             "halted": false,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "http-503",
           "decisionPoint": {
             "body": "",
@@ -287,6 +304,7 @@
             "status": 503
           },
           "id": "http-503--strict",
+          "maxResponseBytes": 4096,
           "mode": "strict",
           "request": {
             "action": "transfer_funds",
@@ -318,7 +336,8 @@
         "condition": "unparseable-body",
         "mode": "default",
         "outcome": "deny",
-        "performed": false
+        "performed": false,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -328,6 +347,7 @@
             "halted": false,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "unparseable-body",
           "decisionPoint": {
             "body": "<html>gateway</html>",
@@ -336,6 +356,7 @@
             "status": 200
           },
           "id": "unparseable-body--default",
+          "maxResponseBytes": 4096,
           "mode": "default",
           "request": {
             "action": "transfer_funds",
@@ -367,7 +388,8 @@
         "condition": "unparseable-body",
         "mode": "strict",
         "outcome": "deny",
-        "performed": false
+        "performed": false,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -377,6 +399,7 @@
             "halted": false,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "unparseable-body",
           "decisionPoint": {
             "body": "<html>gateway</html>",
@@ -385,6 +408,7 @@
             "status": 200
           },
           "id": "unparseable-body--strict",
+          "maxResponseBytes": 4096,
           "mode": "strict",
           "request": {
             "action": "transfer_funds",
@@ -416,7 +440,8 @@
         "condition": "timeout",
         "mode": "default",
         "outcome": "deny",
-        "performed": false
+        "performed": false,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -426,6 +451,7 @@
             "halted": false,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "timeout",
           "decisionPoint": {
             "body": "{\"verdict\":\"block\"}",
@@ -434,6 +460,7 @@
             "status": 200
           },
           "id": "timeout--default",
+          "maxResponseBytes": 4096,
           "mode": "default",
           "request": {
             "action": "transfer_funds",
@@ -465,7 +492,8 @@
         "condition": "timeout",
         "mode": "strict",
         "outcome": "deny",
-        "performed": false
+        "performed": false,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -475,6 +503,7 @@
             "halted": false,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "timeout",
           "decisionPoint": {
             "body": "{\"verdict\":\"block\"}",
@@ -483,6 +512,7 @@
             "status": 200
           },
           "id": "timeout--strict",
+          "maxResponseBytes": 4096,
           "mode": "strict",
           "request": {
             "action": "transfer_funds",
@@ -514,7 +544,8 @@
         "condition": "unknown-verdict",
         "mode": "default",
         "outcome": "deny",
-        "performed": false
+        "performed": false,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -524,6 +555,7 @@
             "halted": false,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "unknown-verdict",
           "decisionPoint": {
             "body": "{\"reason\": \"policy says no\", \"verdict\": \"suspend\"}",
@@ -532,6 +564,7 @@
             "status": 200
           },
           "id": "unknown-verdict--default",
+          "maxResponseBytes": 4096,
           "mode": "default",
           "request": {
             "action": "transfer_funds",
@@ -563,7 +596,8 @@
         "condition": "unknown-verdict",
         "mode": "strict",
         "outcome": "deny",
-        "performed": false
+        "performed": false,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -573,6 +607,7 @@
             "halted": false,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "unknown-verdict",
           "decisionPoint": {
             "body": "{\"reason\": \"policy says no\", \"verdict\": \"suspend\"}",
@@ -581,6 +616,7 @@
             "status": 200
           },
           "id": "unknown-verdict--strict",
+          "maxResponseBytes": 4096,
           "mode": "strict",
           "request": {
             "action": "transfer_funds",
@@ -612,7 +648,8 @@
         "condition": "missing-verdict",
         "mode": "default",
         "outcome": "deny",
-        "performed": false
+        "performed": false,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -622,6 +659,7 @@
             "halted": false,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "missing-verdict",
           "decisionPoint": {
             "body": "{\"reason\":\"no verdict field\"}",
@@ -630,6 +668,7 @@
             "status": 200
           },
           "id": "missing-verdict--default",
+          "maxResponseBytes": 4096,
           "mode": "default",
           "request": {
             "action": "transfer_funds",
@@ -661,7 +700,8 @@
         "condition": "missing-verdict",
         "mode": "strict",
         "outcome": "deny",
-        "performed": false
+        "performed": false,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -671,6 +711,7 @@
             "halted": false,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "missing-verdict",
           "decisionPoint": {
             "body": "{\"reason\":\"no verdict field\"}",
@@ -679,6 +720,7 @@
             "status": 200
           },
           "id": "missing-verdict--strict",
+          "maxResponseBytes": 4096,
           "mode": "strict",
           "request": {
             "action": "transfer_funds",
@@ -690,6 +732,232 @@
             "consequential": true
           },
           "summary": "HTTP 200 with no verdict member",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "control: the conforming record for oversize--default",
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "files": {
+        "record.json": "29cceab0b78fe135ac7305b25e4526e5e0a2ca5609c4f941e6ad450714f57161"
+      },
+      "id": "accept-oversize--default",
+      "path": "cases/accept-oversize--default",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "oversize",
+        "mode": "default",
+        "outcome": "deny",
+        "performed": false,
+        "posture": {
+          "enforcement": "enforce",
+          "failMode": "closed",
+          "failModeSource": "explicit"
+        }
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "attempts": 1,
+          "condition": "oversize",
+          "decisionPoint": {
+            "body": "{\"verdict\":\"allow\",\"pad\":\"\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "padTo": 4097,
+            "status": 200
+          },
+          "id": "oversize--default",
+          "maxResponseBytes": 4096,
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "HTTP 200 whose allow body is one byte over the client's response limit",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "control: the conforming record for oversize--strict",
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "files": {
+        "record.json": "5ecbef17a5cb8ed9629f740a422dc85c04c4d0c2c2150767eb9397f5ecd94881"
+      },
+      "id": "accept-oversize--strict",
+      "path": "cases/accept-oversize--strict",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "oversize",
+        "mode": "strict",
+        "outcome": "deny",
+        "performed": false,
+        "posture": {
+          "enforcement": "enforce",
+          "failMode": "closed",
+          "failModeSource": "explicit"
+        }
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "attempts": 1,
+          "condition": "oversize",
+          "decisionPoint": {
+            "body": "{\"verdict\":\"allow\",\"pad\":\"\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "padTo": 4097,
+            "status": 200
+          },
+          "id": "oversize--strict",
+          "maxResponseBytes": 4096,
+          "mode": "strict",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "HTTP 200 whose allow body is one byte over the client's response limit",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "control: the conforming record for outage--default",
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "files": {
+        "record.json": "4dff53ffff0cbf65080f2d0035a6b187977b5728764df058622a1d69bd590976"
+      },
+      "id": "accept-outage--default",
+      "path": "cases/accept-outage--default",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "circuit-open",
+        "mode": "default",
+        "outcome": "deny",
+        "performed": false,
+        "posture": {
+          "enforcement": "enforce",
+          "failMode": "closed",
+          "failModeSource": "explicit"
+        }
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "attempts": 5,
+          "condition": "outage",
+          "decisionPoint": {
+            "body": "",
+            "delayMillis": 0,
+            "listen": false,
+            "status": 0
+          },
+          "id": "outage--default",
+          "maxResponseBytes": 4096,
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "nothing listens for 5 consecutive asks; a client with a breaker stops asking, and its last decision is the breaker's",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "control: the conforming record for outage--strict",
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "files": {
+        "record.json": "7d1023c9ec5ad19ca7ced7413705e2aedc6c281948c2e09245887fd5611c7869"
+      },
+      "id": "accept-outage--strict",
+      "path": "cases/accept-outage--strict",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "circuit-open",
+        "mode": "strict",
+        "outcome": "deny",
+        "performed": false,
+        "posture": {
+          "enforcement": "enforce",
+          "failMode": "closed",
+          "failModeSource": "explicit"
+        }
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "attempts": 5,
+          "condition": "outage",
+          "decisionPoint": {
+            "body": "",
+            "delayMillis": 0,
+            "listen": false,
+            "status": 0
+          },
+          "id": "outage--strict",
+          "maxResponseBytes": 4096,
+          "mode": "strict",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "nothing listens for 5 consecutive asks; a client with a breaker stops asking, and its last decision is the breaker's",
           "timeoutMillis": 1000
         }
       }
@@ -710,7 +978,8 @@
         "condition": "ok",
         "mode": "default",
         "outcome": "deny",
-        "performed": false
+        "performed": false,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -720,6 +989,7 @@
             "halted": false,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "control-block",
           "decisionPoint": {
             "body": "{\"reason\":\"blocked\",\"verdict\":\"block\"}",
@@ -728,6 +998,7 @@
             "status": 200
           },
           "id": "control-block",
+          "maxResponseBytes": 4096,
           "mode": "default",
           "request": {
             "action": "transfer_funds",
@@ -759,7 +1030,8 @@
         "condition": "ok",
         "mode": "default",
         "outcome": "deny",
-        "performed": false
+        "performed": false,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -769,6 +1041,7 @@
             "halted": true,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "control-halt",
           "decisionPoint": {
             "body": "{\"verdict\":\"halt\"}",
@@ -777,6 +1050,7 @@
             "status": 200
           },
           "id": "control-halt",
+          "maxResponseBytes": 4096,
           "mode": "default",
           "request": {
             "action": "transfer_funds",
@@ -808,7 +1082,8 @@
         "condition": "ok",
         "mode": "default",
         "outcome": "allow",
-        "performed": true
+        "performed": true,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -818,6 +1093,7 @@
             "halted": false,
             "outcome": "allow"
           },
+          "attempts": 1,
           "condition": "control-allow",
           "decisionPoint": {
             "body": "{\"reason\":\"within limits\",\"verdict\":\"allow\"}",
@@ -826,6 +1102,7 @@
             "status": 200
           },
           "id": "control-allow",
+          "maxResponseBytes": 4096,
           "mode": "default",
           "request": {
             "action": "transfer_funds",
@@ -857,7 +1134,8 @@
         "condition": "unauthorized",
         "mode": "default",
         "outcome": "deny",
-        "performed": false
+        "performed": false,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -867,6 +1145,7 @@
             "halted": false,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "control-401",
           "decisionPoint": {
             "body": "{\"detail\":\"bad key\"}",
@@ -875,6 +1154,7 @@
             "status": 401
           },
           "id": "control-401",
+          "maxResponseBytes": 4096,
           "mode": "default",
           "request": {
             "action": "transfer_funds",
@@ -886,6 +1166,287 @@
             "consequential": true
           },
           "summary": "the decision point refuses the client's credential",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "control: the conforming record for control-at-limit",
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "files": {
+        "record.json": "f901deca27f2cfc40bde6a3c2f2c8a7ca0b5195f7d6cbb2d80a5c9017c92924e"
+      },
+      "id": "accept-control-at-limit",
+      "path": "cases/accept-control-at-limit",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "ok",
+        "mode": "default",
+        "outcome": "allow",
+        "performed": true,
+        "posture": {
+          "enforcement": "enforce",
+          "failMode": "closed",
+          "failModeSource": "explicit"
+        }
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "policy",
+            "effects": 1,
+            "halted": false,
+            "outcome": "allow"
+          },
+          "attempts": 1,
+          "condition": "control-at-limit",
+          "decisionPoint": {
+            "body": "{\"verdict\":\"allow\",\"pad\":\"\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "padTo": 4096,
+            "status": 200
+          },
+          "id": "control-at-limit",
+          "maxResponseBytes": 4096,
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point allows with a body exactly at the client's limit",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "control: control-allow under a stated enforce, fail-closed, explicitly set posture",
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "files": {
+        "record.json": "1689fa720399cb4efe662a588e5b1ee1db740afd9bdccf5c3fc7f404e99a6064"
+      },
+      "id": "accept-posture-stated-control-allow",
+      "path": "cases/accept-posture-stated-control-allow",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "ok",
+        "mode": "default",
+        "outcome": "allow",
+        "performed": true,
+        "posture": {
+          "enforcement": "enforce",
+          "failMode": "closed",
+          "failModeSource": "explicit"
+        }
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "policy",
+            "effects": 1,
+            "halted": false,
+            "outcome": "allow"
+          },
+          "attempts": 1,
+          "condition": "control-allow",
+          "decisionPoint": {
+            "body": "{\"reason\":\"within limits\",\"verdict\":\"allow\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 200
+          },
+          "id": "control-allow",
+          "maxResponseBytes": 4096,
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point allows the action, which runs once",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "control: control-block under a stated enforce, fail-closed, explicitly set posture",
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "files": {
+        "record.json": "b7a9401b29344e07990437429f6a65942e93c77ba1dcfe58da415212302673d9"
+      },
+      "id": "accept-posture-stated-control-block",
+      "path": "cases/accept-posture-stated-control-block",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "ok",
+        "mode": "default",
+        "outcome": "deny",
+        "performed": false,
+        "posture": {
+          "enforcement": "enforce",
+          "failMode": "closed",
+          "failModeSource": "explicit"
+        }
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "policy",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "attempts": 1,
+          "condition": "control-block",
+          "decisionPoint": {
+            "body": "{\"reason\":\"blocked\",\"verdict\":\"block\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 200
+          },
+          "id": "control-block",
+          "maxResponseBytes": 4096,
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point blocks the action",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "control: control-halt under a stated enforce, fail-closed, explicitly set posture",
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "files": {
+        "record.json": "fff9c31a46e8cf0774d008bf7c4e1eb5f60b3aa81a46c2a88bd8481ea778b085"
+      },
+      "id": "accept-posture-stated-control-halt",
+      "path": "cases/accept-posture-stated-control-halt",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "ok",
+        "mode": "default",
+        "outcome": "deny",
+        "performed": false,
+        "posture": {
+          "enforcement": "enforce",
+          "failMode": "closed",
+          "failModeSource": "explicit"
+        }
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "policy",
+            "effects": 0,
+            "halted": true,
+            "outcome": "deny"
+          },
+          "attempts": 1,
+          "condition": "control-halt",
+          "decisionPoint": {
+            "body": "{\"verdict\":\"halt\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 200
+          },
+          "id": "control-halt",
+          "maxResponseBytes": 4096,
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point halts the run",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "control: http-500--strict under a stated enforce, fail-closed, explicitly set posture",
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "files": {
+        "record.json": "3bc336306b9605ade07b5196b6295ae9266bb036064fff897db91e440cc68dd4"
+      },
+      "id": "accept-posture-stated-http-500--strict",
+      "path": "cases/accept-posture-stated-http-500--strict",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "http-error",
+        "mode": "strict",
+        "outcome": "deny",
+        "performed": false,
+        "posture": {
+          "enforcement": "enforce",
+          "failMode": "closed",
+          "failModeSource": "explicit"
+        }
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "attempts": 1,
+          "condition": "http-500",
+          "decisionPoint": {
+            "body": "{\"error\":\"down\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 500
+          },
+          "id": "http-500--strict",
+          "maxResponseBytes": 4096,
+          "mode": "strict",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point answers HTTP 500",
           "timeoutMillis": 1000
         }
       }
@@ -906,7 +1467,8 @@
         "condition": "ok",
         "mode": "default",
         "outcome": "allow",
-        "performed": true
+        "performed": true,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -916,6 +1478,7 @@
             "halted": false,
             "outcome": "allow"
           },
+          "attempts": 1,
           "condition": "control-allow",
           "decisionPoint": {
             "body": "{\"reason\":\"within limits\",\"verdict\":\"allow\"}",
@@ -924,6 +1487,7 @@
             "status": 200
           },
           "id": "control-allow",
+          "maxResponseBytes": 4096,
           "mode": "default",
           "request": {
             "action": "transfer_funds",
@@ -955,7 +1519,8 @@
         "condition": "ok",
         "mode": "default",
         "outcome": "allow",
-        "performed": true
+        "performed": true,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -965,6 +1530,7 @@
             "halted": false,
             "outcome": "allow"
           },
+          "attempts": 1,
           "condition": "control-allow",
           "decisionPoint": {
             "body": "{\"reason\":\"within limits\",\"verdict\":\"allow\"}",
@@ -973,6 +1539,7 @@
             "status": 200
           },
           "id": "control-allow",
+          "maxResponseBytes": 4096,
           "mode": "default",
           "request": {
             "action": "transfer_funds",
@@ -1004,7 +1571,8 @@
         "condition": "ok",
         "mode": "default",
         "outcome": "deny",
-        "performed": false
+        "performed": false,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -1014,6 +1582,7 @@
             "halted": false,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "control-block",
           "decisionPoint": {
             "body": "{\"reason\":\"blocked\",\"verdict\":\"block\"}",
@@ -1022,6 +1591,7 @@
             "status": 200
           },
           "id": "control-block",
+          "maxResponseBytes": 4096,
           "mode": "default",
           "request": {
             "action": "transfer_funds",
@@ -1053,7 +1623,8 @@
         "condition": "timeout",
         "mode": "strict",
         "outcome": "deny",
-        "performed": false
+        "performed": false,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -1063,6 +1634,7 @@
             "halted": false,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "timeout",
           "decisionPoint": {
             "body": "{\"verdict\":\"block\"}",
@@ -1071,6 +1643,7 @@
             "status": 200
           },
           "id": "timeout--strict",
+          "maxResponseBytes": 4096,
           "mode": "strict",
           "request": {
             "action": "transfer_funds",
@@ -1102,7 +1675,8 @@
         "condition": "unknown-verdict",
         "mode": "default",
         "outcome": "allow",
-        "performed": true
+        "performed": true,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -1112,6 +1686,7 @@
             "halted": false,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "unknown-verdict",
           "decisionPoint": {
             "body": "{\"reason\": \"policy says no\", \"verdict\": \"suspend\"}",
@@ -1120,6 +1695,7 @@
             "status": 200
           },
           "id": "unknown-verdict--default",
+          "maxResponseBytes": 4096,
           "mode": "default",
           "request": {
             "action": "transfer_funds",
@@ -1151,7 +1727,8 @@
         "condition": "unknown-verdict",
         "mode": "strict",
         "outcome": "allow",
-        "performed": true
+        "performed": true,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -1161,6 +1738,7 @@
             "halted": false,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "unknown-verdict",
           "decisionPoint": {
             "body": "{\"reason\": \"policy says no\", \"verdict\": \"suspend\"}",
@@ -1169,6 +1747,7 @@
             "status": 200
           },
           "id": "unknown-verdict--strict",
+          "maxResponseBytes": 4096,
           "mode": "strict",
           "request": {
             "action": "transfer_funds",
@@ -1200,7 +1779,8 @@
         "condition": "missing-verdict",
         "mode": "strict",
         "outcome": "allow",
-        "performed": true
+        "performed": true,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -1210,6 +1790,7 @@
             "halted": false,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "missing-verdict",
           "decisionPoint": {
             "body": "{\"reason\":\"no verdict field\"}",
@@ -1218,6 +1799,7 @@
             "status": 200
           },
           "id": "missing-verdict--strict",
+          "maxResponseBytes": 4096,
           "mode": "strict",
           "request": {
             "action": "transfer_funds",
@@ -1249,7 +1831,8 @@
         "condition": "http-error",
         "mode": "strict",
         "outcome": "deny",
-        "performed": false
+        "performed": false,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -1259,6 +1842,7 @@
             "halted": false,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "http-500",
           "decisionPoint": {
             "body": "{\"error\":\"down\"}",
@@ -1267,6 +1851,7 @@
             "status": 500
           },
           "id": "http-500--strict",
+          "maxResponseBytes": 4096,
           "mode": "strict",
           "request": {
             "action": "transfer_funds",
@@ -1298,7 +1883,8 @@
         "condition": "unreachable",
         "mode": "default",
         "outcome": "allow",
-        "performed": true
+        "performed": true,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -1308,6 +1894,7 @@
             "halted": false,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "unreachable",
           "decisionPoint": {
             "body": "",
@@ -1316,6 +1903,7 @@
             "status": 0
           },
           "id": "unreachable--default",
+          "maxResponseBytes": 4096,
           "mode": "default",
           "request": {
             "action": "transfer_funds",
@@ -1347,7 +1935,8 @@
         "condition": "timeout",
         "mode": "default",
         "outcome": "allow",
-        "performed": true
+        "performed": true,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -1357,6 +1946,7 @@
             "halted": false,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "timeout",
           "decisionPoint": {
             "body": "{\"verdict\":\"block\"}",
@@ -1365,6 +1955,7 @@
             "status": 200
           },
           "id": "timeout--default",
+          "maxResponseBytes": 4096,
           "mode": "default",
           "request": {
             "action": "transfer_funds",
@@ -1396,7 +1987,8 @@
         "condition": "unparseable-body",
         "mode": "default",
         "outcome": "allow",
-        "performed": true
+        "performed": true,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -1406,6 +1998,7 @@
             "halted": false,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "unparseable-body",
           "decisionPoint": {
             "body": "<html>gateway</html>",
@@ -1414,6 +2007,7 @@
             "status": 200
           },
           "id": "unparseable-body--default",
+          "maxResponseBytes": 4096,
           "mode": "default",
           "request": {
             "action": "transfer_funds",
@@ -1445,7 +2039,8 @@
         "condition": "unauthorized",
         "mode": "default",
         "outcome": "allow",
-        "performed": true
+        "performed": true,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -1455,6 +2050,7 @@
             "halted": false,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "control-401",
           "decisionPoint": {
             "body": "{\"detail\":\"bad key\"}",
@@ -1463,6 +2059,7 @@
             "status": 401
           },
           "id": "control-401",
+          "maxResponseBytes": 4096,
           "mode": "default",
           "request": {
             "action": "transfer_funds",
@@ -1494,7 +2091,8 @@
         "condition": "ok",
         "mode": "default",
         "outcome": "allow",
-        "performed": true
+        "performed": true,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -1504,6 +2102,7 @@
             "halted": false,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "control-block",
           "decisionPoint": {
             "body": "{\"reason\":\"blocked\",\"verdict\":\"block\"}",
@@ -1512,6 +2111,7 @@
             "status": 200
           },
           "id": "control-block",
+          "maxResponseBytes": 4096,
           "mode": "default",
           "request": {
             "action": "transfer_funds",
@@ -1543,7 +2143,8 @@
         "condition": "ok",
         "mode": "default",
         "outcome": "allow",
-        "performed": true
+        "performed": true,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -1553,6 +2154,7 @@
             "halted": false,
             "outcome": "allow"
           },
+          "attempts": 1,
           "condition": "control-allow",
           "decisionPoint": {
             "body": "{\"reason\":\"within limits\",\"verdict\":\"allow\"}",
@@ -1561,6 +2163,7 @@
             "status": 200
           },
           "id": "control-allow",
+          "maxResponseBytes": 4096,
           "mode": "default",
           "request": {
             "action": "transfer_funds",
@@ -1592,7 +2195,8 @@
         "condition": "ok",
         "mode": "default",
         "outcome": "deny",
-        "performed": false
+        "performed": false,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -1602,6 +2206,7 @@
             "halted": true,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "control-halt",
           "decisionPoint": {
             "body": "{\"verdict\":\"halt\"}",
@@ -1610,6 +2215,7 @@
             "status": 200
           },
           "id": "control-halt",
+          "maxResponseBytes": 4096,
           "mode": "default",
           "request": {
             "action": "transfer_funds",
@@ -1641,7 +2247,8 @@
         "condition": "ok",
         "mode": "default",
         "outcome": "deny",
-        "performed": false
+        "performed": false,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -1651,6 +2258,7 @@
             "halted": false,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "control-block",
           "decisionPoint": {
             "body": "{\"reason\":\"blocked\",\"verdict\":\"block\"}",
@@ -1659,6 +2267,7 @@
             "status": 200
           },
           "id": "control-block",
+          "maxResponseBytes": 4096,
           "mode": "default",
           "request": {
             "action": "transfer_funds",
@@ -1690,7 +2299,8 @@
         "condition": "http-error",
         "mode": "strict",
         "outcome": "deny",
-        "performed": true
+        "performed": true,
+        "posture": null
       },
       "runtime": {
         "scenario": {
@@ -1700,6 +2310,7 @@
             "halted": false,
             "outcome": "deny"
           },
+          "attempts": 1,
           "condition": "http-503",
           "decisionPoint": {
             "body": "",
@@ -1708,6 +2319,7 @@
             "status": 503
           },
           "id": "http-503--strict",
+          "maxResponseBytes": 4096,
           "mode": "strict",
           "request": {
             "action": "transfer_funds",
@@ -1719,6 +2331,1016 @@
             "consequential": true
           },
           "summary": "the decision point answers HTTP 503 with an empty body",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "the posture's enforcement is 'audit', outside enforce and monitor",
+      "expected": {
+        "decision": "deny",
+        "reason": "record_malformed"
+      },
+      "files": {
+        "record.json": "f18f75c6e346abbf22d58a7f13a4ae90f2b8c1e007d1e3e2326f761a4fc908a4"
+      },
+      "id": "reject-posture-outside-vocabulary",
+      "path": "cases/reject-posture-outside-vocabulary",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "ok",
+        "mode": "default",
+        "outcome": "deny",
+        "performed": false,
+        "posture": {
+          "enforcement": "audit",
+          "failMode": "closed",
+          "failModeSource": "explicit"
+        }
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "policy",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "attempts": 1,
+          "condition": "control-block",
+          "decisionPoint": {
+            "body": "{\"reason\":\"blocked\",\"verdict\":\"block\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 200
+          },
+          "id": "control-block",
+          "maxResponseBytes": 4096,
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point blocks the action",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "the posture states no failModeSource, so whether the flag was set is unstated",
+      "expected": {
+        "decision": "deny",
+        "reason": "record_malformed"
+      },
+      "files": {
+        "record.json": "1d02ecdc8e92123b778e95995ba912f2977256e7dc104d576bbc63374cf675a6"
+      },
+      "id": "reject-posture-flag-unstated",
+      "path": "cases/reject-posture-flag-unstated",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "ok",
+        "mode": "default",
+        "outcome": "allow",
+        "performed": true,
+        "posture": {
+          "enforcement": "enforce",
+          "failMode": "closed"
+        }
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "policy",
+            "effects": 1,
+            "halted": false,
+            "outcome": "allow"
+          },
+          "attempts": 1,
+          "condition": "control-allow",
+          "decisionPoint": {
+            "body": "{\"reason\":\"within limits\",\"verdict\":\"allow\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 200
+          },
+          "id": "control-allow",
+          "maxResponseBytes": 4096,
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point allows the action, which runs once",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "under a monitor posture a block verdict is logged as a deny and the action runs",
+      "expected": {
+        "decision": "deny",
+        "reason": "monitor_mode"
+      },
+      "files": {
+        "record.json": "df74b2e4fc2dd48432ae698ed3e72ae295091a1feb0e121c9b88df855f20f78f"
+      },
+      "id": "reject-monitor-block-ran",
+      "path": "cases/reject-monitor-block-ran",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "ok",
+        "mode": "default",
+        "outcome": "deny",
+        "performed": true,
+        "posture": {
+          "enforcement": "monitor",
+          "failMode": "closed",
+          "failModeSource": "explicit"
+        }
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "policy",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "attempts": 1,
+          "condition": "control-block",
+          "decisionPoint": {
+            "body": "{\"reason\":\"blocked\",\"verdict\":\"block\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 200
+          },
+          "id": "control-block",
+          "maxResponseBytes": 4096,
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point blocks the action",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "an allow followed correctly under a monitor posture, which gated nothing",
+      "expected": {
+        "decision": "deny",
+        "reason": "monitor_mode"
+      },
+      "files": {
+        "record.json": "d0e67edcf0436dca4dd0a1c45e004d53c7d5b5b1cf101f837deaf74e7f97af4e"
+      },
+      "id": "reject-monitor-allow",
+      "path": "cases/reject-monitor-allow",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "ok",
+        "mode": "default",
+        "outcome": "allow",
+        "performed": true,
+        "posture": {
+          "enforcement": "monitor",
+          "failMode": "closed",
+          "failModeSource": "explicit"
+        }
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "policy",
+            "effects": 1,
+            "halted": false,
+            "outcome": "allow"
+          },
+          "attempts": 1,
+          "condition": "control-allow",
+          "decisionPoint": {
+            "body": "{\"reason\":\"within limits\",\"verdict\":\"allow\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 200
+          },
+          "id": "control-allow",
+          "maxResponseBytes": 4096,
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point allows the action, which runs once",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "under a monitor posture an unreachable point is allowed as a fallback",
+      "expected": {
+        "decision": "deny",
+        "reason": "monitor_mode"
+      },
+      "files": {
+        "record.json": "0bc05fc0ad458e426386249d343018d4574697e01d0e5e84968cb9b02874f300"
+      },
+      "id": "reject-monitor-fault-allowed",
+      "path": "cases/reject-monitor-fault-allowed",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "unreachable",
+        "mode": "default",
+        "outcome": "allow",
+        "performed": true,
+        "posture": {
+          "enforcement": "monitor",
+          "failMode": "closed",
+          "failModeSource": "explicit"
+        }
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "attempts": 1,
+          "condition": "unreachable",
+          "decisionPoint": {
+            "body": "",
+            "delayMillis": 0,
+            "listen": false,
+            "status": 0
+          },
+          "id": "unreachable--default",
+          "maxResponseBytes": 4096,
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "nothing listens at the decision point's address",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "an allow followed correctly under a fail-open posture, set explicitly",
+      "expected": {
+        "decision": "deny",
+        "reason": "fail_open_posture"
+      },
+      "files": {
+        "record.json": "faff649fbc89c5385ae1201366595a90da908d1638202983d0cfcd0f33f8a795"
+      },
+      "id": "reject-fail-open-posture-ok",
+      "path": "cases/reject-fail-open-posture-ok",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "ok",
+        "mode": "default",
+        "outcome": "allow",
+        "performed": true,
+        "posture": {
+          "enforcement": "enforce",
+          "failMode": "open",
+          "failModeSource": "explicit"
+        }
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "policy",
+            "effects": 1,
+            "halted": false,
+            "outcome": "allow"
+          },
+          "attempts": 1,
+          "condition": "control-allow",
+          "decisionPoint": {
+            "body": "{\"reason\":\"within limits\",\"verdict\":\"allow\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 200
+          },
+          "id": "control-allow",
+          "maxResponseBytes": 4096,
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point allows the action, which runs once",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "an HTTP 503 denied correctly by a client configured to fail open",
+      "expected": {
+        "decision": "deny",
+        "reason": "fail_open_posture"
+      },
+      "files": {
+        "record.json": "f65e554577f0c02543f3aa6453d0a4c7444c07c6711bb51959820538f0d76ec7"
+      },
+      "id": "reject-fail-open-posture-fault-denied",
+      "path": "cases/reject-fail-open-posture-fault-denied",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "http-error",
+        "mode": "strict",
+        "outcome": "deny",
+        "performed": false,
+        "posture": {
+          "enforcement": "enforce",
+          "failMode": "open",
+          "failModeSource": "explicit"
+        }
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "attempts": 1,
+          "condition": "http-503",
+          "decisionPoint": {
+            "body": "",
+            "delayMillis": 0,
+            "listen": true,
+            "status": 503
+          },
+          "id": "http-503--strict",
+          "maxResponseBytes": 4096,
+          "mode": "strict",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point answers HTTP 503 with an empty body",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "the fail-closed flag is unset and the shipped default fails open",
+      "expected": {
+        "decision": "deny",
+        "reason": "fail_open_posture"
+      },
+      "files": {
+        "record.json": "a382f92b6911d24377c8cd349a0bf0db3d1625e7ccba2165ae2a8fc8c2aa8d79"
+      },
+      "id": "reject-fail-mode-defaulted-open",
+      "path": "cases/reject-fail-mode-defaulted-open",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "unreachable",
+        "mode": "default",
+        "outcome": "allow",
+        "performed": true,
+        "posture": {
+          "enforcement": "enforce",
+          "failMode": "open",
+          "failModeSource": "default"
+        }
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "attempts": 1,
+          "condition": "unreachable",
+          "decisionPoint": {
+            "body": "",
+            "delayMillis": 0,
+            "listen": false,
+            "status": 0
+          },
+          "id": "unreachable--default",
+          "maxResponseBytes": 4096,
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "nothing listens at the decision point's address",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "an unreachable point denied correctly while the fail-closed flag is unset",
+      "expected": {
+        "decision": "deny",
+        "reason": "fail_mode_defaulted"
+      },
+      "files": {
+        "record.json": "0fbb20452c01033bc97b8506caac0724dedba55222e0033dd19d06be11ff3789"
+      },
+      "id": "reject-fail-mode-defaulted-closed",
+      "path": "cases/reject-fail-mode-defaulted-closed",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "unreachable",
+        "mode": "default",
+        "outcome": "deny",
+        "performed": false,
+        "posture": {
+          "enforcement": "enforce",
+          "failMode": "closed",
+          "failModeSource": "default"
+        }
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "attempts": 1,
+          "condition": "unreachable",
+          "decisionPoint": {
+            "body": "",
+            "delayMillis": 0,
+            "listen": false,
+            "status": 0
+          },
+          "id": "unreachable--default",
+          "maxResponseBytes": 4096,
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "nothing listens at the decision point's address",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "a timeout denied correctly under strict mode with the fail mode defaulted",
+      "expected": {
+        "decision": "deny",
+        "reason": "fail_mode_defaulted"
+      },
+      "files": {
+        "record.json": "92ba10d1fb4da501f3c791c81ed57a340c8720376665bfaa1eab55a5baee5ce9"
+      },
+      "id": "reject-strict-mode-defaulted",
+      "path": "cases/reject-strict-mode-defaulted",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "timeout",
+        "mode": "strict",
+        "outcome": "deny",
+        "performed": false,
+        "posture": {
+          "enforcement": "enforce",
+          "failMode": "closed",
+          "failModeSource": "default"
+        }
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "attempts": 1,
+          "condition": "timeout",
+          "decisionPoint": {
+            "body": "{\"verdict\":\"block\"}",
+            "delayMillis": 2500,
+            "listen": true,
+            "status": 200
+          },
+          "id": "timeout--strict",
+          "maxResponseBytes": 4096,
+          "mode": "strict",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point's block arrives 2.5 seconds after a 1 second timeout",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "the record states a response limit and gives no size for the reply that arrived",
+      "expected": {
+        "decision": "deny",
+        "reason": "record_malformed"
+      },
+      "files": {
+        "record.json": "83f014d11f191aa44b53d188bb170503fde2476cc3283ade34645ea08d041793"
+      },
+      "id": "reject-limit-without-body-size",
+      "path": "cases/reject-limit-without-body-size",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "ok",
+        "mode": "default",
+        "outcome": "allow",
+        "performed": true,
+        "posture": {
+          "enforcement": "enforce",
+          "failMode": "closed",
+          "failModeSource": "explicit"
+        }
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "policy",
+            "effects": 1,
+            "halted": false,
+            "outcome": "allow"
+          },
+          "attempts": 1,
+          "condition": "control-at-limit",
+          "decisionPoint": {
+            "body": "{\"verdict\":\"allow\",\"pad\":\"\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "padTo": 4096,
+            "status": 200
+          },
+          "id": "control-at-limit",
+          "maxResponseBytes": 4096,
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point allows with a body exactly at the client's limit",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "a timed-out exchange carries a body size, which only an arrived reply has",
+      "expected": {
+        "decision": "deny",
+        "reason": "record_malformed"
+      },
+      "files": {
+        "record.json": "45143d23be2758bd8ac136df63be564b02909fe4c66bee693c653fca052cf506"
+      },
+      "id": "reject-body-size-without-reply",
+      "path": "cases/reject-body-size-without-reply",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "timeout",
+        "mode": "strict",
+        "outcome": "deny",
+        "performed": false,
+        "posture": {
+          "enforcement": "enforce",
+          "failMode": "closed",
+          "failModeSource": "explicit"
+        }
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "attempts": 1,
+          "condition": "timeout",
+          "decisionPoint": {
+            "body": "{\"verdict\":\"block\"}",
+            "delayMillis": 2500,
+            "listen": true,
+            "status": 200
+          },
+          "id": "timeout--strict",
+          "maxResponseBytes": 4096,
+          "mode": "strict",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "the decision point's block arrives 2.5 seconds after a 1 second timeout",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "the breaker is recorded open on an exchange that reached the point",
+      "expected": {
+        "decision": "deny",
+        "reason": "record_malformed"
+      },
+      "files": {
+        "record.json": "ed7dbc9c8cf3f4891c3ffb14fe44faeb872c79dc4eccd529df949f10d3673a7d"
+      },
+      "id": "reject-circuit-open-claims-reached",
+      "path": "cases/reject-circuit-open-claims-reached",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "circuit-open",
+        "mode": "strict",
+        "outcome": "deny",
+        "performed": false,
+        "posture": {
+          "enforcement": "enforce",
+          "failMode": "closed",
+          "failModeSource": "explicit"
+        }
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "attempts": 5,
+          "condition": "outage",
+          "decisionPoint": {
+            "body": "",
+            "delayMillis": 0,
+            "listen": false,
+            "status": 0
+          },
+          "id": "outage--strict",
+          "maxResponseBytes": 4096,
+          "mode": "strict",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "nothing listens for 5 consecutive asks; a client with a breaker stops asking, and its last decision is the breaker's",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "a body one byte over the limit is truncated and its prefix read as an allow",
+      "expected": {
+        "decision": "deny",
+        "reason": "condition_misclassified"
+      },
+      "files": {
+        "record.json": "291dfd24eaec4932fbf9f8d63a682e3e820fc603e2081777011ffa7f020fee5d"
+      },
+      "id": "reject-oversize-prefix-parsed",
+      "path": "cases/reject-oversize-prefix-parsed",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "oversize",
+        "mode": "default",
+        "outcome": "allow",
+        "performed": true,
+        "posture": {
+          "enforcement": "enforce",
+          "failMode": "closed",
+          "failModeSource": "explicit"
+        }
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "attempts": 1,
+          "condition": "oversize",
+          "decisionPoint": {
+            "body": "{\"verdict\":\"allow\",\"pad\":\"\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "padTo": 4097,
+            "status": 200
+          },
+          "id": "oversize--default",
+          "maxResponseBytes": 4096,
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "HTTP 200 whose allow body is one byte over the client's response limit",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "an oversize reply is recorded as oversize and the action allowed as a fallback",
+      "expected": {
+        "decision": "deny",
+        "reason": "fault_allowed"
+      },
+      "files": {
+        "record.json": "d3366fd5f13ed0bc162bcae7a70380b88f64bf9be1614fd34a5762fcd396e4f1"
+      },
+      "id": "reject-oversize-allowed",
+      "path": "cases/reject-oversize-allowed",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "oversize",
+        "mode": "strict",
+        "outcome": "allow",
+        "performed": true,
+        "posture": {
+          "enforcement": "enforce",
+          "failMode": "closed",
+          "failModeSource": "explicit"
+        }
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "attempts": 1,
+          "condition": "oversize",
+          "decisionPoint": {
+            "body": "{\"verdict\":\"allow\",\"pad\":\"\"}",
+            "delayMillis": 0,
+            "listen": true,
+            "padTo": 4097,
+            "status": 200
+          },
+          "id": "oversize--strict",
+          "maxResponseBytes": 4096,
+          "mode": "strict",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "HTTP 200 whose allow body is one byte over the client's response limit",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "the client never asked, its breaker was open, and it records the point unreachable",
+      "expected": {
+        "decision": "deny",
+        "reason": "condition_misclassified"
+      },
+      "files": {
+        "record.json": "84f285c56d2e6a9d67c30f9ba06297413c56da15fd2cfc03441779f14cc08081"
+      },
+      "id": "reject-circuit-open-recorded-as-unreachable",
+      "path": "cases/reject-circuit-open-recorded-as-unreachable",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "circuit-open",
+        "mode": "default",
+        "outcome": "deny",
+        "performed": false,
+        "posture": {
+          "enforcement": "enforce",
+          "failMode": "closed",
+          "failModeSource": "explicit"
+        }
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "attempts": 5,
+          "condition": "outage",
+          "decisionPoint": {
+            "body": "",
+            "delayMillis": 0,
+            "listen": false,
+            "status": 0
+          },
+          "id": "outage--default",
+          "maxResponseBytes": 4096,
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "nothing listens for 5 consecutive asks; a client with a breaker stops asking, and its last decision is the breaker's",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "an open breaker's denial is recorded as a policy decision",
+      "expected": {
+        "decision": "deny",
+        "reason": "fault_recorded_as_policy"
+      },
+      "files": {
+        "record.json": "e90755be63d7b0d73655111ffc8235a5a13190d9ed0d29330fce79e0762c7d98"
+      },
+      "id": "reject-circuit-open-as-policy",
+      "path": "cases/reject-circuit-open-as-policy",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "circuit-open",
+        "mode": "strict",
+        "outcome": "deny",
+        "performed": false,
+        "posture": {
+          "enforcement": "enforce",
+          "failMode": "closed",
+          "failModeSource": "explicit"
+        }
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "attempts": 5,
+          "condition": "outage",
+          "decisionPoint": {
+            "body": "",
+            "delayMillis": 0,
+            "listen": false,
+            "status": 0
+          },
+          "id": "outage--strict",
+          "maxResponseBytes": 4096,
+          "mode": "strict",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "nothing listens for 5 consecutive asks; a client with a breaker stops asking, and its last decision is the breaker's",
+          "timeoutMillis": 1000
+        }
+      }
+    },
+    {
+      "edit": "an open breaker lets the action through as a fallback after an outage",
+      "expected": {
+        "decision": "deny",
+        "reason": "fault_allowed"
+      },
+      "files": {
+        "record.json": "49d8415fa2da95492af3bae446ab20e4c25622a1f0695e46d40a41c331881420"
+      },
+      "id": "reject-circuit-open-allowed",
+      "path": "cases/reject-circuit-open-allowed",
+      "retained": {
+        "action": "transfer_funds",
+        "condition": "circuit-open",
+        "mode": "default",
+        "outcome": "allow",
+        "performed": true,
+        "posture": {
+          "enforcement": "enforce",
+          "failMode": "closed",
+          "failModeSource": "explicit"
+        }
+      },
+      "runtime": {
+        "scenario": {
+          "accepted": {
+            "basis": "fallback",
+            "effects": 0,
+            "halted": false,
+            "outcome": "deny"
+          },
+          "attempts": 5,
+          "condition": "outage",
+          "decisionPoint": {
+            "body": "",
+            "delayMillis": 0,
+            "listen": false,
+            "status": 0
+          },
+          "id": "outage--default",
+          "maxResponseBytes": 4096,
+          "mode": "default",
+          "request": {
+            "action": "transfer_funds",
+            "args": {
+              "amount": 1000000,
+              "currency": "USD",
+              "to": "acct-0001"
+            },
+            "consequential": true
+          },
+          "summary": "nothing listens for 5 consecutive asks; a client with a breaker stops asking, and its last decision is the breaker's",
           "timeoutMillis": 1000
         }
       }
