@@ -1,0 +1,225 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/durable-history/v1",
+  "exports": [
+    {
+      "events": [
+        {
+          "attributes": {
+            "runId": "run-0001",
+            "workflowId": "refund-T-100"
+          },
+          "eventId": 1,
+          "eventType": "WorkflowExecutionStarted"
+        },
+        {
+          "attributes": {},
+          "eventId": 2,
+          "eventType": "WorkflowTaskCompleted"
+        },
+        {
+          "attributes": {
+            "activityId": "1",
+            "activityType": "model_request",
+            "input": {
+              "data": "ZdnwS60L9J6UeLIukieUKQGCQMrPvQWgU64mBiWCLk1JDcQHeQ4SXh1E8KOE",
+              "encoding": "binary/encrypted",
+              "keyId": "key:codec-1"
+            }
+          },
+          "eventId": 3,
+          "eventType": "ActivityTaskScheduled"
+        },
+        {
+          "attributes": {
+            "attempt": 1,
+            "result": {
+              "data": "SICCIEaToRn8CvjxcNsusI47Z4nZ2XYYPxkb98EUzWwme5tJKyKZxm7YKy+DCdnyv0UaNQ4nMiSdyRKQEXTNWoYNFDBD592QZ2vVH5qiLfnOLplZMQUry21PcWLMUHgG7u7VlCdesJGE",
+              "encoding": "binary/encrypted",
+              "keyId": "key:codec-1"
+            },
+            "scheduledEventId": 3
+          },
+          "eventId": 4,
+          "eventType": "ActivityTaskCompleted"
+        },
+        {
+          "attributes": {},
+          "eventId": 5,
+          "eventType": "WorkflowTaskCompleted"
+        },
+        {
+          "attributes": {
+            "activityId": "2",
+            "activityType": "tool:read_ticket",
+            "input": {
+              "data": "TzhQKc/wFuWK3ZMacrx/1s1cbW7z4BCJ/3xaZf75Axlbx8QrqWVEmD86sADub9sY8UW/Z3LCr6J73Bd6/7Ru/gYeqIo=",
+              "encoding": "binary/encrypted",
+              "keyId": "key:codec-1"
+            }
+          },
+          "eventId": 6,
+          "eventType": "ActivityTaskScheduled"
+        },
+        {
+          "attributes": {
+            "attempt": 1,
+            "result": {
+              "data": "FXJ/htuUduvN2h+h+heAssvvK4oCCZU/xWaFFaHIj7ZUDMZEwv974Y0S6c4ox0LC8BQ25k/iMOEcQW4cunEsfuGDHy0+xe+SjEgXdEjlzc12Y4gJ/sU6eYZvTqW9g6yhubvoGUsR0yl+0xrNcPCxh8lsYrK2Zc9m97srTfHzVZAcH1nNFplmqnIS0FbtDaOdYAyYp/wOXTqoAg==",
+              "encoding": "binary/encrypted",
+              "keyId": "key:codec-1"
+            },
+            "scheduledEventId": 6
+          },
+          "eventId": 7,
+          "eventType": "ActivityTaskCompleted"
+        },
+        {
+          "attributes": {},
+          "eventId": 8,
+          "eventType": "WorkflowTaskCompleted"
+        },
+        {
+          "attributes": {
+            "activityId": "3",
+            "activityType": "model_request",
+            "input": {
+              "data": "1kVvbGMzMwQN+8mESoMmARlrU30OECmbkh66M2IyDearooUT2Q==",
+              "encoding": "binary/encrypted",
+              "keyId": "key:codec-1"
+            }
+          },
+          "eventId": 9,
+          "eventType": "ActivityTaskScheduled"
+        },
+        {
+          "attributes": {
+            "attempt": 1,
+            "result": {
+              "data": "Gx/oCou5kgMJpPqNI4hBbcZSA8L5GN6PhKUbAZfFaRNnM8Uug053m10o5xAScD3L6UCBeAyA3DlqTVTeA3Ka7/smabATeCs7wE3CJ8L6hvOPpY5auVBoALqyhxZYTrr24z0VQvxm1v83eG8voglquC5H+s1FxsO3OXApi31xg/EcFOpRYn+fRGA7g4Z1f+KVruQFAGH11nXh+3XAeQ==",
+              "encoding": "binary/encrypted",
+              "keyId": "key:codec-1"
+            },
+            "scheduledEventId": 9
+          },
+          "eventId": 10,
+          "eventType": "ActivityTaskCompleted"
+        },
+        {
+          "attributes": {},
+          "eventId": 11,
+          "eventType": "WorkflowTaskCompleted"
+        },
+        {
+          "attributes": {
+            "updateId": "approve-call-refund-T-100"
+          },
+          "eventId": 12,
+          "eventType": "WorkflowExecutionUpdateAccepted"
+        },
+        {
+          "attributes": {},
+          "eventId": 13,
+          "eventType": "WorkflowTaskCompleted"
+        },
+        {
+          "attributes": {
+            "activityId": "4",
+            "activityType": "tool:issue_refund",
+            "input": {
+              "data": "BM9BX/TxLgc7MFSMxKEVnxL3Q4n30nqFsE2NzYWgaGdxZ45MSrTb8eNQhkdG+yZwJqSvwH8NShCGb1WOsBL85DRdVKso8XveoFwZaANGnQu/K/QBexK82YJE09sj0B9NSJhWub3+egGmfzbFVLbbLChs+CMAPpc=",
+              "encoding": "binary/encrypted",
+              "keyId": "key:codec-1"
+            }
+          },
+          "eventId": 14,
+          "eventType": "ActivityTaskScheduled"
+        },
+        {
+          "attributes": {
+            "attempt": 1,
+            "result": {
+              "data": "FXJ/htuUduvN2h+h+heAssvvK4oCCZU/xWaFFaHIj7ZUDMZEwv974Y0S6c4ox0LC8BQ25k/iMOEcQW4cunEsfuGDHy0+xe+SjEgXdEjlzc12Y4gJ/sU6eYZvTqW9g6yhubvoGUsR0yl+0xrNcPCxh8lsYrK2Zc9m97srTfHzVZAcH1nNFplmqnIS0FbtDaOdYAyYp/wOXTqoAg==",
+              "encoding": "binary/encrypted",
+              "keyId": "key:codec-1"
+            },
+            "scheduledEventId": 14
+          },
+          "eventId": 15,
+          "eventType": "ActivityTaskCompleted"
+        },
+        {
+          "attributes": {},
+          "eventId": 16,
+          "eventType": "WorkflowTaskCompleted"
+        },
+        {
+          "attributes": {
+            "result": {
+              "data": "Refund handled.",
+              "encoding": "json/plain"
+            }
+          },
+          "eventId": 17,
+          "eventType": "WorkflowExecutionCompleted"
+        }
+      ],
+      "source": "workflow-show"
+    }
+  ],
+  "witnessed": {
+    "effects": [
+      {
+        "argsDigest": "sha256:9f6382e35e2211e34f8eb7218da40d2e8d98076059214d2ca712a2b8155bfee5",
+        "callId": "call-refund-T-100",
+        "effectId": "effect-refund-T-100-4-1",
+        "grantDigest": "sha256:33295455870b58c3df2f7a161b99859c22cbb7bdd4368c540843221813e1f850",
+        "observedAt": "2026-11-08T12:00:02Z",
+        "observerKeyId": "key:system-of-record-1",
+        "outcome": "applied",
+        "permitId": "permit-refund-T-100-4-1",
+        "resultCiphertextDigest": "sha256:cbaddd728b47b8d7e4b6336c0c56829a338280804650fe9ed8ea1cf5e4226b29",
+        "resultDigest": "sha256:6c9754fb9397b31359e8ea5a2e926ed6cc6b4f23b09712c59b4a1d560a8233eb",
+        "runId": "run-0001",
+        "srl": {
+          "digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "epoch": 1
+        },
+        "workflowId": "refund-T-100"
+      }
+    ],
+    "expectedToolCodeDigest": "sha256:927f2176af60becf27d0e79e20d26f1a59628bc31cc08ea3bfba280905b8db79",
+    "gatedTools": [
+      "issue_refund"
+    ],
+    "permits": [
+      {
+        "activityId": "4",
+        "approvalIds": [
+          "approve-call-refund-T-100"
+        ],
+        "argsDigest": "sha256:9f6382e35e2211e34f8eb7218da40d2e8d98076059214d2ca712a2b8155bfee5",
+        "attempt": 1,
+        "authorityKeyId": "key:authority-1",
+        "callId": "call-refund-T-100",
+        "expiresAt": "2026-11-08T12:05:00Z",
+        "grantDigest": "sha256:33295455870b58c3df2f7a161b99859c22cbb7bdd4368c540843221813e1f850",
+        "inputCiphertextDigest": "sha256:5f280b8b2f54683fee6db4f7bef4e5d0e2ad58d485596ecdedac6b5b44050963",
+        "issuedAt": "2026-11-08T12:00:00Z",
+        "modelActivityId": "3",
+        "modelArgsDigest": "sha256:9f6382e35e2211e34f8eb7218da40d2e8d98076059214d2ca712a2b8155bfee5",
+        "modelResponseCiphertextDigest": "sha256:86208c3eddab7205fadbe9aa82047af53f4e9e94173a4f8bce53f6e7f08ec600",
+        "permitId": "permit-refund-T-100-4-1",
+        "runId": "run-0001",
+        "srl": {
+          "digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "epoch": 1
+        },
+        "tool": "issue_refund",
+        "toolCodeDigest": "sha256:927f2176af60becf27d0e79e20d26f1a59628bc31cc08ea3bfba280905b8db79",
+        "workflowId": "refund-T-100"
+      }
+    ],
+    "runId": "run-0001",
+    "workflowId": "refund-T-100"
+  }
+}

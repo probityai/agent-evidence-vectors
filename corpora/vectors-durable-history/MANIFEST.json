@@ -1,0 +1,696 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/durable-history/v1",
+  "corpusDigest": "5299855e8c39001f2b447b2e7955d30ef8caec945f586ec72b031be0c79499ce",
+  "counts": {
+    "allow": 12,
+    "deny": 45
+  },
+  "suite": "durable-history/v1",
+  "vectors": [
+    {
+      "edit": "control: the exported history matches every witnessed record",
+      "expected": {
+        "decision": "allow",
+        "reason": "consistent"
+      },
+      "files": {
+        "record.json": "5f18a45599129998284b5d104950fafde68b32f30bc67ced9708d69585298604"
+      },
+      "id": "allow-clean-run",
+      "path": "cases/allow-clean-run"
+    },
+    {
+      "edit": "control: the first attempt failed before any effect and the second, also permitted, applied; the history records one completion, of attempt 2",
+      "expected": {
+        "decision": "allow",
+        "reason": "consistent"
+      },
+      "files": {
+        "record.json": "8a51ca1088011769dffcf90b0a1a1339ea692015c109c36aac21e651f7cbf93f"
+      },
+      "id": "allow-witnessed-retry",
+      "path": "cases/allow-witnessed-retry"
+    },
+    {
+      "edit": "control: every payload is encrypted and each witnessed one matches its witnessed ciphertext",
+      "expected": {
+        "decision": "allow",
+        "reason": "consistent"
+      },
+      "files": {
+        "record.json": "a09c44b52368839d8b907e1fe8ee5e158e158f7e5fb783dcc317c832b5176351"
+      },
+      "id": "allow-codec-encrypted-run",
+      "path": "cases/allow-codec-encrypted-run"
+    },
+    {
+      "edit": "control: the same run, read from a cloud export file",
+      "expected": {
+        "decision": "allow",
+        "reason": "consistent"
+      },
+      "files": {
+        "record.json": "b65c172f9d6703213463f4b57a737f479a3c8157bf87232812c1e0e489463275"
+      },
+      "id": "allow-cloud-export-run",
+      "path": "cases/allow-cloud-export-run"
+    },
+    {
+      "edit": "control: at-least-once delivery put the witnessed run in the file twice, beside another workflow's run",
+      "expected": {
+        "decision": "allow",
+        "reason": "consistent"
+      },
+      "files": {
+        "record.json": "4f0f1efd8922646901d53002c97bafd3c5ced6a3f7e19aad7c807f8ecc6a8ec2"
+      },
+      "id": "allow-cloud-export-duplicate-delivery",
+      "path": "cases/allow-cloud-export-duplicate-delivery"
+    },
+    {
+      "edit": "control: the reply was lost, the system of record settled the call as applied, and the activity was completed with that settled result",
+      "expected": {
+        "decision": "allow",
+        "reason": "consistent"
+      },
+      "files": {
+        "record.json": "fb87ee7c748289be79ca5c61e0809c9200400c7ca34072974f41fea01e0a68df"
+      },
+      "id": "allow-lost-reply-settled-from-system-of-record",
+      "path": "cases/allow-lost-reply-settled-from-system-of-record"
+    },
+    {
+      "edit": "control: the reply was lost and the history honestly records a timeout",
+      "expected": {
+        "decision": "allow",
+        "reason": "consistent"
+      },
+      "files": {
+        "record.json": "4920874846e63978e89e5d792a1ec9cb15bb783c5ec6380b9bee8a89b83ee54a"
+      },
+      "id": "allow-lost-reply-left-uncertain",
+      "path": "cases/allow-lost-reply-left-uncertain"
+    },
+    {
+      "edit": "control: the run was reset to the last witnessed event, so every witnessed event stays in force",
+      "expected": {
+        "decision": "allow",
+        "reason": "consistent"
+      },
+      "files": {
+        "record.json": "d3baccbd234a443b954aa381662f826f9f83d237651ff97940b66473908a35d3"
+      },
+      "id": "allow-reset-after-last-witnessed-event",
+      "path": "cases/allow-reset-after-last-witnessed-event"
+    },
+    {
+      "edit": "control: the approver lowered the amount; the model's request and the permitted, scheduled arguments differ, and both were witnessed",
+      "expected": {
+        "decision": "allow",
+        "reason": "consistent"
+      },
+      "files": {
+        "record.json": "82c4ae0966f84832092b5df454cb10134ac27b8246129b7776c6a6978bb509d0"
+      },
+      "id": "allow-approved-argument-override",
+      "path": "cases/allow-approved-argument-override"
+    },
+    {
+      "edit": "control: the processor declined and the history records the decline",
+      "expected": {
+        "decision": "allow",
+        "reason": "consistent"
+      },
+      "files": {
+        "record.json": "85e176e693a6404bd39c5bb0a19cb8ae2a812d141e109534363441456ced7cbd"
+      },
+      "id": "allow-declined-refund-recorded-as-declined",
+      "path": "cases/allow-declined-refund-recorded-as-declined"
+    },
+    {
+      "edit": "control: two Updates with distinct ids",
+      "expected": {
+        "decision": "allow",
+        "reason": "consistent"
+      },
+      "files": {
+        "record.json": "7136061a23557ad1679370949e2ced3197906cd7e610469df93d3afa061a3325"
+      },
+      "id": "allow-distinct-update-ids",
+      "path": "cases/allow-distinct-update-ids"
+    },
+    {
+      "edit": "control: a second ticket read, a tool nobody gates, ran with no permit",
+      "expected": {
+        "decision": "allow",
+        "reason": "consistent"
+      },
+      "files": {
+        "record.json": "80a8b108288e070fc6a7ed5670395426bdc2b3b942f91078c1cd3ab70a0e941d"
+      },
+      "id": "allow-ungated-tool-without-permit",
+      "path": "cases/allow-ungated-tool-without-permit"
+    },
+    {
+      "edit": "the run was reset one event before the refund completed, so the reset discards a witnessed event and a new run supersedes it",
+      "expected": {
+        "decision": "deny",
+        "reason": "history_reset"
+      },
+      "files": {
+        "record.json": "21260216a30af07da19a99a20ad8e3f6d6c07c1317d3f8740ea5ad6108513de8"
+      },
+      "id": "reset-before-witnessed-event",
+      "path": "cases/reset-before-witnessed-event"
+    },
+    {
+      "edit": "the operator reset the run and exported the forked run in place of the witnessed one",
+      "expected": {
+        "decision": "deny",
+        "reason": "history_reset"
+      },
+      "files": {
+        "record.json": "2c817def00b8a5f6ac620be04e3477075fae031c09bc46f96c57cc66add7e2e3"
+      },
+      "id": "reset-fork-exported-instead",
+      "path": "cases/reset-fork-exported-instead"
+    },
+    {
+      "edit": "the export carries the witnessed run and a fork reset to a point before the refund",
+      "expected": {
+        "decision": "deny",
+        "reason": "history_reset"
+      },
+      "files": {
+        "record.json": "da04f224cf0d7cac838b25d172bfce75e33ee1ace6836fa0762a2795e6d03add"
+      },
+      "id": "reset-fork-point-before-witnessed",
+      "path": "cases/reset-fork-point-before-witnessed"
+    },
+    {
+      "edit": "the operator deleted the run; the export holds nothing",
+      "expected": {
+        "decision": "deny",
+        "reason": "witnessed_run_missing_from_history"
+      },
+      "files": {
+        "record.json": "9761530186e11493db059154bed5e2e6ac7f1a78a87011b7207d045ef3f0dc24"
+      },
+      "id": "run-deleted",
+      "path": "cases/run-deleted"
+    },
+    {
+      "edit": "the cloud export file carries another workflow's run and not the witnessed one",
+      "expected": {
+        "decision": "deny",
+        "reason": "witnessed_run_missing_from_history"
+      },
+      "files": {
+        "record.json": "ca1915c347a0c6e913241c8085b2d7c50021300aed4c75885bc6a9d383a4ec11"
+      },
+      "id": "cloud-export-without-run",
+      "path": "cases/cloud-export-without-run"
+    },
+    {
+      "edit": "the export is a run of the same workflow with another run id and no reset link",
+      "expected": {
+        "decision": "deny",
+        "reason": "witnessed_run_missing_from_history"
+      },
+      "files": {
+        "record.json": "646e248b55481a7939fa27e3d995c2a600b306babefa0a91810b19db72793bbe"
+      },
+      "id": "different-run-exported",
+      "path": "cases/different-run-exported"
+    },
+    {
+      "edit": "an event was moved without renumbering, so event ids no longer run in order",
+      "expected": {
+        "decision": "deny",
+        "reason": "event_sequence_broken"
+      },
+      "files": {
+        "record.json": "b8bc5994012147e6e5e6d23f8bf709f9228d60c9bf63ea076e35fc5eef0e9420"
+      },
+      "id": "event-moved",
+      "path": "cases/event-moved"
+    },
+    {
+      "edit": "an event was removed and the ids after it were left as they were",
+      "expected": {
+        "decision": "deny",
+        "reason": "event_sequence_broken"
+      },
+      "files": {
+        "record.json": "fdd10569d5539e836629ee90bb4629aba79006374ab9fe01ec6ff228415cfc29"
+      },
+      "id": "event-dropped-leaving-gap",
+      "path": "cases/event-dropped-leaving-gap"
+    },
+    {
+      "edit": "the refund's completion points at a schedule event later than itself",
+      "expected": {
+        "decision": "deny",
+        "reason": "event_sequence_broken"
+      },
+      "files": {
+        "record.json": "138875811c8f77afe2b320827a48008e91196853d3adb1457e330a20ea0d34a6"
+      },
+      "id": "completion-before-schedule",
+      "path": "cases/completion-before-schedule"
+    },
+    {
+      "edit": "one scheduled activity is completed twice",
+      "expected": {
+        "decision": "deny",
+        "reason": "event_sequence_broken"
+      },
+      "files": {
+        "record.json": "434b74f0464a4e9cc18f64fb96035874f46a161490a3947a915c8d957ebc0ba6"
+      },
+      "id": "second-completion-for-one-schedule",
+      "path": "cases/second-completion-for-one-schedule"
+    },
+    {
+      "edit": "an editor without the codec key changed the refund input's ciphertext; it no longer decrypts, and it is not the ciphertext witnessed",
+      "expected": {
+        "decision": "deny",
+        "reason": "encrypted_payload_differs_from_witnessed"
+      },
+      "files": {
+        "record.json": "d3cd5910777f96b6787b21dd200aef6aab422893b02a5ece63b6059566d3163e"
+      },
+      "id": "codec-keyless-ciphertext-edit",
+      "path": "cases/codec-keyless-ciphertext-edit"
+    },
+    {
+      "edit": "a valid ciphertext was copied from the ticket read's result onto the refund's result; a codec with no associated data decrypts it",
+      "expected": {
+        "decision": "deny",
+        "reason": "encrypted_payload_differs_from_witnessed"
+      },
+      "files": {
+        "record.json": "2e7106490beaab0b60910d6b4a414fd94fc2b2d40ad7a40d2fb9823d14d606be"
+      },
+      "id": "codec-ciphertext-moved-between-events",
+      "path": "cases/codec-ciphertext-moved-between-events"
+    },
+    {
+      "edit": "the refund input was stored as edited plaintext where a ciphertext was witnessed",
+      "expected": {
+        "decision": "deny",
+        "reason": "encrypted_payload_differs_from_witnessed"
+      },
+      "files": {
+        "record.json": "d9f69ec4a54a5cf3a69d0dbebf622ac1cd9bb4416229c267407a20abac3d1671"
+      },
+      "id": "codec-stripped-and-edited",
+      "path": "cases/codec-stripped-and-edited"
+    },
+    {
+      "edit": "the operator, who holds the codec key, encrypted edited arguments; the codec accepts them and the witnessed ciphertext does not",
+      "expected": {
+        "decision": "deny",
+        "reason": "encrypted_payload_differs_from_witnessed"
+      },
+      "files": {
+        "record.json": "a963f8e08785f503f947972d64c1f2691f55a818a1108fdaad6c48fcfe44f375"
+      },
+      "id": "codec-key-holder-reencrypted-edit",
+      "path": "cases/codec-key-holder-reencrypted-edit"
+    },
+    {
+      "edit": "only the model's recorded request was edited: the history says the model asked to pay the attacker while it scheduled the permitted refund",
+      "expected": {
+        "decision": "deny",
+        "reason": "model_request_differs_from_witnessed"
+      },
+      "files": {
+        "record.json": "49262fa8f7ca1b590ba00131feca563f6e4210fb1865e7db286f7465fa6e1110"
+      },
+      "id": "model-args-edited",
+      "path": "cases/model-args-edited"
+    },
+    {
+      "edit": "the model's request for the refund was removed from its recorded response",
+      "expected": {
+        "decision": "deny",
+        "reason": "model_request_differs_from_witnessed"
+      },
+      "files": {
+        "record.json": "a7677af2ca4cd65afaa2447048e038466ec437c7b0531575ef7cf6f37b545ea3"
+      },
+      "id": "model-call-removed",
+      "path": "cases/model-call-removed"
+    },
+    {
+      "edit": "the operator edited the store: the model's request and the scheduled input both say 20 cents, consistently, where 2000 was permitted",
+      "expected": {
+        "decision": "deny",
+        "reason": "history_args_differ_from_permitted"
+      },
+      "files": {
+        "record.json": "d1bf34de4db11096273f412e6a0087c61388913d64514d9fcb33c8d0ac61b2d7"
+      },
+      "id": "store-edit-amount",
+      "path": "cases/store-edit-amount"
+    },
+    {
+      "edit": "every payload was rewritten to tell one coherent story of a 20-cent refund",
+      "expected": {
+        "decision": "deny",
+        "reason": "history_args_differ_from_permitted"
+      },
+      "files": {
+        "record.json": "e3b4ca92808244e1ca566315445b3947181fa5c1f63f2a4a5b93176dfef5f511"
+      },
+      "id": "consistent-rewrite",
+      "path": "cases/consistent-rewrite"
+    },
+    {
+      "edit": "the activity is recorded as another tool than the one permitted",
+      "expected": {
+        "decision": "deny",
+        "reason": "history_args_differ_from_permitted"
+      },
+      "files": {
+        "record.json": "f4ddc9299a45d03375f826a1fcdd9fbc97c434ff0a9bf61ffffa8c3f76a7c307"
+      },
+      "id": "scheduled-tool-changed",
+      "path": "cases/scheduled-tool-changed"
+    },
+    {
+      "edit": "the processor declined, and the recorded result was edited to say applied",
+      "expected": {
+        "decision": "deny",
+        "reason": "history_result_differs_from_witnessed"
+      },
+      "files": {
+        "record.json": "1c05630efccbc23b9e7547cd1696afddacf12ea667af0daa5b696012e77ee3ee"
+      },
+      "id": "result-edited",
+      "path": "cases/result-edited"
+    },
+    {
+      "edit": "the history records a result for a permitted attempt whose effect nobody witnessed",
+      "expected": {
+        "decision": "deny",
+        "reason": "history_result_differs_from_witnessed"
+      },
+      "files": {
+        "record.json": "9e06032950207e0f9485dd0b1957b310b14d9889d6b5d164922e057400489d7b"
+      },
+      "id": "result-without-witnessed-effect",
+      "path": "cases/result-without-witnessed-effect"
+    },
+    {
+      "edit": "the lost reply was settled by the system of record, and the history records another result",
+      "expected": {
+        "decision": "deny",
+        "reason": "history_result_differs_from_witnessed"
+      },
+      "files": {
+        "record.json": "1100b92f7364011d60ef78938d8e07e544159d6297873112d0be92fa26aca936"
+      },
+      "id": "settled-result-differs",
+      "path": "cases/settled-result-differs"
+    },
+    {
+      "edit": "the permit names tool code other than the measured launch's; the history is untouched, so replay passes",
+      "expected": {
+        "decision": "deny",
+        "reason": "tool_code_changed"
+      },
+      "files": {
+        "record.json": "ca0bd622e4106e002e155451eb9a3c6fe30962395921f5d17851e2563c81bdbb"
+      },
+      "id": "tool-code-changed",
+      "path": "cases/tool-code-changed"
+    },
+    {
+      "edit": "attempt 1 was permitted and failed; attempt 2 completed with no permit",
+      "expected": {
+        "decision": "deny",
+        "reason": "activity_unwitnessed"
+      },
+      "files": {
+        "record.json": "269b04674e4fb07d7a369e330d7e0ffe9fa42a25103b5381e91533319b46aaa0"
+      },
+      "id": "hidden-retry",
+      "path": "cases/hidden-retry"
+    },
+    {
+      "edit": "a second refund activity ran with no permit",
+      "expected": {
+        "decision": "deny",
+        "reason": "activity_unwitnessed"
+      },
+      "files": {
+        "record.json": "d82d565960558ebb9dc2ee34902dc273e06c3e11e55f80b701a1cf34a219c66d"
+      },
+      "id": "injected-refund-activity",
+      "path": "cases/injected-refund-activity"
+    },
+    {
+      "edit": "the permitted refund activity was removed from the history and the ids renumbered",
+      "expected": {
+        "decision": "deny",
+        "reason": "witnessed_effect_missing"
+      },
+      "files": {
+        "record.json": "79c718ae46ddcb2b9f533e0cf954d82d199a26d3f35ca52e0b0ad274a7988517"
+      },
+      "id": "witnessed-activity-removed",
+      "path": "cases/witnessed-activity-removed"
+    },
+    {
+      "edit": "the system of record applied the refund, and the history says the activity timed out",
+      "expected": {
+        "decision": "deny",
+        "reason": "witnessed_effect_missing"
+      },
+      "files": {
+        "record.json": "230006168fc8192480a86ddc40ccf00a9124c4dd274f82a0a6217f84236c9dbe"
+      },
+      "id": "applied-effect-recorded-as-timeout",
+      "path": "cases/applied-effect-recorded-as-timeout"
+    },
+    {
+      "edit": "both attempts applied a refund and the history records only the second",
+      "expected": {
+        "decision": "deny",
+        "reason": "witnessed_effect_missing"
+      },
+      "files": {
+        "record.json": "37cb69972b34d4aee5c06bd7694f1834d75f10ca86723c05e546817d643c06af"
+      },
+      "id": "retry-both-attempts-applied",
+      "path": "cases/retry-both-attempts-applied"
+    },
+    {
+      "edit": "one approval Update id is accepted twice",
+      "expected": {
+        "decision": "deny",
+        "reason": "update_applied_twice"
+      },
+      "files": {
+        "record.json": "54615259954e887be8fffc1d8464f0d592d90a68ec78a2f336070727d00a6b28"
+      },
+      "id": "update-accepted-twice",
+      "path": "cases/update-accepted-twice"
+    },
+    {
+      "edit": "the reply was lost and the outcome is uncertain, and the history records the activity as completed with a result",
+      "expected": {
+        "decision": "deny",
+        "reason": "lost_reply_settled_without_evidence"
+      },
+      "files": {
+        "record.json": "75fca2b223330f503cf8bef5aee3a1aad8b368360fdef2c025c51f3a7e33eac3"
+      },
+      "id": "lost-reply-recorded-as-completed",
+      "path": "cases/lost-reply-recorded-as-completed"
+    },
+    {
+      "edit": "the lost reply was settled by the operator's own worker, not the system of record",
+      "expected": {
+        "decision": "deny",
+        "reason": "lost_reply_settled_without_evidence"
+      },
+      "files": {
+        "record.json": "ea2ba06e4b64c05062fdacaeb38ceb91e81892df9e45ffd81ed80f4a943f580f"
+      },
+      "id": "lost-reply-settled-by-worker",
+      "path": "cases/lost-reply-settled-by-worker"
+    },
+    {
+      "edit": "the system of record settled the lost reply as not applied, and the history records a completion",
+      "expected": {
+        "decision": "deny",
+        "reason": "lost_reply_settled_without_evidence"
+      },
+      "files": {
+        "record.json": "1ec202a7d04d7a6de91f4d6a037a6db540170c885ebccaf2b8b0e4e2db737a47"
+      },
+      "id": "lost-reply-settled-not-applied",
+      "path": "cases/lost-reply-settled-not-applied"
+    },
+    {
+      "edit": "the exports are an object instead of a list",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "8445047ff011f1dbd20cfd23a1af4d485d6c53a581f4bf3e085aec4f01107c4e"
+      },
+      "id": "malformed-exports-not-list",
+      "path": "cases/malformed-exports-not-list"
+    },
+    {
+      "edit": "the export names a source the contract does not read",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "cf9d3608ad2907e57d59ac4642dd0a62ab29b94ff67d9ff1fff9089f5e4b7d8c"
+      },
+      "id": "malformed-unknown-source",
+      "path": "cases/malformed-unknown-source"
+    },
+    {
+      "edit": "an event id is text",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "886a1d583cf24c7818afa4c5fc102d0daef6309940941df249a4b5bab117d33b"
+      },
+      "id": "malformed-event-id-text",
+      "path": "cases/malformed-event-id-text"
+    },
+    {
+      "edit": "the run has no start event, so it names no run",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "d64d9ccca0235f16448c29830a7f1f13d39fc802c429bd64a65101b6f9e6938f"
+      },
+      "id": "malformed-started-event-missing",
+      "path": "cases/malformed-started-event-missing"
+    },
+    {
+      "edit": "a payload names an encoding the contract does not read",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "71352c5c4af6f89b9d427323ff9872762e1544beda87f8ff3f2291531d8c7444"
+      },
+      "id": "malformed-payload-encoding-unknown",
+      "path": "cases/malformed-payload-encoding-unknown"
+    },
+    {
+      "edit": "a ciphertext is not base64",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "0a728c7f6d30b1a68ea92b76468d0cb18f51c94ae4dc6ea277ef564e6a8a4a4d"
+      },
+      "id": "malformed-ciphertext-not-base64",
+      "path": "cases/malformed-ciphertext-not-base64"
+    },
+    {
+      "edit": "a permit's arguments digest is not a sha256 digest",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "2bd7011023a3dd9ff3529af80654d77f4a93290c0dd2bb35bc1d1c371e33342f"
+      },
+      "id": "malformed-permit-digest",
+      "path": "cases/malformed-permit-digest"
+    },
+    {
+      "edit": "a witnessed effect names a permit that was never issued",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "fe2ff6c3d521638bb555bb0741ad98ab0d6cb3ef0d8e10ff33a38aca91c265f0"
+      },
+      "id": "malformed-effect-permit-unknown",
+      "path": "cases/malformed-effect-permit-unknown"
+    },
+    {
+      "edit": "a witnessed effect's outcome is outside applied, not-applied and uncertain",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "8a93af6d792e0fbcf81c3123910474647660493c760be6991ac0e179433d0892"
+      },
+      "id": "malformed-effect-outcome-unknown",
+      "path": "cases/malformed-effect-outcome-unknown"
+    },
+    {
+      "edit": "an effect that was observed applied also carries a settlement",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "24e17a1a09d2d8c97c516f164c2ba5a10c10c42306dbac02c427a7255dd7ca47"
+      },
+      "id": "malformed-settlement-on-applied-effect",
+      "path": "cases/malformed-settlement-on-applied-effect"
+    },
+    {
+      "edit": "a permit's issue time is not an RFC 3339 instant",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "2101a28d35f9f292fde9e6212e37fd0b000136b6822459701e24e680f5228d55"
+      },
+      "id": "malformed-permit-time",
+      "path": "cases/malformed-permit-time"
+    },
+    {
+      "edit": "the record names no contract",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_missing"
+      },
+      "files": {
+        "record.json": "4baf78380a4a2210a4f20903bf55df20f3ca645859059b33f18a271a7f2c3376"
+      },
+      "id": "contract-id-missing",
+      "path": "cases/contract-id-missing"
+    },
+    {
+      "edit": "the record names a contract version that does not exist",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_unknown"
+      },
+      "files": {
+        "record.json": "02d15ad74e25b7f5a49440db715ea055a2e48f480185330ee3edce834c17ed8b"
+      },
+      "id": "contract-id-unknown",
+      "path": "cases/contract-id-unknown"
+    }
+  ],
+  "verifierContract": "verifier record.json --json; exit 0 allow, 1 deny"
+}

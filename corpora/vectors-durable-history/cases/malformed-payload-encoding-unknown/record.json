@@ -1,0 +1,261 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/durable-history/v1",
+  "exports": [
+    {
+      "events": [
+        {
+          "attributes": {
+            "runId": "run-0001",
+            "workflowId": "refund-T-100"
+          },
+          "eventId": 1,
+          "eventType": "WorkflowExecutionStarted"
+        },
+        {
+          "attributes": {},
+          "eventId": 2,
+          "eventType": "WorkflowTaskCompleted"
+        },
+        {
+          "attributes": {
+            "activityId": "1",
+            "activityType": "model_request",
+            "input": {
+              "data": {
+                "prompt": "Handle ticket T-100."
+              },
+              "encoding": "json/plain"
+            }
+          },
+          "eventId": 3,
+          "eventType": "ActivityTaskScheduled"
+        },
+        {
+          "attributes": {
+            "attempt": 1,
+            "result": {
+              "data": {
+                "toolCalls": [
+                  {
+                    "args": {
+                      "ticketId": "T-100"
+                    },
+                    "callId": "call-read-T-100",
+                    "tool": "read_ticket"
+                  }
+                ]
+              },
+              "encoding": "json/plain"
+            },
+            "scheduledEventId": 3
+          },
+          "eventId": 4,
+          "eventType": "ActivityTaskCompleted"
+        },
+        {
+          "attributes": {},
+          "eventId": 5,
+          "eventType": "WorkflowTaskCompleted"
+        },
+        {
+          "attributes": {
+            "activityId": "2",
+            "activityType": "tool:read_ticket",
+            "input": {
+              "data": {
+                "args": {
+                  "ticketId": "T-100"
+                },
+                "callId": "call-read-T-100"
+              },
+              "encoding": "json/plain"
+            }
+          },
+          "eventId": 6,
+          "eventType": "ActivityTaskScheduled"
+        },
+        {
+          "attributes": {
+            "attempt": 1,
+            "result": {
+              "data": {
+                "account": "acct-alice",
+                "amountCents": 2000,
+                "customerId": "alice",
+                "text": "My order arrived broken. Please refund the 20.00 to my card on file."
+              },
+              "encoding": "json/plain"
+            },
+            "scheduledEventId": 6
+          },
+          "eventId": 7,
+          "eventType": "ActivityTaskCompleted"
+        },
+        {
+          "attributes": {},
+          "eventId": 8,
+          "eventType": "WorkflowTaskCompleted"
+        },
+        {
+          "attributes": {
+            "activityId": "3",
+            "activityType": "model_request",
+            "input": {
+              "data": {
+                "prompt": "Ticket read."
+              },
+              "encoding": "json/plain"
+            }
+          },
+          "eventId": 9,
+          "eventType": "ActivityTaskScheduled"
+        },
+        {
+          "attributes": {
+            "attempt": 1,
+            "result": {
+              "data": {
+                "toolCalls": [
+                  {
+                    "args": {
+                      "amountCents": 2000,
+                      "customerId": "alice",
+                      "payeeAccount": "acct-alice"
+                    },
+                    "callId": "call-refund-T-100",
+                    "tool": "issue_refund"
+                  }
+                ]
+              },
+              "encoding": "json/plain"
+            },
+            "scheduledEventId": 9
+          },
+          "eventId": 10,
+          "eventType": "ActivityTaskCompleted"
+        },
+        {
+          "attributes": {},
+          "eventId": 11,
+          "eventType": "WorkflowTaskCompleted"
+        },
+        {
+          "attributes": {
+            "updateId": "approve-call-refund-T-100"
+          },
+          "eventId": 12,
+          "eventType": "WorkflowExecutionUpdateAccepted"
+        },
+        {
+          "attributes": {},
+          "eventId": 13,
+          "eventType": "WorkflowTaskCompleted"
+        },
+        {
+          "attributes": {
+            "activityId": "4",
+            "activityType": "tool:issue_refund",
+            "input": {
+              "data": {
+                "args": {
+                  "amountCents": 2000,
+                  "customerId": "alice",
+                  "payeeAccount": "acct-alice"
+                },
+                "callId": "call-refund-T-100"
+              },
+              "encoding": "binary/zstd"
+            }
+          },
+          "eventId": 14,
+          "eventType": "ActivityTaskScheduled"
+        },
+        {
+          "attributes": {
+            "attempt": 1,
+            "result": {
+              "data": {
+                "amountCents": 2000,
+                "ref": "RF-0001",
+                "status": "applied"
+              },
+              "encoding": "json/plain"
+            },
+            "scheduledEventId": 14
+          },
+          "eventId": 15,
+          "eventType": "ActivityTaskCompleted"
+        },
+        {
+          "attributes": {},
+          "eventId": 16,
+          "eventType": "WorkflowTaskCompleted"
+        },
+        {
+          "attributes": {
+            "result": {
+              "data": "Refund handled.",
+              "encoding": "json/plain"
+            }
+          },
+          "eventId": 17,
+          "eventType": "WorkflowExecutionCompleted"
+        }
+      ],
+      "source": "workflow-show"
+    }
+  ],
+  "witnessed": {
+    "effects": [
+      {
+        "argsDigest": "sha256:9f6382e35e2211e34f8eb7218da40d2e8d98076059214d2ca712a2b8155bfee5",
+        "callId": "call-refund-T-100",
+        "effectId": "effect-refund-T-100-4-1",
+        "grantDigest": "sha256:33295455870b58c3df2f7a161b99859c22cbb7bdd4368c540843221813e1f850",
+        "observedAt": "2026-11-08T12:00:02Z",
+        "observerKeyId": "key:system-of-record-1",
+        "outcome": "applied",
+        "permitId": "permit-refund-T-100-4-1",
+        "resultDigest": "sha256:6c9754fb9397b31359e8ea5a2e926ed6cc6b4f23b09712c59b4a1d560a8233eb",
+        "runId": "run-0001",
+        "srl": {
+          "digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "epoch": 1
+        },
+        "workflowId": "refund-T-100"
+      }
+    ],
+    "expectedToolCodeDigest": "sha256:927f2176af60becf27d0e79e20d26f1a59628bc31cc08ea3bfba280905b8db79",
+    "gatedTools": [
+      "issue_refund"
+    ],
+    "permits": [
+      {
+        "activityId": "4",
+        "approvalIds": [
+          "approve-call-refund-T-100"
+        ],
+        "argsDigest": "sha256:9f6382e35e2211e34f8eb7218da40d2e8d98076059214d2ca712a2b8155bfee5",
+        "attempt": 1,
+        "authorityKeyId": "key:authority-1",
+        "callId": "call-refund-T-100",
+        "expiresAt": "2026-11-08T12:05:00Z",
+        "grantDigest": "sha256:33295455870b58c3df2f7a161b99859c22cbb7bdd4368c540843221813e1f850",
+        "issuedAt": "2026-11-08T12:00:00Z",
+        "modelActivityId": "3",
+        "modelArgsDigest": "sha256:9f6382e35e2211e34f8eb7218da40d2e8d98076059214d2ca712a2b8155bfee5",
+        "permitId": "permit-refund-T-100-4-1",
+        "runId": "run-0001",
+        "srl": {
+          "digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "epoch": 1
+        },
+        "tool": "issue_refund",
+        "toolCodeDigest": "sha256:927f2176af60becf27d0e79e20d26f1a59628bc31cc08ea3bfba280905b8db79",
+        "workflowId": "refund-T-100"
+      }
+    ],
+    "runId": "run-0001",
+    "workflowId": "refund-T-100"
+  }
+}
