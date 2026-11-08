@@ -1,7 +1,6 @@
 """RFC 7638 thumbprint pinning of token issuers."""
 
 import pytest
-
 from agent_evidence_admission import issuer_pin as ip
 
 # RFC 7638 section 3.1, https://www.rfc-editor.org/rfc/rfc7638.txt
@@ -162,7 +161,7 @@ def test_https_fetch_refuses_issuer_mismatch(monkeypatch):
     import json
 
     def fake_urlopen(url, timeout):
-        return io.BytesIO(json.dumps({"issuer": OTHER, "jwks_uri": "https://x/keys"}).encode())
+        return io.BytesIO(json.dumps({"issuer": OTHER, "jwks_uri": "https://other.example.com/keys"}).encode())
 
     monkeypatch.setattr(ip.urllib.request, "urlopen", fake_urlopen)
     with pytest.raises(ip.FetchFailed):

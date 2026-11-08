@@ -106,7 +106,7 @@ def https_fetch(issuer: str, timeout: float = 10.0) -> Mapping:
         if urlsplit(url).scheme != "https":
             raise FetchFailed(f"refusing a non-https URL {url!r}")
         try:
-            with urllib.request.urlopen(url, timeout=timeout) as response:  # noqa: S310
+            with urllib.request.urlopen(url, timeout=timeout) as response:
                 return json.loads(response.read())
         except (OSError, ValueError) as exc:
             raise FetchFailed(f"could not read {url}: {exc}") from exc
