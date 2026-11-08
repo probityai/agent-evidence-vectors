@@ -8,6 +8,8 @@ at a package release instead of the corpus.
 
 Usage: check-latest-release.py <owner/repo>   (needs `gh` and a checkout with tags)
 """
+from __future__ import annotations
+
 import re
 import subprocess
 import sys
@@ -15,13 +17,17 @@ import sys
 CORPUS_TAG = re.compile(r"^v(\d+)\.(\d+)\.(\d+)$")
 
 
-def newest_corpus_tag(tags):
+def newest_corpus_tag(tags: list[str]) -> str | None:
     """Return the highest `v<x>.<y>.<z>` tag in tags, or None."""
-    found = [(tuple(map(int, m.groups())), t) for t in tags if (m := CORPUS_TAG.match(t))]
+    found: list[tuple[tuple[int, ...], str]] = []
+    for tag in tags:
+        match = CORPUS_TAG.match(tag)
+        if match:
+            found.append((tuple(int(part) for part in match.groups()), tag))
     return max(found)[1] if found else None
 
 
-def verdict(tags, latest):
+def verdict(tags: list[str], latest: str) -> str | None:
     """Return an error string, or None when Latest is the newest corpus tag."""
     newest = newest_corpus_tag(tags)
     if newest is None:
@@ -31,7 +37,7 @@ def verdict(tags, latest):
     return None
 
 
-def main(argv):
+def main(argv: list[str]) -> int:
     if len(argv) != 2:
         print(__doc__, file=sys.stderr)
         return 2
