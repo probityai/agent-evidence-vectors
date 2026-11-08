@@ -1,0 +1,90 @@
+{
+  "approvals": [],
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/approval-binding/v2",
+  "execution": {
+    "approvalIds": [],
+    "approvalStatus": "spent",
+    "argsExecuted": {
+      "account": "acct-alice",
+      "amountCents": 2000,
+      "reason": "duplicate charge"
+    },
+    "consumedAt": "2026-11-08T10:30:00Z",
+    "consumedBy": "key:authority-1",
+    "dispatchedAt": "2026-11-08T10:30:00Z",
+    "executionId": "execution-2",
+    "historyDigest": "sha256:47b2d1761a554bfc2fb254c0eb44b44c4cbaf909f1474b5c3bbe395ca3d5a216",
+    "outcome": "applied",
+    "tool": "payments.refund",
+    "toolCallId": "call-7f3a",
+    "transforms": []
+  },
+  "ledger": [
+    {
+      "approvalId": "approval-0001",
+      "consumedAt": "2026-11-08T09:00:00Z",
+      "executionId": "execution-0001",
+      "toolCallId": "call-0001"
+    }
+  ],
+  "policy": {
+    "approverKeys": {
+      "agent:planner": "key:planner",
+      "system:gateway": "key:gateway",
+      "user:alice": "key:alice",
+      "user:bob": "key:bob",
+      "user:carol": "key:carol",
+      "user:dave": "key:dave",
+      "user:mallory": "key:mallory"
+    },
+    "approvers": [
+      "user:alice",
+      "user:bob",
+      "user:carol"
+    ],
+    "authorityKeyId": "key:authority-1",
+    "delegations": [],
+    "quorum": 2,
+    "rejectVetoes": true,
+    "separationOfDuties": {
+      "conflicts": []
+    },
+    "timeoutSeconds": 1800
+  },
+  "proposal": {
+    "argsShown": {
+      "account": "acct-alice",
+      "amountCents": 2000,
+      "reason": "duplicate charge"
+    },
+    "historyDigest": "sha256:47b2d1761a554bfc2fb254c0eb44b44c4cbaf909f1474b5c3bbe395ca3d5a216",
+    "modelResponse": {
+      "model": "model-a",
+      "responseId": "response-1",
+      "toolCalls": [
+        {
+          "args": {
+            "account": "acct-alice",
+            "amountCents": 2000,
+            "reason": "duplicate charge"
+          },
+          "tool": "payments.refund",
+          "toolCallId": "call-7f3a"
+        }
+      ]
+    },
+    "proposalId": "proposal-1",
+    "proposedAt": "2026-11-08T10:00:00Z",
+    "proposer": "agent:planner",
+    "tool": "payments.refund",
+    "toolCallId": "call-7f3a"
+  },
+  "witness": [
+    {
+      "at": "2026-11-08T09:00:00Z",
+      "digest": "sha256:1788c2e34b4aaa54d7ed43b5f20215b131dc25bdbad17e238810ceef93dc6941",
+      "kind": "approval",
+      "seq": 1
+    }
+  ]
+}

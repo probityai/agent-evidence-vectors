@@ -1,0 +1,1044 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/approval-binding/v2",
+  "corpusDigest": "1bc1d55c08f79f66983caa64070a4dee0aea28a6621c947f9510db7889733071",
+  "counts": {
+    "allow": 17,
+    "deny": 69
+  },
+  "suite": "approval-binding/v2",
+  "vectors": [
+    {
+      "edit": "control: two of three distinct approvers approved the shown bytes",
+      "expected": {
+        "decision": "allow",
+        "reason": "quorum_bound"
+      },
+      "files": {
+        "record.json": "aae9b047950768cd8ea85a39f156f773d9797e43f9372836c0827d7acd8cbe81"
+      },
+      "id": "allow-two-of-three-distinct",
+      "path": "cases/allow-two-of-three-distinct"
+    },
+    {
+      "edit": "control: a one-of-one policy and its one approval",
+      "expected": {
+        "decision": "allow",
+        "reason": "quorum_bound"
+      },
+      "files": {
+        "record.json": "3b0563f0b78efef89aec7e429d736cb26b76a4f00ee714062249d63bbff1a53c"
+      },
+      "id": "allow-one-of-one",
+      "path": "cases/allow-one-of-one"
+    },
+    {
+      "edit": "control: the second approval comes from a principal an approver added",
+      "expected": {
+        "decision": "allow",
+        "reason": "quorum_bound"
+      },
+      "files": {
+        "record.json": "e7c4ceee4d607b0be805d282cdff026cb67e914e13340a91300e88336d7f340a"
+      },
+      "id": "allow-quorum-through-delegated-approver",
+      "path": "cases/allow-quorum-through-delegated-approver"
+    },
+    {
+      "edit": "control: a validator ran and changed nothing, and the record says so",
+      "expected": {
+        "decision": "allow",
+        "reason": "quorum_bound"
+      },
+      "files": {
+        "record.json": "3e680b8077b8bdbeaaabf53180466f327ae3888414084c0e5651f60ae69904a8"
+      },
+      "id": "allow-identity-transform-recorded",
+      "path": "cases/allow-identity-transform-recorded"
+    },
+    {
+      "edit": "control: the arguments were replaced and restored before dispatch",
+      "expected": {
+        "decision": "allow",
+        "reason": "quorum_bound"
+      },
+      "files": {
+        "record.json": "d96f6badd75dadda7f385820c49d36a679b708fb785fe21b74dafb5ddbe46fdd"
+      },
+      "id": "allow-transforms-round-trip",
+      "path": "cases/allow-transforms-round-trip"
+    },
+    {
+      "edit": "control: the effect failed and the approvals were returned",
+      "expected": {
+        "decision": "allow",
+        "reason": "quorum_bound"
+      },
+      "files": {
+        "record.json": "f72c64f197064427941f0c8fa870ef0eb8e8bcf5ca5bfd92377c27a8d10125ab"
+      },
+      "id": "allow-failed-outcome-approval-returned",
+      "path": "cases/allow-failed-outcome-approval-returned"
+    },
+    {
+      "edit": "control: the effect is uncertain and the approvals are held",
+      "expected": {
+        "decision": "allow",
+        "reason": "quorum_bound"
+      },
+      "files": {
+        "record.json": "954258d5d8d01b4f8da2451b2f5619f9c3e206a5b3612b231fe6d0ea75e95f17"
+      },
+      "id": "allow-uncertain-outcome-approval-held",
+      "path": "cases/allow-uncertain-outcome-approval-held"
+    },
+    {
+      "edit": "control: a reject issued one second after consumption came too late to veto",
+      "expected": {
+        "decision": "allow",
+        "reason": "quorum_bound"
+      },
+      "files": {
+        "record.json": "b4c76c8f25b4b20141751c95242d4de8840cba2ec063fe9b44597830c9fff6f0"
+      },
+      "id": "allow-reject-after-consumption",
+      "path": "cases/allow-reject-after-consumption"
+    },
+    {
+      "edit": "control: a reject under a policy where rejects do not veto",
+      "expected": {
+        "decision": "allow",
+        "reason": "quorum_bound"
+      },
+      "files": {
+        "record.json": "9be69351fe0684eeb94feb2fcfcc9297f4daaf6e3f7cbda16bdd0efb7d8117af"
+      },
+      "id": "allow-reject-without-veto-policy",
+      "path": "cases/allow-reject-without-veto-policy"
+    },
+    {
+      "edit": "control: decisions named only in the body are neither counted nor a veto",
+      "expected": {
+        "decision": "allow",
+        "reason": "quorum_bound"
+      },
+      "files": {
+        "record.json": "f81445070eb511d76561baf840ba519517c8e5adb16b25d59cf1f3f80006d38b"
+      },
+      "id": "allow-unauthenticated-decisions-not-counted",
+      "path": "cases/allow-unauthenticated-decisions-not-counted"
+    },
+    {
+      "edit": "control: three distinct approvals for a quorum of two",
+      "expected": {
+        "decision": "allow",
+        "reason": "quorum_bound"
+      },
+      "files": {
+        "record.json": "6ded3cada0bc2c48d2198b113f74fbfdd82b982cf7d8d85c7aa6e3e349a77d9c"
+      },
+      "id": "allow-more-approvals-than-quorum",
+      "path": "cases/allow-more-approvals-than-quorum"
+    },
+    {
+      "edit": "control: a delegation raised the quorum to three and three approved",
+      "expected": {
+        "decision": "allow",
+        "reason": "quorum_bound"
+      },
+      "files": {
+        "record.json": "3960269283c8ea56ae21e00a742b7251d1aee00f7333a6d63bf721e7e8e0888d"
+      },
+      "id": "allow-delegation-raises-quorum",
+      "path": "cases/allow-delegation-raises-quorum"
+    },
+    {
+      "edit": "control: dispatched one second before an approval expires",
+      "expected": {
+        "decision": "allow",
+        "reason": "quorum_bound"
+      },
+      "files": {
+        "record.json": "2fcc51964aea9ec66cd7b7242f1bba24565585b6072a2096050759a38b96094e"
+      },
+      "id": "allow-dispatch-one-second-before-expiry",
+      "path": "cases/allow-dispatch-one-second-before-expiry"
+    },
+    {
+      "edit": "control: the quorum was reached one second before the window closed",
+      "expected": {
+        "decision": "allow",
+        "reason": "quorum_bound"
+      },
+      "files": {
+        "record.json": "ed0b975fb212c633ff7815f6a5fd7a4c26a5769fd46ae4cccedf651a994162f5"
+      },
+      "id": "allow-quorum-one-second-before-timeout",
+      "path": "cases/allow-quorum-one-second-before-timeout"
+    },
+    {
+      "edit": "control: consumed and dispatched in the same second",
+      "expected": {
+        "decision": "allow",
+        "reason": "quorum_bound"
+      },
+      "files": {
+        "record.json": "0c2db5da31c04d4d34d874dd331ac7e687bf9e3c4e4492fb1bf2c493d33b040a"
+      },
+      "id": "allow-consumed-at-dispatch-instant",
+      "path": "cases/allow-consumed-at-dispatch-instant"
+    },
+    {
+      "edit": "control: the ledger was read and held nothing",
+      "expected": {
+        "decision": "allow",
+        "reason": "quorum_bound"
+      },
+      "files": {
+        "record.json": "d7b12d1973d64f175b77daed44e4dfc6a8d226a5cd7056258c89e2cb98607145"
+      },
+      "id": "allow-ledger-read-empty",
+      "path": "cases/allow-ledger-read-empty"
+    },
+    {
+      "edit": "control: an approval issued at the instant it was consumed",
+      "expected": {
+        "decision": "allow",
+        "reason": "quorum_bound"
+      },
+      "files": {
+        "record.json": "cd112bf845be58f0661ef0b3791573858c8978e6e618a5c4b30c8e041dee6a38"
+      },
+      "id": "allow-approval-issued-at-consumption",
+      "path": "cases/allow-approval-issued-at-consumption"
+    },
+    {
+      "edit": "the record names no contract",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_missing"
+      },
+      "files": {
+        "record.json": "983d170f0f9ddd86e85e31c186d532cb340388f204119c807b9144e47c353222"
+      },
+      "id": "contract-id-missing",
+      "path": "cases/contract-id-missing"
+    },
+    {
+      "edit": "a single-approval v1 record presented under the quorum contract",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_unknown"
+      },
+      "files": {
+        "record.json": "83949015e9471fff9c691dbe8dc5a6ddf1c225e40b40ff273d58354c85c811fc"
+      },
+      "id": "contract-id-v1",
+      "path": "cases/contract-id-v1"
+    },
+    {
+      "edit": "the record omits the decisions it is judged against",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "0f35b7d6d19034a634cec9a561943968a471a5d0738a561bd65591995b859627"
+      },
+      "id": "malformed-approvals-missing",
+      "path": "cases/malformed-approvals-missing"
+    },
+    {
+      "edit": "a quorum of zero approvals",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "54fad37cd633e255aebd037e26273239f76fbcaa79d644102f588775f0e34455"
+      },
+      "id": "malformed-quorum-zero",
+      "path": "cases/malformed-quorum-zero"
+    },
+    {
+      "edit": "the timeout is written as a float",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "1fad69fad8ac7d553648619d19e249192607ddc03a7625f8278cf21a34c79cde"
+      },
+      "id": "malformed-number-not-integer",
+      "path": "cases/malformed-number-not-integer"
+    },
+    {
+      "edit": "a decision outside approve and reject",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "1b75ba4be48c9bfe09f6da292f21c243b8ca5098343094a99dd45ed2bf98b842"
+      },
+      "id": "malformed-decision-unknown",
+      "path": "cases/malformed-decision-unknown"
+    },
+    {
+      "edit": "the witness sequence skips a number",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "38f7053d9bb632d3549166231fc339dddbd8a6bbc60c0cc92a9f25a072922fba"
+      },
+      "id": "malformed-witness-sequence-gap",
+      "path": "cases/malformed-witness-sequence-gap"
+    },
+    {
+      "edit": "the execution relies on an approval the record does not hold",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "bc162be5377a8f1525dc1ef90d773336da1bfb793bb942f0954b7302ad59ab63"
+      },
+      "id": "malformed-relied-approval-not-presented",
+      "path": "cases/malformed-relied-approval-not-presented"
+    },
+    {
+      "edit": "two decisions share one identifier",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "884e3ff1a7908c3aba1b01dbf1ec0e5304749cae8d3448b061a7d01ce5260c67"
+      },
+      "id": "malformed-duplicate-approval-id",
+      "path": "cases/malformed-duplicate-approval-id"
+    },
+    {
+      "edit": "the authentication context names an empty principal",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "3fd4f66eab7531343298f683299fb8e2bcb9e1ad47e9f89c494c7f2911fbe5a7"
+      },
+      "id": "malformed-authenticated-principal-empty",
+      "path": "cases/malformed-authenticated-principal-empty"
+    },
+    {
+      "edit": "an arguments digest without its algorithm prefix",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "55dc545efc357783acf7cd0d2397f73dbf72a59f7b7f71c085cc141f5c803548"
+      },
+      "id": "malformed-digest-form",
+      "path": "cases/malformed-digest-form"
+    },
+    {
+      "edit": "the dispatch time carries an offset instead of Z",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "df52acb28eeb01ff1b8a0aac1aecd14fff5e421464ec27b8df10519c35cbef0d"
+      },
+      "id": "malformed-time-not-utc",
+      "path": "cases/malformed-time-not-utc"
+    },
+    {
+      "edit": "the record carries no ledger: absent is not the same as read and empty",
+      "expected": {
+        "decision": "deny",
+        "reason": "consumption_not_checked"
+      },
+      "files": {
+        "record.json": "80ecedcc4d52bd1146b10371ed30d4166cf6877d32f6b9a69e8d62d8f2f9aaf8"
+      },
+      "id": "consumption-ledger-not-read",
+      "path": "cases/consumption-ledger-not-read"
+    },
+    {
+      "edit": "a delegation removes an approver",
+      "expected": {
+        "decision": "deny",
+        "reason": "approver_delegation_widened"
+      },
+      "files": {
+        "record.json": "a001b4b2c10f43fe9dcf6f8a285adea11c70a89a0756beb7d45fb9cb3f5a5a9f"
+      },
+      "id": "delegation-removes-approver",
+      "path": "cases/delegation-removes-approver"
+    },
+    {
+      "edit": "a delegation lowers the quorum to one",
+      "expected": {
+        "decision": "deny",
+        "reason": "approver_delegation_widened"
+      },
+      "files": {
+        "record.json": "9d7c1f3dfee23ee90c170bcc29f5caae9fa0155eb5d40ad03e797252b512f0e6"
+      },
+      "id": "delegation-lowers-quorum",
+      "path": "cases/delegation-lowers-quorum"
+    },
+    {
+      "edit": "a principal outside the policy issues a delegation",
+      "expected": {
+        "decision": "deny",
+        "reason": "approver_delegation_widened"
+      },
+      "files": {
+        "record.json": "2f40f7132b27a5717b7a901f6c757126e9a25a47500e011b2cce0e8f0441cf99"
+      },
+      "id": "delegation-issued-by-non-approver",
+      "path": "cases/delegation-issued-by-non-approver"
+    },
+    {
+      "edit": "the proposing agent adds an approver of its choosing and that approver counts",
+      "expected": {
+        "decision": "deny",
+        "reason": "approver_delegation_widened"
+      },
+      "files": {
+        "record.json": "1ed957ee805321c27177524c855e363e7e5c4100f536451dc637a98bdaa96cf1"
+      },
+      "id": "proposer-delegates-its-own-approver",
+      "path": "cases/proposer-delegates-its-own-approver"
+    },
+    {
+      "edit": "the second approval was given for another proposal",
+      "expected": {
+        "decision": "deny",
+        "reason": "approval_not_for_call"
+      },
+      "files": {
+        "record.json": "e9d6a7ce6021770dacb5063f9da0910d133efafd78c587821a1a7df00321b8c5"
+      },
+      "id": "approval-for-another-proposal",
+      "path": "cases/approval-for-another-proposal"
+    },
+    {
+      "edit": "the execution runs a different tool under the call id",
+      "expected": {
+        "decision": "deny",
+        "reason": "approval_not_for_call"
+      },
+      "files": {
+        "record.json": "945c4a5ec30be34af6a3d33f41703ff13dba51dbe5cf15468281cb472196976c"
+      },
+      "id": "execution-runs-another-tool",
+      "path": "cases/execution-runs-another-tool"
+    },
+    {
+      "edit": "the model response the proposal cites holds no such call",
+      "expected": {
+        "decision": "deny",
+        "reason": "approval_not_for_call"
+      },
+      "files": {
+        "record.json": "47000a94239251e8490c446813913f4e2de018923863c4c48394463c26f6dee2"
+      },
+      "id": "call-not-in-model-response",
+      "path": "cases/call-not-in-model-response"
+    },
+    {
+      "edit": "the second approver is named in the request body and nowhere else",
+      "expected": {
+        "decision": "deny",
+        "reason": "approver_unauthenticated"
+      },
+      "files": {
+        "record.json": "13c2f6f2c757bbe36e763b9aa53ae36ad25b3944d4d40c049dc5cdd81ba20fe8"
+      },
+      "id": "approver-named-only-in-body",
+      "path": "cases/approver-named-only-in-body"
+    },
+    {
+      "edit": "the authentication context established no principal",
+      "expected": {
+        "decision": "deny",
+        "reason": "approver_unauthenticated"
+      },
+      "files": {
+        "record.json": "b5b8dea0d4fc4c3fb317789b7c815e67fd23046826a9b0190b57e0ab1ccab3e2"
+      },
+      "id": "authenticated-principal-null",
+      "path": "cases/authenticated-principal-null"
+    },
+    {
+      "edit": "the body names carol while the authenticated principal is bob",
+      "expected": {
+        "decision": "deny",
+        "reason": "approver_claim_mismatch"
+      },
+      "files": {
+        "record.json": "5e00021a9febf79d42cb1fe1a75785ca30af20f7c4b5391920b582c5dae7db43"
+      },
+      "id": "body-claim-differs-from-authenticated",
+      "path": "cases/body-claim-differs-from-authenticated"
+    },
+    {
+      "edit": "bob's approval is signed under alice's key",
+      "expected": {
+        "decision": "deny",
+        "reason": "approver_key_not_bound"
+      },
+      "files": {
+        "record.json": "b765c3c5c4b8b2d913b3a94787d065052203246ef56b7ff60ade32d00ccc0594"
+      },
+      "id": "approval-signed-under-another-key",
+      "path": "cases/approval-signed-under-another-key"
+    },
+    {
+      "edit": "an authenticated principal the policy does not name approves",
+      "expected": {
+        "decision": "deny",
+        "reason": "approver_ineligible"
+      },
+      "files": {
+        "record.json": "f246a36a9403a84d2ab4083a62dd0b8355b6518791664c7877ef06b35ce686d4"
+      },
+      "id": "approver-not-in-policy",
+      "path": "cases/approver-not-in-policy"
+    },
+    {
+      "edit": "the gateway approved on the approvers' behalf",
+      "expected": {
+        "decision": "deny",
+        "reason": "approver_ineligible"
+      },
+      "files": {
+        "record.json": "3a1e84686b3e43ef330f12c58c6e06aaed41546348db74f584486910d465be2c"
+      },
+      "id": "automatic-approval-by-the-gateway",
+      "path": "cases/automatic-approval-by-the-gateway"
+    },
+    {
+      "edit": "the proposing agent is an approver and approves itself",
+      "expected": {
+        "decision": "deny",
+        "reason": "approver_is_proposer"
+      },
+      "files": {
+        "record.json": "57def67c22c175ae22a3aa9573a121e579d015d178f87db69a985368ae14bd36"
+      },
+      "id": "proposer-approves-own-call",
+      "path": "cases/proposer-approves-own-call"
+    },
+    {
+      "edit": "the proposer's seat approves through its delegate",
+      "expected": {
+        "decision": "deny",
+        "reason": "approver_is_proposer"
+      },
+      "files": {
+        "record.json": "0ff7963a82a13a40a5c28ea01fbc5624ff5e818ef89a43582eea741f26c25e13"
+      },
+      "id": "proposer-approves-through-delegate",
+      "path": "cases/proposer-approves-through-delegate"
+    },
+    {
+      "edit": "alice's two approvals are counted as two",
+      "expected": {
+        "decision": "deny",
+        "reason": "approver_counted_twice"
+      },
+      "files": {
+        "record.json": "ca39a5ea56a787b6adc942de849eca0dde7b8af17c8b374454ed6df08df1c296"
+      },
+      "id": "same-approver-approves-twice",
+      "path": "cases/same-approver-approves-twice"
+    },
+    {
+      "edit": "one approval is cited twice toward the quorum",
+      "expected": {
+        "decision": "deny",
+        "reason": "approver_counted_twice"
+      },
+      "files": {
+        "record.json": "d6bd8468c2242e52023607b29930209d37bed4b59b5cd6ebb6624ccc99b85bf2"
+      },
+      "id": "same-approval-cited-twice",
+      "path": "cases/same-approval-cited-twice"
+    },
+    {
+      "edit": "carol and the delegate she added fill one seat twice",
+      "expected": {
+        "decision": "deny",
+        "reason": "approver_counted_twice"
+      },
+      "files": {
+        "record.json": "7549a3bbb46bd768ba7dc66d4f041c7ebcead632f3f0952538851b16bebd093a"
+      },
+      "id": "delegate-and-delegator-both-counted",
+      "path": "cases/delegate-and-delegator-both-counted"
+    },
+    {
+      "edit": "two approvers the policy says may not both count",
+      "expected": {
+        "decision": "deny",
+        "reason": "approvers_conflicted"
+      },
+      "files": {
+        "record.json": "5218edfb078d8a5b6fdca3b76236119c441d090650a8c404ec4a8be049936d8a"
+      },
+      "id": "conflicting-approvers-both-counted",
+      "path": "cases/conflicting-approvers-both-counted"
+    },
+    {
+      "edit": "a recorded reject is counted toward the quorum",
+      "expected": {
+        "decision": "deny",
+        "reason": "approval_not_granted"
+      },
+      "files": {
+        "record.json": "0416cc9d56a8c841639df4fdcdaa0fc2ed79662110b4b2c993878d2328c00c9b"
+      },
+      "id": "reject-counted-as-approval",
+      "path": "cases/reject-counted-as-approval"
+    },
+    {
+      "edit": "carol rejected before consumption and the policy says a reject vetoes",
+      "expected": {
+        "decision": "deny",
+        "reason": "approval_vetoed"
+      },
+      "files": {
+        "record.json": "2d09dbe99d31cb31310b8af450e534505ced5544a474625fae2eae9a65668538"
+      },
+      "id": "eligible-reject-vetoes",
+      "path": "cases/eligible-reject-vetoes"
+    },
+    {
+      "edit": "a reject issued at the instant of consumption",
+      "expected": {
+        "decision": "deny",
+        "reason": "approval_vetoed"
+      },
+      "files": {
+        "record.json": "f431012fc9fa4a639d3d50fdbc17efc40d4fd2caf9c1cd5ab02946b93662c8be"
+      },
+      "id": "reject-at-consumption-instant-vetoes",
+      "path": "cases/reject-at-consumption-instant-vetoes"
+    },
+    {
+      "edit": "one approval for a quorum of two",
+      "expected": {
+        "decision": "deny",
+        "reason": "quorum_not_met"
+      },
+      "files": {
+        "record.json": "e7b126baf6fad7eaa3e3c2ce84cd2f5d7b7507892c4ead3c7c9532f28f9f962b"
+      },
+      "id": "one-approval-of-two",
+      "path": "cases/one-approval-of-two"
+    },
+    {
+      "edit": "the window closed with no approval and the call ran anyway",
+      "expected": {
+        "decision": "deny",
+        "reason": "quorum_not_met"
+      },
+      "files": {
+        "record.json": "ed0d74be028d70378029f316f4137037700f201855804dfeda97048c42905602"
+      },
+      "id": "no-approvals-and-dispatched",
+      "path": "cases/no-approvals-and-dispatched"
+    },
+    {
+      "edit": "a delegation raised the quorum to three and two approved",
+      "expected": {
+        "decision": "deny",
+        "reason": "quorum_not_met"
+      },
+      "files": {
+        "record.json": "0dfebd3d395527cd2384ac64a194dc2d36dbf70c7eeffb1d78782cc7e15b3529"
+      },
+      "id": "delegation-raises-quorum-not-met",
+      "path": "cases/delegation-raises-quorum-not-met"
+    },
+    {
+      "edit": "the approvals cover the validated bytes, which the approvers were never shown",
+      "expected": {
+        "decision": "deny",
+        "reason": "approval_not_for_bytes"
+      },
+      "files": {
+        "record.json": "67e4c7778e87eeb00b9690beb35dc3fca51afbebe5f16dc57b0bbe67d141284c"
+      },
+      "id": "approval-covers-bytes-never-shown",
+      "path": "cases/approval-covers-bytes-never-shown"
+    },
+    {
+      "edit": "the two approvers approved different bytes",
+      "expected": {
+        "decision": "deny",
+        "reason": "approval_not_for_bytes"
+      },
+      "files": {
+        "record.json": "5350389a21dce4204cb452cef6cd268da639f5bc6ff8ba47dcc8eed6e3fdb46a"
+      },
+      "id": "split-quorum-different-bytes",
+      "path": "cases/split-quorum-different-bytes"
+    },
+    {
+      "edit": "the resubmitted history swaps the arguments under the approved call id",
+      "expected": {
+        "decision": "deny",
+        "reason": "args_changed_after_approval"
+      },
+      "files": {
+        "record.json": "6344a4aefaf563a7e67ac3e1eab0bb61bf77eb757c09d9d8b6190515bbe7d5de"
+      },
+      "id": "swapped-args-same-call-id",
+      "path": "cases/swapped-args-same-call-id"
+    },
+    {
+      "edit": "a resume payload's edited arguments replace the approved ones",
+      "expected": {
+        "decision": "deny",
+        "reason": "args_changed_after_approval"
+      },
+      "files": {
+        "record.json": "4f3b0c8031002b1df54d7e3dbdf282371e5026be59fa01878e1a04b2596872ab"
+      },
+      "id": "resume-field-replaces-args",
+      "path": "cases/resume-field-replaces-args"
+    },
+    {
+      "edit": "an approval carries override arguments",
+      "expected": {
+        "decision": "deny",
+        "reason": "args_changed_after_approval"
+      },
+      "files": {
+        "record.json": "a2cd251b360939f3566be7c741e0808b8dd9062e7d435c496de5d6e335d5ae6a"
+      },
+      "id": "override-args-replaces-args",
+      "path": "cases/override-args-replaces-args"
+    },
+    {
+      "edit": "a validator rewrote the arguments after the approvers saw them",
+      "expected": {
+        "decision": "deny",
+        "reason": "args_changed_after_approval"
+      },
+      "files": {
+        "record.json": "a2ce271b08835670ff2e0bda4205890254613903950139b6cc91f4e342b555b1"
+      },
+      "id": "validator-rewrites-after-approval",
+      "path": "cases/validator-rewrites-after-approval"
+    },
+    {
+      "edit": "the executed arguments differ and the record names no transform",
+      "expected": {
+        "decision": "deny",
+        "reason": "args_changed_after_approval"
+      },
+      "files": {
+        "record.json": "6cd5a5a456a8866995c838ed4fe47edaf8946dd399baf5da4b0e8008a9e8134b"
+      },
+      "id": "args-changed-with-no-transform-recorded",
+      "path": "cases/args-changed-with-no-transform-recorded"
+    },
+    {
+      "edit": "the record claims an override the executed bytes do not show",
+      "expected": {
+        "decision": "deny",
+        "reason": "transforms_unaccounted"
+      },
+      "files": {
+        "record.json": "272ea6ed401af39b03d8eddb3c0a5f468e91eff14eaf2a15f9d6f8215bbeb11f"
+      },
+      "id": "transform-log-claims-unapplied-change",
+      "path": "cases/transform-log-claims-unapplied-change"
+    },
+    {
+      "edit": "a transform recorded as none changes the bytes",
+      "expected": {
+        "decision": "deny",
+        "reason": "transforms_unaccounted"
+      },
+      "files": {
+        "record.json": "8abe4cbeb49c98ce29d0b4ef79554c48de862712f284765ca3eb76dde41d45e4"
+      },
+      "id": "transform-none-changes-digest",
+      "path": "cases/transform-none-changes-digest"
+    },
+    {
+      "edit": "the approvals were given in another run, for another model response",
+      "expected": {
+        "decision": "deny",
+        "reason": "history_digest_mismatch"
+      },
+      "files": {
+        "record.json": "1fa16bedcfd5cba54ed4b3a633e34e6afb767139495e8e5ff7354aac8ed2e51e"
+      },
+      "id": "approval-from-another-run",
+      "path": "cases/approval-from-another-run"
+    },
+    {
+      "edit": "every party carries one history digest, and it is not the response's",
+      "expected": {
+        "decision": "deny",
+        "reason": "history_digest_mismatch"
+      },
+      "files": {
+        "record.json": "d06880335642d4ea02729c28b14523112783dfaf3cb406ce03fa591671e703f2"
+      },
+      "id": "proposal-history-digest-forged",
+      "path": "cases/proposal-history-digest-forged"
+    },
+    {
+      "edit": "the call ran from a history other than the one approved",
+      "expected": {
+        "decision": "deny",
+        "reason": "history_digest_mismatch"
+      },
+      "files": {
+        "record.json": "55820c37e3e9bb69fb636d338b010e15930d43a66b5704e00fbd9e34b43b152c"
+      },
+      "id": "execution-ran-from-edited-history",
+      "path": "cases/execution-ran-from-edited-history"
+    },
+    {
+      "edit": "dispatched at the instant an approval expires",
+      "expected": {
+        "decision": "deny",
+        "reason": "approval_expired"
+      },
+      "files": {
+        "record.json": "c9921078e7298c919becc5d2b4b8455c832b4acdf07e550aa1bc50c23d412534"
+      },
+      "id": "dispatched-at-expiry",
+      "path": "cases/dispatched-at-expiry"
+    },
+    {
+      "edit": "dispatched a minute after an approval expired",
+      "expected": {
+        "decision": "deny",
+        "reason": "approval_expired"
+      },
+      "files": {
+        "record.json": "c3ac54b866f1deb330c8ca8cc734cc4730844d8efd2bcbc643506ff589e59a4f"
+      },
+      "id": "dispatched-after-expiry",
+      "path": "cases/dispatched-after-expiry"
+    },
+    {
+      "edit": "an approval issued one second after it was consumed",
+      "expected": {
+        "decision": "deny",
+        "reason": "approval_postdates_consumption"
+      },
+      "files": {
+        "record.json": "c29fa710a4b2c0f6d79a7e3ce89b23de7548bcd296f64fb45dcad2a7325db0a4"
+      },
+      "id": "approval-issued-after-consumption",
+      "path": "cases/approval-issued-after-consumption"
+    },
+    {
+      "edit": "the quorum was reached at the instant the window closed",
+      "expected": {
+        "decision": "deny",
+        "reason": "timeout_not_fail_closed"
+      },
+      "files": {
+        "record.json": "662d5222ffa0a8d7b8a4cfa0f91a53f210fda5e48bfdbacbed232ddd3d204797"
+      },
+      "id": "quorum-reached-at-timeout",
+      "path": "cases/quorum-reached-at-timeout"
+    },
+    {
+      "edit": "an approval after the window closed revives the call",
+      "expected": {
+        "decision": "deny",
+        "reason": "timeout_not_fail_closed"
+      },
+      "files": {
+        "record.json": "49290518dc7cfcdd2470d2446704ca70e1a25667cc33ba4a306e08b1585b32b0"
+      },
+      "id": "late-approval-revives-timed-out-call",
+      "path": "cases/late-approval-revives-timed-out-call"
+    },
+    {
+      "edit": "the approved resume body is sent a second time",
+      "expected": {
+        "decision": "deny",
+        "reason": "approval_replayed"
+      },
+      "files": {
+        "record.json": "56a1555a621454981f1696818fa628b7c7dce428d7d3150e403aef3e079e0fe1"
+      },
+      "id": "same-approval-resent",
+      "path": "cases/same-approval-resent"
+    },
+    {
+      "edit": "a second click consumed the approvals in the same second as the first",
+      "expected": {
+        "decision": "deny",
+        "reason": "approval_replayed"
+      },
+      "files": {
+        "record.json": "ff540c5efee819eeb448fe7fb265c61c95b2a01f00f88cce8c87f99694f53f13"
+      },
+      "id": "concurrent-double-click-loser",
+      "path": "cases/concurrent-double-click-loser"
+    },
+    {
+      "edit": "an approval already spent on another call is presented again",
+      "expected": {
+        "decision": "deny",
+        "reason": "approval_replayed"
+      },
+      "files": {
+        "record.json": "024191ba57485776efd7a31e5b223778742cb24f64451b26a3acd107ff6818b6"
+      },
+      "id": "approval-consumed-by-another-call",
+      "path": "cases/approval-consumed-by-another-call"
+    },
+    {
+      "edit": "the call already ran once and is submitted again with a fresh approval",
+      "expected": {
+        "decision": "deny",
+        "reason": "call_already_executed"
+      },
+      "files": {
+        "record.json": "30f9026daea7045383bff403c80fdca5dc306240ebfc365e23ba1fd1accfc93e"
+      },
+      "id": "double-submit-with-fresh-approval",
+      "path": "cases/double-submit-with-fresh-approval"
+    },
+    {
+      "edit": "the worker, not the authority, spent the approvals",
+      "expected": {
+        "decision": "deny",
+        "reason": "consumption_not_by_authority"
+      },
+      "files": {
+        "record.json": "ba857ab6350f8df23cccbb0921dfbdbd06a34d55efaec6a82fb4e6a58d2c44d5"
+      },
+      "id": "worker-consumed-its-own-approvals",
+      "path": "cases/worker-consumed-its-own-approvals"
+    },
+    {
+      "edit": "the witness saw one of the two consumptions",
+      "expected": {
+        "decision": "deny",
+        "reason": "consumption_not_witnessed"
+      },
+      "files": {
+        "record.json": "1f9a6caf789e1d822c7658397083c39a08d20020f1260ea83802add7b3188ff3"
+      },
+      "id": "consumption-missing-from-witness",
+      "path": "cases/consumption-missing-from-witness"
+    },
+    {
+      "edit": "the record carries no witness log",
+      "expected": {
+        "decision": "deny",
+        "reason": "consumption_not_witnessed"
+      },
+      "files": {
+        "record.json": "a664061daa51ee187a2e3910071166866e04610544c9ed6524f4d0c86331329f"
+      },
+      "id": "witness-absent",
+      "path": "cases/witness-absent"
+    },
+    {
+      "edit": "the witnessed consumptions belong to another execution",
+      "expected": {
+        "decision": "deny",
+        "reason": "consumption_not_witnessed"
+      },
+      "files": {
+        "record.json": "ddde0f7455934fa92a1f563c4d517e49a68098d8ad7f5fb2b18f067fc795f893"
+      },
+      "id": "witness-records-another-execution",
+      "path": "cases/witness-records-another-execution"
+    },
+    {
+      "edit": "the call was dispatched a second before its approvals were consumed",
+      "expected": {
+        "decision": "deny",
+        "reason": "consumed_after_dispatch"
+      },
+      "files": {
+        "record.json": "6c590fd16981b29165cdc32acc6bd0772e4d974f340c553fb54fe08403151d7a"
+      },
+      "id": "dispatched-before-consumption",
+      "path": "cases/dispatched-before-consumption"
+    },
+    {
+      "edit": "the witness saw a consumption after dispatch",
+      "expected": {
+        "decision": "deny",
+        "reason": "consumed_after_dispatch"
+      },
+      "files": {
+        "record.json": "251548e381bf08216bc20baee1c7f6ec2fd0d0e409fa650d3c8843e15caf72b7"
+      },
+      "id": "witness-saw-consumption-after-dispatch",
+      "path": "cases/witness-saw-consumption-after-dispatch"
+    },
+    {
+      "edit": "the effect failed and the approvals are recorded as spent",
+      "expected": {
+        "decision": "deny",
+        "reason": "outcome_misrecorded"
+      },
+      "files": {
+        "record.json": "548c6959445a8cf4a341a9b295cef3d05409bc1e17182765b14bf6e8321b8762"
+      },
+      "id": "failed-outcome-approval-spent",
+      "path": "cases/failed-outcome-approval-spent"
+    },
+    {
+      "edit": "the effect is uncertain and the approvals are spent",
+      "expected": {
+        "decision": "deny",
+        "reason": "outcome_misrecorded"
+      },
+      "files": {
+        "record.json": "46f8ad5eaf0eaf9ef6431cf18518bd75e2aa6f3618e03c4d0be2f4b832743b95"
+      },
+      "id": "uncertain-outcome-approval-spent",
+      "path": "cases/uncertain-outcome-approval-spent"
+    },
+    {
+      "edit": "the effect landed and the approvals were returned for reuse",
+      "expected": {
+        "decision": "deny",
+        "reason": "outcome_misrecorded"
+      },
+      "files": {
+        "record.json": "01e553a581b7cd09ad735c95f1de95db74516dab463926f601a540382a5628b1"
+      },
+      "id": "applied-outcome-approval-returned",
+      "path": "cases/applied-outcome-approval-returned"
+    },
+    {
+      "edit": "the effect landed and the approvals are only held",
+      "expected": {
+        "decision": "deny",
+        "reason": "outcome_misrecorded"
+      },
+      "files": {
+        "record.json": "4e26f858506ab7ac0d667949a331d17bb5b18bf318e278599c8c9b80f1f65bac"
+      },
+      "id": "applied-outcome-approval-held",
+      "path": "cases/applied-outcome-approval-held"
+    }
+  ],
+  "verifierContract": "verifier record.json --json; exit 0 allow, 1 deny"
+}
