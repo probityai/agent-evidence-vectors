@@ -1,14 +1,14 @@
 {
   "aggregate": {
     "counts": {
-      "recorded": 4,
+      "recorded": 3,
       "synthetic": 16
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 20
+    "total": 19
   },
   "anchor": {
-    "kind": "digest-list-line",
+    "kind": "signed-digest-list",
     "manifest": "vectors-recorded/MANIFEST.json",
     "reference": {
       "path": "release/CORPUS-DIGESTS.txt",
@@ -17,7 +17,14 @@
     "routine": "corpus_digest in corpora/vectors-recorded/gen_vectors.py",
     "routine-file": "corpora/vectors-recorded/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "55bf18e34d014ac0e0fd355effe06d3712d577072b47c125ca14e1fd33e9cbb9",
+    "sha256": "a2429f0dabb3e25bc019ccf9eb6eb7d98bd01942900ddfa3baafdeb9cd36f681",
+    "signature": {
+      "key": "release/cosign.pub",
+      "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
+      "path": "release/CORPUS-DIGESTS.txt.sig",
+      "scheme": "ed25519",
+      "serialization": "bytes"
+    },
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -29,7 +36,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "af4dbec39f3fd701ff2900cea3ab193f1addf3963f44aa5e8a4e074ea3c72d7d"
+          "sha256": "cc4cfefd32806cac289f3958f1747d6c4c42479daf6285d1902ed8fdcf69edc9"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,21 +45,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "af4dbec39f3fd701ff2900cea3ab193f1addf3963f44aa5e8a4e074ea3c72d7d"
+          "sha256": "cc4cfefd32806cac289f3958f1747d6c4c42479daf6285d1902ed8fdcf69edc9"
         },
         "swapped-in": "37e2ec7db38777ae34f262727c1ffb37ecc46607d72bcf54072b6e0eb56b4ac0",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-recorded/INDEX.md",
       "serialization": "bytes",
-      "sha256": "9c305763ab3be24593737018db48722acd1aa99a326166174c3e6a0b647ce00f"
+      "sha256": "6269bfd7e337ff7c3cda1d55668497b19842b4b0a1845eb2aa7425aa8291e1d3"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "af4dbec39f3fd701ff2900cea3ab193f1addf3963f44aa5e8a4e074ea3c72d7d"
+          "sha256": "cc4cfefd32806cac289f3958f1747d6c4c42479daf6285d1902ed8fdcf69edc9"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,21 +68,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "af4dbec39f3fd701ff2900cea3ab193f1addf3963f44aa5e8a4e074ea3c72d7d"
+          "sha256": "cc4cfefd32806cac289f3958f1747d6c4c42479daf6285d1902ed8fdcf69edc9"
         },
         "swapped-in": "4019b3d5c2643dc4d52965fba83c0550411ae3f040bed8338b4bf3875230b0e8",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-recorded/README.md",
       "serialization": "bytes",
-      "sha256": "54835008eff2ad356879c41ebcb7866d6dd68d68bec280a2d92066e2a7f57a1b"
+      "sha256": "aca5f2e9b3578b386ae1c686cab891d519d76364839391c80b616e5f3c7f5d4e"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "af4dbec39f3fd701ff2900cea3ab193f1addf3963f44aa5e8a4e074ea3c72d7d"
+          "sha256": "cc4cfefd32806cac289f3958f1747d6c4c42479daf6285d1902ed8fdcf69edc9"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,7 +91,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "af4dbec39f3fd701ff2900cea3ab193f1addf3963f44aa5e8a4e074ea3c72d7d"
+          "sha256": "cc4cfefd32806cac289f3958f1747d6c4c42479daf6285d1902ed8fdcf69edc9"
         },
         "swapped-in": "e926dcaa6d5695d43c76ee1146bc5b2e0acf8f041582a13d07cf123c24951e42",
         "test": "swap-and-re-pin"
@@ -191,17 +198,12 @@
         "dir": "sets/hs51-set2-acks",
         "recursive": true,
         "suffix": ""
-      },
-      {
-        "dir": "sets/vate-rb-receiving-captures",
-        "recursive": true,
-        "suffix": ""
       }
     ],
     "root": "corpora/vectors-recorded"
   },
   "byte-identity": {
-    "pins": 149,
+    "pins": 124,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -238,7 +240,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "fa4b5417a414b59ec88a1be02b08d251aea927565045be9d692e088b62390524"
+      "sha256": "fa0751e529d000d5fb3b3cde26f849fe1e6b5c6e28b0ed4aab55c25e79e5f5c7"
     },
     "runtime": {
       "name": "go",
@@ -270,14 +272,6 @@
     },
     {
       "check": "va39e75242339c787",
-      "native": {
-        "reasons": [],
-        "verdict": "recorded"
-      },
-      "state": "pass"
-    },
-    {
-      "check": "v780fd9ea12578229",
       "native": {
         "reasons": [],
         "verdict": "recorded"
@@ -415,7 +409,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "65b273f4f654a016136849434cd055b68533cc33f93f9e7d0596db6925776b2f"
+    "sha256": "d9055572b4cfc2de413fb10f733fe08026e29a9b23b97504ae5a5e3b4a2c389f"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -428,7 +422,6 @@
       "vffe71a23d73cb508",
       "vf2da54b4b4840bb9",
       "va39e75242339c787",
-      "v780fd9ea12578229",
       "v9dd74945e2f9f24a",
       "v62fa5f3c27299bf0",
       "vfa8b96c40cf6ca58",
@@ -447,7 +440,7 @@
       "v71d56db94fd4657c"
     ],
     "path": "corpora/vectors-recorded/MANIFEST.json",
-    "sha256": "1ca25d6967445c366dad74137b6916a7cc1cda0103105ca70fd61e59f182713d"
+    "sha256": "e720211a850c7533e82f9e49a9f382366b10b92d4482ca2a68b12be0e4331086"
   },
   "members": [
     {
@@ -684,111 +677,6 @@
         }
       ],
       "id": "va39e75242339c787"
-    },
-    {
-      "files": [
-        {
-          "path": "corpora/vectors-recorded/sets/vate-rb-receiving-captures/LICENSE",
-          "sha256": "a7f02d0ab1cc53abde08c95ab75725d673aa5af2d3184cfa07907d34c1f7a318"
-        },
-        {
-          "path": "corpora/vectors-recorded/sets/vate-rb-receiving-captures/SOURCE.json",
-          "sha256": "8be458504a6e401bd37bad5b0c1a4fa2ebcace16c4796bd495f6366ca791c008"
-        },
-        {
-          "path": "corpora/vectors-recorded/sets/vate-rb-receiving-captures/bytes/SHA256SUMS",
-          "sha256": "a5e0636895af624b6f3c013e88e95c06eaba3f4bfcfcae35a91d52d43c9704bc"
-        },
-        {
-          "path": "corpora/vectors-recorded/sets/vate-rb-receiving-captures/bytes/SUMMARY.json",
-          "sha256": "f91a861a69bafee98a744b7fd6fa5d3cfdfd22387e3f4f20756da27f3d34fe0c"
-        },
-        {
-          "path": "corpora/vectors-recorded/sets/vate-rb-receiving-captures/bytes/commit_observed/CAPTURE.json",
-          "sha256": "7d1eaf4a3a225a36717c83fb0e42ca3620a87f494793eb90228333e69947cd38"
-        },
-        {
-          "path": "corpora/vectors-recorded/sets/vate-rb-receiving-captures/bytes/commit_observed/MANIFEST.json",
-          "sha256": "cfbdda62cb3ec3d131dd1f170d8dfdfd484f1b71d7324faf7f8e2eccddb47544"
-        },
-        {
-          "path": "corpora/vectors-recorded/sets/vate-rb-receiving-captures/bytes/commit_observed/observation.json",
-          "sha256": "3a784b076715ae6693ad0794d2c9bfe4036fc259adaf6046c13fe7450207a94f"
-        },
-        {
-          "path": "corpora/vectors-recorded/sets/vate-rb-receiving-captures/bytes/commit_observed/report.json",
-          "sha256": "f1c3c87e984b7bf2d79dc846d4f80a679cf696d711314fa44ddb3085f98182f7"
-        },
-        {
-          "path": "corpora/vectors-recorded/sets/vate-rb-receiving-captures/bytes/commit_observed/selection.json",
-          "sha256": "3a1366cebf57b2dfb459c71e3ec26a02feab161a66c173cd9f80a4f54da04a2d"
-        },
-        {
-          "path": "corpora/vectors-recorded/sets/vate-rb-receiving-captures/bytes/commit_observed/statement.json",
-          "sha256": "9b3b4575fa4255de81ffb08854bc1437d33d9c41fdd378abe439f9187d0ee2b7"
-        },
-        {
-          "path": "corpora/vectors-recorded/sets/vate-rb-receiving-captures/bytes/commit_observed/test_plan.json",
-          "sha256": "f2f489c79525b2589926b7d26062b3369d6f5560b107d2dc78953fd94caababf"
-        },
-        {
-          "path": "corpora/vectors-recorded/sets/vate-rb-receiving-captures/bytes/no_commit/CAPTURE.json",
-          "sha256": "dcd7ed617dc9cdca317dca638e14dd7f25923504d62c622c366f33ae511676cb"
-        },
-        {
-          "path": "corpora/vectors-recorded/sets/vate-rb-receiving-captures/bytes/no_commit/MANIFEST.json",
-          "sha256": "381d0c30bf98e1c005a30a14a31179e738a8a5a294cb1eabe03413ac0fb3e5c7"
-        },
-        {
-          "path": "corpora/vectors-recorded/sets/vate-rb-receiving-captures/bytes/no_commit/observation.json",
-          "sha256": "eb021595547b148c8e1f9aeb9043f4869dd76459455aa354d56f8e0784d7fff5"
-        },
-        {
-          "path": "corpora/vectors-recorded/sets/vate-rb-receiving-captures/bytes/no_commit/report.json",
-          "sha256": "c4b4e7e3e82a56933c8d5227a3ae7dbc016889aff031cb18bcf6e5cd5b9d83bb"
-        },
-        {
-          "path": "corpora/vectors-recorded/sets/vate-rb-receiving-captures/bytes/no_commit/selection.json",
-          "sha256": "fb5516d88d0ed68ed6245e8f54a52066dd47bac7bbd5e6daf40ef7355bacc141"
-        },
-        {
-          "path": "corpora/vectors-recorded/sets/vate-rb-receiving-captures/bytes/no_commit/statement.json",
-          "sha256": "a74115af93c6e21899e00c813a08a01045f7abd7b33b967c7414757aca7bfe45"
-        },
-        {
-          "path": "corpora/vectors-recorded/sets/vate-rb-receiving-captures/bytes/no_commit/test_plan.json",
-          "sha256": "f2f489c79525b2589926b7d26062b3369d6f5560b107d2dc78953fd94caababf"
-        },
-        {
-          "path": "corpora/vectors-recorded/sets/vate-rb-receiving-captures/bytes/not_established/CAPTURE.json",
-          "sha256": "30c6c5db021f4ba8930d4872d77409387399683616ec3d5e3562cf935d370f35"
-        },
-        {
-          "path": "corpora/vectors-recorded/sets/vate-rb-receiving-captures/bytes/not_established/MANIFEST.json",
-          "sha256": "e0e460782097c5358fcec871e4975ff200202b9ea34d5ff049372c61789c9b81"
-        },
-        {
-          "path": "corpora/vectors-recorded/sets/vate-rb-receiving-captures/bytes/not_established/observation.json",
-          "sha256": "83ff7c923283313f40e1db31ee4d40f60f51b4942dac83520396276ac07a21ee"
-        },
-        {
-          "path": "corpora/vectors-recorded/sets/vate-rb-receiving-captures/bytes/not_established/report.json",
-          "sha256": "5fcdfb74bfd17252d2a114c53e586209244585f22c1cdd55311febe82c344901"
-        },
-        {
-          "path": "corpora/vectors-recorded/sets/vate-rb-receiving-captures/bytes/not_established/selection.json",
-          "sha256": "21d8e968baf95402a011e9d71d6aa608fb80f54c79198a0bdc49cb004c2b220e"
-        },
-        {
-          "path": "corpora/vectors-recorded/sets/vate-rb-receiving-captures/bytes/not_established/statement.json",
-          "sha256": "d24d70cfc40ea8a99ffb3e776a165a695295bcea775577b06e0829d9f0601e7a"
-        },
-        {
-          "path": "corpora/vectors-recorded/sets/vate-rb-receiving-captures/bytes/not_established/test_plan.json",
-          "sha256": "f2f489c79525b2589926b7d26062b3369d6f5560b107d2dc78953fd94caababf"
-        }
-      ],
-      "id": "v780fd9ea12578229"
     },
     {
       "files": [
@@ -1163,7 +1051,7 @@
       "reference": {
         "path": "release/intake/native/vectors-recorded.json",
         "serialization": "bytes",
-        "sha256": "af4dbec39f3fd701ff2900cea3ab193f1addf3963f44aa5e8a4e074ea3c72d7d"
+        "sha256": "cc4cfefd32806cac289f3958f1747d6c4c42479daf6285d1902ed8fdcf69edc9"
       }
     },
     {
@@ -1172,7 +1060,7 @@
       "reference": {
         "path": "release/intake/native/vectors-recorded.txt",
         "serialization": "bytes",
-        "sha256": "a8a93f494e326b31b3c0689b30fd635067bea476923628d5bc3831c2cb4a7c5e"
+        "sha256": "1a23ae1237920291dc7aaa4160aef7c193010e36d6786ed19f31e58399ac96b7"
       }
     },
     {
@@ -1197,11 +1085,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "af4dbec39f3fd701ff2900cea3ab193f1addf3963f44aa5e8a4e074ea3c72d7d"
+        "sha256": "cc4cfefd32806cac289f3958f1747d6c4c42479daf6285d1902ed8fdcf69edc9"
       },
       {
         "process": "run-2",
-        "sha256": "af4dbec39f3fd701ff2900cea3ab193f1addf3963f44aa5e8a4e074ea3c72d7d"
+        "sha256": "cc4cfefd32806cac289f3958f1747d6c4c42479daf6285d1902ed8fdcf69edc9"
       }
     ],
     "seed": null,
@@ -1215,24 +1103,22 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 20 pinned members of recorded-set-conformance/v1 as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 19 pinned members of recorded-set-conformance/v1 as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
-      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
       "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
     ]
   },
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 20,
+    "matched": 19,
     "require": "at-least-one",
     "selected": [
       "vffe71a23d73cb508",
       "vf2da54b4b4840bb9",
       "va39e75242339c787",
-      "v780fd9ea12578229",
       "v9dd74945e2f9f24a",
       "v62fa5f3c27299bf0",
       "vfa8b96c40cf6ca58",
