@@ -315,7 +315,7 @@ jobs:
     # Hugging Face dataset together: both are published by this one job.
     environment: public-release
     permissions:
-      contents: read
+      contents: write
       id-token: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -418,24 +418,12 @@ jobs:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: python scripts/publish-hf-dataset.py upload "$RUNNER_TEMP/dataset" --tag "$GITHUB_REF_NAME"
 
-  # The corpus GitHub release. Until this job existed the workflow published the
-  # wheel and the dataset and never created the release, so tags after v0.31.0
-  # had a PyPI file and no release, and a sub-package release became Latest. It
-  # runs only after `publish` succeeded, attaches the signed digest list, and
-  # makes this release the Latest one. A release created with the workflow
-  # token does not start another run of this workflow.
-  github-release:
-    needs: publish
-    if: ${{ github.event_name != 'release' && startsWith(github.ref, 'refs/tags/v') }}
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
-          persist-credentials: false
+      # The corpus GitHub release, created in this same approved job so one
+      # approval publishes the wheel, the dataset and the release. Before these
+      # steps existed, tags after v0.31.0 had a PyPI file and no release, and a
+      # sub-package release became Latest. They attach the signed digest list
+      # and make this release the Latest one. A release created with the
+      # workflow token does not start another run of this workflow.
       - name: create the release and mark it Latest
         env:
           GH_TOKEN: ${{ github.token }}
