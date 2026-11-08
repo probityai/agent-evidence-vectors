@@ -124,6 +124,15 @@ jobs:
           # the guide names every term and every value. Offline.
           python3 scripts/test_multi_agent_run.py
 
+      - name: Hold the registry, the validator and the guide to principal_identity
+        run: |
+          # Each principal_identity term starts proposed with no issuer and
+          # carries the check a verifier applies, every registered value is
+          # accepted and an unregistered one refused, the guide names every
+          # term and value, and registry.identity_provider derives the expected
+          # provider for each issuer in its table. Offline.
+          python3 scripts/test_principal_identity.py
+
       - name: Hold the validator to reading every file in crosswalk/
         run: |
           # Every file in crosswalk/ is a crosswalk, a sidecar of one, or the
