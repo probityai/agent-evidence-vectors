@@ -92,7 +92,7 @@ from agent_evidence_vectors.monitorcoverage import (
 )
 
 SUITE = "containment-journal/v1"
-SUITE_REVISION = 2  # revision 1.1 of the predicate; CHANGES.md carries the ledger
+SUITE_REVISION = 3  # revision 1.2 of the predicate; CHANGES.md carries the ledger
 _BASE = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/"
 CONTRACT_ID = _BASE + "containment-journal"
 RECEIPT_CONTRACT_ID = _BASE + "blast-radius-receipt"
@@ -445,8 +445,10 @@ class _Walk:
         if entry["basis"].startswith("detector_"):
             if not set(entry["detectorInputs"]) <= set(self.record["messageFields"]):
                 self.fail("detector_inputs_absent")
-            if (len(set(entry["riskEstimates"].values())) == 1
-                    and (entry["removed"] or entry["isolated"])):
+            # Judge the change the decision makes, never the state it restates: `isolated` lists
+            # every agent with no outgoing edge in the new graph, including one cut earlier on
+            # another basis, and an agent can only become isolated by losing an edge.
+            if len(set(entry["riskEstimates"].values())) == 1 and entry["removed"]:
                 self.fail("decision_not_supported_by_estimates")
         if entry["responseFunction"] == "restoration" and self.claims.get("restorationGated"):
             returned = set(self.isolated_at) - set(entry["isolated"])
