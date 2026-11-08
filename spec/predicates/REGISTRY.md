@@ -151,6 +151,22 @@ verdict it carried), the condition, outcome and basis the client recorded, and
 whether the action was performed, so a consumer can tell a policy decision from a
 fallback and an allow from a fault read as one.
 
+### `predicate/v1/agent-request-proof`
+
+- Document: `corpora/vectors-agent-request-proof/README.md`
+- Corpus: `corpora/vectors-agent-request-proof/`, suite `agent-request-proof/v1`
+- Rails: `corpusreaders/agentrequestproof.go`, `packaging/agent_evidence_vectors/agentrequestproof.py`
+
+The predicate carries one HTTP request a recorder received and the per-request RS256
+proof the agent sent with it: the method, path and body, the compact proof, the
+principal's public JWK with its registered RFC 7638 thumbprint, and the observation
+time. The statement subject is the body digest and the statement is signed by the
+recorder over RFC 8785 bytes. A verifier recomputes every binding the receiving service
+checked (typ, alg, thumbprint, signature, issuer, htm, htu, body digest, lifetime) and
+refuses a jti the recorder already recorded for the same issuer. The principal block
+is a verified principal binding, the field an audit record needs in place of a reported
+authentication method.
+
 ### `predicate/v1/refusal-reason-priority`
 
 - Document: `corpora/vectors-refusal-reason-priority/README.md`

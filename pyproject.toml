@@ -145,6 +145,7 @@ only-include = [
     "corpora/vectors-agent-change-admission",
     "corpora/vectors-agent-decision",
     "corpora/vectors-agent-payment-mandate",
+    "corpora/vectors-agent-request-proof",
     "corpora/vectors-agentic-process-evidence",
     "corpora/vectors-aggregate-accounting",
     "corpora/vectors-ai-agent-action",
@@ -215,6 +216,7 @@ exclude = [
     "corpora/vectors-agent-change-admission/**/*.py",
     "corpora/vectors-agent-decision/**/*.py",
     "corpora/vectors-agent-payment-mandate/**/*.py",
+    "corpora/vectors-agent-request-proof/**/*.py",
     "corpora/vectors-agentic-process-evidence/**/*.py",
     "corpora/vectors-aggregate-accounting/**/*.py",
     "corpora/vectors-ai-agent-action/**/*.py",
@@ -284,6 +286,7 @@ exclude = [
 "corpora/vectors-agent-change-admission" = "agent_evidence_vectors/corpora/vectors-agent-change-admission"
 "corpora/vectors-agent-decision" = "agent_evidence_vectors/corpora/vectors-agent-decision"
 "corpora/vectors-agent-payment-mandate" = "agent_evidence_vectors/corpora/vectors-agent-payment-mandate"
+"corpora/vectors-agent-request-proof" = "agent_evidence_vectors/corpora/vectors-agent-request-proof"
 "corpora/vectors-agentic-process-evidence" = "agent_evidence_vectors/corpora/vectors-agentic-process-evidence"
 "corpora/vectors-aggregate-accounting" = "agent_evidence_vectors/corpora/vectors-aggregate-accounting"
 "corpora/vectors-ai-agent-action" = "agent_evidence_vectors/corpora/vectors-ai-agent-action"
@@ -428,6 +431,7 @@ only-include = [
     "corpora/vectors-agent-change-admission",
     "corpora/vectors-agent-decision",
     "corpora/vectors-agent-payment-mandate",
+    "corpora/vectors-agent-request-proof",
     "corpora/vectors-agentic-process-evidence",
     "corpora/vectors-aggregate-accounting",
     "corpora/vectors-ai-agent-action",

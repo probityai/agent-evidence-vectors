@@ -1,0 +1,724 @@
+{
+  "aggregate": {
+    "counts": {
+      "rejected": 13,
+      "verified": 3
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 16
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-agent-request-proof/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in corpora/vectors-agent-request-proof/gen_vectors.py",
+    "routine-file": "corpora/vectors-agent-request-proof/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "3bb77c17a6fa2802615ef36078fbd15c41ec163762b697f39fc360c5650f5fb5",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "ef450fe94ed821971b011b04dde0388824b2af7125cfe5e6f4547dedcef7f831"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "ef450fe94ed821971b011b04dde0388824b2af7125cfe5e6f4547dedcef7f831"
+        },
+        "swapped-in": "d63dc31c67413d1f14bfee825221601ae4a3bd73234a09ffc31925f94942083f",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-agent-request-proof/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "31971a21c0cb4596d2363541fc3eba192942867e9244ca6750b5d7c71b962ecc"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "ef450fe94ed821971b011b04dde0388824b2af7125cfe5e6f4547dedcef7f831"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "ef450fe94ed821971b011b04dde0388824b2af7125cfe5e6f4547dedcef7f831"
+        },
+        "swapped-in": "b96e4f46d6a1875303850885bda855512ef679c771b49809d6e2fcf3e6de5021",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-agent-request-proof/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "5f8c40c6a3c46e219acea004f8151cc8efd70a44003b87b6ebcef7430c418b58"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "corpora/vectors-agent-request-proof"
+  },
+  "byte-identity": {
+    "pins": 34,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json corpora/vectors-agent-request-proof",
+      "aee-verify -json corpora/vectors-agent-request-proof",
+      "aee-verify corpora/vectors-agent-request-proof"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpusreaders",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "a8cea9885dad9c9d265bf8b5b57d971bcb59f1024a0c7fab18273706c3d03e5c"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpusreaders",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "request-bound",
+      "native": {
+        "reasons": [],
+        "verdict": "verified"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "upstream-golden",
+      "native": {
+        "reasons": [],
+        "verdict": "verified"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "distinct-jti-sequence",
+      "native": {
+        "reasons": [],
+        "verdict": "verified"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "statement-malformed",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "recorder-signature-invalid",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "wrong-typ",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "alg-none",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "embedded-jwk",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "thumbprint-mismatch",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "proof-signature-invalid",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "principal-mismatch",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "htm-htu-mismatch",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "body-digest-mismatch",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "expired",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "excessive-lifetime",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "replayed-jti",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "d8ef0a2b8968ffb62c8aa9f62211101fb69c15994710c22ae6a6ef26644386c8"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "request-bound",
+      "upstream-golden",
+      "distinct-jti-sequence",
+      "statement-malformed",
+      "recorder-signature-invalid",
+      "wrong-typ",
+      "alg-none",
+      "embedded-jwk",
+      "thumbprint-mismatch",
+      "proof-signature-invalid",
+      "principal-mismatch",
+      "htm-htu-mismatch",
+      "body-digest-mismatch",
+      "expired",
+      "excessive-lifetime",
+      "replayed-jti"
+    ],
+    "path": "corpora/vectors-agent-request-proof/MANIFEST.json",
+    "sha256": "b31f60f3c1d9825f77bf28be3902fb45f22aeacfc9865feffb1276dcea868cd2"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/request-bound/case.json",
+          "sha256": "03a88ff5ab1df73d6a2930fbcb065872e305889b4caef474e8b46616f60fce3a"
+        },
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/request-bound/envelope-1.json",
+          "sha256": "c68e33b2965d02ccf6701eab9d0d55212d1130c5f8360057eadd1051078f581f"
+        }
+      ],
+      "id": "request-bound"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/upstream-golden/case.json",
+          "sha256": "03a88ff5ab1df73d6a2930fbcb065872e305889b4caef474e8b46616f60fce3a"
+        },
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/upstream-golden/envelope-1.json",
+          "sha256": "ebcfe2d8886fa52113508ccf7efde8d50a49089636104f527e27f335db1355f1"
+        }
+      ],
+      "id": "upstream-golden"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/distinct-jti-sequence/case.json",
+          "sha256": "169993a4bd03461a0698c29b120181e94d9a9ca6b67da0727418d4394f4e15ac"
+        },
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/distinct-jti-sequence/envelope-1.json",
+          "sha256": "c68e33b2965d02ccf6701eab9d0d55212d1130c5f8360057eadd1051078f581f"
+        },
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/distinct-jti-sequence/envelope-2.json",
+          "sha256": "d85a3bbbdbf6f6b5eb62df0ab877af4e5af63f006bcdb6a842cce7552e723129"
+        }
+      ],
+      "id": "distinct-jti-sequence"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/statement-malformed/case.json",
+          "sha256": "03a88ff5ab1df73d6a2930fbcb065872e305889b4caef474e8b46616f60fce3a"
+        },
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/statement-malformed/envelope-1.json",
+          "sha256": "70bafd6cc45b54b66347b77df44d9511c20e4ef7c1fa86d273d76094542b04dc"
+        }
+      ],
+      "id": "statement-malformed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/recorder-signature-invalid/case.json",
+          "sha256": "03a88ff5ab1df73d6a2930fbcb065872e305889b4caef474e8b46616f60fce3a"
+        },
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/recorder-signature-invalid/envelope-1.json",
+          "sha256": "c4f58c11a3f45ce85a70212d5f558f3b08d03646c3d321e221fe9b1b6cb32b60"
+        }
+      ],
+      "id": "recorder-signature-invalid"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/wrong-typ/case.json",
+          "sha256": "03a88ff5ab1df73d6a2930fbcb065872e305889b4caef474e8b46616f60fce3a"
+        },
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/wrong-typ/envelope-1.json",
+          "sha256": "d3a29cd2fef6f776f8a4dec5176ca9a9c518f4da78b47070038d26d8dc6a985b"
+        }
+      ],
+      "id": "wrong-typ"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/alg-none/case.json",
+          "sha256": "03a88ff5ab1df73d6a2930fbcb065872e305889b4caef474e8b46616f60fce3a"
+        },
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/alg-none/envelope-1.json",
+          "sha256": "73ad6130c20a2c9bceffe50cdca619e9ee9646f281151c4c83b0eaefbef1748a"
+        }
+      ],
+      "id": "alg-none"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/embedded-jwk/case.json",
+          "sha256": "03a88ff5ab1df73d6a2930fbcb065872e305889b4caef474e8b46616f60fce3a"
+        },
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/embedded-jwk/envelope-1.json",
+          "sha256": "17192e202159aa906303123123e11af780915a7dbbf49d806190ce781ad406d5"
+        }
+      ],
+      "id": "embedded-jwk"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/thumbprint-mismatch/case.json",
+          "sha256": "03a88ff5ab1df73d6a2930fbcb065872e305889b4caef474e8b46616f60fce3a"
+        },
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/thumbprint-mismatch/envelope-1.json",
+          "sha256": "3924df5ab08eba60a4a462d57ab7d9afe11df13e39ed171724dc2e5823ce60e7"
+        }
+      ],
+      "id": "thumbprint-mismatch"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/proof-signature-invalid/case.json",
+          "sha256": "03a88ff5ab1df73d6a2930fbcb065872e305889b4caef474e8b46616f60fce3a"
+        },
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/proof-signature-invalid/envelope-1.json",
+          "sha256": "b1d16c5f856e3f693d10d3b67df1a43cb4fcf4097cb103e84e9d7e66b4d4ab8e"
+        }
+      ],
+      "id": "proof-signature-invalid"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/principal-mismatch/case.json",
+          "sha256": "03a88ff5ab1df73d6a2930fbcb065872e305889b4caef474e8b46616f60fce3a"
+        },
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/principal-mismatch/envelope-1.json",
+          "sha256": "0c51eefeae5430f50326ac8b71175d0b05953e58678b6dc34afd5a7cf2e7afee"
+        }
+      ],
+      "id": "principal-mismatch"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/htm-htu-mismatch/case.json",
+          "sha256": "03a88ff5ab1df73d6a2930fbcb065872e305889b4caef474e8b46616f60fce3a"
+        },
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/htm-htu-mismatch/envelope-1.json",
+          "sha256": "a10c164327773c23f50aa27ede31f63dabb43c5bcca97ab8adbb3514e7cb05f2"
+        }
+      ],
+      "id": "htm-htu-mismatch"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/body-digest-mismatch/case.json",
+          "sha256": "03a88ff5ab1df73d6a2930fbcb065872e305889b4caef474e8b46616f60fce3a"
+        },
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/body-digest-mismatch/envelope-1.json",
+          "sha256": "57717df7b37092b6805992cae5a6f1dc06cc438285ee9a83fa5d4f0c72e0d7d3"
+        }
+      ],
+      "id": "body-digest-mismatch"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/expired/case.json",
+          "sha256": "03a88ff5ab1df73d6a2930fbcb065872e305889b4caef474e8b46616f60fce3a"
+        },
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/expired/envelope-1.json",
+          "sha256": "75cb0c961c871eda9282dd64f369139c0aa77a9e8d65909f46412034daca086c"
+        }
+      ],
+      "id": "expired"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/excessive-lifetime/case.json",
+          "sha256": "03a88ff5ab1df73d6a2930fbcb065872e305889b4caef474e8b46616f60fce3a"
+        },
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/excessive-lifetime/envelope-1.json",
+          "sha256": "d2884091921105ad567d14dbd8f13393d7015b7220684188e529657b9297bc02"
+        }
+      ],
+      "id": "excessive-lifetime"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/replayed-jti/case.json",
+          "sha256": "169993a4bd03461a0698c29b120181e94d9a9ca6b67da0727418d4394f4e15ac"
+        },
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/replayed-jti/envelope-1.json",
+          "sha256": "c68e33b2965d02ccf6701eab9d0d55212d1130c5f8360057eadd1051078f581f"
+        },
+        {
+          "path": "corpora/vectors-agent-request-proof/cases/replayed-jti/envelope-2.json",
+          "sha256": "28994baa6b2b7ab39303b9a18fb000a1e6d2979606eb5abcaa969563a1b7717e"
+        }
+      ],
+      "id": "replayed-jti"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-agent-request-proof.json",
+        "serialization": "bytes",
+        "sha256": "ef450fe94ed821971b011b04dde0388824b2af7125cfe5e6f4547dedcef7f831"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-agent-request-proof.txt",
+        "serialization": "bytes",
+        "sha256": "367ca0e4e4635d31aeccf9eb2ca6ff7377c3269f9bcb91e880b18e1971e0b37f"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "statement-malformed",
+      "inputs": [
+        "member:statement-malformed",
+        "check:statement-malformed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"statement_malformed\"}}"
+    },
+    {
+      "check": "recorder-signature-invalid",
+      "inputs": [
+        "member:recorder-signature-invalid",
+        "check:recorder-signature-invalid"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"recorder_signature_invalid\"}}"
+    },
+    {
+      "check": "wrong-typ",
+      "inputs": [
+        "member:wrong-typ",
+        "check:wrong-typ"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"typ_mismatch\"}}"
+    },
+    {
+      "check": "alg-none",
+      "inputs": [
+        "member:alg-none",
+        "check:alg-none"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"alg_not_allowed\"}}"
+    },
+    {
+      "check": "embedded-jwk",
+      "inputs": [
+        "member:embedded-jwk",
+        "check:embedded-jwk"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"alg_not_allowed\"}}"
+    },
+    {
+      "check": "thumbprint-mismatch",
+      "inputs": [
+        "member:thumbprint-mismatch",
+        "check:thumbprint-mismatch"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"thumbprint_mismatch\"}}"
+    },
+    {
+      "check": "proof-signature-invalid",
+      "inputs": [
+        "member:proof-signature-invalid",
+        "check:proof-signature-invalid"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"proof_signature_invalid\"}}"
+    },
+    {
+      "check": "principal-mismatch",
+      "inputs": [
+        "member:principal-mismatch",
+        "check:principal-mismatch"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"principal_mismatch\"}}"
+    },
+    {
+      "check": "htm-htu-mismatch",
+      "inputs": [
+        "member:htm-htu-mismatch",
+        "check:htm-htu-mismatch"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"htm_htu_mismatch\"}}"
+    },
+    {
+      "check": "body-digest-mismatch",
+      "inputs": [
+        "member:body-digest-mismatch",
+        "check:body-digest-mismatch"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"body_digest_mismatch\"}}"
+    },
+    {
+      "check": "expired",
+      "inputs": [
+        "member:expired",
+        "check:expired"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"proof_expired\"}}"
+    },
+    {
+      "check": "excessive-lifetime",
+      "inputs": [
+        "member:excessive-lifetime",
+        "check:excessive-lifetime"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"proof_expired\"}}"
+    },
+    {
+      "check": "replayed-jti",
+      "inputs": [
+        "member:replayed-jti",
+        "check:replayed-jti"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"replayed_jti\"}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "ef450fe94ed821971b011b04dde0388824b2af7125cfe5e6f4547dedcef7f831"
+      },
+      {
+        "process": "run-2",
+        "sha256": "ef450fe94ed821971b011b04dde0388824b2af7125cfe5e6f4547dedcef7f831"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 16 pinned members of agent-request-proof/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 16,
+    "require": "at-least-one",
+    "selected": [
+      "request-bound",
+      "upstream-golden",
+      "distinct-jti-sequence",
+      "statement-malformed",
+      "recorder-signature-invalid",
+      "wrong-typ",
+      "alg-none",
+      "embedded-jwk",
+      "thumbprint-mismatch",
+      "proof-signature-invalid",
+      "principal-mismatch",
+      "htm-htu-mismatch",
+      "body-digest-mismatch",
+      "expired",
+      "excessive-lifetime",
+      "replayed-jti"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "agent-request-proof/v1"
+}

@@ -1,0 +1,245 @@
+{
+  "corpusDigest": "3bb77c17a6fa2802615ef36078fbd15c41ec163762b697f39fc360c5650f5fb5",
+  "counts": {
+    "rejected": 13,
+    "verified": 3
+  },
+  "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/agent-request-proof",
+  "suite": "agent-request-proof/v1",
+  "upstream": {
+    "commit": "e319c9311070931579a14a07e95251b4adf209b8",
+    "fixture": "tests/signing/identity_v2/evaluate.json",
+    "fixtureKey": "tests/signing/identity_v2/keypair.json",
+    "repository": "https://github.com/openbox-ai/openbox-sdk-python",
+    "signer": "openbox_core/identity_okta.py"
+  },
+  "vectors": [
+    {
+      "edit": "control: one request, its proof and its body, recorded within the proof's lifetime",
+      "expected": {
+        "decision": "verified",
+        "reason": "request_bound"
+      },
+      "files": {
+        "case.json": "03a88ff5ab1df73d6a2930fbcb065872e305889b4caef474e8b46616f60fce3a",
+        "envelope-1.json": "c68e33b2965d02ccf6701eab9d0d55212d1130c5f8360057eadd1051078f581f"
+      },
+      "id": "request-bound",
+      "path": "cases/request-bound",
+      "proofSignatureVerifies": true
+    },
+    {
+      "edit": "control: the upstream SDK's own golden evaluate fixture, recorded verbatim",
+      "expected": {
+        "decision": "verified",
+        "reason": "request_bound"
+      },
+      "files": {
+        "case.json": "03a88ff5ab1df73d6a2930fbcb065872e305889b4caef474e8b46616f60fce3a",
+        "envelope-1.json": "ebcfe2d8886fa52113508ccf7efde8d50a49089636104f527e27f335db1355f1"
+      },
+      "id": "upstream-golden",
+      "path": "cases/upstream-golden",
+      "proofSignatureVerifies": true
+    },
+    {
+      "edit": "control: two records from one agent, each proof with its own jti",
+      "expected": {
+        "decision": "verified",
+        "reason": "request_bound"
+      },
+      "files": {
+        "case.json": "169993a4bd03461a0698c29b120181e94d9a9ca6b67da0727418d4394f4e15ac",
+        "envelope-1.json": "c68e33b2965d02ccf6701eab9d0d55212d1130c5f8360057eadd1051078f581f",
+        "envelope-2.json": "d85a3bbbdbf6f6b5eb62df0ab877af4e5af63f006bcdb6a842cce7552e723129"
+      },
+      "id": "distinct-jti-sequence",
+      "path": "cases/distinct-jti-sequence",
+      "proofSignatureVerifies": true
+    },
+    {
+      "edit": "the statement names another predicate type",
+      "expected": {
+        "decision": "rejected",
+        "reason": "statement_malformed"
+      },
+      "files": {
+        "case.json": "03a88ff5ab1df73d6a2930fbcb065872e305889b4caef474e8b46616f60fce3a",
+        "envelope-1.json": "70bafd6cc45b54b66347b77df44d9511c20e4ef7c1fa86d273d76094542b04dc"
+      },
+      "id": "statement-malformed",
+      "path": "cases/statement-malformed",
+      "proofSignatureVerifies": false
+    },
+    {
+      "edit": "the recorded path was changed after the recorder signed",
+      "expected": {
+        "decision": "rejected",
+        "reason": "recorder_signature_invalid"
+      },
+      "files": {
+        "case.json": "03a88ff5ab1df73d6a2930fbcb065872e305889b4caef474e8b46616f60fce3a",
+        "envelope-1.json": "c4f58c11a3f45ce85a70212d5f558f3b08d03646c3d321e221fe9b1b6cb32b60"
+      },
+      "id": "recorder-signature-invalid",
+      "path": "cases/recorder-signature-invalid",
+      "proofSignatureVerifies": true
+    },
+    {
+      "edit": "a generic JWT typ where the profile names its own",
+      "expected": {
+        "decision": "rejected",
+        "reason": "typ_mismatch"
+      },
+      "files": {
+        "case.json": "03a88ff5ab1df73d6a2930fbcb065872e305889b4caef474e8b46616f60fce3a",
+        "envelope-1.json": "d3a29cd2fef6f776f8a4dec5176ca9a9c518f4da78b47070038d26d8dc6a985b"
+      },
+      "id": "wrong-typ",
+      "path": "cases/wrong-typ",
+      "proofSignatureVerifies": true
+    },
+    {
+      "edit": "an unsigned proof with alg none",
+      "expected": {
+        "decision": "rejected",
+        "reason": "alg_not_allowed"
+      },
+      "files": {
+        "case.json": "03a88ff5ab1df73d6a2930fbcb065872e305889b4caef474e8b46616f60fce3a",
+        "envelope-1.json": "73ad6130c20a2c9bceffe50cdca619e9ee9646f281151c4c83b0eaefbef1748a"
+      },
+      "id": "alg-none",
+      "path": "cases/alg-none",
+      "proofSignatureVerifies": false
+    },
+    {
+      "edit": "the proof carries its own verification key in the header",
+      "expected": {
+        "decision": "rejected",
+        "reason": "alg_not_allowed"
+      },
+      "files": {
+        "case.json": "03a88ff5ab1df73d6a2930fbcb065872e305889b4caef474e8b46616f60fce3a",
+        "envelope-1.json": "17192e202159aa906303123123e11af780915a7dbbf49d806190ce781ad406d5"
+      },
+      "id": "embedded-jwk",
+      "path": "cases/embedded-jwk",
+      "proofSignatureVerifies": true
+    },
+    {
+      "edit": "another key signs the proof and the record carries that key, against the thumbprint the agent registered",
+      "expected": {
+        "decision": "rejected",
+        "reason": "thumbprint_mismatch"
+      },
+      "files": {
+        "case.json": "03a88ff5ab1df73d6a2930fbcb065872e305889b4caef474e8b46616f60fce3a",
+        "envelope-1.json": "3924df5ab08eba60a4a462d57ab7d9afe11df13e39ed171724dc2e5823ce60e7"
+      },
+      "id": "thumbprint-mismatch",
+      "path": "cases/thumbprint-mismatch",
+      "proofSignatureVerifies": true
+    },
+    {
+      "edit": "another key signs the proof; the record carries the registered key",
+      "expected": {
+        "decision": "rejected",
+        "reason": "proof_signature_invalid"
+      },
+      "files": {
+        "case.json": "03a88ff5ab1df73d6a2930fbcb065872e305889b4caef474e8b46616f60fce3a",
+        "envelope-1.json": "b1d16c5f856e3f693d10d3b67df1a43cb4fcf4097cb103e84e9d7e66b4d4ab8e"
+      },
+      "id": "proof-signature-invalid",
+      "path": "cases/proof-signature-invalid",
+      "proofSignatureVerifies": false
+    },
+    {
+      "edit": "the registered key signs a proof naming another agent as issuer",
+      "expected": {
+        "decision": "rejected",
+        "reason": "principal_mismatch"
+      },
+      "files": {
+        "case.json": "03a88ff5ab1df73d6a2930fbcb065872e305889b4caef474e8b46616f60fce3a",
+        "envelope-1.json": "0c51eefeae5430f50326ac8b71175d0b05953e58678b6dc34afd5a7cf2e7afee"
+      },
+      "id": "principal-mismatch",
+      "path": "cases/principal-mismatch",
+      "proofSignatureVerifies": true
+    },
+    {
+      "edit": "a proof for POST evaluate presented with a DELETE of a policy",
+      "expected": {
+        "decision": "rejected",
+        "reason": "htm_htu_mismatch"
+      },
+      "files": {
+        "case.json": "03a88ff5ab1df73d6a2930fbcb065872e305889b4caef474e8b46616f60fce3a",
+        "envelope-1.json": "a10c164327773c23f50aa27ede31f63dabb43c5bcca97ab8adbb3514e7cb05f2"
+      },
+      "id": "htm-htu-mismatch",
+      "path": "cases/htm-htu-mismatch",
+      "proofSignatureVerifies": true
+    },
+    {
+      "edit": "the recorded body is not the body the proof hashed",
+      "expected": {
+        "decision": "rejected",
+        "reason": "body_digest_mismatch"
+      },
+      "files": {
+        "case.json": "03a88ff5ab1df73d6a2930fbcb065872e305889b4caef474e8b46616f60fce3a",
+        "envelope-1.json": "57717df7b37092b6805992cae5a6f1dc06cc438285ee9a83fa5d4f0c72e0d7d3"
+      },
+      "id": "body-digest-mismatch",
+      "path": "cases/body-digest-mismatch",
+      "proofSignatureVerifies": true
+    },
+    {
+      "edit": "the request arrived a second after the proof expired",
+      "expected": {
+        "decision": "rejected",
+        "reason": "proof_expired"
+      },
+      "files": {
+        "case.json": "03a88ff5ab1df73d6a2930fbcb065872e305889b4caef474e8b46616f60fce3a",
+        "envelope-1.json": "75cb0c961c871eda9282dd64f369139c0aa77a9e8d65909f46412034daca086c"
+      },
+      "id": "expired",
+      "path": "cases/expired",
+      "proofSignatureVerifies": true
+    },
+    {
+      "edit": "a proof valid for an hour where the profile allows 60 s",
+      "expected": {
+        "decision": "rejected",
+        "reason": "proof_expired"
+      },
+      "files": {
+        "case.json": "03a88ff5ab1df73d6a2930fbcb065872e305889b4caef474e8b46616f60fce3a",
+        "envelope-1.json": "d2884091921105ad567d14dbd8f13393d7015b7220684188e529657b9297bc02"
+      },
+      "id": "excessive-lifetime",
+      "path": "cases/excessive-lifetime",
+      "proofSignatureVerifies": true
+    },
+    {
+      "edit": "a second proof reuses the jti of an earlier recorded proof from the same agent",
+      "expected": {
+        "decision": "rejected",
+        "reason": "replayed_jti"
+      },
+      "files": {
+        "case.json": "169993a4bd03461a0698c29b120181e94d9a9ca6b67da0727418d4394f4e15ac",
+        "envelope-1.json": "c68e33b2965d02ccf6701eab9d0d55212d1130c5f8360057eadd1051078f581f",
+        "envelope-2.json": "28994baa6b2b7ab39303b9a18fb000a1e6d2979606eb5abcaa969563a1b7717e"
+      },
+      "id": "replayed-jti",
+      "path": "cases/replayed-jti",
+      "proofSignatureVerifies": true
+    }
+  ],
+  "verifierContract": "verifier case.json --json; exit 0 verified, 1 rejected"
+}
