@@ -139,8 +139,15 @@ class TestRevocationEpochCorpus:
 
     class TestFailingCases:
         def test_newest_list_only_verifier_lets_these_through(self, tmp_path: Path) -> None:
-            _, errors = corpus.check(_naive(tmp_path))
-            assert _failed(errors) == NAIVE_LETS_THROUGH | NAIVE_REFUSES
+            command = _naive(tmp_path).split()
+            wrong = set()
+            for entry in _manifest()["vectors"]:
+                ran, answer = revocationepoch._external_answer(
+                    command, ROOT / entry["path"] / "record.json")
+                assert ran and isinstance(answer, dict), entry["id"]
+                if answer["decision"] != entry["expected"]["decision"]:
+                    wrong.add(entry["id"])
+            assert wrong == NAIVE_LETS_THROUGH | NAIVE_REFUSES
             assert NAIVE_LETS_THROUGH <= _ids("deny")
             assert NAIVE_REFUSES <= _ids("allow")
 

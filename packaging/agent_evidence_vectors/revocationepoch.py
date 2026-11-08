@@ -25,8 +25,8 @@ The reader checks in a fixed order and names the first check that fails:
 
 1. the record carries ``contractId`` (``contract_id_missing``);
 2. ``contractId`` is the revocation-epoch contract (``contract_id_unknown``);
-3. the record has the fields and types the contract names, integers are
-   integers, every time parses, and the witness log's ``seq`` strictly
+3. the record has the fields and types the contract names, every number
+   anywhere in it is an integer, every time parses, and the witness log's ``seq`` strictly
    increases while its ``at`` never goes back (``malformed_record``);
 4. every list was issued by a trusted issuer (``srl_issuer_untrusted``);
 5. the permit and the effect name the recomputed grant digest and the effect
@@ -169,7 +169,17 @@ def _witness_ok(entries: Any) -> bool:
     return True
 
 
+def _has_fraction(value: Any) -> bool:
+    if isinstance(value, float):
+        return True
+    if isinstance(value, dict):
+        return any(_has_fraction(v) for v in value.values())
+    return isinstance(value, list) and any(_has_fraction(v) for v in value)
+
+
 def _malformed(record: dict[str, Any]) -> bool:
+    if _has_fraction(record):
+        return True
     permit, effect = record.get("permit"), record.get("effect")
     fresh = record.get("freshnessSeconds")
     shape = (
