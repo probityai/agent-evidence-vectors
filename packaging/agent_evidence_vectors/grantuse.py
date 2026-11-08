@@ -39,8 +39,8 @@ The reader checks in a fixed order and names the first check that fails:
 
 1. the record carries ``contractId`` (``contract_id_missing``);
 2. ``contractId`` is the grant-use contract (``contract_id_unknown``);
-3. the record has the fields and types the contract names, every time parses,
-   every integer is a safe integer, no grant sits deeper than its own
+3. the record has the fields and types the contract names, carries no number
+   that is not an integer, every time parses, every count is a safe integer, no grant sits deeper than its own
    ``maxDepth``, identifiers are unique, and no evidence is stamped after
    ``decisionTime`` (``malformed_record``);
 4. the root has no parent and a trusted root issued it, each grant sits one
@@ -253,8 +253,16 @@ def _shape(record: Record) -> bool:
             and isinstance(call.get("args"), dict))
 
 
+def _has_float(value: Any) -> bool:
+    if isinstance(value, float):
+        return True
+    if isinstance(value, dict):
+        return any(_has_float(v) for v in value.values())
+    return isinstance(value, list) and any(_has_float(v) for v in value)
+
+
 def _malformed(record: Record) -> bool:
-    if not _shape(record):
+    if _has_float(record) or not _shape(record):
         return True
     try:
         decided = _when(record["decisionTime"])
@@ -268,7 +276,6 @@ def _malformed(record: Record) -> bool:
             return True
         for p in record["permits"]:
             _when(p["expiresAt"])
-        digest(record["call"]["args"])
     except (ValueError, TypeError):
         return True
     ids = [p["permitId"] for p in record["permits"]]
@@ -377,7 +384,7 @@ def _tool_not_granted(record: Record) -> bool:
 
 
 def _args_unbound(record: Record) -> bool:
-    return digest(record["call"]["args"]) != record["effect"]["argsDigest"]
+    return bool(digest(record["call"]["args"]) != record["effect"]["argsDigest"])
 
 
 def _outside_constraint(record: Record) -> bool:
@@ -460,7 +467,10 @@ def _load(record_path: Path) -> Record:
 
 
 def _failures(record: Record) -> dict[str, Callable[[], bool]]:
-    effect = lambda: record["effect"]  # noqa: E731
+    def effect() -> Record:
+        found: Record = record["effect"]
+        return found
+
     return {
         "contract_id_missing": lambda: "contractId" not in record,
         "contract_id_unknown": lambda: record.get("contractId", CONTRACT_ID) != CONTRACT_ID,

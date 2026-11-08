@@ -1,9 +1,9 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/grant-use/v1",
-  "corpusDigest": "20cfe51f106239fdf5685cf40704bb8349f0f5a41341de17ceccef65d61a74eb",
+  "corpusDigest": "03be3faae7eefab69d02541cc6f1f39ab8698427719a459473a1c8db88377a1e",
   "counts": {
     "allow": 17,
-    "deny": 71
+    "deny": 72
   },
   "suite": "grant-use/v1",
   "vectors": [
@@ -942,6 +942,18 @@
       },
       "id": "malformed-range-float",
       "path": "cases/malformed-range-float"
+    },
+    {
+      "edit": "the amount is the number 40.0; the contract takes integers only",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "3d1ffc4390501c1ab569c295d5964dd1bb20a961d7a8fe4c6df25c279d3f1800"
+      },
+      "id": "malformed-arg-float",
+      "path": "cases/malformed-arg-float"
     },
     {
       "edit": "one constraint names two kinds",

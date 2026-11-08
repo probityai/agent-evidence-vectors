@@ -185,7 +185,9 @@ def record(*, grants: list[Record] | None = None, uses: list[Record] | None = No
     if on_grants:
         on_grants(body)
     leaf = body["grants"][-1]
-    chosen = uses if uses is not None else [PRIOR, JUDGED]
+    # Every record owns its inputs, so a case's edit never reaches another case.
+    chosen = copy.deepcopy(uses if uses is not None else [PRIOR, JUDGED])
+    call_args = copy.deepcopy(call_args)
     permits = [_permit(u, leaf) for u in chosen]
     effects = [_effect(u, p) for u, p in zip(chosen, permits, strict=True)]
     index = judged % len(chosen)
@@ -542,6 +544,9 @@ def malformed() -> list[Case]:
          "malformed_record", "a range's lower end is above its upper end"),
         ("malformed-range-float", record(on_record=constraint({"range": [1, 100.5]})), "deny",
          "malformed_record", "a range end is not an integer"),
+        ("malformed-arg-float",
+         record(on_record=lambda b: b["call"]["args"].update(amount=40.0)), "deny",
+         "malformed_record", "the amount is the number 40.0; the contract takes integers only"),
         ("malformed-constraint-two-kinds",
          record(on_record=constraint({"exact": 40, "range": [1, 100]})), "deny",
          "malformed_record", "one constraint names two kinds"),
