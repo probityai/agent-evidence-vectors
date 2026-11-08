@@ -81,7 +81,7 @@ python native_cue.py --cue /path/to/cue --output-dir native/.build
 GEMARA_CUE_BINARY=/path/to/cue python -m pytest test_native_cue.py -q
 ```
 
-The [active workflow](../../../.github/workflows/gemara-method-link.yml)
+The [active workflow](../../../.github/workflows/ci.yml) (job `gemara_method_link`)
 verifies the archive before extracting only the executable, then verifies its
 digest and runtime. It reruns native and original reader checks and compares
 each generated native report byte-for-byte. Positive upstream fixtures prevent

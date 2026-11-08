@@ -34,7 +34,7 @@ What is matched, and where each rule comes from:
     own name and the bare word it is built on are not in it: a finding is a
     path from this repository to the website, and a name alone is not one. The
     words are held hex-encoded below: this file is itself scanned by the
-    salted-digest guard (`no-internal-drafts.yml`), and a scanner that spells
+    salted-digest guard (the `no_internal_drafts` job of ci.yml), and a scanner that spells
     what it forbids refuses its own commit.
   * ABSOLUTE_HOME -- an absolute home directory on either desktop OS.
   * DOSSIER -- the private research tree's numbered dossier directories.

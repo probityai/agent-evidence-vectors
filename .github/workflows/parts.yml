@@ -9,7 +9,10 @@ name: parts
 
 on:
   workflow_dispatch: 
-  workflow_call: 
+  workflow_call:
+    secrets:
+      DSSE_FORBIDDEN_SHA256:
+        required: false
 
 permissions:
   contents: read

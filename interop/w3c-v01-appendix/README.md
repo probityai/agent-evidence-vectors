@@ -23,7 +23,7 @@ Each row writes `<work>/results/<row>.json` with the posted and observed
 digests side by side. The exit status is 0 only when every row run reproduced.
 A row that does not reproduce is reported with what came out, and nothing is
 adjusted to make it match.
-[`.github/workflows/w3c-v01-appendix.yml`](../../.github/workflows/w3c-v01-appendix.yml)
+[`.github/workflows/ci.yml`](../../.github/workflows/ci.yml) (job `w3c_v01_appendix`)
 runs every row on each change here and weekly, so a pin that stops resolving
 upstream shows up as a red run. It runs every row on three platforms: Linux
 x86_64 (`ubuntu-24.04`), Linux arm64 (`ubuntu-24.04-arm`) and macOS arm64

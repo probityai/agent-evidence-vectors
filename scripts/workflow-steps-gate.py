@@ -2,7 +2,7 @@
 """Run every shell step of every GitHub workflow locally, before the push.
 
 The bug this exists to stop, observed 2026-08-01: a change was pushed after its
-author opened `.github/workflows/no-internal-drafts.yml`, read the first two
+author opened the no-internal-drafts workflow, read the first two
 steps, ran those two by hand, and saw them pass. The guard has three steps. The
 third one rejects first-party product names, it was the one the change broke,
 and it never ran locally because nobody read that far down the file. The push

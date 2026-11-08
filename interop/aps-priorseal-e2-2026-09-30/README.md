@@ -75,7 +75,7 @@ control, unsafe output path, or byte difference fails the run. Committed reports
 are never regenerated in place. `--inputs` and `--output` accept separate paths;
 outputs must remain outside the inputs and this suite.
 
-`.github/workflows/e2-reproduction.yml` runs the same tests, fetches and SHA-256
+the `e2_reproduction` job in `.github/workflows/ci.yml` runs the same tests, fetches and SHA-256
 checks all 31 inputs, and executes the gate on relevant pushes and pull requests.
 It installs version- and hash-pinned dependencies and retains the generated
 reports as CI artifacts. This is a reproduction of offline fixture results.
