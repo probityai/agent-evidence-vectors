@@ -6,7 +6,8 @@ name: package-admission
 # (hygiene, engines, corpus, oracle, change-admission, verifier-isolation,
 # rails, python-package), identity-scan.yml, policy-vocabulary-consumer.yml and
 # spend-reservation.yml. Its weekly history audit is
-# package-admission-history.yml. Its DCO check is the root dco.yml.
+# package-admission-history.yml. Its DCO check is the root dco.yml. The
+# workflow names above are the old repository's.
 # scripts/maturity-map-gate.py and scripts/engine-advisory-gate.py read the
 # pins in the env block below from this file.
 
