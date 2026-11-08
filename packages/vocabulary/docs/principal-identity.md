@@ -2,7 +2,7 @@
 
 Name who stands behind the issuer of a token an agent's call ran under, and whether the client pinned that issuer's key, so a party that does not trust the gateway can check both. The [README](../README.md) is the short version of the repository; this page covers the `principal_identity` section, added in 0.10.0.
 
-The agent-audit-record predicate records the principal a decision point established from a token it validated: the issuer, subject, client, audience, key and its RFC 7638 thumbprint. Its `principal.source` names the kind of token (`jwt-access-token`, `id-token`, `jwt-assertion`) and keeps meaning that. The issuer URL already says which identity provider runs the issuer, so these terms name the provider from that URL instead of adding providers to `source`. Both terms are `proposed`, list no issuer, carry `criticality: critical`, a `review_by` date and a `check`, and neither is canonical.
+The agent-audit-record predicate records the principal a decision point established from a token it validated: the issuer, subject, client, audience, key and its RFC 7638 thumbprint. Its `principal.source` names the kind of token (`jwt-access-token`, `id-token`, `jwt-assertion`) and keeps meaning that. The issuer URL already says which identity provider runs the issuer, so these terms name the provider from that URL, and `source` gains no provider values. Both terms are `proposed`, list no issuer, carry `criticality: critical`, a `review_by` date and a `check`, and neither is canonical.
 
 ## The terms
 
