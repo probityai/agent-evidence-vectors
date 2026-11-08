@@ -17,6 +17,7 @@ import sys
 import time
 import urllib.error
 import urllib.request
+from collections.abc import Callable
 from pathlib import Path
 
 ATTEMPTS = 5
@@ -89,10 +90,11 @@ def fetch(repo: str, tag: str, asset: str, sha256: str, dest: Path) -> str:
     part = dest.with_name(dest.name + ".part")
     # curl-retry: exempt this is the fetch implementation
     url = f"https://github.com/{repo}/releases/download/{tag}/{asset}"
-    for name, run in (
+    paths: list[tuple[str, Callable[[], None]]] = [
         ("direct", lambda: direct(url, part)),
         ("api", lambda: via_api(repo, tag, asset, part)),
-    ):
+    ]
+    for name, run in paths:
         try:
             run()
         except OSError as error:
