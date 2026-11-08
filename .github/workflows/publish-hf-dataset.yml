@@ -24,31 +24,12 @@ name: publish-hf-dataset
 # would alter old revisions is refused before it can publish a new one.
 
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - 'scripts/publish-hf-dataset.py'
-      - 'scripts/publish-hf-dataset-test.py'
-      - 'scripts/publish-hf-dataset-v0.25.0.json'
-      - 'scripts/hf-publish-requirements.txt'
-      - '.github/workflows/publish-hf-dataset.yml'
-  push:
-    branches: [main]
-    paths:
-      - 'scripts/publish-hf-dataset.py'
-      - 'scripts/publish-hf-dataset-test.py'
-      - 'scripts/publish-hf-dataset-v0.25.0.json'
-      - 'scripts/hf-publish-requirements.txt'
-      - '.github/workflows/publish-hf-dataset.yml'
+  workflow_call: 
 
 permissions:
   contents: read
 
 # One publication at a time; a second release waits for the first.
-concurrency:
-  group: publish-hf-dataset-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
-
 jobs:
   test:
     runs-on: ubuntu-24.04

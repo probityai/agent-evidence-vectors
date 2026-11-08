@@ -7,26 +7,13 @@ name: W3C v0.1 reader matrix
 # The weekly run catches a pin or a reader that stops behaving as committed.
 
 on:
-  workflow_dispatch:
   schedule:
-    - cron: '50 5 * * 1'
-  push:
-    branches: [main]
-    paths:
-      - 'interop/w3c-v01-appendix/matrix/**'
-      - '.github/workflows/w3c-v01-matrix.yml'
-  pull_request:
-    branches: [main]
-    paths:
-      - 'interop/w3c-v01-appendix/matrix/**'
-      - '.github/workflows/w3c-v01-matrix.yml'
+  - cron: 50 5 * * 1
+  workflow_dispatch: 
+  workflow_call: 
 
 permissions:
   contents: read
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || (github.ref == 'refs/heads/main' && github.sha) || github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   tables:

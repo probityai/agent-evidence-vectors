@@ -1,29 +1,11 @@
 name: jcsvectors Go module
 
 on:
-  workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - jcsvectors/**
-      - corpora/vectors-a2a-jcs-v01/**
-      - corpora/jcs-byte-vectors/**
-      - scripts/gen-jcsvectors-data.py
-      - .github/workflows/jcsvectors.yml
-  pull_request:
-    paths:
-      - jcsvectors/**
-      - corpora/vectors-a2a-jcs-v01/**
-      - corpora/jcs-byte-vectors/**
-      - scripts/gen-jcsvectors-data.py
-      - .github/workflows/jcsvectors.yml
+  workflow_dispatch: 
+  workflow_call: 
 
 permissions:
   contents: read
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || (github.ref == 'refs/heads/main' && github.sha) || github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   jcsvectors:
