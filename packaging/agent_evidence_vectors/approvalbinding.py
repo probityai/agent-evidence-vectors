@@ -179,7 +179,8 @@ def _retired_entry(record: dict[str, Any]) -> dict[str, Any] | None:
     approval = record["approval"]
     for entry in record.get("retiredKeys", {}).get(approval["approver"], []):
         if entry["keyId"] == approval["keyId"]:
-            return entry
+            found: dict[str, Any] = entry
+            return found
     return None
 
 
