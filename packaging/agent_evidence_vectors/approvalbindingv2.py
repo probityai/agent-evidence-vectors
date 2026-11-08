@@ -262,7 +262,7 @@ def _proposal_ok(p: Any) -> bool:
 def _delegation_ok(d: Any) -> bool:
     return (_fields(d, ("delegationId", "issuer")) and _texts(d.get("add"))
             and _texts(d.get("remove"))
-            and (d.get("quorum") is None or _int(d.get("quorum"), 1)))
+            and "quorum" in d and (d["quorum"] is None or _int(d["quorum"], 1)))
 
 
 def _policy_ok(p: Any) -> bool:
@@ -402,7 +402,7 @@ class _View:
         return self.seat(principal) or principal
 
     def quorum(self) -> int:
-        raised = [d["quorum"] for d in self.valid_delegations() if d["quorum"] is not None]
+        raised = [int(d["quorum"]) for d in self.valid_delegations() if d["quorum"] is not None]
         return max([int(self.policy["quorum"]), *raised])
 
 
