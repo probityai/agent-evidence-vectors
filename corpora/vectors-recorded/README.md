@@ -69,7 +69,11 @@ above the block it says it saw. `hs51-giskard09-acks` holds the four optional
 acknowledgements of the same run by a witness whose key is outside the trust
 configuration `d132fe72`; they sit under the publisher's own `SHA256SUMS` and are
 checked the same way at block 972311, and they are not counted toward that
-configuration's threshold. A set lands as its own member when its
+configuration's threshold. `vate-rb-receiving-captures` holds three runs of
+Takao Sato's Revocation Boundary receiving example at his pinned commit: revocation before
+acceptance, a commit observed after revocation, and an incomplete observation whose counts stay
+unknown. Each case carries the Statement, the receiver's selection, the test plan, the observation
+and his reader's report. A set lands as its own member when its
 publisher released it in its own directory with its own `SHA256SUMS`, so a
 check of each directory as its publisher keeps it stays exact.
 
