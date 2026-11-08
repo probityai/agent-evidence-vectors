@@ -79,7 +79,7 @@ jobs:
       - name: the maturity-model page cites files that exist and quotes the model exactly
         run: |
           set -euo pipefail
-          curl -sSfL -o "$RUNNER_TEMP/maturity-model.md" \
+          curl --retry 5 --retry-delay 5 --retry-all-errors -sSfL -o "$RUNNER_TEMP/maturity-model.md" \
             "https://raw.githubusercontent.com/cncf/tag-security/${MATURITY_MODEL_COMMIT}/community/resources/automated-governance-maturity-model/README.md"
           echo "${MATURITY_MODEL_SHA256}  $RUNNER_TEMP/maturity-model.md" | sha256sum -c -
           python3 scripts/maturity-map-gate.py --model "$RUNNER_TEMP/maturity-model.md"
@@ -156,7 +156,7 @@ jobs:
       - name: install opa
         run: |
           set -euo pipefail
-          curl -sSfL -o /tmp/opa \
+          curl --retry 5 --retry-delay 5 --retry-all-errors -sSfL -o /tmp/opa \
             "https://github.com/open-policy-agent/opa/releases/download/${OPA_VERSION}/opa_linux_amd64_static"
           echo "${OPA_SHA256}  /tmp/opa" | sha256sum -c -
           chmod +x /tmp/opa
@@ -181,7 +181,7 @@ jobs:
       - name: install opa
         run: |
           set -euo pipefail
-          curl -sSfL -o /tmp/opa \
+          curl --retry 5 --retry-delay 5 --retry-all-errors -sSfL -o /tmp/opa \
             "https://github.com/open-policy-agent/opa/releases/download/${OPA_VERSION}/opa_linux_amd64_static"
           echo "${OPA_SHA256}  /tmp/opa" | sha256sum -c -
           chmod +x /tmp/opa
@@ -189,7 +189,7 @@ jobs:
       - name: install the kyverno cli
         run: |
           set -euo pipefail
-          curl -sSfL -o /tmp/kyverno.tar.gz \
+          curl --retry 5 --retry-delay 5 --retry-all-errors -sSfL -o /tmp/kyverno.tar.gz \
             "https://github.com/kyverno/kyverno/releases/download/${KYVERNO_VERSION}/kyverno-cli_${KYVERNO_VERSION}_linux_x86_64.tar.gz"
           echo "${KYVERNO_SHA256}  /tmp/kyverno.tar.gz" | sha256sum -c -
           tar -xzf /tmp/kyverno.tar.gz -C /tmp kyverno
@@ -222,7 +222,7 @@ jobs:
       - name: install opa
         run: |
           set -euo pipefail
-          curl -sSfL -o /tmp/opa \
+          curl --retry 5 --retry-delay 5 --retry-all-errors -sSfL -o /tmp/opa \
             "https://github.com/open-policy-agent/opa/releases/download/${OPA_VERSION}/opa_linux_amd64_static"
           echo "${OPA_SHA256}  /tmp/opa" | sha256sum -c -
           chmod +x /tmp/opa
@@ -230,7 +230,7 @@ jobs:
       - name: install the kyverno cli
         run: |
           set -euo pipefail
-          curl -sSfL -o /tmp/kyverno.tar.gz \
+          curl --retry 5 --retry-delay 5 --retry-all-errors -sSfL -o /tmp/kyverno.tar.gz \
             "https://github.com/kyverno/kyverno/releases/download/${KYVERNO_VERSION}/kyverno-cli_${KYVERNO_VERSION}_linux_x86_64.tar.gz"
           echo "${KYVERNO_SHA256}  /tmp/kyverno.tar.gz" | sha256sum -c -
           tar -xzf /tmp/kyverno.tar.gz -C /tmp kyverno
@@ -238,7 +238,7 @@ jobs:
       - name: install cue
         run: |
           set -euo pipefail
-          curl -sSfL -o /tmp/cue.tar.gz \
+          curl --retry 5 --retry-delay 5 --retry-all-errors -sSfL -o /tmp/cue.tar.gz \
             "https://github.com/cue-lang/cue/releases/download/${CUE_VERSION}/cue_${CUE_VERSION}_linux_amd64.tar.gz"
           echo "${CUE_SHA256}  /tmp/cue.tar.gz" | sha256sum -c -
           tar -xzf /tmp/cue.tar.gz -C /tmp cue
@@ -262,7 +262,7 @@ jobs:
       - name: install opa
         run: |
           set -euo pipefail
-          curl -sSfL -o /tmp/opa \
+          curl --retry 5 --retry-delay 5 --retry-all-errors -sSfL -o /tmp/opa \
             "https://github.com/open-policy-agent/opa/releases/download/${OPA_VERSION}/opa_linux_amd64_static"
           echo "${OPA_SHA256}  /tmp/opa" | sha256sum -c -
           chmod +x /tmp/opa
@@ -272,7 +272,7 @@ jobs:
       - name: install the kyverno cli
         run: |
           set -euo pipefail
-          curl -sSfL -o /tmp/kyverno.tar.gz \
+          curl --retry 5 --retry-delay 5 --retry-all-errors -sSfL -o /tmp/kyverno.tar.gz \
             "https://github.com/kyverno/kyverno/releases/download/${KYVERNO_VERSION}/kyverno-cli_${KYVERNO_VERSION}_linux_x86_64.tar.gz"
           echo "${KYVERNO_SHA256}  /tmp/kyverno.tar.gz" | sha256sum -c -
           tar -xzf /tmp/kyverno.tar.gz -C /tmp kyverno
@@ -282,7 +282,7 @@ jobs:
       - name: install cue
         run: |
           set -euo pipefail
-          curl -sSfL -o /tmp/cue.tar.gz \
+          curl --retry 5 --retry-delay 5 --retry-all-errors -sSfL -o /tmp/cue.tar.gz \
             "https://github.com/cue-lang/cue/releases/download/${CUE_VERSION}/cue_${CUE_VERSION}_linux_amd64.tar.gz"
           echo "${CUE_SHA256}  /tmp/cue.tar.gz" | sha256sum -c -
           tar -xzf /tmp/cue.tar.gz -C /tmp cue
