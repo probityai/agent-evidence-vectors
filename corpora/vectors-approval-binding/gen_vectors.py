@@ -59,8 +59,8 @@ ROTATED = [{"keyId": "reviewer-1-key-2026-04", "retiredAt": "2026-10-21T11:50:00
 # A renewal: B replaces A over equal bounds. The bounds are equal, the recorded
 # decisions are not, and the transition cites the predecessor's decision.
 A = {"decisionId": "dec-0001"}
-B = {"approvalId": "appr-0002", "requestId": "req-0002", "decisionId": "dec-0002", "issuedAt": "2026-10-21T11:58:00Z",
-     "expiresAt": "2026-10-21T12:08:00Z"}
+B = {"approvalId": "appr-0002", "requestId": "req-0002", "decisionId": "dec-0002",
+     "issuedAt": "2026-10-21T11:58:00Z", "expiresAt": "2026-10-21T12:08:00Z"}
 EFFECT = "effect-0001"
 
 
