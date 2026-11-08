@@ -64,7 +64,8 @@ def response(args: dict[str, Any] = ARGS, response_id: str = "response-1") -> di
 
 
 def approval(approval_id: str, principal: str | None, *, claimed: str | None = None,
-             key: str | None = None, decision: str = "approve", issued: str = "2026-11-08T10:01:00Z",
+             key: str | None = None, decision: str = "approve",
+             issued: str = "2026-11-08T10:01:00Z",
              expires: str = EXPIRES, args_digest: str = AUTO,
              history_digest: str = AUTO) -> dict[str, Any]:
     """One decision; ``principal`` None leaves the authentication member absent."""
