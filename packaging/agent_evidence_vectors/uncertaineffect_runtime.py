@@ -303,6 +303,13 @@ def _finish(process: subprocess.Popen[str]) -> tuple[int, str | None]:
     return process.returncode, _reported_outcome(out)
 
 
+def _await_held_calls(state: OwnerState) -> None:
+    """Wait for calls the owner still holds, so a killed run's commit is counted."""
+    deadline = time.monotonic() + HOLD_SECONDS * 10
+    while state.in_flight and time.monotonic() < deadline:
+        time.sleep(0.01)
+
+
 def _wipe(state_dir: Path) -> None:
     shutil.rmtree(state_dir)
     state_dir.mkdir()
@@ -354,6 +361,7 @@ def _drive_restart(
         runs = _restart_runs(command, path, url, state, state_dir, scenario["restart"])
     except (OSError, subprocess.TimeoutExpired) as exc:
         return False, [f"runtime did not run: {exc}"], state.summary()
+    _await_held_calls(state)
     bad = [code for code, outcome in runs if code != 0 or outcome is None]
     if bad:
         return True, [f"{len(bad)} run(s) exited without reporting an outcome"], state.summary()

@@ -247,12 +247,17 @@ class TestUncertainEffectCorpus:
             assert {"redelivery-new-task-id", "crash-mid-step-checkpoint-lost"} <= failed
             assert "rewind-replay-after-confirmed" not in failed
 
-        def test_a_blind_runtime_fails_every_restart_scenario(self) -> None:
+        def test_a_blind_runtime_fails_every_restart_whose_owner_cannot_deduplicate(self) -> None:
             report = runtime.check_runtime(
                 [sys.executable, str(ADAPTER), "--policy", "blind"], ROOT)
             failed = {row["id"] for row in report["vectors"] if row["status"] == "FAIL"}
-            restarts = {sid for sid, s in generator.SCENARIOS.items() if "restart" in s}
-            assert restarts <= failed
+            unprotected = {sid for sid, s in generator.SCENARIOS.items() if "restart" in s
+                           and (not s["owner"]["deduplicatesByKey"]
+                                or "forgetsKeysAfterCalls" in s["owner"])}
+            assert {"crash-mid-step-checkpoint-kept", "rewind-replay-after-confirmed",
+                    "duplicate-human-completion",
+                    "key-forgotten-by-owner-then-replay"} == unprotected
+            assert unprotected <= failed
 
         def test_runs_that_contradict_each_other_are_named(self) -> None:
             assert runtime.combined_outcome(["committed", "not_run"])[1]
