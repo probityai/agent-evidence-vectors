@@ -129,3 +129,35 @@ written by the generator, with the canonical bytes pinned by hand in it. A hand
 edit to either key, or a change to the generator, moves the file; the Go
 module's embedded copy follows through scripts/gen-jcsvectors-data.py.
 """
+
+[[gate]]
+ident = "mcp-owasp-vectors"
+argv = ["uv", "run", "python", "corpora/vectors-mcp-owasp/gen_vectors.py", "--check"]
+fix = ["uv", "run", "python", "corpora/vectors-mcp-owasp/gen_vectors.py"]
+why = """
+The MCP OWASP vector tree is written by its generator. --check rebuilds the
+tree in memory and refuses when the files on disk differ; a bare run deletes
+files it no longer emits and rewrites the rest. Until ci.yml was read as YAML
+this gate sat on the first line of a run block, which the line scan skipped.
+"""
+
+[[gate]]
+ident = "agentavow-live-mcp-cases"
+argv = ["env", "PYTHONPATH=packaging", "uv", "run", "python", "interop/agentavow-live-mcp/build_cases.py", "--check"]
+fix = ["env", "PYTHONPATH=packaging", "uv", "run", "python", "interop/agentavow-live-mcp/build_cases.py"]
+why = """
+fixtures/cases.json holds the live MCP named-tool definition cases. --check
+refuses when the committed bytes differ from a fresh build; a bare run writes
+the file. Missed by the old line scan for the same reason as above.
+"""
+
+[[gate]]
+ident = "ws4-prior-witness-fixture"
+argv = ["env", "PYTHONPATH=packaging", "uv", "run", "python", "interop/ws4-prior-witness-candidate/gen_fixture.py", "--check"]
+fix = ["env", "PYTHONPATH=packaging", "uv", "run", "python", "interop/ws4-prior-witness-candidate/gen_fixture.py", "--write"]
+why = """
+The WS4 prior-witness fixture files are generated. --check names each file
+whose bytes differ; this generator writes only with --write, and any other
+argument prints usage and exits 2. Missed by the old line scan for the same
+reason as above.
+"""
