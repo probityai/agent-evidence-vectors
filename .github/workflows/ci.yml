@@ -51,18 +51,18 @@ jobs:
           CRON: ${{ github.event.schedule }}
           BASE: ${{ github.event.pull_request.base.sha }}
           HEAD: ${{ github.event.pull_request.head.sha }}
-          FILTERS: '{"a2a_s3_retain": {"crons": [], "ignore": [], "paths": ["interop/a2a-s3-retain-2026-10-01/**", ".github/workflows/a2a-s3-retain.yml"], "pr": true, "push": true, "range": false}, "a2a_s4_dual_name": {"crons": [], "ignore": [], "paths": ["interop/a2a-s4-dual-name-2026-10-02/**", "interop/a2a-s3-retain-2026-10-01/**", ".github/workflows/a2a-s4-dual-name.yml"], "pr": true, "push": true, "range": false}, "aae_verdict_binding": {"crons": [], "ignore": [], "paths": ["interop/aae-verdict-binding-v1/**", "corpora/vectors-observed-effect/check_vectors.py", "corpora/vectors-observed-effect/gen_vectors.py", ".github/workflows/aae-verdict-binding.yml", "uv.lock"], "pr": true, "push": true, "range": false}, "acs_hook_probes": {"crons": [], "ignore": [], "paths": ["corpora/vectors-acs-core/hook-probes/**", ".github/workflows/acs-hook-probes.yml"], "pr": true, "push": false, "range": false}, "acs_outage": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/acs_outage/**",
-            "scripts/acs-outage-build.py", "scripts/acs-outage-test.py", ".github/workflows/acs-outage.yml"], "pr": true, "push": true, "range": false}, "acs_wire_probes": {"crons": [], "ignore": [], "paths": ["corpora/vectors-acs-core/wire-probes/**", ".github/workflows/acs-wire-probes.yml"], "pr": true, "push": false, "range": false}, "action_tuple_framed": {"crons": [], "ignore": [], "paths": ["interop/action-tuple-framed-v1/**", ".github/workflows/action-tuple-framed.yml"], "pr": true, "push": true, "range": false}, "agentavow_signed_map": {"crons": [], "ignore": [], "paths": ["interop/agentavow-signed-map-v1/**", "interop/agentavow-live-mcp/**", "packaging/run_vectors.py", ".github/workflows/agentavow-signed-map.yml"], "pr": true, "push": true, "range": false}, "agentid_action_ref_v2": {"crons": [], "ignore": [], "paths": ["interop/agentid-action-ref-v2/**", ".github/workflows/agentid-action-ref-v2.yml", "uv.lock"], "pr": true, "push": true, "range": false}, "agentid_offline": {"crons":
-            [], "ignore": [], "paths": ["interop/agentid-offline/**", ".github/workflows/agentid-offline.yml", "uv.lock"], "pr": true, "push": true, "range": false}, "agmi_anchored_chain": {"crons": ["23 7 * * 3"], "ignore": [], "paths": ["corpora/vectors-anchored-chain/**", "packaging/**", "pyproject.toml", "interop/agmi-anchored-chain/**", ".github/workflows/agmi-anchored-chain.yml"], "pr": true, "push": true, "range": false}, "airgap_bundle": {"crons": [], "ignore": [], "paths": ["release/airgap/**", "docs/guides/airgap-enclave.md", "scripts/airgap-bundle.py", "scripts/airgap-bundle-test.py", ".github/workflows/airgap-bundle.yml"], "pr": true, "push": true, "range": false}, "aps_jcs": {"crons": [], "ignore": [], "paths": ["interop/aps-jcs/**", ".github/workflows/aps-jcs.yml"], "pr": true, "push": true, "range": false}, "building_effect": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/building_effect/**", "scripts/building-effect-build.py", "scripts/building-effect-test.py",
-            ".github/workflows/building-effect.yml"], "pr": true, "push": true, "range": false}, "ccs_draft10_reader": {"crons": [], "ignore": [], "paths": ["interop/ccs-draft10-reader/**", ".github/workflows/ccs-draft10-reader.yml"], "pr": true, "push": true, "range": false}, "ci": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": false}, "claim_record": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/claim_record/**", "packaging/run_vectors.py", "spec/predicates/evaluation-claim.md", "scripts/claim-record-build.py", "scripts/claim-record-test.py", ".github/workflows/claim-record.yml"], "pr": true, "push": true, "range": false}, "codeql": {"crons": ["41 6 * * 3"], "ignore": ["**/*.md", "LICENSE", "DCO"], "paths": [], "pr": true, "push": true, "range": false}, "commit_message_lint": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": true}, "crosswalk": {"crons": ["40 5 * * 1"], "ignore": [], "paths": [], "pr": true,
-            "push": true, "range": false}, "e2_reproduction": {"crons": [], "ignore": [], "paths": ["interop/aps-priorseal-e2-2026-09-30/**", ".github/workflows/e2-reproduction.yml"], "pr": true, "push": true, "range": false}, "eval_result": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/eval_result/**", "packaging/run_vectors.py", "scripts/eval-result-build.py", "scripts/eval-result-test.py", ".github/workflows/eval-result.yml"], "pr": true, "push": true, "range": false}, "event_absence_c1": {"crons": [], "ignore": [], "paths": ["interop/event-absence-c1-sergeev/**", ".github/workflows/event-absence-c1.yml"], "pr": true, "push": true, "range": false}, "field_readiness": {"crons": ["30 6 * * *"], "ignore": [], "paths": ["scripts/field-readiness.py", "scripts/field-readiness-test.py", "release/field-readiness.toml", ".github/workflows/field-readiness.yml"], "pr": true, "push": false, "range": false}, "gemara_method_link": {"crons": [], "ignore": [], "paths": ["interop/gemara-method-link/**",
-            ".github/workflows/gemara-method-link.yml", "pyproject.toml", "uv.lock"], "pr": true, "push": true, "range": false}, "governance": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": false}, "govops_capability_id": {"crons": [], "ignore": [], "paths": ["interop/govops-capability-id/**", ".github/workflows/govops-capability-id.yml"], "pr": true, "push": true, "range": false}, "govops_trace_profile": {"crons": [], "ignore": [], "paths": ["interop/govops-trace-profile/**", "pyproject.toml", "uv.lock", ".github/workflows/govops-trace-profile.yml"], "pr": true, "push": true, "range": false}, "heldout_runner": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": false}, "identity_scan": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": true}, "invocation_axes": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/invocation_axes/**", "scripts/invocation-axes-build.py", "scripts/invocation-axes-test.py",
-            ".github/workflows/invocation-axes.yml"], "pr": true, "push": true, "range": false}, "jcs_admit_npm": {"crons": [], "ignore": [], "paths": ["crates/jcs-admit/**", ".github/workflows/crate-jcs-admit-npm.yml", ".github/workflows/jcs-admit-npm.yml", ".github/workflows/release.yml", "release.toml", "scripts/workspace.py"], "pr": true, "push": true, "range": false}, "jcsvectors": {"crons": [], "ignore": [], "paths": ["jcsvectors/**", "corpora/vectors-a2a-jcs-v01/**", "corpora/jcs-byte-vectors/**", "scripts/gen-jcsvectors-data.py", ".github/workflows/jcsvectors.yml"], "pr": true, "push": true, "range": false}, "jep_core07_reader": {"crons": [], "ignore": [], "paths": ["interop/jep-core07-reader/**", ".github/workflows/jep-core07-reader.yml"], "pr": true, "push": true, "range": false}, "mcp_sdk_jcs": {"crons": [], "ignore": [], "paths": ["interop/mcp-sdks/**", ".github/workflows/mcp-sdk-jcs.yml"], "pr": true, "push": true, "range": false}, "nist_ai_300_1": {"crons": [], "ignore": [],
-            "paths": ["interop/nist-ai-300-1/**", "pyproject.toml", "uv.lock", ".github/workflows/nist-ai-300-1.yml"], "pr": true, "push": true, "range": false}, "no_internal_drafts": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": false}, "observed_code_digest": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": false}, "observed_invocation_binding": {"crons": [], "ignore": [], "paths": ["interop/observed-invocation-binding-candidate/**", "corpora/vectors-observed-effect/**", "observedeffect/**", "packaging/**", "spec/**", "go.mod", "go.work", "go.work.sum", "pyproject.toml", "uv.lock", ".github/workflows/observed-invocation-binding.yml"], "pr": true, "push": true, "range": false}, "occurrence_binding": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/occurrence_binding/**", "scripts/occurrence-binding-build.py", "scripts/occurrence-binding-test.py", ".github/workflows/occurrence-binding.yml"], "pr": true, "push":
-            true, "range": false}, "operand_provenance": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/operand_provenance/**", "scripts/operand-provenance-build.py", "scripts/operand-provenance-test.py", ".github/workflows/operand-provenance.yml"], "pr": true, "push": true, "range": false}, "ot_federation": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/ot_federation/**", "scripts/ot-federation-build.py", "scripts/ot-federation-test.py", ".github/workflows/ot-federation.yml"], "pr": true, "push": true, "range": false}, "parts": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": true}, "poc_evidence": {"crons": [], "ignore": [], "paths": ["vectors-poc-evidence/**", ".github/workflows/poc-evidence.yml"], "pr": true, "push": true, "range": false}, "publish_hf_dataset": {"crons": [], "ignore": [], "paths": ["scripts/publish-hf-dataset.py", "scripts/publish-hf-dataset-test.py", "scripts/publish-hf-dataset-v0.25.0.json",
-            "scripts/hf-publish-requirements.txt", ".github/workflows/publish-hf-dataset.yml"], "pr": true, "push": true, "range": false}, "record_paths": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": false}, "remora_boundary_readers": {"crons": [], "ignore": [], "paths": ["interop/remora-boundary-readers/**", ".github/workflows/remora-boundary-readers.yml"], "pr": true, "push": true, "range": false}, "remora_e7_reader": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/remora_e7/**", "scripts/remora-e7-reader-test.py", ".github/workflows/remora-e7-reader.yml"], "pr": true, "push": true, "range": false}, "resume_turns": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/resume_turns/**", "scripts/resume-turns-build.py", "scripts/resume-turns-test.py", ".github/workflows/resume-turns.yml"], "pr": true, "push": true, "range": false}, "secret_scan": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range":
-            false}, "trace_acta_receipts": {"crons": ["19 8 * * 1"], "ignore": [], "paths": ["corpora/vectors-receipt-signature/**", "packaging/**", "interop/trace-acta-receipts/**", "pyproject.toml", "uv.lock", ".github/workflows/trace-acta-receipts.yml"], "pr": true, "push": true, "range": false}, "trace_anchor_tr_anc": {"crons": ["41 8 * * 1"], "ignore": [], "paths": ["corpora/vectors-trace-anchor/**", "packaging/agent_evidence_vectors/traceanchor.py", "interop/trace-anchor-tr-anc/**", ".github/workflows/trace-anchor-tr-anc.yml"], "pr": true, "push": true, "range": false}, "trade_booking": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/trade_booking/**", "scripts/trade-booking-build.py", "scripts/trade-booking-test.py", ".github/workflows/trade-booking.yml"], "pr": true, "push": true, "range": false}, "verdict_evidence": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/verdict_evidence/**", "scripts/verdict-evidence-build.py", "scripts/verdict-evidence-test.py",
-            ".github/workflows/verdict-evidence.yml"], "pr": true, "push": true, "range": false}, "version_pins": {"crons": ["47 7 * * *"], "ignore": [], "paths": ["version-pins.toml", "**/*.md", "pyproject.toml", "scripts/version-pins-config-test.py", ".github/workflows/version-pins.yml"], "pr": true, "push": true, "range": false}, "w3c_v01_appendix": {"crons": ["35 5 * * 1"], "ignore": [], "paths": ["interop/w3c-v01-appendix/**", ".github/workflows/w3c-v01-appendix.yml"], "pr": true, "push": true, "range": false}, "w3c_v01_matrix": {"crons": ["50 5 * * 1"], "ignore": [], "paths": ["interop/w3c-v01-appendix/matrix/**", ".github/workflows/w3c-v01-matrix.yml"], "pr": true, "push": true, "range": false}, "wimse_reader_reproduction": {"crons": [], "ignore": [], "paths": ["interop/wimse-agent-audit-record-reader-2026-10-01/**", ".github/workflows/wimse-reader-reproduction.yml"], "pr": true, "push": true, "range": false}}'
+          FILTERS: '{"a2a_s3_retain": {"crons": [], "ignore": [], "paths": ["interop/a2a-s3-retain-2026-10-01/**", ".github/workflows/a2a-s3-retain.yml"], "pr": true, "push": true, "range": false}, "a2a_s4_dual_name": {"crons": [], "ignore": [], "paths": ["interop/a2a-s4-dual-name-2026-10-02/**", "interop/a2a-s3-retain-2026-10-01/**", ".github/workflows/a2a-s4-dual-name.yml"], "pr": true, "push": true, "range": false}, "aae_verdict_binding": {"crons": [], "ignore": [], "paths": ["interop/aae-verdict-binding-v1/**", "corpora/vectors-observed-effect/check_vectors.py", "corpora/vectors-observed-effect/gen_vectors.py", ".github/workflows/aae-verdict-binding.yml", "uv.lock"], "pr": true, "push": true, "range": false}, "acs_outage": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/acs_outage/**", "scripts/acs-outage-build.py", "scripts/acs-outage-test.py", ".github/workflows/acs-outage.yml"], "pr": true, "push": true, "range": false}, "action_tuple_framed": {"crons": [],
+            "ignore": [], "paths": ["interop/action-tuple-framed-v1/**", ".github/workflows/action-tuple-framed.yml"], "pr": true, "push": true, "range": false}, "agentavow_signed_map": {"crons": [], "ignore": [], "paths": ["interop/agentavow-signed-map-v1/**", "interop/agentavow-live-mcp/**", "packaging/run_vectors.py", ".github/workflows/agentavow-signed-map.yml"], "pr": true, "push": true, "range": false}, "agentid_action_ref_v2": {"crons": [], "ignore": [], "paths": ["interop/agentid-action-ref-v2/**", ".github/workflows/agentid-action-ref-v2.yml", "uv.lock"], "pr": true, "push": true, "range": false}, "agentid_offline": {"crons": [], "ignore": [], "paths": ["interop/agentid-offline/**", ".github/workflows/agentid-offline.yml", "uv.lock"], "pr": true, "push": true, "range": false}, "agmi_anchored_chain": {"crons": ["23 7 * * 3"], "ignore": [], "paths": ["corpora/vectors-anchored-chain/**", "packaging/**", "pyproject.toml", "interop/agmi-anchored-chain/**", ".github/workflows/agmi-anchored-chain.yml"],
+            "pr": true, "push": true, "range": false}, "airgap_bundle": {"crons": [], "ignore": [], "paths": ["release/airgap/**", "docs/guides/airgap-enclave.md", "scripts/airgap-bundle.py", "scripts/airgap-bundle-test.py", ".github/workflows/airgap-bundle.yml"], "pr": true, "push": true, "range": false}, "aps_jcs": {"crons": [], "ignore": [], "paths": ["interop/aps-jcs/**", ".github/workflows/aps-jcs.yml"], "pr": true, "push": true, "range": false}, "building_effect": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/building_effect/**", "scripts/building-effect-build.py", "scripts/building-effect-test.py", ".github/workflows/building-effect.yml"], "pr": true, "push": true, "range": false}, "ccs_draft10_reader": {"crons": [], "ignore": [], "paths": ["interop/ccs-draft10-reader/**", ".github/workflows/ccs-draft10-reader.yml"], "pr": true, "push": true, "range": false}, "ci": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": false}, "claim_record":
+            {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/claim_record/**", "packaging/run_vectors.py", "spec/predicates/evaluation-claim.md", "scripts/claim-record-build.py", "scripts/claim-record-test.py", ".github/workflows/claim-record.yml"], "pr": true, "push": true, "range": false}, "codeql": {"crons": ["41 6 * * 3"], "ignore": ["**/*.md", "LICENSE", "DCO"], "paths": [], "pr": true, "push": true, "range": false}, "commit_message_lint": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": true}, "crosswalk": {"crons": ["40 5 * * 1"], "ignore": [], "paths": [], "pr": true, "push": true, "range": false}, "e2_reproduction": {"crons": [], "ignore": [], "paths": ["interop/aps-priorseal-e2-2026-09-30/**", ".github/workflows/e2-reproduction.yml"], "pr": true, "push": true, "range": false}, "eval_result": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/eval_result/**", "packaging/run_vectors.py", "scripts/eval-result-build.py",
+            "scripts/eval-result-test.py", ".github/workflows/eval-result.yml"], "pr": true, "push": true, "range": false}, "event_absence_c1": {"crons": [], "ignore": [], "paths": ["interop/event-absence-c1-sergeev/**", ".github/workflows/event-absence-c1.yml"], "pr": true, "push": true, "range": false}, "field_readiness": {"crons": ["30 6 * * *"], "ignore": [], "paths": ["scripts/field-readiness.py", "scripts/field-readiness-test.py", "release/field-readiness.toml", ".github/workflows/field-readiness.yml"], "pr": true, "push": false, "range": false}, "gemara_method_link": {"crons": [], "ignore": [], "paths": ["interop/gemara-method-link/**", ".github/workflows/gemara-method-link.yml", "pyproject.toml", "uv.lock"], "pr": true, "push": true, "range": false}, "governance": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": false}, "govops_capability_id": {"crons": [], "ignore": [], "paths": ["interop/govops-capability-id/**", ".github/workflows/govops-capability-id.yml"],
+            "pr": true, "push": true, "range": false}, "govops_trace_profile": {"crons": [], "ignore": [], "paths": ["interop/govops-trace-profile/**", "pyproject.toml", "uv.lock", ".github/workflows/govops-trace-profile.yml"], "pr": true, "push": true, "range": false}, "heldout_runner": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": false}, "identity_scan": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": true}, "invocation_axes": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/invocation_axes/**", "scripts/invocation-axes-build.py", "scripts/invocation-axes-test.py", ".github/workflows/invocation-axes.yml"], "pr": true, "push": true, "range": false}, "jcs_admit_npm": {"crons": [], "ignore": [], "paths": ["crates/jcs-admit/**", ".github/workflows/crate-jcs-admit-npm.yml", ".github/workflows/jcs-admit-npm.yml", ".github/workflows/release.yml", "release.toml", "scripts/workspace.py"], "pr": true, "push": true,
+            "range": false}, "jcsvectors": {"crons": [], "ignore": [], "paths": ["jcsvectors/**", "corpora/vectors-a2a-jcs-v01/**", "corpora/jcs-byte-vectors/**", "scripts/gen-jcsvectors-data.py", ".github/workflows/jcsvectors.yml"], "pr": true, "push": true, "range": false}, "jep_core07_reader": {"crons": [], "ignore": [], "paths": ["interop/jep-core07-reader/**", ".github/workflows/jep-core07-reader.yml"], "pr": true, "push": true, "range": false}, "mcp_sdk_jcs": {"crons": [], "ignore": [], "paths": ["interop/mcp-sdks/**", ".github/workflows/mcp-sdk-jcs.yml"], "pr": true, "push": true, "range": false}, "nist_ai_300_1": {"crons": [], "ignore": [], "paths": ["interop/nist-ai-300-1/**", "pyproject.toml", "uv.lock", ".github/workflows/nist-ai-300-1.yml"], "pr": true, "push": true, "range": false}, "no_internal_drafts": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": false}, "observed_code_digest": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true,
+            "range": false}, "observed_invocation_binding": {"crons": [], "ignore": [], "paths": ["interop/observed-invocation-binding-candidate/**", "corpora/vectors-observed-effect/**", "observedeffect/**", "packaging/**", "spec/**", "go.mod", "go.work", "go.work.sum", "pyproject.toml", "uv.lock", ".github/workflows/observed-invocation-binding.yml"], "pr": true, "push": true, "range": false}, "occurrence_binding": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/occurrence_binding/**", "scripts/occurrence-binding-build.py", "scripts/occurrence-binding-test.py", ".github/workflows/occurrence-binding.yml"], "pr": true, "push": true, "range": false}, "operand_provenance": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/operand_provenance/**", "scripts/operand-provenance-build.py", "scripts/operand-provenance-test.py", ".github/workflows/operand-provenance.yml"], "pr": true, "push": true, "range": false}, "ot_federation": {"crons": [], "ignore":
+            [], "paths": ["packaging/agent_evidence_vectors/ot_federation/**", "scripts/ot-federation-build.py", "scripts/ot-federation-test.py", ".github/workflows/ot-federation.yml"], "pr": true, "push": true, "range": false}, "parts": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": true}, "poc_evidence": {"crons": [], "ignore": [], "paths": ["vectors-poc-evidence/**", ".github/workflows/poc-evidence.yml"], "pr": true, "push": true, "range": false}, "publish_hf_dataset": {"crons": [], "ignore": [], "paths": ["scripts/publish-hf-dataset.py", "scripts/publish-hf-dataset-test.py", "scripts/publish-hf-dataset-v0.25.0.json", "scripts/hf-publish-requirements.txt", ".github/workflows/publish-hf-dataset.yml"], "pr": true, "push": true, "range": false}, "record_paths": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": false}, "remora_boundary_readers": {"crons": [], "ignore": [], "paths": ["interop/remora-boundary-readers/**", ".github/workflows/remora-boundary-readers.yml"],
+            "pr": true, "push": true, "range": false}, "remora_e7_reader": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/remora_e7/**", "scripts/remora-e7-reader-test.py", ".github/workflows/remora-e7-reader.yml"], "pr": true, "push": true, "range": false}, "resume_turns": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/resume_turns/**", "scripts/resume-turns-build.py", "scripts/resume-turns-test.py", ".github/workflows/resume-turns.yml"], "pr": true, "push": true, "range": false}, "secret_scan": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": false}, "trace_acta_receipts": {"crons": ["19 8 * * 1"], "ignore": [], "paths": ["corpora/vectors-receipt-signature/**", "packaging/**", "interop/trace-acta-receipts/**", "pyproject.toml", "uv.lock", ".github/workflows/trace-acta-receipts.yml"], "pr": true, "push": true, "range": false}, "trace_anchor_tr_anc": {"crons": ["41 8 * * 1"], "ignore": [], "paths": ["corpora/vectors-trace-anchor/**",
+            "packaging/agent_evidence_vectors/traceanchor.py", "interop/trace-anchor-tr-anc/**", ".github/workflows/trace-anchor-tr-anc.yml"], "pr": true, "push": true, "range": false}, "trade_booking": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/trade_booking/**", "scripts/trade-booking-build.py", "scripts/trade-booking-test.py", ".github/workflows/trade-booking.yml"], "pr": true, "push": true, "range": false}, "verdict_evidence": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/verdict_evidence/**", "scripts/verdict-evidence-build.py", "scripts/verdict-evidence-test.py", ".github/workflows/verdict-evidence.yml"], "pr": true, "push": true, "range": false}, "version_pins": {"crons": ["47 7 * * *"], "ignore": [], "paths": ["version-pins.toml", "**/*.md", "pyproject.toml", "scripts/version-pins-config-test.py", ".github/workflows/version-pins.yml"], "pr": true, "push": true, "range": false}, "w3c_v01_appendix": {"crons": ["35 5 * * 1"], "ignore":
+            [], "paths": ["interop/w3c-v01-appendix/**", ".github/workflows/w3c-v01-appendix.yml"], "pr": true, "push": true, "range": false}, "w3c_v01_matrix": {"crons": ["50 5 * * 1"], "ignore": [], "paths": ["interop/w3c-v01-appendix/matrix/**", ".github/workflows/w3c-v01-matrix.yml"], "pr": true, "push": true, "range": false}, "wimse_reader_reproduction": {"crons": [], "ignore": [], "paths": ["interop/wimse-agent-audit-record-reader-2026-10-01/**", ".github/workflows/wimse-reader-reproduction.yml"], "pr": true, "push": true, "range": false}}'
           INFRA: '[".github/", "pyproject.toml", "uv.lock", "Cargo.toml", "Cargo.lock", "go.mod", "go.sum", "package.json", "package-lock.json"]'
         run: |
           python3 - <<'PY'
@@ -222,97 +222,6 @@ jobs:
     permissions:
       contents: read
 
-  # from acs-hook-probes.yml:
-  #  Runs corpora/vectors-acs-core/hook-probes against the Claude Code shim of the AGT
-  #  reference implementation at pinned refs of the specification's repository,
-  #  with that checkout's own Guardian started and stopped around the probes. Five
-  #  rows: the integration head under the Bun version the repository's own
-  #  workflow pins and under the version issue 111 named, then the commit and Bun
-  #  version of issue 250's measurement, that commit under the other Bun, and the
-  #  commit and Bun version of the run issue 111 reports. Each run must match its
-  #  recorded expectation exactly, and produce every probe the expectation names,
-  #  so a probe that starts failing, starts passing or goes missing turns this
-  #  red. The self-test runs first and proves the probes fail a shim that answers
-  #  nothing.
-  #  Pull requests only. The job runs a third party's code, so it never runs in
-  #  the default branch's context, where a cache it wrote could be read later.
-  #  A newer push to the same pull request or branch supersedes the older run.
-  #  Main and tags never cancel: each main push keeps its own group by sha.
-  acs_hook_probes:
-    name: hook probes against AGT (${{ matrix.label }})
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - label: integration-d1ad294-bun-1.3.11
-            ref: d1ad2943107601e3c09f8e0c8eaf57b78b38a01b
-            bun: 1.3.11
-            expect: agt-integration-d1ad294-bun-1.3.11.json
-          - label: integration-d1ad294-bun-1.4.2
-            ref: d1ad2943107601e3c09f8e0c8eaf57b78b38a01b
-            bun: 1.4.2
-            expect: agt-integration-d1ad294-bun-1.4.2.json
-          - label: integration-27799c2-bun-1.3.11
-            ref: 27799c2c27414a483a4a043b957bfd2997d53231
-            bun: 1.3.11
-            expect: agt-integration-27799c2-bun-1.3.11.json
-          - label: integration-27799c2-bun-1.4.2
-            ref: 27799c2c27414a483a4a043b957bfd2997d53231
-            bun: 1.4.2
-            expect: agt-integration-27799c2-bun-1.4.2.json
-          - label: integration-7d2dd3c-bun-1.4.2
-            ref: 7d2dd3c69f82ec7565eef49b1609906deba1ef6b
-            bun: 1.4.2
-            expect: agt-integration-7d2dd3c-bun-1.4.2.json
-    steps:
-      - name: Check out the probes
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with:
-          persist-credentials: false
-
-      - name: Check out the shim and Guardian under test
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with:
-          repository: GenAI-Security-Project/agent-control-standard
-          ref: ${{ matrix.ref }}
-          path: source/acs
-          persist-credentials: false
-
-      - name: Set up Bun
-        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
-        with:
-          bun-version: ${{ matrix.bun }}
-
-          no-cache: true
-      - name: Install the locked reference implementation dependencies
-        working-directory: source/acs/reference-implementations/agt
-        run: bun install --frozen-lockfile --ignore-scripts
-
-      - name: The probes fail a shim that answers nothing
-        run: >-
-          python3 -I corpora/vectors-acs-core/hook-probes/acs_hook_probes.py --acs source/acs
-          --out out --selftest
-
-      - name: Run the probes against the recorded expectation
-        run: >-
-          bash corpora/vectors-acs-core/hook-probes/run_against_agt.sh source/acs out
-          corpora/vectors-acs-core/hook-probes/expected/${{ matrix.expect }}
-
-      - name: Keep the hook captures
-        if: always()
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-        with:
-          name: acs-hook-probes-${{ matrix.label }}
-          path: out
-          retention-days: 30
-    needs:
-      - changes
-    if: ${{ github.event_name == 'pull_request' && fromJSON(needs.changes.outputs.run)['acs_hook_probes'] }}
-    permissions:
-      contents: read
-
   # from acs-outage.yml:
   #  A newer push to the same pull request or branch supersedes the older run.
   #  Main and tags never cancel: each main push keeps its own group by sha.
@@ -360,87 +269,6 @@ jobs:
     needs:
       - changes
     if: ${{ fromJSON(needs.changes.outputs.run)['acs_outage'] }}
-    permissions:
-      contents: read
-
-  # from acs-wire-probes.yml:
-  #  Runs corpora/vectors-acs-core/wire-probes against the AGT reference Guardian at pinned
-  #  refs of the specification's repository: the integration tip before pull
-  #  request 229 (every D1 to D10 probe fails there, which proves each one can),
-  #  the pull request head the probes were first written against (where the D11
-  #  probes fail, which proves they can), and its current head. Each run must match
-  #  its recorded expectation exactly, so a probe that starts passing, or stops,
-  #  turns this red.
-  #  Pull requests only. The job runs a third party's code, so it never runs in
-  #  the default branch's context, where a cache it wrote could be read later.
-  #  A newer push to the same pull request or branch supersedes the older run.
-  #  Main and tags never cancel: each main push keeps its own group by sha.
-  acs_wire_probes:
-    name: wire probes against AGT (${{ matrix.label }})
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - label: integration-770f1e0
-            ref: 770f1e06b0a037518e910255109be4e6f2e0ca0c
-            key_id_mode: label
-            expect: agt-integration-770f1e0.json
-          - label: pr229
-            ref: beee5b54d1292c30137d66ab660c2639929a5284
-            key_id_mode: session_id
-            expect: agt-pr229.json
-          - label: pr229-6e6942d
-            ref: 6e6942deb8393e15916976b95e3bd18b97071b62
-            key_id_mode: session_id
-            expect: agt-pr229-6e6942d.json
-          - label: pr229-f94d393
-            ref: f94d3931fdcee5500ccfad689bae82b352e67faa
-            key_id_mode: label
-            expect: agt-pr229-f94d393.json
-    steps:
-      - name: Check out the probes
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with:
-          persist-credentials: false
-
-      - name: Check out the Guardian under test
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with:
-          repository: GenAI-Security-Project/agent-control-standard
-          ref: ${{ matrix.ref }}
-          path: source/acs
-          persist-credentials: false
-
-      - name: Set up Bun
-        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
-        with:
-          bun-version: 1.3.11
-
-          no-cache: true
-      - name: Install the locked Guardian dependencies
-        working-directory: source/acs/reference-implementations/agt
-        run: bun install --frozen-lockfile --ignore-scripts
-
-      - name: Run the probes against the recorded expectation
-        env:
-          # Heads before section 10 fixed key_id as a label read it as the session_id.
-          ACS_PROBE_KEY_ID_MODE: ${{ matrix.key_id_mode }}
-        run: >-
-          bash corpora/vectors-acs-core/wire-probes/run_against_agt.sh source/acs out
-          corpora/vectors-acs-core/wire-probes/expected/${{ matrix.expect }}
-
-      - name: Keep the wire captures
-        if: always()
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-        with:
-          name: acs-wire-probes-${{ matrix.label }}
-          path: out
-          retention-days: 30
-    needs:
-      - changes
-    if: ${{ github.event_name == 'pull_request' && fromJSON(needs.changes.outputs.run)['acs_wire_probes'] }}
     permissions:
       contents: read
 
@@ -4865,9 +4693,7 @@ jobs:
       - a2a_s3_retain
       - a2a_s4_dual_name
       - aae_verdict_binding
-      - acs_hook_probes
       - acs_outage
-      - acs_wire_probes
       - action_tuple_framed
       - agentavow_signed_map
       - agentid_action_ref_v2

@@ -14,7 +14,7 @@ step order, and it is deliberately noisy about the ones it cannot run.
 
     .venv/bin/python -B scripts/workflow-steps-gate.py            # every workflow
     .venv/bin/python -B scripts/workflow-steps-gate.py --list     # show the plan, run nothing
-    .venv/bin/python -B scripts/workflow-steps-gate.py --only no_internal_drafts   # one job of ci.yml
+    .venv/bin/python -B scripts/workflow-steps-gate.py --only no_internal_drafts  # one ci.yml job
 
 Exit 0 only when every runnable step exited 0. Any native step failure, unknown
 action or expression, invalid source binding,
