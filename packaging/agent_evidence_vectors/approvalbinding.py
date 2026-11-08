@@ -310,8 +310,21 @@ def _first_failure(record: dict[str, Any], used: bytes, skip: frozenset[str]) ->
     return None
 
 
+def verify_record(record: dict[str, Any], used: bytes) -> dict[str, str]:
+    """The reference reader's decision and reason for one record held in memory.
+
+    ``record`` is the parsed record and ``used`` the bytes of the use's payload
+    (the file ``record["use"]["payloadFile"]`` names in a case directory). This is
+    the entry point for a caller that builds the record itself.
+    """
+    failure = _first_failure(record, used, frozenset())
+    if failure is not None:
+        return {"decision": DENY, "reason": failure}
+    return {"decision": ALLOW, "reason": "bound"}
+
+
 def verify(record_path: Path, skip: frozenset[str] = frozenset()) -> dict[str, str]:
-    """The reference reader's decision and reason for one record."""
+    """The reference reader's decision and reason for one record file."""
     failure = _first_failure(*_load(record_path), skip)
     if failure is not None:
         return {"decision": DENY, "reason": failure}
