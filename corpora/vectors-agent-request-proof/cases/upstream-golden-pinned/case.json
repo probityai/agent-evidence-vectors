@@ -1,0 +1,17 @@
+{
+  "envelopes": [
+    "envelope-1.json"
+  ],
+  "pins": {
+    "audience": "urn:openbox:fixture-deployment:core",
+    "claims": {
+      "obx_agent_id": "00000000-0000-4000-8000-000000000002",
+      "obx_api_key_sha256": "110309a0cd7157171d3959d3b49450f642709c8517be3a77d2e5d2d52a4ce977",
+      "obx_deployment_id": "fixture-deployment",
+      "obx_organization_id": "00000000-0000-4000-8000-000000000001"
+    },
+    "kid": "fixture-okta-credential-kid-0001"
+  },
+  "recorderKey": "BMA4qFpSvSiLzOhNuhs1bmui/v29XYS9mMxGqVEfCwg=",
+  "schema_version": "agent-request-proof-case/v1"
+}

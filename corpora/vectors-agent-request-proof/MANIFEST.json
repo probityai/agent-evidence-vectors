@@ -1,8 +1,8 @@
 {
-  "corpusDigest": "3bb77c17a6fa2802615ef36078fbd15c41ec163762b697f39fc360c5650f5fb5",
+  "corpusDigest": "0e7b5cf14e78a86af6ee68b38cdc788cd38aca135f1345e47f55d976d78738cd",
   "counts": {
-    "rejected": 13,
-    "verified": 3
+    "rejected": 17,
+    "verified": 5
   },
   "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/agent-request-proof",
   "suite": "agent-request-proof/v1",
@@ -238,6 +238,90 @@
       },
       "id": "replayed-jti",
       "path": "cases/replayed-jti",
+      "proofSignatureVerifies": true
+    },
+    {
+      "edit": "control: the proof carries the pinned audience, kid and tenant claims",
+      "expected": {
+        "decision": "verified",
+        "reason": "request_bound"
+      },
+      "files": {
+        "case.json": "961548d34024c39c64092c30ba11c474866f301c28579c3b2723e72f33b70739",
+        "envelope-1.json": "0edd97d912d8a9ced5d03768c30b780e79dedf6263cc1b1a5a1dfa976af541fe"
+      },
+      "id": "request-bound-pinned",
+      "path": "cases/request-bound-pinned",
+      "proofSignatureVerifies": true
+    },
+    {
+      "edit": "control: the upstream golden fixture under pins taken from its own aud, kid and obx_ claims",
+      "expected": {
+        "decision": "verified",
+        "reason": "request_bound"
+      },
+      "files": {
+        "case.json": "b6845b4abe18b78cfc95ede52658bdee8300e60171df61cedf79d9493f4e264a",
+        "envelope-1.json": "ebcfe2d8886fa52113508ccf7efde8d50a49089636104f527e27f335db1355f1"
+      },
+      "id": "upstream-golden-pinned",
+      "path": "cases/upstream-golden-pinned",
+      "proofSignatureVerifies": true
+    },
+    {
+      "edit": "a valid proof minted for another audience, replayed at this service",
+      "expected": {
+        "decision": "rejected",
+        "reason": "audience_mismatch"
+      },
+      "files": {
+        "case.json": "961548d34024c39c64092c30ba11c474866f301c28579c3b2723e72f33b70739",
+        "envelope-1.json": "73446ef466cd9d746234da21ce1b28fc629a9bafedcffd61342caa475346dd87"
+      },
+      "id": "audience-mismatch",
+      "path": "cases/audience-mismatch",
+      "proofSignatureVerifies": true
+    },
+    {
+      "edit": "the registered key signs a proof whose kid names another credential",
+      "expected": {
+        "decision": "rejected",
+        "reason": "kid_mismatch"
+      },
+      "files": {
+        "case.json": "961548d34024c39c64092c30ba11c474866f301c28579c3b2723e72f33b70739",
+        "envelope-1.json": "940229bf6ec197b58b8b51b3fd261696f5d4ce9d202afb7b2dfc187987440d1f"
+      },
+      "id": "kid-mismatch",
+      "path": "cases/kid-mismatch",
+      "proofSignatureVerifies": true
+    },
+    {
+      "edit": "a valid proof carrying another organisation's tenant claim",
+      "expected": {
+        "decision": "rejected",
+        "reason": "tenant_mismatch"
+      },
+      "files": {
+        "case.json": "961548d34024c39c64092c30ba11c474866f301c28579c3b2723e72f33b70739",
+        "envelope-1.json": "9d3e1b96ee471d5cd07d59a155aad296802919016b0a04341572c60dd23273f4"
+      },
+      "id": "tenant-mismatch",
+      "path": "cases/tenant-mismatch",
+      "proofSignatureVerifies": true
+    },
+    {
+      "edit": "a valid proof that omits the pinned organisation claim",
+      "expected": {
+        "decision": "rejected",
+        "reason": "tenant_mismatch"
+      },
+      "files": {
+        "case.json": "961548d34024c39c64092c30ba11c474866f301c28579c3b2723e72f33b70739",
+        "envelope-1.json": "153ae7924652d4d9c5936486c360b5c6e51b940339a473c38e3849e2cfd99956"
+      },
+      "id": "tenant-claim-absent",
+      "path": "cases/tenant-claim-absent",
       "proofSignatureVerifies": true
     }
   ],

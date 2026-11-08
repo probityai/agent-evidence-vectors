@@ -1,0 +1,15 @@
+{
+  "envelopes": [
+    "envelope-1.json"
+  ],
+  "pins": {
+    "audience": "urn:example:governance:core",
+    "claims": {
+      "obx_deployment_id": "deployment-0001",
+      "obx_organization_id": "org-0001"
+    },
+    "kid": "agent-key-0001"
+  },
+  "recorderKey": "BMA4qFpSvSiLzOhNuhs1bmui/v29XYS9mMxGqVEfCwg=",
+  "schema_version": "agent-request-proof-case/v1"
+}
