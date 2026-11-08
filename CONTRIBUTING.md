@@ -82,7 +82,7 @@ worth reading before writing rather than after failing.
 | `scripts/complexity-table-gate.py` | a function whose measured complexity has drifted from the accepted-complexity table |
 | `.githooks/commit-msg` | a subject over seventy-two characters, any non-ASCII byte, an AI-attribution trailer, or project-internal jargon that will not resolve for a reader six months later |
 | `.github/workflows/dco.yml` | a commit in a pull request whose message carries no sign-off from its author. See [Signing off your commits](#signing-off-your-commits) |
-| `.github/workflows/no-internal-drafts.yml` | internal drafting notes, `DRAFT-` files, tool-state directories, absolute home paths, the website host, and private product names |
+| the `no_internal_drafts` job in `.github/workflows/ci.yml` | internal drafting notes, `DRAFT-` files, tool-state directories, absolute home paths, the website host, and private product names |
 
 **A gate's verdict may depend on the revision under test, and on nothing else on
 the machine.** Not on the clock, not on a sibling checkout, not on which files a

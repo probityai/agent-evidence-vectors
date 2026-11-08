@@ -15,7 +15,7 @@ or externally preregistered.
 
 These dated measurements refer to the original reader and tests retained at
 [the initial package commit](https://github.com/probityai/agent-evidence-vectors/tree/9bd6f42a1905c0c967c512251a280592250869d9/interop/gemara-method-link).
-The active [workflow](../../.github/workflows/gemara-method-link.yml) now runs
+The active [workflow](../../.github/workflows/ci.yml) (job `gemara_method_link`) now runs
 the pytest suite, pinned-input checks, bundled reader, self-adapter and accept-all
 control. It compares reader/control reports with these checked-in records.
 

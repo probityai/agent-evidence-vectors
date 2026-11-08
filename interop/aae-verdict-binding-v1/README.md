@@ -19,7 +19,7 @@ The run prints:
 aae-verdict-binding: 26/26 vectors reproduced, 7/7 cases as declared, report /tmp/aae-binding-attempt/report.json
 ```
 
-Exit 0 means every pin held, every vector reproduced and every case produced its declared outcome. Exit 1 means a fresh report records a difference. Exit 2 means malformed input, a failed file or key pin, or an output failure, and no report was written. [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md) lists every field, enum and pin, and [PROFILE.md](PROFILE.md) defines the binding. CI runs the same steps in [aae-verdict-binding.yml](../../.github/workflows/aae-verdict-binding.yml) and keeps the report as an artifact.
+Exit 0 means every pin held, every vector reproduced and every case produced its declared outcome. Exit 1 means a fresh report records a difference. Exit 2 means malformed input, a failed file or key pin, or an output failure, and no report was written. [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md) lists every field, enum and pin, and [PROFILE.md](PROFILE.md) defines the binding. CI runs the same steps in [aae-verdict-binding.yml](../../.github/workflows/ci.yml) (job `aae_verdict_binding`) and keeps the report as an artifact.
 
 ## What is checked
 

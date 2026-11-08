@@ -1260,7 +1260,7 @@ DELEGATED: tuple[Delegated, ...] = (
     *(Delegated(path, "pinned JEP pilot populations", pattern,
                 "interop/jep-core07-reader/run.py")
       for path, pattern in (
-          (".github/workflows/jep-core07-reader.yml", r"25/4/8"),
+          (".github/workflows/ci.yml", r"25/4/8"),
           ("interop/jep-core07-reader/PROTOCOL.md", r"25 validation assertions"),
           ("interop/jep-core07-reader/PROTOCOL.md", r"36 covered files"),
           ("interop/jep-core07-reader/PROTOCOL.md", r"25/4/8"),
@@ -1709,7 +1709,7 @@ FROZEN: tuple[Frozen, ...] = (
     # number, or a result recorded once. Each records what it says and none of
     # them tracks the corpus.
     Frozen(
-        '.github/workflows/e2-reproduction.yml',
+        '.github/workflows/ci.yml',
         "the interop package's input file count",
         'hash-check all 31 inputs',
         'An integer that counts something other than this corpus and equals one of its figures by'

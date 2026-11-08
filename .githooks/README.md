@@ -80,7 +80,7 @@ website or private products. The rule uses salted digests so its own pattern
 does not publish the names it forbids.
 
 That rule is real rather than decorative.
-`.github/workflows/no-internal-drafts.yml` already refuses a tracked FILE
+the `no_internal_drafts` job in `.github/workflows/ci.yml` already refuses a tracked FILE
 containing a forbidden name -- but it scans files, and a commit message is not
 a file. Three message bodies in this history name the products, which is the
 same leak the file gate was built to stop, arriving through a surface nobody
@@ -118,6 +118,6 @@ git commit --no-verify
 ```
 
 Loud and deliberate. Because that bypass exists, and because an
-un-bootstrapped clone has no hook at all, `.github/workflows/commit-message-lint.yml`
+un-bootstrapped clone has no hook at all, the `commit_message_lint` job in `.github/workflows/ci.yml`
 runs the same tracked file over the commit messages each push and pull request
 introduces.
