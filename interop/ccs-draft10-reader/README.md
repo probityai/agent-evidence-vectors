@@ -19,7 +19,7 @@ The test builds the jcs-admit check crate, runs the reader over [fixtures/ccs-v1
 0e660e944ba914a61a3cd2fcc1b7543b77233ae347de3257f7e84824e8f94005  controls.json
 ```
 
-To run the reader alone: `JCS_ADMIT=<built jcs-admit-check> python -I interop/ccs-draft10-reader/ccs_spec_reader.py interop/ccs-draft10-reader/fixtures/ccs-v1.4.0 <out-dir>`. CI runs the same test in [ccs-draft10-reader.yml](../../.github/workflows/ccs-draft10-reader.yml).
+To run the reader alone: `JCS_ADMIT=<built jcs-admit-check> python -I interop/ccs-draft10-reader/ccs_spec_reader.py interop/ccs-draft10-reader/fixtures/ccs-v1.4.0 <out-dir>`. CI runs the same test in [ci.yml](../../.github/workflows/ci.yml) (job `ccs_draft10_reader`).
 
 ## What ran
 

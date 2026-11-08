@@ -43,6 +43,8 @@ import tomllib
 from pathlib import Path
 from typing import Any
 
+import yaml
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = REPO_ROOT / "scripts" / "repairs.toml"
 WORKFLOW = REPO_ROOT / ".github" / "workflows" / "ci.yml"
@@ -95,14 +97,24 @@ def ci_comparing_steps() -> list[str]:
     """
     if not WORKFLOW.is_file():
         raise Refused(f"no workflow at {WORKFLOW}")
+    # ci.yml holds the jobs of the other pull-request workflows too, keyed by their old
+    # workflow name. The audit covers the corpus jobs, which the former ci.yml held and
+    # which carry the `ci__` prefix; the folded workflows are not regenerable artifacts.
+    jobs = (yaml.safe_load(WORKFLOW.read_text(encoding="utf-8")) or {}).get("jobs") or {}
     found: list[str] = []
-    for line in WORKFLOW.read_text(encoding="utf-8").splitlines():
-        s = line.strip()
-        if not s.startswith(("run:", "python3 ", "- run:")):
+    for job_id, job in jobs.items():
+        if not job_id.startswith("ci__"):
             continue
-        parts = s.split()
-        if is_comparing(parts) and any(p.endswith(".py") for p in parts):
-            found.append(next(p for p in parts if p.endswith(".py")))
+        for step in job.get("steps") or []:
+            lines = str(step.get("run", "")).splitlines()
+            # the first line stood after `run:` in the file; later lines stand alone
+            for number, line in enumerate(lines):
+                s = ("run: " if number == 0 else "") + line.strip()
+                if not s.startswith(("run:", "python3 ", "- run:")):
+                    continue
+                parts = s.split()
+                if is_comparing(parts) and any(p.endswith(".py") for p in parts):
+                    found.append(next(p for p in parts if p.endswith(".py")))
     return sorted(set(found))
 
 

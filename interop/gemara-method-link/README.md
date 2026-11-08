@@ -24,7 +24,7 @@ python -m pytest test_method_link.py -q
 The dated author-produced measurements are in [RUN.md](RUN.md). The pytest
 checks cover Hypothesis properties, source and fixture tampering, path traversal,
 reader failure, and an accept-all negative control. The active
-[workflow](../../.github/workflows/gemara-method-link.yml) reruns the checks,
+[workflow](../../.github/workflows/ci.yml) (job `gemara_method_link`) reruns the checks,
 verifies the source and input pins, and compares reader and control reports
 with the checked-in records. The accept-all command must fail:
 
