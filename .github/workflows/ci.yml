@@ -308,7 +308,7 @@ jobs:
           retention-days: 30
     needs:
       - changes
-    if: ${{ fromJSON(needs.changes.outputs.run)['acs_hook_probes'] }}
+    if: ${{ github.event_name == 'pull_request' && fromJSON(needs.changes.outputs.run)['acs_hook_probes'] }}
     permissions:
       contents: read
 
@@ -438,7 +438,7 @@ jobs:
           retention-days: 30
     needs:
       - changes
-    if: ${{ fromJSON(needs.changes.outputs.run)['acs_wire_probes'] }}
+    if: ${{ github.event_name == 'pull_request' && fromJSON(needs.changes.outputs.run)['acs_wire_probes'] }}
     permissions:
       contents: read
 
