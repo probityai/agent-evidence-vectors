@@ -19,7 +19,18 @@ The runtime contract, for an adapter in any language:
   cannot answer), and, in a lease
   scenario, ``GET {owner}/lease``, which answers ``{"token": n}``;
 - it prints, as the last line of its standard output, one JSON object whose
-  ``outcome`` is ``committed``, ``not_run`` or ``unknown``, and exits 0.
+  ``outcome`` is ``committed``, ``not_run`` or ``unknown``, and exits 0;
+- in a scenario with a ``restart`` block it is run more than once, as the engine
+  would run a step that crashed, was redelivered, was replayed or was completed
+  twice. Each run gets ``AEV_RUN`` (1 for the first delivery), ``AEV_TASK_ID``
+  (the engine's identifier for this delivery, which is the same for every run
+  only when the scenario says ``"taskId": "same"``) and ``AEV_STATE_DIR``, a
+  directory its checkpoint may use, which is emptied between runs when the
+  scenario says ``"state": "wiped"``. ``"mode": "crash"`` kills the first run
+  once the owner has received its call; ``"rerun"`` lets it finish first;
+  ``"concurrent"`` starts two deliveries together, both with ``AEV_RUN=1``.
+  The operation's idempotency key is the same in every run: a key derived from
+  the task identifier is the fault this tests.
 
 A lost reply is a connection the owner closes without answering, after it has
 or has not applied the effect. A scenario passes when the owner holds an
@@ -36,8 +47,10 @@ import os
 import shlex
 import socket
 import subprocess
+import shutil
 import tempfile
 import threading
+import time
 from collections.abc import Iterator
 from contextlib import contextmanager
 from dataclasses import dataclass, field
@@ -48,8 +61,17 @@ from typing import Any
 from agent_evidence_vectors import uncertaineffect as reader
 
 ENV_OWNER = "AEV_EFFECT_OWNER"
+ENV_RUN, ENV_TASK, ENV_STATE = "AEV_RUN", "AEV_TASK_ID", "AEV_STATE_DIR"
 TIMEOUT_SECONDS = 60
-CALL_BEHAVIOURS = ("commit", "commit_drop", "drop", "late_commit", "no_effect")
+# Seconds a held call stays in flight before the owner applies it.
+HOLD_SECONDS = 0.4
+# commit_hold applies the effect while the caller waits and then drops the reply, so a
+# caller killed meanwhile still leaves the effect; commit_slow applies it the same way and
+# then replies.
+HELD = ("commit_hold", "commit_slow")
+CALL_BEHAVIOURS = ("commit", "commit_drop", "commit_hold", "commit_slow", "drop",
+                   "late_commit", "no_effect")
+RESTART_MODES = ("crash", "rerun", "concurrent")
 LOOKUP_BEHAVIOURS = ("final", "non_final", "unavailable")
 
 
@@ -66,6 +88,8 @@ class OwnerState:
     applied_keys: set[str] = field(default_factory=set)
     first_args: dict[str, str] = field(default_factory=dict)
     pending_late: list[str] = field(default_factory=list)
+    in_flight: list[str] = field(default_factory=list)
+    forgotten: set[str] = field(default_factory=set)
     lease_token: int = 0
     lock: threading.Lock = field(default_factory=threading.Lock)
 
@@ -93,6 +117,14 @@ def _apply(state: OwnerState, key: str) -> None:
     state.effects += 1
 
 
+def _forget_due(state: OwnerState) -> None:
+    """Make the owner forget its keys once it has handled the scenario's number of calls."""
+    after = state.scenario["owner"].get("forgetsKeysAfterCalls")
+    if after is not None and state.calls >= after:
+        state.forgotten |= state.applied_keys
+        state.applied_keys.clear()
+
+
 def _record_call(state: OwnerState, body: dict[str, Any]) -> str:
     """Count one effect call and return the behaviour the scenario gives it."""
     key = str(body.get("idempotencyKey") or "")
@@ -113,16 +145,26 @@ def _record_call(state: OwnerState, body: dict[str, Any]) -> str:
 
 def _call(state: OwnerState, body: dict[str, Any]) -> tuple[int, dict[str, Any] | None]:
     """Apply the scenario's behaviour for one call; None means the reply is lost."""
+    key = str(body.get("idempotencyKey") or "")
     with state.lock:
         # A late commit has landed by the time any later request reaches the owner.
         _land_late(state)
         behaviour = _record_call(state, body)
-        key = str(body.get("idempotencyKey") or "")
         if behaviour in ("commit", "commit_drop"):
             _apply(state, key)
+            _forget_due(state)
         elif behaviour == "late_commit":
             state.pending_late.append(key)
-    if behaviour == "commit":
+        elif behaviour in HELD:
+            state.in_flight.append(key)
+    if behaviour in HELD:
+        # The owner commits while the caller waits, also when the caller is killed meanwhile.
+        time.sleep(HOLD_SECONDS)
+        with state.lock:
+            state.in_flight.remove(key)
+            _apply(state, key)
+            _forget_due(state)
+    if behaviour in ("commit", "commit_slow"):
         return 200, {"status": "confirmed"}
     if behaviour == "no_effect":
         return 409, {"status": "no_effect"}
@@ -137,7 +179,9 @@ def _lookup(state: OwnerState, key: str) -> dict[str, Any] | None:
         if behaviour == "unavailable":
             return None
         present = key in state.applied_keys
-        answer = {"final": behaviour == "final" or present,
+        # A key still in flight, or one the owner forgot, cannot be answered finally.
+        unsettled = not present and (key in state.in_flight or key in state.forgotten)
+        answer = {"final": (behaviour == "final" or present) and not unsettled,
                   "result": "present" if present else "absent"}
         # A late commit lands after the lookup that missed it, which is why a
         # lookup that is not final settles nothing.
@@ -249,11 +293,84 @@ def _reported_outcome(stdout: str) -> str | None:
     return outcome if outcome in reader.OUTCOMES else None
 
 
+def _spawn(command: list[str], path: Path, env: dict[str, str]) -> subprocess.Popen[str]:
+    return subprocess.Popen([*command, str(path)], stdout=subprocess.PIPE,
+                            stderr=subprocess.PIPE, text=True, env=env)
+
+
+def _finish(process: subprocess.Popen[str]) -> tuple[int, str | None]:
+    out, _ = process.communicate(timeout=TIMEOUT_SECONDS)
+    return process.returncode, _reported_outcome(out)
+
+
+def _wipe(state_dir: Path) -> None:
+    shutil.rmtree(state_dir)
+    state_dir.mkdir()
+
+
+def combined_outcome(outcomes: list[str]) -> tuple[str, list[str]]:
+    """One outcome for several runs of one step, and why the runs contradict each other."""
+    problems = []
+    if "committed" in outcomes and "not_run" in outcomes:
+        problems.append("one run reported not_run while another reported committed")
+    pick = ("committed" if "committed" in outcomes else
+            "unknown" if "unknown" in outcomes else "not_run")
+    return pick, problems
+
+
+def _restart_runs(command: list[str], path: Path, url: str, state: OwnerState,
+                  state_dir: Path, restart: dict[str, str]) -> list[tuple[int, str | None]]:
+    """Run the adapter as the engine would across a crash, a rerun or a double delivery."""
+    tasks = ["task-1", "task-1" if restart["taskId"] == "same" else "task-2"]
+
+    def env(run: int, task: str) -> dict[str, str]:
+        return {**os.environ, ENV_OWNER: url, ENV_RUN: str(run), ENV_TASK: task,
+                ENV_STATE: str(state_dir)}
+
+    if restart["mode"] == "concurrent":
+        pair = [_spawn(command, path, env(1, task)) for task in tasks]
+        return [_finish(process) for process in pair]
+    first = _spawn(command, path, env(1, tasks[0]))
+    runs: list[tuple[int, str | None]] = []
+    if restart["mode"] == "crash":
+        deadline = time.monotonic() + 10
+        while state.calls < 1 and first.poll() is None and time.monotonic() < deadline:
+            time.sleep(0.01)
+        first.kill()
+        first.communicate()
+    else:
+        runs.append(_finish(first))
+    if restart["state"] == "wiped":
+        _wipe(state_dir)
+    runs.append(_finish(_spawn(command, path, env(2, tasks[1]))))
+    return runs
+
+
+def _drive_restart(
+    command: list[str], path: Path, url: str, state: OwnerState, state_dir: Path,
+    scenario: dict[str, Any],
+) -> tuple[bool, list[str], dict[str, Any]]:
+    try:
+        runs = _restart_runs(command, path, url, state, state_dir, scenario["restart"])
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        return False, [f"runtime did not run: {exc}"], state.summary()
+    bad = [code for code, outcome in runs if code != 0 or outcome is None]
+    if bad:
+        return True, [f"{len(bad)} run(s) exited without reporting an outcome"], state.summary()
+    outcome, contradictions = combined_outcome([str(o) for _, o in runs])
+    return True, [*contradictions, *judge(scenario, state, outcome)], \
+        {**state.summary(), "outcome": outcome, "runs": len(runs)}
+
+
 def drive(command: list[str], scenario: dict[str, Any]) -> tuple[bool, list[str], dict[str, Any]]:
     """Run the adapter through one scenario: whether it ran, its failures and the counts."""
     with tempfile.TemporaryDirectory() as work, effect_owner(scenario) as (url, state):
         path = Path(work) / "scenario.json"
         path.write_text(json.dumps(scenario, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        state_dir = Path(work) / "state"
+        state_dir.mkdir()
+        if scenario.get("restart"):
+            return _drive_restart(command, path, url, state, state_dir, scenario)
         try:
             result = subprocess.run([*command, str(path)], capture_output=True, text=True,
                                     timeout=TIMEOUT_SECONDS, check=False,
