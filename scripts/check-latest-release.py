@@ -41,7 +41,9 @@ def main(argv: list[str]) -> int:
     if len(argv) != 2:
         print(__doc__, file=sys.stderr)
         return 2
-    tags = subprocess.run(["git", "tag", "--list", "v*"], check=True, capture_output=True, text=True).stdout.split()
+    tags = subprocess.run(
+        ["git", "tag", "--list", "v*"], check=True, capture_output=True, text=True
+    ).stdout.split()
     latest = subprocess.run(
         ["gh", "api", f"repos/{argv[1]}/releases/latest", "--jq", ".tag_name"],
         check=True, capture_output=True, text=True,

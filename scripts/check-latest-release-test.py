@@ -9,7 +9,8 @@ from types import ModuleType
 
 
 def load() -> ModuleType:
-    spec = importlib.util.spec_from_file_location("chk", pathlib.Path(__file__).with_name("check-latest-release.py"))
+    path = pathlib.Path(__file__).with_name("check-latest-release.py")
+    spec = importlib.util.spec_from_file_location("chk", path)
     if spec is None or spec.loader is None:
         raise ImportError("check-latest-release.py cannot be loaded")
     module = importlib.util.module_from_spec(spec)
