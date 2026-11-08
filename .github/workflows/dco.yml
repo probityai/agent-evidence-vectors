@@ -10,10 +10,17 @@ name: dco
 # its commits and reads them with git and the API. The verdict is posted as
 # the `dco/sign-off` commit status on the pull request's head commit, which is
 # the name to require in a branch ruleset.
+#
+# It also runs on merge_group, because the ruleset requires `dco/sign-off` on
+# the merge queue's commit too; without it every queue entry times out. There
+# the pull request number is read from the queue branch
+# (gh-readonly-queue/main/pr-<n>-<base sha>), the script again comes from the
+# base commit, and the status is posted on the queue's head commit.
 
 on:
   pull_request_target:
     types: [opened, synchronize, reopened]
+  merge_group:
 
 permissions:
   contents: read
@@ -35,6 +42,9 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          # In the merge queue, judge with the base branch's script, not the
+          # queued pull request's copy of it.
+          ref: ${{ github.event.merge_group.base_sha || '' }}
           fetch-depth: 0
           persist-credentials: false
 
@@ -48,9 +58,20 @@ jobs:
           DCO_MAINTAINERS: astrogilda
           REPO: ${{ github.repository }}
           PR: ${{ github.event.pull_request.number }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          QUEUE_REF: ${{ github.event.merge_group.head_ref }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
+          if [ -z "$PR" ] && [ -n "$QUEUE_REF" ]; then
+            PR="$(printf '%s\n' "$QUEUE_REF" | sed -n 's|^refs/heads/gh-readonly-queue/[^/]*/pr-\([0-9][0-9]*\)-[0-9a-f]*$|\1|p')"
+            if [ -z "$PR" ]; then
+              gh api "repos/$REPO/statuses/$HEAD_SHA" -f state=error \
+                -f context=dco/sign-off -f description="The queue branch names no pull request; nothing was verified" \
+                -f target_url="$RUN_URL" > /dev/null
+              echo "could not read a pull request number from $QUEUE_REF"
+              exit 2
+            fi
+          fi
           if [ -z "$PR" ]; then
             echo "This event carries no pull request, so no sign-off was checked."
             exit 0
