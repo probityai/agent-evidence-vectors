@@ -14,7 +14,7 @@ bind consumption state with an operation key, then the rows written for
 revision 02: `A21` (an `api-key` agent authentication), `SQ1` to `SQ5` (the
 `sequence` member and record identity) and `R10` to `R16` (OpenTimestamps
 anchors and the delegation root), then the rows written for revision 03:
-`IS1` and `IS2`, a record issued before its interval was sealed, and `PS1` and `PS2`, principal standing under the `v2` predicate type URI (below), then the rows written for revision 04: `CS41` to `CS49`, the payee and the settled terms of a paid call, and `PR1` to `PR11`, the authenticated principal ([proposed text](../../docs/proposals/audit-record-04-principal.md)), and `DS1` to `DS10`, whose data a call touched and for what purpose ([proposed text](../../docs/proposals/audit-record-04-data-subject.md)). Each carries `draftRevision` and the
+`IS1` and `IS2`, a record issued before its interval was sealed, and `PS1` and `PS2`, principal standing under the `v2` predicate type URI (below), then the rows written for revision 04: `CS41` to `CS49`, the payee and the settled terms of a paid call, and `PR1` to `PR11`, the authenticated principal ([proposed text](../../docs/proposals/audit-record-04-principal.md)), and `DS1` to `DS10`, whose data a call touched and for what purpose ([proposed text](../../docs/proposals/audit-record-04-data-subject.md)), and `PS3` to `PS5`, principal standing established from a published commitment (below). Each carries `draftRevision` and the
 identifier the draft prints. After them come `X1` to `X18`, each an existing member with one field changed that reaches a refusal code no earlier member produced: the JSON profile (`X1`, `X2`), `issuedAt` without an offset (`X3`), the statement and predicate types (`X4`, `X5`), consumption shape and the operation key (`X6`, `X7`), the first subject (`X8`), an envelope and a statement that cannot be read (`X9`, `X10`), a retention entry that is malformed or names another envelope or an unexpected or unreadable delegation root (`X11` to `X14`), a retained member whose record or entry cannot be read (`X15`, `X16`), and a set that cannot be read or whose records are malformed (`X17`, `X18`). [`INDEX.md`](INDEX.md) lists every member beside its
 file.
 
@@ -64,7 +64,7 @@ uv run --extra generators python vectors-agent-audit-record/check_vectors.py
 To score your own verifier, run it over each `statements/<id>.json` with the
 observer public key from `keys.observer.publicKey`, configured to accept the
 manifest's `predicateType`, or the member's own `predicateType` where the member
-carries one (`PS1` and `PS1b` carry the `v2` URI), then score each verdict:
+carries one (`PS1`, `PS1b` and `PS3` to `PS5` carry the `v2` URI), then score each verdict:
 
 - an accept or reject member conforms when your verdict equals
   `expected.verdict`;
@@ -441,7 +441,38 @@ generator reproduces his bytes and file identifiers.
 
 `check_vectors.py` holds both sides: a reader that applies the extended set
 under the `v1` URI as well fails exactly `PS2`, and a reader that accepts the
-`v2` URI with the `v1` set fails exactly `PS1`.
+`v2` URI with the `v1` set fails exactly `PS1` and `PS3` to `PS5` (below).
+
+## Principal standing from a published commitment: `PS3` to `PS5`
+
+Some deployments establish principal standing without a lookup by identifier:
+the source publishes a signed standing commitment, the presenter proves standing
+against it, and the relying party pins the publisher and a maximum age. The
+`principal-standing-source` entry then carries the as-of time of the commitment
+the decision point held as `lastResult`, and the pinned maximum age as `maxAge`.
+The three members are rows written for revision 04, from
+[#402](https://github.com/probityai/agent-evidence-vectors/issues/402); each is
+built on `PS1` and judged under the `v2` URI.
+
+- `PS3`: no commitment held. `lastResult` is `none`, so the input was never
+  established, and the record is `not-evaluated` naming
+  `principal-standing-source`: a transient refusal, not a deny. A commitment
+  held past its maximum age is `PS1`, and one exactly at it is `PS1b`, which
+  stays open between the two drafts (above).
+- `PS4`: the commitment is current and the proof against it shows the standing
+  withdrawn. Every entry is fresh, the record is `evaluated`, and the decision
+  is `deny`.
+- `PS5`: the commitment is current and the proof is missing or does not verify
+  against it. The commitment does not establish standing, and the relying party
+  cannot tell this from a withdrawal, so the record is `evaluated` with `deny`,
+  as `PS4`, and its entry is the commitment's as-of time. It is never
+  `not-evaluated`: the input the decision depended on was current, and a record
+  naming it unavailable fails the recompute of Section 4.6. No member of the
+  record says why a decision denied, so `PS5` differs from `PS4` in the case it
+  states and in its own `recordId`, not in the shape a verifier checks.
+
+`check_vectors.py` holds `PS3` to the sentence that a `lastResult` of `none` is
+never established, beside `A18`, `A20` and `FR4`.
 
 ## Retained records and the dating check: Section 4.7
 
