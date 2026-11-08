@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"runtime/debug"
 	"sort"
 
 	"github.com/probityai/agent-evidence-vectors/corpusreaders"
@@ -73,4 +74,51 @@ func printCorpus(w io.Writer, r *corpusreaders.Result) {
 	}
 	fmt.Fprintf(w, "verdict: %d member(s) and %d corpus-level claim(s) do not hold\n",
 		failed, len(r.Findings))
+}
+
+// runVerdictLines prints one verdict line per member of every corpus named, in
+// the shared format, and returns 0 when every corpus was read (the verdicts are
+// judged against the manifests by the format's checker, not here), 2 when a
+// corpus could not be read or none was named.
+func runVerdictLines(dirs []string, stdout, stderr io.Writer) int {
+	if len(dirs) == 0 {
+		fmt.Fprintln(stderr, "aee-verify: -verdict-lines needs at least one corpus directory")
+		return 2
+	}
+	verifier := corpusreaders.Verifier{Name: "aee-verify", Version: buildVersion()}
+	for _, dir := range dirs {
+		lines, err := corpusreaders.VerdictLines(dir, verifier)
+		if err != nil {
+			fmt.Fprintf(stderr, "aee-verify: NOT RUN: %v\n", err)
+			return 2
+		}
+		for _, line := range lines {
+			out, err := json.Marshal(line)
+			if err != nil {
+				fmt.Fprintf(stderr, "aee-verify: %v\n", err)
+				return 2
+			}
+			fmt.Fprintln(stdout, string(out))
+		}
+	}
+	return 0
+}
+
+// buildVersion is the module version this binary was built at, or the VCS
+// revision for a build from a checkout, so a verdict line names the code that
+// produced it.
+func buildVersion() string {
+	info, ok := debug.ReadBuildInfo()
+	if !ok {
+		return "unknown"
+	}
+	if v := info.Main.Version; v != "" && v != "(devel)" {
+		return v
+	}
+	for _, s := range info.Settings {
+		if s.Key == "vcs.revision" && s.Value != "" {
+			return "devel+" + s.Value
+		}
+	}
+	return "devel"
 }
