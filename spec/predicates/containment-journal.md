@@ -4,7 +4,7 @@ Type URI: https://probityai.github.io/agent-evidence-vectors/predicate/v1/contai
 
 Receipt type URI: https://probityai.github.io/agent-evidence-vectors/predicate/v1/blast-radius-receipt
 
-Version: 1.1 (corpus suite `containment-journal/v1`, `suiteRevision` 2)
+Version: 1.2 (corpus suite `containment-journal/v1`, `suiteRevision` 3)
 
 > Status: DRAFT, issued under a self-hosted `predicateType` URI. The URIs will not move once
 > a signed statement carries them. Revision 1.1 adds optional members only: a journal written
@@ -130,8 +130,11 @@ reason `containment_consistent`.
      had no edge to cross, so it is a drop, not a policy refusal);
    - decision: `edge_delta_mismatch`, `isolated_set_mismatch`,
      `topology_expansion_not_restriction`, `detector_inputs_absent`,
-     `decision_not_supported_by_estimates`, `reenable_without_restoration` (when
-     `restorationGated` is claimed);
+     `decision_not_supported_by_estimates` (1.2: a decision with a `detector_` basis whose
+     estimates are all equal and that removes an edge; `isolated` is the state of the new
+     graph, so an agent cut earlier on another basis and restated by the detector is not
+     a cut the detector made), `reenable_without_restoration` (when `restorationGated` is
+     claimed);
    - fallback: `posture_contradicted`;
    - restart: `remediation_not_evidenced`, `restart_memory_not_cleared`;
    - assessment: `missing_score_coerced`, `score_missing_unflagged`;
