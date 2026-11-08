@@ -40,44 +40,15 @@ COMPANIONS = (
     "research/independence",
     "research/corpus-measurements",
 )
-PREDICATES = (
-    ("v1", "observed-effect"),
-    ("v1", "uncertain-effect"),
-    ("v1", "decision-client-failure-modes"),
-    ("v1", "refusal-reason-priority"),
-    ("v1", "monitor-coverage"),
-    ("v1", "signature-coverage"),
-    ("v1", "evidence-state"),
-    ("v1", "incident-evidence-cell"),
-    ("v1", "propagation-step"),
-    ("v1", "containment-journal"),
-    ("v1", "blast-radius-receipt"),
-    ("v1", "evaluation-claim"),
-    ("v1", "self-reported-record"),
-    ("v1", "kernel-substrate"),
-    ("v2", "kernel-substrate"),
-    ("v2", "launch-chain"),
-    ("v1", "agent-audit-record"),
-    ("v2", "agent-audit-record"),
-    ("v1", "govops-trace-record"),
-    ("v1", "peer-verification"),
-    ("v1", "incident-action-authorization"),
-    ("v1", "revocation-sweep"),
-    ("v1", "re-enable-decision"),
-    ("v1", "joint-authority"),
-    ("v1", "revocation-boundary"),
-    ("v1", "evidence-scope-disclosure"),
-    ("v1", "launch-chain"),
-    ("v1", "ml-bom"),
-    ("v1", "quotation-fidelity"),
-    ("v1", "scorecard-verdict"),
-    ("v1", "security-verdict"),
-    ("v1", "signed-evidence"),
-    ("v1", "static-scan-verdict"),
-    ("v1", "substrate-integrity"),
-    ("v1", "sut-provenance"),
-    ("v2", "a2a-mesh-scorecard"),
-    ("v2", "mesh-quiescence"),
+REGISTRY_TEXT = (SOURCE_ROOT / "spec/predicates/REGISTRY.md").read_text(encoding="utf-8")
+# Every type this host serves a page for, read from the registry so a new entry
+# cannot leave the expected routes behind it.
+PREDICATES = tuple(
+    re.findall(
+        r"^### `predicate/(v\d+)/([a-z0-9-]+)`",
+        REGISTRY_TEXT[: REGISTRY_TEXT.index("## Types served from another host")],
+        flags=re.MULTILINE,
+    )
 )
 EXPECTED_HTML = (
     {Path(f"{relative}.html") for relative in COMPANIONS}
@@ -100,6 +71,9 @@ EXPECTED_HTML = (
         for suffix in (".html", "/index.html")
     }
 )
+# Sitemap entries other than the predicate pages: the companions, the start,
+# index, runs, distribution and codes pages, and the predicate indexes.
+SITEMAP_BASE = 21
 SEGMENT = st.text(alphabet=string.ascii_letters + string.digits + "_-", min_size=1, max_size=12)
 URL_PART = st.text(alphabet=string.ascii_letters + string.digits + "-_%+", max_size=20)
 
@@ -134,6 +108,37 @@ class HtmlView(HTMLParser):
             self.text.append(data)
 
 
+def link_targets(document: Path) -> list[str]:
+    """Return the repository paths a Markdown document links to that exist."""
+    found = []
+    text = document.read_text(encoding="utf-8")
+    for target in re.findall(r"\]\(([^)#?\s]+)(?:[#?][^)]*)?\)", text):
+        if "://" in target or target.startswith("mailto:"):
+            continue
+        parent = SOURCE_ROOT if target.startswith("/") else document.parent
+        resolved = (parent / target.lstrip("/")).resolve()
+        if resolved.exists() and resolved.is_relative_to(SOURCE_ROOT):
+            found.append(resolved.relative_to(SOURCE_ROOT).as_posix())
+    return found
+
+
+def registry_sources() -> tuple[str, ...]:
+    """Return every repository path the rendered predicate pages need.
+
+    The registry and each document it names are rendered, and the build refuses
+    a rendered page whose link target is absent. Deriving the copy list from the
+    registry keeps the fixture in step when an entry gains a document or a link.
+    """
+    registry = SOURCE_ROOT / "spec/predicates/REGISTRY.md"
+    text = registry.read_text(encoding="utf-8")
+    named = re.findall(r"^- (?:Document|Schema): `([^`]+)`", text, flags=re.MULTILINE)
+    paths = [*named, *link_targets(registry)]
+    for relative in named:
+        if relative.endswith(".md"):
+            paths.extend(link_targets(SOURCE_ROOT / relative))
+    return tuple(dict.fromkeys(paths))
+
+
 @pytest.fixture
 def repository(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
     """Build a small complete site source with the real predicate documents."""
@@ -160,6 +165,7 @@ def repository(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(text, encoding="ascii")
     for relative in (
+        *registry_sources(),
         "spec/predicates/REGISTRY.md",
         "docs/proposals/audit-record-04-principal.md",
         "spec/predicates/containment-journal.md",
@@ -188,9 +194,13 @@ def repository(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
         "packaging/agent_evidence_vectors/verdict_evidence/README.md",
         "packaging/agent_evidence_vectors/claim_record/README.md",
     ):
+        source = SOURCE_ROOT / relative
         target = tmp_path / relative
+        if source.is_dir():
+            target.mkdir(parents=True, exist_ok=True)
+            continue
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_bytes((SOURCE_ROOT / relative).read_bytes())
+        target.write_bytes(source.read_bytes())
     monkeypatch.setattr(site, "REPO_ROOT", tmp_path)
     monkeypatch.setattr(site, "CITATION", tmp_path / "CITATION.cff")
     monkeypatch.setattr(site, "CODES_GO", tmp_path / "aee/codes.go")
@@ -433,7 +443,7 @@ class TestSiteNavigation:
             root = fromstring((built_site / "sitemap.xml").read_bytes())
             namespace = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
             urls = [node.text for node in root.findall("s:url/s:loc", namespace)]
-            assert len(urls) == len(set(urls)) == 57
+            assert len(urls) == len(set(urls)) == SITEMAP_BASE + len(PREDICATES)
             assert root.find("s:url/s:lastmod", namespace) is None
 
         def test_local_image_loads_repository_bytes(self, repository: Path) -> None:
