@@ -9,35 +9,13 @@ name: agmi anchored-chain verifier
 # agmi's verifier disagrees with fails this check before it ships.
 
 on:
-  workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - 'corpora/vectors-anchored-chain/**'
-      - 'packaging/**'
-      - 'pyproject.toml'
-      - 'interop/agmi-anchored-chain/**'
-      - '.github/workflows/agmi-anchored-chain.yml'
-  pull_request:
-    branches: [main]
-    paths:
-      - 'corpora/vectors-anchored-chain/**'
-      - 'packaging/**'
-      - 'pyproject.toml'
-      - 'interop/agmi-anchored-chain/**'
-      - '.github/workflows/agmi-anchored-chain.yml'
   schedule:
-    # Weekly, Wednesday 07:23 UTC: catches drift in the runner image, not in the pins.
-    - cron: '23 7 * * 3'
+  - cron: 23 7 * * 3
+  workflow_dispatch: 
+  workflow_call: 
 
 permissions:
   contents: read
-
-concurrency:
-  # A newer push to the same pull request or branch supersedes the older run.
-  # Main and tags never cancel: each main push keeps its own group by sha.
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || (github.ref == 'refs/heads/main' && github.sha) || github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' || github.event_name == 'pull_request_target' || (github.event_name == 'push' && github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/tags/')) }}
 
 jobs:
   agmi:

@@ -37,25 +37,13 @@ name: crosswalk
 # on purpose, and it says out loud that it filed nothing.
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
   schedule:
-    # 05:40 UTC on Mondays. Weekly rather than daily because the thing it watches
-    # is somebody else's release cadence, and off the hour so it does not queue
-    # behind everything scheduled at :00.
-    - cron: '40 5 * * 1'
-  workflow_dispatch:
+  - cron: 40 5 * * 1
+  workflow_dispatch: 
+  workflow_call: 
 
 permissions:
   contents: read
-
-concurrency:
-  # A newer push to the same pull request or branch supersedes the older run.
-  # Main and tags never cancel: each main push keeps its own group by sha.
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || (github.ref == 'refs/heads/main' && github.sha) || github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' || github.event_name == 'pull_request_target' || (github.event_name == 'push' && github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/tags/')) }}
 
 jobs:
   check-local:

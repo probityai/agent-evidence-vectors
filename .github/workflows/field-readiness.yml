@@ -10,24 +10,12 @@ name: field-readiness
 
 on:
   schedule:
-    # Daily 06:30 UTC.
-    - cron: '30 6 * * *'
+  - cron: 30 6 * * *
   workflow_dispatch: {}
-  pull_request:
-    paths:
-      - scripts/field-readiness.py
-      - scripts/field-readiness-test.py
-      - release/field-readiness.toml
-      - .github/workflows/field-readiness.yml
+  workflow_call: 
 
 permissions:
   contents: read
-
-concurrency:
-  # A newer push to the same pull request or branch supersedes the older run.
-  # Main and tags never cancel: each main push keeps its own group by sha.
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || (github.ref == 'refs/heads/main' && github.sha) || github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' || github.event_name == 'pull_request_target' || (github.event_name == 'push' && github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/tags/')) }}
 
 jobs:
   report:
