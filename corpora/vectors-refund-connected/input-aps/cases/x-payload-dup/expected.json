@@ -1,0 +1,13 @@
+{
+  "base": "source/j01-connected-20261028-r2/cases/j01",
+  "check": "0b",
+  "consumed_at": "2026-10-28T21:45:47.000Z",
+  "edit": "inputs/aps-payload.json carries currency twice",
+  "expected": {
+    "input_aps": "REFUSED:STRICT_PARSE"
+  },
+  "id": "x-payload-dup",
+  "packaged_reader": {
+    "input_aps": "REFUSED:STRICT_PARSE"
+  }
+}
