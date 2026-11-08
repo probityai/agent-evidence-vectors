@@ -1,0 +1,224 @@
+{
+  "authorityKeys": [
+    "key:authority-1",
+    "key:authority-2"
+  ],
+  "call": {
+    "args": {
+      "account": "acct-7",
+      "amount": 40,
+      "currency": "EUR",
+      "memo": "goodwill",
+      "orderId": "ord-2026-118"
+    },
+    "tool": "payments.refund"
+  },
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/grant-use/v1",
+  "decisionTime": "2026-11-08T21:00:00Z",
+  "effect": {
+    "argsDigest": "sha256:d6335b8c0da241e2e200723bee71a08556a218e97392b4749e7ad09adeeac843",
+    "callId": "call-2",
+    "effectId": "effect-2",
+    "grantDigest": "sha256:43bdce2f96a533d0efe35a416b94fe2f9a4e972cd792cff46c3ef2e9608939c1",
+    "observedAt": "2026-11-08T11:00:30Z",
+    "observerKeyId": "key:observer-1",
+    "outcome": "applied",
+    "permitId": "permit-2",
+    "runId": "run-3",
+    "srl": {
+      "digest": "sha256:b283ac46ab0e4cde3f25193bed5e8c16c0586398c332fcffeb6d7e48f483d618",
+      "epoch": 4
+    },
+    "workflowId": "wf-refunds-7"
+  },
+  "effects": [
+    {
+      "argsDigest": "sha256:8be784a1031354fe2721c8c91e0eb27614a4aa3752502ccc7ea54f1ce28a6602",
+      "callId": "call-1",
+      "effectId": "effect-1",
+      "grantDigest": "sha256:43bdce2f96a533d0efe35a416b94fe2f9a4e972cd792cff46c3ef2e9608939c1",
+      "observedAt": "2026-11-08T10:00:30Z",
+      "observerKeyId": "key:observer-1",
+      "outcome": "applied",
+      "permitId": "permit-1",
+      "runId": "run-3",
+      "srl": {
+        "digest": "sha256:b283ac46ab0e4cde3f25193bed5e8c16c0586398c332fcffeb6d7e48f483d618",
+        "epoch": 4
+      },
+      "workflowId": "wf-refunds-7"
+    }
+  ],
+  "grants": [
+    {
+      "caveats": [
+        "no-pii-export"
+      ],
+      "closedWorld": false,
+      "constraints": {
+        "payments.refund": {
+          "account": {
+            "exact": "acct-7"
+          },
+          "amount": {
+            "range": [
+              1,
+              500
+            ]
+          },
+          "currency": {
+            "oneOf": [
+              "EUR",
+              "USD"
+            ]
+          },
+          "orderId": {
+            "prefix": "ord-"
+          }
+        },
+        "tickets.read": {
+          "queue": {
+            "prefix": "support/"
+          }
+        }
+      },
+      "depth": 0,
+      "expiresAt": "2026-11-08T20:00:00Z",
+      "grantId": "grant-root",
+      "holder": "key:delegator-1",
+      "hopKinds": [
+        "child-workflow",
+        "sub-agent",
+        "tool-call"
+      ],
+      "issuer": "key:root-1",
+      "maxDepth": 2,
+      "maxUses": 10,
+      "notBefore": "2026-11-08T08:00:00Z",
+      "parentDigest": null,
+      "tools": [
+        "payments.refund",
+        "tickets.read"
+      ]
+    },
+    {
+      "caveats": [
+        "no-pii-export",
+        "eu-only"
+      ],
+      "closedWorld": false,
+      "constraints": {
+        "payments.refund": {
+          "account": {
+            "exact": "acct-7"
+          },
+          "amount": {
+            "range": [
+              1,
+              100
+            ]
+          },
+          "currency": {
+            "exact": "EUR"
+          },
+          "orderId": {
+            "prefix": "ord-2026-"
+          }
+        }
+      },
+      "depth": 1,
+      "expiresAt": "2026-11-08T18:00:00Z",
+      "grantId": "grant-refunds",
+      "holder": "key:authority-1",
+      "hopKinds": [
+        "tool-call"
+      ],
+      "issuer": "key:delegator-1",
+      "maxDepth": 1,
+      "maxUses": 3,
+      "notBefore": "2026-11-08T09:00:00Z",
+      "parentDigest": "sha256:5dacbfdfc233c246950fe506acb94bd7f189119994a2df899bc08cb9702c12d4",
+      "tools": [
+        "payments.refund"
+      ]
+    }
+  ],
+  "permits": [
+    {
+      "argsDigest": "sha256:8be784a1031354fe2721c8c91e0eb27614a4aa3752502ccc7ea54f1ce28a6602",
+      "authorityKeyId": "key:authority-1",
+      "callId": "call-1",
+      "expiresAt": "2026-11-08T10:05:00Z",
+      "grantDigest": "sha256:43bdce2f96a533d0efe35a416b94fe2f9a4e972cd792cff46c3ef2e9608939c1",
+      "issuedAt": "2026-11-08T10:00:00Z",
+      "permitId": "permit-1",
+      "runId": "run-3",
+      "srl": {
+        "digest": "sha256:b283ac46ab0e4cde3f25193bed5e8c16c0586398c332fcffeb6d7e48f483d618",
+        "epoch": 4
+      },
+      "tool": "payments.refund",
+      "workflowId": "wf-refunds-7"
+    },
+    {
+      "argsDigest": "sha256:d6335b8c0da241e2e200723bee71a08556a218e97392b4749e7ad09adeeac843",
+      "authorityKeyId": "key:authority-1",
+      "callId": "call-2",
+      "expiresAt": "2026-11-08T11:05:00Z",
+      "grantDigest": "sha256:43bdce2f96a533d0efe35a416b94fe2f9a4e972cd792cff46c3ef2e9608939c1",
+      "issuedAt": "2026-11-08T11:00:00Z",
+      "permitId": "permit-2",
+      "runId": "run-3",
+      "srl": {
+        "digest": "sha256:b283ac46ab0e4cde3f25193bed5e8c16c0586398c332fcffeb6d7e48f483d618",
+        "epoch": 4
+      },
+      "tool": "payments.refund",
+      "workflowId": "wf-refunds-7"
+    }
+  ],
+  "roots": [
+    "key:root-1"
+  ],
+  "witness": [
+    {
+      "at": "2026-11-08T08:00:00Z",
+      "digest": "sha256:5dacbfdfc233c246950fe506acb94bd7f189119994a2df899bc08cb9702c12d4",
+      "kind": "grant",
+      "seq": 1
+    },
+    {
+      "at": "2026-11-08T08:00:01Z",
+      "digest": "sha256:43bdce2f96a533d0efe35a416b94fe2f9a4e972cd792cff46c3ef2e9608939c1",
+      "kind": "grant",
+      "seq": 2
+    },
+    {
+      "at": "2026-11-08T10:00:00Z",
+      "digest": "sha256:f424472f0cc20e96a75b19c024f2b36ffcc251a8071aeec10f4b11c51e657caf",
+      "kind": "permit",
+      "seq": 3
+    },
+    {
+      "at": "2026-11-08T10:00:30Z",
+      "digest": "sha256:7549742f10862f5fa077f213261c5feabf77be0429c117580ceca70bcef17e00",
+      "kind": "effect",
+      "seq": 4
+    },
+    {
+      "at": "2026-11-08T11:00:00Z",
+      "digest": "sha256:d82823d9959b7ba4ae8941c74b44319b8116c581155a51a6d97ef5b3c33e4377",
+      "kind": "permit",
+      "seq": 5
+    },
+    {
+      "at": "2026-11-08T11:00:30Z",
+      "digest": "sha256:4919e8c2fe28724bc808219daae6d23c545ac904b6061f9a9f24874a9879a44c",
+      "kind": "effect",
+      "seq": 6
+    }
+  ],
+  "workerKeys": [
+    "key:worker-1"
+  ]
+}

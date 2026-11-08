@@ -1,0 +1,1068 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/grant-use/v1",
+  "corpusDigest": "20cfe51f106239fdf5685cf40704bb8349f0f5a41341de17ceccef65d61a74eb",
+  "counts": {
+    "allow": 17,
+    "deny": 71
+  },
+  "suite": "grant-use/v1",
+  "vectors": [
+    {
+      "edit": "control: a closed-world refund under a child grant that narrows its root",
+      "expected": {
+        "decision": "allow",
+        "reason": "authorized_use"
+      },
+      "files": {
+        "record.json": "6a5eafaa758cc6cb803e4f8cbae456a707bc3f310fd975cc49d95cae50ab45d8"
+      },
+      "id": "allow-two-hop-attenuated",
+      "path": "cases/allow-two-hop-attenuated"
+    },
+    {
+      "edit": "control: the root grant itself is used, at the top of its range",
+      "expected": {
+        "decision": "allow",
+        "reason": "authorized_use"
+      },
+      "files": {
+        "record.json": "a8b98fba6d133e31f2df5a1af5476ed3ab4b4b2e61e18e6150fd06be7d0e6a21"
+      },
+      "id": "allow-root-grant-direct",
+      "path": "cases/allow-root-grant-direct"
+    },
+    {
+      "edit": "control: a sub-agent hop narrows a range to a set and the leaf narrows that set back to a range inside it",
+      "expected": {
+        "decision": "allow",
+        "reason": "authorized_use"
+      },
+      "files": {
+        "record.json": "be2b105a8124c020414bc507a94ecbb4b172ae6dbbf8909fa916927e1b7885ff"
+      },
+      "id": "allow-three-hop-attenuated",
+      "path": "cases/allow-three-hop-attenuated"
+    },
+    {
+      "edit": "control: a child grant identical in authority to its parent is an attenuation",
+      "expected": {
+        "decision": "allow",
+        "reason": "authorized_use"
+      },
+      "files": {
+        "record.json": "9597fb6443413589df1ae653a3ef314b53d7352a34308a659037fe4a01ece2be"
+      },
+      "id": "allow-child-equal-to-parent",
+      "path": "cases/allow-child-equal-to-parent"
+    },
+    {
+      "edit": "control: the child narrows a range to two members of it",
+      "expected": {
+        "decision": "allow",
+        "reason": "authorized_use"
+      },
+      "files": {
+        "record.json": "f87927a1c577f7f12923b5310659d925aab2067810cb4dc1d2b23ebeb1ef07a9"
+      },
+      "id": "allow-child-oneof-within-parent-range",
+      "path": "cases/allow-child-oneof-within-parent-range"
+    },
+    {
+      "edit": "control: the third permit on a grant whose maxUses is 3",
+      "expected": {
+        "decision": "allow",
+        "reason": "authorized_use"
+      },
+      "files": {
+        "record.json": "6f7c59291612af3dbd30de5dbfd2d4a5fec556a55e64bde2d902c72c617836e4"
+      },
+      "id": "allow-last-use-at-max-uses",
+      "path": "cases/allow-last-use-at-max-uses"
+    },
+    {
+      "edit": "control: a fourth permit minted after this one does not spend this one's use",
+      "expected": {
+        "decision": "allow",
+        "reason": "authorized_use"
+      },
+      "files": {
+        "record.json": "e9082ec245bd968ce31b71a84cae843a82305f4ed7e54479ae3b7fb7bb6d402b"
+      },
+      "id": "allow-later-permit-not-counted",
+      "path": "cases/allow-later-permit-not-counted"
+    },
+    {
+      "edit": "control: the effect is observed one second before the leaf grant expires",
+      "expected": {
+        "decision": "allow",
+        "reason": "authorized_use"
+      },
+      "files": {
+        "record.json": "1015216a0d6b5c653c3c24f348b0f4ca126f5ea3ba9b40b968dacec8cfe24a50"
+      },
+      "id": "allow-use-one-second-before-expiry",
+      "path": "cases/allow-use-one-second-before-expiry"
+    },
+    {
+      "edit": "control: the permit is minted and the effect observed at the leaf's notBefore",
+      "expected": {
+        "decision": "allow",
+        "reason": "authorized_use"
+      },
+      "files": {
+        "record.json": "caa46f5c3f6c221350a3649025380f11ed815ae749f8f7aa1afdd0e05272e584"
+      },
+      "id": "allow-use-at-not-before",
+      "path": "cases/allow-use-at-not-before"
+    },
+    {
+      "edit": "control: the effect is observed one second before its permit expires",
+      "expected": {
+        "decision": "allow",
+        "reason": "authorized_use"
+      },
+      "files": {
+        "record.json": "704d47b0cd23e62b2a4c1ddc0ae56916081ebe8457e176e8fce25b21f8aa385f"
+      },
+      "id": "allow-effect-just-before-permit-expiry",
+      "path": "cases/allow-effect-just-before-permit-expiry"
+    },
+    {
+      "edit": "control: the amount is the range's lower end, which is inclusive",
+      "expected": {
+        "decision": "allow",
+        "reason": "authorized_use"
+      },
+      "files": {
+        "record.json": "16a1b6977432070bb0466346f6acc7488024e663c3c87a07336e918693612066"
+      },
+      "id": "allow-range-lower-bound",
+      "path": "cases/allow-range-lower-bound"
+    },
+    {
+      "edit": "control: the amount is the range's upper end, which is inclusive",
+      "expected": {
+        "decision": "allow",
+        "reason": "authorized_use"
+      },
+      "files": {
+        "record.json": "0467a6e4b02280ef2d501f2f2473480d9cc470a5f72a684eef1840042cbd8a2b"
+      },
+      "id": "allow-range-upper-bound",
+      "path": "cases/allow-range-upper-bound"
+    },
+    {
+      "edit": "control: the order id is exactly the granted prefix",
+      "expected": {
+        "decision": "allow",
+        "reason": "authorized_use"
+      },
+      "files": {
+        "record.json": "1fd3ddc520a531ee889f0a43705559de939cdcdb690ee5a585d35eecb384afb1"
+      },
+      "id": "allow-prefix-alone",
+      "path": "cases/allow-prefix-alone"
+    },
+    {
+      "edit": "control: an open-world grant admits an argument it does not name",
+      "expected": {
+        "decision": "allow",
+        "reason": "authorized_use"
+      },
+      "files": {
+        "record.json": "e0dc9a15bad1ad34bf49906c68b8aed57793d6431ebaec128ddd0f9ce0ec847d"
+      },
+      "id": "allow-open-world-unnamed-arg",
+      "path": "cases/allow-open-world-unnamed-arg"
+    },
+    {
+      "edit": "control: an effect of uncertain outcome is still an authorised use",
+      "expected": {
+        "decision": "allow",
+        "reason": "authorized_use"
+      },
+      "files": {
+        "record.json": "dccec37fa65afc86267006cf9e2ad7c6eef61df5b041b9ff78db51884d0d36c7"
+      },
+      "id": "allow-outcome-uncertain",
+      "path": "cases/allow-outcome-uncertain"
+    },
+    {
+      "edit": "control: an effect that did not apply is still an authorised use",
+      "expected": {
+        "decision": "allow",
+        "reason": "authorized_use"
+      },
+      "files": {
+        "record.json": "e4014be0c70219bb992d0885deed13bddcdd5dad45ce5456d3a03adf933962a1"
+      },
+      "id": "allow-outcome-not-applied",
+      "path": "cases/allow-outcome-not-applied"
+    },
+    {
+      "edit": "control: the judged effect is the permit's first; a later one reuses it",
+      "expected": {
+        "decision": "allow",
+        "reason": "authorized_use"
+      },
+      "files": {
+        "record.json": "baabb28d34d315eb0be30c6e5325411f95e653ac7fb93d7e18909f067cb3b781"
+      },
+      "id": "allow-first-effect-before-a-reuse",
+      "path": "cases/allow-first-effect-before-a-reuse"
+    },
+    {
+      "edit": "the root grant was changed after the child named its digest",
+      "expected": {
+        "decision": "deny",
+        "reason": "grant_chain_broken"
+      },
+      "files": {
+        "record.json": "fe480dcd5d266b05488b743b971aa8154af80ca3e08c283430abceda05c18b28"
+      },
+      "id": "chain-parent-digest-stale",
+      "path": "cases/chain-parent-digest-stale"
+    },
+    {
+      "edit": "the root grant was issued by a key that is not a trusted root",
+      "expected": {
+        "decision": "deny",
+        "reason": "grant_chain_broken"
+      },
+      "files": {
+        "record.json": "6fb1f0ddf9a12115b0f154f6ce5e3b2799a319bc4dca5268f360d261075e407f"
+      },
+      "id": "chain-root-issuer-untrusted",
+      "path": "cases/chain-root-issuer-untrusted"
+    },
+    {
+      "edit": "the child grant was issued by a key that does not hold its parent",
+      "expected": {
+        "decision": "deny",
+        "reason": "grant_chain_broken"
+      },
+      "files": {
+        "record.json": "38acbaa23e49ac1de385bf2a99ba8ce67c66d0bc2e06ede3f72b83071ef8b9a1"
+      },
+      "id": "chain-issuer-not-parent-holder",
+      "path": "cases/chain-issuer-not-parent-holder"
+    },
+    {
+      "edit": "the child grant claims depth 2 directly under the root",
+      "expected": {
+        "decision": "deny",
+        "reason": "grant_chain_broken"
+      },
+      "files": {
+        "record.json": "6c91ca8b976480195ea0d9e636ba05cb87be06a0622c4555fb1f4030563048da"
+      },
+      "id": "chain-depth-skips-a-level",
+      "path": "cases/chain-depth-skips-a-level"
+    },
+    {
+      "edit": "the root grant names a parent the record does not carry",
+      "expected": {
+        "decision": "deny",
+        "reason": "grant_chain_broken"
+      },
+      "files": {
+        "record.json": "32da01b53ec2919c1455657593300f2b97537cd3e4984f642e7dd424d3149512"
+      },
+      "id": "chain-root-names-a-parent",
+      "path": "cases/chain-root-names-a-parent"
+    },
+    {
+      "edit": "the child grant adds payments.payout, and the call uses it",
+      "expected": {
+        "decision": "deny",
+        "reason": "grant_widened"
+      },
+      "files": {
+        "record.json": "bd34b9408658af0fcc7cd8cfac41ab49a26f98d8141d25e07e7caf1a5aaf36c4"
+      },
+      "id": "widened-child-adds-tool",
+      "path": "cases/widened-child-adds-tool"
+    },
+    {
+      "edit": "the parent fixes the account; the child admits a second one, and the call refunds to it",
+      "expected": {
+        "decision": "deny",
+        "reason": "grant_widened"
+      },
+      "files": {
+        "record.json": "794dfe5575d10c810eed30a463af86e6070d4afa00afa4a33ae14974f69a517b"
+      },
+      "id": "widened-exact-to-oneof",
+      "path": "cases/widened-exact-to-oneof"
+    },
+    {
+      "edit": "the child's range runs past the parent's, and the call uses it",
+      "expected": {
+        "decision": "deny",
+        "reason": "grant_widened"
+      },
+      "files": {
+        "record.json": "e09235e553578db590aeae207888b73d791bd3ee02e83c13e0c573cfac48c057"
+      },
+      "id": "widened-range",
+      "path": "cases/widened-range"
+    },
+    {
+      "edit": "the child's prefix is shorter than the parent's",
+      "expected": {
+        "decision": "deny",
+        "reason": "grant_widened"
+      },
+      "files": {
+        "record.json": "53eb828a59eaf7aea2f1ea18d0d48cc6459448368571b055df158aa5ad942d5f"
+      },
+      "id": "widened-shorter-prefix",
+      "path": "cases/widened-shorter-prefix"
+    },
+    {
+      "edit": "the child replaces an integer range with a text prefix",
+      "expected": {
+        "decision": "deny",
+        "reason": "grant_widened"
+      },
+      "files": {
+        "record.json": "263dfb2bd2c63b602cb5c094d483635fd9bc5c9d95e515ce0da6c1fc34658a5b"
+      },
+      "id": "widened-constraint-type-changed",
+      "path": "cases/widened-constraint-type-changed"
+    },
+    {
+      "edit": "the child drops the account constraint the parent sets",
+      "expected": {
+        "decision": "deny",
+        "reason": "grant_widened"
+      },
+      "files": {
+        "record.json": "f253187c1da7d97cc6e5525b7e00c09b487349aff619bd3f770c047f1fd54f1e"
+      },
+      "id": "widened-constraint-dropped",
+      "path": "cases/widened-constraint-dropped"
+    },
+    {
+      "edit": "the child names an argument its closed-world parent refuses",
+      "expected": {
+        "decision": "deny",
+        "reason": "grant_widened"
+      },
+      "files": {
+        "record.json": "2043b96c9ed324a786db6597bf3b0495af6be71dcadf7a1862a85c385cb13dde"
+      },
+      "id": "widened-arg-parent-closed-world-refuses",
+      "path": "cases/widened-arg-parent-closed-world-refuses"
+    },
+    {
+      "edit": "the child turns its parent's closed world off",
+      "expected": {
+        "decision": "deny",
+        "reason": "grant_widened"
+      },
+      "files": {
+        "record.json": "3d383100ea3b954a1c2896edcf1efaec1ad830c979ea57db965ad5aed1ef5822"
+      },
+      "id": "widened-closed-world-opened",
+      "path": "cases/widened-closed-world-opened"
+    },
+    {
+      "edit": "the child allows 11 uses under a parent that allows 10",
+      "expected": {
+        "decision": "deny",
+        "reason": "grant_widened"
+      },
+      "files": {
+        "record.json": "135b26ad568a9a814457a5a06a60e73af0967b8a7973cdbb403d4507fbbab852"
+      },
+      "id": "widened-max-uses",
+      "path": "cases/widened-max-uses"
+    },
+    {
+      "edit": "the child expires one second after its parent",
+      "expected": {
+        "decision": "deny",
+        "reason": "grant_widened"
+      },
+      "files": {
+        "record.json": "f3547bd347eb9f9bf06953ce9f88443542b209d01d340d8ac88290e8c8e0158c"
+      },
+      "id": "widened-expiry-extended",
+      "path": "cases/widened-expiry-extended"
+    },
+    {
+      "edit": "the child comes into force one second before its parent",
+      "expected": {
+        "decision": "deny",
+        "reason": "grant_widened"
+      },
+      "files": {
+        "record.json": "cf70440518ebd34c4aaa210108b6dbeade1818b79082acdb3fb82109fbbda250"
+      },
+      "id": "widened-not-before-earlier",
+      "path": "cases/widened-not-before-earlier"
+    },
+    {
+      "edit": "the child allows delegation one level deeper than its parent",
+      "expected": {
+        "decision": "deny",
+        "reason": "grant_widened"
+      },
+      "files": {
+        "record.json": "db4c173dc18be53b299b55190f5da7c7f7e3d0ce287efc30da1a9d8c9333fde5"
+      },
+      "id": "widened-max-depth",
+      "path": "cases/widened-max-depth"
+    },
+    {
+      "edit": "the parent allows no delegation and the child exists anyway",
+      "expected": {
+        "decision": "deny",
+        "reason": "grant_widened"
+      },
+      "files": {
+        "record.json": "21f3d8cdac84748145a139e2a9dcf9951922391938393ae0899555c2f218853b"
+      },
+      "id": "widened-past-parent-max-depth",
+      "path": "cases/widened-past-parent-max-depth"
+    },
+    {
+      "edit": "the child allows an A2A hop its parent does not",
+      "expected": {
+        "decision": "deny",
+        "reason": "grant_widened"
+      },
+      "files": {
+        "record.json": "7913e0ebb47ef3275cfe0a9d74f07381d0926f9dc696d796126dc33bf36b3124"
+      },
+      "id": "widened-hop-kind-added",
+      "path": "cases/widened-hop-kind-added"
+    },
+    {
+      "edit": "the child drops a caveat its parent carries",
+      "expected": {
+        "decision": "deny",
+        "reason": "grant_widened"
+      },
+      "files": {
+        "record.json": "2278830289b0cd069b2d9ec017cd306a0887194d52a7d9ba26b0ae602d9442fc"
+      },
+      "id": "widened-caveat-dropped",
+      "path": "cases/widened-caveat-dropped"
+    },
+    {
+      "edit": "the effect is observed at the leaf's expiresAt, which is exclusive",
+      "expected": {
+        "decision": "deny",
+        "reason": "grant_not_in_force"
+      },
+      "files": {
+        "record.json": "0916cc57c7a8c6cde2608cac586bc23fbf1e0d7f612a49ea506d492fada53b9f"
+      },
+      "id": "use-at-leaf-expiry",
+      "path": "cases/use-at-leaf-expiry"
+    },
+    {
+      "edit": "the effect is observed one second before the leaf is in force",
+      "expected": {
+        "decision": "deny",
+        "reason": "grant_not_in_force"
+      },
+      "files": {
+        "record.json": "dbac5ab3b95acdf4f0480caa0fa45ea01421ccc1a762dffce7b35830fb02e199"
+      },
+      "id": "use-before-not-before",
+      "path": "cases/use-before-not-before"
+    },
+    {
+      "edit": "the call reads tickets, which the root grants and the leaf does not",
+      "expected": {
+        "decision": "deny",
+        "reason": "tool_not_granted"
+      },
+      "files": {
+        "record.json": "5d677c5a09efc273d0d4e6f1f9d5aade20c16001ac753d7c521590036bbf85f2"
+      },
+      "id": "tool-not-in-leaf",
+      "path": "cases/tool-not-in-leaf"
+    },
+    {
+      "edit": "the permit and the effect bind a refund of 400; the record shows arguments for 40",
+      "expected": {
+        "decision": "deny",
+        "reason": "call_args_unbound"
+      },
+      "files": {
+        "record.json": "841d878442e2091cbdcc405cce3795aad7b5feff3079ba18c3426959ef026014"
+      },
+      "id": "call-args-not-the-effects",
+      "path": "cases/call-args-not-the-effects"
+    },
+    {
+      "edit": "the amount is one above the range's upper end",
+      "expected": {
+        "decision": "deny",
+        "reason": "argument_outside_constraint"
+      },
+      "files": {
+        "record.json": "a179ec084e210cef9f3f9e1cc744fe363313b88a11d7e146b1760d90a6172884"
+      },
+      "id": "arg-above-range",
+      "path": "cases/arg-above-range"
+    },
+    {
+      "edit": "the amount is one below the range's lower end",
+      "expected": {
+        "decision": "deny",
+        "reason": "argument_outside_constraint"
+      },
+      "files": {
+        "record.json": "8696869d5dac1ce79d86eba26f34175b98eff5c173344525a51b74e288cfbdb2"
+      },
+      "id": "arg-below-range",
+      "path": "cases/arg-below-range"
+    },
+    {
+      "edit": "the leaf fixes EUR and the call refunds USD",
+      "expected": {
+        "decision": "deny",
+        "reason": "argument_outside_constraint"
+      },
+      "files": {
+        "record.json": "09f41b3f8fa104c736fb7b41309b2163a7683e4b1497e6ccf97acf42f7b34505"
+      },
+      "id": "arg-not-exact",
+      "path": "cases/arg-not-exact"
+    },
+    {
+      "edit": "the order id does not start with the granted prefix",
+      "expected": {
+        "decision": "deny",
+        "reason": "argument_outside_constraint"
+      },
+      "files": {
+        "record.json": "7547e0aa4bab50cc95c1653cfa1f67e34ebb4ecfd7c09cb8f91184d9321f906a"
+      },
+      "id": "arg-prefix-mismatch",
+      "path": "cases/arg-prefix-mismatch"
+    },
+    {
+      "edit": "the currency is not one of the root grant's set",
+      "expected": {
+        "decision": "deny",
+        "reason": "argument_outside_constraint"
+      },
+      "files": {
+        "record.json": "f4241477c463cf8f20ee1a480a25de71766251399adb87b43640a17936427a2c"
+      },
+      "id": "arg-not-in-oneof",
+      "path": "cases/arg-not-in-oneof"
+    },
+    {
+      "edit": "the amount is the text 40, not the integer",
+      "expected": {
+        "decision": "deny",
+        "reason": "argument_outside_constraint"
+      },
+      "files": {
+        "record.json": "2b39d3ccaaa2e9f1cff886f894f01ee597d2ee7e27cd733fbd77a88f758f152e"
+      },
+      "id": "arg-type-mismatch",
+      "path": "cases/arg-type-mismatch"
+    },
+    {
+      "edit": "the call omits the currency the grant constrains",
+      "expected": {
+        "decision": "deny",
+        "reason": "argument_outside_constraint"
+      },
+      "files": {
+        "record.json": "5a02eaf3d76acf931cb1d385f1a3d10afe3111a9c2974f37f86ad9dbefe3c2a3"
+      },
+      "id": "arg-constrained-absent",
+      "path": "cases/arg-constrained-absent"
+    },
+    {
+      "edit": "the call carries an argument a closed-world grant does not name",
+      "expected": {
+        "decision": "deny",
+        "reason": "argument_outside_constraint"
+      },
+      "files": {
+        "record.json": "2a67579e8e8b49c3fadbd1d9fecaf499d1c2be753cefec4ac3d8060ca2ac06ef"
+      },
+      "id": "arg-unnamed-closed-world",
+      "path": "cases/arg-unnamed-closed-world"
+    },
+    {
+      "edit": "the effect names a permit nobody minted on the grant",
+      "expected": {
+        "decision": "deny",
+        "reason": "permit_missing"
+      },
+      "files": {
+        "record.json": "a51a1eacf417840f8a4db20c3acab1601d38cc3c2e93300d00371af7670ffbc9"
+      },
+      "id": "permit-not-minted",
+      "path": "cases/permit-not-minted"
+    },
+    {
+      "edit": "the fourth permit on a grant whose maxUses is 3",
+      "expected": {
+        "decision": "deny",
+        "reason": "uses_exhausted"
+      },
+      "files": {
+        "record.json": "8ed1774001d4e8c7278c2d1f70a15ea497e265d7677957708710626a55e98243"
+      },
+      "id": "uses-beyond-max",
+      "path": "cases/uses-beyond-max"
+    },
+    {
+      "edit": "an earlier permit missing from the witness log still spends a use",
+      "expected": {
+        "decision": "deny",
+        "reason": "uses_exhausted"
+      },
+      "files": {
+        "record.json": "f506fa6ea47e6e39acd06996a435d8953da9926df30fe9f53dff30badadf5284"
+      },
+      "id": "uses-unwitnessed-permit-counts",
+      "path": "cases/uses-unwitnessed-permit-counts"
+    },
+    {
+      "edit": "the permit and effect name the root grant, not the leaf",
+      "expected": {
+        "decision": "deny",
+        "reason": "permit_not_for_grant"
+      },
+      "files": {
+        "record.json": "4b9860f492e207df69db276bd6abe00673133c18e998cbbfb5fb345a1620eca1"
+      },
+      "id": "permit-for-parent-grant",
+      "path": "cases/permit-for-parent-grant"
+    },
+    {
+      "edit": "the permit names an earlier version of the leaf grant",
+      "expected": {
+        "decision": "deny",
+        "reason": "permit_not_for_grant"
+      },
+      "files": {
+        "record.json": "ba883a1ab0320d6716bd5deb787595eec875213babba7f62bf59adee23a5f015"
+      },
+      "id": "permit-for-stale-grant",
+      "path": "cases/permit-for-stale-grant"
+    },
+    {
+      "edit": "a listed authority that does not hold the grant minted the permit",
+      "expected": {
+        "decision": "deny",
+        "reason": "permit_not_from_holder"
+      },
+      "files": {
+        "record.json": "283de04a36cece04f85b017f78635fe0f6e046bfc2977decaa1c869a803e635e"
+      },
+      "id": "permit-not-from-holder",
+      "path": "cases/permit-not-from-holder"
+    },
+    {
+      "edit": "the grant's holder, which minted the permit, is not a listed authority key",
+      "expected": {
+        "decision": "deny",
+        "reason": "permit_authority_unknown"
+      },
+      "files": {
+        "record.json": "58d4203affdce350c50212d4b0b202ff126f6fa608f2e8079422fcd4ab03a0ac"
+      },
+      "id": "permit-authority-unknown",
+      "path": "cases/permit-authority-unknown"
+    },
+    {
+      "edit": "the key that holds the grant and mints its permits sits inside the agent's worker",
+      "expected": {
+        "decision": "deny",
+        "reason": "authority_key_in_worker"
+      },
+      "files": {
+        "record.json": "376e4a5ed2bac23d0d19fc6f90832ab621e763d64a3f3d5196a3abb342e6368b"
+      },
+      "id": "authority-key-in-worker",
+      "path": "cases/authority-key-in-worker"
+    },
+    {
+      "edit": "the effect is observed at the permit's expiresAt",
+      "expected": {
+        "decision": "deny",
+        "reason": "permit_not_in_force"
+      },
+      "files": {
+        "record.json": "55320be58a2ab57d5dcbb1fdb59d40b6986164f103e02499121cee5d85780c88"
+      },
+      "id": "permit-expired-at-effect",
+      "path": "cases/permit-expired-at-effect"
+    },
+    {
+      "edit": "the effect is observed one second before its permit was minted",
+      "expected": {
+        "decision": "deny",
+        "reason": "permit_not_in_force"
+      },
+      "files": {
+        "record.json": "2481ad82fde425e31d1db84632b8df3623e5171b2ed3de85174717499311ebcb"
+      },
+      "id": "effect-before-permit",
+      "path": "cases/effect-before-permit"
+    },
+    {
+      "edit": "the permit was minted before the leaf grant came into force",
+      "expected": {
+        "decision": "deny",
+        "reason": "permit_not_in_force"
+      },
+      "files": {
+        "record.json": "12d87996b3114d9d7eafa2ed28d07d61fd69e1fc753e2ed8e05a04491752b475"
+      },
+      "id": "permit-minted-before-grant",
+      "path": "cases/permit-minted-before-grant"
+    },
+    {
+      "edit": "another effect already consumed this permit, witnessed before this one",
+      "expected": {
+        "decision": "deny",
+        "reason": "permit_reused"
+      },
+      "files": {
+        "record.json": "4e241f709d672508ad39fad3a96c110792bb1b04273b1380e8d7764e923f8ae5"
+      },
+      "id": "permit-reused",
+      "path": "cases/permit-reused"
+    },
+    {
+      "edit": "the permit was minted for another workflow",
+      "expected": {
+        "decision": "deny",
+        "reason": "permit_identity_mismatch"
+      },
+      "files": {
+        "record.json": "734964081e8861440248374ebb05789bcdf98006ce88e4d31a585a4fc38b54d5"
+      },
+      "id": "permit-workflow-differs",
+      "path": "cases/permit-workflow-differs"
+    },
+    {
+      "edit": "the permit was minted for another run",
+      "expected": {
+        "decision": "deny",
+        "reason": "permit_identity_mismatch"
+      },
+      "files": {
+        "record.json": "87a5e5f65f43ed6eb174e004d81b743f687128e810a0486d8ded6e6701e09448"
+      },
+      "id": "permit-run-differs",
+      "path": "cases/permit-run-differs"
+    },
+    {
+      "edit": "the permit was minted for another call",
+      "expected": {
+        "decision": "deny",
+        "reason": "permit_identity_mismatch"
+      },
+      "files": {
+        "record.json": "ef6f786c627e91ee633e1313b4e3af1cd9b9e093d3662896549d5d7a8fa3ed32"
+      },
+      "id": "permit-call-differs",
+      "path": "cases/permit-call-differs"
+    },
+    {
+      "edit": "the permit was minted for another tool",
+      "expected": {
+        "decision": "deny",
+        "reason": "permit_identity_mismatch"
+      },
+      "files": {
+        "record.json": "9e67463c163c1b9d224b4f130435385788bfa958f9290fd26c1b46e64607717c"
+      },
+      "id": "permit-tool-differs",
+      "path": "cases/permit-tool-differs"
+    },
+    {
+      "edit": "the permit authorised a refund of 60; the effect applied 40",
+      "expected": {
+        "decision": "deny",
+        "reason": "effect_args_mismatch"
+      },
+      "files": {
+        "record.json": "e8b0720d039d6a562943704e90d16593b30547ae9fe3113cbfd1abd8ae127c3e"
+      },
+      "id": "effect-args-differ-from-permit",
+      "path": "cases/effect-args-differ-from-permit"
+    },
+    {
+      "edit": "the effect names a grant other than its permit's",
+      "expected": {
+        "decision": "deny",
+        "reason": "effect_grant_unlinked"
+      },
+      "files": {
+        "record.json": "86002de8b8e8d2d8b5e1f96d2f6245d95ceeab729e18cd647c56d3b0447d7211"
+      },
+      "id": "effect-grant-unlinked",
+      "path": "cases/effect-grant-unlinked"
+    },
+    {
+      "edit": "the witness log does not record the effect",
+      "expected": {
+        "decision": "deny",
+        "reason": "effect_unwitnessed"
+      },
+      "files": {
+        "record.json": "68346d1a7b119f4bcca0faa60a127451e18dd5b1728fdc3753eba85ce493e9f2"
+      },
+      "id": "effect-not-witnessed",
+      "path": "cases/effect-not-witnessed"
+    },
+    {
+      "edit": "the witness log does not record the effect's permit",
+      "expected": {
+        "decision": "deny",
+        "reason": "effect_unwitnessed"
+      },
+      "files": {
+        "record.json": "d4ae3bb02ec82c10f30762dcb948b65715efbde13bfc6b3b68e35fffcc0a6319"
+      },
+      "id": "permit-not-witnessed",
+      "path": "cases/permit-not-witnessed"
+    },
+    {
+      "edit": "the witness log skips a sequence number",
+      "expected": {
+        "decision": "deny",
+        "reason": "effect_unwitnessed"
+      },
+      "files": {
+        "record.json": "c60fe2aa5c0b45677c35a9bad8218b86c3ec6693ad546481a8208872e68fbee2"
+      },
+      "id": "witness-log-gap",
+      "path": "cases/witness-log-gap"
+    },
+    {
+      "edit": "the permit enters the witness log after the effect it authorised",
+      "expected": {
+        "decision": "deny",
+        "reason": "effect_unwitnessed"
+      },
+      "files": {
+        "record.json": "8f8b603db51a162c025205a362c59875af3b143325a42ba76bbe6844ac6b1cbe"
+      },
+      "id": "permit-witnessed-after-effect",
+      "path": "cases/permit-witnessed-after-effect"
+    },
+    {
+      "edit": "the effect's digest is logged under the permit kind",
+      "expected": {
+        "decision": "deny",
+        "reason": "effect_unwitnessed"
+      },
+      "files": {
+        "record.json": "29c437a9ebf3ecd83b88807890031b4354ce09f71f37424a2b0a5e7c9b7688d7"
+      },
+      "id": "effect-witnessed-as-permit",
+      "path": "cases/effect-witnessed-as-permit"
+    },
+    {
+      "edit": "the grant chain is empty",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "545af827dbdb826b43e613d7dd43ef3bdda6584c7df09d8e68cfddd0b0e3bd34"
+      },
+      "id": "malformed-grants-empty",
+      "path": "cases/malformed-grants-empty"
+    },
+    {
+      "edit": "maxUses is text",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "9008b8a42513a208d250239252641e8e57151c60bc1f0b5239980afcb042457b"
+      },
+      "id": "malformed-max-uses-text",
+      "path": "cases/malformed-max-uses-text"
+    },
+    {
+      "edit": "maxUses is a boolean",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "d148417fc9a5daaf90237325a8af09d87417ddbdc94e2e020f0e60259c32480f"
+      },
+      "id": "malformed-max-uses-boolean",
+      "path": "cases/malformed-max-uses-boolean"
+    },
+    {
+      "edit": "maxUses is past the largest safe integer",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "4e1c08ba63527ab1130c1f92cf68a4abfe99eb635271ae316119cf493f1a0f44"
+      },
+      "id": "malformed-integer-unsafe",
+      "path": "cases/malformed-integer-unsafe"
+    },
+    {
+      "edit": "a range's lower end is above its upper end",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "07d7596dd0bb57d5e121a551544c08195f5ab5dd244a1bc4b2f21e8b735fab6a"
+      },
+      "id": "malformed-range-reversed",
+      "path": "cases/malformed-range-reversed"
+    },
+    {
+      "edit": "a range end is not an integer",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "c4cac8fb2073417e10b7ca094d97f45a3839cd8824abf8c44f074c69968b6694"
+      },
+      "id": "malformed-range-float",
+      "path": "cases/malformed-range-float"
+    },
+    {
+      "edit": "one constraint names two kinds",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "c4be79dbadcc8f042de18e1bf8c0916710f1caf816f6f29ba9f0445c4f2b5e9c"
+      },
+      "id": "malformed-constraint-two-kinds",
+      "path": "cases/malformed-constraint-two-kinds"
+    },
+    {
+      "edit": "the grant constrains a tool it does not grant",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "1af729771bfdc989ddac300ab08ea64d2fc75d64fbddc891b8a8e9d19d556a63"
+      },
+      "id": "malformed-constraint-ungranted-tool",
+      "path": "cases/malformed-constraint-ungranted-tool"
+    },
+    {
+      "edit": "a grant sits deeper than its own maxDepth",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "835323f2f8a6fe7bdc6f2b493a5d2c601977558d36f6958950e5d28c04f0213b"
+      },
+      "id": "malformed-depth-beyond-own-max",
+      "path": "cases/malformed-depth-beyond-own-max"
+    },
+    {
+      "edit": "the effect's outcome is not one the contract names",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "90637eb2e21befcd58a7ac60d6c2f22cc37ffad83ae6db5870f0242e3a8b33cf"
+      },
+      "id": "malformed-outcome-unknown",
+      "path": "cases/malformed-outcome-unknown"
+    },
+    {
+      "edit": "the decision time uses an offset instead of Z",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "16ad3883e6dd497b5f7076c2510350b2b7399fa2fb076ba4d9dfdce946dc2d63"
+      },
+      "id": "malformed-time-offset",
+      "path": "cases/malformed-time-offset"
+    },
+    {
+      "edit": "the effect is stamped after the instant it is judged at",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "ab109eea4eeb0cc0c6fb164cbb516c79f942582e134b0945a8589ca9fbc1929d"
+      },
+      "id": "malformed-evidence-after-decision",
+      "path": "cases/malformed-evidence-after-decision"
+    },
+    {
+      "edit": "two permits carry one permit id",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "383641ffb2b2fa870d74e9d7b4de87e318c3cb7caaf349037a2f4eee4770ab74"
+      },
+      "id": "malformed-duplicate-permit-id",
+      "path": "cases/malformed-duplicate-permit-id"
+    },
+    {
+      "edit": "the record omits the call the effect applied",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "9e08f7059de830fccd77dbe455128708b7f956254c8195c42e0dd3ba9d131c58"
+      },
+      "id": "malformed-call-missing",
+      "path": "cases/malformed-call-missing"
+    },
+    {
+      "edit": "the record names no contract",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_missing"
+      },
+      "files": {
+        "record.json": "0b36a1ae892059cce55ae1d3017ec56ff7fffd68a1f8a775d7f23992b7728a18"
+      },
+      "id": "contract-id-missing",
+      "path": "cases/contract-id-missing"
+    },
+    {
+      "edit": "the record names a contract version that does not exist",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_unknown"
+      },
+      "files": {
+        "record.json": "872007f335ce1d1b99e99590a9e10301aa68016f5ba61104179f80c256c4361b"
+      },
+      "id": "contract-id-unknown",
+      "path": "cases/contract-id-unknown"
+    }
+  ],
+  "verifierContract": "verifier record.json --json; exit 0 allow, 1 deny"
+}
