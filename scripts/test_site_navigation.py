@@ -66,6 +66,7 @@ PREDICATES = (
     ("v1", "re-enable-decision"),
     ("v1", "joint-authority"),
     ("v1", "revocation-boundary"),
+    ("v1", "control-decision"),
     ("v1", "evidence-scope-disclosure"),
     ("v1", "launch-chain"),
     ("v1", "ml-bom"),
@@ -134,6 +135,44 @@ class HtmlView(HTMLParser):
             self.text.append(data)
 
 
+LINK_RE = re.compile(r"\]\(([^)#?\s]+)")
+DOCUMENT_LINE_RE = re.compile(r"^- Document: `([^`]+)`$", re.MULTILINE)
+
+
+def copy_linked_files(tmp_path: Path, copied: list[str]) -> None:
+    """Copy the registry's normative documents and what the copied documents link to.
+
+    A hand-kept list of copied documents falls behind the first time one of
+    them gains a link to a file that is not on the list, and the build then
+    stops on a link that is valid in the repository. Following the links of
+    the listed documents one level deep keeps the fixture a faithful subset.
+    """
+    registry = (SOURCE_ROOT / "spec/predicates/REGISTRY.md").read_text(encoding="utf-8")
+    for relative in DOCUMENT_LINE_RE.findall(registry):
+        if relative not in copied and (SOURCE_ROOT / relative).is_file():
+            copy_file(tmp_path, SOURCE_ROOT / relative)
+            copied.append(relative)
+    for relative in copied:
+        if not relative.endswith(".md"):
+            continue
+        source = SOURCE_ROOT / relative
+        for value in LINK_RE.findall(source.read_text(encoding="utf-8")):
+            if urlsplit(value).scheme or value.startswith("/"):
+                continue
+            linked = (source.parent / value).resolve()
+            if not linked.is_file() or not linked.is_relative_to(SOURCE_ROOT):
+                continue
+            copy_file(tmp_path, linked)
+
+
+def copy_file(tmp_path: Path, source: Path) -> None:
+    """Copy one repository file to the same relative path under ``tmp_path``."""
+    destination = tmp_path / source.relative_to(SOURCE_ROOT)
+    if not destination.exists():
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_bytes(source.read_bytes())
+
+
 @pytest.fixture
 def repository(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
     """Build a small complete site source with the real predicate documents."""
@@ -159,6 +198,7 @@ def repository(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
         target = tmp_path / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(text, encoding="ascii")
+    copied: list[str] = []
     for relative in (
         "spec/predicates/REGISTRY.md",
         "docs/proposals/audit-record-04-principal.md",
@@ -191,6 +231,8 @@ def repository(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
         target = tmp_path / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes((SOURCE_ROOT / relative).read_bytes())
+        copied.append(relative)
+    copy_linked_files(tmp_path, copied)
     monkeypatch.setattr(site, "REPO_ROOT", tmp_path)
     monkeypatch.setattr(site, "CITATION", tmp_path / "CITATION.cff")
     monkeypatch.setattr(site, "CODES_GO", tmp_path / "aee/codes.go")
@@ -433,7 +475,7 @@ class TestSiteNavigation:
             root = fromstring((built_site / "sitemap.xml").read_bytes())
             namespace = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
             urls = [node.text for node in root.findall("s:url/s:loc", namespace)]
-            assert len(urls) == len(set(urls)) == 57
+            assert len(urls) == len(set(urls)) == 59
             assert root.find("s:url/s:lastmod", namespace) is None
 
         def test_local_image_loads_repository_bytes(self, repository: Path) -> None:
