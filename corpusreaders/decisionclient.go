@@ -271,6 +271,33 @@ func dcPostureOf(r map[string]any) (*dcPosture, bool) {
 	return &dcPosture{Enforcement: enforcement, FailMode: failMode, FailModeSource: source}, true
 }
 
+// dcPostureAsStated returns the posture exactly as the record states it, in the
+// vocabulary or not, as Python's retained() keeps it. A member that is absent reads
+// as the empty string. The second result is false only when the posture is not an
+// object or a member of it is not a string.
+func dcPostureAsStated(r map[string]any) (*dcPosture, bool) {
+	value, present := r["posture"]
+	if !present {
+		return nil, true
+	}
+	posture, isObject := value.(map[string]any)
+	if !isObject {
+		return nil, false
+	}
+	read := func(key string) (string, bool) {
+		member, has := posture[key]
+		if !has {
+			return "", true
+		}
+		text, isString := member.(string)
+		return text, isString
+	}
+	enforcement, okE := read("enforcement")
+	failMode, okF := read("failMode")
+	source, okS := read("failModeSource")
+	return &dcPosture{Enforcement: enforcement, FailMode: failMode, FailModeSource: source}, okE && okF && okS
+}
+
 // dcOptionalWellFormed holds the optional members to their types and to the
 // exchange: an open breaker sent nothing, only an arrived reply has a size, and
 // a stated limit needs the size of every reply that arrived.
@@ -372,7 +399,7 @@ func dcRetain(r map[string]any) (dcRetained, bool) {
 	mode, okMode := dcString(client, "mode")
 	outcome, okOutcome := dcString(decision, "outcome")
 	performed, okPerformed := dcBool(effect, "performed")
-	posture, okPosture := dcPostureOf(r)
+	posture, okPosture := dcPostureAsStated(r)
 	kept := dcRetained{Action: action, Condition: condition, Mode: mode, Outcome: outcome,
 		Performed: performed, Posture: posture}
 	return kept, okAction && okCondition && okMode && okOutcome && okPerformed && okPosture
