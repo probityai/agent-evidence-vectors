@@ -33,6 +33,7 @@ from __future__ import annotations
 import argparse
 import fnmatch
 import hashlib
+import itertools
 import re
 import subprocess
 import sys
@@ -153,7 +154,7 @@ RULES: list[tuple[str, re.Pattern[str], str]] = [
 
 FENCE = re.compile(r"^\s*(```|~~~)")
 INLINE_CODE = re.compile(r"`[^`\n]*`")
-HTML_COMMENT = re.compile(r"<!--.*?-->", re.S)
+HTML_COMMENT = re.compile(r"<!--.*?-->", re.DOTALL)
 LINK_TARGET = re.compile(r"\]\([^)\s]*(?:\s+\"[^\"]*\")?\)")
 AUTOLINK = re.compile(r"<https?://[^>\s]+>|https?://\S+")
 TOKEN = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]*(?:/[A-Za-z0-9._-]+)*")
@@ -178,7 +179,7 @@ def private_name_candidates(token: str) -> set[str]:
     out = {token}
     parts = [p for p in token.split("/") if p]
     out.update(parts)
-    out.update(f"{a}/{b}" for a, b in zip(parts, parts[1:], strict=False))
+    out.update(f"{a}/{b}" for a, b in itertools.pairwise(parts))
     for part in parts:
         dotted = part.split(".")
         out.update(".".join(dotted[i:]) for i in range(len(dotted)))
@@ -253,9 +254,12 @@ def allowed(finding: Finding, entries: set[tuple[str, str, str]]) -> bool:
     if finding.rule == "private-name":
         return False
     for path, rule, text in entries:
-        if rule == finding.rule and fnmatch.fnmatchcase(finding.path, path):
-            if text == "*" or text.lower() == finding.text.lower():
-                return True
+        if (
+            rule == finding.rule
+            and fnmatch.fnmatchcase(finding.path, path)
+            and (text == "*" or text.lower() == finding.text.lower())
+        ):
+            return True
     return False
 
 
