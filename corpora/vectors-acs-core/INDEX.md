@@ -33,8 +33,8 @@ successor too.
 | `spec-vendored/issue-32-comment-6661136108.md` | `GenAI-Security-Project/agent-control-standard#32 (comment 6661136108)` | `issue body` | proposal | issue 32 comment 6661136108 by bar-capsule, as last edited at 2026-11-05T14:55:19Z; a comment has no commit, so the sha256 of the vendored bytes is the pin |
 | `spec-vendored/issue-32-comment-5725186199.md` | `GenAI-Security-Project/agent-control-standard#32 (comment 5725186199)` | `issue body` | proposal | issue 32 comment 5725186199 by narko4u, as last edited at 2026-09-18T04:32:18Z; a comment has no commit, so the sha256 of the vendored bytes is the pin |
 
-This corpus is 164 vectors, of which 63 a conformant verifier must
-not fail closed on and 98 it must reject.
+This corpus is 166 vectors, of which 64 a conformant verifier must
+not fail closed on and 99 it must reject.
 
 **No implementation has been run against this corpus.** There is no reference
 adapter in the specification's repository at the pinned commit, and the two
@@ -237,6 +237,7 @@ what it tests, so each waits for its sentence and is minted from it.
 | `v25f01d8fe1e91bf5` | accept | acs-f-8 | ACS-R-006 | allow | not asserted | artifact | PEER |
 | `v28a228c72a0a72e8` | reject | acs-f-17 | ACS-R-050 | deny | not asserted | artifact | EXTERNAL |
 | `v2aa5e37455fda245` | accept | acs-f-13 | ACS-R-030 | allow | not asserted | substrate | SELF |
+| `v2bd45d189edf6583` | accept | acs-f-21 | ACS-R-075, ACS-R-076 | allow | not asserted | substrate | SELF |
 | `v2d172bf817c9b0ca` | accept | acs-f-14 | ACS-R-034 | allow | not asserted | substrate | SELF |
 | `v317a035acc0101c3` | reject | acs-f-14 | ACS-R-033 | deny | not asserted | substrate | SELF |
 | `v31ce9cd718b96f51` | reject | acs-f-17 | ACS-R-054 | deny | not asserted | artifact | EXTERNAL |
@@ -293,6 +294,7 @@ what it tests, so each waits for its sentence and is minted from it.
 | `v85f225380d40f147` | accept | acs-f-18 | ACS-R-064 | allow | not asserted | artifact | EXTERNAL |
 | `v88176a8db9aee0c7` | reject | acs-f-13 | ACS-R-028, ACS-R-029 | deny | `SIGNATURE_INVALID` | substrate | PEER |
 | `v89ea07928daff608` | reject | acs-f-12 | ACS-R-036, ACS-R-037 | deny | not asserted | substrate | SELF |
+| `v8a38f9a829ee29f8` | reject | acs-f-21 | ACS-R-075 | deny | not asserted | substrate | SELF |
 | `v8a5f343c721f2f14` | accept | acs-f-16 | ACS-R-058 | allow | not asserted | artifact | EXTERNAL |
 | `v8b8bb4f181c906e6` | accept | acs-f-15 | ACS-R-045 | allow | not asserted | substrate | SELF |
 | `v8ca0304ee7cb7975` | accept | acs-f-21 | ACS-R-078, ACS-R-076 | allow | not asserted | substrate | SELF |
@@ -1430,6 +1432,26 @@ Does not assert: the cause of the internal error.
 Expected: **deny**. The same -32603 unsigned, and the step proceeded. Anyone on the path can write an unsigned error, so an unsigned -32603 is not the Guardian's word that it failed and never lets a step proceed
 
 Does not assert: who wrote the unsigned error.
+
+#### `v8a38f9a829ee29f8` (reject)
+
+> `ACS-R-075`, `GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-6639119175.md:6`:
+> A refusal or an integrity failure blocks the step whatever the posture: any unsigned error, any signed error other than -32603, a bad signature or unknown key_id, a JSON-RPC id or request_id that doesn't match, or a result that fails response-envelope.json, an allow included.
+
+Expected: **deny**. A signed -32003 CAPABILITY_NOT_NEGOTIATED under an opted-in proceed, and the step proceeded. The split blocks any signed error other than -32603, so a refusal list of six codes that leaves -32002, -32003 and -32007 on the posture fails here
+
+Does not assert: which method was exercised without being negotiated.
+
+#### `v2bd45d189edf6583` (accept)
+
+> `ACS-R-075`, `GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-6639119175.md:6`:
+> A refusal or an integrity failure blocks the step whatever the posture: any unsigned error, any signed error other than -32603, a bad signature or unknown key_id, a JSON-RPC id or request_id that doesn't match, or a result that fails response-envelope.json, an allow included.
+> `ACS-R-076`, `GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-6639119175.md:6`:
+> It is recorded with its failure class.
+
+Expected: **allow**. A signed -32007 CHAIN_MISMATCH under an opted-in proceed, blocked and recorded as a refusal with its code
+
+Does not assert: how the chain came to mismatch.
 
 #### `v45feeb31130e2d4a` (reject)
 

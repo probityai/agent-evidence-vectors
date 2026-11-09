@@ -1274,11 +1274,11 @@
     }
   ],
   "counts": {
-    "accept": 63,
-    "reject": 98,
+    "accept": 64,
+    "reject": 99,
     "indeterminate": 3
   },
-  "corpusDigest": "004a8d03347ed0c7450e2825a377f5c3fbf79253f6c9d15a52215118e3e8439b",
+  "corpusDigest": "e3ba6c8fadd42568c24ab38e01fb46848b8e3f5c29a604a16e13cdf95ad70735",
   "note": "Each reject member has an accepting twin somewhere in its family, so an implementation that denies everything scores zero rather than full marks. A member the specification cannot express carries the verdict unmeasurable and the reason it cannot.",
   "vectors": [
     {
@@ -1887,6 +1887,28 @@
       "coverage": "configured",
       "cites": "the same configuration with the label \"2026-10\", which names the secret and says nothing about it. A checker that refuses any label it cannot explain fails this member.",
       "doesNotAssert": "anything about a label derived some other way; whether a label was derived from a secret is decidable only for the derivation tried"
+    },
+    {
+      "id": "v2bd45d189edf6583",
+      "kind": "accept",
+      "file": "vectors/v2bd45d189edf6583.json",
+      "family": "acs-f-21",
+      "requirements": [
+        "ACS-R-075",
+        "ACS-R-076"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "a signed -32007 CHAIN_MISMATCH under an opted-in proceed, blocked and recorded as a refusal with its code",
+      "doesNotAssert": "how the chain came to mismatch"
     },
     {
       "id": "v2d172bf817c9b0ca",
@@ -3071,6 +3093,27 @@
       "coverage": "observed",
       "cites": "the case section 6.5 names: the Observed Agent cannot apply the redaction, ships the call with the original payload, API key and all, and its audit log records the modification as applied. The log recorded a modification that never happened. A checker reading only the audit log counts a redaction that did not occur.",
       "doesNotAssert": "that the key was misused after it left; only that it left while the record said otherwise"
+    },
+    {
+      "id": "v8a38f9a829ee29f8",
+      "kind": "reject",
+      "file": "vectors/v8a38f9a829ee29f8.json",
+      "family": "acs-f-21",
+      "requirements": [
+        "ACS-R-075"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "a signed -32003 CAPABILITY_NOT_NEGOTIATED under an opted-in proceed, and the step proceeded. The split blocks any signed error other than -32603, so a refusal list of six codes that leaves -32002, -32003 and -32007 on the posture fails here",
+      "doesNotAssert": "which method was exercised without being negotiated"
     },
     {
       "id": "v8a5f343c721f2f14",

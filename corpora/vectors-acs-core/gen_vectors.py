@@ -4592,6 +4592,31 @@ def build_acs_f_21(add) -> None:
         ),
         does_not_assert="who wrote the unsigned error",
     )
+    add(
+        kind="reject", family="acs-f-21", requirements=["ACS-R-075"],
+        payload=acs_f_21_step(
+            answer=acs_f_21_error(-32003), agent_posture="proceed", guardian_posture=None, outcome="proceeded",
+            audit=[acs_f_21_audit("guardian_error", "proceed", error_code=-32003)],
+        ),
+        verdict="deny", **common,
+        cites=(
+            "a signed -32003 CAPABILITY_NOT_NEGOTIATED under an opted-in proceed, "
+            "and the step proceeded. The split blocks any signed error other than "
+            "-32603, so a refusal list of six codes that leaves -32002, -32003 and "
+            "-32007 on the posture fails here"
+        ),
+        does_not_assert="which method was exercised without being negotiated",
+    )
+    add(
+        kind="accept", family="acs-f-21", requirements=["ACS-R-075", "ACS-R-076"],
+        payload=acs_f_21_step(
+            answer=acs_f_21_error(-32007), agent_posture="proceed", guardian_posture=None, outcome="blocked",
+            audit=[acs_f_21_audit("refusal", None, error_code=-32007)],
+        ),
+        verdict="allow", **common,
+        cites="a signed -32007 CHAIN_MISMATCH under an opted-in proceed, blocked and recorded as a refusal with its code",
+        does_not_assert="how the chain came to mismatch",
+    )
 
     # The HTTP layer.
     add(

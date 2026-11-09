@@ -235,7 +235,7 @@ vendored under `spec-vendored/issue-32-comment-*.md` and pinned by sha256. No
 specification text carries the split yet. When the section 6.4 pull request
 lands, these members are re-minted from its text, and a reword stops the build.
 
-Twenty members, ten accepting and ten rejecting:
+Twenty-two members, eleven accepting and eleven rejecting:
 
 - **Default deny, and who may loosen it** (`ACS-R-078`). With no posture set, a
   silent Guardian's step is blocked. A Guardian that declares `proceed` cannot
@@ -244,7 +244,7 @@ Twenty members, ten accepting and ten rejecting:
 - **Refusals block under either posture** (`ACS-R-075`, `ACS-R-080`,
   `ACS-R-079`). The oversized envelope answered with a signed -32600 is blocked
   under both postures. An unsigned -32603 never lets a step proceed. An HTTP
-  401, 403 or 429 is a refusal.
+  401, 403 or 429 is a refusal, and so is any signed error other than -32603: a signed -32003 that proceeds fails.
 - **What still follows the posture** (`ACS-R-074`). A signed -32603 and an HTTP
   503 with no JSON-RPC body proceed under an opted-in `proceed`. These are the
   controls that fail an implementation which blocks everything.
