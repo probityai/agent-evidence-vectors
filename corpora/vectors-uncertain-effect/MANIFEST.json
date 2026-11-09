@@ -1,9 +1,9 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/uncertain-effect",
-  "corpusDigest": "6b212e324c0a78b1c70a725b07aa939050a8d7344679a2fb6e89a465054d1191",
+  "corpusDigest": "81e840e8585c20b07bf86394e2d0976f5b7db7801609ca7dc4af3c385d226bca",
   "counts": {
-    "allow": 15,
-    "deny": 25
+    "allow": 20,
+    "deny": 34
   },
   "runtimeContract": "runtime scenario.json, AEV_EFFECT_OWNER; see uncertaineffect_runtime",
   "suite": "uncertain-effect/v1",
@@ -2049,6 +2049,821 @@
             ]
           },
           "summary": "the first call commits and its reply is lost; the owner does not deduplicate, and its lookups are final, so the runtime must ask before it sends again"
+        }
+      }
+    },
+    {
+      "edit": "control: the worker crashed with its call in flight, nothing was sent again, and the runtime reports unknown with the reservation charged",
+      "expected": {
+        "decision": "allow",
+        "reason": "effect_held"
+      },
+      "files": {
+        "record.json": "98308793610ccbf457d05c0bc39827fd5bf72a17fab83f534ff35f758d16672f"
+      },
+      "id": "allow-crash-mid-step-held-unknown",
+      "path": "cases/allow-crash-mid-step-held-unknown",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "unknown",
+        "ownerEffects": 1,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            },
+            {
+              "effects": 1,
+              "outcome": "unknown"
+            }
+          ],
+          "id": "crash-mid-step-checkpoint-kept",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_hold"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "final"
+            ]
+          },
+          "restart": {
+            "mode": "crash",
+            "state": "kept",
+            "taskId": "same"
+          },
+          "summary": "the worker is killed while its call is in flight and the owner commits it anyway; the step restarts with its checkpoint and the same task, and must not send it again"
+        }
+      }
+    },
+    {
+      "edit": "control: the worker crashed and lost its checkpoint, the restart asked the owner by key, found the effect and closed the unknown as committed",
+      "expected": {
+        "decision": "allow",
+        "reason": "effect_held"
+      },
+      "files": {
+        "record.json": "f4701251da5503f64d36c84a82749c88f41165a7a97a1e4a39ab00788e2c5c8c"
+      },
+      "id": "allow-crash-checkpoint-lost-reconciled-present",
+      "path": "cases/allow-crash-checkpoint-lost-reconciled-present",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 1,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            },
+            {
+              "effects": 1,
+              "outcome": "unknown"
+            }
+          ],
+          "id": "crash-mid-step-checkpoint-lost",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_hold"
+            ],
+            "deduplicatesByKey": true,
+            "lookups": [
+              "final"
+            ]
+          },
+          "restart": {
+            "mode": "crash",
+            "state": "wiped",
+            "taskId": "new"
+          },
+          "summary": "the worker is killed while its call is in flight and its checkpoint is lost; the step restarts under a new task, and the owner deduplicates by key, so the key must not follow the task"
+        }
+      }
+    },
+    {
+      "edit": "control: the engine redelivers the step under task-2, the resend carries the operation's key, and the owner deduplicates it",
+      "expected": {
+        "decision": "allow",
+        "reason": "effect_held"
+      },
+      "files": {
+        "record.json": "a3ff16081752da467e72b67b6b4366ac6078bbeaa3848f344b148435ca7a76ad"
+      },
+      "id": "allow-redelivery-same-key-owner-deduplicates",
+      "path": "cases/allow-redelivery-same-key-owner-deduplicates",
+      "retained": {
+        "attempts": 2,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 1,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            },
+            {
+              "effects": 1,
+              "outcome": "unknown"
+            }
+          ],
+          "id": "redelivery-new-task-id",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_drop"
+            ],
+            "deduplicatesByKey": true,
+            "lookups": [
+              "final"
+            ]
+          },
+          "restart": {
+            "mode": "rerun",
+            "state": "kept",
+            "taskId": "new"
+          },
+          "summary": "the call commits and its reply is lost; the engine redelivers the step under a new task identifier, and the owner deduplicates by key"
+        }
+      }
+    },
+    {
+      "edit": "control: a rewind replays a confirmed step under the same key and the owner deduplicates it",
+      "expected": {
+        "decision": "allow",
+        "reason": "effect_held"
+      },
+      "files": {
+        "record.json": "f0bef3a763259cec834834211e7f2adacb7a767940edf4eb1392f5b01a81487e"
+      },
+      "id": "allow-replay-after-confirmed-owner-deduplicates",
+      "path": "cases/allow-replay-after-confirmed-owner-deduplicates",
+      "retained": {
+        "attempts": 2,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 1,
+        "unknownAttempts": 0
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "rewind-replay-after-confirmed",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "final"
+            ]
+          },
+          "restart": {
+            "mode": "rerun",
+            "state": "wiped",
+            "taskId": "same"
+          },
+          "summary": "the call commits and is confirmed; the run is rewound, its history is gone, and the step replays against an owner that does not deduplicate"
+        }
+      }
+    },
+    {
+      "edit": "control: one human completion is delivered twice, both runs carry the operation's key, and the owner deduplicates",
+      "expected": {
+        "decision": "allow",
+        "reason": "effect_held"
+      },
+      "files": {
+        "record.json": "9640f0c0819f19ab4b4b1874e74d5ea2ce274c8da7a063933a28f76e2e5e9bdd"
+      },
+      "id": "allow-duplicate-completion-owner-deduplicates",
+      "path": "cases/allow-duplicate-completion-owner-deduplicates",
+      "retained": {
+        "attempts": 2,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 1,
+        "unknownAttempts": 0
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            },
+            {
+              "effects": 1,
+              "outcome": "unknown"
+            }
+          ],
+          "id": "duplicate-human-completion",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_slow"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "final"
+            ]
+          },
+          "restart": {
+            "mode": "concurrent",
+            "state": "kept",
+            "taskId": "new"
+          },
+          "summary": "two deliveries of one completion signal run the step at the same time against a slow owner that does not deduplicate"
+        }
+      }
+    },
+    {
+      "edit": "the engine redelivers the step under task-2 and the resend derives its key from the task identifier, so the owner's deduplication never sees the first call",
+      "expected": {
+        "decision": "deny",
+        "reason": "idempotency_key_follows_trigger"
+      },
+      "files": {
+        "record.json": "2443cbe26ec4c5b8c17de34d6bd9f955ade97a1e336d32836d04ea649d17a676"
+      },
+      "id": "redelivery-under-task-derived-key",
+      "path": "cases/redelivery-under-task-derived-key",
+      "retained": {
+        "attempts": 2,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 2,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 2,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            },
+            {
+              "effects": 1,
+              "outcome": "unknown"
+            }
+          ],
+          "id": "redelivery-new-task-id",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_drop"
+            ],
+            "deduplicatesByKey": true,
+            "lookups": [
+              "final"
+            ]
+          },
+          "restart": {
+            "mode": "rerun",
+            "state": "kept",
+            "taskId": "new"
+          },
+          "summary": "the call commits and its reply is lost; the engine redelivers the step under a new task identifier, and the owner deduplicates by key"
+        }
+      }
+    },
+    {
+      "edit": "a rewind replays a confirmed step under a new key, so the owner applies it again",
+      "expected": {
+        "decision": "deny",
+        "reason": "idempotency_key_follows_trigger"
+      },
+      "files": {
+        "record.json": "c4a39c8f50bd0bfe87248ef13d36b6060df13122acd3f49a1bd2d0cac3c58fce"
+      },
+      "id": "replay-under-new-key-after-confirmed",
+      "path": "cases/replay-under-new-key-after-confirmed",
+      "retained": {
+        "attempts": 2,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 2,
+        "unknownAttempts": 0
+      },
+      "runtime": {
+        "recordedEffects": 2,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "rewind-replay-after-confirmed",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "final"
+            ]
+          },
+          "restart": {
+            "mode": "rerun",
+            "state": "wiped",
+            "taskId": "same"
+          },
+          "summary": "the call commits and is confirmed; the run is rewound, its history is gone, and the step replays against an owner that does not deduplicate"
+        }
+      }
+    },
+    {
+      "edit": "one human completion is delivered twice and the second delivery keys the call by its own delivery identifier",
+      "expected": {
+        "decision": "deny",
+        "reason": "idempotency_key_follows_trigger"
+      },
+      "files": {
+        "record.json": "27c2a5d1656b633e12f7153f22fb5bb0d7bb640047271bd43ad149965f1f2a37"
+      },
+      "id": "duplicate-completion-under-delivery-key",
+      "path": "cases/duplicate-completion-under-delivery-key",
+      "retained": {
+        "attempts": 2,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 2,
+        "unknownAttempts": 0
+      },
+      "runtime": {
+        "recordedEffects": 2,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            },
+            {
+              "effects": 1,
+              "outcome": "unknown"
+            }
+          ],
+          "id": "duplicate-human-completion",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_slow"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "final"
+            ]
+          },
+          "restart": {
+            "mode": "concurrent",
+            "state": "kept",
+            "taskId": "new"
+          },
+          "summary": "two deliveries of one completion signal run the step at the same time against a slow owner that does not deduplicate"
+        }
+      }
+    },
+    {
+      "edit": "the worker crashed with its call in flight and the redelivered step resends it to an owner that does not deduplicate, without asking the owner first",
+      "expected": {
+        "decision": "deny",
+        "reason": "retry_after_unknown"
+      },
+      "files": {
+        "record.json": "4f2f59215575b4a70049e4056adf97730d00fd9d2f28f1c436deed61e4e78a7c"
+      },
+      "id": "crash-redelivery-resends-blind",
+      "path": "cases/crash-redelivery-resends-blind",
+      "retained": {
+        "attempts": 2,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 2,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 2,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            },
+            {
+              "effects": 1,
+              "outcome": "unknown"
+            }
+          ],
+          "id": "crash-mid-step-checkpoint-lost",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_hold"
+            ],
+            "deduplicatesByKey": true,
+            "lookups": [
+              "final"
+            ]
+          },
+          "restart": {
+            "mode": "crash",
+            "state": "wiped",
+            "taskId": "new"
+          },
+          "summary": "the worker is killed while its call is in flight and its checkpoint is lost; the step restarts under a new task, and the owner deduplicates by key, so the key must not follow the task"
+        }
+      }
+    },
+    {
+      "edit": "the first attempt died with its checkpoint, so the trail lists one attempt where the owner's ledger holds two effects",
+      "expected": {
+        "decision": "deny",
+        "reason": "owner_effect_unaccounted"
+      },
+      "files": {
+        "record.json": "5f88b18210d399c63ae80246da6eb5c673694b182027f170aec2c936c7ce4fc2"
+      },
+      "id": "checkpoint-lost-attempt-unrecorded",
+      "path": "cases/checkpoint-lost-attempt-unrecorded",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 2,
+        "unknownAttempts": 0
+      },
+      "runtime": {
+        "recordedEffects": 2,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            },
+            {
+              "effects": 1,
+              "outcome": "unknown"
+            }
+          ],
+          "id": "crash-mid-step-checkpoint-lost",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_hold"
+            ],
+            "deduplicatesByKey": true,
+            "lookups": [
+              "final"
+            ]
+          },
+          "restart": {
+            "mode": "crash",
+            "state": "wiped",
+            "taskId": "new"
+          },
+          "summary": "the worker is killed while its call is in flight and its checkpoint is lost; the step restarts under a new task, and the owner deduplicates by key, so the key must not follow the task"
+        }
+      }
+    },
+    {
+      "edit": "the run's history was deleted by retention, the trail lists no attempt, and the owner's ledger holds the effect",
+      "expected": {
+        "decision": "deny",
+        "reason": "owner_effect_unaccounted"
+      },
+      "files": {
+        "record.json": "dae82bd862ca4f50819f0f4a82645e7af8a4e61dfb335601419190d1c14e43ba"
+      },
+      "id": "history-deleted-effect-unaccounted",
+      "path": "cases/history-deleted-effect-unaccounted",
+      "retained": {
+        "attempts": 0,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "not_run",
+        "ownerEffects": 1,
+        "unknownAttempts": 0
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "rewind-replay-after-confirmed",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "final"
+            ]
+          },
+          "restart": {
+            "mode": "rerun",
+            "state": "wiped",
+            "taskId": "same"
+          },
+          "summary": "the call commits and is confirmed; the run is rewound, its history is gone, and the step replays against an owner that does not deduplicate"
+        }
+      }
+    },
+    {
+      "edit": "the owner forgot the key after 3600 seconds, a replay at 5000 sent it again, and the owner's ledger holds two effects",
+      "expected": {
+        "decision": "deny",
+        "reason": "duplicate_effect"
+      },
+      "files": {
+        "record.json": "f8dcad37758bd5873dc7dd4cc69987e705205d58d5e1aa0fa1eb1d181aaf2bae"
+      },
+      "id": "replay-after-key-forgotten-applies-twice",
+      "path": "cases/replay-after-key-forgotten-applies-twice",
+      "retained": {
+        "attempts": 2,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 2,
+        "unknownAttempts": 0
+      },
+      "runtime": {
+        "recordedEffects": 2,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            },
+            {
+              "effects": 1,
+              "outcome": "unknown"
+            }
+          ],
+          "id": "key-forgotten-by-owner-then-replay",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit"
+            ],
+            "deduplicatesByKey": true,
+            "forgetsKeysAfterCalls": 1,
+            "lookups": [
+              "final"
+            ]
+          },
+          "restart": {
+            "mode": "rerun",
+            "state": "wiped",
+            "taskId": "same"
+          },
+          "summary": "the call commits and is confirmed, the owner then forgets the key, and a replay with no history finds a lookup that is not final: the replay must not send again"
+        }
+      }
+    },
+    {
+      "edit": "the worker crashed with its call in flight and the runtime reports the step did not run; the owner committed it",
+      "expected": {
+        "decision": "deny",
+        "reason": "outcome_settled_without_authority"
+      },
+      "files": {
+        "record.json": "241f1fdb986209638ab8f633e95ab994de07076fb93d28ddb33d3eae49422a43"
+      },
+      "id": "crash-reported-not-run",
+      "path": "cases/crash-reported-not-run",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "unknown",
+        "ownerEffects": 1,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            },
+            {
+              "effects": 1,
+              "outcome": "unknown"
+            }
+          ],
+          "id": "crash-mid-step-checkpoint-kept",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_hold"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "final"
+            ]
+          },
+          "restart": {
+            "mode": "crash",
+            "state": "kept",
+            "taskId": "same"
+          },
+          "summary": "the worker is killed while its call is in flight and the owner commits it anyway; the step restarts with its checkpoint and the same task, and must not send it again"
+        }
+      }
+    },
+    {
+      "edit": "the reservation for a crashed step stopped being charged when it expired while the outcome is unknown",
+      "expected": {
+        "decision": "deny",
+        "reason": "unknown_released"
+      },
+      "files": {
+        "record.json": "327bfcf66206ba70f78ee1e5a7e8596e96aa50c9774fada7d182c4a704a04c9c"
+      },
+      "id": "crash-unknown-released",
+      "path": "cases/crash-unknown-released",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "unknown",
+        "ownerEffects": 1,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            },
+            {
+              "effects": 1,
+              "outcome": "unknown"
+            }
+          ],
+          "id": "crash-mid-step-checkpoint-kept",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_hold"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "final"
+            ]
+          },
+          "restart": {
+            "mode": "crash",
+            "state": "kept",
+            "taskId": "same"
+          },
+          "summary": "the worker is killed while its call is in flight and the owner commits it anyway; the step restarts with its checkpoint and the same task, and must not send it again"
         }
       }
     }
