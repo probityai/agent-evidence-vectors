@@ -192,7 +192,9 @@ def _tool_call_ok(call: Any) -> bool:
 
 def _scheduled_ok(attrs: dict[str, Any]) -> bool:
     kind, payload = attrs.get("activityType"), attrs.get("input")
-    if not (_is_text(attrs.get("activityId")) and _is_text(kind) and _payload_ok(payload)):
+    if not isinstance(payload, dict) or not _payload_ok(payload):
+        return False
+    if not (_is_text(attrs.get("activityId")) and _is_text(kind)):
         return False
     if payload["encoding"] != PLAIN or not str(kind).startswith(TOOL_PREFIX):
         return True
@@ -486,7 +488,7 @@ def _cipher_differs(payload: dict[str, Any] | None, witnessed: Any) -> bool:
         return False
     if payload["encoding"] != ENCRYPTED:
         return witnessed is not None
-    return witnessed != bytes_digest(ciphertext(payload))
+    return bool(witnessed != bytes_digest(ciphertext(payload)))
 
 
 def _result_of(event: dict[str, Any] | None) -> dict[str, Any] | None:

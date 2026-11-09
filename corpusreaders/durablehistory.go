@@ -165,12 +165,12 @@ type dhEffect struct {
 }
 
 type dhRecord struct {
-	runs                  []*dhRun
-	workflowID, runID     string
-	expectedCode          string
-	gated                 []string
-	permits               []dhPermit
-	effects               []dhEffect
+	runs              []*dhRun
+	workflowID, runID string
+	expectedCode      string
+	gated             []string
+	permits           []dhPermit
+	effects           []dhEffect
 }
 
 // dhDecide mirrors the Python reader: the contract checks, then the structural
