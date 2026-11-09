@@ -28,6 +28,8 @@ jobs:
           version: "0.12.8"
           enable-cache: false
       - name: install the pinned opa with the Action's installer
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           opa="$(python3 actions/admission/run.py install-opa "$RUNNER_TEMP/bin")"
