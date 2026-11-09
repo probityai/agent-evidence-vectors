@@ -29,9 +29,12 @@ successor too.
 | `spec-vendored/ocsf-mapping-7d9b7ff.json` | `specification/v0.1.0/trace/ocsf-mapping.json` | `7d9b7ff` | proposal | pull request 278 head, open against integration |
 | `spec-vendored/specification-61993cb.md` | `docs/spec/instrument/specification.md` | `61993cb` | upstream | integration, the merge of pull request 273; the same bytes as main at 5db28a9 |
 | `spec-vendored/issue-264-body.md` | `GenAI-Security-Project/agent-control-standard#264 (issue body)` | `issue body` | proposal | issue 264 body as last edited at 2026-10-12T13:15:57Z; an issue has no commit, so the sha256 of the vendored bytes is the pin |
+| `spec-vendored/issue-32-comment-6639119175.md` | `GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)` | `issue body` | proposal | issue 32 comment 6639119175 by bar-capsule, as last edited at 2026-11-04T18:47:34Z; a comment has no commit, so the sha256 of the vendored bytes is the pin |
+| `spec-vendored/issue-32-comment-6661136108.md` | `GenAI-Security-Project/agent-control-standard#32 (comment 6661136108)` | `issue body` | proposal | issue 32 comment 6661136108 by bar-capsule, as last edited at 2026-11-05T14:55:19Z; a comment has no commit, so the sha256 of the vendored bytes is the pin |
+| `spec-vendored/issue-32-comment-5725186199.md` | `GenAI-Security-Project/agent-control-standard#32 (comment 5725186199)` | `issue body` | proposal | issue 32 comment 5725186199 by narko4u, as last edited at 2026-09-18T04:32:18Z; a comment has no commit, so the sha256 of the vendored bytes is the pin |
 
-This corpus is 144 vectors, of which 53 a conformant verifier must
-not fail closed on and 88 it must reject.
+This corpus is 164 vectors, of which 63 a conformant verifier must
+not fail closed on and 98 it must reject.
 
 **No implementation has been run against this corpus.** There is no reference
 adapter in the specification's repository at the pinned commit, and the two
@@ -141,6 +144,14 @@ Self-check: `aee-verify vectors-acs-core/` from the repository root.
 | `ACS-R-071` | reader | `spec-vendored/specification-61993cb.md:202` | `docs/spec/instrument/specification.md` at `61993cb` (upstream) | `0696c3a5c9c44d60` | A reader treats a session that ends without that count as unmeasurable. |
 | `ACS-R-072` | verifier | `spec-vendored/specification-61993cb.md:313` | `docs/spec/instrument/specification.md` at `61993cb` (upstream) | `58f82de6b4e3ed88` | Non-repudiation, proving to a third party that a specific Guardian issued a specific head or decision, requires the asymmetric ACS-Crypto profile |
 | `ACS-R-073` | guardian | `spec-vendored/specification-61993cb.md:354` | `docs/spec/instrument/specification.md` at `61993cb` (upstream) | `5231f819b9a3207d` | A Guardian that signs its response with `HMAC-SHA256` uses the secret, and the `key_id`, that the request named. |
+| `ACS-R-074` | agent | `spec-vendored/issue-32-comment-6639119175.md:5` | `GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)` at `issue body` (proposal) | `5ce0d7c74921f1c7` | No usable answer follows on_decision_failure: the Guardian is silent past the timeout, the connection or TLS handshake fails, HTTP 408, 429 or 5xx arrives with no JSON-RPC body, or the Guardian answers with a signed -32603. |
+| `ACS-R-075` | agent | `spec-vendored/issue-32-comment-6639119175.md:6` | `GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)` at `issue body` (proposal) | `1147a0b814012747` | A refusal or an integrity failure blocks the step whatever the posture: any unsigned error, any signed error other than -32603, a bad signature or unknown key_id, a JSON-RPC id or request_id that doesn't match, or a result that fails response-envelope.json, an allow included. |
+| `ACS-R-076` | agent | `spec-vendored/issue-32-comment-6639119175.md:6` | `GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)` at `issue body` (proposal) | `c6f48448c5ebfac2` | It is recorded with its failure class. |
+| `ACS-R-077` | agent | `spec-vendored/issue-32-comment-6639119175.md:6` | `GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)` at `issue body` (proposal) | `1a79f6a916aea115` | A retry is a new request, judged on its own. |
+| `ACS-R-078` | agent | `spec-vendored/issue-32-comment-6661136108.md:3` | `GenAI-Security-Project/agent-control-standard#32 (comment 6661136108)` at `issue body` (proposal) | `148c2d5b77742cfb` | Only the Observed Agent's own config can opt into proceed. The Guardian's on_decision_failure can only make the posture stricter, and with neither set it's deny. |
+| `ACS-R-079` | agent | `spec-vendored/issue-32-comment-6661136108.md:4` | `GenAI-Security-Project/agent-control-standard#32 (comment 6661136108)` at `issue body` (proposal) | `4f0fe8b750e70bc2` | An HTTP 429 is a refusal, like the other 4xx. |
+| `ACS-R-080` | agent | `spec-vendored/issue-32-comment-6639119175.md:8` | `GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)` at `issue body` (proposal) | `69191ac4e9dc8912` | Any HTTP 4xx except 408 and 429 is a refusal, 401 and 403 included. |
+| `ACS-R-081` | agent | `spec-vendored/issue-32-comment-5725186199.md:11` | `GenAI-Security-Project/agent-control-standard#32 (comment 5725186199)` at `issue body` (proposal) | `26545db7c4b578dc` | the vector pair for #30 should assert that the refused step produced no effect, because an implementation that retries and succeeds leaves the same trace as one that failed open. |
 
 ## Families
 
@@ -166,6 +177,7 @@ Self-check: `aee-verify vectors-acs-core/` from the repository root.
 | `acs-f-18` | an OCSF allow decision recorded under a class, or with fields, the allow rule does not give it |
 | `acs-f-19` | a substituted verdict whose Trace record a reader cannot count, or counts as applied |
 | `acs-f-20` | a fail-closed decision failure with no audit record, and a session end with no failure count read as clean |
+| `acs-f-21` | a refused or unanswered step that ran under a posture nobody opted into, or left an effect behind |
 
 ## Deliberately out of scope
 
@@ -198,9 +210,11 @@ what it tests, so each waits for its sentence and is minted from it.
 |---|---|---|---|---|---|---|---|
 | `v0035b4504ed79b9d` | accept | acs-f-19 | ACS-R-069, ACS-R-041 | allow | not asserted | artifact | EXTERNAL |
 | `v0118a9be95bc651c` | reject | acs-f-18 | ACS-R-065, ACS-R-067 | deny | not asserted | artifact | EXTERNAL |
+| `v03860e15b18da90a` | reject | acs-f-21 | ACS-R-078 | deny | not asserted | substrate | SELF |
 | `v0577dc8ccd4d7e47` | accept | acs-f-1 | ACS-R-020 | allow | not asserted | substrate | PEER |
 | `v05935d4e2d816888` | reject | acs-f-12 | ACS-R-035 | deny | not asserted | substrate | SELF |
 | `v07180a3ca8f10123` | accept | acs-f-8 | ACS-R-007 | allow | not asserted | substrate | SELF |
+| `v08e44aaecdf38253` | accept | acs-f-21 | ACS-R-075, ACS-R-076 | allow | not asserted | substrate | SELF |
 | `v09451dcf233c2115` | reject | acs-f-13 | ACS-R-030 | deny | not asserted | substrate | SELF |
 | `v0c6dcb9ff13af3c9` | reject | acs-f-6 | ACS-R-014 | deny | not asserted | substrate | SELF |
 | `v0d2892bb1e77fcb0` | accept | acs-f-19 | ACS-R-068 | allow | not asserted | artifact | EXTERNAL |
@@ -209,10 +223,12 @@ what it tests, so each waits for its sentence and is minted from it.
 | `v100f74962fbb8b94` | reject | acs-f-4 | ACS-R-011 | deny | `CAPABILITY_NOT_NEGOTIATED` | substrate | PEER |
 | `v102e75a9ba9db495` | reject | acs-f-20 | ACS-R-071 | deny | not asserted | artifact | EXTERNAL |
 | `v10351021bf6e46b1` | reject | acs-f-7 | ACS-R-009 | deny | `CAPABILITY_NOT_NEGOTIATED` | substrate | SELF |
+| `v110b17b76c33264f` | reject | acs-f-21 | ACS-R-075 | deny | not asserted | substrate | SELF |
 | `v11f9eb2783c2e375` | accept | acs-f-5 | ACS-R-005, ACS-R-070 | allow | not asserted | substrate | SELF |
 | `v13ec89c059e7e71d` | reject | acs-f-17 | ACS-R-053 | deny | not asserted | artifact | EXTERNAL |
 | `v142a717729cabcc7` | reject | acs-f-16 | ACS-R-060 | deny | not asserted | artifact | EXTERNAL |
 | `v1449cddb48f82d09` | accept | acs-f-12 | ACS-R-044 | allow | not asserted | artifact | EXTERNAL |
+| `v1bd97e9f72ca1cde` | accept | acs-f-21 | ACS-R-075, ACS-R-076 | allow | not asserted | substrate | SELF |
 | `v1bf79e310bf7ab30` | reject | acs-f-17 | ACS-R-056 | deny | not asserted | artifact | EXTERNAL |
 | `v1ce4aeb611285368` | reject | acs-f-11 | ACS-R-024 | deny | `SESSION_REFUSED` | substrate | SELF |
 | `v1e4a323dafeda46e` | reject | acs-f-15 | ACS-R-047 | deny | not asserted | artifact | PEER |
@@ -235,6 +251,7 @@ what it tests, so each waits for its sentence and is minted from it.
 | `v412653087b92cb07` | reject | acs-f-9 | ACS-R-017 | deny | `UNSUPPORTED_VERSION` | substrate | PEER |
 | `v43ef9dfd999c84e8` | accept | acs-f-15 | ACS-R-047 | allow | not asserted | artifact | PEER |
 | `v448a61c91554a125` | reject | acs-f-7 | ACS-R-013 | deny | `CAPABILITY_NOT_NEGOTIATED` | substrate | SELF |
+| `v45feeb31130e2d4a` | reject | acs-f-21 | ACS-R-079 | deny | not asserted | substrate | SELF |
 | `v470cf0c2707b2987` | reject | acs-f-10 | ACS-R-022, ACS-R-021, ACS-R-072 | deny | `SIGNATURE_INVALID` | artifact | EXTERNAL |
 | `v47ac76a1803fdb29` | accept | acs-f-14 | ACS-R-033, ACS-R-034 | allow | not asserted | substrate | SELF |
 | `v47fe406faef9af58` | accept | acs-f-20 | ACS-R-071 | allow | not asserted | artifact | EXTERNAL |
@@ -244,17 +261,20 @@ what it tests, so each waits for its sentence and is minted from it.
 | `v52d6a327464b38ca` | accept | acs-f-10 | ACS-R-022, ACS-R-021, ACS-R-072 | allow | not asserted | artifact | EXTERNAL |
 | `v5341fdd5169de461` | accept | acs-f-6 | ACS-R-006, ACS-R-021, ACS-R-072 | allow | not asserted | artifact | PEER |
 | `v55187b175296fcc8` | reject | acs-f-15 | ACS-R-042 | deny | not asserted | artifact | EXTERNAL |
+| `v55a5146a13425588` | accept | acs-f-21 | ACS-R-074 | allow | not asserted | substrate | SELF |
 | `v57106f0a71dd1d62` | reject | acs-f-15 | ACS-R-045 | deny | not asserted | substrate | SELF |
 | `v573876edff0016da` | reject | acs-f-17 | ACS-R-049 | deny | not asserted | artifact | EXTERNAL |
 | `v5855843136b72a87` | reject | acs-f-15 | ACS-R-045 | deny | not asserted | substrate | SELF |
 | `v58b380041d50cb9a` | accept | acs-f-11 | ACS-R-023, ACS-R-025 | allow | not asserted | substrate | SELF |
 | `v5c3813f48b81ccf3` | reject | acs-f-13 | ACS-R-029 | deny | `SIGNATURE_INVALID` | substrate | PEER |
 | `v5d50c302e4834fad` | reject | acs-f-19 | ACS-R-041 | deny | not asserted | artifact | EXTERNAL |
+| `v605905ced490b58a` | reject | acs-f-21 | ACS-R-078 | deny | not asserted | substrate | SELF |
 | `v650e4e7924e597b8` | reject | acs-f-14 | ACS-R-033 | deny | not asserted | substrate | SELF |
 | `v661266c5c87cb206` | reject | acs-f-1 | ACS-R-013 | deny | `CAPABILITY_NOT_NEGOTIATED` | substrate | SELF |
 | `v663664f03dec5517` | accept | acs-f-15 | ACS-R-042 | allow | not asserted | artifact | EXTERNAL |
 | `v667232917ce85547` | reject | acs-f-13 | ACS-R-031, ACS-R-073 | deny | not asserted | substrate | PEER |
 | `v676ce54e23de4b38` | reject | acs-f-12 | ACS-R-048 | deny | not asserted | artifact | EXTERNAL |
+| `v692a2b8d7f6d2e1c` | reject | acs-f-21 | ACS-R-078 | deny | not asserted | substrate | SELF |
 | `v699f3f41215849ca` | accept | acs-f-7 | ACS-R-013 | allow | not asserted | substrate | SELF |
 | `v6b9826ebb2401bb8` | reject | acs-f-15 | ACS-R-046 | deny | not asserted | artifact | PEER |
 | `v6c7d02933d0845ab` | accept | acs-f-20 | ACS-R-070 | allow | not asserted | substrate | SELF |
@@ -262,6 +282,7 @@ what it tests, so each waits for its sentence and is minted from it.
 | `v71d2a298de4428f3` | accept | acs-f-19 | ACS-R-069 | allow | not asserted | artifact | EXTERNAL |
 | `v78927805373a6c06` | accept | acs-f-9 | ACS-R-017 | allow | not asserted | substrate | PEER |
 | `v7b0b32fb369136c1` | reject | acs-f-8 | ACS-R-006 | deny | `CHAIN_MISMATCH` | artifact | PEER |
+| `v7bc3853c14298fdd` | reject | acs-f-21 | ACS-R-081, ACS-R-075 | deny | not asserted | substrate | EXTERNAL |
 | `v7cdac6c8af6db2fe` | accept | acs-f-15 | ACS-R-046 | allow | not asserted | artifact | PEER |
 | `v7d14727c84d2020d` | reject | acs-f-15 | ACS-R-052 | deny | not asserted | artifact | EXTERNAL |
 | `v804dfd8ecd7da169` | reject | acs-f-6 | ACS-R-006, ACS-R-021, ACS-R-072 | deny | `CHAIN_MISMATCH` | artifact | PEER |
@@ -274,6 +295,7 @@ what it tests, so each waits for its sentence and is minted from it.
 | `v89ea07928daff608` | reject | acs-f-12 | ACS-R-036, ACS-R-037 | deny | not asserted | substrate | SELF |
 | `v8a5f343c721f2f14` | accept | acs-f-16 | ACS-R-058 | allow | not asserted | artifact | EXTERNAL |
 | `v8b8bb4f181c906e6` | accept | acs-f-15 | ACS-R-045 | allow | not asserted | substrate | SELF |
+| `v8ca0304ee7cb7975` | accept | acs-f-21 | ACS-R-078, ACS-R-076 | allow | not asserted | substrate | SELF |
 | `v8d6218889aeda7c7` | accept | acs-f-12 | ACS-R-038 | allow | not asserted | substrate | SELF |
 | `v8f6f24211861584a` | accept | acs-f-6 | ACS-R-006, ACS-R-021, ACS-R-072 | allow | not asserted | artifact | EXTERNAL |
 | `v911a0022574698eb` | accept | acs-f-13 | ACS-R-031, ACS-R-073 | allow | not asserted | substrate | PEER |
@@ -286,6 +308,7 @@ what it tests, so each waits for its sentence and is minted from it.
 | `v9c3c0467f619607e` | reject | acs-f-16 | ACS-R-058 | deny | not asserted | artifact | EXTERNAL |
 | `v9d271115ecc2144a` | accept | acs-f-16 | ACS-R-039 | allow | not asserted | artifact | EXTERNAL |
 | `va00ef569d09bf7d5` | reject | acs-f-6 | ACS-R-015 | deny | not asserted | substrate | SELF |
+| `va112deb74499e088` | accept | acs-f-21 | ACS-R-081, ACS-R-075 | allow | not asserted | substrate | EXTERNAL |
 | `va200b64093301e14` | reject | acs-f-9 | ACS-R-018 | deny | not asserted | substrate | SELF |
 | `va216214d32d8d5f7` | accept | acs-f-17 | ACS-R-056 | allow | not asserted | artifact | EXTERNAL |
 | `va26320f07c64f16d` | reject | acs-f-18 | ACS-R-063 | deny | not asserted | artifact | EXTERNAL |
@@ -296,11 +319,16 @@ what it tests, so each waits for its sentence and is minted from it.
 | `va8eebd3334b97257` | reject | acs-f-5 | ACS-R-004 | deny | `SIGNATURE_INVALID` | substrate | SELF |
 | `vabdcee4722b26a44` | accept | acs-f-13 | ACS-R-032, ACS-R-028 | allow | not asserted | substrate | PEER |
 | `vac8eb35a1249aefc` | reject | acs-f-17 | ACS-R-055 | deny | not asserted | artifact | EXTERNAL |
+| `vadf47600332c1b4f` | accept | acs-f-21 | ACS-R-074 | allow | not asserted | substrate | SELF |
 | `vae2037ee96435463` | reject | acs-f-9 | ACS-R-019 | deny | not asserted | substrate | PEER |
 | `vb10df32610db1173` | reject | acs-f-3 | ACS-R-003 | deny | `TIMESTAMP_OUT_OF_WINDOW` | substrate | SELF |
 | `vb2374eaafd283548` | reject | acs-f-17 | ACS-R-050 | deny | not asserted | artifact | EXTERNAL |
 | `vb327029d05966b58` | reject | acs-f-5 | ACS-R-014, ACS-R-005, ACS-R-070 | deny | not asserted | substrate | SELF |
+| `vb343b2293da3bfac` | accept | acs-f-21 | ACS-R-075, ACS-R-076 | allow | not asserted | substrate | SELF |
+| `vb6c2f01f6d4e987a` | reject | acs-f-21 | ACS-R-075 | deny | not asserted | substrate | SELF |
+| `vb76b929bc54527cd` | accept | acs-f-21 | ACS-R-077, ACS-R-081 | allow | not asserted | substrate | EXTERNAL |
 | `vb87b86b4930665ca` | reject | acs-f-1 | ACS-R-001 | deny | `SIGNATURE_INVALID` | substrate | PEER |
+| `vb929d77391061d33` | accept | acs-f-21 | ACS-R-080, ACS-R-076 | allow | not asserted | substrate | SELF |
 | `vbd5dc2450805e76b` | reject | acs-f-12 | ACS-R-036 | deny | not asserted | substrate | SELF |
 | `vbf0b0f4b67a00b59` | accept | acs-f-16 | ACS-R-061 | allow | not asserted | artifact | EXTERNAL |
 | `vc0ee2db9cf47e0c1` | reject | acs-f-16 | ACS-R-040 | deny | not asserted | artifact | EXTERNAL |
@@ -315,6 +343,7 @@ what it tests, so each waits for its sentence and is minted from it.
 | `vc8ce2001e9dd7d34` | accept | acs-f-10 | ACS-R-021, ACS-R-072 | allow | not asserted | artifact | PEER |
 | `vc8e379465f4a677b` | reject | acs-f-15 | ACS-R-041 | deny | not asserted | artifact | EXTERNAL |
 | `vc97666f6b2388930` | reject | acs-f-18 | ACS-R-064, ACS-R-050 | deny | not asserted | artifact | EXTERNAL |
+| `vcbbc3c9880545473` | accept | acs-f-21 | ACS-R-078, ACS-R-074 | allow | not asserted | substrate | SELF |
 | `vcfbc617d0218ad1a` | reject | acs-f-12 | ACS-R-036 | deny | not asserted | substrate | SELF |
 | `vd4d655cdc5da676f` | accept | acs-f-17 | ACS-R-050, ACS-R-054 | allow | not asserted | artifact | EXTERNAL |
 | `vd4df6378ea74234d` | accept | acs-f-17 | ACS-R-051 | allow | not asserted | artifact | EXTERNAL |
@@ -326,13 +355,16 @@ what it tests, so each waits for its sentence and is minted from it.
 | `vdea95625fa2056cf` | accept | acs-f-14 | ACS-R-033 | allow | not asserted | substrate | SELF |
 | `ve0b07adbd63ede48` | accept | acs-f-17 | ACS-R-053 | allow | not asserted | artifact | EXTERNAL |
 | `ve4913ae6f9a72e29` | reject | acs-f-14 | ACS-R-033 | deny | not asserted | substrate | SELF |
+| `ve67ef3b2a7056281` | reject | acs-f-21 | ACS-R-080 | deny | not asserted | substrate | SELF |
 | `ve69abbaf514cc33f` | reject | acs-f-13 | ACS-R-026, ACS-R-027 | deny | `SIGNATURE_INVALID` | substrate | PEER |
 | `ve7274cd800b89ef2` | reject | acs-f-16 | ACS-R-039, ACS-R-059 | deny | not asserted | artifact | EXTERNAL |
+| `ve8d2ede8ac230311` | reject | acs-f-21 | ACS-R-076 | deny | not asserted | substrate | SELF |
 | `vee03180733ac4538` | indeterminate | acs-f-12 | ACS-R-044 | unmeasurable | not asserted | artifact | EXTERNAL |
 | `veed45c58b4e3a95b` | reject | acs-f-16 | ACS-R-039 | deny | not asserted | artifact | EXTERNAL |
 | `vef655ce2a45f618b` | reject | acs-f-2 | ACS-R-002 | deny | `REPLAY_DETECTED` | substrate | SELF |
 | `vf0317aa29d78b3c1` | accept | acs-f-17 | ACS-R-049, ACS-R-055, ACS-R-050 | allow | not asserted | artifact | EXTERNAL |
 | `vf08f4493cfae6ceb` | reject | acs-f-17 | ACS-R-051 | deny | not asserted | artifact | EXTERNAL |
+| `vf14ce3c2fea04bc7` | reject | acs-f-21 | ACS-R-077, ACS-R-081 | deny | not asserted | substrate | EXTERNAL |
 | `vf3679e6ac60fd250` | accept | acs-f-1 | ACS-R-013 | allow | not asserted | substrate | SELF |
 | `vf53a8639739cf0ca` | accept | acs-f-16 | ACS-R-039 | allow | not asserted | artifact | EXTERNAL |
 | `vf7ace2bd183ec0bf` | reject | acs-f-12 | ACS-R-035 | deny | not asserted | substrate | SELF |
@@ -1278,3 +1310,205 @@ Does not assert: that the session had a decision failure.
 Expected: **allow**. The same sessionEnd, and a report that calls the session unmeasurable. It is what the reader rule requires and the only answer that does not guess
 
 Does not assert: anything about a session that carries the count.
+
+### `acs-f-21`: a refused or unanswered step that ran under a posture nobody opted into, or left an effect behind
+
+#### `v692a2b8d7f6d2e1c` (reject)
+
+> `ACS-R-078`, `GenAI-Security-Project/agent-control-standard#32 (comment 6661136108)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-6661136108.md:3`:
+> Only the Observed Agent's own config can opt into proceed. The Guardian's on_decision_failure can only make the posture stricter, and with neither set it's deny.
+
+Expected: **deny**. The Guardian silent past the timeout, no posture set by either party, and the step proceeded with the bypass recorded. With neither set the posture is deny, so the record is accurate and the outcome is not
+
+Does not assert: the length of the timeout.
+
+#### `v8ca0304ee7cb7975` (accept)
+
+> `ACS-R-078`, `GenAI-Security-Project/agent-control-standard#32 (comment 6661136108)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-6661136108.md:3`:
+> Only the Observed Agent's own config can opt into proceed. The Guardian's on_decision_failure can only make the posture stricter, and with neither set it's deny.
+> `ACS-R-076`, `GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-6639119175.md:6`:
+> It is recorded with its failure class.
+
+Expected: **allow**. The same silence with no posture set, and the step blocked and recorded as a timeout
+
+Does not assert: the spelling of the failure class beyond its being recorded.
+
+#### `v03860e15b18da90a` (reject)
+
+> `ACS-R-078`, `GenAI-Security-Project/agent-control-standard#32 (comment 6661136108)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-6661136108.md:3`:
+> Only the Observed Agent's own config can opt into proceed. The Guardian's on_decision_failure can only make the posture stricter, and with neither set it's deny.
+
+Expected: **deny**. A ServerHello declaring proceed, nothing in the Observed Agent's own configuration, and a silent Guardian whose step proceeded. The Guardian sits within the attacker's reach, so its declaration can only make the posture stricter
+
+Does not assert: how the Guardian came to declare proceed.
+
+#### `vcbbc3c9880545473` (accept)
+
+> `ACS-R-078`, `GenAI-Security-Project/agent-control-standard#32 (comment 6661136108)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-6661136108.md:3`:
+> Only the Observed Agent's own config can opt into proceed. The Guardian's on_decision_failure can only make the posture stricter, and with neither set it's deny.
+> `ACS-R-074`, `GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-6639119175.md:5`:
+> No usable answer follows on_decision_failure: the Guardian is silent past the timeout, the connection or TLS handshake fails, HTTP 408, 429 or 5xx arrives with no JSON-RPC body, or the Guardian answers with a signed -32603.
+
+Expected: **allow**. The Observed Agent's own configuration opts into proceed, the Guardian is silent, and the step proceeds with the failure recorded. An implementation that denies every silence whatever its configuration fails this member
+
+Does not assert: that proceed was the right choice for the deployment.
+
+#### `v605905ced490b58a` (reject)
+
+> `ACS-R-078`, `GenAI-Security-Project/agent-control-standard#32 (comment 6661136108)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-6661136108.md:3`:
+> Only the Observed Agent's own config can opt into proceed. The Guardian's on_decision_failure can only make the posture stricter, and with neither set it's deny.
+
+Expected: **deny**. The Observed Agent opted into proceed and the Guardian declared deny, and the silent step proceeded. The stricter declaration wins
+
+Does not assert: the order in which the two settings were read.
+
+#### `vb6c2f01f6d4e987a` (reject)
+
+> `ACS-R-075`, `GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-6639119175.md:6`:
+> A refusal or an integrity failure blocks the step whatever the posture: any unsigned error, any signed error other than -32603, a bad signature or unknown key_id, a JSON-RPC id or request_id that doesn't match, or a result that fails response-envelope.json, an allow included.
+
+Expected: **deny**. A tool argument past the Guardian's body cap, a signed -32600 before any policy ran, and the step proceeded under an opted-in proceed. This is the bypass issue 32 opened with: the Guardian answered and refused, and the refusal was read as silence
+
+Does not assert: the size of the body cap.
+
+#### `v1bd97e9f72ca1cde` (accept)
+
+> `ACS-R-075`, `GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-6639119175.md:6`:
+> A refusal or an integrity failure blocks the step whatever the posture: any unsigned error, any signed error other than -32603, a bad signature or unknown key_id, a JSON-RPC id or request_id that doesn't match, or a result that fails response-envelope.json, an allow included.
+> `ACS-R-076`, `GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-6639119175.md:6`:
+> It is recorded with its failure class.
+
+Expected: **allow**. The same oversized envelope under proceed: the step is blocked and recorded as a refusal with its code. The verdict does not depend on the posture
+
+Does not assert: the posture field of the record, which a refusal does not consult.
+
+#### `vb343b2293da3bfac` (accept)
+
+> `ACS-R-075`, `GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-6639119175.md:6`:
+> A refusal or an integrity failure blocks the step whatever the posture: any unsigned error, any signed error other than -32603, a bad signature or unknown key_id, a JSON-RPC id or request_id that doesn't match, or a result that fails response-envelope.json, an allow included.
+> `ACS-R-076`, `GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-6639119175.md:6`:
+> It is recorded with its failure class.
+
+Expected: **allow**. The same oversized envelope under deny: the step is blocked and recorded as a refusal with its code. The verdict does not depend on the posture
+
+Does not assert: the posture field of the record, which a refusal does not consult.
+
+#### `ve8d2ede8ac230311` (reject)
+
+> `ACS-R-076`, `GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-6639119175.md:6`:
+> It is recorded with its failure class.
+
+Expected: **deny**. A signed -32005 REPLAY_DETECTED, the step blocked, and the record calls it a transport failure with no code. The outcome is right and the record is not: an operator paging on refusals never sees an attacker replaying request_ids, and one paging on outages is woken by one
+
+Does not assert: the spelling of the refusal class.
+
+#### `v08e44aaecdf38253` (accept)
+
+> `ACS-R-075`, `GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-6639119175.md:6`:
+> A refusal or an integrity failure blocks the step whatever the posture: any unsigned error, any signed error other than -32603, a bad signature or unknown key_id, a JSON-RPC id or request_id that doesn't match, or a result that fails response-envelope.json, an allow included.
+> `ACS-R-076`, `GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-6639119175.md:6`:
+> It is recorded with its failure class.
+
+Expected: **allow**. The same replay, blocked and recorded as a refusal carrying -32005
+
+Does not assert: what the Guardian does with the replayed request_id.
+
+#### `v55a5146a13425588` (accept)
+
+> `ACS-R-074`, `GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-6639119175.md:5`:
+> No usable answer follows on_decision_failure: the Guardian is silent past the timeout, the connection or TLS handshake fails, HTTP 408, 429 or 5xx arrives with no JSON-RPC body, or the Guardian answers with a signed -32603.
+
+Expected: **allow**. A signed -32603 INTERNAL_ERROR under an opted-in proceed, and the step proceeds with the failure recorded. It is the one signed error that follows the posture, so an implementation that blocks every error fails this member
+
+Does not assert: the cause of the internal error.
+
+#### `v110b17b76c33264f` (reject)
+
+> `ACS-R-075`, `GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-6639119175.md:6`:
+> A refusal or an integrity failure blocks the step whatever the posture: any unsigned error, any signed error other than -32603, a bad signature or unknown key_id, a JSON-RPC id or request_id that doesn't match, or a result that fails response-envelope.json, an allow included.
+
+Expected: **deny**. The same -32603 unsigned, and the step proceeded. Anyone on the path can write an unsigned error, so an unsigned -32603 is not the Guardian's word that it failed and never lets a step proceed
+
+Does not assert: who wrote the unsigned error.
+
+#### `v45feeb31130e2d4a` (reject)
+
+> `ACS-R-079`, `GenAI-Security-Project/agent-control-standard#32 (comment 6661136108)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-6661136108.md:4`:
+> An HTTP 429 is a refusal, like the other 4xx.
+
+Expected: **deny**. An HTTP 429 with no JSON-RPC body under an opted-in proceed, and the step proceeded. Flooding the Guardian until it throttles takes no access, which is why the amendment moved 429 out of the posture
+
+Does not assert: the throttling policy that produced the 429.
+
+#### `vadf47600332c1b4f` (accept)
+
+> `ACS-R-074`, `GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-6639119175.md:5`:
+> No usable answer follows on_decision_failure: the Guardian is silent past the timeout, the connection or TLS handshake fails, HTTP 408, 429 or 5xx arrives with no JSON-RPC body, or the Guardian answers with a signed -32603.
+
+Expected: **allow**. An HTTP 503 with no JSON-RPC body under an opted-in proceed, and the step proceeds with the failure recorded. A 5xx stays on the posture
+
+Does not assert: anything about a 5xx that carries a JSON-RPC body.
+
+#### `ve67ef3b2a7056281` (reject)
+
+> `ACS-R-080`, `GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-6639119175.md:8`:
+> Any HTTP 4xx except 408 and 429 is a refusal, 401 and 403 included.
+
+Expected: **deny**. An HTTP 401 under an opted-in proceed, and the step proceeded: the adapter's credential was refused, and an expired credential turned enforcement off
+
+Does not assert: the authentication scheme.
+
+#### `vb929d77391061d33` (accept)
+
+> `ACS-R-080`, `GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-6639119175.md:8`:
+> Any HTTP 4xx except 408 and 429 is a refusal, 401 and 403 included.
+> `ACS-R-076`, `GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-6639119175.md:6`:
+> It is recorded with its failure class.
+
+Expected: **allow**. An HTTP 403 under an opted-in proceed, blocked and recorded as a refusal with its status
+
+Does not assert: the authentication scheme.
+
+#### `v7bc3853c14298fdd` (reject)
+
+> `ACS-R-081`, `GenAI-Security-Project/agent-control-standard#32 (comment 5725186199)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-5725186199.md:11`:
+> the vector pair for #30 should assert that the refused step produced no effect, because an implementation that retries and succeeds leaves the same trace as one that failed open.
+> `ACS-R-075`, `GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-6639119175.md:6`:
+> A refusal or an integrity failure blocks the step whatever the posture: any unsigned error, any signed error other than -32603, a bad signature or unknown key_id, a JSON-RPC id or request_id that doesn't match, or a result that fails response-envelope.json, an allow included.
+
+Expected: **deny**. A signed -32004, an Observed Agent that reports the step blocked and records the refusal, and a filesystem observer that saw the write. Every record the agent wrote is correct, and the action ran: only the observed effect tells this apart from a conformant block
+
+Does not assert: how the write escaped the block.
+
+#### `va112deb74499e088` (accept)
+
+> `ACS-R-081`, `GenAI-Security-Project/agent-control-standard#32 (comment 5725186199)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-5725186199.md:11`:
+> the vector pair for #30 should assert that the refused step produced no effect, because an implementation that retries and succeeds leaves the same trace as one that failed open.
+> `ACS-R-075`, `GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-6639119175.md:6`:
+> A refusal or an integrity failure blocks the step whatever the posture: any unsigned error, any signed error other than -32603, a bad signature or unknown key_id, a JSON-RPC id or request_id that doesn't match, or a result that fails response-envelope.json, an allow included.
+
+Expected: **allow**. The same refusal, and the observer saw no write
+
+Does not assert: effects outside the observed resource.
+
+#### `vf14ce3c2fea04bc7` (reject)
+
+> `ACS-R-077`, `GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-6639119175.md:6`:
+> A retry is a new request, judged on its own.
+> `ACS-R-081`, `GenAI-Security-Project/agent-control-standard#32 (comment 5725186199)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-5725186199.md:11`:
+> the vector pair for #30 should assert that the refused step produced no effect, because an implementation that retries and succeeds leaves the same trace as one that failed open.
+
+Expected: **deny**. The refused envelope re-signed under the same request_id and sent again, the Guardian allowing it, and the write attributed to the refused request. A retry that recovers the refused request leaves the trace a fail-open leaves; a retry is a new request with its own id
+
+Does not assert: whether the Guardian should have detected the reuse.
+
+#### `vb76b929bc54527cd` (accept)
+
+> `ACS-R-077`, `GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-6639119175.md:6`:
+> A retry is a new request, judged on its own.
+> `ACS-R-081`, `GenAI-Security-Project/agent-control-standard#32 (comment 5725186199)` at `issue body` (proposal), vendored `spec-vendored/issue-32-comment-5725186199.md:11`:
+> the vector pair for #30 should assert that the refused step produced no effect, because an implementation that retries and succeeds leaves the same trace as one that failed open.
+
+Expected: **allow**. The retry sent as a new request, req-0022, allowed on its own facts, and the write attributed to it. The refused request still has no effect
+
+Does not assert: that the second decision was correct.

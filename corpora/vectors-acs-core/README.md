@@ -223,6 +223,41 @@ fails now, beside the same step with the failure recorded; and a `sessionEnd`
 with no count, which a reader that reports it as measured gets wrong and a
 reader that reports it as unmeasurable gets right (`ACS-R-071`).
 
+## Section 6.4 as issue 32 settles it
+
+Family `acs-f-21` tests the split of a step's ending into three outcomes,
+which GenAI-Security-Project/agent-control-standard#32 settled after the leads'
+call of 3 November 2026: a verified decision is honored; no usable answer
+follows the posture; a refusal or an integrity failure blocks the step under
+either posture. The editor's answer of 4 November, his amendment of 5 November,
+and the earlier ask that a refused step be shown to have had no effect are
+vendored under `spec-vendored/issue-32-comment-*.md` and pinned by sha256. No
+specification text carries the split yet. When the section 6.4 pull request
+lands, these members are re-minted from its text, and a reword stops the build.
+
+Twenty members, ten accepting and ten rejecting:
+
+- **Default deny, and who may loosen it** (`ACS-R-078`). With no posture set, a
+  silent Guardian's step is blocked. A Guardian that declares `proceed` cannot
+  loosen the posture; only the Observed Agent's own configuration can, and a
+  Guardian that declares `deny` tightens it.
+- **Refusals block under either posture** (`ACS-R-075`, `ACS-R-080`,
+  `ACS-R-079`). The oversized envelope answered with a signed -32600 is blocked
+  under both postures. An unsigned -32603 never lets a step proceed. An HTTP
+  401, 403 or 429 is a refusal.
+- **What still follows the posture** (`ACS-R-074`). A signed -32603 and an HTTP
+  503 with no JSON-RPC body proceed under an opted-in `proceed`. These are the
+  controls that fail an implementation which blocks everything.
+- **The record names the class** (`ACS-R-076`). A replay refused with -32005
+  and recorded as a transport failure fails, even though the step was blocked.
+- **A refused step leaves no effect, and a retry is a new request**
+  (`ACS-R-081`, `ACS-R-077`). Each of these members carries an
+  `observed_effects` list from an observer outside the agent, so its witness
+  scope is `EXTERNAL`. A step that every agent record calls blocked, and whose
+  write the observer saw, fails. So does a retry that re-signs the refused
+  request under the same `request_id`. A retry under a new `request_id`,
+  allowed on its own facts, passes.
+
 ## Running it
 
 ```
