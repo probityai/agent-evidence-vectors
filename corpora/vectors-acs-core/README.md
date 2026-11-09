@@ -380,3 +380,20 @@ Nothing here tests content filtering, model robustness, or prompt injection
 detection. The member about attributed content tests one property: that
 provenance establishes lineage and confers no authority. A suite that reached
 past that would be measuring a judgment rather than a rule.
+
+## Family acs-f-21 against the reference Python client
+
+`adapter-run/run_acs_f_21.py` drives the client in `adapters/src` of the
+specification's repository with every acs-f-21 member whose verdict turns on
+whether the step proceeds. It classifies each answer with the client's own
+refusal sets, the way `acs/client/_exchange.py` does, and applies the client's
+own `FailPosture`. It does not send anything over HTTP. The five members whose
+verdict turns on the audit record or on an observed effect are listed and not
+scored.
+
+Run at `integration` commit `db457a8` on 2026-11-08, the output is in
+`adapter-run/expected-integration-db457a8.txt`. 12 of the 17 scored members
+agree. The 5 that disagree are the two amendments the section 6.4 pull request
+has not landed yet: HTTP 401, 403 and 429 follow the posture, because the
+client's HTTP refusal set holds only 400 and 413; and a signed -32003 or -32007
+follows the posture, because its JSON-RPC refusal set holds six codes.
