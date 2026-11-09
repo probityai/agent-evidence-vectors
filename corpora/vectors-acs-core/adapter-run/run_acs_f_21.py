@@ -54,7 +54,9 @@ def client_outcome(answer, client):
     if kind == "jsonrpc_error":
         if not answer["signed"]:
             return refused("error_signature_invalid")
-        return refused("guardian_error") if is_refusal(answer["code"]) else undecided("guardian_error")
+        if is_refusal(answer["code"]):
+            return refused("guardian_error")
+        return undecided("guardian_error")
     raise ValueError(f"unknown answer kind {kind!r}")
 
 
@@ -104,7 +106,8 @@ def main(argv: list[str]) -> int:
         print(
             f"{'PASS' if ok else 'FAIL'} {entry['id']} {member['kind']:6} "
             f"answer={answer.get('code', answer.get('status', answer['kind']))} "
-            f"signed={answer.get('signed', '-')} agent={payload['agent_config'].get('on_decision_failure')} "
+            f"signed={answer.get('signed', '-')} "
+            f"agent={payload['agent_config'].get('on_decision_failure')} "
             f"guardian={payload['server_hello'].get('on_decision_failure')} "
             f"required={'proceed' if required else 'block'} client={'proceed' if got else 'block'}"
         )
