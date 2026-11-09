@@ -42,8 +42,11 @@ meta:
     Since 0.9.0 it also names how a party that does not trust the
     responder checks that a response to an incident happened and held, in the
     incident_response section.
-    It does not define identity, reputation, wallet, or reasoning-integrity
-    terms; those are out of scope by design (see out_of_scope below).
+    Since 0.10.0 it names the identity provider behind the issuer of a
+    validated principal and whether the issuer's key was pinned, in the
+    principal_identity section. It does not define reputation, wallet,
+    reasoning-integrity or actor-scoring terms; those are out of scope by
+    design (see out_of_scope below).
   promotion_lifecycle: >
     Every live term starts proposed. A term is promoted to canonical only once an
     independently-maintained system that is not us emits it in a real, running
@@ -2349,6 +2352,86 @@ multi_agent_run:
 # move to canonical must declare all four of these, alongside at least one
 # evidence-dimension term at evidence: emitted. Any one of them alone leaves the
 # signed pre-image shape undifferentiated, which is why they travel as a set.
+# principal_identity: who stands behind the issuer of the token a decision point
+# validated. principal.source in the agent-audit-record predicate names the KIND
+# of token (jwt-access-token, id-token, jwt-assertion) and stays that; these terms
+# name the identity provider that runs the issuer and whether the issuer's key was
+# pinned before the first call. Neither scores an actor, so the out_of_scope line
+# on agent identity and reputation is untouched.
+principal_identity:
+
+  identity_provider:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-08"
+    values: [okta, entra, auth0, keycloak, self_issued, other]
+    value_definitions:
+      okta: "The issuer is an Okta org or custom authorization server: an https issuer whose host ends in okta.com, oktapreview.com, okta-emea.com or okta-gov.com, or a custom domain the record declares as okta."
+      entra: "The issuer is Microsoft Entra ID or Entra External ID: an https issuer on login.microsoftonline.com, login.microsoftonline.us, login.chinacloudapi.cn, sts.windows.net or a host ending in ciamlogin.com, or a custom domain the record declares as entra."
+      auth0: "The issuer is an Auth0 tenant: an https issuer whose host ends in auth0.com, or a custom domain the record declares as auth0."
+      keycloak: "The issuer is a Keycloak realm: an https issuer whose path is /realms/<realm> or /auth/realms/<realm>."
+      self_issued: "The issuer is the deploying party itself, or the OpenID self-issued issuer https://self-issued.me/v2: no third-party identity provider vouches for the principal."
+      other: "An identity provider this registry does not name. The issuer URL is the only description, and a consumer requiring one of the named providers refuses it."
+    definition: >
+      The identity provider that operates the issuer of the token a decision
+      point validated, derived from principal.issuer. principal.source keeps
+      naming the kind of token; this term names who issued it, so one closed
+      set covers the four hosted and self-hosted providers agents meet most
+      and the case where nobody but the deployer vouches. Closed and
+      fail-closed.
+    check: >
+      A verifier derives the value from principal.issuer by the host and path
+      rules in value_definitions, checking self_issued first against the
+      issuers the relying party declares as its own. Where the derivation
+      names a provider, a declared value that differs is refused, never
+      reconciled. Where the issuer is a custom domain and the derivation
+      gives other, a declared named value is accepted as declared and
+      reported as declared, not derived. An issuer that is not an https URL
+      is malformed. A self_issued principal MUST NOT be read as vouched for
+      by a third party.
+    source_path: "predicate.principal.issuer (derived); a declared value at predicate.principal.identityProvider"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained agent gateway, decision point or identity broker that is not us emits the provider of a validated principal in a signed record and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      Gateways and brokers already name these providers in their own
+      configuration, each with its own spelling, and a broker that federates
+      several of them hides which one vouched for a given call. One value per
+      provider, derived from the issuer the record already signs, lets an
+      auditor ask which calls ran on a self-issued principal without trusting
+      each vendor's label.
+
+  issuer_key_pinning:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-08"
+    values: [pinned_before_first_call, unpinned]
+    value_definitions:
+      pinned_before_first_call: "The client held the RFC 7638 SHA-256 thumbprint of the issuer key in its configuration before its first call to the issuer and refused any key whose thumbprint differed."
+      unpinned: "The client trusted whatever key the issuer's JWKS served at the time, with no thumbprint configured."
+    definition: >
+      Whether the client that obtained the token pinned the issuer's signing
+      key by its RFC 7638 thumbprint before its first call. A pin is all or
+      nothing: a configuration that pins one issuer and leaves another
+      unpinned, or names two thumbprints for one issuer, is malformed and is
+      never read as pinned. A pin is never downgraded: on a thumbprint
+      mismatch or a failed key fetch the client refuses, and does not fall
+      back to the unpinned path. Closed and fail-closed.
+    check: >
+      A verifier reads pinned_before_first_call only when the record carries
+      the configured thumbprint and it equals principal.keyThumbprint, which
+      the verifier recomputes from principal.key. A record claiming a pin
+      whose thumbprint differs, or a mixed configuration, is refused. A
+      relying party that requires a pin refuses unpinned.
+    source_path: "predicate.principal.keyThumbprint compared with the configured pin at predicate.principal.pinnedThumbprint"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained agent client or SDK that is not us records whether it pinned the issuer key in a signed record and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      A client that fetches the issuer's JWKS on first use trusts whoever
+      answers that fetch, and a client that falls back to that path when its
+      pin fails has no pin at all. Naming the two states, with mixed and
+      downgraded configurations refused, lets a reader tell a client that
+      would have caught a swapped issuer key from one that would not.
+
 system_attributes:
   values:
     signature_capability:
