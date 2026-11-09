@@ -61,6 +61,18 @@ ISSUE264_UPDATED_AT = "2026-10-12T13:15:57Z"
 #: byte-identical to `main` at 5db28a9, where the change had reached `main`.
 PR273_MERGE_COMMIT = "61993cbfc44f858cf46e047c3c4915b3b0bbf387"
 PR273_MAIN_COMMIT = "5db28a91728ea7678c85fb93a909f92dffe1a540"
+#: Issue 32 settles the section 6.4 split in three comments: the editor's answer
+#: of 4 November, his amendment of 5 November after the leads' call on 3
+#: November, and the earlier ask that a refused step be shown to have had no
+#: effect. No specification text carries the split yet; the editor is writing
+#: the pull request. A comment has no commit, so each vendored body is pinned by
+#: the sha256 of its bytes (the body as the API returns it, plus a final
+#: newline), and the ref names the comment and its edit time.
+ISSUE32_COMMENTS = {
+    "issue-32-split": ("6639119175", "bar-capsule", "2026-11-04T18:47:34Z"),
+    "issue-32-amendment": ("6661136108", "bar-capsule", "2026-11-05T14:55:19Z"),
+    "issue-32-no-effect": ("5725186199", "narko4u", "2026-09-18T04:32:18Z"),
+}
 
 #: Every vendored file, with the upstream commit and path its bytes came from and
 #: whether those bytes are upstream's or a proposal. A requirement names one of
@@ -173,6 +185,17 @@ SOURCES = {
         ),
     },
 }
+for _key, (_comment, _author, _edited) in ISSUE32_COMMENTS.items():
+    SOURCES[_key] = {
+        "path": f"spec-vendored/issue-32-comment-{_comment}.md",
+        "commit": None,
+        "upstreamPath": f"{TARGET_REPO}#32 (comment {_comment})",
+        "status": "proposal",
+        "ref": (
+            f"issue 32 comment {_comment} by {_author}, as last edited at {_edited}; "
+            "a comment has no commit, so the sha256 of the vendored bytes is the pin"
+        ),
+    }
 VENDORED = {key: entry["path"] for key, entry in SOURCES.items()}
 
 #: The error codes the specification fixes in its §17.1 registry. A vector
@@ -293,6 +316,7 @@ FAMILIES = {
     "acs-f-18": "an OCSF allow decision recorded under a class, or with fields, the allow rule does not give it",
     "acs-f-19": "a substituted verdict whose Trace record a reader cannot count, or counts as applied",
     "acs-f-20": "a fail-closed decision failure with no audit record, and a session end with no failure count read as clean",
+    "acs-f-21": "a refused or unanswered step that ran under a posture nobody opted into, or left an effect behind",
 }
 
 #: One row per requirement. Each carries the verbatim normative sentence, which
@@ -965,6 +989,76 @@ REQUIREMENTS: tuple[dict, ...] = (
         "sentence": (
             "A Guardian that signs its response with `HMAC-SHA256` uses the secret, "
             "and the `key_id`, that the request named."
+        ),
+    },
+    # Section 6.4 as issue 32 settles it after the leads' call of 3 November.
+    # The split names HTTP 429 among the answers that follow the posture; the
+    # amendment a day later moves it to the refusals (ACS-R-079), and the 429
+    # members cite the amendment.
+    {
+        "id": "ACS-R-074",
+        "role": "agent",
+        "file": "issue-32-split",
+        "sentence": (
+            "No usable answer follows on_decision_failure: the Guardian is silent "
+            "past the timeout, the connection or TLS handshake fails, HTTP 408, 429 "
+            "or 5xx arrives with no JSON-RPC body, or the Guardian answers with a "
+            "signed -32603."
+        ),
+    },
+    {
+        "id": "ACS-R-075",
+        "role": "agent",
+        "file": "issue-32-split",
+        "sentence": (
+            "A refusal or an integrity failure blocks the step whatever the posture: "
+            "any unsigned error, any signed error other than -32603, a bad signature "
+            "or unknown key_id, a JSON-RPC id or request_id that doesn't match, or a "
+            "result that fails response-envelope.json, an allow included."
+        ),
+    },
+    {
+        "id": "ACS-R-076",
+        "role": "agent",
+        "file": "issue-32-split",
+        "sentence": "It is recorded with its failure class.",
+    },
+    {
+        "id": "ACS-R-077",
+        "role": "agent",
+        "file": "issue-32-split",
+        "sentence": "A retry is a new request, judged on its own.",
+    },
+    {
+        "id": "ACS-R-078",
+        "role": "agent",
+        "file": "issue-32-amendment",
+        "sentence": (
+            "Only the Observed Agent's own config can opt into proceed. The "
+            "Guardian's on_decision_failure can only make the posture stricter, and "
+            "with neither set it's deny."
+        ),
+    },
+    {
+        "id": "ACS-R-079",
+        "role": "agent",
+        "file": "issue-32-amendment",
+        "sentence": "An HTTP 429 is a refusal, like the other 4xx.",
+    },
+    {
+        "id": "ACS-R-080",
+        "role": "agent",
+        "file": "issue-32-split",
+        "sentence": "Any HTTP 4xx except 408 and 429 is a refusal, 401 and 403 included.",
+    },
+    {
+        "id": "ACS-R-081",
+        "role": "agent",
+        "file": "issue-32-no-effect",
+        "sentence": (
+            "the vector pair for #30 should assert that the refused step produced "
+            "no effect, because an implementation that retries and succeeds leaves "
+            "the same trace as one that failed open."
         ),
     },
 )
@@ -2367,6 +2461,7 @@ def build() -> list[dict]:
     build_acs_f_18(add)
     build_acs_f_19(add)
     build_acs_f_20(add)
+    build_acs_f_21(add)
 
     # A member minted from the October text says what its record does not
     # assert. Without it a reader takes an accepting member as evidence of more
@@ -2386,7 +2481,7 @@ def build() -> list[dict]:
 # substituted), and the Trace changes release 0.1.4 carries.
 
 NEEDS_DOES_NOT_ASSERT = frozenset(
-    {"acs-f-12", "acs-f-13", "acs-f-14", "acs-f-15", "acs-f-16", "acs-f-17", "acs-f-18", "acs-f-19"}
+    {"acs-f-12", "acs-f-13", "acs-f-14", "acs-f-15", "acs-f-16", "acs-f-17", "acs-f-18", "acs-f-19", "acs-f-21"}
 )
 
 #: The secret and session the specification's own worked example uses, so the
@@ -4285,6 +4380,357 @@ def build_acs_f_20(add) -> None:
         does_not_assert="anything about a session that carries the count",
     )
 
+def acs_f_21_step(
+    *,
+    answer: dict | None,
+    agent_posture: str | None,
+    guardian_posture: str | None,
+    outcome: str,
+    audit: list[dict],
+    effects: list[dict] | None = None,
+    request_id: str = "req-0021",
+    retry: dict | None = None,
+) -> dict:
+    """One step under the issue 32 split: who set which posture, what came back, what ran."""
+    payload = {
+        "request": dict(tool_call("files.write", path="/srv/reports/q3.csv", body="rows"), request_id=request_id),
+        "agent_config": {"on_decision_failure": agent_posture} if agent_posture else {},
+        "server_hello": {"on_decision_failure": guardian_posture} if guardian_posture else {},
+        "guardian_answer": answer,
+        "step_outcome": outcome,
+        "audit_events": audit,
+    }
+    if effects is not None:
+        payload["observed_effects"] = effects
+    if retry is not None:
+        payload["retry"] = retry
+    return payload
+
+
+def acs_f_21_error(code: int, *, signed: bool = True) -> dict:
+    """A JSON-RPC error answer from a Guardian that is up, signed or not."""
+    return {"kind": "jsonrpc_error", "code": code, "signed": signed}
+
+
+def acs_f_21_http(status: int) -> dict:
+    """An HTTP status with no JSON-RPC body."""
+    return {"kind": "http_status", "status": status, "jsonrpc_body": False}
+
+
+def acs_f_21_audit(failure_class: str, posture: str | None, **fields) -> dict:
+    event = {"event": "acs.decision.failure", "failure_class": failure_class}
+    if posture is not None:
+        event["posture"] = posture
+    event.update(fields)
+    return event
+
+
+SILENT = {"kind": "silent", "elapsed_ms": 60000}
+WRITE_EFFECT = {"effect": "file.write", "path": "/srv/reports/q3.csv", "observer": "filesystem"}
+
+
+def build_acs_f_21(add) -> None:
+    """Issue 32's section 6.4 split: default deny, refusals block, and a refused step leaves no effect."""
+    common = dict(evidence_basis="substrate", witness_scope="SELF", coverage="observed", code=None)
+
+    # Default deny, and who may loosen it.
+    add(
+        kind="reject", family="acs-f-21", requirements=["ACS-R-078"],
+        payload=acs_f_21_step(
+            answer=SILENT, agent_posture=None, guardian_posture=None, outcome="proceeded",
+            audit=[acs_f_21_audit("timeout", "proceed")],
+        ),
+        verdict="deny", **common,
+        cites=(
+            "the Guardian silent past the timeout, no posture set by either party, "
+            "and the step proceeded with the bypass recorded. With neither set the "
+            "posture is deny, so the record is accurate and the outcome is not"
+        ),
+        does_not_assert="the length of the timeout",
+    )
+    add(
+        kind="accept", family="acs-f-21", requirements=["ACS-R-078", "ACS-R-076"],
+        payload=acs_f_21_step(
+            answer=SILENT, agent_posture=None, guardian_posture=None, outcome="blocked",
+            audit=[acs_f_21_audit("timeout", "deny")],
+        ),
+        verdict="allow", **common,
+        cites="the same silence with no posture set, and the step blocked and recorded as a timeout",
+        does_not_assert="the spelling of the failure class beyond its being recorded",
+    )
+    add(
+        kind="reject", family="acs-f-21", requirements=["ACS-R-078"],
+        payload=acs_f_21_step(
+            answer=SILENT, agent_posture=None, guardian_posture="proceed", outcome="proceeded",
+            audit=[acs_f_21_audit("timeout", "proceed")],
+        ),
+        verdict="deny", **common,
+        cites=(
+            "a ServerHello declaring proceed, nothing in the Observed Agent's own "
+            "configuration, and a silent Guardian whose step proceeded. The "
+            "Guardian sits within the attacker's reach, so its declaration can "
+            "only make the posture stricter"
+        ),
+        does_not_assert="how the Guardian came to declare proceed",
+    )
+    add(
+        kind="accept", family="acs-f-21", requirements=["ACS-R-078", "ACS-R-074"],
+        payload=acs_f_21_step(
+            answer=SILENT, agent_posture="proceed", guardian_posture=None, outcome="proceeded",
+            audit=[acs_f_21_audit("timeout", "proceed")],
+        ),
+        verdict="allow", **common,
+        cites=(
+            "the Observed Agent's own configuration opts into proceed, the Guardian "
+            "is silent, and the step proceeds with the failure recorded. An "
+            "implementation that denies every silence whatever its configuration "
+            "fails this member"
+        ),
+        does_not_assert="that proceed was the right choice for the deployment",
+    )
+    add(
+        kind="reject", family="acs-f-21", requirements=["ACS-R-078"],
+        payload=acs_f_21_step(
+            answer=SILENT, agent_posture="proceed", guardian_posture="deny", outcome="proceeded",
+            audit=[acs_f_21_audit("timeout", "proceed")],
+        ),
+        verdict="deny", **common,
+        cites=(
+            "the Observed Agent opted into proceed and the Guardian declared deny, "
+            "and the silent step proceeded. The stricter declaration wins"
+        ),
+        does_not_assert="the order in which the two settings were read",
+    )
+
+    # A refusal blocks under either posture: the oversized envelope bar-capsule named.
+    oversized = acs_f_21_error(-32600)
+    add(
+        kind="reject", family="acs-f-21", requirements=["ACS-R-075"],
+        payload=acs_f_21_step(
+            answer=oversized, agent_posture="proceed", guardian_posture=None, outcome="proceeded",
+            audit=[acs_f_21_audit("decision_failure", "proceed", error_code=-32600)],
+        ),
+        verdict="deny", **common,
+        cites=(
+            "a tool argument past the Guardian's body cap, a signed -32600 before "
+            "any policy ran, and the step proceeded under an opted-in proceed. This "
+            "is the bypass issue 32 opened with: the Guardian answered and refused, "
+            "and the refusal was read as silence"
+        ),
+        does_not_assert="the size of the body cap",
+    )
+    for posture in ("proceed", "deny"):
+        add(
+            kind="accept", family="acs-f-21", requirements=["ACS-R-075", "ACS-R-076"],
+            payload=acs_f_21_step(
+                answer=oversized, agent_posture=posture, guardian_posture=None, outcome="blocked",
+                audit=[acs_f_21_audit("refusal", None, error_code=-32600)],
+            ),
+            verdict="allow", **common,
+            cites=(
+                f"the same oversized envelope under {posture}: the step is blocked "
+                "and recorded as a refusal with its code. The verdict does not "
+                "depend on the posture"
+            ),
+            does_not_assert="the posture field of the record, which a refusal does not consult",
+        )
+
+    # The refusal code is the record, and a refusal is not a transport failure.
+    add(
+        kind="reject", family="acs-f-21", requirements=["ACS-R-076"],
+        payload=acs_f_21_step(
+            answer=acs_f_21_error(-32005), agent_posture="deny", guardian_posture=None, outcome="blocked",
+            audit=[acs_f_21_audit("transport", "deny")],
+        ),
+        verdict="deny", **common,
+        cites=(
+            "a signed -32005 REPLAY_DETECTED, the step blocked, and the record "
+            "calls it a transport failure with no code. The outcome is right and "
+            "the record is not: an operator paging on refusals never sees an "
+            "attacker replaying request_ids, and one paging on outages is woken "
+            "by one"
+        ),
+        does_not_assert="the spelling of the refusal class",
+    )
+    add(
+        kind="accept", family="acs-f-21", requirements=["ACS-R-075", "ACS-R-076"],
+        payload=acs_f_21_step(
+            answer=acs_f_21_error(-32005), agent_posture="deny", guardian_posture=None, outcome="blocked",
+            audit=[acs_f_21_audit("refusal", None, error_code=-32005)],
+        ),
+        verdict="allow", **common,
+        cites="the same replay, blocked and recorded as a refusal carrying -32005",
+        does_not_assert="what the Guardian does with the replayed request_id",
+    )
+    add(
+        kind="accept", family="acs-f-21", requirements=["ACS-R-074"],
+        payload=acs_f_21_step(
+            answer=acs_f_21_error(-32603), agent_posture="proceed", guardian_posture=None, outcome="proceeded",
+            audit=[acs_f_21_audit("decision_failure", "proceed", error_code=-32603)],
+        ),
+        verdict="allow", **common,
+        cites=(
+            "a signed -32603 INTERNAL_ERROR under an opted-in proceed, and the step "
+            "proceeds with the failure recorded. It is the one signed error that "
+            "follows the posture, so an implementation that blocks every error "
+            "fails this member"
+        ),
+        does_not_assert="the cause of the internal error",
+    )
+    add(
+        kind="reject", family="acs-f-21", requirements=["ACS-R-075"],
+        payload=acs_f_21_step(
+            answer=acs_f_21_error(-32603, signed=False), agent_posture="proceed", guardian_posture=None,
+            outcome="proceeded",
+            audit=[acs_f_21_audit("decision_failure", "proceed", error_code=-32603)],
+        ),
+        verdict="deny", **common,
+        cites=(
+            "the same -32603 unsigned, and the step proceeded. Anyone on the path "
+            "can write an unsigned error, so an unsigned -32603 is not the "
+            "Guardian's word that it failed and never lets a step proceed"
+        ),
+        does_not_assert="who wrote the unsigned error",
+    )
+    add(
+        kind="reject", family="acs-f-21", requirements=["ACS-R-075"],
+        payload=acs_f_21_step(
+            answer=acs_f_21_error(-32003), agent_posture="proceed", guardian_posture=None, outcome="proceeded",
+            audit=[acs_f_21_audit("guardian_error", "proceed", error_code=-32003)],
+        ),
+        verdict="deny", **common,
+        cites=(
+            "a signed -32003 CAPABILITY_NOT_NEGOTIATED under an opted-in proceed, "
+            "and the step proceeded. The split blocks any signed error other than "
+            "-32603, so a refusal list of six codes that leaves -32002, -32003 and "
+            "-32007 on the posture fails here"
+        ),
+        does_not_assert="which method was exercised without being negotiated",
+    )
+    add(
+        kind="accept", family="acs-f-21", requirements=["ACS-R-075", "ACS-R-076"],
+        payload=acs_f_21_step(
+            answer=acs_f_21_error(-32007), agent_posture="proceed", guardian_posture=None, outcome="blocked",
+            audit=[acs_f_21_audit("refusal", None, error_code=-32007)],
+        ),
+        verdict="allow", **common,
+        cites="a signed -32007 CHAIN_MISMATCH under an opted-in proceed, blocked and recorded as a refusal with its code",
+        does_not_assert="how the chain came to mismatch",
+    )
+
+    # The HTTP layer.
+    add(
+        kind="reject", family="acs-f-21", requirements=["ACS-R-079"],
+        payload=acs_f_21_step(
+            answer=acs_f_21_http(429), agent_posture="proceed", guardian_posture=None, outcome="proceeded",
+            audit=[acs_f_21_audit("transport", "proceed", http_status=429)],
+        ),
+        verdict="deny", **common,
+        cites=(
+            "an HTTP 429 with no JSON-RPC body under an opted-in proceed, and the "
+            "step proceeded. Flooding the Guardian until it throttles takes no "
+            "access, which is why the amendment moved 429 out of the posture"
+        ),
+        does_not_assert="the throttling policy that produced the 429",
+    )
+    add(
+        kind="accept", family="acs-f-21", requirements=["ACS-R-074"],
+        payload=acs_f_21_step(
+            answer=acs_f_21_http(503), agent_posture="proceed", guardian_posture=None, outcome="proceeded",
+            audit=[acs_f_21_audit("transport", "proceed", http_status=503)],
+        ),
+        verdict="allow", **common,
+        cites=(
+            "an HTTP 503 with no JSON-RPC body under an opted-in proceed, and the "
+            "step proceeds with the failure recorded. A 5xx stays on the posture"
+        ),
+        does_not_assert="anything about a 5xx that carries a JSON-RPC body",
+    )
+    add(
+        kind="reject", family="acs-f-21", requirements=["ACS-R-080"],
+        payload=acs_f_21_step(
+            answer=acs_f_21_http(401), agent_posture="proceed", guardian_posture=None, outcome="proceeded",
+            audit=[acs_f_21_audit("transport", "proceed", http_status=401)],
+        ),
+        verdict="deny", **common,
+        cites=(
+            "an HTTP 401 under an opted-in proceed, and the step proceeded: the "
+            "adapter's credential was refused, and an expired credential turned "
+            "enforcement off"
+        ),
+        does_not_assert="the authentication scheme",
+    )
+    add(
+        kind="accept", family="acs-f-21", requirements=["ACS-R-080", "ACS-R-076"],
+        payload=acs_f_21_step(
+            answer=acs_f_21_http(403), agent_posture="proceed", guardian_posture=None, outcome="blocked",
+            audit=[acs_f_21_audit("refusal", None, http_status=403)],
+        ),
+        verdict="allow", **common,
+        cites="an HTTP 403 under an opted-in proceed, blocked and recorded as a refusal with its status",
+        does_not_assert="the authentication scheme",
+    )
+
+    # A refused step leaves no effect, and a retry is judged on its own.
+    effect_scope = dict(evidence_basis="substrate", witness_scope="EXTERNAL", coverage="observed", code=None)
+    refused = [acs_f_21_audit("refusal", None, error_code=-32004)]
+    add(
+        kind="reject", family="acs-f-21", requirements=["ACS-R-081", "ACS-R-075"],
+        payload=acs_f_21_step(
+            answer=acs_f_21_error(-32004), agent_posture="deny", guardian_posture=None, outcome="blocked",
+            audit=refused, effects=[dict(WRITE_EFFECT, request_id="req-0021")],
+        ),
+        verdict="deny", **effect_scope,
+        cites=(
+            "a signed -32004, an Observed Agent that reports the step blocked and "
+            "records the refusal, and a filesystem observer that saw the write. "
+            "Every record the agent wrote is correct, and the action ran: only the "
+            "observed effect tells this apart from a conformant block"
+        ),
+        does_not_assert="how the write escaped the block",
+    )
+    add(
+        kind="accept", family="acs-f-21", requirements=["ACS-R-081", "ACS-R-075"],
+        payload=acs_f_21_step(
+            answer=acs_f_21_error(-32004), agent_posture="deny", guardian_posture=None, outcome="blocked",
+            audit=refused, effects=[],
+        ),
+        verdict="allow", **effect_scope,
+        cites="the same refusal, and the observer saw no write",
+        does_not_assert="effects outside the observed resource",
+    )
+    add(
+        kind="reject", family="acs-f-21", requirements=["ACS-R-077", "ACS-R-081"],
+        payload=acs_f_21_step(
+            answer=acs_f_21_error(-32004), agent_posture="deny", guardian_posture=None, outcome="blocked",
+            audit=refused, effects=[dict(WRITE_EFFECT, request_id="req-0021")],
+            retry={"request_id": "req-0021", "re_signed": True, "guardian_answer": {"kind": "decision", "decision": "allow"}},
+        ),
+        verdict="deny", **effect_scope,
+        cites=(
+            "the refused envelope re-signed under the same request_id and sent "
+            "again, the Guardian allowing it, and the write attributed to the "
+            "refused request. A retry that recovers the refused request leaves the "
+            "trace a fail-open leaves; a retry is a new request with its own id"
+        ),
+        does_not_assert="whether the Guardian should have detected the reuse",
+    )
+    add(
+        kind="accept", family="acs-f-21", requirements=["ACS-R-077", "ACS-R-081"],
+        payload=acs_f_21_step(
+            answer=acs_f_21_error(-32004), agent_posture="deny", guardian_posture=None, outcome="blocked",
+            audit=refused, effects=[dict(WRITE_EFFECT, request_id="req-0022")],
+            retry={"request_id": "req-0022", "re_signed": True, "guardian_answer": {"kind": "decision", "decision": "allow"}},
+        ),
+        verdict="allow", **effect_scope,
+        cites=(
+            "the retry sent as a new request, req-0022, allowed on its own facts, "
+            "and the write attributed to it. The refused request still has no effect"
+        ),
+        does_not_assert="that the second decision was correct",
+    )
+
+
 def code_cell(expected: dict) -> str:
     """The INDEX cell for a member's code: named, forbidden, or left unasserted."""
     if expected["code"]:
@@ -4654,6 +5100,19 @@ def build_manifest() -> tuple[dict, dict[str, bytes]]:
                     "Read at the pull request's head while it was open and unmerged. "
                     "Family acs-f-18 tests the allow class it proposes, and a change to "
                     "the proposal before it merges is a reword that stops this build."
+                ),
+            },
+            "issue-32": {
+                "issue": f"{TARGET_REPO}#32",
+                "comments": {key: value[0] for key, value in ISSUE32_COMMENTS.items()},
+                "note": (
+                    "The section 6.4 split as issue 32 settled it after the leads' call of "
+                    "3 November: a refusal blocks the step under either posture, only the "
+                    "Observed Agent's own configuration opts into proceed, and an HTTP 4xx, "
+                    "429 included, is a refusal. No specification text carries it yet. "
+                    "Family acs-f-21 cites the comments, each pinned by the sha256 of its "
+                    "vendored bytes; when the section 6.4 pull request lands, those members "
+                    "are re-minted from its text."
                 ),
             },
             "issue-264": {

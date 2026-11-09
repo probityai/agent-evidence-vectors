@@ -3277,6 +3277,15 @@ MASKS = tuple(
         # cell or a docstring. It surfaced when the audit-record corpus total reached
         # the number of the upstream issue that the ACS-Core wire probes cite.
         r"\bissues?\s+\d+\b",
+        # The same identifier in the other spellings a corpus uses: `Issue 32's`,
+        # a file name such as `issue-32-comment-6639119175.md`, and a constant
+        # such as `ISSUE32_COMMENTS` or `PR273_MERGE_COMMIT`. It surfaced when the
+        # suiteRevision reached the number of the upstream issue that the ACS-Core
+        # section 6.4 family cites; masking the spellings is the argument the
+        # `issue 184` mask above gives against freezing each site.
+        r"\b[Ii]ssues?[-\s]?\d+",
+        r"\bISSUE\d+",
+        r"\bPR\d+",
         # And `pull request 273`, the same identifier for a pull request. It
         # surfaced when the ACS-Core corpus cited an upstream pull request whose
         # number equals the W3C report corpus total.
