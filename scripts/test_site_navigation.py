@@ -66,6 +66,7 @@ PREDICATES = (
     ("v1", "re-enable-decision"),
     ("v1", "joint-authority"),
     ("v1", "revocation-boundary"),
+    ("v1", "control-decision"),
     ("v1", "evidence-scope-disclosure"),
     ("v1", "launch-chain"),
     ("v1", "ml-bom"),
@@ -474,7 +475,7 @@ class TestSiteNavigation:
             root = fromstring((built_site / "sitemap.xml").read_bytes())
             namespace = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
             urls = [node.text for node in root.findall("s:url/s:loc", namespace)]
-            assert len(urls) == len(set(urls)) == 57
+            assert len(urls) == len(set(urls)) == 59
             assert root.find("s:url/s:lastmod", namespace) is None
 
         def test_local_image_loads_repository_bytes(self, repository: Path) -> None:
