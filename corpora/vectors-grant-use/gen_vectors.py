@@ -423,7 +423,8 @@ def use_checks() -> list[Case]:
     unknown = "key:authority-9"
     return [
         ("use-at-leaf-expiry", record(uses=[use(2, "2026-11-08T17:59:30Z")]), "deny",
-         "grant_not_in_force", "the effect is observed at the leaf's expiresAt, which is exclusive"),
+         "grant_not_in_force",
+         "the effect is observed at the leaf's expiresAt, which is exclusive"),
         ("use-before-not-before",
          record(uses=[use(2, "2026-11-08T08:59:59Z", observe=0)]), "deny",
          "grant_not_in_force", "the effect is observed one second before the leaf is in force"),

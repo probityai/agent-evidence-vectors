@@ -745,4 +745,3 @@ func (r guRecord) unwitnessed() bool {
 	effectAt := r.seq("effect", guDigest(r.effect()))
 	return !(permitAt < effectAt && !math.IsInf(effectAt, 1))
 }
-

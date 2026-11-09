@@ -40,9 +40,9 @@ The reader checks in a fixed order and names the first check that fails:
 1. the record carries ``contractId`` (``contract_id_missing``);
 2. ``contractId`` is the grant-use contract (``contract_id_unknown``);
 3. the record has the fields and types the contract names, carries no number
-   that is not an integer, every time parses, every count is a safe integer, no grant sits deeper than its own
-   ``maxDepth``, identifiers are unique, and no evidence is stamped after
-   ``decisionTime`` (``malformed_record``);
+   that is not an integer, every time parses, every count is a safe integer, no
+   grant sits deeper than its own ``maxDepth``, identifiers are unique, and no
+   evidence is stamped after ``decisionTime`` (``malformed_record``);
 4. the root has no parent and a trusted root issued it, each grant sits one
    level below its parent, names the recomputed digest of its parent, and was
    issued by its parent's holder (``grant_chain_broken``);
