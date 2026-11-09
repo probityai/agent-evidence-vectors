@@ -73,7 +73,7 @@ def test_every_check_is_forced_by_a_member(check: str) -> None:
 
 def test_dispatch_state_is_required_in_every_state() -> None:
     record = _record("allow-x1-invoice-before-dispatch")
-    for index, state in enumerate(reader.states(record)):
+    for index in range(len(list(reader.states(record)))):
         for value in (None, False, "reserved", 0):
             broken = json.loads(json.dumps(record))
             list(reader.states(broken))[index]["dispatchState"] = value
@@ -115,7 +115,9 @@ def test_unmodified_ledger_passes_the_runtime_contract(tmp_path: Path) -> None:
 
 
 @pytest.mark.parametrize("row", MANIFEST["mutants"], ids=lambda r: r["id"])
-def test_runtime_contract_fails_each_mutant_where_the_table_says(row: dict, tmp_path: Path) -> None:  # type: ignore[type-arg]
+def test_runtime_contract_fails_each_mutant_where_the_table_says(
+    row: dict, tmp_path: Path,  # type: ignore[type-arg]
+) -> None:
     source = generator.mutant_source(row["id"], tmp_path)
     report = runtime.check_runtime([sys.executable, str(ADAPTER), "--source", str(source)], ROOT)
     failed = {failure.split(":")[0] for failure in report["failures"]}

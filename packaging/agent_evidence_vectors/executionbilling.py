@@ -232,12 +232,13 @@ def _held_released(record: Record) -> bool:
 def _redispatched(record: Record) -> bool:
     return any(step["cmd"] == "dispatch" and step.get("attempt", "A") == "A"
                and action["return"].get("dispatchAllowed") is True
-               and (before["dispatchState"] != "RESERVED" or before["billingFinality"] != "UNKNOWN")
+               and (before.get("dispatchState") != "RESERVED"
+                    or before["billingFinality"] != "UNKNOWN")
                for step, action, before in actions(record))
 
 
 def _reserved_after_billing(record: Record) -> bool:
-    return any(state["billingFinality"] != "UNKNOWN" and state["dispatchState"] == "RESERVED"
+    return any(state["billingFinality"] != "UNKNOWN" and state.get("dispatchState") == "RESERVED"
                for state in states(record))
 
 
