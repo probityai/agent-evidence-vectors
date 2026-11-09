@@ -9,7 +9,7 @@ version. This lint refuses those patterns so they are caught before a reader
 sees them.
 
 Usage:
-    python3 scripts/public-voice-lint.py                 # README.md files, top-level *.md, docs/**/*.md
+    python3 scripts/public-voice-lint.py                 # README.md, top-level *.md, docs/**/*.md
     python3 scripts/public-voice-lint.py PATH [PATH ...]  # only these files
     python3 scripts/public-voice-lint.py --allowlist FILE
 
@@ -134,7 +134,8 @@ RULES: list[tuple[str, re.Pattern[str], str]] = [
     (
         "agent",
         re.compile(
-            r"\b(?:main session|lane session|session running it|Co-Authored-By|(?:generated|written|drafted) "
+            r"\b(?:main session|lane session|session running it|Co-Authored-By|"
+            r"(?:generated|written|drafted) "
             r"(?:by|with) (?:Claude|ChatGPT|Codex|Gemini|an AI|AI|an LLM|a model))\b",
             re.IGNORECASE,
         ),
@@ -142,7 +143,10 @@ RULES: list[tuple[str, re.Pattern[str], str]] = [
     ),
     (
         "company",
-        re.compile(r"\b(?:our company|our startup|Probity (?:Inc|LLC|Labs|Corp)\b\.?)", re.IGNORECASE),
+        re.compile(
+            r"\b(?:our company|our startup|Probity (?:Inc|LLC|Labs|Corp)\b\.?)",
+            re.IGNORECASE,
+        ),
         "public text here does not speak for a company",
     ),
 ]
@@ -174,7 +178,7 @@ def private_name_candidates(token: str) -> set[str]:
     out = {token}
     parts = [p for p in token.split("/") if p]
     out.update(parts)
-    out.update(f"{a}/{b}" for a, b in zip(parts, parts[1:]))
+    out.update(f"{a}/{b}" for a, b in zip(parts, parts[1:], strict=False))
     for part in parts:
         dotted = part.split(".")
         out.update(".".join(dotted[i:]) for i in range(len(dotted)))
@@ -201,7 +205,7 @@ def prose_lines(text: str) -> list[tuple[int, str, str]]:
     out = []
     in_fence = False
     for number, (raw, line) in enumerate(
-        zip(text.splitlines(), text_no_comments.splitlines()), start=1
+        zip(text.splitlines(), text_no_comments.splitlines(), strict=True), start=1
     ):
         if FENCE.match(line):
             in_fence = not in_fence
