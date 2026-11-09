@@ -169,7 +169,8 @@ def _controls() -> list[Case]:
          "control: an empty list at epoch 1 is a stated state, not an absent one"),
         ("allow-grant-revoked-after-effect",
          record(lists=[L1, l2_grant], events=log(S(L1, 0), P(2), E(3), S(l2_grant, 4))), *ok,
-         "control: the list revoking the grant was witnessed after the effect, so the effect stands"),
+         "control: the list revoking the grant was witnessed after the effect, "
+         "so the effect stands"),
         ("allow-holder-revoked-after-effect",
          record(lists=[L1, l2_holder], events=log(S(L1, 0), P(2), E(3), S(l2_holder, 4))), *ok,
          "control: the holder key was revoked after the effect was witnessed"),
@@ -187,7 +188,8 @@ def _controls() -> list[Case]:
          "control: a newer list arrived after the permit; the effect was checked against it"),
         ("allow-race-effect-witnessed-first",
          record(lists=[L1, r2_grant], events=log(S(L1, 0), P(2), E(3), S(r2_grant, 3))), *ok,
-         "control: the revoking list and the effect share an instant; the log puts the effect first"),
+         "control: the revoking list and the effect share an instant; "
+         "the log puts the effect first"),
         ("allow-same-list-carried-twice",
          record(lists=[L1, copy.deepcopy(L1)], events=log(S(L1, 0), S(L1, 1), P(2), E(3))), *ok,
          "control: the same list at the same epoch is carried and witnessed twice"),

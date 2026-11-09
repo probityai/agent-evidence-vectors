@@ -180,8 +180,9 @@ def _has_fraction(value: Any) -> bool:
 def _malformed(record: dict[str, Any]) -> bool:
     if _has_fraction(record):
         return True
-    permit, effect = record.get("permit"), record.get("effect")
-    fresh = record.get("freshnessSeconds")
+    permit: Any = record.get("permit")
+    effect: Any = record.get("effect")
+    fresh: Any = record.get("freshnessSeconds")
     shape = (
         _texts(record.get("trustedSrlIssuers"), empty=False)
         and _is_int(fresh) and fresh >= 1
@@ -258,8 +259,9 @@ def _untrusted(v: _View) -> bool:
 
 
 def _binding(v: _View) -> bool:
-    return (v.permit["grantDigest"] != v.grant_digest or v.effect["grantDigest"] != v.grant_digest
-            or v.effect["permitId"] != v.permit["permitId"])
+    return bool(v.permit["grantDigest"] != v.grant_digest
+                or v.effect["grantDigest"] != v.grant_digest
+                or v.effect["permitId"] != v.permit["permitId"])
 
 
 def _not_monotonic(v: _View) -> bool:
@@ -268,10 +270,11 @@ def _not_monotonic(v: _View) -> bool:
         if epochs.setdefault(srl["epoch"], key) != key:
             return True
     ordered = sorted(v.lists.values(), key=lambda s: s["epoch"])
-    if any(_when(b["issuedAt"]) <= _when(a["issuedAt"]) for a, b in zip(ordered, ordered[1:])):
+    pairs = zip(ordered, ordered[1:], strict=False)
+    if any(_when(b["issuedAt"]) <= _when(a["issuedAt"]) for a, b in pairs):
         return True
     seen = [s["epoch"] for _, s in v.witnessed_lists()]
-    return any(b < a for a, b in zip(seen, seen[1:]))
+    return any(b < a for a, b in zip(seen, seen[1:], strict=False))
 
 
 def _absent(v: _View) -> bool:
@@ -364,7 +367,7 @@ def _failure(record: dict[str, Any], name: str) -> bool:
     if name == "contract_id_missing":
         return "contractId" not in record
     if name == "contract_id_unknown":
-        return record.get("contractId", CONTRACT_ID) != CONTRACT_ID
+        return bool(record.get("contractId", CONTRACT_ID) != CONTRACT_ID)
     if name == "malformed_record":
         return _malformed(record)
     return _RULES[name](_View(record))

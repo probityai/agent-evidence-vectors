@@ -55,20 +55,20 @@ func TestRevocationEpochCommittedCorpusIsClean(t *testing.T) {
 
 func TestRevocationEpochEachCheckMovesTheVerdict(t *testing.T) {
 	denied := map[string]string{
-		"contract-id-missing":                          "contract_id_missing",
-		"contract-id-unknown":                          "contract_id_unknown",
-		"malformed-epoch-not-integer":                  "malformed_record",
-		"srl-issuer-untrusted":                         "srl_issuer_untrusted",
-		"grant-binding-permit-names-other-grant":       "grant_binding_mismatch",
-		"epoch-rolled-back-in-witness-log":             "srl_epoch_not_monotonic",
-		"srl-absent-at-effect":                         "srl_absent",
-		"srl-epoch-unknown-at-permit":                  "srl_digest_mismatch",
-		"srl-stale-permit-backdated":                   "srl_stale_at_permit",
-		"revoked-at-permit-authority-key":              "revoked_at_permit",
+		"contract-id-missing":                           "contract_id_missing",
+		"contract-id-unknown":                           "contract_id_unknown",
+		"malformed-epoch-not-integer":                   "malformed_record",
+		"srl-issuer-untrusted":                          "srl_issuer_untrusted",
+		"grant-binding-permit-names-other-grant":        "grant_binding_mismatch",
+		"epoch-rolled-back-in-witness-log":              "srl_epoch_not_monotonic",
+		"srl-absent-at-effect":                          "srl_absent",
+		"srl-epoch-unknown-at-permit":                   "srl_digest_mismatch",
+		"srl-stale-permit-backdated":                    "srl_stale_at_permit",
+		"revoked-at-permit-authority-key":               "revoked_at_permit",
 		"effect-after-revocation-dropped-in-later-list": "effect_after_revocation",
-		"ambiguous-witness-log-gap":                    "revocation_order_ambiguous",
-		"effect-epoch-behind":                          "effect_epoch_behind",
-		"srl-stale-at-effect-backdated":                "srl_stale_at_effect",
+		"ambiguous-witness-log-gap":                     "revocation_order_ambiguous",
+		"effect-epoch-behind":                           "effect_epoch_behind",
+		"srl-stale-at-effect-backdated":                 "srl_stale_at_effect",
 	}
 	for from, reason := range denied {
 		t.Run("allow-other-grant-revoked with the record of "+from, func(t *testing.T) {
