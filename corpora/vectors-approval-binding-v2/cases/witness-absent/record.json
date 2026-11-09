@@ -1,0 +1,114 @@
+{
+  "approvals": [
+    {
+      "approvalId": "approval-1",
+      "approverClaimed": "user:alice",
+      "argsDigest": "sha256:609d493c89ddbfc41d646ed8158787cac20db2d5eb40b4122f921cf494f80a61",
+      "authenticatedPrincipal": "user:alice",
+      "decision": "approve",
+      "expiresAt": "2026-11-08T11:00:00Z",
+      "historyDigest": "sha256:47b2d1761a554bfc2fb254c0eb44b44c4cbaf909f1474b5c3bbe395ca3d5a216",
+      "issuedAt": "2026-11-08T10:01:00Z",
+      "keyId": "key:alice",
+      "proposalId": "proposal-1",
+      "tool": "payments.refund",
+      "toolCallId": "call-7f3a"
+    },
+    {
+      "approvalId": "approval-2",
+      "approverClaimed": "user:bob",
+      "argsDigest": "sha256:609d493c89ddbfc41d646ed8158787cac20db2d5eb40b4122f921cf494f80a61",
+      "authenticatedPrincipal": "user:bob",
+      "decision": "approve",
+      "expiresAt": "2026-11-08T11:00:00Z",
+      "historyDigest": "sha256:47b2d1761a554bfc2fb254c0eb44b44c4cbaf909f1474b5c3bbe395ca3d5a216",
+      "issuedAt": "2026-11-08T10:02:00Z",
+      "keyId": "key:bob",
+      "proposalId": "proposal-1",
+      "tool": "payments.refund",
+      "toolCallId": "call-7f3a"
+    }
+  ],
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/approval-binding/v2",
+  "execution": {
+    "approvalIds": [
+      "approval-1",
+      "approval-2"
+    ],
+    "approvalStatus": "spent",
+    "argsExecuted": {
+      "account": "acct-alice",
+      "amountCents": 2000,
+      "reason": "duplicate charge"
+    },
+    "consumedAt": "2026-11-08T10:05:00Z",
+    "consumedBy": "key:authority-1",
+    "dispatchedAt": "2026-11-08T10:05:01Z",
+    "executionId": "execution-2",
+    "historyDigest": "sha256:47b2d1761a554bfc2fb254c0eb44b44c4cbaf909f1474b5c3bbe395ca3d5a216",
+    "outcome": "applied",
+    "tool": "payments.refund",
+    "toolCallId": "call-7f3a",
+    "transforms": []
+  },
+  "ledger": [
+    {
+      "approvalId": "approval-0001",
+      "consumedAt": "2026-11-08T09:00:00Z",
+      "executionId": "execution-0001",
+      "toolCallId": "call-0001"
+    }
+  ],
+  "policy": {
+    "approverKeys": {
+      "agent:planner": "key:planner",
+      "system:gateway": "key:gateway",
+      "user:alice": "key:alice",
+      "user:bob": "key:bob",
+      "user:carol": "key:carol",
+      "user:dave": "key:dave",
+      "user:mallory": "key:mallory"
+    },
+    "approvers": [
+      "user:alice",
+      "user:bob",
+      "user:carol"
+    ],
+    "authorityKeyId": "key:authority-1",
+    "delegations": [],
+    "quorum": 2,
+    "rejectVetoes": true,
+    "separationOfDuties": {
+      "conflicts": []
+    },
+    "timeoutSeconds": 1800
+  },
+  "proposal": {
+    "argsShown": {
+      "account": "acct-alice",
+      "amountCents": 2000,
+      "reason": "duplicate charge"
+    },
+    "historyDigest": "sha256:47b2d1761a554bfc2fb254c0eb44b44c4cbaf909f1474b5c3bbe395ca3d5a216",
+    "modelResponse": {
+      "model": "model-a",
+      "responseId": "response-1",
+      "toolCalls": [
+        {
+          "args": {
+            "account": "acct-alice",
+            "amountCents": 2000,
+            "reason": "duplicate charge"
+          },
+          "tool": "payments.refund",
+          "toolCallId": "call-7f3a"
+        }
+      ]
+    },
+    "proposalId": "proposal-1",
+    "proposedAt": "2026-11-08T10:00:00Z",
+    "proposer": "agent:planner",
+    "tool": "payments.refund",
+    "toolCallId": "call-7f3a"
+  }
+}
