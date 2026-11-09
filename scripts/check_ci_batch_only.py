@@ -56,6 +56,19 @@ def triggers(text: str) -> set[str]:
     return keys
 
 
+def _job_key(line: str, cur: dict) -> bool | None:
+    """Apply a `needs:` or `if:` line to `cur`. Return whether a needs list follows, else None."""
+    m = re.match(r"^    (needs|if):\s*(.*)$", line)
+    if not m:
+        return None
+    key, val = m.group(1), m.group(2).split(" #", 1)[0].strip()
+    if key == "needs" and val:
+        cur["needs"] = [v.strip().strip("'\"") for v in val.strip("[]").split(",") if v.strip()]
+    elif key == "if":
+        cur["if"] = val
+    return key == "needs" and val == ""
+
+
 def jobs(text: str) -> dict[str, dict]:
     """Map job id -> {"needs": [ids], "if": str}."""
     out: dict[str, dict] = {}
@@ -71,21 +84,14 @@ def jobs(text: str) -> dict[str, dict]:
             continue
         if cur is None:
             continue
-        m = re.match(r"^    (needs|if):\s*(.*)$", line)
-        if m:
-            key, val = m.group(1), m.group(2).split(" #", 1)[0].strip()
-            in_needs = key == "needs" and val == ""
-            if key == "needs" and val:
-                cur["needs"] = [v.strip().strip("'\"") for v in val.strip("[]").split(",") if v.strip()]
-            elif key == "if":
-                cur["if"] = val
+        follows = _job_key(line, cur)
+        if follows is not None:
+            in_needs = follows
             continue
-        if in_needs:
-            m = re.match(r"^    \s*- \s*(\S+)", line)
-            if m:
-                cur["needs"].append(m.group(1).strip("'\""))
-                continue
-        if re.match(r"^    \S", line):
+        item = re.match(r"^    \s*- \s*(\S+)", line) if in_needs else None
+        if item:
+            cur["needs"].append(item.group(1).strip("'\""))
+        elif re.match(r"^    \S", line):
             in_needs = False
     return out
 
