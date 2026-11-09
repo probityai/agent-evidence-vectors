@@ -1,0 +1,40 @@
+# Allowed matches for scripts/public-voice-lint.py: <path glob><TAB><rule><TAB><text or *>.
+# Each entry says why the match is written for a reader and not for the maintainers.
+
+# The roadmap is the open-work list for contributors; its rows describe how the suite is maintained.
+TODO.md	process	*
+TODO.md	correction	*
+
+# An outside run that found and corrected its own recipe is the finding being reported.
+RUNS.md	correction	corrected in
+
+# Recorded and upstream bytes: the capture times are part of the pinned record.
+corpora/vectors-recorded/sets/*/bytes/README.md	timestamp	*
+crates/jcs-admit/interop/*/upstream/records/README.md	timestamp	*
+interop/aps-priorseal-e2-2026-09-30/README.md	timestamp	*
+
+# Proposal headers carry the time the upstream thread was read.
+docs/proposals/harbor-*.md	timestamp	*
+
+# Design rationale names the defect a check exists to catch.
+docs/IMPLEMENTATION-REPORT.md	correction	was wrong
+docs/architecture/DESIGN_DECISIONS.md	correction	was wrong
+
+# A written ruling on a specification question, by the specification's owners.
+docs/UNCITED-OBLIGATIONS.md	process	ruling
+docs/guides/corpora.md	process	ruling
+docs/runs/observed-effect-verdict-words.md	process	ruling
+interop/a2a-s3-retain-2026-10-01/README.md	process	ruling
+docs/UNCITED-OBLIGATIONS.md	process	fixed at
+
+# The pre-push hook is a contributor tool; this page documents how to run it.
+docs/pre-push-venues.md	process	pre-push gate
+
+# The public conformance board, where contributors keep ownership of their cases.
+docs/proposals/suites-roadmap.md	process	board row
+
+# Describes a trailer on someone else's commit.
+docs/research/external-records.md	agent	Co-authored-by
+
+# Cites a correction posted on the public mailing list.
+interop/w3c-v01-appendix/README.md	correction	corrected in
