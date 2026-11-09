@@ -320,7 +320,7 @@ jobs:
     # Hugging Face dataset together: both are published by this one job.
     environment: public-release
     permissions:
-      contents: read
+      contents: write
       id-token: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -422,6 +422,65 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: python scripts/publish-hf-dataset.py upload "$RUNNER_TEMP/dataset" --tag "$GITHUB_REF_NAME"
+
+      # The corpus GitHub release, created in this same approved job so one
+      # approval publishes the wheel, the dataset and the release. Before these
+      # steps existed, tags after v0.31.0 had a PyPI file and no release, and a
+      # sub-package release became Latest. They attach the signed digest list
+      # and make this release the Latest one. A release created with the
+      # workflow token does not start another run of this workflow.
+      - name: create the release and mark it Latest
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            echo "release $GITHUB_REF_NAME already exists; only the Latest flag is set"
+          else
+            prev="$(git tag --list 'v[0-9]*.[0-9]*.[0-9]*' --sort=-v:refname | while read -r t; do
+              if [ "$t" != "$GITHUB_REF_NAME" ] && [ "$(printf '%s\n%s\n' "$t" "$GITHUB_REF_NAME" | sort -V | head -n1)" = "$t" ]; then echo "$t"; break; fi
+            done)"
+            args=(--verify-tag --title "$GITHUB_REF_NAME" --generate-notes)
+            if [ -n "$prev" ]; then args+=(--notes-start-tag "$prev"); fi
+            assets=()
+            for f in release/CORPUS-DIGESTS.txt release/CORPUS-DIGESTS.txt.sig release/CORPUS-DIGESTS.txt.sig.ots release/CORPUS-DIGESTS.txt.sig.tsr; do
+              if [ -f "$f" ]; then assets+=("$f"); fi
+            done
+            gh release create "$GITHUB_REF_NAME" "${args[@]}" "${assets[@]}"
+          fi
+          gh release edit "$GITHUB_REF_NAME" --latest
+      - name: Latest is the newest corpus tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/check-latest-release.py "$GITHUB_REPOSITORY"
+
+  # A published release for a sub-package tag (anything that is not
+  # v<x>.<y>.<z>) must never be Latest: the repository page and
+  # releases/latest would then point at a package instead of the corpus.
+  # Whoever created the release, this demotes it and then fails if Latest is
+  # still not the newest corpus tag.
+  keep-latest-on-corpus:
+    if: ${{ github.event_name == 'release' && !startsWith(github.event.release.tag_name, 'v') }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: this sub-package release is not Latest
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: gh release edit "$TAG" --latest=false
+      - name: Latest is the newest corpus tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/check-latest-release.py "$GITHUB_REPOSITORY"
 
   resolve:
     if: ${{ github.event_name == 'release' && !github.event.release.prerelease }}
