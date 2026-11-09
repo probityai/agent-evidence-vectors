@@ -277,6 +277,29 @@
       "path": "vectors/reject/gen_invalid_vectors.py",
       "serialization": "bytes",
       "sha256": "b7f510e2caa7f5a77566b20e8b543890a1e1d9e44460a8ef09665da253907166"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "0a457202ecf0ee432563c9670f403ff5c954706917dc43422147823a559b4e52"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "0a457202ecf0ee432563c9670f403ff5c954706917dc43422147823a559b4e52"
+        },
+        "swapped-in": "8fada9e9507b065cea13167c2f382683c307dab341e8b7db1b2cb1e80210f271",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors/verdict-line.schema.json",
+      "serialization": "bytes",
+      "sha256": "6e2495073a2d9f0a75a3aa462c7763ba9605713e0bc68022e9ac8ec7d58fba3b"
     }
   ],
   "boundary": {
@@ -328,7 +351,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "fa0751e529d000d5fb3b3cde26f849fe1e6b5c6e28b0ed4aab55c25e79e5f5c7"
+      "sha256": "1d19ae8661efc3616f9c4cd12257c1af9797727eb180940643c2415b6b24b445"
     },
     "runtime": {
       "name": "go",
@@ -2649,7 +2672,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "e91c28cf2d1e504b9d2371f2a58b56aebf4e5855bda0fb15594e16d9cf14fef9"
+    "sha256": "bd65a671c91efe4de642d28353eb5c98a799c65233c13348bd2df08130767779"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
