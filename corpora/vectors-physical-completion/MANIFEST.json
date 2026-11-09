@@ -1,0 +1,1327 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/physical-completion",
+  "corpusDigest": "c96efa91ee478597e2fb0d42fb71e98e6a9bf8d5ba30674ec73ebac6ccb6d270",
+  "counts": {
+    "ambiguous": 13,
+    "conformant": 15,
+    "nonconformant": 16
+  },
+  "proposal": {
+    "rules": [
+      "absence_reported_as_not_claimed",
+      "observation_unauthenticated",
+      "observation_unbound",
+      "witness_unidentified",
+      "witness_untrusted",
+      "criterion_not_prefixed",
+      "observation_outside_window",
+      "conflict_erased",
+      "conflict_drops_a_claim",
+      "observation_outcome_not_reported"
+    ],
+    "status": "Proposed by this corpus for the physical-observation and controller-outcome artifacts that Section 1.5 of the draft leaves undefined, from the failure model the draft fixes for them in Section 2 and Sections 8.2 to 8.4. Not the draft's text: every member that rests on one of these rules is ambiguous under -01.",
+    "vocabulary": "physical-completion/v1"
+  },
+  "provenance": {
+    "author": "hippoley (Noah Ellis)",
+    "issue": "https://github.com/probityai/agent-evidence-vectors/issues/80",
+    "note": "The claim boundary and seven starting cases come from the proposal in issue 80. The FlyThink probes are cited, not copied: each member here was written for this corpus from the draft's text, and where a probe's expected answer rests on an artifact the draft leaves undefined the member is marked open and says so.",
+    "probes": [
+      "https://github.com/hippoley/FlyThink-Anatomy-Demo/commit/1be4ff7d63e166842d67fe04ecd10bb3054fca3a",
+      "https://github.com/hippoley/FlyThink-Anatomy-Demo/commit/01297c1dbca49be19f6af6c90dda58bb08c03f9d"
+    ],
+    "source": "hippoley, issue 80"
+  },
+  "spec": {
+    "author": "T. Toraman",
+    "draft": "draft-noa-scitt-ai-agent-receipt-01",
+    "posted": "2026-08-15",
+    "sections": [
+      "1.5",
+      "2",
+      "8.1",
+      "8.2",
+      "8.3",
+      "8.4",
+      "12"
+    ],
+    "sha256": "246b5da4c6ab0045e20d50f7f60ba41db03d49518255b360d8bf39b6ac0560a4",
+    "status": "Individual Internet-Draft, intended status Standards Track; not the agreed text of the SCITT working group, and a later revision can change it.",
+    "url": "https://www.ietf.org/archive/id/draft-noa-scitt-ai-agent-receipt-01.txt"
+  },
+  "suite": "physical-completion/v1",
+  "synthetic": true,
+  "vectors": [
+    {
+      "anchor": {
+        "quote": "A verifier evaluating a receipt -- alone or as part of a chain -- MUST NOT return a result whose named fields assert any of them on that basis, and where a consumer asked for one it MUST report that the receipt does not establish it.",
+        "section": "8.1"
+      },
+      "basis": [
+        "8.1"
+      ],
+      "edit": "control: a valid receipt with verdict EXECUTED and nothing else; the verifier reports NOT_PROVIDED",
+      "expected": {
+        "decision": "conformant",
+        "reason": "result_follows_presentation"
+      },
+      "files": {
+        "record.json": "d7f0be3bf37ec6f4ee8ecafd670f1e504a9d3b89e0d7476f1ab2543843ae26ce"
+      },
+      "id": "conformant-receipt-alone-not-provided",
+      "path": "cases/conformant-receipt-alone-not-provided",
+      "retained": {
+        "owed": "NOT_PROVIDED",
+        "reported": "NOT_PROVIDED"
+      },
+      "rule": "R-RECEIPT",
+      "source": "issue 80 case 1"
+    },
+    {
+      "anchor": {
+        "quote": "A controller reporting \"succeeded\" attests success under its own semantics; that is a report, and a report is not an effect.",
+        "section": "8.1"
+      },
+      "basis": [
+        "8.1"
+      ],
+      "edit": "control: a controller reports success and no observation is presented; the verifier reports NOT_PROVIDED",
+      "expected": {
+        "decision": "conformant",
+        "reason": "result_follows_presentation"
+      },
+      "files": {
+        "record.json": "f0e9e54aec5d7c15ba8ac8f00fe9e2cc3aba59b3222c3108cdcdcb5291fe6545"
+      },
+      "id": "conformant-controller-success-not-provided",
+      "path": "cases/conformant-controller-success-not-provided",
+      "retained": {
+        "owed": "NOT_PROVIDED",
+        "reported": "NOT_PROVIDED"
+      },
+      "rule": "R-REPORT",
+      "source": "issue 80 case 1"
+    },
+    {
+      "anchor": {
+        "quote": "The strongest defensible result is proven to the stated policy, naming the trust configuration that made it so, and a receipt never supplies it (Section 8.1).",
+        "section": "8.2"
+      },
+      "basis": [
+        "8.2"
+      ],
+      "edit": "control: an authenticated, bound, trusted, identified witness observed the criterion met inside the window; the verifier reports PROVEN_TO_POLICY and names its trust configuration",
+      "expected": {
+        "decision": "conformant",
+        "reason": "result_follows_presentation"
+      },
+      "files": {
+        "record.json": "9f9d9a3a9d9124a2aeb8ab491b770341f42e38dce15eb02352bfe809add7ba7e"
+      },
+      "id": "conformant-witness-proven-to-policy",
+      "path": "cases/conformant-witness-proven-to-policy",
+      "retained": {
+        "owed": "PROVEN_TO_POLICY",
+        "reported": "PROVEN_TO_POLICY"
+      },
+      "rule": "R-POLICY",
+      "source": "issue 80 case 2"
+    },
+    {
+      "anchor": {
+        "quote": "A verifier MUST NOT define a result code that asserts a negative fact about the world it did not observe;",
+        "section": "8.3"
+      },
+      "basis": [
+        "8.3"
+      ],
+      "edit": "control: the same witness observed the criterion not met; the verifier reports NOT_SATISFIED",
+      "expected": {
+        "decision": "conformant",
+        "reason": "result_follows_presentation"
+      },
+      "files": {
+        "record.json": "449757b5e3a90c89611b8b2a58736e30dfe227346972937ecaa834976e22e0d5"
+      },
+      "id": "conformant-witness-not-satisfied",
+      "path": "cases/conformant-witness-not-satisfied",
+      "retained": {
+        "owed": "NOT_SATISFIED",
+        "reported": "NOT_SATISFIED"
+      },
+      "rule": "R-NEGATIVE",
+      "source": "issue 80 case 3"
+    },
+    {
+      "anchor": {
+        "quote": "a physical-observation artifact says what a witness observed, under a named method, in a named window, against a criterion digest fixed before execution.",
+        "section": "8.4"
+      },
+      "basis": [
+        "8.4"
+      ],
+      "edit": "control: the observation was made after its window closed; the verifier reports INDETERMINATE",
+      "expected": {
+        "decision": "conformant",
+        "reason": "result_follows_presentation"
+      },
+      "files": {
+        "record.json": "1942d2a6b8065e2c0024bc071d933fa603f34d5e3861618b51c949e02af8dc0e"
+      },
+      "id": "conformant-stale-witness-indeterminate",
+      "path": "cases/conformant-stale-witness-indeterminate",
+      "retained": {
+        "owed": "INDETERMINATE",
+        "reported": "INDETERMINATE"
+      },
+      "rule": "P-WINDOW",
+      "source": "issue 80 case 4"
+    },
+    {
+      "anchor": {
+        "quote": "The rest -- a controller success with no physical evidence, a controller success against a witness reporting non-completion, same-party evidence presented as independent, a missing signer relationship, a stale or replayed observation, and the positive baselines mirroring each -- remain committed and unwritten, as does a cross-implementation negative for the alg pin.",
+        "section": "12"
+      },
+      "basis": [
+        "12"
+      ],
+      "edit": "control: the observation predates dispatch, so it cannot be of this action's effect; the verifier reports INDETERMINATE",
+      "expected": {
+        "decision": "conformant",
+        "reason": "result_follows_presentation"
+      },
+      "files": {
+        "record.json": "df9b4b2c95ec052a003b69af26b44f9e04be70fa40242ca67d2aec35a5c60efb"
+      },
+      "id": "conformant-replayed-observation-indeterminate",
+      "path": "cases/conformant-replayed-observation-indeterminate",
+      "retained": {
+        "owed": "INDETERMINATE",
+        "reported": "INDETERMINATE"
+      },
+      "rule": "P-WINDOW",
+      "source": "draft Section 12 stale or replayed"
+    },
+    {
+      "anchor": {
+        "quote": "Physical completion: whether the intended real-world effect actually occurred, as observed by an identified witness under a criterion fixed before execution.",
+        "section": "2"
+      },
+      "basis": [
+        "2"
+      ],
+      "edit": "control: the criterion was fixed after dispatch; the verifier reports INDETERMINATE",
+      "expected": {
+        "decision": "conformant",
+        "reason": "result_follows_presentation"
+      },
+      "files": {
+        "record.json": "fc1c7661a5d2fcd3da5874df52681e94f0f61bd922d4eea892dd637619dfb0a8"
+      },
+      "id": "conformant-criterion-after-dispatch-indeterminate",
+      "path": "cases/conformant-criterion-after-dispatch-indeterminate",
+      "retained": {
+        "owed": "INDETERMINATE",
+        "reported": "INDETERMINATE"
+      },
+      "rule": "P-PREFIXED",
+      "source": "issue 80 case 5"
+    },
+    {
+      "anchor": {
+        "quote": "Physical completion: whether the intended real-world effect actually occurred, as observed by an identified witness under a criterion fixed before execution.",
+        "section": "2"
+      },
+      "basis": [
+        "2"
+      ],
+      "edit": "control: the observation names no witness; the verifier reports INDETERMINATE",
+      "expected": {
+        "decision": "conformant",
+        "reason": "result_follows_presentation"
+      },
+      "files": {
+        "record.json": "50b4437ba8824efaee1502ed3f74ccf8a78c6d80676806857da495f77b5ea6a0"
+      },
+      "id": "conformant-unidentified-witness-indeterminate",
+      "path": "cases/conformant-unidentified-witness-indeterminate",
+      "retained": {
+        "owed": "INDETERMINATE",
+        "reported": "INDETERMINATE"
+      },
+      "rule": "P-IDENTIFIED",
+      "source": "derived from issue 80 case 2"
+    },
+    {
+      "anchor": {
+        "quote": "an authenticated physical-observation artifact bound to this action, from a witness the verifier trusts for that purpose.",
+        "section": "8.2 Table 6"
+      },
+      "basis": [
+        "8.2 Table 6"
+      ],
+      "edit": "control: the witness is not one the trust configuration trusts for this purpose; the verifier reports INDETERMINATE",
+      "expected": {
+        "decision": "conformant",
+        "reason": "result_follows_presentation"
+      },
+      "files": {
+        "record.json": "812dde5d1ad318ca52f8cfc690c3394edd10d83d71425ea63497762945def0e7"
+      },
+      "id": "conformant-untrusted-witness-indeterminate",
+      "path": "cases/conformant-untrusted-witness-indeterminate",
+      "retained": {
+        "owed": "INDETERMINATE",
+        "reported": "INDETERMINATE"
+      },
+      "rule": "P-TRUSTED",
+      "source": "derived from issue 80 case 2"
+    },
+    {
+      "anchor": {
+        "quote": "an authenticated physical-observation artifact bound to this action, from a witness the verifier trusts for that purpose.",
+        "section": "8.2 Table 6"
+      },
+      "basis": [
+        "8.2 Table 6"
+      ],
+      "edit": "control: the observation artifact does not authenticate, so the verifier was not given acceptable evidence and reports NOT_PROVIDED",
+      "expected": {
+        "decision": "conformant",
+        "reason": "result_follows_presentation"
+      },
+      "files": {
+        "record.json": "c4c651d200580b8eddf061e339391f7b9d1d59a793226fc746d3edaba11c6be9"
+      },
+      "id": "conformant-unauthenticated-observation-not-provided",
+      "path": "cases/conformant-unauthenticated-observation-not-provided",
+      "retained": {
+        "owed": "NOT_PROVIDED",
+        "reported": "NOT_PROVIDED"
+      },
+      "rule": "P-AUTHENTICATED",
+      "source": "derived from issue 80 case 2"
+    },
+    {
+      "anchor": {
+        "quote": "an authenticated physical-observation artifact bound to this action, from a witness the verifier trusts for that purpose.",
+        "section": "8.2 Table 6"
+      },
+      "basis": [
+        "8.2 Table 6"
+      ],
+      "edit": "control: the observation is not bound to this action; the verifier reports NOT_PROVIDED",
+      "expected": {
+        "decision": "conformant",
+        "reason": "result_follows_presentation"
+      },
+      "files": {
+        "record.json": "9465ac3e9903e387752a79be3d35e158cea7c95b2d8982078af98dec829f092a"
+      },
+      "id": "conformant-unbound-observation-not-provided",
+      "path": "cases/conformant-unbound-observation-not-provided",
+      "retained": {
+        "owed": "NOT_PROVIDED",
+        "reported": "NOT_PROVIDED"
+      },
+      "rule": "P-BOUND",
+      "source": "derived from issue 80 case 2"
+    },
+    {
+      "anchor": {
+        "quote": "\"The verifier did not receive acceptable evidence\" is not \"no evidence exists\", and rendering the first as the second turns a gap in a presentation into a negative finding about the world.",
+        "section": "8.3"
+      },
+      "basis": [
+        "8.3"
+      ],
+      "edit": "control: the transport acknowledgement was lost and a fresh trusted witness observed the criterion met; the verifier reports PROVEN_TO_POLICY",
+      "expected": {
+        "decision": "conformant",
+        "reason": "result_follows_presentation"
+      },
+      "files": {
+        "record.json": "56763ab8fdaa099dc126f6cbf24db44da9edb16c01fb9d6fd97b5f98a43a9504"
+      },
+      "id": "conformant-ack-lost-witness-proven",
+      "path": "cases/conformant-ack-lost-witness-proven",
+      "retained": {
+        "owed": "PROVEN_TO_POLICY",
+        "reported": "PROVEN_TO_POLICY"
+      },
+      "rule": "R-NEGATIVE",
+      "source": "issue 80 case 6"
+    },
+    {
+      "anchor": {
+        "quote": "\"The verifier did not receive acceptable evidence\" is not \"no evidence exists\", and rendering the first as the second turns a gap in a presentation into a negative finding about the world.",
+        "section": "8.3"
+      },
+      "basis": [
+        "8.3"
+      ],
+      "edit": "control: the acknowledgement was lost and no observation is presented; the verifier reports NOT_PROVIDED",
+      "expected": {
+        "decision": "conformant",
+        "reason": "result_follows_presentation"
+      },
+      "files": {
+        "record.json": "f08458ae9de673cbea5f0f6aafb799c0af1077eab101dab3b4dd9daad024f312"
+      },
+      "id": "conformant-ack-lost-not-provided",
+      "path": "cases/conformant-ack-lost-not-provided",
+      "retained": {
+        "owed": "NOT_PROVIDED",
+        "reported": "NOT_PROVIDED"
+      },
+      "rule": "R-ABSENCE",
+      "source": "issue 80 case 6"
+    },
+    {
+      "anchor": {
+        "quote": "Where two authenticated claims conflict -- a controller reporting success and a witness reporting that the effect did not occur -- the conflict is its own result, carrying both claims, with neither erased in favour of the other; this document defines no token for it (Section 1.5).",
+        "section": "8.2"
+      },
+      "basis": [
+        "8.2"
+      ],
+      "edit": "control: the controller reports success, the witness reports the criterion not met, and the verifier reports CONFLICT carrying both claims",
+      "expected": {
+        "decision": "conformant",
+        "reason": "result_follows_presentation"
+      },
+      "files": {
+        "record.json": "93bb97027dfe5a908195100bd6b6c057b430daea4abca07c8edfdb5cf08802ad"
+      },
+      "id": "conformant-conflict-success-against-unmet",
+      "path": "cases/conformant-conflict-success-against-unmet",
+      "retained": {
+        "owed": "CONFLICT",
+        "reported": "CONFLICT"
+      },
+      "rule": "P-CONFLICT",
+      "source": "issue 80 case 7"
+    },
+    {
+      "anchor": {
+        "quote": "Where two authenticated claims conflict -- a controller reporting success and a witness reporting that the effect did not occur -- the conflict is its own result, carrying both claims, with neither erased in favour of the other; this document defines no token for it (Section 1.5).",
+        "section": "8.2"
+      },
+      "basis": [
+        "8.2"
+      ],
+      "edit": "control: the mirror: the controller reports failure, the witness reports the criterion met, and the verifier reports CONFLICT carrying both claims",
+      "expected": {
+        "decision": "conformant",
+        "reason": "result_follows_presentation"
+      },
+      "files": {
+        "record.json": "6729cc887e2ac83731f264da65549189695f261497505f02b951fad7c235e963"
+      },
+      "id": "conformant-conflict-failure-against-met",
+      "path": "cases/conformant-conflict-failure-against-met",
+      "retained": {
+        "owed": "CONFLICT",
+        "reported": "CONFLICT"
+      },
+      "rule": "P-CONFLICT",
+      "source": "issue 80 case 7"
+    },
+    {
+      "anchor": {
+        "quote": "The record names the contract it is written against, as every record of this repository's decision corpora does.",
+        "section": "n/a"
+      },
+      "basis": [
+        "n/a"
+      ],
+      "edit": "the record names no contract",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "contract_id_missing"
+      },
+      "files": {
+        "record.json": "d4d221f5ee5fb59860b351d1c074cb41e6fd9a7f4be33213d1ba144cf6452666"
+      },
+      "id": "nonconformant-contract-id-missing",
+      "path": "cases/nonconformant-contract-id-missing",
+      "retained": {
+        "owed": "PROVEN_TO_POLICY",
+        "reported": "PROVEN_TO_POLICY"
+      },
+      "rule": "envelope",
+      "source": "envelope"
+    },
+    {
+      "anchor": {
+        "quote": "The record names the contract it is written against, as every record of this repository's decision corpora does.",
+        "section": "n/a"
+      },
+      "basis": [
+        "n/a"
+      ],
+      "edit": "the record names a contract version that does not exist",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "contract_id_unknown"
+      },
+      "files": {
+        "record.json": "69c316a2774fdeb54bee28e85e159df27fb42960e3bca37b8a105b5f9b7b8edd"
+      },
+      "id": "nonconformant-contract-id-unknown",
+      "path": "cases/nonconformant-contract-id-unknown",
+      "retained": {
+        "owed": "PROVEN_TO_POLICY",
+        "reported": "PROVEN_TO_POLICY"
+      },
+      "rule": "envelope",
+      "source": "envelope"
+    },
+    {
+      "anchor": {
+        "quote": "A verifier evaluating a receipt -- alone or as part of a chain -- MUST NOT return a result whose named fields assert any of them on that basis, and where a consumer asked for one it MUST report that the receipt does not establish it.",
+        "section": "8.1"
+      },
+      "basis": [
+        "8.1"
+      ],
+      "edit": "the consumer asked for PHYSICAL_COMPLETION and the result carries no answer",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "result_member_absent"
+      },
+      "files": {
+        "record.json": "69614fe0393095ee32589eafdf54e5719bd867f0856167c4c2a0824a60f4af54"
+      },
+      "id": "nonconformant-result-member-absent",
+      "path": "cases/nonconformant-result-member-absent",
+      "retained": {
+        "owed": "PROVEN_TO_POLICY",
+        "reported": "absent"
+      },
+      "rule": "R-RECEIPT",
+      "source": "derived from issue 80 case 1"
+    },
+    {
+      "anchor": {
+        "quote": "A verifier MUST NOT report an unqualified \"physical completion proven\".",
+        "section": "8.2"
+      },
+      "basis": [
+        "8.2"
+      ],
+      "edit": "the witness control, reported as an unqualified PROVEN",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "proven_without_policy"
+      },
+      "files": {
+        "record.json": "cab0f40ba4043f0bbc5353dc52889a296e3a5fe157ae828378048bf027f59bfb"
+      },
+      "id": "nonconformant-unqualified-proven",
+      "path": "cases/nonconformant-unqualified-proven",
+      "retained": {
+        "owed": "PROVEN_TO_POLICY",
+        "reported": "PROVEN"
+      },
+      "rule": "R-UNQUALIFIED",
+      "source": "issue 80 case 2"
+    },
+    {
+      "anchor": {
+        "quote": "A verifier MUST NOT report an unqualified \"physical completion proven\".",
+        "section": "8.2"
+      },
+      "basis": [
+        "8.2"
+      ],
+      "edit": "the witness control, reported as PHYSICAL_COMPLETION_PROVEN, the spelling the FlyThink probe emits, which names no policy",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "proven_without_policy"
+      },
+      "files": {
+        "record.json": "c1f003e7acdacb062b54d8a2e57fecfb1f713178d5e6e9714a9130803a9efeb4"
+      },
+      "id": "nonconformant-physical-completion-proven-token",
+      "path": "cases/nonconformant-physical-completion-proven-token",
+      "retained": {
+        "owed": "PROVEN_TO_POLICY",
+        "reported": "PHYSICAL_COMPLETION_PROVEN"
+      },
+      "rule": "R-UNQUALIFIED",
+      "source": "FlyThink probe 1be4ff7"
+    },
+    {
+      "anchor": {
+        "quote": "The strongest defensible result is proven to the stated policy, naming the trust configuration that made it so, and a receipt never supplies it (Section 8.1).",
+        "section": "8.2"
+      },
+      "basis": [
+        "8.2"
+      ],
+      "edit": "PROVEN_TO_POLICY over the witness control with no trust configuration named",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "proven_without_policy"
+      },
+      "files": {
+        "record.json": "fe2cca478b967ac98131faa97d3ed16bdfbaf7bc99b3b163f5ed16ab594183d9"
+      },
+      "id": "nonconformant-proven-without-trust-configuration",
+      "path": "cases/nonconformant-proven-without-trust-configuration",
+      "retained": {
+        "owed": "PROVEN_TO_POLICY",
+        "reported": "PROVEN_TO_POLICY"
+      },
+      "rule": "R-UNQUALIFIED",
+      "source": "derived from issue 80 case 2"
+    },
+    {
+      "anchor": {
+        "quote": "A verifier MUST keep the following distinct, and MUST NOT collapse them:",
+        "section": "8.3"
+      },
+      "basis": [
+        "8.3"
+      ],
+      "edit": "the witness control, reported as COMPLETED, which is in neither vocabulary",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "result_outside_vocabulary"
+      },
+      "files": {
+        "record.json": "0debbb74bfb2588af5b54724e3a8974f8d6c088b2dc72fa105b8abee2837feff"
+      },
+      "id": "nonconformant-result-outside-vocabulary",
+      "path": "cases/nonconformant-result-outside-vocabulary",
+      "retained": {
+        "owed": "PROVEN_TO_POLICY",
+        "reported": "COMPLETED"
+      },
+      "rule": "R-ABSENCE",
+      "source": "derived from issue 80 case 2"
+    },
+    {
+      "anchor": {
+        "quote": "An implementation MAY report the two untokenised results under a name of its own; what it MUST NOT do is present that name as this profile's vocabulary, since a second implementation reading this document will not have chosen the same one.",
+        "section": "1.5"
+      },
+      "basis": [
+        "1.5"
+      ],
+      "edit": "the conflict control, with CONFLICT presented as the draft's own vocabulary",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "untokenised_result_as_profile_token"
+      },
+      "files": {
+        "record.json": "1efd96c3c28e681d69c2fc87c69230f1f60fb1de59efbe1ebebb4c2ae338f018"
+      },
+      "id": "nonconformant-conflict-as-profile-token",
+      "path": "cases/nonconformant-conflict-as-profile-token",
+      "retained": {
+        "owed": "CONFLICT",
+        "reported": "CONFLICT"
+      },
+      "rule": "R-UNTOKENISED",
+      "source": "issue 80 case 7"
+    },
+    {
+      "anchor": {
+        "quote": "In particular, governance.verdict == EXECUTED records that the action was dispatched, or attempted, at the governed boundary.",
+        "section": "8.1"
+      },
+      "basis": [
+        "8.1"
+      ],
+      "edit": "a receipt with verdict EXECUTED and nothing else, reported as PROVEN_TO_POLICY",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "completion_from_receipt"
+      },
+      "files": {
+        "record.json": "beadc61da20264e90c02a75be8a9b7c7e3ea4cca602c1a0777eca64751a05e61"
+      },
+      "id": "nonconformant-receipt-executed-read-as-completion",
+      "path": "cases/nonconformant-receipt-executed-read-as-completion",
+      "retained": {
+        "owed": "NOT_PROVIDED",
+        "reported": "PROVEN_TO_POLICY"
+      },
+      "rule": "R-RECEIPT",
+      "source": "issue 80 case 1"
+    },
+    {
+      "anchor": {
+        "quote": "A controller reporting \"succeeded\" attests success under its own semantics; that is a report, and a report is not an effect.",
+        "section": "8.1"
+      },
+      "basis": [
+        "8.1"
+      ],
+      "edit": "a controller's success and no observation, reported as PROVEN_TO_POLICY",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "completion_from_controller_report"
+      },
+      "files": {
+        "record.json": "83359d5e6bb83b916d6ce37d63018cc5ac1a18f37480f5a51356da92117d3532"
+      },
+      "id": "nonconformant-controller-success-read-as-completion",
+      "path": "cases/nonconformant-controller-success-read-as-completion",
+      "retained": {
+        "owed": "NOT_PROVIDED",
+        "reported": "PROVEN_TO_POLICY"
+      },
+      "rule": "R-REPORT",
+      "source": "issue 80 case 1"
+    },
+    {
+      "anchor": {
+        "quote": "A verifier MUST NOT define a result code that asserts a negative fact about the world it did not observe;",
+        "section": "8.3"
+      },
+      "basis": [
+        "8.3"
+      ],
+      "edit": "nothing but the receipt, reported as NOT_SATISFIED",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "negative_without_observation"
+      },
+      "files": {
+        "record.json": "2b3b76d166f28f167fa9a0e20ce6db3264104ee2b29e95d70c358e0ab433b20a"
+      },
+      "id": "nonconformant-absence-read-as-not-satisfied",
+      "path": "cases/nonconformant-absence-read-as-not-satisfied",
+      "retained": {
+        "owed": "NOT_PROVIDED",
+        "reported": "NOT_SATISFIED"
+      },
+      "rule": "R-NEGATIVE",
+      "source": "derived from issue 80 case 6"
+    },
+    {
+      "anchor": {
+        "quote": "\"The verifier did not receive acceptable evidence\" is not \"no evidence exists\", and rendering the first as the second turns a gap in a presentation into a negative finding about the world.",
+        "section": "8.3"
+      },
+      "basis": [
+        "8.3"
+      ],
+      "edit": "a lost acknowledgement and no observation, reported as NOT_SATISFIED",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "negative_without_observation"
+      },
+      "files": {
+        "record.json": "fd9d85b3c6a4108c3ecd167e1927fcdfa5969a8593927e2b7c9b2667bf7f8059"
+      },
+      "id": "nonconformant-lost-ack-read-as-not-executed",
+      "path": "cases/nonconformant-lost-ack-read-as-not-executed",
+      "retained": {
+        "owed": "NOT_PROVIDED",
+        "reported": "NOT_SATISFIED"
+      },
+      "rule": "R-NEGATIVE",
+      "source": "issue 80 case 6"
+    },
+    {
+      "anchor": {
+        "quote": "A verifier MUST NOT define a result code that asserts a negative fact about the world it did not observe;",
+        "section": "8.3"
+      },
+      "basis": [
+        "8.3"
+      ],
+      "edit": "a lost acknowledgement and a trusted witness that observed the criterion met, reported as NOT_SATISFIED",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "negative_without_observation"
+      },
+      "files": {
+        "record.json": "36690c346830a56c4aa0d78cc593dd78cae00f85b087c6e60e8a7a30285415ac"
+      },
+      "id": "nonconformant-lost-ack-over-met-witness",
+      "path": "cases/nonconformant-lost-ack-over-met-witness",
+      "retained": {
+        "owed": "PROVEN_TO_POLICY",
+        "reported": "NOT_SATISFIED"
+      },
+      "rule": "R-NEGATIVE",
+      "source": "issue 80 case 6"
+    },
+    {
+      "anchor": {
+        "quote": "A controller reporting \"succeeded\" attests success under its own semantics; that is a report, and a report is not an effect.",
+        "section": "8.1"
+      },
+      "basis": [
+        "8.1",
+        "8.3"
+      ],
+      "edit": "a controller's failure and no observation, reported as NOT_SATISFIED; a report is not an effect in either direction",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "negative_without_observation"
+      },
+      "files": {
+        "record.json": "49afa59042eb75f0c727bfcce00ae277ea339da6902a5731a0314105b9bfbd7d"
+      },
+      "id": "nonconformant-controller-failure-read-as-not-satisfied",
+      "path": "cases/nonconformant-controller-failure-read-as-not-satisfied",
+      "retained": {
+        "owed": "NOT_PROVIDED",
+        "reported": "NOT_SATISFIED"
+      },
+      "rule": "R-NEGATIVE",
+      "source": "derived from issue 80 case 1"
+    },
+    {
+      "anchor": {
+        "quote": "A verifier MUST keep the following distinct, and MUST NOT collapse them:",
+        "section": "8.3"
+      },
+      "basis": [
+        "8.3"
+      ],
+      "edit": "nothing but the receipt, reported as INDETERMINATE, which says evidence was presented",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "absence_not_reported_as_not_provided"
+      },
+      "files": {
+        "record.json": "d55825b733c29f22227d0dc434ffcea185aa5347c6ca810bd84762fa98a41f09"
+      },
+      "id": "nonconformant-absence-read-as-indeterminate",
+      "path": "cases/nonconformant-absence-read-as-indeterminate",
+      "retained": {
+        "owed": "NOT_PROVIDED",
+        "reported": "INDETERMINATE"
+      },
+      "rule": "R-ABSENCE",
+      "source": "derived from issue 80 case 1"
+    },
+    {
+      "anchor": {
+        "quote": "A verifier MUST keep the following distinct, and MUST NOT collapse them:",
+        "section": "8.3"
+      },
+      "basis": [
+        "8.3"
+      ],
+      "edit": "nothing but the receipt, reported as NOT_APPLICABLE, which says the question does not arise",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "absence_not_reported_as_not_provided"
+      },
+      "files": {
+        "record.json": "c17e781716810eb6832984494831517ca416a73b2f93eb7b701d214f6e077889"
+      },
+      "id": "nonconformant-absence-read-as-not-applicable",
+      "path": "cases/nonconformant-absence-read-as-not-applicable",
+      "retained": {
+        "owed": "NOT_PROVIDED",
+        "reported": "NOT_APPLICABLE"
+      },
+      "rule": "R-ABSENCE",
+      "source": "derived from issue 80 case 1"
+    },
+    {
+      "anchor": {
+        "quote": "A verifier MUST keep the following distinct, and MUST NOT collapse them:",
+        "section": "8.3"
+      },
+      "basis": [
+        "1.5",
+        "8.3"
+      ],
+      "edit": "nothing but the receipt, reported as NOT_CLAIMED: the receipt makes no claim of physical completion, and a claim may still exist elsewhere",
+      "expected": {
+        "decision": "ambiguous",
+        "reason": "absence_reported_as_not_claimed"
+      },
+      "files": {
+        "record.json": "85c2201be8576dc2686713fddd838f4c7f0e7a29ff5bcd177e43a3e60ac069f6"
+      },
+      "id": "open-bare-receipt-not-claimed",
+      "path": "cases/open-bare-receipt-not-claimed",
+      "readings": [
+        {
+          "basis": "draft-noa-scitt-ai-agent-receipt-01 Section 1.5: Where such an object is absent, the corresponding requirement is not a requirement a conforming implementation can fail: it has nothing to evaluate, and Section 8 states what a bare receipt cannot establish.",
+          "decision": "conformant",
+          "reading": "profile"
+        },
+        {
+          "basis": "proposal rule absence_reported_as_not_claimed of physical-completion/v1; owes NOT_PROVIDED",
+          "decision": "nonconformant",
+          "reading": "proposal"
+        }
+      ],
+      "retained": {
+        "owed": "NOT_PROVIDED",
+        "reported": "NOT_CLAIMED"
+      },
+      "rule": "P-absence_reported_as_not_claimed",
+      "source": "derived from issue 80 case 1"
+    },
+    {
+      "anchor": {
+        "quote": "a physical-observation artifact says what a witness observed, under a named method, in a named window, against a criterion digest fixed before execution.",
+        "section": "8.4"
+      },
+      "basis": [
+        "1.5",
+        "8.4"
+      ],
+      "edit": "the stale-witness control, reported as PROVEN_TO_POLICY",
+      "expected": {
+        "decision": "ambiguous",
+        "reason": "observation_outside_window"
+      },
+      "files": {
+        "record.json": "cac24889bc6c1e1ce1a797d9491ba67abf356e0f37b5986f5e385f023f759f71"
+      },
+      "id": "open-stale-witness-proven",
+      "path": "cases/open-stale-witness-proven",
+      "readings": [
+        {
+          "basis": "draft-noa-scitt-ai-agent-receipt-01 Section 1.5: Where such an object is absent, the corresponding requirement is not a requirement a conforming implementation can fail: it has nothing to evaluate, and Section 8 states what a bare receipt cannot establish.",
+          "decision": "conformant",
+          "reading": "profile"
+        },
+        {
+          "basis": "proposal rule observation_outside_window of physical-completion/v1; owes INDETERMINATE",
+          "decision": "nonconformant",
+          "reading": "proposal"
+        }
+      ],
+      "retained": {
+        "owed": "INDETERMINATE",
+        "reported": "PROVEN_TO_POLICY"
+      },
+      "rule": "P-observation_outside_window",
+      "source": "issue 80 case 4"
+    },
+    {
+      "anchor": {
+        "quote": "The rest -- a controller success with no physical evidence, a controller success against a witness reporting non-completion, same-party evidence presented as independent, a missing signer relationship, a stale or replayed observation, and the positive baselines mirroring each -- remain committed and unwritten, as does a cross-implementation negative for the alg pin.",
+        "section": "12"
+      },
+      "basis": [
+        "1.5",
+        "12"
+      ],
+      "edit": "the replayed-observation control, reported as PROVEN_TO_POLICY",
+      "expected": {
+        "decision": "ambiguous",
+        "reason": "observation_outside_window"
+      },
+      "files": {
+        "record.json": "4d6285d8a7800a15d749ca00483bcdcf37d8bc83cb15e54458a7e3dbc9095d9d"
+      },
+      "id": "open-replayed-observation-proven",
+      "path": "cases/open-replayed-observation-proven",
+      "readings": [
+        {
+          "basis": "draft-noa-scitt-ai-agent-receipt-01 Section 1.5: Where such an object is absent, the corresponding requirement is not a requirement a conforming implementation can fail: it has nothing to evaluate, and Section 8 states what a bare receipt cannot establish.",
+          "decision": "conformant",
+          "reading": "profile"
+        },
+        {
+          "basis": "proposal rule observation_outside_window of physical-completion/v1; owes INDETERMINATE",
+          "decision": "nonconformant",
+          "reading": "proposal"
+        }
+      ],
+      "retained": {
+        "owed": "INDETERMINATE",
+        "reported": "PROVEN_TO_POLICY"
+      },
+      "rule": "P-observation_outside_window",
+      "source": "draft Section 12 stale or replayed"
+    },
+    {
+      "anchor": {
+        "quote": "Physical completion: whether the intended real-world effect actually occurred, as observed by an identified witness under a criterion fixed before execution.",
+        "section": "2"
+      },
+      "basis": [
+        "1.5",
+        "2"
+      ],
+      "edit": "the late-criterion control, reported as PROVEN_TO_POLICY",
+      "expected": {
+        "decision": "ambiguous",
+        "reason": "criterion_not_prefixed"
+      },
+      "files": {
+        "record.json": "2946fc032a364b50d80aa0853a35e33c9f2d192219e46d6f03453e5b6dfdff31"
+      },
+      "id": "open-criterion-after-dispatch-proven",
+      "path": "cases/open-criterion-after-dispatch-proven",
+      "readings": [
+        {
+          "basis": "draft-noa-scitt-ai-agent-receipt-01 Section 1.5: Where such an object is absent, the corresponding requirement is not a requirement a conforming implementation can fail: it has nothing to evaluate, and Section 8 states what a bare receipt cannot establish.",
+          "decision": "conformant",
+          "reading": "profile"
+        },
+        {
+          "basis": "proposal rule criterion_not_prefixed of physical-completion/v1; owes INDETERMINATE",
+          "decision": "nonconformant",
+          "reading": "proposal"
+        }
+      ],
+      "retained": {
+        "owed": "INDETERMINATE",
+        "reported": "PROVEN_TO_POLICY"
+      },
+      "rule": "P-criterion_not_prefixed",
+      "source": "issue 80 case 5"
+    },
+    {
+      "anchor": {
+        "quote": "Physical completion: whether the intended real-world effect actually occurred, as observed by an identified witness under a criterion fixed before execution.",
+        "section": "2"
+      },
+      "basis": [
+        "1.5",
+        "2"
+      ],
+      "edit": "the unidentified-witness control, reported as PROVEN_TO_POLICY",
+      "expected": {
+        "decision": "ambiguous",
+        "reason": "witness_unidentified"
+      },
+      "files": {
+        "record.json": "5bdffd36232618f15ad07761e0c7f9b5b9922d72532c9e240b5b45ab122f0c70"
+      },
+      "id": "open-unidentified-witness-proven",
+      "path": "cases/open-unidentified-witness-proven",
+      "readings": [
+        {
+          "basis": "draft-noa-scitt-ai-agent-receipt-01 Section 1.5: Where such an object is absent, the corresponding requirement is not a requirement a conforming implementation can fail: it has nothing to evaluate, and Section 8 states what a bare receipt cannot establish.",
+          "decision": "conformant",
+          "reading": "profile"
+        },
+        {
+          "basis": "proposal rule witness_unidentified of physical-completion/v1; owes INDETERMINATE",
+          "decision": "nonconformant",
+          "reading": "proposal"
+        }
+      ],
+      "retained": {
+        "owed": "INDETERMINATE",
+        "reported": "PROVEN_TO_POLICY"
+      },
+      "rule": "P-witness_unidentified",
+      "source": "derived from issue 80 case 2"
+    },
+    {
+      "anchor": {
+        "quote": "an authenticated physical-observation artifact bound to this action, from a witness the verifier trusts for that purpose.",
+        "section": "8.2 Table 6"
+      },
+      "basis": [
+        "1.5",
+        "8.2 Table 6"
+      ],
+      "edit": "the untrusted-witness control, reported as PROVEN_TO_POLICY",
+      "expected": {
+        "decision": "ambiguous",
+        "reason": "witness_untrusted"
+      },
+      "files": {
+        "record.json": "9a2751dfb27e3de7ff1a606395d45a5260707acaee10ddf42d34e2eec859118a"
+      },
+      "id": "open-untrusted-witness-proven",
+      "path": "cases/open-untrusted-witness-proven",
+      "readings": [
+        {
+          "basis": "draft-noa-scitt-ai-agent-receipt-01 Section 1.5: Where such an object is absent, the corresponding requirement is not a requirement a conforming implementation can fail: it has nothing to evaluate, and Section 8 states what a bare receipt cannot establish.",
+          "decision": "conformant",
+          "reading": "profile"
+        },
+        {
+          "basis": "proposal rule witness_untrusted of physical-completion/v1; owes INDETERMINATE",
+          "decision": "nonconformant",
+          "reading": "proposal"
+        }
+      ],
+      "retained": {
+        "owed": "INDETERMINATE",
+        "reported": "PROVEN_TO_POLICY"
+      },
+      "rule": "P-witness_untrusted",
+      "source": "derived from issue 80 case 2"
+    },
+    {
+      "anchor": {
+        "quote": "an authenticated physical-observation artifact bound to this action, from a witness the verifier trusts for that purpose.",
+        "section": "8.2 Table 6"
+      },
+      "basis": [
+        "1.5",
+        "8.2 Table 6"
+      ],
+      "edit": "the unauthenticated-observation control, reported as PROVEN_TO_POLICY",
+      "expected": {
+        "decision": "ambiguous",
+        "reason": "observation_unauthenticated"
+      },
+      "files": {
+        "record.json": "e97e07a290770ec7f2dd0c57caf6ae2289f941f94c1137dd0f3bb505dd6c1275"
+      },
+      "id": "open-unauthenticated-observation-proven",
+      "path": "cases/open-unauthenticated-observation-proven",
+      "readings": [
+        {
+          "basis": "draft-noa-scitt-ai-agent-receipt-01 Section 1.5: Where such an object is absent, the corresponding requirement is not a requirement a conforming implementation can fail: it has nothing to evaluate, and Section 8 states what a bare receipt cannot establish.",
+          "decision": "conformant",
+          "reading": "profile"
+        },
+        {
+          "basis": "proposal rule observation_unauthenticated of physical-completion/v1; owes NOT_PROVIDED",
+          "decision": "nonconformant",
+          "reading": "proposal"
+        }
+      ],
+      "retained": {
+        "owed": "NOT_PROVIDED",
+        "reported": "PROVEN_TO_POLICY"
+      },
+      "rule": "P-observation_unauthenticated",
+      "source": "derived from issue 80 case 2"
+    },
+    {
+      "anchor": {
+        "quote": "an authenticated physical-observation artifact bound to this action, from a witness the verifier trusts for that purpose.",
+        "section": "8.2 Table 6"
+      },
+      "basis": [
+        "1.5",
+        "8.2 Table 6"
+      ],
+      "edit": "the unbound-observation control, reported as PROVEN_TO_POLICY",
+      "expected": {
+        "decision": "ambiguous",
+        "reason": "observation_unbound"
+      },
+      "files": {
+        "record.json": "011df791635c083052f1a3d345ac8119d5787404a825d29ed31779b4a5e8d17e"
+      },
+      "id": "open-unbound-observation-proven",
+      "path": "cases/open-unbound-observation-proven",
+      "readings": [
+        {
+          "basis": "draft-noa-scitt-ai-agent-receipt-01 Section 1.5: Where such an object is absent, the corresponding requirement is not a requirement a conforming implementation can fail: it has nothing to evaluate, and Section 8 states what a bare receipt cannot establish.",
+          "decision": "conformant",
+          "reading": "profile"
+        },
+        {
+          "basis": "proposal rule observation_unbound of physical-completion/v1; owes NOT_PROVIDED",
+          "decision": "nonconformant",
+          "reading": "proposal"
+        }
+      ],
+      "retained": {
+        "owed": "NOT_PROVIDED",
+        "reported": "PROVEN_TO_POLICY"
+      },
+      "rule": "P-observation_unbound",
+      "source": "derived from issue 80 case 2"
+    },
+    {
+      "anchor": {
+        "quote": "Physical completion: whether the intended real-world effect actually occurred, as observed by an identified witness under a criterion fixed before execution.",
+        "section": "2"
+      },
+      "basis": [
+        "1.5",
+        "2"
+      ],
+      "edit": "the not-satisfied control, reported as PROVEN_TO_POLICY",
+      "expected": {
+        "decision": "ambiguous",
+        "reason": "observation_outcome_not_reported"
+      },
+      "files": {
+        "record.json": "292bd297a01371f16850d3a26b23ad46cb93520999a7ded3fcec0a48a42f8b2f"
+      },
+      "id": "open-unmet-witness-proven",
+      "path": "cases/open-unmet-witness-proven",
+      "readings": [
+        {
+          "basis": "draft-noa-scitt-ai-agent-receipt-01 Section 1.5: Where such an object is absent, the corresponding requirement is not a requirement a conforming implementation can fail: it has nothing to evaluate, and Section 8 states what a bare receipt cannot establish.",
+          "decision": "conformant",
+          "reading": "profile"
+        },
+        {
+          "basis": "proposal rule observation_outcome_not_reported of physical-completion/v1; owes NOT_SATISFIED",
+          "decision": "nonconformant",
+          "reading": "proposal"
+        }
+      ],
+      "retained": {
+        "owed": "NOT_SATISFIED",
+        "reported": "PROVEN_TO_POLICY"
+      },
+      "rule": "P-observation_outcome_not_reported",
+      "source": "issue 80 case 3"
+    },
+    {
+      "anchor": {
+        "quote": "The strongest defensible result is proven to the stated policy, naming the trust configuration that made it so, and a receipt never supplies it (Section 8.1).",
+        "section": "8.2"
+      },
+      "basis": [
+        "1.5",
+        "8.2"
+      ],
+      "edit": "the witness control, reported as INDETERMINATE although every rule of the proposal holds",
+      "expected": {
+        "decision": "ambiguous",
+        "reason": "observation_outcome_not_reported"
+      },
+      "files": {
+        "record.json": "539576a00b9c3f13496d2bf363ff8970ffbb93eda10fb849e0fff106cac1e0f3"
+      },
+      "id": "open-settled-witness-indeterminate",
+      "path": "cases/open-settled-witness-indeterminate",
+      "readings": [
+        {
+          "basis": "draft-noa-scitt-ai-agent-receipt-01 Section 1.5: Where such an object is absent, the corresponding requirement is not a requirement a conforming implementation can fail: it has nothing to evaluate, and Section 8 states what a bare receipt cannot establish.",
+          "decision": "conformant",
+          "reading": "profile"
+        },
+        {
+          "basis": "proposal rule observation_outcome_not_reported of physical-completion/v1; owes PROVEN_TO_POLICY",
+          "decision": "nonconformant",
+          "reading": "proposal"
+        }
+      ],
+      "retained": {
+        "owed": "PROVEN_TO_POLICY",
+        "reported": "INDETERMINATE"
+      },
+      "rule": "P-observation_outcome_not_reported",
+      "source": "issue 80 case 2"
+    },
+    {
+      "anchor": {
+        "quote": "Where two authenticated claims conflict -- a controller reporting success and a witness reporting that the effect did not occur -- the conflict is its own result, carrying both claims, with neither erased in favour of the other; this document defines no token for it (Section 1.5).",
+        "section": "8.2"
+      },
+      "basis": [
+        "1.5",
+        "8.2"
+      ],
+      "edit": "the controller reports failure and the witness the criterion met; the verifier reports PROVEN_TO_POLICY and drops the controller's claim",
+      "expected": {
+        "decision": "ambiguous",
+        "reason": "conflict_erased"
+      },
+      "files": {
+        "record.json": "e49bcacf7dda9e3e5e8c9c4e561425f3c163c49edf9e0288ec50c501450d410e"
+      },
+      "id": "open-conflict-erased-to-proven",
+      "path": "cases/open-conflict-erased-to-proven",
+      "readings": [
+        {
+          "basis": "draft-noa-scitt-ai-agent-receipt-01 Section 1.5: Where such an object is absent, the corresponding requirement is not a requirement a conforming implementation can fail: it has nothing to evaluate, and Section 8 states what a bare receipt cannot establish.",
+          "decision": "conformant",
+          "reading": "profile"
+        },
+        {
+          "basis": "proposal rule conflict_erased of physical-completion/v1; owes CONFLICT",
+          "decision": "nonconformant",
+          "reading": "proposal"
+        }
+      ],
+      "retained": {
+        "owed": "CONFLICT",
+        "reported": "PROVEN_TO_POLICY"
+      },
+      "rule": "P-conflict_erased",
+      "source": "issue 80 case 7"
+    },
+    {
+      "anchor": {
+        "quote": "The rest -- a controller success with no physical evidence, a controller success against a witness reporting non-completion, same-party evidence presented as independent, a missing signer relationship, a stale or replayed observation, and the positive baselines mirroring each -- remain committed and unwritten, as does a cross-implementation negative for the alg pin.",
+        "section": "12"
+      },
+      "basis": [
+        "1.5",
+        "12"
+      ],
+      "edit": "the controller reports success and the witness the criterion not met; the verifier reports NOT_SATISFIED and drops the controller's claim",
+      "expected": {
+        "decision": "ambiguous",
+        "reason": "conflict_erased"
+      },
+      "files": {
+        "record.json": "d2799c72e3235539fb4554825cc35d64c82d591da3b0e91840d72bbde6d745f0"
+      },
+      "id": "open-conflict-erased-to-not-satisfied",
+      "path": "cases/open-conflict-erased-to-not-satisfied",
+      "readings": [
+        {
+          "basis": "draft-noa-scitt-ai-agent-receipt-01 Section 1.5: Where such an object is absent, the corresponding requirement is not a requirement a conforming implementation can fail: it has nothing to evaluate, and Section 8 states what a bare receipt cannot establish.",
+          "decision": "conformant",
+          "reading": "profile"
+        },
+        {
+          "basis": "proposal rule conflict_erased of physical-completion/v1; owes CONFLICT",
+          "decision": "nonconformant",
+          "reading": "proposal"
+        }
+      ],
+      "retained": {
+        "owed": "CONFLICT",
+        "reported": "NOT_SATISFIED"
+      },
+      "rule": "P-conflict_erased",
+      "source": "draft Section 12 controller success against a witness"
+    },
+    {
+      "anchor": {
+        "quote": "Where two authenticated claims conflict -- a controller reporting success and a witness reporting that the effect did not occur -- the conflict is its own result, carrying both claims, with neither erased in favour of the other; this document defines no token for it (Section 1.5).",
+        "section": "8.2"
+      },
+      "basis": [
+        "1.5",
+        "8.2"
+      ],
+      "edit": "the conflict control, reported as CONFLICT carrying only the witness's claim",
+      "expected": {
+        "decision": "ambiguous",
+        "reason": "conflict_drops_a_claim"
+      },
+      "files": {
+        "record.json": "5202c4ce929e1d84815b131e6482660f54e68480da6d5c0b22f774d0512d031d"
+      },
+      "id": "open-conflict-drops-a-claim",
+      "path": "cases/open-conflict-drops-a-claim",
+      "readings": [
+        {
+          "basis": "draft-noa-scitt-ai-agent-receipt-01 Section 1.5: Where such an object is absent, the corresponding requirement is not a requirement a conforming implementation can fail: it has nothing to evaluate, and Section 8 states what a bare receipt cannot establish.",
+          "decision": "conformant",
+          "reading": "profile"
+        },
+        {
+          "basis": "proposal rule conflict_drops_a_claim of physical-completion/v1; owes CONFLICT",
+          "decision": "nonconformant",
+          "reading": "proposal"
+        }
+      ],
+      "retained": {
+        "owed": "CONFLICT",
+        "reported": "CONFLICT"
+      },
+      "rule": "P-conflict_drops_a_claim",
+      "source": "issue 80 case 7"
+    }
+  ],
+  "verifierContract": "verifier record.json --json; exit 0 conformant, 1 nonconformant, 2 ambiguous"
+}
