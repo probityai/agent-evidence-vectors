@@ -53,7 +53,7 @@ cache="${XDG_CACHE_HOME:-$HOME/.cache}/aev-gitleaks/$version"
 mkdir -p "$cache"
 tgz="$cache/gitleaks.tgz"
 if [ ! -f "$tgz" ] || ! echo "$tgz_sha256  $tgz" | sha256sum -c --status -; then
-	if ! python3 "$(dirname "$0")/fetch-tool.py" --repo gitleaks/gitleaks --tag "v${version}" \
+	if ! "${AEV_PYTHON:-python3}" "$(dirname "$0")/fetch-tool.py" --repo gitleaks/gitleaks --tag "v${version}" \
 		--asset "$asset" --sha256 "$tgz_sha256" --dest "$tgz"; then
 		echo "secret-scan: could not download gitleaks $version; nothing was scanned." >&2
 		exit 2
