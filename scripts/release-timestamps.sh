@@ -84,7 +84,7 @@ ots_digest() {
 case "$command" in
   stamp)
     openssl ts -query -data "$RAW" -sha256 -cert -out "$workdir/request.tsq" >/dev/null 2>&1
-    curl --silent --show-error --fail --max-time 120 \
+    curl --retry 5 --retry-delay 5 --retry-all-errors --silent --show-error --fail --max-time 120 \
       --header "Content-Type: application/timestamp-query" \
       --data-binary "@$workdir/request.tsq" \
       --output "$TSR" \
