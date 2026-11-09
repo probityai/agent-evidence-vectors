@@ -26,10 +26,16 @@ RECORD_REQUIREMENTS = {"ACS-R-076", "ACS-R-077", "ACS-R-081"}
 
 
 def load_client():
-    from acs.client._config import FailPosture
-    from acs.client._exchange import HTTP_REFUSAL_STATUSES
-    from acs.client._outcome import Refused, Undecided
-    from acs.core._errors import is_guardian_refusal
+    # The reference client is the external ACS package, installed only for this
+    # run; it is imported by name so the repository's type pass does not treat
+    # its absence as a missing import.
+    from importlib import import_module
+
+    FailPosture = import_module("acs.client._config").FailPosture
+    HTTP_REFUSAL_STATUSES = import_module("acs.client._exchange").HTTP_REFUSAL_STATUSES
+    outcome = import_module("acs.client._outcome")
+    Refused, Undecided = outcome.Refused, outcome.Undecided
+    is_guardian_refusal = import_module("acs.core._errors").is_guardian_refusal
 
     return FailPosture, HTTP_REFUSAL_STATUSES, Refused, Undecided, is_guardian_refusal
 
