@@ -40,45 +40,15 @@ COMPANIONS = (
     "research/independence",
     "research/corpus-measurements",
 )
-PREDICATES = (
-    ("v1", "observed-effect"),
-    ("v1", "uncertain-effect"),
-    ("v1", "decision-client-failure-modes"),
-    ("v1", "refusal-reason-priority"),
-    ("v1", "monitor-coverage"),
-    ("v1", "signature-coverage"),
-    ("v1", "evidence-state"),
-    ("v1", "incident-evidence-cell"),
-    ("v1", "propagation-step"),
-    ("v1", "containment-journal"),
-    ("v1", "blast-radius-receipt"),
-    ("v1", "evaluation-claim"),
-    ("v1", "self-reported-record"),
-    ("v1", "kernel-substrate"),
-    ("v2", "kernel-substrate"),
-    ("v2", "launch-chain"),
-    ("v1", "agent-audit-record"),
-    ("v2", "agent-audit-record"),
-    ("v1", "govops-trace-record"),
-    ("v1", "peer-verification"),
-    ("v1", "incident-action-authorization"),
-    ("v1", "revocation-sweep"),
-    ("v1", "re-enable-decision"),
-    ("v1", "joint-authority"),
-    ("v1", "revocation-boundary"),
-    ("v1", "control-decision"),
-    ("v1", "evidence-scope-disclosure"),
-    ("v1", "launch-chain"),
-    ("v1", "ml-bom"),
-    ("v1", "quotation-fidelity"),
-    ("v1", "scorecard-verdict"),
-    ("v1", "security-verdict"),
-    ("v1", "signed-evidence"),
-    ("v1", "static-scan-verdict"),
-    ("v1", "substrate-integrity"),
-    ("v1", "sut-provenance"),
-    ("v2", "a2a-mesh-scorecard"),
-    ("v2", "mesh-quiescence"),
+REGISTRY_TEXT = (SOURCE_ROOT / "spec/predicates/REGISTRY.md").read_text(encoding="utf-8")
+# Every type this host serves a page for, read from the registry so a new entry
+# cannot leave the expected routes behind it.
+PREDICATES = tuple(
+    re.findall(
+        r"^### `predicate/(v\d+)/([a-z0-9-]+)`",
+        REGISTRY_TEXT[: REGISTRY_TEXT.index("## Types served from another host")],
+        flags=re.MULTILINE,
+    )
 )
 EXPECTED_HTML = (
     {Path(f"{relative}.html") for relative in COMPANIONS}
@@ -101,6 +71,9 @@ EXPECTED_HTML = (
         for suffix in (".html", "/index.html")
     }
 )
+# Sitemap entries other than the predicate pages: the companions, the start,
+# index, runs, distribution and codes pages, and the predicate indexes.
+SITEMAP_BASE = 21
 SEGMENT = st.text(alphabet=string.ascii_letters + string.digits + "_-", min_size=1, max_size=12)
 URL_PART = st.text(alphabet=string.ascii_letters + string.digits + "-_%+", max_size=20)
 
@@ -135,42 +108,35 @@ class HtmlView(HTMLParser):
             self.text.append(data)
 
 
-LINK_RE = re.compile(r"\]\(([^)#?\s]+)")
-DOCUMENT_LINE_RE = re.compile(r"^- Document: `([^`]+)`$", re.MULTILINE)
-
-
-def copy_linked_files(tmp_path: Path, copied: list[str]) -> None:
-    """Copy the registry's normative documents and what the copied documents link to.
-
-    A hand-kept list of copied documents falls behind the first time one of
-    them gains a link to a file that is not on the list, and the build then
-    stops on a link that is valid in the repository. Following the links of
-    the listed documents one level deep keeps the fixture a faithful subset.
-    """
-    registry = (SOURCE_ROOT / "spec/predicates/REGISTRY.md").read_text(encoding="utf-8")
-    for relative in DOCUMENT_LINE_RE.findall(registry):
-        if relative not in copied and (SOURCE_ROOT / relative).is_file():
-            copy_file(tmp_path, SOURCE_ROOT / relative)
-            copied.append(relative)
-    for relative in copied:
-        if not relative.endswith(".md"):
+def link_targets(document: Path) -> list[str]:
+    """Return the repository paths a Markdown document links to that exist."""
+    found = []
+    text = document.read_text(encoding="utf-8")
+    for target in re.findall(r"\]\(([^)#?\s]+)(?:[#?][^)]*)?\)", text):
+        if "://" in target or target.startswith("mailto:"):
             continue
-        source = SOURCE_ROOT / relative
-        for value in LINK_RE.findall(source.read_text(encoding="utf-8")):
-            if urlsplit(value).scheme or value.startswith("/"):
-                continue
-            linked = (source.parent / value).resolve()
-            if not linked.is_file() or not linked.is_relative_to(SOURCE_ROOT):
-                continue
-            copy_file(tmp_path, linked)
+        parent = SOURCE_ROOT if target.startswith("/") else document.parent
+        resolved = (parent / target.lstrip("/")).resolve()
+        if resolved.exists() and resolved.is_relative_to(SOURCE_ROOT):
+            found.append(resolved.relative_to(SOURCE_ROOT).as_posix())
+    return found
 
 
-def copy_file(tmp_path: Path, source: Path) -> None:
-    """Copy one repository file to the same relative path under ``tmp_path``."""
-    destination = tmp_path / source.relative_to(SOURCE_ROOT)
-    if not destination.exists():
-        destination.parent.mkdir(parents=True, exist_ok=True)
-        destination.write_bytes(source.read_bytes())
+def registry_sources() -> tuple[str, ...]:
+    """Return every repository path the rendered predicate pages need.
+
+    The registry and each document it names are rendered, and the build refuses
+    a rendered page whose link target is absent. Deriving the copy list from the
+    registry keeps the fixture in step when an entry gains a document or a link.
+    """
+    registry = SOURCE_ROOT / "spec/predicates/REGISTRY.md"
+    text = registry.read_text(encoding="utf-8")
+    named = re.findall(r"^- (?:Document|Schema): `([^`]+)`", text, flags=re.MULTILINE)
+    paths = [*named, *link_targets(registry)]
+    for relative in named:
+        if relative.endswith(".md"):
+            paths.extend(link_targets(SOURCE_ROOT / relative))
+    return tuple(dict.fromkeys(paths))
 
 
 @pytest.fixture
@@ -198,8 +164,8 @@ def repository(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
         target = tmp_path / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(text, encoding="ascii")
-    copied: list[str] = []
     for relative in (
+        *registry_sources(),
         "spec/predicates/REGISTRY.md",
         "docs/proposals/audit-record-04-principal.md",
         "spec/predicates/containment-journal.md",
@@ -228,11 +194,13 @@ def repository(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
         "packaging/agent_evidence_vectors/verdict_evidence/README.md",
         "packaging/agent_evidence_vectors/claim_record/README.md",
     ):
+        source = SOURCE_ROOT / relative
         target = tmp_path / relative
+        if source.is_dir():
+            target.mkdir(parents=True, exist_ok=True)
+            continue
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_bytes((SOURCE_ROOT / relative).read_bytes())
-        copied.append(relative)
-    copy_linked_files(tmp_path, copied)
+        target.write_bytes(source.read_bytes())
     monkeypatch.setattr(site, "REPO_ROOT", tmp_path)
     monkeypatch.setattr(site, "CITATION", tmp_path / "CITATION.cff")
     monkeypatch.setattr(site, "CODES_GO", tmp_path / "aee/codes.go")
@@ -475,7 +443,7 @@ class TestSiteNavigation:
             root = fromstring((built_site / "sitemap.xml").read_bytes())
             namespace = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
             urls = [node.text for node in root.findall("s:url/s:loc", namespace)]
-            assert len(urls) == len(set(urls)) == 59
+            assert len(urls) == len(set(urls)) == SITEMAP_BASE + len(PREDICATES)
             assert root.find("s:url/s:lastmod", namespace) is None
 
         def test_local_image_loads_repository_bytes(self, repository: Path) -> None:

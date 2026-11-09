@@ -55,8 +55,25 @@ on. Expected values are taken from the author only where they anchor to a publis
 `Aicent Stack, issue 453`. The families' sealed pages stay citations:
 [aicent-grant-ref](https://iqa.org/conformance/aicent-grant-ref/) and
 [aicent-lease-boundary](https://iqa.org/conformance/aicent-lease-boundary/). Members derived here
-beyond the author's records say `derived from` and use the same sentences. The draft is
-Informational and can change; a later revision overrides this reading.
+beyond the author's records say `derived from` and use the same sentences.
+
+## Registration
+
+- URI: `https://probityai.github.io/agent-evidence-vectors/predicate/v1/refusal-reason-priority`,
+  defined here. This repository mints the records and owns the record shape below.
+- Envelope: a bare JSON record, not an in-toto Statement: `contractId` (the URI), `recordId`,
+  `facts` (what the answer was given over) and `response` (the `grantRef` with its lease instants,
+  plus `reason`). The verdict is derivable from the record alone.
+- Field semantics: the closed refusal set and its priority order are normative in
+  draft-li-rttp-iqa-addressing-02, sections 6.1, 7.2, 8.1 and 8.2, owned by its author, Aicent-com.
+- `confirmed_at`: Aicent-com confirmed revision 02 (retrieved text sha256
+  `02491c5a59d1e7471be04e8e0d4933dfc22ce19f9b054ead0aa449d6b4485044`) on 7 Nov 2026, in
+  [#492](https://github.com/probityai/agent-evidence-vectors/issues/492#issuecomment-6710136659).
+- Example: `cases/conformant-expiry-over-revocation/record.json` (record sha256
+  `8fdf1041bc8b0e8dd9c2b47f03649fc7a0f3b313fda633061af309492e5df54f`, source case GR-P03).
+- Compatibility: v1 never changes. A value outside the closed set, or a change to the set or the
+  order, is a new URI beside v1. A later draft revision that keeps the set, the order and the field
+  meanings is recorded as a new confirmation here, never as an edit of this one.
 
 ## What it does not test
 
