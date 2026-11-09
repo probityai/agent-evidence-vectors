@@ -1,0 +1,162 @@
+# recorded 2026-11-08T15:37:52Z on Linux x86_64, docker 29.1.3
+# image python@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b
+# page folder digest: 3e4ed1dfc29dcededcef41b7abd0de4a17a5f54c2368a3095291812f807587b7
+## stage 1: connected container
++ set -eu
++ python3 -m pip download --require-hashes --only-binary=:all: --dest wheels -r requirements.txt
+Collecting agent-evidence-verify==0.5.1 (from -r requirements.txt (line 1))
+  Downloading agent_evidence_verify-0.5.1-py3-none-any.whl (175 kB)
+Collecting agent-evidence-vocabulary==0.9.0 (from -r requirements.txt (line 5))
+  Downloading agent_evidence_vocabulary-0.9.0-py3-none-any.whl (73 kB)
+Collecting cffi==2.1.1 (from -r requirements.txt (line 9))
+  Downloading cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (221 kB)
+Collecting cryptography==50.0.2 (from -r requirements.txt (line 111))
+  Downloading cryptography-50.0.2-cp311-abi3-manylinux_2_34_x86_64.whl (4.8 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.8/4.8 MB 67.3 MB/s eta 0:00:00
+Collecting pycparser==3.12 (from -r requirements.txt (line 172))
+  Downloading pycparser-3.12-py3-none-any.whl (62 kB)
+Collecting pyyaml==6.0.3 (from -r requirements.txt (line 176))
+  Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (807 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 807.9/807.9 kB 83.1 MB/s eta 0:00:00
+Saved ./wheels/agent_evidence_verify-0.5.1-py3-none-any.whl
+Saved ./wheels/agent_evidence_vocabulary-0.9.0-py3-none-any.whl
+Saved ./wheels/cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl
+Saved ./wheels/cryptography-50.0.2-cp311-abi3-manylinux_2_34_x86_64.whl
+Saved ./wheels/pycparser-3.12-py3-none-any.whl
+Saved ./wheels/pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
+Successfully downloaded agent-evidence-verify agent-evidence-vocabulary cffi cryptography pycparser pyyaml
+
+[notice] A new release of pip is available: 25.0.1 -> 26.3
+[notice] To update, run: pip install --upgrade pip
++ mkdir -p records
++ python3 -c import sys, urllib.request; sys.stdout.buffer.write(urllib.request.urlopen(sys.argv[1]).read()) https://raw.githubusercontent.com/probityai/agent-evidence-vectors/v0.36.3/vectors/statements/vfcb846afff2d6979.json
++ python3 -c import sys, urllib.request; sys.stdout.buffer.write(urllib.request.urlopen(sys.argv[1]).read()) https://raw.githubusercontent.com/probityai/agent-evidence-vectors/v0.36.3/vectors/statements/v550c91df0d36a218.json
++ python3 -c import sys, urllib.request; sys.stdout.buffer.write(urllib.request.urlopen(sys.argv[1]).read()) https://raw.githubusercontent.com/probityai/agent-evidence-vectors/v0.36.3/vectors/statements/v9cc570167acf4ae8.json
++ python3 -c import sys, urllib.request; sys.stdout.buffer.write(urllib.request.urlopen(sys.argv[1]).read()) https://raw.githubusercontent.com/probityai/agent-evidence-vectors/v0.36.3/vectors/statements/v577011f7dd9a08fe.json
++ python3 -c import sys, urllib.request; sys.stdout.buffer.write(urllib.request.urlopen(sys.argv[1]).read()) https://raw.githubusercontent.com/probityai/agent-evidence-vectors/v0.36.3/vectors/statements/v02fd1bc1d7916002.json
++ python3 -c import sys, urllib.request; sys.stdout.buffer.write(urllib.request.urlopen(sys.argv[1]).read()) https://raw.githubusercontent.com/probityai/agent-evidence-vectors/v0.36.3/vectors/statements/v28b0cf874ea02de1.json
++ python3 -c import sys, urllib.request; sys.stdout.buffer.write(urllib.request.urlopen(sys.argv[1]).read()) https://raw.githubusercontent.com/probityai/agent-evidence-vectors/v0.36.3/vectors/statements/v131478f1be775746.json
++ python3 -c import sys, urllib.request; sys.stdout.buffer.write(urllib.request.urlopen(sys.argv[1]).read()) https://raw.githubusercontent.com/probityai/agent-evidence-vectors/v0.36.3/vectors/statements/vcb23d2c4509c9daf.json
++ cd records
++ sha256sum -c ../SHA256SUMS
+vfcb846afff2d6979.json: OK
+v550c91df0d36a218.json: OK
+v9cc570167acf4ae8.json: OK
+v577011f7dd9a08fe.json: OK
+v02fd1bc1d7916002.json: OK
+v28b0cf874ea02de1.json: OK
+v131478f1be775746.json: OK
+vcb23d2c4509c9daf.json: OK
+## stage 2: container started with --network none
+interfaces: lo 
+network probe: no route (URLError)
++ set -eu
++ python3 -m venv venv
++ venv/bin/pip install --no-index --find-links wheels --require-hashes -r requirements.txt
+Looking in links: wheels
+Processing ./wheels/agent_evidence_verify-0.5.1-py3-none-any.whl (from -r requirements.txt (line 1))
+Processing ./wheels/agent_evidence_vocabulary-0.9.0-py3-none-any.whl (from -r requirements.txt (line 5))
+Processing ./wheels/cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (from -r requirements.txt (line 9))
+Processing ./wheels/cryptography-50.0.2-cp311-abi3-manylinux_2_34_x86_64.whl (from -r requirements.txt (line 111))
+Processing ./wheels/pycparser-3.12-py3-none-any.whl (from -r requirements.txt (line 172))
+Processing ./wheels/pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (from -r requirements.txt (line 176))
+Installing collected packages: pyyaml, pycparser, agent-evidence-vocabulary, cffi, cryptography, agent-evidence-verify
+Successfully installed agent-evidence-verify-0.5.1 agent-evidence-vocabulary-0.9.0 cffi-2.1.1 cryptography-50.0.2 pycparser-3.12 pyyaml-6.0.3
++ cd records
++ sha256sum -c ../SHA256SUMS
+vfcb846afff2d6979.json: OK
+v550c91df0d36a218.json: OK
+v9cc570167acf4ae8.json: OK
+v577011f7dd9a08fe.json: OK
+v02fd1bc1d7916002.json: OK
+v28b0cf874ea02de1.json: OK
+v131478f1be775746.json: OK
+vcb23d2c4509c9daf.json: OK
++ python3 make_case.py --out pinned --keys keys.json records/v02fd1bc1d7916002.json records/v131478f1be775746.json records/v28b0cf874ea02de1.json records/v550c91df0d36a218.json records/v577011f7dd9a08fe.json records/v9cc570167acf4ae8.json records/vcb23d2c4509c9daf.json records/vfcb846afff2d6979.json
++ python3 make_case.py --out unpinned records/v02fd1bc1d7916002.json records/v131478f1be775746.json records/v28b0cf874ea02de1.json records/v550c91df0d36a218.json records/v577011f7dd9a08fe.json records/v9cc570167acf4ae8.json records/vcb23d2c4509c9daf.json records/vfcb846afff2d6979.json
++ dirname pinned/v02fd1bc1d7916002.case.json
++ venv/bin/agent-evidence-verify pinned/v02fd1bc1d7916002.case.json --policy pinned/policy.json --artifact-root records --json
++ dirname pinned/v131478f1be775746.case.json
++ venv/bin/agent-evidence-verify pinned/v131478f1be775746.case.json --policy pinned/policy.json --artifact-root records --json
++ dirname pinned/v28b0cf874ea02de1.case.json
++ venv/bin/agent-evidence-verify pinned/v28b0cf874ea02de1.case.json --policy pinned/policy.json --artifact-root records --json
++ dirname pinned/v550c91df0d36a218.case.json
++ venv/bin/agent-evidence-verify pinned/v550c91df0d36a218.case.json --policy pinned/policy.json --artifact-root records --json
++ dirname pinned/v577011f7dd9a08fe.case.json
++ venv/bin/agent-evidence-verify pinned/v577011f7dd9a08fe.case.json --policy pinned/policy.json --artifact-root records --json
++ dirname pinned/v9cc570167acf4ae8.case.json
++ venv/bin/agent-evidence-verify pinned/v9cc570167acf4ae8.case.json --policy pinned/policy.json --artifact-root records --json
++ dirname pinned/vcb23d2c4509c9daf.case.json
++ venv/bin/agent-evidence-verify pinned/vcb23d2c4509c9daf.case.json --policy pinned/policy.json --artifact-root records --json
++ dirname pinned/vfcb846afff2d6979.case.json
++ venv/bin/agent-evidence-verify pinned/vfcb846afff2d6979.case.json --policy pinned/policy.json --artifact-root records --json
++ dirname unpinned/v02fd1bc1d7916002.case.json
++ venv/bin/agent-evidence-verify unpinned/v02fd1bc1d7916002.case.json --policy unpinned/policy.json --artifact-root records --json
++ dirname unpinned/v131478f1be775746.case.json
++ venv/bin/agent-evidence-verify unpinned/v131478f1be775746.case.json --policy unpinned/policy.json --artifact-root records --json
++ dirname unpinned/v28b0cf874ea02de1.case.json
++ venv/bin/agent-evidence-verify unpinned/v28b0cf874ea02de1.case.json --policy unpinned/policy.json --artifact-root records --json
++ dirname unpinned/v550c91df0d36a218.case.json
++ venv/bin/agent-evidence-verify unpinned/v550c91df0d36a218.case.json --policy unpinned/policy.json --artifact-root records --json
++ dirname unpinned/v577011f7dd9a08fe.case.json
++ venv/bin/agent-evidence-verify unpinned/v577011f7dd9a08fe.case.json --policy unpinned/policy.json --artifact-root records --json
++ dirname unpinned/v9cc570167acf4ae8.case.json
++ venv/bin/agent-evidence-verify unpinned/v9cc570167acf4ae8.case.json --policy unpinned/policy.json --artifact-root records --json
++ dirname unpinned/vcb23d2c4509c9daf.case.json
++ venv/bin/agent-evidence-verify unpinned/vcb23d2c4509c9daf.case.json --policy unpinned/policy.json --artifact-root records --json
++ dirname unpinned/vfcb846afff2d6979.case.json
++ venv/bin/agent-evidence-verify unpinned/vfcb846afff2d6979.case.json --policy unpinned/policy.json --artifact-root records --json
++ cat pinned/vfcb846afff2d6979.out.json
+{"case_id":"vfcb846afff2d6979","checks":[{"codes":[],"id":"execution_evidence","primary_code":null,"result":"pass","status":"met","tiers":["attested"],"verdict":"valid","verdict_code":null}],"claim_type":"adversarial_execution_evidence/v1","decision":"supported","policy_sha256":"c5b4ffc308eb190252bfffd594fae264957737b0d5fa47ce280045e92d9897ee","reason":"statement_valid","reference":{"verifier":{"id":"https://probityai.github.io/probity/verifiers/agent-evidence-verify"}},"schema_version":"probity-decision/v1","scope":{"claim_type":"adversarial_execution_evidence/v1","limit":"The verdict, result and tiers are recomputed from the statement's own bytes. A tier is attested only under a key the consumer pinned here; this program does not establish who holds that key, and a valid statement's result is the producer's run as recorded, not a fresh execution.","predicate_type":"https://in-toto.io/attestation/adversarial-execution-evidence/v0.7","statement":{"artifact":{"length":3869,"path":"vfcb846afff2d6979.json","sha256":"fcb846afff2d6979e356bb33f144f24ed526d818ffee6ab9e78d4d3788daf99d","status":"bound"},"id":"statement"},"substrate_observation_keys":["496cbe15e391eccd3a0864f2709df0eeb4f5b6c1bad750c95cc80ee49bceae62"]}}
+
++ echo
++ venv/bin/python summary.py pinned unpinned
+pinned v02fd1bc1d7916002 contradicted invalid LEAF_HASH_MISMATCH corpus-digest-mismatch None -
+pinned v131478f1be775746 contradicted invalid CLAIM_NOT_BOUND refs-empty,interception-record-orphaned None -
+pinned v28b0cf874ea02de1 contradicted invalid PROOF_BROKEN batch-root-mismatch None -
+pinned v550c91df0d36a218 supported valid NOT_PUBLICLY_VERIFIABLE - fail unattested
+pinned v577011f7dd9a08fe contradicted invalid MALFORMED batch-root-orphaned None -
+pinned v9cc570167acf4ae8 supported valid NOT_RECONSTRUCTIBLE - pass_indirect declared
+pinned vcb23d2c4509c9daf contradicted invalid SUMMARY_MISMATCH result-recompute-mismatch None -
+pinned vfcb846afff2d6979 supported valid None - pass attested
+unpinned v02fd1bc1d7916002 contradicted invalid LEAF_HASH_MISMATCH corpus-digest-mismatch None -
+unpinned v131478f1be775746 contradicted invalid CLAIM_NOT_BOUND refs-empty,interception-record-orphaned None -
+unpinned v28b0cf874ea02de1 contradicted invalid PROOF_BROKEN batch-root-mismatch None -
+unpinned v550c91df0d36a218 supported valid NOT_PUBLICLY_VERIFIABLE - fail unattested
+unpinned v577011f7dd9a08fe contradicted invalid MALFORMED batch-root-orphaned None -
+unpinned v9cc570167acf4ae8 supported valid NOT_RECONSTRUCTIBLE - pass_indirect declared
+unpinned vcb23d2c4509c9daf contradicted invalid SUMMARY_MISMATCH result-recompute-mismatch None -
+unpinned vfcb846afff2d6979 supported valid NOT_PUBLICLY_VERIFIABLE - pass unattested
+refused pinned/v02fd1bc1d7916002: LEAF_HASH_MISMATCH
+refused pinned/v131478f1be775746: CLAIM_NOT_BOUND
+refused pinned/v28b0cf874ea02de1: PROOF_BROKEN
+refused pinned/v550c91df0d36a218: NOT_PUBLICLY_VERIFIABLE
+refused pinned/v577011f7dd9a08fe: MALFORMED
+refused pinned/v9cc570167acf4ae8: NOT_RECONSTRUCTIBLE
+refused pinned/vcb23d2c4509c9daf: SUMMARY_MISMATCH
+refused unpinned/v02fd1bc1d7916002: LEAF_HASH_MISMATCH
+refused unpinned/v131478f1be775746: CLAIM_NOT_BOUND
+refused unpinned/v28b0cf874ea02de1: PROOF_BROKEN
+refused unpinned/v550c91df0d36a218: NOT_PUBLICLY_VERIFIABLE
+refused unpinned/v577011f7dd9a08fe: MALFORMED
+refused unpinned/v9cc570167acf4ae8: NOT_RECONSTRUCTIBLE
+refused unpinned/vcb23d2c4509c9daf: SUMMARY_MISMATCH
+refused unpinned/vfcb846afff2d6979: NOT_PUBLICLY_VERIFIABLE
+summary exit 1
++ echo summary exit 1
++ venv/bin/python summary.py pinned/ --allow NOT_RECONSTRUCTIBLE --allow NOT_PUBLICLY_VERIFIABLE
+pinned v02fd1bc1d7916002 contradicted invalid LEAF_HASH_MISMATCH corpus-digest-mismatch None -
+pinned v131478f1be775746 contradicted invalid CLAIM_NOT_BOUND refs-empty,interception-record-orphaned None -
+pinned v28b0cf874ea02de1 contradicted invalid PROOF_BROKEN batch-root-mismatch None -
+pinned v550c91df0d36a218 supported valid NOT_PUBLICLY_VERIFIABLE - fail unattested
+pinned v577011f7dd9a08fe contradicted invalid MALFORMED batch-root-orphaned None -
+pinned v9cc570167acf4ae8 supported valid NOT_RECONSTRUCTIBLE - pass_indirect declared
+pinned vcb23d2c4509c9daf contradicted invalid SUMMARY_MISMATCH result-recompute-mismatch None -
+pinned vfcb846afff2d6979 supported valid None - pass attested
+refused pinned/v02fd1bc1d7916002: LEAF_HASH_MISMATCH
+refused pinned/v131478f1be775746: CLAIM_NOT_BOUND
+refused pinned/v28b0cf874ea02de1: PROOF_BROKEN
+refused pinned/v577011f7dd9a08fe: MALFORMED
+refused pinned/vcb23d2c4509c9daf: SUMMARY_MISMATCH
+summary exit 1
++ echo summary exit 1
