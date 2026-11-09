@@ -94,6 +94,12 @@ def main() -> int:
     # rail ran and how many vectors the verifier answered, and a report that
     # cannot show both is a failure.
     refusal = verifier_refusal(report)
+    postures = posture_refusals(report)
+    for row_id, why in postures:
+        # One annotation per scenario, so a red job names what ran unenforced.
+        print(f"::error title=decision-client posture::{row_id}: {why}")
+    if postures and refusal is None:
+        refusal = f"{len(postures)} scenario(s) ran under a posture that does not enforce"
     result = "pass" if status == "0" and refusal is None else "fail"
     executed = (report.get("verifier") or {}).get("vectorsExecuted")
     outputs.append(f"vectors={totals['vectors']}\n")
@@ -165,6 +171,36 @@ def _failure_rows(report: dict[str, Any]) -> list[str]:
         if len(failures) > MAX_ROWS:
             rows.append(f"\n{len(failures) - MAX_ROWS} more failures are in the report.\n")
     return rows
+
+
+# The decision-client runtime report: each row carries the posture the client
+# stated. The harness already fails a row that does not enforce; reading it here
+# too keeps a harness installed through `tag` from one before the posture rule
+# from turning a monitored or fail-open run green.
+DECISION_CLIENT_SUITE = "decision-client-failure-modes/v1"
+ENFORCING_POSTURE = {"enforcement": "enforce", "failMode": "closed", "failModeSource": "explicit"}
+
+
+def posture_refusals(report: dict[str, Any]) -> list[tuple[str, str]]:
+    """Every runtime scenario whose stated posture does not enforce, with why."""
+    if report.get("suite") != DECISION_CLIENT_SUITE or report.get("unit") != "runtime scenario":
+        return []
+    refusals = []
+    for row in report.get("vectors", []):
+        observed = row.get("observed") or {}
+        posture = observed.get("posture")
+        row_id = str(row.get("id"))
+        if not isinstance(posture, dict):
+            refusals.append((row_id, f"the client stated no posture ({posture!r}); unstated is "
+                                     "not evidence"))
+            continue
+        if posture.get("enforcement") != "enforce" or posture.get("failMode") != "closed":
+            refusals.append((row_id, f"the client ran under posture {posture!r}, which does "
+                                     "not enforce"))
+        elif posture.get("failModeSource") != "explicit" and row_id.endswith("--strict"):
+            refusals.append((row_id, f"strict mode ran under posture {posture!r}: the fail "
+                                     "mode was defaulted, not set"))
+    return refusals
 
 
 def verifier_refusal(report: dict[str, Any]) -> str | None:

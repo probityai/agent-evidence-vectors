@@ -3,43 +3,81 @@
 A decision client sits in front of an action: it asks a remote decision point
 whether the action may run, and runs it only on a clear allow. The answer can
 fail to arrive or fail to mean anything: the point is unreachable, it times out,
-it answers with an HTTP error, with a body that is not JSON, with a verdict
-outside the vocabulary, or with no verdict at all. None of these is an allow. A
-client that maps one of them to an allow, or records it as a policy decision,
-lets an action run that nobody decided to run, and its record says it was
-decided.
+it answers with an HTTP error, with a body larger than the client's own limit,
+with a body that is not JSON, with a verdict outside the vocabulary, or with no
+verdict at all; or the client never asks, because its circuit breaker opened
+after an outage. None of these is an allow. A client that maps one of them to an
+allow, or records it as a policy decision, lets an action run that nobody
+decided to run, and its record says it was decided.
+
+A correct decision on one exchange also says nothing when the client was not
+enforcing. A client in a monitor (audit, dry-run) mode logs a block and runs the
+action anyway; a client configured to fail open allows whenever the point is
+down; a client whose fail-closed flag was never set is governed by whatever its
+shipped default happens to be. The optional ``posture`` member states that
+configuration, and a record that states a non-enforcing one is never sound.
 
 Every record is one client's account of one such decision: the request, the
-client's configured mode, the facts of the exchange with the decision point
-(reached or not, timed out or not, the HTTP status, whether the body parsed,
-and the verdict it carried), the condition the client recorded, the decision
-it took and its basis, and whether the action was performed. The reader checks
-in a fixed order and names the first check that fails:
+client's configured mode and limits, optionally its posture, the facts of the
+exchange with the decision point (asked or not, reached or not, timed out or
+not, the HTTP status, the body's size, whether the body parsed, and the verdict
+it carried), the condition the client recorded, the decision it took and its
+basis, and whether the action was performed. The reader checks in a fixed order
+and names the first check that fails:
 
 1. the record carries ``contractId`` (``contract_id_missing``);
 2. ``contractId`` is the decision-client-failure-modes contract
    (``contract_id_unknown``);
 3. every member the contract requires is present with a value from its
-   vocabulary (``record_malformed``);
-4. the condition the client recorded is the one the exchange facts give
+   vocabulary, and the optional members, where present, are well formed and
+   consistent with the exchange (``record_malformed``);
+4. a stated posture enforces: ``enforcement`` is not ``monitor``
+   (``monitor_mode``);
+5. a stated posture fails closed: ``failMode`` is not ``open``
+   (``fail_open_posture``);
+6. a stated posture was set, not defaulted: ``failModeSource`` is not
+   ``default`` (``fail_mode_defaulted``);
+7. the condition the client recorded is the one the exchange facts give
    (``condition_misclassified``);
-5. a fault condition is recorded on a ``fallback`` basis, never as a policy
+8. a fault condition is recorded on a ``fallback`` basis, never as a policy
    decision (``fault_recorded_as_policy``);
-6. a fault condition never allows the action (``fault_allowed``);
-7. on a readable verdict the decision follows it: ``allow`` allows, ``block``
-   and ``halt`` deny (``verdict_not_followed``);
-8. a ``halt`` verdict is recorded as halted, and nothing else is
-   (``halt_not_honoured``);
-9. an action the client denied was not performed (``effect_on_deny``).
+9. a fault condition never allows the action (``fault_allowed``);
+10. on a readable verdict the decision follows it: ``allow`` allows, ``block``
+    and ``halt`` deny (``verdict_not_followed``);
+11. a ``halt`` verdict is recorded as halted, and nothing else is
+    (``halt_not_honoured``);
+12. an action the client denied was not performed (``effect_on_deny``).
 
-The condition the exchange facts give: ``unreachable`` when the point was not
+The posture checks come before every check of the exchange because they judge
+the configuration the exchange ran under: under a monitor posture no recorded
+decision gated anything, under a fail-open posture a correct deny proves nothing
+about the next fault, and under a defaulted one the next release's default
+decides. Naming the posture first names the cause an operator has to change.
+They run in that order, broadest first: a monitored client enforces nothing, a
+fail-open client enforces only while the point answers, and a defaulted client
+enforces only while its default holds.
+
+The condition the exchange facts give: ``circuit-open`` when the client did not
+ask because its breaker was open, ``unreachable`` when the point was not
 reached, ``timeout`` when no reply came inside the client's timeout,
 ``unauthorized`` on HTTP 401 or 403, ``http-error`` on any other status outside
-200-299, ``unparseable-body`` when the body is not a JSON object,
-``missing-verdict`` when it carries no ``verdict`` member, ``unknown-verdict``
-when the verdict is not ``allow``, ``block`` or ``halt``, and ``ok`` otherwise.
-Every condition but ``ok`` is a fault. A record that passes all nine is
-``allow`` with reason ``decision_sound``.
+200-299, ``oversize`` when the body's size is over the client's stated
+``maxResponseBytes`` (a body exactly at the limit is not), ``unparseable-body``
+when the body is not a JSON object, ``missing-verdict`` when it carries no
+``verdict`` member, ``unknown-verdict`` when the verdict is not ``allow``,
+``block`` or ``halt``, and ``ok`` otherwise. Every condition but ``ok`` is a
+fault. A client that truncates an oversize body and reads a verdict from the
+prefix records ``ok`` against facts that give ``oversize``. A record that passes
+every check is ``allow`` with reason ``decision_sound``.
+
+The optional members (``posture``, ``client.maxResponseBytes``,
+``exchange.bodyBytes``, ``exchange.circuitOpen``) keep every record written
+before them valid and judged as it was. A record without ``posture`` is judged
+on its exchange alone: its ``decision_sound`` says the client decided this
+exchange correctly and says nothing about how the client was configured. The
+runtime contract requires the posture: a client driven through the scenarios
+must state it, and an unstated posture is not evidence. A record that states
+``maxResponseBytes`` must give ``bodyBytes`` for every reply that arrived.
 
 The external-verifier contract: ``<verifier> <case-dir>/record.json --json``
 prints one JSON object carrying ``decision`` and ``reason``, and exits 0 for
@@ -70,11 +108,18 @@ VERDICTS = ("allow", "block", "halt")
 OUTCOMES = (ALLOW, DENY)
 BASES = ("policy", "fallback")
 MODES = ("default", "strict")
+ENFORCEMENTS = ("enforce", "monitor")
+FAIL_MODES = ("closed", "open")
+FAIL_MODE_SOURCES = ("explicit", "default")
+# The one posture under which a decision record is evidence of enforcement.
+ENFORCING_POSTURE = {"enforcement": "enforce", "failMode": "closed", "failModeSource": "explicit"}
 FAULTS = (
+    "circuit-open",
     "unreachable",
     "timeout",
     "unauthorized",
     "http-error",
+    "oversize",
     "unparseable-body",
     "missing-verdict",
     "unknown-verdict",
@@ -85,6 +130,9 @@ CHECKS = (
     "contract_id_missing",
     "contract_id_unknown",
     "record_malformed",
+    "monitor_mode",
+    "fail_open_posture",
+    "fail_mode_defaulted",
     "condition_misclassified",
     "fault_recorded_as_policy",
     "fault_allowed",
@@ -110,8 +158,14 @@ def _json(value: object) -> bytes:
     return (json.dumps(value, indent=2, sort_keys=True, ensure_ascii=True) + "\n").encode()
 
 
-def derived_condition(exchange: dict[str, Any]) -> str:
-    """The condition the exchange facts give, in the order the contract states."""
+def derived_condition(exchange: dict[str, Any], limit: int | None = None) -> str:
+    """The condition the exchange facts give, in the order the contract states.
+
+    ``limit`` is the client's stated ``maxResponseBytes``, or None when it states
+    none.
+    """
+    if exchange.get("circuitOpen") is True:
+        return "circuit-open"
     if not exchange["reached"]:
         return "unreachable"
     if exchange["timedOut"]:
@@ -121,6 +175,8 @@ def derived_condition(exchange: dict[str, Any]) -> str:
         return "unauthorized"
     if not 200 <= status <= 299:
         return "http-error"
+    if limit is not None and exchange.get("bodyBytes", 0) > limit:
+        return "oversize"
     if not exchange["bodyIsJsonObject"]:
         return "unparseable-body"
     if "verdict" not in exchange:
@@ -137,6 +193,48 @@ def _integer(value: object) -> bool:
 
 def _number(value: object) -> bool:
     return _integer(value) or isinstance(value, float)
+
+
+def _limit(record: Record) -> int | None:
+    limit = record["client"].get("maxResponseBytes")
+    return limit if _integer(limit) else None
+
+
+def _record_condition(record: Record) -> str:
+    return derived_condition(record["exchange"], _limit(record))
+
+
+def _posture_well_formed(record: Record) -> bool:
+    if "posture" not in record:
+        return True
+    posture = record["posture"]
+    return (
+        isinstance(posture, dict)
+        and posture.get("enforcement") in ENFORCEMENTS
+        and posture.get("failMode") in FAIL_MODES
+        and posture.get("failModeSource") in FAIL_MODE_SOURCES
+    )
+
+
+def _optional_well_formed(record: Record) -> bool:
+    """The optional members, where present: typed, and consistent with the exchange."""
+    client, exchange = record["client"], record["exchange"]
+    limit = client.get("maxResponseBytes")
+    size = exchange.get("bodyBytes")
+    circuit = exchange.get("circuitOpen", False)
+    arrived = exchange["reached"] and not exchange["timedOut"]
+    checks = (
+        _posture_well_formed(record),
+        "maxResponseBytes" not in client or (_integer(limit) and limit > 0),
+        "bodyBytes" not in exchange or (_integer(size) and size >= 0),
+        isinstance(circuit, bool),
+        # A client whose breaker was open sent nothing, so nothing was reached.
+        not circuit or not (exchange["reached"] or exchange["timedOut"]),
+        # Only a reply that arrived has a size, and a stated limit needs one.
+        "bodyBytes" not in exchange or arrived,
+        "maxResponseBytes" not in client or not arrived or "bodyBytes" in exchange,
+    )
+    return all(checks)
 
 
 def _malformed(record: Record) -> bool:
@@ -166,7 +264,9 @@ def _malformed(record: Record) -> bool:
         return True
     # A reply that arrived carries a status; one that did not carries none.
     arrived = exchange["reached"] and not exchange["timedOut"]
-    return arrived != (exchange["httpStatus"] is not None)
+    if arrived != (exchange["httpStatus"] is not None):
+        return True
+    return not _optional_well_formed(record)
 
 
 def _verdict_not_followed(record: Record) -> bool:
@@ -183,15 +283,24 @@ def _halt_not_honoured(record: Record) -> bool:
     return bool(decision["halted"] != halt)
 
 
+def _posture(record: Record, member: str) -> object:
+    posture = record.get("posture")
+    return posture.get(member) if isinstance(posture, dict) else None
+
+
 def retained(record: Record) -> dict[str, Any]:
-    """What a verifier keeps of a record: the action, mode, conditions and decision."""
-    exchange = record["exchange"]
+    """What a verifier keeps of a record: the action, mode, posture, condition and decision.
+
+    ``posture`` is kept as stated, or null, so a kept ``decision_sound`` carries
+    whether it also attests the client's configuration.
+    """
     return {
         "action": record["request"]["action"],
-        "condition": derived_condition(exchange),
+        "condition": _record_condition(record),
         "mode": record["client"]["mode"],
         "outcome": record["decision"]["outcome"],
         "performed": record["effect"]["performed"],
+        "posture": record.get("posture"),
     }
 
 
@@ -213,9 +322,10 @@ def _first_failure(record: Record, skip: frozenset[str]) -> str | None:
         "contract_id_missing": lambda: "contractId" not in record,
         "contract_id_unknown": lambda: record.get("contractId", CONTRACT_ID) != CONTRACT_ID,
         "record_malformed": lambda: _malformed(record),
-        "condition_misclassified": lambda: (
-            decision["condition"] != derived_condition(record["exchange"])
-        ),
+        "monitor_mode": lambda: _posture(record, "enforcement") == "monitor",
+        "fail_open_posture": lambda: _posture(record, "failMode") == "open",
+        "fail_mode_defaulted": lambda: _posture(record, "failModeSource") == "default",
+        "condition_misclassified": lambda: decision["condition"] != _record_condition(record),
         "fault_recorded_as_policy": lambda: (
             decision["condition"] != "ok" and decision["basis"] != "fallback"
         ),

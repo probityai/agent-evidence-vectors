@@ -1,0 +1,251 @@
+{
+  "cases": {
+    "accept-control-401": {
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "recordSha256": "d994f631b3cb722be37b30da477b5d00b28521024da765e3b42cef7f9de86a63"
+    },
+    "accept-control-allow": {
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "recordSha256": "3f8860ae752379b9405b3e642d1bd83621a920d695d472bf7fbf22edd3cc7f3c"
+    },
+    "accept-control-block": {
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "recordSha256": "ec3af13fff232035355aeacb7f99e39f667a8e7066f36b7b744ca11ee1885504"
+    },
+    "accept-control-halt": {
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "recordSha256": "cb03513b1bdc953fdec0b95119e64235cc987fbab2130d1e5890b85fd6f7f74e"
+    },
+    "accept-http-500--default": {
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "recordSha256": "f0755197cba222d315f459fd4d38bcee6a566cd4a2bbf60afc360ff086d866d5"
+    },
+    "accept-http-500--strict": {
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "recordSha256": "661b94e26c7421e48d227ba4ac808aa8c9d5db1debb6007106dde49f9105c460"
+    },
+    "accept-http-503--default": {
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "recordSha256": "f59819e5cb01efdc40989206edef2b7fe828e808f70fd7e3d64f6617e60d4066"
+    },
+    "accept-http-503--strict": {
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "recordSha256": "824e4a6f3c5051a3df942ff9c3d866c30cbbbd42e248422e7f83815656cfdb17"
+    },
+    "accept-missing-verdict--default": {
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "recordSha256": "65dfc1ba132d54d40f9bac279a4e174510d8eaebba3f26a40ca6464c97aac534"
+    },
+    "accept-missing-verdict--strict": {
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "recordSha256": "e1cf447aeb84015bd30acf6e5083e9d46c68c0e889e45be59fbadc502266e14f"
+    },
+    "accept-timeout--default": {
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "recordSha256": "993d8d801209de59e2deef2f75c3274d200225d03329f70b2fab15c9d41f0b65"
+    },
+    "accept-timeout--strict": {
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "recordSha256": "dc4e937d0fd86695c6f64f286236ad48688897302540212d039f29e99fb8ac49"
+    },
+    "accept-unknown-verdict--default": {
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "recordSha256": "1522d1768001352968475ea7971b1a95193b532dbcceebf3ff50b7f14521f5d2"
+    },
+    "accept-unknown-verdict--strict": {
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "recordSha256": "5024c7b3a1d00d737e17594277b16624ccb5ce0758e23a8dfe8285788349582c"
+    },
+    "accept-unparseable-body--default": {
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "recordSha256": "c1fe493df232626f7338ff736a50f14db80acf7748c59e555ece17e26ecd104a"
+    },
+    "accept-unparseable-body--strict": {
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "recordSha256": "54d99c1403d05837fa7b71f91f2995c618e0f5f1ce9f1a8981c68604408afb09"
+    },
+    "accept-unreachable--default": {
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "recordSha256": "ef7e3d43a69035840f4658471bf7e9b1868f75aca797e8479813874dbd1ed679"
+    },
+    "accept-unreachable--strict": {
+      "expected": {
+        "decision": "allow",
+        "reason": "decision_sound"
+      },
+      "recordSha256": "7804ad399777a380b709b057b14a72357d94420a10c6f9aff334bfdc915c6b94"
+    },
+    "reject-allow-recorded-as-fallback": {
+      "expected": {
+        "decision": "deny",
+        "reason": "verdict_not_followed"
+      },
+      "recordSha256": "931906a4ab635ec49421c98f439dde54640b9c3d15780dfccc7265746faec56a"
+    },
+    "reject-basis-outside-vocabulary": {
+      "expected": {
+        "decision": "deny",
+        "reason": "record_malformed"
+      },
+      "recordSha256": "c05d49f863daecb9f99f2a7b669108cb69d928225dc8ef2f5052aef08c268529"
+    },
+    "reject-block-not-followed": {
+      "expected": {
+        "decision": "deny",
+        "reason": "verdict_not_followed"
+      },
+      "recordSha256": "c1138c874d99d42d88809493ec83b76ad5705b40952ac85d12b430f6e9e84f86"
+    },
+    "reject-contract-id-missing": {
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_missing"
+      },
+      "recordSha256": "1e8e8e9e65d0d484d0321dca8da26f9c95b36ef63bec0e313467f291d67370e7"
+    },
+    "reject-contract-id-unknown": {
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_unknown"
+      },
+      "recordSha256": "c529305a3b4302bf8dddf30b4bc49a8880ab39e7574a8da67d3bc2956bbdead9"
+    },
+    "reject-effect-on-deny": {
+      "expected": {
+        "decision": "deny",
+        "reason": "effect_on_deny"
+      },
+      "recordSha256": "ae456784eae3be277ff7cc02aa0d269b7b5765fd57b853de073cb8e13b1fab9f"
+    },
+    "reject-fault-recorded-as-policy": {
+      "expected": {
+        "decision": "deny",
+        "reason": "fault_recorded_as_policy"
+      },
+      "recordSha256": "292cf83ab1ee7e78ab36bb8dfb2b7b65302c5902f3ba57623fa98981be915524"
+    },
+    "reject-halt-claimed-on-block": {
+      "expected": {
+        "decision": "deny",
+        "reason": "halt_not_honoured"
+      },
+      "recordSha256": "25bb4c9f943df3fd5c8d25db11312bda384da177279347b57842b16704687321"
+    },
+    "reject-halt-not-honoured": {
+      "expected": {
+        "decision": "deny",
+        "reason": "halt_not_honoured"
+      },
+      "recordSha256": "bd8ce0d51cc43db6a9bff1d9a2ee3e86adb901f0bfe0c093e79a66e3d4db33a1"
+    },
+    "reject-missing-verdict-read-as-allow": {
+      "expected": {
+        "decision": "deny",
+        "reason": "condition_misclassified"
+      },
+      "recordSha256": "59325530354010ea80bfa7ac681f169bdde43ff82e83a227ce750efd69636dac"
+    },
+    "reject-status-without-reply": {
+      "expected": {
+        "decision": "deny",
+        "reason": "record_malformed"
+      },
+      "recordSha256": "277a2f1a5682368502707249af41b22dc4926481531ed8b57d640510d489cf9f"
+    },
+    "reject-timeout-allowed": {
+      "expected": {
+        "decision": "deny",
+        "reason": "fault_allowed"
+      },
+      "recordSha256": "d3a4873e09dae5dc1a3a2e6df5a7b2e1261126656ec9c8838cb87c4e6f370bc2"
+    },
+    "reject-unauthorized-allowed": {
+      "expected": {
+        "decision": "deny",
+        "reason": "fault_allowed"
+      },
+      "recordSha256": "2f7dfc723aaefb6cc3a6785a2234e610e27d82e1d39f2d8cc78b629704b914f4"
+    },
+    "reject-unknown-verdict-read-as-allow": {
+      "expected": {
+        "decision": "deny",
+        "reason": "condition_misclassified"
+      },
+      "recordSha256": "2a274355ba0f0dd7549c9c183779836acc0992610d1be2e0834a8be6dcf3d1fa"
+    },
+    "reject-unknown-verdict-read-as-allow-strict": {
+      "expected": {
+        "decision": "deny",
+        "reason": "condition_misclassified"
+      },
+      "recordSha256": "03370b2bc4ffd5ba123c9ba0e6b68a271d289815d2a075426e564209141464db"
+    },
+    "reject-unparseable-allowed": {
+      "expected": {
+        "decision": "deny",
+        "reason": "fault_allowed"
+      },
+      "recordSha256": "46952845a67d47b0cdc47900506f85903068356f05d15889e9c35df2954c5489"
+    },
+    "reject-unreachable-allowed": {
+      "expected": {
+        "decision": "deny",
+        "reason": "fault_allowed"
+      },
+      "recordSha256": "033dc4d86ab41f727590f2c53965173cdcca45b1d8bdc81d11ae1de033463efb"
+    }
+  },
+  "corpusDigest": "dbadd1d78f0615878edf5b3c71fc054c35c62afecf7d23e0b28670c4ba7c6aad",
+  "note": "The cases decision-client-failure-modes/v1 shipped before the optional posture, response-limit and circuit-breaker members, taken from MANIFEST.json at commit 1b83f4fb0. Every one must regenerate byte-identically and keep its verdict."
+}

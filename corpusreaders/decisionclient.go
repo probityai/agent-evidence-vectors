@@ -12,50 +12,77 @@ func init() { register(decisionClient{}) }
 // decisionClient judges corpora/vectors-decision-client-failure-modes/. Each
 // member is one decision client's record of one decision: the request it asked
 // about, its configured mode and timeout, the facts of its exchange with the
-// decision point (reached or not, timed out or not, the HTTP status, whether the
-// body was a JSON object and the verdict it carried), the condition it recorded,
-// the decision it took with its basis, and whether the action was performed. The
+// decision point (asked or not, reached or not, timed out or not, the HTTP
+// status, the body's size, whether the body was a JSON object and the verdict it
+// carried), optionally the client's posture, the condition it recorded, the
+// decision it took with its basis, and whether the action was performed. The
 // reader derives each member's decision with the checks the Python reader
 // applies, in the same order, and names the first one that fails:
 //
 //  1. the record carries contractId: contract_id_missing;
 //  2. contractId is the decision-client-failure-modes contract:
 //     contract_id_unknown;
-//  3. every required member is present with a value from its vocabulary, and a
-//     reply that arrived carries a status while one that did not carries none:
-//     record_malformed;
-//  4. the recorded condition is the one the exchange facts give:
+//  3. every required member is present with a value from its vocabulary, a
+//     reply that arrived carries a status while one that did not carries none,
+//     and the optional members (posture, client.maxResponseBytes,
+//     exchange.bodyBytes, exchange.circuitOpen) are typed and consistent with
+//     the exchange: record_malformed;
+//  4. a stated posture enforces: monitor_mode;
+//  5. a stated posture fails closed: fail_open_posture;
+//  6. a stated posture's fail mode was set, not defaulted: fail_mode_defaulted;
+//  7. the recorded condition is the one the exchange facts give:
 //     condition_misclassified;
-//  5. a fault condition is recorded on a fallback basis:
+//  8. a fault condition is recorded on a fallback basis:
 //     fault_recorded_as_policy;
-//  6. a fault condition never allows the action: fault_allowed;
-//  7. on a readable verdict the decision follows it on a policy basis: allow
+//  9. a fault condition never allows the action: fault_allowed;
+//  10. on a readable verdict the decision follows it on a policy basis: allow
 //     allows, block and halt deny: verdict_not_followed;
-//  8. a halt verdict is recorded as halted, and nothing else is:
+//  11. a halt verdict is recorded as halted, and nothing else is:
 //     halt_not_honoured;
-//  9. an action the client denied was not performed: effect_on_deny.
+//  12. an action the client denied was not performed: effect_on_deny.
 //
-// The condition the exchange gives: unreachable when the point was not reached,
-// timeout when no reply came inside the timeout, unauthorized on HTTP 401 or
-// 403, http-error on any other status outside 200-299, unparseable-body when the
-// body is not a JSON object, missing-verdict when it carries no verdict member,
+// The condition the exchange gives: circuit-open when the client's breaker was
+// open and it did not ask, unreachable when the point was not reached, timeout
+// when no reply came inside the timeout, unauthorized on HTTP 401 or 403,
+// http-error on any other status outside 200-299, oversize when the body's size
+// is over the client's stated maxResponseBytes, unparseable-body when the body
+// is not a JSON object, missing-verdict when it carries no verdict member,
 // unknown-verdict when the verdict is not allow, block or halt, and ok
 // otherwise. Every condition but ok is a fault.
 //
 // The reader also recomputes each member's retained action, condition, mode,
-// outcome and performed flag.
+// outcome, performed flag and stated posture.
 type decisionClient struct{}
 
 const dcContractID = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/decision-client-failure-modes"
 
 func (decisionClient) Suite() string { return "decision-client-failure-modes/v1" }
 
+type dcPosture struct {
+	Enforcement    string `json:"enforcement"`
+	FailMode       string `json:"failMode"`
+	FailModeSource string `json:"failModeSource"`
+}
+
 type dcRetained struct {
-	Action    string `json:"action"`
-	Condition string `json:"condition"`
-	Mode      string `json:"mode"`
-	Outcome   string `json:"outcome"`
-	Performed bool   `json:"performed"`
+	Action    string     `json:"action"`
+	Condition string     `json:"condition"`
+	Mode      string     `json:"mode"`
+	Outcome   string     `json:"outcome"`
+	Performed bool       `json:"performed"`
+	Posture   *dcPosture `json:"posture"`
+}
+
+// dcSameRetained compares two retained rows by value, posture included.
+func dcSameRetained(a, b dcRetained) bool {
+	if (a.Posture == nil) != (b.Posture == nil) {
+		return false
+	}
+	if a.Posture != nil && *a.Posture != *b.Posture {
+		return false
+	}
+	a.Posture, b.Posture = nil, nil
+	return a == b
 }
 
 type dcVector struct {
@@ -102,7 +129,7 @@ func dcJudgeMember(caseDir string, v dcVector) []string {
 	if !isObject {
 		return append(findings, "record.json is not a JSON object")
 	}
-	if kept, ok := dcRetain(record); !ok || kept != v.Retained {
+	if kept, ok := dcRetain(record); !ok || !dcSameRetained(kept, v.Retained) {
 		findings = append(findings, "retained fields: the record gives something other than the manifest declares")
 	}
 	if got := dcDecide(record); got != v.Expected {
@@ -204,8 +231,9 @@ func dcMalformed(r map[string]any) bool {
 		!hasVerdict || verdictIsString,
 		dcOneOf(outcome, okOutcome, "allow", "deny"),
 		dcOneOf(basis, okBasis, "policy", "fallback"),
-		dcOneOf(condition, okCondition, "ok", "unreachable", "timeout", "unauthorized",
-			"http-error", "unparseable-body", "missing-verdict", "unknown-verdict"),
+		dcOneOf(condition, okCondition, "ok", "circuit-open", "unreachable", "timeout",
+			"unauthorized", "http-error", "oversize", "unparseable-body", "missing-verdict",
+			"unknown-verdict"),
 		okHalted, okPerformed,
 	}
 	for _, check := range checks {
@@ -216,12 +244,104 @@ func dcMalformed(r map[string]any) bool {
 	// A reply that arrived carries a status; one that did not carries none.
 	reached, _ := dcBool(exchange, "reached")
 	timedOut, _ := dcBool(exchange, "timedOut")
-	return (reached && !timedOut) != (status != nil)
+	if (reached && !timedOut) != (status != nil) {
+		return true
+	}
+	return !dcOptionalWellFormed(r, client, exchange)
+}
+
+// dcPostureOf returns the record's posture when it states one in the vocabulary.
+// The second result is false when a posture is present but malformed.
+func dcPostureOf(r map[string]any) (*dcPosture, bool) {
+	value, present := r["posture"]
+	if !present {
+		return nil, true
+	}
+	posture, isObject := value.(map[string]any)
+	if !isObject {
+		return nil, false
+	}
+	enforcement, okE := dcString(posture, "enforcement")
+	failMode, okF := dcString(posture, "failMode")
+	source, okS := dcString(posture, "failModeSource")
+	if !dcOneOf(enforcement, okE, "enforce", "monitor") || !dcOneOf(failMode, okF, "closed", "open") ||
+		!dcOneOf(source, okS, "explicit", "default") {
+		return nil, false
+	}
+	return &dcPosture{Enforcement: enforcement, FailMode: failMode, FailModeSource: source}, true
+}
+
+// dcPostureAsStated returns the posture exactly as the record states it, in the
+// vocabulary or not, as Python's retained() keeps it. A member that is absent reads
+// as the empty string. The second result is false only when the posture is not an
+// object or a member of it is not a string.
+func dcPostureAsStated(r map[string]any) (*dcPosture, bool) {
+	value, present := r["posture"]
+	if !present {
+		return nil, true
+	}
+	posture, isObject := value.(map[string]any)
+	if !isObject {
+		return nil, false
+	}
+	read := func(key string) (string, bool) {
+		member, has := posture[key]
+		if !has {
+			return "", true
+		}
+		text, isString := member.(string)
+		return text, isString
+	}
+	enforcement, okE := read("enforcement")
+	failMode, okF := read("failMode")
+	source, okS := read("failModeSource")
+	return &dcPosture{Enforcement: enforcement, FailMode: failMode, FailModeSource: source}, okE && okF && okS
+}
+
+// dcOptionalWellFormed holds the optional members to their types and to the
+// exchange: an open breaker sent nothing, only an arrived reply has a size, and
+// a stated limit needs the size of every reply that arrived.
+func dcOptionalWellFormed(r, client, exchange map[string]any) bool {
+	if _, ok := dcPostureOf(r); !ok {
+		return false
+	}
+	limitValue, hasLimit := client["maxResponseBytes"]
+	limit, limitIsInt := dcInt(limitValue)
+	sizeValue, hasSize := exchange["bodyBytes"]
+	size, sizeIsInt := dcInt(sizeValue)
+	circuit := false
+	if value, present := exchange["circuitOpen"]; present {
+		flag, isBool := value.(bool)
+		if !isBool {
+			return false
+		}
+		circuit = flag
+	}
+	reached, _ := dcBool(exchange, "reached")
+	timedOut, _ := dcBool(exchange, "timedOut")
+	arrived := reached && !timedOut
+	checks := []bool{
+		!hasLimit || (limitIsInt && limit > 0),
+		!hasSize || (sizeIsInt && size >= 0),
+		!circuit || !(reached || timedOut),
+		!hasSize || arrived,
+		!hasLimit || !arrived || hasSize,
+	}
+	for _, check := range checks {
+		if !check {
+			return false
+		}
+	}
+	return true
 }
 
 // dcCondition is the condition the exchange facts give, in the contract's
-// order. It is false when a fact it needs is absent or of the wrong type.
-func dcCondition(exchange map[string]any) (string, bool) {
+// order, against the client's stated response limit. It is false when a fact it
+// needs is absent or of the wrong type.
+func dcCondition(exchange, client map[string]any) (string, bool) {
+	if open, _ := exchange["circuitOpen"].(bool); open {
+		return "circuit-open", true
+	}
 	reached, ok := dcBool(exchange, "reached")
 	if !ok {
 		return "", false
@@ -245,6 +365,11 @@ func dcCondition(exchange map[string]any) (string, bool) {
 		return "unauthorized", true
 	case status < 200 || status > 299:
 		return "http-error", true
+	}
+	if limit, hasLimit := dcInt(client["maxResponseBytes"]); hasLimit {
+		if size, hasSize := dcInt(exchange["bodyBytes"]); hasSize && size > limit {
+			return "oversize", true
+		}
 	}
 	parsed, ok := dcBool(exchange, "bodyIsJsonObject")
 	if !ok {
@@ -270,12 +395,14 @@ func dcRetain(r map[string]any) (dcRetained, bool) {
 		return dcRetained{}, false
 	}
 	action, okAction := dcString(request, "action")
-	condition, okCondition := dcCondition(exchange)
+	condition, okCondition := dcCondition(exchange, client)
 	mode, okMode := dcString(client, "mode")
 	outcome, okOutcome := dcString(decision, "outcome")
 	performed, okPerformed := dcBool(effect, "performed")
-	return dcRetained{Action: action, Condition: condition, Mode: mode, Outcome: outcome,
-		Performed: performed}, okAction && okCondition && okMode && okOutcome && okPerformed
+	posture, okPosture := dcPostureAsStated(r)
+	kept := dcRetained{Action: action, Condition: condition, Mode: mode, Outcome: outcome,
+		Performed: performed, Posture: posture}
+	return kept, okAction && okCondition && okMode && okOutcome && okPerformed && okPosture
 }
 
 func dcDecide(r map[string]any) scDecision {
@@ -290,14 +417,16 @@ func dcDecide(r map[string]any) scDecision {
 		return scDecision{"deny", "record_malformed"}
 	}
 	// Well formed from here on: every member below is present and typed.
-	_, _, exchange, decision, effect, _ := dcParts(r)
+	_, client, exchange, decision, effect, _ := dcParts(r)
+	posture, _ := dcPostureOf(r)
+	stated := posture != nil
 	condition, _ := dcString(decision, "condition")
 	outcome, _ := dcString(decision, "outcome")
 	basis, _ := dcString(decision, "basis")
 	halted, _ := dcBool(decision, "halted")
 	performed, _ := dcBool(effect, "performed")
 	verdict, _ := exchange["verdict"].(string)
-	derived, _ := dcCondition(exchange)
+	derived, _ := dcCondition(exchange, client)
 	fault := condition != "ok"
 	wanted := "deny"
 	if verdict == "allow" {
@@ -308,6 +437,9 @@ func dcDecide(r map[string]any) scDecision {
 		reason string
 		fails  bool
 	}{
+		{"monitor_mode", stated && posture.Enforcement == "monitor"},
+		{"fail_open_posture", stated && posture.FailMode == "open"},
+		{"fail_mode_defaulted", stated && posture.FailModeSource == "default"},
 		{"condition_misclassified", condition != derived},
 		{"fault_recorded_as_policy", fault && basis != "fallback"},
 		{"fault_allowed", fault && outcome != "deny"},

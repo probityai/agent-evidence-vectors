@@ -304,6 +304,68 @@ def case_action_summary(work: Path) -> list[str]:
             errors.append("action-summary source coverage: a short count did not read as fail")
     except subprocess.CalledProcessError as exc:
         errors.append(f"action-summary source coverage short count: exited {exc.returncode}")
+    errors.extend(case_decision_client_posture(work))
+    return errors
+
+
+def runtime_report(postures: list[Any]) -> dict[str, Any]:
+    """A passing decision-client runtime report whose rows state these postures."""
+    rows = []
+    for index, posture in enumerate(postures):
+        observed: dict[str, Any] = {"effects": 0}
+        if posture != "absent":
+            observed["posture"] = posture
+        rows.append({"id": f"s{index}--strict", "kind": "runtime", "observed": observed,
+                     "reasons": [], "status": "PASS"})
+    return {"rail": "external", "suite": "decision-client-failure-modes/v1",
+            "unit": "runtime scenario",
+            "totals": {"vectors": len(rows), "conform": len(rows), "fail": 0, "suiteRefusals": 0},
+            "verifier": {"command": ["x"], "vectorsExecuted": len(rows)},
+            "vectors": rows, "failures": []}
+
+
+def case_decision_client_posture(work: Path) -> list[str]:
+    """A decision-client runtime run passes only when every row stated an enforcing posture.
+
+    Each report below is otherwise a full pass with exit 0, so a fail can only
+    come from the posture, and the annotation must name the scenario.
+    """
+    enforce = {"enforcement": "enforce", "failMode": "closed", "failModeSource": "explicit"}
+    checks = [
+        ("enforcing", [enforce, enforce], "pass", None),
+        ("monitor", [enforce, dict(enforce, enforcement="monitor")], "fail", "s1--strict"),
+        ("fail open", [dict(enforce, failMode="open")], "fail", "s0--strict"),
+        ("no posture", [enforce, "absent"], "fail", "s1--strict"),
+        ("defaulted under strict", [dict(enforce, failModeSource="default")], "fail",
+         "s0--strict"),
+    ]
+    errors = []
+    for label, postures, want, named in checks:
+        report_path = work / "summary-report.json"
+        report_path.write_text(json.dumps(runtime_report(postures)), encoding="utf-8")
+        for name in ("summary.md", "outputs.txt"):
+            (work / name).write_text("", encoding="utf-8")
+        env = dict(os.environ, REPORT=str(report_path), STATUS="0", CORPUS="decision-client",
+                   GITHUB_STEP_SUMMARY=str(work / "summary.md"),
+                   GITHUB_OUTPUT=str(work / "outputs.txt"))
+        run = subprocess.run([sys.executable, str(SUMMARY)], env=env, check=True,
+                             capture_output=True, text=True)
+        outputs = dict(line.split("=", 1) for line in
+                       (work / "outputs.txt").read_text(encoding="utf-8").splitlines()
+                       if "=" in line)
+        if outputs.get("result") != want:
+            errors.append(f"action-summary posture {label}: result {outputs.get('result')!r}, "
+                          f"expected {want!r}")
+        annotations = [line for line in run.stdout.splitlines() if line.startswith("::error")]
+        if named is None and annotations:
+            errors.append(f"action-summary posture {label}: unexpected {annotations!r}")
+        if named is not None and not any(named in line for line in annotations):
+            errors.append(f"action-summary posture {label}: no ::error:: names {named}")
+    # A defaulted fail mode under the shipped default is what that mode measures.
+    shipped = runtime_report([dict(enforce, failModeSource="default")])
+    shipped["vectors"][0]["id"] = "s0--default"
+    if summarise(work, shipped, "0").get("result") != "pass":
+        errors.append("action-summary posture: a defaulted source under default mode failed")
     return errors
 
 

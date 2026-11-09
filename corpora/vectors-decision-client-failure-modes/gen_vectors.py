@@ -1,15 +1,23 @@
 """Build the decision-client failure-mode cases byte-identically.
 
 The corpus pairs two things. The runtime scenarios are the failure-mode matrix:
-seven conditions of the decision point (unreachable, HTTP 500, HTTP 503, an
-unparseable body, a timeout, an unknown verdict, a missing verdict) under each
-of two client modes (``default``, the client as shipped, and ``strict``), plus
-four controls under ``default`` (a block, a halt, an allow and an HTTP 401):
-eighteen scenarios a client is driven through. The cases are decision records
-a client could write in those scenarios: one conforming record per scenario,
-which must be allowed, and records that read a fault as a decision, allow on a
-fault, ignore a verdict, drop a halt or act on a denial, each built so the
-check it names is the first that fails.
+nine conditions of the decision point (unreachable, HTTP 500, HTTP 503, an
+unparseable body, a timeout, an unknown verdict, a missing verdict, a body one
+byte over the client's response limit, and an outage long enough to open the
+client's circuit breaker) under each of two client modes (``default``, the client
+as shipped, and ``strict``), plus five controls under ``default`` (a block, a
+halt, an allow, an HTTP 401 and an allow whose body is exactly at the limit).
+The cases are decision records a client could write in those scenarios: one
+conforming record per scenario, which must be allowed, records that state an
+enforcing posture, and records that read a fault as a decision, allow on a
+fault, ignore a verdict, drop a halt, act on a denial, or were written under a
+monitor, fail-open or defaulted posture, each built so the check it names is the
+first that fails.
+
+The records of the first eighteen scenarios carry none of the optional members
+(``posture``, ``maxResponseBytes``, ``bodyBytes``, ``circuitOpen``) and are the
+records the corpus shipped before them, byte for byte; ``tests/v1-baseline.json``
+holds them to that.
 """
 
 from __future__ import annotations
@@ -25,10 +33,16 @@ ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT.parents[1] / "packaging"))
 
 from agent_evidence_vectors import decisionclient as reader  # noqa: E402
+from agent_evidence_vectors import decisionclient_runtime as runtime  # noqa: E402
 
 SUITE = reader.SUITE
 DECIDED_AT = "2026-11-06T12:00:00Z"
 TIMEOUT = 1000
+# The response limit every scenario sets, and the body sizes either side of it.
+LIMIT = 4096
+# Consecutive asks in the outage scenario: past any breaker threshold a client sets.
+OUTAGE_ATTEMPTS = 5
+ENFORCING = dict(reader.ENFORCING_POSTURE)
 ACTION = "transfer_funds"
 ARGS = {"amount": 1000000, "currency": "USD", "to": "acct-0001"}
 # A verdict no decision vocabulary this corpus knows of uses.
@@ -148,6 +162,45 @@ CONDITIONS: dict[str, dict[str, Any]] = {
     },
 }
 
+# The conditions added with the optional members. Their records carry them.
+EXTENDED_CONDITIONS: dict[str, dict[str, Any]] = {
+    "oversize": {
+        "point": {
+            "body": '{"verdict":"allow","pad":""}',
+            "delayMillis": 0,
+            "listen": True,
+            "padTo": LIMIT + 1,
+            "status": 200,
+        },
+        "exchange": {
+            "bodyBytes": LIMIT + 1,
+            "bodyIsJsonObject": False,
+            "httpStatus": 200,
+            "reached": True,
+            "timedOut": False,
+        },
+        "condition": "oversize",
+        "summary": "HTTP 200 whose allow body is one byte over the client's response limit",
+    },
+    "outage": {
+        "attempts": OUTAGE_ATTEMPTS,
+        "point": {"body": "", "delayMillis": 0, "listen": False, "status": 0},
+        "exchange": {
+            "bodyIsJsonObject": False,
+            "circuitOpen": True,
+            "httpStatus": None,
+            "reached": False,
+            "timedOut": False,
+        },
+        "condition": "circuit-open",
+        "summary": (
+            f"nothing listens for {OUTAGE_ATTEMPTS} consecutive asks; a client with a "
+            "breaker stops asking, and its last decision is the breaker's"
+        ),
+    },
+}
+CONDITIONS.update(EXTENDED_CONDITIONS)
+
 CONTROLS: dict[str, dict[str, Any]] = {
     "control-block": {
         "point": {
@@ -218,7 +271,35 @@ CONTROLS: dict[str, dict[str, Any]] = {
         "halted": False,
         "summary": "the decision point refuses the client's credential",
     },
+    "control-at-limit": {
+        "extended": True,
+        "point": {
+            "body": '{"verdict":"allow","pad":""}',
+            "delayMillis": 0,
+            "listen": True,
+            "padTo": LIMIT,
+            "status": 200,
+        },
+        "exchange": {
+            "bodyBytes": LIMIT,
+            "bodyIsJsonObject": True,
+            "httpStatus": 200,
+            "reached": True,
+            "timedOut": False,
+            "verdict": "allow",
+        },
+        "condition": "ok",
+        "outcome": "allow",
+        "basis": "policy",
+        "halted": False,
+        "summary": "the decision point allows with a body exactly at the client's limit",
+    },
 }
+for _spec_ in EXTENDED_CONDITIONS.values():
+    _spec_["extended"] = True
+
+
+point_body = runtime.point_body
 
 
 def _scenario(
@@ -226,9 +307,11 @@ def _scenario(
 ) -> dict[str, Any]:
     return {
         "accepted": accepted,
+        "attempts": spec.get("attempts", 1),
         "condition": sid.split("--")[0],
         "decisionPoint": spec["point"],
         "id": sid,
+        "maxResponseBytes": LIMIT,
         "mode": mode,
         "request": {"action": ACTION, "args": ARGS, "consequential": True},
         "summary": spec["summary"],
@@ -262,9 +345,22 @@ def _spec(sid: str) -> dict[str, Any]:
     return CONDITIONS.get(name) or CONTROLS[name]
 
 
-def build(sid: str, name: str, **decision: Any) -> dict[str, Any]:
-    """The conforming record for scenario ``sid``, with any decision member replaced."""
+def build(
+    sid: str,
+    name: str,
+    extended: bool | None = None,
+    posture: dict[str, Any] | None = ENFORCING,
+    **decision: Any,
+) -> dict[str, Any]:
+    """The conforming record for scenario ``sid``, with any decision member replaced.
+
+    An ``extended`` record (the default for the scenarios added with the optional
+    members) states the client's response limit, the size of every reply that
+    arrived, and ``posture`` unless it is None.
+    """
     scenario, spec = SCENARIOS[sid], _spec(sid)
+    if extended is None:
+        extended = bool(spec.get("extended"))
     accepted = scenario["accepted"]
     record: dict[str, Any] = {
         "client": {"mode": scenario["mode"], "timeoutMillis": TIMEOUT},
@@ -282,6 +378,13 @@ def build(sid: str, name: str, **decision: Any) -> dict[str, Any]:
         "request": {"action": ACTION, "argsDigest": digest(ARGS), "consequential": True},
         "scenario": sid,
     }
+    if extended:
+        record["client"]["maxResponseBytes"] = LIMIT
+        exchange = record["exchange"]
+        if exchange["httpStatus"] is not None and "bodyBytes" not in exchange:
+            exchange["bodyBytes"] = len(point_body(spec["point"]).encode())
+        if posture is not None:
+            record["posture"] = dict(posture)
     performed = decision.pop("performed", None)
     record["decision"].update(decision)
     if performed is not None:
@@ -300,10 +403,28 @@ def _accepts() -> list[Case]:
             f"control: the conforming record for {sid}",
         )
         for sid in SCENARIOS
+    ] + [
+        (
+            f"accept-posture-stated-{sid}",
+            build(sid, f"accept-posture-stated-{sid}", extended=True),
+            "allow",
+            reader.ALLOWED_REASON,
+            sid,
+            f"control: {sid} under a stated enforce, fail-closed, explicitly set posture",
+        )
+        for sid in ("control-allow", "control-block", "control-halt", "http-500--strict")
     ]
 
 
+def _posture(**members: str) -> dict[str, str]:
+    return {**ENFORCING, **members}
+
+
 def _rejects() -> list[Case]:
+    return [*_rejects_v1(), *_rejects_posture(), *_rejects_extended()]
+
+
+def _rejects_v1() -> list[Case]:
     def case(name: str, sid: str, reason: str, edit: str, record: dict[str, Any]) -> Case:
         return (f"reject-{name}", record, "deny", reason, sid, edit)
 
@@ -464,6 +585,215 @@ def _rejects() -> list[Case]:
             "effect_on_deny",
             "an HTTP 503 is denied as a fallback, and the action is performed anyway",
             build("http-503--strict", "reject-effect-on-deny", performed=True),
+        ),
+    ]
+
+
+def _case(name: str, sid: str, reason: str, edit: str, record: dict[str, Any]) -> Case:
+    return (f"reject-{name}", record, "deny", reason, sid, edit)
+
+
+def _rejects_posture() -> list[Case]:
+    monitor = _posture(enforcement="monitor")
+    vocabulary = build("control-block", "reject-posture-outside-vocabulary", extended=True)
+    vocabulary["posture"]["enforcement"] = "audit"
+    unstated = build("control-allow", "reject-posture-flag-unstated", extended=True)
+    del unstated["posture"]["failModeSource"]
+    return [
+        _case(
+            "posture-outside-vocabulary",
+            "control-block",
+            "record_malformed",
+            "the posture's enforcement is 'audit', outside enforce and monitor",
+            vocabulary,
+        ),
+        _case(
+            "posture-flag-unstated",
+            "control-allow",
+            "record_malformed",
+            "the posture states no failModeSource, so whether the flag was set is unstated",
+            unstated,
+        ),
+        _case(
+            "monitor-block-ran",
+            "control-block",
+            "monitor_mode",
+            "under a monitor posture a block verdict is logged as a deny and the action runs",
+            build(
+                "control-block",
+                "reject-monitor-block-ran",
+                extended=True,
+                posture=monitor,
+                performed=True,
+            ),
+        ),
+        _case(
+            "monitor-allow",
+            "control-allow",
+            "monitor_mode",
+            "an allow followed correctly under a monitor posture, which gated nothing",
+            build("control-allow", "reject-monitor-allow", extended=True, posture=monitor),
+        ),
+        _case(
+            "monitor-fault-allowed",
+            "unreachable--default",
+            "monitor_mode",
+            "under a monitor posture an unreachable point is allowed as a fallback",
+            build(
+                "unreachable--default",
+                "reject-monitor-fault-allowed",
+                extended=True,
+                posture=monitor,
+                outcome="allow",
+                performed=True,
+            ),
+        ),
+        _case(
+            "fail-open-posture-ok",
+            "control-allow",
+            "fail_open_posture",
+            "an allow followed correctly under a fail-open posture, set explicitly",
+            build(
+                "control-allow",
+                "reject-fail-open-posture-ok",
+                extended=True,
+                posture=_posture(failMode="open"),
+            ),
+        ),
+        _case(
+            "fail-open-posture-fault-denied",
+            "http-503--strict",
+            "fail_open_posture",
+            "an HTTP 503 denied correctly by a client configured to fail open",
+            build(
+                "http-503--strict",
+                "reject-fail-open-posture-fault-denied",
+                extended=True,
+                posture=_posture(failMode="open"),
+            ),
+        ),
+        _case(
+            "fail-mode-defaulted-open",
+            "unreachable--default",
+            "fail_open_posture",
+            "the fail-closed flag is unset and the shipped default fails open",
+            build(
+                "unreachable--default",
+                "reject-fail-mode-defaulted-open",
+                extended=True,
+                posture=_posture(failMode="open", failModeSource="default"),
+                outcome="allow",
+                performed=True,
+            ),
+        ),
+        _case(
+            "fail-mode-defaulted-closed",
+            "unreachable--default",
+            "fail_mode_defaulted",
+            "an unreachable point denied correctly while the fail-closed flag is unset",
+            build(
+                "unreachable--default",
+                "reject-fail-mode-defaulted-closed",
+                extended=True,
+                posture=_posture(failModeSource="default"),
+            ),
+        ),
+        _case(
+            "strict-mode-defaulted",
+            "timeout--strict",
+            "fail_mode_defaulted",
+            "a timeout denied correctly under strict mode with the fail mode defaulted",
+            build(
+                "timeout--strict",
+                "reject-strict-mode-defaulted",
+                extended=True,
+                posture=_posture(failModeSource="default"),
+            ),
+        ),
+    ]
+
+
+def _rejects_extended() -> list[Case]:
+    no_size = build("control-at-limit", "reject-limit-without-body-size")
+    del no_size["exchange"]["bodyBytes"]
+    size_without_reply = build("timeout--strict", "reject-body-size-without-reply", extended=True)
+    size_without_reply["exchange"]["bodyBytes"] = len('{"verdict":"block"}')
+    claims_reached = build("outage--strict", "reject-circuit-open-claims-reached")
+    claims_reached["exchange"].update(reached=True, httpStatus=200, bodyBytes=0)
+    prefix = build(
+        "oversize--default",
+        "reject-oversize-prefix-parsed",
+        basis="policy",
+        condition="ok",
+        outcome="allow",
+        performed=True,
+    )
+    prefix["exchange"].update(bodyIsJsonObject=True, verdict="allow")
+    return [
+        _case(
+            "limit-without-body-size",
+            "control-at-limit",
+            "record_malformed",
+            "the record states a response limit and gives no size for the reply that arrived",
+            no_size,
+        ),
+        _case(
+            "body-size-without-reply",
+            "timeout--strict",
+            "record_malformed",
+            "a timed-out exchange carries a body size, which only an arrived reply has",
+            size_without_reply,
+        ),
+        _case(
+            "circuit-open-claims-reached",
+            "outage--strict",
+            "record_malformed",
+            "the breaker is recorded open on an exchange that reached the point",
+            claims_reached,
+        ),
+        _case(
+            "oversize-prefix-parsed",
+            "oversize--default",
+            "condition_misclassified",
+            "a body one byte over the limit is truncated and its prefix read as an allow",
+            prefix,
+        ),
+        _case(
+            "oversize-allowed",
+            "oversize--strict",
+            "fault_allowed",
+            "an oversize reply is recorded as oversize and the action allowed as a fallback",
+            build("oversize--strict", "reject-oversize-allowed", outcome="allow", performed=True),
+        ),
+        _case(
+            "circuit-open-recorded-as-unreachable",
+            "outage--default",
+            "condition_misclassified",
+            "the client never asked, its breaker was open, and it records the point unreachable",
+            build(
+                "outage--default",
+                "reject-circuit-open-recorded-as-unreachable",
+                condition="unreachable",
+            ),
+        ),
+        _case(
+            "circuit-open-as-policy",
+            "outage--strict",
+            "fault_recorded_as_policy",
+            "an open breaker's denial is recorded as a policy decision",
+            build("outage--strict", "reject-circuit-open-as-policy", basis="policy"),
+        ),
+        _case(
+            "circuit-open-allowed",
+            "outage--default",
+            "fault_allowed",
+            "an open breaker lets the action through as a fallback after an outage",
+            build(
+                "outage--default",
+                "reject-circuit-open-allowed",
+                outcome="allow",
+                performed=True,
+            ),
         ),
     ]
 
