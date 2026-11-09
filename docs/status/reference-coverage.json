@@ -1,7 +1,7 @@
 {
   "verifier": "https://probityai.github.io/probity/verifiers/agent-evidence-verify",
   "checked": 734,
-  "total": 3032,
+  "total": 3076,
   "corpora": [
     {
       "id": "vectors",
@@ -289,6 +289,12 @@
       "id": "vectors-open-weight-art53",
       "checked": 0,
       "total": 16,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-physical-completion",
+      "checked": 0,
+      "total": 44,
       "disagreements": 0
     },
     {
