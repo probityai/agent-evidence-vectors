@@ -157,7 +157,7 @@ jobs:
       - name: install opa
         run: |
           set -euo pipefail
-          python3 scripts/fetch-tool.py --repo open-policy-agent/opa --tag "${OPA_VERSION}" \
+          python3 ../../scripts/fetch-tool.py --repo open-policy-agent/opa --tag "${OPA_VERSION}" \
             --asset "opa_linux_amd64_static" --sha256 "${OPA_SHA256}" --dest /tmp/opa
           chmod +x /tmp/opa
           sudo mv /tmp/opa /usr/local/bin/opa
@@ -181,14 +181,14 @@ jobs:
       - name: install opa
         run: |
           set -euo pipefail
-          python3 scripts/fetch-tool.py --repo open-policy-agent/opa --tag "${OPA_VERSION}" \
+          python3 ../../scripts/fetch-tool.py --repo open-policy-agent/opa --tag "${OPA_VERSION}" \
             --asset "opa_linux_amd64_static" --sha256 "${OPA_SHA256}" --dest /tmp/opa
           chmod +x /tmp/opa
           sudo mv /tmp/opa /usr/local/bin/opa
       - name: install the kyverno cli
         run: |
           set -euo pipefail
-          python3 scripts/fetch-tool.py --repo kyverno/kyverno --tag "${KYVERNO_VERSION}" \
+          python3 ../../scripts/fetch-tool.py --repo kyverno/kyverno --tag "${KYVERNO_VERSION}" \
             --asset "kyverno-cli_${KYVERNO_VERSION}_linux_x86_64.tar.gz" --sha256 "${KYVERNO_SHA256}" --dest /tmp/kyverno.tar.gz
           tar -xzf /tmp/kyverno.tar.gz -C /tmp kyverno
           sudo mv /tmp/kyverno /usr/local/bin/kyverno
@@ -220,21 +220,21 @@ jobs:
       - name: install opa
         run: |
           set -euo pipefail
-          python3 scripts/fetch-tool.py --repo open-policy-agent/opa --tag "${OPA_VERSION}" \
+          python3 ../../scripts/fetch-tool.py --repo open-policy-agent/opa --tag "${OPA_VERSION}" \
             --asset "opa_linux_amd64_static" --sha256 "${OPA_SHA256}" --dest /tmp/opa
           chmod +x /tmp/opa
           sudo mv /tmp/opa /usr/local/bin/opa
       - name: install the kyverno cli
         run: |
           set -euo pipefail
-          python3 scripts/fetch-tool.py --repo kyverno/kyverno --tag "${KYVERNO_VERSION}" \
+          python3 ../../scripts/fetch-tool.py --repo kyverno/kyverno --tag "${KYVERNO_VERSION}" \
             --asset "kyverno-cli_${KYVERNO_VERSION}_linux_x86_64.tar.gz" --sha256 "${KYVERNO_SHA256}" --dest /tmp/kyverno.tar.gz
           tar -xzf /tmp/kyverno.tar.gz -C /tmp kyverno
           sudo mv /tmp/kyverno /usr/local/bin/kyverno
       - name: install cue
         run: |
           set -euo pipefail
-          python3 scripts/fetch-tool.py --repo cue-lang/cue --tag "${CUE_VERSION}" \
+          python3 ../../scripts/fetch-tool.py --repo cue-lang/cue --tag "${CUE_VERSION}" \
             --asset "cue_${CUE_VERSION}_linux_amd64.tar.gz" --sha256 "${CUE_SHA256}" --dest /tmp/cue.tar.gz
           tar -xzf /tmp/cue.tar.gz -C /tmp cue
           sudo mv /tmp/cue /usr/local/bin/cue
@@ -257,7 +257,7 @@ jobs:
       - name: install opa
         run: |
           set -euo pipefail
-          python3 scripts/fetch-tool.py --repo open-policy-agent/opa --tag "${OPA_VERSION}" \
+          python3 ../../scripts/fetch-tool.py --repo open-policy-agent/opa --tag "${OPA_VERSION}" \
             --asset "opa_linux_amd64_static" --sha256 "${OPA_SHA256}" --dest /tmp/opa
           chmod +x /tmp/opa
           sudo mv /tmp/opa /usr/local/bin/opa
@@ -266,7 +266,7 @@ jobs:
       - name: install the kyverno cli
         run: |
           set -euo pipefail
-          python3 scripts/fetch-tool.py --repo kyverno/kyverno --tag "${KYVERNO_VERSION}" \
+          python3 ../../scripts/fetch-tool.py --repo kyverno/kyverno --tag "${KYVERNO_VERSION}" \
             --asset "kyverno-cli_${KYVERNO_VERSION}_linux_x86_64.tar.gz" --sha256 "${KYVERNO_SHA256}" --dest /tmp/kyverno.tar.gz
           tar -xzf /tmp/kyverno.tar.gz -C /tmp kyverno
           sudo mv /tmp/kyverno /usr/local/bin/kyverno
@@ -275,7 +275,7 @@ jobs:
       - name: install cue
         run: |
           set -euo pipefail
-          python3 scripts/fetch-tool.py --repo cue-lang/cue --tag "${CUE_VERSION}" \
+          python3 ../../scripts/fetch-tool.py --repo cue-lang/cue --tag "${CUE_VERSION}" \
             --asset "cue_${CUE_VERSION}_linux_amd64.tar.gz" --sha256 "${CUE_SHA256}" --dest /tmp/cue.tar.gz
           tar -xzf /tmp/cue.tar.gz -C /tmp cue
           sudo mv /tmp/cue /usr/local/bin/cue
