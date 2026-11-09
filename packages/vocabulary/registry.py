@@ -18,6 +18,7 @@ import hashlib
 import json
 from dataclasses import dataclass
 from importlib import resources
+from urllib.parse import urlsplit
 
 OK = "ok"
 DEGRADED = "degraded"
@@ -81,3 +82,61 @@ def resolve_verdict(index: dict, verdict: dict, record_digest: str | None,
     if _exact(index, record_digest, known_digests):
         return Judgement(MALFORMED, str(code), "unregistered child under the registry the record names")
     return Judgement(OK, str(code), "unregistered child read as its parent", meaning=parent)
+
+
+_OKTA_SUFFIXES = (".okta.com", ".oktapreview.com", ".okta-emea.com", ".okta-gov.com")
+_ENTRA_HOSTS = ("login.microsoftonline.com", "login.microsoftonline.us", "login.chinacloudapi.cn",
+                "sts.windows.net")
+_ENTRA_SUFFIXES = (".ciamlogin.com",)
+_AUTH0_SUFFIXES = (".auth0.com",)
+_SELF_ISSUED = ("https://self-issued.me", "https://self-issued.me/v2")
+_NAMED_PROVIDERS = ("okta", "entra", "auth0", "keycloak", "self_issued")
+
+
+def _keycloak_path(path: str) -> bool:
+    parts = [p for p in path.split("/") if p]
+    if parts[:1] == ["auth"]:
+        parts = parts[1:]
+    return len(parts) == 2 and parts[0] == "realms"
+
+
+def _derive_provider(host: str, path: str) -> str:
+    if host.endswith(_OKTA_SUFFIXES):
+        return "okta"
+    if host in _ENTRA_HOSTS or host.endswith(_ENTRA_SUFFIXES):
+        return "entra"
+    if host.endswith(_AUTH0_SUFFIXES):
+        return "auth0"
+    if _keycloak_path(path):
+        return "keycloak"
+    return "other"
+
+
+def identity_provider(issuer: str, declared: str | None = None,
+                      self_issuers: frozenset[str] = frozenset()) -> Judgement:
+    """Judge the identity_provider of a principal from its issuer URL.
+
+    The value is derived from the issuer's host and path, checking self_issued
+    first against ``self_issuers``, the issuers the relying party runs itself.
+    A declared value that contradicts a derived named provider is malformed;
+    on a custom domain (derived ``other``) a declared named value is accepted
+    and the reason says it was declared. An issuer that is not https is malformed.
+    """
+    if declared is not None and declared not in (*_NAMED_PROVIDERS, "other"):
+        return Judgement(MALFORMED, declared, "declared value is not a registered identity_provider")
+    parts = urlsplit(issuer)
+    host = (parts.hostname or "").lower()
+    if parts.scheme != "https" or not host:
+        return Judgement(MALFORMED, issuer, "issuer is not an https URL")
+    trimmed = issuer.rstrip("/")
+    if trimmed in _SELF_ISSUED or issuer in self_issuers or trimmed in self_issuers:
+        derived = "self_issued"
+    else:
+        derived = _derive_provider(host, parts.path)
+    if derived != "other":
+        if declared is not None and declared != derived:
+            return Judgement(MALFORMED, declared, f"declared {declared} contradicts {derived}, derived from the issuer")
+        return Judgement(OK, derived, "derived from the issuer", meaning=derived)
+    if declared is not None and declared != "other":
+        return Judgement(OK, declared, "declared for a custom-domain issuer, not derived", meaning=declared)
+    return Judgement(OK, "other", "derived from the issuer", meaning="other")
