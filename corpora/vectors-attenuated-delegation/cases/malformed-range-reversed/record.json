@@ -1,0 +1,134 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/attenuated-delegation/v1",
+  "hops": [
+    {
+      "grant": {
+        "caveats": [
+          "audit:required"
+        ],
+        "closedWorld": true,
+        "constraints": {
+          "payments.refund": {
+            "account": {
+              "prefix": "acct-"
+            },
+            "amount": {
+              "range": [
+                1,
+                500
+              ]
+            },
+            "currency": {
+              "oneOf": [
+                "USD",
+                "EUR"
+              ]
+            }
+          },
+          "ticket.update": {
+            "status": {
+              "oneOf": [
+                "open",
+                "pending",
+                "closed"
+              ]
+            }
+          }
+        },
+        "depth": 0,
+        "expiresAt": "2026-11-08T17:00:00Z",
+        "grantId": "grant-root",
+        "holder": "key:orchestrator",
+        "hopKinds": [
+          "child-workflow",
+          "sub-agent",
+          "a2a",
+          "tool"
+        ],
+        "issuer": "key:authority-1",
+        "maxDepth": 4,
+        "maxUses": 10,
+        "notBefore": "2026-11-08T09:00:00Z",
+        "parentDigest": null,
+        "tools": [
+          "payments.refund",
+          "ticket.read",
+          "ticket.update"
+        ]
+      },
+      "hopKind": "root",
+      "presentedBy": "key:authority-1"
+    },
+    {
+      "grant": {
+        "caveats": [
+          "audit:required"
+        ],
+        "closedWorld": true,
+        "constraints": {
+          "payments.refund": {
+            "account": {
+              "prefix": "acct-"
+            },
+            "amount": {
+              "range": [
+                500,
+                1
+              ]
+            },
+            "currency": {
+              "oneOf": [
+                "USD",
+                "EUR"
+              ]
+            }
+          },
+          "ticket.update": {
+            "status": {
+              "oneOf": [
+                "open",
+                "pending",
+                "closed"
+              ]
+            }
+          }
+        },
+        "depth": 1,
+        "expiresAt": "2026-11-08T17:00:00Z",
+        "grantId": "grant-sub-agent-1",
+        "holder": "key:sub-agent",
+        "hopKinds": [
+          "child-workflow",
+          "sub-agent",
+          "a2a",
+          "tool"
+        ],
+        "issuer": "key:orchestrator",
+        "maxDepth": 4,
+        "maxUses": 10,
+        "notBefore": "2026-11-08T09:00:00Z",
+        "parentDigest": "sha256:cd9f806e6b6b64971cf5d949e6630c6e9366ae46533418a28ed69bc3c67720ff",
+        "tools": [
+          "payments.refund",
+          "ticket.read",
+          "ticket.update"
+        ]
+      },
+      "hopKind": "sub-agent",
+      "presentedBy": "key:orchestrator"
+    }
+  ],
+  "presentation": {
+    "args": {
+      "account": "acct-7731",
+      "amount": 120,
+      "currency": "USD"
+    },
+    "at": "2026-11-08T12:00:00Z",
+    "presenterKeyId": "key:sub-agent",
+    "tool": "payments.refund"
+  },
+  "trustedRoots": [
+    "key:authority-1"
+  ]
+}

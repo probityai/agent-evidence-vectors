@@ -1,0 +1,852 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/attenuated-delegation/v1",
+  "corpusDigest": "e0b0a068a4820d14925306455d838411785d5a018b77ca41cea9c9aa0e1186e2",
+  "counts": {
+    "allow": 18,
+    "deny": 52
+  },
+  "suite": "attenuated-delegation/v1",
+  "vectors": [
+    {
+      "edit": "control: the root holder presents the root grant itself",
+      "expected": {
+        "decision": "allow",
+        "reason": "attenuated"
+      },
+      "files": {
+        "record.json": "0daece40a79353d574cb23f198bedac9ea9ef839ec1096510b2ddbfe13de77c2"
+      },
+      "id": "allow-root-only",
+      "path": "cases/allow-root-only"
+    },
+    {
+      "edit": "control: a child workflow receives the parent's grant unchanged",
+      "expected": {
+        "decision": "allow",
+        "reason": "attenuated"
+      },
+      "files": {
+        "record.json": "06156639c3136d5a19abfa7945b6ca1b04eeffa2ed7c4c59669b763b03a73c6d"
+      },
+      "id": "allow-child-workflow-hop",
+      "path": "cases/allow-child-workflow-hop"
+    },
+    {
+      "edit": "control: a sub-agent receives the refund tool only",
+      "expected": {
+        "decision": "allow",
+        "reason": "attenuated"
+      },
+      "files": {
+        "record.json": "adfff320c9dbf46fa592978c1047f4dee6b6601c450a5b7569c0b854508a0777"
+      },
+      "id": "allow-sub-agent-hop",
+      "path": "cases/allow-sub-agent-hop"
+    },
+    {
+      "edit": "control: a remote agent receives the grant with the currency pinned",
+      "expected": {
+        "decision": "allow",
+        "reason": "attenuated"
+      },
+      "files": {
+        "record.json": "bc35b17a99f9d864f963da29d7a649b5022f859ecf57dea78f10d6d506e48cae"
+      },
+      "id": "allow-a2a-hop",
+      "path": "cases/allow-a2a-hop"
+    },
+    {
+      "edit": "control: a tool-to-tool call receives a single-use grant that cannot hop again",
+      "expected": {
+        "decision": "allow",
+        "reason": "attenuated"
+      },
+      "files": {
+        "record.json": "ac996c8a8cb5e9ab395eea7087503988e76157542f2a3676df82808466a24bc4"
+      },
+      "id": "allow-tool-hop",
+      "path": "cases/allow-tool-hop"
+    },
+    {
+      "edit": "control: child workflow, sub-agent, remote agent and tool each narrow something, and the leaf sits at exactly maxDepth",
+      "expected": {
+        "decision": "allow",
+        "reason": "attenuated"
+      },
+      "files": {
+        "record.json": "4d215a6f17137425d0d43956e8e05e1fc80cc1da788a800b5ae012bea5f88c39"
+      },
+      "id": "allow-four-hop-mixed-chain",
+      "path": "cases/allow-four-hop-mixed-chain"
+    },
+    {
+      "edit": "control: the child keeps the parent's scope exactly; equal is an attenuation",
+      "expected": {
+        "decision": "allow",
+        "reason": "attenuated"
+      },
+      "files": {
+        "record.json": "19b386e276022953c4c26bfdf50445278d48267741e1120e5f53d795aebb035d"
+      },
+      "id": "allow-equal-scope-hop",
+      "path": "cases/allow-equal-scope-hop"
+    },
+    {
+      "edit": "control: the child starts and ends at exactly the parent's instants",
+      "expected": {
+        "decision": "allow",
+        "reason": "attenuated"
+      },
+      "files": {
+        "record.json": "19b386e276022953c4c26bfdf50445278d48267741e1120e5f53d795aebb035d"
+      },
+      "id": "allow-expiry-equal-to-parent",
+      "path": "cases/allow-expiry-equal-to-parent"
+    },
+    {
+      "edit": "control: exact at the range's upper end, a oneOf subset, a longer prefix",
+      "expected": {
+        "decision": "allow",
+        "reason": "attenuated"
+      },
+      "files": {
+        "record.json": "2b4d03cc79a4a86cbb8bc910a2a7a45663a5946d661c2b8ce19871cbeeb43529"
+      },
+      "id": "allow-narrowed-every-constraint-kind",
+      "path": "cases/allow-narrowed-every-constraint-kind"
+    },
+    {
+      "edit": "control: the child restates the parent's range at both bounds",
+      "expected": {
+        "decision": "allow",
+        "reason": "attenuated"
+      },
+      "files": {
+        "record.json": "19b386e276022953c4c26bfdf50445278d48267741e1120e5f53d795aebb035d"
+      },
+      "id": "allow-range-equal-bounds",
+      "path": "cases/allow-range-equal-bounds"
+    },
+    {
+      "edit": "control: a range whose every integer the parent's oneOf lists",
+      "expected": {
+        "decision": "allow",
+        "reason": "attenuated"
+      },
+      "files": {
+        "record.json": "718e2a974e6594a4afeffd94a974be198d0c710f0f46049937c6238039dcc25d"
+      },
+      "id": "allow-range-from-oneof-integers",
+      "path": "cases/allow-range-from-oneof-integers"
+    },
+    {
+      "edit": "control: the child keeps the parent's use count",
+      "expected": {
+        "decision": "allow",
+        "reason": "attenuated"
+      },
+      "files": {
+        "record.json": "19b386e276022953c4c26bfdf50445278d48267741e1120e5f53d795aebb035d"
+      },
+      "id": "allow-uses-equal-to-parent",
+      "path": "cases/allow-uses-equal-to-parent"
+    },
+    {
+      "edit": "control: the child adds a caveat",
+      "expected": {
+        "decision": "allow",
+        "reason": "attenuated"
+      },
+      "files": {
+        "record.json": "2932135a62efa71087ebd8dc1538c84c82d7a4ce3ab424a7dc8f4921be666d0e"
+      },
+      "id": "allow-caveat-added",
+      "path": "cases/allow-caveat-added"
+    },
+    {
+      "edit": "control: an open-world grant admits an argument it does not name",
+      "expected": {
+        "decision": "allow",
+        "reason": "attenuated"
+      },
+      "files": {
+        "record.json": "679903cf3d219ebba1e46e43d25cdf744faecee9b41b3dd8d518b74d68f56180"
+      },
+      "id": "allow-open-world-parent-extra-argument",
+      "path": "cases/allow-open-world-parent-extra-argument"
+    },
+    {
+      "edit": "control: an open-world parent, a closed-world child naming one more argument",
+      "expected": {
+        "decision": "allow",
+        "reason": "attenuated"
+      },
+      "files": {
+        "record.json": "6b47d3882f77c98e3d32c518c1349601c19de448ea69b8c0437392274bb8924c"
+      },
+      "id": "allow-open-parent-closed-child",
+      "path": "cases/allow-open-parent-closed-child"
+    },
+    {
+      "edit": "control: presented at exactly the leaf's notBefore",
+      "expected": {
+        "decision": "allow",
+        "reason": "attenuated"
+      },
+      "files": {
+        "record.json": "61e7ed002e1882a32cbed19bddf0d3d9869aad99d101d8c2428aad1e74ac364e"
+      },
+      "id": "allow-presentation-at-not-before",
+      "path": "cases/allow-presentation-at-not-before"
+    },
+    {
+      "edit": "control: presented one second before the leaf expires",
+      "expected": {
+        "decision": "allow",
+        "reason": "attenuated"
+      },
+      "files": {
+        "record.json": "0c24ee00c03c357e1c665885bc720207902e908d2176b7d0eddd49bec6053a0e"
+      },
+      "id": "allow-presentation-last-second",
+      "path": "cases/allow-presentation-last-second"
+    },
+    {
+      "edit": "control: a tool the leaf names with no constraints, called with no arguments",
+      "expected": {
+        "decision": "allow",
+        "reason": "attenuated"
+      },
+      "files": {
+        "record.json": "1f8ccf8a72fa039d12b26eeeb7347ef61fe924768304d6a6f5de47085f1ddc8a"
+      },
+      "id": "allow-other-tool-without-arguments",
+      "path": "cases/allow-other-tool-without-arguments"
+    },
+    {
+      "edit": "the record names no contract",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_missing"
+      },
+      "files": {
+        "record.json": "099a5767c59c29fc51d760194468923f8dfb04169ed68b158ecd4d565f179429"
+      },
+      "id": "contract-id-missing",
+      "path": "cases/contract-id-missing"
+    },
+    {
+      "edit": "the record names a contract version that does not exist",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_unknown"
+      },
+      "files": {
+        "record.json": "564a96bdfe686a5400f3bde0a2062efdaffbc6451d57dea02d74d243643648d3"
+      },
+      "id": "contract-id-unknown",
+      "path": "cases/contract-id-unknown"
+    },
+    {
+      "edit": "the record carries no hops",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "b7116bf99a2b50558a6a42215a2a6e7202aa2c718f2c3145050c098d59eef053"
+      },
+      "id": "malformed-hops-empty",
+      "path": "cases/malformed-hops-empty"
+    },
+    {
+      "edit": "the child grant omits maxUses",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "90ad04322ecdd8f0232a9582e5772be8e288451c54fd0e0c5b3a3923ff310305"
+      },
+      "id": "malformed-grant-field-missing",
+      "path": "cases/malformed-grant-field-missing"
+    },
+    {
+      "edit": "one argument constraint names two kinds at once",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "0d1dba04fa6d876dd7b666646de4ae5a57b708f04083489c411455ac29c26a56"
+      },
+      "id": "malformed-constraint-two-kinds",
+      "path": "cases/malformed-constraint-two-kinds"
+    },
+    {
+      "edit": "a range's low bound is above its high bound",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "fe7b85a487eedfd1446ff90361da93e927a6b46c59c85deb87bbd615fb9fd643"
+      },
+      "id": "malformed-range-reversed",
+      "path": "cases/malformed-range-reversed"
+    },
+    {
+      "edit": "a hop names a kind the contract lacks",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "e110c38011af2b6665ca9669d88738cc4d3afff7521f45fccfed90954eca3990"
+      },
+      "id": "malformed-hop-kind-unknown",
+      "path": "cases/malformed-hop-kind-unknown"
+    },
+    {
+      "edit": "the first hop is not the root hop",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "e9dbf49e01d2ad52ac43d6096b782ebbdccc27e711f230bd8fc2398e7271b12e"
+      },
+      "id": "malformed-first-hop-not-root",
+      "path": "cases/malformed-first-hop-not-root"
+    },
+    {
+      "edit": "closedWorld is the integer 1, not a boolean",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "6e041f74d4e2ae063476dd5faa79d5d6342d694c5a4910246e7fd21051f61175"
+      },
+      "id": "malformed-closed-world-not-boolean",
+      "path": "cases/malformed-closed-world-not-boolean"
+    },
+    {
+      "edit": "the presentation time is not an RFC 3339 instant",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "62509522beadea85bd096ffd361e880319ff54ef0e024ffcdfaa23d8189069b7"
+      },
+      "id": "malformed-time-unparseable",
+      "path": "cases/malformed-time-unparseable"
+    },
+    {
+      "edit": "the child names a wider grant the authority issued, not the grant on the hop before it",
+      "expected": {
+        "decision": "deny",
+        "reason": "chain_unlinked"
+      },
+      "files": {
+        "record.json": "5c3f38de5bbc76db4c613563f96cc24e6fc0671547d345f3e570ef70d9b3cf6d"
+      },
+      "id": "parent-digest-names-other-grant",
+      "path": "cases/parent-digest-names-other-grant"
+    },
+    {
+      "edit": "the third grant was derived from the root, not from the grant before it",
+      "expected": {
+        "decision": "deny",
+        "reason": "chain_unlinked"
+      },
+      "files": {
+        "record.json": "6368ee576cdfa115df73c548a300c1290cb5438c3ef08a406f25151244d6a348"
+      },
+      "id": "sibling-grafted-as-descendant",
+      "path": "cases/sibling-grafted-as-descendant"
+    },
+    {
+      "edit": "the same grant appears twice, a digest repeats on the chain",
+      "expected": {
+        "decision": "deny",
+        "reason": "chain_unlinked"
+      },
+      "files": {
+        "record.json": "f8c6bfaa81b1645ccec9e7240a1c9347e2eb7eeca6e5790279edc88ac85e3206"
+      },
+      "id": "grant-repeated-on-chain",
+      "path": "cases/grant-repeated-on-chain"
+    },
+    {
+      "edit": "the root grant was issued by a key that is not a trusted root",
+      "expected": {
+        "decision": "deny",
+        "reason": "root_untrusted"
+      },
+      "files": {
+        "record.json": "1987535b35208c070c50f75a23f9932bdb461e59993609424f3317a1955a5f93"
+      },
+      "id": "root-issuer-untrusted",
+      "path": "cases/root-issuer-untrusted"
+    },
+    {
+      "edit": "the chain starts at a grant that names a parent outside it",
+      "expected": {
+        "decision": "deny",
+        "reason": "root_untrusted"
+      },
+      "files": {
+        "record.json": "716580c90d4fd9abc83a47549acad2865ec8afbd5cf24b606d0686ebfcbe8de9"
+      },
+      "id": "root-names-a-parent",
+      "path": "cases/root-names-a-parent"
+    },
+    {
+      "edit": "the root grant was handed over by a key other than its issuer",
+      "expected": {
+        "decision": "deny",
+        "reason": "root_untrusted"
+      },
+      "files": {
+        "record.json": "1970aae7cfd39104d662bd77728fdd29bbf568800a9cbade8d99d624b26f50ee"
+      },
+      "id": "root-handed-over-by-other-key",
+      "path": "cases/root-handed-over-by-other-key"
+    },
+    {
+      "edit": "the authority itself mints the sub-agent's grant, bypassing the orchestrator",
+      "expected": {
+        "decision": "deny",
+        "reason": "issuer_not_parent_holder"
+      },
+      "files": {
+        "record.json": "51afffd251d8c09cbc290536d619bb30f82f594319e616eb7e476b6521a40b4c"
+      },
+      "id": "child-issued-by-parent-issuer",
+      "path": "cases/child-issued-by-parent-issuer"
+    },
+    {
+      "edit": "a key that never held the parent minted the child",
+      "expected": {
+        "decision": "deny",
+        "reason": "issuer_not_parent_holder"
+      },
+      "files": {
+        "record.json": "13c3c0c6c7c1949b3bdd538d9af59602ceedf0ab268574c31a22f9d25f3da5b2"
+      },
+      "id": "child-issued-by-unrelated-key",
+      "path": "cases/child-issued-by-unrelated-key"
+    },
+    {
+      "edit": "a relay that does not hold the parent handed the child grant across the hop",
+      "expected": {
+        "decision": "deny",
+        "reason": "issuer_not_parent_holder"
+      },
+      "files": {
+        "record.json": "40551583d22fdb3d91147a355de6b11968cf0ede267e5618f545bd1311c29561"
+      },
+      "id": "child-handed-over-by-relay",
+      "path": "cases/child-handed-over-by-relay"
+    },
+    {
+      "edit": "the remote agent's grant was minted by the child workflow, two hops up",
+      "expected": {
+        "decision": "deny",
+        "reason": "issuer_not_parent_holder"
+      },
+      "files": {
+        "record.json": "df5bd78f353d6ba518870a0405d0dd330a88d3b58ff3139250afe3d06436bd09"
+      },
+      "id": "four-hop-a2a-issued-by-grandparent",
+      "path": "cases/four-hop-a2a-issued-by-grandparent"
+    },
+    {
+      "edit": "an agent-to-agent hop under a grant that permits none",
+      "expected": {
+        "decision": "deny",
+        "reason": "hop_kind_not_permitted"
+      },
+      "files": {
+        "record.json": "020dc65bf4f08782c3d7adffc5a6c841121f208285622e29bb40cd5e894d6503"
+      },
+      "id": "hop-kind-forbidden-by-parent",
+      "path": "cases/hop-kind-forbidden-by-parent"
+    },
+    {
+      "edit": "the child permits onward agent-to-agent hops its parent never permitted",
+      "expected": {
+        "decision": "deny",
+        "reason": "hop_kind_not_permitted"
+      },
+      "files": {
+        "record.json": "344a4966760be49908536fb8d155faed6330c1e9708d907a6b755b69ca4e8b16"
+      },
+      "id": "hop-kinds-widened",
+      "path": "cases/hop-kinds-widened"
+    },
+    {
+      "edit": "a further hop under a tool grant that permits none",
+      "expected": {
+        "decision": "deny",
+        "reason": "hop_kind_not_permitted"
+      },
+      "files": {
+        "record.json": "25f666043709ca257c63ec29a4bc091d9c7c045145bca0d6244d611ba007cb28"
+      },
+      "id": "hop-under-terminal-tool-grant",
+      "path": "cases/hop-under-terminal-tool-grant"
+    },
+    {
+      "edit": "the child claims depth 2 directly under the root",
+      "expected": {
+        "decision": "deny",
+        "reason": "depth_exceeded"
+      },
+      "files": {
+        "record.json": "ea94377859c9459c4ec0e1331b8fa852e37fbce84e61fdb7216e9360ac3f90e8"
+      },
+      "id": "depth-skips-a-level",
+      "path": "cases/depth-skips-a-level"
+    },
+    {
+      "edit": "the chain reaches depth 2 under a maxDepth of 1, one past the limit",
+      "expected": {
+        "decision": "deny",
+        "reason": "depth_exceeded"
+      },
+      "files": {
+        "record.json": "e9b10cbefea943c85fd0a438dd94ce7dad7ff525fafcc258614e46e823c05fb9"
+      },
+      "id": "depth-one-past-max",
+      "path": "cases/depth-one-past-max"
+    },
+    {
+      "edit": "the child raises maxDepth above its parent's",
+      "expected": {
+        "decision": "deny",
+        "reason": "depth_exceeded"
+      },
+      "files": {
+        "record.json": "b16d85f88f7d293e8fd87c9a45e53961e53cb6a0ca458cee255e1e37d7c00870"
+      },
+      "id": "max-depth-raised",
+      "path": "cases/max-depth-raised"
+    },
+    {
+      "edit": "the root grant claims depth 1",
+      "expected": {
+        "decision": "deny",
+        "reason": "depth_exceeded"
+      },
+      "files": {
+        "record.json": "6346f8944e48b8ee90255f2e499285c99bfcef57d537b0cf783d0d06442d9e9f"
+      },
+      "id": "root-depth-not-zero",
+      "path": "cases/root-depth-not-zero"
+    },
+    {
+      "edit": "the sub-agent's grant adds ticket.delete",
+      "expected": {
+        "decision": "deny",
+        "reason": "tool_widened"
+      },
+      "files": {
+        "record.json": "c996667d970f58df755e9ab0d6842a44368504e9c2ff40e10fb352d82f43fbaa"
+      },
+      "id": "tool-added-by-child",
+      "path": "cases/tool-added-by-child"
+    },
+    {
+      "edit": "the remote agent's grant restores ticket.update, dropped two hops up",
+      "expected": {
+        "decision": "deny",
+        "reason": "tool_widened"
+      },
+      "files": {
+        "record.json": "47361d851134f4b92e8d1aebe73447848ed9231d9419eb72d4fdc4591fac84be"
+      },
+      "id": "four-hop-tool-restored",
+      "path": "cases/four-hop-tool-restored"
+    },
+    {
+      "edit": "a pinned currency becomes a choice of two",
+      "expected": {
+        "decision": "deny",
+        "reason": "constraint_widened"
+      },
+      "files": {
+        "record.json": "2566994876440d991fbe7e49be428724144d0e42580e96e8446a655076d5067b"
+      },
+      "id": "exact-widened-to-oneof",
+      "path": "cases/exact-widened-to-oneof"
+    },
+    {
+      "edit": "a pinned amount becomes a two-value range",
+      "expected": {
+        "decision": "deny",
+        "reason": "constraint_widened"
+      },
+      "files": {
+        "record.json": "511a2f0cc9737c8c0d8c3eb5a1d946a525b042e8c873af1b9981338aa45e5aaf"
+      },
+      "id": "exact-widened-to-range",
+      "path": "cases/exact-widened-to-range"
+    },
+    {
+      "edit": "the child's currency list adds GBP",
+      "expected": {
+        "decision": "deny",
+        "reason": "constraint_widened"
+      },
+      "files": {
+        "record.json": "8a0ea99d2c8074636a2d860a8a87eb5a77dbe8a4bed2d791f7138ea6ae803c0c"
+      },
+      "id": "oneof-superset",
+      "path": "cases/oneof-superset"
+    },
+    {
+      "edit": "the amount range ends one above the parent's",
+      "expected": {
+        "decision": "deny",
+        "reason": "constraint_widened"
+      },
+      "files": {
+        "record.json": "b613371dac94a575957211b3a4aa681dec3a833db5ddb6974b5e5c5538a5ec6e"
+      },
+      "id": "range-wider-high-end",
+      "path": "cases/range-wider-high-end"
+    },
+    {
+      "edit": "the amount range starts one below the parent's",
+      "expected": {
+        "decision": "deny",
+        "reason": "constraint_widened"
+      },
+      "files": {
+        "record.json": "eb59284f6b28dee2b615b4137fd521fa5ad13ee508c1da470c9974ec343a89b5"
+      },
+      "id": "range-wider-low-end",
+      "path": "cases/range-wider-low-end"
+    },
+    {
+      "edit": "the account prefix is shorter than the parent's",
+      "expected": {
+        "decision": "deny",
+        "reason": "constraint_widened"
+      },
+      "files": {
+        "record.json": "008d632c57dfed426bb5419e99731d5043680321cfb5ea9dea5459f3f5ddcc69"
+      },
+      "id": "prefix-shortened",
+      "path": "cases/prefix-shortened"
+    },
+    {
+      "edit": "under an open-world parent the child drops the amount constraint",
+      "expected": {
+        "decision": "deny",
+        "reason": "constraint_widened"
+      },
+      "files": {
+        "record.json": "3f40d5dfd82475c0dcd56c0d2355acb7029fd768c759fbe4d805294036bc0519"
+      },
+      "id": "constraint-dropped",
+      "path": "cases/constraint-dropped"
+    },
+    {
+      "edit": "the child turns a closed-world grant open",
+      "expected": {
+        "decision": "deny",
+        "reason": "constraint_widened"
+      },
+      "files": {
+        "record.json": "7ec04d8e465b4c267107e1c7c64ea02e139f2e8858928f5b62ba085ae07fa147"
+      },
+      "id": "closed-world-relaxed",
+      "path": "cases/closed-world-relaxed"
+    },
+    {
+      "edit": "under a closed-world parent the child names an argument the parent forbade",
+      "expected": {
+        "decision": "deny",
+        "reason": "constraint_widened"
+      },
+      "files": {
+        "record.json": "0ba09bd5dfd842ec3180e009e4f0bc1f7567711b8c1193eb57b52844e7175bf0"
+      },
+      "id": "closed-world-argument-added",
+      "path": "cases/closed-world-argument-added"
+    },
+    {
+      "edit": "the sub-agent's amount range ends above the child workflow's",
+      "expected": {
+        "decision": "deny",
+        "reason": "constraint_widened"
+      },
+      "files": {
+        "record.json": "9c0f5e89f1c0f0f0930a44a54675a472c270c32dab583491252b92051cb63155"
+      },
+      "id": "four-hop-sub-agent-range-widened",
+      "path": "cases/four-hop-sub-agent-range-widened"
+    },
+    {
+      "edit": "the child expires one second after its parent",
+      "expected": {
+        "decision": "deny",
+        "reason": "lifetime_extended"
+      },
+      "files": {
+        "record.json": "f4fd5fb562dd9f750659997da913defb2d4640543d4276f22f8c6565ac8bf297"
+      },
+      "id": "expiry-one-second-later",
+      "path": "cases/expiry-one-second-later"
+    },
+    {
+      "edit": "the child starts one second before its parent",
+      "expected": {
+        "decision": "deny",
+        "reason": "lifetime_extended"
+      },
+      "files": {
+        "record.json": "0c41d79869b5ec6dea688d76f34643b2008d157a45dddff5359db54d40f21d13"
+      },
+      "id": "not-before-one-second-earlier",
+      "path": "cases/not-before-one-second-earlier"
+    },
+    {
+      "edit": "the child drops the audit caveat",
+      "expected": {
+        "decision": "deny",
+        "reason": "caveat_dropped"
+      },
+      "files": {
+        "record.json": "f7dd07195b3fd6aa45382ef0aab625e631337b72a69498e46a4679ae87583809"
+      },
+      "id": "caveat-dropped",
+      "path": "cases/caveat-dropped"
+    },
+    {
+      "edit": "the tool grant drops the region caveat the remote agent's grant added",
+      "expected": {
+        "decision": "deny",
+        "reason": "caveat_dropped"
+      },
+      "files": {
+        "record.json": "753ddd10745225105f12528a56c1ae3386c8826ab3d1253da842c0fcbbaca24f"
+      },
+      "id": "four-hop-tool-drops-caveat",
+      "path": "cases/four-hop-tool-drops-caveat"
+    },
+    {
+      "edit": "the child allows one more use than its parent",
+      "expected": {
+        "decision": "deny",
+        "reason": "uses_raised"
+      },
+      "files": {
+        "record.json": "c3630c1aa1fcb3439d38964eb414cbe7f5b1773d5f5b248e076e826e1dadf65b"
+      },
+      "id": "uses-raised",
+      "path": "cases/uses-raised"
+    },
+    {
+      "edit": "the orchestrator presents the sub-agent's grant",
+      "expected": {
+        "decision": "deny",
+        "reason": "presenter_not_holder"
+      },
+      "files": {
+        "record.json": "7924991377e69acaf48350ef6cf5edf9db216c275bb946d7ae20f785a2e06a43"
+      },
+      "id": "presented-by-parent-holder",
+      "path": "cases/presented-by-parent-holder"
+    },
+    {
+      "edit": "a key that holds no grant presents the leaf",
+      "expected": {
+        "decision": "deny",
+        "reason": "presenter_not_holder"
+      },
+      "files": {
+        "record.json": "c148443c3fbcb2b90a4b705da19c2aca71e749506df90b2451a2ba0057cd4358"
+      },
+      "id": "presented-by-unrelated-key",
+      "path": "cases/presented-by-unrelated-key"
+    },
+    {
+      "edit": "the tool runner calls ticket.read, which its grant dropped",
+      "expected": {
+        "decision": "deny",
+        "reason": "presentation_outside_leaf"
+      },
+      "files": {
+        "record.json": "2132194d5abdc6e275757bf831ade00777e40b51ccbc10e660e20e768d7a642e"
+      },
+      "id": "presented-tool-outside-leaf",
+      "path": "cases/presented-tool-outside-leaf"
+    },
+    {
+      "edit": "the amount 250 is inside the root's range and outside the leaf's",
+      "expected": {
+        "decision": "deny",
+        "reason": "presentation_outside_leaf"
+      },
+      "files": {
+        "record.json": "27b369aec6b34799d76814bf0eaf8ed5d866a8c8ad55690a4ce29d6ded69c3b4"
+      },
+      "id": "presented-amount-outside-leaf",
+      "path": "cases/presented-amount-outside-leaf"
+    },
+    {
+      "edit": "an argument the closed-world leaf does not name",
+      "expected": {
+        "decision": "deny",
+        "reason": "presentation_outside_leaf"
+      },
+      "files": {
+        "record.json": "bd164907dc6260ce26228254066229f102a468678ec8080a45145a505228b894"
+      },
+      "id": "presented-extra-argument-closed-world",
+      "path": "cases/presented-extra-argument-closed-world"
+    },
+    {
+      "edit": "the account the leaf constrains is not supplied",
+      "expected": {
+        "decision": "deny",
+        "reason": "presentation_outside_leaf"
+      },
+      "files": {
+        "record.json": "d7382bb44c1292e6ccda671495a88117bd041e1b1f2470ef781b11a033ccd28d"
+      },
+      "id": "presented-constrained-argument-missing",
+      "path": "cases/presented-constrained-argument-missing"
+    },
+    {
+      "edit": "presented at exactly the leaf's expiresAt",
+      "expected": {
+        "decision": "deny",
+        "reason": "presentation_outside_leaf"
+      },
+      "files": {
+        "record.json": "bcd912b4dd63aba734f68a8e6b93762fc97c4d70f277cccaf00da7fac06e4bb5"
+      },
+      "id": "presented-at-expiry",
+      "path": "cases/presented-at-expiry"
+    },
+    {
+      "edit": "presented one second before the leaf's notBefore",
+      "expected": {
+        "decision": "deny",
+        "reason": "presentation_outside_leaf"
+      },
+      "files": {
+        "record.json": "be93656a4acdb550953ce06243c7b89527220431e9d219f951ff6afd57c29f9e"
+      },
+      "id": "presented-before-not-before",
+      "path": "cases/presented-before-not-before"
+    }
+  ],
+  "verifierContract": "verifier record.json --json; exit 0 allow, 1 deny"
+}
