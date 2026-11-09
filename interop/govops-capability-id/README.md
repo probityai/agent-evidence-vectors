@@ -17,7 +17,7 @@ python interop/govops-capability-id/qualify.py \
   --installation interop/govops-capability-id/.build/installed
 ```
 
-The qualification installs the Python API and console command, calls it from another directory and retains each native response in `report.json`. [The workflow](../../.github/workflows/govops-capability-id.yml) repeats the installed comparison on both Python runtimes. All keys in the finite examples are public test keys.
+The qualification installs the Python API and console command, calls it from another directory and retains each native response in `report.json`. [The workflow](../../.github/workflows/ci.yml) (job `govops_capability_id`) repeats the installed comparison on both Python runtimes. All keys in the finite examples are public test keys.
 
 ## Use the API or CLI
 

@@ -53,7 +53,7 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' || github.event_name == 'pull_request_target' || (github.event_name == 'push' && github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/tags/')) }}
 
 jobs:
-  # Deliberately duplicated from codeql.yml, not factored into a reusable
+  # Deliberately duplicated from the codeql job in ci.yml, not factored into a reusable
   # workflow. This is a read of one API field, not a rule: there is nothing here
   # for the two copies to disagree about, and an indirection would cost more to
   # follow than the six lines it saved.
@@ -117,7 +117,7 @@ jobs:
       # workflow token in the git config of a tree an external action then reads
       # is exactly the shape its Token-Permissions check exists to find.
       - name: Check out the repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 

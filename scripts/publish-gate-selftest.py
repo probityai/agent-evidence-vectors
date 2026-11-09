@@ -66,9 +66,18 @@ class Mutations(unittest.TestCase):
             )
         )
 
-    def test_hf_workflow_gaining_a_publish_job_refused(self) -> None:
+    def test_ci_gaining_a_release_trigger_refused(self) -> None:
         self.assertTrue(
-            self.mutate("publish-hf-dataset.yml", "\non:\n", "\non:\n  workflow_dispatch:\n")
+            self.mutate("ci.yml", "\non:\n", "\non:\n  release:\n    types: [published]\n")
+        )
+
+    def test_hf_job_gaining_a_secret_refused(self) -> None:
+        self.assertTrue(
+            self.mutate(
+                "ci.yml",
+                "  publish_hf_dataset:\n",
+                "  publish_hf_dataset:\n    environment: public-release\n",
+            )
         )
 
     def test_hf_token_in_another_workflow_refused(self) -> None:

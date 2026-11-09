@@ -6,8 +6,9 @@ name: package-vocabulary
 # validate.yml, python-distribution.yml (its build and qualification; the
 # release itself is release.yml, unit agent-evidence-vocabulary), readme.yml,
 # commit-message-lint.yml and identity-scan.yml. Its weekly history audit and
-# OSV scan are package-vocabulary-schedule.yml; codeql.yml and scorecard.yml
-# moved to the repository root; the root dco.yml replaces the package copy.
+# OSV scan are package-vocabulary-schedule.yml; the codeql check (a job of the
+# root ci.yml) and scorecard.yml moved to the repository root; the root dco.yml
+# replaces the package copy. The workflow names above are the old repository's.
 
 on:
   workflow_call:

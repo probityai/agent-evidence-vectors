@@ -915,7 +915,8 @@ func (w *cjWalk) decision(index int, entry cjObject) string {
 		return "topology_expansion_not_restriction"
 	}
 	if strings.HasPrefix(cjStr(entry, "basis"), "detector_") {
-		if failure := w.detector(entry, len(removed) > 0 || len(isolated) > 0); failure != "" {
+		// Judge the change, not the restated state: an agent is newly isolated only by losing an edge.
+		if failure := w.detector(entry, len(removed) > 0); failure != "" {
 			return failure
 		}
 	}

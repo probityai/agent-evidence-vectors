@@ -15,6 +15,9 @@ Rules, each a refusal:
      workflow-level path filter on pull_request, and the job exists under the
      name the ruleset requires. A path-filtered workflow never starts, and a
      required check that never starts stays pending forever.
+  4. The required aggregator runs always() and needs every other job of its
+     workflow, so no job can fail or be cancelled without failing it, and it
+     also runs in the merge queue (merge_group trigger).
 
 Exit 0 when the set is sound, 1 on a finding, 2 when a file could not be read.
 Usage: python3 scripts/workflow-concurrency-gate.py [--workflows DIR]
@@ -32,20 +35,12 @@ import yaml
 HERE = Path(__file__).resolve().parent
 DEFAULT_DIR = HERE.parent / ".github" / "workflows"
 
-# The contexts the main-protection ruleset requires, and the workflow that
-# reports each. Read from `gh api repos/probityai/agent-evidence-vectors/rulesets`
-# on 2026-10-31; change this table in the same pull request as the ruleset.
-REQUIRED: dict[str, str] = {
-    "release-integrity": "ci.yml",
-    "go": "ci.yml",
-    "python": "ci.yml",
-    "forcing": "ci.yml",
-    "action": "ci.yml",
-    "dispositions": "governance.yml",
-    "guard": "no-internal-drafts.yml",
-    "code-digest": "observed-code-digest.yml",
-    "push-range": "identity-scan.yml",
-}
+# The context the main-protection ruleset requires, and the workflow that
+# reports it. ci-ok is the one aggregator: it needs every other job of ci.yml, so
+# a path-skipped job reports nothing and a failed one fails ci-ok. Read from
+# `gh api repos/probityai/agent-evidence-vectors/rulesets`; change this table in
+# the same pull request as the ruleset.
+REQUIRED: dict[str, str] = {"ci-ok": "ci.yml"}
 
 # pages.yml deploys the newest commit, so superseding an older deploy is the point.
 CANCEL_ON_PUSH_ALLOWED = {"pages.yml"}
@@ -103,6 +98,24 @@ def check_required(docs: dict[str, dict[str, Any]]) -> list[str]:
     return found
 
 
+def check_aggregator(context: str, wf: str, doc: dict[str, Any]) -> list[str]:
+    jobs = doc.get("jobs") or {}
+    job = jobs.get(context)
+    if not isinstance(job, dict):
+        return []
+    found: list[str] = []
+    if "always()" not in str(job.get("if", "")):
+        found.append(f"required check {context!r}: {wf} does not run it with always()")
+    needs = job.get("needs") or []
+    needs = [needs] if isinstance(needs, str) else list(needs)
+    missing = sorted(set(jobs) - set(needs) - {context})
+    if missing:
+        found.append(f"required check {context!r}: it does not need {', '.join(missing)}")
+    if "merge_group" not in triggers(doc):
+        found.append(f"required check {context!r}: {wf} does not run on merge_group")
+    return found
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--workflows", type=Path, default=DEFAULT_DIR)
@@ -119,6 +132,12 @@ def main(argv: list[str] | None = None) -> int:
         return 2
     findings = [f for n, d in docs.items() for f in check_file(n, d)]
     findings += check_required(docs)
+    findings += [
+        f
+        for context, wf in REQUIRED.items()
+        if wf in docs
+        for f in check_aggregator(context, wf, docs[wf])
+    ]
     for f in findings:
         print(f"FINDING: {f}")
     print(f"checked {len(docs)} workflows, {len(findings)} findings")

@@ -596,7 +596,7 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
     (
         "the v2 URI read with the v1 input set",
         _v2_without_extension,
-        "PS1",
+        "PS1,PS3,PS4,PS5",
     ),
     (
         "agent.authentication without api-key",
@@ -674,7 +674,7 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
     (
         "a lastResult of none read as fresh",
         lambda: _freshness(never_held_unavailable=False),
-        "A18,A20,FR4",
+        "A18,A20,FR4,PS3",
     ),
     (
         "a negative maxAge accepted",
@@ -781,7 +781,7 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
     (
         "no check across the records of a set",
         lambda: _set_checks(),
-        "CS7,CS8,CS17,CS20,CS21,CS30,CS31,CS32,CS38,CS39,CS49",
+        "CS7,CS8,CS17,CS20,CS21,CS30,CS31,CS32,CS38,CS39,CS49,CS53",
     ),
     (
         "a record that read an older state and omits a held permit accepted",
@@ -869,9 +869,34 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
         "CS49",
     ),
     (
+        "an empty transaction at a settlement of 0 refused",
+        lambda: _without_check("zero-settled-transaction"),
+        "CS50,CS53,CS54",
+    ),
+    (
+        "an empty transaction at a non-zero settled amount accepted",
+        lambda: _without_check("empty-transaction-nonzero"),
+        "CS51",
+    ),
+    (
+        "a zero settlement whose held entry has no deadline accepted",
+        lambda: _without_check("zero-settled-deadline"),
+        "CS52",
+    ),
+    (
+        "a zero settlement's hold released by a record before its deadline accepted",
+        lambda: _set_checks("unexpired-hold"),
+        "CS53",
+    ),
+    (
+        "a zero settlement's hold ended only by a record after its deadline, not at it",
+        lambda: _reading(auditrecord.DEADLINE_READING, "inclusive", False),
+        "CS54",
+    ),
+    (
         "consumed taking the held amount of an upto permit, not the settled amount",
         lambda: _reading(auditrecord.SETTLED_READING, "amount", "held"),
-        "CS48",
+        "CS48,CS54",
     ),
     (
         "every record of a set grouped into one ledger whatever its limitDigest",

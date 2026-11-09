@@ -1,0 +1,59 @@
+{
+  "case_id": "vectors-mcp-authz-unauthenticated-request-served",
+  "evaluated_at": 1790000000,
+  "fixture": {
+    "synthetic": true
+  },
+  "observed": {
+    "as_metadata": {
+      "body": {
+        "authorization_endpoint": "https://auth.example.test/authorize",
+        "code_challenge_methods_supported": [
+          "S256"
+        ],
+        "grant_types_supported": [
+          "authorization_code",
+          "refresh_token"
+        ],
+        "issuer": "https://auth.example.test",
+        "registration_endpoint": "https://auth.example.test/register",
+        "response_types_supported": [
+          "code"
+        ],
+        "scopes_supported": [
+          "mcp:read",
+          "mcp:write"
+        ],
+        "token_endpoint": "https://auth.example.test/token",
+        "token_endpoint_auth_methods_supported": [
+          "none"
+        ]
+      },
+      "status": 200
+    },
+    "prm": {
+      "status": 404
+    },
+    "unauthenticated": {
+      "status": 200
+    },
+    "under_scoped": {
+      "status": 200
+    }
+  },
+  "schema": "mcp-authz-observation/v1",
+  "server": {
+    "issuer": "https://auth.example.test",
+    "registration": {
+      "enabled": true,
+      "valid_scopes": [
+        "mcp:read",
+        "mcp:write"
+      ]
+    },
+    "required_scopes": [
+      "mcp:read"
+    ],
+    "resource": "https://mcp.example.test/mcp"
+  }
+}

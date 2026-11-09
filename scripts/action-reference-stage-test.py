@@ -4,7 +4,7 @@
 Why this file exists
 --------------------
 action.yml runs a second stage after the candidate verifier: a pinned release of
-the reference verifier (probity-verify) judges the corpus's members and the job
+the reference verifier (agent-evidence-verify) judges the corpus's members and the job
 prints `reference-checked conformance N of M`, with `FULL-RELEASE` only when M is
 above zero and N equals M. This file holds that logic and the wiring around it:
 the stage cannot be switched off by an input or a condition, the reference is
@@ -45,9 +45,9 @@ LOCK = REPO_ROOT / "action-reference-requirements.txt"
 STAGE = REPO_ROOT / "scripts" / "action-reference-stage.py"
 INSTALL_STEP = "Install the reference verifier"
 CHECK_STEP = "Check against the reference verifier"
-RELEASE = "0.2.4"
-WHEEL_SHA = "77bd7eaeebeef2d3bb881627a41e62991a416370930aa46f4d1d10612779e93b"
-SDIST_SHA = "dc3d988886d4b1565e96560184c2f6679a729f4b77404d5987f92371841f514b"
+RELEASE = "0.5.0"
+WHEEL_SHA = "9132d649a0b5cd570bdf3b0e0373d8b4933eadf0f587ee31c885a26dbad9a2d2"
+SDIST_SHA = "80d6c3b717a38711a102a112f6753e4937347c978347149c5c0a5246b4ffc1a9"
 FORBIDDEN_HOST = ".".join(["get" + "prob" + "ity", "dev"])
 
 
@@ -181,9 +181,10 @@ def case_reference_is_installed_by_hash_into_its_own_venv(work: Path) -> None:
 def case_lock_pins_the_released_hashes(work: Path) -> None:
     del work
     text = LOCK.read_text(encoding="utf-8")
-    block = re.search(r"^probity-verify==(\S+) \\\n((?:\s+--hash=sha256:\w+ ?\\?\n)+)", text, re.M)
-    assert block is not None, "the lock does not pin probity-verify"
-    assert block.group(1) == RELEASE, f"the lock pins probity-verify {block.group(1)}"
+    pattern = r"^agent-evidence-verify==(\S+) \\\n((?:\s+--hash=sha256:\w+ ?\\?\n)+)"
+    block = re.search(pattern, text, re.M)
+    assert block is not None, "the lock does not pin agent-evidence-verify"
+    assert block.group(1) == RELEASE, f"the lock pins agent-evidence-verify {block.group(1)}"
     hashes = set(re.findall(r"sha256:(\w+)", block.group(2)))
     assert hashes == {WHEEL_SHA, SDIST_SHA}, f"the lock's digests are {sorted(hashes)}"
     for entry in re.findall(r"^([A-Za-z0-9._-]+)==", text, re.M):
@@ -215,7 +216,7 @@ _REFERENCE_PYTHON: list[str] = []
 def reference_python() -> str:
     """A python with the locked reference verifier, installed as the Action installs it.
 
-    The `crosscheck` group pins another probity-verify commit for the done-corpus
+    The `crosscheck` group pins another agent-evidence-verify release for the done-corpus
     readers, so the stage runs from a venv of its own built from the hashed lock.
     """
     if not _REFERENCE_PYTHON:

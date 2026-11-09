@@ -431,7 +431,7 @@ def _execute(workflow: str, root: pathlib.Path | None = None) -> tuple[int, str]
 def a_default_working_directory_is_honoured() -> None:
     """A job's defaults.run.working-directory is where its run blocks start.
 
-    The 2026-10-01 regression: e2-reproduction.yml declares a default directory
+    The 2026-10-01 regression: the e2_reproduction job declares a default directory
     and runs `pytest test_reproduction.py` from it; the gate ran it from the
     root and failed a step the remote passes. A step's own key wins over it.
     """
@@ -454,7 +454,7 @@ def a_default_working_directory_is_honoured() -> None:
 def github_env_and_runner_temp_carry_within_a_job() -> None:
     """$RUNNER_TEMP exists, and $GITHUB_ENV and $GITHUB_PATH reach later steps.
 
-    gemara-method-link.yml writes a binary to $RUNNER_TEMP and names it in
+    the gemara_method_link job writes a binary to $RUNNER_TEMP and names it in
     $GITHUB_ENV; the next step reads the variable. Before, the first step died
     on KeyError: 'RUNNER_TEMP' and the rest failed after it.
     """
@@ -1083,7 +1083,7 @@ def baseline_python_and_uv_environment_belong_to_each_job() -> None:
 
 def current_default_metadata_selects_the_actual_commit_lint_range() -> None:
     """Published bad legacy messages are outside the actual non-main default range."""
-    doc = GATE.load_yaml(HERE.parent / ".github/workflows/commit-message-lint.yml")  # type: ignore[attr-defined]
+    doc = GATE.load_yaml(HERE.parent / ".github/workflows/ci.yml")  # type: ignore[attr-defined]
     block = next(
         step.run
         for step in GATE.steps_of(doc, pathlib.Path("lint.yml"))  # type: ignore[attr-defined]
@@ -1158,7 +1158,7 @@ def current_default_metadata_selects_the_actual_commit_lint_range() -> None:
 
 def dependabot_commits_are_left_out_and_every_other_commit_is_linted() -> None:
     """A Dependabot branch lints its human commits and leaves out the bot's own."""
-    doc = GATE.load_yaml(HERE.parent / ".github/workflows/commit-message-lint.yml")  # type: ignore[attr-defined]
+    doc = GATE.load_yaml(HERE.parent / ".github/workflows/ci.yml")  # type: ignore[attr-defined]
     block = next(
         step.run
         for step in GATE.steps_of(doc, pathlib.Path("lint.yml"))  # type: ignore[attr-defined]
@@ -1993,7 +1993,39 @@ def local_action_and_provider_inputs_still_fault() -> None:
         assert rc == 1 and "needs.remote.outputs.version" in log and "1 failed" in log, log
 
 
+def only_the_two_control_jobs_of_ci_are_not_mirrored() -> None:
+    """`changes` and `ci-ok` of ci.yml read a hosted event; every other job is mirrored."""
+    reason = GATE.control_job_reason  # type: ignore[attr-defined]
+    assert reason("ci.yml", "changes") and reason("ci.yml", "ci-ok")
+    assert reason("ci.yml", "no_internal_drafts") == ""
+    assert reason("ci.yml", "ci__go") == ""
+    assert reason("parts.yml", "changes") == "", "parts.yml's changes job is a real check"
+    doc = GATE.load_yaml(HERE.parent / ".github/workflows/ci.yml")  # type: ignore[attr-defined]
+    jobs = {s.job.split(" ")[0] for s in GATE.steps_of(doc, pathlib.Path("ci.yml"))}  # type: ignore[attr-defined]
+    assert {"changes", "ci-ok", "no_internal_drafts"} <= jobs, "ci.yml lost a job this test names"
+
+
+def only_selects_a_job_of_ci_by_key_or_prefix() -> None:
+    """`--only no_internal_drafts` and `--only ci` (the former ci.yml) pick jobs of ci.yml."""
+    doc = GATE.load_yaml(HERE.parent / ".github/workflows/ci.yml")  # type: ignore[attr-defined]
+    path = pathlib.Path("ci.yml")
+    try:
+        GATE.ONLY_JOBS[:] = ["no_internal_drafts"]  # type: ignore[attr-defined]
+        one = {s.job for s in GATE.steps_of(doc, path)}  # type: ignore[attr-defined]
+        GATE.ONLY_JOBS[:] = ["ci"]  # type: ignore[attr-defined]
+        family = {s.job.split(" ")[0] for s in GATE.steps_of(doc, path)}  # type: ignore[attr-defined]
+    finally:
+        GATE.ONLY_JOBS[:] = []  # type: ignore[attr-defined]
+    assert one == {"no_internal_drafts"}, one
+    assert family and all(job.startswith("ci__") for job in family), family
+
+
 def main() -> int:
+    check(
+        "only the two control jobs of ci.yml are not mirrored",
+        only_the_two_control_jobs_of_ci_are_not_mirrored,
+    )
+    check("--only selects a job of ci.yml", only_selects_a_job_of_ci_by_key_or_prefix)
     check(
         "remote-only inputs retain classification and raw custody",
         remote_only_inputs_keep_their_reason_and_raw_evidence,

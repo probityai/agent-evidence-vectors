@@ -16,8 +16,8 @@ and refuses:
   * a release.yml `publish` job whose condition is not exactly the tag-push
     condition, whose push trigger is anything but `tags: ['v*']`, or that
     carries a manual trigger;
-  * a publish-hf-dataset.yml that has a secret, an environment or a trigger
-    other than the test runs.
+  * a publish_hf_dataset job in ci.yml that has a secret, an environment or an
+    upload, or a ci.yml with a trigger other than the test runs.
 
 Exit 0 on success, 1 on any failure.
 """
@@ -54,7 +54,10 @@ NAMED_SECRET = re.compile(r"secrets\.([A-Za-z_][A-Za-z0-9_]*)")
 UNIT_ENVIRONMENTS = {"crates-io", "npm", "pypi"}
 OIDC_WORKFLOWS = {"pages.yml"}
 EXACT_EXEMPT = {("pages.yml", "deploy"): "github-pages", ("scorecard.yml", "analysis"): None}
-TEST_TRIGGERS = {"pull_request", "push"}
+# ci.yml is the one workflow that tests every pull request, so it carries the test
+# triggers only: a release, tag or deployment trigger would let it publish.
+TEST_TRIGGERS = {"pull_request", "push", "merge_group", "schedule", "workflow_dispatch"}
+HF_JOB = "publish_hf_dataset"
 
 
 def load(path: Path) -> dict[str, Any]:
@@ -126,18 +129,27 @@ def check_release(doc: dict[str, Any]) -> list[str]:
     return problems
 
 
-def check_hf(doc: dict[str, Any]) -> list[str]:
+def check_hf(ci: dict[str, Any]) -> list[str]:
+    """The dataset build is tested by a job of ci.yml; that job holds no way to publish.
+
+    It was a workflow of its own (publish-hf-dataset.yml). Folding it into ci.yml keeps
+    the guarantee exact when it is read per job: the job holds no secret, environment
+    or upload, and the workflow it lives in has no trigger beyond the test runs.
+    """
     problems = []
-    if set(triggers(doc)) - TEST_TRIGGERS:
-        problems.append("publish-hf-dataset.yml: a trigger other than the test runs")
-    text = dump(doc)
+    if set(triggers(ci)) - TEST_TRIGGERS:
+        problems.append("ci.yml: a trigger other than the test runs")
+    jobs = {k: v for k, v in (ci.get("jobs") or {}).items() if k == HF_JOB}
+    if not jobs:
+        return [*problems, f"ci.yml: the {HF_JOB} job is missing"]
+    text = dump(jobs) + dump(ci.get("env")) + dump(ci.get("permissions"))
     if (
         "secrets" in text
         or ENV in text
         or "environment" in text
         or "upload" in text.replace("upload\n", "")
     ):
-        problems.append("publish-hf-dataset.yml: holds a secret, an environment or an upload")
+        problems.append(f"ci.yml: {HF_JOB} holds a secret, an environment or an upload")
     return problems
 
 
@@ -145,10 +157,10 @@ def check_all(directory: Path) -> list[str]:
     files = sorted([*directory.glob("*.yml"), *directory.glob("*.yaml")])
     workflows = {p.name: load(p) for p in files}
     problems: list[str] = []
-    if "release.yml" not in workflows or "publish-hf-dataset.yml" not in workflows:
-        return ["release.yml or publish-hf-dataset.yml is missing"]
+    if "release.yml" not in workflows or "ci.yml" not in workflows:
+        return ["release.yml or ci.yml is missing"]
     problems += check_release(workflows["release.yml"])
-    problems += check_hf(workflows["publish-hf-dataset.yml"])
+    problems += check_hf(workflows["ci.yml"])
     for name, doc in workflows.items():
         text = dump(doc)
         if DYNAMIC_SECRET.search(text):

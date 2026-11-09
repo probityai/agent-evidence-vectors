@@ -2948,6 +2948,14 @@ def define_consumption_carryover() -> None:
 # asset or payee at settlement is not (CS45, CS46). The terms come from the
 # chain and never from the signed payload (CS47). A later record of the ledger
 # counts the settled amount, not the held one (CS48, CS49).
+#
+# CS50 to CS54: the same case at a settlement of 0 (vendrell46, #307). An x402
+# EVM upto permit that settles 0 sends no transaction, so settled.transaction
+# is the empty string, valid only at amount 0 (CS50, CS51). The authorization
+# is not spent, so the facilitator can still settle it up to the maximum until
+# its deadline: the held entry keeps the operation key and carries the deadline
+# (CS52), and a later record of the ledger releases it only at or after that
+# deadline (CS53, CS54).
 # ---------------------------------------------------------------------------
 
 #: USDC on Base Sepolia, the asset of the x402 MCP transport's example, and the
@@ -3001,6 +3009,62 @@ def _settled(pred: dict[str, Any]) -> None:
         "source": "chain",
         "transaction": SETTLEMENT_TX,
     }
+
+
+#: The deadline of the upto permit, as the record shape writes instants.
+UPTO_DEADLINE = "2026-09-19T11:34:02Z"
+
+
+def _zero_settled(pred: dict[str, Any]) -> None:
+    """CS41's held permit, which the facilitator settled at 0: no transaction, the
+    operation key still held with its amount and the permit's deadline, and no
+    effect observed."""
+    _consumption(pred)["settled"] = {
+        "amount": 0,
+        "asset": {"id": USDC_BASE_SEPOLIA, "decimals": 6},
+        "payee": PAYEE_P,
+        "source": "chain",
+        "transaction": "",
+    }
+    _consumption(pred)["held"][0]["deadline"] = UPTO_DEADLINE
+    pred["effect"]["observed"] = "none"
+    pred["effect"]["writes"] = []
+    pred["effect"]["interval"]["afterRoot"] = BEFORE
+    pred["agreement"] = "not-exercised"
+
+
+def _read_state_at(pred: dict[str, Any], stamp: str) -> None:
+    """Move the consumption-state entry's lastResult, which maxAge holds within a
+    minute of reportedAt."""
+    pred["evaluation"]["inputs"][CONSUMPTION_ENTRY]["lastResult"] = stamp
+
+
+def _zero_settled_later(reported_at: str) -> Callable[[], list[dict[str, Any]]]:
+    """CS53 and CS54: the zero settlement of CS50, then a new operation under the
+    same limit document, dated reported_at, that reads a later revision, holds
+    nothing and counts what CS50 read as consumed."""
+
+    def records() -> list[dict[str, Any]]:
+        settling = from_pred("CS50")
+        later = _second_operation(
+            key=OP_R2,
+            revision=43,
+            same_request=False,
+            requested=5_000_000,
+            record="zero-settled-later",
+        )
+        _in_asset(later, USDC_BASE_SEPOLIA)
+        _consumption(later)["payee"] = PAYEE_P
+        later["decision"]["reportedAt"] = reported_at
+        issued = datetime.datetime.fromisoformat(reported_at.replace("Z", "+00:00"))
+        later["issuedAt"] = (issued + datetime.timedelta(seconds=9)).strftime("%Y-%m-%dT%H:%M:%SZ")
+        read_at = datetime.datetime.fromisoformat(reported_at.replace("Z", "+00:00"))
+        read_before = read_at - datetime.timedelta(seconds=2)
+        _read_state_at(later, read_before.strftime("%Y-%m-%dT%H:%M:%SZ"))
+        seal_commitment(later)
+        return [_named(settling, "zero-settled-call"), _named(later, "zero-settled-later")]
+
+    return records
 
 
 def _settled_edit(name: str, value: Any) -> Callable[[dict[str, Any]], None]:
@@ -3114,6 +3178,40 @@ def define_settlement() -> None:
             ["consumption-value-invalid"],
             None,
         ),
+        (
+            "CS50",
+            "cs50-upto-settled-at-zero",
+            "CS41",
+            "CS41 where the facilitator settled the upto permit at 0: settled carries amount "
+            "0, source chain and an empty transaction, since a zero settlement sends none, and "
+            "the held entry keeps the operation key, its 12 USDC and the permit's deadline",
+            cs_from("CS41", "CS50", _zero_settled),
+            "valid",
+            [],
+            True,
+        ),
+        (
+            "CS51",
+            "cs51-empty-transaction-at-a-non-zero-amount",
+            "CS50",
+            "CS50 where settled carries 7 USDC and still an empty transaction: a settlement "
+            "that moved funds names the transaction that moved them",
+            mutate("CS50", _settled_edit("amount", UPTO_SETTLED)),
+            "malformed",
+            ["consumption-value-invalid"],
+            None,
+        ),
+        (
+            "CS52",
+            "cs52-zero-settlement-held-entry-has-no-deadline",
+            "CS50",
+            "CS50 where the held entry carries no deadline: nothing says how long the permit "
+            "can still settle",
+            mutate("CS50", lambda p: _consumption(p)["held"][0].pop("deadline")),
+            "malformed",
+            ["consumption-value-invalid"],
+            None,
+        ),
     ]
     for draft_id, slug, parent, row, build, verdict, codes, within in singles:
         member(
@@ -3158,6 +3256,45 @@ def define_settlement() -> None:
             None,
             row,
             _ledger_set(draft_id, _counted_after_settlement(30_000_000 + settled_amount)),
+            "valid",
+            tier="authoritative",
+            section="5.9",
+            revision=REVISION_04,
+            joint={
+                "verdict": verdict,
+                "codes": [joint_code] if joint_code else [],
+                "withinLimit": [True, True],
+            },
+        )
+    zero_sets = [
+        (
+            "CS53",
+            "cs53-set-zero-settlement-released-before-the-deadline",
+            "CS50, then a new operation under the same limit document that reads a later "
+            "revision, is dated 24 minutes before the permit's deadline and no longer holds the "
+            "call, which the first record shows as none: each record valid, the set malformed "
+            "because the permit can still settle",
+            "2026-09-19T11:10:02Z",
+            "malformed",
+            "consumption-set-release-unshown",
+        ),
+        (
+            "CS54",
+            "cs54-set-zero-settlement-released-at-the-deadline",
+            "CS53 where the later record is dated at the permit's deadline: each record "
+            "valid, the set valid",
+            UPTO_DEADLINE,
+            "valid",
+            None,
+        ),
+    ]
+    for draft_id, slug, row, reported_at, verdict, joint_code in zero_sets:
+        member(
+            draft_id,
+            slug,
+            None,
+            row,
+            _ledger_set(draft_id, _zero_settled_later(reported_at)),
             "valid",
             tier="authoritative",
             section="5.9",
@@ -3360,6 +3497,102 @@ TWO_READINGS_PS1B = [
 ]
 
 
+# ---------------------------------------------------------------------------
+# Principal standing from a published commitment (rows PS3 to PS5, written for
+# revision 04), from probityai/agent-evidence-vectors#402.
+#
+# Some deployments establish principal standing without a lookup by
+# identifier: the source publishes a signed standing commitment, the presenter
+# proves standing against it, and the relying party pins the publisher and a
+# maximum age. The principal-standing-source entry then carries, as lastResult,
+# the as-of time of the commitment the decision point held, and as maxAge the
+# maximum age the relying party pins. Each row is built on PS1:
+#
+# * PS3: no commitment held from the publisher. lastResult is none, so the
+#   input was never established and the record is not-evaluated naming
+#   principal-standing-source. A commitment held past its maximum age is PS1,
+#   and one exactly at it is PS1b, which stays open between the two drafts.
+# * PS4: the commitment is current and the proof against it shows the
+#   principal's standing withdrawn. Every input was established, so the record
+#   is evaluated, and the decision is deny.
+# * PS5: the commitment is current and the proof is missing or does not verify
+#   against it. The commitment does not establish standing, and the relying
+#   party cannot tell this from a withdrawal, so the record is PS4's: evaluated
+#   and deny, never not-evaluated, because the input the decision depended on,
+#   the commitment, was current. Its entry carries the same as-of time; the
+#   record is its own (recordId differs, so its commitment is sealed again).
+# ---------------------------------------------------------------------------
+
+#: The as-of time of the current commitment in PS4 and PS5, read when issuer
+#: standing is read and well inside the hour PS1 pins for principal standing.
+COMMITMENT_AS_OF = "2026-09-19T11:00:00Z"
+
+
+def build_ps3() -> Built:
+    return build_ps1(NEVER_HELD)
+
+
+def build_principal_standing_denied(record: str | None = None) -> Built:
+    """PS1 with the principal's commitment current: evaluated, and the deny it
+    already reports is now the decision the evaluation reached."""
+    pred = from_pred("A10")
+    pred["evaluation"] = {
+        "status": "evaluated",
+        "inputs": [
+            entry("policy-source", "2026-09-19T10:00:00Z", DAY),
+            entry("standing-source", "2026-09-19T11:00:00Z", HOUR),
+            entry("principal-standing-source", COMMITMENT_AS_OF, HOUR),
+        ],
+    }
+    if record is not None:
+        pred["recordId"] = f"{RECORD_ID}:{record}"
+        seal_commitment(pred)
+    stmt = statement(pred)
+    stmt["predicateType"] = PREDICATE_TYPE_V2
+    return {"payload": canonical_bytes(stmt)}
+
+
+def define_principal_standing_commitment() -> None:
+    member(
+        "PS3",
+        "ps3-principal-standing-commitment-none-held",
+        "PS1",
+        "principal standing from a published commitment and none held: "
+        "principal-standing-source with lastResult of none, not-evaluated naming it "
+        "(a commitment held past its maxAge is PS1, one exactly at it PS1b)",
+        build_ps3,
+        "valid",
+        tier="authoritative",
+        revision=REVISION_04,
+        predicate_type=PREDICATE_TYPE_V2,
+    )
+    member(
+        "PS4",
+        "ps4-principal-standing-commitment-withdrawn",
+        "PS1",
+        "principal standing from a published commitment that is current and whose "
+        "proof shows the standing withdrawn: evaluated, every entry fresh, decision deny",
+        build_principal_standing_denied,
+        "valid",
+        tier="authoritative",
+        revision=REVISION_04,
+        predicate_type=PREDICATE_TYPE_V2,
+    )
+    member(
+        "PS5",
+        "ps5-principal-standing-commitment-proof-missing",
+        "PS4",
+        "the commitment current and the proof missing or not verifying against it: the "
+        "commitment does not establish standing, and the record is evaluated with deny "
+        "as PS4, never not-evaluated, its entry the commitment's as-of time",
+        lambda: build_principal_standing_denied("proof-not-established"),
+        "valid",
+        tier="authoritative",
+        revision=REVISION_04,
+        predicate_type=PREDICATE_TYPE_V2,
+    )
+
+
 def define_principal_standing() -> None:
     member(
         "PS1",
@@ -3397,6 +3630,7 @@ def define_principal_standing() -> None:
         section="5.4",
         predicate_type=PREDICATE_TYPE_V2,
     )
+    define_principal_standing_commitment()
 
 
 # ---------------------------------------------------------------------------
@@ -4806,10 +5040,10 @@ ORDER = (
     "CS1 CS2 CS3 CS4 CS5 CS6 CS7 CS8 CS9 CS10 CS11 CS12 CS13 CS14 CS15 CS16 CS17 "
     "CS18 CS19 CS20 CS21 CS22 CS23 CS24 CS25 "
     "CS26 CS27 CS28 CS29 CS30 CS31 CS32 CS33 CS34 CS35 CS36 CS37 CS38 CS39 CS40 "
-    "CS41 CS42 CS43 CS44 CS45 CS46 CS47 CS48 CS49 "
+    "CS41 CS42 CS43 CS44 CS45 CS46 CS47 CS48 CS49 CS50 CS51 CS52 CS53 CS54 "
     "A21 SQ1 SQ2 SQ3 SQ4 SQ5 "
     "R10 R11 R12 R13 R14 R15 R16 "
-    "IS1 IS2 PS1 PS2 PS1b "
+    "IS1 IS2 PS1 PS2 PS1b PS3 PS4 PS5 "
     "PR1 PR2 PR3 PR4 PR5 PR6 PR7 PR8 PR9 PR10 PR11 "
     "DS1 DS2 DS3 DS4 DS5 DS6 DS7 DS8 DS9 DS10 "
     "X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15 X16 X17 X18"

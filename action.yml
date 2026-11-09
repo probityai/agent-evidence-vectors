@@ -330,6 +330,7 @@ runs:
       env:
         CHECK: ${{ inputs.check }}
         SCRIPT: ${{ github.action_path }}/actions/admission/run.py
+        GITHUB_TOKEN: ${{ github.token }}
       run: |
         set -euo pipefail
         tools="$RUNNER_TEMP/agent-evidence-action"

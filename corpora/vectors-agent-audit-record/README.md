@@ -14,7 +14,7 @@ bind consumption state with an operation key, then the rows written for
 revision 02: `A21` (an `api-key` agent authentication), `SQ1` to `SQ5` (the
 `sequence` member and record identity) and `R10` to `R16` (OpenTimestamps
 anchors and the delegation root), then the rows written for revision 03:
-`IS1` and `IS2`, a record issued before its interval was sealed, and `PS1` and `PS2`, principal standing under the `v2` predicate type URI (below), then the rows written for revision 04: `CS41` to `CS49`, the payee and the settled terms of a paid call, and `PR1` to `PR11`, the authenticated principal ([proposed text](../../docs/proposals/audit-record-04-principal.md)), and `DS1` to `DS10`, whose data a call touched and for what purpose ([proposed text](../../docs/proposals/audit-record-04-data-subject.md)). Each carries `draftRevision` and the
+`IS1` and `IS2`, a record issued before its interval was sealed, and `PS1` and `PS2`, principal standing under the `v2` predicate type URI (below), then the rows written for revision 04: `CS41` to `CS49`, the payee and the settled terms of a paid call, and `PR1` to `PR11`, the authenticated principal ([proposed text](../../docs/proposals/audit-record-04-principal.md)), and `DS1` to `DS10`, whose data a call touched and for what purpose ([proposed text](../../docs/proposals/audit-record-04-data-subject.md)), and `PS3` to `PS5`, principal standing established from a published commitment (below). Each carries `draftRevision` and the
 identifier the draft prints. After them come `X1` to `X18`, each an existing member with one field changed that reaches a refusal code no earlier member produced: the JSON profile (`X1`, `X2`), `issuedAt` without an offset (`X3`), the statement and predicate types (`X4`, `X5`), consumption shape and the operation key (`X6`, `X7`), the first subject (`X8`), an envelope and a statement that cannot be read (`X9`, `X10`), a retention entry that is malformed or names another envelope or an unexpected or unreadable delegation root (`X11` to `X14`), a retained member whose record or entry cannot be read (`X15`, `X16`), and a set that cannot be read or whose records are malformed (`X17`, `X18`). [`INDEX.md`](INDEX.md) lists every member beside its
 file.
 
@@ -24,7 +24,7 @@ file.
 
 | Release | Draft revision the corpus tests | Members |
 | --- | --- | --- |
-| The release after v0.28.0 | `draft-gilda-audit-agent-audit-record-03`, and rows of `-04` | every member the v0.28.0 row lists, rows `IS1`, `IS2`, `PS1` and `PS2` of -03 and the open member `PS1b` beside them, and rows `CS41` to `CS49` written for -04 |
+| The release after v0.28.0 | `draft-gilda-audit-agent-audit-record-03`, and rows of `-04` | every member the v0.28.0 row lists, rows `IS1`, `IS2`, `PS1` and `PS2` of -03 and the open member `PS1b` beside them, and rows `CS41` to `CS54` written for -04 |
 | v0.28.0 | `draft-gilda-audit-agent-audit-record-02` | the 99 Appendix B rows of -00, 7 Section 5.4 members, 22 rows of -01 and 13 rows of -02 |
 | v0.27.0 | `draft-gilda-audit-agent-audit-record-00`, and 22 rows of `-01` | the 99 Appendix B rows, 7 Section 5.4 members and 22 rows of -01 |
 | v0.26.0 to v0.26.2 | `draft-gilda-audit-agent-audit-record-00`, and five rows of `-01` | the 99 Appendix B rows, 7 Section 5.4 members and 5 rows of -01 |
@@ -64,7 +64,7 @@ uv run --extra generators python vectors-agent-audit-record/check_vectors.py
 To score your own verifier, run it over each `statements/<id>.json` with the
 observer public key from `keys.observer.publicKey`, configured to accept the
 manifest's `predicateType`, or the member's own `predicateType` where the member
-carries one (`PS1` and `PS1b` carry the `v2` URI), then score each verdict:
+carries one (`PS1`, `PS1b` and `PS3` to `PS5` carry the `v2` URI), then score each verdict:
 
 - an accept or reject member conforms when your verdict equals
   `expected.verdict`;
@@ -256,7 +256,7 @@ by SHA-256 in [`REVISION-01-PIN.json`](REVISION-01-PIN.json).
 coverage clause fails exactly `TI6`, `V4` and `V5`, and restoring independent
 minima in `aggregate_values` fails `FR14`'s aggregation check.
 
-## Consumption state and the operation key: `CS1` to `CS49`
+## Consumption state and the operation key: `CS1` to `CS54`
 
 A cumulative limit, such as a delegated spending limit, makes a permit correct
 only if what is already consumed, plus what is held for earlier permits that
@@ -372,6 +372,20 @@ in [#213](https://github.com/probityai/agent-evidence-vectors/issues/213).
   `consumption-set-settled-uncounted` (`CS49`). It may count more, since other
   calls can settle between the two records.
 
+  An x402 EVM `upto` permit that settles 0 sends no transaction, so
+  `settled.transaction` is the empty string there and nowhere else: valid at
+  `amount` 0 recorded with `source` `chain` (`CS50`), `consumption-value-invalid`
+  at any other amount (`CS51`). The permit's nonce is still unspent, so its
+  facilitator can settle up to the maximum until the permit's `deadline`
+  (vendrell46's zero-settlement case on #307). The record keeps the operation key
+  in `held`, with its amount and a `deadline` written as the record writes
+  instants; without one it is `consumption-value-invalid` (`CS52`). The hold ends
+  only when a later record of the ledger is dated at or after that `deadline`
+  (`CS54`) or a record of the operation shows `occurred`: a later record dated
+  before it that no longer holds the key is `consumption-set-release-unshown`,
+  even though the zero settlement's own record shows `none` (`CS53`). This is
+  the EVM scheme only; SVM `upto` runs on payment channels.
+
 `check_vectors.py` drops each sentence of the rule and each set check in turn and
 requires the corpus to fail on exactly the members that test it; a retry keyed
 on the request digest fails `CS10` and `CS12`, dropping the set checks fails
@@ -380,8 +394,12 @@ reading the set checks per `limitDigest` fails `CS20`, `CS21` and `CS30`, keying
 the claim by the limit document fails `CS32` alone, reading it without its scope
 fails `CS33`, letting `none` not end a claim fails `CS28`, and matching an asset
 by its id alone fails `CS39`, dropping each payee and settled check fails `CS42`,
-`CS44`, `CS45` and `CS46`, `CS47` and `CS49` in turn, and counting the held
-amount rather than the settled one fails `CS48`. The Go rail in `corpora/` runs
+`CS44`, `CS45` and `CS46`, `CS47` and `CS49` in turn, counting the held
+amount rather than the settled one fails `CS48` and `CS54`, refusing an empty transaction at
+an amount of 0 fails `CS50`, `CS53` and `CS54`, accepting one at any other amount
+fails `CS51`, not requiring the deadline fails `CS52`, dropping the hold's set
+check fails `CS53` alone, and ending the hold only after the deadline, not at it,
+fails `CS54`. The Go rail in `corpora/` runs
 the same sweep.
 
 ## Principal standing and the v2 URI: `PS1`, `PS2` and `PS1b`
@@ -423,7 +441,38 @@ generator reproduces his bytes and file identifiers.
 
 `check_vectors.py` holds both sides: a reader that applies the extended set
 under the `v1` URI as well fails exactly `PS2`, and a reader that accepts the
-`v2` URI with the `v1` set fails exactly `PS1`.
+`v2` URI with the `v1` set fails exactly `PS1` and `PS3` to `PS5` (below).
+
+## Principal standing from a published commitment: `PS3` to `PS5`
+
+Some deployments establish principal standing without a lookup by identifier:
+the source publishes a signed standing commitment, the presenter proves standing
+against it, and the relying party pins the publisher and a maximum age. The
+`principal-standing-source` entry then carries the as-of time of the commitment
+the decision point held as `lastResult`, and the pinned maximum age as `maxAge`.
+The three members are rows written for revision 04, from
+[#402](https://github.com/probityai/agent-evidence-vectors/issues/402); each is
+built on `PS1` and judged under the `v2` URI.
+
+- `PS3`: no commitment held. `lastResult` is `none`, so the input was never
+  established, and the record is `not-evaluated` naming
+  `principal-standing-source`: a transient refusal, not a deny. A commitment
+  held past its maximum age is `PS1`, and one exactly at it is `PS1b`, which
+  stays open between the two drafts (above).
+- `PS4`: the commitment is current and the proof against it shows the standing
+  withdrawn. Every entry is fresh, the record is `evaluated`, and the decision
+  is `deny`.
+- `PS5`: the commitment is current and the proof is missing or does not verify
+  against it. The commitment does not establish standing, and the relying party
+  cannot tell this from a withdrawal, so the record is `evaluated` with `deny`,
+  as `PS4`, and its entry is the commitment's as-of time. It is never
+  `not-evaluated`: the input the decision depended on was current, and a record
+  naming it unavailable fails the recompute of Section 4.6. No member of the
+  record says why a decision denied, so `PS5` differs from `PS4` in the case it
+  states and in its own `recordId`, not in the shape a verifier checks.
+
+`check_vectors.py` holds `PS3` to the sentence that a `lastResult` of `none` is
+never established, beside `A18`, `A20` and `FR4`.
 
 ## Retained records and the dating check: Section 4.7
 

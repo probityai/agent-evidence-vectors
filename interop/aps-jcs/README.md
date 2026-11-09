@@ -38,7 +38,7 @@ execution: in GitHub Actions, controller and operator are the workflow's
 `GITHUB_REPOSITORY`. A fork run names the fork; an APS host run names APS.
 Local runs leave the operator unrecorded rather than inferring it from authorship.
 
-[The Node matrix](../../.github/workflows/aps-jcs.yml) runs both APS native
+[The Node matrix](../../.github/workflows/ci.yml) (job `aps_jcs`) runs both APS native
 tests and this comparison on Node 20 and 22. Each run retains the raw native
 probe output, per-case comparison, logs, tool versions and SHA-256 manifest.
 The upstream integration target is a pinned test dependency and required

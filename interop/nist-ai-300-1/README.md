@@ -19,7 +19,7 @@ The checker prints:
 ok: 4 tables on 26 pages and 7 reviewer notes make up all 33 ruled boxes in the 54-page PDF, 157 rows by both extractions; 235 members over 139 rules; source and 9 bindings re-derived; 143 deletions and 50 dropped conditions each flipped the members that name them
 ```
 
-CI runs the same steps, and checks that regeneration leaves the tree unchanged, in [nist-ai-300-1.yml](../../.github/workflows/nist-ai-300-1.yml). `check_vectors.py --counts` prints every figure on this page.
+CI runs the same steps, and checks that regeneration leaves the tree unchanged, in [ci.yml](../../.github/workflows/ci.yml) (job `nist_ai_300_1`). `check_vectors.py --counts` prints every figure on this page.
 
 ## What is in it
 

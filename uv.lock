@@ -10,7 +10,7 @@ resolution-markers = [
 
 [[package]]
 name = "agent-evidence-vectors"
-version = "0.36.1"
+version = "0.37.0"
 source = { virtual = "." }
 
 [package.optional-dependencies]
@@ -49,7 +49,7 @@ generators = [
 
 [package.dev-dependencies]
 crosscheck = [
-    { name = "probity-verify" },
+    { name = "agent-evidence-verify", marker = "python_full_version >= '3.12'" },
 ]
 dev = [
     { name = "packaging" },
@@ -88,7 +88,7 @@ requires-dist = [
 provides-extras = ["generators", "artifact-binding", "dev"]
 
 [package.metadata.requires-dev]
-crosscheck = [{ name = "probity-verify", git = "https://github.com/probityai/probity?subdirectory=packages%2Fprobity-verify&rev=932c1e3ecc8f2142cb878cd43bf9689cbcb5f342" }]
+crosscheck = [{ name = "agent-evidence-verify", marker = "python_full_version >= '3.12'", specifier = "==0.5.0" }]
 dev = [
     { name = "packaging", specifier = "==26.3" },
     { name = "pytest", specifier = "==9.2.0" },
@@ -96,12 +96,26 @@ dev = [
 ]
 
 [[package]]
-name = "agent-evidence-vocabulary"
+name = "agent-evidence-verify"
 version = "0.5.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/aa/f1/b9089543416945181727b950e89ca381be13e85dcf94ba18b61b3c388e8d/agent_evidence_vocabulary-0.5.0.tar.gz", hash = "sha256:dfdb0d011ac9e9b3c476c3d2173a36e7a6cfac664a0c14a9a5dd5da045975337", size = 34321, upload-time = "2026-10-16T22:29:16.015Z" }
+dependencies = [
+    { name = "agent-evidence-vocabulary" },
+    { name = "cryptography" },
+    { name = "pyyaml" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/e0/a3/0f261c1e76bd26fabfb6e69afafa22b007466f8a66452979fd4f5f032a6e/agent_evidence_verify-0.5.0.tar.gz", hash = "sha256:80d6c3b717a38711a102a112f6753e4937347c978347149c5c0a5246b4ffc1a9", size = 968173, upload-time = "2026-11-07T00:26:33.514Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/29/d2/2fd8f30fcce983a6a796d7859bb025c99da347b7409ed1f007939c6e9497/agent_evidence_vocabulary-0.5.0-py3-none-any.whl", hash = "sha256:0d46b62e0ebe20345b89838cb75d4369d59d12b8c064fba1d575a7b2270fa338", size = 35560, upload-time = "2026-10-16T22:29:14.679Z" },
+    { url = "https://files.pythonhosted.org/packages/89/bb/bc85970efa900d2dcbdd7d712fb482d5fe4a36c31ffcf4353925e1357c3f/agent_evidence_verify-0.5.0-py3-none-any.whl", hash = "sha256:9132d649a0b5cd570bdf3b0e0373d8b4933eadf0f587ee31c885a26dbad9a2d2", size = 175489, upload-time = "2026-11-07T00:26:31.682Z" },
+]
+
+[[package]]
+name = "agent-evidence-vocabulary"
+version = "0.9.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/25/5c/150344bc7e76ce60b7fb4977d6c731e79f7b233ebc0ca0fdb6fda57e7d15/agent_evidence_vocabulary-0.9.0.tar.gz", hash = "sha256:9958330e3f67a25d9625395078c8335af61b716ca897090386e597d1134a9c9f", size = 70966, upload-time = "2026-11-04T05:27:51.18Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/1f/1c/bcc9354ab8fd0b3009dc6ba4fd1ca4d3345989725be14af4c919bb37f6c6/agent_evidence_vocabulary-0.9.0-py3-none-any.whl", hash = "sha256:df5df2f14872f377fd106afad7dbd14b219f55ba2e357433650cd9ce3efdb415", size = 73121, upload-time = "2026-11-04T05:27:49.681Z" },
 ]
 
 [[package]]
@@ -1210,16 +1224,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/f9/e2/3e91f31a7d2b083fe6ef3fa267035b518369d9511ffab804f839851d2779/pluggy-1.6.0.tar.gz", hash = "sha256:7dcc130b76258d33b90f61b658791dede3486c3e6bfb003ee5c9bfb396dd22f3", size = 69412, upload-time = "2025-05-15T12:30:07.975Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/54/20/4d324d65cc6d9205fabedc306948156824eb9f0ee1633355a8f7ec5c66bf/pluggy-1.6.0-py3-none-any.whl", hash = "sha256:e920276dd6813095e9377c0bc5566d94c932c33b27a3e3945d8389c374dd4746", size = 20538, upload-time = "2025-05-15T12:30:06.134Z" },
-]
-
-[[package]]
-name = "probity-verify"
-version = "0.2.0"
-source = { git = "https://github.com/probityai/probity?subdirectory=packages%2Fprobity-verify&rev=932c1e3ecc8f2142cb878cd43bf9689cbcb5f342#932c1e3ecc8f2142cb878cd43bf9689cbcb5f342" }
-dependencies = [
-    { name = "agent-evidence-vocabulary" },
-    { name = "cryptography" },
-    { name = "pyyaml" },
 ]
 
 [[package]]

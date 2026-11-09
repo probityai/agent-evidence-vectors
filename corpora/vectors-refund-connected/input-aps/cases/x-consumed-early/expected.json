@@ -1,0 +1,13 @@
+{
+  "base": "source/j01-connected-20261028-r2/cases/j01",
+  "check": "3j",
+  "consumed_at": "2026-10-28T21:45:44.528Z",
+  "edit": "consumed_at one second before the approval's issued_at",
+  "expected": {
+    "input_aps": "REFUSED:APPROVAL_AFTER_CONSUMPTION"
+  },
+  "id": "x-consumed-early",
+  "packaged_reader": {
+    "input_aps": "REFUSED:APPROVAL_AFTER_CONSUMPTION"
+  }
+}

@@ -1,0 +1,57 @@
+name: badges
+
+# Writes the README download badges as shields.io endpoint JSON on the `badges` branch.
+# That branch is unprotected and holds only these files, so the hourly run pushes straight
+# to it: no pull request, no merge queue, and a count is never older than an hour.
+
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: badges
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          persist-credentials: false
+      - name: check out the badges branch, or start it
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          auth="Authorization: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
+          if git -c http.extraheader="$auth" ls-remote --exit-code --heads "https://github.com/$REPO" badges >/dev/null; then
+            git -c http.extraheader="$auth" clone --quiet --depth 1 --branch badges "https://github.com/$REPO" badges-out
+          else
+            git init --quiet --initial-branch badges badges-out
+            git -C badges-out remote add origin "https://github.com/$REPO"
+          fi
+      - name: write the badge files
+        run: python3 scripts/refresh-badges.py --out badges-out
+        env:
+          PEPY_API_KEY: ${{ secrets.PEPY_API_KEY }}
+      - name: push the files that changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd badges-out
+          git add -A
+          if git diff --cached --quiet; then
+            echo "no badge changed"
+            exit 0
+          fi
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit --quiet -m "chore(badges): refresh download counts"
+          auth="Authorization: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
+          git -c http.extraheader="$auth" push origin badges

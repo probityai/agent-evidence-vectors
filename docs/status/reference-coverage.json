@@ -1,0 +1,397 @@
+{
+  "verifier": "https://probityai.github.io/probity/verifiers/agent-evidence-verify",
+  "checked": 734,
+  "total": 3032,
+  "corpora": [
+    {
+      "id": "vectors",
+      "checked": 288,
+      "total": 288,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-a2a-jcs-v01",
+      "checked": 0,
+      "total": 57,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-aci",
+      "checked": 0,
+      "total": 26,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-acs-core",
+      "checked": 0,
+      "total": 144,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-acs-decision-record",
+      "checked": 0,
+      "total": 15,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-admission",
+      "checked": 0,
+      "total": 22,
+      "disagreements": 22
+    },
+    {
+      "id": "vectors-agent-audit-record",
+      "checked": 0,
+      "total": 225,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-agent-card-receipt",
+      "checked": 0,
+      "total": 44,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-agent-change-admission",
+      "checked": 0,
+      "total": 35,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-agent-decision",
+      "checked": 0,
+      "total": 41,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-agent-payment-mandate",
+      "checked": 0,
+      "total": 15,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-agentic-process-evidence",
+      "checked": 0,
+      "total": 52,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-aggregate-accounting",
+      "checked": 0,
+      "total": 19,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-ai-agent-action",
+      "checked": 0,
+      "total": 75,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-ai-generation",
+      "checked": 0,
+      "total": 38,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-anchor-stream",
+      "checked": 0,
+      "total": 34,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-anchored-chain",
+      "checked": 0,
+      "total": 14,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-approval-binding",
+      "checked": 0,
+      "total": 37,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-artifact-binding",
+      "checked": 0,
+      "total": 8,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-authority-at-dispatch",
+      "checked": 0,
+      "total": 14,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-badge-vc-verify",
+      "checked": 0,
+      "total": 40,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-chunked-export",
+      "checked": 0,
+      "total": 12,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-completion-confirmation",
+      "checked": 0,
+      "total": 28,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-connector-scope",
+      "checked": 0,
+      "total": 13,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-containment-journal",
+      "checked": 0,
+      "total": 62,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-converted-argument-binding",
+      "checked": 0,
+      "total": 17,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-credential-release",
+      "checked": 0,
+      "total": 30,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-decision-client-failure-modes",
+      "checked": 0,
+      "total": 35,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-delegation-lifecycle",
+      "checked": 0,
+      "total": 54,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-delegator-right",
+      "checked": 0,
+      "total": 26,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-dependency-selection",
+      "checked": 0,
+      "total": 6,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-dispatch-fence",
+      "checked": 0,
+      "total": 13,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-done-contract",
+      "checked": 65,
+      "total": 76,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-done-probes",
+      "checked": 23,
+      "total": 23,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-done-receipt",
+      "checked": 227,
+      "total": 227,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-evidence-state",
+      "checked": 0,
+      "total": 25,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-grade-floor",
+      "checked": 0,
+      "total": 13,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-grader-isolation",
+      "checked": 50,
+      "total": 50,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-identity-binding",
+      "checked": 0,
+      "total": 12,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-ietf-agent-record-drafts",
+      "checked": 0,
+      "total": 31,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-incident-evidence-cell",
+      "checked": 0,
+      "total": 31,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-mcp-authz",
+      "checked": 0,
+      "total": 11,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-mcp-owasp",
+      "checked": 0,
+      "total": 24,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-mcp-record-contract",
+      "checked": 0,
+      "total": 15,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-mcp-response-phase",
+      "checked": 0,
+      "total": 8,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-monitor-coverage",
+      "checked": 0,
+      "total": 18,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-observed-effect",
+      "checked": 0,
+      "total": 80,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-open-weight-art53",
+      "checked": 0,
+      "total": 16,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-propagation-step",
+      "checked": 0,
+      "total": 12,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-receipt-chain-end",
+      "checked": 0,
+      "total": 24,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-receipt-signature",
+      "checked": 0,
+      "total": 29,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-recorded",
+      "checked": 0,
+      "total": 20,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-refund-connected",
+      "checked": 0,
+      "total": 12,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-refusal-reason-priority",
+      "checked": 0,
+      "total": 33,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-restart-records",
+      "checked": 0,
+      "total": 57,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-scitt-cose",
+      "checked": 0,
+      "total": 27,
+      "disagreements": 50
+    },
+    {
+      "id": "vectors-self-reported-record",
+      "checked": 0,
+      "total": 11,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-signature-coverage",
+      "checked": 0,
+      "total": 37,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-source-coverage",
+      "checked": 0,
+      "total": 8,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-spoofed-tool-output",
+      "checked": 47,
+      "total": 47,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-test-tampering",
+      "checked": 34,
+      "total": 34,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-trace-anchor",
+      "checked": 0,
+      "total": 27,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-uncertain-effect",
+      "checked": 0,
+      "total": 40,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-w3c-intake",
+      "checked": 0,
+      "total": 142,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-w3c-report",
+      "checked": 0,
+      "total": 273,
+      "disagreements": 0
+    }
+  ]
+}

@@ -1,0 +1,917 @@
+{
+  "aggregate": {
+    "counts": {
+      "ambiguous": 3,
+      "conformant": 15,
+      "nonconformant": 15
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 33
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-refusal-reason-priority/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in corpora/vectors-refusal-reason-priority/gen_vectors.py",
+    "routine-file": "corpora/vectors-refusal-reason-priority/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "372fe137c3ce46096ffa0f8d1348d907219189900669a5badee4578e0040ad65",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "be37f407e3dc20a4f3232da1f7d464e7ab4e38a39ff00c33fbf0ab99d4f3143b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "be37f407e3dc20a4f3232da1f7d464e7ab4e38a39ff00c33fbf0ab99d4f3143b"
+        },
+        "swapped-in": "f610ef2c36f10b10f14704fc237bc6269c844eeb353eca7d5d5dc3b37e17f1a6",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-refusal-reason-priority/README.md",
+      "serialization": "bytes",
+      "sha256": "b4fdce639b653930613bb6d657835ff85b58c862d6d20283bfe12b5540bf8edf"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "be37f407e3dc20a4f3232da1f7d464e7ab4e38a39ff00c33fbf0ab99d4f3143b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "be37f407e3dc20a4f3232da1f7d464e7ab4e38a39ff00c33fbf0ab99d4f3143b"
+        },
+        "swapped-in": "e0cd9389320215a84cd32158d1c824f09d2cb0971c46a15d802efc1dad723307",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-refusal-reason-priority/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "fe7456c9d90dbcfb1d5ea591003fd9092b04dce55a2b1031007cf24e9a530682"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "be37f407e3dc20a4f3232da1f7d464e7ab4e38a39ff00c33fbf0ab99d4f3143b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "be37f407e3dc20a4f3232da1f7d464e7ab4e38a39ff00c33fbf0ab99d4f3143b"
+        },
+        "swapped-in": "2cfb8f729a61418ba7ff020e5c01dae3d7d766fe2b18ddb026178e105e000d97",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-refusal-reason-priority/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "dc6a45f3a20668a7688f19295c1f766af5cec7d6584c912ac6573f7b62e28f1d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "be37f407e3dc20a4f3232da1f7d464e7ab4e38a39ff00c33fbf0ab99d4f3143b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "be37f407e3dc20a4f3232da1f7d464e7ab4e38a39ff00c33fbf0ab99d4f3143b"
+        },
+        "swapped-in": "3e4c6dfde3b498ac542054779d3c2800ac29fdd2080be2654778627086f9292e",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-refusal-reason-priority/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "f3709597568a10a1d149b89d43d5f994e483758ba2f9a51e76f79ced55d69d50"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "corpora/vectors-refusal-reason-priority"
+  },
+  "byte-identity": {
+    "pins": 33,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json corpora/vectors-refusal-reason-priority",
+      "aee-verify -json corpora/vectors-refusal-reason-priority",
+      "aee-verify corpora/vectors-refusal-reason-priority"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpusreaders",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "fa0751e529d000d5fb3b3cde26f849fe1e6b5c6e28b0ed4aab55c25e79e5f5c7"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpusreaders",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "conformant-mismatch-over-expiry",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-expiry-over-mismatch",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-expiry-over-revocation",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-revocation-over-expiry",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-mismatch-over-revocation",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-mismatch-first-of-three",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-revocation-of-three",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-not-determined-unreachable",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-operation-not-permitted-alone",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-refusal-without-condition",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-revocation-over-operation-not-permitted",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-operation-not-permitted-over-revocation",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-expiry-over-not-determined",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-not-determined-over-expiry",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-observation-fresh",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-observation-absent-null",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-diagnostic-backfills-observation",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-permit-over-diagnostic-read",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-stale-diagnostic-keeps-null",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-diagnostic-renews-expiry",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-null-is-the-only-permit",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-granted-value",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-reason-member-absent",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-sixth-value",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-inclusive-permit-at-instant",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-exclusive-expired-at-instant",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "open-inclusive-declared-expired-at-instant",
+      "native": {
+        "reasons": [],
+        "verdict": "ambiguous"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "open-exclusive-declared-permit-at-instant",
+      "native": {
+        "reasons": [],
+        "verdict": "ambiguous"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "open-boundary-undeclared",
+      "native": {
+        "reasons": [],
+        "verdict": "ambiguous"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-undeclared-answer-outside-both-readings",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-frame-accepted-reliance-refused",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-contract-id-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-contract-id-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "a508656be308a0a8ed0d437a6446fc8f0a616265eac31877f590a409184dd029"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "conformant-mismatch-over-expiry",
+      "nonconformant-expiry-over-mismatch",
+      "conformant-expiry-over-revocation",
+      "nonconformant-revocation-over-expiry",
+      "conformant-mismatch-over-revocation",
+      "conformant-mismatch-first-of-three",
+      "nonconformant-revocation-of-three",
+      "conformant-not-determined-unreachable",
+      "conformant-operation-not-permitted-alone",
+      "nonconformant-refusal-without-condition",
+      "conformant-revocation-over-operation-not-permitted",
+      "nonconformant-operation-not-permitted-over-revocation",
+      "conformant-expiry-over-not-determined",
+      "nonconformant-not-determined-over-expiry",
+      "conformant-observation-fresh",
+      "conformant-observation-absent-null",
+      "nonconformant-diagnostic-backfills-observation",
+      "nonconformant-permit-over-diagnostic-read",
+      "conformant-stale-diagnostic-keeps-null",
+      "nonconformant-diagnostic-renews-expiry",
+      "conformant-null-is-the-only-permit",
+      "nonconformant-granted-value",
+      "nonconformant-reason-member-absent",
+      "nonconformant-sixth-value",
+      "conformant-inclusive-permit-at-instant",
+      "conformant-exclusive-expired-at-instant",
+      "open-inclusive-declared-expired-at-instant",
+      "open-exclusive-declared-permit-at-instant",
+      "open-boundary-undeclared",
+      "nonconformant-undeclared-answer-outside-both-readings",
+      "conformant-frame-accepted-reliance-refused",
+      "nonconformant-contract-id-missing",
+      "nonconformant-contract-id-unknown"
+    ],
+    "path": "corpora/vectors-refusal-reason-priority/MANIFEST.json",
+    "sha256": "60094df7a342a15000bc7f4e5e25bfaf54bfd94141bd02fe26687a8c94466549"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/conformant-mismatch-over-expiry/record.json",
+          "sha256": "5b358a6addd3e1f870044380170a5aabc1b89accbd9373f9ed021a219a7a886d"
+        }
+      ],
+      "id": "conformant-mismatch-over-expiry"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/nonconformant-expiry-over-mismatch/record.json",
+          "sha256": "f6d70cb08da7a30c8f9bb292ffb6206690139aa5a08ecff01bf2d48c83665acc"
+        }
+      ],
+      "id": "nonconformant-expiry-over-mismatch"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/conformant-expiry-over-revocation/record.json",
+          "sha256": "8fdf1041bc8b0e8dd9c2b47f03649fc7a0f3b313fda633061af309492e5df54f"
+        }
+      ],
+      "id": "conformant-expiry-over-revocation"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/nonconformant-revocation-over-expiry/record.json",
+          "sha256": "d78a10e670ee40bd2ad9828062bbd407951a817f6220c66e9b05c9ff5680a3b1"
+        }
+      ],
+      "id": "nonconformant-revocation-over-expiry"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/conformant-mismatch-over-revocation/record.json",
+          "sha256": "5c4cce3a47d48bae0734294cf026dc016b9970006de70b64db5cc5bda2037448"
+        }
+      ],
+      "id": "conformant-mismatch-over-revocation"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/conformant-mismatch-first-of-three/record.json",
+          "sha256": "589a2405da645b4cc96a0f528c262dd588f5294eefe4d263fc26800fbd8374e2"
+        }
+      ],
+      "id": "conformant-mismatch-first-of-three"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/nonconformant-revocation-of-three/record.json",
+          "sha256": "169afefec4e65ee83eeb2a2066387306aee5a67dcce16b15f0349f403fb3cf7f"
+        }
+      ],
+      "id": "nonconformant-revocation-of-three"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/conformant-not-determined-unreachable/record.json",
+          "sha256": "e4e1055f6532081b7af657666d749ab98c1a41e1fc9a415810d6233ed0b51dce"
+        }
+      ],
+      "id": "conformant-not-determined-unreachable"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/conformant-operation-not-permitted-alone/record.json",
+          "sha256": "78bcecf2e575dd7c45d52881d1f6245f5783496e5b6973f2b211c34fe9e3627c"
+        }
+      ],
+      "id": "conformant-operation-not-permitted-alone"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/nonconformant-refusal-without-condition/record.json",
+          "sha256": "d481daadc8d7a1f0e1f5dfc29b84c479dd66a3f1dc894682a58cc108cb9dc0cd"
+        }
+      ],
+      "id": "nonconformant-refusal-without-condition"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/conformant-revocation-over-operation-not-permitted/record.json",
+          "sha256": "780fa4f6db2648c6d040b92493e74878c40ef3cfbd174c8a79275f3acac50c89"
+        }
+      ],
+      "id": "conformant-revocation-over-operation-not-permitted"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/nonconformant-operation-not-permitted-over-revocation/record.json",
+          "sha256": "b57eb83d9dfd96baa2af18c11f781f5c3e3a242aca1464f69e893ec566b1bade"
+        }
+      ],
+      "id": "nonconformant-operation-not-permitted-over-revocation"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/conformant-expiry-over-not-determined/record.json",
+          "sha256": "a2a5f4c20325d72063e0367781dd4f6167ddec794a03a18c713cb5fbb490f902"
+        }
+      ],
+      "id": "conformant-expiry-over-not-determined"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/nonconformant-not-determined-over-expiry/record.json",
+          "sha256": "1f6a413ba867d31329e7bda74bc91355332c133b4022a865587549f19fec646b"
+        }
+      ],
+      "id": "nonconformant-not-determined-over-expiry"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/conformant-observation-fresh/record.json",
+          "sha256": "7b4d67cc3f824ddf3f2e003a03f6105ea1fd89a384eb30432e28e77af385be67"
+        }
+      ],
+      "id": "conformant-observation-fresh"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/conformant-observation-absent-null/record.json",
+          "sha256": "c8c74d7d6dac76082af6e72e23c7549b29f8fcae56e20de5a65aa273417eb535"
+        }
+      ],
+      "id": "conformant-observation-absent-null"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/nonconformant-diagnostic-backfills-observation/record.json",
+          "sha256": "d0eca3be4b9b86457beaabd24a0ff696d9568605b6266e71715b8750c809d5df"
+        }
+      ],
+      "id": "nonconformant-diagnostic-backfills-observation"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/nonconformant-permit-over-diagnostic-read/record.json",
+          "sha256": "07313b5bf563ecc1db6c4acac9912a1570cbe355782b07017cd9857f55fd5ccb"
+        }
+      ],
+      "id": "nonconformant-permit-over-diagnostic-read"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/conformant-stale-diagnostic-keeps-null/record.json",
+          "sha256": "c775a5a49d81b52a225b09a8c147b3b6918595c765b74f1b248701d0c005bcb0"
+        }
+      ],
+      "id": "conformant-stale-diagnostic-keeps-null"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/nonconformant-diagnostic-renews-expiry/record.json",
+          "sha256": "7f1a7df083106671ac21170b06c9593bc4052071792f5a32b1432d68658ce063"
+        }
+      ],
+      "id": "nonconformant-diagnostic-renews-expiry"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/conformant-null-is-the-only-permit/record.json",
+          "sha256": "fd0e3998f9be25ca93b5d7e36ba6c29ae50dcea44dbcec96fbb26f3265b19a33"
+        }
+      ],
+      "id": "conformant-null-is-the-only-permit"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/nonconformant-granted-value/record.json",
+          "sha256": "2f72681d60f1fdaba2ff1eaf914d3501def1fec254d640273ed05a90449d8f54"
+        }
+      ],
+      "id": "nonconformant-granted-value"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/nonconformant-reason-member-absent/record.json",
+          "sha256": "d5068e89f64ee365efb1b6223e1e8b6385001367dec7d9b183e8f88642ac66dd"
+        }
+      ],
+      "id": "nonconformant-reason-member-absent"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/nonconformant-sixth-value/record.json",
+          "sha256": "c5d789739cc43867c192884a0cc7cb3db9878f9bdc0d2c1ee4d33387350b3cdb"
+        }
+      ],
+      "id": "nonconformant-sixth-value"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/conformant-inclusive-permit-at-instant/record.json",
+          "sha256": "30f988ea2bc9db6079990b9d97ce104a956cf9565f18cc7966b806b635b0c6e1"
+        }
+      ],
+      "id": "conformant-inclusive-permit-at-instant"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/conformant-exclusive-expired-at-instant/record.json",
+          "sha256": "521f41fabecb1345ccd382184c6880204e0d41b84968f4ba89735116107abd0f"
+        }
+      ],
+      "id": "conformant-exclusive-expired-at-instant"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/open-inclusive-declared-expired-at-instant/record.json",
+          "sha256": "e11d2fb9a31039ebca797bf94ef765751b5376640a2c544ff5a6167bf5d3faa0"
+        }
+      ],
+      "id": "open-inclusive-declared-expired-at-instant"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/open-exclusive-declared-permit-at-instant/record.json",
+          "sha256": "c731b1137aac3c2be7572d551e6b30ea88c4fb000e3caafa27e822656960e5dc"
+        }
+      ],
+      "id": "open-exclusive-declared-permit-at-instant"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/open-boundary-undeclared/record.json",
+          "sha256": "353a23f49f67c2082a812694f18229f2a4282ebf390fd34b3a9601998af96a57"
+        }
+      ],
+      "id": "open-boundary-undeclared"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/nonconformant-undeclared-answer-outside-both-readings/record.json",
+          "sha256": "f7c5719c173d895bf114a7434bf152d0e21fc5a410197250cf0ee651c459a03d"
+        }
+      ],
+      "id": "nonconformant-undeclared-answer-outside-both-readings"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/conformant-frame-accepted-reliance-refused/record.json",
+          "sha256": "3fe24776bf7f05f6430e09d6f29ae91a32c6b711ad68a58aa08ccbe200a857f0"
+        }
+      ],
+      "id": "conformant-frame-accepted-reliance-refused"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/nonconformant-contract-id-missing/record.json",
+          "sha256": "b0c3f330313600707de0796325122e11f53032b41daa4bd7c8238972b3299429"
+        }
+      ],
+      "id": "nonconformant-contract-id-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-refusal-reason-priority/cases/nonconformant-contract-id-unknown/record.json",
+          "sha256": "7c2755e3e187acb22eb664f1fc1c6c78bf64424cbb14c7e4a296bb622a24b2fb"
+        }
+      ],
+      "id": "nonconformant-contract-id-unknown"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-refusal-reason-priority.json",
+        "serialization": "bytes",
+        "sha256": "be37f407e3dc20a4f3232da1f7d464e7ab4e38a39ff00c33fbf0ab99d4f3143b"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-refusal-reason-priority.txt",
+        "serialization": "bytes",
+        "sha256": "ee6050bf68be8a6c0aa694eaa0641ac3237a903c858b849e1c973fe4d07552b4"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "be37f407e3dc20a4f3232da1f7d464e7ab4e38a39ff00c33fbf0ab99d4f3143b"
+      },
+      {
+        "process": "run-2",
+        "sha256": "be37f407e3dc20a4f3232da1f7d464e7ab4e38a39ff00c33fbf0ab99d4f3143b"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 33 pinned members of refusal-reason-priority/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 33,
+    "require": "at-least-one",
+    "selected": [
+      "conformant-mismatch-over-expiry",
+      "nonconformant-expiry-over-mismatch",
+      "conformant-expiry-over-revocation",
+      "nonconformant-revocation-over-expiry",
+      "conformant-mismatch-over-revocation",
+      "conformant-mismatch-first-of-three",
+      "nonconformant-revocation-of-three",
+      "conformant-not-determined-unreachable",
+      "conformant-operation-not-permitted-alone",
+      "nonconformant-refusal-without-condition",
+      "conformant-revocation-over-operation-not-permitted",
+      "nonconformant-operation-not-permitted-over-revocation",
+      "conformant-expiry-over-not-determined",
+      "nonconformant-not-determined-over-expiry",
+      "conformant-observation-fresh",
+      "conformant-observation-absent-null",
+      "nonconformant-diagnostic-backfills-observation",
+      "nonconformant-permit-over-diagnostic-read",
+      "conformant-stale-diagnostic-keeps-null",
+      "nonconformant-diagnostic-renews-expiry",
+      "conformant-null-is-the-only-permit",
+      "nonconformant-granted-value",
+      "nonconformant-reason-member-absent",
+      "nonconformant-sixth-value",
+      "conformant-inclusive-permit-at-instant",
+      "conformant-exclusive-expired-at-instant",
+      "open-inclusive-declared-expired-at-instant",
+      "open-exclusive-declared-permit-at-instant",
+      "open-boundary-undeclared",
+      "nonconformant-undeclared-answer-outside-both-readings",
+      "conformant-frame-accepted-reliance-refused",
+      "nonconformant-contract-id-missing",
+      "nonconformant-contract-id-unknown"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "refusal-reason-priority/v1"
+}

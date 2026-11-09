@@ -1,0 +1,826 @@
+{
+  "aggregate": {
+    "counts": {
+      "accept": 4,
+      "reject": 11
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 15
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-acs-decision-record/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in corpora/vectors-acs-decision-record/digest.py",
+    "routine-file": "corpora/vectors-acs-decision-record/digest.py",
+    "serialization": "corpus-routine",
+    "sha256": "3f4bf1ae704a35b247e2292a98d861cdc082ec8fac50d275efc43436bbbe419f",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f59aa01639ae6ad9754e7ff2f9b422f92ebbe302960808260ff1c4a490b6f528"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f59aa01639ae6ad9754e7ff2f9b422f92ebbe302960808260ff1c4a490b6f528"
+        },
+        "swapped-in": "f4bb62e83ea25bf145721034193c0399e399293fd376ca337cd60b14fcc832a8",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-acs-decision-record/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "7b8110523d17cd7276ec2fccf4a8ae6653fc8dfe73e73f1cfab1e17e5702a8bd"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f59aa01639ae6ad9754e7ff2f9b422f92ebbe302960808260ff1c4a490b6f528"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f59aa01639ae6ad9754e7ff2f9b422f92ebbe302960808260ff1c4a490b6f528"
+        },
+        "swapped-in": "998a6915ece584dd399e09481f2af1282edab9140cb5b8c60a60b0ed444cf7ba",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-acs-decision-record/README.md",
+      "serialization": "bytes",
+      "sha256": "fca175998d1072ab2660d9c00220b5df58a089517e94d5948bd3e68da31cf4f9"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f59aa01639ae6ad9754e7ff2f9b422f92ebbe302960808260ff1c4a490b6f528"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f59aa01639ae6ad9754e7ff2f9b422f92ebbe302960808260ff1c4a490b6f528"
+        },
+        "swapped-in": "239210beb5f2c47f82397fbd243fc019c0093cdd25098ac7e5e9c8f7536cac13",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-acs-decision-record/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "e5ff4a85f0b9b07ce126d44c56a68d49e66f051c739d221f08aef4cdffb4325a"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f59aa01639ae6ad9754e7ff2f9b422f92ebbe302960808260ff1c4a490b6f528"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f59aa01639ae6ad9754e7ff2f9b422f92ebbe302960808260ff1c4a490b6f528"
+        },
+        "swapped-in": "bc5eddeed5b05cb0bf592ba9888e2efbc67c89a68808af0d97d719c362af24a1",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-acs-decision-record/digest.py",
+      "serialization": "bytes",
+      "sha256": "dac4c6ab73e286925b32b4d3762d87280179e06c70ea2982cddcd2af5b34cd77"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f59aa01639ae6ad9754e7ff2f9b422f92ebbe302960808260ff1c4a490b6f528"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f59aa01639ae6ad9754e7ff2f9b422f92ebbe302960808260ff1c4a490b6f528"
+        },
+        "swapped-in": "08940a62d3b3f9c9ac275379b296f2fd17d1502d3fefdf7bd3a46c9aabfc9f08",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-acs-decision-record/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "e18db4362708f847778e887708b70fc0cc637452bdc427ee2d165df7f54bd9ed"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f59aa01639ae6ad9754e7ff2f9b422f92ebbe302960808260ff1c4a490b6f528"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "corpora/vectors-acs-decision-record/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f59aa01639ae6ad9754e7ff2f9b422f92ebbe302960808260ff1c4a490b6f528"
+        },
+        "swapped-in": "2ac78274704bbc61ae75654e76b04669202b0c6bc553f609aed54c448e6816ef",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-acs-decision-record/observed/run-acs-0.4.0a4.json",
+      "serialization": "bytes",
+      "sha256": "2b450b22831da211ab3b5dfa140ea03ae3a19613e97d6b5e54229a73dad3f038"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f59aa01639ae6ad9754e7ff2f9b422f92ebbe302960808260ff1c4a490b6f528"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f59aa01639ae6ad9754e7ff2f9b422f92ebbe302960808260ff1c4a490b6f528"
+        },
+        "swapped-in": "af27d3c67992f0cb502ea4d140e6f8ec8b19bca614bade24c6a732d8af60ccc0",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-acs-decision-record/record.py",
+      "serialization": "bytes",
+      "sha256": "6a726fff77128e8c4f276fbf761e5ab5dd1c241f2cbbe881a80887554b23e541"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f59aa01639ae6ad9754e7ff2f9b422f92ebbe302960808260ff1c4a490b6f528"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f59aa01639ae6ad9754e7ff2f9b422f92ebbe302960808260ff1c4a490b6f528"
+        },
+        "swapped-in": "55ac6e4c85e0779196e767d0d4ae9430b2885f7e9ce590df2006252ae63bb6a5",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-acs-decision-record/run/pyproject.toml",
+      "serialization": "bytes",
+      "sha256": "23f611a0910f5c3db34749ccd9573de7a64df6cc7616c94dc400d96130aac221"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f59aa01639ae6ad9754e7ff2f9b422f92ebbe302960808260ff1c4a490b6f528"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f59aa01639ae6ad9754e7ff2f9b422f92ebbe302960808260ff1c4a490b6f528"
+        },
+        "swapped-in": "890d8b6138007c34dbbc306921080fcf77a9e4ec86794cb4ebe69d08acaf3187",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-acs-decision-record/run/replay.py",
+      "serialization": "bytes",
+      "sha256": "3c2eb53c8d6e0aa348a6bf5585fa7313248fac275c1efc07ef786e13f9a372e5"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f59aa01639ae6ad9754e7ff2f9b422f92ebbe302960808260ff1c4a490b6f528"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f59aa01639ae6ad9754e7ff2f9b422f92ebbe302960808260ff1c4a490b6f528"
+        },
+        "swapped-in": "bc27510a274bb00e3e16023b6785ea06e934684737d8f8d704960fe254ec98d5",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-acs-decision-record/run/run_acs.py",
+      "serialization": "bytes",
+      "sha256": "021723e1407510d49e760c98a07387e9808b1de8063556be4707f2efed8d65a9"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f59aa01639ae6ad9754e7ff2f9b422f92ebbe302960808260ff1c4a490b6f528"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f59aa01639ae6ad9754e7ff2f9b422f92ebbe302960808260ff1c4a490b6f528"
+        },
+        "swapped-in": "7e2360efd43d7ef2ad350b1ae5efb47e9315ddedfa19c99b84be54d842e5f284",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-acs-decision-record/run/uv.lock",
+      "serialization": "bytes",
+      "sha256": "d2aa9141a5cab8fc7d5994c5f4eb99ad9acb2b38b49a0162aa37af310df37033"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "members",
+        "recursive": false,
+        "suffix": ".json"
+      }
+    ],
+    "root": "corpora/vectors-acs-decision-record"
+  },
+  "byte-identity": {
+    "pins": 15,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json corpora/vectors-acs-decision-record",
+      "aee-verify -json corpora/vectors-acs-decision-record",
+      "aee-verify corpora/vectors-acs-decision-record"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpusreaders",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "fa0751e529d000d5fb3b3cde26f849fe1e6b5c6e28b0ed4aab55c25e79e5f5c7"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpusreaders",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "accept-read-allowed",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-delete-denied",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-payment-escalated",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-payment-allowed",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-input-args-changed",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-input-args-amount-lowered",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-verdict-flipped-to-allow",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-verdict-approval-dropped",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-verdict-reason-changed",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-policy-bundle-digest-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-policy-manifest-digest-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-policy-bundle-swapped",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-verdict-decision-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-predicate-type-wrong",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-signature-other-key",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "d8ed025866c208ca3b2e540e5f74e26b162a82794e4b68ea36b31ccacd2d3755"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "accept-read-allowed",
+      "accept-delete-denied",
+      "accept-payment-escalated",
+      "accept-payment-allowed",
+      "reject-input-args-changed",
+      "reject-input-args-amount-lowered",
+      "reject-verdict-flipped-to-allow",
+      "reject-verdict-approval-dropped",
+      "reject-verdict-reason-changed",
+      "reject-policy-bundle-digest-missing",
+      "reject-policy-manifest-digest-missing",
+      "reject-policy-bundle-swapped",
+      "reject-verdict-decision-unknown",
+      "reject-predicate-type-wrong",
+      "reject-signature-other-key"
+    ],
+    "path": "corpora/vectors-acs-decision-record/MANIFEST.json",
+    "sha256": "7e41a10be2bd6e0558da288a894f0d1809f1dfcdc2b67bd84fd49e5e7af9238f"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-acs-decision-record/members/accept-read-allowed.json",
+          "sha256": "a44cea167860a84a6904dcc6fda277c3ee89561afc512a94487281d75723d05c"
+        }
+      ],
+      "id": "accept-read-allowed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-acs-decision-record/members/accept-delete-denied.json",
+          "sha256": "7e9b231cbd6ec3e8a575c2d514f9e5dca9f971ba0b25b91b75da77544033fff0"
+        }
+      ],
+      "id": "accept-delete-denied"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-acs-decision-record/members/accept-payment-escalated.json",
+          "sha256": "3261e9b2a9f0a995fa24eb057647014009867f355be9d763cda038ea686e018e"
+        }
+      ],
+      "id": "accept-payment-escalated"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-acs-decision-record/members/accept-payment-allowed.json",
+          "sha256": "448515845bfe8ef31ed868ce6fe216fcf2bb154e545b345fc8131919bb1c464d"
+        }
+      ],
+      "id": "accept-payment-allowed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-acs-decision-record/members/reject-input-args-changed.json",
+          "sha256": "a7d352b69526a9f9c7f851e71037ff0034c331b001d0af37e2220e99f23712ec"
+        }
+      ],
+      "id": "reject-input-args-changed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-acs-decision-record/members/reject-input-args-amount-lowered.json",
+          "sha256": "5f818a774863abfb4bebda490b058b8eefc9ea86f83dfd1b70e06172060d8315"
+        }
+      ],
+      "id": "reject-input-args-amount-lowered"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-acs-decision-record/members/reject-verdict-flipped-to-allow.json",
+          "sha256": "9c959d9ef01f9a0706dce6d4d67323d2d52cf4bab4fa4ed6f5649e5cfe9c37a2"
+        }
+      ],
+      "id": "reject-verdict-flipped-to-allow"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-acs-decision-record/members/reject-verdict-approval-dropped.json",
+          "sha256": "01cc67106c20b8cafcf4b5a8c0b7fe40d6d2020bd65742aa93080ba804cb2704"
+        }
+      ],
+      "id": "reject-verdict-approval-dropped"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-acs-decision-record/members/reject-verdict-reason-changed.json",
+          "sha256": "68bbd78fda2e758883474bf96a746072e72470a19201a3f24a6bcec54127f5d0"
+        }
+      ],
+      "id": "reject-verdict-reason-changed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-acs-decision-record/members/reject-policy-bundle-digest-missing.json",
+          "sha256": "2910ecb891848a835e499bccfa555cc6bc57f2ef3c3eebb6b561061ad9a8778b"
+        }
+      ],
+      "id": "reject-policy-bundle-digest-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-acs-decision-record/members/reject-policy-manifest-digest-missing.json",
+          "sha256": "a57245ca56ccfebd44397fb35eabea87aa5066ba450117d2eb41d0af735494fc"
+        }
+      ],
+      "id": "reject-policy-manifest-digest-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-acs-decision-record/members/reject-policy-bundle-swapped.json",
+          "sha256": "65cea9e554574ffcb184cbead2063cf8fe06a4caff3a122a1b8e552b97ec46a4"
+        }
+      ],
+      "id": "reject-policy-bundle-swapped"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-acs-decision-record/members/reject-verdict-decision-unknown.json",
+          "sha256": "0df774d6e676bc1e3fafe997d5d01eea14cb770164b9b59bf8a16abb6820a51d"
+        }
+      ],
+      "id": "reject-verdict-decision-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-acs-decision-record/members/reject-predicate-type-wrong.json",
+          "sha256": "ddc2fe9302df5f824e561f9dec2973953251bea1f98058dbacb2b10844eb6bce"
+        }
+      ],
+      "id": "reject-predicate-type-wrong"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-acs-decision-record/members/reject-signature-other-key.json",
+          "sha256": "2de0261ce8537172b3138f2a102b5776545bd2ec4b8701f2c36806d9eb631577"
+        }
+      ],
+      "id": "reject-signature-other-key"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-acs-decision-record.json",
+        "serialization": "bytes",
+        "sha256": "f59aa01639ae6ad9754e7ff2f9b422f92ebbe302960808260ff1c4a490b6f528"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-acs-decision-record.txt",
+        "serialization": "bytes",
+        "sha256": "a9f2a042cb1c2bee99efc3106b9d6b0fcaaa9fb9f5f347b50c36a864c788162c"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "reject-input-args-changed",
+      "inputs": [
+        "member:reject-input-args-changed",
+        "check:reject-input-args-changed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"input-digest-mismatch\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "reject-input-args-amount-lowered",
+      "inputs": [
+        "member:reject-input-args-amount-lowered",
+        "check:reject-input-args-amount-lowered"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"input-digest-mismatch\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "reject-verdict-flipped-to-allow",
+      "inputs": [
+        "member:reject-verdict-flipped-to-allow",
+        "check:reject-verdict-flipped-to-allow"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"verdict-mismatch\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "reject-verdict-approval-dropped",
+      "inputs": [
+        "member:reject-verdict-approval-dropped",
+        "check:reject-verdict-approval-dropped"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"verdict-mismatch\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "reject-verdict-reason-changed",
+      "inputs": [
+        "member:reject-verdict-reason-changed",
+        "check:reject-verdict-reason-changed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"verdict-mismatch\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "reject-policy-bundle-digest-missing",
+      "inputs": [
+        "member:reject-policy-bundle-digest-missing",
+        "check:reject-policy-bundle-digest-missing"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"policy-digest-missing\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "reject-policy-manifest-digest-missing",
+      "inputs": [
+        "member:reject-policy-manifest-digest-missing",
+        "check:reject-policy-manifest-digest-missing"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"policy-digest-missing\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "reject-policy-bundle-swapped",
+      "inputs": [
+        "member:reject-policy-bundle-swapped",
+        "check:reject-policy-bundle-swapped"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"policy-digest-mismatch\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "reject-verdict-decision-unknown",
+      "inputs": [
+        "member:reject-verdict-decision-unknown",
+        "check:reject-verdict-decision-unknown"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"verdict-malformed\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "reject-predicate-type-wrong",
+      "inputs": [
+        "member:reject-predicate-type-wrong",
+        "check:reject-predicate-type-wrong"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"statement-malformed\",\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "reject-signature-other-key",
+      "inputs": [
+        "member:reject-signature-other-key",
+        "check:reject-signature-other-key"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"signature-invalid\",\"verdict\":\"reject\"}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "f59aa01639ae6ad9754e7ff2f9b422f92ebbe302960808260ff1c4a490b6f528"
+      },
+      {
+        "process": "run-2",
+        "sha256": "f59aa01639ae6ad9754e7ff2f9b422f92ebbe302960808260ff1c4a490b6f528"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 15 pinned members of control-decision-conformance as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 15,
+    "require": "at-least-one",
+    "selected": [
+      "accept-read-allowed",
+      "accept-delete-denied",
+      "accept-payment-escalated",
+      "accept-payment-allowed",
+      "reject-input-args-changed",
+      "reject-input-args-amount-lowered",
+      "reject-verdict-flipped-to-allow",
+      "reject-verdict-approval-dropped",
+      "reject-verdict-reason-changed",
+      "reject-policy-bundle-digest-missing",
+      "reject-policy-manifest-digest-missing",
+      "reject-policy-bundle-swapped",
+      "reject-verdict-decision-unknown",
+      "reject-predicate-type-wrong",
+      "reject-signature-other-key"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "control-decision-conformance"
+}

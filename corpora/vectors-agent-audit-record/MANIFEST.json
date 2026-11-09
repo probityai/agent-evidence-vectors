@@ -75,11 +75,11 @@
       }
     ]
   },
-  "corpusDigest": "eee834bdb4c3f1f846f1026524472f89b7ee2b8922440eeca5520e1446a1bb52",
+  "corpusDigest": "4e23b2657679aab1484add84ef82e6e5c2a8d681a8d93e4fe11981206efb767f",
   "counts": {
-    "accept": 92,
+    "accept": 98,
     "indeterminate": 2,
-    "reject": 123
+    "reject": 125
   },
   "draft": "draft-gilda-audit-agent-audit-record-00",
   "emptyTree": {
@@ -2873,6 +2873,108 @@
       "slug": "cs49-set-later-record-counts-less-than-settled"
     },
     {
+      "draftId": "CS50",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid",
+        "withinLimit": true
+      },
+      "file": "statements/vc5944d012d8f4ad0.json",
+      "id": "vc5944d012d8f4ad0",
+      "kind": "accept",
+      "parent": "vc4129376086b1771",
+      "parentDraftId": "CS41",
+      "row": "CS41 where the facilitator settled the upto permit at 0: settled carries amount 0, source chain and an empty transaction, since a zero settlement sends none, and the held entry keeps the operation key, its 12 USDC and the permit's deadline",
+      "slug": "cs50-upto-settled-at-zero"
+    },
+    {
+      "draftId": "CS51",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [
+          "consumption-value-invalid"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v8168d7d02f8610fb.json",
+      "id": "v8168d7d02f8610fb",
+      "kind": "reject",
+      "parent": "vc5944d012d8f4ad0",
+      "parentDraftId": "CS50",
+      "row": "CS50 where settled carries 7 USDC and still an empty transaction: a settlement that moved funds names the transaction that moved them",
+      "slug": "cs51-empty-transaction-at-a-non-zero-amount"
+    },
+    {
+      "draftId": "CS52",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [
+          "consumption-value-invalid"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v4614faef7282aaee.json",
+      "id": "v4614faef7282aaee",
+      "kind": "reject",
+      "parent": "vc5944d012d8f4ad0",
+      "parentDraftId": "CS50",
+      "row": "CS50 where the held entry carries no deadline: nothing says how long the permit can still settle",
+      "slug": "cs52-zero-settlement-held-entry-has-no-deadline"
+    },
+    {
+      "draftId": "CS53",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "set": {
+          "codes": [
+            "consumption-set-release-unshown"
+          ],
+          "verdict": "malformed",
+          "withinLimit": [
+            true,
+            true
+          ]
+        },
+        "verdict": "valid"
+      },
+      "file": "sets/v1e6e19e24a868a89.json",
+      "id": "v1e6e19e24a868a89",
+      "kind": "accept",
+      "row": "CS50, then a new operation under the same limit document that reads a later revision, is dated 24 minutes before the permit's deadline and no longer holds the call, which the first record shows as none: each record valid, the set malformed because the permit can still settle",
+      "slug": "cs53-set-zero-settlement-released-before-the-deadline"
+    },
+    {
+      "draftId": "CS54",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "set": {
+          "codes": [],
+          "verdict": "valid",
+          "withinLimit": [
+            true,
+            true
+          ]
+        },
+        "verdict": "valid"
+      },
+      "file": "sets/v2f0df6d2793c22c8.json",
+      "id": "v2f0df6d2793c22c8",
+      "kind": "accept",
+      "row": "CS53 where the later record is dated at the permit's deadline: each record valid, the set valid",
+      "slug": "cs54-set-zero-settlement-released-at-the-deadline"
+    },
+    {
       "draftId": "A21",
       "draftRevision": "draft-gilda-audit-agent-audit-record-01",
       "expected": {
@@ -3252,6 +3354,57 @@
       ],
       "row": "principal-standing-source exactly at maxAge (age 3600 under 3600) and not answering, still not-evaluated naming it: open between draft-jackson-wimse-evaluation-05 Section 3 and this section",
       "slug": "ps1b-principal-standing-age-equal-to-max-age"
+    },
+    {
+      "draftId": "PS3",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v64c9830c3336a68b.json",
+      "id": "v64c9830c3336a68b",
+      "kind": "accept",
+      "parent": "vd96413ec87814d0b",
+      "parentDraftId": "PS1",
+      "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v2/agent-audit-record",
+      "row": "principal standing from a published commitment and none held: principal-standing-source with lastResult of none, not-evaluated naming it (a commitment held past its maxAge is PS1, one exactly at it PS1b)",
+      "slug": "ps3-principal-standing-commitment-none-held"
+    },
+    {
+      "draftId": "PS4",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vce2b9385988cdaa2.json",
+      "id": "vce2b9385988cdaa2",
+      "kind": "accept",
+      "parent": "vd96413ec87814d0b",
+      "parentDraftId": "PS1",
+      "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v2/agent-audit-record",
+      "row": "principal standing from a published commitment that is current and whose proof shows the standing withdrawn: evaluated, every entry fresh, decision deny",
+      "slug": "ps4-principal-standing-commitment-withdrawn"
+    },
+    {
+      "draftId": "PS5",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vb381c43905c8cb8b.json",
+      "id": "vb381c43905c8cb8b",
+      "kind": "accept",
+      "parent": "vce2b9385988cdaa2",
+      "parentDraftId": "PS4",
+      "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v2/agent-audit-record",
+      "row": "the commitment current and the proof missing or not verifying against it: the commitment does not establish standing, and the record is evaluated with deny as PS4, never not-evaluated, its entry the commitment's as-of time",
+      "slug": "ps5-principal-standing-commitment-proof-missing"
     },
     {
       "draftId": "PR1",
