@@ -275,7 +275,7 @@ def default_paths(root: Path) -> list[Path]:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser = argparse.ArgumentParser(description="Refuse internal-voice text in public docs.")
     parser.add_argument("paths", nargs="*", type=Path)
     parser.add_argument("--allowlist", type=Path, default=DEFAULT_ALLOWLIST)
     parser.add_argument("--root", type=Path, default=Path.cwd())
