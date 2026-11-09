@@ -54,7 +54,7 @@ is not running the checks.
 only the checks that must hold before bytes leave the machine: the runner-label
 check, the push-range identity scan and the push-hygiene check (blob size and
 conflict markers). Remote CI runs every workflow on the pushed commit and is the
-proof; a red run after a push is fixed at once. Set `AEV_PRE_PUSH_VENUE=local`
+proof; a red run after a push gets its fix in the next commit. Set `AEV_PRE_PUSH_VENUE=local`
 (this machine) or `AEV_PRE_PUSH_VENUE=pool` (the box pool) to have the hook run
 the full workflow mirror above before the push instead.
 
@@ -100,7 +100,7 @@ asked. Three of them were found here on one day:
   there, and a refusal for slack that was not there, on an untouched corpus. Sum
   in sorted order.
 - `scripts/vendor-remap-test.py` compared the vendored specification against a
-  sibling clone's WORKING TREE. A lane reduced that clone's copy from 2322 lines
+  sibling clone's WORKING TREE. Work on another branch reduced that clone's copy from 2322 lines
   to 278 and amended it three times in two hours; three branches went red at
   different times, one of whose only commits were a run-ledger entry and a fix to
   an unrelated gate. Pin the revision in `spec/VENDOR-PIN.json` and read the bytes
