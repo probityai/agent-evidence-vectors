@@ -4,7 +4,7 @@ This repository runs its [registry anchor corpus](../../corpora/vectors-trace-an
 against TRACE's own Level 2 anchor check, TR-ANC-002 in the TRACE conformance
 suite. The comparison runs here, so TRACE does not need our package in its CI.
 
-The [workflow](../../.github/workflows/trace-anchor-tr-anc.yml) fetches the five
+The [workflow](../../.github/workflows/ci.yml) (job `trace_anchor_tr_anc`) fetches the five
 standard-library files that check imports from each public TRACE commit in
 [`pins.json`](pins.json), refuses any file whose SHA-256 differs from its pin,
 and replays all 27 cases through [`tr_anc_reader.py`](tr_anc_reader.py),

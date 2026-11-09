@@ -596,7 +596,7 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
     (
         "the v2 URI read with the v1 input set",
         _v2_without_extension,
-        "PS1",
+        "PS1,PS3,PS4,PS5",
     ),
     (
         "agent.authentication without api-key",
@@ -674,7 +674,7 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
     (
         "a lastResult of none read as fresh",
         lambda: _freshness(never_held_unavailable=False),
-        "A18,A20,FR4",
+        "A18,A20,FR4,PS3",
     ),
     (
         "a negative maxAge accepted",

@@ -6,8 +6,9 @@ name: package-vocabulary
 # validate.yml, python-distribution.yml (its build and qualification; the
 # release itself is release.yml, unit agent-evidence-vocabulary), readme.yml,
 # commit-message-lint.yml and identity-scan.yml. Its weekly history audit and
-# OSV scan are package-vocabulary-schedule.yml; codeql.yml and scorecard.yml
-# moved to the repository root; the root dco.yml replaces the package copy.
+# OSV scan are package-vocabulary-schedule.yml; the codeql check (a job of the
+# root ci.yml) and scorecard.yml moved to the repository root; the root dco.yml
+# replaces the package copy. The workflow names above are the old repository's.
 
 on:
   workflow_call:
@@ -123,6 +124,15 @@ jobs:
           # accepted and an unregistered one refused through the registry, and
           # the guide names every term and every value. Offline.
           python3 scripts/test_multi_agent_run.py
+
+      - name: Hold the registry, the validator and the guide to principal_identity
+        run: |
+          # Each principal_identity term starts proposed with no issuer and
+          # carries the check a verifier applies, every registered value is
+          # accepted and an unregistered one refused, the guide names every
+          # term and value, and registry.identity_provider derives the expected
+          # provider for each issuer in its table. Offline.
+          python3 scripts/test_principal_identity.py
 
       - name: Hold the validator to reading every file in crosswalk/
         run: |

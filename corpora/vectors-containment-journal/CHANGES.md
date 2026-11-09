@@ -3,6 +3,20 @@
 A published `suiteRevision` is never mutated in place. A normative change to the predicate or
 a case added bumps the revision, and the generator rewrites the cases byte-identically.
 
+## suiteRevision 3 (predicate revision 1.2: a detector decision is judged by what it changes)
+
+- `decision_not_supported_by_estimates` now fires only when a `detector_` decision with equal
+  estimates removes an edge. Until revision 1.1 it also fired when the decision's `isolated`
+  list was non-empty. That list is the state of the new graph (`isolated_set_mismatch` requires
+  it), so a detector that restated a graph in which an earlier `evidence_gate` or oracle
+  decision had isolated an agent was blamed for that earlier cut. An agent becomes isolated
+  only by losing an edge, so the edge test covers every cut the detector makes.
+- Case added: `allow-detector-restates-earlier-cut`.
+- Cases changed: none. Every revision 2 case keeps its bytes and its verdict.
+- Verdict change outside the corpus: a journal whose detector restates a graph with an
+  isolated agent, under equal estimates and with no removed edge, was denied with
+  `decision_not_supported_by_estimates` and is now allowed.
+
 ## suiteRevision 2 (predicate revision 1.1: retrievals, refusals, refused tool calls, grant chains)
 
 - Release note: the blast-radius reach rule is stated and forced clause by clause; a neutral

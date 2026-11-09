@@ -8,7 +8,7 @@
 
 [project]
 name = "agent-evidence-vectors"
-version = "0.36.3"
+version = "0.37.0"
 description = "Conformance corpora and reference verifiers for agent evidence records"
 requires-python = ">=3.11"
 license = { text = "Apache-2.0" }
@@ -566,7 +566,7 @@ held-elsewhere = ["actions", "crates", "packages", "tests"]
 # Directories cannot forget. A file added to any of these is checked because it
 # is there, not because it was announced, and scripts/typecheck-gate.py refuses
 # to pass if a Python file exists outside them.
-include = ["corpora", "crates/jcs-admit", "docs/paper", "docs/proposals", "docs/site", "examples/mcp-receipts", "interop", "packaging", "scripts", "tools", "vectors", "vectors-poc-evidence"]
+include = ["corpora", "crates/jcs-admit", "docs/paper", "docs/proposals", "docs/site", "docs/guides/offline-verify", "examples/mcp-receipts", "interop", "packaging", "scripts", "tools", "vectors", "vectors-poc-evidence"]
 
 # The reference rail is imported by the gates that drive it, and it lives in
 # packaging/ rather than on the default path, so the checker needs the same

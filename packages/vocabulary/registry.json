@@ -1,6 +1,6 @@
 {
   "source": "vocabulary.yaml",
-  "source_sha256": "58dd59e46e6f5e0925bb4c801a2f61c5e18e24e6c246059b16975b3e40c27365",
+  "source_sha256": "47edf594999783c8118bc07955695adfd4df76676c66aaa7804e742add904445",
   "term_uri_base": "https://w3id.org/agent-evidence/vocab/v1/",
   "terms": {
     "acceptance_observed": {
@@ -386,6 +386,28 @@
         "empty_reply"
       ]
     },
+    "identity_provider": {
+      "criticality": "critical",
+      "definition": "The identity provider that operates the issuer of the token a decision point validated, derived from principal.issuer. principal.source keeps naming the kind of token; this term names who issued it, so one closed set covers the four hosted and self-hosted providers agents meet most and the case where nobody but the deployer vouches. Closed and fail-closed.",
+      "section": "principal_identity",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/identity_provider",
+      "value_definitions": {
+        "auth0": "The issuer is an Auth0 tenant: an https issuer whose host ends in auth0.com, or a custom domain the record declares as auth0.",
+        "entra": "The issuer is Microsoft Entra ID or Entra External ID: an https issuer on login.microsoftonline.com, login.microsoftonline.us, login.chinacloudapi.cn, sts.windows.net or a host ending in ciamlogin.com, or a custom domain the record declares as entra.",
+        "keycloak": "The issuer is a Keycloak realm: an https issuer whose path is /realms/<realm> or /auth/realms/<realm>.",
+        "okta": "The issuer is an Okta org or custom authorization server: an https issuer whose host ends in okta.com, oktapreview.com, okta-emea.com or okta-gov.com, or a custom domain the record declares as okta.",
+        "other": "An identity provider this registry does not name. The issuer URL is the only description, and a consumer requiring one of the named providers refuses it.",
+        "self_issued": "The issuer is the deploying party itself, or the OpenID self-issued issuer https://self-issued.me/v2: no third-party identity provider vouches for the principal."
+      },
+      "values": [
+        "okta",
+        "entra",
+        "auth0",
+        "keycloak",
+        "self_issued",
+        "other"
+      ]
+    },
     "incident_identifier": {
       "criticality": "critical",
       "definition": "An identifier for one incident, carried in the records that each party signs, so that two organisations' records of the same incident can be joined. The first party to open the incident mints it as an issuer and an id. A party that learns of the incident from another adopts the identifier by listing it in a related array and keeps its own id; nobody rewrites a signed record to change an identifier. Two records concern one incident when they carry the same issuer and id, or when one lists the other's in related, and the join is the transitive closure of that relation.",
@@ -434,6 +456,20 @@
       "values": [
         "beacon_anchored",
         "asserted"
+      ]
+    },
+    "issuer_key_pinning": {
+      "criticality": "critical",
+      "definition": "Whether the client that obtained the token pinned the issuer's signing key by its RFC 7638 thumbprint before its first call. A pin is all or nothing: a configuration that pins one issuer and leaves another unpinned, or names two thumbprints for one issuer, is malformed and is never read as pinned. A pin is never downgraded: on a thumbprint mismatch or a failed key fetch the client refuses, and does not fall back to the unpinned path. Closed and fail-closed.",
+      "section": "principal_identity",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/issuer_key_pinning",
+      "value_definitions": {
+        "pinned_before_first_call": "The client held the RFC 7638 SHA-256 thumbprint of the issuer key in its configuration before its first call to the issuer and refused any key whose thumbprint differed.",
+        "unpinned": "The client trusted whatever key the issuer's JWKS served at the time, with no thumbprint configured."
+      },
+      "values": [
+        "pinned_before_first_call",
+        "unpinned"
       ]
     },
     "material_change_trigger": {

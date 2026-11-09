@@ -1,0 +1,13 @@
+{
+  "base": "source/j01-connected-20261028-r2/cases/j01",
+  "check": "4c",
+  "consumed_at": "2026-10-28T21:45:47.000Z",
+  "edit": "inputs/aps-action.json nonce changed",
+  "expected": {
+    "input_aps": "REFUSED:ACTION_REF"
+  },
+  "id": "x-action-edit",
+  "packaged_reader": {
+    "input_aps": "REFUSED:ACTION_REF"
+  }
+}

@@ -1,5 +1,5 @@
 # The `hf` command the dataset publisher installs, locked by version and hash.
-# .github/workflows/publish-hf-dataset.yml installs these with --require-hashes
+# the publish_hf_dataset job of .github/workflows/ci.yml installs these with --require-hashes
 # and --only-binary, so the upload step runs nothing that was not pinned here.
 #
 # typer and click are pinned beside huggingface_hub on purpose: huggingface_hub
