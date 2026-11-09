@@ -7,9 +7,11 @@
     "expiresAt": "2026-10-21T12:05:00Z",
     "issuedAt": "2026-10-21T11:55:00Z",
     "keyId": "tool-argument:confirm_deletion",
+    "outcome": "approved",
     "payloadSha256": "26a4191e4ca2147daba8b7818c64f3b81b09c154b0a09df540a5fd8f30b78bbd",
     "phase": "pre-execution",
     "principal": "user:alice",
+    "requestId": "req-0001",
     "target": "agent/root_agent.yaml",
     "tool": "delete_files"
   },
@@ -18,6 +20,12 @@
   ],
   "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/approval-binding/v1",
   "decisionTime": "2026-10-21T12:00:00Z",
+  "enforcement": "enforce",
+  "issuedApprovalIds": [
+    "appr-0000",
+    "appr-0001",
+    "appr-0002"
+  ],
   "policyRelease": {
     "firstServedAt": "2026-10-21T09:00:00Z",
     "graceSeconds": 300,
@@ -34,9 +42,11 @@
       "expiresAt": "2026-10-21T12:05:00Z",
       "issuedAt": "2026-10-21T11:55:00Z",
       "keyId": "tool-argument:confirm_deletion",
+      "outcome": "approved",
       "payloadSha256": "26a4191e4ca2147daba8b7818c64f3b81b09c154b0a09df540a5fd8f30b78bbd",
       "phase": "pre-execution",
       "principal": "user:alice",
+      "requestId": "req-0001",
       "target": "agent/root_agent.yaml",
       "tool": "delete_files"
     }
