@@ -46,7 +46,10 @@ UPSTREAM = {
     "fixture": "tests/signing/identity_v2/evaluate.json",
     "fixtureKey": "tests/signing/identity_v2/keypair.json",
 }
-UPSTREAM_BODY = "eyJzZXNzaW9uX2lkIjoiMDAwMDAwMDAtMDAwMC00MDAwLTgwMDAtMDAwMDAwMDAwMDBhIiwiZXZlbnRfdHlwZSI6IkFjdGl2aXR5U3RhcnRlZCJ9"
+UPSTREAM_BODY = (
+    "eyJzZXNzaW9uX2lkIjoiMDAwMDAwMDAtMDAwMC00MDAwLTgwMDAtMDAwMDAw"
+    "MDAwMDBhIiwiZXZlbnRfdHlwZSI6IkFjdGl2aXR5U3RhcnRlZCJ9"
+)
 UPSTREAM_ASSERTION = (
     "eyJhbGciOiJSUzI1NiIsImtpZCI6ImZpeHR1cmUtb2t0YS1jcmVkZW50aWFsLWtpZC0wMDAxIiwidHlwIjoi"
     "b3BlbmJveC1hZ2VudC1wcm9vZitqd3QifQ.eyJhdWQiOiJ1cm46b3BlbmJveDpmaXh0dXJlLWRlcGxveW1lb"
