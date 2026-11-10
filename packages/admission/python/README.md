@@ -87,3 +87,11 @@ python scripts/python-license-gate.py --dist dist
 ```
 
 The repository `LICENSE` is the source of the existing Apache-2.0 grant. `python/LICENSE` is its byte-for-byte distribution copy because license-file paths must stay within the Python project. Copy the root file when it changes; the gate refuses drift. Both the wheel and source archive include that text, and the source archive can build without the repository parent.
+
+## Verify the release
+
+Every file of a release carries a PEP 740 attestation naming the GitHub repository and workflow that built it. Read one:
+
+```sh
+curl -s https://pypi.org/integrity/agent-evidence-admission/<version>/<file name>/provenance
+```

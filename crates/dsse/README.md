@@ -77,6 +77,14 @@ Version 0.1.3 adds optional error serialization. The npm package described in
 | [Provenance](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/dsse/PROVENANCE.md) | the specification text and commit each rule was read from |
 | [Contributing](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/dsse/CONTRIBUTING.md) and [changelog](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/dsse/CHANGELOG.md) | how to propose a change, and what each release changed |
 
+## Verify the release
+
+Releases come from the release workflow through crates.io trusted publishing. The version record names the workflow run:
+
+```sh
+curl -s https://crates.io/api/v1/crates/dsse/<version> -A verify | python3 -c "import json,sys; print(json.load(sys.stdin)['version']['trustpub_data'])"
+```
+
 ## License
 
 Apache-2.0.
