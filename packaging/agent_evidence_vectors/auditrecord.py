@@ -2783,7 +2783,8 @@ def answer_member(path: str) -> dict[str, Any]:
                       for env in set_records(raw)]
         except (Malformed, ValueError, KeyError, TypeError):
             limits = []
-        verdict = "malformed" if not reports or any(r.verdict != "valid" for r in reports) else "valid"
+        unsound = not reports or any(r.verdict != "valid" for r in reports)
+        verdict = "malformed" if unsound else "valid"
         return {
             "verdict": verdict,
             "codes": [code for report in reports for code in report.codes],
@@ -2811,7 +2812,8 @@ def _dating_mismatch(declared: dict[str, Any], got: Any) -> str | None:
     for name in ("entry", "datedAt", "receipt"):
         if declared.get(name) != got.get(name):
             return f"dating {name}: expected {declared.get(name)!r}, got {got.get(name)!r}"
-    if not isinstance(got.get("codes"), list) or set(declared.get("codes") or []) != set(got["codes"]):
+    got_codes = got.get("codes")
+    if not isinstance(got_codes, list) or set(declared.get("codes") or []) != set(got_codes):
         return f"dating codes: expected {declared.get('codes')}, got {got.get('codes')}"
     want_root = declared.get("delegationRoot") or {}
     got_root = got.get("delegationRoot") if isinstance(got.get("delegationRoot"), dict) else {}
@@ -2827,7 +2829,8 @@ def _set_mismatch(declared: dict[str, Any], got: Any) -> str | None:
         return "the answer carries no set object"
     if declared.get("verdict") != got.get("verdict"):
         return f"set verdict: expected {declared.get('verdict')!r}, got {got.get('verdict')!r}"
-    if not isinstance(got.get("codes"), list) or set(declared.get("codes") or []) != set(got["codes"]):
+    got_codes = got.get("codes")
+    if not isinstance(got_codes, list) or set(declared.get("codes") or []) != set(got_codes):
         return f"set codes: expected {declared.get('codes')}, got {got.get('codes')}"
     for name in ("missing", "withinLimit"):
         if name in declared and declared[name] != got.get(name):
@@ -2853,8 +2856,9 @@ def contract_findings(entry: dict[str, Any], answer: dict[str, Any]) -> tuple[li
     if not isinstance(codes, list) or not all(isinstance(c, str) for c in codes):
         normative.append("codes is not an array of strings")
         codes = []
-    if verdict == "valid" and "derivedTier" in expected and expected["derivedTier"] != answer.get("derivedTier"):
-        normative.append(f"derivedTier: expected {expected['derivedTier']!r}, got {answer.get('derivedTier')!r}")
+    tier = answer.get("derivedTier")
+    if verdict == "valid" and "derivedTier" in expected and expected["derivedTier"] != tier:
+        normative.append(f"derivedTier: expected {expected['derivedTier']!r}, got {tier!r}")
     if "set" in expected:
         found = _set_mismatch(expected["set"], answer.get("set"))
         normative.extend([found] if found else [])
@@ -2862,7 +2866,9 @@ def contract_findings(entry: dict[str, Any], answer: dict[str, Any]) -> tuple[li
         found = _dating_mismatch(expected["dating"], answer.get("dating"))
         normative.extend([found] if found else [])
     elif "withinLimit" in expected and expected["withinLimit"] != answer.get("withinLimit"):
-        normative.append(f"withinLimit: expected {expected['withinLimit']}, got {answer.get('withinLimit')}")
+        normative.append(
+            f"withinLimit: expected {expected['withinLimit']}, got {answer.get('withinLimit')}"
+        )
     parity: list[str] = []
     declared = set(expected.get("codes") or [])
     if declared and not declared & set(codes):
@@ -2920,7 +2926,8 @@ def run_external(root: str, verifier: list[str], report_path: str, rail_note: st
         findings = own + normative
         failures.extend(f"{label}: {finding}" for finding in findings)
         notes.extend(f"{label}: {finding}" for finding in parity)
-        rows.append({"id": entry.get("id"), "draftId": entry.get("draftId"), "kind": entry.get("kind"),
+        rows.append({"id": entry.get("id"), "draftId": entry.get("draftId"),
+                     "kind": entry.get("kind"),
                      "conformance": "conform" if not (own or normative) else "fail",
                      "conformanceReasons": own + normative, "reasonParityFindings": parity,
                      "status": "pass" if not findings else "fail"})
