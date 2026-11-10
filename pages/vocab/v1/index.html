@@ -17,7 +17,7 @@
  "@type": "skos:ConceptScheme",
  "owl:versionInfo": "0.9.0",
  "rdfs:seeAlso": {
-  "@id": "https://probityai.github.io/agent-evidence/vocab/v1/registry/sha256-47edf594999783c8118bc07955695adfd4df76676c66aaa7804e742add904445.yaml"
+  "@id": "https://probityai.github.io/agent-evidence/vocab/v1/registry/sha256-bd2607ba1d0b4e34d3c869c8c7984cdefbcb90a15112dfd4515ccca54ee3e612.yaml"
  },
  "skos:hasTopConcept": [
   {
@@ -69,10 +69,19 @@
    "@id": "https://w3id.org/agent-evidence/vocab/v1/control_relation"
   },
   {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/correlation_handle"
+  },
+  {
    "@id": "https://w3id.org/agent-evidence/vocab/v1/coverage_denominator"
   },
   {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/decision_code"
+  },
+  {
    "@id": "https://w3id.org/agent-evidence/vocab/v1/decision_role"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/decision_verdict"
   },
   {
    "@id": "https://w3id.org/agent-evidence/vocab/v1/does_not_assert"
@@ -82,6 +91,9 @@
   },
   {
    "@id": "https://w3id.org/agent-evidence/vocab/v1/done_receipt"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/enforcement_point_label"
   },
   {
    "@id": "https://w3id.org/agent-evidence/vocab/v1/enforcement_vantage"
@@ -150,13 +162,25 @@
    "@id": "https://w3id.org/agent-evidence/vocab/v1/pause_hold"
   },
   {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/policy_commitment"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/possession_proof"
+  },
+  {
    "@id": "https://w3id.org/agent-evidence/vocab/v1/protected_path"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/receipt_chain_link"
   },
   {
    "@id": "https://w3id.org/agent-evidence/vocab/v1/replay_coverage"
   },
   {
    "@id": "https://w3id.org/agent-evidence/vocab/v1/replay_snapshot"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/request_commitment"
   },
   {
    "@id": "https://w3id.org/agent-evidence/vocab/v1/response_decision"
@@ -186,6 +210,9 @@
    "@id": "https://w3id.org/agent-evidence/vocab/v1/revocation_coverage"
   },
   {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/revocation_list_in_force"
+  },
+  {
    "@id": "https://w3id.org/agent-evidence/vocab/v1/revocation_state"
   },
   {
@@ -199,6 +226,12 @@
   },
   {
    "@id": "https://w3id.org/agent-evidence/vocab/v1/topology_enforcement"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/trust_root_commitment"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/upstream_receipt"
   },
   {
    "@id": "https://w3id.org/agent-evidence/vocab/v1/witness_scope"
@@ -226,7 +259,7 @@ th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-
 <header class="shell"><a href="https://github.com/probityai/agent-evidence-vectors">Agent Evidence</a></header>
 <main class="shell">
 <h1>Vocabulary terms, version 1</h1>
-<p>Registry version 0.9.0, registryDigest <a href="registry/sha256-47edf594999783c8118bc07955695adfd4df76676c66aaa7804e742add904445.yaml"><code>47edf594999783c8118bc07955695adfd4df76676c66aaa7804e742add904445</code></a>.</p>
+<p>Registry version 0.9.0, registryDigest <a href="registry/sha256-bd2607ba1d0b4e34d3c869c8c7984cdefbcb90a15112dfd4515ccca54ee3e612.yaml"><code>bd2607ba1d0b4e34d3c869c8c7984cdefbcb90a15112dfd4515ccca54ee3e612</code></a>.</p>
 <ul>
 <li><a href="acceptance_observed/"><code>https://w3id.org/agent-evidence/vocab/v1/acceptance_observed</code></a> (critical)</li>
 <li><a href="admission_decision/"><code>https://w3id.org/agent-evidence/vocab/v1/admission_decision</code></a> (critical)</li>
@@ -244,11 +277,15 @@ th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-
 <li><a href="containment_scope/"><code>https://w3id.org/agent-evidence/vocab/v1/containment_scope</code></a> (critical)</li>
 <li><a href="control_failure_posture/"><code>https://w3id.org/agent-evidence/vocab/v1/control_failure_posture</code></a> (critical)</li>
 <li><a href="control_relation/"><code>https://w3id.org/agent-evidence/vocab/v1/control_relation</code></a> (critical)</li>
+<li><a href="correlation_handle/"><code>https://w3id.org/agent-evidence/vocab/v1/correlation_handle</code></a> (informational)</li>
 <li><a href="coverage_denominator/"><code>https://w3id.org/agent-evidence/vocab/v1/coverage_denominator</code></a> (critical)</li>
+<li><a href="decision_code/"><code>https://w3id.org/agent-evidence/vocab/v1/decision_code</code></a> (critical)</li>
 <li><a href="decision_role/"><code>https://w3id.org/agent-evidence/vocab/v1/decision_role</code></a> (critical)</li>
+<li><a href="decision_verdict/"><code>https://w3id.org/agent-evidence/vocab/v1/decision_verdict</code></a> (critical)</li>
 <li><a href="does_not_assert/"><code>https://w3id.org/agent-evidence/vocab/v1/does_not_assert</code></a> (critical)</li>
 <li><a href="done_contract/"><code>https://w3id.org/agent-evidence/vocab/v1/done_contract</code></a> (critical)</li>
 <li><a href="done_receipt/"><code>https://w3id.org/agent-evidence/vocab/v1/done_receipt</code></a> (critical)</li>
+<li><a href="enforcement_point_label/"><code>https://w3id.org/agent-evidence/vocab/v1/enforcement_point_label</code></a> (informational)</li>
 <li><a href="enforcement_vantage/"><code>https://w3id.org/agent-evidence/vocab/v1/enforcement_vantage</code></a> (critical)</li>
 <li><a href="escalation_outcome/"><code>https://w3id.org/agent-evidence/vocab/v1/escalation_outcome</code></a> (critical)</li>
 <li><a href="evaluation_mode/"><code>https://w3id.org/agent-evidence/vocab/v1/evaluation_mode</code></a> (critical)</li>
@@ -271,9 +308,13 @@ th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-
 <li><a href="origin_kind/"><code>https://w3id.org/agent-evidence/vocab/v1/origin_kind</code></a> (critical)</li>
 <li><a href="party_role/"><code>https://w3id.org/agent-evidence/vocab/v1/party_role</code></a> (critical)</li>
 <li><a href="pause_hold/"><code>https://w3id.org/agent-evidence/vocab/v1/pause_hold</code></a> (critical)</li>
+<li><a href="policy_commitment/"><code>https://w3id.org/agent-evidence/vocab/v1/policy_commitment</code></a> (critical)</li>
+<li><a href="possession_proof/"><code>https://w3id.org/agent-evidence/vocab/v1/possession_proof</code></a> (critical)</li>
 <li><a href="protected_path/"><code>https://w3id.org/agent-evidence/vocab/v1/protected_path</code></a> (critical)</li>
+<li><a href="receipt_chain_link/"><code>https://w3id.org/agent-evidence/vocab/v1/receipt_chain_link</code></a> (critical)</li>
 <li><a href="replay_coverage/"><code>https://w3id.org/agent-evidence/vocab/v1/replay_coverage</code></a> (critical)</li>
 <li><a href="replay_snapshot/"><code>https://w3id.org/agent-evidence/vocab/v1/replay_snapshot</code></a> (critical)</li>
+<li><a href="request_commitment/"><code>https://w3id.org/agent-evidence/vocab/v1/request_commitment</code></a> (critical)</li>
 <li><a href="response_decision/"><code>https://w3id.org/agent-evidence/vocab/v1/response_decision</code></a> (critical)</li>
 <li><a href="response_function/"><code>https://w3id.org/agent-evidence/vocab/v1/response_function</code></a> (critical)</li>
 <li><a href="restart_scope/"><code>https://w3id.org/agent-evidence/vocab/v1/restart_scope</code></a> (critical)</li>
@@ -283,11 +324,14 @@ th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-
 <li><a href="result/"><code>https://w3id.org/agent-evidence/vocab/v1/result</code></a> (critical)</li>
 <li><a href="revision_reason/"><code>https://w3id.org/agent-evidence/vocab/v1/revision_reason</code></a> (informational)</li>
 <li><a href="revocation_coverage/"><code>https://w3id.org/agent-evidence/vocab/v1/revocation_coverage</code></a> (critical)</li>
+<li><a href="revocation_list_in_force/"><code>https://w3id.org/agent-evidence/vocab/v1/revocation_list_in_force</code></a> (critical)</li>
 <li><a href="revocation_state/"><code>https://w3id.org/agent-evidence/vocab/v1/revocation_state</code></a> (critical)</li>
 <li><a href="set_sufficiency/"><code>https://w3id.org/agent-evidence/vocab/v1/set_sufficiency</code></a> (critical)</li>
 <li><a href="stop_decision/"><code>https://w3id.org/agent-evidence/vocab/v1/stop_decision</code></a> (critical)</li>
 <li><a href="topology_decision_basis/"><code>https://w3id.org/agent-evidence/vocab/v1/topology_decision_basis</code></a> (critical)</li>
 <li><a href="topology_enforcement/"><code>https://w3id.org/agent-evidence/vocab/v1/topology_enforcement</code></a> (critical)</li>
+<li><a href="trust_root_commitment/"><code>https://w3id.org/agent-evidence/vocab/v1/trust_root_commitment</code></a> (critical)</li>
+<li><a href="upstream_receipt/"><code>https://w3id.org/agent-evidence/vocab/v1/upstream_receipt</code></a> (critical)</li>
 <li><a href="witness_scope/"><code>https://w3id.org/agent-evidence/vocab/v1/witness_scope</code></a> (critical)</li>
 </ul>
 </main>

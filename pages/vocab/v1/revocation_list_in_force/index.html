@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>revocation_list_in_force: Agent Evidence vocabulary</title>
+<meta name="description" content="The revocation_list_in_force term of the Agent Evidence vocabulary.">
+<link rel="canonical" href="https://w3id.org/agent-evidence/vocab/v1/revocation_list_in_force">
+<script type="application/ld+json">
+{
+ "@context": {
+  "owl": "http://www.w3.org/2002/07/owl#",
+  "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+  "skos": "http://www.w3.org/2004/02/skos/core#"
+ },
+ "@graph": [
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/revocation_list_in_force",
+   "@type": "skos:Concept",
+   "skos:definition": "Which revocation data the decision point held when it decided. Holding no list and holding a list that revoked nothing are different claims: the first says revocation was never consulted, the second says it was consulted and did not match. A list that revoked nothing still has a digest, the digest of the empty list's canonical bytes, and so is never no_list_loaded. Without this term a stale or absent list is indistinguishable from a current one.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "revocation_list_in_force",
+   "skos:prefLabel": "revocation_list_in_force",
+   "skos:topConceptOf": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   }
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/revocation_list_in_force#versioned_list",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/revocation_list_in_force"
+   },
+   "skos:definition": "The decision point held a revocation list that carries a monotonic version; the record carries the list digest and the version.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "versioned_list"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/revocation_list_in_force#unversioned_list",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/revocation_list_in_force"
+   },
+   "skos:definition": "The decision point held a revocation list with no version; the record carries the list digest and no version.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "unversioned_list"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/revocation_list_in_force#no_list_loaded",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/revocation_list_in_force"
+   },
+   "skos:definition": "The decision point held no revocation data; the record carries neither a digest nor a version.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "no_list_loaded"
+  }
+ ]
+}
+</script>
+<style>
+:root{color-scheme:light dark;--page:#f6f8fb;--surface:#fff;--ink:#14202e;--body:#33404f;--link:#1f4fd1;--rule:#cfd8e3;font-family:system-ui,sans-serif;color:var(--ink);background:var(--page)}
+@media (prefers-color-scheme:dark){:root{--page:#10151b;--surface:#18202a;--ink:#e8edf3;--body:#c3ccd6;--link:#8fb0ff;--rule:#2c3846}}
+*{box-sizing:border-box}body{margin:0;font:400 1rem/1.6 system-ui,sans-serif;background:var(--page)}
+.shell{max-width:52rem;margin-inline:auto;padding-inline:16px}
+header,footer{padding-block:1.25rem}header a{font-weight:700;color:var(--ink);text-decoration:none}
+footer{border-top:1px solid var(--rule);color:var(--body);font-size:.9375rem;margin-top:3rem}
+a{color:var(--link)}p,li,td{color:var(--body)}h1{line-height:1.2}
+code,pre{font-family:ui-monospace,Consolas,monospace;font-size:.875em}code{overflow-wrap:anywhere}
+pre{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:1rem;overflow-x:auto}
+blockquote{margin:1rem 0;padding:.25rem 1rem;border-left:4px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;display:block;overflow-x:auto}
+th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-align:top}
+</style>
+</head>
+<body>
+<header class="shell"><a href="https://github.com/probityai/agent-evidence-vectors">Agent Evidence</a></header>
+<main class="shell">
+<h1><code>revocation_list_in_force</code></h1>
+<p>Term URI: <a href="https://w3id.org/agent-evidence/vocab/v1/revocation_list_in_force">https://w3id.org/agent-evidence/vocab/v1/revocation_list_in_force</a></p>
+<p>Section: <code>decision_receipt</code>. Criticality: <code>critical</code>.</p>
+<p>Which revocation data the decision point held when it decided. Holding no list and holding a list that revoked nothing are different claims: the first says revocation was never consulted, the second says it was consulted and did not match. A list that revoked nothing still has a digest, the digest of the empty list&#x27;s canonical bytes, and so is never no_list_loaded. Without this term a stale or absent list is indistinguishable from a current one.</p>
+<h2>Registered values</h2>
+<ul>
+<li id="versioned_list"><code>https://w3id.org/agent-evidence/vocab/v1/revocation_list_in_force#versioned_list</code>: The decision point held a revocation list that carries a monotonic version; the record carries the list digest and the version.</li>
+<li id="unversioned_list"><code>https://w3id.org/agent-evidence/vocab/v1/revocation_list_in_force#unversioned_list</code>: The decision point held a revocation list with no version; the record carries the list digest and no version.</li>
+<li id="no_list_loaded"><code>https://w3id.org/agent-evidence/vocab/v1/revocation_list_in_force#no_list_loaded</code>: The decision point held no revocation data; the record carries neither a digest nor a version.</li>
+</ul>
+</main>
+<footer><div class="shell">Generated from <a href="https://github.com/probityai/agent-evidence-vectors/blob/main/packages/vocabulary/vocabulary.yaml">vocabulary.yaml</a>. This page describes the current registry. A record is read against the registry its registryDigest names, named on <a href="https://probityai.github.io/agent-evidence/vocab/v1/">the term listing</a>. The term URI does not change once a signed record carries it.</div></footer>
+</body>
+</html>

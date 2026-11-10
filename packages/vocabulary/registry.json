@@ -1,6 +1,6 @@
 {
   "source": "vocabulary.yaml",
-  "source_sha256": "47edf594999783c8118bc07955695adfd4df76676c66aaa7804e742add904445",
+  "source_sha256": "bd2607ba1d0b4e34d3c869c8c7984cdefbcb90a15112dfd4515ccca54ee3e612",
   "term_uri_base": "https://w3id.org/agent-evidence/vocab/v1/",
   "terms": {
     "acceptance_observed": {
@@ -216,11 +216,27 @@
       "value_definitions": {},
       "values": null
     },
+    "correlation_handle": {
+      "criticality": "informational",
+      "definition": "An identifier the host supplies so a decision record can be matched with the host's own logs: a request id, a trace or span id, a workflow activity id. It is not an identity guarantee. Two invocations may carry the same handle and nothing enforces uniqueness. Telling repeats apart is the chain link's job, and matching a decision to its arguments is the request commitment's job.",
+      "section": "decision_receipt",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/correlation_handle",
+      "value_definitions": {},
+      "values": null
+    },
     "coverage_denominator": {
       "criticality": "critical",
       "definition": "A digest-committed partition of the population a claim is drawn from into three pairwise-disjoint sets (assessed, out-of-scope-with-a-reason, and routed-elsewhere) whose union MUST equal the keys of a digest-committed manifest the producer does not control. Without this, a claim of \"found nothing\" and a claim of \"looked at nothing\" are indistinguishable on the wire.",
       "section": "posture_and_coverage",
       "uri": "https://w3id.org/agent-evidence/vocab/v1/coverage_denominator",
+      "value_definitions": {},
+      "values": null
+    },
+    "decision_code": {
+      "criticality": "critical",
+      "definition": "A canonical kebab-case name for why a decision was not allow, drawn from a list the decision point publishes. It is required whenever the verdict is not allow and absent when it is allow. It never holds free text, an argument value or an identifier from the request, because the field is meant to be safe to retain indefinitely.",
+      "section": "decision_receipt",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/decision_code",
       "value_definitions": {},
       "values": null
     },
@@ -240,6 +256,26 @@
         "authorized",
         "executed",
         "accountable"
+      ]
+    },
+    "decision_verdict": {
+      "criticality": "critical",
+      "definition": "The outcome a decision point reached for one proposed action, in a fixed strictness order from least to most strict: allow, constrain, require_approval, block, halt. When more than one policy answers the same action, the strictest verdict wins, the same way in every verifier, and a verifier reports every policy that answered at the winning verdict. A check that failed without producing a verdict of its own, such as a content guardrail, is read as block. An unregistered verdict, a differently spelled one and an empty set of answers are never read as allow. Closed and fail-closed.",
+      "section": "decision_receipt",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/decision_verdict",
+      "value_definitions": {
+        "allow": "The action may run as proposed.",
+        "block": "This one action is refused. The run may continue with other actions. A two-valued decision that says deny is read as block.",
+        "constrain": "The action may run only after the decision point rewrites it as the record states; the bytes bound by the permit are the rewritten bytes.",
+        "halt": "The action is refused and the run ends; no later action of the run is allowed without a new run.",
+        "require_approval": "The action waits for a named approver other than the proposer; until the approval is recorded it is not allowed."
+      },
+      "values": [
+        "allow",
+        "constrain",
+        "require_approval",
+        "block",
+        "halt"
       ]
     },
     "does_not_assert": {
@@ -263,6 +299,14 @@
       "definition": "The record of one done decision: the contract's digest, the final tree's digest, the observation of the agent's run, the verifier's grade, the agent's tool claims, and the verdict the three checks reach. It is a replay bundle, so a party who distrusts the producer can rerun the checks on the same bytes.",
       "section": "done_verification",
       "uri": "https://w3id.org/agent-evidence/vocab/v1/done_receipt",
+      "value_definitions": {},
+      "values": null
+    },
+    "enforcement_point_label": {
+      "criticality": "informational",
+      "definition": "A human-readable label a deployment gives to an enforcement point. It is descriptive only: the signer's key is the identity and the only field a verifier keys trust on. Two enforcement points may carry one label and a label may change while the key stays.",
+      "section": "decision_receipt",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/enforcement_point_label",
       "value_definitions": {},
       "values": null
     },
@@ -573,6 +617,34 @@
         "not_established"
       ]
     },
+    "policy_commitment": {
+      "criticality": "critical",
+      "definition": "Whether the record names, by digest, the policy configuration the decision point applied. Without it two decisions that differ only because the policy changed between them cannot be told apart from one that was wrong. The digest is over the canonical bytes of the configuration and a verifier holding the configuration recomputes it.",
+      "section": "decision_receipt",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/policy_commitment",
+      "value_definitions": {
+        "committed": "The record carries the SHA-256 of the policy configuration in force at decision time.",
+        "not_committed": "The record carries no digest of the policy configuration."
+      },
+      "values": [
+        "committed",
+        "not_committed"
+      ]
+    },
+    "possession_proof": {
+      "criticality": "critical",
+      "definition": "Whether an allow carries the holder's own proof that it held the key for this invocation, signed over the request and a time window. The proof is what anchors the decision instant: the holder signs the window and the window is recomputed from the record's timestamp, so the instant is attested by a key the decision point does not hold. An allow with no proof is evidence of the signer's word alone.",
+      "section": "decision_receipt",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/possession_proof",
+      "value_definitions": {
+        "absent": "The record carries no proof-of-possession signature.",
+        "bound": "The record carries the holder's proof-of-possession signature over this invocation."
+      },
+      "values": [
+        "bound",
+        "absent"
+      ]
+    },
     "protected_path": {
       "criticality": "critical",
       "definition": "A file or directory the contract names as off limits to the agent, with a digest. A directory entry may list path segment names (such as __pycache__) left out of its digest and its event match. Tests, graders and reward files are the usual members.",
@@ -580,6 +652,22 @@
       "uri": "https://w3id.org/agent-evidence/vocab/v1/protected_path",
       "value_definitions": {},
       "values": null
+    },
+    "receipt_chain_link": {
+      "criticality": "critical",
+      "definition": "Whether a record names, by digest, the record its signer emitted before it, so that deleting a record breaks every record after it. Individually valid records do not make a set of records whole: a decision point can decline to emit a record for a decision it would rather forget. A chain proves its middle and its start; it proves nothing about newer records cut from the end, so a verifier states the end it could not establish unless the consumer holds the last digest and the count outside the signer's reach. A chain is read in order, a repeated record is refused, and two records that claim the same predecessor are a fork.",
+      "section": "decision_receipt",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/receipt_chain_link",
+      "value_definitions": {
+        "first": "The record is the first one its signer emitted in the chain and carries no previous digest.",
+        "linked": "The record carries the SHA-256 of the previous record its signer emitted.",
+        "unchained": "The signer does not chain its records."
+      },
+      "values": [
+        "first",
+        "linked",
+        "unchained"
+      ]
     },
     "replay_coverage": {
       "criticality": "critical",
@@ -599,6 +687,20 @@
       "uri": "https://w3id.org/agent-evidence/vocab/v1/replay_snapshot",
       "value_definitions": {},
       "values": null
+    },
+    "request_commitment": {
+      "criticality": "critical",
+      "definition": "Whether the decision is bound to the bytes of the request it judged. A digest is carried only when the request was canonicalized. When it was not, the field is omitted, never null and never filled with zero bytes, so that a missing commitment cannot be read as one over an empty or zero request. A verifier that holds the request recomputes the digest and refuses a record whose digest differs.",
+      "section": "decision_receipt",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/request_commitment",
+      "value_definitions": {
+        "committed": "The record carries the SHA-256 of the canonical bytes of the request the decision was made over.",
+        "uncanonicalizable": "The decision point could not canonicalize the request, and the record carries no request digest."
+      },
+      "values": [
+        "committed",
+        "uncanonicalizable"
+      ]
     },
     "response_decision": {
       "criticality": "critical",
@@ -747,6 +849,22 @@
         "unknown"
       ]
     },
+    "revocation_list_in_force": {
+      "criticality": "critical",
+      "definition": "Which revocation data the decision point held when it decided. Holding no list and holding a list that revoked nothing are different claims: the first says revocation was never consulted, the second says it was consulted and did not match. A list that revoked nothing still has a digest, the digest of the empty list's canonical bytes, and so is never no_list_loaded. Without this term a stale or absent list is indistinguishable from a current one.",
+      "section": "decision_receipt",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/revocation_list_in_force",
+      "value_definitions": {
+        "no_list_loaded": "The decision point held no revocation data; the record carries neither a digest nor a version.",
+        "unversioned_list": "The decision point held a revocation list with no version; the record carries the list digest and no version.",
+        "versioned_list": "The decision point held a revocation list that carries a monotonic version; the record carries the list digest and the version."
+      },
+      "values": [
+        "versioned_list",
+        "unversioned_list",
+        "no_list_loaded"
+      ]
+    },
     "revocation_state": {
       "criticality": "critical",
       "definition": "Where a revocation of a credential or grant stands at one relying party at one time. Issuing a revocation and enforcing it are different facts, and a record states which one it holds.",
@@ -829,6 +947,38 @@
       "values": [
         "advisory",
         "enforced"
+      ]
+    },
+    "trust_root_commitment": {
+      "criticality": "critical",
+      "definition": "Whether the record names, by digest, the set of issuers the decision point was trusting when it decided. The chain embedded in a record shows which root issued the authority, and not that the decision point had any business trusting that root. The digest is over the canonical bytes of the sorted root set.",
+      "section": "decision_receipt",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/trust_root_commitment",
+      "value_definitions": {
+        "committed": "The record carries the SHA-256 of the set of trusted roots the decision point honoured at decision time.",
+        "not_committed": "The record carries no digest of the trusted root set."
+      },
+      "values": [
+        "committed",
+        "not_committed"
+      ]
+    },
+    "upstream_receipt": {
+      "criticality": "critical",
+      "definition": "One fact about a call, stated by the agent platform in its receipt and re-checkable at the independent party that served the call. The receipt names the provider, the provider's own identifier for the call (a generation id) and an https re-check address. A verifier checks the one fact against the provider's record without trusting the agent platform or the producer of the receipt. The result is reported as one of four values, and only agrees is a pass: unreachable and not_checked are never counted as pass. Every failure to obtain a record, whether the call is unknown, the record expired, the address answered with something other than a record or the transport failed, is reported as unreachable with one error text, so the answer reveals nothing about which.",
+      "section": "decision_receipt",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/upstream_receipt",
+      "value_definitions": {
+        "agrees": "The verifier asked the upstream provider at the re-check address and the provider's own record of the call matches the fact the receipt states.",
+        "disagrees": "The verifier asked the upstream provider and its record differs from the fact the receipt states.",
+        "not_checked": "The verifier did not ask.",
+        "unreachable": "The verifier asked and the provider did not answer with a record, for any reason, including a record that has expired."
+      },
+      "values": [
+        "agrees",
+        "disagrees",
+        "unreachable",
+        "not_checked"
       ]
     },
     "witness_scope": {

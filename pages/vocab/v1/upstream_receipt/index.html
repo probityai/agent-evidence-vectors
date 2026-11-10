@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>upstream_receipt: Agent Evidence vocabulary</title>
+<meta name="description" content="The upstream_receipt term of the Agent Evidence vocabulary.">
+<link rel="canonical" href="https://w3id.org/agent-evidence/vocab/v1/upstream_receipt">
+<script type="application/ld+json">
+{
+ "@context": {
+  "owl": "http://www.w3.org/2002/07/owl#",
+  "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+  "skos": "http://www.w3.org/2004/02/skos/core#"
+ },
+ "@graph": [
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/upstream_receipt",
+   "@type": "skos:Concept",
+   "skos:definition": "One fact about a call, stated by the agent platform in its receipt and re-checkable at the independent party that served the call. The receipt names the provider, the provider's own identifier for the call (a generation id) and an https re-check address. A verifier checks the one fact against the provider's record without trusting the agent platform or the producer of the receipt. The result is reported as one of four values, and only agrees is a pass: unreachable and not_checked are never counted as pass. Every failure to obtain a record, whether the call is unknown, the record expired, the address answered with something other than a record or the transport failed, is reported as unreachable with one error text, so the answer reveals nothing about which.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "upstream_receipt",
+   "skos:prefLabel": "upstream_receipt",
+   "skos:topConceptOf": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   }
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/upstream_receipt#agrees",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/upstream_receipt"
+   },
+   "skos:definition": "The verifier asked the upstream provider at the re-check address and the provider's own record of the call matches the fact the receipt states.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "agrees"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/upstream_receipt#disagrees",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/upstream_receipt"
+   },
+   "skos:definition": "The verifier asked the upstream provider and its record differs from the fact the receipt states.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "disagrees"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/upstream_receipt#unreachable",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/upstream_receipt"
+   },
+   "skos:definition": "The verifier asked and the provider did not answer with a record, for any reason, including a record that has expired.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "unreachable"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/upstream_receipt#not_checked",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/upstream_receipt"
+   },
+   "skos:definition": "The verifier did not ask.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "not_checked"
+  }
+ ]
+}
+</script>
+<style>
+:root{color-scheme:light dark;--page:#f6f8fb;--surface:#fff;--ink:#14202e;--body:#33404f;--link:#1f4fd1;--rule:#cfd8e3;font-family:system-ui,sans-serif;color:var(--ink);background:var(--page)}
+@media (prefers-color-scheme:dark){:root{--page:#10151b;--surface:#18202a;--ink:#e8edf3;--body:#c3ccd6;--link:#8fb0ff;--rule:#2c3846}}
+*{box-sizing:border-box}body{margin:0;font:400 1rem/1.6 system-ui,sans-serif;background:var(--page)}
+.shell{max-width:52rem;margin-inline:auto;padding-inline:16px}
+header,footer{padding-block:1.25rem}header a{font-weight:700;color:var(--ink);text-decoration:none}
+footer{border-top:1px solid var(--rule);color:var(--body);font-size:.9375rem;margin-top:3rem}
+a{color:var(--link)}p,li,td{color:var(--body)}h1{line-height:1.2}
+code,pre{font-family:ui-monospace,Consolas,monospace;font-size:.875em}code{overflow-wrap:anywhere}
+pre{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:1rem;overflow-x:auto}
+blockquote{margin:1rem 0;padding:.25rem 1rem;border-left:4px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;display:block;overflow-x:auto}
+th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-align:top}
+</style>
+</head>
+<body>
+<header class="shell"><a href="https://github.com/probityai/agent-evidence-vectors">Agent Evidence</a></header>
+<main class="shell">
+<h1><code>upstream_receipt</code></h1>
+<p>Term URI: <a href="https://w3id.org/agent-evidence/vocab/v1/upstream_receipt">https://w3id.org/agent-evidence/vocab/v1/upstream_receipt</a></p>
+<p>Section: <code>decision_receipt</code>. Criticality: <code>critical</code>.</p>
+<p>One fact about a call, stated by the agent platform in its receipt and re-checkable at the independent party that served the call. The receipt names the provider, the provider&#x27;s own identifier for the call (a generation id) and an https re-check address. A verifier checks the one fact against the provider&#x27;s record without trusting the agent platform or the producer of the receipt. The result is reported as one of four values, and only agrees is a pass: unreachable and not_checked are never counted as pass. Every failure to obtain a record, whether the call is unknown, the record expired, the address answered with something other than a record or the transport failed, is reported as unreachable with one error text, so the answer reveals nothing about which.</p>
+<h2>Registered values</h2>
+<ul>
+<li id="agrees"><code>https://w3id.org/agent-evidence/vocab/v1/upstream_receipt#agrees</code>: The verifier asked the upstream provider at the re-check address and the provider&#x27;s own record of the call matches the fact the receipt states.</li>
+<li id="disagrees"><code>https://w3id.org/agent-evidence/vocab/v1/upstream_receipt#disagrees</code>: The verifier asked the upstream provider and its record differs from the fact the receipt states.</li>
+<li id="unreachable"><code>https://w3id.org/agent-evidence/vocab/v1/upstream_receipt#unreachable</code>: The verifier asked and the provider did not answer with a record, for any reason, including a record that has expired.</li>
+<li id="not_checked"><code>https://w3id.org/agent-evidence/vocab/v1/upstream_receipt#not_checked</code>: The verifier did not ask.</li>
+</ul>
+</main>
+<footer><div class="shell">Generated from <a href="https://github.com/probityai/agent-evidence-vectors/blob/main/packages/vocabulary/vocabulary.yaml">vocabulary.yaml</a>. This page describes the current registry. A record is read against the registry its registryDigest names, named on <a href="https://probityai.github.io/agent-evidence/vocab/v1/">the term listing</a>. The term URI does not change once a signed record carries it.</div></footer>
+</body>
+</html>
