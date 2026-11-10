@@ -20,6 +20,8 @@ to the counts file in the same commit, which is the point.
 
 from __future__ import annotations
 
+import base64
+import binascii
 import copy
 import json
 import sys
@@ -77,12 +79,25 @@ def _load(path: Path) -> Any:
         return None
 
 
+def _unwrap(doc: Any) -> Any:
+    """The statement inside a DSSE envelope, or None when the payload is not one."""
+    try:
+        return json.loads(base64.b64decode(doc["payload"], validate=True))
+    except (KeyError, TypeError, ValueError, binascii.Error):
+        return None
+
+
 def samples(entry: dict) -> list[Any]:
-    """The sample documents of one schema entry in path order; a file that is not an object is skipped."""
+    """The sample documents of one schema entry in path order; a file that is not an object is skipped.
+
+    ``decode = "dsse"`` reads the statement out of each envelope's base64 payload first.
+    """
     paths = sorted(p for pattern in entry["samples"] for p in ROOT.glob(pattern))
     found = []
     for path in paths:
         doc = _load(path)
+        if entry.get("decode") == "dsse":
+            doc = _unwrap(doc)
         if isinstance(doc, dict) and all(doc.get(k) == v for k, v in entry.get("where", {}).items()):
             found.append(doc)
     return found
