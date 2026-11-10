@@ -70,8 +70,11 @@ tar xzf "$tgz" -C "$bindir" gitleaks
 # --exit-code 3 separates "findings" from every other failure, which gitleaks
 # also reports as 1. The range is passed explicitly: gitleaks' own default is
 # `git log --all`, which reads every ref in the clone, not the revision judged.
+# --verbose prints each finding's file, line, rule and commit (the secret itself stays
+# redacted); without it gitleaks prints only "leaks found: N", and the pre-push hook's
+# "(see above)" pointed at nothing (2026-11-10: 33 findings, none named in the log).
 status=0
-"$bindir/gitleaks" git --config "$config" --no-banner --redact --exit-code 3 \
+"$bindir/gitleaks" git --config "$config" --no-banner --no-color --redact --verbose --exit-code 3 \
 	--log-opts="--full-history $range" "$repo" || status=$?
 case "$status" in
 0) exit 0 ;;

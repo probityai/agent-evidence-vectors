@@ -106,3 +106,13 @@ def test_a_realistic_secret_or_a_misplaced_fixture_still_fails(
 ) -> None:
     assert _scan(tmp_path, relpath, text) == 1
 
+
+def test_a_refused_scan_names_the_file_and_line_of_each_finding(tmp_path: Path) -> None:
+    # The hook ends "gitleaks reports findings ... (see above)", so the scan has to print them.
+    done = _scan_run(tmp_path, "src/config.json", f'{{\n  "producerKey": "{PRODUCER_KEY}"\n}}\n')
+    assert done.returncode == 1
+    report = (done.stdout + done.stderr).decode()
+    assert "File:        src/config.json" in report
+    assert "Line:        2" in report
+    assert "RuleID:      generic-api-key" in report
+    assert PRODUCER_KEY not in report
