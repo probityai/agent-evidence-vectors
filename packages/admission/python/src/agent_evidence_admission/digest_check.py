@@ -153,7 +153,7 @@ def read_source(source: str) -> bytes:
         try:
             with urllib.request.urlopen(request, timeout=FETCH_TIMEOUT_SECONDS) as response:
                 return bytes(response.read())
-        except Exception as error:  # noqa: BLE001  expired, forged, unknown, refused and unreachable are one answer
+        except Exception as error:  # expired, forged, unknown, refused and unreachable are one answer
             raise link_error(source) from error
     if source.startswith("http://"):
         raise ValueError(f"refusing {source}: fetch the document over https")

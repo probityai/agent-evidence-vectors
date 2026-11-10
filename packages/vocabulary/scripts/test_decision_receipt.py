@@ -25,7 +25,7 @@ import yaml
 
 _ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(_ROOT / "scripts"))
-import test_principal_identity as shared  # noqa: E402  (the section checks every section's test shares)
+import test_principal_identity as shared
 
 _PAGE = _ROOT / "docs" / "decision-receipt.md"
 _MANIFEST = _ROOT / "vectors" / "decision-receipt" / "manifest.json"

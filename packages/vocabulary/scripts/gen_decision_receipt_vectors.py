@@ -29,7 +29,7 @@ def _registry():
 
 
 R = _registry()
-H = lambda text: hashlib.sha256(text.encode()).hexdigest()  # noqa: E731
+H = lambda text: hashlib.sha256(text.encode()).hexdigest()
 ZERO = "0" * 64
 SIG = "ab" * 64
 EMPTY_LIST = H("[]")
