@@ -223,6 +223,37 @@ def case_pins(ctx: Ctx) -> str | None:
     return None if code == 2 else f"a malformed pins file exited {code}"
 
 
+def case_flat_pins(ctx: Ctx) -> str | None:
+    """A producer's own EXPECTED.json, handed over as it is, pins its one record."""
+    work, p = ctx.work, ctx.paths
+    raw = p["accept"].read_bytes()
+    report = json.loads(raw)
+    expected = {
+        "check-set-sha256": report["check-set"]["sha256"],
+        "declared": report["roll-up"]["declared"],
+        "report-bytes": len(raw),
+        "report-sha256": hashlib.sha256(raw).hexdigest(),
+    }
+    good = write(work / "EXPECTED.json", expected)
+    code, _, log = produced(work, "w3c-report", "out/*.json", "--pins", str(good))
+    if code != 0:
+        return f"a matching EXPECTED.json did not pass: exit {code}\n{log}"
+    for key, wrong in (
+        ("report-sha256", "0" * 64),
+        ("report-bytes", -1),
+        ("declared", -1),
+        ("check-set-sha256", "0" * 64),
+    ):
+        path = write(work / "EXPECTED-bad.json", {**expected, key: wrong})
+        code, receipt, _ = produced(work, "w3c-report", "out/*.json", "--pins", str(path))
+        if code != 1 or receipt is None or not receipt["totals"]["pinMismatches"]:
+            return f"a wrong {key} in EXPECTED.json was not a mismatch: exit {code}"
+    code, receipt, _ = produced(work, "w3c-report", "out/*.json", "bad/*.json", "--pins", str(good))
+    if code != 1:
+        return f"one flat pin over two records exited {code}, not a mismatch"
+    return None
+
+
 def case_run_records(ctx: Ctx) -> str | None:
     work = ctx.work
     code, receipt, log = produced(work, "run-record", "runs/*.json")
@@ -278,6 +309,7 @@ CASES: dict[str, Case] = {
     "an unknown record class is no verdict": case_unknown_class,
     "a file that is not JSON is no verdict": case_unreadable,
     "pins hold, and every kind of mismatch fails": case_pins,
+    "an EXPECTED.json pins the one record it describes": case_flat_pins,
     "run records are read by the criterion": case_run_records,
     "action.yml wires producer mode": case_action_yaml,
     "the rejection case goes red against a mutant": case_goes_red,

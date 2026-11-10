@@ -9,7 +9,7 @@ The corpus modes of the Action test a reader: each member is a record your verif
 | `records` | Paths or globs, one per line, of the records you emit. Setting it selects producer mode. |
 | `record-class` | `w3c-report` (default), `run-record`, `agent-run-metrics` or `llm-context-discovery`. |
 | `producer` | Optional command that writes the records, run with bash before they are read. |
-| `pins` | Optional JSON file: `{"records": {"<path>": {"sha256": "...", "size": 0, "count": 0, "checkSetRoot": "..."}}}`. Every field is optional; `count` and `checkSetRoot` apply to `w3c-report`. |
+| `pins` | Optional JSON file: `{"records": {"<path>": {"sha256": "...", "size": 0, "count": 0, "checkSetRoot": "..."}}}`. Every field is optional; `count`, `declared` (the roll-up's declared total) and `checkSetRoot` apply to `w3c-report`. A flat expected-digests file with the keys `report-sha256`, `report-bytes`, `declared` and `check-set-sha256` is read as it is and pins the one record the producer emits, so an existing `EXPECTED.json` of that shape needs no conversion. |
 | `receipt-path` | Where the receipt is written (default `agent-evidence-vectors-receipt.json`). |
 
 A `w3c-report` is read through the v0.1 reading table and the rejection rows; your own report reaches the reader with no observation store, so referenced observations read as unchecked. A `run-record` is read by the interoperability-evidence criterion of `vectors-mcp-record-contract`.
@@ -46,7 +46,7 @@ jobs:
           producer: python3 -m mypkg.emit --out out/report.json
           records: out/*.json
           record-class: w3c-report
-          pins: EXPECTED.pins.json
+          pins: path/to/EXPECTED.json
 ```
 
 Keep the pin exact and let a bot open the bump, so a new reader release reaches your CI as a pull request your tests run:

@@ -154,6 +154,9 @@ def _declared(record_class: str, raw: bytes) -> dict[str, Any]:
         out: dict[str, Any] = {}
         if isinstance(report, dict) and isinstance(report.get("checks"), list):
             out["count"] = len(report["checks"])
+        rollup = report.get("roll-up") if isinstance(report, dict) else None
+        if isinstance(rollup, dict) and "declared" in rollup:
+            out["declared"] = rollup["declared"]
         if isinstance(binding, dict) and "sha256" in binding:
             out["checkSetRoot"] = binding["sha256"]
         return out
@@ -164,7 +167,7 @@ def _declared(record_class: str, raw: bytes) -> dict[str, Any]:
 def pin_mismatches(observed: dict[str, Any], pin: dict[str, Any]) -> list[str]:
     """Each pinned field the record does not match, in words."""
     out = []
-    for key in ("sha256", "size", "count", "checkSetRoot"):
+    for key in PIN_KEYS:
         if key in pin and observed.get(key) != pin[key]:
             out.append(f"{key}: produced {observed.get(key)!r}, pinned {pin[key]!r}")
     return out
@@ -193,13 +196,48 @@ def judge_record(record_class: str, path: str, pin: dict[str, Any] | None) -> di
     return entry
 
 
+PIN_KEYS = ("sha256", "size", "count", "declared", "checkSetRoot")
+# A producer that already keeps one expected-digests file (an EXPECTED.json) can
+# hand it over as it is: its keys map onto the pins, and it pins the one record.
+EXPECTED_KEYS = {
+    "report-sha256": "sha256",
+    "report-bytes": "size",
+    "declared": "declared",
+    "check-set-sha256": "checkSetRoot",
+}
+SINGLE = "*"
+
+
 def load_pins(path: str) -> dict[str, dict[str, Any]]:
-    """The pins file: ``{"records": {"<path>": {"sha256", "size", "count", "checkSetRoot"}}}``."""
+    """The pins file, in either of two shapes.
+
+    ``{"records": {"<path>": {"sha256", "size", "count", "declared", "checkSetRoot"}}}``
+    pins each record by path. A flat object of the producer's own expected
+    digests (``report-sha256``, ``report-bytes``, ``declared``,
+    ``check-set-sha256``) pins the one record the producer emits.
+    """
     document = json.loads(Path(path).read_text(encoding="utf-8"))
+    if isinstance(document, dict) and "records" not in document:
+        flat = {EXPECTED_KEYS[k]: v for k, v in document.items() if k in EXPECTED_KEYS}
+        if flat:
+            return {SINGLE: flat}
     records = document.get("records") if isinstance(document, dict) else None
     if not isinstance(records, dict) or not all(isinstance(v, dict) for v in records.values()):
-        raise ValueError("a pins file is an object whose `records` maps each path to its pins")
+        raise ValueError(
+            "a pins file is an object whose `records` maps each path to its pins, "
+            "or a flat object of expected digests (report-sha256, report-bytes, "
+            "declared, check-set-sha256)"
+        )
     return {os.path.normpath(k): v for k, v in records.items()}
+
+
+def bind_single(pins: dict[str, dict[str, Any]] | None, paths: list[str]) -> dict[str, dict[str, Any]] | None:
+    """Give a flat pin the path of the one record that was produced."""
+    if pins is None or SINGLE not in pins:
+        return pins
+    if len(paths) == 1:
+        return {os.path.normpath(paths[0]): pins[SINGLE]}
+    return {f"{SINGLE} (one record expected, {len(paths)} produced)": pins[SINGLE]}
 
 
 def build_receipt(
@@ -209,6 +247,7 @@ def build_receipt(
     producer: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     """The receipt over every produced record, with its result."""
+    pins = bind_single(pins, paths)
     records = [
         judge_record(record_class, p, None if pins is None else pins.get(os.path.normpath(p), {}))
         for p in paths
