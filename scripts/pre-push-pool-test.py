@@ -145,6 +145,7 @@ class Controls(unittest.TestCase):
             "_lockfile.py",
             "_native_provider.py",
             "secret-scan.sh",
+            "fetch-tool.py",
         ):
             shutil.copyfile(HERE / name, self.root / "scripts" / name)
         shutil.copyfile(HERE.parent / ".gitleaks.toml", self.root / ".gitleaks.toml")

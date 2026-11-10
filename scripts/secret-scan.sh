@@ -24,7 +24,7 @@ set -euo pipefail
 
 version="8.30.1"
 tgz_sha256="551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb"
-url="https://github.com/gitleaks/gitleaks/releases/download/v${version}/gitleaks_${version}_linux_x64.tar.gz"
+asset="gitleaks_${version}_linux_x64.tar.gz"
 
 repo="."
 config=""
@@ -53,11 +53,11 @@ cache="${XDG_CACHE_HOME:-$HOME/.cache}/aev-gitleaks/$version"
 mkdir -p "$cache"
 tgz="$cache/gitleaks.tgz"
 if [ ! -f "$tgz" ] || ! echo "$tgz_sha256  $tgz" | sha256sum -c --status -; then
-	if ! curl --retry 5 --retry-delay 5 --retry-all-errors -sSfL -o "$tgz.part" "$url"; then
+	if ! "${AEV_PYTHON:-python3}" "$(dirname "$0")/fetch-tool.py" --repo gitleaks/gitleaks --tag "v${version}" \
+		--asset "$asset" --sha256 "$tgz_sha256" --dest "$tgz"; then
 		echo "secret-scan: could not download gitleaks $version; nothing was scanned." >&2
 		exit 2
 	fi
-	mv "$tgz.part" "$tgz"
 fi
 if ! echo "$tgz_sha256  $tgz" | sha256sum -c --status -; then
 	echo "secret-scan: gitleaks $version tarball fails its pinned hash; nothing was scanned." >&2
