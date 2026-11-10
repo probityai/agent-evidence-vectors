@@ -349,5 +349,168 @@
       "expect": "reject",
       "error": "too-deep"
     }
+  ],
+  "refusalCases": [
+    {
+      "id": "refuse-non-finite-overflow-positive",
+      "family": "non-finite",
+      "expect": "reject",
+      "error": "non-finite-number",
+      "input": "{\"a\":1e999}"
+    },
+    {
+      "id": "refuse-non-finite-overflow-negative",
+      "family": "non-finite",
+      "expect": "reject",
+      "error": "non-finite-number",
+      "input": "[-1e999]"
+    },
+    {
+      "id": "refuse-non-finite-overflow-large-mantissa",
+      "family": "non-finite",
+      "expect": "reject",
+      "error": "non-finite-number",
+      "input": "[1.7976931348623159e308]"
+    },
+    {
+      "id": "refuse-non-finite-nan-literal",
+      "family": "non-finite",
+      "expect": "reject",
+      "error": "syntax",
+      "input": "{\"a\":NaN}"
+    },
+    {
+      "id": "refuse-non-finite-infinity-literal",
+      "family": "non-finite",
+      "expect": "reject",
+      "error": "syntax",
+      "input": "[Infinity]"
+    },
+    {
+      "id": "refuse-non-finite-negative-infinity-literal",
+      "family": "non-finite",
+      "expect": "reject",
+      "error": "syntax",
+      "input": "[-Infinity]"
+    },
+    {
+      "id": "refuse-trailing-second-value",
+      "family": "trailing-content",
+      "expect": "reject",
+      "error": "trailing-content",
+      "input": "{}{}"
+    },
+    {
+      "id": "refuse-trailing-garbage",
+      "family": "trailing-content",
+      "expect": "reject",
+      "error": "trailing-content",
+      "input": "[1] x"
+    },
+    {
+      "id": "refuse-syntax-unclosed-array",
+      "family": "syntax",
+      "expect": "reject",
+      "error": "syntax",
+      "input": "[1,2"
+    },
+    {
+      "id": "refuse-syntax-trailing-comma",
+      "family": "syntax",
+      "expect": "reject",
+      "error": "syntax",
+      "input": "[1,]"
+    },
+    {
+      "id": "refuse-syntax-single-quoted-string",
+      "family": "syntax",
+      "expect": "reject",
+      "error": "syntax",
+      "input": "['a']"
+    },
+    {
+      "id": "refuse-syntax-leading-zero",
+      "family": "syntax",
+      "expect": "reject",
+      "error": "syntax",
+      "input": "[01]"
+    },
+    {
+      "id": "refuse-syntax-empty-input",
+      "family": "syntax",
+      "expect": "reject",
+      "error": "syntax",
+      "input": ""
+    },
+    {
+      "id": "refuse-unicode-lone-low-surrogate",
+      "family": "invalid-unicode",
+      "expect": "reject",
+      "error": "invalid-unicode",
+      "input": "[\"\\udc00\"]"
+    },
+    {
+      "id": "refuse-unicode-reversed-surrogate-pair",
+      "family": "invalid-unicode",
+      "expect": "reject",
+      "error": "invalid-unicode",
+      "input": "[\"\\udc00\\ud800\"]"
+    },
+    {
+      "id": "refuse-unicode-high-surrogate-then-text",
+      "family": "invalid-unicode",
+      "expect": "reject",
+      "error": "invalid-unicode",
+      "input": "[\"\\ud800a\"]"
+    },
+    {
+      "id": "refuse-unicode-lone-surrogate-in-member-name",
+      "family": "invalid-unicode",
+      "expect": "reject",
+      "error": "invalid-unicode",
+      "input": "{\"\\ud800\":1}"
+    },
+    {
+      "id": "refuse-unicode-raw-control-character",
+      "family": "invalid-unicode",
+      "expect": "reject",
+      "error": "invalid-unicode",
+      "input": "[\"a\u0001b\"]"
+    },
+    {
+      "id": "refuse-unicode-invalid-utf8-byte",
+      "family": "invalid-unicode",
+      "expect": "reject",
+      "error": "invalid-unicode",
+      "inputHex": "5b22ff225d"
+    },
+    {
+      "id": "refuse-unicode-overlong-utf8",
+      "family": "invalid-unicode",
+      "expect": "reject",
+      "error": "invalid-unicode",
+      "inputHex": "5b22c0805d"
+    },
+    {
+      "id": "refuse-unicode-surrogate-encoded-in-utf8",
+      "family": "invalid-unicode",
+      "expect": "reject",
+      "error": "invalid-unicode",
+      "inputHex": "5b22eda080225d"
+    },
+    {
+      "id": "refuse-duplicate-member-escaped-spelling",
+      "family": "duplicate-member",
+      "expect": "reject",
+      "error": "duplicate-member",
+      "input": "{\"a\":1,\"\\u0061\":2}"
+    },
+    {
+      "id": "refuse-duplicate-member-nested",
+      "family": "duplicate-member",
+      "expect": "reject",
+      "error": "duplicate-member",
+      "input": "{\"o\":{\"k\":1,\"k\":1}}"
+    }
   ]
 }
