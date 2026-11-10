@@ -1,0 +1,18 @@
+{
+  "name": "@aev/corpus-readers",
+  "version": "0.0.0",
+  "private": true,
+  "description": "TypeScript readers for the v2 evidence corpora: each derives a decision and reason from a case's record.json alone",
+  "type": "module",
+  "license": "Apache-2.0",
+  "engines": { "node": ">=20" },
+  "bin": { "aev-verdicts": "./dist/src/cli.js" },
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test dist/test/"
+  },
+  "devDependencies": {
+    "@types/node": "20.19.0",
+    "typescript": "7.0.2"
+  }
+}
