@@ -293,6 +293,9 @@ FAMILIES = {
     "acs-f-18": "an OCSF allow decision recorded under a class, or with fields, the allow rule does not give it",
     "acs-f-19": "a substituted verdict whose Trace record a reader cannot count, or counts as applied",
     "acs-f-20": "a fail-closed decision failure with no audit record, and a session end with no failure count read as clean",
+    "acs-f-21": "response fields outside the signed payload that disagree with it, and a chain position that goes backward",
+    "acs-f-22": "a Guardian that refused the caller's credential, answered under the fail-open posture",
+    "acs-f-23": "a session whose seal verifies and whose recorded fact is false, caught by a record the sealer did not write",
 }
 
 #: One row per requirement. Each carries the verbatim normative sentence, which
@@ -2367,6 +2370,9 @@ def build() -> list[dict]:
     build_acs_f_18(add)
     build_acs_f_19(add)
     build_acs_f_20(add)
+    build_acs_f_21(add)
+    build_acs_f_22(add)
+    build_acs_f_23(add)
 
     # A member minted from the October text says what its record does not
     # assert. Without it a reader takes an accepting member as evidence of more
@@ -4284,6 +4290,166 @@ def build_acs_f_20(add) -> None:
         ),
         does_not_assert="anything about a session that carries the count",
     )
+
+
+def build_acs_f_21(add) -> None:
+    """A seal covers the signed payload only; the fields beside it, and the chain's order, are checked apart."""
+    signed = {"decision": "deny", "chain_hash": "3" * 64, "session_id": "s-0001", "step_id": "st-0003"}
+    base = {
+        "response_signature": {"algorithm": "HMAC-SHA256", "covers": ["decision", "chain_hash"], "state": "VALID"},
+        "signed_payload": signed,
+    }
+    add(
+        kind="reject", family="acs-f-21", requirements=["ACS-R-001", "ACS-R-006", "ACS-R-022"],
+        payload={**base, "outer": {"decision": "allow", "chain_hash": "3" * 64, "session_id": "s-0001"}},
+        verdict="deny", code="SIGNATURE_INVALID", evidence_basis="artifact", witness_scope="PEER", coverage="effective",
+        cites=(
+            "a response whose signature verifies over the signed payload, which says deny, "
+            "and whose outer decision field says allow. A reader that takes the outer field "
+            "acts on a verdict nobody signed. The signature is good and the response is "
+            "not: the verifier has to compare what it acts on with what the signature covers"
+        ),
+        does_not_assert="that the signed payload is the Guardian's real decision",
+    )
+    add(
+        kind="reject", family="acs-f-21", requirements=["ACS-R-001", "ACS-R-006", "ACS-R-022"],
+        payload={**base, "outer": {"decision": "deny", "chain_hash": "4" * 64, "session_id": "s-0001"}},
+        verdict="deny", code="CHAIN_MISMATCH", evidence_basis="artifact", witness_scope="PEER", coverage="effective",
+        cites=(
+            "the outer chain_hash differs from the signed one. The chain head is the only "
+            "thing that ties this step to the steps before it, so a head beside the "
+            "signature that the signature does not cover lets a reader follow a chain "
+            "the Guardian never signed"
+        ),
+        does_not_assert="which of the two heads, if either, is the session's real head",
+    )
+    add(
+        kind="accept", family="acs-f-21", requirements=["ACS-R-001", "ACS-R-006", "ACS-R-022"],
+        payload={**base, "outer": {"decision": "deny", "chain_hash": "3" * 64, "session_id": "s-0001"}},
+        verdict="allow", code=None, evidence_basis="artifact", witness_scope="PEER", coverage="effective",
+        cites="the same response with every outer field equal to its signed counterpart.",
+        does_not_assert="anything about a field that neither side carries",
+    )
+    witnessed = [
+        {"step_id": "st-0001", "position": 1, "chain_hash": "1" * 64},
+        {"step_id": "st-0002", "position": 2, "chain_hash": "2" * 64},
+        {"step_id": "st-0003", "position": 3, "chain_hash": "3" * 64},
+    ]
+    add(
+        kind="reject", family="acs-f-21", requirements=["ACS-R-006", "ACS-R-022"],
+        payload={"witnessed_heads": witnessed,
+                 "presented": {"step_id": "st-0004", "position": 2, "previous_hash": "2" * 64, "signature_state": "VALID"}},
+        verdict="deny", code="CHAIN_MISMATCH", evidence_basis="artifact", witness_scope="PEER", coverage="effective",
+        cites=(
+            "a correctly signed head at position 2 presented after the third head was "
+            "witnessed. The signature is valid because the Guardian did sign that head "
+            "once; replaying it moves the chain backward and drops a witnessed step. "
+            "The specification carries no epoch field, so the check is the order of the "
+            "heads the peer already holds"
+        ),
+        does_not_assert="that the Guardian re-signed anything",
+    )
+    add(
+        kind="accept", family="acs-f-21", requirements=["ACS-R-006", "ACS-R-022"],
+        payload={"witnessed_heads": witnessed,
+                 "presented": {"step_id": "st-0004", "position": 4, "previous_hash": "3" * 64, "signature_state": "VALID"}},
+        verdict="allow", code=None, evidence_basis="artifact", witness_scope="PEER", coverage="effective",
+        cites="the same session presenting the next head, whose previous hash is the last witnessed one.",
+        does_not_assert="that no earlier head was withheld before witnessing began",
+    )
+
+
+def build_acs_f_22(add) -> None:
+    """A refusal is a decision; the fail-open posture applies only when nothing answers."""
+    for status, state in ((401, "credential revoked"), (403, "credential not authorized")):
+        add(
+            kind="reject", family="acs-f-22", requirements=["ACS-R-024", "ACS-R-048"],
+            payload={
+                "request": tool_call(),
+                "guardian_response": {"transport_status": status, "body": {"error": state}},
+                "on_decision_failure": "proceed",
+                "step_outcome": "proceeded",
+                "audit_events": [{"event": "acs.decision.failure", "failure_class": "transport", "posture": "proceed"}],
+            },
+            verdict="deny", code=None, evidence_basis="substrate", witness_scope="SELF", coverage="effective",
+            cites=(
+                f"a step that proceeded under the fail-open posture after the Guardian answered "
+                f"{status} to the caller's credential. The Guardian replied, so no answer is "
+                "missing and the posture has nothing to apply to; an error that reads as a "
+                "decision failure turns a withdrawn credential into an allow. The failure "
+                "is recorded, so a checker that reads only the log passes it"
+            ),
+            does_not_assert="that the specification names the status codes; it fixes only that an answer is a decision",
+        )
+    add(
+        kind="accept", family="acs-f-22", requirements=["ACS-R-024", "ACS-R-048"],
+        payload={
+            "request": tool_call(),
+            "guardian_response": {"transport_status": 401, "body": {"error": "credential revoked"}},
+            "on_decision_failure": "proceed",
+            "step_outcome": "blocked",
+            "audit_events": [{"event": "acs.decision", "decision": "deny", "reason": "credential_revoked"}],
+        },
+        verdict="allow", code=None, evidence_basis="substrate", witness_scope="SELF", coverage="effective",
+        cites="the same refusal under the same posture, with the step blocked and the refusal recorded as the decision.",
+        does_not_assert="the shape of the record beyond its presence",
+    )
+    add(
+        kind="accept", family="acs-f-22", requirements=["ACS-R-024", "ACS-R-070"],
+        payload={
+            "request": tool_call(),
+            "guardian_response": None,
+            "on_decision_failure": "proceed",
+            "step_outcome": "proceeded",
+            "audit_events": [{"event": "acs.decision.failure", "failure_class": "timeout", "posture": "proceed"}],
+        },
+        verdict="allow", code=None, evidence_basis="substrate", witness_scope="SELF", coverage="observed",
+        cites="no answer at all under the same posture: the case the posture exists for, proceeding with the failure recorded.",
+        does_not_assert="that proceeding was the right posture for the deployment",
+    )
+
+
+def build_acs_f_23(add) -> None:
+    """A seal is evidence of integrity, and an independently observed record is what checks the fact."""
+    sealed = {"session_id": "s-0001", "chain_hash": "3" * 64, "signature_state": "VALID",
+              "claims": {"st-0003": {"applied": "blocked"}}}
+    add(
+        kind="reject", family="acs-f-23", requirements=["ACS-R-006", "ACS-R-044"],
+        payload={"sealed_session": sealed,
+                 "observed_record": {"source": "host-side tool log", "writer": "not the sealer",
+                                     "st-0003": {"tool_executed": True}}},
+        verdict="deny", code=None, evidence_basis="substrate", witness_scope="PEER", coverage="observed",
+        cites=(
+            "a session whose seal verifies and whose sealed claim, step 3 blocked, is "
+            "contradicted by a tool log the sealer did not write, which shows the tool ran. "
+            "A seal shows the record is unchanged since sealing; it does not show the "
+            "record was right when written. Only the Observed Agent knows the applied "
+            "outcome, so the check reads a record from a second writer"
+        ),
+        does_not_assert="which side, the sealed claim or the tool log, is mistaken",
+    )
+    add(
+        kind="accept", family="acs-f-23", requirements=["ACS-R-006", "ACS-R-044"],
+        payload={"sealed_session": sealed,
+                 "observed_record": {"source": "host-side tool log", "writer": "not the sealer",
+                                     "st-0003": {"tool_executed": False}}},
+        verdict="allow", code=None, evidence_basis="substrate", witness_scope="PEER", coverage="observed",
+        cites="the same sealed session and an independent log that agrees: step 3 did not run.",
+        does_not_assert="that the log covers every tool the host can run",
+    )
+    add(
+        kind="indeterminate", family="acs-f-23", requirements=["ACS-R-006", "ACS-R-044"],
+        payload={"sealed_session": sealed, "observed_record": None},
+        verdict="unmeasurable", code=None,
+        unmeasurable_because=(
+            "no record from a second writer was supplied, so the sealed claim can be shown "
+            "unchanged and cannot be checked against anything. A verifier that scores it as "
+            "a pass reads the seal as evidence of the fact."
+        ),
+        evidence_basis="artifact", witness_scope="SELF", coverage="supported",
+        cites="the same sealed session with no independent record to check it against.",
+    )
+
 
 def code_cell(expected: dict) -> str:
     """The INDEX cell for a member's code: named, forbidden, or left unasserted."""
