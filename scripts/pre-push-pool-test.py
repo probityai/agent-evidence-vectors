@@ -732,6 +732,36 @@ sys.stdout.buffer.write(pathlib.Path(command[1]).read_bytes())
         self.assertTrue((retained[0] / "completion.json").is_file())
         self.assertTrue((retained[0] / "native.tar.gz").is_file())
 
+    def test_pool_runner_environment_is_the_callers_for_burst_and_disk_floor(self):
+        """The pool never sets burst or the disk floor: the caller's environment decides."""
+        seen: list[dict[str, str]] = []
+        real_child = BRIDGE.child
+
+        def recording_child(command, **kwargs):
+            if kwargs.get("env") is not None and "--keep" in command:
+                seen.append(dict(kwargs["env"]))
+            return real_child(command, **kwargs)
+
+        for caller, expected in (
+            ({}, (None, None)),
+            ({"BOX_RUN_NO_BURST": "1", "BOX_RUN_MIN_FREE_GB": "9"}, ("1", "9")),
+        ):
+            with self.subTest(caller=caller):
+                seen.clear()
+                self.install_transport_fixture()
+                env = {k: v for k, v in self.env.items() if not k.startswith("BOX_RUN_")}
+                env.update(caller)
+                with (
+                    patch.dict(os.environ, env, clear=True),
+                    patch.object(BRIDGE, "child", recording_child),
+                    patch("tempfile.tempdir", self.temp.name),
+                    contextlib.redirect_stdout(io.StringIO()),
+                ):
+                    self.assertEqual(BRIDGE.pool(), 0)
+                self.assertEqual(len(seen), 1)
+                got = (seen[0].get("BOX_RUN_NO_BURST"), seen[0].get("BOX_RUN_MIN_FREE_GB"))
+                self.assertEqual(got, expected)
+
     def test_pool_coordinator_refuses_lost_archive(self):
         self.install_transport_fixture()
         self.executable("ssh", "#!/bin/sh\nexit 7\n")
