@@ -8,9 +8,11 @@
     "expiresAt": "2026-10-21T12:05:00Z",
     "issuedAt": "2026-10-21T11:55:00Z",
     "keyId": "reviewer-1-key-2026-10",
+    "outcome": "approved",
     "payloadSha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
     "phase": "pre-execution",
     "principal": "user:alice",
+    "requestId": "req-0001",
     "target": "workspace/selection.json",
     "tool": "file.save"
   },
@@ -22,6 +24,12 @@
   "effectRegistry": {
     "effect-0001": "RESERVED"
   },
+  "enforcement": "enforce",
+  "issuedApprovalIds": [
+    "appr-0000",
+    "appr-0001",
+    "appr-0002"
+  ],
   "policyRelease": {
     "firstServedAt": "2026-10-21T09:00:00Z",
     "graceSeconds": 300,
@@ -39,9 +47,11 @@
       "expiresAt": "2026-10-21T12:05:00Z",
       "issuedAt": "2026-10-21T11:55:00Z",
       "keyId": "reviewer-1-key-2026-10",
+      "outcome": "approved",
       "payloadSha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
       "phase": "pre-execution",
       "principal": "user:alice",
+      "requestId": "req-0001",
       "target": "workspace/selection.json",
       "tool": "file.save"
     },
@@ -54,9 +64,11 @@
       "expiresAt": "2026-10-21T12:08:00Z",
       "issuedAt": "2026-10-21T11:58:00Z",
       "keyId": "reviewer-1-key-2026-10",
+      "outcome": "approved",
       "payloadSha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
       "phase": "pre-execution",
       "principal": "user:alice",
+      "requestId": "req-0002",
       "target": "workspace/selection.json",
       "tool": "file.save"
     }
