@@ -203,13 +203,18 @@ jobs:
             --status "$STATUS" --artifact "$RUNNER_TEMP/artifact.json" --artifact-zip "$RUNNER_TEMP/artifact.zip" \
             --digests release/CORPUS-DIGESTS.txt --corpus "$CORPUS" \
             --default-branch "$(cat "$RUNNER_TEMP/default-branch")" --out "$RUNNER_TEMP/receipt/receipt.json"
+      - name: fetch the pinned signer through the verified fetch action
+        uses: ./.github/actions/fetch-tool
+        with:
+          repo: sigstore/cosign
+          tag: ${{ env.COSIGN_VERSION }}
+          asset: cosign-linux-amd64
+          sha256: ${{ env.COSIGN_SHA256 }}
+          dest: ${{ runner.temp }}/cosign
+          executable: 'true'
       - name: sign the receipt with a certificate naming this workflow
         run: |
           set -euo pipefail
-          curl -fsSL -o "$RUNNER_TEMP/cosign" \
-            "https://github.com/sigstore/cosign/releases/download/${COSIGN_VERSION}/cosign-linux-amd64"
-          echo "${COSIGN_SHA256}  $RUNNER_TEMP/cosign" | sha256sum -c -
-          chmod +x "$RUNNER_TEMP/cosign"
           "$RUNNER_TEMP/cosign" sign-blob --yes \
             --bundle "$RUNNER_TEMP/receipt/receipt.sigstore.json" "$RUNNER_TEMP/receipt/receipt.json"
           {
