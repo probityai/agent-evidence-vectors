@@ -129,3 +129,17 @@ class TestCborReceiptChainCorpus:
             (copied / "cases" / "control-intact-anchored" / "chain.jsonl").write_bytes(b"\n")
             _, errors = cborreceiptchain.check(root=copied)
             assert "control-intact-anchored: fixture digest mismatch" in errors
+
+        def test_mutated_profile_is_refused_before_execution(self, tmp_path: Path) -> None:
+            copied = tmp_path / "corpus"
+            shutil.copytree(ROOT, copied, ignore=shutil.ignore_patterns("tests", "__pycache__"))
+            profile = json.loads((copied / "profile.json").read_text())
+            profile["allow_outcome"] = "permit"
+            (copied / "profile.json").write_text(json.dumps(profile, sort_keys=True, indent=2) + "\n")
+            answered, errors = cborreceiptchain.check(root=copied)
+            assert answered == 0
+            assert errors == ["profile digest mismatch"]
+
+        def test_corpus_digest_matches_the_manifest(self) -> None:
+            manifest = json.loads((ROOT / "MANIFEST.json").read_text())
+            assert generator.corpus_digest(manifest, str(ROOT)) == manifest["corpusDigest"]

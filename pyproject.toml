@@ -155,6 +155,7 @@ only-include = [
     "corpora/vectors-artifact-binding",
     "corpora/vectors-authority-at-dispatch",
     "corpora/vectors-badge-vc-verify",
+    "corpora/vectors-cbor-receipt-chain",
     "corpora/vectors-chunked-export",
     "corpora/vectors-completion-confirmation",
     "corpora/vectors-connector-scope",
@@ -225,6 +226,7 @@ exclude = [
     "corpora/vectors-artifact-binding/**/*.py",
     "corpora/vectors-authority-at-dispatch/**/*.py",
     "corpora/vectors-badge-vc-verify/**/*.py",
+    "corpora/vectors-cbor-receipt-chain/**/*.py",
     "corpora/vectors-chunked-export/**/*.py",
     "corpora/vectors-completion-confirmation/**/*.py",
     "corpora/vectors-connector-scope/**/*.py",
@@ -294,6 +296,7 @@ exclude = [
 "corpora/vectors-artifact-binding" = "agent_evidence_vectors/corpora/vectors-artifact-binding"
 "corpora/vectors-authority-at-dispatch" = "agent_evidence_vectors/corpora/vectors-authority-at-dispatch"
 "corpora/vectors-badge-vc-verify" = "agent_evidence_vectors/corpora/vectors-badge-vc-verify"
+"corpora/vectors-cbor-receipt-chain" = "agent_evidence_vectors/corpora/vectors-cbor-receipt-chain"
 "corpora/vectors-chunked-export" = "agent_evidence_vectors/corpora/vectors-chunked-export"
 "corpora/vectors-completion-confirmation" = "agent_evidence_vectors/corpora/vectors-completion-confirmation"
 "corpora/vectors-connector-scope" = "agent_evidence_vectors/corpora/vectors-connector-scope"
@@ -438,6 +441,7 @@ only-include = [
     "corpora/vectors-artifact-binding",
     "corpora/vectors-authority-at-dispatch",
     "corpora/vectors-badge-vc-verify",
+    "corpora/vectors-cbor-receipt-chain",
     "corpora/vectors-chunked-export",
     "corpora/vectors-completion-confirmation",
     "corpora/vectors-connector-scope",

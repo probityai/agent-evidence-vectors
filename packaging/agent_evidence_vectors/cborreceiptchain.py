@@ -247,10 +247,14 @@ def check(verifier: str | list[str] | None = None, root: Path = ROOT,
     """Check every case through the named verifier or the reference reader."""
     try:
         entries, manifest_error = _validated_entries(root, SUITE)
+        pinned = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))["profile"]["sha256"]
+        profile_ok = hashlib.sha256((root / "profile.json").read_bytes()).hexdigest() == pinned
     except (OSError, ValueError, KeyError, TypeError) as exc:
         return 0, [f"invalid corpus: {exc}"]
     if manifest_error:
         return 0, [manifest_error]
+    if not profile_ok:
+        return 0, ["profile digest mismatch"]
     command = verifier.split() if isinstance(verifier, str) else verifier
     errors, answered = [], 0
     for entry in entries:
