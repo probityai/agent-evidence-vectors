@@ -1,0 +1,22 @@
+{
+  "allow_outcome": "allow",
+  "fields": {
+    "outcome": 2,
+    "prev_hash": 1,
+    "proof": 4,
+    "request_hash": 3,
+    "revocation_hash": 5,
+    "version": 0
+  },
+  "key_form": "raw",
+  "line_member": null,
+  "outer": {
+    "payload": "p",
+    "signature": "s",
+    "signer_key": "k",
+    "version": "v"
+  },
+  "profile_id": "neutral-cbor-receipt/1",
+  "schema_version": "cbor-receipt-profile/v1",
+  "signature_context_hex": "726563656970742d636861696e2d6e65757472616c2d7631"
+}
