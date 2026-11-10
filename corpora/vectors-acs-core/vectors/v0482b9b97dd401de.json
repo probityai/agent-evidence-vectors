@@ -1,0 +1,69 @@
+{
+  "cites": "the same session presenting the next head, whose previous hash is the last witnessed one.",
+  "coverage": "effective",
+  "doesNotAssert": "that no earlier head was withheld before witnessing began",
+  "evidenceBasis": "artifact",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "allow"
+  },
+  "family": "acs-f-21",
+  "id": "v0482b9b97dd401de",
+  "kind": "accept",
+  "payload": {
+    "presented": {
+      "position": 4,
+      "previous_hash": "3333333333333333333333333333333333333333333333333333333333333333",
+      "signature_state": "VALID",
+      "step_id": "st-0004"
+    },
+    "witnessed_heads": [
+      {
+        "chain_hash": "1111111111111111111111111111111111111111111111111111111111111111",
+        "position": 1,
+        "step_id": "st-0001"
+      },
+      {
+        "chain_hash": "2222222222222222222222222222222222222222222222222222222222222222",
+        "position": 2,
+        "step_id": "st-0002"
+      },
+      {
+        "chain_hash": "3333333333333333333333333333333333333333333333333333333333333333",
+        "position": 3,
+        "step_id": "st-0003"
+      }
+    ]
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-006",
+      "line": 254,
+      "sentence": "the Guardian MUST include the resulting `chain_hash` in its response, and that `chain_hash` MUST be covered by the response signature",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    },
+    {
+      "id": "ACS-R-022",
+      "line": 428,
+      "sentence": "A required signature is missing, malformed, or fails verification",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-006",
+    "ACS-R-022"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "PEER"
+}
