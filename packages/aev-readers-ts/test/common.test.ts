@@ -24,7 +24,7 @@ test("canonicalJson matches RFC 8785 section 3.2.4", () => {
     '"string":"\\u20ac$\\u000F\\u000aA\'\\u0042\\u0022\\u005c\\\\\\"/","literals":[null,true,false]}';
   const expected =
     '{"literals":[null,true,false],"numbers":[333333333.3333333,1e+30,4.5,0.002,1e-27],' +
-    '"string":"€$\\u000f\\nA\'B\\"\\\\\\\\\\"/"}';
+    '"string":"\u20ac$\\u000f\\nA\'B\\"\\\\\\\\\\"/"}';
   assert.equal(canonicalJson(parseRecord(sample)), expected);
 });
 
