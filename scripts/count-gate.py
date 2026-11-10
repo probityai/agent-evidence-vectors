@@ -3204,6 +3204,11 @@ MASKS = tuple(
         # reached 30 and a fixture's `T10:00:30.000Z` was reported against it.
         # The rationale for the shape itself is in the comment further down.
         r"(?<!\d)\d{1,2}:\d{2}:\d{2}(?:\.\d+)?(?!\d)",
+        # A CLOCK TIME WITH A ZONE and no seconds field: `17:36 UTC`. The zone
+        # name beside the colon pair is what marks it as a time of day, so a
+        # bare `17:36` with no zone is still read. Found when the voice lint's
+        # tests quoted `2026-11-08 17:36 UTC` and 36 met a live rule count.
+        r"(?<!\d)\d{1,2}:\d{2}\s+(?:UTC|GMT|Z|[ECMP][SD]T)\b",
         # A WORKFLOW LIMIT. `timeout-minutes: 30` and `retention-days: 30` are
         # settings of a CI job and of an uploaded artifact; they count nothing
         # in any corpus. The key has to sit next to the number, so a bare

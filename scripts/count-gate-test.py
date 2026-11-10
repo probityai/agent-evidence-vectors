@@ -1195,6 +1195,15 @@ ACCEPT_CASES: list[Case] = [
         ("are accounted for",),
     ),
     (
+        "a clock time with a zone is not a count, even when its minutes equal one",
+        lambda root: append(
+            root,
+            "BUILD-NOTES.md",
+            f"\nRead from the API at 2026-11-08 17:{ACCEPT:02d} UTC.\n",
+        ),
+        ("are accounted for",),
+    ),
+    (
         "a new count whose revision is attributed in the prose",
         lambda root: append(
             root,
