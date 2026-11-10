@@ -1,0 +1,25 @@
+name: obx-offline-run
+on:
+  push:
+    branches: [lane/obx-c-arm-run-1110]
+permissions:
+  contents: read
+jobs:
+  run:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {os: ubuntu-24.04-arm, image: "python:3.13-slim", tag: py313-aarch64}
+          - {os: ubuntu-24.04-arm, image: "python:3.12-slim", tag: py312-aarch64}
+          - {os: ubuntu-24.04, image: "python:3.13-slim", tag: py313-x86_64}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - run: IMAGE=${{ matrix.image }} sh scripts/offline-verify-run.sh > TRANSCRIPT-${{ matrix.tag }}.txt; echo "rc=$?"; tail -5 TRANSCRIPT-${{ matrix.tag }}.txt
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: transcript-${{ matrix.tag }}
+          path: TRANSCRIPT-${{ matrix.tag }}.txt
