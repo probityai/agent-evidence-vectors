@@ -8,6 +8,7 @@ A predicate type URI of this project is a persistent identifier under `https://w
 | `https://w3id.org/agent-evidence/predicate/v1/credential-release` | `pages/predicate/v1/credential-release/` | `spec/predicates/credential-release.md` of agent-evidence-vectors |
 | `https://w3id.org/agent-evidence/predicate/v1/done-contract` | `pages/predicate/v1/done-contract/` | `spec/predicates/done-contract.md` of agent-evidence-vectors |
 | `https://w3id.org/agent-evidence/predicate/v1/done-receipt` | `pages/predicate/v1/done-receipt/` | `spec/predicates/done-receipt.md` of agent-evidence-vectors |
+| `https://w3id.org/agent-evidence/predicate/v1/principal-action` | `pages/predicate/v1/principal-action/` | `spec/predicates/principal-action.md` of agent-evidence-vectors |
 
 Every page, and the listing at `pages/predicate/v1/`, cites the record format of [draft-gilda-audit-agent-audit-record-03](https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/03/), Section 4. The listing also names every type URI that `spec/predicates/REGISTRY.md` registers under `https://probityai.github.io/agent-evidence-vectors/predicate/`; those URIs were minted on that host, are served by this repository's own Pages site, and have no w3id.org form.
 

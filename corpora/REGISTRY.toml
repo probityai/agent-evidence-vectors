@@ -697,6 +697,18 @@ standards = ["eu-ai-act"]
 shapes = ["coverage-gap", "uncertainty"]
 
 [[corpus]]
+id = "vectors-principal-action"
+path = "corpora/vectors-principal-action"
+wheel = true
+sdist = true
+title = "Principal action"
+summary = "An action bound to user, agent, sponsor and approver principals, each by credential digest and pinned RFC 7638 issuer key thumbprint, with the RFC 8693 act chain naming the agent."
+record_class = "record"
+domains = ["identity", "provenance"]
+standards = ["in-toto", "rfc8785"]
+shapes = ["missing-binding", "forged-signature"]
+
+[[corpus]]
 id = "vectors-propagation-step"
 path = "corpora/vectors-propagation-step"
 wheel = true
