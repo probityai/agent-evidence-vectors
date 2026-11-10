@@ -20,11 +20,18 @@ order and names the first check that fails:
    digest (``operation_identity_missing``);
 4. no attempt reuses the operation's idempotency key with other arguments
    (``idempotency_key_args_changed``);
+4b. every attempt that a redelivery, a replay or a completion triggered carries
+   the operation's own idempotency key, never one derived from the delivery or
+   task identifier (``idempotency_key_follows_trigger``);
 5. every attempt was dispatched inside a lease its worker held, and before a
    lease with a higher fencing token was granted (``dispatch_beyond_lease``);
 6. no attempt was dispatched after an attempt of unknown outcome unless the
    owner deduplicates by that same key inside its retention window, or a final
    reconciliation said the effect is absent (``retry_after_unknown``);
+6b. the owner's ledger holds no more effects than the trail has attempts that
+   could have produced one (``owner_effect_unaccounted``), so an effect whose
+   attempt was lost with a checkpoint or deleted with a history is named for
+   what it is;
 7. the owner's ledger shows at most one effect (``duplicate_effect``);
 8. a reservation for an operation whose outcome is unknown is still charged,
    also after it expired (``unknown_released``);
@@ -40,7 +47,7 @@ order and names the first check that fails:
     as not established, never as quiescent or as after the stop
     (``stop_straddle_reported_settled``).
 
-Checks 11 to 13 read the optional ``stop`` block: when the stop was requested
+Checks 13 to 15 read the optional ``stop`` block: when the stop was requested
 and acknowledged, when the authority was revoked, each authority check made
 after the request with its result, the owner's own interval for the effect's
 commit (``ownerCommit``, not before and not after), and how the runtime
@@ -54,7 +61,7 @@ confirmed or a reconciliation found the effect; ``not_run`` when no attempt has
 an unknown reply, or a final reconciliation after the last unknown attempt
 found it absent; and ``unknown`` otherwise. A reconciliation that is not final
 (a lookup that can still miss a late commit) settles nothing. A record that
-passes all thirteen is ``allow`` with reason ``effect_held``.
+passes all fifteen is ``allow`` with reason ``effect_held``.
 
 The external-verifier contract: ``<verifier> <case-dir>/record.json --json``
 prints one JSON object carrying ``decision`` and ``reason``, and exits 0 for
@@ -80,7 +87,11 @@ ALLOW, DENY = "allow", "deny"
 ALLOWED_REASON = "effect_held"
 EXIT_FOR = {ALLOW: 0, DENY: 1}
 # A reply that leaves the caller not knowing whether the effect happened.
-UNKNOWN_REPLIES = ("timeout", "connection_lost")
+UNKNOWN_REPLIES = ("timeout", "connection_lost", "worker_crashed")
+# What set an attempt off when it is not a first dispatch or a plain retry: the
+# engine redelivered the task, a replay or rewind re-ran the step, or a
+# completion signal (a human's, a webhook's) ran it.
+TRIGGER_KINDS = ("redelivery", "replay", "completion")
 REPLIES = ("confirmed", "no_effect", *UNKNOWN_REPLIES)
 OUTCOMES = ("committed", "not_run", "unknown")
 # The order is the contract: a reader names the first check that fails.
@@ -89,8 +100,10 @@ CHECKS = (
     "contract_id_unknown",
     "operation_identity_missing",
     "idempotency_key_args_changed",
+    "idempotency_key_follows_trigger",
     "dispatch_beyond_lease",
     "retry_after_unknown",
+    "owner_effect_unaccounted",
     "duplicate_effect",
     "unknown_released",
     "outcome_settled_without_authority",
@@ -167,6 +180,19 @@ def _key_args_changed(record: Record) -> bool:
     return any(item.get("idempotencyKey") == operation.get("idempotencyKey")
                and item.get("argsDigest") != operation.get("argsDigest")
                for item in record["attempts"])
+
+
+def _key_ignores_trigger(record: Record) -> bool:
+    """Whether a triggered attempt carries a key other than the operation's own."""
+    key = record["operation"].get("idempotencyKey")
+    return any((item.get("trigger") or {}).get("kind") in TRIGGER_KINDS
+               and item.get("idempotencyKey") != key for item in record["attempts"])
+
+
+def _effect_unaccounted(record: Record) -> bool:
+    """Whether the owner holds more effects than the trail has attempts that could make one."""
+    producing = sum(1 for item in record["attempts"] if item["reply"] != "no_effect")
+    return bool(record["ownerEffects"] > producing)
 
 
 def _outside_lease(attempt: dict[str, Any], leases: list[dict[str, Any]]) -> bool:
@@ -274,8 +300,10 @@ def _first_failure(record: Record, skip: frozenset[str]) -> str | None:
         "contract_id_unknown": lambda: record.get("contractId", CONTRACT_ID) != CONTRACT_ID,
         "operation_identity_missing": lambda: _identity_missing(record),
         "idempotency_key_args_changed": lambda: _key_args_changed(record),
+        "idempotency_key_follows_trigger": lambda: _key_ignores_trigger(record),
         "dispatch_beyond_lease": lambda: _beyond_lease(record),
         "retry_after_unknown": lambda: _unprotected_retry(record),
+        "owner_effect_unaccounted": lambda: _effect_unaccounted(record),
         "duplicate_effect": lambda: record["ownerEffects"] > 1,
         "unknown_released": lambda: _unknown_released(record),
         "outcome_settled_without_authority": lambda: _settled_without_authority(record),
