@@ -109,6 +109,30 @@
       "upstreamPath": "GenAI-Security-Project/agent-control-standard#264 (issue body)",
       "upstreamRef": "issue 264 body as last edited at 2026-10-12T13:15:57Z; an issue has no commit, so the sha256 of the vendored bytes is the pin",
       "upstreamStatus": "proposal"
+    },
+    "issue-32-split": {
+      "path": "spec-vendored/issue-32-comment-6639119175.md",
+      "sha256": "f30b83f0631e848a29253426e0f7f42c84a7ae6677d423301100a1574e936551",
+      "upstreamCommit": null,
+      "upstreamPath": "GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)",
+      "upstreamRef": "issue 32 comment 6639119175 by bar-capsule, as last edited at 2026-11-04T18:47:34Z; a comment has no commit, so the sha256 of the vendored bytes is the pin",
+      "upstreamStatus": "proposal"
+    },
+    "issue-32-amendment": {
+      "path": "spec-vendored/issue-32-comment-6661136108.md",
+      "sha256": "229ce1c7cf413c5b20553f1b65c88a1c47ca918c8e716f8b12c30e20c372197b",
+      "upstreamCommit": null,
+      "upstreamPath": "GenAI-Security-Project/agent-control-standard#32 (comment 6661136108)",
+      "upstreamRef": "issue 32 comment 6661136108 by bar-capsule, as last edited at 2026-11-05T14:55:19Z; a comment has no commit, so the sha256 of the vendored bytes is the pin",
+      "upstreamStatus": "proposal"
+    },
+    "issue-32-no-effect": {
+      "path": "spec-vendored/issue-32-comment-5725186199.md",
+      "sha256": "e365c5760ba10525ca5cc7cbf76a34da674fab3243deec77e1e0ebf72c938980",
+      "upstreamCommit": null,
+      "upstreamPath": "GenAI-Security-Project/agent-control-standard#32 (comment 5725186199)",
+      "upstreamRef": "issue 32 comment 5725186199 by narko4u, as last edited at 2026-09-18T04:32:18Z; a comment has no commit, so the sha256 of the vendored bytes is the pin",
+      "upstreamStatus": "proposal"
     }
   },
   "specUpstreamPins": {
@@ -127,6 +151,15 @@
       "commit": "7d9b7ffa3e07786607d34187659683503673256a",
       "pullRequest": "GenAI-Security-Project/agent-control-standard#278",
       "note": "Read at the pull request's head while it was open and unmerged. Family acs-f-18 tests the allow class it proposes, and a change to the proposal before it merges is a reword that stops this build."
+    },
+    "issue-32": {
+      "issue": "GenAI-Security-Project/agent-control-standard#32",
+      "comments": {
+        "issue-32-split": "6639119175",
+        "issue-32-amendment": "6661136108",
+        "issue-32-no-effect": "5725186199"
+      },
+      "note": "The section 6.4 split as issue 32 settled it after the leads' call of 3 November: a refusal blocks the step under either posture, only the Observed Agent's own configuration opts into proceed, and an HTTP 4xx, 429 included, is a refusal. No specification text carries it yet. Family acs-f-21 cites the comments, each pinned by the sha256 of its vendored bytes; when the section 6.4 pull request lands, those members are re-minted from its text."
     },
     "issue-264": {
       "issue": "GenAI-Security-Project/agent-control-standard#264",
@@ -165,7 +198,8 @@
     "acs-f-17": "an OCSF decision event whose fields disagree with the verdict or with each other",
     "acs-f-18": "an OCSF allow decision recorded under a class, or with fields, the allow rule does not give it",
     "acs-f-19": "a substituted verdict whose Trace record a reader cannot count, or counts as applied",
-    "acs-f-20": "a fail-closed decision failure with no audit record, and a session end with no failure count read as clean"
+    "acs-f-20": "a fail-closed decision failure with no audit record, and a session end with no failure count read as clean",
+    "acs-f-21": "a refused or unanswered step that ran under a posture nobody opted into, or left an effect behind"
   },
   "outOfScope": {
     "the MODIFY disposition and its composition rules, read at 9d4a9da": "an open pull request moved MODIFY support out of the mandatory profile and added a new section for the declaration, and neither the new section nor the declaration field exists at that commit. The pull request has since merged, and family acs-f-12 reads the settled sections 6.3 and 6.5 at the release/0.1.4 commit instead",
@@ -1133,14 +1167,118 @@
       "upstreamCommit": "61993cbfc44f858cf46e047c3c4915b3b0bbf387",
       "upstreamPath": "docs/spec/instrument/specification.md",
       "upstreamStatus": "upstream"
+    },
+    {
+      "id": "ACS-R-074",
+      "role": "agent",
+      "file": "issue-32-split",
+      "vendored": "spec-vendored/issue-32-comment-6639119175.md",
+      "line": 5,
+      "sentence": "No usable answer follows on_decision_failure: the Guardian is silent past the timeout, the connection or TLS handshake fails, HTTP 408, 429 or 5xx arrives with no JSON-RPC body, or the Guardian answers with a signed -32603.",
+      "sentenceDigest": "5ce0d7c74921f1c79adea91dc98ae8f07395d97ce522c615c1788e2169b41678",
+      "specVersion": "0.1.0",
+      "upstreamCommit": null,
+      "upstreamPath": "GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)",
+      "upstreamStatus": "proposal"
+    },
+    {
+      "id": "ACS-R-075",
+      "role": "agent",
+      "file": "issue-32-split",
+      "vendored": "spec-vendored/issue-32-comment-6639119175.md",
+      "line": 6,
+      "sentence": "A refusal or an integrity failure blocks the step whatever the posture: any unsigned error, any signed error other than -32603, a bad signature or unknown key_id, a JSON-RPC id or request_id that doesn't match, or a result that fails response-envelope.json, an allow included.",
+      "sentenceDigest": "1147a0b81401274707f27d21172c9b4b0ff090e5a84de4a14b2e53731d4e8618",
+      "specVersion": "0.1.0",
+      "upstreamCommit": null,
+      "upstreamPath": "GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)",
+      "upstreamStatus": "proposal"
+    },
+    {
+      "id": "ACS-R-076",
+      "role": "agent",
+      "file": "issue-32-split",
+      "vendored": "spec-vendored/issue-32-comment-6639119175.md",
+      "line": 6,
+      "sentence": "It is recorded with its failure class.",
+      "sentenceDigest": "c6f48448c5ebfac254a11ff373725ae7defd16fdd7ae3a213270ab7610f2beac",
+      "specVersion": "0.1.0",
+      "upstreamCommit": null,
+      "upstreamPath": "GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)",
+      "upstreamStatus": "proposal"
+    },
+    {
+      "id": "ACS-R-077",
+      "role": "agent",
+      "file": "issue-32-split",
+      "vendored": "spec-vendored/issue-32-comment-6639119175.md",
+      "line": 6,
+      "sentence": "A retry is a new request, judged on its own.",
+      "sentenceDigest": "1a79f6a916aea115f3fe85d4034f78d344f2bd4cdf90255be5081e1d8650f853",
+      "specVersion": "0.1.0",
+      "upstreamCommit": null,
+      "upstreamPath": "GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)",
+      "upstreamStatus": "proposal"
+    },
+    {
+      "id": "ACS-R-078",
+      "role": "agent",
+      "file": "issue-32-amendment",
+      "vendored": "spec-vendored/issue-32-comment-6661136108.md",
+      "line": 3,
+      "sentence": "Only the Observed Agent's own config can opt into proceed. The Guardian's on_decision_failure can only make the posture stricter, and with neither set it's deny.",
+      "sentenceDigest": "148c2d5b77742cfb3db333efa64a98586e708fd0da1e85a6f3ded1e1882cb896",
+      "specVersion": "0.1.0",
+      "upstreamCommit": null,
+      "upstreamPath": "GenAI-Security-Project/agent-control-standard#32 (comment 6661136108)",
+      "upstreamStatus": "proposal"
+    },
+    {
+      "id": "ACS-R-079",
+      "role": "agent",
+      "file": "issue-32-amendment",
+      "vendored": "spec-vendored/issue-32-comment-6661136108.md",
+      "line": 4,
+      "sentence": "An HTTP 429 is a refusal, like the other 4xx.",
+      "sentenceDigest": "4f0fe8b750e70bc2b8e5a858f82656a06700649eabd5ce396cf3a35a50dd21c9",
+      "specVersion": "0.1.0",
+      "upstreamCommit": null,
+      "upstreamPath": "GenAI-Security-Project/agent-control-standard#32 (comment 6661136108)",
+      "upstreamStatus": "proposal"
+    },
+    {
+      "id": "ACS-R-080",
+      "role": "agent",
+      "file": "issue-32-split",
+      "vendored": "spec-vendored/issue-32-comment-6639119175.md",
+      "line": 8,
+      "sentence": "Any HTTP 4xx except 408 and 429 is a refusal, 401 and 403 included.",
+      "sentenceDigest": "69191ac4e9dc8912fd96fba4581a9d1bd3ff502098c745df7c67bf0b9f6d5605",
+      "specVersion": "0.1.0",
+      "upstreamCommit": null,
+      "upstreamPath": "GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)",
+      "upstreamStatus": "proposal"
+    },
+    {
+      "id": "ACS-R-081",
+      "role": "agent",
+      "file": "issue-32-no-effect",
+      "vendored": "spec-vendored/issue-32-comment-5725186199.md",
+      "line": 11,
+      "sentence": "the vector pair for #30 should assert that the refused step produced no effect, because an implementation that retries and succeeds leaves the same trace as one that failed open.",
+      "sentenceDigest": "26545db7c4b578dc7304e2790b03ca625fff8de87bd2cf593223a0a0edfd75a5",
+      "specVersion": "0.1.0",
+      "upstreamCommit": null,
+      "upstreamPath": "GenAI-Security-Project/agent-control-standard#32 (comment 5725186199)",
+      "upstreamStatus": "proposal"
     }
   ],
   "counts": {
-    "accept": 53,
-    "reject": 88,
+    "accept": 64,
+    "reject": 99,
     "indeterminate": 3
   },
-  "corpusDigest": "aa6859a34ffcf42a7600657b86bfbf7b9e8651f58344af33dafaeb493c281d0a",
+  "corpusDigest": "e3ba6c8fadd42568c24ab38e01fb46848b8e3f5c29a604a16e13cdf95ad70735",
   "note": "Each reject member has an accepting twin somewhere in its family, so an implementation that denies everything scores zero rather than full marks. A member the specification cannot express carries the verdict unmeasurable and the reason it cannot.",
   "vectors": [
     {
@@ -1186,6 +1324,27 @@
       "coverage": "observed",
       "cites": "an allow with no unmapped.acs.decision. Turn and message steps share class 6002, so without the disposition a reader cannot tell this event from a turn starting.",
       "doesNotAssert": "the activity_id of a 6002 allow, which pull request 278 leaves open with the other 6002 rows, or that the action ran; the event records the Guardian's verdict, never the enforced outcome"
+    },
+    {
+      "id": "v03860e15b18da90a",
+      "kind": "reject",
+      "file": "vectors/v03860e15b18da90a.json",
+      "family": "acs-f-21",
+      "requirements": [
+        "ACS-R-078"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "a ServerHello declaring proceed, nothing in the Observed Agent's own configuration, and a silent Guardian whose step proceeded. The Guardian sits within the attacker's reach, so its declaration can only make the posture stricter",
+      "doesNotAssert": "how the Guardian came to declare proceed"
     },
     {
       "id": "v0577dc8ccd4d7e47",
@@ -1247,6 +1406,28 @@
       "witnessScope": "SELF",
       "coverage": "effective",
       "cites": "the same content present and a benign action authorized independently of it. The protected effect stays absent and the benign one occurs, so the pair separates authority from lineage rather than testing content filtering."
+    },
+    {
+      "id": "v08e44aaecdf38253",
+      "kind": "accept",
+      "file": "vectors/v08e44aaecdf38253.json",
+      "family": "acs-f-21",
+      "requirements": [
+        "ACS-R-075",
+        "ACS-R-076"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "the same replay, blocked and recorded as a refusal carrying -32005",
+      "doesNotAssert": "what the Guardian does with the replayed request_id"
     },
     {
       "id": "v09451dcf233c2115",
@@ -1413,6 +1594,27 @@
       "cites": "the same budget with the fourth request carrying a session-state hint claiming a fresh count. The hint comes from the party under governance, so an implementation that reads its counter out of the request has handed the budget to the agent it bounds."
     },
     {
+      "id": "v110b17b76c33264f",
+      "kind": "reject",
+      "file": "vectors/v110b17b76c33264f.json",
+      "family": "acs-f-21",
+      "requirements": [
+        "ACS-R-075"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "the same -32603 unsigned, and the step proceeded. Anyone on the path can write an unsigned error, so an unsigned -32603 is not the Guardian's word that it failed and never lets a step proceed",
+      "doesNotAssert": "who wrote the unsigned error"
+    },
+    {
       "id": "v11f9eb2783c2e375",
       "kind": "accept",
       "file": "vectors/v11f9eb2783c2e375.json",
@@ -1495,6 +1697,28 @@
       "coverage": "observed",
       "cites": "the same inputs, and a report that keeps the Guardian's verdict and takes the applied outcome from the Observed Agent's record. A reader that refuses to report any outcome fails this member.",
       "doesNotAssert": "that the Observed Agent's record is truthful; it is the only account of the outcome"
+    },
+    {
+      "id": "v1bd97e9f72ca1cde",
+      "kind": "accept",
+      "file": "vectors/v1bd97e9f72ca1cde.json",
+      "family": "acs-f-21",
+      "requirements": [
+        "ACS-R-075",
+        "ACS-R-076"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "the same oversized envelope under proceed: the step is blocked and recorded as a refusal with its code. The verdict does not depend on the posture",
+      "doesNotAssert": "the posture field of the record, which a refusal does not consult"
     },
     {
       "id": "v1bf79e310bf7ab30",
@@ -1663,6 +1887,28 @@
       "coverage": "configured",
       "cites": "the same configuration with the label \"2026-10\", which names the secret and says nothing about it. A checker that refuses any label it cannot explain fails this member.",
       "doesNotAssert": "anything about a label derived some other way; whether a label was derived from a secret is decidable only for the derivation tried"
+    },
+    {
+      "id": "v2bd45d189edf6583",
+      "kind": "accept",
+      "file": "vectors/v2bd45d189edf6583.json",
+      "family": "acs-f-21",
+      "requirements": [
+        "ACS-R-075",
+        "ACS-R-076"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "a signed -32007 CHAIN_MISMATCH under an opted-in proceed, blocked and recorded as a refusal with its code",
+      "doesNotAssert": "how the chain came to mismatch"
     },
     {
       "id": "v2d172bf817c9b0ca",
@@ -1961,6 +2207,27 @@
       "cites": "four identical in-scope calls sharing a session and a turn against a budget of three. Each call passes every other family by construction and the misuse exists only at the level of the sequence, so an implementation evaluating triggers independently allows all four."
     },
     {
+      "id": "v45feeb31130e2d4a",
+      "kind": "reject",
+      "file": "vectors/v45feeb31130e2d4a.json",
+      "family": "acs-f-21",
+      "requirements": [
+        "ACS-R-079"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "an HTTP 429 with no JSON-RPC body under an opted-in proceed, and the step proceeded. Flooding the Guardian until it throttles takes no access, which is why the amendment moved 429 out of the posture",
+      "doesNotAssert": "the throttling policy that produced the 429"
+    },
+    {
       "id": "v470cf0c2707b2987",
       "kind": "reject",
       "file": "vectors/v470cf0c2707b2987.json",
@@ -2156,6 +2423,27 @@
       "doesNotAssert": "that the Guardian was slow on purpose"
     },
     {
+      "id": "v55a5146a13425588",
+      "kind": "accept",
+      "file": "vectors/v55a5146a13425588.json",
+      "family": "acs-f-21",
+      "requirements": [
+        "ACS-R-074"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "a signed -32603 INTERNAL_ERROR under an opted-in proceed, and the step proceeds with the failure recorded. It is the one signed error that follows the posture, so an implementation that blocks every error fails this member",
+      "doesNotAssert": "the cause of the internal error"
+    },
+    {
       "id": "v57106f0a71dd1d62",
       "kind": "reject",
       "file": "vectors/v57106f0a71dd1d62.json",
@@ -2282,6 +2570,27 @@
       "doesNotAssert": "that the modification was applied when no substitution event exists; a missing event is not proof of an applied modify"
     },
     {
+      "id": "v605905ced490b58a",
+      "kind": "reject",
+      "file": "vectors/v605905ced490b58a.json",
+      "family": "acs-f-21",
+      "requirements": [
+        "ACS-R-078"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "the Observed Agent opted into proceed and the Guardian declared deny, and the silent step proceeded. The stricter declaration wins",
+      "doesNotAssert": "the order in which the two settings were read"
+    },
+    {
       "id": "v650e4e7924e597b8",
       "kind": "reject",
       "file": "vectors/v650e4e7924e597b8.json",
@@ -2385,6 +2694,27 @@
       "coverage": "observed",
       "cites": "the unsupported MODIFY replaced by DENY and recorded correctly in the audit log, and also emitted on the trace as an acs.decision.failure of class malformed_response. The release/0.1.4 text rules these cases out as decision failures: the outcome is defined, so counting it as a failure inflates the failure count and, under the counting rule, stops a reader from counting a decision that was in fact applied as written. Issue 264 rejected the same reuse for that reason.",
       "doesNotAssert": "that the audit log is wrong; it is right, and the trace contradicts it"
+    },
+    {
+      "id": "v692a2b8d7f6d2e1c",
+      "kind": "reject",
+      "file": "vectors/v692a2b8d7f6d2e1c.json",
+      "family": "acs-f-21",
+      "requirements": [
+        "ACS-R-078"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "the Guardian silent past the timeout, no posture set by either party, and the step proceeded with the bypass recorded. With neither set the posture is deny, so the record is accurate and the outcome is not",
+      "doesNotAssert": "the length of the timeout"
     },
     {
       "id": "v699f3f41215849ca",
@@ -2530,6 +2860,28 @@
       "witnessScope": "PEER",
       "coverage": "effective",
       "cites": "a chain head returned in the response and left outside the signature. The head is then a value the guardian asserts rather than one it commits to, so an observer recording traffic cannot use it to detect a later rewrite, which is the only thing publishing it buys."
+    },
+    {
+      "id": "v7bc3853c14298fdd",
+      "kind": "reject",
+      "file": "vectors/v7bc3853c14298fdd.json",
+      "family": "acs-f-21",
+      "requirements": [
+        "ACS-R-081",
+        "ACS-R-075"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "a signed -32004, an Observed Agent that reports the step blocked and records the refusal, and a filesystem observer that saw the write. Every record the agent wrote is correct, and the action ran: only the observed effect tells this apart from a conformant block",
+      "doesNotAssert": "how the write escaped the block"
     },
     {
       "id": "v7cdac6c8af6db2fe",
@@ -2743,6 +3095,27 @@
       "doesNotAssert": "that the key was misused after it left; only that it left while the record said otherwise"
     },
     {
+      "id": "v8a38f9a829ee29f8",
+      "kind": "reject",
+      "file": "vectors/v8a38f9a829ee29f8.json",
+      "family": "acs-f-21",
+      "requirements": [
+        "ACS-R-075"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "a signed -32003 CAPABILITY_NOT_NEGOTIATED under an opted-in proceed, and the step proceeded. The split blocks any signed error other than -32603, so a refusal list of six codes that leaves -32002, -32003 and -32007 on the posture fails here",
+      "doesNotAssert": "which method was exercised without being negotiated"
+    },
+    {
       "id": "v8a5f343c721f2f14",
       "kind": "accept",
       "file": "vectors/v8a5f343c721f2f14.json",
@@ -2783,6 +3156,28 @@
       "coverage": "observed",
       "cites": "the fail-open timeout recorded in the deployment's audit log.",
       "doesNotAssert": "how the record is spelt, which the specification leaves open"
+    },
+    {
+      "id": "v8ca0304ee7cb7975",
+      "kind": "accept",
+      "file": "vectors/v8ca0304ee7cb7975.json",
+      "family": "acs-f-21",
+      "requirements": [
+        "ACS-R-078",
+        "ACS-R-076"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "the same silence with no posture set, and the step blocked and recorded as a timeout",
+      "doesNotAssert": "the spelling of the failure class beyond its being recorded"
     },
     {
       "id": "v8d6218889aeda7c7",
@@ -3039,6 +3434,28 @@
       "cites": "an unreachable trace sink changing the disposition the agent receives. Observability that can alter enforcement is a second control point nobody declared."
     },
     {
+      "id": "va112deb74499e088",
+      "kind": "accept",
+      "file": "vectors/va112deb74499e088.json",
+      "family": "acs-f-21",
+      "requirements": [
+        "ACS-R-081",
+        "ACS-R-075"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "the same refusal, and the observer saw no write",
+      "doesNotAssert": "effects outside the observed resource"
+    },
+    {
       "id": "va200b64093301e14",
       "kind": "reject",
       "file": "vectors/va200b64093301e14.json",
@@ -3246,6 +3663,27 @@
       "doesNotAssert": "that the action was blocked or allowed; action_id and disposition_id record the Guardian's verdict, never the enforced outcome"
     },
     {
+      "id": "vadf47600332c1b4f",
+      "kind": "accept",
+      "file": "vectors/vadf47600332c1b4f.json",
+      "family": "acs-f-21",
+      "requirements": [
+        "ACS-R-074"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "an HTTP 503 with no JSON-RPC body under an opted-in proceed, and the step proceeds with the failure recorded. A 5xx stays on the posture",
+      "doesNotAssert": "anything about a 5xx that carries a JSON-RPC body"
+    },
+    {
       "id": "vae2037ee96435463",
       "kind": "reject",
       "file": "vectors/vae2037ee96435463.json",
@@ -3329,6 +3767,71 @@
       "cites": "a shell command whose host hook ran and produced nothing: exit 0, empty stdout, no handshake, no toolCallRequest, no audit log. The host documents that output as a hook with no decision to report, after which the step continues. No posture was negotiated or applied, so the step proceeded without a decision and without the event the requirement demands, and the request the hooks text requires for an escaping action was never sent. A checker that reads an absent log as nothing to report scores it as clean."
     },
     {
+      "id": "vb343b2293da3bfac",
+      "kind": "accept",
+      "file": "vectors/vb343b2293da3bfac.json",
+      "family": "acs-f-21",
+      "requirements": [
+        "ACS-R-075",
+        "ACS-R-076"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "the same oversized envelope under deny: the step is blocked and recorded as a refusal with its code. The verdict does not depend on the posture",
+      "doesNotAssert": "the posture field of the record, which a refusal does not consult"
+    },
+    {
+      "id": "vb6c2f01f6d4e987a",
+      "kind": "reject",
+      "file": "vectors/vb6c2f01f6d4e987a.json",
+      "family": "acs-f-21",
+      "requirements": [
+        "ACS-R-075"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "a tool argument past the Guardian's body cap, a signed -32600 before any policy ran, and the step proceeded under an opted-in proceed. This is the bypass issue 32 opened with: the Guardian answered and refused, and the refusal was read as silence",
+      "doesNotAssert": "the size of the body cap"
+    },
+    {
+      "id": "vb76b929bc54527cd",
+      "kind": "accept",
+      "file": "vectors/vb76b929bc54527cd.json",
+      "family": "acs-f-21",
+      "requirements": [
+        "ACS-R-077",
+        "ACS-R-081"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "the retry sent as a new request, req-0022, allowed on its own facts, and the write attributed to it. The refused request still has no effect",
+      "doesNotAssert": "that the second decision was correct"
+    },
+    {
       "id": "vb87b86b4930665ca",
       "kind": "reject",
       "file": "vectors/vb87b86b4930665ca.json",
@@ -3347,6 +3850,28 @@
       "witnessScope": "PEER",
       "coverage": "effective",
       "cites": "the plainly invalid signature, present because a suite whose every member asserts a valid one measures nothing about signatures: an implementation with no verification at all passes all of them, and a signature is the one thing the mandatory profile requires unconditionally."
+    },
+    {
+      "id": "vb929d77391061d33",
+      "kind": "accept",
+      "file": "vectors/vb929d77391061d33.json",
+      "family": "acs-f-21",
+      "requirements": [
+        "ACS-R-080",
+        "ACS-R-076"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "an HTTP 403 under an opted-in proceed, blocked and recorded as a refusal with its status",
+      "doesNotAssert": "the authentication scheme"
     },
     {
       "id": "vbd5dc2450805e76b",
@@ -3645,6 +4170,28 @@
       "doesNotAssert": "the activity_id of a 6002 allow, which pull request 278 leaves open with the other 6002 rows, or that the action ran; the event records the Guardian's verdict, never the enforced outcome"
     },
     {
+      "id": "vcbbc3c9880545473",
+      "kind": "accept",
+      "file": "vectors/vcbbc3c9880545473.json",
+      "family": "acs-f-21",
+      "requirements": [
+        "ACS-R-078",
+        "ACS-R-074"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "the Observed Agent's own configuration opts into proceed, the Guardian is silent, and the step proceeds with the failure recorded. An implementation that denies every silence whatever its configuration fails this member",
+      "doesNotAssert": "that proceed was the right choice for the deployment"
+    },
+    {
       "id": "vcfbc617d0218ad1a",
       "kind": "reject",
       "file": "vectors/vcfbc617d0218ad1a.json",
@@ -3876,6 +4423,27 @@
       "doesNotAssert": "that the denial was wrong"
     },
     {
+      "id": "ve67ef3b2a7056281",
+      "kind": "reject",
+      "file": "vectors/ve67ef3b2a7056281.json",
+      "family": "acs-f-21",
+      "requirements": [
+        "ACS-R-080"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "an HTTP 401 under an opted-in proceed, and the step proceeded: the adapter's credential was refused, and an expired credential turned enforcement off",
+      "doesNotAssert": "the authentication scheme"
+    },
+    {
       "id": "ve69abbaf514cc33f",
       "kind": "reject",
       "file": "vectors/ve69abbaf514cc33f.json",
@@ -3918,6 +4486,27 @@
       "coverage": "observed",
       "cites": "a payload with request_id_ref and a span without acs.request_id_ref. The attribute is conditional, which obliges the exporter to emit it whenever the source field is present; it is not optional.",
       "doesNotAssert": "anything about the decision on this step; the member is about the span's shape"
+    },
+    {
+      "id": "ve8d2ede8ac230311",
+      "kind": "reject",
+      "file": "vectors/ve8d2ede8ac230311.json",
+      "family": "acs-f-21",
+      "requirements": [
+        "ACS-R-076"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "a signed -32005 REPLAY_DETECTED, the step blocked, and the record calls it a transport failure with no code. The outcome is right and the record is not: an operator paging on refusals never sees an attacker replaying request_ids, and one paging on outages is woken by one",
+      "doesNotAssert": "the spelling of the refusal class"
     },
     {
       "id": "vee03180733ac4538",
@@ -4024,6 +4613,28 @@
       "coverage": "observed",
       "cites": "a modify that arrived after the timeout under fail-open, with is_alert false. The action ran without the modification the policy required, and a late non-allow under fail-open alerts.",
       "doesNotAssert": "that the action was blocked or allowed; action_id and disposition_id record the Guardian's verdict, never the enforced outcome"
+    },
+    {
+      "id": "vf14ce3c2fea04bc7",
+      "kind": "reject",
+      "file": "vectors/vf14ce3c2fea04bc7.json",
+      "family": "acs-f-21",
+      "requirements": [
+        "ACS-R-077",
+        "ACS-R-081"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "the refused envelope re-signed under the same request_id and sent again, the Guardian allowing it, and the write attributed to the refused request. A retry that recovers the refused request leaves the trace a fail-open leaves; a retry is a new request with its own id",
+      "doesNotAssert": "whether the Guardian should have detected the reuse"
     },
     {
       "id": "vf3679e6ac60fd250",

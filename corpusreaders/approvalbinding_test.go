@@ -108,6 +108,11 @@ func TestApprovalBindingRenewalChecksNameTheirOwnReason(t *testing.T) {
 		"approval-renewal-predecessor-ambiguous":          "renewal_binding_invalid",
 		"approval-use-cites-predecessor":                  "approval_not_cited",
 		"approval-use-cites-no-approval":                  "approval_not_cited",
+		"approval-not-issued-by-server":                   "approval_not_issued",
+		"approval-request-completed-twice":                "approval_request_completed_twice",
+		"approval-denied-observe-mode":                    "approval_not_granted",
+		"approval-gathered-in-observe-mode":               "approval_not_enforced",
+		"approval-issued-under-rotated-key":               "key_retired",
 	}
 	for from, reason := range reasons {
 		t.Run(from, func(t *testing.T) {

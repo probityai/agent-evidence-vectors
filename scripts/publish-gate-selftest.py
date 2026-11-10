@@ -139,6 +139,31 @@ class Mutations(unittest.TestCase):
         )
         self.assertTrue(self.add_workflow("x.yml", body))
 
+    def test_reusable_signer_with_a_secret_refused(self) -> None:
+        self.assertTrue(
+            self.mutate(
+                "conformance.yml",
+                "    steps:\n      - name: the run's identity",
+                "    environment: public-release\n    steps:\n      - name: the run's identity",
+            )
+        )
+
+    def test_reusable_signer_gaining_a_push_trigger_refused(self) -> None:
+        self.assertTrue(
+            self.mutate(
+                "conformance.yml", "on:\n  workflow_call:", "on:\n  push:\n  workflow_call:"
+            )
+        )
+
+    def test_reusable_signer_publishing_to_a_registry_refused(self) -> None:
+        self.assertTrue(
+            self.mutate(
+                "conformance.yml",
+                "      - name: publish the receipt\n",
+                "      - run: uv publish\n      - name: publish the receipt\n",
+            )
+        )
+
     def test_public_release_on_another_job_refused(self) -> None:
         body = (
             "name: x\non: push\njobs:\n  a:\n    runs-on: ubuntu-latest\n"

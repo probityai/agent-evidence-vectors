@@ -54,6 +54,12 @@ NAMED_SECRET = re.compile(r"secrets\.([A-Za-z_][A-Za-z0-9_]*)")
 UNIT_ENVIRONMENTS = {"crates-io", "npm", "pypi"}
 OIDC_WORKFLOWS = {"pages.yml"}
 EXACT_EXEMPT = {("pages.yml", "deploy"): "github-pages", ("scorecard.yml", "analysis"): None}
+# A reusable workflow runs in the CALLER's repository, so the OIDC token its jobs ask for
+# names the caller and can publish nothing of ours. The conformance workflow asks for one
+# only to get a signing certificate. Its jobs may hold `id-token: write` when the file is
+# callable only through workflow_call and the job has no environment, no secret and no
+# other way to publish.
+REUSABLE_OIDC = {"conformance.yml": {"pin", "sign"}}
 # ci.yml is the one workflow that tests every pull request, so it carries the test
 # triggers only: a release, tag or deployment trigger would let it publish.
 TEST_TRIGGERS = {"pull_request", "push", "merge_group", "schedule", "workflow_dispatch"}
@@ -88,6 +94,20 @@ def dump(obj: Any) -> str:
     return yaml.safe_dump(obj)
 
 
+def reusable_oidc_publishes(doc: dict[str, Any], job: dict[str, Any], env: str | None) -> bool:
+    """True unless this is a signing-only job of a workflow callable only as a reusable one."""
+    others = PUBLISH_MARKERS.sub(
+        lambda m: "" if m.group(0).startswith("id-token") else m.group(0), dump(job)
+    )
+    text = dump(job)
+    return (
+        set(triggers(doc)) != {"workflow_call"}
+        or env is not None
+        or bool(NAMED_SECRET.search(text))
+        or bool(PUBLISH_MARKERS.search(others))
+    )
+
+
 def job_problems(name: str, doc: dict[str, Any], job_id: str, job: dict[str, Any]) -> list[str]:
     where = f"{name}: job {job_id}"
     env = env_name(job)
@@ -98,6 +118,8 @@ def job_problems(name: str, doc: dict[str, Any], job_id: str, job: dict[str, Any
     if env == ENV and (name, job_id) != TOKEN_JOB:
         problems.append(f"{where} uses {ENV}; only {TOKEN_JOB[0]}:{TOKEN_JOB[1]} may")
     publishes = bool(PUBLISH_MARKERS.search(dump(job)))
+    if job_id in REUSABLE_OIDC.get(name, set()):
+        publishes = reusable_oidc_publishes(doc, job, env)
     if (name, job_id) in EXACT_EXEMPT:
         if env != EXACT_EXEMPT[(name, job_id)] or NAMED_SECRET.search(dump(job)):
             problems.append(f"{where} left its exempt shape")
