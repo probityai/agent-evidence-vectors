@@ -4691,6 +4691,10 @@ jobs:
       - changes
     if: ${{ fromJSON(needs.changes.outputs.run)['mcp_sdk_jcs'] }}
     uses: ./.github/workflows/mcp-sdk-jcs.yml
+    with:
+      # Without a ref the called workflow checks out main, so a pull request or a
+      # merge-queue batch that changes a harness would be tested on main's copy.
+      ref: ${{ github.sha }}
   parts:
     needs:
       - changes

@@ -44,7 +44,7 @@ I-JSON profile.
 | Swift | `swift-sdk` 0.12.1 | `JSONDecoder` / `JSONEncoder` with `.sortedKeys, .withoutEscapingSlashes` (`Server.send`) | `swift:6.1-bookworm` |
 | Rust | `rmcp` 3.5.1 | `serde_json` (`BTreeMap` objects) | `rust:1.90-bookworm` |
 | Ruby | `mcp` gem 1.7.0 | `JSON.parse` / `JSON.generate` | `ruby:3.3-bookworm` |
-| PHP | `mcp/sdk` 0.8.1 | `json_decode` / `json_encode(JSON_THROW_ON_ERROR)` | `composer:2` |
+| PHP | `mcp/sdk` 0.9.0 | `json_decode` / `json_encode(JSON_THROW_ON_ERROR)` | `composer:2` |
 
 Exact image digests are recorded in each `results/<sdk>.json` artifact of the
 run.
