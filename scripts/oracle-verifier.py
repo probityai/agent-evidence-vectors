@@ -273,6 +273,23 @@ def contract_member_file(path: str) -> str | None:
     return "case.json"
 
 
+def audit_record(manifest: dict[str, Any], path: str) -> int:
+    """Answer an agent audit record member exactly as its MANIFEST declares,
+    in the shape the corpus README's contract names."""
+    row = member_for_file(manifest, path)
+    expected = row.get("expected") or {}
+    if row.get("kind") == "indeterminate":
+        verdict = str((row.get("readings") or [{}])[0].get("verdict"))
+    else:
+        verdict = str(expected.get("verdict"))
+    answer: dict[str, Any] = {"verdict": verdict, "codes": list(expected.get("codes") or [])}
+    for name in ("derivedTier", "withinLimit", "set", "dating"):
+        if name in expected:
+            answer[name] = expected[name]
+    print(json.dumps(answer, sort_keys=True))
+    return {"valid": 0, "malformed": 1}.get(verdict, 2)
+
+
 def main(argv: list[str]) -> int:
     args = argv[1:]
     if len(args) == 3 and args[2] == "--json" and os.path.isdir(args[1]):
@@ -281,6 +298,10 @@ def main(argv: list[str]) -> int:
         return case_directory(args[0])
     if len(args) == 2 and not args[0].endswith(".json"):
         return canonical_bytes(args[0], args[1])
+    if len(args) == 2 and args[1] == "--json":
+        _, found = find_manifest(args[0])
+        if found.get("suite") == "agent-audit-record-conformance":
+            return audit_record(found, args[0])
     if len(args) != 1:
         print("usage: oracle-verifier.py <member-file>", file=sys.stderr)
         return 2
