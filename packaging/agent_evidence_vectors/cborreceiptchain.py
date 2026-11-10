@@ -31,6 +31,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import subprocess
 from pathlib import Path
 from typing import Any
 
@@ -39,7 +40,6 @@ from agent_evidence_vectors.monitorcoverage import (
     _fixture_error,
     _validated_entries,
     cli,
-    external_answer,
     run_corpus,
 )
 
@@ -223,6 +223,23 @@ def verify(case_path: Path, skip: frozenset[str] = frozenset()) -> dict[str, str
     lines = [x.strip() for x in (case_path.parent / case["chain"]).read_text("ascii").splitlines()
              if x.strip()]
     return judge_stream(lines, case, profile, skip)
+
+
+def external_answer(command: list[str], path: Path) -> tuple[bool, dict[str, Any] | str]:
+    """Run one external verifier on one case and read its decision, which its exit code must repeat."""
+    try:
+        result = subprocess.run([*command, str(path), "--json"], capture_output=True,
+                                text=True, timeout=90, check=False)
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        return False, f"verifier did not run: {exc}"
+    try:
+        answer = json.loads(result.stdout)
+        observed = {key: answer[key] for key in ("decision", "reason")}
+    except (ValueError, KeyError, TypeError):
+        return True, f"verifier returned no decision (exit {result.returncode})"
+    if EXIT_FOR.get(str(observed["decision"])) != result.returncode:
+        return True, f"exit {result.returncode} disagrees with decision {observed['decision']}"
+    return True, observed
 
 
 def check(verifier: str | list[str] | None = None, root: Path = ROOT,
