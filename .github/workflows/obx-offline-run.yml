@@ -13,6 +13,7 @@ jobs:
           - {os: ubuntu-24.04-arm, image: "python:3.13-slim", tag: py313-aarch64}
           - {os: ubuntu-24.04-arm, image: "python:3.12-slim", tag: py312-aarch64}
           - {os: ubuntu-24.04, image: "python:3.13-slim", tag: py313-x86_64}
+          - {os: ubuntu-24.04, image: "python:3.12-slim", tag: py312-x86_64}
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
