@@ -145,6 +145,7 @@ only-include = [
     "corpora/vectors-agent-change-admission",
     "corpora/vectors-agent-decision",
     "corpora/vectors-agent-payment-mandate",
+    "corpora/vectors-agent-request-proof",
     "corpora/vectors-agentic-process-evidence",
     "corpora/vectors-aggregate-accounting",
     "corpora/vectors-ai-agent-action",
@@ -215,6 +216,7 @@ exclude = [
     "corpora/vectors-agent-change-admission/**/*.py",
     "corpora/vectors-agent-decision/**/*.py",
     "corpora/vectors-agent-payment-mandate/**/*.py",
+    "corpora/vectors-agent-request-proof/**/*.py",
     "corpora/vectors-agentic-process-evidence/**/*.py",
     "corpora/vectors-aggregate-accounting/**/*.py",
     "corpora/vectors-ai-agent-action/**/*.py",
@@ -284,6 +286,7 @@ exclude = [
 "corpora/vectors-agent-change-admission" = "agent_evidence_vectors/corpora/vectors-agent-change-admission"
 "corpora/vectors-agent-decision" = "agent_evidence_vectors/corpora/vectors-agent-decision"
 "corpora/vectors-agent-payment-mandate" = "agent_evidence_vectors/corpora/vectors-agent-payment-mandate"
+"corpora/vectors-agent-request-proof" = "agent_evidence_vectors/corpora/vectors-agent-request-proof"
 "corpora/vectors-agentic-process-evidence" = "agent_evidence_vectors/corpora/vectors-agentic-process-evidence"
 "corpora/vectors-aggregate-accounting" = "agent_evidence_vectors/corpora/vectors-aggregate-accounting"
 "corpora/vectors-ai-agent-action" = "agent_evidence_vectors/corpora/vectors-ai-agent-action"
@@ -428,6 +431,7 @@ only-include = [
     "corpora/vectors-agent-change-admission",
     "corpora/vectors-agent-decision",
     "corpora/vectors-agent-payment-mandate",
+    "corpora/vectors-agent-request-proof",
     "corpora/vectors-agentic-process-evidence",
     "corpora/vectors-aggregate-accounting",
     "corpora/vectors-ai-agent-action",
@@ -527,7 +531,7 @@ artifact-binding = ["cryptography>=43"]
 # pymupdf is pinned exactly because interop/nist-ai-300-1 binds digests to the text
 # it extracts from the NIST AI 300-1 PDF; another release may extract other text.
 dev = ["cryptography>=43", "pycose>=1.1,<2", "cbor2>=5.6,<6", "markdown>=3.9",
-       "packaging>=25", "hypothesis==6.170.12", "pycryptodome==4.2.0", "jsonschema==4.26.0", "rfc8785==0.1.4",
+       "packaging>=25", "hypothesis==6.170.14", "pycryptodome==4.3.0", "jsonschema==4.26.0", "rfc8785==0.1.4",
        "mypy>=1.11", "pyright>=1.1.400", "pytest>=8", "pytest-cov>=5",
        "pyyaml>=6", "ruff>=0.6", "types-Markdown>=3.9", "types-PyYAML>=6",
        "numpy>=2.1", "mcp==2.3.0", "pymupdf==1.26.7", "types-jsonschema==4.26.0.20261006"]

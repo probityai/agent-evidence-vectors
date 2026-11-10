@@ -148,3 +148,21 @@ condition = "AND"
 paths = ['''^(corpora/)?vectors-badge-vc-verify/cases/[^/]+/case\.json$''']
 regexTarget = "match"
 regexes = ['''eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]*''']
+
+[[allowlists]]
+description = "Test proof JWTs inside the agent request-proof corpus envelopes"
+# Every proof is signed by a key derived from a published label in the corpus
+# generator, or is the upstream SDK's own golden fixture; they grant nothing.
+# Scoped to the jwt rule and this corpus's envelopes only.
+targetRules = ["jwt"]
+paths = ['''^corpora/vectors-agent-request-proof/cases/[^/]+/envelope-[0-9]+\.json$''']
+
+[[allowlists]]
+description = "The public recorder key of the agent request-proof corpus"
+# An Ed25519 PUBLIC key derived from a published seed label; the pattern names
+# that exact value, so any other value is still reported.
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^corpora/vectors-agent-request-proof/cases/[^/]+/case\.json$''']
+regexTarget = "match"
+regexes = ['''recorderKey"\s*:\s*"BMA4qFpSvSiLzOhNuhs1bmui/v29XYS9mMxGqVEfCwg="''']
