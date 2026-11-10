@@ -352,7 +352,7 @@ mod tests {
 
     #[test]
     fn canonical_bytes_matches_rfc8785_section_3_2_4() {
-        let sample = br#"{"numbers":[333333333.33333329,1E30,4.50,2e-3,0.000000000000000000000000001],"string":"\u20ac$\u000F\u000aA'B"\\\\"/","literals":[null,true,false]}"#;
+        let sample = br#"{"numbers":[333333333.33333329,1E30,4.50,2e-3,0.000000000000000000000000001],"string":"\u20ac$\u000F\u000aA'\u0042\u0022\u005c\\\"/","literals":[null,true,false]}"#;
         let value = parse_record(sample).unwrap();
         let expected = "{\"literals\":[null,true,false],\"numbers\":[333333333.3333333,1e+30,4.5,0.002,1e-27],\"string\":\"\u{20ac}$\\u000f\\nA'B\\\"\\\\\\\\\\\"/\"}";
         assert_eq!(canonical_bytes(&value).unwrap(), expected.as_bytes());
