@@ -2406,20 +2406,24 @@ principal_identity:
     review_by: "2027-05-08"
     values: [pinned_before_first_call, unpinned]
     value_definitions:
-      pinned_before_first_call: "The client held the RFC 7638 SHA-256 thumbprint of the issuer key in its configuration before its first call to the issuer and refused any key whose thumbprint differed."
+      pinned_before_first_call: "The client held a pin set for the issuer, one or more RFC 7638 SHA-256 thumbprints at an epoch, in its configuration before its first call to the issuer and refused any key whose thumbprint was not in the set."
       unpinned: "The client trusted whatever key the issuer's JWKS served at the time, with no thumbprint configured."
     definition: >
       Whether the client that obtained the token pinned the issuer's signing
-      key by its RFC 7638 thumbprint before its first call. A pin is all or
-      nothing: a configuration that pins one issuer and leaves another
-      unpinned, or names two thumbprints for one issuer, is malformed and is
-      never read as pinned. A pin is never downgraded: on a thumbprint
-      mismatch or a failed key fetch the client refuses, and does not fall
-      back to the unpinned path. Closed and fail-closed.
+      key by its RFC 7638 thumbprint before its first call. A pin is a set of
+      thumbprints at an epoch, a positive integer that only grows, so a next
+      key can be pinned beside the current one before rotation. A pin is all
+      or nothing: a configuration that pins one issuer and leaves another
+      unpinned, or names two different sets for one issuer at one epoch, is
+      malformed and is never read as pinned. A pin is never downgraded: a set
+      at an epoch below the one the client already reached is refused, and on
+      a thumbprint outside the set or a failed key fetch the client refuses
+      and does not fall back to the unpinned path. Closed and fail-closed.
     check: >
       A verifier reads pinned_before_first_call only when the record carries
-      the configured thumbprint and it equals principal.keyThumbprint, which
-      the verifier recomputes from principal.key. A record claiming a pin
+      the configured thumbprint that matched, a member of the issuer's pin
+      set, and it equals principal.keyThumbprint, which the verifier
+      recomputes from principal.key. A record claiming a pin
       whose thumbprint differs, or a mixed configuration, is refused. A
       relying party that requires a pin refuses unpinned.
     source_path: "predicate.principal.keyThumbprint compared with the configured pin at predicate.principal.pinnedThumbprint"
