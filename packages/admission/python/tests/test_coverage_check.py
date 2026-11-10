@@ -56,7 +56,7 @@ def test_text_report_names_each_class_and_the_verdict(capsys):
     out = capsys.readouterr().out
     assert code == 1
     assert "MISSING" in out and "machine-learning-model" in out
-    assert out.strip().endswith("FAIL cyclonedx: 1 of 2 required classes accounted for")
+    assert out.strip().endswith("FAIL cyclonedx: 1 of 2 required classes passed, 1 failed, 0 not checked")
 
 
 def test_required_file_json_object_picks_the_list_for_the_format(tmp_path, capsys):
