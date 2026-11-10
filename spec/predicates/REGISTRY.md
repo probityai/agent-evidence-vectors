@@ -424,5 +424,7 @@ each day. Each document is the authority for its type.
   `corpora/vectors-agent-card-receipt/`.
 - `credential-release`: `spec/predicates/credential-release.md`, corpus
   `corpora/vectors-credential-release/`.
+- `principal-action`: `spec/predicates/principal-action.md`, corpus
+  `corpora/vectors-principal-action/`.
 
 `spec/predicates/done-records.md` defines the records both read and no type URI.
