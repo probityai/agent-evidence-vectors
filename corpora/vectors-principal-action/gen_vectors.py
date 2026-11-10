@@ -386,6 +386,22 @@ def cases() -> list[tuple[str, bytes, dict[str, str], str]]:
     return out
 
 
+def corpus_digest(manifest: dict[str, Any], root: str) -> str:
+    """Recompute the digest from the committed files, not their declared hashes."""
+    base = Path(root)
+    entries = []
+    for entry in manifest["vectors"]:
+        directory = base / entry["path"]
+        declared = entry["files"]
+        if {p.name for p in directory.iterdir() if p.is_file()} != set(declared):
+            raise ValueError(f"{entry['id']}: file set changed")
+        files = {name: hashlib.sha256((directory / name).read_bytes()).hexdigest() for name in declared}
+        if files != declared:
+            raise ValueError(f"{entry['id']}: file digest mismatch")
+        entries.append({**entry, "files": files})
+    return hashlib.sha256(_json(entries)).hexdigest()
+
+
 def generate(root: Path = ROOT) -> dict[str, Any]:
     """Write every case and the manifest, and return the manifest."""
     entries = []
