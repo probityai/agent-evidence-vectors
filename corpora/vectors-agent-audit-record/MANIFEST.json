@@ -75,11 +75,11 @@
       }
     ]
   },
-  "corpusDigest": "4e23b2657679aab1484add84ef82e6e5c2a8d681a8d93e4fe11981206efb767f",
+  "corpusDigest": "1c33602d5026578db61f50513d1d985773d127a3a65665022992e36fca003613",
   "counts": {
-    "accept": 98,
+    "accept": 103,
     "indeterminate": 2,
-    "reject": 125
+    "reject": 131
   },
   "draft": "draft-gilda-audit-agent-audit-record-00",
   "emptyTree": {
@@ -3589,6 +3589,188 @@
       "parentDraftId": "PR1",
       "row": "principal carrying the raw token in a member this document does not define",
       "slug": "pr11-principal-member-unknown"
+    },
+    {
+      "draftId": "PR12",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vc4e4ad35a6a3310c.json",
+      "id": "vc4e4ad35a6a3310c",
+      "kind": "accept",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "row": "PR1 from an Okta org issuer, identityProvider okta: the declared value agrees with the provider the issuer's host names",
+      "slug": "pr12-principal-provider-derived"
+    },
+    {
+      "draftId": "PR13",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "principal-provider-mismatch"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v9a48f965d616037b.json",
+      "id": "v9a48f965d616037b",
+      "kind": "reject",
+      "parent": "vc4e4ad35a6a3310c",
+      "parentDraftId": "PR12",
+      "row": "PR12 declaring identityProvider auth0 for an issuer whose host names Okta",
+      "slug": "pr13-principal-provider-contradicts-issuer"
+    },
+    {
+      "draftId": "PR14",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v65c8c31f78a03e4c.json",
+      "id": "v65c8c31f78a03e4c",
+      "kind": "accept",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "row": "PR1, whose issuer is a custom domain no host or path rule names, with identityProvider okta: accepted as declared, not derived",
+      "slug": "pr14-principal-provider-declared-custom-domain"
+    },
+    {
+      "draftId": "PR15",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v50d0022729a064de.json",
+      "id": "v50d0022729a064de",
+      "kind": "accept",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "row": "PR1 with identityProvider self_issued: the deploying party runs the issuer, so no third party vouches for the principal",
+      "slug": "pr15-principal-provider-self-issued"
+    },
+    {
+      "draftId": "PR16",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "principal-provider-mismatch"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v3daa568aa4b0447b.json",
+      "id": "v3daa568aa4b0447b",
+      "kind": "reject",
+      "parent": "v50d0022729a064de",
+      "parentDraftId": "PR15",
+      "row": "PR15 from the OpenID self-issued issuer declaring identityProvider okta: a self-issued principal cannot be presented as vouched for by a third party",
+      "slug": "pr16-principal-self-issued-declared-third-party"
+    },
+    {
+      "draftId": "PR17",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v92bdf3a4f0126cba.json",
+      "id": "v92bdf3a4f0126cba",
+      "kind": "accept",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "row": "PR1 with pinnedThumbprint equal to keyThumbprint: the client pinned the issuer's key before its first call",
+      "slug": "pr17-principal-key-pinned"
+    },
+    {
+      "draftId": "PR18",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "principal-pin-mismatch"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v2b236598931a7aa6.json",
+      "id": "v2b236598931a7aa6",
+      "kind": "reject",
+      "parent": "v92bdf3a4f0126cba",
+      "parentDraftId": "PR17",
+      "row": "PR17 whose pinnedThumbprint is the thumbprint of the issuer's Ed25519 key while key is its P-256 key: the pin does not hold",
+      "slug": "pr18-principal-pin-mismatch"
+    },
+    {
+      "draftId": "PR19",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "principal-malformed"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vcbdf2b412525be4d.json",
+      "id": "vcbdf2b412525be4d",
+      "kind": "reject",
+      "parent": "v92bdf3a4f0126cba",
+      "parentDraftId": "PR17",
+      "row": "PR17 whose pinnedThumbprint carries base64 padding: not an RFC 7638 thumbprint in base64url without padding",
+      "slug": "pr19-principal-pin-malformed"
+    },
+    {
+      "draftId": "PR20",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "principal-malformed"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v486f4b19f1ca0713.json",
+      "id": "v486f4b19f1ca0713",
+      "kind": "reject",
+      "parent": "v65c8c31f78a03e4c",
+      "parentDraftId": "PR14",
+      "row": "PR14 with identityProvider google, a value the closed set does not name",
+      "slug": "pr20-principal-provider-unregistered"
+    },
+    {
+      "draftId": "PR21",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vcf322ae71fe5361e.json",
+      "id": "vcf322ae71fe5361e",
+      "kind": "accept",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "row": "PR1 from a Microsoft Entra issuer with identityProvider entra and the key pinned: both members present",
+      "slug": "pr21-principal-entra-pinned"
+    },
+    {
+      "draftId": "PR22",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "principal-provider-mismatch"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vfac2b6a41b33b12d.json",
+      "id": "vfac2b6a41b33b12d",
+      "kind": "reject",
+      "parent": "vc4e4ad35a6a3310c",
+      "parentDraftId": "PR12",
+      "row": "PR12 from a Keycloak realm issuer declaring identityProvider other: other cannot replace the provider the issuer's path names",
+      "slug": "pr22-principal-provider-other-hides-derived"
     },
     {
       "draftId": "DS1",

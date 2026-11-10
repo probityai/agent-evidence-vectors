@@ -24,7 +24,7 @@ regexes = [
 description = "RFC 7638 thumbprints of public JWKs: a SHA-256 digest in base64url, 43 characters (audit-record principal members)"
 targetRules = ["generic-api-key"]
 regexTarget = "match"
-regexes = ['''keyThumbprint"\s*:\s*"[A-Za-z0-9_-]{43}"''']
+regexes = ['''(keyThumbprint|pinnedThumbprint)"\s*:\s*"[A-Za-z0-9_-]{43}"''']
 
 [[allowlists]]
 description = "HKDF outputs from the ACS specification's published example secret (vectors-acs-core)"

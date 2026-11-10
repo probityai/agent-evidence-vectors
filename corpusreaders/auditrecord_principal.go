@@ -4,12 +4,14 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/json"
+	"net/url"
+	"regexp"
 	"strings"
 
 	"github.com/probityai/agent-evidence-vectors/aee"
 )
 
-// The principal member (revision 04, rows PR1 to PR11): the IdP-authenticated
+// The principal member (revision 04, rows PR1 to PR22): the IdP-authenticated
 // principal a decision point established, carried inside the signed bytes. It
 // is bound to the agent by its credential digest (tokenDigest equals
 // agent.credentialDigest), to the delegation by its subject, and to the
@@ -22,7 +24,64 @@ var arPrincipalMembers = []string{
 	"issuedAt", "expiresAt", "kid", "key", "keyThumbprint", "jwksDigest",
 }
 
-var arPrincipalOptional = []string{"tenant"}
+var arPrincipalOptional = []string{"tenant", "identityProvider", "pinnedThumbprint"}
+
+// arIdentityProviders is the closed set of the vocabulary's identity_provider
+// term (agent-evidence-vocabulary 0.10.0, principal_identity).
+var arIdentityProviders = []string{"okta", "entra", "auth0", "keycloak", "self_issued", "other"}
+
+var (
+	arOktaSuffixes  = []string{".okta.com", ".oktapreview.com", ".okta-emea.com", ".okta-gov.com"}
+	arEntraHosts    = []string{"login.microsoftonline.com", "login.microsoftonline.us", "login.chinacloudapi.cn", "sts.windows.net"}
+	arEntraSuffixes = []string{".ciamlogin.com"}
+	arAuth0Suffixes = []string{".auth0.com"}
+	arSelfIssued    = []string{"https://self-issued.me", "https://self-issued.me/v2"}
+	// arThumbprintShape: an RFC 7638 SHA-256 thumbprint, base64url without padding.
+	arThumbprintShape = regexp.MustCompile(`^[A-Za-z0-9_-]{43}$`)
+)
+
+func arHasSuffix(host string, suffixes []string) bool {
+	for _, suffix := range suffixes {
+		if strings.HasSuffix(host, suffix) {
+			return true
+		}
+	}
+	return false
+}
+
+// arDerivedIdentityProvider is the provider an https issuer names by its host
+// and path, self-issued first; "other" for a custom domain no rule names.
+func arDerivedIdentityProvider(issuer string) string {
+	if arContains(arSelfIssued, strings.TrimRight(issuer, "/")) {
+		return "self_issued"
+	}
+	parsed, err := url.Parse(issuer)
+	if err != nil {
+		return "other"
+	}
+	host := strings.ToLower(parsed.Hostname())
+	switch {
+	case arHasSuffix(host, arOktaSuffixes):
+		return "okta"
+	case arContains(arEntraHosts, host) || arHasSuffix(host, arEntraSuffixes):
+		return "entra"
+	case arHasSuffix(host, arAuth0Suffixes):
+		return "auth0"
+	}
+	var segments []string
+	for _, segment := range strings.Split(parsed.Path, "/") {
+		if segment != "" {
+			segments = append(segments, segment)
+		}
+	}
+	if len(segments) > 0 && segments[0] == "auth" {
+		segments = segments[1:]
+	}
+	if len(segments) == 2 && segments[0] == "realms" {
+		return "keycloak"
+	}
+	return "other"
+}
 
 // arPrincipalAuthMethods is the IANA registry "OAuth Token Endpoint
 // Authentication Methods" as RFC 7591 and RFC 8705 populate it.
@@ -50,7 +109,7 @@ var arJWKPrivateMembers = []string{"d", "p", "q", "dp", "dq", "qi", "oth", "k"}
 // can weaken one at a time and see exactly its member fail.
 var arPrincipalChecks = map[string]bool{
 	"unknown": true, "subject": true, "credential": true, "not-yet-valid": true,
-	"expired": true, "kid": true, "thumbprint": true,
+	"expired": true, "kid": true, "thumbprint": true, "provider": true, "pin": true,
 }
 
 // arJWKThumbprint is the RFC 7638 SHA-256 thumbprint of a public JWK, base64url
@@ -152,6 +211,18 @@ func arPrincipalShape(raw any) (map[string]any, error) {
 	if tenant, has := principal["tenant"]; has && !arNonEmpty(tenant) {
 		return nil, arRefuse("principal-malformed")
 	}
+	if provider, has := principal["identityProvider"]; has {
+		text, _ := provider.(string)
+		if !arContains(arIdentityProviders, text) {
+			return nil, arRefuse("principal-malformed")
+		}
+	}
+	if pin, has := principal["pinnedThumbprint"]; has {
+		text, _ := pin.(string)
+		if !arThumbprintShape.MatchString(text) {
+			return nil, arRefuse("principal-malformed")
+		}
+	}
 	return principal, arPrincipalKeyShape(principal["key"])
 }
 
@@ -204,6 +275,16 @@ func arRulePrincipal(s *arState) error {
 	}
 	if arPrincipalChecks["thumbprint"] && arStr(principal, "keyThumbprint") != thumbprint {
 		return arRefuse("principal-thumbprint-mismatch")
+	}
+	if _, has := principal["identityProvider"]; has && arPrincipalChecks["provider"] {
+		derived := arDerivedIdentityProvider(arStr(principal, "issuer"))
+		if derived != "other" && arStr(principal, "identityProvider") != derived {
+			return arRefuse("principal-provider-mismatch")
+		}
+	}
+	if _, has := principal["pinnedThumbprint"]; has && arPrincipalChecks["pin"] &&
+		arStr(principal, "pinnedThumbprint") != arStr(principal, "keyThumbprint") {
+		return arRefuse("principal-pin-mismatch")
 	}
 	return nil
 }
