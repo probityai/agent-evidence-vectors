@@ -14,7 +14,7 @@ bind consumption state with an operation key, then the rows written for
 revision 02: `A21` (an `api-key` agent authentication), `SQ1` to `SQ5` (the
 `sequence` member and record identity) and `R10` to `R16` (OpenTimestamps
 anchors and the delegation root), then the rows written for revision 03:
-`IS1` and `IS2`, a record issued before its interval was sealed, and `PS1` and `PS2`, principal standing under the `v2` predicate type URI (below), then the rows written for revision 04: `CS41` to `CS49`, the payee and the settled terms of a paid call, and `PR1` to `PR11`, the authenticated principal ([proposed text](../../docs/proposals/audit-record-04-principal.md)), and `DS1` to `DS10`, whose data a call touched and for what purpose ([proposed text](../../docs/proposals/audit-record-04-data-subject.md)), and `PS3` to `PS5`, principal standing established from a published commitment (below). Each carries `draftRevision` and the
+`IS1` and `IS2`, a record issued before its interval was sealed, and `PS1` and `PS2`, principal standing under the `v2` predicate type URI (below), then the rows written for revision 04: `CS41` to `CS49`, the payee and the settled terms of a paid call, and `PR1` to `PR16`, the authenticated principal ([proposed text](../../docs/proposals/audit-record-04-principal.md)), and `DS1` to `DS10`, whose data a call touched and for what purpose ([proposed text](../../docs/proposals/audit-record-04-data-subject.md)), and `PS3` to `PS5`, principal standing established from a published commitment (below). Each carries `draftRevision` and the
 identifier the draft prints. After them come `X1` to `X18`, each an existing member with one field changed that reaches a refusal code no earlier member produced: the JSON profile (`X1`, `X2`), `issuedAt` without an offset (`X3`), the statement and predicate types (`X4`, `X5`), consumption shape and the operation key (`X6`, `X7`), the first subject (`X8`), an envelope and a statement that cannot be read (`X9`, `X10`), a retention entry that is malformed or names another envelope or an unexpected or unreadable delegation root (`X11` to `X14`), a retained member whose record or entry cannot be read (`X15`, `X16`), and a set that cannot be read or whose records are malformed (`X17`, `X18`). [`INDEX.md`](INDEX.md) lists every member beside its
 file.
 
@@ -380,11 +380,16 @@ in [#213](https://github.com/probityai/agent-evidence-vectors/issues/213).
   (vendrell46's zero-settlement case on #307). The record keeps the operation key
   in `held`, with its amount and a `deadline` written as the record writes
   instants; without one it is `consumption-value-invalid` (`CS52`). The hold ends
-  only when a later record of the ledger is dated at or after that `deadline`
+  only when a later record of the ledger is dated after that `deadline`
   (`CS54`) or a record of the operation shows `occurred`: a later record dated
-  before it that no longer holds the key is `consumption-set-release-unshown`,
-  even though the zero settlement's own record shows `none` (`CS53`). This is
-  the EVM scheme only; SVM `upto` runs on payment channels.
+  before it (`CS53`) or at it (`CS55`) that no longer holds the key is
+  `consumption-set-release-unshown`, even though the zero settlement's own
+  record shows `none`. Permit2's `SignatureTransfer` reverts only when
+  `block.timestamp > deadline`, so the deadline is the permit's last valid
+  second and a settlement can still land in a block stamped at it (vendrell46,
+  #307). `reportedAt` is the writer's clock, not the chain's, so even a record
+  dated after the deadline is a floor rather than proof the permit is dead.
+  This is the EVM scheme only; SVM `upto` runs on payment channels.
 
 `check_vectors.py` drops each sentence of the rule and each set check in turn and
 requires the corpus to fail on exactly the members that test it; a retry keyed
@@ -398,8 +403,9 @@ by its id alone fails `CS39`, dropping each payee and settled check fails `CS42`
 amount rather than the settled one fails `CS48` and `CS54`, refusing an empty transaction at
 an amount of 0 fails `CS50`, `CS53` and `CS54`, accepting one at any other amount
 fails `CS51`, not requiring the deadline fails `CS52`, dropping the hold's set
-check fails `CS53` alone, and ending the hold only after the deadline, not at it,
-fails `CS54`. The Go rail in `corpora/` runs
+check fails `CS53` alone, ending the hold at the deadline rather than after it
+fails `CS55`, and allowing no skew tolerance on the issue or the expiry side of a
+principal's token fails `PR13` or `PR12`. The Go rail in `corpora/` runs
 the same sweep.
 
 ## Principal standing and the v2 URI: `PS1`, `PS2` and `PS1b`

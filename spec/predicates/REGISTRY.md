@@ -294,9 +294,9 @@ reproduce is refused.
   Section 5.4 that Appendix B has no row for, each naming its section in
   `draftSection`, then rows of revision 01 (`CS1` to `CS40`) that bind
   consumption state to the agent's operation key, and rows written for revision
-  04 (`CS41` to `CS54`) that add a paid call's payee and settled terms; `CS7`, `CS8`, `CS17`, `CS18` to `CS22`, `CS25` to `CS33`, `CS38` to `CS40`, `CS48`, `CS49`, `CS53` and `CS54` are
+  04 (`CS41` to `CS55`) that add a paid call's payee and settled terms; `CS7`, `CS8`, `CS17`, `CS18` to `CS22`, `CS25` to `CS33`, `CS38` to `CS40`, `CS48`, `CS49`, `CS53` to `CS55` are
   files of several records judged as a set. Rows R1 to R9 are retained records
-  judged by the dating check of Section 4.7. Rows `PR1` to `PR11`, written for revision 04, test
+  judged by the dating check of Section 4.7. Rows `PR1` to `PR16`, written for revision 04, test
   the optional `principal` member, the authenticated principal bound to the agent's credential
   digest and to the issuer key's RFC 7638 thumbprint
   ([proposed text](../../docs/proposals/audit-record-04-principal.md)). Rows `DS1` to `DS10`,

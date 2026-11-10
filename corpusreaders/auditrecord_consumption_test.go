@@ -99,7 +99,7 @@ func TestAuditRecordConsumptionSentencesAreLoadBearing(t *testing.T) {
 		"settled-terms":  "CS45,CS46",
 		"settled-source": "CS47",
 
-		"zero-settled-transaction":  "CS50,CS53,CS54",
+		"zero-settled-transaction":  "CS50,CS53,CS54,CS55",
 		"empty-transaction-nonzero": "CS51",
 		"zero-settled-deadline":     "CS52",
 	} {
@@ -124,12 +124,12 @@ func TestAuditRecordConsumptionSentencesAreLoadBearing(t *testing.T) {
 // fails CS17, the control that proves the check keys on the operation key.
 func TestAuditRecordSetRulesAreLoadBearing(t *testing.T) {
 	for _, c := range []struct{ drop, want string }{
-		{"", "CS7,CS8,CS17,CS20,CS21,CS30,CS31,CS32,CS38,CS39,CS49,CS53"},
+		{"", "CS7,CS8,CS17,CS20,CS21,CS30,CS31,CS32,CS38,CS39,CS49,CS53,CS55"},
 		{"stale-revision", "CS7,CS17,CS21"},
 		{"release-unshown", "CS8,CS20,CS30"},
 		{"asset-mismatch", "CS38,CS39"},
 		{"settled-uncounted", "CS49"},
-		{"unexpired-hold", "CS53"},
+		{"unexpired-hold", "CS53,CS55"},
 	} {
 		if got := arWeakened(t, arDropSetRule(c.drop)); got != c.want {
 			t.Errorf("dropping set check %q: failing %q, want %q", c.drop, got, c.want)
@@ -348,14 +348,14 @@ func TestAuditRecordSettledReadingIsLoadBearing(t *testing.T) {
 }
 
 // TestAuditRecordDeadlineReadingIsLoadBearing: a zero settlement's hold that a
-// record dated exactly at the deadline does not end refuses CS54 and nothing
-// else, so the corpus reads the hold as ending at or after the deadline.
+// record dated exactly at the deadline ends accepts CS55 and nothing else, so
+// the corpus reads the deadline as the permit's last valid second.
 func TestAuditRecordDeadlineReadingIsLoadBearing(t *testing.T) {
-	strict := func() func() {
-		arDeadlineInclusive = false
-		return func() { arDeadlineInclusive = true }
+	inclusive := func() func() {
+		arDeadlineInclusive = true
+		return func() { arDeadlineInclusive = false }
 	}
-	if got := arWeakened(t, strict); got != "CS54" {
-		t.Errorf("a hold ended only after the deadline: failing %q, want CS54", got)
+	if got := arWeakened(t, inclusive); got != "CS55" {
+		t.Errorf("a hold ended at the deadline: failing %q, want CS55", got)
 	}
 }

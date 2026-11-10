@@ -1587,6 +1587,13 @@ FROZEN: tuple[Frozen, ...] = (
         'total of 128 by coincidence.',
     ),
     Frozen(
+        'vectors/CHANGES.md',
+        'the gap between two nesting depth bounds, in depths',
+        'malformed to another across 127 depths',
+        'A difference between two protocol constants, 256 less 128, not a count of any corpus. '
+        'It met the audit record corpus reject count by coincidence.',
+    ),
+    Frozen(
         'corpora/vectors-spoofed-tool-output/gen_vectors.py',
         'the shell exit status of a process killed by a signal',
         'the run was killed by a signal (128 plus',
