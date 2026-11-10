@@ -1,0 +1,39 @@
+[package]
+name = "aev-readers"
+version = "0.0.0"
+edition = "2021"
+rust-version = "1.88"
+description = "Rust readers for the v2 evidence corpora: each derives a decision and reason from a case's record.json alone"
+license = "Apache-2.0"
+publish = false
+
+[[bin]]
+name = "aev-verdicts"
+path = "src/main.rs"
+
+[dependencies]
+# RFC 8785 canonical bytes, and refusal of duplicate members, from the repository's own crate.
+jcs-admit = { path = "../jcs-admit" }
+# Ed25519 verification (verify_strict) behind the dsse Verifier trait.
+dsse = { path = "../dsse", default-features = false, features = ["ed25519"] }
+serde_json = "1.0"
+sha2 = "0.11"
+base64 = "0.23"
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_docs = "deny"
+missing_debug_implementations = "deny"
+unreachable_pub = "deny"
+rust_2018_idioms = { level = "deny", priority = -1 }
+
+[lints.clippy]
+all = { level = "deny", priority = -1 }
+unwrap_used = "deny"
+expect_used = "deny"
+panic = "deny"
+todo = "deny"
+unimplemented = "deny"
+indexing_slicing = "deny"
+undocumented_unsafe_blocks = "deny"
+await_holding_lock = "deny"
