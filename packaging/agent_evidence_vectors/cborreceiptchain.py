@@ -19,8 +19,8 @@ The reader checks in a fixed order and names the first check that fails (decisio
 
 A stream that passes all seven is ``supported`` (``receipt_chain_holds``) unless the bytes cannot show
 completeness, in which case it is ``not_established``: ``chain_reset`` (a receipt names no predecessor
-after the first), ``head_not_anchored`` (no head pinned), ``effect_not_recorded`` (an effect was
-required and the format carries none) or ``revocation_not_consulted``.
+after the first), ``head_not_anchored`` (no head pinned) or ``effect_not_recorded`` (an effect was
+required and the format carries none).
 
 The external-verifier contract: ``<verifier> <case-dir>/case.json --json`` prints one JSON object
 carrying ``decision`` and ``reason``, and exits 0 for ``supported``, 1 for ``contradicted`` and 3 for
