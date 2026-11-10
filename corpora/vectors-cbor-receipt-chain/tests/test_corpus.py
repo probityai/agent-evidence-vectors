@@ -143,3 +143,28 @@ class TestCborReceiptChainCorpus:
         def test_corpus_digest_matches_the_manifest(self) -> None:
             manifest = json.loads((ROOT / "MANIFEST.json").read_text())
             assert generator.corpus_digest(manifest, str(ROOT)) == manifest["corpusDigest"]
+
+    class TestOtherFormatProfiles:
+        def _case(self, tmp_path: Path, receipts: list[bytes], key: object) -> Path:
+            rb = generator.rb
+            (tmp_path / "profile.json").write_text(json.dumps(rb.WRAPPED))
+            (tmp_path / "chain.jsonl").write_bytes(rb.stream(rb.WRAPPED, receipts))
+            head = cborreceiptchain.hashlib.sha256(receipts[-1]).hexdigest()
+            case = {"chain": "chain.jsonl", "profile": "profile.json",
+                    "signer_keys": [rb.public_hex(key)], "head": head, "count": len(receipts)}
+            (tmp_path / "case.json").write_text(json.dumps(case))
+            return tmp_path / "case.json"
+
+        def test_json_line_profile_with_pair_keys_is_judged(self, tmp_path: Path) -> None:
+            rb = generator.rb
+            key = rb.seed_key("wrapped")
+            receipts = rb.chain(rb.WRAPPED, key, 3)
+            answer = cborreceiptchain.verify(self._case(tmp_path, receipts, key))
+            assert answer == {"decision": "supported", "reason": "receipt_chain_holds"}
+
+        def test_json_line_profile_still_refuses_a_dropped_receipt(self, tmp_path: Path) -> None:
+            rb = generator.rb
+            key = rb.seed_key("wrapped")
+            receipts = rb.chain(rb.WRAPPED, key, 4)
+            case = self._case(tmp_path, receipts[:1] + receipts[2:], key)
+            assert cborreceiptchain.verify(case)["reason"] == "chain_order"

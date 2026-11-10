@@ -130,10 +130,24 @@ def _bytes(value: Any, form: str, size: int) -> bytes:
     return value
 
 
-def parse(wire: str, profile: dict[str, Any]) -> dict[str, Any]:
+def _wire(line: str, profile: dict[str, Any]) -> str:
+    """The hex of one receipt: the line itself, or the named member of a JSON line."""
+    member = profile["line_member"]
+    if member is None:
+        return line
+    try:
+        value = json.loads(line)
+    except ValueError as exc:
+        raise Malformed("line is not JSON") from exc
+    if not isinstance(value, dict) or not isinstance(value.get(member), str):
+        raise Malformed("line does not carry the receipt member")
+    return str(value[member])
+
+
+def parse(line: str, profile: dict[str, Any]) -> dict[str, Any]:
     """One receipt: shape, signature under its embedded key, then payload members."""
     try:
-        raw = bytes.fromhex(wire)
+        raw = bytes.fromhex(_wire(line, profile))
     except ValueError as exc:
         raise Malformed("not hex") from exc
     outer, names, fields = decode(raw), profile["outer"], profile["fields"]
@@ -150,7 +164,8 @@ def parse(wire: str, profile: dict[str, Any]) -> dict[str, Any]:
     if not _rail().ed25519_verify(key, message, sig):
         raise ValueError("signature does not verify")
     body = decode(payload)
-    if not isinstance(body, dict) or body.get(fields["version"]) != version:
+    inner = body.get(fields["version"]) if isinstance(body, dict) else None
+    if isinstance(inner, bool) or inner != version:
         raise Malformed("payload is not a map carrying the receipt's version")
     prev = body.get(fields["prev_hash"])
     if prev is not None and (not isinstance(prev, bytes) or len(prev) != 32):
@@ -189,7 +204,7 @@ def judge_stream(lines: list[str], case: dict[str, Any], profile: dict[str, Any]
     seen: set[tuple[Any, Any]] = set()
     for p in parsed:
         if "proof" in p and p.get("outcome") == profile["allow_outcome"] and p["proof"] is not None:
-            token = (p.get("request_hash"), p["proof"])
+            token = (repr(p.get("request_hash")), repr(p["proof"]))
             if "single_use" not in skip and token in seen:
                 return fail("single_use")
             seen.add(token)
