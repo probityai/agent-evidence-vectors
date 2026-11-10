@@ -18,6 +18,7 @@ Exit 0 when all hold; 1 with each failure named.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import sys
@@ -68,11 +69,21 @@ def check_pins(page: str, want: dict[str, str]) -> tuple[list[str], str | None]:
     return fails, version
 
 
+def folder_digest() -> str:
+    """Digest of the files a run reads, in the order scripts/offline-verify-run.sh lists them."""
+    names = ("requirements.txt", "SHA256SUMS", "keys.json", "make_case.py", "summary.py", "connected.sh", "offline.sh")
+    lines = "".join(f"{hashlib.sha256((FOLDER / n).read_bytes()).hexdigest()}  {n}\n" for n in names)
+    return hashlib.sha256(lines.encode()).hexdigest()
+
+
 def check_transcript(page: str, version: str | None, path: Path) -> list[str]:
     name = path.name
     if f"({name})" not in page and f"[{name}]" not in page:
         return [f"page does not link {name}"]
     transcript = path.read_text(encoding="utf-8")
+    digest = folder_digest()
+    if f"# page folder digest: {digest}\n" not in transcript:
+        return [f"{name}: page folder digest is not the folder's current {digest}"]
     stage2 = transcript.split("## stage 2: container started with --network none", 1)
     if len(stage2) != 2:
         return [f"{name} has no --network none stage"]
