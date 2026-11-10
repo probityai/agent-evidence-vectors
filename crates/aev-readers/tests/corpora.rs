@@ -2,7 +2,12 @@
 //! refuses what it cannot read. The verdicts themselves are held to the other
 //! readers by the cross-language agreement test, not here.
 
-#![allow(clippy::unwrap_used, clippy::expect_used, clippy::panic, clippy::indexing_slicing)]
+#![allow(
+    clippy::unwrap_used,
+    clippy::expect_used,
+    clippy::panic,
+    clippy::indexing_slicing
+)]
 
 use std::path::{Path, PathBuf};
 use std::process::Command;
@@ -30,7 +35,11 @@ fn every_record_of_every_corpus_is_admissible_and_listed_in_order() {
     for name in CORPORA {
         let dir = corpus(name);
         let manifest = load_manifest(&dir).unwrap();
-        assert!(judge_for(&manifest.suite).is_some(), "{name}: {}", manifest.suite);
+        assert!(
+            judge_for(&manifest.suite).is_some(),
+            "{name}: {}",
+            manifest.suite
+        );
         assert!(!manifest.vectors.is_empty(), "{name}");
         for vector in &manifest.vectors {
             read_record(&dir.join(&vector.path)).unwrap();
@@ -62,7 +71,11 @@ fn an_unreadable_corpus_and_an_unknown_suite_are_refused() {
     assert!(verdict_lines(Path::new("/nonexistent-corpus-dir")).is_err());
     let dir = std::env::temp_dir().join(format!("aev-readers-unknown-{}", std::process::id()));
     std::fs::create_dir_all(&dir).unwrap();
-    std::fs::write(dir.join("MANIFEST.json"), br#"{"suite":"nope/v1","vectors":[]}"#).unwrap();
+    std::fs::write(
+        dir.join("MANIFEST.json"),
+        br#"{"suite":"nope/v1","vectors":[]}"#,
+    )
+    .unwrap();
     let error = verdict_lines(&dir).unwrap_err().to_string();
     assert!(error.contains("unknown suite"), "{error}");
     std::fs::remove_dir_all(&dir).unwrap();
@@ -78,7 +91,10 @@ fn the_cli_prints_one_line_per_vector_and_exits_2_when_it_cannot_read() {
     let text = String::from_utf8(output.stdout).unwrap();
     assert_eq!(text.lines().count(), manifest.vectors.len());
 
-    let failed = Command::new(binary).arg("/nonexistent-corpus-dir").output().unwrap();
+    let failed = Command::new(binary)
+        .arg("/nonexistent-corpus-dir")
+        .output()
+        .unwrap();
     assert_eq!(failed.status.code(), Some(2));
     assert!(failed.stdout.is_empty());
     let usage = Command::new(binary).output().unwrap();

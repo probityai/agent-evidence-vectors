@@ -122,7 +122,9 @@ pub fn load_manifest(dir: &Path) -> Result<Manifest, ReaderError> {
     for row in rows {
         let field = |name: &str| row.get(name).and_then(Value::as_str).map(str::to_owned);
         let (Some(id), Some(path)) = (field("id"), field("path")) else {
-            return Err(ReaderError::new("a manifest vector lacks a string id or path"));
+            return Err(ReaderError::new(
+                "a manifest vector lacks a string id or path",
+            ));
         };
         vectors.push(VectorEntry { id, path });
     }
@@ -316,7 +318,8 @@ pub fn parse_rfc3339_micros(text: &str) -> Option<i64> {
     let offset_seconds = match bytes.get(at..)? {
         [b'Z'] => 0,
         [sign @ (b'+' | b'-'), ..] if bytes.len() == at + 6 && bytes.get(at + 3) == Some(&b':') => {
-            let (offset_hour, offset_minute) = (digits(bytes, at + 1, 2)?, digits(bytes, at + 4, 2)?);
+            let (offset_hour, offset_minute) =
+                (digits(bytes, at + 1, 2)?, digits(bytes, at + 4, 2)?);
             if offset_hour > 23 || offset_minute > 59 {
                 return None;
             }
@@ -334,7 +337,12 @@ pub fn parse_rfc3339_micros(text: &str) -> Option<i64> {
 }
 
 #[cfg(test)]
-#[allow(clippy::unwrap_used, clippy::expect_used, clippy::panic, clippy::indexing_slicing)]
+#[allow(
+    clippy::unwrap_used,
+    clippy::expect_used,
+    clippy::panic,
+    clippy::indexing_slicing
+)]
 mod tests {
     use super::*;
 
@@ -361,7 +369,10 @@ mod tests {
     #[test]
     fn canonical_bytes_sorts_members_and_digest_prefixes() {
         let value = parse_record(br#"{"b":1,"a":[true,"x"]}"#).unwrap();
-        assert_eq!(canonical_bytes(&value).unwrap(), br#"{"a":[true,"x"],"b":1}"#);
+        assert_eq!(
+            canonical_bytes(&value).unwrap(),
+            br#"{"a":[true,"x"],"b":1}"#
+        );
         assert_eq!(
             digest(&value).unwrap(),
             format!("sha256:{}", sha256_hex(br#"{"a":[true,"x"],"b":1}"#))
@@ -433,8 +444,7 @@ mod tests {
 
     #[test]
     fn ed25519_rfc8032_test_vector_1() {
-        let public_key =
-            hex("d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a");
+        let public_key = hex("d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a");
         let signature = hex(
             "e5564300c360ac729086e2cc806e828a84877f1eb8e5d974d873e065224901555fb8821590a33bacc61e39701cf9b46bd25bf5f0595bbe24655141438e7a100b",
         );
