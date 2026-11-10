@@ -70,5 +70,28 @@ class DriftFamily(unittest.TestCase):
         self.assertGreater(checked, 0)
 
 
+class RefusalFamily(unittest.TestCase):
+    def test_family_covers_every_refusal_class(self) -> None:
+        cases = CORPUS["refusalCases"]
+        self.assertEqual(
+            {c["family"] for c in cases},
+            {"non-finite", "trailing-content", "syntax", "invalid-unicode", "duplicate-member"},
+        )
+        for case in cases:
+            self.assertEqual(case["expect"], "reject")
+            self.assertEqual(("input" in case) + ("inputHex" in case), 1, case["id"])
+
+    def test_python_reference_refuses_every_case(self) -> None:
+        for case in CORPUS["refusalCases"]:
+            with self.subTest(case["id"]):
+                raw = (
+                    bytes.fromhex(case["inputHex"])
+                    if "inputHex" in case
+                    else case["input"].encode("utf-8")
+                )
+                with self.assertRaises(Exception):
+                    a2ajcs.canonicalize(a2ajcs.parse(raw.decode("utf-8")))
+
+
 if __name__ == "__main__":
     unittest.main()
