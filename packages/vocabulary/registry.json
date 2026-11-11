@@ -1,6 +1,6 @@
 {
   "source": "vocabulary.yaml",
-  "source_sha256": "47edf594999783c8118bc07955695adfd4df76676c66aaa7804e742add904445",
+  "source_sha256": "4d847b6a1aec7fd79f9239876570cd1aa7d263af5454c99b6453e9c99b365b67",
   "term_uri_base": "https://w3id.org/agent-evidence/vocab/v1/",
   "terms": {
     "acceptance_observed": {
@@ -460,11 +460,11 @@
     },
     "issuer_key_pinning": {
       "criticality": "critical",
-      "definition": "Whether the client that obtained the token pinned the issuer's signing key by its RFC 7638 thumbprint before its first call. A pin is all or nothing: a configuration that pins one issuer and leaves another unpinned, or names two thumbprints for one issuer, is malformed and is never read as pinned. A pin is never downgraded: on a thumbprint mismatch or a failed key fetch the client refuses, and does not fall back to the unpinned path. Closed and fail-closed.",
+      "definition": "Whether the client that obtained the token pinned the issuer's signing key by its RFC 7638 thumbprint before its first call. A pin is a set of thumbprints at an epoch, a positive integer that only grows, so a next key can be pinned beside the current one before rotation. A pin is all or nothing: a configuration that pins one issuer and leaves another unpinned, or names two different sets for one issuer at one epoch, is malformed and is never read as pinned. A pin is never downgraded: a set at an epoch below the one the client already reached is refused, and on a thumbprint outside the set or a failed key fetch the client refuses and does not fall back to the unpinned path. Closed and fail-closed.",
       "section": "principal_identity",
       "uri": "https://w3id.org/agent-evidence/vocab/v1/issuer_key_pinning",
       "value_definitions": {
-        "pinned_before_first_call": "The client held the RFC 7638 SHA-256 thumbprint of the issuer key in its configuration before its first call to the issuer and refused any key whose thumbprint differed.",
+        "pinned_before_first_call": "The client held a pin set for the issuer, one or more RFC 7638 SHA-256 thumbprints at an epoch, in its configuration before its first call to the issuer and refused any key whose thumbprint was not in the set.",
         "unpinned": "The client trusted whatever key the issuer's JWKS served at the time, with no thumbprint configured."
       },
       "values": [
