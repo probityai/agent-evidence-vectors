@@ -1819,6 +1819,8 @@ jobs:
         run: uv run --extra dev pytest corpora/vectors-converted-argument-binding/tests -q
       - name: delegator-right cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-delegator-right/tests -q
+      - name: oasf-record cases regenerate and force every check
+        run: uv run --extra dev pytest corpora/vectors-oasf-record/tests -q
       - name: badge-vc-verify cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-badge-vc-verify/tests -q
       - name: completion-confirmation cases regenerate and force every check
