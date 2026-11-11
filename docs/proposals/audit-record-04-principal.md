@@ -19,9 +19,9 @@ and by RFC 7638 thumbprint to the issuer's key. The token itself is never carrie
 Add to Section 5, after `delegation`:
 
 > `principal`, OPTIONAL. The principal the decision point established from a signed token it
-> validated. When present it is an object carrying exactly these members, and MAY carry `tenant`;
-> a record missing one of them or carrying any other member in it is malformed (vectors `PR7`,
-> `PR11`):
+> validated. When present it is an object carrying exactly these members, and MAY carry `tenant`,
+> `identityProvider` and `pinnedThumbprint`; a record missing one of them or carrying any other
+> member in it is malformed (vectors `PR7`, `PR11`):
 >
 > * `issuer`, the `iss` of the token, an `https` URL.
 > * `subject`, the `sub` of the token. When `delegation.subjectKind` is `user`, it MUST equal
@@ -48,6 +48,27 @@ Add to Section 5, after `delegation`:
 > * `jwksDigest`, the SHA-256 digest of the RFC 8785 bytes of the issuer's JWKS as the decision
 >   point held it. A party that retained that snapshot checks that `key` is in it.
 > * `tenant`, OPTIONAL, the issuer's tenant or organization identifier.
+> * `identityProvider`, OPTIONAL, who operates the issuer: one of `okta`, `entra`, `auth0`,
+>   `keycloak`, `self_issued` and `other`, the values of the `identity_provider` term of the
+>   agent-evidence vocabulary (vector `PR20` refuses any other value). A verifier derives the
+>   provider from `issuer`: `self_issued` for `https://self-issued.me` and
+>   `https://self-issued.me/v2`; `okta` for a host ending in `.okta.com`, `.oktapreview.com`,
+>   `.okta-emea.com` or `.okta-gov.com`; `entra` for `login.microsoftonline.com`,
+>   `login.microsoftonline.us`, `login.chinacloudapi.cn`, `sts.windows.net` or a host ending in
+>   `.ciamlogin.com`; `auth0` for a host ending in `.auth0.com`; `keycloak` for a path of
+>   `/realms/<realm>` or `/auth/realms/<realm>`; otherwise `other`. Where the derivation names a
+>   provider, `identityProvider` MUST equal it (vectors `PR12`, `PR13`, `PR16`), and `other` does
+>   not replace a named provider (vector `PR22`). Where it gives `other`, the issuer is a custom
+>   domain and the declared value is accepted as declared, not derived (vectors `PR14`, `PR15`).
+>   A principal whose provider is `self_issued` is vouched for by nobody but the party that runs
+>   the issuer; a verifier MUST NOT report it as vouched for by a third party.
+> * `pinnedThumbprint`, OPTIONAL, the RFC 7638 SHA-256 thumbprint of the issuer key the client
+>   held in its configuration before its first call to the issuer, base64url without padding
+>   (vector `PR19` refuses another shape). Present, it records `pinned_before_first_call` of the
+>   vocabulary's `issuer_key_pinning` term and MUST equal `keyThumbprint` (vectors `PR17`,
+>   `PR18`, `PR21`); absent, the record says the client did not pin. A client whose pin did not
+>   hold refused the key and did not fall back to an unpinned fetch, so a record never carries a
+>   pin that differs from the key it names.
 
 ## 3. Verifying a record
 
@@ -56,21 +77,25 @@ Add after the delegation check, in this order:
 > When `principal` is present, a verifier checks its members (`PR7`, `PR11`), that its subject
 > agrees with the delegation (`PR8`), that `tokenDigest` equals `agent.credentialDigest` (`PR6`),
 > that the token was valid at `decision.reportedAt` (`PR10`, `PR5`), that `key.kid` equals `kid`
-> (`PR9`), and that `keyThumbprint` recomputes from `key` (`PR4`). A record failing any of these
-> is malformed.
+> (`PR9`), that `keyThumbprint` recomputes from `key` (`PR4`), that a declared `identityProvider`
+> agrees with the provider `issuer` names (`PR13`, `PR16`, `PR22`), and that a `pinnedThumbprint`
+> equals `keyThumbprint` (`PR18`). A record failing any of these is malformed.
 
 The reference reader's codes for these refusals are `principal-member-missing`,
 `principal-member-unknown`, `principal-malformed`, `principal-subject-mismatch`,
 `principal-credential-unbound`, `principal-not-yet-valid`, `principal-expired`,
-`principal-kid-mismatch` and `principal-thumbprint-mismatch`.
+`principal-kid-mismatch`, `principal-thumbprint-mismatch`, `principal-provider-mismatch` and
+`principal-pin-mismatch`.
 
 ## 4. What the member does not establish
 
-That the issuer's JWKS at the time held `key` (the retained snapshot and `jwksDigest` answer
+That a custom-domain issuer is run by the provider it declares (the record says the value was
+declared, and a verifier reports it so), that the issuer's JWKS at the time held `key` (the
+retained snapshot and `jwksDigest` answer
 that), that the token's signature verified (the decision point checked it; the record names the
 key it used), or that the subject is who the issuer says it is.
 
 ## 5. Appendix B rows
 
-Add rows `PR1` to `PR11` as `MANIFEST.json` of `vectors-agent-audit-record` states them (`row`
+Add rows `PR1` to `PR22` as `MANIFEST.json` of `vectors-agent-audit-record` states them (`row`
 and `expected`).

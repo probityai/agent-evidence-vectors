@@ -74,6 +74,7 @@ import sys
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import Any
+from urllib.parse import urlsplit
 
 if __package__ in (None, ""):
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -1119,7 +1120,21 @@ PRINCIPAL_MEMBERS = (
     "keyThumbprint",
     "jwksDigest",
 )
-PRINCIPAL_OPTIONAL = ("tenant",)
+PRINCIPAL_OPTIONAL = ("tenant", "identityProvider", "pinnedThumbprint")
+#: The identity providers the vocabulary's ``identity_provider`` term names
+#: (agent-evidence-vocabulary 0.10.0, ``principal_identity``). Closed: any other
+#: value is malformed.
+IDENTITY_PROVIDERS = frozenset({"okta", "entra", "auth0", "keycloak", "self_issued", "other"})
+#: The host rules that derive a named provider from an https issuer.
+_OKTA_SUFFIXES = (".okta.com", ".oktapreview.com", ".okta-emea.com", ".okta-gov.com")
+_ENTRA_HOSTS = frozenset(
+    {"login.microsoftonline.com", "login.microsoftonline.us", "login.chinacloudapi.cn", "sts.windows.net"}
+)
+_ENTRA_SUFFIXES = (".ciamlogin.com",)
+_AUTH0_SUFFIXES = (".auth0.com",)
+_SELF_ISSUED = frozenset({"https://self-issued.me", "https://self-issued.me/v2"})
+#: An RFC 7638 SHA-256 thumbprint: 32 bytes in base64url without padding.
+_THUMBPRINT_SHAPE = re.compile(r"[A-Za-z0-9_-]{43}")
 #: How the client authenticated to the issuer: the IANA registry "OAuth Token
 #: Endpoint Authentication Methods" as RFC 7591 and RFC 8705 populate it.
 PRINCIPAL_AUTH_METHODS = frozenset(
@@ -1205,7 +1220,35 @@ def _principal_shape(principal: Any) -> None:
         raise Malformed("principal-malformed")
     if "tenant" in principal and not _text(principal["tenant"]):
         raise Malformed("principal-malformed")
+    if "identityProvider" in principal and principal["identityProvider"] not in IDENTITY_PROVIDERS:
+        raise Malformed("principal-malformed")
+    if "pinnedThumbprint" in principal and not (
+        isinstance(principal["pinnedThumbprint"], str)
+        and _THUMBPRINT_SHAPE.fullmatch(principal["pinnedThumbprint"])
+    ):
+        raise Malformed("principal-malformed")
     _principal_key_shape(principal["key"])
+
+
+def derived_identity_provider(issuer: str) -> str:
+    """The provider an https issuer names by its host and path, self-issued first:
+    ``other`` when the issuer is a custom domain no rule names."""
+    parts = urlsplit(issuer)
+    host = (parts.hostname or "").lower()
+    if issuer.rstrip("/") in _SELF_ISSUED:
+        return "self_issued"
+    if host.endswith(_OKTA_SUFFIXES):
+        return "okta"
+    if host in _ENTRA_HOSTS or host.endswith(_ENTRA_SUFFIXES):
+        return "entra"
+    if host.endswith(_AUTH0_SUFFIXES):
+        return "auth0"
+    segments = [segment for segment in parts.path.split("/") if segment]
+    if segments[:1] == ["auth"]:
+        segments = segments[1:]
+    if len(segments) == 2 and segments[0] == "realms":
+        return "keycloak"
+    return "other"
 
 
 def _principal_lifetime(principal: dict[str, Any], reported_at: Any) -> None:
@@ -1228,7 +1271,9 @@ def _principal_lifetime(principal: dict[str, Any], reported_at: Any) -> None:
 def _rule_principal(state: _State) -> None:
     """The optional principal member: the IdP-authenticated principal the
     decision point established, bound to the agent's credential by its digest
-    and to the issuer's key by its RFC 7638 thumbprint (PR1 to PR11)."""
+    and to the issuer's key by its RFC 7638 thumbprint (PR1 to PR11); a declared
+    identity provider agrees with the one its issuer names, and a pinned
+    thumbprint equals the key's (PR12 to PR22)."""
     pred = state.predicate
     if "principal" not in pred:
         return
@@ -1244,6 +1289,12 @@ def _rule_principal(state: _State) -> None:
         raise Malformed("principal-kid-mismatch")
     if principal["keyThumbprint"] != jwk_thumbprint(principal["key"]):
         raise Malformed("principal-thumbprint-mismatch")
+    if "identityProvider" in principal:
+        derived = derived_identity_provider(principal["issuer"])
+        if derived != "other" and principal["identityProvider"] != derived:
+            raise Malformed("principal-provider-mismatch")
+    if "pinnedThumbprint" in principal and principal["pinnedThumbprint"] != principal["keyThumbprint"]:
+        raise Malformed("principal-pin-mismatch")
 
 
 # --------------------------------------------------------------------------
