@@ -5493,10 +5493,104 @@ def main() -> int:
         # Drive a runtime, rather than a verifier, through a corpus that defines
         # a runtime contract: today the uncertain-effect scenarios.
         return runtime_main(sys.argv[2:])
+    if len(sys.argv) > 1 and sys.argv[1] == "corpus":
+        # One verdict line per member of every named corpus, in the shared
+        # verdict-line format every verifier's corpus mode prints.
+        return corpus_main(sys.argv[2:])
+    if len(sys.argv) > 1 and sys.argv[1] == "verdict-lines":
+        # Check verdict lines against the schema and the manifests, or compare
+        # several verifiers' lines member by member.
+        from agent_evidence_vectors import verdictlines
+
+        return verdictlines.main(sys.argv[2:])
     if len(sys.argv) > 1 and sys.argv[1] == "recorded":
         # Recorded sets: retained bytes against their publisher's digest list.
         return recorded.main(sys.argv[2:])
     return rail_main()
+
+
+#: The corpora the reference rail answers in corpus mode, by suite. Every other
+#: suite handed in is answered not-applicable, member by member.
+VERDICT_LINE_CORPORA = ("vectors", "vectors-approval-binding", "vectors-uncertain-effect")
+
+
+def rail_version() -> str:
+    """This rail's version: the installed release, or the checkout's declared version."""
+    release = _installed_release()
+    if release is not None:
+        return release
+    with open(os.path.join(corpora_root(), "pyproject.toml"), "rb") as handle:
+        return f"{tomllib.load(handle)['project']['version']}+checkout"
+
+
+def corpus_verdict_lines(path: str, verifier: tuple[str, str]) -> list[dict[str, Any]]:
+    """The reference rail's verdict line for every member of the corpus at ``path``.
+
+    The AEE corpus is replayed through the reference rail with no consumer key
+    policy, the column anyone can reproduce; the verdict and, on an accepted
+    statement, the result token are the manifest's normative surface, and the
+    first detected code is the reason. The approval-binding and uncertain-effect
+    corpora are answered by their packaged readers. A suite this rail has no
+    reader for is answered not-applicable for each member, never skipped.
+    """
+    from pathlib import Path
+
+    from agent_evidence_vectors import verdictlines
+
+    corpus = verdictlines.load_corpus(path)
+    with open(os.path.join(path, "MANIFEST.json"), encoding="utf-8") as handle:
+        entries = {e["id"]: e for e in json.load(handle)["vectors"]}
+    lines = []
+    bare = ReferenceVerifier([])
+    readers = {approvalbinding.SUITE: approvalbinding, uncertaineffect.SUITE: uncertaineffect}
+    for vid, entry in entries.items():
+        line = verdictlines.make_line
+        try:
+            if corpus.suite == REFERENCE_SUITE:
+                with open(os.path.join(path, entry["file"]), "rb") as handle:
+                    raw = handle.read(MAX_STATEMENT_BYTES + 1)
+                if len(raw) > MAX_STATEMENT_BYTES:
+                    raise ValueError(f"statement exceeds {MAX_STATEMENT_BYTES} bytes")
+                outcome = bare.verify(_load_statement(raw)[0], raw)
+                if outcome.verdict == "valid":
+                    lines.append(line(corpus, vid, "accept", None, verifier, outcome.result))
+                else:
+                    lines.append(line(corpus, vid, "reject", outcome.codes[0], verifier))
+            elif corpus.suite in readers:
+                answer = readers[corpus.suite].verify(Path(path) / entry["path"] / "record.json")
+                verdict = "accept" if answer["decision"] == "allow" else "reject"
+                lines.append(line(corpus, vid, verdict, answer["reason"], verifier))
+            else:
+                lines.append(line(corpus, vid, "not-applicable", "suite-not-implemented", verifier))
+        except (OSError, ValueError, KeyError, TypeError, RecursionError) as exc:
+            lines.append(line(corpus, vid, "error", f"{type(exc).__name__}: {exc}", verifier))
+    return lines
+
+
+def corpus_main(argv: list[str]) -> int:
+    """Print one verdict line per member of each named corpus (default: the three answered here)."""
+    from agent_evidence_vectors import verdictlines
+
+    parser = argparse.ArgumentParser(
+        prog="agent-evidence-vectors corpus",
+        description="print one verdict line (vectors/verdict-line.schema.json) per corpus member",
+    )
+    parser.add_argument("--corpus", action="append", default=None, metavar="NAME",
+                        help="a shipped corpus name (repeatable; default: "
+                        + ", ".join(VERDICT_LINE_CORPORA) + ")")
+    parser.add_argument("--vectors", action="append", default=None, metavar="DIR",
+                        help="a corpus directory (repeatable; overrides --corpus)")
+    args = parser.parse_args(argv)
+    dirs = args.vectors or [corpus_dir(n) for n in (args.corpus or VERDICT_LINE_CORPORA)]
+    verifier = (DISTRIBUTION_NAME, rail_version())
+    try:
+        for path in dirs:
+            for line in corpus_verdict_lines(path, verifier):
+                print(verdictlines.dumps(line))
+    except verdictlines.CorpusError as exc:
+        print(f"agent-evidence-vectors corpus: NOT RUN: {exc}", file=sys.stderr)
+        return 2
+    return 0
 
 
 def runtime_main(argv: list[str]) -> int:

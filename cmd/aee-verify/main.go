@@ -95,6 +95,7 @@ type flags struct {
 	allowPublishedTestKeys                                 bool
 	maxIssuanceLag, maxEvidenceAge                         time.Duration
 	jsonOut                                                bool
+	verdictLines                                           bool
 }
 
 func main() {
@@ -123,14 +124,19 @@ func run(args []string, stdout, stderr io.Writer) int {
 	fs.DurationVar(&f.maxEvidenceAge, "max-evidence-age", 0, "bound now minus every verified armedAt")
 	fs.BoolVar(&f.validityOnly, "validity-only", false, "answer validity alone: exit 0 iff VALID, admitted always false")
 	fs.BoolVar(&f.jsonOut, "json", false, "emit the full report as JSON")
+	fs.BoolVar(&f.verdictLines, "verdict-lines", false, "print one verdict line (vectors/verdict-line.schema.json) per member of each corpus directory named")
 	fs.Usage = func() {
 		fmt.Fprintf(stderr, "usage: aee-verify [-policy policy.json] [pins...] [-json] <statement.json>\n"+
 			"       aee-verify -validity-only [-keys policy.json] [-json] <statement.json>\n"+
-			"       aee-verify [-json] <corpus-dir>\n")
+			"       aee-verify [-json] <corpus-dir>\n"+
+			"       aee-verify -verdict-lines <corpus-dir>...\n")
 		fs.PrintDefaults()
 	}
 	if err := fs.Parse(args); err != nil {
 		return 2
+	}
+	if f.verdictLines {
+		return runVerdictLines(fs.Args(), stdout, stderr)
 	}
 	if fs.NArg() != 1 {
 		fs.Usage()

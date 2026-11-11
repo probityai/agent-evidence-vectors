@@ -112,7 +112,7 @@ crosscheck = ["agent-evidence-verify==0.5.0; python_full_version >= '3.12'"]
 # tests under tests/). The packages under packages/ are standalone projects built
 # by directory (`uv build packages/<name>`); none of them has a runtime dependency. Their ruff run
 # reads ruff-parts.toml, not the rules below, which the corpora and the rail keep.
-dev = ["packaging==26.3", "pytest==9.2.0", "ruff==0.17.3"]
+dev = ["jsonschema==4.26.0", "packaging==26.3", "pytest==9.2.0", "ruff==0.17.3"]
 
 # What the wheel carries, and where. The rail is a single stdlib-only module
 # kept at packaging/run_vectors.py, where every gate in scripts/ imports it by
