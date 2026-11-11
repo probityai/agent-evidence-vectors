@@ -373,6 +373,18 @@ standards = ["w3c"]
 shapes = ["forged-signature", "stale-authority"]
 
 [[corpus]]
+id = "vectors-cbor-receipt-chain"
+path = "corpora/vectors-cbor-receipt-chain"
+wheel = true
+sdist = true
+title = "CBOR receipt chain"
+summary = "A reader must judge a stream of signed CBOR receipts as one ordered chain: a repeated, reissued, swapped, dropped or re-signed receipt, a cut tail or a restart that hides a lost one, with every trust input held by the consumer."
+record_class = "chain"
+domains = ["provenance", "authority"]
+standards = []
+shapes = ["broken-chain", "replay", "coverage-gap"]
+
+[[corpus]]
 id = "vectors-chunked-export"
 path = "corpora/vectors-chunked-export"
 wheel = true
