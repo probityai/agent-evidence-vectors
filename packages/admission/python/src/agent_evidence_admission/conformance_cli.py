@@ -22,6 +22,7 @@ from pathlib import Path
 from . import conformance_registry as registry
 from . import conformance_result as cr
 from . import dsse, ed25519
+from .evidence_semantics import Tally
 
 
 def add_parsers(commands: argparse._SubParsersAction) -> None:
@@ -140,13 +141,15 @@ def _verify(args: argparse.Namespace) -> int:
     if path.is_dir():
         findings = registry.verify_registry(path, trusted)
         checked = len(list((path / "records").glob("*.dsse.json"))) if (path / "records").is_dir() else 0
+        missing = sum("listed-but-missing" in f["reasons"] for f in findings)
+        tally = Tally(passed=checked - (len(findings) - missing), failed=len(findings))
         if args.json:
-            print(json.dumps({"ok": not findings and checked > 0, "checked": checked, "findings": findings}, indent=2))
+            print(json.dumps({"ok": tally.ok, "checked": checked, "findings": findings, "summary": tally.headline("records")}, indent=2))
         else:
             for finding in findings:
                 print(f"FAIL {finding['file']}: {', '.join(finding['reasons'])}")
-            print(f"{checked} records checked, {len(findings)} failing")
-        return 0 if checked and not findings else 1
+            print(f"{tally.word()} {tally.headline('records')}")
+        return 0 if tally.ok else 1
     source = json.loads(Path(args.source).read_text(encoding="utf-8")) if args.source else None
     verdict = cr.verify_record(json.loads(path.read_text(encoding="utf-8")), trusted, source)
     if args.json:

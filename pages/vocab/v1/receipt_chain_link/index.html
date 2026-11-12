@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>receipt_chain_link: Agent Evidence vocabulary</title>
+<meta name="description" content="The receipt_chain_link term of the Agent Evidence vocabulary.">
+<link rel="canonical" href="https://w3id.org/agent-evidence/vocab/v1/receipt_chain_link">
+<script type="application/ld+json">
+{
+ "@context": {
+  "owl": "http://www.w3.org/2002/07/owl#",
+  "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+  "skos": "http://www.w3.org/2004/02/skos/core#"
+ },
+ "@graph": [
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/receipt_chain_link",
+   "@type": "skos:Concept",
+   "skos:definition": "Whether a record names, by digest, the record its signer emitted before it, so that deleting a record breaks every record after it. Individually valid records do not make a set of records whole: a decision point can decline to emit a record for a decision it would rather forget. A chain proves its middle and its start; it proves nothing about newer records cut from the end, so a verifier states the end it could not establish unless the consumer holds the last digest and the count outside the signer's reach. A chain is read in order, a repeated record is refused, and two records that claim the same predecessor are a fork.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "receipt_chain_link",
+   "skos:prefLabel": "receipt_chain_link",
+   "skos:topConceptOf": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   }
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/receipt_chain_link#first",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/receipt_chain_link"
+   },
+   "skos:definition": "The record is the first one its signer emitted in the chain and carries no previous digest.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "first"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/receipt_chain_link#linked",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/receipt_chain_link"
+   },
+   "skos:definition": "The record carries the SHA-256 of the previous record its signer emitted.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "linked"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/receipt_chain_link#unchained",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/receipt_chain_link"
+   },
+   "skos:definition": "The signer does not chain its records.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "unchained"
+  }
+ ]
+}
+</script>
+<style>
+:root{color-scheme:light dark;--page:#f6f8fb;--surface:#fff;--ink:#14202e;--body:#33404f;--link:#1f4fd1;--rule:#cfd8e3;font-family:system-ui,sans-serif;color:var(--ink);background:var(--page)}
+@media (prefers-color-scheme:dark){:root{--page:#10151b;--surface:#18202a;--ink:#e8edf3;--body:#c3ccd6;--link:#8fb0ff;--rule:#2c3846}}
+*{box-sizing:border-box}body{margin:0;font:400 1rem/1.6 system-ui,sans-serif;background:var(--page)}
+.shell{max-width:52rem;margin-inline:auto;padding-inline:16px}
+header,footer{padding-block:1.25rem}header a{font-weight:700;color:var(--ink);text-decoration:none}
+footer{border-top:1px solid var(--rule);color:var(--body);font-size:.9375rem;margin-top:3rem}
+a{color:var(--link)}p,li,td{color:var(--body)}h1{line-height:1.2}
+code,pre{font-family:ui-monospace,Consolas,monospace;font-size:.875em}code{overflow-wrap:anywhere}
+pre{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:1rem;overflow-x:auto}
+blockquote{margin:1rem 0;padding:.25rem 1rem;border-left:4px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;display:block;overflow-x:auto}
+th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-align:top}
+</style>
+</head>
+<body>
+<header class="shell"><a href="https://github.com/probityai/agent-evidence-vectors">Agent Evidence</a></header>
+<main class="shell">
+<h1><code>receipt_chain_link</code></h1>
+<p>Term URI: <a href="https://w3id.org/agent-evidence/vocab/v1/receipt_chain_link">https://w3id.org/agent-evidence/vocab/v1/receipt_chain_link</a></p>
+<p>Section: <code>decision_receipt</code>. Criticality: <code>critical</code>.</p>
+<p>Whether a record names, by digest, the record its signer emitted before it, so that deleting a record breaks every record after it. Individually valid records do not make a set of records whole: a decision point can decline to emit a record for a decision it would rather forget. A chain proves its middle and its start; it proves nothing about newer records cut from the end, so a verifier states the end it could not establish unless the consumer holds the last digest and the count outside the signer&#x27;s reach. A chain is read in order, a repeated record is refused, and two records that claim the same predecessor are a fork.</p>
+<h2>Registered values</h2>
+<ul>
+<li id="first"><code>https://w3id.org/agent-evidence/vocab/v1/receipt_chain_link#first</code>: The record is the first one its signer emitted in the chain and carries no previous digest.</li>
+<li id="linked"><code>https://w3id.org/agent-evidence/vocab/v1/receipt_chain_link#linked</code>: The record carries the SHA-256 of the previous record its signer emitted.</li>
+<li id="unchained"><code>https://w3id.org/agent-evidence/vocab/v1/receipt_chain_link#unchained</code>: The signer does not chain its records.</li>
+</ul>
+</main>
+<footer><div class="shell">Generated from <a href="https://github.com/probityai/agent-evidence-vectors/blob/main/packages/vocabulary/vocabulary.yaml">vocabulary.yaml</a>. This page describes the current registry. A record is read against the registry its registryDigest names, named on <a href="https://probityai.github.io/agent-evidence/vocab/v1/">the term listing</a>. The term URI does not change once a signed record carries it.</div></footer>
+</body>
+</html>
