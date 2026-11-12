@@ -1,8 +1,11 @@
 name: "agent-evidence-vectors"
-description: "Check a verifier of AI-agent and supply-chain formats against public conformance corpora and publish a pass/fail report, or admit or refuse AI-agent evidence in CI with the pinned admission rules"
+description: "Check a verifier of AI-agent and supply-chain formats against public conformance corpora, check the records a producer emits with the pinned readers, or admit or refuse AI-agent evidence in CI with the pinned admission rules"
 author: "Sankalp Gilda"
 
-# One root Action with two modes, chosen by the inputs a workflow supplies.
+# One root Action with three modes, chosen by the inputs a workflow supplies.
+# Naming `records` runs producer mode: the records a project emits are read by
+# this release's pinned reader for `record-class` and held to `pins`, and the
+# `result` is `pass`, `fail` or `no-verdict` (docs/guides/producer-mode.md).
 # Naming `check` runs the admission checks (digest, policy, coverage), each tool
 # pinned by version and SHA-256 in actions/admission/pins.json; its inputs are
 # document, artifacts, required, statement, rules and pins, and its `result` is
@@ -89,6 +92,47 @@ inputs:
     required: false
     default: "30"
 
+  records:
+    description: >-
+      Producer mode. Paths or globs, one per line, of the records your project
+      emits, relative to the workspace. Setting it selects this mode: each
+      record is read by this release's pinned reader for `record-class`, held to
+      `pins` when given, and a receipt is written whose `reference.verifier.id`
+      names the reader. The job fails when no file matches, when any record does
+      not conform, or when any pin does not hold. See docs/guides/producer-mode.md.
+    required: false
+    default: ""
+  record-class:
+    description: >-
+      Producer mode: what the records are. `w3c-report` (the v0.1 per-check
+      report, read through the reading table and the rejection rows),
+      `run-record` (the interoperability-evidence criterion of
+      vectors-mcp-record-contract), `agent-run-metrics` or
+      `llm-context-discovery`.
+    required: false
+    default: "w3c-report"
+  producer:
+    description: >-
+      Producer mode, optional: a command that writes the records, run with bash
+      in the workspace before they are read, for example
+      `python3 -m mypkg.emit --out report.json`. The job fails when it exits
+      non-zero. Leave it empty when an earlier step already wrote them.
+    required: false
+    default: ""
+  pins:
+    description: >-
+      For producer mode: a JSON file pinning each record, `{"records":
+      {"<path>": {"sha256": "...", "size": 0, "count": 0, "checkSetRoot":
+      "..."}}}`; every field is optional. For `policy`: a JSON data document
+      with your consumer pins; without one the rules refuse every statement
+      that needs a pin.
+    required: false
+    default: ""
+  receipt-path:
+    description: "Producer mode: where the receipt JSON is written, relative to the workspace."
+    required: false
+    default: "agent-evidence-vectors-receipt.json"
+
   check:
     description: "Admission mode. Setting it selects this mode; leave it empty to replay a corpus instead. What to check: `digest` (an artifact has a digest its document names), `policy` (a statement passes one admission rule set) or `coverage` (a CycloneDX BOM or SPDX 3 document accounts for every class a buyer requires)."
     required: false
@@ -113,15 +157,11 @@ inputs:
     description: "For `policy`: `execution-evidence`, `agent-change-admission` or `verifier-isolation`."
     required: false
     default: execution-evidence
-  pins:
-    description: "For `policy`: a JSON data document with your consumer pins. Without one the rules refuse every statement that needs a pin."
-    required: false
-    default: ""
 
 outputs:
   report:
-    description: "Path of the report JSON."
-    value: ${{ steps.replay.outputs.report }}
+    description: "Path of the report JSON, or in producer mode of the receipt JSON."
+    value: ${{ steps.replay.outputs.report || steps.produced.outputs.receipt }}
   vectors:
     description: "How many vectors were replayed."
     value: ${{ steps.summary.outputs.vectors }}
@@ -136,7 +176,14 @@ outputs:
       Verifier mode: `pass` when the named verifier ran on every vector, every
       vector passed, and the suite raised no refusal; else `fail`. Admission
       mode: `admitted` when every subject passed, `refused` when any did.
-    value: ${{ steps.summary.outputs.result || steps.check.outputs.result }}
+      Producer mode: `pass`, `fail` or `no-verdict`.
+    value: ${{ steps.summary.outputs.result || steps.check.outputs.result || steps.produced.outputs.result }}
+  records:
+    description: "Producer mode: how many records were read."
+    value: ${{ steps.produced.outputs.records }}
+  conform-records:
+    description: "Producer mode: how many records conform."
+    value: ${{ steps.produced.outputs.conform }}
   refusals:
     description: "Admission mode: the number of subjects refused."
     value: ${{ steps.check.outputs.refusals }}
@@ -154,7 +201,7 @@ outputs:
     value: ${{ steps.reference.outputs.full-release }}
   reference-verifier-id:
     description: "The identifier of the reference verifier, also recorded in the report as reference.verifier.id."
-    value: ${{ steps.reference.outputs.reference-verifier-id }}
+    value: ${{ steps.reference.outputs.reference-verifier-id || steps.produced.outputs.reference-verifier-id }}
 
 runs:
   using: "composite"
@@ -207,7 +254,7 @@ runs:
 
     - name: Replay the corpus
       id: replay
-      if: ${{ inputs.check == '' }}
+      if: ${{ inputs.check == '' && inputs.records == '' }}
       shell: bash
       env:
         VERIFIER: ${{ inputs.verifier }}
@@ -237,7 +284,7 @@ runs:
 
     - name: Write the job summary
       id: summary
-      if: ${{ inputs.check == '' && !cancelled() }}
+      if: ${{ inputs.check == '' && inputs.records == '' && !cancelled() }}
       shell: bash
       env:
         REPORT: ${{ steps.replay.outputs.report }}
@@ -257,7 +304,7 @@ runs:
     # runs on, and the package's own metadata names none of it.
     - name: Install the reference verifier
       id: reference-install
-      if: ${{ inputs.check == '' && !cancelled() }}
+      if: ${{ inputs.check == '' && inputs.records == '' && !cancelled() }}
       shell: bash
       env:
         ACTION_PATH: ${{ github.action_path }}
@@ -278,7 +325,7 @@ runs:
 
     - name: Check against the reference verifier
       id: reference
-      if: ${{ inputs.check == '' && !cancelled() }}
+      if: ${{ inputs.check == '' && inputs.records == '' && !cancelled() }}
       shell: bash
       env:
         REPORT: ${{ steps.replay.outputs.report }}
@@ -296,7 +343,7 @@ runs:
         "$REF_PYTHON" "$ACTION_PATH/scripts/action-reference-stage.py"
 
     - name: Upload the report
-      if: ${{ inputs.check == '' && !cancelled() }}
+      if: ${{ inputs.check == '' && inputs.records == '' && !cancelled() }}
       uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
       with:
         name: ${{ inputs.artifact-name }}
@@ -309,7 +356,7 @@ runs:
     # green job for a verifier that never started; the summary refuses any
     # report that does not show the named verifier answering every vector.
     - name: Fail the job when the replay did, or the verifier did not run
-      if: ${{ inputs.check == '' && !cancelled() && (steps.replay.outputs.status != '0' || steps.summary.outputs.result != 'pass') }}
+      if: ${{ inputs.check == '' && inputs.records == '' && !cancelled() && (steps.replay.outputs.status != '0' || steps.summary.outputs.result != 'pass') }}
       shell: bash
       env:
         STATUS: ${{ steps.replay.outputs.status }}
@@ -321,6 +368,54 @@ runs:
         fi
         echo "::error::the harness exited 0 but the report does not show the named verifier answering every vector (executed: ${EXECUTED:-unreported}); the job summary says why."
         exit 1
+
+    # Producer mode: the steps below run only when `records` is named. They
+    # reuse the interpreter and the wheel built above, and read each record
+    # with the reader this release pins for its class.
+    - name: Run the producer
+      if: ${{ inputs.check == '' && inputs.records != '' && inputs.producer != '' }}
+      shell: bash
+      env:
+        PRODUCER: ${{ inputs.producer }}
+      run: bash -c "$PRODUCER"
+
+    - name: Check the produced records
+      id: produced
+      if: ${{ inputs.check == '' && inputs.records != '' && !cancelled() }}
+      shell: bash
+      env:
+        RECORDS: ${{ inputs.records }}
+        RECORD_CLASS: ${{ inputs.record-class }}
+        PINS: ${{ inputs.pins }}
+        RECEIPT: ${{ inputs.receipt-path }}
+        PRODUCER: ${{ inputs.producer }}
+        COMMIT: ${{ github.sha }}
+      run: |
+        args=("$RECORD_CLASS" "$RECORDS" --receipt "$RECEIPT" --producer-commit "$COMMIT" --github)
+        if [ -n "$PINS" ]; then args+=(--pins "$PINS"); fi
+        if [ -n "$PRODUCER" ]; then args+=(--producer-command "$PRODUCER"); fi
+        status=0
+        agent-evidence-vectors produced "${args[@]}" || status=$?
+        echo "status=$status" >> "$GITHUB_OUTPUT"
+
+    - name: Upload the receipt
+      if: ${{ inputs.check == '' && inputs.records != '' && !cancelled() && hashFiles(inputs.receipt-path) != '' }}
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: ${{ inputs.receipt-path }}
+        overwrite: true
+        retention-days: ${{ inputs.retention-days }}
+
+    - name: Fail the job when a produced record did not pass
+      if: ${{ inputs.check == '' && inputs.records != '' && !cancelled() && (steps.produced.outputs.status != '0' || steps.produced.outputs.result != 'pass') }}
+      shell: bash
+      env:
+        STATUS: ${{ steps.produced.outputs.status }}
+        RESULT: ${{ steps.produced.outputs.result }}
+      run: |
+        echo "::error::producer mode: result ${RESULT:-unreported}, exit ${STATUS:-unreported}; the job summary names each record that did not pass."
+        exit "${STATUS:-2}"
 
     # Admission mode: the steps below run only when `check` is named.
     - name: install the pinned admission tools

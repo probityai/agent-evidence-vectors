@@ -5478,6 +5478,12 @@ def print_corpora(form: str) -> int:
 
 
 def main() -> int:
+    if len(sys.argv) > 1 and sys.argv[1] == "produced":
+        # Producer mode: check the records a project emits with the pinned reader
+        # for their class, rather than replaying a corpus against a verifier.
+        from agent_evidence_vectors.producer import main as produced_main
+
+        return produced_main(sys.argv[2:])
     if len(sys.argv) > 1 and sys.argv[1] == "claim":
         # The evaluation claim record: verify, emit or replay. Its verifier lives in
         # the package beside this rail and is stdlib-only, like the rail.
