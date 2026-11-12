@@ -14,13 +14,36 @@
     "stated-after-anchor"
   ],
   "contract": "vectors-recorded/README.md",
-  "corpusDigest": "55bf18e34d014ac0e0fd355effe06d3712d577072b47c125ca14e1fd33e9cbb9",
+  "corpusDigest": "efdd313730a1dc3d49f60e4dc559ca5e204d0f6cbefd3459c3271085c15650f5",
   "counts": {
     "failed": 14,
-    "verified": 6
+    "verified": 7
   },
   "suite": "recorded-set-conformance/v1",
   "vectors": [
+    {
+      "bindings": [],
+      "dir": "sets/horizon-furui-day-2026-11-03/bytes",
+      "expected": {
+        "codes": [],
+        "verdict": "verified"
+      },
+      "file": "sets/horizon-furui-day-2026-11-03/bytes/SHA256SUMS",
+      "id": "v4a572101bd5b373a",
+      "kind": "recorded",
+      "licenceFile": "sets/horizon-furui-day-2026-11-03/LICENSE",
+      "name": "horizon-furui-day-2026-11-03",
+      "source": {
+        "commit": "none: served by the publisher's runner, captured 2026-11-10T17:06Z",
+        "contributor": "Toshikatsu Oga (HORIZON SHIELD, The HORIZONs Co., Ltd., GitHub ogasurfproject-jpg)",
+        "licence": "MIT, copyright notice in LICENSE beside bytes/",
+        "path": "furui/day/2026-11-03/leaf/0 and leaf/1, with .well-known/furui-check-keys.json",
+        "publishedIn": "https://furui.horizonshield.dev/furui/day/2026-11-03/leaf/0",
+        "repository": "https://github.com/ogasurfproject-jpg/horizon-shield"
+      },
+      "sourceFile": "sets/horizon-furui-day-2026-11-03/SOURCE.json",
+      "sumsSha256": "1365ea75e1f61c33814289c7d7a039340946f8705ba51b9896d7023111b1ce78"
+    },
     {
       "bindings": [
         {

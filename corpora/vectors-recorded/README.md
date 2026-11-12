@@ -73,7 +73,9 @@ configuration's threshold. `vate-rb-receiving-captures` holds three runs of
 Takao Sato's Revocation Boundary receiving example at his pinned commit: revocation before
 acceptance, a commit observed after revocation, and an incomplete observation whose counts stay
 unknown. Each case carries the Statement, the receiver's selection, the test plan, the observation
-and his reader's report. A set lands as its own member when its
+and his reader's report. `horizon-furui-day-2026-11-03` holds the two leaf envelopes of the
+FURUI day record of 2026-11-03 and the runner keys, as Toshikatsu Oga's runner served them on its last day of keeping them; the leaf
+hashes and the root recompute from them, and the runner signature and Bitcoin anchor are not checked. A set lands as its own member when its
 publisher released it in its own directory with its own `SHA256SUMS`, so a
 check of each directory as its publisher keeps it stays exact.
 
