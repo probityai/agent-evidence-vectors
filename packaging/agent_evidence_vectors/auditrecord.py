@@ -70,6 +70,8 @@ import importlib
 import json
 import os
 import re
+import shlex
+import subprocess
 import sys
 from collections.abc import Callable
 from dataclasses import dataclass, field
@@ -2727,6 +2729,234 @@ def render(judged: Judged, suite: str) -> str:
     return "\n".join(lines) + "\n"
 
 
+# --------------------------------------------------------------------------
+# The external-verifier contract.
+# --------------------------------------------------------------------------
+
+#: The identifier of the contract below, as the README states it.
+CONTRACT_ID = "https://probityai.github.io/agent-evidence-vectors/contract/agent-audit-record/v1"
+
+#: The verdicts the contract carries, and the exit status each one takes.
+CONTRACT_EXIT = {"valid": 0, "malformed": 1}
+
+
+def _entry_for_file(manifest: dict[str, Any], directory: str, path: str) -> dict[str, Any] | None:
+    target = os.path.realpath(path)
+    for entry in manifest.get("vectors") or []:
+        if os.path.realpath(os.path.join(directory, str(entry.get("file", "")))) == target:
+            return entry
+    return None
+
+
+def _manifest_above(path: str) -> tuple[str, dict[str, Any]]:
+    here = os.path.dirname(os.path.abspath(path))
+    while True:
+        candidate = os.path.join(here, "MANIFEST.json")
+        if os.path.isfile(candidate):
+            with open(candidate, encoding="utf-8") as handle:
+                return here, json.load(handle)
+        parent = os.path.dirname(here)
+        if parent == here:
+            raise FileNotFoundError(f"no MANIFEST.json above {path}")
+        here = parent
+
+
+def answer_member(path: str) -> dict[str, Any]:
+    """This reader's answer for one member file, in the contract's shape.
+
+    The keys, the predicate type and the anchor trust come from the MANIFEST
+    above the member, as the contract tells any verifier to take them; nothing
+    under ``expected`` is read.
+    """
+    directory, manifest = _manifest_above(path)
+    with open(path, "rb") as handle:
+        raw = handle.read()
+    policy = policy_for(manifest, _entry_for_file(manifest, directory, path))
+    try:
+        doc = json.loads(raw)
+    except ValueError:
+        doc = None
+    if isinstance(doc, dict) and "records" in doc:
+        reports, joint = verify_set(raw, policy)
+        try:
+            limits = [within_limit(json.loads(_envelope_payload(env)[1])["predicate"])
+                      for env in set_records(raw)]
+        except (Malformed, ValueError, KeyError, TypeError):
+            limits = []
+        unsound = not reports or any(r.verdict != "valid" for r in reports)
+        verdict = "malformed" if unsound else "valid"
+        return {
+            "verdict": verdict,
+            "codes": [code for report in reports for code in report.codes],
+            "derivedTier": reports[0].derived_tier if reports else "",
+            "set": {"verdict": joint.verdict, "codes": joint.codes,
+                    "missing": joint.missing, "withinLimit": limits},
+        }
+    if isinstance(doc, dict) and ("envelope" in doc or "retention" in doc):
+        report, dated = verify_retained(raw, policy, tree_heads(manifest))
+        return {"verdict": report.verdict, "codes": report.codes,
+                "derivedTier": report.derived_tier, "dating": dating_dict(dated)}
+    report = verify(raw, policy)
+    out: dict[str, Any] = {"verdict": report.verdict, "codes": report.codes,
+                           "derivedTier": report.derived_tier}
+    try:
+        out["withinLimit"] = within_limit(json.loads(_envelope_payload(raw)[1])["predicate"])
+    except (Malformed, KeyError, TypeError, ValueError):
+        pass
+    return out
+
+
+def _dating_mismatch(declared: dict[str, Any], got: Any) -> str | None:
+    if not isinstance(got, dict):
+        return "the answer carries no dating object"
+    for name in ("entry", "datedAt", "receipt"):
+        if declared.get(name) != got.get(name):
+            return f"dating {name}: expected {declared.get(name)!r}, got {got.get(name)!r}"
+    got_codes = got.get("codes")
+    if not isinstance(got_codes, list) or set(declared.get("codes") or []) != set(got_codes):
+        return f"dating codes: expected {declared.get('codes')}, got {got.get('codes')}"
+    want_root = declared.get("delegationRoot") or {}
+    got_root = got.get("delegationRoot") if isinstance(got.get("delegationRoot"), dict) else {}
+    for name in ("result", "algorithm"):
+        if name in want_root and want_root[name] != got_root.get(name):
+            return (f"dating delegationRoot.{name}: expected {want_root[name]!r}, "
+                    f"got {got_root.get(name)!r}")
+    return None
+
+
+def _set_mismatch(declared: dict[str, Any], got: Any) -> str | None:
+    if not isinstance(got, dict):
+        return "the answer carries no set object"
+    if declared.get("verdict") != got.get("verdict"):
+        return f"set verdict: expected {declared.get('verdict')!r}, got {got.get('verdict')!r}"
+    got_codes = got.get("codes")
+    if not isinstance(got_codes, list) or set(declared.get("codes") or []) != set(got_codes):
+        return f"set codes: expected {declared.get('codes')}, got {got.get('codes')}"
+    for name in ("missing", "withinLimit"):
+        if name in declared and declared[name] != got.get(name):
+            return f"set {name}: expected {declared[name]}, got {got.get(name)}"
+    return None
+
+
+def contract_findings(entry: dict[str, Any], answer: dict[str, Any]) -> tuple[list[str], list[str]]:
+    """Score one answer against one manifest entry.
+
+    Returns the normative findings (verdict, tier, withinLimit, the set result
+    and the dating result) and the reason-parity findings (no emitted code
+    among the codes the entry declares), kept apart as the AEE contract keeps
+    them. Only the normative findings make a member fail: the draft defines
+    verdicts, not codes, so the codes are compared and reported, never scored.
+    """
+    expected = entry.get("expected") or {}
+    verdict = answer.get("verdict")
+    codes = answer.get("codes")
+    normative: list[str] = []
+    if verdict not in conforming_verdicts(entry):
+        normative.append(f"expected {sorted(conforming_verdicts(entry))}, got {verdict!r}")
+    if not isinstance(codes, list) or not all(isinstance(c, str) for c in codes):
+        normative.append("codes is not an array of strings")
+        codes = []
+    tier = answer.get("derivedTier")
+    if verdict == "valid" and "derivedTier" in expected and expected["derivedTier"] != tier:
+        normative.append(f"derivedTier: expected {expected['derivedTier']!r}, got {tier!r}")
+    if "set" in expected:
+        found = _set_mismatch(expected["set"], answer.get("set"))
+        normative.extend([found] if found else [])
+    elif "dating" in expected:
+        found = _dating_mismatch(expected["dating"], answer.get("dating"))
+        normative.extend([found] if found else [])
+    elif "withinLimit" in expected and expected["withinLimit"] != answer.get("withinLimit"):
+        normative.append(
+            f"withinLimit: expected {expected['withinLimit']}, got {answer.get('withinLimit')}"
+        )
+    parity: list[str] = []
+    declared = set(expected.get("codes") or [])
+    if declared and not declared & set(codes):
+        parity.append(f"no emitted code {codes} is among the declared codes {sorted(declared)}")
+    return normative, parity
+
+
+def _external_answer(command: list[str], path: str) -> tuple[bool, dict[str, Any] | str]:
+    try:
+        result = subprocess.run([*command, path, "--json"], capture_output=True,
+                                text=True, timeout=90, check=False)
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        return False, f"verifier did not run: {exc}"
+    lines = [line for line in result.stdout.splitlines() if line.strip()]
+    try:
+        answer = json.loads(lines[-1])
+    except (IndexError, ValueError):
+        return True, f"verifier printed no JSON object on its last line (exit {result.returncode})"
+    if not isinstance(answer, dict):
+        return True, f"the last stdout line is not a JSON object (exit {result.returncode})"
+    if CONTRACT_EXIT.get(str(answer.get("verdict"))) != result.returncode:
+        return True, f"exit {result.returncode} disagrees with verdict {answer.get('verdict')!r}"
+    return True, answer
+
+
+def run_external(root: str, verifier: list[str], report_path: str, rail_note: str) -> int:
+    """Judge every member through a named verifier under the contract.
+
+    The corpus-level claims and each member's aggregation block are checked by
+    this reader whatever the verifier: they are claims about the corpus, not
+    answers a verifier gives.
+    """
+    with open(os.path.join(root, "MANIFEST.json"), encoding="utf-8") as handle:
+        manifest = json.load(handle)
+    entries: list[dict[str, Any]] = manifest.get("vectors") or []
+    failures = [f"corpus: {finding}" for finding in _corpus_findings(root, manifest)]
+    rows: list[dict[str, Any]] = []
+    notes: list[str] = []
+    answered = parity_mismatch = 0
+    for entry in entries:
+        label = f"{entry.get('draftId')} {entry.get('id')}"
+        path = os.path.join(root, str(entry.get("file", "")))
+        try:
+            with open(path, "rb") as handle:
+                own = aggregation_findings(entry, handle.read())
+        except OSError as exc:
+            own = [f"the vector body is unreadable: {exc}"]
+        ran, answer = _external_answer(verifier, path)
+        answered += int(ran)
+        if isinstance(answer, str):
+            normative, parity = [answer], []
+        else:
+            normative, parity = contract_findings(entry, answer)
+        parity_mismatch += int(bool(parity))
+        findings = own + normative
+        failures.extend(f"{label}: {finding}" for finding in findings)
+        notes.extend(f"{label}: {finding}" for finding in parity)
+        rows.append({"id": entry.get("id"), "draftId": entry.get("draftId"),
+                     "kind": entry.get("kind"),
+                     "conformance": "conform" if not (own or normative) else "fail",
+                     "conformanceReasons": own + normative, "reasonParityFindings": parity,
+                     "status": "pass" if not findings else "fail"})
+    for failure in failures:
+        print(failure)
+    for note in notes:
+        print(f"note (codes, not scored): {note}")
+    total = len(entries)
+    print(f"{SUITE}: {shlex.join(verifier)} answered {answered} of {total} members, "
+          f"{len(failures)} disagreement(s)")
+    if not answered or not total:
+        print("no report written: no member was answered")
+        return 2
+    failed = sum(1 for row in rows if row["status"] == "fail")
+    report = {
+        "suite": SUITE, "contract": CONTRACT_ID, "rail": "external",
+        "verifier": {"command": verifier, "vectorsExecuted": answered, "note": rail_note},
+        "corpusDigest": manifest.get("corpusDigest"),
+        "totals": {"vectors": total, "conform": total - failed, "fail": failed,
+                   "reasonParityMismatch": parity_mismatch, "suiteRefusals": 0},
+        "rows": rows,
+        "failures": failures,
+        "reasonParityNotes": notes,
+    }
+    with open(report_path, "w", encoding="utf-8") as handle:
+        handle.write(json.dumps(report, indent=2, sort_keys=True) + "\n")
+    return 1 if failures or answered != total else 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="auditrecord",
@@ -2734,8 +2964,15 @@ def main(argv: list[str] | None = None) -> int:
         "draft-gilda-audit-agent-audit-record-00 and the five rows of revision 01 "
         "(TI6, V4, V5, FR14, FR15)",
     )
-    parser.add_argument("directory", help="a corpus directory carrying MANIFEST.json")
+    parser.add_argument("directory", help="a corpus directory carrying MANIFEST.json, or one "
+                        "member file to answer under the external-verifier contract (with --json)")
+    parser.add_argument("--json", action="store_true",
+                        help="answer one member file as one JSON object; exit 0 valid, 1 malformed")
     args = parser.parse_args(argv)
+    if os.path.isfile(args.directory):
+        answer = answer_member(args.directory)
+        print(json.dumps(answer, sort_keys=True))
+        return CONTRACT_EXIT.get(str(answer["verdict"]), 2)
     judged = judge(args.directory)
     sys.stdout.write(render(judged, SUITE))
     return 0 if judged.ok() else 1

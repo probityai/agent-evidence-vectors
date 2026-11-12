@@ -40,6 +40,7 @@ ORACLE = f"{sys.executable} {ROOT / 'scripts' / 'oracle-verifier.py'}"
 #: contract the corpus writes for itself.
 RUNS_A_VERIFIER = (
     "vectors",
+    "vectors-agent-audit-record",
     "vectors-a2a-jcs-v01",
     "vectors-agent-change-admission",
     "vectors-agentic-process-evidence",
@@ -85,7 +86,6 @@ REFUSES_A_VERIFIER = (
     "vectors-restart-records",
     "vectors-aci",
     "vectors-acs-core",
-    "vectors-agent-audit-record",
     "vectors-agent-decision",
     "vectors-acs-decision-record",
     "vectors-ai-generation",
