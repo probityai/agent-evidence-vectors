@@ -558,6 +558,7 @@ class ProviderControls(unittest.TestCase):
                             {
                                 "name": asset,
                                 "digest": "sha256:" + checksum,
+                                # curl-retry: exempt test fixture data, not a fetch
                                 "browser_download_url": "https://github.com/oven-sh/bun/releases/download/bun-v1.3.11/"
                                 + asset,
                             }
@@ -629,6 +630,7 @@ class ProviderControls(unittest.TestCase):
         asset = {
             "name": name,
             "digest": "sha256:" + "a" * 64,
+            # curl-retry: exempt test fixture data, not a fetch
             "browser_download_url": "https://github.com/oven-sh/bun/releases/download/bun-v1.3.11/"
             + name,
         }
