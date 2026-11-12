@@ -828,6 +828,8 @@ jobs:
         run: |
           python3 scripts/gen-jcs-drift-vectors.py --check
           python3 scripts/jcs-drift-vectors-test.py
+          python3 scripts/gen-dsse-pae-vectors.py --check
+          python3 scripts/dsse-pae-vectors-test.py
       # These readers use the package's supported Python runtime. The
       # obligation proof also loads the reject generator to re-sign a record,
       # so this job needs its declared dependencies. The separate Python
