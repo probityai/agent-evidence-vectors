@@ -3,10 +3,6 @@
 Open work for the conformance-vector suite and reference verifier of the in-toto
 Adversarial Execution Evidence (AEE) predicate. Contributions welcome.
 
-> **Session code-health audit 2026-07-24:** `go build ./...` + `go vet ./...` + `mypy` all
-> **CLEAN** — no findings for this repo. Combined cross-repo report:
-> an internal audit report.
-
 ## Status: v0.7 review (in-toto/attestation#570)
 
 The reviewer's independent from-spec checker went 138/138 on the earlier corner-case
