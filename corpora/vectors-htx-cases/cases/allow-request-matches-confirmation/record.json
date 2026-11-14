@@ -1,0 +1,19 @@
+{
+  "action": {
+    "request": {
+      "amount": "350.00",
+      "beneficiary": "acct:0042",
+      "currency": "CHF",
+      "scope": "single-payment"
+    }
+  },
+  "confirmation": {
+    "outcome": "confirmed",
+    "request": {
+      "amount": "350.00",
+      "beneficiary": "acct:0042",
+      "currency": "CHF",
+      "scope": "single-payment"
+    }
+  }
+}
