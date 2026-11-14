@@ -148,3 +148,41 @@ fn every_depth_case_past_the_cap_is_refused_and_the_cap_itself_is_admitted() {
         }
     }
 }
+
+fn input_bytes(case: &Value) -> Vec<u8> {
+    match case.get("inputHex") {
+        Some(hex) => unhex(hex.as_str().unwrap()),
+        None => text(case, "input").as_bytes().to_vec(),
+    }
+}
+
+/// Every refusal case must be refused with the error class the corpus names,
+/// and under both profiles: no profile makes any of these admissible.
+#[test]
+fn every_refusal_case_is_refused_with_its_named_class() {
+    let corpus = corpus();
+    let cases = members(&corpus, "refusalCases");
+    assert!(!cases.is_empty(), "no refusal cases");
+    for case in &cases {
+        let id = text(case, "id");
+        let input = input_bytes(case);
+        let got = admit(&input).expect_err(id);
+        let class = match got {
+            Error::NonFiniteNumber { .. } => "non-finite-number",
+            Error::TrailingContent { .. } => "trailing-content",
+            Error::Syntax { .. } => "syntax",
+            Error::StringNotScalar { .. } => "invalid-unicode",
+            Error::DuplicateMember { .. } => "duplicate-member",
+            ref other => panic!("{id}: unexpected refusal {other:?}"),
+        };
+        assert_eq!(class, text(case, "error"), "{id}: {got:?}");
+        assert!(!is_canonical(&input), "{id}: reported as canonical");
+        assert!(jcs_admit::admit_ijson(&input).is_err(), "{id}: admitted under I-JSON");
+    }
+    for family in ["non-finite", "trailing-content", "syntax", "invalid-unicode", "duplicate-member"] {
+        assert!(
+            cases.iter().any(|c| text(c, "family") == family),
+            "no refusal case for {family}"
+        );
+    }
+}
