@@ -633,6 +633,38 @@ when the record, its signature and the JWKS are judged offline.
 - Document: the `probity-records` package, [`governance.py`](https://github.com/probityai/probity/blob/main/packages/probity-records/src/probity_records/governance.py), which emits and verifies it.
 - Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
 
+### `predicate/v1/attestation-envelope`
+
+- Document: Section 7.2 of the Internet-Draft `draft-li-rttp-iqa-addressing-03`,
+  <https://datatracker.ietf.org/doc/draft-li-rttp-iqa-addressing/03/>, owned by Aicent-com
+  (RTTP & IQA Organization). It is not vendored here.
+- Field semantics: the byte layout of the fixed 128-octet frame, the closed set of four standing values
+  (`0x00` ghost, `0x01` probation, `0x02` radiant, `0x03` genesis), the canonical signing rule and the
+  verification procedure are normative in that section, and nothing on this page restates them as a definition.
+  A later revision that keeps the layout and the set is a new confirmation; any change to either is a new URI.
+- Envelope: the frame has no member that can hold a URI, so a record naming this type is a bare JSON record:
+  `contractId` (this URI), `recordId`, `frame` (the 128 octets as 256 lowercase hex characters) and the instant the
+  receiver read it. The member names are fixed when the corpus lands; no record carries this URI before then.
+- Example: `AE128-VECTOR-1` in Section 7.2.1 of the draft. Recomputed from its stated parameters (the shard from
+  SHA-256 of the authority, HMAC-SHA256 over `frame[0:32] || 0x00*32 || frame[64:128]` with the draft's test key),
+  the attestation field matches the draft's printed value `4bd14b6a...b84596a` in revision 03, the revision this
+  entry names.
+- Corpus: pending. The fail-closed family (length, magic, version, algorithm byte, flags other than `0x0000`,
+  standing outside the closed set, non-zero reserved or extension fields, lease freshness against the receiver's
+  clock) is published by the emitter at <https://iqa.org/conformance/aicent-ae128-fail-closed/>. Its frames are listed
+  here as pending their hex; none is copied or derived on this page, and HMAC key material stays with the verifier.
+  The non-zero-flags case is a negative under revision 03, where the flags row reads "MUST be 0x0000 in version 1"
+  and the verification procedure rejects such a frame; revision 02 said "sent as 0x0000".
+- confirmed_at: Aicent-com confirmed revision 03 (retrieved text sha256
+  `73470850daae844c51f281d6acf6d74419bb1b8c762270f1c411469c78cbc52c`) as the revision this entry names, in
+  [#585](https://github.com/probityai/agent-evidence-vectors/issues/585#issuecomment-7155968239). Between 02 and 03 the
+  layout, the closed standing set and the refusal vocabulary are unchanged; the emitter's vector families keep their
+  revision 02 seals. Revision 02 (sha256 `02491c5a59d1e7471be04e8e0d4933dfc22ce19f9b054ead0aa449d6b4485044`) was the
+  first offered text; the refusal vocabulary was confirmed against it in
+  [#492](https://github.com/probityai/agent-evidence-vectors/issues/492#issuecomment-6710136659).
+- Status: registered, corpus pending. The URI will not move, because a record carries it inside the bytes its
+  producer signed.
+
 The entries in this section are registrations, not specifications. Their field
 definitions are normative where they are published, which is not here, and no
 count, field list or wire form on this page may be read as authoritative for
