@@ -407,6 +407,32 @@ reproduce is refused.
 - Predicate body: A statement about freeze atomicity of an isolation substrate: that co-resident microVMs were brought to a hypervisor-enforced quiescent state with bounded, measured timing, and no in-flight inter-VM segment escaped the freeze.
 - Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
 
+### `predicate/v1/attestation-envelope`
+
+- Document: Section 7.2 of the Internet-Draft `draft-li-rttp-iqa-addressing-02`,
+  <https://datatracker.ietf.org/doc/draft-li-rttp-iqa-addressing/02/>, owned by Aicent-com
+  (RTTP & IQA Organization). It is not vendored here.
+- Field semantics: the byte layout of the fixed 128-octet frame, the closed set of four standing values
+  (`0x00` ghost, `0x01` probation, `0x02` radiant, `0x03` genesis), the canonical signing rule and the
+  verification procedure are normative in that section, and nothing on this page restates them as a definition.
+  A later revision that keeps the layout and the set is a new confirmation; any change to either is a new URI.
+- Envelope: the frame has no member that can hold a URI, so a record naming this type is a bare JSON record:
+  `contractId` (this URI), `recordId`, `frame` (the 128 octets as 256 lowercase hex characters) and the instant the
+  receiver read it. The member names are fixed when the corpus lands; no record carries this URI before then.
+- Example: `AE128-VECTOR-1` in Section 7.2.1 of the draft. Recomputed from its stated parameters (the shard from
+  SHA-256 of the authority, HMAC-SHA256 over `frame[0:32] || 0x00*32 || frame[64:128]` with the draft's test key),
+  the 128 octets and the attestation field match the draft's printed frame byte for byte.
+- Corpus: pending. The fail-closed family (length, magic, version, algorithm byte, standing outside the closed set,
+  non-zero reserved or extension fields, lease freshness against the receiver's clock) is published by the emitter at
+  <https://iqa.org/conformance/aicent-ae128-fail-closed/>. Its frames are listed here as pending their hex; none is
+  copied or derived on this page, and HMAC key material stays with the verifier.
+- confirmed_at: Aicent-com offered revision 02 (retrieved text sha256
+  `02491c5a59d1e7471be04e8e0d4933dfc22ce19f9b054ead0aa449d6b4485044`) as the normative source for this object in
+  [#585](https://github.com/probityai/agent-evidence-vectors/issues/585), and confirmed the same revision for the
+  refusal vocabulary in [#492](https://github.com/probityai/agent-evidence-vectors/issues/492#issuecomment-6710136659).
+- Status: registered, corpus pending. The URI will not move, because a record carries it inside the bytes its
+  producer signed.
+
 The entries in this section are registrations, not specifications. Their field
 definitions are normative where they are published, which is not here, and no
 count, field list or wire form on this page may be read as authoritative for
