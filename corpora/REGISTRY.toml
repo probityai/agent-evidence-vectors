@@ -577,6 +577,18 @@ standards = []
 shapes = ["tampering", "wrong-grade", "missing-binding"]
 
 [[corpus]]
+id = "vectors-htx-cases"
+path = "corpora/vectors-htx-cases"
+wheel = true
+sdist = true
+title = "HTX pattern case pairs"
+summary = "A verifier must accept a confirmed transaction only for the request the person confirmed and a disclosure only within what the person agreed to share, for the stated purpose, and refuse each one-field departure."
+record_class = "record"
+domains = ["approval", "authority"]
+standards = []
+shapes = ["missing-binding", "scope-overreach"]
+
+[[corpus]]
 id = "vectors-identity-binding"
 path = "corpora/vectors-identity-binding"
 wheel = true
