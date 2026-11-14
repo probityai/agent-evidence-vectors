@@ -114,6 +114,7 @@ def _fetch_api(repo: str, tag: str, name: str) -> bytes:
     ids = [a["id"] for a in release.get("assets", []) if a.get("name") == name]
     if len(ids) != 1:
         raise SetupError(f"release {tag} of {repo} lists {len(ids)} assets named {name}")
+    # curl-retry: exempt install_opa already orders cache, retried direct and this API route, and pins the sha256
     return _get(f"https://api.github.com/repos/{repo}/releases/assets/{ids[0]}",
                 {**headers, "Accept": "application/octet-stream"})
 
@@ -135,6 +136,7 @@ def install_opa(dest: Path, platform: str) -> Path:
         known = ", ".join(sorted(PINS["opa"]["assets"]))
         raise SetupError(f"no pinned opa for runner {platform!r} (pinned: {known})")
     tag, name, want = PINS["opa"]["version"], asset["file"], asset["sha256"]
+    # curl-retry: exempt install_opa already orders cache, retried direct and API routes, and pins the sha256
     url = f"https://github.com/open-policy-agent/opa/releases/download/{tag}/{name}"
     dest.mkdir(parents=True, exist_ok=True)
     target = dest / "opa"
