@@ -19,7 +19,7 @@ A cell is `conforms`, `rejected` with the rows the reader cited, `cannot tell` (
 | R14 | no | reader verdicts posted on the list; this matrix reruns them with commands | verdicts | - | comparison |
 | R15 | no | a census file of artifact states | artifacts | 592 | recorded, no command |
 | R2 | yes | three v0.1 reports; the control fixture records beside them are not reports | checks | R2-v0.2 72, R2-v0.3 168, R2-v0.4 750 | O8 reproduction |
-| R3 | no | its records are the producer's own encoding; R3-v01 re-encodes them as a v0.1 report | checks | - | O8 reproduction |
+| R3 | yes | the report as first posted, run-report.json, names the format in prose and carries records in place of checks; R3-v01 re-encodes it as a v0.1 report | records | - | O8 reproduction |
 | R3-v01 | yes | the posted converter writes one v0.1 report from the R3 records | checks | R3-v01 48 | producer glue |
 | R4 | yes | three v0.1 reports; the single-change controls are records, not reports | checks | R4-heldfast 16, R4-map 67, R4-native 76 | O8 reproduction |
 | R4-driver | no | this repository's driver writes a comparison report, not a v0.1 report | cases | - | producer glue |
@@ -41,6 +41,7 @@ R7 has no cell: its packet records (state, reason) pairs in its own encoding, no
 | R2-v0.2 | conforms | conforms | conforms | conforms | conforms | conforms | conforms | conforms | conforms | conforms | conforms |
 | R2-v0.3 | conforms | conforms | conforms | conforms | conforms | conforms | conforms | conforms | conforms | conforms | conforms |
 | R2-v0.4 | conforms | conforms | conforms | conforms | conforms | conforms | conforms | conforms | conforms | conforms | conforms |
+| R3 | rejected shape | rejected shape | rejected shape | rejected shape | rejected shape | rejected shape | rejected shape | rejected shape | rejected shape | cannot read | cannot tell |
 | R3-v01 | conforms | conforms | conforms | conforms | conforms | conforms | conforms | conforms | conforms | conforms | conforms |
 | R4-heldfast | rejected R-020 | rejected R-020 | rejected R-020 | conforms | conforms | conforms | conforms | conforms | conforms | conforms | conforms |
 | R4-native | rejected R-020 | rejected R-020 | rejected R-020 | conforms | conforms | conforms | conforms | conforms | conforms | conforms | conforms |
@@ -53,17 +54,17 @@ R7 has no cell: its packet records (state, reason) pairs in its own encoding, no
 
 | Reader | Mutants | Rejected | Conforms | Cannot tell | Cannot read | Target row cited | Rows cited |
 |---|---|---|---|---|---|---|---|
-| Python 0.12.0 | 168 | 161 | 7 | 0 | 0 | 160 of 168 | 1 x7, 5 x9, 6 x1, 7 x9, 8 x6, 9 x7, 10 x12, 11 x20, 12 x3, R-013 x9, R-015 x9, R-016 x3, R-017 x43, R-018 x9, R-019 x10, R-020 x108, R-021 x6, R-023 x11, 13 x3, shape x19 |
-| Python 0.13.0 | 168 | 161 | 7 | 0 | 0 | 161 of 168 | 1 x7, 4 x1, 5 x9, 6 x1, 7 x9, 8 x6, 9 x7, 10 x12, 11 x20, 12 x3, R-013 x9, R-015 x9, R-016 x3, R-017 x43, R-018 x9, R-019 x9, R-020 x108, R-021 x6, R-023 x11, 13 x3, shape x19 |
-| Python 0.17.4 | 168 | 161 | 7 | 0 | 0 | 161 of 168 | 1 x7, 4 x1, 5 x9, 6 x1, 7 x9, 8 x6, 9 x7, 10 x12, 11 x20, 12 x3, R-013 x9, R-015 x9, R-016 x3, R-017 x43, R-018 x9, R-019 x9, R-020 x108, R-021 x6, R-023 x11, 13 x3, shape x19 |
-| Python 0.18.1 | 168 | 168 | 0 | 0 | 0 | 168 of 168 | 1 x7, 4 x1, 5 x9, 6 x1, 7 x9, 8 x6, 9 x7, 10 x12, 11 x20, 12 x3, R-013 x9, R-015 x9, R-016 x3, R-017 x43, R-018 x9, R-019 x9, R-020 x88, R-021 x6, R-023 x11, 13 x3, shape x19 |
-| Python 0.31.0 | 168 | 168 | 0 | 0 | 0 | 168 of 168 | 1 x7, 4 x1, 5 x9, 6 x1, 7 x9, 8 x6, 9 x7, 10 x12, 11 x20, 12 x3, R-013 x9, R-015 x9, R-016 x3, R-017 x43, R-018 x9, R-019 x9, R-020 x88, R-021 x6, R-023 x11, 13 x3, shape x19 |
-| Go v0.18.1 | 168 | 168 | 0 | 0 | 0 | 168 of 168 | 1 x7, 4 x1, 5 x9, 6 x1, 7 x9, 8 x6, 9 x7, 10 x12, 11 x20, 12 x3, R-013 x9, R-015 x9, R-016 x3, R-017 x43, R-018 x9, R-019 x9, R-020 x88, R-021 x6, R-023 x11, 13 x3, shape x19 |
-| Go main | 168 | 168 | 0 | 0 | 0 | 168 of 168 | 1 x7, 4 x1, 5 x9, 6 x1, 7 x9, 8 x6, 9 x7, 10 x12, 11 x20, 12 x3, R-013 x9, R-015 x9, R-016 x3, R-017 x43, R-018 x9, R-019 x9, R-020 x88, R-021 x6, R-023 x11, 13 x3, shape x19 |
-| Rust v0.18.1 | 168 | 168 | 0 | 0 | 0 | 159 of 168 | 1 x7, 4 x1, 5 x9, 6 x1, 7 x9, 8 x6, 9 x7, 10 x12, 11 x20, 12 x3, R-013 x9, R-015 x9, R-016 x3, R-017 x34, R-018 x9, R-019 x9, R-020 x88, R-021 x6, R-023 x11, 13 x3, shape x28 |
-| Rust main | 168 | 168 | 0 | 0 | 0 | 159 of 168 | 1 x7, 4 x1, 5 x9, 6 x1, 7 x9, 8 x6, 9 x7, 10 x12, 11 x20, 12 x3, R-013 x9, R-015 x9, R-016 x3, R-017 x34, R-018 x9, R-019 x9, R-020 x88, R-021 x6, R-023 x11, 13 x3, shape x28 |
-| 0039 reader | 168 | 61 | 88 | 18 | 1 | 58 of 59 | U-2 x3, 1 x7, 10 x12, 11 x20, 12 x3, 13 x3, 4 x1, 5 x9, 7 x9, 8 x6, 9 x7 |
-| Kroehl 6d8ee54b | 168 | 82 | 37 | 49 | 0 | 58 of 59 | line 164 x3, line 327 x15, line 421 x9, 1 x7, 10 x12, 11 x20, 12 x3, 13 x3, 4 x1, 5 x9, 7 x9, 8 x6, 9 x7 |
+| Python 0.12.0 | 169 | 162 | 7 | 0 | 0 | 161 of 169 | 1 x7, 5 x9, 6 x1, 7 x9, 8 x6, 9 x7, 10 x12, 11 x20, 12 x3, R-013 x9, R-015 x9, R-016 x3, R-017 x43, R-018 x9, R-019 x10, R-020 x108, R-021 x6, R-023 x11, 13 x3, shape x20 |
+| Python 0.13.0 | 169 | 162 | 7 | 0 | 0 | 162 of 169 | 1 x7, 4 x1, 5 x9, 6 x1, 7 x9, 8 x6, 9 x7, 10 x12, 11 x20, 12 x3, R-013 x9, R-015 x9, R-016 x3, R-017 x43, R-018 x9, R-019 x9, R-020 x108, R-021 x6, R-023 x11, 13 x3, shape x20 |
+| Python 0.17.4 | 169 | 162 | 7 | 0 | 0 | 162 of 169 | 1 x7, 4 x1, 5 x9, 6 x1, 7 x9, 8 x6, 9 x7, 10 x12, 11 x20, 12 x3, R-013 x9, R-015 x9, R-016 x3, R-017 x43, R-018 x9, R-019 x9, R-020 x108, R-021 x6, R-023 x11, 13 x3, shape x20 |
+| Python 0.18.1 | 169 | 169 | 0 | 0 | 0 | 169 of 169 | 1 x7, 4 x1, 5 x9, 6 x1, 7 x9, 8 x6, 9 x7, 10 x12, 11 x20, 12 x3, R-013 x9, R-015 x9, R-016 x3, R-017 x43, R-018 x9, R-019 x9, R-020 x88, R-021 x6, R-023 x11, 13 x3, shape x20 |
+| Python 0.31.0 | 169 | 169 | 0 | 0 | 0 | 169 of 169 | 1 x7, 4 x1, 5 x9, 6 x1, 7 x9, 8 x6, 9 x7, 10 x12, 11 x20, 12 x3, R-013 x9, R-015 x9, R-016 x3, R-017 x43, R-018 x9, R-019 x9, R-020 x88, R-021 x6, R-023 x11, 13 x3, shape x20 |
+| Go v0.18.1 | 169 | 169 | 0 | 0 | 0 | 169 of 169 | 1 x7, 4 x1, 5 x9, 6 x1, 7 x9, 8 x6, 9 x7, 10 x12, 11 x20, 12 x3, R-013 x9, R-015 x9, R-016 x3, R-017 x43, R-018 x9, R-019 x9, R-020 x88, R-021 x6, R-023 x11, 13 x3, shape x20 |
+| Go main | 169 | 169 | 0 | 0 | 0 | 169 of 169 | 1 x7, 4 x1, 5 x9, 6 x1, 7 x9, 8 x6, 9 x7, 10 x12, 11 x20, 12 x3, R-013 x9, R-015 x9, R-016 x3, R-017 x43, R-018 x9, R-019 x9, R-020 x88, R-021 x6, R-023 x11, 13 x3, shape x20 |
+| Rust v0.18.1 | 169 | 169 | 0 | 0 | 0 | 160 of 169 | 1 x7, 4 x1, 5 x9, 6 x1, 7 x9, 8 x6, 9 x7, 10 x12, 11 x20, 12 x3, R-013 x9, R-015 x9, R-016 x3, R-017 x34, R-018 x9, R-019 x9, R-020 x88, R-021 x6, R-023 x11, 13 x3, shape x29 |
+| Rust main | 169 | 169 | 0 | 0 | 0 | 160 of 169 | 1 x7, 4 x1, 5 x9, 6 x1, 7 x9, 8 x6, 9 x7, 10 x12, 11 x20, 12 x3, R-013 x9, R-015 x9, R-016 x3, R-017 x34, R-018 x9, R-019 x9, R-020 x88, R-021 x6, R-023 x11, 13 x3, shape x29 |
+| 0039 reader | 169 | 61 | 88 | 18 | 2 | 58 of 59 | U-2 x3, 1 x7, 10 x12, 11 x20, 12 x3, 13 x3, 4 x1, 5 x9, 7 x9, 8 x6, 9 x7 |
+| Kroehl 6d8ee54b | 169 | 82 | 37 | 50 | 0 | 58 of 59 | line 164 x3, line 327 x15, line 421 x9, 1 x7, 10 x12, 11 x20, 12 x3, 13 x3, 4 x1, 5 x9, 7 x9, 8 x6, 9 x7 |
 
 Target row cited counts only mutants whose target the reader's labels can name: every target for the three reference readers, the numbered rows 1 to 14 for the two spec-text readers.
 
@@ -167,6 +168,7 @@ A non-ASCII check identity with the root recomputed over the RFC 8785 form, whic
 | R2-v0.4.check-state-dropped | shape | `checks[0].state` | rejected shape | rejected shape | rejected shape | rejected shape | rejected shape | rejected shape | rejected shape | rejected shape | rejected shape | cannot tell | cannot tell |
 | R2-v0.4.non-ascii-root-utf8 | none | `checks[7].check, check-set.sha256` | rejected R-020 | rejected R-020 | rejected R-020 | conforms | conforms | conforms | conforms | conforms | conforms | conforms | conforms |
 | R2-v0.4.non-ascii-root-escaped | R-020 | `checks[7].check, check-set.sha256` | conforms | conforms | conforms | rejected R-020 | rejected R-020 | rejected R-020 | rejected R-020 | rejected R-020 | rejected R-020 | conforms | conforms |
+| R3.format-dropped | shape | `format` | rejected shape | rejected shape | rejected shape | rejected shape | rejected shape | rejected shape | rejected shape | rejected shape | rejected shape | cannot read | cannot tell |
 | R3-v01.row05-exclusion-exercised | 5 | `checks[0].declared-exclusion` | rejected 5,R-020 | rejected 5,R-020 | rejected 5,R-020 | rejected 5,R-020 | rejected 5,R-020 | rejected 5,R-020 | rejected 5,R-020 | rejected 5,R-020 | rejected 5,R-020 | rejected 5 | rejected 5 |
 | R3-v01.row07-cause-on-verdict | 7 | `checks[0].cause` | rejected 7,R-020 | rejected 7,R-020 | rejected 7,R-020 | rejected 7,R-020 | rejected 7,R-020 | rejected 7,R-020 | rejected 7,R-020 | rejected 7,R-020 | rejected 7,R-020 | rejected 7 | rejected 7 |
 | R3-v01.row10-foreclosed-no-constraint | 10 | `checks[0].other-verdict.value` | rejected 10,11,R-020 | rejected 10,11,R-020 | rejected 10,11,R-020 | rejected 10,11,R-020 | rejected 10,11,R-020 | rejected 10,11,R-020 | rejected 10,11,R-020 | rejected 10,11,R-020 | rejected 10,11,R-020 | rejected 10,11 | rejected 10,11 |
@@ -315,6 +317,34 @@ A non-ASCII check identity with the root recomputed over the RFC 8785 form, whic
 | R2-v0.4 | moved-outside-compared | R-016 | no evidence object with two carried observations whose outcome moved |
 | R2-v0.4 | moved-declared-not-recomputed | R-021 | no evidence object with two carried observations to recompute moved from |
 | R2-v0.4 | population-off | R-023 | no completeness claim with a population |
+| R3 | row01-no-cause | 1 | no non-verdict check with a cause and no bare pass check |
+| R3 | row02-void-never-examined | 2 | no void check and no non-verdict check with a never-examined cause |
+| R3 | row03-not-exercised-integrity | 3 | no not-exercised check and no non-verdict check citing integrity-failure |
+| R3 | row04-confinement-not-void | 4 | no non-void check carrying a cause |
+| R3 | row05-exclusion-exercised | 5 | every check is not-exercised or already declares an exclusion |
+| R3 | row06-qualifier-non-verdict | 6 | no non-verdict check without a qualifier |
+| R3 | row07-cause-on-verdict | 7 | no verdict check without a cause |
+| R3 | row08-foreclosed-demonstrated | 8 | no check carrying foreclosed or demonstrated discrimination with an other-verdict |
+| R3 | row09-demonstrated-unknown | 9 | no verdict check whose other-verdict is unknown and that has no discrimination |
+| R3 | row10-foreclosed-no-constraint | 10 | no other-verdict and no bare verdict check to add one to |
+| R3 | row11-no-evidence-ref | 11 | no asserted qualifier and no verdict check without an other-verdict |
+| R3 | row12-checker-changed | 12 | no demonstrated discrimination citing an evidence object |
+| R3 | row13-moved-without-verdict | 13 | no demonstrated other-verdict citing two carried observations whose verdict moved |
+| R3 | row14-moved-unbound | 14 | no evidence object asserting moved over a referenced observation |
+| R3 | state-outside-enum | R-019 | no check |
+| R3 | moved-outside-compared | R-016 | no evidence object with two carried observations whose outcome moved |
+| R3 | moved-declared-not-recomputed | R-021 | no evidence object with two carried observations to recompute moved from |
+| R3 | root-digest-altered | R-020 | no check-set digest |
+| R3 | state-flipped-root-kept | R-020 | no verdict check |
+| R3 | leaf-count-off | R-015 | no check-set leaf count |
+| R3 | rollup-count-off | R-017 | no roll-up |
+| R3 | rollup-dropped | R-017 | no roll-up |
+| R3 | carried-counter-off | R-018 | no carried counter in the roll-up |
+| R3 | population-off | R-023 | no completeness claim with a population |
+| R3 | negative-capable-dropped | R-013 | no negative-capable statement in the roll-up |
+| R3 | check-state-dropped | shape | no check with a state |
+| R3 | non-ascii-root-utf8 | none (positive control) | no check-set under a known tree shape |
+| R3 | non-ascii-root-escaped | R-020 | no check-set under a known tree shape |
 | R3-v01 | row01-no-cause | 1 | no non-verdict check with a cause and no bare pass check |
 | R3-v01 | row02-void-never-examined | 2 | no void check and no non-verdict check with a never-examined cause |
 | R3-v01 | row03-not-exercised-integrity | 3 | no not-exercised check and no non-verdict check citing integrity-failure |
@@ -398,6 +428,7 @@ Each report read by the flag the next release adds; `{release}` is that release.
 - R2 R2-v0.2: `uvx agent-evidence-vectors=={release} --read-w3c-report run-residue-v0.2.json`
 - R2 R2-v0.3: `uvx agent-evidence-vectors=={release} --read-w3c-report run-residue-v0.3.json`
 - R2 R2-v0.4: `uvx agent-evidence-vectors=={release} --read-w3c-report run-residue-v0.4.json`
+- R3 R3: `uvx agent-evidence-vectors=={release} --read-w3c-report run-report.json`
 - R3-v01 R3-v01: `uvx agent-evidence-vectors=={release} --read-w3c-report run-report-v01.json`
 - R4 R4-heldfast: `uvx agent-evidence-vectors=={release} --read-w3c-report heldfast-profiles.json`
 - R4 R4-native: `uvx agent-evidence-vectors=={release} --read-w3c-report native-verify-mjs.json`
