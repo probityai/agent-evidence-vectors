@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import sys
 from pathlib import Path
@@ -169,5 +170,5 @@ def test_run_fails_when_a_listed_report_is_missing(tmp_path: Path, monkeypatch: 
              "missing": True}
     monkeypatch.setattr(matrix, "build_inputs", lambda work: ([entry], {"R3": matrix.rerun.REPRODUCED}))
     monkeypatch.setattr(matrix, "READERS", [])
-    args = type("Args", (), {"work": tmp_path / "work", "observed": tmp_path / "observed.json"})()
+    args = argparse.Namespace(work=tmp_path / "work", observed=tmp_path / "observed.json")
     assert matrix.cmd_run(args) == 1
