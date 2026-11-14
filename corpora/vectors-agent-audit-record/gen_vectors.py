@@ -2949,13 +2949,15 @@ def define_consumption_carryover() -> None:
 # chain and never from the signed payload (CS47). A later record of the ledger
 # counts the settled amount, not the held one (CS48, CS49).
 #
-# CS50 to CS54: the same case at a settlement of 0 (vendrell46, #307). An x402
+# CS50 to CS55: the same case at a settlement of 0 (vendrell46, #307). An x402
 # EVM upto permit that settles 0 sends no transaction, so settled.transaction
 # is the empty string, valid only at amount 0 (CS50, CS51). The authorization
 # is not spent, so the facilitator can still settle it up to the maximum until
 # its deadline: the held entry keeps the operation key and carries the deadline
-# (CS52), and a later record of the ledger releases it only at or after that
-# deadline (CS53, CS54).
+# (CS52), and a later record of the ledger releases it only strictly after that
+# deadline (CS53, CS54, CS55). Permit2 reverts only when block.timestamp is
+# greater than the permit's deadline, so a block stamped exactly at the deadline
+# can still settle it (vendrell46, #307).
 # ---------------------------------------------------------------------------
 
 #: USDC on Base Sepolia, the asset of the x402 MCP transport's example, and the
@@ -3013,6 +3015,8 @@ def _settled(pred: dict[str, Any]) -> None:
 
 #: The deadline of the upto permit, as the record shape writes instants.
 UPTO_DEADLINE = "2026-09-19T11:34:02Z"
+#: One second after it: the first instant at which no block can settle the permit.
+UPTO_AFTER_DEADLINE = "2026-09-19T11:34:03Z"
 
 
 def _zero_settled(pred: dict[str, Any]) -> None:
@@ -3280,12 +3284,22 @@ def define_settlement() -> None:
         ),
         (
             "CS54",
-            "cs54-set-zero-settlement-released-at-the-deadline",
-            "CS53 where the later record is dated at the permit's deadline: each record "
-            "valid, the set valid",
-            UPTO_DEADLINE,
+            "cs54-set-zero-settlement-released-after-the-deadline",
+            "CS53 where the later record is dated one second after the permit's deadline: "
+            "each record valid, the set valid",
+            UPTO_AFTER_DEADLINE,
             "valid",
             None,
+        ),
+        (
+            "CS55",
+            "cs55-set-zero-settlement-released-at-the-deadline",
+            "CS53 where the later record is dated at the permit's deadline, the last second "
+            "Permit2 accepts the permit in: each record valid, the set malformed because a "
+            "block stamped at the deadline can still settle it",
+            UPTO_DEADLINE,
+            "malformed",
+            "consumption-set-release-unshown",
         ),
     ]
     for draft_id, slug, row, reported_at, verdict, joint_code in zero_sets:
@@ -5040,7 +5054,7 @@ ORDER = (
     "CS1 CS2 CS3 CS4 CS5 CS6 CS7 CS8 CS9 CS10 CS11 CS12 CS13 CS14 CS15 CS16 CS17 "
     "CS18 CS19 CS20 CS21 CS22 CS23 CS24 CS25 "
     "CS26 CS27 CS28 CS29 CS30 CS31 CS32 CS33 CS34 CS35 CS36 CS37 CS38 CS39 CS40 "
-    "CS41 CS42 CS43 CS44 CS45 CS46 CS47 CS48 CS49 CS50 CS51 CS52 CS53 CS54 "
+    "CS41 CS42 CS43 CS44 CS45 CS46 CS47 CS48 CS49 CS50 CS51 CS52 CS53 CS54 CS55 "
     "A21 SQ1 SQ2 SQ3 SQ4 SQ5 "
     "R10 R11 R12 R13 R14 R15 R16 "
     "IS1 IS2 PS1 PS2 PS1b PS3 PS4 PS5 "
