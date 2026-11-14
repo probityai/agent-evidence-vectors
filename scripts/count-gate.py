@@ -798,22 +798,6 @@ REPLY_SITES: tuple[tuple[str, str, str, str, str], ...] = (
      "It stays silent about the ", " that already disagree", "disagree"),
     ("docs/proposals/catalog-pr-body.md", "pr body: the verifier's member count",
      "exits 0 over ", " members, 12 accept", "total"),
-    ("docs/proposals/packets/catalog-pr.md", "pr draft: the verifier's member count",
-     "prints `members: ", "`, `accept", "total"),
-    ("docs/proposals/packets/catalog-pr.md", "pr draft: the recording's member count",
-     "anchors-verify-v0.10.json`, ", " members, 27 true", "total"),
-    ("docs/proposals/packets/catalog-pr.md", "pr draft: agreeing members",
-     "Today 27 of the ", " members agree with anchors-verify-v0.10.", "total"),
-    ("docs/proposals/packets/catalog-pr.md", "pr draft: the gate that would be red",
-     "A gate demanding ", " would go red", "total"),
-    ("docs/proposals/packets/catalog-pr.md", "pr draft: members that disagree",
-     "It stays silent about the ", " that already disagree", "disagree"),
-    ("docs/proposals/packets/catalog-pr.md", "pr draft: the verifier's member count in prose",
-     "exits 0 over ", " members, 12 accept", "total"),
-    ("docs/proposals/packets/catalog-pr.md", "pr draft: the agreement ratio",
-     "|\n| ", " members agree with `anchors-verify-v0.10`", "ratio"),
-    ("docs/proposals/packets/catalog-1.md", "reply draft: corpus total",
-     "27 of its ", " members agree with v0.10.", "total"),
 )
 
 
@@ -1822,13 +1806,6 @@ FROZEN: tuple[Frozen, ...] = (
     ),
     Frozen(
         'docs/proposals/catalog-1-body.md',
-        'a witness prefix byte length in a quoted verifier error',
-        'witness prefix byte length 164 does not equal',
-        'An integer that counts something other than this corpus and equals one of its figures by'
-        ' coincidence: a byte length in a verifier error message quoted verbatim.',
-    ),
-    Frozen(
-        'docs/proposals/packets/catalog-1.md',
         'a witness prefix byte length in a quoted verifier error',
         'witness prefix byte length 164 does not equal',
         'An integer that counts something other than this corpus and equals one of its figures by'

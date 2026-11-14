@@ -57,7 +57,7 @@ KNOWN = {("equivalence-with-sources", "protected_paths/v1"),
 # import probe that exited zero open (``probe_import_unobserved``), because the probe's own
 # report cannot be trusted from inside the candidate's process; the corpus still declares
 # ``probes_passed``. Moving the corpus to the verifier's rule changes
-# spec/predicates/done-receipt.md and is tracked at AEV-DONE-PROBE-IMPORT-UNOBSERVED.
+# spec/predicates/done-receipt.md, and that change is still open.
 KNOWN_AXES = {"control-probes-pass"}
 
 
