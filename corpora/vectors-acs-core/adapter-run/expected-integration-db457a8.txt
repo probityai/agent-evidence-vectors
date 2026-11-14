@@ -1,0 +1,18 @@
+PASS v03860e15b18da90a reject answer=silent signed=- agent=None guardian=proceed required=block client=block
+PASS v08e44aaecdf38253 accept answer=-32005 signed=True agent=deny guardian=None required=block client=block
+PASS v110b17b76c33264f reject answer=-32603 signed=False agent=proceed guardian=None required=block client=block
+PASS v1bd97e9f72ca1cde accept answer=-32600 signed=True agent=proceed guardian=None required=block client=block
+FAIL v2bd45d189edf6583 accept answer=-32007 signed=True agent=proceed guardian=None required=block client=proceed
+FAIL v45feeb31130e2d4a reject answer=429 signed=- agent=proceed guardian=None required=block client=proceed
+PASS v55a5146a13425588 accept answer=-32603 signed=True agent=proceed guardian=None required=proceed client=proceed
+PASS v605905ced490b58a reject answer=silent signed=- agent=proceed guardian=deny required=block client=block
+PASS v692a2b8d7f6d2e1c reject answer=silent signed=- agent=None guardian=None required=block client=block
+FAIL v8a38f9a829ee29f8 reject answer=-32003 signed=True agent=proceed guardian=None required=block client=proceed
+PASS v8ca0304ee7cb7975 accept answer=silent signed=- agent=None guardian=None required=block client=block
+PASS vadf47600332c1b4f accept answer=503 signed=- agent=proceed guardian=None required=proceed client=proceed
+PASS vb343b2293da3bfac accept answer=-32600 signed=True agent=deny guardian=None required=block client=block
+PASS vb6c2f01f6d4e987a reject answer=-32600 signed=True agent=proceed guardian=None required=block client=block
+FAIL vb929d77391061d33 accept answer=403 signed=- agent=proceed guardian=None required=block client=proceed
+PASS vcbbc3c9880545473 accept answer=silent signed=- agent=proceed guardian=None required=proceed client=proceed
+FAIL ve67ef3b2a7056281 reject answer=401 signed=- agent=proceed guardian=None required=block client=proceed
+acs-f-21: 12 of 17 scored members agree; 5 of 22 not scored here (record or effect members): v7bc3853c14298fdd va112deb74499e088 vb76b929bc54527cd ve8d2ede8ac230311 vf14ce3c2fea04bc7

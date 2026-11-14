@@ -1,0 +1,87 @@
+{
+  "cites": "an HTTP 403 under an opted-in proceed, blocked and recorded as a refusal with its status",
+  "coverage": "observed",
+  "doesNotAssert": "the authentication scheme",
+  "evidenceBasis": "substrate",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "allow"
+  },
+  "family": "acs-f-21",
+  "id": "vb929d77391061d33",
+  "kind": "accept",
+  "payload": {
+    "agent_config": {
+      "on_decision_failure": "proceed"
+    },
+    "audit_events": [
+      {
+        "event": "acs.decision.failure",
+        "failure_class": "refusal",
+        "http_status": 403
+      }
+    ],
+    "guardian_answer": {
+      "jsonrpc_body": false,
+      "kind": "http_status",
+      "status": 403
+    },
+    "request": {
+      "acs": "0.1",
+      "metadata": {
+        "session_id": "s-0001",
+        "turn_id": "t-0001"
+      },
+      "method": "hooks/toolCallRequest",
+      "params": {
+        "tool": {
+          "arguments": {
+            "body": "rows",
+            "path": "/srv/reports/q3.csv"
+          },
+          "name": "files.write"
+        }
+      },
+      "request_id": "req-0021",
+      "signature": {
+        "algorithm": "HMAC-SHA256",
+        "key_id": "k1",
+        "value": "AAAA"
+      },
+      "timestamp": "2026-09-09T12:00:00Z"
+    },
+    "server_hello": {},
+    "step_outcome": "blocked"
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-080",
+      "line": 8,
+      "sentence": "Any HTTP 4xx except 408 and 429 is a refusal, 401 and 403 included.",
+      "upstreamCommit": null,
+      "upstreamPath": "GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "proposal",
+      "vendored": "spec-vendored/issue-32-comment-6639119175.md"
+    },
+    {
+      "id": "ACS-R-076",
+      "line": 6,
+      "sentence": "It is recorded with its failure class.",
+      "upstreamCommit": null,
+      "upstreamPath": "GenAI-Security-Project/agent-control-standard#32 (comment 6639119175)",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "proposal",
+      "vendored": "spec-vendored/issue-32-comment-6639119175.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-080",
+    "ACS-R-076"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "SELF"
+}
