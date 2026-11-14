@@ -35,6 +35,11 @@ anchor catch them, and the corpus says which one.
 | t9-snapshot-rollback | T9 (agmi) | yes | rejected, `anchored_head_missing` | anchor |
 | rollback-to-abandoned-branch | rollback | yes | rejected, `anchored_head_mismatch` | anchor |
 | tail-removal-reanchored | T2, re-anchored | yes | rejected, `anchor_signature_invalid` | anchor key |
+| removal-rewritten-shorter | removal | yes | rejected, `anchored_head_missing` | anchor |
+| removal-rewritten-same-length | removal | yes | rejected, `anchored_head_mismatch` | anchor |
+| removal-declared-appended | control | yes | verified, `chain_anchored` | |
+| removal-declared-in-place | removal | yes | rejected, `anchored_head_mismatch` | anchor |
+| removal-before-first-anchor | removal limit | yes | verified, `chain_anchored` | nothing can |
 
 Three rows carry the findings a signature-only reading misses:
 
@@ -50,6 +55,24 @@ Three rows carry the findings a signature-only reading misses:
   anchor.** `rollback-to-abandoned-branch` holds records the producer really
   signed on a branch it later abandoned. Every signature verifies and every
   link holds.
+
+The five `removal-` cases cover omission. They differ from T2 and T3 in who
+holds a key: the producer signs and links the rewritten store itself, so every
+signature verifies and every link holds, and only a head published before the
+rewrite can say a record was taken out.
+
+- **A removal done as a rewrite is rejected, declared or not.**
+  `removal-rewritten-shorter` and `removal-rewritten-same-length` drop one
+  record and sign and link the rest again, the second one padding the store
+  back to its old length. `removal-declared-in-place` swaps the record for a
+  removal notice at the same position. The anchor still names the old head, so
+  each fails there.
+- **A removal done as an appended record is accepted.**
+  `removal-declared-appended` leaves the history untouched and adds a signed
+  record naming the digest of the one removed.
+- **A removal before the first head is published cannot be seen.**
+  `removal-before-first-anchor` expects `verified`, and a verifier that rejects
+  it is refusing an honest store.
 
 ## Running it
 
