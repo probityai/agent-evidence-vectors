@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import sys
 from pathlib import Path
@@ -10,6 +11,7 @@ from typing import Any
 HERE = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parent))
+import matrix  # noqa: E402
 import mutants as M  # noqa: E402
 import render  # noqa: E402
 
@@ -114,7 +116,7 @@ def test_every_row_that_yields_a_report_has_one_and_reruns() -> None:
     listed = {row for _, row, _ in matrix.REPORTS}
     assert yielding == listed
     assert listed <= set(matrix.PRODUCING)
-    assert len(matrix.REPORTS) == 11
+    assert len(matrix.REPORTS) == 12
 
 
 def test_a_report_with_records_in_place_of_checks_still_gets_its_mutants() -> None:
@@ -148,3 +150,25 @@ def test_paper_breakdown_keeps_control_populations_and_outcomes_separate() -> No
         "Shape": (1, (0, 0, 0, 1, 0)),
         "Positive controls": (1, (0, 1, 0, 0, 0)),
     }
+
+
+def test_r3_report_is_found_in_either_record_layout(tmp_path: Path) -> None:
+    flat = tmp_path / "flat"
+    (flat / "R3" / "out").mkdir(parents=True)
+    (flat / "R3" / "out" / "run-report.json").write_text("{}", encoding="utf-8")
+    assert matrix.report_path(flat, "R3", "run-report.json") == flat / "R3" / "out" / "run-report.json"
+    nested = tmp_path / "nested"
+    (nested / "R3" / "out" / "records").mkdir(parents=True)
+    (nested / "R3" / "out" / "records" / "run-report.json").write_text("{}", encoding="utf-8")
+    assert (matrix.report_path(nested, "R3", "run-report.json")
+            == nested / "R3" / "out" / "records" / "run-report.json")
+    assert matrix.report_path(nested, "R1", "R1/out/report.json") == nested / "R1" / "out" / "report.json"
+
+
+def test_run_fails_when_a_listed_report_is_missing(tmp_path: Path, monkeypatch: Any) -> None:
+    entry = {"report": "R3", "row": "R3", "source": "run-report.json", "id": "R3", "mutant": None,
+             "missing": True}
+    monkeypatch.setattr(matrix, "build_inputs", lambda work: ([entry], {"R3": matrix.rerun.REPRODUCED}))
+    monkeypatch.setattr(matrix, "READERS", [])
+    args = argparse.Namespace(work=tmp_path / "work", observed=tmp_path / "observed.json")
+    assert matrix.cmd_run(args) == 1
