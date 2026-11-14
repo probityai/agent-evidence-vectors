@@ -29,6 +29,13 @@ updates:
     groups:
       uv:
         patterns: ["*"]
+    # cbor2 6.x decodes COSE messages to a tuple and breaks every well-formed
+    # SCITT vector; pymupdf is pinned exactly because the NIST AI 300-1 digests
+    # bind to the text it extracts and 2.x is untyped under mypy strict.
+    ignore:
+      - dependency-name: cbor2
+        versions: [">=6"]
+      - dependency-name: pymupdf
   - package-ecosystem: cargo
     directory: /crates/dsse
     schedule:
