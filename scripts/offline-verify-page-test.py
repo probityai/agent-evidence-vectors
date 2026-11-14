@@ -8,14 +8,17 @@
   the vector the registry names for it.
 * The verifier pin in requirements.txt is the version the page states, every
   requirement carries hashes, and SHA256SUMS covers every example record.
-* The transcript was taken with --network none, reached no index, installed the
-  pinned version and printed every summary line the page quotes.
+* Every transcript (TRANSCRIPT.txt and each TRANSCRIPT-<interpreter>-<arch>.txt
+  beside it) was taken with --network none, reached no index, installed the
+  pinned version and printed every summary line the page quotes, and the page
+  names each one.
 
 Exit 0 when all hold; 1 with each failure named.
 """
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import sys
@@ -66,19 +69,32 @@ def check_pins(page: str, want: dict[str, str]) -> tuple[list[str], str | None]:
     return fails, version
 
 
-def check_transcript(page: str, version: str | None) -> list[str]:
-    transcript = (FOLDER / "TRANSCRIPT.txt").read_text(encoding="utf-8")
+def folder_digest() -> str:
+    """Digest of the files a run reads, in the order scripts/offline-verify-run.sh lists them."""
+    names = ("requirements.txt", "SHA256SUMS", "keys.json", "make_case.py", "summary.py", "connected.sh", "offline.sh")
+    lines = "".join(f"{hashlib.sha256((FOLDER / n).read_bytes()).hexdigest()}  {n}\n" for n in names)
+    return hashlib.sha256(lines.encode()).hexdigest()
+
+
+def check_transcript(page: str, version: str | None, path: Path) -> list[str]:
+    name = path.name
+    if f"({name})" not in page and f"[{name}]" not in page:
+        return [f"page does not link {name}"]
+    transcript = path.read_text(encoding="utf-8")
+    digest = folder_digest()
+    if f"# page folder digest: {digest}\n" not in transcript:
+        return [f"{name}: page folder digest is not the folder's current {digest}"]
     stage2 = transcript.split("## stage 2: container started with --network none", 1)
     if len(stage2) != 2:
-        return ["transcript has no --network none stage"]
+        return [f"{name} has no --network none stage"]
     fails = []
     offline = stage2[1]
     if "interfaces: lo \n" not in offline or "network probe: no route" not in offline:
-        fails.append("transcript's offline stage shows a network interface or a reached index")
+        fails.append(f"{name}: offline stage shows a network interface or a reached index")
     if version is None or f"agent-evidence-verify-{version}" not in offline:
-        fails.append("transcript did not install the pinned verifier offline")
+        fails.append(f"{name}: did not install the pinned verifier offline")
     lines = offline.splitlines()
-    fails += [f"quoted summary line not in transcript: {line}"
+    fails += [f"{name}: quoted summary line not in transcript: {line}"
               for block in blocks(page, "text") for line in block.splitlines()
               if line.strip() and line not in lines]
     return fails
@@ -89,7 +105,11 @@ def check() -> list[str]:
     fails = check_commands(page)
     code_fails, want = check_codes(page)
     pin_fails, version = check_pins(page, want)
-    return fails + code_fails + pin_fails + check_transcript(page, version)
+    transcripts = sorted(FOLDER.glob("TRANSCRIPT*.txt"))
+    transcript_fails = [f for t in transcripts for f in check_transcript(page, version, t)]
+    if not transcripts:
+        transcript_fails = ["no TRANSCRIPT.txt"]
+    return fails + code_fails + pin_fails + transcript_fails
 
 
 def main() -> int:
