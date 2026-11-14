@@ -17,7 +17,9 @@ The person or project that emits the type files the entry, by pull request. The 
 1. the URI under `predicate/v1/`;
 2. the owner, by GitHub handle;
 3. where the normative field definitions live;
-4. the envelope: an in-toto Statement, in DSSE or bare;
+4. the envelope: an in-toto Statement, in DSSE or bare, or the bare JSON record a corpus in this repository mints
+   (for example the `contractId`, `recordId`, `facts` and `response` record of `vectors-refusal-reason-priority`). A bare
+   record is filed as it is; it is never wrapped in a Statement only to fit this item;
 5. one example record that validates;
 6. the compatibility rule: a v2 is a new URI beside v1, never a change to v1;
 7. `confirmed_at`: who confirmed which revision of the field definitions, with a link to that confirmation. An entry
