@@ -1,0 +1,459 @@
+{
+  "version": 1,
+  "suite": "verdict-precedence",
+  "order": [
+    "allow",
+    "constrain",
+    "require_approval",
+    "block",
+    "halt"
+  ],
+  "cases": [
+    {
+      "id": "single-allow",
+      "polarity": "positive",
+      "answers": [
+        {
+          "policy": "p1",
+          "verdict": "allow"
+        }
+      ],
+      "expect": {
+        "verdict": "allow",
+        "policies": [
+          "p1"
+        ],
+        "constraints": []
+      },
+      "note": ""
+    },
+    {
+      "id": "allow-and-block-blocks",
+      "polarity": "positive",
+      "answers": [
+        {
+          "policy": "p1",
+          "verdict": "allow"
+        },
+        {
+          "policy": "p2",
+          "verdict": "block"
+        }
+      ],
+      "expect": {
+        "verdict": "block",
+        "policies": [
+          "p2"
+        ],
+        "constraints": []
+      },
+      "note": ""
+    },
+    {
+      "id": "allow-and-constrain-constrains",
+      "polarity": "positive",
+      "answers": [
+        {
+          "policy": "p1",
+          "verdict": "allow"
+        },
+        {
+          "policy": "p2",
+          "verdict": "constrain",
+          "constraint": "redact-email"
+        }
+      ],
+      "expect": {
+        "verdict": "constrain",
+        "policies": [
+          "p2"
+        ],
+        "constraints": [
+          "redact-email"
+        ]
+      },
+      "note": ""
+    },
+    {
+      "id": "constrain-and-require-approval-waits",
+      "polarity": "positive",
+      "answers": [
+        {
+          "policy": "p1",
+          "verdict": "constrain",
+          "constraint": "redact-email"
+        },
+        {
+          "policy": "p2",
+          "verdict": "require_approval"
+        }
+      ],
+      "expect": {
+        "verdict": "require_approval",
+        "policies": [
+          "p2"
+        ],
+        "constraints": []
+      },
+      "note": ""
+    },
+    {
+      "id": "require-approval-and-block-blocks",
+      "polarity": "positive",
+      "answers": [
+        {
+          "policy": "p1",
+          "verdict": "require_approval"
+        },
+        {
+          "policy": "p2",
+          "verdict": "block"
+        }
+      ],
+      "expect": {
+        "verdict": "block",
+        "policies": [
+          "p2"
+        ],
+        "constraints": []
+      },
+      "note": ""
+    },
+    {
+      "id": "block-and-halt-halts",
+      "polarity": "positive",
+      "answers": [
+        {
+          "policy": "p1",
+          "verdict": "block"
+        },
+        {
+          "policy": "p2",
+          "verdict": "halt"
+        }
+      ],
+      "expect": {
+        "verdict": "halt",
+        "policies": [
+          "p2"
+        ],
+        "constraints": []
+      },
+      "note": ""
+    },
+    {
+      "id": "halt-beats-every-other",
+      "polarity": "positive",
+      "answers": [
+        {
+          "policy": "p1",
+          "verdict": "allow"
+        },
+        {
+          "policy": "p2",
+          "verdict": "constrain",
+          "constraint": "c"
+        },
+        {
+          "policy": "p3",
+          "verdict": "require_approval"
+        },
+        {
+          "policy": "p4",
+          "verdict": "block"
+        },
+        {
+          "policy": "p5",
+          "verdict": "halt"
+        }
+      ],
+      "expect": {
+        "verdict": "halt",
+        "policies": [
+          "p5"
+        ],
+        "constraints": []
+      },
+      "note": ""
+    },
+    {
+      "id": "two-blocks-both-reported",
+      "polarity": "positive",
+      "answers": [
+        {
+          "policy": "zeta",
+          "verdict": "block"
+        },
+        {
+          "policy": "alpha",
+          "verdict": "block"
+        },
+        {
+          "policy": "mid",
+          "verdict": "allow"
+        }
+      ],
+      "expect": {
+        "verdict": "block",
+        "policies": [
+          "alpha",
+          "zeta"
+        ],
+        "constraints": []
+      },
+      "note": ""
+    },
+    {
+      "id": "two-constrains-carry-both-constraints",
+      "polarity": "positive",
+      "answers": [
+        {
+          "policy": "p2",
+          "verdict": "constrain",
+          "constraint": "strip-header"
+        },
+        {
+          "policy": "p1",
+          "verdict": "constrain",
+          "constraint": "redact-email"
+        },
+        {
+          "policy": "p3",
+          "verdict": "constrain",
+          "constraint": "redact-email"
+        }
+      ],
+      "expect": {
+        "verdict": "constrain",
+        "policies": [
+          "p1",
+          "p2",
+          "p3"
+        ],
+        "constraints": [
+          "redact-email",
+          "strip-header"
+        ]
+      },
+      "note": ""
+    },
+    {
+      "id": "failed-check-without-verdict-is-block",
+      "polarity": "positive",
+      "answers": [
+        {
+          "policy": "p1",
+          "verdict": "allow"
+        },
+        {
+          "policy": "guardrail",
+          "failed": true
+        }
+      ],
+      "expect": {
+        "verdict": "block",
+        "policies": [
+          "guardrail"
+        ],
+        "constraints": []
+      },
+      "note": ""
+    },
+    {
+      "id": "failed-check-loses-to-halt",
+      "polarity": "positive",
+      "answers": [
+        {
+          "policy": "guardrail",
+          "failed": true
+        },
+        {
+          "policy": "p2",
+          "verdict": "halt"
+        }
+      ],
+      "expect": {
+        "verdict": "halt",
+        "policies": [
+          "p2"
+        ],
+        "constraints": []
+      },
+      "note": ""
+    },
+    {
+      "id": "two-valued-deny-is-block",
+      "polarity": "positive",
+      "answers": [
+        {
+          "policy": "p1",
+          "verdict": "allow"
+        },
+        {
+          "policy": "p2",
+          "verdict": "deny"
+        }
+      ],
+      "expect": {
+        "verdict": "block",
+        "policies": [
+          "p2"
+        ],
+        "constraints": []
+      },
+      "note": ""
+    },
+    {
+      "id": "empty-set-is-no-decision",
+      "polarity": "negative",
+      "answers": [],
+      "expect": {
+        "error": "no-decision"
+      },
+      "note": "an empty set of answers is never allow"
+    },
+    {
+      "id": "unknown-verdict-refused",
+      "polarity": "negative",
+      "answers": [
+        {
+          "policy": "p1",
+          "verdict": "allow"
+        },
+        {
+          "policy": "p2",
+          "verdict": "quarantine"
+        }
+      ],
+      "expect": {
+        "error": "unregistered-verdict:quarantine"
+      },
+      "note": ""
+    },
+    {
+      "id": "capitalised-verdict-refused",
+      "polarity": "negative",
+      "answers": [
+        {
+          "policy": "p1",
+          "verdict": "ALLOW"
+        }
+      ],
+      "expect": {
+        "error": "unregistered-verdict:ALLOW"
+      },
+      "note": "a differently spelled verdict is not allow"
+    },
+    {
+      "id": "capitalised-deny-refused",
+      "polarity": "negative",
+      "answers": [
+        {
+          "policy": "p1",
+          "verdict": "Deny"
+        }
+      ],
+      "expect": {
+        "error": "unregistered-verdict:Deny"
+      },
+      "note": ""
+    },
+    {
+      "id": "non-string-verdict-refused",
+      "polarity": "negative",
+      "answers": [
+        {
+          "policy": "p1",
+          "verdict": 1
+        }
+      ],
+      "expect": {
+        "error": "unregistered-verdict:1"
+      },
+      "note": ""
+    },
+    {
+      "id": "missing-verdict-refused",
+      "polarity": "negative",
+      "answers": [
+        {
+          "policy": "p1"
+        }
+      ],
+      "expect": {
+        "error": "verdict-missing:p1"
+      },
+      "note": "an answer with neither a verdict nor a failed check"
+    },
+    {
+      "id": "failed-false-is-not-a-failure",
+      "polarity": "negative",
+      "answers": [
+        {
+          "policy": "p1",
+          "failed": false
+        }
+      ],
+      "expect": {
+        "error": "verdict-missing:p1"
+      },
+      "note": ""
+    },
+    {
+      "id": "missing-policy-refused",
+      "polarity": "negative",
+      "answers": [
+        {
+          "verdict": "allow"
+        }
+      ],
+      "expect": {
+        "error": "policy-missing"
+      },
+      "note": ""
+    },
+    {
+      "id": "policy-answered-twice-refused",
+      "polarity": "negative",
+      "answers": [
+        {
+          "policy": "p1",
+          "verdict": "allow"
+        },
+        {
+          "policy": "p1",
+          "verdict": "block"
+        }
+      ],
+      "expect": {
+        "error": "policy-answered-twice:p1"
+      },
+      "note": "one policy gives one answer"
+    },
+    {
+      "id": "constrain-without-constraint-refused",
+      "polarity": "negative",
+      "answers": [
+        {
+          "policy": "p1",
+          "verdict": "constrain"
+        }
+      ],
+      "expect": {
+        "error": "constraint-missing:p1"
+      },
+      "note": ""
+    },
+    {
+      "id": "answer-not-an-object-refused",
+      "polarity": "negative",
+      "answers": [
+        "allow"
+      ],
+      "expect": {
+        "error": "answer-not-an-object"
+      },
+      "note": ""
+    }
+  ]
+}

@@ -134,6 +134,15 @@ jobs:
           # provider for each issuer in its table. Offline.
           python3 scripts/test_principal_identity.py
 
+      - name: Hold the registry, the validator, the guide and the vectors to decision_receipt
+        run: |
+          # Each decision_receipt term starts proposed with no issuer and carries
+          # the check a verifier applies, every registered value is accepted and
+          # an unregistered one refused, the guide names every term and value,
+          # the vector manifest is its generator's output, and registry.py
+          # derives from every case the value or refusal the case states. Offline.
+          python3 scripts/test_decision_receipt.py
+
       - name: Hold the validator to reading every file in crosswalk/
         run: |
           # Every file in crosswalk/ is a crosswalk, a sidecar of one, or the

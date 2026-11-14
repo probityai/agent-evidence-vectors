@@ -70,6 +70,8 @@ and the [vectors](vectors/generate/manifest.json).
 
 ## Conformance result records
 
+`agent-evidence-admission resolve-verdicts answers.json` resolves the verdicts several policies gave one action to the strictest (`allow` < `constrain` < `require_approval` < `block` < `halt`) and exits 2 when there is nothing to resolve. The [vectors](vectors/precedence/manifest.json) are its conflict cases, and [the rule](https://github.com/probityai/agent-evidence-vectors/blob/main/packages/admission/docs/VERDICT-PRECEDENCE.md) is normative.
+
 `agent-evidence-admission conformance run|replay|verify` runs a corpus against an implementation, signs the score as a DSSE-wrapped in-toto statement, files it in a public run registry, and checks records another party signed. `replay` turns the rows of the vectors' `docs/INDEPENDENT-RUNS.json` into records. See [the result format](https://github.com/probityai/agent-evidence-vectors/blob/main/packages/admission/docs/CONFORMANCE-RESULT.md).
 
 ## Status

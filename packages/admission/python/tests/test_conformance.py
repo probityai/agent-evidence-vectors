@@ -203,7 +203,7 @@ def test_cli_replay_then_verify_registry(tmp_path, seed_file, capsys):
     assert code == 0
     assert "replayed 3 of 3 posted runs" in capsys.readouterr().out
     assert main(["conformance", "verify", str(root), "--trusted-key", PUBLIC.hex()]) == 0
-    assert "3 records checked, 0 failing" in capsys.readouterr().out
+    assert "PASS 3 of 3 records passed, 0 failed, 0 not checked" in capsys.readouterr().out
     assert main(["conformance", "verify", str(root), "--trusted-key", PUBLIC.hex(), "--json"]) == 0
     assert json.loads(capsys.readouterr().out)["checked"] == 3
     wrong = ed25519.public_key(bytes(range(1, 33))).hex()
