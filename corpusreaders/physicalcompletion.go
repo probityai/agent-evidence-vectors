@@ -156,7 +156,12 @@ func pcProposal(r pcRecord) (string, []string) {
 	if o.ObservedAtMs < dispatched || o.ObservedAtMs > o.WindowEndMs {
 		return "observation_outside_window", []string{"INDETERMINATE"}
 	}
-	met := o.CriterionMet != nil && *o.CriterionMet
+	if o.CriterionMet == nil {
+		// Missing or null is unknown, never false: only an observation that says
+		// the criterion was not met settles a negative (Section 8.3).
+		return "criterion_unreported", []string{"INDETERMINATE"}
+	}
+	met := *o.CriterionMet
 	if c := r.Presented.Controller; c != nil && (c.Status == "succeeded") != met {
 		return "conflict_erased", []string{"CONFLICT"}
 	}

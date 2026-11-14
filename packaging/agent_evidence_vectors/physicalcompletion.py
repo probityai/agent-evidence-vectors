@@ -97,6 +97,7 @@ PROPOSAL = (
     "witness_untrusted",
     "criterion_not_prefixed",
     "observation_outside_window",
+    "criterion_unreported",
     "conflict_erased",
     "conflict_drops_a_claim",
     "observation_outcome_not_reported",
@@ -155,7 +156,12 @@ def proposal_owed(record: Record) -> tuple[str, frozenset[str]]:
         return "criterion_not_prefixed", frozenset({"INDETERMINATE"})
     if not dispatched <= observation["observedAtMs"] <= observation["windowEndMs"]:
         return "observation_outside_window", frozenset({"INDETERMINATE"})
-    met = bool(observation.get("criterionMet"))
+    criterion = observation.get("criterionMet")
+    if criterion is not True and criterion is not False:
+        # Missing or null is unknown, never false: only an observation that says
+        # the criterion was not met settles a negative (Section 8.3).
+        return "criterion_unreported", frozenset({"INDETERMINATE"})
+    met = criterion is True
     controller = _controller(record)
     if controller is not None and (controller == "succeeded") != met:
         return "conflict_erased", frozenset({"CONFLICT"})

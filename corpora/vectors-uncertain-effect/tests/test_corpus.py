@@ -172,6 +172,27 @@ class TestUncertainEffectCorpus:
             _, errors = corpus.check(root=copied)
             assert any("declared retained fields do not hold" in e for e in errors)
 
+    class TestTriggersAndAccounting:
+        def test_a_trigger_that_is_not_a_known_kind_does_not_bind_the_key(self) -> None:
+            record = _records()["redelivery-under-task-derived-key"]
+            record["attempts"][1]["trigger"]["kind"] = "retry"
+            assert _first(record) == "retry_after_unknown"
+            assert _first(record) != "idempotency_key_follows_trigger"
+
+        def test_a_crashed_worker_is_an_unknown_outcome(self) -> None:
+            record = _records()["allow-crash-mid-step-held-unknown"]
+            assert effect.settled_outcome(record) == "unknown"
+            assert effect.retained(record)["unknownAttempts"] == 1
+
+        def test_an_attempt_the_owner_refused_does_not_account_for_an_effect(self) -> None:
+            record = _records()["allow-definite-no-effect-then-retry"]
+            record["ownerEffects"] = 2
+            assert _first(record) == "owner_effect_unaccounted"
+
+        def test_two_attempts_for_two_effects_are_accounted_and_named_a_duplicate(self) -> None:
+            record = _records()["duplicate-effect-despite-deduplication"]
+            assert _first(record) == "duplicate_effect"
+
     class TestBoundaries:
         def test_a_lookup_that_is_not_final_settles_nothing(self) -> None:
             record = _records()["allow-late-commit-awaited"]
@@ -212,6 +233,36 @@ class TestUncertainEffectCorpus:
             assert {"commit-then-lost-reply", "late-commit-after-missed-lookup",
                     "lease-lost-after-lost-reply"} <= failed
             assert "confirmed" not in failed
+
+        def test_every_restart_scenario_names_a_known_mode(self) -> None:
+            restarts = [s["restart"] for s in generator.SCENARIOS.values() if "restart" in s]
+            assert {r["mode"] for r in restarts} == set(runtime.RESTART_MODES)
+            assert {r["state"] for r in restarts} == {"kept", "wiped"}
+            assert {r["taskId"] for r in restarts} == {"same", "new"}
+
+        def test_a_runtime_that_keys_the_call_by_task_is_refused(self) -> None:
+            report = runtime.check_runtime(
+                [sys.executable, str(ADAPTER), "--policy", "task-keyed"], ROOT)
+            failed = {row["id"] for row in report["vectors"] if row["status"] == "FAIL"}
+            assert {"redelivery-new-task-id", "crash-mid-step-checkpoint-lost"} <= failed
+            assert "rewind-replay-after-confirmed" not in failed
+
+        def test_a_blind_runtime_fails_every_restart_whose_owner_cannot_deduplicate(self) -> None:
+            report = runtime.check_runtime(
+                [sys.executable, str(ADAPTER), "--policy", "blind"], ROOT)
+            failed = {row["id"] for row in report["vectors"] if row["status"] == "FAIL"}
+            unprotected = {sid for sid, s in generator.SCENARIOS.items() if "restart" in s
+                           and (not s["owner"]["deduplicatesByKey"]
+                                or "forgetsKeysAfterCalls" in s["owner"])}
+            assert {"crash-mid-step-checkpoint-kept", "rewind-replay-after-confirmed",
+                    "duplicate-human-completion",
+                    "key-forgotten-by-owner-then-replay"} == unprotected
+            assert unprotected <= failed
+
+        def test_runs_that_contradict_each_other_are_named(self) -> None:
+            assert runtime.combined_outcome(["committed", "not_run"])[1]
+            assert runtime.combined_outcome(["unknown", "committed"]) == ("committed", [])
+            assert runtime.combined_outcome(["not_run"]) == ("not_run", [])
 
         def test_a_runtime_that_cannot_start_does_not_count_as_run(self, tmp_path: Path) -> None:
             report = runtime.check_runtime([str(tmp_path / "no-such-runtime")], ROOT)

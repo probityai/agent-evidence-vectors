@@ -16,6 +16,7 @@ import re
 import shutil
 import sys
 import tomllib
+import urllib.error
 from collections import defaultdict
 from pathlib import Path
 
@@ -121,42 +122,139 @@ def test_an_unpinned_runner_platform_is_refused_before_any_download(tmp_path: Pa
     assert not (tmp_path / "opa").exists()
 
 
-def test_opa_bytes_that_miss_the_pinned_digest_are_deleted(tmp_path: Path, monkeypatch) -> None:
-    class Response:
-        def __enter__(self):
-            return self
+class _Response:
+    def __init__(self, body: bytes) -> None:
+        self._body = body
 
-        def __exit__(self, *_):
-            return False
+    def __enter__(self):
+        return self
 
-        def read(self):
-            return b"not opa"
+    def __exit__(self, *_):
+        return False
 
-    monkeypatch.setattr(run.urllib.request, "urlopen", lambda url, timeout: Response())
-    with pytest.raises(run.SetupError, match="not the pinned"):
-        run.install_opa(tmp_path, "Linux-X64")
-    assert not (tmp_path / "opa").exists()
+    def read(self) -> bytes:
+        return self._body
 
 
-def test_opa_bytes_with_the_pinned_digest_are_kept_executable(tmp_path: Path, monkeypatch) -> None:
+class _FakeNet:
+    """A stand-in for run._open that answers by URL and records every request."""
+
+    def __init__(self, routes: dict) -> None:
+        self.routes, self.calls = routes, []
+
+    def __call__(self, request, timeout):
+        self.calls.append((request.full_url, dict(request.header_items())))
+        answer = self.routes[request.full_url]
+        if isinstance(answer, list):
+            answer = answer.pop(0)
+        if isinstance(answer, BaseException):
+            raise answer
+        return _Response(answer)
+
+
+@pytest.fixture
+def opa_net(tmp_path: Path, monkeypatch):
+    """Pin opa to known bytes, point the cache at tmp_path, never sleep, and return a route installer."""
     body = b"pretend opa"
     pins = json.loads(json.dumps(run.PINS))
     pins["opa"]["assets"]["Linux-X64"]["sha256"] = hashlib.sha256(body).hexdigest()
     monkeypatch.setattr(run, "PINS", pins)
+    monkeypatch.setenv("AEV_ACTION_CACHE", str(tmp_path / "cache"))
+    monkeypatch.delenv("GITHUB_TOKEN", raising=False)
+    monkeypatch.setattr(run, "_sleep", lambda seconds: None)
+    tag, name = pins["opa"]["version"], pins["opa"]["assets"]["Linux-X64"]["file"]
+    direct = f"https://github.com/open-policy-agent/opa/releases/download/{tag}/{name}"
+    api = f"https://api.github.com/repos/open-policy-agent/opa/releases/tags/{tag}"
+    asset = "https://api.github.com/repos/open-policy-agent/opa/releases/assets/77"
 
-    class Response:
-        def __enter__(self):
-            return self
+    def install(routes: dict) -> _FakeNet:
+        net = _FakeNet(routes)
+        monkeypatch.setattr(run, "_open", net)
+        return net
 
-        def __exit__(self, *_):
-            return False
+    listing = json.dumps({"assets": [{"name": name, "id": 77}, {"name": "x", "id": 1}]}).encode()
+    return type("Ctx", (), {"body": body, "direct": direct, "api": api, "asset": asset,
+                            "install": staticmethod(install), "listing": listing})
 
-        def read(self):
-            return body
 
-    monkeypatch.setattr(run.urllib.request, "urlopen", lambda url, timeout: Response())
-    target = run.install_opa(tmp_path, "Linux-X64")
-    assert target.read_bytes() == body and os.access(target, os.X_OK)
+def test_opa_bytes_that_miss_the_pinned_digest_are_refused_from_every_source(tmp_path: Path, opa_net) -> None:
+    net = opa_net.install({opa_net.direct: b"not opa"})
+    with pytest.raises(run.SetupError, match="not the pinned"):
+        run.install_opa(tmp_path / "bin", "Linux-X64")
+    assert not (tmp_path / "bin" / "opa").exists()
+    assert [url for url, _ in net.calls] == [opa_net.direct], "a mismatch must not try another source"
+    assert not (tmp_path / "cache").exists()
+
+
+def test_opa_bytes_with_the_pinned_digest_are_kept_executable(tmp_path: Path, opa_net, capsys) -> None:
+    opa_net.install({opa_net.direct: opa_net.body})
+    target = run.install_opa(tmp_path / "bin", "Linux-X64")
+    assert target.read_bytes() == opa_net.body and os.access(target, os.X_OK)
+    assert "installed from direct" in capsys.readouterr().err
+
+
+def test_a_direct_timeout_retries_and_then_the_api_endpoint_serves_the_pinned_bytes(
+        tmp_path: Path, opa_net, monkeypatch, capsys) -> None:
+    monkeypatch.setenv("GITHUB_TOKEN", "t0ken")
+    net = opa_net.install({opa_net.direct: [TimeoutError("The read operation timed out")] * run.ATTEMPTS,
+                           opa_net.api: opa_net.listing, opa_net.asset: opa_net.body})
+    target = run.install_opa(tmp_path / "bin", "Linux-X64")
+    assert target.read_bytes() == opa_net.body
+    assert [url for url, _ in net.calls] == [opa_net.direct] * run.ATTEMPTS + [opa_net.api, opa_net.asset]
+    asset_headers = {k.lower(): v for k, v in net.calls[-1][1].items()}
+    assert asset_headers["accept"] == "application/octet-stream"
+    assert asset_headers["authorization"] == "Bearer t0ken"
+    assert "installed from api" in capsys.readouterr().err
+
+
+def test_a_transient_direct_failure_that_clears_is_retried_not_escalated(tmp_path: Path, opa_net) -> None:
+    busy = urllib.error.HTTPError(opa_net.direct, 504, "Gateway Timeout", None, None)
+    net = opa_net.install({opa_net.direct: [busy, busy, opa_net.body]})
+    run.install_opa(tmp_path / "bin", "Linux-X64")
+    assert len(net.calls) == 3
+
+
+def test_a_direct_404_is_not_retried_and_falls_to_the_api(tmp_path: Path, opa_net) -> None:
+    gone = urllib.error.HTTPError(opa_net.direct, 404, "Not Found", None, None)
+    net = opa_net.install({opa_net.direct: gone, opa_net.api: opa_net.listing, opa_net.asset: opa_net.body})
+    run.install_opa(tmp_path / "bin", "Linux-X64")
+    assert [url for url, _ in net.calls] == [opa_net.direct, opa_net.api, opa_net.asset]
+
+
+def test_every_route_failing_names_each_failure(tmp_path: Path, opa_net) -> None:
+    down = TimeoutError("timed out")
+    opa_net.install({opa_net.direct: [down] * run.ATTEMPTS, opa_net.api: down})
+    with pytest.raises(run.SetupError, match=r"direct: .*api: "):
+        run.install_opa(tmp_path / "bin", "Linux-X64")
+
+
+def test_a_verified_cache_is_used_with_no_network(tmp_path: Path, opa_net, capsys) -> None:
+    net = opa_net.install({opa_net.direct: opa_net.body})
+    run.install_opa(tmp_path / "first", "Linux-X64")
+    assert len(net.calls) == 1
+    net.calls.clear()
+    net.routes = {}
+    target = run.install_opa(tmp_path / "second", "Linux-X64")
+    assert target.read_bytes() == opa_net.body and net.calls == []
+    assert "installed from cache" in capsys.readouterr().err
+
+
+def test_a_corrupt_cache_entry_is_ignored_and_replaced(tmp_path: Path, opa_net) -> None:
+    cached = tmp_path / "cache" / "agent-evidence-action" / "opa" / hashlib.sha256(opa_net.body).hexdigest()
+    cached.parent.mkdir(parents=True)
+    cached.write_bytes(b"tampered")
+    opa_net.install({opa_net.direct: opa_net.body})
+    target = run.install_opa(tmp_path / "bin", "Linux-X64")
+    assert target.read_bytes() == opa_net.body and cached.read_bytes() == opa_net.body
+
+
+def test_the_token_is_dropped_when_a_redirect_leaves_the_host() -> None:
+    import urllib.request
+    handler = run._KeepAuthOnSameHost()
+    request = urllib.request.Request("https://api.github.com/x", headers={"Authorization": "Bearer t"})
+    other = handler.redirect_request(request, None, 302, "Found", {}, "https://objects.example.net/blob")
+    same = handler.redirect_request(request, None, 302, "Found", {}, "https://api.github.com/y")
+    assert not other.has_header("Authorization") and same.has_header("Authorization")
 
 
 # --- policy: the repository's own vectors -----------------------------------------------

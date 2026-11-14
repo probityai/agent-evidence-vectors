@@ -187,6 +187,13 @@ def observation(**changes: Any) -> dict[str, Any]:
     return body
 
 
+def unreported(**changes: Any) -> dict[str, Any]:
+    """The observation with ``criterionMet`` left out: it says nothing about the criterion."""
+    body = observation(**changes)
+    del body["criterionMet"]
+    return body
+
+
 def build(
     name: str,
     result: dict[str, Any] | None,
@@ -352,6 +359,19 @@ def _controls() -> list[Case]:
               meta("issue 80 case 7", "P-CONFLICT", "conflict"),
               said("CONFLICT", claims=CLAIMS),
               observed=observation(), controller="failed"),
+        _case("conformant-criterion-missing-indeterminate", c, ok,
+              "control: an authenticated, bound, trusted witness in the window whose "
+              "observation leaves criterionMet out; the verifier reports INDETERMINATE, "
+              "because a missing value says nothing about the effect",
+              meta("hippoley review of pull request 554", "R-NEGATIVE", "negative"),
+              said("INDETERMINATE"), observed=unreported()),
+        _case("conformant-criterion-null-against-controller-success", c, ok,
+              "control: a controller reports success and the witness's criterionMet is "
+              "null; the verifier reports INDETERMINATE, since an unknown observation "
+              "neither confirms the report nor conflicts with it",
+              meta("hippoley review of pull request 554", "R-NEGATIVE", "negative"),
+              said("INDETERMINATE"), observed=observation(criterionMet=None),
+              controller="succeeded"),
     ]
 
 
@@ -432,6 +452,12 @@ def _refusals() -> list[Case]:
               "nothing but the receipt, reported as NOT_APPLICABLE, which says the question "
               "does not arise", meta("derived from issue 80 case 1", "R-ABSENCE", "collapse"),
               said("NOT_APPLICABLE")),
+        _case("nonconformant-null-criterion-read-as-not-satisfied", n,
+              "negative_without_observation",
+              "a trusted witness's observation with criterionMet null, reported as "
+              "NOT_SATISFIED; unknown is not false",
+              meta("hippoley review of pull request 554", "R-NEGATIVE", "negative"),
+              said("NOT_SATISFIED"), observed=observation(criterionMet=None)),
     ]
 
 
@@ -498,6 +524,10 @@ def _open_cases() -> list[Case]:
               "the conflict control, reported as CONFLICT carrying only the witness's claim",
               "issue 80 case 7", "conflict", said("CONFLICT", claims=CLAIMS[1:]),
               observed=observation(criterionMet=False), controller="succeeded"),
+        _open("open-criterion-missing-proven", "criterion_unreported", "INDETERMINATE",
+              "an observation that leaves criterionMet out, reported as PROVEN_TO_POLICY",
+              "hippoley review of pull request 554", "negative", proven(),
+              observed=unreported()),
     ]
 
 

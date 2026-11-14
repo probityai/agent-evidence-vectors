@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import base64
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -34,13 +35,32 @@ def gate(root: Path) -> tuple[int, str]:
     return proc.returncode, proc.stdout + proc.stderr
 
 
+def _link_or_copy(src: str, dst: str) -> str:
+    """Hard-link a file into the copy so the tree costs no disk; copy when linking is refused."""
+    try:
+        os.link(src, dst)
+    except OSError:
+        shutil.copy2(src, dst)
+    return dst
+
+
+def rewrite(path: Path, text: str) -> None:
+    """Replace a file in the copy without writing through a hard link to the real tree."""
+    path.unlink()
+    path.write_text(text, encoding="utf-8")
+
+
 def stage(work: Path) -> Path:
     copy = work / "repo"
     # The copy gets a git repository of its own. Copying .git would copy a
     # linked worktree's pointer file, and `git add` in the copy would then write
-    # into the index of the checkout under test.
+    # into the index of the checkout under test. Files are hard-linked, not
+    # copied: a runner holds the whole tree three times over otherwise.
     shutil.copytree(
-        ROOT, copy, ignore=shutil.ignore_patterns(".git", ".venv", "node_modules", "_site")
+        ROOT,
+        copy,
+        ignore=shutil.ignore_patterns(".git", ".venv", "node_modules", "_site"),
+        copy_function=_link_or_copy,
     )
     subprocess.run(["git", "init", "-q", str(copy)], check=True, capture_output=True)
     return copy
@@ -58,13 +78,13 @@ def main() -> int:
     else:
         print("PASS the committed tree resolves every predicate URI it names")
 
-    with tempfile.TemporaryDirectory() as tmp:
+    with tempfile.TemporaryDirectory(dir=ROOT.parent) as tmp:
         repo = stage(Path(tmp))
         registry = repo / "spec" / "predicates" / "REGISTRY.md"
         text = registry.read_text(encoding="utf-8")
         start = text.index("### `predicate/v1/self-reported-record`")
         end = text.index("## Registered here")
-        registry.write_text(text[:start] + text[end:], encoding="utf-8")
+        rewrite(registry, text[:start] + text[end:])
         commit_all(repo)
         code, out = gate(repo)
         if code != 1 or "predicate/v1/self-reported-record is named in" not in out:
@@ -74,7 +94,7 @@ def main() -> int:
         else:
             print("PASS control: a referenced URI missing from the registry is refused")
 
-    with tempfile.TemporaryDirectory() as tmp:
+    with tempfile.TemporaryDirectory(dir=ROOT.parent) as tmp:
         repo = stage(Path(tmp))
         planted = f'{{"predicateType":"{HOST}/predicate/v9/only-in-a-payload"}}'
         envelope = {"payload": base64.b64encode(planted.encode()).decode(), "signatures": []}

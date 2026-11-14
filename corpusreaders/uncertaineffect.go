@@ -26,12 +26,16 @@ func init() { register(uncertainEffect{}) }
 //     arguments digest: operation_identity_missing;
 //  4. no attempt reuses the operation's key with other arguments:
 //     idempotency_key_args_changed;
+//     then every attempt a redelivery, replay or completion triggered carries
+//     the operation's own key: idempotency_key_follows_trigger;
 //  5. every attempt was dispatched inside a lease its worker held, before a
 //     lease with a higher fencing token was granted (only when the record
 //     lists leases): dispatch_beyond_lease;
 //  6. no attempt follows one of unknown outcome unless the owner deduplicates
 //     by that key inside its retention window or a final reconciliation said
 //     the effect is absent: retry_after_unknown;
+//     then the owner's ledger holds no more effects than the trail has
+//     attempts that could have produced one: owner_effect_unaccounted;
 //  7. the owner's ledger shows at most one effect: duplicate_effect;
 //  8. a reservation for an unknown outcome is still charged:
 //     unknown_released;
@@ -78,6 +82,9 @@ type ueAttempt struct {
 	Reply          string  `json:"reply"`
 	Worker         *string `json:"worker"`
 	FencingToken   *int64  `json:"fencingToken"`
+	Trigger        *struct {
+		Kind string `json:"kind"`
+	} `json:"trigger"`
 }
 
 type ueLease struct {
@@ -209,7 +216,38 @@ func ueAt(stamp string) time.Time {
 	return t
 }
 
-func ueIsUnknown(reply string) bool { return reply == "timeout" || reply == "connection_lost" }
+func ueIsUnknown(reply string) bool {
+	return reply == "timeout" || reply == "connection_lost" || reply == "worker_crashed"
+}
+
+// ueKeyIgnoresTrigger is true when an attempt that a redelivery, a replay or a
+// completion triggered carries a key other than the operation's own.
+func ueKeyIgnoresTrigger(r ueRecord) bool {
+	for _, a := range r.Attempts {
+		if a.Trigger == nil {
+			continue
+		}
+		switch a.Trigger.Kind {
+		case "redelivery", "replay", "completion":
+			if a.IdempotencyKey != r.Operation.IdempotencyKey {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// ueEffectUnaccounted is true when the owner holds more effects than the trail
+// has attempts that could have produced one.
+func ueEffectUnaccounted(r ueRecord) bool {
+	producing := 0
+	for _, a := range r.Attempts {
+		if a.Reply != "no_effect" {
+			producing++
+		}
+	}
+	return r.OwnerEffects > producing
+}
 
 func ueFinalAbsentBetween(r ueRecord, start time.Time, end *time.Time) bool {
 	for _, c := range r.Reconciliations {
@@ -269,8 +307,10 @@ func ueDecide(r ueRecord) scDecision {
 		{"contract_id_unknown", len(r.ContractID) > 0 && !known},
 		{"operation_identity_missing", ueIdentityMissing(r)},
 		{"idempotency_key_args_changed", ueKeyArgsChanged(r)},
+		{"idempotency_key_follows_trigger", ueKeyIgnoresTrigger(r)},
 		{"dispatch_beyond_lease", ueBeyondLease(r)},
 		{"retry_after_unknown", ueUnprotectedRetry(r)},
+		{"owner_effect_unaccounted", ueEffectUnaccounted(r)},
 		{"duplicate_effect", r.OwnerEffects > 1},
 		{"unknown_released", r.Reservation != nil && settled == "unknown" && !r.Reservation.Charged},
 		{"outcome_settled_without_authority", settled == "unknown" &&

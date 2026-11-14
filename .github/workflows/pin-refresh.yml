@@ -40,10 +40,6 @@ jobs:
           # credential adds a second Authorization header and GitHub refuses the push
           # with HTTP 400 ("Duplicate header"), which left the family lock stale.
           persist-credentials: false
-      - name: write the table download badges as static files
-        run: python3 scripts/refresh-badges.py || true
-        env:
-          PEPY_API_KEY: ${{ secrets.PEPY_API_KEY }}
       - uses: probityai/.github/actions/pin-refresh@bfaca9ac2695e0bb5c669adaf19c7caad19761d3 # main
         with:
           ci: |

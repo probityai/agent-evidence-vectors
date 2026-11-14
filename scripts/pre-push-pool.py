@@ -484,8 +484,6 @@ def pool() -> int:
                 stderr=err,
                 env={
                     **os.environ,
-                    "BOX_RUN_NO_BURST": "1",
-                    "BOX_RUN_MIN_FREE_GB": "15",
                     "UV_LINK_MODE": "copy",
                     "PYTHONDONTWRITEBYTECODE": "1",
                 },

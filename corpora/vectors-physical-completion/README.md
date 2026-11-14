@@ -61,11 +61,14 @@ over their contents cannot be failed under -01. The draft does fix the failure m
 artifacts must satisfy, and Section 12 lists the negative vectors it calls for as unwritten: a
 controller success with no physical evidence, a controller success against a witness reporting
 non-completion, a stale or replayed observation, and the positive baselines. This corpus writes
-them and puts forward ten rules, in this order: `absence_reported_as_not_claimed`,
+them and puts forward these rules, in this order: `absence_reported_as_not_claimed`,
 `observation_unauthenticated`, `observation_unbound` (each owes `NOT_PROVIDED`),
 `witness_unidentified`, `witness_untrusted`, `criterion_not_prefixed`,
-`observation_outside_window` (each owes `INDETERMINATE`), `conflict_erased`,
-`conflict_drops_a_claim` (both owe `CONFLICT`) and `observation_outcome_not_reported`. A result
+`observation_outside_window`, `criterion_unreported` (each owes `INDETERMINATE`),
+`conflict_erased`, `conflict_drops_a_claim` (both owe `CONFLICT`) and
+`observation_outcome_not_reported`. An observation whose `criterionMet` is missing or null says
+nothing about the effect, so `criterion_unreported` owes `INDETERMINATE` and never the negative
+an explicit `false` settles; hippoley caught the reading that collapsed the two. A result
 that breaks one is `ambiguous` and lists two readings: the profile's, under which it is
 conformant, and this corpus's, under which it is not. The rules are a proposal, marked as one in
 `MANIFEST.json`, and a later revision of the draft or a companion defining the artifacts

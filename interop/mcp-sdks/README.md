@@ -30,7 +30,7 @@ that speaks it can be compared with `driver.py run <name> -- <command>`.
 | `swift` | `swift-sdk` 0.12.1 | `swift:6.1-bookworm` | `JSONDecoder` into `Response<M>` with `Value` results / the `Server.send` encoder (`.sortedKeys, .withoutEscapingSlashes`) |
 | `rust` | `rmcp` 3.5.1 | `rust:1.90-bookworm` | `serde_json::from_slice::<ServerJsonRpcMessage>` / `serde_json::to_vec` |
 | `ruby` | `mcp` gem 1.7.0 | `ruby:3.3-bookworm` | `JSON.parse(symbolize_names: true)` / `JSON.generate` (stdio transport) |
-| `php` | `mcp/sdk` 0.8.1 | `composer:2` | `MessageFactory::create` / `json_encode(JSON_THROW_ON_ERROR)` (server protocol) |
+| `php` | `mcp/sdk` 0.9.0 | `composer:2` | `MessageFactory::create` / `json_encode(JSON_THROW_ON_ERROR)` (server protocol) |
 
 `jcs-admit/` is the admission reference: the `jcs-admit` 0.1.1 crate run on
 the raw input under RFC 8785 and under its I-JSON profile.

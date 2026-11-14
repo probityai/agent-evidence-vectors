@@ -44,6 +44,9 @@ ALLOWED_HOSTS = frozenset(
     {
         # the predicate and its home
         "in-toto.io",
+        # identity-provider issuer hosts the issuer-pin tests derive the provider from
+        "example.okta.com",
+        "login.microsoftonline.com",
         "github.com",
         # the host the done receipt predicate type is minted on
         "probityai.github.io",

@@ -1,7 +1,7 @@
 {
   "verifier": "https://probityai.github.io/probity/verifiers/agent-evidence-verify",
   "checked": 734,
-  "total": 3076,
+  "total": 3046,
   "corpora": [
     {
       "id": "vectors",
@@ -292,12 +292,6 @@
       "disagreements": 0
     },
     {
-      "id": "vectors-physical-completion",
-      "checked": 0,
-      "total": 44,
-      "disagreements": 0
-    },
-    {
       "id": "vectors-propagation-step",
       "checked": 0,
       "total": 12,
@@ -384,7 +378,7 @@
     {
       "id": "vectors-uncertain-effect",
       "checked": 0,
-      "total": 40,
+      "total": 54,
       "disagreements": 0
     },
     {

@@ -40,6 +40,7 @@ TERM_SECTIONS = (
     "done_verification",
     "incident_response",
     "multi_agent_run",
+    "principal_identity",
 )
 REQUIRED_TOP_LEVEL = ("system", "system_url", "crosswalk_version", "vocabulary_version_targeted")
 

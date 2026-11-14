@@ -1,10 +1,10 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/physical-completion",
-  "corpusDigest": "c96efa91ee478597e2fb0d42fb71e98e6a9bf8d5ba30674ec73ebac6ccb6d270",
+  "corpusDigest": "09939a5bf7c2752538c0452769c2135972dc3ab658e018f2b4fb1f2bc82876c2",
   "counts": {
-    "ambiguous": 13,
-    "conformant": 15,
-    "nonconformant": 16
+    "ambiguous": 14,
+    "conformant": 17,
+    "nonconformant": 17
   },
   "proposal": {
     "rules": [
@@ -15,6 +15,7 @@
       "witness_untrusted",
       "criterion_not_prefixed",
       "observation_outside_window",
+      "criterion_unreported",
       "conflict_erased",
       "conflict_drops_a_claim",
       "observation_outcome_not_reported"
@@ -429,6 +430,56 @@
     },
     {
       "anchor": {
+        "quote": "A verifier MUST NOT define a result code that asserts a negative fact about the world it did not observe;",
+        "section": "8.3"
+      },
+      "basis": [
+        "8.3"
+      ],
+      "edit": "control: an authenticated, bound, trusted witness in the window whose observation leaves criterionMet out; the verifier reports INDETERMINATE, because a missing value says nothing about the effect",
+      "expected": {
+        "decision": "conformant",
+        "reason": "result_follows_presentation"
+      },
+      "files": {
+        "record.json": "f6982d703f27dd43502609a5b91e997086f0f3507533ff2bf87942f3e1017a51"
+      },
+      "id": "conformant-criterion-missing-indeterminate",
+      "path": "cases/conformant-criterion-missing-indeterminate",
+      "retained": {
+        "owed": "INDETERMINATE",
+        "reported": "INDETERMINATE"
+      },
+      "rule": "R-NEGATIVE",
+      "source": "hippoley review of pull request 554"
+    },
+    {
+      "anchor": {
+        "quote": "A verifier MUST NOT define a result code that asserts a negative fact about the world it did not observe;",
+        "section": "8.3"
+      },
+      "basis": [
+        "8.3"
+      ],
+      "edit": "control: a controller reports success and the witness's criterionMet is null; the verifier reports INDETERMINATE, since an unknown observation neither confirms the report nor conflicts with it",
+      "expected": {
+        "decision": "conformant",
+        "reason": "result_follows_presentation"
+      },
+      "files": {
+        "record.json": "a5518564873ad0c20c6fb2e4d51f25f8ce4a8d407bee76e8d9785c019321af09"
+      },
+      "id": "conformant-criterion-null-against-controller-success",
+      "path": "cases/conformant-criterion-null-against-controller-success",
+      "retained": {
+        "owed": "INDETERMINATE",
+        "reported": "INDETERMINATE"
+      },
+      "rule": "R-NEGATIVE",
+      "source": "hippoley review of pull request 554"
+    },
+    {
+      "anchor": {
         "quote": "The record names the contract it is written against, as every record of this repository's decision corpora does.",
         "section": "n/a"
       },
@@ -827,6 +878,31 @@
       },
       "rule": "R-ABSENCE",
       "source": "derived from issue 80 case 1"
+    },
+    {
+      "anchor": {
+        "quote": "A verifier MUST NOT define a result code that asserts a negative fact about the world it did not observe;",
+        "section": "8.3"
+      },
+      "basis": [
+        "8.3"
+      ],
+      "edit": "a trusted witness's observation with criterionMet null, reported as NOT_SATISFIED; unknown is not false",
+      "expected": {
+        "decision": "nonconformant",
+        "reason": "negative_without_observation"
+      },
+      "files": {
+        "record.json": "8bca37dc1e66e379afdb009fa58179aa8160e516d9321f9bdd5e884c3b7ee438"
+      },
+      "id": "nonconformant-null-criterion-read-as-not-satisfied",
+      "path": "cases/nonconformant-null-criterion-read-as-not-satisfied",
+      "retained": {
+        "owed": "INDETERMINATE",
+        "reported": "NOT_SATISFIED"
+      },
+      "rule": "R-NEGATIVE",
+      "source": "hippoley review of pull request 554"
     },
     {
       "anchor": {
@@ -1321,6 +1397,44 @@
       },
       "rule": "P-conflict_drops_a_claim",
       "source": "issue 80 case 7"
+    },
+    {
+      "anchor": {
+        "quote": "A verifier MUST NOT define a result code that asserts a negative fact about the world it did not observe;",
+        "section": "8.3"
+      },
+      "basis": [
+        "1.5",
+        "8.3"
+      ],
+      "edit": "an observation that leaves criterionMet out, reported as PROVEN_TO_POLICY",
+      "expected": {
+        "decision": "ambiguous",
+        "reason": "criterion_unreported"
+      },
+      "files": {
+        "record.json": "14aa70f9ba0bd3720f3e77c1019f732ac98e1a16d704f4895db55f7daa05749a"
+      },
+      "id": "open-criterion-missing-proven",
+      "path": "cases/open-criterion-missing-proven",
+      "readings": [
+        {
+          "basis": "draft-noa-scitt-ai-agent-receipt-01 Section 1.5: Where such an object is absent, the corresponding requirement is not a requirement a conforming implementation can fail: it has nothing to evaluate, and Section 8 states what a bare receipt cannot establish.",
+          "decision": "conformant",
+          "reading": "profile"
+        },
+        {
+          "basis": "proposal rule criterion_unreported of physical-completion/v1; owes INDETERMINATE",
+          "decision": "nonconformant",
+          "reading": "proposal"
+        }
+      ],
+      "retained": {
+        "owed": "INDETERMINATE",
+        "reported": "PROVEN_TO_POLICY"
+      },
+      "rule": "P-criterion_unreported",
+      "source": "hippoley review of pull request 554"
     }
   ],
   "verifierContract": "verifier record.json --json; exit 0 conformant, 1 nonconformant, 2 ambiguous"

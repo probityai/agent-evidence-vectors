@@ -4,6 +4,7 @@ negative finding, or settles a question the draft leaves open."""
 
 from __future__ import annotations
 
+import copy
 import importlib.util
 import json
 import sys
@@ -159,3 +160,60 @@ def test_verifier_that_accepts_everything_fails_the_refusals_and_the_open_cases(
 def test_missing_verifier_does_not_count_as_answered(tmp_path: Path) -> None:
     answered, errors = corpus.check(str(tmp_path / "no-such-verifier"))
     assert answered == 0 and errors
+
+
+PARITY = json.loads(
+    (ROOT.parents[1] / "corpusreaders/testdata/physical-completion-criterion.json").read_text(
+        encoding="utf-8"
+    )
+)
+
+
+def _criterion_variant(case: dict) -> dict:  # type: ignore[type-arg]
+    """The base control with criterionMet, the controller and the result set as the case says."""
+    record = copy.deepcopy(_records()[PARITY["base"]])
+    observation = record["presented"]["observation"]
+    state = case["criterionMet"]
+    if state == "absent":
+        del observation["criterionMet"]
+    else:
+        observation["criterionMet"] = {"true": True, "false": False, "null": None}[state]
+    if case["controller"] is not None:
+        record["presented"]["controllerOutcome"] = {
+            "authenticated": True,
+            "status": case["controller"],
+        }
+    record["result"]["physicalCompletion"] = case["reported"]
+    return record
+
+
+@pytest.mark.parametrize(
+    "case",
+    PARITY["cases"],
+    ids=lambda c: f"{c['criterionMet']}-{c['controller']}-{c['reported']}",
+)
+def test_criterion_states_match_the_table_the_go_reader_reads(case: dict) -> None:  # type: ignore[type-arg]
+    """Missing and null criterionMet are unknown, never false; the Go reader reads this table."""
+    record = _criterion_variant(case)
+    assert reader.judge(record) == {"decision": case["decision"], "reason": case["reason"]}
+    assert reader.retained(record)["owed"] == case["owed"]
+
+
+def test_verifier_that_reads_an_unreported_criterion_as_false_is_refused(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    real = reader.proposal_owed
+
+    def collapsing(record: dict) -> tuple[str, frozenset[str]]:  # type: ignore[type-arg]
+        observation = record["presented"].get("observation")
+        if observation is not None and observation.get("criterionMet") is None:
+            record = copy.deepcopy(record)
+            record["presented"]["observation"]["criterionMet"] = False
+        return real(record)
+
+    monkeypatch.setattr(reader, "proposal_owed", collapsing)
+    _, errors = corpus.check()
+    assert {
+        "conformant-criterion-missing-indeterminate",
+        "conformant-criterion-null-against-controller-success",
+    } <= _failed(errors)
