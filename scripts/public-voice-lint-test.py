@@ -37,7 +37,7 @@ CASES = {
         "Read NUMBER-FAMILY-BALANCE.md; signatures use SLH-DSA-SHA2-128S.",
     ),
     "timestamp": (
-        "Read from the API at 2026-11-08 17:36 UTC.",
+        "Read from the API at 2026-11-08 17:05 UTC.",
         "Read from the API on 8 November 2026.",
     ),
     "correction": (
@@ -71,7 +71,7 @@ class RuleTest(unittest.TestCase):
                 self.assertEqual(rules(good), set())
 
     def test_code_is_not_prose(self) -> None:
-        fenced = "```\n# TODO: fill in\nread at 2026-11-08 17:36 UTC\n```\n"
+        fenced = "```\n# TODO: fill in\nread at 2026-11-08 17:05 UTC\n```\n"
         self.assertEqual(rules(fenced), set())
         self.assertEqual(rules("Run `grep TODO` to list them."), set())
 
@@ -146,7 +146,7 @@ class CliTest(unittest.TestCase):
 
     def test_allowlist_star_covers_every_match_of_the_rule(self) -> None:
         self.allow.write_text("docs/page.md\ttimestamp\t*\n")
-        self.assertEqual(self.run_lint("Window 2026-10-11 19:29 UTC to 19:33 UTC.\n"), 0)
+        self.assertEqual(self.run_lint("Window 2026-10-11 19:07 UTC to 19:09 UTC.\n"), 0)
 
     def test_malformed_allowlist_is_refused(self) -> None:
         self.allow.write_text("docs/page.md process fixed at\n")
