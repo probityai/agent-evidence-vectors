@@ -1805,6 +1805,37 @@ FROZEN: tuple[Frozen, ...] = (
         'It records that event and must not track this corpus.',
     ),
     Frozen(
+        'RUNS.md',
+        'the request-effect join fixture score telleroutlook posted',
+        '10 of 10 match `expected.json`',
+        'The score telleroutlook posted on agent-evidence-vectors#352 (comment of 2026-11-02) '
+        'for request-effect-join-fixture/v1 at kuangmi-bit/agent-evidence 878c7cc, a corpus '
+        'that lives outside this tree. It records one past run and does not track any corpus here.',
+    ),
+    Frozen(
+        'RUNS.md',
+        'the uncertain-effect score telleroutlook posted at release 0.31.0',
+        '27 of 27 match `MANIFEST.json`',
+        'The score telleroutlook posted on agent-evidence-vectors#352 (comment of 2026-11-02) '
+        'for vectors-uncertain-effect at agent-evidence-vectors==0.31.0. It records one past '
+        'run of one release and does not track the corpus as it grows.',
+    ),
+    Frozen(
+        'docs/proposals/audit-record-04-evaluated-at.md',
+        'a section number of the proposal',
+        '## 5. Members that change verdict',
+        'An integer that counts something other than this corpus and equals one of its figures by'
+        ' coincidence: the number of a section heading.',
+    ),
+    Frozen(
+        'scripts/condition-forcing-gate-test.py',
+        'the mutated changelog note a forcing-gate case writes',
+        '317 were killed, 249 were byte-identical',
+        'An integer that counts something other than this corpus and equals one of its figures by'
+        ' coincidence: the byte-identical mutant count in a deliberately altered changelog note,'
+        ' one off the released 250.',
+    ),
+    Frozen(
         'scripts/spec-anchor-gate-test.py',
         'the case count of a past test-directory incident',
         'whether any of the 31 cases held.',
