@@ -185,50 +185,71 @@ func pbReadEnvelope(c pbCase, raw []byte) pbBinding {
 }
 
 func pbFirstFailure(c pbCase, b pbBinding) scDecision {
-	reject := func(reason string) scDecision { return scDecision{"rejected", reason} }
-	uma, hcp := c.Profile == "uma-for-agents", c.Profile == "hcp-grant"
 	if !b.signed {
-		return reject("signature_invalid")
+		return scDecision{"rejected", "signature_invalid"}
 	}
-	var template map[string]any
-	if uma && json.Unmarshal(c.Template, &template) != nil {
-		return reject("echo_mismatch")
+	var checks []pbCheck
+	switch c.Profile {
+	case "uma-for-agents":
+		checks = pbUMAChecks(c, b)
+	case "hcp-grant":
+		checks = pbHCPChecks(b)
 	}
-	if uma && pbEchoMismatch(template, b.body) {
-		return reject("echo_mismatch")
-	}
-	if uma && pbTermsWeakened(template, b.body) {
-		return reject("terms_weakened")
-	}
-	if hcp && b.body["status"] != "active" {
-		return reject("grant_inactive")
-	}
-	if hcp && !pbSubset(pbStrings(b.body["scopes"]), pbDerivedScopes(b.body)) {
-		return reject("scope_not_backed")
-	}
-	agent, principal, scope := b.body["iss"], b.body["aud"], b.body["scope"]
-	if hcp {
-		agent = pbField(b.body, "client", "id")
-		principal = pbField(b.body, "authorizingPrincipal", "id")
-		scope = b.body["scopes"]
-	}
-	if agent != c.Request.Agent {
-		return reject("agent_mismatch")
-	}
-	if principal != c.Request.Principal {
-		return reject("principal_mismatch")
-	}
-	if hcp && !pbHasDelegation(b.body) && principal != pbField(b.body, "subject", "id") {
-		return reject("principal_mismatch")
-	}
-	requested := map[string]bool{}
-	for _, s := range c.Request.Scope {
-		requested[s] = true
-	}
-	if !pbSubset(requested, pbStrings(scope)) {
-		return reject("scope_exceeded")
+	agent, principal, scope := pbStated(c.Profile, b.body)
+	checks = append(checks,
+		pbCheck{"agent_mismatch", func() bool { return agent != c.Request.Agent }},
+		pbCheck{"principal_mismatch", func() bool {
+			return principal != c.Request.Principal || (c.Profile == "hcp-grant" &&
+				!pbHasDelegation(b.body) && principal != pbField(b.body, "subject", "id"))
+		}},
+		pbCheck{"scope_exceeded", func() bool { return !pbSubset(pbStringSet(c.Request.Scope), pbStrings(scope)) }},
+	)
+	for _, check := range checks {
+		if check.fails() {
+			return scDecision{"rejected", check.reason}
+		}
 	}
 	return scDecision{"verified", "agent_bound"}
+}
+
+// pbCheck is one named check; the reader runs them in order and names the
+// first that fails.
+type pbCheck struct {
+	reason string
+	fails  func() bool
+}
+
+func pbUMAChecks(c pbCase, b pbBinding) []pbCheck {
+	var template map[string]any
+	parsed := json.Unmarshal(c.Template, &template) == nil
+	return []pbCheck{
+		{"echo_mismatch", func() bool { return !parsed || pbEchoMismatch(template, b.body) }},
+		{"terms_weakened", func() bool { return pbTermsWeakened(template, b.body) }},
+	}
+}
+
+func pbHCPChecks(b pbBinding) []pbCheck {
+	return []pbCheck{
+		{"grant_inactive", func() bool { return b.body["status"] != "active" }},
+		{"scope_not_backed", func() bool { return !pbSubset(pbStrings(b.body["scopes"]), pbDerivedScopes(b.body)) }},
+	}
+}
+
+// pbStated returns the agent, principal and scope a binding states, read from
+// the fields its native form uses for them.
+func pbStated(profile string, body map[string]any) (agent, principal, scope any) {
+	if profile == "hcp-grant" {
+		return pbField(body, "client", "id"), pbField(body, "authorizingPrincipal", "id"), body["scopes"]
+	}
+	return body["iss"], body["aud"], body["scope"]
+}
+
+func pbStringSet(items []string) map[string]bool {
+	out := map[string]bool{}
+	for _, s := range items {
+		out[s] = true
+	}
+	return out
 }
 
 func pbEchoMismatch(template, body map[string]any) bool {
