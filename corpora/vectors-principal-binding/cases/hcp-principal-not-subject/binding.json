@@ -1,0 +1,45 @@
+{
+  "grant": {
+    "access": [
+      {
+        "actions": [
+          "read"
+        ],
+        "categories": [
+          "financial_context"
+        ],
+        "purposes": [
+          {
+            "code": "https://hcp.example/purpose/advisory-review",
+            "description": "Suitability review for advisory onboarding"
+          }
+        ],
+        "type": "https://hcp.example/spec/authorization/context-access"
+      }
+    ],
+    "authorizingPrincipal": {
+      "id": "pseud-mallory-90af"
+    },
+    "client": {
+      "id": "agent:bb178a4faa56c996",
+      "name": "Advisor onboarding agent",
+      "operator": {
+        "id": "op-example-advisors",
+        "name": "Example Advisors"
+      }
+    },
+    "expiresAt": "2026-11-18T09:00:00Z",
+    "grantId": "urn:uuid:5b0c6f0e-7a51-4d7e-9a43-2f1d8e0c9b11",
+    "grantType": "temporary",
+    "issuedAt": "2026-11-16T09:00:00Z",
+    "scopes": [
+      "hcp:financial_context:read"
+    ],
+    "status": "active",
+    "subject": {
+      "id": "pseud-alice-7f3a"
+    }
+  },
+  "kid": "authorization-service",
+  "sig": "cBb8CrS6tSzn3YPnULsSOrrXlo8ieA9fZg04+dI26AGO7qRckXnSGW/Mjdt7HTWpoh9m4g9SSjpSn2J4skT9Cg=="
+}
