@@ -1,0 +1,391 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/preaction-verdict/v1",
+  "corpusDigest": "5bdd8f41ed3034fd77d1a074a8d337d0441880be0d7c33a232b4fae519e1aa63",
+  "counts": {
+    "allow": 7,
+    "deny": 24
+  },
+  "credits": [
+    {
+      "for": "the record shape, the eight-step reader and the key-binding negative",
+      "name": "babyblueviper1",
+      "source": "https://github.com/babyblueviper1/preaction-governance-conformance/tree/641c0684698b236d8a4d350aa30bdad900f34167/vectors/preaction-verdict"
+    }
+  ],
+  "suite": "preaction-verdict/v1",
+  "vectors": [
+    {
+      "edit": "control: a conformant record, credited by the issuer's clock alone",
+      "expected": {
+        "decision": "allow",
+        "reason": "verified_issuer_clock"
+      },
+      "files": {
+        "case.json": "9d0ad64c99705c508af5c34fc8baa05af9efbd8f47cd9753f99227346fa03d9e"
+      },
+      "id": "allow-issuer-clock",
+      "path": "cases/allow-issuer-clock"
+    },
+    {
+      "edit": "control: the beacon and the anchor both name headers the relying party holds",
+      "expected": {
+        "decision": "allow",
+        "reason": "verified_anchored"
+      },
+      "files": {
+        "case.json": "30738eeedb398a208895076b9906b451fd0f68f7fd023c289cace468800769ff"
+      },
+      "id": "allow-anchored",
+      "path": "cases/allow-anchored"
+    },
+    {
+      "edit": "control: the issuer's second key signs and names itself",
+      "expected": {
+        "decision": "allow",
+        "reason": "verified_issuer_clock"
+      },
+      "files": {
+        "case.json": "28c0bdc3458979ac1cce57b2b7a2771fd5afab28d21bee98431f7617a67ed049"
+      },
+      "id": "allow-second-issuer-key",
+      "path": "cases/allow-second-issuer-key"
+    },
+    {
+      "edit": "control: the verdict is exactly as old as the relying party allows",
+      "expected": {
+        "decision": "allow",
+        "reason": "verified_issuer_clock"
+      },
+      "files": {
+        "case.json": "25834621ce746dbfe2627a8717ed85e5b36c1b9a1f97012eb24f1b481b5ab2ce"
+      },
+      "id": "allow-within-max-age",
+      "path": "cases/allow-within-max-age"
+    },
+    {
+      "edit": "control: non-ASCII characters in content stay unescaped in the signed array",
+      "expected": {
+        "decision": "allow",
+        "reason": "verified_issuer_clock"
+      },
+      "files": {
+        "case.json": "0d27ef9aac6143589c24106478b11c8ab87aeaef14a5766814a1d43b4c0e0dec"
+      },
+      "id": "allow-non-ascii-content",
+      "path": "cases/allow-non-ascii-content"
+    },
+    {
+      "edit": "control: a preimage field present as null gives the same reference as an absent one",
+      "expected": {
+        "decision": "allow",
+        "reason": "verified_issuer_clock"
+      },
+      "files": {
+        "case.json": "6b5d4fe46183eca9d74933b8620efcaa17f95b431da6a5279af3ba7de0728e6c"
+      },
+      "id": "allow-explicit-null-in-preimage",
+      "path": "cases/allow-explicit-null-in-preimage"
+    },
+    {
+      "edit": "an unauthenticated beacon (block time 1, a zero hash) is credited when the relying party holds no headers: the issuer's clock is all this mode trusts",
+      "expected": {
+        "decision": "allow",
+        "reason": "verified_issuer_clock"
+      },
+      "files": {
+        "case.json": "52d5aba487a555184332c0bec14a57811127462728f898b8733bcf3d61e0a50e"
+      },
+      "id": "allow-fabricated-beacon-by-issuer-clock",
+      "path": "cases/allow-fabricated-beacon-by-issuer-clock"
+    },
+    {
+      "edit": "the case names no contract",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_missing"
+      },
+      "files": {
+        "case.json": "4ca37430f6747bf5805834842ccaaf8e47e76b92a5b5ee5e93bf28f9dd42488a"
+      },
+      "id": "contract-id-missing",
+      "path": "cases/contract-id-missing"
+    },
+    {
+      "edit": "the case names a contract version that does not exist",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_unknown"
+      },
+      "files": {
+        "case.json": "dc6e31ffe3bdf4923cd1d5cca9997f8fce863c3198bf5dac4bcca9fee8d28843"
+      },
+      "id": "contract-id-unknown",
+      "path": "cases/contract-id-unknown"
+    },
+    {
+      "edit": "the record's pubkey is not 64 hex characters",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_case"
+      },
+      "files": {
+        "case.json": "ec26717d454fdfca5bf860f9b1f7b4e48a9ba2907bc49f24cc537f51ea7c9092"
+      },
+      "id": "malformed-pubkey-not-hex",
+      "path": "cases/malformed-pubkey-not-hex"
+    },
+    {
+      "edit": "the record's content is not a JSON object",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_case"
+      },
+      "files": {
+        "case.json": "3dac1de00b4d8ede4f710a3f608d65dc134888ab226f7a169597dd6107496663"
+      },
+      "id": "malformed-content-not-json",
+      "path": "cases/malformed-content-not-json"
+    },
+    {
+      "edit": "confidence_pct changed after signing; the id and the signature were kept",
+      "expected": {
+        "decision": "deny",
+        "reason": "event_id"
+      },
+      "files": {
+        "case.json": "fca8562c96ef7db674b4d26fef8caa27a65ccfe0274b2817cb3dec7e0f4f54da"
+      },
+      "id": "event-id-content-edited-after-signing",
+      "path": "cases/event-id-content-edited-after-signing"
+    },
+    {
+      "edit": "the id was computed over the array with non-ASCII characters escaped",
+      "expected": {
+        "decision": "deny",
+        "reason": "event_id"
+      },
+      "files": {
+        "case.json": "6f2e77d2e593f9c2d7cb975fc360acd8e4ba74c7b96f071c870660b336c77a1a"
+      },
+      "id": "event-id-over-ascii-escaped-array",
+      "path": "cases/event-id-over-ascii-escaped-array"
+    },
+    {
+      "edit": "one hex digit of the signature changed",
+      "expected": {
+        "decision": "deny",
+        "reason": "signature"
+      },
+      "files": {
+        "case.json": "8c4f80a83ac56b2c93dcf6d22e17fe889c5a9e176f8ae8786c1bf862c341dfab"
+      },
+      "id": "signature-last-digit-changed",
+      "path": "cases/signature-last-digit-changed"
+    },
+    {
+      "edit": "re-signed by a key outside the key set, content still names the issuer",
+      "expected": {
+        "decision": "deny",
+        "reason": "key_not_in_set"
+      },
+      "files": {
+        "case.json": "08908b4640b3c03a72a88ca1b8eb715919246ed2c229dd0d1e351962d4d7e801"
+      },
+      "id": "wrong-key-names-issuer",
+      "path": "cases/wrong-key-names-issuer"
+    },
+    {
+      "edit": "an outsider signs and its content names that same outsider key, so the binding check agrees; only the key set refuses it",
+      "expected": {
+        "decision": "deny",
+        "reason": "key_not_in_set"
+      },
+      "files": {
+        "case.json": "79841dd569bab9f2f4ddbcffcbdb4827625fad4d529b4e6f366274ccba99f476"
+      },
+      "id": "outsider-key-names-itself",
+      "path": "cases/outsider-key-names-itself"
+    },
+    {
+      "edit": "signed by a second key the relying party trusts while the content names the issuer: a signature check plus the key set credits it",
+      "expected": {
+        "decision": "deny",
+        "reason": "key_binding"
+      },
+      "files": {
+        "case.json": "9b04823cbe628f11ce12c7468852e383773ca69767882a1d35e21c41161c874f"
+      },
+      "id": "key-binding-trusted-key-names-the-issuer",
+      "path": "cases/key-binding-trusted-key-names-the-issuer"
+    },
+    {
+      "edit": "correctly signed and bound, with the schema tag removed",
+      "expected": {
+        "decision": "deny",
+        "reason": "schema"
+      },
+      "files": {
+        "case.json": "82a932aeccb5922c3a435bf560311562768c45aa28591e5a02e9c5d8a195e5ef"
+      },
+      "id": "schema-tag-removed",
+      "path": "cases/schema-tag-removed"
+    },
+    {
+      "edit": "decision_ref no longer matches its preimage",
+      "expected": {
+        "decision": "deny",
+        "reason": "decision_ref"
+      },
+      "files": {
+        "case.json": "653772001f1b487fac45e2f3b69aba33f4ddad19417116406403efe592bed6fd"
+      },
+      "id": "decision-ref-mismatch",
+      "path": "cases/decision-ref-mismatch"
+    },
+    {
+      "edit": "the reference was computed with the absent field left out instead of set to null",
+      "expected": {
+        "decision": "deny",
+        "reason": "decision_ref"
+      },
+      "files": {
+        "case.json": "1643384dd5b71fb4df56e493c552ab07d74f77c8c1817fafc6700178afe90880"
+      },
+      "id": "decision-ref-omits-absent-field",
+      "path": "cases/decision-ref-omits-absent-field"
+    },
+    {
+      "edit": "the verdict is about one action and the relying party ran another",
+      "expected": {
+        "decision": "deny",
+        "reason": "action_unbound"
+      },
+      "files": {
+        "case.json": "ef252368987006c0b672427f8b11e8af4323d1c436ee63b77203e87af6ff9340"
+      },
+      "id": "action-hash-is-a-neighbouring-action",
+      "path": "cases/action-hash-is-a-neighbouring-action"
+    },
+    {
+      "edit": "the action ran 60 seconds before created_at",
+      "expected": {
+        "decision": "deny",
+        "reason": "not_pre_action"
+      },
+      "files": {
+        "case.json": "e70921129530812dc82cc0d445f601e2fa161f1ae0b483ad79f15d0e90ce326e"
+      },
+      "id": "executed-before-the-verdict-was-signed",
+      "path": "cases/executed-before-the-verdict-was-signed"
+    },
+    {
+      "edit": "the beacon is later than the record that claims to follow it",
+      "expected": {
+        "decision": "deny",
+        "reason": "not_pre_action"
+      },
+      "files": {
+        "case.json": "a12e710a8f95236e4a833418cfc0a3c69e77368b36f0154c84f13a107a60e364"
+      },
+      "id": "beacon-time-after-created-at",
+      "path": "cases/beacon-time-after-created-at"
+    },
+    {
+      "edit": "the relying party allows one day and the verdict is 100 days old",
+      "expected": {
+        "decision": "deny",
+        "reason": "stale_verdict"
+      },
+      "files": {
+        "case.json": "f6a004007a18ababa2a7c2e4fa7e230a915f4c729860652fa78c0b321464c287"
+      },
+      "id": "verdict-signed-100-days-before-the-action",
+      "path": "cases/verdict-signed-100-days-before-the-action"
+    },
+    {
+      "edit": "the beacon is block time 1 with a zero hash and no held header matches it",
+      "expected": {
+        "decision": "deny",
+        "reason": "beacon_untrusted"
+      },
+      "files": {
+        "case.json": "651c6dfaffaa5c5861c3f4e434caf22d98b1ffb6dfb3aa9c71f47c793dff5578"
+      },
+      "id": "beacon-is-not-a-header-the-relying-party-holds",
+      "path": "cases/beacon-is-not-a-header-the-relying-party-holds"
+    },
+    {
+      "edit": "the beacon hash is a held header and the beacon time is not that header's time",
+      "expected": {
+        "decision": "deny",
+        "reason": "beacon_untrusted"
+      },
+      "files": {
+        "case.json": "4f267d237261bda0b2d0fdacb34ffea79fd4bff496eefcec986845d221d668d1"
+      },
+      "id": "beacon-names-a-header-with-another-time",
+      "path": "cases/beacon-names-a-header-with-another-time"
+    },
+    {
+      "edit": "the relying party holds headers and the record comes with no anchor",
+      "expected": {
+        "decision": "deny",
+        "reason": "anchor_missing"
+      },
+      "files": {
+        "case.json": "e073063e306ab1f96cec37ba9b028e63ebe43369d69c6b5938676692fa2f5227"
+      },
+      "id": "anchor-absent-where-time-must-be-shown",
+      "path": "cases/anchor-absent-where-time-must-be-shown"
+    },
+    {
+      "edit": "the anchor commits another record's id, though its path folds to its own header",
+      "expected": {
+        "decision": "deny",
+        "reason": "anchor_commitment"
+      },
+      "files": {
+        "case.json": "8214b298e4aab6e04d82f8d04f4f9d0d44fed5833585c8982f9026bba8728f53"
+      },
+      "id": "anchor-commits-a-different-record",
+      "path": "cases/anchor-commits-a-different-record"
+    },
+    {
+      "edit": "a sibling hash on the path was replaced, so the fold misses the merkle root field",
+      "expected": {
+        "decision": "deny",
+        "reason": "anchor_commitment"
+      },
+      "files": {
+        "case.json": "c78e5d83e159fa308380d9ab12ac7e2aa0d73c2be61c802c052fd89b839f1cbc"
+      },
+      "id": "anchor-path-does-not-reach-the-header-root",
+      "path": "cases/anchor-path-does-not-reach-the-header-root"
+    },
+    {
+      "edit": "the anchor folds into a header the relying party does not hold",
+      "expected": {
+        "decision": "deny",
+        "reason": "anchor_header_untrusted"
+      },
+      "files": {
+        "case.json": "997e047285d95a37397bd54b160d61a0e6631c2c275b93279a50db1213fc2871"
+      },
+      "id": "anchor-header-is-not-held",
+      "path": "cases/anchor-header-is-not-held"
+    },
+    {
+      "edit": "the anchor header's time is 60 seconds after the action ran",
+      "expected": {
+        "decision": "deny",
+        "reason": "anchor_after_action"
+      },
+      "files": {
+        "case.json": "d649c2227bc66bf754062efa592e9875eb89222a8348029868cf5b2c3f5e573b"
+      },
+      "id": "anchor-stamped-after-the-action",
+      "path": "cases/anchor-stamped-after-the-action"
+    }
+  ],
+  "verifierContract": "verifier case.json --json; exit 0 allow, 1 deny"
+}

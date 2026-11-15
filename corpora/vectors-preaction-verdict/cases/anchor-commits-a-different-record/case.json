@@ -1,0 +1,42 @@
+{
+  "anchor": {
+    "commitment": "21e87e0528885ce46680879c25a4882dec40e8bd77ae64728be267ae8a7978d2",
+    "header": "0000002090e95ca5aef63fca3062e080b544712c2b2a1f66039a1d263749fb90afe5ff3ead46008449ae91b093a633292eb429becace3db4adaa8416590d7836e1166d5fe864b16affff7f2000000000",
+    "path": [
+      {
+        "hash": "5de4d950a6b2113fb869b5da895d0eaf7d7d67f52fa723bfbf55c8bf05df96ae",
+        "side": "right"
+      },
+      {
+        "hash": "8e255b7980df97cdf21b2a2d10b99df2d10033ed650c49e7ba8ac06af16ad55b",
+        "side": "left"
+      }
+    ]
+  },
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/preaction-verdict/v1",
+  "keySet": [
+    "7c9e6016001398ad745844e02f34c128df6b0eae2dcc94ea9d3778ce7f741228"
+  ],
+  "record": {
+    "content": "{\"artifact_hash\":\"56994846f6c3a0a194b89e01670ee456b6795f309b5ec1d38d570707d1a6b0cf\",\"confidence_pct\":90,\"decision_ref\":\"sha256:e86589e34640ab61ba90fdfe80aa58de529d5e99e2080771f7cfb81de9e49bca\",\"decision_ref_preimage_fields\":[\"artifact_hash\",\"verdict\",\"rationale_hash\",\"private_note\"],\"freshness_beacon\":{\"block_time\":1790009400,\"hash\":\"19592b842cab92ebf100e9430d8d2783d10f9c8dd6680fdd695e1f2ef01deacb\",\"height\":5},\"key_id\":\"7c9e6016001398ad745844e02f34c128df6b0eae2dcc94ea9d3778ce7f741228\",\"rationale_hash\":\"f350895acb597dcc8a039060a9ce12f0c9c6504f51c2bfc25034f04c4c786675\",\"verdict\":\"approve\",\"verifier_pubkey\":\"7c9e6016001398ad745844e02f34c128df6b0eae2dcc94ea9d3778ce7f741228\"}",
+    "created_at": 1790010000,
+    "id": "6dec3b25083d305016fb5d612a4667c3240cbaa4f957fdb023315d861bf23b20",
+    "kind": 30078,
+    "pubkey": "7c9e6016001398ad745844e02f34c128df6b0eae2dcc94ea9d3778ce7f741228",
+    "sig": "031483687d31609d733bbc745440198508c8a7da9be86b93db7e4acd2fd5af9b5a39692bb5d4655e8ab4113a45581ee824f7a4a047c4bf5f28b60d1afd5001de",
+    "tags": [
+      [
+        "schema",
+        "invinoveritas.verdict_proof.v1"
+      ]
+    ]
+  },
+  "relyingParty": {
+    "actionHash": "56994846f6c3a0a194b89e01670ee456b6795f309b5ec1d38d570707d1a6b0cf",
+    "executedAt": 1790013600,
+    "trustedHeaders": [
+      "00000020958be798015582e7175b3d841943cbd972d9057c109b158387c533a365ed7e1440f9bf7ed67dbd9e68e3cdb7860f8b46ebbfa7023bff58f1abac001b8ab5eac03860b16affff7f2000000000",
+      "0000002090e95ca5aef63fca3062e080b544712c2b2a1f66039a1d263749fb90afe5ff3ead46008449ae91b093a633292eb429becace3db4adaa8416590d7836e1166d5fe864b16affff7f2000000000"
+    ]
+  }
+}

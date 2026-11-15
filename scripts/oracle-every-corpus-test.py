@@ -49,6 +49,7 @@ RUNS_A_VERIFIER = (
     "vectors-approval-binding",
     "vectors-delegator-right",
     "vectors-badge-vc-verify",
+    "vectors-preaction-verdict",
     "vectors-completion-confirmation",
     "vectors-authority-at-dispatch",
     "vectors-aggregate-accounting",

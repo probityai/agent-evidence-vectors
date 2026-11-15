@@ -1,0 +1,24 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/preaction-verdict/v1",
+  "keySet": [
+    "7c9e6016001398ad745844e02f34c128df6b0eae2dcc94ea9d3778ce7f741228"
+  ],
+  "record": {
+    "content": "{\"artifact_hash\":\"17407a1276d2c383d8df9c9a5c331a6aa6582b25e658e6979365bc893b8bebf3\",\"confidence_pct\":90,\"decision_ref\":\"sha256:76ec7f4b7ca81bd213334238fa2fc78fd95e1fff2dc6b0410d0274eae815c7e6\",\"decision_ref_preimage_fields\":[\"artifact_hash\",\"verdict\",\"rationale_hash\",\"private_note\"],\"freshness_beacon\":{\"block_time\":1790009400,\"hash\":\"19592b842cab92ebf100e9430d8d2783d10f9c8dd6680fdd695e1f2ef01deacb\",\"height\":5},\"key_id\":\"7c9e6016001398ad745844e02f34c128df6b0eae2dcc94ea9d3778ce7f741228\",\"rationale_hash\":\"f350895acb597dcc8a039060a9ce12f0c9c6504f51c2bfc25034f04c4c786675\",\"verdict\":\"approve\",\"verifier_pubkey\":\"7c9e6016001398ad745844e02f34c128df6b0eae2dcc94ea9d3778ce7f741228\"}",
+    "created_at": 1790010000,
+    "id": "fda28d2d019b7c518ac5b9f89a72a25b9fb171c06a346c8838efc904fda07f7c",
+    "kind": 30078,
+    "pubkey": "7c9e6016001398ad745844e02f34c128df6b0eae2dcc94ea9d3778ce7f741228",
+    "sig": "00d28e90e6606caa8a404578c9f0d8f87ea0fef2e74cb6a256ac8051ce108ebfd65be62f358cbabde6f5c8b52969d00f8ce6b007ad4e9fa6f023cf224aaea950",
+    "tags": [
+      [
+        "schema",
+        "invinoveritas.verdict_proof.v1"
+      ]
+    ]
+  },
+  "relyingParty": {
+    "actionHash": "17407a1276d2c383d8df9c9a5c331a6aa6582b25e658e6979365bc893b8bebf3",
+    "executedAt": 1790013600
+  }
+}
