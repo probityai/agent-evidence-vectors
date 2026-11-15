@@ -1,0 +1,23 @@
+{
+  "consent": {
+    "fields": {
+      "optional_granted": [],
+      "required": [
+        "date_of_birth"
+      ]
+    },
+    "outcome": "agreed",
+    "purpose": "age-check",
+    "recipient": "verifier:0007",
+    "refused_optional": [
+      "home_address"
+    ]
+  },
+  "disclosure": {
+    "fields": [
+      "date_of_birth"
+    ],
+    "purpose": "age-check",
+    "recipient": "verifier:0911"
+  }
+}

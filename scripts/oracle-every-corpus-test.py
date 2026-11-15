@@ -66,6 +66,7 @@ RUNS_A_VERIFIER = (
     "vectors-cbor-receipt-chain",
     "vectors-agent-request-proof",
     "vectors-physical-completion",
+    "vectors-htx-cases",
     "vectors-agent-card-receipt",
     "vectors-credential-release",
     "vectors-chunked-export",

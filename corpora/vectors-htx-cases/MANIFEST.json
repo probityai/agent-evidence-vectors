@@ -1,0 +1,276 @@
+{
+  "corpusDigest": "95179ad520809e3d6a6288f3d9b4894c3d11b5cb19f416c36ebf9784f35539ee",
+  "counts": {
+    "allow": 2,
+    "deny": 10
+  },
+  "suite": "htx-cases/v1",
+  "synthetic": true,
+  "vectors": [
+    {
+      "edit": "control: the action's request is the request the person confirmed",
+      "expected": {
+        "decision": "allow",
+        "reason": "request-matches-confirmation"
+      },
+      "files": {
+        "record.json": "348befe567404111e44860738b13f3e45f106b5b335e68d32b2c97c5746751e0"
+      },
+      "htxExpected": {
+        "result": "accept"
+      },
+      "id": "allow-request-matches-confirmation",
+      "path": "cases/allow-request-matches-confirmation",
+      "retained": {
+        "outcome": "confirmed",
+        "shape": "transaction-confirmation"
+      }
+    },
+    {
+      "changedField": "action.request.beneficiary",
+      "control": "allow-request-matches-confirmation",
+      "edit": "the beneficiary changed after the confirmation",
+      "expected": {
+        "decision": "deny",
+        "reason": "request-changed-after-confirmation"
+      },
+      "files": {
+        "record.json": "26338a29430f06a72a5e2ce4ccd3717b15c06806856922405283c97917120b5c"
+      },
+      "htxExpected": {
+        "reason": "request-changed-after-confirmation",
+        "result": "reject"
+      },
+      "id": "reject-beneficiary-changed",
+      "path": "cases/reject-beneficiary-changed",
+      "retained": {
+        "outcome": "confirmed",
+        "shape": "transaction-confirmation"
+      }
+    },
+    {
+      "changedField": "action.request.amount",
+      "control": "allow-request-matches-confirmation",
+      "edit": "the amount changed after the confirmation",
+      "expected": {
+        "decision": "deny",
+        "reason": "request-changed-after-confirmation"
+      },
+      "files": {
+        "record.json": "33a4fd44f3263466f433f58475eb4db59f53c9dfea59a6505b000e58880ee849"
+      },
+      "htxExpected": {
+        "reason": "request-changed-after-confirmation",
+        "result": "reject"
+      },
+      "id": "reject-amount-changed",
+      "path": "cases/reject-amount-changed",
+      "retained": {
+        "outcome": "confirmed",
+        "shape": "transaction-confirmation"
+      }
+    },
+    {
+      "changedField": "action.request.currency",
+      "control": "allow-request-matches-confirmation",
+      "edit": "the currency changed after the confirmation",
+      "expected": {
+        "decision": "deny",
+        "reason": "request-changed-after-confirmation"
+      },
+      "files": {
+        "record.json": "ffd7cc8741174641cd66b3edf104413fb903fd3004c64f58b8f592e5e3738a64"
+      },
+      "htxExpected": {
+        "reason": "request-changed-after-confirmation",
+        "result": "reject"
+      },
+      "id": "reject-currency-changed",
+      "path": "cases/reject-currency-changed",
+      "retained": {
+        "outcome": "confirmed",
+        "shape": "transaction-confirmation"
+      }
+    },
+    {
+      "changedField": "action.request.scope",
+      "control": "allow-request-matches-confirmation",
+      "edit": "the scope changed after the confirmation, from one payment to a standing one",
+      "expected": {
+        "decision": "deny",
+        "reason": "request-changed-after-confirmation"
+      },
+      "files": {
+        "record.json": "83d2cbd9c7a3ffc4dbb51e0c1d6d4cdf1e5d7433f4b6030de5ae21efd4d2530d"
+      },
+      "htxExpected": {
+        "reason": "request-changed-after-confirmation",
+        "result": "reject"
+      },
+      "id": "reject-scope-changed",
+      "path": "cases/reject-scope-changed",
+      "retained": {
+        "outcome": "confirmed",
+        "shape": "transaction-confirmation"
+      }
+    },
+    {
+      "changedField": "confirmation.outcome",
+      "control": "allow-request-matches-confirmation",
+      "edit": "the person declined, and the request is otherwise unchanged",
+      "expected": {
+        "decision": "deny",
+        "reason": "not-confirmed"
+      },
+      "files": {
+        "record.json": "07197109f850c188270de61c09a7f813e58b60a5a333b63c05e9513afd2640e2"
+      },
+      "htxExpected": {
+        "reason": "not-confirmed",
+        "result": "reject"
+      },
+      "id": "reject-confirmation-declined",
+      "path": "cases/reject-confirmation-declined",
+      "retained": {
+        "outcome": "declined",
+        "shape": "transaction-confirmation"
+      }
+    },
+    {
+      "edit": "control: the disclosure is a subset of what the person agreed to, for the stated purpose and recipient",
+      "expected": {
+        "decision": "allow",
+        "reason": "disclosure-within-consent"
+      },
+      "files": {
+        "record.json": "1d87e64a151cd586c313c8005943f17f54b3844968528e295e7381cd93422b6d"
+      },
+      "htxExpected": {
+        "result": "accept"
+      },
+      "id": "allow-disclosure-within-consent",
+      "path": "cases/allow-disclosure-within-consent",
+      "retained": {
+        "disclosedFields": 1,
+        "outcome": "agreed",
+        "shape": "consent-disclosure"
+      }
+    },
+    {
+      "changedField": "disclosure.fields",
+      "control": "allow-disclosure-within-consent",
+      "edit": "a field the person never agreed to share is disclosed",
+      "expected": {
+        "decision": "deny",
+        "reason": "field-not-consented"
+      },
+      "files": {
+        "record.json": "7e1979565baef6d002a026f7856ce288725d4858c2b6b08d75264dd2073fee29"
+      },
+      "htxExpected": {
+        "reason": "field-not-consented",
+        "result": "reject"
+      },
+      "id": "reject-field-beyond-consent",
+      "path": "cases/reject-field-beyond-consent",
+      "retained": {
+        "disclosedFields": 2,
+        "outcome": "agreed",
+        "shape": "consent-disclosure"
+      }
+    },
+    {
+      "changedField": "disclosure.fields",
+      "control": "allow-disclosure-within-consent",
+      "edit": "an optional field the person refused is disclosed anyway",
+      "expected": {
+        "decision": "deny",
+        "reason": "refused-field-disclosed"
+      },
+      "files": {
+        "record.json": "36cdd3a4496da18e41d08386ba17ca25fe92a979d56f39f5e67f7469d64f6f7f"
+      },
+      "htxExpected": {
+        "reason": "refused-field-disclosed",
+        "result": "reject"
+      },
+      "id": "reject-refused-field-disclosed",
+      "path": "cases/reject-refused-field-disclosed",
+      "retained": {
+        "disclosedFields": 2,
+        "outcome": "agreed",
+        "shape": "consent-disclosure"
+      }
+    },
+    {
+      "changedField": "disclosure.purpose",
+      "control": "allow-disclosure-within-consent",
+      "edit": "the disclosure serves another purpose than the consented one",
+      "expected": {
+        "decision": "deny",
+        "reason": "purpose-changed"
+      },
+      "files": {
+        "record.json": "42f5454e96d8ac3ba2955c8b71c258863eb8e967a00b372c1228a1429d220366"
+      },
+      "htxExpected": {
+        "reason": "purpose-changed",
+        "result": "reject"
+      },
+      "id": "reject-purpose-changed",
+      "path": "cases/reject-purpose-changed",
+      "retained": {
+        "disclosedFields": 1,
+        "outcome": "agreed",
+        "shape": "consent-disclosure"
+      }
+    },
+    {
+      "changedField": "disclosure.recipient",
+      "control": "allow-disclosure-within-consent",
+      "edit": "the disclosure goes to another recipient",
+      "expected": {
+        "decision": "deny",
+        "reason": "recipient-changed"
+      },
+      "files": {
+        "record.json": "43417f1d3fa0f5a13f397c1f50c44a81b981d82e05b18e73157c6caa3ec383c2"
+      },
+      "htxExpected": {
+        "reason": "recipient-changed",
+        "result": "reject"
+      },
+      "id": "reject-recipient-changed",
+      "path": "cases/reject-recipient-changed",
+      "retained": {
+        "disclosedFields": 1,
+        "outcome": "agreed",
+        "shape": "consent-disclosure"
+      }
+    },
+    {
+      "changedField": "consent.outcome",
+      "control": "allow-disclosure-within-consent",
+      "edit": "the person declined, and fields are disclosed anyway",
+      "expected": {
+        "decision": "deny",
+        "reason": "not-agreed"
+      },
+      "files": {
+        "record.json": "6e26a4bc64e0a453ce5fc166b42bb83ba2bba952477e32a4a22c34191d702738"
+      },
+      "htxExpected": {
+        "reason": "not-agreed",
+        "result": "reject"
+      },
+      "id": "reject-consent-declined-with-disclosure",
+      "path": "cases/reject-consent-declined-with-disclosure",
+      "retained": {
+        "disclosedFields": 1,
+        "outcome": "declined",
+        "shape": "consent-disclosure"
+      }
+    }
+  ],
+  "verifierContract": "verifier record.json --json; exit 0 allow, 1 deny"
+}
