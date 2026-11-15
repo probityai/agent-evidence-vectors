@@ -22,7 +22,8 @@ import time
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-spec = importlib.util.spec_from_file_location("gir", REPO / "scripts/gen-intake-records.py")
+SCRIPT = Path(os.environ.get("INTAKE_SCRIPT", REPO / "scripts/gen-intake-records.py"))
+spec = importlib.util.spec_from_file_location("gir", SCRIPT)
 assert spec is not None and spec.loader is not None
 gir = importlib.util.module_from_spec(spec)
 sys.modules["gir"] = gir
@@ -68,6 +69,7 @@ def main() -> int:
             CURRENT[0] = item[0]
             yield item
     gir.corpora = corpora_tracking
+    gir.REPO = REPO
     gir.go_runs = timed("go_runs(3 runs)", gir.go_runs)
     gir.scitt_runs = timed("scitt_runs(3 runs)", gir.scitt_runs)
     gir.Farm.__init__ = timed("farm", gir.Farm.__init__)
