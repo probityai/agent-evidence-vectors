@@ -142,3 +142,19 @@ the row identifier -01 prints, and rerun the three commands of the row above.
 ## Bring `site/` under the shared type-check gate
 
 - [ ] **MOVED: the Atlas source left this repository for probityai/probityai.github.io `atlas/` on 2026-10-31.** The 264 pyright findings travel with it; the row is tracked there and no longer applies here.
+
+## Settle the chunked-export inputs no case decides
+
+- [ ] **Give each undecided chunked-export input a case and one answer in both
+  readers.** [docs/reference/chunked-export.md](docs/reference/chunked-export.md)
+  lists the inputs the twelve members do not exercise. One of them is a live
+  disagreement: a record whose `contractId` is `null` is `contract_id_unknown`
+  in `packaging/agent_evidence_vectors/chunkedexport.py` and
+  `contract_id_missing` in `corpusreaders/chunkedexport.go`. The others are the
+  position of checks 1 to 3 against checks 4 and 5 (no member fails two of
+  them), a seal that overstates, a `committedAt` equal to the first `leftAt`,
+  and an empty list in `minimalSets`. Each new member changes `corpusDigest`,
+  so it ships in a minor release whose notes name the added cases, and the
+  pinned cross-check at Mayur021/chunked-export-crosscheck asserts that digest.
+  Start with `python3 corpora/vectors-chunked-export/gen_vectors.py` after
+  adding the cases to its `cases()` list.
