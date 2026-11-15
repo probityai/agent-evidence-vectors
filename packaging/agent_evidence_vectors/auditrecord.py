@@ -2829,6 +2829,8 @@ CONTRACT_EXIT = {"valid": 0, "malformed": 1}
 def _entry_for_file(manifest: dict[str, Any], directory: str, path: str) -> dict[str, Any] | None:
     target = os.path.realpath(path)
     for entry in manifest.get("vectors") or []:
+        if not isinstance(entry, dict):
+            continue
         if os.path.realpath(os.path.join(directory, str(entry.get("file", "")))) == target:
             return entry
     return None
@@ -2902,7 +2904,8 @@ def _dating_mismatch(declared: dict[str, Any], got: Any) -> str | None:
     if not isinstance(got_codes, list) or set(declared.get("codes") or []) != set(got_codes):
         return f"dating codes: expected {declared.get('codes')}, got {got.get('codes')}"
     want_root = declared.get("delegationRoot") or {}
-    got_root = got.get("delegationRoot") if isinstance(got.get("delegationRoot"), dict) else {}
+    raw_root = got.get("delegationRoot")
+    got_root: dict[str, Any] = raw_root if isinstance(raw_root, dict) else {}
     for name in ("result", "algorithm"):
         if name in want_root and want_root[name] != got_root.get(name):
             return (f"dating delegationRoot.{name}: expected {want_root[name]!r}, "
@@ -3004,6 +3007,8 @@ def run_external(root: str, verifier: list[str], report_path: str, rail_note: st
             own = [f"the vector body is unreadable: {exc}"]
         ran, answer = _external_answer(verifier, path)
         answered += int(ran)
+        normative: list[str]
+        parity: list[str]
         if isinstance(answer, str):
             normative, parity = [answer], []
         else:

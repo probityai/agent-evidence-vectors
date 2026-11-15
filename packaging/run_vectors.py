@@ -163,12 +163,12 @@ from agent_evidence_vectors import (
     openweight,
     paymentmandate,
     physicalcompletion,
+    principalaction,
     propagationstep,
     receiptchainend,
     receiptsignature,
     recorded,
     refundconnected,
-    principalaction,
     refusalreason,
     selfreportedrecord,
     signaturecoverage,
@@ -4011,17 +4011,18 @@ def _run_non_reference_suite(
     }.get(suite)
     if full_reader is not None:
         return full_reader(suite_dir, external_cmd, report_path, rail_note)
-    if external_cmd is not None and suite == receiptsignature.SUITE:
-        return receiptsignature.run_external(suite_dir, external_cmd, report_path, rail_note)
-    # The admission corpus writes down a contract of its own: the policy path in
-    # AEE_CONSUMER_POLICY, and exit 0 exactly when the statement is admitted.
-    if external_cmd is not None and suite == admission.SUITE:
-        return admission.run_external(suite_dir, external_cmd, report_path, rail_note)
-    # The agent audit record corpus writes its contract in its README: one
-    # member file per call, a verdict, the codes, and the tier, set and dating
-    # results its members declare.
-    if external_cmd is not None and suite == auditrecord.SUITE:
-        return auditrecord.run_external(suite_dir, external_cmd, report_path, rail_note)
+    external_contract = {
+        receiptsignature.SUITE: receiptsignature.run_external,
+        # The admission corpus writes down a contract of its own: the policy path in
+        # AEE_CONSUMER_POLICY, and exit 0 exactly when the statement is admitted.
+        admission.SUITE: admission.run_external,
+        # The agent audit record corpus writes its contract in its README: one
+        # member file per call, a verdict, the codes, and the tier, set and dating
+        # results its members declare.
+        auditrecord.SUITE: auditrecord.run_external,
+    }.get(suite)
+    if external_cmd is not None and external_contract is not None:
+        return external_contract(suite_dir, external_cmd, report_path, rail_note)
     if external_cmd is not None:
         return refuse_verifier(
             f"the verifier {shlex.join(external_cmd)!r} {DID_NOT_RUN}: the corpus "

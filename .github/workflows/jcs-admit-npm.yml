@@ -21,6 +21,10 @@ jobs:
         with:
           persist-credentials: false
       - name: the package version resolves to the jcs-admit-npm unit
+        env:
+          # release-target checks every repository link in the manifest
+          # against the GitHub API; anonymous reads share 60 an hour per runner.
+          GH_TOKEN: ${{ github.token }}
         run: |
           version=$(python3 -c "import json; print(json.load(open('crates/jcs-admit/npm/package.json'))['version'])")
           python3 scripts/workspace.py release-target "jcs-admit-npm-v${version}"

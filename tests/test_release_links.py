@@ -176,13 +176,20 @@ def test_release_target_stops_on_an_unusable_link_only_when_asked(
         workspace.release_target("x-v0.1.0", tmp_path, check_links=True)
 
 
-def test_release_resolve_step_reads_github_with_the_run_token():
-    """The link check runs in release.yml's resolve job. Without a token it reads
-    GitHub anonymously (60 requests an hour per runner IP), so a release can fail
-    on a shared runner's spent quota rather than on a bad link."""
+def test_every_release_target_step_reads_github_with_the_run_token():
+    """release-target checks every repository link in a manifest against the GitHub
+    API. Without a token those reads are anonymous (60 requests an hour per runner
+    address), so a release or a CI job fails on a spent quota rather than on a bad
+    link: jcs_admit_npm answered 403 that way on 2026-11-15. Every workflow step that
+    runs release-target passes the run token."""
     yaml = pytest.importorskip("yaml")
-    workflow = yaml.safe_load((_ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8"))
-    steps = workflow["jobs"]["resolve"]["steps"]
-    target = next(step for step in steps if step.get("id") == "target")
-    assert "workspace.py release-target" in target["run"]
-    assert target.get("env", {}).get("GH_TOKEN") == "${{ github.token }}"
+    callers = []
+    for path in sorted((_ROOT / ".github" / "workflows").glob("*.yml")):
+        workflow = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+        for name, job in (workflow.get("jobs") or {}).items():
+            for step in job.get("steps") or []:
+                if "workspace.py release-target" in str(step.get("run", "")):
+                    callers.append((path.name, name, step))
+    assert callers, "no workflow runs release-target, so this test checks nothing"
+    for file, job, step in callers:
+        assert (step.get("env") or {}).get("GH_TOKEN") == "${{ github.token }}", (file, job)
