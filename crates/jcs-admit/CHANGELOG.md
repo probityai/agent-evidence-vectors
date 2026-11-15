@@ -9,6 +9,10 @@ follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- The `repository` and `homepage` fields now point at
+  https://github.com/probityai/agent-evidence-vectors, where the crate is developed, so the
+  crates.io page links to the live repository. Earlier releases named a repository that is
+  now archived.
 - The `serde_json_canonicalizer` floor is now `0.4.1`, up from `0.3.2`. The new release makes
   the delegate's own serializer refuse a duplicate object key reaching its object assembly
   directly, instead of silently keeping the first one (its `pipe` and `Value` entry points are
