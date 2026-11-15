@@ -1,0 +1,1241 @@
+{
+  "aggregate": {
+    "counts": {
+      "rejected": 24,
+      "verified": 9
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 33
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-principal-action/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in corpora/vectors-principal-action/gen_vectors.py",
+    "routine-file": "corpora/vectors-principal-action/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "db30b58a7ca32c8b8c31135b4b09ed75d16c9c5c757562ba553b9eefbacf7225",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "82f8e7c0c31527c52e4829146de43c4e9a56fb2801b8d3afbb6cb56ff35b97ef"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "82f8e7c0c31527c52e4829146de43c4e9a56fb2801b8d3afbb6cb56ff35b97ef"
+        },
+        "swapped-in": "e45d676eb936b7124c94fccdc69f7646e69a3c4509e28fc192ddbd74912abd4c",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-principal-action/README.md",
+      "serialization": "bytes",
+      "sha256": "4130f97e70dd60330d19ca7182e23939c151fb76d2721e98f41da1d5407cd5f4"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "82f8e7c0c31527c52e4829146de43c4e9a56fb2801b8d3afbb6cb56ff35b97ef"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "82f8e7c0c31527c52e4829146de43c4e9a56fb2801b8d3afbb6cb56ff35b97ef"
+        },
+        "swapped-in": "aa9f80b54189fb17e477d4c783ae2eeecf7bb9b450e0032f63af97a3af1599e8",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-principal-action/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "4b45de28d39ac1cfbfacec9e2652e47e8a3c3bd5cb079c53ba234f5a7827d738"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "82f8e7c0c31527c52e4829146de43c4e9a56fb2801b8d3afbb6cb56ff35b97ef"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "82f8e7c0c31527c52e4829146de43c4e9a56fb2801b8d3afbb6cb56ff35b97ef"
+        },
+        "swapped-in": "0be53fc7bd10d07db16ceffe61c61211491eae4ad362d02e39f55c696bc7109c",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-principal-action/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "10b73608a622d4975db4f016565d962a80ed99be903d1a215a9dd66f3ffdd92f"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "82f8e7c0c31527c52e4829146de43c4e9a56fb2801b8d3afbb6cb56ff35b97ef"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "82f8e7c0c31527c52e4829146de43c4e9a56fb2801b8d3afbb6cb56ff35b97ef"
+        },
+        "swapped-in": "d683b84ff4fb421f486243b59a84abcb05f3c70922e49c96f1c35615a1c82685",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-principal-action/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "8d496455de63f2ad165348e0f8dee28efa3a9ef3f645c22d799cf92a8d22b317"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "corpora/vectors-principal-action"
+  },
+  "byte-identity": {
+    "pins": 66,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json corpora/vectors-principal-action",
+      "aee-verify -json corpora/vectors-principal-action",
+      "aee-verify corpora/vectors-principal-action"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpusreaders",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "7564f7d2089aa3d6a2123e1a2fa9d109663b0d7c4831f9f492ec829e2b6c17af"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpusreaders",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "strict-four-principals",
+      "native": {
+        "reasons": [],
+        "verdict": "verified"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "basic-user-agent-act-absent",
+      "native": {
+        "reasons": [],
+        "verdict": "verified"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "basic-user-agent-act-chain",
+      "native": {
+        "reasons": [],
+        "verdict": "verified"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "basic-four-principals-act-absent",
+      "native": {
+        "reasons": [],
+        "verdict": "verified"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "strict-nested-act-chain",
+      "native": {
+        "reasons": [],
+        "verdict": "verified"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "strict-act-names-client-id",
+      "native": {
+        "reasons": [],
+        "verdict": "verified"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "strict-id-jag-source",
+      "native": {
+        "reasons": [],
+        "verdict": "verified"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "strict-custom-domain-declared",
+      "native": {
+        "reasons": [],
+        "verdict": "verified"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "strict-no-optional-members",
+      "native": {
+        "reasons": [],
+        "verdict": "verified"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "principals-malformed",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "user-member-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "agent-member-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "user-issuer-invalid",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "user-audience-duplicate",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "sponsor-private-key",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "agent-thumbprint-mismatch",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "user-kid-mismatch",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "user-provider-mismatch",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "agent-pin-mismatch",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "user-not-yet-valid",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "user-expired",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "approver-issuer-untrusted",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "agent-key-not-pinned",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "user-act-malformed",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "user-idjag-undefined",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "agent-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "act-names-another-agent",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "approver-not-an-approval-signer",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "statement-malformed",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "recorder-signature-invalid",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "statement-not-canonical",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "action-malformed",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "action-digest-mismatch",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "51041827dec23e4c04d43f3ce0981b078b475b826331366cf4bf5aecb5497264"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "strict-four-principals",
+      "basic-user-agent-act-absent",
+      "basic-user-agent-act-chain",
+      "basic-four-principals-act-absent",
+      "strict-nested-act-chain",
+      "strict-act-names-client-id",
+      "strict-id-jag-source",
+      "strict-custom-domain-declared",
+      "strict-no-optional-members",
+      "principals-malformed",
+      "user-member-missing",
+      "agent-member-unknown",
+      "user-issuer-invalid",
+      "user-audience-duplicate",
+      "sponsor-private-key",
+      "agent-thumbprint-mismatch",
+      "user-kid-mismatch",
+      "user-provider-mismatch",
+      "agent-pin-mismatch",
+      "user-not-yet-valid",
+      "user-expired",
+      "approver-issuer-untrusted",
+      "agent-key-not-pinned",
+      "user-act-malformed",
+      "user-idjag-undefined",
+      "agent-missing",
+      "act-names-another-agent",
+      "approver-not-an-approval-signer",
+      "statement-malformed",
+      "recorder-signature-invalid",
+      "statement-not-canonical",
+      "action-malformed",
+      "action-digest-mismatch"
+    ],
+    "path": "corpora/vectors-principal-action/MANIFEST.json",
+    "sha256": "de0c0c148448a51185b2ec87fb1fe56831a3f29a479ebbf1c881a4aaa6af575d"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/strict-four-principals/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/strict-four-principals/envelope.json",
+          "sha256": "58e8f38f9b44f7b7c9f52b5c8828a2469c64c936abbaef0d480a3f68fa09e503"
+        }
+      ],
+      "id": "strict-four-principals"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/basic-user-agent-act-absent/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/basic-user-agent-act-absent/envelope.json",
+          "sha256": "5dcc8c94ad29b30dd64a0a804532138d7648dee83565109dc3dc3c3910b62924"
+        }
+      ],
+      "id": "basic-user-agent-act-absent"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/basic-user-agent-act-chain/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/basic-user-agent-act-chain/envelope.json",
+          "sha256": "78596a698310678eeae7e0c3932d34f12f81146f720b4486d191e219537b01fb"
+        }
+      ],
+      "id": "basic-user-agent-act-chain"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/basic-four-principals-act-absent/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/basic-four-principals-act-absent/envelope.json",
+          "sha256": "0b0d1d2f041e25094ad5b2eca6392da7be066880a3574efb322cbd6f6d12cd9b"
+        }
+      ],
+      "id": "basic-four-principals-act-absent"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/strict-nested-act-chain/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/strict-nested-act-chain/envelope.json",
+          "sha256": "67ce8e751acf941f89474ab4e8cc02673a27abdcbbb366eba714a8c3d4d8df9b"
+        }
+      ],
+      "id": "strict-nested-act-chain"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/strict-act-names-client-id/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/strict-act-names-client-id/envelope.json",
+          "sha256": "60ff5dee1bb5f2741f100c2e3e2d0067c3168f3177d67b2ffecbe9ff485129cc"
+        }
+      ],
+      "id": "strict-act-names-client-id"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/strict-id-jag-source/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/strict-id-jag-source/envelope.json",
+          "sha256": "c71d6c1e36f7cf4979594beeeb5ec868edea91ba9458bcf57875371690b0aa0c"
+        }
+      ],
+      "id": "strict-id-jag-source"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/strict-custom-domain-declared/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/strict-custom-domain-declared/envelope.json",
+          "sha256": "e8b44829e644d007dc85c5fe88520d956b40e65e7c75b5c49cca1b8a5e879a0f"
+        }
+      ],
+      "id": "strict-custom-domain-declared"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/strict-no-optional-members/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/strict-no-optional-members/envelope.json",
+          "sha256": "945b5ab380d3deb54e7c4aaf57ce23fb8a75d73a3d729605123366bbc0fa8dcb"
+        }
+      ],
+      "id": "strict-no-optional-members"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/principals-malformed/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/principals-malformed/envelope.json",
+          "sha256": "b01ce89bad1f311dd267d2ffe867abefc3ed7605b5d3ad13165979995f4d018b"
+        }
+      ],
+      "id": "principals-malformed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/user-member-missing/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/user-member-missing/envelope.json",
+          "sha256": "fc7dfde6a5ccdafba05f75c71f5245b3b6d30bdbf0cc9fe371a60eacf4c9922f"
+        }
+      ],
+      "id": "user-member-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/agent-member-unknown/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/agent-member-unknown/envelope.json",
+          "sha256": "bd19d9b7d3b460ab689c8b43f5f5b22dbeb1b5b63a8fb775cc75c682e9660e82"
+        }
+      ],
+      "id": "agent-member-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/user-issuer-invalid/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/user-issuer-invalid/envelope.json",
+          "sha256": "1b495809e0ce99d3e33fb2695ec5fa2877d36ea55afadc6608abc90016acc4c2"
+        }
+      ],
+      "id": "user-issuer-invalid"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/user-audience-duplicate/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/user-audience-duplicate/envelope.json",
+          "sha256": "18b444f4af7724f11ad999d91b04e4e1ac6dea79ea8041fe3f22fd961dd04992"
+        }
+      ],
+      "id": "user-audience-duplicate"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/sponsor-private-key/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/sponsor-private-key/envelope.json",
+          "sha256": "821e17bda5770d70c521d94eff8405b3b7ead778a3d6d869a3db7934a859ae42"
+        }
+      ],
+      "id": "sponsor-private-key"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/agent-thumbprint-mismatch/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/agent-thumbprint-mismatch/envelope.json",
+          "sha256": "b9082946cb299e854734828f66e469d47551aff04ebd81d914af8e3b4d971893"
+        }
+      ],
+      "id": "agent-thumbprint-mismatch"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/user-kid-mismatch/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/user-kid-mismatch/envelope.json",
+          "sha256": "3f0c571f3ce50049ff3182384f3f31bed5dda9e4466e6dd8ff393b9f73ed1095"
+        }
+      ],
+      "id": "user-kid-mismatch"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/user-provider-mismatch/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/user-provider-mismatch/envelope.json",
+          "sha256": "fe484ffe2b7da7d962dfbcadacec37d3129538db03c0a788fd82a50f4dc5e76a"
+        }
+      ],
+      "id": "user-provider-mismatch"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/agent-pin-mismatch/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/agent-pin-mismatch/envelope.json",
+          "sha256": "03b6a1adab4454e714bfb347bc8bf81fe0f20ee591816019ae6512a6bfce7321"
+        }
+      ],
+      "id": "agent-pin-mismatch"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/user-not-yet-valid/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/user-not-yet-valid/envelope.json",
+          "sha256": "4e2c14f8333457d71d1a61c7e055ad519d332576a45c5c0b3062f4b4faaca2ab"
+        }
+      ],
+      "id": "user-not-yet-valid"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/user-expired/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/user-expired/envelope.json",
+          "sha256": "ff9a0f0a67da0f009a1e928aff16ef6d34118da4169e1b976f3da951fd3f4726"
+        }
+      ],
+      "id": "user-expired"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/approver-issuer-untrusted/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/approver-issuer-untrusted/envelope.json",
+          "sha256": "4608843d69f9ba8c7ff0493cf8b66caa461da13445da562f049541075151549c"
+        }
+      ],
+      "id": "approver-issuer-untrusted"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/agent-key-not-pinned/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/agent-key-not-pinned/envelope.json",
+          "sha256": "871bb45318778253bb978f62e0eb28661b307232d8e046ea02eed108064bf40a"
+        }
+      ],
+      "id": "agent-key-not-pinned"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/user-act-malformed/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/user-act-malformed/envelope.json",
+          "sha256": "c3b372bd9e747a73912d10334f029f94aa7a81d43445504c91e7f1aedf03e3dc"
+        }
+      ],
+      "id": "user-act-malformed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/user-idjag-undefined/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/user-idjag-undefined/envelope.json",
+          "sha256": "6e55c8009d626b69382f2c9036aa3c08ca2ee36b2892a2b951436c25f8eceb3d"
+        }
+      ],
+      "id": "user-idjag-undefined"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/agent-missing/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/agent-missing/envelope.json",
+          "sha256": "95b83c85a0020e2055e1e11e136dc6c41931006682c259a032fe76d2100c35ea"
+        }
+      ],
+      "id": "agent-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/act-names-another-agent/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/act-names-another-agent/envelope.json",
+          "sha256": "5e3734f6470e8c26bdb8b3b8e75f554b8031c3cf86912512c7ca0eec51f6112c"
+        }
+      ],
+      "id": "act-names-another-agent"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/approver-not-an-approval-signer/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/approver-not-an-approval-signer/envelope.json",
+          "sha256": "556cedb5402a84ed79b6c7f24e83f83947562ff046a679cda478c55cc22f5242"
+        }
+      ],
+      "id": "approver-not-an-approval-signer"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/statement-malformed/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/statement-malformed/envelope.json",
+          "sha256": "e58df0d915196cb075cc0869468a71c4ec3bb52fa7b9cd76188d7fffa2123854"
+        }
+      ],
+      "id": "statement-malformed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/recorder-signature-invalid/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/recorder-signature-invalid/envelope.json",
+          "sha256": "1734f66f26c5e06b2faf5b38dfaf270c9d2525dabfb37565dfe50206d9171370"
+        }
+      ],
+      "id": "recorder-signature-invalid"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/statement-not-canonical/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/statement-not-canonical/envelope.json",
+          "sha256": "875c675aaa2789a97096deaaf5ae7b70a7520bbec36495d353c051c55414ca02"
+        }
+      ],
+      "id": "statement-not-canonical"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/action-malformed/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/action-malformed/envelope.json",
+          "sha256": "d328a2e9770164536d655db75a901c41fc8fed0cd89c9bc499da4162a34ab8da"
+        }
+      ],
+      "id": "action-malformed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-principal-action/cases/action-digest-mismatch/case.json",
+          "sha256": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a"
+        },
+        {
+          "path": "corpora/vectors-principal-action/cases/action-digest-mismatch/envelope.json",
+          "sha256": "4d7ae0bf73adf761bba3c45f91fa92ab2f05b8a869e9ae4dfe187fc4bc86dee5"
+        }
+      ],
+      "id": "action-digest-mismatch"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-principal-action.json",
+        "serialization": "bytes",
+        "sha256": "82f8e7c0c31527c52e4829146de43c4e9a56fb2801b8d3afbb6cb56ff35b97ef"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-principal-action.txt",
+        "serialization": "bytes",
+        "sha256": "45030c27cd4b88dd758345d01abda15d3aa64e22174e98f20b542b245bcdf213"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "principals-malformed",
+      "inputs": [
+        "member:principals-malformed",
+        "check:principals-malformed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"principals_malformed\"}}"
+    },
+    {
+      "check": "user-member-missing",
+      "inputs": [
+        "member:user-member-missing",
+        "check:user-member-missing"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"principal_user:principal_member_missing\"}}"
+    },
+    {
+      "check": "agent-member-unknown",
+      "inputs": [
+        "member:agent-member-unknown",
+        "check:agent-member-unknown"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"principal_agent:principal_member_unknown\"}}"
+    },
+    {
+      "check": "user-issuer-invalid",
+      "inputs": [
+        "member:user-issuer-invalid",
+        "check:user-issuer-invalid"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"principal_user:principal_issuer_invalid\"}}"
+    },
+    {
+      "check": "user-audience-duplicate",
+      "inputs": [
+        "member:user-audience-duplicate",
+        "check:user-audience-duplicate"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"principal_user:principal_malformed\"}}"
+    },
+    {
+      "check": "sponsor-private-key",
+      "inputs": [
+        "member:sponsor-private-key",
+        "check:sponsor-private-key"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"principal_sponsor:principal_key_invalid\"}}"
+    },
+    {
+      "check": "agent-thumbprint-mismatch",
+      "inputs": [
+        "member:agent-thumbprint-mismatch",
+        "check:agent-thumbprint-mismatch"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"principal_agent:principal_thumbprint_mismatch\"}}"
+    },
+    {
+      "check": "user-kid-mismatch",
+      "inputs": [
+        "member:user-kid-mismatch",
+        "check:user-kid-mismatch"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"principal_user:principal_kid_mismatch\"}}"
+    },
+    {
+      "check": "user-provider-mismatch",
+      "inputs": [
+        "member:user-provider-mismatch",
+        "check:user-provider-mismatch"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"principal_user:principal_provider_mismatch\"}}"
+    },
+    {
+      "check": "agent-pin-mismatch",
+      "inputs": [
+        "member:agent-pin-mismatch",
+        "check:agent-pin-mismatch"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"principal_agent:principal_pin_mismatch\"}}"
+    },
+    {
+      "check": "user-not-yet-valid",
+      "inputs": [
+        "member:user-not-yet-valid",
+        "check:user-not-yet-valid"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"principal_user:principal_not_yet_valid\"}}"
+    },
+    {
+      "check": "user-expired",
+      "inputs": [
+        "member:user-expired",
+        "check:user-expired"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"principal_user:principal_expired\"}}"
+    },
+    {
+      "check": "approver-issuer-untrusted",
+      "inputs": [
+        "member:approver-issuer-untrusted",
+        "check:approver-issuer-untrusted"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"principal_approver:principal_issuer_untrusted\"}}"
+    },
+    {
+      "check": "agent-key-not-pinned",
+      "inputs": [
+        "member:agent-key-not-pinned",
+        "check:agent-key-not-pinned"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"principal_agent:principal_key_not_pinned\"}}"
+    },
+    {
+      "check": "user-act-malformed",
+      "inputs": [
+        "member:user-act-malformed",
+        "check:user-act-malformed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"principal_user:principal_act_malformed\"}}"
+    },
+    {
+      "check": "user-idjag-undefined",
+      "inputs": [
+        "member:user-idjag-undefined",
+        "check:user-idjag-undefined"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"principal_user:principal_idjag_undefined\"}}"
+    },
+    {
+      "check": "agent-missing",
+      "inputs": [
+        "member:agent-missing",
+        "check:agent-missing"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"principals_need_user_and_agent\"}}"
+    },
+    {
+      "check": "act-names-another-agent",
+      "inputs": [
+        "member:act-names-another-agent",
+        "check:act-names-another-agent"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"principal_act_names_another_agent\"}}"
+    },
+    {
+      "check": "approver-not-an-approval-signer",
+      "inputs": [
+        "member:approver-not-an-approval-signer",
+        "check:approver-not-an-approval-signer"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"principal_approver_not_an_approval_signer\"}}"
+    },
+    {
+      "check": "statement-malformed",
+      "inputs": [
+        "member:statement-malformed",
+        "check:statement-malformed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"statement_malformed\"}}"
+    },
+    {
+      "check": "recorder-signature-invalid",
+      "inputs": [
+        "member:recorder-signature-invalid",
+        "check:recorder-signature-invalid"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"recorder_signature_invalid\"}}"
+    },
+    {
+      "check": "statement-not-canonical",
+      "inputs": [
+        "member:statement-not-canonical",
+        "check:statement-not-canonical"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"statement_not_canonical\"}}"
+    },
+    {
+      "check": "action-malformed",
+      "inputs": [
+        "member:action-malformed",
+        "check:action-malformed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"action_malformed\"}}"
+    },
+    {
+      "check": "action-digest-mismatch",
+      "inputs": [
+        "member:action-digest-mismatch",
+        "check:action-digest-mismatch"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"action_digest_mismatch\"}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "82f8e7c0c31527c52e4829146de43c4e9a56fb2801b8d3afbb6cb56ff35b97ef"
+      },
+      {
+        "process": "run-2",
+        "sha256": "82f8e7c0c31527c52e4829146de43c4e9a56fb2801b8d3afbb6cb56ff35b97ef"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 33 pinned members of principal-action/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 33,
+    "require": "at-least-one",
+    "selected": [
+      "strict-four-principals",
+      "basic-user-agent-act-absent",
+      "basic-user-agent-act-chain",
+      "basic-four-principals-act-absent",
+      "strict-nested-act-chain",
+      "strict-act-names-client-id",
+      "strict-id-jag-source",
+      "strict-custom-domain-declared",
+      "strict-no-optional-members",
+      "principals-malformed",
+      "user-member-missing",
+      "agent-member-unknown",
+      "user-issuer-invalid",
+      "user-audience-duplicate",
+      "sponsor-private-key",
+      "agent-thumbprint-mismatch",
+      "user-kid-mismatch",
+      "user-provider-mismatch",
+      "agent-pin-mismatch",
+      "user-not-yet-valid",
+      "user-expired",
+      "approver-issuer-untrusted",
+      "agent-key-not-pinned",
+      "user-act-malformed",
+      "user-idjag-undefined",
+      "agent-missing",
+      "act-names-another-agent",
+      "approver-not-an-approval-signer",
+      "statement-malformed",
+      "recorder-signature-invalid",
+      "statement-not-canonical",
+      "action-malformed",
+      "action-digest-mismatch"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "principal-action/v1"
+}
