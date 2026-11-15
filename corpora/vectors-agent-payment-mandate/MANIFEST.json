@@ -1,8 +1,8 @@
 {
-  "corpusDigest": "535cf77805d4720714fbe5f39a65a64f72ef6f69edfbf118a39fa8c8fdff77db",
+  "corpusDigest": "dd6ef3898211be46d44940308a0cec84e63e2e218ec2e92a41010e0c52e821f8",
   "counts": {
     "accepted": 4,
-    "rejected": 11
+    "rejected": 14
   },
   "schema": "agent-payment-mandate-record/v1",
   "specification": {
@@ -23,7 +23,7 @@
         "reason": "mandate_chain_holds"
       },
       "files": {
-        "case.json": "20581823a510475871a9418cf0d71767f03da4dee4e16fed94500f90847c7482"
+        "case.json": "467976ae0754dc2e4d7929822d41f6a826a675bde938bd84c12beae942377335"
       },
       "id": "authorized-ap2-cart",
       "path": "cases/authorized-ap2-cart"
@@ -35,7 +35,7 @@
         "reason": "mandate_chain_holds"
       },
       "files": {
-        "case.json": "3fe2fd5cc47f3b816f8715b075810892a107800e31a5a71cbea37d4ac1117d51"
+        "case.json": "0fbf346e37856cc0f5eb371acac708686773b1dfdfa05a87fad14123d91467ae"
       },
       "id": "authorized-vi-credential",
       "path": "cases/authorized-vi-credential"
@@ -47,7 +47,7 @@
         "reason": "mandate_chain_holds"
       },
       "files": {
-        "case.json": "6949200739b32a37c09d1a4e1c789119b2571514acc704646092006aefe87f1c"
+        "case.json": "f361c08c64e438061b3f9036d84fc4dc15c214de4491cdf5c4acb8a2060b9fd1"
       },
       "id": "authorized-spt-seller-bound",
       "path": "cases/authorized-spt-seller-bound"
@@ -59,7 +59,7 @@
         "reason": "mandate_chain_holds"
       },
       "files": {
-        "case.json": "588a61d0828ac4f9f3fa3cf81a94ddb49ce5886f0a80580ca4a4d4cf8454522a"
+        "case.json": "325db92215d21dab14aabe3c95b61a5ffb276dea989a8002d00bcd6f0cc88f80"
       },
       "id": "authorized-at-exact-limit",
       "path": "cases/authorized-at-exact-limit"
@@ -71,7 +71,7 @@
         "reason": "mandate_unsigned"
       },
       "files": {
-        "case.json": "59135887a56743b6d4339af1945e0faff56302319f90c99cc1bd6aa69db9ca9a"
+        "case.json": "5f382d43dcfefedf0a49cccb0bb198288b514a67575dad54c96cf458b4680450"
       },
       "id": "mandate-unsigned",
       "path": "cases/mandate-unsigned",
@@ -84,7 +84,7 @@
         "reason": "mandate_digest_mismatch"
       },
       "files": {
-        "case.json": "1aa1e864dcd8ad9f19b6bacca3d7f55f6853756a7612b1bf6f30d2d152094537"
+        "case.json": "c317754c834a884a00a203e47512af9a4288f43b1bae3317a3f93f3d49461140"
       },
       "id": "mandate-terms-edited",
       "path": "cases/mandate-terms-edited",
@@ -97,7 +97,7 @@
         "reason": "credential_not_bound_to_mandate"
       },
       "files": {
-        "case.json": "b2254bdd4721f4b173e97583ee3d49155c9621e2d8ac6358f545ade9d13b0280"
+        "case.json": "b1e98d49fcb37810a16cb3879ab758ec9ed5977899f075d7722cda1890b08881"
       },
       "id": "credential-bound-to-another-mandate",
       "path": "cases/credential-bound-to-another-mandate",
@@ -110,7 +110,7 @@
         "reason": "mandate_expired"
       },
       "files": {
-        "case.json": "42b849e2d9ee89043c33f329ec9b8bd93a339a9f68cda2f236d3df540e483964"
+        "case.json": "d09e7e62d3d1af20c8bf23b194c5601cfa7f978d9263549e00a6b576fa39c507"
       },
       "id": "charge-after-expiry",
       "path": "cases/charge-after-expiry",
@@ -123,7 +123,7 @@
         "reason": "amount_over_limit"
       },
       "files": {
-        "case.json": "6780c6f6273cd2705901a436d9f95cc40cf5a38edd6c5b08f8117151e3773c62"
+        "case.json": "db495d2c721fb76580853cfb92b1220e88a8a5970dc7f6b20088e16b18e6370d"
       },
       "id": "charge-over-limit",
       "path": "cases/charge-over-limit",
@@ -136,7 +136,7 @@
         "reason": "currency_mismatch"
       },
       "files": {
-        "case.json": "3c41f4bf6fdda75d07f2f391c33a91a8b9b389372d91651085a5dcc2d04f03d2"
+        "case.json": "2b0362d3902920347e0fe89e545a35eb6450b476205421b2b275c9d45cd388b1"
       },
       "id": "charge-in-other-currency",
       "path": "cases/charge-in-other-currency",
@@ -149,7 +149,7 @@
         "reason": "merchant_mismatch"
       },
       "files": {
-        "case.json": "ff63061410771b6371199f22ae51af8025edabee9d6a7911dd8b78ffdef92a09"
+        "case.json": "11b82205b7587bd94a33b875fa75fa7ad02342331abe157f42746684954d59f4"
       },
       "id": "charge-at-other-merchant",
       "path": "cases/charge-at-other-merchant",
@@ -162,7 +162,7 @@
         "reason": "token_not_the_executed_token"
       },
       "files": {
-        "case.json": "bdb8f4c586829b6ffcc889a893a9561f397db658382e74f7c6c5b176575017b6"
+        "case.json": "25a6bd38ec4d0e496ab2517da9afc48ec40f189a58afd1c9205d82ef33ff075c"
       },
       "id": "executed-token-differs",
       "path": "cases/executed-token-differs",
@@ -175,7 +175,7 @@
         "reason": "single_use_token_replayed"
       },
       "files": {
-        "case.json": "fb046300ad875e11f259feaa94ec6852ffeab2a360358ed22514a0d9c421f15e"
+        "case.json": "6f24dabc8a4612ef7ff1a758dee526b2e7790bf432e69a05631a2313c4b8e153"
       },
       "id": "single-use-token-replayed",
       "path": "cases/single-use-token-replayed",
@@ -188,11 +188,50 @@
         "reason": "receipt_not_bound_to_execution"
       },
       "files": {
-        "case.json": "4cd399fab6988c65964575c7e35e6b68f66a32a8b868c2e2433634ee69965aff"
+        "case.json": "b7a34facc6f7decf97de9023408a7ed4f05e58f15b0a0e53e4fca6732f10331a"
       },
       "id": "receipt-not-over-execution",
       "path": "cases/receipt-not-over-execution",
       "twin": "authorized-vi-credential"
+    },
+    {
+      "description": "holder raised the ceiling and recomputed every digest without the issuer key",
+      "expected": {
+        "decision": "rejected",
+        "reason": "mandate_signature_invalid"
+      },
+      "files": {
+        "case.json": "6ea4156d86c32d78d1b9398da0b76d7553879fb3d8307db7cf32730cae9b7bf3"
+      },
+      "id": "mandate-ceiling-raised-without-key",
+      "path": "cases/mandate-ceiling-raised-without-key",
+      "twin": "authorized-ap2-cart"
+    },
+    {
+      "description": "charge and its digest rewritten after the settlement witness signed the receipt",
+      "expected": {
+        "decision": "rejected",
+        "reason": "receipt_signature_invalid"
+      },
+      "files": {
+        "case.json": "803e77d65b079643bd6cb7993bc036eec4aa2d9fc8f7c6711460eb76ec625814"
+      },
+      "id": "charge-rewritten-after-witness",
+      "path": "cases/charge-rewritten-after-witness",
+      "twin": "authorized-vi-credential"
+    },
+    {
+      "description": "the agent signed its own receipt; no pinned settlement witness did",
+      "expected": {
+        "decision": "rejected",
+        "reason": "receipt_signer_not_witness"
+      },
+      "files": {
+        "case.json": "28a5cfc33f819e8a49aa89fa7e33d5084beb34fc037881040cad3c923a6c8f93"
+      },
+      "id": "receipt-signed-by-agent",
+      "path": "cases/receipt-signed-by-agent",
+      "twin": "authorized-spt-seller-bound"
     },
     {
       "description": "capture recorded, the fulfilment action is missing",
@@ -201,12 +240,12 @@
         "reason": "post_checkout_action_missing"
       },
       "files": {
-        "case.json": "10a1a31d3ce284323f36b0c69e0c964196494edefc64f936c2126ed0d886226d"
+        "case.json": "f574eaff5bdea6f493343808d5dd19f80d84976e9d46be069d754cc5de64bcbe"
       },
       "id": "post-checkout-fulfilment-missing",
       "path": "cases/post-checkout-fulfilment-missing",
       "twin": "authorized-ap2-cart"
     }
   ],
-  "verifierContract": "verifier case.json --json"
+  "verifierContract": "verifier case.json --json --policy policy.json"
 }

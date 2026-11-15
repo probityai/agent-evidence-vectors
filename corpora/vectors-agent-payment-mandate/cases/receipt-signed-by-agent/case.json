@@ -1,0 +1,54 @@
+{
+  "case_id": "vectors-agent-payment-mandate-receipt-signed-by-agent",
+  "credential": {
+    "consumed_token_ids": [],
+    "mandate_digest": "d6703e9a9a42c9128798cb4565705485915a6cef99985660ef280395c61fb25b",
+    "single_use": true,
+    "token_id": "tok-0001"
+  },
+  "execution": {
+    "amount_minor": 2100,
+    "currency": "USD",
+    "executed_at": "2026-11-02T10:15:00Z",
+    "merchant": "merchant-c.example",
+    "token_id": "tok-0001"
+  },
+  "mandate": {
+    "digest": "d6703e9a9a42c9128798cb4565705485915a6cef99985660ef280395c61fb25b",
+    "signature": {
+      "alg": "ed25519",
+      "key_id": "issuer-key-1",
+      "value": "a63687daecb3ffaee58ca55411b52ec06d911cab216a1122e33b9a6c3a6f54a53cf2d7229ddbaad51ad561b0e8bc1900ba7150ab4b5a0226445795dd87adae04"
+    },
+    "terms": {
+      "currency": "USD",
+      "expires_at": "2026-11-30T00:00:00Z",
+      "issuer": "did:example:issuer-1",
+      "kind": "seller-bound-token",
+      "max_amount_minor": 2500,
+      "merchant": "merchant-c.example"
+    }
+  },
+  "post_checkout": {
+    "recorded": [
+      "capture",
+      "fulfilment"
+    ],
+    "required": [
+      "capture",
+      "fulfilment"
+    ]
+  },
+  "receipt": {
+    "execution_digest": "263604b270b0e931951713533926ba768a535e720c70be64e0beddc7f11c22e6",
+    "mandate_digest": "d6703e9a9a42c9128798cb4565705485915a6cef99985660ef280395c61fb25b",
+    "receipt_id": "rcpt-0001",
+    "signature": {
+      "alg": "ed25519",
+      "key_id": "agent-key-1",
+      "value": "6c896229cd9f4608671c354a1eecd3bf5e1442cc5e84e3280cf5df26329f4af15627a2fac2211d80b4f28314ac5ad82ce59d6616f601ebadfe7d95bf0fbbfb08"
+    }
+  },
+  "schema": "agent-payment-mandate-record/v1",
+  "scheme": "stripe-shared-payment-token"
+}

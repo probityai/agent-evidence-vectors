@@ -38,7 +38,12 @@
   "receipt": {
     "execution_digest": "fa4fac4e5b54a41051cc0440280cc3638c69cbf286e44ad6203ed92a74e5124b",
     "mandate_digest": "338c07ee00681bed41534de51909cc1fd32d6437189ef8c5bd6a63438e8a296e",
-    "receipt_id": "rcpt-0001"
+    "receipt_id": "rcpt-0001",
+    "signature": {
+      "alg": "ed25519",
+      "key_id": "witness-key-1",
+      "value": "edc6c18e8c3c9195082aa742f20ca862c7f7a4332d1a0423e59deb438396839e97a546a057ec58736cb6d96c73a04edc4b681244d85f348068a230d4d223e309"
+    }
   },
   "schema": "agent-payment-mandate-record/v1",
   "scheme": "ap2-cart-mandate"

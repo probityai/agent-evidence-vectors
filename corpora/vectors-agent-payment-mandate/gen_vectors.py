@@ -2,10 +2,11 @@
 
     uv run python vectors-agent-payment-mandate/gen_vectors.py
 
-Four accepted members (one per scheme plus the exact-limit boundary) and eleven
-rejected twins, one per rule, each one mutation away from an accepted member.
-Every case, the manifest, the index and the profile map are functions of this
-file alone. The fixtures are synthetic.
+Four accepted members (one per scheme plus the exact-limit boundary) and
+fourteen rejected twins, one per rule, each one mutation away from an accepted
+member. Every case, the manifest, the index, the profile map and the relying
+party's policy are functions of this file alone. The fixtures are synthetic,
+and so are the signing keys: their seeds are public on purpose.
 """
 
 from __future__ import annotations
@@ -16,10 +17,31 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
+
 ROOT = Path(__file__).resolve().parent
 SUITE = "agent-payment-mandate/v1"
 SCHEMA = "agent-payment-mandate-record/v1"
 ACCEPT_REASON = "mandate_chain_holds"
+MANDATE_DOMAIN = b"agent-payment-mandate/v1:mandate:"
+RECEIPT_DOMAIN = b"agent-payment-mandate/v1:receipt:"
+# Deterministic synthetic keys; the seeds are public on purpose (fixtures, not secrets).
+_SEEDS = {"issuer-key-1": "11" * 32, "witness-key-1": "22" * 32, "agent-key-1": "33" * 32}
+_SK = {k: Ed25519PrivateKey.from_private_bytes(bytes.fromhex(v)) for k, v in _SEEDS.items()}
+_PK = {
+    k: s.public_key().public_bytes(serialization.Encoding.Raw, serialization.PublicFormat.Raw).hex()
+    for k, s in _SK.items()
+}
+POLICY = {
+    "note": (
+        "The relying party's trust root for this corpus: the issuer keys that may sign a "
+        "mandate and the settlement-witness keys that may sign a receipt. In deployment it "
+        "comes from the relying party, never from the evidence pack."
+    ),
+    "issuer_keys": {"issuer-key-1": _PK["issuer-key-1"]},
+    "witness_keys": {"witness-key-1": _PK["witness-key-1"]},
+}
 
 
 def _sha(data: bytes) -> str:
@@ -89,17 +111,32 @@ PROFILE = {
 }
 
 
+def _canon(value: object) -> bytes:
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode()
+
+
+def _sign_receipt(r: dict[str, Any], key_id: str = "witness-key-1") -> None:
+    """Take the execution digest and sign the receipt as the settlement witness (or ``key_id``)."""
+    r["receipt"]["execution_digest"] = _digest(r["execution"])
+    body = {k: v for k, v in r["receipt"].items() if k != "signature"}
+    r["receipt"]["signature"] = {
+        "alg": "ed25519",
+        "key_id": key_id,
+        "value": _SK[key_id].sign(RECEIPT_DOMAIN + _canon(body)).hex(),
+    }
+
+
 def _seal(r: dict[str, Any]) -> dict[str, Any]:
-    """Recompute every digest a conformant record carries from its own terms."""
+    """Recompute every digest a conformant record carries and sign it as issuer and witness."""
     r["mandate"]["digest"] = _digest(r["mandate"]["terms"])
     r["mandate"]["signature"] = {
         "alg": "ed25519",
         "key_id": "issuer-key-1",
-        "value_sha256": _sha(r["mandate"]["digest"].encode()),
+        "value": _SK["issuer-key-1"].sign(MANDATE_DOMAIN + r["mandate"]["digest"].encode()).hex(),
     }
     r["credential"]["mandate_digest"] = r["mandate"]["digest"]
     r["receipt"]["mandate_digest"] = r["mandate"]["digest"]
-    r["receipt"]["execution_digest"] = _digest(r["execution"])
+    _sign_receipt(r)
     return r
 
 
@@ -158,27 +195,27 @@ def _unbound(r: dict[str, Any]) -> None:
 
 def _expired(r: dict[str, Any]) -> None:
     r["execution"]["executed_at"] = "2026-12-01T00:00:01Z"
-    r["receipt"]["execution_digest"] = _digest(r["execution"])
+    _sign_receipt(r)
 
 
 def _over_limit(r: dict[str, Any]) -> None:
     r["execution"]["amount_minor"] = r["mandate"]["terms"]["max_amount_minor"] + 1
-    r["receipt"]["execution_digest"] = _digest(r["execution"])
+    _sign_receipt(r)
 
 
 def _currency(r: dict[str, Any]) -> None:
     r["execution"]["currency"] = "GBP"
-    r["receipt"]["execution_digest"] = _digest(r["execution"])
+    _sign_receipt(r)
 
 
 def _merchant(r: dict[str, Any]) -> None:
     r["execution"]["merchant"] = "other-merchant.example"
-    r["receipt"]["execution_digest"] = _digest(r["execution"])
+    _sign_receipt(r)
 
 
 def _other_token(r: dict[str, Any]) -> None:
     r["execution"]["token_id"] = "tok-9999"
-    r["receipt"]["execution_digest"] = _digest(r["execution"])
+    _sign_receipt(r)
 
 
 def _replayed(r: dict[str, Any]) -> None:
@@ -191,6 +228,26 @@ def _receipt_stale(r: dict[str, Any]) -> None:
 
 def _no_fulfilment(r: dict[str, Any]) -> None:
     r["post_checkout"]["recorded"] = ["capture"]
+
+
+def _ceiling_raised_without_key(r: dict[str, Any]) -> None:
+    """The pack's holder raises the ceiling and recomputes every digest; it holds no issuer key."""
+    r["mandate"]["terms"]["max_amount_minor"] = 10**9
+    r["mandate"]["digest"] = _digest(r["mandate"]["terms"])
+    r["credential"]["mandate_digest"] = r["mandate"]["digest"]
+    r["receipt"]["mandate_digest"] = r["mandate"]["digest"]
+    r["mandate"]["signature"]["value"] = "ab" * 64
+
+
+def _charge_rewritten_after_witness(r: dict[str, Any]) -> None:
+    """The holder rewrites the charge and its digest after the witness signed; no witness key."""
+    r["execution"]["amount_minor"] -= 100
+    r["receipt"]["execution_digest"] = _digest(r["execution"])
+
+
+def _receipt_signed_by_agent(r: dict[str, Any]) -> None:
+    """The agent signs its own receipt: a valid signature from a party that is no witness."""
+    _sign_receipt(r, "agent-key-1")
 
 
 # (id, base, mutation or None for an accepted member, refusal code, description, twin)
@@ -308,6 +365,30 @@ MEMBERS: tuple[tuple[str, str, Callable[[dict[str, Any]], None] | None, str, str
         "authorized-vi-credential",
     ),
     (
+        "mandate-ceiling-raised-without-key",
+        "ap2",
+        _ceiling_raised_without_key,
+        "mandate_signature_invalid",
+        "holder raised the ceiling and recomputed every digest without the issuer key",
+        "authorized-ap2-cart",
+    ),
+    (
+        "charge-rewritten-after-witness",
+        "vi",
+        _charge_rewritten_after_witness,
+        "receipt_signature_invalid",
+        "charge and its digest rewritten after the settlement witness signed the receipt",
+        "authorized-vi-credential",
+    ),
+    (
+        "receipt-signed-by-agent",
+        "spt",
+        _receipt_signed_by_agent,
+        "receipt_signer_not_witness",
+        "the agent signed its own receipt; no pinned settlement witness did",
+        "authorized-spt-seller-bound",
+    ),
+    (
         "post-checkout-fulfilment-missing",
         "ap2",
         _no_fulfilment,
@@ -390,7 +471,7 @@ def generate(root: Path = ROOT) -> dict[str, Any]:
         "schema": SCHEMA,
         "vectors": entries,
         "specification": SPECIFICATION,
-        "verifierContract": "verifier case.json --json",
+        "verifierContract": "verifier case.json --json --policy policy.json",
         "corpusDigest": digest,
     }
     verdict_words = [entry["expected"]["decision"] for entry in entries]
@@ -398,6 +479,7 @@ def generate(root: Path = ROOT) -> dict[str, Any]:
     (root / "MANIFEST.json").write_bytes(_json(manifest))
     (root / "INDEX.md").write_bytes(_index(entries, digest))
     (root / "profile.json").write_bytes(_json(PROFILE))
+    (root / "policy.json").write_bytes(_json(POLICY))
     return manifest
 
 
