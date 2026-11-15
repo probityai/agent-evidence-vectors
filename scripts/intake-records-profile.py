@@ -15,6 +15,8 @@ from __future__ import annotations
 import collections
 import importlib.util
 import json
+import os
+import resource
 import sys
 import time
 from pathlib import Path
@@ -26,18 +28,28 @@ gir = importlib.util.module_from_spec(spec)
 sys.modules["gir"] = gir
 spec.loader.exec_module(gir)
 
+CPU: dict[str, collections.Counter[str]] = collections.defaultdict(collections.Counter)
 TIMES: dict[str, collections.Counter[str]] = collections.defaultdict(collections.Counter)
 COUNTS: dict[str, collections.Counter[str]] = collections.defaultdict(collections.Counter)
 CURRENT = ["-"]
 
 
+def cpu() -> float:
+    """CPU seconds of this process and its finished children, user and system."""
+    me = resource.getrusage(resource.RUSAGE_SELF)
+    kids = resource.getrusage(resource.RUSAGE_CHILDREN)
+    return me.ru_utime + me.ru_stime + kids.ru_utime + kids.ru_stime
+
+
 def timed(name: str, fn):  # type: ignore[no-untyped-def]
     def wrapper(*args, **kwargs):  # type: ignore[no-untyped-def]
         start = time.perf_counter()
+        cpu0 = cpu()
         try:
             return fn(*args, **kwargs)
         finally:
             TIMES[CURRENT[0]][name] += time.perf_counter() - start
+            CPU[CURRENT[0]][name] += cpu() - cpu0
             COUNTS[CURRENT[0]][name] += 1
     return wrapper
 
@@ -47,8 +59,12 @@ def main() -> int:
     outdir.mkdir(parents=True, exist_ok=True)
     original_corpora = gir.corpora
 
+    only = set(filter(None, os.environ.get("INTAKE_PROFILE_ONLY", "").split(",")))
+
     def corpora_tracking():  # type: ignore[no-untyped-def]
         for item in original_corpora():
+            if only and item[0] not in only:
+                continue
             CURRENT[0] = item[0]
             yield item
     gir.corpora = corpora_tracking
@@ -74,8 +90,10 @@ def main() -> int:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(body)
     current = gir.on_disk()
+    if only:
+        current = {r: b for r, b in current.items() if any(f"/{c}." in r for c in only)}
     differ = sorted(r for r in set(fresh) | set(current) if fresh.get(r) != current.get(r))
-    per_corpus = {c: {"seconds": dict(TIMES[c]), "calls": dict(COUNTS[c]),
+    per_corpus = {c: {"seconds": dict(TIMES[c]), "cpu": dict(CPU[c]), "calls": dict(COUNTS[c]),
                       "total": sum(v for k, v in TIMES[c].items()
                                    if k not in ("tracked (git ls-files)", "corpus_digest_of",
                                                 "w3cintake.rejections", "checker_run (baseline+swaps)",
@@ -88,7 +106,10 @@ def main() -> int:
         phase_totals.update(TIMES[c])
     lines = [f"total build() wall: {total:.1f} s; files differing from the tree: {len(differ)}", "",
              "phase totals (nested phases overlap their parents):"]
-    lines += [f"  {v:9.1f} s  {k}" for k, v in phase_totals.most_common()]
+    cpu_totals: collections.Counter[str] = collections.Counter()
+    for c in CPU:
+        cpu_totals.update(CPU[c])
+    lines += [f"  {v:9.1f} s wall {cpu_totals[k]:9.1f} s cpu  {k}" for k, v in phase_totals.most_common()]
     lines += ["", "corpora by wall time (seconds, artifacts swapped):"]
     for c, row in sorted(per_corpus.items(), key=lambda kv: -kv[1]["total"]):
         lines.append(f"  {row['total']:9.1f}  {row['calls'].get('repin', 0):4d}  {c}")

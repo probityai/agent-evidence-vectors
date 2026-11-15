@@ -67,10 +67,12 @@ import json
 import os
 import re
 import shutil
+import multiprocessing
 import subprocess
 import sys
 import tempfile
 import tomllib
+from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 from typing import Any
 
@@ -341,11 +343,27 @@ def scitt_runs() -> tuple[Run, Run, Run]:
 # --------------------------------------------------------------------------
 
 
-def tracked(directory: str) -> list[str]:
-    """The files git tracks under a corpus directory, which is what a tag publishes."""
+@functools.cache
+def tracked(directory: str) -> tuple[str, ...]:
+    """The files git tracks under a corpus directory, which is what a tag publishes.
+
+    Asked once per corpus: nothing this script does changes the index, and
+    the swap loop used to ask git again for every artifact.
+    """
     listed = subprocess.run(["git", "-C", str(REPO), "ls-files", "-z", where(directory) + "/"],
                             capture_output=True, check=True)
-    return sorted(p for p in listed.stdout.decode("utf-8").split("\0") if p)
+    return tuple(sorted(p for p in listed.stdout.decode("utf-8").split("\0") if p))
+
+
+@functools.cache
+def corpus_bytes(directory: str) -> dict[str, bytes]:
+    """Every tracked file of a corpus, read once from the repository.
+
+    The repository is never written while records are built (every swap goes
+    to a scratch copy), so these are the bytes read() would return; repin()
+    used to re-read every file of the corpus for every artifact it swapped.
+    """
+    return {rel: read(rel) for rel in tracked(directory)}
 
 
 def artifact_paths(directory: str, pop: dict[str, Any]) -> list[str]:
@@ -405,7 +423,7 @@ class Farm:
 
     def restore(self, rels: list[str]) -> None:
         for rel in rels:
-            (self.root / rel).write_bytes(read(rel))
+            (self.root / rel).write_bytes(corpus_bytes(self.directory)[rel])
 
     def close(self) -> None:
         shutil.rmtree(self.root, ignore_errors=True)
@@ -432,14 +450,12 @@ def repin(farm: Farm, rel: str, old: bytes, new: bytes) -> tuple[list[str], str]
     """
     directory = farm.directory
     changed: list[str] = []
-    for other in tracked(directory):
-        if other == rel:
+    pin, moved_pin = sha(old).encode("ascii"), sha(new).encode("ascii")
+    for other, body in corpus_bytes(directory).items():
+        if other == rel or pin not in body:
             continue
-        body = read(other)
-        moved = body.replace(sha(old).encode("ascii"), sha(new).encode("ascii"))
-        if moved != body:
-            farm.write(other, moved)
-            changed.append(other)
+        farm.write(other, body.replace(pin, moved_pin))
+        changed.append(other)
     manifest_rel = f"{where(directory)}/MANIFEST.json"
     manifest_body = (farm.root / manifest_rel).read_bytes()
     manifest = json.loads(manifest_body)
@@ -457,51 +473,79 @@ def repin(farm: Farm, rel: str, old: bytes, new: bytes) -> tuple[list[str], str]
     return changed, "recomputed"
 
 
-def consumption(directory: str, binary: str, farm: Farm, first: Run,
-                paths: list[str]) -> list[dict[str, Any]]:
-    """The swap-and-re-pin test of 0091, run on every artifact of one corpus."""
-    baseline = checker_run(directory, binary, farm.root)
-    if (baseline.stdout, baseline.code) != (first.stdout, first.code):
-        raise SystemExit(f"FAIL: {directory}: the checker prints other output in the scratch "
-                         "copy than in the repository, so a swap there proves nothing")
-    out = []
-    for rel in paths:
-        old, new = read(rel), swapped_bytes(rel)
-        farm.write(rel, new)
-        changed, digest_state = repin(farm, rel, old, new)
-        after = checker_run(directory, binary, farm.root)
-        farm.restore([rel] + changed)
-        state = "consumed" if native_result(after) != native_result(first) else "unconsumed"
-        out.append({
-            "path": rel, "sha256": sha(old), "serialization": "bytes", "consumed": state,
-            "evidence": {
-                "test": "swap-and-re-pin",
-                "swapped-in": sha(new),
-                "pins-moved": sorted(changed),
-                "corpus-digest": digest_state,
-                "baseline": native_result(first),
-                "swapped": native_result(after),
-            },
-        })
-    return out
+def swap_one(directory: str, binary: str, farm: Farm, first: tuple[bytes, int],
+             rel: str) -> dict[str, Any]:
+    """The swap-and-re-pin test of 0091 on one artifact, in a farm left as it was found."""
+    old, new = corpus_bytes(directory)[rel], swapped_bytes(rel)
+    farm.write(rel, new)
+    changed, digest_state = repin(farm, rel, old, new)
+    after = checker_run(directory, binary, farm.root)
+    farm.restore([rel] + changed)
+    baseline = {"sha256": sha(first[0]), "exit-code": first[1]}
+    state = "consumed" if native_result(after) != baseline else "unconsumed"
+    return {
+        "path": rel, "sha256": sha(old), "serialization": "bytes", "consumed": state,
+        "evidence": {
+            "test": "swap-and-re-pin",
+            "swapped-in": sha(new),
+            "pins-moved": sorted(changed),
+            "corpus-digest": digest_state,
+            "baseline": baseline,
+            "swapped": native_result(after),
+        },
+    }
 
 
-def refused_by(document: dict[str, Any], farm: Farm) -> None:
-    """For each unconsumed artifact, the grounds that refuse its swap while its pin stays."""
-    unconsumed = [a for a in document["artifacts"] if a["consumed"] == "unconsumed"]
-    for item in unconsumed:
-        item["evidence"]["refused-by"] = [w3cintake.G[2]]
-    if w3cintake.rejections(document, str(farm.root)):
-        raise SystemExit(f"FAIL: {farm.directory}: the record is refused in the scratch copy "
-                         f"before any swap: {w3cintake.rejections(document, str(farm.root))}")
-    for item in unconsumed:
-        farm.write(item["path"], swapped_bytes(item["path"]))
-        found = w3cintake.rejections(document, str(farm.root))
-        farm.restore([item["path"]])
-        if not found:
-            raise SystemExit(f"FAIL: {item['path']} swapped with its pin left in place is "
-                             "refused under no ground")
-        item["evidence"]["refused-by"] = found
+def swap_batch(task: tuple[str, str, dict[str, bytes], tuple[bytes, int], list[str]]
+               ) -> list[dict[str, Any]]:
+    """One worker's share of a corpus's artifacts, swapped in a farm of its own.
+
+    Each farm first runs the checker unswapped and must print what it printed
+    in the repository, so every swap result is read against a farm that is
+    known to reproduce the repository's run.
+    """
+    directory, binary, natives, first, paths = task
+    farm = Farm(directory, natives)
+    try:
+        baseline = checker_run(directory, binary, farm.root)
+        if (baseline.stdout, baseline.code) != first:
+            raise SystemExit(f"FAIL: {directory}: the checker prints other output in the "
+                             "scratch copy than in the repository, so a swap there proves "
+                             "nothing")
+        return [swap_one(directory, binary, farm, first, rel) for rel in paths]
+    finally:
+        farm.close()
+
+
+def refuse_batch(task: tuple[str, dict[str, bytes], dict[str, Any], list[str], bool]
+                 ) -> dict[str, list[str]]:
+    """For a share of the unconsumed artifacts, the grounds that refuse each swap left unpinned.
+
+    The record is read with every unconsumed artifact's refused-by already
+    filled in (with the ground the intake checker names for an unpinned swap),
+    which is valid either way: the checker asks only that refused-by name
+    known grounds, so one artifact's grounds never depend on another's.
+    """
+    directory, natives, document, paths, first_batch = task
+    farm = Farm(directory, natives)
+    try:
+        if first_batch:
+            before = w3cintake.rejections(document, str(farm.root))
+            if before:
+                raise SystemExit(f"FAIL: {directory}: the record is refused in the scratch "
+                                 f"copy before any swap: {before}")
+        out = {}
+        for rel in paths:
+            farm.write(rel, swapped_bytes(rel))
+            found = w3cintake.rejections(document, str(farm.root))
+            farm.restore([rel])
+            if not found:
+                raise SystemExit(f"FAIL: {rel} swapped with its pin left in place is refused "
+                                 "under no ground")
+            out[rel] = found
+        return out
+    finally:
+        farm.close()
 
 
 SCITT_LINE = re.compile(r"^OK (\d+) accept, (\d+) reject, (\d+) indeterminate, ")
@@ -761,7 +805,30 @@ def render(document: dict[str, Any]) -> bytes:
     return (json.dumps(document, indent=2, sort_keys=True) + "\n").encode("utf-8")
 
 
-def build() -> dict[str, bytes]:
+#: Artifacts one worker swaps in one farm. Small enough that the largest corpus
+#: (166 artifacts) spreads over every worker, large enough that the farm and
+#: its baseline run are paid a few times per corpus, not once per artifact.
+BATCH = 12
+
+
+def batches(paths: list[str]) -> list[list[str]]:
+    return [paths[i:i + BATCH] for i in range(0, len(paths), BATCH)]
+
+
+def pin_one_core() -> None:
+    """Each worker runs its checkers on one core: the pool is the parallel layer."""
+    os.environ["GOMAXPROCS"] = "1"
+
+
+def build(workers: int | None = None) -> dict[str, bytes]:
+    """Every record and native output, in memory.
+
+    Every corpus's three recorded runs, every artifact swap and every
+    refused-by evaluation is independent of the others, so they run across a
+    pool of worker processes, each in a farm of its own; the results are put
+    back in the order the serial loop produced them, so the bytes written do
+    not depend on the number of workers.
+    """
     if sys.version_info[:2] != PYTHON_RUNTIME:
         raise SystemExit(f"FAIL: run under CPython {PYTHON_RUNTIME[0]}.{PYTHON_RUNTIME[1]}; "
                          "the SCITT record names that runtime")
@@ -769,28 +836,58 @@ def build() -> dict[str, bytes]:
     if f"go{GO_RUNTIME}." not in version.stdout:
         raise SystemExit(f"FAIL: run under Go {GO_RUNTIME}; found {version.stdout.strip()}")
     scratch = tempfile.mkdtemp(prefix="intake-records-")
+    context = multiprocessing.get_context("fork")
     try:
         binary = os.path.join(scratch, "aee-verify")
         subprocess.run(["go", "build", "-o", binary, "./cmd/aee-verify"], cwd=REPO, check=True)
-        out: dict[str, bytes] = {}
-        for directory, suite, digest in corpora():
-            runs = scitt_runs() if directory == SCITT else go_runs(binary, directory)
-            manifest = json.loads(read(f"{where(directory)}/MANIFEST.json"))
-            paths = artifact_paths(directory, population(directory, manifest))
-            natives = {f"{NATIVE}/{directory}.json": runs[0].stdout,
-                       f"{NATIVE}/{directory}.txt": runs[2].stdout}
-            farm = Farm(directory, natives)
-            try:
-                artifacts = consumption(directory, binary, farm, runs[0], paths)
+        listed = corpora()
+        with ProcessPoolExecutor(max_workers=workers or os.cpu_count(), mp_context=context,
+                                 initializer=pin_one_core) as pool:
+            run_futures = [pool.submit(recorded_runs, binary, directory)
+                           for directory, _, _ in listed]
+            runs_of = [f.result() for f in run_futures]
+            natives_of, swap_futures = [], []
+            for (directory, _, _), runs in zip(listed, runs_of, strict=True):
+                manifest = json.loads(read(f"{where(directory)}/MANIFEST.json"))
+                paths = artifact_paths(directory, population(directory, manifest))
+                natives = {f"{NATIVE}/{directory}.json": runs[0].stdout,
+                           f"{NATIVE}/{directory}.txt": runs[2].stdout}
+                natives_of.append(natives)
+                first = (runs[0].stdout, runs[0].code)
+                swap_futures.append([pool.submit(swap_batch, (directory, binary, natives, first,
+                                                              share))
+                                     for share in batches(paths)])
+            documents, refuse_futures = [], []
+            for (directory, suite, digest), runs, natives, futures in zip(
+                    listed, runs_of, natives_of, swap_futures, strict=True):
+                artifacts = [item for f in futures for item in f.result()]
                 document, files = record(directory, suite, digest, runs, artifacts)
-                refused_by(document, farm)
-            finally:
-                farm.close()
-            out[f"{OUT}/{directory}.intake.json"] = render(document)
-            out.update(files)
+                unconsumed = [a for a in document["artifacts"] if a["consumed"] == "unconsumed"]
+                for item in unconsumed:
+                    item["evidence"]["refused-by"] = [w3cintake.G[2]]
+                shares = batches([a["path"] for a in unconsumed]) or [[]]
+                refuse_futures.append([
+                    pool.submit(refuse_batch, (directory, natives, document, share, i == 0))
+                    for i, share in enumerate(shares)])
+                documents.append((document, files))
+            out: dict[str, bytes] = {}
+            for (directory, _, _), (document, files), futures in zip(
+                    listed, documents, refuse_futures, strict=True):
+                found: dict[str, list[str]] = {}
+                for f in futures:
+                    found.update(f.result())
+                for item in document["artifacts"]:
+                    if item["consumed"] == "unconsumed":
+                        item["evidence"]["refused-by"] = found[item["path"]]
+                out[f"{OUT}/{directory}.intake.json"] = render(document)
+                out.update(files)
         return out
     finally:
         shutil.rmtree(scratch, ignore_errors=True)
+
+
+def recorded_runs(binary: str, directory: str) -> tuple[Run, Run, Run]:
+    return scitt_runs() if directory == SCITT else go_runs(binary, directory)
 
 
 def on_disk() -> dict[str, bytes]:
