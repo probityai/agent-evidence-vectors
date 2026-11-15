@@ -2,7 +2,9 @@
 
 Cases for `chunked-export/v1`: an export gate's view when one chunk of a flagged
 dataset is presented, and the decision the gate must reach. The expected
-decision and reason for every case are in `MANIFEST.json`.
+decision and reason for every case are in `MANIFEST.json`. The contract an outside
+verifier implements, with the `sets` rule, the check order and the rule that decides each
+case, is [docs/reference/chunked-export.md](../../docs/reference/chunked-export.md).
 
 [![Checked with Probity](https://img.shields.io/badge/checked-with_Probity-blue?style=flat-square&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAkFBMVEX8%2B%2Bzr5NPgyrfKyLnSq5Wzo4tWltqRkZI2kPU1kvk1j%2FMwkPgzjfI2jO80jO40jO3MdWOZc1SLblN1aFxxXFJzVDY2i%2B40i%2B00i%2Bw0i%2Bs0ius1iOZAapwugNYtdbUqaq0qV4tkRzJXOB47Oz43JRkjNEYiHBwlFxIfFxMcEg0XEQ0WEAwXDAUWCAEOCQcJAgCa503RAAAB3klEQVR42rWT2ZacIBCGceHYoN240SK2Crig4vL%2BbxfszJyZTmaSm6S4rI9a%2FwK3vxj41wDj5E9AwS%2Foxjn7DmARqgVHCBHyJcBxJeZtEG2Nv4hAGEPXYVumddvWAbFfgJJECDfDukxa63ldmw%2FiCTCEK%2BteFzNbQI%2BbQPwzwKJGjNO2LMacxNqK1wgcNfO2mqfbHMs8NEkeXT8AjurRTKfbMlqOa5vFyc8cZclu4PSvWptlPlOMeb4PsQu78MoYQWFIwKUet0nPZl%2FMki1H3x%2FKd1PVhhdkS2tDgM7m9bR3XX8EXtYde59SSVVXNx2NMwuIbbGl74HUu%2BcFXrArSpXqlVSpGz8sUG%2FjoCej1RHA6ZAgl1SmUvVUQjduEGDIdt0MxuwjCHYNAZSwT1IbhaZ%2BFt7BrUAXbguxnx3gZ9AJVJLal0hKaYv4OShGbu249Z4F4jhQ1PcpTUYLDBF5WxZB9dBB14O%2Bm6eu48QQpjBXIizf113iS9sF0LYxZMD1PODbVvtznu96sGOrWyFEiwQEwHNcC8gaF58UxfG1qiqMqzx2AACJ0i0qXyRXEIwjwnD1SBOYdKJ%2B7vxF1eRUaxGF9ePRVgiX3xxOccdhiK5v6v%2Fysgp2Z%2BR%2F3ebv9gP5RU8tSdZhDwAAAABJRU5ErkJggg%3D%3D)](https://github.com/probityai/probity)
 
@@ -31,7 +33,7 @@ decides them.
 | contract-id-unknown | count, k=3 | 0, 1 | reversible | reversible | deny, `contract_id_unknown` |
 
 The Variant A decisions (boundary B2) are the ones Mayur Agnihotri posted on
-[agent-evidence#24](https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529872181):
+[agent-evidence-vectors#352](https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529872181):
 a gate reading the maximum of the per-step labels permits at every chunk, and a
 composition-aware gate permits below the threshold and denies at the crossing
 chunk and at every chunk after it. The denial is not one-shot. The set cases
@@ -66,13 +68,14 @@ left whole). It then checks in this order and names the first check that fails:
 3. the rule was committed no later than the first chunk left
    (`threshold_not_precommitted`). This follows the pre-fixed completion
    criterion of [agent-evidence-vectors#80](https://github.com/probityai/agent-evidence-vectors/issues/80);
-4. the seal's `maxClass` is the composed class (`seal_understates_composition`).
-   Proposed;
-5. the composed class is `reversible` (`export_irreversible`). Proposed.
+4. the seal's `maxClass` is the composed class (`seal_understates_composition`);
+5. the composed class is `reversible` (`export_irreversible`).
 
 A record that passes all five is `allow` with reason `reversible_so_far`. The
-`sets` rule and the order of the seal check and the composition check are Proposed: no published contract
-states them yet.
+[contract](../../docs/reference/chunked-export.md) states the `sets` rule and this
+order. Two members fail both check 4 and check 5 and expect
+`seal_understates_composition`, so the order of those two is fixed by the cases;
+the contract also lists what no case exercises.
 
 ## What these cases cannot establish
 
@@ -86,8 +89,8 @@ out of scope for this corpus.
 ## Run it
 
 ```sh
-python3 vectors-chunked-export/check_vectors.py
-python3 vectors-chunked-export/check_vectors.py --verifier "<your verifier>"
+python3 corpora/vectors-chunked-export/check_vectors.py
+python3 corpora/vectors-chunked-export/check_vectors.py --verifier "<your verifier>"
 GOWORK=off go run ./cmd/aee-verify vectors-chunked-export
 ```
 
@@ -98,7 +101,7 @@ prints one JSON object carrying `decision` and `reason`, and exits 0 for
 ## Regenerate
 
 ```sh
-python3 vectors-chunked-export/gen_vectors.py
+python3 corpora/vectors-chunked-export/gen_vectors.py
 ```
 
 The generator writes every case and `MANIFEST.json` byte-identically; the
