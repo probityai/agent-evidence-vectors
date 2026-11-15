@@ -52,6 +52,7 @@ RUNS_A_VERIFIER = (
     "vectors-completion-confirmation",
     "vectors-authority-at-dispatch",
     "vectors-aggregate-accounting",
+    "vectors-print-witness",
     "vectors-uncertain-effect",
     "vectors-monitor-coverage",
     "vectors-signature-coverage",
