@@ -5,11 +5,12 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"strings"
+	"time"
 
 	"github.com/probityai/agent-evidence-vectors/aee"
 )
 
-// The principal member (revision 04, rows PR1 to PR11): the IdP-authenticated
+// The principal member (revision 04, rows PR1 to PR16): the IdP-authenticated
 // principal a decision point established, carried inside the signed bytes. It
 // is bound to the agent by its credential digest (tokenDigest equals
 // agent.credentialDigest), to the delegation by its subject, and to the
@@ -155,6 +156,19 @@ func arPrincipalShape(raw any) (map[string]any, error) {
 	return principal, arPrincipalKeyShape(principal["key"])
 }
 
+// arPrincipalSkew says whether the skew tolerance applies on each side of the
+// token's lifetime: to its issue (PR13, PR15) and to its expiry (PR12, PR14).
+// A test sets one false.
+var arPrincipalSkew = map[string]bool{"issued": true, "expires": true}
+
+// arSkewOn is the tolerance on one side of a lifetime, or none.
+func arSkewOn(side string) time.Duration {
+	if arPrincipalSkew[side] {
+		return arSkewTolerance
+	}
+	return 0
+}
+
 func arPrincipalLifetime(principal map[string]any, reportedAt string) error {
 	issued, errIssued := arInstant(arStr(principal, "issuedAt"))
 	expires, errExpires := arInstant(arStr(principal, "expiresAt"))
@@ -165,10 +179,10 @@ func arPrincipalLifetime(principal map[string]any, reportedAt string) error {
 	if err != nil {
 		return err
 	}
-	if arPrincipalChecks["not-yet-valid"] && issued.Sub(decided) > arSkewTolerance {
+	if arPrincipalChecks["not-yet-valid"] && issued.Sub(decided) > arSkewOn("issued") {
 		return arRefuse("principal-not-yet-valid")
 	}
-	if arPrincipalChecks["expired"] && decided.Sub(expires) > arSkewTolerance {
+	if arPrincipalChecks["expired"] && decided.Sub(expires) > arSkewOn("expires") {
 		return arRefuse("principal-expired")
 	}
 	return nil

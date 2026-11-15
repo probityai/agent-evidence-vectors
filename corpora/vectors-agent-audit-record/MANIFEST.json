@@ -75,11 +75,11 @@
       }
     ]
   },
-  "corpusDigest": "4e23b2657679aab1484add84ef82e6e5c2a8d681a8d93e4fe11981206efb767f",
+  "corpusDigest": "f0219f173abbdd638cf2949c5fc85cdff4ce01ba8f01d18b91ab7a228df7659e",
   "counts": {
-    "accept": 98,
+    "accept": 102,
     "indeterminate": 2,
-    "reject": 125
+    "reject": 127
   },
   "draft": "draft-gilda-audit-agent-audit-record-00",
   "emptyTree": {
@@ -2968,11 +2968,36 @@
         },
         "verdict": "valid"
       },
+      "file": "sets/vbabb444e3476770c.json",
+      "id": "vbabb444e3476770c",
+      "kind": "accept",
+      "row": "CS53 where the later record is dated one second after the permit's deadline: each record valid, the set valid",
+      "slug": "cs54-set-zero-settlement-released-after-the-deadline"
+    },
+    {
+      "draftId": "CS55",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "set": {
+          "codes": [
+            "consumption-set-release-unshown"
+          ],
+          "verdict": "malformed",
+          "withinLimit": [
+            true,
+            true
+          ]
+        },
+        "verdict": "valid"
+      },
       "file": "sets/v2f0df6d2793c22c8.json",
       "id": "v2f0df6d2793c22c8",
       "kind": "accept",
-      "row": "CS53 where the later record is dated at the permit's deadline: each record valid, the set valid",
-      "slug": "cs54-set-zero-settlement-released-at-the-deadline"
+      "row": "CS53 where the later record is dated at the permit's deadline: each record valid, the set malformed because Permit2 still accepts a settlement in a block stamped at the deadline",
+      "slug": "cs55-set-zero-settlement-released-at-the-deadline"
     },
     {
       "draftId": "A21",
@@ -3589,6 +3614,88 @@
       "parentDraftId": "PR1",
       "row": "principal carrying the raw token in a member this document does not define",
       "slug": "pr11-principal-member-unknown"
+    },
+    {
+      "draftId": "PR12",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vb49f0606c23539b2.json",
+      "id": "vb49f0606c23539b2",
+      "kind": "accept",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "row": "PR1 whose token expired at 11:00:02, four minutes before decision.reportedAt and within the skew tolerance",
+      "slug": "pr12-principal-expired-within-skew"
+    },
+    {
+      "draftId": "PR13",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vf7325eb15572e6e0.json",
+      "id": "vf7325eb15572e6e0",
+      "kind": "accept",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "row": "PR1 whose token was issued at 11:08:02, four minutes after decision.reportedAt and within the skew tolerance",
+      "slug": "pr13-principal-issued-within-skew"
+    },
+    {
+      "draftId": "PR14",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "principal-expired"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v7c684b4e9bf52257.json",
+      "id": "v7c684b4e9bf52257",
+      "kind": "reject",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "row": "PR1 whose token expired at 10:59:01, 301 seconds before decision.reportedAt: one second past the skew tolerance",
+      "slug": "pr14-principal-expired-past-skew"
+    },
+    {
+      "draftId": "PR15",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [
+          "principal-not-yet-valid"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vdec92f24acb52644.json",
+      "id": "vdec92f24acb52644",
+      "kind": "reject",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "row": "PR1 whose token was issued at 11:09:03, 301 seconds after decision.reportedAt: one second past the skew tolerance",
+      "slug": "pr15-principal-issued-past-skew"
+    },
+    {
+      "draftId": "PR16",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vcd1aa59f3085f0ad.json",
+      "id": "vcd1aa59f3085f0ad",
+      "kind": "accept",
+      "parent": "v717e1bb82abc81e9",
+      "parentDraftId": "PR2",
+      "row": "PR2 where the principal's subject is the issuer's own identifier for the client, not its client_id, as RFC 9068 Section 2.2 allows: valid, a verifier does not compare them",
+      "slug": "pr16-principal-system-subject-not-client-id"
     },
     {
       "draftId": "DS1",

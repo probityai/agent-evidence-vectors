@@ -179,9 +179,11 @@ var arConsumptionChecks = map[string]bool{
 }
 
 // arDeadlineInclusive says whether a record dated exactly at a zero
-// settlement's deadline ends its hold (CS54): the hold ends at or after it. A
-// test sets it false.
-var arDeadlineInclusive = true
+// settlement's deadline ends its hold. Permit2's SignatureTransfer reverts only
+// when block.timestamp is greater than the deadline, so a settlement can land
+// at it: the hold ends only at a record dated after the deadline (CS54, CS55).
+// A test sets it true.
+var arDeadlineInclusive = false
 
 // arSettledReadingHeld reads the held amount, not the settled one, as what a
 // later record of the ledger counts for a call that carries settled. A test

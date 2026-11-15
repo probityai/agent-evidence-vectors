@@ -73,7 +73,9 @@ states them (`row` and `expected`).
 
 The payee digest on `requested` and on each held entry, and the settled terms
 beside the approved ones, are proposed for revision 04 and tested by `CS41` to
-`CS54` (the zero settlement of an `upto` permit, `CS50` to `CS54`, was Carlos's second case). Carlos (vendrell46) wrote the case on #307 against the messages x402
+`CS55` (the zero settlement of an `upto` permit, `CS50` to `CS55`, was Carlos's second case, and
+his third note moved its boundary: Permit2 accepts a settlement at the deadline, so the hold ends
+only at a record dated after it). Carlos (vendrell46) wrote the case on #307 against the messages x402
 sends over MCP; the text and the members follow it, with two corrections he
 made: an x402 `upto` settlement at or below the authorized maximum is valid,
 and the settled terms say where they were read. The text is in the corpus

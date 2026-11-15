@@ -2954,8 +2954,10 @@ def define_consumption_carryover() -> None:
 # is the empty string, valid only at amount 0 (CS50, CS51). The authorization
 # is not spent, so the facilitator can still settle it up to the maximum until
 # its deadline: the held entry keeps the operation key and carries the deadline
-# (CS52), and a later record of the ledger releases it only at or after that
-# deadline (CS53, CS54).
+# (CS52), and a later record of the ledger releases it only once dated after
+# that deadline (CS53 to CS55): Permit2 reverts only when block.timestamp is
+# greater than the deadline, so a settlement can still land at it (vendrell46,
+# #307).
 # ---------------------------------------------------------------------------
 
 #: USDC on Base Sepolia, the asset of the x402 MCP transport's example, and the
@@ -3013,6 +3015,10 @@ def _settled(pred: dict[str, Any]) -> None:
 
 #: The deadline of the upto permit, as the record shape writes instants.
 UPTO_DEADLINE = "2026-09-19T11:34:02Z"
+#: The first second after it. Permit2's SignatureTransfer reverts only when
+#: block.timestamp is greater than the deadline, so the deadline itself is the
+#: permit's last valid second and a hold ends only at a record dated after it.
+UPTO_DEADLINE_PASSED = "2026-09-19T11:34:03Z"
 
 
 def _zero_settled(pred: dict[str, Any]) -> None:
@@ -3040,7 +3046,7 @@ def _read_state_at(pred: dict[str, Any], stamp: str) -> None:
 
 
 def _zero_settled_later(reported_at: str) -> Callable[[], list[dict[str, Any]]]:
-    """CS53 and CS54: the zero settlement of CS50, then a new operation under the
+    """CS53 to CS55: the zero settlement of CS50, then a new operation under the
     same limit document, dated reported_at, that reads a later revision, holds
     nothing and counts what CS50 read as consumed."""
 
@@ -3280,12 +3286,22 @@ def define_settlement() -> None:
         ),
         (
             "CS54",
-            "cs54-set-zero-settlement-released-at-the-deadline",
-            "CS53 where the later record is dated at the permit's deadline: each record "
-            "valid, the set valid",
-            UPTO_DEADLINE,
+            "cs54-set-zero-settlement-released-after-the-deadline",
+            "CS53 where the later record is dated one second after the permit's deadline: each "
+            "record valid, the set valid",
+            UPTO_DEADLINE_PASSED,
             "valid",
             None,
+        ),
+        (
+            "CS55",
+            "cs55-set-zero-settlement-released-at-the-deadline",
+            "CS53 where the later record is dated at the permit's deadline: each record valid, "
+            "the set malformed because Permit2 still accepts a settlement in a block stamped "
+            "at the deadline",
+            UPTO_DEADLINE,
+            "malformed",
+            "consumption-set-release-unshown",
         ),
     ]
     for draft_id, slug, row, reported_at, verdict, joint_code in zero_sets:
@@ -3634,7 +3650,7 @@ def define_principal_standing() -> None:
 
 
 # ---------------------------------------------------------------------------
-# The authenticated principal (revision 04, rows PR1 to PR11).
+# The authenticated principal (revision 04, rows PR1 to PR16).
 #
 # A decision point that authenticated the call through an identity provider
 # knows who the principal is: the issuer, the subject, the client, the
@@ -3875,6 +3891,87 @@ def define_principal() -> None:
             [code],
             revision=REVISION_04,
         )
+    define_principal_bounds()
+
+
+def _lifetime(issued: str, expires: str) -> Callable[[dict[str, Any]], None]:
+    def change(pred: dict[str, Any]) -> None:
+        pred["principal"]["issuedAt"] = issued
+        pred["principal"]["expiresAt"] = expires
+
+    return change
+
+
+def define_principal_bounds() -> None:
+    """PR12 to PR16 (Laurent Lemonnier's two readings on #401). The skew
+    tolerance applies on both sides of the token's lifetime: decision.reportedAt
+    is 11:04:02, so a token that expired four minutes before it, or was issued
+    four minutes after it, is valid, and one second past the 300-second
+    tolerance on either side is refused. Under subjectKind system the subject is
+    whatever identifier the issuer uses for the client (RFC 9068, Section 2.2),
+    which need not equal clientId, and a verifier does not compare them."""
+    bounds = [
+        (
+            "PR12",
+            "pr12-principal-expired-within-skew",
+            "PR1 whose token expired at 11:00:02, four minutes before decision.reportedAt and "
+            "within the skew tolerance",
+            _lifetime("2026-09-19T10:00:02Z", "2026-09-19T11:00:02Z"),
+            "valid",
+            None,
+        ),
+        (
+            "PR13",
+            "pr13-principal-issued-within-skew",
+            "PR1 whose token was issued at 11:08:02, four minutes after decision.reportedAt and "
+            "within the skew tolerance",
+            _lifetime("2026-09-19T11:08:02Z", "2026-09-19T12:08:02Z"),
+            "valid",
+            None,
+        ),
+        (
+            "PR14",
+            "pr14-principal-expired-past-skew",
+            "PR1 whose token expired at 10:59:01, 301 seconds before decision.reportedAt: one "
+            "second past the skew tolerance",
+            _lifetime("2026-09-19T09:59:01Z", "2026-09-19T10:59:01Z"),
+            "malformed",
+            "principal-expired",
+        ),
+        (
+            "PR15",
+            "pr15-principal-issued-past-skew",
+            "PR1 whose token was issued at 11:09:03, 301 seconds after decision.reportedAt: one "
+            "second past the skew tolerance",
+            _lifetime("2026-09-19T11:09:03Z", "2026-09-19T12:09:03Z"),
+            "malformed",
+            "principal-not-yet-valid",
+        ),
+    ]
+    for draft_id, slug, row, change, verdict, code in bounds:
+        member(
+            draft_id,
+            slug,
+            "PR1",
+            row,
+            mutate("PR1", change),
+            verdict,
+            [code] if code else [],
+            tier="authoritative" if verdict == "valid" else None,
+            revision=REVISION_04,
+        )
+    member(
+        "PR16",
+        "pr16-principal-system-subject-not-client-id",
+        "PR2",
+        "PR2 where the principal's subject is the issuer's own identifier for the client, not "
+        "its client_id, as RFC 9068 Section 2.2 allows: valid, a verifier does not compare them",
+        mutate("PR2", _principal_edit("subject", "0oa8f5j3ecb5w3dF35d7")),
+        "valid",
+        [],
+        tier="authoritative",
+        revision=REVISION_04,
+    )
 
 
 def _expired(pred: dict[str, Any]) -> None:
@@ -5040,11 +5137,11 @@ ORDER = (
     "CS1 CS2 CS3 CS4 CS5 CS6 CS7 CS8 CS9 CS10 CS11 CS12 CS13 CS14 CS15 CS16 CS17 "
     "CS18 CS19 CS20 CS21 CS22 CS23 CS24 CS25 "
     "CS26 CS27 CS28 CS29 CS30 CS31 CS32 CS33 CS34 CS35 CS36 CS37 CS38 CS39 CS40 "
-    "CS41 CS42 CS43 CS44 CS45 CS46 CS47 CS48 CS49 CS50 CS51 CS52 CS53 CS54 "
+    "CS41 CS42 CS43 CS44 CS45 CS46 CS47 CS48 CS49 CS50 CS51 CS52 CS53 CS54 CS55 "
     "A21 SQ1 SQ2 SQ3 SQ4 SQ5 "
     "R10 R11 R12 R13 R14 R15 R16 "
     "IS1 IS2 PS1 PS2 PS1b PS3 PS4 PS5 "
-    "PR1 PR2 PR3 PR4 PR5 PR6 PR7 PR8 PR9 PR10 PR11 "
+    "PR1 PR2 PR3 PR4 PR5 PR6 PR7 PR8 PR9 PR10 PR11 PR12 PR13 PR14 PR15 PR16 "
     "DS1 DS2 DS3 DS4 DS5 DS6 DS7 DS8 DS9 DS10 "
     "X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15 X16 X17 X18"
 ).split()

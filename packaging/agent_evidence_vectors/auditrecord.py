@@ -1098,7 +1098,7 @@ def _rule_delegation(state: _State) -> None:
 
 
 # --------------------------------------------------------------------------
-# The authenticated principal (revision 04, rows PR1 to PR11).
+# The authenticated principal (revision 04, rows PR1 to PR16).
 # --------------------------------------------------------------------------
 
 #: The members ``principal`` carries, each required, and the one it may carry
@@ -1208,6 +1208,12 @@ def _principal_shape(principal: Any) -> None:
     _principal_key_shape(principal["key"])
 
 
+#: Whether the skew tolerance applies on each side of a principal's token
+#: lifetime: to its issue (PR13, PR15) and to its expiry (PR12, PR14). A test
+#: sets one false to ask what a reader with no tolerance on that side does.
+PRINCIPAL_SKEW_READING = {"issued": True, "expires": True}
+
+
 def _principal_lifetime(principal: dict[str, Any], reported_at: Any) -> None:
     """Issued no later than the decision and not expired at it, both within the
     skew tolerance; a lifetime that ends before it starts is malformed."""
@@ -1219,16 +1225,19 @@ def _principal_lifetime(principal: dict[str, Any], reported_at: Any) -> None:
     if expires <= issued:
         raise Malformed("principal-malformed")
     decided = _instant(reported_at)
-    if issued - decided > SKEW_TOLERANCE:
+    none = datetime.timedelta(0)
+    issued_skew = SKEW_TOLERANCE if PRINCIPAL_SKEW_READING["issued"] else none
+    expires_skew = SKEW_TOLERANCE if PRINCIPAL_SKEW_READING["expires"] else none
+    if issued - decided > issued_skew:
         raise Malformed("principal-not-yet-valid")
-    if decided - expires > SKEW_TOLERANCE:
+    if decided - expires > expires_skew:
         raise Malformed("principal-expired")
 
 
 def _rule_principal(state: _State) -> None:
     """The optional principal member: the IdP-authenticated principal the
     decision point established, bound to the agent's credential by its digest
-    and to the issuer's key by its RFC 7638 thumbprint (PR1 to PR11)."""
+    and to the issuer's key by its RFC 7638 thumbprint (PR1 to PR16)."""
     pred = state.predicate
     if "principal" not in pred:
         return
@@ -2230,9 +2239,11 @@ def _set_settled_uncounted(group: list[dict[str, Any]]) -> bool:
     return False
 
 
-#: Whether a record dated exactly at the deadline ends a zero settlement's hold
-#: (CS54): the hold ends at or after the deadline.
-DEADLINE_READING = {"inclusive": True}
+#: Whether a record dated exactly at the deadline ends a zero settlement's hold.
+#: Permit2's SignatureTransfer reverts only when block.timestamp is greater than
+#: the deadline, so a settlement can land at it: the hold ends only at a record
+#: dated after the deadline (CS54, CS55). A test sets it true.
+DEADLINE_READING = {"inclusive": False}
 
 
 def _hold_ended(later: dict[str, Any], deadline: datetime.datetime) -> bool:
@@ -2242,11 +2253,13 @@ def _hold_ended(later: dict[str, Any], deadline: datetime.datetime) -> bool:
 
 def _set_unexpired_hold(group: list[dict[str, Any]]) -> bool:
     """The hold of an operation that settled 0 ends only when a later record of
-    the ledger is at or after the held entry's deadline, or a record of that
-    operation shows occurred. A record before the deadline that no longer holds
-    the key, whether or not the operation's own record shows none, released a
-    permit the facilitator can still settle (CS53); one at or after the
-    deadline is the control (CS54)."""
+    the ledger is dated after the held entry's deadline, or a record of that
+    operation shows occurred. A record before the deadline (CS53) or at it
+    (CS55) that no longer holds the key, whether or not the operation's own
+    record shows none, released a permit the facilitator can still settle; one
+    after the deadline is the control (CS54). reportedAt is the writer's clock,
+    so even a record after the deadline is a floor, not proof the permit is
+    dead."""
     for settling in group:
         consumption = consumption_of(settling)
         assert consumption is not None
