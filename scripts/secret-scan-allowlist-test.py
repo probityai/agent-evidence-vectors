@@ -1,4 +1,4 @@
-"""The corpus allowlist covers the card-receipt, credential-release and principal-binding fixtures, no wider.
+"""The corpus allowlist covers the receipt, release and binding fixtures and nothing wider.
 
 Each case writes a scratch repository carrying the repository's .gitleaks.toml, commits one file,
 and runs scripts/secret-scan.sh over it. The fixture shapes must scan clean; the same field with
