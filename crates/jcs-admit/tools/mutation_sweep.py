@@ -43,6 +43,11 @@ NONCHAR_RUN = '''                if self.opts.wants_noncharacter_check()
 NONCHAR_GET = '''    pub(crate) const fn wants_noncharacter_check(&self) -> bool {
         self.reject_noncharacters
     }'''
+UNSAFE_FRACTION_BR = '''        if opts.wants_safe_integers() && !d.is_integer() && rounds_past_safe_range(token) {
+            return Err(Error::UnsafeInteger {
+                token: token.to_owned(),
+            });
+        }'''
 UNSAFE_BR = '''        if opts.wants_safe_integers() && d.is_integer() && d.is_unsafe_magnitude() {
             return Err(Error::UnsafeInteger {
                 token: token.to_owned(),
@@ -104,6 +109,7 @@ CASES = [
             });
         }''',
      ["--test","ijson_profile"]),
+  ("R6b","red","UnsafeInteger/fraction","number.rs", UNSAFE_FRACTION_BR, "", ["--test","ijson_profile"]),
   ("R7","red","NonIntegerNumber","number.rs", NONINT_BR, "", ["--test","ijson_profile"]),
   ("M6","mutate","NonIntegerNumber","number.rs", IS_INT,
      '''    fn is_integer(&self) -> bool {

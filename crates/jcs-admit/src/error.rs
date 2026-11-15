@@ -58,8 +58,9 @@ pub enum Error {
         /// Which fault was found.
         reason: &'static str,
     },
-    /// An integer outside the range where an IEEE-754 double is exact,
-    /// refused under the I-JSON safe-integer profile.
+    /// An integer, or a number whose nearest double is an integer, outside the
+    /// range where an IEEE-754 double is exact, refused under the I-JSON
+    /// safe-integer profile.
     UnsafeInteger {
         /// The offending number token, as written.
         token: String,

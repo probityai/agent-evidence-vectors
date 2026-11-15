@@ -7,6 +7,14 @@ follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## 0.1.4
 
+### Fixed
+
+- `admit_ijson` refused an integer token at or above 2^53 but admitted a fraction whose nearest
+  double is at or above 2^53, such as `12345678901234567.5`, and emitted the unsafe integer
+  `12345678901234568`, which it then refused as input and `is_canonical_with` reported as not
+  canonical. It now refuses that token with `UnsafeInteger`. `9007199254740991.4`, which rounds
+  into the safe range, is still admitted. RFC 8785 as written (`admit`) is unchanged.
+
 ### Changed
 
 - The `repository` and `homepage` fields now point at
