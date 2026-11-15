@@ -180,6 +180,7 @@ only-include = [
     "corpora/vectors-mcp-record-contract",
     "corpora/vectors-mcp-response-phase",
     "corpora/vectors-monitor-coverage",
+    "corpora/vectors-oasf-record",
     "corpora/vectors-observed-effect",
     "corpora/vectors-open-weight-art53",
     "corpora/vectors-propagation-step",
@@ -250,6 +251,7 @@ exclude = [
     "corpora/vectors-mcp-record-contract/**/*.py",
     "corpora/vectors-mcp-response-phase/**/*.py",
     "corpora/vectors-monitor-coverage/**/*.py",
+    "corpora/vectors-oasf-record/**/*.py",
     "corpora/vectors-observed-effect/**/*.py",
     "corpora/vectors-open-weight-art53/**/*.py",
     "corpora/vectors-propagation-step/**/*.py",
@@ -319,6 +321,7 @@ exclude = [
 "corpora/vectors-mcp-record-contract" = "agent_evidence_vectors/corpora/vectors-mcp-record-contract"
 "corpora/vectors-mcp-response-phase" = "agent_evidence_vectors/corpora/vectors-mcp-response-phase"
 "corpora/vectors-monitor-coverage" = "agent_evidence_vectors/corpora/vectors-monitor-coverage"
+"corpora/vectors-oasf-record" = "agent_evidence_vectors/corpora/vectors-oasf-record"
 "corpora/vectors-observed-effect" = "agent_evidence_vectors/corpora/vectors-observed-effect"
 "corpora/vectors-open-weight-art53" = "agent_evidence_vectors/corpora/vectors-open-weight-art53"
 "corpora/vectors-propagation-step" = "agent_evidence_vectors/corpora/vectors-propagation-step"
@@ -463,6 +466,7 @@ only-include = [
     "corpora/vectors-mcp-record-contract",
     "corpora/vectors-mcp-response-phase",
     "corpora/vectors-monitor-coverage",
+    "corpora/vectors-oasf-record",
     "corpora/vectors-observed-effect",
     "corpora/vectors-open-weight-art53",
     "corpora/vectors-propagation-step",

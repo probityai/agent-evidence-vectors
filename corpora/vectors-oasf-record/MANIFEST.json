@@ -1,0 +1,571 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/oasf-record/v1",
+  "corpusDigest": "1ec7eec314a2d98df13be892af77514a0854c4d633c073f9b02f6a39d57dd5e8",
+  "counts": {
+    "allow": 12,
+    "deny": 31
+  },
+  "suite": "oasf-record/v1",
+  "vectors": [
+    {
+      "edit": "control: a conformant record and signer",
+      "expected": {
+        "decision": "allow",
+        "reason": "conformant"
+      },
+      "files": {
+        "case.json": "ad0ee8a3ecd70e0ada4353bb288f129f8cdb7515a131f5cf002e79bdcf94a899",
+        "record.json": "db33fb1c72a4cd7cae89a95aac7cbdbb22c275da4d77816ad16f96b22ed76a46"
+      },
+      "id": "allow-plain",
+      "path": "cases/allow-plain"
+    },
+    {
+      "edit": "control: '<', '>' and '&' in a value, digest over RFC 8785, which leaves them as is",
+      "expected": {
+        "decision": "allow",
+        "reason": "conformant"
+      },
+      "files": {
+        "case.json": "c441957625b5a2341373ae6c95b5c3fc896791e28cf156aba1c301b2e1c428de",
+        "record.json": "f862ed559a9424da44f458f4262915c2e35852e2bd715e2972093cb8b0e6ba30"
+      },
+      "id": "allow-html-characters",
+      "path": "cases/allow-html-characters"
+    },
+    {
+      "edit": "control: '<' and '&' in a member name and its value",
+      "expected": {
+        "decision": "allow",
+        "reason": "conformant"
+      },
+      "files": {
+        "case.json": "2b0a49bce494dbe8e6ee5ada5e6dc0cf90fe5eeaa07b425bcf86a948f4f243c6",
+        "record.json": "a705b37725e262fa49693a5bff70e1ee0728f39ae1ae752e381c74723767cb3f"
+      },
+      "id": "allow-html-characters-in-key",
+      "path": "cases/allow-html-characters-in-key"
+    },
+    {
+      "edit": "control: U+2028 in a value, digest over RFC 8785, which leaves it unescaped",
+      "expected": {
+        "decision": "allow",
+        "reason": "conformant"
+      },
+      "files": {
+        "case.json": "bd8f7c97b12bde92dd4063b8fcd20699a6ac798ff0a392fd19a606cd80f29dde",
+        "record.json": "c38280258e0f43a4498b24aba5fcb501bf1519e927a7be5d18b022aeac6e241e"
+      },
+      "id": "allow-line-separator",
+      "path": "cases/allow-line-separator"
+    },
+    {
+      "edit": "control: U+2029 in a value",
+      "expected": {
+        "decision": "allow",
+        "reason": "conformant"
+      },
+      "files": {
+        "case.json": "dc9a00af3c184ce6e8f0c30868312d0cdb87737ed4c3a3a568f5a3de6db53505",
+        "record.json": "2b3e3e37a32cc8a468483827d6b6868543de4d6a0465b510d7984346f4ccd0d8"
+      },
+      "id": "allow-paragraph-separator",
+      "path": "cases/allow-paragraph-separator"
+    },
+    {
+      "edit": "control: keys U+E000 and U+1F600, ordered by UTF-16 code units as RFC 8785 requires",
+      "expected": {
+        "decision": "allow",
+        "reason": "conformant"
+      },
+      "files": {
+        "case.json": "33d4ac815fa923edabc1bac633b686aa541681e0a3f1b272cc805a17d79a17d9",
+        "record.json": "3d95b45de6315314697493aa55c2319ee3a80f787de301bd785bf83686418688"
+      },
+      "id": "allow-key-order-utf16",
+      "path": "cases/allow-key-order-utf16"
+    },
+    {
+      "edit": "control: -0.0 in a module's data, which RFC 8785 writes as 0",
+      "expected": {
+        "decision": "allow",
+        "reason": "conformant"
+      },
+      "files": {
+        "case.json": "c3294a210bb0f51c75043d4c1b4cc1de60329ac84f414566c181662c6a491b4d",
+        "record.json": "ae590deb3d8388743baedd26d2fcb8ca4be557dba6920590fff3df8ad2ff8153"
+      },
+      "id": "allow-negative-zero",
+      "path": "cases/allow-negative-zero"
+    },
+    {
+      "edit": "control: '<', '>' and '&' inside a module's data",
+      "expected": {
+        "decision": "allow",
+        "reason": "conformant"
+      },
+      "files": {
+        "case.json": "fb667b3d64ae16cfc37d088837f6990889d1a72d1f45e1e425b389b3d76e7fe3",
+        "record.json": "a630ce9f217686234f80d55e05417e6a13f30a2f61f45ad9e45c0f563c20dd66"
+      },
+      "id": "allow-nested-html-characters",
+      "path": "cases/allow-nested-html-characters"
+    },
+    {
+      "edit": "control: the same record written without whitespace has the same digest",
+      "expected": {
+        "decision": "allow",
+        "reason": "conformant"
+      },
+      "files": {
+        "case.json": "ad0ee8a3ecd70e0ada4353bb288f129f8cdb7515a131f5cf002e79bdcf94a899",
+        "record.json": "78f974aec468ff247b42688094e4b76718a12092975fde1490f5c5729fbe78d4"
+      },
+      "id": "allow-compact-bytes",
+      "path": "cases/allow-compact-bytes"
+    },
+    {
+      "edit": "control: annotations, domains, locators and modules present",
+      "expected": {
+        "decision": "allow",
+        "reason": "conformant"
+      },
+      "files": {
+        "case.json": "3e4060145f522545b979ebf8c1341bc5d65f7b0315627dfbe5ee4671505d2a9f",
+        "record.json": "003fb0075d80e0445d721df094547d4fb3b205810a5d10f42a3a479c2d6df66b"
+      },
+      "id": "allow-optional-fields",
+      "path": "cases/allow-optional-fields"
+    },
+    {
+      "edit": "control: the largest integer a double holds exactly",
+      "expected": {
+        "decision": "allow",
+        "reason": "conformant"
+      },
+      "files": {
+        "case.json": "a8c3b8a1a2c932fc94cda0401f6eb6fa5670f6992ea6e37111202f8629e771cc",
+        "record.json": "122f7290cbd6cbd244570801c19a719fa851b90c6f3613f4b70328d7f40f69bd"
+      },
+      "id": "allow-integer-at-exact-limit",
+      "path": "cases/allow-integer-at-exact-limit"
+    },
+    {
+      "edit": "control: a '+' in the subject, compared as text, not as a pattern",
+      "expected": {
+        "decision": "allow",
+        "reason": "conformant"
+      },
+      "files": {
+        "case.json": "630a2c13c4c882ea0d0b049292202ac47a4017ea37f200084c77b3c42ce43a4c",
+        "record.json": "db33fb1c72a4cd7cae89a95aac7cbdbb22c275da4d77816ad16f96b22ed76a46"
+      },
+      "id": "allow-signer-plus-address",
+      "path": "cases/allow-signer-plus-address"
+    },
+    {
+      "edit": "the digest is over bytes that write '<', '>' and '&' as \\u003c, \\u003e, \\u0026",
+      "expected": {
+        "decision": "deny",
+        "reason": "digest_mismatch"
+      },
+      "files": {
+        "case.json": "9dbc8fa02400ca70b6efaf80a54bd4de6372902393efcb517feaec11a5d062a3",
+        "record.json": "f862ed559a9424da44f458f4262915c2e35852e2bd715e2972093cb8b0e6ba30"
+      },
+      "id": "digest-over-escaped-html",
+      "path": "cases/digest-over-escaped-html"
+    },
+    {
+      "edit": "the digest is over bytes that escape '<' and '&' in a member name",
+      "expected": {
+        "decision": "deny",
+        "reason": "digest_mismatch"
+      },
+      "files": {
+        "case.json": "40633b2b6ccc81221dabc583b1107b59020da469e1e71d55b83e47fa8302e982",
+        "record.json": "a705b37725e262fa49693a5bff70e1ee0728f39ae1ae752e381c74723767cb3f"
+      },
+      "id": "digest-over-escaped-html-in-key",
+      "path": "cases/digest-over-escaped-html-in-key"
+    },
+    {
+      "edit": "the digest is over bytes that write U+2028 as \\u2028",
+      "expected": {
+        "decision": "deny",
+        "reason": "digest_mismatch"
+      },
+      "files": {
+        "case.json": "5b22f58faea2d454c070630c8ea80c1e8c163ada830e08b1e0c3cfb68e75b48f",
+        "record.json": "c38280258e0f43a4498b24aba5fcb501bf1519e927a7be5d18b022aeac6e241e"
+      },
+      "id": "digest-over-escaped-line-separator",
+      "path": "cases/digest-over-escaped-line-separator"
+    },
+    {
+      "edit": "the digest is over bytes that write U+2029 as \\u2029",
+      "expected": {
+        "decision": "deny",
+        "reason": "digest_mismatch"
+      },
+      "files": {
+        "case.json": "f2b6b429aa6988d0373bf1d7fe6f3ebbd2da8f3a847a28a7afb9e4563b1daace",
+        "record.json": "2b3e3e37a32cc8a468483827d6b6868543de4d6a0465b510d7984346f4ccd0d8"
+      },
+      "id": "digest-over-escaped-paragraph-separator",
+      "path": "cases/digest-over-escaped-paragraph-separator"
+    },
+    {
+      "edit": "the digest is over bytes that order U+E000 before U+1F600, by UTF-8 bytes",
+      "expected": {
+        "decision": "deny",
+        "reason": "digest_mismatch"
+      },
+      "files": {
+        "case.json": "2b25c81c5937fa3ecbfdf72776ae5b31e78c49fe32811f410ae041f88e38b017",
+        "record.json": "3d95b45de6315314697493aa55c2319ee3a80f787de301bd785bf83686418688"
+      },
+      "id": "digest-over-utf8-key-order",
+      "path": "cases/digest-over-utf8-key-order"
+    },
+    {
+      "edit": "the digest is over bytes that write negative zero as -0",
+      "expected": {
+        "decision": "deny",
+        "reason": "digest_mismatch"
+      },
+      "files": {
+        "case.json": "ee4231e0525c229f2a7431c9e075a2d9bf345c6ccf45b2f044044e4db14c97d4",
+        "record.json": "ae590deb3d8388743baedd26d2fcb8ca4be557dba6920590fff3df8ad2ff8153"
+      },
+      "id": "digest-over-negative-zero-text",
+      "path": "cases/digest-over-negative-zero-text"
+    },
+    {
+      "edit": "the digest is over bytes that escape '<', '>' and '&' inside a module's data",
+      "expected": {
+        "decision": "deny",
+        "reason": "digest_mismatch"
+      },
+      "files": {
+        "case.json": "7183f58fd3fee441e5be4f420523a761abc25a796a133de8b7156e61387e0910",
+        "record.json": "a630ce9f217686234f80d55e05417e6a13f30a2f61f45ad9e45c0f563c20dd66"
+      },
+      "id": "digest-over-nested-escaped-html",
+      "path": "cases/digest-over-nested-escaped-html"
+    },
+    {
+      "edit": "the digest is over the file as written, not over its RFC 8785 bytes",
+      "expected": {
+        "decision": "deny",
+        "reason": "digest_mismatch"
+      },
+      "files": {
+        "case.json": "5bac7ae44a34223593bcddf569dc1e560660746a6cbf3a81ba7d17cc274c645c",
+        "record.json": "db33fb1c72a4cd7cae89a95aac7cbdbb22c275da4d77816ad16f96b22ed76a46"
+      },
+      "id": "digest-over-file-bytes",
+      "path": "cases/digest-over-file-bytes"
+    },
+    {
+      "edit": "the digest names the record's next version",
+      "expected": {
+        "decision": "deny",
+        "reason": "digest_mismatch"
+      },
+      "files": {
+        "case.json": "33befca14352ba2f48928dd180b35d8d1f9feab7ecd6c7799342a69ec93d0b2b",
+        "record.json": "db33fb1c72a4cd7cae89a95aac7cbdbb22c275da4d77816ad16f96b22ed76a46"
+      },
+      "id": "digest-of-another-record",
+      "path": "cases/digest-of-another-record"
+    },
+    {
+      "edit": "the signer is malice@example.com; the policy names alice@example.com, which it contains",
+      "expected": {
+        "decision": "deny",
+        "reason": "signer_not_policy"
+      },
+      "files": {
+        "case.json": "9c1971f644d4dbf7bba3a7cb5dcd8cee10db17db29b002fe583d79fadf976f55",
+        "record.json": "db33fb1c72a4cd7cae89a95aac7cbdbb22c275da4d77816ad16f96b22ed76a46"
+      },
+      "id": "signer-subject-contains-policy",
+      "path": "cases/signer-subject-contains-policy"
+    },
+    {
+      "edit": "the signer's address extends the policy's domain",
+      "expected": {
+        "decision": "deny",
+        "reason": "signer_not_policy"
+      },
+      "files": {
+        "case.json": "cc38c710a0b40a5675815a10196e2c82387214fcb91e280235b571f37dd48639",
+        "record.json": "db33fb1c72a4cd7cae89a95aac7cbdbb22c275da4d77816ad16f96b22ed76a46"
+      },
+      "id": "signer-domain-extended",
+      "path": "cases/signer-domain-extended"
+    },
+    {
+      "edit": "the policy's '.' is a character, not a pattern that matches '-'",
+      "expected": {
+        "decision": "deny",
+        "reason": "signer_not_policy"
+      },
+      "files": {
+        "case.json": "5c94b2deca28d2840017ec298d4ff19d28a83dc05c8c8aa5b6daf33f187e8139",
+        "record.json": "db33fb1c72a4cd7cae89a95aac7cbdbb22c275da4d77816ad16f96b22ed76a46"
+      },
+      "id": "signer-dot-as-wildcard",
+      "path": "cases/signer-dot-as-wildcard"
+    },
+    {
+      "edit": "the certificate's issuer extends the policy's issuer",
+      "expected": {
+        "decision": "deny",
+        "reason": "signer_not_policy"
+      },
+      "files": {
+        "case.json": "98b8512c4942cd9a0ca10f94c493cc50fa7efdba1404cdd0995eacca1eeb3dc9",
+        "record.json": "db33fb1c72a4cd7cae89a95aac7cbdbb22c275da4d77816ad16f96b22ed76a46"
+      },
+      "id": "signer-issuer-extended",
+      "path": "cases/signer-issuer-extended"
+    },
+    {
+      "edit": "the policy names the text 'alice@.*'; a signer it would match as a pattern is refused",
+      "expected": {
+        "decision": "deny",
+        "reason": "signer_not_policy"
+      },
+      "files": {
+        "case.json": "8d2bdc037bf4b1dd7064620b5c05b30e1298aecbfb41fadce52eaa2f654e1932",
+        "record.json": "db33fb1c72a4cd7cae89a95aac7cbdbb22c275da4d77816ad16f96b22ed76a46"
+      },
+      "id": "policy-written-as-pattern",
+      "path": "cases/policy-written-as-pattern"
+    },
+    {
+      "edit": "the signer is a different user of the same issuer",
+      "expected": {
+        "decision": "deny",
+        "reason": "signer_not_policy"
+      },
+      "files": {
+        "case.json": "d5ccefeeb89eaeb7f37267fb5012bd1b6659de44ea3eddc2676e242a81c088ec",
+        "record.json": "db33fb1c72a4cd7cae89a95aac7cbdbb22c275da4d77816ad16f96b22ed76a46"
+      },
+      "id": "signer-another-user",
+      "path": "cases/signer-another-user"
+    },
+    {
+      "edit": "the record bytes carry the member 'name' twice",
+      "expected": {
+        "decision": "deny",
+        "reason": "record_not_json"
+      },
+      "files": {
+        "case.json": "ad0ee8a3ecd70e0ada4353bb288f129f8cdb7515a131f5cf002e79bdcf94a899",
+        "record.json": "842fa4aaa4990c6fa1936de301914af3c3f95a5cad39b8c176c8adf6b4b69fcd"
+      },
+      "id": "record-duplicate-member",
+      "path": "cases/record-duplicate-member"
+    },
+    {
+      "edit": "a string in the record carries the byte 0xff",
+      "expected": {
+        "decision": "deny",
+        "reason": "record_not_json"
+      },
+      "files": {
+        "case.json": "ad0ee8a3ecd70e0ada4353bb288f129f8cdb7515a131f5cf002e79bdcf94a899",
+        "record.json": "c83f364253505bdb4638486022fc1ba52c4242ec55dc98e79796844c212d166e"
+      },
+      "id": "record-not-utf8",
+      "path": "cases/record-not-utf8"
+    },
+    {
+      "edit": "a number in the record is the literal NaN",
+      "expected": {
+        "decision": "deny",
+        "reason": "record_not_json"
+      },
+      "files": {
+        "case.json": "ad0ee8a3ecd70e0ada4353bb288f129f8cdb7515a131f5cf002e79bdcf94a899",
+        "record.json": "5732fab0bb20cc35cc0bc50a8128f58674dbe2108852e067d624be012744a363"
+      },
+      "id": "record-nan-literal",
+      "path": "cases/record-nan-literal"
+    },
+    {
+      "edit": "9007199254740993 reads as the double 9007199254740992, so two records share a digest",
+      "expected": {
+        "decision": "deny",
+        "reason": "number_not_exact"
+      },
+      "files": {
+        "case.json": "638bc92d3001ea79fcd84f7d5095034725fc81ae364cb492e4e59faf1533d8b4",
+        "record.json": "185c0dd7f7f5482e4fa758d1b7360718d6e657e5041405d147b5776b7849a4c2"
+      },
+      "id": "integer-beyond-exact-range",
+      "path": "cases/integer-beyond-exact-range"
+    },
+    {
+      "edit": "9007199254740992 is a double that 9007199254740993 also reads as",
+      "expected": {
+        "decision": "deny",
+        "reason": "number_not_exact"
+      },
+      "files": {
+        "case.json": "638bc92d3001ea79fcd84f7d5095034725fc81ae364cb492e4e59faf1533d8b4",
+        "record.json": "5da293751292a9f19da8ce9bd4f4667198428b6de99f18ca72d21bcbe7b58067"
+      },
+      "id": "integer-at-ambiguous-edge",
+      "path": "cases/integer-at-ambiguous-edge"
+    },
+    {
+      "edit": "the record has no name",
+      "expected": {
+        "decision": "deny",
+        "reason": "oasf_required_field"
+      },
+      "files": {
+        "case.json": "0400d4a7cb58a7436d126c0dac7a788311fc86b6a90c771d66493af7bc907dea",
+        "record.json": "caa56a97249a064ee679ed6c5d74b3263480807b2c90ad49de9c97730aa6601e"
+      },
+      "id": "required-name-missing",
+      "path": "cases/required-name-missing"
+    },
+    {
+      "edit": "the record has no description",
+      "expected": {
+        "decision": "deny",
+        "reason": "oasf_required_field"
+      },
+      "files": {
+        "case.json": "822b7866e39690efe531a143613dcbf708c0e0e80b586326cbce84d81666d936",
+        "record.json": "3bd7b8573b8dedcb4759178bff6f0f088c7718e13e6565617df52aeb72536024"
+      },
+      "id": "required-description-missing",
+      "path": "cases/required-description-missing"
+    },
+    {
+      "edit": "the authors list is empty",
+      "expected": {
+        "decision": "deny",
+        "reason": "oasf_required_field"
+      },
+      "files": {
+        "case.json": "4b06d9f7c1809a9566b223edbc0c806cb744b73e79f2efd8944c558eff087a74",
+        "record.json": "ee3bbc2387e83d66ae1f0c1caea204bd2e123f0e85cbe884e98ec1f44ae4f492"
+      },
+      "id": "required-authors-empty",
+      "path": "cases/required-authors-empty"
+    },
+    {
+      "edit": "the record has no skills",
+      "expected": {
+        "decision": "deny",
+        "reason": "oasf_required_field"
+      },
+      "files": {
+        "case.json": "e4bb7716a0225416339a01edbdbe26d825d1959ae72a8007ed5949bf5c6f3cf5",
+        "record.json": "c2d11f05945631191c71dbb43ad1b73c6f751f7f1cadb462d1046bc42cf9a199"
+      },
+      "id": "required-skills-missing",
+      "path": "cases/required-skills-missing"
+    },
+    {
+      "edit": "the one skill has neither a name nor an id",
+      "expected": {
+        "decision": "deny",
+        "reason": "oasf_required_field"
+      },
+      "files": {
+        "case.json": "09afe5b58a3f7cc464a307513ec9f9936d8b84af29fdff465e00f029a99f88ba",
+        "record.json": "6d9680bafa277565bf79ea880d52258d60c1316bb665e22ca39865900e8c872a"
+      },
+      "id": "required-skill-unnamed",
+      "path": "cases/required-skill-unnamed"
+    },
+    {
+      "edit": "created_at is not an RFC 3339 date-time",
+      "expected": {
+        "decision": "deny",
+        "reason": "oasf_required_field"
+      },
+      "files": {
+        "case.json": "52720d904f5db79b276aec16d29fc277d278d1ea90504854e82bcb303fe24135",
+        "record.json": "ad07bcd289858722ed2ee0eae9f7b78b6a11787a8dfacbf589bf267a07c6b4b5"
+      },
+      "id": "required-created-at-not-rfc3339",
+      "path": "cases/required-created-at-not-rfc3339"
+    },
+    {
+      "edit": "schema_version is a number, not text",
+      "expected": {
+        "decision": "deny",
+        "reason": "oasf_required_field"
+      },
+      "files": {
+        "case.json": "b76f98606601cc3be911de63f520911128ba34b035b7bfb5aa13fb0ca63a720a",
+        "record.json": "46ad67ecaee5ecf3b9df824ed14d2523edd5ff6ad0280eb77adaa2ec44f5eaa8"
+      },
+      "id": "required-schema-version-not-text",
+      "path": "cases/required-schema-version-not-text"
+    },
+    {
+      "edit": "recordDigest omits its sha256: prefix",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_case"
+      },
+      "files": {
+        "case.json": "740b7c096699f2be617d4c4aec5826fb49a96b4830e67b52db31bd61435a2f5d",
+        "record.json": "db33fb1c72a4cd7cae89a95aac7cbdbb22c275da4d77816ad16f96b22ed76a46"
+      },
+      "id": "case-digest-unprefixed",
+      "path": "cases/case-digest-unprefixed"
+    },
+    {
+      "edit": "the signer names no issuer",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_case"
+      },
+      "files": {
+        "case.json": "89c1df0462547b30d306437376456516cfcb3e34a199944aa0d90759ee38970a",
+        "record.json": "db33fb1c72a4cd7cae89a95aac7cbdbb22c275da4d77816ad16f96b22ed76a46"
+      },
+      "id": "case-signer-issuer-missing",
+      "path": "cases/case-signer-issuer-missing"
+    },
+    {
+      "edit": "the case names no contract",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_missing"
+      },
+      "files": {
+        "case.json": "3b0026898bab7a685a3e489f1528cf484f9bdcf966af208e178898959ed52ff6",
+        "record.json": "db33fb1c72a4cd7cae89a95aac7cbdbb22c275da4d77816ad16f96b22ed76a46"
+      },
+      "id": "contract-id-missing",
+      "path": "cases/contract-id-missing"
+    },
+    {
+      "edit": "the case names a contract version that does not exist",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_unknown"
+      },
+      "files": {
+        "case.json": "b640a43c859ab5b1f7d6071092c5b806436094b975b3bab0ae780a0b109263b0",
+        "record.json": "db33fb1c72a4cd7cae89a95aac7cbdbb22c275da4d77816ad16f96b22ed76a46"
+      },
+      "id": "contract-id-unknown",
+      "path": "cases/contract-id-unknown"
+    }
+  ],
+  "verifierContract": "verifier case.json --json; exit 0 allow, 1 deny"
+}

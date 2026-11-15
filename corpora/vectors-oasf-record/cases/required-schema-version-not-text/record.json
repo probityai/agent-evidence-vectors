@@ -1,0 +1,16 @@
+{
+  "authors": [
+    "Example Maintainers <maintainers@example.com>"
+  ],
+  "created_at": "2026-10-28T12:00:00Z",
+  "description": "Triages support tickets and drafts first replies.",
+  "name": "example.org/agents/ticket-triage",
+  "schema_version": 1,
+  "skills": [
+    {
+      "id": 10201,
+      "name": "natural_language_processing/natural_language_generation/text_completion"
+    }
+  ],
+  "version": "v1.2.0"
+}
