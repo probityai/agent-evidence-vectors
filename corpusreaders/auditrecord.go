@@ -24,8 +24,11 @@ func init() { register(auditRecord{}) }
 // auditRecord judges corpora/vectors-agent-audit-record/, the conformance corpus of
 // Appendix B of draft-gilda-audit-agent-audit-record-00, which replaces
 // draft-gilda-wimse-agent-audit-record-02: every evaluation carries inputs,
-// each entry's age runs from lastResult to decision.reportedAt, and the
-// unavailable inputs are derived from the entries. Rows R1 to R9 are retained
+// each entry's age runs from lastResult to the reference time, and the
+// unavailable inputs are derived from the entries. The reference time is
+// decision.evaluatedAt when the record carries it and decision.reportedAt
+// otherwise, and an input is fresh only while its age is less than its maxAge
+// (revision 04, FR2 and FR19 to FR25). Rows R1 to R9 are retained
 // records, the envelope beside its retention entry, and each is judged twice:
 // the envelope's verdict, and the dating check of Section 4.7.1, reported
 // beside the verdict.
@@ -691,9 +694,10 @@ func arMaxAge(value any) (int64, bool) {
 }
 
 // arEntryUnavailable says whether one entry is stale or never established at
-// reportedAt. An age equal to maxAge is fresh, and a lastResult later than
-// reportedAt by more than the skew tolerance is malformed.
-func arEntryUnavailable(entry map[string]any, maxAge int64, reportedAt time.Time) (bool, error) {
+// the reference time. An input is fresh while its age is less than maxAge, so
+// an age equal to maxAge is stale (FR2, FR22), and a lastResult later than the
+// reference time by more than the skew tolerance is malformed (FR9, FR25).
+func arEntryUnavailable(entry map[string]any, maxAge int64, reference time.Time) (bool, error) {
 	last, _ := entry["lastResult"].(string)
 	if last == arNeverHeld {
 		return true, nil
@@ -702,13 +706,41 @@ func arEntryUnavailable(entry map[string]any, maxAge int64, reportedAt time.Time
 	if err != nil {
 		return false, err
 	}
-	if produced.Sub(reportedAt) > arSkewTolerance {
+	if produced.Sub(reference) > arSkewTolerance {
 		return false, arRefuse("evaluation-result-after-decision")
 	}
 	if maxAge > math.MaxInt64/int64(time.Second) {
-		return false, nil // no age a Duration can hold exceeds it
+		return false, nil // no age a Duration can hold reaches it
 	}
-	return reportedAt.Sub(produced) > time.Duration(maxAge)*time.Second, nil
+	return reference.Sub(produced) >= time.Duration(maxAge)*time.Second, nil
+}
+
+// arReferenceTime is the time every evaluation entry's age is measured to:
+// decision.evaluatedAt when the record carries it, decision.reportedAt
+// otherwise. A decision is not reported before it is evaluated, so an
+// evaluatedAt later than reportedAt by more than the skew tolerance is
+// malformed (FR23), and one exactly at the tolerance is not (FR24).
+func arReferenceTime(pred map[string]any) (time.Time, error) {
+	reportedAt, err := arInstant(arStr(pred, "decision.reportedAt"))
+	if err != nil {
+		return time.Time{}, err
+	}
+	raw, carried := arAt(pred, "decision.evaluatedAt")
+	if !carried {
+		return reportedAt, nil
+	}
+	text, isString := raw.(string)
+	if !isString {
+		return time.Time{}, arRefuse("timestamp-malformed")
+	}
+	evaluatedAt, err := arInstant(text)
+	if err != nil {
+		return time.Time{}, err
+	}
+	if evaluatedAt.Sub(reportedAt) > arSkewTolerance {
+		return time.Time{}, arRefuse("evaluation-result-after-decision")
+	}
+	return evaluatedAt, nil
 }
 
 // arDeriveUnavailable holds every evaluation entry to its shape and returns
@@ -720,7 +752,7 @@ func arDeriveUnavailable(pred map[string]any, allowed []string) ([]string, error
 	if !ok || !isList {
 		return nil, arRefuse("evaluation-entry-malformed")
 	}
-	reportedAt, err := arInstant(arStr(pred, "decision.reportedAt"))
+	reference, err := arReferenceTime(pred)
 	if err != nil {
 		return nil, err
 	}
@@ -751,7 +783,7 @@ func arDeriveUnavailable(pred map[string]any, allowed []string) ([]string, error
 			return nil, arRefuse("evaluation-input-repeated")
 		}
 		seen[name] = true
-		stale, err := arEntryUnavailable(entry, maxAge, reportedAt)
+		stale, err := arEntryUnavailable(entry, maxAge, reference)
 		if err != nil {
 			return nil, err
 		}
