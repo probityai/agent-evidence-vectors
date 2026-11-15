@@ -1,11 +1,11 @@
 {
   "aggregate": {
     "counts": {
-      "allow": 6,
-      "deny": 15
+      "allow": 10,
+      "deny": 21
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 21
+    "total": 31
   },
   "anchor": {
     "kind": "digest-list-line",
@@ -17,7 +17,7 @@
     "routine": "corpus_digest in corpora/vectors-execution-billing-finality/gen_vectors.py",
     "routine-file": "corpora/vectors-execution-billing-finality/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "23c46f5a207b75c4702992c3d115621e3b0d89e16554513e5aa585f5ca571259",
+    "sha256": "a69ab722927e51f32bfe149ea343d7ad8a2a5fba5f010272ac0c9318fa742a0f",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -29,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a83dcafa0a961091160fac98c1e263f94f49f2d697991530080dbcc5634f0f55"
+          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,21 +38,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a83dcafa0a961091160fac98c1e263f94f49f2d697991530080dbcc5634f0f55"
+          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
         },
         "swapped-in": "9bf1ebd8d85585e98321c04a81118c28ec01dcce19ca36c1539ba776122a5d7a",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-execution-billing-finality/README.md",
       "serialization": "bytes",
-      "sha256": "c5ba8a8598e1c5ca1b53a5b5c44738085e9204f0a64436f95bb631c42fb4c6c3"
+      "sha256": "c6edb01f4ee1dd12a073f4e7a82d9b61eb5e1434aa221ab9ac90d5d077cdc4ea"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a83dcafa0a961091160fac98c1e263f94f49f2d697991530080dbcc5634f0f55"
+          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,7 +61,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a83dcafa0a961091160fac98c1e263f94f49f2d697991530080dbcc5634f0f55"
+          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
         },
         "swapped-in": "d58759ce2d4ef7d1f5dc9e3c9e940137e50000ba83f4b9d51312bfdd0be30d9d",
         "test": "swap-and-re-pin"
@@ -75,7 +75,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a83dcafa0a961091160fac98c1e263f94f49f2d697991530080dbcc5634f0f55"
+          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,21 +84,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a83dcafa0a961091160fac98c1e263f94f49f2d697991530080dbcc5634f0f55"
+          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
         },
         "swapped-in": "373f13d25ce79a5560376b2cfff14dfd46135f6257304e4d8838a2ef36053e76",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-execution-billing-finality/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "4cb1fb31ea3a320a72b99ac441be2aa5d34a729174bfd3df735cbe9868509bf4"
+      "sha256": "d1ff2985bb182cb13530df08f18577c75dfab846ec608b65dfbc9cc10384c5a9"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a83dcafa0a961091160fac98c1e263f94f49f2d697991530080dbcc5634f0f55"
+          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,7 +107,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a83dcafa0a961091160fac98c1e263f94f49f2d697991530080dbcc5634f0f55"
+          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
         },
         "swapped-in": "bf4b616e225f321b7acf4974e089bb00e5801688493af9610d4d57d790a1a852",
         "test": "swap-and-re-pin"
@@ -121,7 +121,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a83dcafa0a961091160fac98c1e263f94f49f2d697991530080dbcc5634f0f55"
+          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -130,7 +130,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a83dcafa0a961091160fac98c1e263f94f49f2d697991530080dbcc5634f0f55"
+          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
         },
         "swapped-in": "26242cf5412ada30bf1caa6ad8f9b1bd2101f60ce72e5710bebe5a2b7e982958",
         "test": "swap-and-re-pin"
@@ -144,7 +144,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a83dcafa0a961091160fac98c1e263f94f49f2d697991530080dbcc5634f0f55"
+          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -153,7 +153,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a83dcafa0a961091160fac98c1e263f94f49f2d697991530080dbcc5634f0f55"
+          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
         },
         "swapped-in": "30a3a4251b067fbc61c78a39313d16ac2a5aeec99c543eef614bb1224401ca82",
         "test": "swap-and-re-pin"
@@ -167,7 +167,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a83dcafa0a961091160fac98c1e263f94f49f2d697991530080dbcc5634f0f55"
+          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -178,6 +178,10 @@
           "corpora/vectors-execution-billing-finality/cases/allow-f04-invoice-after-lost-reply/record.json",
           "corpora/vectors-execution-billing-finality/cases/allow-f14-first-dispatch/record.json",
           "corpora/vectors-execution-billing-finality/cases/allow-x1-invoice-before-dispatch/record.json",
+          "corpora/vectors-execution-billing-finality/cases/allow-x2-low-invoice-conflict/record.json",
+          "corpora/vectors-execution-billing-finality/cases/allow-x3-cost-above-final-bill-conflict/record.json",
+          "corpora/vectors-execution-billing-finality/cases/allow-x4-contradictory-outcome-conflict/record.json",
+          "corpora/vectors-execution-billing-finality/cases/allow-x5-non-dispatch-after-cost-conflict/record.json",
           "corpora/vectors-execution-billing-finality/cases/claim-boundary-dropped/record.json",
           "corpora/vectors-execution-billing-finality/cases/contract-id-missing/record.json",
           "corpora/vectors-execution-billing-finality/cases/contract-id-unknown/record.json",
@@ -187,12 +191,15 @@
           "corpora/vectors-execution-billing-finality/cases/money-as-boolean/record.json",
           "corpora/vectors-execution-billing-finality/cases/reopen-changed-state/record.json",
           "corpora/vectors-execution-billing-finality/cases/x1-invoice-replay-refinalized/record.json",
+          "corpora/vectors-execution-billing-finality/cases/x2-account-unfrozen/record.json",
+          "corpora/vectors-execution-billing-finality/cases/x2-conflict-cleared/record.json",
+          "corpora/vectors-execution-billing-finality/cases/x4-outcome-reset-to-unknown/record.json",
           "corpora/vectors-execution-billing-finality/gen_vectors.py",
           "corpora/vectors-execution-billing-finality/tests/p04/SOURCE.json"
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "25939f5699de87a5cce4591bc90d90655a175cae17c748266c039e8f98e79f36"
+          "sha256": "2f045bf3627115ef7b14eeb06297747e947e1de6c90dcabf40bc5a5ae0cc98d9"
         },
         "swapped-in": "6d261b2986e068103483ad0ccc4e22cf74580e7c89343a2c5fac7a5486f3106e",
         "test": "swap-and-re-pin"
@@ -206,7 +213,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "a83dcafa0a961091160fac98c1e263f94f49f2d697991530080dbcc5634f0f55"
+          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -215,14 +222,14 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "a83dcafa0a961091160fac98c1e263f94f49f2d697991530080dbcc5634f0f55"
+          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
         },
         "swapped-in": "e3d0508c9234fbad172ec9a38484eb7b4fe2b50a2882da32938263db80ee021b",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-execution-billing-finality/tests/test_corpus.py",
       "serialization": "bytes",
-      "sha256": "555c2b2dd4d6ee709a03d24da2a6aa1b3d156fa4a15498174bd641666ac04531"
+      "sha256": "165c1d8cfbf629e9f87b62c84783c6b71ea885e947999a66cdd52fd99440ae13"
     }
   ],
   "boundary": {
@@ -237,7 +244,7 @@
     "root": "corpora/vectors-execution-billing-finality"
   },
   "byte-identity": {
-    "pins": 21,
+    "pins": 31,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -274,7 +281,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "0478b26fd4d738510f137774d4dfde3c530d216862fdd7d3e00dc847a03f62e3"
+      "sha256": "db572086590e378bfed2abd040bf1704f53a5af5c5dbd40be122bdee1f19134a"
     },
     "runtime": {
       "name": "go",
@@ -330,6 +337,38 @@
     },
     {
       "check": "allow-x1-invoice-before-dispatch",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-x2-low-invoice-conflict",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-x3-cost-above-final-bill-conflict",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-x4-contradictory-outcome-conflict",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-x5-non-dispatch-after-cost-conflict",
       "native": {
         "reasons": [],
         "verdict": "allow"
@@ -455,11 +494,59 @@
         "verdict": "deny"
       },
       "state": "pass"
+    },
+    {
+      "check": "x2-low-invoice-erases-known-spend",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "x3-cost-above-final-bill-accepted",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "x2-conflict-cleared",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "x2-account-unfrozen",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "x4-terminal-outcome-overwritten",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "x4-outcome-reset-to-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
     }
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "e31085dccae2a72636ed74ef26b44a2cffd66f6f7920be908c8f64e51ec1adc6"
+    "sha256": "8173b09d9ae76630fb78a56cac62006ccf360dcd0075a2b5dd01083da8c8ecb6"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -475,6 +562,10 @@
       "allow-f04-invoice-after-lost-reply",
       "allow-f14-first-dispatch",
       "allow-x1-invoice-before-dispatch",
+      "allow-x2-low-invoice-conflict",
+      "allow-x3-cost-above-final-bill-conflict",
+      "allow-x4-contradictory-outcome-conflict",
+      "allow-x5-non-dispatch-after-cost-conflict",
       "contract-id-missing",
       "contract-id-unknown",
       "money-as-boolean",
@@ -489,10 +580,16 @@
       "f04-final-billing-redispatch",
       "x1-invoice-opens-dispatch",
       "x1-dispatch-state-reserved-after-invoice",
-      "x1-invoice-replay-refinalized"
+      "x1-invoice-replay-refinalized",
+      "x2-low-invoice-erases-known-spend",
+      "x3-cost-above-final-bill-accepted",
+      "x2-conflict-cleared",
+      "x2-account-unfrozen",
+      "x4-terminal-outcome-overwritten",
+      "x4-outcome-reset-to-unknown"
     ],
     "path": "corpora/vectors-execution-billing-finality/MANIFEST.json",
-    "sha256": "31cf590a403c1d1bf42c690966890586d041ce5538f04bc5a034de59cb9c6738"
+    "sha256": "d45f64b81734a5b6e801748e8b90369546bf1fbcdaa6402387895b06c7d1a29e"
   },
   "members": [
     {
@@ -548,6 +645,42 @@
         }
       ],
       "id": "allow-x1-invoice-before-dispatch"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-execution-billing-finality/cases/allow-x2-low-invoice-conflict/record.json",
+          "sha256": "aa998840514807c637dea50c7ca20fe146992870321866cb496e8265fffc8c94"
+        }
+      ],
+      "id": "allow-x2-low-invoice-conflict"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-execution-billing-finality/cases/allow-x3-cost-above-final-bill-conflict/record.json",
+          "sha256": "8be3f79cd6cba6ab2413cb2e612a65197f2a0cc857d7b0d6ee08544770929d1a"
+        }
+      ],
+      "id": "allow-x3-cost-above-final-bill-conflict"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-execution-billing-finality/cases/allow-x4-contradictory-outcome-conflict/record.json",
+          "sha256": "a2f24cc720fbde7beba1f2d5c691514c1098c96b129714f40b246b865e17ea26"
+        }
+      ],
+      "id": "allow-x4-contradictory-outcome-conflict"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-execution-billing-finality/cases/allow-x5-non-dispatch-after-cost-conflict/record.json",
+          "sha256": "98bbc0762550cfad8918e4ca9a109c597c0e0a808d72e10ea3edb348c3dee615"
+        }
+      ],
+      "id": "allow-x5-non-dispatch-after-cost-conflict"
     },
     {
       "files": [
@@ -683,6 +816,60 @@
         }
       ],
       "id": "x1-invoice-replay-refinalized"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-execution-billing-finality/cases/x2-low-invoice-erases-known-spend/record.json",
+          "sha256": "7fd01c90ef1f65e0ceb171de3afd2b7ff1d8a73895b0963a825516fb56668f1d"
+        }
+      ],
+      "id": "x2-low-invoice-erases-known-spend"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-execution-billing-finality/cases/x3-cost-above-final-bill-accepted/record.json",
+          "sha256": "3da4f6ab452e405fe94b47c20ab90393039c9919febedb4bab160377eb25b9d3"
+        }
+      ],
+      "id": "x3-cost-above-final-bill-accepted"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-execution-billing-finality/cases/x2-conflict-cleared/record.json",
+          "sha256": "1452f1b114e8521db9c0fbf5a35e185f03864514bcce9efa786aae7079442c3a"
+        }
+      ],
+      "id": "x2-conflict-cleared"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-execution-billing-finality/cases/x2-account-unfrozen/record.json",
+          "sha256": "84ec1afee6a1c0e74077dadb5358a2c92473fa7234375898086a4a56c2b97c8c"
+        }
+      ],
+      "id": "x2-account-unfrozen"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-execution-billing-finality/cases/x4-terminal-outcome-overwritten/record.json",
+          "sha256": "30e23e0c0ede0b412f24a2ceff7ce9c3c5a7ea6314f26dd95493dae292f808a3"
+        }
+      ],
+      "id": "x4-terminal-outcome-overwritten"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-execution-billing-finality/cases/x4-outcome-reset-to-unknown/record.json",
+          "sha256": "3219658c50e65c6b62b5a4d2d86a2a7f486ba6dd40396168e82f44bce9e3f777"
+        }
+      ],
+      "id": "x4-outcome-reset-to-unknown"
     }
   ],
   "native": {
@@ -701,7 +888,7 @@
       "reference": {
         "path": "release/intake/native/vectors-execution-billing-finality.json",
         "serialization": "bytes",
-        "sha256": "a83dcafa0a961091160fac98c1e263f94f49f2d697991530080dbcc5634f0f55"
+        "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
       }
     },
     {
@@ -710,7 +897,7 @@
       "reference": {
         "path": "release/intake/native/vectors-execution-billing-finality.txt",
         "serialization": "bytes",
-        "sha256": "ffd95212982ca072dafd7f59a354669d38c34e37a86838b244a3c1c0fcc1b6f2"
+        "sha256": "ff4018c1512387acd9812404e64cb005d6aca5afe937b9f4320e3d9a09e55e14"
       }
     },
     {
@@ -735,11 +922,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "a83dcafa0a961091160fac98c1e263f94f49f2d697991530080dbcc5634f0f55"
+        "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
       },
       {
         "process": "run-2",
-        "sha256": "a83dcafa0a961091160fac98c1e263f94f49f2d697991530080dbcc5634f0f55"
+        "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
       }
     ],
     "seed": null,
@@ -753,7 +940,7 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 21 pinned members of execution-billing-finality/v1 as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 31 pinned members of execution-billing-finality/v1 as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
@@ -764,7 +951,7 @@
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 21,
+    "matched": 31,
     "require": "at-least-one",
     "selected": [
       "allow-f01-success-reservation-held",
@@ -773,6 +960,10 @@
       "allow-f04-invoice-after-lost-reply",
       "allow-f14-first-dispatch",
       "allow-x1-invoice-before-dispatch",
+      "allow-x2-low-invoice-conflict",
+      "allow-x3-cost-above-final-bill-conflict",
+      "allow-x4-contradictory-outcome-conflict",
+      "allow-x5-non-dispatch-after-cost-conflict",
       "contract-id-missing",
       "contract-id-unknown",
       "money-as-boolean",
@@ -787,7 +978,13 @@
       "f04-final-billing-redispatch",
       "x1-invoice-opens-dispatch",
       "x1-dispatch-state-reserved-after-invoice",
-      "x1-invoice-replay-refinalized"
+      "x1-invoice-replay-refinalized",
+      "x2-low-invoice-erases-known-spend",
+      "x3-cost-above-final-bill-accepted",
+      "x2-conflict-cleared",
+      "x2-account-unfrozen",
+      "x4-terminal-outcome-overwritten",
+      "x4-outcome-reset-to-unknown"
     ]
   },
   "specification-readers": [],
