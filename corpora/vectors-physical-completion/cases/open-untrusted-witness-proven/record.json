@@ -1,0 +1,34 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/physical-completion",
+  "intent": "PHYSICAL_COMPLETION",
+  "presented": {
+    "observation": {
+      "authenticated": true,
+      "boundToAction": true,
+      "criterionDigest": "sha256:02818a48e578b628852624be91cd5d785214e9b5b720562db15969d56ef2a0c6",
+      "criterionFixedAtMs": 900,
+      "criterionMet": true,
+      "method": "state-readback",
+      "observedAtMs": 1400,
+      "windowEndMs": 2000,
+      "witness": "witness-hallway-camera-2"
+    },
+    "receipt": {
+      "dispatchedAtMs": 1000,
+      "profile": "noa.receipt/0.1",
+      "valid": true,
+      "verdict": "EXECUTED"
+    },
+    "trust": {
+      "configuration": "sha256:5d1f0c7a9e2b4b3c8a6f1e0d2c4b6a8e9f1d3c5b7a9e0f2d4c6b8a0e1f3d5c7b",
+      "witnessesTrustedForPurpose": [
+        "witness-window-sensor-7"
+      ]
+    }
+  },
+  "recordId": "record-open-untrusted-witness-proven",
+  "result": {
+    "physicalCompletion": "PROVEN_TO_POLICY",
+    "trustConfiguration": "sha256:5d1f0c7a9e2b4b3c8a6f1e0d2c4b6a8e9f1d3c5b7a9e0f2d4c6b8a0e1f3d5c7b"
+  }
+}

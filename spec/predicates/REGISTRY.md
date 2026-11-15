@@ -189,6 +189,21 @@ Records are from draft-li-rttp-iqa-addressing-02 sections 6.1, 7.2, 8.1 and 8.2.
   A later revision that keeps the set and the order is a new confirmation; any change to either is a new URI.
 - Example: `corpora/vectors-refusal-reason-priority/cases/conformant-expiry-over-revocation/record.json`.
 
+### `predicate/v1/physical-completion`
+
+- Document: `corpora/vectors-physical-completion/README.md`
+- Corpus: `corpora/vectors-physical-completion/`, suite `physical-completion/v1`
+- Rails: `corpusreaders/physicalcompletion.go`, `packaging/agent_evidence_vectors/physicalcompletion.py`
+
+The predicate carries one presentation a verifier was given (a receipt, any controller
+outcome, any transport acknowledgement, any physical-observation artifact and the verifier's
+trust configuration) and the result it reported for the PHYSICAL_COMPLETION intent. The
+result must not assert completion on the basis of a receipt or a controller's report, must
+name the trust configuration behind any proof, must not turn a gap or a lost acknowledgement
+into a negative finding, and keeps the four absence results apart. Its vocabulary spells the
+results the draft names and does not tokenise: PROVEN_TO_POLICY, NOT_SATISFIED and CONFLICT.
+Records are from draft-noa-scitt-ai-agent-receipt-01 sections 1.5, 2 and 8.1 to 8.4.
+
 ### `predicate/v1/evaluation-claim`
 
 - Document: `spec/predicates/evaluation-claim.md`
