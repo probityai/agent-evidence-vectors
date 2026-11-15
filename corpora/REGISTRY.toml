@@ -697,6 +697,18 @@ standards = ["eu-ai-act"]
 shapes = ["coverage-gap", "uncertainty"]
 
 [[corpus]]
+id = "vectors-physical-completion"
+path = "corpora/vectors-physical-completion"
+wheel = true
+sdist = true
+title = "Physical completion"
+summary = "A verifier must not read physical completion out of a receipt or a controller's report, must name the policy behind a proof, and must not turn a gap or a lost reply into a negative finding."
+record_class = "report"
+domains = ["completion", "effects", "transparency"]
+standards = ["ietf-draft", "scitt-cose"]
+shapes = ["self-report", "missing-binding", "uncertainty"]
+
+[[corpus]]
 id = "vectors-propagation-step"
 path = "corpora/vectors-propagation-step"
 wheel = true

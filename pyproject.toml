@@ -182,6 +182,7 @@ only-include = [
     "corpora/vectors-monitor-coverage",
     "corpora/vectors-observed-effect",
     "corpora/vectors-open-weight-art53",
+    "corpora/vectors-physical-completion",
     "corpora/vectors-propagation-step",
     "corpora/vectors-receipt-chain-end",
     "corpora/vectors-receipt-signature",
@@ -252,6 +253,7 @@ exclude = [
     "corpora/vectors-monitor-coverage/**/*.py",
     "corpora/vectors-observed-effect/**/*.py",
     "corpora/vectors-open-weight-art53/**/*.py",
+    "corpora/vectors-physical-completion/**/*.py",
     "corpora/vectors-propagation-step/**/*.py",
     "corpora/vectors-receipt-chain-end/**/*.py",
     "corpora/vectors-receipt-signature/**/*.py",
@@ -321,6 +323,7 @@ exclude = [
 "corpora/vectors-monitor-coverage" = "agent_evidence_vectors/corpora/vectors-monitor-coverage"
 "corpora/vectors-observed-effect" = "agent_evidence_vectors/corpora/vectors-observed-effect"
 "corpora/vectors-open-weight-art53" = "agent_evidence_vectors/corpora/vectors-open-weight-art53"
+"corpora/vectors-physical-completion" = "agent_evidence_vectors/corpora/vectors-physical-completion"
 "corpora/vectors-propagation-step" = "agent_evidence_vectors/corpora/vectors-propagation-step"
 "corpora/vectors-receipt-chain-end" = "agent_evidence_vectors/corpora/vectors-receipt-chain-end"
 "corpora/vectors-receipt-signature" = "agent_evidence_vectors/corpora/vectors-receipt-signature"
@@ -465,6 +468,7 @@ only-include = [
     "corpora/vectors-monitor-coverage",
     "corpora/vectors-observed-effect",
     "corpora/vectors-open-weight-art53",
+    "corpora/vectors-physical-completion",
     "corpora/vectors-propagation-step",
     "corpora/vectors-receipt-chain-end",
     "corpora/vectors-receipt-signature",
