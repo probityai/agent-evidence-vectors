@@ -170,6 +170,7 @@ def mutations(trusting: bool) -> Iterator[Mutation]:
                     )
     if not trusting:
         yield from targeted()
+        yield from input_pic_cases()
 
 
 def edit(files: Files, rel: str, old: bytes, new: bytes) -> Files:
@@ -252,6 +253,17 @@ def targeted() -> Iterator[Mutation]:
             ),
         },
     )
+
+
+def input_pic_cases() -> Iterator[Mutation]:
+    """The input-pic fixtures, each laid over r2 j01, so the Go reader meets them too."""
+    for fixture in sorted((ROOT / "input-pic" / "cases").iterdir()):
+        files = dict(BASE["r2"])
+        for path in (fixture / "case").rglob("*"):
+            if path.is_file():
+                rel = path.relative_to(fixture / "case").as_posix()
+                files[f"cases/j01/{rel}"] = path.read_bytes()
+        yield (f"input-pic-{fixture.name}", "r2", files)
 
 
 def table(results: list[dict[str, Any] | None], checks: list[str]) -> tuple[list[str], list[Any]]:

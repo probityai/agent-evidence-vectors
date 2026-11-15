@@ -83,6 +83,34 @@ def test_input_aps_fixtures_reach_their_checks_and_split_on_the_stage_rule() -> 
     assert [f.name for f in fixtures if f.name.startswith("s-")] == ["s-intent-result-status"]
 
 
+def _input_pic_bytes() -> dict[str, bytes]:
+    base = ROOT / generator.INPUT_PIC
+    return {p.relative_to(base).as_posix(): p.read_bytes() for p in base.rglob("*") if p.is_file()}
+
+
+def test_input_pic_fixtures_regenerate_byte_identically() -> None:
+    committed = _input_pic_bytes()
+    generator.write_input_pic(ROOT)
+    assert _input_pic_bytes() == committed
+
+
+def test_input_pic_fixtures_give_a_verdict_at_their_step() -> None:
+    fixtures = sorted((ROOT / generator.INPUT_PIC / "cases").iterdir())
+    assert [f.name for f in fixtures] == sorted(f[0] for f in generator.PIC_FIXTURES)
+    for fixture in fixtures:
+        expected = json.loads((fixture / "expected.json").read_text())
+        got = generator.packaged_input_pic(fixture)
+        assert got == expected["expected"]["input_pic"] == expected["packaged_reader"]["input_pic"]
+        assert expected["credit"]["by"] == "kuangmi-bit"
+
+
+def test_strict_parse_refuses_what_rfc_8785_cannot_serialize() -> None:
+    for text in (b'"a\\ud800"', b'{"\\udc00":1}', b'"\\ufffe"', b"9007199254740992"):
+        with pytest.raises(ValueError):
+            reader.parse(text)
+    assert reader.parse(b'["\\ud83d\\ude00",9007199254740991]') == ["\U0001f600", 2**53 - 1]
+
+
 def test_r2_passes_and_r1_names_the_failed_steps() -> None:
     assert _ok(ROOT / R2)
     result = reader.judge_run(ROOT / R1)
