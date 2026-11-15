@@ -618,7 +618,7 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
     (
         "the v2 URI read with the v1 input set",
         _v2_without_extension,
-        "PS1,PS3,PS4,PS5",
+        "PS1,PS1b,PS3,PS4,PS5",
     ),
     (
         "agent.authentication without api-key",
@@ -676,17 +676,17 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
     (
         "an age measured to issuedAt rather than the reference time",
         lambda: _freshness(reference="issuedAt"),
-        "ISSUED",
+        "FR9,FR19,FR20,FR21,FR23",
     ),
     (
         "an age equal to maxAge read as fresh, the boundary of revisions 00 to 03",
         lambda: _freshness(stale_at_bound=False),
-        "BOUND",
+        "FR2,FR22,PS1b",
     ),
     (
         "decision.evaluatedAt ignored, every age measured to decision.reportedAt",
         lambda: _freshness(reference="reportedAt"),
-        "REPORTED",
+        "FR19,FR20,FR21",
     ),
     (
         "a decision.evaluatedAt after decision.reportedAt accepted however late",
@@ -736,12 +736,12 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
     (
         "unavailableInput not matched against the entries",
         lambda: _swapped_rule("evaluation", _evaluation_reading(match_entries=False)),
-        "FR7",
+        "FR7,FR20",
     ),
     (
         "evaluated not checked against the entries",
         lambda: _swapped_rule("evaluation", _evaluation_reading(evaluated_by_entries=False)),
-        "FR8,FR17c,FR15",
+        "FR2,FR8,FR17c,FR15,FR22",
     ),
     (
         "an evaluation member the draft does not define accepted",

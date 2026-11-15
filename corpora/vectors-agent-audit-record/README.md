@@ -453,7 +453,8 @@ generator reproduces his bytes and file identifiers.
 
 `check_vectors.py` holds both sides: a reader that applies the extended set
 under the `v1` URI as well fails exactly `PS2`, and a reader that accepts the
-`v2` URI with the `v1` set fails exactly `PS1` and `PS3` to `PS5` (below).
+`v2` URI with the `v1` set fails exactly `PS1`, `PS1b` and `PS3` to `PS5`
+(below).
 
 ## Principal standing from a published commitment: `PS3` to `PS5`
 
