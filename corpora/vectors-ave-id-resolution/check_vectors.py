@@ -71,7 +71,8 @@ def check(
         seen.update(codes)
         if verdict != want["verdict"] or (not decision_only and codes != want["codes"]):
             failures.append(
-                f"{entry['id']}: answered {verdict} {codes}, declared {want['verdict']} {want['codes']}"
+                f"{entry['id']}: answered {verdict} {codes}, "
+                f"declared {want['verdict']} {want['codes']}"
             )
     if verifier is None:
         failures += [

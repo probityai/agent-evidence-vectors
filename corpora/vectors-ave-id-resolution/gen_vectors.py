@@ -278,7 +278,8 @@ def build(root: Path) -> tuple[dict[str, Any], dict[str, bytes]]:
         got = resolve_ids.judge(json.loads(data), statuses, SNAPSHOTS[release]["recordsSha256"])
         if (got["verdict"], got["codes"]) != (verdict, codes):
             raise ValueError(
-                f"{member_id}: checker answers {got['verdict']} {got['codes']}, declared {verdict} {codes}"
+                f"{member_id}: checker answers {got['verdict']} {got['codes']}, "
+                f"declared {verdict} {codes}"
             )
         path = f"cases/{member_id}/{name}"
         files[path] = data
@@ -323,7 +324,8 @@ def index(manifest: dict[str, Any]) -> str:
     for v in manifest["vectors"]:
         codes = ", ".join(v["expected"]["codes"])
         lines.append(
-            f"| `{v['id']}` | {v['snapshot']} | {v['expected']['verdict']} | {codes} | {v['shows']} |"
+            f"| `{v['id']}` | {v['snapshot']} | {v['expected']['verdict']} "
+            f"| {codes} | {v['shows']} |"
         )
     return "\n".join(lines) + "\n"
 
