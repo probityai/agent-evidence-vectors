@@ -146,6 +146,61 @@ class Mutations(unittest.TestCase):
         )
         self.assertTrue(self.add_workflow("x.yml", body))
 
+    def test_conformance_execute_job_gaining_the_oidc_grant_refused(self) -> None:
+        self.assertTrue(
+            self.mutate(
+                "conformance.yml",
+                "      contents: read\n    outputs:\n      artifact-id:",
+                "      contents: read\n      id-token: write\n    outputs:\n      artifact-id:",
+            )
+        )
+
+    def test_conformance_sign_job_gaining_an_environment_refused(self) -> None:
+        self.assertTrue(
+            self.mutate(
+                "conformance.yml",
+                "  sign:\n    needs: execute\n",
+                "  sign:\n    needs: execute\n    environment: github-pages\n",
+            )
+        )
+
+    def test_conformance_sign_job_gaining_a_registry_upload_refused(self) -> None:
+        self.assertTrue(
+            self.mutate(
+                "conformance.yml",
+                "      - name: publish the receipt\n",
+                "      - run: twine upload dist/*\n      - name: publish the receipt\n",
+            )
+        )
+
+    def test_conformance_sign_job_gaining_a_named_secret_refused(self) -> None:
+        self.assertTrue(
+            self.mutate(
+                "conformance.yml",
+                "          GH_TOKEN: ${{ github.token }}\n          ARTIFACT_ID",
+                "          GH_TOKEN: ${{ secrets.PAT }}\n          ARTIFACT_ID",
+            )
+        )
+
+    def test_conformance_gaining_a_trigger_refused(self) -> None:
+        self.assertTrue(
+            self.mutate(
+                "conformance.yml",
+                "on:\n  workflow_call:\n",
+                "on:\n  push:\n  workflow_call:\n",
+            )
+        )
+
+    def test_conformance_gaining_another_oidc_job_refused(self) -> None:
+        self.assertTrue(
+            self.mutate(
+                "conformance.yml",
+                "permissions: {}\n\njobs:\n",
+                "permissions: {}\n\njobs:\n  extra:\n    runs-on: ubuntu-24.04\n"
+                "    permissions:\n      id-token: write\n    steps:\n      - run: echo hi\n",
+            )
+        )
+
 
 if __name__ == "__main__":
     unittest.main(argv=[sys.argv[0]])
