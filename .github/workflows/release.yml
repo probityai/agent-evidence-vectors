@@ -501,6 +501,9 @@ jobs:
       - id: target
         env:
           TAG: ${{ github.event.release.tag_name }}
+          # release-target checks every repository link in the manifest
+          # against the GitHub API; anonymous reads share 60 an hour per runner.
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           git merge-base --is-ancestor "$GITHUB_SHA" origin/main

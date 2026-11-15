@@ -19,7 +19,7 @@ Add it as a pinned dependency of a new project:
 
 ```bash
 cargo new jcs-admit-demo && cd jcs-admit-demo
-cargo add jcs-admit@=0.1.3
+cargo add jcs-admit@=0.1.4
 ```
 
 Then put this in `src/main.rs` to admit a document before you sign it:
@@ -54,7 +54,7 @@ or offending token. Number formatting is delegated to
 
 ## Status
 
-Version 0.1.3 on [crates.io](https://crates.io/crates/jcs-admit), minimum Rust 1.74. The tests
+Version 0.1.4 on [crates.io](https://crates.io/crates/jcs-admit), minimum Rust 1.74. The tests
 load vectors produced by the Go implementation in
 [agent-evidence-vectors](https://github.com/probityai/agent-evidence-vectors), never by this crate,
 and every refusal is mutation-tested.
@@ -73,7 +73,7 @@ The Python wheel is built and tested from `python/` and is not yet on PyPI.
 | [APS canonical-byte comparison](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/interop/aps-canonical-bytes/README.md) | pinned 8-case and 10-case byte results and how to reproduce them |
 | [Python byte-profile comparison](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/interop/rfc8785-py/README.md) | independent byte cases, native raw-input refusals and a source-pinned Python consumer |
 | [Go raw-admission adapter](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/interop/go-jcs/README.md) | pinned Go bytes, original input admission and explicit root/profile boundaries |
-| [Version 0.1.3 API reference](https://docs.rs/jcs-admit/0.1.3/jcs_admit/) | every function, option and error variant in the installed release |
+| [Version 0.1.4 API reference](https://docs.rs/jcs-admit/0.1.4/jcs_admit/) | every function, option and error variant in the installed release |
 | [Agent guide](llms.txt) | raw-input admission, profile selection and runnable comparisons |
 | [Comparison with other RFC 8785 crates](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/docs/INCUMBENT-MEASUREMENT.md) | how seven RFC 8785 crates on crates.io handle hostile input |
 | [Mutation sweep](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/docs/MUTATION-SWEEP.md) | how each refusal was shown to be tested |

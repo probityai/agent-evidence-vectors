@@ -11,7 +11,7 @@ Install the checker in its own environment:
 
 ```sh
 uv venv admission-env
-uv pip install --python admission-env/bin/python agent-evidence-admission==0.2.0
+uv pip install --python admission-env/bin/python agent-evidence-admission==0.2.1
 ```
 
 ## Example
@@ -42,7 +42,7 @@ A match binds the document to bytes. It does not verify a signature or admit a w
 For an existing CycloneDX SBOM and JAR, provide both files in your working directory:
 
 ```bash
-uvx agent-evidence-admission==0.2.0 digest-check bom.json log4j-core-2.26.1.jar
+uvx agent-evidence-admission==0.2.1 digest-check bom.json log4j-core-2.26.1.jar
 ```
 
 The check runs three steps: read the document (a path or an https URL), recompute the artifact's digest with every algorithm the document names, and compare. It prints one line and exits 0 when a named digest matches:
@@ -76,7 +76,7 @@ and the [vectors](vectors/generate/manifest.json).
 
 ## Status
 
-Version 0.2.0. The Kubernetes admission policies (Rego, Kyverno, policy-controller) live in the same repository; see the [repository README](https://github.com/probityai/agent-evidence-vectors/tree/main/packages/admission#readme).
+Version 0.2.1. The Kubernetes admission policies (Rego, Kyverno, policy-controller) live in the same repository; see the [repository README](https://github.com/probityai/agent-evidence-vectors/tree/main/packages/admission#readme).
 
 ## Build packages
 
