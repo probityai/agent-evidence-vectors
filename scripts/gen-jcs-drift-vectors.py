@@ -20,6 +20,14 @@ Depth cases (``depthCases``): arrays and objects nested 129, 256, 512 and 1024
 levels, which an admission gate with the 128-level cap refuses, and the same
 shapes at exactly 128 levels, which it admits.
 
+Invalid-input cases (``invalidInputCases``): raw bytes that are not JSON text an
+RFC 8785 canonicalizer may accept, each pinned as hex because several are not
+valid UTF-8. A canonicalizer must refuse every member. They come from a
+cross-library run in which Go ``gowebpki/jcs`` canonicalized invalid UTF-8 and
+three malformed documents, Python ``rfc8785`` and Node ``canonicalize`` merged
+duplicate member names, and Node ``canonicalize`` accepted unpaired surrogate
+escapes and a byte order mark.
+
 Usage (from the repository root):
     python3 scripts/gen-jcs-drift-vectors.py           # write
     python3 scripts/gen-jcs-drift-vectors.py --check   # exit 1 on drift
@@ -182,6 +190,45 @@ def drift_cases() -> list[dict[str, str]]:
     return out
 
 
+# id, family, input bytes, error. Every input is an invalid RFC 8259 / I-JSON
+# document; none has a canonical form.
+INVALID: tuple[tuple[str, str, bytes, str], ...] = (
+    ("utf8-stray-continuation-byte", "invalid-utf8", b'["\x80"]', "invalid-utf8"),
+    ("utf8-overlong-slash", "invalid-utf8", b'["\xc0\xaf"]', "invalid-utf8"),
+    ("utf8-truncated-sequence", "invalid-utf8", b'["\xe2\x82"]', "invalid-utf8"),
+    ("utf8-encoded-surrogate", "invalid-utf8", b'["\xed\xa0\x80"]', "invalid-utf8"),
+    ("utf8-byte-order-mark", "byte-order-mark", b'\xef\xbb\xbf{}', "byte-order-mark"),
+    ("number-missing-separator", "malformed-json", b"[1 2]", "malformed-json"),
+    ("number-trailing-dot", "malformed-json", b"[1.]", "malformed-json"),
+    ("number-leading-plus", "malformed-json", b"[+1]", "malformed-json"),
+    ("number-leading-zero", "malformed-json", b"[01]", "malformed-json"),
+    ("object-trailing-comma", "malformed-json", b'{"a":1,}', "malformed-json"),
+    ("duplicate-member-plain", "duplicate-member", b'{"a":1,"a":2}', "duplicate-member"),
+    (
+        "duplicate-member-escaped-spelling",
+        "duplicate-member",
+        b'{"a":1,"\\u0061":2}',
+        "duplicate-member",
+    ),
+    ("surrogate-low-alone", "invalid-unicode", b'["\\udc00"]', "invalid-unicode"),
+    ("surrogate-high-then-letter", "invalid-unicode", b'["\\ud800x"]', "invalid-unicode"),
+    ("surrogate-high-then-high", "invalid-unicode", b'["\\ud800\\ud800"]', "invalid-unicode"),
+)
+
+
+def invalid_input_cases() -> list[dict[str, str]]:
+    return [
+        {
+            "id": f"invalid-{case_id}",
+            "family": family,
+            "inputHex": raw.hex(),
+            "expect": "reject",
+            "error": error,
+        }
+        for case_id, family, raw, error in INVALID
+    ]
+
+
 def nest(shape: str, depth: int) -> str:
     if shape == "array":
         return "[" * depth + "]" * depth
@@ -216,6 +263,7 @@ def render() -> str:
     corpus = json.loads(CASES.read_text("utf-8"))
     corpus["driftCases"] = drift_cases()
     corpus["depthCases"] = depth_cases()
+    corpus["invalidInputCases"] = invalid_input_cases()
     return json.dumps(corpus, indent=2) + "\n"
 
 

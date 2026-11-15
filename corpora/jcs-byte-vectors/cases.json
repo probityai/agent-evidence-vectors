@@ -349,5 +349,112 @@
       "expect": "reject",
       "error": "too-deep"
     }
+  ],
+  "invalidInputCases": [
+    {
+      "id": "invalid-utf8-stray-continuation-byte",
+      "family": "invalid-utf8",
+      "inputHex": "5b2280225d",
+      "expect": "reject",
+      "error": "invalid-utf8"
+    },
+    {
+      "id": "invalid-utf8-overlong-slash",
+      "family": "invalid-utf8",
+      "inputHex": "5b22c0af225d",
+      "expect": "reject",
+      "error": "invalid-utf8"
+    },
+    {
+      "id": "invalid-utf8-truncated-sequence",
+      "family": "invalid-utf8",
+      "inputHex": "5b22e282225d",
+      "expect": "reject",
+      "error": "invalid-utf8"
+    },
+    {
+      "id": "invalid-utf8-encoded-surrogate",
+      "family": "invalid-utf8",
+      "inputHex": "5b22eda080225d",
+      "expect": "reject",
+      "error": "invalid-utf8"
+    },
+    {
+      "id": "invalid-utf8-byte-order-mark",
+      "family": "byte-order-mark",
+      "inputHex": "efbbbf7b7d",
+      "expect": "reject",
+      "error": "byte-order-mark"
+    },
+    {
+      "id": "invalid-number-missing-separator",
+      "family": "malformed-json",
+      "inputHex": "5b3120325d",
+      "expect": "reject",
+      "error": "malformed-json"
+    },
+    {
+      "id": "invalid-number-trailing-dot",
+      "family": "malformed-json",
+      "inputHex": "5b312e5d",
+      "expect": "reject",
+      "error": "malformed-json"
+    },
+    {
+      "id": "invalid-number-leading-plus",
+      "family": "malformed-json",
+      "inputHex": "5b2b315d",
+      "expect": "reject",
+      "error": "malformed-json"
+    },
+    {
+      "id": "invalid-number-leading-zero",
+      "family": "malformed-json",
+      "inputHex": "5b30315d",
+      "expect": "reject",
+      "error": "malformed-json"
+    },
+    {
+      "id": "invalid-object-trailing-comma",
+      "family": "malformed-json",
+      "inputHex": "7b2261223a312c7d",
+      "expect": "reject",
+      "error": "malformed-json"
+    },
+    {
+      "id": "invalid-duplicate-member-plain",
+      "family": "duplicate-member",
+      "inputHex": "7b2261223a312c2261223a327d",
+      "expect": "reject",
+      "error": "duplicate-member"
+    },
+    {
+      "id": "invalid-duplicate-member-escaped-spelling",
+      "family": "duplicate-member",
+      "inputHex": "7b2261223a312c225c7530303631223a327d",
+      "expect": "reject",
+      "error": "duplicate-member"
+    },
+    {
+      "id": "invalid-surrogate-low-alone",
+      "family": "invalid-unicode",
+      "inputHex": "5b225c7564633030225d",
+      "expect": "reject",
+      "error": "invalid-unicode"
+    },
+    {
+      "id": "invalid-surrogate-high-then-letter",
+      "family": "invalid-unicode",
+      "inputHex": "5b225c756438303078225d",
+      "expect": "reject",
+      "error": "invalid-unicode"
+    },
+    {
+      "id": "invalid-surrogate-high-then-high",
+      "family": "invalid-unicode",
+      "inputHex": "5b225c75643830305c7564383030225d",
+      "expect": "reject",
+      "error": "invalid-unicode"
+    }
   ]
 }

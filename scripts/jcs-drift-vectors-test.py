@@ -70,5 +70,53 @@ class DriftFamily(unittest.TestCase):
         self.assertGreater(checked, 0)
 
 
+def strict_refuses(raw: bytes) -> bool:
+    """Whether a strict RFC 8259 / I-JSON reader built from the standard library refuses raw."""
+
+    def no_duplicates(pairs: list[tuple[str, object]]) -> dict[str, object]:
+        names = [k for k, _ in pairs]
+        if len(names) != len(set(names)):
+            raise ValueError("duplicate member")
+        return dict(pairs)
+
+    def no_lone_surrogate(text: str) -> None:
+        text.encode("utf-8")
+
+    try:
+        text = raw.decode("utf-8")
+        if text.startswith("\ufeff"):
+            return True
+        value = json.loads(text, object_pairs_hook=no_duplicates, parse_constant=_refuse)
+        no_lone_surrogate(json.dumps(value, ensure_ascii=False))
+    except (UnicodeError, ValueError):
+        return True
+    return False
+
+
+def _refuse(name: str) -> None:
+    raise ValueError(name)
+
+
+class InvalidInputFamily(unittest.TestCase):
+    def test_family_is_nonempty_and_every_member_expects_rejection(self) -> None:
+        cases = CORPUS["invalidInputCases"]
+        self.assertGreaterEqual(len(cases), 15)
+        self.assertEqual({c["expect"] for c in cases}, {"reject"})
+        ids = [c["id"] for c in cases]
+        self.assertEqual(len(ids), len(set(ids)))
+
+    def test_a_strict_reference_refuses_every_member(self) -> None:
+        for case in CORPUS["invalidInputCases"]:
+            with self.subTest(case["id"]):
+                self.assertTrue(strict_refuses(bytes.fromhex(case["inputHex"])))
+
+    def test_the_python_rail_refuses_every_member(self) -> None:
+        for case in CORPUS["invalidInputCases"]:
+            raw = bytes.fromhex(case["inputHex"])
+            with self.subTest(case["id"]):
+                with self.assertRaises(Exception):
+                    a2ajcs.canonicalize(a2ajcs.parse(raw.decode("utf-8")))
+
+
 if __name__ == "__main__":
     unittest.main()
