@@ -92,7 +92,7 @@
       },
       "path": "corpora/vectors-cbor-receipt-chain/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "a2470cbc91e5d1006a97d2cf8c44c8c95a86a76c3ed014c6b838a3e1946e8bf2"
+      "sha256": "7bc9c722a808bafe45ff3b2cfa9ac797144732840b113982656c92fa7c3f9c90"
     },
     {
       "consumed": "consumed",
@@ -137,7 +137,7 @@
       },
       "path": "corpora/vectors-cbor-receipt-chain/receipt_builder.py",
       "serialization": "bytes",
-      "sha256": "0a8590f4549bc4a4e622ad97a5b4d3cb7634fa987014945b4bc3fe222e2de8bf"
+      "sha256": "61138b33e6c4af3ab88bdae2dfe99203a338e6949d94d907bdd5df547d456d5f"
     },
     {
       "consumed": "unconsumed",
@@ -160,7 +160,7 @@
       },
       "path": "corpora/vectors-cbor-receipt-chain/tests/test_corpus.py",
       "serialization": "bytes",
-      "sha256": "dd5f1155b063b6cff689138bf785c58184c5849ccc741d94787a474e3230e742"
+      "sha256": "e1941a014a2d5be1e3e4bc0cb0b89ba441929439b7ea0f8d7e00b67f3cb02580"
     }
   ],
   "boundary": {
@@ -373,7 +373,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "2334ba9e8792e7d9f74e1095b08ade48d1fc129cb93a0cc577624f2baadc0d3a"
+    "sha256": "900388c802a0ea7c172b1bf0c9ff2733f80e3a9f7dfea022ac39a6cdf721c4b1"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
