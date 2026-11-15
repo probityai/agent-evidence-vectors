@@ -277,6 +277,36 @@ commit, run over the corpus at `0a4fef2c7` with `--admission-state` set to each
 run's `admission/state.json`, returned the same ten verdicts and
 `REFUSED:PIC_ARGS_NOT_PAYLOAD` for both `n1a-pic-args` vectors.
 
+### kuangmi-bit, `kuangmi-bit/agent-evidence-cold-readers`, the refund-connected corpus, `input_pic` layer
+
+A run of one layer of six, `input_pic`, the layer
+[`docs/reference/refund-connected-input-pic.md`](docs/reference/refund-connected-input-pic.md)
+states as a contract. It says nothing about the other five layers and is not a run
+of the complete refund flow. Its author labelled it directed, so it is recorded as
+directed and is never added to the blind `input_aps` row above.
+
+| | |
+| --- | --- |
+| Reporter | `kuangmi-bit` |
+| Implementation | [`kuangmi-bit/agent-evidence-cold-readers`](https://github.com/kuangmi-bit/agent-evidence-cold-readers/tree/680ad55b2893d03590a31aaf264bb1f639384fca/refund-connected-input-pic) at commit `680ad55b2893d03590a31aaf264bb1f639384fca`, path `refund-connected-input-pic/` |
+| Posted at | [#352, comment of 2026-11-15](https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6886608633) |
+| Corpus | `vectors-refund-connected`, contract at `250de75575a945d00211415d7af41894d15427fa`, `input_pic` expectation of each vector in `MANIFEST.json`, corpus digest `1588224056bb6f7f5971386164b4a737c422ec6b16bcdea3ca8dc559adb5f9a5` |
+| Result | All twelve scored vectors match: `j01`, `n1b-aps-payload`, `n3-reissue`, `n3b-old-pic` and `n4-lost-ack` `ESTABLISHED`, `n1a-pic-args` `REFUSED:PIC_ARGS_DIGEST`, in both runs `r1` and `r2` |
+| Label, by its author | directed |
+
+What the run is evidence of, in his words:
+
+> The reader was written from `docs/reference/refund-connected-input-pic.md` alone (steps 0a–20 plus the runner-allowed rule) and had already scored 12/12 before I opened `packaging/agent_evidence_vectors/refundconnected.py`. After that point I used the packaged reader as the oracle for the probe comparison below, so the run is directed, not blind
+
+The twelve verdicts were reproduced here before this row was written: his
+`run_corpus.py` at that commit, over the corpus at `250de7557`, printed
+`12/12 scored vectors match`. A directed twelve says the text is implementable;
+the run's larger result is the probe set beside it, 53 one-field variants of
+`j01` run through both readers, two of which made the packaged reader raise an
+exception instead of giving a verdict. Both were real and are fixed in the
+reader and the contract text, and the cases are the first fixtures under
+`corpora/vectors-refund-connected/input-pic/`, credited to him there.
+
 ## Runs of this repository's code on another operator's host
 
 The rows above are runs of implementations this repository did not write. The
