@@ -242,6 +242,56 @@ The readings the text left to the verifier are stated in the docstring of the ve
 
 The figure was not reproduced here before this row was written.
 
+### telleroutlook, `open-agent-audit`, the request-effect-join fixture
+
+A run of the `request-effect-join-fixture/v1` cases by a reader this repository
+did not write. The cases and their contract are the ones in
+[`kuangmi-bit/agent-evidence`](https://github.com/kuangmi-bit/agent-evidence)
+that the request-effect-join contract merged here as
+[#377](https://github.com/probityai/agent-evidence-vectors/pull/377) came from,
+so like the rows above it is not a row of the ledger below.
+
+| | |
+| --- | --- |
+| Reporter | `telleroutlook` |
+| Implementation | the `open-agent-audit` independent reader, Python with the standard library only (`hashlib` and `json`), written from `docs/INPUT-CONTRACT.md` alone. Its source is not in the repository he linked, [`telleroutlook/agent-evidence-cold-readers`](https://github.com/telleroutlook/agent-evidence-cold-readers/tree/e979326a05608d1fa67ed1925f26daa8bed49d71), which holds only the `input_aps` reader of the row below, so no commit is recorded here |
+| Posted at | [#352, comment of 2026-11-02](https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6591390190), his own table dated 2026-11-03 |
+| Corpus | `request-effect-join-fixture/v1` at `kuangmi-bit/agent-evidence` commit `878c7cc`, branch `request-effect-join-fixture-contract`, `site/examples/request-effect-join/fixtures/cases.json` |
+| Result | 10 of 10 match `expected.json`, zero divergences: `S-00`, `S-02`, `S-04` and `S-05` `established`; `S-01`, `S-03` and `S-07` `refused`; `S-06` and `S-08` `invalid_input`; `S-09` `not_established` |
+| Label, by its author | blind pass |
+
+What the run is evidence of, in his words:
+
+> The reader was written from scratch using only `docs/INPUT-CONTRACT.md` as
+> the spec — no code copied or imported from `run_contract.py`.
+
+The figure was not reproduced here before this row was written, because the
+reader's source is not published.
+
+### telleroutlook, `open-agent-audit`, the uncertain effect corpus
+
+The first run of `vectors-uncertain-effect` by a reader this repository did not
+write, and the one the corpus README's offer of a row was made for. Like the
+rows above it is not a row of the ledger below.
+
+| | |
+| --- | --- |
+| Reporter | `telleroutlook` |
+| Implementation | the `open-agent-audit` independent verifier, Python with the standard library only, written from `corpora/vectors-uncertain-effect/README.md` alone (10 checks, fixed order) and speaking the corpus's `<verifier> record.json --json` contract. Its source is not in the repository he linked, [`telleroutlook/agent-evidence-cold-readers`](https://github.com/telleroutlook/agent-evidence-cold-readers/tree/e979326a05608d1fa67ed1925f26daa8bed49d71), so no commit is recorded here |
+| Posted at | [#352, comment of 2026-11-02](https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6591465531), his own table dated 2026-11-03 |
+| Corpus | `vectors-uncertain-effect` at `agent-evidence-vectors==0.31.0` |
+| Result | 27 of 27 match `MANIFEST.json`, zero divergences: 10 `allow` cases, all with reason `effect_held`, and 17 `deny` cases |
+| Label, by its author | blind pass |
+
+What the run is evidence of, in his words:
+
+> The verifier was written from scratch using only
+> `corpora/vectors-uncertain-effect/README.md` as the spec (10 checks, fixed
+> order).
+
+The figure was not reproduced here before this row was written, because the
+verifier's source is not published.
+
 ### telleroutlook, `telleroutlook/agent-evidence-cold-readers`, the refund-connected corpus, `input_aps` layer
 
 The first run of `vectors-refund-connected` by a reader this repository did not
