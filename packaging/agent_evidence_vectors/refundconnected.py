@@ -1429,6 +1429,17 @@ def _check_cutoff(
 # ----------------------------------------------------------------------------
 
 
+def pic_verdict(case: Case) -> Finding | None:
+    """The input_pic layer of one case with the runner-allowed rule applied; None if established."""
+    try:
+        check_pic(case)
+    except Finding as found:
+        if found.kind == "REFUSED" and runner_allowed_refused(case) and case.name:
+            return _contra(f"runner-allowed-{found.code}")
+        return found
+    return None
+
+
 def judge_case(  # noqa: C901
     run: RunDir, name: str, adm: Admission, st: Streams, operations: dict[str, Any] | None
 ) -> dict[str, str]:
@@ -1445,15 +1456,9 @@ def judge_case(  # noqa: C901
         out[step] = ESTABLISHED
         return True
 
-    pic_finding: Finding | None = None
-    try:
-        check_pic(case)
-    except Finding as found:
-        pic_finding = found
+    pic_finding = pic_verdict(case)
     if pic_finding is not None:
         out["input_pic"] = pic_finding.verdict
-        if pic_finding.kind == "REFUSED" and runner_allowed_refused(case) and case.name:
-            out["input_pic"] = _contra(f"runner-allowed-{pic_finding.code}").verdict
         return _downstream_check(out, case, adm, st)
     case.consumed_at = ""
     consumed = str(case.pic_evaluated_at)  # type: ignore[attr-defined]

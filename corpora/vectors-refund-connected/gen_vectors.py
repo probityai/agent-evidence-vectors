@@ -122,6 +122,7 @@ def generate(root: Path = ROOT) -> dict[str, Any]:
     manifest["corpusDigest"] = corpus_digest(manifest, root)
     (root / "MANIFEST.json").write_bytes(_json(manifest))
     write_input_aps(root, manifest)
+    write_input_pic(root)
     return manifest
 
 
@@ -498,6 +499,154 @@ def write_input_aps(root: Path, manifest: dict[str, Any]) -> None:
     (out / "retained.json").write_bytes(_json(retained(root, manifest)))
     for fixture in [*byte_edits(base, found[0]), stage_fixture(base, found[0])]:
         _write_fixture(out, fixture)
+
+
+# ----------------------------------------------------------------------------
+# The input_pic layer's own fixtures: input-pic/cases/<id>/case/ (the eleven case
+# files) and expected.json, each an edit of r2 j01 aimed at one step of
+# docs/reference/refund-connected-input-pic.md. Where the edit must keep a valid
+# attestation signature, the attestation is re-signed with the merchant key derived
+# from PIC_LABEL, so anyone can rebuild it. Each fixture names who found the case.
+# ----------------------------------------------------------------------------
+
+INPUT_PIC = "input-pic"
+PIC_LABEL = "agent-evidence-vectors/refund-connected/input-pic/"
+PIC_MERCHANT = "refund-sandbox-merchant-input-pic-v1"
+KUANG = {
+    "by": "kuangmi-bit",
+    "source": "https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6886608633",
+    "reader": "https://github.com/kuangmi-bit/agent-evidence-cold-readers/tree/"
+    "680ad55b2893d03590a31aaf264bb1f639384fca/refund-connected-input-pic",
+}
+
+
+def _pic_seed() -> bytes:
+    return hashlib.sha256((PIC_LABEL + "merchant").encode()).digest()
+
+
+def _pic_resign(files: dict[str, bytes], prop: dict[str, Any], att: dict[str, Any]) -> None:
+    """Sign JCS(att) with the label key, trust only that key, refresh the runner refs."""
+    entry = prop["evidence"][0]
+    payload = reader.jcs(att)
+    signature = reader._rail().ed25519_sign(_pic_seed(), payload)
+    entry.update(
+        payload=payload.decode(),
+        key_id=PIC_MERCHANT,
+        signer=PIC_MERCHANT,
+        signature=base64.b64encode(signature).decode(),
+    )
+    _write(files, PROPOSAL, prop)
+    merchant = reader._rail().ed25519_public_key(_pic_seed()).hex()
+    _write(files, PIC_KEYS, {"trusted_keys": {PIC_MERCHANT: merchant}, "revoked_keys": []})
+    _pic_refs(files)
+
+
+def _pic_refs(files: dict[str, bytes]) -> None:
+    result = reader.parse(files[RESULT])
+    result["proposal_file_ref"] = reader.file_ref(files[PROPOSAL])
+    result["pic_trust_file_ref"] = reader.file_ref(files[PIC_KEYS])
+    _write(files, RESULT, result)
+
+
+def _pic_parts(base: dict[str, bytes]) -> tuple[dict[str, bytes], dict[str, Any], dict[str, Any]]:
+    files = dict(base)
+    prop = reader.parse(files[PROPOSAL])
+    return files, prop, reader.parse(prop["evidence"][0]["payload"].encode())
+
+
+def pic_expires_null(base: dict[str, bytes]) -> dict[str, bytes]:
+    files, prop, att = _pic_parts(base)
+    att["expires_at"] = None
+    _pic_resign(files, prop, att)
+    return files
+
+
+def pic_claim_surrogate(base: dict[str, bytes]) -> dict[str, bytes]:
+    """The claim text spells its decision id with an unpaired surrogate escape."""
+    files, prop, att = _pic_parts(base)
+    text = prop["claims"][0]["text"]
+    claim = reader.parse(text.encode())
+    old = '"decision_id":' + json.dumps(claim["decision_id"])
+    if text.count(old) != 1:
+        raise ValueError("the claim text does not carry its decision id once")
+    prop["claims"][0]["text"] = text.replace(old, old[:-1] + '\\ud800"')
+    att["claims_digest"] = reader.sha_hex(reader.jcs(prop["claims"]))
+    _pic_resign(files, prop, att)
+    return files
+
+
+def pic_proposal_surrogate(base: dict[str, bytes]) -> dict[str, bytes]:
+    """The proposal file's intent ends with an unpaired surrogate escape."""
+    files = dict(base)
+    intent = reader.parse(files[PROPOSAL])["intent"]
+    old = json.dumps(intent, ensure_ascii=False).encode()
+    files[PROPOSAL] = _once(files[PROPOSAL], old, old[:-1] + b'\\ud800"')
+    _pic_refs(files)
+    return files
+
+
+#: id, step, edit, builder, credit, and the verdict the contract gives. The runner's
+#: own result for r2 j01 says allow, so each refusal carries the runner-allowed rule.
+PIC_FIXTURES = (
+    (
+        "p-expires-null",
+        "2",
+        "the attestation's expires_at set to null, re-signed with the label key",
+        pic_expires_null,
+        KUANG,
+        "CONTRADICTED:runner-allowed-PIC_ATTESTATION",
+    ),
+    (
+        "p-claim-lone-surrogate",
+        "13",
+        "the claim text's decision_id ends with the unpaired escape \\ud800, attestation re-signed",
+        pic_claim_surrogate,
+        KUANG,
+        "CONTRADICTED:runner-allowed-PIC_CLAIM",
+    ),
+    (
+        "p-proposal-lone-surrogate",
+        "0b",
+        "inputs/pic-proposal.json intent ends with the unpaired escape \\ud800",
+        pic_proposal_surrogate,
+        KUANG,
+        "CONTRADICTED:runner-allowed-STRICT_PARSE",
+    ),
+)
+
+
+def packaged_input_pic(fixture: Path) -> str:
+    """The packaged reader's input_pic verdict on input-pic/cases/<id>/case."""
+    case = reader.Case(reader.RunDir(fixture.parent.parent), f"{fixture.name}/case")
+    found = reader.pic_verdict(case)
+    return reader.ESTABLISHED if found is None else found.verdict
+
+
+def write_input_pic(root: Path) -> None:
+    """Write input-pic/ from r2 j01; every fixture must give a verdict, not an exception."""
+    out = root / INPUT_PIC
+    if out.exists():
+        shutil.rmtree(out)
+    base = {rel: (root / BASE / rel).read_bytes() for rel in reader.CASE_FILES}
+    for fid, step, edit, build, credit, verdict in PIC_FIXTURES:
+        where = out / "cases" / fid
+        for rel, data in build(base).items():
+            (where / "case" / rel).parent.mkdir(parents=True, exist_ok=True)
+            (where / "case" / rel).write_bytes(data)
+        packaged = packaged_input_pic(where)
+        if packaged != verdict:
+            raise ValueError(f"{fid}: the packaged reader gives {packaged}, the contract {verdict}")
+        document = {
+            "base": BASE,
+            "credit": credit,
+            "edit": edit,
+            "expected": {"input_pic": verdict},
+            "packaged_reader": {"input_pic": packaged},
+            "id": fid,
+            "keys": {"label": PIC_LABEL, "roles": ["merchant"]},
+            "step": step,
+        }
+        (where / "expected.json").write_bytes(_json(document))
 
 
 if __name__ == "__main__":

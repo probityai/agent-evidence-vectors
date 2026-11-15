@@ -1,0 +1,23 @@
+{
+  "base": "source/j01-connected-20261028-r2/cases/j01",
+  "credit": {
+    "by": "kuangmi-bit",
+    "reader": "https://github.com/kuangmi-bit/agent-evidence-cold-readers/tree/680ad55b2893d03590a31aaf264bb1f639384fca/refund-connected-input-pic",
+    "source": "https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6886608633"
+  },
+  "edit": "the attestation's expires_at set to null, re-signed with the label key",
+  "expected": {
+    "input_pic": "CONTRADICTED:runner-allowed-PIC_ATTESTATION"
+  },
+  "id": "p-expires-null",
+  "keys": {
+    "label": "agent-evidence-vectors/refund-connected/input-pic/",
+    "roles": [
+      "merchant"
+    ]
+  },
+  "packaged_reader": {
+    "input_pic": "CONTRADICTED:runner-allowed-PIC_ATTESTATION"
+  },
+  "step": "2"
+}

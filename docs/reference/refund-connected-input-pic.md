@@ -42,7 +42,7 @@ Step 0 covers these eleven files and no others: the three above plus the eight i
 | `JCS(v)` | RFC 8785 canonical JSON of `v` as UTF-8 bytes |
 | `sha_hex(b)` | lowercase hex SHA-256 of the bytes `b`, with **no** `sha256:` prefix |
 | `file_ref(b)` | `"sha256:" + sha_hex(b)`, over the raw file bytes exactly as stored |
-| strict parse | UTF-8; duplicate member names refused at every depth; any number with a fraction or exponent part refused (integers of any size are accepted); `NaN`/`Infinity` refused |
+| strict parse | I-JSON (RFC 7493): UTF-8; every string, member names included, is a sequence of Unicode scalar values and none is a noncharacter, so an unpaired surrogate escape such as `\ud800` is refused; duplicate member names refused at every depth; any number with a fraction or exponent part refused; an integer whose magnitude exceeds `2**53 - 1` refused; `NaN`/`Infinity` refused |
 | equality | same JSON type and same value; `true` is not `1`; list order is significant |
 | hex64 | a string of exactly 64 characters from `0-9a-f` |
 | printable ASCII id | a non-empty string whose every character is in `0x20`..`0x7E` |
@@ -75,7 +75,7 @@ reads a member of a value that is not an object, or a member that is absent, the
 | 0a | all eleven case files listed under Inputs are present | `NOT_ESTABLISHED:input-files-missing` |
 | 0b | every one of them strict-parses | `REFUSED:STRICT_PARSE` |
 | 1 | `prop` is an object; `prop.evidence` is a list of exactly one element; that element (call it `entry`) is an object with `entry.type == "sig"` | `REFUSED:PIC_EVIDENCE` |
-| 2 | `entry.payload` is a string; it strict-parses (call the result `att`); `att` is an object with exactly the members `attestation_version`, `tool`, `impact`, `provenance_ids`, `args_digest`, `claims_digest`, `intent_digest`, `expires_at`; and `att.attestation_version == "PIC-ATT/1.0"` | `REFUSED:PIC_ATTESTATION` |
+| 2 | `entry.payload` is a string; it strict-parses (call the result `att`); `att` is an object with exactly the members `attestation_version`, `tool`, `impact`, `provenance_ids`, `args_digest`, `claims_digest`, `intent_digest`, `expires_at`; `att.attestation_version == "PIC-ATT/1.0"`; and `att.expires_at` is a string of the form `YYYY-MM-DDTHH:MM:SSZ` (the form `input_aps` normalises and compares) | `REFUSED:PIC_ATTESTATION` |
 | 3 | `keys` is an object with exactly the members `trusted_keys` and `revoked_keys`; `trusted_keys` is an object; `revoked_keys` is a list | `REFUSED:PIC_KEYRING` |
 | 4 | `entry.key_id == entry.signer`, and `entry.key_id` is not an element of `revoked_keys` | `REFUSED:PIC_KEY` |
 | 5 | `trusted_keys[entry.key_id]` exists; it is either a hex64 string, or an object whose `public_key` is a hex64 string; that string is the public key | `REFUSED:PIC_KEY` |
@@ -137,6 +137,13 @@ vectors are scored, and they split into two observed outcomes:
 - **established**: `j01`, `n1b-aps-payload`, `n3-reissue`, `n3b-old-pic` and `n4-lost-ack`, in both runs (ten vectors). `n1b` and `n3b` are bad at the APS layer, not here: their PIC proposals are sound.
 - **`REFUSED:PIC_ARGS_DIGEST`**: `n1a-pic-args`, in both runs (two vectors).
 
+Outside the twelve vectors, `input-pic/` in the corpus holds fixtures for this layer alone, each
+an edit of `r2` / `j01` re-signed with a test key derived from a published label, with its
+expected verdict in `expected.json`. The first three came from a cold read by kuangmi-bit and
+pin the two places where this text used to be silent and a reader raised instead of answering:
+an attestation whose `expires_at` is `null` (step 2), and an unpaired surrogate escape in the
+claim text (step 13) or in the proposal file itself (step 0b).
+
 Every other code in the procedure is unexercised by these bytes. That is a property of the
 corpus, not of the contract: an implementation that returns `ESTABLISHED` for the ten and
 `REFUSED:PIC_ARGS_DIGEST` for the two is consistent with every vector, and one that returns
@@ -180,6 +187,6 @@ downstream is read for this case.
 ## What this contract does not do
 
 - It does not judge the run. A verdict from it is a verdict for `input_pic` only.
-- It does not check the PIC attestation's own `expires_at`; `input_aps` compares it with the consumption instant (its step 25).
+- It checks only the form of the PIC attestation's own `expires_at` (step 2), not its value; `input_aps` compares it with the consumption instant (its step 25).
 - It does not cover `input_aps` (see [refund-connected-input-aps.md](refund-connected-input-aps.md)), `admission`, `signature_trust`, `execution` or `observed_effect`.
 - The manifest's `verifierContract` names the `input_aps` layer. This document is the interface for `input_pic` in the same shape; a verifier built from it answers for that layer alone.

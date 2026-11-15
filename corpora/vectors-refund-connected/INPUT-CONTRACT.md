@@ -65,8 +65,9 @@ Their shape is checked by `input_pic`, which runs first.
 
 ### Parsing
 
-Each file is parsed once, strictly: UTF-8 without a byte order mark, no duplicate member names, no number written
-with a fraction or an exponent, no `NaN` or `Infinity`. A file that fails is `REFUSED:STRICT_PARSE`. A missing file is
+Each file is parsed once, strictly, as I-JSON (RFC 7493): UTF-8 without a byte order mark, every string a sequence of
+Unicode scalar values with no noncharacter (an unpaired surrogate escape is refused), no duplicate member names, no
+number written with a fraction or an exponent, no integer whose magnitude exceeds `2**53 - 1`, no `NaN` or `Infinity`. A file that fails is `REFUSED:STRICT_PARSE`. A missing file is
 `NOT_ESTABLISHED:input-files-missing`. Missing files are checked before parsing.
 
 ### Constants of the refund profile

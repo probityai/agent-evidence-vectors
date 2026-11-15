@@ -92,7 +92,7 @@ already holds, and the corpus records that verdict per vector in `MANIFEST.json`
 | `sha_hex(b)` | lowercase hex SHA-256 of the bytes `b` |
 | `file_ref(b)` | `"sha256:" + sha_hex(b)` |
 | `tag_ref(tag, v)` | `sha_hex(tag as ASCII + 0x00 + JCS(v))`, with **no** `sha256:` prefix |
-| strict parse | UTF-8; duplicate member names refused; floats refused; `NaN`/`Infinity` refused |
+| strict parse | I-JSON (RFC 7493): UTF-8; every string is a sequence of Unicode scalar values and none is a noncharacter (an unpaired surrogate escape is refused); duplicate member names refused; floats refused; an integer whose magnitude exceeds `2**53 - 1` refused; `NaN`/`Infinity` refused |
 | typed equality | same type and same value; `true` is not `1`; object member order is irrelevant; list order is significant |
 | exact UTC milliseconds | `YYYY-MM-DDTHH:MM:SS.mmmZ`, fixed width: `consumed_at`, the approval's `issued_at` and `valid_until`, a key's `not_before`, `not_after` and `revoked_at` |
 | second | `YYYY-MM-DDTHH:MM:SSZ`: `attestation_expires_at`, and a record's `committed_at` |
