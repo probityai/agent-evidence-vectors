@@ -154,9 +154,10 @@ def seal_commitment(pred: dict[str, Any]) -> None:
 # carries it (FR19 to FR25, revision 04) and decision.reportedAt otherwise,
 # 2026-09-19T11:04:02Z in every member except FR17a. An input is fresh while its
 # age is less than maxAge, so an age equal to maxAge is stale (revision 04;
-# revision 00 to 03 called it fresh). The skew tolerance is 300 seconds. The accept members carry the
-# inputs the draft's own example prints: a policy read at 10:00:00 under a
-# day's maximum and a standing value read at 11:00:00 under an hour's.
+# revision 00 to 03 called it fresh). The skew tolerance is 300 seconds. The
+# accept members carry the inputs the draft's own example prints: a policy read
+# at 10:00:00 under a day's maximum and a standing value read at 11:00:00 under
+# an hour's.
 # ---------------------------------------------------------------------------
 
 NEVER_HELD = "none"
