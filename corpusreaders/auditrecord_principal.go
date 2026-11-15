@@ -11,7 +11,7 @@ import (
 	"github.com/probityai/agent-evidence-vectors/aee"
 )
 
-// The principal member (revision 04, rows PR1 to PR22): the IdP-authenticated
+// The principal member (revision 04, rows PR1 to PR27): the IdP-authenticated
 // principal a decision point established, carried inside the signed bytes. It
 // is bound to the agent by its credential digest (tokenDigest equals
 // agent.credentialDigest), to the delegation by its subject, and to the
