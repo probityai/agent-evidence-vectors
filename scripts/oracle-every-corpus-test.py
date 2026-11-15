@@ -88,6 +88,7 @@ REFUSES_A_VERIFIER = (
     "vectors-agent-audit-record",
     "vectors-agent-decision",
     "vectors-acs-decision-record",
+    "vectors-ave-id-resolution",
     "vectors-ai-generation",
     "vectors-anchor-stream",
     "vectors-artifact-binding",

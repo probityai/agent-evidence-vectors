@@ -154,6 +154,7 @@ only-include = [
     "corpora/vectors-approval-binding",
     "corpora/vectors-artifact-binding",
     "corpora/vectors-authority-at-dispatch",
+    "corpora/vectors-ave-id-resolution",
     "corpora/vectors-badge-vc-verify",
     "corpora/vectors-chunked-export",
     "corpora/vectors-completion-confirmation",
@@ -224,6 +225,7 @@ exclude = [
     "corpora/vectors-approval-binding/**/*.py",
     "corpora/vectors-artifact-binding/**/*.py",
     "corpora/vectors-authority-at-dispatch/**/*.py",
+    "corpora/vectors-ave-id-resolution/**/*.py",
     "corpora/vectors-badge-vc-verify/**/*.py",
     "corpora/vectors-chunked-export/**/*.py",
     "corpora/vectors-completion-confirmation/**/*.py",
@@ -293,6 +295,7 @@ exclude = [
 "corpora/vectors-approval-binding" = "agent_evidence_vectors/corpora/vectors-approval-binding"
 "corpora/vectors-artifact-binding" = "agent_evidence_vectors/corpora/vectors-artifact-binding"
 "corpora/vectors-authority-at-dispatch" = "agent_evidence_vectors/corpora/vectors-authority-at-dispatch"
+"corpora/vectors-ave-id-resolution" = "agent_evidence_vectors/corpora/vectors-ave-id-resolution"
 "corpora/vectors-badge-vc-verify" = "agent_evidence_vectors/corpora/vectors-badge-vc-verify"
 "corpora/vectors-chunked-export" = "agent_evidence_vectors/corpora/vectors-chunked-export"
 "corpora/vectors-completion-confirmation" = "agent_evidence_vectors/corpora/vectors-completion-confirmation"
@@ -437,6 +440,7 @@ only-include = [
     "corpora/vectors-approval-binding",
     "corpora/vectors-artifact-binding",
     "corpora/vectors-authority-at-dispatch",
+    "corpora/vectors-ave-id-resolution",
     "corpora/vectors-badge-vc-verify",
     "corpora/vectors-chunked-export",
     "corpora/vectors-completion-confirmation",
