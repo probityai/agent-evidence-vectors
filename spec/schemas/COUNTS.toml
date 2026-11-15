@@ -1,0 +1,51 @@
+# Expected counts per published predicate schema, checked by scripts/schema_counts.py.
+# `samples` are globs of sample records; `where` keeps those whose top-level members equal it.
+# After a deliberate schema change, run `python3 scripts/schema_counts.py --print` and copy
+# the measured counts into `expect`; review the diff, because a count that moved is the change.
+
+[[schema]]
+schema = "spec/schemas/incident-evidence-cell-v1.schema.json"
+samples = ["corpora/vectors-incident-evidence-cell/cases/*/record.json"]
+expect = { samples = 31, positive = 9, negative = 22, mutants = 416, mutants_rejected = 416 }
+
+[[schema]]
+schema = "spec/schemas/incident-action-authorization-v1.schema.json"
+samples = ["corpora/vectors-restart-records/cases/*/*.json"]
+where = { predicateType = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/incident-action-authorization" }
+expect = { samples = 21, positive = 17, negative = 4, mutants = 1459, mutants_rejected = 1392 }
+
+[[schema]]
+schema = "spec/schemas/joint-authority-v1.schema.json"
+samples = ["corpora/vectors-restart-records/cases/*/*.json"]
+where = { predicateType = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/joint-authority" }
+expect = { samples = 7, positive = 4, negative = 3, mutants = 344, mutants_rejected = 332 }
+
+[[schema]]
+schema = "spec/schemas/re-enable-decision-v1.schema.json"
+samples = ["corpora/vectors-restart-records/cases/*/*.json"]
+where = { predicateType = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/re-enable-decision" }
+expect = { samples = 19, positive = 14, negative = 5, mutants = 2325, mutants_rejected = 2299 }
+
+[[schema]]
+schema = "spec/schemas/revocation-boundary-v1.schema.json"
+samples = ["corpora/vectors-restart-records/cases/*/*.json"]
+where = { predicateType = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-boundary" }
+expect = { samples = 10, positive = 8, negative = 2, mutants = 673, mutants_rejected = 664 }
+
+[[schema]]
+schema = "spec/schemas/revocation-sweep-v1.schema.json"
+samples = ["corpora/vectors-restart-records/cases/*/*.json"]
+where = { predicateType = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-sweep" }
+expect = { samples = 18, positive = 16, negative = 2, mutants = 1758, mutants_rejected = 1710 }
+
+[[schema]]
+schema = "spec/schemas/observed-effect-code-digest-v0.5.schema.json"
+samples = ["interop/observed-code-digest-candidate/fixtures/*.json"]
+decode = "dsse"
+expect = { samples = 21, positive = 9, negative = 12, mutants = 1142, mutants_rejected = 39 }
+
+[[schema]]
+schema = "spec/schemas/observed-effect-invocation-binding-v0.9.schema.json"
+samples = ["interop/observed-invocation-binding-candidate/fixtures/*.json"]
+decode = "dsse"
+expect = { samples = 25, positive = 12, negative = 13, mutants = 1523, mutants_rejected = 54 }

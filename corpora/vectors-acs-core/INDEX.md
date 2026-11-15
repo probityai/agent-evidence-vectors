@@ -33,8 +33,8 @@ successor too.
 | `spec-vendored/issue-32-comment-6661136108.md` | `GenAI-Security-Project/agent-control-standard#32 (comment 6661136108)` | `issue body` | proposal | issue 32 comment 6661136108 by bar-capsule, as last edited at 2026-11-05T14:55:19Z; a comment has no commit, so the sha256 of the vendored bytes is the pin |
 | `spec-vendored/issue-32-comment-5725186199.md` | `GenAI-Security-Project/agent-control-standard#32 (comment 5725186199)` | `issue body` | proposal | issue 32 comment 5725186199 by narko4u, as last edited at 2026-09-18T04:32:18Z; a comment has no commit, so the sha256 of the vendored bytes is the pin |
 
-This corpus is 166 vectors, of which 64 a conformant verifier must
-not fail closed on and 99 it must reject.
+This corpus is 178 vectors, of which 69 a conformant verifier must
+not fail closed on and 105 it must reject.
 
 **No implementation has been run against this corpus.** There is no reference
 adapter in the specification's repository at the pinned commit, and the two
@@ -61,7 +61,7 @@ would misreport forbids one, and the code column says which.
 **There are three verdicts.** A member whose property the specification cannot
 express is `unmeasurable`, with the reason recorded. Folding those into
 rejections would credit an implementation for behaviour nothing requires;
-folding them into passes would hide the gap. 3 members carry that verdict
+folding them into passes would hide the gap. 4 members carry that verdict
 today.
 
 Regenerate byte-identically: `python3 gen_vectors.py`.
@@ -178,6 +178,9 @@ Self-check: `aee-verify vectors-acs-core/` from the repository root.
 | `acs-f-19` | a substituted verdict whose Trace record a reader cannot count, or counts as applied |
 | `acs-f-20` | a fail-closed decision failure with no audit record, and a session end with no failure count read as clean |
 | `acs-f-21` | a refused or unanswered step that ran under a posture nobody opted into, or left an effect behind |
+| `acs-f-22` | response fields outside the signed payload that disagree with it, and a chain position that goes backward |
+| `acs-f-23` | a Guardian that refused the caller's credential, answered under the fail-open posture |
+| `acs-f-24` | a session whose seal verifies and whose recorded fact is false, caught by a record the sealer did not write |
 
 ## Deliberately out of scope
 
@@ -237,6 +240,7 @@ what it tests, so each waits for its sentence and is minted from it.
 | `v25f01d8fe1e91bf5` | accept | acs-f-8 | ACS-R-006 | allow | not asserted | artifact | PEER |
 | `v28a228c72a0a72e8` | reject | acs-f-17 | ACS-R-050 | deny | not asserted | artifact | EXTERNAL |
 | `v2aa5e37455fda245` | accept | acs-f-13 | ACS-R-030 | allow | not asserted | substrate | SELF |
+| `v2b53edaa658b079e` | reject | acs-f-22 | ACS-R-006, ACS-R-022 | deny | `CHAIN_MISMATCH` | artifact | PEER |
 | `v2bd45d189edf6583` | accept | acs-f-21 | ACS-R-075, ACS-R-076 | allow | not asserted | substrate | SELF |
 | `v2d172bf817c9b0ca` | accept | acs-f-14 | ACS-R-034 | allow | not asserted | substrate | SELF |
 | `v317a035acc0101c3` | reject | acs-f-14 | ACS-R-033 | deny | not asserted | substrate | SELF |
@@ -246,6 +250,7 @@ what it tests, so each waits for its sentence and is minted from it.
 | `v352dbb9b4c521a26` | accept | acs-f-12 | ACS-R-036, ACS-R-048 | allow | not asserted | substrate | SELF |
 | `v36627efbb93cdb48` | accept | acs-f-16 | ACS-R-060 | allow | not asserted | artifact | EXTERNAL |
 | `v37ab95af193da84e` | accept | acs-f-18 | ACS-R-062, ACS-R-063, ACS-R-065, ACS-R-066, ACS-R-067 | allow | not asserted | artifact | EXTERNAL |
+| `v3812cc79e021c5b6` | reject | acs-f-22 | ACS-R-001, ACS-R-006, ACS-R-022 | deny | `SIGNATURE_INVALID` | artifact | PEER |
 | `v3a740f95d71db4bb` | reject | acs-f-16 | ACS-R-039 | deny | not asserted | artifact | EXTERNAL |
 | `v3c03d4e4ce213e9c` | accept | acs-f-6 | ACS-R-016 | allow | not asserted | artifact | PEER |
 | `v3e946bcfde26bbe2` | accept | acs-f-2 | ACS-R-002 | allow | not asserted | substrate | SELF |
@@ -265,9 +270,11 @@ what it tests, so each waits for its sentence and is minted from it.
 | `v55a5146a13425588` | accept | acs-f-21 | ACS-R-074 | allow | not asserted | substrate | SELF |
 | `v57106f0a71dd1d62` | reject | acs-f-15 | ACS-R-045 | deny | not asserted | substrate | SELF |
 | `v573876edff0016da` | reject | acs-f-17 | ACS-R-049 | deny | not asserted | artifact | EXTERNAL |
+| `v574c98ecb2134e95` | accept | acs-f-23 | ACS-R-024, ACS-R-048 | allow | not asserted | substrate | SELF |
 | `v5855843136b72a87` | reject | acs-f-15 | ACS-R-045 | deny | not asserted | substrate | SELF |
 | `v58b380041d50cb9a` | accept | acs-f-11 | ACS-R-023, ACS-R-025 | allow | not asserted | substrate | SELF |
 | `v5c3813f48b81ccf3` | reject | acs-f-13 | ACS-R-029 | deny | `SIGNATURE_INVALID` | substrate | PEER |
+| `v5c9c4b9c6a8e15a3` | accept | acs-f-24 | ACS-R-006, ACS-R-044 | allow | not asserted | substrate | PEER |
 | `v5d50c302e4834fad` | reject | acs-f-19 | ACS-R-041 | deny | not asserted | artifact | EXTERNAL |
 | `v605905ced490b58a` | reject | acs-f-21 | ACS-R-078 | deny | not asserted | substrate | SELF |
 | `v650e4e7924e597b8` | reject | acs-f-14 | ACS-R-033 | deny | not asserted | substrate | SELF |
@@ -296,6 +303,7 @@ what it tests, so each waits for its sentence and is minted from it.
 | `v89ea07928daff608` | reject | acs-f-12 | ACS-R-036, ACS-R-037 | deny | not asserted | substrate | SELF |
 | `v8a38f9a829ee29f8` | reject | acs-f-21 | ACS-R-075 | deny | not asserted | substrate | SELF |
 | `v8a5f343c721f2f14` | accept | acs-f-16 | ACS-R-058 | allow | not asserted | artifact | EXTERNAL |
+| `v8a848f758005ca62` | reject | acs-f-23 | ACS-R-024, ACS-R-048 | deny | not asserted | substrate | SELF |
 | `v8b8bb4f181c906e6` | accept | acs-f-15 | ACS-R-045 | allow | not asserted | substrate | SELF |
 | `v8ca0304ee7cb7975` | accept | acs-f-21 | ACS-R-078, ACS-R-076 | allow | not asserted | substrate | SELF |
 | `v8d6218889aeda7c7` | accept | acs-f-12 | ACS-R-038 | allow | not asserted | substrate | SELF |
@@ -309,6 +317,7 @@ what it tests, so each waits for its sentence and is minted from it.
 | `v98c73932834256a4` | accept | acs-f-13 | ACS-R-026, ACS-R-027, ACS-R-028 | allow | not asserted | substrate | PEER |
 | `v9c3c0467f619607e` | reject | acs-f-16 | ACS-R-058 | deny | not asserted | artifact | EXTERNAL |
 | `v9d271115ecc2144a` | accept | acs-f-16 | ACS-R-039 | allow | not asserted | artifact | EXTERNAL |
+| `v9ef3db5f73ca775c` | reject | acs-f-24 | ACS-R-006, ACS-R-044 | deny | not asserted | substrate | PEER |
 | `va00ef569d09bf7d5` | reject | acs-f-6 | ACS-R-015 | deny | not asserted | substrate | SELF |
 | `va112deb74499e088` | accept | acs-f-21 | ACS-R-081, ACS-R-075 | allow | not asserted | substrate | EXTERNAL |
 | `va200b64093301e14` | reject | acs-f-9 | ACS-R-018 | deny | not asserted | substrate | SELF |
@@ -325,13 +334,16 @@ what it tests, so each waits for its sentence and is minted from it.
 | `vae2037ee96435463` | reject | acs-f-9 | ACS-R-019 | deny | not asserted | substrate | PEER |
 | `vb10df32610db1173` | reject | acs-f-3 | ACS-R-003 | deny | `TIMESTAMP_OUT_OF_WINDOW` | substrate | SELF |
 | `vb2374eaafd283548` | reject | acs-f-17 | ACS-R-050 | deny | not asserted | artifact | EXTERNAL |
+| `vb2f923539b0a8e8e` | accept | acs-f-22 | ACS-R-001, ACS-R-006, ACS-R-022 | allow | not asserted | artifact | PEER |
 | `vb327029d05966b58` | reject | acs-f-5 | ACS-R-014, ACS-R-005, ACS-R-070 | deny | not asserted | substrate | SELF |
 | `vb343b2293da3bfac` | accept | acs-f-21 | ACS-R-075, ACS-R-076 | allow | not asserted | substrate | SELF |
 | `vb6c2f01f6d4e987a` | reject | acs-f-21 | ACS-R-075 | deny | not asserted | substrate | SELF |
 | `vb76b929bc54527cd` | accept | acs-f-21 | ACS-R-077, ACS-R-081 | allow | not asserted | substrate | EXTERNAL |
 | `vb87b86b4930665ca` | reject | acs-f-1 | ACS-R-001 | deny | `SIGNATURE_INVALID` | substrate | PEER |
 | `vb929d77391061d33` | accept | acs-f-21 | ACS-R-080, ACS-R-076 | allow | not asserted | substrate | SELF |
+| `vba7af229c9916dbb` | accept | acs-f-23 | ACS-R-024, ACS-R-070 | allow | not asserted | substrate | SELF |
 | `vbd5dc2450805e76b` | reject | acs-f-12 | ACS-R-036 | deny | not asserted | substrate | SELF |
+| `vbe26aba1e8058081` | reject | acs-f-23 | ACS-R-024, ACS-R-048 | deny | not asserted | substrate | SELF |
 | `vbf0b0f4b67a00b59` | accept | acs-f-16 | ACS-R-061 | allow | not asserted | artifact | EXTERNAL |
 | `vc0ee2db9cf47e0c1` | reject | acs-f-16 | ACS-R-040 | deny | not asserted | artifact | EXTERNAL |
 | `vc1100bbd3f8f6a5f` | accept | acs-f-15 | ACS-R-052 | allow | not asserted | artifact | EXTERNAL |
@@ -347,6 +359,7 @@ what it tests, so each waits for its sentence and is minted from it.
 | `vc97666f6b2388930` | reject | acs-f-18 | ACS-R-064, ACS-R-050 | deny | not asserted | artifact | EXTERNAL |
 | `vcbbc3c9880545473` | accept | acs-f-21 | ACS-R-078, ACS-R-074 | allow | not asserted | substrate | SELF |
 | `vcfbc617d0218ad1a` | reject | acs-f-12 | ACS-R-036 | deny | not asserted | substrate | SELF |
+| `vcfea73bd76fa1f44` | accept | acs-f-22 | ACS-R-006, ACS-R-022 | allow | not asserted | artifact | PEER |
 | `vd4d655cdc5da676f` | accept | acs-f-17 | ACS-R-050, ACS-R-054 | allow | not asserted | artifact | EXTERNAL |
 | `vd4df6378ea74234d` | accept | acs-f-17 | ACS-R-051 | allow | not asserted | artifact | EXTERNAL |
 | `vd5116e55bb3e8050` | reject | acs-f-19 | ACS-R-069 | deny | not asserted | artifact | EXTERNAL |
@@ -373,6 +386,8 @@ what it tests, so each waits for its sentence and is minted from it.
 | `vf80a81054d3f0862` | reject | acs-f-1 | ACS-R-020 | deny | `SIGNATURE_INVALID` | substrate | PEER |
 | `vfacb1e4dabfd1d80` | reject | acs-f-16 | ACS-R-057 | deny | not asserted | artifact | PEER |
 | `vfcab242ddb38d018` | reject | acs-f-4 | ACS-R-012 | deny | `CAPABILITY_NOT_NEGOTIATED` | substrate | PEER |
+| `vfcb605410cbbbd68` | indeterminate | acs-f-24 | ACS-R-006, ACS-R-044 | unmeasurable | not asserted | artifact | SELF |
+| `vfe4481c26c631753` | reject | acs-f-22 | ACS-R-001, ACS-R-006, ACS-R-022 | deny | `CHAIN_MISMATCH` | artifact | PEER |
 | `vff6b4d46f470f2ad` | accept | acs-f-4 | ACS-R-011 | allow | not asserted | substrate | PEER |
 
 ## Member detail
@@ -1534,3 +1549,136 @@ Does not assert: whether the Guardian should have detected the reuse.
 Expected: **allow**. The retry sent as a new request, req-0022, allowed on its own facts, and the write attributed to it. The refused request still has no effect
 
 Does not assert: that the second decision was correct.
+
+### `acs-f-22`: response fields outside the signed payload that disagree with it, and a chain position that goes backward
+
+#### `v3812cc79e021c5b6` (reject)
+
+> `ACS-R-001`, `docs/spec/instrument/specification.md` at `9d4a9da` (upstream), vendored `spec-vendored/specification-9d4a9da.md:295`:
+> A verifier MUST recompute this canonical form and MUST reject a signature that does not cover it
+> `ACS-R-006`, `docs/spec/instrument/specification.md` at `9d4a9da` (upstream), vendored `spec-vendored/specification-9d4a9da.md:254`:
+> the Guardian MUST include the resulting `chain_hash` in its response, and that `chain_hash` MUST be covered by the response signature
+> `ACS-R-022`, `docs/spec/instrument/specification.md` at `9d4a9da` (upstream), vendored `spec-vendored/specification-9d4a9da.md:428`:
+> A required signature is missing, malformed, or fails verification
+
+Expected: **deny** with `SIGNATURE_INVALID`. A response whose signature verifies over the signed payload, which says deny, and whose outer decision field says allow. A reader that takes the outer field acts on a verdict nobody signed. The signature is good and the response is not: the verifier has to compare what it acts on with what the signature covers
+
+Does not assert: that the signed payload is the Guardian's real decision.
+
+#### `vfe4481c26c631753` (reject)
+
+> `ACS-R-001`, `docs/spec/instrument/specification.md` at `9d4a9da` (upstream), vendored `spec-vendored/specification-9d4a9da.md:295`:
+> A verifier MUST recompute this canonical form and MUST reject a signature that does not cover it
+> `ACS-R-006`, `docs/spec/instrument/specification.md` at `9d4a9da` (upstream), vendored `spec-vendored/specification-9d4a9da.md:254`:
+> the Guardian MUST include the resulting `chain_hash` in its response, and that `chain_hash` MUST be covered by the response signature
+> `ACS-R-022`, `docs/spec/instrument/specification.md` at `9d4a9da` (upstream), vendored `spec-vendored/specification-9d4a9da.md:428`:
+> A required signature is missing, malformed, or fails verification
+
+Expected: **deny** with `CHAIN_MISMATCH`. The outer chain_hash differs from the signed one. The chain head is the only thing that ties this step to the steps before it, so a head beside the signature that the signature does not cover lets a reader follow a chain the Guardian never signed
+
+Does not assert: which of the two heads, if either, is the session's real head.
+
+#### `vb2f923539b0a8e8e` (accept)
+
+> `ACS-R-001`, `docs/spec/instrument/specification.md` at `9d4a9da` (upstream), vendored `spec-vendored/specification-9d4a9da.md:295`:
+> A verifier MUST recompute this canonical form and MUST reject a signature that does not cover it
+> `ACS-R-006`, `docs/spec/instrument/specification.md` at `9d4a9da` (upstream), vendored `spec-vendored/specification-9d4a9da.md:254`:
+> the Guardian MUST include the resulting `chain_hash` in its response, and that `chain_hash` MUST be covered by the response signature
+> `ACS-R-022`, `docs/spec/instrument/specification.md` at `9d4a9da` (upstream), vendored `spec-vendored/specification-9d4a9da.md:428`:
+> A required signature is missing, malformed, or fails verification
+
+Expected: **allow**. The same response with every outer field equal to its signed counterpart.
+
+Does not assert: anything about a field that neither side carries.
+
+#### `v2b53edaa658b079e` (reject)
+
+> `ACS-R-006`, `docs/spec/instrument/specification.md` at `9d4a9da` (upstream), vendored `spec-vendored/specification-9d4a9da.md:254`:
+> the Guardian MUST include the resulting `chain_hash` in its response, and that `chain_hash` MUST be covered by the response signature
+> `ACS-R-022`, `docs/spec/instrument/specification.md` at `9d4a9da` (upstream), vendored `spec-vendored/specification-9d4a9da.md:428`:
+> A required signature is missing, malformed, or fails verification
+
+Expected: **deny** with `CHAIN_MISMATCH`. A correctly signed head at position 2 presented after the third head was witnessed. The signature is valid because the Guardian did sign that head once; replaying it moves the chain backward and drops a witnessed step. The specification carries no epoch field, so the check is the order of the heads the peer already holds
+
+Does not assert: that the Guardian re-signed anything.
+
+#### `vcfea73bd76fa1f44` (accept)
+
+> `ACS-R-006`, `docs/spec/instrument/specification.md` at `9d4a9da` (upstream), vendored `spec-vendored/specification-9d4a9da.md:254`:
+> the Guardian MUST include the resulting `chain_hash` in its response, and that `chain_hash` MUST be covered by the response signature
+> `ACS-R-022`, `docs/spec/instrument/specification.md` at `9d4a9da` (upstream), vendored `spec-vendored/specification-9d4a9da.md:428`:
+> A required signature is missing, malformed, or fails verification
+
+Expected: **allow**. The same session presenting the next head, whose previous hash is the last witnessed one.
+
+Does not assert: that no earlier head was withheld before witnessing began.
+
+### `acs-f-23`: a Guardian that refused the caller's credential, answered under the fail-open posture
+
+#### `v8a848f758005ca62` (reject)
+
+> `ACS-R-024`, `docs/spec/instrument/specification.md` at `9d4a9da` (upstream), vendored `spec-vendored/specification-9d4a9da.md:77`:
+> A Guardian that answers with a refusal (`SESSION_REFUSED`, `UNSUPPORTED_VERSION`, `PROVENANCE_REQUIRED`) has decided; the startup posture applies only when no answer arrives.
+> `ACS-R-048`, `docs/spec/trace/events.md` at `7efa539` (upstream), vendored `spec-vendored/trace-events-7efa539.md:59`:
+> Some unusable responses are not decision failures, because the spec already defines their outcome.
+
+Expected: **deny**. A step that proceeded under the fail-open posture after the Guardian answered 401 to the caller's credential. The Guardian replied, so no answer is missing and the posture has nothing to apply to; an error that reads as a decision failure turns a withdrawn credential into an allow. The failure is recorded, so a checker that reads only the log passes it
+
+Does not assert: that the specification names the status codes; it fixes only that an answer is a decision.
+
+#### `vbe26aba1e8058081` (reject)
+
+> `ACS-R-024`, `docs/spec/instrument/specification.md` at `9d4a9da` (upstream), vendored `spec-vendored/specification-9d4a9da.md:77`:
+> A Guardian that answers with a refusal (`SESSION_REFUSED`, `UNSUPPORTED_VERSION`, `PROVENANCE_REQUIRED`) has decided; the startup posture applies only when no answer arrives.
+> `ACS-R-048`, `docs/spec/trace/events.md` at `7efa539` (upstream), vendored `spec-vendored/trace-events-7efa539.md:59`:
+> Some unusable responses are not decision failures, because the spec already defines their outcome.
+
+Expected: **deny**. A step that proceeded under the fail-open posture after the Guardian answered 403 to the caller's credential. The Guardian replied, so no answer is missing and the posture has nothing to apply to; an error that reads as a decision failure turns a withdrawn credential into an allow. The failure is recorded, so a checker that reads only the log passes it
+
+Does not assert: that the specification names the status codes; it fixes only that an answer is a decision.
+
+#### `v574c98ecb2134e95` (accept)
+
+> `ACS-R-024`, `docs/spec/instrument/specification.md` at `9d4a9da` (upstream), vendored `spec-vendored/specification-9d4a9da.md:77`:
+> A Guardian that answers with a refusal (`SESSION_REFUSED`, `UNSUPPORTED_VERSION`, `PROVENANCE_REQUIRED`) has decided; the startup posture applies only when no answer arrives.
+> `ACS-R-048`, `docs/spec/trace/events.md` at `7efa539` (upstream), vendored `spec-vendored/trace-events-7efa539.md:59`:
+> Some unusable responses are not decision failures, because the spec already defines their outcome.
+
+Expected: **allow**. The same refusal under the same posture, with the step blocked and the refusal recorded as the decision.
+
+Does not assert: the shape of the record beyond its presence.
+
+#### `vba7af229c9916dbb` (accept)
+
+> `ACS-R-024`, `docs/spec/instrument/specification.md` at `9d4a9da` (upstream), vendored `spec-vendored/specification-9d4a9da.md:77`:
+> A Guardian that answers with a refusal (`SESSION_REFUSED`, `UNSUPPORTED_VERSION`, `PROVENANCE_REQUIRED`) has decided; the startup posture applies only when no answer arrives.
+> `ACS-R-070`, `docs/spec/instrument/specification.md` at `61993cb` (upstream), vendored `spec-vendored/specification-61993cb.md:202`:
+> Every decision failure MUST be recorded as an audit event, under either posture.
+
+Expected: **allow**. No answer at all under the same posture: the case the posture exists for, proceeding with the failure recorded.
+
+Does not assert: that proceeding was the right posture for the deployment.
+
+### `acs-f-24`: a session whose seal verifies and whose recorded fact is false, caught by a record the sealer did not write
+
+#### `v9ef3db5f73ca775c` (reject)
+
+> `ACS-R-006`, `docs/spec/instrument/specification.md` at `9d4a9da` (upstream), vendored `spec-vendored/specification-9d4a9da.md:254`:
+> the Guardian MUST include the resulting `chain_hash` in its response, and that `chain_hash` MUST be covered by the response signature
+> `ACS-R-044`, `docs/spec/trace/events.md` at `7efa539` (upstream), vendored `spec-vendored/trace-events-7efa539.md:53`:
+> An `acs.decision` event records the Guardian's verdict. Only the Observed Agent knows the applied outcome.
+
+Expected: **deny**. A session whose seal verifies and whose sealed claim, step 3 blocked, is contradicted by a tool log the sealer did not write, which shows the tool ran. A seal shows the record is unchanged since sealing; it does not show the record was right when written. Only the Observed Agent knows the applied outcome, so the check reads a record from a second writer
+
+Does not assert: which side, the sealed claim or the tool log, is mistaken.
+
+#### `v5c9c4b9c6a8e15a3` (accept)
+
+> `ACS-R-006`, `docs/spec/instrument/specification.md` at `9d4a9da` (upstream), vendored `spec-vendored/specification-9d4a9da.md:254`:
+> the Guardian MUST include the resulting `chain_hash` in its response, and that `chain_hash` MUST be covered by the response signature
+> `ACS-R-044`, `docs/spec/trace/events.md` at `7efa539` (upstream), vendored `spec-vendored/trace-events-7efa539.md:53`:
+> An `acs.decision` event records the Guardian's verdict. Only the Observed Agent knows the applied outcome.
+
+Expected: **allow**. The same sealed session and an independent log that agrees: step 3 did not run.
+
+Does not assert: that the log covers every tool the host can run.

@@ -199,7 +199,10 @@
     "acs-f-18": "an OCSF allow decision recorded under a class, or with fields, the allow rule does not give it",
     "acs-f-19": "a substituted verdict whose Trace record a reader cannot count, or counts as applied",
     "acs-f-20": "a fail-closed decision failure with no audit record, and a session end with no failure count read as clean",
-    "acs-f-21": "a refused or unanswered step that ran under a posture nobody opted into, or left an effect behind"
+    "acs-f-21": "a refused or unanswered step that ran under a posture nobody opted into, or left an effect behind",
+    "acs-f-22": "response fields outside the signed payload that disagree with it, and a chain position that goes backward",
+    "acs-f-23": "a Guardian that refused the caller's credential, answered under the fail-open posture",
+    "acs-f-24": "a session whose seal verifies and whose recorded fact is false, caught by a record the sealer did not write"
   },
   "outOfScope": {
     "the MODIFY disposition and its composition rules, read at 9d4a9da": "an open pull request moved MODIFY support out of the mandatory profile and added a new section for the declaration, and neither the new section nor the declaration field exists at that commit. The pull request has since merged, and family acs-f-12 reads the settled sections 6.3 and 6.5 at the release/0.1.4 commit instead",
@@ -1274,11 +1277,11 @@
     }
   ],
   "counts": {
-    "accept": 64,
-    "reject": 99,
-    "indeterminate": 3
+    "accept": 69,
+    "reject": 105,
+    "indeterminate": 4
   },
-  "corpusDigest": "e3ba6c8fadd42568c24ab38e01fb46848b8e3f5c29a604a16e13cdf95ad70735",
+  "corpusDigest": "8740bd4d85feddf7b3cc3c77a6345f9f22d1d0cb30efdcec93697eb53e2d1554",
   "note": "Each reject member has an accepting twin somewhere in its family, so an implementation that denies everything scores zero rather than full marks. A member the specification cannot express carries the verdict unmeasurable and the reason it cannot.",
   "vectors": [
     {
@@ -1889,6 +1892,28 @@
       "doesNotAssert": "anything about a label derived some other way; whether a label was derived from a secret is decidable only for the derivation tried"
     },
     {
+      "id": "v2b53edaa658b079e",
+      "kind": "reject",
+      "file": "vectors/v2b53edaa658b079e.json",
+      "family": "acs-f-22",
+      "requirements": [
+        "ACS-R-006",
+        "ACS-R-022"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": "CHAIN_MISMATCH",
+        "codeValue": -32007,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "PEER",
+      "coverage": "effective",
+      "cites": "a correctly signed head at position 2 presented after the third head was witnessed. The signature is valid because the Guardian did sign that head once; replaying it moves the chain backward and drops a witnessed step. The specification carries no epoch field, so the check is the order of the heads the peer already holds",
+      "doesNotAssert": "that the Guardian re-signed anything"
+    },
+    {
       "id": "v2bd45d189edf6583",
       "kind": "accept",
       "file": "vectors/v2bd45d189edf6583.json",
@@ -2083,6 +2108,29 @@
       "coverage": "observed",
       "cites": "an allow as class 6002, Application Lifecycle, at severity 1, with the disposition in unmapped.acs.decision, the pair in unmapped.acs and correlation_uid 6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36:929babb2-273b-41ce-800f-35eea097a259.",
       "doesNotAssert": "the activity_id of a 6002 allow, which pull request 278 leaves open with the other 6002 rows, or that the action ran; the event records the Guardian's verdict, never the enforced outcome"
+    },
+    {
+      "id": "v3812cc79e021c5b6",
+      "kind": "reject",
+      "file": "vectors/v3812cc79e021c5b6.json",
+      "family": "acs-f-22",
+      "requirements": [
+        "ACS-R-001",
+        "ACS-R-006",
+        "ACS-R-022"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": "SIGNATURE_INVALID",
+        "codeValue": -32004,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "PEER",
+      "coverage": "effective",
+      "cites": "a response whose signature verifies over the signed payload, which says deny, and whose outer decision field says allow. A reader that takes the outer field acts on a verdict nobody signed. The signature is good and the response is not: the verifier has to compare what it acts on with what the signature covers",
+      "doesNotAssert": "that the signed payload is the Guardian's real decision"
     },
     {
       "id": "v3a740f95d71db4bb",
@@ -2486,6 +2534,28 @@
       "doesNotAssert": "that the action was blocked or allowed; action_id and disposition_id record the Guardian's verdict, never the enforced outcome"
     },
     {
+      "id": "v574c98ecb2134e95",
+      "kind": "accept",
+      "file": "vectors/v574c98ecb2134e95.json",
+      "family": "acs-f-23",
+      "requirements": [
+        "ACS-R-024",
+        "ACS-R-048"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "effective",
+      "cites": "the same refusal under the same posture, with the step blocked and the refusal recorded as the decision.",
+      "doesNotAssert": "the shape of the record beyond its presence"
+    },
+    {
       "id": "v5855843136b72a87",
       "kind": "reject",
       "file": "vectors/v5855843136b72a87.json",
@@ -2547,6 +2617,28 @@
       "coverage": "effective",
       "cites": "a verifier mid-rotation holding both \"2026-09\" and \"2026-10\". The request names \"2026-09\" and carries a MAC computed under the 2026-10 secret. Under the named secret it fails; under the other one it verifies. A verifier that tries every secret it holds accepts it, and that is the fallback the rule forbids.",
       "doesNotAssert": "that either secret is compromised; the label and the key disagree, and the label decides which secret is tried"
+    },
+    {
+      "id": "v5c9c4b9c6a8e15a3",
+      "kind": "accept",
+      "file": "vectors/v5c9c4b9c6a8e15a3.json",
+      "family": "acs-f-24",
+      "requirements": [
+        "ACS-R-006",
+        "ACS-R-044"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "PEER",
+      "coverage": "observed",
+      "cites": "the same sealed session and an independent log that agrees: step 3 did not run.",
+      "doesNotAssert": "that the log covers every tool the host can run"
     },
     {
       "id": "v5d50c302e4834fad",
@@ -3137,6 +3229,28 @@
       "doesNotAssert": "that the skill's digest was verified, which the row leaves optional"
     },
     {
+      "id": "v8a848f758005ca62",
+      "kind": "reject",
+      "file": "vectors/v8a848f758005ca62.json",
+      "family": "acs-f-23",
+      "requirements": [
+        "ACS-R-024",
+        "ACS-R-048"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "effective",
+      "cites": "a step that proceeded under the fail-open posture after the Guardian answered 401 to the caller's credential. The Guardian replied, so no answer is missing and the posture has nothing to apply to; an error that reads as a decision failure turns a withdrawn credential into an allow. The failure is recorded, so a checker that reads only the log passes it",
+      "doesNotAssert": "that the specification names the status codes; it fixes only that an answer is a decision"
+    },
+    {
       "id": "v8b8bb4f181c906e6",
       "kind": "accept",
       "file": "vectors/v8b8bb4f181c906e6.json",
@@ -3412,6 +3526,28 @@
       "coverage": "observed",
       "cites": "the same response and a decision event without acs.reason_codes.",
       "doesNotAssert": "why the Guardian sent an empty array"
+    },
+    {
+      "id": "v9ef3db5f73ca775c",
+      "kind": "reject",
+      "file": "vectors/v9ef3db5f73ca775c.json",
+      "family": "acs-f-24",
+      "requirements": [
+        "ACS-R-006",
+        "ACS-R-044"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "PEER",
+      "coverage": "observed",
+      "cites": "a session whose seal verifies and whose sealed claim, step 3 blocked, is contradicted by a tool log the sealer did not write, which shows the tool ran. A seal shows the record is unchanged since sealing; it does not show the record was right when written. Only the Observed Agent knows the applied outcome, so the check reads a record from a second writer",
+      "doesNotAssert": "which side, the sealed claim or the tool log, is mistaken"
     },
     {
       "id": "va00ef569d09bf7d5",
@@ -3745,6 +3881,29 @@
       "doesNotAssert": "that the action was blocked or allowed; action_id and disposition_id record the Guardian's verdict, never the enforced outcome"
     },
     {
+      "id": "vb2f923539b0a8e8e",
+      "kind": "accept",
+      "file": "vectors/vb2f923539b0a8e8e.json",
+      "family": "acs-f-22",
+      "requirements": [
+        "ACS-R-001",
+        "ACS-R-006",
+        "ACS-R-022"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "PEER",
+      "coverage": "effective",
+      "cites": "the same response with every outer field equal to its signed counterpart.",
+      "doesNotAssert": "anything about a field that neither side carries"
+    },
+    {
       "id": "vb327029d05966b58",
       "kind": "reject",
       "file": "vectors/vb327029d05966b58.json",
@@ -3874,6 +4033,28 @@
       "doesNotAssert": "the authentication scheme"
     },
     {
+      "id": "vba7af229c9916dbb",
+      "kind": "accept",
+      "file": "vectors/vba7af229c9916dbb.json",
+      "family": "acs-f-23",
+      "requirements": [
+        "ACS-R-024",
+        "ACS-R-070"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "no answer at all under the same posture: the case the posture exists for, proceeding with the failure recorded.",
+      "doesNotAssert": "that proceeding was the right posture for the deployment"
+    },
+    {
       "id": "vbd5dc2450805e76b",
       "kind": "reject",
       "file": "vectors/vbd5dc2450805e76b.json",
@@ -3893,6 +4074,28 @@
       "coverage": "observed",
       "cites": "the same unsupported MODIFY, DENY applied, and no audit event. The substitution is correct and invisible, which section 6.5 forbids by name.",
       "doesNotAssert": "that the action ran"
+    },
+    {
+      "id": "vbe26aba1e8058081",
+      "kind": "reject",
+      "file": "vectors/vbe26aba1e8058081.json",
+      "family": "acs-f-23",
+      "requirements": [
+        "ACS-R-024",
+        "ACS-R-048"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "effective",
+      "cites": "a step that proceeded under the fail-open posture after the Guardian answered 403 to the caller's credential. The Guardian replied, so no answer is missing and the posture has nothing to apply to; an error that reads as a decision failure turns a withdrawn credential into an allow. The failure is recorded, so a checker that reads only the log passes it",
+      "doesNotAssert": "that the specification names the status codes; it fixes only that an answer is a decision"
     },
     {
       "id": "vbf0b0f4b67a00b59",
@@ -4211,6 +4414,28 @@
       "coverage": "observed",
       "cites": "the unsupported MODIFY correctly replaced by DENY, with an audit event that says the modification was applied and carries no modify_unsupported reason code. The action was blocked, so the outcome is right and the record claims a change that never happened. A checker that only asks whether some audit event exists passes this member.",
       "doesNotAssert": "that the action ran"
+    },
+    {
+      "id": "vcfea73bd76fa1f44",
+      "kind": "accept",
+      "file": "vectors/vcfea73bd76fa1f44.json",
+      "family": "acs-f-22",
+      "requirements": [
+        "ACS-R-006",
+        "ACS-R-022"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "PEER",
+      "coverage": "effective",
+      "cites": "the same session presenting the next head, whose previous hash is the last witnessed one.",
+      "doesNotAssert": "that no earlier head was withheld before witnessing began"
     },
     {
       "id": "vd4d655cdc5da676f",
@@ -4758,6 +4983,50 @@
       "witnessScope": "PEER",
       "coverage": "effective",
       "cites": "an approver answering with the disposition that asks for an approver. The specification allows one hop and this is the second, so a guardian that forwards it has built a loop the profile forbids."
+    },
+    {
+      "id": "vfcb605410cbbbd68",
+      "kind": "indeterminate",
+      "file": "vectors/vfcb605410cbbbd68.json",
+      "family": "acs-f-24",
+      "requirements": [
+        "ACS-R-006",
+        "ACS-R-044"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "unmeasurable",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": "no record from a second writer was supplied, so the sealed claim can be shown unchanged and cannot be checked against anything. A verifier that scores it as a pass reads the seal as evidence of the fact."
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "SELF",
+      "coverage": "supported",
+      "cites": "the same sealed session with no independent record to check it against."
+    },
+    {
+      "id": "vfe4481c26c631753",
+      "kind": "reject",
+      "file": "vectors/vfe4481c26c631753.json",
+      "family": "acs-f-22",
+      "requirements": [
+        "ACS-R-001",
+        "ACS-R-006",
+        "ACS-R-022"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": "CHAIN_MISMATCH",
+        "codeValue": -32007,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "PEER",
+      "coverage": "effective",
+      "cites": "the outer chain_hash differs from the signed one. The chain head is the only thing that ties this step to the steps before it, so a head beside the signature that the signature does not cover lets a reader follow a chain the Guardian never signed",
+      "doesNotAssert": "which of the two heads, if either, is the session's real head"
     },
     {
       "id": "vff6b4d46f470f2ad",
