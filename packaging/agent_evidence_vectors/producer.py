@@ -231,7 +231,9 @@ def load_pins(path: str) -> dict[str, dict[str, Any]]:
     return {os.path.normpath(k): v for k, v in records.items()}
 
 
-def bind_single(pins: dict[str, dict[str, Any]] | None, paths: list[str]) -> dict[str, dict[str, Any]] | None:
+def bind_single(
+    pins: dict[str, dict[str, Any]] | None, paths: list[str]
+) -> dict[str, dict[str, Any]] | None:
     """Give a flat pin the path of the one record that was produced."""
     if pins is None or SINGLE not in pins:
         return pins

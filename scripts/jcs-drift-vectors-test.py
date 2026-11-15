@@ -89,7 +89,7 @@ class RefusalFamily(unittest.TestCase):
                     if "inputHex" in case
                     else case["input"].encode("utf-8")
                 )
-                with self.assertRaises(Exception):
+                with self.assertRaises(ValueError):
                     a2ajcs.canonicalize(a2ajcs.parse(raw.decode("utf-8")))
 
 

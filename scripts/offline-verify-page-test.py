@@ -37,9 +37,12 @@ def blocks(text: str, lang: str) -> list[str]:
 def check_commands(page: str) -> list[str]:
     scripts = (FOLDER / "connected.sh").read_text() + (FOLDER / "offline.sh").read_text()
     script_lines = {line.strip() for line in scripts.splitlines()}
-    return [f"page command not in connected.sh or offline.sh: {line}"
-            for block in blocks(page, "sh") for line in block.splitlines()
-            if line.strip() and line.strip() not in script_lines]
+    return [
+        f"page command not in connected.sh or offline.sh: {line}"
+        for block in blocks(page, "sh")
+        for line in block.splitlines()
+        if line.strip() and line.strip() not in script_lines
+    ]
 
 
 def check_codes(page: str) -> tuple[list[str], dict[str, str]]:
@@ -64,15 +67,28 @@ def check_pins(page: str, want: dict[str, str]) -> tuple[list[str], str | None]:
         if not re.search(rf"^{name}==[^\n]*\\\n\s+--hash=sha256:", req, re.M):
             fails.append(f"requirements.txt: {name} carries no hash")
     sums = {line.split()[1] for line in (FOLDER / "SHA256SUMS").read_text().splitlines()}
-    fails += [f"SHA256SUMS lacks {vid}.json" for vid in set(want.values()) | {"vfcb846afff2d6979"}
-              if f"{vid}.json" not in sums]
+    fails += [
+        f"SHA256SUMS lacks {vid}.json"
+        for vid in set(want.values()) | {"vfcb846afff2d6979"}
+        if f"{vid}.json" not in sums
+    ]
     return fails, version
 
 
 def folder_digest() -> str:
     """Digest of the files a run reads, in the order scripts/offline-verify-run.sh lists them."""
-    names = ("requirements.txt", "SHA256SUMS", "keys.json", "make_case.py", "summary.py", "connected.sh", "offline.sh")
-    lines = "".join(f"{hashlib.sha256((FOLDER / n).read_bytes()).hexdigest()}  {n}\n" for n in names)
+    names = (
+        "requirements.txt",
+        "SHA256SUMS",
+        "keys.json",
+        "make_case.py",
+        "summary.py",
+        "connected.sh",
+        "offline.sh",
+    )
+    lines = "".join(
+        f"{hashlib.sha256((FOLDER / n).read_bytes()).hexdigest()}  {n}\n" for n in names
+    )
     return hashlib.sha256(lines.encode()).hexdigest()
 
 
@@ -94,9 +110,12 @@ def check_transcript(page: str, version: str | None, path: Path) -> list[str]:
     if version is None or f"agent-evidence-verify-{version}" not in offline:
         fails.append(f"{name}: did not install the pinned verifier offline")
     lines = offline.splitlines()
-    fails += [f"{name}: quoted summary line not in transcript: {line}"
-              for block in blocks(page, "text") for line in block.splitlines()
-              if line.strip() and line not in lines]
+    fails += [
+        f"{name}: quoted summary line not in transcript: {line}"
+        for block in blocks(page, "text")
+        for line in block.splitlines()
+        if line.strip() and line not in lines
+    ]
     return fails
 
 

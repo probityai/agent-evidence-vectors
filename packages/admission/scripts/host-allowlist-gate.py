@@ -91,6 +91,8 @@ ALLOWED_HOSTS = frozenset(
         "docs.github.com",
         # the registry server.json schema namespace the generated registry files carry
         "static.modelcontextprotocol.io",
+        # the PyPI integrity API the Python README's release check reads provenance from
+        "pypi.org",
     }
 )
 

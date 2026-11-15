@@ -177,9 +177,18 @@ fn every_refusal_case_is_refused_with_its_named_class() {
         };
         assert_eq!(class, text(case, "error"), "{id}: {got:?}");
         assert!(!is_canonical(&input), "{id}: reported as canonical");
-        assert!(jcs_admit::admit_ijson(&input).is_err(), "{id}: admitted under I-JSON");
+        assert!(
+            jcs_admit::admit_ijson(&input).is_err(),
+            "{id}: admitted under I-JSON"
+        );
     }
-    for family in ["non-finite", "trailing-content", "syntax", "invalid-unicode", "duplicate-member"] {
+    for family in [
+        "non-finite",
+        "trailing-content",
+        "syntax",
+        "invalid-unicode",
+        "duplicate-member",
+    ] {
         assert!(
             cases.iter().any(|c| text(c, "family") == family),
             "no refusal case for {family}"
