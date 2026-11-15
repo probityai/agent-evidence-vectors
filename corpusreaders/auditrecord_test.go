@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 )
 
 const arCorpusDir = "../corpora/vectors-agent-audit-record"
