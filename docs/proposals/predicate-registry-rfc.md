@@ -52,7 +52,7 @@ Each family below has already been shown on #352 or in a pull request. The perso
 | `refund-connected` | #432 (merged) | slot for its contributor to file |
 | `paid-audit-record` | #247 | slot for its contributor to file |
 | `privacy-access-request` | #423 | slot for its contributor to file |
-| `rttp-refusal` | #453 | this repository builds the `vectors-rttp-refusal` suite now from the five-value refusal vocabulary in #453, with the contributor credited in the suite manifest; the slot is filed by its contributor, or by this repository if they do not file |
+| `rttp-refusal` | #453 | registered as `predicate/v1/refusal-reason-priority`, corpus `vectors-refusal-reason-priority` (#483); its owner confirmed revision 02 of the draft in #492 |
 | `physical-completion` | #80 | this repository builds the `vectors-physical-completion` suite now from draft-noa-scitt-ai-agent-receipt-01 sections 8.1 to 8.3 (rejects) and 1.5 (indeterminate), crediting #80 in the suite manifest, and #80 closes with a link to it |
 
 A slot is a reservation, not an entry. Demand seen on a thread is not settled semantics, and nothing is listed as

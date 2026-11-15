@@ -49,12 +49,15 @@ def ts(seconds: float) -> str:
 
 
 def attempt(n: int, at: float, reply: str, *, key: str = KEY, args: dict[str, Any] | None = None,
-            worker: str | None = None, token: int | None = None) -> dict[str, Any]:
+            worker: str | None = None, token: int | None = None,
+            trigger: tuple[str, str] | None = None) -> dict[str, Any]:
     """One dispatch of the operation and the reply the caller got."""
     item: dict[str, Any] = {"argsDigest": digest(args or ARGS), "attempt": n,
                             "dispatchedAt": ts(at), "idempotencyKey": key, "reply": reply}
     if worker is not None:
         item.update({"fencingToken": token, "worker": worker})
+    if trigger is not None:
+        item["trigger"] = {"id": trigger[1], "kind": trigger[0]}
     return item
 
 
@@ -70,15 +73,22 @@ def lease(worker: str, token: int, start: float, end: float) -> dict[str, Any]:
 
 def scenario(sid: str, summary: str, calls: list[str], accepted: list[tuple[int, str]], *,
              dedupe: bool = False, lookups: list[str] | None = None,
-             lease_lost_after: int | None = None) -> dict[str, Any]:
+             lease_lost_after: int | None = None, restart: dict[str, str] | None = None,
+             forgets_keys_after: int | None = None) -> dict[str, Any]:
     """The counting owner's behaviour and the results a conforming runtime may leave."""
     owner: dict[str, Any] = {"calls": calls, "deduplicatesByKey": dedupe,
                              "lookups": lookups or ["final"]}
     if lease_lost_after is not None:
         owner["lease"] = {"lostAfterCall": lease_lost_after, "token": 1}
-    return {"accepted": [{"effects": n, "outcome": o} for n, o in accepted], "id": sid,
-            "operation": {"action": "create-order", "args": ARGS, "idempotencyKey": KEY},
-            "owner": owner, "summary": summary}
+    if forgets_keys_after is not None:
+        owner["forgetsKeysAfterCalls"] = forgets_keys_after
+    body: dict[str, Any] = {
+        "accepted": [{"effects": n, "outcome": o} for n, o in accepted], "id": sid,
+        "operation": {"action": "create-order", "args": ARGS, "idempotencyKey": KEY},
+        "owner": owner, "summary": summary}
+    if restart is not None:
+        body["restart"] = restart
+    return body
 
 
 SCENARIOS = {
@@ -119,6 +129,43 @@ SCENARIOS = {
         "the worker's first call commits and its reply is lost, and its lease passes to "
         "another worker; it must not dispatch again under the old fencing token",
         ["commit_drop"], [(1, "committed"), (1, "unknown")], lease_lost_after=1),
+    "crash-mid-step-checkpoint-kept": scenario(
+        "crash-mid-step-checkpoint-kept",
+        "the worker is killed while its call is in flight and the owner commits it anyway; the "
+        "step restarts with its checkpoint and the same task, and must not send it again",
+        ["commit_hold"], [(1, "committed"), (1, "unknown")],
+        restart={"mode": "crash", "state": "kept", "taskId": "same"}),
+    "crash-mid-step-checkpoint-lost": scenario(
+        "crash-mid-step-checkpoint-lost",
+        "the worker is killed while its call is in flight and its checkpoint is lost; the step "
+        "restarts under a new task, and the owner deduplicates by key, so the key must not "
+        "follow the task",
+        ["commit_hold"], [(1, "committed"), (1, "unknown")], dedupe=True,
+        restart={"mode": "crash", "state": "wiped", "taskId": "new"}),
+    "redelivery-new-task-id": scenario(
+        "redelivery-new-task-id",
+        "the call commits and its reply is lost; the engine redelivers the step under a new "
+        "task identifier, and the owner deduplicates by key",
+        ["commit_drop"], [(1, "committed"), (1, "unknown")], dedupe=True,
+        restart={"mode": "rerun", "state": "kept", "taskId": "new"}),
+    "rewind-replay-after-confirmed": scenario(
+        "rewind-replay-after-confirmed",
+        "the call commits and is confirmed; the run is rewound, its history is gone, and the "
+        "step replays against an owner that does not deduplicate",
+        ["commit"], [(1, "committed")], dedupe=False,
+        restart={"mode": "rerun", "state": "wiped", "taskId": "same"}),
+    "duplicate-human-completion": scenario(
+        "duplicate-human-completion",
+        "two deliveries of one completion signal run the step at the same time against a slow "
+        "owner that does not deduplicate",
+        ["commit_slow"], [(1, "committed"), (1, "unknown")], dedupe=False,
+        restart={"mode": "concurrent", "state": "kept", "taskId": "new"}),
+    "key-forgotten-by-owner-then-replay": scenario(
+        "key-forgotten-by-owner-then-replay",
+        "the call commits and is confirmed, the owner then forgets the key, and a replay with "
+        "no history finds a lookup that is not final: the replay must not send again",
+        ["commit"], [(1, "committed"), (1, "unknown")], dedupe=True, forgets_keys_after=1,
+        restart={"mode": "rerun", "state": "wiped", "taskId": "same"}),
 }
 
 
@@ -439,10 +486,114 @@ def _cancel_cases() -> list[Case]:
     ]
 
 
+def _durable_cases() -> list[Case]:
+    """Crash mid-step, checkpoint loss, redelivery under a new task id, rewind, retention
+    delete and a duplicate human completion."""
+    ok = reader.ALLOWED_REASON
+    crash = attempt(1, 1, "worker_crashed")
+    new_key = "order-7f3b-task-2"
+    redelivery = ("redelivery", "task-2")
+    replay = ("replay", "history-reset-1")
+    return [
+        ("allow-crash-mid-step-held-unknown",
+         build("allow-crash-mid-step-held-unknown", [crash], "unknown", 1,
+               reservation=held(), as_of=60),
+         "allow", ok, "crash-mid-step-checkpoint-kept",
+         "control: the worker crashed with its call in flight, nothing was sent again, and the "
+         "runtime reports unknown with the reservation charged"),
+        ("allow-crash-checkpoint-lost-reconciled-present",
+         build("allow-crash-checkpoint-lost-reconciled-present", [crash], "committed", 1,
+               lookups=[lookup(30, "present")], reservation=held()),
+         "allow", ok, "crash-mid-step-checkpoint-lost",
+         "control: the worker crashed and lost its checkpoint, the restart asked the owner "
+         "by key, found the effect and closed the unknown as committed"),
+        ("allow-redelivery-same-key-owner-deduplicates",
+         build("allow-redelivery-same-key-owner-deduplicates",
+               [attempt(1, 1, "timeout"), attempt(2, 40, "confirmed", trigger=redelivery)],
+               "committed", 1, dedupe=True, retention=86400, reservation=held()),
+         "allow", ok, "redelivery-new-task-id",
+         "control: the engine redelivers the step under task-2, the resend carries the "
+         "operation's key, and the owner deduplicates it"),
+        ("allow-replay-after-confirmed-owner-deduplicates",
+         build("allow-replay-after-confirmed-owner-deduplicates",
+               [attempt(1, 1, "confirmed"), attempt(2, 90, "confirmed", trigger=replay)],
+               "committed", 1, dedupe=True, retention=86400, reservation=held()),
+         "allow", ok, "rewind-replay-after-confirmed",
+         "control: a rewind replays a confirmed step under the same key and the owner "
+         "deduplicates it"),
+        ("allow-duplicate-completion-owner-deduplicates",
+         build("allow-duplicate-completion-owner-deduplicates",
+               [attempt(1, 1, "confirmed", trigger=("completion", "approval-9")),
+                attempt(2, 2, "confirmed", trigger=("completion", "approval-9"))],
+               "committed", 1, dedupe=True, retention=86400, reservation=held()),
+         "allow", ok, "duplicate-human-completion",
+         "control: one human completion is delivered twice, both runs carry the operation's "
+         "key, and the owner deduplicates"),
+        ("redelivery-under-task-derived-key",
+         build("redelivery-under-task-derived-key",
+               [attempt(1, 1, "timeout"),
+                attempt(2, 40, "confirmed", key=new_key, trigger=redelivery)],
+               "committed", 2, dedupe=True, retention=86400),
+         "deny", "idempotency_key_follows_trigger", "redelivery-new-task-id",
+         "the engine redelivers the step under task-2 and the resend derives its key from the "
+         "task identifier, so the owner's deduplication never sees the first call"),
+        ("replay-under-new-key-after-confirmed",
+         build("replay-under-new-key-after-confirmed",
+               [attempt(1, 1, "confirmed"),
+                attempt(2, 90, "confirmed", key=new_key, trigger=replay)],
+               "committed", 2, dedupe=True, retention=86400),
+         "deny", "idempotency_key_follows_trigger", "rewind-replay-after-confirmed",
+         "a rewind replays a confirmed step under a new key, so the owner applies it again"),
+        ("duplicate-completion-under-delivery-key",
+         build("duplicate-completion-under-delivery-key",
+               [attempt(1, 1, "confirmed", trigger=("completion", "approval-9")),
+                attempt(2, 2, "confirmed", key=new_key, trigger=("completion", "approval-9"))],
+               "committed", 2, dedupe=True, retention=86400),
+         "deny", "idempotency_key_follows_trigger", "duplicate-human-completion",
+         "one human completion is delivered twice and the second delivery keys the call by its "
+         "own delivery identifier"),
+        ("crash-redelivery-resends-blind",
+         build("crash-redelivery-resends-blind",
+               [crash, attempt(2, 40, "confirmed", trigger=redelivery)], "committed", 2),
+         "deny", "retry_after_unknown", "crash-mid-step-checkpoint-lost",
+         "the worker crashed with its call in flight and the redelivered step resends it to an "
+         "owner that does not deduplicate, without asking the owner first"),
+        ("checkpoint-lost-attempt-unrecorded",
+         build("checkpoint-lost-attempt-unrecorded", [attempt(1, 40, "confirmed",
+               trigger=redelivery)], "committed", 2),
+         "deny", "owner_effect_unaccounted", "crash-mid-step-checkpoint-lost",
+         "the first attempt died with its checkpoint, so the trail lists one attempt where the "
+         "owner's ledger holds two effects"),
+        ("history-deleted-effect-unaccounted",
+         build("history-deleted-effect-unaccounted", [], "not_run", 1),
+         "deny", "owner_effect_unaccounted", "rewind-replay-after-confirmed",
+         "the run's history was deleted by retention, the trail lists no attempt, and the "
+         "owner's ledger holds the effect"),
+        ("replay-after-key-forgotten-applies-twice",
+         build("replay-after-key-forgotten-applies-twice",
+               [attempt(1, 1, "confirmed"), attempt(2, 5000, "confirmed", trigger=replay)],
+               "committed", 2, dedupe=True, retention=3600, as_of=5100),
+         "deny", "duplicate_effect", "key-forgotten-by-owner-then-replay",
+         "the owner forgot the key after 3600 seconds, a replay at 5000 sent it again, and the "
+         "owner's ledger holds two effects"),
+        ("crash-reported-not-run",
+         build("crash-reported-not-run", [crash], "not_run", 1),
+         "deny", "outcome_settled_without_authority", "crash-mid-step-checkpoint-kept",
+         "the worker crashed with its call in flight and the runtime reports the step did "
+         "not run; the owner committed it"),
+        ("crash-unknown-released",
+         build("crash-unknown-released", [crash], "unknown", 1,
+               reservation=held(charged=False, expires=120), as_of=300),
+         "deny", "unknown_released", "crash-mid-step-checkpoint-kept",
+         "the reservation for a crashed step stopped being charged when it expired while the "
+         "outcome is unknown"),
+    ]
+
+
 def cases() -> list[Case]:
     """Every case: id, record, decision, reason, runtime scenario id, and what it shows."""
     return [*_controls(), *_identity_cases(), *_dispatch_cases(), *_outcome_cases(),
-            *_cancel_cases()]
+            *_cancel_cases(), *_durable_cases()]
 
 
 def corpus_digest(manifest: dict[str, Any], root: str) -> str:

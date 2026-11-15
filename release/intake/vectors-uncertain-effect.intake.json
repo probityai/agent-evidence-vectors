@@ -1,11 +1,11 @@
 {
   "aggregate": {
     "counts": {
-      "allow": 15,
-      "deny": 25
+      "allow": 20,
+      "deny": 34
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 40
+    "total": 54
   },
   "anchor": {
     "kind": "digest-list-line",
@@ -17,7 +17,7 @@
     "routine": "corpus_digest in corpora/vectors-uncertain-effect/gen_vectors.py",
     "routine-file": "corpora/vectors-uncertain-effect/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "6b212e324c0a78b1c70a725b07aa939050a8d7344679a2fb6e89a465054d1191",
+    "sha256": "81e840e8585c20b07bf86394e2d0976f5b7db7801609ca7dc4af3c385d226bca",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -29,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "272d75db6e5ce204a818774d62d6c8ca4af84d487652400e2f1a3de0937e84f1"
+          "sha256": "25969aacbd954dfb4d3d10dd2f18408ac3950dea4f32a935343abc5740a203fe"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,21 +38,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "272d75db6e5ce204a818774d62d6c8ca4af84d487652400e2f1a3de0937e84f1"
+          "sha256": "25969aacbd954dfb4d3d10dd2f18408ac3950dea4f32a935343abc5740a203fe"
         },
         "swapped-in": "afeb971d6b32e6d17328e428795e46a8ae04c03545babde2bf460ba909bbb7ca",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-uncertain-effect/README.md",
       "serialization": "bytes",
-      "sha256": "d9fa75d3d416c5027217b9e769c0ee81001ef971f018b0a736d121caa5fc09a1"
+      "sha256": "96077c822569639b00f51d9ebd16e9443813220a62fa1dea5db623fa4632c169"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "272d75db6e5ce204a818774d62d6c8ca4af84d487652400e2f1a3de0937e84f1"
+          "sha256": "25969aacbd954dfb4d3d10dd2f18408ac3950dea4f32a935343abc5740a203fe"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,7 +61,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "272d75db6e5ce204a818774d62d6c8ca4af84d487652400e2f1a3de0937e84f1"
+          "sha256": "25969aacbd954dfb4d3d10dd2f18408ac3950dea4f32a935343abc5740a203fe"
         },
         "swapped-in": "a84babf6cf82a6e28bbc02ed41e232db05b2471f00c7eb64eb10e6a1a4070420",
         "test": "swap-and-re-pin"
@@ -75,7 +75,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "272d75db6e5ce204a818774d62d6c8ca4af84d487652400e2f1a3de0937e84f1"
+          "sha256": "25969aacbd954dfb4d3d10dd2f18408ac3950dea4f32a935343abc5740a203fe"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,21 +84,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "272d75db6e5ce204a818774d62d6c8ca4af84d487652400e2f1a3de0937e84f1"
+          "sha256": "25969aacbd954dfb4d3d10dd2f18408ac3950dea4f32a935343abc5740a203fe"
         },
         "swapped-in": "8404ce13ca5a660e8dce71a6a51248cdecca9b4bacc6e2cec1655c2c6b79e7e8",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-uncertain-effect/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "2ff3aba270009932496907265749aaee2782d7140623c5681ab3060878821fb5"
+      "sha256": "60e8e30afc3820b286b1a250e0de1515371e4bdde68773ae9f8cdd5a38b75f87"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "272d75db6e5ce204a818774d62d6c8ca4af84d487652400e2f1a3de0937e84f1"
+          "sha256": "25969aacbd954dfb4d3d10dd2f18408ac3950dea4f32a935343abc5740a203fe"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,21 +107,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "272d75db6e5ce204a818774d62d6c8ca4af84d487652400e2f1a3de0937e84f1"
+          "sha256": "25969aacbd954dfb4d3d10dd2f18408ac3950dea4f32a935343abc5740a203fe"
         },
         "swapped-in": "58b2d248fedcfabbf41314a6241300d5d9a34bdb892d36ea01b946c4f538a1b9",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-uncertain-effect/tests/runtime_adapter.py",
       "serialization": "bytes",
-      "sha256": "4b1eb5a09d0e3349ddef5bd584383f59667c02fa179bdd25c4c4181ab2a2a784"
+      "sha256": "2a46f5d452ab3d23eb737061e1b680625d41fc4518647ed5ea58bf40f4c1137c"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "272d75db6e5ce204a818774d62d6c8ca4af84d487652400e2f1a3de0937e84f1"
+          "sha256": "25969aacbd954dfb4d3d10dd2f18408ac3950dea4f32a935343abc5740a203fe"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -130,14 +130,14 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "272d75db6e5ce204a818774d62d6c8ca4af84d487652400e2f1a3de0937e84f1"
+          "sha256": "25969aacbd954dfb4d3d10dd2f18408ac3950dea4f32a935343abc5740a203fe"
         },
         "swapped-in": "ae1359d9cb0e0ed0982e6bea934ec9203de6b3fab094dc44aeb1bed739da6b7a",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-uncertain-effect/tests/test_corpus.py",
       "serialization": "bytes",
-      "sha256": "b5e164f7553a44fa429d6b67da95c77fac236a47dec0ebfb8f50ea3154aea182"
+      "sha256": "061ceace73d741c40022030b8138252e9b4ad5888524c61f37db11edfe16d5f9"
     }
   ],
   "boundary": {
@@ -152,7 +152,7 @@
     "root": "corpora/vectors-uncertain-effect"
   },
   "byte-identity": {
-    "pins": 40,
+    "pins": 54,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -189,7 +189,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "fa0751e529d000d5fb3b3cde26f849fe1e6b5c6e28b0ed4aab55c25e79e5f5c7"
+      "sha256": "85142513ff8f8d4f9be113fc78371a52335d7cadb77f2cbc3872f7bb8ae9e893"
     },
     "runtime": {
       "name": "go",
@@ -522,11 +522,123 @@
         "verdict": "deny"
       },
       "state": "pass"
+    },
+    {
+      "check": "allow-crash-mid-step-held-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-crash-checkpoint-lost-reconciled-present",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-redelivery-same-key-owner-deduplicates",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-replay-after-confirmed-owner-deduplicates",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-duplicate-completion-owner-deduplicates",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "redelivery-under-task-derived-key",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "replay-under-new-key-after-confirmed",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "duplicate-completion-under-delivery-key",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "crash-redelivery-resends-blind",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "checkpoint-lost-attempt-unrecorded",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "history-deleted-effect-unaccounted",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "replay-after-key-forgotten-applies-twice",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "crash-reported-not-run",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "crash-unknown-released",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
     }
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "060c2c797c4eb65ab3d9440c7a405ddeade2f121250a3889f83696f8e6d2fbbe"
+    "sha256": "4d17e9f594c205b73aeb5d3cd45c0d7bfed134334cf0ef34ecbc14656c06fffb"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -575,10 +687,24 @@
       "cancel-straddle-reported-quiescent",
       "cancel-straddle-reported-after-stop",
       "cancel-reported-not-run-owner-committed",
-      "cancel-resume-replays-same-key"
+      "cancel-resume-replays-same-key",
+      "allow-crash-mid-step-held-unknown",
+      "allow-crash-checkpoint-lost-reconciled-present",
+      "allow-redelivery-same-key-owner-deduplicates",
+      "allow-replay-after-confirmed-owner-deduplicates",
+      "allow-duplicate-completion-owner-deduplicates",
+      "redelivery-under-task-derived-key",
+      "replay-under-new-key-after-confirmed",
+      "duplicate-completion-under-delivery-key",
+      "crash-redelivery-resends-blind",
+      "checkpoint-lost-attempt-unrecorded",
+      "history-deleted-effect-unaccounted",
+      "replay-after-key-forgotten-applies-twice",
+      "crash-reported-not-run",
+      "crash-unknown-released"
     ],
     "path": "corpora/vectors-uncertain-effect/MANIFEST.json",
-    "sha256": "8d8d5eebf1f8b2dab43faf40d705aa30871d9e2ffe8486e817da34be1072cd52"
+    "sha256": "83e4abab0332cd8a508e48d8113d6339f889b4e0f85b93f9f1b9f650fa71f20a"
   },
   "members": [
     {
@@ -940,6 +1066,132 @@
         }
       ],
       "id": "cancel-resume-replays-same-key"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/allow-crash-mid-step-held-unknown/record.json",
+          "sha256": "98308793610ccbf457d05c0bc39827fd5bf72a17fab83f534ff35f758d16672f"
+        }
+      ],
+      "id": "allow-crash-mid-step-held-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/allow-crash-checkpoint-lost-reconciled-present/record.json",
+          "sha256": "f4701251da5503f64d36c84a82749c88f41165a7a97a1e4a39ab00788e2c5c8c"
+        }
+      ],
+      "id": "allow-crash-checkpoint-lost-reconciled-present"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/allow-redelivery-same-key-owner-deduplicates/record.json",
+          "sha256": "a3ff16081752da467e72b67b6b4366ac6078bbeaa3848f344b148435ca7a76ad"
+        }
+      ],
+      "id": "allow-redelivery-same-key-owner-deduplicates"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/allow-replay-after-confirmed-owner-deduplicates/record.json",
+          "sha256": "f0bef3a763259cec834834211e7f2adacb7a767940edf4eb1392f5b01a81487e"
+        }
+      ],
+      "id": "allow-replay-after-confirmed-owner-deduplicates"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/allow-duplicate-completion-owner-deduplicates/record.json",
+          "sha256": "9640f0c0819f19ab4b4b1874e74d5ea2ce274c8da7a063933a28f76e2e5e9bdd"
+        }
+      ],
+      "id": "allow-duplicate-completion-owner-deduplicates"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/redelivery-under-task-derived-key/record.json",
+          "sha256": "2443cbe26ec4c5b8c17de34d6bd9f955ade97a1e336d32836d04ea649d17a676"
+        }
+      ],
+      "id": "redelivery-under-task-derived-key"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/replay-under-new-key-after-confirmed/record.json",
+          "sha256": "c4a39c8f50bd0bfe87248ef13d36b6060df13122acd3f49a1bd2d0cac3c58fce"
+        }
+      ],
+      "id": "replay-under-new-key-after-confirmed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/duplicate-completion-under-delivery-key/record.json",
+          "sha256": "27c2a5d1656b633e12f7153f22fb5bb0d7bb640047271bd43ad149965f1f2a37"
+        }
+      ],
+      "id": "duplicate-completion-under-delivery-key"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/crash-redelivery-resends-blind/record.json",
+          "sha256": "4f2f59215575b4a70049e4056adf97730d00fd9d2f28f1c436deed61e4e78a7c"
+        }
+      ],
+      "id": "crash-redelivery-resends-blind"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/checkpoint-lost-attempt-unrecorded/record.json",
+          "sha256": "5f88b18210d399c63ae80246da6eb5c673694b182027f170aec2c936c7ce4fc2"
+        }
+      ],
+      "id": "checkpoint-lost-attempt-unrecorded"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/history-deleted-effect-unaccounted/record.json",
+          "sha256": "dae82bd862ca4f50819f0f4a82645e7af8a4e61dfb335601419190d1c14e43ba"
+        }
+      ],
+      "id": "history-deleted-effect-unaccounted"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/replay-after-key-forgotten-applies-twice/record.json",
+          "sha256": "f8dcad37758bd5873dc7dd4cc69987e705205d58d5e1aa0fa1eb1d181aaf2bae"
+        }
+      ],
+      "id": "replay-after-key-forgotten-applies-twice"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/crash-reported-not-run/record.json",
+          "sha256": "241f1fdb986209638ab8f633e95ab994de07076fb93d28ddb33d3eae49422a43"
+        }
+      ],
+      "id": "crash-reported-not-run"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-uncertain-effect/cases/crash-unknown-released/record.json",
+          "sha256": "327bfcf66206ba70f78ee1e5a7e8596e96aa50c9774fada7d182c4a704a04c9c"
+        }
+      ],
+      "id": "crash-unknown-released"
     }
   ],
   "native": {
@@ -958,7 +1210,7 @@
       "reference": {
         "path": "release/intake/native/vectors-uncertain-effect.json",
         "serialization": "bytes",
-        "sha256": "272d75db6e5ce204a818774d62d6c8ca4af84d487652400e2f1a3de0937e84f1"
+        "sha256": "25969aacbd954dfb4d3d10dd2f18408ac3950dea4f32a935343abc5740a203fe"
       }
     },
     {
@@ -967,7 +1219,7 @@
       "reference": {
         "path": "release/intake/native/vectors-uncertain-effect.txt",
         "serialization": "bytes",
-        "sha256": "731da7c321d15582c5c16f22f0f07252637858d3aa15747457892ba685010218"
+        "sha256": "d04c231580c534d7f302454be8f7f4f77ca322174f67947c42e93aed4467ac90"
       }
     },
     {
@@ -992,11 +1244,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "272d75db6e5ce204a818774d62d6c8ca4af84d487652400e2f1a3de0937e84f1"
+        "sha256": "25969aacbd954dfb4d3d10dd2f18408ac3950dea4f32a935343abc5740a203fe"
       },
       {
         "process": "run-2",
-        "sha256": "272d75db6e5ce204a818774d62d6c8ca4af84d487652400e2f1a3de0937e84f1"
+        "sha256": "25969aacbd954dfb4d3d10dd2f18408ac3950dea4f32a935343abc5740a203fe"
       }
     ],
     "seed": null,
@@ -1010,7 +1262,7 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 40 pinned members of uncertain-effect/v1 as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 54 pinned members of uncertain-effect/v1 as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
@@ -1021,7 +1273,7 @@
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 40,
+    "matched": 54,
     "require": "at-least-one",
     "selected": [
       "allow-confirmed-first-attempt",
@@ -1063,7 +1315,21 @@
       "cancel-straddle-reported-quiescent",
       "cancel-straddle-reported-after-stop",
       "cancel-reported-not-run-owner-committed",
-      "cancel-resume-replays-same-key"
+      "cancel-resume-replays-same-key",
+      "allow-crash-mid-step-held-unknown",
+      "allow-crash-checkpoint-lost-reconciled-present",
+      "allow-redelivery-same-key-owner-deduplicates",
+      "allow-replay-after-confirmed-owner-deduplicates",
+      "allow-duplicate-completion-owner-deduplicates",
+      "redelivery-under-task-derived-key",
+      "replay-under-new-key-after-confirmed",
+      "duplicate-completion-under-delivery-key",
+      "crash-redelivery-resends-blind",
+      "checkpoint-lost-attempt-unrecorded",
+      "history-deleted-effect-unaccounted",
+      "replay-after-key-forgotten-applies-twice",
+      "crash-reported-not-run",
+      "crash-unknown-released"
     ]
   },
   "specification-readers": [],
