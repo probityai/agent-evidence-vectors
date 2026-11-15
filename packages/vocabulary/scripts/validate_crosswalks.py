@@ -41,6 +41,7 @@ TERM_SECTIONS = (
     "incident_response",
     "multi_agent_run",
     "principal_identity",
+    "decision_receipt",
 )
 REQUIRED_TOP_LEVEL = ("system", "system_url", "crosswalk_version", "vocabulary_version_targeted")
 

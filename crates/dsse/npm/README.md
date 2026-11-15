@@ -38,3 +38,7 @@ limits. This binding checks offline DSSE envelopes; it does not validate a
 Sigstore bundle or establish authority, occurrence or a downstream effect.
 
 Apache-2.0. See the [source documentation](https://github.com/probityai/agent-evidence-vectors/tree/main/crates/dsse#documentation).
+
+## Verify the release
+
+Each release carries npm provenance from the release workflow. In a project that installed it, `npm audit signatures` checks the registry signature and the provenance together.

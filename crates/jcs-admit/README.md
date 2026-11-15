@@ -79,6 +79,14 @@ The Python wheel is built and tested from `python/` and is not yet on PyPI.
 | [Mutation sweep](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/docs/MUTATION-SWEEP.md) | how each refusal was shown to be tested |
 | [Contributing](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/CONTRIBUTING.md) and [changelog](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/CHANGELOG.md) | how to propose a change, and what each release changed |
 
+## Verify the release
+
+Releases come from the release workflow through crates.io trusted publishing. The version record names the workflow run:
+
+```sh
+curl -s https://crates.io/api/v1/crates/jcs-admit/<version> -A verify | python3 -c "import json,sys; print(json.load(sys.stdin)['version']['trustpub_data'])"
+```
+
 ## License
 
 MIT OR Apache-2.0, at your option.
