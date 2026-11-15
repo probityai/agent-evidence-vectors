@@ -8,6 +8,7 @@ the report longer, or wanted it gone sooner, had to fork the action. The
 `retention-days` input now carries that number, with the old value as its
 default so a consumer who sets nothing sees no change.
 
+Every upload step (the report and the receipt) reads the input.
 The cases read action.yml as YAML rather than grepping it, so a value moved to
 a comment or a different step does not pass. The last case writes the fixed
 number back into a copy and requires this file to go red against the copy.
@@ -44,11 +45,12 @@ def action() -> dict[str, Any]:
     return loaded
 
 
-def upload_step() -> dict[str, Any]:
-    steps = [s for s in action()["runs"]["steps"] if str(s.get("uses", "")).startswith(UPLOAD)]
-    assert len(steps) == 1, f"expected one upload step, found {len(steps)}"
-    step: dict[str, Any] = steps[0]
-    return step
+def upload_steps() -> list[dict[str, Any]]:
+    steps: list[dict[str, Any]] = [
+        s for s in action()["runs"]["steps"] if str(s.get("uses", "")).startswith(UPLOAD)
+    ]
+    assert steps, "action.yml has no upload step"
+    return steps
 
 
 def case_input_declared_with_old_default(work: Path) -> None:
@@ -62,8 +64,11 @@ def case_input_declared_with_old_default(work: Path) -> None:
 
 def case_upload_reads_the_input(work: Path) -> None:
     del work
-    got = upload_step()["with"].get("retention-days")
-    assert got == EXPRESSION, f"upload step retention-days is {got!r}, not {EXPRESSION}"
+    for step in upload_steps():
+        got = step["with"].get("retention-days")
+        assert got == EXPRESSION, (
+            f"upload step retention-days is {got!r}, not {EXPRESSION} ({step.get('name')})"
+        )
 
 
 def case_runner_documents_it(work: Path) -> None:
