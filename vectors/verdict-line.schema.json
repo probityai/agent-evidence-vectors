@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://probityai.github.io/agent-evidence-vectors/schema/verdict-line/v1",
+  "title": "Corpus verdict line",
+  "description": "One verifier's answer for one corpus member, printed as one JSON object per line by a verifier's corpus mode. A verifier that judges a corpus prints exactly one line per member of every corpus it was handed. Lines from several verifiers over the same corpora are compared member by member. packaging/agent_evidence_vectors/verdictlines.py checks lines against this schema and against the corpus manifests.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "suite", "corpusDigest", "vector", "verdict", "reason", "verifier"],
+  "properties": {
+    "schema": {
+      "const": "https://probityai.github.io/agent-evidence-vectors/schema/verdict-line/v1"
+    },
+    "suite": {
+      "description": "The suite field of the corpus MANIFEST.json the member belongs to.",
+      "type": "string",
+      "minLength": 1
+    },
+    "corpusDigest": {
+      "description": "The corpusDigest field of that MANIFEST.json, so a line names the exact corpus bytes it judged.",
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "vector": {
+      "description": "The member id as the manifest lists it.",
+      "type": "string",
+      "minLength": 1
+    },
+    "verdict": {
+      "description": "accept: the verifier accepts the member (valid, allow). reject: it refuses it (invalid, deny). not-applicable: the verifier does not implement this suite, never a pass. error: the verifier ran and could not answer.",
+      "enum": ["accept", "reject", "not-applicable", "error"]
+    },
+    "reason": {
+      "description": "The verifier's reason code. Null only on an accept that carries no reason; required on every other verdict.",
+      "type": ["string", "null"],
+      "minLength": 1
+    },
+    "result": {
+      "description": "The suite's secondary normative token on an accepted member, where the suite defines one (the AEE result token).",
+      "type": "string",
+      "minLength": 1
+    },
+    "verifier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "minLength": 1}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"verdict": {"enum": ["reject", "not-applicable", "error"]}}},
+      "then": {"properties": {"reason": {"type": "string"}}}
+    },
+    {
+      "if": {"properties": {"verdict": {"not": {"const": "accept"}}}},
+      "then": {"not": {"required": ["result"]}}
+    }
+  ]
+}

@@ -52,6 +52,7 @@ crosscheck = [
     { name = "agent-evidence-verify", marker = "python_full_version >= '3.12'" },
 ]
 dev = [
+    { name = "jsonschema" },
     { name = "packaging" },
     { name = "pytest" },
     { name = "ruff" },
@@ -90,6 +91,7 @@ provides-extras = ["generators", "artifact-binding", "dev"]
 [package.metadata.requires-dev]
 crosscheck = [{ name = "agent-evidence-verify", marker = "python_full_version >= '3.12'", specifier = "==0.5.0" }]
 dev = [
+    { name = "jsonschema", specifier = "==4.26.0" },
     { name = "packaging", specifier = "==26.3" },
     { name = "pytest", specifier = "==9.2.0" },
     { name = "ruff", specifier = "==0.17.3" },
