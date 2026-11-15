@@ -14,6 +14,7 @@ exit 2, so an outside implementer could only score it by hand.
 
     python3 scripts/auditrecord-contract-test.py
 """
+
 from __future__ import annotations
 
 import json
@@ -30,7 +31,7 @@ READER = ROOT / "packaging" / "agent_evidence_vectors" / "auditrecord.py"
 #: and starts in a fraction of the reader's time.
 ORACLE = ROOT / "scripts" / "oracle-verifier.py"
 
-WRAPPER = '''
+WRAPPER = """
 import json, subprocess, sys
 mode, reader, member = sys.argv[1], sys.argv[2], sys.argv[3]
 done = subprocess.run([sys.executable, reader, member, "--json"], capture_output=True, text=True)
@@ -43,14 +44,24 @@ if mode == "exit":
     status = 1 - status
 print(json.dumps(answer))
 sys.exit(status)
-'''
+"""
 
 
 def harness(verifier: str, report: Path) -> tuple[int, str]:
     done = subprocess.run(
-        [sys.executable, str(HARNESS), "--vectors", str(CORPUS), "--verifier", verifier,
-         "--report", str(report)],
-        capture_output=True, text=True, check=False,
+        [
+            sys.executable,
+            str(HARNESS),
+            "--vectors",
+            str(CORPUS),
+            "--verifier",
+            verifier,
+            "--report",
+            str(report),
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
     )
     return done.returncode, done.stdout + done.stderr
 
@@ -58,8 +69,13 @@ def harness(verifier: str, report: Path) -> tuple[int, str]:
 def main() -> int:
     manifest = json.loads((CORPUS / "MANIFEST.json").read_text(encoding="utf-8"))
     entries = manifest["vectors"]
-    accept = next(e for e in entries if e.get("kind") == "accept" and "set" not in e["expected"]
-                  and "dating" not in e["expected"])
+    accept = next(
+        e
+        for e in entries
+        if e.get("kind") == "accept"
+        and "set" not in e["expected"]
+        and "dating" not in e["expected"]
+    )
     failures: list[str] = []
     with tempfile.TemporaryDirectory() as tmp:
         wrapper = Path(tmp) / "wrap.py"
@@ -68,11 +84,15 @@ def main() -> int:
 
         status, out = harness(f"{sys.executable} {READER}", report)
         if status != 0:
-            failures.append(f"reference reader through the contract exited {status}:\n{out[-2000:]}")
+            failures.append(
+                f"reference reader through the contract exited {status}:\n{out[-2000:]}"
+            )
         else:
             totals = json.loads(report.read_text(encoding="utf-8"))["totals"]
             if totals["conform"] != len(entries) or totals["fail"] != 0:
-                failures.append(f"reference reader totals {totals}, expected {len(entries)} conforming")
+                failures.append(
+                    f"reference reader totals {totals}, expected {len(entries)} conforming"
+                )
 
         stem = Path(str(accept["file"])).name
         flip = Path(tmp) / "flip.py"
@@ -84,7 +104,9 @@ def main() -> int:
         )
         status, out = harness(f"{sys.executable} {flip}", report)
         if status != 1 or str(accept["draftId"]) not in out:
-            failures.append(f"a flipped verdict on {accept['draftId']} was not caught (exit {status})")
+            failures.append(
+                f"a flipped verdict on {accept['draftId']} was not caught (exit {status})"
+            )
 
         inverted = Path(tmp) / "exit.py"
         inverted.write_text(
@@ -95,13 +117,18 @@ def main() -> int:
         )
         status, out = harness(f"{sys.executable} {inverted}", report)
         if status != 1 or out.count("disagrees with verdict") != len(entries):
-            failures.append(f"an inverted exit status was not caught on every member (exit {status})")
+            failures.append(
+                f"an inverted exit status was not caught on every member (exit {status})"
+            )
 
     for failure in failures:
         print(f"FAIL {failure}")
     if failures:
         return 1
-    print(f"ok: the contract scores {len(entries)} members, and catches a flipped verdict and a wrong exit status")
+    print(
+        f"ok: the contract scores {len(entries)} members, "
+        "and catches a flipped verdict and a wrong exit status"
+    )
     return 0
 
 

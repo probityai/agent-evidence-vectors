@@ -1,4 +1,5 @@
-"""Judge what a verifier reported about physical completion against draft-noa-scitt-ai-agent-receipt-01.
+"""Judge what a verifier reported about physical completion against draft-noa-scitt-ai-agent-
+receipt-01.
 
 The draft separates three claims about one action: pre-execution authorization,
 the outcome a controller reported, and physical completion, which it defines as

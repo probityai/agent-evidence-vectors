@@ -15,7 +15,9 @@ CORPUS = json.loads((ROOT / "interop" / "dsse-pae-vectors" / "cases.json").read_
 
 def independent_pae(ptype: str, body: bytes) -> bytes:
     t = ptype.encode("utf-8")
-    return b"DSSEv1 " + str(len(t)).encode() + b" " + t + b" " + str(len(body)).encode() + b" " + body
+    return (
+        b"DSSEv1 " + str(len(t)).encode() + b" " + t + b" " + str(len(body)).encode() + b" " + body
+    )
 
 
 class PaeFamily(unittest.TestCase):

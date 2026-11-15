@@ -1152,7 +1152,12 @@ IDENTITY_PROVIDERS = frozenset({"okta", "entra", "auth0", "keycloak", "self_issu
 #: The host rules that derive a named provider from an https issuer.
 _OKTA_SUFFIXES = (".okta.com", ".oktapreview.com", ".okta-emea.com", ".okta-gov.com")
 _ENTRA_HOSTS = frozenset(
-    {"login.microsoftonline.com", "login.microsoftonline.us", "login.chinacloudapi.cn", "sts.windows.net"}
+    {
+        "login.microsoftonline.com",
+        "login.microsoftonline.us",
+        "login.chinacloudapi.cn",
+        "sts.windows.net",
+    }
 )
 _ENTRA_SUFFIXES = (".ciamlogin.com",)
 _AUTH0_SUFFIXES = (".auth0.com",)
@@ -1242,6 +1247,14 @@ def _principal_shape(principal: Any) -> None:
         raise Malformed("principal-malformed")
     if not _is_digest(principal["tokenDigest"]) or not _is_digest(principal["jwksDigest"]):
         raise Malformed("principal-malformed")
+    _principal_optional_shape(principal)
+    _principal_key_shape(principal["key"])
+
+
+def _principal_optional_shape(principal: dict[str, Any]) -> None:
+    """The optional members, each checked only when present: a tenant is text, a
+    declared identity provider is one the vocabulary names (PR25), and a pinned
+    thumbprint is an RFC 7638 thumbprint in base64url without padding (PR24)."""
     if "tenant" in principal and not _text(principal["tenant"]):
         raise Malformed("principal-malformed")
     if "identityProvider" in principal and principal["identityProvider"] not in IDENTITY_PROVIDERS:
@@ -1251,7 +1264,6 @@ def _principal_shape(principal: Any) -> None:
         and _THUMBPRINT_SHAPE.fullmatch(principal["pinnedThumbprint"])
     ):
         raise Malformed("principal-malformed")
-    _principal_key_shape(principal["key"])
 
 
 #: Whether the skew tolerance applies on each side of a principal's token
@@ -1326,7 +1338,8 @@ def _rule_principal(state: _State) -> None:
         derived = derived_identity_provider(principal["issuer"])
         if derived != "other" and principal["identityProvider"] != derived:
             raise Malformed("principal-provider-mismatch")
-    if "pinnedThumbprint" in principal and principal["pinnedThumbprint"] != principal["keyThumbprint"]:
+    pinned = principal.get("pinnedThumbprint", principal["keyThumbprint"])
+    if pinned != principal["keyThumbprint"]:
         raise Malformed("principal-pin-mismatch")
 
 

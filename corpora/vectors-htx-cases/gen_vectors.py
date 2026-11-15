@@ -36,18 +36,29 @@ def _json(value: object) -> bytes:
     return (json.dumps(value, indent=2, sort_keys=True, ensure_ascii=True) + "\n").encode()
 
 
-PAYMENT = {"beneficiary": "acct:0042", "amount": "350.00", "currency": "CHF",
-           "scope": "single-payment"}
+PAYMENT = {
+    "beneficiary": "acct:0042",
+    "amount": "350.00",
+    "currency": "CHF",
+    "scope": "single-payment",
+}
 TRANSACTION_CONTROL: dict[str, Any] = {
     "confirmation": {"outcome": "confirmed", "request": dict(PAYMENT)},
     "action": {"request": dict(PAYMENT)},
 }
 CONSENT_CONTROL: dict[str, Any] = {
-    "consent": {"outcome": "agreed", "purpose": "age-check", "recipient": "verifier:0007",
-                "fields": {"required": ["date_of_birth"], "optional_granted": []},
-                "refused_optional": ["home_address"]},
-    "disclosure": {"purpose": "age-check", "recipient": "verifier:0007",
-                   "fields": ["date_of_birth"]},
+    "consent": {
+        "outcome": "agreed",
+        "purpose": "age-check",
+        "recipient": "verifier:0007",
+        "fields": {"required": ["date_of_birth"], "optional_granted": []},
+        "refused_optional": ["home_address"],
+    },
+    "disclosure": {
+        "purpose": "age-check",
+        "recipient": "verifier:0007",
+        "fields": ["date_of_birth"],
+    },
 }
 
 
@@ -68,8 +79,10 @@ Case = tuple[str, dict[str, Any], str, str, str, str | None, str | None]
 def cases() -> list[Case]:
     """Every case: id, record, decision, reason, what it shows, control id, changed field."""
     tx, co = "allow-request-matches-confirmation", "allow-disclosure-within-consent"
-    accepted_tx, accepted_co = reader.ALLOWED_REASONS[reader.TRANSACTION], \
-        reader.ALLOWED_REASONS[reader.CONSENT]
+    accepted_tx, accepted_co = (
+        reader.ALLOWED_REASONS[reader.TRANSACTION],
+        reader.ALLOWED_REASONS[reader.CONSENT],
+    )
     changed = "request-changed-after-confirmation"
 
     def tx_reject(name: str, path: str, value: Any, reason: str, edit: str) -> Case:
@@ -79,33 +92,95 @@ def cases() -> list[Case]:
         return (name, edited(CONSENT_CONTROL, path, value), "deny", reason, edit, co, path)
 
     return [
-        (tx, copy.deepcopy(TRANSACTION_CONTROL), "allow", accepted_tx,
-         "control: the action's request is the request the person confirmed", None, None),
-        tx_reject("reject-beneficiary-changed", "action.request.beneficiary", "acct:0917",
-                  changed, "the beneficiary changed after the confirmation"),
-        tx_reject("reject-amount-changed", "action.request.amount", "3500.00", changed,
-                  "the amount changed after the confirmation"),
-        tx_reject("reject-currency-changed", "action.request.currency", "EUR", changed,
-                  "the currency changed after the confirmation"),
-        tx_reject("reject-scope-changed", "action.request.scope", "recurring", changed,
-                  "the scope changed after the confirmation, from one payment to a standing one"),
-        tx_reject("reject-confirmation-declined", "confirmation.outcome", "declined",
-                  "not-confirmed", "the person declined, and the request is otherwise unchanged"),
-        (co, copy.deepcopy(CONSENT_CONTROL), "allow", accepted_co,
-         "control: the disclosure is a subset of what the person agreed to, for the stated "
-         "purpose and recipient", None, None),
-        co_reject("reject-field-beyond-consent", "disclosure.fields",
-                  ["date_of_birth", "nationality"], "field-not-consented",
-                  "a field the person never agreed to share is disclosed"),
-        co_reject("reject-refused-field-disclosed", "disclosure.fields",
-                  ["date_of_birth", "home_address"], "refused-field-disclosed",
-                  "an optional field the person refused is disclosed anyway"),
-        co_reject("reject-purpose-changed", "disclosure.purpose", "marketing",
-                  "purpose-changed", "the disclosure serves another purpose than the consented one"),
-        co_reject("reject-recipient-changed", "disclosure.recipient", "verifier:0911",
-                  "recipient-changed", "the disclosure goes to another recipient"),
-        co_reject("reject-consent-declined-with-disclosure", "consent.outcome", "declined",
-                  "not-agreed", "the person declined, and fields are disclosed anyway"),
+        (
+            tx,
+            copy.deepcopy(TRANSACTION_CONTROL),
+            "allow",
+            accepted_tx,
+            "control: the action's request is the request the person confirmed",
+            None,
+            None,
+        ),
+        tx_reject(
+            "reject-beneficiary-changed",
+            "action.request.beneficiary",
+            "acct:0917",
+            changed,
+            "the beneficiary changed after the confirmation",
+        ),
+        tx_reject(
+            "reject-amount-changed",
+            "action.request.amount",
+            "3500.00",
+            changed,
+            "the amount changed after the confirmation",
+        ),
+        tx_reject(
+            "reject-currency-changed",
+            "action.request.currency",
+            "EUR",
+            changed,
+            "the currency changed after the confirmation",
+        ),
+        tx_reject(
+            "reject-scope-changed",
+            "action.request.scope",
+            "recurring",
+            changed,
+            "the scope changed after the confirmation, from one payment to a standing one",
+        ),
+        tx_reject(
+            "reject-confirmation-declined",
+            "confirmation.outcome",
+            "declined",
+            "not-confirmed",
+            "the person declined, and the request is otherwise unchanged",
+        ),
+        (
+            co,
+            copy.deepcopy(CONSENT_CONTROL),
+            "allow",
+            accepted_co,
+            "control: the disclosure is a subset of what the person agreed to, for the stated "
+            "purpose and recipient",
+            None,
+            None,
+        ),
+        co_reject(
+            "reject-field-beyond-consent",
+            "disclosure.fields",
+            ["date_of_birth", "nationality"],
+            "field-not-consented",
+            "a field the person never agreed to share is disclosed",
+        ),
+        co_reject(
+            "reject-refused-field-disclosed",
+            "disclosure.fields",
+            ["date_of_birth", "home_address"],
+            "refused-field-disclosed",
+            "an optional field the person refused is disclosed anyway",
+        ),
+        co_reject(
+            "reject-purpose-changed",
+            "disclosure.purpose",
+            "marketing",
+            "purpose-changed",
+            "the disclosure serves another purpose than the consented one",
+        ),
+        co_reject(
+            "reject-recipient-changed",
+            "disclosure.recipient",
+            "verifier:0911",
+            "recipient-changed",
+            "the disclosure goes to another recipient",
+        ),
+        co_reject(
+            "reject-consent-declined-with-disclosure",
+            "consent.outcome",
+            "declined",
+            "not-agreed",
+            "the person declined, and fields are disclosed anyway",
+        ),
     ]
 
 
@@ -139,10 +214,18 @@ def generate(root: Path = ROOT) -> dict[str, Any]:
         if observed != expected:
             raise SystemExit(f"{name}: the reader says {observed}, the case {expected}")
         entry: dict[str, Any] = {
-            "edit": edit, "expected": expected, "files": {"record.json": _sha(data)},
-            "htxExpected": ({"result": RESULT[decision]} if decision == "allow"
-                            else {"reason": reason, "result": RESULT[decision]}),
-            "id": name, "path": f"cases/{name}", "retained": reader.retained(body)}
+            "edit": edit,
+            "expected": expected,
+            "files": {"record.json": _sha(data)},
+            "htxExpected": (
+                {"result": RESULT[decision]}
+                if decision == "allow"
+                else {"reason": reason, "result": RESULT[decision]}
+            ),
+            "id": name,
+            "path": f"cases/{name}",
+            "retained": reader.retained(body),
+        }
         if control is not None and field is not None:
             if diff_paths(bodies[control], body) != [field]:
                 raise SystemExit(f"{name}: differs from {control} in more than {field}")

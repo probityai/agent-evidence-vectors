@@ -119,8 +119,10 @@ def _probable_prime(n: int) -> bool:
 def _prime(label: str) -> int:
     counter = 0
     while True:
-        raw = b"".join(hashlib.sha256(_seed(label) + (counter * 4 + i).to_bytes(8, "big")).digest()
-                       for i in range(4))
+        raw = b"".join(
+            hashlib.sha256(_seed(label) + (counter * 4 + i).to_bytes(8, "big")).digest()
+            for i in range(4)
+        )
         candidate = int.from_bytes(raw, "big") | (3 << 1022) | 1
         if candidate % 65537 != 1 and _probable_prime(candidate):
             return candidate
@@ -187,14 +189,22 @@ def principal(role: str) -> dict[str, Any]:
 
 def predicate() -> dict[str, Any]:
     return {
-        "action": {"argumentsDigest": _hex(bytes(rail.jcs_dumps(ARGUMENTS))), "at": AT, "tool": TOOL},
+        "action": {
+            "argumentsDigest": _hex(bytes(rail.jcs_dumps(ARGUMENTS))),
+            "at": AT,
+            "tool": TOOL,
+        },
         "approvals": [{"approvalDigest": APPROVAL_DIGEST, "subject": SUBJECTS["approver"]}],
         "principals": {role: principal(role) for role in reader.ROLES},
     }
 
 
 def statement(pred: dict[str, Any]) -> dict[str, Any]:
-    digest = _hex(bytes(rail.jcs_dumps(pred["action"]))) if isinstance(pred.get("action"), dict) else _hex(b"")
+    digest = (
+        _hex(bytes(rail.jcs_dumps(pred["action"])))
+        if isinstance(pred.get("action"), dict)
+        else _hex(b"")
+    )
     return {
         "_type": reader.STATEMENT_TYPE,
         "predicate": pred,
@@ -203,7 +213,9 @@ def statement(pred: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def envelope(stmt: dict[str, Any], payload: bytes | None = None, served: bytes | None = None) -> bytes:
+def envelope(
+    stmt: dict[str, Any], payload: bytes | None = None, served: bytes | None = None
+) -> bytes:
     """A DSSE envelope the producer signs over ``payload`` (the RFC 8785 bytes of
     ``stmt`` unless given). ``served`` replaces the payload after signing, as an
     edit made without the producer key must."""
@@ -287,71 +299,190 @@ def _rejected(reason: str) -> dict[str, str]:
 
 # id, the change to the baseline predicate, the expected answer, what the change is.
 EDITS: list[tuple[str, Edit, dict[str, str], str]] = [
-    ("strict-four-principals", lambda p: None, _verified("strict", "act-chain"),
-     "the baseline: four principals, an act chain naming the agent, the approval counted"),
-    ("basic-user-agent-act-absent",
-     _all(_drop("principals.sponsor"), _drop("principals.approver"), _drop("approvals"),
-          _drop("principals.user.act")),
-     _verified("basic", "act-absent"), "only user and agent, and no act chain"),
-    ("basic-user-agent-act-chain",
-     _all(_drop("principals.sponsor"), _drop("principals.approver"), _drop("approvals")),
-     _verified("basic", "act-chain"), "only user and agent, the act chain names the agent"),
-    ("basic-four-principals-act-absent", _drop("principals.user.act"), _verified("basic", "act-absent"),
-     "four principals but no act chain: strict needs both"),
-    ("strict-nested-act-chain",
-     _set("principals.user.act", {"act": {"sub": "orchestrator-0001"}, "sub": SUBJECTS["agent"]}),
-     _verified("strict", "act-chain"), "the act chain has a prior actor behind the agent"),
-    ("strict-act-names-client-id", _set("principals.user.act", {"sub": CLIENTS["agent"]}),
-     _verified("strict", "act-chain"), "the act chain names the agent by its client identifier"),
-    ("strict-id-jag-source", _set("principals.user.source", "id-jag"), _verified("strict", "act-chain"),
-     "the user principal was established from an identity assertion grant"),
-    ("strict-custom-domain-declared",
-     _all(_set("principals.sponsor.issuer", CUSTOM_DOMAIN),
-          _set("principals.sponsor.identityProvider", "entra")),
-     _verified("strict", "act-chain"), "a custom-domain issuer whose declared provider is accepted as declared"),
-    ("strict-no-optional-members",
-     _all(*(_drop(f"principals.{r}.identityProvider") for r in reader.ROLES), _drop("principals.agent.pinnedThumbprint")),
-     _verified("strict", "act-chain"), "no provider declared and no pin recorded"),
-    ("principals-malformed", _set("principals.owner", {}), _rejected("principals_malformed"),
-     "a role outside user, agent, sponsor and approver"),
-    ("user-member-missing", _drop("principals.user.tokenDigest"), _rejected("principal_user:principal_member_missing"),
-     "the user principal does not name its credential"),
-    ("agent-member-unknown", _set("principals.agent.token", "eyJhbGciOi..."),
-     _rejected("principal_agent:principal_member_unknown"), "the agent principal carries a member the type does not define"),
-    ("user-issuer-invalid", _set("principals.user.issuer", "http://example-workforce.okta.com/oauth2/default"),
-     _rejected("principal_user:principal_issuer_invalid"), "an issuer that is not an https URL"),
-    ("user-audience-duplicate", _set("principals.user.audience", [RESOURCE, RESOURCE]),
-     _rejected("principal_user:principal_malformed"), "an audience naming one value twice"),
-    ("sponsor-private-key", _set("principals.sponsor.key.d", "AQAB"),
-     _rejected("principal_sponsor:principal_key_invalid"), "the sponsor key carries a private member"),
-    ("agent-thumbprint-mismatch", _set("principals.agent.keyThumbprint", reader.jwk_thumbprint(KEYS["user"])),
-     _rejected("principal_agent:principal_thumbprint_mismatch"), "a thumbprint that does not recompute from the key"),
-    ("user-kid-mismatch", _set("principals.user.kid", "workforce-2026-10"),
-     _rejected("principal_user:principal_kid_mismatch"), "the header kid differs from the key's kid"),
-    ("user-provider-mismatch", _set("principals.user.identityProvider", "auth0"),
-     _rejected("principal_user:principal_provider_mismatch"), "an Okta issuer declared as Auth0"),
-    ("agent-pin-mismatch", _set("principals.agent.pinnedThumbprint", reader.jwk_thumbprint(KEYS["approver"])),
-     _rejected("principal_agent:principal_pin_mismatch"), "the key the client pinned is not the key the record names"),
-    ("user-not-yet-valid", _set("principals.user.issuedAt", "2026-11-10T12:01:00Z"),
-     _rejected("principal_user:principal_not_yet_valid"), "the credential was issued after the action"),
-    ("user-expired", _set("principals.user.expiresAt", "2026-11-10T12:00:00Z"),
-     _rejected("principal_user:principal_expired"), "the credential expired at the moment of the action"),
-    ("approver-issuer-untrusted",
-     _all(_set("principals.approver.issuer", "https://approvals.example.net"),
-          _drop("principals.approver.identityProvider")),
-     _rejected("principal_approver:principal_issuer_untrusted"), "an approver from an issuer the verifier does not trust"),
-    ("agent-key-not-pinned", _rekey("agent", ec_key("issuer/agents/unpinned", "agents-2026-11")),
-     _rejected("principal_agent:principal_key_not_pinned"), "a consistent key the verifier did not pin for that issuer"),
-    ("user-act-malformed", _set("principals.user.act", {"client_id": SUBJECTS["agent"]}),
-     _rejected("principal_user:principal_act_malformed"), "an act claim without a sub"),
-    ("user-idjag-undefined", _set("principals.user.idJag", {"issuer": WORKFORCE}),
-     _rejected("principal_user:principal_idjag_undefined"), "an idJag block before its definition is published"),
-    ("agent-missing", _all(_drop("principals.agent"), _drop("principals.user.act")),
-     _rejected("principals_need_user_and_agent"), "no agent principal"),
-    ("act-names-another-agent", _set("principals.user.act", {"sub": "agent-payments-mover"}),
-     _rejected("principal_act_names_another_agent"), "the user credential delegated to a different agent"),
-    ("approver-not-an-approval-signer", _drop("approvals"),
-     _rejected("principal_approver_not_an_approval_signer"), "an approver principal with no approval counted"),
+    (
+        "strict-four-principals",
+        lambda p: None,
+        _verified("strict", "act-chain"),
+        "the baseline: four principals, an act chain naming the agent, the approval counted",
+    ),
+    (
+        "basic-user-agent-act-absent",
+        _all(
+            _drop("principals.sponsor"),
+            _drop("principals.approver"),
+            _drop("approvals"),
+            _drop("principals.user.act"),
+        ),
+        _verified("basic", "act-absent"),
+        "only user and agent, and no act chain",
+    ),
+    (
+        "basic-user-agent-act-chain",
+        _all(_drop("principals.sponsor"), _drop("principals.approver"), _drop("approvals")),
+        _verified("basic", "act-chain"),
+        "only user and agent, the act chain names the agent",
+    ),
+    (
+        "basic-four-principals-act-absent",
+        _drop("principals.user.act"),
+        _verified("basic", "act-absent"),
+        "four principals but no act chain: strict needs both",
+    ),
+    (
+        "strict-nested-act-chain",
+        _set(
+            "principals.user.act", {"act": {"sub": "orchestrator-0001"}, "sub": SUBJECTS["agent"]}
+        ),
+        _verified("strict", "act-chain"),
+        "the act chain has a prior actor behind the agent",
+    ),
+    (
+        "strict-act-names-client-id",
+        _set("principals.user.act", {"sub": CLIENTS["agent"]}),
+        _verified("strict", "act-chain"),
+        "the act chain names the agent by its client identifier",
+    ),
+    (
+        "strict-id-jag-source",
+        _set("principals.user.source", "id-jag"),
+        _verified("strict", "act-chain"),
+        "the user principal was established from an identity assertion grant",
+    ),
+    (
+        "strict-custom-domain-declared",
+        _all(
+            _set("principals.sponsor.issuer", CUSTOM_DOMAIN),
+            _set("principals.sponsor.identityProvider", "entra"),
+        ),
+        _verified("strict", "act-chain"),
+        "a custom-domain issuer whose declared provider is accepted as declared",
+    ),
+    (
+        "strict-no-optional-members",
+        _all(
+            *(_drop(f"principals.{r}.identityProvider") for r in reader.ROLES),
+            _drop("principals.agent.pinnedThumbprint"),
+        ),
+        _verified("strict", "act-chain"),
+        "no provider declared and no pin recorded",
+    ),
+    (
+        "principals-malformed",
+        _set("principals.owner", {}),
+        _rejected("principals_malformed"),
+        "a role outside user, agent, sponsor and approver",
+    ),
+    (
+        "user-member-missing",
+        _drop("principals.user.tokenDigest"),
+        _rejected("principal_user:principal_member_missing"),
+        "the user principal does not name its credential",
+    ),
+    (
+        "agent-member-unknown",
+        _set("principals.agent.token", "eyJhbGciOi..."),
+        _rejected("principal_agent:principal_member_unknown"),
+        "the agent principal carries a member the type does not define",
+    ),
+    (
+        "user-issuer-invalid",
+        _set("principals.user.issuer", "http://example-workforce.okta.com/oauth2/default"),
+        _rejected("principal_user:principal_issuer_invalid"),
+        "an issuer that is not an https URL",
+    ),
+    (
+        "user-audience-duplicate",
+        _set("principals.user.audience", [RESOURCE, RESOURCE]),
+        _rejected("principal_user:principal_malformed"),
+        "an audience naming one value twice",
+    ),
+    (
+        "sponsor-private-key",
+        _set("principals.sponsor.key.d", "AQAB"),
+        _rejected("principal_sponsor:principal_key_invalid"),
+        "the sponsor key carries a private member",
+    ),
+    (
+        "agent-thumbprint-mismatch",
+        _set("principals.agent.keyThumbprint", reader.jwk_thumbprint(KEYS["user"])),
+        _rejected("principal_agent:principal_thumbprint_mismatch"),
+        "a thumbprint that does not recompute from the key",
+    ),
+    (
+        "user-kid-mismatch",
+        _set("principals.user.kid", "workforce-2026-10"),
+        _rejected("principal_user:principal_kid_mismatch"),
+        "the header kid differs from the key's kid",
+    ),
+    (
+        "user-provider-mismatch",
+        _set("principals.user.identityProvider", "auth0"),
+        _rejected("principal_user:principal_provider_mismatch"),
+        "an Okta issuer declared as Auth0",
+    ),
+    (
+        "agent-pin-mismatch",
+        _set("principals.agent.pinnedThumbprint", reader.jwk_thumbprint(KEYS["approver"])),
+        _rejected("principal_agent:principal_pin_mismatch"),
+        "the key the client pinned is not the key the record names",
+    ),
+    (
+        "user-not-yet-valid",
+        _set("principals.user.issuedAt", "2026-11-10T12:01:00Z"),
+        _rejected("principal_user:principal_not_yet_valid"),
+        "the credential was issued after the action",
+    ),
+    (
+        "user-expired",
+        _set("principals.user.expiresAt", "2026-11-10T12:00:00Z"),
+        _rejected("principal_user:principal_expired"),
+        "the credential expired at the moment of the action",
+    ),
+    (
+        "approver-issuer-untrusted",
+        _all(
+            _set("principals.approver.issuer", "https://approvals.example.net"),
+            _drop("principals.approver.identityProvider"),
+        ),
+        _rejected("principal_approver:principal_issuer_untrusted"),
+        "an approver from an issuer the verifier does not trust",
+    ),
+    (
+        "agent-key-not-pinned",
+        _rekey("agent", ec_key("issuer/agents/unpinned", "agents-2026-11")),
+        _rejected("principal_agent:principal_key_not_pinned"),
+        "a consistent key the verifier did not pin for that issuer",
+    ),
+    (
+        "user-act-malformed",
+        _set("principals.user.act", {"client_id": SUBJECTS["agent"]}),
+        _rejected("principal_user:principal_act_malformed"),
+        "an act claim without a sub",
+    ),
+    (
+        "user-idjag-undefined",
+        _set("principals.user.idJag", {"issuer": WORKFORCE}),
+        _rejected("principal_user:principal_idjag_undefined"),
+        "an idJag block before its definition is published",
+    ),
+    (
+        "agent-missing",
+        _all(_drop("principals.agent"), _drop("principals.user.act")),
+        _rejected("principals_need_user_and_agent"),
+        "no agent principal",
+    ),
+    (
+        "act-names-another-agent",
+        _set("principals.user.act", {"sub": "agent-payments-mover"}),
+        _rejected("principal_act_names_another_agent"),
+        "the user credential delegated to a different agent",
+    ),
+    (
+        "approver-not-an-approval-signer",
+        _drop("approvals"),
+        _rejected("principal_approver_not_an_approval_signer"),
+        "an approver principal with no approval counted",
+    ),
 ]
 
 
@@ -368,20 +499,42 @@ def cases() -> list[tuple[str, bytes, dict[str, str], str]]:
     moved["predicate"]["action"]["tool"] = "invoices.delete_batch"
     stray = copy.deepcopy(base)
     stray["predicate"]["action"]["note"] = "approved by phone"
-    stray["subject"][0]["digest"]["sha256"] = _hex(bytes(rail.jcs_dumps(stray["predicate"]["action"])))
+    stray["subject"][0]["digest"]["sha256"] = _hex(
+        bytes(rail.jcs_dumps(stray["predicate"]["action"]))
+    )
     wrong_type = copy.deepcopy(base)
     wrong_type["predicateType"] = "https://w3id.org/agent-evidence/predicate/v1/principal-actions"
     out += [
-        ("statement-malformed", envelope(wrong_type), _rejected("statement_malformed"),
-         "a predicate type one character from this one"),
-        ("recorder-signature-invalid", envelope(base, served=bytes(rail.jcs_dumps(moved))),
-         _rejected("recorder_signature_invalid"), "the action edited after the producer signed"),
-        ("statement-not-canonical", envelope(base, payload=pretty), _rejected("statement_not_canonical"),
-         "a signed payload that is not RFC 8785 bytes"),
-        ("action-malformed", envelope(stray), _rejected("action_malformed"),
-         "an action carrying a member the type does not define"),
-        ("action-digest-mismatch", envelope({**moved, "subject": base["subject"]}),
-         _rejected("action_digest_mismatch"), "the subject digest names another action"),
+        (
+            "statement-malformed",
+            envelope(wrong_type),
+            _rejected("statement_malformed"),
+            "a predicate type one character from this one",
+        ),
+        (
+            "recorder-signature-invalid",
+            envelope(base, served=bytes(rail.jcs_dumps(moved))),
+            _rejected("recorder_signature_invalid"),
+            "the action edited after the producer signed",
+        ),
+        (
+            "statement-not-canonical",
+            envelope(base, payload=pretty),
+            _rejected("statement_not_canonical"),
+            "a signed payload that is not RFC 8785 bytes",
+        ),
+        (
+            "action-malformed",
+            envelope(stray),
+            _rejected("action_malformed"),
+            "an action carrying a member the type does not define",
+        ),
+        (
+            "action-digest-mismatch",
+            envelope({**moved, "subject": base["subject"]}),
+            _rejected("action_digest_mismatch"),
+            "the subject digest names another action",
+        ),
     ]
     return out
 
@@ -395,7 +548,9 @@ def corpus_digest(manifest: dict[str, Any], root: str) -> str:
         declared = entry["files"]
         if {p.name for p in directory.iterdir() if p.is_file()} != set(declared):
             raise ValueError(f"{entry['id']}: file set changed")
-        files = {name: hashlib.sha256((directory / name).read_bytes()).hexdigest() for name in declared}
+        files = {
+            name: hashlib.sha256((directory / name).read_bytes()).hexdigest() for name in declared
+        }
         if files != declared:
             raise ValueError(f"{entry['id']}: file digest mismatch")
         entries.append({**entry, "files": files})
@@ -422,7 +577,9 @@ def generate(root: Path = ROOT) -> dict[str, Any]:
             {
                 "edit": what,
                 "expected": expected,
-                "files": {key: hashlib.sha256(value).hexdigest() for key, value in sorted(files.items())},
+                "files": {
+                    key: hashlib.sha256(value).hexdigest() for key, value in sorted(files.items())
+                },
                 "id": name,
                 "path": f"cases/{name}",
             }
