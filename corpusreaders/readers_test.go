@@ -75,6 +75,9 @@ var corpusCases = []corpusCase{
 	// A member of the recorded-set corpus is a directory of a publisher's
 	// bytes; its digest list is the file whose flipped byte must be named.
 	{dir: "vectors-recorded", memberFileKey: "file"},
+	// A member of the AVE id resolution corpus is one tool output file, judged
+	// against a vendored AVE records snapshot.
+	{dir: "vectors-ave-id-resolution", memberFileKey: "path"},
 }
 
 // corpusPath is where a corpus sits in this repository: under corpora/<id>/,
