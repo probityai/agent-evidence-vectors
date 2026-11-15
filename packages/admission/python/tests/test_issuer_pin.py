@@ -48,7 +48,7 @@ def test_thumbprint_uses_only_required_members():
 
 
 def test_correct_pin_accepted():
-    pins = ip.PinnedIssuers([ISSUER], {ISSUER: RFC7638_THUMBPRINT},
+    pins = ip.PinnedIssuers([ISSUER], {ISSUER: ip.PinSet.of(1, RFC7638_THUMBPRINT)},
                             fetch=serving({"keys": [RFC7638_KEY]}))
     assert pins.key_for(ISSUER, KID)["n"] == RFC7638_KEY["n"]
     assert pins.pinning == ip.PINNED
@@ -56,7 +56,7 @@ def test_correct_pin_accepted():
 
 def test_thumbprint_mismatch_refused():
     swapped = dict(RFC7638_KEY, n=RFC7638_KEY["n"][:-2] + "AA")
-    pins = ip.PinnedIssuers([ISSUER], {ISSUER: RFC7638_THUMBPRINT},
+    pins = ip.PinnedIssuers([ISSUER], {ISSUER: ip.PinSet.of(1, RFC7638_THUMBPRINT)},
                             fetch=serving({"keys": [swapped]}))
     with pytest.raises(ip.ThumbprintMismatch):
         pins.key_for(ISSUER, KID)
@@ -65,55 +65,56 @@ def test_thumbprint_mismatch_refused():
 def test_mixed_configuration_refused_before_any_call():
     calls = []
     with pytest.raises(ip.MixedConfiguration):
-        ip.PinnedIssuers([ISSUER, OTHER], {ISSUER: RFC7638_THUMBPRINT}, fetch=serving({}, calls))
+        ip.PinnedIssuers([ISSUER, OTHER], {ISSUER: ip.PinSet.of(1, RFC7638_THUMBPRINT)}, fetch=serving({}, calls))
     assert calls == []
 
 
 def test_unpinned_declaration_with_pins_refused():
     with pytest.raises(ip.MixedConfiguration):
-        ip.PinnedIssuers([ISSUER], {ISSUER: RFC7638_THUMBPRINT}, unpinned=True)
+        ip.PinnedIssuers([ISSUER], {ISSUER: ip.PinSet.of(1, RFC7638_THUMBPRINT)}, unpinned=True)
 
 
 def test_pin_for_an_issuer_not_called_refused():
     with pytest.raises(ip.MixedConfiguration):
-        ip.PinnedIssuers([ISSUER], {ISSUER: RFC7638_THUMBPRINT, OTHER: RFC8037_THUMBPRINT})
+        ip.PinnedIssuers([ISSUER], {ISSUER: ip.PinSet.of(1, RFC7638_THUMBPRINT), OTHER: ip.PinSet.of(1, RFC8037_THUMBPRINT)})
 
 
 def test_conflicting_pins_refused():
     with pytest.raises(ip.ConflictingPins):
-        ip.PinnedIssuers([ISSUER], [(ISSUER, RFC7638_THUMBPRINT), (ISSUER + "/", RFC8037_THUMBPRINT)])
+        ip.PinnedIssuers([ISSUER], [(ISSUER, ip.PinSet.of(1, RFC7638_THUMBPRINT)), (ISSUER + "/", ip.PinSet.of(1, RFC8037_THUMBPRINT))])
 
 
 def test_repeated_identical_pin_accepted():
-    pins = ip.PinnedIssuers([ISSUER], [(ISSUER, RFC7638_THUMBPRINT), (ISSUER, RFC7638_THUMBPRINT)])
-    assert pins.pin_for(ISSUER) == RFC7638_THUMBPRINT
+    one = ip.PinSet.of(1, RFC7638_THUMBPRINT)
+    pins = ip.PinnedIssuers([ISSUER], [(ISSUER, one), (ISSUER, one)])
+    assert pins.pin_for(ISSUER) == one
 
 
 def test_fetch_failure_never_downgrades():
     def broken(issuer):
         raise OSError("connection reset")
-    pins = ip.PinnedIssuers([ISSUER], {ISSUER: RFC7638_THUMBPRINT}, fetch=broken)
+    pins = ip.PinnedIssuers([ISSUER], {ISSUER: ip.PinSet.of(1, RFC7638_THUMBPRINT)}, fetch=broken)
     with pytest.raises(ip.FetchFailed):
         pins.key_for(ISSUER, KID)
     assert pins.pinning == ip.PINNED
 
 
 def test_malformed_jwks_refused():
-    pins = ip.PinnedIssuers([ISSUER], {ISSUER: RFC7638_THUMBPRINT}, fetch=serving({"keys": "x"}))
+    pins = ip.PinnedIssuers([ISSUER], {ISSUER: ip.PinSet.of(1, RFC7638_THUMBPRINT)}, fetch=serving({"keys": "x"}))
     with pytest.raises(ip.FetchFailed):
         pins.key_for(ISSUER, KID)
 
 
 @pytest.mark.parametrize("keys", [[], [RFC7638_KEY, RFC7638_KEY]])
 def test_kid_absent_or_ambiguous_refused(keys):
-    pins = ip.PinnedIssuers([ISSUER], {ISSUER: RFC7638_THUMBPRINT}, fetch=serving({"keys": keys}))
+    pins = ip.PinnedIssuers([ISSUER], {ISSUER: ip.PinSet.of(1, RFC7638_THUMBPRINT)}, fetch=serving({"keys": keys}))
     with pytest.raises(ip.KeyNotFound):
         pins.key_for(ISSUER, KID)
 
 
 @pytest.mark.parametrize("key", [dict(RFC7638_KEY, d="secret"), {"kty": "oct", "k": "AAAA", "kid": KID}])
 def test_private_or_symmetric_key_refused(key):
-    pins = ip.PinnedIssuers([ISSUER], {ISSUER: RFC7638_THUMBPRINT}, fetch=serving({"keys": [key]}))
+    pins = ip.PinnedIssuers([ISSUER], {ISSUER: ip.PinSet.of(1, RFC7638_THUMBPRINT)}, fetch=serving({"keys": [key]}))
     with pytest.raises(ip.InvalidKey):
         pins.key_for(ISSUER, KID)
 
@@ -127,7 +128,7 @@ def test_unpinned_is_explicit_and_reported():
 
 
 def test_unconfigured_issuer_refused():
-    pins = ip.PinnedIssuers([ISSUER], {ISSUER: RFC7638_THUMBPRINT}, fetch=serving({"keys": []}))
+    pins = ip.PinnedIssuers([ISSUER], {ISSUER: ip.PinSet.of(1, RFC7638_THUMBPRINT)}, fetch=serving({"keys": []}))
     with pytest.raises(ip.PinError):
         pins.key_for(OTHER, KID)
 
@@ -135,7 +136,7 @@ def test_unconfigured_issuer_refused():
 @pytest.mark.parametrize("bad", ["", "short", RFC7638_THUMBPRINT[:-1] + "+", RFC7638_THUMBPRINT + "A"])
 def test_malformed_pin_refused(bad):
     with pytest.raises(ip.PinError):
-        ip.PinnedIssuers([ISSUER], {ISSUER: bad})
+        ip.PinnedIssuers([ISSUER], {ISSUER: ip.PinSet.of(1, bad)})
 
 
 def test_http_issuer_refused():
@@ -182,7 +183,7 @@ def test_no_issuer_refused():
 def test_fetch_refusal_passes_through_unchanged():
     def refusing(issuer):
         raise ip.FetchFailed("refused upstream")
-    pins = ip.PinnedIssuers([ISSUER], {ISSUER: RFC7638_THUMBPRINT}, fetch=refusing)
+    pins = ip.PinnedIssuers([ISSUER], {ISSUER: ip.PinSet.of(1, RFC7638_THUMBPRINT)}, fetch=refusing)
     with pytest.raises(ip.FetchFailed, match="refused upstream"):
         pins.key_for(ISSUER, KID)
 
@@ -217,3 +218,77 @@ def test_https_fetch_reads_jwks(monkeypatch):
 
     monkeypatch.setattr(ip.urllib.request, "urlopen", fake)
     assert ip.https_fetch(ISSUER)["keys"][0]["kid"] == KID
+
+
+ONE = ip.PinSet.of(1, RFC7638_THUMBPRINT)
+TWO = ip.PinSet.of(2, RFC7638_THUMBPRINT, RFC8037_THUMBPRINT)
+OKP_KEY = dict(RFC8037_KEY, kid=KID)
+
+
+def test_overlap_set_accepts_either_key():
+    pins = ip.PinnedIssuers([ISSUER], {ISSUER: TWO}, fetch=serving({"keys": [OKP_KEY]}))
+    assert pins.key_for(ISSUER, KID)["kty"] == "OKP"
+
+
+def test_rotation_is_a_new_client_and_reports_its_epoch():
+    old = ip.PinnedIssuers([ISSUER], {ISSUER: ONE}, fetch=serving({"keys": [OKP_KEY]}))
+    new = old.rotate(ISSUER, TWO)
+    assert new.key_for(ISSUER, KID)["kty"] == "OKP"
+    with pytest.raises(ip.ThumbprintMismatch):
+        old.key_for(ISSUER, KID)
+    assert (old.epochs, new.epochs) == ({ISSUER: 1}, {ISSUER: 2})
+
+
+def test_rotation_may_retire_a_key_at_a_newer_epoch():
+    three = ip.PinSet.of(3, RFC8037_THUMBPRINT)
+    pins = ip.PinnedIssuers([ISSUER], {ISSUER: TWO}, fetch=serving({"keys": [RFC7638_KEY]})).rotate(ISSUER, three)
+    with pytest.raises(ip.ThumbprintMismatch):
+        pins.key_for(ISSUER, KID)
+
+
+def test_rotation_to_an_older_epoch_refused():
+    with pytest.raises(ip.PinDowngrade):
+        ip.PinnedIssuers([ISSUER], {ISSUER: TWO}).rotate(ISSUER, ONE)
+
+
+def test_same_epoch_different_set_refused_and_same_set_idempotent():
+    pins = ip.PinnedIssuers([ISSUER], {ISSUER: TWO})
+    with pytest.raises(ip.ConflictingPins):
+        pins.rotate(ISSUER, ip.PinSet.of(2, RFC7638_THUMBPRINT))
+    assert pins.rotate(ISSUER, TWO).pin_for(ISSUER) == TWO
+
+
+def test_restart_below_seen_epoch_refused():
+    with pytest.raises(ip.PinDowngrade):
+        ip.PinnedIssuers([ISSUER], {ISSUER: ONE}, seen_epochs={ISSUER: 2})
+    assert ip.PinnedIssuers([ISSUER], {ISSUER: TWO}, seen_epochs={ISSUER: 2}).epochs == {ISSUER: 2}
+
+
+def test_restart_unpinned_after_pinning_refused():
+    with pytest.raises(ip.PinDowngrade):
+        ip.PinnedIssuers([ISSUER], unpinned=True, seen_epochs={ISSUER: 1})
+
+
+@pytest.mark.parametrize("seen", [{OTHER: 1}, {ISSUER: 0}, {ISSUER: True}])
+def test_bad_seen_epochs_refused(seen):
+    with pytest.raises(ip.PinError):
+        ip.PinnedIssuers([ISSUER], {ISSUER: ONE}, seen_epochs=seen)
+
+
+@pytest.mark.parametrize("bad", [ip.PinSet(0, frozenset({RFC7638_THUMBPRINT})), ip.PinSet(1, frozenset()),
+                                 ip.PinSet(True, frozenset({RFC7638_THUMBPRINT})), "not-a-set"])
+def test_bad_pin_set_refused(bad):
+    with pytest.raises(ip.PinError):
+        ip.PinnedIssuers([ISSUER], {ISSUER: bad})
+    with pytest.raises(ip.PinError):
+        ip.PinnedIssuers([ISSUER], {ISSUER: ONE}).rotate(ISSUER, bad)
+
+
+def test_rotation_of_unpinned_issuer_refused():
+    with pytest.raises(ip.MixedConfiguration):
+        ip.PinnedIssuers([ISSUER], unpinned=True).rotate(ISSUER, ONE)
+
+
+def test_two_epochs_in_one_configuration_refused():
+    with pytest.raises(ip.ConflictingPins):
+        ip.PinnedIssuers([ISSUER], [(ISSUER, ONE), (ISSUER, TWO)])
