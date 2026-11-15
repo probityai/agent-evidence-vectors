@@ -30,7 +30,9 @@ V120 = MANIFEST["snapshots"]["v1.2.0"]["recordsSha256"]
 
 def _member(entry: dict) -> tuple[object, dict, str]:
     pin = MANIFEST["snapshots"][entry["snapshot"]]["recordsSha256"]
-    statuses = resolve_ids.load_snapshot(ROOT / "snapshots" / entry["snapshot"] / "ave-records.json", pin)
+    statuses = resolve_ids.load_snapshot(
+        ROOT / "snapshots" / entry["snapshot"] / "ave-records.json", pin
+    )
     return json.loads((ROOT / entry["path"]).read_bytes()), statuses, pin
 
 
@@ -61,7 +63,9 @@ def test_reference_checker_answers_every_member() -> None:
 
 
 def test_reference_checker_runs_as_a_named_verifier(tmp_path: Path) -> None:
-    verifier = _stub(tmp_path, "sys.exit(m.main([output, '--snapshot', snapshot, '--sha256', pin]))")
+    verifier = _stub(
+        tmp_path, "sys.exit(m.main([output, '--snapshot', snapshot, '--sha256', pin]))"
+    )
     assert corpus.check(verifier, ROOT) == (len(MANIFEST["vectors"]), [])
 
 
@@ -72,17 +76,23 @@ def test_every_rule_changes_the_answer_of_every_member_that_names_it() -> None:
         off = tuple(r for r in resolve_ids.RULES if r != rule)
         for entry in naming:
             got = resolve_ids.judge(*_member(entry), off)
-            assert (got["verdict"], got["codes"]) != (entry["expected"]["verdict"], entry["expected"]["codes"])
+            assert (got["verdict"], got["codes"]) != (
+                entry["expected"]["verdict"],
+                entry["expected"]["codes"],
+            )
 
 
 def test_a_checker_that_ignores_status_is_caught(tmp_path: Path) -> None:
-    body = ("statuses = {k: 'active' for k in m.load_snapshot(Path(snapshot), pin)}\n"
-            "r = m.judge(json.loads(Path(output).read_text()), statuses, pin)\n"
-            "print(json.dumps(r))\n"
-            "sys.exit(m.EXIT[r['verdict']])")
+    body = (
+        "statuses = {k: 'active' for k in m.load_snapshot(Path(snapshot), pin)}\n"
+        "r = m.judge(json.loads(Path(output).read_text()), statuses, pin)\n"
+        "print(json.dumps(r))\n"
+        "sys.exit(m.EXIT[r['verdict']])"
+    )
     _, failures = corpus.check(_stub(tmp_path, body), ROOT)
     assert {f.split(":")[0] for f in failures} == {
-        v["id"] for v in MANIFEST["vectors"] if "id-not-active" in v["expected"]["codes"]}
+        v["id"] for v in MANIFEST["vectors"] if "id-not-active" in v["expected"]["codes"]
+    }
 
 
 def test_a_verifier_whose_exit_or_output_is_wrong_fails(tmp_path: Path) -> None:
@@ -94,7 +104,9 @@ def test_a_verifier_whose_exit_or_output_is_wrong_fails(tmp_path: Path) -> None:
 
 
 def test_a_status_outside_the_known_list_fails() -> None:
-    got = resolve_ids.judge({"findings": [{"ave_id": "AVE-2026-00001"}]}, {"AVE-2026-00001": "withdrawn"}, "0")
+    got = resolve_ids.judge(
+        {"findings": [{"ave_id": "AVE-2026-00001"}]}, {"AVE-2026-00001": "withdrawn"}, "0"
+    )
     assert got["codes"] == ["id-not-active"]
 
 
@@ -102,7 +114,9 @@ def test_non_string_and_nested_values_are_malformed() -> None:
     doc = {"runs": [{"results": [{"ruleId": "x", "properties": {"ave_id": 7}}]}]}
     assert resolve_ids.judge(doc, {}, "0")["codes"] == ["id-malformed"]
     assert resolve_ids.judge({"ave_ids": [["a"]]}, {}, "0")["codes"] == ["id-malformed"]
-    assert resolve_ids.judge({"ave_ids": [["a"]]}, {}, "0", ("id-unknown",))["codes"] == ["id-unknown"]
+    assert resolve_ids.judge({"ave_ids": [["a"]]}, {}, "0", ("id-unknown",))["codes"] == [
+        "id-unknown"
+    ]
 
 
 def test_unreadable_inputs_are_not_judged(tmp_path: Path) -> None:

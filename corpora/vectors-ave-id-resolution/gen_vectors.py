@@ -62,9 +62,14 @@ def sarif(results: list[tuple[str, str | None]], run_sha: str | None = None) -> 
                 "ruleId": rule_id,
                 "level": "error",
                 "message": {"text": f"finding for {rule_id} at line {n + 1}"},
-                "locations": [{"physicalLocation": {
-                    "artifactLocation": {"uri": "skills/example.md"},
-                    "region": {"startLine": n + 1}}}],
+                "locations": [
+                    {
+                        "physicalLocation": {
+                            "artifactLocation": {"uri": "skills/example.md"},
+                            "region": {"startLine": n + 1},
+                        }
+                    }
+                ],
                 **({"properties": {"ave_id": ave_id}} if ave_id is not None else {}),
             }
             for n, (rule_id, ave_id) in enumerate(results)
@@ -72,7 +77,11 @@ def sarif(results: list[tuple[str, str | None]], run_sha: str | None = None) -> 
     }
     if run_sha is not None:
         run["properties"] = {"ave_records_sha256": run_sha}
-    return {"$schema": "https://json.schemastore.org/sarif-2.1.0.json", "version": "2.1.0", "runs": [run]}
+    return {
+        "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+        "version": "2.1.0",
+        "runs": [run],
+    }
 
 
 def findings(ave_ids: list[str], snapshot: str) -> dict[str, Any]:
@@ -81,41 +90,132 @@ def findings(ave_ids: list[str], snapshot: str) -> dict[str, Any]:
         "ave_catalog": snapshot,
         "ave_schema_version": snapshot.lstrip("v"),
         "ave_records_sha256": SNAPSHOTS[snapshot]["recordsSha256"],
-        "findings": [{"rule_id": f"example-rule-{n + 1}", "ave_id": a, "severity": "HIGH"}
-                     for n, a in enumerate(ave_ids)],
+        "findings": [
+            {"rule_id": f"example-rule-{n + 1}", "ave_id": a, "severity": "HIGH"}
+            for n, a in enumerate(ave_ids)
+        ],
     }
 
 
 #: (id, file, snapshot, output, verdict, codes, what it shows)
 MEMBERS: list[tuple[str, str, str, dict[str, Any], str, list[str], str]] = [
-    ("active-resolves-json", "output.json", "v1.2.0", findings([ACTIVE_ID], "v1.2.0"),
-     "resolves", [], "an active id resolves"),
-    ("active-resolves-sarif", "output.sarif", "v1.2.0", sarif([(ACTIVE_ID, None)]),
-     "resolves", [], "an active id resolves"),
-    ("unknown-id-json", "output.json", "v1.2.0", findings([UNKNOWN_ID], "v1.2.0"),
-     "fails", ["id-unknown"], "a well-formed id with no record fails"),
-    ("unknown-id-sarif", "output.sarif", "v1.2.0", sarif([(UNKNOWN_ID, None)]),
-     "fails", ["id-unknown"], "a well-formed id with no record fails"),
-    ("malformed-id-json", "output.json", "v1.2.0", findings([MALFORMED_ID], "v1.2.0"),
-     "fails", ["id-malformed"], "an id that is not AVE-YYYY-NNNNN fails"),
-    ("malformed-id-sarif", "output.sarif", "v1.2.0", sarif([(MALFORMED_ID, None)]),
-     "fails", ["id-malformed"], "an id that is not AVE-YYYY-NNNNN fails"),
-    ("not-active-json", "output.json", "v1.3.0", findings([REJECTED_ID], "v1.3.0"),
-     "fails", ["id-not-active"], "a record whose status is not active fails"),
-    ("not-active-sarif", "output.sarif", "v1.3.0", sarif([(REJECTED_ID, None)]),
-     "fails", ["id-not-active"], "a record whose status is not active fails"),
-    ("not-active-sarif-under-v1.2.0", "output.sarif", "v1.2.0", sarif([(REJECTED_ID, None)]),
-     "resolves", [], "the same output against the earlier pin, where that record is active"),
-    ("property-id-not-active-sarif", "output.sarif", "v1.3.0", sarif([(TOOL_RULE, REJECTED_ID)]),
-     "fails", ["id-not-active"], "an id carried in properties.ave_id under the tool's own rule id"),
-    ("one-unknown-among-active-sarif", "output.sarif", "v1.2.0",
-     sarif([(ACTIVE_ID, None), (UNKNOWN_ID, None)]),
-     "fails", ["id-unknown"], "one unresolved id fails the whole output"),
-    ("run-names-other-snapshot-sarif", "output.sarif", "v1.2.0",
-     sarif([(ACTIVE_ID, None)], SNAPSHOTS["v1.3.0"]["recordsSha256"]),
-     "fails", ["run-snapshot-differs"], "the run declares records other than the pinned snapshot"),
-    ("no-ave-id-sarif", "output.sarif", "v1.2.0", sarif([(TOOL_RULE, None)]),
-     "no-ids", [], "a tool rule with no AVE id leaves nothing to judge"),
+    (
+        "active-resolves-json",
+        "output.json",
+        "v1.2.0",
+        findings([ACTIVE_ID], "v1.2.0"),
+        "resolves",
+        [],
+        "an active id resolves",
+    ),
+    (
+        "active-resolves-sarif",
+        "output.sarif",
+        "v1.2.0",
+        sarif([(ACTIVE_ID, None)]),
+        "resolves",
+        [],
+        "an active id resolves",
+    ),
+    (
+        "unknown-id-json",
+        "output.json",
+        "v1.2.0",
+        findings([UNKNOWN_ID], "v1.2.0"),
+        "fails",
+        ["id-unknown"],
+        "a well-formed id with no record fails",
+    ),
+    (
+        "unknown-id-sarif",
+        "output.sarif",
+        "v1.2.0",
+        sarif([(UNKNOWN_ID, None)]),
+        "fails",
+        ["id-unknown"],
+        "a well-formed id with no record fails",
+    ),
+    (
+        "malformed-id-json",
+        "output.json",
+        "v1.2.0",
+        findings([MALFORMED_ID], "v1.2.0"),
+        "fails",
+        ["id-malformed"],
+        "an id that is not AVE-YYYY-NNNNN fails",
+    ),
+    (
+        "malformed-id-sarif",
+        "output.sarif",
+        "v1.2.0",
+        sarif([(MALFORMED_ID, None)]),
+        "fails",
+        ["id-malformed"],
+        "an id that is not AVE-YYYY-NNNNN fails",
+    ),
+    (
+        "not-active-json",
+        "output.json",
+        "v1.3.0",
+        findings([REJECTED_ID], "v1.3.0"),
+        "fails",
+        ["id-not-active"],
+        "a record whose status is not active fails",
+    ),
+    (
+        "not-active-sarif",
+        "output.sarif",
+        "v1.3.0",
+        sarif([(REJECTED_ID, None)]),
+        "fails",
+        ["id-not-active"],
+        "a record whose status is not active fails",
+    ),
+    (
+        "not-active-sarif-under-v1.2.0",
+        "output.sarif",
+        "v1.2.0",
+        sarif([(REJECTED_ID, None)]),
+        "resolves",
+        [],
+        "the same output against the earlier pin, where that record is active",
+    ),
+    (
+        "property-id-not-active-sarif",
+        "output.sarif",
+        "v1.3.0",
+        sarif([(TOOL_RULE, REJECTED_ID)]),
+        "fails",
+        ["id-not-active"],
+        "an id carried in properties.ave_id under the tool's own rule id",
+    ),
+    (
+        "one-unknown-among-active-sarif",
+        "output.sarif",
+        "v1.2.0",
+        sarif([(ACTIVE_ID, None), (UNKNOWN_ID, None)]),
+        "fails",
+        ["id-unknown"],
+        "one unresolved id fails the whole output",
+    ),
+    (
+        "run-names-other-snapshot-sarif",
+        "output.sarif",
+        "v1.2.0",
+        sarif([(ACTIVE_ID, None)], SNAPSHOTS["v1.3.0"]["recordsSha256"]),
+        "fails",
+        ["run-snapshot-differs"],
+        "the run declares records other than the pinned snapshot",
+    ),
+    (
+        "no-ave-id-sarif",
+        "output.sarif",
+        "v1.2.0",
+        sarif([(TOOL_RULE, None)]),
+        "no-ids",
+        [],
+        "a tool rule with no AVE id leaves nothing to judge",
+    ),
 ]
 
 
@@ -162,29 +262,46 @@ def corpus_digest(manifest: dict[str, Any], root: str) -> str:
 
 def build(root: Path) -> tuple[dict[str, Any], dict[str, bytes]]:
     snapshots = {
-        release: {"tag": f"{SOURCE}/releases/tag/{release}", **pin, "files": snapshot_files(root, release)}
+        release: {
+            "tag": f"{SOURCE}/releases/tag/{release}",
+            **pin,
+            "files": snapshot_files(root, release),
+        }
         for release, pin in SNAPSHOTS.items()
     }
     files, vectors = {}, []
     for member_id, name, release, output, verdict, codes, shows in MEMBERS:
         data = dump(output)
-        statuses = resolve_ids.load_snapshot(root / "snapshots" / release / "ave-records.json",
-                                             SNAPSHOTS[release]["recordsSha256"])
+        statuses = resolve_ids.load_snapshot(
+            root / "snapshots" / release / "ave-records.json", SNAPSHOTS[release]["recordsSha256"]
+        )
         got = resolve_ids.judge(json.loads(data), statuses, SNAPSHOTS[release]["recordsSha256"])
         if (got["verdict"], got["codes"]) != (verdict, codes):
-            raise ValueError(f"{member_id}: checker answers {got['verdict']} {got['codes']}, declared {verdict} {codes}")
+            raise ValueError(
+                f"{member_id}: checker answers {got['verdict']} {got['codes']}, declared {verdict} {codes}"
+            )
         path = f"cases/{member_id}/{name}"
         files[path] = data
-        vectors.append({"id": member_id, "path": path, "sha256": sha(data), "snapshot": release,
-                        "expected": {"verdict": verdict, "codes": codes}, "shows": shows})
+        vectors.append(
+            {
+                "id": member_id,
+                "path": path,
+                "sha256": sha(data),
+                "snapshot": release,
+                "expected": {"verdict": verdict, "codes": codes},
+                "shows": shows,
+            }
+        )
     counts: dict[str, int] = {}
     for v in vectors:
         counts[v["expected"]["verdict"]] = counts.get(v["expected"]["verdict"], 0) + 1
     manifest = {
         "suite": SUITE,
         "source": {"repository": SOURCE},
-        "credit": ("chaksaray, for the AVE project: the v1.2.0 pin, the four cases (active, unknown, "
-                   "malformed, not active) and the rule that any status other than active fails"),
+        "credit": (
+            "chaksaray, for the AVE project: the v1.2.0 pin, the four cases (active, unknown, "
+            "malformed, not active) and the rule that any status other than active fails"
+        ),
         "checker": "resolve_ids.py",
         "rules": list(resolve_ids.RULES),
         "snapshots": snapshots,
@@ -195,11 +312,19 @@ def build(root: Path) -> tuple[dict[str, Any], dict[str, bytes]]:
 
 
 def index(manifest: dict[str, Any]) -> str:
-    lines = ["# Members", "", "Generated by `gen_vectors.py`; do not edit.", "",
-             "| Member | Snapshot | Verdict | Codes | Shows |", "| --- | --- | --- | --- | --- |"]
+    lines = [
+        "# Members",
+        "",
+        "Generated by `gen_vectors.py`; do not edit.",
+        "",
+        "| Member | Snapshot | Verdict | Codes | Shows |",
+        "| --- | --- | --- | --- | --- |",
+    ]
     for v in manifest["vectors"]:
         codes = ", ".join(v["expected"]["codes"])
-        lines.append(f"| `{v['id']}` | {v['snapshot']} | {v['expected']['verdict']} | {codes} | {v['shows']} |")
+        lines.append(
+            f"| `{v['id']}` | {v['snapshot']} | {v['expected']['verdict']} | {codes} | {v['shows']} |"
+        )
     return "\n".join(lines) + "\n"
 
 
@@ -213,7 +338,9 @@ def generate(out: Path) -> None:
         for release in SNAPSHOTS:
             (out / "snapshots" / release).mkdir(parents=True, exist_ok=True)
             for name in manifest["snapshots"][release]["files"]:
-                (out / "snapshots" / release / name).write_bytes((HERE / "snapshots" / release / name).read_bytes())
+                (out / "snapshots" / release / name).write_bytes(
+                    (HERE / "snapshots" / release / name).read_bytes()
+                )
     manifest["corpusDigest"] = corpus_digest(manifest, str(out))
     (out / "MANIFEST.json").write_bytes(dump(manifest))
     (out / "INDEX.md").write_text(index(manifest), encoding="ascii")

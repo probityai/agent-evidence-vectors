@@ -138,8 +138,9 @@ def extract(doc: Any) -> tuple[list[tuple[Any, str]], list[str]]:
     return claims, [] if sha is None else [str(sha)]
 
 
-def judge(doc: Any, statuses: dict[str, Any], pinned: str,
-          rules: tuple[str, ...] = RULES) -> dict[str, Any]:
+def judge(
+    doc: Any, statuses: dict[str, Any], pinned: str, rules: tuple[str, ...] = RULES
+) -> dict[str, Any]:
     """Judge one parsed output against one snapshot; `rules` switches checks off for tests."""
     claims, declared = extract(doc)
     findings = []
@@ -157,7 +158,9 @@ def judge(doc: Any, statuses: dict[str, Any], pinned: str,
     if "run-snapshot-differs" in rules:
         for sha in declared:
             if sha.lower() != pinned.lower():
-                findings.append({"id": None, "where": "ave_records_sha256", "code": "run-snapshot-differs"})
+                findings.append(
+                    {"id": None, "where": "ave_records_sha256", "code": "run-snapshot-differs"}
+                )
     codes = sorted({f["code"] for f in findings})
     verdict = "fails" if findings else ("resolves" if claims else "no-ids")
     return {"verdict": verdict, "codes": codes, "findings": findings}

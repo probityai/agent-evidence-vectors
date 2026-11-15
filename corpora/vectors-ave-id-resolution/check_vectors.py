@@ -35,8 +35,12 @@ def answer(verifier: str | None, output: Path, snapshot: Path, pin: str) -> tupl
     if verifier is None:
         report = resolve_ids.run(output, snapshot, pin)
         return report["verdict"], report["codes"]
-    done = subprocess.run([*shlex.split(verifier), str(output), str(snapshot), pin],
-                          capture_output=True, text=True, timeout=60)
+    done = subprocess.run(
+        [*shlex.split(verifier), str(output), str(snapshot), pin],
+        capture_output=True,
+        text=True,
+        timeout=60,
+    )
     lines = [line for line in done.stdout.splitlines() if line.strip()]
     try:
         report = json.loads(lines[-1])
@@ -48,7 +52,9 @@ def answer(verifier: str | None, output: Path, snapshot: Path, pin: str) -> tupl
     return verdict, codes
 
 
-def check(verifier: str | None, root: Path = HERE, decision_only: bool = False) -> tuple[int, list[str]]:
+def check(
+    verifier: str | None, root: Path = HERE, decision_only: bool = False
+) -> tuple[int, list[str]]:
     manifest: dict[str, Any] = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
     failures, seen = [], set()
     try:
@@ -64,9 +70,13 @@ def check(verifier: str | None, root: Path = HERE, decision_only: bool = False) 
         want = entry["expected"]
         seen.update(codes)
         if verdict != want["verdict"] or (not decision_only and codes != want["codes"]):
-            failures.append(f"{entry['id']}: answered {verdict} {codes}, declared {want['verdict']} {want['codes']}")
+            failures.append(
+                f"{entry['id']}: answered {verdict} {codes}, declared {want['verdict']} {want['codes']}"
+            )
     if verifier is None:
-        failures += [f"rule {rule}: produced by no member" for rule in manifest["rules"] if rule not in seen]
+        failures += [
+            f"rule {rule}: produced by no member" for rule in manifest["rules"] if rule not in seen
+        ]
     return len(manifest["vectors"]), failures
 
 
