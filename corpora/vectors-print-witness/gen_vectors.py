@@ -180,7 +180,8 @@ def cases() -> list[Case]:
          "witness a took in the G-code and witness b signed the log: both keys are trusted "
          "and every signature verifies"),
         ("untrusted-witness", job, stranger, "rejected", "signature_invalid",
-         "intact-other-witness", "the whole log is signed by a witness the consumer does not trust"),
+         "intact-other-witness",
+         "the whole log is signed by a witness the consumer does not trust"),
         ("log-record-edited", job, edited, "rejected", "signature_invalid", "intact",
          "the nozzle temperature of layer 3 edited after signing, old signature kept"),
         ("log-from-other-print", job, spliced, "rejected", "job_mismatch", "intact",

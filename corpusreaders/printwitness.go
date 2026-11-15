@@ -170,44 +170,57 @@ func pwFirstFailure(c pwCase, job []byte, lines [][]byte, records []pwRecord, cl
 	if !clean {
 		return scDecision{"rejected", "signature_invalid"}
 	}
-	intake := records[0]
-	if intake.Type != "intake" {
-		return scDecision{"rejected", "intake_missing"}
+	intake, last := records[0], records[len(records)-1]
+	checks := []struct {
+		reason string
+		fails  func() bool
+	}{
+		{"intake_missing", func() bool { return intake.Type != "intake" }},
+		{"witness_changed", func() bool { return pwAny(records, func(r pwRecord) bool { return r.Witness != intake.Witness }) }},
+		{"job_mismatch", func() bool { return pwAny(records, func(r pwRecord) bool { return r.Job != intake.Job }) }},
+		{"chain_link_broken", func() bool { return pwChainBroken(lines, records) }},
+		{"gcode_altered", func() bool { return sha(job) != intake.GcodeSHA256 }},
+		{"gcode_not_ordered", func() bool { return intake.GcodeSHA256 != c.Order["gcode_sha256"] }},
+		{"log_truncated", func() bool { return last.Type != "close" }},
+		{"print_not_finished", func() bool { return !pwFinished(intake, last) }},
 	}
-	for _, r := range records {
-		if r.Witness != intake.Witness {
-			return scDecision{"rejected", "witness_changed"}
+	for _, check := range checks {
+		if check.fails() {
+			return scDecision{"rejected", check.reason}
 		}
 	}
+	return scDecision{"verified", "print_witnessed"}
+}
+
+func pwAny(records []pwRecord, pred func(pwRecord) bool) bool {
 	for _, r := range records {
-		if r.Job != intake.Job {
-			return scDecision{"rejected", "job_mismatch"}
+		if pred(r) {
+			return true
 		}
 	}
+	return false
+}
+
+// pwChainBroken reports whether some record does not carry its own position as
+// seq, or does not name the digest of the line before it (64 zeros for the first).
+func pwChainBroken(lines [][]byte, records []pwRecord) bool {
 	for i, r := range records {
 		want := pwGenesis
 		if i > 0 {
 			want = sha(lines[i-1])
 		}
 		if r.Seq == nil || *r.Seq != i || r.Prev != want {
-			return scDecision{"rejected", "chain_link_broken"}
+			return true
 		}
 	}
-	if sha(job) != intake.GcodeSHA256 {
-		return scDecision{"rejected", "gcode_altered"}
-	}
-	if intake.GcodeSHA256 != c.Order["gcode_sha256"] {
-		return scDecision{"rejected", "gcode_not_ordered"}
-	}
-	last := records[len(records)-1]
-	if last.Type != "close" {
-		return scDecision{"rejected", "log_truncated"}
-	}
-	if last.Status != "finished" || last.LayersPrinted == nil || intake.Layers == nil ||
-		*last.LayersPrinted != *intake.Layers {
-		return scDecision{"rejected", "print_not_finished"}
-	}
-	return scDecision{"verified", "print_witnessed"}
+	return false
+}
+
+// pwFinished reports whether the closing record says the job finished every
+// layer the intake declared.
+func pwFinished(intake, last pwRecord) bool {
+	return last.Type == "close" && last.Status == "finished" && last.LayersPrinted != nil &&
+		intake.Layers != nil && *last.LayersPrinted == *intake.Layers
 }
 
 // pwSigned reports whether a log line's signature is a valid Ed25519 signature,
