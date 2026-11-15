@@ -61,7 +61,7 @@ ROOT = (
     else _HERE.parents[1] / "corpora" / "vectors-refund-connected"
 )
 _RAIL_NAMES = ("agent_evidence_vectors.run_vectors", "run_vectors", "__main__")
-_RAIL_PRIMITIVES = ("ed25519_verify", "jcs_dumps")
+_RAIL_PRIMITIVES = ("ed25519_verify", "jcs_dumps", "check_string_scalars")
 
 WORKER = "did:example:refund-worker"
 BOUNDARY = "did:example:refund-approval-boundary"
@@ -361,13 +361,30 @@ def _no_const(text: str) -> Any:
     raise ValueError("constant")
 
 
+def _safe_int(text: str) -> int:
+    value = int(text)
+    if abs(value) > SAFE_INT:
+        raise ValueError("integer outside the I-JSON safe range")
+    return value
+
+
 def parse(data: bytes) -> Any:
-    """Parse one JSON document strictly: UTF-8, no duplicate members, floats or constants."""
+    """Parse one JSON document strictly, as I-JSON (RFC 7493).
+
+    UTF-8; every string, member names included, is a sequence of Unicode scalar values
+    that are not noncharacters, so an unpaired surrogate escape such as ``\\ud800`` is
+    refused here rather than raising later inside RFC 8785 canonicalization; no duplicate
+    members, no number with a fraction or exponent, no constant, and no integer whose
+    magnitude exceeds ``2**53 - 1``, the range RFC 8785 serializes exactly.
+    """
+    text = data.decode("utf-8")
+    _rail().check_string_scalars(data)
     return json.loads(
-        data.decode("utf-8"),
+        text,
         object_pairs_hook=_pairs,
         parse_float=_no_float,
         parse_constant=_no_const,
+        parse_int=_safe_int,
     )
 
 
@@ -527,7 +544,9 @@ def check_pic(case: Case) -> None:
     _need(
         is_obj(att)
         and att.get("attestation_version") == "PIC-ATT/1.0"
-        and set(att) == ATTESTATION_FIELDS,
+        and set(att) == ATTESTATION_FIELDS
+        and isinstance(att["expires_at"], str)
+        and bool(_TS.match(att["expires_at"])),
         _refuse,
         "PIC_ATTESTATION",
     )
