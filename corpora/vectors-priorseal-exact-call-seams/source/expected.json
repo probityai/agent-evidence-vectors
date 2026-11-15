@@ -1,0 +1,127 @@
+{
+  "schema": "oel.exact-call-matrix.expected.v1",
+  "matrixId": "oel-exact-call-envelope-matrix-v1",
+  "contractVersion": "1.0.1",
+  "profile": "priorseal.execution-profile.exact-call.v1",
+  "about": "Expected results for the synthetic, offline exact-call envelope matrix. `envelope-binding` cases answer one question: does the observed execution envelope match the envelope bound by the signed authorization? `evidence-availability` is a separate class and is never scored as a mismatch.",
+  "claim": "envelope-matching-only",
+  "boundRule": "bound is decided by the field-map mismatch set only; evidence-availability codes are reported in availabilityCodes and never enter the deciding set (pinned in contract v1.0.1).",
+  "stringComparison": "Values compare after String() coercion: JSON integers render as their canonical decimal strings, missing or null renders as the empty string, and string comparison is ASCII-case-insensitive (stated explicitly in contract v1.0.1).",
+  "doesNotEstablish": [
+    "the business meaning of the calldata",
+    "any economic outcome",
+    "real-chain behaviour, finality or liveness",
+    "that this submission reader or any Open Evidence Lab checks are adopted anywhere",
+    "any endorsement between PriorSeal and the Open Evidence Lab"
+  ],
+  "fieldMap": [
+    { "signed": "intent.chainId", "observed": "chainId", "rule": "strict-equality", "code": "CHAIN_MISMATCH" },
+    { "signed": "intent.action", "observed": "action", "rule": "case-insensitive-equality", "code": "ACTION_MISMATCH" },
+    { "signed": "intent.sender", "observed": "sender", "rule": "case-insensitive-equality", "code": "SENDER_MISMATCH" },
+    { "signed": "intent.nonce", "observed": "nonce", "rule": "strict-string-equality-default-0", "code": "NONCE_MISMATCH" },
+    { "signed": "intent.callTarget", "observed": "target", "rule": "case-insensitive-equality-when-signed-present", "code": "CALL_TARGET_MISMATCH" },
+    { "signed": "intent.calldataHash", "observed": "calldataHash", "rule": "case-insensitive-equality-when-signed-present", "code": "CALLDATA_MISMATCH" },
+    { "signed": "intent.transactionValue", "observed": "nativeValue", "rule": "strict-string-equality-when-signed-present", "code": "TRANSACTION_VALUE_MISMATCH" },
+    { "signed": "intent.validUntil", "observed": "executedAt (fallback observedAt)", "rule": "observed-time-greater-than", "code": "OUTSIDE_TIME_WINDOW" },
+    { "signed": "authorization.notBefore / authorization.expiresAt", "observed": "executedAt (fallback observedAt)", "rule": "observed-time-outside-authorization-window", "code": "OUTSIDE_AUTHORIZATION_WINDOW" }
+  ],
+  "evidenceAvailabilityRule": {
+    "observed": "executionDataAvailable",
+    "rule": "false-yields",
+    "code": "EXECUTION_UNAVAILABLE",
+    "note": "Reported as unavailable evidence in availabilityCodes, not as a mismatch; never inside the set that decides bound."
+  },
+  "notComparedUnderThisProfile": [
+    { "field": "intent.recipient", "reason": "exact-call binds the transaction envelope and deliberately does not infer transfer semantics" },
+    { "field": "intent.asset", "reason": "exact-call deliberately does not infer transfer semantics" },
+    { "field": "intent.amount", "reason": "exact-call deliberately does not infer transfer semantics" },
+    { "field": "execution.transfers", "reason": "transfer uniqueness is not a property of an exact-call envelope" }
+  ],
+  "reasonCodeComparison": "sorted-set-equality",
+  "cases": [
+    {
+      "id": "case-00-exact-call-observed-match",
+      "className": "envelope-binding",
+      "observed": "fixture/observed/case-00-exact-call-observed-match.json",
+      "note": "Positive control: every bound envelope field matches.",
+      "expected": {
+        "bound": true,
+        "reasonCodes": [],
+        "availabilityCodes": [],
+        "complianceStatus": "COMPLIANT",
+        "complianceReasonCodes": [],
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "id": "case-01-call-target-mismatch",
+      "className": "envelope-binding",
+      "observed": "fixture/observed/case-01-call-target-mismatch.json",
+      "note": "Only the observed call target changes; the signature stays valid for the original authorization.",
+      "expected": {
+        "bound": false,
+        "reasonCodes": ["CALL_TARGET_MISMATCH"],
+        "availabilityCodes": [],
+        "complianceStatus": "NON_COMPLIANT",
+        "complianceReasonCodes": ["CALL_TARGET_MISMATCH"],
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "id": "case-02-calldata-mismatch",
+      "className": "envelope-binding",
+      "observed": "fixture/observed/case-02-calldata-mismatch.json",
+      "note": "Only the observed calldata hash changes.",
+      "expected": {
+        "bound": false,
+        "reasonCodes": ["CALLDATA_MISMATCH"],
+        "availabilityCodes": [],
+        "complianceStatus": "NON_COMPLIANT",
+        "complianceReasonCodes": ["CALLDATA_MISMATCH"],
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "id": "case-03-transaction-value-mismatch",
+      "className": "envelope-binding",
+      "observed": "fixture/observed/case-03-transaction-value-mismatch.json",
+      "note": "Only the observed native value changes.",
+      "expected": {
+        "bound": false,
+        "reasonCodes": ["TRANSACTION_VALUE_MISMATCH"],
+        "availabilityCodes": [],
+        "complianceStatus": "NON_COMPLIANT",
+        "complianceReasonCodes": ["TRANSACTION_VALUE_MISMATCH"],
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "id": "case-04-execution-evidence-unavailable",
+      "className": "evidence-availability",
+      "observed": "fixture/observed/case-04-execution-evidence-unavailable.json",
+      "note": "Evidence availability, not envelope agreement. The envelope itself matches: v1.0.1 reports bound: true with the availability code beside it, and the outcome stays UNDETERMINED so unknown evidence can never be consumed as a pass. (v1.0.0 encoded this case as bound: false; the changelog in INPUT-CONTRACT.md explains the flip.)",
+      "expected": {
+        "bound": true,
+        "reasonCodes": [],
+        "availabilityCodes": ["EXECUTION_UNAVAILABLE"],
+        "complianceStatus": "NOT_ASSESSABLE",
+        "complianceReasonCodes": ["EXECUTION_UNAVAILABLE"],
+        "outcome": "UNDETERMINED"
+      }
+    },
+    {
+      "id": "case-05-time-window-expired",
+      "className": "envelope-binding",
+      "observed": "fixture/observed/case-05-time-window-expired.json",
+      "note": "Only the observed execution time changes: executedAt 2001 is one second past both intent.validUntil and the authorization window (the fixture sets them equal), so both time paths fire at once. Added in contract v1.0.1 to close the coverage gap where the two time paths coincided by construction.",
+      "expected": {
+        "bound": false,
+        "reasonCodes": ["OUTSIDE_AUTHORIZATION_WINDOW", "OUTSIDE_TIME_WINDOW"],
+        "availabilityCodes": [],
+        "complianceStatus": "NON_COMPLIANT",
+        "complianceReasonCodes": ["OUTSIDE_AUTHORIZATION_WINDOW", "OUTSIDE_TIME_WINDOW"],
+        "outcome": "COMPLETED"
+      }
+    }
+  ]
+}

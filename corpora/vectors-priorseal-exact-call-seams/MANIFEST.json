@@ -1,0 +1,383 @@
+{
+  "corpusDigest": "93d1a40c85cbd909b254c656bd47078faa7e6f6088e5b29753dff8a63168eb1c",
+  "counts": {
+    "bound": 3,
+    "not_bound": 3,
+    "open": 3
+  },
+  "provenance": {
+    "note": "The answers each reader and the profile gave are quoted from the comments named in reportedAnswers, not re-run here. This corpus decides none of the three questions: the contract's owner does.",
+    "recorded": "imokokok, https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529876820 and https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529877400, as candidate gaps G9 to G11",
+    "reproductions": [
+      "ogasurfproject-jpg, https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529876210 (priorseal-reader-v0), https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529876371 (commit 1bdbebc5)",
+      "Tetsurohhori, https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529877263 (a reader of the 1.0.0 text)"
+    ],
+    "seams": "piiiico, https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529875972"
+  },
+  "spec": {
+    "commit": "2ff89d86611257b4440232e5c2793926b3d52043",
+    "contract": "exact-call envelope matrix v1, INPUT-CONTRACT.md",
+    "contractVersion": "1.0.1",
+    "files": {
+      "INPUT-CONTRACT.md": {
+        "path": "examples/open-evidence-lab-exact-call-matrix-v1/INPUT-CONTRACT.md",
+        "sha256": "7454ab478cd8bac6108dbf6376acc8df30582102de4dfdbd00347165bc1861d8"
+      },
+      "LICENSE": {
+        "path": "LICENSE",
+        "sha256": "635fdb5f2c6ccc4d7e251db23f18970ab39294ff2b6f2b48d728b09fff8a029f"
+      },
+      "case-00-exact-call-observed-match.json": {
+        "path": "examples/open-evidence-lab-exact-call-matrix-v1/fixture/observed/case-00-exact-call-observed-match.json",
+        "sha256": "960ebbe8ea7a1c756732da379a93778f67d1d830fa56533de00e2d088e58ac19"
+      },
+      "case-05-time-window-expired.json": {
+        "path": "examples/open-evidence-lab-exact-call-matrix-v1/fixture/observed/case-05-time-window-expired.json",
+        "sha256": "b94856739a21399ce26ee4b38d384a46c52b6249b7c45c5b2f39c0f4df78e377"
+      },
+      "expected.json": {
+        "path": "examples/open-evidence-lab-exact-call-matrix-v1/expected.json",
+        "sha256": "34560ef158d94e2b2108ffdf15c70b1b78da1cc32c230ecb75f44e93cfbe9113"
+      },
+      "signed-authorization.json": {
+        "path": "examples/open-evidence-lab-exact-call-matrix-v1/fixture/signed-authorization.json",
+        "sha256": "38cebf301c47a63fd3f308b6b7e7e6b6bd0fd166c81857276059650f828fdccb"
+      }
+    },
+    "license": "MIT, copyright imokokok; source/LICENSE",
+    "owner": "imokokok, who maintains the contract and decides G9 to G11",
+    "repository": "https://github.com/imokokok/PriorSeal",
+    "unchangedAt": "b39d217e2b81df79ad11e589d8593f4f4dc2a326"
+  },
+  "suite": "priorseal-exact-call-seams/v1",
+  "synthetic": true,
+  "vectors": [
+    {
+      "basis": [
+        {
+          "quote": "`case-00` | `bound: true`, no mismatch codes",
+          "section": "7"
+        },
+        {
+          "quote": "`bound` is decided by the mismatch set of this section only: `bound = (mismatch codes is empty)`.",
+          "section": "4"
+        }
+      ],
+      "edit": "none: the matrix's case-00 envelope unchanged",
+      "expected": {
+        "decision": "bound",
+        "reasonCodes": []
+      },
+      "files": {
+        "case.json": "d21cc2f82cfbd9e00fe2052fbd7679e1d8ef19e251d07da3b26de6d33ec1aeb0"
+      },
+      "id": "control-case-00",
+      "path": "cases/control-case-00"
+    },
+    {
+      "basis": [
+        {
+          "quote": "`case-05` | `OUTSIDE_TIME_WINDOW` and `OUTSIDE_AUTHORIZATION_WINDOW` | The observed execution falls outside both time windows (added in 1.0.1)",
+          "section": "7"
+        },
+        {
+          "quote": "`intent.validUntil` | `executedAt` (fallback `observedAt`) | observed time greater than `validUntil` | `OUTSIDE_TIME_WINDOW`",
+          "section": "4"
+        },
+        {
+          "quote": "`authorization.notBefore` / `authorization.expiresAt` | `executedAt` (fallback `observedAt`) | observed time earlier than `notBefore` or greater than `expiresAt` | `OUTSIDE_AUTHORIZATION_WINDOW`",
+          "section": "4"
+        }
+      ],
+      "edit": "none: the matrix's case-05 envelope (executedAt 2001, after both windows)",
+      "expected": {
+        "decision": "not_bound",
+        "reasonCodes": [
+          "OUTSIDE_AUTHORIZATION_WINDOW",
+          "OUTSIDE_TIME_WINDOW"
+        ]
+      },
+      "files": {
+        "case.json": "18df98dfced70f1d77b31c266957e6895850f48f6c8f7e34477f4d364ba418bd"
+      },
+      "id": "control-case-05",
+      "path": "cases/control-case-05"
+    },
+    {
+      "basis": [
+        {
+          "quote": "`intent.validUntil` | `executedAt` (fallback `observedAt`) | observed time greater than `validUntil` | `OUTSIDE_TIME_WINDOW`",
+          "section": "4"
+        },
+        {
+          "quote": "`authorization.notBefore` / `authorization.expiresAt` | `executedAt` (fallback `observedAt`) | observed time earlier than `notBefore` or greater than `expiresAt` | `OUTSIDE_AUTHORIZATION_WINDOW`",
+          "section": "4"
+        }
+      ],
+      "edit": "executedAt removed; observedAt 1101 stays, inside both windows",
+      "expected": {
+        "decision": "bound",
+        "reasonCodes": []
+      },
+      "files": {
+        "case.json": "c4bbd57d78c2e781ead3b67ffaaeced288f272a4c5d10cbc1bae3790745e6795"
+      },
+      "id": "decided-observedat-fallback-inside",
+      "path": "cases/decided-observedat-fallback-inside"
+    },
+    {
+      "basis": [
+        {
+          "quote": "`intent.validUntil` | `executedAt` (fallback `observedAt`) | observed time greater than `validUntil` | `OUTSIDE_TIME_WINDOW`",
+          "section": "4"
+        },
+        {
+          "quote": "`authorization.notBefore` / `authorization.expiresAt` | `executedAt` (fallback `observedAt`) | observed time earlier than `notBefore` or greater than `expiresAt` | `OUTSIDE_AUTHORIZATION_WINDOW`",
+          "section": "4"
+        }
+      ],
+      "edit": "executedAt removed; observedAt 2002, after both windows",
+      "expected": {
+        "decision": "not_bound",
+        "reasonCodes": [
+          "OUTSIDE_AUTHORIZATION_WINDOW",
+          "OUTSIDE_TIME_WINDOW"
+        ]
+      },
+      "files": {
+        "case.json": "27712ff1bf864de9f3bb35e079ecbe720dd9d1ae2cdd8176b7260a6c189937c0"
+      },
+      "id": "decided-observedat-fallback-late",
+      "note": "The twin of the G9 case: the fallback still holds a time, so a reader that ignores the windows when executedAt is absent fails here.",
+      "path": "cases/decided-observedat-fallback-late"
+    },
+    {
+      "basis": [
+        {
+          "quote": "`intent.chainId` | `chainId` | strict equality of the integer values | `CHAIN_MISMATCH`",
+          "section": "4"
+        },
+        {
+          "quote": "The shipped implementations compare values after JavaScript `String()` coercion: a JSON integer participates through its canonical decimal string (`8453` \u2192 `\"8453\"`), a missing or null value through the empty string, and string comparison is ASCII-case-insensitive.",
+          "section": "4"
+        }
+      ],
+      "edit": "chainId 8454 (a JSON integer) against the signed 8453",
+      "expected": {
+        "decision": "not_bound",
+        "reasonCodes": [
+          "CHAIN_MISMATCH"
+        ]
+      },
+      "files": {
+        "case.json": "5da9b9d06486864cedff7dba40430075e05e5d3890d37c431274ee7318526f3d"
+      },
+      "id": "decided-chainid-other-integer",
+      "note": "The twin of the G11 case: a different chain mismatches under every reading of the representation question.",
+      "path": "cases/decided-chainid-other-integer"
+    },
+    {
+      "basis": [
+        {
+          "quote": "Under these rules a numeric nonce `7` and the string `\"7\"` are the same value.",
+          "section": "4"
+        }
+      ],
+      "edit": "nonce 7 (a JSON number) against the signed \"7\"",
+      "expected": {
+        "decision": "bound",
+        "reasonCodes": []
+      },
+      "files": {
+        "case.json": "80396ae01b8506a97d30b6cd0f27dcfb82cbcf1db77c42cf15fd01290f7b2263"
+      },
+      "id": "decided-nonce-json-number",
+      "note": "The paragraph settles the representation question for nonce in so many words; it is the same question as G11 asked of a field the paragraph names.",
+      "path": "cases/decided-nonce-json-number"
+    },
+    {
+      "basis": [
+        {
+          "quote": "`intent.validUntil` | `executedAt` (fallback `observedAt`) | observed time greater than `validUntil` | `OUTSIDE_TIME_WINDOW`",
+          "section": "4"
+        },
+        {
+          "quote": "`authorization.notBefore` / `authorization.expiresAt` | `executedAt` (fallback `observedAt`) | observed time earlier than `notBefore` or greater than `expiresAt` | `OUTSIDE_AUTHORIZATION_WINDOW`",
+          "section": "4"
+        },
+        {
+          "quote": "The shipped implementations compare values after JavaScript `String()` coercion: a JSON integer participates through its canonical decimal string (`8453` \u2192 `\"8453\"`), a missing or null value through the empty string, and string comparison is ASCII-case-insensitive.",
+          "section": "4"
+        }
+      ],
+      "edit": "executedAt and observedAt both removed",
+      "expected": {
+        "decision": "open",
+        "question": "missing-time"
+      },
+      "files": {
+        "case.json": "177a66f6ef8928247e58b1e8454fd0f9a2ba0487c5f47942a9759a30ef51b1ab"
+      },
+      "id": "open-g9-missing-time",
+      "note": "The window rows name an observed time and no rule covers its absence. The paragraph's missing-to-empty-string rule is stated for comparisons of values, and the window rows are order comparisons. AUTHORIZATION_AFTER_EXECUTION, which the shipped profile also emits here, is not in the section 4 map.",
+      "path": "cases/open-g9-missing-time",
+      "readings": [
+        {
+          "answer": {
+            "decision": "bound",
+            "reasonCodes": []
+          },
+          "reading": "skip",
+          "text": "no observed time, so neither window row applies and the case is bound"
+        },
+        {
+          "answer": {
+            "decision": "not_bound",
+            "reasonCodes": [
+              "OUTSIDE_AUTHORIZATION_WINDOW"
+            ]
+          },
+          "reading": "zero",
+          "text": "the missing time is coerced to the empty string, which an order comparison reads as 0: earlier than notBefore, not later than validUntil"
+        },
+        {
+          "answer": {
+            "decision": "not_bound",
+            "reasonCodes": [
+              "OUTSIDE_AUTHORIZATION_WINDOW",
+              "OUTSIDE_TIME_WINDOW"
+            ]
+          },
+          "reading": "outside",
+          "text": "a missing time is outside both windows, so both window codes apply"
+        }
+      ],
+      "reportedAnswers": [
+        "reader.mjs: bound true (https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529875972)",
+        "shipped profile (buildAuthorizedReceipt): OUTSIDE_AUTHORIZATION_WINDOW and AUTHORIZATION_AFTER_EXECUTION, NON_COMPLIANT (https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529875972)",
+        "priorseal-reader-v0 at bfde94be9d80: bound true (https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529876210)",
+        "priorseal-reader-v0 at 1bdbebc5: bound false, outside both windows (https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529876371)",
+        "Tetsurohhori's 1.0.0-text reader: bound true, no window code (https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529877263)"
+      ]
+    },
+    {
+      "basis": [
+        {
+          "quote": "`intent.validUntil` | `executedAt` (fallback `observedAt`) | observed time greater than `validUntil` | `OUTSIDE_TIME_WINDOW`",
+          "section": "4"
+        },
+        {
+          "quote": "`authorization.notBefore` / `authorization.expiresAt` | `executedAt` (fallback `observedAt`) | observed time earlier than `notBefore` or greater than `expiresAt` | `OUTSIDE_AUTHORIZATION_WINDOW`",
+          "section": "4"
+        },
+        {
+          "quote": "`issuedAt`, `notBefore` and `expiresAt` are **JSON numbers** (Unix seconds)",
+          "section": "2.1"
+        },
+        {
+          "quote": "The contract states this coercion rather than tightening it; whether the producer should reject non-canonical forms is an open question, deliberately not settled in 1.0.1.",
+          "section": "4"
+        }
+      ],
+      "edit": "executedAt \"late\"; observedAt 1101 stays",
+      "expected": {
+        "decision": "open",
+        "question": "non-numeric-time"
+      },
+      "files": {
+        "case.json": "1fb2a05f11657185d6e9c8d7ea04943fc3f7e537bcaee67dd09ac31035ce1ad8"
+      },
+      "id": "open-g10-executedat-not-a-number",
+      "note": "Section 2.1 types the authorization's instants as JSON numbers; no sentence types the observed executedAt, and the fallback to observedAt applies only when executedAt is missing. A reader that stops without an answer matches no reading.",
+      "path": "cases/open-g10-executedat-not-a-number",
+      "readings": [
+        {
+          "answer": {
+            "decision": "bound",
+            "reasonCodes": []
+          },
+          "reading": "comparison-false",
+          "text": "a time that is not a number makes each window comparison false, so neither row fires and the case is bound"
+        },
+        {
+          "answer": {
+            "decision": "not_bound",
+            "reasonCodes": [
+              "OUTSIDE_AUTHORIZATION_WINDOW",
+              "OUTSIDE_TIME_WINDOW"
+            ]
+          },
+          "reading": "outside",
+          "text": "a time that is not a number is outside both windows"
+        }
+      ],
+      "reportedAnswers": [
+        "reader.mjs: bound true (https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529875972)",
+        "shipped profile: bound true, COMPLIANT (https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529875972)",
+        "piiiico's JavaScript reader: bound true (https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529875972)",
+        "priorseal-reader-v0 at bfde94be9d80: no answer, ValueError (https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529876210)",
+        "priorseal-reader-v0 at 1bdbebc5: bound false, outside both windows (https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529876371)",
+        "Tetsurohhori's 1.0.0-text reader: no answer, TypeError, exit 1 (https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529877263)"
+      ]
+    },
+    {
+      "basis": [
+        {
+          "quote": "`intent.chainId` | `chainId` | strict equality of the integer values | `CHAIN_MISMATCH`",
+          "section": "4"
+        },
+        {
+          "quote": "The shipped implementations compare values after JavaScript `String()` coercion: a JSON integer participates through its canonical decimal string (`8453` \u2192 `\"8453\"`), a missing or null value through the empty string, and string comparison is ASCII-case-insensitive.",
+          "section": "4"
+        },
+        {
+          "quote": "Under these rules a numeric nonce `7` and the string `\"7\"` are the same value.",
+          "section": "4"
+        },
+        {
+          "quote": "The contract states this coercion rather than tightening it; whether the producer should reject non-canonical forms is an open question, deliberately not settled in 1.0.1.",
+          "section": "4"
+        }
+      ],
+      "edit": "chainId \"8453\" (a JSON string) against the signed 8453",
+      "expected": {
+        "decision": "open",
+        "question": "chain-id-representation"
+      },
+      "files": {
+        "case.json": "099b258a04f2605d34ba027b8fa62e29eea966f08785fb747cf3264951231de9"
+      },
+      "id": "open-g11-chainid-decimal-string",
+      "note": "The paragraph, read as written, makes the two the same value; the row's word strict, the matrix's expected.json (rule strict-equality for chainId beside strict-string-equality-default-0 for nonce) and both shipped paths keep the JSON type. The 1.0.0 row said strict equality alone.",
+      "path": "cases/open-g11-chainid-decimal-string",
+      "readings": [
+        {
+          "answer": {
+            "decision": "bound",
+            "reasonCodes": []
+          },
+          "reading": "decimal-string",
+          "text": "values compare through their decimal strings, as the paragraph states, so the chain matches and the case is bound"
+        },
+        {
+          "answer": {
+            "decision": "not_bound",
+            "reasonCodes": [
+              "CHAIN_MISMATCH"
+            ]
+          },
+          "reading": "json-type",
+          "text": "strict equality keeps the JSON type, so a string is not the integer and CHAIN_MISMATCH applies"
+        }
+      ],
+      "reportedAnswers": [
+        "reader.mjs: CHAIN_MISMATCH (https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529875972)",
+        "shipped profile: CHAIN_MISMATCH (https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529875972)",
+        "piiiico's JavaScript reader: bound true (https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529875972)",
+        "priorseal-reader-v0: bound true, chain row mismatch false (https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529876210)",
+        "Tetsurohhori's 1.0.0-text reader: CHAIN_MISMATCH (https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6529877263)"
+      ]
+    }
+  ],
+  "verifierContract": "verifier case.json --json; exit 0 bound, 1 not_bound, 2 open"
+}

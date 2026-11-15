@@ -1,0 +1,64 @@
+{
+  "schema": "oel.source-record.v1",
+  "profile": "priorseal.execution-profile.exact-call.v1",
+  "authorization": {
+    "schema": "priorseal.authorization.v2",
+    "domain": "priorseal/authorization/v2",
+    "intent": {
+      "schema": "priorseal.intent.v2",
+      "executionProfile": "priorseal.execution-profile.exact-call.v1",
+      "intentId": "oel-exact-call-matrix-1",
+      "chainId": 8453,
+      "action": "CONTRACT_CALL",
+      "asset": "eip155:8453/native",
+      "amount": "1000000000000000",
+      "sender": "0x2222222222222222222222222222222222222222",
+      "recipient": "0x4444444444444444444444444444444444444444",
+      "validUntil": 2000,
+      "nonce": "7",
+      "callTarget": "0x3333333333333333333333333333333333333333",
+      "calldataHash": "0x5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a",
+      "transactionValue": "1000000000000000",
+      "intentHash": "a18ebfbff16f32d37962e23f8fce74a5cc56396a60499cae9b482de4b08c0ae6"
+    },
+    "intentHash": "a18ebfbff16f32d37962e23f8fce74a5cc56396a60499cae9b482de4b08c0ae6",
+    "principal": {
+      "type": "user",
+      "id": "oel-fixture-principal",
+      "account": "0x19e7e376e7c213b7e7e7e46cc70a5dd086daff2a"
+    },
+    "authorizer": {
+      "type": "eip712",
+      "address": "0x19e7e376e7c213b7e7e7e46cc70a5dd086daff2a"
+    },
+    "delegate": {
+      "agentId": "oel-fixture-agent",
+      "executor": "0x2222222222222222222222222222222222222222"
+    },
+    "issuedAt": 1000,
+    "notBefore": 1000,
+    "expiresAt": 2000,
+    "authorizationNonce": "0x6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a",
+    "maxUses": "1",
+    "audience": "priorseal",
+    "policyHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "signature": "0xd30809bab216ac796f0cb467663c20464b4402732d1283b21c12c81ca6aef1442e6f7524fc56cfae21b5d9333acc1cb25027ed72e2c9fa91215ca7f6465738781b",
+    "authorizationId": "auth_50e3515504303b8afc0b0be3064eb25b"
+  },
+  "acceptance": {
+    "schema": "priorseal.authorization-receipt.v1",
+    "domain": "priorseal/authorization-receipt/v1",
+    "authorizationId": "auth_50e3515504303b8afc0b0be3064eb25b",
+    "authorizationHash": "bf2d6bcbc8ed812c40db559cec9ca4ef2b95b7ec96650c976b4461824b6e688b",
+    "intentHash": "a18ebfbff16f32d37962e23f8fce74a5cc56396a60499cae9b482de4b08c0ae6",
+    "acceptedAt": 1000,
+    "sequence": 1,
+    "previousEntryHash": null,
+    "entryHash": "da8f13103c3d67f1693eeb3947d314cd1c24fc7c9a7e0c30fab475244d032fa4",
+    "status": "ACCEPTED",
+    "issuer": "oel-exact-call-fixture-issuer",
+    "algorithm": "Ed25519",
+    "keyId": "oel-exact-call-fixture-key-1",
+    "signature": "MzM-2SOwZDKBIR6R_1cIeRD36nB89WtfQgYVotpN4gv6YLHBnYAy2wHqKcLErPCxD4BHD0udHlHmvJ_SWYERBQ"
+  }
+}
