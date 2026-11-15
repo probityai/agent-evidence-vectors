@@ -208,7 +208,30 @@ func (p *rcParser) number() any {
 	if !ok {
 		p.fail("integer")
 	}
+	if new(big.Int).Abs(n).Cmp(rcSafeInt) > 0 {
+		p.fail("integer outside the I-JSON safe range")
+	}
 	return n
+}
+
+// rcSafeInt is 2**53 - 1, the largest integer magnitude the strict parse admits:
+// RFC 7493 section 2.2 and the range RFC 8785 serializes exactly.
+var rcSafeInt = new(big.Int).SetInt64(1<<53 - 1)
+
+// rcScalarString reports whether the decoded bytes of one string literal are
+// Unicode scalar values and none is a noncharacter (RFC 7493 section 2.1), the
+// rule the Python reader applies with the rail's check_string_scalars. An
+// unpaired surrogate escape decodes to the three bytes ED A0..BF xx and fails.
+func rcScalarString(b []byte) bool {
+	if rcHasSurrogate(string(b)) {
+		return false
+	}
+	for _, r := range string(b) {
+		if r&0xFFFE == 0xFFFE || (r >= 0xFDD0 && r <= 0xFDEF) {
+			return false
+		}
+	}
+	return true
 }
 
 func (p *rcParser) hex4(at int) (int, bool) {
@@ -272,6 +295,9 @@ func (p *rcParser) str() string {
 		switch {
 		case c == '"':
 			p.i++
+			if !rcScalarString(out) {
+				p.fail("string is not a sequence of Unicode scalar values")
+			}
 			return string(out)
 		case c == '\\':
 			p.i++
@@ -1135,4 +1161,11 @@ func rcStrMapGet[V any](m map[string]V, x any) (V, bool) {
 	}
 	got, present := m[s]
 	return got, present
+}
+
+// rcSecondsForm is Python's isinstance(v, str) and _TS.match(v): the
+// second-precision timestamp form the input_aps layer normalises with .000.
+func rcSecondsForm(v any) bool {
+	s, ok := v.(string)
+	return ok && rcSecondsGate.MatchString(s)
 }

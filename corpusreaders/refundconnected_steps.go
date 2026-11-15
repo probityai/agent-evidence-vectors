@@ -417,7 +417,7 @@ func (j *rcJudge) picAttestation(entry *rcObj) *rcObj {
 		j.fail(rcRefused, "PIC_ATTESTATION")
 	}
 	att, ok := doc.(*rcObj)
-	j.needR(ok && rcEqStr(att.get("attestation_version"), "PIC-ATT/1.0") && rcKeysAre(att, rcAttestationFields...), "PIC_ATTESTATION")
+	j.needR(ok && rcEqStr(att.get("attestation_version"), "PIC-ATT/1.0") && rcKeysAre(att, rcAttestationFields...) && rcSecondsForm(att.get("expires_at")), "PIC_ATTESTATION")
 	return rcObjOf(doc)
 }
 
