@@ -44,7 +44,8 @@ FORMAT = "public-agent-conformance/report/v0.1"
 
 #: The appendix rows whose reruns write the reports, in the order they run.
 PRODUCING = ["R1", "R2", "R3", "R3-v01", "R4", "R5", "R6", "R6-v01"]
-#: (report id, row, file under the rerun work directory). The rerun of 2026-11-01
+#: (report id, row, file under the rerun work directory; for R3, the file inside its
+#: record set, see report_path). The rerun of 2026-11-01
 #: wrote no other file declaring the v0.1 format under R1 to R5, R7 or R13. R6's
 #: report is the one its producer posted in the pinned tree, byte-identical at
 #: both pins; the rerun fetches it and does not write it.
@@ -53,6 +54,7 @@ REPORTS = [
     ("R2-v0.2", "R2", "R2/out/run-residue-v0.2.json"),
     ("R2-v0.3", "R2", "R2/out/run-residue-v0.3.json"),
     ("R2-v0.4", "R2", "R2/out/run-residue-v0.4.json"),
+    ("R3", "R3", "run-report.json"),
     ("R3-v01", "R3-v01", "R3-v01/out/run-report-v01.json"),
     ("R4-heldfast", "R4", "R4/out/reports/heldfast-profiles.json"),
     ("R4-native", "R4", "R4/out/reports/native-verify-mjs.json"),
@@ -90,8 +92,9 @@ ROW_META: dict[str, dict[str, Any]] = {
            "why": "the 0.12.0 emitter writes one v0.1 report"},
     "R2": {"yields": True, "unit": "checks", "class": "O8 reproduction",
            "why": "three v0.1 reports; the control fixture records beside them are not reports"},
-    "R3": {"yields": False, "unit": "checks", "class": "O8 reproduction",
-           "why": "its records are the producer's own encoding; R3-v01 re-encodes them as a v0.1 report"},
+    "R3": {"yields": True, "unit": "records", "class": "O8 reproduction",
+           "why": "the report as first posted, run-report.json, names the format in prose and carries "
+                  "records in place of checks; R3-v01 re-encodes it as a v0.1 report"},
     "R3-v01": {"yields": True, "unit": "checks", "class": "producer glue",
                "why": "the posted converter writes one v0.1 report from the R3 records"},
     "R4": {"yields": True, "unit": "checks", "class": "O8 reproduction",
@@ -161,6 +164,18 @@ def jcs_leaf() -> Any:
     return w3creport.jcs_sha256
 
 
+def report_path(work: Path, row: str, rel: str) -> Path:
+    """Where a listed report is on disk.
+
+    R3's entry names a file inside its record set, which the R3 emitter writes into
+    ``out/records/`` or straight into ``out/``; ``rerun.r3_records`` decides which, so the
+    matrix and the R3 and R3-v01 reruns read one rule.
+    """
+    if row == "R3":
+        return rerun.r3_records(work / "R3" / "out") / rel
+    return work / rel
+
+
 def build_inputs(work: Path) -> tuple[list[dict[str, Any]], dict[str, str]]:
     statuses = {row: rerun.rerun(row, work, work / "results") for row in PRODUCING}
     inputs_dir = work / "inputs"
@@ -170,7 +185,7 @@ def build_inputs(work: Path) -> tuple[list[dict[str, Any]], dict[str, str]]:
     jcs = jcs_leaf()
     entries: list[dict[str, Any]] = []
     for report_id, row, rel in REPORTS:
-        source = work / rel
+        source = report_path(work, row, rel)
         base = {"report": report_id, "row": row, "source": rel.split("/")[-1]}
         if not source.is_file():
             entries.append({**base, "id": report_id, "mutant": None, "missing": True})
@@ -504,7 +519,11 @@ def cmd_run(args: argparse.Namespace) -> int:
                              encoding="utf-8")
     bad = [r for r, s in statuses.items() if s not in (rerun.REPRODUCED,)]
     print(f"producer reruns: {statuses}")
-    return 1 if bad else 0
+    missing = [e["id"] for e in inputs if e.get("missing")]
+    if missing:
+        # A listed report that is not on disk is a gap in the matrix, never a quiet row.
+        print(f"missing reports: {missing}")
+    return 1 if bad or missing else 0
 
 
 def comparable(doc: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any]]:
