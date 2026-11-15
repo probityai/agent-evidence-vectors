@@ -1,9 +1,9 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/approval-binding/v1",
-  "corpusDigest": "f6f0fb39e913bdaacdb411903d946243d1b3d6c4703daa563c0277a43be64ccb",
+  "corpusDigest": "f8e23695465a238a3806793c4f33413255d4a30c073467e262226cb5b7e2a88a",
   "counts": {
-    "allow": 8,
-    "deny": 29
+    "allow": 10,
+    "deny": 35
   },
   "suite": "approval-binding/v1",
   "vectors": [
@@ -15,7 +15,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "edf9debc8dd96359f8865324d47ac9ae8bc400cfadfc4ce524d33efae9bf11f8"
+        "record.json": "40ec132556926295b2a8c5f3405e73befbec78c8d20aac4ca006e718504a0caa"
       },
       "id": "allow-bound",
       "path": "cases/allow-bound",
@@ -29,7 +29,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "8ce3f0bb478fbab4c0d721a98d3d984c7b284133a05150ab03a3df9560ece89b"
+        "record.json": "192fae2155ce17c5f6da3670feea1799fa9977c445b4aae5bb4befadcaa20779"
       },
       "id": "allow-other-approval-distinct-id",
       "path": "cases/allow-other-approval-distinct-id",
@@ -43,7 +43,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "f880c025f69d18f6ad94672aad225140864c31bb8880faddacef3e739858f88a"
+        "record.json": "b5a41ba5ff9d3ef93684f18834274555bbf775593ae7582f48ccf40ac14a161b"
       },
       "id": "allow-same-approval-presented-twice",
       "path": "cases/allow-same-approval-presented-twice",
@@ -57,7 +57,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "6c6b802f33c5f1141f9e63b57a7489d9b1e20111081c080d275abb412a4cc571"
+        "record.json": "6b70bd82ab7634510b63977c84b92ffcca2d3eda0c16ca1960b3747209322836"
       },
       "id": "allow-last-second-of-validity",
       "path": "cases/allow-last-second-of-validity",
@@ -71,7 +71,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "c197d50c8981e6c5fa123fde78d82e0aa98062879ef122ac97c5e13ee928120d"
+        "record.json": "9aeea462ea2b8c3e19457907eaadc729d720c909bf8b3791ccae553888dc3b19"
       },
       "id": "allow-release-first-served-at-decision",
       "path": "cases/allow-release-first-served-at-decision",
@@ -85,10 +85,122 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "08d97163571e9546240f851a20d40c570a34901ee81512a2b76332f274d47041"
+        "record.json": "e2c9652dd0d81aa619deddc228b291b7215e3f41d1d221867884d629e567eb3a"
       },
       "id": "allow-release-within-grace",
       "path": "cases/allow-release-within-grace",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "control: the reviewer approved with corrections and the use carries the corrected bytes",
+      "expected": {
+        "decision": "allow",
+        "reason": "bound"
+      },
+      "files": {
+        "payload.bin": "c2a65009f754a7183552f22bd7489ad7ec5b6823053fa1d853ba56977d6e89f4",
+        "record.json": "5ee7b3659dd3d3dcd77c1ebb5135552e46925e86de5bbd61a84a614fd59029ab"
+      },
+      "id": "allow-approved-with-corrections",
+      "path": "cases/allow-approved-with-corrections",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "the reviewer approved with corrections and the use carries the bytes first requested, which the approval does not cover",
+      "expected": {
+        "decision": "deny",
+        "reason": "payload_mismatch"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "5ee7b3659dd3d3dcd77c1ebb5135552e46925e86de5bbd61a84a614fd59029ab"
+      },
+      "id": "approval-corrections-not-applied",
+      "path": "cases/approval-corrections-not-applied",
+      "useMatchesApproval": false
+    },
+    {
+      "edit": "the approval is well formed and names the approver's trusted key, but the server's register holds no such approval: the client built and presented it",
+      "expected": {
+        "decision": "deny",
+        "reason": "approval_not_issued"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "efd9bdd328aa87f3ad514f2c1588fd9d949951ae231b267fd66bc3c9e86004fd"
+      },
+      "id": "approval-not-issued-by-server",
+      "path": "cases/approval-not-issued-by-server",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "one approval request was completed twice, an approve and a deny under two identifiers, and the approve is presented",
+      "expected": {
+        "decision": "deny",
+        "reason": "approval_request_completed_twice"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "8016ecbddd345b409c4e6bad57b185fa148da20a74ec1ac8465ab39052658989"
+      },
+      "id": "approval-request-completed-twice",
+      "path": "cases/approval-request-completed-twice",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "the reviewer denied the call, the gate ran in observe mode, and the call ran; a recorded deny is never a grant",
+      "expected": {
+        "decision": "deny",
+        "reason": "approval_not_granted"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "0e96d6846d14d07b1872f28c0692cbbbbef87eae3fd1fe51164af4352c6a24fd"
+      },
+      "id": "approval-denied-observe-mode",
+      "path": "cases/approval-denied-observe-mode",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "the approval is granted and bound, but the gate ran in observe mode, so it never decided whether the call ran",
+      "expected": {
+        "decision": "deny",
+        "reason": "approval_not_enforced"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "4718383fc5672f752ed8536146ea9742d2966575f9208704d62618116fa86732"
+      },
+      "id": "approval-gathered-in-observe-mode",
+      "path": "cases/approval-gathered-in-observe-mode",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "control: the approval was issued under the April key one minute before the approver rotated to the October key",
+      "expected": {
+        "decision": "allow",
+        "reason": "bound"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "deedf4bdcbae08cbf2f942900b360cc7ac35b369d12850957aecd858c6bc9462"
+      },
+      "id": "allow-key-rotated-after-issue",
+      "path": "cases/allow-key-rotated-after-issue",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "the approval was issued under the approver's April key five minutes after that key was rotated out",
+      "expected": {
+        "decision": "deny",
+        "reason": "key_retired"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "f3b61fd6c8c8d08f51a12310f7f9402e6184d302620c2931eb74ae60b3e7d150"
+      },
+      "id": "approval-issued-under-rotated-key",
+      "path": "cases/approval-issued-under-rotated-key",
       "useMatchesApproval": true
     },
     {
@@ -99,7 +211,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "fec2b26108064fc47d2248ed9da48ba83330d48864b26072d1b5ebe217e953ec"
+        "record.json": "ca0efe974776224a2c6571f96050c48fcdf7a6fe4df5dcaf39387031a2e5c247"
       },
       "id": "approval-id-reused-different-content",
       "path": "cases/approval-id-reused-different-content",
@@ -113,7 +225,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "0400794f05abdcf56fbeac06943e14f168ec780b0941751ae9148d915409a3f7"
+        "record.json": "3e97cfefc96ae7dcf6d5334cfc84207b6200bf1252b35b45c240db4ab7476acc"
       },
       "id": "approval-id-reused-unread-member",
       "path": "cases/approval-id-reused-unread-member",
@@ -127,7 +239,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "9f14975c6032d782a096fc15388ab26d9d42574b206098627ba4675e12c23bd6"
+        "record.json": "fbcf47dd5286b683fd8f6eb0b9abee6ea7df3edd3b7c0cfcab70b1217a44c0f3"
       },
       "id": "approval-already-consumed",
       "path": "cases/approval-already-consumed",
@@ -141,7 +253,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "665970a9b652781b4f15943c8edb4d441894a7b237e672a038531005eac5d0ee"
+        "record.json": "d746cdfb94c81cb27e4a66457f159ebe7382998c9047d933374fbe524f680414"
       },
       "id": "approval-key-not-approvers",
       "path": "cases/approval-key-not-approvers",
@@ -155,7 +267,7 @@
       },
       "files": {
         "payload.bin": "26a4191e4ca2147daba8b7818c64f3b81b09c154b0a09df540a5fd8f30b78bbd",
-        "record.json": "8a020f1c579d2f145192f7fd5a1dbc6f5f64601558e4ceff09740c712f615f50"
+        "record.json": "e6ee3515cae1077ce09f750628eeb333df595ddfb6287c5eb1605d786a721582"
       },
       "id": "approval-asserted-in-tool-arguments",
       "path": "cases/approval-asserted-in-tool-arguments",
@@ -169,7 +281,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "42a42cb55f2c703c56d2209fe5f75ac74eb5bb9bed05995e299aa8c20265c6c8"
+        "record.json": "dd9aa9fdae1a6d688560c1fba702e70d7103712f0fcc02400cc66e1efaedab60"
       },
       "id": "same-client-other-user",
       "path": "cases/same-client-other-user",
@@ -183,7 +295,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "c2d0dd631b1268dcf5dfa386ee6fe00e1a5703872f68f2126db1dbda2dc4ff15"
+        "record.json": "897e8a50afe9c2164c1dfed93830dbaab677abd8e6e2b800c14f4d74852d1228"
       },
       "id": "event-differs",
       "path": "cases/event-differs",
@@ -197,7 +309,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "35114786ae8db2b0fcce8fb460a00017cb48c79fbdee49d18d5aadc8dc5275e4"
+        "record.json": "89feaf04a567a3526a99bb66a275b79665405180fcde5ee3834835e3ca577002"
       },
       "id": "phase-differs",
       "path": "cases/phase-differs",
@@ -211,7 +323,7 @@
       },
       "files": {
         "payload.bin": "74d7e13244f046cded734b90116df2f8cf2da84584b90b287d5be4645e2285b6",
-        "record.json": "edf9debc8dd96359f8865324d47ac9ae8bc400cfadfc4ce524d33efae9bf11f8"
+        "record.json": "40ec132556926295b2a8c5f3405e73befbec78c8d20aac4ca006e718504a0caa"
       },
       "id": "payload-mutated-after-approval",
       "path": "cases/payload-mutated-after-approval",
@@ -225,7 +337,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "e16f87cb4acf949b18d55d1fef28d3d97f1523f1a7f010954a0add10dadfe627"
+        "record.json": "833fc82905cad8b60db17d5b11d5e59364a6f6d2ac86747e68bb3ba22f408faf"
       },
       "id": "target-differs",
       "path": "cases/target-differs",
@@ -239,7 +351,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "7bb485796225cb81b196642ce0dc9f0d4d97f0a6306efd383e530882de1a768a"
+        "record.json": "7e8f9a013c6270543373d2991f9311a83b69347b7d0c89d9d864ac12559ef02b"
       },
       "id": "tool-differs",
       "path": "cases/tool-differs",
@@ -253,7 +365,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "ea427a1c7801f9e51867008eaac46961cf2e265c7894d1ad67617c81e14645f4"
+        "record.json": "981112a21598a6e8be210ff187f1e78751cf50ef5d0c305d8a25cecac455208f"
       },
       "id": "used-at-expiry",
       "path": "cases/used-at-expiry",
@@ -267,7 +379,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "01eb0cd45b528b40bb967bbd8d10b34727ab33d3974fdd50abc2029745cac21e"
+        "record.json": "44e0b615f8e4f65254728353d5563037fcf00ff014e836d39e856ec93e0491fb"
       },
       "id": "used-before-issued",
       "path": "cases/used-before-issued",
@@ -281,7 +393,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "625b38933dc985baddb029d9a3b7534fa92a02ba74b65295c9a249a24811e541"
+        "record.json": "97e060afd3e180039b32475c0d31094645c09cd29d247affcb446d27b7da9843"
       },
       "id": "release-lookup-unavailable",
       "path": "cases/release-lookup-unavailable",
@@ -295,7 +407,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "8fc045ff6f04975dac1cd139b015005c6d4510169b27ebea5978150760d254da"
+        "record.json": "ce09c234c2005347caa61aa98027fcc80fff32a890780731389362e268dd7565"
       },
       "id": "release-first-served-after-decision",
       "path": "cases/release-first-served-after-decision",
@@ -309,7 +421,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "fd26b20cae6249708759fde4785041d9f40dfa8c9d6acc539016c693ba5c18bb"
+        "record.json": "3d7c1d24e6530ce275f92a048839e51aec16de71f9595c6ded28b4f1eda2ad60"
       },
       "id": "release-retired-beyond-grace",
       "path": "cases/release-retired-beyond-grace",
@@ -323,7 +435,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "c7ec8bc00499d2fd8a9d16628e9e8c73a1bd423dabab3a6d788078e0ad0e9ed4"
+        "record.json": "62364120b49b67b766db0b706681e3ba9341f9a30aeaf4a65bbc2dfe0f0bbe2e"
       },
       "id": "approval-renewed-same-bounds",
       "path": "cases/approval-renewed-same-bounds",
@@ -337,7 +449,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "016ee8e55e727989cfc64c523e6b4ff9828d087800db1e2016e1748b6894fc26"
+        "record.json": "1abc3070a268ef3bfa91f5217386f8e730c5e27f5a55934028c568fb29a0f82c"
       },
       "id": "allow-predecessor-before-replacement",
       "path": "cases/allow-predecessor-before-replacement",
@@ -351,7 +463,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "b125d6a32d27e5c9a0db8a25b717ba7602608a8d0fd58b149c6e1def7bb8ce13"
+        "record.json": "45199856956bc66c3a04f5ec92529a70dc53217e0201f2abce1b4174358aafa3"
       },
       "id": "approval-reused-after-renewal",
       "path": "cases/approval-reused-after-renewal",
@@ -365,7 +477,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "304adc4bcc48267f001cdfa958c94be9b7690498bab2472876b8b74d2f2262a8"
+        "record.json": "6d9615ec09e50fcd8fc43c08a9987cdd97a6cdaeffec126a8a79f0bfb52e8860"
       },
       "id": "approval-renewal-transition-not-accepted",
       "path": "cases/approval-renewal-transition-not-accepted",
@@ -379,7 +491,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "ec4ddd6e3fcb685e8dfc3bcb60ac8202cff661fdc2e43c45bbb06a7e62f838b7"
+        "record.json": "5b9d4db9a2ace8ede7d58fde251ab4ac00a2a891226df7ccce790add85fdc397"
       },
       "id": "approval-renewal-decision-not-distinct",
       "path": "cases/approval-renewal-decision-not-distinct",
@@ -393,7 +505,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "ec140fae23e67342f8888349a9352032a45ed37a08beb7b57d8cea03ec6bc5f2"
+        "record.json": "8292af6d1103ddfc9832739e19ca8cea859372fb9e7dd4ba9db5599178166897"
       },
       "id": "approval-renewal-predecessor-decision-not-cited",
       "path": "cases/approval-renewal-predecessor-decision-not-cited",
@@ -407,7 +519,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "03fc945c3c2ef7082f8e82a746394d8c33ccb1baff24aba9e10b7889f1d03766"
+        "record.json": "2b4b5995a973bb455167015f17a116365d1bed25fb3ecdbace9c25755d369e9b"
       },
       "id": "approval-renewal-bounds-differ",
       "path": "cases/approval-renewal-bounds-differ",
@@ -421,7 +533,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "478c2ec8560ce78e6472e26d8c53d77016c1293f6f99e7d8c3b19d4eddcb84a0"
+        "record.json": "d29c9e5db4e9bede25d6ec293d7f241ce91e5af417cc7f1b3616fe233f5421fb"
       },
       "id": "approval-renewal-reopens-consumed-effect",
       "path": "cases/approval-renewal-reopens-consumed-effect",
@@ -435,7 +547,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "6f2f2a76d7afb905cd4dcbb350aabc15c4b746fb79509855b41ac35a228acc0a"
+        "record.json": "f20288a57e60988c64564744689a884cf742185770709812b1a9db23cd1184b5"
       },
       "id": "approval-renewal-reopens-uncertain-effect",
       "path": "cases/approval-renewal-reopens-uncertain-effect",
@@ -449,7 +561,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "d50d78106a0cfde01b9da90aa312c02bca0f40b18da2e31901c36a465be5d124"
+        "record.json": "1efd46c60ef430031a64eb64230ba10d4e6023ed8b6b26d79e3f3de3035e60a7"
       },
       "id": "approval-renewal-accepted-after-use",
       "path": "cases/approval-renewal-accepted-after-use",
@@ -463,7 +575,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "dc1c784a740a8a6993dd57fdfb4d3a087430369882bd1bf2781b93d448b05ef8"
+        "record.json": "d932256addc26178356101e6e14cacd39addd5e9bbc634e13cb52bd27edceac3"
       },
       "id": "approval-renewal-predecessor-ambiguous",
       "path": "cases/approval-renewal-predecessor-ambiguous",
@@ -477,7 +589,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "cb9ed1b72054bc95f3b11b926dd98f25c11a10f2f3a5ff01e0c64d5fe36ff19a"
+        "record.json": "a8bc0e27655670855ce62e227206091ab93df3517038fc7dafb69c4a3f056199"
       },
       "id": "approval-use-cites-predecessor",
       "path": "cases/approval-use-cites-predecessor",
@@ -491,7 +603,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "32074b20e247674999d534f5a19fff8e8365decd60f648145024d42853adef55"
+        "record.json": "63e7f05bf5e67027339b6d3a1a802d4f42cd05a9ce7254d173132e99ff5c4d8f"
       },
       "id": "approval-use-cites-no-approval",
       "path": "cases/approval-use-cites-no-approval",
@@ -505,7 +617,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "3399a0016bf1f5ca2404dc685efcc5cfa14a5af23b0e447c0c82b649815534ea"
+        "record.json": "33bea77778643a9c2e09a298aa4199c3925e1f82b812d57e92a85b2feaa2ebfc"
       },
       "id": "contract-id-missing",
       "path": "cases/contract-id-missing",
@@ -519,7 +631,7 @@
       },
       "files": {
         "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
-        "record.json": "604609ab6d15646bfcb2e0198533a3619fe1436abd4dcdb2436fefd6d045c87c"
+        "record.json": "20f7e4f339522da70c17e9516a4848aef87675108c3e76dd34a705b270fb327e"
       },
       "id": "contract-id-unknown",
       "path": "cases/contract-id-unknown",
