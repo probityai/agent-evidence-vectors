@@ -42,7 +42,15 @@ func init() { register(executionBilling{}) }
 //  10. once billing is final or in conflict, the dispatch state is no longer
 //     RESERVED: dispatch_state_reserved_after_billing;
 //  11. a replayed invoice event is not new and does not finalize again:
-//     invoice_replay_refinalized.
+//     invoice_replay_refinalized;
+//  12. known spend never goes down from one state to the next:
+//     known_spend_decreased;
+//  13. after a FINAL state the next is FINAL with the same known spend, or
+//     CONFLICT; CONFLICT stays CONFLICT; a frozen account stays frozen:
+//     final_billing_reversed;
+//  14. SUCCEEDED and FAILED hold in every later state, and NOT_DISPATCHED
+//     leaves only for UNKNOWN in a CONFLICT state:
+//     terminal_outcome_overwritten.
 //
 // The reader also recomputes each member's retained scenario, axes and
 // dispatch states.
@@ -159,6 +167,9 @@ func ebDecide(r ebObj) scDecision {
 		{"same_attempt_redispatched", ebRedispatched},
 		{"dispatch_state_reserved_after_billing", ebReservedAfterBilling},
 		{"invoice_replay_refinalized", ebReplayRefinalized},
+		{"known_spend_decreased", ebKnownDecreased},
+		{"final_billing_reversed", ebBillingReversed},
+		{"terminal_outcome_overwritten", ebOutcomeOverwritten},
 	}
 	for _, c := range checks {
 		if c.fail(r) {
@@ -447,6 +458,57 @@ func ebReplayRefinalized(r ebObj) bool {
 		}
 		if a.action["exception"] == nil {
 			accepted[string(key)] = true
+		}
+	}
+	return false
+}
+
+// ebTransitions pairs each state with the one after it, in run order.
+func ebTransitions(r ebObj) [][2]ebObj {
+	states := ebAllStates(r)
+	out := make([][2]ebObj, 0, len(states))
+	for i := 1; i < len(states); i++ {
+		out = append(out, [2]ebObj{states[i-1], states[i]})
+	}
+	return out
+}
+
+func ebKnownDecreased(r ebObj) bool {
+	for _, pair := range ebTransitions(r) {
+		if ebInt(pair[1]["knownSpendMicroUsd"]).Cmp(ebInt(pair[0]["knownSpendMicroUsd"])) < 0 {
+			return true
+		}
+	}
+	return false
+}
+
+func ebBillingReversed(r ebObj) bool {
+	for _, pair := range ebTransitions(r) {
+		before, after := pair[0], pair[1]
+		if before["frozen"] == true && after["frozen"] != true {
+			return true
+		}
+		if before["billingFinality"] == "CONFLICT" && after["billingFinality"] != "CONFLICT" {
+			return true
+		}
+		sameFinal := after["billingFinality"] == "FINAL" &&
+			ebInt(after["knownSpendMicroUsd"]).Cmp(ebInt(before["knownSpendMicroUsd"])) == 0
+		if before["billingFinality"] == "FINAL" && after["billingFinality"] != "CONFLICT" && !sameFinal {
+			return true
+		}
+	}
+	return false
+}
+
+func ebOutcomeOverwritten(r ebObj) bool {
+	for _, pair := range ebTransitions(r) {
+		was, now := pair[0]["executionOutcome"], pair[1]["executionOutcome"]
+		if (was == "SUCCEEDED" || was == "FAILED") && now != was {
+			return true
+		}
+		contradicted := now == "UNKNOWN" && pair[1]["billingFinality"] == "CONFLICT"
+		if was == "NOT_DISPATCHED" && now != was && !contradicted {
+			return true
 		}
 	}
 	return false

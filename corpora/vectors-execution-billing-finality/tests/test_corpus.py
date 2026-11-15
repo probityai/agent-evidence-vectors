@@ -52,7 +52,7 @@ def test_regeneration_is_byte_identical(tmp_path: Path) -> None:
 def test_reference_reader_agrees_with_every_case() -> None:
     answered, errors = reader.check()
     assert errors == []
-    assert answered == len(MANIFEST["vectors"]) == 21
+    assert answered == len(MANIFEST["vectors"]) == 31
 
 
 def test_corpus_digest_routine_recomputes_the_manifest() -> None:
@@ -88,7 +88,8 @@ def test_an_integer_is_not_a_boolean_return() -> None:
 
 def test_scenarios_carry_no_expected_value() -> None:
     shipped = reader.shipped_scenarios(ROOT)
-    assert [s["id"] for s in shipped] == ["F01", "F05", "F03", "F04", "F14", "X1"]
+    assert [s["id"] for s in shipped] == ["F01", "F05", "F03", "F04", "F14", "X1", "X2", "X3",
+                                          "X4", "X5"]
     assert "expect" not in json.dumps(shipped) and "raises" not in json.dumps(shipped)
 
 
@@ -98,20 +99,49 @@ def test_mutation_table_matches_the_published_classification() -> None:
         "M1-guard-removed": ["F03", "F04", "X1"],
         "M2-final-billing-bypasses-guard": ["F04", "X1"],
         "M3-billing-clause-removed": [],
-        "M4-invoice-possible-write-removed": ["X1"],
-        "M5-M3-plus-M4": ["X1"],
-        "success-releases-exposure": ["F01", "F05"],
-        "invoice-implies-execution": ["F04", "X1"],
+        "M4-invoice-possible-write-removed": ["X1", "X3"],
+        "M5-M3-plus-M4": ["X1", "X3"],
+        "success-releases-exposure": ["F01", "F05", "X4"],
+        "invoice-implies-execution": ["F04", "X1", "X3"],
+        "R1-replay-reported-new": ["X1"],
+        "R2-low-invoice-erases-known-spend": ["X2"],
+        "R3-non-dispatch-ignores-cost": [],
+        "R4-cost-above-final-bill-accepted": ["X3"],
+        "R5-terminal-outcome-overwritten": ["X4"],
     }
     assert [row["id"] for row in MANIFEST["mutants"] if row["equivalent"]] == [
-        "M3-billing-clause-removed"]
-    assert MANIFEST["mutants"][3]["killedBy"] == {"X1": "dispatch_state_reserved_after_billing"}
+        "M3-billing-clause-removed", "R3-non-dispatch-ignores-cost"]
+    assert MANIFEST["mutants"][3]["killedBy"] == {"X1": "dispatch_state_reserved_after_billing",
+                                                  "X3": "dispatch_state_reserved_after_billing"}
+    reasons = {row["id"]: set(row["killedBy"].values()) for row in MANIFEST["mutants"]}
+    assert reasons["R2-low-invoice-erases-known-spend"] == {"known_spend_decreased"}
+    assert reasons["R4-cost-above-final-bill-accepted"] == {"final_billing_reversed"}
+    assert reasons["R5-terminal-outcome-overwritten"] == {"terminal_outcome_overwritten"}
+
+
+@pytest.mark.parametrize("check", ["known_spend_decreased", "final_billing_reversed",
+                                   "terminal_outcome_overwritten"])
+def test_transition_checks_read_every_consecutive_pair(check: str) -> None:
+    """An overwrite in the final states alone, after a well-formed run, names the check."""
+    record = _record({"known_spend_decreased": "allow-x2-low-invoice-conflict",
+                      "final_billing_reversed": "allow-x3-cost-above-final-bill-conflict",
+                      "terminal_outcome_overwritten": "allow-x4-contradictory-outcome-conflict",
+                      }[check])
+    assert reader.decide(record) == {"decision": "allow", "reason": reader.ALLOWED_REASON}
+    edits = {
+        "known_spend_decreased": {"knownSpendMicroUsd": 0},
+        "final_billing_reversed": {"billingFinality": "UNKNOWN", "frozen": False},
+        "terminal_outcome_overwritten": {"executionOutcome": "UNKNOWN"},
+    }[check]
+    for key in ("end", "endReopened"):
+        record[key].update(edits)
+    assert reader.decide(record) == {"decision": "deny", "reason": check}
 
 
 def test_unmodified_ledger_passes_the_runtime_contract(tmp_path: Path) -> None:
     report = runtime.check_runtime([sys.executable, str(ADAPTER)], ROOT)
     assert report["failures"] == []
-    assert report["verifier"]["vectorsExecuted"] == report["totals"]["vectors"] == 6
+    assert report["verifier"]["vectorsExecuted"] == report["totals"]["vectors"] == 10
 
 
 @pytest.mark.parametrize("row", MANIFEST["mutants"], ids=lambda r: r["id"])
@@ -128,7 +158,7 @@ def test_a_runtime_that_prints_nothing_did_not_pass(tmp_path: Path) -> None:
     silent = tmp_path / "silent.py"
     silent.write_text("import sys\nsys.exit(0)\n", encoding="utf-8")
     report = runtime.check_runtime([sys.executable, str(silent)], ROOT)
-    assert report["totals"]["fail"] == 6
+    assert report["totals"]["fail"] == 10
 
 
 def test_damaged_corpus_is_refused(tmp_path: Path) -> None:

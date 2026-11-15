@@ -10,8 +10,8 @@ one `reservation.charged` flag and no billing axis.
 
 Each case is one runtime's observation of one scenario against its spend ledger, with
 an expected decision and reason in `MANIFEST.json`. Every record was produced by
-running the reference adapter over the P04 ledger, unmodified for the six controls and
-with one mutant spliced in for six of the denials; the other nine denials change one
+running the reference adapter over the P04 ledger, unmodified for the controls and
+with one mutant spliced in for the mutant denials; every other denial changes one
 field of a control.
 
 ## Run it
@@ -23,7 +23,7 @@ python -m agent_evidence_vectors.executionbilling_runtime --runtime "python my_a
 ```
 
 The first judges every record through a verifier; the second drives a runtime's own
-ledger through the six control scenarios. `tests/billing_adapter.py` is the reference
+ledger through every control scenario. `tests/billing_adapter.py` is the reference
 adapter over the P04 ledger, and its `--source` option runs a mutant.
 
 ## The record
@@ -63,8 +63,13 @@ The reader names the first check a record fails:
 | 9 | `same_attempt_redispatched` | a dispatch of attempt A is allowed when it is not `RESERVED` with billing `UNKNOWN` |
 | 10 | `dispatch_state_reserved_after_billing` | billing is final or in conflict and the dispatch state is still `RESERVED` |
 | 11 | `invoice_replay_refinalized` | a replayed invoice event is new or finalizes again |
+| 12 | `known_spend_decreased` | known spend is lower in a state than in the one before it |
+| 13 | `final_billing_reversed` | after a `FINAL` state the next is neither `FINAL` with the same known spend nor `CONFLICT`, a `CONFLICT` state is followed by another value, or a frozen account reads unfrozen |
+| 14 | `terminal_outcome_overwritten` | `SUCCEEDED` or `FAILED` changes in a later state, or `NOT_DISPATCHED` leaves for anything but `UNKNOWN` under `CONFLICT` |
 
-A record that passes all eleven is `allow` with reason `finality_held`.
+Checks 12 to 14 read each pair of consecutive states, so a runtime that overwrites
+settled state without raising is caught even when its last state looks well formed. A
+record that passes every check is `allow` with reason `finality_held`.
 
 ## The verifier contract
 
@@ -88,16 +93,25 @@ Controls: F01 (the call succeeded, no final invoice, the reservation stays held)
 (a final invoice after a lost reply: billing `FINAL`, execution `UNKNOWN`, a second
 dispatch refused, a new attempt admitted), F14 (the first dispatch allowed) and X1 (an
 invoice before any recorded dispatch, with the state `POSSIBLE` after the reopen, the
-refused dispatch, the replayed invoice and an equal cost observation).
+refused dispatch, the replayed invoice and an equal cost observation). X2 to X5 are the
+conflicts a ledger must refuse rather than absorb: a final invoice below known cost
+(X2), a cost above a final bill (X3), a second terminal outcome that contradicts the
+first (X4) and a non-dispatch proof after recorded cost (X5). In each the unmodified
+ledger records `CONFLICT` and freezes the account.
 
 `MANIFEST.json` carries the mutation table, recomputed by the generator: the guard
 removed is killed by F03, F04 and X1; settled billing bypassing the guard by F04 and X1;
-the invoice no longer writing `POSSIBLE` by X1 through check 10; that write and the
-billing clause dropped together by X1 through check 9; a success releasing the
-reservation by F01 and F05; an invoice marking the execution by F04 and X1. Dropping
-only the guard's billing clause leaves every observation identical to the unmodified
-ledger's, because every write that settles billing also moves the dispatch state off
-`RESERVED`: it is recorded as equivalent in the code as written, a surviving control
+the invoice no longer writing `POSSIBLE` by X1 and X3 through check 10; that write and
+the billing clause dropped together by X1 through check 9 and X3 through check 10; a
+success releasing the reservation by F01, F05 and X4; an invoice marking the execution
+by F04, X1 and X3. The R
+mutants accept what the ledger refuses: a replayed event reported as new (killed by X1
+through check 11), a low invoice lowering known spend (X2, check 12), a cost above a
+final bill raising it (X3, check 13), and a contradictory outcome replacing the first
+(X4, check 14). Dropping only the guard's billing clause, or the non-dispatch proof's reading of
+recorded cost, leaves every observation identical to the unmodified ledger's, because
+every write that settles billing or records cost also moves the dispatch state off
+`RESERVED`: each is recorded as equivalent in the code as written, a surviving control
 and not a detected defect.
 
 ## What a pass does not establish
@@ -112,6 +126,8 @@ The ledger (`tests/p04/exposure_ledger.py`, an unmodified copy, MIT, see
 contract are mohammedmessaoudene-cmd's P04 execution and billing candidate,
 agent-evidence-lab at `8db9989`. X1, the three dispatch-guard mutants and the
 observation that made `dispatchState` a required output are from piiiico's
-non-author run of it. Issues
+non-author run of it, and so are the R mutants and the X2 to X4 scenarios, which
+showed that known spend, a final bill and a terminal outcome could each be overwritten
+with the record still allowed. Issues
 [#435](https://github.com/probityai/agent-evidence-vectors/issues/435) and
 [#485](https://github.com/probityai/agent-evidence-vectors/issues/485).

@@ -39,12 +39,12 @@ func TestExecutionBillingCommittedCorpusIsClean(t *testing.T) {
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}
-	if !result.OK() || len(result.Members) != 21 {
+	if !result.OK() || len(result.Members) != 31 {
 		t.Fatalf("findings: %v %v", result.Findings, result.Members)
 	}
 	counts := result.CountsByVerdict()
-	if counts["allow"] != 6 || counts["deny"] != 15 {
-		t.Fatalf("want 6 allow and 15 deny: %v", counts)
+	if counts["allow"] != 10 || counts["deny"] != 21 {
+		t.Fatalf("want 10 allow and 21 deny: %v", counts)
 	}
 }
 
@@ -65,6 +65,12 @@ func TestExecutionBillingEachCheckMovesTheVerdict(t *testing.T) {
 		"x1-invoice-opens-dispatch":                "same_attempt_redispatched",
 		"x1-dispatch-state-reserved-after-invoice": "dispatch_state_reserved_after_billing",
 		"x1-invoice-replay-refinalized":            "invoice_replay_refinalized",
+		"x2-low-invoice-erases-known-spend":        "known_spend_decreased",
+		"x3-cost-above-final-bill-accepted":        "final_billing_reversed",
+		"x2-conflict-cleared":                      "final_billing_reversed",
+		"x2-account-unfrozen":                      "final_billing_reversed",
+		"x4-terminal-outcome-overwritten":          "terminal_outcome_overwritten",
+		"x4-outcome-reset-to-unknown":              "terminal_outcome_overwritten",
 	}
 	for from, reason := range denied {
 		t.Run("allow-x1-invoice-before-dispatch with the record of "+from, func(t *testing.T) {

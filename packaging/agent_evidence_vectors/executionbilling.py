@@ -44,9 +44,20 @@ The reader checks in a fixed order and names the first check that fails:
     the attempt ``POSSIBLE``, conservative bookkeeping that is not proof a
     dispatch happened (``dispatch_state_reserved_after_billing``);
 11. a replay of an accepted invoice event is not new and does not finalize
-    again (``invoice_replay_refinalized``).
+    again (``invoice_replay_refinalized``);
+12. known spend never goes down from one state to the next: a low final
+    invoice cannot erase cost already known (``known_spend_decreased``);
+13. settled billing is never undone: after a ``FINAL`` state the next is
+    ``FINAL`` with the same known spend, or ``CONFLICT``, so a later cost above
+    the final bill is a conflict and not a new total; ``CONFLICT`` stays
+    ``CONFLICT``; and a frozen account stays frozen
+    (``final_billing_reversed``);
+14. a terminal execution outcome is never overwritten: ``SUCCEEDED`` and
+    ``FAILED`` hold in every later state, and ``NOT_DISPATCHED`` leaves only for
+    ``UNKNOWN`` in a ``CONFLICT`` state, when later evidence contradicts the
+    non-dispatch proof (``terminal_outcome_overwritten``).
 
-A record that passes all eleven is ``allow`` with reason ``finality_held``.
+A record that passes every check is ``allow`` with reason ``finality_held``.
 A pass establishes no external effect, no invoice authenticity, no durability
 beyond a normal reopen and no exactly-once behaviour across attempts.
 
@@ -101,6 +112,9 @@ CHECKS = (
     "same_attempt_redispatched",
     "dispatch_state_reserved_after_billing",
     "invoice_replay_refinalized",
+    "known_spend_decreased",
+    "final_billing_reversed",
+    "terminal_outcome_overwritten",
 )
 _HERE = Path(__file__).resolve().parent
 _NAME = "vectors-execution-billing-finality"
@@ -256,6 +270,42 @@ def _replay_refinalized(record: Record) -> bool:
     return False
 
 
+def _transitions(record: Record) -> Iterator[tuple[State, State]]:
+    """Each pair of consecutive states, in the order the run produced them."""
+    ordered = list(states(record))
+    return zip(ordered, ordered[1:])
+
+
+def _known_decreased(record: Record) -> bool:
+    return any(after["knownSpendMicroUsd"] < before["knownSpendMicroUsd"]
+               for before, after in _transitions(record))
+
+
+def _billing_reversed(record: Record) -> bool:
+    for before, after in _transitions(record):
+        if before["frozen"] and not after["frozen"]:
+            return True
+        if before["billingFinality"] == "CONFLICT" and after["billingFinality"] != "CONFLICT":
+            return True
+        if before["billingFinality"] == "FINAL" and not (
+                after["billingFinality"] == "CONFLICT"
+                or (after["billingFinality"] == "FINAL"
+                    and after["knownSpendMicroUsd"] == before["knownSpendMicroUsd"])):
+            return True
+    return False
+
+
+def _outcome_overwritten(record: Record) -> bool:
+    for before, after in _transitions(record):
+        was, now = before["executionOutcome"], after["executionOutcome"]
+        if was in {"SUCCEEDED", "FAILED"} and now != was:
+            return True
+        contradicted = now == "UNKNOWN" and after["billingFinality"] == "CONFLICT"
+        if was == "NOT_DISPATCHED" and now != was and not contradicted:
+            return True
+    return False
+
+
 def retained(record: Record) -> dict[str, Any]:
     """The scenario and the two axes with the dispatch state, as the run left them."""
     observed, end = record["observed"], record["end"]
@@ -293,6 +343,9 @@ def _first_failure(record: Record, skip: frozenset[str]) -> str | None:
         "same_attempt_redispatched": lambda: _redispatched(record),
         "dispatch_state_reserved_after_billing": lambda: _reserved_after_billing(record),
         "invoice_replay_refinalized": lambda: _replay_refinalized(record),
+        "known_spend_decreased": lambda: _known_decreased(record),
+        "final_billing_reversed": lambda: _billing_reversed(record),
+        "terminal_outcome_overwritten": lambda: _outcome_overwritten(record),
     }
     for name in CHECKS:
         if failures[name]():

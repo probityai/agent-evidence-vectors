@@ -43,7 +43,9 @@ SOURCE = {
                  "and the decision that dispatch_state is a required output",
          "url": "https://github.com/mohammedmessaoudene-cmd"},
         {"name": "piiiico (Agent Errata)",
-         "role": "the X1 scenario, the three dispatch_start mutants and the M4 observation",
+         "role": "the X1 scenario, the three dispatch_start mutants and the M4 observation; "
+                 "the R1 to R5 mutants and the X2, X3 and X4 scenarios that showed known "
+                 "spend, a final bill and a terminal outcome could each be overwritten",
          "url": "https://github.com/piiiico"},
     ],
     "contract": "https://github.com/mohammedmessaoudene-cmd/agent-evidence-lab/blob/"
@@ -93,8 +95,27 @@ MUTANTS: dict[str, tuple[str, str, list[tuple[str, str]]]] = {
         [("UPDATE attempts SET known=?,billing_finality='FINAL',finality_basis='final_invoice',",
           "UPDATE attempts SET known=?,outcome='SUCCEEDED',billing_finality='FINAL',"
           "finality_basis='final_invoice',")]),
+    "R1-replay-reported-new": (
+        "a replayed event id is reported as a new event", "piiiico",
+        [("new_event = False", "new_event = True")]),
+    "R2-low-invoice-erases-known-spend": (
+        "a final invoice below the known spend is accepted and lowers it", "piiiico",
+        [('if amount < row["known"]:', "if False:")]),
+    "R3-non-dispatch-ignores-cost": (
+        "a non-dispatch proof no longer reads the cost evidence or the known spend; every "
+        "write that records cost also moves the dispatch state off RESERVED, so nothing "
+        "can tell", "piiiico",
+        [('elif row["dispatch_state"] != "RESERVED" or row["cost_evidence_seen"] or '
+          'row["known"]:', 'elif row["dispatch_state"] != "RESERVED":')]),
+    "R4-cost-above-final-bill-accepted": (
+        "a cost observation above a final bill raises the known spend and billing stays "
+        "FINAL", "piiiico",
+        [('if row["billing_finality"] == "FINAL" and amount > row["known"]:', "if False:")]),
+    "R5-terminal-outcome-overwritten": (
+        "a contradictory terminal outcome replaces the first one", "piiiico",
+        [('if row["outcome"] not in {"UNKNOWN", values["outcome"]}:', "if False:")]),
 }
-EQUIVALENT = {"M3-billing-clause-removed"}
+EQUIVALENT = {"M3-billing-clause-removed", "R3-non-dispatch-ignores-cost"}
 
 DISPATCH = {"cmd": "dispatch"}
 LOST = {"bounded": True, "cmd": "unknown"}
@@ -102,7 +123,7 @@ INVOICE = {"amount": 1, "cmd": "invoice", "event": "invoice-1"}
 SECOND = {"cmd": "dispatch", "event": "second-dispatch"}
 SUCCEEDED = {"cmd": "outcome", "value": "SUCCEEDED"}
 RESERVE_B = {"amount": 2, "attempt": "B", "cmd": "reserve"}
-# The scenarios, in P04's input format; the invariants are P04's (X1's is piiiico's).
+# The scenarios, in P04's input format; the invariants are P04's (X1 to X4 are piiiico's).
 SCENARIOS: dict[str, tuple[str, dict[str, Any]]] = {
     "F01": ("Success is not final billing",
             {"budget": 3, "probes": [RESERVE_B], "steps": [DISPATCH, SUCCEEDED]}),
@@ -119,6 +140,21 @@ SCENARIOS: dict[str, tuple[str, dict[str, Any]]] = {
             "probes": [{"cmd": "dispatch", "event": "late-dispatch"}, INVOICE,
                        {"amount": 1, "cmd": "cost", "event": "cost-after-invoice"}],
             "steps": [INVOICE]}),
+    "X2": ("A final invoice below the known spend is a conflict, not a lower total",
+           {"budget": 3, "probes": [],
+            "steps": [DISPATCH, {"amount": 2, "cmd": "cost", "event": "cost-2"},
+                      {"amount": 1, "cmd": "invoice", "event": "invoice-low"}]}),
+    "X3": ("A cost above a final bill is a conflict, not a new final total",
+           {"budget": 3, "probes": [],
+            "steps": [INVOICE, {"amount": 2, "cmd": "cost", "event": "cost-above-invoice"}]}),
+    "X4": ("A second, contradictory terminal outcome does not replace the first",
+           {"budget": 3, "probes": [],
+            "steps": [DISPATCH, {"cmd": "outcome", "event": "o1", "value": "SUCCEEDED"},
+                      {"cmd": "outcome", "event": "o2", "value": "FAILED"}]}),
+    "X5": ("A non-dispatch proof after recorded cost is a conflict",
+           {"budget": 3, "probes": [],
+            "steps": [{"amount": 1, "cmd": "cost", "event": "cost-1"},
+                      {"cmd": "non_dispatch", "event": "non-dispatch"}]}),
 }
 
 
@@ -192,6 +228,18 @@ def cases() -> list[Case]:
          "control: an invoice arrives before any recorded dispatch; billing is FINAL, the "
          "execution UNKNOWN and the dispatch state POSSIBLE after the reopen, the refused "
          "dispatch, the replayed invoice and an equal cost observation"),
+        ("allow-x2-low-invoice-conflict", "X2", unmutated, None, "allow", ok,
+         "control: a final invoice below the cost already observed is refused as a conflict; "
+         "the known spend stays at the observed cost and the account freezes"),
+        ("allow-x3-cost-above-final-bill-conflict", "X3", unmutated, None, "allow", ok,
+         "control: a cost observation above a final bill is refused as a conflict; billing "
+         "moves from FINAL to CONFLICT and the account freezes"),
+        ("allow-x4-contradictory-outcome-conflict", "X4", unmutated, None, "allow", ok,
+         "control: a FAILED outcome after an observed SUCCEEDED is refused as a conflict; the "
+         "first outcome stays and billing moves to CONFLICT"),
+        ("allow-x5-non-dispatch-after-cost-conflict", "X5", unmutated, None, "allow", ok,
+         "control: a non-dispatch proof after recorded cost is refused as a conflict, the "
+         "branch the R3 mutant edits"),
         ("contract-id-missing", "X1", unmutated, lambda r: r.pop("contractId"), "deny",
          "contract_id_missing", "the record carries no contractId"),
         ("contract-id-unknown", "X1", unmutated,
@@ -240,6 +288,27 @@ def cases() -> list[Case]:
         ("x1-invoice-replay-refinalized", "X1", unmutated,
          lambda r: r["probes"][1]["return"].update(newlyFinalized=True), "deny",
          "invoice_replay_refinalized", "the replayed invoice event is reported as finalizing"),
+        ("x2-low-invoice-erases-known-spend", "X2", "R2-low-invoice-erases-known-spend", None,
+         "deny", "known_spend_decreased",
+         "a final invoice below the observed cost is accepted and the known spend drops to it"),
+        ("x3-cost-above-final-bill-accepted", "X3", "R4-cost-above-final-bill-accepted", None,
+         "deny", "final_billing_reversed",
+         "a cost above the final bill raises the known spend while billing still reads FINAL"),
+        ("x2-conflict-cleared", "X2", unmutated,
+         lambda r: [r[k].update(billingFinality="UNKNOWN") for k in ("end", "endReopened")],
+         "deny", "final_billing_reversed",
+         "the billing conflict reads UNKNOWN at the end with nothing to resolve it"),
+        ("x2-account-unfrozen", "X2", unmutated,
+         lambda r: [r[k].update(frozen=False) for k in ("end", "endReopened")],
+         "deny", "final_billing_reversed",
+         "the account frozen by the conflict reads unfrozen at the end"),
+        ("x4-terminal-outcome-overwritten", "X4", "R5-terminal-outcome-overwritten", None,
+         "deny", "terminal_outcome_overwritten",
+         "a FAILED outcome replaces an observed SUCCEEDED and billing stays UNKNOWN"),
+        ("x4-outcome-reset-to-unknown", "X4", unmutated,
+         lambda r: [r[k].update(executionOutcome="UNKNOWN") for k in ("end", "endReopened")],
+         "deny", "terminal_outcome_overwritten",
+         "the observed SUCCEEDED outcome reads UNKNOWN at the end"),
     ]
 
 
