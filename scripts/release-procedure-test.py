@@ -8,7 +8,7 @@ a serial mirror of every CI job. On one shared box it ran about 15 hours (job 41
 of about 220 after three and a half hours) and held v0.30.0 back, while the same
 jobs ran in parallel on GitHub in under 40 minutes.
 
-Three statements are checked:
+Four statements are checked:
 
 1. RELEASING.md, outside this test's own mention, never tells the releaser to run
    scripts/workflow-steps-gate.py or to set AEV_PRE_PUSH_VENUE to local or pool.
@@ -16,6 +16,10 @@ Three statements are checked:
 3. The Go race test in ci.yml carries an explicit -timeout, so Go's 10 minute
    default is never the limit on a slow machine (the corpora package took 281 s
    on a GitHub runner and exceeded 600 s on a shared box).
+4. Every `gh pr merge` in RELEASING.md makes a merge commit outside main's merge
+   queue (--merge --admin) and names its subject. The queue squashes, and a
+   squashed release pull request leaves the tagged commit off main: on
+   2026-11-15 the queue landed batch A as one single-parent commit.
 """
 
 from __future__ import annotations
@@ -53,6 +57,22 @@ def go_timeout_violations(text: str) -> list[str]:
     for number, line in enumerate(text.splitlines(), 1):
         if "go test" in line and "-race" in line and "-timeout" not in line:
             found.append(f".github/workflows/ci.yml:{number}: {line.strip()}")
+    return found
+
+
+def merge_command_violations(text: str) -> list[str]:
+    found = []
+    lines = text.splitlines()
+    for number, line in enumerate(lines, 1):
+        if not line.lstrip().startswith("gh pr merge"):
+            continue
+        command, following = line, number
+        while command.endswith("\\") and following < len(lines):
+            command = command[:-1] + " " + lines[following]
+            following += 1
+        missing = [flag for flag in ("--merge", "--admin", "--subject") if flag not in command]
+        if missing:
+            found.append(f"RELEASING.md:{number}: {line.strip()} (missing {' '.join(missing)})")
     return found
 
 
@@ -134,6 +154,7 @@ MERGED_CHECKS_WORKFLOW = GOOD_WORKFLOW.replace(
 def main() -> int:
     problems = (
         releasing_violations((ROOT / "RELEASING.md").read_text(encoding="utf-8"))
+        + merge_command_violations((ROOT / "RELEASING.md").read_text(encoding="utf-8"))
         + hook_default_violations((ROOT / ".githooks/pre-push").read_text(encoding="utf-8"))
         + go_timeout_violations((ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8"))
         + release_workflow_violations(
@@ -147,6 +168,7 @@ def main() -> int:
     controls = (
         releasing_violations("uv run python -B scripts/workflow-steps-gate.py"),
         releasing_violations("AEV_PRE_PUSH_VENUE=pool git push"),
+        merge_command_violations("gh pr merge <n> --merge"),
         hook_default_violations('venue="${AEV_PRE_PUSH_VENUE-local}"'),
         go_timeout_violations("go test ./... -race -count=1"),
         release_workflow_violations(MERGED_CHECKS_WORKFLOW),
