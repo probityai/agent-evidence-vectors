@@ -1,6 +1,14 @@
 suite: acs-core-negative-conformance
-members: 144
-  accept: 53
-  indeterminate: 3
-  reject: 88
-verdict: every member behaves as MANIFEST.json declares
+members: 156
+  accept: 58
+  indeterminate: 4
+  reject: 94
+FAIL v0482b9b97dd401de: carries neither steps nor any of the single-step subjects this suite recognises (action, context_entry, record, request), so there is nothing for an implementation to answer about
+FAIL v096faa50c131339a: carries neither steps nor any of the single-step subjects this suite recognises (action, context_entry, record, request), so there is nothing for an implementation to answer about
+FAIL v5002d6935c5bce3a: carries neither steps nor any of the single-step subjects this suite recognises (action, context_entry, record, request), so there is nothing for an implementation to answer about
+FAIL v66adccea7c8cf3b2: carries neither steps nor any of the single-step subjects this suite recognises (action, context_entry, record, request), so there is nothing for an implementation to answer about
+FAIL v7e27cc3f03a5c5f1: carries neither steps nor any of the single-step subjects this suite recognises (action, context_entry, record, request), so there is nothing for an implementation to answer about
+FAIL v9de380f95701a3dd: carries neither steps nor any of the single-step subjects this suite recognises (action, context_entry, record, request), so there is nothing for an implementation to answer about
+FAIL vf232999ba05fde27: carries neither steps nor any of the single-step subjects this suite recognises (action, context_entry, record, request), so there is nothing for an implementation to answer about
+FAIL vf553d3f35a1688b1: carries neither steps nor any of the single-step subjects this suite recognises (action, context_entry, record, request), so there is nothing for an implementation to answer about
+verdict: 8 member(s) and 0 corpus-level claim(s) do not hold

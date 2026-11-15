@@ -1,0 +1,63 @@
+{
+  "cites": "the same sealed session and an independent log that agrees: step 3 did not run.",
+  "coverage": "observed",
+  "doesNotAssert": "that the log covers every tool the host can run",
+  "evidenceBasis": "substrate",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "allow"
+  },
+  "family": "acs-f-23",
+  "id": "v096faa50c131339a",
+  "kind": "accept",
+  "payload": {
+    "observed_record": {
+      "source": "host-side tool log",
+      "st-0003": {
+        "tool_executed": false
+      },
+      "writer": "not the sealer"
+    },
+    "sealed_session": {
+      "chain_hash": "3333333333333333333333333333333333333333333333333333333333333333",
+      "claims": {
+        "st-0003": {
+          "applied": "blocked"
+        }
+      },
+      "session_id": "s-0001",
+      "signature_state": "VALID"
+    }
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-006",
+      "line": 254,
+      "sentence": "the Guardian MUST include the resulting `chain_hash` in its response, and that `chain_hash` MUST be covered by the response signature",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    },
+    {
+      "id": "ACS-R-044",
+      "line": 53,
+      "sentence": "An `acs.decision` event records the Guardian's verdict. Only the Observed Agent knows the applied outcome.",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/trace-events-7efa539.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-006",
+    "ACS-R-044"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "PEER"
+}

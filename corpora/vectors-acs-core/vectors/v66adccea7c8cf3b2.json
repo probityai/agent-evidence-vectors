@@ -1,0 +1,76 @@
+{
+  "cites": "the same response with every outer field equal to its signed counterpart.",
+  "coverage": "effective",
+  "doesNotAssert": "anything about a field that neither side carries",
+  "evidenceBasis": "artifact",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "allow"
+  },
+  "family": "acs-f-21",
+  "id": "v66adccea7c8cf3b2",
+  "kind": "accept",
+  "payload": {
+    "outer": {
+      "chain_hash": "3333333333333333333333333333333333333333333333333333333333333333",
+      "decision": "deny",
+      "session_id": "s-0001"
+    },
+    "response_signature": {
+      "algorithm": "HMAC-SHA256",
+      "covers": [
+        "decision",
+        "chain_hash"
+      ],
+      "state": "VALID"
+    },
+    "signed_payload": {
+      "chain_hash": "3333333333333333333333333333333333333333333333333333333333333333",
+      "decision": "deny",
+      "session_id": "s-0001",
+      "step_id": "st-0003"
+    }
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-001",
+      "line": 295,
+      "sentence": "A verifier MUST recompute this canonical form and MUST reject a signature that does not cover it",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    },
+    {
+      "id": "ACS-R-006",
+      "line": 254,
+      "sentence": "the Guardian MUST include the resulting `chain_hash` in its response, and that `chain_hash` MUST be covered by the response signature",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    },
+    {
+      "id": "ACS-R-022",
+      "line": 428,
+      "sentence": "A required signature is missing, malformed, or fails verification",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-001",
+    "ACS-R-006",
+    "ACS-R-022"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "PEER"
+}
