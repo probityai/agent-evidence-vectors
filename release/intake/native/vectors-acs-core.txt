@@ -3,12 +3,4 @@ members: 178
   accept: 69
   indeterminate: 4
   reject: 105
-FAIL v2b53edaa658b079e: carries neither steps nor any of the single-step subjects this suite recognises (action, context_entry, record, request), so there is nothing for an implementation to answer about
-FAIL v3812cc79e021c5b6: carries neither steps nor any of the single-step subjects this suite recognises (action, context_entry, record, request), so there is nothing for an implementation to answer about
-FAIL v5c9c4b9c6a8e15a3: carries neither steps nor any of the single-step subjects this suite recognises (action, context_entry, record, request), so there is nothing for an implementation to answer about
-FAIL v9ef3db5f73ca775c: carries neither steps nor any of the single-step subjects this suite recognises (action, context_entry, record, request), so there is nothing for an implementation to answer about
-FAIL vb2f923539b0a8e8e: carries neither steps nor any of the single-step subjects this suite recognises (action, context_entry, record, request), so there is nothing for an implementation to answer about
-FAIL vcfea73bd76fa1f44: carries neither steps nor any of the single-step subjects this suite recognises (action, context_entry, record, request), so there is nothing for an implementation to answer about
-FAIL vfcb605410cbbbd68: carries neither steps nor any of the single-step subjects this suite recognises (action, context_entry, record, request), so there is nothing for an implementation to answer about
-FAIL vfe4481c26c631753: carries neither steps nor any of the single-step subjects this suite recognises (action, context_entry, record, request), so there is nothing for an implementation to answer about
-verdict: 8 member(s) and 0 corpus-level claim(s) do not hold
+verdict: every member behaves as MANIFEST.json declares
