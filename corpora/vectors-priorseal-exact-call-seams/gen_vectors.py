@@ -101,8 +101,7 @@ SENTENCES = {
     ),
     "chain-row": (
         "4",
-        "`intent.chainId` | `chainId` | strict equality of the integer values | "
-        "`CHAIN_MISMATCH`",
+        "`intent.chainId` | `chainId` | strict equality of the integer values | `CHAIN_MISMATCH`",
     ),
     "coercion": (
         "4",

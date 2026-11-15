@@ -96,7 +96,9 @@ def _chain_mismatch(signed: Any, observed: Any, reading: str) -> bool:
     return type(signed) is not type(observed) or signed != observed
 
 
-def _window_codes(authorization: dict[str, Any], observed: dict[str, Any], readings: Readings) -> list[str]:
+def _window_codes(
+    authorization: dict[str, Any], observed: dict[str, Any], readings: Readings
+) -> list[str]:
     """The section 4 window rows over ``executedAt``, falling back to ``observedAt``."""
     when = observed.get("executedAt")
     if when is None:
@@ -120,7 +122,9 @@ def bind(case: Case, readings: Readings) -> Answer:
     authorization = case["source"]["authorization"]
     intent, observed = authorization["intent"], case["observed"]
     codes = []
-    if _chain_mismatch(intent.get("chainId"), observed.get("chainId"), readings["chain-id-representation"]):
+    if _chain_mismatch(
+        intent.get("chainId"), observed.get("chainId"), readings["chain-id-representation"]
+    ):
         codes.append("CHAIN_MISMATCH")
     if not _same(observed.get("action"), intent.get("action")):
         codes.append("ACTION_MISMATCH")
@@ -145,7 +149,10 @@ def bind(case: Case, readings: Readings) -> Answer:
 def every_reading() -> list[Readings]:
     """Every combination of one reading per open question."""
     names = sorted(QUESTIONS)
-    return [dict(zip(names, chosen)) for chosen in itertools.product(*(QUESTIONS[n] for n in names))]
+    return [
+        dict(zip(names, chosen, strict=True))
+        for chosen in itertools.product(*(QUESTIONS[n] for n in names))
+    ]
 
 
 def moving_questions(case: Case) -> list[str]:
@@ -153,7 +160,9 @@ def moving_questions(case: Case) -> list[str]:
     moving = []
     for name, choices in sorted(QUESTIONS.items()):
         for base in every_reading():
-            answers = {json.dumps(bind(case, {**base, name: choice}), sort_keys=True) for choice in choices}
+            answers = {
+                json.dumps(bind(case, {**base, name: choice}), sort_keys=True) for choice in choices
+            }
             if len(answers) > 1:
                 moving.append(name)
                 break
@@ -233,9 +242,7 @@ def _declared_error(entry: dict[str, Any], case: Case) -> str | None:
     return None
 
 
-def check(
-    verifier: str | list[str] | None = None, root: Path = ROOT
-) -> tuple[int, list[str]]:
+def check(verifier: str | list[str] | None = None, root: Path = ROOT) -> tuple[int, list[str]]:
     """Check every case, through the named verifier or the reference reader."""
     try:
         entries, manifest_error = _validated_entries(root, SUITE)

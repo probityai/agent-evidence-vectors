@@ -81,23 +81,23 @@ def test_the_three_seams_are_the_open_cases() -> None:
     assert len(OPEN) == len(reader.QUESTIONS)
 
 
-@pytest.mark.parametrize("question", sorted(reader.QUESTIONS))
-def test_each_question_moves_only_its_own_case(question: str) -> None:
-    for name, entry in ENTRIES.items():
+def test_each_open_case_turns_on_one_question_and_no_decided_case_on_any() -> None:
+    for entry in ENTRIES.values():
         case = json.loads((ROOT / entry["path"] / "case.json").read_text(encoding="utf-8"))
-        moving = reader.moving_questions(case)
-        assert moving == ([question] if entry["expected"].get("question") == question else [
-            q for q in moving if q != question
-        ])
+        question = entry["expected"].get("question")
+        assert reader.moving_questions(case) == ([question] if question else [])
 
 
 @pytest.mark.parametrize(
     "readings",
-    [dict(zip(sorted(reader.QUESTIONS), chosen)) for chosen in [
-        ("json-type", "skip", "comparison-false"),
-        ("decimal-string", "zero", "outside"),
-        ("json-type", "outside", "outside"),
-    ]],
+    [
+        dict(zip(sorted(reader.QUESTIONS), chosen, strict=True))
+        for chosen in [
+            ("json-type", "skip", "comparison-false"),
+            ("decimal-string", "zero", "outside"),
+            ("json-type", "outside", "outside"),
+        ]
+    ],
 )
 def test_any_reading_of_the_open_cases_passes(tmp_path: Path, readings: dict[str, str]) -> None:
     answered, errors = corpus.check(_verifier(tmp_path, readings))
@@ -165,7 +165,9 @@ def test_a_reader_that_refuses_everything_fails_every_bound_case(tmp_path: Path)
 
 def test_an_exit_status_that_disagrees_with_the_answer_fails(tmp_path: Path) -> None:
     script = tmp_path / "verifier.py"
-    script.write_text('print(\'{"decision": "bound", "reasonCodes": []}\')\n')
+    script.write_text(
+        'print(\'{"decision": "bound", "reasonCodes": []}\')\nimport sys\nsys.exit(1)\n'
+    )
     _, errors = corpus.check([sys.executable, str(script)])
     assert any("disagrees" in error for error in errors)
 
