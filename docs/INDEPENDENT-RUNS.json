@@ -4,7 +4,7 @@
   "independence": "from-spec Rust verifier with its own I-JSON parser, RFC 8785 serializer, RFC 6962 Merkle root, run-binding derivation and Ed25519 tier, built with no sight of the reference code",
   "currentRevisionSource": "vectors/CHANGES.md, the per-revision changelog that owns revision numbering. It is read rather than restated here: a revision number written in this file could only ever agree with itself.",
   "runLabelComment": "runLabel says who produced the run, on a closed scale of three: 'author-produced' (the corpus author ran their own code), 'second-party-same-code' (someone else ran the author's code), and 'independent' (someone else ran an implementation the author did not write). It is a different axis from evidence, which says whether the implementer read the answers first. Every row here was produced by Rul1an/aee-checker, an implementation this repository did not write, so every row is independent; an author-produced or same-code run belongs in this file only under its own label, never under this one.",
-  "doesNotEstablishComment": "Every run row carries doesNotEstablish: in one sentence, what a reader might take the row's figures to show that they do not, such as conformance at another revision, a blind reading of a directed run, or coverage of a rule no vector reaches. A figure with its limit beside it cannot be quoted without it. scripts/independent-runs-gate.py refuses a row whose doesNotEstablish is missing or empty.",
+  "doesNotEstablishComment": "Every run row carries doesNotEstablish: in one sentence, what a reader might take the row's figures to show that they do not, such as conformance at another revision, a blind reading of a directed run, or coverage of a rule no vector reaches. docs/IMPLEMENTATION-REPORT.md states every limit word for word in note 1, so the report never carries a run's figures without its limit. scripts/independent-runs-gate.py refuses a row whose doesNotEstablish is missing, empty or a placeholder such as 'none', a limit that states a figure the row's own figures array does not carry, and a report that does not carry the limit verbatim.",
   "runs": [
     {
       "suiteRevision": 1,
@@ -64,7 +64,7 @@
             },
             {
               "file": "docs/IMPLEMENTATION-REPORT.md",
-              "times": 2
+              "times": 3
             }
           ]
         }
@@ -193,7 +193,7 @@
             },
             {
               "file": "docs/IMPLEMENTATION-REPORT.md",
-              "times": 1
+              "times": 2
             },
             {
               "file": "vectors/CHANGES.md",
@@ -265,7 +265,7 @@
             },
             {
               "file": "docs/IMPLEMENTATION-REPORT.md",
-              "times": 5
+              "times": 6
             }
           ]
         },
@@ -279,7 +279,7 @@
             },
             {
               "file": "docs/IMPLEMENTATION-REPORT.md",
-              "times": 2
+              "times": 3
             }
           ]
         },
@@ -307,7 +307,7 @@
             },
             {
               "file": "docs/IMPLEMENTATION-REPORT.md",
-              "times": 3
+              "times": 4
             }
           ]
         },
@@ -408,7 +408,7 @@
             },
             {
               "file": "docs/IMPLEMENTATION-REPORT.md",
-              "times": 1
+              "times": 2
             }
           ]
         }
@@ -469,7 +469,7 @@
           "carriedIn": [
             {
               "file": "docs/IMPLEMENTATION-REPORT.md",
-              "times": 1
+              "times": 2
             }
           ]
         }
