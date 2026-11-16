@@ -111,7 +111,7 @@ def locate_cases() -> None:
         git(*plain, "commit", "-q", "-m", "x")
         git(*plain, "tag", "v1")
         saved = fr.ROOT
-        setattr(fr, "ROOT", repo)
+        fr.ROOT = repo
         try:
             for name, want in (
                 ("vectors-new", "corpora/vectors-new"),
@@ -122,7 +122,7 @@ def locate_cases() -> None:
                 if got != want:
                     FAILURES.append(f"locate_in_tag({name}) gave {got}, wanted {want}")
         finally:
-            setattr(fr, "ROOT", saved)
+            fr.ROOT = saved
 
 
 def main() -> int:
