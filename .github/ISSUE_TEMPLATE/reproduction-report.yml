@@ -1,0 +1,72 @@
+name: Reproduction report
+description: Report whether a tagged release reproduced on your machine, from the commands its reproduction request names.
+title: "reproduction: v<X.Y.Z> on <OS>"
+labels: ["reproduction"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Each release has a reproduction request issue (label `reproduction-request`) with the tag, the commit,
+        the exact commands and the line a clean run prints last. This form is the reply. A run that failed, or
+        printed anything the request did not predict, is the most useful report, and it is kept as written.
+        Do not include private keys, credentials, unpublished records or personal data.
+  - type: input
+    id: tag
+    attributes:
+      label: Release tag
+      placeholder: "v0.37.0"
+    validations:
+      required: true
+  - type: input
+    id: commit
+    attributes:
+      label: Commit you ran
+      description: "`git rev-parse HEAD` after the checkout the request names, or the package version for a PyPI run."
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system and version
+      placeholder: "Ubuntu 24.04, macOS 15.1, Windows 11 23H2"
+    validations:
+      required: true
+  - type: input
+    id: toolchain
+    attributes:
+      label: Tool versions
+      description: "`python3 --version`, `uv --version`, and `go version` if the request uses Go."
+    validations:
+      required: true
+  - type: dropdown
+    id: outcome
+    attributes:
+      label: Outcome
+      options:
+        - "every command completed and the last line matched"
+        - "completed, but the output differed from the request (say where below)"
+        - "failed (paste the error below)"
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Last lines of output
+      description: The final lines exactly as printed, including the summary line.
+      render: text
+    validations:
+      required: true
+  - type: input
+    id: elapsed
+    attributes:
+      label: Elapsed time
+      description: Optional, wall clock from clone to the last line.
+    validations:
+      required: false
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything unclear, a warning, or a platform-specific step
+      description: An instruction you had to guess at is a defect in the request; say which line.
+    validations:
+      required: false
