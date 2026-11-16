@@ -332,6 +332,25 @@ def _lifecycle_mutants(registry) -> list[str]:
     return failures
 
 
+def _preimage_cases(registry) -> list[str]:
+    """Six registered tags; each pre-image differs from every other over the same bytes; others refuse."""
+    failures = []
+    body = b'{"a":1}'
+    images = {(k, p): registry.lifecycle_preimage(k, p, body)
+              for k in ("decision", "control", "execution") for p in ("hash", "signature")}
+    if len(set(images.values())) != 6 or len(registry.LIFECYCLE_TAGS) != 6:
+        failures.append("lifecycle pre-images are not six distinct byte strings")
+    if images[("control", "signature")] != b"agent-evidence/lifecycle-binding/v1/control/signature\n" + body:
+        failures.append(f"control signature pre-image is {images[('control', 'signature')]!r}")
+    for kind, purpose in (("receipt", "hash"), ("control", "sig"), ("Control", "signature")):
+        try:
+            registry.lifecycle_preimage(kind, purpose, body)
+            failures.append(f"lifecycle_preimage accepted the unregistered tag {kind}/{purpose}")
+        except registry.MalformedInputs:
+            pass
+    return failures
+
+
 def _check_derivations(registry) -> tuple[list[str], int]:
     """Each reference derivation gives the expected value or refusal for every case."""
     failures = []
@@ -380,6 +399,7 @@ def _check_derivations(registry) -> tuple[list[str], int]:
         failures.append(f"lifecycle_binding skipped an unregistered artifact kind and gave {got}")
     except registry.MalformedInputs:
         pass
+    failures.extend(_preimage_cases(registry))
     partial = {k: v for k, v in _TIME.items() if k != "anchor_within"}
     got = _label(registry.time_bounds(10000, 10000, 10500, partial))
     if got != "time-profile-member-missing":

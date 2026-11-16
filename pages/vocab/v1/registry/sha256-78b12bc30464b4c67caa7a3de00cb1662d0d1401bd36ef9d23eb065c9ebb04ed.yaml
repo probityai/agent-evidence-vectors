@@ -3346,6 +3346,12 @@ evaluation_claim:
       signature input, a line feed, then the canonical bytes, and the tags
       come from a closed registry, so an unregistered tag fails closed and one
       signature can never be replayed as another artifact type or as a hash.
+      The registry is exactly six ASCII tags of the form
+      agent-evidence/lifecycle-binding/v1/TYPE/PURPOSE, TYPE one of decision,
+      control or execution and PURPOSE one of hash or signature; the
+      pre-image is the tag bytes, one byte 0x0A, then the canonical bytes,
+      with nothing between them and nothing after. A v2 format is a new set
+      of tags, never a respelling of these.
       Absent evidence is never satisfied. The claim is about records: it never says that the
       executed bytes themselves were observed.
     check: >

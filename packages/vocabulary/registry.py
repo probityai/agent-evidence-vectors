@@ -638,6 +638,23 @@ def _group_state(group: list[dict], active: frozenset[str]) -> str:
     return "satisfied" if len(digests) == 1 else "failure"
 
 
+LIFECYCLE_TAGS = frozenset(
+    f"agent-evidence/lifecycle-binding/v1/{kind}/{purpose}"
+    for kind in _LIFECYCLE_KINDS for purpose in ("hash", "signature"))
+
+
+def lifecycle_preimage(artifact_type: str, purpose: str, canonical: bytes) -> bytes:
+    """The domain-separated pre-image of one lifecycle artifact: tag, one 0x0A byte, canonical bytes.
+
+    The tag is agent-evidence/lifecycle-binding/v1/TYPE/PURPOSE from a closed set of six; any other type or
+    purpose raises MalformedInputs, so one signature never verifies as another artifact type or as a hash.
+    """
+    tag = f"agent-evidence/lifecycle-binding/v1/{artifact_type}/{purpose}"
+    if tag not in LIFECYCLE_TAGS or not isinstance(canonical, bytes):
+        raise MalformedInputs("the lifecycle pre-image tag is not registered")
+    return tag.encode("ascii") + b"\n" + canonical
+
+
 def lifecycle_binding(artifacts: list[dict], active_bindings: frozenset[str]) -> dict:
     """The lifecycle-binding state per (decision, instruction) group.
 
