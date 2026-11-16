@@ -188,7 +188,21 @@ agent-evidence-vectors claim emit --case-set cases.json --results results.json \
   --verifier-name verifier --verifier-digest sha256:<hex> \
   --observation-vantage substrate --observer ci --statement --output claim.json
 agent-evidence-vectors claim run --output claim-record-result
+agent-evidence-vectors claim from-expectations --format tamarin \
+  --expectations expectations.txt --results prove-output.txt --name my-model --revision 1 \
+  --witness-lemma executable --profile formal-model.json \
+  --implementation-name impl --implementation-digest sha256:<hex> \
+  --verifier-name tamarin --verifier-digest sha256:<hex> \
+  --observation-vantage substrate --observer ci --case-set-out cases.json --output claim.json
 ```
+
+`from-expectations` turns a CI expectation table and the run's output (`table`, `tamarin`,
+`junit` or `tap`) into a case set whose cases carry `expect` and a record over it. A case
+passes when the observed outcome equals the expected one; a case the output does not mention
+is not run; an output line with no expectation row is printed as a warning and kept out of
+the record. With `--witness-lemma`, each all-traces property expected `verified` names the
+lemma of that name in its own variant as its witness, and a property whose witness shows no
+trace is reported not run.
 
 `verify` exits 0 when the record is admitted with verdict `pass`, 3 when it is admitted
 with `fail` or `incomplete`, 1 when it is refused and 2 on unusable input. `emit` records
