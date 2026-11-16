@@ -207,8 +207,12 @@ impl<'a> Parser<'a> {
                 // ill-formed, which is exactly what `from_utf8` reports. It
                 // rejects an overlong form and a surrogate encoded directly in
                 // UTF-8 (CESU-8) along with a truncated sequence.
-                let chunk = core::str::from_utf8(&self.bytes[run_start..self.at])
-                    .map_err(|_| self.refuse_string(run_start, "invalid UTF-8"))?;
+                // The offset is the first byte of the ill-formed sequence, not
+                // the start of the run, so every refusal in this variant names
+                // the byte it refused.
+                let chunk = core::str::from_utf8(&self.bytes[run_start..self.at]).map_err(|e| {
+                    self.refuse_string(run_start + e.valid_up_to(), "invalid UTF-8")
+                })?;
                 if self.opts.wants_noncharacter_check() {
                     if let Some((at, _)) = chunk
                         .char_indices()

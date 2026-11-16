@@ -191,3 +191,35 @@ fn an_unpaired_surrogate_message_names_the_surrogate() {
         "{err}"
     );
 }
+
+/// Ill-formed UTF-8 inside a longer run of text is reported at its own first
+/// byte, as a noncharacter and an escape are, not at the start of the run. The
+/// earlier offset pointed six bytes before the fault in each document here, and
+/// the Go rail, which reports the bad byte, disagreed with it. Each document is
+/// `{"k":"ab` followed by one ill-formed sequence: a stray continuation byte, a
+/// byte that never starts UTF-8, an overlong `/`, a surrogate encoded directly
+/// (CESU-8), and a three-byte sequence cut short by the closing quote.
+#[test]
+fn invalid_utf8_is_reported_at_its_own_first_byte() {
+    let faults: [&[u8]; 5] = [
+        &[0x80],
+        &[0xFF],
+        &[0xC0, 0xAF],
+        &[0xED, 0xA0, 0x80],
+        &[0xE2, 0x82],
+    ];
+    for fault in faults {
+        let mut doc = b"{\"k\":\"ab".to_vec();
+        doc.extend_from_slice(fault);
+        doc.extend_from_slice(b"\"}");
+        for (profile, result) in [("rfc8785", admit(&doc)), ("ijson", admit_ijson(&doc))] {
+            match result {
+                Err(Error::StringNotScalar { offset, reason }) => {
+                    assert_eq!(reason, "invalid UTF-8", "{profile} {fault:02x?}");
+                    assert_eq!(offset, 8, "{profile} {fault:02x?}");
+                }
+                other => panic!("{profile} {fault:02x?}: want StringNotScalar, got {other:?}"),
+            }
+        }
+    }
+}

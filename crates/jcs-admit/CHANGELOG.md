@@ -21,6 +21,10 @@ follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   its fields are unchanged.
 - A noncharacter written raw inside a longer run of text was reported at the start of the run.
   The offset is now the noncharacter's own first byte, as it already was for an escape.
+- Ill-formed UTF-8 inside a longer run of text had the same fault: `{"k":"ab\xff"}` was reported
+  at byte 6, the start of the run, where the Go rail reports the bad byte. The offset is now the
+  first byte of the ill-formed sequence (byte 8), and the `offset` field's documentation names
+  the byte each refusal in the variant points at.
 
 ### Changed
 

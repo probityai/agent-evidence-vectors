@@ -59,7 +59,10 @@ pub enum Error {
     /// cannot report it afterwards: a decoder that substitutes U+FFFD leaves
     /// three distinct wire strings canonicalizing to identical bytes.
     StringNotScalar {
-        /// Byte offset inside the document.
+        /// Byte offset inside the document of the refused byte: the first
+        /// byte of an ill-formed UTF-8 sequence, a raw control character or a
+        /// raw noncharacter; the backslash of a refused escape; or the opening
+        /// quote of an unterminated literal.
         offset: usize,
         /// Which fault was found.
         reason: &'static str,
