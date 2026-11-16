@@ -1,0 +1,104 @@
+{
+  "did:web:assessor.example": {
+    "@context": [
+      "https://www.w3.org/ns/did/v1"
+    ],
+    "assertionMethod": [
+      "did:web:assessor.example#es256"
+    ],
+    "id": "did:web:assessor.example",
+    "verificationMethod": [
+      {
+        "controller": "did:web:assessor.example",
+        "id": "did:web:assessor.example#es256",
+        "publicKeyJwk": {
+          "crv": "P-256",
+          "kty": "EC",
+          "x": "nH7tyMK2FvVU4HiOmqDUzjTFLKijdP19SLYco0NQ8dw",
+          "y": "WhzZcZxUU3TQRoSzlxknmzsL9sNbc0xSFAUIoxLVKzw"
+        },
+        "type": "JsonWebKey2020"
+      }
+    ]
+  },
+  "did:web:other.example": {
+    "@context": [
+      "https://www.w3.org/ns/did/v1"
+    ],
+    "assertionMethod": [
+      "did:web:other.example#es256"
+    ],
+    "id": "did:web:other.example",
+    "verificationMethod": [
+      {
+        "controller": "did:web:other.example",
+        "id": "did:web:other.example#es256",
+        "publicKeyJwk": {
+          "crv": "P-256",
+          "kty": "EC",
+          "x": "aO9-y8XXzWU9aywP3q0gt3wJs1OoOkHpxoC-wgtynXs",
+          "y": "2TTWlITSk7YqsnqzLe4-xNukHCiqDwIczATSCjlabi0"
+        },
+        "type": "JsonWebKey2020"
+      }
+    ]
+  },
+  "did:web:publisher.example": {
+    "@context": [
+      "https://www.w3.org/ns/did/v1"
+    ],
+    "assertionMethod": [
+      "did:web:publisher.example#es256",
+      "did:web:publisher.example#ed25519"
+    ],
+    "id": "did:web:publisher.example",
+    "verificationMethod": [
+      {
+        "controller": "did:web:publisher.example",
+        "id": "did:web:publisher.example#es256",
+        "publicKeyJwk": {
+          "crv": "P-256",
+          "key_ops": [
+            "sign"
+          ],
+          "kty": "EC",
+          "x": "rB14g1ShXXo1g8AwsR5t1AjQUS-f6C7cAunXYCwgpIw",
+          "y": "yFnb4bYSXyR7kZW-gooCLgP8xVQNg6-bxTMlzEmg0WQ"
+        },
+        "type": "JsonWebKey2020"
+      },
+      {
+        "controller": "did:web:publisher.example",
+        "id": "did:web:publisher.example#ed25519",
+        "publicKeyJwk": {
+          "crv": "Ed25519",
+          "kty": "OKP",
+          "x": "bJmxWG6VmQoR-aTSBXDUlyeSSe9_0pRVo02OnxUqLDc"
+        },
+        "type": "JsonWebKey2020"
+      }
+    ]
+  },
+  "did:web:www.publisher.example": {
+    "@context": [
+      "https://www.w3.org/ns/did/v1"
+    ],
+    "assertionMethod": [
+      "did:web:www.publisher.example#es256"
+    ],
+    "id": "did:web:www.publisher.example",
+    "verificationMethod": [
+      {
+        "controller": "did:web:www.publisher.example",
+        "id": "did:web:www.publisher.example#es256",
+        "publicKeyJwk": {
+          "crv": "P-256",
+          "kty": "EC",
+          "x": "wnXB0Iwep1CnKMh-rd8A4xZ-wpzVlUNqknIB-jEenIo",
+          "y": "MgF1Zw9rqk3KmnjtlZy8h_84ti0uGG3bzaOqufj9HFw"
+        },
+        "type": "JsonWebKey2020"
+      }
+    ]
+  }
+}

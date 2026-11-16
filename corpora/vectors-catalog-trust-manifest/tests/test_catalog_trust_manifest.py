@@ -4,11 +4,14 @@ forced by some case."""
 
 from __future__ import annotations
 
+import base64
 import hashlib
 import importlib.util
 import json
+import shutil
 import subprocess
 import sys
+from fractions import Fraction
 from pathlib import Path
 
 import pytest
@@ -159,3 +162,38 @@ def test_a_verifier_that_accepts_everything_fails(tmp_path: Path) -> None:
                       '"reason": "signature_covers_release"}))\n', encoding="ascii")
     _, errors = reader.check(SUITE, verifier=[sys.executable, str(script)])
     assert errors
+
+
+def test_a_signed_statement_that_is_not_an_object_is_unsigned_not_a_crash() -> None:
+    body = b"[]"
+    kind = b"application/vnd.in-toto+json"
+    signature = generator.raw_sign("assessor", reader._dsse_pae(kind.decode(), body))
+    envelope = json.dumps({"payload": base64.b64encode(body).decode(), "payloadType": kind.decode(),
+                           "signatures": [{"keyid": generator.ASSESSOR + "#es256",
+                                           "sig": base64.b64encode(signature).decode()}]})
+    assert reader._signed_statement(envelope.encode(), generator.did_documents()) is None
+
+
+def test_an_attestation_file_outside_the_case_directory_is_refused(tmp_path: Path) -> None:
+    case = tmp_path / "case"
+    shutil.copytree(ROOT / "cases" / "accept-attestations-dsse-bound", case)
+    (tmp_path / "outside.json").write_bytes((case / "attestation-0.dsse.json").read_bytes())
+    context = json.loads((case / "context.json").read_text())
+    context["attestationFiles"][0] = "../outside.json"
+    (case / "context.json").write_text(json.dumps(context))
+    assert reader.verify(SUITE, case) == {"decision": "reject",
+                                          "reason": "attestation_digest_mismatch"}
+
+
+@pytest.mark.parametrize("text,seconds", [
+    ("2026-11-01T00:00:00Z", 1793491200), ("2026-11-01T01:00:00+01:00", 1793491200),
+    ("2026-11-01t00:00:00.5z", Fraction(3586982401, 2)), ("2026-10-31T19:00:00-05:00", 1793491200)])
+def test_rfc3339_times_are_instants(text: str, seconds: Fraction) -> None:
+    assert reader._instant(text) == seconds
+
+
+@pytest.mark.parametrize("text", ["2026-02-30T00:00:00Z", "2026-11-01T24:00:00Z",
+                                  "2026-11-01T00:00:00", "2026-11-01 00:00:00Z",
+                                  "2026-11-01T00:00:00+24:00", 1793491200])
+def test_non_rfc3339_times_are_not_instants(text: object) -> None:
+    assert reader._instant(text) is None

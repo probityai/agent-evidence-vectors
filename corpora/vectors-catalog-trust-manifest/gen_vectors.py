@@ -63,6 +63,22 @@ def _del(path: list[Any]) -> dict[str, Any]:
 
 TM = ["entries", 0, "trustManifest"]
 M0 = ["entries", 0, "trustManifests", 0]
+VM0 = [PUB, "verificationMethod", 0]
+# The publisher's ES256 x coordinate with a leading zero octet: the same integer in 33
+# bytes, which RFC 7518 section 6.2.1.2 forbids (the coordinate is exactly 32 octets).
+X_33_OCTETS = "AKwdeINUoV16NYPAMLEebdQI0FEvn-gu3ALp12AsIKSM"
+
+
+def _did_alias(did: str) -> list[dict[str, Any]]:
+    """A DID document for ``did`` carrying the other.example ES256 key as did#es256."""
+    return [{"op": "copy", "from": [OTHER], "path": [did]}, _set([did, "id"], did),
+            _set([did, "verificationMethod", 0, "id"], did + "#es256"),
+            _set([did, "verificationMethod", 0, "controller"], did),
+            _set([did, "assertionMethod"], [did + "#es256"])]
+
+
+def _signed_by(did: str) -> list[dict[str, Any]]:
+    return [_set(M0 + ["contributor"], did), _set(M0 + ["signature", "signer"], did)]
 
 
 def _sign(construction: str, key: str = "publisher", **extra: Any) -> dict[str, Any]:
@@ -104,6 +120,101 @@ def _contradictions() -> list[dict[str, Any]]:
                 "the four contradict cases of this group carry byte-identical catalogs",
                 decision, reason, "ard", construction, [_sign(D if signed_as == "draft" else F)]))
     return out
+
+
+def _closed_terms() -> list[dict[str, Any]]:
+    """Cases for the AI Catalog signer-profile rules and the closed terms of the context."""
+    path, upper, port = ("did:web:other.example:team", "did:web:Other.example",
+                         "did:web:other.example%3A8443")
+    signer_cases = [
+        _case(f"reject-aic-signer-{slug}", f"the signer is {did}, not a root did:web DID "
+              "(lowercase ASCII domain, no port, no path)", NO, "signer_not_root_did_web",
+              "aic", AIC, [_sign(AIC, "other", header={"kid": did + "#es256"})],
+              before=_signed_by(did), dids=_did_alias(did), context={"role": "contributor"})
+        for slug, did in (("path-did", path), ("uppercase-domain", upper), ("port", port))]
+    return [
+        _case("reject-role-unknown", "the context names a role outside the closed term "
+              "(publisher, contributor); a verifier that skips the publisher rule for it "
+              "accepts an assessor as the publisher", NO, "role_unknown", "aic", AIC,
+              [_sign(AIC), _sign(AIC, "assessor", manifest=1)], assessor=True,
+              context={"manifest": 1, "role": "Publisher"}),
+        _case("reject-catalog-not-json", "the catalog carries NaN, which is not JSON",
+              NO, "json_invalid", "ard", D, [_sign(D)],
+              raw=[["\"specVersion\": \"1.0\"", "\"specVersion\": NaN"]]),
+        _case("reject-b64-not-boolean", "b64 is the string \"false\" (RFC 7797 section 3: "
+              "the value is a boolean), declared critical", NO, "jws_malformed", "ard", D,
+              [_sign(D, header={"b64": "false", "crit": ["b64"]})]),
+        _case("reject-aic-profile-unsupported", "signature.profile names a procedure this "
+              "verifier does not implement; AI Catalog consumers never infer another",
+              NO, "profile_unsupported", "aic", AIC, [_sign(AIC)],
+              before=[_set(M0 + ["signature", "profile"], "https://other.example/profile/v1")]),
+        _case("reject-aic-profile-absent", "the Signature object has no profile member",
+              NO, "profile_unsupported", "aic", AIC, [_sign(AIC)],
+              before=[_del(M0 + ["signature", "profile"])]),
+        _case("reject-snapshot-profile-unsupported", "the catalog signature names a profile "
+              "this verifier does not implement", NO, "profile_unsupported", "snapshot", SNAP,
+              [_sign(AIC), _sign(SNAP)],
+              before=[_set(["signature", "profile"], "https://other.example/profile/v1")]),
+        *signer_cases,
+        _case("reject-snapshot-signer-path-did", "a catalog signature by a path-based did:web "
+              "DID", NO, "signer_not_root_did_web", "snapshot", SNAP,
+              [_sign(AIC), _sign(SNAP, "other", header={"kid": path + "#es256"})],
+              before=[_set(["signature", "signer"], path)], dids=_did_alias(path)),
+        _case("reject-verification-method-ambiguous", "two verification methods carry the kid "
+              "as their id, the second holding another key that made the signature",
+              NO, "verification_method_ambiguous", "aic", AIC,
+              [_sign(AIC, "other", header={"kid": PUB + "#es256"})],
+              dids=[{"op": "copy", "from": [OTHER, "verificationMethod", 0],
+                     "path": [PUB, "verificationMethod", 1]},
+                    _set([PUB, "verificationMethod", 1, "id"], PUB + "#es256"),
+                    _set([PUB, "verificationMethod", 1, "controller"], PUB)]),
+        _case("reject-aic-method-controller-other", "the selected method's controller is "
+              "another DID than the signer", NO, "method_controller_mismatch", "aic", AIC,
+              [_sign(AIC)], dids=[_set(VM0 + ["controller"], OTHER)]),
+        *[_case(f"reject-jwk-{slug}", f"the method's JWK {what}", NO, "jwk_not_signing_key",
+                "aic", AIC, [_sign(AIC)], dids=[_set(VM0 + ["publicKeyJwk", member], value)])
+          for slug, what, member, value in (
+              ("use-enc", "is marked for encryption (use enc)", "use", "enc"),
+              ("private-member", "carries a private member d", "d", "AQ"),
+              ("alg-other", "names ES384 while the header names ES256", "alg", "ES384"),
+              ("key-ops-sign-only", "permits sign but not verify", "key_ops", ["sign"]),
+              ("x-33-octets", "carries a 33-octet x coordinate holding the right integer", "x",
+               X_33_OCTETS))],
+        _case("reject-aic-issued-absent", "the Signature object has no issuedAt, which the AI "
+              "Catalog requires", NO, "timestamp_invalid", "aic", AIC, [_sign(AIC)],
+              before=[_del(M0 + ["signature", "issuedAt"])]),
+        _case("reject-issued-not-a-date", "issuedAt is 2026-02-30, which matches the pattern "
+              "and names no day", NO, "timestamp_invalid", "aic", AIC, [_sign(AIC)],
+              before=[_set(M0 + ["signature", "issuedAt"], "2026-02-30T00:00:00Z")]),
+        _case("reject-expires-not-after-issued", "expiresAt precedes issuedAt", NO,
+              "timestamp_invalid", "aic", AIC, [_sign(AIC)],
+              before=[_set(M0 + ["signature", "expiresAt"], "2026-10-01T00:00:00Z")]),
+        _case("reject-draft-identifier-absent", "entry and subject both lack identifier, so "
+              "the signed subject names no entry", NO, "subject_entry_mismatch", "ard", D,
+              [_sign(D)], before=[_del(["entries", 0, "identifier"]),
+                                  _del(TM + ["subject", "identifier"])],
+              context={"role": "contributor"}),
+        _case("reject-attestation-signer-document-not-identity", "the DID document served for "
+              "the attestation key's DID carries another id", NO, "attestation_unsigned",
+              "ard", D, [_sign(D)],
+              attestations=[{"kind": "dsse", "predicate": CARD_RECEIPT, "subject": "artifact"}],
+              dids=[_set([ASSESSOR, "id"], "did:web:evil.example")],
+              context={"attestationFiles": ["attestation-0.dsse.json"]}),
+        _case("accept-assertion-method-relative-reference", "control: assertionMethod names the "
+              "key by the relative reference #es256, resolved against the document id (DID Core "
+              "3.2.2)", OK, PASS, "aic", AIC, [_sign(AIC)],
+              dids=[_set([PUB, "assertionMethod"], ["#es256", PUB + "#ed25519"])]),
+        _case("accept-issued-with-fraction", "control: an RFC 3339 issuedAt with fractional "
+              "seconds", OK, PASS, "aic", AIC, [_sign(AIC)],
+              before=[_set(M0 + ["signature", "issuedAt"], "2026-11-01T00:00:00.000Z")]),
+        _case("accept-issued-with-offset", "control: an RFC 3339 issuedAt with a numeric offset, "
+              "compared as an instant", OK, PASS, "aic", AIC, [_sign(AIC)],
+              before=[_set(M0 + ["signature", "issuedAt"], "2026-11-01T01:00:00+01:00")]),
+        _case("accept-draft-inline-data", "control: an entry delivered as inline data has no url, "
+              "so there is no origin to bind (draft 3.3, 6.2)", OK, PASS, "ard", D, [_sign(D)],
+              before=[_del(["entries", 0, "url"]),
+                      _set(["entries", 0, "data"], {"name": "travel agent", "version": "1.0.0"})]),
+    ]
 
 
 TABLE: list[dict[str, Any]] = [
@@ -269,6 +380,7 @@ TABLE: list[dict[str, Any]] = [
           "aic", AIC, [_sign(AIC)], context={"at": "2026-10-01T00:00:00Z"}),
     _case("reject-manifest-expired", "checked at expiresAt", NO, "manifest_expired",
           "ard", D, [_sign(D)], context={"at": EXPIRES}),
+    *_closed_terms(),
 ]
 
 

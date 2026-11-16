@@ -1,6 +1,6 @@
 # vectors-catalog-trust-manifest
 
-Suite `catalog-trust-manifest/v1`: 60 cases (15 accept, 45 reject) for a verifier of signed ARD and AI Catalog objects. The profile is [profiles/catalog-trust-manifest.md](../../profiles/catalog-trust-manifest.md).
+Suite `catalog-trust-manifest/v1`: 86 cases (19 accept, 67 reject) for a verifier of signed ARD and AI Catalog objects. The profile is [profiles/catalog-trust-manifest.md](../../profiles/catalog-trust-manifest.md).
 
 Each case directory holds `catalog.json` (the bytes as published), `did-documents.json` (what an offline did:web resolver returned, keyed by DID), `artifact.json` (the bytes the entry names), any vendored attestation document, and `context.json` (construction, entry and manifest index, role, check time, attestation file names).
 
@@ -94,3 +94,29 @@ Test keys only: each is derived from the SHA-256 of a public label in `gen_vecto
 | `reject-assessor-presented-as-publisher` | reject | `publisher_not_signer` | a valid assessor manifest judged in the publisher role |
 | `reject-issued-in-future` | reject | `issued_in_future` | checked before issuedAt |
 | `reject-manifest-expired` | reject | `manifest_expired` | checked at expiresAt |
+| `reject-role-unknown` | reject | `role_unknown` | the context names a role outside the closed term (publisher, contributor); a verifier that skips the publisher rule for it accepts an assessor as the publisher |
+| `reject-catalog-not-json` | reject | `json_invalid` | the catalog carries NaN, which is not JSON |
+| `reject-b64-not-boolean` | reject | `jws_malformed` | b64 is the string "false" (RFC 7797 section 3: the value is a boolean), declared critical |
+| `reject-aic-profile-unsupported` | reject | `profile_unsupported` | signature.profile names a procedure this verifier does not implement; AI Catalog consumers never infer another |
+| `reject-aic-profile-absent` | reject | `profile_unsupported` | the Signature object has no profile member |
+| `reject-snapshot-profile-unsupported` | reject | `profile_unsupported` | the catalog signature names a profile this verifier does not implement |
+| `reject-aic-signer-path-did` | reject | `signer_not_root_did_web` | the signer is did:web:other.example:team, not a root did:web DID (lowercase ASCII domain, no port, no path) |
+| `reject-aic-signer-uppercase-domain` | reject | `signer_not_root_did_web` | the signer is did:web:Other.example, not a root did:web DID (lowercase ASCII domain, no port, no path) |
+| `reject-aic-signer-port` | reject | `signer_not_root_did_web` | the signer is did:web:other.example%3A8443, not a root did:web DID (lowercase ASCII domain, no port, no path) |
+| `reject-snapshot-signer-path-did` | reject | `signer_not_root_did_web` | a catalog signature by a path-based did:web DID |
+| `reject-verification-method-ambiguous` | reject | `verification_method_ambiguous` | two verification methods carry the kid as their id, the second holding another key that made the signature |
+| `reject-aic-method-controller-other` | reject | `method_controller_mismatch` | the selected method's controller is another DID than the signer |
+| `reject-jwk-use-enc` | reject | `jwk_not_signing_key` | the method's JWK is marked for encryption (use enc) |
+| `reject-jwk-private-member` | reject | `jwk_not_signing_key` | the method's JWK carries a private member d |
+| `reject-jwk-alg-other` | reject | `jwk_not_signing_key` | the method's JWK names ES384 while the header names ES256 |
+| `reject-jwk-key-ops-sign-only` | reject | `jwk_not_signing_key` | the method's JWK permits sign but not verify |
+| `reject-jwk-x-33-octets` | reject | `jwk_not_signing_key` | the method's JWK carries a 33-octet x coordinate holding the right integer |
+| `reject-aic-issued-absent` | reject | `timestamp_invalid` | the Signature object has no issuedAt, which the AI Catalog requires |
+| `reject-issued-not-a-date` | reject | `timestamp_invalid` | issuedAt is 2026-02-30, which matches the pattern and names no day |
+| `reject-expires-not-after-issued` | reject | `timestamp_invalid` | expiresAt precedes issuedAt |
+| `reject-draft-identifier-absent` | reject | `subject_entry_mismatch` | entry and subject both lack identifier, so the signed subject names no entry |
+| `reject-attestation-signer-document-not-identity` | reject | `attestation_unsigned` | the DID document served for the attestation key's DID carries another id |
+| `accept-assertion-method-relative-reference` | accept | `signature_covers_release` | control: assertionMethod names the key by the relative reference #es256, resolved against the document id (DID Core 3.2.2) |
+| `accept-issued-with-fraction` | accept | `signature_covers_release` | control: an RFC 3339 issuedAt with fractional seconds |
+| `accept-issued-with-offset` | accept | `signature_covers_release` | control: an RFC 3339 issuedAt with a numeric offset, compared as an instant |
+| `accept-draft-inline-data` | accept | `signature_covers_release` | control: an entry delivered as inline data has no url, so there is no origin to bind (draft 3.3, 6.2) |

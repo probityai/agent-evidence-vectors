@@ -27,6 +27,7 @@ from __future__ import annotations
 import argparse
 import base64
 import binascii
+import calendar
 import copy
 import decimal
 import hashlib
@@ -37,7 +38,7 @@ import shlex
 import subprocess
 import sys
 from collections.abc import Callable
-from datetime import UTC, datetime
+from fractions import Fraction
 from pathlib import Path
 from typing import Any
 
@@ -59,10 +60,14 @@ SAFE = 2**53 - 1
 PASS_REASON = {DRAFT: "signature_covers_release", FIELD: "signature_covers_release",
                AIC: "signature_covers_release", SNAPSHOT: "snapshot_signature_valid"}
 IN_TOTO = "https://in-toto.io/Statement/v1"
+# The AI Catalog did:web Signer Profile, selected by its exact reserved name.
+SIGNER_PROFILE = "did-web-v1"
+ROLES = ("publisher", "contributor")
+PRIVATE_JWK_MEMBERS = ("d", "p", "q", "dp", "dq", "qi", "oth", "k")
 DSSE_TYPE = "application/vnd.in-toto+json"
 
 # Gates end the read: no later check has an object to look at. They are not switchable.
-GATES = ("construction_unknown", "signature_missing")
+GATES = ("construction_unknown", "role_unknown", "json_invalid", "signature_missing")
 CHECKS = (
     "duplicate_member",
     "jws_malformed",
@@ -72,10 +77,15 @@ CHECKS = (
     "b64_forbidden_for_profile",
     "jws_crit_unsupported",
     "b64_without_crit",
+    "profile_unsupported",
+    "signer_not_root_did_web",
     "kid_not_under_identity",
     "did_document_not_identity",
     "kid_not_in_did_document",
+    "verification_method_ambiguous",
     "key_not_assertion_method",
+    "method_controller_mismatch",
+    "jwk_not_signing_key",
     "alg_key_mismatch",
     "number_not_interoperable",
     "no_canonical_form",
@@ -91,6 +101,7 @@ CHECKS = (
     "attestation_transplanted",
     "publisher_not_signer",
     "publisher_authorization_absent",
+    "timestamp_invalid",
     "issued_in_future",
     "manifest_expired",
 )
@@ -101,8 +112,14 @@ _IN_WHEEL = (_HERE / "corpora").exists()
 ROOTS = {SUITE: (_HERE / "corpora" / "vectors-catalog-trust-manifest" if _IN_WHEEL
                  else _HERE.parents[1] / "corpora" / "vectors-catalog-trust-manifest")}
 _B64URL = re.compile(r"[A-Za-z0-9_-]*")
-_DID_WEB = re.compile(r"did:web:[a-z0-9.-]+")
-_TIME = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z")
+_LABEL = r"[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?"
+# A root did:web DID: a lowercase ASCII domain (A-labels allowed), no port, path or
+# trailing dot (AI Catalog, "The did:web Signer Profile").
+_ROOT_DID_WEB = re.compile(rf"did:web:(?:{_LABEL}\.)*{_LABEL}")
+_IPV4 = re.compile(r"did:web:\d+\.\d+\.\d+\.\d+")
+# RFC 3339 section 5.6 date-time; "T" and "Z" may be lowercase (section 5.6 NOTE).
+_TIME = re.compile(r"(\d{4})-(\d{2})-(\d{2})[Tt](\d{2}):(\d{2}):(\d{2})(\.\d+)?"
+                   r"(?:([Zz])|([+-])(\d{2}):(\d{2}))")
 
 
 class Refused(Exception):
@@ -349,27 +366,80 @@ def verify_signature(alg: str, key: Any, message: bytes, signature: bytes) -> bo
     return p256.verify(key, message, signature)
 
 
-def _methods(document: dict[str, Any]) -> tuple[dict[str, dict[str, Any]], set[str]]:
-    methods: dict[str, dict[str, Any]] = {}
-    for method in document.get("verificationMethod", []) or []:
-        if isinstance(method, dict) and isinstance(method.get("id"), str):
-            methods[method["id"]] = method
+def _jwk_fault(method: dict[str, Any], alg: Any) -> bool:
+    """True when the method's JWK is not a public key fit to verify ``alg`` (RFC 7517 4.2-4.4,
+    RFC 7518 6.2.1, AI Catalog "JWS Algorithm and Key Requirements")."""
+    jwk = method.get("publicKeyJwk")
+    if not isinstance(jwk, dict):
+        return False  # no key at all is alg_key_mismatch
+    if any(name in jwk for name in PRIVATE_JWK_MEMBERS):
+        return True
+    if "use" in jwk and jwk["use"] != "sig":
+        return True
+    if "key_ops" in jwk and not (isinstance(jwk["key_ops"], list) and "verify" in jwk["key_ops"]):
+        return True
+    if "alg" in jwk and jwk["alg"] != alg:
+        return True
+    if jwk.get("kty") == "EC":
+        try:
+            return len(b64url_decode(jwk["x"])) != 32 or len(b64url_decode(jwk["y"])) != 32
+        except (KeyError, ValueError):
+            return True
+    return False
+
+
+def _absolute(ref: Any, base: Any) -> Any:
+    """A DID URL with a relative reference resolved against the document id (DID Core 3.2.2)."""
+    if isinstance(ref, str) and ref.startswith("#") and isinstance(base, str):
+        return base + ref
+    return ref
+
+
+def _methods(document: dict[str, Any]) -> tuple[list[dict[str, Any]], set[str]]:
+    """Every verification method with its id made absolute, and the assertion ids."""
+    base = document.get("id")
+    methods: list[dict[str, Any]] = []
     assertion: set[str] = set()
-    for item in document.get("assertionMethod", []) or []:
+    listed = document.get("verificationMethod", [])
+    for method in listed if isinstance(listed, list) else []:
+        if isinstance(method, dict) and isinstance(method.get("id"), str):
+            methods.append({**method, "id": _absolute(method["id"], base)})
+    granted = document.get("assertionMethod", [])
+    for item in granted if isinstance(granted, list) else []:
         if isinstance(item, str):
-            assertion.add(item)
+            assertion.add(_absolute(item, base))
         elif isinstance(item, dict) and isinstance(item.get("id"), str):
-            assertion.add(item["id"])
-            methods[item["id"]] = item
+            embedded = {**item, "id": _absolute(item["id"], base)}
+            assertion.add(embedded["id"])
+            methods.append(embedded)
     return methods, assertion
+
+
+def _selected(methods: list[dict[str, Any]], kid: Any) -> list[dict[str, Any]]:
+    return [m for m in methods if m["id"] == kid]
 
 
 # --------------------------------------------------------------------------- the verdict
 
-def _time(text: Any) -> datetime | None:
-    if not isinstance(text, str) or not _TIME.fullmatch(text):
+def _instant(text: Any) -> Fraction | None:
+    """An RFC 3339 date-time as exact seconds since 1970, or None when it is not one."""
+    match = _TIME.fullmatch(text) if isinstance(text, str) else None
+    if match is None:
         return None
-    return datetime.strptime(text, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=UTC)
+    year, month, day, hour, minute, second = (int(match[n]) for n in range(1, 7))
+    if month < 1 or month > 12 or day < 1 or day > calendar.monthrange(year, month)[1] or \
+            hour > 23 or minute > 59 or second > 60:
+        return None
+    seconds = Fraction(calendar.timegm((year, month, day, hour, minute, 0, 0, 0, 0)) + second)
+    if match[7]:
+        seconds += Fraction(match[7][1:]) / 10 ** (len(match[7]) - 1)
+    if not match[8]:
+        offset_hours, offset_minutes = int(match[10]), int(match[11])
+        if offset_hours > 23 or offset_minutes > 59:
+            return None
+        offset = (offset_hours * 60 + offset_minutes) * 60
+        seconds -= offset if match[9] == "+" else -offset
+    return seconds
 
 
 def _publisher(identifier: Any) -> str | None:
@@ -392,28 +462,53 @@ def _attestations(construction: str, case: Path, obj: dict[str, Any], entry: dic
                   skip: frozenset[str]) -> None:
     files = context.get("attestationFiles") or []
     items = obj.get("attestations") or []
-    for index, item in enumerate(items):
-        name = files[index] if index < len(files) else None
+    for index, item in enumerate(items if isinstance(items, list) else []):
+        name = files[index] if isinstance(files, list) and index < len(files) else None
         if not name:
             continue
-        data = (case / name).read_bytes()
+        path = case / name if isinstance(name, str) else None
+        # A vendored file sits in the case directory itself; a path that leaves it is not one.
+        data = path.read_bytes() if path is not None and path.parent == case and \
+            path.is_file() else None
+        digest = item.get("digest") if isinstance(item, dict) else None
         if "attestation_digest_mismatch" not in skip and \
-                item.get("digest") != "sha256:" + sha256_hex(data):
+                (data is None or digest != "sha256:" + sha256_hex(data)):
             raise Refused("attestation_digest_mismatch")
-        statement = _signed_statement(data, documents)
+        statement = _signed_statement(data, documents) if data is not None else None
         if statement is None:
             if "attestation_unsigned" not in skip:
                 raise Refused("attestation_unsigned")
             continue
-        subjects = statement.get("subject") or []
-        digests = {"sha256:" + s.get("digest", {}).get("sha256", "") for s in subjects
-                   if isinstance(s, dict) and isinstance(s.get("digest"), dict)}
+        subjects = statement.get("subject")
+        digests = {"sha256:" + s["digest"]["sha256"]
+                   for s in (subjects if isinstance(subjects, list) else [])
+                   if isinstance(s, dict) and isinstance(s.get("digest"), dict)
+                   and isinstance(s["digest"].get("sha256"), str)}
         if "attestation_transplanted" not in skip and entry.get("digest") not in digests:
             raise Refused("attestation_transplanted")
 
 
+def _dsse_key(keyid: Any, documents: dict[str, Any]) -> tuple[str, Any]:
+    """The algorithm and key a DSSE keyid names, or ("none", None)."""
+    if not isinstance(keyid, str) or "#" not in keyid:
+        return "none", None
+    did = keyid.split("#", 1)[0]
+    document = documents.get(did)
+    if not isinstance(document, dict) or document.get("id") != did:
+        return "none", None
+    methods, assertion = _methods(document)
+    selected = _selected(methods, keyid)
+    if len(selected) != 1 or keyid not in assertion:
+        return "none", None
+    alg, key = _public_key(selected[0])
+    return ("none", None) if _jwk_fault(selected[0], alg) else (alg, key)
+
+
 def _signed_statement(data: bytes, documents: dict[str, Any]) -> dict[str, Any] | None:
-    """The in-toto Statement inside a DSSE envelope whose signature verifies, else None."""
+    """The in-toto Statement inside a DSSE envelope whose signature verifies, else None.
+
+    The key is one the DID document of the keyid's DID authorizes for assertions, and that
+    document's id is that DID, as for the manifest signer."""
     try:
         envelope = strict_loads(data)
         body = base64.b64decode(envelope["payload"], validate=True)
@@ -425,25 +520,21 @@ def _signed_statement(data: bytes, documents: dict[str, Any]) -> dict[str, Any] 
         return None
     for signature in signatures:
         keyid = signature.get("keyid") if isinstance(signature, dict) else None
-        if not isinstance(keyid, str) or "#" not in keyid:
+        alg, key = _dsse_key(keyid, documents)
+        if key is None:
             continue
-        document = documents.get(keyid.split("#", 1)[0])
-        if not isinstance(document, dict):
-            continue
-        methods, assertion = _methods(document)
-        if keyid not in methods or keyid not in assertion:
-            continue
-        alg, key = _public_key(methods[keyid])
         try:
             raw = base64.b64decode(signature.get("sig", ""), validate=True)
-        except (binascii.Error, ValueError):
+        except (binascii.Error, ValueError, TypeError):
             continue
         if key is not None and verify_signature(alg, key, _dsse_pae(kind, body), raw):
             try:
                 statement = strict_loads(body)
             except (ValueError, UnicodeDecodeError):
                 return None
-            return statement if statement.get("_type") == IN_TOTO else None
+            if isinstance(statement, dict) and statement.get("_type") == IN_TOTO:
+                return statement
+            return None
     return None
 
 
@@ -479,6 +570,8 @@ def _judge(case: Path, skip: frozenset[str]) -> str:  # noqa: C901 - one ordered
     construction = context.get("construction")
     if construction not in CONSTRUCTIONS:
         raise Refused("construction_unknown")
+    if context.get("role") not in ROLES:
+        raise Refused("role_unknown")
     entry_index, manifest_index = context.get("entry", 0), context.get("manifest", 0)
     raw_catalog = (case / "catalog.json").read_bytes()
     raw_documents = (case / "did-documents.json").read_bytes()
@@ -487,6 +580,10 @@ def _judge(case: Path, skip: frozenset[str]) -> str:  # noqa: C901 - one ordered
     except Duplicate:
         fail("duplicate_member")
         catalog, documents = json.loads(raw_catalog), json.loads(raw_documents)
+    except (ValueError, UnicodeDecodeError) as exc:
+        raise Refused("json_invalid") from exc
+    if not isinstance(catalog, dict) or not isinstance(documents, dict):
+        raise Refused("json_invalid")
     found = signed_object(construction, catalog, entry_index, manifest_index)
     if found is None or not isinstance(jws_of(construction, found), str):
         raise Refused("signature_missing")
@@ -504,6 +601,8 @@ def _judge(case: Path, skip: frozenset[str]) -> str:  # noqa: C901 - one ordered
         if "jws_malformed" not in skip or len(parts) != 3:
             raise Refused("jws_malformed") from exc
         header, signature = _lenient_jws(parts)
+    if "b64" in header and not isinstance(header["b64"], bool):
+        fail("jws_malformed")  # RFC 7797 section 3: the b64 value is a boolean
     if construction in TYP and header.get("typ") != TYP[construction]:
         fail("typ_missing_or_mismatched")
     alg = header.get("alg")
@@ -520,6 +619,13 @@ def _judge(case: Path, skip: frozenset[str]) -> str:  # noqa: C901 - one ordered
     if "b64" in header and not (isinstance(crit, list) and "b64" in crit):
         fail("b64_without_crit")
     identity = identity_of(construction, obj)
+    if construction not in ARD_SHAPED:
+        # AI Catalog "Profile Selection": the named procedure, never one inferred.
+        if obj["signature"].get("profile") != SIGNER_PROFILE:
+            fail("profile_unsupported")
+        if not isinstance(identity, str) or not _ROOT_DID_WEB.fullmatch(identity) \
+                or _IPV4.fullmatch(identity):
+            fail("signer_not_root_did_web")
     kid = header.get("kid")
     kid_ok = (isinstance(kid, str) and isinstance(identity, str)
               and re.fullmatch(re.escape(identity) + r"#[A-Za-z0-9._~-]+", kid) is not None)
@@ -529,11 +635,19 @@ def _judge(case: Path, skip: frozenset[str]) -> str:  # noqa: C901 - one ordered
     if not isinstance(document, dict) or document.get("id") != identity:
         fail("did_document_not_identity")
     methods, assertion = _methods(document if isinstance(document, dict) else {})
-    if kid not in methods:
+    selected = _selected(methods, kid)
+    if not selected:
         fail("kid_not_in_did_document")
+    if len(selected) > 1:
+        fail("verification_method_ambiguous")  # exactly one method has the kid as its id
     if kid not in assertion:
         fail("key_not_assertion_method")
-    key_alg, key = _public_key(methods.get(kid, {})) if isinstance(kid, str) else ("none", None)
+    method = selected[-1] if selected else {}
+    if construction not in ARD_SHAPED and method.get("controller") != identity:
+        fail("method_controller_mismatch")
+    key_alg, key = _public_key(method)
+    if _jwk_fault(method, alg):
+        fail("jwk_not_signing_key")
     if key_alg != alg:
         fail("alg_key_mismatch")
     signed = payload(construction, catalog, entry_index, manifest_index)
@@ -561,9 +675,12 @@ def _judge(case: Path, skip: frozenset[str]) -> str:  # noqa: C901 - one ordered
     if not isinstance(subject, dict):
         fail("subject_missing")
         subject = {}
-    for member in ("identifier", "type", "digest"):
-        if subject.get(member) != entry.get(member):
+    for member in ("identifier", "type"):
+        # Both are required strings on the entry (draft section 3.1, AI Catalog entry).
+        if not isinstance(entry.get(member), str) or subject.get(member) != entry.get(member):
             fail("subject_entry_mismatch")
+    if subject.get("digest") != entry.get("digest"):
+        fail("subject_entry_mismatch")
     if ("version" in subject) != ("version" in entry) or \
             subject.get("version") != entry.get("version"):
         fail("subject_entry_mismatch")
@@ -574,7 +691,9 @@ def _judge(case: Path, skip: frozenset[str]) -> str:  # noqa: C901 - one ordered
     if artifact_bytes is None or entry.get("digest") != "sha256:" + sha256_hex(artifact_bytes):
         fail("artifact_digest_mismatch")
     publisher = _publisher(entry.get("identifier"))
-    if construction in ARD_SHAPED and _origin(entry.get("url")) != f"https://{publisher}":
+    # Draft 6.2 binds a url to its origin; an entry delivered as inline data has no url.
+    if construction in ARD_SHAPED and "url" in entry and \
+            _origin(entry.get("url")) != f"https://{publisher}":
         try:
             descriptor = strict_loads(artifact_bytes) if artifact_bytes else {}
         except (ValueError, UnicodeDecodeError):
@@ -594,13 +713,18 @@ def _judge(case: Path, skip: frozenset[str]) -> str:  # noqa: C901 - one ordered
 
 def _times(construction: str, holder: dict[str, Any], context: dict[str, Any],
            fail: Callable[[str], None]) -> None:
+    """RFC 3339 instants; the AI Catalog Signature object requires issuedAt, the draft
+    only recommends it, and expiresAt, when present, is later than issuedAt."""
     issued, expires = times_of(construction, holder)
-    at = _time(context.get("at"))
-    start = _time(issued)
-    if at is None or (issued is not None and start is None) or (start is not None and at < start):
+    at, start = _instant(context.get("at")), _instant(issued)
+    end = _instant(expires)
+    if at is None or (issued is None and construction not in ARD_SHAPED) or \
+            (issued is not None and start is None) or (expires is not None and end is None) or \
+            (start is not None and end is not None and end <= start):
+        fail("timestamp_invalid")
+    if at is not None and start is not None and at < start:
         fail("issued_in_future")
-    end = _time(expires) if expires is not None else None
-    if at is not None and expires is not None and (end is None or at >= end):
+    if at is not None and end is not None and at >= end:
         fail("manifest_expired")
 
 
