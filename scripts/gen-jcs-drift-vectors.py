@@ -3,10 +3,10 @@
 
 ``corpora/jcs-byte-vectors/cases.json`` carries two kinds of members. The
 canonical and reject cases are authored by hand. ``driftCases``,
-``depthCases``, ``refusalCases`` and ``noncharacterCases`` are written by this
-script, and nothing else touches those keys. ``--check`` regenerates them in
-memory and exits 1 when the file on disk differs, so a hand edit to a generated
-key cannot survive CI.
+``depthCases``, ``refusalCases``, ``noncharacterCases`` and ``preimageCases``
+are written by this script, and nothing else touches those keys. ``--check``
+regenerates them in memory and exits 1 when the file on disk differs, so a hand
+edit to a generated key cannot survive CI.
 
 Drift cases (``driftCases``): bytes that a producer printed and presented as the
 canonical form of a value, which RFC 8785 does not print that way. Each member
@@ -33,6 +33,13 @@ RFC 8785 prints a noncharacter as its UTF-8 bytes, so the default profile pins
 ``canonicalHex``. RFC 7493 section 2.1 says a member name or string value MUST
 NOT include one, escaped or not, so the bounded profile refuses every member
 (``boundedError``), as ``jcs_admit::admit_ijson`` does.
+
+Preimage cases (``preimageCases``): which bytes a field digest covers. A scalar
+text value hashes its raw UTF-8 bytes, a structured value hashes its RFC 8785
+bytes, and an absent value hashes the empty input. Each member pins the correct
+``sha256`` and the ``statedWrongSha256`` a reader gets from the usual mistake
+(hashing the scalar's JSON form, the structured value as written, or ``null``),
+so a reader that makes the mistake fails the member instead of agreeing with it.
 
 Usage (from the repository root):
     python3 scripts/gen-jcs-drift-vectors.py           # write
@@ -386,12 +393,66 @@ def noncharacter_cases() -> list[dict[str, str]]:
     return out
 
 
+# id, profile, the value as JSON text (None when absent), the correct preimage,
+# the preimage of the stated wrong answer, and what the wrong answer hashed.
+PREIMAGES: tuple[tuple[str, str, str | None, bytes, bytes, str], ...] = (
+    ("scalar-ascii", "scalar-text", '"approve"', b"approve", b'"approve"', "json-form"),
+    (
+        "scalar-non-ascii",
+        "scalar-text",
+        '"caf\\u00e9"',
+        "caf\u00e9".encode(),
+        '"caf\u00e9"'.encode(),
+        "json-form",
+    ),
+    ("scalar-newline", "scalar-text", '"a\\nb"', b"a\nb", b'"a\\nb"', "json-form"),
+    ("scalar-empty", "scalar-text", '""', b"", b'""', "json-form"),
+    (
+        "structured-reordered",
+        "structured-json",
+        '{"b":2,"a":1}',
+        b'{"a":1,"b":2}',
+        b'{"b":2,"a":1}',
+        "as-written",
+    ),
+    (
+        "structured-escaped",
+        "structured-json",
+        '["caf\\u00e9"]',
+        '["caf\u00e9"]'.encode(),
+        b'["caf\\u00e9"]',
+        "as-written",
+    ),
+    ("absent", "absent", None, b"", b"null", "json-null"),
+)
+
+
+def preimage_cases() -> list[dict[str, object]]:
+    out: list[dict[str, object]] = []
+    for case_id, profile, text, right, wrong, mistake in PREIMAGES:
+        member: dict[str, object] = {"id": f"preimage-{case_id}", "profile": profile}
+        if text is not None:
+            member["value"] = text
+        member["preimageHex"] = right.hex()
+        member["sha256"] = hashlib.sha256(right).hexdigest()
+        member["statedWrongPreimageHex"] = wrong.hex()
+        member["statedWrongSha256"] = hashlib.sha256(wrong).hexdigest()
+        member["statedWrongReading"] = mistake
+        out.append(member)
+    empty = hashlib.sha256(b"").hexdigest()
+    for member in out:
+        if member["sha256"] == empty and member["profile"] != "absent":
+            member["collidesWith"] = "preimage-absent"
+    return out
+
+
 def render() -> str:
     corpus = json.loads(CASES.read_text("utf-8"))
     corpus["driftCases"] = drift_cases()
     corpus["depthCases"] = depth_cases()
     corpus["refusalCases"] = refusal_cases()
     corpus["noncharacterCases"] = noncharacter_cases()
+    corpus["preimageCases"] = preimage_cases()
     return json.dumps(corpus, indent=2) + "\n"
 
 

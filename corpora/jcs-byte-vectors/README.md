@@ -1,7 +1,7 @@
 # Canonical JSON bytes at the audit transcript boundary
 
 `cases.json` pins raw JSON, canonical UTF-8 hex, and SHA-256 for five small
-inputs, then 18 drift and 10 depth cases and a noncharacter family (below). `check.mjs` checks those bytes with ECMAScript string and number
+inputs, then 18 drift and 10 depth cases, a noncharacter family and a preimage family (below). `check.mjs` checks those bytes with ECMAScript string and number
 serialization and UTF-16 member sorting. The Go test checks the separate
 safe-integer record profile, including three malformed inputs.
 
@@ -95,6 +95,24 @@ The raw and escaped spellings of one value pin the same bytes, so a verifier tha
 refuses only one spelling fails the bounded run, and one that refuses either
 fails the default run. `jcs_admit::admit` prints them; `jcs_admit::admit_ijson`
 refuses them.
+
+## Preimage family
+
+`preimageCases` says which bytes a field digest covers, and pins the wrong
+answer a reader usually gives, so agreeing with it fails the member:
+
+| Profile | Correct preimage | Stated wrong answer (`statedWrongReading`) |
+| --- | --- | --- |
+| `scalar-text` | the string's raw UTF-8 bytes | its JSON form, quotes and escapes included (`json-form`) |
+| `structured-json` | the value's RFC 8785 bytes | the value as written (`as-written`) |
+| `absent` | the empty input, SHA-256 `e3b0c442...b855` | the text `null` (`json-null`) |
+
+`preimage-scalar-empty` carries `collidesWith: preimage-absent`: under this
+profile an empty string and an absent field hash the same bytes, so a record that
+must tell them apart needs a presence bit beside the digest. `check.mjs` recomputes
+every pinned digest with the ECMAScript oracle, and
+`scripts/jcs-drift-vectors-test.py` shows a reader that hashes the JSON form
+failing every scalar and absent member.
 
 RFC 8785 [sections 3.2.2 and 3.2.3](https://www.rfc-editor.org/rfc/rfc8785#section-3.2)
 define the byte rules. The safe-integer rejection is an application profile,

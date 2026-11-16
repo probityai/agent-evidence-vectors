@@ -157,4 +157,35 @@ for (const entry of cases.noncharacterCases) {
   runVerifier(entry, profile === "bounded" ? null : pinned);
 }
 
-console.log(`${cases.canonicalCases.length} JCS byte vectors, ${cases.driftCases.length} drift vectors, ${cases.refusalCases.length} refusal vectors, ${cases.depthCases.length} depth vectors and ${cases.noncharacterCases.length} noncharacter vectors checked${command ? ` against ${command[0]} (${profile})` : ""}`);
+// Preimage cases: which bytes a field digest covers. A scalar text value hashes
+// its raw UTF-8, a structured value its canonical bytes, an absent value the
+// empty input. Each member also states the wrong answer of the usual mistake,
+// which must be a different digest, so agreeing with it is a failure.
+const sha = bytes => createHash("sha256").update(bytes).digest("hex");
+for (const entry of cases.preimageCases) {
+  let right, wrong;
+  if (entry.profile === "scalar-text") {
+    const value = JSON.parse(entry.value);
+    if (typeof value !== "string") throw new Error(`${entry.id}: not a scalar text value`);
+    right = Buffer.from(value, "utf8");
+    wrong = Buffer.from(canonical(value), "utf8");
+  } else if (entry.profile === "structured-json") {
+    right = Buffer.from(canonical(JSON.parse(entry.value)), "utf8");
+    wrong = Buffer.from(entry.value, "utf8");
+  } else if (entry.profile === "absent") {
+    if (entry.value !== undefined) throw new Error(`${entry.id}: an absent value carries a value`);
+    right = Buffer.alloc(0);
+    wrong = Buffer.from("null", "utf8");
+  } else {
+    throw new Error(`${entry.id}: unknown preimage profile ${entry.profile}`);
+  }
+  if (
+    right.toString("hex") !== entry.preimageHex || sha(right) !== entry.sha256 ||
+    wrong.toString("hex") !== entry.statedWrongPreimageHex || sha(wrong) !== entry.statedWrongSha256 ||
+    entry.sha256 === entry.statedWrongSha256
+  ) {
+    throw new Error(`${entry.id}: preimage case disagrees with the ECMAScript oracle`);
+  }
+}
+
+console.log(`${cases.canonicalCases.length} JCS byte vectors, ${cases.driftCases.length} drift vectors, ${cases.refusalCases.length} refusal vectors, ${cases.depthCases.length} depth vectors, ${cases.noncharacterCases.length} noncharacter vectors and ${cases.preimageCases.length} preimage vectors checked${command ? ` against ${command[0]} (${profile})` : ""}`);

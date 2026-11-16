@@ -17,6 +17,7 @@ Usage: python3 scripts/jcs-drift-vectors-test.py
 
 from __future__ import annotations
 
+import hashlib
 import json
 import subprocess
 import sys
@@ -111,6 +112,42 @@ class NoncharacterFamily(unittest.TestCase):
             seen,
             {(p, s) for p in ("value", "member-name") for s in ("raw", "escaped")},
         )
+
+
+def field_digest(profile: str, value: str | None, *, json_form: bool = False) -> str:
+    """The digest a reader computes for one field; ``json_form`` is the usual mistake."""
+    if profile == "absent":
+        return hashlib.sha256(b"null" if json_form else b"").hexdigest()
+    parsed = a2ajcs.parse(value or "")
+    if profile == "scalar-text" and not json_form:
+        return hashlib.sha256(parsed.encode("utf-8")).hexdigest()
+    return hashlib.sha256(a2ajcs.canonicalize(parsed)).hexdigest()
+
+
+class PreimageFamily(unittest.TestCase):
+    """Raw UTF-8 for scalar text, RFC 8785 bytes for structure, empty for absent."""
+
+    def test_a_correct_reader_agrees_and_never_matches_the_stated_wrong_answer(self) -> None:
+        for case in CORPUS["preimageCases"]:
+            with self.subTest(case["id"]):
+                got = field_digest(case["profile"], case.get("value"))
+                self.assertEqual(got, case["sha256"])
+                self.assertNotEqual(got, case["statedWrongSha256"])
+
+    def test_a_reader_that_hashes_the_json_form_fails_every_scalar_and_absent_case(self) -> None:
+        for case in CORPUS["preimageCases"]:
+            if case["profile"] == "structured-json":
+                continue
+            with self.subTest(case["id"]):
+                got = field_digest(case["profile"], case.get("value"), json_form=True)
+                self.assertNotEqual(got, case["sha256"])
+                self.assertEqual(got, case["statedWrongSha256"])
+
+    def test_the_empty_string_collides_with_absent_and_says_so(self) -> None:
+        by_id = {c["id"]: c for c in CORPUS["preimageCases"]}
+        empty, absent = by_id["preimage-scalar-empty"], by_id["preimage-absent"]
+        self.assertEqual(empty["sha256"], absent["sha256"])
+        self.assertEqual(empty.get("collidesWith"), "preimage-absent")
 
 
 if __name__ == "__main__":
