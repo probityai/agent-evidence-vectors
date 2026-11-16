@@ -33,7 +33,7 @@
    "rdfs:isDefinedBy": {
     "@id": "https://w3id.org/agent-evidence/vocab/v1/key_history"
    },
-   "skos:definition": "The signing key was authorized when the record was issued and still is.",
+   "skos:definition": "The signing key was authorized when the record was issued, an authorization window that holds the issuance time is still open, and the history records no revocation of the key.",
    "skos:inScheme": {
     "@id": "https://w3id.org/agent-evidence/vocab/v1/"
    },
@@ -45,7 +45,7 @@
    "rdfs:isDefinedBy": {
     "@id": "https://w3id.org/agent-evidence/vocab/v1/key_history"
    },
-   "skos:definition": "The signing key was authorized when the record was issued and was retired by an ordinary rotation afterwards. The record stays valid.",
+   "skos:definition": "The signing key was authorized when the record was issued, and every window that held the issuance time has since ended, by an ordinary rotation or by a revocation whose effective time is after issuance. The record stays valid.",
    "skos:inScheme": {
     "@id": "https://w3id.org/agent-evidence/vocab/v1/"
    },
@@ -114,8 +114,8 @@ th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-
 <p>The standing of a signing key as of the time a record was issued, read from a key history the verifier holds (authorization start, rotation end, revocation with its effective time and reason). It separates a key rotated out after issuance, which leaves the record valid, from a key that was never authorized at issuance, which makes it a forgery. Without that separation a pre-rotation record and a forgery look the same, and a verifier either refuses every old record or accepts every forged one.</p>
 <h2>Registered values</h2>
 <ul>
-<li id="key_current"><code>https://w3id.org/agent-evidence/vocab/v1/key_history#key_current</code>: The signing key was authorized when the record was issued and still is.</li>
-<li id="key_rotated_out"><code>https://w3id.org/agent-evidence/vocab/v1/key_history#key_rotated_out</code>: The signing key was authorized when the record was issued and was retired by an ordinary rotation afterwards. The record stays valid.</li>
+<li id="key_current"><code>https://w3id.org/agent-evidence/vocab/v1/key_history#key_current</code>: The signing key was authorized when the record was issued, an authorization window that holds the issuance time is still open, and the history records no revocation of the key.</li>
+<li id="key_rotated_out"><code>https://w3id.org/agent-evidence/vocab/v1/key_history#key_rotated_out</code>: The signing key was authorized when the record was issued, and every window that held the issuance time has since ended, by an ordinary rotation or by a revocation whose effective time is after issuance. The record stays valid.</li>
 <li id="key_not_authorized_at_issue"><code>https://w3id.org/agent-evidence/vocab/v1/key_history#key_not_authorized_at_issue</code>: The signing key is known to the history, but its authorization began after the record&#x27;s issuance time or ended before it by rotation. The record is refused.</li>
 <li id="key_revoked"><code>https://w3id.org/agent-evidence/vocab/v1/key_history#key_revoked</code>: The signing key was revoked at or before the record&#x27;s issuance time, or revoked afterwards for compromise with an effective time at or before issuance. The record is refused.</li>
 <li id="key_unknown"><code>https://w3id.org/agent-evidence/vocab/v1/key_history#key_unknown</code>: The verifier holds no history that names the signing key. Nothing is decided: the result is indeterminate, never refused as forged and never accepted.</li>

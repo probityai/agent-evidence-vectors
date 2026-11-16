@@ -2808,7 +2808,7 @@ record_binding:
     value_definitions:
       rfc8785: "The JSON Canonicalization Scheme of RFC 8785, applied to the parsed value. Numbers are serialized from their IEEE 754 double, so two number tokens with the same nearest double give the same bytes."
       jcs_safe_integer_v1: "RFC 8785, plus one refusal applied to the parsed double: a number token whose nearest double is an integer of magnitude 2^53 or more is refused, whether the token was written as an integer, with a fraction or with an exponent. Fractions below that magnitude are allowed. Duplicate member names, lone surrogates and invalid UTF-8 are refused before parsing."
-      jcs_integer_only_v1: "RFC 8785 restricted to integer numbers: every number token is an integer of magnitude below 2^53, written without a fraction or an exponent. Any other number token puts the object outside this profile, which is a refusal by declared profile and not a canonicalization failure. Duplicate member names, lone surrogates and invalid UTF-8 are refused before parsing."
+      jcs_integer_only_v1: "RFC 8785 restricted to integer numbers: every number token is an integer of magnitude below 2^53, written without a fraction or an exponent, and never -0 (RFC 8785 writes it as 0, a rewrite this profile refuses). Any other number token puts the object outside this profile, which is a refusal by declared profile and not a canonicalization failure. Duplicate member names, lone surrogates and invalid UTF-8 are refused before parsing."
       cbor_deterministic: "The deterministic encoding of RFC 8949 section 4.2.1: preferred serialization, definite lengths and map keys sorted by their encoded bytes."
       raw: "No canonicalization: the digest or signature covers the exact bytes as transmitted or stored, and a verifier must hold those exact bytes."
     definition: >
@@ -2829,7 +2829,8 @@ record_binding:
       refuses a duplicate member name, a lone surrogate and invalid UTF-8
       before it builds a value, and it refuses an input it would have to
       rewrite to canonicalize (a respelled integer past 2^53 under
-      jcs_safe_integer_v1, any fraction under jcs_integer_only_v1). An input
+      jcs_safe_integer_v1, any fraction, exponent or -0 under
+      jcs_integer_only_v1). An input
       refused by the declared profile is reported as outside the profile, a
       count of its own, and never folded into agreement or disagreement.
     source_path: "the canonicalization member next to any digest or signature (for example evidence_ref.canonicalization, integrity.canonicalization)"
@@ -2886,7 +2887,7 @@ record_binding:
     check: >
       A verifier refuses a stream whose numbers do not start at 0 (or at the
       number a supplied anchor names), repeat, skip or fall, refuses a number
-      outside 0 to 2^53-1, and refuses a record whose number disagrees with
+      outside 0 to 2^53-1 (the anchor's starting number included), and refuses a record whose number disagrees with
       its position in the digest chain.
     source_path: "the seq member of a log or receipt record"
     issuers_in_production: []
@@ -3058,8 +3059,8 @@ record_binding:
     review_by: "2027-05-15"
     values: [key_current, key_rotated_out, key_not_authorized_at_issue, key_revoked, key_unknown]
     value_definitions:
-      key_current: "The signing key was authorized when the record was issued and still is."
-      key_rotated_out: "The signing key was authorized when the record was issued and was retired by an ordinary rotation afterwards. The record stays valid."
+      key_current: "The signing key was authorized when the record was issued, an authorization window that holds the issuance time is still open, and the history records no revocation of the key."
+      key_rotated_out: "The signing key was authorized when the record was issued, and every window that held the issuance time has since ended, by an ordinary rotation or by a revocation whose effective time is after issuance. The record stays valid."
       key_not_authorized_at_issue: "The signing key is known to the history, but its authorization began after the record's issuance time or ended before it by rotation. The record is refused."
       key_revoked: "The signing key was revoked at or before the record's issuance time, or revoked afterwards for compromise with an effective time at or before issuance. The record is refused."
       key_unknown: "The verifier holds no history that names the signing key. Nothing is decided: the result is indeterminate, never refused as forged and never accepted."
@@ -3075,8 +3076,11 @@ record_binding:
       A verifier evaluates the history at the record's issuance time, not at
       the time of checking, and only when the issuance time is itself bound
       by the signature. A revocation for compromise is applied at its
-      effective time, which may precede its publication. A key absent from
-      the history gives key_unknown and an indeterminate result.
+      effective time, which may precede its publication. It reads every
+      entry that names the key (a key may hold several authorization
+      windows), never only the first, so a later entry that revokes the key
+      is never hidden behind an earlier one. A key absent from the history
+      gives key_unknown and an indeterminate result.
     source_path: "the verifier's report over a signed record, against a key history document"
     issuers_in_production: []
     promotion_trigger: "An independently maintained verifier that is not us reports key standing as of issuance with these distinctions on real records and files a crosswalk with evidence: emitted."

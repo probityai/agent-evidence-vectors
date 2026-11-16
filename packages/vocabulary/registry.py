@@ -350,20 +350,24 @@ def number_in_profile(token: str, profile: str) -> Derived:
 
     ``rfc8785`` accepts every finite token; ``jcs_safe_integer_v1`` refuses a token whose nearest double
     is an integer of magnitude 2^53 or more, however it is written; ``jcs_integer_only_v1`` refuses any
-    token that is not an integer written without fraction or exponent, or whose magnitude is 2^53 or more.
-    A refusal here is a refusal by declared profile, never a canonicalization failure.
+    token that is not an integer written without fraction or exponent, whose magnitude is 2^53 or more, or
+    that is ``-0`` (RFC 8785 writes it as ``0``, a rewrite the profile refuses). The whole string must be
+    the token: a trailing line feed is not a number. A refusal here is a refusal by declared profile, never a
+    canonicalization failure.
     """
     term = "canonicalization"
     if profile not in ("rfc8785", "jcs_safe_integer_v1", "jcs_integer_only_v1"):
         return _refuse(term, "profile-not-a-json-canonicalization")
-    if not _NUMBER_TOKEN.match(token):
+    if not isinstance(token, str) or not _NUMBER_TOKEN.fullmatch(token):
         return _refuse(term, "not-a-json-number")
     double = float(token)
     if double in (float("inf"), float("-inf")):
         return _refuse(term, "number-not-finite")
     if profile == "jcs_integer_only_v1":
-        if not _INTEGER_TOKEN.match(token):
+        if not _INTEGER_TOKEN.fullmatch(token):
             return _refuse(term, "outside-profile-not-an-integer")
+        if token == "-0":
+            return _refuse(term, "outside-profile-negative-zero")
         if abs(int(token)) >= _SAFE:
             return _refuse(term, "outside-profile-integer-range")
     if profile == "jcs_safe_integer_v1" and double.is_integer() and abs(double) >= _SAFE:
@@ -372,8 +376,13 @@ def number_in_profile(token: str, profile: str) -> Derived:
 
 
 def sequence_numbers(seqs: list, start: int = 0) -> Derived:
-    """Judge a stream's seq values: from ``start``, rising by exactly 1, each in 0 to 2^53-1."""
+    """Judge a stream's seq values: from ``start``, rising by exactly 1, each in 0 to 2^53-1.
+
+    ``start`` (0, or the number a supplied anchor names) is held to the same range as every seq value.
+    """
     term = "sequence_number"
+    if isinstance(start, bool) or not isinstance(start, int) or not 0 <= start < _SAFE:
+        return _refuse(term, "seq-start-not-a-safe-count")
     expected = start
     for seq in seqs:
         if isinstance(seq, bool) or not isinstance(seq, int) or not 0 <= seq < _SAFE:
@@ -384,25 +393,42 @@ def sequence_numbers(seqs: list, start: int = 0) -> Derived:
     return Derived(term, str(expected - start), False, "contiguous")
 
 
+def _safe_count(value) -> bool:
+    return not isinstance(value, bool) and isinstance(value, int) and 0 <= value < _SAFE
+
+
 def key_history(history: list[dict], key_id: str, issued_at: int) -> Derived:
     """Derive key_history for ``key_id`` as of ``issued_at`` from a key history.
 
-    Each history entry is {key, authorized_from, retired_at?, revoked_at?}; times are integers. A revocation
-    applies at its effective time, which may precede its publication. An unnamed key is key_unknown.
+    Each history entry is {key, authorized_from, retired_at?, revoked_at?}; times are integers in 0 to
+    2^53-1. A key may have several entries (re-authorization windows); every entry that names the key is
+    read, never only the first. A revocation of the key in any entry applies at its effective time, which
+    may precede its publication: at or before issuance it gives key_revoked. The key was authorized at
+    issuance when some window [authorized_from, retired_at) holds it. It is key_current only when such a
+    window is still open and no revocation is recorded; a retirement or a revocation effective after
+    issuance gives key_rotated_out, and the record stays valid. An unnamed key is key_unknown.
     """
     term = "key_history"
+    if not _safe_count(issued_at):
+        return _refuse(term, "issued-at-outside-the-safe-range")
     entries = [e for e in history if e.get("key") == key_id]
     if not entries:
         return Derived(term, "key_unknown", False, "the history does not name the key")
-    entry = entries[0]
-    revoked, retired = entry.get("revoked_at"), entry.get("retired_at")
-    if revoked is not None and revoked <= issued_at:
+    for entry in entries:
+        times = [entry.get("authorized_from"), *(entry[k] for k in ("retired_at", "revoked_at")
+                                                 if entry.get(k) is not None)]
+        if not all(_safe_count(t) for t in times):
+            return _refuse(term, "history-entry-malformed")
+    revocations = [e["revoked_at"] for e in entries if e.get("revoked_at") is not None]
+    if any(r <= issued_at for r in revocations):
         return Derived(term, "key_revoked", False, "revoked at or before issuance")
-    if entry["authorized_from"] > issued_at or (retired is not None and retired <= issued_at):
+    covering = [e for e in entries if e["authorized_from"] <= issued_at
+                and (e.get("retired_at") is None or e["retired_at"] > issued_at)]
+    if not covering:
         return Derived(term, "key_not_authorized_at_issue", False, "not authorized at issuance")
-    if retired is not None:
-        return Derived(term, "key_rotated_out", False, "authorized at issuance, retired afterwards")
-    return Derived(term, "key_current", False, "authorized at issuance and still")
+    if not revocations and any(e.get("retired_at") is None for e in covering):
+        return Derived(term, "key_current", False, "authorized at issuance and still")
+    return Derived(term, "key_rotated_out", False, "authorized at issuance, ended afterwards")
 
 
 # ---------------------------------------------------------------- evaluation_claim

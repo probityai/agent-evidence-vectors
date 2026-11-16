@@ -170,6 +170,12 @@ _NUMBERS = (
     ("1e400", "rfc8785", "number-not-finite"),
     ("01", "rfc8785", "not-a-json-number"),
     ("1", "cbor_deterministic", "profile-not-a-json-canonicalization"),
+    # -0 is an integer token RFC 8785 rewrites to 0; the integer-only profile refuses the rewrite.
+    ("-0", "jcs_integer_only_v1", "outside-profile-negative-zero"),
+    ("-0", "jcs_safe_integer_v1", "jcs_safe_integer_v1"),
+    # A trailing line feed is not part of a number token ($ in a regex would have let it through).
+    ("1\n", "rfc8785", "not-a-json-number"),
+    ("1\n", "jcs_integer_only_v1", "not-a-json-number"),
 )
 
 #: (seq values, expected value or refusal reason)
@@ -184,6 +190,14 @@ _SEQUENCES = (
     ([2 ** 53], "seq-not-a-safe-count"),
 )
 
+#: (start, seq values, expected value or refusal reason): the start an anchor names is range-checked too
+_STARTS = (
+    (3, [3, 4], "2"),
+    (-5, [], "seq-start-not-a-safe-count"),
+    (True, [1], "seq-start-not-a-safe-count"),
+    (2 ** 53, [], "seq-start-not-a-safe-count"),
+)
+
 _HISTORY = [
     {"key": "k-current", "authorized_from": 100},
     {"key": "k-rotated", "authorized_from": 100, "retired_at": 500},
@@ -191,6 +205,13 @@ _HISTORY = [
     {"key": "k-retired-early", "authorized_from": 50, "retired_at": 150},
     {"key": "k-revoked", "authorized_from": 100, "revoked_at": 180},
     {"key": "k-revoked-later", "authorized_from": 100, "revoked_at": 250},
+    # A second entry for one key revokes it; a reader of the first entry only reports key_current.
+    {"key": "k-dup", "authorized_from": 100},
+    {"key": "k-dup", "authorized_from": 100, "revoked_at": 150},
+    # Two authorization windows with a gap between them.
+    {"key": "k-window", "authorized_from": 0, "retired_at": 100},
+    {"key": "k-window", "authorized_from": 300},
+    {"key": "k-bad", "authorized_from": True},
 ]
 
 #: (key, issued_at, expected value)
@@ -201,7 +222,12 @@ _KEYS = (
     ("k-retired-early", 200, "key_not_authorized_at_issue"),
     ("k-revoked", 200, "key_revoked"),
     ("k-revoked", 180, "key_revoked"),
-    ("k-revoked-later", 200, "key_current"),
+    ("k-revoked-later", 200, "key_rotated_out"),
+    ("k-dup", 200, "key_revoked"),
+    ("k-window", 200, "key_not_authorized_at_issue"),
+    ("k-window", 50, "key_rotated_out"),
+    ("k-window", 350, "key_current"),
+    ("k-bad", 200, None),
     ("k-nobody", 200, "key_unknown"),
 )
 
@@ -221,11 +247,15 @@ def _check_derivations(registry) -> tuple[list[str], int]:
         got = _label(registry.sequence_numbers(seqs))
         if got != expected:
             failures.append(f"sequence_numbers({seqs!r}) gave {got!r}, expected {expected!r}")
+    for start, seqs, expected in _STARTS:
+        got = _label(registry.sequence_numbers(seqs, start))
+        if got != expected:
+            failures.append(f"sequence_numbers({seqs!r}, {start!r}) gave {got!r}, expected {expected!r}")
     for key, issued_at, expected in _KEYS:
         got = registry.key_history(_HISTORY, key, issued_at).value
         if got != expected:
             failures.append(f"key_history({key!r}, {issued_at}) gave {got!r}, expected {expected!r}")
-    return failures, len(_NUMBERS) + len(_SEQUENCES) + len(_KEYS)
+    return failures, len(_NUMBERS) + len(_SEQUENCES) + len(_STARTS) + len(_KEYS)
 
 
 def main() -> int:

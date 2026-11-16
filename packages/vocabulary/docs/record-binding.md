@@ -43,6 +43,7 @@ The link from a record to the one before it is `receipt_chain_link`, in the `dec
 | `1.5` | in | in | outside |
 | `1e2` | in | in | outside |
 | `1.00000000000000001e16` | in | outside | outside |
+| `-0` | in (written `0`) | in (written `0`) | outside (the profile refuses the rewrite to `0`) |
 
 `registry.number_in_profile(token, profile)` in the Python package applies the rule to one token:
 
@@ -58,7 +59,7 @@ RFC 7493 section 2.2 says only that a sender cannot expect exactness past 2^53-1
 
 ## Key history as of issuance
 
-`registry.key_history(history, key_id, issued_at)` reads a history of `{key, authorized_from, retired_at, revoked_at}` entries at the signed issuance time. A key retired by rotation after issuance is `key_rotated_out` and the record stays valid; a key whose authorization had not begun, or had ended, at issuance is `key_not_authorized_at_issue` and the record is refused; a revocation for compromise applies from its effective time; a key the history does not name is `key_unknown`, an indeterminate result.
+`registry.key_history(history, key_id, issued_at)` reads a history of `{key, authorized_from, retired_at, revoked_at}` entries at the signed issuance time. Every entry that names the key is read, never only the first, so a later entry that revokes it is not hidden behind an earlier one. A key whose every window holding the issuance time has since ended, by rotation or by a revocation effective after issuance, is `key_rotated_out` and the record stays valid; `key_current` needs a window that is still open and no recorded revocation; a key whose authorization had not begun, or had ended, at issuance is `key_not_authorized_at_issue` and the record is refused; a revocation for compromise applies from its effective time; a key the history does not name is `key_unknown`, an indeterminate result.
 
 ## Crosswalks
 

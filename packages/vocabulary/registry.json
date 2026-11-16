@@ -1,6 +1,6 @@
 {
   "source": "vocabulary.yaml",
-  "source_sha256": "82735a578b434af1e9be3248912e8cbe9de49e5b98803ef1ac4ba232545e50ed",
+  "source_sha256": "88245d17506d234fa3797d98999102b8329872991d7e6fb54fc42c16215efd78",
   "term_uri_base": "https://w3id.org/agent-evidence/vocab/v1/",
   "terms": {
     "acceptance_observed": {
@@ -173,7 +173,7 @@
       "uri": "https://w3id.org/agent-evidence/vocab/v1/canonicalization",
       "value_definitions": {
         "cbor_deterministic": "The deterministic encoding of RFC 8949 section 4.2.1: preferred serialization, definite lengths and map keys sorted by their encoded bytes.",
-        "jcs_integer_only_v1": "RFC 8785 restricted to integer numbers: every number token is an integer of magnitude below 2^53, written without a fraction or an exponent. Any other number token puts the object outside this profile, which is a refusal by declared profile and not a canonicalization failure. Duplicate member names, lone surrogates and invalid UTF-8 are refused before parsing.",
+        "jcs_integer_only_v1": "RFC 8785 restricted to integer numbers: every number token is an integer of magnitude below 2^53, written without a fraction or an exponent, and never -0 (RFC 8785 writes it as 0, a rewrite this profile refuses). Any other number token puts the object outside this profile, which is a refusal by declared profile and not a canonicalization failure. Duplicate member names, lone surrogates and invalid UTF-8 are refused before parsing.",
         "jcs_safe_integer_v1": "RFC 8785, plus one refusal applied to the parsed double: a number token whose nearest double is an integer of magnitude 2^53 or more is refused, whether the token was written as an integer, with a fraction or with an exponent. Fractions below that magnitude are allowed. Duplicate member names, lone surrogates and invalid UTF-8 are refused before parsing.",
         "raw": "No canonicalization: the digest or signature covers the exact bytes as transmitted or stored, and a verifier must hold those exact bytes.",
         "rfc8785": "The JSON Canonicalization Scheme of RFC 8785, applied to the parsed value. Numbers are serialized from their IEEE 754 double, so two number tokens with the same nearest double give the same bytes."
@@ -678,10 +678,10 @@
       "section": "record_binding",
       "uri": "https://w3id.org/agent-evidence/vocab/v1/key_history",
       "value_definitions": {
-        "key_current": "The signing key was authorized when the record was issued and still is.",
+        "key_current": "The signing key was authorized when the record was issued, an authorization window that holds the issuance time is still open, and the history records no revocation of the key.",
         "key_not_authorized_at_issue": "The signing key is known to the history, but its authorization began after the record's issuance time or ended before it by rotation. The record is refused.",
         "key_revoked": "The signing key was revoked at or before the record's issuance time, or revoked afterwards for compromise with an effective time at or before issuance. The record is refused.",
-        "key_rotated_out": "The signing key was authorized when the record was issued and was retired by an ordinary rotation afterwards. The record stays valid.",
+        "key_rotated_out": "The signing key was authorized when the record was issued, and every window that held the issuance time has since ended, by an ordinary rotation or by a revocation whose effective time is after issuance. The record stays valid.",
         "key_unknown": "The verifier holds no history that names the signing key. Nothing is decided: the result is indeterminate, never refused as forged and never accepted."
       },
       "values": [
