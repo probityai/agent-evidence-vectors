@@ -4,14 +4,16 @@ Admit raw JSON bytes before signing or hashing them. This package calls the same
 Rust parser and RFC 8785 canonicalizer as the `jcs-admit` crate. It refuses
 duplicate members and malformed raw strings before decoding can lose them.
 
-The npm distribution is `jcs-admit` version `0.1.0`, built from the public Rust
-core. To install a locally built tarball:
+The npm distribution is `jcs-admit` version `0.1.1`, built from the public Rust
+core. Pin it exactly:
 
 ```sh
-npm install ./jcs-admit-0.1.0.tgz
+npm install --save-exact jcs-admit@0.1.1
 ```
 
-Node 22.14 or newer, ESM:
+A locally built tarball installs the same way: `npm install ./jcs-admit-0.1.1.tgz`.
+
+Node 20 or newer, ESM:
 
 ```js
 import { admit, admit_ijson, JcsError } from "jcs-admit";

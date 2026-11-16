@@ -61,6 +61,23 @@ export function checkInputContract(api) {
     buffer: { value: new ArrayBuffer(1) }, [Symbol.toStringTag]: { value: "Int8Array" },
   });
   same([...api.admit(shadowed)], [123, 125], "own properties did not replace the intrinsic byte view");
+  // Four inputs with no RFC 8785 canonical form. A canonicalizer that parses
+  // first and serializes second emits bytes for every one of them; this
+  // package receives the bytes and must refuse each, under both profiles.
+  const noCanonicalForm = [
+    [new TextEncoder().encode('{"a":1,"a":2}'), "DuplicateMember"],
+    [new TextEncoder().encode('{"name":"Good","name":"Evil"}'), "DuplicateMember"],
+    [new Uint8Array([0x7b, 0x22, 0x61, 0x22, 0x3a, 0x22, 0xed, 0xa0, 0x80, 0x22, 0x7d]), "StringNotScalar"],
+    [new Uint8Array([0x7b, 0x22, 0x61, 0x22, 0x3a, 0x22, 0xff, 0x22, 0x7d]), "StringNotScalar"],
+  ];
+  for (const [input, variant] of noCanonicalForm) {
+    for (const profile of ["admit", "admit_ijson"]) {
+      let refused;
+      try { api[profile](input); } catch (error) { refused = error; }
+      assert(refused instanceof api.JcsError && refused.variant === variant,
+        `${profile} must refuse ${[...input]} as ${variant}`);
+    }
+  }
   const defaultValue = api.admit(new TextEncoder().encode("9007199254740993"));
   same([...defaultValue], [...new TextEncoder().encode("9007199254740992")], "RFC8785 default unchanged");
   let tightened;
