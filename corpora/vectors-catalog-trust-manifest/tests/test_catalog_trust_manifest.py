@@ -187,13 +187,15 @@ def test_an_attestation_file_outside_the_case_directory_is_refused(tmp_path: Pat
 
 @pytest.mark.parametrize("text,seconds", [
     ("2026-11-01T00:00:00Z", 1793491200), ("2026-11-01T01:00:00+01:00", 1793491200),
-    ("2026-11-01t00:00:00.5z", Fraction(3586982401, 2)), ("2026-10-31T19:00:00-05:00", 1793491200)])
+    ("2026-11-01t00:00:00.5z", Fraction(3586982401, 2)), ("2026-10-31T19:00:00-05:00", 1793491200),
+    ("0000-02-29T00:00:00Z", -62162121600), ("2026-11-01T23:59:60Z", 1793577600)])
 def test_rfc3339_times_are_instants(text: str, seconds: Fraction) -> None:
     assert reader._instant(text) == seconds
 
 
 @pytest.mark.parametrize("text", ["2026-02-30T00:00:00Z", "2026-11-01T24:00:00Z",
                                   "2026-11-01T00:00:00", "2026-11-01 00:00:00Z",
-                                  "2026-11-01T00:00:00+24:00", 1793491200])
+                                  "2026-11-01T00:00:00+24:00", "1900-02-29T00:00:00Z",
+                                  "\u0662\u0660\u0662\u0666-11-01T00:00:00Z", 1793491200])
 def test_non_rfc3339_times_are_not_instants(text: object) -> None:
     assert reader._instant(text) is None

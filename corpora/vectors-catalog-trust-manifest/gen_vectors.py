@@ -480,9 +480,9 @@ def artifact_value(identifier: str) -> dict[str, Any]:
 
 def entry_value(identifier: str, digest: str, construction: str, signer: str) -> dict[str, Any]:
     subject = {"digest": digest, "identifier": identifier, "type": CARD_TYPE, "version": "1.0.0"}
-    entry = {"digest": digest, "displayName": identifier.rsplit(":", 1)[1],
-             "identifier": identifier, "type": CARD_TYPE, "url": URL.replace(
-                 "travel", identifier.rsplit(":", 1)[1]), "version": "1.0.0"}
+    entry: dict[str, Any] = {"digest": digest, "displayName": identifier.rsplit(":", 1)[1],
+                             "identifier": identifier, "type": CARD_TYPE, "url": URL.replace(
+                                 "travel", identifier.rsplit(":", 1)[1]), "version": "1.0.0"}
     if construction == "ard":
         entry["trustManifest"] = {"expiresAt": EXPIRES, "identity": signer, "issuedAt": ISSUED,
                                   "subject": subject}

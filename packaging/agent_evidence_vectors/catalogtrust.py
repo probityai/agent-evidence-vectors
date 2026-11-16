@@ -27,7 +27,6 @@ from __future__ import annotations
 import argparse
 import base64
 import binascii
-import calendar
 import copy
 import decimal
 import hashlib
@@ -118,10 +117,12 @@ _LABEL = r"[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?"
 # A root did:web DID: a lowercase ASCII domain (A-labels allowed), no port, path or
 # trailing dot (AI Catalog, "The did:web Signer Profile").
 _ROOT_DID_WEB = re.compile(rf"did:web:(?:{_LABEL}\.)*{_LABEL}")
-_IPV4 = re.compile(r"did:web:\d+\.\d+\.\d+\.\d+")
+_IPV4 = re.compile(r"did:web:[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+")
 # RFC 3339 section 5.6 date-time; "T" and "Z" may be lowercase (section 5.6 NOTE).
-_TIME = re.compile(r"(\d{4})-(\d{2})-(\d{2})[Tt](\d{2}):(\d{2}):(\d{2})(\.\d+)?"
-                   r"(?:([Zz])|([+-])(\d{2}):(\d{2}))")
+# ASCII digits only: a str pattern's \d also matches other scripts' digits, which
+# int() then reads, and RFC 3339 is ASCII.
+_TIME = re.compile(r"([0-9]{4})-([0-9]{2})-([0-9]{2})[Tt]([0-9]{2}):([0-9]{2}):([0-9]{2})"
+                   r"(\.[0-9]+)?(?:([Zz])|([+-])([0-9]{2}):([0-9]{2}))")
 
 
 class Refused(Exception):
@@ -423,16 +424,34 @@ def _selected(methods: list[dict[str, Any]], kid: Any) -> list[dict[str, Any]]:
 
 # --------------------------------------------------------------------------- the verdict
 
+def _days_from_civil(year: int, month: int, day: int) -> int:
+    """Days since 1970-01-01 in the proleptic Gregorian calendar, for every year RFC 3339
+    can write, 0000 included (the datetime module stops at year 1)."""
+    year -= month <= 2
+    era = year // 400
+    yoe = year - era * 400
+    doy = (153 * (month + (-3 if month > 2 else 9)) + 2) // 5 + day - 1
+    doe = yoe * 365 + yoe // 4 - yoe // 100 + doy
+    return era * 146097 + doe - 719468
+
+
+def _days_in_month(year: int, month: int) -> int:
+    if month == 2:
+        return 29 if year % 4 == 0 and (year % 100 != 0 or year % 400 == 0) else 28
+    return 30 if month in (4, 6, 9, 11) else 31
+
+
 def _instant(text: Any) -> Fraction | None:
     """An RFC 3339 date-time as exact seconds since 1970, or None when it is not one."""
     match = _TIME.fullmatch(text) if isinstance(text, str) else None
     if match is None:
         return None
     year, month, day, hour, minute, second = (int(match[n]) for n in range(1, 7))
-    if month < 1 or month > 12 or day < 1 or day > calendar.monthrange(year, month)[1] or \
+    if month < 1 or month > 12 or day < 1 or day > _days_in_month(year, month) or \
             hour > 23 or minute > 59 or second > 60:
         return None
-    seconds = Fraction(calendar.timegm((year, month, day, hour, minute, 0, 0, 0, 0)) + second)
+    seconds = Fraction(_days_from_civil(year, month, day) * 86400 + hour * 3600 + minute * 60
+                       + second)
     if match[7]:
         seconds += Fraction(match[7][1:]) / 10 ** (len(match[7]) - 1)
     if not match[8]:
@@ -468,7 +487,7 @@ def _attestations(construction: str, case: Path, obj: dict[str, Any], entry: dic
         name = files[index] if isinstance(files, list) and index < len(files) else None
         if not name:
             continue
-        path = case / name if isinstance(name, str) else None
+        path = case / name if isinstance(name, str) and "\\" not in name else None
         # A vendored file sits in the case directory itself; a path that leaves it is not one.
         data = path.read_bytes() if path is not None and path.parent == case and \
             path.is_file() else None
@@ -665,7 +684,7 @@ def _judge(case: Path, skip: frozenset[str]) -> str:  # noqa: C901 - one ordered
         body = json.dumps(signed, sort_keys=True).encode("utf-8", "surrogatepass")
     unencoded = header.get("b64") is False
     message = parts[0].encode() + b"." + (body if unencoded else b64url(body).encode())
-    if key is None or key_alg != alg or not verify_signature(alg, key, message, signature):
+    if key is None or key_alg != alg or not verify_signature(key_alg, key, message, signature):
         fail("signature_invalid")
     if construction == SNAPSHOT:
         _times(construction, catalog, context, fail)
@@ -694,8 +713,9 @@ def _judge(case: Path, skip: frozenset[str]) -> str:  # noqa: C901 - one ordered
         fail("artifact_digest_mismatch")
     publisher = _publisher(entry.get("identifier"))
     # Draft 6.2 binds a url to its origin; an entry delivered as inline data has no url.
+    origin = _origin(entry.get("url"))
     if construction in ARD_SHAPED and "url" in entry and \
-            _origin(entry.get("url")) != f"https://{publisher}":
+            (publisher is None or origin != f"https://{publisher}"):
         try:
             descriptor = strict_loads(artifact_bytes) if artifact_bytes else {}
         except (ValueError, UnicodeDecodeError):
