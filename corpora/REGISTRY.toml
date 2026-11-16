@@ -373,6 +373,18 @@ standards = ["w3c"]
 shapes = ["forged-signature", "stale-authority"]
 
 [[corpus]]
+id = "vectors-catalog-trust-manifest"
+path = "corpora/vectors-catalog-trust-manifest"
+wheel = true
+sdist = true
+title = "Catalog trust manifests"
+summary = "A verifier must judge a signed ARD or AI Catalog object under a named construction: JWS header rules, a key the DID document authorizes, that construction's signing input, and a subject bound to the entry and artifact."
+record_class = "credential"
+domains = ["identity", "provenance", "agent-protocols"]
+standards = ["ietf-draft", "did", "rfc8785"]
+shapes = ["forged-signature", "missing-binding", "malformed-input"]
+
+[[corpus]]
 id = "vectors-chunked-export"
 path = "corpora/vectors-chunked-export"
 wheel = true

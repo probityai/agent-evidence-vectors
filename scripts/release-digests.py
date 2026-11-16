@@ -188,6 +188,7 @@ RECOMPUTERS: dict[str, Callable[[Path, dict[str, Any]], str]] = {
     "vectors-converted-argument-binding": _recompute_from_generator,
     "vectors-delegator-right": _recompute_from_generator,
     "vectors-badge-vc-verify": _recompute_from_generator,
+    "vectors-catalog-trust-manifest": _recompute_from_generator,
     "vectors-completion-confirmation": _recompute_from_generator,
     "vectors-chunked-export": _recompute_from_generator,
     "vectors-done-contract": _recompute_from_generator,
