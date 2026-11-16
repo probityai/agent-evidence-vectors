@@ -1,0 +1,16 @@
+{
+  "schema": "aev-claim-acceptance-rule/v1",
+  "id": "sample-formal-model-substrate",
+  "profile": {
+    "id": "formal-model/v1",
+    "digest": "sha256:1aaf3ae4bfbbb6a79ced65b9078d108c4718563d8ecb072ef3c5ce4040cb62b5"
+  },
+  "case_sets": [
+    "sha256:6d318794835c27098756b008d2bd08b54dfb6eb74959543f7c45f100cf617b6b",
+    "sha256:7d3f015f11842a30666a3328be012d52114d4b9544f63bd91cfd5696e2d92e76",
+    "sha256:5d949a6cc40f96bf40999ceb5a262ded6b237b47abee886ae377bbc29fda4b4b"
+  ],
+  "accept_vantage": [
+    "substrate"
+  ]
+}

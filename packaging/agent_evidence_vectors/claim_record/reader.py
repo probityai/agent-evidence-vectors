@@ -98,9 +98,11 @@ CODES = (
     "INVALID_REFERENTIAL_PIN",
     "CASE_SET_NOT_ACCEPTED",
     "CASE_SET_UNRESOLVED",
+    "CASE_SET_INCOMPLETE",
     "APPLICABILITY_MISMATCH",
     "POPULATION_MISMATCH",
     "ABSENCE_READ_AS_CLEAN",
+    "VACUOUS_PASS",
     "VERDICT_CONTRADICTED",
     "VANTAGE_NOT_ACCEPTED",
     "BYTES_MISMATCH",
@@ -108,6 +110,11 @@ CODES = (
     "UNSETTLED_OUTCOME",
     "UNSETTLED_ACROSS_EPOCH",
 )
+
+#: Case members a profile may require (formal-model/v1 requires the first two).
+CASE_MEMBERS = ("expect", "quantifier")
+QUANTIFIERS = ("all-traces", "exists-trace")
+EXPECTS = ("verified", "falsified")
 
 _DIGEST = re.compile(r"sha256:[0-9a-f]{64}")
 _REF_KEYS = frozenset({"name", "alias", "uri", "digest"})
@@ -124,6 +131,8 @@ class _Ctx:
     def __init__(self) -> None:
         self.reasons: list[dict[str, str]] = []
         self.broken: set[str] = set()
+        #: The case set applicability resolved, for the checks that read its members.
+        self.held: dict[str, Any] | None = None
 
     def refuse(self, code: str, at: str, detail: str) -> None:
         if code not in CODES:
@@ -227,7 +236,23 @@ def check_profile(profile: Any) -> dict[str, Any]:
     for key in ("immutable_references", "exclusion_reasons"):
         if not isinstance(profile.get(key), list):
             raise MalformedInput(f"profile {key} is not a list")
+    _check_case_member_keys(profile)
     return profile
+
+
+def _check_case_member_keys(profile: dict[str, Any]) -> None:
+    """The two optional keys of formal-model/v1: required case members and the witness rule."""
+    members = profile.get("case_members", [])
+    if not isinstance(members, list) or not all(m in CASE_MEMBERS for m in members):
+        raise MalformedInput(f"profile case_members must be drawn from {list(CASE_MEMBERS)}")
+    witness = profile.get("witness_required")
+    if witness is not None and (
+        not isinstance(witness, dict)
+        or set(witness) != {"quantifier", "expect"}
+        or witness["quantifier"] not in QUANTIFIERS
+        or witness["expect"] not in EXPECTS
+    ):
+        raise MalformedInput("profile witness_required names one quantifier and one expectation")
 
 
 def check_rule(rule: Any) -> dict[str, Any]:
@@ -391,8 +416,9 @@ def check_applicability(
     if "applicability.case_set" in ctx.broken:
         return None
     held = resolve_case_set(ctx, rule, case_sets, app["case_set"])
-    if held is None:
+    if held is None or not check_case_members(ctx, profile, held):
         return None
+    ctx.held = held
     cases = {c["id"]: c for c in held["cases"]}
     excluded_ids = [e["id"] for e in excluded]
     if not partition_ok(list(cases), [applicable, excluded_ids]):
@@ -413,6 +439,66 @@ def check_applicability(
             )
             return None
     return applicable
+
+
+def exhibits_trace(case: dict[str, Any]) -> bool:
+    """A case that, when it holds as expected, shows at least one trace exists."""
+    return (case.get("quantifier"), case.get("expect")) in (
+        ("exists-trace", "verified"),
+        ("all-traces", "falsified"),
+    )
+
+
+def check_case_members(ctx: _Ctx, profile: dict[str, Any], held: dict[str, Any]) -> bool:
+    """CASE_SET_INCOMPLETE: a case lacks a member the profile requires, or a witness.
+
+    A case expected to hold over all traces holds vacuously when no trace reaches its
+    premise, so the profile can require such a case to name a witness: another case of
+    the same set whose expected outcome exhibits a trace.
+    """
+    at = "applicability.case_set"
+    required = profile.get("case_members", [])
+    cases = {c["id"]: c for c in held["cases"]}
+    for case in held["cases"]:
+        missing = [m for m in required if m not in case]
+        bad = [m for m in required if m in case and case[m] not in _MEMBER_VALUES[m]]
+        if missing or bad:
+            ctx.refuse("CASE_SET_INCOMPLETE", at, f"case {case['id']} lacks {missing or bad}")
+            return False
+    rule = profile.get("witness_required")
+    for case in held["cases"]:
+        if "witness" not in case:
+            if rule and all(case.get(k) == v for k, v in rule.items()):
+                ctx.refuse("CASE_SET_INCOMPLETE", at, f"case {case['id']} names no witness")
+                return False
+            continue
+        if case["witness"] not in cases or case["witness"] == case["id"]:
+            ctx.refuse(
+                "CASE_SET_INCOMPLETE", at, f"case {case['id']} names a witness outside the set"
+            )
+            return False
+    return True
+
+
+_MEMBER_VALUES = {"expect": EXPECTS, "quantifier": QUANTIFIERS}
+
+
+def check_vacuity(ctx: _Ctx, passed: list[str], failed: list[str], not_run: list[str]) -> None:
+    """VACUOUS_PASS: a passed case whose witness cannot show the premise is reachable."""
+    if ctx.held is None:
+        return
+    cases = {c["id"]: c for c in ctx.held["cases"]}
+    for cid in passed:
+        witness = cases.get(cid, {}).get("witness")
+        if witness is None:
+            continue
+        if not exhibits_trace(cases[witness]) or witness in failed or witness in not_run:
+            ctx.refuse(
+                "VACUOUS_PASS",
+                "coordinates.population",
+                f"{cid} passed, and its witness {witness} does not show a trace reaches it",
+            )
+            return
 
 
 def verdict_reason(verdict: str, total: int, failed: list[str], not_run: list[str]) -> str | None:
@@ -451,6 +537,7 @@ def check_population(
             "and the denominator counts them",
         )
         return
+    check_vacuity(ctx, passed, failed, not_run)
     code = verdict_reason(verdict, total, failed, not_run)
     if code is not None:
         ctx.refuse(code, "verdict", f"verdict {verdict!r} does not follow from the population")
