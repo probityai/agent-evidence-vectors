@@ -346,3 +346,39 @@ def test_manifest_rows_may_name_files(tmp_path):
     )
     rule_set, cases = rules.load_cases(tmp_path / "manifest.json")
     assert rules.run(rule_set, cases[0].raw).admitted
+
+
+# ---------------------------------------------------------------- the audit-record corpus
+
+AUDIT_CORPUS = Path(__file__).resolve().parents[4] / "corpora" / "vectors-agent-audit-record"
+#: The corpus codes the audit-freshness rule set decides; a member refused for any other code is
+#: outside its scope (a closed vocabulary, a signature) and is not compared.
+FRESHNESS_CODES = {
+    "evaluation-result-after-decision",
+    "evaluation-inconsistent",
+    "evaluation-input-repeated",
+    "evaluation-entry-malformed",
+    "unsafe-integer",
+    "member-missing",
+}
+
+
+def test_audit_freshness_agrees_with_the_audit_record_corpus():
+    """Every FR member of the signed corpus: a valid one is admitted, and one refused for a code this
+    rule set decides is refused for the same code."""
+    manifest = json.loads((AUDIT_CORPUS / "MANIFEST.json").read_text())
+    rule_set = rules.get("audit-freshness")
+    compared = []
+    for member in manifest["vectors"]:
+        if not str(member.get("draftId", "")).startswith("FR"):
+            continue
+        expected = member["expected"]
+        codes = expected.get("codes", [])
+        if expected["verdict"] != "valid" and (not codes or codes[0] not in FRESHNESS_CODES):
+            continue
+        verdict = rules.run(rule_set, (AUDIT_CORPUS / member["file"]).read_bytes())
+        got = (verdict.admitted, verdict.code)
+        want = (True, None) if expected["verdict"] == "valid" else (False, codes[0])
+        compared.append((member["draftId"], got == want, got, want))
+    assert len(compared) >= 20
+    assert [c for c in compared if not c[1]] == []
