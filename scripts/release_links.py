@@ -34,6 +34,37 @@ OWNER = "probityai"
 _GITHUB = re.compile(
     r"https?://(?:www\.)?github\.com/(?P<owner>[^/\s#?]+)/(?P<repo>[^/\s#?]+)(?P<rest>/[^\s#?]*)?"
 )
+# Every other spelling a registry renders as a link to a GitHub repository: the git+, git://,
+# ssh:// and scp-like forms npm, pip and cargo accept, npm's github: shorthand, and the host in
+# any case. Each is rewritten to the https form _GITHUB reads, so a link to an archived or
+# renamed repository cannot pass by being spelled another way.
+_GITHUB_PREFIX = re.compile(
+    r"\A(?:git\+)?(?:(?:https?|git|ssh)://(?:[^@/\s]+@)?(?:www\.)?github\.com/"
+    r"|git@github\.com:|github:)",
+    re.IGNORECASE,
+)
+# npm's bare owner/repo shorthand for a GitHub repository, valid only in package.json's
+# repository field.
+_NPM_SHORTHAND = re.compile(r"\A[\w.-]+/[\w.-]+\Z")
+
+
+def github_match(url: str) -> re.Match[str] | None:
+    """The owner, repository and path of a GitHub link in any spelling, or None for another host."""
+    url = url.strip()
+    prefix = _GITHUB_PREFIX.match(url)
+    if prefix is None:
+        return None
+    return _GITHUB.match("https://github.com/" + url[prefix.end() :])
+
+
+def npm_repository_url(value: object) -> str:
+    """The URL an npm manifest's repository field names, with the owner/repo shorthand expanded."""
+    url = value.get("url", "") if isinstance(value, dict) else value
+    if not isinstance(url, str):
+        return ""
+    return "github:" + url if _NPM_SHORTHAND.match(url) else url
+
+
 _PATH = re.compile(r"/(?:tree|blob)/(?P<ref>[^/]+)/(?P<path>.+?)/?\Z")
 
 RepoLookup = Callable[[str, str], "dict | None"]
@@ -93,13 +124,7 @@ def manifest_urls(manifest: Path) -> list[tuple[str, str]]:
         return [(f"urls.{key}", value) for key, value in urls.items() if isinstance(value, str)]
     if name == "package.json":
         data = json.loads(manifest.read_text())
-        repository = data.get("repository")
-        found = [
-            (
-                "repository",
-                repository.get("url", "") if isinstance(repository, dict) else repository or "",
-            )
-        ]
+        found = [("repository", npm_repository_url(data.get("repository")))]
         found.append(("homepage", data.get("homepage") or ""))
         bugs = data.get("bugs")
         found.append(("bugs", bugs.get("url", "") if isinstance(bugs, dict) else bugs or ""))
@@ -109,7 +134,7 @@ def manifest_urls(manifest: Path) -> list[tuple[str, str]]:
 
 def _github_links(urls: list[tuple[str, str]]) -> Iterator[tuple[str, str, re.Match[str]]]:
     for field, url in urls:
-        match = _GITHUB.match(url)
+        match = github_match(url)
         if match:
             yield field, url, match
 

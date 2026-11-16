@@ -97,9 +97,12 @@ def page_links(registry: str, body: dict) -> tuple[str, list[tuple[str, str]]]:
         found = []
         for key in ("repository", "homepage", "bugs"):
             value = meta.get(key)
-            url = value.get("url", "") if isinstance(value, dict) else value or ""
+            if key == "repository":
+                url = _release_links().npm_repository_url(value)
+            else:
+                url = value.get("url", "") if isinstance(value, dict) else value or ""
             if url:
-                found.append((key, re.sub(r"^git\+|\.git$", "", url)))
+                found.append((key, re.sub(r"\.git$", "", url)))
         return version, found
     raise ValueError(f"unknown registry {registry!r}")
 
@@ -130,13 +133,21 @@ def check(
         if body is None:
             unpublished.append(f"{registry} {name}")
             continue
-        version, urls = page_links(registry, body)
+        try:
+            version, urls = page_links(registry, body)
+        except (KeyError, TypeError, AttributeError) as error:
+            # A page without the fields this registry's pages carry is not a page with no
+            # links: it was not read, and an unread page is not a finding either.
+            raise Unread(
+                f"{page_url(registry, name)} did not have the shape of a {registry} page: "
+                f"{type(error).__name__} {error}"
+            ) from error
         label = f"{registry} {name} {version}"
         checked.append(label)
         github = [
             (field, url, match)
             for field, url in urls
-            if (match := links_module._GITHUB.match(url)) is not None
+            if (match := links_module.github_match(url)) is not None
         ]
         if not github:
             problems.append(f"{label}: the page carries no GitHub repository link")

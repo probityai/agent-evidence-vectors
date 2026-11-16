@@ -162,3 +162,64 @@ def test_the_scoped_npm_name_is_one_path_segment():
     assert registry_links.page_url("npm", "@probityai/dsse") == (
         "https://registry.npmjs.org/@probityai%2Fdsse"
     )
+
+
+# Every spelling below is one npm, pip or cargo accepts and the registry renders as a link to
+# probityai/agent-evidence, which is archived. Each passed before github_match: the check read
+# only https://github.com/ links, found the live homepage, and never saw the repository field.
+ARCHIVE_SPELLINGS = [
+    {"type": "git", "url": "git+ssh://git@github.com/probityai/agent-evidence.git"},
+    {"type": "git", "url": "git://github.com/probityai/agent-evidence.git"},
+    {"type": "git", "url": "git@github.com:probityai/agent-evidence.git"},
+    {"type": "git", "url": "https://GitHub.com/probityai/agent-evidence"},
+    "github:probityai/agent-evidence",
+    "probityai/agent-evidence",
+]
+
+
+@pytest.mark.parametrize("repository", ARCHIVE_SPELLINGS, ids=repr)
+def test_an_archived_repository_is_refused_in_every_spelling(repository):
+    pages = {
+        "https://registry.npmjs.org/jcs-admit": {
+            "dist-tags": {"latest": "1.0.0"},
+            "versions": {"1.0.0": {"repository": repository, "homepage": f"{LIVE}#readme"}},
+        }
+    }
+    problems, _, checked = run(pages, [("npm", "jcs-admit")])
+    assert checked == ["npm jcs-admit 1.0.0"]
+    assert any(
+        p.startswith("npm jcs-admit 1.0.0: repository:") and "archived repository" in p
+        for p in problems
+    ), problems
+
+
+def test_a_pypi_link_to_another_host_spelled_like_github_is_not_read_as_github():
+    pages = {
+        "https://pypi.org/pypi/jcs-admit/json": {
+            "info": {
+                "version": "0.1.1",
+                "home_page": None,
+                "project_urls": {
+                    "Source": "https://github.com.example.org/probityai/agent-evidence",
+                    "Gist": "https://gist.github.com/probityai/agent-evidence",
+                },
+            }
+        }
+    }
+    problems, _, _ = run(pages, [("pypi", "jcs-admit")])
+    assert problems == ["pypi jcs-admit 0.1.1: the page carries no GitHub repository link"]
+
+
+@pytest.mark.parametrize(
+    "body",
+    [
+        {"name": "jcs-admit", "time": {"unpublished": {"versions": ["0.1.0"]}}},
+        {"dist-tags": {"latest": "0.1.1"}, "versions": {"0.1.0": {}}},
+        {"dist-tags": [], "versions": {}},
+    ],
+    ids=["unpublished", "latest-not-in-versions", "dist-tags-not-a-map"],
+)
+def test_a_page_without_the_registry_shape_is_inconclusive_not_a_finding(body):
+    # main() exits 2 for Unread and 1 for a finding; an uncaught KeyError exited 1.
+    with pytest.raises(registry_links.Unread, match="did not have the shape of a npm page"):
+        run({"https://registry.npmjs.org/jcs-admit": body}, [("npm", "jcs-admit")])

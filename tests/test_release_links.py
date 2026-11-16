@@ -181,8 +181,36 @@ def test_release_resolve_step_reads_github_with_the_run_token():
     GitHub anonymously (60 requests an hour per runner IP), so a release can fail
     on a shared runner's spent quota rather than on a bad link."""
     yaml = pytest.importorskip("yaml")
-    workflow = yaml.safe_load((_ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8"))
+    workflow = yaml.safe_load(
+        (_ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
+    )
     steps = workflow["jobs"]["resolve"]["steps"]
     target = next(step for step in steps if step.get("id") == "target")
     assert "workspace.py release-target" in target["run"]
     assert target.get("env", {}).get("GH_TOKEN") == "${{ github.token }}"
+
+
+@pytest.mark.parametrize(
+    "repository",
+    [
+        {"type": "git", "url": "git+ssh://git@github.com/probityai/agent-evidence.git"},
+        {"type": "git", "url": "git://github.com/probityai/agent-evidence.git"},
+        "github:probityai/agent-evidence",
+        "probityai/agent-evidence",
+    ],
+    ids=repr,
+)
+def test_package_json_repository_in_another_spelling_is_checked(tmp_path: Path, repository) -> None:
+    (tmp_path / "package.json").write_text(
+        json.dumps(
+            {
+                "name": "x",
+                "version": "0.1.0",
+                "repository": repository,
+                "homepage": "https://github.com/probityai/agent-evidence-vectors#readme",
+            }
+        )
+    )
+    problems = check(tmp_path / "package.json")
+    assert any(": repository: " in p and "archived repository" in p for p in problems), problems
+    assert not any(": homepage: " in p for p in problems), problems
