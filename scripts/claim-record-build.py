@@ -163,11 +163,13 @@ EXPECT_REWRITTEN = _case_set_expect(
 )
 
 
-def _formal(name: str, cases: list[tuple[str, str, str, str | None]]) -> dict[str, Any]:
+def _formal(name: str, cases: list[tuple[str, str, str, Any]],
+            optional: tuple[str, ...] = ()) -> dict[str, Any]:
     """A formal-model case set: (id, quantifier, expect, witness)."""
     out = []
     for cid, quantifier, expect, witness in cases:
-        case = {"id": cid, "requirement": "required", "expect": expect, "quantifier": quantifier}
+        requirement = "optional" if cid in optional else "required"
+        case = {"id": cid, "requirement": requirement, "expect": expect, "quantifier": quantifier}
         if witness is not None:
             case["witness"] = witness
         out.append(case)
@@ -180,7 +182,7 @@ FORMAL = _formal(
     [
         ("w1", "exists-trace", "verified", None),
         ("p1", "all-traces", "verified", "w1"),
-        ("w2", "exists-trace", "falsified", None),
+        ("w2", "exists-trace", "falsified", "w1"),
         ("p2", "all-traces", "verified", "w2"),
     ],
 )
@@ -189,7 +191,7 @@ FORMAL_DROPPED = _formal(
     [
         ("w1", "exists-trace", "verified", None),
         ("p1", "all-traces", "verified", None),
-        ("w2", "exists-trace", "falsified", None),
+        ("w2", "exists-trace", "falsified", "w1"),
         ("p2", "all-traces", "verified", "w2"),
     ],
 )
@@ -202,8 +204,26 @@ FORMAL_SIBLING = _formal(
         ("p3", "all-traces", "verified", "s1"),
     ],
 )
+#: The witness is optional, so a producer can exclude it and still report p1 passed.
+FORMAL_OPTIONAL_WITNESS = _formal(
+    "sample-formal-model-optional-witness",
+    [("w1", "exists-trace", "verified", None), ("p1", "all-traces", "verified", "w1")],
+    optional=("w1",),
+)
+#: q1 says no trace reaches the attack, which a model where nothing runs also satisfies.
+FORMAL_UNWITNESSED = _formal(
+    "sample-formal-model-unwitnessed-negative",
+    [("w1", "exists-trace", "verified", None), ("q1", "exists-trace", "falsified", None)],
+)
+FORMAL_WITNESS_LIST = _formal(
+    "sample-formal-model-witness-not-an-id",
+    [("w1", "exists-trace", "verified", None), ("p1", "all-traces", "verified", ["w1"])],
+)
 CASE_SETS = {
     "sample-formal": FORMAL,
+    "sample-formal-optional-witness": FORMAL_OPTIONAL_WITNESS,
+    "sample-formal-unwitnessed": FORMAL_UNWITNESSED,
+    "sample-formal-witness-list": FORMAL_WITNESS_LIST,
     "sample-formal-dropped": FORMAL_DROPPED,
     "sample-formal-sibling": FORMAL_SIBLING,
     "sample-r1": R1,
@@ -258,7 +278,14 @@ RULES = {
     "formal-model": _rule(
         "sample-formal-model-substrate",
         "formal-model",
-        [FORMAL, FORMAL_DROPPED, FORMAL_SIBLING],
+        [
+            FORMAL,
+            FORMAL_DROPPED,
+            FORMAL_SIBLING,
+            FORMAL_OPTIONAL_WITNESS,
+            FORMAL_UNWITNESSED,
+            FORMAL_WITNESS_LIST,
+        ],
         ["substrate"],
     ),
     "unshipped-profile": {
@@ -796,6 +823,58 @@ def _negatives() -> list[dict[str, Any]]:
                 _set(("verdict",), "pass"),
             ],
             "VACUOUS_PASS",
+        ),
+        _neg(
+            "witness-excluded-read-as-pass",
+            "population",
+            "The witness is an optional case the producer excluded, so it never ran, and the "
+            "property it witnesses is reported passed.",
+            "formal",
+            [
+                _set(app + ("case_set",), _cs_ref(FORMAL_OPTIONAL_WITNESS)),
+                _set(byt + ("case_set",), _cs_ref(FORMAL_OPTIONAL_WITNESS)),
+                _set(app + ("applicable",), ["p1"]),
+                _set(app + ("excluded",), [{"id": "w1", "reason": "optional_feature_not_claimed"}]),
+                _set(pop + ("coverage_denominator",), 1),
+                _set(pop + ("passed",), ["p1"]),
+                _set(pop + ("not_run",), []),
+                _set(("verdict",), "pass"),
+            ],
+            "VACUOUS_PASS",
+        ),
+        _neg(
+            "exists-trace-falsified-unwitnessed",
+            "population",
+            "An exists-trace property expected falsified says no trace reaches the attack, a "
+            "claim over every trace; it names no witness, so a model in which nothing runs "
+            "passes it.",
+            "formal",
+            [
+                _set(app + ("case_set",), _cs_ref(FORMAL_UNWITNESSED)),
+                _set(byt + ("case_set",), _cs_ref(FORMAL_UNWITNESSED)),
+                _set(app + ("applicable",), ["w1", "q1"]),
+                _set(pop + ("coverage_denominator",), 2),
+                _set(pop + ("passed",), ["w1", "q1"]),
+                _set(pop + ("not_run",), []),
+                _set(("verdict",), "pass"),
+            ],
+            "VACUOUS_PASS",
+        ),
+        _neg(
+            "witness-not-a-case-id",
+            "applicability",
+            "A case names its witness as a list rather than one case id of the same set.",
+            "formal",
+            [
+                _set(app + ("case_set",), _cs_ref(FORMAL_WITNESS_LIST)),
+                _set(byt + ("case_set",), _cs_ref(FORMAL_WITNESS_LIST)),
+                _set(app + ("applicable",), ["w1", "p1"]),
+                _set(pop + ("coverage_denominator",), 2),
+                _set(pop + ("passed",), ["w1", "p1"]),
+                _set(pop + ("not_run",), []),
+                _set(("verdict",), "pass"),
+            ],
+            "CASE_SET_INCOMPLETE",
         ),
         _neg(
             "witness-dropped-from-case-set",

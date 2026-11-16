@@ -119,9 +119,14 @@ expected `verified` over `all-traces` names a `witness`: another case of the sam
 expected outcome shows that a trace exists (an `exists-trace` case expected `verified`, or an
 `all-traces` case expected `falsified`, such as the same property in an ablation variant). A
 property over all traces holds vacuously when no trace reaches its premise, and the witness is
-what tells a vacuous proof from a real one. A passed case whose witness cannot show a trace,
-or whose witness failed or was not run, is refused as `VACUOUS_PASS`; such a case belongs in
-`not_run`, and the verdict is then `incomplete`.
+what tells a vacuous proof from a real one. The witness shows a trace only when its expected
+outcome exhibits one and it passed in the same population: a witness that failed, was not
+run, or was excluded as optional shows nothing. An `exists-trace` case expected `falsified`
+says no trace satisfies its property, which is also a claim over every trace, so under a
+profile that requires witnesses it passes only with a witness too. A passed case whose
+witness shows no trace, or a passed claim over every trace that names no witness under such
+a profile, is refused as `VACUOUS_PASS`; such a case belongs in `not_run`, and the verdict is
+then `incomplete`. A `witness` is one case id of the same set and never the case itself.
 
 Profiles and case sets are resolved by digest from bytes the verifier is given, offline.
 The verifier re-hashes what it resolves, so a store keyed under the wrong digest resolves
@@ -156,7 +161,7 @@ A verifier reports every reason it finds. A record is admitted when it finds non
 | `APPLICABILITY_MISMATCH` | Applicable and excluded are not the case set exactly, or a required case or an unlisted reason is excluded. |
 | `POPULATION_MISMATCH` | A case is missing from the results, listed twice or not in the case set, or the denominator is wrong. |
 | `ABSENCE_READ_AS_CLEAN` | The verdict is `pass` while a case is not run, or while nothing applied. |
-| `VACUOUS_PASS` | A passed case names a witness whose expected outcome cannot show a trace, or whose witness failed or was not run. |
+| `VACUOUS_PASS` | A passed case names a witness whose expected outcome cannot show a trace, or whose witness did not pass (failed, not run or excluded); or, under a profile that requires witnesses, a passed claim over every trace (`all-traces` expected `verified`, `exists-trace` expected `falsified`) names none. |
 | `VERDICT_CONTRADICTED` | The verdict is `pass` with a failure, `fail` with none, or `incomplete` with nothing missing or with a failure. |
 | `VANTAGE_NOT_ACCEPTED` | The rule does not accept the record's vantage. |
 | `BYTES_MISMATCH` | The bytes coordinate binds another case set than applicability resolved, or another implementation than the Statement subject. |
@@ -199,10 +204,13 @@ agent-evidence-vectors claim from-expectations --format tamarin \
 `from-expectations` turns a CI expectation table and the run's output (`table`, `tamarin`,
 `junit` or `tap`) into a case set whose cases carry `expect` and a record over it. A case
 passes when the observed outcome equals the expected one; a case the output does not mention
-is not run; an output line with no expectation row is printed as a warning and kept out of
-the record. With `--witness-lemma`, each all-traces property expected `verified` names the
-lemma of that name in its own variant as its witness, and a property whose witness shows no
-trace is reported not run.
+is not run; an output line with no expectation row, or a Tamarin line before any `== `
+variant header, is printed as a warning and kept out of the record; an id the output reports
+twice with different outcomes is refused, so a later line never turns a failure into a pass.
+With `--witness-lemma`, each claim over every trace (an `all-traces` property expected
+`verified`, an `exists-trace` property expected `falsified`) names the lemma of that name in
+its own variant as its witness, and one whose witness shows no trace, or that has no witness,
+is reported not run.
 
 `verify` exits 0 when the record is admitted with verdict `pass`, 3 when it is admitted
 with `fail` or `incomplete`, 1 when it is refused and 2 on unusable input. `emit` records

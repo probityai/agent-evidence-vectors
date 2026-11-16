@@ -511,3 +511,54 @@ def test_expectation_table_refuses_an_unknown_outcome_and_a_repeated_id() -> Non
     with pytest.raises(MalformedInput):
         from_expectations("table", "a|pass\na|fail\n", "", name="x", revision="1")
 
+
+
+@pytest.mark.parametrize(("fmt", "output", "case_id"), [
+    ("tap", "TAP version 13\n1..2\nnot ok 1 - c1\nok 2 - c1\n", "c1"),
+    ("junit", '<testsuite><testcase classname="s" name="c1"><failure/></testcase>'
+              '<testcase classname="s" name="c1"/></testsuite>', "s.c1"),
+    ("tamarin", "== m|f\n  c1 (all-traces): falsified - found trace (8 steps)\n== m|f\n"
+                "  c1 (all-traces): verified (12 steps)\n", "m|f|c1"),
+])
+def test_a_later_line_never_turns_a_failure_into_a_pass(fmt: str, output: str,
+                                                        case_id: str) -> None:
+    expected = case_id + ("|verified\n" if fmt == "tamarin" else "|pass\n")
+    with pytest.raises(reader.MalformedInput, match="twice"):
+        from_expectations(fmt, expected, output, name="dup", revision="1")
+
+
+def test_a_repeated_identical_line_is_one_observation() -> None:
+    _, results, _ = from_expectations("tap", "c1|pass\n", "ok 1 - c1\nok 2 - c1\n",
+                                      name="dup", revision="1")
+    assert results == {"passed": ["c1"], "failed": []}
+
+
+def test_a_tamarin_line_before_any_variant_header_is_a_warning() -> None:
+    _, _, warnings = from_expectations(
+        "tamarin", "m|f|secrecy|verified\n",
+        "  stray (all-traces): verified (1 steps)\n== m|f\n"
+        "  secrecy (all-traces): verified (2 steps)\n",
+        name="t", revision="1")
+    assert any("before any" in w for w in warnings)
+
+
+def test_an_unwitnessed_exists_trace_falsified_pass_is_reported_not_run() -> None:
+    table = "m|-|setup|verified\nm|-|attack|falsified\nn|-|attack|falsified\n"
+    out = ("== m|-\n  setup (exists-trace): verified (2 steps)\n"
+           "  attack (exists-trace): falsified - no trace found (4 steps)\n== n|-\n"
+           "  attack (exists-trace): falsified - no trace found (1 steps)\n")
+    case_set, results, warnings = from_expectations("tamarin", table, out, name="t",
+                                                    revision="1", witness_lemma="setup")
+    assert results["passed"] == ["m|-|setup", "m|-|attack"]
+    assert any("n|-|attack holds vacuously" in w for w in warnings)
+    assert _emit_and_judge(case_set, results, _FORMAL)["result"] == "ADMITTED"
+
+
+def test_vacuity_does_not_depend_on_table_order() -> None:
+    table = "m|-|auth|verified\nm|-|setup|falsified\n"
+    out = ("== m|-\n  auth (all-traces): verified (9 steps)\n"
+           "  setup (exists-trace): falsified - no trace found (3 steps)\n")
+    case_set, results, _ = from_expectations("tamarin", table, out, name="t", revision="1",
+                                             witness_lemma="setup")
+    assert results["passed"] == []
+    assert _emit_and_judge(case_set, results, _FORMAL)["result"] == "ADMITTED"

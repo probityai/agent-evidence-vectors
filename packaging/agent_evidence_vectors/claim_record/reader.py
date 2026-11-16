@@ -133,6 +133,9 @@ class _Ctx:
         self.broken: set[str] = set()
         #: The case set applicability resolved, for the checks that read its members.
         self.held: dict[str, Any] | None = None
+        #: The pinned profile requires witnesses, so an unwitnessed claim over every trace
+        #: cannot be read as passed.
+        self.witnessed = False
 
     def refuse(self, code: str, at: str, detail: str) -> None:
         if code not in CODES:
@@ -419,6 +422,7 @@ def check_applicability(
     if held is None or not check_case_members(ctx, profile, held):
         return None
     ctx.held = held
+    ctx.witnessed = profile.get("witness_required") is not None
     cases = {c["id"]: c for c in held["cases"]}
     excluded_ids = [e["id"] for e in excluded]
     if not partition_ok(list(cases), [applicable, excluded_ids]):
@@ -472,7 +476,8 @@ def check_case_members(ctx: _Ctx, profile: dict[str, Any], held: dict[str, Any])
                 ctx.refuse("CASE_SET_INCOMPLETE", at, f"case {case['id']} names no witness")
                 return False
             continue
-        if case["witness"] not in cases or case["witness"] == case["id"]:
+        named = case["witness"]
+        if not isinstance(named, str) or named not in cases or named == case["id"]:
             ctx.refuse(
                 "CASE_SET_INCOMPLETE", at, f"case {case['id']} names a witness outside the set"
             )
@@ -483,16 +488,37 @@ def check_case_members(ctx: _Ctx, profile: dict[str, Any], held: dict[str, Any])
 _MEMBER_VALUES = {"expect": EXPECTS, "quantifier": QUANTIFIERS}
 
 
-def check_vacuity(ctx: _Ctx, passed: list[str], failed: list[str], not_run: list[str]) -> None:
-    """VACUOUS_PASS: a passed case whose witness cannot show the premise is reachable."""
+def claims_every_trace(case: dict[str, Any]) -> bool:
+    """A case whose expected outcome is a claim over every trace: all-traces expected
+    `verified`, or exists-trace expected `falsified` (no trace satisfies it). Either holds
+    vacuously when no trace reaches its premise."""
+    return (case.get("quantifier"), case.get("expect")) in (
+        ("all-traces", "verified"),
+        ("exists-trace", "falsified"),
+    )
+
+
+def check_vacuity(ctx: _Ctx, passed: list[str]) -> None:
+    """VACUOUS_PASS: a passed claim over every trace that nothing shows is reachable.
+
+    Its witness shows a trace only when the witness's expected outcome exhibits one and the
+    witness passed in this population; a witness that failed, was not run or was excluded
+    shows nothing, and under a profile that requires witnesses a claim over every trace
+    that names none has nothing to show.
+    """
     if ctx.held is None:
         return
     cases = {c["id"]: c for c in ctx.held["cases"]}
     for cid in passed:
-        witness = cases.get(cid, {}).get("witness")
+        case = cases.get(cid, {})
+        witness = case.get("witness")
         if witness is None:
+            if ctx.witnessed and claims_every_trace(case):
+                ctx.refuse("VACUOUS_PASS", "coordinates.population",
+                           f"{cid} passed a claim over every trace and names no witness")
+                return
             continue
-        if not exhibits_trace(cases[witness]) or witness in failed or witness in not_run:
+        if not exhibits_trace(cases[witness]) or witness not in passed:
             ctx.refuse(
                 "VACUOUS_PASS",
                 "coordinates.population",
@@ -537,7 +563,7 @@ def check_population(
             "and the denominator counts them",
         )
         return
-    check_vacuity(ctx, passed, failed, not_run)
+    check_vacuity(ctx, passed)
     code = verdict_reason(verdict, total, failed, not_run)
     if code is not None:
         ctx.refuse(code, "verdict", f"verdict {verdict!r} does not follow from the population")

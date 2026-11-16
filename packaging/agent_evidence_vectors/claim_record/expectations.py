@@ -11,6 +11,8 @@ and results that :func:`reader.emit` takes:
   and is not run when the output has no line for it or reports a timeout;
 * an output line naming no expectation row is returned as a warning, never dropped
   silently and never admitted into the record;
+* an id the output reports twice with different outcomes is refused: a later line must
+  never turn a failure into a pass;
 * with a witness lemma, a property whose witness shows no trace (expected falsified, or
   not passed) is reported not run with a warning, since its proof holds vacuously.
 
@@ -33,7 +35,7 @@ import re
 import xml.etree.ElementTree as ET  # noqa: S405 - the report is the caller's own CI output
 from typing import Any
 
-from .reader import CASE_SET_SCHEMA, MalformedInput, exhibits_trace
+from .reader import CASE_SET_SCHEMA, MalformedInput, claims_every_trace, exhibits_trace
 
 FORMATS = ("table", "tamarin", "junit", "tap")
 OUTCOMES = ("verified", "falsified", "pass", "fail")
@@ -63,22 +65,37 @@ def parse_table(text: str, vocabulary: tuple[str, ...]) -> dict[str, str]:
     return rows
 
 
-def _tamarin(text: str) -> tuple[dict[str, str], dict[str, str]]:
+def _record(observed: dict[str, str], case_id: str, outcome: str) -> None:
+    """Keep one outcome per id; a repeated id must repeat its outcome."""
+    if observed.get(case_id, outcome) != outcome:
+        raise MalformedInput(
+            f"the output reports {case_id!r} twice, as {observed[case_id]!r} and {outcome!r}"
+        )
+    observed[case_id] = outcome
+
+
+def _tamarin(text: str) -> tuple[dict[str, str], dict[str, str], list[str]]:
     observed: dict[str, str] = {}
     quantifiers: dict[str, str] = {}
+    stray: list[str] = []
     variant: str | None = None
     for raw in text.splitlines():
         if raw.startswith("== "):
             variant = raw[3:].strip()
             continue
         match = _TAMARIN.match(raw)
-        if match is None or variant is None:
+        if match is None:
+            continue
+        if variant is None:
+            stray.append(f"output line {raw.strip()!r} comes before any `== ` variant header")
             continue
         case_id = f"{variant}|{match['lemma']}"
         outcome = match["outcome"]
-        observed[case_id] = "timeout" if outcome == "analysis incomplete" else outcome
+        _record(observed, case_id, "timeout" if outcome == "analysis incomplete" else outcome)
+        if quantifiers.get(case_id, match["quantifier"]) != match["quantifier"]:
+            raise MalformedInput(f"the output reports {case_id!r} under two quantifiers")
         quantifiers[case_id] = match["quantifier"]
-    return observed, quantifiers
+    return observed, quantifiers, stray
 
 
 def _junit(text: str) -> dict[str, str]:
@@ -87,11 +104,11 @@ def _junit(text: str) -> dict[str, str]:
     for case in root.iter("testcase"):
         case_id = f"{case.get('classname', '')}.{case.get('name', '')}".lstrip(".")
         if case.find("skipped") is not None:
-            observed[case_id] = "not_run"
+            _record(observed, case_id, "not_run")
         elif case.find("failure") is not None or case.find("error") is not None:
-            observed[case_id] = "fail"
+            _record(observed, case_id, "fail")
         else:
-            observed[case_id] = "pass"
+            _record(observed, case_id, "pass")
     return observed
 
 
@@ -103,22 +120,23 @@ def _tap(text: str) -> dict[str, str]:
             continue
         description, _, directive = match["rest"].partition("#")
         if directive.strip().upper().startswith(("SKIP", "TODO")):
-            observed[description.strip()] = "not_run"
+            _record(observed, description.strip(), "not_run")
         else:
-            observed[description.strip()] = "pass" if match["status"] == "ok" else "fail"
+            _record(observed, description.strip(), "pass" if match["status"] == "ok" else "fail")
     return observed
 
 
-def observe(fmt: str, output: str) -> tuple[dict[str, str], dict[str, str]]:
-    """The observed outcome per id, and the quantifier per id where the output states one."""
+def observe(fmt: str, output: str) -> tuple[dict[str, str], dict[str, str], list[str]]:
+    """The observed outcome per id, the quantifier per id where the output states one, and
+    a warning per result line the format cannot attribute to an id."""
     if fmt == "tamarin":
         return _tamarin(output)
     if fmt == "junit":
-        return _junit(output), {}
+        return _junit(output), {}, []
     if fmt == "tap":
-        return _tap(output), {}
+        return _tap(output), {}, []
     if fmt == "table":
-        return parse_table(output, OUTCOMES + NOT_RUN), {}
+        return parse_table(output, OUTCOMES + NOT_RUN), {}, []
     raise MalformedInput(f"format {fmt!r} is not one of {list(FORMATS)}")
 
 
@@ -133,12 +151,15 @@ def from_expectations(
 ) -> tuple[dict[str, Any], dict[str, Any], list[str]]:
     """The case set, the results for :func:`reader.emit`, and the warnings.
 
-    With ``witness_lemma``, every all-traces case expected `verified` names as its witness
-    the case `<same variant>|<witness_lemma>` when the table holds it; the profile decides
-    whether a case without one is refused.
+    With ``witness_lemma``, every case whose expected outcome is a claim over every trace
+    (all-traces expected `verified`, or exists-trace expected `falsified`) names as its
+    witness the case `<same variant>|<witness_lemma>` when the table holds it; the profile
+    decides whether a case without one is refused. With a witness lemma, such a case that
+    passed with no witness showing a trace is reported not run, since its proof holds
+    vacuously.
     """
     expected = parse_table(expectations, OUTCOMES)
-    observed, quantifiers = observe(fmt, output)
+    observed, quantifiers, stray = observe(fmt, output)
     cases = []
     for case_id, expect in expected.items():
         case: dict[str, Any] = {"id": case_id, "requirement": "required", "expect": expect}
@@ -149,22 +170,29 @@ def from_expectations(
         for case in cases:
             variant = case["id"].rsplit("|", 1)[0]
             witness = f"{variant}|{witness_lemma}"
-            if (case.get("quantifier"), case["expect"]) == ("all-traces", "verified") and \
-                    witness in expected and witness != case["id"]:
+            if claims_every_trace(case) and witness in expected and witness != case["id"]:
                 case["witness"] = witness
     passed = [c for c, want in expected.items() if observed.get(c) == want]
     failed = [c for c, want in expected.items()
               if c in observed and observed[c] in OUTCOMES and observed[c] != want]
-    warnings = [f"output names {c!r}, which has no expectation row" for c in observed
-                if c not in expected]
+    warnings = stray + [f"output names {c!r}, which has no expectation row" for c in observed
+                        if c not in expected]
     by_id = {c["id"]: c for c in cases}
-    for case in cases:
-        named = case.get("witness")
-        if named is None or case["id"] not in passed:
-            continue
-        if not exhibits_trace(by_id[named]) or named not in passed:
-            passed.remove(case["id"])
-            warnings.append(f"{case['id']} holds vacuously: its witness {named} shows no "
-                            "trace, so it is reported not run")
+    # Until nothing changes: a witness moved to not run takes its dependants with it,
+    # whatever order the table lists them in.
+    changed = True
+    while changed:
+        changed = False
+        for case in cases:
+            named = case.get("witness")
+            unwitnessed = witness_lemma is not None and claims_every_trace(case)
+            if case["id"] not in passed or (named is None and not unwitnessed):
+                continue
+            if named is None or not exhibits_trace(by_id[named]) or named not in passed:
+                passed.remove(case["id"])
+                changed = True
+                shown = f"its witness {named} shows no trace" if named else "it names no witness"
+                warnings.append(
+                    f"{case['id']} holds vacuously: {shown}, so it is reported not run")
     case_set = {"schema": CASE_SET_SCHEMA, "name": name, "revision": revision, "cases": cases}
     return case_set, {"passed": passed, "failed": failed}, warnings
