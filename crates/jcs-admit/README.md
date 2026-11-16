@@ -69,11 +69,12 @@ Node 20 or newer and browsers (built from `npm/`). Each has its own version and 
 | page | read it for |
 | --- | --- |
 | [JavaScript and WebAssembly](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/docs/NPM.md) | raw-byte Node and browser API, packed consumer checks and release verification |
-| [Python](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/docs/PYTHON.md) | the `probityai` wheel's bytes-in, bytes-out API, its refusal contract and the corpora it is tested on |
+| [Python](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/docs/PYTHON.md) | the `jcs-admit` wheel's bytes-in, bytes-out API, its refusal contract and the corpora it is tested on |
 | <a name="what-a-serializer-cannot-check"></a><a name="what-the-delegate-does-with-a-hostile-document"></a><a name="what-it-delegates"></a><a name="evidence"></a>[Design and evidence](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/docs/DESIGN.md) | why a serializer can't make these checks, what the delegate does with a hostile document, and the test evidence |
 | [APS canonical-byte comparison](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/interop/aps-canonical-bytes/README.md) | pinned 8-case and 10-case byte results and how to reproduce them |
 | [Python byte-profile comparison](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/interop/rfc8785-py/README.md) | independent byte cases, native raw-input refusals and a source-pinned Python consumer |
 | [Go raw-admission adapter](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/interop/go-jcs/README.md) | pinned Go bytes, original input admission and explicit root/profile boundaries |
+| [Use it as a test oracle](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/docs/ORACLE.md) | a differential test against your own canonicalizer, and what this crate does with each parser-differential class |
 | [Version 0.1.4 API reference](https://docs.rs/jcs-admit/0.1.4/jcs_admit/) | every function, option and error variant in the installed release |
 | [Agent guide](llms.txt) | raw-input admission, profile selection and runnable comparisons |
 | [Comparison with other RFC 8785 crates](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/docs/INCUMBENT-MEASUREMENT.md) | how seven RFC 8785 crates on crates.io handle hostile input |
