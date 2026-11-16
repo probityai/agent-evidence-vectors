@@ -111,6 +111,7 @@ the nearest of these and what it does not ask for.
 | `evaluation_claim.lifecycle_binding` | change management (112-648) governs changes to a system; comparing every authorized action with every executed action of one decision and one instruction, authenticated under active keys, is a different requirement |
 | `evaluation_claim.on_behalf_of` | the logging items found ask that the acting identity be recorded; none asks an agent's record to name the party it acted for |
 | `evaluation_claim.anchor_within` | the time items found trust the system clock; none bounds how late an external anchor may fall after a record's issuance |
+| `evaluation_claim.anchor_early_allowance` | the time items found trust the system clock; none refuses an external anchor that falls before the record's own issuance time |
 | `evaluation_claim.block_time_allowance` | the time items found trust the system clock; none states an allowance for a lagging anchor clock per bound |
 | `evaluation_claim.clock_skew_tolerance` | the time items found trust the system clock; none makes the future bound on a record's issuance the skew tolerance alone |
 | `evaluation_claim.conformance_extension` | no requirement asks a signed agent card to name, inside its signature, the corpus and verifier its records are judged by |

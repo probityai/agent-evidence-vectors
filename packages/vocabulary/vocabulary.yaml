@@ -3424,6 +3424,37 @@ evaluation_claim:
       An anchor proves a ceiling only if the record says how late it may be.
       Without a stated bound a year-old anchor reads as fresh.
 
+  anchor_early_allowance:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-15"
+    values: null
+    definition: >
+      The number of seconds by which a record's external time anchor may
+      precede the record's issuance time: the early bound on the anchor. It
+      is an integer between 0 and 2^53-1. An anchor commits to bytes that
+      already exist, so an anchor earlier than issuance means the issuance
+      time was written later than the record existed, which makes the record
+      read fresher than it is, unless the anchor's clock runs behind. A block
+      header time may be set earlier than the moment its block was made, so
+      this allowance covers that clock error and nothing else. It is the
+      early bound's own allowance: block_time_allowance widens the late bound
+      only, and neither value widens the other bound.
+    check: >
+      A verifier refuses a value outside 0 to 2^53-1 before any arithmetic,
+      refuses a profile that names an anchor time but lacks this member
+      (never a default of zero or of the late allowance), refuses an anchor
+      earlier than issuance minus the allowance, accepts one exactly at the
+      bound, and holds one vector at the bound and one a second before it.
+    source_path: "the early anchor allowance of a time-anchored record or verifier profile"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained producer or verifier that is not us declares an early bound for an anchor time in a real artifact and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      A late bound alone accepts an anchor from before the record was issued,
+      so a post-dated issuance time passes every freshness check. The early
+      bound needs its own allowance, because the clock error that delays an
+      anchor is not the error that makes it read early.
+
   block_time_allowance:
     status: proposed
     criticality: critical
@@ -3435,9 +3466,9 @@ evaluation_claim:
       commitment it carries by confirmation latency and may be set loosely by
       the miner, so a bound compared against it needs an allowance; a bound
       compared against a clock that states its own accuracy does not. The
-      allowance belongs to the bound it widens and is never shared: an
-      allowance written for the late anchor bound does not widen the future
-      bound on issuance.
+      allowance belongs to the bound it widens and is never shared: this
+      term widens the late anchor bound, anchor_early_allowance is the early
+      anchor bound's own, and neither widens the future bound on issuance.
     check: >
       A verifier applies the allowance only to the bound it is declared for,
       refuses a value outside 0 to 2^53-1, and holds one vector pair per

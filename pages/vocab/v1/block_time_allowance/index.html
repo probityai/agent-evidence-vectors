@@ -17,7 +17,7 @@
   {
    "@id": "https://w3id.org/agent-evidence/vocab/v1/block_time_allowance",
    "@type": "skos:Concept",
-   "skos:definition": "The seconds added to a time bound to cover the uncertainty of the clock behind an anchor, stated per bound. A block-chain header time trails the commitment it carries by confirmation latency and may be set loosely by the miner, so a bound compared against it needs an allowance; a bound compared against a clock that states its own accuracy does not. The allowance belongs to the bound it widens and is never shared: an allowance written for the late anchor bound does not widen the future bound on issuance.",
+   "skos:definition": "The seconds added to a time bound to cover the uncertainty of the clock behind an anchor, stated per bound. A block-chain header time trails the commitment it carries by confirmation latency and may be set loosely by the miner, so a bound compared against it needs an allowance; a bound compared against a clock that states its own accuracy does not. The allowance belongs to the bound it widens and is never shared: this term widens the late anchor bound, anchor_early_allowance is the early anchor bound's own, and neither widens the future bound on issuance.",
    "skos:inScheme": {
     "@id": "https://w3id.org/agent-evidence/vocab/v1/"
    },
@@ -51,7 +51,7 @@ th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-
 <h1><code>block_time_allowance</code></h1>
 <p>Term URI: <a href="https://w3id.org/agent-evidence/vocab/v1/block_time_allowance">https://w3id.org/agent-evidence/vocab/v1/block_time_allowance</a></p>
 <p>Section: <code>evaluation_claim</code>. Criticality: <code>critical</code>.</p>
-<p>The seconds added to a time bound to cover the uncertainty of the clock behind an anchor, stated per bound. A block-chain header time trails the commitment it carries by confirmation latency and may be set loosely by the miner, so a bound compared against it needs an allowance; a bound compared against a clock that states its own accuracy does not. The allowance belongs to the bound it widens and is never shared: an allowance written for the late anchor bound does not widen the future bound on issuance.</p>
+<p>The seconds added to a time bound to cover the uncertainty of the clock behind an anchor, stated per bound. A block-chain header time trails the commitment it carries by confirmation latency and may be set loosely by the miner, so a bound compared against it needs an allowance; a bound compared against a clock that states its own accuracy does not. The allowance belongs to the bound it widens and is never shared: this term widens the late anchor bound, anchor_early_allowance is the early anchor bound&#x27;s own, and neither widens the future bound on issuance.</p>
 </main>
 <footer><div class="shell">Generated from <a href="https://github.com/probityai/agent-evidence-vectors/blob/main/packages/vocabulary/vocabulary.yaml">vocabulary.yaml</a>. This page describes the current registry. A record is read against the registry its registryDigest names, named on <a href="https://probityai.github.io/agent-evidence/vocab/v1/">the term listing</a>. The term URI does not change once a signed record carries it.</div></footer>
 </body>

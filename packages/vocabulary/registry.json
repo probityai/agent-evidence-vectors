@@ -1,6 +1,6 @@
 {
   "source": "vocabulary.yaml",
-  "source_sha256": "54196d8fad16f332c474c75ea874eafeb6465de58eff0d2cb0e9cdef542f630a",
+  "source_sha256": "32130efe82965c2abf517bb9c9669e30dc3fea849e66a176073ffdbf79585b06",
   "term_uri_base": "https://w3id.org/agent-evidence/vocab/v1/",
   "terms": {
     "acceptance_observed": {
@@ -51,6 +51,14 @@
         "overfit_lint",
         "authority"
       ]
+    },
+    "anchor_early_allowance": {
+      "criticality": "critical",
+      "definition": "The number of seconds by which a record's external time anchor may precede the record's issuance time: the early bound on the anchor. It is an integer between 0 and 2^53-1. An anchor commits to bytes that already exist, so an anchor earlier than issuance means the issuance time was written later than the record existed, which makes the record read fresher than it is, unless the anchor's clock runs behind. A block header time may be set earlier than the moment its block was made, so this allowance covers that clock error and nothing else. It is the early bound's own allowance: block_time_allowance widens the late bound only, and neither value widens the other bound.",
+      "section": "evaluation_claim",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/anchor_early_allowance",
+      "value_definitions": {},
+      "values": null
     },
     "anchor_time_rule": {
       "criticality": "critical",
@@ -160,7 +168,7 @@
     },
     "block_time_allowance": {
       "criticality": "critical",
-      "definition": "The seconds added to a time bound to cover the uncertainty of the clock behind an anchor, stated per bound. A block-chain header time trails the commitment it carries by confirmation latency and may be set loosely by the miner, so a bound compared against it needs an allowance; a bound compared against a clock that states its own accuracy does not. The allowance belongs to the bound it widens and is never shared: an allowance written for the late anchor bound does not widen the future bound on issuance.",
+      "definition": "The seconds added to a time bound to cover the uncertainty of the clock behind an anchor, stated per bound. A block-chain header time trails the commitment it carries by confirmation latency and may be set loosely by the miner, so a bound compared against it needs an allowance; a bound compared against a clock that states its own accuracy does not. The allowance belongs to the bound it widens and is never shared: this term widens the late anchor bound, anchor_early_allowance is the early anchor bound's own, and neither widens the future bound on issuance.",
       "section": "evaluation_claim",
       "uri": "https://w3id.org/agent-evidence/vocab/v1/block_time_allowance",
       "value_definitions": {},

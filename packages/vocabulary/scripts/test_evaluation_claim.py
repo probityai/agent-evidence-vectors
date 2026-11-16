@@ -33,7 +33,7 @@ _INDEX = _ROOT / "registry.json"
 _PAGE = _ROOT / "docs" / "evaluation-claim.md"
 SECTION = "evaluation_claim"
 PROBE_TERM = "asserted_verdict"
-_EXPECTED_TERMS = {'evaluator', 'asserted_verdict', 'verification_decision', 'check_outcome', 'vacuity_witness', 'evidence_attribution', 'signer_distinctness', 'lifecycle_binding', 'on_behalf_of', 'anchor_within', 'block_time_allowance', 'clock_skew_tolerance', 'conformance_extension'}
+_EXPECTED_TERMS = {'evaluator', 'asserted_verdict', 'verification_decision', 'check_outcome', 'vacuity_witness', 'evidence_attribution', 'signer_distinctness', 'lifecycle_binding', 'on_behalf_of', 'anchor_within', 'anchor_early_allowance', 'block_time_allowance', 'clock_skew_tolerance', 'conformance_extension'}
 _REQUIRED_KEYS = ("criticality", "review_by", "definition", "promotion_trigger", "source_path")
 
 
@@ -287,7 +287,7 @@ _LIFECYCLE = (
 )
 
 _TIME = {"max_age": 3600, "uncertainty": 0, "clock_skew_tolerance": 300, "anchor_within": 600,
-         "block_time_allowance": 7200}
+         "block_time_allowance": 7200, "anchor_early_allowance": 900}
 #: (issued_at, check_time, anchor_time, expected value or refusal reason)
 _TIMES = (
     (10000, 10000, None, "in-bounds"),
@@ -298,6 +298,9 @@ _TIMES = (
     (10000, 13601, None, "too-old"),
     (10000, 10000, 17800, "in-bounds"),
     (10000, 10000, 17801, "anchor-late"),
+    (10000, 10000, 9100, "in-bounds"),
+    (10000, 10000, 9099, "anchor-before-issuance"),
+    (10000, 10000, 0, "anchor-before-issuance"),
     (10000, 2 ** 53, None, "time-member-outside-the-safe-range"),
     (-1, 10000, None, "time-member-outside-the-safe-range"),
 )
@@ -407,9 +410,16 @@ def _check_derivations(registry) -> tuple[list[str], int]:
     got = _label(registry.time_bounds(10000, 10000, 10500, partial))
     if got != "time-profile-member-missing":
         failures.append(f"time_bounds with no anchor_within gave {got!r}, expected a refusal")
+    no_early = {k: v for k, v in _TIME.items() if k != "anchor_early_allowance"}
+    got = _label(registry.time_bounds(10000, 10000, 10500, no_early))
+    if got != "time-profile-member-missing":
+        failures.append(f"time_bounds with no anchor_early_allowance gave {got!r}, expected a refusal")
+    got = _label(registry.time_bounds(10000, 10000, None, no_early))
+    if got != "in-bounds":
+        failures.append(f"time_bounds with no anchor time asked for anchor_early_allowance and gave {got!r}")
     failures.extend(_lifecycle_mutants(registry))
     count = (len(_PAYMENTS) + len(_MALFORMED) + 2 + len(_ASSERTED) + len(_DECISIONS) + len(_REPORTS) + len(_VACUITY)
-             + len(_SIGNERS) + len(_LIFECYCLE) + len(_TIMES) + 3)
+             + len(_SIGNERS) + len(_LIFECYCLE) + len(_TIMES) + 5)
     return failures, count
 
 

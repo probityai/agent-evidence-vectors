@@ -674,16 +674,17 @@ def lifecycle_binding(artifacts: list[dict], active_bindings: frozenset[str]) ->
 
 
 _TIME_PAST_AND_FUTURE = ("max_age", "uncertainty", "clock_skew_tolerance")
-_TIME_ANCHOR = ("anchor_within", "block_time_allowance")
+_TIME_ANCHOR = ("anchor_within", "block_time_allowance", "anchor_early_allowance")
 
 
 def time_bounds(issued_at: int, check_time: int, anchor_time: int | None, profile: dict) -> Derived:
     """Asymmetric freshness and the late anchor bound, with every input range-checked before arithmetic.
 
     ``profile``: max_age, uncertainty, clock_skew_tolerance, and, when an anchor time is given,
-    anchor_within and block_time_allowance (seconds). A profile missing a member the check needs is refused,
-    never defaulted. Past bound: max_age plus uncertainty. Future bound: clock_skew_tolerance only. Anchor:
-    at most anchor_within plus block_time_allowance after issuance. Every bound admits equality.
+    anchor_within, block_time_allowance and anchor_early_allowance (seconds). A profile missing a member the
+    check needs is refused, never defaulted. Past bound: max_age plus uncertainty. Future bound:
+    clock_skew_tolerance only. Anchor: at most anchor_within plus block_time_allowance after issuance, and at
+    most anchor_early_allowance before it. Every bound admits equality.
     """
     term = "clock_skew_tolerance"
     needed = _TIME_PAST_AND_FUTURE + (_TIME_ANCHOR if anchor_time is not None else ())
@@ -698,4 +699,6 @@ def time_bounds(issued_at: int, check_time: int, anchor_time: int | None, profil
         return _refuse(term, "too-old")
     if anchor_time is not None and anchor_time > issued_at + profile["anchor_within"] + profile["block_time_allowance"]:
         return _refuse("anchor_within", "anchor-late")
+    if anchor_time is not None and anchor_time + profile["anchor_early_allowance"] < issued_at:
+        return _refuse("anchor_early_allowance", "anchor-before-issuance")
     return Derived(term, "in-bounds", False, "inside every bound")

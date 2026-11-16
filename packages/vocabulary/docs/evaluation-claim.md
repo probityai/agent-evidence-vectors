@@ -16,6 +16,7 @@ Name the rule that turns a record's inputs into its verdict, the outcomes of re-
 | `lifecycle_binding` | whether the authenticated execution report names the action the authenticated control authorized | grouped by decision and instruction, every pair compared, five states |
 | `on_behalf_of` | the party an agent acted for | reported next to the signer that attributed it; never read as consent |
 | `anchor_within` | the late bound on a record's external time anchor | checked with equality allowed, after a range check |
+| `anchor_early_allowance` | the early bound on a record's external time anchor | an anchor earlier than issuance minus the allowance is refused; never borrowed from the late bound |
 | `block_time_allowance` | the seconds added to one bound for the uncertainty of an anchor's clock | applied only to the bound it is declared for |
 | `clock_skew_tolerance` | how far a record's issuance time may lie in the verifier's future | the future bound is the skew alone, never the maximum age |
 | `conformance_extension` | an extension URI in a signed agent card naming the corpus and verifier its records are judged by | read only inside a card whose signature verifies; parameters pin versions |
@@ -74,4 +75,4 @@ A capability credential names an issuer, a subject agent, its capabilities, a va
 
 ## Time members
 
-An agent audit record that carries an issuance time and an external anchor states three bounds. The past bound on the issuance time is the maximum age plus the uncertainty of the record's clock. The future bound is `clock_skew_tolerance` alone. The anchor must fall no later than `anchor_within` plus `block_time_allowance` after issuance. Every bound admits equality, every time member is range-checked as an integer in 0 to 2^53-1 before any subtraction, and each bound is held by its own pair of vectors, one at the bound and one a second past it. `registry.time_bounds` applies the rule.
+An agent audit record that carries an issuance time and an external anchor states four bounds. The past bound on the issuance time is the maximum age plus the uncertainty of the record's clock. The future bound is `clock_skew_tolerance` alone. The anchor must fall no later than `anchor_within` plus `block_time_allowance` after issuance, and no earlier than `anchor_early_allowance` before it, because an anchor commits to bytes that already exist and an earlier anchor means a post-dated issuance time. Every bound admits equality, every time member is range-checked as an integer in 0 to 2^53-1 before any subtraction, and each bound is held by its own pair of vectors, one at the bound and one a second past it. `registry.time_bounds` applies the rule.
