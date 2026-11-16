@@ -13,7 +13,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/probityai/jcs-admit/interop/go-jcs/source/jsoncanonicalizer"
+	"jcsadmit.invalid/go-jcs/source/jsoncanonicalizer"
 )
 
 // Policy selects the admission profile and finite input caps.
