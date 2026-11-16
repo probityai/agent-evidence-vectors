@@ -431,6 +431,46 @@ def key_history(history: list[dict], key_id: str, issued_at: int) -> Derived:
     return Derived(term, "key_rotated_out", False, "authorized at issuance, ended afterwards")
 
 
+TRAJECTORY_HEAD_DOMAIN = b"agent-evidence/record-binding/v1/trajectory-head\n"
+
+
+def trajectory_head_preimage(stream_id: str, last_digest: str, count: int) -> bytes:
+    """The bytes a trajectory head signs: the head's own signing domain, then the stream identity, the last
+    record's digest and the count, each on its own line. A record signature never verifies as a head."""
+    if not stream_id or not last_digest or not _safe_count(count) or any(
+            "\n" in field for field in (stream_id, last_digest)):
+        raise ValueError("a head names a stream, a digest and a count in 0 to 2^53-1, none spanning a line")
+    return TRAJECTORY_HEAD_DOMAIN + f"{stream_id}\n{last_digest}\n{count}".encode("utf-8")
+
+
+def trajectory_head(head: dict | None, stream_id: str, last_digest: str, count: int) -> Derived:
+    """Derive trajectory_head for the stream ``stream_id`` the consumer asked for, walked to ``last_digest``
+    over ``count`` records.
+
+    ``head`` is None or {stream_id, digest, count, witness_verified, producer_verified}, where the two
+    booleans say whether the head's signature over ``trajectory_head_preimage`` verifies under a pinned
+    witness key the producer does not hold, or under the producer's own key. A head that names no stream,
+    or another stream, does not close this one. A head whose digest or count differs from the walk is
+    refused. A head no key verifies is refused, never read as absent.
+    """
+    term = "trajectory_head"
+    if head is None:
+        return Derived(term, "absent", False, "no signed head; the end of the stream is not established")
+    if not head.get("stream_id"):
+        return _refuse(term, "head-names-no-stream")
+    if head["stream_id"] != stream_id:
+        return _refuse(term, "head-names-another-stream")
+    if not _safe_count(head.get("count")) or head["count"] != count:
+        return _refuse(term, "head-count-differs-from-walk")
+    if head.get("digest") != last_digest:
+        return _refuse(term, "head-digest-differs-from-walk")
+    if head.get("witness_verified") is True:
+        return Derived(term, "witnessed", False, "signed under a pinned witness key")
+    if head.get("producer_verified") is True:
+        return Derived(term, "producer_signed", False, "signed only by the producer")
+    return _refuse(term, "head-signature-does-not-verify")
+
+
 # ---------------------------------------------------------------- evaluation_claim
 
 _DECISION_OF = {"accepted": 0, "rejected": 1, "indeterminate": 2}

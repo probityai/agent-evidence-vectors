@@ -9,7 +9,7 @@ Name which bytes a digest or signature covers, the rule that produced them, the 
 | `canonicalization` | the rule that turns a record or a referenced object into the bytes that are hashed or signed | recompute under exactly the declared rule; undeclared is cannot tell; a refusal by a declared subset profile is counted as outside the profile, never as a mismatch |
 | `hash_alg` | the hash function of a digest | named next to the digest, never inferred from its length; length and alphabet must match |
 | `sequence_number` | a record's position in its producer's stream for one trajectory | from 0, rising by exactly 1, in 0 to 2^53-1, consistent with the digest chain |
-| `trajectory_head` | what fixes the end of a record stream | witnessed only under a pinned witness key, over the last digest and the count walked |
+| `trajectory_head` | what fixes the end of a named record stream | witnessed only under a pinned witness key, over the stream identity the consumer asked for, the last digest and the count walked |
 | `coverage_boundary` | what a stream or digest is meant to cover, including which copy of an object | an omission is reported only inside a declared boundary; a digest over a copy the consumer does not read is refused |
 | `signature_coverage` | how much of a record a verifying signature covers | full only when every member the consumer acts on is signed; an unreachable key is cannot tell |
 | `key_authority` | what proves the signing key may speak for the record | agreement only under a checked pin, DNSSEC chain or key-transparency inclusion; a self-carried key tops out at cannot tell |

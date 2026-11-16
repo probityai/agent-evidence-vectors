@@ -236,6 +236,40 @@ def _label(derived) -> str:
     return derived.reason if derived.refused else derived.value
 
 
+_HEAD_OK = {"stream_id": "s1", "digest": "d9", "count": 9}
+#: (head, expected value or refusal reason) for stream s1 walked to digest d9 over 9 records
+_HEADS = (
+    (None, "absent"),
+    ({**_HEAD_OK, "witness_verified": True}, "witnessed"),
+    ({**_HEAD_OK, "producer_verified": True}, "producer_signed"),
+    ({**_HEAD_OK, "witness_verified": True, "stream_id": "s2"}, "head-names-another-stream"),
+    ({"digest": "d9", "count": 9, "witness_verified": True}, "head-names-no-stream"),
+    ({**_HEAD_OK, "witness_verified": True, "count": 8}, "head-count-differs-from-walk"),
+    ({**_HEAD_OK, "witness_verified": True, "count": True}, "head-count-differs-from-walk"),
+    ({**_HEAD_OK, "witness_verified": True, "digest": "d8"}, "head-digest-differs-from-walk"),
+    ({**_HEAD_OK, "witness_verified": False, "producer_verified": False}, "head-signature-does-not-verify"),
+)
+
+
+def _check_heads(registry) -> list[str]:
+    """Each head case gives its value, and the signed bytes carry the stream under the head's own domain."""
+    failures = []
+    for head, expected in _HEADS:
+        got = _label(registry.trajectory_head(head, "s1", "d9", 9))
+        if got != expected:
+            failures.append(f"trajectory_head({head!r}) gave {got!r}, expected {expected!r}")
+    one = registry.trajectory_head_preimage("s1", "d9", 9)
+    if not one.startswith(registry.TRAJECTORY_HEAD_DOMAIN) or one == registry.trajectory_head_preimage("s2", "d9", 9):
+        failures.append("trajectory_head_preimage does not bind the stream under the head domain")
+    for bad in (("", "d9", 9), ("s1\nd9", "d9", 9), ("s1", "d9", -1)):
+        try:
+            registry.trajectory_head_preimage(*bad)
+            failures.append(f"trajectory_head_preimage{bad!r} built bytes, expected a refusal")
+        except ValueError:
+            pass
+    return failures
+
+
 def _check_derivations(registry) -> tuple[list[str], int]:
     """Each reference derivation gives the expected value or refusal for every case."""
     failures = []
@@ -255,7 +289,8 @@ def _check_derivations(registry) -> tuple[list[str], int]:
         got = registry.key_history(_HISTORY, key, issued_at).value
         if got != expected:
             failures.append(f"key_history({key!r}, {issued_at}) gave {got!r}, expected {expected!r}")
-    return failures, len(_NUMBERS) + len(_SEQUENCES) + len(_STARTS) + len(_KEYS)
+    failures.extend(_check_heads(registry))
+    return failures, len(_NUMBERS) + len(_SEQUENCES) + len(_STARTS) + len(_KEYS) + len(_HEADS) + 4
 
 
 def main() -> int:

@@ -1,6 +1,6 @@
 {
   "source": "vocabulary.yaml",
-  "source_sha256": "32130efe82965c2abf517bb9c9669e30dc3fea849e66a176073ffdbf79585b06",
+  "source_sha256": "1f1966c417b9175242af7210eca43db29cd910f80f266685184eae12fa6653cb",
   "term_uri_base": "https://w3id.org/agent-evidence/vocab/v1/",
   "terms": {
     "acceptance_observed": {
@@ -1227,13 +1227,13 @@
     },
     "trajectory_head": {
       "criticality": "critical",
-      "definition": "What fixes the end of a record stream. A digest chain proves its middle and its start, and says nothing about records cut from the end: the producer, or anyone holding its storage, can truncate the tail and every remaining record still verifies. Only a head signed by a key outside the producer's reach turns \"these records verify\" into \"these are all the records up to this point\". producer_signed fixes the end against a third party who edits storage, never against the producer itself.",
+      "definition": "What fixes the end of a record stream. A digest chain proves its middle and its start, and says nothing about records cut from the end: the producer, or anyone holding its storage, can truncate the tail and every remaining record still verifies. Only a head signed by a key outside the producer's reach turns \"these records verify\" into \"these are all the records up to this point\". producer_signed fixes the end against a third party who edits storage, never against the producer itself. The head names the stream it closes: a head over a digest and a count alone can be presented as the end of another stream by the same producer, so one stream's head would close a second, truncated one. The signed bytes are the stream identity, the last digest and the count under a signing domain that names the head, so a head signature is never valid as a record signature or the reverse.",
       "section": "record_binding",
       "uri": "https://w3id.org/agent-evidence/vocab/v1/trajectory_head",
       "value_definitions": {
-        "absent": "No signed statement of the last record and the count exists.",
-        "producer_signed": "The digest of the last record and the count are signed only by the producer's own key.",
-        "witnessed": "The digest of the last record and the record count are signed by a witness key whose public half the consumer pinned and the producer does not hold."
+        "absent": "No signed statement of the stream identity, the last record and the count exists.",
+        "producer_signed": "The stream identity, the digest of the last record and the count are signed only by the producer's own key.",
+        "witnessed": "The stream identity, the digest of the last record and the record count are signed by a witness key whose public half the consumer pinned and the producer does not hold."
       },
       "values": [
         "witnessed",
