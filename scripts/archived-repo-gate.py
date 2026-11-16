@@ -55,9 +55,7 @@ ARCHIVE_ORG = "probityai-archive"
 API = "https://api.github.com"
 
 # A predicate type URI names a predicate inside signed statements; it is never rewritten.
-PREDICATE_URI = (
-    r"https://github\.com/probityai/agent-evidence-vocabulary/blob/main/docs/predicates/[a-z0-9-]+\.md"
-)
+PREDICATE_URI = r"https://github\.com/probityai/agent-evidence-vocabulary/blob/main/docs/predicates/[a-z0-9-]+\.md"
 _PREDICATE_AS_LINK = re.compile(r"\]\(\s*" + PREDICATE_URI)
 _PREDICATE_BARE = re.compile(PREDICATE_URI)
 # A container image path names a package in the registry, not a repository on github.com.
@@ -96,16 +94,21 @@ def reference_pattern(repos: list[Archived]) -> re.Pattern[str]:
 def records_pattern(repos: list[Archived]) -> re.Pattern[str]:
     """Text that names something existing only in an archived repository."""
     names = _names(repos)
+    owner = r"(?:probityai|astrogilda)"
     parts = [
-        rf"github\.com/(?:probityai|astrogilda)/(?:{names})/(?:actions/runs/[0-9]+|pull/[0-9]+|commit/[0-9a-f]{{7,40}}"
-        rf"|(?:blob|tree|raw)/[0-9a-f]{{40}}(?![0-9a-f]))",
-        rf"raw\.githubusercontent\.com/(?:probityai|astrogilda)/(?:{names})/[0-9a-f]{{40}}(?![0-9a-f])",
+        (
+            rf"github\.com/{owner}/(?:{names})/(?:actions/runs/[0-9]+|pull/[0-9]+"
+            r"|commit/[0-9a-f]{7,40}|(?:blob|tree|raw)/[0-9a-f]{40}(?![0-9a-f]))"
+        ),
+        rf"raw\.githubusercontent\.com/{owner}/(?:{names})/[0-9a-f]{{40}}(?![0-9a-f])",
     ]
     for repo in repos:
         if repo.untransferred_issues:
             issues = "|".join(str(n) for n in repo.untransferred_issues)
             name = re.escape(repo.name)
-            parts.append(rf"github\.com/(?:probityai|astrogilda)/{name}/issues/(?:{issues})(?![0-9])")
+            parts.append(
+                rf"github\.com/(?:probityai|astrogilda)/{name}/issues/(?:{issues})(?![0-9])"
+            )
             parts.append(rf"(?:probityai|astrogilda)/{name}#(?:{issues})(?![0-9])")
     return re.compile("|".join(parts))
 
@@ -169,7 +172,7 @@ def github_fetch(url: str) -> object:
     token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
     if token:
         request.add_header("Authorization", f"Bearer {token}")
-    with urllib.request.urlopen(request, timeout=30) as response:  # noqa: S310 - fixed https host
+    with urllib.request.urlopen(request, timeout=30) as response:
         return json.load(response)
 
 
@@ -180,7 +183,7 @@ def archive_org_names(fetch: Fetch) -> set[str]:
     while True:
         batch = fetch(f"{API}/orgs/{ARCHIVE_ORG}/repos?per_page=100&type=all&page={page}")
         if not isinstance(batch, list):
-            raise RuntimeError(f"unexpected reply listing {ARCHIVE_ORG}: {batch!r}")
+            raise TypeError(f"unexpected reply listing {ARCHIVE_ORG}: {batch!r}")
         names.update(str(r["name"]) for r in batch)
         if len(batch) < 100:
             return names
@@ -192,7 +195,9 @@ def live_problems(repos: list[Archived], fetch: Fetch) -> list[str]:
     problems = []
     listed = {r.name for r in repos}
     for name in sorted(archive_org_names(fetch) - listed):
-        problems.append(f"{ARCHIVE_ORG}/{name} is archived but has no row in scripts/archived-repos.toml")
+        problems.append(
+            f"{ARCHIVE_ORG}/{name} is archived but has no row in scripts/archived-repos.toml"
+        )
     for repo in repos:
         record = fetch(f"{API}/repos/probityai/{repo.name}")
         if not isinstance(record, dict):
@@ -229,16 +234,16 @@ def main(argv: list[str]) -> int:
             return 0
         patterns = allowed_paths(ALLOWLIST.read_text(encoding="utf-8"))
         hits = findings(ROOT, patterns, repos)
-    except (OSError, ValueError, RuntimeError, urllib.error.URLError) as exc:
+    except (OSError, ValueError, RuntimeError, TypeError, urllib.error.URLError) as exc:
         print(f"archived-repo-gate did not run: {exc}", file=sys.stderr)
         return 2
     for hit in hits:
         print(hit, file=sys.stderr)
     if hits:
         print(
-            f"{len(hits)} reference(s) to an archived probityai repository; point each at its home "
-            "in scripts/archived-repos.toml, or list the file in scripts/archived-repo-allowlist.txt "
-            "with its reason",
+            f"{len(hits)} reference(s) to an archived probityai repository; point each at its "
+            "home in scripts/archived-repos.toml, or list the file in "
+            "scripts/archived-repo-allowlist.txt with its reason",
             file=sys.stderr,
         )
         return 1

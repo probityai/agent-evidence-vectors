@@ -40,24 +40,49 @@ CASES = [
     ("a clone line", "README.md", f"git clone {OLD}", True),
     ("a transferred issue", "README.md", f"[thread]({OLD}/issues/24)", True),
     ("a transferred issue in short form", "README.md", "see probityai/agent-evidence#24", True),
-    ("an issue number that only starts like an untransferred one", "README.md", f"{OLD}/issues/300", True),
+    (
+        "an issue number that only starts like an untransferred one",
+        "README.md",
+        f"{OLD}/issues/300",
+        True,
+    ),
     ("a CI run", "README.md", f"[run]({OLD}/actions/runs/40802484844)", False),
     ("a pull request", "README.md", f"[PR]({OLD}/pull/53)", False),
     ("an untransferred issue", "README.md", f"[run]({OLD}/issues/35)", False),
-    ("an untransferred issue in short form", "vocab.yaml", "read on probityai/agent-evidence#32 at", False),
+    (
+        "an untransferred issue in short form",
+        "vocab.yaml",
+        "read on probityai/agent-evidence#32 at",
+        False,
+    ),
     (
         "a site workflow, imported here with the Atlas tree",
         "gen.py",
         f"{OLD}/blob/main/.github/workflows/site-board.yml",
         True,
     ),
-    ("the vectors repository", "README.md", "https://github.com/probityai/agent-evidence-vectors", False),
+    (
+        "the vectors repository",
+        "README.md",
+        "https://github.com/probityai/agent-evidence-vectors",
+        False,
+    ),
     ("an allowlisted file", "CHANGELOG.md", f"now points at {OLD}, where", False),
-    ("a live link beside a CI run", "README.md", f"{OLD}/actions/runs/1 and {OLD}/blob/main/x", True),
+    (
+        "a live link beside a CI run",
+        "README.md",
+        f"{OLD}/actions/runs/1 and {OLD}/blob/main/x",
+        True,
+    ),
     # The vocabulary and admission repositories, which the first version of the gate did not know.
     ("the vocabulary repository", "README.md", f"[vocabulary]({VOCAB})", True),
     ("a vocabulary file", "README.md", f"[x]({VOCAB}/blob/main/vocabulary.yaml)", True),
-    ("the admission repository", "README.md", "https://github.com/probityai/agent-evidence-admission", True),
+    (
+        "the admission repository",
+        "README.md",
+        "https://github.com/probityai/agent-evidence-admission",
+        True,
+    ),
     ("a pull request of the vocabulary repository", "README.md", f"[PR]({VOCAB}/pull/2)", False),
     ("a vocabulary issue", "README.md", f"[thread]({VOCAB}/issues/4)", True),
     ("a file at a full commit id", "README.md", f"{VOCAB}/blob/{SHA}/README.md", False),
@@ -68,24 +93,64 @@ CASES = [
         f"https://raw.githubusercontent.com/probityai/agent-evidence-atlas/{SHA}/a.zip",
         False,
     ),
-    ("a raw file on a branch", "m.json", "https://raw.githubusercontent.com/probityai/jcs-admit/main/a.zip", True),
-    ("the archive organisation", "README.md", "https://github.com/probityai-archive/agent-evidence-vocabulary", False),
+    (
+        "a raw file on a branch",
+        "m.json",
+        "https://raw.githubusercontent.com/probityai/jcs-admit/main/a.zip",
+        True,
+    ),
+    (
+        "the archive organisation",
+        "README.md",
+        "https://github.com/probityai-archive/agent-evidence-vocabulary",
+        False,
+    ),
     ("an old handle", "README.md", "https://github.com/astrogilda/agent-evidence-vocabulary", True),
     ("a clone by ssh", "README.md", "git clone git@github.com:probityai/ratchet.git", True),
     # Identifiers: a predicate type URI, an npm scope and an MCP registry namespace.
-    ("a predicate type URI as an identifier", "case.json", f'"predicateType": "{PREDICATE}",', False),
+    (
+        "a predicate type URI as an identifier",
+        "case.json",
+        f'"predicateType": "{PREDICATE}",',
+        False,
+    ),
     ("a predicate type URI inside backticks", "doc.md", f"`{PREDICATE}`", False),
     ("a predicate type URI as a link target", "README.md", f"[the predicate]({PREDICATE})", True),
-    ("a predicate type URI beside a repository link", "README.md", f"{PREDICATE} and {VOCAB}", True),
-    ("another path in the vocabulary repository", "README.md", f"{VOCAB}/blob/main/docs/other.md", True),
+    (
+        "a predicate type URI beside a repository link",
+        "README.md",
+        f"{PREDICATE} and {VOCAB}",
+        True,
+    ),
+    (
+        "another path in the vocabulary repository",
+        "README.md",
+        f"{VOCAB}/blob/main/docs/other.md",
+        True,
+    ),
     ("an npm scope", "package.json", '"name": "@probityai/dsse",', False),
     ("an npm scope with a subpath", "x.mjs", 'import("@probityai/dsse/browser")', False),
-    ("an MCP registry namespace", "server.json", '"io.github.probityai/agent-evidence-admission": {', False),
+    (
+        "an MCP registry namespace",
+        "server.json",
+        '"io.github.probityai/agent-evidence-admission": {',
+        False,
+    ),
     ("a container image path", "RELEASING.md", "ghcr.io/probityai/agent-evidence-mcp:1.2.3", False),
-    ("a container image path beside a repository link", "RELEASING.md", f"ghcr.io/probityai/dsse and {VOCAB}", True),
+    (
+        "a container image path beside a repository link",
+        "RELEASING.md",
+        f"ghcr.io/probityai/dsse and {VOCAB}",
+        True,
+    ),
     ("a Go module path", "go.mod", "module github.com/probityai/dsse/vectors/generate", True),
 ] + [
-    (f"a link to {repo.name}", "README.md", f"[x](https://github.com/probityai/{repo.name}/tree/main)", True)
+    (
+        f"a link to {repo.name}",
+        "README.md",
+        f"[x](https://github.com/probityai/{repo.name}/tree/main)",
+        True,
+    )
     for repo in REPOS
 ]
 
@@ -100,7 +165,11 @@ def run_case(line: str, name: str) -> list[str]:
 
 
 def fake_github(
-    *, extra: tuple[str, ...] = (), redirected: str = "", missing_home: str = "", unarchived: str = ""
+    *,
+    extra: tuple[str, ...] = (),
+    redirected: str = "",
+    missing_home: str = "",
+    unarchived: str = "",
 ):
     """A fetch that answers as GitHub would, with one thing wrong when asked."""
     archive = [{"name": r.name} for r in REPOS] + [{"name": n} for n in extra]
@@ -112,9 +181,14 @@ def fake_github(
             if url == f"{gate.API}/repos/probityai/{repo.name}":
                 if redirected == repo.name:
                     return {"full_name": f"probityai/{repo.name}", "archived": False}
-                return {"full_name": f"probityai-archive/{repo.name}", "archived": unarchived != repo.name}
+                return {
+                    "full_name": f"probityai-archive/{repo.name}",
+                    "archived": unarchived != repo.name,
+                }
             owner, repository, *path = repo.home.split("/", 2)
-            if url == f"{gate.API}/repos/{owner}/{repository}" + (f"/contents/{path[0]}" if path else ""):
+            if url == f"{gate.API}/repos/{owner}/{repository}" + (
+                f"/contents/{path[0]}" if path else ""
+            ):
                 if missing_home == repo.name:
                     raise urllib.error.HTTPError(url, 404, "Not Found", {}, None)  # type: ignore[arg-type]
                 return {}
@@ -161,7 +235,9 @@ def main() -> int:
     for description, name, line, refused in CASES:
         hits = run_case(line, name)
         if bool(hits) != refused:
-            failures.append(f"{description}: expected {'a refusal' if refused else 'a pass'}, got {hits}")
+            failures.append(
+                f"{description}: expected {'a refusal' if refused else 'a pass'}, got {hits}"
+            )
     try:
         gate.allowed_paths("some/file.md\n")
         failures.append("an allowlist line with no reason was accepted")
