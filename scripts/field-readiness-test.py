@@ -110,7 +110,8 @@ def locate_cases() -> None:
         plain += ("-c", "commit.gpgsign=false", "-c", "tag.gpgsign=false")
         git(*plain, "commit", "-q", "-m", "x")
         git(*plain, "tag", "v1")
-        saved, fr.ROOT = fr.ROOT, repo
+        saved = fr.ROOT
+        setattr(fr, "ROOT", repo)
         try:
             for name, want in (
                 ("vectors-new", "corpora/vectors-new"),
@@ -121,7 +122,7 @@ def locate_cases() -> None:
                 if got != want:
                     FAILURES.append(f"locate_in_tag({name}) gave {got}, wanted {want}")
         finally:
-            fr.ROOT = saved
+            setattr(fr, "ROOT", saved)
 
 
 def main() -> int:

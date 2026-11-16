@@ -76,6 +76,7 @@ TAG_PATHS = (
     "scripts/action-reference-stage.py",
     "vectors-done-receipt",
     "action-reference-requirements.txt",
+    "packaging",
 )
 # Corpus directories live under corpora/ in a tag cut after the move and at the
 # repository root in an older one. Each is read from where its tag keeps it.
