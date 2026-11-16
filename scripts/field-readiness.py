@@ -74,7 +74,7 @@ print(json.dumps({"checked": checked, "total": total, "notes": notes[:5]}))
 """
 TAG_PATHS = (
     "scripts/action-reference-stage.py",
-    "vectors-done-receipt",
+    "corpora/vectors-done-receipt",
     "action-reference-requirements.txt",
 )
 
@@ -255,10 +255,12 @@ def check_verifier_released(
 
 
 def tag_tally(tag: str, corpus: str) -> dict[str, Any]:
+    """Tally `corpus` (a name under corpora/) as the tag ships it."""
+    path = f"corpora/{corpus}"
     with tempfile.TemporaryDirectory() as tmp:
         tree = Path(tmp)
-        extract_tag(tag, [corpus, *TAG_PATHS], tree)
-        return run_tally(tree, corpus)
+        extract_tag(tag, [path, *TAG_PATHS], tree)
+        return run_tally(tree, path)
 
 
 def outside_run(
