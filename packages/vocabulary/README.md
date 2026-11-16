@@ -61,3 +61,12 @@ predicate, in
 | [Releasing](https://github.com/probityai/agent-evidence-vectors/blob/main/packages/vocabulary/docs/RELEASING.md) | how a version is cut, tagged and checked |
 | [GOVERNANCE.md](https://github.com/probityai/agent-evidence-vectors/blob/main/packages/vocabulary/GOVERNANCE.md) and [CONTRIBUTING.md](https://github.com/probityai/agent-evidence-vectors/blob/main/packages/vocabulary/CONTRIBUTING.md) | the promotion rules, and how to file a crosswalk |
 | [agent-evidence-vectors](https://github.com/probityai/agent-evidence-vectors) | the predicate specification and conformance vectors this vocabulary describes |
+
+## Verify the release
+
+Every file of a release carries a PEP 740 attestation naming the GitHub workflow that built it. Check one file:
+
+```sh
+pip install pypi-attestations
+pypi-attestations verify pypi --repository https://github.com/probityai/agent-evidence-vectors pypi:<file name>
+```

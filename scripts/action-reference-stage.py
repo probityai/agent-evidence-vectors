@@ -210,7 +210,9 @@ def full_release(checked: int, total: int) -> bool:
 
 
 def reference_id() -> str:
-    from agent_evidence_verify.core import REFERENCE_VERIFIER_ID  # pyright: ignore[reportMissingImports]
+    from agent_evidence_verify.core import (  # pyright: ignore[reportMissingImports]
+        REFERENCE_VERIFIER_ID,
+    )
 
     return str(REFERENCE_VERIFIER_ID)
 

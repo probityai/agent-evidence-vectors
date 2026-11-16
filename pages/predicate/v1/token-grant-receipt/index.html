@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Predicate type: Token Grant Receipt</title>
+<meta name="description" content="Type URI, schema and rules of the Token Grant Receipt in-toto predicate.">
+<link rel="canonical" href="https://w3id.org/agent-evidence/predicate/v1/token-grant-receipt">
+<style>
+:root{color-scheme:light dark;--page:#f6f8fb;--surface:#fff;--ink:#14202e;--body:#33404f;--link:#1f4fd1;--rule:#cfd8e3;font-family:system-ui,sans-serif;color:var(--ink);background:var(--page)}
+@media (prefers-color-scheme:dark){:root{--page:#10151b;--surface:#18202a;--ink:#e8edf3;--body:#c3ccd6;--link:#8fb0ff;--rule:#2c3846}}
+*{box-sizing:border-box}body{margin:0;font:400 1rem/1.6 system-ui,sans-serif;background:var(--page)}
+.shell{max-width:52rem;margin-inline:auto;padding-inline:16px}
+header,footer{padding-block:1.25rem}header a{font-weight:700;color:var(--ink);text-decoration:none}
+footer{border-top:1px solid var(--rule);color:var(--body);font-size:.9375rem;margin-top:3rem}
+a{color:var(--link)}p,li,td{color:var(--body)}h1{line-height:1.2}
+code,pre{font-family:ui-monospace,Consolas,monospace;font-size:.875em}code{overflow-wrap:anywhere}
+pre{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:1rem;overflow-x:auto}
+blockquote{margin:1rem 0;padding:.25rem 1rem;border-left:4px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;display:block;overflow-x:auto}
+th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-align:top}
+</style>
+</head>
+<body>
+<header class="shell"><a href="https://github.com/probityai/agent-evidence-vectors">Agent Evidence</a></header>
+<main class="shell">
+<h1 id="predicate-type-token-grant-receipt">Predicate type: Token Grant Receipt</h1>
+<p>Type URI: <a href="https://w3id.org/agent-evidence/predicate/v1/token-grant-receipt">https://w3id.org/agent-evidence/predicate/v1/token-grant-receipt</a></p>
+<p>Version: 0.1.0</p>
+<p>Predicate Name: Token Grant Receipt</p>
+<blockquote>
+<p>Status: DRAFT, issued under a self-hosted <code>predicateType</code> URI. The in-toto new-predicate guidelines leave the URI namespace to the predicate designer. The URI redirects to a page built from this file and served by the Pages site of the organisation (<code>probityai/probityai.github.io</code>), at <code>https://probityai.github.io/agent-evidence/predicate/v1/token-grant-receipt/</code>. The URI will not move once a signed statement carries it, and no signed statement carries it before that page is live.</p>
+</blockquote>
+<h2 id="purpose">Purpose</h2>
+<p>Records that an identity provider issued an access token to a client, and holds the provider to what it recorded: which client asked, for which user, under which grant, with what audience and scope, and from which presented token. The record names the issued token by the digest of its token identifier and every presented token by the digest of the token as presented, so it can be shared with an auditor without sharing anything that works as a credential.</p>
+<h2 id="use-cases">Use cases</h2>
+<ul>
+<li>After an incident, an auditor asks which client obtained which token for which user. The provider's own event store answers only for a reader who trusts the provider's database, and it can be edited or expire. A receipt signed by a dedicated recorder key, and chained to the one before it, answers it for a reader who holds only the key's public half.</li>
+<li>A relying party that received a token computes the digest of the token's identifier and checks the receipt against the issuer, client, audience and scope it expected.</li>
+<li>A reviewer comparing two identity providers sees the same record shape for token exchange, client credentials and CIBA grants.</li>
+</ul>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>The in-toto Attestation Framework, DSSE, strict JSON, and an identity provider that exposes a completed-grant event with the values below (OAuth 2.0 token exchange, RFC 8693; client credentials, RFC 6749; CIBA, OpenID Connect CIBA Core).</p>
+<h2 id="model">Model</h2>
+<p>The producer is the recorder: a component of the identity provider that holds its own Ed25519 key, distinct from the provider's token-signing key. The recorder writes one DSSE envelope per completed grant, with payload type <code>application/vnd.in-toto+json</code>, one envelope per line of an append-only log.</p>
+<p>The <strong>subject</strong> is the issued access token: one member named <code>access-token-id</code> whose <code>digest</code> holds only <code>sha256</code>, the SHA-256 of the token's <code>jti</code> claim. The token itself never reaches the record. A holder of the token computes the same digest from the <code>jti</code> it carries.</p>
+<p>The <strong>predicate</strong> carries exactly these members:</p>
+<ul>
+<li><code>issuer</code>: the issuer URL of the realm or tenant that issued the token.</li>
+<li><code>grantType</code>: one of <code>urn:ietf:params:oauth:grant-type:token-exchange</code>, <code>client_credentials</code> and <code>urn:openid:params:grant-type:ciba</code>.</li>
+<li><code>eventId</code>: a non-empty text naming the provider's own event.</li>
+<li><code>issuedAt</code>: an RFC 3339 UTC time to whole seconds.</li>
+<li><code>actor</code>: <code>clientId</code> (the client that asked) and <code>authMethod</code> (how it authenticated, or null).</li>
+<li><code>subject</code>: <code>userId</code>, the user the token names; for client credentials, the client's service account user.</li>
+<li><code>subjectToken</code>: for a token exchange, <code>sha256</code> (the SHA-256 of the presented <code>subject_token</code>, taken when the recorder read the request) and <code>issuedTo</code> (the client the presented token was issued to, or null); null for other grants.</li>
+<li><code>actorTokenSha256</code>: the SHA-256 of the presented <code>actor_token</code>, or null.</li>
+<li><code>requestedTokenType</code>: the requested token type, or null.</li>
+<li><code>audience</code>: the issued token's audience, a sorted, duplicate-free list of non-empty texts.</li>
+<li><code>scope</code>: the issued token's scope, a sorted, duplicate-free list of non-empty texts.</li>
+<li><code>refreshTokenIdSha256</code>: the SHA-256 of the refresh token's identifier, or null.</li>
+<li><code>recorder</code>: <code>id</code>, <code>version</code> and <code>keyId</code>, where <code>keyId</code> is the SHA-256 of the raw 32-byte public key that signs the envelope.</li>
+<li><code>chain</code>: <code>stream</code> (one per recorder node), <code>index</code> (a non-negative integer) and <code>previous</code> (the SHA-256 of the previous line's bytes, null only at index 0).</li>
+</ul>
+<p>No member can hold a token value, a secret or a raw token identifier. A recorder that sees a presented token hashes it the moment it reads it.</p>
+<p><code>predicateType</code> MUST equal the Type URI above.</p>
+<h2 id="schema">Schema</h2>
+<pre class="jsonc"><code>{
+  &quot;_type&quot;: &quot;https://in-toto.io/Statement/v1&quot;,
+  &quot;subject&quot;: [
+    { &quot;name&quot;: &quot;access-token-id&quot;,
+      &quot;digest&quot;: { &quot;sha256&quot;: &quot;&lt;64-hex SHA-256 of the issued token&#39;s jti&gt;&quot; } }
+  ],
+  &quot;predicateType&quot;: &quot;https://w3id.org/agent-evidence/predicate/v1/token-grant-receipt&quot;,
+  &quot;predicate&quot;: {
+    &quot;issuer&quot;: &quot;https://idp.example.org/realms/agents&quot;,
+    &quot;grantType&quot;: &quot;urn:ietf:params:oauth:grant-type:token-exchange&quot;,
+    &quot;eventId&quot;: &quot;evt-0001&quot;,
+    &quot;issuedAt&quot;: &quot;2026-11-10T06:40:00Z&quot;,
+    &quot;actor&quot;: { &quot;clientId&quot;: &quot;agent-gateway&quot;, &quot;authMethod&quot;: &quot;client-secret&quot; },
+    &quot;subject&quot;: { &quot;userId&quot;: &quot;5b1c0a62-0000-0000-0000-000000000001&quot; },
+    &quot;subjectToken&quot;: { &quot;sha256&quot;: &quot;&lt;64-hex SHA-256 of the presented token&gt;&quot;,
+                      &quot;issuedTo&quot;: &quot;agent-ui&quot; },
+    &quot;actorTokenSha256&quot;: null,
+    &quot;requestedTokenType&quot;: null,
+    &quot;audience&quot;: [&quot;tools-api&quot;],
+    &quot;scope&quot;: [&quot;tools:execute&quot;, &quot;tools:read&quot;],
+    &quot;refreshTokenIdSha256&quot;: null,
+    &quot;recorder&quot;: { &quot;id&quot;: &quot;token-grant-recorder&quot;, &quot;version&quot;: &quot;0.1.0&quot;,
+                  &quot;keyId&quot;: &quot;&lt;64-hex SHA-256 of the raw public key&gt;&quot; },
+    &quot;chain&quot;: { &quot;stream&quot;: &quot;node-1&quot;, &quot;index&quot;: 0, &quot;previous&quot;: null }
+  }
+}</code></pre>
+<h2 id="rules">Rules</h2>
+<p>A verifier is given one envelope, the recorder's public key as the consumer pinned it, and the values the consumer expects. It may also be given the recorder's whole log. It applies these in order. A failure in rules 1, 3 and 4 is invalid input and yields no decision about the grant; a failure in rules 2 and 5 to 7 yields <code>not_established</code>; a failure in rule 8 yields <code>contradicted</code>.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Rule</th>
+<th>Outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>The envelope is strict UTF-8 JSON with exactly <code>payload</code>, <code>payloadType</code> and <code>signatures</code>; every base64 text is canonical and padded</td>
+<td>invalid input</td>
+</tr>
+<tr>
+<td>2</td>
+<td>One signature verifies, under the pinned key, over the DSSE pre-authentication encoding of the payload type and payload</td>
+<td><code>receipt_signature_unverified</code> when none does</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>payloadType</code> is <code>application/vnd.in-toto+json</code> and the payload is strict JSON with no repeated member and no floating-point number</td>
+<td>invalid input</td>
+</tr>
+<tr>
+<td>4</td>
+<td>The statement has exactly <code>_type</code>, <code>subject</code>, <code>predicateType</code> and <code>predicate</code>; <code>predicateType</code> is this document's Type URI; <code>subject</code> has one member named <code>access-token-id</code> with a <code>digest</code> holding only a lowercase <code>sha256</code>; the predicate has exactly the members above, each well formed; <code>recorder.keyId</code> is the pinned key's identifier</td>
+<td>invalid input</td>
+</tr>
+<tr>
+<td>5</td>
+<td>When a log is supplied, every line of it satisfies rules 1 to 4 under the same key</td>
+<td><code>receipt_log_unestablished</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>When a log is supplied, the stream is one name, the indexes rise by one, and each <code>previous</code> is the SHA-256 of the line before</td>
+<td><code>receipt_log_unestablished</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td>When a log is supplied, the envelope is one of its lines</td>
+<td><code>receipt_log_unestablished</code>, or <code>receipt_log_unavailable</code> when no log can be read</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Each value the consumer pinned equals the record's: <code>issuer</code>, <code>grantType</code>, <code>actor.clientId</code> and the subject digest, and when pinned <code>subject.userId</code>, <code>subjectToken.sha256</code> and <code>audience</code>; the record's <code>scope</code> is a subset of the scope the consumer allows</td>
+<td><code>grant_issuer_mismatch</code>, <code>grant_type_mismatch</code>, <code>grant_actor_mismatch</code>, <code>grant_token_mismatch</code>, <code>grant_subject_mismatch</code>, <code>grant_subject_token_mismatch</code>, <code>grant_audience_mismatch</code>, <code>grant_scope_exceeds_expected</code></td>
+</tr>
+</tbody>
+</table>
+<p>A receipt that passes every rule is accepted with the reason <code>grant_recorded_as_expected</code>.</p>
+<h2 id="what-a-receipt-does-not-establish">What a receipt does not establish</h2>
+<p>A receipt is a statement by the holder of the recorder key that this grant was recorded with these values. It does not show that the provider's policy allowed the grant, that the recorder saw every grant, or who holds the key. A hash chain shows that the lines between the first and the last the verifier was given are intact; it cannot show a removed head or a truncated tail. A consumer that needs to detect either retains the head digest it last saw, or has an independent party co-sign checkpoints. A recorder that runs as an event listener cannot refuse a grant it fails to record; a deployment that must refuse writes the same record from a hook that runs before the response. The record does not hold the token.</p>
+<h2 id="conformance">Conformance</h2>
+<p>The reference check is the <code>token_grant_receipt/v1</code> claim type of <code>agent-evidence-verify</code>, with its decisions and reasons listed above. A recorder conforms when a receipt it writes is accepted by that check under its own pinned key for the values it recorded, and refused with the reason of the first rule it breaks when any value differs. A conformance corpus for this type, so that other identity providers can emit the record and be checked by one suite, is planned for this repository and is not yet in it.</p>
+
+</main>
+<footer><div class="shell">Built from <a href="https://github.com/probityai/agent-evidence-vectors/blob/dfe82692c667125123e2fae7a2ae0b201a82c904/spec/predicates/token-grant-receipt.md">spec/predicates/token-grant-receipt.md</a> (SHA-256 <code>aa640cc2d8b7c8adf655cf043e4345bf76ca34001c1c80a597543edd7008b1fd</code>). The type URI is <code>https://w3id.org/agent-evidence/predicate/v1/token-grant-receipt</code>; it does not change once a signed statement carries it. Record format: <a href="https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/03/">draft-gilda-audit-agent-audit-record-03</a>, Section 4 (an in-toto Statement carried in a DSSE envelope).</div></footer>
+</body>
+</html>

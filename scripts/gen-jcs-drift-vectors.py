@@ -20,6 +20,12 @@ Depth cases (``depthCases``): arrays and objects nested 129, 256, 512 and 1024
 levels, which an admission gate with the 128-level cap refuses, and the same
 shapes at exactly 128 levels, which it admits.
 
+Refusal cases (``refusalCases``): inputs that are not one valid JCS input at all
+(non-finite numbers, trailing content, malformed syntax, a string that is not a
+sequence of Unicode scalar values, a repeated member name). Every canonicalizer
+must refuse them. ``error`` names the refusal class; ``inputHex`` replaces
+``input`` where the bytes are not valid UTF-8 and so cannot sit in a JSON string.
+
 Usage (from the repository root):
     python3 scripts/gen-jcs-drift-vectors.py           # write
     python3 scripts/gen-jcs-drift-vectors.py --check   # exit 1 on drift
@@ -52,109 +58,145 @@ HAND = "hand-written"
 # (RFC 8785 section 3.2.2 takes its string and number rules from it).
 DRIFT: tuple[tuple[str, str, str, str, str, str], ...] = (
     (
-        "html-less-than", "html-escape", GO,
+        "html-less-than",
+        "html-escape",
+        GO,
         '{"a":"<"}',
         '{"a":"\\u003c"}',
         '{"a":"<"}',
     ),
     (
-        "html-greater-than", "html-escape", GO,
+        "html-greater-than",
+        "html-escape",
+        GO,
         '{"a":">"}',
         '{"a":"\\u003e"}',
         '{"a":">"}',
     ),
     (
-        "html-ampersand", "html-escape", GO,
+        "html-ampersand",
+        "html-escape",
+        GO,
         '{"a":"&"}',
         '{"a":"\\u0026"}',
         '{"a":"&"}',
     ),
     (
-        "html-markup-in-value", "html-escape", GO,
+        "html-markup-in-value",
+        "html-escape",
+        GO,
         '{"msg":"<b>a&b</b>"}',
         '{"msg":"\\u003cb\\u003ea\\u0026b\\u003c/b\\u003e"}',
         '{"msg":"<b>a&b</b>"}',
     ),
     (
-        "html-in-member-name", "html-escape", GO,
+        "html-in-member-name",
+        "html-escape",
+        GO,
         '{"a<b":1}',
         '{"a\\u003cb":1}',
         '{"a<b":1}',
     ),
     (
-        "non-ascii-bmp-escaped", "non-ascii-escape", PYTHON,
+        "non-ascii-bmp-escaped",
+        "non-ascii-escape",
+        PYTHON,
         '{"label":"caf\\u00e9"}',
         '{"label":"caf\\u00e9"}',
         '{"label":"café"}',
     ),
     (
-        "non-ascii-astral-surrogate-pair", "non-ascii-escape", PYTHON,
+        "non-ascii-astral-surrogate-pair",
+        "non-ascii-escape",
+        PYTHON,
         '{"k":"\\ud83d\\ude00"}',
         '{"k":"\\ud83d\\ude00"}',
         '{"k":"\U0001f600"}',
     ),
     (
-        "non-ascii-line-separator", "non-ascii-escape", GO,
+        "non-ascii-line-separator",
+        "non-ascii-escape",
+        GO,
         '{"k":"\\u2028"}',
         '{"k":"\\u2028"}',
         '{"k":" "}',
     ),
     (
-        "non-ascii-paragraph-separator", "non-ascii-escape", GO,
+        "non-ascii-paragraph-separator",
+        "non-ascii-escape",
+        GO,
         '{"k":"\\u2029"}',
         '{"k":"\\u2029"}',
         '{"k":" "}',
     ),
     (
-        "non-ascii-in-member-name", "non-ascii-escape", PYTHON,
+        "non-ascii-in-member-name",
+        "non-ascii-escape",
+        PYTHON,
         '{"caf\\u00e9":1}',
         '{"caf\\u00e9":1}',
         '{"café":1}',
     ),
     (
-        "number-negative-zero", "number-format", GO,
+        "number-negative-zero",
+        "number-format",
+        GO,
         '{"n":-0}',
         '{"n":-0}',
         '{"n":0}',
     ),
     (
-        "number-trailing-fraction-zero", "number-format", PYTHON,
+        "number-trailing-fraction-zero",
+        "number-format",
+        PYTHON,
         '{"n":1.0}',
         '{"n":1.0}',
         '{"n":1}',
     ),
     (
-        "number-two-digit-exponent", "number-format", PYTHON,
+        "number-two-digit-exponent",
+        "number-format",
+        PYTHON,
         '{"n":1e-7}',
         '{"n":1e-07}',
         '{"n":1e-7}',
     ),
     (
-        "number-expanded-large", "number-format", BIG,
+        "number-expanded-large",
+        "number-format",
+        BIG,
         '{"n":1e21}',
         '{"n":1000000000000000000000}',
         '{"n":1e+21}',
     ),
     (
-        "number-expanded-small", "number-format", BIG,
+        "number-expanded-small",
+        "number-format",
+        BIG,
         '{"n":1e-7}',
         '{"n":0.0000001}',
         '{"n":1e-7}',
     ),
     (
-        "number-exponent-without-sign", "number-format", HAND,
+        "number-exponent-without-sign",
+        "number-format",
+        HAND,
         '{"n":1e30}',
         '{"n":1e30}',
         '{"n":1e+30}',
     ),
     (
-        "number-uppercase-exponent", "number-format", HAND,
+        "number-uppercase-exponent",
+        "number-format",
+        HAND,
         '{"n":1E2}',
         '{"n":1E2}',
         '{"n":100}',
     ),
     (
-        "number-integer-beyond-double", "number-format", VERBATIM,
+        "number-integer-beyond-double",
+        "number-format",
+        VERBATIM,
         '{"n":9007199254740993}',
         '{"n":9007199254740993}',
         '{"n":9007199254740992}',
@@ -212,10 +254,93 @@ def depth_cases() -> list[dict[str, object]]:
     return out
 
 
+# id, family, error class, input text (or None), input bytes as hex (or None).
+REFUSALS: tuple[tuple[str, str, str, str | None, str | None], ...] = (
+    ("non-finite-overflow-positive", "non-finite", "non-finite-number", '{"a":1e999}', None),
+    ("non-finite-overflow-negative", "non-finite", "non-finite-number", "[-1e999]", None),
+    (
+        "non-finite-overflow-large-mantissa",
+        "non-finite",
+        "non-finite-number",
+        "[1.7976931348623159e308]",
+        None,
+    ),
+    ("non-finite-nan-literal", "non-finite", "syntax", '{"a":NaN}', None),
+    ("non-finite-infinity-literal", "non-finite", "syntax", "[Infinity]", None),
+    ("non-finite-negative-infinity-literal", "non-finite", "syntax", "[-Infinity]", None),
+    ("trailing-second-value", "trailing-content", "trailing-content", "{}{}", None),
+    ("trailing-garbage", "trailing-content", "trailing-content", "[1] x", None),
+    ("syntax-unclosed-array", "syntax", "syntax", "[1,2", None),
+    ("syntax-trailing-comma", "syntax", "syntax", "[1,]", None),
+    ("syntax-single-quoted-string", "syntax", "syntax", "['a']", None),
+    ("syntax-leading-zero", "syntax", "syntax", "[01]", None),
+    ("syntax-empty-input", "syntax", "syntax", "", None),
+    ("unicode-lone-low-surrogate", "invalid-unicode", "invalid-unicode", '["\\udc00"]', None),
+    (
+        "unicode-reversed-surrogate-pair",
+        "invalid-unicode",
+        "invalid-unicode",
+        '["\\udc00\\ud800"]',
+        None,
+    ),
+    (
+        "unicode-high-surrogate-then-text",
+        "invalid-unicode",
+        "invalid-unicode",
+        '["\\ud800a"]',
+        None,
+    ),
+    (
+        "unicode-lone-surrogate-in-member-name",
+        "invalid-unicode",
+        "invalid-unicode",
+        '{"\\ud800":1}',
+        None,
+    ),
+    ("unicode-raw-control-character", "invalid-unicode", "invalid-unicode", '["a\u0001b"]', None),
+    ("unicode-invalid-utf8-byte", "invalid-unicode", "invalid-unicode", None, "5b22ff225d"),
+    ("unicode-overlong-utf8", "invalid-unicode", "invalid-unicode", None, "5b22c0805d"),
+    (
+        "unicode-surrogate-encoded-in-utf8",
+        "invalid-unicode",
+        "invalid-unicode",
+        None,
+        "5b22eda08022 5d".replace(" ", ""),
+    ),
+    (
+        "duplicate-member-escaped-spelling",
+        "duplicate-member",
+        "duplicate-member",
+        '{"a":1,"\\u0061":2}',
+        None,
+    ),
+    (
+        "duplicate-member-nested",
+        "duplicate-member",
+        "duplicate-member",
+        '{"o":{"k":1,"k":1}}',
+        None,
+    ),
+)
+
+
+def refusal_cases() -> list[dict[str, str]]:
+    out = []
+    for case_id, family, error, text, hex_bytes in REFUSALS:
+        member = {"id": f"refuse-{case_id}", "family": family, "expect": "reject", "error": error}
+        if text is not None:
+            member["input"] = text
+        else:
+            member["inputHex"] = hex_bytes or ""
+        out.append(member)
+    return out
+
+
 def render() -> str:
     corpus = json.loads(CASES.read_text("utf-8"))
     corpus["driftCases"] = drift_cases()
     corpus["depthCases"] = depth_cases()
+    corpus["refusalCases"] = refusal_cases()
     return json.dumps(corpus, indent=2) + "\n"
 
 
