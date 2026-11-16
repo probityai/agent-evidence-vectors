@@ -2,6 +2,107 @@
  "ruleSet": "catalog-attestations",
  "cases": [
   {
+   "id": "subject-name-only",
+   "text": "{\"entries\":[{\"identifier\":\"urn:air:tools.example.com:server:invoice-reader\",\"type\":\"application/mcp-server-card+json\",\"url\":\"https://tools.example.com/mcp/invoice-reader.json\",\"digest\":\"sha256:d8162fe30daa811e0292cfa5c2f80f6503bf766014f8a3a03cbbefec129fc69b\",\"trustManifest\":{\"attestations\":[{\"type\":\"scan\",\"uri\":\"https://tools.example.com/trust/invoice-reader.intoto.json\",\"digest\":\"sha256:40741e1091344c968f1f37fe5ea39cd329bb91ec528db170581b6866867219ba\"}]}}]}",
+   "files": {
+    "https://tools.example.com/mcp/invoice-reader.json": {
+     "base64": "eyJuYW1lIjoiaW52b2ljZS1yZWFkZXIiLCJ0b29scyI6W3sibmFtZSI6ImV4dHJhY3QifV19Cg=="
+    },
+    "https://tools.example.com/trust/invoice-reader.intoto.json": {
+     "base64": "eyJwYXlsb2FkVHlwZSI6ImFwcGxpY2F0aW9uL3ZuZC5pbi10b3RvK2pzb24iLCJwYXlsb2FkIjoiZXlKZmRIbHdaU0k2SW1oMGRIQnpPaTh2YVc0dGRHOTBieTVwYnk5VGRHRjBaVzFsYm5RdmRqRWlMQ0p6ZFdKcVpXTjBJanBiZXlKdVlXMWxJam9pZFhKdU9tRnBjanAwYjI5c2N5NWxlR0Z0Y0d4bExtTnZiVHB6WlhKMlpYSTZhVzUyYjJsalpTMXlaV0ZrWlhJaUxDSmthV2RsYzNRaU9uc2ljMmhoTWpVMklqb2lNVEV4TVRFeE1URXhNVEV4TVRFeE1URXhNVEV4TVRFeE1URXhNVEV4TVRFeE1URXhNVEV4TVRFeE1URXhNVEV4TVRFeE1URXhNVEV4TVRFeE1URXhNU0o5ZlYwc0luQnlaV1JwWTJGMFpWUjVjR1VpT2lKb2RIUndjem92TDJWNFlXMXdiR1V1YjNKbkwzTmpZVzR2ZGpFaUxDSndjbVZrYVdOaGRHVWlPbnNpY21WemRXeDBJam9pY0dGemN5SjlmUT09Iiwic2lnbmF0dXJlcyI6W3sia2V5aWQiOiJ0ZXN0LWtleSIsInNpZyI6IkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRPT0ifV19"
+    }
+   },
+   "expect": {
+    "verdict": "refuse",
+    "code": "attestation_subject_mismatch"
+   },
+   "rationale": "a signed statement whose subject carries the entry's identifier and another artifact's digest: the name is not the binding"
+  },
+  {
+   "id": "payload-type-not-in-toto",
+   "text": "{\"entries\":[{\"identifier\":\"urn:air:tools.example.com:server:invoice-reader\",\"type\":\"application/mcp-server-card+json\",\"url\":\"https://tools.example.com/mcp/invoice-reader.json\",\"digest\":\"sha256:d8162fe30daa811e0292cfa5c2f80f6503bf766014f8a3a03cbbefec129fc69b\",\"trustManifest\":{\"attestations\":[{\"type\":\"scan\",\"uri\":\"https://tools.example.com/trust/invoice-reader.intoto.json\",\"digest\":\"sha256:c919680278c3660dd588a8bd12d359377f16a67dc526ade5727261815a530c9b\"}]}}]}",
+   "files": {
+    "https://tools.example.com/mcp/invoice-reader.json": {
+     "base64": "eyJuYW1lIjoiaW52b2ljZS1yZWFkZXIiLCJ0b29scyI6W3sibmFtZSI6ImV4dHJhY3QifV19Cg=="
+    },
+    "https://tools.example.com/trust/invoice-reader.intoto.json": {
+     "base64": "eyJwYXlsb2FkVHlwZSI6ImFwcGxpY2F0aW9uL2pzb24iLCJwYXlsb2FkIjoiZXlKZmRIbHdaU0k2SW1oMGRIQnpPaTh2YVc0dGRHOTBieTVwYnk5VGRHRjBaVzFsYm5RdmRqRWlMQ0p6ZFdKcVpXTjBJanBiZXlKdVlXMWxJam9pZFhKdU9tRnBjanAwYjI5c2N5NWxlR0Z0Y0d4bExtTnZiVHB6WlhKMlpYSTZhVzUyYjJsalpTMXlaV0ZrWlhJaUxDSmthV2RsYzNRaU9uc2ljMmhoTWpVMklqb2laRGd4TmpKbVpUTXdaR0ZoT0RFeFpUQXlPVEpqWm1FMVl6Sm1PREJtTmpVd00ySm1OelkyTURFMFpqaGhNMkV3TTJOaVltVm1aV014TWpsbVl6WTVZaUo5ZlYwc0luQnlaV1JwWTJGMFpWUjVjR1VpT2lKb2RIUndjem92TDJWNFlXMXdiR1V1YjNKbkwzTmpZVzR2ZGpFaUxDSndjbVZrYVdOaGRHVWlPbnNpY21WemRXeDBJam9pY0dGemN5SjlmUT09Iiwic2lnbmF0dXJlcyI6W3sia2V5aWQiOiJ0ZXN0LWtleSIsInNpZyI6IkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRPT0ifV19"
+    }
+   },
+   "expect": {
+    "verdict": "refuse",
+    "code": "attestation_payload_type"
+   },
+   "rationale": "a signed envelope whose payloadType is not in-toto"
+  },
+  {
+   "id": "signature-not-base64",
+   "text": "{\"entries\":[{\"identifier\":\"urn:air:tools.example.com:server:invoice-reader\",\"type\":\"application/mcp-server-card+json\",\"url\":\"https://tools.example.com/mcp/invoice-reader.json\",\"digest\":\"sha256:d8162fe30daa811e0292cfa5c2f80f6503bf766014f8a3a03cbbefec129fc69b\",\"trustManifest\":{\"attestations\":[{\"type\":\"scan\",\"uri\":\"https://tools.example.com/trust/invoice-reader.intoto.json\",\"digest\":\"sha256:9ffb5056cdde6231155ad89bd753b7897915b57e807b46ff1d753aef1d79b1fb\"}]}}]}",
+   "files": {
+    "https://tools.example.com/mcp/invoice-reader.json": {
+     "base64": "eyJuYW1lIjoiaW52b2ljZS1yZWFkZXIiLCJ0b29scyI6W3sibmFtZSI6ImV4dHJhY3QifV19Cg=="
+    },
+    "https://tools.example.com/trust/invoice-reader.intoto.json": {
+     "base64": "eyJwYXlsb2FkVHlwZSI6ImFwcGxpY2F0aW9uL3ZuZC5pbi10b3RvK2pzb24iLCJwYXlsb2FkIjoiZXlKZmRIbHdaU0k2SW1oMGRIQnpPaTh2YVc0dGRHOTBieTVwYnk5VGRHRjBaVzFsYm5RdmRqRWlMQ0p6ZFdKcVpXTjBJanBiZXlKdVlXMWxJam9pZFhKdU9tRnBjanAwYjI5c2N5NWxlR0Z0Y0d4bExtTnZiVHB6WlhKMlpYSTZhVzUyYjJsalpTMXlaV0ZrWlhJaUxDSmthV2RsYzNRaU9uc2ljMmhoTWpVMklqb2laRGd4TmpKbVpUTXdaR0ZoT0RFeFpUQXlPVEpqWm1FMVl6Sm1PREJtTmpVd00ySm1OelkyTURFMFpqaGhNMkV3TTJOaVltVm1aV014TWpsbVl6WTVZaUo5ZlYwc0luQnlaV1JwWTJGMFpWUjVjR1VpT2lKb2RIUndjem92TDJWNFlXMXdiR1V1YjNKbkwzTmpZVzR2ZGpFaUxDSndjbVZrYVdOaGRHVWlPbnNpY21WemRXeDBJam9pY0dGemN5SjlmUT09Iiwic2lnbmF0dXJlcyI6W3sia2V5aWQiOiJ0ZXN0LWtleSIsInNpZyI6dHJ1ZX1dfQ=="
+    }
+   },
+   "expect": {
+    "verdict": "refuse",
+    "code": "attestation_unsigned"
+   },
+   "rationale": "a signature whose sig is true, not base64"
+  },
+  {
+   "id": "attestation-not-an-object",
+   "text": "{\"entries\":[{\"identifier\":\"urn:air:tools.example.com:server:invoice-reader\",\"type\":\"application/mcp-server-card+json\",\"url\":\"https://tools.example.com/mcp/invoice-reader.json\",\"trustManifest\":{\"attestations\":[\"https://tools.example.com/trust/invoice-reader.intoto.json\"]}}]}",
+   "files": {
+    "https://tools.example.com/mcp/invoice-reader.json": {
+     "base64": "eyJuYW1lIjoiaW52b2ljZS1yZWFkZXIiLCJ0b29scyI6W3sibmFtZSI6ImV4dHJhY3QifV19Cg=="
+    }
+   },
+   "expect": {
+    "verdict": "refuse",
+    "code": "attestation_malformed"
+   },
+   "rationale": "an attestation written as a bare URL: skipped, it would leave the entry with no attestation for any rule to judge"
+  },
+  {
+   "id": "trust-manifests-not-an-array",
+   "text": "{\"entries\":[{\"identifier\":\"urn:air:tools.example.com:agent:finance\",\"type\":\"application/a2a-agent-card+json\",\"url\":\"https://tools.example.com/mcp/invoice-reader.json\",\"digest\":\"sha256:d8162fe30daa811e0292cfa5c2f80f6503bf766014f8a3a03cbbefec129fc69b\",\"version\":\"1.2.0\",\"trustManifests\":{\"contributor\":\"did:web:tools.example.com\",\"subject\":{\"identifier\":\"urn:air:tools.example.com:agent:finance\",\"type\":\"application/a2a-agent-card+json\",\"digest\":\"sha256:d8162fe30daa811e0292cfa5c2f80f6503bf766014f8a3a03cbbefec129fc69b\",\"version\":\"1.2.0\"},\"signature\":{\"signer\":\"did:web:tools.example.com\",\"profile\":\"did-web\",\"issuedAt\":\"2026-11-01T00:00:00Z\",\"jws\":\"e30..c2ln\"}}}]}",
+   "files": {
+    "https://tools.example.com/mcp/invoice-reader.json": {
+     "base64": "eyJuYW1lIjoiaW52b2ljZS1yZWFkZXIiLCJ0b29scyI6W3sibmFtZSI6ImV4dHJhY3QifV19Cg=="
+    }
+   },
+   "expect": {
+    "verdict": "refuse",
+    "code": "trust_manifest_malformed"
+   },
+   "rationale": "trustManifests as one object"
+  },
+  {
+   "id": "entries-not-an-array",
+   "text": "{\"entries\":{\"a\":{\"identifier\":\"urn:air:tools.example.com:server:invoice-reader\",\"type\":\"application/mcp-server-card+json\",\"url\":\"https://tools.example.com/mcp/invoice-reader.json\",\"digest\":\"sha256:d8162fe30daa811e0292cfa5c2f80f6503bf766014f8a3a03cbbefec129fc69b\",\"trustManifest\":{\"identity\":\"spiffe://tools.example.com/mcp/invoice-reader\",\"identityType\":\"spiffe\",\"attestations\":[{\"type\":\"agent-threat-scan\",\"uri\":\"https://tools.example.com/trust/invoice-reader.intoto.json\",\"mediaType\":\"application/vnd.dsse+json\",\"digest\":\"sha256:b6eaec6fe5606cec740a174234d4a2b42be9de659baa82db47128cfb146f5254\"}]}}}}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "entry_malformed"
+   },
+   "rationale": "a catalog whose entries is an object"
+  },
+  {
+   "id": "inline-bound-by-data-digest",
+   "text": "{\"entries\":[{\"identifier\":\"urn:air:tools.example.com:agent:finance\",\"type\":\"application/a2a-agent-card+json\",\"trustManifests\":[{\"attestations\":[{\"type\":\"scan\",\"uri\":\"https://tools.example.com/trust/invoice-reader.intoto.json\",\"digest\":\"sha256:e48ab5c6c1c926c8239db1d56056803b243a6d836bf31da1c1ee5de982241dd0\"}]}],\"data\":{\"name\":\"inline-agent\",\"skills\":[{\"id\":\"a\",\"weight\":0.5}]}}]}",
+   "files": {
+    "https://tools.example.com/trust/invoice-reader.intoto.json": {
+     "base64": "eyJwYXlsb2FkVHlwZSI6ImFwcGxpY2F0aW9uL3ZuZC5pbi10b3RvK2pzb24iLCJwYXlsb2FkIjoiZXlKZmRIbHdaU0k2SW1oMGRIQnpPaTh2YVc0dGRHOTBieTVwYnk5VGRHRjBaVzFsYm5RdmRqRWlMQ0p6ZFdKcVpXTjBJanBiZXlKdVlXMWxJam9pYVc1c2FXNWxMV0ZuWlc1MElpd2laR2xuWlhOMElqcDdJbk5vWVRJMU5pSTZJbUpoWWpSbFpUTTNPVFk1WWpZNFptTTFOemxrTmpoaE16bGpOMkZoTW1OaU5qUmhOVE0wTjJZd1pUYzBPVEZrTjJFMk9UY3laalUwWVdRelltWTFPRFlpZlgxZExDSndjbVZrYVdOaGRHVlVlWEJsSWpvaWFIUjBjSE02THk5bGVHRnRjR3hsTG05eVp5OXpZMkZ1TDNZeElpd2ljSEpsWkdsallYUmxJanA3SW5KbGMzVnNkQ0k2SW5CaGMzTWlmWDA9Iiwic2lnbmF0dXJlcyI6W3sia2V5aWQiOiJ0ZXN0LWtleSIsInNpZyI6IkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRPT0ifV19"
+    }
+   },
+   "expect": {
+    "verdict": "admit"
+   },
+   "rationale": "an inline entry with no digest: its attestation binds to the SHA-256 of the data's RFC 8785 bytes"
+  },
+  {
    "id": "control-bound",
    "text": "{\"entries\":[{\"identifier\":\"urn:air:tools.example.com:server:invoice-reader\",\"type\":\"application/mcp-server-card+json\",\"url\":\"https://tools.example.com/mcp/invoice-reader.json\",\"digest\":\"sha256:d8162fe30daa811e0292cfa5c2f80f6503bf766014f8a3a03cbbefec129fc69b\",\"trustManifest\":{\"identity\":\"spiffe://tools.example.com/mcp/invoice-reader\",\"identityType\":\"spiffe\",\"attestations\":[{\"type\":\"agent-threat-scan\",\"uri\":\"https://tools.example.com/trust/invoice-reader.intoto.json\",\"mediaType\":\"application/vnd.dsse+json\",\"digest\":\"sha256:b6eaec6fe5606cec740a174234d4a2b42be9de659baa82db47128cfb146f5254\"}]}}]}",
    "files": {

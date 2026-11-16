@@ -15,7 +15,11 @@ a malformed record is the case a signature check alone admits:
   accepts uppercase, or truncates an odd-length string, reads two encodings as one signature;
 * ``failureType`` is empty exactly when ``success`` is true;
 * ``latencyMs`` is an integer in 0..2**53 - 1;
-* a ``callerSignature`` comes with the ``callerDid`` it is checked against.
+* ``agentDid``, ``toolName`` and any ``callerDid`` are non-empty strings: a ``null`` signer is no
+  signer, and a verifier that resolves keys by ``agentDid`` must not be handed a number or nothing;
+* a ``callerSignature`` comes with the ``callerDid`` it is checked against, and a ``callerDid``
+  comes with the ``callerSignature`` that makes the caller a co-signer: a receipt that names a
+  caller who did not sign reads as co-signed in any display that shows the caller.
 
 Whether each signature verifies, and under which key, is the verifier's question after admission.
 Two signatures bind two parties to one record; they do not show the record is true, or that the
@@ -81,8 +85,17 @@ def _check_signatures(context: Context) -> None:
         value = receipt.get(member)
         if member in receipt and not (isinstance(value, str) and HEX128.fullmatch(value)):
             context.note(Refusal("signature-not-lowercase-hex128", f"/{member}", "a signature is exactly 128 lowercase hex characters"))
-    if "callerSignature" in receipt and not isinstance(receipt.get("callerDid"), str):
+    if "callerSignature" in receipt and "callerDid" not in receipt:
         context.note(Refusal("cosigner-missing", "/callerDid", "a callerSignature comes with the callerDid it is checked against"))
+    if "callerDid" in receipt and "callerSignature" not in receipt:
+        context.note(Refusal("cosignature-missing", "/callerSignature", "a callerDid names a co-signer, so the receipt carries its callerSignature"))
+
+
+def _check_identities(context: Context) -> None:
+    receipt = _receipt(context)
+    for member in ("agentDid", "toolName", "callerDid"):
+        if member in receipt and not (isinstance(receipt[member], str) and receipt[member]):
+            context.note(Refusal("member-malformed", f"/{member}", f"{member} is a non-empty string"))
 
 
 def _check_outcome(context: Context) -> None:
@@ -124,7 +137,8 @@ CO_SIGNED_RECEIPT = register(
             Check("version", "formatVersion is a version this verifier knows", _check_version),
             Check("members", "a full receipt carries every member", _check_members),
             Check("hashes", "taskHash and resultHash are 64 lowercase hex characters", _check_hashes),
-            Check("signatures", "signatures are 128 lowercase hex characters; a co-signature names its signer", _check_signatures),
+            Check("identities", "agentDid, toolName and any callerDid are non-empty strings", _check_identities),
+            Check("signatures", "signatures are 128 lowercase hex characters; a co-signature and its signer come together", _check_signatures),
             Check("outcome", "failureType is empty exactly when success is true", _check_outcome),
             Check("latency", "latencyMs is an integer in 0..2**53 - 1", _check_latency),
             Check("timestamp", "timestamp is an RFC 3339 instant", _check_timestamp),

@@ -142,6 +142,42 @@
    "rationale": "a co-signature with no callerDid"
   },
   {
+   "id": "signer-without-co-signature",
+   "text": "{\"formatVersion\":\"1\",\"agentDid\":\"did:web:agent.example\",\"toolName\":\"translate\",\"taskHash\":\"0ebb429fa86d481c2630fac53db1c91cffed5d4d41d1021c179444eb67e7ee0b\",\"resultHash\":\"f6a214f7a5fcda0c2cee9660b7fc29f5649e3c68aad48e20e950137c98913a68\",\"success\":true,\"failureType\":\"\",\"latencyMs\":142,\"timestamp\":\"2026-11-01T01:23:45.678Z\",\"signature\":\"abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab\",\"callerDid\":\"did:web:caller.example\"}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "cosignature-missing"
+   },
+   "rationale": "a callerDid with no callerSignature: a display that shows the caller reads it as co-signed"
+  },
+  {
+   "id": "agent-did-null",
+   "text": "{\"formatVersion\":\"1\",\"agentDid\":null,\"toolName\":\"translate\",\"taskHash\":\"0ebb429fa86d481c2630fac53db1c91cffed5d4d41d1021c179444eb67e7ee0b\",\"resultHash\":\"f6a214f7a5fcda0c2cee9660b7fc29f5649e3c68aad48e20e950137c98913a68\",\"success\":true,\"failureType\":\"\",\"latencyMs\":142,\"timestamp\":\"2026-11-01T01:23:45.678Z\",\"signature\":\"abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab\"}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "member-malformed"
+   },
+   "rationale": "a null agentDid is no signer"
+  },
+  {
+   "id": "tool-name-number",
+   "text": "{\"formatVersion\":\"1\",\"agentDid\":\"did:web:agent.example\",\"toolName\":7,\"taskHash\":\"0ebb429fa86d481c2630fac53db1c91cffed5d4d41d1021c179444eb67e7ee0b\",\"resultHash\":\"f6a214f7a5fcda0c2cee9660b7fc29f5649e3c68aad48e20e950137c98913a68\",\"success\":true,\"failureType\":\"\",\"latencyMs\":142,\"timestamp\":\"2026-11-01T01:23:45.678Z\",\"signature\":\"abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab\"}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "member-malformed"
+   },
+   "rationale": "toolName is a string"
+  },
+  {
+   "id": "caller-did-empty",
+   "text": "{\"formatVersion\":\"1\",\"agentDid\":\"did:web:agent.example\",\"toolName\":\"translate\",\"taskHash\":\"0ebb429fa86d481c2630fac53db1c91cffed5d4d41d1021c179444eb67e7ee0b\",\"resultHash\":\"f6a214f7a5fcda0c2cee9660b7fc29f5649e3c68aad48e20e950137c98913a68\",\"success\":true,\"failureType\":\"\",\"latencyMs\":142,\"timestamp\":\"2026-11-01T01:23:45.678Z\",\"signature\":\"abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab\",\"callerDid\":\"\",\"callerSignature\":\"cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd\"}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "member-malformed"
+   },
+   "rationale": "an empty callerDid beside a co-signature"
+  },
+  {
    "id": "success-with-failure-type",
    "text": "{\"formatVersion\":\"1\",\"agentDid\":\"did:web:agent.example\",\"toolName\":\"translate\",\"taskHash\":\"0ebb429fa86d481c2630fac53db1c91cffed5d4d41d1021c179444eb67e7ee0b\",\"resultHash\":\"f6a214f7a5fcda0c2cee9660b7fc29f5649e3c68aad48e20e950137c98913a68\",\"success\":true,\"failureType\":\"timeout\",\"latencyMs\":142,\"timestamp\":\"2026-11-01T01:23:45.678Z\",\"signature\":\"abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab\"}",
    "expect": {

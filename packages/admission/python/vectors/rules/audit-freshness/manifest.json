@@ -77,6 +77,86 @@
    "rationale": "exactly the skew tolerance after reportedAt"
   },
   {
+   "id": "after-decision-300-plus-1ns",
+   "text": "{\"_type\":\"https://in-toto.io/Statement/v1\",\"subject\":[{\"name\":\"record\",\"digest\":{\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}}],\"predicateType\":\"https://example.org/agent-audit-record/v1\",\"predicate\":{\"decision\":{\"action\":\"write\",\"reported\":\"permit\",\"reportedAt\":\"2026-09-19T11:04:02Z\"},\"evaluation\":{\"inputs\":[{\"input\":\"policy-source\",\"lastResult\":\"2026-09-19T10:00:00Z\",\"maxAge\":86400},{\"input\":\"key-source\",\"lastResult\":\"2026-09-19T11:00:00Z\",\"maxAge\":3600},{\"input\":\"standing-source\",\"lastResult\":\"2026-09-19T11:09:02.000000001Z\",\"maxAge\":3600}],\"status\":\"evaluated\"}}}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "evaluation-result-after-decision"
+   },
+   "rationale": "one nanosecond past the skew tolerance: a reader that truncates to microseconds admits it, Go's time refuses it"
+  },
+  {
+   "id": "age-max-age-plus-1ns",
+   "text": "{\"_type\":\"https://in-toto.io/Statement/v1\",\"subject\":[{\"name\":\"record\",\"digest\":{\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}}],\"predicateType\":\"https://example.org/agent-audit-record/v1\",\"predicate\":{\"decision\":{\"action\":\"write\",\"reported\":\"permit\",\"reportedAt\":\"2026-09-19T11:04:02Z\"},\"evaluation\":{\"inputs\":[{\"input\":\"policy-source\",\"lastResult\":\"2026-09-19T10:00:00Z\",\"maxAge\":86400},{\"input\":\"key-source\",\"lastResult\":\"2026-09-19T11:00:00Z\",\"maxAge\":3600},{\"input\":\"standing-source\",\"lastResult\":\"2026-09-19T10:04:01.999999999Z\",\"maxAge\":3600}],\"status\":\"evaluated\"}}}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "evaluation-inconsistent"
+   },
+   "rationale": "one nanosecond past maxAge, recorded as evaluated: stale to a nanosecond reader"
+  },
+  {
+   "id": "offset-minute-60",
+   "text": "{\"_type\":\"https://in-toto.io/Statement/v1\",\"subject\":[{\"name\":\"record\",\"digest\":{\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}}],\"predicateType\":\"https://example.org/agent-audit-record/v1\",\"predicate\":{\"decision\":{\"action\":\"write\",\"reported\":\"permit\",\"reportedAt\":\"2026-09-19T12:04:02+00:60\"},\"evaluation\":{\"inputs\":[{\"input\":\"policy-source\",\"lastResult\":\"2026-09-19T10:00:00Z\",\"maxAge\":86400},{\"input\":\"key-source\",\"lastResult\":\"2026-09-19T11:00:00Z\",\"maxAge\":3600},{\"input\":\"standing-source\",\"lastResult\":\"2026-09-19T10:30:00Z\",\"maxAge\":3600}],\"status\":\"evaluated\"}}}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "instant-malformed"
+   },
+   "rationale": "an offset minute of 60, which some parsers read as an hour"
+  },
+  {
+   "id": "status-outside-vocabulary",
+   "text": "{\"_type\":\"https://in-toto.io/Statement/v1\",\"subject\":[{\"name\":\"record\",\"digest\":{\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}}],\"predicateType\":\"https://example.org/agent-audit-record/v1\",\"predicate\":{\"decision\":{\"action\":\"write\",\"reported\":\"permit\",\"reportedAt\":\"2026-09-19T11:04:02Z\"},\"evaluation\":{\"inputs\":[{\"input\":\"policy-source\",\"lastResult\":\"2026-09-19T10:00:00Z\",\"maxAge\":86400},{\"input\":\"key-source\",\"lastResult\":\"2026-09-19T11:00:00Z\",\"maxAge\":3600},{\"input\":\"standing-source\",\"lastResult\":\"2026-09-19T10:30:00Z\",\"maxAge\":3600}],\"status\":\"partial\",\"unavailableInput\":[]}}}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "value-outside-vocabulary"
+   },
+   "rationale": "a status that is neither evaluated nor not-evaluated"
+  },
+  {
+   "id": "not-evaluated-every-input-fresh",
+   "text": "{\"_type\":\"https://in-toto.io/Statement/v1\",\"subject\":[{\"name\":\"record\",\"digest\":{\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}}],\"predicateType\":\"https://example.org/agent-audit-record/v1\",\"predicate\":{\"decision\":{\"action\":\"write\",\"reported\":\"permit\",\"reportedAt\":\"2026-09-19T11:04:02Z\"},\"evaluation\":{\"inputs\":[{\"input\":\"policy-source\",\"lastResult\":\"2026-09-19T10:00:00Z\",\"maxAge\":86400},{\"input\":\"key-source\",\"lastResult\":\"2026-09-19T11:00:00Z\",\"maxAge\":3600},{\"input\":\"standing-source\",\"lastResult\":\"2026-09-19T10:30:00Z\",\"maxAge\":3600}],\"status\":\"not-evaluated\",\"unavailableInput\":[]}}}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "evaluation-inconsistent"
+   },
+   "rationale": "not-evaluated with an empty unavailableInput while every input is fresh"
+  },
+  {
+   "id": "evaluation-fourth-member",
+   "text": "{\"_type\":\"https://in-toto.io/Statement/v1\",\"subject\":[{\"name\":\"record\",\"digest\":{\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}}],\"predicateType\":\"https://example.org/agent-audit-record/v1\",\"predicate\":{\"decision\":{\"action\":\"write\",\"reported\":\"permit\",\"reportedAt\":\"2026-09-19T11:04:02Z\"},\"evaluation\":{\"inputs\":[{\"input\":\"policy-source\",\"lastResult\":\"2026-09-19T10:00:00Z\",\"maxAge\":86400},{\"input\":\"key-source\",\"lastResult\":\"2026-09-19T11:00:00Z\",\"maxAge\":3600},{\"input\":\"standing-source\",\"lastResult\":\"2026-09-19T10:30:00Z\",\"maxAge\":3600}],\"status\":\"evaluated\",\"note\":\"ok\"}}}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "evaluation-malformed"
+   },
+   "rationale": "an evaluation member the format does not define"
+  },
+  {
+   "id": "consumption-entry",
+   "text": "{\"_type\":\"https://in-toto.io/Statement/v1\",\"subject\":[{\"name\":\"record\",\"digest\":{\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}}],\"predicateType\":\"https://example.org/agent-audit-record/v1\",\"predicate\":{\"decision\":{\"action\":\"write\",\"reported\":\"permit\",\"reportedAt\":\"2026-09-19T11:04:02Z\"},\"evaluation\":{\"inputs\":[{\"input\":\"policy-source\",\"lastResult\":\"2026-09-19T10:00:00Z\",\"maxAge\":86400},{\"input\":\"key-source\",\"lastResult\":\"2026-09-19T11:00:00Z\",\"maxAge\":3600},{\"input\":\"standing-source\",\"lastResult\":\"2026-09-19T10:30:00Z\",\"maxAge\":3600},{\"input\":\"consumption-state\",\"lastResult\":\"2026-09-19T11:00:00Z\",\"maxAge\":3600,\"consumption\":{\"unit\":\"usd-cents\",\"limit\":50000,\"consumed\":30000}}],\"status\":\"evaluated\"}}}",
+   "expect": {
+    "verdict": "admit"
+   },
+   "rationale": "revision 01's optional consumption member on an entry"
+  },
+  {
+   "id": "consumption-not-an-object",
+   "text": "{\"_type\":\"https://in-toto.io/Statement/v1\",\"subject\":[{\"name\":\"record\",\"digest\":{\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}}],\"predicateType\":\"https://example.org/agent-audit-record/v1\",\"predicate\":{\"decision\":{\"action\":\"write\",\"reported\":\"permit\",\"reportedAt\":\"2026-09-19T11:04:02Z\"},\"evaluation\":{\"inputs\":[{\"input\":\"policy-source\",\"lastResult\":\"2026-09-19T10:00:00Z\",\"maxAge\":86400},{\"input\":\"key-source\",\"lastResult\":\"2026-09-19T11:00:00Z\",\"maxAge\":3600},{\"input\":\"standing-source\",\"lastResult\":\"2026-09-19T10:30:00Z\",\"maxAge\":3600},{\"input\":\"consumption-state\",\"lastResult\":\"2026-09-19T11:00:00Z\",\"maxAge\":3600,\"consumption\":30000}],\"status\":\"evaluated\"}}}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "evaluation-entry-malformed"
+   },
+   "rationale": "a consumption member that is a number"
+  },
+  {
+   "id": "input-not-a-string",
+   "text": "{\"_type\":\"https://in-toto.io/Statement/v1\",\"subject\":[{\"name\":\"record\",\"digest\":{\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}}],\"predicateType\":\"https://example.org/agent-audit-record/v1\",\"predicate\":{\"decision\":{\"action\":\"write\",\"reported\":\"permit\",\"reportedAt\":\"2026-09-19T11:04:02Z\"},\"evaluation\":{\"inputs\":[{\"input\":\"policy-source\",\"lastResult\":\"2026-09-19T10:00:00Z\",\"maxAge\":86400},{\"input\":\"key-source\",\"lastResult\":\"2026-09-19T11:00:00Z\",\"maxAge\":3600},{\"input\":\"standing-source\",\"lastResult\":\"2026-09-19T10:30:00Z\",\"maxAge\":3600},{\"input\":7,\"lastResult\":\"2026-09-19T11:00:00Z\",\"maxAge\":3600}],\"status\":\"evaluated\"}}}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "evaluation-entry-malformed"
+   },
+   "rationale": "an input named by a number"
+  },
+  {
    "id": "future-inside-window",
    "text": "{\"_type\":\"https://in-toto.io/Statement/v1\",\"subject\":[{\"name\":\"record\",\"digest\":{\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}}],\"predicateType\":\"https://example.org/agent-audit-record/v1\",\"predicate\":{\"decision\":{\"action\":\"write\",\"reported\":\"permit\",\"reportedAt\":\"2026-09-19T11:04:02Z\"},\"evaluation\":{\"inputs\":[{\"input\":\"policy-source\",\"lastResult\":\"2026-09-19T12:04:02Z\",\"maxAge\":86400}],\"status\":\"evaluated\"}}}",
    "expect": {

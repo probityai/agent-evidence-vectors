@@ -30,32 +30,38 @@ OTS_TOLERANCE_SECONDS = 7200
 #: The largest uncertainty a record may declare; a consumer may set a smaller cap.
 DEFAULT_MAX_UNCERTAINTY_SECONDS = 3600
 
+#: RFC 3339 section 5.6. The offset's hour is 00 to 23 and its minute 00 to 59: ``+00:60`` is read
+#: as one hour by some parsers and refused by others, so it is refused here.
 _INSTANT = re.compile(
     r"(?P<date>[0-9]{4}-[0-9]{2}-[0-9]{2})T(?P<time>[0-9]{2}:[0-9]{2}:[0-9]{2})(?P<frac>\.[0-9]{1,9})?"
-    r"(?P<zone>Z|[+-][0-9]{2}:[0-9]{2})"
+    r"(?P<zone>Z|[+-](?:[01][0-9]|2[0-3]):[0-5][0-9])"
 )
+NANOS = 1_000_000_000
 _EPOCH = datetime.datetime(1970, 1, 1, tzinfo=datetime.timezone.utc)
 
 
 def instant(text: Any, where: str) -> int:
-    """An RFC 3339 instant as microseconds since the epoch.
+    """An RFC 3339 instant as nanoseconds since the epoch.
 
     ASCII digits only, an explicit zone, nothing after it: a timestamp written with non-ASCII
-    digits or a trailing newline is one some parsers accept and others refuse.
+    digits or a trailing newline is one some parsers accept and others refuse. Every fraction digit
+    the format allows (nine) is kept: a reader that truncates to microseconds admits a result
+    300.0000009 seconds after the reference under a 300-second bound, which a nanosecond reader
+    (Go's ``time``) refuses.
     """
     if not isinstance(text, str) or not text.isascii():
         raise Refusal("instant-malformed", where, "not an ASCII RFC 3339 string")
     match = _INSTANT.fullmatch(text)
     if match is None:
         raise Refusal("instant-malformed", where, f"{text!r} is not an RFC 3339 instant")
-    frac = (match["frac"] or ".")[1:].ljust(6, "0")[:6]
+    nanos = int((match["frac"] or ".")[1:].ljust(9, "0"))
     zone = "+00:00" if match["zone"] == "Z" else match["zone"]
     try:
-        moment = datetime.datetime.fromisoformat(f"{match['date']}T{match['time']}.{frac}{zone}")
+        moment = datetime.datetime.fromisoformat(f"{match['date']}T{match['time']}{zone}")
     except ValueError as error:
         raise Refusal("instant-malformed", where, str(error)) from error
     elapsed = moment - _EPOCH
-    return (elapsed.days * 86400 + elapsed.seconds) * 1_000_000 + elapsed.microseconds
+    return (elapsed.days * 86400 + elapsed.seconds) * NANOS + nanos
 
 
 def seconds(value: Any, where: str, name: str) -> int:
@@ -78,7 +84,7 @@ def judge(
     max_uncertainty: int = DEFAULT_MAX_UNCERTAINTY_SECONDS,
     where: str = "",
 ) -> bool:
-    """True when a value produced at ``produced`` is fresh at ``reference`` (both microseconds).
+    """True when a value produced at ``produced`` is fresh at ``reference`` (both nanoseconds).
 
     The future bound is ``skew`` alone: a value produced later than the reference by more than the
     skew is refused (``result-after-reference``), whatever its window. The past bound is
@@ -90,16 +96,17 @@ def judge(
     uncertainty = seconds(uncertainty, where, "uncertainty")
     if uncertainty > seconds(max_uncertainty, where, "the uncertainty cap"):
         raise Refusal("uncertainty-over-cap", where, f"uncertainty {uncertainty} s is over the cap of {max_uncertainty} s")
-    if produced - reference > skew * 1_000_000:
+    if produced - reference > skew * NANOS:
         raise Refusal("result-after-reference", where, "produced later than the reference by more than the skew tolerance")
-    return reference - produced <= (max_age + uncertainty) * 1_000_000
+    return reference - produced <= (max_age + uncertainty) * NANOS
 
 
 def late(start: int, event: int, window: int, allowance: int, where: str = "") -> bool:
-    """True when ``event`` falls after ``start`` by more than ``window`` plus ``allowance`` seconds."""
+    """True when ``event`` falls after ``start`` (both nanoseconds) by more than ``window`` plus
+    ``allowance`` seconds."""
     window = seconds(window, where, "window")
     allowance = seconds(allowance, where, "allowance")
-    return event - start > (window + allowance) * 1_000_000
+    return event - start > (window + allowance) * NANOS
 
 
 # --------------------------------------------------------------------------
@@ -108,6 +115,12 @@ def late(start: int, event: int, window: int, allowance: int, where: str = "") -
 
 NEVER_HELD = "none"
 ENTRY_MEMBERS = frozenset({"input", "lastResult", "maxAge"})
+#: Revision 01 adds ``consumption`` to an entry: the cumulative-limit state the decision point read.
+#: It is an object; its members are the audit-record reader's to judge, not this rule set's.
+ENTRY_OPTIONAL = frozenset({"consumption"})
+EVALUATION_MEMBERS = frozenset({"status", "inputs", "unavailableInput"})
+#: Section 5.4's closed vocabulary: a reader that knows these two must not guess at a third.
+STATUSES = frozenset({"evaluated", "not-evaluated"})
 
 
 def _predicate(context: Context) -> tuple[dict[str, Any], str]:
@@ -148,8 +161,12 @@ def _check_reference(context: Context) -> None:
 def _check_entry_shape(context: Context) -> None:
     seen: set[str] = set()
     for path, entry in _entries(context):
-        if set(entry) - ENTRY_MEMBERS:
+        if set(entry) - ENTRY_MEMBERS - ENTRY_OPTIONAL:
             raise Refusal("evaluation-entry-malformed", path, "an entry carries a member the format does not define")
+        if "consumption" in entry and not isinstance(entry["consumption"], dict):
+            raise Refusal("evaluation-entry-malformed", f"{path}/consumption", "consumption is an object")
+        if not isinstance(entry["input"], str) or not entry["input"]:
+            raise Refusal("evaluation-entry-malformed", f"{path}/input", "input names an input: a non-empty string")
         if entry["input"] in seen:
             raise Refusal("evaluation-input-repeated", f"{path}/input", f"{entry['input']!r} is named twice")
         seen.add(entry["input"])
@@ -197,18 +214,32 @@ def _check_future_bound(context: Context) -> None:
 
 
 def _check_status(context: Context) -> None:
+    """The status is one of the two the format defines, the evaluation carries no other member, and
+    the status and ``unavailableInput`` are what the entries derive: ``evaluated`` derives none and
+    names none; ``not-evaluated`` names the derived set, once each, and the set is not empty. A
+    record that reports ``not-evaluated`` while every input is fresh contradicts itself as surely
+    as one that reports ``evaluated`` beside a stale input."""
+    predicate, where = _predicate(context)
+    evaluation = predicate.get("evaluation")
+    if not isinstance(evaluation, dict):
+        return  # entry-shape reports the missing evaluation
+    if set(evaluation) - EVALUATION_MEMBERS:
+        extra = sorted(set(evaluation) - EVALUATION_MEMBERS)
+        raise Refusal("evaluation-malformed", f"{where}/evaluation", f"members the format does not define: {extra}")
+    status = evaluation.get("status")
+    if status not in STATUSES:
+        raise Refusal("value-outside-vocabulary", f"{where}/evaluation/status", f"status {status!r} is not evaluated or not-evaluated")
     derived = _derive(context, future_bound=False)
     if derived is None:
         return
-    predicate, where = _predicate(context)
-    evaluation = predicate["evaluation"]
-    status = evaluation.get("status")
     if status == "evaluated":
         if derived or "unavailableInput" in evaluation:
             raise Refusal("evaluation-inconsistent", f"{where}/evaluation", f"evaluated beside unavailable inputs {derived}")
         return
     named = evaluation.get("unavailableInput")
-    if not isinstance(named, list) or len(set(named)) != len(named) or set(named) != set(derived):
+    if not isinstance(named, list) or not named or not all(isinstance(n, str) for n in named):
+        raise Refusal("evaluation-inconsistent", f"{where}/evaluation/unavailableInput", "not-evaluated names a non-empty list of inputs")
+    if len(set(named)) != len(named) or set(named) != set(derived):
         raise Refusal("evaluation-inconsistent", f"{where}/evaluation", f"unavailableInput {named} is not the derived set {derived}")
 
 
@@ -220,7 +251,7 @@ AUDIT_FRESHNESS = register(
             Check("reference-time", "decision.reportedAt is present and an RFC 3339 instant", _check_reference),
             Check("entry-shape", "each entry is input, lastResult and maxAge, maxAge in 0..2**53 - 1", _check_entry_shape),
             Check("future-bound", "no lastResult later than reportedAt by more than the skew tolerance", _check_future_bound),
-            Check("status", "the status and unavailableInput equal what the entries derive", _check_status),
+            Check("status", "status is evaluated or not-evaluated and, with unavailableInput, equals what the entries derive", _check_status),
         ),
         option_help={"skew": "the skew tolerance in seconds (default 300)"},
     )

@@ -10,15 +10,25 @@ own digest (``attestations[].digest``) proves the attestation file was not swapp
 nothing about which artifact the attestation covers. Copied into another publisher's entry, the
 same pin checks out again. So an entry delivered by ``url`` that carries attestations must carry
 its own ``digest`` (``entry_digest_missing_for_url``), and an attestation document must be a
-signed statement whose subject names that entry (``attestation_unsigned``,
-``attestation_subject_mismatch``).
+signed in-toto statement (``attestation_unsigned``, ``attestation_payload_type``) one of whose
+subjects carries the entry's digest (``attestation_subject_mismatch``). A subject binds by digest
+alone: a subject whose ``name`` equals the entry's identifier and whose digest names other bytes
+covers those other bytes, and reading the name as the binding is the transplant again, under the
+same identifier. An inline entry with no ``digest`` is bound by the SHA-256 of its data's RFC 8785
+bytes.
+
+Every member this set reads has the shape the format gives it, or the entry is refused: an entry,
+a trust manifest or an attestation that is not an object, or an ``entries``, ``trustManifests`` or
+``attestations`` that is not an array, is refused (``entry_malformed``,
+``trust_manifest_malformed``, ``attestation_malformed``) rather than skipped, because a skipped
+attestation is one no rule here judged and a lenient reader still follows.
 
 The caller passes the bytes it holds in ``files``, keyed by the URL or URI the catalog names; an
 inline ``data:`` URI is read directly. Nothing is fetched. A pin whose bytes the caller did not
 pass refuses as not evaluated, never passes; list the ``*-not-evaluated`` codes in ``warn`` to
-accept a check that could not run. A DSSE envelope counts as signed when it
-carries a signature; whether that signature verifies is the verifier's question, asked after
-admission, and this set does not answer it.
+accept a check that could not run. A DSSE envelope counts as signed when it carries a
+signature whose ``sig`` is non-empty base64; whether that signature verifies is the verifier's
+question, asked after admission, and this set does not answer it.
 """
 
 from __future__ import annotations
@@ -45,6 +55,7 @@ ALGORITHMS = {
     "sha3-512": ("sha3_512", 128),
 }
 WEAK = frozenset({"md5", "sha1", "sha-1", "sha224", "sha-224"})
+IN_TOTO_PAYLOAD_TYPE = "application/vnd.in-toto+json"
 
 
 def _entries(document: Any, prefix: str = "") -> Iterator[tuple[str, dict[str, Any]]]:
@@ -109,7 +120,44 @@ def _digest_paths(path: str, entry: dict[str, Any]) -> Iterator[tuple[str, Any]]
             yield f"{apath}/digest", item["digest"]
 
 
+def _shape_refusals(catalog: Any, prefix: str = "") -> Iterator[Refusal]:
+    """Every member on the path to an attestation that is not the type the format gives it."""
+    if not isinstance(catalog, dict) or not isinstance(catalog.get("entries"), list):
+        yield Refusal("entry_malformed", f"{prefix}/entries", "a catalog carries an entries array")
+        return
+    for index, entry in enumerate(catalog["entries"]):
+        path = f"{prefix}/entries/{index}"
+        if not isinstance(entry, dict):
+            yield Refusal("entry_malformed", path, "an entry is an object")
+            continue
+        if "trustManifest" in entry and not isinstance(entry["trustManifest"], dict):
+            yield Refusal("trust_manifest_malformed", f"{path}/trustManifest", "trustManifest is an object")
+        if "trustManifests" in entry:
+            many = entry["trustManifests"]
+            if not isinstance(many, list):
+                yield Refusal("trust_manifest_malformed", f"{path}/trustManifests", "trustManifests is an array")
+            else:
+                for m, manifest in enumerate(many):
+                    if not isinstance(manifest, dict):
+                        yield Refusal("trust_manifest_malformed", f"{path}/trustManifests/{m}", "a trust manifest is an object")
+        for mpath, manifest in _manifests(path, entry):
+            if "attestations" not in manifest:
+                continue
+            items = manifest["attestations"]
+            if not isinstance(items, list):
+                yield Refusal("attestation_malformed", f"{mpath}/attestations", "attestations is an array")
+                continue
+            for a, item in enumerate(items):
+                if not isinstance(item, dict):
+                    yield Refusal("attestation_malformed", f"{mpath}/attestations/{a}", "an attestation is an object")
+        data = entry.get("data")
+        if isinstance(data, dict) and "entries" in data:
+            yield from _shape_refusals(data, f"{path}/data")
+
+
 def _check_entry_shape(context: Context) -> None:
+    for refusal in _shape_refusals(context.document):
+        context.note(refusal)
     for path, entry in _entries(context.document):
         if ("url" in entry) == ("data" in entry):
             context.note(Refusal("entry_url_xor_data", path, "an entry carries exactly one of url and data"))
@@ -224,36 +272,61 @@ def _check_attestation_pins(context: Context) -> None:
                     continue
 
 
-def _statement(held: bytes) -> dict[str, Any] | None:
-    """The statement of a DSSE envelope that carries at least one signature, else None."""
+def _signature_present(signature: Any) -> bool:
+    """A DSSE signature entry whose ``sig`` is non-empty, valid base64 (standard or URL-safe)."""
+    sig = signature.get("sig") if isinstance(signature, dict) else None
+    if not isinstance(sig, str) or not sig:
+        return False
+    try:
+        decoded = base64.b64decode(sig.replace("-", "+").replace("_", "/"), validate=True)
+    except (ValueError, binascii.Error):
+        return False
+    return bool(decoded)
+
+
+def _statement(held: bytes) -> tuple[dict[str, Any] | None, str]:
+    """The statement of a signed in-toto DSSE envelope, or None and the code that refuses it."""
     try:
         envelope = strict_json.loads(held)
     except Refusal:
-        return None
+        return None, "attestation_unsigned"
     if not isinstance(envelope, dict) or not isinstance(envelope.get("payload"), str):
-        return None
+        return None, "attestation_unsigned"
     signatures = envelope.get("signatures")
-    if not isinstance(signatures, list) or not any(isinstance(s, dict) and s.get("sig") for s in signatures):
-        return None
+    if not isinstance(signatures, list) or not any(_signature_present(s) for s in signatures):
+        return None, "attestation_unsigned"
+    if envelope.get("payloadType") != IN_TOTO_PAYLOAD_TYPE:
+        return None, "attestation_payload_type"
     try:
         statement = strict_json.loads(base64.b64decode(envelope["payload"], validate=True))
     except (Refusal, ValueError, binascii.Error):
-        return None
-    return statement if isinstance(statement, dict) else None
+        return None, "attestation_unsigned"
+    return (statement, "") if isinstance(statement, dict) else (None, "attestation_unsigned")
+
+
+def _entry_digest(entry: dict[str, Any]) -> tuple[str, str] | None:
+    """The entry's ``(in-toto digest-set key, hex)``: its ``digest``, or for an inline entry with
+    none, the SHA-256 of its data's RFC 8785 bytes. None when neither is readable."""
+    digest = entry.get("digest")
+    if isinstance(digest, str):
+        algorithm, _, hexvalue = digest.partition(":")
+        return (algorithm.replace("-", "_"), hexvalue) if algorithm in ALGORITHMS and hexvalue else None
+    if "data" in entry and "url" not in entry:
+        return "sha256", hashlib.sha256(canonical_bytes(entry["data"])).hexdigest()
+    return None
 
 
 def _binds(statement: dict[str, Any], entry: dict[str, Any]) -> bool:
-    """A subject naming the entry's identifier or its digest (under the same algorithm)."""
+    """A subject whose digest set carries the entry's digest under the same algorithm. The name is
+    not a binding: two artifacts can carry one name, and only the digest says which one."""
     subjects = statement.get("subject")
-    digest = entry.get("digest")
-    algorithm, _, hexvalue = digest.partition(":") if isinstance(digest, str) else ("", "", "")
+    expected = _entry_digest(entry)
+    if expected is None:
+        return False
+    key, hexvalue = expected
     for subject in subjects if isinstance(subjects, list) else []:
-        if not isinstance(subject, dict):
-            continue
-        if entry.get("identifier") is not None and subject.get("name") == entry.get("identifier"):
-            return True
-        named = subject.get("digest")
-        if hexvalue and isinstance(named, dict) and named.get(algorithm.replace("-", "_")) == hexvalue:
+        named = subject.get("digest") if isinstance(subject, dict) else None
+        if isinstance(named, dict) and named.get(key) == hexvalue:
             return True
     return False
 
@@ -265,17 +338,15 @@ def _check_attestation_subject(context: Context) -> None:
             if held is None:
                 context.note(Refusal("attestation-subject-not-evaluated", apath, "the attestation document was not passed"))
                 continue
-            statement = _statement(held)
+            statement, code = _statement(held)
             if statement is None:
-                context.note(
-                    Refusal(
-                        "attestation_unsigned",
-                        apath,
-                        "the attestation is not a signed statement, so nothing binds it to this entry",
-                    )
-                )
+                why = {
+                    "attestation_unsigned": "the attestation is not a signed statement, so nothing binds it to this entry",
+                    "attestation_payload_type": f"the envelope's payloadType is not {IN_TOTO_PAYLOAD_TYPE}, so its payload is not a statement",
+                }[code]
+                context.note(Refusal(code, apath, why))
             elif not _binds(statement, entry):
-                context.note(Refusal("attestation_subject_mismatch", apath, "the signed statement's subject names neither the entry nor its digest"))
+                context.note(Refusal("attestation_subject_mismatch", apath, "no subject of the signed statement carries the entry's digest"))
 
 
 CATALOG_ATTESTATIONS = register(
@@ -283,13 +354,13 @@ CATALOG_ATTESTATIONS = register(
         name="catalog-attestations",
         summary="ARD and AI Catalog entries: digests, attestation pins, and attestations bound to the entry they sit in",
         checks=(
-            Check("entry-shape", "each entry carries exactly one of url and data", _check_entry_shape),
+            Check("entry-shape", "entries, manifests and attestations are the types the format gives them; each entry carries exactly one of url and data", _check_entry_shape),
             Check("digest-format", "every digest is <alg>:<lowercase hex>, SHA-256 or stronger", _check_digest_format),
             Check("digest-required", "an entry by url with attestations or a signed manifest names its digest", _check_digest_required),
             Check("subject", "a signed manifest has a subject equal to the entry", _check_subject),
             Check("entry-bytes", "the artifact bytes passed have the entry's digest", _check_entry_bytes),
             Check("attestation-pins", "each attestation passed has its pinned digest and size", _check_attestation_pins),
-            Check("attestation-subject", "each attestation is a signed statement naming the entry", _check_attestation_subject),
+            Check("attestation-subject", "each attestation is a signed in-toto statement whose subject carries the entry's digest", _check_attestation_subject),
         ),
         option_help={},
     )

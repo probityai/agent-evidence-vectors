@@ -18,7 +18,14 @@ decision the server cannot make for want of one of these is a refusal, never an 
 
 Each comparison is exact, case-sensitive and without URI normalization: an audience that matches
 only after a trailing slash or a case change is refused under its own code, so a log says which
-confusion was tried.
+confusion was tried. An option of the wrong type (``issuers`` given as one string, where a
+membership test would match any substring of it) is refused as ``option-malformed``, never read.
+
+The header's ``typ`` is the one place where comparison is not exact, because RFC 7515 section
+4.1.9 makes it a media type: case-insensitive, with ``application/`` optional. RFC 9068 section 4
+has a resource server refuse every ``typ`` but ``at+jwt``, so an identity assertion grant spelled
+``application/oauth-id-jag+jwt`` or ``OAuth-ID-JAG+JWT`` is still refused as one, and an ID token
+(``JWT``) or a token with no ``typ`` is refused as not an access token.
 """
 
 from __future__ import annotations
@@ -29,7 +36,16 @@ from .rules import Check, Context, RuleSet, register
 from .strict_json import MAX_SAFE_INTEGER, Refusal
 
 DEFAULT_SKEW = 60
-ID_JAG_TYPES = frozenset({"oauth-id-jag+jwt"})
+ACCESS_TOKEN_TYPE = "at+jwt"
+ID_JAG_TYPE = "oauth-id-jag+jwt"
+#: The type each option must have; a value of another type is a configuration error, not a pass.
+OPTION_TYPES: dict[str, str] = {
+    "resource": "a non-empty string",
+    "issuers": "a list of strings",
+    "tokenEndpoints": "a list of strings",
+    "now": "an integer",
+    "skew": "a non-negative integer",
+}
 
 
 def _claims(context: Context) -> dict[str, Any]:
@@ -40,11 +56,30 @@ def _claims(context: Context) -> dict[str, Any]:
     return claims
 
 
-def _option(context: Context, name: str, code: str) -> Any:
-    value = context.options.get(name)
+def _well_typed(name: str, value: Any) -> bool:
+    if name == "resource":
+        return isinstance(value, str) and bool(value)
+    if name in ("issuers", "tokenEndpoints"):
+        return isinstance(value, list) and all(isinstance(v, str) for v in value)
+    integer = isinstance(value, int) and not isinstance(value, bool)
+    return integer and (name == "now" or value >= 0)
+
+
+def _option(context: Context, name: str, code: str, default: Any = None) -> Any:
+    value = context.options.get(name, default)
     if value is None:
         raise Refusal(code, "", f"the server's {name} was not configured, so this decision cannot be made")
+    if not _well_typed(name, value):
+        raise Refusal("option-malformed", "", f"the option {name} is {OPTION_TYPES[name]}, not {type(value).__name__}")
     return value
+
+
+def media_type(typ: Any) -> str | None:
+    """A ``typ`` header as RFC 7515 compares it: lowercased, ``application/`` dropped."""
+    if not isinstance(typ, str):
+        return None
+    lowered = typ.lower()
+    return lowered[len("application/") :] if lowered.startswith("application/") else lowered
 
 
 def _normalized(uri: str) -> str:
@@ -84,7 +119,7 @@ def _audiences(claims: dict[str, Any]) -> list[str]:
 def _check_audience(context: Context) -> None:
     claims = _claims(context)
     resource = _option(context, "resource", "resource-not-configured")
-    endpoints = context.options.get("tokenEndpoints", [])
+    endpoints = _option(context, "tokenEndpoints", "token-endpoints-not-configured", default=[])
     audiences = _audiences(claims)
     if any(a in endpoints or _normalized(a) in {_normalized(e) for e in endpoints} for a in audiences):
         raise Refusal("aud-is-token-endpoint", "/claims/aud", "the audience is an authorization server's token endpoint")
@@ -120,7 +155,7 @@ def _instant(claims: dict[str, Any], name: str) -> int | None:
 def _check_lifetime(context: Context) -> None:
     claims = _claims(context)
     now = _option(context, "now", "clock-not-configured")
-    skew = int(context.options.get("skew", DEFAULT_SKEW))
+    skew = _option(context, "skew", "clock-not-configured", default=DEFAULT_SKEW)
     exp = _instant(claims, "exp")
     if exp is None:
         raise Refusal("exp-missing", "/claims/exp", "the token names no expiry")
@@ -137,8 +172,11 @@ def _check_lifetime(context: Context) -> None:
 def _check_binding(context: Context) -> None:
     claims = _claims(context)
     header = context.document.get("header", {})
-    if isinstance(header, dict) and header.get("typ") in ID_JAG_TYPES:
+    typ = media_type(header.get("typ")) if isinstance(header, dict) else None
+    if typ == ID_JAG_TYPE:
         raise Refusal("id-jag-at-resource", "/header/typ", "an identity assertion grant is for the authorization server, not a resource")
+    if typ != ACCESS_TOKEN_TYPE:
+        raise Refusal("typ-not-access-token", "/header/typ", "RFC 9068 section 4: a resource server takes only typ at+jwt")
     cnf = claims.get("cnf")
     if isinstance(cnf, dict) and "jkt" in cnf and context.document.get("presentation") == "bearer":
         raise Refusal("bound-token-as-bearer", "/claims/cnf/jkt", "a DPoP-bound token was presented as a bearer token")
@@ -154,7 +192,7 @@ MCP_AUTHZ = register(
             Check("audience", "aud names this resource exactly and no token endpoint", _check_audience),
             Check("resource", "a resource claim names this resource", _check_resource),
             Check("lifetime", "exp present and not passed, nbf and iat not in the future", _check_lifetime),
-            Check("binding", "no ID-JAG at a resource, no DPoP-bound token as bearer", _check_binding),
+            Check("binding", "typ is at+jwt (no ID-JAG, no ID token), no DPoP-bound token as bearer", _check_binding),
         ),
         option_help={
             "resource": "the server's canonical resource URI",

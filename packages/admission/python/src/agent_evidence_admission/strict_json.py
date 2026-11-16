@@ -264,11 +264,21 @@ class _Reader:
         number = float(token)
         if not math.isfinite(number) and self.on("value-not-representable"):
             raise self.fail("value-not-representable", path, f"{token} is not a finite double")
+        if number == 0 and _nonzero_digits(token) and self.on("value-not-representable"):
+            raise self.fail("value-not-representable", path, f"{token} is not zero and underflows to a double zero")
         if abs(number) > MAX_SAFE_INTEGER and self.on("unsafe-integer"):
             raise self.fail("unsafe-integer", path, f"{token} parses to a double outside +-(2**53 - 1)")
         if number == 0 and token.startswith("-") and self.on("negative-zero"):
             raise self.fail("negative-zero", path, f"{token} is negative zero")
         return number
+
+
+def _nonzero_digits(token: str) -> bool:
+    """True when the significand of a number token has a digit other than 0: ``1e-400`` is not zero
+    in a decimal reader (Go's ``json.Number``, Java's ``BigDecimal``) and is zero in a double one,
+    which RFC 8785 then writes as ``0``."""
+    significand = token.lower().partition("e")[0]
+    return any(c in "123456789" for c in significand)
 
 
 def _utf16(char: str) -> list[int]:

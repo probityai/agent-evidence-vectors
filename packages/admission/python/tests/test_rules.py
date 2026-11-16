@@ -137,6 +137,18 @@ def test_escapes_decode():
     assert strict_json.loads('{ }') == {}
 
 
+@pytest.mark.parametrize("text", ["1e-400", "-1e-400", "0.5e-400", "1E-9999"])
+def test_a_nonzero_number_that_underflows_is_refused(text):
+    with pytest.raises(Refusal) as caught:
+        strict_json.loads(text)
+    assert caught.value.code == "value-not-representable"
+
+
+@pytest.mark.parametrize("text", ["0e-400", "0.000e5", "0E-9999", "5e-324"])
+def test_zero_written_with_an_exponent_and_the_smallest_double_are_admitted(text):
+    assert strict_json.loads(text) == float(text)
+
+
 def test_deep_nesting_past_the_interpreter_is_refused():
     with pytest.raises(Refusal) as caught:
         strict_json.loads("[" * 100000 + "]" * 100000, max_depth=10**9)
@@ -181,7 +193,7 @@ def test_canonical_refuses_what_is_not_json():
 
 # ---------------------------------------------------------------- freshness
 
-S = 1_000_000
+S = 1_000_000_000
 
 
 def test_age_equal_to_the_window_is_fresh_and_one_second_more_is_stale():
@@ -234,6 +246,17 @@ def test_judge_equals_the_rule_on_random_inputs():
             assert freshness.judge(produced, reference, window, skew, spread) == (reference - produced <= (window + spread) * S)
 
 
+def test_bounds_are_held_to_the_nanosecond():
+    # 300.000000001 s after the reference under a 300 s skew is refused, as Go's time refuses it.
+    assert freshness.judge(300 * S, 0, 86400, skew=300)
+    with pytest.raises(Refusal):
+        freshness.judge(300 * S + 1, 0, 86400, skew=300)
+    assert freshness.judge(0, 3600 * S, 3600)
+    assert not freshness.judge(0, 3600 * S + 1, 3600)
+    late = "1970-01-01T00:05:00.000000001Z"
+    assert freshness.instant(late, "") - freshness.instant("1970-01-01T00:00:00Z", "") == 300 * S + 1
+
+
 def test_each_bound_has_its_own_allowance():
     start, within = 0, 600
     # The late bound on an OpenTimestamps anchor takes the block-time allowance: the last admitted
@@ -245,7 +268,18 @@ def test_each_bound_has_its_own_allowance():
 
 
 @pytest.mark.parametrize(
-    "text", ["2026-09-19 11:04:02Z", "2026-09-19T11:04:02", "2026-13-19T11:04:02Z", "2026-09-19T11:04:02Z\n", 5, "2026-09-19T11:04:0٢Z"]
+    "text",
+    [
+        "2026-09-19 11:04:02Z",
+        "2026-09-19T11:04:02",
+        "2026-13-19T11:04:02Z",
+        "2026-09-19T11:04:02Z\n",
+        5,
+        "2026-09-19T11:04:0٢Z",
+        "2026-09-19T11:04:02+00:60",
+        "2026-09-19T11:04:02+24:00",
+        "2026-09-19T11:04:02.1234567890Z",
+    ],
 )
 def test_instants_are_strict(text):
     with pytest.raises(Refusal) as caught:
@@ -255,7 +289,9 @@ def test_instants_are_strict(text):
 
 def test_instants_with_offsets_and_fractions():
     assert freshness.instant("1970-01-01T01:00:00+01:00", "") == 0
-    assert freshness.instant("1970-01-01T00:00:00.5Z", "") == 500_000
+    assert freshness.instant("1970-01-01T00:00:00.5Z", "") == 500_000_000
+    assert freshness.instant("1970-01-01T00:00:00.000000001Z", "") == 1
+    assert freshness.instant("1969-12-31T23:59:59.999999999Z", "") == -1
 
 
 # ---------------------------------------------------------------- command line
@@ -305,6 +341,17 @@ def test_cli_options_files_and_warnings(tmp_path, capsys):
 def test_cli_unreadable_input_is_exit_2(tmp_path, extra):
     record = write(tmp_path, "r.json", b"{}")
     assert main(["admit", "co-signed-receipt", record, *extra]) == 2
+
+
+def test_an_option_the_rule_set_does_not_define_is_refused(tmp_path):
+    case = case_bytes("mcp-authz", "valid")
+    with pytest.raises(ValueError, match="no options named skwe"):
+        rules.run(rules.get("mcp-authz"), case.raw, {**case.options, "skwe": 0})
+    record = write(tmp_path, "token.json", case.raw)
+    options = write(tmp_path, "options.json", json.dumps(case.options).encode())
+    assert main(["admit", "mcp-authz", record, "--options", options, "--option", "skwe=0"]) == 2
+    with pytest.raises(ValueError, match="takes: none"):
+        rules.run(rules.get("ijson"), b"{}", {"skew": 1})
 
 
 def test_cli_options_must_be_an_object(tmp_path):
@@ -382,3 +429,76 @@ def test_audit_freshness_agrees_with_the_audit_record_corpus():
         compared.append((member["draftId"], got == want, got, want))
     assert len(compared) >= 20
     assert [c for c in compared if not c[1]] == []
+
+
+def test_every_valid_single_record_of_the_corpus_is_admitted():
+    """Admission refuses only what a verifier would: every record the corpus calls valid, revision 01's
+    consumption entries among them, is admitted. Bundles (retention, record series) are other shapes."""
+    manifest = json.loads((AUDIT_CORPUS / "MANIFEST.json").read_text())
+    rule_set = rules.get("audit-freshness")
+    checked, refused = 0, []
+    for member in manifest["vectors"]:
+        if member.get("expected", {}).get("verdict") != "valid":
+            continue
+        raw = (AUDIT_CORPUS / member["file"]).read_bytes()
+        document = json.loads(raw)
+        if "envelope" in document or "records" in document:
+            continue
+        checked += 1
+        verdict = rules.run(rule_set, raw)
+        if not verdict.admitted:
+            refused.append((member.get("draftId"), verdict.code))
+    assert checked >= 50
+    assert refused == []
+
+
+# ---------------------------------------------------------------- shapes and options the vectors do not reach
+
+
+@pytest.mark.parametrize(
+    ("catalog", "code"),
+    [
+        ({"entries": [{"url": "https://x.example/a", "trustManifest": []}]}, "trust_manifest_malformed"),
+        ({"entries": [{"url": "https://x.example/a", "trustManifests": [5]}]}, "trust_manifest_malformed"),
+        ({"entries": [{"url": "https://x.example/a", "trustManifest": {"attestations": {}}}]}, "attestation_malformed"),
+        ({"entries": [5]}, "entry_malformed"),
+        ({"entries": [{"data": {"entries": {}}}]}, "entry_malformed"),
+        ({}, "entry_malformed"),
+    ],
+)
+def test_catalog_members_of_the_wrong_type_are_refused(catalog, code):
+    verdict = rules.run(rules.get("catalog-attestations"), json.dumps(catalog).encode())
+    assert code in [r.code for r in verdict.refusals]
+
+
+@pytest.mark.parametrize("sig", ["", "!!!", "AA==", None, 7])
+def test_a_signature_counts_only_when_it_is_non_empty_base64(sig):
+    from agent_evidence_admission import catalog_rules
+
+    present = catalog_rules._signature_present({"sig": sig})
+    assert present is (sig == "AA==")
+
+
+def test_an_entry_digest_under_an_unknown_algorithm_binds_nothing():
+    from agent_evidence_admission import catalog_rules
+
+    statement = {"subject": [{"digest": {"md5": "0" * 32}}]}
+    assert not catalog_rules._binds(statement, {"digest": "md5:" + "0" * 32})
+    assert not catalog_rules._binds(statement, {"url": "https://x.example/a"})
+    assert catalog_rules._binds({"subject": [{"digest": {"sha3_256": "ab"}}]}, {"digest": "sha3-256:ab"})
+
+
+@pytest.mark.parametrize(
+    "options",
+    [
+        {"tokenEndpoints": "https://as.example.com/token"},
+        {"skew": -1},
+        {"skew": True},
+        {"resource": ""},
+        {"issuers": ["https://as.example.com", 5]},
+    ],
+)
+def test_options_of_the_wrong_type_are_refused(options):
+    case = case_bytes("mcp-authz", "valid")
+    verdict = rules.run(rules.get("mcp-authz"), case.raw, {**case.options, **options})
+    assert "option-malformed" in [r.code for r in verdict.refusals]

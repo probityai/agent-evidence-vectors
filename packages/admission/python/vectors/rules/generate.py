@@ -86,6 +86,8 @@ def parse_cases(integer_only: bool) -> list[dict[str, Any]]:
              "a fraction whose double is the integer 12345678901234568, past 2^53",
              text='{"n":12345678901234567.5}'),
         case("exponent-overflow", "refuse", "value-not-representable", "1e400 has no finite double", text='{"n":1e400}'),
+        case("exponent-underflow", "refuse", "value-not-representable",
+             "1e-400 is not zero: a decimal reader keeps it, a double reader reads 0 and RFC 8785 writes 0", text='{"n":1e-400}'),
         case("nan", "refuse", "non-json-number", "NaN is not a JSON number", text='{"n":NaN}'),
         case("neg-infinity", "refuse", "non-json-number", "-Infinity is not a JSON number", text='{"n":-Infinity}'),
         case("long-token", "refuse", "number-token-too-long", "a 70-digit integer token, refused before conversion",
@@ -155,11 +157,11 @@ def max_age_raw(token: str) -> str:
     return dumps(audit_statement(entries(standing_max=777777))).replace("777777", token)
 
 
-def envelope(payload: bytes, signed: bool = True) -> str:
+def envelope(payload: bytes, signed: bool = True, payload_type: str = "application/vnd.in-toto+json", sig: Any = None) -> str:
     return dumps({
-        "payloadType": "application/vnd.in-toto+json",
+        "payloadType": payload_type,
         "payload": b64(payload),
-        "signatures": [{"keyid": "test-key", "sig": b64(b"\x01" * 64)}] if signed else [],
+        "signatures": [{"keyid": "test-key", "sig": b64(b"\x01" * 64) if sig is None else sig}] if signed else [],
     })
 
 
@@ -184,6 +186,29 @@ def audit_cases() -> list[dict[str, Any]]:
              text=dumps(audit_statement(entries(standing="2026-09-19T11:09:03Z")))),
         case("fr18-after-decision-300", "admit", None, "exactly the skew tolerance after reportedAt",
              text=dumps(audit_statement(entries(standing="2026-09-19T11:09:02Z")))),
+        case("after-decision-300-plus-1ns", "refuse", "evaluation-result-after-decision",
+             "one nanosecond past the skew tolerance: a reader that truncates to microseconds admits it, Go's time refuses it",
+             text=dumps(audit_statement(entries(standing="2026-09-19T11:09:02.000000001Z")))),
+        case("age-max-age-plus-1ns", "refuse", "evaluation-inconsistent",
+             "one nanosecond past maxAge, recorded as evaluated: stale to a nanosecond reader",
+             text=dumps(audit_statement(entries(standing="2026-09-19T10:04:01.999999999Z")))),
+        case("offset-minute-60", "refuse", "instant-malformed", "an offset minute of 60, which some parsers read as an hour",
+             text=dumps(audit_statement(entries(), reported="2026-09-19T12:04:02+00:60"))),
+        case("status-outside-vocabulary", "refuse", "value-outside-vocabulary", "a status that is neither evaluated nor not-evaluated",
+             text=dumps(audit_statement(entries(), "partial", []))),
+        case("not-evaluated-every-input-fresh", "refuse", "evaluation-inconsistent",
+             "not-evaluated with an empty unavailableInput while every input is fresh",
+             text=dumps(audit_statement(entries(), "not-evaluated", []))),
+        case("evaluation-fourth-member", "refuse", "evaluation-malformed", "an evaluation member the format does not define",
+             text=dumps(audit_statement(entries())).replace('"status":"evaluated"', '"status":"evaluated","note":"ok"')),
+        case("consumption-entry", "admit", None, "revision 01's optional consumption member on an entry",
+             text=dumps(audit_statement(entries(extra=[{"input": "consumption-state", "lastResult": "2026-09-19T11:00:00Z", "maxAge": 3600,
+                                                        "consumption": {"unit": "usd-cents", "limit": 50000, "consumed": 30000}}])))),
+        case("consumption-not-an-object", "refuse", "evaluation-entry-malformed", "a consumption member that is a number",
+             text=dumps(audit_statement(entries(extra=[{"input": "consumption-state", "lastResult": "2026-09-19T11:00:00Z", "maxAge": 3600,
+                                                        "consumption": 30000}])))),
+        case("input-not-a-string", "refuse", "evaluation-entry-malformed", "an input named by a number",
+             text=dumps(audit_statement(entries(extra=[{"input": 7, "lastResult": "2026-09-19T11:00:00Z", "maxAge": 3600}])))),
         case("future-inside-window", "refuse", "evaluation-result-after-decision",
              "an hour after reportedAt with a day's maxAge: a verifier that checks |age| <= maxAge admits it",
              text=dumps(audit_statement([{"input": "policy-source", "lastResult": "2026-09-19T12:04:02Z", "maxAge": 86400}]))),
@@ -273,6 +298,11 @@ GOOD_STATEMENT = signed_statement({"name": "urn:air:tools.example.com:server:inv
 OTHER_STATEMENT = signed_statement({"name": "urn:air:other.example:server:invoice-reader",
                                     "digest": {"sha256": "1" * 64}})
 UNSIGNED_STATEMENT = envelope(base64.b64decode(json.loads(GOOD_STATEMENT)["payload"]), signed=False).encode()
+#: The entry's own identifier as the subject name, over other bytes: the transplant under one name.
+SAME_NAME_STATEMENT = signed_statement({"name": "urn:air:tools.example.com:server:invoice-reader",
+                                        "digest": {"sha256": "1" * 64}})
+NOT_IN_TOTO_STATEMENT = envelope(base64.b64decode(json.loads(GOOD_STATEMENT)["payload"]), payload_type="application/json").encode()
+SIG_NOT_BASE64_STATEMENT = envelope(base64.b64decode(json.loads(GOOD_STATEMENT)["payload"]), sig=True).encode()
 
 
 def catalog(*entries_: dict[str, Any]) -> str:
@@ -319,11 +349,35 @@ def ai_manifest(**subject_changes: Any) -> dict[str, Any]:
             "signature": {"signer": "did:web:tools.example.com", "profile": "did-web", "issuedAt": "2026-11-01T00:00:00Z", "jws": "e30..c2ln"}}
 
 
+def pinned(statement: bytes) -> dict[str, Any]:
+    return {"attestations": [{"type": "scan", "uri": STATEMENT_URI, "digest": sha(statement)}]}
+
+
 def catalog_cases() -> list[dict[str, Any]]:
     inline = {"name": "inline-agent", "skills": [{"id": "a", "weight": 0.5}]}
     canonical_inline = b'{"name":"inline-agent","skills":[{"id":"a","weight":0.5}]}'
     data_uri = "data:application/vnd.dsse+json;base64," + b64(GOOD_STATEMENT)
+    inline_statement = signed_statement({"name": "inline-agent", "digest": {"sha256": hashlib.sha256(canonical_inline).hexdigest()}})
     return [
+        case("subject-name-only", "refuse", "attestation_subject_mismatch",
+             "a signed statement whose subject carries the entry's identifier and another artifact's digest: the name is not the binding",
+             text=catalog(ard_entry(trustManifest=pinned(SAME_NAME_STATEMENT))), files=held(artifact=ARTIFACT, statement=SAME_NAME_STATEMENT)),
+        case("payload-type-not-in-toto", "refuse", "attestation_payload_type", "a signed envelope whose payloadType is not in-toto",
+             text=catalog(ard_entry(trustManifest=pinned(NOT_IN_TOTO_STATEMENT))), files=held(artifact=ARTIFACT, statement=NOT_IN_TOTO_STATEMENT)),
+        case("signature-not-base64", "refuse", "attestation_unsigned", "a signature whose sig is true, not base64",
+             text=catalog(ard_entry(trustManifest=pinned(SIG_NOT_BASE64_STATEMENT))), files=held(artifact=ARTIFACT, statement=SIG_NOT_BASE64_STATEMENT)),
+        case("attestation-not-an-object", "refuse", "attestation_malformed",
+             "an attestation written as a bare URL: skipped, it would leave the entry with no attestation for any rule to judge",
+             text=catalog(ard_entry(digest=None, trustManifest={"attestations": [STATEMENT_URI]})), files=held(artifact=ARTIFACT)),
+        case("trust-manifests-not-an-array", "refuse", "trust_manifest_malformed", "trustManifests as one object",
+             text=catalog(ai_entry(ai_manifest())).replace('"trustManifests":[', '"trustManifests":').replace("}}]}]}", "}}}]}"),
+             files=held(artifact=ARTIFACT)),
+        case("entries-not-an-array", "refuse", "entry_malformed", "a catalog whose entries is an object", text=dumps({"entries": {"a": ard_entry()}})),
+        case("inline-bound-by-data-digest", "admit", None,
+             "an inline entry with no digest: its attestation binds to the SHA-256 of the data's RFC 8785 bytes",
+             text=catalog(ai_entry({"attestations": [{"type": "scan", "uri": STATEMENT_URI, "digest": sha(inline_statement)}]},
+                                   digest=None, url=None, data=inline, version=None)),
+             files={STATEMENT_URI: {"base64": b64(inline_statement)}}),
         case("control-bound", "admit", None, "artifact and signed statement passed; the statement's subject names the entry and its digest",
              text=catalog(ard_entry()), files=held(artifact=ARTIFACT, statement=GOOD_STATEMENT)),
         case("transplanted-attestation", "refuse", "entry_digest_missing_for_url",
@@ -430,6 +484,19 @@ def token_cases() -> list[dict[str, Any]]:
              text=token("dpop", cnf={"jkt": "0ZcOCORZNYy-DWpqq30jZyJGHTN0d2HglBV3uiguA4I"})),
         case("id-jag", "refuse", "id-jag-at-resource", "an identity assertion grant presented to a resource server",
              text=token(header={"typ": "oauth-id-jag+jwt", "alg": "ES256"}, resource=RESOURCE)),
+        case("id-jag-media-type", "refuse", "id-jag-at-resource", "the same grant with typ written as a full media type (RFC 7515 4.1.9)",
+             text=token(header={"typ": "application/oauth-id-jag+jwt", "alg": "ES256"})),
+        case("id-jag-mixed-case", "refuse", "id-jag-at-resource", "media types compare case-insensitively",
+             text=token(header={"typ": "OAuth-ID-JAG+JWT", "alg": "ES256"})),
+        case("id-token-typ", "refuse", "typ-not-access-token", "typ JWT, an ID token: RFC 9068 section 4 takes only at+jwt",
+             text=token(header={"typ": "JWT", "alg": "ES256"})),
+        case("no-typ", "refuse", "typ-not-access-token", "no typ at all", text=token(header={"alg": "ES256"})),
+        case("at-jwt-media-type", "admit", None, "typ application/at+jwt is at+jwt", text=token(header={"typ": "application/at+jwt", "alg": "ES256"})),
+        case("issuers-as-a-string", "refuse", "option-malformed",
+             "issuers configured as one string: a membership test would admit any substring of it as the issuer",
+             text=token(iss="https://as.example"), options={**OPTIONS, "issuers": ISSUER}),
+        case("clock-as-a-string", "refuse", "option-malformed", "now configured as a string", text=token(),
+             options={**OPTIONS, "now": str(NOW)}),
         case("id-jag-wrong-resource", "refuse", "resource-mismatch", "an identity assertion grant for another resource",
              text=token(header={"typ": "oauth-id-jag+jwt", "alg": "ES256"}, resource="https://other.example/mcp")),
         case("no-presentation", "refuse", "token-shape-malformed", "how the token was presented is part of the decision",
@@ -497,6 +564,14 @@ def receipt_cases() -> list[dict[str, Any]]:
              text=receipt(callerDid="did:web:caller.example", callerSignature=("cd" * 64)[:-1])),
         case("co-signature-without-signer", "refuse", "cosigner-missing", "a co-signature with no callerDid",
              text=receipt(callerSignature="cd" * 64)),
+        case("signer-without-co-signature", "refuse", "cosignature-missing",
+             "a callerDid with no callerSignature: a display that shows the caller reads it as co-signed",
+             text=receipt(callerDid="did:web:caller.example")),
+        case("agent-did-null", "refuse", "member-malformed", "a null agentDid is no signer",
+             text=receipt().replace('"agentDid":"did:web:agent.example"', '"agentDid":null')),
+        case("tool-name-number", "refuse", "member-malformed", "toolName is a string", text=receipt(toolName=7)),
+        case("caller-did-empty", "refuse", "member-malformed", "an empty callerDid beside a co-signature",
+             text=receipt(callerDid="", callerSignature="cd" * 64)),
         case("success-with-failure-type", "refuse", "failure-type-inconsistent", "success true with a failure named",
              text=receipt(failureType="timeout")),
         case("failure-without-type", "refuse", "failure-type-inconsistent", "success false with no failure named",

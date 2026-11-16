@@ -141,11 +141,18 @@ def run(
     enabled: Iterable[str] | None = None,
     warn: Iterable[str] = (),
 ) -> Verdict:
-    """Run ``rule_set`` on ``raw``. ``enabled`` limits the checks that run (all by default)."""
+    """Run ``rule_set`` on ``raw``. ``enabled`` limits the checks that run (all by default).
+
+    An option the rule set does not define is a ``ValueError``, not a silent default: a caller who
+    writes ``skwe`` for ``skew`` would otherwise be judged under a tolerance they did not choose."""
     names = frozenset(rule_set.check_names() if enabled is None else enabled)
     unknown = names - set(rule_set.check_names())
     if unknown:
         raise ValueError(f"{rule_set.name} has no checks named {', '.join(sorted(unknown))}")
+    stray = set(options or {}) - set(rule_set.option_help)
+    if stray:
+        known = ", ".join(sorted(rule_set.option_help)) or "none"
+        raise ValueError(f"{rule_set.name} has no options named {', '.join(sorted(stray))}; it takes: {known}")
     warn_codes = frozenset(warn)
     parse_checks = {n[len(PARSE_PREFIX) :] for n in names if n.startswith(PARSE_PREFIX)}
     try:

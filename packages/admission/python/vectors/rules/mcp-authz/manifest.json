@@ -205,6 +205,86 @@
    "rationale": "an identity assertion grant presented to a resource server"
   },
   {
+   "id": "id-jag-media-type",
+   "text": "{\"header\":{\"typ\":\"application/oauth-id-jag+jwt\",\"alg\":\"ES256\"},\"claims\":{\"iss\":\"https://as.example.com\",\"aud\":\"https://mcp.example.com/mcp\",\"sub\":\"user-1\",\"exp\":1800000600,\"iat\":1799999990},\"presentation\":\"bearer\"}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "id-jag-at-resource"
+   },
+   "rationale": "the same grant with typ written as a full media type (RFC 7515 4.1.9)"
+  },
+  {
+   "id": "id-jag-mixed-case",
+   "text": "{\"header\":{\"typ\":\"OAuth-ID-JAG+JWT\",\"alg\":\"ES256\"},\"claims\":{\"iss\":\"https://as.example.com\",\"aud\":\"https://mcp.example.com/mcp\",\"sub\":\"user-1\",\"exp\":1800000600,\"iat\":1799999990},\"presentation\":\"bearer\"}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "id-jag-at-resource"
+   },
+   "rationale": "media types compare case-insensitively"
+  },
+  {
+   "id": "id-token-typ",
+   "text": "{\"header\":{\"typ\":\"JWT\",\"alg\":\"ES256\"},\"claims\":{\"iss\":\"https://as.example.com\",\"aud\":\"https://mcp.example.com/mcp\",\"sub\":\"user-1\",\"exp\":1800000600,\"iat\":1799999990},\"presentation\":\"bearer\"}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "typ-not-access-token"
+   },
+   "rationale": "typ JWT, an ID token: RFC 9068 section 4 takes only at+jwt"
+  },
+  {
+   "id": "no-typ",
+   "text": "{\"header\":{\"alg\":\"ES256\"},\"claims\":{\"iss\":\"https://as.example.com\",\"aud\":\"https://mcp.example.com/mcp\",\"sub\":\"user-1\",\"exp\":1800000600,\"iat\":1799999990},\"presentation\":\"bearer\"}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "typ-not-access-token"
+   },
+   "rationale": "no typ at all"
+  },
+  {
+   "id": "at-jwt-media-type",
+   "text": "{\"header\":{\"typ\":\"application/at+jwt\",\"alg\":\"ES256\"},\"claims\":{\"iss\":\"https://as.example.com\",\"aud\":\"https://mcp.example.com/mcp\",\"sub\":\"user-1\",\"exp\":1800000600,\"iat\":1799999990},\"presentation\":\"bearer\"}",
+   "expect": {
+    "verdict": "admit"
+   },
+   "rationale": "typ application/at+jwt is at+jwt"
+  },
+  {
+   "id": "issuers-as-a-string",
+   "text": "{\"header\":{\"typ\":\"at+jwt\",\"alg\":\"ES256\"},\"claims\":{\"iss\":\"https://as.example\",\"aud\":\"https://mcp.example.com/mcp\",\"sub\":\"user-1\",\"exp\":1800000600,\"iat\":1799999990},\"presentation\":\"bearer\"}",
+   "options": {
+    "resource": "https://mcp.example.com/mcp",
+    "issuers": "https://as.example.com",
+    "tokenEndpoints": [
+     "https://as.example.com/token"
+    ],
+    "now": 1800000000
+   },
+   "expect": {
+    "verdict": "refuse",
+    "code": "option-malformed"
+   },
+   "rationale": "issuers configured as one string: a membership test would admit any substring of it as the issuer"
+  },
+  {
+   "id": "clock-as-a-string",
+   "text": "{\"header\":{\"typ\":\"at+jwt\",\"alg\":\"ES256\"},\"claims\":{\"iss\":\"https://as.example.com\",\"aud\":\"https://mcp.example.com/mcp\",\"sub\":\"user-1\",\"exp\":1800000600,\"iat\":1799999990},\"presentation\":\"bearer\"}",
+   "options": {
+    "resource": "https://mcp.example.com/mcp",
+    "issuers": [
+     "https://as.example.com"
+    ],
+    "tokenEndpoints": [
+     "https://as.example.com/token"
+    ],
+    "now": "1800000000"
+   },
+   "expect": {
+    "verdict": "refuse",
+    "code": "option-malformed"
+   },
+   "rationale": "now configured as a string"
+  },
+  {
    "id": "id-jag-wrong-resource",
    "text": "{\"header\":{\"typ\":\"oauth-id-jag+jwt\",\"alg\":\"ES256\"},\"claims\":{\"iss\":\"https://as.example.com\",\"aud\":\"https://mcp.example.com/mcp\",\"sub\":\"user-1\",\"exp\":1800000600,\"iat\":1799999990,\"resource\":\"https://other.example/mcp\"},\"presentation\":\"bearer\"}",
    "expect": {

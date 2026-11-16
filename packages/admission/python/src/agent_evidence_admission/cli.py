@@ -185,10 +185,10 @@ def _run_admit(args: argparse.Namespace) -> int:
         for name, value in _pairs(args.option, "--option"):
             options[name] = json.loads(value)
         files = {uri: read_source(path) for uri, path in _pairs(args.file, "--file")}
+        verdict = rules.run(rule_set, raw, options, files, warn=args.warn)
     except (OSError, ValueError) as error:
         print(f"ERROR could not read: {error}", file=sys.stderr)
         return 2
-    verdict = rules.run(rule_set, raw, options, files, warn=args.warn)
     if args.json:
         print(json.dumps(verdict.as_dict(), indent=2))
     else:

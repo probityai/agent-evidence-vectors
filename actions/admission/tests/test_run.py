@@ -447,7 +447,13 @@ def test_admit_main_exit_codes(tmp_path: Path) -> None:
     assert run.main(["admit", "--rule-set", "catalog-attestations", "--document", control, "--warn", every_gap]) == 0
     assert run.main(["admit", "--rule-set", "catalog-attestations", "--document", control]) == 1
     options = _write(tmp_path / "options.json", {"skew": 300})
-    assert run.main(["admit", "--rule-set", "ijson", "--document", control, "--options", options]) == 0
+    fresh = next(c for c in json.loads((RULE_EXAMPLES.parents[1] / "audit-freshness" / "manifest.json").read_text())["cases"]
+                 if c["id"] == "fr1-every-input-fresh")
+    record = tmp_path / "audit.json"
+    record.write_text(fresh["text"])
+    assert run.main(["admit", "--rule-set", "audit-freshness", "--document", str(record), "--options", options]) == 0
+    # An option the rule set does not define is a setup error, not a silent default.
+    assert run.main(["admit", "--rule-set", "ijson", "--document", control, "--options", options]) == 2
     assert run.main(["admit", "--rule-set", "nope", "--document", control]) == 2
     assert run.main(["admit", "--rule-set", "ijson", "--document", str(tmp_path / "missing.json")]) == 2
 
