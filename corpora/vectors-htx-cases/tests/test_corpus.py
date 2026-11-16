@@ -82,7 +82,9 @@ def test_each_reject_differs_from_its_control_by_exactly_one_field(name: str) ->
 def test_each_denied_case_fails_exactly_its_named_check(name: str) -> None:
     record, reason = _records()[name], DENIED[name]
     assert reader._first_failure(record, frozenset()) == reason
-    later = reader.CHECKS_FOR[reader.shape(record)]
+    kind = reader.shape(record)
+    assert kind is not None
+    later = reader.CHECKS_FOR[kind]
     assert reader._first_failure(record, frozenset(later[later.index(reason):])) is None
 
 

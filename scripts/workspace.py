@@ -96,6 +96,7 @@ _MANIFEST = {"crates.io": "Cargo.toml", "pypi": "pyproject.toml", "npm": "packag
 def _release_links():
     """Load scripts/release_links.py from beside this file; the tests load this file by path."""
     spec = importlib.util.spec_from_file_location("release_links", Path(__file__).with_name("release_links.py"))
+    assert spec is not None and spec.loader is not None
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
