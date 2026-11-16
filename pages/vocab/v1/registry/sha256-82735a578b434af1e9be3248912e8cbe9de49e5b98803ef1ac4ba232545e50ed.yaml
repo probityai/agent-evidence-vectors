@@ -3323,8 +3323,13 @@ evaluation_claim:
       its pointer (raw or a named canonicalization), the signature suite is
       the one the verifier-accepted key binding names (the wire algorithm
       member is informative only), the key binding is resolved from the
-      record's producer, and a revocation snapshot is required. Absent evidence
-      is never satisfied. The claim is about records: it never says that the
+      record's producer, and a revocation snapshot is required. Hash and
+      signature pre-images are domain-separated: each is a tag naming the
+      format version, the artifact type and whether it is a hash or a
+      signature input, a line feed, then the canonical bytes, and the tags
+      come from a closed registry, so an unregistered tag fails closed and one
+      signature can never be replayed as another artifact type or as a hash.
+      Absent evidence is never satisfied. The claim is about records: it never says that the
       executed bytes themselves were observed.
     check: >
       A verifier groups by decision and instruction, refuses to choose between

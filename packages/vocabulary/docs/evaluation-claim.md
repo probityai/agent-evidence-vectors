@@ -58,6 +58,7 @@ The `lifecycle_binding` profile reads a set of control, execution and decision r
 - two records with one identity make the group `indeterminate`, whatever their order;
 - a group with no control or no execution is `missing`, and an execution that cites an instruction no control in the set covers is `not_evaluated`;
 - each digest is computed by the convention declared for its pointer (`raw` or a named `canonicalization`);
+- hash and signature pre-images carry a domain tag (format version, artifact type, hash or signature) from a closed registry, a line feed, then the canonical bytes; an unregistered tag fails closed;
 - the signature suite is the one the verifier-accepted key binding names, the binding is resolved from the record's producer, and a revocation snapshot is required: a record that does not authenticate is a `failure`, one whose binding is not active is `not_evaluated`;
 - the group is `satisfied` only when every record authenticates under an active binding and every authorized digest equals every executed digest.
 
