@@ -198,6 +198,23 @@ def main() -> int:
     if fr.exit_code([fr.Check(1, "x", G, ""), fr.Check(2, "y", R, "")], 2) != 1:
         FAILURES.append("a floor that is not met must exit 1")
 
+    # The tally reads each corpus where the tag keeps it: under corpora/ from
+    # v0.37.0, at the top level before. A corpus in neither place is a read that
+    # did not complete, never a red verdict.
+    moved = {"corpora/vectors-x", "corpora/vectors-done-receipt"}
+    if fr.locate("vectors-x", moved.__contains__) != "corpora/vectors-x":
+        FAILURES.append("a corpus under corpora/ must be read there")
+    if fr.locate("vectors-x", {"vectors-x"}.__contains__) != "vectors-x":
+        FAILURES.append("a corpus at the top level of an older tag must be read there")
+    both = {"corpora/vectors-x", "vectors-x"}
+    if fr.locate("vectors-x", both.__contains__) != "corpora/vectors-x":
+        FAILURES.append("corpora/ must win when a tag carries both")
+    try:
+        fr.locate("vectors-x", set().__contains__)
+        FAILURES.append("a corpus the tag does not carry must not resolve")
+    except fr.ReadFailed:
+        pass
+
     for failure in FAILURES:
         print(f"FAIL {failure}")
     print(f"field-readiness-test: {len(FAILURES)} failure(s)")
