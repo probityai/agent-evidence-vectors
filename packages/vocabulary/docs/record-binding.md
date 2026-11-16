@@ -62,4 +62,6 @@ RFC 7493 section 2.2 says only that a sender cannot expect exactness past 2^53-1
 
 ## Crosswalks
 
-`crosswalk/dns-aid-core.yaml` maps the dns-aid-core `SignatureStatus` values onto `signature_coverage` and `key_authority`. `crosswalk/ai-catalog.yaml` maps the AI Catalog signing procedures onto `signing_construction` and `canonicalization`. Both are third-party filings that record provenance and promote nothing.
+`crosswalk/dns-aid-core.yaml` maps the dns-aid-core `SignatureStatus` values onto `signature_coverage` and `key_authority`. `crosswalk/ai-catalog.yaml` maps the AI Catalog signing procedures onto `signing_construction` and `canonicalization`. `crosswalk/draft-pei-opsawg-agentops-observability.yaml` maps the event model of that IETF draft onto `sequence_number` and records the integrity members it does not carry. All three are third-party filings that record provenance and promote nothing.
+
+OBS-5 of draft-mcw-opsawg-icon-requirements-02 asks that telemetry be tamper-evident against both alteration and omission of execution trajectories. A per-event hash meets the first half only. A log meets both when each record carries a `sequence_number` and the `receipt_chain_link` digest of the record before it, the stream ends in a `witnessed` `trajectory_head`, its `coverage_boundary` is `declared`, and every digest names its `canonicalization` and `hash_alg`.
