@@ -111,8 +111,29 @@ jobs:
           check: coverage
           document: packages/admission/python/vectors/coverage/cdx-1.6-baseline.json
           required: packages/admission/python/vectors/coverage/required-cyclonedx.json
+      - name: admit, a catalog whose attestation names its entry
+        id: admit-pass
+        uses: ./
+        with:
+          check: admit
+          rule-set: catalog-attestations
+          document: packages/admission/python/vectors/rules/catalog-attestations/examples/control.catalog.json
+          artifacts: |
+            https://tools.example.com/mcp/invoice-reader.json=packages/admission/python/vectors/rules/catalog-attestations/examples/invoice-reader.json
+            https://tools.example.com/trust/invoice-reader.intoto.json=packages/admission/python/vectors/rules/catalog-attestations/examples/invoice-reader.intoto.json
+      - name: admit, an attestation transplanted into another entry
+        id: admit-fail
+        continue-on-error: true
+        uses: ./
+        with:
+          check: admit
+          rule-set: catalog-attestations
+          document: packages/admission/python/vectors/rules/catalog-attestations/examples/transplant.catalog.json
+          artifacts: https://tools.example.com/trust/invoice-reader.scan.sarif=packages/admission/python/vectors/rules/catalog-attestations/examples/invoice-reader.scan.sarif
       - name: each call admitted or refused as it should
         env:
+          ADMIT_PASS: ${{ steps.admit-pass.outcome }}/${{ steps.admit-pass.outputs.result }}/${{ steps.admit-pass.outputs.refusals }}
+          ADMIT_FAIL: ${{ steps.admit-fail.outcome }}/${{ steps.admit-fail.outputs.result }}/${{ steps.admit-fail.outputs.refusals }}
           COVERAGE_PASS: ${{ steps.coverage-pass.outcome }}/${{ steps.coverage-pass.outputs.result }}/${{ steps.coverage-pass.outputs.refusals }}
           COVERAGE_FAIL: ${{ steps.coverage-fail.outcome }}/${{ steps.coverage-fail.outputs.result }}/${{ steps.coverage-fail.outputs.refusals }}
           DIGEST_PASS: ${{ steps.digest-pass.outcome }}/${{ steps.digest-pass.outputs.result }}/${{ steps.digest-pass.outputs.refusals }}
@@ -127,4 +148,6 @@ jobs:
           test "$POLICY_PASS" = "success/admitted/0"
           test "$POLICY_FAIL" = "failure/refused/1"
           test "$COVERAGE_PASS" = "success/admitted/0"
+          test "$ADMIT_PASS" = "success/admitted/0"
+          test "$ADMIT_FAIL" = "failure/refused/1"
           test "$COVERAGE_FAIL" = "failure/refused/4"
