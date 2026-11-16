@@ -46,6 +46,14 @@ sets `ensure_ascii=False`; both paths use Python key and number formatting.
 The fixture is a byte contract for the entry array. A TRACE record's signature,
 schema, and call count require their own checks.
 
+## A second generator
+
+`remint.mjs` re-mints `depthCases`, `noncharacterCases` and `preimageCases` from
+their definitions with no code shared with `scripts/gen-jcs-drift-vectors.py`,
+and `check.mjs` refuses to run when any member differs from the file, key order
+included. Two independent generators agreeing byte for byte is the evidence that
+the computed members say what their definitions say.
+
 ## Worked examples
 
 One member of each family, written from `cases.json` by the same generator that

@@ -1,8 +1,13 @@
 import { createHash } from "node:crypto";
 import { spawnSync } from "node:child_process";
 import { readFileSync } from "node:fs";
+import { remint } from "./remint.mjs";
 
 const cases = JSON.parse(readFileSync(new URL("./cases.json", import.meta.url)));
+// The computed families must come out the same from a second generator that
+// shares no code with the one that wrote them.
+const reminted = remint(cases);
+if (reminted.length) throw new Error(`second generator disagrees:\n${reminted.join("\n")}`);
 const args = process.argv.slice(2);
 let profile = "jcs";
 let command = null;
