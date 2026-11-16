@@ -127,13 +127,15 @@ def malformed(record: dict[str, Any]) -> bool:
     """Whether any field lacks the type the contract gives it."""
     budget = record.get("budget")
     depth = record.get("maxDepth")
-    lists = [record.get(key) for key in ("delegations", "acceptances", "ledger")]
+    delegations = record.get("delegations")
+    acceptances = record.get("acceptances")
+    ledger = record.get("ledger")
     if not (_is_name(record.get("principal")) and isinstance(budget, dict)
             and _is_name(budget.get("id")) and _is_count(budget.get("limit"))
-            and _is_count(depth) and depth >= 1
-            and all(isinstance(value, list) for value in lists)):
+            and isinstance(depth, int) and _is_count(depth) and depth >= 1
+            and isinstance(delegations, list) and isinstance(acceptances, list)
+            and isinstance(ledger, list)):
         return True
-    delegations, acceptances, ledger = lists
     return not (all(_grant_ok(g) for g in delegations)
                 and all(_acceptance_ok(a) for a in acceptances)
                 and all(_charge_ok(c) for c in ledger))
@@ -187,8 +189,10 @@ def retained(record: dict[str, Any]) -> dict[str, Any]:
         units: int | None = charged_units(record)
     except (KeyError, TypeError, AttributeError):
         units = None
-    ledger = record.get("ledger") if isinstance(record.get("ledger"), list) else []
-    budget = record.get("budget") if isinstance(record.get("budget"), dict) else {}
+    raw_ledger = record.get("ledger")
+    raw_budget = record.get("budget")
+    ledger: list[Any] = raw_ledger if isinstance(raw_ledger, list) else []
+    budget: dict[str, Any] = raw_budget if isinstance(raw_budget, dict) else {}
     return {
         "agents": sorted({str(item.get("agent")) for item in ledger if isinstance(item, dict)}),
         "budget": budget.get("id"),
