@@ -18,7 +18,7 @@ from agent_evidence_admission.issuer_pin import jwk_thumbprint
 
 OUT = pathlib.Path(__file__).with_name("issuer-pin-vectors.json")
 ISSUER = "https://example.okta.com/oauth2/default"
-OTHER = "https://example.us.auth0.com"
+OTHER = "https://login.microsoftonline.com/example/v2.0"
 KID = "signing"
 
 RSA = {"kty": "RSA", "e": "AQAB", "n": (
