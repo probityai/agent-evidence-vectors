@@ -1,6 +1,6 @@
 # Evaluation claim terms
 
-Name the rule that turns a record's inputs into its verdict, the outcomes of re-deriving that verdict, and the conditions under which a stated pass is empty, so a party that does not trust the producer can repeat the verdict instead of reading it. The [README](../README.md) is the short version of the repository; this page covers the `evaluation_claim` section, added in 0.10.0. Every term is `proposed` and lists no issuer, and none is canonical.
+Name the rule that turns a record's inputs into its verdict, the outcomes of re-deriving that verdict, and the conditions under which a stated pass is empty, so a party that does not trust the producer can repeat the verdict and never has to take it on trust. The [README](../README.md) is the short version of the repository; this page covers the `evaluation_claim` section, added in 0.10.0. Every term is `proposed` and lists no issuer, and none is canonical.
 
 ## The terms
 
@@ -29,12 +29,12 @@ Name the rule that turns a record's inputs into its verdict, the outcomes of re-
 | `check_outcome` | `pass`, `fail`, `not_evaluated` |
 | `vacuity_witness` | `witnessed`, `vacuous_pass`, `no_witness` |
 | `evidence_attribution` | `co_signed`, `single_signed`, `unattributed_evidence` |
-| `signer_distinctness` | `distinct`, `key_named_not_signing`, `one_key_two_ids`, `own_key_as_cosigner`, `one_authority_threshold` |
+| `signer_distinctness` | `distinct`, `key_named_not_signing`, `one_key_two_ids`, `own_key_as_cosigner`, `one_authority_threshold`, `below_threshold` |
 | `lifecycle_binding` | `satisfied`, `failure`, `missing`, `not_evaluated`, `indeterminate` |
 
 ## The first evaluator: payment-scope/v1
 
-`https://probityai.github.io/agent-evidence-vectors/evaluator/payment-scope/v1` judges one payment against the scope a principal granted. Inputs: the scope (`currency`, `amount_ceiling_minor`, `merchants`, `expires_at`, `actions`, `single_use`) and the payment (`currency`, `amount_minor`, `merchant`, `at`, `action`, `prior_uses`). Output: `within`, or `outside` with the first failing dimension in the fixed order currency, amount, merchant, expiry, action, single use. Amounts are integers in minor units, and a payment exactly at the ceiling is within. The reference implementation is `registry.payment_scope_v1`:
+`https://probityai.github.io/agent-evidence-vectors/evaluator/payment-scope/v1` judges one payment against the scope a principal granted. Inputs: the scope (`currency`, `amount_ceiling_minor`, `merchants`, `expires_at`, `actions`, `single_use`) and the payment (`currency`, `amount_minor`, `merchant`, `at`, `action`, `prior_uses`). Output: `within`, or `outside` with the first failing dimension in the fixed order currency, amount, merchant, expiry, action, single use. Amounts are integers in minor units, and a payment exactly at the ceiling is within. An input that is missing, of another type or out of range (a negative amount, a fraction, a boolean, a merchant list given as one string) makes the record malformed: `payment_scope_v1` raises `registry.MalformedInputs` and `asserted_verdict` refuses with `evaluator-inputs-malformed`, never re-deriving a verdict from it. The reference implementation is `registry.payment_scope_v1`:
 
 ```python
 from agent_evidence_vocabulary import registry
@@ -56,10 +56,12 @@ The `lifecycle_binding` profile reads a set of control, execution and decision r
 
 - group by (decision, instruction); every control in a group, from the issuing and the receiving side, is compared with every execution in it;
 - two records with one identity make the group `indeterminate`, whatever their order;
-- a group with no control or no execution is `missing`, and an execution that cites an instruction no control in the set covers is `not_evaluated`;
+- a group with no control, no execution or no copy of the decision record it cites is `missing`, and an execution that cites an instruction no control in the set covers is `not_evaluated`;
 - each digest is computed by the convention declared for its pointer (`raw` or a named `canonicalization`);
 - hash and signature pre-images carry a domain tag (format version, artifact type, hash or signature) from a closed registry, a line feed, then the canonical bytes; an unregistered tag fails closed;
 - the signature suite is the one the verifier-accepted key binding names, the binding is resolved from the record's producer, and a revocation snapshot is required: a record that does not authenticate is a `failure`, one whose binding is not active is `not_evaluated`;
+- the rules apply in that order (identity, uncovered execution, missing side, authentication, binding, digests) to every record of the group, the cited decision record included, so an unauthenticated decision is a `failure` even when another record is bound by an inactive key;
+- a record of any type other than control, execution or decision is refused, never skipped;
 - the group is `satisfied` only when every record authenticates under an active binding and every authorized digest equals every executed digest.
 
 The claim is "the authenticated execution report names the action the authenticated control authorized". It never says that the executed bytes were observed. `registry.lifecycle_binding(artifacts, active_bindings)` returns the state per group.

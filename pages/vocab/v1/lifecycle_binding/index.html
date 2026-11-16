@@ -57,7 +57,7 @@
    "rdfs:isDefinedBy": {
     "@id": "https://w3id.org/agent-evidence/vocab/v1/lifecycle_binding"
    },
-   "skos:definition": "The group lacks an authorizing record or an execution record.",
+   "skos:definition": "The group lacks an authorizing record, an execution record, or the decision record it cites.",
    "skos:inScheme": {
     "@id": "https://w3id.org/agent-evidence/vocab/v1/"
    },
@@ -116,7 +116,7 @@ th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-
 <ul>
 <li id="satisfied"><code>https://w3id.org/agent-evidence/vocab/v1/lifecycle_binding#satisfied</code>: Every artifact in the group is admitted, authenticated under an active key binding and unique by identity, and every authorized action digest equals every executed action digest.</li>
 <li id="failure"><code>https://w3id.org/agent-evidence/vocab/v1/lifecycle_binding#failure</code>: The authorized and executed digests differ among admitted, authenticated, unique, actively bound artifacts, an authorizing record disagrees with another authorizing record in the group, or an artifact in the group, or the decision it cites, does not authenticate (its signature fails, or its key is not the one its producer&#x27;s binding names).</li>
-<li id="missing"><code>https://w3id.org/agent-evidence/vocab/v1/lifecycle_binding#missing</code>: The group lacks an authorizing record or an execution record.</li>
+<li id="missing"><code>https://w3id.org/agent-evidence/vocab/v1/lifecycle_binding#missing</code>: The group lacks an authorizing record, an execution record, or the decision record it cites.</li>
 <li id="not_evaluated"><code>https://w3id.org/agent-evidence/vocab/v1/lifecycle_binding#not_evaluated</code>: An artifact needed for the comparison, or the decision it cites, is signed under a key binding that is not active in the supplied revocation snapshot, or the execution cites an instruction no authorization in the supplied set covers.</li>
 <li id="indeterminate"><code>https://w3id.org/agent-evidence/vocab/v1/lifecycle_binding#indeterminate</code>: Two artifacts in the group share one identity; no winner is chosen and nothing is compared.</li>
 </ul>

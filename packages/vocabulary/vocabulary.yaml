@@ -3113,7 +3113,8 @@ evaluation_claim:
       https://probityai.github.io/agent-evidence-vectors/evaluator/payment-scope/v1,
       which judges a payment against the scope a principal granted.
     check: >
-      A verifier refuses an evaluator value that is not an absolute https URI,
+      A verifier refuses an evaluator value that is not an absolute https URI
+      with a host (https:// alone is refused, never read as unknown),
       re-derives the verdict when it holds the named function, and returns
       evaluator_unknown (an indeterminate result) when it does not. It never
       substitutes a function it holds for the one the record names.
@@ -3145,8 +3146,10 @@ evaluation_claim:
       A verifier never reads the asserted verdict as an input to its own. It
       recomputes the verdict under the named evaluator from the recorded
       inputs, compares, and refuses on a difference even when the signature
-      and the key are valid. Without the evaluator it reports
-      evaluator_unknown and an indeterminate result.
+      and the key are valid. It refuses a record whose inputs the named
+      evaluator holds as malformed (missing, of another type, out of range)
+      and never re-derives a verdict from them. Without the evaluator it
+      reports evaluator_unknown and an indeterminate result.
     source_path: "the asserted verdict member and the evaluator member of a record"
     issuers_in_production: []
     promotion_trigger: "An independently maintained verifier that is not us re-derives asserted verdicts and refuses contradicted ones on real records, filing a crosswalk with evidence: emitted."
@@ -3204,7 +3207,10 @@ evaluation_claim:
     check: >
       A verifier reports every check the profile names, in the profile's
       order, refuses a report that lists a check as pass after a fail, and
-      refuses a report that omits a check the profile names.
+      refuses a report that omits a check the profile names. The report as a
+      whole is fail when a check failed, pass only when every check ran and
+      passed, and not_evaluated when none failed and one did not run: a
+      report of checks that did not run never reads as a pass.
     source_path: "the per-check list of a verifier's report"
     issuers_in_production: []
     promotion_trigger: "An independently maintained verifier that is not us reports checks after the first failure as not evaluated on real records and files a crosswalk with evidence: emitted."
@@ -3234,7 +3240,9 @@ evaluation_claim:
       same variant. A pass with a falsified witness is refused as
       vacuous_pass and the case is counted as not run. A pass with no witness
       is reported as no_witness and never counted toward coverage that the
-      case set claims to have exercised.
+      case set claims to have exercised. A failing result whose witness is
+      falsified is refused as contradictory: a property over an unreachable
+      guarded state has no trace that can violate it.
     source_path: "the witness member of a case in a case set, and the verifier's per-case report"
     issuers_in_production: []
     promotion_trigger: "An independently maintained formal-model or test case set that is not ours declares a witness per property and a verifier that is not ours refuses vacuous passes, filing a crosswalk with evidence: emitted."
@@ -3278,33 +3286,38 @@ evaluation_claim:
     status: proposed
     criticality: critical
     review_by: "2027-05-15"
-    values: [distinct, key_named_not_signing, one_key_two_ids, own_key_as_cosigner, one_authority_threshold]
+    values: [distinct, key_named_not_signing, one_key_two_ids, own_key_as_cosigner, one_authority_threshold, below_threshold]
     value_definitions:
       distinct: "Every signature the record requires verifies, under a different key, and the keys resolve to different authorities."
-      key_named_not_signing: "The record names a key as a signer, and no signature in it verifies under that key."
+      key_named_not_signing: "The record names a key as a signer, and no signature in it verifies under that key, including a signer named under an identifier another named signer already uses, whose one signature cannot verify under two keys."
       one_key_two_ids: "One key is listed under two key identifiers and counted twice toward a required number of signers."
       own_key_as_cosigner: "The issuer's own key is presented as an independent cosigner."
       one_authority_threshold: "A threshold of signers is met by keys that all resolve to one authority."
+      below_threshold: "Fewer distinct keys sign than the record requires, with no key counted twice: the count is not met at all."
     definition: >
       Whether the signers a record counts toward a required number are
       distinct, both as keys and as authorities. A threshold of signatures is
       worth what the number of independent authorities behind it is worth: two
       identifiers for one key, the issuer counted as its own cosigner, or a
       threshold met by keys of one authority each meet the count and none of
-      them meets the purpose. Applies to agent capability credentials,
+      them meets the purpose; a count that is simply short is a fifth
+      failure. Applies to agent capability credentials,
       threshold-signed receipts and any record that requires more than one
       signer.
     check: >
       A verifier counts a signer once per distinct key and once per distinct
       authority, refuses a record whose required count is met only by
-      counting a key or an authority twice, and refuses a named signer whose
-      signature is absent or does not verify.
+      counting a key or an authority twice, refuses a named signer whose
+      signature is absent or does not verify, refuses two named signers under
+      one identifier, and reports a count of distinct keys below the required
+      number as below_threshold.
     source_path: "the signatures, signer list and required-signer count of a record"
     issuers_in_production: []
     promotion_trigger: "An independently maintained verifier that is not us counts signers by distinct key and authority on real records and files a crosswalk with evidence: emitted."
     why_this_registry: >
-      Signer counts are checked by length far more often than by identity. The
-      four failure values are the ways a count is met without independence.
+      Signer counts are checked by length far more often than by identity. Four
+      failure values are the ways a count is met without independence; the
+      fifth keeps a short count from being reported as one of them.
 
   lifecycle_binding:
     status: proposed
@@ -3314,7 +3327,7 @@ evaluation_claim:
     value_definitions:
       satisfied: "Every artifact in the group is admitted, authenticated under an active key binding and unique by identity, and every authorized action digest equals every executed action digest."
       failure: "The authorized and executed digests differ among admitted, authenticated, unique, actively bound artifacts, an authorizing record disagrees with another authorizing record in the group, or an artifact in the group, or the decision it cites, does not authenticate (its signature fails, or its key is not the one its producer's binding names)."
-      missing: "The group lacks an authorizing record or an execution record."
+      missing: "The group lacks an authorizing record, an execution record, or the decision record it cites."
       not_evaluated: "An artifact needed for the comparison, or the decision it cites, is signed under a key binding that is not active in the supplied revocation snapshot, or the execution cites an instruction no authorization in the supplied set covers."
       indeterminate: "Two artifacts in the group share one identity; no winner is chosen and nothing is compared."
     definition: >
@@ -3338,11 +3351,13 @@ evaluation_claim:
     check: >
       A verifier groups by decision and instruction, refuses to choose between
       two artifacts with one identity (indeterminate, independent of order),
-      reports failure when any compared artifact or the decision it cites
-      does not authenticate, not_evaluated when one is bound by an inactive
-      key, reports missing
-      when a side is absent, and reports satisfied only when every pair in
-      the group matches. A grouping that compares the first authorization with
+      applies its rules in one order to every artifact of the group, the
+      cited decision record included: identity first, then an execution no
+      control covers (not_evaluated), then a missing control, execution or
+      decision record (missing), then authentication (failure), then an
+      inactive key binding (not_evaluated), then the digest comparison. It
+      reports satisfied only when every pair in the group matches, and
+      refuses an artifact of an unregistered type and never skips it. A grouping that compares the first authorization with
       the first execution, or that reads a keyless self-hash as
       authentication, is not this profile.
     source_path: "the verifier's report over a set of control and execution records"
@@ -3443,6 +3458,7 @@ evaluation_claim:
       maximum age in the future, which is a record that cannot exist yet.
     check: >
       A verifier refuses a value outside 0 to 2^53-1 before any arithmetic,
+      refuses a profile that lacks a bound the check needs (never a default),
       refuses a record whose issuance time is later than the check time plus
       the skew tolerance, accepts one exactly at that bound, and never uses
       the maximum age for the future bound.

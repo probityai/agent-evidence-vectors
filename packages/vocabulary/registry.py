@@ -455,18 +455,54 @@ def exit_status(decision: str) -> int:
 
 
 def check_outcomes(report: list[tuple[str, str]], profile: list[str]) -> Derived:
-    """Hold a per-check report to the profile's order: every check named once, nothing passes after a fail."""
+    """Hold a per-check report to the profile's order: every check named once, nothing passes after a fail.
+
+    The report derives fail when a check failed, pass only when every check ran and passed, and
+    not_evaluated when none failed and at least one did not run (its inputs were absent): a report whose
+    checks did not run never reads as a pass.
+    """
     term = "check_outcome"
     if [name for name, _ in report] != profile:
         return _refuse(term, "report-does-not-list-the-profile-in-order")
-    failed = False
+    failed = skipped = False
     for _, outcome in report:
         if outcome not in ("pass", "fail", "not_evaluated"):
             return _refuse(term, "outcome-not-registered")
         if failed and outcome != "not_evaluated":
             return _refuse(term, "check-after-a-failure-reported-as-run")
         failed = failed or outcome == "fail"
-    return Derived(term, "fail" if failed else "pass", False, "report follows the profile")
+        skipped = skipped or outcome == "not_evaluated"
+    if failed:
+        return Derived(term, "fail", False, "report follows the profile; a check failed")
+    if skipped:
+        return Derived(term, "not_evaluated", False, "report follows the profile; a check did not run")
+    return Derived(term, "pass", False, "report follows the profile; every check ran and passed")
+
+
+_ISO_4217 = re.compile(r"[A-Z]{3}")
+_SCOPE_TYPES = (("currency", "currency"), ("amount_ceiling_minor", "count"), ("merchants", "strings"),
+                ("expires_at", "count"), ("actions", "strings"), ("single_use", "bool"))
+_PAYMENT_TYPES = (("currency", "currency"), ("amount_minor", "count"), ("merchant", "string"),
+                  ("at", "count"), ("action", "string"), ("prior_uses", "count"))
+_TYPE_CHECKS = {
+    "currency": lambda v: isinstance(v, str) and _ISO_4217.fullmatch(v) is not None,
+    "count": _safe_count,
+    "string": lambda v: isinstance(v, str),
+    "strings": lambda v: isinstance(v, list) and all(isinstance(x, str) for x in v),
+    "bool": lambda v: isinstance(v, bool),
+}
+
+
+class MalformedInputs(ValueError):
+    """An evaluator input is missing, of another type or outside its range; the record is malformed."""
+
+
+def _require(obj, members: tuple, side: str) -> None:
+    if not isinstance(obj, dict):
+        raise MalformedInputs(f"{side} is not an object")
+    for name, kind in members:
+        if name not in obj or not _TYPE_CHECKS[kind](obj[name]):
+            raise MalformedInputs(f"{side}.{name} is missing, of another type or outside its range")
 
 
 def payment_scope_v1(scope: dict, payment: dict) -> tuple[str, str | None]:
@@ -474,15 +510,20 @@ def payment_scope_v1(scope: dict, payment: dict) -> tuple[str, str | None]:
 
     ``scope``: currency, amount_ceiling_minor (int), merchants (list), expires_at (int), actions (list),
     single_use (bool). ``payment``: currency, amount_minor (int), merchant, at (int), action, prior_uses
-    (int). Dimensions are checked in the fixed order currency, amount, merchant, expiry, action, single_use.
+    (int). Integers are 0 to 2^53-1 and never booleans, currencies are three uppercase letters, lists hold
+    strings only. Any input that is missing, of another type or outside its range raises MalformedInputs;
+    no default is filled. Dimensions are checked in the fixed order currency, amount, merchant, expiry,
+    action, single_use.
     """
+    _require(scope, _SCOPE_TYPES, "scope")
+    _require(payment, _PAYMENT_TYPES, "payment")
     failing = {
         "currency": payment["currency"] != scope["currency"],
         "amount": payment["amount_minor"] > scope["amount_ceiling_minor"],
         "merchant": payment["merchant"] not in scope["merchants"],
         "expiry": payment["at"] > scope["expires_at"],
         "action": payment["action"] not in scope["actions"],
-        "single_use": bool(scope["single_use"]) and payment["prior_uses"] > 0,
+        "single_use": scope["single_use"] and payment["prior_uses"] > 0,
     }
     for dimension in _SCOPE_DIMENSIONS:
         if failing[dimension]:
@@ -496,27 +537,51 @@ EVALUATORS = {
 }
 
 
+def _absolute_https(name: object) -> bool:
+    if not isinstance(name, str) or any(c.isspace() for c in name):
+        return False
+    parts = urlsplit(name)
+    return parts.scheme == "https" and bool(parts.hostname)
+
+
 def asserted_verdict(record: dict, evaluators: dict | None = None) -> Derived:
-    """Re-derive a record's asserted verdict under the evaluator it names; never read the assertion as input."""
+    """Re-derive a record's asserted verdict under the evaluator it names; never read the assertion as input.
+
+    A named evaluator must be an absolute https URI with a host. Inputs the named evaluator holds as
+    malformed (missing, of another type, out of range) refuse the record; they never re-derive a verdict.
+    """
     term = "asserted_verdict"
     known = EVALUATORS if evaluators is None else evaluators
     name = record.get("evaluator")
-    if name is not None and (not isinstance(name, str) or not name.startswith("https://")):
+    if name is not None and not _absolute_https(name):
         return _refuse(term, "evaluator-not-an-https-uri")
     if name not in known:
         return Derived(term, "evaluator_unknown", False, "no evaluator the verifier holds")
-    if known[name](record["inputs"]) == record.get("asserted"):
+    inputs = record.get("inputs")
+    if not isinstance(inputs, dict):
+        return _refuse(term, "evaluator-inputs-malformed")
+    try:
+        rederived = known[name](inputs)
+    except (MalformedInputs, KeyError, TypeError):
+        return _refuse(term, "evaluator-inputs-malformed")
+    if rederived == record.get("asserted"):
         return Derived(term, "rederived_agrees", False, "re-derived verdict equals the assertion")
     return Derived(term, "asserted_verdict_contradicted", False, "re-derived verdict differs")
 
 
 def vacuity_witness(passed: bool, witness: bool | None) -> Derived:
-    """Judge a property result with its reachability witness (None: no witness declared or run)."""
+    """Judge a property result with its reachability witness (None: no witness declared or run).
+
+    A failing property with a falsified witness is refused: a property over an unreachable guarded state
+    has no trace that can violate it, so the two results contradict each other.
+    """
     term = "vacuity_witness"
     if witness is None:
         return Derived(term, "no_witness", False, "no witness")
     if passed and not witness:
         return Derived(term, "vacuous_pass", True, "the guarded state is unreachable")
+    if not witness:
+        return _refuse(term, "witness-contradicts-a-failing-property")
     return Derived(term, "witnessed", False, "the guarded state is reachable")
 
 
@@ -524,15 +589,23 @@ def signer_distinctness(named: list[dict], signatures: dict, required: int, issu
     """Count signers by distinct key and distinct authority.
 
     ``named``: [{id, key, authority}]; ``signatures``: {id: verifies (bool)}; ``issuer_key``: the issuer's
-    own key, which never counts as a cosigner.
+    own key, which never counts as a cosigner. Two named signers under one id share one signature, so the
+    second is named and not signing. A count of distinct keys below ``required`` is one_key_two_ids when a
+    key was listed twice and below_threshold otherwise.
     """
     term = "signer_distinctness"
+    seen: set = set()
     for signer in named:
-        if not signatures.get(signer["id"]):
+        if signer["id"] in seen:
+            return Derived(term, "key_named_not_signing", True, f"{signer['id']} names two signers")
+        seen.add(signer["id"])
+        if signatures.get(signer["id"]) is not True:
             return Derived(term, "key_named_not_signing", True, f"{signer['id']} named and not signing")
     keys = [s["key"] for s in named]
-    if len(set(keys)) < len(keys) and len(set(keys)) < required:
-        return Derived(term, "one_key_two_ids", True, "one key counted twice")
+    if len(set(keys)) < required:
+        if len(set(keys)) < len(keys):
+            return Derived(term, "one_key_two_ids", True, "one key counted twice")
+        return Derived(term, "below_threshold", True, "fewer distinct signers than required")
     if issuer_key is not None and issuer_key in keys:
         return Derived(term, "own_key_as_cosigner", True, "the issuer's key counted as a cosigner")
     if len({s["authority"] for s in named}) < required:
@@ -540,15 +613,24 @@ def signer_distinctness(named: list[dict], signatures: dict, required: int, issu
     return Derived(term, "distinct", False, "distinct keys and authorities")
 
 
+_LIFECYCLE_KINDS = ("decision", "control", "execution")
+
+
 def _group_state(group: list[dict], active: frozenset[str]) -> str:
+    """The state of one (decision, instruction) group, decision records included."""
+    if any(a["kind"] not in _LIFECYCLE_KINDS for a in group):
+        raise MalformedInputs("an artifact kind is not decision, control or execution")
     ids = [a["id"] for a in group]
     if len(set(ids)) < len(ids):
         return "indeterminate"
+    decisions = [a for a in group if a["kind"] == "decision"]
     authorize = [a for a in group if a["kind"] == "control"]
     execute = [a for a in group if a["kind"] == "execution"]
-    if not authorize or not execute:
+    if not authorize:
+        return "not_evaluated" if execute else "missing"
+    if not execute or not decisions:
         return "missing"
-    if any(not a["authenticated"] for a in group):
+    if any(a["authenticated"] is not True for a in group):
         return "failure"
     if any(a["binding"] not in active for a in group):
         return "not_evaluated"
@@ -559,41 +641,39 @@ def _group_state(group: list[dict], active: frozenset[str]) -> str:
 def lifecycle_binding(artifacts: list[dict], active_bindings: frozenset[str]) -> dict:
     """The lifecycle-binding state per (decision, instruction) group.
 
-    Each artifact is {id, kind ('control' or 'execution'), decision, instruction, digest, authenticated
-    (bool: the signature verifies under the key its producer's binding names), binding}. The decision
-    record each group cites is an artifact of kind 'decision' with the same decision and instruction; it
-    must be authenticated under an active binding too. An artifact that is not authenticated is a failure
-    (it claims a binding it does not have); one whose binding is not active is not_evaluated. An execution
-    whose instruction no control in the set covers is not_evaluated. Returns {(decision, instruction): state}.
+    Each artifact is {id, kind ('decision', 'control' or 'execution'), decision, instruction, digest,
+    authenticated (bool: the signature verifies under the key its producer's binding names), binding}. Any
+    other kind raises MalformedInputs: an unregistered artifact type fails closed. The rules apply in this
+    order to every artifact of the group, the cited decision record included: two artifacts with one id
+    give indeterminate; an execution no control covers gives not_evaluated; a group without a control, an
+    execution or the decision record it cites is missing; an artifact that does not authenticate gives
+    failure; one bound by a binding that is not active gives not_evaluated; otherwise every control digest
+    must equal every execution digest. Returns {(decision, instruction): state}.
     """
     groups: dict[tuple, list[dict]] = {}
     for artifact in artifacts:
         groups.setdefault((artifact["decision"], artifact["instruction"]), []).append(artifact)
-    states = {}
-    for key, group in groups.items():
-        decisions = [a for a in group if a["kind"] == "decision"]
-        members = [a for a in group if a["kind"] != "decision"]
-        state = _group_state(members, active_bindings)
-        if state == "missing" and any(a["kind"] == "execution" for a in members):
-            state = "not_evaluated"
-        if state == "satisfied" and any(not d["authenticated"] for d in decisions):
-            state = "failure"
-        elif state == "satisfied" and any(d["binding"] not in active_bindings for d in decisions):
-            state = "not_evaluated"
-        states[key] = state
-    return states
+    return {key: _group_state(group, active_bindings) for key, group in groups.items()}
+
+
+_TIME_PAST_AND_FUTURE = ("max_age", "uncertainty", "clock_skew_tolerance")
+_TIME_ANCHOR = ("anchor_within", "block_time_allowance")
 
 
 def time_bounds(issued_at: int, check_time: int, anchor_time: int | None, profile: dict) -> Derived:
     """Asymmetric freshness and the late anchor bound, with every input range-checked before arithmetic.
 
-    ``profile``: max_age, uncertainty, clock_skew_tolerance, anchor_within, block_time_allowance (seconds).
-    Past bound: max_age plus uncertainty. Future bound: clock_skew_tolerance only. Anchor: at most
-    anchor_within plus block_time_allowance after issuance. Every bound admits equality.
+    ``profile``: max_age, uncertainty, clock_skew_tolerance, and, when an anchor time is given,
+    anchor_within and block_time_allowance (seconds). A profile missing a member the check needs is refused,
+    never defaulted. Past bound: max_age plus uncertainty. Future bound: clock_skew_tolerance only. Anchor:
+    at most anchor_within plus block_time_allowance after issuance. Every bound admits equality.
     """
     term = "clock_skew_tolerance"
+    needed = _TIME_PAST_AND_FUTURE + (_TIME_ANCHOR if anchor_time is not None else ())
+    if any(name not in profile for name in needed):
+        return _refuse(term, "time-profile-member-missing")
     values = [issued_at, check_time, *(v for v in [anchor_time] if v is not None), *profile.values()]
-    if any(isinstance(v, bool) or not isinstance(v, int) or not 0 <= v < _SAFE for v in values):
+    if not all(_safe_count(v) for v in values):
         return _refuse(term, "time-member-outside-the-safe-range")
     if issued_at > check_time + profile["clock_skew_tolerance"]:
         return _refuse(term, "issued-in-the-future")

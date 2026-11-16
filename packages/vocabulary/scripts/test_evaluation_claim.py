@@ -171,6 +171,21 @@ _PAYMENTS = (
     ({"prior_uses": 1}, ("outside", "single_use")),
 )
 
+#: (scope changes, payment changes): each makes the record malformed, so the evaluator raises
+#: MalformedInputs and returns no verdict. Every one of these returned "within" before.
+_MALFORMED = (
+    ({}, {"amount_minor": -500}),
+    ({}, {"amount_minor": 9.99}),
+    ({}, {"amount_minor": True}),
+    ({}, {"prior_uses": -1}),
+    ({"merchants": "m-10"}, {}),
+    ({"actions": "pay-later"}, {}),
+    ({"single_use": 0}, {"prior_uses": 3}),
+    ({"currency": "usd"}, {"currency": "usd"}),
+    ({"expires_at": 2 ** 53}, {}),
+    ({}, {"merchant": None}),
+)
+
 #: (record, expected asserted_verdict value or refusal reason)
 _ASSERTED = (
     ({"evaluator": _EVAL, "inputs": {"scope": _SCOPE, "payment": _PAY}, "asserted": "within"}, "rederived_agrees"),
@@ -182,6 +197,11 @@ _ASSERTED = (
     ({"evaluator": "https://example.invalid/evaluator/other/v1", "inputs": {}, "asserted": "within"},
      "evaluator_unknown"),
     ({"evaluator": "http://example.invalid/e", "inputs": {}, "asserted": "within"}, "evaluator-not-an-https-uri"),
+    ({"evaluator": "https://", "inputs": {}, "asserted": "within"}, "evaluator-not-an-https-uri"),
+    ({"evaluator": _EVAL, "inputs": {"scope": _SCOPE, "payment": {**_PAY, "amount_minor": -500}},
+      "asserted": "within"}, "evaluator-inputs-malformed"),
+    ({"evaluator": _EVAL, "asserted": "within"}, "evaluator-inputs-malformed"),
+    ({"evaluator": _EVAL, "inputs": {"scope": _SCOPE}, "asserted": "within"}, "evaluator-inputs-malformed"),
 )
 
 #: (per-check results, expected decision, expected exit status)
@@ -199,12 +219,15 @@ _REPORTS = (
     ([("parse", "pass"), ("signature", "fail"), ("key", "not_evaluated"), ("scope", "not_evaluated")], "fail"),
     ([("parse", "pass"), ("signature", "fail"), ("key", "pass"), ("scope", "not_evaluated")],
      "check-after-a-failure-reported-as-run"),
+    ([("parse", "not_evaluated"), ("signature", "not_evaluated"), ("key", "not_evaluated"),
+      ("scope", "not_evaluated")], "not_evaluated"),
+    ([("parse", "pass"), ("signature", "pass"), ("key", "not_evaluated"), ("scope", "pass")], "not_evaluated"),
     ([("parse", "pass"), ("signature", "pass")], "report-does-not-list-the-profile-in-order"),
 )
 
 #: (passed, witness, expected value)
 _VACUITY = ((True, True, "witnessed"), (True, False, "vacuous_pass"), (True, None, "no_witness"),
-            (False, True, "witnessed"))
+            (False, True, "witnessed"), (False, False, None))
 
 _A = {"id": "a", "key": "ka", "authority": "org-a"}
 _B = {"id": "b", "key": "kb", "authority": "org-b"}
@@ -215,6 +238,9 @@ _SIGNERS = (
     ([_A, {**_A, "id": "a2"}], {"a": True, "a2": True}, 2, None, "one_key_two_ids"),
     ([_A, _B], {"a": True, "b": True}, 2, "kb", "own_key_as_cosigner"),
     ([_A, {**_B, "authority": "org-a"}], {"a": True, "b": True}, 2, None, "one_authority_threshold"),
+    ([_A, {**_B, "id": "a"}], {"a": True}, 2, None, "key_named_not_signing"),
+    ([_A], {"a": True}, 2, None, "below_threshold"),
+    ([_A, _B], {"a": True, "b": "yes"}, 2, None, "key_named_not_signing"),
 )
 
 
@@ -245,6 +271,16 @@ _LIFECYCLE = (
      "i1", "failure"),
     ("missing control", [_DEC, _art("e1", "execution", "i1", "X")], "i1", "not_evaluated"),
     ("missing execution", [_DEC, _art("c1", "control", "i1", "X")], "i1", "missing"),
+    ("V9 no decision record", [_art("c1", "control", "i1", "X"), _art("e1", "execution", "i1", "X")],
+     "i1", "missing"),
+    ("V10 decision unauthenticated, member inactive",
+     [_art("dec", "decision", "i1", "-", auth=False), _art("c1", "control", "i1", "X", binding="b-revoked"),
+      _art("e1", "execution", "i1", "X")], "i1", "failure"),
+    ("V11 two decision records with one identity",
+     [_DEC, _art("dec", "decision", "i1", "Z"), _art("c1", "control", "i1", "X"),
+      _art("e1", "execution", "i1", "X")], "i1", "indeterminate"),
+    ("V12 decision under a revoked binding", [_art("dec", "decision", "i1", "-", binding="b-revoked"),
+     _art("c1", "control", "i1", "X"), _art("e1", "execution", "i1", "X")], "i1", "not_evaluated"),
 )
 
 _TIME = {"max_age": 3600, "uncertainty": 0, "clock_skew_tolerance": 300, "anchor_within": 600,
@@ -331,8 +367,25 @@ def _check_derivations(registry) -> tuple[list[str], int]:
         got = _label(registry.time_bounds(issued, now, anchor, _TIME))
         if got != expected:
             failures.append(f"time_bounds({issued}, {now}, {anchor}) gave {got!r}, expected {expected!r}")
+    for scope_change, pay_change in _MALFORMED:
+        try:
+            got = registry.payment_scope_v1({**_SCOPE, **scope_change}, {**_PAY, **pay_change})
+        except registry.MalformedInputs:
+            continue
+        failures.append(f"payment_scope_v1 with {scope_change} {pay_change} gave {got}, expected malformed")
+    unregistered = [_DEC, _art("c1", "control", "i1", "X"), _art("e1", "execution", "i1", "X"),
+                    _art("e2", "execution_report", "i1", "Y")]
+    try:
+        got = registry.lifecycle_binding(unregistered, _ACTIVE)
+        failures.append(f"lifecycle_binding skipped an unregistered artifact kind and gave {got}")
+    except registry.MalformedInputs:
+        pass
+    partial = {k: v for k, v in _TIME.items() if k != "anchor_within"}
+    got = _label(registry.time_bounds(10000, 10000, 10500, partial))
+    if got != "time-profile-member-missing":
+        failures.append(f"time_bounds with no anchor_within gave {got!r}, expected a refusal")
     failures.extend(_lifecycle_mutants(registry))
-    count = (len(_PAYMENTS) + len(_ASSERTED) + len(_DECISIONS) + len(_REPORTS) + len(_VACUITY)
+    count = (len(_PAYMENTS) + len(_MALFORMED) + 2 + len(_ASSERTED) + len(_DECISIONS) + len(_REPORTS) + len(_VACUITY)
              + len(_SIGNERS) + len(_LIFECYCLE) + len(_TIMES) + 3)
     return failures, count
 

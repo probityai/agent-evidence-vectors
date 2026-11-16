@@ -1,6 +1,6 @@
 {
   "source": "vocabulary.yaml",
-  "source_sha256": "88245d17506d234fa3797d98999102b8329872991d7e6fb54fc42c16215efd78",
+  "source_sha256": "4e369c5b55a0f72dde34266eb759c226f2ce5feeedd0b3962490244694568c3a",
   "term_uri_base": "https://w3id.org/agent-evidence/vocab/v1/",
   "terms": {
     "acceptance_observed": {
@@ -700,7 +700,7 @@
       "value_definitions": {
         "failure": "The authorized and executed digests differ among admitted, authenticated, unique, actively bound artifacts, an authorizing record disagrees with another authorizing record in the group, or an artifact in the group, or the decision it cites, does not authenticate (its signature fails, or its key is not the one its producer's binding names).",
         "indeterminate": "Two artifacts in the group share one identity; no winner is chosen and nothing is compared.",
-        "missing": "The group lacks an authorizing record or an execution record.",
+        "missing": "The group lacks an authorizing record, an execution record, or the decision record it cites.",
         "not_evaluated": "An artifact needed for the comparison, or the decision it cites, is signed under a key binding that is not active in the supplied revocation snapshot, or the execution cites an instruction no authorization in the supplied set covers.",
         "satisfied": "Every artifact in the group is admitted, authenticated under an active key binding and unique by identity, and every authorized action digest equals every executed action digest."
       },
@@ -1125,12 +1125,13 @@
     },
     "signer_distinctness": {
       "criticality": "critical",
-      "definition": "Whether the signers a record counts toward a required number are distinct, both as keys and as authorities. A threshold of signatures is worth what the number of independent authorities behind it is worth: two identifiers for one key, the issuer counted as its own cosigner, or a threshold met by keys of one authority each meet the count and none of them meets the purpose. Applies to agent capability credentials, threshold-signed receipts and any record that requires more than one signer.",
+      "definition": "Whether the signers a record counts toward a required number are distinct, both as keys and as authorities. A threshold of signatures is worth what the number of independent authorities behind it is worth: two identifiers for one key, the issuer counted as its own cosigner, or a threshold met by keys of one authority each meet the count and none of them meets the purpose; a count that is simply short is a fifth failure. Applies to agent capability credentials, threshold-signed receipts and any record that requires more than one signer.",
       "section": "evaluation_claim",
       "uri": "https://w3id.org/agent-evidence/vocab/v1/signer_distinctness",
       "value_definitions": {
+        "below_threshold": "Fewer distinct keys sign than the record requires, with no key counted twice: the count is not met at all.",
         "distinct": "Every signature the record requires verifies, under a different key, and the keys resolve to different authorities.",
-        "key_named_not_signing": "The record names a key as a signer, and no signature in it verifies under that key.",
+        "key_named_not_signing": "The record names a key as a signer, and no signature in it verifies under that key, including a signer named under an identifier another named signer already uses, whose one signature cannot verify under two keys.",
         "one_authority_threshold": "A threshold of signers is met by keys that all resolve to one authority.",
         "one_key_two_ids": "One key is listed under two key identifiers and counted twice toward a required number of signers.",
         "own_key_as_cosigner": "The issuer's own key is presented as an independent cosigner."
@@ -1140,7 +1141,8 @@
         "key_named_not_signing",
         "one_key_two_ids",
         "own_key_as_cosigner",
-        "one_authority_threshold"
+        "one_authority_threshold",
+        "below_threshold"
       ]
     },
     "signing_construction": {

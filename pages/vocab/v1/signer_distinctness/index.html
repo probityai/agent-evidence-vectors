@@ -17,7 +17,7 @@
   {
    "@id": "https://w3id.org/agent-evidence/vocab/v1/signer_distinctness",
    "@type": "skos:Concept",
-   "skos:definition": "Whether the signers a record counts toward a required number are distinct, both as keys and as authorities. A threshold of signatures is worth what the number of independent authorities behind it is worth: two identifiers for one key, the issuer counted as its own cosigner, or a threshold met by keys of one authority each meet the count and none of them meets the purpose. Applies to agent capability credentials, threshold-signed receipts and any record that requires more than one signer.",
+   "skos:definition": "Whether the signers a record counts toward a required number are distinct, both as keys and as authorities. A threshold of signatures is worth what the number of independent authorities behind it is worth: two identifiers for one key, the issuer counted as its own cosigner, or a threshold met by keys of one authority each meet the count and none of them meets the purpose; a count that is simply short is a fifth failure. Applies to agent capability credentials, threshold-signed receipts and any record that requires more than one signer.",
    "skos:inScheme": {
     "@id": "https://w3id.org/agent-evidence/vocab/v1/"
    },
@@ -45,7 +45,7 @@
    "rdfs:isDefinedBy": {
     "@id": "https://w3id.org/agent-evidence/vocab/v1/signer_distinctness"
    },
-   "skos:definition": "The record names a key as a signer, and no signature in it verifies under that key.",
+   "skos:definition": "The record names a key as a signer, and no signature in it verifies under that key, including a signer named under an identifier another named signer already uses, whose one signature cannot verify under two keys.",
    "skos:inScheme": {
     "@id": "https://w3id.org/agent-evidence/vocab/v1/"
    },
@@ -86,6 +86,18 @@
     "@id": "https://w3id.org/agent-evidence/vocab/v1/"
    },
    "skos:notation": "one_authority_threshold"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/signer_distinctness#below_threshold",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/signer_distinctness"
+   },
+   "skos:definition": "Fewer distinct keys sign than the record requires, with no key counted twice: the count is not met at all.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "below_threshold"
   }
  ]
 }
@@ -111,14 +123,15 @@ th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-
 <h1><code>signer_distinctness</code></h1>
 <p>Term URI: <a href="https://w3id.org/agent-evidence/vocab/v1/signer_distinctness">https://w3id.org/agent-evidence/vocab/v1/signer_distinctness</a></p>
 <p>Section: <code>evaluation_claim</code>. Criticality: <code>critical</code>.</p>
-<p>Whether the signers a record counts toward a required number are distinct, both as keys and as authorities. A threshold of signatures is worth what the number of independent authorities behind it is worth: two identifiers for one key, the issuer counted as its own cosigner, or a threshold met by keys of one authority each meet the count and none of them meets the purpose. Applies to agent capability credentials, threshold-signed receipts and any record that requires more than one signer.</p>
+<p>Whether the signers a record counts toward a required number are distinct, both as keys and as authorities. A threshold of signatures is worth what the number of independent authorities behind it is worth: two identifiers for one key, the issuer counted as its own cosigner, or a threshold met by keys of one authority each meet the count and none of them meets the purpose; a count that is simply short is a fifth failure. Applies to agent capability credentials, threshold-signed receipts and any record that requires more than one signer.</p>
 <h2>Registered values</h2>
 <ul>
 <li id="distinct"><code>https://w3id.org/agent-evidence/vocab/v1/signer_distinctness#distinct</code>: Every signature the record requires verifies, under a different key, and the keys resolve to different authorities.</li>
-<li id="key_named_not_signing"><code>https://w3id.org/agent-evidence/vocab/v1/signer_distinctness#key_named_not_signing</code>: The record names a key as a signer, and no signature in it verifies under that key.</li>
+<li id="key_named_not_signing"><code>https://w3id.org/agent-evidence/vocab/v1/signer_distinctness#key_named_not_signing</code>: The record names a key as a signer, and no signature in it verifies under that key, including a signer named under an identifier another named signer already uses, whose one signature cannot verify under two keys.</li>
 <li id="one_key_two_ids"><code>https://w3id.org/agent-evidence/vocab/v1/signer_distinctness#one_key_two_ids</code>: One key is listed under two key identifiers and counted twice toward a required number of signers.</li>
 <li id="own_key_as_cosigner"><code>https://w3id.org/agent-evidence/vocab/v1/signer_distinctness#own_key_as_cosigner</code>: The issuer&#x27;s own key is presented as an independent cosigner.</li>
 <li id="one_authority_threshold"><code>https://w3id.org/agent-evidence/vocab/v1/signer_distinctness#one_authority_threshold</code>: A threshold of signers is met by keys that all resolve to one authority.</li>
+<li id="below_threshold"><code>https://w3id.org/agent-evidence/vocab/v1/signer_distinctness#below_threshold</code>: Fewer distinct keys sign than the record requires, with no key counted twice: the count is not met at all.</li>
 </ul>
 </main>
 <footer><div class="shell">Generated from <a href="https://github.com/probityai/agent-evidence-vectors/blob/main/packages/vocabulary/vocabulary.yaml">vocabulary.yaml</a>. This page describes the current registry. A record is read against the registry its registryDigest names, named on <a href="https://probityai.github.io/agent-evidence/vocab/v1/">the term listing</a>. The term URI does not change once a signed record carries it.</div></footer>
