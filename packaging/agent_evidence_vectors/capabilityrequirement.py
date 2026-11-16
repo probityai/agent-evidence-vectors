@@ -288,8 +288,8 @@ def _value(rr: Record, run: Record, threshold: dict[str, Any]) -> int | None:
 
 def _meets(threshold: dict[str, Any], value: int) -> bool:
     if threshold["comparator"] == "gte":
-        return value >= threshold["value"]
-    return value <= threshold["value"]
+        return bool(value >= threshold["value"])
+    return bool(value <= threshold["value"])
 
 
 def behaviour(rr: Record, run: Record) -> str:
@@ -335,7 +335,7 @@ def _runs(record: Record) -> list[Record]:
 
 
 def _rr(record: Record) -> Record:
-    return record if record["kind"] == "requirement" else record["requirementRecord"]  # type: ignore[no-any-return]
+    return record if record["kind"] == "requirement" else record["requirementRecord"]
 
 
 def _identity_overclaimed(record: Record) -> bool:
@@ -357,7 +357,10 @@ def _check_table(record: Record) -> dict[str, Callable[[], bool]]:
         table_rr[name] = (lambda failing=failing: kind == "requirement"  # type: ignore[misc]
                           and bool(failing(record)))
     runs_kind = kind in ("endpoint-report", "drift")
-    digest = lambda: requirement_digest(_requirement(_rr(record)))  # noqa: E731
+
+    def digest() -> str:
+        return requirement_digest(_requirement(_rr(record)))
+
     return {
         "contract_id_missing": lambda: "contractId" not in record,
         "contract_id_unknown": lambda: record.get("contractId", CONTRACT_ID) != CONTRACT_ID,
