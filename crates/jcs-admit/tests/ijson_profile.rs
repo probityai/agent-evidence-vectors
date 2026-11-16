@@ -242,14 +242,20 @@ fn a_fraction_that_rounds_past_the_bound_is_refused() {
         "1.00000000000000001e16",
     ] {
         assert!(
-            matches!(admit_ijson(token.as_bytes()), Err(Error::UnsafeInteger { .. })),
+            matches!(
+                admit_ijson(token.as_bytes()),
+                Err(Error::UnsafeInteger { .. })
+            ),
             "{token}"
         );
         // RFC 8785 as written still admits and rounds it.
         assert!(admit(token.as_bytes()).is_ok(), "{token}");
     }
     // Rounds down into the safe range: admitted, and the output is safe.
-    assert_eq!(admit_ijson(b"9007199254740991.4").unwrap(), b"9007199254740991");
+    assert_eq!(
+        admit_ijson(b"9007199254740991.4").unwrap(),
+        b"9007199254740991"
+    );
 }
 
 /// Whatever the profile admits, it admits again unchanged, and reports canonical.

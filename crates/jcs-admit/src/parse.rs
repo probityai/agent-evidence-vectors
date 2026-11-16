@@ -275,14 +275,17 @@ impl<'a> Parser<'a> {
                 }
                 0x1_0000 + ((unit - 0xD800) << 10) + (low - 0xDC00)
             }
-            0xDC00..=0xDFFF => return Err(self.refuse_string(start, "unpaired low surrogate escape")),
+            0xDC00..=0xDFFF => {
+                return Err(self.refuse_string(start, "unpaired low surrogate escape"))
+            }
             other => other,
         };
         if self.opts.wants_noncharacter_check() && is_noncharacter(code) {
             return Err(self.refuse_string(start, NONCHARACTER));
         }
-        let ch = char::from_u32(code)
-            .ok_or_else(|| self.refuse_string(start, "escape does not name a Unicode scalar value"))?;
+        let ch = char::from_u32(code).ok_or_else(|| {
+            self.refuse_string(start, "escape does not name a Unicode scalar value")
+        })?;
         out.push(ch);
         Ok(())
     }

@@ -86,7 +86,10 @@ fn an_integer_outside_the_ijson_range_is_rewritten_or_refused_by_profile() {
     ] {
         assert_eq!(canonical(token.as_bytes()), nearest);
         assert!(
-            matches!(admit_ijson(token.as_bytes()), Err(Error::UnsafeInteger { .. })),
+            matches!(
+                admit_ijson(token.as_bytes()),
+                Err(Error::UnsafeInteger { .. })
+            ),
             "{token}"
         );
     }
