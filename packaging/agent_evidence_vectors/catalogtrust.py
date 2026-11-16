@@ -582,172 +582,251 @@ def _lenient_jws(parts: list[str]) -> tuple[dict[str, Any], bytes]:
     return header, signature
 
 
-def _judge(case: Path, skip: frozenset[str]) -> str:  # noqa: C901 - one ordered check list
-    def fail(code: str) -> None:
-        if code not in skip:
+def _judge(case: Path, skip: frozenset[str]) -> str:
+    """The ordered check list of the profile; the first check that fails is the reason."""
+    read = _Read(case, skip)
+    read.load()
+    read.signature_object()
+    read.read_header()
+    read.signer()
+    read.select_key()
+    read.signed_bytes()
+    if read.construction == SNAPSHOT:
+        read.times(read.catalog)
+        return PASS_REASON[read.construction]
+    read.subject()
+    read.artifact()
+    read.origin()
+    _attestations(read.construction, case, read.obj, read.entry, read.context, read.documents,
+                  skip)
+    read.publisher_rule()
+    read.times(read.obj)
+    return PASS_REASON[read.construction]
+
+
+class _Read:
+    """One case being judged: each method applies a run of consecutive checks."""
+
+    def __init__(self, case: Path, skip: frozenset[str]) -> None:
+        self.case, self.skip = case, skip
+        self.context: dict[str, Any] = {}
+        self.construction = ""
+        self.entry_index = self.manifest_index = 0
+        self.catalog: dict[str, Any] = {}
+        self.documents: dict[str, Any] = {}
+        self.obj: dict[str, Any] = {}
+        self.entry: dict[str, Any] = {}
+        self.parts: list[str] = []
+        self.header_value: dict[str, Any] = {}
+        self.signature = b""
+        self.alg: Any = None
+        self.identity: Any = None
+        self.kid: Any = None
+        self.key_alg = "none"
+        self.public_key: Any = None
+        self.artifact_bytes: bytes | None = None
+        self.publisher_domain: str | None = None
+
+    def fail(self, code: str) -> None:
+        if code not in self.skip:
             raise Refused(code)
 
-    context = json.loads((case / "context.json").read_text(encoding="utf-8"))
-    construction = context.get("construction")
-    if construction not in CONSTRUCTIONS:
-        raise Refused("construction_unknown")
-    if context.get("role") not in ROLES:
-        raise Refused("role_unknown")
-    entry_index, manifest_index = context.get("entry", 0), context.get("manifest", 0)
-    raw_catalog = (case / "catalog.json").read_bytes()
-    raw_documents = (case / "did-documents.json").read_bytes()
-    try:
-        catalog, documents = strict_loads(raw_catalog), strict_loads(raw_documents)
-    except Duplicate:
-        fail("duplicate_member")
-        catalog, documents = json.loads(raw_catalog), json.loads(raw_documents)
-    except (ValueError, UnicodeDecodeError) as exc:
-        raise Refused("json_invalid") from exc
-    if not isinstance(catalog, dict) or not isinstance(documents, dict):
-        raise Refused("json_invalid")
-    found = signed_object(construction, catalog, entry_index, manifest_index)
-    if found is None or not isinstance(jws_of(construction, found), str):
-        raise Refused("signature_missing")
-    obj: dict[str, Any] = found
-    jws: str = jws_of(construction, obj)
-    parts = jws.split(".")
-    try:
-        if len(parts) != 3 or parts[1] != "":
-            raise ValueError("not detached compact serialization")
-        header = strict_loads(b64url_decode(parts[0]))
-        signature = b64url_decode(parts[2])
-        if not isinstance(header, dict):
-            raise ValueError("header is not an object")
-    except (ValueError, UnicodeDecodeError) as exc:
-        if "jws_malformed" not in skip or len(parts) != 3:
-            raise Refused("jws_malformed") from exc
-        header, signature = _lenient_jws(parts)
-    if "b64" in header and not isinstance(header["b64"], bool):
-        fail("jws_malformed")  # RFC 7797 section 3: the b64 value is a boolean
-    if construction in TYP and header.get("typ") != TYP[construction]:
-        fail("typ_missing_or_mismatched")
-    alg = header.get("alg")
-    if alg not in ALGS[construction]:
-        fail("alg_not_allowed_for_profile")
-    if any(name in header for name in KEY_SOURCES):
-        fail("key_source_in_header")
-    if construction not in ARD_SHAPED and "b64" in header:
-        fail("b64_forbidden_for_profile")
-    crit = header.get("crit")
-    if crit is not None and (not isinstance(crit, list) or not crit
-                             or any(name != "b64" or name not in header for name in crit)):
-        fail("jws_crit_unsupported")
-    if "b64" in header and not (isinstance(crit, list) and "b64" in crit):
-        fail("b64_without_crit")
-    identity = identity_of(construction, obj)
-    if construction not in ARD_SHAPED:
-        # AI Catalog "Profile Selection": the named procedure, never one inferred.
-        if obj["signature"].get("profile") != SIGNER_PROFILE:
-            fail("profile_unsupported")
-        if not isinstance(identity, str) or not _ROOT_DID_WEB.fullmatch(identity) \
-                or _IPV4.fullmatch(identity):
-            fail("signer_not_root_did_web")
-    kid = header.get("kid")
-    kid_ok = (isinstance(kid, str) and isinstance(identity, str)
-              and re.fullmatch(re.escape(identity) + "#" + _FRAGMENT, kid) is not None)
-    if not kid_ok:
-        fail("kid_not_under_identity")
-    document = documents.get(identity) if isinstance(identity, str) else None
-    if not isinstance(document, dict) or document.get("id") != identity:
-        fail("did_document_not_identity")
-    methods, assertion = _methods(document if isinstance(document, dict) else {})
-    selected = _selected(methods, kid)
-    if not selected:
-        fail("kid_not_in_did_document")
-    if len(selected) > 1:
-        fail("verification_method_ambiguous")  # exactly one method has the kid as its id
-    if kid not in assertion:
-        fail("key_not_assertion_method")
-    method = selected[-1] if selected else {}
-    if construction not in ARD_SHAPED and method.get("controller") != identity:
-        fail("method_controller_mismatch")
-    key_alg, key = _public_key(method)
-    if _jwk_fault(method, alg):
-        fail("jwk_not_signing_key")
-    if key_alg != alg:
-        fail("alg_key_mismatch")
-    signed = payload(construction, catalog, entry_index, manifest_index)
-    try:
-        _numbers_first(signed)
-    except Refused:
-        fail("number_not_interoperable")
-    try:
-        body = canonical(signed)
-    except Refused as refusal:
-        fail(str(refusal.args[0]) if refusal.args[0] != "number_not_interoperable"
-             else "no_canonical_form")
-        body = json.dumps(signed, sort_keys=True).encode("utf-8", "surrogatepass")
-    unencoded = header.get("b64") is False
-    message = parts[0].encode() + b"." + (body if unencoded else b64url(body).encode())
-    if key is None or key_alg != alg or not verify_signature(key_alg, key, message, signature):
-        fail("signature_invalid")
-    if construction == SNAPSHOT:
-        _times(construction, catalog, context, fail)
-        return PASS_REASON[construction]
-    entry = catalog["entries"][entry_index]
-    if construction == AIC and obj.get("contributor") != identity:
-        fail("signer_not_contributor")
-    subject = obj.get("subject")
-    if not isinstance(subject, dict):
-        fail("subject_missing")
-        subject = {}
-    for member in ("identifier", "type"):
-        # Both are required strings on the entry (draft section 3.1, AI Catalog entry).
-        if not isinstance(entry.get(member), str) or subject.get(member) != entry.get(member):
-            fail("subject_entry_mismatch")
-    if subject.get("digest") != entry.get("digest"):
-        fail("subject_entry_mismatch")
-    if ("version" in subject) != ("version" in entry) or \
-            subject.get("version") != entry.get("version"):
-        fail("subject_entry_mismatch")
-    if "digest" not in entry and ("url" in entry or construction == AIC):
-        fail("entry_digest_missing_for_url")
-    artifact = case / "artifact.json"
-    artifact_bytes = artifact.read_bytes() if artifact.is_file() else None
-    if artifact_bytes is None or entry.get("digest") != "sha256:" + sha256_hex(artifact_bytes):
-        fail("artifact_digest_mismatch")
-    publisher = _publisher(entry.get("identifier"))
-    # Draft 6.2 binds a url to its origin; an entry delivered as inline data has no url.
-    origin = _origin(entry.get("url"))
-    if construction in ARD_SHAPED and "url" in entry and \
-            (publisher is None or origin != f"https://{publisher}"):
+    def load(self) -> None:
+        """The gates: a closed construction and role, and JSON the reader can hold."""
+        self.context = json.loads((self.case / "context.json").read_text(encoding="utf-8"))
+        construction = self.context.get("construction")
+        if not isinstance(construction, str) or construction not in CONSTRUCTIONS:
+            raise Refused("construction_unknown")
+        self.construction = construction
+        if self.context.get("role") not in ROLES:
+            raise Refused("role_unknown")
+        self.entry_index = self.context.get("entry", 0)
+        self.manifest_index = self.context.get("manifest", 0)
+        raw_catalog = (self.case / "catalog.json").read_bytes()
+        raw_documents = (self.case / "did-documents.json").read_bytes()
         try:
-            descriptor = strict_loads(artifact_bytes) if artifact_bytes else {}
+            catalog, documents = strict_loads(raw_catalog), strict_loads(raw_documents)
+        except Duplicate:
+            self.fail("duplicate_member")
+            catalog, documents = json.loads(raw_catalog), json.loads(raw_documents)
+        except (ValueError, UnicodeDecodeError) as exc:
+            raise Refused("json_invalid") from exc
+        if not isinstance(catalog, dict) or not isinstance(documents, dict):
+            raise Refused("json_invalid")
+        self.catalog, self.documents = catalog, documents
+
+    def signature_object(self) -> None:
+        found = signed_object(self.construction, self.catalog, self.entry_index,
+                              self.manifest_index)
+        if found is None or not isinstance(jws_of(self.construction, found), str):
+            raise Refused("signature_missing")
+        self.obj = found
+        self.parts = jws_of(self.construction, found).split(".")
+        if self.construction != SNAPSHOT:
+            self.entry = self.catalog["entries"][self.entry_index]
+
+    def read_header(self) -> None:
+        """jws_malformed through b64_without_crit: the protected header alone."""
+        parts = self.parts
+        try:
+            if len(parts) != 3 or parts[1] != "":
+                raise ValueError("not detached compact serialization")
+            header = strict_loads(b64url_decode(parts[0]))
+            self.signature = b64url_decode(parts[2])
+            if not isinstance(header, dict):
+                raise ValueError("header is not an object")
+        except (ValueError, UnicodeDecodeError) as exc:
+            if "jws_malformed" not in self.skip or len(parts) != 3:
+                raise Refused("jws_malformed") from exc
+            header, self.signature = _lenient_jws(parts)
+        self.header_value = header
+        if "b64" in header and not isinstance(header["b64"], bool):
+            self.fail("jws_malformed")  # RFC 7797 section 3: the b64 value is a boolean
+        if self.construction in TYP and header.get("typ") != TYP[self.construction]:
+            self.fail("typ_missing_or_mismatched")
+        self.alg = header.get("alg")
+        if self.alg not in ALGS[self.construction]:
+            self.fail("alg_not_allowed_for_profile")
+        if any(name in header for name in KEY_SOURCES):
+            self.fail("key_source_in_header")
+        self.critical(header)
+
+    def critical(self, header: dict[str, Any]) -> None:
+        if self.construction not in ARD_SHAPED and "b64" in header:
+            self.fail("b64_forbidden_for_profile")
+        crit = header.get("crit")
+        if crit is not None and (not isinstance(crit, list) or not crit
+                                 or any(name != "b64" or name not in header for name in crit)):
+            self.fail("jws_crit_unsupported")
+        if "b64" in header and not (isinstance(crit, list) and "b64" in crit):
+            self.fail("b64_without_crit")
+
+    def signer(self) -> None:
+        """profile_unsupported through did_document_not_identity: who claims to have signed."""
+        self.identity = identity = identity_of(self.construction, self.obj)
+        if self.construction not in ARD_SHAPED:
+            # AI Catalog "Profile Selection": the named procedure, never one inferred.
+            if self.obj["signature"].get("profile") != SIGNER_PROFILE:
+                self.fail("profile_unsupported")
+            if not isinstance(identity, str) or not _ROOT_DID_WEB.fullmatch(identity) \
+                    or _IPV4.fullmatch(identity):
+                self.fail("signer_not_root_did_web")
+        self.kid = kid = self.header_value.get("kid")
+        kid_ok = (isinstance(kid, str) and isinstance(identity, str)
+                  and re.fullmatch(re.escape(identity) + "#" + _FRAGMENT, kid) is not None)
+        if not kid_ok:
+            self.fail("kid_not_under_identity")
+        document = self.documents.get(identity) if isinstance(identity, str) else None
+        if not isinstance(document, dict) or document.get("id") != identity:
+            self.fail("did_document_not_identity")
+
+    def select_key(self) -> None:
+        """kid_not_in_did_document through alg_key_mismatch: the key the document gives."""
+        identity, kid = self.identity, self.kid
+        document = self.documents.get(identity) if isinstance(identity, str) else None
+        methods, assertion = _methods(document if isinstance(document, dict) else {})
+        selected = _selected(methods, kid)
+        if not selected:
+            self.fail("kid_not_in_did_document")
+        if len(selected) > 1:
+            self.fail("verification_method_ambiguous")  # exactly one method has the kid
+        if kid not in assertion:
+            self.fail("key_not_assertion_method")
+        method = selected[-1] if selected else {}
+        if self.construction not in ARD_SHAPED and method.get("controller") != identity:
+            self.fail("method_controller_mismatch")
+        self.key_alg, self.public_key = _public_key(method)
+        if _jwk_fault(method, self.alg):
+            self.fail("jwk_not_signing_key")
+        if self.key_alg != self.alg:
+            self.fail("alg_key_mismatch")
+
+    def signed_bytes(self) -> None:
+        """number_not_interoperable, no_canonical_form and signature_invalid."""
+        signed = payload(self.construction, self.catalog, self.entry_index, self.manifest_index)
+        try:
+            _numbers_first(signed)
+        except Refused:
+            self.fail("number_not_interoperable")
+        try:
+            body = canonical(signed)
+        except Refused as refusal:
+            self.fail(str(refusal.args[0]) if refusal.args[0] != "number_not_interoperable"
+                      else "no_canonical_form")
+            body = json.dumps(signed, sort_keys=True).encode("utf-8", "surrogatepass")
+        unencoded = self.header_value.get("b64") is False
+        message = self.parts[0].encode() + b"." + (body if unencoded else b64url(body).encode())
+        if self.public_key is None or self.key_alg != self.alg or \
+                not verify_signature(self.key_alg, self.public_key, message, self.signature):
+            self.fail("signature_invalid")
+
+    def subject(self) -> None:
+        """signer_not_contributor through subject_entry_mismatch."""
+        obj, entry = self.obj, self.entry
+        if self.construction == AIC and obj.get("contributor") != self.identity:
+            self.fail("signer_not_contributor")
+        subject = obj.get("subject")
+        if not isinstance(subject, dict):
+            self.fail("subject_missing")
+            subject = {}
+        for member in ("identifier", "type"):
+            # Both are required strings on the entry (draft section 3.1, AI Catalog entry).
+            if not isinstance(entry.get(member), str) or subject.get(member) != entry.get(member):
+                self.fail("subject_entry_mismatch")
+        if subject.get("digest") != entry.get("digest"):
+            self.fail("subject_entry_mismatch")
+        if ("version" in subject) != ("version" in entry) or \
+                subject.get("version") != entry.get("version"):
+            self.fail("subject_entry_mismatch")
+
+    def artifact(self) -> None:
+        entry = self.entry
+        if "digest" not in entry and ("url" in entry or self.construction == AIC):
+            self.fail("entry_digest_missing_for_url")
+        artifact = self.case / "artifact.json"
+        self.artifact_bytes = artifact.read_bytes() if artifact.is_file() else None
+        if self.artifact_bytes is None or \
+                entry.get("digest") != "sha256:" + sha256_hex(self.artifact_bytes):
+            self.fail("artifact_digest_mismatch")
+
+    def origin(self) -> None:
+        """url_origin_unbound: draft 6.2 binds a url to its origin; inline data has none."""
+        entry = self.entry
+        self.publisher_domain = publisher = _publisher(entry.get("identifier"))
+        if self.construction not in ARD_SHAPED or "url" not in entry:
+            return
+        if publisher is not None and _origin(entry.get("url")) == f"https://{publisher}":
+            return
+        try:
+            descriptor = strict_loads(self.artifact_bytes) if self.artifact_bytes else {}
         except (ValueError, UnicodeDecodeError):
             descriptor = {}
         declared = descriptor.get("identifier") if isinstance(descriptor, dict) else None
         if declared != entry.get("identifier"):
-            fail("url_origin_unbound")
-    _attestations(construction, case, obj, entry, context, documents, skip)
-    if context.get("role") == "publisher":
-        expected = f"did:web:{publisher}" if publisher else None
-        if identity != expected:
-            fail("publisher_not_signer" if construction == AIC
-                 else "publisher_authorization_absent")
-    _times(construction, obj, context, fail)
-    return PASS_REASON[construction]
+            self.fail("url_origin_unbound")
 
+    def publisher_rule(self) -> None:
+        if self.context.get("role") != "publisher":
+            return
+        domain = self.publisher_domain
+        if self.identity != (f"did:web:{domain}" if domain else None):
+            self.fail("publisher_not_signer" if self.construction == AIC
+                      else "publisher_authorization_absent")
 
-def _times(construction: str, holder: dict[str, Any], context: dict[str, Any],
-           fail: Callable[[str], None]) -> None:
-    """RFC 3339 instants; the AI Catalog Signature object requires issuedAt, the draft
-    only recommends it, and expiresAt, when present, is later than issuedAt."""
-    issued, expires = times_of(construction, holder)
-    at, start = _instant(context.get("at")), _instant(issued)
-    end = _instant(expires)
-    if at is None or (issued is None and construction not in ARD_SHAPED) or \
-            (issued is not None and start is None) or (expires is not None and end is None) or \
-            (start is not None and end is not None and end <= start):
-        fail("timestamp_invalid")
-    if at is not None and start is not None and at < start:
-        fail("issued_in_future")
-    if at is not None and end is not None and at >= end:
-        fail("manifest_expired")
+    def times(self, holder: dict[str, Any]) -> None:
+        """RFC 3339 instants; the AI Catalog Signature object requires issuedAt, the draft
+        only recommends it, and expiresAt, when present, is later than issuedAt."""
+        issued, expires = times_of(self.construction, holder)
+        at, start = _instant(self.context.get("at")), _instant(issued)
+        end = _instant(expires)
+        if at is None or (issued is None and self.construction not in ARD_SHAPED) or \
+                (issued is not None and start is None) or (expires is not None and end is None) \
+                or (start is not None and end is not None and end <= start):
+            self.fail("timestamp_invalid")
+        if at is not None and start is not None and at < start:
+            self.fail("issued_in_future")
+        if at is not None and end is not None and at >= end:
+            self.fail("manifest_expired")
 
 
 # --------------------------------------------------------------------------- the corpus harness
