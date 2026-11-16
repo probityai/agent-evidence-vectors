@@ -192,7 +192,10 @@ def live_problems(repos: list[Archived], fetch: Fetch) -> list[str]:
         problems.append(f"{ARCHIVE_ORG}/{name} is archived but has no row in scripts/archived-repos.toml")
     for repo in repos:
         record = fetch(f"{API}/repos/probityai/{repo.name}")
-        full = record.get("full_name") if isinstance(record, dict) else None
+        if not isinstance(record, dict):
+            problems.append(f"probityai/{repo.name}: GitHub answered {record!r}, not a repository")
+            continue
+        full = record.get("full_name")
         if full != f"{ARCHIVE_ORG}/{repo.name}":
             problems.append(
                 f"probityai/{repo.name} resolves to {full!r}, not {ARCHIVE_ORG}/{repo.name}: "
