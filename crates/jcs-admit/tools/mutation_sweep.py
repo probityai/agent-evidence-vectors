@@ -10,36 +10,47 @@ Every cargo call is -j1 on purpose: the sweep is a serial series of builds, and 
 second layer of parallelism over an already-parallel compiler has nothing
 bounding the product.
 
-Run from the crate root:  python3 tools/mutation_sweep.py
-The written-up run, including the three test gaps it found, is in
+Run it from anywhere:  python3 crates/jcs-admit/tools/mutation_sweep.py [LOG_DIR]
+It edits the crate it ships in, restores every file it touched, writes one log
+per row and results.json to LOG_DIR (a fresh temporary directory by default),
+and exits 1 when any row is STILL-GREEN or its anchor did not apply. The
+written-up run, including the three test gaps it found, is in
 docs/MUTATION-SWEEP.md.
 """
-import subprocess, pathlib, json, sys, os, shutil
+import subprocess, pathlib, json, sys, os, shutil, tempfile
 
-ROOT = pathlib.Path(os.path.expanduser("~/Documents/agent-evidence-admission-rs"))
-LOGS = pathlib.Path("/tmp/laneA-mutate")
+ROOT = pathlib.Path(__file__).resolve().parents[1]
+LOGS = pathlib.Path(sys.argv[1]) if len(sys.argv) > 1 else pathlib.Path(
+    tempfile.mkdtemp(prefix="jcs-admit-mutate-"))
+LOGS.mkdir(parents=True, exist_ok=True)
 BACKUP = LOGS / "pristine"
 if BACKUP.exists(): shutil.rmtree(BACKUP)
 BACKUP.mkdir(parents=True)
-for f in ("parse.rs", "number.rs", "lib.rs"):
+FILES = ("parse.rs", "number.rs", "lib.rs", "error.rs")
+for f in FILES:
     shutil.copy(ROOT / "src" / f, BACKUP / f)
 
 def restore():
-    for f in ("parse.rs", "number.rs", "lib.rs"):
+    for f in FILES:
         shutil.copy(BACKUP / f, ROOT / "src" / f)
 
 DUP_GUARD = '''            if !seen.insert(name.clone()) {'''
 ENTER = '''        if depth >= self.opts.depth_limit() {'''
-HI_SURR = '''                    return Err(self.not_scalar(start, "unpaired high surrogate escape"));'''
-LO_SURR = '''            0xDC00..=0xDFFF => return Err(self.not_scalar(start, "unpaired low surrogate escape")),'''
+HI_SURR = '''                    return Err(self.refuse_string(start, "unpaired high surrogate escape"));'''
+LO_SURR = '''            0xDC00..=0xDFFF => return Err(self.refuse_string(start, "unpaired low surrogate escape")),'''
 UTF8 = '''                let chunk = core::str::from_utf8(&self.bytes[run_start..self.at])
-                    .map_err(|_| self.not_scalar(run_start, "invalid UTF-8"))?;'''
-NONCHAR_RUN = '''                if self.opts.wants_noncharacter_check()
-                    && chunk.chars().any(|c| is_noncharacter(c as u32))
-                {
-                    return Err(self.not_scalar(run_start, "Unicode noncharacter in string"));
+                    .map_err(|_| self.refuse_string(run_start, "invalid UTF-8"))?;'''
+NONCHAR_RUN = '''                if self.opts.wants_noncharacter_check() {
+                    if let Some((at, _)) = chunk
+                        .char_indices()
+                        .find(|&(_, c)| is_noncharacter(c as u32))
+                    {
+                        return Err(self.refuse_string(run_start + at, NONCHARACTER));
+                    }
                 }
 '''
+NONCHAR_AT = '''                        return Err(self.refuse_string(run_start + at, NONCHARACTER));'''
+STRING_MSG = '''                write!(f, "JSON string literal refused at byte {offset}: {reason}")'''
 NONCHAR_GET = '''    pub(crate) const fn wants_noncharacter_check(&self) -> bool {
         self.reject_noncharacters
     }'''
@@ -62,8 +73,8 @@ IS_INT = '''    fn is_integer(&self) -> bool {
         self.digits.is_empty() || self.exp10 >= 0
     }'''
 FINITE = '''    if !token.parse::<f64>().is_ok_and(f64::is_finite) {'''
-SIZE = '''    if let Some(limit) = opts.max_bytes {
-        if input.len() > limit {'''
+SIZE = '''        if let Some(limit) = self.max_bytes {
+            if len > limit {'''
 
 CASES = [
   # (id, kind, refusal, file, old, new, cargo args)
@@ -97,6 +108,13 @@ CASES = [
      ["--test","attack_strings_keys_members"]),
   ("M4","mutate","StringNotScalar/noncharacter","parse.rs", NONCHAR_RUN, "",
      ["--test","attack_strings_keys_members"]),
+  ("M4b","mutate","StringNotScalar/noncharacter-offset","parse.rs", NONCHAR_AT,
+     '''                        let _ = at;
+                        return Err(self.refuse_string(run_start, NONCHARACTER));''',
+     ["--test","refusal_messages"]),
+  ("M4c","mutate","StringNotScalar/message","error.rs", STRING_MSG,
+     '''                write!(f, "JSON string is not a sequence of Unicode scalar values at byte {offset}: {reason}")''',
+     ["--test","refusal_messages"]),
   ("R6","red","UnsafeInteger","number.rs", UNSAFE_BR, "", ["--test","ijson_profile"]),
   ("M5","mutate","UnsafeInteger","number.rs", UNSAFE_BR,
      '''        if opts.wants_safe_integers()
@@ -122,12 +140,12 @@ CASES = [
      '''    if !token.parse::<f64>().is_ok_and(|v| v != f64::INFINITY) {''',
      ["--test","refusal_boundaries","a_non_finite"]),
   ("R9","red","TooLarge","lib.rs", SIZE,
-     '''    if let Some(limit) = opts.max_bytes {
-        if false && input.len() > limit {''',
+     '''        if let Some(limit) = self.max_bytes {
+            if false && len > limit {''',
      ["--test","refusal_boundaries","the_size_cap"]),
   ("M8","mutate","TooLarge","lib.rs", SIZE,
-     '''    if let Some(limit) = opts.max_bytes {
-        if input.len() >= limit {''',
+     '''        if let Some(limit) = self.max_bytes {
+            if len >= limit {''',
      ["--test","refusal_boundaries","the_size_cap"]),
 ]
 
@@ -161,4 +179,8 @@ for cid, kind, refusal, fname, old, new, args in CASES:
 
 restore()
 (LOGS / "results.json").write_text(json.dumps(results, indent=2))
-print("\nrestored pristine sources")
+print(f"\nrestored pristine sources; logs and results.json in {LOGS}")
+undiscriminating = [r["id"] for r in results if r["status"] != "RED"]
+if undiscriminating:
+    print(f"rows that did not turn red: {undiscriminating}")
+    sys.exit(1)
