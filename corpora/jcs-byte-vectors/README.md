@@ -1,7 +1,7 @@
 # Canonical JSON bytes at the audit transcript boundary
 
 `cases.json` pins raw JSON, canonical UTF-8 hex, and SHA-256 for five small
-inputs, then 18 drift and 10 depth cases (below). `check.mjs` checks those bytes with ECMAScript string and number
+inputs, then 18 drift and 10 depth cases and a noncharacter family (below). `check.mjs` checks those bytes with ECMAScript string and number
 serialization and UTF-16 member sorting. The Go test checks the separate
 safe-integer record profile, including three malformed inputs.
 
@@ -78,6 +78,23 @@ Run `check.mjs --verifier CMD` and the verifier receives each `presented` text
 and must print `canonicalHex`; under `--profile bounded` it must also exit
 nonzero on every too-deep input and accept the two 128-deep ones. A verifier
 that passed before can fail now, so the families arrived in a minor release.
+
+## Noncharacter family
+
+`noncharacterCases`, also written by `scripts/gen-jcs-drift-vectors.py`, puts a
+Unicode noncharacter in a string value and in a member name, spelled raw and as a
+`\u` escape: U+FDD0 and U+FDEF (both ends of the contiguous run), U+FFFE and
+U+FFFF, U+1FFFE and U+10FFFF (supplementary planes, escaped as surrogate pairs).
+
+| Profile | Expected answer | Why |
+| --- | --- | --- |
+| default (`jcs`) | the pinned `canonicalHex`, the noncharacter printed as UTF-8 | A noncharacter is a Unicode scalar value, and RFC 8785 section 3.2.2.2 prints it as itself. |
+| `bounded` | refuse (`boundedError: invalid-unicode`) | [RFC 7493 section 2.1](https://www.rfc-editor.org/rfc/rfc7493#section-2.1): member names and string values MUST NOT include code points that identify noncharacters, escaped or not. |
+
+The raw and escaped spellings of one value pin the same bytes, so a verifier that
+refuses only one spelling fails the bounded run, and one that refuses either
+fails the default run. `jcs_admit::admit` prints them; `jcs_admit::admit_ijson`
+refuses them.
 
 RFC 8785 [sections 3.2.2 and 3.2.3](https://www.rfc-editor.org/rfc/rfc8785#section-3.2)
 define the byte rules. The safe-integer rejection is an application profile,

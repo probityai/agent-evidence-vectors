@@ -512,5 +512,271 @@
       "error": "duplicate-member",
       "input": "{\"o\":{\"k\":1,\"k\":1}}"
     }
+  ],
+  "noncharacterCases": [
+    {
+      "id": "noncharacter-ufdd0-value-raw",
+      "family": "noncharacter",
+      "codePoint": "U+FDD0",
+      "position": "value",
+      "spelling": "raw",
+      "input": "[\"\ufdd0\"]",
+      "canonicalHex": "5b22efb790225d",
+      "sha256": "1d2cdc6190b30e368ce1eafaf8edc5dc96a802b2bdc720e536c285a87ffd8e0f",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-ufdd0-value-escaped",
+      "family": "noncharacter",
+      "codePoint": "U+FDD0",
+      "position": "value",
+      "spelling": "escaped",
+      "input": "[\"\\ufdd0\"]",
+      "canonicalHex": "5b22efb790225d",
+      "sha256": "1d2cdc6190b30e368ce1eafaf8edc5dc96a802b2bdc720e536c285a87ffd8e0f",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-ufdd0-member-name-raw",
+      "family": "noncharacter",
+      "codePoint": "U+FDD0",
+      "position": "member-name",
+      "spelling": "raw",
+      "input": "{\"\ufdd0\":1}",
+      "canonicalHex": "7b22efb790223a317d",
+      "sha256": "6cbbc1225641b7f60e74b68aaa072fe51d9baedc9c24f26961f937b2ad62ce81",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-ufdd0-member-name-escaped",
+      "family": "noncharacter",
+      "codePoint": "U+FDD0",
+      "position": "member-name",
+      "spelling": "escaped",
+      "input": "{\"\\ufdd0\":1}",
+      "canonicalHex": "7b22efb790223a317d",
+      "sha256": "6cbbc1225641b7f60e74b68aaa072fe51d9baedc9c24f26961f937b2ad62ce81",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-ufdef-value-raw",
+      "family": "noncharacter",
+      "codePoint": "U+FDEF",
+      "position": "value",
+      "spelling": "raw",
+      "input": "[\"\ufdef\"]",
+      "canonicalHex": "5b22efb7af225d",
+      "sha256": "ae5802ccca0c3b494108f10a75de94194a1f3bb10b0a4bcf7c9e71235e20e514",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-ufdef-value-escaped",
+      "family": "noncharacter",
+      "codePoint": "U+FDEF",
+      "position": "value",
+      "spelling": "escaped",
+      "input": "[\"\\ufdef\"]",
+      "canonicalHex": "5b22efb7af225d",
+      "sha256": "ae5802ccca0c3b494108f10a75de94194a1f3bb10b0a4bcf7c9e71235e20e514",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-ufdef-member-name-raw",
+      "family": "noncharacter",
+      "codePoint": "U+FDEF",
+      "position": "member-name",
+      "spelling": "raw",
+      "input": "{\"\ufdef\":1}",
+      "canonicalHex": "7b22efb7af223a317d",
+      "sha256": "8594952a76aa3eb247fc92b1b30c537009ff6989be90987a198368c1035c9e05",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-ufdef-member-name-escaped",
+      "family": "noncharacter",
+      "codePoint": "U+FDEF",
+      "position": "member-name",
+      "spelling": "escaped",
+      "input": "{\"\\ufdef\":1}",
+      "canonicalHex": "7b22efb7af223a317d",
+      "sha256": "8594952a76aa3eb247fc92b1b30c537009ff6989be90987a198368c1035c9e05",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-ufffe-value-raw",
+      "family": "noncharacter",
+      "codePoint": "U+FFFE",
+      "position": "value",
+      "spelling": "raw",
+      "input": "[\"\ufffe\"]",
+      "canonicalHex": "5b22efbfbe225d",
+      "sha256": "b09d4bb41d9b6c09f70b24a925845a6a609d2a8bf48ba1b833830046070b3fc3",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-ufffe-value-escaped",
+      "family": "noncharacter",
+      "codePoint": "U+FFFE",
+      "position": "value",
+      "spelling": "escaped",
+      "input": "[\"\\ufffe\"]",
+      "canonicalHex": "5b22efbfbe225d",
+      "sha256": "b09d4bb41d9b6c09f70b24a925845a6a609d2a8bf48ba1b833830046070b3fc3",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-ufffe-member-name-raw",
+      "family": "noncharacter",
+      "codePoint": "U+FFFE",
+      "position": "member-name",
+      "spelling": "raw",
+      "input": "{\"\ufffe\":1}",
+      "canonicalHex": "7b22efbfbe223a317d",
+      "sha256": "8a1e927ebf1056796735e5438d07272510ad00af6cd67f0376188de46759b80c",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-ufffe-member-name-escaped",
+      "family": "noncharacter",
+      "codePoint": "U+FFFE",
+      "position": "member-name",
+      "spelling": "escaped",
+      "input": "{\"\\ufffe\":1}",
+      "canonicalHex": "7b22efbfbe223a317d",
+      "sha256": "8a1e927ebf1056796735e5438d07272510ad00af6cd67f0376188de46759b80c",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-uffff-value-raw",
+      "family": "noncharacter",
+      "codePoint": "U+FFFF",
+      "position": "value",
+      "spelling": "raw",
+      "input": "[\"\uffff\"]",
+      "canonicalHex": "5b22efbfbf225d",
+      "sha256": "f71019c976f92080edc1802b707f306ce74360ba5b21481c3ce5f39631ab5f74",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-uffff-value-escaped",
+      "family": "noncharacter",
+      "codePoint": "U+FFFF",
+      "position": "value",
+      "spelling": "escaped",
+      "input": "[\"\\uffff\"]",
+      "canonicalHex": "5b22efbfbf225d",
+      "sha256": "f71019c976f92080edc1802b707f306ce74360ba5b21481c3ce5f39631ab5f74",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-uffff-member-name-raw",
+      "family": "noncharacter",
+      "codePoint": "U+FFFF",
+      "position": "member-name",
+      "spelling": "raw",
+      "input": "{\"\uffff\":1}",
+      "canonicalHex": "7b22efbfbf223a317d",
+      "sha256": "100ae8189f40a0e500c71a6db32e2d3a4d9d6d1f1e600203a32f416be0dc851e",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-uffff-member-name-escaped",
+      "family": "noncharacter",
+      "codePoint": "U+FFFF",
+      "position": "member-name",
+      "spelling": "escaped",
+      "input": "{\"\\uffff\":1}",
+      "canonicalHex": "7b22efbfbf223a317d",
+      "sha256": "100ae8189f40a0e500c71a6db32e2d3a4d9d6d1f1e600203a32f416be0dc851e",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-u1fffe-value-raw",
+      "family": "noncharacter",
+      "codePoint": "U+1FFFE",
+      "position": "value",
+      "spelling": "raw",
+      "input": "[\"\ud83f\udffe\"]",
+      "canonicalHex": "5b22f09fbfbe225d",
+      "sha256": "a58eb81794fb3683f56caf4acca214bf6058ca8216b5de42ad0e490a2846ee10",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-u1fffe-value-escaped",
+      "family": "noncharacter",
+      "codePoint": "U+1FFFE",
+      "position": "value",
+      "spelling": "escaped",
+      "input": "[\"\\ud83f\\udffe\"]",
+      "canonicalHex": "5b22f09fbfbe225d",
+      "sha256": "a58eb81794fb3683f56caf4acca214bf6058ca8216b5de42ad0e490a2846ee10",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-u1fffe-member-name-raw",
+      "family": "noncharacter",
+      "codePoint": "U+1FFFE",
+      "position": "member-name",
+      "spelling": "raw",
+      "input": "{\"\ud83f\udffe\":1}",
+      "canonicalHex": "7b22f09fbfbe223a317d",
+      "sha256": "01619c983521ff6f37e0114a9a7502bd605b25a7fca026927e8ba1835ed36545",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-u1fffe-member-name-escaped",
+      "family": "noncharacter",
+      "codePoint": "U+1FFFE",
+      "position": "member-name",
+      "spelling": "escaped",
+      "input": "{\"\\ud83f\\udffe\":1}",
+      "canonicalHex": "7b22f09fbfbe223a317d",
+      "sha256": "01619c983521ff6f37e0114a9a7502bd605b25a7fca026927e8ba1835ed36545",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-u10ffff-value-raw",
+      "family": "noncharacter",
+      "codePoint": "U+10FFFF",
+      "position": "value",
+      "spelling": "raw",
+      "input": "[\"\udbff\udfff\"]",
+      "canonicalHex": "5b22f48fbfbf225d",
+      "sha256": "ae205bae31537db2df3b058d4847c3e8c184b0e5a5e93dcc11de6202a7bc1c3f",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-u10ffff-value-escaped",
+      "family": "noncharacter",
+      "codePoint": "U+10FFFF",
+      "position": "value",
+      "spelling": "escaped",
+      "input": "[\"\\udbff\\udfff\"]",
+      "canonicalHex": "5b22f48fbfbf225d",
+      "sha256": "ae205bae31537db2df3b058d4847c3e8c184b0e5a5e93dcc11de6202a7bc1c3f",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-u10ffff-member-name-raw",
+      "family": "noncharacter",
+      "codePoint": "U+10FFFF",
+      "position": "member-name",
+      "spelling": "raw",
+      "input": "{\"\udbff\udfff\":1}",
+      "canonicalHex": "7b22f48fbfbf223a317d",
+      "sha256": "dc5fbc2a31d6374ad2ad5938a39c28215d06a96434d3d55cde09ef06bbcfd9c8",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-u10ffff-member-name-escaped",
+      "family": "noncharacter",
+      "codePoint": "U+10FFFF",
+      "position": "member-name",
+      "spelling": "escaped",
+      "input": "{\"\\udbff\\udfff\":1}",
+      "canonicalHex": "7b22f48fbfbf223a317d",
+      "sha256": "dc5fbc2a31d6374ad2ad5938a39c28215d06a96434d3d55cde09ef06bbcfd9c8",
+      "boundedError": "invalid-unicode"
+    }
   ]
 }

@@ -139,4 +139,22 @@ for (const entry of cases.depthCases) {
   }
 }
 
-console.log(`${cases.canonicalCases.length} JCS byte vectors, ${cases.driftCases.length} drift vectors, ${cases.refusalCases.length} refusal vectors and ${cases.depthCases.length} depth vectors checked${command ? ` against ${command[0]} (${profile})` : ""}`);
+// Noncharacter cases: RFC 8785 prints a noncharacter as its UTF-8 bytes, which
+// the ECMAScript oracle must reproduce from both spellings. RFC 7493 section 2.1
+// forbids one in a member name or string value, escaped or not, so the bounded
+// profile holds a verifier to a refusal.
+for (const entry of cases.noncharacterCases) {
+  const value = JSON.parse(entry.input);
+  assertScalars(value);
+  const pinned = Buffer.from(entry.canonicalHex, "hex");
+  if (
+    !Buffer.from(canonical(value), "utf8").equals(pinned) ||
+    createHash("sha256").update(pinned).digest("hex") !== entry.sha256 ||
+    entry.boundedError !== "invalid-unicode"
+  ) {
+    throw new Error(`${entry.id}: noncharacter case disagrees with the ECMAScript oracle`);
+  }
+  runVerifier(entry, profile === "bounded" ? null : pinned);
+}
+
+console.log(`${cases.canonicalCases.length} JCS byte vectors, ${cases.driftCases.length} drift vectors, ${cases.refusalCases.length} refusal vectors, ${cases.depthCases.length} depth vectors and ${cases.noncharacterCases.length} noncharacter vectors checked${command ? ` against ${command[0]} (${profile})` : ""}`);

@@ -2,10 +2,11 @@
 """Write the canonicalizer-drift and nesting-depth negative families into cases.json.
 
 ``corpora/jcs-byte-vectors/cases.json`` carries two kinds of members. The
-canonical and reject cases are authored by hand. ``driftCases`` and
-``depthCases`` are written by this script, and nothing else touches those two
-keys. ``--check`` regenerates them in memory and exits 1 when the file on disk
-differs, so a hand edit to a generated key cannot survive CI.
+canonical and reject cases are authored by hand. ``driftCases``,
+``depthCases``, ``refusalCases`` and ``noncharacterCases`` are written by this
+script, and nothing else touches those keys. ``--check`` regenerates them in
+memory and exits 1 when the file on disk differs, so a hand edit to a generated
+key cannot survive CI.
 
 Drift cases (``driftCases``): bytes that a producer printed and presented as the
 canonical form of a value, which RFC 8785 does not print that way. Each member
@@ -25,6 +26,13 @@ Refusal cases (``refusalCases``): inputs that are not one valid JCS input at all
 sequence of Unicode scalar values, a repeated member name). Every canonicalizer
 must refuse them. ``error`` names the refusal class; ``inputHex`` replaces
 ``input`` where the bytes are not valid UTF-8 and so cannot sit in a JSON string.
+
+Noncharacter cases (``noncharacterCases``): a Unicode noncharacter inside a
+string value and inside a member name, written raw and as a ``\\u`` escape.
+RFC 8785 prints a noncharacter as its UTF-8 bytes, so the default profile pins
+``canonicalHex``. RFC 7493 section 2.1 says a member name or string value MUST
+NOT include one, escaped or not, so the bounded profile refuses every member
+(``boundedError``), as ``jcs_admit::admit_ijson`` does.
 
 Usage (from the repository root):
     python3 scripts/gen-jcs-drift-vectors.py           # write
@@ -336,11 +344,54 @@ def refusal_cases() -> list[dict[str, str]]:
     return out
 
 
+# Noncharacters, RFC 7493 section 2.1 by way of Unicode chapter 23.7: the
+# contiguous U+FDD0..U+FDEF run (both ends) and the last two code points of a
+# plane (the BMP pair and the first and last supplementary planes).
+NONCHARACTERS: tuple[int, ...] = (0xFDD0, 0xFDEF, 0xFFFE, 0xFFFF, 0x1FFFE, 0x10FFFF)
+
+
+def escape(code_point: int) -> str:
+    """The JSON escape for one code point: a UTF-16 surrogate pair past the BMP."""
+    if code_point < 0x10000:
+        return f"\\u{code_point:04x}"
+    offset = code_point - 0x10000
+    return f"\\u{0xD800 + (offset >> 10):04x}\\u{0xDC00 + (offset & 0x3FF):04x}"
+
+
+def noncharacter_cases() -> list[dict[str, str]]:
+    out: list[dict[str, str]] = []
+    for code_point in NONCHARACTERS:
+        raw = chr(code_point)
+        for position in ("value", "member-name"):
+            for spelling in ("raw", "escaped"):
+                written = raw if spelling == "raw" else escape(code_point)
+                if position == "value":
+                    text, canonical = f'["{written}"]', f'["{raw}"]'
+                else:
+                    text, canonical = f'{{"{written}":1}}', f'{{"{raw}":1}}'
+                pinned = canonical.encode("utf-8")
+                out.append(
+                    {
+                        "id": f"noncharacter-u{code_point:04x}-{position}-{spelling}",
+                        "family": "noncharacter",
+                        "codePoint": f"U+{code_point:04X}",
+                        "position": position,
+                        "spelling": spelling,
+                        "input": text,
+                        "canonicalHex": pinned.hex(),
+                        "sha256": hashlib.sha256(pinned).hexdigest(),
+                        "boundedError": "invalid-unicode",
+                    }
+                )
+    return out
+
+
 def render() -> str:
     corpus = json.loads(CASES.read_text("utf-8"))
     corpus["driftCases"] = drift_cases()
     corpus["depthCases"] = depth_cases()
     corpus["refusalCases"] = refusal_cases()
+    corpus["noncharacterCases"] = noncharacter_cases()
     return json.dumps(corpus, indent=2) + "\n"
 
 

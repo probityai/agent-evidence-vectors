@@ -93,5 +93,25 @@ class RefusalFamily(unittest.TestCase):
                     a2ajcs.canonicalize(a2ajcs.parse(raw.decode("utf-8")))
 
 
+class NoncharacterFamily(unittest.TestCase):
+    """RFC 8785 prints a noncharacter as UTF-8; RFC 7493 forbids it (bounded profile)."""
+
+    def test_python_reference_prints_the_pinned_bytes_from_both_spellings(self) -> None:
+        cases = CORPUS["noncharacterCases"]
+        self.assertEqual(len({c["codePoint"] for c in cases}) * 4, len(cases))
+        for case in cases:
+            with self.subTest(case["id"]):
+                printed = a2ajcs.canonicalize(a2ajcs.parse(case["input"]))
+                self.assertEqual(printed.hex(), case["canonicalHex"])
+                self.assertEqual(case["boundedError"], "invalid-unicode")
+
+    def test_every_position_and_spelling_is_present(self) -> None:
+        seen = {(c["position"], c["spelling"]) for c in CORPUS["noncharacterCases"]}
+        self.assertEqual(
+            seen,
+            {(p, s) for p in ("value", "member-name") for s in ("raw", "escaped")},
+        )
+
+
 if __name__ == "__main__":
     unittest.main()
