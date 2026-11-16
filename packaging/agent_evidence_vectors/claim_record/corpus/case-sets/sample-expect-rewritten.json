@@ -1,0 +1,17 @@
+{
+  "schema": "aev-claim-case-set/v1",
+  "name": "sample-expectations",
+  "revision": "1",
+  "cases": [
+    {
+      "id": "e1",
+      "requirement": "required",
+      "expect": "falsified"
+    },
+    {
+      "id": "e2",
+      "requirement": "required",
+      "expect": "falsified"
+    }
+  ]
+}

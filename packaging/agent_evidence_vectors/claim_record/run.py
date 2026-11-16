@@ -21,6 +21,7 @@ from pathlib import Path
 from typing import Any
 
 from ..record_paths import portable_command, write_records
+from .expectations import FORMATS, from_expectations
 from .ops import apply_ops
 from .reader import (
     CLAIM_TYPE,
@@ -198,6 +199,36 @@ def _cmd_emit(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_from_expectations(args: argparse.Namespace) -> int:
+    case_set, results, warnings = from_expectations(
+        args.format,
+        args.expectations.read_text(encoding="utf-8"),
+        args.results.read_text(encoding="utf-8"),
+        name=args.name,
+        revision=args.revision,
+        witness_lemma=args.witness_lemma,
+    )
+    profile = check_profile(_read(args.profile))
+    record = emit(
+        case_set=case_set,
+        results=results,
+        profile={"id": profile["id"], "digest": digest_of(profile)},
+        implementation=_ref(args.implementation_name, args.implementation_digest),
+        verifier=_ref(args.verifier_name, args.verifier_digest),
+        observation_vantage=args.observation_vantage,
+        observer=args.observer,
+    )
+    for warning in warnings:
+        print(f"warning: {warning}", file=sys.stderr)
+    for path, value in ((args.case_set_out, case_set), (args.output, record)):
+        if path.exists():
+            raise FileExistsError(path)
+        path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    if args.warnings is not None:
+        args.warnings.write_text("".join(w + "\n" for w in warnings), encoding="utf-8")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="agent-evidence-vectors claim",
@@ -253,6 +284,31 @@ def build_parser() -> argparse.ArgumentParser:
     )
     em.add_argument("--output", type=Path, default=None)
     em.set_defaults(func=_cmd_emit)
+
+    fx = sub.add_parser(
+        "from-expectations",
+        help="build the case set and a record from an expectation table and a run's output",
+    )
+    fx.add_argument("--format", choices=FORMATS, required=True)
+    fx.add_argument("--expectations", type=Path, required=True, help="`<id>|<expected>` rows")
+    fx.add_argument("--results", type=Path, required=True, help="the run's output in --format")
+    fx.add_argument("--name", required=True, help="the case set's name")
+    fx.add_argument("--revision", required=True, help="the case set's revision")
+    fx.add_argument("--witness-lemma", default=None,
+                    help="name each all-traces property's witness: this case in the same variant")
+    fx.add_argument("--profile", type=Path, default=PACKAGED_CORPUS / "profiles/conformance.json")
+    fx.add_argument("--implementation-name", required=True)
+    fx.add_argument("--implementation-digest", required=True)
+    fx.add_argument("--verifier-name", required=True)
+    fx.add_argument("--verifier-digest", required=True)
+    fx.add_argument("--observation-vantage", choices=("substrate", "artifact"), required=True)
+    fx.add_argument("--observer", required=True)
+    fx.add_argument("--case-set-out", type=Path, required=True,
+                    help="where to write the case set a relying party pins by digest")
+    fx.add_argument("--output", type=Path, required=True, help="where to write the record")
+    fx.add_argument("--warnings", type=Path, default=None,
+                    help="also write each output line with no expectation row here")
+    fx.set_defaults(func=_cmd_from_expectations)
     return parser
 
 
