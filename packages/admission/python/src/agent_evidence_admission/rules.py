@@ -289,7 +289,9 @@ def ablate(rule_set: RuleSet, cases: list[Case], exhaustive: bool = False) -> Ab
     """Drop each check in turn and record which cases then reach the wrong verdict.
 
     ``sufficient``: every case reaches its stated verdict with all checks on. ``necessary`` maps
-    each check to the cases that fail without it; a check with none is ``unexercised``: either the
+    each check to the cases that reach their verdict with every check on and miss it without this
+    one (a case that already fails with every check on proves nothing about any single check, so it
+    is reported once, as failing, and never as a need); a check with none is ``unexercised``: either the
     vectors lack the case that needs it, or it is dead. ``monotone``: switching a check on never
     turns a refusal into an admission. With ``exhaustive`` (at most 12 checks the vectors
     exercise), the minimal sets of checks that reach every verdict are listed.
@@ -308,7 +310,9 @@ def ablate(rule_set: RuleSet, cases: list[Case], exhaustive: bool = False) -> Ab
     monotone = True
     for name in ablated:
         without = outcomes(frozenset(names) - {name})
-        necessary[name] = tuple(c.id for c, v in zip(cases, without) if not c.judged(v))
+        necessary[name] = tuple(
+            c.id for c, v, w in zip(cases, without, full) if c.judged(w) and not c.judged(v)
+        )
         for with_all, dropped in zip(full, without):
             if with_all.admitted and not dropped.admitted:
                 monotone = False

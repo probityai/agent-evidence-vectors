@@ -39,7 +39,9 @@ def test_every_check_is_needed_and_the_set_is_sufficient(manifest):
 
 
 def test_vectors_are_what_the_generator_writes():
-    run = subprocess.run([sys.executable, "-I", str(VECTORS / "generate.py"), "--check"], capture_output=True, text=True)
+    run = subprocess.run(
+        [sys.executable, "-I", str(VECTORS / "generate.py"), "--check"], capture_output=True, text=True, check=False
+    )
     assert run.returncode == 0, run.stderr
 
 
@@ -63,6 +65,7 @@ def test_ablation_reports_a_case_the_full_set_gets_wrong():
     result = rules.ablate(rule_set, [wrong])
     assert not result.sufficient
     assert result.failing_with_all == ("wrong",)
+    assert result.unexercised == tuple(c.name for c in rule_set.checks)
 
 
 def test_unknown_rule_set_and_check_are_refused():
@@ -381,8 +384,10 @@ def test_cli_ablate(tmp_path, capsys):
     trimmed.write_text(json.dumps(manifest))
     assert main(["ablate", str(trimmed)]) == 1
     out = capsys.readouterr().out
-    assert "UNEXERCISED" in out
+    assert "latency: UNEXERCISED" in out
     assert "FAILS WITH EVERY CHECK ON: wrong" in out
+    # A case that fails with every check on is reported once, never as a need of each check.
+    assert out.count("wrong") == 1
     assert main(["ablate", str(tmp_path / "missing.json")]) == 2
 
 
