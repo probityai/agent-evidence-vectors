@@ -47,8 +47,8 @@ fn main() -> Result<(), Error> {
 It refuses a repeated object member, compared on the decoded name; nesting past a depth cap, 128
 by default, the value the in-toto attestation specification sets; a string whose bytes aren't
 Unicode scalar values, such as an unpaired surrogate or an overlong form; a number with no finite
-double, and under the opt-in I-JSON profile an integer at or above 2^53; and an input past a size
-cap. Each refusal is a named error variant with structured fault details, such as a byte offset
+double, and under the opt-in I-JSON profile an integer at or above 2^53, a fraction whose
+nearest double is at or above 2^53, and a Unicode noncharacter; and an input past a size cap. Each refusal is a named error variant with structured fault details, such as a byte offset
 or offending token. Number formatting is delegated to
 [serde_json_canonicalizer](https://crates.io/crates/serde_json_canonicalizer).
 
@@ -60,8 +60,9 @@ load vectors produced by the Go implementation in
 and every refusal is mutation-tested.
 
 Version 0.1.2 adds optional error serialization and the shared byte-cap
-check. The npm package has its own version and release, and is not yet on the npm registry.
-The Python wheel is built and tested from `python/` and is not yet on PyPI.
+check. The same core ships as a Python wheel on [PyPI](https://pypi.org/project/jcs-admit/)
+(built from `python/`) and as an [npm package](https://www.npmjs.com/package/jcs-admit) for
+Node 20 or newer and browsers (built from `npm/`). Each has its own version and release.
 
 ## Documentation
 
