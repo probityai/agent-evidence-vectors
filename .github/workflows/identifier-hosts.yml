@@ -11,13 +11,19 @@ name: identifier-hosts
 # probityai/agent-evidence, which was archived by transfer to probityai-archive,
 # so its links resolve only through the same 301. This job fails when either
 # redirect is gone.
+#
+# The registry-links job reads the live crates.io, PyPI and npm page of every
+# unit in release.toml, plus the corpus on PyPI, and fails when a page links to
+# an archived, private or renamed repository (scripts/registry_links.py). A
+# registry page keeps the links of its last release, so only a new release
+# clears a finding.
 
 on:
   schedule:
     - cron: "17 6 * * 1"
   workflow_dispatch:
   pull_request:
-    paths: [".github/workflows/identifier-hosts.yml"]
+    paths: [".github/workflows/identifier-hosts.yml", "scripts/registry_links.py", "scripts/release_links.py"]
 
 permissions:
   contents: read
@@ -70,3 +76,16 @@ jobs:
             exit 1
           fi
           echo "probityai/agent-evidence redirects to $name"
+
+  registry-links:
+    if: ${{ github.event_name != 'pull_request' || startsWith(github.head_ref, 'merge-train/') }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: every published package page links to a live repository
+        run: python3 scripts/registry_links.py
