@@ -45,7 +45,7 @@ system emits it; the rules are in
 [GOVERNANCE.md](https://github.com/probityai/agent-evidence-vectors/blob/main/packages/vocabulary/GOVERNANCE.md).
 The first crosswalk came from an independent implementation of the Adversarial Execution Evidence
 predicate, in
-[pull request 2](https://github.com/probityai/agent-evidence-vocabulary/pull/2).
+[pull request 2](https://github.com/probityai-archive/agent-evidence-vocabulary/pull/2).
 
 ## Documentation
 
