@@ -112,6 +112,8 @@ _IN_WHEEL = (_HERE / "corpora").exists()
 ROOTS = {SUITE: (_HERE / "corpora" / "vectors-catalog-trust-manifest" if _IN_WHEEL
                  else _HERE.parents[1] / "corpora" / "vectors-catalog-trust-manifest")}
 _B64URL = re.compile(r"[A-Za-z0-9_-]*")
+# A non-empty RFC 3986 fragment: pchar, "/" and "?", percent-escapes well formed.
+_FRAGMENT = r"(?:[A-Za-z0-9._~!$&'()*+,;=:@/?-]|%[0-9A-Fa-f]{2})+"
 _LABEL = r"[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?"
 # A root did:web DID: a lowercase ASCII domain (A-labels allowed), no port, path or
 # trailing dot (AI Catalog, "The did:web Signer Profile").
@@ -628,7 +630,7 @@ def _judge(case: Path, skip: frozenset[str]) -> str:  # noqa: C901 - one ordered
             fail("signer_not_root_did_web")
     kid = header.get("kid")
     kid_ok = (isinstance(kid, str) and isinstance(identity, str)
-              and re.fullmatch(re.escape(identity) + r"#[A-Za-z0-9._~-]+", kid) is not None)
+              and re.fullmatch(re.escape(identity) + "#" + _FRAGMENT, kid) is not None)
     if not kid_ok:
         fail("kid_not_under_identity")
     document = documents.get(identity) if isinstance(identity, str) else None

@@ -31,7 +31,7 @@ The first check that fails decides the reason. `construction_unknown`, `role_unk
 8. `b64_without_crit`: `b64` present and not declared critical (RFC 7797 section 6); a verifier that ignores it checks other bytes.
 9. `profile_unsupported`: AI Catalog constructions only; `signature.profile` is not exactly `did-web-v1`. Consumers select the procedure the profile names and never infer one (AI Catalog "Profile Selection"), so an absent or other profile is refused, not read as did:web.
 10. `signer_not_root_did_web`: AI Catalog constructions only; `signature.signer` is not a root `did:web` DID: a lowercase ASCII domain (A-labels allowed), no port, path, IP address or trailing dot.
-11. `kid_not_under_identity`: `kid` is not the exact identity DID (draft `identity`, AI Catalog `signature.signer`) followed by a non-empty fragment.
+11. `kid_not_under_identity`: `kid` is not the exact identity DID (draft `identity`, AI Catalog `signature.signer`) followed by a non-empty RFC 3986 fragment (unreserved characters, sub-delimiters, `:`, `@`, `/`, `?` and well-formed percent-escapes).
 12. `did_document_not_identity`: no document for the identity, or its `id` differs.
 13. `kid_not_in_did_document`: no verification method has the `kid` as its id, after relative DID URLs are resolved against the document id (DID Core section 3.2.2).
 14. `verification_method_ambiguous`: more than one method has that id; a verifier must select exactly one, and a last-wins map selects whichever key the document lists last.

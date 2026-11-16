@@ -4009,6 +4009,128 @@
       "assessor": false,
       "attestationAfter": [],
       "attestations": [],
+      "before": [],
+      "context": {
+        "at": "2026-11-16T00:00:00Z",
+        "attestationFiles": [],
+        "construction": "ai-catalog-2026-11",
+        "entry": 0,
+        "manifest": 0,
+        "role": "publisher"
+      },
+      "dids": [
+        {
+          "op": "set",
+          "path": [
+            "did:web:publisher.example",
+            "verificationMethod",
+            0,
+            "id"
+          ],
+          "value": "did:web:publisher.example#key:es256"
+        },
+        {
+          "op": "set",
+          "path": [
+            "did:web:publisher.example",
+            "assertionMethod"
+          ],
+          "value": [
+            "did:web:publisher.example#key:es256",
+            "did:web:publisher.example#ed25519"
+          ]
+        }
+      ],
+      "edit": "control: the kid fragment carries a colon, which an RFC 3986 fragment allows",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "id": "accept-kid-fragment-with-colon",
+      "raw": [],
+      "secondEntry": false,
+      "shape": "aic",
+      "sign": [
+        {
+          "construction": "ai-catalog-2026-11",
+          "entry": 0,
+          "form": "detached",
+          "header": {
+            "kid": "did:web:publisher.example#key:es256"
+          },
+          "key": "publisher",
+          "manifest": 0
+        }
+      ]
+    },
+    {
+      "after": [],
+      "artifact": [],
+      "artifactAfter": [],
+      "assessor": false,
+      "attestationAfter": [],
+      "attestations": [],
+      "before": [],
+      "context": {
+        "at": "2026-11-16T00:00:00Z",
+        "attestationFiles": [],
+        "construction": "ai-catalog-2026-11",
+        "entry": 0,
+        "manifest": 0,
+        "role": "publisher"
+      },
+      "dids": [
+        {
+          "op": "set",
+          "path": [
+            "did:web:publisher.example",
+            "verificationMethod",
+            0,
+            "id"
+          ],
+          "value": "did:web:publisher.example#key%zz"
+        },
+        {
+          "op": "set",
+          "path": [
+            "did:web:publisher.example",
+            "assertionMethod"
+          ],
+          "value": [
+            "did:web:publisher.example#key%zz",
+            "did:web:publisher.example#ed25519"
+          ]
+        }
+      ],
+      "edit": "the kid fragment carries a malformed percent-escape",
+      "expected": {
+        "decision": "reject",
+        "reason": "kid_not_under_identity"
+      },
+      "id": "reject-kid-fragment-bad-escape",
+      "raw": [],
+      "secondEntry": false,
+      "shape": "aic",
+      "sign": [
+        {
+          "construction": "ai-catalog-2026-11",
+          "entry": 0,
+          "form": "detached",
+          "header": {
+            "kid": "did:web:publisher.example#key%zz"
+          },
+          "key": "publisher",
+          "manifest": 0
+        }
+      ]
+    },
+    {
+      "after": [],
+      "artifact": [],
+      "artifactAfter": [],
+      "assessor": false,
+      "attestationAfter": [],
+      "attestations": [],
       "before": [
         {
           "op": "set",

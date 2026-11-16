@@ -1,8 +1,8 @@
 {
-  "corpusDigest": "93b87060d47683344b8b076237cde482f36a088255a3ee061266151b70c1e475",
+  "corpusDigest": "420bfae460b21f3e0b6927073362698223baabfbfb270548c9240d962921bcdf",
   "counts": {
-    "accept": 19,
-    "reject": 67
+    "accept": 20,
+    "reject": 68
   },
   "suite": "catalog-trust-manifest/v1",
   "vectors": [
@@ -1256,6 +1256,36 @@
       },
       "id": "accept-assertion-method-relative-reference",
       "path": "cases/accept-assertion-method-relative-reference"
+    },
+    {
+      "edit": "control: the kid fragment carries a colon, which an RFC 3986 fragment allows",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "c8bf351ebf9fd9cabf257bfc6e884aa20d982a86029442b80676304e709acdc5",
+        "context.json": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7",
+        "did-documents.json": "7b579bdc9518d542f77ce3ba7831671f721b7c1343773afa17d8afb9fe814682"
+      },
+      "id": "accept-kid-fragment-with-colon",
+      "path": "cases/accept-kid-fragment-with-colon"
+    },
+    {
+      "edit": "the kid fragment carries a malformed percent-escape",
+      "expected": {
+        "decision": "reject",
+        "reason": "kid_not_under_identity"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "93b10083e3922150e60c2752af2a9eabd0b8b791b26452a2bcd55ee7a96baaf4",
+        "context.json": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7",
+        "did-documents.json": "780d514191c38ac7821228b84892def9a4c750036e00a4f1d664e1165b32cfa3"
+      },
+      "id": "reject-kid-fragment-bad-escape",
+      "path": "cases/reject-kid-fragment-bad-escape"
     },
     {
       "edit": "control: an RFC 3339 issuedAt with fractional seconds",

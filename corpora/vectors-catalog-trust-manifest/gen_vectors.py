@@ -204,6 +204,16 @@ def _closed_terms() -> list[dict[str, Any]]:
               "key by the relative reference #es256, resolved against the document id (DID Core "
               "3.2.2)", OK, PASS, "aic", AIC, [_sign(AIC)],
               dids=[_set([PUB, "assertionMethod"], ["#es256", PUB + "#ed25519"])]),
+        _case("accept-kid-fragment-with-colon", "control: the kid fragment carries a colon, "
+              "which an RFC 3986 fragment allows", OK, PASS, "aic", AIC,
+              [_sign(AIC, header={"kid": PUB + "#key:es256"})],
+              dids=[_set(VM0 + ["id"], PUB + "#key:es256"),
+                    _set([PUB, "assertionMethod"], [PUB + "#key:es256", PUB + "#ed25519"])]),
+        _case("reject-kid-fragment-bad-escape", "the kid fragment carries a malformed "
+              "percent-escape", NO, "kid_not_under_identity", "aic", AIC,
+              [_sign(AIC, header={"kid": PUB + "#key%zz"})],
+              dids=[_set(VM0 + ["id"], PUB + "#key%zz"),
+                    _set([PUB, "assertionMethod"], [PUB + "#key%zz", PUB + "#ed25519"])]),
         _case("accept-issued-with-fraction", "control: an RFC 3339 issuedAt with fractional "
               "seconds", OK, PASS, "aic", AIC, [_sign(AIC)],
               before=[_set(M0 + ["signature", "issuedAt"], "2026-11-01T00:00:00.000Z")]),
