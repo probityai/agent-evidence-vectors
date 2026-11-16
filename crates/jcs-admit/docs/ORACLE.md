@@ -70,7 +70,11 @@ format that bounds token length must check it before canonicalizing.
 
 A digest input written as sorted compact JSON (Python's `json.dumps` with `sort_keys=True`,
 `separators=(",", ":")` and `ensure_ascii=False`) is byte-identical to RFC 8785 for a flat map
-of strings whose member names are ASCII, so `admit` checks it. The two part on non-ASCII
-member names (code point order against UTF-16 order), on number values, and on repeated
-member names. [`python/tests/test_sorted_json_oracle.py`](../python/tests/test_sorted_json_oracle.py)
+of strings whose member names are ASCII, so `admit` checks it. The two part in three places.
+Member names sort by code point in one and by UTF-16 code unit in the other, which differ only
+where, at the first position two names differ, one has a code point at or above U+10000 and the
+other one in U+E000 to U+FFFF; names below that range sort the same. Number values part: a float
+such as `1.0` or `1e16`, and an integer that Python writes exactly while RFC 8785 writes the
+nearest double, such as `10**21` (`1e+21`) or `2**53 + 1`. And a repeated member name, which
+sorted compact JSON never writes and `admit` refuses. [`python/tests/test_sorted_json_oracle.py`](../python/tests/test_sorted_json_oracle.py)
 pins each case.

@@ -43,6 +43,15 @@ def test_flat_ascii_keyed_string_maps_agree(params):
     assert jcs.is_canonical(raw)
 
 
+def test_non_ascii_member_names_below_the_surrogate_block_agree():
+    # Code point order and UTF-16 code unit order differ only where a name has a
+    # code point at or above U+10000 and the other has one in U+E000..U+FFFF at
+    # the first position where they differ. Names below that range sort the same.
+    params = {"\u00fc": "b", "z": "c", "\u00e9": "a", "\u4e2d": "d"}
+    raw = sorted_compact(params)
+    assert jcs.admit(raw) == raw
+
+
 def test_non_ascii_member_names_can_sort_differently():
     # Python sorts member names by code point; RFC 8785 sorts by UTF-16 code
     # unit. U+E000 precedes U+1F600 by code point, and the UTF-16 high
@@ -60,6 +69,9 @@ def test_non_ascii_member_names_can_sort_differently():
         (1.0, b"1.0", b"1"),
         (1e16, b"1e+16", b"10000000000000000"),
         (0.000001, b"1e-06", b"0.000001"),
+        # Python writes an int exactly; RFC 8785 writes the nearest double.
+        (10**21, b"1000000000000000000000", b"1e+21"),
+        (2**53 + 1, b"9007199254740993", b"9007199254740992"),
     ],
 )
 def test_number_values_part(value, python, rfc8785):
