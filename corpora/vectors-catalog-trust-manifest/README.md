@@ -1,6 +1,6 @@
 # vectors-catalog-trust-manifest
 
-Suite `catalog-trust-manifest/v1`: 88 cases (20 accept, 68 reject) for a verifier of signed ARD and AI Catalog objects. The profile is [profiles/catalog-trust-manifest.md](../../profiles/catalog-trust-manifest.md).
+Suite `catalog-trust-manifest/v1`: 90 cases (20 accept, 70 reject) for a verifier of signed ARD and AI Catalog objects. The profile is [profiles/catalog-trust-manifest.md](../../profiles/catalog-trust-manifest.md).
 
 Each case directory holds `catalog.json` (the bytes as published), `did-documents.json` (what an offline did:web resolver returned, keyed by DID), `artifact.json` (the bytes the entry names), any vendored attestation document, and `context.json` (construction, entry and manifest index, role, check time, attestation file names).
 
@@ -117,6 +117,8 @@ Test keys only: each is derived from the SHA-256 of a public label in `gen_vecto
 | `reject-draft-identifier-absent` | reject | `subject_entry_mismatch` | entry and subject both lack identifier, so the signed subject names no entry |
 | `reject-attestation-signer-document-not-identity` | reject | `attestation_unsigned` | the DID document served for the attestation key's DID carries another id |
 | `accept-assertion-method-relative-reference` | accept | `signature_covers_release` | control: assertionMethod names the key by the relative reference #es256, resolved against the document id (DID Core 3.2.2) |
+| `reject-draft-url-and-data` | reject | `entry_delivery_not_one` | the entry carries both url and data; the draft requires exactly one |
+| `reject-draft-neither-url-nor-data` | reject | `entry_delivery_not_one` | the entry carries neither url nor data |
 | `accept-kid-fragment-with-colon` | accept | `signature_covers_release` | control: the kid fragment carries a colon, which an RFC 3986 fragment allows |
 | `reject-kid-fragment-bad-escape` | reject | `kid_not_under_identity` | the kid fragment carries a malformed percent-escape |
 | `accept-issued-with-fraction` | accept | `signature_covers_release` | control: an RFC 3339 issuedAt with fractional seconds |

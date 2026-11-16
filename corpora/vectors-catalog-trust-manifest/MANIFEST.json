@@ -1,8 +1,8 @@
 {
-  "corpusDigest": "420bfae460b21f3e0b6927073362698223baabfbfb270548c9240d962921bcdf",
+  "corpusDigest": "526b7b1aa409f5a10a7b992e3bcc8802166524f3b57b74f74e014c522fde9d24",
   "counts": {
     "accept": 20,
-    "reject": 68
+    "reject": 70
   },
   "suite": "catalog-trust-manifest/v1",
   "vectors": [
@@ -1256,6 +1256,36 @@
       },
       "id": "accept-assertion-method-relative-reference",
       "path": "cases/accept-assertion-method-relative-reference"
+    },
+    {
+      "edit": "the entry carries both url and data; the draft requires exactly one",
+      "expected": {
+        "decision": "reject",
+        "reason": "entry_delivery_not_one"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "f72ec5f155c08d76c7d85efc4f6434d432c75475c0a7d7178a73d6703a8d21ae",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-draft-url-and-data",
+      "path": "cases/reject-draft-url-and-data"
+    },
+    {
+      "edit": "the entry carries neither url nor data",
+      "expected": {
+        "decision": "reject",
+        "reason": "entry_delivery_not_one"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "a6bc227534df2ed1122013d16b345babf306ab19735a4d84941833eae5914850",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-draft-neither-url-nor-data",
+      "path": "cases/reject-draft-neither-url-nor-data"
     },
     {
       "edit": "control: the kid fragment carries a colon, which an RFC 3986 fragment allows",

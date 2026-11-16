@@ -4009,6 +4009,101 @@
       "assessor": false,
       "attestationAfter": [],
       "attestations": [],
+      "before": [
+        {
+          "op": "set",
+          "path": [
+            "entries",
+            0,
+            "data"
+          ],
+          "value": {
+            "name": "travel agent"
+          }
+        }
+      ],
+      "context": {
+        "at": "2026-11-16T00:00:00Z",
+        "attestationFiles": [],
+        "construction": "ard-draft-bu-00",
+        "entry": 0,
+        "manifest": 0,
+        "role": "publisher"
+      },
+      "dids": [],
+      "edit": "the entry carries both url and data; the draft requires exactly one",
+      "expected": {
+        "decision": "reject",
+        "reason": "entry_delivery_not_one"
+      },
+      "id": "reject-draft-url-and-data",
+      "raw": [],
+      "secondEntry": false,
+      "shape": "ard",
+      "sign": [
+        {
+          "construction": "ard-draft-bu-00",
+          "entry": 0,
+          "form": "detached",
+          "header": {},
+          "key": "publisher",
+          "manifest": 0
+        }
+      ]
+    },
+    {
+      "after": [],
+      "artifact": [],
+      "artifactAfter": [],
+      "assessor": false,
+      "attestationAfter": [],
+      "attestations": [],
+      "before": [
+        {
+          "op": "del",
+          "path": [
+            "entries",
+            0,
+            "url"
+          ]
+        }
+      ],
+      "context": {
+        "at": "2026-11-16T00:00:00Z",
+        "attestationFiles": [],
+        "construction": "ard-draft-bu-00",
+        "entry": 0,
+        "manifest": 0,
+        "role": "publisher"
+      },
+      "dids": [],
+      "edit": "the entry carries neither url nor data",
+      "expected": {
+        "decision": "reject",
+        "reason": "entry_delivery_not_one"
+      },
+      "id": "reject-draft-neither-url-nor-data",
+      "raw": [],
+      "secondEntry": false,
+      "shape": "ard",
+      "sign": [
+        {
+          "construction": "ard-draft-bu-00",
+          "entry": 0,
+          "form": "detached",
+          "header": {},
+          "key": "publisher",
+          "manifest": 0
+        }
+      ]
+    },
+    {
+      "after": [],
+      "artifact": [],
+      "artifactAfter": [],
+      "assessor": false,
+      "attestationAfter": [],
+      "attestations": [],
       "before": [],
       "context": {
         "at": "2026-11-16T00:00:00Z",

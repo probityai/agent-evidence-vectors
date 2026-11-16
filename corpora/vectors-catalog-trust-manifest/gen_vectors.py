@@ -204,6 +204,12 @@ def _closed_terms() -> list[dict[str, Any]]:
               "key by the relative reference #es256, resolved against the document id (DID Core "
               "3.2.2)", OK, PASS, "aic", AIC, [_sign(AIC)],
               dids=[_set([PUB, "assertionMethod"], ["#es256", PUB + "#ed25519"])]),
+        _case("reject-draft-url-and-data", "the entry carries both url and data; the draft "
+              "requires exactly one", NO, "entry_delivery_not_one", "ard", D, [_sign(D)],
+              before=[_set(["entries", 0, "data"], {"name": "travel agent"})]),
+        _case("reject-draft-neither-url-nor-data", "the entry carries neither url nor data",
+              NO, "entry_delivery_not_one", "ard", D, [_sign(D)],
+              before=[_del(["entries", 0, "url"])]),
         _case("accept-kid-fragment-with-colon", "control: the kid fragment carries a colon, "
               "which an RFC 3986 fragment allows", OK, PASS, "aic", AIC,
               [_sign(AIC, header={"kid": PUB + "#key:es256"})],
