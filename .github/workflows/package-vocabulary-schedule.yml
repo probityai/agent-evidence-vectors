@@ -54,7 +54,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          gh release download v2.3.8 --repo google/osv-scanner \
-            --pattern osv-scanner_linux_amd64 --output ./osv-scanner --clobber
-          chmod +x ./osv-scanner
+          python3 ../../scripts/fetch-tool.py --repo google/osv-scanner --tag v2.3.8 \
+            --asset osv-scanner_linux_amd64 --dest ./osv-scanner --executable \
+            --sha256 bc98e15319ed0d515e3f9235287ba53cdc5535d576d24fd573978ecfe9ab92dc
           ./osv-scanner scan source --lockfile=requirements.txt

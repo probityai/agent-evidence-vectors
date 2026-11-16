@@ -1,0 +1,50 @@
+name: fetch-tool
+description: Fetch one pinned release asset through cache, retried direct download, then the API asset endpoint, and verify its sha256 on every path.
+inputs:
+  repo:
+    description: owner/name of the repository that publishes the asset
+    required: true
+  tag:
+    description: release tag
+    required: true
+  asset:
+    description: asset file name
+    required: true
+  sha256:
+    description: pinned sha256 of the asset
+    required: true
+  dest:
+    description: file path to write the verified asset to
+    required: true
+  executable:
+    description: set to true to make the file executable
+    required: false
+    default: 'false'
+runs:
+  using: composite
+  steps:
+    - id: cache
+      uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: ${{ inputs.dest }}
+        key: fetch-tool-${{ inputs.repo }}-${{ inputs.tag }}-${{ inputs.asset }}-${{ inputs.sha256 }}
+    - shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        FT_REPO: ${{ inputs.repo }}
+        FT_TAG: ${{ inputs.tag }}
+        FT_ASSET: ${{ inputs.asset }}
+        FT_SHA: ${{ inputs.sha256 }}
+        FT_DEST: ${{ inputs.dest }}
+        FT_EXEC: ${{ inputs.executable }}
+      run: |
+        set -euo pipefail
+        flag=()
+        if [ "$FT_EXEC" = true ]; then flag=(--executable); fi
+        python3 "${{ github.action_path }}/../../../scripts/fetch-tool.py" \
+          --repo "$FT_REPO" --tag "$FT_TAG" --asset "$FT_ASSET" --sha256 "$FT_SHA" --dest "$FT_DEST" "${flag[@]}"
+    - if: steps.cache.outputs.cache-hit != 'true'
+      uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: ${{ inputs.dest }}
+        key: fetch-tool-${{ inputs.repo }}-${{ inputs.tag }}-${{ inputs.asset }}-${{ inputs.sha256 }}

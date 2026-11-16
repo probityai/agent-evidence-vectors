@@ -28,6 +28,8 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass, field
 
+from .evidence_semantics import Tally
+
 ASSESSED = "ASSESSED"
 INCOMPLETE = "INCOMPLETE"
 NOT_ASSESSED = "NOT-ASSESSED"
@@ -99,7 +101,7 @@ class Report:
 
     @property
     def ok(self) -> bool:
-        return not any(r.status in FAILING for r in self.results)
+        return bool(self.results) and not any(r.status in FAILING for r in self.results)
 
     def as_dict(self) -> dict[str, object]:
         return {"format": self.fmt, "ok": self.ok, "classes": [r.as_dict() for r in self.results], "notes": self.notes}
@@ -377,14 +379,27 @@ def check(document: object, required: list[str], *, require_complete: bool = Fal
     return Report(fmt, results, _notes(doc, set(required)))
 
 
+def tally(report: Report) -> Tally:
+    """Classes assessed complete are passes; failing classes fail; everything else is stated but not checked."""
+    counts = Tally()
+    for r in report.results:
+        if r.status in FAILING:
+            counts.failed += 1
+        elif r.status == ASSESSED:
+            counts.passed += 1
+        else:
+            counts.unchecked += 1
+    return counts
+
+
 def format_report(report: Report) -> str:
-    """One line per class, then notes, then the verdict."""
-    width = max(len(r.name) for r in report.results)
+    """One line per class, then notes, then the verdict. An empty report says ``no records``, never PASS."""
+    counts = tally(report)
     lines = []
+    width = max((len(r.name) for r in report.results), default=0)
     for r in report.results:
         label = f"{r.status}({r.reason})" if r.reason else r.status
         lines.append(f"{label:<26} {r.name:<{width}}  {r.detail}")
     lines += [f"NOTE {note}" for note in report.notes]
-    missing = sum(r.status in FAILING for r in report.results)
-    lines.append(f"{'FAIL' if missing else 'PASS'} {report.fmt}: {len(report.results) - missing} of {len(report.results)} required classes accounted for")
+    lines.append(f"{counts.word()} {report.fmt}: {counts.headline('required classes')}")
     return "\n".join(lines)

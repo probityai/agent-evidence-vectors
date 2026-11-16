@@ -241,6 +241,6 @@ this size.
 
 `release/CORPUS-DIGESTS.txt` now carries a line for this corpus. Its detached
 signature and timestamps cover the previous contents and are therefore stale by
-exactly this change; re-signing is the release lane's, not this one's.
+exactly this change; they are re-signed at the next release.
 
 [RFC 8032]: https://www.rfc-editor.org/rfc/rfc8032
