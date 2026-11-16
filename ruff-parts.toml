@@ -6,3 +6,9 @@
 target-version = "py311"
 # A crate brings its own checks (crate-<name>.yml), which ruff was never part of.
 extend-exclude = ["crates"]
+# A package that supports an older Python than the tools is linted at its own floor, so ruff never
+# proposes an API its oldest supported interpreter lacks (datetime.UTC is 3.11).
+[per-file-target-version]
+"packages/admission/python/**" = "py310"
+"packages/vocabulary/registry.py" = "py310"
+"packages/vocabulary/__init__.py" = "py310"

@@ -15,7 +15,7 @@ from decimal import Decimal
 from typing import Any
 
 
-def number(value: int | float) -> str:
+def number(value: float) -> str:
     if isinstance(value, bool):
         raise TypeError("a boolean is not a number")
     if isinstance(value, int):

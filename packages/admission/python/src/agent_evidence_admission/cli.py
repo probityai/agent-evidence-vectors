@@ -175,18 +175,23 @@ def _pairs(items: list[str], what: str) -> list[tuple[str, str]]:
     return out
 
 
+def _read_options(args: argparse.Namespace) -> dict[str, object]:
+    options = json.loads(read_source(args.options)) if args.options else {}
+    if not isinstance(options, dict):
+        raise TypeError("--options is not a JSON object")
+    for name, value in _pairs(args.option, "--option"):
+        options[name] = json.loads(value)
+    return options
+
+
 def _run_admit(args: argparse.Namespace) -> int:
     try:
         rule_set = rules.get(args.rule_set)
         raw = read_source(args.document)
-        options = json.loads(read_source(args.options)) if args.options else {}
-        if not isinstance(options, dict):
-            raise ValueError("--options is not a JSON object")
-        for name, value in _pairs(args.option, "--option"):
-            options[name] = json.loads(value)
+        options = _read_options(args)
         files = {uri: read_source(path) for uri, path in _pairs(args.file, "--file")}
         verdict = rules.run(rule_set, raw, options, files, warn=args.warn)
-    except (OSError, ValueError) as error:
+    except (OSError, TypeError, ValueError) as error:
         print(f"ERROR could not read: {error}", file=sys.stderr)
         return 2
     if args.json:
@@ -205,8 +210,8 @@ def _run_rule_sets(args: argparse.Namespace) -> int:
     for rule_set in rules.all_rule_sets():
         print(f"{rule_set.name}: {rule_set.summary}")
         print(f"  parse ({rule_set.profile}): {', '.join(rule_set.parse_checks)}")
-        for check in rule_set.checks:
-            print(f"  {check.name}: {check.summary}")
+        for rule_check in rule_set.checks:
+            print(f"  {rule_check.name}: {rule_check.summary}")
         for name, text in rule_set.option_help.items():
             print(f"  option {name}: {text}")
     return 0

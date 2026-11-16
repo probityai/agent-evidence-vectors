@@ -79,7 +79,7 @@ def media_type(typ: Any) -> str | None:
     if not isinstance(typ, str):
         return None
     lowered = typ.lower()
-    return lowered[len("application/") :] if lowered.startswith("application/") else lowered
+    return lowered.removeprefix("application/")
 
 
 def _normalized(uri: str) -> str:
