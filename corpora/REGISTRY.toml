@@ -373,6 +373,18 @@ standards = ["w3c"]
 shapes = ["forged-signature", "stale-authority"]
 
 [[corpus]]
+id = "vectors-budget-lineage"
+path = "corpora/vectors-budget-lineage"
+wheel = true
+sdist = true
+title = "Budget lineage across delegation"
+summary = "Every charge a delegated agent makes must stay in the budget its principal granted: a sub-agent that opens a new root, outruns the depth limit or carves a wider budget is refused, and a delegation needs both ends."
+record_class = "record"
+domains = ["delegation", "authority"]
+standards = []
+shapes = ["scope-overreach", "self-report", "broken-chain"]
+
+[[corpus]]
 id = "vectors-chunked-export"
 path = "corpora/vectors-chunked-export"
 wheel = true
