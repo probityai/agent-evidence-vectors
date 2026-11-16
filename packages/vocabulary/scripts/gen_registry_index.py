@@ -35,6 +35,8 @@ TERM_SECTIONS = (
     "multi_agent_run",
     "principal_identity",
     "decision_receipt",
+    "record_binding",
+    "evaluation_claim",
 )
 CRITICALITY = ("critical", "informational")
 

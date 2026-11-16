@@ -336,3 +336,243 @@ def upstream_receipt(upstream: dict, fetched: dict | None, *, checked: bool = Tr
     if all(key in fetched and fetched[key] == value for key, value in fact.items()):
         return Derived(term, "agrees", False, "the provider's record matches the stated fact")
     return Derived(term, "disagrees", False, "the provider's record differs from the stated fact")
+
+
+# ---------------------------------------------------------------- record_binding
+
+_SAFE = 2 ** 53
+_INTEGER_TOKEN = re.compile(r"^-?(0|[1-9][0-9]*)$")
+_NUMBER_TOKEN = re.compile(r"^-?(0|[1-9][0-9]*)(\.[0-9]+)?([eE][+-]?[0-9]+)?$")
+
+
+def number_in_profile(token: str, profile: str) -> Derived:
+    """Judge one JSON number token against a canonicalization profile.
+
+    ``rfc8785`` accepts every finite token; ``jcs_safe_integer_v1`` refuses a token whose nearest double
+    is an integer of magnitude 2^53 or more, however it is written; ``jcs_integer_only_v1`` refuses any
+    token that is not an integer written without fraction or exponent, or whose magnitude is 2^53 or more.
+    A refusal here is a refusal by declared profile, never a canonicalization failure.
+    """
+    term = "canonicalization"
+    if profile not in ("rfc8785", "jcs_safe_integer_v1", "jcs_integer_only_v1"):
+        return _refuse(term, "profile-not-a-json-canonicalization")
+    if not _NUMBER_TOKEN.match(token):
+        return _refuse(term, "not-a-json-number")
+    double = float(token)
+    if double in (float("inf"), float("-inf")):
+        return _refuse(term, "number-not-finite")
+    if profile == "jcs_integer_only_v1":
+        if not _INTEGER_TOKEN.match(token):
+            return _refuse(term, "outside-profile-not-an-integer")
+        if abs(int(token)) >= _SAFE:
+            return _refuse(term, "outside-profile-integer-range")
+    if profile == "jcs_safe_integer_v1" and double.is_integer() and abs(double) >= _SAFE:
+        return _refuse(term, "outside-profile-unsafe-integer")
+    return Derived(term, profile, False, "in profile")
+
+
+def sequence_numbers(seqs: list, start: int = 0) -> Derived:
+    """Judge a stream's seq values: from ``start``, rising by exactly 1, each in 0 to 2^53-1."""
+    term = "sequence_number"
+    expected = start
+    for seq in seqs:
+        if isinstance(seq, bool) or not isinstance(seq, int) or not 0 <= seq < _SAFE:
+            return _refuse(term, "seq-not-a-safe-count")
+        if seq != expected:
+            return _refuse(term, "seq-repeats" if seq < expected else "seq-skips")
+        expected += 1
+    return Derived(term, str(expected - start), False, "contiguous")
+
+
+def key_history(history: list[dict], key_id: str, issued_at: int) -> Derived:
+    """Derive key_history for ``key_id`` as of ``issued_at`` from a key history.
+
+    Each history entry is {key, authorized_from, retired_at?, revoked_at?}; times are integers. A revocation
+    applies at its effective time, which may precede its publication. An unnamed key is key_unknown.
+    """
+    term = "key_history"
+    entries = [e for e in history if e.get("key") == key_id]
+    if not entries:
+        return Derived(term, "key_unknown", False, "the history does not name the key")
+    entry = entries[0]
+    revoked, retired = entry.get("revoked_at"), entry.get("retired_at")
+    if revoked is not None and revoked <= issued_at:
+        return Derived(term, "key_revoked", False, "revoked at or before issuance")
+    if entry["authorized_from"] > issued_at or (retired is not None and retired <= issued_at):
+        return Derived(term, "key_not_authorized_at_issue", False, "not authorized at issuance")
+    if retired is not None:
+        return Derived(term, "key_rotated_out", False, "authorized at issuance, retired afterwards")
+    return Derived(term, "key_current", False, "authorized at issuance and still")
+
+
+# ---------------------------------------------------------------- evaluation_claim
+
+_DECISION_OF = {"accepted": 0, "rejected": 1, "indeterminate": 2}
+_SCOPE_DIMENSIONS = ("currency", "amount", "merchant", "expiry", "action", "single_use")
+
+
+def verification_decision(checks: list[str]) -> Derived:
+    """Combine per-check results ('pass', 'fail', 'undecided') into accepted, rejected or indeterminate."""
+    term = "verification_decision"
+    if not checks or any(c not in ("pass", "fail", "undecided") for c in checks):
+        return _refuse(term, "checks-not-registered-results")
+    if "fail" in checks:
+        return Derived(term, "rejected", False, "a check failed")
+    if "undecided" in checks:
+        return Derived(term, "indeterminate", False, "a check could not be decided")
+    return Derived(term, "accepted", False, "every check passed")
+
+
+def exit_status(decision: str) -> int:
+    """The verifier exit status for a verification_decision value: 0, 1 or 2."""
+    return _DECISION_OF[decision]
+
+
+def check_outcomes(report: list[tuple[str, str]], profile: list[str]) -> Derived:
+    """Hold a per-check report to the profile's order: every check named once, nothing passes after a fail."""
+    term = "check_outcome"
+    if [name for name, _ in report] != profile:
+        return _refuse(term, "report-does-not-list-the-profile-in-order")
+    failed = False
+    for _, outcome in report:
+        if outcome not in ("pass", "fail", "not_evaluated"):
+            return _refuse(term, "outcome-not-registered")
+        if failed and outcome != "not_evaluated":
+            return _refuse(term, "check-after-a-failure-reported-as-run")
+        failed = failed or outcome == "fail"
+    return Derived(term, "fail" if failed else "pass", False, "report follows the profile")
+
+
+def payment_scope_v1(scope: dict, payment: dict) -> tuple[str, str | None]:
+    """The evaluator payment-scope/v1: (``within`` or ``outside``, the first failing dimension or None).
+
+    ``scope``: currency, amount_ceiling_minor (int), merchants (list), expires_at (int), actions (list),
+    single_use (bool). ``payment``: currency, amount_minor (int), merchant, at (int), action, prior_uses
+    (int). Dimensions are checked in the fixed order currency, amount, merchant, expiry, action, single_use.
+    """
+    failing = {
+        "currency": payment["currency"] != scope["currency"],
+        "amount": payment["amount_minor"] > scope["amount_ceiling_minor"],
+        "merchant": payment["merchant"] not in scope["merchants"],
+        "expiry": payment["at"] > scope["expires_at"],
+        "action": payment["action"] not in scope["actions"],
+        "single_use": bool(scope["single_use"]) and payment["prior_uses"] > 0,
+    }
+    for dimension in _SCOPE_DIMENSIONS:
+        if failing[dimension]:
+            return "outside", dimension
+    return "within", None
+
+
+EVALUATORS = {
+    "https://probityai.github.io/agent-evidence-vectors/evaluator/payment-scope/v1":
+        lambda inputs: payment_scope_v1(inputs["scope"], inputs["payment"])[0],
+}
+
+
+def asserted_verdict(record: dict, evaluators: dict | None = None) -> Derived:
+    """Re-derive a record's asserted verdict under the evaluator it names; never read the assertion as input."""
+    term = "asserted_verdict"
+    known = EVALUATORS if evaluators is None else evaluators
+    name = record.get("evaluator")
+    if name is not None and (not isinstance(name, str) or not name.startswith("https://")):
+        return _refuse(term, "evaluator-not-an-https-uri")
+    if name not in known:
+        return Derived(term, "evaluator_unknown", False, "no evaluator the verifier holds")
+    if known[name](record["inputs"]) == record.get("asserted"):
+        return Derived(term, "rederived_agrees", False, "re-derived verdict equals the assertion")
+    return Derived(term, "asserted_verdict_contradicted", False, "re-derived verdict differs")
+
+
+def vacuity_witness(passed: bool, witness: bool | None) -> Derived:
+    """Judge a property result with its reachability witness (None: no witness declared or run)."""
+    term = "vacuity_witness"
+    if witness is None:
+        return Derived(term, "no_witness", False, "no witness")
+    if passed and not witness:
+        return Derived(term, "vacuous_pass", True, "the guarded state is unreachable")
+    return Derived(term, "witnessed", False, "the guarded state is reachable")
+
+
+def signer_distinctness(named: list[dict], signatures: dict, required: int, issuer_key: str | None = None) -> Derived:
+    """Count signers by distinct key and distinct authority.
+
+    ``named``: [{id, key, authority}]; ``signatures``: {id: verifies (bool)}; ``issuer_key``: the issuer's
+    own key, which never counts as a cosigner.
+    """
+    term = "signer_distinctness"
+    for signer in named:
+        if not signatures.get(signer["id"]):
+            return Derived(term, "key_named_not_signing", True, f"{signer['id']} named and not signing")
+    keys = [s["key"] for s in named]
+    if len(set(keys)) < len(keys) and len(set(keys)) < required:
+        return Derived(term, "one_key_two_ids", True, "one key counted twice")
+    if issuer_key is not None and issuer_key in keys:
+        return Derived(term, "own_key_as_cosigner", True, "the issuer's key counted as a cosigner")
+    if len({s["authority"] for s in named}) < required:
+        return Derived(term, "one_authority_threshold", True, "threshold met by one authority")
+    return Derived(term, "distinct", False, "distinct keys and authorities")
+
+
+def _group_state(group: list[dict], active: frozenset[str]) -> str:
+    ids = [a["id"] for a in group]
+    if len(set(ids)) < len(ids):
+        return "indeterminate"
+    authorize = [a for a in group if a["kind"] == "control"]
+    execute = [a for a in group if a["kind"] == "execution"]
+    if not authorize or not execute:
+        return "missing"
+    if any(not a["authenticated"] for a in group):
+        return "failure"
+    if any(a["binding"] not in active for a in group):
+        return "not_evaluated"
+    digests = {a["digest"] for a in authorize} | {a["digest"] for a in execute}
+    return "satisfied" if len(digests) == 1 else "failure"
+
+
+def lifecycle_binding(artifacts: list[dict], active_bindings: frozenset[str]) -> dict:
+    """The lifecycle-binding state per (decision, instruction) group.
+
+    Each artifact is {id, kind ('control' or 'execution'), decision, instruction, digest, authenticated
+    (bool: the signature verifies under the key its producer's binding names), binding}. The decision
+    record each group cites is an artifact of kind 'decision' with the same decision and instruction; it
+    must be authenticated under an active binding too. An artifact that is not authenticated is a failure
+    (it claims a binding it does not have); one whose binding is not active is not_evaluated. An execution
+    whose instruction no control in the set covers is not_evaluated. Returns {(decision, instruction): state}.
+    """
+    groups: dict[tuple, list[dict]] = {}
+    for artifact in artifacts:
+        groups.setdefault((artifact["decision"], artifact["instruction"]), []).append(artifact)
+    states = {}
+    for key, group in groups.items():
+        decisions = [a for a in group if a["kind"] == "decision"]
+        members = [a for a in group if a["kind"] != "decision"]
+        state = _group_state(members, active_bindings)
+        if state == "missing" and any(a["kind"] == "execution" for a in members):
+            state = "not_evaluated"
+        if state == "satisfied" and any(not d["authenticated"] for d in decisions):
+            state = "failure"
+        elif state == "satisfied" and any(d["binding"] not in active_bindings for d in decisions):
+            state = "not_evaluated"
+        states[key] = state
+    return states
+
+
+def time_bounds(issued_at: int, check_time: int, anchor_time: int | None, profile: dict) -> Derived:
+    """Asymmetric freshness and the late anchor bound, with every input range-checked before arithmetic.
+
+    ``profile``: max_age, uncertainty, clock_skew_tolerance, anchor_within, block_time_allowance (seconds).
+    Past bound: max_age plus uncertainty. Future bound: clock_skew_tolerance only. Anchor: at most
+    anchor_within plus block_time_allowance after issuance. Every bound admits equality.
+    """
+    term = "clock_skew_tolerance"
+    values = [issued_at, check_time, *(v for v in [anchor_time] if v is not None), *profile.values()]
+    if any(isinstance(v, bool) or not isinstance(v, int) or not 0 <= v < _SAFE for v in values):
+        return _refuse(term, "time-member-outside-the-safe-range")
+    if issued_at > check_time + profile["clock_skew_tolerance"]:
+        return _refuse(term, "issued-in-the-future")
+    if check_time - issued_at > profile["max_age"] + profile["uncertainty"]:
+        return _refuse(term, "too-old")
+    if anchor_time is not None and anchor_time > issued_at + profile["anchor_within"] + profile["block_time_allowance"]:
+        return _refuse("anchor_within", "anchor-late")
+    return Derived(term, "in-bounds", False, "inside every bound")
