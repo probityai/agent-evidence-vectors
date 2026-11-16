@@ -1,4 +1,4 @@
-"""Write the rule-set vectors: one manifest.json per rule set, every case inline.
+"""Write the rule-set vectors: one manifest.json per rule set, every case inline, plus example files.
 
 Run from anywhere: ``python vectors/rules/generate.py`` rewrites the manifests beside this file;
 ``--check`` exits 1 when a committed manifest differs from what this script writes. Every case is
@@ -518,14 +518,26 @@ SETS = {
 }
 
 
-def manifests() -> dict[Path, str]:
-    out = {}
+def examples() -> dict[Path, bytes]:
+    """Files on disk for the Action's own self-test: one bound catalog and one transplanted one."""
+    where = HERE / "catalog-attestations" / "examples"
+    return {
+        where / "control.catalog.json": (catalog(ard_entry()) + "\n").encode(),
+        where / "transplant.catalog.json": (catalog(transplanted()) + "\n").encode(),
+        where / "invoice-reader.json": ARTIFACT,
+        where / "invoice-reader.intoto.json": GOOD_STATEMENT,
+        where / "invoice-reader.scan.sarif": SARIF,
+    }
+
+
+def manifests() -> dict[Path, bytes]:
+    out = dict(examples())
     for directory, (rule_set, build, options) in SETS.items():
         manifest: dict[str, Any] = {"ruleSet": rule_set}
         if options:
             manifest["options"] = options
         manifest["cases"] = build()
-        out[HERE / directory / "manifest.json"] = json.dumps(manifest, indent=1, ensure_ascii=True) + "\n"
+        out[HERE / directory / "manifest.json"] = (json.dumps(manifest, indent=1, ensure_ascii=True) + "\n").encode()
     return out
 
 
@@ -536,11 +548,11 @@ def main(argv: list[str] | None = None) -> int:
     stale = []
     for path, content in manifests().items():
         if args.check:
-            if not path.exists() or path.read_text(encoding="utf-8") != content:
+            if not path.exists() or path.read_bytes() != content:
                 stale.append(str(path))
             continue
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(content, encoding="utf-8")
+        path.write_bytes(content)
     for path in stale:
         print(f"STALE {path}: run python vectors/rules/generate.py", file=sys.stderr)
     return 1 if stale else 0
