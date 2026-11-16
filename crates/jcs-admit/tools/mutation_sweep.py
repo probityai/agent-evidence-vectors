@@ -36,10 +36,20 @@ HI_SURR = '''                    return Err(self.refuse_string(start, "unpaired 
 LO_SURR = '''            0xDC00..=0xDFFF => {
                 return Err(self.refuse_string(start, "unpaired low surrogate escape"))
             }'''
-UTF8 = '''                let chunk = core::str::from_utf8(&self.bytes[run_start..self.at]).map_err(|e| {
-                    self.refuse_string(run_start + e.valid_up_to(), "invalid UTF-8")
-                })?;'''
-UTF8_AT = '''                    self.refuse_string(run_start + e.valid_up_to(), "invalid UTF-8")'''
+UTF8 = '''                let (chunk, ill_formed_at) = match core::str::from_utf8(run) {
+                    Ok(chunk) => (chunk, None),
+                    Err(e) => {
+                        let valid = e.valid_up_to();
+                        let prefix = core::str::from_utf8(&run[..valid])
+                            .map_err(|_| self.refuse_string(run_start, "invalid UTF-8"))?;
+                        (prefix, Some(run_start + valid))
+                    }
+                };'''
+UTF8_AT = '''                        (prefix, Some(run_start + valid))'''
+ILL_RETURN = '''                if let Some(at) = ill_formed_at {
+                    return Err(self.refuse_string(at, "invalid UTF-8"));
+                }
+'''
 NONCHAR_RUN = '''                if self.opts.wants_noncharacter_check() {
                     if let Some((at, _)) = chunk
                         .char_indices()
@@ -100,8 +110,8 @@ CASES = [
             }''',
      ["--test","attack_strings_keys_members"]),
   ("R4","red","StringNotScalar/utf8","parse.rs", UTF8,
-     '''                let lossy = String::from_utf8_lossy(&self.bytes[run_start..self.at]);
-                let chunk: &str = &lossy;''',
+     '''                let lossy = String::from_utf8_lossy(run);
+                let (chunk, ill_formed_at): (&str, Option<usize>) = (&lossy, None);''',
      ["--test","attack_strings_keys_members"]),
   ("R5","red","StringNotScalar/noncharacter","lib.rs", NONCHAR_GET,
      '''    pub(crate) const fn wants_noncharacter_check(&self) -> bool {
@@ -119,8 +129,11 @@ CASES = [
      '''                write!(f, "JSON string is not a sequence of Unicode scalar values at byte {offset}: {reason}")''',
      ["--test","refusal_messages"]),
   ("M4d","mutate","StringNotScalar/utf8-offset","parse.rs", UTF8_AT,
-     '''                    self.refuse_string(run_start + 0 * e.valid_up_to(), "invalid UTF-8")''',
+     '''                        (prefix, Some(run_start + 0 * valid))''',
      ["--test","refusal_messages","invalid_utf8_is_reported_at_its_own_first_byte"]),
+  ("M4e","mutate","StringNotScalar/first-fault","parse.rs", NONCHAR_RUN + ILL_RETURN,
+     ILL_RETURN + NONCHAR_RUN,
+     ["--test","refusal_messages","a_noncharacter_before_ill_formed_bytes_is_the_fault_reported"]),
   ("R6","red","UnsafeInteger","number.rs", UNSAFE_BR, "", ["--test","ijson_profile"]),
   ("M5","mutate","UnsafeInteger","number.rs", UNSAFE_BR,
      '''        if opts.wants_safe_integers()

@@ -210,9 +210,21 @@ impl<'a> Parser<'a> {
                 // The offset is the first byte of the ill-formed sequence, not
                 // the start of the run, so every refusal in this variant names
                 // the byte it refused.
-                let chunk = core::str::from_utf8(&self.bytes[run_start..self.at]).map_err(|e| {
-                    self.refuse_string(run_start + e.valid_up_to(), "invalid UTF-8")
-                })?;
+                //
+                // The first fault in reading order is the one reported, as it is
+                // across runs and on the Go rail: a noncharacter in the
+                // well-formed prefix comes before ill-formed bytes after it, so
+                // the prefix is searched before the UTF-8 fault is returned.
+                let run = &self.bytes[run_start..self.at];
+                let (chunk, ill_formed_at) = match core::str::from_utf8(run) {
+                    Ok(chunk) => (chunk, None),
+                    Err(e) => {
+                        let valid = e.valid_up_to();
+                        let prefix = core::str::from_utf8(&run[..valid])
+                            .map_err(|_| self.refuse_string(run_start, "invalid UTF-8"))?;
+                        (prefix, Some(run_start + valid))
+                    }
+                };
                 if self.opts.wants_noncharacter_check() {
                     if let Some((at, _)) = chunk
                         .char_indices()
@@ -220,6 +232,9 @@ impl<'a> Parser<'a> {
                     {
                         return Err(self.refuse_string(run_start + at, NONCHARACTER));
                     }
+                }
+                if let Some(at) = ill_formed_at {
+                    return Err(self.refuse_string(at, "invalid UTF-8"));
                 }
                 out.push_str(chunk);
             }

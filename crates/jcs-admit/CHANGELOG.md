@@ -25,6 +25,11 @@ follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   at byte 6, the start of the run, where the Go rail reports the bad byte. The offset is now the
   first byte of the ill-formed sequence (byte 8), and the `offset` field's documentation names
   the byte each refusal in the variant points at.
+- Under `admit_ijson`, a noncharacter followed by ill-formed UTF-8 in the same run of text was
+  reported as the later UTF-8 fault, because the run was checked for UTF-8 as a whole before it
+  was searched for noncharacters. The first fault in reading order is now the one reported, as
+  it already was across runs and on the Go rail. Both documents were refused before and are
+  refused now; only the reason and offset changed.
 
 ### Changed
 

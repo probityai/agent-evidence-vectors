@@ -223,3 +223,37 @@ fn invalid_utf8_is_reported_at_its_own_first_byte() {
         }
     }
 }
+
+/// Within one run of text the first fault in reading order is the one reported.
+/// A noncharacter before ill-formed bytes in the same run was reported as the
+/// later UTF-8 fault, because the run was checked for UTF-8 as a whole before
+/// it was searched for noncharacters; across runs, and on the Go rail, the
+/// first fault wins. Each document is `{"k":"ab`, U+FDD0 at byte 8 (built from
+/// its code point), then one ill-formed sequence.
+#[test]
+fn a_noncharacter_before_ill_formed_bytes_is_the_fault_reported() {
+    let nonchar = char::from_u32(0xFDD0).unwrap().to_string();
+    let faults: [&[u8]; 3] = [&[0xFF], &[0x80], &[0xED, 0xA0, 0x80]];
+    for fault in faults {
+        let mut doc = b"{\"k\":\"ab".to_vec();
+        doc.extend_from_slice(nonchar.as_bytes());
+        doc.extend_from_slice(fault);
+        doc.extend_from_slice(b"\"}");
+        match admit_ijson(&doc) {
+            Err(Error::StringNotScalar { offset, reason }) => {
+                assert!(reason.contains("noncharacter"), "{fault:02x?}: {reason}");
+                assert_eq!(offset, 8, "{fault:02x?}");
+            }
+            other => panic!("{fault:02x?}: want StringNotScalar, got {other:?}"),
+        }
+        // The RFC 8785 profile admits the noncharacter, so the ill-formed bytes
+        // after it are the first fault there, at their own first byte.
+        match admit(&doc) {
+            Err(Error::StringNotScalar { offset, reason }) => {
+                assert_eq!(reason, "invalid UTF-8", "{fault:02x?}");
+                assert_eq!(offset, 8 + nonchar.len(), "{fault:02x?}");
+            }
+            other => panic!("{fault:02x?}: want StringNotScalar, got {other:?}"),
+        }
+    }
+}
