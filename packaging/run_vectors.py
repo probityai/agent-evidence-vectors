@@ -159,6 +159,7 @@ from agent_evidence_vectors import (
     openweight,
     paymentmandate,
     principalbinding,
+    printwitness,
     propagationstep,
     receiptchainend,
     receiptsignature,
@@ -3909,6 +3910,7 @@ def _run_non_reference_suite(
         sourcecoverage.SUITE,
         anchoredchain.SUITE,
         principalbinding.SUITE,
+        printwitness.SUITE,
         openweight.SUITE,
         receiptchainend.SUITE,
         identitybinding.SUITE,
@@ -3960,6 +3962,7 @@ def _run_non_reference_suite(
     full_reader = {
         anchoredchain.SUITE: anchoredchain.run,
         principalbinding.SUITE: principalbinding.run,
+        printwitness.SUITE: printwitness.run,
         openweight.SUITE: openweight.run,
         receiptchainend.SUITE: receiptchainend.run,
         identitybinding.SUITE: identitybinding.run,
