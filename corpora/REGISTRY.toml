@@ -553,6 +553,18 @@ standards = []
 shapes = ["coverage-gap", "self-report"]
 
 [[corpus]]
+id = "vectors-execution-billing-finality"
+path = "corpora/vectors-execution-billing-finality"
+wheel = true
+sdist = true
+title = "Execution billing finality"
+summary = "A spend ledger must keep execution outcome, billing finality and dispatch state apart: a success is not a final bill, an invoice is not an execution, and settled billing never reopens the same attempt's dispatch gate."
+record_class = "execution-evidence"
+domains = ["effects", "payments"]
+standards = []
+shapes = ["uncertainty", "replay", "self-report"]
+
+[[corpus]]
 id = "vectors-grade-floor"
 path = "corpora/vectors-grade-floor"
 wheel = true
