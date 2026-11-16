@@ -181,6 +181,7 @@ RECOMPUTERS: dict[str, Callable[[Path, dict[str, Any]], str]] = {
     "vectors-incident-evidence-cell": _recompute_from_generator,
     "vectors-propagation-step": _recompute_from_generator,
     "vectors-containment-journal": _recompute_from_generator,
+    "vectors-capability-requirement": _recompute_from_generator,
     "vectors-decision-client-failure-modes": _recompute_from_generator,
     "vectors-refusal-reason-priority": _recompute_from_generator,
     "vectors-agent-card-receipt": _recompute_from_generator,
