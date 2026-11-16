@@ -12,6 +12,7 @@ on the shipped sources, and names a row whose anchor or test filter has moved.
 
 Standard library only.
 """
+
 import os
 import pathlib
 import shutil
@@ -49,7 +50,11 @@ class CheckAnchors(unittest.TestCase):
     def run_sweep(self, root: pathlib.Path, *args: str) -> subprocess.CompletedProcess:
         return subprocess.run(
             [sys.executable, str(root / "tools" / "mutation_sweep.py"), *args],
-            cwd=root, env=self.env, capture_output=True, text=True, timeout=120,
+            cwd=root,
+            env=self.env,
+            capture_output=True,
+            text=True,
+            timeout=120,
         )
 
     def assert_built_and_wrote_nothing(self, root: pathlib.Path, before: set) -> None:
@@ -68,9 +73,9 @@ class CheckAnchors(unittest.TestCase):
         root = copy_crate(self.tmp)
         parse = root / "src" / "parse.rs"
         text = parse.read_text()
-        anchor = '            if !seen.insert(name.clone()) {'
+        anchor = "            if !seen.insert(name.clone()) {"
         self.assertEqual(text.count(anchor), 1)
-        parse.write_text(text.replace(anchor, '            if !seen.insert(name.to_owned()) {'))
+        parse.write_text(text.replace(anchor, "            if !seen.insert(name.to_owned()) {"))
         before = set(os.listdir(root))
         result = self.run_sweep(root, "--check-anchors")
         self.assertEqual(result.returncode, 1)
