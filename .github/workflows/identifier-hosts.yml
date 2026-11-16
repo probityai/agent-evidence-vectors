@@ -16,7 +16,12 @@ name: identifier-hosts
 # unit in release.toml, plus the corpus on PyPI, and fails when a page links to
 # an archived, private or renamed repository (scripts/registry_links.py). A
 # registry page keeps the links of its last release, so only a new release
-# clears a finding.
+# clears a finding. That is why a pull request does not gate on a finding: the
+# pages it reads are the ones already published, the change under review cannot
+# alter them, and a red check there held every merge train that touched the
+# script while the release that clears the finding waited behind that train. On
+# a pull request a finding is a warning and an unread page still fails; the
+# weekly and dispatched runs fail on both.
 
 on:
   schedule:
@@ -88,4 +93,15 @@ jobs:
         with:
           persist-credentials: false
       - name: every published package page links to a live repository
-        run: python3 scripts/registry_links.py
+        env:
+          EVENT: ${{ github.event_name }}
+        run: |
+          set +e
+          python3 scripts/registry_links.py
+          rc=$?
+          set -e
+          if [ "$EVENT" = pull_request ] && [ "$rc" = 1 ]; then
+            echo "::warning::a published package page links to an unusable repository; only a release clears it, so the weekly run gates on it"
+            exit 0
+          fi
+          exit "$rc"

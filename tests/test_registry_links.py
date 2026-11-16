@@ -1,6 +1,7 @@
 """Tests for scripts/registry_links.py: the live check of every published package page."""
 
 import importlib.util
+import subprocess
 from pathlib import Path
 
 import pytest
@@ -223,3 +224,42 @@ def test_a_page_without_the_registry_shape_is_inconclusive_not_a_finding(body):
     # main() exits 2 for Unread and 1 for a finding; an uncaught KeyError exited 1.
     with pytest.raises(registry_links.Unread, match="did not have the shape of a npm page"):
         run({"https://registry.npmjs.org/jcs-admit": body}, [("npm", "jcs-admit")])
+
+
+@pytest.mark.parametrize(
+    ("event", "script_exit", "step_exit"),
+    [
+        ("pull_request", 0, 0),
+        ("pull_request", 1, 0),
+        ("pull_request", 2, 2),
+        ("schedule", 1, 1),
+        ("schedule", 2, 2),
+        ("workflow_dispatch", 1, 1),
+    ],
+)
+def test_a_pull_request_reports_a_published_page_finding_without_gating_on_it(
+    tmp_path: Path, event: str, script_exit: int, step_exit: int
+) -> None:
+    """A pull request cannot change a page already published, and the release that
+    clears a finding waits behind the merge train that touched the script; gating there
+    held every such train red. An unread page (2) still fails on every event."""
+    yaml = pytest.importorskip("yaml")
+    workflow = yaml.safe_load(
+        (_ROOT / ".github" / "workflows" / "identifier-hosts.yml").read_text(encoding="utf-8")
+    )
+    steps = workflow["jobs"]["registry-links"]["steps"]
+    step = next(s for s in steps if "registry_links.py" in s.get("run", ""))
+    assert step["env"]["EVENT"] == "${{ github.event_name }}"
+    (tmp_path / "scripts").mkdir()
+    (tmp_path / "scripts" / "registry_links.py").write_text(
+        f"raise SystemExit({script_exit})\n", encoding="utf-8"
+    )
+    result = subprocess.run(
+        ["bash", "-e", "-c", step["run"]],
+        cwd=tmp_path,
+        env={"PATH": "/usr/bin:/bin", "EVENT": event},
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode == step_exit, result.stdout + result.stderr
