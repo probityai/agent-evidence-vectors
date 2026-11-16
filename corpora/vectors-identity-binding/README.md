@@ -31,6 +31,9 @@ binding between that key and the subject DID refuses them.
 | wba-deactivated-after-signing | did:wba | yes | rejected, `key_rotated_out` |
 | web-signing-time-unproven | did:web | yes | rejected, `signing_time_unproven` |
 | web-forward-dated | did:web | yes | rejected, `signing_time_unproven` |
+| web-history-observed-before-transfer | did:web | yes | rejected, `history_unobserved` |
+| web-history-observed-unstated | did:web | yes | rejected, `history_unobserved` |
+| web-history-observed-at-proof | did:web | yes | verified, `subject_bound` |
 
 `signedAt` is the signer's word. The last four cases hold a signature that a
 reader judging the key only at `signedAt` accepts: a record that says it was
@@ -44,9 +47,16 @@ holder backdated after losing the key.
   `application/vnd.agent-evidence.agent-record+json`. The payload is the
   RFC 8785 form of `{"signedAt", "statement", "subject": {"id"}}`; the
   signature's `keyid` is a DID URL naming the signing key.
-- `did-*.json`: one resolution fixture per DID, `{"did", "versions": [...]}`,
-  each version a `didDocument` and its `didDocumentMetadata.updated`. The
-  version in effect at `signedAt` is the latest one updated at or before it.
+- `did-*.json`: one resolution fixture per DID, `{"did", "observedAt",
+  "versions": [...]}`, each version a `didDocument` and its
+  `didDocumentMetadata.updated`. The version in effect at `signedAt` is the
+  latest one updated at or before it. `observedAt` is the last time the
+  resolver read the DID's current document: the history is evidence only up
+  to then. A did:web DID is only as stable as its domain, and a domain that
+  passes to another registrant publishes no new version, so a record signed
+  after that by the former holder's key is invisible in a history observed
+  before it. A resolver that reads no document at all (the domain now serves none)
+  records that as a deactivated version at the time it read.
 - `case.json`: maps each DID to its fixture (a DID with no entry does not
   resolve), and states `provenAt`: the earliest time the verifier itself can
   prove the record existed, from a transparency-log inclusion or a timestamp
@@ -75,17 +85,19 @@ contract, so a record that fails two checks has one expected reason.
 3. A resolution fixture exists for that DID (`did_unresolvable`).
 4. The case states `provenAt`, and `signedAt` is not later than it
    (`signing_time_unproven`).
-5. For a did:wba path DID, the `e1_` segment is the thumbprint of an Ed25519
+5. The fixture states `observedAt`, and it is not earlier than `provenAt`
+   (`history_unobserved`).
+6. For a did:wba path DID, the `e1_` segment is the thumbprint of an Ed25519
    `Multikey` the document authorises for authentication
    (`binding_fingerprint_mismatch`).
-6. Every version in effect from signing through `provenAt` still authorises
+7. Every version in effect from signing through `provenAt` still authorises
    the key and is not deactivated, where a version at or before signing
    authorised it (`key_rotated_out`).
-7. The version in effect at signing lists the key under `authentication` or
+8. The version in effect at signing lists the key under `authentication` or
    `assertionMethod` (`key_not_authorized`).
-8. The DSSE signature verifies under that key (`signature_invalid`).
+9. The DSSE signature verifies under that key (`signature_invalid`).
 
-A record that passes all eight is `verified` with reason `subject_bound`.
+A record that passes all nine is `verified` with reason `subject_bound`.
 
 ## Running it
 

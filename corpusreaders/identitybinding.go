@@ -27,15 +27,19 @@ func init() { register(identityBinding{}) }
 //  3. a resolution fixture exists for it: did_unresolvable;
 //  4. the case states provenAt, the earliest time the verifier can prove the
 //     record existed, and signedAt is not later than it: signing_time_unproven;
-//  5. a did:wba path DID's e1_ segment is the RFC 7638 thumbprint of an Ed25519
+//  5. the resolution fixture states observedAt, the last time its resolver read
+//     the current document, and it is not earlier than provenAt:
+//     history_unobserved (a change after the last observation, such as a
+//     did:web domain passing to another registrant, is absent from the history);
+//  6. a did:wba path DID's e1_ segment is the RFC 7638 thumbprint of an Ed25519
 //     Multikey under authentication: binding_fingerprint_mismatch;
-//  6. every version in effect from signing through provenAt still authorises the
+//  7. every version in effect from signing through provenAt still authorises the
 //     key and is not deactivated, where a version at or before signing
 //     authorised it: key_rotated_out (signedAt is the signer's word, so a key
 //     dropped before provenAt cannot be told from a backdated signature);
-//  7. the version in effect at signing lists the key under authentication or
+//  8. the version in effect at signing lists the key under authentication or
 //     assertionMethod: key_not_authorized;
-//  8. the DSSE signature verifies under that key: signature_invalid.
+//  9. the DSSE signature verifies under that key: signature_invalid.
 //
 // The reader also recomputes each member's declared signatureVerifies, because
 // the corpus's claim is that several rejected records carry a good signature.
@@ -81,9 +85,12 @@ type ibCase struct {
 	subject  string
 	signedAt time.Time
 	provenAt *time.Time // nil when the case states none
-	keyID    string
-	signer   string
-	versions []ibVersion // nil when the signer DID has no resolution fixture
+	// observedAt is when the fixture's resolver last read the current document;
+	// nil when the fixture states none or it does not parse.
+	observedAt *time.Time
+	keyID      string
+	signer     string
+	versions   []ibVersion // nil when the signer DID has no resolution fixture
 }
 
 const (
@@ -180,7 +187,8 @@ func ibLoad(caseDir string) (*ibCase, error) {
 		return c, nil
 	}
 	var resolution struct {
-		Versions []ibVersion `json:"versions"`
+		ObservedAt *string     `json:"observedAt"`
+		Versions   []ibVersion `json:"versions"`
 	}
 	if err := scReadJSON(caseDir, name, &resolution); err != nil {
 		return nil, err
@@ -193,6 +201,11 @@ func ibLoad(caseDir string) (*ibCase, error) {
 		resolution.Versions[i].updated = updated
 	}
 	c.versions = append([]ibVersion{}, resolution.Versions...)
+	if resolution.ObservedAt != nil {
+		if observed, err := time.Parse(time.RFC3339, *resolution.ObservedAt); err == nil {
+			c.observedAt = &observed
+		}
+	}
 	return c, nil
 }
 
@@ -205,6 +218,9 @@ func (c *ibCase) decide() scDecision {
 		{"signer_not_subject", func() bool { return c.signer != c.subject }},
 		{"did_unresolvable", func() bool { return c.versions == nil }},
 		{"signing_time_unproven", func() bool { return c.provenAt == nil || c.signedAt.After(*c.provenAt) }},
+		{"history_unobserved", func() bool {
+			return c.observedAt == nil || c.provenAt == nil || c.observedAt.Before(*c.provenAt)
+		}},
 		{"binding_fingerprint_mismatch", c.fingerprintMismatch},
 		{"key_rotated_out", c.rotatedOut},
 		{"key_not_authorized", func() bool {

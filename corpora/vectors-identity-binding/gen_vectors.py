@@ -46,6 +46,9 @@ JAN, MAR, APR, JUN, JUL = ("2026-01-05T09:00:00Z", "2026-03-10T12:00:00Z", "2026
 # ``provenAt`` for a record anchored when it was signed: a transparency-log inclusion or a checked
 # timestamp a minute after ``signedAt``.
 ANCHORED = {MAR: "2026-03-10T12:01:00Z", JUL: "2026-07-14T16:31:00Z"}
+# When each fixture's resolver last read the DID's current document: after every
+# provenAt below, so only the cases that test the observation turn on it.
+OBSERVED = "2026-08-01T00:00:00Z"
 
 
 def _seed(label: str) -> bytes:
@@ -125,8 +128,14 @@ def wba_document(did: str, label: str, **extra: Any) -> dict[str, Any]:
             "authentication": [key], "assertionMethod": [key], **extra}
 
 
-def resolution(did: str, *versions: tuple[dict[str, Any], str]) -> dict[str, Any]:
-    return {"did": did, "versions": [
+def resolution(did: str, *versions: tuple[dict[str, Any], str],
+               observed: str | None = OBSERVED) -> dict[str, Any]:
+    """A resolution fixture; ``observed`` is when the resolver last read the
+    current document, and None leaves it unstated."""
+    out: dict[str, Any] = {"did": did}
+    if observed is not None:
+        out["observedAt"] = observed
+    return {**out, "versions": [
         {"didDocument": doc, "didDocumentMetadata": {"updated": updated,
                                                      "versionId": str(i + 1)}}
         for i, (doc, updated) in enumerate(versions)]}
@@ -229,6 +238,27 @@ def cases() -> list[Case]:
          {"alice": ALICE_WEB}, "rejected", "signing_time_unproven", True,
          "the verifier states no time at which it can prove the record existed, so only the "
          "signer's word dates it", None),
+        ("web-history-observed-before-transfer", "web",
+         envelope(WEB_ALICE, JUL, alice1, "web-alice"),
+         {"alice": resolution(WEB_ALICE, (web_document(WEB_ALICE, {"key-1": "web-alice"},
+                                                       ("key-1",)), JAN), observed=JAN)},
+         "rejected", "history_unobserved", True,
+         "the domain passed to another registrant in June and the former holder, who kept the "
+         "key, signed in July; the history the verifier holds was last observed in January, "
+         "so it cannot show the key still held when the record was proven", ANCHORED[JUL]),
+        ("web-history-observed-unstated", "web", envelope(WEB_ALICE, MAR, alice1, "web-alice"),
+         {"alice": resolution(WEB_ALICE, (web_document(WEB_ALICE, {"key-1": "web-alice"},
+                                                       ("key-1",)), JAN), observed=None)},
+         "rejected", "history_unobserved", True,
+         "the fixture does not say when its resolver last read the document; an unstated "
+         "observation is a refusal, never a clean pass", ANCHORED[MAR]),
+        ("web-history-observed-at-proof", "web", envelope(WEB_ALICE, JUL, alice1, "web-alice"),
+         {"alice": resolution(WEB_ALICE, (web_document(WEB_ALICE, {"key-1": "web-alice"},
+                                                       ("key-1",)), JAN),
+                              observed=ANCHORED[JUL])},
+         "verified", "subject_bound", True,
+         "control: the history was observed at the moment the record was proven to exist",
+         ANCHORED[JUL]),
         ("web-forward-dated", "web", envelope(WEB_ALICE, JUL, alice1, "web-alice"),
          {"alice": ALICE_WEB}, "rejected", "signing_time_unproven", True,
          "says it was signed in July, but was proven to exist in March", ANCHORED[MAR]),
