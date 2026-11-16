@@ -214,3 +214,68 @@ def test_package_json_repository_in_another_spelling_is_checked(tmp_path: Path, 
     problems = check(tmp_path / "package.json")
     assert any(": repository: " in p and "archived repository" in p for p in problems), problems
     assert not any(": homepage: " in p for p in problems), problems
+
+
+# A tree or blob link that names only a ref, or a ref holding a slash. The first passed with no
+# lookup at all, so a link to a tag that was never pushed went out on a registry page; the
+# second was split at its first slash and refused a path that exists.
+REFS = {
+    ("probityai/agent-evidence-vectors", "jcs-admit-v0.1.3", ""),
+    ("probityai/agent-evidence-vectors", "release/1.0", "crates/dsse"),
+}
+
+
+def ref_lookup(full_name: str, ref: str, path: str) -> bool:
+    return (full_name, ref, path) in PATHS | REFS
+
+
+def test_a_link_to_a_ref_that_does_not_exist_is_refused(tmp_path: Path) -> None:
+    manifest = cargo(
+        tmp_path,
+        "https://github.com/probityai/agent-evidence-vectors",
+        "https://github.com/probityai/agent-evidence-vectors/tree/jcs-admit-v9.9.9",
+    )
+    problems = release_links.check_manifest(manifest, repo_lookup, ref_lookup)
+    assert any("jcs-admit-v9.9.9" in p for p in problems), problems
+
+
+def test_a_link_to_a_ref_that_exists_passes(tmp_path: Path) -> None:
+    manifest = cargo(
+        tmp_path,
+        "https://github.com/probityai/agent-evidence-vectors",
+        "https://github.com/probityai/agent-evidence-vectors/tree/jcs-admit-v0.1.3/",
+    )
+    assert release_links.check_manifest(manifest, repo_lookup, ref_lookup) == []
+
+
+def test_a_ref_with_a_slash_is_split_where_a_ref_exists(tmp_path: Path) -> None:
+    manifest = cargo(
+        tmp_path,
+        "https://github.com/probityai/agent-evidence-vectors",
+        "https://github.com/probityai/agent-evidence-vectors/tree/release/1.0/crates/dsse",
+    )
+    assert release_links.check_manifest(manifest, repo_lookup, ref_lookup) == []
+
+
+def test_ref_candidates_cover_every_split() -> None:
+    assert release_links.ref_candidates("release/1.0/crates") == [
+        ("release", "1.0/crates"),
+        ("release/1.0", "crates"),
+        ("release/1.0/crates", ""),
+    ]
+
+
+def test_a_ref_only_lookup_asks_the_contents_api_at_the_root(monkeypatch) -> None:
+    asked = []
+
+    def fake_get(url: str):
+        asked.append(url)
+        return 200, {}
+
+    monkeypatch.setattr(release_links, "_json_get", fake_get)
+    assert release_links.github_path_exists("probityai/x", "release/1.0", "")
+    assert release_links.github_path_exists("probityai/x", "main", "crates/dsse")
+    assert asked == [
+        "https://api.github.com/repos/probityai/x/contents?ref=release%2F1.0",
+        "https://api.github.com/repos/probityai/x/contents/crates/dsse?ref=main",
+    ]
