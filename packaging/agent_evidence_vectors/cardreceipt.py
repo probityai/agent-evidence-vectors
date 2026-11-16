@@ -5,8 +5,9 @@ the receipt it names.
 
 ``agent-card-receipt/v1`` (spec/predicates/agent-card-receipt.md). A member is
 an A2A Agent Card, an unsigned in-toto Statement carrying a receipt for it, the
-issuer's signed revocation list and a context naming the time of the check and
-the receipt signer's public key. The reader names the first check that fails:
+issuer's signed revocation list and a context naming the time of the check, the
+receipt signer's public key and ``servedFrom``, the https URL the caller fetched
+the card from. The reader names the first check that fails:
 
 1. the statement is strict JSON with exactly the four Statement members
    (``statement_malformed``);
@@ -20,13 +21,17 @@ the receipt signer's public key. The reader names the first check that fails:
 7. the card is an I-JSON object (``card_malformed``);
 8. the subject digest is the SHA-256 of RFC 8785 of the card as served, without
    its top-level ``signatures`` (``card_digest_mismatch``);
-9. the check time is inside the receipt's validity window
-   (``receipt_not_yet_valid``, ``receipt_expired``);
-10. a revocation list is present (``revocation_list_absent``), well formed
+9. the context states ``servedFrom`` and its origin is the origin of the
+   subject ``name`` (``card_origin_mismatch``): a copy of the card served from
+   another origin, reached through a discovery record that origin publishes,
+   carries the same digest and must not borrow the receipt;
+10. the check time is inside the receipt's validity window
+    (``receipt_not_yet_valid``, ``receipt_expired``);
+11. a revocation list is present (``revocation_list_absent``), well formed
     (``revocation_list_malformed``), signed by the receipt signer's key
     (``revocation_list_signature``) and current at the check time
     (``revocation_list_stale``);
-11. the list does not name the receipt (``receipt_revoked``).
+12. the list does not name the receipt (``receipt_revoked``).
 
 A member that passes every check is ``accept`` with reason ``receipt_current``.
 
@@ -94,8 +99,8 @@ THUMBPRINT = re.compile(r"[A-Za-z0-9_-]{43}")
 RECEIPT_CHECKS = (
     "statement_malformed", "statement_type_wrong", "predicate_type_wrong",
     "subject_malformed", "predicate_malformed", "validity_window_inverted",
-    "card_malformed", "card_digest_mismatch", "receipt_not_yet_valid", "receipt_expired",
-    "revocation_list_absent", "revocation_list_malformed", "revocation_list_signature",
+    "card_malformed", "card_digest_mismatch", "card_origin_mismatch",
+    "receipt_not_yet_valid", "receipt_expired", "revocation_list_absent", "revocation_list_malformed", "revocation_list_signature",
     "revocation_list_stale", "receipt_revoked",
 )
 RELEASE_CHECKS = (
@@ -438,6 +443,31 @@ def _time_or_none(predicate: Any, name: str) -> datetime | None:
         return None
 
 
+def origin(url: Any) -> tuple[str, int] | None:
+    """The (host, port) origin of an https URL, lowercased, or None.
+
+    A receipt names its card by digest and by the URL it was issued for. Bytes
+    copied to another origin keep the digest, so the origin is what ties the
+    receipt to the party that serves the card.
+    """
+    if not isinstance(url, str) or not url.startswith("https://"):
+        return None
+    authority = url[len("https://"):].split("/", 1)[0].split("?", 1)[0].split("#", 1)[0]
+    if authority == "" or "@" in authority:
+        return None
+    host, sep, port = authority.rpartition(":")
+    if not sep or "]" in port:
+        host, port = authority, "443"
+    if not port.isdigit() or host == "":
+        return None
+    return host.lower().rstrip("."), int(port)
+
+
+def _origin_differs(statement: dict[str, Any], context: dict[str, Any]) -> bool:
+    served = origin(context.get("servedFrom"))
+    return served is None or served != origin(statement["subject"][0]["name"])
+
+
 def _card_digest_or_none(raw: bytes | None) -> str | None:
     try:
         return card_digest(raw if raw is not None else b"")
@@ -462,9 +492,10 @@ def _receipt_checks(directory: Path) -> list[tuple[str, Callable[[], bool]]]:
         ("card_malformed", lambda: digest is None),
         ("card_digest_mismatch",
          lambda: statement["subject"][0]["digest"]["sha256"] != digest),
+        ("card_origin_mismatch", lambda: _origin_differs(statement, context)),
         ("receipt_not_yet_valid", lambda: now < start),  # type: ignore[operator]
         ("receipt_expired", lambda: now >= until),  # type: ignore[operator]
-        *[(code, (lambda code=code: revocation == code)) for code in RECEIPT_CHECKS[10:]],
+        *[(code, (lambda code=code: revocation == code)) for code in RECEIPT_CHECKS[11:]],
     ]
 
 

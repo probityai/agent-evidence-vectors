@@ -82,8 +82,14 @@ def thumbprint(k: Ed25519PrivateKey) -> str:
     return base64.urlsafe_b64encode(hashlib.sha256(members).digest()).rstrip(b"=").decode()
 
 
-def context(now: str = NOW, signer: Ed25519PrivateKey = ISSUER) -> dict[str, Any]:
-    return {"issuerKey": _b64(public_raw(signer)), "now": now}
+def context(now: str = NOW, signer: Ed25519PrivateKey = ISSUER,
+            served_from: str | None = CARD_URL) -> dict[str, Any]:
+    """The time of the check, the receipt signer's key and the URL the caller
+    fetched the card from; ``served_from=None`` leaves the URL unstated."""
+    ctx = {"issuerKey": _b64(public_raw(signer)), "now": now}
+    if served_from is not None:
+        ctx["servedFrom"] = served_from
+    return ctx
 
 
 def revocation_list(revoked: list[str], *, signer: Ed25519PrivateKey = ISSUER,
@@ -261,6 +267,9 @@ def accepted() -> list[Case]:
              listing=revocation_list([], issued=ISSUED, next_update="2026-10-21T00:00:00Z")),
         case("accept-list-at-issued-at", "control: the check time equals the list's issuedAt",
              ctx=context(now=LIST_ISSUED)),
+        case("accept-served-from-same-origin", "control: the caller fetched the card from "
+             "another path and with an explicit default port at the origin the receipt names",
+             ctx=context(served_from="https://Travel-Agent.example.com:443/agents/travel/card")),
     ]
 
 
@@ -360,6 +369,25 @@ def _card_cases() -> list[Case]:
     ]
 
 
+def _origin_cases() -> list[Case]:
+    copied = "https://travel-agent-example.attacker.test/.well-known/agent-card.json"
+    return [
+        case("card-served-from-other-origin", "a byte-for-byte copy of the card and its receipt "
+             "served from another origin, which a discovery record at that origin points to",
+             ctx=context(served_from=copied), reason="card_origin_mismatch"),
+        case("card-served-from-subdomain", "the copy is served from a subdomain of the origin "
+             "the receipt names, which is another origin",
+             ctx=context(served_from="https://cards.travel-agent.example.com/.well-known/"
+                         "agent-card.json"), reason="card_origin_mismatch"),
+        case("card-served-from-other-port", "the copy is served from another port of the same "
+             "host", ctx=context(served_from="https://travel-agent.example.com:8443/"
+                                 ".well-known/agent-card.json"), reason="card_origin_mismatch"),
+        case("card-origin-unstated", "the context does not say where the card was fetched; an "
+             "unstated origin is a refusal, never a clean pass",
+             ctx=context(served_from=None), reason="card_origin_mismatch"),
+    ]
+
+
 def _time_cases() -> list[Case]:
     return [
         case("receipt-not-yet-valid", "the check time is a second before issuedAt",
@@ -404,7 +432,7 @@ def _list_cases() -> list[Case]:
 def cases() -> list[Case]:
     """Every case: id, what it shows, files, expected decision and reason."""
     return [*accepted(), *_statement_cases(), *_predicate_cases(), *_card_cases(),
-            *_time_cases(), *_list_cases()]
+            *_origin_cases(), *_time_cases(), *_list_cases()]
 
 
 def generate(root: Path = ROOT, build: Callable[[], list[Case]] = cases,

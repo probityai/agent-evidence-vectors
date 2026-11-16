@@ -26,6 +26,7 @@ A caller that holds the card can check all of it without asking the agent.
 | accept-other-receipt-revoked | accept, `receipt_current` |
 | accept-at-issued-at | accept, `receipt_current` |
 | accept-list-at-issued-at | accept, `receipt_current` |
+| accept-served-from-same-origin | accept, `receipt_current` |
 | statement-duplicate-member | reject, `statement_malformed` |
 | statement-member-unexpected | reject, `statement_malformed` |
 | statement-type-wrong | reject, `statement_type_wrong` |
@@ -48,6 +49,10 @@ A caller that holds the card can check all of it without asking the agent.
 | digest-signatures-included | reject, `card_digest_mismatch` |
 | digest-not-rfc8785 | reject, `card_digest_mismatch` |
 | card-changed-after-receipt | reject, `card_digest_mismatch` |
+| card-served-from-other-origin | reject, `card_origin_mismatch` |
+| card-served-from-subdomain | reject, `card_origin_mismatch` |
+| card-served-from-other-port | reject, `card_origin_mismatch` |
+| card-origin-unstated | reject, `card_origin_mismatch` |
 | receipt-not-yet-valid | reject, `receipt_not_yet_valid` |
 | receipt-expired | reject, `receipt_expired` |
 | receipt-expired-at-valid-until | reject, `receipt_expired` |
@@ -70,8 +75,9 @@ members or a member A2A does not define.
 `card.json` is the Agent Card as served. `statement.json` is an unsigned in-toto
 Statement carrying the receipt. `revocations.json` is the issuer's revocation list, a DSSE
 envelope signed with Ed25519, and is absent from the case that tests an absent list.
-`context.json` names the time of the check, `now`, and the base64 public key of the
-receipt signer, `issuerKey`. The keys are test keys derived from public labels.
+`context.json` names the time of the check, `now`, the base64 public key of the
+receipt signer, `issuerKey`, and the https URL the caller fetched the card from,
+`servedFrom`. The keys are test keys derived from public labels.
 
 ## The checks, in order
 
@@ -87,20 +93,23 @@ A verifier names the first check that fails.
 7. The card is an I-JSON object with an RFC 8785 form (`card_malformed`).
 8. The subject digest is the SHA-256 of that form without `signatures`
    (`card_digest_mismatch`).
-9. The check time is not before `issuedAt` (`receipt_not_yet_valid`) and is before
+9. `servedFrom` is stated and has the origin of the subject `name`
+   (`card_origin_mismatch`): a copy of the card and its receipt at another origin, which a
+   discovery record there can point a caller to, does not borrow the receipt.
+10. The check time is not before `issuedAt` (`receipt_not_yet_valid`) and is before
    `validUntil` (`receipt_expired`).
-10. A revocation list is present (`revocation_list_absent`), well formed
+11. A revocation list is present (`revocation_list_absent`), well formed
     (`revocation_list_malformed`), signed by the receipt signer's key
     (`revocation_list_signature`) and current at the check time
     (`revocation_list_stale`).
-11. The list does not name the receipt (`receipt_revoked`).
+12. The list does not name the receipt (`receipt_revoked`).
 
 A statement that passes every check is `accept` with reason `receipt_current`.
 
 ## What a pass establishes
 
-The card as served is the card the receipt was issued for, the receipt is inside its
-window, and a current list signed by the receipt signer's key does not revoke it.
+The card as served is the card the receipt was issued for, it was fetched from the
+origin the receipt names, the receipt is inside its window, and a current list signed by the receipt signer's key does not revoke it.
 
 ## What a pass does not establish
 

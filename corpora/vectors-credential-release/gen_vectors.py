@@ -86,7 +86,7 @@ def case(name: str, edit: str, *, receipt: dict[str, Any] | None = None,
     held = receipt_statement() if receipt is None else receipt
     lst = listing() if revocations is None else revocations
     stmt = (statement or release)(held, lst)
-    files = {"context.json": enc(receipts.context()),
+    files = {"context.json": enc(receipts.context(served_from=None)),
              "receipt.json": receipt_file if receipt_file is not None else enc(held),
              "revocations.json": revocations_file if revocations_file is not None else enc(lst),
              "statement.json": stmt if isinstance(stmt, bytes) else enc(stmt)}

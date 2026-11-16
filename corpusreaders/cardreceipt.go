@@ -26,8 +26,9 @@ func init() {
 // agent-card-receipt/v1: the statement is strict JSON with the four Statement
 // members, then its type, predicate type and subject, then the predicate, then
 // the validity window, then the card (an I-JSON object whose RFC 8785 form
-// without its top-level signatures hashes to the subject digest), then the check
-// time against the window, then the signed revocation list.
+// without its top-level signatures hashes to the subject digest), then the origin
+// the context says the card was fetched from against the origin of the subject
+// name, then the check time against the window, then the signed revocation list.
 //
 // credential-release/v1: the same Statement checks plus the closed credential
 // object, then the receipt the release names (its digest, shape, copied fields,
@@ -561,6 +562,46 @@ func crReceiptFailure(raw []byte) (string, crObj) {
 	return "", statement
 }
 
+// crOrigin is the (host, port) origin of an https URL, lowercased, the same
+// reduction cardreceipt.origin makes; ok is false for anything else.
+func crOrigin(value any) (string, bool) {
+	text, isText := value.(string)
+	if !isText || !strings.HasPrefix(text, "https://") {
+		return "", false
+	}
+	authority := strings.TrimPrefix(text, "https://")
+	for _, cut := range []string{"/", "?", "#"} {
+		authority, _, _ = strings.Cut(authority, cut)
+	}
+	if authority == "" || strings.Contains(authority, "@") {
+		return "", false
+	}
+	host, port := authority, "443"
+	if i := strings.LastIndex(authority, ":"); i >= 0 && !strings.Contains(authority[i+1:], "]") {
+		host, port = authority[:i], authority[i+1:]
+	}
+	if host == "" || port == "" || strings.Trim(port, "0123456789") != "" {
+		return "", false
+	}
+	number := strings.TrimLeft(port, "0")
+	if number == "" {
+		number = "0"
+	}
+	return strings.TrimRight(strings.ToLower(host), ".") + ":" + number, true
+}
+
+// crOriginDiffers is true when the context does not state where the card was
+// fetched, or states another origin than the receipt's subject name: a copy of
+// the card at another origin keeps the digest and must not borrow the receipt.
+func crOriginDiffers(statement, context crObj) bool {
+	served, ok := crOrigin(context["servedFrom"])
+	if !ok {
+		return true
+	}
+	named, ok := crOrigin(statement["subject"].([]any)[0].(crObj)["name"])
+	return !ok || served != named
+}
+
 func crSubjectDigest(statement crObj) string {
 	digest, _ := crSHA(statement["subject"].([]any)[0].(crObj)["digest"])
 	return digest
@@ -589,6 +630,9 @@ func crReceiptDecide(dir string, context crObj, key []byte) (scDecision, error) 
 	}
 	if crSubjectDigest(statement) != digest {
 		return crReject("card_digest_mismatch"), nil
+	}
+	if crOriginDiffers(statement, context) {
+		return crReject("card_origin_mismatch"), nil
 	}
 	if now.Before(start) {
 		return crReject("receipt_not_yet_valid"), nil

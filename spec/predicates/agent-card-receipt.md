@@ -112,8 +112,9 @@ good.
 
 ## Rules
 
-A verifier is given the card as served, the receipt statement, the revocation list, the
-public key of the receipt signer and the time of the check. It applies these in order and
+A verifier is given the card as served, the https URL it fetched the card from
+(`servedFrom`), the receipt statement, the revocation list, the public key of the receipt
+signer and the time of the check. It applies these in order and
 reports the first that fails.
 
 | # | Rule | Code |
@@ -126,13 +127,23 @@ reports the first that fails.
 | 6 | `issuedAt` is before `validUntil` | `validity_window_inverted` |
 | 7 | The card is an I-JSON object with an RFC 8785 form | `card_malformed` |
 | 8 | The subject digest is the SHA-256 of that form without `signatures` | `card_digest_mismatch` |
-| 9 | The check time is not before `issuedAt` | `receipt_not_yet_valid` |
-| 10 | The check time is before `validUntil` | `receipt_expired` |
-| 11 | A revocation list is present | `revocation_list_absent` |
-| 12 | The list is a well formed envelope and payload | `revocation_list_malformed` |
-| 13 | The envelope verifies under the receipt signer's key over the DSSE PAE of the payload | `revocation_list_signature` |
-| 14 | The check time is inside the list's window | `revocation_list_stale` |
-| 15 | The list does not name the SHA-256 of the receipt statement's bytes | `receipt_revoked` |
+| 9 | `servedFrom` is stated and its origin (host, lowercased, and port, 443 when absent) is the origin of the subject `name` | `card_origin_mismatch` |
+| 10 | The check time is not before `issuedAt` | `receipt_not_yet_valid` |
+| 11 | The check time is before `validUntil` | `receipt_expired` |
+| 12 | A revocation list is present | `revocation_list_absent` |
+| 13 | The list is a well formed envelope and payload | `revocation_list_malformed` |
+| 14 | The envelope verifies under the receipt signer's key over the DSSE PAE of the payload | `revocation_list_signature` |
+| 15 | The check time is inside the list's window | `revocation_list_stale` |
+| 16 | The list does not name the SHA-256 of the receipt statement's bytes | `receipt_revoked` |
+
+Rule 9 exists because the digest binds bytes, not a party. Anyone can copy a card and
+its receipt to an origin they control and publish a discovery record there (a DNS SVCB
+record, a `_agent` TXT record, a badge record) that leads a caller to the copy and to an
+endpoint of their own. The copy hashes to the subject digest, so without rule 9 the
+receipt reads as current for an agent nobody evaluated. The subject `name` is the URL the
+receipt was issued for, and the origin is the unit a domain holder controls; another path
+at the same origin is the same holder, a subdomain or another port is not. A context
+that does not say where the card came from is a refusal, never a clean pass.
 
 A member that passes every rule is accepted with the reason `receipt_current`.
 
