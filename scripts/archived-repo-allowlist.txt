@@ -32,3 +32,4 @@ interop/aps-jcs/**  # experiment inputs pinned by commit and by the source-lock 
 interop/govops-capability-id/**  # a captured source tree and its manifest, pinned by commit and digest; the commits exist only in the archive
 packages/admission/consumers/policy-vocabulary/host-selection.json  # selection record pinned to an observer commit that exists only in the archive
 packages/admission/consumers/spend-reservation/observer-selection.json  # selection record pinned to an observer commit that exists only in the archive
+crates/jcs-admit/interop/go-jcs/go.mod  # a comment that records the module path this file used before it got a local name
