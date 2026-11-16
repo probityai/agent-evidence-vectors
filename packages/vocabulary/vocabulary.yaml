@@ -3291,7 +3291,7 @@ evaluation_claim:
       distinct: "Every signature the record requires verifies, under a different key, and the keys resolve to different authorities."
       key_named_not_signing: "The record names a key as a signer, and no signature in it verifies under that key, including a signer named under an identifier another named signer already uses, whose one signature cannot verify under two keys."
       one_key_two_ids: "One key is listed under two key identifiers and counted twice toward a required number of signers."
-      own_key_as_cosigner: "The issuer's own key is presented as an independent cosigner."
+      own_key_as_cosigner: "The issuer's own key is listed among the signers counted toward the required number. The issuer never counts toward that number, so a record that needs the issuer and one other party states a required count of 1."
       one_authority_threshold: "A threshold of signers is met by keys that all resolve to one authority."
       below_threshold: "Fewer distinct keys sign than the record requires, with no key counted twice: the count is not met at all."
     definition: >

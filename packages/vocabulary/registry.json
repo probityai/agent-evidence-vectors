@@ -1,6 +1,6 @@
 {
   "source": "vocabulary.yaml",
-  "source_sha256": "78b12bc30464b4c67caa7a3de00cb1662d0d1401bd36ef9d23eb065c9ebb04ed",
+  "source_sha256": "54196d8fad16f332c474c75ea874eafeb6465de58eff0d2cb0e9cdef542f630a",
   "term_uri_base": "https://w3id.org/agent-evidence/vocab/v1/",
   "terms": {
     "acceptance_observed": {
@@ -1134,7 +1134,7 @@
         "key_named_not_signing": "The record names a key as a signer, and no signature in it verifies under that key, including a signer named under an identifier another named signer already uses, whose one signature cannot verify under two keys.",
         "one_authority_threshold": "A threshold of signers is met by keys that all resolve to one authority.",
         "one_key_two_ids": "One key is listed under two key identifiers and counted twice toward a required number of signers.",
-        "own_key_as_cosigner": "The issuer's own key is presented as an independent cosigner."
+        "own_key_as_cosigner": "The issuer's own key is listed among the signers counted toward the required number. The issuer never counts toward that number, so a record that needs the issuer and one other party states a required count of 1."
       },
       "values": [
         "distinct",

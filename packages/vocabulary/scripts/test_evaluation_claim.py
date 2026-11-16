@@ -240,6 +240,9 @@ _SIGNERS = (
     ([_A, {**_B, "authority": "org-a"}], {"a": True, "b": True}, 2, None, "one_authority_threshold"),
     ([_A, {**_B, "id": "a"}], {"a": True}, 2, None, "key_named_not_signing"),
     ([_A], {"a": True}, 2, None, "below_threshold"),
+    # The issuer never counts toward the required number: issuer plus one cosigner is a count of 1.
+    ([_B], {"b": True}, 1, "ka", "distinct"),
+    ([_A, _B], {"a": True, "b": True}, 1, "ka", "own_key_as_cosigner"),
     ([_A, _B], {"a": True, "b": "yes"}, 2, None, "key_named_not_signing"),
 )
 
