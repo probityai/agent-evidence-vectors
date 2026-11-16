@@ -13,13 +13,13 @@ from __future__ import annotations
 
 import json
 
-import pytest
-
 import jcs_admit as jcs
+import pytest
 
 
 def sorted_compact(params: object) -> bytes:
-    return json.dumps(params, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    text = json.dumps(params, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    return text.encode("utf-8")
 
 
 # Flat maps of strings with ASCII member names: the encodings agree byte for byte.
