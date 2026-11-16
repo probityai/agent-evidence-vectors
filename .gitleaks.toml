@@ -117,6 +117,23 @@ regexTarget = "match"
 regexes = ['''token"?\s*[:=]\s*"eyJhbGciOiJub25lIn0\.e30\."''']
 
 [[allowlists]]
+description = "Signed UMA for Agents terms agreements in the principal-binding corpus"
+# Each binding.jws is a compact JWS that an agent test key signs. The seeds are
+# the SHA-256 of published labels (gen_vectors.py), so the keys and the tokens
+# are public by construction, and the payloads carry terms, not credentials.
+# AND: only binding.jws files of that corpus, and only a token whose header names
+# one of the two published test keys (the agent and the other agent), so a JWS
+# with any other header is still reported.
+targetRules = ["jwt"]
+condition = "AND"
+paths = ['''^corpora/vectors-principal-binding/cases/[^/]+/binding\.jws$''']
+regexTarget = "match"
+regexes = [
+  '''^eyJhbGciOiJFZERTQSIsImp3ayI6eyJjcnYiOiJFZDI1NTE5Iiwia3R5IjoiT0tQIiwieCI6IlhzQVg4d2Z2SkpSRGhzeDZvcmpOWVVFLWE3dE1UVXdxVm5uV1U4SWhGRGcifX0\.''',
+  '''^eyJhbGciOiJFZERTQSIsImp3ayI6eyJjcnYiOiJFZDI1NTE5Iiwia3R5IjoiT0tQIiwieCI6Ik9hMzBSblFUVHJONWJ5MGlGbHRoS040UmJaZTQ5MUJWZHdKUUtpb1NOYzgifX0\.''',
+]
+
+[[allowlists]]
 description = "The ignore file lists commit:file:rule:line fingerprints, which read as high-entropy values"
 paths = ['''^\.gitleaksignore$''']
 

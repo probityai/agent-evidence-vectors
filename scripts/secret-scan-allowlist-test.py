@@ -1,4 +1,4 @@
-"""The corpus allowlist covers the card-receipt and credential-release fixtures and nothing wider.
+"""The corpus allowlist covers the receipt, release and binding fixtures and nothing wider.
 
 Each case writes a scratch repository carrying the repository's .gitleaks.toml, commits one file,
 and runs scripts/secret-scan.sh over it. The fixture shapes must scan clean; the same field with
@@ -60,6 +60,9 @@ def _scan(tmp_path: Path, relpath: str, text: str) -> int:
 
 CTX = "corpora/vectors-agent-card-receipt/cases/accept-x/context.json"
 STMT = "corpora/vectors-credential-release/cases/credential-carries-secret/statement.json"
+JWS_PATH = "corpora/vectors-principal-binding/cases/uma-bound/binding.jws"
+# The committed agreement: a JWS whose header names the published agent test key.
+AGREEMENT = (ROOT / JWS_PATH).read_text()
 
 
 @pytest.mark.parametrize(
@@ -73,6 +76,7 @@ STMT = "corpora/vectors-credential-release/cases/credential-carries-secret/state
         ),
         ("corpora/vectors-credential-release/gen_vectors.py",
          f'cred = dict(token="{EMPTY_JWT}")\n'),
+        (JWS_PATH, AGREEMENT),
     ],
 )
 def test_the_fixture_shapes_scan_clean(tmp_path: Path, relpath: str, text: str) -> None:
@@ -87,6 +91,8 @@ def test_the_fixture_shapes_scan_clean(tmp_path: Path, relpath: str, text: str) 
         (STMT, f'{{\n  "credential": {{\n    "token": "{REAL_JWT}"\n  }}\n}}\n'),
         ("src/client.py", f'cred = dict(token="{EMPTY_JWT}")\n'),
         ("src/client.py", 'api_key = "%s"\n' % ("ghp_" + "a1B2c3D4e5F6g7H8i9J0" * 2)),
+        (JWS_PATH, REAL_JWT + "\n"),
+        ("src/agreement.jws", AGREEMENT),
     ],
 )
 def test_a_realistic_secret_or_a_misplaced_fixture_still_fails(

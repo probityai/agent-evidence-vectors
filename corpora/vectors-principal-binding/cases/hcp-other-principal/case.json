@@ -1,0 +1,15 @@
+{
+  "binding": "binding.json",
+  "keys": {
+    "authorization-service": "0cb21723271d3cb6a11b74bc4997ff90d2ac89c26454021b0fe688f545c25f41"
+  },
+  "profile": "hcp-grant",
+  "request": {
+    "agent": "agent:bb178a4faa56c996",
+    "principal": "pseud-bob-11c2",
+    "scope": [
+      "hcp:financial_context:read"
+    ]
+  },
+  "schema_version": "agent-principal-binding-case/v1"
+}
