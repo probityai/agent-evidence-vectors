@@ -68,6 +68,10 @@ cannot express exactly is refused for that client (exit 1), not widened. See
 [the guide](https://github.com/probityai/agent-evidence-vectors/blob/main/packages/admission/docs/CLIENT-ALLOWLISTS.md)
 and the [vectors](vectors/generate/manifest.json).
 
+## Rule sets
+
+`agent-evidence-admission admit <rule-set> <record>` refuses a record before any verifier judges it, and names the rule and the JSON Pointer of every refusal. `ijson` and `ijson-integer-only` refuse the byte strings two decoders read as two documents (a repeated member at any depth, names equal under case folding, a lone surrogate, an integer past 2^53, `-0`); `audit-freshness` holds audit-record time members to asymmetric bounds; `catalog-attestations` refuses an ARD or AI Catalog attestation not bound to the entry it sits in; `mcp-authz` makes an MCP server's audience, issuer, lifetime and binding decision on a decoded token; `co-signed-receipt` refuses a receipt whose signature can still verify over malformed members. It exits 0 when admitted, 1 when refused, 2 when an input could not be read. `rule-sets` lists them, and `ablate <manifest>` shows which check each [vector](vectors/rules/) needs. See [the rule sets](https://github.com/probityai/agent-evidence-vectors/blob/main/packages/admission/docs/RULE-SETS.md).
+
 ## Conformance result records
 
 `agent-evidence-admission resolve-verdicts answers.json` resolves the verdicts several policies gave one action to the strictest (`allow` < `constrain` < `require_approval` < `block` < `halt`) and exits 2 when there is nothing to resolve. The [vectors](vectors/precedence/manifest.json) are its conflict cases, and [the rule](https://github.com/probityai/agent-evidence-vectors/blob/main/packages/admission/docs/VERDICT-PRECEDENCE.md) is normative.
