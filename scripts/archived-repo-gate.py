@@ -17,8 +17,9 @@ and the other agent-evidence-* names never match) unless one of these holds:
   signed statements and never changes (the identifier-hosts workflow watches that its
   redirect keeps working); an npm scope such as @probityai/dsse and an MCP registry
   namespace such as io.github.probityai/agent-evidence-admission name a package, not a
-  repository. A predicate URI written as the target of a Markdown link is still a link
-  and is refused: a reader who clicks it lands on the archive.
+  repository; so does a container image path under ghcr.io. A predicate URI written as
+  the target of a Markdown link is still a link and is refused: a reader who clicks it
+  lands on the archive.
 - the text names something that exists only in the archived repository: a CI run, a pull
   request, a commit, a file at a full commit id, or an issue that was not transferred
   (see untransferred_issues in the list). Those are records of what happened there, and
@@ -59,6 +60,8 @@ PREDICATE_URI = (
 )
 _PREDICATE_AS_LINK = re.compile(r"\]\(\s*" + PREDICATE_URI)
 _PREDICATE_BARE = re.compile(PREDICATE_URI)
+# A container image path names a package in the registry, not a repository on github.com.
+_IMAGE_PATH = re.compile(r"ghcr\.io/(?:probityai|astrogilda)/[A-Za-z0-9._-]+")
 
 
 class Archived(NamedTuple):
@@ -130,7 +133,7 @@ def live_references(text: str, repos: list[Archived]) -> bool:
     """True when `text` still names an archived repository as something a reader can follow."""
     if _PREDICATE_AS_LINK.search(text):
         return True
-    left = _PREDICATE_BARE.sub("", text)
+    left = _IMAGE_PATH.sub("", _PREDICATE_BARE.sub("", text))
     left = records_pattern(repos).sub("", left)
     return reference_pattern(repos).search(left) is not None
 

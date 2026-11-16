@@ -81,6 +81,8 @@ CASES = [
     ("an npm scope", "package.json", '"name": "@probityai/dsse",', False),
     ("an npm scope with a subpath", "x.mjs", 'import("@probityai/dsse/browser")', False),
     ("an MCP registry namespace", "server.json", '"io.github.probityai/agent-evidence-admission": {', False),
+    ("a container image path", "RELEASING.md", "ghcr.io/probityai/agent-evidence-mcp:1.2.3", False),
+    ("a container image path beside a repository link", "RELEASING.md", f"ghcr.io/probityai/dsse and {VOCAB}", True),
     ("a Go module path", "go.mod", "module github.com/probityai/dsse/vectors/generate", True),
 ] + [
     (f"a link to {repo.name}", "README.md", f"[x](https://github.com/probityai/{repo.name}/tree/main)", True)
