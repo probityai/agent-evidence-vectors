@@ -41,6 +41,10 @@ bytes, and an absent value hashes the empty input. Each member pins the correct
 (hashing the scalar's JSON form, the structured value as written, or ``null``),
 so a reader that makes the mistake fails the member instead of agreeing with it.
 
+The README's examples block is written from the same values, one member per
+family, so a worked example in the documentation cannot drift from the corpus:
+``--check`` fails when either file differs.
+
 Usage (from the repository root):
     python3 scripts/gen-jcs-drift-vectors.py           # write
     python3 scripts/gen-jcs-drift-vectors.py --check   # exit 1 on drift
@@ -52,9 +56,11 @@ import hashlib
 import json
 import sys
 from pathlib import Path
+from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent
 CASES = ROOT / "corpora" / "jcs-byte-vectors" / "cases.json"
+README = CASES.with_name("README.md")
 
 DEPTH_CAP = 128
 REJECT_DEPTHS = (129, 256, 512, 1024)
@@ -456,17 +462,71 @@ def render() -> str:
     return json.dumps(corpus, indent=2) + "\n"
 
 
+BEGIN = "<!-- examples: written by scripts/gen-jcs-drift-vectors.py from cases.json -->"
+END = "<!-- examples: end -->"
+
+
+def example_rows(corpus: dict[str, Any]) -> list[str]:
+    """One worked example per family, every value read from the corpus itself."""
+
+    def code(text: str) -> str:
+        return "`" + text.replace("|", "\\|") + "`" if text else "(empty)"
+
+    rows = []
+    for member in corpus["canonicalCases"][:1]:
+        rows.append((member["id"], member["input"], f"bytes {member['canonicalHex']}"))
+    for member in corpus["driftCases"][:1]:
+        rows.append(
+            (member["id"], member["presented"], f"not canonical; bytes {member['canonicalHex']}")
+        )
+    for member in corpus["refusalCases"][:1]:
+        rows.append((member["id"], member["input"], f"refuse ({member['error']})"))
+    escaped = [m for m in corpus["noncharacterCases"] if m["spelling"] == "escaped"]
+    for member in escaped[:1]:
+        rows.append(
+            (
+                member["id"],
+                member["input"],
+                f"bytes {member['canonicalHex']}; bounded: refuse ({member['boundedError']})",
+            )
+        )
+    for member in corpus["preimageCases"][:1]:
+        rows.append(
+            (
+                member["id"],
+                member["value"],
+                f"sha256 {member['sha256']}, never {member['statedWrongSha256']}",
+            )
+        )
+    out = ["| Member | Input | Expected answer |", "| --- | --- | --- |"]
+    out += [f"| `{ident}` | {code(text)} | {answer} |" for ident, text, answer in rows]
+    return out
+
+
+def render_readme(corpus_text: str) -> str:
+    """The README with its examples block rewritten from ``corpus_text``."""
+    readme = README.read_text("utf-8")
+    head, rest = readme.split(BEGIN, 1)
+    _, tail = rest.split(END, 1)
+    block = "\n".join([BEGIN, *example_rows(json.loads(corpus_text)), END])
+    return head + block + tail
+
+
 def main(argv: list[str]) -> int:
     if argv not in ([], ["--check"]):
         print(__doc__)
         return 2
     wanted = render()
+    wanted_readme = render_readme(wanted)
     if argv:
-        if CASES.read_text("utf-8") != wanted:
-            print(f"{CASES.relative_to(ROOT)} differs from what {Path(__file__).name} writes")
-            return 1
-        return 0
+        status = 0
+        for path, text in ((CASES, wanted), (README, wanted_readme)):
+            if path.read_text("utf-8") != text:
+                print(f"{path.relative_to(ROOT)} differs from what {Path(__file__).name} writes")
+                status = 1
+        return status
     CASES.write_text(wanted, encoding="utf-8")
+    README.write_text(wanted_readme, encoding="utf-8")
     return 0
 
 

@@ -46,6 +46,22 @@ sets `ensure_ascii=False`; both paths use Python key and number formatting.
 The fixture is a byte contract for the entry array. A TRACE record's signature,
 schema, and call count require their own checks.
 
+## Worked examples
+
+One member of each family, written from `cases.json` by the same generator that
+writes the families, so the table cannot say something the corpus does not.
+Recompute any of them with `node corpora/jcs-byte-vectors/check.mjs`.
+
+<!-- examples: written by scripts/gen-jcs-drift-vectors.py from cases.json -->
+| Member | Input | Expected answer |
+| --- | --- | --- |
+| `ordinary-unicode` | `[{"data":{"label":"caf\u00e9"}}]` | bytes 5b7b2264617461223a7b226c6162656c223a22636166c3a9227d7d5d |
+| `drift-html-less-than` | `{"a":"\u003c"}` | not canonical; bytes 7b2261223a223c227d |
+| `refuse-non-finite-overflow-positive` | `{"a":1e999}` | refuse (non-finite-number) |
+| `noncharacter-ufdd0-value-escaped` | `["\ufdd0"]` | bytes 5b22efb790225d; bounded: refuse (invalid-unicode) |
+| `preimage-scalar-ascii` | `"approve"` | sha256 74e21680eac7385ca408cb01878465fd693b37e58eb0c0c32663a2d8f15d8136, never 6ef4cbc4f3f0a1af3187e96c208a6b7737cfa1cdfe40d84822a94d8d5eea0ac3 |
+<!-- examples: end -->
+
 ## Drift and depth families
 
 `cases.json` also carries two generated families, written by
