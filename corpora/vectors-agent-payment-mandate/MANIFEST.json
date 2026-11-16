@@ -1,8 +1,8 @@
 {
-  "corpusDigest": "dd6ef3898211be46d44940308a0cec84e63e2e218ec2e92a41010e0c52e821f8",
+  "corpusDigest": "043f779fbfe271e3ac61b45b292de21b4080790da4c9096589a678643d601f51",
   "counts": {
-    "accepted": 4,
-    "rejected": 14
+    "accepted": 5,
+    "rejected": 29
   },
   "schema": "agent-payment-mandate-record/v1",
   "specification": {
@@ -23,7 +23,7 @@
         "reason": "mandate_chain_holds"
       },
       "files": {
-        "case.json": "467976ae0754dc2e4d7929822d41f6a826a675bde938bd84c12beae942377335"
+        "case.json": "381f548788300595162b97bbf2b130ce38a209a2165c81bd94c104305983aee3"
       },
       "id": "authorized-ap2-cart",
       "path": "cases/authorized-ap2-cart"
@@ -35,7 +35,7 @@
         "reason": "mandate_chain_holds"
       },
       "files": {
-        "case.json": "0fbf346e37856cc0f5eb371acac708686773b1dfdfa05a87fad14123d91467ae"
+        "case.json": "cd99eb6f2e75e57c8b4cb390929333dbf4b60b0f18bd658465c8e6f24aff2d92"
       },
       "id": "authorized-vi-credential",
       "path": "cases/authorized-vi-credential"
@@ -47,7 +47,7 @@
         "reason": "mandate_chain_holds"
       },
       "files": {
-        "case.json": "f361c08c64e438061b3f9036d84fc4dc15c214de4491cdf5c4acb8a2060b9fd1"
+        "case.json": "a9c8fd4195bbce21f450f5df5d23b3f9de2bc7a90b61e5001460ee455a0dae96"
       },
       "id": "authorized-spt-seller-bound",
       "path": "cases/authorized-spt-seller-bound"
@@ -59,7 +59,7 @@
         "reason": "mandate_chain_holds"
       },
       "files": {
-        "case.json": "325db92215d21dab14aabe3c95b61a5ffb276dea989a8002d00bcd6f0cc88f80"
+        "case.json": "1508fec6c17b4e6fb9a8de34f99893904c58e043a30de7f30641fcc823325fa0"
       },
       "id": "authorized-at-exact-limit",
       "path": "cases/authorized-at-exact-limit"
@@ -71,7 +71,7 @@
         "reason": "mandate_unsigned"
       },
       "files": {
-        "case.json": "5f382d43dcfefedf0a49cccb0bb198288b514a67575dad54c96cf458b4680450"
+        "case.json": "01121bde7473ee4e990e03ea867718e7c5594dab70f04bd8bede2bf76d8f1223"
       },
       "id": "mandate-unsigned",
       "path": "cases/mandate-unsigned",
@@ -84,7 +84,7 @@
         "reason": "mandate_digest_mismatch"
       },
       "files": {
-        "case.json": "c317754c834a884a00a203e47512af9a4288f43b1bae3317a3f93f3d49461140"
+        "case.json": "d95be069c393680420029681de460f3d6ff59ee0306867b30e41dd459a8f9bfe"
       },
       "id": "mandate-terms-edited",
       "path": "cases/mandate-terms-edited",
@@ -97,7 +97,7 @@
         "reason": "credential_not_bound_to_mandate"
       },
       "files": {
-        "case.json": "b1e98d49fcb37810a16cb3879ab758ec9ed5977899f075d7722cda1890b08881"
+        "case.json": "2e09e7d2f4317d713f4d0a9ce4c22f8962d86355039ec919bd90c19b7ce9a819"
       },
       "id": "credential-bound-to-another-mandate",
       "path": "cases/credential-bound-to-another-mandate",
@@ -110,7 +110,7 @@
         "reason": "mandate_expired"
       },
       "files": {
-        "case.json": "d09e7e62d3d1af20c8bf23b194c5601cfa7f978d9263549e00a6b576fa39c507"
+        "case.json": "64a12b7f5149e006c8c800741e807c4014036b49be3ef959f4bac85bb30b3a0f"
       },
       "id": "charge-after-expiry",
       "path": "cases/charge-after-expiry",
@@ -123,7 +123,7 @@
         "reason": "amount_over_limit"
       },
       "files": {
-        "case.json": "db495d2c721fb76580853cfb92b1220e88a8a5970dc7f6b20088e16b18e6370d"
+        "case.json": "2eac6bb7ed2ebdd994ded5a015f545c690623cfa6e679af2d44dc72fc7a38af9"
       },
       "id": "charge-over-limit",
       "path": "cases/charge-over-limit",
@@ -136,7 +136,7 @@
         "reason": "currency_mismatch"
       },
       "files": {
-        "case.json": "2b0362d3902920347e0fe89e545a35eb6450b476205421b2b275c9d45cd388b1"
+        "case.json": "a97f98edfeb0ff418b65df7cb5b4ae4beb74174e1a4da3eb96f519181ecfa06b"
       },
       "id": "charge-in-other-currency",
       "path": "cases/charge-in-other-currency",
@@ -149,7 +149,7 @@
         "reason": "merchant_mismatch"
       },
       "files": {
-        "case.json": "11b82205b7587bd94a33b875fa75fa7ad02342331abe157f42746684954d59f4"
+        "case.json": "04f2024f8c4237ed6e88fa49aaa8fb60592c35ad5d1e50a0e18b40baa9d2bbce"
       },
       "id": "charge-at-other-merchant",
       "path": "cases/charge-at-other-merchant",
@@ -162,7 +162,7 @@
         "reason": "token_not_the_executed_token"
       },
       "files": {
-        "case.json": "25a6bd38ec4d0e496ab2517da9afc48ec40f189a58afd1c9205d82ef33ff075c"
+        "case.json": "5707dca1c1361fed1938311c819e750f557a6d8d69ee65cf09dd785356aad981"
       },
       "id": "executed-token-differs",
       "path": "cases/executed-token-differs",
@@ -175,7 +175,7 @@
         "reason": "single_use_token_replayed"
       },
       "files": {
-        "case.json": "6f24dabc8a4612ef7ff1a758dee526b2e7790bf432e69a05631a2313c4b8e153"
+        "case.json": "32d01e3ab8fc15c1d15ccb3b5117e3a1546ba7bdba390c3a28cb7a9e5e8ec020"
       },
       "id": "single-use-token-replayed",
       "path": "cases/single-use-token-replayed",
@@ -188,7 +188,7 @@
         "reason": "receipt_not_bound_to_execution"
       },
       "files": {
-        "case.json": "b7a34facc6f7decf97de9023408a7ed4f05e58f15b0a0e53e4fca6732f10331a"
+        "case.json": "ab69136d5e394b10c6a3f152e9ebfb5e34e3ef3b6311076a853ed86eae57a969"
       },
       "id": "receipt-not-over-execution",
       "path": "cases/receipt-not-over-execution",
@@ -201,7 +201,7 @@
         "reason": "mandate_signature_invalid"
       },
       "files": {
-        "case.json": "6ea4156d86c32d78d1b9398da0b76d7553879fb3d8307db7cf32730cae9b7bf3"
+        "case.json": "ea6ddd62f1a4be8ad621ecce986e89f2a8f7d7366ed768b888224c40778d4a07"
       },
       "id": "mandate-ceiling-raised-without-key",
       "path": "cases/mandate-ceiling-raised-without-key",
@@ -214,7 +214,7 @@
         "reason": "receipt_signature_invalid"
       },
       "files": {
-        "case.json": "803e77d65b079643bd6cb7993bc036eec4aa2d9fc8f7c6711460eb76ec625814"
+        "case.json": "6db3cbf990ec2d45a862238960cafa4233991aaa87a5541ac2af9995a28a0f34"
       },
       "id": "charge-rewritten-after-witness",
       "path": "cases/charge-rewritten-after-witness",
@@ -227,7 +227,7 @@
         "reason": "receipt_signer_not_witness"
       },
       "files": {
-        "case.json": "28a5cfc33f819e8a49aa89fa7e33d5084beb34fc037881040cad3c923a6c8f93"
+        "case.json": "a41389312dbbb412431a888f030a5ae72d3890a206996844ed7ef902900f8ccc"
       },
       "id": "receipt-signed-by-agent",
       "path": "cases/receipt-signed-by-agent",
@@ -240,11 +240,218 @@
         "reason": "post_checkout_action_missing"
       },
       "files": {
-        "case.json": "f574eaff5bdea6f493343808d5dd19f80d84976e9d46be069d754cc5de64bcbe"
+        "case.json": "da623f98a9af0a8e882ece2835133157c94b1ee79a0eebb44be56a830058993a"
       },
       "id": "post-checkout-fulfilment-missing",
       "path": "cases/post-checkout-fulfilment-missing",
       "twin": "authorized-ap2-cart"
+    },
+    {
+      "description": "a pack of two single-use mandates, one settled on each of two mandated rails",
+      "expected": {
+        "decision": "accepted",
+        "reason": "mandate_chain_holds"
+      },
+      "files": {
+        "case.json": "ee1745efe04d288e3b1ed4939478586c305dbaeb209fe75355e208416ccbaf8d"
+      },
+      "id": "authorized-two-mandates-two-rails",
+      "path": "cases/authorized-two-mandates-two-rails"
+    },
+    {
+      "description": "the case bytes carry the charge amount twice; a first-wins parser reads another amount",
+      "expected": {
+        "decision": "rejected",
+        "reason": "record_malformed"
+      },
+      "files": {
+        "case.json": "9f24cfe1d3b70d681add40cabe03db3a4630d42b3ee2e922ace5602e65ca9a30"
+      },
+      "id": "duplicate-member-in-record",
+      "path": "cases/duplicate-member-in-record",
+      "twin": "authorized-ap2-cart"
+    },
+    {
+      "description": "0.9 of a minor unit over the ceiling, which an integer cast truncates away",
+      "expected": {
+        "decision": "rejected",
+        "reason": "record_malformed"
+      },
+      "files": {
+        "case.json": "43ae1bf7d205163716a6066149d49c8bcf605016234e9b35ba9385e6f3e2356d"
+      },
+      "id": "amount-fractional-minor-units",
+      "path": "cases/amount-fractional-minor-units",
+      "twin": "authorized-ap2-cart"
+    },
+    {
+      "description": "a negative charge passes any ceiling test",
+      "expected": {
+        "decision": "rejected",
+        "reason": "record_malformed"
+      },
+      "files": {
+        "case.json": "a32a851e3786e1d26da4d2355e8e5600940dff5f044f08c9ba24e58606900c9f"
+      },
+      "id": "amount-negative",
+      "path": "cases/amount-negative",
+      "twin": "authorized-ap2-cart"
+    },
+    {
+      "description": "executed_at in Unix seconds, after expiry, which a string comparison reads as before it",
+      "expected": {
+        "decision": "rejected",
+        "reason": "record_malformed"
+      },
+      "files": {
+        "case.json": "6f13ac365ae65d2918d3c727cbddee893f6d6081cf1f19f88f9f0ab228e97aef"
+      },
+      "id": "executed-at-unix-seconds",
+      "path": "cases/executed-at-unix-seconds",
+      "twin": "authorized-spt-seller-bound"
+    },
+    {
+      "description": "the terms carry no expiry and the charge runs a year later",
+      "expected": {
+        "decision": "rejected",
+        "reason": "record_malformed"
+      },
+      "files": {
+        "case.json": "c16abe7a2447b3a7998a14a28c50371002f61f6849011f121ed959a20f08c59e"
+      },
+      "id": "mandate-expiry-missing",
+      "path": "cases/mandate-expiry-missing",
+      "twin": "authorized-ap2-cart"
+    },
+    {
+      "description": "the unsigned credential says multi-use; the signed terms say single-use",
+      "expected": {
+        "decision": "rejected",
+        "reason": "credential_widens_mandate"
+      },
+      "files": {
+        "case.json": "573e045718832fab6861dcbb069b37fbf88df33df3cc12bd90579f05a28a0961"
+      },
+      "id": "credential-claims-multi-use",
+      "path": "cases/credential-claims-multi-use",
+      "twin": "authorized-spt-seller-bound"
+    },
+    {
+      "description": "the mandate names one agent; another agent ran and signed the charge",
+      "expected": {
+        "decision": "rejected",
+        "reason": "agent_not_the_mandated_agent"
+      },
+      "files": {
+        "case.json": "40250722c582cb470e57a4aac4ace51db6149cd58de20b523708673802a2894f"
+      },
+      "id": "mandate-used-by-other-agent",
+      "path": "cases/mandate-used-by-other-agent",
+      "twin": "authorized-ap2-cart"
+    },
+    {
+      "description": "the mandated agent claims a hand-off to a second agent that the user never signed",
+      "expected": {
+        "decision": "rejected",
+        "reason": "agent_not_the_mandated_agent"
+      },
+      "files": {
+        "case.json": "bc2dc73ebc5e6c97c3c3483f4f69b36c0e85b2af9e2687d1324fe06fdedf30a4"
+      },
+      "id": "sub-delegation-without-user-link",
+      "path": "cases/sub-delegation-without-user-link",
+      "twin": "authorized-vi-credential"
+    },
+    {
+      "description": "the charge names the mandated agent but is signed by another key",
+      "expected": {
+        "decision": "rejected",
+        "reason": "agent_proof_invalid"
+      },
+      "files": {
+        "case.json": "17b4f8061dd64ac16c6328a2e3ae376ba06120cbbbc0b7e6b209f88a60fba1b1"
+      },
+      "id": "agent-proof-by-other-key",
+      "path": "cases/agent-proof-by-other-key",
+      "twin": "authorized-ap2-cart"
+    },
+    {
+      "description": "the charge ran before the user signed the mandate",
+      "expected": {
+        "decision": "rejected",
+        "reason": "charge_before_mandate"
+      },
+      "files": {
+        "case.json": "59a29d3d59e30e89f4680365db84cd7f0d372d75de63aaa9d2bfe170da92fb4c"
+      },
+      "id": "charge-before-mandate-issued",
+      "path": "cases/charge-before-mandate-issued",
+      "twin": "authorized-ap2-cart"
+    },
+    {
+      "description": "23:30 at -05:00 is 04:30Z, after a 00:00Z expiry a string comparison misses",
+      "expected": {
+        "decision": "rejected",
+        "reason": "mandate_expired"
+      },
+      "files": {
+        "case.json": "2732b9cf2645a41bdf316c6f1b1e49c8efbb73c523854cff65d3e3ae4b548c47"
+      },
+      "id": "charge-after-expiry-via-offset",
+      "path": "cases/charge-after-expiry-via-offset",
+      "twin": "authorized-ap2-cart"
+    },
+    {
+      "description": "a card-only mandate settled on another rail",
+      "expected": {
+        "decision": "rejected",
+        "reason": "rail_not_mandated"
+      },
+      "files": {
+        "case.json": "e421dc6d75dd23a031b91168ce3d55e0e8b7d8d6bd2d3f7ab4e282ab537d56fc"
+      },
+      "id": "charge-on-unmandated-rail",
+      "path": "cases/charge-on-unmandated-rail",
+      "twin": "authorized-ap2-cart"
+    },
+    {
+      "description": "the witness counts the second settlement of a single-use token",
+      "expected": {
+        "decision": "rejected",
+        "reason": "single_use_token_replayed"
+      },
+      "files": {
+        "case.json": "e587542e612f77f2a94237cec24142c10d620ec2db03f148f5bfb25d916eceb5"
+      },
+      "id": "single-use-token-second-settlement",
+      "path": "cases/single-use-token-second-settlement",
+      "twin": "authorized-spt-seller-bound"
+    },
+    {
+      "description": "fulfilment deleted from the unsigned required list; the signed terms still require it",
+      "expected": {
+        "decision": "rejected",
+        "reason": "post_checkout_action_missing"
+      },
+      "files": {
+        "case.json": "f0baef747b5e75b164b51ba4a898483df4ac19e05f3549698cdd142448fc741f"
+      },
+      "id": "post-checkout-requirement-dropped",
+      "path": "cases/post-checkout-requirement-dropped",
+      "twin": "authorized-ap2-cart"
+    },
+    {
+      "description": "one single-use mandate settled once on each of two rails; each witness counted use 1",
+      "expected": {
+        "decision": "rejected",
+        "reason": "mandate_spent_twice"
+      },
+      "files": {
+        "case.json": "19b05b81316b066477ae75ac1c2f6872346d0f8af967659c3260a277b18b52fc"
+      },
+      "id": "single-use-mandate-spent-on-two-rails",
+      "path": "cases/single-use-mandate-spent-on-two-rails",
+      "twin": "authorized-two-mandates-two-rails"
     }
   ],
   "verifierContract": "verifier case.json --json --policy policy.json"

@@ -1,6 +1,8 @@
 {
   "map": {
     "ap2-cart-mandate": {
+      "the agent the mandate delegates to": "mandate.terms.agent",
+      "the agent's proof over what ran": "execution.agent_signature",
       "the authorised ceiling": "mandate.terms.max_amount_minor",
       "what ran": "execution",
       "what the agent presented": "credential",
@@ -9,13 +11,17 @@
     },
     "mastercard-verifiable-intent-credential": {
       "credential bound to the intent": "credential.mandate_digest",
-      "single use": "credential.single_use",
+      "single use": "mandate.terms.single_use",
+      "the agent key the intent binds": "mandate.terms.agent",
       "the delegated intent": "mandate.terms",
       "what ran": "execution"
     },
     "receipt": {
+      "actions the mandate requires after checkout": "mandate.terms.post_checkout_required",
       "binding of mandate and execution": "receipt",
-      "what the agent did after checkout": "post_checkout.recorded"
+      "rails the mandate may be spent on": "mandate.terms.rails",
+      "what the agent did after checkout": "post_checkout.recorded",
+      "which settlement of the token this is": "receipt.token_use_seq"
     },
     "stripe-shared-payment-token": {
       "amount and time bound": "mandate.terms.max_amount_minor, mandate.terms.expires_at",
