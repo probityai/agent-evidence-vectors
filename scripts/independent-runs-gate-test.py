@@ -115,6 +115,20 @@ def note_removed(root: Path) -> None:
     edit(root, change)
 
 
+def limit_removed(root: Path) -> None:
+    def change(ledger: dict[str, Any]) -> None:
+        del ledger["runs"][0]["doesNotEstablish"]
+
+    edit(root, change)
+
+
+def limit_emptied(root: Path) -> None:
+    def change(ledger: dict[str, Any]) -> None:
+        ledger["runs"][-1]["doesNotEstablish"] = "  "
+
+    edit(root, change)
+
+
 def open_outcome(root: Path) -> None:
     def change(ledger: dict[str, Any]) -> None:
         ledger["attempts"][0]["outcome"] = "did not really work out"
@@ -258,6 +272,18 @@ def roster_removed(root: Path) -> None:
 
 
 CASES: tuple[Case, ...] = (
+    (
+        "a run whose doesNotEstablish was deleted is refused",
+        limit_removed,
+        False,
+        ("suiteRevision 1", "carries no doesNotEstablish"),
+    ),
+    (
+        "a run whose doesNotEstablish is blank is refused",
+        limit_emptied,
+        False,
+        ("suiteRevision 28", "carries no doesNotEstablish"),
+    ),
     (
         "a roster label outside the three labels is refused",
         roster_label_outside_set,

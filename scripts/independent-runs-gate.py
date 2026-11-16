@@ -274,6 +274,13 @@ def _run_field_failures(run: dict[str, Any], current: int) -> list[str]:
             f"{where}: a run its author called directed may not be flagged unprompted, "
             "and a run its author did not call directed may not be flagged prompted."
         )
+    dne = run.get("doesNotEstablish")
+    if not isinstance(dne, str) or not dne.strip():
+        out.append(
+            f"{where}: carries no doesNotEstablish. Every figure here is quoted with "
+            "what it does not show beside it, so a row without that limit may not "
+            "license a figure."
+        )
     out.extend(_pair_failures(run, where))
     return out
 
