@@ -17,7 +17,7 @@ binding between that key and the subject DID refuses them.
 | --- | --- | --- | --- |
 | web-verified | did:web | yes | verified, `subject_bound` |
 | wba-verified | did:wba | yes | verified, `subject_bound` |
-| web-signed-before-rotation | did:web | yes | verified, `subject_bound` |
+| web-signed-before-rotation | did:web | yes | verified, `subject_bound` (proven in April, before the June rotation) |
 | key-not-in-authentication | did:web | yes | rejected, `key_not_authorized` |
 | key-absent-from-document | did:web | no | rejected, `key_not_authorized` |
 | did-unresolvable | did:wba | no | rejected, `did_unresolvable` |
@@ -27,6 +27,16 @@ binding between that key and the subject DID refuses them.
 | did-malformed | did:wba | no | rejected, `did_malformed` |
 | wba-fingerprint-mismatch | did:wba | yes | rejected, `binding_fingerprint_mismatch` |
 | payload-altered | did:web | no | rejected, `signature_invalid` |
+| web-backdated-after-rotation | did:web | yes | rejected, `key_rotated_out` |
+| wba-deactivated-after-signing | did:wba | yes | rejected, `key_rotated_out` |
+| web-signing-time-unproven | did:web | yes | rejected, `signing_time_unproven` |
+| web-forward-dated | did:web | yes | rejected, `signing_time_unproven` |
+
+`signedAt` is the signer's word. The last four cases hold a signature that a
+reader judging the key only at `signedAt` accepts: a record that says it was
+signed in March, before the June rotation or deactivation, but that the
+verifier can first prove existed in July cannot be told apart from one its
+holder backdated after losing the key.
 
 ## What a case holds
 
@@ -37,8 +47,10 @@ binding between that key and the subject DID refuses them.
 - `did-*.json`: one resolution fixture per DID, `{"did", "versions": [...]}`,
   each version a `didDocument` and its `didDocumentMetadata.updated`. The
   version in effect at `signedAt` is the latest one updated at or before it.
-- `case.json`: maps each DID to its fixture. A DID with no entry does not
-  resolve.
+- `case.json`: maps each DID to its fixture (a DID with no entry does not
+  resolve), and states `provenAt`: the earliest time the verifier itself can
+  prove the record existed, from a transparency-log inclusion or a timestamp
+  it checked, or else its own clock when it decides.
 
 The did:wba documents follow the did:wba method specification of the Agent
 Network Protocol,
@@ -61,16 +73,19 @@ contract, so a record that fails two checks has one expected reason.
 2. The DID the signing key belongs to is the record's subject
    (`signer_not_subject`).
 3. A resolution fixture exists for that DID (`did_unresolvable`).
-4. For a did:wba path DID, the `e1_` segment is the thumbprint of an Ed25519
+4. The case states `provenAt`, and `signedAt` is not later than it
+   (`signing_time_unproven`).
+5. For a did:wba path DID, the `e1_` segment is the thumbprint of an Ed25519
    `Multikey` the document authorises for authentication
    (`binding_fingerprint_mismatch`).
-5. The version in effect at signing still authorises the key and is not
-   deactivated, where an earlier version authorised it (`key_rotated_out`).
-6. That version lists the key under `authentication` or `assertionMethod`
-   (`key_not_authorized`).
-7. The DSSE signature verifies under that key (`signature_invalid`).
+6. Every version in effect from signing through `provenAt` still authorises
+   the key and is not deactivated, where a version at or before signing
+   authorised it (`key_rotated_out`).
+7. The version in effect at signing lists the key under `authentication` or
+   `assertionMethod` (`key_not_authorized`).
+8. The DSSE signature verifies under that key (`signature_invalid`).
 
-A record that passes all seven is `verified` with reason `subject_bound`.
+A record that passes all eight is `verified` with reason `subject_bound`.
 
 ## Running it
 
@@ -94,6 +109,6 @@ Regenerate the cases with `python3 vectors-identity-binding/gen_vectors.py`.
 The keys are Ed25519 seeds derived from published labels in the generator, so
 anyone can rebuild every signature; they protect nothing.
 
-Passing these cases does not establish that `signedAt` is true, which needs a
-timestamp the signer does not control, or that a resolver fetched the document
-it returned from the host the DID names.
+Passing these cases does not establish that the verifier's `provenAt` is
+itself true (that is the timestamp or log the verifier trusts), or that a
+resolver fetched the document it returned from the host the DID names.

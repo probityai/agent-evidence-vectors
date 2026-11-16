@@ -1,0 +1,49 @@
+{
+  "did": "did:web:agents.example.com:alice",
+  "versions": [
+    {
+      "didDocument": {
+        "@context": [
+          "https://www.w3.org/ns/did/v1",
+          "https://w3id.org/security/suites/jws-2020/v1"
+        ],
+        "assertionMethod": [
+          "did:web:agents.example.com:alice#key-1"
+        ],
+        "authentication": [
+          "did:web:agents.example.com:alice#key-1"
+        ],
+        "capabilityInvocation": [
+          "did:web:agents.example.com:alice#key-2"
+        ],
+        "id": "did:web:agents.example.com:alice",
+        "verificationMethod": [
+          {
+            "controller": "did:web:agents.example.com:alice",
+            "id": "did:web:agents.example.com:alice#key-1",
+            "publicKeyJwk": {
+              "crv": "Ed25519",
+              "kty": "OKP",
+              "x": "j-WmCP5c321kNKL18CE-wMz9sDDy2rrfuQWMln1Ml5c"
+            },
+            "type": "JsonWebKey"
+          },
+          {
+            "controller": "did:web:agents.example.com:alice",
+            "id": "did:web:agents.example.com:alice#key-2",
+            "publicKeyJwk": {
+              "crv": "Ed25519",
+              "kty": "OKP",
+              "x": "mYUM5WPRlmyfwZrcpA78slAEatDIOqaQDy3-c4vz4ek"
+            },
+            "type": "JsonWebKey"
+          }
+        ]
+      },
+      "didDocumentMetadata": {
+        "updated": "2026-01-05T09:00:00Z",
+        "versionId": "1"
+      }
+    }
+  ]
+}
