@@ -14,9 +14,9 @@ import (
 	"github.com/probityai/agent-evidence-vectors/corpusreaders"
 )
 
-const crDir = "vectors-capability-requirement"
+const capreqDir = "vectors-capability-requirement"
 
-func crManifest(t *testing.T) []struct {
+func capreqManifest(t *testing.T) []struct {
 	ID       string `json:"id"`
 	Expected struct {
 		Decision string `json:"decision"`
@@ -24,7 +24,7 @@ func crManifest(t *testing.T) []struct {
 	} `json:"expected"`
 } {
 	t.Helper()
-	raw, err := os.ReadFile(filepath.Join(corpusPath(crDir), "MANIFEST.json")) // #nosec G304 -- a test reading its own corpus
+	raw, err := os.ReadFile(filepath.Join(corpusPath(capreqDir), "MANIFEST.json")) // #nosec G304 -- a test reading its own corpus
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -43,7 +43,7 @@ func crManifest(t *testing.T) []struct {
 	return manifest.Vectors
 }
 
-func crRecord(t *testing.T, dir, member string) []byte {
+func capreqRecord(t *testing.T, dir, member string) []byte {
 	t.Helper()
 	body, err := os.ReadFile(filepath.Join(dir, "cases", member, "record.json")) // #nosec G304 -- a test reading its own corpus
 	if err != nil {
@@ -53,7 +53,7 @@ func crRecord(t *testing.T, dir, member string) []byte {
 }
 
 func TestCapabilityRequirementCommittedCorpusIsClean(t *testing.T) {
-	result, err := corpusreaders.Judge(corpusPath(crDir))
+	result, err := corpusreaders.Judge(corpusPath(capreqDir))
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}
@@ -72,7 +72,7 @@ func TestCapabilityRequirementEachRefusedRecordMovesTheVerdict(t *testing.T) {
 		"report":      "allow-report-identity-unproven-behaviour-supported",
 		"drift":       "allow-drift-stable",
 	}
-	for _, member := range crManifest(t) {
+	for _, member := range capreqManifest(t) {
 		if member.Expected.Decision != "deny" {
 			continue
 		}
@@ -85,9 +85,9 @@ func TestCapabilityRequirementEachRefusedRecordMovesTheVerdict(t *testing.T) {
 		}
 		control := controls[family]
 		t.Run(member.ID, func(t *testing.T) {
-			dir := filepath.Join(t.TempDir(), crDir)
-			copyTree(t, corpusPath(crDir), dir)
-			record := crRecord(t, corpusPath(crDir), member.ID)
+			dir := filepath.Join(t.TempDir(), capreqDir)
+			copyTree(t, corpusPath(capreqDir), dir)
+			record := capreqRecord(t, corpusPath(capreqDir), member.ID)
 			if err := os.WriteFile(filepath.Join(dir, "cases", control, "record.json"), record, 0o600); err != nil {
 				t.Fatal(err)
 			}

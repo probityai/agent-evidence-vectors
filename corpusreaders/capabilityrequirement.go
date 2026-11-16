@@ -39,14 +39,14 @@ func init() { register(capabilityRequirement{}) }
 type capabilityRequirement struct{}
 
 const (
-	crContractID = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/capability-requirement"
-	crAllowed    = "record_consistent"
-	crUnproven   = "unproven"
+	capreqContractID = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/capability-requirement"
+	capreqAllowed    = "record_consistent"
+	capreqUnproven   = "unproven"
 )
 
 func (capabilityRequirement) Suite() string { return "capability-requirement/v1" }
 
-var crChecks = []string{
+var capreqChecks = []string{
 	"contract_id_missing",
 	"contract_id_unknown",
 	"kind_unknown",
@@ -68,12 +68,12 @@ var crChecks = []string{
 	"comparison_wrong",
 }
 
-// crShape is the panic value of a record whose shape a check cannot read: a
-// missing member, a member of the wrong type. crRun turns it into "this check
+// capreqShape is the panic value of a record whose shape a check cannot read: a
+// missing member, a member of the wrong type. capreqRun turns it into "this check
 // fails", which is what the Python reader does with a KeyError or TypeError.
-type crShape struct{}
+type capreqShape struct{}
 
-type crVector struct {
+type capreqVector struct {
 	ID       string            `json:"id"`
 	Path     string            `json:"path"`
 	Files    map[string]string `json:"files"`
@@ -88,13 +88,13 @@ func (capabilityRequirement) Judge(dir string, raw []byte) (*Result, error) {
 	}
 	result := &Result{}
 	for _, entry := range manifest.Vectors {
-		var v crVector
+		var v capreqVector
 		if err := json.Unmarshal(entry, &v); err != nil {
 			result.Findings = append(result.Findings, fmt.Sprintf("a manifest row does not parse: %v", err))
 			continue
 		}
 		member := Member{ID: v.ID, Kind: v.Expected.Decision}
-		member.Findings = crJudgeMember(filepath.Join(dir, v.Path), v)
+		member.Findings = capreqJudgeMember(filepath.Join(dir, v.Path), v)
 		result.Members = append(result.Members, member)
 	}
 	if finding := scCorpusDigest(manifest); finding != "" {
@@ -103,7 +103,7 @@ func (capabilityRequirement) Judge(dir string, raw []byte) (*Result, error) {
 	return result, nil
 }
 
-func crJudgeMember(caseDir string, v crVector) []string {
+func capreqJudgeMember(caseDir string, v capreqVector) []string {
 	findings := acFileFindings(caseDir, v.Files)
 	body, err := readIn(caseDir, "record.json")
 	if err != nil {
@@ -117,28 +117,28 @@ func crJudgeMember(caseDir string, v crVector) []string {
 	if err != nil {
 		return append(findings, "the manifest's retained fields do not parse: "+err.Error())
 	}
-	if !crSame(crRetained(record), declared) {
+	if !capreqSame(capreqRetained(record), declared) {
 		findings = append(findings, "retained fields: the record gives something other than the manifest declares")
 	}
-	if got := crDecide(record); got != v.Expected {
+	if got := capreqDecide(record); got != v.Expected {
 		findings = append(findings, fmt.Sprintf("derived %s/%s, the manifest declares %s/%s",
 			got.Decision, got.Reason, v.Expected.Decision, v.Expected.Reason))
 	}
 	return findings
 }
 
-func crDecide(record any) scDecision {
-	if failure := crFirstFailure(record); failure != "" {
+func capreqDecide(record any) scDecision {
+	if failure := capreqFirstFailure(record); failure != "" {
 		return scDecision{Decision: "deny", Reason: failure}
 	}
-	return scDecision{Decision: "allow", Reason: crAllowed}
+	return scDecision{Decision: "allow", Reason: capreqAllowed}
 }
 
-// crRun runs one check. A record whose shape the check cannot read fails it.
-func crRun(check func() bool) (failed bool) {
+// capreqRun runs one check. A record whose shape the check cannot read fails it.
+func capreqRun(check func() bool) (failed bool) {
 	defer func() {
 		if r := recover(); r != nil {
-			if _, ok := r.(crShape); !ok {
+			if _, ok := r.(capreqShape); !ok {
 				panic(r)
 			}
 			failed = true
@@ -147,11 +147,11 @@ func crRun(check func() bool) (failed bool) {
 	return check()
 }
 
-// crSafe is the Python reader's _safe: the value, or nil when the shape is wrong.
-func crSafe(read func() any) (value any) {
+// capreqSafe is the Python reader's _safe: the value, or nil when the shape is wrong.
+func capreqSafe(read func() any) (value any) {
 	defer func() {
 		if r := recover(); r != nil {
-			if _, ok := r.(crShape); !ok {
+			if _, ok := r.(capreqShape); !ok {
 				panic(r)
 			}
 			value = nil
@@ -160,21 +160,21 @@ func crSafe(read func() any) (value any) {
 	return read()
 }
 
-func crFirstFailure(record any) string {
+func capreqFirstFailure(record any) string {
 	rec, ok := record.(map[string]any)
 	if !ok {
 		return "contract_id_missing"
 	}
-	table := crTable(rec)
-	for _, name := range crChecks {
-		if crRun(table[name]) {
+	table := capreqTable(rec)
+	for _, name := range capreqChecks {
+		if capreqRun(table[name]) {
 			return name
 		}
 	}
 	return ""
 }
 
-func crKindIs(kind any, names ...string) bool {
+func capreqKindIs(kind any, names ...string) bool {
 	text, ok := kind.(string)
 	if !ok {
 		return false
@@ -187,43 +187,43 @@ func crKindIs(kind any, names ...string) bool {
 	return false
 }
 
-func crTable(rec map[string]any) map[string]func() bool {
+func capreqTable(rec map[string]any) map[string]func() bool {
 	kind := rec["kind"]
-	runsKind := crKindIs(kind, "endpoint-report", "drift")
-	isDrift := crKindIs(kind, "drift")
-	isReport := crKindIs(kind, "endpoint-report")
+	runsKind := capreqKindIs(kind, "endpoint-report", "drift")
+	isDrift := capreqKindIs(kind, "drift")
+	isReport := capreqKindIs(kind, "endpoint-report")
 	table := map[string]func() bool{
 		"contract_id_missing": func() bool { _, has := rec["contractId"]; return !has },
 		"contract_id_unknown": func() bool {
 			id, has := rec["contractId"]
-			return has && !crSame(id, crContractID)
+			return has && !capreqSame(id, capreqContractID)
 		},
-		"kind_unknown": func() bool { return !crKindIs(kind, "requirement", "endpoint-report", "drift") },
+		"kind_unknown": func() bool { return !capreqKindIs(kind, "requirement", "endpoint-report", "drift") },
 		"requirement_invalid": func() bool {
-			return runsKind && crRequirementFailure(crRR(rec)) != ""
+			return runsKind && capreqRequirementFailure(capreqRR(rec)) != ""
 		},
 		"run_against_other_requirement": func() bool {
 			if !runsKind {
 				return false
 			}
-			for _, run := range crRuns(rec) {
-				want := crRequirementDigest(crRequirement(crRR(rec)))
-				if !crSame(crGet(crGet(run, "body"), "requirementDigest"), want) {
+			for _, run := range capreqRuns(rec) {
+				want := capreqRequirementDigest(capreqRequirement(capreqRR(rec)))
+				if !capreqSame(capreqGet(capreqGet(run, "body"), "requirementDigest"), want) {
 					return true
 				}
 			}
 			return false
 		},
 		"runs_on_different_endpoints": func() bool {
-			return isDrift && !crSame(crGet(crGet(crGet(rec, "baseline"), "body"), "endpoint"),
-				crGet(crGet(crGet(rec, "current"), "body"), "endpoint"))
+			return isDrift && !capreqSame(capreqGet(capreqGet(capreqGet(rec, "baseline"), "body"), "endpoint"),
+				capreqGet(capreqGet(capreqGet(rec, "current"), "body"), "endpoint"))
 		},
 		"run_signature_invalid": func() bool {
 			if !runsKind {
 				return false
 			}
-			for _, run := range crRuns(rec) {
-				if !crVerified(crOpt(run, "verifierSignature"), crCanon(crGet(run, "body"))) {
+			for _, run := range capreqRuns(rec) {
+				if !capreqVerified(capreqOpt(run, "verifierSignature"), capreqCanon(capreqGet(run, "body"))) {
 					return true
 				}
 			}
@@ -233,8 +233,8 @@ func crTable(rec map[string]any) map[string]func() bool {
 			if !runsKind {
 				return false
 			}
-			for _, run := range crRuns(rec) {
-				if !crHeldOutValid(crRR(rec), run) {
+			for _, run := range capreqRuns(rec) {
+				if !capreqHeldOutValid(capreqRR(rec), run) {
 					return true
 				}
 			}
@@ -249,83 +249,83 @@ func crTable(rec map[string]any) map[string]func() bool {
 			_, behaviour := rec["behaviour"]
 			return verdict || !identity || !behaviour
 		},
-		"model_identity_overclaimed": func() bool { return isReport && crIdentityOverclaimed(rec) },
+		"model_identity_overclaimed": func() bool { return isReport && capreqIdentityOverclaimed(rec) },
 		"behaviour_mismatch": func() bool {
-			return isReport && !crSame(crGet(rec, "behaviour"), crBehaviour(crRR(rec), crGet(rec, "run")))
+			return isReport && !capreqSame(capreqGet(rec, "behaviour"), capreqBehaviour(capreqRR(rec), capreqGet(rec, "run")))
 		},
 		"runs_not_distinct": func() bool {
 			if !isDrift {
 				return false
 			}
-			before, after := crGet(crGet(rec, "baseline"), "body"), crGet(crGet(rec, "current"), "body")
-			return crSame(crGet(before, "runId"), crGet(after, "runId")) || crSame(before, after)
+			before, after := capreqGet(capreqGet(rec, "baseline"), "body"), capreqGet(capreqGet(rec, "current"), "body")
+			return capreqSame(capreqGet(before, "runId"), capreqGet(after, "runId")) || capreqSame(before, after)
 		},
 		"runs_out_of_order": func() bool {
 			if !isDrift {
 				return false
 			}
-			current := crAt(crGet(crGet(crGet(rec, "current"), "body"), "observedAt"))
-			baseline := crAt(crGet(crGet(crGet(rec, "baseline"), "body"), "observedAt"))
+			current := capreqAt(capreqGet(capreqGet(capreqGet(rec, "current"), "body"), "observedAt"))
+			baseline := capreqAt(capreqGet(capreqGet(capreqGet(rec, "baseline"), "body"), "observedAt"))
 			return !current.after(baseline)
 		},
 		"comparison_wrong": func() bool {
-			return isDrift && !crSame(crGet(rec, "comparison"),
-				crCompare(crRR(rec), crGet(rec, "baseline"), crGet(rec, "current")))
+			return isDrift && !capreqSame(capreqGet(rec, "comparison"),
+				capreqCompare(capreqRR(rec), capreqGet(rec, "baseline"), capreqGet(rec, "current")))
 		},
 	}
-	for _, check := range crRequirementChecks {
+	for _, check := range capreqRequirementChecks {
 		failing := check.failing
-		table[check.name] = func() bool { return crKindIs(kind, "requirement") && failing(rec) }
+		table[check.name] = func() bool { return capreqKindIs(kind, "requirement") && failing(rec) }
 	}
 	return table
 }
 
-// crRR is the record that carries the requirement: the record itself for a
+// capreqRR is the record that carries the requirement: the record itself for a
 // requirement, its requirementRecord for a report or a drift comparison.
-func crRR(rec map[string]any) any {
-	if crSame(crGet(rec, "kind"), "requirement") {
+func capreqRR(rec map[string]any) any {
+	if capreqSame(capreqGet(rec, "kind"), "requirement") {
 		return rec
 	}
-	return crGet(rec, "requirementRecord")
+	return capreqGet(rec, "requirementRecord")
 }
 
-func crRuns(rec map[string]any) []any {
-	if crSame(crGet(rec, "kind"), "endpoint-report") {
-		return []any{crGet(rec, "run")}
+func capreqRuns(rec map[string]any) []any {
+	if capreqSame(capreqGet(rec, "kind"), "endpoint-report") {
+		return []any{capreqGet(rec, "run")}
 	}
-	return []any{crGet(rec, "baseline"), crGet(rec, "current")}
+	return []any{capreqGet(rec, "baseline"), capreqGet(rec, "current")}
 }
 
-type crRequirementCheck struct {
+type capreqRequirementCheck struct {
 	name    string
 	failing func(rr any) bool
 }
 
-var crRequirementChecks = []crRequirementCheck{
+var capreqRequirementChecks = []capreqRequirementCheck{
 	{"requirement_signature_invalid", func(rr any) bool {
-		signature := crOpt(rr, "requirerSignature")
-		return !crVerified(signature, crCanon(crRequirement(rr)))
+		signature := capreqOpt(rr, "requirerSignature")
+		return !capreqVerified(signature, capreqCanon(capreqRequirement(rr)))
 	}},
-	{"capability_names_a_model", crCapabilityNamesAModel},
-	{"thresholds_invalid", crThresholdsInvalid},
-	{"evaluation_set_digest_mismatch", crDigestMismatch},
-	{"held_out_commitment_not_attested", crNotAttested},
+	{"capability_names_a_model", capreqCapabilityNamesAModel},
+	{"thresholds_invalid", capreqThresholdsInvalid},
+	{"evaluation_set_digest_mismatch", capreqDigestMismatch},
+	{"held_out_commitment_not_attested", capreqNotAttested},
 }
 
-// crRequirementFailure is the first requirement check the record's requirement
+// capreqRequirementFailure is the first requirement check the record's requirement
 // fails, or "".
-func crRequirementFailure(rr any) string {
-	for _, check := range crRequirementChecks {
+func capreqRequirementFailure(rr any) string {
+	for _, check := range capreqRequirementChecks {
 		failing := check.failing
-		if crRun(func() bool { return failing(rr) }) {
+		if capreqRun(func() bool { return failing(rr) }) {
 			return check.name
 		}
 	}
 	return ""
 }
 
-func crCapabilityNamesAModel(rr any) bool {
-	capability, ok := crGet(crRequirement(rr), "capability").(map[string]any)
+func capreqCapabilityNamesAModel(rr any) bool {
+	capability, ok := capreqGet(capreqRequirement(rr), "capability").(map[string]any)
 	if !ok || len(capability) != 2 {
 		return true
 	}
@@ -339,8 +339,8 @@ func crCapabilityNamesAModel(rr any) bool {
 	return !idText || !statementText
 }
 
-func crThresholdsInvalid(rr any) bool {
-	list, ok := crGet(crRequirement(rr), "thresholds").([]any)
+func capreqThresholdsInvalid(rr any) bool {
+	list, ok := capreqGet(capreqRequirement(rr), "thresholds").([]any)
 	if !ok || len(list) == 0 {
 		return true
 	}
@@ -359,10 +359,10 @@ func crThresholdsInvalid(rr any) bool {
 		if !ok || metric == "" {
 			return true
 		}
-		if !crOneOf(threshold["set"], "public", "heldOut") || !crOneOf(threshold["comparator"], "gte", "lte") {
+		if !capreqOneOf(threshold["set"], "public", "heldOut") || !capreqOneOf(threshold["comparator"], "gte", "lte") {
 			return true
 		}
-		if !crIsInt(threshold["value"]) || !crIsInt(threshold["maxDrift"]) || crInt(threshold["maxDrift"]).Sign() < 0 {
+		if !capreqIsInt(threshold["value"]) || !capreqIsInt(threshold["maxDrift"]) || capreqInt(threshold["maxDrift"]).Sign() < 0 {
 			return true
 		}
 		if seen[metric] {
@@ -373,68 +373,68 @@ func crThresholdsInvalid(rr any) bool {
 	return false
 }
 
-func crDigestMismatch(rr any) bool {
-	evaluation := crGet(crRequirement(rr), "evaluationSet")
-	items, ok := crGet(evaluation, "items").([]any)
+func capreqDigestMismatch(rr any) bool {
+	evaluation := capreqGet(capreqRequirement(rr), "evaluationSet")
+	items, ok := capreqGet(evaluation, "items").([]any)
 	if !ok || len(items) == 0 {
 		return true
 	}
 	texts := make([]string, 0, len(items))
 	for _, item := range items {
-		if !crIsDigest(item) {
+		if !capreqIsDigest(item) {
 			return true
 		}
 		texts = append(texts, item.(string))
 	}
-	return !crSame(crGet(evaluation, "digest"), crItemsDigest(texts))
+	return !capreqSame(capreqGet(evaluation, "digest"), capreqItemsDigest(texts))
 }
 
-func crNotAttested(rr any) bool {
-	requirement := crRequirement(rr)
-	held, ok := crOpt(crGet(requirement, "evaluationSet"), "heldOut").(map[string]any)
-	if !ok || !crIsDigest(held["commitment"]) {
+func capreqNotAttested(rr any) bool {
+	requirement := capreqRequirement(rr)
+	held, ok := capreqOpt(capreqGet(requirement, "evaluationSet"), "heldOut").(map[string]any)
+	if !ok || !capreqIsDigest(held["commitment"]) {
 		return true
 	}
-	attestation, ok := crOpt(rr, "assessorAttestation").(map[string]any)
-	if !ok || !crSame(attestation["publicKey"], held["assessorKey"]) {
+	attestation, ok := capreqOpt(rr, "assessorAttestation").(map[string]any)
+	if !ok || !capreqSame(attestation["publicKey"], held["assessorKey"]) {
 		return true
 	}
-	return !crVerified(attestation, crAttestationBytes(requirement))
+	return !capreqVerified(attestation, capreqAttestationBytes(requirement))
 }
 
-func crRequirement(rr any) any { return crGet(rr, "requirement") }
+func capreqRequirement(rr any) any { return capreqGet(rr, "requirement") }
 
-func crRequirementDigest(requirement any) string { return sha(crCanon(requirement)) }
+func capreqRequirementDigest(requirement any) string { return sha(capreqCanon(requirement)) }
 
-func crItemsDigest(items []string) string {
+func capreqItemsDigest(items []string) string {
 	sorted := append([]string(nil), items...)
 	sort.Strings(sorted)
 	list := make([]any, len(sorted))
 	for i, item := range sorted {
 		list[i] = item
 	}
-	return sha(crCanon(list))
+	return sha(capreqCanon(list))
 }
 
-func crAttestationBytes(requirement any) []byte {
-	return crCanon(map[string]any{
-		"capabilityId": crGet(crGet(requirement, "capability"), "id"),
-		"commitment":   crGet(crGet(crGet(requirement, "evaluationSet"), "heldOut"), "commitment"),
+func capreqAttestationBytes(requirement any) []byte {
+	return capreqCanon(map[string]any{
+		"capabilityId": capreqGet(capreqGet(requirement, "capability"), "id"),
+		"commitment":   capreqGet(capreqGet(capreqGet(requirement, "evaluationSet"), "heldOut"), "commitment"),
 	})
 }
 
-func crAssessorRunBytes(run any) []byte {
-	body := crGet(run, "body")
-	return crCanon(map[string]any{
-		"requirementDigest": crGet(body, "requirementDigest"),
-		"results":           crGet(crGet(body, "heldOut"), "results"),
-		"runId":             crGet(body, "runId"),
+func capreqAssessorRunBytes(run any) []byte {
+	body := capreqGet(run, "body")
+	return capreqCanon(map[string]any{
+		"requirementDigest": capreqGet(body, "requirementDigest"),
+		"results":           capreqGet(capreqGet(body, "heldOut"), "results"),
+		"runId":             capreqGet(body, "runId"),
 	})
 }
 
-// crVerified reports whether signature is a key and a signature that verify
+// capreqVerified reports whether signature is a key and a signature that verify
 // over data.
-func crVerified(signature any, data []byte) bool {
+func capreqVerified(signature any, data []byte) bool {
 	fields, ok := signature.(map[string]any)
 	if !ok {
 		return false
@@ -444,17 +444,17 @@ func crVerified(signature any, data []byte) bool {
 	if !ok || !ok2 {
 		return false
 	}
-	key, okKey := crBase64(keyText)
-	sig, okSig := crBase64(sigText)
+	key, okKey := capreqBase64(keyText)
+	sig, okSig := capreqBase64(sigText)
 	if !okKey || !okSig || len(key) != ed25519.PublicKeySize || len(sig) != ed25519.SignatureSize {
 		return false
 	}
 	return ed25519.Verify(ed25519.PublicKey(key), data, sig)
 }
 
-// crBase64 decodes the way Python's b64decode(validate=True) does: the standard
+// capreqBase64 decodes the way Python's b64decode(validate=True) does: the standard
 // alphabet, padded, and nothing else, not even a line break.
-func crBase64(text string) ([]byte, bool) {
+func capreqBase64(text string) ([]byte, bool) {
 	if strings.ContainsAny(text, "\r\n") {
 		return nil, false
 	}
@@ -462,78 +462,78 @@ func crBase64(text string) ([]byte, bool) {
 	return decoded, err == nil
 }
 
-func crHeldOutValid(rr, run any) bool {
-	if crOpt(crGet(run, "body"), "heldOut") == nil {
+func capreqHeldOutValid(rr, run any) bool {
+	if capreqOpt(capreqGet(run, "body"), "heldOut") == nil {
 		return true
 	}
-	signature := crOpt(run, "assessorSignature")
-	named := crGet(crGet(crGet(crRequirement(rr), "evaluationSet"), "heldOut"), "assessorKey")
+	signature := capreqOpt(run, "assessorSignature")
+	named := capreqGet(capreqGet(capreqGet(capreqRequirement(rr), "evaluationSet"), "heldOut"), "assessorKey")
 	fields, ok := signature.(map[string]any)
-	return ok && crSame(fields["publicKey"], named) && crVerified(signature, crAssessorRunBytes(run))
+	return ok && capreqSame(fields["publicKey"], named) && capreqVerified(signature, capreqAssessorRunBytes(run))
 }
 
-func crIdentityOverclaimed(rec map[string]any) bool {
-	claim := crGet(rec, "modelIdentity")
-	if crSame(claim, crUnproven) {
+func capreqIdentityOverclaimed(rec map[string]any) bool {
+	claim := capreqGet(rec, "modelIdentity")
+	if capreqSame(claim, capreqUnproven) {
 		return false
 	}
-	endpoint := crGet(rec, "endpoint")
-	proof, _ := crOpt(rec, "identityProof").(map[string]any)
-	if !crSame(claim, "proven") || !crSame(crGet(endpoint, "access"), "weights-held") ||
-		proof == nil || !crIsDigest(proof["weightsDigest"]) {
+	endpoint := capreqGet(rec, "endpoint")
+	proof, _ := capreqOpt(rec, "identityProof").(map[string]any)
+	if !capreqSame(claim, "proven") || !capreqSame(capreqGet(endpoint, "access"), "weights-held") ||
+		proof == nil || !capreqIsDigest(proof["weightsDigest"]) {
 		return true
 	}
-	return !crSame(proof["weightsDigest"], crGet(endpoint, "claimedWeightsDigest"))
+	return !capreqSame(proof["weightsDigest"], capreqGet(endpoint, "claimedWeightsDigest"))
 }
 
-// crValue is the run's usable value for a threshold's metric, or nil.
-func crValue(rr, run, threshold any) *big.Int {
+// capreqValue is the run's usable value for a threshold's metric, or nil.
+func capreqValue(rr, run, threshold any) *big.Int {
 	var values any
-	if crSame(crGet(threshold, "set"), "public") {
-		values = crGet(crGet(run, "body"), "public")
+	if capreqSame(capreqGet(threshold, "set"), "public") {
+		values = capreqGet(capreqGet(run, "body"), "public")
 	} else {
-		held := crOpt(crGet(run, "body"), "heldOut")
-		if held == nil || !crHeldOutValid(rr, run) {
+		held := capreqOpt(capreqGet(run, "body"), "heldOut")
+		if held == nil || !capreqHeldOutValid(rr, run) {
 			return nil
 		}
-		values = crGet(held, "results")
+		values = capreqGet(held, "results")
 	}
-	found := crOpt(values, crText(crGet(threshold, "metric")))
-	if !crIsInt(found) {
+	found := capreqOpt(values, capreqText(capreqGet(threshold, "metric")))
+	if !capreqIsInt(found) {
 		return nil
 	}
-	return crInt(found)
+	return capreqInt(found)
 }
 
-func crMeets(threshold any, value *big.Int) bool {
-	limit := crInt(crGet(threshold, "value"))
-	if crSame(crGet(threshold, "comparator"), "gte") {
+func capreqMeets(threshold any, value *big.Int) bool {
+	limit := capreqInt(capreqGet(threshold, "value"))
+	if capreqSame(capreqGet(threshold, "comparator"), "gte") {
 		return value.Cmp(limit) >= 0
 	}
 	return value.Cmp(limit) <= 0
 }
 
-func crThresholds(rr any) []any {
-	list, ok := crGet(crRequirement(rr), "thresholds").([]any)
+func capreqThresholds(rr any) []any {
+	list, ok := capreqGet(capreqRequirement(rr), "thresholds").([]any)
 	if !ok {
-		panic(crShape{})
+		panic(capreqShape{})
 	}
 	return list
 }
 
-// crBehaviour is the behaviour on the pinned set: contradicted, else not
+// capreqBehaviour is the behaviour on the pinned set: contradicted, else not
 // established, else supported.
-func crBehaviour(rr, run any) string {
-	thresholds := crThresholds(rr)
+func capreqBehaviour(rr, run any) string {
+	thresholds := capreqThresholds(rr)
 	values := make([]*big.Int, len(thresholds))
 	for i, threshold := range thresholds {
-		values[i] = crValue(rr, run, threshold)
+		values[i] = capreqValue(rr, run, threshold)
 	}
 	missing := false
 	for i, threshold := range thresholds {
 		if values[i] == nil {
 			missing = true
-		} else if !crMeets(threshold, values[i]) {
+		} else if !capreqMeets(threshold, values[i]) {
 			return "contradicted"
 		}
 	}
@@ -543,29 +543,29 @@ func crBehaviour(rr, run any) string {
 	return "supported"
 }
 
-// crCompare is the comparison two runs of one requirement give.
-func crCompare(rr, baseline, current any) map[string]any {
+// capreqCompare is the comparison two runs of one requirement give.
+func capreqCompare(rr, baseline, current any) map[string]any {
 	changes := []any{}
 	unmatched := []string{}
 	drifted := false
-	for _, threshold := range crThresholds(rr) {
-		before, after := crValue(rr, baseline, threshold), crValue(rr, current, threshold)
-		metric := crText(crGet(threshold, "metric"))
+	for _, threshold := range capreqThresholds(rr) {
+		before, after := capreqValue(rr, baseline, threshold), capreqValue(rr, current, threshold)
+		metric := capreqText(capreqGet(threshold, "metric"))
 		if before == nil || after == nil {
 			unmatched = append(unmatched, metric)
 			continue
 		}
 		worse := new(big.Int).Sub(before, after)
-		if !crSame(crGet(threshold, "comparator"), "gte") {
+		if !capreqSame(capreqGet(threshold, "comparator"), "gte") {
 			worse.Neg(worse)
 		}
-		meetsBefore, meetsAfter := crMeets(threshold, before), crMeets(threshold, after)
+		meetsBefore, meetsAfter := capreqMeets(threshold, before), capreqMeets(threshold, after)
 		changes = append(changes, map[string]any{
 			"baseline": json.Number(before.String()), "baselineMeets": meetsBefore,
 			"current": json.Number(after.String()), "currentMeets": meetsAfter,
 			"metric": metric, "worsenedBy": json.Number(worse.String()),
 		})
-		if worse.Cmp(crInt(crGet(threshold, "maxDrift"))) > 0 || (meetsBefore && !meetsAfter) {
+		if worse.Cmp(capreqInt(capreqGet(threshold, "maxDrift"))) > 0 || (meetsBefore && !meetsAfter) {
 			drifted = true
 		}
 	}
@@ -581,25 +581,25 @@ func crCompare(rr, baseline, current any) map[string]any {
 		names[i] = name
 	}
 	return map[string]any{
-		"baselineRunId": crGet(crGet(baseline, "body"), "runId"),
+		"baselineRunId": capreqGet(capreqGet(baseline, "body"), "runId"),
 		"changes":       changes,
-		"currentRunId":  crGet(crGet(current, "body"), "runId"),
+		"currentRunId":  capreqGet(capreqGet(current, "body"), "runId"),
 		"outcome":       outcome,
 		"unmatched":     names,
 	}
 }
 
-// crRetained is the facts a verifier keeps from a record: its kind and what it
+// capreqRetained is the facts a verifier keeps from a record: its kind and what it
 // found.
-func crRetained(record any) map[string]any {
+func capreqRetained(record any) map[string]any {
 	rec, _ := record.(map[string]any)
 	kind := rec["kind"]
 	kept := map[string]any{"kind": kind}
 	switch {
-	case crKindIs(kind, "requirement"):
-		kept["requirementDigest"] = crSafe(func() any { return crRequirementDigest(crRequirement(rec)) })
-		kept["thresholds"] = crSafe(func() any {
-			switch list := crGet(crRequirement(rec), "thresholds").(type) {
+	case capreqKindIs(kind, "requirement"):
+		kept["requirementDigest"] = capreqSafe(func() any { return capreqRequirementDigest(capreqRequirement(rec)) })
+		kept["thresholds"] = capreqSafe(func() any {
+			switch list := capreqGet(capreqRequirement(rec), "thresholds").(type) {
 			case []any:
 				return json.Number(strconv.Itoa(len(list)))
 			case map[string]any:
@@ -607,85 +607,85 @@ func crRetained(record any) map[string]any {
 			case string:
 				return json.Number(strconv.Itoa(len([]rune(list))))
 			}
-			panic(crShape{})
+			panic(capreqShape{})
 		})
-	case crKindIs(kind, "endpoint-report"):
+	case capreqKindIs(kind, "endpoint-report"):
 		kept["behaviour"] = rec["behaviour"]
 		kept["modelIdentity"] = rec["modelIdentity"]
-		kept["runId"] = crSafe(func() any { return crGet(crGet(crGet(rec, "run"), "body"), "runId") })
-	case crKindIs(kind, "drift"):
-		kept["outcome"] = crSafe(func() any { return crGet(crGet(rec, "comparison"), "outcome") })
-		kept["runIds"] = crSafe(func() any {
-			return []any{crGet(crGet(crGet(rec, "baseline"), "body"), "runId"),
-				crGet(crGet(crGet(rec, "current"), "body"), "runId")}
+		kept["runId"] = capreqSafe(func() any { return capreqGet(capreqGet(capreqGet(rec, "run"), "body"), "runId") })
+	case capreqKindIs(kind, "drift"):
+		kept["outcome"] = capreqSafe(func() any { return capreqGet(capreqGet(rec, "comparison"), "outcome") })
+		kept["runIds"] = capreqSafe(func() any {
+			return []any{capreqGet(capreqGet(capreqGet(rec, "baseline"), "body"), "runId"),
+				capreqGet(capreqGet(capreqGet(rec, "current"), "body"), "runId")}
 		})
 	}
 	return kept
 }
 
-// crInstant is a timestamp as Python's datetime.fromisoformat reads it: aware
+// capreqInstant is a timestamp as Python's datetime.fromisoformat reads it: aware
 // when it carries an offset, naive when it does not. Python refuses to order an
 // aware instant against a naive one, and so does this.
-type crInstant struct {
+type capreqInstant struct {
 	at    time.Time
 	aware bool
 }
 
-func (a crInstant) after(b crInstant) bool {
+func (a capreqInstant) after(b capreqInstant) bool {
 	if a.aware != b.aware {
-		panic(crShape{})
+		panic(capreqShape{})
 	}
 	return a.at.After(b.at)
 }
 
-func crAt(value any) crInstant {
+func capreqAt(value any) capreqInstant {
 	text, ok := value.(string)
 	if !ok {
-		panic(crShape{})
+		panic(capreqShape{})
 	}
 	text = strings.ReplaceAll(text, "Z", "+00:00")
 	if at, err := time.Parse("2006-01-02T15:04:05-07:00", text); err == nil {
-		return crInstant{at: at, aware: true}
+		return capreqInstant{at: at, aware: true}
 	}
 	if at, err := time.Parse("2006-01-02T15:04:05", text); err == nil {
-		return crInstant{at: at}
+		return capreqInstant{at: at}
 	}
-	panic(crShape{})
+	panic(capreqShape{})
 }
 
-// crGet reads member key of an object. A value that is not an object, or an
+// capreqGet reads member key of an object. A value that is not an object, or an
 // object without the member, is a shape error: Python's KeyError and TypeError.
-func crGet(object any, key string) any {
+func capreqGet(object any, key string) any {
 	fields, ok := object.(map[string]any)
 	if !ok {
-		panic(crShape{})
+		panic(capreqShape{})
 	}
 	value, has := fields[key]
 	if !has {
-		panic(crShape{})
+		panic(capreqShape{})
 	}
 	return value
 }
 
-// crOpt is Python's dict.get: nil for a missing member, a shape error for a
+// capreqOpt is Python's dict.get: nil for a missing member, a shape error for a
 // value that is not an object.
-func crOpt(object any, key string) any {
+func capreqOpt(object any, key string) any {
 	fields, ok := object.(map[string]any)
 	if !ok {
-		panic(crShape{})
+		panic(capreqShape{})
 	}
 	return fields[key]
 }
 
-func crText(value any) string {
+func capreqText(value any) string {
 	text, ok := value.(string)
 	if !ok {
-		panic(crShape{})
+		panic(capreqShape{})
 	}
 	return text
 }
 
-func crOneOf(value any, names ...string) bool {
+func capreqOneOf(value any, names ...string) bool {
 	text, ok := value.(string)
 	if !ok {
 		return false
@@ -698,24 +698,24 @@ func crOneOf(value any, names ...string) bool {
 	return false
 }
 
-func crIsInt(value any) bool {
+func capreqIsInt(value any) bool {
 	number, ok := value.(json.Number)
 	return ok && !strings.ContainsAny(number.String(), ".eE")
 }
 
-func crInt(value any) *big.Int {
+func capreqInt(value any) *big.Int {
 	number, ok := value.(json.Number)
 	if !ok {
-		panic(crShape{})
+		panic(capreqShape{})
 	}
 	integer, ok := new(big.Int).SetString(number.String(), 10)
 	if !ok {
-		panic(crShape{})
+		panic(capreqShape{})
 	}
 	return integer
 }
 
-func crIsDigest(value any) bool {
+func capreqIsDigest(value any) bool {
 	text, ok := value.(string)
 	if !ok || len(text) != 64 {
 		return false
@@ -728,36 +728,36 @@ func crIsDigest(value any) bool {
 	return true
 }
 
-// crSame is Python's ==, over decoded JSON: two values are the same when they
+// capreqSame is Python's ==, over decoded JSON: two values are the same when they
 // write the same canonical bytes.
-func crSame(a, b any) bool {
-	left, errLeft := crCanonOrErr(a)
-	right, errRight := crCanonOrErr(b)
+func capreqSame(a, b any) bool {
+	left, errLeft := capreqCanonOrErr(a)
+	right, errRight := capreqCanonOrErr(b)
 	return errLeft == nil && errRight == nil && bytes.Equal(left, right)
 }
 
-func crCanonOrErr(value any) (out []byte, err error) {
+func capreqCanonOrErr(value any) (out []byte, err error) {
 	defer func() {
 		if r := recover(); r != nil {
-			if _, ok := r.(crShape); !ok {
+			if _, ok := r.(capreqShape); !ok {
 				panic(r)
 			}
 			err = fmt.Errorf("a value this encoder cannot write")
 		}
 	}()
-	return crCanon(value), nil
+	return capreqCanon(value), nil
 }
 
-// crCanon is the byte string every signature in this contract covers: compact
+// capreqCanon is the byte string every signature in this contract covers: compact
 // JSON with sorted keys and no ASCII escaping, as json.dumps writes it with
 // sort_keys=True, separators=(",", ":"), ensure_ascii=False.
-func crCanon(value any) []byte {
+func capreqCanon(value any) []byte {
 	var out bytes.Buffer
-	crEncode(&out, value)
+	capreqEncode(&out, value)
 	return out.Bytes()
 }
 
-func crEncode(out *bytes.Buffer, value any) {
+func capreqEncode(out *bytes.Buffer, value any) {
 	switch v := value.(type) {
 	case nil:
 		out.WriteString("null")
@@ -766,14 +766,14 @@ func crEncode(out *bytes.Buffer, value any) {
 	case string:
 		writePythonString(out, v, false)
 	case json.Number:
-		out.WriteString(crNumber(v))
+		out.WriteString(capreqNumber(v))
 	case []any:
 		out.WriteByte('[')
 		for i, item := range v {
 			if i > 0 {
 				out.WriteByte(',')
 			}
-			crEncode(out, item)
+			capreqEncode(out, item)
 		}
 		out.WriteByte(']')
 	case map[string]any:
@@ -784,32 +784,32 @@ func crEncode(out *bytes.Buffer, value any) {
 			}
 			writePythonString(out, key, false)
 			out.WriteByte(':')
-			crEncode(out, v[key])
+			capreqEncode(out, v[key])
 		}
 		out.WriteByte('}')
 	default:
-		panic(crShape{})
+		panic(capreqShape{})
 	}
 }
 
-func crNumber(number json.Number) string {
+func capreqNumber(number json.Number) string {
 	text := number.String()
 	if !strings.ContainsAny(text, ".eE") {
 		integer, ok := new(big.Int).SetString(text, 10)
 		if !ok {
-			panic(crShape{})
+			panic(capreqShape{})
 		}
 		return integer.String()
 	}
 	parsed, err := strconv.ParseFloat(text, 64)
 	if err != nil && !math.IsInf(parsed, 0) {
-		panic(crShape{})
+		panic(capreqShape{})
 	}
-	return crFloat(parsed)
+	return capreqFloat(parsed)
 }
 
-// crFloat spells a float the way CPython's repr does.
-func crFloat(f float64) string {
+// capreqFloat spells a float the way CPython's repr does.
+func capreqFloat(f float64) string {
 	switch {
 	case math.IsNaN(f):
 		return "NaN"
