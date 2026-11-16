@@ -42,14 +42,20 @@ The first check that fails decides the reason. `construction_unknown`, `role_unk
 19. `number_not_interoperable`: an integer, or a number whose parsed double is, past 2^53 - 1 in the signed bytes. This profile is the safe-integer reading of RFC 8785: such a value has more than one meaning across JSON parsers, so one signature could cover two records.
 20. `no_canonical_form`: a value with no RFC 8785 form, such as a lone surrogate.
 21. `signature_invalid`.
-22. `signer_not_contributor` (AI Catalog), 23. `subject_missing`, 24. `subject_entry_mismatch`: identifier and type are strings on the entry and equal on the subject, digest equal, and version absent on both or equal on both.
-25. `entry_delivery_not_one`: draft constructions; the entry carries both `url` and `data`, or neither (draft section 3.1 requires exactly one). 26. `entry_digest_missing_for_url`: an entry referenced by `url` (or any AI Catalog entry) with no `digest` (draft 3.5.2 item 1).
+22. `signer_not_contributor` (AI Catalog).
+23. `subject_missing`.
+24. `subject_entry_mismatch`: identifier and type are strings on the entry and equal on the subject, digest equal, and version absent on both or equal on both.
+25. `entry_delivery_not_one`: draft constructions; the entry carries both `url` and `data`, or neither (draft section 3.1 requires exactly one).
+26. `entry_digest_missing_for_url`: an entry referenced by `url` (or any AI Catalog entry) with no `digest` (draft 3.5.2 item 1).
 27. `artifact_digest_mismatch`.
 28. `url_origin_unbound`: draft constructions, an entry with a `url`; its origin is not `https://<publisher>` and the artifact there does not declare the entry identifier (draft 6.2). An entry delivered as inline `data` has no origin to bind.
-29. `attestation_digest_mismatch` (including a file name that leaves the case directory), 30. `attestation_unsigned` (the vendored statement is not a DSSE in-toto Statement signed by a key that the DID document of the keyid's DID, whose `id` is that DID, authorizes for assertions), 31. `attestation_transplanted` (its subject is another artifact).
+29. `attestation_digest_mismatch` (including a file name that leaves the case directory).
+30. `attestation_unsigned` (the vendored statement is not a DSSE in-toto Statement signed by a key that the DID document of the keyid's DID, whose `id` is that DID, authorizes for assertions).
+31. `attestation_transplanted` (its subject is another artifact).
 32. `publisher_not_signer` (AI Catalog exact rule: the signer is exactly `did:web:<publisher>`) or `publisher_authorization_absent` (draft rule: the identity must match or be authorized by the publisher, and no authorization record is given offline). Judged only in the `publisher` role.
 33. `timestamp_invalid`: the check time, `issuedAt` or `expiresAt` is not an RFC 3339 date-time naming a real instant, the AI Catalog Signature object has no `issuedAt`, or `expiresAt` is not later than `issuedAt`. Times are compared as instants, so fractional seconds and numeric offsets are read, not refused.
-34. `issued_in_future`, 35. `manifest_expired` (rejected at or after `expiresAt`).
+34. `issued_in_future`.
+35. `manifest_expired` (rejected at or after `expiresAt`).
 
 A pass is `signature_covers_release` for an entry and `snapshot_signature_valid` for a catalog snapshot.
 
