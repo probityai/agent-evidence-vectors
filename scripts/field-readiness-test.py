@@ -150,20 +150,29 @@ def main() -> int:
         FAILURES.append("an inconclusive check must exit 2")
 
     # The tag reader asks for the corpus where a release ships it, under corpora/, and for the
-    # cross-check beside it: a bare name there is a path no release holds, and the read
-    # then fails as INCONCLUSIVE instead of judging the corpus.
-    asked: list[object] = []
+    # cross-check and the package it imports beside it: a bare name there is a path no release
+    # holds, and the read then fails as INCONCLUSIVE instead of judging the corpus.
+    asked: list[list[str]] = []
     real_extract, real_run = fr.extract_tag, fr.run_tally
-    fr.extract_tag = lambda _tag, paths, _dest: asked.append(list(paths))
-    fr.run_tally = lambda _tree, corpus: {"checked": 1, "total": 1, "seen": corpus}
+
+    def fake_extract(_tag: str, paths: list[str], _dest: Path) -> None:
+        asked.append(list(paths))
+
+    def fake_run(_tree: Path, corpus: str) -> dict:
+        return {"checked": 1, "total": 1, "seen": corpus}
+
+    setattr(fr, "extract_tag", fake_extract)
+    setattr(fr, "run_tally", fake_run)
     try:
         seen = fr.tag_tally("v1", "vectors-x")
     finally:
-        fr.extract_tag, fr.run_tally = real_extract, real_run
+        setattr(fr, "extract_tag", real_extract)
+        setattr(fr, "run_tally", real_run)
     if seen["seen"] != "corpora/vectors-x" or asked[0][0] != "corpora/vectors-x":
         FAILURES.append(f"the tag reader must read corpora/<corpus>, got {seen} {asked}")
-    if "corpora/vectors-done-receipt" not in asked[0]:
-        FAILURES.append("the tag reader must extract the done-receipt cross-check under corpora/")
+    for needed in ("corpora/vectors-done-receipt", "packaging/agent_evidence_vectors"):
+        if needed not in asked[0]:
+            FAILURES.append(f"the tag reader must extract {needed}")
 
     config = json.loads(json.dumps(CONFIG))
     config["fields"]["f"]["outside_ci"] = [{"repo": "a/b", "workflow": ".github/workflows/w.yml"}]

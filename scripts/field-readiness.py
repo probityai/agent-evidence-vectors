@@ -75,6 +75,7 @@ print(json.dumps({"checked": checked, "total": total, "notes": notes[:5]}))
 TAG_PATHS = (
     "scripts/action-reference-stage.py",
     "corpora/vectors-done-receipt",
+    "packaging/agent_evidence_vectors",
     "action-reference-requirements.txt",
 )
 
