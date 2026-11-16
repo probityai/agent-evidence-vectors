@@ -51,12 +51,12 @@
 //!    in-toto profile made normative). Without a cap a crafted document
 //!    overflows the stack, which no caller can catch and which happens before any
 //!    signature is checked.
-//! 3. **A string whose bytes are not Unicode scalar values**
-//!    ([`Error::StringNotScalar`]): an unpaired surrogate escape, a surrogate
-//!    written directly in UTF-8, an overlong form, a raw control character.
-//!    Checked before any decode, because a decoder that substitutes U+FFFD
-//!    leaves `"\ud800"`, `"\udc00"` and a literal U+FFFD canonicalizing to
-//!    identical bytes.
+//! 3. **A malformed string literal** ([`Error::StringNotScalar`]): bytes that are
+//!    not Unicode scalar values (an unpaired surrogate escape, a surrogate
+//!    written directly in UTF-8, an overlong form), and a raw control character,
+//!    which JSON forbids unescaped. Checked before any decode, because a decoder
+//!    that substitutes U+FFFD leaves `"\ud800"`, `"\udc00"` and a literal
+//!    U+FFFD canonicalizing to identical bytes.
 //! 4. **A number with no finite double** ([`Error::NonFiniteNumber`]), and under
 //!    the opt-in RFC 7493 profile ([`admit_ijson`]) an integer at or above 2^53
 //!    ([`Error::UnsafeInteger`]) or a Unicode noncharacter.
@@ -276,9 +276,10 @@ impl Options {
 /// # Errors
 ///
 /// Returns [`Error`] when the input is not one valid JSON value, repeats an
-/// object member, carries a string that is not a sequence of Unicode scalar
-/// values, nests past [`DEFAULT_MAX_DEPTH`], exceeds [`DEFAULT_MAX_BYTES`], or
-/// carries a number with no finite double.
+/// object member, carries a malformed string literal (bytes that are not
+/// Unicode scalar values, or a raw control character), nests past
+/// [`DEFAULT_MAX_DEPTH`], exceeds [`DEFAULT_MAX_BYTES`], or carries a number
+/// with no finite double.
 pub fn admit(input: &[u8]) -> Result<Vec<u8>, Error> {
     admit_with(input, &Options::rfc8785())
 }

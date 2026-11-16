@@ -43,11 +43,17 @@ pub enum Error {
         /// Byte offset of the repeated name's opening quote.
         offset: usize,
     },
-    /// A string literal's bytes do not denote a sequence of Unicode scalar
-    /// values: an unpaired surrogate escape, a surrogate escape pair that is
-    /// not high-then-low, a raw control character, invalid UTF-8 (which
-    /// includes an overlong form and a surrogate encoded directly in UTF-8),
-    /// or, under the I-JSON profile, a Unicode noncharacter.
+    /// A string literal was refused before decoding.
+    ///
+    /// Most faults in this class are bytes that do not denote a sequence of
+    /// Unicode scalar values: an unpaired surrogate escape, a surrogate escape
+    /// pair that is not high-then-low, invalid UTF-8 (which includes an overlong
+    /// form and a surrogate encoded directly in UTF-8), or a malformed or
+    /// truncated escape. The class also carries two refusals of scalar values
+    /// that are well-formed Unicode: a raw control character, which JSON
+    /// forbids unescaped, and, under the I-JSON profile, a Unicode
+    /// noncharacter, which RFC 7493 section 2.1 forbids. `reason` names which
+    /// one, and the rendered message never calls a scalar value a non-scalar.
     ///
     /// The check runs on the raw bytes before any decode, because a decoder
     /// cannot report it afterwards: a decoder that substitutes U+FFFD leaves
@@ -162,10 +168,9 @@ impl fmt::Display for Error {
                     clipped(name)
                 )
             }
-            Self::StringNotScalar { offset, reason } => write!(
-                f,
-                "JSON string is not a sequence of Unicode scalar values at byte {offset}: {reason}"
-            ),
+            Self::StringNotScalar { offset, reason } => {
+                write!(f, "JSON string literal refused at byte {offset}: {reason}")
+            }
             Self::UnsafeInteger { token } => {
                 write!(
                     f,

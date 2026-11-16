@@ -71,7 +71,7 @@ impl<'a> Parser<'a> {
         }
     }
 
-    fn not_scalar(&self, offset: usize, reason: &'static str) -> Error {
+    fn refuse_string(&self, offset: usize, reason: &'static str) -> Error {
         Error::StringNotScalar { offset, reason }
     }
 
@@ -208,22 +208,25 @@ impl<'a> Parser<'a> {
                 // rejects an overlong form and a surrogate encoded directly in
                 // UTF-8 (CESU-8) along with a truncated sequence.
                 let chunk = core::str::from_utf8(&self.bytes[run_start..self.at])
-                    .map_err(|_| self.not_scalar(run_start, "invalid UTF-8"))?;
-                if self.opts.wants_noncharacter_check()
-                    && chunk.chars().any(|c| is_noncharacter(c as u32))
-                {
-                    return Err(self.not_scalar(run_start, "Unicode noncharacter in string"));
+                    .map_err(|_| self.refuse_string(run_start, "invalid UTF-8"))?;
+                if self.opts.wants_noncharacter_check() {
+                    if let Some((at, _)) = chunk
+                        .char_indices()
+                        .find(|&(_, c)| is_noncharacter(c as u32))
+                    {
+                        return Err(self.refuse_string(run_start + at, NONCHARACTER));
+                    }
                 }
                 out.push_str(chunk);
             }
             match self.peek() {
-                None => return Err(self.not_scalar(opened_at, "unterminated string literal")),
+                None => return Err(self.refuse_string(opened_at, "unterminated string literal")),
                 Some(b'"') => {
                     self.at += 1;
                     return Ok(out);
                 }
                 Some(c) if c < 0x20 => {
-                    return Err(self.not_scalar(self.at, "raw control character in string"))
+                    return Err(self.refuse_string(self.at, "raw control character in string"))
                 }
                 Some(_) => self.escape(&mut out)?,
             }
@@ -237,7 +240,7 @@ impl<'a> Parser<'a> {
         let start = self.at;
         self.at += 1;
         let Some(kind) = self.peek() else {
-            return Err(self.not_scalar(start, "unterminated escape sequence"));
+            return Err(self.refuse_string(start, "unterminated escape sequence"));
         };
         self.at += 1;
         let simple = match kind {
@@ -260,26 +263,26 @@ impl<'a> Parser<'a> {
         let code = match unit {
             0xD800..=0xDBFF => {
                 if self.peek() != Some(b'\\') || self.bytes.get(self.at + 1) != Some(&b'u') {
-                    return Err(self.not_scalar(start, "unpaired high surrogate escape"));
+                    return Err(self.refuse_string(start, "unpaired high surrogate escape"));
                 }
                 self.at += 2;
                 let low = self.hex4(start)?;
                 if !(0xDC00..=0xDFFF).contains(&low) {
-                    return Err(self.not_scalar(
+                    return Err(self.refuse_string(
                         start,
                         "high surrogate escape not followed by a low surrogate escape",
                     ));
                 }
                 0x1_0000 + ((unit - 0xD800) << 10) + (low - 0xDC00)
             }
-            0xDC00..=0xDFFF => return Err(self.not_scalar(start, "unpaired low surrogate escape")),
+            0xDC00..=0xDFFF => return Err(self.refuse_string(start, "unpaired low surrogate escape")),
             other => other,
         };
         if self.opts.wants_noncharacter_check() && is_noncharacter(code) {
-            return Err(self.not_scalar(start, "Unicode noncharacter in string"));
+            return Err(self.refuse_string(start, NONCHARACTER));
         }
         let ch = char::from_u32(code)
-            .ok_or_else(|| self.not_scalar(start, "escape does not name a Unicode scalar value"))?;
+            .ok_or_else(|| self.refuse_string(start, "escape does not name a Unicode scalar value"))?;
         out.push(ch);
         Ok(())
     }
@@ -288,14 +291,14 @@ impl<'a> Parser<'a> {
         let digits = self
             .bytes
             .get(self.at..self.at + 4)
-            .ok_or_else(|| self.not_scalar(start, "truncated \\u escape"))?;
+            .ok_or_else(|| self.refuse_string(start, "truncated \\u escape"))?;
         let mut value = 0_u32;
         for &d in digits {
             let nibble = match d {
                 b'0'..=b'9' => u32::from(d - b'0'),
                 b'a'..=b'f' => u32::from(d - b'a' + 10),
                 b'A'..=b'F' => u32::from(d - b'A' + 10),
-                _ => return Err(self.not_scalar(start, "malformed \\u escape")),
+                _ => return Err(self.refuse_string(start, "malformed \\u escape")),
             };
             value = value << 4 | nibble;
         }
@@ -344,6 +347,13 @@ impl<'a> Parser<'a> {
         }
     }
 }
+
+/// The refusal reason for a Unicode noncharacter under the I-JSON profile.
+///
+/// A noncharacter is a Unicode scalar value, so the reason says what it is
+/// rather than borrowing the wording of the surrogate and UTF-8 faults that
+/// share its error variant.
+const NONCHARACTER: &str = "Unicode noncharacter, a scalar value the I-JSON profile refuses";
 
 /// Whether `code` is a Unicode noncharacter: U+FDD0..U+FDEF, or U+nFFFE and
 /// U+nFFFF in any of the 17 planes.

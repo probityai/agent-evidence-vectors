@@ -140,3 +140,54 @@ fn truncation_does_not_split_a_character() {
         );
     }
 }
+
+/// A noncharacter is a Unicode scalar value. The refusal must say so, and must
+/// not render the surrogate wording ("not a sequence of Unicode scalar values")
+/// that the earlier message applied to every string fault in the variant.
+#[test]
+fn a_noncharacter_is_not_called_a_non_scalar_value() {
+    // Raw U+FFFE after a two-byte prefix inside the run, and the same code point
+    // written as an escape. Built from code points, never typed.
+    let raw = format!("{{\"k\":\"ab{}\"}}", char::from_u32(0xFFFE).unwrap());
+    let escaped = format!("{{\"k\":\"ab\\u{:04x}\"}}", 0xFFFE_u32);
+    for doc in [raw, escaped] {
+        let err = admit_ijson(doc.as_bytes()).expect_err("the profile refuses a noncharacter");
+        let rendered = err.to_string();
+        assert!(
+            !rendered.contains("not a sequence of Unicode scalar values"),
+            "a noncharacter is a scalar value: {rendered}"
+        );
+        assert!(
+            rendered.contains("noncharacter") && rendered.contains("scalar value"),
+            "the message must name the fault: {rendered}"
+        );
+        // The offset is the noncharacter's own first byte, after `{"k":"ab`,
+        // not the start of the run that contains it.
+        match err {
+            Error::StringNotScalar { offset, .. } => assert_eq!(offset, 8, "{doc}"),
+            other => panic!("wrong variant: {other:?}"),
+        }
+    }
+}
+
+/// A raw control character is a scalar value too; JSON refuses it unescaped.
+#[test]
+fn a_raw_control_character_is_not_called_a_non_scalar_value() {
+    let err = admit(b"{\"k\":\"a\x01\"}").expect_err("a raw control character is refused");
+    let rendered = err.to_string();
+    assert!(
+        !rendered.contains("not a sequence of Unicode scalar values"),
+        "{rendered}"
+    );
+    assert!(rendered.contains("raw control character"), "{rendered}");
+}
+
+/// The surrogate fault keeps a message that says what the bytes are.
+#[test]
+fn an_unpaired_surrogate_message_names_the_surrogate() {
+    let err = admit(br#"{"k":"\ud800"}"#).expect_err("a lone surrogate is refused");
+    assert!(
+        err.to_string().contains("unpaired high surrogate escape"),
+        "{err}"
+    );
+}
