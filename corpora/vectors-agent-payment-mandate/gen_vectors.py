@@ -2,11 +2,18 @@
 
     uv run python vectors-agent-payment-mandate/gen_vectors.py
 
-Four accepted members (one per scheme plus the exact-limit boundary) and
-fourteen rejected twins, one per rule, each one mutation away from an accepted
-member. Every case, the manifest, the index, the profile map and the relying
-party's policy are functions of this file alone. The fixtures are synthetic,
-and so are the signing keys: their seeds are public on purpose.
+Five accepted members (one per scheme, the exact-limit boundary, and a pack of
+two mandates on two rails) and twenty-nine rejected twins, at least one per rule, each
+one mutation away from an accepted member. The rejected twins include every forgery the
+16 Nov 2026 attack run found the reader accepting: a mandate used by another agent, a
+sub-delegation the user never signed, a charge on a rail the mandate does not name, a
+single-use mandate settled twice (on one rail, or once on each of two rails), expiry
+dodged by a zone offset or by Unix seconds, a missing expiry, a charge before the
+mandate was issued, fractional and negative minor units, a duplicate JSON member, and a
+post-checkout requirement deleted from the unsigned record. Every case, the
+manifest, the index, the profile map and the relying party's policy are functions
+of this file alone. The fixtures are synthetic, and so are the signing keys: their
+seeds are public on purpose.
 """
 
 from __future__ import annotations
@@ -26,8 +33,15 @@ SCHEMA = "agent-payment-mandate-record/v1"
 ACCEPT_REASON = "mandate_chain_holds"
 MANDATE_DOMAIN = b"agent-payment-mandate/v1:mandate:"
 RECEIPT_DOMAIN = b"agent-payment-mandate/v1:receipt:"
+AGENT_DOMAIN = b"agent-payment-mandate/v1:agent:"
+PACK_SCHEMA = "agent-payment-mandate-pack/v1"
 # Deterministic synthetic keys; the seeds are public on purpose (fixtures, not secrets).
-_SEEDS = {"issuer-key-1": "11" * 32, "witness-key-1": "22" * 32, "agent-key-1": "33" * 32}
+_SEEDS = {
+    "issuer-key-1": "11" * 32,
+    "witness-key-1": "22" * 32,
+    "agent-key-1": "33" * 32,
+    "agent-key-2": "44" * 32,
+}
 _SK = {k: Ed25519PrivateKey.from_private_bytes(bytes.fromhex(v)) for k, v in _SEEDS.items()}
 _PK = {
     k: s.public_key().public_bytes(serialization.Encoding.Raw, serialization.PublicFormat.Raw).hex()
@@ -72,9 +86,21 @@ SPECIFICATION = {
 }
 
 _SCHEME_TERMS = {
-    "ap2-cart-mandate": ("cart", "merchant-a.example", "USD", 12900),
-    "mastercard-verifiable-intent-credential": ("intent", "merchant-b.example", "EUR", 4500),
-    "stripe-shared-payment-token": ("seller-bound-token", "merchant-c.example", "USD", 2500),
+    "ap2-cart-mandate": ("cart", "merchant-a.example", "USD", 12900, ["card"]),
+    "mastercard-verifiable-intent-credential": (
+        "intent",
+        "merchant-b.example",
+        "EUR",
+        4500,
+        ["card"],
+    ),
+    "stripe-shared-payment-token": (
+        "seller-bound-token",
+        "merchant-c.example",
+        "USD",
+        2500,
+        ["stripe"],
+    ),
 }
 
 PROFILE = {
@@ -89,12 +115,15 @@ PROFILE = {
             "the authorised ceiling": "mandate.terms.max_amount_minor",
             "who signed it": "mandate.signature",
             "what the agent presented": "credential",
+            "the agent the mandate delegates to": "mandate.terms.agent",
             "what ran": "execution",
+            "the agent's proof over what ran": "execution.agent_signature",
         },
         "mastercard-verifiable-intent-credential": {
             "the delegated intent": "mandate.terms",
             "credential bound to the intent": "credential.mandate_digest",
-            "single use": "credential.single_use",
+            "single use": "mandate.terms.single_use",
+            "the agent key the intent binds": "mandate.terms.agent",
             "what ran": "execution",
         },
         "stripe-shared-payment-token": {
@@ -106,6 +135,9 @@ PROFILE = {
         "receipt": {
             "what the agent did after checkout": "post_checkout.recorded",
             "binding of mandate and execution": "receipt",
+            "which settlement of the token this is": "receipt.token_use_seq",
+            "rails the mandate may be spent on": "mandate.terms.rails",
+            "actions the mandate requires after checkout": "mandate.terms.post_checkout_required",
         },
     },
 }
@@ -115,8 +147,22 @@ def _canon(value: object) -> bytes:
     return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode()
 
 
-def _sign_receipt(r: dict[str, Any], key_id: str = "witness-key-1") -> None:
-    """Take the execution digest and sign the receipt as the settlement witness (or ``key_id``)."""
+def _sign_agent(r: dict[str, Any], key_id: str = "agent-key-1") -> None:
+    """The agent signs the charge it ran, bound to the mandate digest."""
+    body = {k: v for k, v in r["execution"].items() if k != "agent_signature"}
+    message = AGENT_DOMAIN + r["mandate"]["digest"].encode() + b":" + _canon(body)
+    r["execution"]["agent_signature"] = {
+        "alg": "ed25519",
+        "key_id": key_id,
+        "value": _SK[key_id].sign(message).hex(),
+    }
+
+
+def _sign_receipt(
+    r: dict[str, Any], key_id: str = "witness-key-1", agent: str = "agent-key-1"
+) -> None:
+    """The agent signs the charge, then the settlement witness (or ``key_id``) signs the receipt."""
+    _sign_agent(r, agent)
     r["receipt"]["execution_digest"] = _digest(r["execution"])
     body = {k: v for k, v in r["receipt"].items() if k != "signature"}
     r["receipt"]["signature"] = {
@@ -140,8 +186,14 @@ def _seal(r: dict[str, Any]) -> dict[str, Any]:
     return r
 
 
-def _base(scheme: str, amount: int | None = None) -> dict[str, Any]:
-    kind, merchant, currency, limit = _SCHEME_TERMS[scheme]
+def _base(
+    scheme: str,
+    amount: int | None = None,
+    rail: str | None = None,
+    rails: list[str] | None = None,
+) -> dict[str, Any]:
+    kind, merchant, currency, limit, scheme_rails = _SCHEME_TERMS[scheme]
+    mandated = rails or scheme_rails
     spend = limit - 400 if amount is None else amount
     r: dict[str, Any] = {
         "schema": SCHEMA,
@@ -153,7 +205,12 @@ def _base(scheme: str, amount: int | None = None) -> dict[str, Any]:
                 "max_amount_minor": limit,
                 "currency": currency,
                 "merchant": merchant,
+                "issued_at": "2026-11-01T09:00:00Z",
                 "expires_at": "2026-11-30T00:00:00Z",
+                "agent": {"key_id": "agent-key-1", "public_key": _PK["agent-key-1"]},
+                "rails": mandated,
+                "single_use": True,
+                "post_checkout_required": ["capture", "fulfilment"],
             }
         },
         "credential": {"token_id": "tok-0001", "single_use": True, "consumed_token_ids": []},
@@ -163,8 +220,10 @@ def _base(scheme: str, amount: int | None = None) -> dict[str, Any]:
             "currency": currency,
             "merchant": merchant,
             "token_id": "tok-0001",
+            "agent_key_id": "agent-key-1",
+            "rail": rail or mandated[0],
         },
-        "receipt": {"receipt_id": "rcpt-0001"},
+        "receipt": {"receipt_id": "rcpt-0001", "token_use_seq": 1},
         "post_checkout": {
             "required": ["capture", "fulfilment"],
             "recorded": ["capture", "fulfilment"],
@@ -173,11 +232,28 @@ def _base(scheme: str, amount: int | None = None) -> dict[str, Any]:
     return _seal(r)
 
 
+def _pack(spent_twice: bool) -> dict[str, Any]:
+    """Two records on two rails: two mandates (accepted) or one single-use mandate (refused)."""
+    rails = ["card", "x402"]
+    first = _base("ap2-cart-mandate", rail="card", rails=rails)
+    second = _base("ap2-cart-mandate", rail="x402", rails=rails)
+    if not spent_twice:
+        second["mandate"]["terms"]["merchant"] = "merchant-d.example"
+        second["execution"]["merchant"] = "merchant-d.example"
+        second["credential"]["token_id"] = second["execution"]["token_id"] = "tok-0002"
+        _seal(second)
+    second["receipt"]["receipt_id"] = "rcpt-0002"
+    second["execution"]["executed_at"] = "2026-11-02T10:16:00Z"
+    _sign_receipt(second)
+    return {"schema": PACK_SCHEMA, "scheme": "ap2-cart-mandate", "records": [first, second]}
+
+
 BASES: dict[str, Callable[[], dict[str, Any]]] = {
     "ap2": lambda: _base("ap2-cart-mandate"),
     "vi": lambda: _base("mastercard-verifiable-intent-credential"),
     "spt": lambda: _base("stripe-shared-payment-token"),
     "limit": lambda: _base("ap2-cart-mandate", amount=12900),
+    "pack": lambda: _pack(spent_twice=False),
 }
 
 
@@ -224,6 +300,7 @@ def _replayed(r: dict[str, Any]) -> None:
 
 def _receipt_stale(r: dict[str, Any]) -> None:
     r["execution"]["amount_minor"] -= 100
+    _sign_agent(r)
 
 
 def _no_fulfilment(r: dict[str, Any]) -> None:
@@ -242,7 +319,87 @@ def _ceiling_raised_without_key(r: dict[str, Any]) -> None:
 def _charge_rewritten_after_witness(r: dict[str, Any]) -> None:
     """The holder rewrites the charge and its digest after the witness signed; no witness key."""
     r["execution"]["amount_minor"] -= 100
+    _sign_agent(r)
     r["receipt"]["execution_digest"] = _digest(r["execution"])
+
+
+def _duplicate_member(r: dict[str, Any]) -> None:
+    """The bytes carry amount_minor twice; generate() writes the first, unsigned copy."""
+
+
+def _amount_fraction(r: dict[str, Any]) -> None:
+    r["execution"]["amount_minor"] = r["mandate"]["terms"]["max_amount_minor"] + 0.9
+    _sign_receipt(r)
+
+
+def _amount_negative(r: dict[str, Any]) -> None:
+    r["execution"]["amount_minor"] = -50000
+    _sign_receipt(r)
+
+
+def _executed_epoch(r: dict[str, Any]) -> None:
+    r["execution"]["executed_at"] = 1796083200
+    _sign_receipt(r)
+
+
+def _expiry_missing(r: dict[str, Any]) -> None:
+    del r["mandate"]["terms"]["expires_at"]
+    r["execution"]["executed_at"] = "2027-11-02T10:15:00Z"
+    _seal(r)
+
+
+def _credential_multi_use(r: dict[str, Any]) -> None:
+    r["credential"]["single_use"] = False
+
+
+def _other_agent(r: dict[str, Any]) -> None:
+    r["execution"]["agent_key_id"] = "agent-key-2"
+    _sign_receipt(r, agent="agent-key-2")
+
+
+def _sub_delegation(r: dict[str, Any]) -> None:
+    r["credential"]["delegation"] = [{"from": "agent-key-1", "to": "agent-key-2"}]
+    r["execution"]["agent_key_id"] = "agent-key-2"
+    _sign_receipt(r, agent="agent-key-2")
+
+
+def _agent_proof_other_key(r: dict[str, Any]) -> None:
+    _sign_agent(r, "agent-key-2")
+    r["execution"]["agent_signature"]["key_id"] = "agent-key-1"
+    r["receipt"]["execution_digest"] = _digest(r["execution"])
+    body = {k: v for k, v in r["receipt"].items() if k != "signature"}
+    r["receipt"]["signature"]["value"] = (
+        _SK["witness-key-1"].sign(RECEIPT_DOMAIN + _canon(body)).hex()
+    )
+
+
+def _before_issue(r: dict[str, Any]) -> None:
+    r["execution"]["executed_at"] = "2026-10-20T10:15:00Z"
+    _sign_receipt(r)
+
+
+def _expired_offset(r: dict[str, Any]) -> None:
+    r["execution"]["executed_at"] = "2026-11-29T23:30:00-05:00"
+    _sign_receipt(r)
+
+
+def _unmandated_rail(r: dict[str, Any]) -> None:
+    r["execution"]["rail"] = "x402"
+    _sign_receipt(r)
+
+
+def _second_settlement(r: dict[str, Any]) -> None:
+    r["receipt"]["receipt_id"] = "rcpt-0002"
+    r["receipt"]["token_use_seq"] = 2
+    _sign_receipt(r)
+
+
+def _requirement_dropped(r: dict[str, Any]) -> None:
+    r["post_checkout"] = {"required": ["capture"], "recorded": ["capture"]}
+
+
+def _spent_on_two_rails(_r: dict[str, Any]) -> dict[str, Any]:
+    return _pack(spent_twice=True)
 
 
 def _receipt_signed_by_agent(r: dict[str, Any]) -> None:
@@ -251,7 +408,7 @@ def _receipt_signed_by_agent(r: dict[str, Any]) -> None:
 
 
 # (id, base, mutation or None for an accepted member, refusal code, description, twin)
-MEMBERS: tuple[tuple[str, str, Callable[[dict[str, Any]], None] | None, str, str, str], ...] = (
+MEMBERS: tuple[tuple[str, str, Callable[[dict[str, Any]], Any] | None, str, str, str], ...] = (
     (
         "authorized-ap2-cart",
         "ap2",
@@ -396,6 +553,134 @@ MEMBERS: tuple[tuple[str, str, Callable[[dict[str, Any]], None] | None, str, str
         "capture recorded, the fulfilment action is missing",
         "authorized-ap2-cart",
     ),
+    (
+        "authorized-two-mandates-two-rails",
+        "pack",
+        None,
+        "",
+        "a pack of two single-use mandates, one settled on each of two mandated rails",
+        "",
+    ),
+    (
+        "duplicate-member-in-record",
+        "ap2",
+        _duplicate_member,
+        "record_malformed",
+        "the case bytes carry the charge amount twice; a first-wins parser reads another amount",
+        "authorized-ap2-cart",
+    ),
+    (
+        "amount-fractional-minor-units",
+        "ap2",
+        _amount_fraction,
+        "record_malformed",
+        "0.9 of a minor unit over the ceiling, which an integer cast truncates away",
+        "authorized-ap2-cart",
+    ),
+    (
+        "amount-negative",
+        "ap2",
+        _amount_negative,
+        "record_malformed",
+        "a negative charge passes any ceiling test",
+        "authorized-ap2-cart",
+    ),
+    (
+        "executed-at-unix-seconds",
+        "spt",
+        _executed_epoch,
+        "record_malformed",
+        "executed_at in Unix seconds, after expiry, which a string comparison reads as before it",
+        "authorized-spt-seller-bound",
+    ),
+    (
+        "mandate-expiry-missing",
+        "ap2",
+        _expiry_missing,
+        "record_malformed",
+        "the terms carry no expiry and the charge runs a year later",
+        "authorized-ap2-cart",
+    ),
+    (
+        "credential-claims-multi-use",
+        "spt",
+        _credential_multi_use,
+        "credential_widens_mandate",
+        "the unsigned credential says multi-use; the signed terms say single-use",
+        "authorized-spt-seller-bound",
+    ),
+    (
+        "mandate-used-by-other-agent",
+        "ap2",
+        _other_agent,
+        "agent_not_the_mandated_agent",
+        "the mandate names one agent; another agent ran and signed the charge",
+        "authorized-ap2-cart",
+    ),
+    (
+        "sub-delegation-without-user-link",
+        "vi",
+        _sub_delegation,
+        "agent_not_the_mandated_agent",
+        "the mandated agent claims a hand-off to a second agent that the user never signed",
+        "authorized-vi-credential",
+    ),
+    (
+        "agent-proof-by-other-key",
+        "ap2",
+        _agent_proof_other_key,
+        "agent_proof_invalid",
+        "the charge names the mandated agent but is signed by another key",
+        "authorized-ap2-cart",
+    ),
+    (
+        "charge-before-mandate-issued",
+        "ap2",
+        _before_issue,
+        "charge_before_mandate",
+        "the charge ran before the user signed the mandate",
+        "authorized-ap2-cart",
+    ),
+    (
+        "charge-after-expiry-via-offset",
+        "ap2",
+        _expired_offset,
+        "mandate_expired",
+        "23:30 at -05:00 is 04:30Z, after a 00:00Z expiry a string comparison misses",
+        "authorized-ap2-cart",
+    ),
+    (
+        "charge-on-unmandated-rail",
+        "ap2",
+        _unmandated_rail,
+        "rail_not_mandated",
+        "a card-only mandate settled on another rail",
+        "authorized-ap2-cart",
+    ),
+    (
+        "single-use-token-second-settlement",
+        "spt",
+        _second_settlement,
+        "single_use_token_replayed",
+        "the witness counts the second settlement of a single-use token",
+        "authorized-spt-seller-bound",
+    ),
+    (
+        "post-checkout-requirement-dropped",
+        "ap2",
+        _requirement_dropped,
+        "post_checkout_action_missing",
+        "fulfilment deleted from the unsigned required list; the signed terms still require it",
+        "authorized-ap2-cart",
+    ),
+    (
+        "single-use-mandate-spent-on-two-rails",
+        "pack",
+        _spent_on_two_rails,
+        "mandate_spent_twice",
+        "one single-use mandate settled once on each of two rails; each witness counted use 1",
+        "authorized-two-mandates-two-rails",
+    ),
 )
 
 _ACCEPT_IDS = {name for name, _b, mutate, *_ in MEMBERS if mutate is None}
@@ -439,17 +724,26 @@ def _index(entries: list[dict[str, Any]], digest: str) -> bytes:
     return ("\n".join(lines) + "\n").encode()
 
 
+def _with_duplicate_amount(data: bytes, signed: int) -> bytes:
+    """Write the charge amount twice: an unsigned amount first, the signed one last."""
+    line = f'"amount_minor": {signed},'.encode()
+    assert data.count(line) == 1
+    return data.replace(line, b'"amount_minor": 999999,\n    ' + line, 1)
+
+
 def generate(root: Path = ROOT) -> dict[str, Any]:
     """Write every case, the manifest, the index and the profile map."""
     entries = []
     for name, base, mutate, reason, description, twin in MEMBERS:
         record = BASES[base]()
         if mutate is not None:
-            mutate(record)
+            record = mutate(record) or record
         record["case_id"] = f"vectors-agent-payment-mandate-{name}"
         directory = root / "cases" / name
         directory.mkdir(parents=True, exist_ok=True)
         data = _json(record)
+        if mutate is _duplicate_member:
+            data = _with_duplicate_amount(data, record["execution"]["amount_minor"])
         (directory / "case.json").write_bytes(data)
         entry: dict[str, Any] = {
             "id": name,
