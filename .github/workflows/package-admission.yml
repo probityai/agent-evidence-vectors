@@ -353,7 +353,7 @@ jobs:
       - name: the Python distribution license matches the repository license
         run: python scripts/python-license-gate.py
       - name: install the package and the test tools
-        run: python -m pip install pytest==8.4.2 pytest-cov==6.0.0 -e python
+        run: python -m pip install pytest==9.2.0 pytest-cov==6.0.0 -e python
       - name: tests, every warning an error, every file at full coverage
         working-directory: packages/admission/python
         run: python -m pytest -p no:cacheprovider --cov=agent_evidence_admission --cov-report=term-missing --cov-fail-under=95

@@ -34,6 +34,6 @@ Original suite files under `upstream/` are copied byte for byte at
 `a87a395b54b5685fd22d6cc86d120058f1c8850d`. Their BSD license is retained there.
 
 ```sh
-python -m pip install pytest==8.4.2 hypothesis==6.168.3
+python -m pip install pytest==9.2.0 hypothesis==6.168.3
 python -m pytest -q interop/jep-core07-reader/test_jep_reader.py
 ```
