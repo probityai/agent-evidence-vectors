@@ -14,7 +14,7 @@ Pin this consumer to a reviewed commit before execution. Install the selected bu
 python3 -I -m venv host-tools
 host-tools/bin/python -I -m pip install --only-binary=:all: --require-hashes \
   -r consumers/policy-vocabulary/build-tools.lock
-git clone https://github.com/probityai/agent-evidence-observer.git observer-selected
+git clone https://github.com/probityai-archive/agent-evidence-observer.git observer-selected
 git -C observer-selected checkout --detach 62f5d0c6fbd785259db2d5c8076dd844b53a0593
 host-tools/bin/python -I -B consumers/policy-vocabulary/consumer.py install observer-selected reader-installation
 host-tools/bin/python -I -B consumers/policy-vocabulary/consumer.py download original-native.zip
