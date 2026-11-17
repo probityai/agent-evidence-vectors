@@ -770,11 +770,17 @@ def _rule_closed_vocabularies(state: _State) -> None:
     pred = state.predicate
     for dotted, allowed in VOCABULARIES.items():
         for value in _vocabulary_values(pred, dotted):
-            if value not in allowed:
+            if not _one_of(value, allowed):
                 raise Malformed("value-outside-vocabulary")
     for value in pred["fieldEvidence"].values():
-        if value not in FIELD_EVIDENCE_VALUES:
+        if not _one_of(value, FIELD_EVIDENCE_VALUES):
             raise Malformed("value-outside-vocabulary")
+
+
+def _one_of(value: Any, allowed: frozenset[str]) -> bool:
+    """A closed set holds strings only, so an object or an array is outside it, never a value
+    that cannot be hashed."""
+    return isinstance(value, str) and value in allowed
 
 
 def _entry_unavailable(entry: dict[str, Any], reported_at: datetime.datetime) -> bool:
@@ -1688,7 +1694,7 @@ def verify(raw: bytes, policy: Policy, *, disabled: str | None = None) -> Report
     except Malformed as exc:
         return Report("malformed", [exc.code], state.derived_tier)
     except (KeyError, TypeError, AttributeError, IndexError) as exc:
-        return Report("malformed", [f"unhandled-shape:{exc.__class__.__name__}"])
+        return Report("malformed", ["unhandled-shape"])
     return Report("valid", [], state.derived_tier)
 
 
