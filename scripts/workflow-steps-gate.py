@@ -395,9 +395,12 @@ def own_action(inputs: dict[str, Any]) -> Local:
     report_name = pathlib.Path(report).name
     # The directory the summary counts cases in, resolved the way the action's
     # replay step resolves it.
+    # Read from corpora/REGISTRY.toml rather than by importing the harness: a
+    # workflow under test may stand a stub in for packaging/run_vectors.py.
     resolve = (
-        "import sys; sys.path.insert(0, 'packaging'); "
-        "from run_vectors import corpus_dir; print(corpus_dir(sys.argv[1]))"
+        "import pathlib, sys, tomllib; r = pathlib.Path('corpora/REGISTRY.toml'); "
+        "rows = tomllib.loads(r.read_text()).get('corpus', []) if r.is_file() else []; "
+        "print({x['id']: x['path'] for x in rows}.get(sys.argv[1], 'corpora/' + sys.argv[1]))"
     )
     corpus_args = shlex.quote(json.dumps(source.split(" ", 1)[:1] + [vectors or corpus]))
     corpus_dir = (
