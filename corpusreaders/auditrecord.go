@@ -332,12 +332,44 @@ func arUnder(path, scope string) bool {
 	return path == strings.TrimSuffix(scope, "/") || strings.HasPrefix(path, base)
 }
 
+// arRFC3339 is an RFC 3339 date-time (Section 5.6): the separator and the Z in
+// either case, seconds required, a fraction of any length, a numeric offset with
+// its colon. time.Parse alone also reads a comma fraction, which RFC 3339 does
+// not allow, and refuses the lowercase t and z, which it does.
+var arRFC3339 = regexp.MustCompile(`^(\d{4})-(\d{2})-(\d{2})[Tt](\d{2}):(\d{2}):(\d{2})(?:\.(\d+))?([Zz]|[+-]\d{2}:\d{2})$`)
+
+// arInstant reads an RFC 3339 date-time, its fraction kept to the microsecond as
+// the Python reader keeps it, so the two rails order every pair of times alike. A
+// seconds value of 60 is a leap second, read only at 23:59 UTC on the last day of a
+// month (Sections 5.6 and 5.7), as the instant one second after 23:59:59.
 func arInstant(value string) (time.Time, error) {
-	instant, err := time.Parse(time.RFC3339, value)
+	m := arRFC3339.FindStringSubmatch(value)
+	if m == nil {
+		return time.Time{}, arRefuse("timestamp-malformed")
+	}
+	second, fraction := m[6], m[7]
+	if second == "60" {
+		second = "59"
+	}
+	if len(fraction) > 6 {
+		fraction = fraction[:6]
+	}
+	if fraction != "" {
+		fraction = "." + fraction
+	}
+	text := m[1] + "-" + m[2] + "-" + m[3] + "T" + m[4] + ":" + m[5] + ":" + second + fraction + strings.ToUpper(m[8])
+	instant, err := time.Parse(time.RFC3339Nano, text)
 	if err != nil {
 		return time.Time{}, arRefuse("timestamp-malformed")
 	}
-	return instant, nil
+	if m[6] != "60" {
+		return instant, nil
+	}
+	utc := instant.UTC()
+	if utc.Hour() != 23 || utc.Minute() != 59 || utc.AddDate(0, 0, 1).Day() != 1 {
+		return time.Time{}, arRefuse("timestamp-malformed")
+	}
+	return instant.Add(time.Second), nil
 }
 
 func arDepth(value any) int {
