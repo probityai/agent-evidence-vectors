@@ -709,7 +709,9 @@ def case_a_move_that_changes_nothing_is_no_mutant(work: Path) -> None:
     stage = _load("action-mutate-stage.py")
     assert "to 2^53" not in dict(stage.nudged(2**53)), stage.nudged(2**53)
     assert "plus one" not in dict(stage.nudged(1e300)), stage.nudged(1e300)
-    assert all(new != value for value in (0, 2**64 - 1, "x", True) for _, new in stage.nudged(value))
+    assert all(
+        new != value for value in (0, 2**64 - 1, "x", True) for _, new in stage.nudged(value)
+    )
     for hostile in ("../../escape", "a/b", "..", ""):
         name = stage.file_name(hostile, "m000001")
         assert "/" not in name and not name.startswith("."), name
@@ -768,6 +770,26 @@ def case_a_profile_excuse_without_its_cause_goes_red(work: Path) -> None:
     assert outputs(out).get("result") == "pass", "the copy without the cause check still failed"
 
 
+def case_a_runtime_replay_is_counted_by_scenario(work: Path) -> None:
+    # The runtime corpora keep one directory per case and score each scenario
+    # once: the first count read all 54 uncertain-effect cases as missing and
+    # failed the reference runtime that passed every scenario.
+    corpus = ROOT / "corpora" / "vectors-uncertain-effect"
+    members = action_checks.listed_members(action_checks.manifest_of(corpus) or {})
+    scenarios = sorted({m["entry"]["runtime"]["scenario"]["id"] for m in members})
+    report = {"unit": "runtime scenario", "vectors": [{"id": i} for i in scenarios]}
+    counted = action_checks.count_cases(corpus, report)
+    assert counted["present"] == counted["listed"] == len(members), counted
+    assert not counted["missingFromReport"] and counted["reportGap"] == 0, counted
+    report["vectors"] = report["vectors"][1:]
+    assert action_checks.count_cases(corpus, report)["missingFromReport"] == [scenarios[0]]
+    copy = work / "ue"
+    shutil.copytree(corpus, copy)
+    first = members[0]
+    (copy / first["path"] / next(iter(first["entry"]["files"]))).unlink()
+    assert action_checks.count_cases(copy)["missingOnDisk"] == [first["path"]]
+
+
 CASES: list[Case] = [
     case_inputs_exist_with_strict_defaults,
     case_conformance_mode_installs_nothing,
@@ -804,6 +826,7 @@ CASES: list[Case] = [
     case_a_wrong_resign_key_is_caught_by_the_control,
     case_a_control_tolerant_stage_goes_red,
     case_a_profile_excuse_without_its_cause_goes_red,
+    case_a_runtime_replay_is_counted_by_scenario,
 ]
 
 

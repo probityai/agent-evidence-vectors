@@ -527,9 +527,7 @@ def run(mode: str, verifier: list[str], corpus_dir: Path, limit: int) -> dict[st
     }
     with tempfile.TemporaryDirectory(prefix="aev-mutants-") as tmp:
         root = Path(tmp)
-        control = judge_controls(
-            {planned[i][3] for i in chosen}, controls, verifier, route, root
-        )
+        control = judge_controls({planned[i][3] for i in chosen}, controls, verifier, route, root)
         control_failures = [why for why in control.values() if why]
         refusals.extend(control_failures)
         for index in sorted(chosen):
