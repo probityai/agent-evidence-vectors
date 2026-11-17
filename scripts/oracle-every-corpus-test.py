@@ -70,6 +70,8 @@ RUNS_A_VERIFIER = (
     "vectors-chunked-export",
     "vectors-converted-argument-binding",
     "vectors-dispatch-fence",
+    "vectors-dns-aid-sig-v01",
+    "vectors-dns-aid-rrset-v01",
     "vectors-grade-floor",
     "vectors-connector-scope",
     "vectors-agent-payment-mandate",

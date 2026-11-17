@@ -517,6 +517,30 @@ standards = []
 shapes = ["race-condition", "stale-authority", "missing-binding"]
 
 [[corpus]]
+id = "vectors-dns-aid-rrset-v01"
+path = "corpora/vectors-dns-aid-rrset-v01"
+wheel = true
+sdist = true
+title = "DNS-AID agent RRsets"
+summary = "A verifier must accept an SVCB RRset only when it holds exactly one record per published agent protocol, reading the protocol from proto or from the non-transport alpn tokens."
+record_class = "record"
+domains = ["agent-protocols", "identity"]
+standards = ["ietf-draft"]
+shapes = ["missing-binding", "coverage-gap", "malformed-input"]
+
+[[corpus]]
+id = "vectors-dns-aid-sig-v01"
+path = "corpora/vectors-dns-aid-sig-v01"
+wheel = true
+sdist = true
+title = "DNS-AID record signatures"
+summary = "A verifier must reach agrees only when an SVCB record's ES256 sig binds its endpoint and params under a key the zone owner is known to hold, and cannot-tell when no key authority ties the key set to the zone."
+record_class = "record"
+domains = ["identity", "agent-protocols", "authority"]
+standards = ["ietf-draft"]
+shapes = ["forged-signature", "missing-binding", "malformed-input"]
+
+[[corpus]]
 id = "vectors-done-contract"
 path = "corpora/vectors-done-contract"
 wheel = true
