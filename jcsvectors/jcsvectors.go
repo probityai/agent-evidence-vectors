@@ -17,8 +17,8 @@
 //	}
 //
 // An implementation that supports a subset of RFC 8785 declares a [Profile]
-// and scores the cases outside it apart, by the [Feature] list each case
-// carries:
+// and scores the accept cases outside it apart, by the [Feature] list each
+// case carries; every case it must refuse stays in:
 //
 //	in, out, err := jcsvectors.Filter(jcsvectors.ProfileIntegerOnly, vectors)
 //	// a divergence on in is a failure; out is reported as out of profile

@@ -2,8 +2,8 @@ package jcsvectors
 
 import (
 	"fmt"
-	"math/big"
 	"slices"
+	"strconv"
 	"strings"
 	"unicode/utf8"
 )
@@ -38,8 +38,11 @@ const (
 )
 
 // Profile names a subset of RFC 8785 that an implementation declares it
-// supports. A case outside the declared subset is reported apart, as out of
-// profile, rather than as a failure; a divergence inside it is a failure.
+// supports. An accept case outside the declared subset is reported apart, as
+// out of profile, rather than as a failure; a divergence inside it is a
+// failure. A case a canonicalizer must refuse is inside every profile: a
+// subset accepts less input than RFC 8785, never more, so "[1e999]" must be
+// refused by an integer-only canonicalizer as by any other.
 type Profile string
 
 const (
@@ -78,12 +81,25 @@ func (p Profile) Admits(features []Feature) (bool, error) {
 	return true, nil
 }
 
+// Includes reports whether the profile holds an implementation to the
+// vector. A vector with no Canonical bytes must be refused, and is inside
+// every profile; an accept case is inside it when [Profile.Admits] its
+// features. It returns an error for a profile this module does not know.
+func (p Profile) Includes(v Vector) (bool, error) {
+	ok, err := p.Admits(v.Features)
+	if err != nil {
+		return false, err
+	}
+	return ok || v.Canonical == nil, nil
+}
+
 // Filter splits vectors into those inside the profile and those outside it,
-// keeping their order. Report the two counts apart: a case out of profile is
-// neither a pass nor a failure.
+// as [Profile.Includes] decides, keeping their order. Report the two counts
+// apart: a case out of profile is neither a pass nor a failure. Every case a
+// canonicalizer must refuse is in.
 func Filter(p Profile, vectors []Vector) (in, out []Vector, err error) {
 	for _, v := range vectors {
-		ok, err := p.Admits(v.Features)
+		ok, err := p.Includes(v)
 		if err != nil {
 			return nil, nil, err
 		}
@@ -96,7 +112,7 @@ func Filter(p Profile, vectors []Vector) (in, out []Vector, err error) {
 	return in, out, nil
 }
 
-var maxSafeInteger = new(big.Int).SetInt64(1<<53 - 1)
+const maxSafeInteger = 1<<53 - 1
 
 // features reads what a case exercises from its input and canonical bytes.
 // The input may be malformed JSON on purpose, so the scan is lexical: it
@@ -165,13 +181,19 @@ func numberFeatures(token string) []Feature {
 	if exponent || fraction {
 		return out
 	}
-	value, ok := new(big.Int).SetString(token, 10)
-	if !ok {
+	digits := strings.TrimPrefix(token, "-")
+	if strings.Trim(digits, "0123456789") != "" {
 		// Digits with a stray sign, such as "1-2": malformed, and refused
 		// before any number is read, so it says nothing about the profile.
 		return out
 	}
-	if value.CmpAbs(maxSafeInteger) > 0 {
+	// 2^53 - 1 has 16 digits, so a longer magnitude is unsafe without being
+	// parsed: a token of a million digits costs one pass, not a bignum.
+	magnitude := strings.TrimLeft(digits, "0")
+	if len(magnitude) > len("9007199254740991") {
+		return append(out, FeatureUnsafeInteger)
+	}
+	if value, err := strconv.ParseUint("0"+magnitude, 10, 64); err != nil || value > maxSafeInteger {
 		return append(out, FeatureUnsafeInteger)
 	}
 	return append(out, FeatureInteger)

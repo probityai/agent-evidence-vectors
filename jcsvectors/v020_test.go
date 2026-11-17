@@ -28,6 +28,9 @@ func TestNumberFeatures(t *testing.T) {
 		{`{"n":1e3}`, []Feature{FeatureExponent}},
 		{`{"n":1E3}`, []Feature{FeatureExponent}},
 		{`{"n":-1.5e-7}`, []Feature{FeatureExponent, FeatureFraction}},
+		{`{"n":00000000000000000000001}`, []Feature{FeatureInteger}},
+		{`{"n":-00000000000000009007199254740992}`, []Feature{FeatureUnsafeInteger}},
+		{`{"n":1-2}`, []Feature{}},
 		{`{"n":-0}`, []Feature{FeatureInteger, FeatureNegativeZero}},
 		{`{"n":-0.0}`, []Feature{FeatureFraction, FeatureNegativeZero}},
 		{`{"n":-Infinity}`, []Feature{}},
@@ -41,6 +44,12 @@ func TestNumberFeatures(t *testing.T) {
 		if !slices.Equal(got, tc.want) {
 			t.Errorf("features(%q) = %v, want %v", tc.input, got, tc.want)
 		}
+	}
+	// A token of a million digits is read in one pass, as unsafe.
+	long := bytes.Repeat([]byte("1"), 1<<20)
+	long[0], long[len(long)-1] = '[', ']'
+	if got := features(long, nil); !slices.Equal(got, []Feature{FeatureUnsafeInteger}) {
+		t.Errorf("features of a million-digit integer = %v", got)
 	}
 	// An escaped non-ASCII character prints as raw UTF-8, so the canonical
 	// bytes carry the feature even where the input is ASCII.
@@ -68,10 +77,11 @@ func TestEveryVectorCarriesItsFeatures(t *testing.T) {
 	}
 }
 
-// TestIntegerOnlyProfile: the profile excludes exactly the cases that write
-// a fraction, an exponent or an unsafe integer, and the frozen a2a corpus
-// splits as the matrix reported for an integer-only canonicalizer: 11 of its
-// 53 RFC 8785 vectors carry such a number.
+// TestIntegerOnlyProfile: the profile excludes exactly the accept cases that
+// write a fraction, an exponent or an unsafe integer, keeps every case that
+// must be refused, and the frozen a2a corpus splits as the matrix reported
+// for an integer-only canonicalizer: 11 of its 53 RFC 8785 vectors carry such
+// a number.
 func TestIntegerOnlyProfile(t *testing.T) {
 	accept, reject, err := load()
 	if err != nil {
@@ -90,7 +100,7 @@ func TestIntegerOnlyProfile(t *testing.T) {
 			slices.Contains(v.Features, FeatureUnsafeInteger)
 	}
 	for _, v := range in {
-		if nonInteger(v) {
+		if v.Canonical != nil && nonInteger(v) {
 			t.Errorf("%s/%s is in the integer-only profile with %v", v.Corpus, v.ID, v.Features)
 		}
 	}
@@ -99,12 +109,37 @@ func TestIntegerOnlyProfile(t *testing.T) {
 		if !nonInteger(v) {
 			t.Errorf("%s/%s is out of the integer-only profile with %v", v.Corpus, v.ID, v.Features)
 		}
+		if v.Canonical == nil {
+			t.Errorf("%s/%s must be refused, yet is out of the integer-only profile", v.Corpus, v.ID)
+		}
 		if v.Corpus == a2aCorpus {
 			a2aOut++
 		}
 	}
 	if a2aOut != 11 {
 		t.Errorf("%d a2a vectors out of the integer-only profile, want 11", a2aOut)
+	}
+	// "[1e999]" is refused by every profile: an integer-only canonicalizer
+	// that accepts it and prints anything has failed, not left its profile.
+	reject, err = Reject()
+	if err != nil {
+		t.Fatal(err)
+	}
+	keptRefusals, skipped, err := Filter(ProfileIntegerOnly, reject)
+	if err != nil || len(skipped) != 0 || len(keptRefusals) != len(reject) {
+		t.Errorf("integer-only kept %d and dropped %d of %d refusals (%v)", len(keptRefusals), len(skipped), len(reject), err)
+	}
+	nonFinite := 0
+	for _, v := range keptRefusals {
+		if strings.HasPrefix(v.ID, "refuse-non-finite-overflow") && nonInteger(v) {
+			nonFinite++
+		}
+	}
+	if nonFinite != 3 {
+		t.Errorf("%d non-finite overflow refusals with an exponent kept in the integer-only profile, want 3", nonFinite)
+	}
+	if ok, err := Profile("integer").Includes(Vector{}); ok || err == nil {
+		t.Error("an unknown profile included a refusal")
 	}
 	full, none, err := Filter(ProfileRFC8785, all)
 	if err != nil || len(full) != len(all) || len(none) != 0 {
@@ -224,6 +259,46 @@ func TestParserDifferential(t *testing.T) {
 	if lenient == 0 || lenient == len(all) {
 		t.Errorf("encoding/json decoded %d of %d differentials; the set does not discriminate", lenient, len(all))
 	}
+	// A reader that edits its input in place cannot change the next pass.
+	cases(func(d Differential) bool {
+		for _, b := range [][]byte{d.Input, d.Canonical} {
+			for i := range b {
+				b[i] ^= 0xff
+			}
+		}
+		if len(d.Features) > 0 {
+			d.Features[0] = "edited"
+		}
+		return true
+	})
+	// Compare with a fresh read: the cases collected above may share bytes
+	// with the iterator, so they cannot serve as the reference.
+	fresh, err := ParserDifferential()
+	if err != nil {
+		t.Fatal(err)
+	}
+	var want []Differential
+	fresh(func(d Differential) bool {
+		want = append(want, d)
+		return true
+	})
+	i := 0
+	cases(func(d Differential) bool {
+		if i >= len(want) {
+			i++
+			return true
+		}
+		w := want[i]
+		if !bytes.Equal(d.Input, w.Input) || !bytes.Equal(d.Canonical, w.Canonical) || !slices.Equal(d.Features, w.Features) ||
+			(d.Canonical == nil) != (w.Canonical == nil) {
+			t.Errorf("%s: an edit in one pass reached the next", d.ID)
+		}
+		i++
+		return true
+	})
+	if i != len(want) {
+		t.Errorf("second pass yielded %d of %d", i, len(want))
+	}
 	// A yield that returns false stops the iterator, as a break does.
 	n := 0
 	cases(func(Differential) bool {
@@ -242,6 +317,8 @@ type summaryRow struct {
 	Kind            string    `json:"kind"`
 	Corpus          string    `json:"corpus"`
 	ID              string    `json:"id"`
+	Clause          string    `json:"clause"`
+	Family          string    `json:"family"`
 	InputSHA256     string    `json:"input_sha256"`
 	CanonicalSHA256 *string   `json:"canonical_sha256"`
 	Features        []Feature `json:"features"`
@@ -258,9 +335,12 @@ func digest(data []byte) string {
 func summary(t *testing.T) []summaryRow {
 	t.Helper()
 	var rows []summaryRow
-	row := func(kind, corpus, id string, input, canonical []byte, feats []Feature, errCode, bounded string) {
-		r := summaryRow{Kind: kind, Corpus: corpus, ID: id, InputSHA256: digest(input), Features: feats,
-			Error: errCode, BoundedError: bounded}
+	// inProfile is what Filter decides for a vector, and what Admits decides
+	// for a drift or a differential, which no reader filters.
+	row := func(kind, corpus, id, clause, family string, input, canonical []byte, feats []Feature, errCode, bounded string,
+		inProfile func() (bool, error)) {
+		r := summaryRow{Kind: kind, Corpus: corpus, ID: id, Clause: clause, Family: family, InputSHA256: digest(input),
+			Features: feats, Error: errCode, BoundedError: bounded}
 		if feats == nil {
 			r.Features = []Feature{}
 		}
@@ -268,7 +348,7 @@ func summary(t *testing.T) []summaryRow {
 			s := digest(canonical)
 			r.CanonicalSHA256 = &s
 		}
-		ok, err := ProfileIntegerOnly.Admits(feats)
+		ok, err := inProfile()
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -284,7 +364,8 @@ func summary(t *testing.T) []summaryRow {
 			t.Fatal(err)
 		}
 		for _, v := range vectors {
-			row(kind.name, v.Corpus, v.ID, v.Input, v.Canonical, v.Features, "", "")
+			row(kind.name, v.Corpus, v.ID, v.Clause, "", v.Input, v.Canonical, v.Features, "", "",
+				func() (bool, error) { return ProfileIntegerOnly.Includes(v) })
 		}
 	}
 	drifts, err := Drifts()
@@ -292,14 +373,17 @@ func summary(t *testing.T) []summaryRow {
 		t.Fatal(err)
 	}
 	for _, d := range drifts {
-		row("drift", byteCorpus, d.ID, d.Input, d.Canonical, features(d.Input, d.Canonical), "", "")
+		feats := features(d.Input, d.Canonical)
+		row("drift", byteCorpus, d.ID, "", d.Family, d.Input, d.Canonical, feats, "", "",
+			func() (bool, error) { return ProfileIntegerOnly.Admits(feats) })
 	}
 	cases, err := ParserDifferential()
 	if err != nil {
 		t.Fatal(err)
 	}
 	cases(func(d Differential) bool {
-		row("differential", byteCorpus, d.ID, d.Input, d.Canonical, d.Features, d.Error, d.BoundedError)
+		row("differential", byteCorpus, d.ID, "", d.Family, d.Input, d.Canonical, d.Features, d.Error, d.BoundedError,
+			func() (bool, error) { return ProfileIntegerOnly.Admits(d.Features) })
 		return true
 	})
 	sort.SliceStable(rows, func(i, j int) bool {

@@ -1,6 +1,9 @@
 package jcsvectors
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
 // Differential is one byte string that two JSON readers in common use read
 // apart: one refuses it and the other decodes it, or both decode it to
@@ -63,6 +66,11 @@ func ParserDifferential() (func(yield func(Differential) bool), error) {
 	}
 	return func(yield func(Differential) bool) {
 		for _, d := range cases {
+			// Each pass yields its own copies, so a reader that edits its
+			// input in place cannot change what the next pass reads.
+			d.Input = slices.Clone(d.Input)
+			d.Canonical = slices.Clone(d.Canonical)
+			d.Features = slices.Clone(d.Features)
 			if !yield(d) {
 				return
 			}
