@@ -200,6 +200,28 @@
         "report equals recorded-run.json": "interop/agentavow-signed-map-v1/recorded-run.json"
       }
     },
+    "R4-nonascii": {
+      "result": "R4's three reports each carry five checks with a non-ASCII tool name (section 4.1)",
+      "messages": [
+        "2026Oct/0099",
+        "2026Oct/0121",
+        "2026Oct/0150"
+      ],
+      "kind": "rerun",
+      "command": "python rows/r4_nonascii.py",
+      "pins": {
+        "repository": "AgentAvow/AgentAvow",
+        "commit": "fbbbd4ac71bcdf5353957629d5a9320c49af204d",
+        "directory": "docs/standards/tool-manifest-digest-vectors-v1/w3c-v01",
+        "python": "3.13"
+      },
+      "expect": {
+        "heldfast-profiles.json": 5,
+        "native-verify-mjs.json": 5,
+        "probity-map-reader.json": 5
+      },
+      "limits": "Counts the checks whose annotations.name holds a character outside ASCII in the reports R4 commits; R4 reproduces those files byte for byte."
+    },
     "R5": {
       "result": "PayHELM: 150,006 threshold checks",
       "messages": [
@@ -369,6 +391,37 @@
       },
       "limits": "The selection is computed from the 0022 rule, not inferred from the counts. Excluding w3c-f-29 instead (0188) gives the same figures; the result records that run too."
     },
+    "R8-compare-169": {
+      "result": "R8's comparison over all 169 judged members, no family left out: of 98 members expected under rows 1 to 14, 94 agree; of 71 under unnumbered requirements, 25 accepted, 2 rejected, 44 cannot-tell",
+      "messages": [
+        "2026Oct/0188",
+        "2026Nov/0004",
+        "2026Nov/0015",
+        "2026Nov/0033"
+      ],
+      "kind": "comparison",
+      "command": "python3 -I r8_compare.py MANIFEST.json verdicts.tsv",
+      "pins": {
+        "script": "att-0188/r8_compare.py",
+        "reader": "att-0039/v01-reader-run1.tar.gz",
+        "verdicts": "v01-reader-run1/out/run-1/verdicts.tsv",
+        "corpus_tag": "v0.17.4",
+        "python": "3.13"
+      },
+      "expect": {
+        "verdicts.tsv": "de987220be7f7c84052b5582c274f72c33ce9bbd6096d76ee251061052febc35",
+        "judged": 169,
+        "numbered": 98,
+        "agree": 94,
+        "unnumbered": {
+          "total": 71,
+          "accept": 25,
+          "reject": 2,
+          "cannot-tell": 44
+        }
+      },
+      "limits": "The same script and verdicts as R8-compare, run without --exclude-family; the 165-member selection is R8-compare."
+    },
     "R9": {
       "result": "W3C-R-016 at v0.18.0: the section 10 selection from 83 reject and 82 accept to 41 and 124",
       "messages": [
@@ -441,6 +494,29 @@
           "go": "7b2276223a307d"
         }
       }
+    },
+    "Item-7.3-10": {
+      "result": "Section 7.3 item 10: eight corpus members make json.load raise TypeError; read with the reader's own loader, six are rejected under W3C-R-020 and two conform",
+      "messages": [
+        "2026Nov/0000"
+      ],
+      "kind": "rerun",
+      "command": "python rows/item_7_3_10.py",
+      "pins": {
+        "repository": "probityai/agent-evidence-vectors",
+        "commit": "4cb988e8024511c2c3803758bba5a3a43291be3d",
+        "python": "3.13"
+      },
+      "expect": {
+        "commit": "4cb988e8024511c2c3803758bba5a3a43291be3d",
+        "raise TypeError": 8,
+        "rejected": 6,
+        "accepted": 2,
+        "rejected under": [
+          "W3C-R-020"
+        ]
+      },
+      "limits": "Parses each report member as the command of Nov/0000 does, then reads the eight with the reader's own loader; each verdict must equal the member's expected verdict."
     },
     "R11": {
       "result": "Text-only reader at v0.18.1 over the 165 section 10 members",

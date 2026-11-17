@@ -13,6 +13,7 @@ newer release or a moved pin changes what the row says.
 | R3 | rerun | SHA256SUMS | none |
 | R3-v01 | rerun | run-report-v01.json | none |
 | R4 | rerun | SHA256SUMS (as committed) | run.json: carries the runner and the environment (0099); SHA256SUMS: lists run.json |
+| R4-nonascii | rerun | checks with a non-ASCII tool name, per report | none |
 | R4-driver | rerun | report equals recorded-run.json | none |
 | R5 | rerun | finality-threshold-report.level1.json | none |
 | R6 | rerun | exit; stdout; tests | none |
@@ -20,8 +21,10 @@ newer release or a moved pin changes what the row says.
 | R7 | rerun | outcomes; packet MANIFEST.json; portable helper; tests | none |
 | R8 | rerun | not-selected.tsv; verdicts.tsv | none |
 | R8-compare | comparison | agree; differs; judged; numbered; outside_selection_families; selected; unnumbered; verdicts.tsv | none |
+| R8-compare-169 | comparison | agree; judged; numbered; unnumbered; verdicts.tsv | none |
 | R9 | comparison | v0.17.4; v0.18.0; v0.18.1 | none |
 | R10 | comparison | v0.17.4; v0.18.1 | none |
+| Item-7.3-10 | rerun | members raising TypeError; rejected; accepted; rejection row | none |
 | R11 | rerun | reader output | none |
 | R12 | rerun | per-member verdicts | none |
 | R13 | rerun | files; tests | none |
