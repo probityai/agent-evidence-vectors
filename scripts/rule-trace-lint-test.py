@@ -37,7 +37,9 @@ def tree(root: Path, document: str, cases: list[dict[str, Any]], readme: str = "
 
 
 def run(root: Path, pending: dict[str, set[str]] | None = None) -> tuple[list[Any], list[str]]:
-    traces = [lint.trace(entry, root) for entry in lint.defined_entries(root / "REGISTRY.md", root)]
+    entries = lint.defined_entries(root / "REGISTRY.md", root)
+    every = [*entries, *lint.named_documents(entries, root)]
+    traces = [lint.trace(entry, root) for entry in every]
     return traces, lint.problems(traces, pending or {}, root)
 
 
@@ -80,14 +82,91 @@ def test_a_table_cell_suffix_names_a_second_code(tmp_path: Path) -> None:
 
 
 def test_a_numeric_rule_is_named_by_a_numbered_item(tmp_path: Path) -> None:
-    tree(tmp_path, "1. first rule\n2. second rule `x`\n", [case("x", rule=2), case("x", rule=3)])
+    document = "## Rules\n\n1. first rule\n2. second rule `x`\n"
+    tree(tmp_path, document, [case("x", rule=2), case("x", rule=3)])
     _, found = run(tmp_path)
     assert len(found) == 1 and "`#3`" in found[0]
 
 
-def test_a_case_of_another_document_is_left_to_that_entry(tmp_path: Path) -> None:
-    tree(tmp_path, "`mine`", [case("mine"), case("theirs", document="spec/other.md")])
+def test_a_numbered_list_outside_the_rules_names_no_rule(tmp_path: Path) -> None:
+    # The break: any numbered list (install steps) used to define rules #1 to #N.
+    document = "## Install\n\n1. clone\n2. build\n3. run\n\nRefused with `x`.\n"
+    tree(tmp_path, document, [case("x", rule=3)])
+    _, found = run(tmp_path)
+    assert len(found) == 1 and "`#3`" in found[0]
+
+
+def test_a_rule_row_must_name_the_reason_the_case_expects(tmp_path: Path) -> None:
+    # The break: both codes were named somewhere, so rule 2 with rule 1's code passed.
+    document = (
+        "## Rules\n\n| # | Rule | Code |\n|---|---|---|\n| 1 | a | `a-bad` |\n| 2 | b | `b-bad` |\n"
+    )
+    tree(tmp_path, document, [case("a-bad", rule=1), case("a-bad", rule=2, id="swapped")])
+    _, found = run(tmp_path)
+    assert found == [
+        "predicate/v1/p: swapped expects rule `#2` with `a-bad`, but the row for `#2` in "
+        "spec/p.md names b-bad"
+    ]
+
+
+def test_a_row_naming_only_fields_pins_no_reason(tmp_path: Path) -> None:
+    document = "## Rules\n\n| R-OBS | `observed_at` is carried | x |\n\nOutcome `follows`.\n"
+    tree(tmp_path, document, [case("follows", rule="R-OBS")])
     assert run(tmp_path)[1] == []
+
+
+def test_a_named_rule_id_is_named_by_its_row(tmp_path: Path) -> None:
+    document = "## A bundle\n\n| B4 | no cycles | `predecessor-cycle` |\n\n`x`\n"
+    tree(tmp_path, document, [case("predecessor-cycle", rule="B4"), case("x", rule="B9")])
+    _, found = run(tmp_path)
+    assert len(found) == 1 and "`B9`" in found[0]
+
+
+def test_a_case_of_another_registered_document_is_left_to_that_entry(tmp_path: Path) -> None:
+    registry = tree(tmp_path, "`mine`", [case("mine"), case("theirs", document="spec/q.md")])
+    (tmp_path / "spec" / "q.md").write_text("`theirs`, and `mine` for the unmarked case")
+    registry.write_text(
+        registry.read_text().replace(
+            "## Registered here",
+            "### `predicate/v1/q`\n\n- Document: `spec/q.md`\n- Corpus: `corpora/vectors-p/`\n\n"
+            "## Registered here",
+        )
+    )
+    traces, found = run(tmp_path)
+    assert found == []
+    assert [trace.entry.name for trace in traces] == ["predicate/v1/p", "predicate/v1/q"]
+    assert traces[1].named_in == {"mine": "spec/q.md", "theirs": "spec/q.md"}
+
+
+def test_a_case_naming_an_unregistered_file_is_traced_against_it(tmp_path: Path) -> None:
+    # The break: a case whose document no entry defines was traced by no entry at all.
+    tree(tmp_path, "`mine`", [case("mine"), case("theirs", document="profiles/x.md")])
+    (tmp_path / "profiles").mkdir()
+    (tmp_path / "profiles" / "x.md").write_text("Nothing here.")
+    _, found = run(tmp_path)
+    assert found == [
+        "profiles/x.md: `theirs` (expected by c-theirs) is named in neither profiles/x.md "
+        "nor the corpus README"
+    ]
+
+
+def test_a_case_naming_a_missing_file_fails(tmp_path: Path) -> None:
+    tree(tmp_path, "`mine` `theirs`", [case("mine"), case("theirs", document="spec/typo.md")])
+    assert run(tmp_path)[1] == [
+        "spec/typo.md: cases of corpora/vectors-p name this document, and no such file exists"
+    ]
+
+
+def test_an_unregistered_file_may_rely_on_the_entries_documents(tmp_path: Path) -> None:
+    cases = [case("own-code"), case("own-code", document="profiles/x.md", rule="B1", id="b")]
+    tree(tmp_path, "`own-code`", cases)
+    (tmp_path / "profiles").mkdir()
+    (tmp_path / "profiles" / "x.md").write_text(
+        "| # | Rule | Code |\n| --- | --- | --- |\n| B1 | conforms | the record's own code |\n"
+    )
+    traces, found = run(tmp_path)
+    assert found == []
+    assert traces[1].named_in == {"B1": "profiles/x.md", "own-code": "spec/p.md"}
 
 
 def test_a_rule_naming_an_acceptance_rule_fixture_is_not_a_rule_id(tmp_path: Path) -> None:
@@ -133,5 +212,6 @@ def test_an_entry_nothing_could_be_read_from_fails(tmp_path: Path) -> None:
 
 
 def test_the_repository_traces_clean() -> None:
-    traces = [lint.trace(entry) for entry in lint.defined_entries()]
+    entries = lint.defined_entries()
+    traces = [lint.trace(entry) for entry in [*entries, *lint.named_documents(entries)]]
     assert lint.problems(traces, lint.load_pending()) == []
