@@ -26,8 +26,11 @@ the same file, so a cases tree with only valid members is shown for what it is.
 
 This runs under `python -S` with nothing installed: the action calls it before
 any setup step, the way a zero-dependency conformance CLI runs in the projects
-it was learned from. Exit 0 pass, 1 fail, 2 no verdict (unreadable expected
-file, no case found, a verifier that answered nothing).
+it was learned from. Exit 0 pass, 1 fail, 2 no verdict (no case found, and
+the caller chose `--fail-on-no-vectors false`), 3 the check could not start (an
+unreadable or malformed expected-verdicts file, no verifier named). Exit 3
+writes `result=fail`: a check that never started is never a pass, and the
+action's last step lets only `pass` and `no-verdict` through.
 """
 
 from __future__ import annotations
@@ -49,11 +52,21 @@ TIMEOUT_S = 60
 MAX_ROWS = 50
 
 
+def case_argument(case: Path) -> str:
+    """The case path as an argument a verifier cannot read as an option."""
+    text = str(case)
+    return os.path.join(".", text) if text.startswith("-") else text
+
+
 def ask(verifier: list[str], case: Path) -> tuple[str, str]:
     """The verifier's verdict on one case: valid, invalid or notrun, and how."""
     try:
         done = subprocess.run(  # noqa: S603 -- the consumer's own verifier, on its own cases
-            [*verifier, str(case)], capture_output=True, text=True, timeout=TIMEOUT_S, check=False
+            [*verifier, case_argument(case)],
+            capture_output=True,
+            text=True,
+            timeout=TIMEOUT_S,
+            check=False,
         )
     except (OSError, subprocess.TimeoutExpired) as exc:
         return "notrun", f"did not run: {exc}"
@@ -228,16 +241,22 @@ def main(argv: list[str] | None = None) -> int:
         report = run(
             args.expected,
             args.cases,
-            shlex.split(args.verifier, posix=os.name != "nt"),
+            action_checks.split_command(args.verifier),
             _flag(args.fail_on_missing_case),
             _flag(args.fail_on_no_vectors),
         )
     except (OSError, ValueError) as exc:
-        print(f"no verdict: {exc}", file=sys.stderr)
+        print(f"the check could not start: {exc}", file=sys.stderr)
         if args.github and os.environ.get("GITHUB_OUTPUT"):
             with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as handle:
-                handle.write("result=no-verdict\nvectors=0\nconform=0\n")
-        return 2
+                handle.write("result=fail\nvectors=0\nconform=0\n")
+        if args.github and os.environ.get("GITHUB_STEP_SUMMARY"):
+            with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as handle:
+                handle.write(
+                    "## agent-evidence-vectors conformance mode: fail\n\n"
+                    f"The check could not start: {exc}\n"
+                )
+        return 3
     Path(args.report).write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     for row in report["vectors"]:
         if row["status"] != "PASS":
