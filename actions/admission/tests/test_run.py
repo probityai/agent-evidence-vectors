@@ -462,3 +462,50 @@ def test_admit_main_exit_codes(tmp_path: Path) -> None:
 
 def test_admit_runs_the_checker_of_this_checkout_without_an_installed_package() -> None:
     assert (run.CHECKER_SRC / "agent_evidence_admission" / "rules.py").is_file()
+
+
+# --- digest mode on a catalog document ---------------------------------------------------
+
+# Matrix row 11 break case 09, byte for byte: an ARD entry delivered by url with no digest of its
+# own, carrying a scan attestation pinned only by its own digest and moved into another
+# publisher's entry. A digest-pin-only check agrees again on the moved record.
+TRANSPLANT = ACTION / "tests" / "fixtures" / "ard-transplant"
+
+
+def test_digest_refuses_the_transplanted_attestation_of_break_case_09() -> None:
+    document = str(TRANSPLANT / "catalog.json")
+    scan = str(TRANSPLANT / "invoice-reader.scan.sarif")
+    assert run.catalog_entries(document)
+    (row,) = run.check_catalog_digest(document, [scan], "fail")
+    assert not row.admitted
+    refused = [r.split(" at ")[0] for r in row.reasons if not r.startswith("warning ")]
+    assert refused == ["entry_digest_missing_for_url", "attestation_unsigned"]
+    (warned,) = run.check_catalog_digest(document, [scan], "warn")
+    assert warned.admitted, warned.reasons
+    assert any(r.startswith("warning entry_digest_missing_for_url") for r in warned.reasons)
+
+
+def test_digest_main_on_a_catalog_exits_1_at_fail_and_0_at_warn() -> None:
+    args = ["digest", "--python", sys.executable, "--document", str(TRANSPLANT / "catalog.json"),
+            "--artifact", str(TRANSPLANT / "invoice-reader.scan.sarif")]
+    assert run.main(args) == 1
+    assert run.main([*args, "--severity", "warn"]) == 0
+
+
+def test_digest_admits_a_catalog_entry_bound_to_its_vendored_bytes() -> None:
+    artifacts = [str(RULE_EXAMPLES / "invoice-reader.json"), str(RULE_EXAMPLES / "invoice-reader.intoto.json")]
+    (row,) = run.check_catalog_digest(str(RULE_EXAMPLES / "control.catalog.json"), artifacts, "fail")
+    assert row.admitted, row.reasons
+
+
+def test_digest_names_an_artifact_no_catalog_uri_ends_in(tmp_path: Path) -> None:
+    stray = tmp_path / "stray.bin"
+    stray.write_bytes(b"x")
+    args = ["digest", "--python", sys.executable, "--document", str(TRANSPLANT / "catalog.json"),
+            "--artifact", str(stray)]
+    assert run.main(args) == 2
+
+
+def test_digest_keeps_a_statement_on_the_pinned_checker(tmp_path: Path) -> None:
+    statement = _write(tmp_path / "statement.json", {"_type": "https://in-toto.io/Statement/v1", "subject": []})
+    assert not run.catalog_entries(statement)
