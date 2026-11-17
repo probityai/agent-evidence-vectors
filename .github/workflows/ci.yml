@@ -1074,7 +1074,7 @@ jobs:
       - name: Install checkout wheel for distribution imports
         run: uv pip install --no-deps .
       - name: mypy --strict
-        run: uv run mypy packaging/run_vectors.py packaging/agent_evidence_vectors/w3creport.py packaging/agent_evidence_vectors/producer.py scripts/action-producer-test.py packaging/agent_evidence_vectors/observedeffect.py packaging/agent_evidence_vectors/auditrecord.py packaging/agent_evidence_vectors/runmetrics.py packaging/agent_evidence_vectors/contextdiscovery.py corpora/vectors-w3c-report/gen_vectors.py corpora/vectors-w3c-report/origin/derive_pairs.py scripts/w3c-rails-parity-test.py scripts/w3c-reader-differential.py scripts/w3c-report-rules-test.py scripts/json-encoding-differential-test.py packaging/agent_evidence_vectors/receiptsignature.py packaging/agent_evidence_vectors/a2ajcs.py scripts/a2a-jcs-rails-test.py packaging/agent_evidence_vectors/changeadmission.py packaging/agent_evidence_vectors/agenticprocess.py scripts/receipt-signature-rails-test.py packaging/agent_evidence_vectors/delegationlifecycle.py scripts/delegation-lifecycle-rails-test.py corpora/vectors-delegation-lifecycle/mutate.py corpora/vectors-receipt-signature/digest.py 
+        run: uv run mypy packaging/run_vectors.py packaging/agent_evidence_vectors/w3creport.py packaging/agent_evidence_vectors/producer.py scripts/action-producer-test.py scripts/action_checks.py scripts/action-conformance.py scripts/action-controls.py scripts/action-control-verifier.py packaging/agent_evidence_vectors/observedeffect.py packaging/agent_evidence_vectors/auditrecord.py packaging/agent_evidence_vectors/runmetrics.py packaging/agent_evidence_vectors/contextdiscovery.py corpora/vectors-w3c-report/gen_vectors.py corpora/vectors-w3c-report/origin/derive_pairs.py scripts/w3c-rails-parity-test.py scripts/w3c-reader-differential.py scripts/w3c-report-rules-test.py scripts/json-encoding-differential-test.py packaging/agent_evidence_vectors/receiptsignature.py packaging/agent_evidence_vectors/a2ajcs.py scripts/a2a-jcs-rails-test.py packaging/agent_evidence_vectors/changeadmission.py packaging/agent_evidence_vectors/agenticprocess.py scripts/receipt-signature-rails-test.py packaging/agent_evidence_vectors/delegationlifecycle.py scripts/delegation-lifecycle-rails-test.py corpora/vectors-delegation-lifecycle/mutate.py corpora/vectors-receipt-signature/digest.py 
           corpora/vectors-receipt-signature/tools/veritasacta-verify.py scripts/gen-w3c-appendix.py vectors/reject/gen_invalid_vectors.py vectors/accept/gen_valid_vectors.py vectors/gen_manifest.py scripts/spec-drift-gate.py scripts/interpretation-registry-gate.py scripts/interpretation-registry-gate-test.py scripts/coverage-matrix-gate.py scripts/complexity-table-gate.py scripts/specpins.py scripts/spec-anchor-gate.py scripts/spec-anchor-gate-test.py scripts/code-contract-gate.py scripts/code-contract-gate-test.py scripts/receipt-verdict-codes-gate.py scripts/receipt-verdict-codes-gate-test.py scripts/offline-verify-page-test.py docs/guides/offline-verify/make_case.py docs/guides/offline-verify/summary.py scripts/consumer-lag-gate.py scripts/consumer-lag-gate-test.py scripts/independent-runs-gate.py scripts/suite-commit-gate.py scripts/suite-commit-gate-test.py scripts/condition-registry-gate.py scripts/condition-registry-gate-test.py scripts/condition-forcing-gate.py scripts/condition-forcing-gate-test.py scripts/condition-forcing-crosscheck.py scripts/condition-forcing-crosscheck-test.py 
           scripts/external-rail-gate.py scripts/predicate-state-gate.py scripts/forcing-gate.py scripts/forcing-gate-test.py scripts/countcensus.py scripts/countcensus-sparse-test.py scripts/count-gate.py scripts/count-gate-test.py scripts/distribution-gate.py scripts/distribution-gate-test.py scripts/test_doc_gate_migration.py scripts/test_site_navigation.py docs/site/build.py scripts/regenerability-gate.py scripts/mutationdiff.py scripts/accept-anchor-gate.py scripts/accept-anchor-gate-test.py scripts/liveness-probe.py scripts/liveness-probe-test.py scripts/citation-metadata-gate.py scripts/citation-metadata-gate-test.py scripts/expectation-slack-gate.py scripts/expectation-slack-gate-test.py scripts/observed-code-closure-gate.py scripts/observed-code-closure-gate-test.py scripts/uncited-crosscheck-gate.py scripts/reading-differential.py scripts/reading-differential-test.py scripts/vendor-remap-test.py scripts/vector-distinctness-gate.py scripts/vector-distinctness-gate-test.py 
           scripts/surface-leakage-gate.py scripts/surface-leakage-gate-test.py scripts/harness-output-contract-test.py scripts/stage-column-test.py scripts/starhint-test.py packaging/agent_evidence_vectors/starhint.py scripts/verifier-must-run-test.py scripts/report-provenance-test.py scripts/action-retention-test.py scripts/action-build-pin-test.py scripts/verify-release-tag.py scripts/verify-release-tag-test.py scripts/workflow-steps-gate.py scripts/workflow-steps-gate-test.py scripts/readme-lint.py scripts/readme-lint-test.py scripts/action-download-budget.py scripts/action-download-budget-test.py scripts/runner-labels-gate.py scripts/runner-labels-gate-test.py scripts/_go_selector.py scripts/go-selector-test.py scripts/_lockfile.py scripts/_lockfile-test.py scripts/manifest-revision-test.py scripts/statement-layer-test.py scripts/independent-runs-gate-test.py scripts/indeterminate-readers-test.py scripts/write-chain-replay-test.py scripts/audit-record-dating-rows-test.py 
@@ -2105,6 +2105,12 @@ jobs:
       # making the reader pass everything in a copy and requiring itself to go red.
       - name: the action's producer mode reads emitted records and holds their pins
         run: uv run python scripts/action-producer-test.py
+      # The declared profile, case counts, null controls, conformance mode, the
+      # python -S reference path, the evaluation-claim producer class and the
+      # mutation stage. Three cases end by deleting a guard in a copy and
+      # requiring the case it protects to go red.
+      - name: the action's profile, counts, controls, conformance mode and mutation stage
+        run: uv run --group crosscheck python scripts/action-v8-test.py
       # The per-corpus N of M on the status shields (assets/status/reference/) is
       # recomputed from the reference verifier and must equal the committed files.
       - name: the reference coverage shields match the reference verifier
@@ -2475,6 +2481,312 @@ jobs:
           echo "outcome=$OUTCOME result=$RESULT"
           test "$OUTCOME" = failure
           test "$RESULT" = fail
+      # The inputs that close what a green run could leave open, one fixture
+      # each (docs/guides/runner.md). Every run above also printed the null
+      # controls; the a2a run must show a corpus that discriminates.
+      - name: the a2a run scored both null controls and the corpus discriminates
+        env:
+          ACCEPT: ${{ steps.a2a.outputs.control-always-accept }}
+          REJECT: ${{ steps.a2a.outputs.control-always-reject }}
+          DISCRIMINATES: ${{ steps.a2a.outputs.discriminates }}
+          FOUND: ${{ steps.a2a.outputs.vectors-found }}
+        run: |
+          echo "always-accept=$ACCEPT always-reject=$REJECT discriminates=$DISCRIMINATES found=$FOUND"
+          test -n "$ACCEPT" && test -n "$REJECT"
+          test "$DISCRIMINATES" = true
+          test "$FOUND" = 57
+      - name: profile, a canonicalizer that declares integer-only passes with it
+        id: profile
+        uses: ./
+        with:
+          corpus: vectors-a2a-jcs-v01
+          verifier: python scripts/fixtures/action-v8/integer_only_canonicalizer.py
+          profile: integer-only
+          artifact-name: agent-evidence-vectors-results-profile
+          report-path: profile-report.json
+      - name: the eleven float members were out of profile and nothing inside failed
+        env:
+          RESULT: ${{ steps.profile.outputs.result }}
+          OUT: ${{ steps.profile.outputs.out-of-profile }}
+          IN: ${{ steps.profile.outputs.in-profile }}
+          INPASS: ${{ steps.profile.outputs.in-profile-pass }}
+        run: |
+          echo "result=$RESULT in=$IN in-pass=$INPASS out=$OUT"
+          test "$RESULT" = pass
+          test "$OUT" = 11
+          test "$INPASS" = "$IN"
+      - name: profile, the same canonicalizer fails without the profile
+        id: noprofile
+        continue-on-error: true
+        uses: ./
+        with:
+          corpus: vectors-a2a-jcs-v01
+          verifier: python scripts/fixtures/action-v8/integer_only_canonicalizer.py
+          artifact-name: agent-evidence-vectors-results-noprofile
+          report-path: noprofile-report.json
+      - name: profile, a canonicalizer wrong inside the profile still fails with it
+        id: badprofile
+        continue-on-error: true
+        uses: ./
+        with:
+          corpus: vectors-a2a-jcs-v01
+          verifier: python corpora/vectors-a2a-jcs-v01/tests/bad_verifier.py
+          profile: integer-only
+          artifact-name: agent-evidence-vectors-results-badprofile
+          report-path: badprofile-report.json
+      - name: and both of those jobs would have failed
+        env:
+          NOPROFILE: ${{ steps.noprofile.outcome }}
+          BADPROFILE: ${{ steps.badprofile.outcome }}
+        run: |
+          echo "noprofile=$NOPROFILE badprofile=$BADPROFILE"
+          test "$NOPROFILE" = failure
+          test "$BADPROFILE" = failure
+      - name: fail-on-missing-case, stage a corpus directory with one listed case removed
+        run: |
+          rm -rf .build/a2a-jcs-missing
+          cp -R corpora/vectors-a2a-jcs-v01 .build/a2a-jcs-missing
+          rm .build/a2a-jcs-missing/a3-object-key-ordering/A3-001.json
+      - name: fail-on-missing-case, the action names the missing case and fails
+        id: missingcase
+        continue-on-error: true
+        uses: ./
+        with:
+          vectors: .build/a2a-jcs-missing
+          verifier: python -m agent_evidence_vectors.a2ajcs
+          artifact-name: agent-evidence-vectors-results-missing-case
+          report-path: missing-case-report.json
+      - name: and that job would have failed on one missing case
+        env:
+          OUTCOME: ${{ steps.missingcase.outcome }}
+          MISSING: ${{ steps.missingcase.outputs.missing-cases }}
+          FOUND: ${{ steps.missingcase.outputs.vectors-found }}
+        run: |
+          echo "outcome=$OUTCOME missing=$MISSING found=$FOUND"
+          test "$OUTCOME" = failure
+          test "$MISSING" -ge 1
+          test "$FOUND" = 56
+      - name: conformance mode, the verifier gets every listed case right
+        id: conformance
+        uses: ./
+        with:
+          expected-verdicts: scripts/fixtures/action-v8/conformance/verify-expected.txt
+          cases: scripts/fixtures/action-v8/conformance/cases
+          verifier: python3 -S scripts/fixtures/action-v8/conformance/verifier.py
+          artifact-name: agent-evidence-vectors-results-conformance
+          report-path: conformance-report.json
+      - name: four of four, both controls, and the reference stage read 0 of 4 with nothing installed
+        env:
+          RESULT: ${{ steps.conformance.outputs.result }}
+          FOUND: ${{ steps.conformance.outputs.vectors-found }}
+          CONFORM: ${{ steps.conformance.outputs.conform }}
+          DISCRIMINATES: ${{ steps.conformance.outputs.discriminates }}
+          CHECKED: ${{ steps.conformance.outputs.reference-checked }}
+          TOTAL: ${{ steps.conformance.outputs.reference-total }}
+          REFID: ${{ steps.conformance.outputs.reference-verifier-id }}
+        run: |
+          echo "result=$RESULT found=$FOUND conform=$CONFORM discriminates=$DISCRIMINATES reference=$CHECKED of $TOTAL ($REFID)"
+          test "$RESULT" = pass
+          test "$FOUND" = 4 && test "$CONFORM" = 4
+          test "$DISCRIMINATES" = true
+          test "$CHECKED" = 0 && test "$TOTAL" = 4
+          test "$REFID" = unavailable
+      - name: conformance mode, a verifier that accepts everything
+        id: conformancelenient
+        continue-on-error: true
+        uses: ./
+        with:
+          expected-verdicts: scripts/fixtures/action-v8/conformance/verify-expected.txt
+          cases: scripts/fixtures/action-v8/conformance/cases
+          verifier: python3 -S scripts/fixtures/action-v8/conformance/lenient-verifier.py
+          artifact-name: agent-evidence-vectors-results-conformance-lenient
+          report-path: conformance-lenient-report.json
+      - name: conformance mode, an expected file listing a case that is not on disk
+        id: conformancemissing
+        continue-on-error: true
+        uses: ./
+        with:
+          expected-verdicts: scripts/fixtures/action-v8/conformance/verify-expected-missing.txt
+          cases: scripts/fixtures/action-v8/conformance/cases
+          verifier: python3 -S scripts/fixtures/action-v8/conformance/verifier.py
+          artifact-name: agent-evidence-vectors-results-conformance-missing
+          report-path: conformance-missing-report.json
+      - name: fail-on-no-vectors, an empty cases directory
+        run: |
+          mkdir -p .build/empty-cases
+          printf '# no cases\n' > .build/empty-expected.txt
+      - name: fail-on-no-vectors, the default fails a run that found no case
+        id: novectors
+        continue-on-error: true
+        uses: ./
+        with:
+          expected-verdicts: .build/empty-expected.txt
+          cases: .build/empty-cases
+          verifier: python3 -S scripts/fixtures/action-v8/conformance/verifier.py
+          artifact-name: agent-evidence-vectors-results-no-vectors
+          report-path: no-vectors-report.json
+      - name: fail-on-no-vectors false reports no-verdict and does not fail
+        id: novectorsallowed
+        uses: ./
+        with:
+          expected-verdicts: .build/empty-expected.txt
+          cases: .build/empty-cases
+          verifier: python3 -S scripts/fixtures/action-v8/conformance/verifier.py
+          fail-on-no-vectors: "false"
+          artifact-name: agent-evidence-vectors-results-no-vectors-allowed
+          report-path: no-vectors-allowed-report.json
+      - name: and the lenient, missing-case and empty runs would have failed
+        env:
+          LENIENT: ${{ steps.conformancelenient.outcome }}
+          MISSING: ${{ steps.conformancemissing.outcome }}
+          MISSINGN: ${{ steps.conformancemissing.outputs.missing-cases }}
+          NONE: ${{ steps.novectors.outcome }}
+          ALLOWED: ${{ steps.novectorsallowed.outputs.result }}
+        run: |
+          echo "lenient=$LENIENT missing=$MISSING ($MISSINGN) none=$NONE allowed=$ALLOWED"
+          test "$LENIENT" = failure
+          test "$MISSING" = failure && test "$MISSINGN" = 1
+          test "$NONE" = failure
+          test "$ALLOWED" = no-verdict
+      - name: mutate bytes, every flipped payload bit is rejected by both verifiers
+        id: mutatebytes
+        uses: ./
+        with:
+          verifier: ./aee-verify -validity-only -json
+          mutate: bytes
+          mutate-limit: "600"
+          artifact-name: agent-evidence-vectors-results-mutate-bytes
+          report-path: mutate-bytes-report.json
+      - name: N equals M, and every verdict agreed
+        env:
+          CHECKED: ${{ steps.mutatebytes.outputs.mutation-checked }}
+          TOTAL: ${{ steps.mutatebytes.outputs.mutation-total }}
+          AGREE: ${{ steps.mutatebytes.outputs.mutation-agreement }}
+        run: |
+          echo "mutation-checked $CHECKED of $TOTAL, agreement $AGREE"
+          test "$TOTAL" -gt 0
+          test "$CHECKED" = "$TOTAL" && test "$AGREE" = "$TOTAL"
+      - name: mutate, a verifier that accepts every file
+        id: mutatelenient
+        continue-on-error: true
+        uses: ./
+        with:
+          verifier: python3 scripts/fixtures/action-v8/mutate/lenient_candidate.py
+          mutate: bytes
+          mutate-limit: "50"
+          artifact-name: agent-evidence-vectors-results-mutate-lenient
+          report-path: mutate-lenient-report.json
+      - name: mutate, a corpus with no reference route reads 0 of M
+        id: mutatenoroute
+        continue-on-error: true
+        uses: ./
+        with:
+          corpus: vectors-a2a-jcs-v01
+          verifier: python -m agent_evidence_vectors.a2ajcs
+          mutate: structural
+          mutate-limit: "50"
+          artifact-name: agent-evidence-vectors-results-mutate-noroute
+          report-path: mutate-noroute-report.json
+      - name: and both mutation jobs would have failed
+        env:
+          LENIENT: ${{ steps.mutatelenient.outcome }}
+          NOROUTE: ${{ steps.mutatenoroute.outcome }}
+          CHECKED: ${{ steps.mutatenoroute.outputs.mutation-checked }}
+          TOTAL: ${{ steps.mutatenoroute.outputs.mutation-total }}
+        run: |
+          echo "lenient=$LENIENT noroute=$NOROUTE ($CHECKED of $TOTAL)"
+          test "$LENIENT" = failure
+          test "$NOROUTE" = failure
+          test "$CHECKED" = 0 && test "$TOTAL" -gt 0
+      - name: producer mode, an evaluation claim judged under the pinned rule
+        id: claimpass
+        uses: ./
+        with:
+          records: scripts/fixtures/action-v8/claim/record-pass.json
+          record-class: evaluation-claim
+          pins: scripts/fixtures/action-v8/claim/pins.json
+          artifact-name: agent-evidence-vectors-results-claim
+          receipt-path: claim-receipt.json
+      - name: producer mode, a claim whose case set the rule does not accept
+        id: claimrefused
+        continue-on-error: true
+        uses: ./
+        with:
+          records: scripts/fixtures/action-v8/claim/record-refused.json
+          record-class: evaluation-claim
+          pins: scripts/fixtures/action-v8/claim/pins.json
+          artifact-name: agent-evidence-vectors-results-claim-refused
+          receipt-path: claim-refused-receipt.json
+      - name: the admitted claim passed and the refused one would have failed
+        env:
+          PASS: ${{ steps.claimpass.outputs.result }}
+          REFID: ${{ steps.claimpass.outputs.reference-verifier-id }}
+          REFUSED: ${{ steps.claimrefused.outcome }}
+        run: |
+          echo "pass=$PASS reader=$REFID refused=$REFUSED"
+          test "$PASS" = pass
+          case "$REFID" in *"#reader/evaluation-claim") ;; *) exit 1 ;; esac
+          test "$REFUSED" = failure
+    needs:
+      - changes
+    if: ${{ fromJSON(needs.changes.outputs.run)['ci'] }}
+    permissions:
+      contents: read
+
+  # The case count on a Windows runner: a pattern that matched nothing there
+  # once let a project's CI pass on zero vectors. The conformance mode runs with
+  # python -S and nothing installed, and the replay counts the a2a corpus's 57
+  # cases on this runner's own disk.
+  ci__action_windows:
+    runs-on: windows-2025
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: conformance mode on Windows
+        id: conformance
+        uses: ./
+        with:
+          expected-verdicts: scripts/fixtures/action-v8/conformance/verify-expected.txt
+          cases: scripts/fixtures/action-v8/conformance/cases
+          verifier: python -S scripts/fixtures/action-v8/conformance/verifier.py
+          artifact-name: agent-evidence-vectors-results-windows-conformance
+          report-path: windows-conformance-report.json
+      - name: an empty cases directory on Windows
+        id: novectors
+        continue-on-error: true
+        uses: ./
+        with:
+          expected-verdicts: scripts/fixtures/action-v8/conformance/verify-expected-missing.txt
+          cases: .build/no-such-cases
+          verifier: python -S scripts/fixtures/action-v8/conformance/verifier.py
+          artifact-name: agent-evidence-vectors-results-windows-none
+          report-path: windows-none-report.json
+      - name: the a2a corpus replayed on Windows
+        id: a2a
+        uses: ./
+        with:
+          corpus: vectors-a2a-jcs-v01
+          verifier: python -m agent_evidence_vectors.a2ajcs
+          artifact-name: agent-evidence-vectors-results-windows-a2a
+          report-path: windows-a2a-report.json
+      - name: every case was counted on this runner
+        env:
+          RESULT: ${{ steps.conformance.outputs.result }}
+          FOUND: ${{ steps.conformance.outputs.vectors-found }}
+          NONE: ${{ steps.novectors.outcome }}
+          A2A: ${{ steps.a2a.outputs.result }}
+          A2AFOUND: ${{ steps.a2a.outputs.vectors-found }}
+          EXECUTED: ${{ steps.a2a.outputs.executed }}
+        run: |
+          echo "conformance=$RESULT found=$FOUND none=$NONE a2a=$A2A found=$A2AFOUND executed=$EXECUTED"
+          test "$RESULT" = pass && test "$FOUND" = 4
+          test "$NONE" = failure
+          test "$A2A" = pass && test "$A2AFOUND" = 57 && test "$EXECUTED" = 57
     needs:
       - changes
     if: ${{ fromJSON(needs.changes.outputs.run)['ci'] }}
@@ -4767,6 +5079,7 @@ jobs:
       - ci__python
       - ci__forcing
       - ci__action
+      - ci__action_windows
       - claim_record
       - codeql
       - commit_message_lint
