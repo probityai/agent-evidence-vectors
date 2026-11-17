@@ -46,6 +46,15 @@ from _workflow_test_fixture import fixture_authority, fixture_git
 
 HERE = pathlib.Path(__file__).resolve().parent
 
+#: The scripts the mirror of `uses: ./` runs: the summary, the module it imports,
+#: and the null controls with the constant verifier they replay.
+ACTION_SCRIPTS = (
+    "action-summary.py",
+    "action_checks.py",
+    "action-controls.py",
+    "action-control-verifier.py",
+)
+
 
 def load_gate() -> object:
     """Import the gate by path, since its filename is not an identifier."""
@@ -562,9 +571,8 @@ def action_report_path_reaches_the_summary_and_outputs() -> None:
         root = pathlib.Path(tmp)
         (root / "packaging").mkdir()
         (root / "scripts").mkdir()
-        (root / "scripts" / "action-summary.py").write_bytes(
-            (HERE / "action-summary.py").read_bytes()
-        )
+        for name in ACTION_SCRIPTS:
+            (root / "scripts" / name).write_bytes((HERE / name).read_bytes())
         # This fixture exercises file transport, not conformance arithmetic.
         (root / "packaging" / "run_vectors.py").write_text(
             "import json,pathlib,sys\n"
@@ -624,9 +632,8 @@ def action_verifier_imports_resolve_to_the_checkout() -> None:
     with tempfile.TemporaryDirectory(prefix="aee action imports ") as tmp:
         root = pathlib.Path(tmp)
         (root / "scripts").mkdir()
-        (root / "scripts" / "action-summary.py").write_bytes(
-            (HERE / "action-summary.py").read_bytes()
-        )
+        for name in ACTION_SCRIPTS:
+            (root / "scripts" / name).write_bytes((HERE / name).read_bytes())
         checkout_pkg = root / "packaging" / "agent_evidence_vectors"
         checkout_pkg.mkdir(parents=True)
         (checkout_pkg / "__init__.py").write_text("")
