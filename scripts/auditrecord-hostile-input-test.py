@@ -44,7 +44,7 @@ HEADS = auditrecord.tree_heads(MANIFEST)
 
 
 def member(draft_id: str) -> bytes:
-    return (CORPUS / MEMBERS[draft_id]["file"]).read_bytes()
+    return (CORPUS / str(MEMBERS[draft_id]["file"])).read_bytes()
 
 
 def code(call: Any, *args: Any) -> str:

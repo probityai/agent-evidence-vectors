@@ -428,9 +428,7 @@ def _encode(node: Any) -> str:
     if node is False:
         return "false"
     if isinstance(node, str):
-        if LONE_SURROGATE.search(node):
-            raise Malformed("value-not-representable")
-        return json.dumps(node, ensure_ascii=False, separators=(",", ":"))
+        return _encode_string(node)
     if isinstance(node, int):
         if abs(node) >= IJSON_LIMIT:
             raise Malformed("unsafe-integer")
@@ -438,11 +436,23 @@ def _encode(node: Any) -> str:
     if isinstance(node, list):
         return "[" + ",".join(_encode(item) for item in node) + "]"
     if isinstance(node, dict):
-        if any(LONE_SURROGATE.search(name) for name in node):
-            raise Malformed("value-not-representable")
-        members = sorted(node.items(), key=lambda kv: kv[0].encode("utf-16-be"))
-        return "{" + ",".join(f"{_encode(k)}:{_encode(v)}" for k, v in members) + "}"
+        return _encode_object(node)
     raise Malformed("value-not-representable")
+
+
+def _encode_string(text: str) -> str:
+    """A string, which RFC 8785 cannot write when it holds half of a surrogate pair."""
+    if LONE_SURROGATE.search(text):
+        raise Malformed("value-not-representable")
+    return json.dumps(text, ensure_ascii=False, separators=(",", ":"))
+
+
+def _encode_object(node: dict[str, Any]) -> str:
+    """An object, its members in UTF-16 code-unit order of their names."""
+    if any(LONE_SURROGATE.search(name) for name in node):
+        raise Malformed("value-not-representable")
+    members = sorted(node.items(), key=lambda kv: kv[0].encode("utf-16-be"))
+    return "{" + ",".join(f"{_encode_string(k)}:{_encode(v)}" for k, v in members) + "}"
 
 
 def canonical_bytes(node: Any) -> bytes:
@@ -560,9 +570,7 @@ def _instant(value: Any) -> datetime.datetime:
     fraction, zulu, sign, offset_hours, offset_minutes = match.groups()[6:]
     try:
         zone = datetime.timezone(
-            datetime.timedelta(0)
-            if zulu
-            else _offset(sign, int(offset_hours), int(offset_minutes))
+            datetime.timedelta(0) if zulu else _offset(sign, int(offset_hours), int(offset_minutes))
         )
         micro = int((fraction or "0")[:6].ljust(6, "0"))
         parsed = datetime.datetime(year, month, day, hour, minute, min(second, 59), micro, zone)
