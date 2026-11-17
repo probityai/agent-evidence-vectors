@@ -14,7 +14,14 @@ The document is the decoded token::
 Options carry what the server knows: ``resource`` (its canonical URI), ``issuers`` (the
 authorization servers its protected-resource metadata advertises, RFC 9728), ``tokenEndpoints``
 (their token endpoints), ``now`` (seconds since the epoch) and ``skew`` (seconds, default 60). A
-decision the server cannot make for want of one of these is a refusal, never an admission.
+decision the server cannot make for want of one of these is a refusal, never an admission: with no
+``tokenEndpoints`` the audience check cannot tell a token whose ``aud`` array holds both this
+resource and a token endpoint from a clean one, so it refuses ``token-endpoints-not-configured``
+(pass ``[]`` to say there are none).
+
+A token presented with DPoP must be bound to a key (``cnf.jkt``, RFC 9449 section 6.1): the
+resource checks the proof's key against the bound one (section 7.1), and an unbound token offers
+nothing to check against (``dpop-without-binding``).
 
 Each comparison is exact, case-sensitive and without URI normalization: an audience that matches
 only after a trailing slash or a case change is refused under its own code, so a log says which
@@ -119,7 +126,7 @@ def _audiences(claims: dict[str, Any]) -> list[str]:
 def _check_audience(context: Context) -> None:
     claims = _claims(context)
     resource = _option(context, "resource", "resource-not-configured")
-    endpoints = _option(context, "tokenEndpoints", "token-endpoints-not-configured", default=[])
+    endpoints = _option(context, "tokenEndpoints", "token-endpoints-not-configured")
     audiences = _audiences(claims)
     if any(a in endpoints or _normalized(a) in {_normalized(e) for e in endpoints} for a in audiences):
         raise Refusal("aud-is-token-endpoint", "/claims/aud", "the audience is an authorization server's token endpoint")
@@ -178,8 +185,12 @@ def _check_binding(context: Context) -> None:
     if typ != ACCESS_TOKEN_TYPE:
         raise Refusal("typ-not-access-token", "/header/typ", "RFC 9068 section 4: a resource server takes only typ at+jwt")
     cnf = claims.get("cnf")
-    if isinstance(cnf, dict) and "jkt" in cnf and context.document.get("presentation") == "bearer":
+    presentation = context.document.get("presentation")
+    if isinstance(cnf, dict) and "jkt" in cnf and presentation == "bearer":
         raise Refusal("bound-token-as-bearer", "/claims/cnf/jkt", "a DPoP-bound token was presented as a bearer token")
+    if presentation == "dpop" and not (isinstance(cnf, dict) and isinstance(cnf.get("jkt"), str) and cnf["jkt"]):
+        raise Refusal("dpop-without-binding", "/claims/cnf/jkt",
+                      "RFC 9449 section 7.1: a DPoP presentation is checked against the key the token is bound to, and this token names none")
 
 
 MCP_AUTHZ = register(
@@ -192,7 +203,7 @@ MCP_AUTHZ = register(
             Check("audience", "aud names this resource exactly and no token endpoint", _check_audience),
             Check("resource", "a resource claim names this resource", _check_resource),
             Check("lifetime", "exp present and not passed, nbf and iat not in the future", _check_lifetime),
-            Check("binding", "typ is at+jwt (no ID-JAG, no ID token), no DPoP-bound token as bearer", _check_binding),
+            Check("binding", "typ is at+jwt (no ID-JAG, no ID token), no DPoP-bound token as bearer, no unbound token as DPoP", _check_binding),
         ),
         option_help={
             "resource": "the server's canonical resource URI",

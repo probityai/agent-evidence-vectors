@@ -193,7 +193,7 @@ def _derive(context: Context, future_bound: bool) -> list[str] | None:
             seconds(entry["maxAge"], path, "maxAge")
     except Refusal:
         return None
-    skew = int(context.options.get("skew", SKEW_TOLERANCE_SECONDS)) if future_bound else MAX_SAFE_INTEGER
+    skew = _skew(context) if future_bound else MAX_SAFE_INTEGER
     out = []
     for path, entry in entries:
         moment = produced[path]
@@ -209,7 +209,19 @@ def _derive(context: Context, future_bound: bool) -> list[str] | None:
     return out
 
 
+def _skew(context: Context) -> int:
+    """The ``skew`` option: a whole number of seconds in 0..2**53 - 1. Any other value is the
+    caller's error (``option-malformed``), never coerced: ``int()`` would read ``"300"``, ``true``
+    and ``1.5`` as tolerances nobody chose, and a negative one would refuse the record under a code
+    that blames the record."""
+    value = context.options.get("skew", SKEW_TOLERANCE_SECONDS)
+    if isinstance(value, bool) or not isinstance(value, int) or not 0 <= value <= MAX_SAFE_INTEGER:
+        raise Refusal("option-malformed", "", f"the option skew is a whole number of seconds in 0..2**53 - 1, not {value!r}")
+    return value
+
+
 def _check_future_bound(context: Context) -> None:
+    _skew(context)
     _derive(context, future_bound=True)
 
 

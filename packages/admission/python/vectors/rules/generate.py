@@ -88,6 +88,12 @@ def parse_cases(integer_only: bool) -> list[dict[str, Any]]:
         case("exponent-overflow", "refuse", "value-not-representable", "1e400 has no finite double", text='{"n":1e400}'),
         case("exponent-underflow", "refuse", "value-not-representable",
              "1e-400 is not zero: a decimal reader keeps it, a double reader reads 0 and RFC 8785 writes 0", text='{"n":1e-400}'),
+        case("precision-past-double", "refuse", "value-not-representable",
+             "RFC 7493 2.2's own example: more digits than a double holds; a decimal reader keeps them, a double reader rounds",
+             text='{"n":3.141592653589793238462643383279}'),
+        case("exact-double-expansion", *float_verdict,
+             "0.1's double written out exactly: the double holds the whole value, so the two readers agree",
+             text='{"n":0.1000000000000000055511151231257827021181583404541015625}'),
         case("nan", "refuse", "non-json-number", "NaN is not a JSON number", text='{"n":NaN}'),
         case("neg-infinity", "refuse", "non-json-number", "-Infinity is not a JSON number", text='{"n":-Infinity}'),
         case("long-token", "refuse", "number-token-too-long", "a 70-digit integer token, refused before conversion",
@@ -242,6 +248,16 @@ def audit_cases() -> list[dict[str, Any]]:
              text=dumps(audit_statement(entries(standing="2026-09-19T10:30:00Z\n")))),
         case("duplicate-in-payload", "refuse", "duplicate-member", "the strict parse reaches into the DSSE payload",
              text=envelope(dumps(audit_statement(entries())).replace('"status":"evaluated"', '"status":"evaluated","status":"not-evaluated"').encode())),
+        case("duplicate-in-payload-warned", "refuse", "evaluation-inconsistent",
+             "the duplicate accepted as a warning: the payload is read the lenient way (the last status) and every rule still runs on it",
+             text=envelope(dumps(audit_statement(entries())).replace('"status":"evaluated"', '"status":"evaluated","status":"not-evaluated"').encode()),
+             warn=["duplicate-member"]),
+        case("skew-option-negative", "refuse", "option-malformed", "a negative skew is the caller's error, not the record's",
+             text=dumps(audit_statement(entries())), options={"skew": -1}),
+        case("skew-option-string", "refuse", "option-malformed", "skew written as a string is not coerced",
+             text=dumps(audit_statement(entries())), options={"skew": "300"}),
+        case("skew-option-wider", "admit", None, "a skew of 400 s admits a result 301 s after reportedAt",
+             text=dumps(audit_statement(entries(standing="2026-09-19T11:09:03Z"))), options={"skew": 400}),
     ]
 
 
@@ -303,6 +319,29 @@ SAME_NAME_STATEMENT = signed_statement({"name": "urn:air:tools.example.com:serve
                                         "digest": {"sha256": "1" * 64}})
 NOT_IN_TOTO_STATEMENT = envelope(base64.b64decode(json.loads(GOOD_STATEMENT)["payload"]), payload_type="application/json").encode()
 SIG_NOT_BASE64_STATEMENT = envelope(base64.b64decode(json.loads(GOOD_STATEMENT)["payload"]), sig=True).encode()
+#: SHA-512 names the artifact, SHA-256 names other bytes: one digest set, two artifacts.
+SPLIT_STATEMENT = signed_statement({"name": "urn:air:tools.example.com:server:invoice-reader",
+                                    "digest": {"sha256": "1" * 64, "sha512": hashlib.sha512(ARTIFACT).hexdigest()}})
+NOT_A_STATEMENT = envelope(dumps({"_type": "https://example.org/NotAStatement", "subject": [{"digest": {"sha256": hashlib.sha256(ARTIFACT).hexdigest()}}]}).encode()).encode()
+
+
+def url_safe_statement() -> bytes:
+    """GOOD_STATEMENT's statement with its payload in the URL-safe alphabet (DSSE: verifiers MUST
+    accept either). A predicate note is chosen so the standard encoding holds + or /."""
+    for pad in range(64):
+        statement = {"_type": "https://in-toto.io/Statement/v1",
+                     "subject": [{"name": "urn:air:tools.example.com:server:invoice-reader",
+                                  "digest": {"sha256": hashlib.sha256(ARTIFACT).hexdigest()}}],
+                     "predicateType": "https://example.org/scan/v1", "predicate": {"result": "pass", "note": "?" * pad + ">"}}
+        payload = dumps(statement).encode()
+        if any(c in b64(payload) for c in "+/"):
+            return dumps({"payloadType": "application/vnd.in-toto+json",
+                          "payload": base64.urlsafe_b64encode(payload).decode("ascii"),
+                          "signatures": [{"keyid": "test-key", "sig": b64(b"\x01" * 64)}]}).encode()
+    raise AssertionError("no payload with + or / in its standard encoding")
+
+
+URL_SAFE_STATEMENT = url_safe_statement()
 
 
 def catalog(*entries_: dict[str, Any]) -> str:
@@ -373,6 +412,25 @@ def catalog_cases() -> list[dict[str, Any]]:
              text=catalog(ai_entry(ai_manifest())).replace('"trustManifests":[', '"trustManifests":').replace("}}]}]}", "}}}]}"),
              files=held(artifact=ARTIFACT)),
         case("entries-not-an-array", "refuse", "entry_malformed", "a catalog whose entries is an object", text=dumps({"entries": {"a": ard_entry()}})),
+        case("digest-set-split", "refuse", "attestation_digest_set_split",
+             "the subject carries the entry's SHA-512 and other bytes' SHA-256: a verifier that prefers SHA-256 binds the other bytes",
+             text=catalog(ard_entry(digest="sha512:" + hashlib.sha512(ARTIFACT).hexdigest(), trustManifest=pinned(SPLIT_STATEMENT))),
+             files=held(artifact=ARTIFACT, statement=SPLIT_STATEMENT)),
+        case("payload-not-a-statement", "refuse", "attestation_not_a_statement",
+             "a signed in-toto envelope whose payload's _type is not an in-toto Statement",
+             text=catalog(ard_entry(trustManifest=pinned(NOT_A_STATEMENT))), files=held(artifact=ARTIFACT, statement=NOT_A_STATEMENT)),
+        case("payload-url-safe", "admit", None, "a payload in the URL-safe base64 alphabet, which DSSE verifiers must accept",
+             text=catalog(ard_entry(trustManifest=pinned(URL_SAFE_STATEMENT))), files=held(artifact=ARTIFACT, statement=URL_SAFE_STATEMENT)),
+        case("size-not-an-integer", "refuse", "attestation_malformed", "a size written as a string bounds nothing",
+             text=catalog(ard_entry(trustManifest={"attestations": [{"type": "scan", "uri": STATEMENT_URI, "digest": sha(GOOD_STATEMENT), "size": "10"}]})),
+             files=held(artifact=ARTIFACT, statement=GOOD_STATEMENT)),
+        case("uri-not-a-string-warned", "refuse", "attestation_malformed",
+             "an attestation uri that is a number: read as not passed, a warned not-evaluated code would admit it",
+             text=catalog(ard_entry(trustManifest={"attestations": [{"type": "scan", "uri": 7, "digest": sha(GOOD_STATEMENT)}]})),
+             files=held(artifact=ARTIFACT), warn=["attestation-pin-not-evaluated", "attestation-subject-not-evaluated"]),
+        case("url-not-a-string-warned", "refuse", "entry_malformed", "an entry url that is a number, with the unchecked bytes warned",
+             text=catalog(ard_entry(url=7, trustManifest={"identity": "spiffe://tools.example.com/mcp/invoice-reader"})),
+             warn=["entry-bytes-not-evaluated"]),
         case("inline-bound-by-data-digest", "admit", None,
              "an inline entry with no digest: its attestation binds to the SHA-256 of the data's RFC 8785 bytes",
              text=catalog(ai_entry({"attestations": [{"type": "scan", "uri": STATEMENT_URI, "digest": sha(inline_statement)}]},
@@ -482,6 +540,17 @@ def token_cases() -> list[dict[str, Any]]:
              text=token(cnf={"jkt": "0ZcOCORZNYy-DWpqq30jZyJGHTN0d2HglBV3uiguA4I"})),
         case("dpop-as-dpop", "admit", None, "the bound token presented with DPoP",
              text=token("dpop", cnf={"jkt": "0ZcOCORZNYy-DWpqq30jZyJGHTN0d2HglBV3uiguA4I"})),
+        case("dpop-unbound", "refuse", "dpop-without-binding",
+             "a token with no cnf.jkt presented with DPoP: there is no bound key to check the proof against (RFC 9449 7.1)",
+             text=token("dpop")),
+        case("dpop-jkt-null", "refuse", "dpop-without-binding", "cnf.jkt null is no binding", text=token("dpop", cnf={"jkt": None})),
+        case("token-endpoints-not-configured", "refuse", "token-endpoints-not-configured",
+             "an audience array naming this resource and a token endpoint, with no token endpoints configured to catch it",
+             text=token(aud=[RESOURCE, ISSUER + "/token"]), options={k: v for k, v in OPTIONS.items() if k != "tokenEndpoints"}),
+        case("token-endpoints-none", "admit", None, "token endpoints configured as an empty list: the server says it has none",
+             text=token(), options={**OPTIONS, "tokenEndpoints": []}),
+        case("aud-array-with-token-endpoint", "refuse", "aud-is-token-endpoint", "the same audience array, endpoints configured",
+             text=token(aud=[RESOURCE, ISSUER + "/token"])),
         case("id-jag", "refuse", "id-jag-at-resource", "an identity assertion grant presented to a resource server",
              text=token(header={"typ": "oauth-id-jag+jwt", "alg": "ES256"}, resource=RESOURCE)),
         case("id-jag-media-type", "refuse", "id-jag-at-resource", "the same grant with typ written as a full media type (RFC 7515 4.1.9)",
@@ -567,6 +636,10 @@ def receipt_cases() -> list[dict[str, Any]]:
         case("signer-without-co-signature", "refuse", "cosignature-missing",
              "a callerDid with no callerSignature: a display that shows the caller reads it as co-signed",
              text=receipt(callerDid="did:web:caller.example")),
+        case("co-signer-is-agent", "refuse", "cosigner-is-signer", "the callerDid is the agentDid: one party shown as two",
+             text=receipt(callerDid="did:web:agent.example", callerSignature="cd" * 64)),
+        case("co-signature-is-signature", "refuse", "cosigner-is-signer", "the callerSignature is the signature's own bytes",
+             text=receipt(callerDid="did:web:caller.example", callerSignature=SIG)),
         case("agent-did-null", "refuse", "member-malformed", "a null agentDid is no signer",
              text=receipt().replace('"agentDid":"did:web:agent.example"', '"agentDid":null')),
         case("tool-name-number", "refuse", "member-malformed", "toolName is a string", text=receipt(toolName=7)),

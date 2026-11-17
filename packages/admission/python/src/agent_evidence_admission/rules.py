@@ -4,7 +4,11 @@ A rule set is a strict parse followed by an ordered list of checks. Each check e
 raises a :class:`~agent_evidence_admission.strict_json.Refusal` naming its code and the JSON
 Pointer it applies to. The first refusal decides; the verdict also lists every later refusal, so a
 report shows all the ways one record fails. A refusal whose code the caller lists in ``warn`` is
-reported as a warning and does not refuse.
+reported as a warning and does not refuse. A warned parse code (``duplicate-member``, say) does not
+stop the parse: the record is read again with that check off, the way a lenient decoder reads it,
+and every rule still runs on what was read. Three codes say that nothing was read
+(``not-parseable``, ``payload-not-base64``, ``shape-unreadable``), so warning one would admit a
+record no rule judged; they are not warnable, and naming one in ``warn`` is a ``ValueError``.
 
 Admission decides whether a record is fit to be judged. It does not verify a signature, fetch
 anything, or say a record is true: a rule set reads bytes the caller already holds, and where it
@@ -32,6 +36,25 @@ from . import strict_json
 from .strict_json import Refusal
 
 PARSE_PREFIX = "json:"
+#: Codes that mean the record was not read at all; a warning on one would admit what no rule judged.
+UNWARNABLE = frozenset({"not-parseable", "payload-not-base64", "shape-unreadable"})
+
+
+def parse_lifting(data: bytes, profile: str, checks: Iterable[str], warn: frozenset[str]) -> tuple[Any, list[Refusal]]:
+    """Parse ``data``; a refusal whose code is in ``warn`` is kept and the parse runs again without
+    that check, so a warned code yields the lenient reading instead of no reading. A refusal that
+    is not warned (or cannot be switched off) is raised."""
+    enabled = set(checks)
+    lifted: list[Refusal] = []
+    while True:
+        try:
+            return strict_json.loads(data, profile=profile, checks=enabled), lifted
+        except Refusal as refusal:
+            if refusal.code in warn and refusal.code in enabled:
+                lifted.append(refusal)
+                enabled.discard(refusal.code)
+                continue
+            raise
 
 
 @dataclass
@@ -44,14 +67,21 @@ class Context:
     files: Mapping[str, bytes]
     enabled: frozenset[str]
     found: list[Refusal] = field(default_factory=list)
+    warn: frozenset[str] = frozenset()
 
     def parse(self, data: bytes, at: str, profile: str = "ijson") -> Any:
-        """Parse nested bytes (a DSSE payload) under the same parse checks as the document."""
+        """Parse nested bytes (a DSSE payload) under the same parse checks, and the same warned
+        codes, as the document."""
         checks = {name[len(PARSE_PREFIX) :] for name in self.enabled if name.startswith(PARSE_PREFIX)}
         try:
-            return strict_json.loads(data, profile=profile, checks=checks)
+            value, lifted = parse_lifting(data, profile, checks, self.warn)
         except Refusal as refusal:
             raise Refusal(refusal.code, at + refusal.at, refusal.detail) from refusal
+        for refusal in lifted:
+            relocated = Refusal(refusal.code, at + refusal.at, refusal.detail)
+            if all((r.code, r.at) != (relocated.code, relocated.at) for r in self.found):
+                self.found.append(relocated)
+        return value
 
     def note(self, refusal: Refusal) -> None:
         """Record a refusal without stopping the check that found it."""
@@ -154,12 +184,14 @@ def run(
         known = ", ".join(sorted(rule_set.option_help)) or "none"
         raise ValueError(f"{rule_set.name} has no options named {', '.join(sorted(stray))}; it takes: {known}")
     warn_codes = frozenset(warn)
+    if warn_codes & UNWARNABLE:
+        raise ValueError(f"{', '.join(sorted(warn_codes & UNWARNABLE))} cannot be a warning: it means the record was not read")
     parse_checks = {n[len(PARSE_PREFIX) :] for n in names if n.startswith(PARSE_PREFIX)}
     try:
-        document = strict_json.loads(raw, profile=rule_set.profile, checks=parse_checks)
+        document, lifted = parse_lifting(raw, rule_set.profile, parse_checks, warn_codes)
     except Refusal as refusal:
         return _verdict(rule_set, [refusal], warn_codes)
-    context = Context(document, raw, options or {}, files or {}, names)
+    context = Context(document, raw, options or {}, files or {}, names, list(lifted), warn_codes)
     for check in rule_set.checks:
         if check.name not in names:
             continue

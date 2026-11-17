@@ -455,6 +455,8 @@ def test_admit_main_exit_codes(tmp_path: Path) -> None:
     # An option the rule set does not define is a setup error, not a silent default.
     assert run.main(["admit", "--rule-set", "ijson", "--document", control, "--options", options]) == 2
     assert run.main(["admit", "--rule-set", "nope", "--document", control]) == 2
+    # A code that means the record was not read cannot be a warning: it would admit what no rule judged.
+    assert run.main(["admit", "--rule-set", "ijson", "--document", control, "--warn", "not-parseable"]) == 2
     assert run.main(["admit", "--rule-set", "ijson", "--document", str(tmp_path / "missing.json")]) == 2
 
 

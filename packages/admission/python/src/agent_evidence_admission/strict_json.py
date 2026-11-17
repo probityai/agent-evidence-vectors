@@ -26,8 +26,12 @@ admission profile refuses:
     ``-0`` in any spelling: RFC 8785 writes it as ``0``, so a signature over the received bytes
     and one over the canonical bytes disagree on it.
 
-Two profiles: ``ijson`` admits fractions and exponents whose double is finite and below 2^53 in
-magnitude; ``integer-only`` refuses any fraction or exponent (``value-not-representable``), so a
+Two profiles: ``ijson`` admits fractions and exponents whose double is finite, below 2^53 in
+magnitude, and holds the token's whole value: the token is the shortest spelling of its double or
+that double's exact decimal expansion, in any notation. A token with more precision than a double
+holds (RFC 7493 section 2.2's own example is ``3.141592653589793238462643383279``) is read as
+itself by a decimal reader and rounded by a double one, so it is refused
+(``value-not-representable``). ``integer-only`` refuses any fraction or exponent (``value-not-representable``), so a
 record format whose numbers are all counts can say so and refuse ``1000.0`` and ``1e3``.
 """
 
@@ -36,6 +40,7 @@ from __future__ import annotations
 import math
 from collections.abc import Iterable
 from dataclasses import dataclass
+from decimal import Decimal
 from typing import Any
 
 #: Exact integers in an I-JSON number: RFC 7493 section 2.2.
@@ -253,7 +258,10 @@ class _Reader:
             raise self.fail("number-token-too-long", path, f"a number token of {len(token)} characters")
         integral = not any(c in token for c in ".eE")
         if integral:
-            value = int(token)
+            try:
+                value = int(token)
+            except ValueError as error:  # past the interpreter's digit limit, with the length bound off
+                raise self.fail("value-not-representable", path, f"a {len(token)}-digit integer") from error
             if token.startswith("-") and value == 0 and self.on("negative-zero"):
                 raise self.fail("negative-zero", path, "-0 has no distinct canonical form")
             if abs(value) > MAX_SAFE_INTEGER and self.on("unsafe-integer"):
@@ -270,7 +278,16 @@ class _Reader:
             raise self.fail("unsafe-integer", path, f"{token} parses to a double outside +-(2**53 - 1)")
         if number == 0 and token.startswith("-") and self.on("negative-zero"):
             raise self.fail("negative-zero", path, f"{token} is negative zero")
+        if not _holds(token, number) and self.on("value-not-representable"):
+            raise self.fail("value-not-representable", path, f"{token} has more precision than a double holds; it reads as {number!r}")
         return number
+
+
+def _holds(token: str, number: float) -> bool:
+    """True when the double ``number`` holds the whole decimal value of ``token``: the token equals
+    the double's shortest round-trip spelling (``0.1``, ``1e5``, ``1.50``) or its exact expansion."""
+    value = Decimal(token)
+    return value == Decimal(repr(number)) or value == Decimal(number)
 
 
 def _nonzero_digits(token: str) -> bool:

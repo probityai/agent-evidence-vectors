@@ -212,6 +212,23 @@
    "rationale": "1e-400 is not zero: a decimal reader keeps it, a double reader reads 0 and RFC 8785 writes 0"
   },
   {
+   "id": "precision-past-double",
+   "text": "{\"n\":3.141592653589793238462643383279}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "value-not-representable"
+   },
+   "rationale": "RFC 7493 2.2's own example: more digits than a double holds; a decimal reader keeps them, a double reader rounds"
+  },
+  {
+   "id": "exact-double-expansion",
+   "text": "{\"n\":0.1000000000000000055511151231257827021181583404541015625}",
+   "expect": {
+    "verdict": "admit"
+   },
+   "rationale": "0.1's double written out exactly: the double holds the whole value, so the two readers agree"
+  },
+  {
    "id": "nan",
    "text": "{\"n\":NaN}",
    "expect": {

@@ -476,21 +476,105 @@ def test_catalog_members_of_the_wrong_type_are_refused(catalog, code):
     assert code in [r.code for r in verdict.refusals]
 
 
-@pytest.mark.parametrize("sig", ["", "!!!", "AA==", None, 7])
-def test_a_signature_counts_only_when_it_is_non_empty_base64(sig):
+@pytest.mark.parametrize("sig", ["", "!!!", "AA==", "AB==", "-_8=", "+_8=", None, 7])
+def test_a_signature_counts_only_when_it_is_non_empty_canonical_base64(sig):
     from agent_evidence_admission import catalog_rules
 
     present = catalog_rules._signature_present({"sig": sig})
-    assert present is (sig == "AA==")
+    assert present is (sig in ("AA==", "-_8="))
+
+
+@pytest.mark.parametrize(
+    ("text", "data"),
+    [("+/8=", b"\xfb\xff"), ("-_8=", b"\xfb\xff"), ("QQ==", b"A")],
+)
+def test_dsse_base64_reads_both_alphabets(text, data):
+    from agent_evidence_admission.dsse import decode_base64
+
+    assert decode_base64(text) == data
+
+
+@pytest.mark.parametrize("text", ["+_8=", "QR==", "QQ", "Q Q==", 7])
+def test_dsse_base64_refuses_a_mixed_alphabet_and_a_second_spelling(text):
+    from agent_evidence_admission.dsse import EnvelopeError, decode_base64
+
+    with pytest.raises(EnvelopeError):
+        decode_base64(text)
+
+
+def test_a_url_safe_envelope_opens():
+    import base64
+
+    from agent_evidence_admission import dsse
+
+    seed = bytes(range(32))
+    for n in range(64):
+        payload = b"?" * n + b">"
+        if any(c in base64.b64encode(payload).decode() for c in "+/"):
+            break
+    envelope = dsse.make_envelope(payload, seed)
+    envelope["payload"] = base64.urlsafe_b64encode(payload).decode()
+    trusted = {envelope["signatures"][0]["keyid"]: dsse.ed25519.public_key(seed)}
+    assert dsse.open_envelope(envelope, trusted).payload == payload
+
+
+@pytest.mark.parametrize("code", sorted(rules.UNWARNABLE))
+def test_a_code_that_means_nothing_was_read_cannot_be_warned(code):
+    with pytest.raises(ValueError, match="cannot be a warning"):
+        rules.run(rules.get("ijson"), b"{", warn=[code])
+
+
+def test_a_warned_parse_code_reads_on_and_every_rule_still_runs():
+    raw = case_bytes("audit-freshness", "duplicate-in-payload").raw
+    verdict = rules.run(rules.get("audit-freshness"), raw, warn=["duplicate-member"])
+    assert [w.code for w in verdict.warnings] == ["duplicate-member"]
+    assert verdict.code == "evaluation-inconsistent"
+    catalog = b'{"entries":[{"url":"https://x.example/a","trustManifest":{"attestations":[]}}],"entries":[{"url":7}]}'
+    verdict = rules.run(rules.get("catalog-attestations"), catalog, warn=["duplicate-member"])
+    assert verdict.code == "entry_malformed"
+
+
+def test_an_integer_past_the_interpreter_digit_limit_is_a_refusal_with_the_length_bound_off():
+    checks = [c for c in strict_json.CHECKS if c != "number-token-too-long"]
+    with pytest.raises(Refusal) as caught:
+        strict_json.loads(b"[1" + b"0" * 5000 + b"]", checks=checks)
+    assert caught.value.code == "value-not-representable"
+
+
+@pytest.mark.parametrize(
+    ("text", "holds"),
+    [("0.1", True), ("1e5", True), ("1.50", True), ("5e-324", True), ("1.5e10", True), ("2.5e-7", True),
+     ("0.1000000000000000055511151231257827021181583404541015625", True),
+     ("3.141592653589793238462643383279", False), ("0.30000000000000000001", False), ("2.4703282292062328e-324", False)],
+)
+def test_a_fraction_is_admitted_only_when_its_double_holds_it(text, holds):
+    if holds:
+        assert strict_json.loads(f'{{"n":{text}}}'.encode())["n"] == float(text)
+    else:
+        with pytest.raises(Refusal) as caught:
+            strict_json.loads(f'{{"n":{text}}}'.encode())
+        assert caught.value.code == "value-not-representable"
+
+
+def test_cli_file_uri_may_carry_a_query(tmp_path, capsys):
+    transplant = case_bytes("catalog-attestations", "control-bound")
+    uri = "https://tools.example.com/mcp/invoice-reader.json?v=1"
+    raw = transplant.raw.replace(b"invoice-reader.json", b"invoice-reader.json?v=1")
+    catalog = write(tmp_path, "catalog.json", raw)
+    paths = []
+    for name, data in transplant.files.items():
+        target = uri if name.endswith("invoice-reader.json") else name
+        paths += ["--file", f"{target}={write(tmp_path, str(len(paths)) + '.bin', data)}"]
+    assert main(["admit", "catalog-attestations", catalog, *paths]) == 0, capsys.readouterr()
 
 
 def test_an_entry_digest_under_an_unknown_algorithm_binds_nothing():
     from agent_evidence_admission import catalog_rules
 
     statement = {"subject": [{"digest": {"md5": "0" * 32}}]}
-    assert not catalog_rules._binds(statement, {"digest": "md5:" + "0" * 32})
-    assert not catalog_rules._binds(statement, {"url": "https://x.example/a"})
-    assert catalog_rules._binds({"subject": [{"digest": {"sha3_256": "ab"}}]}, {"digest": "sha3-256:ab"})
+    assert not catalog_rules._binding_sets(statement, {"digest": "md5:" + "0" * 32})
+    assert not catalog_rules._binding_sets(statement, {"url": "https://x.example/a"})
+    assert catalog_rules._binding_sets({"subject": [{"digest": {"sha3_256": "ab"}}]}, {"digest": "sha3-256:ab"})
 
 
 @pytest.mark.parametrize(

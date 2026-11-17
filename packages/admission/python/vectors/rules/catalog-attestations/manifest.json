@@ -90,6 +90,103 @@
    "rationale": "a catalog whose entries is an object"
   },
   {
+   "id": "digest-set-split",
+   "text": "{\"entries\":[{\"identifier\":\"urn:air:tools.example.com:server:invoice-reader\",\"type\":\"application/mcp-server-card+json\",\"url\":\"https://tools.example.com/mcp/invoice-reader.json\",\"digest\":\"sha512:4a9159ccad601333e3f6012d5f18e85aac92e8a075240b10b7d7bc729e2be9aeb3486b6f91f19da437d7c1345b6443168f296ecfd803462a2eab53debe0bac98\",\"trustManifest\":{\"attestations\":[{\"type\":\"scan\",\"uri\":\"https://tools.example.com/trust/invoice-reader.intoto.json\",\"digest\":\"sha256:ff73d97195c7829edb04b7c1c1b5762446627042e8990876c5a8a506ed56c86a\"}]}}]}",
+   "files": {
+    "https://tools.example.com/mcp/invoice-reader.json": {
+     "base64": "eyJuYW1lIjoiaW52b2ljZS1yZWFkZXIiLCJ0b29scyI6W3sibmFtZSI6ImV4dHJhY3QifV19Cg=="
+    },
+    "https://tools.example.com/trust/invoice-reader.intoto.json": {
+     "base64": "eyJwYXlsb2FkVHlwZSI6ImFwcGxpY2F0aW9uL3ZuZC5pbi10b3RvK2pzb24iLCJwYXlsb2FkIjoiZXlKZmRIbHdaU0k2SW1oMGRIQnpPaTh2YVc0dGRHOTBieTVwYnk5VGRHRjBaVzFsYm5RdmRqRWlMQ0p6ZFdKcVpXTjBJanBiZXlKdVlXMWxJam9pZFhKdU9tRnBjanAwYjI5c2N5NWxlR0Z0Y0d4bExtTnZiVHB6WlhKMlpYSTZhVzUyYjJsalpTMXlaV0ZrWlhJaUxDSmthV2RsYzNRaU9uc2ljMmhoTWpVMklqb2lNVEV4TVRFeE1URXhNVEV4TVRFeE1URXhNVEV4TVRFeE1URXhNVEV4TVRFeE1URXhNVEV4TVRFeE1URXhNVEV4TVRFeE1URXhNVEV4TVRFeE1URXhNU0lzSW5Ob1lUVXhNaUk2SWpSaE9URTFPV05qWVdRMk1ERXpNek5sTTJZMk1ERXlaRFZtTVRobE9EVmhZV001TW1VNFlUQTNOVEkwTUdJeE1HSTNaRGRpWXpjeU9XVXlZbVU1WVdWaU16UTRObUkyWmpreFpqRTVaR0UwTXpka04yTXhNelExWWpZME5ETXhOamhtTWprMlpXTm1aRGd3TXpRMk1tRXlaV0ZpTlROa1pXSmxNR0poWXprNEluMTlYU3dpY0hKbFpHbGpZWFJsVkhsd1pTSTZJbWgwZEhCek9pOHZaWGhoYlhCc1pTNXZjbWN2YzJOaGJpOTJNU0lzSW5CeVpXUnBZMkYwWlNJNmV5SnlaWE4xYkhRaU9pSndZWE56SW4xOSIsInNpZ25hdHVyZXMiOlt7ImtleWlkIjoidGVzdC1rZXkiLCJzaWciOiJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUT09In1dfQ=="
+    }
+   },
+   "expect": {
+    "verdict": "refuse",
+    "code": "attestation_digest_set_split"
+   },
+   "rationale": "the subject carries the entry's SHA-512 and other bytes' SHA-256: a verifier that prefers SHA-256 binds the other bytes"
+  },
+  {
+   "id": "payload-not-a-statement",
+   "text": "{\"entries\":[{\"identifier\":\"urn:air:tools.example.com:server:invoice-reader\",\"type\":\"application/mcp-server-card+json\",\"url\":\"https://tools.example.com/mcp/invoice-reader.json\",\"digest\":\"sha256:d8162fe30daa811e0292cfa5c2f80f6503bf766014f8a3a03cbbefec129fc69b\",\"trustManifest\":{\"attestations\":[{\"type\":\"scan\",\"uri\":\"https://tools.example.com/trust/invoice-reader.intoto.json\",\"digest\":\"sha256:432b211a2272b2e06547b09677dc7db5cb26b0097368090164a9f47a7b4cdf27\"}]}}]}",
+   "files": {
+    "https://tools.example.com/mcp/invoice-reader.json": {
+     "base64": "eyJuYW1lIjoiaW52b2ljZS1yZWFkZXIiLCJ0b29scyI6W3sibmFtZSI6ImV4dHJhY3QifV19Cg=="
+    },
+    "https://tools.example.com/trust/invoice-reader.intoto.json": {
+     "base64": "eyJwYXlsb2FkVHlwZSI6ImFwcGxpY2F0aW9uL3ZuZC5pbi10b3RvK2pzb24iLCJwYXlsb2FkIjoiZXlKZmRIbHdaU0k2SW1oMGRIQnpPaTh2WlhoaGJYQnNaUzV2Y21jdlRtOTBRVk4wWVhSbGJXVnVkQ0lzSW5OMVltcGxZM1FpT2x0N0ltUnBaMlZ6ZENJNmV5SnphR0V5TlRZaU9pSmtPREUyTW1abE16QmtZV0U0TVRGbE1ESTVNbU5tWVRWak1tWTRNR1kyTlRBelltWTNOall3TVRSbU9HRXpZVEF6WTJKaVpXWmxZekV5T1daak5qbGlJbjE5WFgwPSIsInNpZ25hdHVyZXMiOlt7ImtleWlkIjoidGVzdC1rZXkiLCJzaWciOiJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUT09In1dfQ=="
+    }
+   },
+   "expect": {
+    "verdict": "refuse",
+    "code": "attestation_not_a_statement"
+   },
+   "rationale": "a signed in-toto envelope whose payload's _type is not an in-toto Statement"
+  },
+  {
+   "id": "payload-url-safe",
+   "text": "{\"entries\":[{\"identifier\":\"urn:air:tools.example.com:server:invoice-reader\",\"type\":\"application/mcp-server-card+json\",\"url\":\"https://tools.example.com/mcp/invoice-reader.json\",\"digest\":\"sha256:d8162fe30daa811e0292cfa5c2f80f6503bf766014f8a3a03cbbefec129fc69b\",\"trustManifest\":{\"attestations\":[{\"type\":\"scan\",\"uri\":\"https://tools.example.com/trust/invoice-reader.intoto.json\",\"digest\":\"sha256:fc1417ed0c9e3e1b0e6c15de41e6317ccbd9e2355af0567fab08a35f3846e0c0\"}]}}]}",
+   "files": {
+    "https://tools.example.com/mcp/invoice-reader.json": {
+     "base64": "eyJuYW1lIjoiaW52b2ljZS1yZWFkZXIiLCJ0b29scyI6W3sibmFtZSI6ImV4dHJhY3QifV19Cg=="
+    },
+    "https://tools.example.com/trust/invoice-reader.intoto.json": {
+     "base64": "eyJwYXlsb2FkVHlwZSI6ImFwcGxpY2F0aW9uL3ZuZC5pbi10b3RvK2pzb24iLCJwYXlsb2FkIjoiZXlKZmRIbHdaU0k2SW1oMGRIQnpPaTh2YVc0dGRHOTBieTVwYnk5VGRHRjBaVzFsYm5RdmRqRWlMQ0p6ZFdKcVpXTjBJanBiZXlKdVlXMWxJam9pZFhKdU9tRnBjanAwYjI5c2N5NWxlR0Z0Y0d4bExtTnZiVHB6WlhKMlpYSTZhVzUyYjJsalpTMXlaV0ZrWlhJaUxDSmthV2RsYzNRaU9uc2ljMmhoTWpVMklqb2laRGd4TmpKbVpUTXdaR0ZoT0RFeFpUQXlPVEpqWm1FMVl6Sm1PREJtTmpVd00ySm1OelkyTURFMFpqaGhNMkV3TTJOaVltVm1aV014TWpsbVl6WTVZaUo5ZlYwc0luQnlaV1JwWTJGMFpWUjVjR1VpT2lKb2RIUndjem92TDJWNFlXMXdiR1V1YjNKbkwzTmpZVzR2ZGpFaUxDSndjbVZrYVdOaGRHVWlPbnNpY21WemRXeDBJam9pY0dGemN5SXNJbTV2ZEdVaU9pSS1JbjE5Iiwic2lnbmF0dXJlcyI6W3sia2V5aWQiOiJ0ZXN0LWtleSIsInNpZyI6IkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRPT0ifV19"
+    }
+   },
+   "expect": {
+    "verdict": "admit"
+   },
+   "rationale": "a payload in the URL-safe base64 alphabet, which DSSE verifiers must accept"
+  },
+  {
+   "id": "size-not-an-integer",
+   "text": "{\"entries\":[{\"identifier\":\"urn:air:tools.example.com:server:invoice-reader\",\"type\":\"application/mcp-server-card+json\",\"url\":\"https://tools.example.com/mcp/invoice-reader.json\",\"digest\":\"sha256:d8162fe30daa811e0292cfa5c2f80f6503bf766014f8a3a03cbbefec129fc69b\",\"trustManifest\":{\"attestations\":[{\"type\":\"scan\",\"uri\":\"https://tools.example.com/trust/invoice-reader.intoto.json\",\"digest\":\"sha256:b6eaec6fe5606cec740a174234d4a2b42be9de659baa82db47128cfb146f5254\",\"size\":\"10\"}]}}]}",
+   "files": {
+    "https://tools.example.com/mcp/invoice-reader.json": {
+     "base64": "eyJuYW1lIjoiaW52b2ljZS1yZWFkZXIiLCJ0b29scyI6W3sibmFtZSI6ImV4dHJhY3QifV19Cg=="
+    },
+    "https://tools.example.com/trust/invoice-reader.intoto.json": {
+     "base64": "eyJwYXlsb2FkVHlwZSI6ImFwcGxpY2F0aW9uL3ZuZC5pbi10b3RvK2pzb24iLCJwYXlsb2FkIjoiZXlKZmRIbHdaU0k2SW1oMGRIQnpPaTh2YVc0dGRHOTBieTVwYnk5VGRHRjBaVzFsYm5RdmRqRWlMQ0p6ZFdKcVpXTjBJanBiZXlKdVlXMWxJam9pZFhKdU9tRnBjanAwYjI5c2N5NWxlR0Z0Y0d4bExtTnZiVHB6WlhKMlpYSTZhVzUyYjJsalpTMXlaV0ZrWlhJaUxDSmthV2RsYzNRaU9uc2ljMmhoTWpVMklqb2laRGd4TmpKbVpUTXdaR0ZoT0RFeFpUQXlPVEpqWm1FMVl6Sm1PREJtTmpVd00ySm1OelkyTURFMFpqaGhNMkV3TTJOaVltVm1aV014TWpsbVl6WTVZaUo5ZlYwc0luQnlaV1JwWTJGMFpWUjVjR1VpT2lKb2RIUndjem92TDJWNFlXMXdiR1V1YjNKbkwzTmpZVzR2ZGpFaUxDSndjbVZrYVdOaGRHVWlPbnNpY21WemRXeDBJam9pY0dGemN5SjlmUT09Iiwic2lnbmF0dXJlcyI6W3sia2V5aWQiOiJ0ZXN0LWtleSIsInNpZyI6IkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRRUJBUUVCQVFFQkFRPT0ifV19"
+    }
+   },
+   "expect": {
+    "verdict": "refuse",
+    "code": "attestation_malformed"
+   },
+   "rationale": "a size written as a string bounds nothing"
+  },
+  {
+   "id": "uri-not-a-string-warned",
+   "text": "{\"entries\":[{\"identifier\":\"urn:air:tools.example.com:server:invoice-reader\",\"type\":\"application/mcp-server-card+json\",\"url\":\"https://tools.example.com/mcp/invoice-reader.json\",\"digest\":\"sha256:d8162fe30daa811e0292cfa5c2f80f6503bf766014f8a3a03cbbefec129fc69b\",\"trustManifest\":{\"attestations\":[{\"type\":\"scan\",\"uri\":7,\"digest\":\"sha256:b6eaec6fe5606cec740a174234d4a2b42be9de659baa82db47128cfb146f5254\"}]}}]}",
+   "files": {
+    "https://tools.example.com/mcp/invoice-reader.json": {
+     "base64": "eyJuYW1lIjoiaW52b2ljZS1yZWFkZXIiLCJ0b29scyI6W3sibmFtZSI6ImV4dHJhY3QifV19Cg=="
+    }
+   },
+   "warn": [
+    "attestation-pin-not-evaluated",
+    "attestation-subject-not-evaluated"
+   ],
+   "expect": {
+    "verdict": "refuse",
+    "code": "attestation_malformed"
+   },
+   "rationale": "an attestation uri that is a number: read as not passed, a warned not-evaluated code would admit it"
+  },
+  {
+   "id": "url-not-a-string-warned",
+   "text": "{\"entries\":[{\"identifier\":\"urn:air:tools.example.com:server:invoice-reader\",\"type\":\"application/mcp-server-card+json\",\"url\":7,\"digest\":\"sha256:d8162fe30daa811e0292cfa5c2f80f6503bf766014f8a3a03cbbefec129fc69b\",\"trustManifest\":{\"identity\":\"spiffe://tools.example.com/mcp/invoice-reader\"}}]}",
+   "warn": [
+    "entry-bytes-not-evaluated"
+   ],
+   "expect": {
+    "verdict": "refuse",
+    "code": "entry_malformed"
+   },
+   "rationale": "an entry url that is a number, with the unchecked bytes warned"
+  },
+  {
    "id": "inline-bound-by-data-digest",
    "text": "{\"entries\":[{\"identifier\":\"urn:air:tools.example.com:agent:finance\",\"type\":\"application/a2a-agent-card+json\",\"trustManifests\":[{\"attestations\":[{\"type\":\"scan\",\"uri\":\"https://tools.example.com/trust/invoice-reader.intoto.json\",\"digest\":\"sha256:e48ab5c6c1c926c8239db1d56056803b243a6d836bf31da1c1ee5de982241dd0\"}]}],\"data\":{\"name\":\"inline-agent\",\"skills\":[{\"id\":\"a\",\"weight\":0.5}]}}]}",
    "files": {

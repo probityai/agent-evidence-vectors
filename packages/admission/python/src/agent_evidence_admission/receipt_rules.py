@@ -19,7 +19,10 @@ a malformed record is the case a signature check alone admits:
   signer, and a verifier that resolves keys by ``agentDid`` must not be handed a number or nothing;
 * a ``callerSignature`` comes with the ``callerDid`` it is checked against, and a ``callerDid``
   comes with the ``callerSignature`` that makes the caller a co-signer: a receipt that names a
-  caller who did not sign reads as co-signed in any display that shows the caller.
+  caller who did not sign reads as co-signed in any display that shows the caller;
+* the co-signer is another party than the signer: a ``callerDid`` equal to ``agentDid``, or a
+  ``callerSignature`` equal to ``signature`` (one Ed25519 key over one message), is one party
+  shown as two (``cosigner-is-signer``).
 
 Whether each signature verifies, and under which key, is the verifier's question after admission.
 Two signatures bind two parties to one record; they do not show the record is true, or that the
@@ -89,6 +92,10 @@ def _check_signatures(context: Context) -> None:
         context.note(Refusal("cosigner-missing", "/callerDid", "a callerSignature comes with the callerDid it is checked against"))
     if "callerDid" in receipt and "callerSignature" not in receipt:
         context.note(Refusal("cosignature-missing", "/callerSignature", "a callerDid names a co-signer, so the receipt carries its callerSignature"))
+    if "callerDid" in receipt and receipt.get("callerDid") == receipt.get("agentDid"):
+        context.note(Refusal("cosigner-is-signer", "/callerDid", "the co-signer is the agent itself: one party shown as two"))
+    elif "callerSignature" in receipt and receipt.get("callerSignature") == receipt.get("signature"):
+        context.note(Refusal("cosigner-is-signer", "/callerSignature", "the co-signature is the signature's own bytes: one key, one party"))
 
 
 def _check_identities(context: Context) -> None:

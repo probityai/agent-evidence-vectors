@@ -196,6 +196,65 @@
    "rationale": "the bound token presented with DPoP"
   },
   {
+   "id": "dpop-unbound",
+   "text": "{\"header\":{\"typ\":\"at+jwt\",\"alg\":\"ES256\"},\"claims\":{\"iss\":\"https://as.example.com\",\"aud\":\"https://mcp.example.com/mcp\",\"sub\":\"user-1\",\"exp\":1800000600,\"iat\":1799999990},\"presentation\":\"dpop\"}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "dpop-without-binding"
+   },
+   "rationale": "a token with no cnf.jkt presented with DPoP: there is no bound key to check the proof against (RFC 9449 7.1)"
+  },
+  {
+   "id": "dpop-jkt-null",
+   "text": "{\"header\":{\"typ\":\"at+jwt\",\"alg\":\"ES256\"},\"claims\":{\"iss\":\"https://as.example.com\",\"aud\":\"https://mcp.example.com/mcp\",\"sub\":\"user-1\",\"exp\":1800000600,\"iat\":1799999990,\"cnf\":{\"jkt\":null}},\"presentation\":\"dpop\"}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "dpop-without-binding"
+   },
+   "rationale": "cnf.jkt null is no binding"
+  },
+  {
+   "id": "token-endpoints-not-configured",
+   "text": "{\"header\":{\"typ\":\"at+jwt\",\"alg\":\"ES256\"},\"claims\":{\"iss\":\"https://as.example.com\",\"aud\":[\"https://mcp.example.com/mcp\",\"https://as.example.com/token\"],\"sub\":\"user-1\",\"exp\":1800000600,\"iat\":1799999990},\"presentation\":\"bearer\"}",
+   "options": {
+    "resource": "https://mcp.example.com/mcp",
+    "issuers": [
+     "https://as.example.com"
+    ],
+    "now": 1800000000
+   },
+   "expect": {
+    "verdict": "refuse",
+    "code": "token-endpoints-not-configured"
+   },
+   "rationale": "an audience array naming this resource and a token endpoint, with no token endpoints configured to catch it"
+  },
+  {
+   "id": "token-endpoints-none",
+   "text": "{\"header\":{\"typ\":\"at+jwt\",\"alg\":\"ES256\"},\"claims\":{\"iss\":\"https://as.example.com\",\"aud\":\"https://mcp.example.com/mcp\",\"sub\":\"user-1\",\"exp\":1800000600,\"iat\":1799999990},\"presentation\":\"bearer\"}",
+   "options": {
+    "resource": "https://mcp.example.com/mcp",
+    "issuers": [
+     "https://as.example.com"
+    ],
+    "tokenEndpoints": [],
+    "now": 1800000000
+   },
+   "expect": {
+    "verdict": "admit"
+   },
+   "rationale": "token endpoints configured as an empty list: the server says it has none"
+  },
+  {
+   "id": "aud-array-with-token-endpoint",
+   "text": "{\"header\":{\"typ\":\"at+jwt\",\"alg\":\"ES256\"},\"claims\":{\"iss\":\"https://as.example.com\",\"aud\":[\"https://mcp.example.com/mcp\",\"https://as.example.com/token\"],\"sub\":\"user-1\",\"exp\":1800000600,\"iat\":1799999990},\"presentation\":\"bearer\"}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "aud-is-token-endpoint"
+   },
+   "rationale": "the same audience array, endpoints configured"
+  },
+  {
    "id": "id-jag",
    "text": "{\"header\":{\"typ\":\"oauth-id-jag+jwt\",\"alg\":\"ES256\"},\"claims\":{\"iss\":\"https://as.example.com\",\"aud\":\"https://mcp.example.com/mcp\",\"sub\":\"user-1\",\"exp\":1800000600,\"iat\":1799999990,\"resource\":\"https://mcp.example.com/mcp\"},\"presentation\":\"bearer\"}",
    "expect": {

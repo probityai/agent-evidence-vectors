@@ -165,10 +165,12 @@ def _run_resolve(args: argparse.Namespace) -> int:
     return 0
 
 
-def _pairs(items: list[str], what: str) -> list[tuple[str, str]]:
+def _pairs(items: list[str], what: str, last: bool = False) -> list[tuple[str, str]]:
+    """NAME=VALUE pairs. With ``last``, split at the last ``=``: a URI's query carries ``=``
+    (``https://h/x?v=1=path``), a file path rarely does."""
     out = []
     for item in items:
-        name, sep, value = item.partition("=")
+        name, sep, value = item.rpartition("=") if last else item.partition("=")
         if not sep or not name:
             raise ValueError(f"{what} {item!r} is not NAME=VALUE")
         out.append((name, value))
@@ -189,7 +191,7 @@ def _run_admit(args: argparse.Namespace) -> int:
         rule_set = rules.get(args.rule_set)
         raw = read_source(args.document)
         options = _read_options(args)
-        files = {uri: read_source(path) for uri, path in _pairs(args.file, "--file")}
+        files = {uri: read_source(path) for uri, path in _pairs(args.file, "--file", last=True)}
         verdict = rules.run(rule_set, raw, options, files, warn=args.warn)
     except (OSError, TypeError, ValueError) as error:
         print(f"ERROR could not read: {error}", file=sys.stderr)

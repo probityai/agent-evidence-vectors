@@ -298,6 +298,53 @@
     "code": "duplicate-member"
    },
    "rationale": "the strict parse reaches into the DSSE payload"
+  },
+  {
+   "id": "duplicate-in-payload-warned",
+   "text": "{\"payloadType\":\"application/vnd.in-toto+json\",\"payload\":\"eyJfdHlwZSI6Imh0dHBzOi8vaW4tdG90by5pby9TdGF0ZW1lbnQvdjEiLCJzdWJqZWN0IjpbeyJuYW1lIjoicmVjb3JkIiwiZGlnZXN0Ijp7InNoYTI1NiI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAifX1dLCJwcmVkaWNhdGVUeXBlIjoiaHR0cHM6Ly9leGFtcGxlLm9yZy9hZ2VudC1hdWRpdC1yZWNvcmQvdjEiLCJwcmVkaWNhdGUiOnsiZGVjaXNpb24iOnsiYWN0aW9uIjoid3JpdGUiLCJyZXBvcnRlZCI6InBlcm1pdCIsInJlcG9ydGVkQXQiOiIyMDI2LTA5LTE5VDExOjA0OjAyWiJ9LCJldmFsdWF0aW9uIjp7ImlucHV0cyI6W3siaW5wdXQiOiJwb2xpY3ktc291cmNlIiwibGFzdFJlc3VsdCI6IjIwMjYtMDktMTlUMTA6MDA6MDBaIiwibWF4QWdlIjo4NjQwMH0seyJpbnB1dCI6ImtleS1zb3VyY2UiLCJsYXN0UmVzdWx0IjoiMjAyNi0wOS0xOVQxMTowMDowMFoiLCJtYXhBZ2UiOjM2MDB9LHsiaW5wdXQiOiJzdGFuZGluZy1zb3VyY2UiLCJsYXN0UmVzdWx0IjoiMjAyNi0wOS0xOVQxMDozMDowMFoiLCJtYXhBZ2UiOjM2MDB9XSwic3RhdHVzIjoiZXZhbHVhdGVkIiwic3RhdHVzIjoibm90LWV2YWx1YXRlZCJ9fX0=\",\"signatures\":[{\"keyid\":\"test-key\",\"sig\":\"AQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQ==\"}]}",
+   "warn": [
+    "duplicate-member"
+   ],
+   "expect": {
+    "verdict": "refuse",
+    "code": "evaluation-inconsistent"
+   },
+   "rationale": "the duplicate accepted as a warning: the payload is read the lenient way (the last status) and every rule still runs on it"
+  },
+  {
+   "id": "skew-option-negative",
+   "text": "{\"_type\":\"https://in-toto.io/Statement/v1\",\"subject\":[{\"name\":\"record\",\"digest\":{\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}}],\"predicateType\":\"https://example.org/agent-audit-record/v1\",\"predicate\":{\"decision\":{\"action\":\"write\",\"reported\":\"permit\",\"reportedAt\":\"2026-09-19T11:04:02Z\"},\"evaluation\":{\"inputs\":[{\"input\":\"policy-source\",\"lastResult\":\"2026-09-19T10:00:00Z\",\"maxAge\":86400},{\"input\":\"key-source\",\"lastResult\":\"2026-09-19T11:00:00Z\",\"maxAge\":3600},{\"input\":\"standing-source\",\"lastResult\":\"2026-09-19T10:30:00Z\",\"maxAge\":3600}],\"status\":\"evaluated\"}}}",
+   "options": {
+    "skew": -1
+   },
+   "expect": {
+    "verdict": "refuse",
+    "code": "option-malformed"
+   },
+   "rationale": "a negative skew is the caller's error, not the record's"
+  },
+  {
+   "id": "skew-option-string",
+   "text": "{\"_type\":\"https://in-toto.io/Statement/v1\",\"subject\":[{\"name\":\"record\",\"digest\":{\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}}],\"predicateType\":\"https://example.org/agent-audit-record/v1\",\"predicate\":{\"decision\":{\"action\":\"write\",\"reported\":\"permit\",\"reportedAt\":\"2026-09-19T11:04:02Z\"},\"evaluation\":{\"inputs\":[{\"input\":\"policy-source\",\"lastResult\":\"2026-09-19T10:00:00Z\",\"maxAge\":86400},{\"input\":\"key-source\",\"lastResult\":\"2026-09-19T11:00:00Z\",\"maxAge\":3600},{\"input\":\"standing-source\",\"lastResult\":\"2026-09-19T10:30:00Z\",\"maxAge\":3600}],\"status\":\"evaluated\"}}}",
+   "options": {
+    "skew": "300"
+   },
+   "expect": {
+    "verdict": "refuse",
+    "code": "option-malformed"
+   },
+   "rationale": "skew written as a string is not coerced"
+  },
+  {
+   "id": "skew-option-wider",
+   "text": "{\"_type\":\"https://in-toto.io/Statement/v1\",\"subject\":[{\"name\":\"record\",\"digest\":{\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}}],\"predicateType\":\"https://example.org/agent-audit-record/v1\",\"predicate\":{\"decision\":{\"action\":\"write\",\"reported\":\"permit\",\"reportedAt\":\"2026-09-19T11:04:02Z\"},\"evaluation\":{\"inputs\":[{\"input\":\"policy-source\",\"lastResult\":\"2026-09-19T10:00:00Z\",\"maxAge\":86400},{\"input\":\"key-source\",\"lastResult\":\"2026-09-19T11:00:00Z\",\"maxAge\":3600},{\"input\":\"standing-source\",\"lastResult\":\"2026-09-19T11:09:03Z\",\"maxAge\":3600}],\"status\":\"evaluated\"}}}",
+   "options": {
+    "skew": 400
+   },
+   "expect": {
+    "verdict": "admit"
+   },
+   "rationale": "a skew of 400 s admits a result 301 s after reportedAt"
   }
  ]
 }

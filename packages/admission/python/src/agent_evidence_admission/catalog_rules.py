@@ -21,7 +21,20 @@ Every member this set reads has the shape the format gives it, or the entry is r
 a trust manifest or an attestation that is not an object, or an ``entries``, ``trustManifests`` or
 ``attestations`` that is not an array, is refused (``entry_malformed``,
 ``trust_manifest_malformed``, ``attestation_malformed``) rather than skipped, because a skipped
-attestation is one no rule here judged and a lenient reader still follows.
+attestation is one no rule here judged and a lenient reader still follows. So is an entry ``url``
+or an attestation ``uri`` that is not a non-empty string (read as "not passed", it would turn a
+malformed pin into a gap the caller may accept by warning), and an attestation ``size`` that is
+not a whole number of bytes (skipped, it bounds nothing).
+
+A binding subject must agree with the artifact under every algorithm it names. A digest set that
+carries the entry's SHA-512 and some other bytes' SHA-256 names two artifacts: a verifier that
+matches SHA-512 binds the entry, one that prefers SHA-256 binds the other bytes. Where the caller
+passed the artifact (or the entry is inline), each algorithm in the subject's digest set is
+computed and a disagreement is refused (``attestation_digest_set_split``).
+
+The statement inside the envelope must be an in-toto Statement (``_type`` of
+``https://in-toto.io/Statement/v1`` or ``v0.1``), not any JSON object with a ``subject`` array
+(``attestation_not_a_statement``). Both base64 alphabets are read, as DSSE requires of a verifier.
 
 The caller passes the bytes it holds in ``files``, keyed by the URL or URI the catalog names; an
 inline ``data:`` URI is read directly. Nothing is fetched. A pin whose bytes the caller did not
@@ -42,6 +55,7 @@ from typing import Any
 
 from . import strict_json
 from .canonical import canonical_bytes
+from .dsse import decode_base64
 from .rules import Check, Context, RuleSet, register
 from .strict_json import Refusal
 
@@ -56,6 +70,10 @@ ALGORITHMS = {
 }
 WEAK = frozenset({"md5", "sha1", "sha-1", "sha224", "sha-224"})
 IN_TOTO_PAYLOAD_TYPE = "application/vnd.in-toto+json"
+STATEMENT_TYPES = frozenset({"https://in-toto.io/Statement/v1", "https://in-toto.io/Statement/v0.1"})
+#: in-toto digest-set keys and their hashlib names, for the algorithms this set computes.
+DIGEST_SET_ALGORITHMS = {"sha256": "sha256", "sha384": "sha384", "sha512": "sha512",
+                         "sha3_256": "sha3_256", "sha3_384": "sha3_384", "sha3_512": "sha3_512"}
 
 
 def _entries(document: Any, prefix: str = "") -> Iterator[tuple[str, dict[str, Any]]]:
@@ -130,6 +148,8 @@ def _shape_refusals(catalog: Any, prefix: str = "") -> Iterator[Refusal]:
         if not isinstance(entry, dict):
             yield Refusal("entry_malformed", path, "an entry is an object")
             continue
+        if "url" in entry and not _nonempty(entry["url"]):
+            yield Refusal("entry_malformed", f"{path}/url", "url is a non-empty string")
         if "trustManifest" in entry and not isinstance(entry["trustManifest"], dict):
             yield Refusal("trust_manifest_malformed", f"{path}/trustManifest", "trustManifest is an object")
         if "trustManifests" in entry:
@@ -148,11 +168,22 @@ def _shape_refusals(catalog: Any, prefix: str = "") -> Iterator[Refusal]:
                 yield Refusal("attestation_malformed", f"{mpath}/attestations", "attestations is an array")
                 continue
             for a, item in enumerate(items):
+                apath = f"{mpath}/attestations/{a}"
                 if not isinstance(item, dict):
-                    yield Refusal("attestation_malformed", f"{mpath}/attestations/{a}", "an attestation is an object")
+                    yield Refusal("attestation_malformed", apath, "an attestation is an object")
+                    continue
+                if not _nonempty(item.get("uri")):
+                    yield Refusal("attestation_malformed", f"{apath}/uri", "an attestation names its document by a non-empty string uri")
+                size = item.get("size")
+                if "size" in item and (isinstance(size, bool) or not isinstance(size, int) or size < 0):
+                    yield Refusal("attestation_malformed", f"{apath}/size", "size is a whole number of bytes")
         data = entry.get("data")
         if isinstance(data, dict) and "entries" in data:
             yield from _shape_refusals(data, f"{path}/data")
+
+
+def _nonempty(value: Any) -> bool:
+    return isinstance(value, str) and bool(value)
 
 
 def _check_entry_shape(context: Context) -> None:
@@ -273,15 +304,12 @@ def _check_attestation_pins(context: Context) -> None:
 
 
 def _signature_present(signature: Any) -> bool:
-    """A DSSE signature entry whose ``sig`` is non-empty, valid base64 (standard or URL-safe)."""
+    """A DSSE signature entry whose ``sig`` is non-empty, canonical base64 (standard or URL-safe)."""
     sig = signature.get("sig") if isinstance(signature, dict) else None
-    if not isinstance(sig, str) or not sig:
-        return False
     try:
-        decoded = base64.b64decode(sig.replace("-", "+").replace("_", "/"), validate=True)
-    except (ValueError, binascii.Error):
+        return bool(decode_base64(sig, "sig"))
+    except ValueError:
         return False
-    return bool(decoded)
 
 
 def _statement(held: bytes) -> tuple[dict[str, Any] | None, str]:
@@ -298,10 +326,14 @@ def _statement(held: bytes) -> tuple[dict[str, Any] | None, str]:
     if envelope.get("payloadType") != IN_TOTO_PAYLOAD_TYPE:
         return None, "attestation_payload_type"
     try:
-        statement = strict_json.loads(base64.b64decode(envelope["payload"], validate=True))
-    except (Refusal, ValueError, binascii.Error):
+        statement = strict_json.loads(decode_base64(envelope["payload"], "payload"))
+    except (Refusal, ValueError):
         return None, "attestation_unsigned"
-    return (statement, "") if isinstance(statement, dict) else (None, "attestation_unsigned")
+    if not isinstance(statement, dict):
+        return None, "attestation_unsigned"
+    if statement.get("_type") not in STATEMENT_TYPES:
+        return None, "attestation_not_a_statement"
+    return statement, ""
 
 
 def _entry_digest(entry: dict[str, Any]) -> tuple[str, str] | None:
@@ -316,19 +348,37 @@ def _entry_digest(entry: dict[str, Any]) -> tuple[str, str] | None:
     return None
 
 
-def _binds(statement: dict[str, Any], entry: dict[str, Any]) -> bool:
-    """A subject whose digest set carries the entry's digest under the same algorithm. The name is
-    not a binding: two artifacts can carry one name, and only the digest says which one."""
+def _binding_sets(statement: dict[str, Any], entry: dict[str, Any]) -> list[dict[str, Any]]:
+    """The digest sets of the subjects that carry the entry's digest under the same algorithm. The
+    name is not a binding: two artifacts can carry one name, and only the digest says which one."""
     subjects = statement.get("subject")
     expected = _entry_digest(entry)
     if expected is None:
-        return False
+        return []
     key, hexvalue = expected
+    out = []
     for subject in subjects if isinstance(subjects, list) else []:
         named = subject.get("digest") if isinstance(subject, dict) else None
         if isinstance(named, dict) and named.get(key) == hexvalue:
-            return True
-    return False
+            out.append(named)
+    return out
+
+
+def _artifact_bytes(context: Context, entry: dict[str, Any]) -> bytes | None:
+    """The bytes the entry's digest is over, when this set holds them: an inline entry's RFC 8785
+    data, or the bytes the caller passed for its url."""
+    if "data" in entry and "url" not in entry:
+        return canonical_bytes(entry["data"])
+    return _held(context, entry.get("url"))
+
+
+def _split(digest_set: dict[str, Any], data: bytes) -> str | None:
+    """The first algorithm of ``digest_set`` under which ``data`` has another digest, or None."""
+    for key, value in sorted(digest_set.items()):
+        name = DIGEST_SET_ALGORITHMS.get(key)
+        if name is not None and hashlib.new(name, data).hexdigest() != value:
+            return key
+    return None
 
 
 def _check_attestation_subject(context: Context) -> None:
@@ -343,10 +393,21 @@ def _check_attestation_subject(context: Context) -> None:
                 why = {
                     "attestation_unsigned": "the attestation is not a signed statement, so nothing binds it to this entry",
                     "attestation_payload_type": f"the envelope's payloadType is not {IN_TOTO_PAYLOAD_TYPE}, so its payload is not a statement",
+                    "attestation_not_a_statement": "the payload's _type is not an in-toto Statement, so its subject is not a binding",
                 }[code]
                 context.note(Refusal(code, apath, why))
-            elif not _binds(statement, entry):
-                context.note(Refusal("attestation_subject_mismatch", apath, "no subject of the signed statement carries the entry's digest"))
+            else:
+                bound = _binding_sets(statement, entry)
+                if not bound:
+                    context.note(Refusal("attestation_subject_mismatch", apath, "no subject of the signed statement carries the entry's digest"))
+                    continue
+                data = _artifact_bytes(context, entry)
+                split = None
+                for digest_set in bound if data is not None else []:
+                    split = split or _split(digest_set, data)
+                if split:
+                    context.note(Refusal("attestation_digest_set_split", apath,
+                                         f"the binding subject's {split} names other bytes than the artifact: one digest set, two artifacts"))
 
 
 CATALOG_ATTESTATIONS = register(
