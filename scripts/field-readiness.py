@@ -74,13 +74,13 @@ print(json.dumps({"checked": checked, "total": total, "notes": notes[:5]}))
 """
 TAG_PATHS = (
     "scripts/action-reference-stage.py",
+    "vectors-done-receipt",
     "action-reference-requirements.txt",
+    "packaging",
 )
-# Corpora a tag carries besides the field's own: the reference stage's cross-check
-# reads vectors-done-receipt. Releases from v0.37.0 keep every corpus under
-# corpora/; earlier tags keep it at the top level, so each is looked up in both.
-TAG_CORPORA = ("vectors-done-receipt",)
-CORPUS_HOMES = ("corpora/", "")
+# Corpus directories live under corpora/ in a tag cut after the move and at the
+# repository root in an older one. Each is read from where its tag keeps it.
+CORPUS_HOMES = ("corpora", "")
 
 
 class ReadFailed(Exception):
@@ -180,26 +180,25 @@ def check_corpus_released(
     ), tag
 
 
-def locate(name: str, present: Callable[[str], bool]) -> str:
-    """The path of corpus `name` in a tag, under corpora/ first, then at the top level."""
+def tag_has(tag: str, path: str) -> bool:
+    """Whether `path` exists in `tag`'s tree."""
+    found = subprocess.run(
+        ["git", "-C", str(ROOT), "cat-file", "-e", f"{tag}:{path}"], capture_output=True
+    )
+    return found.returncode == 0
+
+
+def locate_in_tag(tag: str, name: str) -> str:
+    """The path of corpus directory `name` in `tag`, or `name` when no home holds it."""
     for home in CORPUS_HOMES:
-        if present(home + name):
-            return home + name
-    raise ReadFailed(f"the tag carries {name} neither under corpora/ nor at the top level")
+        candidate = f"{home}/{name}" if home else name
+        if tag_has(tag, candidate):
+            return candidate
+    return name
 
 
-def in_tag(tag: str) -> Callable[[str], bool]:
-    def present(path: str) -> bool:
-        probe = subprocess.run(
-            ["git", "-C", str(ROOT), "cat-file", "-e", f"{tag}:{path}"], capture_output=True
-        )
-        return probe.returncode == 0
-
-    return present
-
-
-def fetch_tag(tag: str) -> None:
-    """Fetch `tag` when this checkout does not hold it."""
+def extract_tag(tag: str, paths: list[str], dest: Path) -> None:
+    """Write the named paths of `tag` under dest, fetching the tag if it is absent."""
     have = subprocess.run(
         ["git", "-C", str(ROOT), "rev-parse", "-q", "--verify", f"refs/tags/{tag}"],
         capture_output=True,
@@ -212,10 +211,6 @@ def fetch_tag(tag: str) -> None:
         )
         if got.returncode != 0:
             raise ReadFailed(f"git fetch tag {tag}: {got.stderr.strip()}")
-
-
-def extract_tag(tag: str, paths: list[str], dest: Path) -> None:
-    """Write the named paths of a fetched `tag` under dest."""
     archive = dest / "tag.tar"
     made = subprocess.run(
         ["git", "-C", str(ROOT), "archive", "-o", str(archive), tag, *paths],
@@ -283,12 +278,9 @@ def check_verifier_released(
 def tag_tally(tag: str, corpus: str) -> dict[str, Any]:
     with tempfile.TemporaryDirectory() as tmp:
         tree = Path(tmp)
-        fetch_tag(tag)
-        present = in_tag(tag)
-        home = locate(corpus, present)
-        others = [locate(name, present) for name in TAG_CORPORA if name != corpus]
-        extract_tag(tag, [home, *others, *TAG_PATHS], tree)
-        return run_tally(tree, home)
+        where = locate_in_tag(tag, corpus)
+        extract_tag(tag, [where, *(locate_in_tag(tag, path) for path in TAG_PATHS)], tree)
+        return run_tally(tree, where)
 
 
 def outside_run(

@@ -20,11 +20,13 @@ import sys
 import tempfile
 from collections.abc import Set as AbstractSet
 from pathlib import Path
+from typing import Any
 
 HERE = Path(__file__).resolve().parent
 spec = importlib.util.spec_from_file_location("fr", HERE / "field-readiness.py")
 assert spec is not None and spec.loader is not None
-fr = importlib.util.module_from_spec(spec)
+# Loaded from a file path at run time, so its attributes are unknown to a type checker.
+fr: Any = importlib.util.module_from_spec(spec)
 sys.modules["fr"] = fr
 spec.loader.exec_module(fr)
 
@@ -89,6 +91,40 @@ def outside(workflow_text: str, conclusion: str) -> dict[str, tuple[int, bytes]]
         f"{fr.API}/repos/a/b/actions/workflows/w.yml/runs?branch=main&status=completed&per_page=1"
     ] = (200, json.dumps({"workflow_runs": [{"conclusion": conclusion, "html_url": "u"}]}).encode())
     return pages
+
+
+def locate_cases() -> None:
+    """A corpus is found where its tag keeps it: under corpora/ or at the root."""
+    import subprocess
+
+    with tempfile.TemporaryDirectory() as tmp:
+        repo = Path(tmp)
+
+        def git(*args: str) -> None:
+            subprocess.run(["git", "-C", str(repo), *args], check=True, capture_output=True)
+
+        git("init", "-q")
+        for rel in ("corpora/vectors-new/MANIFEST.json", "vectors-old/MANIFEST.json"):
+            (repo / rel).parent.mkdir(parents=True, exist_ok=True)
+            (repo / rel).write_text("{}", encoding="utf-8")
+        git("add", ".")
+        plain = ("-c", "user.name=t", "-c", "user.email=t@example.invalid")
+        plain += ("-c", "commit.gpgsign=false", "-c", "tag.gpgsign=false")
+        git(*plain, "commit", "-q", "-m", "x")
+        git(*plain, "tag", "v1")
+        saved = fr.ROOT
+        fr.ROOT = repo
+        try:
+            for name, want in (
+                ("vectors-new", "corpora/vectors-new"),
+                ("vectors-old", "vectors-old"),
+                ("vectors-absent", "vectors-absent"),
+            ):
+                got = fr.locate_in_tag("v1", name)
+                if got != want:
+                    FAILURES.append(f"locate_in_tag({name}) gave {got}, wanted {want}")
+        finally:
+            fr.ROOT = saved
 
 
 def main() -> int:
@@ -198,22 +234,7 @@ def main() -> int:
     if fr.exit_code([fr.Check(1, "x", G, ""), fr.Check(2, "y", R, "")], 2) != 1:
         FAILURES.append("a floor that is not met must exit 1")
 
-    # The tally reads each corpus where the tag keeps it: under corpora/ from
-    # v0.37.0, at the top level before. A corpus in neither place is a read that
-    # did not complete, never a red verdict.
-    moved = {"corpora/vectors-x", "corpora/vectors-done-receipt"}
-    if fr.locate("vectors-x", moved.__contains__) != "corpora/vectors-x":
-        FAILURES.append("a corpus under corpora/ must be read there")
-    if fr.locate("vectors-x", {"vectors-x"}.__contains__) != "vectors-x":
-        FAILURES.append("a corpus at the top level of an older tag must be read there")
-    both = {"corpora/vectors-x", "vectors-x"}
-    if fr.locate("vectors-x", both.__contains__) != "corpora/vectors-x":
-        FAILURES.append("corpora/ must win when a tag carries both")
-    try:
-        fr.locate("vectors-x", set().__contains__)
-        FAILURES.append("a corpus the tag does not carry must not resolve")
-    except fr.ReadFailed:
-        pass
+    locate_cases()
 
     for failure in FAILURES:
         print(f"FAIL {failure}")

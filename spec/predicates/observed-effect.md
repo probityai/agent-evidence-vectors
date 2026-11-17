@@ -1344,7 +1344,7 @@ required at the version that defines its recompute, which is what would close
 A5 for a single-record consumer.
 
 [AEE]: adversarial-execution-evidence.md
-[agent-evidence-vocabulary]: https://github.com/probityai/agent-evidence-vocabulary
+[agent-evidence-vocabulary]: https://github.com/probityai/agent-evidence-vectors/tree/main/packages/vocabulary
 [ASQAV]: https://datatracker.ietf.org/doc/draft-marques-asqav-compliance-receipts/08/
 [DSSE]: https://github.com/secure-systems-lab/dsse
 [RFC 3339]: https://www.rfc-editor.org/rfc/rfc3339
