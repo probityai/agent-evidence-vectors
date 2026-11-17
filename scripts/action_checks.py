@@ -130,7 +130,7 @@ def count_cases(
             "os": os.name,
         }
     members = listed_members(manifest)
-    missing_disk = sorted(m["path"] for m in members if m["path"] not in disk)
+    missing_disk = sorted(m["path"] for m in members if not _member_on_disk(m, disk))
     missing_report: list[str] = []
     gap = 0
     if report is not None:
@@ -142,7 +142,8 @@ def count_cases(
             if isinstance(declared, int):
                 gap = max(declared - len(rows), 0)
         else:
-            missing_report = sorted(m["id"] for m in members if m["id"] not in scored)
+            expected = _report_units(members, report.get("unit"))
+            missing_report = sorted(i for i in expected if i not in scored)
             gap = len(missing_report)
     return {
         "manifest": True,
@@ -154,6 +155,44 @@ def count_cases(
         "reportGap": gap,
         "os": os.name,
     }
+
+
+def _member_on_disk(member: dict[str, Any], disk: set[str]) -> bool:
+    """Whether a listed member is on this runner's disk.
+
+    A member is a file, or a directory of files (the runtime corpora keep one
+    directory per case, and list its files under ``files``). A directory is
+    present when every file it lists is, or, listing none, when it holds one.
+    """
+    path = member["path"]
+    if path in disk:
+        return True
+    listed = member["entry"].get("files")
+    if isinstance(listed, dict) and listed:
+        return all(f"{path}/{name}" in disk for name in listed)
+    return any(f.startswith(path.rstrip("/") + "/") for f in disk)
+
+
+RUNTIME_UNIT = "runtime scenario"
+
+
+def _report_units(members: list[dict[str, Any]], unit: Any) -> list[str]:
+    """The ids a report's rows must cover: member ids, or a runtime contract's scenario ids.
+
+    A runtime replay scores each scenario once, and many members share one
+    scenario (`runtime.scenario.id`), so its rows are compared with the set of
+    scenarios the members name. Every other report scores members.
+    """
+    if unit != RUNTIME_UNIT:
+        return [m["id"] for m in members]
+    scenarios: list[str] = []
+    for member in members:
+        runtime = member["entry"].get("runtime")
+        scenario = runtime.get("scenario") if isinstance(runtime, dict) else None
+        name = scenario.get("id") if isinstance(scenario, dict) else None
+        if isinstance(name, str) and name not in scenarios:
+            scenarios.append(name)
+    return scenarios
 
 
 # ---------------------------------------------------------------- profiles
