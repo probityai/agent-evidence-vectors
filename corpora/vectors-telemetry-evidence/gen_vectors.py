@@ -369,6 +369,18 @@ def digest_cases() -> list[tuple[str, str, dict, str, str, str]]:
             "a digest changed after signing",
         )
     )
+    nulled = json.loads(_manifest(refs))
+    nulled["signature"] = None
+    out.append(
+        (
+            "signed-id-null-signature",
+            "OBS-5c",
+            _digest_record(consumed, _text(nulled), PINNED),
+            "contradicted",
+            "record_shape",
+            "a null signature member, which a reader that tests for None reads as unsigned",
+        )
+    )
     return out
 
 

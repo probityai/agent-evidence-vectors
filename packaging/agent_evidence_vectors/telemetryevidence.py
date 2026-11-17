@@ -243,6 +243,8 @@ def _manifest(text: str) -> dict[str, Any]:
 def _manifest_signer(manifest: dict[str, Any], record: dict[str, Any]) -> str | None:
     """The not-established reason the signature leaves, or None; a bad signature is refused."""
     signature = manifest.get("signature")
+    if "signature" in manifest and signature is None:
+        raise Refused("record_shape")
     if signature is None:
         return "unsigned_manifest" if record.get("require_signature") else None
     if (

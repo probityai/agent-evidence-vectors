@@ -1,9 +1,9 @@
 {
-  "corpusDigest": "d2defbe38e79246ce528fb49b92d709694509dcad19547fc7ded45a09a08e00e",
+  "corpusDigest": "345b94589c79fa21f2a01c055c7e5da2f7d37137666cf345aa1661a4152eb50c",
   "counts": {
     "agrees": 10,
     "cannot-tell": 6,
-    "contradicted": 19
+    "contradicted": 20
   },
   "suite": "telemetry-evidence/v1",
   "synthetic": true,
@@ -293,6 +293,19 @@
       },
       "id": "signed-id-flipped-reference",
       "path": "cases/signed-id-flipped-reference"
+    },
+    {
+      "draftId": "OBS-5c",
+      "edit": "a null signature member, which a reader that tests for None reads as unsigned",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "record_shape"
+      },
+      "files": {
+        "record.json": "33bbf5a36005947ab6a9aeea37091a66544fe2de0b2c56b45e0c85a0fb11055c"
+      },
+      "id": "signed-id-null-signature",
+      "path": "cases/signed-id-null-signature"
     },
     {
       "draftId": "OBS-7",
