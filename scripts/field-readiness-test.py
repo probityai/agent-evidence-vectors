@@ -20,11 +20,13 @@ import sys
 import tempfile
 from collections.abc import Set as AbstractSet
 from pathlib import Path
+from typing import Any
 
 HERE = Path(__file__).resolve().parent
 spec = importlib.util.spec_from_file_location("fr", HERE / "field-readiness.py")
 assert spec is not None and spec.loader is not None
-fr = importlib.util.module_from_spec(spec)
+# Loaded from a file path at run time, so its attributes are unknown to a type checker.
+fr: Any = importlib.util.module_from_spec(spec)
 sys.modules["fr"] = fr
 spec.loader.exec_module(fr)
 
