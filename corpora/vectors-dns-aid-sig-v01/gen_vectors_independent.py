@@ -23,8 +23,10 @@ from typing import Any
 P = 0xFFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFF
 A = P - 3
 N = 0xFFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA7179E84F3B9CAC2FC632551
-G = (0x6B17D1F2E12C4247F8BCE6E563A440F277037D812DEB33A0F4A13945D898C296,
-     0x4FE342E2FE1A7F9B8EE7EB4A7C0F9E162BCE33576B315ECECBB6406837BF51F5)
+G = (
+    0x6B17D1F2E12C4247F8BCE6E563A440F277037D812DEB33A0F4A13945D898C296,
+    0x4FE342E2FE1A7F9B8EE7EB4A7C0F9E162BCE33576B315ECECBB6406837BF51F5,
+)
 ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
 NOW = 1790000000
 ZONE = "example.com"
@@ -61,12 +63,12 @@ def mul(k: int, point: tuple[int, int]) -> tuple[int, int]:
 def enc(data: bytes) -> str:
     bits = "".join(f"{b:08b}" for b in data)
     bits += "0" * (-len(bits) % 6)
-    return "".join(ALPHABET[int(bits[i:i + 6], 2)] for i in range(0, len(bits), 6))
+    return "".join(ALPHABET[int(bits[i : i + 6], 2)] for i in range(0, len(bits), 6))
 
 
 def dec(text: str) -> bytes:
     bits = "".join(f"{ALPHABET.index(c):06b}" for c in text)
-    return bytes(int(bits[i:i + 8], 2) for i in range(0, len(bits) - len(bits) % 8, 8))
+    return bytes(int(bits[i : i + 8], 2) for i in range(0, len(bits) - len(bits) % 8, 8))
 
 
 def string(s: str, ascii_only: bool) -> str:
@@ -122,7 +124,15 @@ def pretty(v: Any, depth: int = 0) -> str:
     if isinstance(v, dict):
         if not v:
             return "{}"
-        return "{\n" + ",\n".join(inner + string(k, True) + ": " + pretty(v[k], depth + 1) for k in sorted(v)) + "\n" + pad + "}"
+        return (
+            "{\n"
+            + ",\n".join(
+                inner + string(k, True) + ": " + pretty(v[k], depth + 1) for k in sorted(v)
+            )
+            + "\n"
+            + pad
+            + "}"
+        )
     if isinstance(v, list):
         if not v:
             return "[]"
@@ -131,7 +141,11 @@ def pretty(v: Any, depth: int = 0) -> str:
 
 
 def secret(label: str) -> int:
-    return int.from_bytes(hashlib.sha256(f"vectors-dns-aid-sig-v01/{label}".encode()).digest(), "big") % (N - 1) + 1
+    return (
+        int.from_bytes(hashlib.sha256(f"vectors-dns-aid-sig-v01/{label}".encode()).digest(), "big")
+        % (N - 1)
+        + 1
+    )
 
 
 def rfc6979_k(x: int, h1: bytes) -> int:
@@ -162,35 +176,81 @@ def sign(label: str, message: bytes) -> bytes:
 
 def key_set(label: str) -> dict[str, Any]:
     qx, qy = mul(secret(label), G)
-    return {"keys": [{"crv": "P-256", "kid": "k1", "kty": "EC", "x": enc(qx.to_bytes(32, "big")),
-                      "y": enc(qy.to_bytes(32, "big"))}]}
+    return {
+        "keys": [
+            {
+                "crv": "P-256",
+                "kid": "k1",
+                "kty": "EC",
+                "x": enc(qx.to_bytes(32, "big")),
+                "y": enc(qy.to_bytes(32, "big")),
+            }
+        ]
+    }
 
 
 def fingerprint(ks: dict[str, Any]) -> str:
-    lines = sorted(":".join(k.get(f, "") for f in ("kty", "crv", "x", "y", "n", "e")) for k in ks["keys"])
+    lines = sorted(
+        ":".join(k.get(f, "") for f in ("kty", "crv", "x", "y", "n", "e")) for k in ks["keys"]
+    )
     return enc(hashlib.sha256("\n".join(lines).encode()).digest())
 
 
 def digest(params: dict[str, Any], prefix: str = "svcb1:") -> str:
-    return enc(hashlib.sha256((prefix + compact({k: v for k, v in params.items() if v is not None})).encode()).digest())
+    return enc(
+        hashlib.sha256(
+            (prefix + compact({k: v for k, v in params.items() if v is not None})).encode()
+        ).digest()
+    )
 
 
 HDR = {"alg": "ES256", "kid": "k1", "typ": "JWT"}
-FULL = {"bap": None, "cap": "https://chat.example.com/.well-known/agent-cap.json",
-        "cap-sha256": "47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU", "connect-class": None,
-        "connect-meta": None, "enroll-uri": None, "policy": "https://example.com/agent-policy",
-        "realm": "prod", "well-known": None}
+FULL = {
+    "bap": None,
+    "cap": "https://chat.example.com/.well-known/agent-cap.json",
+    "cap-sha256": "47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU",
+    "connect-class": None,
+    "connect-meta": None,
+    "enroll-uri": None,
+    "policy": "https://example.com/agent-policy",
+    "realm": "prod",
+    "well-known": None,
+}
 BARE = dict(FULL, realm=None)
-REC = {"alpn": "a2a", "fqdn": "_chat._a2a._agents.example.com", "params": FULL, "port": 443,
-       "target": "chat.example.com", "zone": ZONE}
-REC2 = {"alpn": "a2a", "fqdn": "chat.example.com", "params": BARE, "port": 443,
-        "target": "chat.example.com", "zone": ZONE}
+REC = {
+    "alpn": "a2a",
+    "fqdn": "_chat._a2a._agents.example.com",
+    "params": FULL,
+    "port": 443,
+    "target": "chat.example.com",
+    "zone": ZONE,
+}
+REC2 = {
+    "alpn": "a2a",
+    "fqdn": "chat.example.com",
+    "params": BARE,
+    "port": 443,
+    "target": "chat.example.com",
+    "zone": ZONE,
+}
 
 
-def body(rec: dict[str, Any], params: dict[str, Any] | None = None, svcb: bool = True, alpn: str | None = None,
-         iat: int = NOW - 60, exp: int = NOW + 86400) -> dict[str, Any]:
-    out = {"alpn": alpn or rec["alpn"], "exp": exp, "fqdn": rec["fqdn"], "iat": iat, "port": rec["port"],
-           "target": rec["target"]}
+def body(
+    rec: dict[str, Any],
+    params: dict[str, Any] | None = None,
+    svcb: bool = True,
+    alpn: str | None = None,
+    iat: int = NOW - 60,
+    exp: int = NOW + 86400,
+) -> dict[str, Any]:
+    out = {
+        "alpn": alpn or rec["alpn"],
+        "exp": exp,
+        "fqdn": rec["fqdn"],
+        "iat": iat,
+        "port": rec["port"],
+        "target": rec["target"],
+    }
     if svcb:
         out["svcb"] = digest(rec["params"] if params is None else params)
     return out
@@ -206,7 +266,13 @@ def raw_header(header_text: str) -> str:
     return f"{h}.{p}.{enc(sign('owner', f'{h}.{p}'.encode()))}"
 
 
-def case(rec: dict[str, Any], sig: str, keys: str = "owner", url: str | None = URL, authority: Any = "owner") -> dict[str, Any]:
+def case(
+    rec: dict[str, Any],
+    sig: str,
+    keys: str = "owner",
+    url: str | None = URL,
+    authority: Any = "owner",
+) -> dict[str, Any]:
     out: dict[str, Any] = {"jwks": key_set(keys), "now": NOW, "record": rec, "sig": sig}
     if url is not None:
         out["jwks_url"] = url
@@ -235,13 +301,20 @@ def jwk_case(sig: str, **changes: Any) -> dict[str, Any]:
 
 def with_malformed_first_key() -> dict[str, Any]:
     out = case(REC, jws("owner", compact(body(REC)), {"alg": "ES256", "typ": "JWT"}))
-    out["jwks"]["keys"].insert(0, {"crv": "P-256", "kid": "k0", "kty": "EC", "x": "not base64url!", "y": ""})
+    out["jwks"]["keys"].insert(
+        0, {"crv": "P-256", "kid": "k0", "kty": "EC", "x": "not base64url!", "y": ""}
+    )
     out["key_authority"] = {"jwks_fingerprint": fingerprint(out["jwks"]), "kind": "pin"}
     return out
 
 
 #: Member files whose text is edited after writing: (the line to find, the line put in front of it).
-EDITS = {"member-duplicate-target": ('  "target": "chat.example.com",\n', '  "target": "evil.example.net",\n')}
+EDITS = {
+    "member-duplicate-target": (
+        '  "target": "chat.example.com",\n',
+        '  "target": "evil.example.net",\n',
+    )
+}
 
 
 def table() -> dict[str, dict[str, Any]]:
@@ -253,56 +326,116 @@ def table() -> dict[str, dict[str, Any]]:
     dup = '{"fqdn":"_x._a2a._agents.evil.example",' + compact(body(REC))[1:]
     floated = compact(body(REC)).replace('"port":443', '"port":443.0')
     nopre = dict(body(REC), svcb=digest(FULL, prefix=""))
+    high_s = (N - int.from_bytes(dec(s)[32:], "big")).to_bytes(32, "big")
     return {
         "full-coverage-valid": case(REC, good),
         "endpoint-only": case(REC, jws("owner", compact(body(REC, svcb=False)))),
-        "param-tamper-cap-sha256": case(served(REC, params={"cap-sha256": "AAAA" + FULL["cap-sha256"][4:]}), good),
+        "param-tamper-cap-sha256": case(
+            served(REC, params={"cap-sha256": "AAAA" + FULL["cap-sha256"][4:]}), good
+        ),
         "endpoint-tamper-target": case(served(REC, target="evil.example.net"), good),
         "expired": case(REC, jws("owner", compact(body(REC, iat=NOW - 7200, exp=NOW - 3600)))),
         "wrong-key": case(REC, jws("second", compact(body(REC)))),
         "alg-none": case(REC, enc(compact({"alg": "none", "kid": "k1"}).encode()) + "." + p + "."),
         "sig-bitflip": case(REC, f"{h}.{p}.{enc(bytes(flipped))}"),
-        "svcb1-field-boundary": case(served(REC, params={"cap": "u\nrealm=t", "realm": None}),
-                                     jws("owner", compact(body(REC, params=dict(FULL, cap="u", realm="t"))))),
+        "svcb1-field-boundary": case(
+            served(REC, params={"cap": "u\nrealm=t", "realm": None}),
+            jws("owner", compact(body(REC, params=dict(FULL, cap="u", realm="t")))),
+        ),
         "dup-member-fqdn": case(REC, jws("owner", dup)),
         "port-float": case(REC, jws("owner", floated)),
-        "iat-future": case(REC, jws("owner", compact(body(REC, iat=NOW + 86400, exp=NOW + 2 * 86400)))),
-        "foreign-key-no-provenance": case(REC2, jws("attacker", compact(body(REC2))), "attacker", None, None),
-        "foreign-key-wrong-host": case(REC2, jws("attacker", compact(body(REC2))), "attacker",
-                                       "https://dns-aid.attacker.example/.well-known/dns-aid-jwks.json", None),
+        "iat-future": case(
+            REC, jws("owner", compact(body(REC, iat=NOW + 86400, exp=NOW + 2 * 86400)))
+        ),
+        "foreign-key-no-provenance": case(
+            REC2, jws("attacker", compact(body(REC2))), "attacker", None, None
+        ),
+        "foreign-key-wrong-host": case(
+            REC2,
+            jws("attacker", compact(body(REC2))),
+            "attacker",
+            "https://dns-aid.attacker.example/.well-known/dns-aid-jwks.json",
+            None,
+        ),
         "foreign-key-pinned-owner": case(REC2, jws("attacker", compact(body(REC2))), "attacker"),
         "owner-key-pinned-control": case(REC2, jws("owner", compact(body(REC2)))),
-        "crit-unknown-extension": case(REC2, jws("owner", compact(body(REC2)), dict(HDR, crit=["x-scope"], **{"x-scope": "tenant-a"}))),
+        "crit-unknown-extension": case(
+            REC2,
+            jws(
+                "owner", compact(body(REC2)), dict(HDR, crit=["x-scope"], **{"x-scope": "tenant-a"})
+            ),
+        ),
         "crit-empty-list": case(REC2, jws("owner", compact(body(REC2)), dict(HDR, crit=[]))),
-        "crit-names-registered-header": case(REC2, jws("owner", compact(body(REC2)), dict(HDR, crit=["alg"]))),
-        "proto-field-agent-protocol": case(served(REC2, alpn="h2,h3", proto="a2a"), jws("owner", compact(body(REC2, alpn="a2a")))),
+        "crit-names-registered-header": case(
+            REC2, jws("owner", compact(body(REC2)), dict(HDR, crit=["alg"]))
+        ),
+        "proto-field-agent-protocol": case(
+            served(REC2, alpn="h2,h3", proto="a2a"), jws("owner", compact(body(REC2, alpn="a2a")))
+        ),
         "malformed-header-base64url": case(REC2, "a." + p + ".AAAA"),
-        "realm-empty-injected": case(served(REC2, params={"realm": ""}), jws("owner", compact(body(REC2)))),
-        "realm-value-injected": case(served(REC2, params={"realm": "prod"}), jws("owner", compact(body(REC2)))),
-        "bap-empty-injected": case(served(REC2, params={"bap": ""}), jws("owner", compact(body(REC2)))),
+        "realm-empty-injected": case(
+            served(REC2, params={"realm": ""}), jws("owner", compact(body(REC2)))
+        ),
+        "realm-value-injected": case(
+            served(REC2, params={"realm": "prod"}), jws("owner", compact(body(REC2)))
+        ),
+        "bap-empty-injected": case(
+            served(REC2, params={"bap": ""}), jws("owner", compact(body(REC2)))
+        ),
         "svcb1-without-domain-prefix": case(REC, jws("owner", compact(nopre))),
-        "svcb1-newline-in-signed-value": case(served(REC, params={"cap": "u", "realm": "t"}),
-                                              jws("owner", compact(body(REC, params=dict(FULL, cap="u\nrealm=t", realm=None))))),
-        "header-duplicate-alg": case(REC, raw_header('{"alg":"none","alg":"ES256","kid":"k1","typ":"JWT"}')),
+        "svcb1-newline-in-signed-value": case(
+            served(REC, params={"cap": "u", "realm": "t"}),
+            jws("owner", compact(body(REC, params=dict(FULL, cap="u\nrealm=t", realm=None)))),
+        ),
+        "header-duplicate-alg": case(
+            REC, raw_header('{"alg":"none","alg":"ES256","kid":"k1","typ":"JWT"}')
+        ),
         "signature-truncated": case(REC, f"{h}.{p}.{enc(dec(s)[:63])}"),
-        "key-set-without-ec-key": dict(case(REC, good), jwks={"keys": [{"e": "AQAB", "kid": "k1", "kty": "RSA",
-                                       "n": enc(hashlib.sha256(b"vectors-dns-aid-sig-v01/rsa-n").digest())}]}),
+        "key-set-without-ec-key": dict(
+            case(REC, good),
+            jwks={
+                "keys": [
+                    {
+                        "e": "AQAB",
+                        "kid": "k1",
+                        "kty": "RSA",
+                        "n": enc(hashlib.sha256(b"vectors-dns-aid-sig-v01/rsa-n").digest()),
+                    }
+                ]
+            },
+        ),
         "payload-array": case(REC, jws("owner", '["_chat._a2a._agents.example.com"]')),
         "record-without-zone": case({k: v for k, v in REC.items() if k != "zone"}, good),
-        "key-authority-dnssec-chain": dict(case(REC, good, authority=None), key_authority={"kind": "dnssec-chain"}),
+        "key-authority-dnssec-chain": dict(
+            case(REC, good, authority=None), key_authority={"kind": "dnssec-chain"}
+        ),
         "signature-base64url-non-canonical": case(REC, f"{h}.{p}.{s[:-1]}{ALPHABET[last]}"),
         "payload-nan-literal": case(REC, tail(',"z":NaN')),
-        "header-infinity-literal": case(REC, raw_header('{"alg":"ES256","kid":"k1","typ":"JWT","x":-Infinity}')),
+        "header-infinity-literal": case(
+            REC, raw_header('{"alg":"ES256","kid":"k1","typ":"JWT","x":-Infinity}')
+        ),
         "payload-lone-surrogate": case(REC, tail(',"z":"\\ud800"')),
         "payload-noncharacter": case(REC, tail(',"z":"\ufdd0"')),
-        "exp-beyond-safe-integer": case(REC, jws("owner", compact(body(REC, exp=9007199254740992)))),
-        "port-out-of-range": case(dict(REC, port=65536), jws("owner", compact(body(dict(REC, port=65536))))),
-        "jwks-url-backslash-userinfo": case(REC2, jws("owner", compact(body(REC2))),
-                                            url="https://evil.example\\@dns-aid.example.com/.well-known/dns-aid-jwks.json"),
-        "jwks-url-userinfo": case(REC2, jws("owner", compact(body(REC2))),
-                                  url="https://agent@dns-aid.example.com/.well-known/dns-aid-jwks.json"),
-        "target-kelvin-sign": case(served(REC, target="\u212achat.example.com"),
-                                   jws("owner", compact(body(dict(REC, target="kchat.example.com"))))),
+        "exp-beyond-safe-integer": case(
+            REC, jws("owner", compact(body(REC, exp=9007199254740992)))
+        ),
+        "port-out-of-range": case(
+            dict(REC, port=65536), jws("owner", compact(body(dict(REC, port=65536))))
+        ),
+        "jwks-url-backslash-userinfo": case(
+            REC2,
+            jws("owner", compact(body(REC2))),
+            url="https://evil.example\\@dns-aid.example.com/.well-known/dns-aid-jwks.json",
+        ),
+        "jwks-url-userinfo": case(
+            REC2,
+            jws("owner", compact(body(REC2))),
+            url="https://agent@dns-aid.example.com/.well-known/dns-aid-jwks.json",
+        ),
+        "target-kelvin-sign": case(
+            served(REC, target="\u212achat.example.com"),
+            jws("owner", compact(body(dict(REC, target="kchat.example.com")))),
+        ),
         "target-two-trailing-dots": case(served(REC, target="chat.example.com.."), good),
         "target-root-dot": case(served(REC, target="chat.example.com."), good),
         "fqdn-ascii-case": case(served(REC, fqdn="_CHAT._A2A._AGENTS.Example.COM"), good),
@@ -312,14 +445,26 @@ def table() -> dict[str, dict[str, Any]]:
         "jwk-x-33-bytes": jwk_case(good, x=enc(b"\x00" + dec(key_set("owner")["keys"][0]["x"]))),
         "jwk-set-skips-malformed-key": with_malformed_first_key(),
         "record-proto-empty": case(served(REC, proto=""), good),
-        "target-absent-both-sides": case({k: v for k, v in REC.items() if k != "target"},
-                                         jws("owner", compact({k: v for k, v in body(REC).items() if k != "target"}))),
-        "validity-window-inverted": case(REC, jws("owner", compact(body(REC, iat=NOW + 120, exp=NOW + 60)))),
-        "jwks-url-port-out-of-range": case(REC2, jws("owner", compact(body(REC2))),
-                                           url="https://dns-aid.example.com:99999/.well-known/dns-aid-jwks.json"),
+        "target-absent-both-sides": case(
+            {k: v for k, v in REC.items() if k != "target"},
+            jws("owner", compact({k: v for k, v in body(REC).items() if k != "target"})),
+        ),
+        "validity-window-inverted": case(
+            REC, jws("owner", compact(body(REC, iat=NOW + 120, exp=NOW + 60)))
+        ),
+        "jwks-url-port-out-of-range": case(
+            REC2,
+            jws("owner", compact(body(REC2))),
+            url="https://dns-aid.example.com:99999/.well-known/dns-aid-jwks.json",
+        ),
         "svcb1-covers-ipv4hint": case(served(REC, params={"ipv4hint": "192.0.2.66"}), good),
-        "header-b64-false": case(REC, raw_header('{"alg":"ES256","b64":false,"kid":"k1","typ":"JWT"}')),
-        "signature-high-s": case(REC, f"{h}.{p}.{enc(dec(s)[:32] + (N - int.from_bytes(dec(s)[32:], 'big')).to_bytes(32, 'big'))}"),
+        "header-b64-false": case(
+            REC, raw_header('{"alg":"ES256","b64":false,"kid":"k1","typ":"JWT"}')
+        ),
+        "signature-high-s": case(
+            REC,
+            f"{h}.{p}.{enc(dec(s)[:32] + high_s)}",
+        ),
         "member-duplicate-target": case(REC, good),
     }
 

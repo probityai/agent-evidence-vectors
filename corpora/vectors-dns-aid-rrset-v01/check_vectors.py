@@ -51,7 +51,8 @@ def agent_protocols(record: Any) -> list[str]:
 
 
 def load_case(raw: bytes) -> Any:
-    """Strict JSON: a duplicate name, a NaN or Infinity literal and too deep a nesting are malformed."""
+    """Strict JSON: a duplicate name, NaN, Infinity or deep nesting is malformed."""
+
     def pairs(items: list[tuple[str, Any]]) -> dict[str, Any]:
         out: dict[str, Any] = {}
         for k, v in items:
@@ -114,7 +115,10 @@ def main(argv: list[str]) -> int:
         if got != want:
             bad += 1
             print(f"FAIL {entry['id']}: {got}, manifest {want}")
-    print(f"{len(manifest['vectors']) - bad} of {len(manifest['vectors'])} members behave as MANIFEST.json declares")
+    print(
+        f"{len(manifest['vectors']) - bad} of {len(manifest['vectors'])} members "
+        "behave as MANIFEST.json declares"
+    )
     return 1 if bad else 0
 
 

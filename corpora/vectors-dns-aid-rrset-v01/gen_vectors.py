@@ -37,7 +37,10 @@ SPECIFICATION = {
     "sources": [
         "RFC 9460 Service Binding and Parameter Specification via the DNS (SVCB)",
         "IETF draft on DNS-based agent discovery, revision 02, section 3.1.1 example records",
-        "IETF draft on DNS-based agent discovery, newer revision 00, section 3.1.1 and Table 1 (proto)",
+        (
+            "IETF draft on DNS-based agent discovery, newer revision 00, section 3.1.1 and Table 1 "
+            "(proto)"
+        ),
     ],
     "verifierContract": (
         "verifier <case file>: the last stdout line is one JSON object with `verdict` (valid "
@@ -55,38 +58,134 @@ def rec(alpn: Any, proto: Any = None, target: str = "chat.example.com") -> dict[
 
 BOTH = ["a2a", "mcp"]
 MEMBERS: tuple[tuple[str, Any, list[Any], list[str], str], ...] = (
-    ("two-records-bare-alpn", BOTH, [rec("mcp"), rec("a2a")], [],
-     "two records, alpn=mcp and alpn=a2a: one record per protocol"),
-    ("draft-02-example-rrset", BOTH, [rec("mcp,h2,h3"), rec("a2a,h2,h3")], [],
-     "the earlier draft's example: the protocol shares alpn with the transports"),
-    ("draft-newer-00-example-rrset", BOTH, [rec("h2,h3", "a2a"), rec("h2,h3", "mcp")], [],
-     "the newer draft's example: alpn carries the transports, proto the agent protocol"),
-    ("one-record-after-overwrite", BOTH, [rec("a2a")], ["protocol-record-missing"],
-     "after publishing mcp then a2a only the a2a record remains: the second publish replaced the first"),
-    ("two-protocols-one-alpn", BOTH, [rec("mcp,a2a")], ["record-names-two-protocols"],
-     "one record names two agent protocols in alpn"),
-    ("two-protocols-one-proto", BOTH, [rec("h2,h3", "a2a,mcp"), rec("h2,h3", "mcp")],
-     ["record-names-two-protocols"], "one record's proto value names two agent protocols"),
-    ("transport-only-record", BOTH, [rec("h2,h3"), rec("mcp"), rec("a2a")], ["record-names-no-protocol"],
-     "a record whose alpn names only transports and that carries no proto"),
-    ("duplicate-protocol-record", BOTH, [rec("mcp"), rec("mcp", target="chat2.example.com"), rec("a2a")],
-     ["protocol-record-duplicated"], "two records for mcp, so which endpoint serves it is undecided"),
-    ("unpublished-protocol-record", ["mcp"], [rec("mcp"), rec("a2a")], ["protocol-record-unexpected"],
-     "a record for a protocol the publisher did not publish"),
-    ("after-delete-sibling-kept", ["a2a"], [rec("a2a")], [],
-     "after deleting the mcp record the a2a record is still served"),
-    ("after-delete-sibling-lost", ["a2a"], [], ["protocol-record-missing"],
-     "deleting the mcp record also removed the a2a record"),
-    ("alpn-as-list", BOTH, [rec(["mcp", "h2"]), rec(["a2a", "h3"])], [],
-     "alpn as a list of ids (RFC 9460 7.1.1): reading its text form ['mcp', 'h2'] would find two protocols"),
-    ("proto-empty", ["mcp"], [rec("mcp", "")], ["protocol-record-missing", "record-names-no-protocol"],
-     "proto is present and empty, so the record names no protocol; it does not fall back to alpn"),
-    ("record-not-object", BOTH, ["mcp"], ["rrset-malformed"], "a record that is a string, not an object"),
-    ("published-as-string", "mcp", [rec("mcp")], ["rrset-malformed"],
-     "published is the string mcp, not a list; read as a set of characters it would be m, c and p"),
+    (
+        "two-records-bare-alpn",
+        BOTH,
+        [rec("mcp"), rec("a2a")],
+        [],
+        "two records, alpn=mcp and alpn=a2a: one record per protocol",
+    ),
+    (
+        "draft-02-example-rrset",
+        BOTH,
+        [rec("mcp,h2,h3"), rec("a2a,h2,h3")],
+        [],
+        "the earlier draft's example: the protocol shares alpn with the transports",
+    ),
+    (
+        "draft-newer-00-example-rrset",
+        BOTH,
+        [rec("h2,h3", "a2a"), rec("h2,h3", "mcp")],
+        [],
+        "the newer draft's example: alpn carries the transports, proto the agent protocol",
+    ),
+    (
+        "one-record-after-overwrite",
+        BOTH,
+        [rec("a2a")],
+        ["protocol-record-missing"],
+        (
+            "after publishing mcp then a2a only the a2a record remains: the second publish "
+            "replaced the first"
+        ),
+    ),
+    (
+        "two-protocols-one-alpn",
+        BOTH,
+        [rec("mcp,a2a")],
+        ["record-names-two-protocols"],
+        "one record names two agent protocols in alpn",
+    ),
+    (
+        "two-protocols-one-proto",
+        BOTH,
+        [rec("h2,h3", "a2a,mcp"), rec("h2,h3", "mcp")],
+        ["record-names-two-protocols"],
+        "one record's proto value names two agent protocols",
+    ),
+    (
+        "transport-only-record",
+        BOTH,
+        [rec("h2,h3"), rec("mcp"), rec("a2a")],
+        ["record-names-no-protocol"],
+        "a record whose alpn names only transports and that carries no proto",
+    ),
+    (
+        "duplicate-protocol-record",
+        BOTH,
+        [rec("mcp"), rec("mcp", target="chat2.example.com"), rec("a2a")],
+        ["protocol-record-duplicated"],
+        "two records for mcp, so which endpoint serves it is undecided",
+    ),
+    (
+        "unpublished-protocol-record",
+        ["mcp"],
+        [rec("mcp"), rec("a2a")],
+        ["protocol-record-unexpected"],
+        "a record for a protocol the publisher did not publish",
+    ),
+    (
+        "after-delete-sibling-kept",
+        ["a2a"],
+        [rec("a2a")],
+        [],
+        "after deleting the mcp record the a2a record is still served",
+    ),
+    (
+        "after-delete-sibling-lost",
+        ["a2a"],
+        [],
+        ["protocol-record-missing"],
+        "deleting the mcp record also removed the a2a record",
+    ),
+    (
+        "alpn-as-list",
+        BOTH,
+        [rec(["mcp", "h2"]), rec(["a2a", "h3"])],
+        [],
+        (
+            "alpn as a list of ids (RFC 9460 7.1.1): reading its text form ['mcp', 'h2'] would "
+            "find two protocols"
+        ),
+    ),
+    (
+        "proto-empty",
+        ["mcp"],
+        [rec("mcp", "")],
+        ["protocol-record-missing", "record-names-no-protocol"],
+        (
+            "proto is present and empty, so the record names no protocol; it does not fall back to "
+            "alpn"
+        ),
+    ),
+    (
+        "record-not-object",
+        BOTH,
+        ["mcp"],
+        ["rrset-malformed"],
+        "a record that is a string, not an object",
+    ),
+    (
+        "published-as-string",
+        "mcp",
+        [rec("mcp")],
+        ["rrset-malformed"],
+        (
+            "published is the string mcp, not a list; read as a set of characters it would be m, c "
+            "and p"
+        ),
+    ),
     ("alpn-not-a-string", ["mcp"], [rec(5)], ["rrset-malformed"], "alpn is the number 5"),
-    ("member-duplicate-alpn", BOTH, [rec("mcp"), rec("a2a")], ["rrset-malformed"],
-     "the member file names the first record's alpn twice; a first-wins reader sees h2 and no mcp record"),
+    (
+        "member-duplicate-alpn",
+        BOTH,
+        [rec("mcp"), rec("a2a")],
+        ["rrset-malformed"],
+        (
+            "the member file names the first record's alpn twice; a first-wins reader sees h2 and "
+            "no mcp record"
+        ),
+    ),
 )
 
 #: Member files whose text is edited after writing, so one is not strict JSON:
@@ -126,18 +225,39 @@ def generate(root: Path = ROOT) -> dict[str, Any]:
             assert data.count(find.encode()) == 1, name
             data = data.replace(find.encode(), (before + find).encode())
         (root / "cases" / f"{name}.json").write_bytes(data)
-        entries.append({"description": description,
-                        "expected": {"codes": sorted(codes), "verdict": "invalid" if codes else "valid"},
-                        "file": f"cases/{name}.json", "id": name,
-                        "kind": "reject" if codes else "accept", "sha256": _sha(data)})
+        entries.append(
+            {
+                "description": description,
+                "expected": {"codes": sorted(codes), "verdict": "invalid" if codes else "valid"},
+                "file": f"cases/{name}.json",
+                "id": name,
+                "kind": "reject" if codes else "accept",
+                "sha256": _sha(data),
+            }
+        )
     digest = corpus_digest({"vectors": entries}, root)
-    manifest = {"corpusDigest": digest,
-                "counts": {k: n for k in ("accept", "reject") if (n := sum(e["kind"] == k for e in entries))},
-                "specification": SPECIFICATION, "suite": SUITE, "vectors": entries}
+    manifest = {
+        "corpusDigest": digest,
+        "counts": {
+            k: n for k in ("accept", "reject") if (n := sum(e["kind"] == k for e in entries))
+        },
+        "specification": SPECIFICATION,
+        "suite": SUITE,
+        "vectors": entries,
+    }
     (root / "MANIFEST.json").write_bytes(_json(manifest))
-    lines = ["# DNS-AID RRset vectors", "", "Generated by `gen_vectors.py`. Do not edit: every regeneration rewrites it.",
-             "", f"Suite: `{SUITE}`.", "", f"Corpus digest: `{digest}`", "",
-             "| id | kind | codes | case |", "| --- | --- | --- | --- |"]
+    lines = [
+        "# DNS-AID RRset vectors",
+        "",
+        "Generated by `gen_vectors.py`. Do not edit: every regeneration rewrites it.",
+        "",
+        f"Suite: `{SUITE}`.",
+        "",
+        f"Corpus digest: `{digest}`",
+        "",
+        "| id | kind | codes | case |",
+        "| --- | --- | --- | --- |",
+    ]
     for e in entries:
         codes = ", ".join(f"`{c}`" for c in e["expected"]["codes"]) or "none"
         lines.append(f"| `{e['id']}` | {e['kind']} | {codes} | {e['description']} |")

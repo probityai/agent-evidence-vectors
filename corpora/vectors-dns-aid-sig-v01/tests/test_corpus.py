@@ -1,6 +1,6 @@
 """The DNS-AID sig corpus regenerates, two independent generators agree, and every check is forced.
 
-    uv run --extra dev pytest corpora/vectors-dns-aid-sig-v01/tests -q
+uv run --extra dev pytest corpora/vectors-dns-aid-sig-v01/tests -q
 """
 
 from __future__ import annotations
@@ -33,8 +33,11 @@ MANIFEST = json.loads((HERE / "MANIFEST.json").read_text(encoding="utf-8"))
 
 
 def _tree(root: Path) -> dict[str, bytes]:
-    return {p.relative_to(root).as_posix(): p.read_bytes() for p in sorted(root.rglob("*"))
-            if p.is_file() and p.suffix in (".json", ".md") and "tests" not in p.parts}
+    return {
+        p.relative_to(root).as_posix(): p.read_bytes()
+        for p in sorted(root.rglob("*"))
+        if p.is_file() and p.suffix in (".json", ".md") and "tests" not in p.parts
+    }
 
 
 def test_regenerates_byte_for_byte(tmp_path: Path) -> None:
@@ -43,7 +46,9 @@ def test_regenerates_byte_for_byte(tmp_path: Path) -> None:
 
 
 def test_independent_generator_writes_the_same_members(tmp_path: Path) -> None:
-    subprocess.run([sys.executable, "-I", str(HERE / "gen_vectors_independent.py"), str(tmp_path)], check=True)
+    subprocess.run(
+        [sys.executable, "-I", str(HERE / "gen_vectors_independent.py"), str(tmp_path)], check=True
+    )
     ours = {k: v for k, v in _tree(HERE).items() if k.startswith("cases/")}
     assert {k: v for k, v in _tree(tmp_path).items() if k.startswith("cases/")} == ours
     assert len(ours) == len(MANIFEST["vectors"])
@@ -62,8 +67,11 @@ def test_every_code_and_decision_is_exercised() -> None:
 
 def test_cli_follows_the_rail_contract() -> None:
     for entry in MANIFEST["vectors"]:
-        done = subprocess.run([sys.executable, str(HERE / "check_vectors.py"), str(HERE / entry["file"])],
-                              capture_output=True, text=True)
+        done = subprocess.run(
+            [sys.executable, str(HERE / "check_vectors.py"), str(HERE / entry["file"])],
+            capture_output=True,
+            text=True,
+        )
         line = json.loads(done.stdout.strip().splitlines()[-1])
         assert line["verdict"] == entry["expected"]["verdict"], entry["id"]
         assert done.returncode == (0 if line["verdict"] == "valid" else 1), entry["id"]
@@ -83,8 +91,16 @@ def _case(name: str) -> dict:
 
 #: Each lenient reading a real reader makes, the member that catches it, and how.
 LENIENT = {
-    "no key authority": ("foreign-key-no-provenance", lambda c: {**c, "key_authority": {
-        "kind": "pin", "jwks_fingerprint": reader.jwks_fingerprint(c["jwks"])}}),
+    "no key authority": (
+        "foreign-key-no-provenance",
+        lambda c: {
+            **c,
+            "key_authority": {
+                "kind": "pin",
+                "jwks_fingerprint": reader.jwks_fingerprint(c["jwks"]),
+            },
+        },
+    ),
     "crit ignored": ("crit-unknown-extension", None),
     "non-canonical base64url accepted": ("signature-base64url-non-canonical", None),
 }
@@ -110,6 +126,7 @@ def test_a_lenient_reading_is_caught(name: str, monkeypatch: pytest.MonkeyPatch)
                 if finding.code != "base64url-non-canonical":
                     raise
                 import base64
+
                 assert isinstance(text, str)
                 return base64.urlsafe_b64decode(text + "=" * (-len(text) % 4))
 
