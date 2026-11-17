@@ -235,6 +235,27 @@ def audit_record_set_size(entry: dict[str, Any], root: Path) -> int:
     return len(records) if isinstance(records, list) else 0
 
 
+def _audit_record_set_problems(
+    expected: dict[str, Any], found: dict[str, Any], held: int | None
+) -> list[str]:
+    """A set member: the records judged, each record, and the joint result."""
+    declared, joint = expected["set"], found.get("set") or {}
+    problems = []
+    judged = found.get("records") or []
+    if held is not None and declared["codes"] != ["set-unreadable"] and len(judged) != held:
+        problems.append(f"{len(judged)} records judged of the {held} the set holds")
+    for index, record in enumerate(judged):
+        problems += [f"record {index + 1} {p}" for p in _audit_record_fields(expected, record)]
+    if (joint.get("verdict"), joint.get("codes")) != (declared["verdict"], declared["codes"]):
+        problems.append(f"set {joint.get('verdict')} {joint.get('codes')}")
+    if joint.get("missing") != declared.get("missing", []):
+        problems.append(f"missing {joint.get('missing')}")
+    limits = [r.get("withinLimit") for r in judged]
+    if "withinLimit" in declared and limits != declared["withinLimit"]:
+        problems.append(f"withinLimit {limits}")
+    return problems
+
+
 def audit_record_problems(
     entry: dict[str, Any], found: dict[str, Any], held: int | None = None
 ) -> list[str]:
@@ -247,21 +268,7 @@ def audit_record_problems(
             return []
         return [f"{label}: verdict {found.get('verdict')}, outside the readings {allowed}"]
     if "set" in expected:
-        declared, joint = expected["set"], found.get("set") or {}
-        problems = []
-        judged = found.get("records") or []
-        if held is not None and declared["codes"] != ["set-unreadable"] and len(judged) != held:
-            problems.append(f"{len(judged)} records judged of the {held} the set holds")
-        for index, record in enumerate(judged):
-            problems += [f"record {index + 1} {p}" for p in _audit_record_fields(expected, record)]
-        if (joint.get("verdict"), joint.get("codes")) != (declared["verdict"], declared["codes"]):
-            problems.append(f"set {joint.get('verdict')} {joint.get('codes')}")
-        if joint.get("missing") != declared.get("missing", []):
-            problems.append(f"missing {joint.get('missing')}")
-        limits = [r.get("withinLimit") for r in found.get("records") or []]
-        if "withinLimit" in declared and limits != declared["withinLimit"]:
-            problems.append(f"withinLimit {limits}")
-        return [f"{label}: {p}" for p in problems]
+        return [f"{label}: {p}" for p in _audit_record_set_problems(expected, found, held)]
     problems = _audit_record_fields(expected, found)
     if "dating" in expected and found.get("dating") != expected["dating"]:
         problems.append(f"dating {found.get('dating')}")
