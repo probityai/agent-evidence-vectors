@@ -1948,6 +1948,10 @@ jobs:
         run: |
           uv run mypy --strict scripts/auditrecord-issuedat-test.py
           uv run python scripts/auditrecord-issuedat-test.py
+      - name: the audit record reader judges hostile inputs and never crashes on them
+        run: |
+          uv run mypy --strict scripts/auditrecord-hostile-input-test.py
+          uv run python scripts/auditrecord-hostile-input-test.py
       # The agent-decision corpus pins the args_hash rule proposed on
       # in-toto/attestation#554. Its checker judges every member, recomputes each
       # canonical argument form with a second number writer, and disables each
