@@ -28,6 +28,12 @@ registry = "crates.io"
 directory = "crates/jcs-admit"
 
 [[unit]]
+prefix = "jcsvectors"
+name = "jcsvectors"
+registry = "crates.io"
+directory = "crates/jcsvectors"
+
+[[unit]]
 prefix = "jcs-admit-py"
 name = "jcs-admit"
 registry = "pypi"

@@ -443,9 +443,15 @@ OWNED = (
     ("corpora/vectors-ietf-agent-record-drafts/cases", "v*.json"),
     ("corpora/vectors-ietf-agent-record-drafts", "MANIFEST.json"),
     ("corpora/vectors-ietf-agent-record-drafts", "INDEX.md"),
-    # The Go module embeds copies, because go:embed cannot reach corpora/.
+    # The Go module embeds copies, because go:embed cannot reach corpora/, and
+    # the Rust crate does too, because a published crate holds only its own
+    # directory. Each also carries the digest table of what it embeds.
     ("jcsvectors/vectors-a2a-jcs-v01", "**/*.json"),
     ("jcsvectors/jcs-byte-vectors", "*.json"),
+    ("jcsvectors", "digests.go"),
+    ("crates/jcsvectors/data/vectors-a2a-jcs-v01", "**/*.json"),
+    ("crates/jcsvectors/data/jcs-byte-vectors", "*.json"),
+    ("crates/jcsvectors/src", "files.rs"),
 )
 
 # Deliberately NOT owned above, for the two reasons the header already gives.
